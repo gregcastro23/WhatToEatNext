@@ -1,20 +1,19 @@
 'use client';
 
-import React, { useMemo } from 'react';
 import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics';
-import type { Cuisine } from '@/types/cuisine';
+import { useMemo } from 'react';
 
 interface PlanetaryFoodRecommendationsProps {
-  location?: { lat: number; lon: number };
-  cuisinePreferences?: string[];
+  location?: { lat: number; lon: number },
+  cuisinePreferences?: string[],
   className?: string;
 }
 
 interface PlanetaryFoodMapping {
-  planet: string;
-  elements: string[];
-  cuisines: string[];
-  ingredients: string[];
+  planet: string,
+  elements: string[],
+  cuisines: string[],
+  ingredients: string[],
   cookingMethods: string[];
 }
 
@@ -86,7 +85,7 @@ export default function PlanetaryFoodRecommendations({
     location,
     updateInterval: 300000,
     enableAutoUpdate: true
-  });
+});
 
   const currentPlanetaryRecommendations = useMemo(() => {
     if (!kinetics?.data?.base?.power) return null;
@@ -135,12 +134,9 @@ export default function PlanetaryFoodRecommendations({
 
   const getAspectRecommendation = (): string => {
     switch (aspectPhase) {
-      case 'applying':
-        return 'Building flavors - add complexity';
-      case 'exact':
-        return 'Peak harmony - balance is key';
-      case 'separating':
-        return 'Simplifying - focus on essentials';
+      case 'applying': return 'Building flavors - add complexity',
+      case 'exact': return 'Peak harmony - balance is key',
+      case 'separating': return 'Simplifying - focus on essentials',
       default:
         return 'Follow your intuition';
     }
@@ -161,8 +157,7 @@ export default function PlanetaryFoodRecommendations({
         <h2 className="text-xl font-semibold">Planetary Food Guidance</h2>
         <span className={`px-3 py-1 rounded-full text-sm font-medium ${
           currentPowerLevel >= 0.7 ? 'bg-green-100 text-green-700' :
-          currentPowerLevel >= 0.5 ? 'bg-yellow-100 text-yellow-700' :
-          'bg-orange-100 text-orange-700'
+          currentPowerLevel >= 0.5 ? 'bg-yellow-100 text-yellow-700' : 'bg-orange-100 text-orange-700',
         }`}>
           {getRecommendationStrength()}
         </span>
@@ -236,7 +231,7 @@ export default function PlanetaryFoodRecommendations({
               className={`px-3 py-1 rounded text-sm font-medium ${
                 element === dominantElement
                   ? 'bg-purple-100 text-purple-700 ring-2 ring-purple-300'
-                  : 'bg-gray-100 text-gray-600'
+                  : 'bg-gray-100 text-gray-600',
               }`}
             >
               {element}

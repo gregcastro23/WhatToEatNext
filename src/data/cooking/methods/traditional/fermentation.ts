@@ -337,7 +337,7 @@ export const fermentation: CookingMethodData = {
     pH_levels: 'Vegetable ferments: below 4.0 for safety, typically 3.4-3.8 for flavor balance; dairy ferments: yogurt 4.0-4.5, cheese varies by type, sourdough: 3.8-4.5, kombucha: 2.5-3.5.',
     aroma_development: 'Complex, often fruity, dairy, floral or umami notes replacing raw material smells, absence of putrid, overly alcoholic, or cleaning chemical smells. Specific desirable aromatic compounds for each ferment.',
     acidity_balance: 'Lactic acid provides roundness and depth, acetic acid provides sharpness and higher notes, butyric acid (when appropriate) provides richness. Balance depends on ferment type and regional preferences.',
-    microbial_succession: 'Progression through expected phases of fermentation: initial rapid growth phase, followed by slowing activity, and finally maturation phase with minimal visible activity but continued enzymatic processes.'
+    microbial_succession: 'Progression through expected phases of fermentation: initial rapid growth phase, followed by slowing activity, and finally maturation phase with minimal visible activity but continued enzymatic processes.',
   },
   ingredientInteractions: {
     salt_effects: 'Creates selective pressure favoring salt-tolerant microbes like Lactobacillus while inhibiting pathogens. Above 10% primarily favors yeast activity. Traditional ranges: vegetables (1.5-3%), cheese (1-5%), bread (1.8-2.2% of flour weight), meat ferments (2.5-3.5%).',
@@ -349,7 +349,7 @@ export const fermentation: CookingMethodData = {
     vegetable_enzyme_activity: 'Natural plant enzymes remain active in early fermentation, contributing to texture and flavor before microbial activity dominates. Some vegetables (cabbage, garlic) contain more naturally beneficial compounds for fermentation.',
     mineral_availability: 'Minerals act as cofactors for microbial enzymes. Calcium strengthens cell walls in vegetable ferments maintaining crispness. Traditional use of mineral-rich water sources (spring water) can affect fermentation outcomes.',
     oxygen_exposure: 'Determines whether aerobic or anaerobic processes dominate. Surface yeasts and molds require oxygen, lactic acid bacteria are facultative anaerobes, acetobacter requires oxygen for converting alcohol to acetic acid.',
-    phenolic_compounds: 'Present in many plant materials, can be transformed during fermentation into more bioavailable forms with enhanced health benefits. Some inhibit certain microbes while encouraging others, acting as natural selectors.'
+    phenolic_compounds: 'Present in many plant materials, can be transformed during fermentation into more bioavailable forms with enhanced health benefits. Some inhibit certain microbes while encouraging others, acting as natural selectors.',
   },
   technicalNotes: {
     microbial_communities: {
@@ -357,34 +357,34 @@ export const fermentation: CookingMethodData = {
       yeasts: 'Saccharomyces, Brettanomyces, Candida, and others convert sugars to alcohol and carbon dioxide. Important in bread, beer, wine, kefir, kombucha. Different strains contribute distinct flavor profiles and alcohol tolerance levels.',
       acetic_acid_bacteria: 'Acetobacter and Gluconobacter convert alcohol to acetic acid. Essential for vinegar production, contribute to kombucha, natural wine complexity, and some traditional foods. Require oxygen for metabolism.',
       molds: 'Aspergillus, Penicillium, Rhizopus, and others grow on surfaces providing enzymatic activity. Critical for koji, cheese (blue, Camembert), tempeh, traditional meat curing. Some produce mycotoxins, so specific food-safe strains are essential.',
-      bacillus: 'Alkaline-tolerant bacteria important in foods like natto, traditional fish ferments, and some African alkaline grain ferments. Produce sticky biofilms and distinctive strong flavors.'
+      bacillus: 'Alkaline-tolerant bacteria important in foods like natto, traditional fish ferments, and some African alkaline grain ferments. Produce sticky biofilms and distinctive strong flavors.',
     },
     equipment_considerations: {
       vessel_materials: 'Glass and food-grade ceramics are non-reactive and preferred for most ferments. Wood adds microbial complexity through porous surface harboring cultures. Avoid reactive metals (aluminum, copper) which can be corroded by acids and affect flavor.',
       airlock_systems: 'Water-sealed crocks, one-way valve systems, or simple weighted lids maintain anaerobic environment while allowing gas escape. Critical for vegetable fermentation and some alcoholic ferments.',
       temperature_control: 'Dedicated fermentation chambers with heating/cooling capability, water bath systems; insulated containers, traditional root cellars or spring houses. Temperature stability often more important than exact value.',
       humidity_regulation: 'Critical for surface-ripened cheeses, mold-based ferments, and dry-cured meats. Traditional solutions include limestone caves, modern approaches use humidity-controlled chambers.',
-      measuring_tools: 'pH meters, acid titration kits, hydrometers for sugar/alcohol content, thermometers, salinity refractometers. Improve consistency and safety across batches.'
+      measuring_tools: 'pH meters, acid titration kits, hydrometers for sugar/alcohol content, thermometers, salinity refractometers. Improve consistency and safety across batches.',
     },
     fermentation_phases: {
       initiation: 'First 24-72 hours when preferred microbes establish dominance. Often characterized by pH shift, carbon dioxide production, and visible activity. Critical period for success or failure of the ferment.',
       primary_fermentation: 'Main active phase when bulk of sugar-to-acid or sugar-to-alcohol conversion occurs. Typically 3-14 days for many ferments. Most dramatic flavor and texture changes occur here.',
       secondary_fermentation: 'Slower phase after initial nutrient sources depleted. More subtle flavor development through enzymatic activity and microbial byproduct reactions. Can last weeks to months.',
       maturation: 'Final phase with minimal active fermentation but continued enzymatic activity and flavor compound development. Critical for complexity in aged products. Months to years depending on product.'
-    },
+},
     safety_parameters: {
       acidity_control: 'pH below 4.6 inhibits Clostridium botulinum and most pathogens. Most successful ferments achieve pH 3.5-4.2. Regular monitoring especially important in early stages.',
       competitive_exclusion: 'Establishing desired microbes quickly creates environment inhibiting pathogens through competition for resources, production of antimicrobial compounds, and rapid pH change.',
       moisture_regulation: 'Water activity (aw) below 0.85 inhibits most pathogenic bacteria. Critical parameter in dry-cured products. Salt concentration affects available water.',
       salt_concentration: 'Minimum inhibitory levels: 2% for most vegetables, 3.5% for most protein-rich substrates. Traditional ranges established empirically over centuries for each food type.',
       cross_contamination: 'Physical separation of raw ingredients from active ferments. Dedicated utensils and equipment. Proper cleaning protocols between batches.'
-    },
+},
     preserving_cultures: {
       mother_cultures: 'Maintaining continuous living cultures (sourdough starter, kombucha SCOBY, kefir grains) through regular feeding/transfer. Traditional approach passed through generations.',
       freezing: 'Effective for many bacterial cultures and yeasts. Mix with glycerol for best viability. Quick freezing at -20°C or lower preferred.',
       drying: 'Traditional technique for sourdough starters, yogurt cultures. Spread thin layer on parchment and dry at low temperature, then store in airtight container.',
       rotation_system: 'Maintaining multiple backups of important cultures, regularly refreshing each. Common in professional and traditional settings.',
       commercial_starters: 'Freeze-dried or frozen pure or mixed cultures with defined properties. Ensure viability by checking production date and proper storage.'
-    }
+}
   }
 }

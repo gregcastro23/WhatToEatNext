@@ -59,7 +59,7 @@ export const _TIME_RANGES = {
 
 export const _MEAL_PERIODS = {
   breakfast: { start: 5, end: 11 },
-  lunch: { start: 11, end: 16 }
+  lunch: { start: 11, end: 16 },
   dinner: { start: 16, end: 5 }
 }
 

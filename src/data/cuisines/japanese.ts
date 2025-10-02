@@ -20,7 +20,7 @@ export const japanese: Cuisine = {
         Earth: 0.2,
         Air: 0.1,
         Fire: 0.1
-      },
+},
       astrologicalInfluences: ['Neptune', 'Moon', 'Pisces'],
       seasonality: 'all',
       preparationNotes: 'Never boil kombu, gently heat to extract umami without bitterness',
@@ -28,7 +28,7 @@ export const japanese: Cuisine = {
       difficulty: 'easy',
       storageInstructions: 'Store refrigerated up to 3 days or freeze up to 1 month',
       yield: '1 liter'
-    },
+},
     tare: {
       name: 'Tare',
       description: 'Concentrated seasoning sauce used as a flavoring base for many Japanese dishes',
@@ -42,7 +42,7 @@ export const japanese: Cuisine = {
         Water: 0.3,
         Fire: 0.2,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Saturn', 'Mercury', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Often simmered with aromatics like ginger, garlic, and scallions',
@@ -50,7 +50,7 @@ export const japanese: Cuisine = {
       difficulty: 'medium',
       storageInstructions: 'Store refrigerated up to 1 month',
       yield: '500 ml'
-    }
+}
   },
   dishes: {
     breakfast: {
@@ -126,7 +126,7 @@ export const japanese: Cuisine = {
             Earth: 0.3,
             Fire: 0.2,
             Air: 0.1
-          },
+},
           instructions: [
             'Cook rice in rice cooker',
             'Grill fish until skin is crispy and flesh is cooked through',
@@ -200,7 +200,7 @@ export const japanese: Cuisine = {
             Air: 0.3,
             Earth: 0.2,
             Water: 0.1
-          }
+}
         },
         {
           name: 'Natto Gohan',
@@ -259,7 +259,7 @@ export const japanese: Cuisine = {
             Water: 0.3,
             Fire: 0.2,
             Air: 0.1
-          }
+}
         }
       ]
     },
@@ -334,7 +334,7 @@ export const japanese: Cuisine = {
             Water: 0.2,
             Fire: 0.2,
             Air: 0.1
-          }
+}
         }
       ],
       summer: [
@@ -394,7 +394,7 @@ export const japanese: Cuisine = {
             Air: 0.3,
             Earth: 0.2,
             Fire: 0.2
-          }
+}
         },
         {
           name: 'Soba Salad',
@@ -453,7 +453,7 @@ export const japanese: Cuisine = {
             Water: 0.3,
             Earth: 0.2,
             Fire: 0.1
-          }
+}
         }
       ],
       winter: [
@@ -491,7 +491,7 @@ export const japanese: Cuisine = {
             Fire: 0.3,
             Water: 0.2,
             Air: 0.1
-          }
+}
         }
       ]
     },
@@ -530,7 +530,7 @@ export const japanese: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-          }
+}
         }
       ],
       winter: [
@@ -573,7 +573,7 @@ export const japanese: Cuisine = {
             Water: 0.3,
             Earth: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Ramen',
@@ -621,7 +621,7 @@ export const japanese: Cuisine = {
             Fire: 0.3,
             Earth: 0.2,
             Air: 0.1
-          }
+}
         }
       ],
       summer: [
@@ -657,7 +657,7 @@ export const japanese: Cuisine = {
             Air: 0.2,
             Earth: 0.2,
             Water: 0.1
-          }
+}
         },
         {
           name: 'Oyakodon',
@@ -1297,12 +1297,11 @@ export const japanese: Cuisine = {
         Earth: 0.3,
         Fire: 0.2,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Saturn', 'Pluto', 'Scorpio'],
       seasonality: 'all',
       preparationNotes: 'Traditional brewing takes months of fermentation',
-      technicalTips:
-        'Different shoyu types are suited for different applications, usukuchi is lighter and saltier'
+      technicalTips: 'Different shoyu types are suited for different applications, usukuchi is lighter and saltier',
     },
     miso: {
       name: 'Miso',
@@ -1316,12 +1315,12 @@ export const japanese: Cuisine = {
         Water: 0.2,
         Fire: 0.2,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Jupiter', 'Moon', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Fermentation period determines color and flavor intensity',
       technicalTips: 'Never boil miso to preserve live cultures and flavor complexity'
-    },
+},
     ponzu: {
       name: 'Ponzu',
       description: 'Tangy citrus-based sauce with soy and dashi',
@@ -1333,7 +1332,7 @@ export const japanese: Cuisine = {
       seasonality: 'all',
       preparationNotes: 'Best when aged for several days to develop flavor',
       yield: '500ml'
-    },
+},
     mentsuyu: {
       name: 'Mentsuyu',
       description: 'Multipurpose noodle soup base and seasoning sauce',
@@ -1345,7 +1344,7 @@ export const japanese: Cuisine = {
       seasonality: 'all',
       preparationNotes: 'Can be prepared concentrated and diluted as needed',
       yield: '750ml'
-    },
+},
     teriyaki: {
       name: 'Teriyaki',
       description: 'Sweet-savory glaze with soy sauce, mirin, and sugar',
@@ -1357,7 +1356,7 @@ export const japanese: Cuisine = {
       seasonality: 'all',
       preparationNotes: 'Traditionally applied in layers while grilling',
       yield: '500ml'
-    }
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -1406,7 +1405,7 @@ export const japanese: Cuisine = {
       toolsRequired: ['heavy-bottomed pot', 'otoshibuta (drop lid)', 'cooking chopsticks'],
       bestFor: ['root vegetables', 'fish', 'tofu', 'meat'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Tempura',
       description: 'Light batter frying technique that creates crisp, delicate coating',
@@ -1414,7 +1413,7 @@ export const japanese: Cuisine = {
       toolsRequired: ['deep pot', 'chopsticks', 'wire skimmer', 'thermometer'],
       bestFor: ['seafood', 'vegetables', 'mushrooms', 'herbs'],
       difficulty: 'hard'
-    },
+},
     {
       name: 'Yakimono',
       description: 'Grilling technique emphasizing simplicity and natural flavors',
@@ -1422,7 +1421,7 @@ export const japanese: Cuisine = {
       toolsRequired: ['konro grill', 'binchotan charcoal', 'metal skewers', 'tongs'],
       bestFor: ['fish', 'chicken', 'beef', 'vegetables'],
       difficulty: 'medium'
-    }
+}
   ],
   regionalCuisines: {
     kansai: {

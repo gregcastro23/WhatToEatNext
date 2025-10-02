@@ -25,8 +25,7 @@ export default function WhatToEatNextPage() {
       </header>
 
       <div className='overflow-hidden rounded-lg bg-white shadow-md'>
-        <AlchemicalProvider>
-          ;
+        <AlchemicalProvider>,
           <KalchmRecommender maxRecommendations={18} />
         </AlchemicalProvider>
       </div>

@@ -144,17 +144,17 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
 export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   const cuisines = [
     { data: thai, name: 'Thai' },
-    { data: vietnamese, name: 'Vietnamese' }
+    { data: vietnamese, name: 'Vietnamese' },
     { data: italian, name: 'Italian' },
-    { data: chinese, name: 'Chinese' }
+    { data: chinese, name: 'Chinese' },
     { data: indian, name: 'Indian' },
-    { data: japanese, name: 'Japanese' }
+    { data: japanese, name: 'Japanese' },
     { data: korean, name: 'Korean' },
-    { data: mexican, name: 'Mexican' }
+    { data: mexican, name: 'Mexican' },
     { data: middleEastern, name: 'Middle Eastern' },
-    { data: russian, name: 'Russian' }
+    { data: russian, name: 'Russian' },
     { data: greek, name: 'Greek' },
-    { data: french, name: 'French' }
+    { data: french, name: 'French' },
     { data: african, name: 'African' }
   ],
 

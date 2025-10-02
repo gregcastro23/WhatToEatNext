@@ -874,7 +874,7 @@ export const mexican = {
             favorableZodiac: ['leo', 'sagittarius'],
             rulingPlanets: ['sun', 'jupiter'],
             elementalAffinity: 'Fire'
-          }
+}
         },
         {
           name: 'Churros',
@@ -1006,13 +1006,13 @@ export const mexican = {
         fire: 0.3,
         water: 0.2,
         air: 0.1
-      },
+},
       astrologicalInfluences: ['pluto', 'mars', 'scorpio'],
       seasonality: 'all',
       preparationNotes:
         'Traditionally prepared over multiple days for celebrations and special occasions',
       technicalTips: 'Toast ingredients separately to develop maximum flavor complexity'
-    },
+},
     salsaVerde: {
       name: 'Salsa Verde',
       description: 'Tangy green sauce made from tomatillos, chiles, and herbs',
@@ -1030,12 +1030,12 @@ export const mexican = {
         fire: 0.3,
         air: 0.2,
         earth: 0.1
-      },
+},
       astrologicalInfluences: ['venus', 'mercury', 'gemini'],
       seasonality: 'spring, summer',
       preparationNotes: 'Can be served raw or cooked depending on desired flavor profile',
       technicalTips: 'Roasting ingredients before blending adds smoky depth'
-    },
+},
     salsaRoja: {
       name: 'Salsa Roja',
       description: 'Rich red sauce made from tomatoes and dried chiles',
@@ -1048,13 +1048,13 @@ export const mexican = {
         earth: 0.3,
         water: 0.1,
         air: 0.1
-      },
+},
       astrologicalInfluences: ['mars', 'sun', 'aries'],
       seasonality: 'summer, autumn',
       preparationNotes:
         'Most traditional version uses dried chiles rehydrated and blended with tomatoes',
       technicalTips: 'Straining after blending creates a smoother texture'
-    },
+},
     adobo: {
       name: 'Adobo',
       description: 'Chile-based marinade with vinegar and spices',
@@ -1067,12 +1067,11 @@ export const mexican = {
         air: 0.3,
         earth: 0.2,
         water: 0.1
-      },
+},
       astrologicalInfluences: ['mars', 'mercury', 'sagittarius'],
       seasonality: 'all',
       preparationNotes: 'Originally used as a preservation technique, now primarily for flavor',
-      technicalTips:
-        'Longer marinating creates deeper flavor, but can break down delicate proteins'
+      technicalTips: 'Longer marinating creates deeper flavor, but can break down delicate proteins',
     },
     pipian: {
       name: 'Pipián',
@@ -1086,12 +1085,12 @@ export const mexican = {
         water: 0.2,
         air: 0.2,
         fire: 0.1
-      },
+},
       astrologicalInfluences: ['saturn', 'moon', 'capricorn'],
       seasonality: 'autumn, winter',
       preparationNotes: 'Pre-Hispanic sauce that predates European influence in Mexican cuisine',
       technicalTips: 'Toast seeds until fragrant but not burnt for optimal flavor'
-    }
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -1258,7 +1257,7 @@ export const mexican = {
       elementalProperties: { earth: 0.5, fire: 0.2, water: 0.2, air: 0.1 },
       astrologicalInfluences: ['moon', 'saturn', 'taurus'],
       seasonality: 'highly seasonal with ceremonial dishes'
-    },
+},
     yucatan: {
       name: 'Yucatecan Cuisine',
       description: 'Maya-influenced cuisine with distinctive achiote and citrus flavors',
@@ -1266,7 +1265,7 @@ export const mexican = {
       elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 },
       astrologicalInfluences: ['venus', 'mercury', 'gemini'],
       seasonality: 'tropical seasonal patterns'
-    },
+},
     northern: {
       name: 'Northern Cuisine',
       description: 'Meat-focused cuisine with flour tortillas and grilled specialties',
@@ -1274,7 +1273,7 @@ export const mexican = {
       elementalProperties: { fire: 0.5, earth: 0.3, air: 0.1, water: 0.1 },
       astrologicalInfluences: ['mars', 'sun', 'aries'],
       seasonality: 'desert and ranching seasonal patterns'
-    },
+},
     centralMexico: {
       name: 'Central Mexican Cuisine',
       description: 'Home to Mexico City with ancient Aztec influences and modern street food',
@@ -1282,7 +1281,7 @@ export const mexican = {
       elementalProperties: { earth: 0.4, fire: 0.3, water: 0.2, air: 0.1 },
       astrologicalInfluences: ['jupiter', 'mercury', 'virgo'],
       seasonality: 'highland seasonal patterns with ceremonial dishes'
-    },
+},
     pacific: {
       name: 'Pacific Coast Cuisine',
       description: 'Seafood-forward cuisine with tropical fruits and fresh preparations',
@@ -1290,7 +1289,7 @@ export const mexican = {
       elementalProperties: { water: 0.5, air: 0.2, fire: 0.2, earth: 0.1 },
       astrologicalInfluences: ['neptune', 'venus', 'pisces'],
       seasonality: 'coastal seasonal patterns with monsoon influence'
-    }
+}
   },
   elementalProperties: {
     fire: 0.3, // Represents chiles and grilling,

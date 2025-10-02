@@ -25,16 +25,16 @@ import { unifiedIngredientService } from './UnifiedIngredientService';
  */
 interface QuantityAwareRecipeCriteria extends RecipeRecommendationCriteria {
   ingredientQuantities?: Array<{
-    ingredient: string;
-    quantity: number;
+    ingredient: string,
+    quantity: number,
     unit: string;
   }>;
   useQuantityScaling?: boolean;
 }
 
 interface QuantityAwareIngredientCriteria extends IngredientRecommendationCriteria {
-  targetQuantity?: number;
-  targetUnit?: string;
+  targetQuantity?: number,
+  targetUnit?: string,
   useQuantityScaling?: boolean;
 }
 /**
@@ -44,7 +44,7 @@ interface QuantityAwareIngredientCriteria extends IngredientRecommendationCriter
  * Implements the RecommendationServiceInterface and follows the singleton pattern.
  */
 export class UnifiedRecommendationService implements RecommendationServiceInterface {
-  private static instance: UnifiedRecommendationService;
+  private static instance: UnifiedRecommendationService,
 
   private constructor() {}
 
@@ -75,7 +75,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Use safe type casting for criteria access
       const criteriaData = criteria as any;
-      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;
+      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties,
 
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && recipe.elementalState) {
@@ -91,7 +91,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (criteria.cookingMethod && recipe.cookingMethods) {
         const methods = Array.isArray(recipe.cookingMethods)
           ? recipe.cookingMethods
-          : [recipe.cookingMethods];
+          : [recipe.cookingMethods],
 
         const methodMatch = (methods || []).some(
           method => method?.toLowerCase() === criteria.cookingMethod?.toLowerCase(),
@@ -159,7 +159,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedRecipes || []).forEach(item => {
-      scores[item.recipe.id] = item.score;
+      scores[item.recipe.id] = item.score,
     });
 
     return {
@@ -187,7 +187,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Use safe type casting for criteria access
       const criteriaData = criteria as any;
-      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;
+      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties,
 
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && ingredient.elementalProperties) {
@@ -261,7 +261,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedIngredients || []).forEach(item => {
-      scores[item.ingredient.name] = item.score;
+      scores[item.ingredient.name] = item.score,
     });
 
     return {
@@ -335,7 +335,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Use safe type casting for criteria access
       const criteriaData = criteria as any;
-      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;
+      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties,
 
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && cuisineElements[cuisine]) {
@@ -404,41 +404,41 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         name: 'boiling',
         description: 'Cooking in bubbling liquid',
         elementalEffect: { Fire: 0.3, Water: 0.7, Earth: 0.0, Air: 0.0 },
-        duration: { min: 5, max: 60 }
+        duration: { min: 5, max: 60 },
         suitable_for: ['pasta', 'vegetables', 'eggs'],
         benefits: ['quick cooking', 'nutrient retention', 'simplicity']
-      }
+      },
       {
         id: 'steaming',
         name: 'steaming',
         description: 'Cooking with hot steam',
         elementalEffect: { Fire: 0.2, Water: 0.5, Earth: 0.0, Air: 0.3 },
-        duration: { min: 10, max: 45 }
+        duration: { min: 10, max: 45 },
         suitable_for: ['vegetables', 'fish', 'dumplings'],
         benefits: ['nutrient preservation', 'gentle cooking', 'no added fats']
-      }
+      },
       {
         id: 'frying',
         name: 'frying',
         description: 'Cooking in hot oil',
         elementalEffect: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 },
-        duration: { min: 2, max: 15 }
+        duration: { min: 2, max: 15 },
         suitable_for: ['meat', 'vegetables', 'batter foods'],
         benefits: ['crispy texture', 'quick cooking', 'flavor enhancement']
-      }
+      },
       {
         id: 'baking',
         name: 'baking',
         description: 'Cooking in an enclosed space with dry heat',
         elementalEffect: { Fire: 0.4, Water: 0.0, Earth: 0.4, Air: 0.2 },
-        duration: { min: 15, max: 240 }
+        duration: { min: 15, max: 240 },
         suitable_for: ['bread', 'cakes', 'casseroles'],
         benefits: ['even heating', 'controlled environment', 'browning']
-      }
+      },
     ],
 
     // Filter out excluded methods
-    let availableMethods = cookingMethods,
+    let availableMethods = cookingMethods;
     if (criteria.excludeMethods && (criteria.excludeMethods || []).length > 0) {
       const excludedSet = new Set((criteria.excludeMethods || []).map(m => m.toLowerCase()))
       availableMethods = (cookingMethods || []).filter(method => {
@@ -453,7 +453,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Use safe type casting for criteria access
       const criteriaData = criteria as any;
-      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;,
+      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties,,
 
       // Calculate elemental compatibility if criteria includes elemental properties
       const methodData = method
@@ -603,7 +603,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       gregsEnergy: 0.5,
       kalchm: 1.0,
       monica: 1.0
-    }
+}
   }
 
   /**
@@ -629,7 +629,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Use safe type casting for criteria access
       const criteriaData = criteria as any;;
-      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;;
+      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties,,
 
       // Calculate quantity-aware elemental compatibility if quantities provided
       if (elementalState && criteria.useQuantityScaling && criteria.ingredientQuantities) {
@@ -652,7 +652,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (criteria.cookingMethod && recipe.cookingMethods) {
         const methods = Array.isArray(recipe.cookingMethods)
           ? recipe.cookingMethods
-          : [recipe.cookingMethods];
+          : [recipe.cookingMethods],
 
         const methodMatch = (methods || []).some(
           method => method?.toLowerCase() === criteria.cookingMethod?.toLowerCase(),
@@ -723,7 +723,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedRecipes || []).forEach(item => {
-      scores[item.recipe.id] = item.score;
+      scores[item.recipe.id] = item.score,
     });
 
     return {
@@ -753,7 +753,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Use safe type casting for criteria access
       const criteriaData = criteria as any;;
-      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;;
+      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties,,
 
       // Calculate quantity-aware elemental compatibility
       if (elementalState && criteria.useQuantityScaling && criteria.targetQuantity && criteria.targetUnit) {
@@ -814,7 +814,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedIngredients || []).forEach(item => {
-      scores[item.ingredient.name] = item.score;
+      scores[item.ingredient.name] = item.score,
     });
 
     return {
@@ -832,15 +832,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Calculate quantity-aware recipe score
    */
-  private calculateQuantityAwareRecipeScore(
-    recipe: Recipe,
+  private calculateQuantityAwareRecipeScore(recipe: Recipe,
     targetElemental: ElementalProperties,
-    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit: string }>
+    ingredientQuantities: Array<{ ingredient: string, quantity: number, unit: string }>
   ): number {
     const ingredientService = IngredientService.getInstance();
 
     // Calculate scaled elemental properties for recipe ingredients
-    const scaledElementals: ElementalProperties[] = [];
+    const scaledElementals: ElementalProperties[] = [],
     let totalWeight = 0;
 
     // Process each recipe ingredient that has quantity information
@@ -881,7 +880,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       Water: 0,
       Earth: 0,
       Air: 0
-    };
+};
 
     scaledElementals.forEach((elemental, index) => {
       const weight = ingredientQuantities[index]?.quantity || 1;
@@ -899,8 +898,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Calculate kinetics bonus for cooking method compatibility
    */
-  private calculateKineticsCookingBonus(
-    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit: string }>,
+  private calculateKineticsCookingBonus(ingredientQuantities: Array<{ ingredient: string, quantity: number, unit: string }>,
     cookingMethod: string
   ): number {
     const ingredientService = IngredientService.getInstance();
@@ -935,9 +933,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Calculate quantity bonus for ingredient inclusion
    */
-  private calculateQuantityBonus(
-    includedIngredients: string[],
-    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit: string }>,
+  private calculateQuantityBonus(includedIngredients: string[],
+    ingredientQuantities: Array<{ ingredient: string, quantity: number, unit: string }>,
     recipe: Recipe
   ): number {
     let bonus = 0;
@@ -955,7 +952,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
         if (recipeIngredient && recipeIngredient.amount) {
           // Simple quantity matching bonus (could be enhanced)
-          const quantityMatch = Math.abs(recipeIngredient.amount - quantityInfo.quantity) < 50 ? 0.1 : 0;
+          const quantityMatch = Math.abs(recipeIngredient.amount - quantityInfo.quantity) < 50 ? 0.1 : 0,
           bonus += quantityMatch;
         }
       }

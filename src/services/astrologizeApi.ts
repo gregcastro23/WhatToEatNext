@@ -106,9 +106,9 @@ function normalizeSignName(_signName: string): any {
     capricorn: 'capricorn',
     aquarius: 'aquarius',
     pisces: 'pisces'
-  };
+};
   const normalized = signName.toLowerCase() as any;
-  return signMap[normalized] || 'aries';
+  return signMap[normalized] || 'aries'
 }
 
 /**
@@ -179,7 +179,7 @@ export async function fetchPlanetaryPositions(
     // Determine if we should use GET or POST
     const isCurrentTime = !customDateTime || Object.keys(customDateTime).length === 0;
 
-    let response: Response;
+    let response: Response,
 
     if (isCurrentTime) {
       // Use GET for current time with query parameters
@@ -233,7 +233,7 @@ export async function fetchPlanetaryPositions(
       uranus: 'Uranus',
       neptune: 'Neptune',
       pluto: 'Pluto'
-    };
+};
 
     Object.entries(planetMap).forEach(([apiKey, planetName]) => {
       const planetData = celestialBodies[apiKey as keyof typeof planetMap];

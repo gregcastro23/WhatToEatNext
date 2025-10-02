@@ -9,19 +9,19 @@ import type { CookingMethod, Recipe } from '@/types/alchemy';
 import type { KineticMetrics } from '@/types/kinetics';
 
 export interface CircuitValidationResult {
-  isValid: boolean;
-  inputPower: number;
-  outputPower: number;
-  losses: number;
-  efficiency: number;
+  isValid: boolean,
+  inputPower: number,
+  outputPower: number,
+  losses: number,
+  efficiency: number,
   error?: string;
 }
 
 export interface RecipeCircuitRecommendation {
-  recipe: Recipe;
-  circuitEfficiency: number;
-  kineticsCompatibility: number;
-  recommendedCookingMethod?: CookingMethod;
+  recipe: Recipe,
+  circuitEfficiency: number,
+  kineticsCompatibility: number,
+  recommendedCookingMethod?: CookingMethod,
   powerFlowDescription: string;
 }
 
@@ -58,7 +58,7 @@ export function validateRecipeCircuit(
     losses,
     efficiency,
     error: isValid ? undefined : 'Power conservation violated'
-  };
+};
 }
 
 /**
@@ -214,7 +214,6 @@ export function validateMultiRecipeCircuit(
 
   const totalLosses = totalInputPower - totalOutputPower;
   const efficiency = totalInputPower > 0 ? totalOutputPower / totalInputPower : 0;
-
   const tolerance = 0.05; // 5% tolerance for multiple recipes
   const isValid = Math.abs(totalInputPower - (totalOutputPower + totalLosses)) < tolerance;
 
@@ -225,5 +224,5 @@ export function validateMultiRecipeCircuit(
     losses: totalLosses,
     efficiency,
     error: isValid ? undefined : 'Multi-recipe power conservation violated'
-  };
+};
 }

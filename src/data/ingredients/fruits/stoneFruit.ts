@@ -37,13 +37,13 @@ const rawStoneFruit = {
       ripeness: 'yields to gentle pressure',
       cutting: 'slice along natural seam',
       notes: 'Can be peeled if desired'
-    },
+},
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
       notes: 'Refrigerate when ripe'
-    }
+}
   },
   plum: {
     name: 'Plum',
@@ -80,13 +80,13 @@ const rawStoneFruit = {
       ripeness: 'slight give when pressed',
       cutting: 'slice around pit',
       notes: 'Some varieties are better for cooking'
-    },
+},
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
       notes: 'Refrigerate when ripe'
-    }
+}
   },
   apricot: {
     name: 'Apricot',
@@ -116,13 +116,13 @@ const rawStoneFruit = {
       ripeness: 'gentle squeeze',
       cutting: 'halve and twist',
       notes: 'Best eaten when fully ripe'
-    },
+},
     storage: {
       temperature: 'room temp until ripe',
       duration: '2-3 days',
       ripening: 'room temperature',
       notes: 'Very perishable when ripe'
-    }
+}
   },
   cherry: {
     name: 'Cherry',
@@ -152,13 +152,13 @@ const rawStoneFruit = {
       pitting: 'recommended',
       sorting: 'remove stems and damaged fruit',
       notes: 'Can be used with or without pits'
-    },
+},
     storage: {
       temperature: 'refrigerated',
       duration: '4-7 days',
       humidity: 'moderate',
       notes: 'Store unwashed until ready to use'
-    }
+}
   },
   nectarine: {
     name: 'Nectarine',
@@ -188,13 +188,13 @@ const rawStoneFruit = {
       ripeness: 'yields to gentle pressure',
       cutting: 'slice along natural seam',
       notes: 'No peeling required unlike peaches'
-    },
+},
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
       notes: 'Refrigerate when ripe'
-    }
+}
   },
   greengage: {
     name: 'Greengage',
@@ -224,13 +224,13 @@ const rawStoneFruit = {
       ripeness: 'should yield slightly',
       cutting: 'halve and twist',
       notes: 'Best eaten when fully ripe'
-    },
+},
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-4 days',
       ripening: 'room temperature',
       notes: 'Refrigerate when fully ripe'
-    }
+}
   },
   damson: {
     name: 'Damson',
@@ -260,13 +260,13 @@ const rawStoneFruit = {
       ripeness: 'firm but yielding',
       cooking: 'usually cooked before eating',
       notes: 'Too tart for most raw applications'
-    },
+},
     storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
       notes: 'Ideal for preserving and cooking'
-    }
+}
   }
 };
 

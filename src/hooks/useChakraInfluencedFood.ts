@@ -162,7 +162,7 @@ export const useChakraInfluencedFood = (options?: {,
         const chakraFiltered: Record<string, EnhancedIngredient[]> = {}
 
         // Group ingredients by which chakra they support the most
-        Object.keys(chakraEnergies).forEach(chakraKey => {;
+        Object.keys(chakraEnergies).forEach(chakraKey => {,
           const energy = chakraEnergies[chakraKey as keyof ChakraEnergies],
 
           // Get ingredients that match the chakra's elemental properties

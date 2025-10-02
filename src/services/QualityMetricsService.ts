@@ -931,7 +931,7 @@ class QualityMetricsService {
       this.reports.slice(-1)[0] || {
         period: `${startDate.toISOString().split('T')[0]} to ${endDate.toISOString().split('T')[0]}`,
         summary: { overallScore: 0, improvement: 0, keyAchievements: [], majorIssues: [] },
-        metrics: { codeQuality: 0, performance: 0, maintainability: 0, technicalDebt: 0 }
+        metrics: { codeQuality: 0, performance: 0, maintainability: 0, technicalDebt: 0 },
         trends: { errorReduction: 0, performanceImprovement: 0, debtReduction: 0 },
         insights: [],
         predictions: [],

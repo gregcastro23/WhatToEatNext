@@ -27,9 +27,9 @@ export interface EnhancedRecipe extends Recipe {
   cookingMethodSequence: CookingMethod[];
 
   /** Recipe metadata */
-  cuisineCategory: string;
-  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert';
-  difficulty: 'easy' | 'medium' | 'hard';
+  cuisineCategory: string,
+  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert'
+  difficulty: 'easy' | 'medium' | 'hard'
   preparationTime: number; // minutes
   cookingTime: number; // minutes
 
@@ -56,8 +56,8 @@ export interface RecipeComputationCache {
   computedProperties: RecipeComputedProperties;
 
   /** Cache metadata */
-  createdAt: Date;
-  expiresAt: Date;
+  createdAt: Date,
+  expiresAt: Date,
   computationTimeMs: number;
 
   /** Planetary positions hash for cache validation */
@@ -95,7 +95,7 @@ export interface RecipeValidationResult {
   };
 
   /** Validation errors and warnings */
-  errors: string[];
+  errors: string[],
   warnings: string[];
 
   /** Quality metrics */
@@ -155,18 +155,18 @@ export interface BatchEnhancementResult {
 
   /** Detailed results per recipe */
   results: Array<{
-    recipeId: string;
-    success: boolean;
-    error?: string;
-    warnings?: string[];
+    recipeId: string,
+    success: boolean,
+    error?: string,
+    warnings?: string[],
     qualityScore?: number;
   }>;
 
   /** Processing statistics */
   statistics: {
-    averageProcessingTimeMs: number;
-    totalProcessingTimeMs: number;
-    cacheHitRate: number;
+    averageProcessingTimeMs: number,
+    totalProcessingTimeMs: number,
+    cacheHitRate: number,
     computationErrors: number;
   };
 }
@@ -178,44 +178,43 @@ export interface BatchEnhancementResult {
  */
 export interface RecipeSearchCriteria {
   /** Basic filters */
-  cuisine?: string[];
-  mealType?: string[];
-  difficulty?: string[];
+  cuisine?: string[],
+  mealType?: string[],
+  difficulty?: string[],
   preparationTime?: {
-    min?: number;
+    min?: number,
     max?: number;
   };
 
   /** Elemental and alchemical filters */
-  dominantElement?: string;
-  dominantAlchemical?: string;
-  minElementalBalance?: number;
+  dominantElement?: string,
+  dominantAlchemical?: string,
+  minElementalBalance?: number,
   minAlchemicalComplexity?: number;
 
   /** Astrological filters */
-  planetaryPositions?: { [planet: string]: string };
-  lunarPhase?: string;
+  planetaryPositions?: { [planet: string]: string },
+  lunarPhase?: string,
   season?: string;
 
   /** Quality filters */
-  minQualityScore?: number;
+  minQualityScore?: number,
   hasAstrologicalTiming?: boolean;
 
   /** Cooking method filters */
-  cookingMethods?: string[];
+  cookingMethods?: string[],
   cookingTechniques?: string[];
 
   /** Ingredient filters */
-  includeIngredients?: string[];
-  excludeIngredients?: string[];
+  includeIngredients?: string[],
+  excludeIngredients?: string[],
   dietaryRestrictions?: string[];
 
   /** Sorting options */
-  sortBy?: 'relevance' | 'quality' | 'complexity' | 'preparationTime';
-  sortOrder?: 'asc' | 'desc';
-
+  sortBy?: 'relevance' | 'quality' | 'complexity' | 'preparationTime'
+  sortOrder?: 'asc' | 'desc'
   /** Pagination */
-  limit?: number;
+  limit?: number,
   offset?: number;
 }
 
@@ -227,34 +226,34 @@ export interface RecipeSearchCriteria {
 export interface RecipeRecommendationContext {
   /** User preferences */
   userPreferences: {
-    cuisineTypes: string[];
-    dietaryRestrictions: string[];
-    skillLevel: 'beginner' | 'intermediate' | 'advanced';
+    cuisineTypes: string[],
+    dietaryRestrictions: string[],
+    skillLevel: 'beginner' | 'intermediate' | 'advanced'
     timeAvailable: number; // minutes
-    energyLevel: 'low' | 'moderate' | 'high';
+    energyLevel: 'low' | 'moderate' | 'high'
   };
 
   /** Current astrological state */
   astrologicalState: {
-    planetaryPositions: { [planet: string]: string };
-    lunarPhase: string;
-    season: string;
+    planetaryPositions: { [planet: string]: string },
+    lunarPhase: string,
+    season: string,
     dominantElements: string[];
   };
 
   /** Previous recipe interactions */
   recipeHistory?: {
-    likedRecipes: string[];
-    dislikedRecipes: string[];
-    recentMeals: string[];
+    likedRecipes: string[],
+    dislikedRecipes: string[],
+    recentMeals: string[],
     preferredElements: string[];
   };
 
   /** Session constraints */
   constraints: {
-    availableIngredients: string[];
-    cookingEquipment: string[];
-    timeOfDay: 'morning' | 'afternoon' | 'evening' | 'night';
+    availableIngredients: string[],
+    cookingEquipment: string[],
+    timeOfDay: 'morning' | 'afternoon' | 'evening' | 'night'
     numberOfPeople: number;
   };
 }
@@ -273,25 +272,25 @@ export interface RecipeRecommendation {
 
   /** Recommendation reasons */
   reasons: {
-    elementalHarmony: number;
-    astrologicalAlignment: number;
-    ingredientAvailability: number;
-    userPreference: number;
+    elementalHarmony: number,
+    astrologicalAlignment: number,
+    ingredientAvailability: number,
+    userPreference: number,
     qualityScore: number;
   };
 
   /** Personalization factors */
   personalization: {
-    dominantElement: string;
-    planetaryAlignment: string;
-    cookingMethodMatch: string;
+    dominantElement: string,
+    planetaryAlignment: string,
+    cookingMethodMatch: string,
     difficultyFit: string;
   };
 
   /** Alternative recommendations */
   alternatives?: Array<{
-    recipeId: string;
-    score: number;
+    recipeId: string,
+    score: number,
     reason: string;
   }>;
 }

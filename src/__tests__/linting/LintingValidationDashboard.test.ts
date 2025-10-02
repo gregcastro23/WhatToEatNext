@@ -22,8 +22,8 @@ const mockReadFileSync = readFileSync as jest.MockedFunction<typeof readFileSync
 const mockExistsSync = existsSync as jest.MockedFunction<typeof existsSync>;
 
 describe('LintingValidationDashboard', () => {
-  let dashboard: LintingValidationDashboard;
-  let alerting: LintingAlertingSystem;
+  let dashboard: LintingValidationDashboard,
+  let alerting: LintingAlertingSystem,
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -40,8 +40,8 @@ describe('LintingValidationDashboard', () => {
         return JSON.stringify({
           thresholds: [],
           alertingEnabled: true,
-          regressionDetectionEnabled: true,
-        });
+          regressionDetectionEnabled: true
+});
       }
       if (path.includes('history.json')) {
         return JSON.stringify([]);
@@ -65,15 +65,15 @@ describe('LintingValidationDashboard', () => {
               severity: 2,
               message: 'Unexpected any',
               line: 10,
-              column: 5,
-            },
+              column: 5
+},
             {
               ruleId: 'import/order',
               severity: 1,
               message: 'Import order incorrect',
               line: 1,
-              column: 1,
-            },
+              column: 1
+},
           ],
         },
         {
@@ -84,8 +84,8 @@ describe('LintingValidationDashboard', () => {
               severity: 1,
               message: 'Unused variable',
               line: 5,
-              column: 10,
-            },
+              column: 10
+},
           ],
         },
       ];
@@ -126,8 +126,8 @@ describe('LintingValidationDashboard', () => {
               severity: 2,
               message: 'Unexpected any',
               line: 10,
-              column: 5,
-            },
+              column: 5
+},
           ],
         },
         {
@@ -138,8 +138,8 @@ describe('LintingValidationDashboard', () => {
               severity: 1,
               message: 'Console statement',
               line: 15,
-              column: 8,
-            },
+              column: 8
+},
           ],
         },
         {
@@ -150,8 +150,8 @@ describe('LintingValidationDashboard', () => {
               severity: 1,
               message: 'Unused variable',
               line: 5,
-              column: 10,
-            },
+              column: 10
+},
           ],
         },
       ];
@@ -177,8 +177,8 @@ describe('LintingValidationDashboard', () => {
               severity: 1,
               message: 'Import order incorrect',
               line: 1,
-              column: 1,
-            },
+              column: 1
+},
           ],
         },
       ];
@@ -200,8 +200,8 @@ describe('LintingValidationDashboard', () => {
               fatal: true,
               message: 'Parser error',
               line: 68,
-              column: 1,
-            },
+              column: 1
+},
           ],
         },
       ];
@@ -222,8 +222,8 @@ describe('LintingValidationDashboard', () => {
             severity: 2,
             message: 'Unexpected any',
             line: 10,
-            column: 5,
-          },
+            column: 5
+},
         ],
       }));
 
@@ -247,8 +247,8 @@ describe('LintingValidationDashboard', () => {
               fatal: true,
               message: 'Parser error',
               line: 68,
-              column: 1,
-            },
+              column: 1
+},
           ],
         },
       ];
@@ -270,8 +270,8 @@ describe('LintingValidationDashboard', () => {
             severity: 2,
             message: 'Unexpected any',
             line: 10,
-            column: 5,
-          },
+            column: 5
+},
         ],
       }));
 
@@ -309,8 +309,8 @@ describe('LintingValidationDashboard', () => {
           totalIssues: 100,
           qualityScore: 85,
           parserErrors: 0,
-          explicitAnyErrors: 50,
-        },
+          explicitAnyErrors: 50
+},
       ];
 
       mockReadFileSync.mockImplementation((path: string) => {
@@ -329,8 +329,8 @@ describe('LintingValidationDashboard', () => {
             severity: 2,
             message: 'Unexpected any',
             line: 10,
-            column: 5,
-          },
+            column: 5
+},
         ],
       }));
 
@@ -373,8 +373,8 @@ describe('LintingValidationDashboard', () => {
               fatal: true,
               message: 'Parser error',
               line: 68,
-              column: 1,
-            },
+              column: 1
+},
           ],
         },
       ];
@@ -382,7 +382,7 @@ describe('LintingValidationDashboard', () => {
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
       const result = await dashboard.runComprehensiveValidation();
-      expect(result.recommendations.some(rec => rec.includes('URGENT: Fix parser errors immediately'))).toBe(true);
+      expect(result.recommendations.some(rec => rec.includes('URGENT: Fix parser errors immediately'))).toBe(true),
       expect(result.recommendations.some(rec => rec.includes('recommendationEngine.ts'))).toBe(true);
     });
 
@@ -395,15 +395,15 @@ describe('LintingValidationDashboard', () => {
             severity: 2,
             message: 'Unexpected any',
             line: 10,
-            column: 5,
-          },
+            column: 5
+},
         ],
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
       const result = await dashboard.runComprehensiveValidation();
-      expect(result.recommendations.some(rec => rec.includes('HIGH PRIORITY: Reduce explicit any types'))).toBe(true);
+      expect(result.recommendations.some(rec => rec.includes('HIGH PRIORITY: Reduce explicit any types'))).toBe(true),
       expect(result.recommendations.some(rec => rec.includes('systematic type inference'))).toBe(true);
     });
 
@@ -416,15 +416,15 @@ describe('LintingValidationDashboard', () => {
             severity: 1,
             message: 'Import order incorrect',
             line: 1,
-            column: 1,
-          },
+            column: 1
+},
         ],
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
       const result = await dashboard.runComprehensiveValidation();
-      expect(result.recommendations.some(rec => rec.includes('READY: Deploy enhanced import organization'))).toBe(true);
+      expect(result.recommendations.some(rec => rec.includes('READY: Deploy enhanced import organization'))).toBe(true),
       expect(result.recommendations.some(rec => rec.includes('alphabetical sorting'))).toBe(true);
     });
 
@@ -437,8 +437,8 @@ describe('LintingValidationDashboard', () => {
             severity: 2,
             message: 'Unexpected any',
             line: 10,
-            column: 5,
-          },
+            column: 5
+},
         ],
       }));
 
@@ -561,8 +561,8 @@ describe('LintingValidationDashboard', () => {
               fatal: true,
               message: 'Parser error',
               line: 68,
-              column: 1,
-            },
+              column: 1
+},
           ],
         },
       ];
@@ -583,7 +583,7 @@ describe('LintingValidationDashboard', () => {
 });
 
 describe('LintingAlertingSystem', () => {
-  let alerting: LintingAlertingSystem;
+  let alerting: LintingAlertingSystem,
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -598,8 +598,8 @@ describe('LintingAlertingSystem', () => {
         channels: [{ type: 'console', config: {}, severityFilter: ['error', 'critical'] }],
         regressionDetection: { enabled: true, sensitivity: 'medium', cooldownPeriod: 15 },
         performanceMonitoring: { enabled: true, thresholds: [] },
-        autoResponse: { enabled: true, actions: [] },
-      });
+        autoResponse: { enabled: true, actions: [] }
+});
     });
 
     alerting = new LintingAlertingSystem();
@@ -616,8 +616,8 @@ describe('LintingAlertingSystem', () => {
           currentValue: 1,
           threshold: 0,
           message: 'Parser errors detected',
-          resolved: false,
-        },
+          resolved: false
+},
       ];
 
       const mockMetrics: LintingMetrics = {
@@ -634,17 +634,17 @@ describe('LintingAlertingSystem', () => {
         domainSpecificIssues: {
           astrologicalCalculations: 0,
           campaignSystem: 0,
-          testFiles: 0,
-        },
+          testFiles: 0
+},
         performanceMetrics: {
           lintingDuration: 5000,
           cacheHitRate: 0.75,
           memoryUsage: 256,
-          filesProcessed: 100,
-        },
+          filesProcessed: 100
+},
         qualityScore: 85,
-        regressionDetected: false,
-      };
+        regressionDetected: false
+};
 
       // Should not throw
       await expect(alerting.processAlerts(mockAlerts, mockMetrics)).resolves.toBeUndefined();
@@ -658,8 +658,8 @@ describe('LintingAlertingSystem', () => {
           channels: [],
           regressionDetection: { enabled: false },
           performanceMonitoring: { enabled: false },
-          autoResponse: { enabled: false },
-        });
+          autoResponse: { enabled: false }
+});
       });
 
       const disabledAlerting = new LintingAlertingSystem();
@@ -673,8 +673,8 @@ describe('LintingAlertingSystem', () => {
           currentValue: 1,
           threshold: 0,
           message: 'Parser errors detected',
-          resolved: false,
-        },
+          resolved: false
+},
       ];
 
       const mockMetrics: LintingMetrics = {
@@ -691,17 +691,17 @@ describe('LintingAlertingSystem', () => {
         domainSpecificIssues: {
           astrologicalCalculations: 0,
           campaignSystem: 0,
-          testFiles: 0,
-        },
+          testFiles: 0
+},
         performanceMetrics: {
           lintingDuration: 5000,
           cacheHitRate: 0.75,
           memoryUsage: 256,
-          filesProcessed: 100,
-        },
+          filesProcessed: 100
+},
         qualityScore: 85,
-        regressionDetected: false,
-      };
+        regressionDetected: false
+};
 
       // Should complete quickly when disabled
       await expect(disabledAlerting.processAlerts(mockAlerts, mockMetrics)).resolves.toBeUndefined();
@@ -724,17 +724,17 @@ describe('LintingAlertingSystem', () => {
         domainSpecificIssues: {
           astrologicalCalculations: 0,
           campaignSystem: 0,
-          testFiles: 0,
-        },
+          testFiles: 0
+},
         performanceMetrics: {
           lintingDuration: 35000, // Exceeds 30s threshold
           cacheHitRate: 0.3, // Below 50% threshold
           memoryUsage: 600, // Exceeds 512MB threshold
-          filesProcessed: 100,
-        },
+          filesProcessed: 100
+},
         qualityScore: 85,
-        regressionDetected: false,
-      };
+        regressionDetected: false
+};
 
       // Should process performance monitoring
       await expect(alerting.processAlerts([], mockMetrics)).resolves.toBeUndefined();

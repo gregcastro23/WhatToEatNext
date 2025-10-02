@@ -93,7 +93,7 @@ export function calculateElementalCompatibility(
   // Define element compatibility scores (same elements have highest compatibility)
   const compatibilityScores = {
     Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
-    Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 }
+    Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
     Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
     Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
   }

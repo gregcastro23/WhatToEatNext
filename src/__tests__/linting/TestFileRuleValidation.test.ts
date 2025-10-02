@@ -13,7 +13,7 @@ import { join } from 'path';
 
 describe('Test File Rule Validation', () => {
   const projectRoot = process.cwd();
-  const tempFiles: string[] = [];
+  const tempFiles: string[] = [],
 
   afterEach(() => {
     // Clean up temporary test files
@@ -32,7 +32,7 @@ describe('Test File Rule Validation', () => {
           test('should handle mock variables', () => {
             const mockFunction = jest.fn();
             const _stubValue = 'test-stub';
-            const testData = { id: 1, name: 'test' };
+            const testData = { id: 1, name: 'test' },
             const _mockObject = { method: jest.fn() };
             const _stubArray = [1, 2, 3];
             const _testConfig = { enabled: true };
@@ -53,8 +53,8 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -116,8 +116,8 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -147,12 +147,12 @@ describe('Test File Rule Validation', () => {
     test('should allow test data structures', async () => {
       const testContent = `
         describe('Test Data Structures', () => {
-          const testUser = { id: 1, name: 'Test User', email: 'test@example.com' };
-          const _testIngredient = { name: 'tomato', elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.2, Air: 0.1 } };
-          const _testRecipe = { id: 1, name: 'Test Recipe', ingredients: [] };
-          const _testPlanetaryPosition = { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false };
-          const _testConfig = { apiUrl: 'http://test.api', timeout: 5000 };
-          const _testMetrics = { errors: 0, warnings: 5, processed: 100 };
+          const testUser = { id: 1, name: 'Test User', email: 'test@example.com' },
+          const _testIngredient = { name: 'tomato', elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.2, Air: 0.1 } },
+          const _testRecipe = { id: 1, name: 'Test Recipe', ingredients: [] },
+          const _testPlanetaryPosition = { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
+          const _testConfig = { apiUrl: 'http://test.api', timeout: 5000 },
+          const _testMetrics = { errors: 0, warnings: 5, processed: 100 },
           
           test('should use test data', () => {
             expect(testUser.id).toBe(1);
@@ -167,8 +167,8 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -201,14 +201,14 @@ describe('Test File Rule Validation', () => {
       const testContent = `
         describe('Any Type Tests', () => {
           test('should allow any types for flexible testing', () => {
-            const anyValue: any = 'test-value';
-            const anyObject: any = { prop: 'value' };
-            const anyArray: any[] = [1, 'two', { three: 3 }];
+            const anyValue: any = 'test-value',
+            const anyObject: any = { prop: 'value' },
+            const anyArray: any[] = [1, 'two', { three: 3 }],
             const anyFunction: any = () => 'result';
             
             // Test dynamic behavior
             anyObject.dynamicProperty = 'dynamic';
-            anyArray.push({ dynamic: true });
+            anyArray.push({ dynamic: true }),
             
             expect(anyValue).toBeDefined();
             expect(anyObject.prop).toBe('value');
@@ -235,8 +235,8 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -272,7 +272,7 @@ describe('Test File Rule Validation', () => {
             console.warn('This is a test warning');
             console.error('This is a test error (not real)');
             console.debug('Debug information for test');
-            console.table([{ test: 'data', value: 123 }]);
+            console.table([{ test: 'data', value: 123 }]),
             console.group('Test Group');
             console.log('Grouped test output');
             console.groupEnd();
@@ -300,8 +300,8 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -332,8 +332,8 @@ describe('Test File Rule Validation', () => {
       const testContent = `
         describe('Non-null Assertion Tests', () => {
           test('should allow non-null assertions for test certainty', () => {
-            const maybeValue: string | null = 'test-value';
-            const maybeObject: { prop?: string } = { prop: 'value' };
+            const maybeValue: string | null = 'test-value',
+            const maybeObject: { prop?: string } = { prop: 'value' },
             const maybeArray: number[] | undefined = [1, 2, 3];
             
             // Non-null assertions should be allowed in tests
@@ -363,8 +363,8 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -425,7 +425,7 @@ describe('Test File Rule Validation', () => {
               pageSize: 25,
               totalPages: 4,
               currentPage: 1
-            };
+};
             
             expect(testData.users).toHaveLength(50);
             expect(testData.pageSize).toBe(25);
@@ -440,8 +440,8 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -517,8 +517,8 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -615,8 +615,8 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -691,7 +691,7 @@ describe('Test File Rule Validation', () => {
             expect([1, 2, 3]).toEqual(expect.arrayContaining([1, 3]));
             
             // Object matchers
-            expect({ a: 1, b: 2 }).toHaveProperty('a');
+            expect({ a: 1, b: 2 }).toHaveProperty('a'),
             expect({ a: 1, b: 2 }).toHaveProperty('a', 1);
             expect({ a: 1, b: 2 }).toMatchObject({ a: 1 });
             
@@ -717,8 +717,8 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -733,7 +733,7 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const undefErrors = result[0].messages.filter((msg: any) => msg.ruleId === 'no-undef');
+            const undefErrors = result[0].messages.filter((msg: any) => msg.ruleId === 'no-undef'),
 
             expect(undefErrors.length).toBe(0);
           }
@@ -823,8 +823,8 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -839,7 +839,7 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const undefErrors = result[0].messages.filter((msg: any) => msg.ruleId === 'no-undef');
+            const undefErrors = result[0].messages.filter((msg: any) => msg.ruleId === 'no-undef'),
 
             expect(undefErrors.length).toBe(0);
           }
@@ -881,7 +881,7 @@ describe('Test File Rule Validation', () => {
           };
           
           test('should use test helpers', () => {
-            const user = createTestUser({ name: 'Custom User' });
+            const user = createTestUser({ name: 'Custom User' }),
             expect(user.name).toBe('Custom User');
           });
         });
@@ -894,8 +894,8 @@ describe('Test File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 

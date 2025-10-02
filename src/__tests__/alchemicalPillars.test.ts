@@ -9,8 +9,8 @@ jest.mock('../utils/alchemicalPillarUtils', () => ({
       Spirit: -0.2,
       Essence: 0.3,
       Matter: 0.3,
-      Substance: -0.2,
-    },
+      Substance: -0.2
+},
   }),
   getRecommendedCookingMethods: jest.fn().mockReturnValue([
     { method: 'baking', compatibility: 0.8 },
@@ -21,21 +21,21 @@ jest.mock('../utils/alchemicalPillarUtils', () => ({
     spirit: 0.4,
     essence: 0.6,
     matter: 0.6,
-    substance: 0.4,
-  }),
+    substance: 0.4
+}),
 }));
 
 // Mock the missing constants
 jest.mock('../constants/alchemicalPillars', () => ({
   ALCHEMICAL_PILLARS: Array(14).fill({
     name: 'MockPillar',
-    effects: { Spirit: 0.1, Essence: 0.1, Matter: 0.1, Substance: 0.1 },
-  }),
+    effects: { Spirit: 0.1, Essence: 0.1, Matter: 0.1, Substance: 0.1 }
+}),
   COOKING_METHOD_PILLAR_MAPPING: {
     baking: 'Calcination',
     boiling: 'Solution',
-    fermenting: 'Putrefaction',
-  },
+    fermenting: 'Putrefaction'
+},
 }));
 
 describe('Alchemical Pillars', () => {

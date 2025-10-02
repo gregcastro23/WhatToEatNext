@@ -5,8 +5,7 @@ import PlanetaryPowerWidget from '@/components/PlanetaryPowerWidget';
 import PlanetaryFoodRecommendations from '@/components/PlanetaryFoodRecommendations';
 
 export default function PlanetaryDemoPage() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-8">
+  return (<div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -124,7 +123,7 @@ export default function PlanetaryDemoPage() {
               <h3 className="font-semibold mb-3">Component Usage</h3>
               <pre className="bg-gray-100 p-4 rounded text-sm overflow-x-auto">
 {`import PlanetaryPowerWidget from '@/components/PlanetaryPowerWidget';
-import PlanetaryFoodRecommendations from '@/components/PlanetaryFoodRecommendations';
+import PlanetaryFoodRecommendations from '@/components/PlanetaryFoodRecommendations',
 
 // Basic usage
 <PlanetaryPowerWidget />
@@ -144,7 +143,7 @@ import PlanetaryFoodRecommendations from '@/components/PlanetaryFoodRecommendati
             <div>
               <h3 className="font-semibold mb-3">Hook Usage</h3>
               <pre className="bg-gray-100 p-4 rounded text-sm overflow-x-auto">
-{`import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics';
+{`import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics',
 
 const MyComponent = () => {
   const {
@@ -158,7 +157,7 @@ const MyComponent = () => {
 
   return (
     <div>
-      Power: {currentPowerLevel}
+      Power: {currentPowerLevel},
       Element: {dominantElement}
     </div>
   );

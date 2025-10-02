@@ -38,25 +38,25 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       cutting: 'slice along pit',
       ripeness: 'slight give when pressed',
       notes: 'Can be ripened in paper bag'
-    },
+},
     storage: {
       temperature: 'room temp until ripe',
       duration: '5-7 days',
       ripening: 'room temperature',
       notes: 'Refrigerate when ripe'
-    },
+},
     sensoryProfile: {
       taste: ['sweet', 'tangy', 'juicy'],
       aroma: ['tropical', 'fragrant'],
       texture: ['soft', 'fibrous'],
       notes: 'Characteristic mango profile'
-    },
+},
     culinaryProfile: {
       flavorProfile: {
         primary: ['sweet', 'tropical'],
         secondary: ['tangy', 'fragrant'],
         notes: 'Sweet tropical fruit'
-      },
+},
       cookingMethods: ['raw', 'grilled', 'puréed'],
       cuisineAffinity: ['Asian', 'Latin American', 'Caribbean'],
       preparationTips: ['Choose ripe fruit', 'Peel before eating']

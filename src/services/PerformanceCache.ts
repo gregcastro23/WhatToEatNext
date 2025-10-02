@@ -136,7 +136,7 @@ export class PerformanceCache<T> {
   getStats(): CacheStats {
     const now = Date.now();
     let memoryUsage = 0;
-    let oldestEntry = now,
+    let oldestEntry = now;
     let newestEntry = 0
 ;
     for (const [key, entry] of this.cache.entries()) {
@@ -318,41 +318,41 @@ export class PerformanceMonitor {
     const metricsLength = this.metrics.length || 1;
     const average: PerformanceMetrics = {
       calculationTime: (this.metrics.reduce((summ) => {,
-          const numericSum = typeof sum === 'number' ? sum: 0,
+          const numericSum = typeof sum === 'number' ? sum: 0;
           const numericValue = typeof m.calculationTime === 'number' ? m.calculationTime : 0
           return numericSum + numericValue;
         }, 0) || 0) / metricsLength,
       cacheHitRate: (this.metrics.reduce((summ) => {
-          const numericSum = typeof sum === 'number' ? sum: 0,
+          const numericSum = typeof sum === 'number' ? sum: 0;
           const numericValue = typeof m.cacheHitRate === 'number' ? m.cacheHitRate : 0
           return numericSum + numericValue;
         }, 0) || 0) / metricsLength,
       memoryUsage: (this.metrics.reduce((summ) => {
-          const numericSum = typeof sum === 'number' ? sum: 0,
+          const numericSum = typeof sum === 'number' ? sum: 0;
           const numericValue = typeof m.memoryUsage === 'number' ? m.memoryUsage : 0
           return numericSum + numericValue;
         }, 0) || 0) / metricsLength,
       recommendationCount: (this.metrics.reduce((summ) => {
-          const numericSum = typeof sum === 'number' ? sum: 0,
+          const numericSum = typeof sum === 'number' ? sum: 0;
           const numericValue =
             typeof m.recommendationCount === 'number' ? m.recommendationCount : 0
           return numericSum + numericValue;
         }, 0) || 0) / metricsLength,
       averageResponseTime: (this.metrics.reduce((summ) => {
-          const numericSum = typeof sum === 'number' ? sum: 0,
+          const numericSum = typeof sum === 'number' ? sum: 0;
           const numericValue =
             typeof m.averageResponseTime === 'number' ? m.averageResponseTime : 0
           return numericSum + numericValue;
         }, 0) || 0) / metricsLength,
       peakMemoryUsage: (this.metrics.reduce((summ) => {
-          const numericSum = typeof sum === 'number' ? sum: 0,
+          const numericSum = typeof sum === 'number' ? sum: 0;
           const numericValue = typeof m.peakMemoryUsage === 'number' ? m.peakMemoryUsage : 0
           return numericSum + numericValue;
         }, 0) || 0) / metricsLength
     }
 
     // Calculate peaks
-    const metricsArray = this.metrics.length > 0 ? this.metrics : [],
+    const metricsArray = this.metrics.length > 0 ? this.metrics : [];
     const peak: PerformanceMetrics = {
       calculationTime:;
         metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.calculationTime)) : 0,

@@ -8,33 +8,33 @@ import {
 import { planetaryModifiers } from '@/utils/planetaryCycles';
 
 export interface PlanetInfo {
-  name: string;
-  sign: string;
-  degree: number;
-  isRetrograde: boolean;
+  name: string,
+  sign: string,
+  degree: number,
+  isRetrograde: boolean,
   dignity: {
-    type: string;
+    type: string,
     strength: number;
   };
   tarotCard: {
-    name: string;
+    name: string,
     element: string;
   };
   aspects: {
-    planet: string;
-    type: string;
+    planet: string,
+    type: string,
     orb: number;
   }[];
   elementalInfluence: {
-    fire: number;
-    water: number;
-    air: number;
+    fire: number,
+    water: number,
+    air: number,
     earth: number;
   };
   tokenInfluence: {
-    spirit: number;
-    essence: number;
-    matter: number;
+    spirit: number,
+    essence: number,
+    matter: number,
     substance: number;
   };
 }
@@ -46,14 +46,14 @@ export async function getPlanetInfo(
   try {
     const state = planetaryPositions
       ? { currentPlanetaryAlignment: planetaryPositions }
-      : await getCurrentAstrologicalState();
+      : await getCurrentAstrologicalState(),
 
     const positions = state.currentPlanetaryAlignment as Record<string, unknown>;
     const planetKey = planetName.toLowerCase();
     const planetPosition = positions[planetKey];
 
     if (!planetPosition) {
-      log.info(`No position data found for planet: ${planetName}`);
+      log.info(`No position data found for planet: ${planetName}`),
       return null;
     }
 
@@ -62,7 +62,7 @@ export async function getPlanetInfo(
     const planetDegree = Number(positionData.degree ?? 0);
     const planetIsRetrograde = Boolean(positionData.isRetrograde);
 
-    let normalizedPlanetName: string;
+    let normalizedPlanetName: string,
     if (planetName === 'north_node' || planetName === 'northnode') {
       normalizedPlanetName = 'NorthNode';
     } else if (planetName === 'south_node' || planetName === 'southnode') {
@@ -73,7 +73,7 @@ export async function getPlanetInfo(
       normalizedPlanetName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
     }
 
-    let dignity = { type: 'Neutral', strength: 0 };
+    let dignity = { type: 'Neutral', strength: 0 },
     if (!['Ascendant', 'NorthNode', 'SouthNode'].includes(normalizedPlanetName)) {
       try {
         dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign);
@@ -82,7 +82,7 @@ export async function getPlanetInfo(
       }
     }
 
-    let tarotCard = { name: 'Unknown', element: 'Unknown' };
+    let tarotCard = { name: 'Unknown', element: 'Unknown' },
     if (['Ascendant', 'NorthNode', 'SouthNode'].includes(normalizedPlanetName)) {
       const signToCard: Record<string, string> = {
         aries: 'The Emperor',
@@ -96,22 +96,22 @@ export async function getPlanetInfo(
         sagittarius: 'Temperance',
         capricorn: 'The Devil',
         aquarius: 'The Star',
-        pisces: 'The Moon',
-      };
-      const cardName = signToCard[planetSign] || 'The Fool';
+        pisces: 'The Moon'
+};
+      const cardName = signToCard[planetSign] || 'The Fool'
       tarotCard = {
         name: cardName,
-        element: MAJOR_ARCANA[cardName]?.element || 'Unknown',
+        element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
       };
     } else if (PLANET_TO_MAJOR_ARCANA[normalizedPlanetName]) {
       const cardName = PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
       tarotCard = {
         name: cardName,
-        element: MAJOR_ARCANA[cardName]?.element || 'Unknown',
+        element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
       };
     }
 
-    let planetAspects: Array<{ planet: string; type: string; orb: number }> = [];
+    let planetAspects: Array<{ planet: string; type: string; orb: number }> = [],
     try {
       const { aspects } = calculateAspects(positions as Record<string, unknown>, 0);
       planetAspects = aspects
@@ -119,13 +119,13 @@ export async function getPlanetInfo(
         .map(aspect => ({
           planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,
           type: aspect.type,
-          orb: aspect.orb || 0,
-        }));
+          orb: aspect.orb || 0
+}));
     } catch (error) {
       log.warn(`Error calculating aspects for ${planetName}`, { error });
     }
 
-    let elementalInfluence = { fire: 0, water: 0, air: 0, earth: 0 };
+    let elementalInfluence = { fire: 0, water: 0, air: 0, earth: 0 },
     if (['Ascendant', 'NorthNode', 'SouthNode'].includes(normalizedPlanetName)) {
       const signToElement: Record<string, keyof typeof elementalInfluence> = {
         aries: 'fire',
@@ -139,10 +139,10 @@ export async function getPlanetInfo(
         aquarius: 'air',
         cancer: 'water',
         scorpio: 'water',
-        pisces: 'water',
-      };
+        pisces: 'water'
+};
       const element = signToElement[planetSign];
-      const strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3;
+      const strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3,
       if (element) elementalInfluence[element] = strength;
     } else {
       const modifiers = planetaryModifiers[normalizedPlanetName];
@@ -151,14 +151,14 @@ export async function getPlanetInfo(
           fire: modifiers.Fire ?? 0,
           water: modifiers.Water ?? 0,
           air: modifiers.Air ?? 0,
-          earth: modifiers.Earth ?? 0,
-        };
+          earth: modifiers.Earth ?? 0
+};
       } else {
         log.debug(`No planetary modifier found for ${normalizedPlanetName}`);
       }
     }
 
-    let tokenInfluence = { spirit: 0, essence: 0, matter: 0, substance: 0 };
+    let tokenInfluence = { spirit: 0, essence: 0, matter: 0, substance: 0 },
     if (['Ascendant', 'NorthNode', 'SouthNode'].includes(normalizedPlanetName)) {
       const signToToken: Record<string, keyof typeof tokenInfluence> = {
         aries: 'spirit',
@@ -172,10 +172,10 @@ export async function getPlanetInfo(
         aquarius: 'essence',
         cancer: 'substance',
         scorpio: 'substance',
-        pisces: 'substance',
-      };
+        pisces: 'substance'
+};
       const token = signToToken[planetSign];
-      const strength = normalizedPlanetName === 'SouthNode' ? 0.15 : 0.25;
+      const strength = normalizedPlanetName === 'SouthNode' ? 0.15 : 0.25,
       if (token) tokenInfluence[token] = strength;
     } else {
       const modifiers = planetaryModifiers[normalizedPlanetName];
@@ -184,8 +184,8 @@ export async function getPlanetInfo(
           spirit: modifiers.Spirit ?? 0,
           essence: modifiers.Essence ?? 0,
           matter: modifiers.Matter ?? 0,
-          substance: modifiers.Substance ?? 0,
-        };
+          substance: modifiers.Substance ?? 0
+};
       }
     }
 
@@ -219,8 +219,7 @@ export function getDignityDescription(dignityType: string): string {
       return 'The planet is in the sign opposite its rulership, where its energy is challenged and may be expressed less harmoniously.';
     case 'Fall':
       return 'The planet is in the sign opposite its exaltation, where its energy is diminished or suppressed.';
-    case 'Neutral':
-      return 'The planet is neither strengthened nor weakened by its sign placement.';
+    case 'Neutral': return 'The planet is neither strengthened nor weakened by its sign placement.',
     default:
       return 'Unknown dignity type';
   }

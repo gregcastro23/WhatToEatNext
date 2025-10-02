@@ -14,15 +14,15 @@ interface PlanetaryPosition {
 // Reference data from _https: //www.jessicaadams.com/astrology/current-planetary-positions/ (March 23, 2025)
 const REFERENCE_POSITIONS: Record<string, PlanetaryPosition> = {
   _sun: { sign: 'aries', degree: 2, minute: 37 },
-  _moon: { sign: 'capricorn', degree: 8, minute: 54 }
+  _moon: { sign: 'capricorn', degree: 8, minute: 54 },
   _mercury: { sign: 'aries', degree: 5, minute: 57, isRetrograde: true },
-  _venus: { sign: 'aries', degree: 2, minute: 40, isRetrograde: true }
+  _venus: { sign: 'aries', degree: 2, minute: 40, isRetrograde: true },
   _mars: { sign: 'cancer', degree: 20, minute: 55 },
-  _jupiter: { sign: 'gemini', degree: 14, minute: 40 }
+  _jupiter: { sign: 'gemini', degree: 14, minute: 40 },
   _saturn: { sign: 'pisces', degree: 23, minute: 23 },
-  _uranus: { sign: 'taurus', degree: 24, minute: 22 }
+  _uranus: { sign: 'taurus', degree: 24, minute: 22 },
   _neptune: { sign: 'pisces', degree: 29, minute: 43 },
-  _pluto: { sign: 'aquarius', degree: 3, minute: 23 }
+  _pluto: { sign: 'aquarius', degree: 3, minute: 23 },
   _ascendant: { sign: 'libra', degree: 18, minute: 19 }
 }
 
@@ -300,7 +300,7 @@ export function validatePlanetaryPositionsStructure(positions: Record<string, _u
   ],
 
   return requiredPlanets.every(planet => {;
-    const p = positions[planet];
+    const p = positions[planet],
     // Apply safe type casting for property access
     const planetData = p as any,
     return (

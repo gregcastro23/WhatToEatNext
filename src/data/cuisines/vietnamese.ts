@@ -80,7 +80,7 @@ export const, vietnamese: Cuisine = {
             Fire: 0.2,
             Earth: 0.2,
             Air: 0.2
-          }
+}
         },
         {
           name: 'Cháo Gà',
@@ -141,7 +141,7 @@ export const, vietnamese: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-          }
+}
         },
         {
           name: 'Bánh Cuốn',
@@ -202,7 +202,7 @@ export const, vietnamese: Cuisine = {
             Earth: 0.3,
             Air: 0.3,
             Fire: 0.1
-          }
+}
         }
       ],
       winter: [
@@ -304,7 +304,7 @@ export const, vietnamese: Cuisine = {
             Air: 0.3,
             Fire: 0.2,
             Water: 0.2
-          }
+}
         },
         {
           name: 'Bún Chả',
@@ -360,7 +360,7 @@ export const, vietnamese: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Water: 0.2
-          }
+}
         },
         {
           name: 'Bún Bò Huế',
@@ -390,7 +390,7 @@ export const, vietnamese: Cuisine = {
               unit: 'whole',
               category: 'vegetable',
               optional: true
-            }
+}
           ],
           substitutions: {
             'beef shank': ['brisket', 'tofu'],
@@ -421,7 +421,7 @@ export const, vietnamese: Cuisine = {
             Water: 0.3,
             Earth: 0.2,
             Air: 0.1
-          }
+}
         }
       ]
     },
@@ -494,7 +494,7 @@ export const, vietnamese: Cuisine = {
             Fire: 0.3,
             Earth: 0.3,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Cơm Tấm',
@@ -549,7 +549,7 @@ export const, vietnamese: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Water: 0.1
-          }
+}
         }
       ]
     },
@@ -581,7 +581,7 @@ export const, vietnamese: Cuisine = {
               unit: 'pieces',
               category: 'herb',
               optional: true
-            },
+},
             { name: 'crushed ice', amount: '2', unit: 'cups', category: 'ice' }
           ],
           substitutions: {
@@ -614,7 +614,7 @@ export const, vietnamese: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-          }
+}
         },
         {
           name: 'Chè Chuối',
@@ -641,7 +641,7 @@ export const, vietnamese: Cuisine = {
               unit: 'pieces',
               category: 'herb',
               optional: true
-            },
+},
             { name: 'sesame seeds', amount: '2', unit: 'tbsp', category: 'garnish' },
             {
               name: 'crushed peanuts',
@@ -649,7 +649,7 @@ export const, vietnamese: Cuisine = {
               unit: 'cup',
               category: 'garnish',
               optional: true
-            }
+}
           ],
           substitutions: {
             'palm sugar': ['brown sugar', 'coconut sugar'],
@@ -680,7 +680,7 @@ export const, vietnamese: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-          }
+}
         }
       ]
     }
@@ -705,13 +705,13 @@ export const, vietnamese: Cuisine = {
         Fire: 0.3,
         Earth: 0.2,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Neptune', 'Mars', 'Pisces'],
       seasonality: 'all',
       preparationNotes:
         'Balance is critical - should harmonize sweet, sour, salty, and spicy flavors in perfect proportion',
       technicalTips: 'Let sit for at least 15 minutes before serving to allow flavors to meld'
-    },
+},
     nuocMam: {
       name: 'Nước Mắm (Fish Sauce)',
       description: 'Fermented anchovy sauce that forms the foundation of Vietnamese cuisine',
@@ -736,14 +736,13 @@ export const, vietnamese: Cuisine = {
         Earth: 0.3,
         Fire: 0.1,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Neptune', 'Moon', 'Scorpio'],
       seasonality: 'all',
       preparationNotes:
         'Traditional production takes at least 12 months of fermentation in wooden barrels',
-      technicalTips:
-        'High-quality fish sauce should have a deep amber color and complex aroma beyond just fishiness'
-    },
+      technicalTips: 'High-quality fish sauce should have a deep amber color and complex aroma beyond just fishiness'
+},
     tuongOt: {
       name: 'Tương Ớt (Chili Sauce)',
       description: 'Vietnamese-style fermented chili sauce with garlic and vinegar',
@@ -768,12 +767,12 @@ export const, vietnamese: Cuisine = {
         Earth: 0.2,
         Water: 0.2,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Traditional recipes often include fermentation to develop deeper flavor',
       technicalTips: 'Roasting or charring chilies first adds complexity and tempers raw heat'
-    },
+},
     tuongDen: {
       name: 'Tương Đen (Black Bean Sauce)',
       description: 'Fermented soybean sauce used in Vietnamese-Chinese fusion dishes',
@@ -798,13 +797,13 @@ export const, vietnamese: Cuisine = {
         Water: 0.3,
         Fire: 0.2,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Capricorn'],
       seasonality: 'all',
       preparationNotes:
         'Often used in dishes showing Chinese culinary influence in Vietnamese cuisine',
       technicalTips: 'Toast in oil before using to release aromatics and reduce raw bean flavor'
-    },
+},
     saTe: {
       name: 'Sa Tế (Vietnamese Sateay Sauce)',
       description: 'Aromatic lemongrass and chili paste used in soups and stir-fries',
@@ -829,13 +828,12 @@ export const, vietnamese: Cuisine = {
         Air: 0.3,
         Earth: 0.2,
         Water: 0.1
-      },
+},
       astrologicalInfluences: ['Mars', 'Mercury', 'Leo'],
       seasonality: 'all',
       preparationNotes:
         'Most authentic when chilies and aromatics are pounded by hand in a mortar and pestle',
-      technicalTips:
-        'The oil should separate when fried properly, creating a vibrant red layer on top'
+      technicalTips: 'The oil should separate when fried properly, creating a vibrant red layer on top',
     }
   },
   sauceRecommender: {
@@ -1001,7 +999,7 @@ export const, vietnamese: Cuisine = {
       toolsRequired: ['clay pot', 'wooden spoon', 'caramel sauce', 'long cooking time'],
       bestFor: ['fish', 'pork', 'chicken', 'tofu', 'eggs'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Nướng (Grilling)',
       description: 'Aromatic grilling over charcoal, often with lemongrass marinades',
@@ -1009,7 +1007,7 @@ export const, vietnamese: Cuisine = {
       toolsRequired: ['charcoal grill', 'bamboo skewers', 'banana leaf wrapping', 'marinade brush'],
       bestFor: ['pork', 'beef', 'seafood', 'chicken', 'meatballs'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Xào (Stir-frying)',
       description: 'Quick high-heat cooking that preserves fresh flavors and textures',
@@ -1017,7 +1015,7 @@ export const, vietnamese: Cuisine = {
       toolsRequired: ['wok', 'high heat source', 'spatula', 'prep bowls'],
       bestFor: ['vegetables', 'rice noodles', 'quick meat dishes', 'tofu', 'morning glory'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Hấp (Steaming)',
       description: 'Gentle cooking that preserves natural flavors and nutritional content',
@@ -1025,7 +1023,7 @@ export const, vietnamese: Cuisine = {
       toolsRequired: ['steamer basket', 'banana leaves', 'parchment paper', 'pot'],
       bestFor: ['fish', 'rice cakes', 'dumplings', 'custards', 'fresh vegetables'],
       difficulty: 'easy'
-    },
+},
     {
       name: 'Cuốn (Rolling/Wrapping)',
       description:
@@ -1040,7 +1038,7 @@ export const, vietnamese: Cuisine = {
         'rice noodle rolls'
       ],
       difficulty: 'easy'
-    }
+}
   ],
   regionalCuisines: [
     {
@@ -1058,8 +1056,7 @@ export const, vietnamese: Cuisine = {
       cookingTechniques: ['stir-frying', 'grilling', 'steaming', 'slow simmering'],
       elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
       culturalInfluences: ['Chinese', 'French colonial', 'indigenous Vietnamese'],
-      philosophicalFoundations:
-        'Balance and subtlety, with respect for traditional methods and pure flavors'
+      philosophicalFoundations: 'Balance and subtlety, with respect for traditional methods and pure flavors',
     },
     {
       name: 'Central Vietnamese',
@@ -1076,9 +1073,8 @@ export const, vietnamese: Cuisine = {
       cookingTechniques: ['slow cooking', 'fermentation', 'intricate cutting', 'spice preparation'],
       elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       culturalInfluences: ['Royal Vietnamese court', 'Thai', 'Cham'],
-      philosophicalFoundations:
-        'Complex and sophisticated flavors that honor the royal culinary traditions'
-    },
+      philosophicalFoundations: 'Complex and sophisticated flavors that honor the royal culinary traditions'
+},
     {
       name: 'Southern Vietnamese',
       description: 'Sweet, vibrant flavors with abundant fresh herbs and tropical ingredients',
@@ -1094,9 +1090,8 @@ export const, vietnamese: Cuisine = {
       cookingTechniques: ['simmering', 'caramelizing', 'quick stir-frying', 'fresh preparations'],
       elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.2, Fire: 0.2 },
       culturalInfluences: ['Khmer', 'Chinese', 'Thai', 'French colonial'],
-      philosophicalFoundations:
-        'Embraces abundance and fusion while maintaining the essential Vietnamese balance'
-    },
+      philosophicalFoundations: 'Embraces abundance and fusion while maintaining the essential Vietnamese balance'
+},
     {
       name: 'Mekong Delta',
       description: 'Emphasizes freshwater fish, tropical fruits, and rice with Khmer influences',
@@ -1118,8 +1113,7 @@ export const, vietnamese: Cuisine = {
       cookingTechniques: ['clay pot cooking', 'fermentation', 'caramelization', 'stewing'],
       elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
       culturalInfluences: ['Khmer', 'indigenous Vietnamese', 'Chinese'],
-      philosophicalFoundations:
-        'Connection to river life and the bounty of the delta, with emphasis on preservation techniques'
+      philosophicalFoundations: 'Connection to river life and the bounty of the delta, with emphasis on preservation techniques',
     },
     {
       name: 'Highland Vietnamese',
@@ -1142,14 +1136,13 @@ export const, vietnamese: Cuisine = {
       cookingTechniques: ['smoking', 'open fire cooking', 'bamboo tube cooking', 'preserving'],
       elementalProperties: { Earth: 0.5, Fire: 0.3, Air: 0.1, Water: 0.1 },
       culturalInfluences: ['Ethnic minorities (Ê Đê, H'MôngThái)', 'Indigenous practices'],
-      philosophicalFoundations:
-        'Deep connection to mountain landscapes and ethnic culinary heritage'
-    }
+      philosophicalFoundations: 'Deep connection to mountain landscapes and ethnic culinary heritage'
+}
   ],
   elementalProperties: {
-    Water: 0.3, // Represents soups and broths,
+    Water: 0.3, // Represents soups and broths
     Earth: 0.3, // Represents rice and proteins,
-    Fire: 0.2, // Represents spicy elements and grilling,
+    Fire: 0.2, // Represents spicy elements and grilling
     Air: 0.2, // Represents herbs and aromatics
   }
 };

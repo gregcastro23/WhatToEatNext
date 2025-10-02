@@ -221,14 +221,10 @@ export class RecipeFilter {
   private meetsRestriction(recipe: Recipe, restriction: DietaryRestriction): boolean {
     // Properly check dietary restrictions based on recipe properties
     switch (restriction) {
-      case 'vegetarian':
-        return recipe.isVegetarian === true;
-      case 'vegan':
-        return recipe.isVegan === true;
-      case 'gluten-free':
-        return recipe.isGlutenFree === true;
-      case 'dairy-free':
-        return recipe.isDairyFree === true;
+      case 'vegetarian': return recipe.isVegetarian === true,
+      case 'vegan': return recipe.isVegan === true,
+      case 'gluten-free': return recipe.isGlutenFree === true,
+      case 'dairy-free': return recipe.isDairyFree === true,
       case 'keto':
         return recipe.isKeto === true || this.hasKetoAttributes(recipe)
       case 'paleo':

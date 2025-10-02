@@ -12,7 +12,7 @@ const rawRefinedGrains = {
       elementalAffinity: {
         base: 'Air',
         secondary: 'Earth'
-      }
+}
     },
     qualities: ['light', 'clean', 'simple', 'versatile', 'neutral'],
     category: 'refined_grain',
@@ -22,36 +22,36 @@ const rawRefinedGrains = {
         cooking_ratio: '1:1.5 rice to water',
         cooking_time: '15-20 minutes',
         origin: 'Southeast Asia'
-      },
+},
       basmati: {
         characteristics: 'aromatic, separate grains, nutty flavor',
         cooking_ratio: '1:1.5 rice to water',
         cooking_time: '15-20 minutes',
         origin: 'Indian subcontinent'
-      },
+},
       arborio: {
         characteristics: 'short grain, creamy when cooked, high starch',
         cooking_ratio: 'varies for risotto',
         cooking_time: '18-20 minutes',
         origin: 'Italy'
-      }
+}
     },
     preparation: {
       rinsing: {
         duration: 'until water runs clear',
         purpose: 'remove excess starch'
-      },
+},
 
       pilaf: {
         method: 'toast rice in oil before adding liquid',
         tips: ['adds nutty flavor', 'helps separate grains'],
         duration: '20-25 minutes total'
-      },
+},
       risotto: {
         method: 'gradually add warm broth while stirring',
         tips: ['constant stirring releases starch', 'creates creamy texture'],
         duration: '20-30 minutes'
-      }
+}
     },
     lunarPhaseModifiers: {
       newMoon: {
@@ -82,7 +82,7 @@ const rawRefinedGrains = {
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air'
-      }
+}
     },
     qualities: ['smooth', 'versatile', 'firm', 'golden', 'structured'],
     category: 'refined_grain',
@@ -92,7 +92,7 @@ const rawRefinedGrains = {
         uses: ['premium pasta', 'bread making'],
         cooking_time: 'varies by application',
         origin: 'Italy'
-      }
+}
     },
     preparation: {
       pasta_making: {
@@ -114,7 +114,7 @@ const rawRefinedGrains = {
         method: 'mix with potato and minimal liquid',
         tips: ['handle lightly to avoid toughness', 'cook until they float'],
         duration: '1-2 minutes cooking time'
-      }
+}
     },
     lunarPhaseModifiers: {
       newMoon: {
@@ -159,7 +159,7 @@ const rawRefinedGrains = {
         cooking_ratio: '1:2.5 barley to water',
         cooking_time: '10-15 minutes',
         processing: 'partially pre-cooked'
-      }
+}
     },
     preparation: {
       basic: {
@@ -167,13 +167,13 @@ const rawRefinedGrains = {
         method: 'simmer until tender',
         tips: ['no soaking required', 'drain excess water'],
         yield: 'triples in volume when cooked'
-      },
+},
       risotto_style: {
         method: 'gradual liquid addition',
         duration: '35-45 minutes',
         notes: 'stir frequently for creamy texture',
         alternative_name: 'orzotto'
-      },
+},
 
       pilaf: {
         method: 'toast in oil before adding liquid',
@@ -210,7 +210,7 @@ const rawRefinedGrains = {
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air'
-      }
+}
     },
     qualities: ['refined', 'hearty', 'versatile', 'nutty', 'ancient'],
     category: 'refined_grain',
@@ -220,20 +220,20 @@ const rawRefinedGrains = {
         cooking_ratio: '1:2.5 farro to water',
         cooking_time: '15-20 minutes',
         origin: 'Italy'
-      },
+},
       semi_pearled: {
         characteristics: 'partially refined, balanced nutrition and cooking time',
         cooking_ratio: '1:2.5 farro to water',
         cooking_time: '20-25 minutes',
         nutrition: 'moderate fiber content'
-      }
+}
     },
     preparation: {
       pilaf: {
         method: 'toast then simmer',
         duration: 'until tender but chewy',
         tips: ['drain excess water', 'fluff when done'],
-        seasonings: 'herbs, garlic, olive oil complement well'
+        seasonings: 'herbs, garlic, olive oil complement well',
       },
 
       breakfast: {
@@ -241,7 +241,7 @@ const rawRefinedGrains = {
         sweeteners: 'honey, maple syrup, fruit',
         tips: 'can be prepared ahead and reheated',
         alternatives: 'can use plant-based milks'
-      }
+}
     },
     lunarPhaseModifiers: {
       newMoon: {
@@ -272,7 +272,7 @@ const rawRefinedGrains = {
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Fire'
-      }
+}
     },
     qualities: ['versatile', 'mild', 'smooth', 'sweet', 'adaptable'],
     category: 'refined_grain',
@@ -282,28 +282,28 @@ const rawRefinedGrains = {
         uses: ['traditional Southern recipes', 'grits'],
         cooking_time: '15-20 minutes',
         nutritional_notes: 'more nutrients than fine ground'
-      }
+}
     },
     preparation: {
       polenta: {
         ratio: '1:4 cornmeal to water',
         method: 'constant stirring',
         tips: ['whisk to prevent lumps', 'can finish with butter and cheese'],
-        variations: 'can be cooled, sliced and grilled'
+        variations: 'can be cooled, sliced and grilled',
       },
 
       breading: {
         method: 'coat moistened items',
         tips: ['season well', 'creates crispy exterior'],
         cooking: 'fry, bake, or air-fry',
-        applications: 'fish, vegetables, chicken'
+        applications: 'fish, vegetables, chicken',
       },
       grits: {
         ratio: '1:4 cornmeal to liquid',
         method: 'slow simmer',
         liquid: 'water, milk, or combination',
         duration: '20-30 minutes',
-        serving: 'traditionally with butter, cheese, or savory toppings'
+        serving: 'traditionally with butter, cheese, or savory toppings',
       }
     },
     lunarPhaseModifiers: {
@@ -335,7 +335,7 @@ const rawRefinedGrains = {
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air'
-      }
+}
     },
     qualities: ['versatile', 'balanced', 'neutral', 'adaptable', 'foundational'],
     category: 'refined_grain',
@@ -345,39 +345,39 @@ const rawRefinedGrains = {
         protein_content: '10-12%',
         uses: ['cakes', 'cookies', 'quick breads'],
         shelf_life: '1-2 years'
-      },
+},
       unbleached: {
         characteristics: 'off-white color, aged naturally',
         protein_content: '10-12%',
         uses: ['artisanal breads', 'pastries', 'all-purpose'],
         shelf_life: '8-12 months'
-      },
+},
       enriched: {
         characteristics: 'nutrients added back after processing',
         nutritional_notes: 'contains added ironB vitamins',
         uses: 'standard for most commercial flour',
         regulation: 'required by law in many countries'
-      }
+}
     },
     preparation: {
       roux: {
         ratio: '1:1 flour to fat',
         method: 'cook while stirring',
         duration: 'varies by desired color',
-        uses: 'thickening sauces, gravies, and soups'
+        uses: 'thickening sauces, gravies, and soups',
       },
       coating: {
         method: 'dredge moistened items',
         tips: ['season flour well', 'shake off excess'],
         applications: 'meat, fish, vegetables before frying',
         variations: 'can mix with cornstarch for crispier results'
-      },
+},
       slurry: {
         ratio: '1:2 flour to cold water',
         method: 'mix until smooth before adding to hot liquid',
         tips: 'pour slowly while stirring to prevent lumps',
         uses: 'quick thickening at end of cooking'
-      }
+}
     },
     lunarPhaseModifiers: {
       newMoon: {

@@ -21,11 +21,11 @@ import {
 } from 'react-icons/fa';
 
 interface SeasonSelectorProps {
-  value: string;
-  onChange: (season: string) => void;
-  placeholder?: string;
-  showDescription?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  value: string,
+  onChange: (season: string) => void,
+  placeholder?: string,
+  showDescription?: boolean,
+  size?: 'sm' | 'md' | 'lg'
 }
 
 const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
@@ -35,25 +35,25 @@ const SEASON_INFO = {
     icon: FaLeaf,
     color: 'green',
     description: 'Fresh growth, renewal, light flavors',
-    ingredients: 'Asparagus, peas, strawberries, herbs'
+    ingredients: 'Asparagus, peas, strawberries, herbs',
   },
   Summer: {
     icon: FaSun,
     color: 'yellow',
     description: 'Abundance, grilling, vibrant colors',
-    ingredients: 'Tomatoes, corn, berries, zucchini'
+    ingredients: 'Tomatoes, corn, berries, zucchini',
   },
   Autumn: {
     icon: FaAutumnLeaf,
     color: 'orange',
     description: 'Harvest, warmth, hearty flavors',
-    ingredients: 'Squash, apples, root vegetables, spices'
+    ingredients: 'Squash, apples, root vegetables, spices',
   },
   Winter: {
     icon: FaSnowflake,
     color: 'blue',
     description: 'Comfort, warmth, preserved ingredients',
-    ingredients: 'Citrus, root vegetables, preserved foods, spices'
+    ingredients: 'Citrus, root vegetables, preserved foods, spices',
   }
 };
 

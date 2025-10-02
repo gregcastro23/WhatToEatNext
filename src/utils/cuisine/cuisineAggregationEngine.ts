@@ -97,8 +97,7 @@ export function calculateConfidenceInterval(
   // t-distribution approximation for small samples
   // Using z-score approximation for simplicity (works well for n > 30)
   const zScore = confidenceLevel === 0.95 ? 1.96 :
-                 confidenceLevel === 0.99 ? 2.576 :
-                 confidenceLevel === 0.90 ? 1.645 : 1.96;
+                 confidenceLevel === 0.99 ? 2.576 : confidenceLevel === 0.90 ? 1.645 : 1.96,
 
   const standardError = standardDeviation / Math.sqrt(sampleSize);
   const marginOfError = zScore * standardError;
@@ -279,7 +278,7 @@ export function calculateAlchemicalVariance(
 export function calculateDiversityScore(variance: PropertyVariance): number {
   const elementalVariances = Object.values(variance.elementals);
   const alchemicalVariances = variance.alchemical ? Object.values(variance.alchemical) : [];
-  const thermodynamicVariances = variance.thermodynamics ? Object.values(variance.thermodynamics) : [];
+  const thermodynamicVariances = variance.thermodynamics ? Object.values(variance.thermodynamics) : [],
 
   const allVariances = [...elementalVariances, ...alchemicalVariances, ...thermodynamicVariances];
 
@@ -318,7 +317,7 @@ export function computeCuisineProperties(
   }
 
   // Determine weights based on strategy
-  let weights: number[] | undefined;
+  let weights: number[] | undefined,
   if (weightingStrategy === 'equal') {
     weights = undefined; // Use default equal weighting
   } else if (weightingStrategy === 'popularity') {
@@ -335,11 +334,11 @@ export function computeCuisineProperties(
   const averageThermodynamics = aggregateThermodynamicProperties(recipes, weights);
 
   // Step 2: Calculate variance if requested
-  let variance: PropertyVariance;
+  let variance: PropertyVariance,
   if (includeVariance) {
     const elementalVariance = calculateElementalVariance(recipes, averageElementals);
     const alchemicalVariance = averageAlchemical ?
-      calculateAlchemicalVariance(recipes, averageAlchemical) : undefined;
+      calculateAlchemicalVariance(recipes, averageAlchemical) : undefined,
 
     variance = {
       elementals: elementalVariance,
@@ -353,7 +352,7 @@ export function computeCuisineProperties(
     variance = {
       elementals: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       diversityScore: 0
-    };
+};
   }
 
   // Step 3: Generate computation metadata
@@ -383,10 +382,10 @@ export function computeCuisineProperties(
  * @returns Validation result with errors if any
  */
 export function validateCuisineComputationInputs(recipes: RecipeComputedProperties[]): {
-  isValid: boolean;
+  isValid: boolean,
   errors: string[];
 } {
-  const errors: string[] = [];
+  const errors: string[] = [],
 
   if (!Array.isArray(recipes)) {
     errors.push('Recipes must be an array');

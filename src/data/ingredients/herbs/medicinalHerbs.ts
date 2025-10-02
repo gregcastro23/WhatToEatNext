@@ -23,38 +23,40 @@ const rawMedicinalHerbs = {
         carbs: 0.8,
         fat: 0.1,
         fiber: 0.3
-      },
+},
       vitamins: {
-        C: 0.02B1: 0.01B3: 0.01
-      },
+        C: 0.02,
+    B1: 0.01,
+    B3: 0.01
+},
       minerals: {
         potassium: 0.01,
         calcium: 0.01,
         magnesium: 0.01
-      },
+},
       phytonutrients: {
         alkylamides: 0.75,
         polysaccharides: 0.65,
         phenolic_compounds: 0.48,
         caffeic_acid: 0.38,
         essential_oils: 0.25
-      },
+},
       source: 'Herbal Medicine Database'
-    },
+},
     varieties: {
       purpurea: {
         name: 'Echinacea purpurea',
         characteristics: 'Most common variety, purple coneflower with fibrous roots',
         medicinal_focus: 'Upper respiratory infections, general immune support',
         parts_used: ['aerial parts', 'roots'],
-        notes: 'Most widely researched, easiest to cultivate'
+        notes: 'Most widely researched, easiest to cultivate',
       },
       angustifolia: {
         name: 'Echinacea angustifolia',
         characteristics: 'Narrow-leaved coneflower with taproot, shorter plant',
         medicinal_focus: 'Stronger anti-inflammatory, lymphatic support',
         parts_used: ['roots primarily'],
-        notes: 'Considered most potent by many herbalists, harder to grow'
+        notes: 'Considered most potent by many herbalists, harder to grow',
       },
       pallida: {
         name: 'Echinacea pallida',
@@ -62,7 +64,7 @@ const rawMedicinalHerbs = {
         medicinal_focus: 'Blood purification, skin conditions',
         parts_used: ['roots primarily'],
         notes: 'More prevalent in European herbal medicine'
-      }
+}
     },
     seasonality: {
       growing_season: 'Spring through fall',
@@ -71,7 +73,7 @@ const rawMedicinalHerbs = {
         flowers: 'When fully open in summer',
         'aerial parts': 'During flowering',
         roots: 'Fall of second or third year growth'
-      }
+}
     },
     medicinalProperties: {
       actions: [
@@ -86,14 +88,14 @@ const rawMedicinalHerbs = {
         taste: ['bitter', 'pungent', 'slightly sweet'],
         temperature: 'warming',
         moisture: 'drying'
-      },
+},
       systems_affected: ['immune', 'lymphatic', 'respiratory', 'skin', 'blood'],
       chemical_constituents: {
         alkylamides: 'Immune-modulating, tingling sensation on tongue',
         'phenolic compounds': 'Antioxidant properties',
         polysaccharides: 'Immune-stimulating',
         'caffeic acid derivatives': 'Anti-inflammatory',
-        'essential oils': 'Antimicrobial properties'
+        'essential oils': 'Antimicrobial properties',
       },
       traditional_uses: {
         native_american: [
@@ -137,7 +139,7 @@ const rawMedicinalHerbs = {
         method: 'Fresh 1:2 or dried 1:5 in 50-60% alcohol',
         dosage: '1-3 ml3-5 times daily at first sign of infection',
         shelf_life: '2-3 years',
-        notes: 'Alcohol extracts alkylamides effectively, produces characteristic tingling'
+        notes: 'Alcohol extracts alkylamides effectively, produces characteristic tingling',
       },
       decoction: {
         name: 'Decoction',
@@ -145,7 +147,7 @@ const rawMedicinalHerbs = {
         method: 'Simmer 1 tsp dried root in 8 oz water for 15-20 minutes',
         dosage: '1 cup3 times daily',
         shelf_life: '24 hours refrigerated',
-        notes: 'Less potent than tincture, better for polysaccharides'
+        notes: 'Less potent than tincture, better for polysaccharides',
       },
       infusion: {
         name: 'Infusion',
@@ -153,7 +155,7 @@ const rawMedicinalHerbs = {
         method: 'Steep 1-2 tsp dried herb in 8 oz hot water for 10-15 minutes',
         dosage: '1 cup3 times daily',
         shelf_life: '24 hours refrigerated',
-        notes: 'Milder action, good for maintenance'
+        notes: 'Milder action, good for maintenance',
       },
       glycerite: {
         name: 'Glycerite',
@@ -161,7 +163,7 @@ const rawMedicinalHerbs = {
         method: 'Blend 1:2 fresh herb with vegetable glycerin and 25% water',
         dosage: '2-5 ml3 times daily',
         shelf_life: '1-2 years',
-        notes: 'Alcohol-free alternative, suitable for children and those avoiding alcohol'
+        notes: 'Alcohol-free alternative, suitable for children and those avoiding alcohol',
       },
       salve: {
         name: 'Salve',
@@ -170,14 +172,14 @@ const rawMedicinalHerbs = {
         application: 'Apply to wounds, burns, insect bites 2-3 times daily',
         shelf_life: '1 year',
         notes: 'Excellent for topical healing applications'
-      },
+},
       powder: {
         name: 'Powder',
         parts_used: ['dried roots or aerial parts'],
         method: 'Grind dried herb to fine powder',
         dosage: '500-1000 mg in capsules, 3 times daily',
         shelf_life: '1 year in airtight container',
-        notes: 'Good for those who dislike the taste, easy for travel'
+        notes: 'Good for those who dislike the taste, easy for travel',
       }
     },
     therapeuticUses: {
@@ -187,7 +189,7 @@ const rawMedicinalHerbs = {
         protocols: {
           internal: 'Tincture or tea 3-5 times daily',
           local: 'Gargle with diluted tincture or strong tea'
-        }
+}
       },
       wound_healing: {
         name: 'Wound Healing',
@@ -195,7 +197,7 @@ const rawMedicinalHerbs = {
         protocols: {
           minor_wounds: 'Clean with diluted tincture, apply salve',
           severe_wounds: 'Internal and external applications combined'
-        }
+}
       },
       lymphatic: {
         name: 'Lymphatic Support',
@@ -207,7 +209,7 @@ const rawMedicinalHerbs = {
         ],
         protocols: {
           acute: 'Combine with lymphatic herbs like calendula or cleavers',
-          chronic: 'Lower doses for longer periods, pulsed protocol'
+          chronic: 'Lower doses for longer periods, pulsed protocol',
         }
       }
     },
@@ -231,7 +233,7 @@ const rawMedicinalHerbs = {
           'Generally considered safe with most medications'
         ],
         toxicity: 'Very low toxicity profile with high safety margin'
-      },
+},
       quality_factors: [
         'Species identification critical for therapeutic effect',
         'Growing conditions impact medicinal constituent levels',
@@ -246,28 +248,27 @@ const rawMedicinalHerbs = {
         tribes: ['Lakota', 'Dakota', 'Kiowa', 'Cheyenne', 'Comanche'],
         traditional_uses:
           'Used for snake bites, wounds, burns, toothache, sore throat, and as an analgesic',
-        cultural_significance:
-          'Considered a sacred plant for healing serious wounds and infections'
-      },
+        cultural_significance: 'Considered a sacred plant for healing serious wounds and infections'
+},
       modern_western: {
         historical_adoption: 'Introduced to American Eclectic physicians in late 1800s',
         commercial_impact: 'One of the top-selling herbs in North America and Europe',
         research_interest: 'Extensively studied for immunomodulating properties'
-      }
+}
     },
     sustainability: {
       conservation_status: {
         wild_populations: 'Some species threatened by overharvesting',
-        cultivation: 'Widely cultivated, reducing pressure on wild populations'
+        cultivation: 'Widely cultivated, reducing pressure on wild populations',
       },
       ethical_harvesting: {
         wild_crafting: 'Harvest no more than 1 / (3 || 1) of a stand, leave roots from some plants',
         regenerative_practices: 'Plant seeds when harvesting wild populations'
-      },
+},
       growing_guides: {
         cultivation: 'Well-drained soil, full sun, drought tolerant once established',
         propagation: 'Seed stratification helpful, division for established plants',
-        companion_planting: 'Grows well with yarrow, butterfly weed, and native grasses'
+        companion_planting: 'Grows well with yarrow, butterfly weed, and native grasses',
       }
     },
     affinity: {
@@ -277,7 +278,7 @@ const rawMedicinalHerbs = {
         immune_enhancement: 'Combines well with elderberry and andrographis',
         lymphatic_support: 'Enhanced by calendula and cleavers',
         respiratory_relief: 'Works well with thyme and elecampane'
-      }
+}
     }
   },
 
@@ -299,17 +300,17 @@ const rawMedicinalHerbs = {
           berries: '1 part',
           water: '2 parts',
           honey: '1 part'
-        },
+},
         method: 'decoct berries, add honey',
         dosage: '1-2 tsp daily',
         storage: 'refrigerate'
-      }
+}
     },
     properties: {
       antiviral: 'especially against flu viruses',
       immune_support: 'increases cytokine production',
       antioxidant: 'high in flavonoids'
-    }
+}
   },
 
   chamomile: {
@@ -329,7 +330,7 @@ const rawMedicinalHerbs = {
         ratio: '1-2 tsp per cup',
         steep_time: '5-10 minutes',
         dosage: '2-3 cups daily'
-      },
+},
       compress: {
         name: 'Compress',
         method: 'strong tea applied topically',
@@ -340,7 +341,7 @@ const rawMedicinalHerbs = {
       nervine: 'calms nervous system',
       anti_inflammatory: 'soothes digestive tract',
       sleep_aid: 'promotes restful sleep'
-    }
+}
   }
 };
 

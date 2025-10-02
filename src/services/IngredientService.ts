@@ -147,9 +147,9 @@ export const INGREDIENT_GROUPS = {
  * Consolidated service for ingredient filtering, mapping, and compatibility operations
  */
 export class IngredientService implements IngredientServiceInterface {
-  private static instance: IngredientService;
+  private static instance: IngredientService,
   private unifiedIngredients: Record<string, UnifiedIngredient[]>;
-  private unifiedIngredientsFlat: UnifiedIngredient[];
+  private unifiedIngredientsFlat: UnifiedIngredient[],
   private ingredientsCache: Map<string, any>;
   private cacheExpiry: Map<string, number>;
   private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
@@ -238,7 +238,7 @@ export class IngredientService implements IngredientServiceInterface {
         Essence: 0.25,
         Matter: 0.25,
         Substance: 0.25
-      },
+},
       confidenceScore: dbIngredient.confidence_score || 0.8,
       description: dbIngredient.description,
       nutritionalProfile: {
@@ -273,7 +273,7 @@ export class IngredientService implements IngredientServiceInterface {
                 Water: 0,
                 Earth: 0,
                 Air: 0
-              })) as unknown as ElementalProperties,
+})) as unknown as ElementalProperties,
             alchemicalProperties: {
               Spirit: Number(
                 ((data as any).alchemicalProperties ).Spirit || (data as any).Spirit || 0
@@ -410,7 +410,7 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Process each category
       (categoriesToInclude || []).forEach(category => {
-        const categoryIngredients = this.unifiedIngredients[category];
+        const categoryIngredients = this.unifiedIngredients[category],
         if (!categoryIngredients) return;
 
         // Start with all ingredients in this category
@@ -861,12 +861,12 @@ export class IngredientService implements IngredientServiceInterface {
       return (ingredients || []).filter(ingredient => {
         const astro = ingredient.astrologicalPropertiesProfile as
           | Record<string, unknown>
-          | undefined;
+          | undefined,
 
         // zodiacAffinity as array
         const zodiacAffinity = Array.isArray(astro?.['zodiacAffinity'])
           ? (astro?.['zodiacAffinity'] as Array<string | ZodiacSign>)
-          : undefined;
+          : undefined,
         if (zodiacAffinity && zodiacAffinity.length > 0) {
           const ok = safeSome(zodiacAffinity, sign =>
             typeof sign === 'string'
@@ -879,7 +879,7 @@ export class IngredientService implements IngredientServiceInterface {
         // favorableZodiac as array
         const favorableZodiac = Array.isArray(astro?.['favorableZodiac'])
           ? (astro?.['favorableZodiac'] as Array<string | ZodiacSign>)
-          : undefined;
+          : undefined,
         if (favorableZodiac && favorableZodiac.length > 0) {
           return safeSome(favorableZodiac, sign =>
             typeof sign === 'string'
@@ -918,7 +918,7 @@ export class IngredientService implements IngredientServiceInterface {
           | undefined;
         const rulingPlanets = Array.isArray(astro?.['rulingPlanets'])
           ? (astro?.['rulingPlanets'] as Array<string | typeof planet>)
-          : undefined;
+          : undefined,
         if (rulingPlanets && rulingPlanets.length > 0) {
           return safeSome(rulingPlanets, p =>
             typeof p === 'string' ? p.toLowerCase() === planet.toLowerCase() : p === planet
@@ -957,7 +957,7 @@ export class IngredientService implements IngredientServiceInterface {
     flavorProfile: { [key: string]: number }
     minMatchScore = 0.7): UnifiedIngredient[] {
     try {
-      return (this.unifiedIngredientsFlat || []).filter(ingredient => {,
+      return (this.unifiedIngredientsFlat || []).filter(ingredient => {;
         if (!ingredient.flavorProfile) return false;
         let matchScore = 0;
         let totalScores = 0
@@ -1230,7 +1230,7 @@ export class IngredientService implements IngredientServiceInterface {
       )
 
       // Calculate similarity scores
-      const alternatives = (potentialAlternatives || []).map(alternative => {,
+      const alternatives = (potentialAlternatives || []).map(alternative => {;
         const { score} = this.calculateIngredientCompatibility(originalIngredient, alternative)
 
         return {
@@ -1275,7 +1275,7 @@ export class IngredientService implements IngredientServiceInterface {
     try {
       // Get actual ingredient objects
       const ing1 =
-        typeof ingredient1 === 'string' ? this.getIngredientByName(ingredient1) : ingredient1,
+        typeof ingredient1 === 'string' ? this.getIngredientByName(ingredient1) : ingredient1;
       const ing2 =
         typeof ingredient2 === 'string' ? this.getIngredientByName(ingredient2) : ingredient2
 
@@ -1288,7 +1288,7 @@ export class IngredientService implements IngredientServiceInterface {
           seasonalCompatibility: 0,
           energeticCompatibility: 0,
           kineticsCompatibility: 0
-        };
+};
       }
 
       // Calculate elemental compatibility
@@ -1307,8 +1307,8 @@ export class IngredientService implements IngredientServiceInterface {
         let totalFlavors = 0;
         let matchingScore = 0,
 
-        (flavors || []).forEach(flavor => {;
-          const flavor1 = ing1.flavorProfile?.[flavor],
+        (flavors || []).forEach(flavor => {,
+          const flavor1 = ing1.flavorProfile?.[flavor];
           const flavor2 = ing2.flavorProfile?.[flavor]
 
           if (flavor1 !== undefined && flavor2 !== undefined) {
@@ -1390,7 +1390,7 @@ export class IngredientService implements IngredientServiceInterface {
         seasonalCompatibility: 0,
         energeticCompatibility: 0,
         kineticsCompatibility: 0
-      };
+};
     }
   }
 
@@ -1407,7 +1407,7 @@ export class IngredientService implements IngredientServiceInterface {
     try {
       // Get elemental properties for kinetics calculation
       const elemental1 = ing1.elementalState ||
-        createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+        createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
       const elemental2 = ing2.elementalState ||
         createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 
@@ -1444,7 +1444,7 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Calculate aspect phase compatibility
       const aspectCompatibility = this.calculateAspectPhaseCompatibility(
-        kinetics1.aspectPhase || 'neutral',
+        kinetics1.aspectPhase || 'neutral'
         kinetics2.aspectPhase || 'neutral'
       );
 
@@ -1466,14 +1466,14 @@ export class IngredientService implements IngredientServiceInterface {
    * Extract planetary positions from ingredient astrological properties
    */
   private extractPlanetaryPositions(ingredient: UnifiedIngredient): { [planet: string]: string } {
-    const positions: { [planet: string]: string } = {};
+    const positions: { [planet: string]: string } = {},
 
     if (ingredient.astrologicalPropertiesProfile?.rulingPlanets) {
       // Map ruling planets to signs based on available data
       ingredient.astrologicalPropertiesProfile.rulingPlanets.forEach((planet, index) => {
         // Use favorable zodiac signs if available, otherwise default to Aries
         const zodiacSigns = ingredient.astrologicalPropertiesProfile?.favorableZodiac || ['aries'];
-        positions[planet] = zodiacSigns[index % zodiacSigns.length] || 'aries';
+        positions[planet] = zodiacSigns[index % zodiacSigns.length] || 'aries'
       });
     }
 
@@ -1656,8 +1656,8 @@ export class IngredientService implements IngredientServiceInterface {
       }> = [],
 
       // Generate all possible pAirs
-      for (let i = 0; i < (ingredients || []).length; i++) {
-        for (let j = i + 1; j < (ingredients || []).length; j++) {
+      for (let i = 0, i < (ingredients || []).length; i++) {
+        for (let j = i + 1, j < (ingredients || []).length; j++) {
           const ing1 = ingredients[i];
           const ing2 = ingredients[j];
 
@@ -2230,7 +2230,7 @@ export class IngredientService implements IngredientServiceInterface {
   ): ElementalProperties | null {
     try {
       // Extract elemental properties
-      let elementalProps: ElementalProperties | undefined;
+      let elementalProps: ElementalProperties | undefined,
 
       if ('elementalProperties' in ingredient) {
         elementalProps = ingredient.elementalProperties;
@@ -2261,12 +2261,11 @@ export class IngredientService implements IngredientServiceInterface {
    * @param ingredientQuantities - Array of ingredient-quantity pairs
    * @returns Array of QuantityScaledProperties objects
    */
-  public batchScaleIngredients(
-    ingredientQuantities: Array<{
-      ingredientId: string;
-      quantity: number;
-      unit: string;
-    }>
+  public batchScaleIngredients(ingredientQuantities: Array<{
+      ingredientId: string,
+      quantity: number,
+      unit: string
+}>
   ): Array<QuantityScaledProperties | null> {
     try {
       return ingredientQuantities.map(({ ingredientId, quantity, unit }) =>
@@ -2312,15 +2311,15 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Use existing compatibility calculation with scaled properties
       const ing1 = typeof ingredient1 === 'string' ? this.getIngredientByName(ingredient1) : ingredient1;
-      const ing2 = typeof ingredient2 === 'string' ? this.getIngredientByName(ingredient2) : ingredient2;
+      const ing2 = typeof ingredient2 === 'string' ? this.getIngredientByName(ingredient2) : ingredient2,
 
       if (!ing1 || !ing2) {
         return 0.5;
       }
 
       // Create temporary ingredients with scaled properties for compatibility calculation
-      const tempIng1 = { ...ing1, elementalProperties: scaled1 };
-      const tempIng2 = { ...ing2, elementalProperties: scaled2 };
+      const tempIng1 = { ...ing1, elementalProperties: scaled1 },
+      const tempIng2 = { ...ing2, elementalProperties: scaled2 },
 
       return this.calculateIngredientCompatibility(tempIng1, tempIng2).score;
     } catch (error) {

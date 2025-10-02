@@ -13,9 +13,9 @@
 import type { ElementalProperties } from '@/types/alchemy';
 
 export interface AlchemicalProperties {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
+  Spirit: number,
+  Essence: number,
+  Matter: number,
   Substance: number;
 }
 
@@ -103,12 +103,12 @@ export function calculateAlchemicalFromPlanets(
     Essence: 0,
     Matter: 0,
     Substance: 0
-  };
+};
 
   for (const planet in planetaryPositions) {
     const planetData = PLANETARY_ALCHEMY[planet as PlanetName];
     if (!planetData) {
-      console.warn(`Unknown planet in alchemical calculation: ${planet}`);
+      console.warn(`Unknown planet in alchemical calculation: ${planet}`),
       continue;
     }
 
@@ -144,7 +144,7 @@ export function aggregateZodiacElementals(
     Water: 0,
     Earth: 0,
     Air: 0
-  };
+};
 
   let count = 0;
 
@@ -153,7 +153,7 @@ export function aggregateZodiacElementals(
     const element = ZODIAC_ELEMENTS[sign];
 
     if (!element) {
-      console.warn(`Unknown zodiac sign in elemental aggregation: ${sign}`);
+      console.warn(`Unknown zodiac sign in elemental aggregation: ${sign}`),
       continue;
     }
 

@@ -90,7 +90,7 @@ export function getLunarElementalModifiers(phase: LunarPhase): Record<string, nu
       Water: 0,
       Air: 0,
       Earth: 0
-    }
+}
   );
 
 /**
@@ -396,7 +396,7 @@ export function getLunarPhaseElements(phase: LunarPhase): ElementalProperties {
   // Convert to underscore format if needed
   const phaseKey = phase.includes(' ')
     ? LUNAR_PHASE_MAPPING[phase as LunarPhaseWithSpaces]
-    : (phase as unknown as LunarPhaseWithUnderscores);
+    : (phase as unknown as LunarPhaseWithUnderscores),
 
   return LUNAR_PHASE_ELEMENTS[phaseKey];
 }
@@ -557,7 +557,7 @@ export function getKineticsEnhancedLunarModifiers(
  */
 function getDominantElementFromModifiers(modifiers: Record<string, number>): string | null {
   let maxValue = 0;
-  let dominantElement: string | null = null;
+  let dominantElement: string | null = null,
 
   for (const [element, value] of Object.entries(modifiers)) {
     if (value > maxValue) {
@@ -611,7 +611,7 @@ export function calculateLunarKineticsMetrics(
       aspectInfluence: 0.5,
       powerEfficiency: 0.5,
       thermalAlignment: 0.5
-    };
+};
   }
 }
 

@@ -337,7 +337,7 @@ export interface EnhancedIngredientRecommendation extends IngredientRecommendati
       _nutritional: number,
       _breakdown: {
         elementalDetails: { [key: string]: number },
-        flavorHarmony: { [key: string]: number }
+        flavorHarmony: { [key: string]: number },
         seasonalAlignment: { [key: string]: number },
         culturalResonance: string[]
       },
@@ -497,13 +497,13 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   // Define all categories with loaded data
   const categories = [
     { name: 'Spices', data: spicesData },
-    { name: 'Herbs', data: herbsData }
+    { name: 'Herbs', data: herbsData },
     { name: 'Fruits', data: fruitsData },
-    { name: 'Grains', data: grainsData }
+    { name: 'Grains', data: grainsData },
     { name: 'Vegetables', data: vegetablesData },
-    { name: 'Oils', data: oilsData }
+    { name: 'Oils', data: oilsData },
     { name: 'Seasonings', data: seasoningsData },
-    { name: 'Vinegars', data: vinegarsData }
+    { name: 'Vinegars', data: vinegarsData },
     { name: 'Eggs', data: eggs },
     { name: 'Dairy', data: dairy }
   ],

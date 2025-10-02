@@ -18,12 +18,11 @@ const INGREDIENT_DATABASE: Record<string, any> = {};
  * @param options - Validation options
  * @returns Comprehensive validation result
  */
-export function validateRecipe(
-  recipe: Partial<Recipe>,
+export function validateRecipe(recipe: Partial<Recipe>,
   options: {
-    checkIngredients?: boolean;
-    checkComputations?: boolean;
-    strictMode?: boolean;
+    checkIngredients?: boolean,
+    checkComputations?: boolean,
+    strictMode?: boolean,
   } = {}
 ): RecipeValidationResult {
   const {
@@ -32,7 +31,7 @@ export function validateRecipe(
     strictMode = false
   } = options;
 
-  const errors: string[] = [];
+  const errors: string[] = [],
   const warnings: string[] = [];
 
   // Check 1: Required fields
@@ -98,7 +97,7 @@ function checkRequiredFields(recipe: Partial<Recipe>, errors: string[]): boolean
 
   for (const field of requiredFields) {
     if (!recipe[field as keyof Recipe]) {
-      errors.push(`Missing required field: ${field}`);
+      errors.push(`Missing required field: ${field}`),
       isValid = false;
     }
   }
@@ -330,7 +329,7 @@ function calculateQualityMetrics(
   // Cooking method diversity
   const cookingMethods = recipe.cookingMethod;
   const cookingMethodDiversity = cookingMethods ?
-    Math.min(1, cookingMethods.length / 5) : 0;
+    Math.min(1, cookingMethods.length / 5) : 0,
 
   return {
     completenessScore,
@@ -344,11 +343,11 @@ function calculateQualityMetrics(
  * Generate recommendations for improving recipe quality
  */
 function generateRecommendations(context: {
-  errors: string[];
-  warnings: string[];
-  qualityMetrics: RecipeValidationResult['qualityMetrics'];
+  errors: string[],
+  warnings: string[],
+  qualityMetrics: RecipeValidationResult['qualityMetrics']
 }): string[] {
-  const recommendations: string[] = [];
+  const recommendations: string[] = [],
 
   const { errors, warnings, qualityMetrics } = context;
 
@@ -421,10 +420,10 @@ export function validateRecipes(
 export function getValidationStatistics(
   validationResults: RecipeValidationResult[]
 ): {
-  totalRecipes: number;
-  validRecipes: number;
-  averageQualityScore: number;
-  commonErrors: Array<{ error: string; count: number }>;
+  totalRecipes: number,
+  validRecipes: number,
+  averageQualityScore: number,
+  commonErrors: Array<{ error: string; count: number }>,
   commonWarnings: Array<{ warning: string; count: number }>;
 } {
   const totalRecipes = validationResults.length;

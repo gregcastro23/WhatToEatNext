@@ -15,26 +15,26 @@ import { calculateAlchemicalFromPlanets } from './planetaryAlchemyMapping';
 // ========== INTERFACES ==========
 
 export interface AlchemicalProperties {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
+  Spirit: number,
+  Essence: number,
+  Matter: number,
   Substance: number;
 }
 
 export interface ThermodynamicMetrics {
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
-  kalchm: number;
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number,
+  kalchm: number,
   monica: number;
 }
 
 export interface EnhancedAlchemicalResult {
-  alchemicalProperties: AlchemicalProperties;
-  elementalProperties: ElementalProperties;
-  thermodynamicMetrics: ThermodynamicMetrics;
-  compatibilityScore: number;
+  alchemicalProperties: AlchemicalProperties,
+  elementalProperties: ElementalProperties,
+  thermodynamicMetrics: ThermodynamicMetrics,
+  compatibilityScore: number,
   confidence: number;
 }
 

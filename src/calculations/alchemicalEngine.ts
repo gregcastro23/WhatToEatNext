@@ -58,8 +58,8 @@ function safeGetElementValue(props: Partial<ElementalProperties> | null | undefi
   } catch (error) {
     logger.error('Error in safeGetElementValue:', {
       element,
-      error: error instanceof Error ? error.message : String(error),
-    });
+      error: error instanceof Error ? error.message : String(error)
+});
     return DEFAULT_ELEMENT_VALUE;
   }
 }
@@ -73,13 +73,13 @@ export class AlchemicalEngineAdvanced {
     Fire: ['Air'],
     Air: ['Water'],
     Water: ['Earth'],
-    Earth: ['Fire'],
-  };
+    Earth: ['Fire']
+};
 
   private readonly elementalStrengths: Record<string, number> = {Fire: 1,
     Air: 1,
     Water: 1,
-    Earth: 1};
+    Earth: 1},
 
   private readonly zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {aries: 'Fire',
     leo: 'Fire',
@@ -92,7 +92,7 @@ export class AlchemicalEngineAdvanced {
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water'};
+    pisces: 'Water'},
 
   private readonly lunarPhaseModifiers: Record<string, ElementalProperties> = {
     'new moon': { Fire: 0.1, Water: 0.4, Air: 0.3, Earth: 0.2 },
@@ -102,16 +102,16 @@ export class AlchemicalEngineAdvanced {
     'full moon': { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 },
     'waning gibbous': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
     'last quarter': { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
-    'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
-  };
+    'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
+};
 
   private readonly seasonalModifiers: Record<string, ElementalProperties> = {
     spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
     summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
     autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
     fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
-    winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
-  };
+    winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
+};
 
   private readonly decans: Record<ZodiacSign, Decan[]> = {
     aries: [
@@ -223,15 +223,15 @@ export class AlchemicalEngineAdvanced {
             entropy: 0,
             reactivity: 0,
             energy: 0},
-          score: totalScore,
-        },
+          score: totalScore
+},
         dominantElement,
-        season: validSeason,
-      };
+        season: validSeason
+};
     } catch (error) {
       logger.error('Error in calculateAstroCuisineMatch:', {
-        error: error instanceof Error ? error.message : String(error),
-      });
+        error: error instanceof Error ? error.message : String(error)
+});
       return {
         result: {
           elementalProperties: DEFAULT_ELEMENTAL_PROPERTIES,
@@ -240,11 +240,11 @@ export class AlchemicalEngineAdvanced {
             entropy: 0,
             reactivity: 0,
             energy: 0},
-          score: 0,
-        },
+          score: 0
+},
         dominantElement: 'Fire',
-        season: 'winter',
-      };
+        season: 'winter'
+};
     }
   }
 
@@ -309,13 +309,13 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
       metadata: {
         name: 'Alchemical Chart',
         description: 'Generated alchemical chart',
-        attributes: [],
-      },
+        attributes: []
+},
     };
   } catch (error) {
     logger.error('Error in alchemize:', {
-      error: error instanceof Error ? error.message : String(error),
-    });
+      error: error instanceof Error ? error.message : String(error)
+});
     throw error;
   }
 }
@@ -346,8 +346,8 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, number>)
     heart: { energy: 0, element: 'Air' },
     throat: { energy: 0, element: 'Air' },
     thirdEye: { energy: 0, element: 'Air' },
-    crown: { energy: 0, element: 'Fire' },
-  };
+    crown: { energy: 0, element: 'Fire' }
+};
 }
 
 /**
@@ -359,8 +359,8 @@ export function safeAlchemize(birthInfo: BirthInfo,
     return alchemize(birthInfo, horoscopeDict);
   } catch (error) {
     logger.error('Safe alchemize failed:', {
-      error: error instanceof Error ? error.message : String(error),
-    });
+      error: error instanceof Error ? error.message : String(error)
+});
     // Return default result
     return {
       elementalProperties: DEFAULT_ELEMENTAL_PROPERTIES,
@@ -376,8 +376,8 @@ export function safeAlchemize(birthInfo: BirthInfo,
       metadata: {
         name: 'Default Chart',
         description: 'Fallback alchemical chart',
-        attributes: [],
-      },
+        attributes: []
+},
     };
   }
 }

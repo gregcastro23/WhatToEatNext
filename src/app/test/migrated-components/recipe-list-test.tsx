@@ -15,8 +15,7 @@ export default function RecipeListTestPage() {
             ; This page compares the original context-based RecipeList with the migrated
             service-based version.
           </p>
-          <p className='mt-1 text-sm'>;
-            ; Both components should display identical UI but with different data sources.
+          <p className='mt-1 text-sm'>,, Both components should display identical UI but with different data sources.
           </p>
         </div>
         <div className='grid grid-cols-1 gap-8 lg: grid-cols-2'>,

@@ -10,7 +10,7 @@ import type { ExtendedRecipe } from '@/types/ExtendedRecipe';
 // Using local error handler implementation
 
 export class UnifiedRecipeService {
-  private static instance: UnifiedRecipeService;
+  private static instance: UnifiedRecipeService,
 
   private constructor() {}
 
@@ -69,9 +69,9 @@ export class UnifiedRecipeService {
         const recipeCuisine =
           recipe.cuisine && typeof recipe.cuisine === 'string'
             ? recipe.cuisine.toLowerCase()
-            : recipe.cuisine;
+            : recipe.cuisine,
         const targetCuisine =
-          cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine;
+          cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine,
         return recipeCuisine === targetCuisine;
       })
       return filtered as unknown as ExtendedRecipe[];

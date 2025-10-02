@@ -120,11 +120,11 @@ export default function SwissEphemerisDemoPage() {
                   <p className='text-gray-600'>Mexican, Thai, Italian, Japanese, and more</p>
                 </div>
                 <div>
-                  <span className='font-medium'>Cooking Methods: </span>;
+                  <span className='font-medium'>Cooking Methods: </span>,
                   <p className='text-gray-600'>Grilling, slow cooking, steaming, poaching</p>
                 </div>
                 <div>
-                  <span className='font-medium'>Seasonal Themes: </span>;
+                  <span className='font-medium'>Seasonal Themes: </span>,
                   <p className='text-gray-600'>Communication, comfort, variety, nurturing</p>
                 </div>
                 <div>

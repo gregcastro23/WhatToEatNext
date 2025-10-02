@@ -48,13 +48,13 @@ export async function testCookingMethodRecommendations() {
   // Create mock cooking methods
   const mockCookingMethods = [
     { name: 'baking', element: 'Fire' },
-    { name: 'boiling', element: 'Water' }
+    { name: 'boiling', element: 'Water' },
     { name: 'grilling', element: 'Fire' },
-    { name: 'steaming', element: 'Water' }
+    { name: 'steaming', element: 'Water' },
     { name: 'sauteing', element: 'Air' },
-    { name: 'roasting', element: 'Fire' }
+    { name: 'roasting', element: 'Fire' },
     { name: 'braising', element: 'Water' },
-    { name: 'poaching', element: 'Water' }
+    { name: 'poaching', element: 'Water' },
     { name: 'frying', element: 'Fire' },
     { name: 'fermenting', element: 'Earth' }
   ],

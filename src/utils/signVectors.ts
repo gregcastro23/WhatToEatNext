@@ -57,7 +57,7 @@ function createEmptyComponents(): SignVectorComponents {
     Earth: 0,
     Air: 0,
     seasonal: 0
-  };
+};
 }
 
 function getSeasonalAlignment(sign: any, season?: Season): number {
@@ -124,7 +124,7 @@ function computePlanetaryWeightForSign(
       _Uranus: 0.9,
       _Neptune: 0.9,
       _Pluto: 0.9
-    };
+};
     const planetWeight = planetWeightMap[planet] ?? 1.0;
 
     weight += base * degreeFactor * aspectFactor * retrogradeFactor * planetWeight;
@@ -194,7 +194,7 @@ export function cosineSimilarity(a: number[], b: number[]): number {
   const dot = 0;
   let magA = 0;
   let magB = 0;
-  for (const i = 0; i < minLen i += 1) {
+  for (const i = 0, i < minLen i += 1) {
     dot += a[i] * b[i];
     magA += a[i] * a[i];
     magB += b[i] * b[i]
@@ -322,14 +322,14 @@ export function blendESMS(
 }
 
 export function getAlchemicalStateWithVectors(input: {
-  planetaryPositions: Record<string, PlanetaryPosition>;
+  planetaryPositions: Record<string, PlanetaryPosition>,
   aspects?: PlanetaryAspect[]
   season?: Season
   governing?: 'sun' | 'moon' | 'dominant' | 'ensemble'
 }): {
   signVectors: SignVectorMap,
   selected: SignVector,
-  base: { alchemical: AlchemicalProperties, elemental: ElementalProperties };
+  base: { alchemical: AlchemicalProperties, elemental: ElementalProperties },
   blendedAlchemical: AlchemicalProperties,
   thermodynamics: {
     heat: number,
@@ -348,7 +348,7 @@ export function getAlchemicalStateWithVectors(input: {
 
   const signVectors = calculateSignVectors({ planetaryPositions, aspects, season });
 
-  let, selected: SignVector | null = null;
+  let, selected: SignVector | null = null,
   if (governing === 'sun') {
     const sunSign = String(planetaryPositions?.Sun?.sign || '').toLowerCase() as any;
     selected = sunSign ? signVectors[sunSign] : null
@@ -392,9 +392,9 @@ export function getAlchemicalStateWithVectors(input: {
             Earth: 0,
             Air: 0,
             seasonal: 0
-          },
+},
           magnitude: 0
-        } as unknown as SignVector,
+} as unknown as SignVector,
       );
       const strongest = parts.sort((ab) => b.magnitude - a.magnitude)[0];
       selected = {

@@ -8,31 +8,31 @@
 import { MEMORY_LIMITS, TEST_TIMEOUTS, TestUtils } from './TestUtils';
 
 export interface RealTimeTestConfig {
-  testName: string;
-  timeout?: number;
-  memoryLimit?: number;
-  retries?: number;
-  cleanupFunction?: () => void;
+  testName: string,
+  timeout?: number,
+  memoryLimit?: number,
+  retries?: number,
+  cleanupFunction?: () => void,
   expectedErrors?: string[];
 }
 
 export interface RealTimeTestResult {
-  success: boolean;
-  duration: number;
-  memoryUsage: number;
-  errors: string[];
-  warnings: string[];
+  success: boolean,
+  duration: number,
+  memoryUsage: number,
+  errors: string[],
+  warnings: string[],
   metrics: {
-    peakMemory: number;
-    averageMemory: number;
-    memoryReadings: number[];
-    timeouts: number;
+    peakMemory: number,
+    averageMemory: number,
+    memoryReadings: number[],
+    timeouts: number,
     retries: number;
   };
 }
 
 export class RealTimeTestRunner {
-  private static instance: RealTimeTestRunner;
+  private static instance: RealTimeTestRunner,
   private activeTests: Map<string, NodeJS.Timeout> = new Map();
   private testResults: Map<string, RealTimeTestResult> = new Map();
 
@@ -70,8 +70,8 @@ export class RealTimeTestRunner {
         averageMemory: 0,
         memoryReadings: [],
         timeouts: 0,
-        retries: 0,
-      },
+        retries: 0
+},
     };
 
     const startTime = Date.now();
@@ -107,7 +107,7 @@ export class RealTimeTestRunner {
           const isExpectedError = expectedErrors.some(expected => errorMessage.includes(expected));
 
           if (isExpectedError) {
-            result.warnings.push(`Expected error occurred: ${errorMessage}`);
+            result.warnings.push(`Expected error occurred: ${errorMessage}`),
             result.success = true;
             break;
           } else {
@@ -125,7 +125,7 @@ export class RealTimeTestRunner {
           await this.delay(1000 * attempt);
         }
       } catch (error) {
-        result.errors.push(`Critical error in attempt ${attempt + 1}: ${error}`);
+        result.errors.push(`Critical error in attempt ${attempt + 1}: ${error}`),
         break;
       }
     }
@@ -160,8 +160,8 @@ export class RealTimeTestRunner {
    */
   async runTestSuite(
     tests: Array<{
-      name: string;
-      testFunction: () => Promise<void>;
+      name: string,
+      testFunction: () => Promise<void>,
       config?: Partial<RealTimeTestConfig>;
     }>,
   ): Promise<Map<string, RealTimeTestResult>> {
@@ -190,8 +190,8 @@ export class RealTimeTestRunner {
             averageMemory: 0,
             memoryReadings: [],
             timeouts: 0,
-            retries: 0,
-          },
+            retries: 0
+},
         });
       }
 
@@ -206,16 +206,15 @@ export class RealTimeTestRunner {
   /**
    * Validate real-time test results against expectations
    */
-  validateResults(
-    results: Map<string, RealTimeTestResult>,
+  validateResults(results: Map<string, RealTimeTestResult>,
     expectations: {
-      maxDuration?: number;
-      maxMemoryUsage?: number;
-      maxFailureRate?: number;
-      requiredSuccessTests?: string[];
+      maxDuration?: number,
+      maxMemoryUsage?: number,
+      maxFailureRate?: number,
+      requiredSuccessTests?: string[],
     },
   ): { isValid: boolean; issues: string[]; summary: any } {
-    const issues: string[] = [];
+    const issues: string[] = [],
     const summary = {
       totalTests: results.size,
       successfulTests: 0,
@@ -223,8 +222,8 @@ export class RealTimeTestRunner {
       averageDuration: 0,
       averageMemoryUsage: 0,
       totalTimeouts: 0,
-      totalRetries: 0,
-    };
+      totalRetries: 0
+};
 
     let totalDuration = 0;
     let totalMemoryUsage = 0;
@@ -375,8 +374,8 @@ export async function runRealTimeTest(
  */
 export async function runRealTimeTestSuite(
   tests: Array<{
-    name: string;
-    testFunction: () => Promise<void>;
+    name: string,
+    testFunction: () => Promise<void>,
     config?: Partial<RealTimeTestConfig>;
   }>,
 ): Promise<Map<string, RealTimeTestResult>> {

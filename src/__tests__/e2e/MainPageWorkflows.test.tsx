@@ -23,8 +23,8 @@ jest.mock('next/navigation', () => ({
     back: jest.fn(),
     forward: jest.fn(),
     refresh: jest.fn(),
-    replace: jest.fn(),
-  }),
+    replace: jest.fn()
+}),
 }));
 
 void jest.mock('@/contexts/AlchemicalContext/hooks');
@@ -34,8 +34,8 @@ jest.mock('@/utils/logger', () => ({
     debug: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
-    error: jest.fn(),
-  },
+    error: jest.fn()
+},
 }));
 
 // Mock realistic component behaviors for E2E testing
@@ -176,7 +176,7 @@ jest.mock('@/components/CookingMethodsSection', () => {
     maxDisplayed = 6,
     onViewMore,
   }: {
-    maxDisplayed?: number;
+    maxDisplayed?: number,
     onViewMore?: () => void;
   }) {
     const [selectedMethod, setSelectedMethod] = React.useState<string | null>(null);
@@ -230,8 +230,8 @@ jest.mock('@/components/CookingMethodsSection', () => {
 jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
   return function MockRecipeBuilderSimple() {
     const [recipeName, setRecipeName] = React.useState('');
-    const [ingredients, setIngredients] = React.useState<Array<{ name: string; quantity: string }>>([]);
-    const [steps, setSteps] = React.useState<Array<{ instruction: string; timing: string }>>([]);
+    const [ingredients, setIngredients] = React.useState<Array<{ name: string; quantity: string }>>([]),
+    const [steps, setSteps] = React.useState<Array<{ instruction: string; timing: string }>>([]),
     const [servings, setServings] = React.useState(4);
     const [prepTime, setPrepTime] = React.useState(15);
     const [cookTime, setCookTime] = React.useState(30);
@@ -388,20 +388,20 @@ describe('Main Page E2E Workflows', () => {
   const mockAlchemicalContext = {
     state: {
       astrologicalState: { sunSign: 'aries' },
-      elementalState: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
-    },
+      elementalState: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 }
+},
     planetaryPositions: { sun: { sign: 'aries' } },
-    isDaytime: true,
-  };
+    isDaytime: true
+};
 
   const mockNavigationState = {
     saveState: jest.fn(),
-    getState: jest.fn(() => ({})),
-  };
+    getState: jest.fn(() => ({}))
+};
 
   const mockScrollPreservation = {
-    restoreScrollPosition: jest.fn(),
-  };
+    restoreScrollPosition: jest.fn()
+};
 
   beforeEach(() => {
     void jest.clearAllMocks();
@@ -412,14 +412,14 @@ describe('Main Page E2E Workflows', () => {
     (useAutoStateCleanup as jest.Mock).mockReturnValue(undefined);
 
     // Mock DOM methods
-    void Object.defineProperty(window, 'scrollY', { value: 0, writable: true });
+    void Object.defineProperty(window, 'scrollY', { value: 0, writable: true }),
     jest.spyOn(document, 'getElementById').mockImplementation(
       () =>
         ({
           scrollIntoView: jest.fn(),
           style: {},
-          classList: { add: jest.fn(), remove: jest.fn() },
-        }) as any,
+          classList: { add: jest.fn(), remove: jest.fn() }
+}) as any,
     );
   });
 
@@ -510,7 +510,7 @@ describe('Main Page E2E Workflows', () => {
 
     // Verify the complete workflow
     expect(screen.getByDisplayValue('Italian Tomato Basil Sauté')).toBeInTheDocument();
-    expect(screen.getByText('Ingredients: 3')).toBeInTheDocument();
+    expect(screen.getByText('Ingredients: 3')).toBeInTheDocument(),
     expect(screen.getByText('Steps: 2')).toBeInTheDocument();
   });
 
@@ -531,7 +531,7 @@ describe('Main Page E2E Workflows', () => {
 
     // Verify details are shown
     expect(screen.getByTestId('details-tomatoes')).toBeInTheDocument();
-    expect(screen.getByText('Category: Vegetables')).toBeInTheDocument();
+    expect(screen.getByText('Category: Vegetables')).toBeInTheDocument(),
     expect(screen.getByText('Properties: Umami, Acidic, Fresh')).toBeInTheDocument();
 
     // Expand another ingredient
@@ -652,10 +652,10 @@ describe('Main Page E2E Workflows', () => {
 
     // Verify recipe summary
     const summary = screen.getByTestId('recipe-summary');
-    expect(summary).toHaveTextContent('Name: Mediterranean Chicken');
-    expect(summary).toHaveTextContent('Servings: 6');
-    expect(summary).toHaveTextContent('Total Time: 65 minutes');
-    expect(summary).toHaveTextContent('Ingredients: 4');
+    expect(summary).toHaveTextContent('Name: Mediterranean Chicken'),
+    expect(summary).toHaveTextContent('Servings: 6'),
+    expect(summary).toHaveTextContent('Total Time: 65 minutes'),
+    expect(summary).toHaveTextContent('Ingredients: 4'),
     expect(summary).toHaveTextContent('Steps: 3');
 
     // Verify save button is enabled

@@ -12,8 +12,8 @@ import { salts } from './salts';
 // Combine all seasoning categories, but exclude oils and vinegars
 export const, seasonings: Record<string, IngredientMapping> = fixIngredientMappings({
   ...spices;
-  ...salts;
-  ...peppers;
+  ...salts,
+  ...peppers,
   ...herbs
   ...aromatics
 });
@@ -22,18 +22,18 @@ export const, seasonings: Record<string, IngredientMapping> = fixIngredientMappi
 export { spices, salts, peppers, herbs, aromatics };
 
 // Types
-export type SeasoningCategory = 'spice' | 'salt' | 'pepper' | 'herb' | 'aromatic';
-export type SeasoningIntensity = 'mild' | 'medium' | 'strong' | 'intense';
-export type CulinaryTiming = 'beginning' | 'middle' | 'end' | 'finishing' | 'multiple';
-export type PreservationMethod = 'drying' | 'salting' | 'fermenting' | 'infusing' | 'smoking';
+export type SeasoningCategory = 'spice' | 'salt' | 'pepper' | 'herb' | 'aromatic'
+export type SeasoningIntensity = 'mild' | 'medium' | 'strong' | 'intense'
+export type CulinaryTiming = 'beginning' | 'middle' | 'end' | 'finishing' | 'multiple'
+export type PreservationMethod = 'drying' | 'salting' | 'fermenting' | 'infusing' | 'smoking'
 export type SeasoningAstrologicalProfile = {
   rulingPlanets: string[],
   favorableZodiac: string[],
   elementalAffinity: {
     base: string,
     decanModifiers: {
-      first: { element: string, planet: string };
-      second: { element: string, planet: string };
+      first: { element: string, planet: string },
+      second: { element: string, planet: string },
       third: { element: string, planet: string };
     };
   };
@@ -52,7 +52,7 @@ const updateSaltCategory = (salts: IngredientMapping): IngredientMapping => {
       ...value;
       category: 'seasoning',
       subCategory: 'salt'
-    };
+};
     return acc;
   }, {} as IngredientMapping);
 };
@@ -73,7 +73,7 @@ export const _getSeasoningsByIntensity = (intensity: SeasoningIntensity): Ingred
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
-export const _getCompatibleSeasonings = (seasoningName: string): string[] => {;
+export const _getCompatibleSeasonings = (seasoningName: string): string[] => {,
   const seasoning = seasonings[seasoningName] as unknown as Ingredient;
   if (!seasoning) return []
 

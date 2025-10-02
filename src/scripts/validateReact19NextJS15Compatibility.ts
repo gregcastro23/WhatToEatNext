@@ -19,16 +19,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 interface ValidationResult {
-  category: string;
-  test: string;
-  passed: boolean;
-  details: string;
+  category: string,
+  test: string,
+  passed: boolean,
+  details: string,
   errors?: string[];
 }
 
 class React19NextJS15Validator {
-  private results: ValidationResult[] = [];
-  private tempDir: string;
+  private results: ValidationResult[] = [],
+  private tempDir: string,
 
   constructor() {
     this.tempDir = path.join(__dirname, '../../__tests__/temp-validation');
@@ -60,7 +60,7 @@ class React19NextJS15Validator {
       return { success: true, output, errors: [] };
     } catch (error: unknown) {
       const output = error.stdout || error.message || '';
-      const errors = output.split('\n').filter((line: string) => line.trim());
+      const errors = output.split('\n').filter((line: string) => line.trim()),
       return { success: false, output, errors };
     }
   }
@@ -151,7 +151,7 @@ export default function Page() {
 export function generateMetadata() {
   return {
     title: 'Test Page'
-  };
+};
 }
 `;
     void fs.writeFileSync(pageFile, pageContent);
@@ -173,7 +173,7 @@ export function generateMetadata() {
     const serverComponentFile = path.join(this.tempDir, 'server-component.tsx');
     const serverComponentContent = `
 async function ServerComponent() {
-  const data = await fetch('https://api.example.com/data');
+  const data = await fetch('https: //api.example.com/data');
   const json = await data.json();
   
   return (
@@ -531,12 +531,12 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
         totalTests++;
         if (result.passed) passedTests++;
 
-        const status = result.passed ? '✅' : '❌';
+        const status = result.passed ? '✅' : '❌',
         console.log(`${status} ${result.test}`);
         console.log(`   ${result.details}`);
 
         if (result.errors && result.errors.length > 0) {
-          console.log('   Errors:');
+          console.log('   Errors: '),
           result.errors.forEach(error => {
             console.log(`     - ${error}`);
           });

@@ -12,25 +12,25 @@ import { writeFileSync, existsSync, mkdirSync } from 'fs';
 import path from 'path';
 
 interface TestResult {
-  testFile: string;
-  passed: boolean;
-  duration: number;
-  errors: string[];
+  testFile: string,
+  passed: boolean,
+  duration: number,
+  errors: string[],
   warnings: string[];
 }
 
 interface TestSuiteReport {
-  totalTests: number;
-  passedTests: number;
-  failedTests: number;
-  totalDuration: number;
-  results: TestResult[];
+  totalTests: number,
+  passedTests: number,
+  failedTests: number,
+  totalDuration: number,
+  results: TestResult[],
   summary: {
-    configurationValidation: boolean;
-    astrologicalRules: boolean;
-    domainSpecificBehavior: boolean;
-    performanceTests: boolean;
-    integrationTests: boolean;
+    configurationValidation: boolean,
+    astrologicalRules: boolean,
+    domainSpecificBehavior: boolean,
+    performanceTests: boolean,
+    integrationTests: boolean,
     comprehensiveValidation: boolean;
   };
 }
@@ -61,7 +61,7 @@ class LintingTestRunner {
   async runAllTests(): Promise<TestSuiteReport> {
     console.log('🚀 Starting Comprehensive Linting Test Suite...\n');
 
-    const results: TestResult[] = [];
+    const results: TestResult[] = [],
     let totalDuration = 0;
 
     for (const testFile of this.testFiles) {
@@ -85,8 +85,8 @@ class LintingTestRunner {
       failedTests: results.filter(r => !r.passed).length,
       totalDuration,
       results,
-      summary: this.generateSummary(results),
-    };
+      summary: this.generateSummary(results)
+};
 
     void this.generateReport(report);
     void this.displaySummary(report);
@@ -102,8 +102,8 @@ class LintingTestRunner {
       // Run the specific test file
       const output = execSync(`npx jest "${testPath}" --verbose --no-cache --testTimeout=30000`, {
         encoding: 'utf8',
-        stdio: 'pipe',
-      });
+        stdio: 'pipe'
+});
 
       const duration = Date.now() - startTime;
 
@@ -112,8 +112,8 @@ class LintingTestRunner {
         passed: true,
         duration,
         errors: [],
-        warnings: this.extractWarnings(output),
-      };
+        warnings: this.extractWarnings(output)
+};
     } catch (error: unknown) {
       const duration = Date.now() - startTime;
 
@@ -122,8 +122,8 @@ class LintingTestRunner {
         passed: false,
         duration,
         errors: this.extractErrors(error.stdout || error.message),
-        warnings: this.extractWarnings(error.stdout || ''),
-      };
+        warnings: this.extractWarnings(error.stdout || '')
+};
     }
   }
 
@@ -162,8 +162,8 @@ class LintingTestRunner {
       domainSpecificBehavior: getTestResult('DomainSpecificRuleBehavior'),
       performanceTests: getTestResult('LintingPerformance'),
       integrationTests: getTestResult('AutomatedErrorResolution'),
-      comprehensiveValidation: getTestResult('ComprehensiveLintingTestSuite'),
-    };
+      comprehensiveValidation: getTestResult('ComprehensiveLintingTestSuite')
+};
   }
 
   private generateReport(report: TestSuiteReport): void {
@@ -177,8 +177,8 @@ class LintingTestRunner {
     const markdownReport = this.generateMarkdownReport(report);
     writeFileSync(markdownReportPath, markdownReport);
 
-    console.log(`📊 Reports generated:`);
-    console.log(`   JSON: ${reportPath}`);
+    console.log(`📊 Reports generated: `),
+    console.log(`   JSON: ${reportPath}`),
     console.log(`   Markdown: ${markdownReportPath}\n`);
   }
 
@@ -292,14 +292,14 @@ ${report.results
 
     console.log('📊 COMPREHENSIVE LINTING TEST SUITE SUMMARY');
     console.log('='.repeat(50));
-    console.log(`Total Tests: ${report.totalTests}`);
-    console.log(`Passed: ${report.passedTests}`);
-    console.log(`Failed: ${report.failedTests}`);
-    console.log(`Success Rate: ${successRate}%`);
-    console.log(`Total Duration: ${report.totalDuration}ms`);
+    console.log(`Total Tests: ${report.totalTests}`),
+    console.log(`Passed: ${report.passedTests}`),
+    console.log(`Failed: ${report.failedTests}`),
+    console.log(`Success Rate: ${successRate}%`),
+    console.log(`Total Duration: ${report.totalDuration}ms`),
     console.log('');
 
-    console.log('📋 TEST CATEGORIES:');
+    console.log('📋 TEST CATEGORIES: '),
     Object.entries(report.summary).forEach(([category, passed]) => {
       const status = passed ? '✅ PASSED' : '❌ FAILED';
       const categoryName = category
@@ -332,9 +332,9 @@ ${report.results
     const results = await Promise.all(checks);
     const allPassed = results.every(result => result.passed);
 
-    console.log('📊 SYSTEM READINESS SUMMARY:');
+    console.log('📊 SYSTEM READINESS SUMMARY: '),
     results.forEach(result => {
-      const status = result.passed ? '✅' : '❌';
+      const status = result.passed ? '✅' : '❌',
       console.log(`  ${status} ${result.name}`);
       if (!result.passed && result.issues) {
         result.issues.forEach(issue => console.log(`     - ${issue}`));
@@ -345,15 +345,15 @@ ${report.results
   }
 
   private async checkESLintConfiguration(): Promise<{
-    name: string;
-    passed: boolean;
+    name: string,
+    passed: boolean,
     issues?: string[];
   }> {
     try {
       const configPath = path.resolve(__dirname, '../eslint.config.cjs');
       const config = require(configPath);
 
-      const issues: string[] = [];
+      const issues: string[] = [],
 
       if (!Array.isArray(config)) {
         void issues.push('Configuration is not an array');
@@ -372,14 +372,14 @@ ${report.results
       return {
         name: 'ESLint Configuration',
         passed: false,
-        issues: ['Failed to load configuration file'],
-      };
+        issues: ['Failed to load configuration file']
+};
     }
   }
 
   private async checkAstrologicalRules(): Promise<{
-    name: string;
-    passed: boolean;
+    name: string,
+    passed: boolean,
     issues?: string[];
   }> {
     try {
@@ -394,7 +394,7 @@ ${report.results
         'preserve-fallback-values',
       ];
 
-      const issues: string[] = [];
+      const issues: string[] = [],
 
       expectedRules.forEach(ruleName => {
         if (!rules.rules[ruleName]) {
@@ -411,14 +411,14 @@ ${report.results
       return {
         name: 'Astrological Rules',
         passed: false,
-        issues: ['Failed to load astrological rules file'],
-      };
+        issues: ['Failed to load astrological rules file']
+};
     }
   }
 
   private async checkPerformanceSettings(): Promise<{
-    name: string;
-    passed: boolean;
+    name: string,
+    passed: boolean,
     issues?: string[];
   }> {
     try {
@@ -426,8 +426,7 @@ ${report.results
       const config = require(configPath);
 
       const perfConfig = config.find((c: unknown) => c.settings && c.settings['import/cache']);
-
-      const issues: string[] = [];
+      const issues: string[] = [],
 
       if (!perfConfig) {
         void issues.push('Performance configuration not found');
@@ -449,14 +448,14 @@ ${report.results
       return {
         name: 'Performance Settings',
         passed: false,
-        issues: ['Failed to validate performance settings'],
-      };
+        issues: ['Failed to validate performance settings']
+};
     }
   }
 
   private async checkIntegrationPoints(): Promise<{
-    name: string;
-    passed: boolean;
+    name: string,
+    passed: boolean,
     issues?: string[];
   }> {
     const issues: string[] = [];
@@ -490,7 +489,7 @@ async function main() {
     const isReady = await runner.validateSystemReadiness();
 
     // Exit with appropriate code
-    const exitCode = report.failedTests === 0 && isReady ? 0 : 1;
+    const exitCode = report.failedTests === 0 && isReady ? 0 : 1,
     void process.exit(exitCode);
   } catch (error) {
     console.error('❌ Test suite execution failed:', error);

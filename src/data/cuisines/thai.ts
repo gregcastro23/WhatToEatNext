@@ -78,7 +78,7 @@ export const thai: Cuisine = {
             Water: 0.3,
             Fire: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Khao Tom',
@@ -138,7 +138,7 @@ export const thai: Cuisine = {
             Earth: 0.2,
             Fire: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Patongo with Sangkaya',
@@ -197,7 +197,7 @@ export const thai: Cuisine = {
             Earth: 0.3,
             Fire: 0.2,
             Water: 0.1
-          }
+}
         },
         {
           name: 'Khao Kai Jeow',
@@ -255,7 +255,7 @@ export const thai: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Water: 0.1
-          }
+}
         },
         {
           name: 'Khao Tom Moo',
@@ -326,7 +326,7 @@ export const thai: Cuisine = {
             Water: 0.3,
             Fire: 0.2,
             Air: 0.2
-          }
+}
         }
       ]
     },
@@ -401,7 +401,7 @@ export const thai: Cuisine = {
             Earth: 0.2,
             Air: 0.2,
             Water: 0.1
-          }
+}
         },
         {
           name: 'Khao Soi',
@@ -452,7 +452,7 @@ export const thai: Cuisine = {
             Fire: 0.3,
             Earth: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Som Tam',
@@ -519,7 +519,7 @@ export const thai: Cuisine = {
             Earth: 0.2,
             Water: 0.2,
             Air: 0.2
-          }
+}
         },
         {
           name: 'Tom Yum Goong',
@@ -574,7 +574,7 @@ export const thai: Cuisine = {
             Water: 0.3,
             Air: 0.2,
             Earth: 0.2
-          }
+}
         },
         {
           name: 'Yum Woon Sen',
@@ -636,7 +636,7 @@ export const thai: Cuisine = {
             Water: 0.2,
             Earth: 0.2,
             Air: 0.3
-          }
+}
         }
       ],
       summer: [
@@ -684,7 +684,7 @@ export const thai: Cuisine = {
             Water: 0.2,
             Earth: 0.2,
             Air: 0.1
-          }
+}
         }
       ],
       winter: [
@@ -724,7 +724,7 @@ export const thai: Cuisine = {
             Water: 0.3,
             Fire: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Tom Kha Gai',
@@ -769,12 +769,12 @@ export const thai: Cuisine = {
             Fire: 0.3,
             Earth: 0.2,
             Air: 0.1
-          },
+},
           astrologicalProfile: {
             favorableZodiac: ['cancer', 'pisces'],
             rulingPlanets: ['moon', 'venus'],
             elementalAffinity: 'Water'
-          },
+},
           astrologicalInfluences: ['neptune', 'mars', 'pisces']
         },
         {
@@ -819,7 +819,7 @@ export const thai: Cuisine = {
             Fire: 0.3,
             Earth: 0.2,
             Air: 0.1
-          }
+}
         }
       ]
     },
@@ -861,7 +861,7 @@ export const thai: Cuisine = {
               unit: 'cup',
               category: 'garnish',
               optional: true
-            }
+}
           ],
           substitutions: {
             'fish sauce': ['soy sauce', 'coconut aminos'],
@@ -892,7 +892,7 @@ export const thai: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Water: 0.2
-          }
+}
         },
         {
           name: 'Pad Krapow Moo',
@@ -942,7 +942,7 @@ export const thai: Cuisine = {
             Earth: 0.2,
             Water: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Pla Neung Manao',
@@ -978,7 +978,7 @@ export const thai: Cuisine = {
               unit: 'tbsp',
               category: 'liquid',
               optional: true
-            }
+}
           ],
           substitutions: {
             'sea bass': ['snapper', 'cod', 'tilapia'],
@@ -1008,7 +1008,7 @@ export const thai: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Earth: 0.1
-          }
+}
         }
       ],
       summer: [
@@ -1065,7 +1065,7 @@ export const thai: Cuisine = {
             Air: 0.2,
             Earth: 0.1,
             Fire: 0.1
-          }
+}
         },
         {
           name: 'Yum Woon Sen',
@@ -1111,7 +1111,7 @@ export const thai: Cuisine = {
             Water: 0.3,
             Air: 0.2,
             Earth: 0.1
-          }
+}
         }
       ],
       winter: [
@@ -1175,7 +1175,7 @@ export const thai: Cuisine = {
             Fire: 0.3,
             Water: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Tom Yum Goong Nam Khon',
@@ -1243,7 +1243,7 @@ export const thai: Cuisine = {
             Water: 0.3,
             Earth: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Gaeng Panang Neua',
@@ -1311,7 +1311,7 @@ export const thai: Cuisine = {
             Earth: 0.3,
             Water: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Khao Soi Gai',
@@ -1380,7 +1380,7 @@ export const thai: Cuisine = {
             Fire: 0.3,
             Earth: 0.2,
             Air: 0.2
-          }
+}
         }
       ]
     },
@@ -1423,7 +1423,7 @@ export const thai: Cuisine = {
               unit: 'pieces',
               category: 'herb',
               optional: true
-            }
+}
           ],
           substitutions: {
             'palm sugar': ['coconut sugar', 'raw sugar'],
@@ -1455,7 +1455,7 @@ export const thai: Cuisine = {
             Water: 0.3,
             Air: 0.2,
             Fire: 0.1
-          }
+}
         },
         {
           name: 'Tub Tim Grob',
@@ -1480,7 +1480,7 @@ export const thai: Cuisine = {
               unit: 'tsp',
               category: 'coloring',
               optional: true
-            },
+},
             { name: 'coconut milk', amount: '400', unit: 'ml', category: 'liquid' },
             { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' },
             { name: 'jackfruit', amount: '100', unit: 'g', category: 'fruit', optional: true },
@@ -1515,7 +1515,7 @@ export const thai: Cuisine = {
             Earth: 0.2,
             Air: 0.2,
             Fire: 0.1
-          }
+}
         },
         {
           name: 'Bua Loi',
@@ -1539,7 +1539,7 @@ export const thai: Cuisine = {
               unit: 'tsp',
               category: 'flavoring',
               optional: true
-            },
+},
             { name: 'coconut milk', amount: '400', unit: 'ml', category: 'liquid' },
             { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' },
             { name: 'salt', amount: '1/4', unit: 'tsp', category: 'seasoning' },
@@ -1573,7 +1573,7 @@ export const thai: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-          }
+}
         },
         {
           name: 'Sangkaya Fak Thong',
@@ -1600,7 +1600,7 @@ export const thai: Cuisine = {
               unit: 'pieces',
               category: 'herb',
               optional: true
-            },
+},
             { name: 'salt', amount: '1/4', unit: 'tsp', category: 'seasoning' }
           ],
           substitutions: {
@@ -1631,7 +1631,7 @@ export const thai: Cuisine = {
             Water: 0.3,
             Air: 0.2,
             Fire: 0.1
-          }
+}
         }
       ],
       summer: [
@@ -1688,7 +1688,7 @@ export const thai: Cuisine = {
             Air: 0.2,
             Earth: 0.1,
             Fire: 0.1
-          }
+}
         }
       ]
     },
@@ -1744,7 +1744,7 @@ export const thai: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Water: 0.1
-          }
+}
         }
       ]
     }
@@ -1762,13 +1762,13 @@ export const thai: Cuisine = {
         Fire: 0.3,
         Earth: 0.2,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Neptune', 'Mars', 'Pisces'],
       seasonality: 'all',
       preparationNotes:
         'Balance is key - should achieve equal sweet, sour, and salty notes with heat according to preference',
       technicalTips: 'Palm sugar can be melted with a little water to help it dissolve more easily'
-    },
+},
     namPhrik: {
       name: 'Nam Phrik (Chili Paste)',
       description:
@@ -1794,14 +1794,13 @@ export const thai: Cuisine = {
         Earth: 0.2,
         Water: 0.1,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes:
         'Traditional preparation involves pounding in a mortar and pestle to develop complex flavors',
-      technicalTips:
-        'Roasting ingredients before pounding enhances aroma and reduces raw spiciness'
-    },
+      technicalTips: 'Roasting ingredients before pounding enhances aroma and reduces raw spiciness'
+},
     padThaiSauce: {
       name: 'Pad Thai Sauce',
       description: 'Sweet-sour-salty sauce that defines Thailand\'s most famous noodle dish',
@@ -1820,14 +1819,13 @@ export const thai: Cuisine = {
         Water: 0.3,
         Fire: 0.2,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Venus', 'Mercury', 'Taurus'],
       seasonality: 'all',
       preparationNotes:
         'Balance of sour from tamarind, sweet from palm sugar, and salty from fish sauce is crucial',
-      technicalTips:
-        'Prepare in advance and reduce to concentrate flavors before adding to noodles'
-    },
+      technicalTips: 'Prepare in advance and reduce to concentrate flavors before adding to noodles'
+},
     currySauces: {
       name: 'Curry Pastes/Sauces',
       description: 'Aromatic spice and herb pastes that form the foundation of Thai curries',
@@ -1854,14 +1852,13 @@ export const thai: Cuisine = {
         Earth: 0.3,
         Water: 0.2,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Mars', 'Jupiter', 'Leo'],
       seasonality: 'all',
       preparationNotes:
         'Traditional preparation requires significant time pounding ingredients to release oils and flavor compounds',
-      technicalTips:
-        'Fry paste in coconut cream (the thick part that rises to the top of coconut milk) until aromatic and oil separates'
-    },
+      technicalTips: 'Fry paste in coconut cream (the thick part that rises to the top of coconut milk) until aromatic and oil separates'
+},
     srirachaSauce: {
       name: 'Sriracha Sauce',
       description:
@@ -1887,13 +1884,13 @@ export const thai: Cuisine = {
         Water: 0.2,
         Earth: 0.2,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Mars', 'Mercury', 'Sagittarius'],
       seasonality: 'all',
       preparationNotes:
         'Traditional Thai version is tangier and thinner than the popular American version',
       technicalTips: 'Fermentation develops depth of flavor beyond simple chili heat'
-    }
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -2052,7 +2049,7 @@ export const thai: Cuisine = {
       toolsRequired: ['wok', 'wok spatula', 'high BTU burner', 'spider strainer', 'cleaver'],
       bestFor: ['stir-fries', 'noodle dishes', 'quick curries', 'fried rice', 'sautéed vegetables'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Pounding (Tam/Dtam)',
       description:
@@ -2061,7 +2058,7 @@ export const thai: Cuisine = {
       toolsRequired: ['clay or stone mortar', 'wooden pestle', 'preparation bowls', 'strainer'],
       bestFor: ['curry pastes', 'som tam', 'nam prik', 'herb pastes', 'spice blends'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Steaming (Neung)',
       description: 'Gentle cooking with steam to preserve nutrients and delicate textures',
@@ -2069,7 +2066,7 @@ export const thai: Cuisine = {
       toolsRequired: ['bamboo steamer', 'wok', 'cheesecloth', 'banana leaves', 'steamer rack'],
       bestFor: ['fish', 'custards', 'dumplings', 'sticky rice', 'certain vegetables'],
       difficulty: 'easy'
-    },
+},
     {
       name: 'Grilling (Yang)',
       description: 'Direct heat cooking over charcoal for smoky flavor and caramelization',
@@ -2077,7 +2074,7 @@ export const thai: Cuisine = {
       toolsRequired: ['charcoal grill', 'bamboo skewers', 'banana leaf wrappers', 'basting brush'],
       bestFor: ['marinated meats', 'fish', 'skewered foods', 'vegetables', 'sticky rice in bamboo'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Curry Making (Gaeng)',
       description:
@@ -2092,7 +2089,7 @@ export const thai: Cuisine = {
       ],
       bestFor: ['coconut-based curries', 'clear spicy soups', 'braised dishes', 'complex stews'],
       difficulty: 'hard'
-    }
+}
   ],
   regionalCuisines: [
     {
@@ -2104,9 +2101,8 @@ export const thai: Cuisine = {
       cookingTechniques: ['grilling', 'stewing', 'fermenting', 'steaming'],
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       culturalInfluences: ['Lanna Kingdom', 'Burmese', 'Chinese Yunnan', 'Lao'],
-      philosophicalFoundations:
-        'Connected to Lanna traditions with an emphasis on communal dining and seasonal ingredients'
-    },
+      philosophicalFoundations: 'Connected to Lanna traditions with an emphasis on communal dining and seasonal ingredients'
+},
     {
       name: 'Northeastern Thai (Isaan)',
       description:
@@ -2123,8 +2119,7 @@ export const thai: Cuisine = {
       cookingTechniques: ['grilling', 'pounding', 'fermenting', 'raw preparations'],
       elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.1, Water: 0.1 },
       culturalInfluences: ['Lao', 'Khmer', 'Vietnamese'],
-      philosophicalFoundations:
-        'Emphasizes simple, straightforward preparations that highlight fresh ingredients'
+      philosophicalFoundations: 'Emphasizes simple, straightforward preparations that highlight fresh ingredients',
     },
     {
       name: 'Central Thai',
@@ -2142,8 +2137,7 @@ export const thai: Cuisine = {
       cookingTechniques: ['stir-frying', 'curry making', 'deep-frying', 'slow simmering'],
       elementalProperties: { Water: 0.3, Fire: 0.3, Earth: 0.2, Air: 0.2 },
       culturalInfluences: ['Royal Thai Court', 'Chinese', 'Persian', 'Portuguese'],
-      philosophicalFoundations:
-        'Balance and refinement from royal court traditions, with elaborate preparations'
+      philosophicalFoundations: 'Balance and refinement from royal court traditions, with elaborate preparations',
     },
     {
       name: 'Southern Thai',
@@ -2166,8 +2160,7 @@ export const thai: Cuisine = {
       cookingTechniques: ['slow cooking', 'dry currying', 'stewing', 'fermenting'],
       elementalProperties: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
       culturalInfluences: ['Malay', 'Indonesian', 'Indian'],
-      philosophicalFoundations:
-        'Bold approach to flavor showcasing heat, pungency, and freshness of local ingredients'
+      philosophicalFoundations: 'Bold approach to flavor showcasing heat, pungency, and freshness of local ingredients',
     },
     {
       name: 'Royal Thai Cuisine',
@@ -2184,8 +2177,7 @@ export const thai: Cuisine = {
       cookingTechniques: ['carving', 'intricate presentation', 'reduction', 'slow cooking'],
       elementalProperties: { Air: 0.3, Earth: 0.3, Water: 0.2, Fire: 0.2 },
       culturalInfluences: ['Thai Royal Court', 'Ayutthaya Kingdom', 'Persian', 'European'],
-      philosophicalFoundations:
-        'Emphasizes aesthetic beauty, balance of flavors, and sophisticated presentation'
+      philosophicalFoundations: 'Emphasizes aesthetic beauty, balance of flavors, and sophisticated presentation',
     }
   ],
   elementalProperties: {

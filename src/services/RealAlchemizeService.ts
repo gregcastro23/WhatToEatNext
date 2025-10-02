@@ -81,8 +81,8 @@ function getZodiacElement(_sign: string): string {
     capricorn: 'Earth',
     aquarius: 'Air',
     pisces: 'Water'
-  };
-  return elementMap[sign.toLowerCase()] || 'Air';
+};
+  return elementMap[sign.toLowerCase()] || 'Air'
 }
 
 function getPlanetaryDignity(_planet: string, _sign: string): number {

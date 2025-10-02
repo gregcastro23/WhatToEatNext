@@ -60,8 +60,8 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.2,
     Essence: 0,
     Matter: -0.1,
-    Substance: 0,
-  },
+    Substance: 0
+},
   Moon: {Fire: -0.1,
     Water: 0.3,
     Air: 0,
@@ -109,7 +109,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Matter: 0.2,
     Substance: 0.1,
     Spirit: -0.1,
-    Essence: 0},
+    Essence: 0}
 };
 
 /**
@@ -145,8 +145,8 @@ export function calculateGregsEnergy(elementalCounts: ElementalAlchemicalCounts)
     };
   } catch (error) {
     logger.error('Error calculating Gregs energy:', {
-      error: error instanceof Error ? error.message : String(error),
-    });
+      error: error instanceof Error ? error.message : String(error)
+});
     return {heat: 0,
       entropy: 0,
       reactivity: 0,
@@ -176,8 +176,8 @@ export function applyPlanetaryModifiers(baseCounts: ElementalAlchemicalCounts,
     return result;
   } catch (error) {
     logger.error('Error applying planetary modifiers:', {
-      error: error instanceof Error ? error.message : String(error),
-    });
+      error: error instanceof Error ? error.message : String(error)
+});
     return baseCounts;
   }
 }

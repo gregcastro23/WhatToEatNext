@@ -18,7 +18,7 @@ export const MockMainPageLayout: React.FC<MainPageLayoutProps> = ({
   children,
   debugMode = false,
   loading = false,
-  onSectionNavigate: _onSectionNavigate,
+  onSectionNavigate: _onSectionNavigate
 }) => {
   return (
     <div data-testid='mock-main-page-layout'>
@@ -35,12 +35,11 @@ export const createTestWrapper = <P extends object>(Component: React.ComponentTy
 };
 
 // Safe render helper that handles async components
-export const renderWithProviders = (
-  component: React.ReactElement,
+export const renderWithProviders = (component: React.ReactElement,
   options?: {
-    withAlchemicalProvider?: boolean;
-    debugMode?: boolean;
-    loading?: boolean;
+    withAlchemicalProvider?: boolean,
+    debugMode?: boolean,
+    loading?: boolean,
   },
 ) => {
   const { withAlchemicalProvider = true, debugMode = false, loading = false } = options || {};
@@ -81,7 +80,7 @@ export class TestErrorBoundary extends React.Component<
   { children: React.ReactNode; onError?: (error: Error) => void },
   { hasError: boolean; error?: Error }
 > {
-  constructor(props: { children: React.ReactNode; onError?: (error: Error) => void }) {
+  constructor(props: { children: React.ReactNode, onError?: (error: Error) => void }) {
     super(props);
     this.state = { hasError: false };
   }
@@ -110,7 +109,7 @@ export class TestErrorBoundary extends React.Component<
 
 // Async component wrapper for testing
 export const AsyncTestWrapper: React.FC<{
-  children: React.ReactNode;
+  children: React.ReactNode,
   fallback?: React.ReactNode;
 }> = ({ children, fallback = <div>Loading...</div> }) => {
   return (

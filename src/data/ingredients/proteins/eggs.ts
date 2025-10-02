@@ -15,7 +15,7 @@ const rawEggs = {
       Water: 0.5,
       Earth: 0.2,
       Air: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['Virgo', 'Gemini', 'Cancer'],
@@ -53,7 +53,7 @@ const rawEggs = {
       Water: 0.6,
       Earth: 0.1,
       Air: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['Virgo', 'Gemini', 'Cancer'],
@@ -92,7 +92,7 @@ const rawEggs = {
       Water: 0.5,
       Earth: 0.3,
       Air: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
       favorableZodiac: ['Cancer', 'Gemini', 'Virgo'],

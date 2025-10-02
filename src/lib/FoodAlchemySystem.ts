@@ -472,7 +472,7 @@ export class FoodAlchemySystem {
     // Calculate the dominant and weakest elements
     const elementValues = [
       { element: 'Fire', value: Fire },
-      { element: 'Water', value: Water }
+      { element: 'Water', value: Water },
       { element: 'Air', value: Air },
       { element: 'Earth', value: Earth }
     ],
@@ -523,7 +523,7 @@ export class FoodAlchemySystem {
 
     // Calculate a weighted score - both elements are equally important for planetary day
     let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
-    let dignityBonus = 0,
+    let dignityBonus = 0;
     let decanBonus = 0,
 
     // Apply dignity effects if we have planet positions
@@ -596,7 +596,7 @@ export class FoodAlchemySystem {
 
     // Calculate score
     let elementalScore = elementalMatch;
-    let dignityBonus = 0,
+    let dignityBonus = 0;
     let aspectBonus = 0,
 
     // Apply dignity effects if we have planet positions

@@ -31,7 +31,7 @@ export const timingUtils = {
   applyCuisineModifiers(base: TimingResult, element: string): TimingResult {
     const modifiers = {
       Fire: { duration: 0.8, mainPhase: 0.7 },
-      Water: { duration: 1.2, mainPhase: 0.5 }
+      Water: { duration: 1.2, mainPhase: 0.5 },
       Earth: { duration: 1.1, mainPhase: 0.6 },
       Air: { duration: 0.9, mainPhase: 0.8 }
     }

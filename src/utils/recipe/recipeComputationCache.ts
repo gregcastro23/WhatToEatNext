@@ -21,8 +21,8 @@ interface CacheConfig {
 
 class RecipeComputationCacheManager {
   private cache = new Map<string, RecipeComputationCache>();
-  private config: CacheConfig;
-  private accessOrder: string[] = [];
+  private config: CacheConfig,
+  private accessOrder: string[] = [],
 
   constructor(config: Partial<CacheConfig> = {}) {
     this.config = {
@@ -131,11 +131,11 @@ class RecipeComputationCacheManager {
    * Get cache statistics
    */
   getStats(): {
-    size: number;
-    maxSize: number;
-    hitRate: number;
-    averageComputationTime: number;
-    oldestEntry: Date | null;
+    size: number,
+    maxSize: number,
+    hitRate: number,
+    averageComputationTime: number,
+    oldestEntry: Date | null,
     newestEntry: Date | null;
   } {
     const entries = Array.from(this.cache.values());
@@ -242,7 +242,7 @@ class RecipeComputationCacheManager {
 
   private cleanup(): void {
     const now = Date.now();
-    const keysToDelete: string[] = [];
+    const keysToDelete: string[] = [],
 
     for (const [key, entry] of this.cache.entries()) {
       if (now > entry.expiresAt.getTime()) {
@@ -285,8 +285,8 @@ export function createRecipeComputationCache(config?: Partial<CacheConfig>): Rec
 export function withComputationCaching<T extends any[], R>(
   computationFn: (...args: T) => R,
   options: {
-    getCacheKey: (args: T) => string;
-    getPlanetaryPositions: (args: T) => { [planet: string]: string };
+    getCacheKey: (args: T) => string,
+    getPlanetaryPositions: (args: T) => { [planet: string]: string },
     cache?: RecipeComputationCacheManager;
   }
 ) {
@@ -321,22 +321,20 @@ export function withComputationCaching<T extends any[], R>(
 /**
  * Batch cache operations for multiple recipes
  */
-export function batchCacheOperations(
-  operations: Array<{
-    cacheKey: string;
-    operation: 'get' | 'set' | 'delete';
-    data?: RecipeComputedProperties;
-    planetaryPositions?: { [planet: string]: string };
-  }>,
+export function batchCacheOperations(operations: Array<{
+    cacheKey: string,
+    operation: 'get' | 'set' | 'delete'
+    data?: RecipeComputedProperties,
+    planetaryPositions?: { [planet: string]: string }
+}>,
   cache?: RecipeComputationCacheManager
 ): Array<RecipeComputedProperties | null> {
   const cacheManager = cache || getRecipeComputationCache();
-  const results: Array<RecipeComputedProperties | null> = [];
+  const results: Array<RecipeComputedProperties | null> = [],
 
   for (const op of operations) {
     switch (op.operation) {
-      case 'get':
-        results.push(cacheManager.get(op.cacheKey));
+      case 'get': results.push(cacheManager.get(op.cacheKey)),
         break;
       case 'set':
         if (op.data && op.planetaryPositions) {
@@ -358,11 +356,11 @@ export function batchCacheOperations(
  * Cache performance monitoring
  */
 export interface CachePerformanceMetrics {
-  cacheHits: number;
-  cacheMisses: number;
-  hitRate: number;
-  averageHitTime: number;
-  averageMissTime: number;
+  cacheHits: number,
+  cacheMisses: number,
+  hitRate: number,
+  averageHitTime: number,
+  averageMissTime: number,
   totalRequests: number;
 }
 

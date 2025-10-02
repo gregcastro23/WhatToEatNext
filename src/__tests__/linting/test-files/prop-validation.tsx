@@ -1,6 +1,6 @@
 interface Props {
-  required: string;
-  optional?: number;
+  required: string,
+  optional?: number,
   callback: (value: string) => void;
 }
 

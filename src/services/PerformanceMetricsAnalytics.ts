@@ -564,9 +564,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     const lines = output.split('\n');
     const buildSize = 0;
     let bundleSize = 0;
-    let chunks = 0,
+    let chunks = 0;
     let assets = 0;
-    let errors = 0,
+    let errors = 0;
     let warnings = 0,
 
     for (const line of lines) {
@@ -786,7 +786,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   } {
     const lines = output.split('\n');
     let totalTests = 0;
-    let passedTests = 0,
+    let passedTests = 0;
     let failedTests = 0;
     let skippedTests = 0,
     const coverage = { lines: 0, branches: 0, functions: 0, statements: 0 }

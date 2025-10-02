@@ -18,8 +18,7 @@ export type DignityType =
   | 'face'
   | 'neutral'
   | 'detriment'
-  | 'fall';
-
+  | 'fall'
 /**
  * Represents a planetary dignity
  */
@@ -78,8 +77,8 @@ export function calculateBalance(properties: Record<string, number>): number {
     return score; // Ensure this returns a value < 0.5 for balanced properties
   } catch (error) {
     logger.error('Error calculating balance:', {
-      error: error instanceof Error ? error.message : String(error),
-    });
+      error: error instanceof Error ? error.message : String(error)
+});
     return 0;
   }
 }
@@ -108,8 +107,8 @@ export function getRecommendedAdjustments(properties: Record<string, number>): s
     return adjustments;
   } catch (error) {
     logger.error('Error getting recommended adjustments:', {
-      error: error instanceof Error ? error.message : String(error),
-    });
+      error: error instanceof Error ? error.message : String(error)
+});
     return [];
   }
 }
@@ -127,14 +126,14 @@ export function calculatePlanetaryDignity(planet: string,
     return {
       type: 'neutral',
       value: 1.0,
-      description: `${planet} is neutral in ${sign}`,
-    };
+      description: `${planet} is neutral in ${sign}`
+};
   } catch (error) {
     logger.error('Error calculating planetary dignity:', {
       planet,
       sign,
-      error: error instanceof Error ? error.message : String(error),
-    });
+      error: error instanceof Error ? error.message : String(error)
+});
     return {type: 'neutral',
       value: 1.0,
       description: 'Error calculating dignity'};
@@ -151,16 +150,16 @@ export function calculateAlchemicalTransformation(elementalProperties: Elemental
       Fire: elementalProperties.Fire || 0,
       Water: elementalProperties.Water || 0,
       Earth: elementalProperties.Earth || 0,
-      Air: elementalProperties.Air || 0,
-    };
+      Air: elementalProperties.Air || 0
+};
 
     // Calculate alchemical properties (simplified)
     const alchemicalCounts: Record<string, number> = {
       Spirit: Math.max(elementalProperties.Fire || 0, elementalProperties.Air || 0),
       Essence: Math.max(elementalProperties.Water || 0, elementalProperties.Earth || 0),
       Matter: (elementalProperties.Earth || 0 + elementalProperties.Water || 0) / 2,
-      Substance: (elementalProperties.Fire || 0 + elementalProperties.Air || 0) / 2,
-    };
+      Substance: (elementalProperties.Fire || 0 + elementalProperties.Air || 0) / 2
+};
 
     // Calculate thermodynamic properties
     const heat = Math.pow(alchemicalCounts.Spirit, 2) + Math.pow(elementalCounts.Fire, 2);
@@ -208,8 +207,8 @@ export function calculateAlchemicalTransformation(elementalProperties: Elemental
     };
   } catch (error) {
     logger.error('Error calculating alchemical transformation:', {
-      error: error instanceof Error ? error.message : String(error),
-    });
+      error: error instanceof Error ? error.message : String(error)
+});
 
     // Return default results
     return {
@@ -222,8 +221,8 @@ export function calculateAlchemicalTransformation(elementalProperties: Elemental
       dominantElement: 'Fire',
       dominantAlchemicalProperty: 'Spirit',
       planetaryDignities: [],
-      recommendations: [],
-    };
+      recommendations: []
+};
   }
 }
 
@@ -244,8 +243,8 @@ export function calculateKalchm(spirit: number,
     return denominator > 0 ? numerator / denominator : 0;
   } catch (error) {
     logger.error('Error calculating Kalchm:', {
-      error: error instanceof Error ? error.message : String(error),
-    });
+      error: error instanceof Error ? error.message : String(error)
+});
     return 0;
   }
 }
@@ -266,8 +265,8 @@ export function calculateMonica(gregsEnergy: number,
     return -gregsEnergy / (reactivity * lnKalchm);
   } catch (error) {
     logger.error('Error calculating Monica:', {
-      error: error instanceof Error ? error.message : String(error),
-    });
+      error: error instanceof Error ? error.message : String(error)
+});
     return 0;
   }
 }
@@ -289,8 +288,8 @@ export function getAlchemicalCompatibility(property1: string, property2: string)
     Spirit: ['Essence'],
     Essence: ['Spirit', 'Matter'],
     Matter: ['Essence', 'Substance'],
-    Substance: ['Matter'],
-  };
+    Substance: ['Matter']
+};
 
   return compatiblePairs[property1]?.includes(property2) ? 0.8 : 0.4;
 }

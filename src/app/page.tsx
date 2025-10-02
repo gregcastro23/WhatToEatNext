@@ -22,7 +22,7 @@ const CurrentMomentCuisineRecommendations = dynamic(
       </div>
     ),
     ssr: false
-  }
+}
 );
 
 const AstrologicalRecommendations = dynamic(
@@ -37,7 +37,7 @@ const AstrologicalRecommendations = dynamic(
       </div>
     ),
     ssr: false
-  }
+}
 );
 
 const EnhancedRecommendationEngine = dynamic(
@@ -52,11 +52,11 @@ const EnhancedRecommendationEngine = dynamic(
       </div>
     ),
     ssr: false
-  }
+}
 );
 
 export const metadata: Metadata = {title: 'alchm.kitchen | Alchemical Culinary Intelligence',
-  description: 'Discover the perfect meal through ancient alchemical wisdom and modern AI. Real-time planetary influences guide your culinary journey.'};
+  description: 'Discover the perfect meal through ancient alchemical wisdom and modern AI. Real-time planetary influences guide your culinary journey.'},
 
 const FeatureCard = ({
   icon,
@@ -93,13 +93,13 @@ const StatusIndicator = ({ label, status }: { label: string, status: 'active' | 
   const colors = {
     active: 'bg-green-100 text-green-800',
     ready: 'bg-blue-100 text-blue-800',
-    demo: 'bg-purple-100 text-purple-800',
-  };
+    demo: 'bg-purple-100 text-purple-800'
+};
         return (
     <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${colors[status]}`}>
       <div className={`w-2 h-2 rounded-full mr-2 ${
         status === 'active' ? 'bg-green-500' :
-        status === 'ready' ? 'bg-blue-500' : 'bg-purple-500'
+        status === 'ready' ? 'bg-blue-500' : 'bg-purple-500',
       }`}></div>
       {label}
     </div>

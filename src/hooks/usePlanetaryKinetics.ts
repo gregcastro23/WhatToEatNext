@@ -38,31 +38,31 @@ export interface UsePlanetaryKineticsOptions {
 
 export interface UsePlanetaryKineticsReturn {
   // Core kinetics data
-  kinetics: KineticsResponse | null;
-  groupDynamics: GroupDynamicsResponse | null;
+  kinetics: KineticsResponse | null,
+  groupDynamics: GroupDynamicsResponse | null,
   kineticsMetrics: KineticMetrics | null;
 
   // Loading and error states
-  isLoading: boolean;
-  error: string | null;
-  isOnline: boolean;
+  isLoading: boolean,
+  error: string | null,
+  isOnline: boolean,
   lastUpdate: Date | null;
 
   // Enhanced food recommendations
-  temporalRecommendations: TemporalFoodRecommendation | null;
-  elementalRecommendations: string[];
+  temporalRecommendations: TemporalFoodRecommendation | null,
+  elementalRecommendations: string[],
   aspectEnhancedRecommendations: KineticsEnhancedRecommendation | null;
 
   // Current state analysis
-  currentPowerLevel: number;
-  dominantElement: string;
-  aspectPhase: 'applying' | 'exact' | 'separating' | null;
+  currentPowerLevel: number,
+  dominantElement: string,
+  aspectPhase: 'applying' | 'exact' | 'separating' | null,
   seasonalInfluence: string;
 
   // Actions
-  refreshKinetics: () => Promise<void>;
-  fetchGroupDynamics: (userIds: string[]) => Promise<void>;
-  calculatePortions: <T extends { amount: number }>(portions: T[]) => T[];
+  refreshKinetics: () => Promise<void>,
+  fetchGroupDynamics: (userIds: string[]) => Promise<void>,
+  calculatePortions: <T extends { amount: number }>(portions: T[]) => T[],
   clearCache: () => void;
 
   // Health monitoring
@@ -128,7 +128,7 @@ export function usePlanetaryKinetics(
       });
 
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch kinetics data';
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch kinetics data',
       setError(errorMessage);
       setIsOnline(false);
 
@@ -218,7 +218,7 @@ export function usePlanetaryKinetics(
   }, [kinetics, currentPowerLevel]);
 
   const seasonalInfluence = useMemo(() => {
-    return kinetics?.data.base.timing.seasonalInfluence || 'Spring';
+    return kinetics?.data.base.timing.seasonalInfluence || 'Spring'
   }, [kinetics]);
 
   // Enhanced food recommendations
@@ -312,5 +312,5 @@ function getDefaultPlanetaryPositions(): Record<string, string> {
     Neptune: 'pisces',
     Pluto: 'scorpio',
     Ascendant: 'aries'
-  };
+};
 }

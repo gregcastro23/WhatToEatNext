@@ -12,9 +12,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 interface ConsoleReplacement {
-  file: string;
-  line: number;
-  original: string;
+  file: string,
+  line: number,
+  original: string,
   replacement: string;
 }
 
@@ -22,7 +22,7 @@ class ConsoleStatementReplacer {
   private readonly srcDir = path.join(process.cwd(), 'src');
   private readonly backupDir = path.join(process.cwd(), '.console-replacement-backup');
   private processedFiles = 0;
-  private replacements: ConsoleReplacement[] = [];
+  private replacements: ConsoleReplacement[] = [],
 
   constructor() {
     this.ensureBackupDirectory();
@@ -47,10 +47,10 @@ class ConsoleStatementReplacer {
   }
 
   private getAllTypeScriptFiles(): string[] {
-    const files: string[] = [];
+    const files: string[] = [],
 
     const scanDirectory = (dir: string) => {
-      const entries = fs.readdirSync(dir, { withFileTypes: true });
+      const entries = fs.readdirSync(dir, { withFileTypes: true }),
 
       for (const entry of entries) {
         const fullPath = path.join(dir, entry.name);
@@ -125,8 +125,8 @@ class ConsoleStatementReplacer {
             file: filePath,
             line: i + 1,
             original: line,
-            replacement: replacement,
-          });
+            replacement: replacement
+});
 
           lines[i] = replacement;
           hasChanges = true;
@@ -152,7 +152,7 @@ class ConsoleStatementReplacer {
             }
           }
 
-          lines.splice(importInsertIndex, 0, "import { logger } from '@/services/LoggingService';");
+          lines.splice(importInsertIndex, 0, "import { logger } from '@/services/LoggingService',");
         }
 
         fs.writeFileSync(filePath, lines.join('\n'));
@@ -179,9 +179,9 @@ class ConsoleStatementReplacer {
  */
 
 export interface Logger {
-  info(message: string, ...args: unknown[]): void;
-  warn(message: string, ...args: unknown[]): void;
-  error(message: string, ...args: unknown[]): void;
+  info(message: string, ...args: unknown[]): void,
+  warn(message: string, ...args: unknown[]): void,
+  error(message: string, ...args: unknown[]): void,
   debug(message: string, ...args: unknown[]): void;
 }
 
@@ -267,8 +267,8 @@ Generated: ${new Date().toISOString()}
 
       console.log('='.repeat(60));
       console.log(`✅ Console statement replacement completed!`);
-      console.log(`   Files processed: ${this.processedFiles}`);
-      console.log(`   Statements replaced: ${this.replacements.length}`);
+      console.log(`   Files processed: ${this.processedFiles}`),
+      console.log(`   Statements replaced: ${this.replacements.length}`),
       console.log(`   Backup location: ${this.backupDir}`);
     } catch (error) {
       console.error('❌ Console statement replacement failed:', error);

@@ -621,8 +621,8 @@ export function getExactSunDegreeForDate(date: Date): number {
  * @returns Array of date ranges when Sun is at the specified degree
  */
 export function getDatesForSunDegree(degree: number, year: number): Array<{
-  start: Date;
-  end: Date;
+  start: Date,
+  end: Date,
   duration_hours: number;
 }> {
   return getDatesForZodiacDegree(degree, year);
@@ -634,15 +634,15 @@ export function getDatesForSunDegree(degree: number, year: number): Array<{
  * @returns Detailed zodiac position information
  */
 export function getDetailedZodiacPosition(date: Date): {
-  absolute_longitude: number;
-  sign: string;
-  degree_in_sign: number;
-  decan: number;
-  decan_ruler: string;
-  keywords: string[];
-  sabian_symbol?: string;
-  element: string;
-  modality: string;
+  absolute_longitude: number,
+  sign: string,
+  degree_in_sign: number,
+  decan: number,
+  decan_ruler: string,
+  keywords: string[],
+  sabian_symbol?: string,
+  element: string,
+  modality: string,
   solar_speed: number;
 } {
   const zodiacPosition = getZodiacPositionForDate(date);
@@ -668,9 +668,9 @@ export function getDetailedZodiacPosition(date: Date): {
  * @returns Exact dates of cardinal points
  */
 export function getExactCardinalPoints(year: number): {
-  springEquinox: Date;
-  summerSolstice: Date;
-  autumnEquinox: Date;
+  springEquinox: Date,
+  summerSolstice: Date,
+  autumnEquinox: Date,
   winterSolstice: Date;
 } {
   return getCardinalPoints(year);
@@ -718,7 +718,7 @@ export async function getEnhancedPlanetaryPositions(
       isRetrograde: false, // Sun is never retrograde
     };
 
-    debugLog(`Enhanced planetary positions calculated with VSOP87 Sun accuracy: ${sunLongitude.toFixed(4)}°`);
+    debugLog(`Enhanced planetary positions calculated with VSOP87 Sun accuracy: ${sunLongitude.toFixed(4)}°`),
 
     return positions;
   } catch (error) {
@@ -737,22 +737,22 @@ export async function getEnhancedPlanetaryPositions(
  * @returns Comparison of old vs new accuracy
  */
 export function compareSolarAccuracy(date: Date): {
-  date: string;
+  date: string,
   old_method: {
-    longitude: number;
-    sign: string;
-    degree_in_sign: number;
+    longitude: number,
+    sign: string,
+    degree_in_sign: number,
     method: string;
   };
   new_method: {
-    longitude: number;
-    sign: string;
-    degree_in_sign: number;
+    longitude: number,
+    sign: string,
+    degree_in_sign: number,
     method: string;
   };
   difference: {
-    degrees: number;
-    arcminutes: number;
+    degrees: number,
+    arcminutes: number,
     arcseconds: number;
   };
   accuracy_improvement: string;
@@ -765,8 +765,8 @@ export function compareSolarAccuracy(date: Date): {
   // New method using VSOP87
   const newLongitude = calculateSolarPosition(date);
 
-  const { sign: oldSign, degree: oldDegree } = getLongitudeToZodiacPosition(normalizedOldLongitude);
-  const { sign: newSign, degree: newDegree } = getLongitudeToZodiacPosition(newLongitude);
+  const { sign: oldSign, degree: oldDegree } = getLongitudeToZodiacPosition(normalizedOldLongitude),
+  const { sign: newSign, degree: newDegree } = getLongitudeToZodiacPosition(newLongitude),
 
   const diffDegrees = Math.abs(newLongitude - normalizedOldLongitude);
   const diffArcminutes = diffDegrees * 60;
@@ -788,13 +788,13 @@ export function compareSolarAccuracy(date: Date): {
       sign: oldSign,
       degree_in_sign: oldDegree,
       method: 'Simplified approximation'
-    },
+},
     new_method: {
       longitude: newLongitude,
       sign: newSign,
       degree_in_sign: newDegree,
       method: 'VSOP87 with aberration correction'
-    },
+},
     difference: {
       degrees: diffDegrees,
       arcminutes: diffArcminutes,
@@ -808,10 +808,10 @@ export function compareSolarAccuracy(date: Date): {
  * Get astronomical accuracy metrics for the current implementation
  */
 export function getAccuracyMetrics(): {
-  solar_accuracy: string;
-  calculation_method: string;
-  supported_time_range: string;
-  performance: string;
+  solar_accuracy: string,
+  calculation_method: string,
+  supported_time_range: string,
+  performance: string,
   features: string[];
 } {
   return {

@@ -18,40 +18,40 @@ import {
 const logger = createLogger('DegreeCalendarMapping');
 
 export interface DegreeInfo {
-  absolute_longitude: number;
-  sign: string;
-  degree_in_sign: number;
-  decan: number;
-  decan_ruler: string;
-  keywords: string[];
-  sabian_symbol?: string;
-  element: string;
-  modality: string;
-  planetary_hour_ruler?: string;
+  absolute_longitude: number,
+  sign: string,
+  degree_in_sign: number,
+  decan: number,
+  decan_ruler: string,
+  keywords: string[],
+  sabian_symbol?: string,
+  element: string,
+  modality: string,
+  planetary_hour_ruler?: string,
   lunar_phase_influence?: string;
 }
 
 export interface ZodiacCalendarEntry {
   date: string; // ISO date string
-  zodiac_info: DegreeInfo;
+  zodiac_info: DegreeInfo,
   solar_speed: number; // degrees per day
   ingress_distance: number; // days until next sign ingress
   seasonal_context: string;
 }
 
 export interface AnnualCalendar {
-  year: number;
-  entries: ZodiacCalendarEntry[];
+  year: number,
+  entries: ZodiacCalendarEntry[],
   cardinal_points: {
-    spring_equinox: string;
-    summer_solstice: string;
-    autumn_equinox: string;
+    spring_equinox: string,
+    summer_solstice: string,
+    autumn_equinox: string,
     winter_solstice: string;
   };
   sign_durations: Record<string, number>;
   metadata: {
-    generated_at: string;
-    accuracy: string;
+    generated_at: string,
+    accuracy: string,
     total_entries: number;
   };
 }
@@ -89,7 +89,7 @@ const SABIAN_SYMBOLS: Record<number, string> = {
   26: "A man teaching new forms for old symbols",
   27: "The king of the fairies approaching his domain",
   28: "A large disappointed audience",
-  29: "The music of the spheres",
+  29: "The music of the spheres"
 };
 
 /**
@@ -143,8 +143,8 @@ function getSignElement(sign: string): string {
     aries: 'Fire', taurus: 'Earth', gemini: 'Air', cancer: 'Water',
     leo: 'Fire', virgo: 'Earth', libra: 'Air', scorpio: 'Water',
     sagittarius: 'Fire', capricorn: 'Earth', aquarius: 'Air', pisces: 'Water'
-  };
-  return elements[sign] || 'Unknown';
+};
+  return elements[sign] || 'Unknown'
 }
 
 /**
@@ -156,8 +156,8 @@ function getSignModality(sign: string): string {
     cancer: 'Cardinal', leo: 'Fixed', virgo: 'Mutable',
     libra: 'Cardinal', scorpio: 'Fixed', sagittarius: 'Mutable',
     capricorn: 'Cardinal', aquarius: 'Fixed', pisces: 'Mutable'
-  };
-  return modalities[sign] || 'Unknown';
+};
+  return modalities[sign] || 'Unknown'
 }
 
 /**
@@ -229,7 +229,7 @@ export function buildAnnualCalendar(year: number): AnnualCalendar {
 
   logger.info(`Building annual zodiac calendar for ${year}`);
 
-  const entries: ZodiacCalendarEntry[] = [];
+  const entries: ZodiacCalendarEntry[] = [],
   const startDate = new Date(year, 0, 1);
   const endDate = new Date(year + 1, 0, 1);
 
@@ -313,14 +313,14 @@ export function getDegreeForDate(date: Date): DegreeInfo {
  * Get current zodiac period information
  */
 export function getCurrentZodiacPeriod(): {
-  current_time: string;
-  zodiac_position: ZodiacPosition;
+  current_time: string,
+  zodiac_position: ZodiacPosition,
   next_ingress: {
-    sign: string;
-    days: number;
+    sign: string,
+    days: number,
     date: string;
   };
-  solar_speed: number;
+  solar_speed: number,
   seasonal_context: string;
 } {
   const now = new Date();
@@ -355,19 +355,19 @@ export function getCurrentZodiacPeriod(): {
  * Get formatted monthly zodiac calendar
  */
 export function getMonthlyZodiacCalendar(year: number, month: number): {
-  year: number;
-  month: number;
-  month_name: string;
+  year: number,
+  month: number,
+  month_name: string,
   days: Array<{
-    date: string;
-    day_of_month: number;
-    zodiac_info: DegreeInfo;
-    is_ingress_day: boolean;
+    date: string,
+    day_of_month: number,
+    zodiac_info: DegreeInfo,
+    is_ingress_day: boolean,
     ingress_type?: string;
   }>;
   summary: {
-    dominant_sign: string;
-    sign_changes: number;
+    dominant_sign: string,
+    sign_changes: number,
     solar_speed_range: { min: number; max: number; avg: number };
   };
 } {
@@ -386,7 +386,7 @@ export function getMonthlyZodiacCalendar(year: number, month: number): {
     const prevEntry = index > 0 ? monthEntries[index - 1] : null;
     const isIngressDay = prevEntry && prevEntry.zodiac_info.sign !== entry.zodiac_info.sign;
 
-    let ingressType: string | undefined;
+    let ingressType: string | undefined,
     if (isIngressDay) {
       ingressType = `${prevEntry!.zodiac_info.sign} → ${entry.zodiac_info.sign}`;
     }
@@ -452,13 +452,13 @@ export function clearCalendarCache(): void {
  * Get cache statistics
  */
 export function getCacheStats(): {
-  cached_years: number;
-  total_entries: number;
+  cached_years: number,
+  total_entries: number,
   cache_size_mb: number;
 } {
   let totalEntries = 0;
   annualCalendarCache.forEach(calendar => {
-    totalEntries += calendar.entries.length;
+    totalEntries += calendar.entries.length,
   });
 
   // Rough estimate of memory usage

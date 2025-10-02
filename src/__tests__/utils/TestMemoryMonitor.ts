@@ -6,37 +6,37 @@
  */
 
 interface MemorySnapshot {
-  timestamp: Date;
-  testName: string;
-  heapUsed: number;
-  heapTotal: number;
-  external: number;
-  arrayBuffers: number;
+  timestamp: Date,
+  testName: string,
+  heapUsed: number,
+  heapTotal: number,
+  external: number,
+  arrayBuffers: number,
   rss: number;
 }
 
 interface MemoryCheck {
-  isWithinLimits: boolean;
-  currentUsage: NodeJS.MemoryUsage;
-  warnings: string[];
+  isWithinLimits: boolean,
+  currentUsage: NodeJS.MemoryUsage,
+  warnings: string[],
   errors: string[];
 }
 
 interface MemorySummary {
-  initialMemory: number;
-  currentMemory: number;
-  peakMemory: number;
-  totalIncrease: number;
+  initialMemory: number,
+  currentMemory: number,
+  peakMemory: number,
+  totalIncrease: number,
   testDuration: number;
 }
 
 export class TestMemoryMonitor {
-  private snapshots: MemorySnapshot[] = [];
-  private startTime: number;
+  private snapshots: MemorySnapshot[] = [],
+  private startTime: number,
   private memoryLimits: {
-    heapUsed: number;
-    heapTotal: number;
-    external: number;
+    heapUsed: number,
+    heapTotal: number,
+    external: number,
     rss: number;
   };
 
@@ -82,8 +82,8 @@ export class TestMemoryMonitor {
       heapTotal: usage.heapTotal,
       external: usage.external,
       arrayBuffers: usage.arrayBuffers,
-      rss: usage.rss,
-    };
+      rss: usage.rss
+};
 
     this.snapshots.push(snapshot);
     return snapshot;
@@ -101,7 +101,7 @@ export class TestMemoryMonitor {
    */
   checkMemoryUsage(_testName: string): MemoryCheck {
     const currentUsage = this.getCurrentMemoryUsage();
-    const warnings: string[] = [];
+    const warnings: string[] = [],
     const errors: string[] = [];
 
     // Check against limits
@@ -154,8 +154,8 @@ export class TestMemoryMonitor {
         currentMemory: current.heapUsed / 1024 / 1024,
         peakMemory: current.heapUsed / 1024 / 1024,
         totalIncrease: 0,
-        testDuration: Date.now() - this.startTime,
-      };
+        testDuration: Date.now() - this.startTime
+};
     }
 
     const initialSnapshot = this.snapshots[0];
@@ -167,28 +167,28 @@ export class TestMemoryMonitor {
       currentMemory: currentUsage.heapUsed / 1024 / 1024,
       peakMemory: peakMemory / 1024 / 1024,
       totalIncrease: (currentUsage.heapUsed - initialSnapshot.heapUsed) / 1024 / 1024,
-      testDuration: Date.now() - this.startTime,
-    };
+      testDuration: Date.now() - this.startTime
+};
   }
 
   /**
    * Get memory usage trend analysis
    */
   getMemoryTrend(): {
-    isIncreasing: boolean;
-    averageIncrease: number;
+    isIncreasing: boolean,
+    averageIncrease: number,
     concerningTrend: boolean;
   } {
     if (this.snapshots.length < 3) {
       return {
         isIncreasing: false,
         averageIncrease: 0,
-        concerningTrend: false,
-      };
+        concerningTrend: false
+};
     }
 
     const recentSnapshots = this.snapshots.slice(-5); // Last 5 snapshots
-    const increases: number[] = [];
+    const increases: number[] = [],
 
     for (let i = 1; i < recentSnapshots.length; i++) {
       const increase = recentSnapshots[i].heapUsed - recentSnapshots[i - 1].heapUsed;
@@ -210,12 +210,12 @@ export class TestMemoryMonitor {
    * Perform memory cleanup and optimization
    */
   cleanup(testName: string): {
-    success: boolean;
-    freedMemory: string;
+    success: boolean,
+    freedMemory: string,
     actions: string[];
   } {
     const beforeCleanup = this.getCurrentMemoryUsage();
-    const actions: string[] = [];
+    const actions: string[] = [],
 
     try {
       // Clear any test-specific caches
@@ -265,8 +265,8 @@ export class TestMemoryMonitor {
       return {
         success: false,
         freedMemory: '0MB',
-        actions: [...actions, `Cleanup failed: ${(error as Error).message}`],
-      };
+        actions: [...actions, `Cleanup failed: ${(error as Error).message}`]
+};
     }
   }
 
@@ -274,9 +274,9 @@ export class TestMemoryMonitor {
    * Get detailed memory report
    */
   getDetailedReport(): {
-    summary: MemorySummary;
-    trend: ReturnType<TestMemoryMonitor['getMemoryTrend']>;
-    snapshots: MemorySnapshot[];
+    summary: MemorySummary,
+    trend: ReturnType<TestMemoryMonitor['getMemoryTrend']>,
+    snapshots: MemorySnapshot[],
     recommendations: string[];
   } {
     const summary = this.getMemorySummary();
@@ -321,12 +321,12 @@ export class TestMemoryMonitor {
    */
   exportData(): {
     metadata: {
-      startTime: number;
-      endTime: number;
-      duration: number;
+      startTime: number,
+      endTime: number,
+      duration: number,
       snapshotCount: number;
     };
-    snapshots: MemorySnapshot[];
+    snapshots: MemorySnapshot[],
     summary: MemorySummary;
   } {
     return {
@@ -334,10 +334,10 @@ export class TestMemoryMonitor {
         startTime: this.startTime,
         endTime: Date.now(),
         duration: Date.now() - this.startTime,
-        snapshotCount: this.snapshots.length,
-      },
+        snapshotCount: this.snapshots.length
+},
       snapshots: this.snapshots,
-      summary: this.getMemorySummary(),
-    };
+      summary: this.getMemorySummary()
+};
   }
 }

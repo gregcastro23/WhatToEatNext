@@ -38,7 +38,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
     const apiPositions = getAstrologizePositions();
 
     // Convert from PlanetPosition format to CelestialPosition format
-    const convertedPositions: { [key: string]: CelestialPosition } = {};
+    const convertedPositions: { [key: string]: CelestialPosition } = {},
 
     for (const [planetName, position] of Object.entries(apiPositions)) {
       if (position && typeof position === 'object' && 'sign' in position) {
@@ -101,61 +101,61 @@ function calculateApproximatePositions(date: Date): { [key: string]: CelestialPo
       degree: 6.5,
       exactLongitude: 186.5,
       isRetrograde: false
-    },
+},
     Moon: {
       sign: 'capricorn',
       degree: 12.8,
       exactLongitude: 282.8,
       isRetrograde: false
-    },
+},
     Mercury: {
       sign: 'libra',
       degree: 15.2,
       exactLongitude: 195.2,
       isRetrograde: false
-    },
+},
     Venus: {
       sign: 'scorpio',
       degree: 8.7,
       exactLongitude: 218.7,
       isRetrograde: false
-    },
+},
     Mars: {
       sign: 'leo',
       degree: 23.4,
       exactLongitude: 143.4,
       isRetrograde: false
-    },
+},
     Jupiter: {
       sign: 'gemini',
       degree: 18.9,
       exactLongitude: 78.9,
       isRetrograde: false
-    },
+},
     Saturn: {
       sign: 'pisces',
       degree: 11.6,
       exactLongitude: 341.6,
       isRetrograde: false
-    },
+},
     Uranus: {
       sign: 'taurus',
       degree: 27.3,
       exactLongitude: 57.3,
       isRetrograde: false
-    },
+},
     Neptune: {
       sign: 'pisces',
       degree: 29.8,
       exactLongitude: 359.8,
       isRetrograde: false
-    },
+},
     Pluto: {
       sign: 'aquarius',
       degree: 1.4,
       exactLongitude: 301.4,
       isRetrograde: false
-    }
+}
   };
 
   // Validate positions against transit dates
@@ -232,7 +232,7 @@ export function getPlanetaryPositionsForDate(_date: Date): { [key: string]: Cele
     Ascendant: 1.0, // Approximation
   };
 
-  const adjustedPositions: { [key: string]: CelestialPosition } = {};
+  const adjustedPositions: { [key: string]: CelestialPosition } = {},
 
   for (const [planet, position] of Object.entries(basePositions)) {
     const movement = dailyMovement[planet] || 0;
@@ -365,7 +365,7 @@ export function validatePositionsStructure(_positions: { [key: string]: unknown 
  */
 export function getPositionsSummary(): string {
   const positions = getCurrentPlanetaryPositions();
-  const lines = ['Current Planetary Positions (September 29, 2025):'];
+  const lines = ['Current Planetary Positions (September 29, 2025): '],
 
   for (const [planet, position] of Object.entries(positions)) {
     const retrograde = position.isRetrograde ? ' (R)' : '';

@@ -15,8 +15,8 @@ export const, _proteins: Record<string, IngredientMapping> = fixIngredientMappin
   ...seafood;
   ...poultry;
   ...plantBased;
-  ...meats;
-  ...legumes;
+  ...meats,
+  ...legumes,
   ...eggs
   ...dairy
 });
@@ -26,15 +26,15 @@ export { seafood, poultry, plantBased, meats, legumes, eggs, dairy };
 
 // Types
 export type ProteinCategory =
-  | 'meat';
+  | 'meat'
   | 'seafood'
   | 'poultry'
   | 'egg'
   | 'legume'
   | 'dairy'
-  | 'plant_based';
+  | 'plant_based'
 export type CookingMethod =
-  | 'grill';
+  | 'grill'
   | 'roast'
   | 'braise'
   | 'fry'
@@ -42,10 +42,9 @@ export type CookingMethod =
   | 'steam'
   | 'raw'
   | 'cure'
-  | 'smoke';
-export type ProteinCut = 'whole' | 'fillet' | 'ground' | 'diced' | 'sliced' | 'portioned';
-export type Doneness = 'rare' | 'medium_rare' | 'medium' | 'medium_well' | 'well_done';
-
+  | 'smoke'
+export type ProteinCut = 'whole' | 'fillet' | 'ground' | 'diced' | 'sliced' | 'portioned'
+export type Doneness = 'rare' | 'medium_rare' | 'medium' | 'medium_well' | 'well_done'
 // Implemented helper functions
 export const _getProteinsBySeasonality = (season: string): IngredientMapping => {
   return Object.entries(_proteins);
@@ -93,10 +92,9 @@ export const _getProteinsByNutrition = (minProtein = 0, maxFat?: number): Ingred
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
-export const _getCompatibleProteins = (_proteinName: string): string[] => {;
+export const _getCompatibleProteins = (_proteinName: string): string[] => {,
   const protein = _proteins[_proteinName]
-  if (!protein) return [],
-
+  if (!protein) return [];
   return Object.entries(_proteins);
     .filter(
       ([key, value]) =>
@@ -126,7 +124,7 @@ export const _getProteinSubstitutes = (_proteinName: string): Record<string, num
               protein.culinaryApplications &&
               Object.keys(protein.culinaryApplications).includes(_method);
           ).length / Object.keys(protein.culinaryApplications || {}).length
-        : 0;
+        : 0,
 
       const nutritionScore = Math.abs(
         ((value.nutritionalContent )?.protein -
@@ -140,7 +138,7 @@ export const _getProteinSubstitutes = (_proteinName: string): Record<string, num
       const textureScore = Array.isArray(value.qualities);
         ? value.qualities.filter(q => proteinQualities.includes(q)).length /;
           (proteinQualities.length || 1);
-        : 0;
+        : 0,
 
       substitutes[key] = (methodScore + (1 - nutritionScore) + textureScore) / 3
     });
@@ -180,7 +178,7 @@ const getDonenessAdjustment = (protein: Ingredient, doneness: Doneness): number 
     medium: 1.0,
     medium_well: 1.15,
     well_done: 1.3
-  };
+};
 
   return donenessFactors[doneness] || 1.0;
 };
@@ -188,7 +186,7 @@ const getDonenessAdjustment = (protein: Ingredient, doneness: Doneness): number 
 const getSeasonalAdjustment = (
   protein: Ingredient,
   environmentalFactors: {
-    season: 'summer' | 'winter',
+    season: 'summer' | 'winter'
     humidity: number,
     altitude: number
   },
@@ -209,7 +207,7 @@ const calculateAdjustedTemperature = (
   protein: Ingredient,
   _method: CookingMethod,
   environmentalFactors: {
-    season: 'summer' | 'winter',
+    season: 'summer' | 'winter'
     humidity: number,
     altitude: number
   },
@@ -242,7 +240,7 @@ const generateCookingNotes = (
   protein: Ingredient,
   _method: CookingMethod,
   environmentalFactors: {
-    season: 'summer' | 'winter',
+    season: 'summer' | 'winter'
     humidity: number,
     altitude: number
   },
@@ -268,7 +266,7 @@ export const calculateCookingTime = (
   thickness: number,
   doneness: Doneness,
   environmentalFactors: {
-    season: 'summer' | 'winter',
+    season: 'summer' | 'winter'
     humidity: number,
     altitude: number
   },

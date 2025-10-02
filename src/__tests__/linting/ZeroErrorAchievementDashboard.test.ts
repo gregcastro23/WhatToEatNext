@@ -22,8 +22,8 @@ const mockExistsSync = existsSync as jest.MockedFunction<typeof existsSync>;
 const mockMkdirSync = mkdirSync as jest.MockedFunction<typeof mkdirSync>;
 
 describe('ZeroErrorAchievementDashboard', () => {
-  let dashboard: ZeroErrorAchievementDashboard;
-  let mockMetrics: LintingMetrics;
+  let dashboard: ZeroErrorAchievementDashboard,
+  let mockMetrics: LintingMetrics,
 
   beforeEach(() => {
     void jest.clearAllMocks();
@@ -52,17 +52,17 @@ describe('ZeroErrorAchievementDashboard', () => {
       domainSpecificIssues: {
         astrologicalCalculations: 25,
         campaignSystem: 15,
-        testFiles: 10,
-      },
+        testFiles: 10
+},
       performanceMetrics: {
         lintingDuration: 25000,
         cacheHitRate: 0.75,
         memoryUsage: 256,
-        filesProcessed: 500,
-      },
+        filesProcessed: 500
+},
       qualityScore: 85,
-      regressionDetected: false,
-    };
+      regressionDetected: false
+};
 
     dashboard = new ZeroErrorAchievementDashboard();
   });
@@ -88,8 +88,8 @@ describe('ZeroErrorAchievementDashboard', () => {
             current: 1500,
             previous: 1600,
             change: -100,
-            changePercentage: -6.25,
-          },
+            changePercentage: -6.25
+},
         },
       };
 
@@ -139,8 +139,8 @@ describe('ZeroErrorAchievementDashboard', () => {
             current: 1500,
             previous: 1600,
             change: -100,
-            changePercentage: -6.25,
-          },
+            changePercentage: -6.25
+},
         },
       };
 
@@ -173,8 +173,8 @@ describe('ZeroErrorAchievementDashboard', () => {
 
   describe('Real-Time Monitoring', () => {
     test('should detect significant changes in metrics', async () => {
-      const previousMetrics = { ...mockMetrics, totalIssues: 1000 };
-      const currentMetrics = { ...mockMetrics, totalIssues: 1500 };
+      const previousMetrics = { ...mockMetrics, totalIssues: 1000 },
+      const currentMetrics = { ...mockMetrics, totalIssues: 1500 },
 
       const changes = dashboard['detectSignificantChanges'](previousMetrics, currentMetrics);
 
@@ -190,8 +190,8 @@ describe('ZeroErrorAchievementDashboard', () => {
         qualityScore: 45,
         performanceMetrics: {
           ...mockMetrics.performanceMetrics,
-          lintingDuration: 75000,
-        },
+          lintingDuration: 75000
+},
       };
 
       const criticalIssues = dashboard['identifyCriticalIssues'](criticalMetrics);
@@ -207,7 +207,7 @@ describe('ZeroErrorAchievementDashboard', () => {
 
       // Simulate rapid metric updates
       for (let i = 0; i < 10; i++) {
-        const updatedMetrics = { ...mockMetrics, totalIssues: 1000 + i * 10 };
+        const updatedMetrics = { ...mockMetrics, totalIssues: 1000 + i * 10 },
         dashboard['detectSignificantChanges'](mockMetrics, updatedMetrics);
       }
 
@@ -221,7 +221,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       const testMetrics = { ...mockMetrics, totalIssues: 500 };
 
       // Run the same detection multiple times
-      const results: number[] = [];
+      const results: number[] = [],
       for (let i = 0; i < 5; i++) {
         const changes = dashboard['detectSignificantChanges'](mockMetrics, testMetrics);
         void results.push(changes.length);
@@ -330,8 +330,8 @@ describe('ZeroErrorAchievementDashboard', () => {
         ...mockMetrics,
         parserErrors: 3,
         explicitAnyErrors: 200,
-        qualityScore: 65,
-      };
+        qualityScore: 65
+};
 
       const gates = await dashboard['checkQualityGates'](failingMetrics);
 
@@ -388,8 +388,8 @@ describe('ZeroErrorAchievementDashboard', () => {
             current: 1500,
             previous: 1600,
             change: -100,
-            changePercentage: -6.25,
-          },
+            changePercentage: -6.25
+},
         },
       };
 
@@ -435,8 +435,7 @@ describe('ZeroErrorAchievementDashboard', () => {
     });
 
     test('should calculate next run times correctly', () => {
-      const baseDate = new Date('2025-01-15T10:00:00Z');
-
+      const baseDate = new Date('2025-01-15T10: 00:00Z');
       const nextDaily = dashboard['calculateNextRun'](baseDate, 'daily');
       expect(nextDaily.getDate()).toBe(16); // Next day
 
@@ -488,16 +487,16 @@ describe('ZeroErrorAchievementDashboard', () => {
               current: 1500,
               previous: 1600,
               change: -100,
-              changePercentage: -6.25,
-            },
+              changePercentage: -6.25
+},
           },
         },
         trendAnalysis: [],
         targets: [],
         qualityGates: [],
         maintenanceResults: new Map(),
-        generationTime: 1500,
-      };
+        generationTime: 1500
+};
 
       dashboard['generateComprehensiveReport'](mockData);
 
@@ -506,7 +505,7 @@ describe('ZeroErrorAchievementDashboard', () => {
 
       expect(markdownCall).toBeDefined();
       expect(markdownCall[1]).toContain('# 🎯 Zero-Error Achievement Dashboard');
-      expect(markdownCall[1]).toContain('Quality Score: 85/100');
+      expect(markdownCall[1]).toContain('Quality Score: 85/100'),
       expect(markdownCall[1]).toContain('Total Issues: 1500');
     });
 
@@ -526,16 +525,16 @@ describe('ZeroErrorAchievementDashboard', () => {
               current: 1500,
               previous: 1600,
               change: -100,
-              changePercentage: -6.25,
-            },
+              changePercentage: -6.25
+},
           },
         },
         trendAnalysis: [],
         targets: [],
         qualityGates: [],
         maintenanceResults: new Map(),
-        generationTime: 1500,
-      };
+        generationTime: 1500
+};
 
       dashboard['generateComprehensiveReport'](mockData);
 
@@ -595,8 +594,8 @@ describe('ZeroErrorAchievementDashboard', () => {
             current: 1500,
             previous: 1600,
             change: -100,
-            changePercentage: -6.25,
-          },
+            changePercentage: -6.25
+},
         },
       };
 
@@ -608,7 +607,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       const status1 = dashboard['getOverallStatus'](mockValidationResult, passingGates as any);
       expect(status1).toBe('👍 GOOD'); // Quality score 85 = good
 
-      const failingGates = [{ status: 'failing', blocksDeployment: true }];
+      const failingGates = [{ status: 'failing', blocksDeployment: true }],
 
       const status2 = dashboard['getOverallStatus'](mockValidationResult, failingGates as any);
       expect(status2).toBe('🚨 CRITICAL'); // Failing deployment-blocking gate = critical

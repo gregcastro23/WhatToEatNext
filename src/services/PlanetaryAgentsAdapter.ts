@@ -17,54 +17,54 @@ import type {
 } from '@/types/kinetics';
 
 interface PlanetaryHourResponse {
-  success: boolean;
+  success: boolean,
   data: {
-    planet: string;
-    dayType: 'day' | 'night';
-    hourIndex: number;
-    startTime: string;
-    endTime: string;
-    nextTransition: string;
+    planet: string,
+    dayType: 'day' | 'night'
+    hourIndex: number,
+    startTime: string,
+    endTime: string,
+    nextTransition: string,
     modifiers: {
-      Spirit?: number;
-      Essence?: number;
-      Matter?: number;
-      Substance?: number;
-      Air?: number;
-      Fire?: number;
-      Water?: number;
-      Earth?: number;
+      Spirit?: number,
+      Essence?: number,
+      Matter?: number,
+      Substance?: number,
+      Air?: number,
+      Fire?: number,
+      Water?: number,
+      Earth?: number,
       substance?: number; // lowercase variant
     };
   };
   metadata: {
-    computeTime: number;
-    requestTime: string;
+    computeTime: number,
+    requestTime: string,
     location: KineticsLocation;
   };
 }
 
 interface PlanetaryForecastResponse {
-  success: boolean;
+  success: boolean,
   data: {
     hours: Array<{
-      planet: string;
-      startTime: string;
-      endTime: string;
-      dayType: 'day' | 'night';
+      planet: string,
+      startTime: string,
+      endTime: string,
+      dayType: 'day' | 'night'
       modifiers: Record<string, number>;
     }>;
   };
   metadata: {
-    computeTime: number;
-    startDate: string;
-    endDate: string;
+    computeTime: number,
+    startDate: string,
+    endDate: string,
     location: KineticsLocation;
   };
 }
 
 export class PlanetaryAgentsAdapter {
-  private baseUrl: string;
+  private baseUrl: string,
 
   constructor(baseUrl: string = 'http://localhost:8000') {
     this.baseUrl = baseUrl;
@@ -184,7 +184,7 @@ export class PlanetaryAgentsAdapter {
           nextPeak: this.findNextPeak(powerPredictions),
           trend,
           confidence: 0.85
-        } : undefined,
+} : undefined,
         resonanceMap: options.includeResonanceMap ? {
           nodes: this.generateResonanceNodes(planet, elementalTotals),
           connections: []
@@ -209,7 +209,7 @@ export class PlanetaryAgentsAdapter {
       'Venus': 0.8,
       'Mars': 0.85,
       'Jupiter': 0.95,
-      'Saturn': 0.6
+      'Saturn': 0.6,
     };
 
     const basePower = planetPowers[planet] || 0.5;
@@ -229,7 +229,7 @@ export class PlanetaryAgentsAdapter {
     const totals: Record<string, number> = {};
 
     elements.forEach(element => {
-      totals[element] = modifiers[element] || 2.5; // Default baseline
+      totals[element] = modifiers[element] || 2.5, // Default baseline
     });
 
     // Add alchemical properties influence
@@ -267,7 +267,7 @@ export class PlanetaryAgentsAdapter {
       for (let i = 0; i < 24; i++) {
         const hour = (currentHour + i) % 24;
         const planet = this.getPlanetForHour(hour);
-        const dayType = hour >= 6 && hour < 18 ? 'day' : 'night';
+        const dayType = hour >= 6 && hour < 18 ? 'day' : 'night',
         predictions.push({
           hour,
           power: this.calculatePlanetaryPower(planet, dayType),
@@ -292,8 +292,7 @@ export class PlanetaryAgentsAdapter {
   /**
    * Determine power trend
    */
-  private determineTrend(
-    predictions: Array<{ hour: number; power: number; planetary: string }>
+  private determineTrend(predictions: Array<{ hour: number, power: number, planetary: string }>
   ): 'ascending' | 'descending' | 'stable' {
     if (predictions.length < 3) return 'stable';
 
@@ -308,8 +307,7 @@ export class PlanetaryAgentsAdapter {
   /**
    * Find next power peak time
    */
-  private findNextPeak(
-    predictions: Array<{ hour: number; power: number; planetary: string }>
+  private findNextPeak(predictions: Array<{ hour: number, power: number, planetary: string }>
   ): string {
     const maxPower = Math.max(...predictions.map(p => p.power));
     const peakPrediction = predictions.find(p => p.power === maxPower);
@@ -386,7 +384,7 @@ export class PlanetaryAgentsAdapter {
     location: KineticsLocation
   ): Promise<GroupDynamicsResponse> {
     // For now, return a simple harmonized response
-    const individualContributions: { [key: string]: { powerContribution: number; harmonyImpact: number } } = {};
+    const individualContributions: { [key: string]: { powerContribution: number; harmonyImpact: number } } = {},
 
     userIds.forEach(id => {
       individualContributions[id] = {

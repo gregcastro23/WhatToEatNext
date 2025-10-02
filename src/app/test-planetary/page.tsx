@@ -53,7 +53,7 @@ export default function TestPlanetaryPage() {
               <span className="text-gray-600">Health Check:</span>
               <span className={`ml-2 font-medium ${
                 healthStatus?.status === 'healthy' ? 'text-green-600' :
-                healthStatus?.status === 'degraded' ? 'text-yellow-600' : 'text-red-600'
+                healthStatus?.status === 'degraded' ? 'text-yellow-600' : 'text-red-600',
               }`}>
                 {healthStatus?.status || 'Unknown'}
                 {healthStatus?.latency && ` (${healthStatus.latency}ms)`}

@@ -94,9 +94,9 @@ describe('Planetary Alchemy Mapping', () => {
     it('sums planetary contributions correctly', () => {
       // Test with subset of planets
       const subset = {
-        Sun: 'Aries', // Spirit: 1
-        Moon: 'Cancer' // Essence: 1, Matter: 1
-      };
+        Sun: 'Aries', // Spirit: 1,
+    Moon: 'Cancer' // Essence: 1, Matter: 1
+};
 
       const result = calculateAlchemicalFromPlanets(subset);
 
@@ -134,7 +134,7 @@ describe('Planetary Alchemy Mapping', () => {
     });
 
     it('handles single planet correctly', () => {
-      const result = aggregateZodiacElementals({ Sun: 'Aries' });
+      const result = aggregateZodiacElementals({ Sun: 'Aries' }),
 
       expect(result.Fire).toBe(1.0);
       expect(result.Water).toBe(0.0);
@@ -386,8 +386,8 @@ describe('Full Alchemizer Integration', () => {
 
 describe('Edge Cases and Error Handling', () => {
   it('handles all zero values without errors', () => {
-    const alchemical: AlchemicalProperties = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
-    const elemental: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const alchemical: AlchemicalProperties = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
+    const elemental: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
 
     const metrics = calculateThermodynamicMetrics(alchemical, elemental);
 
@@ -397,8 +397,8 @@ describe('Edge Cases and Error Handling', () => {
   });
 
   it('handles extreme values without overflow', () => {
-    const alchemical: AlchemicalProperties = { Spirit: 100, Essence: 100, Matter: 100, Substance: 100 };
-    const elemental: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const alchemical: AlchemicalProperties = { Spirit: 100, Essence: 100, Matter: 100, Substance: 100 },
+    const elemental: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
 
     const metrics = calculateThermodynamicMetrics(alchemical, elemental);
 
@@ -412,7 +412,7 @@ describe('Edge Cases and Error Handling', () => {
       Sun: 'Gemini',
       Chiron: 'Aries', // Unknown planet
       Moon: 'Leo'
-    };
+};
 
     const result = calculateAlchemicalFromPlanets(positions);
 

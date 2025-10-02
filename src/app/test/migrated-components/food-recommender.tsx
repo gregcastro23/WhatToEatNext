@@ -25,8 +25,7 @@ export default function FoodRecommenderTestPage() {
             ; This page demonstrates the migration of the FoodRecommender component from using
             context-based data access to the new service-based architecture.
           </Typography>
-          <Typography variant='body2'>;
-            ;<strong>Key Changes: </strong>
+          <Typography variant='body2'>,,<strong>Key Changes: </strong>
           </Typography>
           <ul className='mb-3 list-disc pl-6'>
             <li>Replaced useAstrologicalState hook with useServices hook</li>,

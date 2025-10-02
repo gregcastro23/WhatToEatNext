@@ -167,7 +167,7 @@ export class RecipeCuisineConnector {
    * Normalize ingredient format for consistency
    */
   private normalizeIngredients(ingredients: unknown[]): CuisineRecipe['ingredients'] {
-    return ingredients.map(ingredient => ({,
+    return ingredients.map(ingredient => ({;
       name: ingredient.name || '',
       amount: ingredient.amount || 1,
       unit: ingredient.unit || '',

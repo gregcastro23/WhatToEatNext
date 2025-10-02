@@ -178,7 +178,7 @@ export class AstronomicalCalculations {
     const dayOfWeek = date.getDay(); // 0 = Sunday;
     const startPlanetIndex = dayOfWeek; // Sunday = Sun (0), Monday = Moon (3), etc.,
 
-    for (let i = 0; i < 12i++) {;
+    for (let i = 0, i < 12i++) {;
       const planetIndex = (startPlanetIndex + i) % 7;
       const planet = planets[planetIndex];
 
@@ -706,18 +706,13 @@ export class PlanetaryLocationService {
       switch (inf.planet) {
         case 'Sun':;
           return 'Bold and bright';
-        case 'Moon':
-          return 'Subtle and comforting';
-        case 'Mars':
-          return 'Spicy and intense';
+        case 'Moon': return 'Subtle and comforting',
+        case 'Mars': return 'Spicy and intense',
         case 'Venus':
           return 'Sweet and pleasant'
-        case 'Mercury':
-          return 'Complex and varied';
-        case 'Jupiter':
-          return 'Rich and abundant';
-        case 'Saturn':
-          return 'Traditional and structured';
+        case 'Mercury': return 'Complex and varied',
+        case 'Jupiter': return 'Rich and abundant',
+        case 'Saturn': return 'Traditional and structured',
         default: return 'Balanced'
       }
     })

@@ -31,26 +31,20 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
 
-    logger.info(`Zodiac calendar API request: ${action}`);
+    logger.info(`Zodiac calendar API request: ${action}`),
 
     switch (action) {
-      case 'degree-for-date':
-        return handleDegreeForDate(searchParams);
+      case 'degree-for-date': return handleDegreeForDate(searchParams),
 
-      case 'dates-for-degree':
-        return handleDatesForDegree(searchParams);
+      case 'dates-for-degree': return handleDatesForDegree(searchParams),
 
-      case 'year-map':
-        return handleYearMap(searchParams);
+      case 'year-map': return handleYearMap(searchParams),
 
-      case 'current-period':
-        return handleCurrentPeriod();
+      case 'current-period': return handleCurrentPeriod(),
 
-      case 'monthly-calendar':
-        return handleMonthlyCalendar(searchParams);
+      case 'monthly-calendar': return handleMonthlyCalendar(searchParams),
 
-      case 'compare-accuracy':
-        return handleCompareAccuracy(searchParams);
+      case 'compare-accuracy': return handleCompareAccuracy(searchParams),
 
       default:
         return NextResponse.json(
@@ -70,7 +64,7 @@ export async function GET(request: NextRequest) {
               'year-map': '?action=year-map&year=2025',
               'current-period': '?action=current-period',
               'monthly-calendar': '?action=monthly-calendar&year=2025&month=9',
-              'compare-accuracy': '?action=compare-accuracy&date=2025-09-21'
+              'compare-accuracy': '?action=compare-accuracy&date=2025-09-21',
             }
           },
           { status: 400 }
@@ -82,7 +76,7 @@ export async function GET(request: NextRequest) {
       {
         error: 'Internal server error',
         message: error instanceof Error ? error.message : 'Unknown error'
-      },
+},
       { status: 500 }
     );
   }
@@ -148,7 +142,7 @@ function handleDatesForDegree(searchParams: URLSearchParams) {
     return NextResponse.json(
       {
         error: 'Missing required parameters: degree (0-360) and year (YYYY)'
-      },
+},
       { status: 400 }
     );
   }
@@ -179,7 +173,7 @@ function handleDatesForDegree(searchParams: URLSearchParams) {
         total_ranges: dateRanges.length,
         accuracy: '±0.01° tolerance',
         method: 'VSOP87 reverse lookup'
-      }
+}
     });
   } catch (error) {
     return NextResponse.json(
@@ -241,7 +235,7 @@ function handleCurrentPeriod() {
       accuracy: '±0.01°',
       calculation_method: 'VSOP87 with aberration correction',
       cache_strategy: 'Real-time calculation'
-    }
+}
   });
 }
 
@@ -257,7 +251,7 @@ function handleMonthlyCalendar(searchParams: URLSearchParams) {
     return NextResponse.json(
       {
         error: 'Missing required parameters: year (YYYY) and month (0-11)'
-      },
+},
       { status: 400 }
     );
   }
@@ -282,7 +276,7 @@ function handleMonthlyCalendar(searchParams: URLSearchParams) {
         accuracy: '±0.01°',
         calculation_method: 'VSOP87 with Kepler\'s laws',
         ingress_detection: 'Automated sign boundary detection'
-      }
+}
     });
   } catch (error) {
     return NextResponse.json(
@@ -322,7 +316,7 @@ function handleCompareAccuracy(searchParams: URLSearchParams) {
         new_system_accuracy: '±0.01°',
         old_system_accuracy: '±2-5°',
         astronomical_method: 'VSOP87 with aberration correction'
-      }
+}
     });
   } catch (error) {
     return NextResponse.json(

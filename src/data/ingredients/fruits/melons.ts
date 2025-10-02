@@ -9,7 +9,7 @@ const rawMelons = {
       Fire: 0.1,
       Earth: 0.1,
       Air: 0
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Jupiter'],
       favorableZodiac: ['cancer', 'pisces'],
@@ -42,20 +42,20 @@ const rawMelons = {
         flavor: 'classic sweet taste, balanced sugar-water ratio',
         seeds: 'black seeds throughout',
         notes: 'standard commercial variety'
-      },
+},
       'Sugar Baby': {
         appearance: 'small, round, dark green exterior, deep red flesh',
         size: 'small (8-10 lbs)',
         flavor: 'very sweet, intense flavor',
         seeds: 'small black seeds',
         notes: 'good for small gardens and personal consumption'
-      },
+},
       Seedless: {
         appearance: 'oval, light green striped exterior, red flesh',
         size: 'medium (15-20 lbs)',
         flavor: 'milder sweetness than seeded varieties',
         seeds: 'minimal white undeveloped seeds',
-        notes: 'convenience variety, popular in markets'
+        notes: 'convenience variety, popular in markets',
       },
       'Yellow Flesh': {
         appearance: 'varies by type, yellow or orange interior',
@@ -63,7 +63,7 @@ const rawMelons = {
         flavor: 'distinct honey-like sweetness',
         seeds: 'varies by variety',
         notes: 'specialty variety with unique flavor profile'
-      }
+}
     },
     culinaryApplications: {
       raw: {
@@ -99,7 +99,7 @@ const rawMelons = {
       Mediterranean: 'Served with feta cheese and mint',
       Mexican: 'Sprinkled with chili powder and lime',
       'Southern US': 'Eaten at summer picnics and gatherings',
-      'Southeast Asian': 'Used in spicy fruit salads with savory elements'
+      'Southeast Asian': 'Used in spicy fruit salads with savory elements',
     }
   },
   cantaloupe: {
@@ -109,7 +109,7 @@ const rawMelons = {
       Earth: 0.2,
       Fire: 0.1,
       Air: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'],
@@ -141,19 +141,19 @@ const rawMelons = {
         size: 'medium (5-8 lbs)',
         flavor: 'sweet, characteristic musky aroma',
         notes: 'common grocery store variety'
-      },
+},
 
       Galia: {
         appearance: 'netted rind like cantaloupe, green flesh like honeydew',
         size: 'medium-small (3-5 lbs)',
         flavor: 'complex honey sweetness with tropical notes',
         notes: 'hybrid variety developed in Israel'
-      },
+},
       Crenshaw: {
         appearance: 'yellow-green skin, pale orange flesh',
         size: 'large (8-10 lbs)',
         flavor: 'very sweet, spicy undertones',
-        notes: 'specialty melon, considered a gourmet variety'
+        notes: 'specialty melon, considered a gourmet variety',
       }
     },
     culinaryApplications: {
@@ -191,7 +191,7 @@ const rawMelons = {
       French: 'Eaten with port wine or Muscat',
       American: 'Breakfast fruit or light dessert',
       Mediterranean: 'Paired with soft cheeses and herbs'
-    }
+}
   },
   honeydew: {
     name: 'Honeydew',
@@ -200,7 +200,7 @@ const rawMelons = {
       Air: 0.2,
       Earth: 0.1,
       Fire: 0
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'],
@@ -232,24 +232,24 @@ const rawMelons = {
         size: 'medium to large (4-8 lbs)',
         flavor: 'mild, subtly sweet, clean finish',
         notes: 'most common commercial variety'
-      },
+},
       'Orange Flesh': {
         appearance: 'similar to green honeydew but with orange interior',
         size: 'medium (5-6 lbs)',
         flavor: 'sweeter than green, slight vanilla notes',
-        notes: 'specialty variety, increasing in popularity'
+        notes: 'specialty variety, increasing in popularity',
       },
       'Golden Honeydew': {
         appearance: 'smooth yellow exterior, pale green flesh',
         size: 'medium (4-6 lbs)',
         flavor: 'honey-like sweetness, more aromatic',
         notes: 'specialty variety with distinct flavor'
-      },
+},
       'Honey Globe': {
         appearance: 'white-green exterior, green flesh',
         size: 'smaller (3-4 lbs)',
         flavor: 'intensely sweet, rich honey flavor',
-        notes: 'Asian variety, highly prized for sweetness'
+        notes: 'Asian variety, highly prized for sweetness',
       }
     },
     culinaryApplications: {
@@ -290,7 +290,7 @@ const rawMelons = {
       Asian: 'Eaten as dessert or post-meal palate cleanser',
       European: 'Paired with cured meats and aperitifs',
       Mexican: 'Used in aguas frescas and fruit drinks'
-    }
+}
   },
   casaba: {
     name: 'Casaba',
@@ -299,14 +299,14 @@ const rawMelons = {
       Earth: 0.3,
       Air: 0.1,
       Fire: 0
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Venus'],
       favorableZodiac: ['capricorn', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Water'
-      }
+}
     },
     season: ['summer', 'fall'],
     qualities: ['mild', 'subtle', 'cucumber-like', 'refreshing'],
@@ -327,13 +327,13 @@ const rawMelons = {
         size: 'medium to large (4-7 lbs)',
         flavor: 'mildly sweet, slightly tangy',
         notes: 'most common casaba variety'
-      },
+},
       'Winter Casaba': {
         appearance: 'green-yellow wrinkled skin, pale flesh',
         size: 'large (7-8 lbs)',
         flavor: 'very mild, cucumber-like',
         notes: 'late season variety with long storage life'
-      }
+}
     },
     culinaryApplications: {
       raw: {
@@ -365,7 +365,7 @@ const rawMelons = {
       Mediterranean: 'Used in savory salads with cheese and herbs',
       'Latin American': 'Eaten with lime juice and salt or chili powder',
       American: 'Primarily used in fruit salads or as light dessert'
-    }
+}
   },
   crenshaw: {
     name: 'Crenshaw',
@@ -374,14 +374,14 @@ const rawMelons = {
       Earth: 0.3,
       Fire: 0.1,
       Air: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Jupiter'],
       favorableZodiac: ['taurus', 'pisces'],
       elementalAffinity: {
         base: 'Water',
         secondary: 'Earth'
-      }
+}
     },
     season: ['summer', 'early fall'],
     qualities: ['aromatic', 'rich', 'sweet', 'complex'],
@@ -402,7 +402,7 @@ const rawMelons = {
         size: 'large (8-10 lbs)',
         flavor: 'very sweet, spicy undertones',
         notes: 'cross between casaba and Persian melon'
-      }
+}
     },
     culinaryApplications: {
       raw: {
@@ -434,7 +434,7 @@ const rawMelons = {
       Gourmet: 'Used in high-end cuisine for its complex flavor',
       French: 'Paired with dessert wines and cream',
       California: 'Where most commercial production occurs'
-    }
+}
   },
   persian_melon: {
     name: 'Persian Melon',
@@ -443,14 +443,14 @@ const rawMelons = {
       Earth: 0.2,
       Fire: 0.1,
       Air: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Jupiter'],
       favorableZodiac: ['taurus', 'libra'],
       elementalAffinity: {
         base: 'Water',
         secondary: 'Earth'
-      }
+}
     },
     season: ['summer'],
     qualities: ['aromatic', 'floral', 'sweet', 'juicy'],
@@ -471,7 +471,7 @@ const rawMelons = {
         size: 'medium to large (5-8 lbs)',
         flavor: 'sweet, more aromatic than cantaloupe',
         notes: 'sometimes confused with cantaloupe but darker and more oblong'
-      }
+}
     },
     culinaryApplications: {
       raw: {
@@ -506,7 +506,7 @@ const rawMelons = {
       'Middle Eastern': 'Enjoyed with aromatic spices like cardamom',
       Mediterranean: 'Paired with soft cheese and herbs',
       Western: 'Typically treated similar to cantaloupe'
-    }
+}
   },
   winter_melon: {
     name: 'Winter Melon',
@@ -515,14 +515,14 @@ const rawMelons = {
       Earth: 0.3,
       Air: 0.1,
       Fire: 0
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Saturn'],
       favorableZodiac: ['cancer', 'capricorn'],
       elementalAffinity: {
         base: 'Water',
         secondary: 'Earth'
-      }
+}
     },
     season: ['winter', 'fall'],
     qualities: ['mild', 'cooling', 'spongy', 'savory'],
@@ -544,7 +544,7 @@ const rawMelons = {
         size: 'large (10-15 lbs)',
         flavor: 'very mild, slightly sweet when young',
         notes: 'used extensively in Asian cooking'
-      }
+}
     },
     culinaryApplications: {
       soup: {
@@ -592,7 +592,7 @@ const rawMelons = {
       Chinese: 'Used in soups, stir-fries, and medicinal dishes',
       Vietnamese: 'Featured in clear broths and stews',
       Indian: 'Used in curry preparations and stir-fries',
-      'Traditional Medicine': 'Valued for cooling properties and health benefits'
+      'Traditional Medicine': 'Valued for cooling properties and health benefits',
     }
   },
   galia: {
@@ -602,14 +602,14 @@ const rawMelons = {
       Air: 0.2,
       Earth: 0.1,
       Fire: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Mercury'],
       favorableZodiac: ['taurus', 'gemini'],
       elementalAffinity: {
         base: 'Water',
         secondary: 'Air'
-      }
+}
     },
     season: ['summer'],
     qualities: ['aromatic', 'sweet', 'complex', 'fragrant'],
@@ -629,7 +629,7 @@ const rawMelons = {
         appearance: 'golden netted exterior like cantaloupe, pale green flesh like honeydew',
         size: 'medium (3-5 lbs)',
         flavor: 'aromatic, tropical sweetness, hints of banana and spice',
-        notes: 'hybrid developed in Israel, now popular worldwide'
+        notes: 'hybrid developed in Israel, now popular worldwide',
       }
     },
     culinaryApplications: {
@@ -661,7 +661,7 @@ const rawMelons = {
       Israeli: 'Developed in Israel, enjoyed as premium dessert',
       Mediterranean: 'Paired with cured meats and cheeses',
       European: 'Considered a gourmet melon variety',
-      'Modern Cuisine': 'Featured in upscale restaurants and cocktail programs'
+      'Modern Cuisine': 'Featured in upscale restaurants and cocktail programs',
     }
   }
 };

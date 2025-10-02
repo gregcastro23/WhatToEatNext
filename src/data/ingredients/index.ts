@@ -150,13 +150,13 @@ function getZodiacElement(_sign: string): string | null {
 function calculateElementalPropertiesFromCategory(_category: string): Record<string, number> {
   const categoryElements: Record<string, Record<string, number>> = {
     spice: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 },
-    culinary_herb: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 }
+    culinary_herb: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
     protein: { Fire: 0.4, Earth: 0.4, Water: 0.2, Air: 0.0 },
-    oil: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 }
+    oil: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
     grain: { Earth: 0.7, Air: 0.2, Water: 0.1, Fire: 0.0 },
-    vegetable: { Earth: 0.5, Water: 0.3, Air: 0.2, Fire: 0.0 }
+    vegetable: { Earth: 0.5, Water: 0.3, Air: 0.2, Fire: 0.0 },
     fruit: { Water: 0.5, Air: 0.3, Earth: 0.2, Fire: 0.0 },
-    vinegar: { Fire: 0.2, Water: 0.4, Air: 0.3, Earth: 0.1 }
+    vinegar: { Fire: 0.2, Water: 0.4, Air: 0.3, Earth: 0.1 },
     seasoning: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
   }
 
@@ -318,15 +318,15 @@ export const allIngredients = (() => {
   // Build a list of collections in priority order (lowest to highest)
   const collectionsList = [
     { source: processedSeasonings, priority: 1 },
-    { source: processedVegetables, priority: 2 }
+    { source: processedVegetables, priority: 2 },
     { source: processedFruits, priority: 3 },
-    { source: processedGrains, priority: 4 }
+    { source: processedGrains, priority: 4 },
     { source: processedVinegars, priority: 5 },
-    { source: processedOils, priority: 6 }
+    { source: processedOils, priority: 6 },
     { source: processedPlantBased, priority: 7 },
-    { source: processedMeats, priority: 8 }
+    { source: processedMeats, priority: 8 },
     { source: processedPoultry, priority: 9 },
-    { source: processedSeafood, priority: 10 }
+    { source: processedSeafood, priority: 10 },
     { source: processedHerbs, priority: 11 },
     { source: processedSpices, priority: 12 }, // Highest priority
   ],

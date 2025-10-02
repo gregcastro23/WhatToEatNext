@@ -15,14 +15,14 @@ types.setTypeParser(types.builtins.INT8, (value: string) => parseInt(value, 10))
 
 // Database configuration interface
 export interface DatabaseConfig {
-  host: string;
-  port: number;
-  database: string;
-  user: string;
-  password: string;
-  ssl: boolean | object;
-  max: number;
-  idleTimeoutMillis: number;
+  host: string,
+  port: number,
+  database: string,
+  user: string,
+  password: string,
+  ssl: boolean | object,
+  max: number,
+  idleTimeoutMillis: number,
   connectionTimeoutMillis: number;
 }
 
@@ -135,8 +135,8 @@ export async function closeDatabase(): Promise<void> {
 
 // Health check function
 export async function checkDatabaseHealth(): Promise<{
-  healthy: boolean;
-  latency?: number;
+  healthy: boolean,
+  latency?: number,
   error?: string;
 }> {
   const startTime = Date.now();
@@ -156,7 +156,7 @@ export async function checkDatabaseHealth(): Promise<{
       healthy: false,
       latency,
       error: error instanceof Error ? error.message : 'Unknown database error'
-    };
+};
   }
 }
 
@@ -175,7 +175,7 @@ export async function withTransaction<T>(
     await client.query('ROLLBACK');
     logger.error('Database transaction failed, rolled back', {
       error: error instanceof Error ? error.message : 'Unknown error'
-    });
+});
     throw error;
   } finally {
     client.release();
@@ -183,12 +183,11 @@ export async function withTransaction<T>(
 }
 
 // Query execution with error handling and logging
-export async function executeQuery<T = any>(
-  query: string,
+export async function executeQuery<T = any>(query: string,
   params: any[] = [],
   options: {
-    logQuery?: boolean;
-    timeout?: number;
+    logQuery?: boolean,
+    timeout?: number,
   } = {}
 ): Promise<QueryResult<T>> {
   const { logQuery = databaseConfig.logQueries, timeout = 30000 } = options;
@@ -233,7 +232,7 @@ export async function executeQueryWithRetry<T = any>(
   maxRetries: number = 3,
   retryDelay: number = 1000
 ): Promise<QueryResult<T>> {
-  let lastError: Error;
+  let lastError: Error,
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {

@@ -247,7 +247,7 @@ class AstrologizeApiCache {
     date: Date,
   ): {
     elementalAbsolutes: { fire: number; water: number; earth: number, air: number },
-    elementalRelatives: { fire: number; water: number; earth: number, air: number }
+    elementalRelatives: { fire: number; water: number; earth: number, air: number },
     thermodynamics: {
       heat: number,
       entropy: number,

@@ -14,18 +14,18 @@ import path from 'node:path';
 import { classifyFileKind, decidePreservation } from './domainPreservation';
 
 type CliOptions = {
-  outPath: string;
+  outPath: string,
   maxFiles?: number;
 };
 
 type Finding = {
-  filePath: string;
-  fileKind: ReturnType<typeof classifyFileKind>;
-  variableName: string;
-  line: number;
-  column: number;
-  preserve: boolean;
-  reason: string;
+  filePath: string,
+  fileKind: ReturnType<typeof classifyFileKind>,
+  variableName: string,
+  line: number,
+  column: number,
+  preserve: boolean,
+  reason: string,
   confidence: number;
 };
 
@@ -33,7 +33,7 @@ function parseArgs(argv: string[]): CliOptions {
   const outIndex = argv.indexOf('--out');
   const maxIndex = argv.indexOf('--max');
   const outPath = outIndex !== -1 && argv[outIndex + 1] ? argv[outIndex + 1] : 'reports/unused-vars.json';
-  const maxFiles = maxIndex !== -1 && argv[maxIndex + 1] ? Number(argv[maxIndex + 1]) : undefined;
+  const maxFiles = maxIndex !== -1 && argv[maxIndex + 1] ? Number(argv[maxIndex + 1]) : undefined,
   return { outPath, maxFiles };
 }
 
@@ -50,12 +50,12 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
     throw new Error('Lint output file not created');
   }
   const json = fs.readFileSync(outputFile, 'utf8');
-  type EslintMessage = { ruleId?: string; message: string; line?: number; column?: number };
-  type EslintResult = { filePath: string; messages: EslintMessage[] };
-  const results: EslintResult[] = JSON.parse(json);
-  const limited = typeof maxFiles === 'number' ? results.slice(0, Math.max(0, maxFiles)) : results;
+  type EslintMessage = { ruleId?: string; message: string; line?: number; column?: number },
+  type EslintResult = { filePath: string; messages: EslintMessage[] },
+  const results: EslintResult[] = JSON.parse(json),
+  const limited = typeof maxFiles === 'number' ? results.slice(0, Math.max(0, maxFiles)) : results,
 
-  const findings: Finding[] = [];
+  const findings: Finding[] = [],
   for (const res of limited) {
     const filePath = res.filePath;
     const fileKind = classifyFileKind(filePath);
@@ -63,7 +63,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
       if (msg.ruleId !== 'no-unused-vars' && msg.ruleId !== '@typescript-eslint/no-unused-vars') continue;
       const quoted = msg.message.match(/'(.*?)'/)?.[1];
       const fallback = msg.message.match(/([A-Za-z_$][A-Za-z0-9_$]*)/)?.[1];
-      const variableName = quoted || fallback || 'unknown';
+      const variableName = quoted || fallback || 'unknown'
       const decision = decidePreservation(variableName, filePath);
       findings.push({
         filePath,
@@ -73,8 +73,8 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
         column: msg.column ?? 0,
         preserve: decision.preserve,
         reason: decision.reason,
-        confidence: decision.confidence,
-      });
+        confidence: decision.confidence
+});
     }
   }
   fs.unlinkSync(outputFile); // Clean up temp file

@@ -16,8 +16,8 @@ export const, vegetables: Record<string, IngredientMapping> = fixIngredientMappi
   ...roots;
   ...cruciferous;
   ...nightshades;
-  ...alliums;
-  ...squash;
+  ...alliums,
+  ...squash,
   ...starchyVegetables
   ...legumes
 });

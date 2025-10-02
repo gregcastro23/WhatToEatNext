@@ -65,7 +65,7 @@ class IngredientMappingService {
 
       // Collect recipes matching criteria
       mealTypes.forEach(mealType => {
-        const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes];
+        const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes],
         if (!mealDishes) return;
 
         seasons.forEach(season => {
@@ -160,7 +160,7 @@ class IngredientMappingService {
     const mapping1 =
       typeof ingredient1 === 'string' ? ingredientsMap[ingredient1.toLowerCase()] : ingredient1;
     const mapping2 =
-      typeof ingredient2 === 'string' ? ingredientsMap[ingredient2.toLowerCase()] : ingredient2;
+      typeof ingredient2 === 'string' ? ingredientsMap[ingredient2.toLowerCase()] : ingredient2,
 
     if (!mapping1 || !mapping2) {
       return {
@@ -169,7 +169,7 @@ class IngredientMappingService {
           ? `Ingredient '${ingredient1}' not found`
           : `Ingredient '${ingredient2}' not found`,
         compatibility: 0
-      };
+};
     }
 
     // Calculate base elemental similarity
@@ -202,8 +202,8 @@ class IngredientMappingService {
 
     if (category1 && category2) {
       // Same category usually works well together
-      if (category1 === category2) {,
-        categoryAdjustment = 0.1,
+      if (category1 === category2) {
+        categoryAdjustment = 0.1;
       }
       // Check for complementary categories
       else if (
@@ -212,7 +212,7 @@ class IngredientMappingService {
         (complementaryCategories[category2] &&
           complementaryCategories[category2].includes(category1))
       ) {
-        categoryAdjustment = 0.15,
+        categoryAdjustment = 0.15;
       }
     }
 
@@ -238,11 +238,11 @@ class IngredientMappingService {
     const validMappings = mappedIngredients.filter(mapping => mapping.matchedTo)
     // Not enough ingredients with mappings to analyze
     if (validMappings.length < 2) {
-      return {;
+      return {
         success: false,
         message: 'Not enough mapped ingredients to analyze combinations',
         mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)
-      }
+      };
     }
 
     // Analyze all ingredient pairs
@@ -250,10 +250,10 @@ class IngredientMappingService {
       ingredients: [string, string],
       compatibility: number,
       type: string
-    }[] = [],
+    }[] = [];
 
-    for (let i = 0; i < validMappings.length; i++) {,
-      for (let j = i + 1; j < validMappings.length; j++) {,
+    for (let i = 0; i < validMappings.length; i++) {
+      for (let j = i + 1; j < validMappings.length; j++) {
         const ing1 = validMappings[i];
         const ing2 = validMappings[j];
 

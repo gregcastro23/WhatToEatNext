@@ -311,7 +311,7 @@ export class RecommendationAdapter {
           const aspectType = aspectData.aspectType
 
           // Lookup planet data for both bodies with safe string conversion,
-          const planet1 = typeof body1 === 'string' ? body1.toLowerCase() : undefined,
+          const planet1 = typeof body1 === 'string' ? body1.toLowerCase() : undefined;
           const planet2 = typeof body2 === 'string' ? body2.toLowerCase() : undefined,
 
           if (!planet1 || !planet2 || !aspectType) return,

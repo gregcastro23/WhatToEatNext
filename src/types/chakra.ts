@@ -39,9 +39,9 @@ export type ChakraProperties = Record<ChakraPosition, ChakraProperty>;
 // Define a type for chakra energies (defined as interface below)
 // Define chakra mapping for tarot/major arcana
 export interface KeyCardChakraMapping {
-  cardName: string;
-  chakraPosition: ChakraPosition;
-  planet?: Planet;
+  cardName: string,
+  chakraPosition: ChakraPosition,
+  planet?: Planet,
   description: string;
 }
 
@@ -49,15 +49,15 @@ export interface KeyCardChakraMapping {
 export type AlchemicalEnergyState = 'Spirit' | 'Substance' | 'Essence' | 'Matter'
 // Define chakra-zodiac mappings
 export interface ChakraZodiacMapping {
-  chakra: ChakraPosition;
+  chakra: ChakraPosition,
   zodiacSigns: string[];
 }
 
 // Define food category
 export interface ChakraFood {
-  name: string;
-  chakra: ChakraPosition;
-  element?: string;
+  name: string,
+  chakra: ChakraPosition,
+  element?: string,
   benefits: string[];
 }
 
@@ -154,9 +154,9 @@ export const _CHAKRAS: ChakraProperties  = {
 
 // Major Arcana to Chakra mappings
 export interface MajorArcanaChakra {
-  cardName: string;
-  chakraPosition: ChakraPosition;
-  planet?: Planet;
+  cardName: string,
+  chakraPosition: ChakraPosition,
+  planet?: Planet,
   description: string;
 }
 

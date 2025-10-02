@@ -34,7 +34,7 @@ describe('Astrological Validation Utilities', () => {
     test('should validate complete planetary positions object', () => {
       const validPositions: any = {
         sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
+        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
         mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true }
       }
 

@@ -11,15 +11,15 @@ import type { Recipe, ScoredRecipe } from '@/types/recipe';
 import { logger } from '@/utils/logger';
 
 export interface RecipeSearchCriteria {
-  cuisine?: string;
-  maxPrepTime?: number;
-  dietaryRestrictions?: string[];
+  cuisine?: string,
+  maxPrepTime?: number,
+  dietaryRestrictions?: string[],
   limit?: number;
 }
 
 export interface RecipeRecommendation {
-  recipe: Recipe;
-  score: number;
+  recipe: Recipe,
+  score: number,
   matchReasons: string[];
 }
 
@@ -27,7 +27,7 @@ export interface RecipeRecommendation {
  * Recipe Service using database queries
  */
 export class RecipeService {
-  private static instance: RecipeService;
+  private static instance: RecipeService,
 
   private constructor() {}
 

@@ -40,8 +40,8 @@ jest.mock('@/services/recipeData', () => ({
 }));
 
 describe('Phase 3: Quantity-Aware Recipe Recommendations', () => {
-  let ingredientService: IngredientService;
-  let recommendationService: UnifiedRecommendationService;
+  let ingredientService: IngredientService,
+  let recommendationService: UnifiedRecommendationService,
 
   beforeEach(() => {
     ingredientService = IngredientService.getInstance();
@@ -117,7 +117,7 @@ describe('Phase 3: Quantity-Aware Recipe Recommendations', () => {
           { ingredient: 'butter', quantity: 100, unit: 'g' }
         ],
         limit: 5
-      };
+};
 
       const result = await recommendationService.getQuantityAwareRecipeRecommendations(criteria);
 
@@ -135,7 +135,7 @@ describe('Phase 3: Quantity-Aware Recipe Recommendations', () => {
         targetUnit: 'g',
         categories: ['vegetables'],
         limit: 3
-      };
+};
 
       const result = await recommendationService.getQuantityAwareIngredientRecommendations(criteria);
 
@@ -155,7 +155,7 @@ describe('Phase 3: Quantity-Aware Recipe Recommendations', () => {
         ],
         cookingMethod: 'stir fry',
         limit: 5
-      };
+};
 
       const result = await recommendationService.getQuantityAwareRecipeRecommendations(criteria);
 
@@ -215,7 +215,7 @@ describe('Phase 3: Quantity-Aware Recipe Recommendations', () => {
         ingredientId: 'garlic',
         quantity: 3 + i,
         unit: 'cloves'
-      }));
+}));
 
       const startTime = Date.now();
       const results = ingredientService.batchScaleIngredients(batchData);
@@ -233,9 +233,9 @@ describe('Phase 3: Quantity-Aware Recipe Recommendations', () => {
           ingredient: `ingredient-${i}`,
           quantity: 100 + i * 50,
           unit: 'g'
-        })),
+})),
         limit: 3
-      };
+};
 
       const startTime = Date.now();
       const result = await recommendationService.getQuantityAwareRecipeRecommendations(criteria);
@@ -251,7 +251,7 @@ describe('Phase 3: Quantity-Aware Recipe Recommendations', () => {
       const criteria = {
         elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
         limit: 5
-      };
+};
 
       const result = await recommendationService.getRecommendedRecipes(criteria);
 

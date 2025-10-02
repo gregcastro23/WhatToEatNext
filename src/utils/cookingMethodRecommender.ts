@@ -786,13 +786,13 @@ export async function getRecommendedCookingMethods(
 
     // Initialize all component scores for transparency
     let elementalScore = 0;
-    let astrologicalScore = 0,
+    let astrologicalScore = 0;
     let seasonalScore = 0;
-    let toolScore = 0,
+    let toolScore = 0;
     let dietaryScore = 0;
-    let culturalScore = 0,
+    let culturalScore = 0;
     let venusScore = 0;
-    let lunarScore = 0,
+    let lunarScore = 0;
     let score = 0,
 
     // Get element associated with the zodiac sign

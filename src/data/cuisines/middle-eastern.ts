@@ -67,7 +67,7 @@ export const middleEastern: Cuisine = {
             Earth: 0.3,
             Water: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Ful Medames',
@@ -121,7 +121,7 @@ export const middleEastern: Cuisine = {
             Water: 0.3,
             Fire: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Manakish Za\'atar',
@@ -180,7 +180,7 @@ export const middleEastern: Cuisine = {
             Earth: 0.3,
             Fire: 0.2,
             Water: 0.1
-          }
+}
         },
         {
           name: 'Labneh with Za'atar',
@@ -242,7 +242,7 @@ export const middleEastern: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-          }
+}
         }
       ]
     },
@@ -300,7 +300,7 @@ export const middleEastern: Cuisine = {
             Water: 0.3,
             Fire: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Fattoush',
@@ -359,7 +359,7 @@ export const middleEastern: Cuisine = {
             Water: 0.3,
             Earth: 0.2,
             Fire: 0.1
-          }
+}
         }
       ]
     },
@@ -430,7 +430,7 @@ export const middleEastern: Cuisine = {
             Fire: 0.3,
             Water: 0.2,
             Air: 0.1
-          }
+}
         },
         {
           name: 'Kuzi',
@@ -494,7 +494,7 @@ export const middleEastern: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Water: 0.1
-          }
+}
         }
       ],
       summer: [
@@ -566,7 +566,7 @@ export const middleEastern: Cuisine = {
             Air: 0.2,
             Earth: 0.2,
             Water: 0.1
-          }
+}
         },
         {
           name: 'Mujaddara',
@@ -617,7 +617,7 @@ export const middleEastern: Cuisine = {
             Water: 0.2,
             Fire: 0.2,
             Air: 0.1
-          }
+}
         }
       ],
       all: [
@@ -737,7 +737,7 @@ export const middleEastern: Cuisine = {
             Air: 0.3,
             Fire: 0.2,
             Water: 0.1
-          }
+}
         },
 
         {
@@ -792,7 +792,7 @@ export const middleEastern: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Water: 0.1
-          }
+}
         },
 
         {
@@ -852,7 +852,7 @@ export const middleEastern: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-          }
+}
         },
 
         {
@@ -912,7 +912,7 @@ export const middleEastern: Cuisine = {
             Earth: 0.3,
             Water: 0.2,
             Air: 0.2
-          }
+}
         },
 
         {
@@ -970,7 +970,7 @@ export const middleEastern: Cuisine = {
             Earth: 0.3,
             Air: 0.1,
             Water: 0.1
-          }
+}
         },
 
         {
@@ -1023,7 +1023,7 @@ export const middleEastern: Cuisine = {
             Water: 0.3,
             Fire: 0.2,
             Air: 0.1
-          }
+}
         }
       ]
     }
@@ -1047,13 +1047,12 @@ export const middleEastern: Cuisine = {
         Water: 0.2,
         Air: 0.2,
         Fire: 0.1
-      },
+},
       astrologicalInfluences: ['Venus', 'Moon', 'taurus'],
       seasonality: 'all',
       preparationNotes: 'Traditionally ground with stone mills to preserve flavor and nutrients',
-      technicalTips:
-        'Stir well before using as natural separation occurs. Add water slowly when thinning'
-    },
+      technicalTips: 'Stir well before using as natural separation occurs. Add water slowly when thinning'
+},
     hummus: {
       name: 'Hummus',
       description: 'Creamy chickpea dip with tahini, garlic, and lemon',
@@ -1072,14 +1071,13 @@ export const middleEastern: Cuisine = {
         Water: 0.3,
         Air: 0.2,
         Fire: 0.1
-      },
+},
       astrologicalInfluences: ['Jupiter', 'Mercury', 'virgo'],
       seasonality: 'all',
       preparationNotes:
         'Each region claims to make the most authentic version. Texture can range from rustic to silky smooth',
-      technicalTips:
-        'Cook chickpeas with baking soda to help break down skins for smoother texture'
-    },
+      technicalTips: 'Cook chickpeas with baking soda to help break down skins for smoother texture'
+},
     zaatar: {
       name: 'Za'atar Oil',
       description: 'Herb and sesame blend mixed with olive oil for dipping and spreading',
@@ -1100,13 +1098,13 @@ export const middleEastern: Cuisine = {
         Earth: 0.3,
         Fire: 0.2,
         Water: 0.1
-      },
+},
       astrologicalInfluences: ['Mercury', 'Venus', 'gemini'],
       seasonality: 'all, with fresh variations in spring',
       preparationNotes:
         'Family recipes are closely guarded secrets, with regional variations in proportions',
       technicalTips: 'Mix with high-quality olive oil just before serving to preserve aromatics'
-    },
+},
     harissa: {
       name: 'Harissa',
       description: 'Hot chile paste with garlic, spices, and olive oil',
@@ -1119,13 +1117,12 @@ export const middleEastern: Cuisine = {
         Earth: 0.2,
         Air: 0.1,
         Water: 0.1
-      },
+},
       astrologicalInfluences: ['Mars', 'Sun', 'aries'],
       seasonality: 'all',
       preparationNotes: 'Traditional preservation technique for chiles in North African cuisine',
-      technicalTips:
-        'A little goes a long way. Store with a layer of olive oil on top to preserve freshness'
-    },
+      technicalTips: 'A little goes a long way. Store with a layer of olive oil on top to preserve freshness'
+},
     toum: {
       name: 'Toum',
       description: 'Intense garlic sauce with an airy, creamy texture',
@@ -1144,14 +1141,13 @@ export const middleEastern: Cuisine = {
         Fire: 0.3,
         Water: 0.2,
         Earth: 0.1
-      },
+},
       astrologicalInfluences: ['Mercury', 'Mars', 'gemini'],
       seasonality: 'all',
       preparationNotes:
         'Traditionally made by hand pounding in a mortar and pestle until emulsified',
-      technicalTips:
-        'Slow oil incorporation is essential for proper emulsification and fluffy texture'
-    }
+      technicalTips: 'Slow oil incorporation is essential for proper emulsification and fluffy texture'
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -1282,7 +1278,7 @@ export const middleEastern: Cuisine = {
       toolsRequired: ['various serving dishes', 'mortar and pestle', 'fine grater', 'sharp knife'],
       bestFor: ['entertaining', 'appetizers', 'communal dining', 'showcasing seasonal produce'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Tagine Cooking',
       description:
@@ -1296,7 +1292,7 @@ export const middleEastern: Cuisine = {
         'aromatic dishes'
       ],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Bread Baking',
       description: 'Traditional flatbread preparation using high heat and minimal leavening',
@@ -1309,7 +1305,7 @@ export const middleEastern: Cuisine = {
       ],
       bestFor: ['pita', 'lavash', 'taboon bread', 'saj bread', 'communion bread'],
       difficulty: 'hard'
-    },
+},
     {
       name: 'Charcoal Grilling',
       description:
@@ -1318,7 +1314,7 @@ export const middleEastern: Cuisine = {
       toolsRequired: ['mangal grill', 'metal skewers', 'long tongs', 'brushes for basting'],
       bestFor: ['kebabs', 'kofta', 'whole fish', 'vegetables', 'bread'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Preserving',
       description:
@@ -1327,7 +1323,7 @@ export const middleEastern: Cuisine = {
       toolsRequired: ['clay pots', 'glass jars', 'cheesecloth', 'sun-drying racks', 'weights'],
       bestFor: ['vegetables', 'fruits', 'herbs', 'dairy products', 'fish'],
       difficulty: 'hard'
-    }
+}
   ],
   regionalCuisines: {
     levantine: {
@@ -1338,7 +1334,7 @@ export const middleEastern: Cuisine = {
       elementalProperties: { Earth: 0.4, Water: 0.2, Air: 0.2, Fire: 0.2 },
       astrologicalInfluences: ['Venus', 'Mercury', 'gemini'],
       seasonality: 'heavily influenced by seasonal produce'
-    },
+},
     persian: {
       name: 'Persian Cuisine',
       description:
@@ -1347,7 +1343,7 @@ export const middleEastern: Cuisine = {
       elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 },
       astrologicalInfluences: ['Venus', 'Sun', 'Libra'],
       seasonality: 'aligned with ancient festivals and seasonal transitions'
-    },
+},
     northAfrican: {
       name: 'North African Cuisine',
       description:
@@ -1356,7 +1352,7 @@ export const middleEastern: Cuisine = {
       elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Mars', 'Sun', 'aries'],
       seasonality: 'desert-influenced seasonal patterns'
-    },
+},
     arabian: {
       name: 'Arabian Peninsula Cuisine',
       description:
@@ -1365,7 +1361,7 @@ export const middleEastern: Cuisine = {
       elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Saturn', 'Moon', 'capricorn'],
       seasonality: 'oasis agriculture with date harvest emphasis'
-    },
+},
     turkish: {
       name: 'Turkish-Influenced Cuisine',
       description: 'Ottoman culinary legacy with layered flavors, yogurt, and regional variations',
@@ -1373,14 +1369,14 @@ export const middleEastern: Cuisine = {
       elementalProperties: { Water: 0.3, Earth: 0.3, Fire: 0.2, Air: 0.2 },
       astrologicalInfluences: ['Jupiter', 'Venus', 'taurus'],
       seasonality: 'four distinct seasons with special holiday dishes'
-    }
+}
   },
   elementalProperties: {
     Fire: 0.2,
     Water: 0.3,
     Earth: 0.3,
     Air: 0.2
-  }
+}
 };
 
 export default middleEastern;

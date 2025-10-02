@@ -360,7 +360,7 @@ async function validateCompatibilityScores(): Promise<{
     const sampleIngredients = ingredientList.slice(0, sampleSize)
 
     for (let i = 0; i < sampleIngredients.length; i++) {
-      for (let j = i + 1; j < Math.min(i + 5, sampleIngredients.length); j++) {
+      for (let j = i + 1, j < Math.min(i + 5, sampleIngredients.length); j++) {
         const ingredient1 = sampleIngredients[i];
         const ingredient2 = sampleIngredients[j];
 
@@ -795,7 +795,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
 
         const alchemical = ingredientData.alchemicalProperties;
         const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => {
-          const value = alchemical[prop] as number;
+          const value = alchemical[prop] as number,
           return typeof value === 'number' && !isNaN(value);
         });
 
@@ -912,7 +912,7 @@ function analyzeIngredientTestResults(_testResults: IngredientTestResult[]): {
       const severity =
         test.testName.includes('Loading') || test.testName.includes('Properties')
           ? 'HIGH'
-          : 'MEDIUM';
+          : 'MEDIUM',
 
       errors.push({
         type: 'DATA_INCOMPLETE',
@@ -949,23 +949,23 @@ function generateIngredientValidationSummary(
   const highErrors = errors.filter(e => e.severity === 'HIGH').length;
   const mediumErrors = errors.filter(e => e.severity === 'MEDIUM').length;
   const lowErrors = errors.filter(e => e.severity === 'LOW').length;
-  let summary = `Ingredient Data Validation ${isValid ? 'PASSED' : 'FAILED'} (${duration}ms)\n`;
-  summary += `Errors: ${errors.length} (Critical: ${criticalErrors}, High: ${highErrors}, Medium: ${mediumErrors}, Low: ${lowErrors})\n`;
-  summary += `Warnings: ${warnings.length}\n`;
+  let summary = `Ingredient Data Validation ${isValid ? 'PASSED' : 'FAILED'} (${duration}ms)\n`,
+  summary += `Errors: ${errors.length} (Critical: ${criticalErrors}, High: ${highErrors}, Medium: ${mediumErrors}, Low: ${lowErrors})\n`,
+  summary += `Warnings: ${warnings.length}\n`,
 
   if (!isValid) {
-    summary += '\nCritical Issues: \n';
+    summary += '\nCritical Issues: \n',
     errors
       .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')
       .forEach(error => {
-        summary += `- ${error.message}\n`;
+        summary += `- ${error.message}\n`,
       });
   }
 
   if (warnings.length > 0) {
-    summary += '\nWarnings: \n';
+    summary += '\nWarnings: \n',
     warnings.slice(0, 5).forEach(warning => {
-      summary += `- ${warning.message}\n`;
+      summary += `- ${warning.message}\n`,
     });
 
     if (warnings.length > 5) {
@@ -995,7 +995,7 @@ async function validateKineticsIntegration(): Promise<{
   warnings: IngredientValidationWarning[]
 }> {
   const errors: IngredientValidationError[] = [],
-  const warnings: IngredientValidationWarning[] = [];
+  const warnings: IngredientValidationWarning[] = [],
 
   try {
     const ingredients = allIngredients;
@@ -1142,11 +1142,11 @@ async function calculateKineticsValidationMetrics(): Promise<{
 
     const count = ingredients.length;
     const avgPowerEfficiency = count > 0 ? totalPowerEfficiency / count : 0.5;
-    const avgStability = count > 0 ? totalStability / count : 0.5;
+    const avgStability = count > 0 ? totalStability / count : 0.5,
     const avgForceMagnitude = count > 0 ? totalForceMagnitude / count : 0;
 
     // Determine dominant thermal direction
-    let dominantThermal: 'heating' | 'cooling' | 'neutral';
+    let dominantThermal: 'heating' | 'cooling' | 'neutral'
     if (heatingCount > coolingCount && heatingCount > neutralCount) {
       dominantThermal = 'heating';
     } else if (coolingCount > heatingCount && coolingCount > neutralCount) {
@@ -1169,7 +1169,7 @@ async function calculateKineticsValidationMetrics(): Promise<{
       circuitStability: 0.5,
       forceMagnitude: 0,
       thermalDirection: 'neutral'
-    };
+};
   }
 }
 

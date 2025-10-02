@@ -75,7 +75,7 @@ describe('Astrologize API Integration', () => {
           }
         }
 
-        console.log('\n📊 CURRENT PLANETARY POSITIONS:');
+        console.log('\n📊 CURRENT PLANETARY POSITIONS: '),
         console.log('================================');
         console.log('Timestamp:', new Date().toISOString());
         console.log('--------------------------------');
@@ -115,7 +115,7 @@ describe('Astrologize API Integration', () => {
         const positions = await getPlanetaryPositionsForDateTime(testDate);
         expect(typeof positions).toBe('object');
 
-        console.log('\n🌞 SUMMER SOLSTICE 2024 POSITIONS:');
+        console.log('\n🌞 SUMMER SOLSTICE 2024 POSITIONS: '),
         console.log('===================================');
         console.log('Date:', testDate.toISOString());
         console.log('-----------------------------------');
@@ -135,20 +135,20 @@ describe('Astrologize API Integration', () => {
 
     test('should get positions for birth date with location', async () => {
       try {
-        const birthDate = new Date('1990-03-20T16:20:00Z');
+        const birthDate = new Date('1990-03-20T16: 20:00Z');
         const _birthLocation = { latitude: 40.7498, longitude: -73.7976 }; // NYC
 
         const positions = await getPlanetaryPositionsForDateTime(birthDate);
         expect(typeof positions).toBe('object');
 
-        console.log('\n🎂 EXAMPLE BIRTH CHART POSITIONS:');
+        console.log('\n🎂 EXAMPLE BIRTH CHART POSITIONS: '),
         console.log('==================================');
         console.log('Date:', birthDate.toISOString());
         console.log('Location: NYC (40?.7498, -73?.7976)');
         console.log('----------------------------------');
 
         Object.entries(positions || []).forEach(([_planet, position]) => {
-          const retrograde = (position as { isRetrograde?: boolean }).isRetrograde ? ' (R)' : '';
+          const retrograde = (position as { isRetrograde?: boolean }).isRetrograde ? ' (R)' : '',
           console.log(
             `${_planet.padEnd(10)}: ${(position as { sign?: string }).sign?.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2).padStart(5)}°${retrograde}`,
           );
@@ -172,8 +172,8 @@ describe('Astrologize API Integration', () => {
           hour: 25,
           minute: 61,
           latitude: 91,
-          longitude: 181,
-        });
+          longitude: 181
+});
       } catch (error) {
         expect(error).toBeInstanceOf(Error);
         console.log('✅ API error handling working correctly');
@@ -191,8 +191,8 @@ describe('Astrologize API Integration', () => {
           expect(position).toHaveProperty('isRetrograde');
 
           expect(typeof position.sign).toBe('string');
-          expect(typeof (position as { degree: number }).degree).toBe('number');
-          expect(typeof (position as { exactLongitude?: number }).exactLongitude).toBe('number');
+          expect(typeof (position as { degree: number }).degree).toBe('number'),
+          expect(typeof (position as { exactLongitude?: number }).exactLongitude).toBe('number'),
           expect(typeof (position as { isRetrograde?: boolean }).isRetrograde).toBe('boolean');
         });
 
@@ -241,18 +241,18 @@ describe('Real-time Astrologize Output Demo', () => {
     try {
       // Test API connection first
       const isConnected = await testAstrologizeApi();
-      console.log(`API Connection Status: ${isConnected ? '✅ CONNECTED' : '❌ DISCONNECTED'}`);
+      console.log(`API Connection Status: ${isConnected ? '✅ CONNECTED' : '❌ DISCONNECTED'}`),
 
       if (isConnected !== null) {
-        console.log('\n📡 LIVE API DATA:');
+        console.log('\n📡 LIVE API DATA: '),
         console.log('-----------------');
 
         // Get current positions
         const currentPositions = await getCurrentPlanetaryPositions();
         // Display in a nice format
-        console.log('🌍 Current Location: Default (NYC area)');
+        console.log('🌍 Current Location: Default (NYC area)'),
         console.log('⏰ Current Time:', new Date().toLocaleString());
-        console.log('\n🪐 PLANETARY POSITIONS:');
+        console.log('\n🪐 PLANETARY POSITIONS: '),
 
         const planetOrder = [
           'Sun',
@@ -270,7 +270,7 @@ describe('Real-time Astrologize Output Demo', () => {
         (planetOrder || []).forEach(planet => {
           if (currentPositions[planet]) {
             const pos = currentPositions[planet];
-            const retrograde = (pos as { isRetrograde?: boolean }).isRetrograde ? ' ℞' : '';
+            const retrograde = (pos as { isRetrograde?: boolean }).isRetrograde ? ' ℞' : '',
             console.log(
               `  ${planet.padEnd(8)}: ${pos.sign.charAt(0).toUpperCase() + pos.sign.slice(1).padEnd(11)} ${(pos as { degree: number }).degree.toFixed(2).padStart(5)}°${retrograde}`,
             );
@@ -278,7 +278,7 @@ describe('Real-time Astrologize Output Demo', () => {
         });
 
         // Calculate some basic interpretations
-        console.log('\n📈 QUICK INSIGHTS:');
+        console.log('\n📈 QUICK INSIGHTS: '),
         const sunPos = currentPositions.Sun;
         const moonPos = currentPositions.moon;
 
@@ -293,7 +293,7 @@ describe('Real-time Astrologize Output Demo', () => {
         }
 
         // Count planets by element
-        const elementCounts = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
+        const elementCounts = { Fire: 0, Earth: 0, Air: 0, Water: 0 },
         Object.values(currentPositions || []).forEach(pos => {
           if (pos?.sign) {
             const element = getSignElement(pos.sign);
@@ -301,15 +301,15 @@ describe('Real-time Astrologize Output Demo', () => {
           }
         });
 
-        console.log('\n🔥 ELEMENTAL DISTRIBUTION:');
+        console.log('\n🔥 ELEMENTAL DISTRIBUTION: '),
         Object.entries(elementCounts || []).forEach(([element, count]) => {
-          const emoji = { Fire: '🔥', Earth: '🌍', Air: '💨', Water: '🌊' }[element as keyof typeof elementCounts];
+          const emoji = { Fire: '🔥', Earth: '🌍', Air: '💨', Water: '🌊' }[element as keyof typeof elementCounts],
           console.log(`  ${emoji} ${element.charAt(0).toUpperCase() + element.slice(1)}: ${count} planets`);
         });
       } else {
-        console.log('\n📊 FALLBACK DATA (API unavailable):');
+        console.log('\n📊 FALLBACK DATA (API unavailable): '),
         console.log('------------------------------------');
-        console.log('Note: This would show real-time data when API is available');
+        console.log('Note: This would show real-time data when API is available'),
         console.log('Current test shows that integration is properly set up');
       }
     } catch (error) {
@@ -318,7 +318,7 @@ describe('Real-time Astrologize Output Demo', () => {
     }
 
     console.log('\n=====================================');
-    console.log('🎯 Integration Status: READY FOR PRODUCTION');
+    console.log('🎯 Integration Status: READY FOR PRODUCTION'),
     console.log('=====================================\n');
   }, 45000); // Longer timeout for comprehensive demo
 });
@@ -337,9 +337,9 @@ function getSeason(sign: string): string {
     sagittarius: 'Autumn',
     capricorn: 'Winter',
     aquarius: 'Winter',
-    pisces: 'Winter',
-  };
-  return seasons[sign as keyof typeof seasons] || 'Unknown';
+    pisces: 'Winter'
+};
+  return seasons[sign as keyof typeof seasons] || 'Unknown'
 }
 
 function getSignElement(sign: string): string | null {
@@ -355,8 +355,8 @@ function getSignElement(sign: string): string | null {
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water',
-  };
+    pisces: 'Water'
+};
   return elements[sign as keyof typeof elements] || null;
 }
 
@@ -365,7 +365,7 @@ function getElementDescription(element: string | null): string {
     Fire: 'action and inspiration',
     Earth: 'stability and practicality',
     Air: 'communication and ideas',
-    Water: 'emotions and intuition',
-  };
-  return descriptions[element as keyof typeof descriptions] || 'balance';
+    Water: 'emotions and intuition'
+};
+  return descriptions[element as keyof typeof descriptions] || 'balance'
 }

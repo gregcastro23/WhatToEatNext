@@ -1,8 +1,8 @@
 import { memo, useCallback, useMemo } from 'react';
 
 interface ItemProps {
-  id: number;
-  name: string;
+  id: number,
+  name: string,
   onClick: (id: number) => void;
 }
 
@@ -19,8 +19,8 @@ export function LargeComponentTree() {
     () =>
       Array.from({ length: 1000 }, (_, i) => ({
         id: i,
-        name: `Item ${i}`,
-      })),
+        name: `Item ${i}`
+})),
     [],
   );
 

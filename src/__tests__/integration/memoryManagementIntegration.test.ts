@@ -127,7 +127,7 @@ describe('Memory Management Integration', () => {
     const initialMemory = monitor.takeSnapshot('memory-intensive-start');
 
     // Simulate memory-intensive operation
-    const largeArrays: any[][] = [];
+    const largeArrays: any[][] = [],
     for (let i = 0; i < 10; i++) {
       largeArrays.push(new Array(1000).fill(`data-${i}`));
     }

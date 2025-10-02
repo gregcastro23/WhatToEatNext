@@ -355,7 +355,7 @@ function createDefaultIngredient(id: string): Ingredient {
     name: 'Unknown Ingredient',
     category: 'other',
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-    flavorProfile: { sweet: 0, sour: 0, salty: 0, bitter: 0, umami: 0, spicy: 0 }
+    flavorProfile: { sweet: 0, sour: 0, salty: 0, bitter: 0, umami: 0, spicy: 0 },
     season: [],
     qualities: [],
     cookingMethods: [],

@@ -31,13 +31,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       blooming: 'in oil or hot liquid',
       timing: 'add early in cooking',
       notes: 'More concentrated than fresh'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
       notes: 'Crush to test freshness - should be aromatic'
-    }
+}
   },
 
   dried_oregano: {
@@ -66,13 +66,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       blooming: 'in oil or hot liquid',
       timing: 'add early in cooking',
       notes: 'Often preferred dried over fresh'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '2-3 years',
       container: 'airtight, dark',
       notes: 'Maintains flavor well when dried'
-    }
+}
   },
 
   dried_thyme: {
@@ -101,13 +101,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'lightly before use',
       timing: 'add early in cooking',
       notes: 'Retains flavor well when dried'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '2-4 years',
       container: 'airtight, dark',
       notes: 'Whole leaves last longer than ground'
-    }
+}
   },
 
   dried_rosemary: {
@@ -136,13 +136,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       infusing: 'in oil or liquid',
       timing: 'add early in cooking',
       notes: 'Use sparingly - very potent'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
       notes: 'Whole needles last longer than ground'
-    }
+}
   },
 
   dried_sage: {
@@ -170,13 +170,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       rubbing: 'crumble between fingers',
       timing: 'add early in cooking',
       notes: 'Strong flavor - use sparingly'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
       notes: 'Rubbed sage is more potent than whole dried leaves'
-    },
+},
     medicinalProperties: {
       actions: ['antimicrobial', 'digestive aid'],
       preparations: ['tea', 'infusion'],
@@ -210,13 +210,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'slightly to release oils',
       timing: 'add at beginning of cooking',
       notes: 'Remove before serving'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
       notes: 'Whole leaves maintain flavor longer'
-    }
+}
   },
 
   dried_marjoram: {
@@ -244,13 +244,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'gently before use',
       timing: 'add early in cooking',
       notes: 'More delicate than oregano'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Replace when aroma fades'
-    }
+}
   },
 
   dried_savory: {
@@ -278,13 +278,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'before use',
       timing: 'add during cooking',
       notes: 'Strong flavor - use sparingly'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Maintains strength well when dried'
-    }
+}
   },
 
   dried_chervil: {
@@ -312,13 +312,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'very gently',
       timing: 'add at end of cooking',
       notes: 'Very delicate flavor'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '6-12 months',
       container: 'airtight, dark',
       notes: 'Loses flavor quickly when dried'
-    }
+}
   },
 
   dried_tarragon: {
@@ -346,13 +346,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'gently to release oils',
       timing: 'add during cooking',
       notes: 'Strong flavor - use sparingly'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Replace when aroma weakens'
-    }
+}
   },
 
   dried_dill: {
@@ -380,13 +380,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'before use',
       timing: 'add late in cooking',
       notes: 'More concentrated than fresh'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Protect from light to maintain color'
-    }
+}
   },
 
   dried_mint: {
@@ -414,13 +414,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'to release oils',
       timing: 'add during or after cooking',
       notes: 'Good for both sweet and savory'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Maintains menthol well when dried'
-    },
+},
     medicinalProperties: {
       actions: ['digestive aid', 'decongestant'],
       preparations: ['tea', 'infusion'],
@@ -453,13 +453,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       grinding: 'just before use if whole',
       timing: 'add early in cooking',
       notes: 'Licorice-like flavor'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
       notes: 'Whole seeds last longer than ground'
-    },
+},
     medicinalProperties: {
       actions: ['digestive aid', 'anti-inflammatory'],
       preparations: ['tea', 'powder'],
@@ -492,13 +492,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'gently before use',
       timing: 'add during or end of cooking',
       notes: 'Milder than fresh parsley'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Color may fade but flavor remains'
-    }
+}
   },
 
   dried_cilantro: {
@@ -526,13 +526,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'before use',
       timing: 'add early in cooking',
       notes: 'Different flavor profile than fresh'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Best in cooked dishes'
-    }
+}
   },
 
   dried_chives: {
@@ -560,13 +560,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       rehydrating: 'soak in warm water briefly',
       timing: 'add near end of cooking',
       notes: 'Can be rehydrated for better texture'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Protect from moisture'
-    }
+}
   },
 
   dried_lemon_balm: {
@@ -594,13 +594,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'lightly before use',
       timing: 'add near end of cooking',
       notes: 'Delicate lemon flavor'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Maintains aroma well when dried'
-    },
+},
     medicinalProperties: {
       actions: ['calming', 'digestive aid'],
       preparations: ['tea', 'tincture'],
@@ -633,13 +633,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'gently before use',
       timing: 'add early for cooking, late for tea',
       notes: 'Use sparingly - can become soapy'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
       notes: 'Buds store better than flowers'
-    },
+},
     medicinalProperties: {
       actions: ['calming', 'sleep aid'],
       preparations: ['tea', 'sachet'],
@@ -672,13 +672,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'before use',
       timing: 'add early in cooking',
       notes: 'Traditional bean herb'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Replace when aroma fades'
-    }
+}
   },
 
   dried_lovage: {
@@ -706,13 +706,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'before use',
       timing: 'add early in cooking',
       notes: 'Strong celery-like flavor'
-    },
+},
     storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Replace when aroma weakens'
-    }
+}
   },
 
   chervil: {
@@ -722,7 +722,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
@@ -747,7 +747,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
@@ -773,7 +773,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],

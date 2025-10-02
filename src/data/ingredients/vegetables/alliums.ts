@@ -42,7 +42,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
       immune_support: 'very high',
       heart_health: 'supportive',
       antimicrobial: 'potent'
-    },
+},
     preparation: {
       peeling: true,
       crushing: 'releases more compounds',
@@ -50,7 +50,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
       notes: 'Different cutting methods alter flavor intensity',
       microplaning: 'creates paste-like consistency',
       pressing: 'more gentle than crushing',
-      pre_roasting: 'leave head intact, cut top, drizzle with oil'
+      pre_roasting: 'leave head intact, cut top, drizzle with oil',
     },
     varieties: {
       hardneck: {
@@ -63,13 +63,13 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
           aroma: ['Fresh', 'Clean', 'Subtle'],
           texture: ['Pleasant', 'Smooth', 'Appealing'],
           notes: 'Characteristic hardneck profile'
-        },
+},
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile hardneck for various uses'
-          },
+},
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
@@ -78,7 +78,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
           methods: ['standard preparation'],
           timing: 'as needed',
           notes: 'Standard preparation for hardneck'
-        }
+}
       }
     },
     sensoryProfile: {
@@ -86,13 +86,13 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
       aroma: ['strong', 'sulfurous'],
       texture: ['firm when raw', 'soft when cooked'],
       notes: 'Characteristic garlic profile'
-    },
+},
     culinaryProfile: {
       flavorProfile: {
         primary: ['pungent', 'sharp'],
         secondary: ['complex', 'versatile'],
         notes: 'Essential aromatic for many cuisines'
-      },
+},
       cookingMethods: ['roasted', 'sautéed', 'raw', 'confit'],
       cuisineAffinity: ['Global', 'Mediterranean', 'Asian'],
       preparationTips: ['Crush or chop to release flavor', 'Add early for roasting, late for sautéing']
@@ -102,7 +102,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '3-6 months',
       container: 'well-ventilated',
-      notes: 'Keep in cool, dry place away from light'
+      notes: 'Keep in cool, dry place away from light',
     }
   }
 };

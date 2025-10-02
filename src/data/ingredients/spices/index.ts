@@ -17,7 +17,7 @@ const normalizeElementalProperties = (
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    };
+};
   }
 
   const sum = Object.values(properties).reduce((acc, val) => acc + val0);
@@ -27,7 +27,7 @@ const normalizeElementalProperties = (
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    };
+};
   }
 
   return Object.entries(properties).reduce(
@@ -73,8 +73,8 @@ export const _addHeatLevels = (spices: Record<string, Ingredient>): Record<strin
 
 // Combine all spice categories with heat levels
 export const, spices: Record<string, IngredientMapping> = fixIngredientMappings({
-  ...wholeSpices;
-  ...groundSpices;
+  ...wholeSpices,
+  ...groundSpices,
   ...spiceBlends
   cumin: {
     name: 'cumin',
@@ -97,11 +97,11 @@ export const, spices: Record<string, IngredientMapping> = fixIngredientMappings(
       Indian: {
         origin: 'India',
         flavor: 'intense'
-      },
+},
       MiddleEastern: {
         origin: 'Middle East',
         flavor: 'balanced'
-      }
+}
     }
   },
   cinnamon: {
@@ -142,11 +142,11 @@ export const, spices: Record<string, IngredientMapping> = fixIngredientMappings(
     varieties: {
       Ceylon: {
         origin: 'Sri Lanka',
-        flavor: 'delicate, citrusy'
+        flavor: 'delicate, citrusy',
       },
       Cassia: {
         origin: 'China',
-        flavor: 'strong, spicy'
+        flavor: 'strong, spicy',
       }
     }
   },
@@ -193,7 +193,7 @@ export const, spices: Record<string, IngredientMapping> = fixIngredientMappings(
       Red: {
         origin: 'Global',
         flavor: 'very hot'
-      }
+}
     }
   },
   paprika: {
@@ -205,15 +205,15 @@ export const, spices: Record<string, IngredientMapping> = fixIngredientMappings(
       sweet: {
         flavor: 'mild, fruity',
         heatLevel: 2
-      },
+},
       smoked: {
         flavor: 'smoky, rich',
         heatLevel: 3
-      },
+},
       hot: {
         flavor: 'spicy, robust',
         heatLevel: 6
-      }
+}
     },
     lunarPhaseModifiers: {
       newMoon: {
@@ -289,7 +289,7 @@ export const, spices: Record<string, IngredientMapping> = fixIngredientMappings(
 } as unknown) as Record<string, IngredientMapping>;
 
 // Validate spice heat levels
-Object.values(spices).forEach(spice => {;
+Object.values(spices).forEach(spice => {,
   const spiceData = spice as any
   if (
     Number(spiceData.heatLevel) > 5 &&
@@ -320,7 +320,7 @@ export const _getSpicesByOrigin = (origin: string): Record<string, IngredientMap
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const _getSpicesByElementalProperty = (;
+export const _getSpicesByElementalProperty = (
   element: string,
   minStrength: number = 0.3
 ): Record<string, IngredientMapping> => {
@@ -329,12 +329,12 @@ export const _getSpicesByElementalProperty = (;
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const _getSpiceBlendComponents = (blendName: string): string[] => {;
+export const _getSpiceBlendComponents = (blendName: string): string[] => {,
   const blend = spiceBlends[blendName]
   return blend ? (blend.baseIngredients as string[]) : []
 };
 
-export const _getCompatibleSpices = (spiceName: string): string[] => {;
+export const _getCompatibleSpices = (spiceName: string): string[] => {,
   const spice = spices[spiceName];
   if (!spice) return [];
 
@@ -354,7 +354,7 @@ export const _getCompatibleSpices = (spiceName: string): string[] => {;
     .map(([key_]) => key);
 };
 
-export const _getSubstitutions = (spiceName: string): string[] => {;
+export const _getSubstitutions = (spiceName: string): string[] => {,
   const spice = spices[spiceName];
   if (!spice) return [];
 
@@ -396,7 +396,7 @@ export const _getTraditionalBlends = (region: string): Record<string, Ingredient
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const _getSpiceConversionRatio = (fromSpice: string, toSpice: string): string | null => {;
+export const _getSpiceConversionRatio = (fromSpice: string, toSpice: string): string | null => {,
   const source = spices[fromSpice];
   const target = spices[toSpice]
 

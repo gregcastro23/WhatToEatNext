@@ -20,19 +20,19 @@ import type {
 } from '@/types/kinetics';
 
 export interface FoodItem {
-  id: string;
-  name: string;
-  tags: string[];
-  elementalProfile: ElementalProperties;
-  basePortionSize: number;
+  id: string,
+  name: string,
+  tags: string[],
+  elementalProfile: ElementalProperties,
+  basePortionSize: number,
   nutritionalDensity: number;
 }
 
 export interface UserPreferences {
-  cuisineTypes: string[];
-  dietaryRestrictions: string[];
-  allergies: string[];
-  energyPreference?: 'high' | 'moderate' | 'low';
+  cuisineTypes: string[],
+  dietaryRestrictions: string[],
+  allergies: string[],
+  energyPreference?: 'high' | 'moderate' | 'low'
 }
 
 /**
@@ -350,7 +350,7 @@ function calculateKineticsEnhancements(kinetics: KineticMetrics) {
     powerLevel: power > 1.5 ? 'high' : power < 0.5 ? 'low' : 'moderate',
     chargeDensity: charge > 2.0 ? 'dense' : charge < 1.0 ? 'light' : 'moderate',
     potentialStyle: potentialDifference > 1.0 ? 'transformative' : 'conservative'
-  }
+}
 
   return enhancements
 }

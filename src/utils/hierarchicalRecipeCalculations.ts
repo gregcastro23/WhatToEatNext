@@ -139,7 +139,7 @@ export function scaleIngredientByQuantity(
     tsp: 5,
     ml: 1, // Approximate density
     l: 1000
-  };
+};
 
   const factor = conversionFactors[unit.toLowerCase()];
   if (factor) {
@@ -180,7 +180,7 @@ export function aggregateIngredientElementals(
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
 
-  const totals = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const totals = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
 
   for (const ingredient of ingredients) {
     if (!ingredient.elementalProperties) continue;
@@ -225,7 +225,7 @@ export function applyCookingMethodTransforms(
     const modifiers = COOKING_METHOD_MODIFIERS[methodName.toLowerCase()];
 
     if (!modifiers) {
-      console.warn(`Unknown cooking method: ${methodName}`);
+      console.warn(`Unknown cooking method: ${methodName}`),
       continue;
     }
 
@@ -396,7 +396,7 @@ export function calculateRecipeKinetics(
   const recipeAcceleration = recipeInertia > 0 ? recipeForce / recipeInertia : 0;
 
   // 7. Thermal direction based on heat vs entropy balance
-  let thermalDirection: 'heating' | 'cooling' | 'stable';
+  let thermalDirection: 'heating' | 'cooling' | 'stable'
   if (heat > entropy * reactivity) {
     thermalDirection = 'heating';
   } else if (entropy > heat) {
@@ -406,7 +406,7 @@ export function calculateRecipeKinetics(
   }
 
   // 8. Force classification based on power level
-  let forceClassification: 'accelerating' | 'decelerating' | 'balanced';
+  let forceClassification: 'accelerating' | 'decelerating' | 'balanced'
   if (recipePower > 2.0) {
     forceClassification = 'accelerating';
   } else if (recipePower < 0.5) {
@@ -477,5 +477,5 @@ export function computeRecipePropertiesSimple(
     applyCookingMethods: true,
     quantityScaling: 'logarithmic',
     cacheResults: false
-  });
+});
 }

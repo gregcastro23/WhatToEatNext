@@ -56,7 +56,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         vitamin_k_mcg: 28,
         anthocyanins_mg: 163,
         proanthocyanidins_mg: 88
-      }
+}
     },
     healthBenefits: [
       'Powerful antioxidant properties',
@@ -76,20 +76,20 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         flavor: 'sweet with balanced acidity',
         common_cultivars: ['Bluecrop', 'Duke', 'Elliott', 'Liberty'],
         notes: 'Most commonly cultivated variety'
-      }
+}
     },
     sensoryProfile: {
       taste: ['sweet', 'tart', 'juicy'],
       aroma: ['fresh', 'fruity'],
       texture: ['plump', 'tender'],
       notes: 'Characteristic blueberry profile'
-    },
+},
     culinaryProfile: {
       flavorProfile: {
         primary: ['sweet', 'tart'],
         secondary: ['juicy', 'fresh'],
         notes: 'Versatile berry for sweet and savory dishes'
-      },
+},
       cookingMethods: ['raw', 'baked', 'cooked'],
       cuisineAffinity: ['American', 'European', 'Global'],
       preparationTips: ['Wash before use', 'Can be used fresh or frozen']
@@ -99,7 +99,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       duration: '1-2 weeks',
       container: 'ventilated container',
       notes: 'Best stored in refrigerator'
-    }
+}
   }
 };
 

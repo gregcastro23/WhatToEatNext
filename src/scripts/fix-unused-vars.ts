@@ -28,8 +28,8 @@ function getUnusedVariables() {
               filePath,
               varName: match[1],
               line: message.line,
-              column: message.column,
-            });
+              column: message.column
+});
           }
         }
       }

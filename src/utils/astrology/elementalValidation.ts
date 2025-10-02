@@ -132,7 +132,7 @@ function getElementalCompatibility(
 ): number {
   const compatibilityMatrix = {
     Fire: { Water: 0.7, Earth: 0.7, Air: 0.8 },
-    Water: { Fire: 0.7, Earth: 0.8, Air: 0.7 }
+    Water: { Fire: 0.7, Earth: 0.8, Air: 0.7 },
     Earth: { Fire: 0.7, Water: 0.8, Air: 0.7 },
     Air: { Fire: 0.8, Water: 0.7, Earth: 0.7 }
   }

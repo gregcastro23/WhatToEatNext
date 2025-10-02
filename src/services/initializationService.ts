@@ -205,7 +205,7 @@ class InitializationService {
   }
 
   private processRecipes(recipes: Recipe[], celestialData: CelestialData): ScoredRecipe[] {
-    return recipes.map(recipe => ({,
+    return recipes.map(recipe => ({;
       ...recipe,
       score: this.calculateRecipeScore(recipe, celestialData)
     }))

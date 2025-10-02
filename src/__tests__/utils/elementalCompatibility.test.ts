@@ -7,15 +7,15 @@ describe('Food Recommendation Engine', () => {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    };
+      Air: 0.25
+};
 
     const userProps: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    };
+      Air: 0.25
+};
 
     const result = await calculateElementalCompatibility(recipeProps, userProps);
 
@@ -28,15 +28,15 @@ describe('Food Recommendation Engine', () => {
       Fire: 0.7,
       Water: 0.1,
       Earth: 0.1,
-      Air: 0.1,
-    };
+      Air: 0.1
+};
 
     const userProps: ElementalProperties = {
       Fire: 0.1,
       Water: 0.7,
       Earth: 0.1,
-      Air: 0.1,
-    };
+      Air: 0.1
+};
 
     const result = await calculateElementalCompatibility(recipeProps, userProps);
 
@@ -50,15 +50,15 @@ describe('Food Recommendation Engine', () => {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    };
+      Air: 0.25
+};
 
     const userProps: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    };
+      Air: 0.25
+};
 
     const result = await calculateElementalCompatibility(recipeProps, userProps);
 
@@ -72,15 +72,15 @@ describe('Food Recommendation Engine', () => {
       Fire: 0.97,
       Water: 0.01,
       Earth: 0.01,
-      Air: 0.01,
-    };
+      Air: 0.01
+};
 
     const userProps: ElementalProperties = {
       Fire: 0.01,
       Water: 0.01,
       Earth: 0.01,
-      Air: 0.97,
-    };
+      Air: 0.97
+};
 
     const result = await calculateElementalCompatibility(recipeProps, userProps);
 
@@ -95,16 +95,16 @@ describe('Food Recommendation Engine', () => {
       Fire: 0.3,
       Water: 0.3,
       Earth: 0.1,
-      Air: 0.3,
-    };
+      Air: 0.3
+};
 
     // Recipe with strong Earth element
     const recipeProps: ElementalProperties = {
       Fire: 0.2,
       Water: 0.2,
       Earth: 0.4,
-      Air: 0.2,
-    };
+      Air: 0.2
+};
 
     const result = await calculateElementalCompatibility(recipeProps, userProps);
 

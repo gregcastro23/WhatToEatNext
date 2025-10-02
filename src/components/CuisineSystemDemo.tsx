@@ -18,13 +18,13 @@ import {
 import React, { useEffect, useState } from 'react';
 
 interface UserProfile {
-  elementalPreferences: ElementalProperties;
+  elementalPreferences: ElementalProperties,
   culturalBackground?: {
-    preferredCuisines?: string[];
+    preferredCuisines?: string[],
     dietaryRestrictions?: string[];
   };
   astrologicalProfile?: {
-    sunSign?: string;
+    sunSign?: string,
     moonSign?: string;
   };
 }
@@ -74,7 +74,7 @@ const CuisineSystemDemo: React.FC = () => {
                 averageValue: 0.3,
                 globalAverage: 0.25,
                 description: 'Italian cuisine has a high Earth signature due to wheat-based dishes and cheese'
-              }
+}
             ],
             planetaryPatterns: [
               {
@@ -85,12 +85,12 @@ const CuisineSystemDemo: React.FC = () => {
                 ],
                 planetaryStrength: 0.65,
                 dominantElement: 'Earth'
-              }
+}
             ],
             sampleSize: 50,
             computedAt: new Date(),
             version: '1.0.0'
-          }
+}
         }],
         ['Mexican', {
           name: 'Mexican',
@@ -105,7 +105,7 @@ const CuisineSystemDemo: React.FC = () => {
                 averageValue: 0.6,
                 globalAverage: 0.25,
                 description: 'Mexican cuisine has a very high Fire signature due to chili peppers and spices'
-              }
+}
             ],
             planetaryPatterns: [
               {
@@ -116,12 +116,12 @@ const CuisineSystemDemo: React.FC = () => {
                 ],
                 planetaryStrength: 0.72,
                 dominantElement: 'Fire'
-              }
+}
             ],
             sampleSize: 40,
             computedAt: new Date(),
             version: '1.0.0'
-          }
+}
         }],
         ['Japanese', {
           name: 'Japanese',
@@ -136,7 +136,7 @@ const CuisineSystemDemo: React.FC = () => {
                 averageValue: 0.4,
                 globalAverage: 0.25,
                 description: 'Japanese cuisine has a high Water signature due to seafood and delicate preparations'
-              }
+}
             ],
             planetaryPatterns: [
               {
@@ -147,12 +147,12 @@ const CuisineSystemDemo: React.FC = () => {
                 ],
                 planetaryStrength: 0.58,
                 dominantElement: 'Air'
-              }
+}
             ],
             sampleSize: 45,
             computedAt: new Date(),
             version: '1.0.0'
-          }
+}
         }],
         ['Indian', {
           name: 'Indian',
@@ -167,7 +167,7 @@ const CuisineSystemDemo: React.FC = () => {
                 averageValue: 4.0,
                 globalAverage: 2.5,
                 description: 'Indian cuisine has exceptional Spirit due to complex spice combinations and transformative cooking'
-              }
+}
             ],
             planetaryPatterns: [
               {
@@ -178,12 +178,12 @@ const CuisineSystemDemo: React.FC = () => {
                 ],
                 planetaryStrength: 0.68,
                 dominantElement: 'Fire'
-              }
+}
             ],
             sampleSize: 60,
             computedAt: new Date(),
             version: '1.0.0'
-          }
+}
         }]
       ]);
 
@@ -194,7 +194,7 @@ const CuisineSystemDemo: React.FC = () => {
         dietaryRestrictions: userProfile.culturalBackground?.dietaryRestrictions || [],
         astrologicalProfile: userProfile.astrologicalProfile,
         useAdvancedAnalysis: true
-      });
+});
 
       // Simulate with mock data since we're not using real computed data
       setRecommendations([

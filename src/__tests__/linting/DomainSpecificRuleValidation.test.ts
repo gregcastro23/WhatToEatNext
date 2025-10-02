@@ -17,7 +17,7 @@ import { join } from 'path';
 const { DomainSpecificRuleValidator } = require('../../scripts/validateDomainSpecificRules.cjs');
 
 describe('Domain-Specific Rule Validation', () => {
-  let validator: typeof DomainSpecificRuleValidator;
+  let validator: typeof DomainSpecificRuleValidator,
   const projectRoot = process.cwd();
 
   beforeEach(() => {
@@ -97,8 +97,8 @@ describe('Domain-Specific Rule Validation', () => {
         // Run ESLint to check for violations
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         // If no error, constants are properly preserved
         expect(true).toBe(true);
@@ -119,7 +119,7 @@ describe('Domain-Specific Rule Validation', () => {
     test('should recognize planetary variable patterns', async () => {
       const testContent = `
         const planet = 'mars';
-        const position = { sign: 'cancer', degree: 22.63 };
+        const position = { sign: 'cancer', degree: 22.63 },
         const longitude = 112.63;
         const UNUSED_retrograde = false;
         const UNUSED_planet = 'unused';
@@ -132,8 +132,8 @@ describe('Domain-Specific Rule Validation', () => {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
 
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
@@ -176,7 +176,7 @@ describe('Domain-Specific Rule Validation', () => {
           Water: 0.2,
           Earth: 0.1,
           Air: 0.3
-        };
+};
       `;
 
       const testFile = join(projectRoot, 'src/calculations/temp-elemental-valid.ts');
@@ -185,8 +185,8 @@ describe('Domain-Specific Rule Validation', () => {
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         // Valid elemental properties should not cause errors
         expect(true).toBe(true);
@@ -217,8 +217,8 @@ describe('Domain-Specific Rule Validation', () => {
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         // Should have caught the invalid properties
         // If we reach here without error, the rule didn't work
@@ -236,8 +236,8 @@ describe('Domain-Specific Rule Validation', () => {
 
     test('should preserve fallback values', async () => {
       const testContent = `
-        const FALLBACK_POSITIONS = { sun: { sign: 'aries', degree: 8.5 } };
-        const RELIABLE_DATA = { mars: { sign: 'cancer', degree: 22.63 } };
+        const FALLBACK_POSITIONS = { sun: { sign: 'aries', degree: 8.5 } },
+        const RELIABLE_DATA = { mars: { sign: 'cancer', degree: 22.63 } },
         const MARCH2025_BACKUP = { moon: { sign: 'aries', degree: 1.57 } };
       `;
 
@@ -247,8 +247,8 @@ describe('Domain-Specific Rule Validation', () => {
       try {
         execSync(`npx eslint "${testFile}" --config eslint.config.cjs`, {
           stdio: 'pipe',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         // Valid fallback values should not cause errors
         expect(true).toBe(true);
@@ -296,8 +296,8 @@ describe('Domain-Specific Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -344,8 +344,8 @@ describe('Domain-Specific Rule Validation', () => {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
 
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
@@ -391,8 +391,8 @@ describe('Domain-Specific Rule Validation', () => {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
 
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
@@ -448,8 +448,8 @@ describe('Domain-Specific Rule Validation', () => {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
 
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
@@ -488,7 +488,7 @@ describe('Domain-Specific Rule Validation', () => {
 
     test('should have relaxed rules for testing patterns', async () => {
       const testContent = `
-        const anyValue: any = 'test-any';
+        const anyValue: any = 'test-any',
         console.log('Test output');
         const value = someObject!.property; // non-null assertion
         const magicNumber = 42; // magic number
@@ -501,8 +501,8 @@ describe('Domain-Specific Rule Validation', () => {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
 
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
@@ -559,8 +559,8 @@ describe('Domain-Specific Rule Validation', () => {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
 
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
@@ -615,8 +615,8 @@ describe('Domain-Specific Rule Validation', () => {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
 
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
@@ -647,7 +647,7 @@ describe('Domain-Specific Rule Validation', () => {
 
     test('should have relaxed rules for build patterns', async () => {
       const testContent = `
-        const anyConfig: any = process.env.CONFIG;
+        const anyConfig: any = process.env.CONFIG,
         console.log('Configuration loaded');
         const dynamicRequire = require(process.env.MODULE);
       `;
@@ -659,8 +659,8 @@ describe('Domain-Specific Rule Validation', () => {
         const output = execSync(`npx eslint "${testFile}" --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
 
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {

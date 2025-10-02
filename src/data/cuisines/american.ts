@@ -31,7 +31,7 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
-            },
+},
             { name: 'buttermilk', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
             { name: 'butter', amount: '4', unit: 'tbsp', category: 'fat', element: 'Earth' },
@@ -41,14 +41,14 @@ export const, american: Cuisine = {
               unit: 'cup',
               category: 'sweetener',
               element: 'Water'
-            },
+},
             {
               name: 'baking powder',
               amount: '2',
               unit: 'tsp',
               category: 'leavening',
               element: 'Air'
-            }
+}
           ],
           substitutions: {
             buttermilk: ['yogurt+milk', 'milk+lemon juice'],
@@ -79,7 +79,7 @@ export const, american: Cuisine = {
             Water: 0.4,
             Earth: 0.4,
             Air: 0.1
-          },
+},
           // Enhanced with moon phase affinities
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['cancer', 'taurus'],
@@ -111,7 +111,7 @@ export const, american: Cuisine = {
               unit: 'slices',
               category: 'grain',
               element: 'Earth'
-            },
+},
             { name: 'avocado', amount: '1', unit: 'medium', category: 'fruit', element: 'Earth' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
             { name: 'lemon juice', amount: '1', unit: 'tsp', category: 'acid', element: 'Water' },
@@ -121,14 +121,14 @@ export const, american: Cuisine = {
               unit: 'tsp',
               category: 'spice',
               element: 'Fire'
-            },
+},
             {
               name: 'microgreens',
               amount: '1/4',
               unit: 'cup',
               category: 'vegetable',
               element: 'Air'
-            }
+}
           ],
           substitutions: {
             'whole grain bread': ['sourdough', 'gluten-free bread'],
@@ -158,7 +158,7 @@ export const, american: Cuisine = {
             Water: 0.3,
             Earth: 0.5,
             Air: 0.1
-          },
+},
           // Enhanced with moon phase affinities
           lunarPhaseInfluences: ['new moon', 'waxing crescent'],
           zodiacInfluences: ['virgo', 'taurus'],
@@ -190,7 +190,7 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
-            },
+},
             { name: 'buttermilk', amount: '1', unit: 'cup', category: 'dairy', element: 'Water' },
             { name: 'butter', amount: '1/2', unit: 'cup', category: 'fat', element: 'Earth' },
             {
@@ -199,7 +199,7 @@ export const, american: Cuisine = {
               unit: 'pound',
               category: 'protein',
               element: 'Fire'
-            },
+},
             { name: 'milk', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' },
             { name: 'black pepper', amount: '1', unit: 'tsp', category: 'spice', element: 'Fire' }
           ],
@@ -231,7 +231,7 @@ export const, american: Cuisine = {
             Water: 0.3,
             Earth: 0.4,
             Air: 0.0
-          },
+},
           // Enhanced with moon phase affinities
           lunarPhaseInfluences: ['full moon', 'waning gibbous'],
           zodiacInfluences: ['taurus', 'cancer', 'scorpio'],
@@ -256,21 +256,21 @@ export const, american: Cuisine = {
               unit: 'bunch',
               category: 'vegetable',
               element: 'Air'
-            },
+},
             {
               name: 'fresh peas',
               amount: '1',
               unit: 'cup',
               category: 'vegetable',
               element: 'Earth'
-            },
+},
             {
               name: 'green onions',
               amount: '4',
               unit: 'stalks',
               category: 'vegetable',
               element: 'Air'
-            },
+},
             { name: 'goat cheese', amount: '4', unit: 'oz', category: 'dairy', element: 'Earth' },
             { name: 'fresh herbs', amount: '1/4', unit: 'cup', category: 'herb', element: 'Air' }
           ],
@@ -290,7 +290,7 @@ export const, american: Cuisine = {
             Water: 0.3,
             Earth: 0.2,
             Air: 0.4
-          },
+},
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
           zodiacInfluences: ['aries', 'taurus'],
           astrologicalAffinities: {
@@ -313,7 +313,7 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'fruit',
               element: 'Water'
-            },
+},
             { name: 'banana', amount: '1', unit: 'medium', category: 'fruit', element: 'Earth' },
             { name: 'greek yogurt', amount: '1', unit: 'cup', category: 'dairy', element: 'Water' },
             { name: 'honey', amount: '1', unit: 'tbsp', category: 'sweetener', element: 'Water' },
@@ -336,7 +336,7 @@ export const, american: Cuisine = {
             Water: 0.5,
             Earth: 0.4,
             Air: 0.1
-          },
+},
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['cancer', 'leo'],
           astrologicalAffinities: {
@@ -359,14 +359,14 @@ export const, american: Cuisine = {
               unit: 'cup',
               category: 'grain',
               element: 'Earth'
-            },
+},
             {
               name: 'pumpkin puree',
               amount: '1/2',
               unit: 'cup',
               category: 'vegetable',
               element: 'Earth'
-            },
+},
             { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice', element: 'Fire' },
             { name: 'nutmeg', amount: '1/4', unit: 'tsp', category: 'spice', element: 'Fire' },
             {
@@ -375,7 +375,7 @@ export const, american: Cuisine = {
               unit: 'tbsp',
               category: 'sweetener',
               element: 'Water'
-            },
+},
             { name: 'pecans', amount: '1/4', unit: 'cup', category: 'nut', element: 'Earth' }
           ],
           nutrition: {
@@ -394,7 +394,7 @@ export const, american: Cuisine = {
             Water: 0.2,
             Earth: 0.6,
             Air: 0.0
-          },
+},
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
           zodiacInfluences: ['virgo', 'libra'],
           astrologicalAffinities: {
@@ -417,7 +417,7 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
-            },
+},
             { name: 'cranberries', amount: '1', unit: 'cup', category: 'fruit', element: 'Water' },
             { name: 'orange zest', amount: '2', unit: 'tbsp', category: 'fruit', element: 'Fire' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
@@ -440,7 +440,7 @@ export const, american: Cuisine = {
             Water: 0.2,
             Earth: 0.5,
             Air: 0.1
-          },
+},
           lunarPhaseInfluences: ['new moon', 'waning crescent'],
           zodiacInfluences: ['capricorn', 'aquarius'],
           astrologicalAffinities: {
@@ -476,42 +476,42 @@ export const, american: Cuisine = {
               unit: 'pound',
               category: 'protein',
               element: 'Fire'
-            },
+},
             {
               name: 'hamburger buns',
               amount: '4',
               unit: 'buns',
               category: 'grain',
               element: 'Earth'
-            },
+},
             {
               name: 'cheddar cheese',
               amount: '4',
               unit: 'slices',
               category: 'dairy',
               element: 'Earth'
-            },
+},
             {
               name: 'lettuce',
               amount: '4',
               unit: 'leaves',
               category: 'vegetable',
               element: 'Water'
-            },
+},
             {
               name: 'tomato',
               amount: '1',
               unit: 'medium',
               category: 'vegetable',
               element: 'Water'
-            },
+},
             {
               name: 'onion',
               amount: '1/2',
               unit: 'medium',
               category: 'vegetable',
               element: 'Fire'
-            },
+},
             { name: 'ketchup', amount: '4', unit: 'tbsp', category: 'condiment', element: 'Fire' },
             { name: 'mustard', amount: '4', unit: 'tsp', category: 'condiment', element: 'Fire' }
           ],
@@ -544,7 +544,7 @@ export const, american: Cuisine = {
             Water: 0.1,
             Earth: 0.3,
             Air: 0.1
-          },
+},
           lunarPhaseInfluences: ['full moon', 'first quarter'],
           zodiacInfluences: ['aries', 'leo', 'taurus'],
           astrologicalAffinities: {
@@ -576,14 +576,14 @@ export const, american: Cuisine = {
               unit: 'head',
               category: 'vegetable',
               element: 'Water'
-            },
+},
             {
               name: 'grilled chicken',
               amount: '2',
               unit: 'breasts',
               category: 'protein',
               element: 'Fire'
-            },
+},
             { name: 'bacon', amount: '6', unit: 'slices', category: 'protein', element: 'Fire' },
             {
               name: 'hard-boiled eggs',
@@ -591,7 +591,7 @@ export const, american: Cuisine = {
               unit: 'large',
               category: 'protein',
               element: 'Water'
-            },
+},
             { name: 'avocado', amount: '1', unit: 'medium', category: 'fruit', element: 'Earth' },
             {
               name: 'blue cheese',
@@ -599,21 +599,21 @@ export const, american: Cuisine = {
               unit: 'cup',
               category: 'dairy',
               element: 'Earth'
-            },
+},
             {
               name: 'cherry tomatoes',
               amount: '1',
               unit: 'cup',
               category: 'vegetable',
               element: 'Water'
-            },
+},
             {
               name: 'red wine vinaigrette',
               amount: '1/2',
               unit: 'cup',
               category: 'dressing',
               element: 'Water'
-            }
+}
           ],
           substitutions: {
             chicken: ['turkey', 'tofu', 'chickpeas'],
@@ -644,7 +644,7 @@ export const, american: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Air: 0.1
-          },
+},
           lunarPhaseInfluences: ['first quarter', 'waxing gibbous'],
           zodiacInfluences: ['virgo', 'libra'],
           astrologicalAffinities: {
@@ -677,7 +677,7 @@ export const, american: Cuisine = {
               unit: 'large',
               category: 'vegetable',
               element: 'Earth'
-            },
+},
             { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable', element: 'Fire' },
             {
               name: 'celery',
@@ -685,7 +685,7 @@ export const, american: Cuisine = {
               unit: 'stalks',
               category: 'vegetable',
               element: 'Water'
-            },
+},
             { name: 'heavy cream', amount: '1', unit: 'cup', category: 'dairy', element: 'Water' },
             { name: 'clam juice', amount: '2', unit: 'cups', category: 'broth', element: 'Water' },
             { name: 'thyme', amount: '1', unit: 'tsp', category: 'herb', element: 'Air' }
@@ -718,7 +718,7 @@ export const, american: Cuisine = {
             Water: 0.6,
             Earth: 0.2,
             Air: 0.1
-          },
+},
           lunarPhaseInfluences: ['full moon', 'waning gibbous'],
           zodiacInfluences: ['cancer', 'pisces'],
           astrologicalAffinities: {
@@ -742,7 +742,7 @@ export const, american: Cuisine = {
               unit: 'bunch',
               category: 'vegetable',
               element: 'Air'
-            },
+},
             { name: 'goat cheese', amount: '4', unit: 'oz', category: 'dairy', element: 'Earth' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
             { name: 'lemon zest', amount: '1', unit: 'tsp', category: 'citrus', element: 'Fire' },
@@ -764,7 +764,7 @@ export const, american: Cuisine = {
             Water: 0.2,
             Earth: 0.3,
             Air: 0.4
-          },
+},
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
           zodiacInfluences: ['taurus', 'gemini'],
           astrologicalAffinities: {
@@ -787,14 +787,14 @@ export const, american: Cuisine = {
               unit: 'pound',
               category: 'seafood',
               element: 'Water'
-            },
+},
             {
               name: 'mayonnaise',
               amount: '1/4',
               unit: 'cup',
               category: 'condiment',
               element: 'Water'
-            },
+},
             { name: 'celery', amount: '1', unit: 'stalk', category: 'vegetable', element: 'Water' },
             {
               name: 'split-top buns',
@@ -802,7 +802,7 @@ export const, american: Cuisine = {
               unit: 'rolls',
               category: 'grain',
               element: 'Earth'
-            },
+},
             { name: 'butter', amount: '2', unit: 'tbsp', category: 'fat', element: 'Earth' },
             { name: 'lemon juice', amount: '1', unit: 'tbsp', category: 'acid', element: 'Water' }
           ],
@@ -822,7 +822,7 @@ export const, american: Cuisine = {
             Water: 0.7,
             Earth: 0.2,
             Air: 0.1
-          },
+},
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['cancer', 'scorpio'],
           astrologicalAffinities: {
@@ -846,7 +846,7 @@ export const, american: Cuisine = {
               unit: 'tbsp',
               category: 'condiment',
               element: 'Water'
-            },
+},
             { name: 'stuffing', amount: '1/2', unit: 'cup', category: 'grain', element: 'Earth' },
             {
               name: 'whole grain bread',
@@ -854,14 +854,14 @@ export const, american: Cuisine = {
               unit: 'slices',
               category: 'grain',
               element: 'Earth'
-            },
+},
             {
               name: 'mayonnaise',
               amount: '2',
               unit: 'tbsp',
               category: 'condiment',
               element: 'Water'
-            },
+},
             { name: 'sage', amount: '1', unit: 'tsp', category: 'herb', element: 'Air' }
           ],
           nutrition: {
@@ -880,7 +880,7 @@ export const, american: Cuisine = {
             Water: 0.3,
             Earth: 0.4,
             Air: 0.3
-          },
+},
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
           zodiacInfluences: ['virgo', 'libra'],
           astrologicalAffinities: {
@@ -903,7 +903,7 @@ export const, american: Cuisine = {
               unit: 'pounds',
               category: 'vegetable',
               element: 'Earth'
-            },
+},
             { name: 'bacon', amount: '6', unit: 'slices', category: 'protein', element: 'Fire' },
             { name: 'milk', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' },
             {
@@ -912,7 +912,7 @@ export const, american: Cuisine = {
               unit: 'cup',
               category: 'dairy',
               element: 'Earth'
-            },
+},
             { name: 'sour cream', amount: '1/2', unit: 'cup', category: 'dairy', element: 'Water' },
             {
               name: 'green onions',
@@ -920,7 +920,7 @@ export const, american: Cuisine = {
               unit: 'stalks',
               category: 'vegetable',
               element: 'Air'
-            }
+}
           ],
           nutrition: {
             calories: 380,
@@ -938,7 +938,7 @@ export const, american: Cuisine = {
             Water: 0.4,
             Earth: 0.4,
             Air: 0.1
-          },
+},
           lunarPhaseInfluences: ['waning crescent', 'new moon'],
           zodiacInfluences: ['capricorn', 'taurus'],
           astrologicalAffinities: {
@@ -975,7 +975,7 @@ export const, american: Cuisine = {
               unit: 'cup',
               category: 'sweetener',
               element: 'Earth'
-            },
+},
             { name: 'paprika', amount: '2', unit: 'tbsp', category: 'spice', element: 'Fire' },
             {
               name: 'garlic powder',
@@ -983,7 +983,7 @@ export const, american: Cuisine = {
               unit: 'tbsp',
               category: 'spice',
               element: 'Fire'
-            },
+},
             { name: 'black pepper', amount: '1', unit: 'tbsp', category: 'spice', element: 'Fire' }
           ],
           substitutions: {
@@ -1015,7 +1015,7 @@ export const, american: Cuisine = {
             Water: 0.0,
             Earth: 0.3,
             Air: 0.0
-          },
+},
           lunarPhaseInfluences: ['full moon', 'first quarter'],
           zodiacInfluences: ['aries', 'leo'],
           astrologicalAffinities: {
@@ -1047,7 +1047,7 @@ export const, american: Cuisine = {
               unit: 'pounds',
               category: 'protein',
               element: 'Fire'
-            },
+},
             { name: 'breadcrumbs', amount: '1', unit: 'cup', category: 'grain', element: 'Earth' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
             { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable', element: 'Fire' },
@@ -1058,7 +1058,7 @@ export const, american: Cuisine = {
               unit: 'pounds',
               category: 'vegetable',
               element: 'Earth'
-            },
+},
             { name: 'butter', amount: '1/2', unit: 'cup', category: 'fat', element: 'Earth' },
             { name: 'milk', amount: '1/2', unit: 'cup', category: 'dairy', element: 'Water' }
           ],
@@ -1090,7 +1090,7 @@ export const, american: Cuisine = {
             Water: 0.2,
             Earth: 0.5,
             Air: 0.0
-          },
+},
           lunarPhaseInfluences: ['waning gibbous', 'full moon'],
           zodiacInfluences: ['taurus', 'cancer'],
           astrologicalAffinities: {
@@ -1128,7 +1128,7 @@ export const, american: Cuisine = {
               unit: 'pounds',
               category: 'protein',
               element: 'Fire'
-            },
+},
             { name: 'buttermilk', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' },
             {
               name: 'all-purpose flour',
@@ -1136,7 +1136,7 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
-            },
+},
             { name: 'paprika', amount: '2', unit: 'tbsp', category: 'spice', element: 'Fire' },
             {
               name: 'garlic powder',
@@ -1144,7 +1144,7 @@ export const, american: Cuisine = {
               unit: 'tbsp',
               category: 'spice',
               element: 'Fire'
-            },
+},
             { name: 'vegetable oil', amount: '6', unit: 'cups', category: 'oil', element: 'Fire' },
             { name: 'cold butter', amount: '8', unit: 'tbsp', category: 'fat', element: 'Earth' },
             { name: 'honey', amount: '1/4', unit: 'cup', category: 'sweetener', element: 'Water' }
@@ -1177,7 +1177,7 @@ export const, american: Cuisine = {
             Water: 0.2,
             Earth: 0.4,
             Air: 0.0
-          },
+},
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['leo', 'taurus'],
           astrologicalAffinities: {
@@ -1201,21 +1201,21 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
-            },
+},
             {
               name: 'fresh peas',
               amount: '2',
               unit: 'cups',
               category: 'vegetable',
               element: 'Earth'
-            },
+},
             {
               name: 'lamb chops',
               amount: '8',
               unit: 'chops',
               category: 'protein',
               element: 'Fire'
-            },
+},
             { name: 'fresh mint', amount: '1/4', unit: 'cup', category: 'herb', element: 'Air' },
             {
               name: 'white wine',
@@ -1223,7 +1223,7 @@ export const, american: Cuisine = {
               unit: 'cup',
               category: 'alcohol',
               element: 'Water'
-            },
+},
             { name: 'parmesan', amount: '1/2', unit: 'cup', category: 'dairy', element: 'Earth' }
           ],
           nutrition: {
@@ -1242,7 +1242,7 @@ export const, american: Cuisine = {
             Water: 0.2,
             Earth: 0.4,
             Air: 0.1
-          },
+},
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
           zodiacInfluences: ['aries', 'taurus'],
           astrologicalAffinities: {
@@ -1266,35 +1266,35 @@ export const, american: Cuisine = {
               unit: 'pounds',
               category: 'protein',
               element: 'Water'
-            },
+},
             {
               name: 'cedar plank',
               amount: '1',
               unit: 'plank',
               category: 'equipment',
               element: 'Earth'
-            },
+},
             {
               name: 'corn on the cob',
               amount: '4',
               unit: 'ears',
               category: 'vegetable',
               element: 'Earth'
-            },
+},
             {
               name: 'zucchini',
               amount: '2',
               unit: 'medium',
               category: 'vegetable',
               element: 'Water'
-            },
+},
             {
               name: 'bell peppers',
               amount: '2',
               unit: 'large',
               category: 'vegetable',
               element: 'Fire'
-            },
+},
             { name: 'lemon', amount: '1', unit: 'whole', category: 'fruit', element: 'Water' }
           ],
           nutrition: {
@@ -1313,7 +1313,7 @@ export const, american: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Air: 0.1
-          },
+},
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['pisces', 'cancer', 'leo'],
           astrologicalAffinities: {
@@ -1336,21 +1336,21 @@ export const, american: Cuisine = {
               unit: 'pounds',
               category: 'protein',
               element: 'Fire'
-            },
+},
             {
               name: 'carrots',
               amount: '1',
               unit: 'pound',
               category: 'vegetable',
               element: 'Earth'
-            },
+},
             {
               name: 'parsnips',
               amount: '1/2',
               unit: 'pound',
               category: 'vegetable',
               element: 'Earth'
-            },
+},
             { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable', element: 'Fire' },
             { name: 'red wine', amount: '1', unit: 'cup', category: 'alcohol', element: 'Water' },
             { name: 'fresh thyme', amount: '1', unit: 'bunch', category: 'herb', element: 'Air' }
@@ -1371,7 +1371,7 @@ export const, american: Cuisine = {
             Water: 0.1,
             Earth: 0.5,
             Air: 0.0
-          },
+},
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
           zodiacInfluences: ['taurus', 'capricorn'],
           astrologicalAffinities: {
@@ -1394,7 +1394,7 @@ export const, american: Cuisine = {
               unit: 'pounds',
               category: 'protein',
               element: 'Air'
-            },
+},
             { name: 'cranberries', amount: '12', unit: 'oz', category: 'fruit', element: 'Water' },
             {
               name: 'bread stuffing',
@@ -1402,7 +1402,7 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
-            },
+},
             { name: 'butter', amount: '1/2', unit: 'pound', category: 'fat', element: 'Earth' },
             { name: 'fresh sage', amount: '2', unit: 'tbsp', category: 'herb', element: 'Air' },
             {
@@ -1411,7 +1411,7 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'broth',
               element: 'Water'
-            }
+}
           ],
           nutrition: {
             calories: 620,
@@ -1429,7 +1429,7 @@ export const, american: Cuisine = {
             Water: 0.3,
             Earth: 0.3,
             Air: 0.3
-          },
+},
           lunarPhaseInfluences: ['new moon', 'waning crescent'],
           zodiacInfluences: ['capricorn', 'sagittarius'],
           astrologicalAffinities: {
@@ -1464,7 +1464,7 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
-            },
+},
             { name: 'butter', amount: '1', unit: 'cup', category: 'fat', element: 'Earth' },
             { name: 'apples', amount: '6', unit: 'large', category: 'fruit', element: 'Water' },
             { name: 'cinnamon', amount: '1', unit: 'tbsp', category: 'spice', element: 'Fire' },
@@ -1499,7 +1499,7 @@ export const, american: Cuisine = {
             Water: 0.3,
             Earth: 0.6,
             Air: 0.0
-          },
+},
           lunarPhaseInfluences: ['full moon', 'waning gibbous'],
           zodiacInfluences: ['taurus', 'virgo'],
           astrologicalAffinities: {
@@ -1536,7 +1536,7 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
-            },
+},
             { name: 'butter', amount: '1', unit: 'cup', category: 'fat', element: 'Earth' },
             {
               name: 'brown sugar',
@@ -1544,14 +1544,14 @@ export const, american: Cuisine = {
               unit: 'cup',
               category: 'sweetener',
               element: 'Earth'
-            },
+},
             {
               name: 'white sugar',
               amount: '1/2',
               unit: 'cup',
               category: 'sweetener',
               element: 'Earth'
-            },
+},
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
             {
               name: 'chocolate chips',
@@ -1559,7 +1559,7 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'chocolate',
               element: 'Fire'
-            }
+}
           ],
           substitutions: {
             'all-purpose flour': ['gluten-free flour blend', 'almond flour'],
@@ -1590,7 +1590,7 @@ export const, american: Cuisine = {
             Water: 0.1,
             Earth: 0.7,
             Air: 0.0
-          },
+},
           lunarPhaseInfluences: ['new moon', 'waxing crescent'],
           zodiacInfluences: ['taurus', 'cancer', 'leo'],
           astrologicalAffinities: {
@@ -1630,7 +1630,7 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
-            },
+},
             { name: 'butter', amount: '6', unit: 'tbsp', category: 'fat', element: 'Earth' },
             {
               name: 'vanilla extract',
@@ -1638,7 +1638,7 @@ export const, american: Cuisine = {
               unit: 'tbsp',
               category: 'flavoring',
               element: 'Air'
-            }
+}
           ],
           substitutions: {
             'cream cheese': ['non-dairy cream cheese', 'tofu-based alternative'],
@@ -1669,7 +1669,7 @@ export const, american: Cuisine = {
             Water: 0.2,
             Earth: 0.7,
             Air: 0.1
-          },
+},
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['taurus', 'cancer', 'libra'],
           astrologicalAffinities: {
@@ -1692,14 +1692,14 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
-            },
+},
             {
               name: 'fresh strawberries',
               amount: '1',
               unit: 'quart',
               category: 'fruit',
               element: 'Water'
-            },
+},
             { name: 'heavy cream', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' },
             { name: 'sugar', amount: '1/2', unit: 'cup', category: 'sweetener', element: 'Earth' },
             { name: 'butter', amount: '1/2', unit: 'cup', category: 'fat', element: 'Earth' },
@@ -1721,7 +1721,7 @@ export const, american: Cuisine = {
             Water: 0.4,
             Earth: 0.5,
             Air: 0.0
-          },
+},
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
           zodiacInfluences: ['taurus', 'gemini'],
           astrologicalAffinities: {
@@ -1745,14 +1745,14 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
-            },
+},
             {
               name: 'chocolate ice cream',
               amount: '1.5',
               unit: 'quarts',
               category: 'dairy',
               element: 'Water'
-            },
+},
             { name: 'marshmallows', amount: '3', unit: 'cups', category: 'candy', element: 'Air' },
             { name: 'butter', amount: '6', unit: 'tbsp', category: 'fat', element: 'Earth' },
             {
@@ -1761,14 +1761,14 @@ export const, american: Cuisine = {
               unit: 'cup',
               category: 'topping',
               element: 'Earth'
-            },
+},
             {
               name: 'sea salt',
               amount: '1/4',
               unit: 'tsp',
               category: 'seasoning',
               element: 'Earth'
-            }
+}
           ],
           nutrition: {
             calories: 440,
@@ -1786,7 +1786,7 @@ export const, american: Cuisine = {
             Water: 0.3,
             Earth: 0.5,
             Air: 0.1
-          },
+},
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['cancer', 'leo'],
           astrologicalAffinities: {
@@ -1809,7 +1809,7 @@ export const, american: Cuisine = {
               unit: 'oz',
               category: 'vegetable',
               element: 'Earth'
-            },
+},
             { name: 'pie crust', amount: '1', unit: 'crust', category: 'dough', element: 'Earth' },
             {
               name: 'evaporated milk',
@@ -1817,7 +1817,7 @@ export const, american: Cuisine = {
               unit: 'oz',
               category: 'dairy',
               element: 'Water'
-            },
+},
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
             { name: 'cinnamon', amount: '2', unit: 'tsp', category: 'spice', element: 'Fire' },
             { name: 'nutmeg', amount: '1/2', unit: 'tsp', category: 'spice', element: 'Fire' }
@@ -1838,7 +1838,7 @@ export const, american: Cuisine = {
             Water: 0.2,
             Earth: 0.6,
             Air: 0.0
-          },
+},
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
           zodiacInfluences: ['virgo', 'libra'],
           astrologicalAffinities: {
@@ -1861,14 +1861,14 @@ export const, american: Cuisine = {
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
-            },
+},
             {
               name: 'molasses',
               amount: '2/3',
               unit: 'cup',
               category: 'sweetener',
               element: 'Earth'
-            },
+},
             { name: 'ginger', amount: '1', unit: 'tbsp', category: 'spice', element: 'Fire' },
             { name: 'cinnamon', amount: '1', unit: 'tbsp', category: 'spice', element: 'Fire' },
             { name: 'butter', amount: '3/4', unit: 'cup', category: 'fat', element: 'Earth' },
@@ -1878,7 +1878,7 @@ export const, american: Cuisine = {
               unit: 'cup',
               category: 'sweetener',
               element: 'Earth'
-            }
+}
           ],
           nutrition: {
             calories: 180,
@@ -1896,7 +1896,7 @@ export const, american: Cuisine = {
             Water: 0.0,
             Earth: 0.7,
             Air: 0.0
-          },
+},
           lunarPhaseInfluences: ['new moon', 'waning crescent'],
           zodiacInfluences: ['capricorn', 'sagittarius'],
           astrologicalAffinities: {
@@ -1933,11 +1933,11 @@ export const, american: Cuisine = {
         Earth: 0.3,
         Water: 0.2,
         Air: 0.0
-      },
+},
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'summer',
       preparationNotes: 'Traditionally simmered slowly to develop deep flavor and thicken',
-      technicalTips: 'Balance acid, sweetness, and spice to complement the meat it will accompany'
+      technicalTips: 'Balance acid, sweetness, and spice to complement the meat it will accompany',
     },
     ranchDressing: {
       name: 'Ranch Dressing',
@@ -1951,12 +1951,12 @@ export const, american: Cuisine = {
         Earth: 0.2,
         Water: 0.6,
         Air: 0.2
-      },
+},
       astrologicalInfluences: ['Venus', 'Moon', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Best when made fresh and allowed to rest for flavors to meld',
       technicalTips: 'Use fresh herbs when possible for brightest flavor'
-    },
+},
     hotSauce: {
       name: 'Hot Sauce',
       description: 'Fiery, vinegar-based sauce with chili peppers for heat',
@@ -1969,12 +1969,12 @@ export const, american: Cuisine = {
         Earth: 0.0,
         Water: 0.1,
         Air: 0.0
-      },
+},
       astrologicalInfluences: ['Mars', 'Pluto', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Can be fermented for complex flavor or used fresh for bright heat',
       technicalTips: 'Control heat level by adjusting pepper types and quantity'
-    },
+},
     gravySauce: {
       name: 'Gravy',
       description: 'Rich, savory sauce made from meat drippings and thickened with flour',
@@ -1992,12 +1992,12 @@ export const, american: Cuisine = {
         Earth: 0.5,
         Water: 0.3,
         Air: 0.0
-      },
+},
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Taurus'],
       seasonality: 'autumn and winter',
       preparationNotes: 'Must be made while cooking protein for authentic flavor from drippings',
       technicalTips: 'Use a whisk to prevent lumps and incorporate flour smoothly'
-    },
+},
     mapleGlaze: {
       name: 'Maple Glaze',
       description: 'Sweet and rich syrup reduction for breakfast items and desserts',
@@ -2015,12 +2015,12 @@ export const, american: Cuisine = {
         Earth: 0.4,
         Water: 0.5,
         Air: 0.0
-      },
+},
       astrologicalInfluences: ['Venus', 'Jupiter', 'Libra'],
       seasonality: 'autumn and winter',
       preparationNotes: 'Grade B maple syrup offers more robust flavor for cooking',
       technicalTips: 'Reduce slowly to prevent burning the sugars'
-    }
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -2083,7 +2083,7 @@ export const, american: Cuisine = {
       toolsRequired: ['smoker', 'wood chips', 'temperature probe', 'drip pan'],
       bestFor: ['pork ribs', 'brisket', 'pork shoulder', 'whole chicken', 'beef ribs'],
       difficulty: 'hard'
-    },
+},
     {
       name: 'Grilling',
       description: 'Cooking over direct high heat for short periods, creating caramelization',
@@ -2091,7 +2091,7 @@ export const, american: Cuisine = {
       toolsRequired: ['grill', 'tongs', 'spatula', 'brush', 'thermometer'],
       bestFor: ['steaks', 'burgers', 'hot dogs', 'vegetables', 'fish fillets'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Deep Frying',
       description: 'Submerging food in hot oil for crispy exterior and tender interior',
@@ -2099,7 +2099,7 @@ export const, american: Cuisine = {
       toolsRequired: ['deep fryer', 'thermometer', 'spider or slotted spoon', 'paper towels'],
       bestFor: ['chicken', 'french fries', 'donuts', 'fish', 'appetizers'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Casserole Baking',
       description: 'Combining ingredients in a dish and baking with even, enclosed heat',
@@ -2112,7 +2112,7 @@ export const, american: Cuisine = {
         'shepherd's pie'
       ],
       difficulty: 'easy'
-    },
+},
     {
       name: 'Pie Making',
       description: 'Creating flaky pastry crusts filled with sweet or savory fillings',
@@ -2120,7 +2120,7 @@ export const, american: Cuisine = {
       toolsRequired: ['rolling pin', 'pie dish', 'pastry cutter', 'food processor'],
       bestFor: ['fruit pies', 'cream pies', 'pot pies', 'quiches', 'tarts'],
       difficulty: 'hard'
-    },
+},
     {
       name: 'Slow Cooking',
       description: 'Low-temperature cooking for extended periods, often in a covered pot',
@@ -2128,7 +2128,7 @@ export const, american: Cuisine = {
       toolsRequired: ['slow cooker', 'dutch oven', 'ladle', 'timer'],
       bestFor: ['stews', 'chili', 'pot roast', 'pulled pork', 'soups'],
       difficulty: 'easy'
-    }
+}
   ],
   regionalCuisines: {
     southern: {
@@ -2144,7 +2144,7 @@ export const, american: Cuisine = {
       elementalProperties: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Venus', 'Jupiter', 'Taurus'],
       seasonality: 'year-round with seasonal ingredients'
-    },
+},
     newEngland: {
       name: 'New England Cuisine',
       description: 'Seafood-forward cuisine with British colonial roots and seasonal emphasis',
@@ -2152,7 +2152,7 @@ export const, american: Cuisine = {
       elementalProperties: { Fire: 0.1, Earth: 0.3, Water: 0.5, Air: 0.1 },
       astrologicalInfluences: ['Moon', 'Neptune', 'Cancer'],
       seasonality: 'highly seasonal'
-    },
+},
     southwest: {
       name: 'Southwestern Cuisine',
       description: 'Bold flavors influenced by Mexican, Spanish, and Native American traditions',
@@ -2160,7 +2160,7 @@ export const, american: Cuisine = {
       elementalProperties: { Fire: 0.6, Earth: 0.3, Water: 0.0, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'desert adaptations with seasonal celebrations'
-    },
+},
     midwest: {
       name: 'Midwestern Cuisine',
       description: 'Hearty comfort food emphasizing locally grown ingredients and German influence',
@@ -2174,7 +2174,7 @@ export const, american: Cuisine = {
       elementalProperties: { Fire: 0.2, Earth: 0.6, Water: 0.1, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Venus', 'Capricorn'],
       seasonality: 'strongly seasonal with preservation techniques'
-    },
+},
     california: {
       name: 'California Cuisine',
       description: 'Fresh, produce-forward cooking with Mediterranean and Asian influences',
@@ -2188,7 +2188,7 @@ export const, american: Cuisine = {
       elementalProperties: { Fire: 0.2, Earth: 0.3, Water: 0.2, Air: 0.3 },
       astrologicalInfluences: ['Mercury', 'Uranus', 'Gemini'],
       seasonality: 'year-round fresh ingredients'
-    }
+}
   },
   // Enhanced elemental properties with more balanced distribution
   elementalProperties: {

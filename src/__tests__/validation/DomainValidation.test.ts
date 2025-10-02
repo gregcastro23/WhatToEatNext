@@ -11,7 +11,7 @@ import { jest } from '@jest/globals';
 
 // Mock child_process for controlled testing
 jest.mock('child_process', () => ({
-  execSync: jest.fn(),
+  execSync: jest.fn()
 }));
 
 const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
@@ -28,12 +28,12 @@ describe('Domain Validation Tests - Task 12', () => {
           Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
           Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
           Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
-        };
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
+};
 
         // Test self-reinforcement principle
         Object.keys(elementalCompatibility).forEach(element => {
-          const selfCompatibility = elementalCompatibility[element][element];
+          const selfCompatibility = elementalCompatibility[element][element],
           expect(selfCompatibility).toBeGreaterThanOrEqual(0.9);
           expect(selfCompatibility).toBeLessThanOrEqual(1.0);
         });
@@ -46,8 +46,8 @@ describe('Domain Validation Tests - Task 12', () => {
           Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
           Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
           Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
-        };
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
+};
 
         // Test no opposing elements principle
         Object.values(elementalCompatibility).forEach(elementRow => {
@@ -65,8 +65,8 @@ describe('Domain Validation Tests - Task 12', () => {
           Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
           Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
           Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
-        };
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
+};
 
         // Fire-Air affinity (shared dynamic nature)
         expect(elementalCompatibility.Fire.Air).toBe(0.8);
@@ -92,7 +92,7 @@ describe('Domain Validation Tests - Task 12', () => {
         `),
         );
 
-        const result = mockExecSync('yarn lint:domain-astro --validate-rules');
+        const result = mockExecSync('yarn lint: domain-astro --validate-rules');
         const output = result.toString();
 
         expect(output).toContain('Mathematical constants allowed');
@@ -112,7 +112,7 @@ describe('Domain Validation Tests - Task 12', () => {
         `),
         );
 
-        const result = mockExecSync('yarn lint:domain-campaign --validate-rules');
+        const result = mockExecSync('yarn lint: domain-campaign --validate-rules');
         const output = result.toString();
 
         expect(output).toContain('Enterprise patterns allowed');
@@ -401,7 +401,7 @@ describe('Domain Validation Tests - Task 12', () => {
         ];
 
         domainRequirements.forEach(req => {
-          mockExecSync.mockReturnValue(Buffer.from(`✓ Domain requirement ${req.requirement}: ${req.status}`));
+          mockExecSync.mockReturnValue(Buffer.from(`✓ Domain requirement ${req.requirement}: ${req.status}`)),
 
           const result = mockExecSync(`test-domain-requirement ${req.requirement}`);
           expect(result.toString()).toContain(req.status);
@@ -466,8 +466,8 @@ describe('Domain Validation Tests - Task 12', () => {
         variablePatternPreservation: 'PASSED',
         mathematicalConstantProtection: 'PASSED',
         fallbackMechanisms: 'PASSED',
-        performanceRequirements: 'PASSED',
-      };
+        performanceRequirements: 'PASSED'
+};
 
       mockExecSync.mockReturnValue(Buffer.from(JSON.stringify(domainValidation)));
 

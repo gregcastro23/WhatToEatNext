@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
         rectification_service: 'Enhanced Planetary Position Rectification with Planetary Agents',
         version: '2.0.0',
         planetary_agents_integration: 'enabled'
-      }
+}
     });
 
   } catch (error) {
@@ -85,14 +85,11 @@ export async function GET(request: NextRequest) {
     const action = searchParams.get('action');
 
     switch (action) {
-      case 'status':
-        return handleStatusRequest();
+      case 'status': return handleStatusRequest(),
 
-      case 'health':
-        return handleHealthRequest();
+      case 'health': return handleHealthRequest(),
 
-      case 'current':
-        return handleCurrentRectification();
+      case 'current': return handleCurrentRectification(),
 
       default:
         return NextResponse.json(
@@ -103,7 +100,7 @@ export async function GET(request: NextRequest) {
               status: '?action=status - Get rectification status',
               health: '?action=health - Get system health check',
               current: '?action=current - Get current rectification state'
-            }
+}
           },
           { status: 400 }
         );
@@ -114,7 +111,7 @@ export async function GET(request: NextRequest) {
       {
         error: 'Status request failed',
         message: error instanceof Error ? error.message : 'Unknown error'
-      },
+},
       { status: 500 }
     );
   }
@@ -151,7 +148,7 @@ async function handleHealthRequest() {
       check_timestamp: new Date().toISOString(),
       systems_monitored: ['VSOP87', 'WhatToEatNext', 'Planetary Agents'],
       planetary_agents_integration: 'enabled'
-    }
+}
   });
 }
 
@@ -168,14 +165,14 @@ async function handleCurrentRectification() {
         service: 'Current Planetary Rectification',
         timestamp: new Date().toISOString(),
         authoritative_source: 'VSOP87 precision'
-      }
+}
     });
   } catch (error) {
     return NextResponse.json(
       {
         error: 'Current rectification failed',
         message: error instanceof Error ? error.message : 'Unknown error'
-      },
+},
       { status: 500 }
     );
   }
@@ -189,7 +186,7 @@ export async function PUT(request: NextRequest) {
   try {
     const { date } = await request.json();
 
-    const targetDate = date ? new Date(date) : undefined;
+    const targetDate = date ? new Date(date) : undefined,
 
     if (date && isNaN(targetDate!.getTime())) {
       return NextResponse.json(
@@ -225,7 +222,7 @@ export async function PUT(request: NextRequest) {
         success: false,
         error: 'Force synchronization failed',
         message: error instanceof Error ? error.message : 'Unknown error'
-      },
+},
       { status: 500 }
     );
   }
@@ -237,11 +234,11 @@ export async function PUT(request: NextRequest) {
  */
 export async function PATCH() {
   try {
-    logger.warn('🚨 EMERGENCY: API endpoint called for emergency planetary rectification');
+    logger.warn('🚨 EMERGENCY: API endpoint called for emergency planetary rectification'),
 
     const result = await emergencyPositionRectification();
 
-    const statusCode = result.success ? 200 : 500;
+    const statusCode = result.success ? 200 : 500,
 
     return NextResponse.json({
       emergency_rectification: result,
@@ -249,7 +246,7 @@ export async function PATCH() {
         emergency_protocol: 'activated',
         timestamp: new Date().toISOString(),
         authoritative_source: 'VSOP87 emergency override'
-      }
+}
     }, { status: statusCode });
 
   } catch (error) {
@@ -260,7 +257,7 @@ export async function PATCH() {
         error: 'Emergency rectification failed',
         message: error instanceof Error ? error.message : 'Critical system error',
         emergency_status: 'FAILED'
-      },
+},
       { status: 500 }
     );
   }
@@ -290,7 +287,7 @@ export async function DELETE() {
         success: false,
         error: 'Cache clear failed',
         message: error instanceof Error ? error.message : 'Unknown error'
-      },
+},
       { status: 500 }
     );
   }

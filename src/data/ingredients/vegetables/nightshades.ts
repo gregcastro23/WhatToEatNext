@@ -30,18 +30,18 @@ const rawNightshades = {
       calories: 22,
       carbs_g: 4.8,
       fiber_g: 1.5
-    },
+},
     preparation: {
       washing: true,
       seeding: 'optional',
       peeling: 'optional',
       notes: 'Store at room temperature for better flavor'
-    },
+},
     storage: {
       temperature: 'room temperature until ripe',
       duration: '5-7 days',
       notes: 'Never refrigerate unless cut'
-    }
+}
   },
 
   eggplant: {
@@ -72,18 +72,18 @@ const rawNightshades = {
       calories: 35,
       protein_g: 1,
       fiber_g: 3
-    },
+},
     preparation: {
       washing: true,
       salting: 'recommended to remove bitterness',
       cutting: 'uniform slices or cubes',
       notes: 'Salt and drain before cooking'
-    },
+},
     storage: {
       temperature: 'cool room temp or refrigerated',
       duration: '5-7 days',
       notes: 'Sensitive to ethylene gas'
-    }
+}
   }
 };
 

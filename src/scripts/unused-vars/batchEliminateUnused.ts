@@ -15,20 +15,20 @@ import path from 'node:path';
 import { classifyFileKind, isHighImpactFile } from './domainPreservation';
 
 type Finding = {
-  filePath: string;
-  fileKind: ReturnType<typeof classifyFileKind>;
-  variableName: string;
-  line: number;
-  column: number;
-  preserve: boolean;
-  reason: string;
+  filePath: string,
+  fileKind: ReturnType<typeof classifyFileKind>,
+  variableName: string,
+  line: number,
+  column: number,
+  preserve: boolean,
+  reason: string,
   confidence: number;
 };
 
 type CliOptions = {
-  inPath: string;
-  dryRun: boolean;
-  maxBatch: number;
+  inPath: string,
+  dryRun: boolean,
+  maxBatch: number,
   maxBatchCritical: number;
 };
 
@@ -53,12 +53,12 @@ function execCmd(cmd: string): { code: number; stdout: string; stderr: string } 
     const stdout = childProcess.execSync(cmd, { stdio: ['ignore', 'pipe', 'pipe'] }).toString();
     return { code: 0, stdout, stderr: '' };
   } catch (err) {
-    const e = err as { status?: number; stdout?: Buffer; stderr?: Buffer };
+    const e = err as { status?: number; stdout?: Buffer; stderr?: Buffer },
     return {
       code: e.status ?? 1,
       stdout: e.stdout ? e.stdout.toString() : '',
-      stderr: e.stderr ? e.stderr.toString() : 'Execution failed',
-    };
+      stderr: e.stderr ? e.stderr.toString() : 'Execution failed'
+};
   }
 }
 
@@ -69,7 +69,7 @@ function runTypeCheck(): boolean {
 
 function readFindings(inPath: string): Finding[] {
   const content = fs.readFileSync(inPath, 'utf8');
-  const data = JSON.parse(content) as { findings: Finding[] };
+  const data = JSON.parse(content) as { findings: Finding[] },
   return data.findings || [];
 }
 
@@ -85,7 +85,7 @@ function groupByFile(findings: Finding[]): Map<string, Finding[]> {
 function sortFilesForSafety(files: string[]): string[] {
   return files.sort((a, b) => {
     const aImpact = isHighImpactFile(a) ? 1 : 0;
-    const bImpact = isHighImpactFile(b) ? 1 : 0;
+    const bImpact = isHighImpactFile(b) ? 1 : 0,
     if (aImpact !== bImpact) return aImpact - bImpact; // low impact first
     return a.localeCompare(b);
   });
@@ -93,14 +93,14 @@ function sortFilesForSafety(files: string[]): string[] {
 
 function writeBackup(filePath: string, content: string): string {
   const backupDir = path.join('.lint-backup-' + Date.now().toString());
-  if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true });
+  if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true }),
   const rel = path.relative(process.cwd(), filePath).replace(/[\/]/g, '__');
   const backupPath = path.join(backupDir, rel + '.bak');
   fs.writeFileSync(backupPath, content, 'utf8');
   return backupPath;
 }
 
-function restoreFromBackups(backups: Array<{ file: string; backup: string }>): void {
+function restoreFromBackups(backups: Array<{ file: string, backup: string }>): void {
   for (const b of backups) {
     if (fs.existsSync(b.backup)) {
       const content = fs.readFileSync(b.backup, 'utf8');
@@ -149,7 +149,7 @@ function applyEditsToFile(
 }
 
 function processBatch(files: string[], fileFindings: Map<string, Finding[]>, dryRun: boolean): boolean {
-  const backups: Array<{ file: string; backup: string }> = [];
+  const backups: Array<{ file: string; backup: string }> = [],
   for (const file of files) {
     const findings = (fileFindings.get(file) || []).filter((f) => !f.preserve);
     if (findings.length === 0) continue;
@@ -169,11 +169,11 @@ function processBatch(files: string[], fileFindings: Map<string, Finding[]>, dry
 }
 
 function batchFiles(files: string[], maxBatch: number, maxBatchCritical: number): string[][] {
-  const batches: string[][] = [];
-  let current: string[] = [];
+  const batches: string[][] = [],
+  let current: string[] = [],
   for (const file of files) {
     const isCritical = isHighImpactFile(file);
-    const limit = isCritical ? maxBatchCritical : maxBatch;
+    const limit = isCritical ? maxBatchCritical : maxBatch,
     if (current.length >= limit) {
       batches.push(current);
       current = [];

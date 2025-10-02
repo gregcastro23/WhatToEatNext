@@ -178,13 +178,13 @@ export function calculateAlchemicalProperties(planetaryPositions: {
   // Planetary to alchemical property mappings
   const planetaryMappings = {
     Sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.2, Substance: 0.1 },
-    moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 }
+    moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 },
     Mercury: { Spirit: 0.8, Essence: 0.2, Matter: 0.1, Substance: 0.9 },
-    Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.7, Substance: 0.2 }
+    Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.7, Substance: 0.2 },
     Mars: { Spirit: 0.6, Essence: 0.8, Matter: 0.9, Substance: 0.1 },
-    Jupiter: { Spirit: 0.9, Essence: 0.7, Matter: 0.2, Substance: 0.3 }
+    Jupiter: { Spirit: 0.9, Essence: 0.7, Matter: 0.2, Substance: 0.3 },
     Saturn: { Spirit: 0.7, Essence: 0.1, Matter: 0.9, Substance: 0.8 },
-    Uranus: { Spirit: 0.4, Essence: 0.6, Matter: 0.3, Substance: 0.7 }
+    Uranus: { Spirit: 0.4, Essence: 0.6, Matter: 0.3, Substance: 0.7 },
     Neptune: { Spirit: 0.2, Essence: 0.8, Matter: 0.4, Substance: 0.6 },
     Pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
   }

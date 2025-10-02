@@ -52,7 +52,7 @@ const TAROT_ELEMENT_ASSOCIATIONS: Record<string, { element: keyof ElementalPrope
   'Wheel of Fortune': { element: 'Air' },
   _Justice: { element: 'Air' },
   'The Hanged Man': { element: 'Water' },
-  _Death: { element: 'Water' }
+  _Death: { element: 'Water' },
   _Temperance: { element: 'Water' },
   'The Devil': { element: 'Earth' },
   'The Tower': { element: 'Fire' },
@@ -61,7 +61,7 @@ const TAROT_ELEMENT_ASSOCIATIONS: Record<string, { element: keyof ElementalPrope
   'The Sun': { element: 'Fire' },
   _Judgement: { element: 'Fire' },
   'The World': { element: 'Earth' },
-  _Cups: { element: 'Water' }
+  _Cups: { element: 'Water' },
   _Wands: { element: 'Fire' },
   _Swords: { element: 'Air' },
         Pentacles: { element: 'Earth' }

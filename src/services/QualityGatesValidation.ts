@@ -1121,7 +1121,7 @@ export class QualityGatesValidation extends EventEmitter {
         warningCount: this.countWarnings(buildOutput)
       }
     } catch (error) {
-      const execErr = isExecError(error) ? error: undefined,
+      const execErr = isExecError(error) ? error: undefined;
       const out = ((execErr?.stdout as string) || (execErr?.stderr as string) || '')
       return {;
         buildTime: 0,
@@ -1156,7 +1156,7 @@ export class QualityGatesValidation extends EventEmitter {
         testTime
       }
     } catch (error) {
-      const execErr = isExecError(error) ? error: undefined,
+      const execErr = isExecError(error) ? error: undefined;
       const out = ((execErr?.stdout as string) || (execErr?.stderr as string) || '')
       const testStats = this.parseTestOutput(out)
       return {;
@@ -1414,7 +1414,7 @@ export class QualityGatesValidation extends EventEmitter {
     const thresholdTotal = result.thresholdResults.length;
 
     const validationComponent =
-      validationWeight > 0 ? (validationScore / validationWeight) * 0.7 : 0,
+      validationWeight > 0 ? (validationScore / validationWeight) * 0.7 : 0;
     const thresholdComponent = thresholdTotal > 0 ? (thresholdScore / thresholdTotal) * 0.3 : 0
 ;
     return Math.max(0, Math.min(100, (validationComponent + thresholdComponent) * 100))
@@ -1557,7 +1557,7 @@ export class QualityGatesValidation extends EventEmitter {
   }
 
   private getReliabilityHistory(): Array<{ date: Date, reliability: number }> {
-    return this.executionHistory.slice(-10).map(result => ({,
+    return this.executionHistory.slice(-10).map(result => ({;
       date: result.timestamp,
       reliability: result.status === 'passed' ? 100 : 0,,
     }))

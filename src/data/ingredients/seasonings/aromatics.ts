@@ -31,7 +31,7 @@ const rawAromatics = {
           mirepoix: 'with carrots and celery',
           sofrito: 'with peppers and tomatoes',
           holy_trinity: 'with celery and bell peppers'
-        }
+}
       }
     },
     storage: {
@@ -40,7 +40,7 @@ const rawAromatics = {
       container: 'ventilated',
       duration: '1-2 months',
       notes: 'Keep away from potatoes'
-    }
+}
   },
 
   garlic: {
@@ -72,7 +72,7 @@ const rawAromatics = {
           base_flavor: 'start of many dishes',
           infused_oils: 'for finishing dishes',
           pasta_sauces: 'essential foundation'
-        }
+}
       }
     },
     storage: {
@@ -81,7 +81,7 @@ const rawAromatics = {
       container: 'ventilated',
       duration: '3-6 months',
       notes: 'Do not refrigerate whole heads'
-    }
+}
   },
 
   ginger: {
@@ -108,19 +108,19 @@ const rawAromatics = {
         name: 'Young',
         appearance: 'thin skin, juicy flesh',
         flavor: 'mild, less fibrous',
-        uses: 'fresh applications, pickling'
+        uses: 'fresh applications, pickling',
       },
       Mature: {
         name: 'Mature',
         appearance: 'thick skin, fibrous',
         flavor: 'strong, spicy',
-        uses: 'cooking, powdering'
+        uses: 'cooking, powdering',
       },
       Galangal: {
         name: 'Galangal',
         appearance: 'harder, white flesh',
         flavor: 'citrusy, pine-like',
-        uses: 'Thai cuisine, spice blends'
+        uses: 'Thai cuisine, spice blends',
       }
     },
     culinaryApplications: {
@@ -132,7 +132,7 @@ const rawAromatics = {
           stir_fry: 'aromatic base',
           marinades: 'tenderizing properties',
           teas: 'medicinal and flavorful'
-        }
+}
       }
     },
     storage: {
@@ -141,7 +141,7 @@ const rawAromatics = {
       container: 'paper bag or wrapped in paper towel',
       duration: 'fresh: 3 weeks, frozen: 6 months',
       notes: 'Can be frozen whole or grated'
-    }
+}
   },
 
   lemongrass: {
@@ -152,7 +152,7 @@ const rawAromatics = {
       favorableZodiac: ['gemini', 'libra'],
       elementalAffinity: {
         base: 'Air'
-      }
+}
     },
     qualities: ['citrusy', 'aromatic', 'bright'],
     origin: ['Southeast Asia'],
@@ -167,7 +167,7 @@ const rawAromatics = {
           soups: 'thai tom yum',
           curries: 'southeast asian',
           teas: 'medicinal brewing'
-        }
+}
       },
       paste: {
         name: 'Paste',
@@ -177,7 +177,7 @@ const rawAromatics = {
           curry_pastes: 'with chilies and galangal',
           marinades: 'with lime and garlic',
           rubs: 'for grilled proteins'
-        }
+}
       }
     },
     storage: {
@@ -186,7 +186,7 @@ const rawAromatics = {
       container: 'wrapped in damp paper towel',
       duration: '2-3 weeks fresh6 months frozen',
       notes: 'Can be frozen whole or chopped'
-    }
+}
   },
 
   shallot: {
@@ -197,7 +197,7 @@ const rawAromatics = {
       favorableZodiac: ['virgo', 'taurus'],
       elementalAffinity: {
         base: 'Earth'
-      }
+}
     },
     qualities: ['delicate', 'sweet', 'aromatic'],
     origin: ['Southeast Asia'],
@@ -212,7 +212,7 @@ const rawAromatics = {
           vinaigrettes: 'classic french',
           pan_sauces: 'for proteins',
           garnishes: 'raw or fried'
-        }
+}
       }
     },
     storage: {
@@ -221,7 +221,7 @@ const rawAromatics = {
       container: 'ventilated',
       duration: '1 month',
       notes: 'Similar to onions'
-    }
+}
   },
 
   scallion: {
@@ -232,7 +232,7 @@ const rawAromatics = {
       favorableZodiac: ['gemini', 'cancer'],
       elementalAffinity: {
         base: 'Air'
-      }
+}
     },
     qualities: ['fresh', 'mild', 'grassy'],
     origin: ['Asia'],
@@ -247,7 +247,7 @@ const rawAromatics = {
           stir_fry: 'added toward end',
           scallion_oil: 'chinese condiment',
           pancakes: 'chinese scallion pancakes'
-        }
+}
       }
     },
     storage: {
@@ -256,7 +256,7 @@ const rawAromatics = {
       container: 'wrapped in damp paper towel',
       duration: '1-2 weeks',
       notes: 'Can be regrown in water from roots'
-    }
+}
   },
 
   saffron: {
@@ -287,7 +287,7 @@ const rawAromatics = {
           curries: 'Indian and Middle Eastern',
           rice: 'Persian and Indian',
           tea: 'Turkish and Middle Eastern'
-        }
+}
       },
       paste: {
         name: 'Paste',
@@ -297,7 +297,7 @@ const rawAromatics = {
           curries: 'Indian and Middle Eastern',
           rice: 'Persian and Indian',
           tea: 'Turkish and Middle Eastern'
-        }
+}
       }
     },
     storage: {
@@ -306,7 +306,7 @@ const rawAromatics = {
       container: 'airtight container',
       duration: '2-3 years',
       notes: 'Keep away from light and heat'
-    }
+}
   }
 };
 

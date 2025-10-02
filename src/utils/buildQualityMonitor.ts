@@ -469,7 +469,7 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
 }> {
   try {
     let total = 0;
-    let javascript = 0,
+    let javascript = 0;
     let css = 0;
     let assets = 0,
 
@@ -951,7 +951,7 @@ async function getLintingWarningCount(): Promise<number> {
  */
 function calculateOverallQualityScore(
   codeQuality: { typeScriptErrors: number, lintingWarnings: number },
-  buildQuality: { successRate: number }
+  buildQuality: { successRate: number },
   performanceQuality: { cacheEfficiency: number },
   technicalDebt: { debtRatio: number }): number {
   // Weighted scoring system

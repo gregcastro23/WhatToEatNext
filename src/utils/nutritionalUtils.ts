@@ -107,7 +107,7 @@ export async function compareNutritionalValues(
       : 0,
     fiber: profile1Macros.fiber
       ? ((profile2Macros.fiber - profile1Macros.fiber) / profile1Macros.fiber) * 100
-      : 0
+      : 0,
   };
 
   return {

@@ -160,12 +160,9 @@ export function getAllCookingMethodNames(): string[] {
 export function getCookingMethodsByCategory(category: string): Record<string, CookingMethodData> {
   switch (category.toLowerCase()) {
     case 'dry': return dryCookingMethods,
-    case 'wet':
-      return wetCookingMethods;
-    case 'molecular':
-      return molecularCookingMethods;
-    case 'traditional':
-      return traditionalCookingMethods;
+    case 'wet': return wetCookingMethods,
+    case 'molecular': return molecularCookingMethods,
+    case 'traditional': return traditionalCookingMethods,
     case 'raw':
       return rawCookingMethods
     default: return {}

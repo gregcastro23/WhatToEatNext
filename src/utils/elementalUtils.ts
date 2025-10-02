@@ -28,26 +28,26 @@ const ELEMENTAL_CHARACTERISTICS = {
     cookingTechniques: ['grilling', 'roasting', 'searing', 'flambéing'],
     timeOfDay: ['morning', 'noon'],
     qualities: ['energetic', 'transformative', 'intense'],
-    temperature: 'hot',
-  },
+    temperature: 'hot'
+},
   Water: {
     cookingTechniques: ['boiling', 'steaming', 'poaching', 'braising'],
     timeOfDay: ['evening', 'night'],
     qualities: ['flowing', 'cooling', 'nurturing'],
-    temperature: 'cool',
-  },
+    temperature: 'cool'
+},
   Earth: {
     cookingTechniques: ['baking', 'slow-cooking', 'roasting', 'smoking'],
     timeOfDay: ['afternoon', 'evening'],
     qualities: ['grounding', 'stable', 'nourishing'],
-    temperature: 'moderate',
-  },
+    temperature: 'moderate'
+},
   Air: {
     cookingTechniques: ['whipping', 'frying', 'sautéing', 'dehydrating'],
     timeOfDay: ['morning', 'midday'],
     qualities: ['light', 'airy', 'quick'],
-    temperature: 'variable',
-  },
+    temperature: 'variable'
+},
 };
 
 // AlchemicalProperty type imported from @/constants/planetaryElements
@@ -242,7 +242,7 @@ export const elementalUtils = {
 
     // Process each ingredient
     recipe.ingredients.forEach(ing => {
-      const amount = ing.amount ?? 1; // Default to 1 if amount is missing
+      const amount = ing.amount ?? 1, // Default to 1 if amount is missing
 
       if (ing.elementalProperties) {
         // For each element in the ingredient
@@ -267,7 +267,7 @@ export const elementalUtils = {
     const aWeight = 1 - bWeight;
 
     Object.keys(a).forEach(key => {
-      const element = key as any;
+      const element = key as any,
       combinedProps[element] = a[element] * aWeight + (b[element] || 0) * bWeight;
     });
 
@@ -285,14 +285,14 @@ export const elementalUtils = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        };
+          Air: 0.25
+};
         return {
           Fire: acc.Fire + props.Fire,
           Water: acc.Water + props.Water,
           Earth: acc.Earth + props.Earth,
-          Air: acc.Air + props.Air,
-        };
+          Air: acc.Air + props.Air
+};
       },
       { Fire: 0, Water: 0, Earth: 0, Air: 0 }
     );
@@ -335,7 +335,7 @@ export const elementalUtils = {
   getElementalProfile: function(properties: ElementalProperties): Partial<ElementalProfile> {
     // Find the dominant element
     const entries = Object.entries(properties) as [Element, number][];
-    let dominantElement: Element = 'Fire';
+    let dominantElement: Element = 'Fire',
     let maxValue = 0;
 
     for (const [element, value] of entries) {
@@ -346,7 +346,7 @@ export const elementalUtils = {
     }
 
     return {
-      dominant: dominantElement as 'Fire' | 'Water' | 'Earth' | 'Air',
+      dominant: dominantElement as 'Fire' | 'Water' | 'Earth' | 'Air'
       balance: properties,
       characteristics: [this.getElementalCharacteristics(dominantElement)]
     };
@@ -358,7 +358,7 @@ export const elementalUtils = {
    * @returns Array of recommended cooking techniques
    */
   getSuggestedCookingTechniques: function(properties: ElementalProperties): string[] {
-    const techniques: string[] = [];
+    const techniques: string[] = [],
     const threshold = 0.3; // Only consider elements above this threshold for recommendations
 
     if (properties.Fire > threshold) {
@@ -387,31 +387,31 @@ export const elementalUtils = {
    * @returns Array of recommended complementary ingredients
    */
   getRecommendedTimeOfDay: function(properties: ElementalProperties): string[] {
-    const _times: string[] = [];
+    const _times: string[] = [],
     const threshold = 0.3; // Only consider elements above this threshold for recommendations
     const weightedTimes: string[] = [];
 
     // Add times based on the elemental balance, weighted by their values
     if (properties.Fire > threshold) {
-      for (let i = 0; i < Math.ceil(properties.Fire * 10); i++) {
+      for (let i = 0, i < Math.ceil(properties.Fire * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Fire.timeOfDay);
       }
     }
 
     if (properties.Water > threshold) {
-      for (let i = 0; i < Math.ceil(properties.Water * 10); i++) {
+      for (let i = 0, i < Math.ceil(properties.Water * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Water.timeOfDay);
       }
     }
 
     if (properties.Earth > threshold) {
-      for (let i = 0; i < Math.ceil(properties.Earth * 10); i++) {
+      for (let i = 0, i < Math.ceil(properties.Earth * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Earth.timeOfDay);
       }
     }
 
     if (properties.Air > threshold) {
-      for (let i = 0; i < Math.ceil(properties.Air * 10); i++) {
+      for (let i = 0, i < Math.ceil(properties.Air * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Air.timeOfDay);
       }
     }
@@ -527,7 +527,7 @@ export function transformItemsWithPlanetaryPositions(
     const spirit =
       ((scaledElements as any)?.Fire || 0) * 0.2 + ((scaledElements as any)?.Air || 0) * 0.2;
     const essence =
-      ((scaledElements as any)?.Water || 0) * 0.2 + ((scaledElements as any)?.Fire || 0) * 0.2,
+      ((scaledElements as any)?.Water || 0) * 0.2 + ((scaledElements as any)?.Fire || 0) * 0.2;
     const matter =
       ((scaledElements as any)?.Earth || 0) * 0.2 + ((scaledElements as any)?.Water || 0) * 0.2;
     const substance =
@@ -601,7 +601,7 @@ export function transformItemsWithPlanetaryPositions(
     )[0][0] as AlchemicalProperty;
 
     // Extract dominant planets based on planetary positions if available
-    let dominantPlanets: string[] = [];
+    let dominantPlanets: string[] = [],
     if (planetaryPositions) {
       // Get top 3 planets with highest values or dignity
       const planetEntries = Object.entries(planetaryPositions).filter(
@@ -820,8 +820,8 @@ export function enhanceVegetableTransformations(
         Earth: 0.3,
         Water: 0.3,
         Air: 0.2,
-        Fire: 0.2,
-      };
+        Fire: 0.2
+};
       let dominantElement = 'Earth';
       let highestValue = 0;
 
@@ -1519,12 +1519,12 @@ export function calculateElementalAffinity(element1: Element, element2: Element)
   const relationship = getElementalRelationship(element1, element2)
 
   switch (relationship) {
-    case 'same': return 1.0;
-    case 'generating': return 0.8;
-    case 'controlled-by': return 0.6;
-    case 'neutral': return 0.4;
-    case 'weakened-by': return 0.2;
-    case 'controlling': return 0.0;
+    case 'same': return 1.0,
+    case 'generating': return 0.8,
+    case 'controlled-by': return 0.6,
+    case 'neutral': return 0.4,
+    case 'weakened-by': return 0.2,
+    case 'controlling': return 0.0,
     default: return 0.4
 }
 }

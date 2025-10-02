@@ -267,7 +267,7 @@ class RecommendationAnalyticsService {
     averageSessionDuration: number
   } {
     const now = Date.now();
-    const windowStart = timeWindow ? now - timeWindow: 0,
+    const windowStart = timeWindow ? now - timeWindow: 0;
     const relevantInteractions = this.userInteractions.filter(
       interaction => interaction.timestamp >= windowStart),
 
@@ -366,7 +366,7 @@ class RecommendationAnalyticsService {
     performanceScore: number
   } {
     const now = Date.now();
-    const windowStart = timeWindow ? now - timeWindow: 0,
+    const windowStart = timeWindow ? now - timeWindow: 0;
     const relevantMetrics = this.metricsHistory.filter(metric => metric.timestamp >= windowStart)
 
     if (relevantMetrics.length === 0) {

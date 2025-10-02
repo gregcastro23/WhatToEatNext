@@ -14,9 +14,9 @@ import type {
 type Element = 'Fire' | 'Water' | 'Earth' | 'Air'
 const SEASONAL_ELEMENTS: Record<Season, Record<Element, number>> = {
   spring: { Air: 0.3, Fire: 0.3, Water: 0.3, Earth: 0.1 },
-  summer: { Fire: 0.4, Air: 0.3, Earth: 0.1, Water: 0.2 }
+  summer: { Fire: 0.4, Air: 0.3, Earth: 0.1, Water: 0.2 },
   autumn: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
-  fall: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 }
+  fall: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
   winter: { Water: 0.4, Earth: 0.3, Fire: 0.1, Air: 0.2 },
   all: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 }
@@ -296,7 +296,7 @@ const _calculateLunarPhaseAlignment = (recipe: Recipe, lunarPhase: LunarPhase): 
 const _getSeasonalModifier = (_season: string, element: string): number => {,
   const modifiers: Record<string, Record<string, number>> = {
     spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
-    summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 }
+    summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
     autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
     winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   }
@@ -328,18 +328,18 @@ function _getElementalBreakdown(_season: Season): Record<Season, ElementalProper
 ;
   const seasonalModifiers: Record<Season, ElementalProperties> = {
     spring: { Fire: 0.3, Water: 0.3, Air: 0.25, Earth: 0.15 },
-    summer: { Fire: 0.4, Water: 0.2, Air: 0.25, Earth: 0.15 }
+    summer: { Fire: 0.4, Water: 0.2, Air: 0.25, Earth: 0.15 },
     autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
-    fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 }
+    fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
     winter: { Fire: 0.15, Water: 0.35, Air: 0.15, Earth: 0.35 },
     all: { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
   }
 
   return {
     spring: { ...baseElements, ...seasonalModifiers.spring },
-    summer: { ...baseElements, ...seasonalModifiers.summer }
+    summer: { ...baseElements, ...seasonalModifiers.summer },
     autumn: { ...baseElements, ...seasonalModifiers.autumn },
-    fall: { ...baseElements, ...seasonalModifiers.fall }
+    fall: { ...baseElements, ...seasonalModifiers.fall },
     winter: { ...baseElements, ...seasonalModifiers.winter },
     all: { ...baseElements, ...seasonalModifiers.all }
   }
@@ -365,18 +365,18 @@ function _calculateSeasonalScores(
 
   const elementalBreakdown: Record<Season, ElementalProperties> = {
     spring: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-    summer: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+    summer: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     autumn: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-    fall: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+    fall: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     winter: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     all: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
   }
 
   const astrologicalInfluence: Record<Season, AstrologicalProperties> = {
     spring: { favorable: [], unfavorable: [], neutral: [] },
-    summer: { favorable: [], unfavorable: [], neutral: [] }
+    summer: { favorable: [], unfavorable: [], neutral: [] },
     autumn: { favorable: [], unfavorable: [], neutral: [] },
-    fall: { favorable: [], unfavorable: [], neutral: [] }
+    fall: { favorable: [], unfavorable: [], neutral: [] },
     winter: { favorable: [], unfavorable: [], neutral: [] },
     all: { favorable: [], unfavorable: [], neutral: [] }
   }
@@ -498,7 +498,7 @@ export const _calculateSeasonalModifiers = (recipe: Recipe, season: Season): Ele
   const seasonalInfluence = getSeasonalElementalInfluence(season)
   const result = { ...recipe.elementalProperties }
 
-  Object.keys(result).forEach(element => {;
+  Object.keys(result).forEach(element => {,
     const seasonalModifier = seasonalInfluence[element as Element] || 0.25,
     result[element] *= seasonalModifier
   })

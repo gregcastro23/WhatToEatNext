@@ -95,8 +95,8 @@ export function getZodiacElement(_sign: any): ElementalCharacter {
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water',
-  };
+    pisces: 'Water'
+};
   return elements[_sign]; // All signs are guaranteed to have elements
 }
 
@@ -380,7 +380,7 @@ export async function calculatePlanetaryPositions(
           // Add VSOP87 accuracy metadata
           accuracy: planet === 'Sun' ? 'VSOP87 ±0.01°' : 'Astronomy Engine',
           calculation_method: planet === 'Sun' ? 'VSOP87 with aberration correction' : 'Standard astronomical'
-        };
+};
       });
 
       debugLog(`✅ Enhanced planetary positions calculated with VSOP87 precision for ${date.toISOString().split('T')[0]}`);
@@ -408,7 +408,7 @@ export async function calculatePlanetaryPositions(
             isRetrograde: data.isRetrograde,
             accuracy: 'Astronomy Engine fallback',
             calculation_method: 'Standard astronomical calculation'
-          };
+};
         });
 
         debugLog('⚠️ Using astronomy-engine fallback calculations');
@@ -427,8 +427,8 @@ export async function calculatePlanetaryPositions(
     Object.values(defaults).forEach(p => {
       p.error = true;
       // Add accuracy metadata even for fallbacks
-      p.accuracy = 'Default fallback positions';
-      p.calculation_method = 'Static default values';
+      p.accuracy = 'Default fallback positions',
+      p.calculation_method = 'Static default values',
     });
 
     return defaults;
@@ -440,8 +440,8 @@ export async function calculatePlanetaryPositions(
     const defaults = getDefaultPlanetaryPositions();
     Object.values(defaults).forEach(p => {
       p.error = true;
-      p.accuracy = 'Emergency fallback';
-      p.calculation_method = 'Critical failure recovery';
+      p.accuracy = 'Emergency fallback',
+      p.calculation_method = 'Critical failure recovery',
     });
 
     return defaults;
@@ -1349,7 +1349,7 @@ export function getPlanetaryDignityInfo(
 }
 
   // Calculate detriment (opposite of rulership)
-  const getDetriments = (planet: string): string[] => {,
+  const getDetriments = (planet: string): string[] => {;
     const oppositeSignIndexes: Record<string, number> = {
       aries: 6,
       taurus: 7,
@@ -1459,8 +1459,8 @@ export function calculateAspects(
   // Calculate aspects between each planet pair
   const planets = Object.keys(positions)
 ;
-  for (let i = 0, i < planets.length, i++) {
-    for (let j = i + 1, j < planets.length, j++) {
+  for (let i = 0; i < planets.length, i++) {
+    for (let j = i + 1; j < planets.length, j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 

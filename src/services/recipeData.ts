@@ -132,7 +132,7 @@ function validateAndNormalizeIngredients(
     throw new Error('Recipe must have at least one ingredient');
   }
 
-  return ingredients.map(ing => ({,
+  return ingredients.map(ing => ({;
     name: safeGetString((ing as any).name) || 'Unknown Ingredient'
     amount: typeof ing.amount === 'number' ? ing.amount : 1,,
     unit: ing.unit || 'piece'

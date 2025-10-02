@@ -153,10 +153,9 @@ export function isFullIngredient(ingredient: unknown): ingredient is Ingredient 
 /**
  * Validates that an ingredient object has all required properties
  */
-export function validateIngredient(
-  ingredient: Partial<Ingredient> & {
+export function validateIngredient(ingredient: Partial<Ingredient> & {
     qualities?: string[]
-    storage?: { temperature?: string; humidity?: string };
+    storage?: { temperature?: string, humidity?: string },
   }): {
   isValid: boolean,
   errors: string[]
@@ -300,7 +299,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
   // Set default values for required properties
   const ingredient = {
     name: (mapping.name as unknown) || '',
-    category: (mapping.category as unknown as IngredientCategory) || 'culinary_herb',
+    category: (mapping.category as unknown as IngredientCategory) || 'culinary_herb'
     elementalProperties: (mapping.elementalProperties as unknown as ElementalProperties) || {
       Fire: 0.25,
       Water: 0.25,
@@ -347,7 +346,7 @@ export function ingredientToRecipeIngredient(
     name: ingredient.name,
     amount,
     unit,
-    category: ingredient.category || 'culinary_herb',
+    category: ingredient.category || 'culinary_herb'
     elementalProperties: ingredient.elementalProperties as any,
     qualities: (ingredient as any).qualities || [],
     astrologicalProfile: ingredient.astrologicalProfile,

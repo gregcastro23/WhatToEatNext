@@ -7,14 +7,14 @@ import { RecipeIngredient, validateIngredient } from '@/types/recipeIngredient';
 jest.mock('@/utils/cache', () => ({
   get: jest.fn().mockReturnValue(null),
   set: jest.fn(),
-  delete: jest.fn(),
+  delete: jest.fn()
 }));
 
 // Mock the error handler to prevent console noise
 jest.mock('@/services/errorHandler', () => ({
   errorHandler: {
-    handleError: jest.fn(),
-  },
+    handleError: jest.fn()
+},
 }));
 
 // Mock logger to avoid noise in tests (more complete mock that handles both import styles)
@@ -24,15 +24,15 @@ jest.mock('@/utils/logger', () => ({
     info: jest.fn(),
     error: jest.fn(),
     warn: jest.fn(),
-    debug: jest.fn(),
-  },
+    debug: jest.fn()
+},
   // For default export
   logger: {
     info: jest.fn(),
     error: jest.fn(),
     warn: jest.fn(),
-    debug: jest.fn(),
-  },
+    debug: jest.fn()
+},
 }));
 
 // Spy on recipeElementalService methods
@@ -50,8 +50,8 @@ describe('RecipeData Service', () => {
         name: 'Test Ingredient',
         amount: 1,
         unit: 'cup',
-        category: 'test',
-      },
+        category: 'test'
+},
     ],
     instructions: ['Test instruction'],
     timeToMake: '30 minutes',
@@ -60,13 +60,13 @@ describe('RecipeData Service', () => {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    },
+      Air: 0.25
+},
   };
 
   // Mock the getFallbackRecipe method
   // Note: We're using type assertion to work around the private method access
-  const originalGetFallbackRecipe = (recipeData as unknown as { getFallbackRecipe: () => Recipe }).getFallbackRecipe;
+  const originalGetFallbackRecipe = (recipeData as unknown as { getFallbackRecipe: () => Recipe }).getFallbackRecipe,
 
   beforeAll(() => {
     // Use type assertion to access the private method
@@ -134,13 +134,13 @@ describe('RecipeData Service', () => {
             Fire: 0.4,
             Water: 0.2,
             Earth: 0.3,
-            Air: 0.1,
-          },
+            Air: 0.1
+},
           ingredients: [{ name: 'Test', amount: 1, unit: 'cup', category: 'test' }],
           instructions: ['Test'],
           timeToMake: '30 minutes',
-          numberOfServings: 4,
-        },
+          numberOfServings: 4
+},
         {
           id: 'recipe2',
           name: 'Test Recipe 2',
@@ -155,13 +155,13 @@ describe('RecipeData Service', () => {
             Fire: 0.1,
             Water: 0.4,
             Earth: 0.2,
-            Air: 0.3,
-          },
+            Air: 0.3
+},
           ingredients: [{ name: 'Test', amount: 1, unit: 'cup', category: 'test' }],
           instructions: ['Test'],
           timeToMake: '45 minutes',
-          numberOfServings: 2,
-        },
+          numberOfServings: 2
+},
       ]);
 
       // Mock filterRecipes to isolate test from implementation details
@@ -236,45 +236,45 @@ describe('RecipeData Service', () => {
 
       // Test filtering by cuisine
       const italianRecipes = await recipeData.filterRecipes({
-        cuisine: 'Italian',
-      });
+        cuisine: 'Italian'
+});
       expect(italianRecipes.length).toBe(1);
       expect(italianRecipes[0].id).toBe('recipe1');
 
       // Test filtering by meal type
       const lunchRecipes = await recipeData.filterRecipes({
-        mealType: ['lunch'],
-      });
+        mealType: ['lunch']
+});
       expect(lunchRecipes.length).toBe(1);
       expect(lunchRecipes[0].id).toBe('recipe2');
 
       // Test filtering by season
       const summerRecipes = await recipeData.filterRecipes({
-        season: ['summer'],
-      });
+        season: ['summer']
+});
       expect(summerRecipes.length).toBe(1);
       expect(summerRecipes[0].id).toBe('recipe1');
 
       // Test filtering by dietary restrictions
       const vegetarianRecipes = await recipeData.filterRecipes({
-        isVegetarian: true,
-      });
+        isVegetarian: true
+});
       expect(vegetarianRecipes.length).toBe(1);
       expect(vegetarianRecipes[0].id).toBe('recipe1');
 
       // Test filtering with multiple criteria
       const complexFilter = await recipeData.filterRecipes({
         mealType: ['dinner'],
-        isGlutenFree: true,
-      });
+        isGlutenFree: true
+});
       expect(complexFilter.length).toBe(1);
       expect(complexFilter[0].id).toBe('recipe1');
 
       // Test with Mexican & Vegan filter
       const noMatches = await recipeData.filterRecipes({
         cuisine: 'Mexican',
-        isVegan: true,
-      });
+        isVegan: true
+});
 
       // This should return the fallback recipe
       expect(noMatches.length).toBeGreaterThan(0);
@@ -316,8 +316,8 @@ describe('RecipeData Service', () => {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      },
+        Air: 0.25
+},
     };
 
     // Mock standardizeRecipe to normalize the elemental properties
@@ -351,8 +351,8 @@ describe('RecipeData Service', () => {
   it('should reject an ingredient with missing required fields', () => {
     const missingNameIngredient = {
       amount: 1,
-      unit: 'cup',
-    };
+      unit: 'cup'
+};
 
     expect(validateIngredient(missingNameIngredient as unknown as RecipeIngredient)).toBe(false);
   });

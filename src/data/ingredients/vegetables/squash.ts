@@ -9,7 +9,7 @@ const rawSquash = {
       Water: 0.3,
       Fire: 0.2,
       Air: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
       favorableZodiac: ['taurus', 'capricorn'],
@@ -19,15 +19,15 @@ const rawSquash = {
           first: {
             element: 'Earth',
             planet: 'Venus'
-          },
+},
           second: {
             element: 'Water',
             planet: 'Saturn'
-          },
+},
           third: {
             element: 'Fire',
             planet: 'Sun'
-          }
+}
         }
       }
     },
@@ -49,16 +49,16 @@ const rawSquash = {
       antioxidants: ['beta-carotene'],
       glycemic_index: 51,
       notes: 'High in beta-carotene and vitamin A'
-    },
+},
     preparation: {
       peeling: 'required',
       cutting: 'halve, remove seeds',
       notes: 'Can be pre-cut and roasted'
-    },
+},
     storage: {
       temperature: 'cool, dry place',
       duration: '2-3 months',
-      notes: 'Once cut, refrigerate'
+      notes: 'Once cut, refrigerate',
     }
   },
   zucchini: {
@@ -68,7 +68,7 @@ const rawSquash = {
       Water: 0.5121388172829056,
       Earth: 0.032703628178985034,
       Air: 0.034665845869724134
-    },
+},
     astrologicalProfile: {},
     category: 'vegetable',
     subCategory: 'squash',
@@ -113,7 +113,7 @@ const rawSquash = {
       Water: 0.2,
       Fire: 0.2,
       Air: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'],
@@ -123,15 +123,15 @@ const rawSquash = {
           first: {
             element: 'Earth',
             planet: 'Venus'
-          },
+},
           second: {
             element: 'Water',
             planet: 'Moon'
-          },
+},
           third: {
             element: 'Fire',
             planet: 'Sun'
-          }
+}
         }
       }
     },
@@ -153,17 +153,17 @@ const rawSquash = {
       antioxidants: ['beta-carotene', 'lutein', 'zeaxanthin'],
       glycemic_index: 75,
       notes: 'Excellent source of vitamin A and beta-carotene'
-    },
+},
     preparation: {
       cutting: 'quarter, remove seeds',
       peeling: 'after cooking easier',
       notes: 'Save seeds for roasting'
-    },
+},
     storage: {
       temperature: 'cool, dry place',
       duration: '2-3 months whole',
       notes: 'Cooked purée freezes well'
-    }
+}
   },
   'acorn squash': {
     name: 'Acorn squash',
@@ -172,7 +172,7 @@ const rawSquash = {
       Water: 0.3,
       Fire: 0.2,
       Air: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Venus'],
       favorableZodiac: ['capricorn', 'taurus'],
@@ -182,15 +182,15 @@ const rawSquash = {
           first: {
             element: 'Earth',
             planet: 'Saturn'
-          },
+},
           second: {
             element: 'Water',
             planet: 'Venus'
-          },
+},
           third: {
             element: 'Fire',
             planet: 'Mars'
-          }
+}
         }
       }
     },
@@ -212,17 +212,17 @@ const rawSquash = {
       sugar_g: 0,
       glycemic_index: 40,
       notes: 'Good source of vitamin C and potassium'
-    },
+},
     preparation: {
       washing: true,
       cutting: 'halve, remove seeds',
       notes: 'No need to peel'
-    },
+},
     storage: {
       temperature: 'cool, dry place',
       duration: '1-2 months',
       notes: 'Store away from apples / (pears || 1)'
-    }
+}
   }
 };
 

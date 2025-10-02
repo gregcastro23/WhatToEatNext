@@ -14,13 +14,13 @@ type CelestialPosition = {
   moonPhase: string,
   planetaryPositions: {
     sun: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    moon: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    moon: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
     mercury: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    venus: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    venus: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
     mars: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    jupiter: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    jupiter: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
     saturn: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    uranus: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    uranus: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
     neptune: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
     pluto: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
   },
@@ -162,13 +162,13 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
 function getStaticPlanetaryPositions(): CelestialPosition['planetaryPositions'] {
   return {
     sun: { sign: 'aries', degree: 14, minutes: 37 },
-    moon: { sign: 'cancer', degree: 2, minutes: 40 }
+    moon: { sign: 'cancer', degree: 2, minutes: 40 },
     mercury: { sign: 'pisces', degree: 27, minutes: 19, isRetrograde: true },
-    venus: { sign: 'pisces', degree: 26, minutes: 13, isRetrograde: true }
+    venus: { sign: 'pisces', degree: 26, minutes: 13, isRetrograde: true },
     mars: { sign: 'cancer', degree: 24, minutes: 39 },
-    jupiter: { sign: 'gemini', degree: 16, minutes: 28 }
+    jupiter: { sign: 'gemini', degree: 16, minutes: 28 },
     saturn: { sign: 'pisces', degree: 24, minutes: 51 },
-    uranus: { sign: 'taurus', degree: 24, minutes: 54 }
+    uranus: { sign: 'taurus', degree: 24, minutes: 54 },
     neptune: { sign: 'aries', degree: 0, minutes: 10 },
     pluto: { sign: 'aquarius', degree: 3, minutes: 36 }
   }

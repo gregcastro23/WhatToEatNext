@@ -49,31 +49,31 @@ const rawLegumes = {
       cutting: 'trim into uniform lengths',
       blanching: '2-3 minutes for bright color and crisp texture',
       notes: 'Can be prepared ahead and refrigerated'
-    },
+},
     varieties: {
       'haricot vert': {
         characteristics: 'thin, French-style bean',
         texture: 'tender, delicate',
         cooking: 'quick cooking, less than standard green beans',
-        uses: 'elegant dishes, quick sautés'
+        uses: 'elegant dishes, quick sautés',
       },
       romano: {
         characteristics: 'flat, wide beans',
         texture: 'meaty, substantial',
         cooking: 'longer cooking time than standard varieties',
-        uses: 'braising, stews, substantial side dishes'
+        uses: 'braising, stews, substantial side dishes',
       },
       'yellow wax': {
         characteristics: 'golden yellow color',
         texture: 'crisp, similar to green beans',
         cooking: 'same methods as green beans',
-        uses: 'visual contrast, all standard green bean preparations'
+        uses: 'visual contrast, all standard green bean preparations',
       },
       purple: {
         characteristics: 'deep purple color that turns green when cooked',
         texture: 'similar to standard green beans',
         cooking: 'best used raw or lightly cooked to preserve color',
-        uses: 'raw applications, light steaming, blanching'
+        uses: 'raw applications, light steaming, blanching',
       }
     },
     storage: {
@@ -82,7 +82,7 @@ const rawLegumes = {
       humidity: 'high',
       method: 'paper towel in plastic bag',
       notes: 'Do not wash until ready to use'
-    }
+}
   },
 
   'snap peas': {
@@ -114,11 +114,11 @@ const rawLegumes = {
       protein_g: 2.8,
       fiber_g: 2.6,
       carbs_g: 7.5
-    },
+},
     preparation: {
       washing: true,
       trimming: 'remove stem end and string if tough',
-      notes: 'Best used fresh, can be eaten whole with pod'
+      notes: 'Best used fresh, can be eaten whole with pod',
     },
     storage: {
       temperature: 'refrigerated',
@@ -126,7 +126,7 @@ const rawLegumes = {
       humidity: 'high',
       method: 'paper towel in plastic bag',
       notes: 'Consume quickly for best flavor and texture'
-    }
+}
   },
 
   'snow peas': {
@@ -159,18 +159,18 @@ const rawLegumes = {
       protein_g: 2.8,
       fiber_g: 2.6,
       carbs_g: 7.5
-    },
+},
     preparation: {
       washing: true,
       trimming: 'remove stem end and string along the seam',
       notes: 'Flat pods with visible peas inside'
-    },
+},
     storage: {
       temperature: 'refrigerated',
       duration: '2-3 days',
       humidity: 'high',
       method: 'paper towel in plastic bag',
-      notes: 'Very perishable, use quickly'
+      notes: 'Very perishable, use quickly',
     }
   },
 
@@ -204,18 +204,18 @@ const rawLegumes = {
       fiber_g: 5,
       carbs_g: 10,
       fat_g: 5
-    },
+},
     preparation: {
       washing: true,
       cooking: 'simmer in salted water 3-5 minutes',
       shelling: 'typically eaten by squeezing beans from pods',
-      notes: 'Do not eat the pods, just the beans inside'
+      notes: 'Do not eat the pods, just the beans inside',
     },
     storage: {
       temperature: 'refrigerated or frozen',
       fresh_duration: '1-2 days',
       frozen_duration: '6-12 months',
-      notes: 'Often purchased frozen, keeps quality well'
+      notes: 'Often purchased frozen, keeps quality well',
     }
   },
 
@@ -248,12 +248,12 @@ const rawLegumes = {
       protein_g: 8,
       fiber_g: 7,
       carbs_g: 21
-    },
+},
     preparation: {
       shelling: 'remove from pods if fresh',
       soaking: 'overnight if using dried',
       cooking: 'simmer until tender, typically 45-60 minutes for dried',
-      notes: 'Available fresh, frozen, driedor canned'
+      notes: 'Available fresh, frozen, driedor canned',
     },
     storage: {
       fresh_unshelled: '3-5 days refrigerated',
@@ -261,7 +261,7 @@ const rawLegumes = {
       dried: '1-2 years in airtight container',
       cooked: '3-4 days refrigerated',
       notes: 'Frozen lima beans available year-round'
-    }
+}
   }
 };
 

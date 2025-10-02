@@ -12,17 +12,17 @@ import { createLogger } from '@/utils/logger';
 const logger = createLogger('VSOP87EphemerisService');
 
 export interface ZodiacPosition {
-  absolute_longitude: number;
-  sign: string;
-  degree_in_sign: number;
-  decan: number;
-  decan_ruler: string;
+  absolute_longitude: number,
+  sign: string,
+  degree_in_sign: number,
+  decan: number,
+  decan_ruler: string,
   keywords?: string[];
 }
 
 export interface DateRange {
-  start: Date;
-  end: Date;
+  start: Date,
+  end: Date,
   duration_hours: number;
 }
 
@@ -225,7 +225,7 @@ function getDecanRuler(sign: string, decan: number): string {
     pisces: ['Jupiter', 'Mars', 'Sun']
   };
 
-  return decanRulers[sign]?.[decan - 1] || 'Unknown';
+  return decanRulers[sign]?.[decan - 1] || 'Unknown'
 }
 
 /**
@@ -251,13 +251,13 @@ export function getZodiacPositionForDate(date: Date): ZodiacPosition {
  * Get dates when Sun is at specific zodiac degree (reverse lookup)
  */
 export function getDatesForZodiacDegree(targetDegree: number, year: number): DateRange[] {
-  const ranges: DateRange[] = [];
+  const ranges: DateRange[] = [],
   const startDate = new Date(year, 0, 1);
   const endDate = new Date(year + 1, 0, 1);
 
   let currentDate = new Date(startDate);
   let inRange = false;
-  let rangeStart: Date | null = null;
+  let rangeStart: Date | null = null,
 
   while (currentDate < endDate) {
     const position = getZodiacPositionForDate(currentDate);
@@ -298,9 +298,9 @@ export function getDatesForZodiacDegree(targetDegree: number, year: number): Dat
  * Get exact equinox and solstice dates (cardinal points)
  */
 export function getCardinalPoints(year: number): {
-  springEquinox: Date;
-  summerSolstice: Date;
-  autumnEquinox: Date;
+  springEquinox: Date,
+  summerSolstice: Date,
+  autumnEquinox: Date,
   winterSolstice: Date;
 } {
   const findCardinalPoint = (targetLongitude: number): Date => {

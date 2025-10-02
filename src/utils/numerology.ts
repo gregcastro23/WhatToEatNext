@@ -79,10 +79,8 @@ export const celestialNumerology = {
   getElementalAffinity(number: number): string {
     // Map each number to an element
     switch (number) {
-      case, 1: case 9:
-        return 'Fire';
-      case, 2: case 7:
-        return 'Water';
+      case, 1: case 9: return 'Fire',
+      case, 2: case 7: return 'Water',
       case, 4: case 8:
         return 'Earth'
       case, 3: case 5:

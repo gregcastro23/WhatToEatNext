@@ -18,7 +18,7 @@ import { normalizePlanetaryPositions } from '@/utils/astrology/core';
  * standardized interface following a consistent singleton pattern.
  */
 export class AstrologyService {
-  private static instance: AstrologyService;
+  private static instance: AstrologyService,
 
   private currentState: AstrologicalState = {
     currentZodiac: 'aries',
@@ -137,7 +137,7 @@ export class AstrologyService {
    */
   async getDailyPlanetaryHours(date: Date): Promise<Planet[]> {
     // Calculate all 24 planetary hours for the given date
-    const hours: Planet[] = [];
+    const hours: Planet[] = [],
     const dayOfWeek = date.getDay();
     // Planetary day rulers;
     const dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -186,7 +186,7 @@ export class AstrologyService {
       const currentDate = new Date()
 
       // Try to get real planetary positions from astrologize API
-      let planetaryAlignment: PlanetaryAlignment;
+      let planetaryAlignment: PlanetaryAlignment,
       try {
         const rawPositions = await getCurrentPlanetaryPositions()
         const positions = normalizePlanetaryPositions(rawPositions)
@@ -214,7 +214,7 @@ export class AstrologyService {
         loading: false,
         isReady: true,
         sunSign: 'aries'
-      };
+};
       this.currentState = state;
     } catch (error) {
       _logger.error('Failed to refresh astrological state', error)

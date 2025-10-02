@@ -460,7 +460,7 @@ class UserLearningSystem {
 
   private calculateElementalMatch(recipeBalance: ElementalProperties, userAffinities: ElementalProperties): number {
     let similarity = 0,
-    Object.keys(recipeBalance).forEach(element => {;
+    Object.keys(recipeBalance).forEach(element => {,
       const key = element as keyof ElementalProperties,
       similarity += Math.abs(recipeBalance[key] - userAffinities[key])
     })

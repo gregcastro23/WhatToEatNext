@@ -13,7 +13,7 @@ import { join } from 'path';
 
 describe('Configuration File Rule Validation', () => {
   const projectRoot = process.cwd();
-  const tempFiles: string[] = [];
+  const tempFiles: string[] = [],
 
   afterEach(() => {
     // Clean up temporary test files
@@ -62,8 +62,8 @@ describe('Configuration File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -106,12 +106,12 @@ describe('Configuration File Rule Validation', () => {
   development: './dev.config',
           production: './prod.config',
           test: './test.config'
-        };
+};
         
         const currentConfig = require(moduleMap[process.env.NODE_ENV] || './default.config');
         
         // Template literal requires
-        const environment = process.env.NODE_ENV || 'development';
+        const environment = process.env.NODE_ENV || 'development'
         const envConfig = require(\`./config/\${environment}.js\`);
         
         module.exports = {
@@ -128,8 +128,8 @@ describe('Configuration File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -167,7 +167,7 @@ describe('Configuration File Rule Validation', () => {
           output: {
   path: resolve(__dirname, 'dist'),
             filename: 'bundle.js'
-          }
+}
         };
         
         // Conditional exports
@@ -199,8 +199,8 @@ describe('Configuration File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -244,7 +244,7 @@ describe('Configuration File Rule Validation', () => {
   path: path.resolve(__dirname, 'dist'),
             filename: isDevelopment ? '[name].js' : '[name].[contenthash].js',
             clean: true
-          },
+},
           module: {
   rules: [
               {
@@ -270,16 +270,16 @@ describe('Configuration File Rule Validation', () => {
           plugins: [
             new HtmlWebpackPlugin({
   template: './public/index.html'
-            }),
+}),
             !isDevelopment && new MiniCssExtractPlugin({
   filename: '[name].[contenthash].css'
-            })
+})
           ].filter(Boolean),
           devServer: isDevelopment ? {
   port: 3000,
             hot: true,
             open: true
-          } : undefined
+} : undefined
         };
       `;
 
@@ -290,8 +290,8 @@ describe('Configuration File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -340,7 +340,7 @@ describe('Configuration File Rule Validation', () => {
   fs: false,
               path: false,
               crypto: false
-            };
+};
             
             // Add custom loaders
             config.module.rules.push({
@@ -367,14 +367,14 @@ describe('Configuration File Rule Validation', () => {
             API_URL: process.env.NODE_ENV === 'development' 
               ? 'http://localhost:3001' 
               : 'https://api.example.com'
-          },
+},
           async redirects() {
             return [
               {
   source: '/old-path',
                 destination: '/new-path',
                 permanent: true
-              }
+}
             ];
           },
           async rewrites() {
@@ -382,7 +382,7 @@ describe('Configuration File Rule Validation', () => {
               {
   source: '/api/:path*',
                 destination: 'https://api.example.com/:path*'
-              }
+}
             ];
           }
         };
@@ -398,8 +398,8 @@ describe('Configuration File Rule Validation', () => {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
 
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
@@ -447,25 +447,25 @@ describe('Configuration File Rule Validation', () => {
                   100: '#fee2e2',
                   500: '#ef4444',
                   900: '#7f1d1d'
-                },
+},
                 water: {
   50: '#eff6ff',
                   100: '#dbeafe',
                   500: '#3b82f6',
                   900: '#1e3a8a'
-                },
+},
                 earth: {
   50: '#f9fafb',
                   100: '#f3f4f6',
                   500: '#6b7280',
                   900: '#111827'
-                },
+},
                 air: {
   50: '#fefce8',
                   100: '#fef3c7',
                   500: '#f59e0b',
                   900: '#78350f'
-                }
+}
               },
               fontFamily: {
   sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -474,11 +474,11 @@ describe('Configuration File Rule Validation', () => {
               },
               spacing: {
                 '18': '4.5rem',
-                '88': '22rem'
+                '88': '22rem',
               },
               animation: {
                 'fade-in': 'fadeIn 0.5s ease-in-out',
-                'slide-up': 'slideUp 0.3s ease-out'
+                'slide-up': 'slideUp 0.3s ease-out',
               },
               keyframes: {
   fadeIn: {
@@ -516,8 +516,8 @@ describe('Configuration File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -559,7 +559,7 @@ describe('Configuration File Rule Validation', () => {
             '^@/(.*)$': '<rootDir>/src/$1',
             '^@components/(.*)$': '<rootDir>/src/components/$1',
             '^@utils/(.*)$': '<rootDir>/src/utils/$1',
-            '^@calculations/(.*)$': '<rootDir>/src/calculations/$1'
+            '^@calculations/(.*)$': '<rootDir>/src/calculations/$1',
           },
           testMatch: [
             '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
@@ -577,7 +577,7 @@ describe('Configuration File Rule Validation', () => {
               functions: 80,
               lines: 80,
               statements: 80
-            }
+}
           },
           transform: {
             '^.+\\\\.(js|jsx|ts|tsx)$': ['babel-jest', {
@@ -593,13 +593,13 @@ describe('Configuration File Rule Validation', () => {
           globals: {
             'ts-jest': {
   useESM: true
-            }
+}
           },
           // Custom configuration function
           ...(process.env.CI && {
   maxWorkers: 2,
             cache: false
-          })
+})
         };
         
         // Environment-specific overrides
@@ -616,8 +616,8 @@ describe('Configuration File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -657,12 +657,12 @@ describe('Configuration File Rule Validation', () => {
   apiUrl: 'http://localhost:3001',
             debug: true,
             logLevel: 'verbose'
-          },
+},
           production: {
   apiUrl: process.env.API_URL,
             debug: false,
             logLevel: 'error'
-          }
+}
         };
         
         // Dynamic configuration loading
@@ -670,7 +670,7 @@ describe('Configuration File Rule Validation', () => {
           const envConfig = config[environment];
           const customConfig: any = process.env.CUSTOM_CONFIG 
             ? JSON.parse(_process.env.CUSTOM_CONFIG)
-            : {};
+            : {},
           
           return {
             ...envConfig,
@@ -698,8 +698,8 @@ describe('Configuration File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -769,8 +769,8 @@ describe('Configuration File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -835,8 +835,8 @@ describe('Configuration File Rule Validation', () => {
       try {
         const output = execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
-          cwd: projectRoot,
-        });
+          cwd: projectRoot
+});
 
         const result = JSON.parse(output);
 
@@ -920,8 +920,8 @@ describe('Configuration File Rule Validation', () => {
             {
               encoding: 'utf8',
 
-              cwd: projectRoot,
-            },
+              cwd: projectRoot
+},
           );
           const result = JSON.parse(output);
 
@@ -968,8 +968,8 @@ describe('Configuration File Rule Validation', () => {
             {
               encoding: 'utf8',
 
-              cwd: projectRoot,
-            },
+              cwd: projectRoot
+},
           );
           const result = JSON.parse(output);
 
@@ -1012,8 +1012,8 @@ describe('Configuration File Rule Validation', () => {
             {
               encoding: 'utf8',
 
-              cwd: projectRoot,
-            },
+              cwd: projectRoot
+},
           );
           const result = JSON.parse(output);
 
@@ -1067,8 +1067,8 @@ describe('Configuration File Rule Validation', () => {
             `npx eslint "${eslintConfigPath}" --no-eslintrc --config eslint.config.cjs --format json`,
             {
               encoding: 'utf8',
-              cwd: projectRoot,
-            },
+              cwd: projectRoot
+},
           );
 
           const result = JSON.parse(output);

@@ -300,11 +300,11 @@ export function calculateElementalContributionsFromPlanets(
 function getPlanetaryElementalContribution(_planet: string): ElementalProperties {
   const planetaryElements: Record<string, ElementalProperties> = {
     Sun: { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 },
-    Moon: { Fire: 0.1, Water: 0.8, Earth: 0.05, Air: 0.05 }
+    Moon: { Fire: 0.1, Water: 0.8, Earth: 0.05, Air: 0.05 },
     Mercury: { Fire: 0.2, Water: 0.1, Earth: 0.2, Air: 0.5 },
-    Venus: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1 }
+    Venus: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1 },
     Mars: { Fire: 0.7, Water: 0.2, Earth: 0.05, Air: 0.05 },
-    Jupiter: { Fire: 0.3, Water: 0.1, Earth: 0.1, Air: 0.5 }
+    Jupiter: { Fire: 0.3, Water: 0.1, Earth: 0.1, Air: 0.5 },
     Saturn: { Fire: 0.05, Water: 0.1, Earth: 0.7, Air: 0.15 }
   }
 
@@ -314,15 +314,15 @@ function getPlanetaryElementalContribution(_planet: string): ElementalProperties
 function getSignElementalContribution(_sign: string): ElementalProperties {
   const signElements: Record<string, ElementalProperties> = {
     _Aries: { Fire: 1, Water: 0, Earth: 0, Air: 0 },
-    _Taurus: { Fire: 0, Water: 0, Earth: 1, Air: 0 }
+    _Taurus: { Fire: 0, Water: 0, Earth: 1, Air: 0 },
     _Gemini: { Fire: 0, Water: 0, Earth: 0, Air: 1 },
-    _Cancer: { Fire: 0, Water: 1, Earth: 0, Air: 0 }
+    _Cancer: { Fire: 0, Water: 1, Earth: 0, Air: 0 },
     _Leo: { Fire: 1, Water: 0, Earth: 0, Air: 0 },
-    _Virgo: { Fire: 0, Water: 0, Earth: 1, Air: 0 }
+    _Virgo: { Fire: 0, Water: 0, Earth: 1, Air: 0 },
     _Libra: { Fire: 0, Water: 0, Earth: 0, Air: 1 },
-    _Scorpio: { Fire: 0, Water: 1, Earth: 0, Air: 0 }
+    _Scorpio: { Fire: 0, Water: 1, Earth: 0, Air: 0 },
     _Sagittarius: { Fire: 1, Water: 0, Earth: 0, Air: 0 },
-    _Capricorn: { Fire: 0, Water: 0, Earth: 1, Air: 0 }
+    _Capricorn: { Fire: 0, Water: 0, Earth: 1, Air: 0 },
     _Aquarius: { Fire: 0, Water: 0, Earth: 0, Air: 1 },
     _Pisces: { Fire: 0, Water: 1, Earth: 0, Air: 0 }
   }

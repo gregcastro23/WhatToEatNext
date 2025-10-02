@@ -15,11 +15,11 @@ import { log } from '@/services/LoggingService';
 import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
 import type { ElementalProperties } from '../types/alchemy';
 import type {
-    AspectType,
-    LunarPhase,
-    Planet,
-    PlanetaryAspect,
-    PlanetaryPosition
+  AspectType,
+  LunarPhase,
+  Planet,
+  PlanetaryAspect,
+  PlanetaryPosition
 } from '../types/celestial';
 import type { CuisineType, DietaryRestriction, Season } from '../types/constants';
 
@@ -45,18 +45,18 @@ interface ScoringWeights {
  * Breakdown of all scoring factors
  */
 export interface ScoringBreakdown {
-  base: number;
-  transitEffect: number;
-  dignityEffect: number;
-  tarotEffect: number;
-  seasonalEffect: number;
-  locationEffect: number;
-  lunarPhaseEffect: number;
-  aspectEffect: number;
-  elementalCompatibility: number;
-  thermalDynamicEffect: number;
-  kalchmResonance: number;
-  monicaOptimization: number;
+  base: number,
+  transitEffect: number,
+  dignityEffect: number,
+  tarotEffect: number,
+  seasonalEffect: number,
+  locationEffect: number,
+  lunarPhaseEffect: number,
+  aspectEffect: number,
+  elementalCompatibility: number,
+  thermalDynamicEffect: number,
+  kalchmResonance: number,
+  monicaOptimization: number,
   retrogradeEffect: number;
   [key: string]: number;
 }
@@ -414,20 +414,16 @@ export function calculateAspectEffect(
       const aspectStrength = aspect.strength ?? 1.0;
 
       switch (aspect.type) {
-        case 'conjunction':
-          score += aspectStrength * 0.2,
-          break,
-        case 'trine':
-          score += aspectStrength * 0.15,
-          break,
-        case 'sextile':
-          score += aspectStrength * 0.1,
-          break,
-        case 'square':
-          score -= aspectStrength * 0.1
-          break,
-        case 'opposition': score -= aspectStrength * 0.15
-          break
+        case 'conjunction': score += aspectStrength * 0.2,
+          break;
+        case 'trine': score += aspectStrength * 0.15,
+          break;
+        case 'sextile': score += aspectStrength * 0.1,
+          break;
+        case 'square': score -= aspectStrength * 0.1,
+          break;
+        case 'opposition': score -= aspectStrength * 0.15,
+          break;
       }
     }
   }
@@ -455,7 +451,7 @@ export function calculateElementalCompatibility(
     const itemValue = itemElemental[element] || 0;
 
     // Same element compatibility is positive
-    compatibility += currentValue * itemValue * 0.25,
+    compatibility += currentValue * itemValue * 0.25;
   }
 
   return Math.max(0, Math.min(0.4, compatibility))
@@ -471,7 +467,7 @@ export function calculateThermodynamicEffect(
   const currentState = getCurrentAlchemicalState();
   const thermo = currentState.thermodynamicProperties;
 
-  let score = 0,
+  let score = 0;
 
   // High energy states favor active cooking methods and bold flavors
   if (context.item.type === 'cooking_method') {
@@ -482,7 +478,7 @@ export function calculateThermodynamicEffect(
       score += 0.2;
     }
     if (thermo.reactivity > 0.7 && context.item.name.includes('ferment')) {
-      score += 0.15,
+      score += 0.15;
     }
   }
 
@@ -490,10 +486,10 @@ export function calculateThermodynamicEffect(
   if (
     thermo.entropy > 0.7 &&
     (context.item.type === 'recipe' || context.item.type === 'ingredient')
-  ) {;
+  ) {
     const complexity = context.preferences?.complexityPreference;
-    if (complexity === 'complex') {;
-      score += 0.1,
+    if (complexity === 'complex') {
+      score += 0.1;
     }
   }
 
@@ -547,18 +543,18 @@ export function calculateRetrogradeEffect(
   astroData: AstrologicalData,
   context: ScoringContext,
 ): number {
-  let score = 0,
+  let score = 0;
   const itemRulers = context.item.planetaryRulers || [];
 
   for (const planet of itemRulers) {
     const planetData = astroData.planetaryPositions[planet];
     if (planetData.isRetrograde) {
       // Retrograde planets generally reduce effectiveness
-      score -= 0.1
+      score -= 0.1;
 
       // Exception: Mercury retrograde can favor traditional methods
-      if (planet === 'Mercury' && context.item.type === 'cooking_method') {;
-        score += 0.05, // Partial compensation
+      if (planet === 'Mercury' && context.item.type === 'cooking_method') {
+        score += 0.05; // Partial compensation
       }
     }
   }

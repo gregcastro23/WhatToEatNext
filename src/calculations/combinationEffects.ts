@@ -42,7 +42,7 @@ const COMBINATION_RULES: CombinationRule[] = [
     modifier: 1.3,
     elements: { Fire: 0.2 },
     notes: 'Classic warming combination'
-  },
+},
   {
     ingredients: ['cinnamon', 'cardamom', 'clove'],
     effect: 'amplify' as EffectType,
@@ -136,7 +136,7 @@ const hasIngredientCombination = (
 }
 
 const calculateElementalInteractions = (ingredients: string[]): CombinationEffect[] => {
-  const effects: CombinationEffect[] = [];
+  const effects: CombinationEffect[] = [],
   const ingredientPairs = getPairs(ingredients);
   ingredientPairs.forEach(([ing1, ing2]) => {
     const elem1 = ingredientMappings[ing1]?.elementalProperties;
@@ -150,7 +150,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
         strength: 1.2,
         elements: ['Fire'] as Element[],
         description: 'Harmonious elemental combination'
-      } as CombinationEffect);
+} as CombinationEffect);
     }
 
     if (isAntagonisticCombination(elem1, elem2)) {
@@ -160,7 +160,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
         strength: 0.8,
         elements: ['Water'] as Element[],
         description: 'Conflicting elemental combination'
-      } as CombinationEffect);
+} as CombinationEffect);
     }
   });
 
@@ -209,7 +209,7 @@ export const _suggestComplementaryIngredients = (
   currentIngredients: string[],
   season?: Season,
 ): string[] => {
-  const suggestions: string[] = [];
+  const suggestions: string[] = [],
   const currentElements = calculateCombinedElements(currentIngredients);
   const dominantElement = getDominantElement(currentElements);
   Object.entries(ingredientMappings).forEach(([ingredient, mapping]) => {
@@ -235,14 +235,14 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
     Water: 0,
     Air: 0,
     Earth: 0
-  };
+};
 
   ingredients.forEach(ing => {
-    const elements = ingredientMappings[ing]?.elementalProperties;
+    const elements = ingredientMappings[ing]?.elementalProperties,
     if (elements) {
       Object.entries(elements).forEach(([element, value]) => {
         // Pattern KK-1: Safe arithmetic with type validation
-        const numericValue = typeof value === 'number' ? value : 0;
+        const numericValue = typeof value === 'number' ? value : 0,
         combined[element as keyof ElementalProperties] += numericValue;
       });
     }
@@ -252,7 +252,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
   const total = Object.values(combined).reduce((a, b) => a + b, 0);
   if (total > 0) {
     Object.keys(combined).forEach(key => {
-      combined[key as keyof ElementalProperties] /= total;
+      combined[key as keyof ElementalProperties] /= total,
     });
   }
 

@@ -32,8 +32,8 @@ describe('RecipeElementalService', () => {
           Fire: 1,
           Water: 0,
           Earth: 0,
-          Air: 0,
-        },
+          Air: 0
+},
       };
 
       const result = recipeElementalService.standardizeRecipe(recipe);
@@ -60,8 +60,8 @@ describe('RecipeElementalService', () => {
             Fire: 0.8,
             Water: 0.2,
             Earth: 0,
-            Air: 0,
-          },
+            Air: 0
+},
         },
       ];
 
@@ -89,8 +89,8 @@ describe('RecipeElementalService', () => {
           Fire: 0.4,
           Water: 0.3,
           Earth: 0.2,
-          Air: 0.1,
-        },
+          Air: 0.1
+},
       } as Recipe;
 
       const result = recipeElementalService.getDominantElement(recipe);
@@ -106,15 +106,15 @@ describe('RecipeElementalService', () => {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      };
+        Air: 0.25
+};
 
       const props2: ElementalProperties = {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      };
+        Air: 0.25
+};
 
       // Identical properties should have 100% similarity
       const similarity1 = recipeElementalService.calculateSimilarity(props1, props2);
@@ -125,8 +125,8 @@ describe('RecipeElementalService', () => {
         Fire: 0.5,
         Water: 0.2,
         Earth: 0.2,
-        Air: 0.1,
-      };
+        Air: 0.1
+};
 
       const similarity2 = recipeElementalService.calculateSimilarity(props1, props3);
       expect(similarity2).toBeLessThan(1);
@@ -138,8 +138,8 @@ describe('RecipeElementalService', () => {
     it('should derive properties based on recipe attributes', () => {
       const recipe = {
         cuisine: 'Mexican',
-        cookingMethod: ['grilling'],
-      };
+        cookingMethod: ['grilling']
+};
 
       const result = recipeElementalService.deriveElementalProperties(recipe);
 
@@ -163,8 +163,8 @@ describe('RecipeElementalService', () => {
               Earth: 0.6,
               Water: 0.3,
               Fire: 0.05,
-              Air: 0.05,
-            },
+              Air: 0.05
+},
           },
         ],
       };

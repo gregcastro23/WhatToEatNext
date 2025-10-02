@@ -66,7 +66,7 @@ export const, greek: Cuisine = {
             Water: 0.2,
             Air: 0.2,
             Fire: 0.1
-          }
+}
         },
         {
           name: 'Greek Yogurt with Honey',
@@ -129,7 +129,7 @@ export const, greek: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-          }
+}
         },
         {
           name: 'Strapatsada',
@@ -195,7 +195,7 @@ export const, greek: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Water: 0.2
-          }
+}
         }
       ],
       summer: [
@@ -251,7 +251,7 @@ export const, greek: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Water: 0.1
-          }
+}
         }
       ]
     },
@@ -309,7 +309,7 @@ export const, greek: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Water: 0.2
-          }
+}
         },
         {
           name: 'Horiatiki',
@@ -1082,7 +1082,7 @@ export const, greek: Cuisine = {
               unit: 'small',
               category: 'vegetable',
               optional: true
-            }
+}
           ],
           substitutions: {
             eggplants: ['roasted red peppers'],
@@ -1130,12 +1130,12 @@ export const, greek: Cuisine = {
         Earth: 0.2,
         Air: 0.2,
         Fire: 0.0
-      },
+},
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'Properly draining the cucumber is key to a thick consistency',
       technicalTips: 'Salt and drain cucumbers for at least 30 minutes before mixing'
-    },
+},
     avgolemono: {
       name: 'Avgolemono',
       description: 'Silky egg and lemon sauce that thickens soups and stews',
@@ -1148,12 +1148,12 @@ export const, greek: Cuisine = {
         Air: 0.3,
         Fire: 0.2,
         Earth: 0.1
-      },
+},
       astrologicalInfluences: ['Mercury', 'Moon', 'Gemini'],
       seasonality: 'winter, spring',
       preparationNotes: 'The key is to temper the eggs properly to avoid curdling',
       technicalTips: 'Add hot broth to eggs very slowly while whisking constantly'
-    },
+},
     ladolemono: {
       name: 'Ladolemono',
       description: 'Simple but powerful emulsion of olive oil and lemon juice',
@@ -1171,12 +1171,12 @@ export const, greek: Cuisine = {
         Fire: 0.2,
         Earth: 0.2,
         Water: 0.1
-      },
+},
       astrologicalInfluences: ['Sun', 'Mercury', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'The ratio is typically 3 parts oil to 1 part lemon juice',
       technicalTips: 'Whisk vigorously or blend for proper emulsification'
-    },
+},
     skordalia: {
       name: 'Skordalia',
       description: 'Pungent garlic sauce made with potato, bread, or nuts',
@@ -1189,12 +1189,12 @@ export const, greek: Cuisine = {
         Fire: 0.3,
         Air: 0.2,
         Water: 0.1
-      },
+},
       astrologicalInfluences: ['Mars', 'Saturn', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Achieving the right balance of garlic is crucial - adjust to taste',
       technicalTips: 'Slowly incorporate oil while blending for proper emulsification'
-    },
+},
     htipiti: {
       name: 'Htipiti',
       description: 'Spicy roasted red pepper and feta dip',
@@ -1207,12 +1207,12 @@ export const, greek: Cuisine = {
         Earth: 0.3,
         Water: 0.1,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'summer, autumn',
       preparationNotes: 'The smokiness of the peppers is essential for authentic flavor',
       technicalTips: 'Roast peppers directly over flame for best smoky taste'
-    }
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -1275,7 +1275,7 @@ export const, greek: Cuisine = {
       toolsRequired: ['charcoal grill', 'skewers', 'brush for oil', 'tongs'],
       bestFor: ['lamb', 'pork', 'chicken', 'seafood', 'vegetables'],
       difficulty: 'easy'
-    },
+},
     {
       name: 'Stifado',
       description: 'Slow-cooked stew with pearl onions, wine, and tomatoes',
@@ -1283,7 +1283,7 @@ export const, greek: Cuisine = {
       toolsRequired: ['heavy pot', 'wooden spoon', 'sharp knife', 'measuring cups'],
       bestFor: ['beef', 'rabbit', 'game meat', 'octopus'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Sotirito',
       description: 'Shallow frying, often used for vegetables and fritters',
@@ -1291,7 +1291,7 @@ export const, greek: Cuisine = {
       toolsRequired: ['heavy-bottomed pan', 'slotted spoon', 'paper towels', 'thermometer'],
       bestFor: ['zucchini fritters', 'eggplant', 'fish', 'meatballs'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Yiachni',
       description: 'Braising in tomato sauce with herbs and spices',
@@ -1299,7 +1299,7 @@ export const, greek: Cuisine = {
       toolsRequired: ['Dutch oven', 'wooden spoon', 'sharp knife', 'measuring spoons'],
       bestFor: ['green beans', 'okra', 'rabbit', 'beef'],
       difficulty: 'easy'
-    },
+},
     {
       name: 'Plasto',
       description: 'Traditional pie-making technique with layered phyllo or other dough',
@@ -1307,7 +1307,7 @@ export const, greek: Cuisine = {
       toolsRequired: ['baking pan', 'pastry brush', 'rolling pin', 'sharp knife'],
       bestFor: ['spinach pie', 'cheese pie', 'meat pie', 'vegetable pie'],
       difficulty: 'hard'
-    }
+}
   ],
   regionalCuisines: {
     crete: {
@@ -1318,7 +1318,7 @@ export const, greek: Cuisine = {
       elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Taurus'],
       seasonality: 'all'
-    },
+},
     macedonia: {
       name: 'Macedonian Cuisine',
       description: 'Northern Greek cuisine with strong Balkan influences and hearty dishes',
@@ -1326,7 +1326,7 @@ export const, greek: Cuisine = {
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Mars', 'Capricorn'],
       seasonality: 'all'
-    },
+},
     cyclades: {
       name: 'Cycladic Cuisine',
       description: 'Island cuisine featuring seafood, local cheeses, and sun-dried ingredients',
@@ -1334,7 +1334,7 @@ export const, greek: Cuisine = {
       elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
       astrologicalInfluences: ['Neptune', 'Moon', 'Pisces'],
       seasonality: 'all'
-    },
+},
     peloponnese: {
       name: 'Peloponnesian Cuisine',
       description: 'Rich in olive oil, citrus, and slow-cooked meat and bean dishes',
@@ -1342,14 +1342,14 @@ export const, greek: Cuisine = {
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Venus', 'Aries'],
       seasonality: 'all'
-    }
+}
   },
   elementalProperties: {
     Earth: 0.4,
     Water: 0.3,
     Fire: 0.2,
     Air: 0.1
-  }
+}
 };
 
 export default greek;

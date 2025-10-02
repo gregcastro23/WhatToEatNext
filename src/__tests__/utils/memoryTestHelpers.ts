@@ -11,12 +11,12 @@ import { TestMemoryMonitor } from './TestMemoryMonitor';
  * Configuration for memory-safe test execution
  */
 interface MemorySafeTestConfig {
-  enableMonitoring?: boolean;
-  cleanupAfterEach?: boolean;
+  enableMonitoring?: boolean,
+  cleanupAfterEach?: boolean,
   memoryThresholds?: {
-    heapUsed?: number;
-    heapTotal?: number;
-    external?: number;
+    heapUsed?: number,
+    heapTotal?: number,
+    external?: number,
     rss?: number;
   };
   timeoutOverride?: number;
@@ -30,7 +30,7 @@ export function withMemoryManagement<T>(
   config: MemorySafeTestConfig = {},
 ): () => Promise<T> {
   return async () => {
-    const monitor = config.enableMonitoring ? new TestMemoryMonitor(config.memoryThresholds) : null;
+    const monitor = config.enableMonitoring ? new TestMemoryMonitor(config.memoryThresholds) : null,
 
     try {
       // Take initial snapshot
@@ -73,7 +73,7 @@ export function describeWithMemoryManagement(
   config: MemorySafeTestConfig = {},
 ): void {
   describe(description, () => {
-    let suiteMonitor: TestMemoryMonitor | null = null;
+    let suiteMonitor: TestMemoryMonitor | null = null,
 
     beforeAll(() => {
       if (config.enableMonitoring) {
@@ -92,8 +92,8 @@ export function describeWithMemoryManagement(
           console.log(`Memory summary for "${description}":`, {
             totalIncrease: `${summary.totalIncrease.toFixed(2)}MB`,
             peakMemory: `${summary.peakMemory.toFixed(2)}MB`,
-            duration: `${(summary.testDuration / 1000).toFixed(2)}s`,
-          });
+            duration: `${(summary.testDuration / 1000).toFixed(2)}s`
+});
         }
 
         suiteMonitor.cleanup('suite-cleanup');
@@ -129,8 +129,8 @@ export function itWithMemoryCleanup(
     description,
     withMemoryManagement(testFn, {
       enableMonitoring: true,
-      cleanupAfterEach: true,
-    }),
+      cleanupAfterEach: true
+}),
     timeout || 15000,
   ); // Default to 15s timeout
 }
@@ -167,10 +167,10 @@ export function createTestDataset<T>(
   size: number,
   cleanup?: (data: T[]) => void,
 ): {
-  data: T[];
+  data: T[],
   cleanup: () => void;
 } {
-  const data: T[] = [];
+  const data: T[] = [],
 
   for (let i = 0; i < size; i++) {
     data.push(generator());
@@ -235,9 +235,9 @@ export async function processBatchWithMemoryManagement<T, R>(
   batchSize: number = 10,
   cleanupBetweenBatches: boolean = true,
 ): Promise<R[]> {
-  const results: R[] = [];
+  const results: R[] = [],
 
-  for (let i = 0; i < items.length; i += batchSize) {
+  for (let i = 0, i < items.length, i += batchSize) {
     const batch = items.slice(i, i + batchSize);
 
     // Process batch
@@ -319,8 +319,8 @@ export const MEMORY_TEST_CONFIGS = {
     memoryThresholds: {
       warningThreshold: 25,
       errorThreshold: 100,
-      leakThreshold: 10,
-    },
+      leakThreshold: 10
+},
   },
 
   moderate: {
@@ -329,8 +329,8 @@ export const MEMORY_TEST_CONFIGS = {
     memoryThresholds: {
       warningThreshold: 50,
       errorThreshold: 200,
-      leakThreshold: 25,
-    },
+      leakThreshold: 25
+},
   },
 
   relaxed: {
@@ -339,8 +339,8 @@ export const MEMORY_TEST_CONFIGS = {
     memoryThresholds: {
       warningThreshold: 100,
       errorThreshold: 500,
-      leakThreshold: 50,
-    },
+      leakThreshold: 50
+},
   },
 };
 

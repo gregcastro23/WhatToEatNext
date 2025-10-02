@@ -27,13 +27,13 @@ const signElements: Record<string, string> = {
 // Map planets to their alchemical properties
 const planetAlchemicalProperties: Record<string, Record<string, number>> = {
   sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.1, Substance: 0.2 },
-  moon: { Spirit: 0.2, Essence: 0.8, Matter: 0.7, Substance: 0.3 }
+  moon: { Spirit: 0.2, Essence: 0.8, Matter: 0.7, Substance: 0.3 },
   mercury: { Spirit: 0.7, Essence: 0.4, Matter: 0.2, Substance: 0.8 },
-  venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.6, Substance: 0.2 }
+  venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.6, Substance: 0.2 },
   mars: { Spirit: 0.4, Essence: 0.7, Matter: 0.8, Substance: 0.3 },
-  jupiter: { Spirit: 0.8, Essence: 0.6, Matter: 0.3, Substance: 0.4 }
+  jupiter: { Spirit: 0.8, Essence: 0.6, Matter: 0.3, Substance: 0.4 },
   saturn: { Spirit: 0.6, Essence: 0.2, Matter: 0.9, Substance: 0.5 },
-  uranus: { Spirit: 0.9, Essence: 0.5, Matter: 0.2, Substance: 0.7 }
+  uranus: { Spirit: 0.9, Essence: 0.5, Matter: 0.2, Substance: 0.7 },
   neptune: { Spirit: 0.7, Essence: 0.8, Matter: 0.1, Substance: 0.9 },
   pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
 }
@@ -270,7 +270,7 @@ export function alchemize(
 }
 
   let spirit = 0;
-  let essence = 0,
+  let essence = 0;
   let matter = 0;
   let substance = 0,
 

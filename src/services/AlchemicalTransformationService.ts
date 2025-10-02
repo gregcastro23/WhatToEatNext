@@ -209,7 +209,7 @@ export class AlchemicalTransformationService {
 
     // Determine overall dominant element and alchemical property
     // This is based on the first ingredients as they typically have the strongest influence
-    const dominantElement = topIngredients.length > 0 ? topIngredients[0].dominantElement : 'Fire',
+    const dominantElement = topIngredients.length > 0 ? topIngredients[0].dominantElement : 'Fire';
     const dominantAlchemicalProperty =
       topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit'
 
@@ -268,7 +268,7 @@ export class AlchemicalTransformationService {
       let compatibility = 0,
 
       // Ingredient compatibility
-      let ingredientMatch = 0,
+      let ingredientMatch = 0;
       let ingredientCount = 0,
 
       recipe.ingredients.forEach(ingredient => {

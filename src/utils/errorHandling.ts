@@ -235,16 +235,14 @@ export class ErrorHandler {
   // Determine error severity
   private determineSeverity(type: ErrorType): ErrorSeverity {
     switch (type) {
-      case ErrorType.AUTHENTICATION: case ErrorType.AUTHORIZATION:
-        return ErrorSeverity.HIGH;
+      case ErrorType.AUTHENTICATION: case ErrorType.AUTHORIZATION: return ErrorSeverity.HIGH,
       case ErrorType.SERVER_ERROR: return ErrorSeverity.HIGH,
 
       case ErrorType.NETWORK: case ErrorType.ASTROLOGICAL_CALCULATION:
         return ErrorSeverity.MEDIUM
 
       case ErrorType.VALIDATION:
-      case ErrorType.NOT_FOUND:
-        return ErrorSeverity.LOW;
+      case ErrorType.NOT_FOUND: return ErrorSeverity.LOW,
       default: return ErrorSeverity.MEDIUM
     }
   }

@@ -9,40 +9,40 @@ const _logger = createLogger('RecipeFiltering');
 // ===== INTERFACES =====
 
 interface FilterOptions {
-  season?: string;
-  mealType?: string[];
-  maxPrepTime?: number;
-  dietaryRestrictions?: DietaryRestriction[];
-  ingredients?: string[];
-  elementalState?: ElementalProperties;
-  searchQuery?: string;
+  season?: string,
+  mealType?: string[],
+  maxPrepTime?: number,
+  dietaryRestrictions?: DietaryRestriction[],
+  ingredients?: string[],
+  elementalState?: ElementalProperties,
+  searchQuery?: string,
   currentSeason?: string;
 }
 
 interface SortOptions {
-  by: 'relevance' | 'prepTime' | 'elementalState' | 'seasonal';
-  direction: 'asc' | 'desc';
+  by: 'relevance' | 'prepTime' | 'elementalState' | 'seasonal'
+  direction: 'asc' | 'desc'
 }
 
 interface EnhancedFilterOptions extends FilterOptions {
-  cuisineTypes?: CuisineType[];
-  spiciness?: 'mild' | 'medium' | 'hot';
-  temperature?: 'hot' | 'cold' | 'room';
-  complexity?: 'simple' | 'moderate' | 'complex';
-  cookingMethod?: string[];
-  servingSize?: number;
+  cuisineTypes?: CuisineType[],
+  spiciness?: 'mild' | 'medium' | 'hot'
+  temperature?: 'hot' | 'cold' | 'room'
+  complexity?: 'simple' | 'moderate' | 'complex'
+  cookingMethod?: string[],
+  servingSize?: number,
   nutritionalPreferences?: {
-    highProtein?: boolean;
-    lowCarb?: boolean;
-    vegetarian?: boolean;
-    vegan?: boolean;
-    glutenFree?: boolean;
+    highProtein?: boolean,
+    lowCarb?: boolean,
+    vegetarian?: boolean,
+    vegan?: boolean,
+    glutenFree?: boolean,
     dairyFree?: boolean;
   };
-  excludedIngredients?: string[];
-  favoriteIngredients?: string[];
+  excludedIngredients?: string[],
+  favoriteIngredients?: string[],
   cookingTime?: {
-    min?: number;
+    min?: number,
     max?: number;
   };
 }
@@ -54,7 +54,7 @@ interface ScoredRecipe extends Recipe {
 // ===== MAIN RECIPE FILTER CLASS =====
 
 export class RecipeFilter {
-  private static instance: RecipeFilter;
+  private static instance: RecipeFilter,
 
   private constructor() {
     // Singleton pattern - private constructor
@@ -101,7 +101,7 @@ export class RecipeFilter {
           if (recipeSeason) {
             const seasonMatches = Array.isArray(recipeSeason)
               ? recipeSeason.includes(options.currentSeason)
-              : recipeSeason === options.currentSeason;
+              : recipeSeason === options.currentSeason,
             if (!seasonMatches) return false;
           }
         }
@@ -112,7 +112,7 @@ export class RecipeFilter {
           if (recipeMealType) {
             const mealTypeMatches = Array.isArray(recipeMealType)
               ? options.mealType.some(type => recipeMealType.includes(type))
-              : options.mealType.includes(String(recipeMealType));
+              : options.mealType.includes(String(recipeMealType)),
             if (!mealTypeMatches) return false;
           }
         }
@@ -275,7 +275,7 @@ export class RecipeFilter {
 
     return recipes.map(recipe => {
       try {
-        let score = 1;
+        let score = 1,
 
         // Elemental balance score
         if (options.elementalState) {
@@ -317,8 +317,8 @@ export class RecipeFilter {
         _logger.error('Error scoring recipe:', { recipe, error });
         return {
           ...recipe,
-          score: 0.5,
-        } as ScoredRecipe;
+          score: 0.5
+} as ScoredRecipe;
       }
     });
   }
@@ -331,18 +331,15 @@ export class RecipeFilter {
       let comparison = 0;
 
       switch (options.by) {
-        case 'relevance':
-          comparison = b.score - a.score;
+        case 'relevance': comparison = b.score - a.score,
           break;
         case 'prepTime':
           comparison =
             this.parseTime(String(a.timeToMake || '')) - this.parseTime(String(b.timeToMake || ''));
           break;
-        case 'elementalState':
-          comparison = this.getElementalScore(b) - this.getElementalScore(a);
+        case 'elementalState': comparison = this.getElementalScore(b) - this.getElementalScore(a),
           break;
-        case 'seasonal':
-          comparison = this.getSeasonalScore(a) - this.getSeasonalScore(b);
+        case 'seasonal': comparison = this.getSeasonalScore(a) - this.getSeasonalScore(b),
           break;
         default:
           comparison = b.score - a.score;
@@ -363,7 +360,7 @@ export class RecipeFilter {
 
       // Handle various time formats
       if (timeStr.includes('hour')) {
-        const hours = parseFloat(timeStr.match(/(\d+(?:\.\d+)?)\s*hour/)?.[1] || '0');
+        const hours = parseFloat(timeStr.match(/(\d+(?: \.\d+)?)\s*hour/)?.[1] || '0');
         const minutes = parseFloat(timeStr.match(/(\d+)\s*min/)?.[1] || '0');
         return hours * 60 + minutes;
       } else if (timeStr.includes('min')) {
@@ -404,10 +401,8 @@ export class RecipeFilter {
             Boolean(recipe.isDairyFree) ||
             (isNonEmptyArray(recipe.tags) && recipe.tags.includes('dairy-free'))
           );
-        case 'Keto':
-          return this.hasKetoAttributes(recipe);
-        case 'Paleo':
-          return this.hasPaleoAttributes(recipe);
+        case 'Keto': return this.hasKetoAttributes(recipe),
+        case 'Paleo': return this.hasPaleoAttributes(recipe),
         default:
           return true;
       }
@@ -601,8 +596,8 @@ export class RecipeFilter {
 
     return recipes.slice(0, 10).map(recipe => ({
       ...recipe,
-      score: 0.5,
-    }));
+      score: 0.5
+}));
   }
 
   /**
@@ -784,13 +779,12 @@ export class RecipeFilter {
 
 // ===== EXPORTED UTILITY FUNCTIONS =====
 
-export function filterRecipesByIngredientMappings(
-  recipes: Recipe[],
+export function filterRecipesByIngredientMappings(recipes: Recipe[],
   elementalTarget?: ElementalProperties,
   ingredientRequirements?: {
-    required?: string[];
-    preferred?: string[];
-    avoided?: string[];
+    required?: string[],
+    preferred?: string[],
+    avoided?: string[],
   },
 ): Recipe[] {
   if (!isNonEmptyArray(recipes)) {
@@ -799,7 +793,7 @@ export function filterRecipesByIngredientMappings(
 
   return recipes.filter(recipe => {
     try {
-      const ingredients = recipe.ingredients || [];
+      const ingredients = recipe.ingredients || [],
 
       // Check required ingredients
       if (isNonEmptyArray(ingredientRequirements?.required)) {

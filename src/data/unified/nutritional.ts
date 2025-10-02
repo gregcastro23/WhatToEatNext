@@ -132,26 +132,26 @@ export interface NutritionalRecommendations {
 export const _alchemicalNutrientMapping: { [key: string]: AlchemicalProperties } = {
   // Spirit Nutrients (Volatile, transformative)
   vitamin_c: { Spirit: 0.8, Essence: 0.2, Matter: 0.0, Substance: 0.0 },
-  caffeine: { Spirit: 0.9, Essence: 0.1, Matter: 0.0, Substance: 0.0 }
+  caffeine: { Spirit: 0.9, Essence: 0.1, Matter: 0.0, Substance: 0.0 },
   capsaicin: { Spirit: 0.7, Essence: 0.3, Matter: 0.0, Substance: 0.0 },
   volatile_oils: { Spirit: 0.8, Essence: 0.2, Matter: 0.0, Substance: 0.0 }
   // Essence Nutrients (Active principles)
   antioxidants: { Spirit: 0.3, Essence: 0.7, Matter: 0.0, Substance: 0.0 },
-  flavonoids: { Spirit: 0.2, Essence: 0.8, Matter: 0.0, Substance: 0.0 }
+  flavonoids: { Spirit: 0.2, Essence: 0.8, Matter: 0.0, Substance: 0.0 },
   omega_3: { Spirit: 0.1, Essence: 0.7, Matter: 0.1, Substance: 0.1 },
-  probiotics: { Spirit: 0.2, Essence: 0.6, Matter: 0.2, Substance: 0.0 }
+  probiotics: { Spirit: 0.2, Essence: 0.6, Matter: 0.2, Substance: 0.0 },
   enzymes: { Spirit: 0.2, Essence: 0.8, Matter: 0.0, Substance: 0.0 }
   // Matter Nutrients (Physical structure)
   protein: { Spirit: 0.0, Essence: 0.3, Matter: 0.7, Substance: 0.0 },
-  fiber: { Spirit: 0.0, Essence: 0.1, Matter: 0.8, Substance: 0.1 }
+  fiber: { Spirit: 0.0, Essence: 0.1, Matter: 0.8, Substance: 0.1 },
   complex_carbs: { Spirit: 0.1, Essence: 0.2, Matter: 0.6, Substance: 0.1 },
-  calcium: { Spirit: 0.0, Essence: 0.0, Matter: 0.7, Substance: 0.3 }
+  calcium: { Spirit: 0.0, Essence: 0.0, Matter: 0.7, Substance: 0.3 },
   iron: { Spirit: 0.0, Essence: 0.2, Matter: 0.7, Substance: 0.1 }
   // Substance Nutrients (Stable, enduring)
   saturated_fats: { Spirit: 0.0, Essence: 0.1, Matter: 0.2, Substance: 0.7 },
-  minerals: { Spirit: 0.0, Essence: 0.1, Matter: 0.3, Substance: 0.6 }
+  minerals: { Spirit: 0.0, Essence: 0.1, Matter: 0.3, Substance: 0.6 },
   vitamin_d: { Spirit: 0.0, Essence: 0.2, Matter: 0.2, Substance: 0.6 },
-  vitamin_k: { Spirit: 0.0, Essence: 0.2, Matter: 0.3, Substance: 0.5 }
+  vitamin_k: { Spirit: 0.0, Essence: 0.2, Matter: 0.3, Substance: 0.5 },
   magnesium: { Spirit: 0.0, Essence: 0.1, Matter: 0.2, Substance: 0.7 }
 }
 

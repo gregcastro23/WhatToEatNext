@@ -12,9 +12,9 @@ import { ElementalProperties } from '@/types/alchemy';
 
 // Unified alchm.kitchen backend configuration
 const API_CONFIG = {
-  base: process.env.NEXT_PUBLIC_ALCHM_KITCHEN_URL || 'http://localhost:8000',
-  alchemize: process.env.NEXT_PUBLIC_ALCHEMIZE_API_URL || 'https://alchmize.onrender.com/api/alchemize',
-  websocket: process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:8001',
+  base: process.env.NEXT_PUBLIC_ALCHM_KITCHEN_URL || 'http://localhost:8000'
+  alchemize: process.env.NEXT_PUBLIC_ALCHEMIZE_API_URL || 'https://alchmize.onrender.com/api/alchemize'
+  websocket: process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:8001'
   planetary_agents: process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL || 'http://localhost:8000'
 }
 
@@ -27,7 +27,7 @@ export interface AlchemizeRequest {
   minute?: number,
   latitude?: number,
   longitude?: number,
-  zodiacSystem?: 'tropical' | 'sidereal',
+  zodiacSystem?: 'tropical' | 'sidereal'
   planetaryPositions?: Record<string, any>,
 }
 
@@ -339,7 +339,7 @@ export class AlchemicalApiClient {
       })
     )
 
-    return results.map(result =>,
+    return results.map(result =>;
       result.status === 'fulfilled' ? result.value : { service: 'unknown', status: 'error' })
   }
 }

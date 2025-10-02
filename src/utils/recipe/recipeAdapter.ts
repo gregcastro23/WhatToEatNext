@@ -23,8 +23,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     instructions: Array.isArray(recipeData.instructions)
       ? recipeData.instructions
       : ['Combine ingredients and cook as desired.'],
-    elementalProperties: normalizeElementalProperties(recipeData.elementalProperties),
-  };
+    elementalProperties: normalizeElementalProperties(recipeData.elementalProperties)
+};
 
   if (recipeData.description) {
     recipe.description = recipeData.description;
@@ -70,8 +70,8 @@ function adaptIngredients(ingredients: RecipeData['ingredients']): RecipeIngredi
     const recipeIngredient: RecipeIngredient = {
       name: ingredient.name ?? 'Unknown Ingredient',
       amount: Number(ingredient.amount ?? 0),
-      unit: ingredient.unit ?? '',
-    };
+      unit: ingredient.unit ?? ''
+};
 
     if (ingredient.optional !== undefined) {
       recipeIngredient.optional = Boolean(ingredient.optional);
@@ -102,8 +102,8 @@ export function createScoredRecipe(recipe: Recipe | RecipeData, matchScore: numb
       _zodiacalScore: 0,
       _lunarScore: 0,
       _planetaryScore: 0,
-      _seasonalScore: 0,
-    },
+      _seasonalScore: 0
+},
   };
 }
 
@@ -171,10 +171,10 @@ export function createMinimalRecipe(name: string): Recipe {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }),
-    instructions: [],
-  };
+      Air: 0.25
+}),
+    instructions: []
+};
 }
 
 function ensureRecipeId(id?: RecipeIdentifier): RecipeIdentifier {
@@ -210,7 +210,7 @@ function applyEnergyProfile(
   if (energyProfile.zodiac) {
     const zodiacValues = Array.isArray(energyProfile.zodiac)
       ? energyProfile.zodiac
-      : [energyProfile.zodiac];
+      : [energyProfile.zodiac],
     recipe.zodiacInfluences = zodiacValues
       .map(value => String(value).toLowerCase())
       .filter(Boolean) as ZodiacSign[];
@@ -219,7 +219,7 @@ function applyEnergyProfile(
   if (energyProfile.lunar) {
     const lunarValues = Array.isArray(energyProfile.lunar)
       ? energyProfile.lunar
-      : [energyProfile.lunar];
+      : [energyProfile.lunar],
     recipe.lunarPhaseInfluences = lunarValues
       .map(value => String(value).toLowerCase())
       .filter(Boolean) as LunarPhase[];
@@ -243,13 +243,13 @@ function normalizePlanetaryInfluences(
   if (Array.isArray(source)) {
     return {
       _favorable: source,
-      unfavorable: [],
-    };
+      unfavorable: []
+};
   }
 
   const entries = Object.entries(source ?? {});
-  const favorable: string[] = [];
-  const unfavorable: string[] = [];
+  const favorable: string[] = [],
+  const unfavorable: string[] = [],
 
   entries.forEach(([planet, weight]) => {
     if (typeof weight !== 'number') {

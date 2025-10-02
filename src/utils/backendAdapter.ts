@@ -99,7 +99,7 @@ export const getElementalProperties = (ingredient: string): ElementalProperties 
   const elementalMap: Record<string, ElementalProperties> = {
     // Fire-dominant
     chili: { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 },
-    ginger: { Fire: 0.7, Water: 0.15, Earth: 0.1, Air: 0.05 }
+    ginger: { Fire: 0.7, Water: 0.15, Earth: 0.1, Air: 0.05 },
     cinnamon: { Fire: 0.65, Water: 0.1, Earth: 0.15, Air: 0.1 }
 
     // Water-dominant
@@ -139,7 +139,7 @@ export const calculateGregsEnergy = (
 export const getSeasonalModifier = (season: string): ElementalProperties => {
   const modifiers = {
     spring: { Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1 },
-    summer: { Fire: 0.5, Water: 0.2, Earth: 0.1, Air: 0.2 }
+    summer: { Fire: 0.5, Water: 0.2, Earth: 0.1, Air: 0.2 },
     autumn: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 },
     winter: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 }
   }

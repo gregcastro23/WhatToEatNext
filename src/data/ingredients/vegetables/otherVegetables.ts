@@ -10,7 +10,7 @@ const rawOtherVegetables = {
       Water: 0.20342270505373083,
       Earth: 0.025567430424262617,
       Air: 0.006592674588325188
-    },
+},
 
     category: 'vegetable',
     subCategory: 'other',
@@ -35,7 +35,7 @@ const rawOtherVegetables = {
       aroma: ['Fresh'],
       texture: ['Standard'],
       notes: 'Characteristic asparagus profile'
-    },
+},
 
     culinaryProfile: {
       flavorProfile: {
@@ -52,13 +52,13 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for asparagus'
-    },
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},
 
@@ -75,7 +75,7 @@ const rawOtherVegetables = {
       Water: 0.7539592539005983,
       Earth: 0.09658624330348414,
       Air: 0.023247174754624015
-    },
+},
 
     category: 'vegetable',
     subCategory: 'other',
@@ -100,7 +100,7 @@ const rawOtherVegetables = {
       aroma: ['Fresh'],
       texture: ['Standard'],
       notes: 'Characteristic artichoke profile'
-    },
+},
 
     culinaryProfile: {
       flavorProfile: {
@@ -117,13 +117,13 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for artichoke'
-    },
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},
 
@@ -140,7 +140,7 @@ const rawOtherVegetables = {
       Water: 0.5760851625680805,
       Earth: 0.060653573196897174,
       Air: 0.013327281729658358
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['Virgo', 'Gemini', 'Cancer'],
@@ -187,13 +187,13 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for cucumber'
-    },
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},
 
@@ -210,7 +210,7 @@ const rawOtherVegetables = {
       Water: 0.2653922372557059,
       Earth: 0.07277572775727757,
       Air: 0.019876657099904334
-    },
+},
 
     category: 'vegetable',
     subCategory: 'other',
@@ -252,13 +252,13 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for okra'
-    },
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},
 
@@ -275,7 +275,7 @@ const rawOtherVegetables = {
       Water: 0.5121388172829056,
       Earth: 0.032703628178985034,
       Air: 0.034665845869724134
-    },
+},
 
     category: 'vegetable',
     subCategory: 'other',
@@ -291,7 +291,7 @@ const rawOtherVegetables = {
       sugar_g: 2.5,
       glycemic_index: 15,
       notes: 'Low calorie and nutrient-dense'
-    },
+},
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -321,13 +321,13 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for zucchini'
-    },
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},
 
@@ -344,7 +344,7 @@ const rawOtherVegetables = {
       Water: 0.2242992223845753,
       Earth: 0.025780554575838496,
       Air: 0.03369946759375892
-    },
+},
 
     category: 'vegetable',
     subCategory: 'other',
@@ -386,13 +386,13 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for peas'
-    },
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},
 
@@ -409,7 +409,7 @@ const rawOtherVegetables = {
       Water: 0.22259392433970013,
       Earth: 0.0397632235254054,
       Air: 0.012630081830109875
-    },
+},
 
     category: 'vegetable',
     subCategory: 'other',
@@ -451,13 +451,13 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for green_beans'
-    },
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},
 
@@ -474,7 +474,7 @@ const rawOtherVegetables = {
       Water: 0.34187790998448014,
       Earth: 0.0538023797206415,
       Air: 0.004358510087946198
-    },
+},
 
     category: 'vegetable',
     subCategory: 'other',
@@ -516,13 +516,13 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for celery'
-    },
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},
 
@@ -539,7 +539,7 @@ const rawOtherVegetables = {
       Water: 0.6474929620330214,
       Earth: 0.0792817469375333,
       Air: 0.01914327018184585
-    },
+},
 
     category: 'vegetable',
     subCategory: 'other',
@@ -581,13 +581,13 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for fennel'
-    },
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},
 
@@ -604,7 +604,7 @@ const rawOtherVegetables = {
       Water: 0.6980816374177985,
       Earth: 0.05369858749367681,
       Air: 0.12156115023930894
-    },
+},
 
     category: 'vegetable',
     subCategory: 'other',
@@ -646,13 +646,13 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for kohlrabi'
-    },
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},
 
@@ -669,7 +669,7 @@ const rawOtherVegetables = {
       Water: 0.05222352881026636,
       Earth: 0.02167799989774528,
       Air: 0.009221330333861648
-    },
+},
 
     category: 'vegetable',
     subCategory: 'other',
@@ -711,13 +711,13 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for bok_choy'
-    },
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},
 
@@ -734,7 +734,7 @@ const rawOtherVegetables = {
       Water: 0.12378591584428543,
       Earth: 0.021475453284068413,
       Air: 0.002704893753020595
-    },
+},
 
     category: 'vegetable',
     subCategory: 'other',
@@ -776,13 +776,13 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for endive'
-    },
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},
 
@@ -790,7 +790,7 @@ const rawOtherVegetables = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
+  },
   tomato_paste: {
     name: 'tomato paste',
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },

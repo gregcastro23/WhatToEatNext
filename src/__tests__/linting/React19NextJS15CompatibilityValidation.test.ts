@@ -149,7 +149,7 @@ export default function Page() {
 export function generateMetadata() {
   return {
   title: 'Test Page'
-  };
+};
 }
 `;
       void fs.writeFileSync(testFile, content);
@@ -168,7 +168,7 @@ export function generateMetadata() {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
@@ -401,7 +401,7 @@ export class ErrorBoundary extends Component<Props, State> {
 import { FC, PropsWithChildren, ComponentProps } from 'react';
 
 interface CustomProps {
-  title: string;
+  title: string,
   optional?: boolean;
 }
 
@@ -441,7 +441,7 @@ export const TypedButton: FC<ButtonProps> = ({ title, ...buttonProps }) => {
       const testFile = path.join(testFilesDir, 'prop-validation.tsx');
       const content = `
 interface Props {
-  required: string;
+  required: string,
   optional?: number;,
   callback: (value: string) => void;
 }
@@ -475,7 +475,7 @@ export function PropValidationComponent({ required, optional, callback }: Props)
       const eslintConfig = require('../../../eslint.config.cjs');
 
       // Find React settings in configuration
-      const reactSettings = eslintConfig.find((config: any) => config.settings?.react?.version);
+      const reactSettings = eslintConfig.find((config: any) => config.settings?.react?.version),
 
       expect(reactSettings).toBeDefined();
       expect(reactSettings.settings.react.version).toBe('19.1.0');
@@ -485,7 +485,7 @@ export function PropValidationComponent({ required, optional, callback }: Props)
       const eslintConfig = require('../../../eslint.config.cjs');
 
       // Find React rules configuration
-      const reactRules = eslintConfig.find((config: any) => config.rules && config.rules['react/react-in-jsx-scope']);
+      const reactRules = eslintConfig.find((config: any) => config.rules && config.rules['react/react-in-jsx-scope']),
 
       expect(reactRules).toBeDefined();
       expect(reactRules.rules['react/react-in-jsx-scope']).toBe('off');
@@ -504,8 +504,8 @@ export function PropValidationComponent({ required, optional, callback }: Props)
       expect(hooksConfig.rules['react-hooks/exhaustive-deps']).toEqual([
         'warn',
         {
-          additionalHooks: '(useRecoilCallback|useRecoilTransaction_UNSTABLE)',
-        },
+          additionalHooks: '(useRecoilCallback|useRecoilTransaction_UNSTABLE)'
+},
       ]);
     });
 
@@ -633,13 +633,13 @@ function runESLintOnFile(filePath: string): { exitCode: number; output: string }
   try {
     const output = execSync(`npx eslint --config eslint.config.cjs "${filePath}" --format=compact`, {
       encoding: 'utf8',
-      stdio: 'pipe',
-    });
+      stdio: 'pipe'
+});
     return { exitCode: 0, output };
   } catch (error: any) {
     return {
       exitCode: error.status || 1,
-      output: error.stdout || error.message || '',
-    };
+      output: error.stdout || error.message || ''
+};
   }
 }

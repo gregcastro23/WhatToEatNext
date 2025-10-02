@@ -81,7 +81,7 @@ class ConfigurationServiceImpl {
 
     return {
       api: { ...config.api },
-      astrology: { ...config.astrology }
+      astrology: { ...config.astrology },
       debug: config.debug
     }
   }
@@ -116,7 +116,7 @@ class ConfigurationServiceImpl {
 
     return {;
       api: { celestialUpdateInterval, timeout, retryCount, baseUrl },
-      astrology: { defaultTimezoneName, retrogradeThreshold, aspectOrbs }
+      astrology: { defaultTimezoneName, retrogradeThreshold, aspectOrbs },
       debug: debugFlag
     }
   }
@@ -380,7 +380,7 @@ class ConfigurationServiceImpl {
       try {
         this.currentConfig = {
           api: { ...config.api },
-          astrology: { ...config.astrology }
+          astrology: { ...config.astrology },
           debug: config.debug
         }
 

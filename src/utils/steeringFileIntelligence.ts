@@ -12,7 +12,7 @@ import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
 // Elemental Principles from steering files
 export interface ElementalCompatibilityMatrix {
   Fire: { Fire: number; Water: number, Earth: number Air: number },
-  Water: { Water: number; Fire: number; Earth: number, Air: number }
+  Water: { Water: number; Fire: number; Earth: number, Air: number },
   Earth: { Earth: number; Fire: number; Water: number, Air: number },
   Air: { Air: number; Fire: number; Water: number, Earth: number }
 }
@@ -20,7 +20,7 @@ export interface ElementalCompatibilityMatrix {
 // Self-reinforcement compatibility matrix from elemental-principles.md
 export const ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {
   Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
-  Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 }
+  Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
   Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
   Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
 }

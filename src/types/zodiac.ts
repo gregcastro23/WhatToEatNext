@@ -26,15 +26,15 @@ export const zodiacDateRanges: Record<
   { startMonth: number; startDay: number; endMonth: number, endDay: number }
 >  = {
   aries: { startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
-  taurus: { startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 }
+  taurus: { startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },
   gemini: { startMonth: 5, startDay: 21, endMonth: 6, endDay: 20 },
-  cancer: { startMonth: 6, startDay: 21, endMonth: 7, endDay: 22 }
+  cancer: { startMonth: 6, startDay: 21, endMonth: 7, endDay: 22 },
   leo: { startMonth: 7, startDay: 23, endMonth: 8, endDay: 22 },
-  virgo: { startMonth: 8, startDay: 23, endMonth: 9, endDay: 22 }
+  virgo: { startMonth: 8, startDay: 23, endMonth: 9, endDay: 22 },
   libra: { startMonth: 9, startDay: 23, endMonth: 10, endDay: 22 },
-  scorpio: { startMonth: 10, startDay: 23, endMonth: 11, endDay: 21 }
+  scorpio: { startMonth: 10, startDay: 23, endMonth: 11, endDay: 21 },
   sagittarius: { startMonth: 11, startDay: 22, endMonth: 12, endDay: 21 },
-  capricorn: { startMonth: 12, startDay: 22, endMonth: 1, endDay: 19 }
+  capricorn: { startMonth: 12, startDay: 22, endMonth: 1, endDay: 19 },
   aquarius: { startMonth: 1, startDay: 20, endMonth: 2, endDay: 18 },
   pisces: { startMonth: 2, startDay: 19, endMonth: 3, endDay: 20 }
 }

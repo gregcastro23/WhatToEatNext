@@ -547,15 +547,15 @@ export type RecipeIdentifier = string;
 export type RecipeSeason = Season | string;
 
 export interface RecipeNutrition {
-  calories?: number;
-  protein?: number;
-  carbs?: number;
-  fat?: number;
-  vitamins?: string[];
-  minerals?: string[];
+  calories?: number,
+  protein?: number,
+  carbs?: number,
+  fat?: number,
+  vitamins?: string[],
+  minerals?: string[],
   macronutrients?: {
-    protein?: number;
-    carbs?: number;
+    protein?: number,
+    carbs?: number,
     fat?: number;
   };
   micronutrients?: {
@@ -565,7 +565,7 @@ export interface RecipeNutrition {
 }
 
 export interface RecipePlanetaryInfluences {
-  _favorable: string[];
-  unfavorable: string[];
+  _favorable: string[],
+  unfavorable: string[],
   neutral?: string[];
 }

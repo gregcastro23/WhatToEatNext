@@ -1,19 +1,19 @@
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import type { ElementalProperties } from '@/types';
 import type {
-  DignityType,
-  AspectType as ImportedAspectType,
-  PlanetaryAspect as ImportedPlanetaryAspect,
-  LowercaseElementalProperties,
-  LunarPhase,
-  PlanetName,
-  ZodiacSign
+    DignityType,
+    AspectType as ImportedAspectType,
+    PlanetaryAspect as ImportedPlanetaryAspect,
+    LowercaseElementalProperties,
+    LunarPhase,
+    PlanetName,
+    ZodiacSign
 } from '@/types/alchemy';
 import type {
-  AstrologicalState,
-  CelestialPosition,
-  Element,
-  PlanetaryPosition
+    AstrologicalState,
+    CelestialPosition,
+    Element,
+    PlanetaryPosition
 } from '@/types/celestial';
 import type { Season, TimeFactors, TimeOfDay } from '@/types/time';
 
@@ -55,16 +55,16 @@ export function normalizePlanetaryPositions(
   const normalized: Record<string, PlanetaryPosition> = {}
   if (!positions || typeof positions !== 'object') return normalized;
   for (const key of Object.keys(positions)) {
-    let planet = key,
+    let planet = key;
     // Capitalize first letter, lowercase rest (e.g., Sun, Moon, Mercury...)
     if (planet.length > 1) {
-      planet = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase()
+      planet = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
     }
     const pos = positions[key];
     if (isPlanetaryPosition(pos)) {
-      normalized[planet] = pos,
+      normalized[planet] = pos;
     } else {
-      errorLog(`Invalid planetary position for ${planet}:`, pos)
+      errorLog(`Invalid planetary position for ${planet}:`, pos);
     }
   }
   return normalized;
@@ -72,7 +72,7 @@ export function normalizePlanetaryPositions(
 
 // Define ElementalProperties interface locally if it doesn't match the imported one
 // Use the imported AspectType but keep local for backwards compatibility
-export type AspectType = ImportedAspectType,
+export type AspectType = ImportedAspectType;
 
 // Use the imported PlanetaryAspect but keep local for backwards compatibility
 export interface PlanetaryAspect extends ImportedPlanetaryAspect {
@@ -111,7 +111,7 @@ const _zodiacSigns: any[] = [
   'capricorn',
   'aquarius',
   'pisces'
-],
+];
 
 // Export calculatePlanetaryAspects from validation module
 export const calculatePlanetaryAspects = safeCalculatePlanetaryAspects;
@@ -140,7 +140,7 @@ export async function calculateActivePlanets(
     'uranus',
     'neptune',
     'pluto'
-  ],
+  ];
   const activePlanets: string[] = [],
 
   try {
@@ -226,8 +226,9 @@ export function getLunarPhaseModifier(_phase: LunarPhase): number {
     'waxing gibbous': 0.9,
     'full moon': 1.0,
     'waning gibbous': 0.8,
-    'last quarter': 0.6
+    'last quarter': 0.6,
     'waning crescent': 0.3,
+  };
   }
 
   return modifiers[phase] || 0.5; // default to 0.5 if phase is not recognized
@@ -666,13 +667,13 @@ export async function calculateAspects(
   // Using Record instead of any for aspect types
   const aspectTypes: { [key: string]: AspectData } = {
     conjunction: { angle: 0, orb: 8, significance: 1.0, harmonic: 1 },
-    _opposition: { angle: 180, orb: 8, significance: 0.9, harmonic: 2 }
+    _opposition: { angle: 180, orb: 8, significance: 0.9, harmonic: 2 },
     _trine: { angle: 120, orb: 6, significance: 0.8, harmonic: 3 },
-    square: { angle: 90, orb: 6, significance: 0.8, harmonic: 4 }
+    square: { angle: 90, orb: 6, significance: 0.8, harmonic: 4 },
     _sextile: { angle: 60, orb: 4, significance: 0.6, harmonic: 6 },
-    _quincunx: { angle: 150, orb: 3, significance: 0.5, harmonic: 12 }
+    _quincunx: { angle: 150, orb: 3, significance: 0.5, harmonic: 12 },
     _semisextile: { angle: 30, orb: 2, significance: 0.4, harmonic: 12 },
-    _semisquare: { angle: 45, orb: 2, significance: 0.4, harmonic: 8 }
+    _semisquare: { angle: 45, orb: 2, significance: 0.4, harmonic: 8 },
     _sesquisquare: { angle: 135, orb: 2, significance: 0.4, harmonic: 8 },
     _quintile: { angle: 72, orb: 1.5, significance: 0.3, harmonic: 5 }
   }
@@ -705,8 +706,8 @@ export async function calculateAspects(
   // Calculate aspects between each planet pAir
   const planets = Object.keys(positions)
 ;
-  for (let i = 0; i < (planets || []).length; i++) {
-    for (let j = i + 1; j < (planets || []).length; j++) {
+  for (let i = 0, i < (planets || []).length; i++) {
+    for (let j = i + 1, j < (planets || []).length; j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 

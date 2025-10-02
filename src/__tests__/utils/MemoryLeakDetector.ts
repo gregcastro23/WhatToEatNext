@@ -6,27 +6,27 @@
  */
 
 interface MemoryLeakPattern {
-  name: string;
-  detector: () => boolean;
-  description: string;
-  fix: string;
-  severity: 'low' | 'medium' | 'high' | 'critical';
+  name: string,
+  detector: () => boolean,
+  description: string,
+  fix: string,
+  severity: 'low' | 'medium' | 'high' | 'critical'
 }
 
 interface MemoryLeakReport {
-  leaksDetected: MemoryLeakPattern[];
-  recommendations: string[];
+  leaksDetected: MemoryLeakPattern[],
+  recommendations: string[],
   memoryUsage: {
-    current: number;
-    baseline: number;
+    current: number,
+    baseline: number,
     increase: number;
   };
   timestamp: string;
 }
 
 export class MemoryLeakDetector {
-  private baseline: number;
-  private patterns: MemoryLeakPattern[];
+  private baseline: number,
+  private patterns: MemoryLeakPattern[],
 
   constructor() {
     this.baseline = process.memoryUsage().heapUsed;
@@ -51,20 +51,20 @@ export class MemoryLeakDetector {
         },
         description: 'Too many event listeners attached to DOM elements',
         fix: 'Remove event listeners in test cleanup or use cleanup utilities',
-        severity: 'high',
-      },
+        severity: 'high'
+},
       {
         name: 'Unclosed Timers',
         detector: () => {
           // Check for active timers (this is a simplified check)
           const activeTimers =
-            (global as unknown as { _activeTimers?: unknown[] })._activeTimers || [];
+            (global as unknown as { _activeTimers?: unknown[] })._activeTimers || [],
           return activeTimers.length > 10;
         },
         description: 'Active timers not cleared after tests',
         fix: 'Clear all timers in afterEach hooks using clearTimeout/clearInterval',
-        severity: 'medium',
-      },
+        severity: 'medium'
+},
       {
         name: 'Large Test Cache',
         detector: () => {
@@ -75,8 +75,8 @@ export class MemoryLeakDetector {
         },
         description: 'Test cache has grown too large',
         fix: 'Clear test cache regularly or implement cache size limits',
-        severity: 'medium',
-      },
+        severity: 'medium'
+},
       {
         name: 'Memory Growth Pattern',
         detector: () => {
@@ -86,8 +86,8 @@ export class MemoryLeakDetector {
         },
         description: 'Significant memory growth detected during test execution',
         fix: 'Review test setup/teardown and ensure proper cleanup',
-        severity: 'critical',
-      },
+        severity: 'critical'
+},
       {
         name: 'Jest Module Cache Bloat',
         detector: () => {
@@ -99,8 +99,8 @@ export class MemoryLeakDetector {
         },
         description: 'Jest module cache has grown excessively large',
         fix: 'Use jest.resetModules() in test cleanup',
-        severity: 'medium',
-      },
+        severity: 'medium'
+},
       {
         name: 'DOM Node Accumulation',
         detector: () => {
@@ -112,8 +112,8 @@ export class MemoryLeakDetector {
         },
         description: 'Too many DOM nodes accumulated during testing',
         fix: 'Clear document.body.innerHTML in afterEach hooks',
-        severity: 'high',
-      },
+        severity: 'high'
+},
       {
         name: 'Global Reference Accumulation',
         detector: () => {
@@ -124,8 +124,8 @@ export class MemoryLeakDetector {
         },
         description: 'Too many global test references accumulated',
         fix: 'Clear global.__TEST_REFS__ in test cleanup',
-        severity: 'medium',
-      },
+        severity: 'medium'
+},
     ];
   }
 
@@ -155,8 +155,8 @@ export class MemoryLeakDetector {
         baseline: this.baseline / (1024 * 1024), // MB
         increase: memoryIncrease / (1024 * 1024), // MB
       },
-      timestamp: new Date().toISOString(),
-    };
+      timestamp: new Date().toISOString()
+};
   }
 
   private generateRecommendations(leaks: MemoryLeakPattern[], memoryIncrease: number): string[] {
@@ -176,12 +176,12 @@ export class MemoryLeakDetector {
     const highLeaks = leaks.filter(leak => leak.severity === 'high');
 
     if (criticalLeaks.length > 0) {
-      recommendations.push('CRITICAL: Address critical memory leaks immediately');
+      recommendations.push('CRITICAL: Address critical memory leaks immediately'),
       criticalLeaks.forEach(leak => recommendations.push(`- ${leak.fix}`));
     }
 
     if (highLeaks.length > 0) {
-      recommendations.push('HIGH PRIORITY: Fix high-severity memory leaks');
+      recommendations.push('HIGH PRIORITY: Fix high-severity memory leaks'),
       highLeaks.forEach(leak => recommendations.push(`- ${leak.fix}`));
     }
 
@@ -201,8 +201,8 @@ export class MemoryLeakDetector {
    * Apply automatic fixes for detected leaks
    */
   applyAutomaticFixes(): { fixed: string[]; failed: string[] } {
-    const fixed: string[] = [];
-    const failed: string[] = [];
+    const fixed: string[] = [],
+    const failed: string[] = [],
 
     try {
       // Fix 1: Clear excessive event listeners
@@ -311,17 +311,17 @@ Memory Usage:
 `;
 
     if (report.leaksDetected.length > 0) {
-      output += `Detected Memory Leaks (${report.leaksDetected.length}):\n`;
+      output += `Detected Memory Leaks (${report.leaksDetected.length}): \n`,
       report.leaksDetected.forEach((leak, index) => {
         output += `${index + 1}. ${leak.name} (${leak.severity.toUpperCase()})\n`;
-        output += `   Description: ${leak.description}\n`;
+        output += `   Description: ${leak.description}\n`,
         output += `   Fix: ${leak.fix}\n\n`;
       });
     } else {
       output += 'No memory leaks detected.\n\n';
     }
 
-    output += 'Recommendations:\n';
+    output += 'Recommendations: \n',
     report.recommendations.forEach((rec, index) => {
       output += `${index + 1}. ${rec}\n`;
     });

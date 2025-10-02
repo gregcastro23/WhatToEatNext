@@ -236,7 +236,7 @@ export class RecipeEnhancer {
   static elementToElementalProperties(element: Element): ElementalProperties {
     const elementMap: { [key: string]: ElementalProperties } = {
       Fire: { Fire: 0.8, Water: 0.05, Earth: 0.1, Air: 0.05 },
-      Water: { Fire: 0.05, Water: 0.8, Earth: 0.1, Air: 0.05 }
+      Water: { Fire: 0.05, Water: 0.8, Earth: 0.1, Air: 0.05 },
       Earth: { Fire: 0.05, Water: 0.1, Earth: 0.8, Air: 0.05 },
       Air: { Fire: 0.05, Water: 0.05, Earth: 0.1, Air: 0.8 }
     }

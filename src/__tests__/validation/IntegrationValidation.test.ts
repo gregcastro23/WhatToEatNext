@@ -13,7 +13,7 @@ import { jest } from '@jest/globals';
 
 // Mock child_process for controlled testing
 jest.mock('child_process', () => ({
-  execSync: jest.fn(),
+  execSync: jest.fn()
 }));
 
 const mockExecSync = execSync as jest.MockedFunction<typeof execSync>;
@@ -96,7 +96,7 @@ describe('Integration Validation Tests - Task 12', () => {
         ];
 
         enhancedRules.forEach(rule => {
-          mockExecSync.mockReturnValue(Buffer.from(`✓ Rule ${rule}: ACTIVE (error level)`));
+          mockExecSync.mockReturnValue(Buffer.from(`✓ Rule ${rule}: ACTIVE (error level)`)),
 
           const result = mockExecSync(`yarn lint --rule-status ${rule}`);
           expect(result.toString()).toContain(`${rule}: ACTIVE`);
@@ -117,7 +117,7 @@ describe('Integration Validation Tests - Task 12', () => {
             Buffer.from(`✓ Domain ${override.domain} (${override.file}): ${override.rule} → ${override.status}`),
           );
 
-          const result = mockExecSync(`yarn lint:domain-${override.domain} --rule-check ${override.rule}`);
+          const result = mockExecSync(`yarn lint: domain-${override.domain} --rule-check ${override.rule}`),
           expect(result.toString()).toContain(override.status);
         });
 
@@ -133,9 +133,9 @@ describe('Integration Validation Tests - Task 12', () => {
         ];
 
         performanceFeatures.forEach(feature => {
-          mockExecSync.mockReturnValue(Buffer.from(`✓ Performance feature ${feature.feature}: ${feature.status}`));
+          mockExecSync.mockReturnValue(Buffer.from(`✓ Performance feature ${feature.feature}: ${feature.status}`)),
 
-          const result = mockExecSync(`yarn lint:performance --check-${feature.feature}`);
+          const result = mockExecSync(`yarn lint: performance --check-${feature.feature}`),
           expect(result.toString()).toContain(feature.status);
         });
 
@@ -235,7 +235,7 @@ describe('Integration Validation Tests - Task 12', () => {
         ];
 
         workflowSteps.forEach(step => {
-          mockExecSync.mockReturnValue(Buffer.from(`✓ Workflow step ${step.step}: ${step.status} (${step.duration})`));
+          mockExecSync.mockReturnValue(Buffer.from(`✓ Workflow step ${step.step}: ${step.status} (${step.duration})`)),
 
           const result = mockExecSync(`test-campaign-workflow ${step.step}`);
           expect(result.toString()).toContain(step.status);
@@ -281,7 +281,7 @@ describe('Integration Validation Tests - Task 12', () => {
         ];
 
         workflowPhases.forEach((phase, index) => {
-          const reduction = index > 0 ? workflowPhases[index - 1].errors - phase.errors : 0;
+          const reduction = index > 0 ? workflowPhases[index - 1].errors - phase.errors : 0,
 
           mockExecSync.mockReturnValue(
             Buffer.from(
@@ -336,8 +336,8 @@ describe('Integration Validation Tests - Task 12', () => {
         const output = result.toString();
 
         expect(output).toContain('0 errors');
-        expect(output).toContain('Type checking: PASSED');
-        expect(output).toContain('Path resolution: WORKING');
+        expect(output).toContain('Type checking: PASSED'),
+        expect(output).toContain('Path resolution: WORKING'),
         expect(output).toContain('Module imports: RESOLVED');
       });
 
@@ -350,7 +350,7 @@ describe('Integration Validation Tests - Task 12', () => {
         ];
 
         buildSteps.forEach(step => {
-          mockExecSync.mockReturnValue(Buffer.from(`✓ Build step ${step.step}: ${step.status} (${step.duration})`));
+          mockExecSync.mockReturnValue(Buffer.from(`✓ Build step ${step.step}: ${step.status} (${step.duration})`)),
 
           const result = mockExecSync(`test-build-step ${step.step}`);
           expect(result.toString()).toContain(step.status);
@@ -410,7 +410,7 @@ describe('Integration Validation Tests - Task 12', () => {
         ];
 
         gitHooks.forEach(hook => {
-          mockExecSync.mockReturnValue(Buffer.from(`✓ Git hook ${hook.hook}: ${hook.action} → ${hook.result}`));
+          mockExecSync.mockReturnValue(Buffer.from(`✓ Git hook ${hook.hook}: ${hook.action} → ${hook.result}`)),
 
           const result = mockExecSync(`test-git-hook ${hook.hook}`);
           expect(result.toString()).toContain(hook.result);
@@ -498,8 +498,8 @@ describe('Integration Validation Tests - Task 12', () => {
         qualityMetricsIntegration: 'INTEGRATED',
         performanceOptimization: 'INTEGRATED',
         domainRuleEnforcement: 'INTEGRATED',
-        safetyProtocols: 'INTEGRATED',
-      };
+        safetyProtocols: 'INTEGRATED'
+};
 
       mockExecSync.mockReturnValue(Buffer.from(JSON.stringify(integrationSummary)));
 

@@ -60,8 +60,7 @@ export default function BackendDemoPage() {
               <div className="text-3xl font-bold text-orange-600 mb-2">&lt;100ms</div>
               <div className="text-gray-600">Average API Response</div>
             </div>
-          </div>
-;
+          </div>,
           {/* Migration Map */}
           <div className="mt-8">
             <h3 className="text-lg font-semibold mb-4">🗂️ Migrated Modules</h3>
@@ -119,8 +118,7 @@ export default function BackendDemoPage() {
               </div>
             </div>
           </div>
-        </div>
-;
+        </div>,
         {/* Backend Status Component */}
         <BackendStatus />
 

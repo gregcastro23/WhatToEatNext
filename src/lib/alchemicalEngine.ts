@@ -76,7 +76,7 @@ export class AlchemicalEngineBase {
       baseElement: 'Fire',
       decans: [
         { degrees: [010], element: 'Fire', ruler: 'Mars' },
-        { degrees: [1020], element: 'Fire', ruler: 'Sun' }
+        { degrees: [1020], element: 'Fire', ruler: 'Sun' },
         { degrees: [2030], element: 'Fire', ruler: 'Jupiter' }
       ]
     },
@@ -84,7 +84,7 @@ export class AlchemicalEngineBase {
       baseElement: 'Earth',
       decans: [
         { degrees: [010], element: 'Earth', ruler: 'Venus' },
-        { degrees: [1020], element: 'Earth', ruler: 'Mercury' }
+        { degrees: [1020], element: 'Earth', ruler: 'Mercury' },
         { degrees: [2030], element: 'Earth', ruler: 'Saturn' }
       ]
     },
@@ -92,7 +92,7 @@ export class AlchemicalEngineBase {
       baseElement: 'Fire',
       decans: [
         { degrees: [010], element: 'Fire', ruler: 'Mars' },
-        { degrees: [1020], element: 'Fire', ruler: 'Sun' }
+        { degrees: [1020], element: 'Fire', ruler: 'Sun' },
         { degrees: [2030], element: 'Fire', ruler: 'Jupiter' }
       ]
     },
@@ -100,7 +100,7 @@ export class AlchemicalEngineBase {
       baseElement: 'Fire',
       decans: [
         { degrees: [010], element: 'Fire', ruler: 'Mars' },
-        { degrees: [1020], element: 'Fire', ruler: 'Sun' }
+        { degrees: [1020], element: 'Fire', ruler: 'Sun' },
         { degrees: [2030], element: 'Fire', ruler: 'Jupiter' }
       ]
     },
@@ -108,7 +108,7 @@ export class AlchemicalEngineBase {
       baseElement: 'Earth',
       decans: [
         { degrees: [010], element: 'Earth', ruler: 'Venus' },
-        { degrees: [1020], element: 'Earth', ruler: 'Mercury' }
+        { degrees: [1020], element: 'Earth', ruler: 'Mercury' },
         { degrees: [2030], element: 'Earth', ruler: 'Saturn' }
       ]
     },
@@ -116,7 +116,7 @@ export class AlchemicalEngineBase {
       baseElement: 'Earth',
       decans: [
         { degrees: [010], element: 'Earth', ruler: 'Venus' },
-        { degrees: [1020], element: 'Earth', ruler: 'Mercury' }
+        { degrees: [1020], element: 'Earth', ruler: 'Mercury' },
         { degrees: [2030], element: 'Earth', ruler: 'Saturn' }
       ]
     },
@@ -124,7 +124,7 @@ export class AlchemicalEngineBase {
       baseElement: 'Air',
       decans: [
         { degrees: [010], element: 'Air', ruler: 'Mercury' },
-        { degrees: [1020], element: 'Air', ruler: 'Sun' }
+        { degrees: [1020], element: 'Air', ruler: 'Sun' },
         { degrees: [2030], element: 'Air', ruler: 'Jupiter' }
       ]
     },
@@ -132,7 +132,7 @@ export class AlchemicalEngineBase {
       baseElement: 'Air',
       decans: [
         { degrees: [010], element: 'Air', ruler: 'Mercury' },
-        { degrees: [1020], element: 'Air', ruler: 'Sun' }
+        { degrees: [1020], element: 'Air', ruler: 'Sun' },
         { degrees: [2030], element: 'Air', ruler: 'Jupiter' }
       ]
     },
@@ -140,7 +140,7 @@ export class AlchemicalEngineBase {
       baseElement: 'Air',
       decans: [
         { degrees: [010], element: 'Air', ruler: 'Mercury' },
-        { degrees: [1020], element: 'Air', ruler: 'Sun' }
+        { degrees: [1020], element: 'Air', ruler: 'Sun' },
         { degrees: [2030], element: 'Air', ruler: 'Jupiter' }
       ]
     },
@@ -148,7 +148,7 @@ export class AlchemicalEngineBase {
       baseElement: 'Water',
       decans: [
         { degrees: [010], element: 'Water', ruler: 'Moon' },
-        { degrees: [1020], element: 'Water', ruler: 'Mercury' }
+        { degrees: [1020], element: 'Water', ruler: 'Mercury' },
         { degrees: [2030], element: 'Water', ruler: 'Saturn' }
       ]
     },
@@ -156,7 +156,7 @@ export class AlchemicalEngineBase {
       baseElement: 'Water',
       decans: [
         { degrees: [010], element: 'Water', ruler: 'Moon' },
-        { degrees: [1020], element: 'Water', ruler: 'Mercury' }
+        { degrees: [1020], element: 'Water', ruler: 'Mercury' },
         { degrees: [2030], element: 'Water', ruler: 'Saturn' }
       ]
     },
@@ -164,7 +164,7 @@ export class AlchemicalEngineBase {
       baseElement: 'Water',
       decans: [
         { degrees: [010], element: 'Water', ruler: 'Moon' },
-        { degrees: [1020], element: 'Water', ruler: 'Mercury' }
+        { degrees: [1020], element: 'Water', ruler: 'Mercury' },
         { degrees: [2030], element: 'Water', ruler: 'Saturn' }
       ]
     }
@@ -183,9 +183,9 @@ export class AlchemicalEngineBase {
 
   private readonly, seasonalModifiers: Record<string, ElementalProperties> = {
     spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
-    summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 }
+    summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
     autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
-    fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 }
+    fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
     winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   }
 

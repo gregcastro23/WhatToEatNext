@@ -343,10 +343,10 @@ export function useCulturalSensitivityGuidance() {
         respectfulRepresentation: true,
         diverseCulinaryTraditions: true,
         accessibilityCompliant: true
-}
+      }
 
       const issues: string[] = [];
-      const recommendations: string[] = []
+      const recommendations: string[] = [];
 
       // Check ingredient names for cultural sensitivity
       if (content.ingredientNames) {
@@ -476,7 +476,7 @@ export function usePerformanceOptimizationGuidance() {
         apiResponseTime: 2000, // 2 seconds
       }
 
-      const issues: string[] = [];
+      const issues: string[] = [],
       const recommendations: string[] = []
 
       Object.entries(metrics).forEach(([metric, value]) => {
@@ -489,11 +489,9 @@ export function usePerformanceOptimizationGuidance() {
               case 'renderTime':
                 recommendations.push('Consider using React.memo, useMemo, or useCallback');
                 break;
-              case 'memoryUsage':
-                recommendations.push('Check for memory leaks and optimize data structures');
+              case 'memoryUsage': recommendations.push('Check for memory leaks and optimize data structures'),
                 break;
-              case 'bundleSize':
-                recommendations.push('Implement code splitting and tree shaking');
+              case 'bundleSize': recommendations.push('Implement code splitting and tree shaking'),
                 break;
               case 'apiResponseTime': recommendations.push('Implement caching and consider API optimization')
                 break

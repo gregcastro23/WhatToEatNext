@@ -11,14 +11,14 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 
 interface ValidationResult {
-  category: string;
-  passed: boolean;
-  details: string[];
+  category: string,
+  passed: boolean,
+  details: string[],
   errors: string[];
 }
 
 class DomainSpecificRuleValidator {
-  private projectRoot: string;
+  private projectRoot: string,
 
   constructor() {
     this.projectRoot = process.cwd();
@@ -81,8 +81,8 @@ class DomainSpecificRuleValidator {
     try {
       const testCount = execSync('find src -name "*.test.ts" -o -name "*.test.tsx" | wc -l', {
         encoding: 'utf8',
-        cwd: this.projectRoot,
-      }).trim();
+        cwd: this.projectRoot
+}).trim();
 
       console.log(`   ✅ Found ${testCount} test files`);
     } catch (error) {

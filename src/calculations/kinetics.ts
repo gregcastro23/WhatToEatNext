@@ -14,7 +14,7 @@ export interface KineticsCalculationInput {
   currentPlanetaryPositions: Record<string, string>;
   previousPlanetaryPositions?: Record<string, string>;
   timeInterval: number; // in seconds
-  currentPlanet?: string;
+  currentPlanet?: string,
   previousMetrics?: KineticMetrics;
 }
 
@@ -59,11 +59,11 @@ export function calculateKinetics(input: KineticsCalculationInput): KineticMetri
     Water: 0,
     Earth: 0,
     Air: 0
-  };
+};
 
   (Object.keys(velocity) as Element[]).forEach(element => {
     const currentValue = currentTotals[element] || 0;
-    const previousValue = previousTotals[element] || 0;
+    const previousValue = previousTotals[element] || 0,
     velocity[element] = timeInterval > 0
       ? ((currentValue - previousValue) / timeInterval) * modifiers.velocity
       : 0;
@@ -79,10 +79,10 @@ export function calculateKinetics(input: KineticsCalculationInput): KineticMetri
     Water: 0,
     Earth: 0,
     Air: 0
-  };
+};
 
   (Object.keys(momentum) as Element[]).forEach(element => {
-    momentum[element] = inertia * velocity[element];
+    momentum[element] = inertia * velocity[element],
   });
 
   // 5. Potential Difference (V) = Greg's Energy / Q
@@ -98,7 +98,7 @@ export function calculateKinetics(input: KineticsCalculationInput): KineticMetri
     Water: 0,
     Earth: 0,
     Air: 0
-  };
+};
 
   let forceMagnitude = 0;
 
@@ -124,7 +124,7 @@ export function calculateKinetics(input: KineticsCalculationInput): KineticMetri
   const power = currentFlow * potentialDifference * (1 + forceMagnitude / 10);
 
   // 9. Force Classification
-  let forceClassification: 'accelerating' | 'decelerating' | 'balanced';
+  let forceClassification: 'accelerating' | 'decelerating' | 'balanced'
   if (forceMagnitude > 5) {
     forceClassification = 'accelerating';
   } else if (forceMagnitude < -5) {
@@ -137,8 +137,8 @@ export function calculateKinetics(input: KineticsCalculationInput): KineticMetri
   const aspectPhase = determineAspectPhase(currentThermo, previousThermo);
 
   // 11. Thermal Direction
-  const heatRate = timeInterval > 0 ? (currentHeat - previousHeat) / timeInterval : 0;
-  let thermalDirection: 'heating' | 'cooling' | 'stable';
+  const heatRate = timeInterval > 0 ? (currentHeat - previousHeat) / timeInterval : 0,
+  let thermalDirection: 'heating' | 'cooling' | 'stable'
   if (heatRate > 0.001) {
     thermalDirection = 'heating';
   } else if (heatRate < -0.001) {
@@ -176,7 +176,7 @@ function aggregateAlchemicalProperties(planetaryPositions: Record<string, string
     Water: 0,
     Air: 0,
     Earth: 0
-  };
+};
 
   for (const planet in planetaryPositions) {
     const sign = planetaryPositions[planet];
@@ -207,7 +207,7 @@ function getElementFromSign(sign: string): Element | null {
     aries: 'Fire', taurus: 'Earth', gemini: 'Air', cancer: 'Water',
     leo: 'Fire', virgo: 'Earth', libra: 'Air', scorpio: 'Water',
     sagittarius: 'Fire', capricorn: 'Earth', aquarius: 'Air', pisces: 'Water'
-  };
+};
   return signToElement[sign] || null;
 }
 
@@ -221,7 +221,7 @@ function getPlanetaryModifiers(planet: string) {
     inertia: 1.0,
     current: 1.0,
     force: 1.0
-  };
+};
 
   // Planet-specific boosts
   const planetBoosts: Record<string, Partial<typeof baseModifiers>> = {
@@ -263,18 +263,18 @@ function determineAspectPhase(currentThermo: any, previousThermo: any): AspectPh
       type: 'exact',
       description: 'Peak energy - maximum transformation potential',
       powerBoost: 0.25
-    };
+};
   } else if (powerChange > 0) {
     return {
       type: 'applying',
       description: 'Building energy - enhanced creativity',
       velocityBoost: 0.15,
       powerBoost: 0.25
-    };
+};
   } else {
     return {
       type: 'separating',
       description: 'Releasing energy - stabilization and integration'
-    };
+};
   }
 }

@@ -24,14 +24,14 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
   // Elemental to ESMS mapping
   elementalToESMS: {
   Spirit: { Fire: 0.5, Air: 0.5 },
-    Essence: { Water: 0.5, Fire: 0.5 }
+    Essence: { Water: 0.5, Fire: 0.5 },
     Matter: { Earth: 0.6, Water: 0.4 },
     Substance: { Earth: 0.5, Air: 0.5 }
   },
   // Modality boosts for ESMS
   modalityBoosts: {
   cardinal: { Spirit: 1.15, Essence: 1.5, Matter: 1.0, Substance: 1.0 },
-    fixed: { Spirit: 1.0, Essence: 1.0, Matter: 1.5, Substance: 1.15 }
+    fixed: { Spirit: 1.0, Essence: 1.0, Matter: 1.5, Substance: 1.15 },
     mutable: { Spirit: 1.08, Essence: 1.12, Matter: 1.0, Substance: 1.0 }
   },
   // Planetary weight configuration
@@ -86,7 +86,7 @@ export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {
   
   modalityBoosts: {
   cardinal: { Spirit: 1.25, Essence: 1.15, Matter: 0.95, Substance: 0.95 },
-    fixed: { Spirit: 0.95, Essence: 0.95, Matter: 1.15, Substance: 1.25 }
+    fixed: { Spirit: 0.95, Essence: 0.95, Matter: 1.15, Substance: 1.25 },
     mutable: { Spirit: 1.1, Essence: 1.2, Matter: 1.0, Substance: 1.0 }
   }
 }

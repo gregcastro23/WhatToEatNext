@@ -29,13 +29,13 @@ import type { AlchemicalProperties, ThermodynamicMetrics } from './monicaKalchmC
  * Values below are placeholders - update with actual global statistics
  */
 export interface GlobalPropertyAverages {
-  elementals: ElementalProperties;
-  alchemical?: AlchemicalProperties;
+  elementals: ElementalProperties,
+  alchemical?: AlchemicalProperties,
   thermodynamics?: Partial<ThermodynamicMetrics>;
 
   // Standard deviations for z-score calculation
-  elementalsStdDev: ElementalProperties;
-  alchemicalStdDev?: AlchemicalProperties;
+  elementalsStdDev: ElementalProperties,
+  alchemicalStdDev?: AlchemicalProperties,
   thermodynamicsStdDev?: Partial<ThermodynamicMetrics>;
 }
 
@@ -48,13 +48,13 @@ export const DEFAULT_GLOBAL_AVERAGES: GlobalPropertyAverages = {
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-  },
+},
   alchemical: {
     Spirit: 3.5,
     Essence: 4.2,
     Matter: 4.0,
     Substance: 2.8
-  },
+},
   thermodynamics: {
     heat: 0.08,
     entropy: 0.15,
@@ -62,19 +62,19 @@ export const DEFAULT_GLOBAL_AVERAGES: GlobalPropertyAverages = {
     gregsEnergy: -0.02,
     kalchm: 2.5,
     monica: 1.0
-  },
+},
   elementalsStdDev: {
     Fire: 0.15,
     Water: 0.15,
     Earth: 0.15,
     Air: 0.15
-  },
+},
   alchemicalStdDev: {
     Spirit: 1.2,
     Essence: 1.5,
     Matter: 1.3,
     Substance: 1.0
-  },
+},
   thermodynamicsStdDev: {
     heat: 0.03,
     entropy: 0.08,
@@ -82,7 +82,7 @@ export const DEFAULT_GLOBAL_AVERAGES: GlobalPropertyAverages = {
     gregsEnergy: 0.05,
     kalchm: 1.5,
     monica: 0.5
-  }
+}
 };
 
 // ========== RECIPE WEIGHTING ==========
@@ -90,8 +90,7 @@ export const DEFAULT_GLOBAL_AVERAGES: GlobalPropertyAverages = {
 /**
  * Recipe weighting strategy for cuisine aggregation
  */
-export type WeightingStrategy = 'equal' | 'popularity' | 'representativeness';
-
+export type WeightingStrategy = 'equal' | 'popularity' | 'representativeness'
 /**
  * Calculate recipe weight based on strategy
  *
@@ -106,8 +105,7 @@ export function calculateRecipeWeight(
   allRecipes: any[] = []
 ): number {
   switch (strategy) {
-    case 'equal':
-      return 1.0;
+    case 'equal': return 1.0,
 
     case 'popularity':
       // Weight by view count and rating (if available)
@@ -118,7 +116,7 @@ export function calculateRecipeWeight(
     case 'representativeness':
       // Weight by how typical the recipe is for the cuisine
       // Calculate similarity to cuisine average
-      const similarities: number[] = [];
+      const similarities: number[] = [],
 
       for (const other of allRecipes) {
         if (other.id === recipe.id) continue;
@@ -136,7 +134,7 @@ export function calculateRecipeWeight(
       // Average similarity to other recipes = representativeness
       const avgSimilarity = similarities.length > 0
         ? similarities.reduce((a, b) => a + b, 0) / similarities.length
-        : 0.5;
+        : 0.5,
 
       return avgSimilarity;
 
@@ -184,15 +182,14 @@ function calculateElementalSimilarity(
  * @param strategy - Weighting strategy
  * @returns Weighted average elemental properties
  */
-export function aggregateElementalProperties(
-  recipes: Array<{ _computed?: RecipeComputedProperties; [key: string]: any }>,
+export function aggregateElementalProperties(recipes: Array<{ _computed?: RecipeComputedProperties, [key: string]: any }>,
   strategy: WeightingStrategy = 'equal'
 ): ElementalProperties {
   if (!recipes || recipes.length === 0) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
 
-  const totals = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const totals = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
   let totalWeight = 0;
 
   for (const recipe of recipes) {
@@ -228,14 +225,13 @@ export function aggregateElementalProperties(
  * @param strategy - Weighting strategy
  * @returns Weighted average alchemical properties
  */
-export function aggregateAlchemicalProperties(
-  recipes: Array<{ _computed?: RecipeComputedProperties; [key: string]: any }>,
+export function aggregateAlchemicalProperties(recipes: Array<{ _computed?: RecipeComputedProperties, [key: string]: any }>,
   strategy: WeightingStrategy = 'equal'
 ): AlchemicalProperties | undefined {
   const validRecipes = recipes.filter(r => r._computed?.alchemicalProperties);
   if (validRecipes.length === 0) return undefined;
 
-  const totals = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+  const totals = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
   let totalWeight = 0;
 
   for (const recipe of validRecipes) {
@@ -269,22 +265,21 @@ export function aggregateAlchemicalProperties(
  * @param averages - Average properties (for variance calculation)
  * @returns Property variance metrics
  */
-export function calculatePropertyVariance(
-  recipes: Array<{ _computed?: RecipeComputedProperties; [key: string]: any }>,
+export function calculatePropertyVariance(recipes: Array<{ _computed?: RecipeComputedProperties, [key: string]: any }>,
   averages: {
-    elementals: ElementalProperties;
-    alchemical?: AlchemicalProperties;
+    elementals: ElementalProperties,
+    alchemical?: AlchemicalProperties,
   }
 ): PropertyVariance {
   if (!recipes || recipes.length === 0) {
     return {
       elementals: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       diversityScore: 0
-    };
+};
   }
 
   // Calculate elemental variance
-  const elementalVariances = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const elementalVariances = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
   let validCount = 0;
 
   for (const recipe of recipes) {
@@ -303,7 +298,7 @@ export function calculatePropertyVariance(
     return {
       elementals: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       diversityScore: 0
-    };
+};
   }
 
   // Standard deviation (sqrt of variance)
@@ -367,11 +362,10 @@ function classifySignatureStrength(
  * @param threshold - Minimum z-score for signature (default: 1.5)
  * @returns Array of identified signatures
  */
-export function identifyCuisineSignatures(
-  averages: {
-    elementals: ElementalProperties;
-    alchemical?: AlchemicalProperties;
-    thermodynamics?: Partial<ThermodynamicMetrics>;
+export function identifyCuisineSignatures(averages: {
+    elementals: ElementalProperties,
+    alchemical?: AlchemicalProperties,
+    thermodynamics?: Partial<ThermodynamicMetrics>,
   },
   globalAverages: GlobalPropertyAverages = DEFAULT_GLOBAL_AVERAGES,
   threshold: number = 1.5
@@ -440,8 +434,7 @@ export function identifyCuisineSignatures(
  * @param recipes - Recipes with planetary position data
  * @returns Array of planetary patterns
  */
-export function identifyPlanetaryPatterns(
-  recipes: Array<{ _computed?: RecipeComputedProperties; [key: string]: any }>
+export function identifyPlanetaryPatterns(recipes: Array<{ _computed?: RecipeComputedProperties, [key: string]: any }>
 ): PlanetaryPattern[] {
   const planetaryCounts: Record<string, Record<string, number>> = {};
 
@@ -459,7 +452,7 @@ export function identifyPlanetaryPatterns(
   }
 
   // Convert to patterns
-  const patterns: PlanetaryPattern[] = [];
+  const patterns: PlanetaryPattern[] = [],
 
   for (const [planet, signCounts] of Object.entries(planetaryCounts)) {
     const totalCount = Object.values(signCounts).reduce((a, b) => a + b, 0);
@@ -473,12 +466,12 @@ export function identifyPlanetaryPatterns(
       .slice(0, 3); // Top 3 most common signs
 
     // Determine dominant element for this planet
-    const elementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const elementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     const ZODIAC_ELEMENTS: Record<string, keyof ElementalProperties> = {
       Aries: 'Fire', Taurus: 'Earth', Gemini: 'Air', Cancer: 'Water',
       Leo: 'Fire', Virgo: 'Earth', Libra: 'Air', Scorpio: 'Water',
       Sagittarius: 'Fire', Capricorn: 'Earth', Aquarius: 'Air', Pisces: 'Water'
-    };
+};
 
     for (const [sign, count] of Object.entries(signCounts)) {
       const element = ZODIAC_ELEMENTS[sign];
@@ -509,14 +502,13 @@ export function identifyPlanetaryPatterns(
  * @param options - Computation options
  * @returns Complete cuisine computed properties
  */
-export function computeCuisineProperties(
-  recipes: Array<{ _computed?: RecipeComputedProperties; [key: string]: any }>,
+export function computeCuisineProperties(recipes: Array<{ _computed?: RecipeComputedProperties, [key: string]: any }>,
   options: {
-    weightingStrategy?: WeightingStrategy;
-    globalAverages?: GlobalPropertyAverages;
-    signatureThreshold?: number;
-    includeVariance?: boolean;
-    identifyPlanetaryPatterns?: boolean;
+    weightingStrategy?: WeightingStrategy,
+    globalAverages?: GlobalPropertyAverages,
+    signatureThreshold?: number,
+    includeVariance?: boolean,
+    identifyPlanetaryPatterns?: boolean,
   } = {}
 ): CuisineComputedProperties {
   const {
@@ -540,7 +532,7 @@ export function computeCuisineProperties(
     : {
         elementals: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
         diversityScore: 0
-      };
+};
 
   // Identify signatures
   const signatures = identifyCuisineSignatures(
@@ -555,7 +547,7 @@ export function computeCuisineProperties(
   // Identify planetary patterns if requested
   const planetaryPatterns = identifyPatterns
     ? identifyPlanetaryPatterns(recipes)
-    : undefined;
+    : undefined,
 
   return {
     averageElementals,
@@ -566,5 +558,5 @@ export function computeCuisineProperties(
     sampleSize: recipes.length,
     computedAt: new Date(),
     version: '1.0.0'
-  };
+};
 }

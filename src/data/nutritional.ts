@@ -625,7 +625,7 @@ export function nutritionalToElemental(_profile: NutritionalProfile): {
 
   // Calculate element weights based on nutritional properties
   let fire = 0;
-  let water = 0,
+  let water = 0;
   let earth = 0;
   let air = 0,
 

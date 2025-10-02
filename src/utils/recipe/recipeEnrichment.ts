@@ -14,18 +14,18 @@ export function enrichRecipeData(recipe: Partial<Recipe>): Recipe {
   // Ensure all required properties exist with proper defaults
   const enriched: Recipe = {
     id: enrichedRecipe.id || `recipe-${Date.now()}`,
-    name: enrichedRecipe.name || 'Unnamed Recipe',
+    name: enrichedRecipe.name || 'Unnamed Recipe'
     description: enrichedRecipe.description || '',
-    cuisine: enrichedRecipe.cuisine || 'Various',
+    cuisine: enrichedRecipe.cuisine || 'Various'
     ingredients: enrichedRecipe.ingredients || [],
     instructions: enrichedRecipe.instructions || [],
     elementalProperties: enrichedRecipe.elementalProperties || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    },
-    timeToMake: enrichedRecipe.timeToMake || '30 minutes',
+      Air: 0.25
+},
+    timeToMake: enrichedRecipe.timeToMake || '30 minutes'
     numberOfServings: enrichedRecipe.numberOfServings || 4,
     // Copy over all other properties
     ...enrichedRecipe,
@@ -240,13 +240,13 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
  */
 function enrichAndNormalizeSeasons(seasons?: string | string[]): string[] {
   // Handle both string and string[] inputs
-  const seasonArray = Array.isArray(seasons) ? seasons : seasons ? [seasons] : [];
+  const seasonArray = Array.isArray(seasons) ? seasons : seasons ? [seasons] : [],
 
   if (!isNonEmptyArray(seasonArray)) {
     return ['all']; // Default to all seasons
   }
 
-  const normalizedSeasons: string[] = [];
+  const normalizedSeasons: string[] = [],
 
   seasonArray.forEach(season => {
     const s = season.toLowerCase().trim();
@@ -282,13 +282,13 @@ function enrichAndNormalizeSeasons(seasons?: string | string[]): string[] {
  * Derive celestial timing recommendations for optimal recipe preparation
  */
 function deriveCelestialTiming(recipe: Recipe): {
-  optimalMoonPhase?: string;
-  optimalPlanetaryHour?: string;
+  optimalMoonPhase?: string,
+  optimalPlanetaryHour?: string,
   bestZodiacSeason?: string;
 } {
   const timing: {
-    optimalMoonPhase?: string;
-    optimalPlanetaryHour?: string;
+    optimalMoonPhase?: string,
+    optimalPlanetaryHour?: string,
     bestZodiacSeason?: string;
   } = {};
 
@@ -340,8 +340,8 @@ function deriveCelestialTiming(recipe: Recipe): {
       Fire: 'Mars hour',
       Water: 'Moon hour',
       Earth: 'Venus hour',
-      Air: 'Mercury hour',
-    };
+      Air: 'Mercury hour'
+};
 
     timing.optimalPlanetaryHour = planetaryHours[dominantElement];
   }
@@ -469,8 +469,8 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
     carbs: 0,
     fat: 0,
     fiber: 0,
-    sugar: 0,
-  };
+    sugar: 0
+};
 
   // Basic nutritional estimation based on ingredients
   if (isNonEmptyArray(recipe.ingredients)) {

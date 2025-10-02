@@ -15,26 +15,22 @@ export type PreservationReason =
   | 'high-impact-file'
   | 'service-layer'
   | 'core-calculation'
-  | 'none';
-
+  | 'none'
 export interface PreservationDecision {
-  preserve: boolean;
-  reason: PreservationReason;
+  preserve: boolean,
+  reason: PreservationReason,
   confidence: number; // 0..1
 }
 
 const ELEMENT_NAMES = new Set(['Fire', 'Water', 'Earth', 'Air']);
 
 const ASTRO_VARIABLE_NAME_REGEX =
-  /^(?:planet|planets|planetary|degree|longitude|latitude|sign|zodiac|position|coordinates?|house|asc|mc|dignit|retro|ephemer|utc|julian)/i;
-
+  /^(?: planet|planets|planetary|degree|longitude|latitude|sign|zodiac|position|coordinates?|house|asc|mc|dignit|retro|ephemer|utc|julian)/i;
 const CAMPAIGN_VARIABLE_NAME_REGEX =
-  /^(?:metrics?|progress|safety|campaign|validation|intelligence|monitor|tracking|telemetry|baseline|phase|gate|milestone|roi)/i;
-
-const TEST_CONTEXT_FILE_REGEX = /\/(?:__tests__|tests?|__mocks__|mocks|__fixtures__|fixtures)\//i;
-
+  /^(?: metrics?|progress|safety|campaign|validation|intelligence|monitor|tracking|telemetry|baseline|phase|gate|milestone|roi)/i;
+const TEST_CONTEXT_FILE_REGEX = /\/(?: __tests__|tests?|__mocks__|mocks|__fixtures__|fixtures)\//i;
 const CULINARY_VARIABLE_NAME_REGEX =
-  /^(?:cuisine|ingredient|recipe|flavor|taste|umami|spice|seasoning|cooking|method|profile|oil|vinegar|protein|vegetable|fruit)/i;
+  /^(?: cuisine|ingredient|recipe|flavor|taste|umami|spice|seasoning|cooking|method|profile|oil|vinegar|protein|vegetable|fruit)/i,
 
 export function isHighImpactFile(filePath: string): boolean {
   // Core calculations and services are considered high impact

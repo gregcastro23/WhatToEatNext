@@ -239,7 +239,7 @@ function calculateElementalAlignment(
   currentProfile: { Fire: number, Water: number, Earth: number, Air: number }): { element: string, strength: number } {
   const alignments = [
     { element: 'Fire', strength: 1 - Math.abs(ingredientProfile.Fire - currentProfile.Fire) },
-    { element: 'Water', strength: 1 - Math.abs(ingredientProfile.Water - currentProfile.Water) }
+    { element: 'Water', strength: 1 - Math.abs(ingredientProfile.Water - currentProfile.Water) },
     { element: 'Earth', strength: 1 - Math.abs(ingredientProfile.Earth - currentProfile.Earth) },
     { element: 'Air', strength: 1 - Math.abs(ingredientProfile.Air - currentProfile.Air) }
   ],

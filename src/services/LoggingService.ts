@@ -40,10 +40,10 @@ export interface LogEntry {
 }
 
 class LoggingService {
-  private static instance: LoggingService;
-  private logLevel: LogLevel = LogLevel.INFO;
-  private isDevelopment: boolean;
-  private logBuffer: LogEntry[] = [];
+  private static instance: LoggingService,
+  private logLevel: LogLevel = LogLevel.INFO,
+  private isDevelopment: boolean,
+  private logBuffer: LogEntry[] = [],
   private maxBufferSize = 1000;
 
   private constructor() {
@@ -131,7 +131,7 @@ class LoggingService {
     const timestamp = entry.timestamp.toISOString();
     const contextStr = entry.context ? this.formatContext(entry.context) : '';
     const levelStr = LogLevel[entry.level];
-    const baseMessage = `[${timestamp}] ${levelStr}: ${entry.message}${contextStr}`;
+    const baseMessage = `[${timestamp}] ${levelStr}: ${entry.message}${contextStr}`,
 
     switch (entry.level) {
       case LogLevel.DEBUG:
@@ -155,7 +155,7 @@ class LoggingService {
   }
 
   private formatContext(context: LogContext): string {
-    const parts: string[] = [];
+    const parts: string[] = [],
 
     if (context.component) parts.push(`component=${context.component}`)
     if (context.service) parts.push(`service=${context.service}`)
@@ -188,7 +188,7 @@ class LoggingService {
         const timestamp = entry.timestamp.toISOString();
         const level = LogLevel[entry.level];
         const context = entry.context ? this.formatContext(entry.context) : '';
-        const errorStr = entry.error ? ` ERROR: ${entry.error.message}` : '';
+        const errorStr = entry.error ? ` ERROR: ${entry.error.message}` : '',
         const dataStr = entry.data ? ` DATA: ${JSON.stringify(entry.data)}` : ''
 
         return `[${timestamp}] ${level}: ${entry.message}${context}${errorStr}${dataStr}`;

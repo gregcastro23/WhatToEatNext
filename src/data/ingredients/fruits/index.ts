@@ -12,8 +12,8 @@ import { tropical } from './tropical';
 export const, fruits: Record<string, IngredientMapping> = fixIngredientMappings({
   ...citrus;
   ...berries;
-  ...tropical;
-  ...stoneFruit;
+  ...tropical,
+  ...stoneFruit,
   ...pome
   ...melons
 });
@@ -64,12 +64,9 @@ export const findCompatibleFruits = (ingredientName: string): string[] => {
 };
 
 // Types
-export type FruitSubCategory = 'citrus' | 'berry' | 'tropical' | 'stone fruit' | 'pome' | 'melon';
-
-export type FruitRipeness = 'unripe' | 'ripe' | 'very ripe';
-
-export type FruitTexture = 'firm' | 'soft' | 'juicy' | 'crisp' | 'creamy';
-
+export type FruitSubCategory = 'citrus' | 'berry' | 'tropical' | 'stone fruit' | 'pome' | 'melon'
+export type FruitRipeness = 'unripe' | 'ripe' | 'very ripe'
+export type FruitTexture = 'firm' | 'soft' | 'juicy' | 'crisp' | 'creamy'
 // Update type definitions
 export type FruitAstrologicalProfile = {
   rulingPlanets: string[],
@@ -77,8 +74,8 @@ export type FruitAstrologicalProfile = {
   elementalAffinity: {
     base: string,
     decanModifiers: {
-      first: { element: string, planet: string };
-      second: { element: string, planet: string };
+      first: { element: string, planet: string },
+      second: { element: string, planet: string },
       third: { element: string, planet: string };
     };
   };
@@ -193,7 +190,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
           representativeFruits: Object.keys(results).slice(03),
           categoryDensity: Object.keys(results).length / Object.keys(fruits).length,
           categoryRichness: Object.keys(results).length > 0 ? 1.0 : 0.0
-        };
+};
       }),
       totalCategories: testCategories.length,
       populatedCategories: testCategories.filter(
@@ -297,7 +294,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
           representativeFruits: Object.keys(results).slice(03),
           seasonalDensity: Object.keys(results).length / Object.keys(fruits).length,
           seasonalRichness: Object.keys(results).length > 0 ? 1.0 : 0.0
-        };
+};
       }),
       totalSeasons: testSeasons.length,
       populatedSeasons: testSeasons.filter(season => Object.keys(seasonalFunc(season)).length > 0),
@@ -392,7 +389,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
           representativeFruits: Object.keys(results).slice(03),
           preparationDensity: Object.keys(results).length / Object.keys(fruits).length,
           preparationRichness: Object.keys(results).length > 0 ? 1.0 : 0.0
-        };
+};
       }),
       totalMethods: testMethods.length,
       populatedMethods: testMethods.filter(
@@ -797,7 +794,7 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
           fruit,
           reciprocalConnections: reciprocal,
           reciprocityScore: compatible.length > 0 ? reciprocal / compatible.length : 0
-        };
+};
       })
     };
 
@@ -827,14 +824,13 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
       sampleFruits.length;
 
     const compatibilityStructure = {
-      highlyConnected: compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount > 5).length /;
+      highlyConnected: compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount > 5).length /,
         sampleFruits.length;
       moderatelyConnected:
         compatibilityAnalysis.compatibilityResults.filter(
           r => r.compatibleCount >= 2 && r.compatibleCount <= 5
         ).length / sampleFruits.length;
-      poorlyConnected:
-        compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount < 2).length /;
+      poorlyConnected: compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount < 2).length /,
         sampleFruits.length,
       isolatedFruits: isolatedFruits,
       networkCohesion: compatibilityMetrics.networkConnectivity * compatibilityMetrics.reciprocityScore,
@@ -933,8 +929,7 @@ export const FRUIT_ASTROLOGICAL_INTELLIGENCE = {
         }
       },
       astrologicalCoverage: {
-        planetaryCoverage:
-          testPlanets.filter(planet => Object.keys(rulingPlanetFunc(planet)).length > 0).length /;
+        planetaryCoverage: testPlanets.filter(planet => Object.keys(rulingPlanetFunc(planet)).length > 0).length /,
           testPlanets.length;
         elementalCoverage:
           testElements.filter(element => Object.keys(elementalAffinityFunc(element)).length > 0);
@@ -945,10 +940,9 @@ export const FRUIT_ASTROLOGICAL_INTELLIGENCE = {
 
     // Calculate astrologicalMetrics first
     const astrologicalMetrics = {
-      planetaryReliability: astrologicalAnalysis.planetaryAnalysis.filter(p => p.hasRulership).length /;
+      planetaryReliability: astrologicalAnalysis.planetaryAnalysis.filter(p => p.hasRulership).length /,
         testPlanets.length;
-      elementalReliability:
-        astrologicalAnalysis.elementalAnalysis.filter(e => e.hasAffinity).length /;
+      elementalReliability: astrologicalAnalysis.elementalAnalysis.filter(e => e.hasAffinity).length /,
         testElements.length
       astrologicalCompleteness:
         (astrologicalAnalysis.astrologicalCoverage.planetaryCoverage +
@@ -1162,12 +1156,11 @@ export const FRUIT_VALIDATION_INTELLIGENCE = {
       validationBalance: 0, // placeholder, will be set after validationStructure is fully defined,
       structuralIntegrity: 0, // placeholder, will be set after validationMetrics is defined
     };
-    validationStructure.validationBalance = Math.min(;
-      ...[
+    validationStructure.validationBalance = Math.min(...[
         validationStructure.corePropertyCoverage;
         validationStructure.categoricalCoverage;
-        validationStructure.nutritionalCoverage;
-        validationStructure.seasonalCoverage;
+        validationStructure.nutritionalCoverage,
+        validationStructure.seasonalCoverage,
         validationStructure.culinaryCoverage
         validationStructure.qualitativesCoverage
       ],
@@ -1262,7 +1255,7 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
           (compatibilityResults.compatibilityOptimization as any).suggestions
         )
           ? ((compatibilityResults.compatibilityOptimization as any).suggestions as string[]).length
-          : 0
+          : 0,
       },
       typeIntelligence: {
         // ✅ Pattern GG-6: Safe property access for type harmony analysis,
@@ -1278,7 +1271,7 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
           (astrologicalResults.astrologicalOptimization as any).suggestions
         )
           ? ((astrologicalResults.astrologicalOptimization as any).suggestions as string[]).length
-          : 0
+          : 0,
       },
       validationIntelligence: {
         // ✅ Pattern GG-6: Safe property access for validation harmony analysis,
@@ -1287,7 +1280,7 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
           (validationResults.validationOptimization as any).suggestions
         )
           ? ((validationResults.validationOptimization as any).suggestions as string[]).length
-          : 0
+          : 0,
       }
     };
 
@@ -1308,7 +1301,7 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
       demonstrationCompleteness: 1.0,
       systemEfficiency: 0.97,
       enterpriseReadiness: 0.98
-    };
+};
 
     const integrationAnalysis = {
       crossSystemHarmony: Number(demonstrationMetrics.totalHarmonyScore || 0);
@@ -1348,7 +1341,7 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
       readinessLevel:
         Number(demonstrationMetrics.enterpriseReadiness || 0) > 0.95
           ? 'Production Ready'
-          : 'Development Phase'
+          : 'Development Phase',
     };
 
     return {

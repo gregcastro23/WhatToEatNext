@@ -450,7 +450,7 @@ class CelestialCalculator {
       // Generate from dominant planets and zodiac sign
       safeAlignment.astrologicalInfluences = [
         ...(safeAlignment.dominantPlanets?.map(p => p.name) || []),,
-        safeAlignment.zodiacSign || 'libra',
+        safeAlignment.zodiacSign || 'libra'
         'all', // Add 'all' as a fallback to ensure matches with recipes
       ]
     }
@@ -518,7 +518,7 @@ class CelestialCalculator {
   } {
     // Default values
     let jupiterInfluence = 0.5;
-    let saturnInfluence = 0.5,
+    let saturnInfluence = 0.5;
     let jupiterEffect: 'expansive' | 'balanced' | 'restricted' = 'balanced',
     let saturnEffect: 'restrictive' | 'balanced' | 'softened' = 'balanced',
 

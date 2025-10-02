@@ -81,8 +81,7 @@ type InvalidationReason =
   | 'recipe_modified'
   | 'options_changed'
   | 'manual_invalidation'
-  | 'ttl_expired';
-
+  | 'ttl_expired'
 // ========== CACHE CONFIGURATION ==========
 
 /**
@@ -115,9 +114,9 @@ const DEFAULT_CACHE_CONFIG = {
  */
 class CuisineComputationCache {
   private cache = new Map<string, CuisineCacheEntry>();
-  private config: typeof DEFAULT_CACHE_CONFIG;
-  private stats: CacheStatistics;
-  private cleanupTimer?: NodeJS.Timeout;
+  private config: typeof DEFAULT_CACHE_CONFIG,
+  private stats: CacheStatistics,
+  private cleanupTimer?: NodeJS.Timeout,
 
   constructor(config: Partial<typeof DEFAULT_CACHE_CONFIG> = {}) {
     this.config = { ...DEFAULT_CACHE_CONFIG, ...config };
@@ -128,7 +127,7 @@ class CuisineComputationCache {
       totalMisses: 0,
       averageTimeSaved: 0,
       memoryUsage: 0
-    };
+};
 
     if (this.config.enableCleanup) {
       this.startCleanupTimer();
@@ -237,7 +236,7 @@ class CuisineComputationCache {
    * @param reason - Reason for invalidation
    */
   invalidateCuisine(cuisineId: string, reason: InvalidationReason = 'manual_invalidation'): void {
-    const keysToDelete: string[] = [];
+    const keysToDelete: string[] = [],
 
     this.cache.forEach((_, cacheKey) => {
       if (cacheKey.startsWith(`${cuisineId}:`)) {
@@ -256,7 +255,7 @@ class CuisineComputationCache {
    */
   invalidateByRecipe(recipeId: string, changeType: 'added' | 'removed' | 'modified'): void {
     const reason = `recipe_${changeType}` as InvalidationReason;
-    const keysToDelete: string[] = [];
+    const keysToDelete: string[] = [],
 
     this.cache.forEach((entry, cacheKey) => {
       if (entry.metadata.recipeIds.includes(recipeId)) {
@@ -283,7 +282,7 @@ class CuisineComputationCache {
    * @param requests - Array of cuisine requests
    * @returns Map of cuisine IDs to properties (null if not cached)
    */
-  getBatch(requests: Array<{ cuisineId: string; options?: CuisineComputationOptions }>): Map<string, CuisineComputedProperties | null> {
+  getBatch(requests: Array<{ cuisineId: string, options?: CuisineComputationOptions }>): Map<string, CuisineComputedProperties | null> {
     const results = new Map<string, CuisineComputedProperties | null>();
 
     requests.forEach(({ cuisineId, options = {} }) => {
@@ -300,10 +299,10 @@ class CuisineComputationCache {
    * @param entries - Array of cache entries to set
    */
   setBatch(entries: Array<{
-    cuisineId: string;
-    properties: CuisineComputedProperties;
-    options?: CuisineComputationOptions;
-    recipeIds?: string[];
+    cuisineId: string,
+    properties: CuisineComputedProperties,
+    options?: CuisineComputationOptions,
+    recipeIds?: string[],
   }>): void {
     entries.forEach(({ cuisineId, properties, options = {}, recipeIds = [] }) => {
       this.set(cuisineId, properties, options, recipeIds);
@@ -316,10 +315,10 @@ class CuisineComputationCache {
    * @param entries - Array of entries to warm the cache with
    */
   warm(entries: Array<{
-    cuisineId: string;
-    properties: CuisineComputedProperties;
-    options?: CuisineComputationOptions;
-    recipeIds?: string[];
+    cuisineId: string,
+    properties: CuisineComputedProperties,
+    options?: CuisineComputationOptions,
+    recipeIds?: string[],
   }>): void {
     // Temporarily disable size limits for warming
     const originalMaxSize = this.config.maxSize;
@@ -353,19 +352,19 @@ class CuisineComputationCache {
    * @returns Detailed cache information
    */
   getInfo(): {
-    config: typeof DEFAULT_CACHE_CONFIG;
-    stats: CacheStatistics;
+    config: typeof DEFAULT_CACHE_CONFIG,
+    stats: CacheStatistics,
     entries: Array<{
-      cuisineId: string;
-      options: CuisineComputationOptions;
-      cachedAt: Date;
-      accessCount: number;
-      lastAccessed: Date;
+      cuisineId: string,
+      options: CuisineComputationOptions,
+      cachedAt: Date,
+      accessCount: number,
+      lastAccessed: Date,
       size: number;
     }>;
   } {
     const entries = Array.from(this.cache.entries()).map(([cacheKey, entry]) => {
-      const [cuisineId, optionsHash] = cacheKey.split(':');
+      const [cuisineId, optionsHash] = cacheKey.split(': '),
       return {
         cuisineId,
         options: entry.metadata.computationOptions,
@@ -388,7 +387,7 @@ class CuisineComputationCache {
    */
   cleanup(): void {
     const now = new Date();
-    const keysToDelete: string[] = [];
+    const keysToDelete: string[] = [],
 
     this.cache.forEach((entry, cacheKey) => {
       if (now.getTime() - entry.metadata.cachedAt.getTime() > this.config.ttl) {
@@ -482,7 +481,7 @@ class CuisineComputationCache {
       totalMisses: 0,
       averageTimeSaved: 0,
       memoryUsage: 0
-    };
+};
   }
 
   /**

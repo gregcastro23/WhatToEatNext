@@ -82,7 +82,7 @@ export async function POST(request: Request) {
       description: body.description || '',
       ingredients: body.ingredients || [],
       instructions: body.instructions || [],
-      timeToMake: body.timeToMake || '30 minutes',
+      timeToMake: body.timeToMake || '30 minutes'
       numberOfServings: body.numberOfServings || 2,
       elementalProperties: body.elementalProperties || {
         Fire: 0.25,
@@ -90,7 +90,7 @@ export async function POST(request: Request) {
         Earth: 0.25,
         Air: 0.25
 },
-      cuisine: body.cuisine || 'international',
+      cuisine: body.cuisine || 'international'
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     } as const;

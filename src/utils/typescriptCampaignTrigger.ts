@@ -11,80 +11,80 @@ import { logger } from './logger';
 
 // Campaign trigger interfaces
 export interface CampaignTriggerResult {
-  shouldTrigger: boolean;
-  campaignMode: CampaignMode;
-  errorAnalysis: ErrorAnalysisResult;
-  recommendations: FixRecommendation[];
-  batchSchedule: BatchSchedule;
-  estimatedDuration: number;
+  shouldTrigger: boolean,
+  campaignMode: CampaignMode,
+  errorAnalysis: ErrorAnalysisResult,
+  recommendations: FixRecommendation[],
+  batchSchedule: BatchSchedule,
+  estimatedDuration: number,
   safetyLevel: SafetyLevel;
 }
 
 export interface ErrorAnalysisResult {
-  totalErrors: number;
+  totalErrors: number,
   errorsByCategory: Record<string, TypeScriptError[]>;
   errorsByFile: Record<string, TypeScriptError[]>;
-  highImpactFiles: HighImpactFile[];
-  priorityRanking: TypeScriptError[];
+  highImpactFiles: HighImpactFile[],
+  priorityRanking: TypeScriptError[],
   campaignRecommendations: CampaignRecommendation[];
 }
 
 export interface TypeScriptError {
-  filePath: string;
-  line: number;
-  column: number;
-  code: string;
-  message: string;
-  category: ErrorCategory;
-  priority: number;
+  filePath: string,
+  line: number,
+  column: number,
+  code: string,
+  message: string,
+  category: ErrorCategory,
+  priority: number,
   severity: ErrorSeverity;
 }
 
 export interface HighImpactFile {
-  filePath: string;
-  errorCount: number;
-  categories: ErrorCategory[];
+  filePath: string,
+  errorCount: number,
+  categories: ErrorCategory[],
   averagePriority: number;
 }
 
 export interface FixRecommendation {
-  category: ErrorCategory;
-  errorCount: number;
-  fixStrategy: string;
+  category: ErrorCategory,
+  errorCount: number,
+  fixStrategy: string,
   estimatedEffort: number; // minutes
-  batchSize: number;
-  priority: number;
+  batchSize: number,
+  priority: number,
   successRate: number;
 }
 
 export interface CampaignRecommendation {
-  mode: CampaignMode;
-  phases: string[];
-  estimatedDuration: number;
-  safetyLevel: SafetyLevel;
+  mode: CampaignMode,
+  phases: string[],
+  estimatedDuration: number,
+  safetyLevel: SafetyLevel,
   description: string;
 }
 
 export interface BatchSchedule {
-  batches: ProcessingBatch[];
-  totalEstimatedTime: number;
+  batches: ProcessingBatch[],
+  totalEstimatedTime: number,
   safetyProtocols: SafetyProtocol[];
 }
 
 export interface ProcessingBatch {
-  id: string;
-  category: ErrorCategory;
-  files: string[];
-  batchSize: number;
-  estimatedDuration: number;
-  safetyLevel: SafetyLevel;
+  id: string,
+  category: ErrorCategory,
+  files: string[],
+  batchSize: number,
+  estimatedDuration: number,
+  safetyLevel: SafetyLevel,
   scheduledTime: Date;
 }
 
 export interface SafetyProtocol {
-  name: string;
-  description: string;
-  triggers: string[];
+  name: string,
+  description: string,
+  triggers: string[],
   actions: string[];
 }
 
@@ -199,13 +199,13 @@ export async function analyzeTypeScriptErrors(): Promise<CampaignTriggerResult> 
         errorsByFile: {},
         highImpactFiles: [],
         priorityRanking: [],
-        campaignRecommendations: [],
-      },
+        campaignRecommendations: []
+},
       recommendations: [],
       batchSchedule: { batches: [], totalEstimatedTime: 0, safetyProtocols: [] },
       estimatedDuration: 0,
-      safetyLevel: SafetyLevel.MAXIMUM,
-    };
+      safetyLevel: SafetyLevel.MAXIMUM
+};
   }
 }
 
@@ -260,8 +260,8 @@ async function getTypeScriptErrors(): Promise<string> {
     // Run TypeScript compiler to get errors
     const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
       encoding: 'utf8',
-      stdio: 'pipe',
-    });
+      stdio: 'pipe'
+});
 
     return output;
   } catch (error: unknown) {
@@ -286,7 +286,7 @@ async function getTypeScriptErrors(): Promise<string> {
  * Parse TypeScript error output into structured format
  */
 function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
-  const errors: TypeScriptError[] = [];
+  const errors: TypeScriptError[] = [],
 
   if (!errorOutput.trim()) {
     return errors;
@@ -296,7 +296,7 @@ function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
 
   for (const line of lines) {
     // Match TypeScript error format: file(line,col): error TSxxxx: message
-    const match = line.match(/^(.+?)\((\d+),(\d+)\):\s*error\s+(TS\d+):\s*(.+)$/);
+    const match = line.match(/^(.+?)\((\d+),(\d+)\): \s*error\s+(TS\d+):\s*(.+)$/),
 
     if (match) {
       const [, filePath, lineStr, colStr, code, message] = match;
@@ -328,16 +328,11 @@ function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
  */
 function categorizeErrorCode(code: string): ErrorCategory {
   switch (code) {
-    case 'TS2352':
-      return ErrorCategory.TS2352;
-    case 'TS2304':
-      return ErrorCategory.TS2304;
-    case 'TS2345':
-      return ErrorCategory.TS2345;
-    case 'TS2698':
-      return ErrorCategory.TS2698;
-    case 'TS2362':
-      return ErrorCategory.TS2362;
+    case 'TS2352': return ErrorCategory.TS2352,
+    case 'TS2304': return ErrorCategory.TS2304,
+    case 'TS2345': return ErrorCategory.TS2345,
+    case 'TS2698': return ErrorCategory.TS2698,
+    case 'TS2362': return ErrorCategory.TS2362,
     default:
       return ErrorCategory.OTHER;
   }
@@ -349,12 +344,10 @@ function categorizeErrorCode(code: string): ErrorCategory {
 function determineSeverity(category: ErrorCategory): ErrorSeverity {
   switch (category) {
     case ErrorCategory.TS2352:
-    case ErrorCategory.TS2304:
-      return ErrorSeverity.HIGH;
+    case ErrorCategory.TS2304: return ErrorSeverity.HIGH,
     case ErrorCategory.TS2345:
     case ErrorCategory.TS2698:
-    case ErrorCategory.TS2362:
-      return ErrorSeverity.MEDIUM;
+    case ErrorCategory.TS2362: return ErrorSeverity.MEDIUM,
     default:
       return ErrorSeverity.LOW;
   }
@@ -366,7 +359,7 @@ function determineSeverity(category: ErrorCategory): ErrorSeverity {
 function calculatePriority(category: ErrorCategory, severity: ErrorSeverity): number {
   const categoryWeight = CATEGORY_PRIORITY_WEIGHTS[category] || 0.5;
   const severityWeight =
-    severity === ErrorSeverity.HIGH ? 1.0 : severity === ErrorSeverity.MEDIUM ? 0.7 : 0.4;
+    severity === ErrorSeverity.HIGH ? 1.0 : severity === ErrorSeverity.MEDIUM ? 0.7 : 0.4,
 
   return categoryWeight * severityWeight;
 }
@@ -411,7 +404,7 @@ function groupErrorsByFile(errors: TypeScriptError[]): Record<string, TypeScript
 function identifyHighImpactFiles(
   errorsByFile: Record<string, TypeScriptError[]>,
 ): HighImpactFile[] {
-  const highImpactFiles: HighImpactFile[] = [];
+  const highImpactFiles: HighImpactFile[] = [],
 
   for (const [filePath, errors] of Object.entries(errorsByFile)) {
     if (errors.length >= 5) {
@@ -446,7 +439,7 @@ function generateCampaignRecommendations(
   totalErrors: number,
   _errorsByCategory: Record<string, TypeScriptError[]>,
 ): CampaignRecommendation[] {
-  const recommendations: CampaignRecommendation[] = [];
+  const recommendations: CampaignRecommendation[] = [],
 
   if (totalErrors >= ERROR_THRESHOLDS.CRITICAL) {
     recommendations.push({
@@ -454,24 +447,24 @@ function generateCampaignRecommendations(
       phases: ['typescript-error-elimination', 'build-stabilization', 'safety-validation'],
       estimatedDuration: Math.ceil(totalErrors * 0.5), // 30 seconds per error
       safetyLevel: SafetyLevel.MAXIMUM,
-      description: `Emergency campaign for ${totalErrors} critical errors`,
-    });
+      description: `Emergency campaign for ${totalErrors} critical errors`
+});
   } else if (totalErrors >= ERROR_THRESHOLDS.HIGH) {
     recommendations.push({
       mode: CampaignMode.AGGRESSIVE,
       phases: ['typescript-error-elimination', 'targeted-fixes'],
       estimatedDuration: Math.ceil(totalErrors * 0.3), // 18 seconds per error
       safetyLevel: SafetyLevel.HIGH,
-      description: `Aggressive campaign for ${totalErrors} high-priority errors`,
-    });
+      description: `Aggressive campaign for ${totalErrors} high-priority errors`
+});
   } else if (totalErrors >= ERROR_THRESHOLDS.MEDIUM) {
     recommendations.push({
       mode: CampaignMode.STANDARD,
       phases: ['targeted-error-reduction'],
       estimatedDuration: Math.ceil(totalErrors * 0.2), // 12 seconds per error
       safetyLevel: SafetyLevel.MEDIUM,
-      description: `Standard campaign for ${totalErrors} errors`,
-    });
+      description: `Standard campaign for ${totalErrors} errors`
+});
   }
 
   return recommendations;
@@ -503,7 +496,7 @@ function determineCampaignMode(errorCount: number): CampaignMode {
  * Generate fix recommendations for each error category
  */
 function generateFixRecommendations(analysis: ErrorAnalysisResult): FixRecommendation[] {
-  const recommendations: FixRecommendation[] = [];
+  const recommendations: FixRecommendation[] = [],
 
   for (const [category, errors] of Object.entries(analysis.errorsByCategory)) {
     if (errors.length > 0) {
@@ -612,7 +605,7 @@ function getFixStrategy(category: ErrorCategory): string {
     [ErrorCategory.OTHER]: 'Manual review and custom solution development',
   };
 
-  return strategies[category] || 'Custom fix strategy required';
+  return strategies[category] || 'Custom fix strategy required'
 }
 
 /**
@@ -622,8 +615,8 @@ function createBatchSchedule(
   recommendations: FixRecommendation[],
   mode: CampaignMode,
 ): BatchSchedule {
-  const batches: ProcessingBatch[] = [];
-  const safetyProtocols: SafetyProtocol[] = [];
+  const batches: ProcessingBatch[] = [],
+  const safetyProtocols: SafetyProtocol[] = [],
   let totalEstimatedTime = 0;
   let currentTime = new Date();
 
@@ -638,8 +631,8 @@ function createBatchSchedule(
       batchSize: recommendation.batchSize,
       estimatedDuration: recommendation.estimatedEffort,
       safetyLevel: determineSafetyLevel(mode),
-      scheduledTime: new Date(currentTime),
-    };
+      scheduledTime: new Date(currentTime)
+};
 
     batches.push(batch);
     totalEstimatedTime += batch.estimatedDuration;
@@ -661,7 +654,7 @@ function createBatchSchedule(
  * Get safety protocols for campaign mode
  */
 function getSafetyProtocols(mode: CampaignMode): SafetyProtocol[] {
-  const protocols: SafetyProtocol[] = [];
+  const protocols: SafetyProtocol[] = [],
 
   switch (mode) {
     case CampaignMode.EMERGENCY:
@@ -707,10 +700,8 @@ function calculateTotalEstimatedDuration(schedule: BatchSchedule): number {
  */
 function determineSafetyLevel(mode: CampaignMode): SafetyLevel {
   switch (mode) {
-    case CampaignMode.EMERGENCY:
-      return SafetyLevel.MAXIMUM;
-    case CampaignMode.AGGRESSIVE:
-      return SafetyLevel.HIGH;
+    case CampaignMode.EMERGENCY: return SafetyLevel.MAXIMUM,
+    case CampaignMode.AGGRESSIVE: return SafetyLevel.HIGH,
     default:
       return SafetyLevel.MEDIUM;
   }

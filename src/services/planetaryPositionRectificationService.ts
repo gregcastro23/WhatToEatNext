@@ -21,81 +21,81 @@ import { getEnhancedPlanetaryPositions } from './accurateAstronomy';
 const logger = createLogger('PlanetaryPositionRectificationService');
 
 export interface PositionRectificationReport {
-  timestamp: string;
-  source_system: 'whattoeatnext' | 'planetary_agents';
-  target_system: 'whattoeatnext' | 'planetary_agents';
-  discrepancies_found: number;
-  corrections_applied: number;
-  accuracy_improvement: number;
-  sync_duration_ms: number;
-  detailed_discrepancies: PositionDiscrepancy[];
-  rectification_status: 'success' | 'partial' | 'failed';
+  timestamp: string,
+  source_system: 'whattoeatnext' | 'planetary_agents'
+  target_system: 'whattoeatnext' | 'planetary_agents'
+  discrepancies_found: number,
+  corrections_applied: number,
+  accuracy_improvement: number,
+  sync_duration_ms: number,
+  detailed_discrepancies: PositionDiscrepancy[],
+  rectification_status: 'success' | 'partial' | 'failed'
 }
 
 export interface PositionDiscrepancy {
-  planet: string;
-  whattoeatnext_longitude: number;
-  planetary_agents_longitude: number;
-  vsop87_authoritative_longitude: number;
-  discrepancy_degrees: number;
-  correction_applied: boolean;
+  planet: string,
+  whattoeatnext_longitude: number,
+  planetary_agents_longitude: number,
+  vsop87_authoritative_longitude: number,
+  discrepancy_degrees: number,
+  correction_applied: boolean,
   accuracy_gain_degrees: number;
 }
 
 export interface PlanetaryPositionSync {
-  planet: string;
-  sign: string;
-  degree: number;
-  exact_longitude: number;
-  is_retrograde: boolean;
-  source: 'vsop87' | 'planetary_agents' | 'whattoeatnext';
+  planet: string,
+  sign: string,
+  degree: number,
+  exact_longitude: number,
+  is_retrograde: boolean,
+  source: 'vsop87' | 'planetary_agents' | 'whattoeatnext'
   confidence: number; // 0-1 scale
-  last_updated: string;
-  accuracy_level: 'authoritative' | 'verified' | 'corrected' | 'estimated';
-  corrections_applied?: boolean;
-  original_whattoeatnext_longitude?: number;
-  discrepancy_corrected?: number;
-  validated_by?: string;
-  validation_confidence?: number;
+  last_updated: string,
+  accuracy_level: 'authoritative' | 'verified' | 'corrected' | 'estimated'
+  corrections_applied?: boolean,
+  original_whattoeatnext_longitude?: number,
+  discrepancy_corrected?: number,
+  validated_by?: string,
+  validation_confidence?: number,
   authoritative_source?: string;
 }
 
 export interface PlanetaryAgentsPositionData {
   zodiac: {
-    sign: string;
-    degree_in_sign: number;
+    sign: string,
+    degree_in_sign: number,
     absolute_longitude: number;
   };
-  timestamp: string;
+  timestamp: string,
   accuracy_level: string;
 }
 
 export interface PlanetaryAgentsApiResponse {
-  success: boolean;
-  data?: PlanetaryAgentsPositionData;
-  error?: string;
+  success: boolean,
+  data?: PlanetaryAgentsPositionData,
+  error?: string,
   timestamp: string;
 }
 
 export interface RectificationResult {
-  success: boolean;
-  total_positions: number;
-  rectified_positions: number;
-  average_accuracy_gain: number;
-  sync_report: PositionRectificationReport;
+  success: boolean,
+  total_positions: number,
+  rectified_positions: number,
+  average_accuracy_gain: number,
+  sync_report: PositionRectificationReport,
   synchronized_positions: Record<string, PlanetaryPositionSync>;
 }
 
 export interface EnhancedRectificationResult {
-  success: boolean;
+  success: boolean,
   synchronized_positions: Record<string, PlanetaryPositionSync>;
   rectification_report: {
-    rectification_duration_ms: number;
-    discrepancies_found: number;
-    corrections_applied: number;
+    rectification_duration_ms: number,
+    discrepancies_found: number,
+    corrections_applied: number,
     authoritative_source: string;
   };
-  planetary_agents_sync_status: 'synced' | 'partial' | 'failed';
+  planetary_agents_sync_status: 'synced' | 'partial' | 'failed'
   errors?: string[];
 }
 
@@ -103,13 +103,13 @@ export interface EnhancedRectificationResult {
  * Enhanced Planetary Position Rectification Service with Planetary Agents Integration
  */
 export class EnhancedPlanetaryPositionRectificationService {
-  private readonly planetaryAgentsBaseUrl: string;
-  private readonly apiKey: string;
-  private readonly cache = new Map<string, { data: EnhancedRectificationResult; timestamp: number }>();
+  private readonly planetaryAgentsBaseUrl: string,
+  private readonly apiKey: string,
+  private readonly cache = new Map<string, { data: EnhancedRectificationResult; timestamp: number }>(),
   private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
   constructor() {
-    this.planetaryAgentsBaseUrl = process.env.PLANETARY_AGENTS_BASE_URL || 'https://api.planetary-agents.com/api';
+    this.planetaryAgentsBaseUrl = process.env.PLANETARY_AGENTS_BASE_URL || 'https: //api.planetary-agents.com/api'
     this.apiKey = process.env.PLANETARY_AGENTS_API_KEY || '';
   }
 
@@ -168,7 +168,7 @@ export class EnhancedPlanetaryPositionRectificationService {
           discrepancies_found: 0,
           corrections_applied: 0,
           authoritative_source: 'error_fallback'
-        },
+},
         planetary_agents_sync_status: 'failed',
         errors: [error.message]
       };
@@ -194,7 +194,7 @@ export class EnhancedPlanetaryPositionRectificationService {
           confidence: 0.95, // High confidence VSOP87 precision
           last_updated: new Date().toISOString(),
           accuracy_level: 'authoritative'
-        };
+};
       });
 
       return positions;
@@ -212,7 +212,7 @@ export class EnhancedPlanetaryPositionRectificationService {
       const response = await fetch(`${this.planetaryAgentsBaseUrl}/zodiac-calendar?action=degree-for-date&date=${date.toISOString()}`, {
         headers: {
           'Authorization': `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         }
       });
 
@@ -234,7 +234,7 @@ export class EnhancedPlanetaryPositionRectificationService {
           confidence: 1.0, // Planetary Agents is authoritative
           last_updated: new Date().toISOString(),
           accuracy_level: 'authoritative'
-        }
+}
         // Add other planets when Planetary Agents expands their API
       };
 
@@ -252,12 +252,12 @@ export class EnhancedPlanetaryPositionRectificationService {
     theirPositions: Record<string, PlanetaryPositionSync>,
     date: Date
   ): {
-    success: boolean;
+    success: boolean,
     synchronized_positions: Record<string, PlanetaryPositionSync>;
-    discrepancies_found: number;
-    corrections_applied: number;
-    authoritative_source: string;
-    planetary_agents_sync_status: 'synced' | 'partial' | 'failed';
+    discrepancies_found: number,
+    corrections_applied: number,
+    authoritative_source: string,
+    planetary_agents_sync_status: 'synced' | 'partial' | 'failed'
   } {
     const synchronized: Record<string, PlanetaryPositionSync> = {};
     let discrepancies_found = 0;
@@ -292,7 +292,7 @@ export class EnhancedPlanetaryPositionRectificationService {
             ...ourPos,
             validated_by: 'planetary_agents',
             validation_confidence: 1.0
-          };
+};
         }
 
         planetary_agents_sync_status = corrections_applied > 0 ? 'synced' : 'partial';
@@ -302,7 +302,7 @@ export class EnhancedPlanetaryPositionRectificationService {
         synchronized[planet] = {
           ...ourPos,
           authoritative_source: 'whattoeatnext_vsop87'
-        };
+};
       }
     }
 
@@ -323,7 +323,7 @@ export class EnhancedPlanetaryPositionRectificationService {
     const date = targetDate || new Date();
     const startTime = Date.now();
 
-    logger.warn('🚨 EMERGENCY: Performing emergency planetary position rectification');
+    logger.warn('🚨 EMERGENCY: Performing emergency planetary position rectification'),
 
     try {
       // Force fresh calculations (bypass cache)
@@ -345,7 +345,7 @@ export class EnhancedPlanetaryPositionRectificationService {
         planetary_agents_sync_status: rectificationResult.planetary_agents_sync_status
       };
 
-      logger.info(`🚨 EMERGENCY rectification completed: ${rectificationResult.corrections_applied} corrections applied`);
+      logger.info(`🚨 EMERGENCY rectification completed: ${rectificationResult.corrections_applied} corrections applied`),
       return result;
 
     } catch (error) {
@@ -358,7 +358,7 @@ export class EnhancedPlanetaryPositionRectificationService {
           discrepancies_found: 0,
           corrections_applied: 0,
           authoritative_source: 'emergency_fallback'
-        },
+},
         planetary_agents_sync_status: 'failed',
         errors: [error.message]
       };
@@ -369,11 +369,11 @@ export class EnhancedPlanetaryPositionRectificationService {
    * Get health status including Planetary Agents connectivity
    */
   async getHealthStatus(): Promise<{
-    overall_health: 'healthy' | 'warning' | 'critical';
-    whattoeatnext_available: boolean;
-    planetary_agents_available: boolean;
-    sync_service_active: boolean;
-    last_rectification_attempt?: string;
+    overall_health: 'healthy' | 'warning' | 'critical'
+    whattoeatnext_available: boolean,
+    planetary_agents_available: boolean,
+    sync_service_active: boolean,
+    last_rectification_attempt?: string,
     last_successful_sync?: string;
   }> {
     try {
@@ -398,8 +398,7 @@ export class EnhancedPlanetaryPositionRectificationService {
       const sync_service_active = true;
 
       const overall_health =
-        whattoeatnext_available && planetary_agents_available ? 'healthy' :
-        (!planetary_agents_available || !sync_service_active) ? 'warning' : 'critical';
+        whattoeatnext_available && planetary_agents_available ? 'healthy' : (!planetary_agents_available || !sync_service_active) ? 'warning' : 'critical',
 
       return {
         overall_health,
@@ -417,7 +416,7 @@ export class EnhancedPlanetaryPositionRectificationService {
         whattoeatnext_available: false,
         planetary_agents_available: false,
         sync_service_active: false
-      };
+};
     }
   }
 
@@ -425,10 +424,10 @@ export class EnhancedPlanetaryPositionRectificationService {
    * Get sync status and metrics
    */
   getSyncStatus(): {
-    total_cache_entries: number;
-    cache_hit_rate: number;
-    average_rectification_time: number;
-    last_sync_timestamp: string;
+    total_cache_entries: number,
+    cache_hit_rate: number,
+    average_rectification_time: number,
+    last_sync_timestamp: string,
     cache_ttl_minutes: number;
   } {
     const cacheSize = this.cache.size;
@@ -438,7 +437,7 @@ export class EnhancedPlanetaryPositionRectificationService {
     const cacheEntries = Array.from(this.cache.values());
     const avgTime = cacheEntries.length > 0
       ? cacheEntries.reduce((sum, entry) => sum + (entry.data.rectification_report?.rectification_duration_ms || 0), 0) / cacheEntries.length
-      : 0;
+      : 0,
 
     return {
       total_cache_entries: cacheSize,
@@ -457,13 +456,13 @@ export class EnhancedPlanetaryPositionRectificationService {
     whattoeatnextPositions: Record<string, PlanetaryPositionSync>,
     planetaryAgentsPositions: Record<string, PlanetaryPositionSync>
   ): PositionDiscrepancy[] {
-    const discrepancies: PositionDiscrepancy[] = [];
+    const discrepancies: PositionDiscrepancy[] = [],
     const planets = Object.keys(vsop87Positions);
 
     planets.forEach(planet => {
       const vsop87 = vsop87Positions[planet];
       const whattoeatnext = whattoeatnextPositions[planet];
-      const planetaryAgents = planetaryAgentsPositions[planet];
+      const planetaryAgents = planetaryAgentsPositions[planet],
 
       if (!vsop87) return; // Skip if no VSOP87 data
 
@@ -521,7 +520,7 @@ export class EnhancedPlanetaryPositionRectificationService {
     const correctionsApplied = discrepancies.filter(d => d.correction_applied).length;
     const avgAccuracyGain = discrepancies.length > 0
       ? discrepancies.reduce((sum, d) => sum + d.accuracy_gain_degrees, 0) / discrepancies.length
-      : 0;
+      : 0,
 
     return {
       timestamp: new Date().toISOString(),
@@ -533,7 +532,7 @@ export class EnhancedPlanetaryPositionRectificationService {
       sync_duration_ms: duration,
       detailed_discrepancies: discrepancies,
       rectification_status: correctionsApplied === totalDiscrepancies ? 'success' :
-                           correctionsApplied > 0 ? 'partial' : 'failed'
+                           correctionsApplied > 0 ? 'partial' : 'failed',
     };
   }
 
@@ -551,11 +550,11 @@ export class EnhancedPlanetaryPositionRectificationService {
 
     // Mark corrections as applied and create synchronized positions
     discrepancies.forEach(discrepancy => {
-      discrepancy.correction_applied = true;
+      discrepancy.correction_applied = true,
       synchronizedPositions[discrepancy.planet] = {
         ...authoritativePositions[discrepancy.planet],
         accuracy_level: 'corrected' as const
-      };
+      },
     });
 
     // Include positions that didn't need correction
@@ -582,20 +581,20 @@ export class EnhancedPlanetaryPositionRectificationService {
       sync_duration_ms: 0,
       detailed_discrepancies: [],
       rectification_status: 'failed'
-    };
+};
   }
 
   /**
    * Get current rectification status
    */
   getRectificationStatus(): {
-    last_sync: string | null;
-    is_stale: boolean;
+    last_sync: string | null,
+    is_stale: boolean,
     cached_report: PositionRectificationReport | null;
   } {
     const isStale = this.lastSyncTimestamp
       ? Date.now() - this.lastSyncTimestamp.getTime() > this.syncInterval
-      : true;
+      : true,
 
     return {
       last_sync: this.lastSyncTimestamp?.toISOString() || null,
@@ -616,11 +615,11 @@ export class EnhancedPlanetaryPositionRectificationService {
    * Get planetary position health check
    */
   async getPositionHealthCheck(): Promise<{
-    overall_health: 'healthy' | 'warning' | 'critical';
-    vsop87_available: boolean;
-    whattoeatnext_available: boolean;
-    planetary_agents_available: boolean;
-    last_sync_age_minutes: number | null;
+    overall_health: 'healthy' | 'warning' | 'critical'
+    vsop87_available: boolean,
+    whattoeatnext_available: boolean,
+    planetary_agents_available: boolean,
+    last_sync_age_minutes: number | null,
     accuracy_status: string;
   }> {
     try {
@@ -642,7 +641,7 @@ export class EnhancedPlanetaryPositionRectificationService {
         : null;
 
       // Determine overall health
-      let overallHealth: 'healthy' | 'warning' | 'critical' = 'critical';
+      let overallHealth: 'healthy' | 'warning' | 'critical' = 'critical',
       if (vsop87Available) {
         if (whattoeatnextAvailable && planetaryAgentsAvailable) {
           overallHealth = 'healthy';
@@ -658,7 +657,7 @@ export class EnhancedPlanetaryPositionRectificationService {
         planetary_agents_available: planetaryAgentsAvailable,
         last_sync_age_minutes: lastSyncAge ? Math.round(lastSyncAge * 100) / 100 : null,
         accuracy_status: vsop87Available ? 'VSOP87 precision active' : 'Using fallback calculations'
-      };
+};
     } catch (error) {
       logger.error('Health check failed:', error);
       return {
@@ -668,7 +667,7 @@ export class EnhancedPlanetaryPositionRectificationService {
         planetary_agents_available: false,
         last_sync_age_minutes: null,
         accuracy_status: 'Health check failed'
-      };
+};
     }
   }
 }
@@ -684,21 +683,21 @@ export async function rectifyCurrentPositions(): Promise<EnhancedRectificationRe
 }
 
 export async function getPositionHealth(): Promise<{
-  overall_health: 'healthy' | 'warning' | 'critical';
-  whattoeatnext_available: boolean;
-  planetary_agents_available: boolean;
-  sync_service_active: boolean;
-  last_rectification_attempt?: string;
+  overall_health: 'healthy' | 'warning' | 'critical'
+  whattoeatnext_available: boolean,
+  planetary_agents_available: boolean,
+  sync_service_active: boolean,
+  last_rectification_attempt?: string,
   last_successful_sync?: string;
 }> {
   return planetaryPositionRectificationService.getHealthStatus();
 }
 
 export function getRectificationStatus(): {
-  total_cache_entries: number;
-  cache_hit_rate: number;
-  average_rectification_time: number;
-  last_sync_timestamp: string;
+  total_cache_entries: number,
+  cache_hit_rate: number,
+  average_rectification_time: number,
+  last_sync_timestamp: string,
   cache_ttl_minutes: number;
 } {
   return planetaryPositionRectificationService.getSyncStatus();

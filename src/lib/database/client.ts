@@ -99,8 +99,8 @@ export class IngredientService {
   }
 
   static async getCompatibleIngredients(ingredientId: string, minScore: number = 0.7): Promise<Array<{
-    ingredient: Ingredient;
-    compatibility_score: number;
+    ingredient: Ingredient,
+    compatibility_score: number,
     interaction_type: string;
   }>> {
     const result = await executeQuery(
@@ -202,11 +202,11 @@ export class RecipeService {
   }
 
   static async getRecipeIngredients(recipeId: string): Promise<Array<{
-    ingredient: Ingredient;
-    quantity: number;
-    unit: string;
-    preparation_notes?: string;
-    is_optional: boolean;
+    ingredient: Ingredient,
+    quantity: number,
+    unit: string,
+    preparation_notes?: string,
+    is_optional: boolean,
     order_index: number;
   }>> {
     const result = await executeQuery(
@@ -222,10 +222,10 @@ export class RecipeService {
   }
 
   static async getRecipeContexts(recipeId: string): Promise<{
-    moon_phases: string[];
-    seasons: string[];
-    time_of_day: string[];
-    occasion: string[];
+    moon_phases: string[],
+    seasons: string[],
+    time_of_day: string[],
+    occasion: string[],
     energy_intention?: string;
   } | null> {
     const result = await executeQuery(
@@ -358,7 +358,7 @@ export class CacheService {
       );
       return result.rowCount || 0;
     } catch (error) {
-      logger.warn('Cache invalidation failed', { pattern, error: error instanceof Error ? error.message : 'Unknown error' });
+      logger.warn('Cache invalidation failed', { pattern, error: error instanceof Error ? error.message : 'Unknown error' }),
       return 0;
     }
   }
@@ -370,7 +370,7 @@ export class CacheService {
       );
       return result.rows[0].deleted_count || 0;
     } catch (error) {
-      logger.warn('Cache cleanup failed', { error: error instanceof Error ? error.message : 'Unknown error' });
+      logger.warn('Cache cleanup failed', { error: error instanceof Error ? error.message : 'Unknown error' }),
       return 0;
     }
   }
@@ -386,10 +386,10 @@ export class DatabaseHealthService {
   }
 
   static async getMetrics(): Promise<{
-    connectionPoolSize: number;
-    activeConnections: number;
-    idleConnections: number;
-    totalCount: number;
+    connectionPoolSize: number,
+    activeConnections: number,
+    idleConnections: number,
+    totalCount: number,
     waitingClients: number;
   }> {
     const pool = getDatabasePool();
@@ -419,7 +419,7 @@ export class DatabaseHealthService {
         name,
         value,
         error: error instanceof Error ? error.message : 'Unknown error'
-      });
+});
     }
   }
 }

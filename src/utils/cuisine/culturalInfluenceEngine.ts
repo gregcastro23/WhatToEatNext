@@ -28,38 +28,38 @@ export const GEOGRAPHIC_REGIONS = {
     name: 'Mediterranean',
     climate: 'mediterranean',
     elementalModifiers: { Fire: 0.1, Water: 0.1, Earth: -0.1, Air: 0.1 },
-    description: 'Sunny, coastal region with olive oil, fresh seafood, and herb-forward cuisine'
+    description: 'Sunny, coastal region with olive oil, fresh seafood, and herb-forward cuisine',
   },
   tropical: {
     name: 'Tropical',
     climate: 'tropical',
     elementalModifiers: { Fire: 0.2, Water: 0.2, Earth: -0.2, Air: 0.0 },
-    description: 'Hot, humid regions with bold spices, fresh fruits, and vibrant flavors'
+    description: 'Hot, humid regions with bold spices, fresh fruits, and vibrant flavors',
   },
   temperate: {
     name: 'Temperate',
     climate: 'temperate',
     elementalModifiers: { Fire: 0.0, Water: 0.0, Earth: 0.1, Air: 0.0 },
     description: 'Moderate climate with balanced ingredients and seasonal variety'
-  },
+},
   arctic: {
     name: 'Arctic',
     climate: 'arctic',
     elementalModifiers: { Fire: -0.1, Water: -0.2, Earth: 0.3, Air: -0.1 },
-    description: 'Cold regions with preserved foods, root vegetables, and hearty preparations'
+    description: 'Cold regions with preserved foods, root vegetables, and hearty preparations',
   },
   desert: {
     name: 'Desert',
     climate: 'desert',
     elementalModifiers: { Fire: 0.1, Water: -0.2, Earth: 0.2, Air: 0.0 },
-    description: 'Dry regions with preserved foods, spices, and water-efficient cooking'
+    description: 'Dry regions with preserved foods, spices, and water-efficient cooking',
   },
   mountainous: {
     name: 'Mountainous',
     climate: 'temperate',
     elementalModifiers: { Fire: -0.1, Water: 0.1, Earth: 0.2, Air: 0.0 },
     description: 'Elevated regions with pasture-raised meats and fermented products'
-  }
+}
 } as const;
 
 /**
@@ -83,37 +83,37 @@ export const CULINARY_PHILOSOPHIES = {
     name: 'Farm to Table',
     elementalModifiers: { Earth: 0.15, Water: 0.1, Air: 0.05, Fire: -0.05 },
     alchemicalModifiers: { Spirit: 0.1, Essence: 0.15, Matter: 0.1, Substance: -0.1 },
-    description: 'Emphasis on fresh, local, seasonal ingredients with minimal processing'
+    description: 'Emphasis on fresh, local, seasonal ingredients with minimal processing',
   },
   fermentation_tradition: {
     name: 'Fermentation Tradition',
     elementalModifiers: { Earth: 0.2, Water: 0.1, Air: -0.1, Fire: -0.1 },
     alchemicalModifiers: { Spirit: 0.2, Essence: 0.1, Matter: 0.15, Substance: 0.1 },
-    description: 'Ancient preservation techniques creating complex, transformative flavors'
+    description: 'Ancient preservation techniques creating complex, transformative flavors',
   },
   spice_trading_legacy: {
     name: 'Spice Trading Legacy',
     elementalModifiers: { Fire: 0.2, Air: 0.15, Earth: -0.05, Water: -0.05 },
     alchemicalModifiers: { Spirit: 0.25, Essence: 0.15, Matter: -0.1, Substance: 0.1 },
-    description: 'Rich history of global spice trade creating bold, aromatic profiles'
+    description: 'Rich history of global spice trade creating bold, aromatic profiles',
   },
   imperial_court_cuisine: {
     name: 'Imperial Court Cuisine',
     elementalModifiers: { Fire: 0.1, Water: 0.05, Earth: 0.1, Air: 0.05 },
     alchemicalModifiers: { Spirit: 0.15, Essence: 0.2, Matter: 0.1, Substance: 0.05 },
-    description: 'Refined, elaborate preparations from royal culinary traditions'
+    description: 'Refined, elaborate preparations from royal culinary traditions',
   },
   nomadic_heritage: {
     name: 'Nomadic Heritage',
     elementalModifiers: { Fire: 0.15, Earth: 0.1, Air: 0.1, Water: -0.1 },
     alchemicalModifiers: { Spirit: 0.1, Essence: -0.05, Matter: 0.2, Substance: 0.15 },
-    description: 'Portable, durable foods adapted for travel and preservation'
+    description: 'Portable, durable foods adapted for travel and preservation',
   },
   monastic_cooking: {
     name: 'Monastic Cooking',
     elementalModifiers: { Earth: 0.15, Water: 0.1, Fire: -0.05, Air: 0.05 },
     alchemicalModifiers: { Spirit: 0.05, Essence: 0.1, Matter: 0.2, Substance: 0.15 },
-    description: 'Simple, mindful preparations with emphasis on nourishment and balance'
+    description: 'Simple, mindful preparations with emphasis on nourishment and balance',
   }
 } as const;
 
@@ -127,26 +127,26 @@ export const CULTURAL_EXCHANGES = {
     name: 'Silk Road Exchange',
     influences: ['Persian', 'Indian', 'Chinese', 'Central Asian'],
     elementalImpact: { Fire: 0.1, Air: 0.15, Earth: 0.05, Water: 0.0 },
-    description: 'Ancient trade routes blending spices, techniques, and ingredients across continents'
+    description: 'Ancient trade routes blending spices, techniques, and ingredients across continents',
   },
   colonial_expansion: {
     name: 'Colonial Expansion',
     influences: ['European', 'American', 'Asian', 'African'],
     elementalImpact: { Fire: 0.15, Earth: 0.1, Water: 0.05, Air: 0.0 },
     description: 'Global exploration and colonization creating fusion cuisines worldwide'
-  },
+},
   mediterranean_trade: {
     name: 'Mediterranean Trade',
     influences: ['Greek', 'Roman', 'Arabic', 'Ottoman'],
     elementalImpact: { Water: 0.1, Air: 0.1, Fire: 0.05, Earth: 0.05 },
     description: 'Ancient maritime trade creating rich culinary traditions around the Mediterranean'
-  },
+},
   steppe_nomad_routes: {
     name: 'Steppe Nomad Routes',
     influences: ['Mongolian', 'Turkish', 'Central Asian', 'Eastern European'],
     elementalImpact: { Earth: 0.15, Fire: 0.1, Air: 0.05, Water: -0.05 },
     description: 'Nomadic traditions of preserved meats and dairy across the Eurasian steppes'
-  }
+}
 } as const;
 
 // ========== INFLUENCE CALCULATION FUNCTIONS ==========
@@ -194,10 +194,10 @@ export function applyPhilosophyInfluences(
   philosophies: string[]
 ): { elementals: ElementalProperties; alchemical: AlchemicalProperties | undefined } {
   let modifiedElementals = { ...elementals };
-  let modifiedAlchemical = alchemical ? { ...alchemical } : undefined;
+  let modifiedAlchemical = alchemical ? { ...alchemical } : undefined,
 
   philosophies.forEach(philosophy => {
-    const philosophyData = CULINARY_PHILOSOPHIES[philosophy as keyof typeof CULINARY_PHILOSOPHIES];
+    const philosophyData = CULINARY_PHILOSOPHIES[philosophy as keyof typeof CULINARY_PHILOSOPHIES],
     if (!philosophyData) return;
 
     // Apply elemental modifiers
@@ -229,7 +229,7 @@ export function applyExchangeInfluences(
   let modified = { ...elementals };
 
   exchanges.forEach(exchange => {
-    const exchangeData = CULTURAL_EXCHANGES[exchange as keyof typeof CULTURAL_EXCHANGES];
+    const exchangeData = CULTURAL_EXCHANGES[exchange as keyof typeof CULTURAL_EXCHANGES],
     if (!exchangeData) return;
 
     modified = applyElementalModifiers(modified, exchangeData.elementalImpact);
@@ -295,17 +295,17 @@ function normalizeElementalProperties(properties: ElementalProperties): Elementa
     Water: 0,
     Earth: 0,
     Air: 0
-  };
+};
 
   // Scale to sum to 1.0
   if (sum > 0) {
     (Object.keys(properties) as (keyof ElementalProperties)[]).forEach(key => {
-      normalized[key] = properties[key] / sum;
+      normalized[key] = properties[key] / sum,
     });
   } else {
     // Fallback to equal distribution
     (Object.keys(normalized) as (keyof ElementalProperties)[]).forEach(key => {
-      normalized[key] = 0.25;
+      normalized[key] = 0.25,
     });
   }
 
@@ -321,7 +321,7 @@ function normalizeElementalProperties(properties: ElementalProperties): Elementa
  * @returns Human-readable description
  */
 export function generateCulturalDescription(influence: CulturalInfluence): string {
-  const parts: string[] = [];
+  const parts: string[] = [],
 
   if (influence.region) {
     const regionData = GEOGRAPHIC_REGIONS[influence.region as keyof typeof GEOGRAPHIC_REGIONS];
@@ -337,7 +337,7 @@ export function generateCulturalDescription(influence: CulturalInfluence): strin
       arctic: 'harsh, cold environment emphasizing preservation and hearty foods',
       desert: 'dry conditions with emphasis on water conservation and spice',
       mediterranean: 'sunny coastal region with olive oil and fresh seafood traditions'
-    };
+};
     const climateDesc = climateDescriptions[influence.climate];
     if (climateDesc) {
       parts.push(climateDesc);
@@ -419,11 +419,11 @@ export function applyCulturalInfluences(
  * @returns Validation result
  */
 export function validateCulturalInfluence(influence: CulturalInfluence): {
-  isValid: boolean;
-  errors: string[];
+  isValid: boolean,
+  errors: string[],
   warnings: string[];
 } {
-  const errors: string[] = [];
+  const errors: string[] = [],
   const warnings: string[] = [];
 
   // Validate region

@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics';
 
 interface PlanetaryPowerWidgetProps {
-  location?: { lat: number; lon: number };
-  className?: string;
+  location?: { lat: number; lon: number },
+  className?: string,
   compact?: boolean;
 }
 
@@ -25,7 +25,7 @@ export default function PlanetaryPowerWidget({
     location,
     updateInterval: 300000, // Update every 5 minutes
     enableAutoUpdate: true
-  });
+});
 
   const [currentPlanet, setCurrentPlanet] = useState<string>('Sun');
   const [planetaryHour, setPlanetaryHour] = useState<string>('');
@@ -51,9 +51,9 @@ export default function PlanetaryPowerWidget({
       'Venus': '♀',
       'Mars': '♂',
       'Jupiter': '♃',
-      'Saturn': '♄'
+      'Saturn': '♄',
     };
-    return symbols[planet] || '☉';
+    return symbols[planet] || '☉'
   };
 
   const getElementColor = (element: string): string => {
@@ -61,9 +61,9 @@ export default function PlanetaryPowerWidget({
       'Fire': 'from-red-400 to-orange-500',
       'Water': 'from-blue-400 to-cyan-500',
       'Earth': 'from-green-400 to-emerald-500',
-      'Air': 'from-purple-400 to-indigo-500'
+      'Air': 'from-purple-400 to-indigo-500',
     };
-    return colors[element] || 'from-gray-400 to-gray-500';
+    return colors[element] || 'from-gray-400 to-gray-500'
   };
 
   const getPowerLevelColor = (level: number): string => {
@@ -132,8 +132,7 @@ export default function PlanetaryPowerWidget({
                 className={`h-full rounded-full transition-all duration-500 ${
                   currentPowerLevel >= 0.8 ? 'bg-green-500' :
                   currentPowerLevel >= 0.6 ? 'bg-yellow-500' :
-                  currentPowerLevel >= 0.4 ? 'bg-orange-500' :
-                  'bg-red-500'
+                  currentPowerLevel >= 0.4 ? 'bg-orange-500' : 'bg-red-500',
                 }`}
                 style={{ width: `${currentPowerLevel * 100}%` }}
               />

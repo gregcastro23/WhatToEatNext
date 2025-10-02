@@ -28,13 +28,13 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       aroma: ['Fresh', 'Clean', 'Subtle'],
       texture: ['Pleasant', 'Smooth', 'Appealing'],
       notes: 'Characteristic beef profile'
-    },
+},
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced'],
         secondary: ['versatile'],
         notes: 'Versatile beef for various uses'
-      },
+},
       cookingMethods: ['grilling', 'roasting', 'braising'],
       cuisineAffinity: ['american', 'european'],
       preparationTips: ['allow to reach room temperature before cooking', 'season generously']
@@ -66,12 +66,12 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       aroma: ['Fresh', 'Clean', 'Subtle'],
       texture: ['Pleasant', 'Smooth', 'Appealing'],
       notes: 'Characteristic chicken profile'
-    },
+},
     culinaryProfile: {
       flavorProfile: {
         primary: ['mild', 'savory'],
         notes: 'Versatile for many cuisines.'
-      },
+},
       cookingMethods: ['roasting', 'grilling', 'frying', 'poaching'],
       cuisineAffinity: ['global'],
       preparationTips: ['Cook to internal temperature of 165°F.', 'Brining enhances moisture.']
@@ -109,7 +109,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         primary: ['savory', 'umami'],
         secondary: ['sweet'],
         notes: 'Excellent with fruits like apple and cherry.'
-      },
+},
       cookingMethods: ['roasting', 'braising', 'grilling', 'smoking'],
       cuisineAffinity: ['asian', 'american', 'german'],
       preparationTips: ['Do not overcook.', 'Works well with rubs and marinades.']
@@ -137,7 +137,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         primary: ['gamy', 'earthy'],
         secondary: ['herbaceous'],
         notes: 'Complemented by herbs like rosemary and mint.'
-      },
+},
       cookingMethods: ['roasting', 'grilling', 'braising'],
       cuisineAffinity: ['mediterranean', 'middle_eastern'],
       preparationTips: ['Best served medium-rare.', 'Fat carries a lot of the flavor.']

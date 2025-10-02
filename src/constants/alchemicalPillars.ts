@@ -333,7 +333,7 @@ export const ELEMENTAL_THERMODYNAMIC_PROPERTIES: Record<
   }
 > = {
   Fire: { heat: 1.0, entropy: 0.7, reactivity: 0.8 },
-  Air: { heat: 0.3, entropy: 0.9, reactivity: 0.7 }
+  Air: { heat: 0.3, entropy: 0.9, reactivity: 0.7 },
   Water: { heat: 0.1, entropy: 0.4, reactivity: 0.6 },
   Earth: { heat: 0.2, entropy: 0.1, reactivity: 0.2 }
 }
@@ -396,7 +396,7 @@ export const PLANETARY_ALCHEMICAL_EFFECTS: Record<
  */
 export const _TAROT_SUIT_ALCHEMICAL_MAPPING: Record<string, Record<AlchemicalProperty, number>> = {
   Wands: { Spirit: 0.7, Essence: 0.2, Matter: 0.1, Substance: 0 },
-  Cups: { Spirit: 0.1, Essence: 0.7, Matter: 0, Substance: 0.2 }
+  Cups: { Spirit: 0.1, Essence: 0.7, Matter: 0, Substance: 0.2 },
   Swords: { Spirit: 0.3, Essence: 0, Matter: 0, Substance: 0.7 },
   Pentacles: { Spirit: 0, Essence: 0.2, Matter: 0.7, Substance: 0.1 }
 }
@@ -683,7 +683,7 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
   ) => {
     const baseProperties = {
       Fire: { heat: 0.9, entropy: 0.7, reactivity: 0.8 },
-      Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 }
+      Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 },
       Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 },
       Air: { heat: 0.6, entropy: 0.8, reactivity: 0.7 }
     }[element],
@@ -744,14 +744,14 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
   ) => {
     const elementProperties = {
       Fire: { heat: 0.9, entropy: 0.7, reactivity: 0.8 },
-      Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 }
+      Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 },
       Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 },
       Air: { heat: 0.6, entropy: 0.8, reactivity: 0.7 }
     }[targetElement],
 
     const compatibleElements = Object.entries({,
       Fire: { heat: 0.9, entropy: 0.7, reactivity: 0.8 },
-      Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 }
+      Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 },
       Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 },
       Air: { heat: 0.6, entropy: 0.8, reactivity: 0.7 }
     })
@@ -1125,7 +1125,7 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
     description: 'Dry heat cooking method that concentrates flavors through caramelization',
   category: 'dry',
     alchemicalEffects: { Spirit: 1, Essence: 0, Matter: -1, Substance: 1 },
-    thermodynamics: { heat: 0.8, entropy: 0.6, reactivity: 0.7 }
+    thermodynamics: { heat: 0.8, entropy: 0.6, reactivity: 0.7 },
     elementalInfluence: { Fire: 0.8, Water: 0.1, Earth: 0.3, Air: 0.4 },
     monicaCompatibility: {
       score: 0.85,
@@ -1145,7 +1145,7 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
     description: 'Moist heat cooking using steam to preserve nutrients and delicate textures',
   category: 'wet',
     alchemicalEffects: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
-    thermodynamics: { heat: 0.5, entropy: 0.3, reactivity: 0.4 }
+    thermodynamics: { heat: 0.5, entropy: 0.3, reactivity: 0.4 },
     elementalInfluence: { Fire: 0.2, Water: 0.8, Earth: 0.2, Air: 0.6 },
     monicaCompatibility: {
       score: 0.92,
@@ -1165,7 +1165,7 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
     description: 'Transformation through beneficial microorganisms',
   category: 'transformation',
     alchemicalEffects: { Spirit: 1, Essence: 1, Matter: 0, Substance: 1 },
-    thermodynamics: { heat: 0.2, entropy: 0.9, reactivity: 0.8 }
+    thermodynamics: { heat: 0.2, entropy: 0.9, reactivity: 0.8 },
     elementalInfluence: { Fire: 0.1, Water: 0.6, Earth: 0.7, Air: 0.3 },
     monicaCompatibility: {
       score: 0.95,

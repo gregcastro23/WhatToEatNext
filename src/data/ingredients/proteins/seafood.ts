@@ -34,24 +34,24 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         protein: 22,
         carbs: 0,
         fat: 12,
-        fiber: 0,
-      },
+        fiber: 0
+},
       vitamins: {
         B12: 1.17, // Values as percentage of RDA
         D: 0.66,
         niacin: 0.5,
         B6: 0.38,
         pantothenic_acid: 0.3,
-        thiamine: 0.28,
-      },
+        thiamine: 0.28
+},
       minerals: {
         selenium: 0.75,
         phosphorus: 0.2,
-        potassium: 0.08,
-      },
+        potassium: 0.08
+},
       omega3: 1.8, // grams per serving
-      source: 'USDA FoodData Central',
-    },
+      source: 'USDA FoodData Central'
+},
 
     // Sensory profile (standardized)
     sensoryProfile: {
@@ -61,32 +61,32 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         sour: 0.0,
         bitter: 0.0,
         umami: 0.8,
-        spicy: 0.0,
-      },
+        spicy: 0.0
+},
       aroma: {
         floral: 0.0,
         fruity: 0.0,
         herbal: 0.0,
         spicy: 0.0,
         earthy: 0.3,
-        woody: 0.0,
-      },
+        woody: 0.0
+},
       texture: {
         crisp: 0.0,
         tender: 0.7,
         creamy: 0.4,
         chewy: 0.2,
         crunchy: 0.0,
-        silky: 0.7,
-      },
+        silky: 0.7
+},
     },
 
     // Storage information (standardized)
     storage: {
       temperature: {
         fahrenheit: 32,
-        celsius: 0,
-      },
+        celsius: 0
+},
       duration: '1-2 days (fresh), 2-3 months (frozen)',
       container: 'airtight wrapping',
       tips: [
@@ -100,8 +100,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['grill', 'bake', 'pan-sear', 'poach', 'steam', 'smoke', 'raw (sushi-grade)'],
       washing: false,
-      notes: 'Leave skin on during cooking for easier handling and extra nutrients',
-    },
+      notes: 'Leave skin on during cooking for easier handling and extra nutrients'
+},
 
     // Health benefits (standardized)
     healthBenefits: [
@@ -138,8 +138,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           temperature: { celsius: 190, fahrenheit: 375 },
           timing: '4-5 minutes per side',
           ingredients: ['butter', 'garlic', 'dill', 'lemon zest'],
-          notes: 'Cedar plank adds smoky flavor',
-        },
+          notes: 'Cedar plank adds smoky flavor'
+},
         pan_sear: {
           method: 'high heat, skin-on',
           timing: '4-5 minutes skin side, 2-3 minutes flesh side',
@@ -156,8 +156,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         appearance: 'light orange-pink',
         texture: 'fatty, soft',
         flavor: 'mild, buttery',
-        uses: 'all-purpose',
-      },
+        uses: 'all-purpose'
+},
     },
 
     // Category-specific extension: proteins
@@ -186,8 +186,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       internalTemperature: {
         medium: { fahrenheit: 125, celsius: 52 },
         mediumWell: { fahrenheit: 135, celsius: 57 },
-        safe: { fahrenheit: 145, celsius: 63 },
-      },
+        safe: { fahrenheit: 145, celsius: 63 }
+},
       restingTime: '3-5 minutes',
       commonMistakes: [
         'Overcooking (becomes dry)',
@@ -211,8 +211,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     proteinContent: 22, // grams per 3oz serving
     fatProfile: {
       saturated: 3, // grams per 3oz serving
-      omega3: 1.8,
-    },
+      omega3: 1.8
+},
   },
 
   // Phase 2: Additional Seafood with Quantity Scaling
@@ -249,14 +249,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B12: 1.5, D: 0.4, niacin: 0.8 },
       minerals: { selenium: 0.9, phosphorus: 0.3 },
       omega3: 2.1,
-      source: 'USDA FoodData Central',
-    },
+      source: 'USDA FoodData Central'
+},
 
     preparation: {
       methods: ['sear', 'grill', 'raw (sashimi)', 'canned'],
       washing: false,
-      notes: 'Can be eaten raw or cooked to desired doneness',
-    },
+      notes: 'Can be eaten raw or cooked to desired doneness'
+},
 
     healthBenefits: ['High-quality protein', 'Omega-3 fatty acids', 'Heart health'],
   },
@@ -294,14 +294,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B12: 1.1, niacin: 0.2 },
       minerals: { selenium: 0.4, phosphorus: 0.2 },
       omega3: 0.3,
-      source: 'USDA FoodData Central',
-    },
+      source: 'USDA FoodData Central'
+},
 
     preparation: {
       methods: ['sauté', 'grill', 'boil', 'steam', 'raw'],
       washing: true,
-      notes: 'Thaw frozen shrimp before cooking',
-    },
+      notes: 'Thaw frozen shrimp before cooking'
+},
 
     healthBenefits: ['High protein', 'Low fat', 'Good source of selenium'],
   },
@@ -339,8 +339,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B12: 1.2, D: 0.3 },
       minerals: { selenium: 0.5, phosphorus: 0.3 },
       omega3: 0.2,
-      source: 'USDA FoodData Central',
-    },
+      source: 'USDA FoodData Central'
+},
 
     preparation: {
       methods: ['bake', 'pan-fry', 'poach', 'steam'],
@@ -384,8 +384,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B12: 2.1, D: 0.8, niacin: 0.6 },
       minerals: { selenium: 0.8, phosphorus: 0.4 },
       omega3: 0.5,
-      source: 'USDA FoodData Central',
-    },
+      source: 'USDA FoodData Central'
+},
 
     preparation: {
       methods: ['grill', 'bake', 'pan-sear', 'poach'],
@@ -429,8 +429,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       vitamins: { B12: 1.8, niacin: 0.3 },
       minerals: { selenium: 0.3, phosphorus: 0.2 },
       omega3: 0.2,
-      source: 'USDA FoodData Central',
-    },
+      source: 'USDA FoodData Central'
+},
 
     preparation: {
       methods: ['sauté', 'grill', 'sear', 'raw'],

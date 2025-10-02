@@ -16,20 +16,20 @@ import fs from 'fs';
 import path from 'path';
 
 interface UnusedImport {
-  file: string;
-  line: number;
-  column: number;
-  importName: string;
-  message: string;
-  isTypeImport: boolean;
-  isDefaultImport: boolean;
+  file: string,
+  line: number,
+  column: number,
+  importName: string,
+  message: string,
+  isTypeImport: boolean,
+  isDefaultImport: boolean,
   isNamespaceImport: boolean;
 }
 
 interface ImportAnalysis {
-  totalUnusedImports: number;
-  safeToRemove: UnusedImport[];
-  requiresManualReview: UnusedImport[];
+  totalUnusedImports: number,
+  safeToRemove: UnusedImport[],
+  requiresManualReview: UnusedImport[],
   preserved: UnusedImport[];
 }
 
@@ -65,7 +65,7 @@ class SafeUnusedImportRemover {
     /import\(/,
     // Conditional imports
     /require\(/,
-  ];
+  ],
 
   /**
    * Analyze unused imports from ESLint output
@@ -81,8 +81,8 @@ class SafeUnusedImportRemover {
       totalUnusedImports: unusedImports.length,
       safeToRemove: [],
       requiresManualReview: [],
-      preserved: [],
-    };
+      preserved: []
+};
 
     // Categorize each unused import
     for (const unusedImport of unusedImports) {
@@ -104,11 +104,11 @@ class SafeUnusedImportRemover {
   public removeSafeUnusedImports(dryRun: boolean = true): void {
     const analysis = this.analyzeUnusedImports();
 
-    console.log(`📊 Import Analysis Results:`);
-    console.log(`Total unused imports: ${analysis.totalUnusedImports}`);
-    console.log(`Safe to remove: ${analysis.safeToRemove.length}`);
-    console.log(`Requires manual review: ${analysis.requiresManualReview.length}`);
-    console.log(`Preserved (critical): ${analysis.preserved.length}\n`);
+    console.log(`📊 Import Analysis Results: `),
+    console.log(`Total unused imports: ${analysis.totalUnusedImports}`),
+    console.log(`Safe to remove: ${analysis.safeToRemove.length}`),
+    console.log(`Requires manual review: ${analysis.requiresManualReview.length}`),
+    console.log(`Preserved (critical): ${analysis.preserved.length}\n`),
 
     if (analysis.safeToRemove.length === 0) {
       console.log('✅ No safe unused imports to remove.');
@@ -116,7 +116,7 @@ class SafeUnusedImportRemover {
     }
 
     if (dryRun) {
-      console.log('🔍 DRY RUN - Would remove the following imports:\n');
+      console.log('🔍 DRY RUN - Would remove the following imports: \n'),
       this.displayImportsToRemove(analysis.safeToRemove);
       return;
     }
@@ -149,7 +149,7 @@ class SafeUnusedImportRemover {
    * Extract unused import information from ESLint output
    */
   private extractUnusedImports(lintOutput: string): UnusedImport[] {
-    const unusedImports: UnusedImport[] = [];
+    const unusedImports: UnusedImport[] = [],
     const lines = lintOutput.split('\n');
 
     for (const line of lines) {
@@ -165,7 +165,7 @@ class SafeUnusedImportRemover {
 
           // Extract import name from message
           const importNameMatch = message.match(/'([^']+)'/);
-          const importName = importNameMatch ? importNameMatch[1] : '';
+          const importName = importNameMatch ? importNameMatch[1] : '',
 
           unusedImports.push({
             file: filePath,
@@ -175,8 +175,8 @@ class SafeUnusedImportRemover {
             message,
             isTypeImport: message.includes('type'),
             isDefaultImport: !message.includes('{'),
-            isNamespaceImport: message.includes('* as'),
-          });
+            isNamespaceImport: message.includes('* as')
+});
         }
       }
     }
@@ -296,7 +296,7 @@ class SafeUnusedImportRemover {
     );
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
-      console.log(`📄 ${file.replace(process.cwd(), '')}:`);
+      console.log(`📄 ${file.replace(process.cwd(), '')}: `),
       fileImports.forEach(imp => {
         console.log(`  - Line ${imp.line}: ${imp.importName}`);
       });
@@ -404,8 +404,8 @@ class SafeUnusedImportRemover {
     try {
       execSync('yarn lint --fix --rule "import/order: error"', {
         stdio: 'pipe',
-        encoding: 'utf8',
-      });
+        encoding: 'utf8'
+});
       console.log('✅ Import organization completed');
     } catch (error) {
       console.log('⚠️  Import organization had some issues (this is normal)');
@@ -421,8 +421,8 @@ class SafeUnusedImportRemover {
     try {
       execSync('yarn build', {
         stdio: 'pipe',
-        encoding: 'utf8',
-      });
+        encoding: 'utf8'
+});
       console.log('✅ Build validation passed');
       return true;
     } catch (error) {

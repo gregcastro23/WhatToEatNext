@@ -34,7 +34,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       cloves: 0.5,
       'black pepper': 1,
       nutmeg: 0.5
-    },
+},
 
     ratios: '2:2:1:1:0.5:1:0.5',
 
@@ -48,7 +48,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         cloves: 0.5,
         'black pepper': 1,
         nutmeg: 0.5
-      },
+},
       'South Indian': {
         name: 'South Indian',
         cumin: 2,
@@ -58,7 +58,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         'star anise': 0.5,
         'black pepper': 1,
         nutmeg: 0.5
-      }
+}
     },
 
     affinities: ['lentils', 'rice', 'meat', 'vegetables', 'yogurt'],
@@ -69,7 +69,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       grinding: 'just before use',
       storage: 'airtight, dark container',
       notes: 'Blend can be adjusted for heat preference'
-    },
+},
 
     medicinalProperties: {
       actions: ['digestive aid', 'anti-inflammatory', 'warming'],
@@ -82,7 +82,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       aroma: ['Fresh'],
       texture: ['Standard'],
       notes: 'Characteristic garam_masala profile'
-    },
+},
 
     culinaryProfile: {
       flavorProfile: {
@@ -98,17 +98,17 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious'],
-    },
+      healthBenefits: ['Nutritious']
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
-    varieties: {},
-  },
+    varieties: {}
+},
 
   ras_el_hanout: {
     name: 'Ras El Hanout',
@@ -162,7 +162,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       turmeric: 1,
       paprika: 1,
       allspice: 0.5,
-      'rose petals': 0.5
+      'rose petals': 0.5,
     },
 
     preparation: {
@@ -170,7 +170,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       grinding: 'grind together just before use',
       storage: 'airtight container away from light',
       notes: 'Can contain up to 30 ingredients'
-    },
+},
 
     medicinalProperties: {
       actions: ['digestive aid', 'anti-inflammatory'],
@@ -183,7 +183,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       aroma: ['Fresh'],
       texture: ['Standard'],
       notes: 'Characteristic ras_el_hanout profile'
-    },
+},
 
     culinaryProfile: {
       flavorProfile: {
@@ -199,17 +199,17 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious'],
-    },
+      healthBenefits: ['Nutritious']
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
-    varieties: {},
-  },
+    varieties: {}
+},
 
   herbes_de_provence: {
     name: 'Herbes De Provence',
@@ -248,14 +248,14 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       marjoram: 1,
       oregano: 1,
       lavender: 0.5
-    },
+},
 
     preparation: {
       mixing: 'individually before grinding',
       grinding: 'just before use',
       storage: 'airtight, dark container',
       notes: 'Blend can be adjusted for heat preference'
-    },
+},
 
     medicinalProperties: {
       actions: ['digestive aid', 'anti-inflammatory', 'warming'],
@@ -283,14 +283,14 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious'],
-    },
+      healthBenefits: ['Nutritious']
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},,
 
@@ -319,7 +319,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       'chinese cinnamon': 2,
       'fennel seeds': 2,
       cloves: 1,
-      'sichuan pepper': 1
+      'sichuan pepper': 1,
     },
 
     ratios: '2:2:2:1:1',
@@ -331,7 +331,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         'chinese cinnamon': 3,
         'fennel seeds': 2,
         cloves: 1,
-        'sichuan pepper': 1
+        'sichuan pepper': 1,
       },
       Southern: {
         name: 'Southern',
@@ -340,7 +340,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         'fennel seeds': 2,
         cloves: 1,
         'sichuan pepper': 1,
-        'licorice root': 0.5
+        'licorice root': 0.5,
       }
     },
 
@@ -368,26 +368,26 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for chinese_five_spice'
-    },
+},
 
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious'],
-    },
+      healthBenefits: ['Nutritious']
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: [],
-    }
+      favorableZodiac: []
+}
   },
 
   za_atar: {
@@ -405,7 +405,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       oregano: 1,
       marjoram: 1,
       salt: 0.5
-    },
+},
 
     ratios: '2:2:1:1:1:0.5',
 
@@ -418,7 +418,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         oregano: 1,
         marjoram: 1,
         salt: 0.5
-      },
+},
       Palestinian: {
         name: 'Palestinian',
         'dried thyme': 2,
@@ -427,7 +427,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         oregano: 1,
         marjoram: 1,
         salt: 0.5
-      }
+}
     },
 
     // Removed excessive sensoryProfile nesting
@@ -452,26 +452,26 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for za_atar'
-    },
+},
 
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious'],
-    },
+      healthBenefits: ['Nutritious']
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: [],
-    }
+      favorableZodiac: []
+}
   },
 
   curry_powder: {
@@ -492,7 +492,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       cardamom: 0.5,
       cayenne: 0.5,
       fenugreek: 0.5
-    },
+},
 
     ratios: '3:2:2:1:1:0.5:0.5:0.5:0.5',
 
@@ -508,7 +508,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         cardamom: 0.5,
         cayenne: 2, // extra hot,
         fenugreek: 0.5
-      }
+}
     },
 
     // Removed excessive sensoryProfile nesting
@@ -533,26 +533,26 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for curry_powder'
-    },
+},
 
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious'],
-    },
+      healthBenefits: ['Nutritious']
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: [],
-    }
+      favorableZodiac: []
+}
   },
 
   berbere: {
@@ -575,7 +575,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       cloves: 0.5,
       cinnamon: 0.5,
       nutmeg: 0.5
-    },
+},
 
     ratios: '4:2:2:1:1:1:1:1:0.5:0.5:0.5',
 
@@ -609,26 +609,26 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for berbere'
-    },
+},
 
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious'],
-    },
+      healthBenefits: ['Nutritious']
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: [],
-    }
+      favorableZodiac: []
+}
   },
 
   dukkah: {
@@ -646,7 +646,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       cumin: 1,
       'black pepper': 0.5,
       salt: 0.5
-    },
+},
 
     ratios: '3:2:1:1:0.5:0.5',
 
@@ -660,7 +660,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         cumin: 1,
         'black pepper': 0.5,
         salt: 0.5
-      }
+}
     },
 
     // Removed excessive sensoryProfile nesting
@@ -685,26 +685,26 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for dukkah'
-    },
+},
 
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious'],
-    },
+      healthBenefits: ['Nutritious']
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: [],
-    }
+      favorableZodiac: []
+}
   },
 
   shichimi_togarashi: {
@@ -724,7 +724,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       'hemp seeds': 0.5,
       nori: 0.5,
       ginger: 0.5
-    },
+},
 
     ratios: '3:1:1:1:1:0.5:0.5:0.5',
 
@@ -762,26 +762,26 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for shichimi_togarashi'
-    },
+},
 
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious'],
-    },
+      healthBenefits: ['Nutritious']
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: [],
-    }
+      favorableZodiac: []
+}
   },
 
   baharat: {
@@ -801,7 +801,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       paprika: 1,
       cloves: 0.5,
       nutmeg: 0.5
-    },
+},
 
     ratios: '2:2:1:1:1:1:0.5:0.5',
 
@@ -838,26 +838,26 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for baharat'
-    },
+},
 
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious'],
-    },
+      healthBenefits: ['Nutritious']
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: [],
-    }
+      favorableZodiac: []
+}
   },
 
   jerk_seasoning: {
@@ -878,7 +878,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       'brown sugar': 1,
       cinnamon: 0.5,
       nutmeg: 0.5
-    },
+},
 
     ratios: '3:2:2:2:1:1:1:0.5:0.5',
 
@@ -887,7 +887,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         name: 'Traditional',
         // Wet paste version
         'green onions': 2,
-        'soy sauce': 1
+        'soy sauce': 1,
       },
       Western: {
         name: 'Western',
@@ -917,26 +917,26 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for jerk_seasoning'
-    },
+},
 
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious'],
-    },
+      healthBenefits: ['Nutritious']
+},
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+},
 
     varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: [],
-    }
+      favorableZodiac: []
+}
   }
 };
 

@@ -84,19 +84,19 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
   // Define all categories
   const categories = [
     { name: 'Spices', data: spices },
-    { name: 'Plant-Based Proteins', data: plantBased }
+    { name: 'Plant-Based Proteins', data: plantBased },
     { name: 'Meats', data: meats },
-    { name: 'Poultry', data: poultry }
+    { name: 'Poultry', data: poultry },
     { name: 'Seafood', data: seafood },
-    { name: 'Eggs', data: eggs }
+    { name: 'Eggs', data: eggs },
     { name: 'Legumes', data: legumes },
-    { name: 'Dairy', data: dairy }
+    { name: 'Dairy', data: dairy },
     { name: 'Herbs', data: herbs },
-    { name: 'Fruits', data: fruits }
+    { name: 'Fruits', data: fruits },
     { name: 'Grains', data: grains },
-    { name: 'Vegetables', data: vegetables }
+    { name: 'Vegetables', data: vegetables },
     { name: 'Oils', data: oils },
-    { name: 'Seasonings', data: seasonings }
+    { name: 'Seasonings', data: seasonings },
     { name: 'Vinegars', data: vinegars }
   ],
 

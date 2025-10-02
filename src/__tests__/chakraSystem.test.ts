@@ -14,8 +14,8 @@ describe('Chakra System', () => {
     Saturn: { sign: 'Capricorn', degree: 25 },
     Uranus: { sign: 'Aquarius', degree: 3 },
     Neptune: { sign: 'Pisces', degree: 18 },
-    Pluto: { sign: 'Scorpio', degree: 22 },
-  };
+    Pluto: { sign: 'Scorpio', degree: 22 }
+};
 
   const mockAspects = [
     { planet1: 'Sun', planet2: 'Moon', type: 'sextile' },
@@ -23,9 +23,9 @@ describe('Chakra System', () => {
     { planet1: 'Venus', planet2: 'Saturn', type: 'square' },
   ];
 
-  let signEnergyStates: SignEnergyState[];
-  let chakraService: ChakraService;
-  let chakraEnergyStates: ChakraEnergyState[];
+  let signEnergyStates: SignEnergyState[],
+  let chakraService: ChakraService,
+  let chakraEnergyStates: ChakraEnergyState[],
 
   beforeAll(() => {
     // Calculate sign energy states
@@ -76,8 +76,8 @@ describe('Chakra System', () => {
     const modifiedChakraStates = chakraEnergyStates.map(state => ({
       ...state,
       energyLevel: 0.3, // Set to underactive
-      balanceState: 'underactive' as const,
-    }));
+      balanceState: 'underactive' as const
+}));
 
     const recommendations = getFoodRecommendationsFromChakras(modifiedChakraStates);
 
@@ -120,8 +120,8 @@ describe('Chakra System', () => {
     const modifiedChakraStates = chakraEnergyStates.map((state, index) => ({
       ...state,
       energyLevel: index % 3 === 0 ? 0.3 : 0.6, // Set some to underactive
-      balanceState: index % 3 === 0 ? ('underactive' as const) : ('balanced' as const),
-    }));
+      balanceState: index % 3 === 0 ? ('underactive' as const) : ('balanced' as const)
+}));
 
     const suggestions = chakraService.suggestDietaryAdjustments(modifiedChakraStates);
 

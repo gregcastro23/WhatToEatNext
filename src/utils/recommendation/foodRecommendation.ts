@@ -517,7 +517,7 @@ export function calculateRecipeMatchScore(
 export function getModalityElementAffinity(_modality: string, _element: string): number {
   const modalityAffinities: Record<string, Record<string, number>> = {
     _cardinal: { Fire: 0.9, Water: 0.8, Earth: 0.7, Air: 0.8 },
-    _fixed: { Fire: 0.8, Water: 0.9, Earth: 0.9, Air: 0.7 }
+    _fixed: { Fire: 0.8, Water: 0.9, Earth: 0.9, Air: 0.7 },
     _mutable: { Fire: 0.7, Water: 0.8, Earth: 0.7, Air: 0.9 }
   }
 

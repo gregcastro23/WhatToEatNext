@@ -41,15 +41,15 @@ export function calculateComprehensiveAspects(
   // Define all aspects and their orbs based on astrocharts.com
   const aspectDefinitions: Record<string, { angle: number, maxOrb: number }> = {
     conjunction: { angle: 0, maxOrb: 8 },
-    opposition: { angle: 180, maxOrb: 8 }
+    opposition: { angle: 180, maxOrb: 8 },
     trine: { angle: 120, maxOrb: 8 },
-    square: { angle: 90, maxOrb: 7 }
+    square: { angle: 90, maxOrb: 7 },
     sextile: { angle: 60, maxOrb: 6 },
-    _quincunx: { angle: 150, maxOrb: 5 }
+    _quincunx: { angle: 150, maxOrb: 5 },
     _semisextile: { angle: 30, maxOrb: 4 },
-    _sesquiquadrate: { angle: 135, maxOrb: 3 }
+    _sesquiquadrate: { angle: 135, maxOrb: 3 },
     _semisquare: { angle: 45, maxOrb: 3 },
-    _quintile: { angle: 72, maxOrb: 2 }
+    _quintile: { angle: 72, maxOrb: 2 },
     _biquintile: { angle: 144, maxOrb: 2 },
     _septile: { angle: 51.428, maxOrb: 2 }
   }

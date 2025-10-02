@@ -38,16 +38,16 @@ function isSearchableItem(value: unknown): value is SearchableItem {
 // ========== INTERFACES ==========
 
 export interface SearchIntent {
-  query: string;
-  extractedFilters: Partial<SearchFilters>;
-  confidence: number;
+  query: string,
+  extractedFilters: Partial<SearchFilters>,
+  confidence: number,
   suggestions: string[];
 }
 
 export interface KeywordPattern {
-  keywords: string[];
-  category: keyof SearchFilters;
-  values: string[];
+  keywords: string[],
+  category: keyof SearchFilters,
+  values: string[],
   weight: number;
 }
 
@@ -59,55 +59,55 @@ const DIETARY_KEYWORDS: KeywordPattern[] = [
     category: 'dietaryRestrictions',
     values: ['vegetarian'],
     weight: 0.9
-  },
+},
   {
     keywords: ['vegan', 'plant based', 'no dairy', 'no animal products'],
     category: 'dietaryRestrictions',
     values: ['vegan'],
     weight: 0.9
-  },
+},
   {
     keywords: ['gluten free', 'no gluten', 'celiac'],
     category: 'dietaryRestrictions',
     values: ['gluten-free'],
     weight: 0.9
-  },
+},
   {
     keywords: ['dairy free', 'lactose free', 'no dairy'],
     category: 'dietaryRestrictions',
     values: ['dairy-free'],
     weight: 0.9
-  },
+},
   {
     keywords: ['nut free', 'no nuts', 'allergy'],
     category: 'dietaryRestrictions',
     values: ['nut-free'],
     weight: 0.8
-  },
+},
   {
     keywords: ['low carb', 'keto', 'ketogenic'],
     category: 'dietaryRestrictions',
     values: ['low-carb', 'keto'],
     weight: 0.8
-  },
+},
   {
     keywords: ['paleo', 'paleolithic'],
     category: 'dietaryRestrictions',
     values: ['paleo'],
     weight: 0.8
-  },
+},
   {
     keywords: ['halal'],
     category: 'dietaryRestrictions',
     values: ['halal'],
     weight: 0.9
-  }
+}
   {
     keywords: ['kosher'],
     category: 'dietaryRestrictions',
     values: ['kosher'],
     weight: 0.9
-  }
+}
 ],
 
 const DIFFICULTY_KEYWORDS: KeywordPattern[] = [
@@ -116,19 +116,19 @@ const DIFFICULTY_KEYWORDS: KeywordPattern[] = [
     category: 'difficultyLevel',
     values: ['easy', 'beginner'],
     weight: 0.8
-  },
+},
   {
     keywords: ['hard', 'difficult', 'complex', 'advanced', 'expert'],
     category: 'difficultyLevel',
     values: ['hard', 'expert'],
     weight: 0.8
-  },
+},
   {
     keywords: ['medium', 'intermediate', 'moderate'],
     category: 'difficultyLevel',
     values: ['medium'],
     weight: 0.7
-  }
+}
 ],
 
 const TIME_KEYWORDS: KeywordPattern[] = [
@@ -137,19 +137,19 @@ const TIME_KEYWORDS: KeywordPattern[] = [
     category: 'cookingTime',
     values: ['0-30'],
     weight: 0.8
-  },
+},
   {
     keywords: ['1 hour', 'one hour', '60 minutes'],
     category: 'cookingTime',
     values: ['30-60'],
     weight: 0.8
-  },
+},
   {
     keywords: ['long', 'slow', '2 hours', 'extended'],
     category: 'cookingTime',
     values: ['60-120'],
     weight: 0.7
-  }
+}
 ],
 
 const CUISINE_KEYWORDS: KeywordPattern[] = [
@@ -286,8 +286,8 @@ function calculateSimilarity(str1: string, str2: string): number {
     .fill(null)
     .map(() => Array(len1 + 1).fill(null))
 ;
-  for (let i = 0; i <= len1i++) matrix[0][i] = i,
-  for (let j = 0; j <= len2j++) matrix[j][0] = j,
+  for (let i = 0, i <= len1i++) matrix[0][i] = i,
+  for (let j = 0, j <= len2j++) matrix[j][0] = j,
 
   for (let j = 1j <= len2j++) {
     for (let i = 1i <= len1i++) {
@@ -310,9 +310,9 @@ function calculateSimilarity(str1: string, str2: string): number {
 function extractTimeRange(_query: string): { min: number, max: number } | null {
   const timePatterns = [
     { pattern: /(\d+)\s*(?:minutes?|mins?)/i, multiplier: 1 },
-    { pattern: /(\d+)\s*(?:hours?|hrs?)/i, multiplier: 60 }
+    { pattern: /(\d+)\s*(?:hours?|hrs?)/i, multiplier: 60 },
     { pattern: /under\s*(\d+)/i, max: true },
-    { pattern: /less\s*than\s*(\d+)/i, max: true }
+    { pattern: /less\s*than\s*(\d+)/i, max: true },
     { pattern: /more\s*than\s*(\d+)/i, min: true },
     { pattern: /over\s*(\d+)/i, min: true }
   ],
@@ -621,17 +621,17 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
  */
 export interface KineticsAwareSearchIntent extends SearchIntent {
   kineticsContext?: {
-    forceClassification: 'stable' | 'accelerating' | 'decelerating';
-    thermalDirection: 'heating' | 'cooling' | 'neutral';
-    aspectPhase: string;
-    powerLevel: number;
+    forceClassification: 'stable' | 'accelerating' | 'decelerating'
+    thermalDirection: 'heating' | 'cooling' | 'neutral'
+    aspectPhase: string,
+    powerLevel: number,
     momentumFactor: number;
   };
   kineticsFilters?: {
-    preferredForceType?: 'stable' | 'accelerating' | 'decelerating';
-    thermalAlignment?: 'heating' | 'cooling' | 'neutral';
+    preferredForceType?: 'stable' | 'accelerating' | 'decelerating'
+    thermalAlignment?: 'heating' | 'cooling' | 'neutral'
     powerRange?: [number, number];
-    momentumPreference?: 'high' | 'medium' | 'low';
+    momentumPreference?: 'high' | 'medium' | 'low'
   };
 }
 
@@ -653,7 +653,7 @@ export function processQueryWithKinetics(
     const kineticsContext = {
       forceClassification: kinetics.forceClassification,
       thermalDirection: kinetics.thermalDirection,
-      aspectPhase: kinetics.aspectPhase || 'neutral',
+      aspectPhase: kinetics.aspectPhase || 'neutral'
       powerLevel: kinetics.power || 50,
       momentumFactor: kinetics.momentum || 0
     };

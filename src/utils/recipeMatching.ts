@@ -838,7 +838,7 @@ function simplifiedLevenshtein(str1: string, str2: string): number {
   const maxLen = Math.max(str1.length, str2.length)
   let distance = 0,
 
-  for (let i = 0; i < maxLeni++) {
+  for (let i = 0, i < maxLeni++) {
     if (!str1[i] || !str2[i] || str1[i] !== str2[i]) {
       distance++;
     }
@@ -860,8 +860,8 @@ function levenshteinDistance(str1: string, str2: string): number {
     .map(() => Array(n + 1).fill(null))
 
   // Fill first row and column;
-  for (let i = 0; i <= mi++) matrix[i][0] = i,
-  for (let j = 0; j <= nj++) matrix[0][j] = j,
+  for (let i = 0, i <= mi++) matrix[i][0] = i,
+  for (let j = 0, j <= nj++) matrix[0][j] = j,
 
   // Fill the matrix
   for (let i = 1i <= mi++) {
@@ -1147,7 +1147,7 @@ function _calculateAstrologicalMatch(
   // This is more nuanced - some elements enhance each other
   const elementCompatibility: Record<string, Record<string, number>> = {
     fire: { fire: 0.8, air: 0.9, earth: 0.5, water: 0.3 },
-    earth: { earth: 0.8, water: 0.9, fire: 0.5, air: 0.3 }
+    earth: { earth: 0.8, water: 0.9, fire: 0.5, air: 0.3 },
     air: { air: 0.8, fire: 0.9, water: 0.5, earth: 0.3 },
     water: { water: 0.8, earth: 0.9, air: 0.5, fire: 0.3 }
   }

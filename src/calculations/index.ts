@@ -398,7 +398,7 @@ export interface ComprehensiveAlchemicalResult {
   // Planetary influences
   planetaryInfluences: {
     alchemicalInfluences: { [key: string]: number },
-    elementalInfluences: { [key: string]: number }
+    elementalInfluences: { [key: string]: number },
     dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
     planetaryHours?: { dayRuler: string, hourRuler: string, influence: number }
   },
@@ -607,7 +607,7 @@ export function calculatePlanetaryAlignment(
   recipeProperties: ElementalProperties,
   currentMomentPlanetary: {
     alchemicalInfluences: { [key: string]: number },
-    elementalInfluences: { [key: string]: number }
+    elementalInfluences: { [key: string]: number },
     dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
     planetaryHours?: { dayRuler: string, hourRuler: string, influence: number }
   }): number {

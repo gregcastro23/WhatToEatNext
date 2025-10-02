@@ -36,7 +36,7 @@ export async function getCachedCalculation<T>(
     const cachedResult = await CacheService.get(cacheKey, inputHash);
 
     if (cachedResult) {
-      log.info(`🔄 Database cache hit for ${cacheKey} (age: ${Math.round((now - cachedResult.created_at.getTime()) / 1000)}s)`);
+      log.info(`🔄 Database cache hit for ${cacheKey} (age: ${Math.round((now - cachedResult.created_at.getTime()) / 1000)}s)`),
       return JSON.parse(cachedResult.result_data);
     }
 
@@ -102,6 +102,6 @@ export async function getCacheStats(): Promise<{
       totalEntries: 0,
       activeEntries: 0,
       expiredEntries: 0
-    };
+};
   }
 }

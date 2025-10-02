@@ -23,20 +23,20 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
           taste: ['Mild', 'Balanced', 'Natural'],
           aroma: ['Fresh', 'Clean', 'Subtle'],
           texture: ['Pleasant', 'Smooth', 'Appealing'],
-          notes: 'Characteristic chicken profile',
-        },
+          notes: 'Characteristic chicken profile'
+},
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile chicken for various uses',
-          },
+            notes: 'Versatile chicken for various uses'
+},
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste'],
         },
-        season: ['year-round'],
-      },
+        season: ['year-round']
+},
     },
     qualities: ['adaptable', 'mild', 'versatile', 'light', 'neutral', 'balancing'],
     category: 'poultry',
@@ -53,14 +53,14 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       taste: ['Mild', 'Balanced', 'Natural'],
       aroma: ['Fresh', 'Clean', 'Subtle'],
       texture: ['Pleasant', 'Smooth', 'Appealing'],
-      notes: 'Characteristic chicken profile',
-    },
+      notes: 'Characteristic chicken profile'
+},
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced'],
         secondary: ['versatile'],
-        notes: 'Versatile chicken for various uses',
-      },
+        notes: 'Versatile chicken for various uses'
+},
       cookingMethods: ['sautéing', 'steaming', 'roasting'],
       cuisineAffinity: ['Global', 'International'],
       preparationTips: ['Use as needed', 'Season to taste'],
@@ -69,8 +69,8 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['standard preparation'],
       timing: 'as needed',
-      notes: 'Standard preparation for chicken',
-    },
+      notes: 'Standard preparation for chicken'
+},
   },
 };
 

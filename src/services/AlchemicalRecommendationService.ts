@@ -26,8 +26,8 @@ export interface AlchemicalRecommendation {
  * Uses the AlchemicalEngine as its core calculation engine
  */
 export class AlchemicalRecommendationService {
-  private static instance: AlchemicalRecommendationService;
-  private engine: AlchemicalEngine;
+  private static instance: AlchemicalRecommendationService,
+  private engine: AlchemicalEngine,
 
   private constructor() {
     this.engine = new AlchemicalEngine();
@@ -190,16 +190,13 @@ export class AlchemicalRecommendationService {
 
     // Add recommendations based on dominant element
     switch (dominantElement) {
-      case 'Fire':
-        recommendations.push('Focus on cooking methods that enhance flavors through high heat.');
+      case 'Fire': recommendations.push('Focus on cooking methods that enhance flavors through high heat.'),
         recommendations.push('Use bold, bright spices and seasonings.');
         break;
-      case 'Water':
-        recommendations.push('Use moisture-based cooking methods for best results.');
+      case 'Water': recommendations.push('Use moisture-based cooking methods for best results.'),
         recommendations.push('Focus on aromatic and liquid-based ingredients.');
         break;
-      case 'Earth':
-        recommendations.push('Root vegetables and hearty dishes will be most satisfying.');
+      case 'Earth': recommendations.push('Root vegetables and hearty dishes will be most satisfying.'),
         recommendations.push('Slow cooking methods will yield the best results.');
         break;
       case 'Air':
@@ -283,7 +280,7 @@ export class AlchemicalRecommendationService {
         ? properties.Water
         : properties.Water !== undefined
           ? properties.Water
-          : 0;
+          : 0,
     if (waterValue > maxValue) {
       maxElement = 'Water',
       maxValue = waterValue;
@@ -295,7 +292,7 @@ export class AlchemicalRecommendationService {
         ? properties.Earth
         : properties.Earth !== undefined
           ? properties.Earth
-          : 0;
+          : 0,
     if (earthValue > maxValue) {
       maxElement = 'Earth',
       maxValue = earthValue;
@@ -307,7 +304,7 @@ export class AlchemicalRecommendationService {
         ? properties.Air
         : properties.Air !== undefined
           ? properties.Air
-          : 0;
+          : 0,
     if (AirValue > maxValue) {
       maxElement = 'Air',
       maxValue = AirValue;
@@ -368,8 +365,8 @@ export class AlchemicalRecommendationService {
     )
 
     // Generate suggestions based on compatibility
-    const suggestions: string[] = [];
-    const adjustments: string[] = [];
+    const suggestions: string[] = [],
+    const adjustments: string[] = [],
 
     if (compatibility > 0.8) {
       suggestions.push('This recipe is highly compatible with current planetary alignments.')
@@ -381,17 +378,13 @@ export class AlchemicalRecommendationService {
       // Generate specific adjustments
       const dominantElement = this.getDominantElement(currentElementalProperties)
       switch (dominantElement) {
-        case 'Fire':
-          adjustments.push('Add a touch of heat through spices or higher cooking temperature.');
+        case 'Fire': adjustments.push('Add a touch of heat through spices or higher cooking temperature.'),
           break;
-        case 'Water':
-          adjustments.push('Increase moisture content or cooking time in liquid.');
+        case 'Water': adjustments.push('Increase moisture content or cooking time in liquid.'),
           break;
-        case 'Earth':
-          adjustments.push('Add root vegetables or earthy spices like cumin or coriander.');
+        case 'Earth': adjustments.push('Add root vegetables or earthy spices like cumin or coriander.'),
           break;
-        case 'Air':
-          adjustments.push('Incorporate aromatic herbs or use more whipping/folding techniques.');
+        case 'Air': adjustments.push('Incorporate aromatic herbs or use more whipping/folding techniques.'),
           break;
       }
     } else {
@@ -408,20 +401,17 @@ export class AlchemicalRecommendationService {
       )
 
       switch (currentElement) {
-        case 'Fire':
-          adjustments.push('Use direct heat cooking methods rather than indirect methods.');
+        case 'Fire': adjustments.push('Use direct heat cooking methods rather than indirect methods.'),
           adjustments.push('Add warming spices like ginger, chili, or black pepper.');
           break;
         case 'Water':
           adjustments.push('Convert to a stew, soup, or braised preparation.');
           adjustments.push('Incorporate more liquid ingredients and Water-rich vegetables.');
           break;
-        case 'Earth':
-          adjustments.push('Add grounding ingredients like root vegetables or mushrooms.');
+        case 'Earth': adjustments.push('Add grounding ingredients like root vegetables or mushrooms.'),
           adjustments.push('Use slow cooking methods to deepen flavors.');
           break;
-        case 'Air':
-          adjustments.push('Lighten the dish with fresh herbs and citrus zest.');
+        case 'Air': adjustments.push('Lighten the dish with fresh herbs and citrus zest.'),
           adjustments.push('Incorporate more whipping, aeration, or leavening.');
           break;
       }

@@ -72,7 +72,7 @@ describe('naturalLanguageProcessor', () => {
   describe('enhancedSearch', () => {
     const mockItems: any = [
       { id: 1, name: 'Italian Pasta', description: 'Delicious pasta from Italy' },
-      { id: 2, name: 'Chinese Noodles', description: 'Traditional Chinese noodle dish' }
+      { id: 2, name: 'Chinese Noodles', description: 'Traditional Chinese noodle dish' },
       { id: 3, name: 'Japanese Ramen', description: 'Authentic ramen from Japan' },
       { id: 4, name: 'Thai Pad Thai', description: 'Classic Thai stir-fried noodles' }
     ],

@@ -165,13 +165,13 @@ export const LivePlanetaryTracker: React.FC = () => {,
 ;
         {/* Planetary Details */}
         <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">;
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">,
             {/* Influence Strength */}
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-3">Influence Strength</h3>
               <div className="relative">
                 <div className="w-full bg-gray-200 rounded-full h-4">
-                  <div;
+                  <div,
                     className={`bg-gradient-to-r ${planetaryData.color} h-4 rounded-full transition-all duration-1000`}
                     style={{ width: `${planetaryData.influence * 100}%` }}
                   ></div>

@@ -4,8 +4,7 @@ import { log } from '@/services/LoggingService';
  * This module provides component-specific logging capabilities and consistent formatting.
  */
 
-type LogLevel = 'debug' | 'info' | 'warn' | 'error';
-
+type LogLevel = 'debug' | 'info' | 'warn' | 'error'
 // Get environment
 const isDev = process.env.NODE_ENV !== 'production';
 const _isBrowser = typeof window !== 'undefined';
@@ -14,8 +13,8 @@ const _isBrowser = typeof window !== 'undefined';
  * Logger class providing centralized logging capabilities
  */
 class Logger {
-  private logLevel: LogLevel = isDev ? 'debug' : 'info';
-  private recentErrors: Array<{ message: string; timestamp: number; component?: string }> = [];
+  private logLevel: LogLevel = isDev ? 'debug' : 'info',
+  private recentErrors: Array<{ message: string; timestamp: number; component?: string }> = [],
   private readonly MAX_ERRORS = 20;
 
   // Track components that have created loggers
@@ -81,7 +80,7 @@ class Logger {
   debug(message: string, ...args: unknown[]): void {
     if (this.shouldLog('debug')) {
       const options = this.extractOptions(args);
-      const component = options.component ? `[${options.component}]` : '';
+      const component = options.component ? `[${options.component}]` : '',
       log.debug(`[DEBUG]${component} ${message}`, ...options.rest);
     }
   }
@@ -92,7 +91,7 @@ class Logger {
   info(message: string, ...args: unknown[]): void {
     if (this.shouldLog('info')) {
       const options = this.extractOptions(args);
-      const component = options.component ? `[${options.component}]` : '';
+      const component = options.component ? `[${options.component}]` : '',
       log.info(`[INFO]${component} ${message}`, ...options.rest);
     }
   }
@@ -103,7 +102,7 @@ class Logger {
   warn(message: string, ...args: unknown[]): void {
     if (this.shouldLog('warn')) {
       const options = this.extractOptions(args);
-      const component = options.component ? `[${options.component}]` : '';
+      const component = options.component ? `[${options.component}]` : '',
       _logger.warn(`[WARN]${component} ${message}`, ...options.rest);
     }
   }
@@ -114,7 +113,7 @@ class Logger {
   error(message: string, ...args: unknown[]): void {
     if (this.shouldLog('error')) {
       const options = this.extractOptions(args);
-      const component = options.component ? `[${options.component}]` : '';
+      const component = options.component ? `[${options.component}]` : '',
       _logger.error(`[ERROR]${component} ${message}`, ...options.rest);
 
       // Store error for summary
@@ -162,7 +161,7 @@ class Logger {
     return this.recentErrors
       .map(err => {
         const date = new Date(err.timestamp).toLocaleTimeString();
-        const component = err.component ? `[${err.component}]` : '';
+        const component = err.component ? `[${err.component}]` : '',
         return `[${date}]${component} ${err.message}`;
       })
       .join('\n');
@@ -193,7 +192,7 @@ class Logger {
 }
 
 // Singleton instance of the logger with safe initialization
-let loggerInstance: Logger | undefined;
+let loggerInstance: Logger | undefined,
 
 export const logger = (() => {
   if (!loggerInstance) {

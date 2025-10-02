@@ -1516,7 +1516,7 @@ export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {
       calculations: [
         {
           elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
-          thermodynamicProperties: { heat: 0.3, entropy: 0.2, reactivity: 0.4, gregsEnergy: 0.8 }
+          thermodynamicProperties: { heat: 0.3, entropy: 0.2, reactivity: 0.4, gregsEnergy: 0.8 },
           kalchm: 1.2,
           monica: 0.9,
           score: 0.85

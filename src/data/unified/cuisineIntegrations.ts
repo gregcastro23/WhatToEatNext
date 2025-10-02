@@ -642,7 +642,7 @@ export class UnifiedCuisineIntegrationSystem {
 
     // Apply self-reinforcement, principle: same cuisine should have higher compatibility
     let finalMonicaCompatibility = monicaCompatibility;
-    let finalKalchmHarmony = kalchmHarmony,
+    let finalKalchmHarmony = kalchmHarmony;
     let finalCulturalSynergy = culturalSynergy;
     let finalElementalAlignment = elementalAlignment,
 
@@ -1617,7 +1617,7 @@ export class UnifiedCuisineIntegrationSystem {
     let weightedMonicaSum = 0,
 
     // Calculate weights based on cuisine compatibility
-    for (let i = 0; i < (cuisines || []).length; i++) {
+    for (let i = 0, i < (cuisines || []).length; i++) {
       const cuisine = cuisines[i];
       const monica = cuisineMonicaConstants[cuisine];
 
@@ -1627,7 +1627,7 @@ export class UnifiedCuisineIntegrationSystem {
       let compatibilitySum = 0;
       let compatibilityCount = 0,
 
-      for (let j = 0; j < (cuisines || []).length; j++) {
+      for (let j = 0, j < (cuisines || []).length; j++) {
         if (i !== j) {
           const otherCuisine = cuisines[j];
           const compatibility = this.calculateCuisineCompatibility(cuisine, otherCuisine),
@@ -1759,7 +1759,7 @@ export class UnifiedCuisineIntegrationSystem {
     let totalHarmony = 0;
     let pAirCount = 0,
 
-    for (let i = 0; i < (kalchmValues || []).length; i++) {
+    for (let i = 0, i < (kalchmValues || []).length; i++) {
       for (let j = (i || 0) + (1 || 0); j < (kalchmValues || []).length; j++) {
         const ratio =
           Math.min(kalchmValues[i], kalchmValues[j]) / Math.max(kalchmValues[i], kalchmValues[j]),
@@ -1847,7 +1847,7 @@ export class UnifiedCuisineIntegrationSystem {
   ): ElementalProperties {
     const result: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
 
-    for (let i = 0; i < (profiles || []).length; i++) {
+    for (let i = 0, i < (profiles || []).length; i++) {
       const profile = profiles[i];
       const weight = weights[i] || 0;
 

@@ -32,24 +32,24 @@ export interface UserProfile {
 
   /** User's cultural background */
   culturalBackground?: {
-    preferredCuisines?: string[];
-    restrictedIngredients?: string[];
-    dietaryRestrictions?: string[];
-    spiceTolerance?: 'low' | 'medium' | 'high';
+    preferredCuisines?: string[],
+    restrictedIngredients?: string[],
+    dietaryRestrictions?: string[],
+    spiceTolerance?: 'low' | 'medium' | 'high'
   };
 
   /** User's astrological profile */
   astrologicalProfile?: {
-    sunSign?: string;
-    moonSign?: string;
-    risingSign?: string;
+    sunSign?: string,
+    moonSign?: string,
+    risingSign?: string,
     currentPlanetaryPositions?: { [planet: string]: string };
   };
 
   /** User's location and seasonal preferences */
   locationPreferences?: {
-    currentSeason?: string;
-    climatePreference?: string;
+    currentSeason?: string,
+    climatePreference?: string,
     region?: string;
   };
 }
@@ -69,10 +69,10 @@ export interface CuisineRecommendation {
 
   /** Breakdown of scoring factors */
   scoringFactors: {
-    elementalCompatibility: number;
-    alchemicalCompatibility?: number;
-    culturalAlignment: number;
-    seasonalRelevance: number;
+    elementalCompatibility: number,
+    alchemicalCompatibility?: number,
+    culturalAlignment: number,
+    seasonalRelevance: number,
     signatureMatch: number;
   };
 
@@ -134,7 +134,7 @@ export function calculateAlchemicalCompatibility(
   let weightedCount = 0;
 
   properties.forEach(property => {
-    const userPref = userPreferences[property];
+    const userPref = userPreferences[property],
     if (userPref === undefined) return; // Skip if user has no preference for this property
 
     const cuisineValue = cuisineAlchemical[property];
@@ -231,7 +231,7 @@ export function calculateSignatureMatch(
   let totalMatch = 0;
 
   cuisineSignatures.forEach(signature => {
-    const property = signature.property;
+    const property = signature.property,
 
     // Check if signature property is elemental
     if (['Fire', 'Water', 'Earth', 'Air'].includes(property)) {
@@ -263,14 +263,13 @@ export function calculateSignatureMatch(
  * @param options - Recommendation options
  * @returns Array of personalized cuisine recommendations
  */
-export function generateCuisineRecommendations(
-  userProfile: UserProfile,
-  availableCuisines: Map<string, { name: string; properties: CuisineComputedProperties }>,
+export function generateCuisineRecommendations(userProfile: UserProfile,
+  availableCuisines: Map<string, { name: string, properties: CuisineComputedProperties }>,
   options: {
-    maxRecommendations?: number;
-    minCompatibilityThreshold?: number;
-    includeReasoning?: boolean;
-    considerSeasonalFactors?: boolean;
+    maxRecommendations?: number,
+    minCompatibilityThreshold?: number,
+    includeReasoning?: boolean,
+    considerSeasonalFactors?: boolean,
   } = {}
 ): CuisineRecommendation[] {
   const {
@@ -280,7 +279,7 @@ export function generateCuisineRecommendations(
     considerSeasonalFactors = true
   } = options;
 
-  const recommendations: CuisineRecommendation[] = [];
+  const recommendations: CuisineRecommendation[] = [],
 
   availableCuisines.forEach((cuisineData, cuisineId) => {
     const { name: cuisineName, properties: cuisineProperties } = cuisineData;
@@ -295,12 +294,12 @@ export function generateCuisineRecommendations(
       calculateAlchemicalCompatibility(
         userProfile.alchemicalPreferences,
         cuisineProperties.averageAlchemical
-      ) : undefined;
+      ) : undefined,
 
     const culturalAlignment = calculateCulturalAlignment(userProfile, cuisineId, cuisineName);
 
     const seasonalRelevance = considerSeasonalFactors ?
-      calculateSeasonalRelevance(userProfile, cuisineProperties) : 0.5;
+      calculateSeasonalRelevance(userProfile, cuisineProperties) : 0.5,
 
     const signatureMatch = calculateSignatureMatch(
       cuisineProperties.signatures,
@@ -314,7 +313,7 @@ export function generateCuisineRecommendations(
       cultural: 0.15,
       seasonal: considerSeasonalFactors ? 0.15 : 0,
       signature: 0.1
-    };
+};
 
     let totalWeight = weights.elemental + weights.alchemical + weights.cultural + weights.seasonal + weights.signature;
 
@@ -332,7 +331,7 @@ export function generateCuisineRecommendations(
     }
 
     // Generate reasoning
-    const reasoning: string[] = [];
+    const reasoning: string[] = [],
     if (includeReasoning) {
       if (elementalCompatibility > 0.7) {
         reasoning.push('Strong elemental alignment with your preferences');
@@ -442,16 +441,16 @@ function normalizeElementalPreferences(preferences: ElementalProperties): Elemen
     Water: 0,
     Earth: 0,
     Air: 0
-  };
+};
 
   if (sum > 0) {
     (Object.keys(preferences) as (keyof ElementalProperties)[]).forEach(key => {
-      normalized[key] = preferences[key] / sum;
+      normalized[key] = preferences[key] / sum,
     });
   } else {
     // Fallback to equal distribution
     (Object.keys(normalized) as (keyof ElementalProperties)[]).forEach(key => {
-      normalized[key] = 0.25;
+      normalized[key] = 0.25,
     });
   }
 
@@ -465,11 +464,11 @@ function normalizeElementalPreferences(preferences: ElementalProperties): Elemen
  * @returns Validation result
  */
 export function validateUserProfile(profile: UserProfile): {
-  isValid: boolean;
-  errors: string[];
+  isValid: boolean,
+  errors: string[],
   warnings: string[];
 } {
-  const errors: string[] = [];
+  const errors: string[] = [],
   const warnings: string[] = [];
 
   // Validate elemental preferences
@@ -510,9 +509,9 @@ export function validateUserProfile(profile: UserProfile): {
  * @returns Summary statistics
  */
 export function getRecommendationSummary(recommendations: CuisineRecommendation[]): {
-  totalRecommendations: number;
-  averageCompatibility: number;
-  topCuisine: string | null;
+  totalRecommendations: number,
+  averageCompatibility: number,
+  topCuisine: string | null,
   compatibilityDistribution: {
     excellent: number; // > 0.8
     good: number;      // 0.6 - 0.8
@@ -532,7 +531,7 @@ export function getRecommendationSummary(recommendations: CuisineRecommendation[
   const totalCompatibility = recommendations.reduce((sum, rec) => sum + rec.compatibilityScore, 0);
   const averageCompatibility = totalCompatibility / recommendations.length;
 
-  const distribution = { excellent: 0, good: 0, fair: 0, poor: 0 };
+  const distribution = { excellent: 0, good: 0, fair: 0, poor: 0 },
   recommendations.forEach(rec => {
     if (rec.compatibilityScore > 0.8) distribution.excellent++;
     else if (rec.compatibilityScore > 0.6) distribution.good++;

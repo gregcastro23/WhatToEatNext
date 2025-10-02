@@ -142,7 +142,7 @@ function setupMemoryHooks(): void {
   // After each test
   afterEach(() => {
     if (globalMemoryMonitor != null) {
-      const testName = expect.getState().currentTestName || 'unknown-test';
+      const testName = expect.getState().currentTestName || 'unknown-test'
       const memoryCheck = globalMemoryMonitor.checkMemoryUsage(`after-${testName}`);
 
       // Force cleanup for memory-intensive tests or if memory usage is high
@@ -181,8 +181,8 @@ function setupMemoryHooks(): void {
           finalMemory: `${summary.currentMemory.toFixed(2)}MB`,
           peakMemory: `${summary.peakMemory.toFixed(2)}MB`,
           totalIncrease: `${summary.totalIncrease.toFixed(2)}MB`,
-          duration: `${(summary.testDuration / 1000).toFixed(2)}s`,
-        });
+          duration: `${(summary.testDuration / 1000).toFixed(2)}s`
+});
       }
 
       // Perform final cleanup
@@ -216,8 +216,8 @@ function addGarbageCollectionHints(): void {
       heapUsed: `${(usage.heapUsed / 1024 / 1024).toFixed(2)}MB`,
       heapTotal: `${(usage.heapTotal / 1024 / 1024).toFixed(2)}MB`,
       external: `${(usage.external / 1024 / 1024).toFixed(2)}MB`,
-      arrayBuffers: `${(usage.arrayBuffers / 1024 / 1024).toFixed(2)}MB`,
-    };
+      arrayBuffers: `${(usage.arrayBuffers / 1024 / 1024).toFixed(2)}MB`
+};
   };
 
   // Add cleanup utility
@@ -286,15 +286,15 @@ export { TestMemoryMonitor, performEmergencyCleanup, MEMORY_CONFIG };
 
 // Global type declarations
 declare global {
-  var forceGC: () => boolean;
+  var forceGC: () => boolean,
   var getMemoryUsage: () => {
-    heapUsed: string;
-    heapTotal: string;
-    external: string;
+    heapUsed: string,
+    heapTotal: string,
+    external: string,
     arrayBuffers: string;
   };
-  var cleanupTestMemory: () => any;
-  var __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
+  var cleanupTestMemory: () => any,
+  var __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined,
   var __TEST_REFS__: any[] | undefined;
 }
 

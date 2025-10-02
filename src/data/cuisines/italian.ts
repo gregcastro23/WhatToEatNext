@@ -776,7 +776,7 @@ export const italian: Cuisine = {
             Water: 0.3,
             Fire: 0.2,
             Air: 0.1
-          }
+}
         }
       ],
       summer: [
@@ -1082,7 +1082,7 @@ export const italian: Cuisine = {
         Earth: 0.3,
         Water: 0.2,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Best when made with San Marzano tomatoes for authentic flavor',
@@ -1090,7 +1090,7 @@ export const italian: Cuisine = {
       difficulty: 'easy',
       storageInstructions: 'Store in airtight container for up to 5 days in refrigerator',
       yield: '2 cups'
-    },
+},
     besciamella: {
       name: 'Besciamella',
       description: 'Italian white sauce made from roux and milk',
@@ -1109,7 +1109,7 @@ export const italian: Cuisine = {
         Earth: 0.4,
         Air: 0.1,
         Fire: 0.1
-      },
+},
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes:
@@ -1119,7 +1119,7 @@ export const italian: Cuisine = {
       difficulty: 'medium',
       storageInstructions: 'Store refrigerated in airtight container for up to 3 days',
       yield: '2 cups'
-    }
+}
   },
   traditionalSauces: {
     marinara: {
@@ -1134,12 +1134,12 @@ export const italian: Cuisine = {
         Earth: 0.3,
         Water: 0.2,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Mars', 'Sun', 'leo'],
       seasonality: 'all',
       preparationNotes: 'Best when made with San Marzano tomatoes for authentic flavor',
       technicalTips: 'Simmer gently to maintain brightness of flavor'
-    },
+},
     pesto: {
       name: 'Pesto alla Genovese',
       description: 'Fresh basil sauce with pine nuts, garlic, Parmesan and olive oil',
@@ -1159,12 +1159,12 @@ export const italian: Cuisine = {
         Earth: 0.3,
         Fire: 0.2,
         Water: 0.1
-      },
+},
       astrologicalInfluences: ['Mercury', 'Venus', 'gemini'],
       seasonality: 'summer',
       preparationNotes: 'Traditionally made in a marble mortar with wooden pestle',
       technicalTips: 'Blanch basil briefly to preserve color if making ahead'
-    },
+},
     carbonara: {
       name: 'Carbonara',
       description: 'Silky sauce of eggs, hard cheese, cured pork and black pepper',
@@ -1181,12 +1181,11 @@ export const italian: Cuisine = {
         Air: 0.3,
         Fire: 0.2,
         Water: 0.1
-      },
+},
       astrologicalInfluences: ['Jupiter', 'Mars', 'aries'],
       seasonality: 'all',
       preparationNotes: 'Never add cream - authentic carbonara is creamy from eggs alone',
-      technicalTips:
-        'Temper eggs carefully to prevent scrambling, use pasta water to adjust consistency'
+      technicalTips: 'Temper eggs carefully to prevent scrambling, use pasta water to adjust consistency',
     },
     ragu: {
       name: 'Ragù alla Bolognese',
@@ -1200,12 +1199,12 @@ export const italian: Cuisine = {
         Fire: 0.3,
         Water: 0.1,
         Air: 0.1
-      },
+},
       astrologicalInfluences: ['Saturn', 'Mars', 'taurus'],
       seasonality: 'autumn, winter',
       preparationNotes: 'True Bolognese takes hours of gentle simmering for depth of flavor',
       technicalTips: 'Add milk toward the end of cooking for authentic richness and tenderness'
-    },
+},
     bechamel: {
       name: 'Besciamella',
       description: 'Classic white sauce made from roux and milk',
@@ -1223,13 +1222,12 @@ export const italian: Cuisine = {
         Earth: 0.4,
         Air: 0.1,
         Fire: 0.1
-      },
+},
       astrologicalInfluences: ['Moon', 'Venus', 'cancer'],
       seasonality: 'all',
       preparationNotes:
         'For silky texture, add hot milk to roux gradually while whisking constantly',
-      technicalTips:
-        'Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor'
+      technicalTips: 'Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor',
     }
   },
   sauceRecommender: {
@@ -1281,7 +1279,7 @@ export const italian: Cuisine = {
       toolsRequired: ['large pot', 'timer', 'colander'],
       bestFor: ['pasta', 'risotto rice', 'vegetables'],
       difficulty: 'easy'
-    },
+},
     {
       name: 'Soffritto',
       description: 'Slow-cooking aromatic base of finely chopped vegetables in fat',
@@ -1289,7 +1287,7 @@ export const italian: Cuisine = {
       toolsRequired: ['heavy-bottomed pan', 'wooden spoon', 'sharp knife'],
       bestFor: ['sauce base', 'soup base', 'risotto', 'stews'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Mantecatura',
       description:
@@ -1298,7 +1296,7 @@ export const italian: Cuisine = {
       toolsRequired: ['wooden spoon', 'grater', 'ladle'],
       bestFor: ['risotto', 'pasta sauces', 'polenta', 'gnocchi'],
       difficulty: 'hard'
-    },
+},
     {
       name: 'Sfumato',
       description: 'Deglazing with wine to lift flavor compounds and create depth',
@@ -1306,7 +1304,7 @@ export const italian: Cuisine = {
       toolsRequired: ['heavy pan', 'wooden spoon'],
       bestFor: ['risotto', 'sauces', 'braises', 'stews'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Battuto',
       description: 'Finely chopped raw aromatic ingredients that form the base of many dishes',
@@ -1314,7 +1312,7 @@ export const italian: Cuisine = {
       toolsRequired: ['chef's knife', 'cutting board', 'mezzaluna'],
       bestFor: ['sauce preparation', 'flavor base', 'soup starters', 'stuffings'],
       difficulty: 'easy'
-    }
+}
   ],
   regionalCuisines: {
     sicilian: {
@@ -1325,7 +1323,7 @@ export const italian: Cuisine = {
       elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Sun', 'leo'],
       seasonality: 'all'
-    },
+},
     tuscan: {
       name: 'Tuscan Cuisine',
       description:
@@ -1334,7 +1332,7 @@ export const italian: Cuisine = {
       elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'capricorn'],
       seasonality: 'all'
-    },
+},
     emilian: {
       name: 'Emilian Cuisine',
       description:
@@ -1348,7 +1346,7 @@ export const italian: Cuisine = {
       elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Venus', 'taurus'],
       seasonality: 'all'
-    },
+},
     neapolitan: {
       name: 'Neapolitan Cuisine',
       description:
@@ -1362,12 +1360,12 @@ export const italian: Cuisine = {
       elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Neptune', 'aries'],
       seasonality: 'all'
-    }
+}
   },
   elementalProperties: {
-    Earth: 0.3, // Represents hearty ingredients and grounding dishes,
+    Earth: 0.3, // Represents hearty ingredients and grounding dishes
     Water: 0.3, // Represents sauces and moisture,
-    Fire: 0.2, // Represents cooking techniques,
+    Fire: 0.2, // Represents cooking techniques
     Air: 0.2, // Represents herbs and lightness
   },
   astrologicalInfluences: [

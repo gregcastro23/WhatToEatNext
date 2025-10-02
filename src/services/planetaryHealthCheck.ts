@@ -18,54 +18,54 @@ import { EnhancedPlanetaryPositionRectificationService } from './planetaryPositi
 const logger = createLogger('PlanetaryHealthCheckService');
 
 export interface PlanetarySystemHealth {
-  overall_health: 'healthy' | 'warning' | 'critical';
-  timestamp: string;
+  overall_health: 'healthy' | 'warning' | 'critical'
+  timestamp: string,
   systems: {
-    vsop87: SystemHealthStatus;
-    planetary_agents: SystemHealthStatus;
-    cross_backend_sync: SystemHealthStatus;
+    vsop87: SystemHealthStatus,
+    planetary_agents: SystemHealthStatus,
+    cross_backend_sync: SystemHealthStatus,
     rectification_service: SystemHealthStatus;
   };
-  metrics: PlanetaryHealthMetrics;
-  alerts: HealthAlert[];
+  metrics: PlanetaryHealthMetrics,
+  alerts: HealthAlert[],
   recommendations: string[];
 }
 
 export interface SystemHealthStatus {
-  status: 'operational' | 'degraded' | 'failed' | 'unknown';
-  response_time_ms?: number;
-  last_check: string;
-  error_message?: string;
+  status: 'operational' | 'degraded' | 'failed' | 'unknown'
+  response_time_ms?: number,
+  last_check: string,
+  error_message?: string,
   version?: string;
 }
 
 export interface PlanetaryHealthMetrics {
-  total_rectifications_today: number;
-  successful_rectifications_today: number;
-  average_rectification_time_ms: number;
-  planetary_agents_sync_rate: number;
-  cache_hit_rate: number;
-  discrepancies_corrected_today: number;
+  total_rectifications_today: number,
+  successful_rectifications_today: number,
+  average_rectification_time_ms: number,
+  planetary_agents_sync_rate: number,
+  cache_hit_rate: number,
+  discrepancies_corrected_today: number,
   emergency_rectifications_today: number;
 }
 
 export interface HealthAlert {
-  id: string;
-  severity: 'low' | 'medium' | 'high' | 'critical';
-  category: 'connectivity' | 'performance' | 'accuracy' | 'security';
-  message: string;
-  timestamp: string;
-  resolved: boolean;
+  id: string,
+  severity: 'low' | 'medium' | 'high' | 'critical'
+  category: 'connectivity' | 'performance' | 'accuracy' | 'security'
+  message: string,
+  timestamp: string,
+  resolved: boolean,
   auto_resolvable: boolean;
 }
 
 export class PlanetaryHealthCheckService {
-  private readonly rectificationService: EnhancedPlanetaryPositionRectificationService;
+  private readonly rectificationService: EnhancedPlanetaryPositionRectificationService,
   private readonly checkInterval = 5 * 60 * 1000; // 5 minutes
-  private lastCheck: Date | null = null;
-  private cachedHealth: PlanetarySystemHealth | null = null;
-  private alerts: HealthAlert[] = [];
-  private metricsHistory: PlanetaryHealthMetrics[] = [];
+  private lastCheck: Date | null = null,
+  private cachedHealth: PlanetarySystemHealth | null = null,
+  private alerts: HealthAlert[] = [],
+  private metricsHistory: PlanetaryHealthMetrics[] = [],
 
   constructor() {
     this.rectificationService = new EnhancedPlanetaryPositionRectificationService();
@@ -146,7 +146,7 @@ export class PlanetaryHealthCheckService {
         recommendations
       };
 
-      logger.info(`✅ Health check completed in ${Date.now() - startTime}ms - Overall: ${overallHealth.toUpperCase()}`);
+      logger.info(`✅ Health check completed in ${Date.now() - startTime}ms - Overall: ${overallHealth.toUpperCase()}`),
       return health;
 
     } catch (error) {
@@ -169,7 +169,7 @@ export class PlanetaryHealthCheckService {
           timestamp,
           resolved: false,
           auto_resolvable: false
-        }],
+}],
         recommendations: [
           'Investigate health check system failure',
           'Check system logs for detailed error information',
@@ -202,7 +202,7 @@ export class PlanetaryHealthCheckService {
         response_time_ms: responseTime,
         last_check: lastCheck,
         version: 'VSOP87-2013'
-      };
+};
 
     } catch (error) {
       return {
@@ -224,7 +224,7 @@ export class PlanetaryHealthCheckService {
       const response = await fetch(`${process.env.PLANETARY_AGENTS_BASE_URL}/zodiac-calendar?action=current-period`, {
         headers: {
           'Authorization': `Bearer ${process.env.PLANETARY_AGENTS_API_KEY}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         signal: AbortSignal.timeout(10000) // 10 second timeout
       });
@@ -276,13 +276,13 @@ export class PlanetaryHealthCheckService {
           status: 'degraded',
           last_check: lastCheck,
           error_message: 'Partial system availability'
-        };
+};
       } else {
         return {
           status: 'failed',
           last_check: lastCheck,
           error_message: 'No backend systems available'
-        };
+};
       }
 
     } catch (error) {
@@ -330,7 +330,7 @@ export class PlanetaryHealthCheckService {
       // Calculate metrics from sync status and history
       const totalRectifications = this.metricsHistory.length > 0
         ? this.metricsHistory.reduce((sum, m) => sum + m.total_rectifications_today, 0) / this.metricsHistory.length
-        : 0;
+        : 0,
 
       return {
         total_rectifications_today: Math.round(totalRectifications),
@@ -369,7 +369,7 @@ export class PlanetaryHealthCheckService {
    * Generate health alerts
    */
   private generateAlerts(systems: PlanetarySystemHealth['systems'], metrics: PlanetaryHealthMetrics): HealthAlert[] {
-    const alerts: HealthAlert[] = [];
+    const alerts: HealthAlert[] = [],
     const timestamp = new Date().toISOString();
 
     // System availability alerts
@@ -382,7 +382,7 @@ export class PlanetaryHealthCheckService {
         timestamp,
         resolved: false,
         auto_resolvable: false
-      });
+});
     }
 
     if (systems.planetary_agents.status === 'failed') {
@@ -394,7 +394,7 @@ export class PlanetaryHealthCheckService {
         timestamp,
         resolved: false,
         auto_resolvable: true
-      });
+});
     }
 
     // Performance alerts
@@ -407,7 +407,7 @@ export class PlanetaryHealthCheckService {
         timestamp,
         resolved: false,
         auto_resolvable: false
-      });
+});
     }
 
     // Accuracy alerts
@@ -420,7 +420,7 @@ export class PlanetaryHealthCheckService {
         timestamp,
         resolved: false,
         auto_resolvable: false
-      });
+});
     }
 
     return alerts;
@@ -434,7 +434,7 @@ export class PlanetaryHealthCheckService {
     metrics: PlanetaryHealthMetrics,
     alerts: HealthAlert[]
   ): string[] {
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
 
     if (alerts.some(a => a.category === 'connectivity')) {
       recommendations.push('Check network connectivity and API endpoints');
@@ -508,7 +508,7 @@ export class PlanetaryHealthCheckService {
       cache_hit_rate: 0,
       discrepancies_corrected_today: 0,
       emergency_rectifications_today: 0
-    };
+};
   }
 
   /**

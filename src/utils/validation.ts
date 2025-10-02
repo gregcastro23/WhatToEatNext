@@ -13,8 +13,8 @@ export const recipeSchema = z.object({
       name: z.string(),
       _amount: z.string(),
       _unit: z.string(),
-      _category: z.string(),
-    }),
+      _category: z.string()
+}),
   ),
   _mealType: z.array(z.string()),
   _season: z.array(z.string()).optional(),

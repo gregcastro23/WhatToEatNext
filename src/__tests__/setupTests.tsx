@@ -3,15 +3,15 @@ import React from 'react';
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
-  root: Element | null = null;
-  rootMargin: string = '0px';
-  thresholds: ReadonlyArray<number> = [0];
-  private callback: IntersectionObserverCallback;
+  root: Element | null = null,
+  rootMargin: string = '0px',
+  thresholds: ReadonlyArray<number> = [0],
+  private callback: IntersectionObserverCallback,
 
   constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
     this.callback = callback;
     this.root = (options?.root as Element) || null;
-    this.rootMargin = options?.rootMargin || '0px';
+    this.rootMargin = options?.rootMargin || '0px'
     this.thresholds = options?.threshold
       ? Array.isArray(options.threshold)
         ? options.threshold
@@ -46,14 +46,14 @@ Object.defineProperty(window, 'matchMedia', {
     removeListener: jest.fn(), // deprecated
     addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
+    dispatchEvent: jest.fn()
+})),
 });
 
 // Mock scrollTo
 Object.defineProperty(window, 'scrollTo', {
   value: jest.fn(),
-  writable: true,
+  writable: true
 });
 
 // Mock localStorage
@@ -61,10 +61,10 @@ const localStorageMock = {
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
-  clear: jest.fn(),
+  clear: jest.fn()
 };
 Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
+  value: localStorageMock
 });
 
 // Mock sessionStorage
@@ -72,10 +72,10 @@ const sessionStorageMock = {
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
-  clear: jest.fn(),
+  clear: jest.fn()
 };
 Object.defineProperty(window, 'sessionStorage', {
-  value: sessionStorageMock,
+  value: sessionStorageMock
 });
 
 // Mock requestAnimationFrame
@@ -89,9 +89,9 @@ Object.defineProperty(window, 'performance', {
     mark: jest.fn(),
     measure: jest.fn(),
     getEntriesByName: jest.fn(() => []),
-    getEntriesByType: jest.fn(() => []),
-  },
-  writable: true,
+    getEntriesByType: jest.fn(() => [])
+},
+  writable: true
 });
 
 // Suppress console warnings for tests
@@ -146,8 +146,8 @@ const gitMock = {
   mockGitStatus: {
     staged: [],
     unstaged: [],
-    untracked: [],
-  },
+    untracked: []
+},
   shouldFailCommands: false,
   setMockBranch: jest.fn((branch: string) => {
     gitMock.mockBranch = branch;
@@ -177,7 +177,7 @@ const gitMock = {
   resetMocks: jest.fn(() => {
     gitMock.mockStashes = [];
     gitMock.mockBranch = 'main';
-    gitMock.mockGitStatus = { staged: [], unstaged: [], untracked: [] };
+    gitMock.mockGitStatus = { staged: [], unstaged: [], untracked: [] },
     gitMock.shouldFailCommands = false;
   }),
 };
@@ -252,14 +252,14 @@ campaignMock.controller = {
       typeScriptErrorsReduced: 5,
       lintingWarningsReduced: 10,
       buildTimeImproved: 0.5,
-      enterpriseSystemsAdded: 2,
-    },
+      enterpriseSystemsAdded: 2
+},
     filesProcessed: 15,
     errorsFixed: 5,
     warningsFixed: 10,
     executionTime: 1000,
-    safetyEvents: [],
-  }),
+    safetyEvents: []
+}),
   validatePhaseCompletion: jest.fn().mockResolvedValue({ success: true, errors: [], warnings: [] }),
   createSafetyCheckpoint: jest.fn().mockResolvedValue('mock-checkpoint-id'),
   rollbackToCheckpoint: jest.fn().mockResolvedValue(undefined),
@@ -267,15 +267,15 @@ campaignMock.controller = {
     typeScriptErrors: { current: 50, target: 0, reduction: 36, percentage: 42 },
     lintingWarnings: { current: 2000, target: 0, reduction: 2506, percentage: 56 },
     buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-    enterpriseSystems: { current: 50, target: 200, transformedExports: 50 },
-  }),
+    enterpriseSystems: { current: 50, target: 200, transformedExports: 50 }
+}),
   pauseCampaign: jest.fn(),
   resumeCampaign: jest.fn(),
   isPaused: jest.fn().mockReturnValue(false),
   isRunning: jest.fn().mockReturnValue(false),
   getSafetyEvents: jest.fn().mockReturnValue([]),
   updateMockMetrics: jest.fn(),
-  resetMockState: jest.fn(),
+  resetMockState: jest.fn()
 };
 
 // Initialize tracker
@@ -301,21 +301,21 @@ campaignMock.tracker = {
     typeScriptErrors: { current: 50, target: 0, reduction: 36, percentage: 42 },
     lintingWarnings: { current: 2000, target: 0, reduction: 2506, percentage: 56 },
     buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-    enterpriseSystems: { current: 50, target: 200, transformedExports: 50 },
-  }),
+    enterpriseSystems: { current: 50, target: 200, transformedExports: 50 }
+}),
   generateProgressReport: jest.fn().mockResolvedValue({
     campaignId: 'mock-campaign',
     overallProgress: 65,
     phases: [],
     currentMetrics: {},
     targetMetrics: {},
-    estimatedCompletion: new Date(Date.now() + 3600000),
-  }),
+    estimatedCompletion: new Date(Date.now() + 3600000)
+}),
   startTracking: jest.fn(),
   stopTracking: jest.fn(),
   isTrackingActive: jest.fn().mockReturnValue(false),
   updateMockMetrics: jest.fn(),
-  resetMockState: jest.fn(),
+  resetMockState: jest.fn()
 };
 
 // Initialize safety
@@ -326,13 +326,13 @@ campaignMock.safety = {
     detectedFiles: [],
     corruptionPatterns: [],
     severity: 'LOW',
-    recommendedAction: 'CONTINUE',
-  }),
+    recommendedAction: 'CONTINUE'
+}),
   validateGitState: jest.fn().mockResolvedValue({ success: true, errors: [], warnings: [] }),
   emergencyRollback: jest.fn().mockResolvedValue(undefined),
   listStashes: jest.fn().mockResolvedValue([]),
   getSafetyEvents: jest.fn().mockReturnValue([]),
-  resetMockState: jest.fn(),
+  resetMockState: jest.fn()
 };
 
 // Initialize testController
@@ -351,13 +351,13 @@ campaignMock.testController = {
       pausedAt: null,
       resumedAt: null,
       testName: null,
-      originalState: null,
-    }),
+      originalState: null
+}),
   simulateProgress: jest.fn().mockResolvedValue(undefined),
   updateMockMetrics: jest.fn(),
   validateTestIsolation: jest.fn().mockReturnValue({ isValid: true, issues: [], warnings: [] }),
   getMockInstances: jest.fn().mockReturnValue({ controller: null, tracker: null, safety: null }),
-  getTestSafeTracker: jest.fn().mockReturnValue(null),
+  getTestSafeTracker: jest.fn().mockReturnValue(null)
 };
 
 // Initialize isolation (now that other components are defined)
@@ -365,12 +365,12 @@ campaignMock.isolation = {
   initializeMockCampaignSystem: jest.fn().mockReturnValue({
     controller: campaignMock.controller,
     tracker: campaignMock.tracker,
-    safety: campaignMock.safety,
-  }),
+    safety: campaignMock.safety
+}),
   pauseCampaignOperations: jest.fn(),
   resumeCampaignOperations: jest.fn(),
   resetAllMockStates: jest.fn(),
-  restoreEnvironment: jest.fn(),
+  restoreEnvironment: jest.fn()
 };
 
 // Initialize resetAllMocks
@@ -430,8 +430,8 @@ campaignMock.resetAllMocks = jest.fn(() => {
       heapUsed: `${(usage.heapUsed / 1024 / 1024).toFixed(2)}MB`,
       heapTotal: `${(usage.heapTotal / 1024 / 1024).toFixed(2)}MB`,
       external: `${(usage.external / 1024 / 1024).toFixed(2)}MB`,
-      arrayBuffers: `${(usage.arrayBuffers / 1024 / 1024).toFixed(2)}MB`,
-    };
+      arrayBuffers: `${(usage.arrayBuffers / 1024 / 1024).toFixed(2)}MB`
+};
   },
 
   // Force cleanup for memory-intensive tests
@@ -487,8 +487,8 @@ campaignMock.resetAllMocks = jest.fn(() => {
       tracker: campaignMock.tracker,
       safety: campaignMock.safety,
       testController: campaignMock.testController,
-      testSafeTracker: campaignMock.testController.getTestSafeTracker(),
-    };
+      testSafeTracker: campaignMock.testController.getTestSafeTracker()
+};
   },
 
   cleanupCampaignTest: async (testName: string) => {
@@ -503,13 +503,13 @@ expect.extend({
     if (pass) {
       return {
         message: () => `expected ${received} not to be within range ${floor} - ${ceiling}`,
-        pass: true,
-      };
+        pass: true
+};
     } else {
       return {
         message: () => `expected ${received} to be within range ${floor} - ${ceiling}`,
-        pass: false,
-      };
+        pass: false
+};
     }
   },
 });

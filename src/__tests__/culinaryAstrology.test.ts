@@ -30,18 +30,18 @@ jest.mock('@/calculations/culinaryAstrology', () => {
           technique: {
             name: 'Roasting',
             rationale: 'Aligns with Fire dominance',
-            optimalTiming: 'Best during full moon',
-          },
+            optimalTiming: 'Best during full moon'
+},
           ingredientFocus: {
             element: 'Fire',
             examples: ['Beef', 'Lamb', 'Chicken'],
-            pairingTip: 'Combine with Air-dominant preparations',
-          },
+            pairingTip: 'Combine with Air-dominant preparations'
+},
           cuisineRecommendation: {
             style: 'Mediterranean',
             modification: 'Use more spices',
-            astrologicalBoost: 0.75,
-          },
+            astrologicalBoost: 0.75
+},
         };
       }
     },
@@ -49,7 +49,7 @@ jest.mock('@/calculations/culinaryAstrology', () => {
 });
 
 describe('CulinaryAstrologer', () => {
-  let astrologer: CulinaryAstrologer;
+  let astrologer: CulinaryAstrologer,
 
   beforeEach(() => {
     astrologer = new CulinaryAstrologer();
@@ -61,23 +61,23 @@ describe('CulinaryAstrologer', () => {
       moonPhase: 'full moon',
       currentPlanetaryAlignment: {
         Sun: { sign: 'leo', degree: 15 },
-        Moon: { sign: 'cancer', degree: 5 },
-      },
+        Moon: { sign: 'cancer', degree: 5 }
+},
       activePlanets: ['sun', 'moon'],
       planetaryPositions: {
         sun: { sign: 'leo', degree: 15 },
-        moon: { sign: 'cancer', degree: 5 },
-      },
+        moon: { sign: 'cancer', degree: 5 }
+},
       lunarPhase: 'full moon',
       planetaryHour: 'Sun',
       planetaryAlignment: {
         Sun: { sign: 'leo', degree: 15 },
-        Moon: { sign: 'cancer', degree: 5 },
-      },
+        Moon: { sign: 'cancer', degree: 5 }
+},
       aspects: [],
       tarotElementBoosts: { Fire: 0.2, Water: 0.1, Air: 0, Earth: 0 },
-      tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 },
-    };
+      tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 }
+};
 
     const recommendations = astrologer.getRecipeRecommendations(astroState);
 

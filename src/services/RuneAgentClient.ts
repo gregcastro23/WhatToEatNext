@@ -76,7 +76,7 @@ function generateLocalRune(): RuneResult {
     meaning: selected.meaning,
     influence: {
       elemental: { Fire: 0.3, Water: 0.2, Earth: 0.25, Air: 0.25 },
-      energy: { Spirit: 0.5, Essence: 0.4, Matter: 0.3, Substance: 0.6 }
+      energy: { Spirit: 0.5, Essence: 0.4, Matter: 0.3, Substance: 0.6 },
       guidance: `The ${selected.name} rune suggests focusing on ${selected.meaning.toLowerCase()}`
     }
   }

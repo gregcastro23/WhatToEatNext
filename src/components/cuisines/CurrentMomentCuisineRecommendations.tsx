@@ -61,65 +61,65 @@ import {
 } from 'react-icons/fa';
 
 interface CurrentMoment {
-  zodiac_sign: string;
-  season: string;
-  meal_type?: string;
+  zodiac_sign: string,
+  season: string,
+  meal_type?: string,
   timestamp: string;
 }
 
 interface NestedRecipe {
-  recipe_id: string;
-  name: string;
-  description: string;
-  prep_time?: string;
-  cook_time?: string;
-  servings?: number;
-  difficulty?: string;
+  recipe_id: string,
+  name: string,
+  description: string,
+  prep_time?: string,
+  cook_time?: string,
+  servings?: number,
+  difficulty?: string,
   ingredients: Array<{
-    name: string;
-    amount?: string;
-    unit?: string;
+    name: string,
+    amount?: string,
+    unit?: string,
     notes?: string;
   }>;
-  instructions: string[];
-  meal_type: string;
+  instructions: string[],
+  meal_type: string,
   seasonal_fit: string;
 }
 
 interface SauceRecommendation {
-  sauce_name: string;
-  description: string;
-  key_ingredients?: string[];
+  sauce_name: string,
+  description: string,
+  key_ingredients?: string[],
   elemental_properties?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
     Air: number;
   };
-  compatibility_score: number;
+  compatibility_score: number,
   reason: string;
 }
 
 interface CuisineRecommendation {
-  cuisine_id: string;
-  name: string;
-  description: string;
+  cuisine_id: string,
+  name: string,
+  description: string,
   elemental_properties: {
-    Fire: number;
-    Water: number;
-    Earth: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
     Air: number;
   };
-  nested_recipes: NestedRecipe[];
-  recommended_sauces: SauceRecommendation[];
-  seasonal_context: string;
-  astrological_score: number;
+  nested_recipes: NestedRecipe[],
+  recommended_sauces: SauceRecommendation[],
+  seasonal_context: string,
+  astrological_score: number,
   compatibility_reason: string;
 }
 
 interface CuisineResponse {
-  current_moment: CurrentMoment;
-  cuisine_recommendations: CuisineRecommendation[];
+  current_moment: CurrentMoment,
+  cuisine_recommendations: CuisineRecommendation[],
   total_recommendations: number;
 }
 
@@ -163,7 +163,7 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
       setLoading(true);
       setError('');
 
-      const response = await fetch('http://localhost:8101/cuisines/recommend');
+      const response = await fetch('http: //localhost:8101/cuisines/recommend'),
       if (!response.ok) {
         throw new Error('Failed to fetch cuisine recommendations');
       }
@@ -182,9 +182,8 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
   }, [fetchCuisineRecommendations]);
 
   const getElementIcon = (element: string) => ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS] || FaStar;
-  const getElementColor = (element: string) => ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS] || 'gray';
-
-  const renderElementalProperties = (properties: { Fire: number; Water: number; Earth: number; Air: number }) => (
+  const getElementColor = (element: string) => ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS] || 'gray'
+  const renderElementalProperties = (properties: { Fire: number; Water: number, Earth: number, Air: number }) => (
     <HStack spacing={2} wrap="wrap">
       {Object.entries(properties).map(([element, value]) => (
         <Tooltip key={element} label={`${element}: ${(value * 100).toFixed(0)}%`}>

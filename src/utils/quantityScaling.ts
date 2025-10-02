@@ -108,7 +108,7 @@ export function scaleElementalProperties(
 
   // Apply scaling with "like reinforces like" principle
   Object.keys(scaled).forEach(element => {
-    const baseValue = base[element as keyof ElementalProperties];
+    const baseValue = base[element as keyof ElementalProperties],
 
     if (element === dominantElement.key) {
       // Dominant element gets enhanced scaling (reinforces itself)
@@ -124,7 +124,7 @@ export function scaleElementalProperties(
   if (sum > 0) {
     const normalizationFactor = 1.0 / sum;
     Object.keys(scaled).forEach(element => {
-      scaled[element as keyof ElementalProperties] *= normalizationFactor;
+      scaled[element as keyof ElementalProperties] *= normalizationFactor,
     });
   }
 
@@ -167,7 +167,7 @@ export function scaleAlchemicalProperties(
 
   // Apply basic scaling
   Object.keys(scaled).forEach(property => {
-    scaled[property as keyof AlchemicalProperties] *= factor;
+    scaled[property as keyof AlchemicalProperties] *= factor,
   });
 
   // Apply kinetics modulation if available
@@ -244,12 +244,11 @@ export function createQuantityScaledProperties(
  * @param ingredients - Array of ingredient data with quantity info
  * @returns Array of scaled ingredient properties
  */
-export function batchScaleIngredients(
-  ingredients: Array<{
-    baseElemental: ElementalProperties;
-    quantity: number;
-    unit: string;
-    kinetics?: ThermodynamicMetrics;
+export function batchScaleIngredients(ingredients: Array<{
+    baseElemental: ElementalProperties,
+    quantity: number,
+    unit: string,
+    kinetics?: ThermodynamicMetrics,
   }>
 ): QuantityScaledProperties[] {
   return ingredients.map(ingredient =>
@@ -268,7 +267,7 @@ export function batchScaleIngredients(
  * @returns Validation result with issues if any
  */
 export function validateScalingIntegrity(scaled: QuantityScaledProperties): {
-  isValid: boolean;
+  isValid: boolean,
   issues: string[];
 } {
   const issues: string[] = [];

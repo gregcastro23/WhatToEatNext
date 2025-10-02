@@ -19,7 +19,7 @@ export default function NotFoundError({
       <div className='max-w-md text-center'>
         <h2 className='mb-4 text-2xl font-bold text-red-500'>Page Not Found</h2>
         <p className='text-text/80 mb-4'>
-          The page you&apos;re looking for doesn&apos,t exist or has been moved.
+          The page you&apos,re looking for doesn&apos,t exist or has been moved.
         </p>
         <button
           onClick={() => (window.location.href = '/')}

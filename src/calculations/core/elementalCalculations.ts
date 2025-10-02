@@ -35,7 +35,7 @@ export function calculateBaseElementalProperties(planetaryPositions: { [key: str
     Water: 0,
     Earth: 0,
     Air: 0
-  };
+};
 
   // Elemental mapping for zodiac signs
   const signElements: Record<string, Element> = {
@@ -51,7 +51,7 @@ export function calculateBaseElementalProperties(planetaryPositions: { [key: str
     capricorn: 'Earth',
     aquarius: 'Air',
     pisces: 'Water'
-  };
+};
 
   // Calculate elemental influence from each planet
   for (const [planetName, position] of Object.entries(planetaryPositions)) {
@@ -117,37 +117,37 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         Water: 1.05,
         Earth: 1.0,
         Air: 1.1
-      },
+},
       recipe: {
         Fire: 1.15,
         Water: 1.1,
         Earth: 1.05,
         Air: 1.15
-      },
+},
       cuisine: {
         Fire: 1.2,
         Water: 1.15,
         Earth: 1.1,
         Air: 1.2
-      },
+},
       cooking: {
         Fire: 1.05,
         Water: 1.0,
         Earth: 1.0,
         Air: 1.05
-      },
+},
       preparation: {
         Fire: 1.0,
         Water: 1.0,
         Earth: 1.0,
         Air: 1.0
-      },
+},
       general: {
         Fire: 1.0,
         Water: 1.0,
         Earth: 1.0,
         Air: 1.0
-      }
+}
     };
 
     const elementalMultipliers = contextElementalMultipliers[context] || contextElementalMultipliers.general;
@@ -188,8 +188,8 @@ export function analyzeElementalCompatibility(
   ingredient1Elements: ElementalProperties,
   ingredient2Elements: ElementalProperties
 ): {
-  compatibility: number;
-  dominantElement: Element;
+  compatibility: number,
+  dominantElement: Element,
   complementaryElements: Element[];
 } {
   // Calculate compatibility based on elemental balance

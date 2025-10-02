@@ -9,7 +9,7 @@
 import { ESLint } from 'eslint';
 
 describe('Astrological ESLint Rules', () => {
-  let eslint: ESLint;
+  let eslint: ESLint,
 
   beforeAll(() => {
     // Create ESLint instance with our custom rules
@@ -21,13 +21,13 @@ describe('Astrological ESLint Rules', () => {
           parser: require('@typescript-eslint/parser'),
           parserOptions: {
             ecmaFeatures: {
-              jsx: true,
-            },
+              jsx: true
+},
           },
         },
         plugins: {
-          astrological: require('../../eslint-plugins/astrological-rules.cjs'),
-        },
+          astrological: require('../../eslint-plugins/astrological-rules.cjs')
+},
         rules: {
           'astrological/preserve-planetary-constants': 'error',
           'astrological/validate-planetary-position-structure': 'error',
@@ -36,8 +36,8 @@ describe('Astrological ESLint Rules', () => {
           'astrological/preserve-fallback-values': 'error',
         },
       },
-      useEslintrc: false,
-    });
+      useEslintrc: false
+});
   });
 
   describe('preserve-planetary-constants rule', () => {
@@ -47,7 +47,7 @@ describe('Astrological ESLint Rules', () => {
         DEGREES_PER_SIGN = 25; // This should error
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -57,11 +57,11 @@ describe('Astrological ESLint Rules', () => {
 
     test('should error when modifying constant object properties', async () => {
       const code = `
-        const RELIABLE_POSITIONS = { sun: { sign: 'aries' } };
+        const RELIABLE_POSITIONS = { sun: { sign: 'aries' } },
         RELIABLE_POSITIONS.sun = { sign: 'taurus' }; // This should error
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -75,7 +75,7 @@ describe('Astrological ESLint Rules', () => {
         MAX_LONGITUDE++; // This should error
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -90,7 +90,7 @@ describe('Astrological ESLint Rules', () => {
         console.log(RELIABLE_POSITIONS.sun.sign); // This should be fine
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -107,7 +107,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -124,10 +124,10 @@ describe('Astrological ESLint Rules', () => {
           degree: 15.5,
           exactLongitude: 15.5,
           isRetrograde: false
-        };
+};
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -138,15 +138,15 @@ describe('Astrological ESLint Rules', () => {
         const UNUSED_config = {
           timeout: 5000,
           retries: 3
-        };
+};
 
         const UNUSED_user = {
           name: 'John',
           age: 30
-        };
+};
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -163,7 +163,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -183,7 +183,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -196,13 +196,13 @@ describe('Astrological ESLint Rules', () => {
       const code = `
         const properties = {
           Fire: 1.5, // Too high
-          Water: -0.1, // Too low
+    Water: -0.1, // Too low
           Earth: 0.3,
           Air: 0.2
-        };
+};
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(2);
@@ -217,10 +217,10 @@ describe('Astrological ESLint Rules', () => {
           Water: 0.1,
           Earth: 0.1,
           Air: 0.1
-        };
+};
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -237,8 +237,8 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results = eslint.lintText(code, {
-        filePath: 'src/calculations/planetary.ts',
-      });
+        filePath: 'src/calculations/planetary.ts'
+});
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -257,8 +257,8 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results = eslint.lintText(code, {
-        filePath: 'src/calculations/planetary.ts',
-      });
+        filePath: 'src/calculations/planetary.ts'
+});
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -277,8 +277,8 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results = eslint.lintText(code, {
-        filePath: 'src/calculations/planetary.ts',
-      });
+        filePath: 'src/calculations/planetary.ts'
+});
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -292,8 +292,8 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results = eslint.lintText(code, {
-        filePath: 'src/components/Button.tsx',
-      });
+        filePath: 'src/components/Button.tsx'
+});
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -307,7 +307,7 @@ describe('Astrological ESLint Rules', () => {
         const RELIABLE_DATA = undefined; // This should error
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(2);
@@ -319,11 +319,11 @@ describe('Astrological ESLint Rules', () => {
 
     test('should error when fallback variable reassigned to null', async () => {
       const code = `
-        let MARCH2025_POSITIONS = { sun: { sign: 'aries' } };
+        let MARCH2025_POSITIONS = { sun: { sign: 'aries' } },
         MARCH2025_POSITIONS = null; // This should error
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(1);
@@ -341,7 +341,7 @@ describe('Astrological ESLint Rules', () => {
         RELIABLE_DATA = { updated: true };
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -354,7 +354,7 @@ describe('Astrological ESLint Rules', () => {
         regularVariable = null;
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -365,9 +365,9 @@ describe('Astrological ESLint Rules', () => {
     test('should work with TypeScript files', async () => {
       const code = `
         interface PlanetaryPosition {
-          sign: string;
-          degree: number;
-          exactLongitude: number;
+          sign: string,
+          degree: number,
+          exactLongitude: number,
           isRetrograde: boolean;
         }
 
@@ -376,10 +376,10 @@ describe('Astrological ESLint Rules', () => {
           degree: 15.5,
           exactLongitude: 15.5,
           isRetrograde: false
-        };
+};
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -391,9 +391,9 @@ describe('Astrological ESLint Rules', () => {
 
         interface Props {
           elementalProperties: {
-            Fire: number;
-            Water: number;
-            Earth: number;
+            Fire: number,
+            Water: number,
+            Earth: number,
             Air: number;
           };
         }
@@ -403,7 +403,7 @@ describe('Astrological ESLint Rules', () => {
         };
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.tsx' });
+      const results = eslint.lintText(code, { filePath: 'test.tsx' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);
@@ -422,14 +422,14 @@ describe('Astrological ESLint Rules', () => {
             degree: ${i},
             exactLongitude: ${i},
             isRetrograde: false
-          };
+};
         `,
           )
           .join('\n')}
       `;
 
       const startTime = Date.now();
-      const results = eslint.lintText(largeCode, { filePath: 'test.ts' });
+      const results = eslint.lintText(largeCode, { filePath: 'test.ts' }),
       const endTime = Date.now();
 
       expect(endTime - startTime).toBeLessThan(1000); // Should complete within 1 second
@@ -459,18 +459,18 @@ describe('Astrological ESLint Rules', () => {
               degree: 10.5,
               exactLongitude: 70.5,
               isRetrograde: true
-            },
+},
             properties: {
               Fire: 0.3,
               Water: 0.2,
               Earth: 0.2,
               Air: 0.3
-            }
+}
           }
         };
       `;
 
-      const results = eslint.lintText(code, { filePath: 'test.ts' });
+      const results = eslint.lintText(code, { filePath: 'test.ts' }),
       const messages = results[0].messages;
 
       expect(messages).toHaveLength(0);

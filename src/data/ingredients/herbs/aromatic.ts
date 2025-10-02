@@ -193,7 +193,7 @@ const rawAromaticHerbs = {
       }
     },
     modality: 'Cardinal'
-  },
+},
 
   'lemon verbena': {
     name: 'Lemon Verbena',
@@ -250,7 +250,7 @@ const rawAromaticHerbs = {
       }
     },
     modality: 'Mutable'
-  },
+},
 
   savory: {
     name: 'Savory',
@@ -314,7 +314,7 @@ const rawAromaticHerbs = {
       }
     },
     modality: 'Fixed'
-  },
+},
 
   'curry leaf': {
     name: 'Curry Leaf',
@@ -373,7 +373,7 @@ const rawAromaticHerbs = {
       }
     },
     modality: 'Cardinal'
-  },
+},
 
   chervil: {
     name: 'Chervil',
@@ -427,7 +427,7 @@ const rawAromaticHerbs = {
     },
     traditionalUses: {},
     modality: 'Mutable'
-  },
+},
 
   dill: {
     name: 'Dill',
@@ -436,7 +436,7 @@ const rawAromaticHerbs = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-    },
+},
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -457,7 +457,7 @@ const rawAromaticHerbs = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-    },
+},
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -477,7 +477,7 @@ const rawAromaticHerbs = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-    },
+},
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {

@@ -143,15 +143,15 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
   // Current planetary positions (May 16, 2024) from user input
   const hardcodedPositions: Record<string, { sign: any; degree: number, minute: number }> = {
     Sun: { sign: 'taurus', degree: 27, minute: 12 },
-    Moon: { sign: 'capricorn', degree: 25, minute: 36 }
+    Moon: { sign: 'capricorn', degree: 25, minute: 36 },
     Mercury: { sign: 'taurus', degree: 13, minute: 17 },
-    Venus: { sign: 'aries', degree: 12, minute: 10 }
+    Venus: { sign: 'aries', degree: 12, minute: 10 },
     Mars: { sign: 'leo', degree: 13, minute: 44 },
-    Jupiter: { sign: 'gemini', degree: 24, minute: 53 }
+    Jupiter: { sign: 'gemini', degree: 24, minute: 53 },
     Saturn: { sign: 'pisces', degree: 29, minute: 25 },
-    Uranus: { sign: 'taurus', degree: 27, minute: 17 }
+    Uranus: { sign: 'taurus', degree: 27, minute: 17 },
     Neptune: { sign: 'aries', degree: 1, minute: 33 },
-    Pluto: { sign: 'aquarius', degree: 3, minute: 46 }
+    Pluto: { sign: 'aquarius', degree: 3, minute: 46 },
     _Ascendant: { sign: 'libra', degree: 23, minute: 47 }
   }
 

@@ -13,8 +13,8 @@ jest.mock('next/navigation', () => ({
     back: jest.fn(),
     forward: jest.fn(),
     refresh: jest.fn(),
-    replace: jest.fn(),
-  }),
+    replace: jest.fn()
+}),
 }));
 
 void jest.mock('@/contexts/AlchemicalContext/hooks');
@@ -24,8 +24,8 @@ jest.mock('@/utils/logger', () => ({
     debug: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
-    error: jest.fn(),
-  },
+    error: jest.fn()
+},
 }));
 
 // Mock components with realistic behavior
@@ -93,7 +93,7 @@ jest.mock('@/components/CookingMethodsSection', () => {
     maxDisplayed = 6,
     onViewMore,
   }: {
-    maxDisplayed?: number;
+    maxDisplayed?: number,
     onViewMore?: () => void;
   }) {
     const [selectedMethod, setSelectedMethod] = React.useState<string | null>(null);
@@ -187,29 +187,29 @@ describe('Main Page Integration Tests', () => {
   const mockAlchemicalContext = {
     state: {
       astrologicalState: {
-        sunSign: 'aries',
-      },
+        sunSign: 'aries'
+},
       elementalState: {
         Fire: 0.3,
         Water: 0.2,
         Earth: 0.3,
-        Air: 0.2,
-      },
+        Air: 0.2
+},
     },
     planetaryPositions: {
-      sun: { sign: 'aries' },
-    },
-    isDaytime: true,
-  };
+      sun: { sign: 'aries' }
+},
+    isDaytime: true
+};
 
   const mockNavigationState = {
     saveState: jest.fn(),
-    getState: jest.fn(() => ({})),
-  };
+    getState: jest.fn(() => ({}))
+};
 
   const mockScrollPreservation = {
-    restoreScrollPosition: jest.fn(),
-  };
+    restoreScrollPosition: jest.fn()
+};
 
   beforeEach(() => {
     void jest.clearAllMocks();
@@ -222,8 +222,8 @@ describe('Main Page Integration Tests', () => {
     // Mock window.scrollY
     Object.defineProperty(window, 'scrollY', {
       value: 0,
-      writable: true,
-    });
+      writable: true
+});
 
     // Mock getElementById for navigation
     jest.spyOn(document, 'getElementById').mockImplementation(
@@ -233,8 +233,8 @@ describe('Main Page Integration Tests', () => {
           style: {},
           classList: {
             add: jest.fn(),
-            remove: jest.fn(),
-          },
+            remove: jest.fn()
+},
         }) as any,
     );
   });
@@ -325,8 +325,8 @@ describe('Main Page Integration Tests', () => {
     });
 
     // Verify selections are maintained
-    expect(screen.getByText('Selected: Italian')).toBeInTheDocument();
-    expect(screen.getByText('Selected: Tomatoes')).toBeInTheDocument();
+    expect(screen.getByText('Selected: Italian')).toBeInTheDocument(),
+    expect(screen.getByText('Selected: Tomatoes')).toBeInTheDocument(),
     expect(screen.getByText('Selected: Sauté')).toBeInTheDocument();
 
     // Verify state saving was called
@@ -358,7 +358,7 @@ describe('Main Page Integration Tests', () => {
     void user.click(addStepButton);
 
     // Verify counts
-    expect(screen.getByText('Ingredients: 2')).toBeInTheDocument();
+    expect(screen.getByText('Ingredients: 2')).toBeInTheDocument(),
     expect(screen.getByText('Steps: 1')).toBeInTheDocument();
 
     // Save button should be enabled
@@ -399,7 +399,7 @@ describe('Main Page Integration Tests', () => {
     });
 
     expect(screen.getByText('Debug Panel')).toBeInTheDocument();
-    expect(screen.getByText('Performance: OK')).toBeInTheDocument();
+    expect(screen.getByText('Performance: OK')).toBeInTheDocument(),
     expect(screen.getByText('Astrological State: Active')).toBeInTheDocument();
   });
 
@@ -453,13 +453,13 @@ describe('Main Page Integration Tests', () => {
 
   it('handles view more navigation', async () => {
     const mockRouter = {
-      push: jest.fn(),
-    };
+      push: jest.fn()
+};
 
     // We need to mock the router for this specific test
     jest.doMock('next/navigation', () => ({
-      useRouter: () => mockRouter,
-    }));
+      useRouter: () => mockRouter
+}));
 
     act(async () => {
       render(<MainPageLayout />);
@@ -482,8 +482,8 @@ describe('Main Page Integration Tests', () => {
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
       configurable: true,
-      value: 768,
-    });
+      value: 768
+});
 
     act(async () => {
       render(<MainPageLayout />);

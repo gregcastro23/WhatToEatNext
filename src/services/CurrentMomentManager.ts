@@ -499,9 +499,9 @@ class CurrentMomentManager {
   private getFallbackPositions(): Record<string, PlanetPosition> {
     return {
       Sun: { sign: 'cancer', degree: 10, minute: 45, exactLongitude: 100.75, isRetrograde: false },
-      Moon: { sign: 'libra', degree: 18, minute: 19, exactLongitude: 198.32, isRetrograde: false }
+      Moon: { sign: 'libra', degree: 18, minute: 19, exactLongitude: 198.32, isRetrograde: false },
       Mercury: { sign: 'leo', degree: 2, minute: 9, exactLongitude: 122.15, isRetrograde: false },
-      Venus: { sign: 'leo', degree: 14, minute: 51, exactLongitude: 134.85, isRetrograde: false }
+      Venus: { sign: 'leo', degree: 14, minute: 51, exactLongitude: 134.85, isRetrograde: false },
       Mars: { sign: 'taurus', degree: 25, minute: 25, exactLongitude: 55.42, isRetrograde: false },
       Jupiter: {
         sign: 'gemini',

@@ -97,10 +97,10 @@ export class EnhancedRecommendationService {
       { name: 'French', type: 'French' as CuisineType }
     ],
 
-    const scoredCuisines = cuisines.map(cuisine => {,
+    const scoredCuisines = cuisines.map(cuisine => {;
       const baseScore = Math.random() * 0.6 + 0.2; // 0.2-0.8 base
       let runeInfluence = 0;
-      let agentResonance = 0,
+      let agentResonance = 0;
       let tokenAlignment = 0;
       let thermodynamicHarmony = 0,
 
@@ -211,11 +211,11 @@ export class EnhancedRecommendationService {
       { id: '5', name: 'Mushroom', category: 'Vegetable' }
     ],
 
-    const scoredIngredients = ingredients.map(ingredient => {,
+    const scoredIngredients = ingredients.map(ingredient => {;
       const baseScore = Math.random() * 0.6 + 0.2;
-      const runeInfluence = runeAgent ? Math.random() * 0.1: 0,
+      const runeInfluence = runeAgent ? Math.random() * 0.1: 0;
       const agentResonance = runeAgent ? Math.random() * 0.15: 0,
-      const tokenAlignment = tokens ? Math.random() * 0.1: 0,
+      const tokenAlignment = tokens ? Math.random() * 0.1: 0;
       const thermodynamicHarmony = 0.02;
 
       const finalScore = Math.min(1, baseScore + runeInfluence + agentResonance + tokenAlignment + thermodynamicHarmony)
@@ -293,11 +293,11 @@ export class EnhancedRecommendationService {
       { id: '3', name: 'Beef Tacos', cuisine: 'Mexican', ingredients: [] }
     ],
 
-    const scoredRecipes = recipes.map(recipe => {,
+    const scoredRecipes = recipes.map(recipe => {;
       const baseScore = Math.random() * 0.6 + 0.2;
-      const runeInfluence = runeAgent ? Math.random() * 0.1: 0,
+      const runeInfluence = runeAgent ? Math.random() * 0.1: 0;
       const agentResonance = runeAgent ? Math.random() * 0.15: 0,
-      const tokenAlignment = tokens ? Math.random() * 0.1: 0,
+      const tokenAlignment = tokens ? Math.random() * 0.1: 0;
       const thermodynamicHarmony = 0.02;
 
       const finalScore = Math.min(1, baseScore + runeInfluence + agentResonance + tokenAlignment + thermodynamicHarmony)

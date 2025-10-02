@@ -145,13 +145,13 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
   // List of major planets with their Horizons object IDs
   const planets = [
     { name: 'Sun', id: '10' },
-    { name: 'Moon', id: '301' }
+    { name: 'Moon', id: '301' },
     { name: 'Mercury', id: '199' },
-    { name: 'Venus', id: '299' }
+    { name: 'Venus', id: '299' },
     { name: 'Mars', id: '499' },
-    { name: 'Jupiter', id: '599' }
+    { name: 'Jupiter', id: '599' },
     { name: 'Saturn', id: '699' },
-    { name: 'Uranus', id: '799' }
+    { name: 'Uranus', id: '799' },
     { name: 'Neptune', id: '899' },
     { name: 'Pluto', id: '999' }
   ],
@@ -340,17 +340,17 @@ function getMarch2025Positions(date: Date | unknown = new Date()): Record<string
   // Current accurate positions as of March 28, 2025
   const positions: Record<string, unknown> = {
     sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-    moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
+    moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
     mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
-    venus: { sign: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true }
+    venus: { sign: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true },
     mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false },
-    jupiter: { sign: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false }
+    jupiter: { sign: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false },
     saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false },
-    uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false }
+    uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
     neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
-    pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false }
+    pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
     northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
-    southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
+    southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
     _ascendant: { sign: 'libra', degree: 7.82, exactLongitude: 187.82, isRetrograde: false }
   }
 

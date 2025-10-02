@@ -14,7 +14,7 @@ interface CacheEntry {
 }
 
 const CACHE_TTL_MS = 60 * 1000; // 1 minute
-let cache: CacheEntry | null = null;
+let cache: CacheEntry | null = null,
 
 function makeKey(date?: Date, lat?: number, lon?: number, system?: 'tropical' | 'sidereal') {
   return JSON.stringify({
@@ -29,7 +29,7 @@ function isFresh(entry: CacheEntry | null, key: string): entry is CacheEntry {
   return !!entry && entry.key === key && Date.now() - entry.timestamp < CACHE_TTL_MS;
 }
 
-function normalizeFromEngine(raw: Record<string, { sign: any; degree: number, exactLongitude: number, isRetrograde: boolean }>): PositionRecord {
+function normalizeFromEngine(raw: Record<string, { sign: any, degree: number, exactLongitude: number, isRetrograde: boolean }>): PositionRecord {
   const out: PositionRecord = {}
   Object.entries(raw || {}).forEach(([planet, p]) => {
     out[planet] = {

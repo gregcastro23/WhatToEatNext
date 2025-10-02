@@ -119,12 +119,9 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
     switch (element.toLowerCase()) {
       case 'fire':
         return '🔥'
-      case 'water':
-        return '💧';
-      case 'air':
-        return '💨';
-      case 'earth':
-        return '🌍';
+      case 'water': return '💧',
+      case 'air': return '💨',
+      case 'earth': return '🌍',
       default: return ''
     }
   }

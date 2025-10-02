@@ -9,7 +9,7 @@ const rawPome = {
       Water: 0.3,
       Air: 0.2,
       Fire: 0
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
       favorableZodiac: ['taurus', 'capricorn', 'libra'],
@@ -35,7 +35,7 @@ const rawPome = {
       minerals: ['potassium'],
       antioxidants: ['quercetin', 'catechin', 'chlorogenic acid'],
       notes: 'High in pectin and polyphenols'
-    },
+},
     varieties: {
       Honeycrisp: {
         appearance: 'mottled red over yellow background',
@@ -43,49 +43,49 @@ const rawPome = {
         flavor: 'sweet-tart balance, honey notes',
         best_uses: ['eating fresh', 'salads'],
         storage: 'excellent keeper'
-      },
+},
       'Granny Smith': {
         appearance: 'bright green',
         texture: 'very firm, crisp',
         flavor: 'tart, acidic, minimal sweetness',
         best_uses: ['baking', 'pies', 'savory applications'],
         storage: 'excellent keeper'
-      },
+},
       Gala: {
         appearance: 'red-orange striped',
         texture: 'crisp, dense flesh',
         flavor: 'mildly sweet, floral notes',
         best_uses: ['eating fresh', 'salads', 'applesauce'],
         storage: 'good keeper'
-      },
+},
       Fuji: {
         appearance: 'red blush over yellow-green',
         texture: 'very crisp, dense',
         flavor: 'very sweet, low acidity',
         best_uses: ['eating fresh', 'salads', 'applesauce'],
         storage: 'excellent keeper'
-      },
+},
       'Pink Lady': {
         appearance: 'pink-red blush',
         texture: 'firm, crisp',
         flavor: 'sweet-tart balance, complex',
         best_uses: ['eating fresh', 'salads', 'baking'],
         storage: 'excellent keeper'
-      },
+},
       'Golden Delicious': {
         appearance: 'yellow-green',
         texture: 'soft to firm depending on ripeness',
         flavor: 'sweet, mild, honey notes',
         best_uses: ['eating fresh', 'baking', 'applesauce'],
         storage: 'moderate keeper'
-      },
+},
       Braeburn: {
         appearance: 'red striped over yellow-green',
         texture: 'very firm, crisp',
         flavor: 'intense sweet-tart, spicy notes',
         best_uses: ['eating fresh', 'baking', 'pies'],
         storage: 'excellent keeper'
-      }
+}
     },
     culinaryApplications: {
       raw: {
@@ -122,19 +122,19 @@ const rawPome = {
       peeling: 'Optional - peel for sauces and some baked goods, leave on for fiber and color',
       coring: 'Remove core and seeds using apple corer or knife',
       preventing_browning: 'Toss with lemon juice or ascorbic acid solution'
-    },
+},
     storage: {
       fresh: {
         temperature: 'Refrigerated 32-35°F (0-1.6°C)',
         humidity: 'High',
         duration: '1-4 months depending on variety',
         notes: 'Store away from ethylene-sensitive produce'
-      },
+},
       frozen: {
         preparation: 'Slice or dice, treat with ascorbic acid',
         duration: 'Up to 12 months',
         uses: 'Best for cooking applications after freezing'
-      }
+}
     },
     pairings: ['cinnamon', 'caramel', 'cheddar_cheese', 'pork', 'walnut', 'oats', 'vanilla'],
     substitutions: ['pear', 'quince', 'asian_pear'],
@@ -147,7 +147,7 @@ const rawPome = {
       British: 'Apple crumble, cider, sauce for pork',
       French: 'Tarte tatin, calvados (apple brandy)',
       German: 'Apfelstrudel, apfelkuchen (apple cake)',
-      Scandinavian: 'Apple soup, compotes with cardamom'
+      Scandinavian: 'Apple soup, compotes with cardamom',
     }
   },
   pear: {
@@ -157,7 +157,7 @@ const rawPome = {
       Earth: 0.4,
       Air: 0.2,
       Fire: 0
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer', 'libra'],
@@ -183,14 +183,14 @@ const rawPome = {
       minerals: ['copper', 'potassium'],
       antioxidants: ['flavonoids', 'catechins', 'epicatechin'],
       notes: 'Higher copper content than most fruits'
-    },
+},
     varieties: {
       Bartlett: {
         appearance: 'classic pear shape, green to yellow when ripe',
         texture: 'buttery, juicy when ripe',
         flavor: 'aromatic, sweet, classic pear flavor',
         best_uses: ['eating fresh', 'canning', 'baby food'],
-        ripening: 'ripens after harvest, changes color'
+        ripening: 'ripens after harvest, changes color',
       },
       Anjou: {
         appearance: 'egg-shaped, green or red varieties',
@@ -198,27 +198,27 @@ const rawPome = {
         flavor: 'mildly sweet, refreshing',
         best_uses: ['eating fresh', 'salads', 'poaching'],
         ripening: 'does not change color when ripe'
-      },
+},
       Bosc: {
         appearance: 'elegant neck, russet brown skin',
         texture: 'firm, dense flesh',
         flavor: 'spicy, complex sweetness',
         best_uses: ['poaching', 'baking', 'cooking applications'],
         ripening: 'best when slightly firm'
-      },
+},
       Comice: {
         appearance: 'squat, blunt bottom, green-yellow',
         texture: 'exceptionally soft, juicy',
         flavor: 'very sweet, richest flavor',
         best_uses: ['eating fresh', 'cheese pairings', 'special occasions'],
-        ripening: 'delicate, bruises easily'
+        ripening: 'delicate, bruises easily',
       },
       Seckel: {
         appearance: 'very small, chubby, russet and red',
         texture: 'crisp, dense',
         flavor: 'intensely sweet, concentrated',
         best_uses: ['pickling', 'preserving', 'garnish', 'one-bite desserts'],
-        ripening: 'naturally small, not an immature pear'
+        ripening: 'naturally small, not an immature pear',
       },
       Forelle: {
         appearance: 'small, bell-shaped, green with red lenticels',
@@ -226,7 +226,7 @@ const rawPome = {
         flavor: 'tangy-sweet, refreshing',
         best_uses: ['eating fresh', 'decorative uses', 'salads'],
         ripening: 'develops distinctive red freckles when ripe'
-      }
+}
     },
     culinaryApplications: {
       raw: {
@@ -260,18 +260,18 @@ const rawPome = {
       testing_ripeness: 'Check neck for slight give - perfect ripeness window is short',
       peeling: 'Use vegetable peeler for thinnest peel removal',
       preventing_browning: 'Dip in lemon water after cutting to prevent browning'
-    },
+},
     storage: {
       ripening: {
         temperature: 'Room temperature',
         duration: '2-7 days depending on initial ripeness',
         notes: 'Ripening can be accelerated in paper bag with banana'
-      },
+},
       ripe: {
         temperature: 'Refrigerated 32-35°F (0-1.6°C)',
         duration: '3-5 days when ripe',
         notes: 'Refrigeration halts ripening process'
-      }
+}
     },
     pairings: ['blue_cheese', 'walnuts', 'cinnamon', 'vanilla', 'chocolate', 'red_wine', 'ginger'],
     substitutions: ['apple', 'quince', 'asian_pear'],
@@ -284,7 +284,7 @@ const rawPome = {
       Italian: 'Pears with gorgonzola, pear mostarda',
       British: 'Pear and ginger pudding, preserves',
       American: 'Pear salads, pear butter, baked goods',
-      'Asian Fusion': 'Pear in ginger syrup, Asian-spiced poached pears'
+      'Asian Fusion': 'Pear in ginger syrup, Asian-spiced poached pears',
     }
   },
   quince: {
@@ -294,7 +294,7 @@ const rawPome = {
       Air: 0.2,
       Water: 0.2,
       Fire: 0
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
       favorableZodiac: ['taurus', 'capricorn', 'libra'],
@@ -319,7 +319,7 @@ const rawPome = {
       vitamins: ['c'],
       minerals: ['copper', 'potassium', 'iron'],
       antioxidants: ['phenolic compounds', 'catechins'],
-      notes: 'High in pectin, excellent for preserves and jellies'
+      notes: 'High in pectin, excellent for preserves and jellies',
     },
     varieties: {
       'Pineapple Quince': {
@@ -328,20 +328,20 @@ const rawPome = {
         flavor: 'more aromatic, less astringent',
         best_uses: ['membrillo (quince paste)', 'jellies', 'poaching'],
         notes: 'popular commercial variety in US'
-      },
+},
       'Orange Quince': {
         appearance: 'round, more apple-like shape',
         texture: 'very firm, hard',
         flavor: 'pronounced aroma, citrusy notes',
         best_uses: ['cooking applications', 'preserves', 'traditional recipes'],
         notes: 'more common in Europe'
-      },
+},
       Smyrna: {
         appearance: 'large, pear-shaped, fuzzy skin',
         texture: 'very hard, astringent raw',
         flavor: 'intense flavor when cooked, floral',
         best_uses: ['traditional Middle Eastern dishes', 'preserves'],
-        notes: 'Turkish variety, larger fruit'
+        notes: 'Turkish variety, larger fruit',
       }
     },
     culinaryApplications: {
@@ -375,19 +375,19 @@ const rawPome = {
       difficulty: 'Challenging to prepare - very hard flesh',
       peeling: 'Requires sharp peeler or knifeor can be cooked first then peeled',
       coring: 'Hard, gritty core must be removed before cooking',
-      browning: 'Browns quickly when cut, place in acidulated water'
+      browning: 'Browns quickly when cut, place in acidulated water',
     },
     storage: {
       fresh: {
         temperature: 'Cool room temperature or refrigerated',
         duration: '1-2 months',
         notes: 'Will perfume entire refrigerator or room'
-      },
+},
       preserved: {
         methods: 'Membrillo paste, jellies, canned in syrup',
         duration: '1+ years',
         notes: 'Traditional preservation extends seasonal use'
-      }
+}
     },
     pairings: ['apple', 'pear', 'vanilla', 'cinnamon', 'lamb', 'pork', 'manchego_cheese'],
     substitutions: ['firm pears', 'apples', 'asian_pears'],
@@ -400,13 +400,13 @@ const rawPome = {
       'Middle Eastern': 'Lamb and quince tagines, stews',
       Persian: 'Quince preserves, quince stews with lamb',
       Balkan: 'Quince rakija (spirit), preserves',
-      French: 'Cotignac (quince jelly), pâte de coing (quince paste)'
+      French: 'Cotignac (quince jelly), pâte de coing (quince paste)',
     },
     culturalSignificance: {
       Classical: 'Associated with Aphrodite / (Venus || 1), symbol of love and fertility',
       Medieval: 'Used as room freshener and medicinal tonic',
       Spanish: 'Essential component of classic cheese service',
-      'Middle Eastern': 'Traditional accompaniment to meat dishes'
+      'Middle Eastern': 'Traditional accompaniment to meat dishes',
     }
   },
   asian_pear: {
@@ -416,14 +416,14 @@ const rawPome = {
       Earth: 0.3,
       Air: 0.2,
       Fire: 0
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Mercury'],
       favorableZodiac: ['taurus', 'gemini', 'libra'],
       elementalAffinity: {
         base: 'Water',
         secondary: 'Earth'
-      }
+}
     },
     season: ['late summer', 'fall'],
     qualities: ['crisp', 'juicy', 'refreshing', 'fragrant', 'delicate'],
@@ -438,7 +438,7 @@ const rawPome = {
       minerals: ['copper', 'potassium'],
       antioxidants: ['arbutin', 'catechin', 'chlorogenic acid'],
       notes: 'Higher fiber content than European pears'
-    },
+},
     varieties: {
       Hosui: {
         appearance: 'golden brown russeted skin',
@@ -446,21 +446,21 @@ const rawPome = {
         flavor: 'sweet, rich honey notes',
         best_uses: ['eating fresh', 'salads'],
         notes: 'one of the sweetest varieties'
-      },
+},
       Shinseiki: {
         appearance: 'yellow-green smooth skin',
         texture: 'crisp, watery',
         flavor: 'mildly sweet, refreshing',
         best_uses: ['eating fresh', 'slaws', 'garnishes'],
         notes: 'name means "new century"'
-      },
+},
       Nijisseiki: {
         appearance: 'round, yellow-green',
         texture: 'very crisp, like an apple',
         flavor: 'subtle sweetness, clean finish',
         best_uses: ['eating fresh', 'pickling'],
         notes: 'also called "20th Century pear"'
-      }
+}
     },
     culinaryApplications: {
       raw: {
@@ -494,13 +494,13 @@ const rawPome = {
       peeling: 'Usually unnecessary - skin is thin and edible',
       coring: 'Core from bottom using melon baller or knife',
       serving: 'Often served chilled for maximum crispness'
-    },
+},
     storage: {
       fresh: {
         temperature: 'Refrigerated 32-35°F (0-1.6°C)',
         duration: '2-3 months when properly stored',
         humidity: 'High',
-        notes: 'Unlike European pears, should be refrigerated immediately'
+        notes: 'Unlike European pears, should be refrigerated immediately',
       }
     },
     pairings: ['ginger', 'sesame', 'soy_sauce', 'blue_cheese', 'honey', 'cinnamon', 'lime'],
@@ -513,7 +513,7 @@ const rawPome = {
       Japanese: 'Fruit course, specialty gift fruit',
       Korean: 'Kimchi variations, sweet marinades for meat',
       Chinese: 'Symbol of immortality, used in medicinal preparations',
-      'Modern Western': 'Gourmet salads, cheese pairings, specialty produce'
+      'Modern Western': 'Gourmet salads, cheese pairings, specialty produce',
     }
   },
   medlar: {
@@ -523,14 +523,14 @@ const rawPome = {
       Water: 0.2,
       Air: 0.1,
       Fire: 0
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Venus'],
       favorableZodiac: ['capricorn', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Water'
-      }
+}
     },
     season: ['late fall', 'early winter'],
     qualities: ['complex', 'unusual', 'earthy', 'historical', 'transformative'],
@@ -544,7 +544,7 @@ const rawPome = {
       vitamins: ['c', 'a'],
       minerals: ['potassium', 'calcium'],
       notes: 'Contains tannins that decrease with bletting'
-    },
+},
     varieties: {
       Nottingham: {
         appearance: 'smaller fruit, darker color',
@@ -552,14 +552,14 @@ const rawPome = {
         flavor: 'more pronounced spice notes',
         best_uses: ['eating fresh after bletting', 'historical recipes'],
         notes: 'English variety'
-      },
+},
       Royal: {
         appearance: 'larger fruit, lighter color',
         texture: 'softer, less gritty',
         flavor: 'milder, more accessible flavor',
         best_uses: ['introduction to medlars', 'modern adaptations'],
         notes: 'newer variety'
-      }
+}
     },
     culinaryApplications: {
       bletted: {
@@ -591,18 +591,18 @@ const rawPome = {
       bletting: 'Store stem-down in cool, dark place until soft (2-3 weeks)',
       eating: 'Tear open top, scoop out flesh with spoon',
       preserving: 'Process when bletted but before fermentation occurs'
-    },
+},
     storage: {
       fresh: {
         temperature: 'Cool, dark place',
         duration: 'Until bletted (2-3 weeks)',
         notes: 'Traditionally laid out on straw or sawdust'
-      },
+},
       preserved: {
         methods: 'Jellies, cheese (paste), wine',
         duration: '1+ years',
         notes: 'Traditional preservation extends seasonal use'
-      }
+}
     },
     pairings: ['cream', 'custard', 'cinnamon', 'port_wine', 'vanilla', 'walnuts', 'honey'],
     substitutions: ['persimmons', 'dates', 'roasted_apples'],
@@ -616,13 +616,13 @@ const rawPome = {
       French: 'Confiture de nèfles (medlar jam)',
       Turkish: 'Popular wild-harvested fruit',
       Italian: 'Regional preserves and liqueurs'
-    },
+},
     culturalSignificance: {
       Literary: 'Mentioned by Shakespeare, Chaucer, and D.H. Lawrence',
       Historical: 'Popular medieval fruit now mostly forgotten',
       Symbolic: 'Used as metaphor for maturity and old age',
       Modern: 'Revival interest among historical food enthusiasts'
-    }
+}
   },
   loquat: {
     name: 'Loquat',
@@ -631,14 +631,14 @@ const rawPome = {
       Earth: 0.3,
       Fire: 0.2,
       Air: 0.1
-    },
+},
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Venus'],
       favorableZodiac: ['leo', 'taurus'],
       elementalAffinity: {
         base: 'Water',
         secondary: 'Fire'
-      }
+}
     },
     season: ['spring'],
     qualities: ['sweet-tart', 'fragrant', 'floral', 'refreshing', 'unique'],
@@ -653,14 +653,14 @@ const rawPome = {
       minerals: ['potassium', 'manganese'],
       antioxidants: ['carotenoids', 'phenolic compounds'],
       notes: 'Contains rare combination of B vitamins for a fruit'
-    },
+},
     varieties: {
       Tanaka: {
         appearance: 'large, oval, orange skin',
         texture: 'firm, juicy',
         flavor: 'sweet-tart, pronounced aroma',
         best_uses: ['eating fresh', 'preserves'],
-        notes: 'Japanese variety, larger fruit'
+        notes: 'Japanese variety, larger fruit',
       },
       'Gold Nugget': {
         appearance: 'round, golden yellow',
@@ -668,7 +668,7 @@ const rawPome = {
         flavor: 'exceptionally sweet',
         best_uses: ['eating fresh', 'desserts'],
         notes: 'California variety'
-      }
+}
     },
     culinaryApplications: {
       raw: {
@@ -701,19 +701,19 @@ const rawPome = {
       harvesting: 'Pick when fully colored and slightly soft',
       peeling: 'Thin skin can be peeled or eaten depending on preference',
       seeding: 'Remove large brown seeds and thin membrane',
-      browning: 'Flesh browns quickly when cut, use lemon juice if needed'
+      browning: 'Flesh browns quickly when cut, use lemon juice if needed',
     },
     storage: {
       fresh: {
         temperature: 'Refrigerated',
         duration: 'Very short - 3-5 days maximum',
-        notes: 'Highly perishable, best eaten soon after picking'
+        notes: 'Highly perishable, best eaten soon after picking',
       },
       preserved: {
         methods: 'Jam, syrup, canned in light syrup',
         duration: '1+ years',
         notes: 'Traditional preservation extends seasonal use'
-      }
+}
     },
     pairings: ['vanilla', 'cinnamon', 'ginger', 'honey', 'lemon', 'tropical_fruits', 'almonds'],
     substitutions: ['apricots', 'peaches', 'plums', 'nectarines'],
@@ -725,14 +725,14 @@ const rawPome = {
       Japanese: 'Eaten fresh, preserved as jam, made into syrup (biwa no mitsuri)',
       Chinese: 'Traditional medicine, cough syruppi pa gao',
       Mediterranean: 'Fresh consumption, jams, local liqueurs',
-      'Central American': 'Fresh eating, preserves, regional desserts'
+      'Central American': 'Fresh eating, preserves, regional desserts',
     },
     culturalSignificance: {
       'East Asian': 'Symbol of spring, medicinal importance',
       Japanese: 'Associated with the biwa (lute) due to similar shape',
       'Chinese Medicine': 'Used in traditional cough remedies for centuries',
       California: 'Heritage tree often found in old gardens and homesteads'
-    }
+}
   }
 };
 

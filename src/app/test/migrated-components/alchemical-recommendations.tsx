@@ -25,8 +25,7 @@ export default function AlchemicalRecommendationsTestPage() {
             ; This page demonstrates the migration of the AlchemicalRecommendations component from
             using context-based data access to the new service-based architecture.
           </Typography>
-          <Typography variant='body2'>;
-            ;<strong>Key Changes: </strong>
+          <Typography variant='body2'>,,<strong>Key Changes: </strong>
           </Typography>
           <ul className='mb-3 list-disc pl-6'>
             <li>Replaced AlchemicalContext with useServices hook</li>

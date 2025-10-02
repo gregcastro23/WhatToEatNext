@@ -26,11 +26,11 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       Ceylon: 'true cinnamon, more delicate',
       Cassia: 'stronger, more common',
       Saigon: 'most intense flavor'
-    },
+},
     conversionRatio: {
       stick_to_ground: '1 stick = 1/2 tsp ground',
       fresh_to_dried: 'not applicable'
-    },
+},
     affinities: ['baked goods', 'coffee', 'curry', 'fruit', 'chocolate'],
     cookingMethods: ['baking', 'brewing', 'spice blends'],
     storage: {
@@ -38,7 +38,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       duration: '6 months',
       container: 'airtight, dark',
       notes: 'Loses potency quickly when ground'
-    },
+},
     medicinalProperties: {
       actions: ['blood sugar regulation', 'anti-inflammatory'],
       energetics: 'warming',
@@ -50,19 +50,19 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         usage: ['garam masala', 'chai', 'biryanis', 'desserts'],
         preparation: 'ground or whole sticks',
         cultural_notes: 'Essential in both sweet and savory dishes'
-      }
+}
     },
     sensoryProfile: {
       taste: ['sweet', 'warm'],
       aroma: ['spicy', 'woody'],
       texture: ['fine powder'],
       notes: 'Characteristic cinnamon profile'
-    },
+},
     culinaryProfile: {
       flavorProfile: {
         primary: ['sweet', 'warm'],
         secondary: ['spicy', 'woody'],
-        notes: 'Warm, comforting spice'
+        notes: 'Warm, comforting spice',
       },
       cookingMethods: ['baking', 'brewing', 'spice blends'],
       cuisineAffinity: ['Global', 'Middle-Eastern', 'Indian'],
@@ -72,7 +72,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['ground'],
       timing: 'as needed',
-      notes: 'Store in cool, dark place'
+      notes: 'Store in cool, dark place',
     }
   }
 };

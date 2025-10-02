@@ -14,8 +14,8 @@ if (process.env.CI) {
     debug: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
-    error: jest.fn(),
-  };
+    error: jest.fn()
+};
 }
 
 // Mock fetch for all tests
@@ -26,8 +26,8 @@ global.fetch = jest.fn(() =>
     ok: true,
     status: 200,
     statusText: 'OK',
-    headers: new Headers(),
-  } as Response),
+    headers: new Headers()
+} as Response),
 );
 
 // Mock global services
@@ -37,8 +37,8 @@ jest.mock('@/services/ElementalCalculator', () => ({
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }),
+      Air: 0.25
+}),
     initialize: jest.fn(_initialState => {
       // console.log('Mock initialize called', initialState);
     }),
@@ -51,8 +51,8 @@ jest.mock('@/services/ElementalCalculator', () => ({
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      },
+        Air: 0.25
+},
     }),
   },
 }));
@@ -74,6 +74,6 @@ test('setup is working correctly', () => {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25,
-  });
+    Air: 0.25
+});
 });

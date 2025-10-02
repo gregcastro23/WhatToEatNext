@@ -43,8 +43,8 @@ export function trackKineticsRecommendation(event: KineticsRecommendationEvent):
  */
 export function trackKineticsImprovement(data: {
   baseRecommendationCount: number;,
-  enhancedRecommendationCount: number;,
-  averageKineticScore: number;,
+  enhancedRecommendationCount: number,,
+  averageKineticScore: number,,
   powerLevel: number
 }): void {
   if (typeof window !== 'undefined' && window.gtag) {

@@ -21,7 +21,7 @@ export const, cuisine: Cuisine = {
         Earth: 0.3,
         Air: 0.1,
         Fire: 0.2
-      },
+},
       astrologicalInfluences: [
         'astrological influence1',
         'astrological influence2',
@@ -33,7 +33,7 @@ export const, cuisine: Cuisine = {
       difficulty: 'easy/medium/hard',
       storageInstructions: 'How to store the sauce properly',
       yield: 'Amount the recipe produces'
-    }
+}
   },
   dishes: {
     breakfast: {
@@ -70,7 +70,7 @@ export const, cuisine: Cuisine = {
               unit: 'cup',
               category: 'vegetable',
               element: 'Air'
-            }
+}
           ],
           substitutions: {
             ingredient1: ['alternative1', 'alternative2'],
@@ -103,7 +103,7 @@ export const, cuisine: Cuisine = {
             Water: 0.3,
             Earth: 0.3,
             Air: 0.2
-          },
+},
           preparationNotes:
             'This dish should be served immediately for the best experience. For a richer flavor, allow the batter to rest for 30 minutes before cooking.',
           technicalTips: [
@@ -164,38 +164,38 @@ export const, cuisine: Cuisine = {
       seasonality: 'best season',
       preparationNotes: 'preparation notes',
       yield: 'amount produced'
-    }
+}
   },
   sauceRecommender: {
     forProtein: {
-      // protein type: [sauce recommendations]
+      // protein type: [sauce recommendations],
       protein1: ['sauce1', 'sauce2', 'sauce3'],
       protein2: ['sauce1', 'sauce2', 'sauce3']
     },
     forVegetable: {
-      // vegetable type: [sauce recommendations]
+      // vegetable type: [sauce recommendations],
       vegetable1: ['sauce1', 'sauce2', 'sauce3'],
       vegetable2: ['sauce1', 'sauce2', 'sauce3']
     },
     forCookingMethod: {
-      // cooking method: [sauce recommendations]
+      // cooking method: [sauce recommendations],
       method1: ['sauce1', 'sauce2', 'sauce3'],
       method2: ['sauce1', 'sauce2', 'sauce3']
     },
     byAstrological: {
-      // element: [sauce recommendations]
+      // element: [sauce recommendations],
       fire: ['sauce1', 'sauce2', 'sauce3'],
       water: ['sauce1', 'sauce2', 'sauce3'],
       earth: ['sauce1', 'sauce2', 'sauce3'],
       air: ['sauce1', 'sauce2', 'sauce3']
     },
     byRegion: {
-      // region: [sauce recommendations]
+      // region: [sauce recommendations],
       region1: ['sauce1', 'sauce2', 'sauce3'],
       region2: ['sauce1', 'sauce2', 'sauce3']
     },
     byDietary: {
-      // dietary restriction: [sauce recommendations]
+      // dietary restriction: [sauce recommendations],
       vegetarian: ['sauce1', 'sauce2', 'sauce3'],
       vegan: ['sauce1', 'sauce2', 'sauce3'],
       glutenFree: ['sauce1', 'sauce2', 'sauce3'],
@@ -211,7 +211,7 @@ export const, cuisine: Cuisine = {
       toolsRequired: ['tool1', 'tool2', 'tool3', 'tool4'],
       bestFor: ['food1', 'food2', 'food3', 'food4'],
       difficulty: 'easy/medium/hard'
-    },
+},
     {
       name: 'Technique Name 2',
       description: 'Description of cooking technique',
@@ -219,7 +219,7 @@ export const, cuisine: Cuisine = {
       toolsRequired: ['tool1', 'tool2', 'tool3', 'tool4'],
       bestFor: ['food1', 'food2', 'food3', 'food4'],
       difficulty: 'easy/medium/hard'
-    }
+}
   ],
   regionalCuisines: {
     region1: {
@@ -242,9 +242,9 @@ export const, cuisine: Cuisine = {
     }
   },
   elementalProperties: {
-    Fire: 0.25, // Description of fire element in this cuisine,
+    Fire: 0.25, // Description of fire element in this cuisine
     Water: 0.25, // Description of water element in this cuisine,
-    Earth: 0.25, // Description of earth element in this cuisine,
+    Earth: 0.25, // Description of earth element in this cuisine
     Air: 0.25, // Description of air element in this cuisine
   },
   astrologicalInfluences: [

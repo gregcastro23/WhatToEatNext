@@ -238,7 +238,7 @@ export const SEASONAL_INFLUENCE = {
   // How seasons affect mood and energy
   energyModifier: {
     spring: { vitality: 0.8, creativity: 0.7, stability: 0.4, adaptability: 0.6 },
-    summer: { vitality: 0.9, creativity: 0.8, stability: 0.3, adaptability: 0.7 }
+    summer: { vitality: 0.9, creativity: 0.8, stability: 0.3, adaptability: 0.7 },
     autumn: { vitality: 0.6, creativity: 0.6, stability: 0.6, adaptability: 0.5 },
     winter: { vitality: 0.4, creativity: 0.5, stability: 0.7, adaptability: 0.4 }
   }

@@ -3,8 +3,8 @@ const { celestialCalculator } = require('../services/celestialCalculations');
 
 // Local interface for testing purposes
 interface PlanetaryPosition {
-  planet: string;
-  sign: string;
+  planet: string,
+  sign: string,
   degrees: number;
 }
 
@@ -23,11 +23,11 @@ async function testGasGiantInfluences() {
   const jupiter = influences.dominantPlanets?.find(p => p.name === 'Jupiter');
   const saturn = influences.dominantPlanets?.find(p => p.name === 'Saturn');
 
-  console.log('Current Influences:');
-  console.log(`Zodiac Sign: ${influences.zodiacSign || 'unknown'}`);
-  console.log(`Lunar Phase: ${influences.lunarPhase || 'unknown'}`);
+  console.log('Current Influences: '),
+  console.log(`Zodiac Sign: ${influences.zodiacSign || 'unknown'}`),
+  console.log(`Lunar Phase: ${influences.lunarPhase || 'unknown'}`),
 
-  console.log('\nDominant Planets:');
+  console.log('\nDominant Planets: '),
   if (influences.dominantPlanets) {
     for (const planet of influences.dominantPlanets) {
       if (planet.name === 'Jupiter' || planet.name === 'Saturn') {
@@ -39,7 +39,7 @@ async function testGasGiantInfluences() {
   }
 
   // Check planetary aspects
-  console.log('\nPlanetary Aspects:');
+  console.log('\nPlanetary Aspects: '),
   const aspects = influences.aspectInfluences || [];
   for (const aspect of aspects) {
     if (
@@ -54,7 +54,7 @@ async function testGasGiantInfluences() {
 
   // Print energy state balance
   if (influences.energyStateBalance) {
-    console.log('\nEnergy State Balance:');
+    console.log('\nEnergy State Balance: '),
     Object.entries(influences.energyStateBalance).forEach(([state, value]) => {
       console.log(`  ${state}: ${value}`);
     });

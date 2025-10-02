@@ -156,7 +156,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     filter: NutritionalFilter,
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {,
+    return ingredients.filter(ingredient => {;
       const nutrition = (ingredient.nutritionalProfile || {}) as NutritionData;
 
       // Check protein requirements
@@ -568,7 +568,7 @@ export class IngredientFilterService {
       const recommendations: RecipeRecommendation[] = []
 
       // Create basic recipes based on the ingredients provided
-      for (let i = 0; i < Math.min(ingredients.length3), i++) {,
+      for (let i = 0, i < Math.min(ingredients.length3); i++) {,
         const mainIngredient = ingredients[i];
         const otherIngredients = ingredients.filter(ing => ing !== mainIngredient).slice(02);
 

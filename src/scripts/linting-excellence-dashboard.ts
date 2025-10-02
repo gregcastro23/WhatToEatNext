@@ -14,17 +14,17 @@ import { LintingAlertingSystem } from '../services/linting/LintingAlertingSystem
 import { LintingValidationDashboard } from '../services/linting/LintingValidationDashboard';
 
 interface CLIOptions {
-  command: string;
-  verbose: boolean;
-  format: 'text' | 'json' | 'markdown';
-  output?: string;
-  watch: boolean;
+  command: string,
+  verbose: boolean,
+  format: 'text' | 'json' | 'markdown'
+  output?: string,
+  watch: boolean,
   threshold?: number;
 }
 
 class LintingExcellenceDashboardCLI {
-  private dashboard: LintingValidationDashboard;
-  private alerting: LintingAlertingSystem;
+  private dashboard: LintingValidationDashboard,
+  private alerting: LintingAlertingSystem,
 
   constructor() {
     this.dashboard = new LintingValidationDashboard();
@@ -36,29 +36,21 @@ class LintingExcellenceDashboardCLI {
 
     try {
       switch (options.command) {
-        case 'validate':
-          await this.runValidation(options);
+        case 'validate': await this.runValidation(options),
           break;
-        case 'monitor':
-          await this.runMonitoring(options);
+        case 'monitor': await this.runMonitoring(options),
           break;
-        case 'alerts':
-          await this.manageAlerts(options);
+        case 'alerts': await this.manageAlerts(options),
           break;
-        case 'metrics':
-          await this.showMetrics(options);
+        case 'metrics': await this.showMetrics(options),
           break;
-        case 'health':
-          await this.healthCheck(options);
+        case 'health': await this.healthCheck(options),
           break;
-        case 'maintenance':
-          await this.runMaintenance(options);
+        case 'maintenance': await this.runMaintenance(options),
           break;
-        case 'help':
-          this.showHelp();
+        case 'help': this.showHelp(),
           break;
-        default:
-          console.error(`Unknown command: ${options.command}`);
+        default: console.error(`Unknown command: ${options.command}`),
           this.showHelp();
           process.exit(1);
       }
@@ -70,35 +62,30 @@ class LintingExcellenceDashboardCLI {
 
   private parseArgs(args: string[]): CLIOptions {
     const options: CLIOptions = {
-      command: args[0] || 'validate',
+      command: args[0] || 'validate'
       verbose: false,
       format: 'text',
-      watch: false,
-    };
+      watch: false
+};
 
     for (let i = 1; i < args.length; i++) {
       const arg = args[i];
 
       switch (arg) {
         case '--verbose':
-        case '-v':
-          options.verbose = true;
+        case '-v': options.verbose = true,
           break;
         case '--format':
-        case '-f':
-          options.format = args[++i] as 'text' | 'json' | 'markdown';
+        case '-f': options.format = args[++i] as 'text' | 'json' | 'markdown'
           break;
         case '--output':
-        case '-o':
-          options.output = args[++i];
+        case '-o': options.output = args[++i],
           break;
         case '--watch':
-        case '-w':
-          options.watch = true;
+        case '-w': options.watch = true,
           break;
         case '--threshold':
-        case '-t':
-          options.threshold = parseInt(args[++i]);
+        case '-t': options.threshold = parseInt(args[++i]),
           break;
       }
     }
@@ -121,10 +108,10 @@ class LintingExcellenceDashboardCLI {
     // Text format output
     console.log('📊 LINTING EXCELLENCE DASHBOARD RESULTS');
     console.log('='.repeat(50));
-    console.log(`Validation Status: ${result.passed ? '✅ PASSED' : '❌ FAILED'}`);
-    console.log(`Quality Score: ${result.metrics.qualityScore}/100`);
-    console.log(`Total Issues: ${result.metrics.totalIssues}`);
-    console.log(`Duration: ${duration}ms`);
+    console.log(`Validation Status: ${result.passed ? '✅ PASSED' : '❌ FAILED'}`),
+    console.log(`Quality Score: ${result.metrics.qualityScore}/100`),
+    console.log(`Total Issues: ${result.metrics.totalIssues}`),
+    console.log(`Duration: ${duration}ms`),
     console.log('');
 
     // Detailed metrics
@@ -136,10 +123,10 @@ class LintingExcellenceDashboardCLI {
     console.log(
       `Explicit Any Errors: ${result.metrics.explicitAnyErrors} ${result.metrics.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
     );
-    console.log(`Import Order Issues: ${result.metrics.importOrderIssues}`);
-    console.log(`Unused Variables: ${result.metrics.unusedVariables}`);
-    console.log(`React Hooks Issues: ${result.metrics.reactHooksIssues}`);
-    console.log(`Console Statements: ${result.metrics.consoleStatements}`);
+    console.log(`Import Order Issues: ${result.metrics.importOrderIssues}`),
+    console.log(`Unused Variables: ${result.metrics.unusedVariables}`),
+    console.log(`React Hooks Issues: ${result.metrics.reactHooksIssues}`),
+    console.log(`Console Statements: ${result.metrics.consoleStatements}`),
     console.log('');
 
     // Domain-specific metrics
@@ -148,19 +135,19 @@ class LintingExcellenceDashboardCLI {
     console.log(
       `Astrological Calculations: ${result.metrics.domainSpecificIssues.astrologicalCalculations}`,
     );
-    console.log(`Campaign System: ${result.metrics.domainSpecificIssues.campaignSystem}`);
-    console.log(`Test Files: ${result.metrics.domainSpecificIssues.testFiles}`);
+    console.log(`Campaign System: ${result.metrics.domainSpecificIssues.campaignSystem}`),
+    console.log(`Test Files: ${result.metrics.domainSpecificIssues.testFiles}`),
     console.log('');
 
     // Performance metrics
     console.log('⚡ PERFORMANCE METRICS');
     console.log('-'.repeat(30));
-    console.log(`Linting Duration: ${result.metrics.performanceMetrics.lintingDuration}ms`);
+    console.log(`Linting Duration: ${result.metrics.performanceMetrics.lintingDuration}ms`),
     console.log(
       `Cache Hit Rate: ${(result.metrics.performanceMetrics.cacheHitRate * 100).toFixed(1)}%`,
     );
-    console.log(`Memory Usage: ${result.metrics.performanceMetrics.memoryUsage.toFixed(1)}MB`);
-    console.log(`Files Processed: ${result.metrics.performanceMetrics.filesProcessed}`);
+    console.log(`Memory Usage: ${result.metrics.performanceMetrics.memoryUsage.toFixed(1)}MB`),
+    console.log(`Files Processed: ${result.metrics.performanceMetrics.filesProcessed}`),
     console.log('');
 
     // Alerts
@@ -169,7 +156,7 @@ class LintingExcellenceDashboardCLI {
       console.log('-'.repeat(30));
       for (const alert of result.alerts) {
         const icon = this.getSeverityIcon(alert.severity);
-        console.log(`${icon} ${alert.severity.toUpperCase()}: ${alert.message}`);
+        console.log(`${icon} ${alert.severity.toUpperCase()}: ${alert.message}`),
         console.log(`   Metric: ${alert.metric} (${alert.currentValue}/${alert.threshold})`);
       }
       console.log('');
@@ -179,7 +166,7 @@ class LintingExcellenceDashboardCLI {
     if (result.regressionAnalysis.detected) {
       console.log('📈 REGRESSION DETECTED');
       console.log('-'.repeat(30));
-      console.log(`Severity: ${result.regressionAnalysis.severity.toUpperCase()}`);
+      console.log(`Severity: ${result.regressionAnalysis.severity.toUpperCase()}`),
       console.log(`Affected Metrics: ${result.regressionAnalysis.affectedMetrics.join(', ')}`);
       console.log(
         `Change: ${result.regressionAnalysis.historicalComparison.change} issues (${result.regressionAnalysis.historicalComparison.changePercentage.toFixed(1)}%)`,
@@ -201,13 +188,13 @@ class LintingExcellenceDashboardCLI {
     console.log('🎯 NEXT ACTIONS');
     console.log('-'.repeat(30));
     if (result.metrics.parserErrors > 0) {
-      console.log('1. 🚨 URGENT: Fix parser errors immediately');
+      console.log('1. 🚨 URGENT: Fix parser errors immediately'),
       console.log('   Run: yarn tsc --noEmit');
     } else if (result.metrics.explicitAnyErrors > 100) {
-      console.log('1. ⚡ HIGH PRIORITY: Reduce explicit any errors');
+      console.log('1. ⚡ HIGH PRIORITY: Reduce explicit any errors'),
       console.log('   Run: yarn lint:fix --rule "@typescript-eslint/no-explicit-any"');
     } else if (result.metrics.importOrderIssues > 50) {
-      console.log('1. 🚀 READY: Deploy import organization');
+      console.log('1. 🚀 READY: Deploy import organization'),
       console.log('   Run: yarn lint:fix --rule "import/order"');
     } else {
       console.log('1. ✅ Continue systematic improvement');
@@ -235,10 +222,10 @@ class LintingExcellenceDashboardCLI {
             const result = await this.dashboard.runComprehensiveValidation();
 
             if (result.alerts.length > 0 || result.regressionAnalysis.detected) {
-              console.log(`\n⚠️  [${new Date().toISOString()}] Issues detected:`);
-              console.log(`   Quality Score: ${result.metrics.qualityScore}/100`);
-              console.log(`   Total Issues: ${result.metrics.totalIssues}`);
-              console.log(`   Active Alerts: ${result.alerts.length}`);
+              console.log(`\n⚠️  [${new Date().toISOString()}] Issues detected: `),
+              console.log(`   Quality Score: ${result.metrics.qualityScore}/100`),
+              console.log(`   Total Issues: ${result.metrics.totalIssues}`),
+              console.log(`   Active Alerts: ${result.alerts.length}`),
 
               if (result.regressionAnalysis.detected) {
                 console.log(`   🔴 Regression: ${result.regressionAnalysis.severity}`);
@@ -256,8 +243,8 @@ class LintingExcellenceDashboardCLI {
     } else {
       // Single monitoring run
       const result = await this.dashboard.runComprehensiveValidation();
-      console.log(`Quality Score: ${result.metrics.qualityScore}/100`);
-      console.log(`Total Issues: ${result.metrics.totalIssues}`);
+      console.log(`Quality Score: ${result.metrics.qualityScore}/100`),
+      console.log(`Total Issues: ${result.metrics.totalIssues}`),
       console.log(`Active Alerts: ${result.alerts.length}`);
     }
   }
@@ -276,7 +263,7 @@ class LintingExcellenceDashboardCLI {
         return;
       }
 
-      console.log(`📋 ${alerts.length} Active Alerts:`);
+      console.log(`📋 ${alerts.length} Active Alerts: `),
       console.log('-'.repeat(40));
 
       for (const alert of alerts) {
@@ -284,9 +271,9 @@ class LintingExcellenceDashboardCLI {
         const timestamp = new Date(alert.timestamp).toLocaleString();
 
         console.log(`${icon} [${alert.severity.toUpperCase()}] ${timestamp}`);
-        console.log(`   Metric: ${alert.metric}`);
-        console.log(`   Value: ${alert.currentValue} (threshold: ${alert.threshold})`);
-        console.log(`   Message: ${alert.message}`);
+        console.log(`   Metric: ${alert.metric}`),
+        console.log(`   Value: ${alert.currentValue} (threshold: ${alert.threshold})`),
+        console.log(`   Message: ${alert.message}`),
         console.log('');
       }
     } catch (error) {
@@ -309,7 +296,7 @@ class LintingExcellenceDashboardCLI {
 
       const recent = history.slice(-5); // Last 5 entries
 
-      console.log('📈 Recent Metrics (Last 5 Runs):');
+      console.log('📈 Recent Metrics (Last 5 Runs): '),
       console.log('-'.repeat(60));
       console.log(
         'Timestamp'.padEnd(20) +
@@ -335,7 +322,7 @@ class LintingExcellenceDashboardCLI {
         const current = history[history.length - 1];
         const previous = history[history.length - 2];
 
-        console.log('\n📊 Trend Analysis:');
+        console.log('\n📊 Trend Analysis: '),
         console.log('-'.repeat(30));
 
         const qualityChange = current.qualityScore - previous.qualityScore;
@@ -360,35 +347,35 @@ class LintingExcellenceDashboardCLI {
       {
         name: 'ESLint Configuration',
         check: () => existsSync('eslint.config.cjs'),
-        fix: 'Ensure eslint.config.cjs exists in project root',
-      },
+        fix: 'Ensure eslint.config.cjs exists in project root'
+},
       {
         name: 'TypeScript Configuration',
         check: () => existsSync('tsconfig.json'),
-        fix: 'Ensure tsconfig.json exists in project root',
-      },
+        fix: 'Ensure tsconfig.json exists in project root'
+},
       {
         name: 'ESLint Cache',
         check: () => existsSync('.eslintcache'),
-        fix: 'Run yarn lint to generate cache',
-      },
+        fix: 'Run yarn lint to generate cache'
+},
       {
         name: 'Metrics Directory',
         check: () => existsSync('.kiro/metrics'),
-        fix: 'Directory will be created automatically',
-      },
+        fix: 'Directory will be created automatically'
+},
       {
         name: 'Parser Errors',
         check: async () => {
           try {
-            execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
+            execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' }),
             return true;
           } catch {
             return false;
           }
         },
-        fix: 'Fix TypeScript compilation errors',
-      },
+        fix: 'Fix TypeScript compilation errors'
+},
     ];
 
     console.log('Running health checks...\n');
@@ -398,22 +385,22 @@ class LintingExcellenceDashboardCLI {
     for (const check of checks) {
       try {
         const result = typeof check.check === 'function' ? await check.check() : check.check;
-        const status = result ? '✅ PASS' : '❌ FAIL';
+        const status = result ? '✅ PASS' : '❌ FAIL',
 
         console.log(`${status} ${check.name}`);
 
         if (!result) {
-          console.log(`   Fix: ${check.fix}`);
+          console.log(`   Fix: ${check.fix}`),
           allPassed = false;
         }
       } catch (error) {
-        console.log(`❌ FAIL ${check.name} (Error: ${error})`);
-        console.log(`   Fix: ${check.fix}`);
+        console.log(`❌ FAIL ${check.name} (Error: ${error})`),
+        console.log(`   Fix: ${check.fix}`),
         allPassed = false;
       }
     }
 
-    console.log(`\n🏥 Overall Health: ${allPassed ? '✅ HEALTHY' : '⚠️  NEEDS ATTENTION'}`);
+    console.log(`\n🏥 Overall Health: ${allPassed ? '✅ HEALTHY' : '⚠️  NEEDS ATTENTION'}`),
 
     if (!allPassed) {
       console.log('\n💡 Run the suggested fixes above to resolve issues');
@@ -428,7 +415,7 @@ class LintingExcellenceDashboardCLI {
         name: 'Clear ESLint Cache',
         action: () => {
           try {
-            execSync('rm -rf .eslintcache .eslint-ts-cache/', { stdio: 'pipe' });
+            execSync('rm -rf .eslintcache .eslint-ts-cache/', { stdio: 'pipe' }),
             return true;
           } catch {
             return false;
@@ -439,7 +426,7 @@ class LintingExcellenceDashboardCLI {
         name: 'Rebuild Cache',
         action: () => {
           try {
-            execSync('yarn lint:fast --quiet', { stdio: 'pipe' });
+            execSync('yarn lint:fast --quiet', { stdio: 'pipe' }),
             return true;
           } catch {
             return false;
@@ -470,7 +457,7 @@ class LintingExcellenceDashboardCLI {
         name: 'Validate Configuration',
         action: () => {
           try {
-            execSync('yarn lint --print-config src/index.ts > /dev/null', { stdio: 'pipe' });
+            execSync('yarn lint --print-config src/index.ts > /dev/null', { stdio: 'pipe' }),
             return true;
           } catch {
             return false;
@@ -533,22 +520,18 @@ EXAMPLES:
 
 INTEGRATION:
   # Add to package.json scripts:
-  "lint:dashboard": "node src/scripts/linting-excellence-dashboard.ts validate"
-  "lint:monitor": "node src/scripts/linting-excellence-dashboard.ts monitor --watch"
+  "lint:dashboard": "node src/scripts/linting-excellence-dashboard.ts validate",
+  "lint:monitor": "node src/scripts/linting-excellence-dashboard.ts monitor --watch",
   "lint:health": "node src/scripts/linting-excellence-dashboard.ts health"
 `);
   }
 
   private getSeverityIcon(severity: string): string {
     switch (severity) {
-      case 'critical':
-        return '🚨';
-      case 'error':
-        return '❌';
-      case 'warning':
-        return '⚠️';
-      case 'info':
-        return 'ℹ️';
+      case 'critical': return '🚨',
+      case 'error': return '❌',
+      case 'warning': return '⚠️',
+      case 'info': return 'ℹ️',
       default:
         return '📋';
     }

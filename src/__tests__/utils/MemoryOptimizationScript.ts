@@ -11,16 +11,16 @@ import MemoryLeakDetector from './MemoryLeakDetector';
 import { TestMemoryMonitor } from './TestMemoryMonitor';
 
 interface OptimizationResult {
-  success: boolean;
-  memoryFreed: number;
-  optimizationsApplied: string[];
-  warnings: string[];
+  success: boolean,
+  memoryFreed: number,
+  optimizationsApplied: string[],
+  warnings: string[],
   errors: string[];
 }
 
 export class MemoryOptimizationScript {
-  private monitor: TestMemoryMonitor;
-  private detector: MemoryLeakDetector;
+  private monitor: TestMemoryMonitor,
+  private detector: MemoryLeakDetector,
 
   constructor() {
     this.monitor = TestMemoryMonitor.createForCI();
@@ -34,13 +34,13 @@ export class MemoryOptimizationScript {
     console.log('🚀 Starting comprehensive memory optimization...\n');
 
     const initialMemory = process.memoryUsage().heapUsed;
-    const optimizationsApplied: string[] = [];
-    const warnings: string[] = [];
-    const errors: string[] = [];
+    const optimizationsApplied: string[] = [],
+    const warnings: string[] = [],
+    const errors: string[] = [],
 
     try {
       // Step 1: Detect memory leaks
-      console.log('🔍 Step 1: Detecting memory leaks...');
+      console.log('🔍 Step 1: Detecting memory leaks...'),
       const leakReport = this.detector.scanForLeaks();
 
       if (leakReport.leaksDetected.length > 0) {
@@ -57,22 +57,22 @@ export class MemoryOptimizationScript {
       }
 
       // Step 2: Optimize Jest configuration
-      console.log('\n🔧 Step 2: Optimizing Jest configuration...');
+      console.log('\n🔧 Step 2: Optimizing Jest configuration...'),
       await this.optimizeJestConfiguration();
       optimizationsApplied.push('Optimized Jest configuration');
 
       // Step 3: Clean up global references
-      console.log('\n🧹 Step 3: Cleaning up global references...');
+      console.log('\n🧹 Step 3: Cleaning up global references...'),
       this.cleanupGlobalReferences();
       optimizationsApplied.push('Cleaned up global references');
 
       // Step 4: Optimize Node.js settings
-      console.log('\n⚙️ Step 4: Optimizing Node.js settings...');
+      console.log('\n⚙️ Step 4: Optimizing Node.js settings...'),
       this.optimizeNodeSettings();
       optimizationsApplied.push('Optimized Node.js settings');
 
       // Step 5: Force garbage collection
-      console.log('\n🗑️ Step 5: Forcing garbage collection...');
+      console.log('\n🗑️ Step 5: Forcing garbage collection...'),
       const gcResult = this.forceGarbageCollection();
       if (gcResult) {
         optimizationsApplied.push('Forced garbage collection');
@@ -81,7 +81,7 @@ export class MemoryOptimizationScript {
       }
 
       // Step 6: Generate optimization report
-      console.log('\n📊 Step 6: Generating optimization report...');
+      console.log('\n📊 Step 6: Generating optimization report...'),
       const finalMemory = process.memoryUsage().heapUsed;
       const memoryFreed = initialMemory - finalMemory;
 
@@ -96,7 +96,7 @@ export class MemoryOptimizationScript {
       this.logOptimizationResult(result);
       return result;
     } catch (error) {
-      errors.push(`Optimization failed: ${error}`);
+      errors.push(`Optimization failed: ${error}`),
       return {
         success: false,
         memoryFreed: 0,
@@ -251,28 +251,28 @@ export class MemoryOptimizationScript {
    * Log optimization results
    */
   private logOptimizationResult(result: OptimizationResult): void {
-    console.log('\n📊 Memory Optimization Results:');
+    console.log('\n📊 Memory Optimization Results: '),
     console.log('================================');
-    console.log(`Success: ${result.success ? '✅' : '❌'}`);
-    console.log(`Memory freed: ${result.memoryFreed.toFixed(2)}MB`);
-    console.log(`Optimizations applied: ${result.optimizationsApplied.length}`);
+    console.log(`Success: ${result.success ? '✅' : '❌'}`),
+    console.log(`Memory freed: ${result.memoryFreed.toFixed(2)}MB`),
+    console.log(`Optimizations applied: ${result.optimizationsApplied.length}`),
 
     if (result.optimizationsApplied.length > 0) {
-      console.log('\nOptimizations applied:');
+      console.log('\nOptimizations applied: '),
       result.optimizationsApplied.forEach((opt, index) => {
         console.log(`  ${index + 1}. ${opt}`);
       });
     }
 
     if (result.warnings.length > 0) {
-      console.log('\n⚠️ Warnings:');
+      console.log('\n⚠️ Warnings: '),
       result.warnings.forEach((warning, index) => {
         console.log(`  ${index + 1}. ${warning}`);
       });
     }
 
     if (result.errors.length > 0) {
-      console.log('\n❌ Errors:');
+      console.log('\n❌ Errors: '),
       result.errors.forEach((error, index) => {
         console.log(`  ${index + 1}. ${error}`);
       });
@@ -300,9 +300,9 @@ export class MemoryOptimizationScript {
     // Apply all available cleanup measures
     const fixes = MemoryLeakDetector.emergencyCleanup();
 
-    console.log(`Emergency cleanup completed:`);
-    console.log(`- Fixed: ${fixes.fixed.length} issues`);
-    console.log(`- Failed: ${fixes.failed.length} issues`);
+    console.log(`Emergency cleanup completed: `),
+    console.log(`- Fixed: ${fixes.fixed.length} issues`),
+    console.log(`- Failed: ${fixes.failed.length} issues`),
 
     if (fixes.fixed.length > 0) {
       console.log('Fixed issues:', fixes.fixed);

@@ -440,8 +440,7 @@ export function getQuantumValueForCard(card: unknown): number {
     case 'spirit':
     case 'essence':
     case 'substance':
-    case 'matter':
-      return 4;
+    case 'matter': return 4,
     default: return 0
   }
 }

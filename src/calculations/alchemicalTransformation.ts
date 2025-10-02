@@ -80,7 +80,7 @@ export const transformItemWithPlanetaryPositions = (
     } = calculatePlanetaryBoost(
       sanitizedItem,
       planetPositions,
-      (currentZodiac || 'aries') || 'aries',
+      (currentZodiac || 'aries') || 'aries'
       lunarPhase || null,
     );
 
@@ -158,7 +158,7 @@ export const transformItemWithPlanetaryPositions = (
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water'};
+      pisces: 'Water'},
     const zodiacElement = zodiacElementMap[zodiacSign];
     if (zodiacElement && zodiacElement === dominantElement) {
       zodiacModifier = 0.25; // Increased bonus for matching zodiac element
@@ -208,7 +208,7 @@ export const transformItemWithPlanetaryPositions = (
     const safeGregsEnergy = Math.max(0.2, Math.min(0.98, adjustedEnergy));
 
     // Add more debug logging
-    logger.debug(`[Ingredient: ${sanitizedItem.name}] Raw heat: ${alchemicalResults.heat}, Boosted heat: ${safeHeat}, Planetary boost: ${planetaryBoost}`);
+    logger.debug(`[Ingredient: ${sanitizedItem.name}] Raw heat: ${alchemicalResults.heat}, Boosted heat: ${safeHeat}, Planetary boost: ${planetaryBoost}`),
 
     return {
       ...sanitizedItem,
@@ -264,7 +264,7 @@ export const _transformItemsWithPlanetaryPositions = (
         item,
         planetPositions,
         isDaytime,
-        (currentZodiac || 'aries') || 'aries',
+        (currentZodiac || 'aries') || 'aries'
         lunarPhase,
       )
     );
@@ -277,8 +277,8 @@ export const _transformItemsWithPlanetaryPositions = (
         Spirit: 0.25,
         Essence: 0.25,
         Matter: 0.25,
-        Substance: 0.25,
-      },
+        Substance: 0.25
+},
       transformedElementalProperties: { ...item.elementalProperties },
       heat: 0.5,
       entropy: 0.5,
@@ -390,8 +390,8 @@ const applyZodiacBoost = (
       sagittarius: 'Fire',
       capricorn: 'Earth',
       aquarius: 'Air',
-      pisces: 'Water',
-    };
+      pisces: 'Water'
+};
     const zodiacElement = zodiacElementMap[zodiacSign];
     if (zodiacElement) {
       // Apply a small boost to the corresponding element

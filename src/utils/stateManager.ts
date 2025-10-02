@@ -8,10 +8,10 @@ import { themeManager } from './theme';
 
 // Add the missing type definitions
 interface ScoredRecipe extends Recipe {
-  _score: number;
+  _score: number,
   _matches: {
-    elemental: number;
-    _seasonal: number;
+    elemental: number,
+    _seasonal: number,
     _astrological: number;
   };
 }
@@ -24,8 +24,7 @@ type DietaryRestriction =
   | 'nut-free'
   | 'low-carb'
   | 'keto'
-  | 'paleo';
-
+  | 'paleo'
 export type CuisineType =
   | 'italian'
   | 'chinese'
@@ -36,66 +35,65 @@ export type CuisineType =
   | 'french'
   | 'mediterranean'
   | 'american'
-  | 'middle-eastern';
-
+  | 'middle-eastern'
 interface UserPreferences {
   theme: {
-    mode: 'light' | 'dark' | 'system';
-    colorScheme: string;
-    fontSize: number;
+    mode: 'light' | 'dark' | 'system'
+    colorScheme: string,
+    fontSize: number,
     animations: boolean;
   };
   dietary: {
-    restrictions: DietaryRestriction[];
-    favorites: string[];
-    excluded: string[];
-    spiciness: 'mild' | 'medium' | 'hot';
+    restrictions: DietaryRestriction[],
+    favorites: string[],
+    excluded: string[],
+    spiciness: 'mild' | 'medium' | 'hot'
   };
   cooking: {
-    preferredMethods: string[];
-    maxPrepTime: number;
-    servingSize: number;
-    complexity: 'simple' | 'moderate' | 'complex';
+    preferredMethods: string[],
+    maxPrepTime: number,
+    servingSize: number,
+    complexity: 'simple' | 'moderate' | 'complex'
   };
   cuisines: {
-    preferred: CuisineType[];
+    preferred: CuisineType[],
     excluded: CuisineType[];
   };
 }
 
 interface AppState {
   recipes: {
-    all: Recipe[];
-    filtered: ScoredRecipe[];
-    favorites: string[];
-    recent: string[];
-    loading: boolean;
+    all: Recipe[],
+    filtered: ScoredRecipe[],
+    favorites: string[],
+    recent: string[],
+    loading: boolean,
     error: string | null;
   };
   celestial: {
-    elementalState: ElementalProperties;
-    season: string;
-    moonPhase: string;
+    elementalState: ElementalProperties,
+    season: string,
+    moonPhase: string,
     lastUpdated: number;
   };
   user: {
-    preferences: UserPreferences;
+    preferences: UserPreferences,
     history: {
-      viewed: string[];
-      cooked: string[];
+      viewed: string[],
+      cooked: string[],
       rated: Record<string, number>;
     };
   };
   ui: {
-    activeFilters: Set<string>;
-    searchQuery: string;
-    selectedRecipe: string | null;
-    modalOpen: boolean;
-    sidebarOpen: boolean;
+    activeFilters: Set<string>,
+    searchQuery: string,
+    selectedRecipe: string | null,
+    modalOpen: boolean,
+    sidebarOpen: boolean,
     notifications: Array<{
-      id: string;
-      type: 'success' | 'error' | 'info';
-      message: string;
+      id: string,
+      type: 'success' | 'error' | 'info'
+      message: string,
       timestamp: number;
     }>;
   };
@@ -106,9 +104,9 @@ interface AppState {
  * The exported 'stateManager' is a Promise<StateManager>.
  */
 class StateManager {
-  private static instance: StateManager;
-  private state: AppState;
-  private listeners: Map<string, Set<(state: AppState) => void>>;
+  private static instance: StateManager,
+  private state: AppState,
+  private listeners: Map<string, Set<(state: AppState) => void>>,
   private readonly STORAGE_KEY = 'app_state';
   private readonly UPDATE_INTERVAL = 1000 * 60 * 5; // 5 minutes
 

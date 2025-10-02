@@ -47,7 +47,7 @@ describe('Quantity Scaling Engine', () => {
       Water: 0.4,
       Earth: 0.2,
       Air: 0.1
-    };
+};
 
     it('should scale properties with "like reinforces like" principle', () => {
       const scaled = scaleElementalProperties(baseElemental, 1.2);
@@ -82,7 +82,7 @@ describe('Quantity Scaling Engine', () => {
         Water: 0.3,
         Earth: 0.2,
         Air: 0.1
-      };
+};
 
       const esms = deriveESMSFromElemental(elemental);
 
@@ -98,7 +98,7 @@ describe('Quantity Scaling Engine', () => {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      };
+};
 
       const esms = deriveESMSFromElemental(elemental);
 
@@ -113,7 +113,7 @@ describe('Quantity Scaling Engine', () => {
       Essence: 0.4,
       Matter: 0.2,
       Substance: 0.1
-    };
+};
 
     it('should scale all properties by factor', () => {
       const scaled = scaleAlchemicalProperties(baseAlchemical, 1.5);
@@ -132,7 +132,7 @@ describe('Quantity Scaling Engine', () => {
         gregsEnergy: 0.9,
         kalchm: 1.2,
         monica: 0.7
-      };
+};
 
       const scaled = scaleAlchemicalProperties(baseAlchemical, 1.2, kinetics);
 
@@ -148,7 +148,7 @@ describe('Quantity Scaling Engine', () => {
         Essence: 0,
         Matter: 0,
         Substance: 0
-      };
+};
 
       const scaled = scaleAlchemicalProperties(baseWithZeros, 2.0);
       expect(scaled.Spirit).toBe(0);
@@ -164,7 +164,7 @@ describe('Quantity Scaling Engine', () => {
       Water: 0.4,
       Earth: 0.2,
       Air: 0.1
-    };
+};
 
     it('should create complete scaled properties object', () => {
       const result = createQuantityScaledProperties(baseElemental, 100, 'g');
@@ -185,7 +185,7 @@ describe('Quantity Scaling Engine', () => {
         gregsEnergy: 0.8,
         kalchm: 1.1,
         monica: 0.6
-      };
+};
 
       const result = createQuantityScaledProperties(baseElemental, 200, 'g', kinetics);
 
@@ -201,12 +201,12 @@ describe('Quantity Scaling Engine', () => {
         baseElemental: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
         quantity: 50,
         unit: 'g'
-      },
+},
       {
         baseElemental: { Fire: 0.2, Water: 0.5, Earth: 0.2, Air: 0.1 },
         quantity: 150,
         unit: 'g'
-      }
+}
     ];
 
     it('should scale multiple ingredients correctly', () => {
@@ -245,7 +245,7 @@ describe('Quantity Scaling Engine', () => {
 
       const validation = validateScalingIntegrity(invalidScaled);
       expect(validation.isValid).toBe(false);
-      expect(validation.issues).toContain('Fire property out of bounds: 1.5');
+      expect(validation.issues).toContain('Fire property out of bounds: 1.5'),
       expect(validation.issues).toContain('Air property out of bounds: -0.1');
     });
 
@@ -285,10 +285,10 @@ describe('Quantity Scaling Engine', () => {
       // Simulate garlic scaling from 1 clove to 3 cloves
       const garlicElemental: ElementalProperties = {
         Fire: 0.6, // Garlic is fiery
-        Water: 0.2,
+    Water: 0.2,
         Earth: 0.1,
         Air: 0.1
-      };
+};
 
       const singleClove = createQuantityScaledProperties(garlicElemental, 1, 'clove');
       const threeCloves = createQuantityScaledProperties(garlicElemental, 3, 'clove');
@@ -311,9 +311,9 @@ describe('Quantity Scaling Engine', () => {
       const tomatoElemental: ElementalProperties = {
         Fire: 0.2,
         Water: 0.5, // Tomatoes are watery
-        Earth: 0.2,
+    Earth: 0.2,
         Air: 0.1
-      };
+};
 
       // Simulate roasting thermodynamics (high heat, low entropy)
       const roastingKinetics: ThermodynamicMetrics = {
@@ -323,7 +323,7 @@ describe('Quantity Scaling Engine', () => {
         gregsEnergy: 0.95,
         kalchm: 1.3,
         monica: 0.8
-      };
+};
 
       const result = createQuantityScaledProperties(tomatoElemental, 200, 'g', roastingKinetics);
 

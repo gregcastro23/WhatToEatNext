@@ -261,7 +261,7 @@ export function calculatePlanetaryAspects(positions: {
   const planets = Object.keys(positions)
 
   // Calculate aspects between all planet pAirs;
-  for (let i = 0; i < (planets || []).length; i++) {
+  for (let i = 0, i < (planets || []).length; i++) {
     const planet1 = planets[i];
     const pos1 = positions[planet1]
 
@@ -270,7 +270,7 @@ export function calculatePlanetaryAspects(positions: {
       continue;
     }
 
-    for (let j = i + 1; j < (planets || []).length; j++) {
+    for (let j = i + 1, j < (planets || []).length; j++) {
       const planet2 = planets[j];
       const pos2 = positions[planet2];
 
@@ -320,15 +320,15 @@ export function identifyAspect(_angleDiff: number): { type: AspectType, orb: num
   // Define aspect angles and allowed orbs
   const aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
     conjunction: { angle: 0, maxOrb: 8 },
-    opposition: { angle: 180, maxOrb: 8 }
+    opposition: { angle: 180, maxOrb: 8 },
     trine: { angle: 120, maxOrb: 7 },
-    square: { angle: 90, maxOrb: 7 }
+    square: { angle: 90, maxOrb: 7 },
     sextile: { angle: 60, maxOrb: 6 },
-    quincunx: { angle: 150, maxOrb: 5 }
+    quincunx: { angle: 150, maxOrb: 5 },
     semisextile: { angle: 30, maxOrb: 4 },
-    semisquare: { angle: 45, maxOrb: 4 }
+    semisquare: { angle: 45, maxOrb: 4 },
     sesquisquare: { angle: 135, maxOrb: 4 },
-    quintile: { angle: 72, maxOrb: 3 }
+    quintile: { angle: 72, maxOrb: 3 },
     biquintile: { angle: 144, maxOrb: 3 }
   }
 
@@ -368,15 +368,15 @@ export function calculateAspectStrength(type: AspectType, _orb: number): number 
   // Get max orb for this aspect type
   const aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
     conjunction: { angle: 0, maxOrb: 8 },
-    opposition: { angle: 180, maxOrb: 8 }
+    opposition: { angle: 180, maxOrb: 8 },
     trine: { angle: 120, maxOrb: 7 },
-    square: { angle: 90, maxOrb: 7 }
+    square: { angle: 90, maxOrb: 7 },
     sextile: { angle: 60, maxOrb: 6 },
-    quincunx: { angle: 150, maxOrb: 5 }
+    quincunx: { angle: 150, maxOrb: 5 },
     semisextile: { angle: 30, maxOrb: 4 },
-    semisquare: { angle: 45, maxOrb: 4 }
+    semisquare: { angle: 45, maxOrb: 4 },
     sesquisquare: { angle: 135, maxOrb: 4 },
-    quintile: { angle: 72, maxOrb: 3 }
+    quintile: { angle: 72, maxOrb: 3 },
     biquintile: { angle: 144, maxOrb: 3 }
   }
 

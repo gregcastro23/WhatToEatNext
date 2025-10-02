@@ -49,7 +49,7 @@ import { UnifiedRecipeService, unifiedRecipeService } from './UnifiedRecipeServi
  * and consolidates their functionality into a single, consistent API.
  */
 export class ConsolidatedRecipeService {
-  private static instance: ConsolidatedRecipeService;
+  private static instance: ConsolidatedRecipeService,
   private recipeCache: Map<string, Recipe[]> = new Map();
 
   /**
@@ -78,8 +78,8 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'getAllRecipes' },
-      });
+        context: { action: 'getAllRecipes' }
+});
       return [];
     }
   }
@@ -100,7 +100,7 @@ export class ConsolidatedRecipeService {
 
       // Extract just the Recipe objects from the results
       return (unifiedResults || []).map((result: unknown) => {
-        const resultData = result as unknown as { recipe?: Recipe; [key: string]: unknown };
+        const resultData = result as unknown as { recipe?: Recipe; [key: string]: unknown },
         return resultData?.recipe || resultData;
       }) as unknown as Recipe[];
     } catch (error) {
@@ -205,8 +205,8 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'getRecipesForPlanetaryAlignment' },
-      });
+        context: { action: 'getRecipesForPlanetaryAlignment' }
+});
       return [];
     }
   }
@@ -226,8 +226,8 @@ export class ConsolidatedRecipeService {
     } catch (error) {
       ErrorHandler.log(error as Error, {
         component: 'ConsolidatedRecipeService',
-        context: { action: 'getRecipesForFlavorProfile' },
-      });
+        context: { action: 'getRecipesForFlavorProfile' }
+});
       return [];
     }
   }
@@ -235,16 +235,15 @@ export class ConsolidatedRecipeService {
   /**
    * Get best recipe matches based on multiple criteria
    */
-  async getBestRecipeMatches(
-    criteria: {
-      cuisine?: string;
-      flavorProfile?: { [key: string]: number };
-      season?: Season;
-      zodiacSign?: ZodiacSign;
-      lunarPhase?: LunarPhase;
-      planetName?: PlanetName;
-      elementalFocus?: Element;
-      maxResults?: number;
+  async getBestRecipeMatches(criteria: {
+      cuisine?: string,
+      flavorProfile?: { [key: string]: number },
+      season?: Season,
+      zodiacSign?: ZodiacSign,
+      lunarPhase?: LunarPhase,
+      planetName?: PlanetName,
+      elementalFocus?: Element,
+      maxResults?: number,
     },
     limit: number = 10,
   ): Promise<Recipe[]> {
@@ -269,7 +268,7 @@ export class ConsolidatedRecipeService {
         recommendRecipes: (criteria: Record<string, unknown>) => Promise<unknown[]>;
       };
       const generateRecipeMethod = serviceData?.generateRecipe;
-      const unifiedResult = generateRecipeMethod ? await generateRecipeMethod(criteria) : null;
+      const unifiedResult = generateRecipeMethod ? await generateRecipeMethod(criteria) : null,
       return unifiedResult?.recipe || null;
     } catch (error) {
       ErrorHandler.log(error as Error, {
@@ -292,7 +291,7 @@ export class ConsolidatedRecipeService {
       const generateFusionRecipeMethod = serviceData?.generateFusionRecipe;
       const unifiedResult = generateFusionRecipeMethod
         ? await generateFusionRecipeMethod(cuisines, criteria)
-        : null;
+        : null,
       return unifiedResult?.recipe || null;
     } catch (error) {
       ErrorHandler.log(error as Error, {
@@ -313,7 +312,7 @@ export class ConsolidatedRecipeService {
         recommendRecipes: (criteria: Record<string, unknown>) => Promise<unknown[]>;
       };
       const adaptRecipeMethod = serviceData?.adaptRecipeForCurrentSeason;
-      const unifiedResult = adaptRecipeMethod ? await adaptRecipeMethod(recipe) : null;
+      const unifiedResult = adaptRecipeMethod ? await adaptRecipeMethod(recipe) : null,
       return unifiedResult?.recipe || recipe;
     } catch (error) {
       ErrorHandler.log(error as Error, {

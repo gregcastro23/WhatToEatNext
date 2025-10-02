@@ -72,7 +72,7 @@ export function getModalityCompatibility(sign1: any, sign2: any): number {
   // Different modalities have lower compatibility
   const modalityCompatibilityChart: Record<Modality, Record<Modality, number>> = {
     cardinal: { cardinal: 0.8, fixed: 0.4, mutable: 0.5 },
-    fixed: { cardinal: 0.4, fixed: 0.8, mutable: 0.3 }
+    fixed: { cardinal: 0.4, fixed: 0.8, mutable: 0.3 },
     mutable: { cardinal: 0.5, fixed: 0.3, mutable: 0.8 }
   }
 
@@ -98,7 +98,7 @@ export function getZodiacCompatibility(_sign1: any, _sign2: any): number {
     pisces: 'water' },
         const elementCompatibilityChart: Record<string, Record<string, number>> = {
     fire: { fire: 0.8, earth: 0.4, air: 0.9, water: 0.3 },
-    earth: { fire: 0.4, earth: 0.8, air: 0.3, water: 0.9 }
+    earth: { fire: 0.4, earth: 0.8, air: 0.3, water: 0.9 },
     air: { fire: 0.9, earth: 0.3, air: 0.8, water: 0.4 },
     water: { fire: 0.3, earth: 0.9, air: 0.4, water: 0.8 }
   }

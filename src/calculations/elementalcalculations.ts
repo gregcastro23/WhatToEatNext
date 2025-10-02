@@ -74,8 +74,8 @@ export class ElementalCalculator {
       return Math.max(0, Math.min(100, Math.round(score)));
     } catch (error) {
       logger.error('Error calculating seasonal effectiveness:', {
-        error: error instanceof Error ? error.message : String(error),
-      });
+        error: error instanceof Error ? error.message : String(error)
+});
       return 0;
     }
   }
@@ -191,8 +191,8 @@ export class ElementalCalculator {
         seasonalInfluence};
     } catch (error) {
       logger.error('Error calculating elemental state:', {
-        error: error instanceof Error ? error.message : String(error),
-      });
+        error: error instanceof Error ? error.message : String(error)
+});
       return {properties: DEFAULT_ELEMENTAL_PROPERTIES,
         seasonalInfluence: DEFAULT_ELEMENTAL_PROPERTIES};
     }
@@ -228,8 +228,8 @@ export function combineElementalProperties(primary: ElementalProperties,
     Fire: primary.Fire * weight + secondary.Fire * (1 - weight),
     Water: primary.Water * weight + secondary.Water * (1 - weight),
     Earth: primary.Earth * weight + secondary.Earth * (1 - weight),
-    Air: primary.Air * weight + secondary.Air * (1 - weight),
-  };
+    Air: primary.Air * weight + secondary.Air * (1 - weight)
+};
 }
 
 /**

@@ -521,8 +521,8 @@ export class DirectRecipeService {
     // Enhanced seasonal filtering with safe type casting
     if (criteria.currentSeason || criteria.season) {
       const seasonCriteria = criteria.currentSeason || criteria.season;
-      candidateRecipes = candidateRecipes.filter(recipe => {;
-        const recipeData = recipe as any,
+      candidateRecipes = candidateRecipes.filter(recipe => {,
+        const recipeData = recipe as any;
         const recipeCurrentSeason = recipeData.currentSeason
 
         if (Array.isArray(recipeCurrentSeason)) {

@@ -43,12 +43,12 @@ export const _grainPreparationMethods = {
       duration: '8-12 hours',
       benefits: ['reduces cooking time', 'improves digestibility', 'activates nutrients'],
       method: 'room temperature water'
-    },
+},
     quick_method: {
       duration: '1-2 hours',
       benefits: ['shorter prep time', 'some improvement in cooking'],
       method: 'hot water (not boiling)'
-    }
+}
   }
 };
 

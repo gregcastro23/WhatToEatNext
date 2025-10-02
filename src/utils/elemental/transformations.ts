@@ -60,13 +60,13 @@ const PLANETARY_ELEMENTS: { [key: string]: ElementalCharacter } = {
   Pluto: 'Water' },
         const PLANETARY_ALCHEMICAL_PROPERTIES: Record<string, Record<string, number>> = {
   Sun: { Spirit: 0.9, Essence: 0.3, Matter: 0.1, Substance: 0.2 },
-  Moon: { Spirit: 0.2, Essence: 0.8, Matter: 0.5, Substance: 0.6 }
+  Moon: { Spirit: 0.2, Essence: 0.8, Matter: 0.5, Substance: 0.6 },
   Mercury: { Spirit: 0.7, Essence: 0.4, Matter: 0.3, Substance: 0.8 },
-  Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.5, Substance: 0.4 }
+  Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.5, Substance: 0.4 },
   Mars: { Spirit: 0.6, Essence: 0.3, Matter: 0.8, Substance: 0.2 },
-  Jupiter: { Spirit: 0.8, Essence: 0.7, Matter: 0.3, Substance: 0.3 }
+  Jupiter: { Spirit: 0.8, Essence: 0.7, Matter: 0.3, Substance: 0.3 },
   Saturn: { Spirit: 0.3, Essence: 0.2, Matter: 0.9, Substance: 0.7 },
-  Uranus: { Spirit: 0.8, Essence: 0.2, Matter: 0.4, Substance: 0.9 }
+  Uranus: { Spirit: 0.8, Essence: 0.2, Matter: 0.4, Substance: 0.9 },
   Neptune: { Spirit: 0.4, Essence: 0.8, Matter: 0.2, Substance: 0.7 },
   Pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
 }

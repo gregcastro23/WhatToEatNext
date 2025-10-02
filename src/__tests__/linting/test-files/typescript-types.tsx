@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, ComponentProps } from 'react';
 
 interface CustomProps {
-  title: string;
+  title: string,
   optional?: boolean;
 }
 

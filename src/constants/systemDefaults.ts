@@ -61,13 +61,13 @@ export const DEFAULT_RISING_SIGN: any = 'leo';
  */
 export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
   Sun: { sign: 'aries', degree: 0 },
-  Moon: { sign: 'taurus', degree: 0 }
+  Moon: { sign: 'taurus', degree: 0 },
   Mercury: { sign: 'gemini', degree: 0 },
-  Venus: { sign: 'libra', degree: 0 }
+  Venus: { sign: 'libra', degree: 0 },
   Mars: { sign: 'aries', degree: 0 },
-  Jupiter: { sign: 'sagittarius', degree: 0 }
+  Jupiter: { sign: 'sagittarius', degree: 0 },
   Saturn: { sign: 'capricorn', degree: 0 },
-  Uranus: { sign: 'aquarius', degree: 0 }
+  Uranus: { sign: 'aquarius', degree: 0 },
   Neptune: { sign: 'pisces', degree: 0 },
   Pluto: { sign: 'scorpio', degree: 0 }
 }
@@ -561,13 +561,13 @@ export const DEFAULT_ASTROLOGICAL_STATE = {
   elementalProfile: DEFAULT_ELEMENTAL_PROPERTIES,
   planetaryPositions: {
     Sun: { sign: 'aries' as any, degree: 15 },
-    Moon: { sign: 'taurus' as any, degree: 8 }
+    Moon: { sign: 'taurus' as any, degree: 8 },
     Mercury: { sign: 'gemini' as any, degree: 10 },
-    Venus: { sign: 'libra' as any, degree: 12 }
+    Venus: { sign: 'libra' as any, degree: 12 },
     Mars: { sign: 'aries' as any, degree: 20 },
-    Jupiter: { sign: 'sagittarius' as any, degree: 5 }
+    Jupiter: { sign: 'sagittarius' as any, degree: 5 },
     Saturn: { sign: 'capricorn' as any, degree: 18 },
-    Uranus: { sign: 'aquarius' as any, degree: 25 }
+    Uranus: { sign: 'aquarius' as any, degree: 25 },
     Neptune: { sign: 'pisces' as any, degree: 14 },
     Pluto: { sign: 'scorpio' as any, degree: 22 }
   },

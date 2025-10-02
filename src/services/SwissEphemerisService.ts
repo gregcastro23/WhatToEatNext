@@ -14,8 +14,8 @@ const logger = createLogger('SwissEphemerisService')
  * Swiss Ephemeris raw data structure
  */
 export interface SwissEphemerisData {
-  day: number;
-  date: Date;
+  day: number,
+  date: Date,
   sidereal_time: string;
   // Planet codes: A=Sun, B=Moon, C=Mercury, D=Venus, E=Mars, F=Jupiter, G=Saturn, O=Uranus, I=Neptune, J=Pluto
   A: number; // Sun
@@ -33,26 +33,26 @@ export interface SwissEphemerisData {
   M?: number; // Chiron (optional)
   N?: number; // Lilith (optional)
   // Sign information
-  A_sign?: string;
-  B_sign?: string;
-  C_sign?: string;
-  D_sign?: string;
-  E_sign?: string;
-  F_sign?: string;
-  G_sign?: string;
-  O_sign?: string;
-  I_sign?: string;
+  A_sign?: string,
+  B_sign?: string,
+  C_sign?: string,
+  D_sign?: string,
+  E_sign?: string,
+  F_sign?: string,
+  G_sign?: string,
+  O_sign?: string,
+  I_sign?: string,
   J_sign?: string;
   // Retrograde status
-  A_retrograde?: boolean;
-  B_retrograde?: boolean;
-  C_retrograde?: boolean;
-  D_retrograde?: boolean;
-  E_retrograde?: boolean;
+  A_retrograde?: boolean,
+  B_retrograde?: boolean,
+  C_retrograde?: boolean,
+  D_retrograde?: boolean,
+  E_retrograde?: boolean,
   F_retrograde?: boolean
-  G_retrograde?: boolean;
-  O_retrograde?: boolean;
-  I_retrograde?: boolean;
+  G_retrograde?: boolean,
+  O_retrograde?: boolean,
+  I_retrograde?: boolean,
   J_retrograde?: boolean
 }
 
@@ -677,8 +677,8 @@ export class SwissEphemerisService {
       date: new Date(date)
     }
 
-    Object.keys(dailyMotion).forEach(planetCode => {;
-      const currentLongitude = baseEntry[planetCode as keyof SwissEphemerisData] as number,
+    Object.keys(dailyMotion).forEach(planetCode => {,
+      const currentLongitude = baseEntry[planetCode as keyof SwissEphemerisData] as number;
       const motion = dailyMotion[planetCode as keyof typeof dailyMotion],
       if (typeof currentLongitude === 'number') {,
         let newLongitude = currentLongitude + motion * daysDiff,

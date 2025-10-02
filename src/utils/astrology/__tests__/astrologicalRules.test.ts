@@ -48,11 +48,11 @@ describe('Astrological ESLint Rules Integration', () => {
     test('validates correct planetary positions structure', () => {
       const validPositions: any = {
         sun: { sign: 'aries', degree: 15.5, exactLongitude: 15.5, isRetrograde: false },
-        moon: { sign: 'taurus', degree: 22.3, exactLongitude: 52.3, isRetrograde: false }
+        moon: { sign: 'taurus', degree: 22.3, exactLongitude: 52.3, isRetrograde: false },
         mercury: { sign: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true },
-        venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false }
+        venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false },
         mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
-        jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false }
+        jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false },
         saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false }
       }
 
@@ -81,9 +81,9 @@ describe('Astrological ESLint Rules Integration', () => {
         sun: { sign: 'aries', degree: 35.0, exactLongitude: 35.0, isRetrograde: false }, // Invalid degree > 30
         moon: { sign: 'taurus', degree: -5.0, exactLongitude: 325.0, isRetrograde: false }, // Invalid degree < 0
         mercury: { sign: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true },
-        venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false }
+        venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false },
         mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
-        jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false }
+        jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false },
         saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false }
       }
 
@@ -105,11 +105,11 @@ describe('Astrological ESLint Rules Integration', () => {
     test('quick validate planetary positions', () => {
       const validPositions: any = {
         sun: { sign: 'aries', degree: 155, exactLongitude: 15.5, isRetrograde: false },
-        moon: { sign: 'taurus', degree: 22.3, exactLongitude: 52.3, isRetrograde: false }
+        moon: { sign: 'taurus', degree: 22.3, exactLongitude: 52.3, isRetrograde: false },
         mercury: { sign: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true },
-        venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false }
+        venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false },
         mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
-        jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false }
+        jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false },
         saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false }
       }
 

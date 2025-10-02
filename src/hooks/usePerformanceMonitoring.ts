@@ -15,7 +15,7 @@ interface PerformanceMetrics {
   // Cache performance
   cacheStats: {
     elemental: { hits: number; misses: number; hitRate: number; size: number },
-    planetary: { hits: number; misses: number; hitRate: number; size: number }
+    planetary: { hits: number; misses: number; hitRate: number; size: number },
     recipe: { hits: number; misses: number; hitRate: number; size: number },
     user: { hits: number; misses: number; hitRate: number; size: number }
   },
@@ -50,7 +50,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     cacheStats: {
       elemental: { hits: 0, misses: 0, hitRate: 0, size: 0 },
-      planetary: { hits: 0, misses: 0, hitRate: 0, size: 0 }
+      planetary: { hits: 0, misses: 0, hitRate: 0, size: 0 },
       recipe: { hits: 0, misses: 0, hitRate: 0, size: 0 },
       user: { hits: 0, misses: 0, hitRate: 0, size: 0 }
     },

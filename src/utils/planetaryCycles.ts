@@ -87,8 +87,8 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.2,
     Essence: 0,
     Matter: -0.1,
-    Substance: 0,
-  },
+    Substance: 0
+},
   _Moon: {
     Fire: -0.1,
     Water: 0.3,
@@ -97,8 +97,8 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0,
     Essence: 0.2,
     Matter: 0.1,
-    Substance: 0,
-  },
+    Substance: 0
+},
   Mercury: {
     Fire: 0,
     Water: 0,
@@ -107,8 +107,8 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.1,
     Essence: 0,
     Matter: 0,
-    Substance: 0.2,
-  },
+    Substance: 0.2
+},
   Venus: {
     Fire: -0.1,
     Water: 0.2,
@@ -117,8 +117,8 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0,
     Essence: 0.2,
     Matter: 0,
-    Substance: 0.1,
-  },
+    Substance: 0.1
+},
   Mars: {
     Fire: 0.3,
     Water: -0.1,
@@ -127,8 +127,8 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.1,
     Essence: 0.1,
     Matter: 0.2,
-    Substance: -0.1,
-  },
+    Substance: -0.1
+},
   _Jupiter: {
     Fire: 0.1,
     Water: 0,
@@ -137,8 +137,8 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.2,
     Essence: 0.1,
     Matter: 0,
-    Substance: 0,
-  },
+    Substance: 0
+},
   _Saturn: {
     Fire: -0.1,
     Water: 0,
@@ -147,8 +147,8 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: -0.1,
     Essence: 0,
     Matter: 0.3,
-    Substance: 0.1,
-  },
+    Substance: 0.1
+},
   _Uranus: {
     Fire: 0.1,
     Water: 0.2,
@@ -157,8 +157,8 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.2,
     Essence: 0.1,
     Matter: 0.1,
-    Substance: 0.3,
-  },
+    Substance: 0.3
+},
   _Neptune: {
     Fire: -0.1,
     Water: 0.4,
@@ -167,8 +167,8 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.1,
     Essence: 0.3,
     Matter: 0,
-    Substance: 0.3,
-  },
+    Substance: 0.3
+},
   _Pluto: {
     Fire: 0.2,
     Water: 0.2,
@@ -177,8 +177,8 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0,
     Essence: 0.2,
     Matter: 0.3,
-    Substance: 0.1,
-  },
+    Substance: 0.1
+},
 };
 
 /**
@@ -187,9 +187,9 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
  * @returns Object containing token values
  */
 export function calculateTokenizedValues(_date: Date = new Date()): {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
+  Spirit: number,
+  Essence: number,
+  Matter: number,
   Substance: number;
 } {
   // Convert date to days since epoch for cycle calculations
@@ -213,7 +213,7 @@ export function calculateTokenizedValues(_date: Date = new Date()): {
  * @returns The calculated token value
  */
 function calculateTokenValue(
-  tokenName: 'Spirit' | 'Essence' | 'Matter' | 'Substance',
+  tokenName: 'Spirit' | 'Essence' | 'Matter' | 'Substance'
   daysSinceEpoch: number,
 ): number {
   const cycles = planetaryCycles[tokenName];

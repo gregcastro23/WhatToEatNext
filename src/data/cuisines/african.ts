@@ -21,13 +21,13 @@ export const african: Cuisine = {
         Earth: 0.1,
         Air: 0.1,
         Water: 0.0
-      },
+},
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes:
         'Traditionally dry-roasted and ground by hand, though now commercial versions are widely available.',
       technicalTips: 'Toast the spices before grinding for maximum flavor development.'
-    },
+},
     harissa: {
       name: 'Harissa',
       description: 'North African hot chili pepper paste with garlic, olive oil and spices',
@@ -40,11 +40,11 @@ export const african: Cuisine = {
         Earth: 0.2,
         Water: 0.1,
         Air: 0.0
-      },
+},
       astrologicalInfluences: ['Mars', 'Mercury', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Can be preserved in olive oil for months when refrigerated.',
-      technicalTips: 'For milder harissa, remove seeds from peppers before processing.'
+      technicalTips: 'For milder harissa, remove seeds from peppers before processing.',
     },
     duqqa: {
       name: 'Duqqa',
@@ -58,12 +58,12 @@ export const african: Cuisine = {
         Air: 0.3,
         Fire: 0.2,
         Water: 0.0
-      },
+},
       astrologicalInfluences: ['Mercury', 'Saturn', 'Virgo'],
       seasonality: 'all',
       preparationNotes: 'Each family has their own recipe - proportions vary significantly.',
       technicalTips: 'Allow to cool completely before storing to maintain crunch.'
-    },
+},
     chermoula: {
       name: 'Chermoula',
       description:
@@ -97,13 +97,12 @@ export const african: Cuisine = {
         Earth: 0.3,
         Air: 0.2,
         Fire: 0.1
-      },
+},
       astrologicalInfluences: ['Venus', 'Neptune', 'Pisces'],
       seasonality: 'spring, summer',
       preparationNotes:
         'Traditionally prepared by hand-grinding all ingredients in a mortar and pestle to release maximum flavor. Best made fresh, but can be stored for up to a week refrigerated.',
-      technicalTips:
-        'Balance acidity with enough olive oil for a smooth emulsion. For best results, allow flavors to marry for at least 30 minutes before using.'
+      technicalTips: 'Balance acidity with enough olive oil for a smooth emulsion. For best results, allow flavors to marry for at least 30 minutes before using.',
     },
     peanut: {
       name: 'West African Peanut Sauce',
@@ -117,12 +116,12 @@ export const african: Cuisine = {
         Fire: 0.2,
         Water: 0.2,
         Air: 0.0
-      },
+},
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'The sauce thickens significantly as it cools.',
       technicalTips: 'Roast raw peanuts before grinding for deeper flavor.'
-    }
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -199,7 +198,7 @@ export const african: Cuisine = {
             protein: 6,
             carbs: 50,
             fat: 8
-          },
+},
           timeToMake: '45 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -208,7 +207,7 @@ export const african: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Water: 0.1
-          },
+},
           astrologicalInfluences: [
             'Venus - The sweetness and cardamom fragrance',
             'Jupiter - The rising, expansive quality of the dough'
@@ -247,7 +246,7 @@ export const african: Cuisine = {
             protein: 22,
             carbs: 15,
             fat: 28
-          },
+},
           timeToMake: '40 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -256,7 +255,7 @@ export const african: Cuisine = {
             Water: 0.3,
             Earth: 0.2,
             Air: 0.1
-          },
+},
           astrologicalInfluences: [
             'Mars - The bold, spicy tomato base',
             'Sun - The bright egg yolks and life-giving energy'
@@ -299,7 +298,7 @@ export const african: Cuisine = {
             protein: 18,
             carbs: 45,
             fat: 12
-          },
+},
           timeToMake: '40 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -308,7 +307,7 @@ export const african: Cuisine = {
             Water: 0.3,
             Fire: 0.1,
             Air: 0.1
-          },
+},
           astrologicalInfluences: [
             'Saturn - The grounding, sustaining energy of beans',
             'Mercury - The bright lemon and herb notes'
@@ -356,7 +355,7 @@ export const african: Cuisine = {
             protein: 15,
             carbs: 90,
             fat: 10
-          },
+},
           timeToMake: '60 minutes',
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -365,7 +364,7 @@ export const african: Cuisine = {
             Earth: 0.3,
             Water: 0.1,
             Air: 0.1
-          },
+},
           astrologicalInfluences: [
             'Sun - The vibrant red color and celebratory nature',
             'Mars - The spicy, bold character'
@@ -417,7 +416,7 @@ export const african: Cuisine = {
             protein: 35,
             carbs: 15,
             fat: 28
-          },
+},
           timeToMake: '120 minutes',
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -426,7 +425,7 @@ export const african: Cuisine = {
             Earth: 0.2,
             Water: 0.1,
             Air: 0.1
-          },
+},
           astrologicalInfluences: [
             'Mars - The intense heat of berbere spice',
             'Saturn - The slow, transformative cooking process'
@@ -469,7 +468,7 @@ export const african: Cuisine = {
             protein: 35,
             carbs: 25,
             fat: 22
-          },
+},
           timeToMake: '90 minutes',
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -478,7 +477,7 @@ export const african: Cuisine = {
             Earth: 0.3,
             Water: 0.3,
             Air: 0.1
-          },
+},
           astrologicalInfluences: [
             'Mercury - The bright citrus notes',
             'Venus - The sweet caramelized onions'
@@ -530,7 +529,7 @@ export const african: Cuisine = {
             protein: 28,
             carbs: 25,
             fat: 20
-          },
+},
           timeToMake: '90 minutes',
           season: ['all'],
           mealType: ['dinner'],
@@ -539,7 +538,7 @@ export const african: Cuisine = {
             Fire: 0.3,
             Water: 0.2,
             Air: 0.1
-          },
+},
           astrologicalInfluences: [
             'Jupiter - The complex spices and cultural fusion',
             'Moon - The comforting, nurturing quality'
@@ -582,7 +581,7 @@ export const african: Cuisine = {
             protein: 42,
             carbs: 28,
             fat: 32
-          },
+},
           timeToMake: '135 minutes',
           season: ['all'],
           mealType: ['dinner'],
@@ -591,7 +590,7 @@ export const african: Cuisine = {
             Water: 0.2,
             Fire: 0.1,
             Air: 0.1
-          },
+},
           astrologicalInfluences: [
             'Saturn - The bitterness and depth of flavor',
             'Jupiter - The richness of the peanuts'
@@ -622,7 +621,7 @@ export const african: Cuisine = {
             protein: 38,
             carbs: 35,
             fat: 28
-          },
+},
           timeToMake: '75 minutes',
           season: ['all'],
           mealType: ['dinner'],
@@ -631,7 +630,7 @@ export const african: Cuisine = {
             Water: 0.2,
             Fire: 0.2,
             Air: 0.1
-          },
+},
           astrologicalInfluences: [
             'Jupiter - The richness and abundance',
             'Taurus - The earthy, satisfying quality'
@@ -680,7 +679,7 @@ export const african: Cuisine = {
             protein: 8,
             carbs: 70,
             fat: 15
-          },
+},
           timeToMake: '65 minutes',
           season: ['all'],
           mealType: ['dessert'],
@@ -689,7 +688,7 @@ export const african: Cuisine = {
             Earth: 0.3,
             Water: 0.3,
             Air: 0.1
-          },
+},
           astrologicalInfluences: [
             'Venus - The sweet, indulgent nature',
             'Sun - The warm, comforting quality'
@@ -726,7 +725,7 @@ export const african: Cuisine = {
             protein: 6,
             carbs: 45,
             fat: 12
-          },
+},
           timeToMake: '50 minutes',
           season: ['all'],
           mealType: ['dessert', 'snack'],
@@ -735,7 +734,7 @@ export const african: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Water: 0.1
-          },
+},
           astrologicalInfluences: [
             'Venus - The sweet indulgence',
             'Mercury - The crisp texture and intricate shapes'
@@ -756,7 +755,7 @@ export const african: Cuisine = {
       toolsRequired: ['heavy-bottomed pot', 'wooden spoon', 'heat diffuser'],
       bestFor: ['stews', 'sauces', 'tough cuts of meat', 'legumes'],
       difficulty: 'easy'
-    },
+},
     {
       name: 'Hand Pounding',
       description:
@@ -765,7 +764,7 @@ export const african: Cuisine = {
       toolsRequired: ['mortar and pestle', 'sieve'],
       bestFor: ['spice blends', 'sauces', 'pounded yam', 'fufu'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Clay Pot Cooking',
       description: 'Slow cooking in unglazed clay pots that enhance flavors and maintain moisture',
@@ -773,7 +772,7 @@ export const african: Cuisine = {
       toolsRequired: ['clay pot', 'heat diffuser', 'wooden spoon'],
       bestFor: ['stews', 'tagines', 'rice dishes', 'beans'],
       difficulty: 'medium'
-    },
+},
     {
       name: 'Charcoal Grilling',
       description: 'Direct heat cooking over open charcoal for smoky flavor',
@@ -781,7 +780,7 @@ export const african: Cuisine = {
       toolsRequired: ['charcoal grill', 'skewers', 'tongs'],
       bestFor: ['suya', 'kebabs', 'whole fish', 'vegetables'],
       difficulty: 'easy'
-    },
+},
     {
       name: 'Fermentation',
       description:
@@ -790,7 +789,7 @@ export const african: Cuisine = {
       toolsRequired: ['clay pots', 'wooden tools', 'weights'],
       bestFor: ['injera', 'ogi', 'garri', 'fermented locust beans'],
       difficulty: 'hard'
-    }
+}
   ],
   regionalCuisines: {
     northAfrican: {
@@ -801,7 +800,7 @@ export const african: Cuisine = {
       elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Mars', 'Venus', 'Mercury'],
       seasonality: 'all'
-    },
+},
     westAfrican: {
       name: 'West African Cuisine',
       description: 'Bold, spicy cuisine with staples like rice, cassava, plantains and palm oil',
@@ -809,7 +808,7 @@ export const african: Cuisine = {
       elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Mars'],
       seasonality: 'all'
-    },
+},
     eastAfrican: {
       name: 'East African Cuisine',
       description: 'Diverse cuisine influenced by Arabic, Indian and indigenous traditions',
@@ -817,7 +816,7 @@ export const african: Cuisine = {
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Sun', 'Mars', 'Saturn'],
       seasonality: 'all'
-    },
+},
     southernAfrican: {
       name: 'Southern African Cuisine',
       description: 'Hearty cuisine combining indigenous, Dutch, Malaysian and British influences',
@@ -825,12 +824,12 @@ export const african: Cuisine = {
       elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Venus', 'Jupiter'],
       seasonality: 'all'
-    }
+}
   },
   elementalProperties: {
     Earth: 0.4,
     Fire: 0.3,
     Water: 0.2,
     Air: 0.1
-  }
+}
 };

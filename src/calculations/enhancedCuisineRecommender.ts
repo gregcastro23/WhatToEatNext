@@ -62,10 +62,10 @@ interface TimeFactors {
   currentDate: Date;
 }
 
-type PlanetaryDay = 'Sun' | 'Moon' | 'Mars' | 'Mercury' | 'Jupiter' | 'Venus' | 'Saturn';
+type PlanetaryDay = 'Sun' | 'Moon' | 'Mars' | 'Mercury' | 'Jupiter' | 'Venus' | 'Saturn'
 type PlanetaryHour = PlanetaryDay;
-type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
-type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night'
+type Season = 'spring' | 'summer' | 'autumn' | 'winter'
 /**
  * Enhanced cuisine-specific recipe recommender that incorporates:
  * - Day of week (planetary day)
@@ -119,8 +119,8 @@ export class EnhancedCuisineRecommender {
     } catch (error) {
       logger.error('Error getting recommendations for cuisine:', {
         cuisineName,
-        error: error instanceof Error ? error.message : String(error),
-      });
+        error: error instanceof Error ? error.message : String(error)
+});
       return [];
     }
   }
@@ -136,8 +136,8 @@ export class EnhancedCuisineRecommender {
     } catch (error) {
       logger.error('Error getting recipes for cuisine:', {
         cuisineName,
-        error: error instanceof Error ? error.message : String(error),
-      });
+        error: error instanceof Error ? error.message : String(error)
+});
       return [];
     }
   }
@@ -170,8 +170,8 @@ export class EnhancedCuisineRecommender {
 
       return {
         cuisine: cuisineName,
-        recipeName: recipe.name || 'Unknown Recipe',
-        recipeId: recipe.id || 'unknown',
+        recipeName: recipe.name || 'Unknown Recipe'
+        recipeId: recipe.id || 'unknown'
         matchPercentage,
         seasonalScore,
         planetaryDayScore,
@@ -183,19 +183,19 @@ export class EnhancedCuisineRecommender {
         description: recipe.description || '',
         ingredients: recipe.ingredients || [],
         season: recipe.season || [],
-        mealType: recipe.mealType || [],
-      };
+        mealType: recipe.mealType || []
+};
     } catch (error) {
       logger.error('Error calculating recipe match:', {
         recipe: recipe.name,
-        error: error instanceof Error ? error.message : String(error),
-      });
+        error: error instanceof Error ? error.message : String(error)
+});
 
       // Return default match with low score
       return {
         cuisine: cuisineName,
-        recipeName: recipe.name || 'Unknown Recipe',
-        recipeId: recipe.id || 'unknown',
+        recipeName: recipe.name || 'Unknown Recipe'
+        recipeId: recipe.id || 'unknown'
         matchPercentage: 0.1,
         seasonalScore: 0.5,
         planetaryDayScore: 0.5,
@@ -207,8 +207,8 @@ export class EnhancedCuisineRecommender {
         description: recipe.description || '',
         ingredients: recipe.ingredients || [],
         season: recipe.season || [],
-        mealType: recipe.mealType || [],
-      };
+        mealType: recipe.mealType || []
+};
     }
   }
 

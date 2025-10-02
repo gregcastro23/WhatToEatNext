@@ -14,13 +14,13 @@ import { TestMemoryMonitor } from '../utils/TestMemoryMonitor';
 
 // Mock child_process for controlled testing
 jest.mock('child_process', () => ({
-  execSync: jest.fn(),
+  execSync: jest.fn()
 }));
 
 const mockExecSync = execSync as jest.MockedFunction<any>;
 
 describe('Performance Validation Tests - Task 12', () => {
-  let memoryMonitor: TestMemoryMonitor;
+  let memoryMonitor: TestMemoryMonitor,
 
   beforeAll(() => {
     memoryMonitor = TestMemoryMonitor.createDefault();
@@ -32,7 +32,7 @@ describe('Performance Validation Tests - Task 12', () => {
   });
 
   afterEach(() => {
-    const testName = expect.getState().currentTestName || 'unknown';
+    const testName = expect.getState().currentTestName || 'unknown'
     memoryMonitor.takeSnapshot(`performance-test-${testName}-end`);
 
     // Cleanup after each test
@@ -70,7 +70,7 @@ describe('Performance Validation Tests - Task 12', () => {
         return Buffer.from(`✓ Incremental linting completed in ${mockProcessingTime / 1000}s`);
       });
 
-      const result = mockExecSync('yarn lint:changed');
+      const result = mockExecSync('yarn lint: changed');
       const endTime = performance.now();
       const executionTime = endTime - startTime;
 
@@ -89,7 +89,7 @@ describe('Performance Validation Tests - Task 12', () => {
         return Buffer.from(`✓ Fast linting with cache completed in ${mockProcessingTime / 1000}s (cache hit: 85%)`);
       });
 
-      const result = mockExecSync('yarn lint:fast');
+      const result = mockExecSync('yarn lint: fast');
       const endTime = performance.now();
       const executionTime = endTime - startTime;
 
@@ -115,8 +115,8 @@ describe('Performance Validation Tests - Task 12', () => {
         return Buffer.from(`✓ Parallel linting completed in ${parallelTime / 1000}s`);
       });
 
-      const sequentialResult = mockExecSync('yarn lint:sequential');
-      const parallelResult = mockExecSync('yarn lint:parallel');
+      const sequentialResult = mockExecSync('yarn lint: sequential');
+      const parallelResult = mockExecSync('yarn lint: parallel'),
 
       expect(sequentialResult.toString()).toContain('Sequential linting completed');
       expect(parallelResult.toString()).toContain('Parallel linting completed');
@@ -140,7 +140,7 @@ describe('Performance Validation Tests - Task 12', () => {
           return Buffer.from(`✓ Domain ${domain} linting completed in ${mockTime / 1000}s`);
         });
 
-        const result = mockExecSync(`yarn lint:domain-${domain}`);
+        const result = mockExecSync(`yarn lint: domain-${domain}`);
         const endTime = performance.now();
         const executionTime = endTime - startTime;
 
@@ -163,7 +163,7 @@ describe('Performance Validation Tests - Task 12', () => {
         return Buffer.from(`✓ Linting completed, peak memory: ${mockMemoryUsage}MB`);
       });
 
-      const result = mockExecSync('yarn lint:memory-test');
+      const result = mockExecSync('yarn lint: memory-test');
       const finalMemory = memoryMonitor.getCurrentMemoryUsage();
 
       const memoryIncrease = (finalMemory.heapUsed - initialMemory.heapUsed) / 1024 / 1024;
@@ -194,7 +194,7 @@ describe('Performance Validation Tests - Task 12', () => {
       expect(cleanupResult.success).toBe(true);
       expect(memoryRetained).toBeLessThan(50); // Less than 50MB retained
 
-      console.log(`Memory retained after cleanup: ${memoryRetained.toFixed(2)}MB`);
+      console.log(`Memory retained after cleanup: ${memoryRetained.toFixed(2)}MB`),
       console.log(`Cleanup actions: ${cleanupResult.actions.join(', ')}`);
     });
 
@@ -211,7 +211,7 @@ describe('Performance Validation Tests - Task 12', () => {
           return Buffer.from(`✓ Linting (${scenario.name}): ${scenario.expectedMemory}MB peak memory`);
         });
 
-        const result = mockExecSync(`yarn lint:cache-${scenario.name}`);
+        const result = mockExecSync(`yarn lint: cache-${scenario.name}`),
         expect(result.toString()).toContain(`${scenario.expectedMemory}MB peak memory`);
       });
 
@@ -226,13 +226,13 @@ describe('Performance Validation Tests - Task 12', () => {
       const memoryPerFile = 0.1; // 0.1MB per file
 
       fileCounts.forEach(fileCount => {
-        const expectedMemory = baseMemory + fileCount * memoryPerFile;
+        const expectedMemory = baseMemory + fileCount * memoryPerFile,
 
         mockExecSync.mockImplementation((_command: string) => {
           return Buffer.from(`✓ ${fileCount} files linted, memory: ${expectedMemory.toFixed(1)}MB`);
         });
 
-        const result = mockExecSync(`yarn lint:scale-${fileCount}`);
+        const result = mockExecSync(`yarn lint: scale-${fileCount}`),
         expect(result.toString()).toContain(`${fileCount} files linted`);
 
         // Memory should scale reasonably (less than 1MB per file)
@@ -286,7 +286,7 @@ describe('Performance Validation Tests - Task 12', () => {
           return Buffer.from(`✓ Run ${run} completed in ${time / 1000}s`);
         });
 
-        const result = mockExecSync(`yarn lint:regression-test-${run}`);
+        const result = mockExecSync(`yarn lint: regression-test-${run}`),
         expect(result.toString()).toContain(`Run ${run} completed`);
 
         // Check for regression
@@ -301,7 +301,7 @@ describe('Performance Validation Tests - Task 12', () => {
       expect(averageTime).toBeLessThan(baselineTime * regressionThreshold);
       expect(performanceVariation).toBeLessThan(baselineTime * 0.1); // Less than 10% variation
 
-      console.log(`Average performance: ${(averageTime / 1000).toFixed(2)}s`);
+      console.log(`Average performance: ${(averageTime / 1000).toFixed(2)}s`),
       console.log(`Performance variation: ${(performanceVariation / 1000).toFixed(2)}s`);
     });
 
@@ -322,7 +322,7 @@ describe('Performance Validation Tests - Task 12', () => {
           return Buffer.from(`✓ Memory run ${run}: ${memory}MB peak`);
         });
 
-        const result = mockExecSync(`yarn lint:memory-regression-${run}`);
+        const result = mockExecSync(`yarn lint: memory-regression-${run}`),
         expect(result.toString()).toContain(`Memory run ${run}`);
 
         // Check for memory regression
@@ -336,7 +336,7 @@ describe('Performance Validation Tests - Task 12', () => {
       expect(averageMemory).toBeLessThan(baselineMemory * memoryRegressionThreshold);
       expect(memoryVariation).toBeLessThan(baselineMemory * 0.2); // Less than 20% variation
 
-      console.log(`Average memory usage: ${averageMemory.toFixed(2)}MB`);
+      console.log(`Average memory usage: ${averageMemory.toFixed(2)}MB`),
       console.log(`Memory variation: ${memoryVariation.toFixed(2)}MB`);
     });
   });
@@ -357,8 +357,8 @@ describe('Performance Validation Tests - Task 12', () => {
         return Buffer.from(`✓ With cache: ${withCacheTime / 1000}s (cache hit: 90%)`);
       });
 
-      const noCacheResult = mockExecSync('yarn lint:no-cache');
-      const cachedResult = mockExecSync('yarn lint:cached');
+      const noCacheResult = mockExecSync('yarn lint: no-cache');
+      const cachedResult = mockExecSync('yarn lint: cached'),
 
       expect(noCacheResult.toString()).toContain('No cache');
       expect(cachedResult.toString()).toContain('With cache');
@@ -377,10 +377,10 @@ describe('Performance Validation Tests - Task 12', () => {
 
       mockExecSync
         .mockImplementationOnce(() => Buffer.from(`✓ Sequential: ${sequentialTime / 1000}s`))
-        .mockImplementationOnce(() => Buffer.from(`✓ Parallel (4 cores): ${parallelTime / 1000}s`));
+        .mockImplementationOnce(() => Buffer.from(`✓ Parallel (4 cores): ${parallelTime / 1000}s`)),
 
-      const sequentialResult = mockExecSync('yarn lint:sequential');
-      const parallelResult = mockExecSync('yarn lint:parallel');
+      const sequentialResult = mockExecSync('yarn lint: sequential');
+      const parallelResult = mockExecSync('yarn lint: parallel'),
 
       expect(sequentialResult.toString()).toContain('Sequential');
       expect(parallelResult.toString()).toContain('Parallel');
@@ -398,10 +398,10 @@ describe('Performance Validation Tests - Task 12', () => {
 
       mockExecSync
         .mockImplementationOnce(() => Buffer.from(`✓ Full processing: ${fullProcessingTime / 1000}s`))
-        .mockImplementationOnce(() => Buffer.from(`✓ Incremental: ${incrementalTime / 1000}s (5 files changed)`));
+        .mockImplementationOnce(() => Buffer.from(`✓ Incremental: ${incrementalTime / 1000}s (5 files changed)`)),
 
-      const fullResult = mockExecSync('yarn lint:full');
-      const incrementalResult = mockExecSync('yarn lint:incremental');
+      const fullResult = mockExecSync('yarn lint: full');
+      const incrementalResult = mockExecSync('yarn lint: incremental'),
 
       expect(fullResult.toString()).toContain('Full processing');
       expect(incrementalResult.toString()).toContain('Incremental');
@@ -431,8 +431,8 @@ describe('Performance Validation Tests - Task 12', () => {
           incrementalLinting: 7000,
           cachedLinting: 3000,
           memoryUsage: 150,
-          cacheHitRate: 0.85,
-        };
+          cacheHitRate: 0.85
+};
         return Buffer.from(JSON.stringify(summary));
       });
 
@@ -450,8 +450,8 @@ describe('Performance Validation Tests - Task 12', () => {
         incrementalLinting: `${(result.incrementalLinting / 1000).toFixed(2)}s`,
         cachedLinting: `${(result.cachedLinting / 1000).toFixed(2)}s`,
         memoryUsage: `${result.memoryUsage}MB`,
-        cacheHitRate: `${(result.cacheHitRate * 100).toFixed(1)}%`,
-      });
+        cacheHitRate: `${(result.cacheHitRate * 100).toFixed(1)}%`
+});
     });
 
     test('Memory monitoring provides accurate insights', () => {
@@ -470,8 +470,8 @@ describe('Performance Validation Tests - Task 12', () => {
         totalIncrease: `${memoryReport.summary.totalIncrease.toFixed(2)}MB`,
         peakMemory: `${memoryReport.summary.peakMemory.toFixed(2)}MB`,
         testDuration: `${(memoryReport.summary.testDuration / 1000).toFixed(2)}s`,
-        recommendations: memoryReport.recommendations,
-      });
+        recommendations: memoryReport.recommendations
+});
     });
   });
 });

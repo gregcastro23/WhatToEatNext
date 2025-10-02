@@ -48,7 +48,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       fiber_g: 3,
       antioxidants: ['glucosinolates', 'flavonoids', 'carotenoids', 'isothiocyanates'],
       digestive_enzymes: 'moderate'
-    },
+},
     preparation: {
       washing: true,
       cutting: 'uniform florets',
@@ -56,7 +56,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       notes: 'Can be processed into rice substitute or mashed as potato replacement',
       marinades: 'absorbs flavors well if pre-marinated',
       pre_cooking: 'blanching improves texture for some preparations'
-    },
+},
     varieties: {
       romanesco: {
         characteristics: 'lime green, fractal pattern, nutty flavor',
@@ -68,13 +68,13 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
           aroma: ['Fresh', 'Clean', 'Subtle'],
           texture: ['Pleasant', 'Smooth', 'Appealing'],
           notes: 'Characteristic romanesco profile'
-        },
+},
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile romanesco for various uses'
-          },
+},
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
@@ -83,7 +83,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
           methods: ['standard preparation'],
           timing: 'as needed',
           notes: 'Standard preparation for romanesco'
-        }
+}
       }
     },
     sensoryProfile: {
@@ -91,13 +91,13 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       aroma: ['fresh', 'earthy'],
       texture: ['crisp when raw', 'tender when cooked'],
       notes: 'Characteristic cauliflower profile'
-    },
+},
     culinaryProfile: {
       flavorProfile: {
         primary: ['mild', 'versatile'],
         secondary: ['nutty', 'earthy'],
         notes: 'Highly adaptable vegetable'
-      },
+},
       cookingMethods: ['roasted', 'steamed', 'raw'],
       cuisineAffinity: ['Global', 'Indian', 'Mediterranean'],
       preparationTips: ['Cut into uniform pieces', 'Dry thoroughly for roasting']
@@ -107,7 +107,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       duration: '1-2 weeks',
       container: 'plastic bag',
       notes: 'Store in refrigerator crisper'
-    }
+}
   }
 };
 

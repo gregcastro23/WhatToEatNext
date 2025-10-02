@@ -27,13 +27,13 @@ import { TestMemoryMonitor } from '../utils/TestMemoryMonitor';
 jest.mock('child_process', () => ({
   execSync: jest.fn(),
   exec: jest.fn(),
-  spawn: jest.fn(),
+  spawn: jest.fn()
 }));
 
 const mockExecSync = execSync as jest.MockedFunction<any>;
 
 describe('Comprehensive Validation Test Suite - Task 12', () => {
-  let memoryMonitor: TestMemoryMonitor;
+  let memoryMonitor: TestMemoryMonitor,
 
   beforeAll(() => {
     // Initialize memory monitoring for performance tests
@@ -51,8 +51,8 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
       console.warn('High memory usage detected in comprehensive validation:', {
         totalIncrease: `${summary.totalIncrease.toFixed(2)}MB`,
         peakMemory: `${summary.peakMemory.toFixed(2)}MB`,
-        duration: `${(summary.testDuration / 1000).toFixed(2)}s`,
-      });
+        duration: `${(summary.testDuration / 1000).toFixed(2)}s`
+});
     }
 
     performEmergencyCleanup();
@@ -64,7 +64,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
   });
 
   afterEach(() => {
-    const testName = expect.getState().currentTestName || 'unknown';
+    const testName = expect.getState().currentTestName || 'unknown'
     memoryMonitor.takeSnapshot(`test-${testName}-end`);
 
     // Check memory usage after each test
@@ -102,7 +102,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         // Mock domain-specific linting
         mockExecSync.mockReturnValue(Buffer.from('Astrological rules applied successfully'));
 
-        const result = mockExecSync('yarn lint:domain-astro');
+        const result = mockExecSync('yarn lint: domain-astro'),
         expect(result.toString()).toContain('successfully');
       });
     });
@@ -197,7 +197,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
           return Buffer.from('✓ Linting completed');
         });
 
-        const result = mockExecSync('yarn lint:fast');
+        const result = mockExecSync('yarn lint: fast');
         const endTime = performance.now();
         const executionTime = endTime - startTime;
 
@@ -211,7 +211,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         // Mock incremental linting
         mockExecSync.mockReturnValue(Buffer.from('✓ 5 files linted in 0.5s'));
 
-        const result = mockExecSync('yarn lint:changed');
+        const result = mockExecSync('yarn lint: changed');
         const endTime = performance.now();
         const executionTime = endTime - startTime;
 
@@ -223,7 +223,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         // Mock parallel linting
         mockExecSync.mockReturnValue(Buffer.from('✓ Parallel linting completed in 2.1s'));
 
-        const result = mockExecSync('yarn lint:parallel');
+        const result = mockExecSync('yarn lint: parallel'),
         expect(result.toString()).toContain('Parallel linting completed');
       });
     });
@@ -233,9 +233,9 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         const initialMemory = process.memoryUsage();
 
         // Mock memory-efficient linting
-        mockExecSync.mockReturnValue(Buffer.from('✓ Memory usage: 45MB'));
+        mockExecSync.mockReturnValue(Buffer.from('✓ Memory usage: 45MB')),
 
-        const result = mockExecSync('yarn lint:memory-efficient');
+        const result = mockExecSync('yarn lint: memory-efficient');
         const finalMemory = process.memoryUsage();
 
         const memoryIncrease = (finalMemory.heapUsed - initialMemory.heapUsed) / 1024 / 1024;
@@ -268,10 +268,10 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         // Mock cache-enabled linting
         mockExecSync
           .mockReturnValueOnce(Buffer.from('✓ First run: 5.2s (no cache)'))
-          .mockReturnValueOnce(Buffer.from('✓ Second run: 1.1s (cache hit: 80%)'));
+          .mockReturnValueOnce(Buffer.from('✓ Second run: 1.1s (cache hit: 80%)')),
 
-        const firstRun = mockExecSync('yarn lint:cache-test');
-        const secondRun = mockExecSync('yarn lint:cache-test');
+        const firstRun = mockExecSync('yarn lint: cache-test');
+        const secondRun = mockExecSync('yarn lint: cache-test'),
 
         expect(firstRun.toString()).toContain('no cache');
         expect(secondRun.toString()).toContain('cache hit');
@@ -287,7 +287,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         fileCounts.forEach((fileCount, index) => {
           mockExecSync.mockReturnValueOnce(Buffer.from(`✓ ${fileCount} files linted in ${expectedTimes[index]}s`));
 
-          const result = mockExecSync(`yarn lint:scale-test --files=${fileCount}`);
+          const result = mockExecSync(`yarn lint: scale-test --files=${fileCount}`),
           expect(result.toString()).toContain(`${fileCount} files linted`);
 
           // Ensure scaling is reasonable (not exponential)
@@ -309,8 +309,8 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
           Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
           Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
           Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
-        };
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
+};
 
         // Test self-reinforcement (same elements ≥ 0.9)
         Object.keys(elementalCompatibility).forEach(element => {
@@ -327,9 +327,9 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Astrological calculation rules preserve domain logic', () => {
         // Mock astrological calculation validation
-        mockExecSync.mockReturnValue(Buffer.from('✓ Astrological rules validated: 0 violations'));
+        mockExecSync.mockReturnValue(Buffer.from('✓ Astrological rules validated: 0 violations')),
 
-        const result = mockExecSync('yarn lint:domain-astro --validate-rules');
+        const result = mockExecSync('yarn lint: domain-astro --validate-rules'),
         expect(result.toString()).toContain('0 violations');
       });
 
@@ -359,8 +359,8 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         // Mock transit date validation
         const transitDates = {
           mars: { cancer: { Start: '2024-07-01', End: '2024-08-15' } },
-          venus: { pisces: { Start: '2024-03-01', End: '2024-04-30' } },
-        };
+          venus: { pisces: { Start: '2024-03-01', End: '2024-04-30' } }
+};
 
         Object.entries(transitDates).forEach(([planet, signs]) => {
           Object.entries(signs).forEach(([sign, dates]) => {
@@ -469,8 +469,8 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
           typeScriptErrors: { current: 0, target: 0, reduction: 100 },
           lintingWarnings: { current: 0, target: 0, reduction: 100 },
           buildPerformance: { currentTime: 8.5, targetTime: 10 },
-          enterpriseSystems: { current: 200, target: 200 },
-        };
+          enterpriseSystems: { current: 200, target: 200 }
+};
 
         mockExecSync.mockReturnValue(Buffer.from(JSON.stringify(metrics)));
 
@@ -506,8 +506,8 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         performanceTests: 'PASSED',
         domainTests: 'PASSED',
         systemIntegration: 'PASSED',
-        qualityMetrics: 'PASSED',
-      };
+        qualityMetrics: 'PASSED'
+};
 
       mockExecSync.mockReturnValue(Buffer.from(JSON.stringify(validationResults)));
 

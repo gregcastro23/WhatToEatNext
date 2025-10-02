@@ -37,18 +37,18 @@ export interface IngredientData {
 
   /** Optional astrological affinities (ruling planets, favorable signs) */
   astrologicalProfile?: {
-    rulingPlanets?: string[];
-    favorableZodiac?: string[];
-    seasonalAffinity?: Season[];
+    rulingPlanets?: string[],
+    favorableZodiac?: string[],
+    seasonalAffinity?: Season[],
     lunarPhasePreferences?: LunarPhase[];
   };
 
   /** Physical and culinary metadata */
-  qualities?: string[];
-  category?: string;
-  subCategory?: string;
-  origin?: string[];
-  affinities?: string[];
+  qualities?: string[],
+  category?: string,
+  subCategory?: string,
+  origin?: string[],
+  affinities?: string[],
   cookingMethods?: string[];
 }
 
@@ -74,13 +74,13 @@ export interface RecipeComputedProperties {
   kineticProperties: KineticMetrics;
 
   /** Dominant properties for quick reference */
-  dominantElement: keyof ElementalProperties;
+  dominantElement: keyof ElementalProperties,
   dominantAlchemicalProperty: keyof AlchemicalProperties;
 
   /** Computation metadata */
   computationMetadata: {
-    planetaryPositionsUsed: { [planet: string]: string };
-    cookingMethodsApplied: CookingMethod[];
+    planetaryPositionsUsed: { [planet: string]: string },
+    cookingMethodsApplied: CookingMethod[],
     computationTimestamp: Date;
   };
 }
@@ -99,7 +99,7 @@ export interface AstrologicalTiming {
 
   /** Alternative acceptable positions */
   alternativePositions?: Array<{
-    positions: { [planet: string]: string };
+    positions: { [planet: string]: string },
     suitability: number; // 0-1 scale
     notes?: string;
   }>;
@@ -150,8 +150,7 @@ export interface CuisineSignature {
   zscore: number;
 
   /** Strength classification */
-  strength: 'low' | 'moderate' | 'high' | 'very_high';
-
+  strength: 'low' | 'moderate' | 'high' | 'very_high'
   /** Average value for this property in this cuisine */
   averageValue: number;
 
@@ -193,7 +192,7 @@ export interface PlanetaryPattern {
 
   /** Most common zodiac signs for this planet (sorted by frequency) */
   commonSigns: Array<{
-    sign: string;
+    sign: string,
     frequency: number; // Proportion of recipes with this placement
   }>;
 
@@ -211,8 +210,7 @@ export interface CulturalInfluence {
   region?: string;
 
   /** Climate influences */
-  climate?: 'tropical' | 'temperate' | 'arctic' | 'desert' | 'mediterranean';
-
+  climate?: 'tropical' | 'temperate' | 'arctic' | 'desert' | 'mediterranean'
   /** Historical influences from other cuisines */
   culturalExchanges?: string[];
 
@@ -248,7 +246,7 @@ export interface CuisineComputedProperties {
   sampleSize: number;
 
   /** Computation metadata */
-  computedAt: Date;
+  computedAt: Date,
   version: string; // Algorithm version for cache invalidation
 }
 
@@ -296,8 +294,7 @@ export interface RecipeComputationOptions {
   applyCookingMethods?: boolean;
 
   /** Ingredient quantity scaling method */
-  quantityScaling?: 'linear' | 'logarithmic';
-
+  quantityScaling?: 'linear' | 'logarithmic'
   /** Cache computation results */
   cacheResults?: boolean;
 }
@@ -309,15 +306,14 @@ export interface RecipeComputationOptions {
  */
 export interface CuisineComputationOptions {
   /** Weighting strategy for recipe averaging */
-  weightingStrategy?: 'equal' | 'popularity' | 'representativeness';
-
+  weightingStrategy?: 'equal' | 'popularity' | 'representativeness'
   /** Minimum z-score for signature identification */
   signatureThreshold?: number; // Default: 1.5
 
   /** Global averages for z-score calculation */
   globalAverages?: {
-    elementals?: ElementalProperties;
-    alchemical?: AlchemicalProperties;
+    elementals?: ElementalProperties,
+    alchemical?: AlchemicalProperties,
     thermodynamics?: Partial<ThermodynamicProperties>;
   };
 
@@ -369,8 +365,8 @@ export interface CookingMethodTransformation {
 
   /** Thermodynamic effects */
   thermodynamicImpact?: {
-    heatAddition?: number;
-    entropyIncrease?: number;
+    heatAddition?: number,
+    entropyIncrease?: number,
     reactivityChange?: number;
   };
 

@@ -20,11 +20,11 @@ import {
 } from 'react-icons/fa';
 
 interface ZodiacSelectorProps {
-  value: string;
-  onChange: (zodiacSign: string) => void;
-  placeholder?: string;
-  showElement?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  value: string,
+  onChange: (zodiacSign: string) => void,
+  placeholder?: string,
+  showElement?: boolean,
+  size?: 'sm' | 'md' | 'lg'
 }
 
 const ZODIAC_SIGNS = [
@@ -80,7 +80,7 @@ export const ZodiacSelector: React.FC<ZodiacSelectorProps> = ({
         {ZODIAC_SIGNS.map(sign => {
           const element = ZODIAC_ELEMENTS[sign as keyof typeof ZODIAC_ELEMENTS];
           const ElementIcon = ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS];
-          const elementColor = ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS];
+          const elementColor = ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS],
 
           return (
             <option key={sign} value={sign}>

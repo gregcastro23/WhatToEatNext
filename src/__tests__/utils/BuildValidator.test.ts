@@ -10,8 +10,8 @@ const mockFs = fs as jest.Mocked<typeof fs>;
 jest.mock('child_process');
 
 describe('BuildValidator', () => {
-  let buildValidator: BuildValidator;
-  let mockLogger: jest.Mock;
+  let buildValidator: BuildValidator,
+  let mockLogger: jest.Mock,
 
   beforeEach(() => {
     mockLogger = jest.fn();
@@ -44,8 +44,8 @@ describe('BuildValidator', () => {
           expect.objectContaining({
             type: 'create',
             target: '.next',
-            description: 'Create build directory',
-          }),
+            description: 'Create build directory'
+}),
         ]),
       );
     });
@@ -83,8 +83,8 @@ describe('BuildValidator', () => {
       expect(result.repairActions).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            type: 'fix',
-          }),
+            type: 'fix'
+}),
         ]),
       );
     });
@@ -101,8 +101,8 @@ describe('BuildValidator', () => {
 
       await buildValidator.repairBuild();
 
-      expect(mockFs.mkdirSync).toHaveBeenCalledWith('.next', { recursive: true });
-      expect(mockFs.mkdirSync).toHaveBeenCalledWith('.next/server', { recursive: true });
+      expect(mockFs.mkdirSync).toHaveBeenCalledWith('.next', { recursive: true }),
+      expect(mockFs.mkdirSync).toHaveBeenCalledWith('.next/server', { recursive: true }),
       expect(mockFs.writeFileSync).toHaveBeenCalled();
     });
 
@@ -128,7 +128,7 @@ describe('BuildValidator', () => {
     });
 
     it('should validate existing config', async () => {
-      mockFs.existsSync.mockImplementation((path: string) => path === 'next.config.js');
+      mockFs.existsSync.mockImplementation((path: string) => path === 'next.config.js'),
       mockFs.readFileSync.mockReturnValue(`
         module.exports = {
           output: 'standalone',
@@ -151,8 +151,8 @@ describe('BuildValidator', () => {
       mockFs.statSync.mockReturnValue({
         mtime: new Date(),
         size: 1024,
-        isDirectory: () => false,
-      } as any);
+        isDirectory: () => false
+} as any);
 
       const report = await buildValidator.monitorBuildHealth();
 

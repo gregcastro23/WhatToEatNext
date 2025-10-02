@@ -260,18 +260,12 @@ export function isRecipeCompatibleWithDiet(recipe: Recipe, restriction: string):
   }
 
   switch (restriction.toLowerCase()) {
-    case 'vegetarian':
-      return recipe.isVegetarian === true;
-    case 'vegan':
-      return recipe.isVegan === true;
-    case 'gluten-free':
-      return recipe.isGlutenFree === true;
-    case 'dairy-free':
-      return recipe.isDairyFree === true;
-    case 'keto':
-      return recipe.isKeto === true;
-    case 'paleo':
-      return recipe.isPaleo === true;
+    case 'vegetarian': return recipe.isVegetarian === true,
+    case 'vegan': return recipe.isVegan === true,
+    case 'gluten-free': return recipe.isGlutenFree === true,
+    case 'dairy-free': return recipe.isDairyFree === true,
+    case 'keto': return recipe.isKeto === true,
+    case 'paleo': return recipe.isPaleo === true,
     default:
       return true;
   }
@@ -360,12 +354,12 @@ export function toScoredRecipe(recipe: Recipe, _score?: number): ScoredRecipe {
     throw new Error('Cannot convert null or undefined recipe to ScoredRecipe');
   }
 
-  const defaultScore = _score !== undefined ? _score : 0.5;
+  const defaultScore = _score !== undefined ? _score : 0.5,
 
   return {
     ...recipe,
-    score: defaultScore,
-  } as ScoredRecipe;
+    score: defaultScore
+} as ScoredRecipe;
 }
 
 /**
@@ -381,20 +375,13 @@ export function isRecipeDietaryCompatible(
 
   return dietaryRestrictions.every(restriction => {
     switch (restriction.toLowerCase()) {
-      case 'vegetarian':
-        return recipe.isVegetarian === true;
-      case 'vegan':
-        return recipe.isVegan === true;
-      case 'gluten-free':
-        return recipe.isGlutenFree === true;
-      case 'dairy-free':
-        return recipe.isDairyFree === true;
-      case 'nut-free':
-        return recipe.isNutFree === true;
-      case 'keto':
-        return recipe.isKeto === true;
-      case 'paleo':
-        return recipe.isPaleo === true;
+      case 'vegetarian': return recipe.isVegetarian === true,
+      case 'vegan': return recipe.isVegan === true,
+      case 'gluten-free': return recipe.isGlutenFree === true,
+      case 'dairy-free': return recipe.isDairyFree === true,
+      case 'nut-free': return recipe.isNutFree === true,
+      case 'keto': return recipe.isKeto === true,
+      case 'paleo': return recipe.isPaleo === true,
       default:
         return true; // Unknown restrictions are ignored
     }
@@ -420,25 +407,25 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
         return {
           name: ingredient,
           amount: 1,
-          unit: 'piece',
-        } as RecipeIngredient;
+          unit: 'piece'
+} as RecipeIngredient;
       }
 
       if (typeof ingredient === 'object' && ingredient) {
         return {
-          name: ingredient.name || 'Unknown ingredient',
+          name: ingredient.name || 'Unknown ingredient'
           amount: ingredient.amount || 1,
-          unit: ingredient.unit || 'piece',
+          unit: ingredient.unit || 'piece'
           optional: ingredient.optional || false,
-          preparation: ingredient.preparation || undefined,
-        } as RecipeIngredient;
+          preparation: ingredient.preparation || undefined
+} as RecipeIngredient;
       }
 
       return {
         name: 'Unknown ingredient',
         amount: 1,
-        unit: 'piece',
-      } as RecipeIngredient;
+        unit: 'piece'
+} as RecipeIngredient;
     })
     .filter(ingredient => ingredient.name !== 'Unknown ingredient');
 }

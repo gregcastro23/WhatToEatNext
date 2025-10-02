@@ -415,12 +415,12 @@ export class FoodAlchemySystem {
     const nocturnalElement = dayElements.nocturnal;
 
     // Calculate match based on food's element compared to planetary elements
-    const diurnalMatch = food.element === diurnalElement ? 1.0 : 0.3,
+    const diurnalMatch = food.element === diurnalElement ? 1.0 : 0.3;
     const nocturnalMatch = food.element === nocturnalElement ? 1.0 : 0.3;
 
     // Calculate a weighted score - both elements are equally important for planetary day
     let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
-    let dignityBonus = 0,
+    let dignityBonus = 0;
     let decanBonus = 0,
 
     // Apply dignity effects if we have planet positions
@@ -501,7 +501,7 @@ export class FoodAlchemySystem {
 
     // Calculate score
     let elementalScore = elementalMatch;
-    let dignityBonus = 0,
+    let dignityBonus = 0;
     let aspectBonus = 0,
 
     // Apply dignity effects if we have planet positions

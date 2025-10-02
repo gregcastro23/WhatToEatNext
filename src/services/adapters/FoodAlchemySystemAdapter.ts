@@ -122,7 +122,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
 
         // Add dignity effects if applicable - safe string handling
         const planetKey =
-          typeof planet === 'string' ? planet.charAt(0).toUpperCase() + planet.slice(1) : planet,
+          typeof planet === 'string' ? planet.charAt(0).toUpperCase() + planet.slice(1) : planet;
         const _signFormatted =
           typeof sign === 'string' ? sign.charAt(0).toUpperCase() + sign.slice(1) : sign,
 

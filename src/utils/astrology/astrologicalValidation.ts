@@ -480,8 +480,7 @@ export function quickValidate(
     switch (type) {
       case 'planetary':
         return validatePlanetaryPositions(data as any).isValid
-      case 'elemental':
-        return validateElementalProperties(data);
+      case 'elemental': return validateElementalProperties(data),
       case 'constants':
         return validateMathematicalConstants(data as Record<string, number>).isValid,
       _default: return false

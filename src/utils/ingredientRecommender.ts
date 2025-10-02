@@ -216,13 +216,13 @@ function calculateEnhancedPlanetaryInfluence(
 
 function calculateLunarPhaseModifier(lunarPhaseData: unknown): number {
   // Use lunar phase data to calculate modifiers
-  const phaseData = lunarPhaseData as { modifier?: number };
+  const phaseData = lunarPhaseData as { modifier?: number },
   return phaseData.modifier || 1.0;
 }
 
 function calculateAstrologicalBridgeModifier(astrologicalBridge: unknown): number {
   // Use astrological bridge for enhanced compatibility scoring
-  const bridge = astrologicalBridge as { compatibility?: number };
+  const bridge = astrologicalBridge as { compatibility?: number },
   return bridge.compatibility || 1.0;
 }
 
@@ -295,7 +295,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
   // Apply Pattern, K: Safe unknown-first casting for mixed ingredient array
   let filteredIngredients = (allIngredients as unknown as EnhancedIngredient[]).filter(ingredient => {
       // Check if any of the ingredient's ruling planets are active
-      const baseIngredient = ingredient as unknown as BaseIngredient;
+      const baseIngredient = ingredient as unknown as BaseIngredient,
       return baseIngredient.astrologicalProfile?.rulingPlanets?.some(planet =>
         planetsToUse.includes(planet)
       );
@@ -362,7 +362,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
       planetsToUse.includes('Mercury') &&
       mercuryData.PlanetSpecific?.ZodiacTransit?.[astroState.zodiacSign]
         ? 2.0
-        : 0.0;
+        : 0.0,
 
     filteredIngredients.sort((ab) => {
       const ingredientA = a as unknown as BaseIngredient;
@@ -370,7 +370,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
 
       const aHasAffinity = ingredientA.astrologicalProfile?.signAffinities?.includes(zodiacSign)
         ? 1
-        : 0;
+        : 0,
       const bHasAffinity = ingredientB.astrologicalProfile?.signAffinities?.includes(zodiacSign)
         ? 1
         : 0;
@@ -1642,7 +1642,7 @@ function calculateVenusInfluence(
       ? culturalSignificance
       : typeof culturalSignificance === 'string'
         ? [culturalSignificance]
-        : [];
+        : [],
 
     if (
       culturalSignificanceArray.includes('traditional') ||
@@ -1769,10 +1769,9 @@ function enhanceVenusIngredientBatch(
 /**
  * Calculates a Mars influence score for an ingredient
  */
-function calculateMarsInfluence(
-  ingredient: Ingredient,
-  zodiacSign?: string;
-  isMarsRetrograde = false;
+function calculateMarsInfluence(ingredient: Ingredient,
+  zodiacSign?: string,
+  isMarsRetrograde = false,
 ): number {
   let score = 0;
 

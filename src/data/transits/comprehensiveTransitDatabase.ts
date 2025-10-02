@@ -68,13 +68,13 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         ],
         planetaryPlacements: {
           Sun: { sign: 'aries', degree: 15, exactLongitude: 15, isRetrograde: false },
-          Moon: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false }
+          Moon: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false },
           Mercury: { sign: 'pisces', degree: 28, exactLongitude: 358, isRetrograde: true },
-          Venus: { sign: 'pisces', degree: 26, exactLongitude: 356, isRetrograde: true }
+          Venus: { sign: 'pisces', degree: 26, exactLongitude: 356, isRetrograde: true },
           Mars: { sign: 'cancer', degree: 24, exactLongitude: 114, isRetrograde: false },
-          Jupiter: { sign: 'gemini', degree: 16, exactLongitude: 76, isRetrograde: false }
+          Jupiter: { sign: 'gemini', degree: 16, exactLongitude: 76, isRetrograde: false },
           Saturn: { sign: 'pisces', degree: 24, exactLongitude: 354, isRetrograde: false },
-          Uranus: { sign: 'taurus', degree: 27, exactLongitude: 57, isRetrograde: false }
+          Uranus: { sign: 'taurus', degree: 27, exactLongitude: 57, isRetrograde: false },
           Neptune: { sign: 'aries', degree: 1, exactLongitude: 1, isRetrograde: false },
           Pluto: { sign: 'aquarius', degree: 3, exactLongitude: 303, isRetrograde: false }
         },
@@ -124,13 +124,13 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         ],
         planetaryPlacements: {
           Sun: { sign: 'taurus', degree: 12, exactLongitude: 42, isRetrograde: false },
-          Moon: { sign: 'leo', degree: 15, exactLongitude: 135, isRetrograde: false }
+          Moon: { sign: 'leo', degree: 15, exactLongitude: 135, isRetrograde: false },
           Mercury: { sign: 'aries', degree: 8, exactLongitude: 38, isRetrograde: false },
-          Venus: { sign: 'aries', degree: 22, exactLongitude: 52, isRetrograde: false }
+          Venus: { sign: 'aries', degree: 22, exactLongitude: 52, isRetrograde: false },
           Mars: { sign: 'leo', degree: 18, exactLongitude: 138, isRetrograde: false },
-          Jupiter: { sign: 'gemini', degree: 18, exactLongitude: 78, isRetrograde: false }
+          Jupiter: { sign: 'gemini', degree: 18, exactLongitude: 78, isRetrograde: false },
           Saturn: { sign: 'pisces', degree: 26, exactLongitude: 356, isRetrograde: false },
-          Uranus: { sign: 'taurus', degree: 29, exactLongitude: 59, isRetrograde: false }
+          Uranus: { sign: 'taurus', degree: 29, exactLongitude: 59, isRetrograde: false },
           Neptune: { sign: 'aries', degree: 2, exactLongitude: 2, isRetrograde: false },
           Pluto: { sign: 'aquarius', degree: 4, exactLongitude: 304, isRetrograde: false }
         },
@@ -180,13 +180,13 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         ],
         planetaryPlacements: {
           Sun: { sign: 'gemini', degree: 8, exactLongitude: 68, isRetrograde: false },
-          Moon: { sign: 'virgo', degree: 12, exactLongitude: 162, isRetrograde: false }
+          Moon: { sign: 'virgo', degree: 12, exactLongitude: 162, isRetrograde: false },
           Mercury: { sign: 'gemini', degree: 15, exactLongitude: 75, isRetrograde: false },
-          Venus: { sign: 'taurus', degree: 28, exactLongitude: 58, isRetrograde: false }
+          Venus: { sign: 'taurus', degree: 28, exactLongitude: 58, isRetrograde: false },
           Mars: { sign: 'leo', degree: 22, exactLongitude: 142, isRetrograde: false },
-          Jupiter: { sign: 'gemini', degree: 20, exactLongitude: 80, isRetrograde: false }
+          Jupiter: { sign: 'gemini', degree: 20, exactLongitude: 80, isRetrograde: false },
           Saturn: { sign: 'pisces', degree: 28, exactLongitude: 358, isRetrograde: false },
-          Uranus: { sign: 'taurus', degree: 1, exactLongitude: 31, isRetrograde: false }
+          Uranus: { sign: 'taurus', degree: 1, exactLongitude: 31, isRetrograde: false },
           Neptune: { sign: 'aries', degree: 3, exactLongitude: 3, isRetrograde: false },
           Pluto: { sign: 'aquarius', degree: 5, exactLongitude: 305, isRetrograde: false }
         },
@@ -228,11 +228,11 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
     ],
     retrogradePeriods: {
       Mercury: { start: new Date('2024-03-14'), end: new Date('2024-04-08') },
-      Venus: { start: new Date('2024-03-23'), end: new Date('2024-04-15') }
+      Venus: { start: new Date('2024-03-23'), end: new Date('2024-04-15') },
       Mars: { start: new Date('2024-12-06'), end: new Date('2025-02-23') },
-      Jupiter: { start: new Date('2024-10-09'), end: new Date('2025-02-04') }
+      Jupiter: { start: new Date('2024-10-09'), end: new Date('2025-02-04') },
       Saturn: { start: new Date('2024-06-29'), end: new Date('2024-11-15') },
-      Uranus: { start: new Date('2024-09-01'), end: new Date('2025-01-27') }
+      Uranus: { start: new Date('2024-09-01'), end: new Date('2025-01-27') },
       Neptune: { start: new Date('2024-07-02'), end: new Date('2024-12-06') },
       Pluto: { start: new Date('2024-05-02'), end: new Date('2024-10-10') }
     }
@@ -275,13 +275,13 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         ],
         planetaryPlacements: {
           Sun: { sign: 'gemini', degree: 15, exactLongitude: 75, isRetrograde: false },
-          Moon: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false }
+          Moon: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false },
           Mercury: { sign: 'virgo', degree: 12, exactLongitude: 162, isRetrograde: false },
-          Venus: { sign: 'leo', degree: 18, exactLongitude: 138, isRetrograde: false }
+          Venus: { sign: 'leo', degree: 18, exactLongitude: 138, isRetrograde: false },
           Mars: { sign: 'leo', degree: 22, exactLongitude: 142, isRetrograde: false },
-          Jupiter: { sign: 'leo', degree: 25, exactLongitude: 145, isRetrograde: false }
+          Jupiter: { sign: 'leo', degree: 25, exactLongitude: 145, isRetrograde: false },
           Saturn: { sign: 'pisces', degree: 28, exactLongitude: 358, isRetrograde: false },
-          Uranus: { sign: 'taurus', degree: 20, exactLongitude: 50, isRetrograde: false }
+          Uranus: { sign: 'taurus', degree: 20, exactLongitude: 50, isRetrograde: false },
           Neptune: { sign: 'aries', degree: 5, exactLongitude: 5, isRetrograde: false },
           Pluto: { sign: 'aquarius', degree: 8, exactLongitude: 308, isRetrograde: true }
         },
@@ -331,13 +331,13 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         ],
         planetaryPlacements: {
           Sun: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false },
-          Moon: { sign: 'pisces', degree: 15, exactLongitude: 345, isRetrograde: false }
+          Moon: { sign: 'pisces', degree: 15, exactLongitude: 345, isRetrograde: false },
           Mercury: { sign: 'cancer', degree: 12, exactLongitude: 102, isRetrograde: false },
-          Venus: { sign: 'leo', degree: 25, exactLongitude: 145, isRetrograde: false }
+          Venus: { sign: 'leo', degree: 25, exactLongitude: 145, isRetrograde: false },
           Mars: { sign: 'leo', degree: 28, exactLongitude: 148, isRetrograde: false },
-          Jupiter: { sign: 'leo', degree: 1, exactLongitude: 121, isRetrograde: false }
+          Jupiter: { sign: 'leo', degree: 1, exactLongitude: 121, isRetrograde: false },
           Saturn: { sign: 'pisces', degree: 2, exactLongitude: 332, isRetrograde: false },
-          Uranus: { sign: 'taurus', degree: 22, exactLongitude: 52, isRetrograde: false }
+          Uranus: { sign: 'taurus', degree: 22, exactLongitude: 52, isRetrograde: false },
           Neptune: { sign: 'aries', degree: 7, exactLongitude: 7, isRetrograde: false },
           Pluto: { sign: 'aquarius', degree: 6, exactLongitude: 306, isRetrograde: true }
         },
@@ -379,11 +379,11 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
     ],
     retrogradePeriods: {
       Mercury: { start: new Date('2025-04-27'), end: new Date('2025-05-20') },
-      Venus: { start: new Date('2025-07-22'), end: new Date('2025-09-03') }
+      Venus: { start: new Date('2025-07-22'), end: new Date('2025-09-03') },
       Mars: { start: new Date('2025-01-12'), end: new Date('2025-03-30') },
-      Jupiter: { start: new Date('2025-10-09'), end: new Date('2026-02-04') }
+      Jupiter: { start: new Date('2025-10-09'), end: new Date('2026-02-04') },
       Saturn: { start: new Date('2025-06-29'), end: new Date('2025-11-15') },
-      Uranus: { start: new Date('2025-09-01'), end: new Date('2026-01-27') }
+      Uranus: { start: new Date('2025-09-01'), end: new Date('2026-01-27') },
       Neptune: { start: new Date('2025-07-02'), end: new Date('2025-12-06') },
       Pluto: { start: new Date('2025-05-02'), end: new Date('2025-10-10') }
     }

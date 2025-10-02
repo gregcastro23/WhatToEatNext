@@ -27,7 +27,7 @@ const categoryUpdaters = {
   proteins: updateProteins,
   spices: updateSpices,
   oils: updateOils,
-  vinegars: updateVinegars,
+  vinegars: updateVinegars
 };
 
 // All categories in the order they should be processed
@@ -53,7 +53,7 @@ async function updateCategories(categories: string[]): Promise<void> {
   for (const category of categories) {
     const updater = categoryUpdaters[category];
     if (!updater) {
-      // console.warn(`No updater found for category: ${category}`);
+      // console.warn(`No updater found for category: ${category}`),
       continue;
     }
 

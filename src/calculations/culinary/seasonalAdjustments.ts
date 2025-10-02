@@ -12,7 +12,7 @@ import { ElementalProperties } from '@/types/alchemy';
  */
 const SEASONAL_MODIFIERS: { [key: string]: ElementalProperties } = {
   spring: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-  summer: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+  summer: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   autumn: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   winter: { Fire: 0.15, Water: 0.35, Air: 0.2, Earth: 0.3 }
 }
