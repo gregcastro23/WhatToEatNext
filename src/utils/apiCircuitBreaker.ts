@@ -54,21 +54,21 @@ export class CircuitBreaker {
         return fallback()
       }
 
-      throw error,
+      throw error
     }
   }
 
   private onSuccess() {
-    this.failureCount = 0,
-    this.state = CircuitState.CLOSED,
+    this.failureCount = 0
+    this.state = CircuitState.CLOSED
   }
 
   private onFailure() {
-    this.failureCount++,
+    this.failureCount++
     this.lastFailureTime = Date.now()
 
-    if (this.failureCount >= this.options.failureThreshold) {;
-      this.state = CircuitState.OPEN,
+    if (this.failureCount >= this.options.failureThreshold) {
+      this.state = CircuitState.OPEN
     }
   }
 
@@ -77,15 +77,15 @@ export class CircuitBreaker {
   }
 
   reset() {
-    this.state = CircuitState.CLOSED,
-    this.failureCount = 0,
-    this.lastFailureTime = 0,
+    this.state = CircuitState.CLOSED
+    this.failureCount = 0
+    this.lastFailureTime = 0
   }
 }
 
 // Global circuit breaker for astrologize API
-export const _astrologizeApiCircuitBreaker = new CircuitBreaker({,
-  failureThreshold: 1, // Fail fast after 1 attempt for immediate fallback,
-  resetTimeout: 60000, // 1 minute before retry (faster recovery),
-  monitoringWindow: 300000, // 5 minutes
+export const _astrologizeApiCircuitBreaker = new CircuitBreaker({
+  failureThreshold: 1, // Fail fast after 1 attempt for immediate fallback
+  resetTimeout: 60000, // 1 minute before retry (faster recovery)
+  monitoringWindow: 300000 // 5 minutes
 })

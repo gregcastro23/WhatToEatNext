@@ -15,11 +15,11 @@ import { log } from '@/services/LoggingService';
 import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
 import type { ElementalProperties } from '../types/alchemy';
 import type {
-  AspectType,
-  LunarPhase,
-  Planet,
-  PlanetaryAspect,
-  PlanetaryPosition
+    AspectType,
+    LunarPhase,
+    Planet,
+    PlanetaryAspect,
+    PlanetaryPosition
 } from '../types/celestial';
 import type { CuisineType, DietaryRestriction, Season } from '../types/constants';
 
@@ -88,7 +88,7 @@ export interface ScoringContext {
 
   // Astrological data
   planetaryPositions?: Record<Planet, PlanetaryPosition>,
-   
+
   // Intentionally, any: Transit data structure varies by astronomical library
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   currentTransits?: any,
@@ -104,7 +104,7 @@ export interface ScoringContext {
     planetaryRulers?: Planet[],
     flavorProfile?: Record<string, number>,
     culturalOrigins?: string[],
-     
+
     // Intentionally, any: Item properties vary by type (ingredient/recipe/cuisine/method)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     [key: string]: any
@@ -275,12 +275,12 @@ export function calculateLocationEffect(
 ): number {
   if (!context.location) return 0;
   const locationInfluences = PlanetaryLocationService.calculateLocationPlanetaryInfluences(
-    context.location
+    context.location,
     context.dateTime
   )
 
   const itemRulers = context.item.planetaryRulers || [];
-  let score = 0,
+  let score = 0
 
   for (const influence of locationInfluences) {
     if (itemRulers.includes(influence.planet as Planet)) {
@@ -403,8 +403,8 @@ export function calculateAspectEffect(
   astroData: AstrologicalData,
   context: ScoringContext,
 ): number {
-  let score = 0,
-  const itemRulers = context.item.planetaryRulers || [];
+  let score = 0
+  const itemRulers = context.item.planetaryRulers || []
 
   for (const aspect of astroData.aspects) {
     if (

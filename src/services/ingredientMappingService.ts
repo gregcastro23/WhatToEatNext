@@ -174,18 +174,18 @@ class IngredientMappingService {
 
     // Calculate base elemental similarity
     const similarity = this.calculateElementalSimilarity(
-      mapping1.elementalProperties as unknown as ElementalProperties
+      mapping1.elementalProperties as unknown as ElementalProperties,
       mapping2.elementalProperties as unknown as ElementalProperties)
 
     // Determine compatibility type based on similarity
-    let compatibilityType = 'neutral',
-    if (similarity > 0.8) compatibilityType = 'excellent',
-    else if (similarity > 0.6) compatibilityType = 'good',
-    else if (similarity > 0.4) compatibilityType = 'fair',
-    else compatibilityType = 'poor',
+    let compatibilityType = 'neutral'
+    if (similarity > 0.8) compatibilityType = 'excellent'
+    else if (similarity > 0.6) compatibilityType = 'good'
+    else if (similarity > 0.4) compatibilityType = 'fair'
+    else compatibilityType = 'poor'
 
     // Apply category compatibility rules
-    let categoryAdjustment = 0,
+    let categoryAdjustment = 0
 
     // Some ingredients work well together despite different elements
     const complementaryCategories: Record<string, string[]> = {

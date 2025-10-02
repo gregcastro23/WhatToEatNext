@@ -497,13 +497,13 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       score: number;
     }> = [];
 
-    // Check all possible pAirs
-    for (let i = 0; i < ingredientObjects.length; i++) {,
-      for (let j = i + 1; j < ingredientObjects.length; j++) {,
+    // Check all possible pairs
+    for (let i = 0; i < ingredientObjects.length; i++) {
+      for (let j = i + 1; j < ingredientObjects.length; j++) {
         const ing1 = ingredientObjects[i];
         const ing2 = ingredientObjects[j];
 
-        const compatibility = this.calculateIngredientCompatibility(ing1, ing2),
+        const compatibility = this.calculateIngredientCompatibility(ing1, ing2)
 
         pairings.push({
           ingredients: [ing1.name, ing2.name],

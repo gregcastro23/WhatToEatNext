@@ -367,11 +367,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {}
     (limitedCuisines || []).forEach(item => {
-      scores[item.cuisine] = item.score,
+      scores[item.cuisine] = item.score
     })
 
     return {
-      items: (limitedCuisines || []).map(item => item.cuisine),,
+      items: (limitedCuisines || []).map(item => item.cuisine),
       scores,
       context: {
         criteriaUsed: Object.keys(criteria || {}).filter(key => criteria[key] !== undefined),
@@ -395,10 +395,10 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         name: 'roasting',
         description: 'Cooking with dry heat in an oven',
         elementalEffect: { Fire: 0.6, Water: 0.0, Earth: 0.3, Air: 0.1 },
-        duration: { min: 30, max: 180 }
+        duration: { min: 30, max: 180 },
         suitable_for: ['meat', 'vegetables', 'poultry'],
         benefits: ['even cooking', 'browning', 'flavor development']
-      }
+      },
       {
         id: 'boiling',
         name: 'boiling',

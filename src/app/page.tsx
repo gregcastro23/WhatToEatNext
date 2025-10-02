@@ -1,12 +1,59 @@
 /**
- * Enhanced Main Page - Phase 26 Mobile-First Design
+ * Enhanced Main Page - Phase 26 Mobile-First Design with Core Recommenders
  *
  * Features modern responsive design, advanced performance optimizations,
  * and integration with our real-time WebSocket infrastructure.
  */
 
 import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
+
+// Lazy load the core recommender components for better performance
+const CurrentMomentCuisineRecommendations = dynamic(
+  () => import('@/components/cuisines/CurrentMomentCuisineRecommendations'),
+  {
+    loading: () => (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600 mx-auto mb-2"></div>
+          <p className="text-sm text-gray-600">Loading cuisine recommendations...</p>
+        </div>
+      </div>
+    ),
+    ssr: false
+  }
+);
+
+const AstrologicalRecommendations = dynamic(
+  () => import('@/components/astrological/AstrologicalRecommendations'),
+  {
+    loading: () => (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-2"></div>
+          <p className="text-sm text-gray-600">Loading recipe recommendations...</p>
+        </div>
+      </div>
+    ),
+    ssr: false
+  }
+);
+
+const EnhancedRecommendationEngine = dynamic(
+  () => import('@/components/EnhancedRecommendationEngine'),
+  {
+    loading: () => (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto mb-2"></div>
+          <p className="text-sm text-gray-600">Loading ingredient recommendations...</p>
+        </div>
+      </div>
+    ),
+    ssr: false
+  }
+);
 
 export const metadata: Metadata = {title: 'alchm.kitchen | Alchemical Culinary Intelligence',
   description: 'Discover the perfect meal through ancient alchemical wisdom and modern AI. Real-time planetary influences guide your culinary journey.'};
@@ -98,35 +145,68 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* Features Grid */}
+      {/* Core Recommenders Section */}
       <section className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            🚀 Phase 6: Complete Current Moment Integration
+            🔮 Core Alchemical Recommenders
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Experience the fully realized alchemical kitchen with live astrological cuisine recommendations,
-            nested recipe integration, sauce pairings, and real-time current moment calculations.
+            Experience personalized culinary guidance through the three core pillars of alchemical cooking:
+            current moment cuisines, astrological recipes, and elemental ingredients.
+          </p>
+        </div>
+
+        {/* Cuisine Recommender */}
+        <div className="mb-16">
+          <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-orange-600 mb-2">🍽️ Current Moment Cuisine Recommender</h3>
+              <p className="text-gray-600">Live cuisine recommendations based on your current astrological moment</p>
+            </div>
+            <CurrentMomentCuisineRecommendations />
+          </div>
+        </div>
+
+        {/* Recipe Recommender */}
+        <div className="mb-16">
+          <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-purple-600 mb-2">🌟 Astrological Recipe Recommender</h3>
+              <p className="text-gray-600">Personalized recipe recommendations based on your zodiac sign and seasonal harmony</p>
+            </div>
+            <AstrologicalRecommendations />
+          </div>
+        </div>
+
+        {/* Ingredient Recommender */}
+        <div className="mb-16">
+          <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-green-600 mb-2">🥕 Elemental Ingredient Recommender</h3>
+              <p className="text-gray-600">Discover ingredients aligned with current celestial energies and alchemical principles</p>
+            </div>
+            <EnhancedRecommendationEngine
+              maxRecommendations={6}
+              showScoring={true}
+              className="border-0 shadow-none bg-transparent"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Additional Features Grid */}
+      <section className="container mx-auto px-4 py-12">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            🚀 Additional Features & Tools
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Explore our comprehensive suite of alchemical cooking tools and advanced features.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <FeatureCard
-            icon="🍽️"
-            title="Current Moment Cuisines"
-            description="Complete cuisine recommendations based on your live astrological moment. Get nested recipes, sauce pairings, and elemental insights aligned with current zodiac and seasonal energies."
-            href="/cuisines"
-            status="Phase 6 New"
-          />
-
-          <FeatureCard
-            icon="🌟"
-            title="Astrological Cooking Guide"
-            description="Personalized recipe recommendations based on your zodiac sign and seasonal harmony. Discover meals aligned with planetary energies."
-            href="/astrological"
-            status="Phase 5 New"
-          />
-
           <FeatureCard
             icon="🌙"
             title="Live Planetary Tracking"
