@@ -250,7 +250,6 @@ const rawSalts = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-                },
                 culinaryProfile: {
                   flavorProfile: {
                     primary: ['balanced'],
@@ -337,7 +336,6 @@ const rawSalts = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
@@ -405,7 +403,6 @@ const rawSalts = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-          },
           culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
@@ -448,7 +445,6 @@ const rawSalts = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-          },
           culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
@@ -506,7 +502,6 @@ const rawSalts = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
@@ -544,7 +539,6 @@ const rawSalts = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-          },
           culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
@@ -801,7 +795,7 @@ const rawSalts = {
     traditionalUses: {
       ayurvedic: {
         properties: 'Considered warming and grounding',
-        applications: ['Digestive aid', 'Electrolyte balance', 'Used in 'sole' water solutions']
+        applications: ['Digestive aid', 'Electrolyte balance', 'Used in "sole" water solutions']
       },
       therapeutic: {
         salt_rooms: 'Used in halotherapy for respiratory conditions',
@@ -948,6 +942,6 @@ const rawSalts = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const, salts: Record<string, IngredientMapping> = fixIngredientMappings(
+export const salts: Record<string, IngredientMapping> = fixIngredientMappings(
   rawSalts as Record<string, Partial<IngredientMapping>>,
 );

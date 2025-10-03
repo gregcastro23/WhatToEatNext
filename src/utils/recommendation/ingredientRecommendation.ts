@@ -1,13 +1,13 @@
-import { AstrologicalState, ElementalProperties } from '@/types/alchemy';
 import { _logger } from '@/lib/logger';
+import { AstrologicalState, ElementalProperties } from '@/types/alchemy';
 import type { Element } from '@/types/unified';
 
 import type {
-  Ingredient,
-  CookingMethod,
-  Modality,
-  SensoryProfile,
-  ElementalAffinity
+    CookingMethod,
+    ElementalAffinity,
+    Ingredient,
+    Modality,
+    SensoryProfile
 } from '../../data/ingredients/types';
 
 // Phase, 10: Calculation Type Interfaces
@@ -74,7 +74,7 @@ const loadVegetables = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(vegetables).length === 0) {
     try {
       const module = await import('../../data/ingredients/vegetables')
-      vegetables = module.vegetables,
+      vegetables = module.vegetables;
     } catch (error) {
       _logger.error('Error loading vegetables: ', error)
     }
@@ -86,7 +86,7 @@ const loadFruits = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(fruits).length === 0) {
     try {
       const module = await import('../../data/ingredients/fruits')
-      fruits = module.fruits,
+      fruits = module.fruits;
     } catch (error) {
       _logger.error('Error loading fruits: ', error)
     }
@@ -98,7 +98,7 @@ const loadHerbs = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(herbs).length === 0) {
     try {
       const module = await import('../../data/ingredients/herbs')
-      herbs = module.herbs,
+      herbs = module.herbs;
     } catch (error) {
       _logger.error('Error loading herbs: ', error)
     }
@@ -110,7 +110,7 @@ const loadSpices = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(spices).length === 0) {
     try {
       const module = await import('../../data/ingredients/spices')
-      spices = module.spices,
+      spices = module.spices;
     } catch (error) {
       _logger.error('Error loading spices: ', error)
     }
@@ -122,7 +122,7 @@ const loadProteins = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(proteins).length === 0) {
     try {
       const module = await import('../../data/ingredients/proteins')
-      proteins = module._proteins,
+      proteins = module._proteins;
     } catch (error) {
       _logger.error('Error loading proteins: ', error)
     }
@@ -134,7 +134,7 @@ const loadGrains = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(grains).length === 0) {
     try {
       const module = await import('../../data/ingredients/grains')
-      grains = module.grains,
+      grains = module.grains;
     } catch (error) {
       _logger.error('Error loading grains: ', error)
     }
@@ -146,7 +146,7 @@ const loadSeasonings = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(seasonings).length === 0) {
     try {
       const module = await import('../../data/ingredients/seasonings')
-      seasonings = module.seasonings,
+      seasonings = module.seasonings;
     } catch (error) {
       _logger.error('Error loading seasonings: ', error)
     }
@@ -158,7 +158,7 @@ const loadOils = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(oils).length === 0) {
     try {
       const module = await import('../../data/ingredients/oils')
-      oils = module.oils,
+      oils = module.oils;
     } catch (error) {
       _logger.error('Error loading oils: ', error)
     }
@@ -170,7 +170,7 @@ const loadVinegars = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(vinegars).length === 0) {
     try {
       const module = await import('../../data/ingredients/vinegars')
-      vinegars = module.vinegars,
+      vinegars = module.vinegars;
     } catch (error) {
       _logger.error('Error loading vinegars: ', error)
     }
@@ -213,7 +213,7 @@ function _getFlavorProperty(obj: unknown, property: keyof FlavorProperties): num
 
 // ===== TYPES AND INTERFACES =====
 
-export interface IngredientRecommendation {;
+export interface IngredientRecommendation {
   name: string,
   matchScore: number,
   category?: string,
@@ -271,7 +271,8 @@ export interface RecommendationOptions {
   category?: string,
   culturalPreference?: string,
   flavorIntensityPreference?: 'mild' | 'moderate' | 'intense'
-  complexityPreference?: 'simple' | 'moderate' | 'complex' },
+  complexityPreference?: 'simple' | 'moderate' | 'complex';
+}
         export interface EnhancedIngredient {
   name: string,
   amount: number,
@@ -360,31 +361,31 @@ export const loadIngredientCategories = async (
   const result: Record<string, Ingredient> = {}
   try {
     if (categories.includes('vegetables')) {
-      result.vegetables = (await loadVegetables()) as unknown as Ingredient,
+      result.vegetables = (await loadVegetables()) as unknown as Ingredient;
     }
     if (categories.includes('fruits')) {
-      result.fruits = (await loadFruits()) as unknown as Ingredient,
+      result.fruits = (await loadFruits()) as unknown as Ingredient;
     }
     if (categories.includes('herbs')) {
-      result.herbs = (await loadHerbs()) as unknown as Ingredient,
+      result.herbs = (await loadHerbs()) as unknown as Ingredient;
     }
     if (categories.includes('spices')) {
-      result.spices = (await loadSpices()) as unknown as Ingredient,
+      result.spices = (await loadSpices()) as unknown as Ingredient;
     }
     if (categories.includes('proteins')) {
-      result.proteins = (await loadProteins()) as unknown as Ingredient,
+      result.proteins = (await loadProteins()) as unknown as Ingredient;
     }
     if (categories.includes('grains')) {
-      result.grains = (await loadGrains()) as unknown as Ingredient,
+      result.grains = (await loadGrains()) as unknown as Ingredient;
     }
     if (categories.includes('seasonings')) {
-      result.seasonings = (await loadSeasonings()) as unknown as Ingredient,
+      result.seasonings = (await loadSeasonings()) as unknown as Ingredient;
     }
     if (categories.includes('oils')) {
-      result.oils = (await loadOils()) as unknown as Ingredient,
+      result.oils = (await loadOils()) as unknown as Ingredient;
     }
     if (categories.includes('vinegars')) {
-      result.vinegars = (await loadVinegars()) as unknown as Ingredient,
+      result.vinegars = (await loadVinegars()) as unknown as Ingredient;
     }
   } catch (error) {
     _logger.error('Error loading ingredient categories: ', error)
@@ -396,11 +397,11 @@ export const _getIngredientsFromCategories = async (
   categories: string[],
   limit?: number,
 ): Promise<EnhancedIngredient[]> => {
-  const loadedData = await loadIngredientCategories(categories)
-  const ingredients: EnhancedIngredient[] = []
-;
+  const loadedData = await loadIngredientCategories(categories);
+  const ingredients: EnhancedIngredient[] = [];
+
   for (const [categoryName, categoryData] of Object.entries(loadedData)) {
-    if (!categoryData) continue,
+    if (!categoryData) continue;
 
     const categoryIngredients = Object.entries(categoryData).map(
       ([name, data]) =>
@@ -426,34 +427,34 @@ const _cachedAllIngredientsData: Ingredient[] | null = null;
 const _cacheTimestamp: number = 0;
 const _CACHE_TTL = 300000; // 5 minutes
 
-export const _getAllIngredientsData = async (): Promise<unknown[]> => {,
+export const _getAllIngredientsData = async (): Promise<unknown[]> => {
   const allData: Ingredient[] = [],
   try {
     // Collect data from each category
-    const vegData = await loadVegetables()
-    const fruitData = await loadFruits()
-    const herbData = await loadHerbs()
-    const spiceData = await loadSpices()
-    const proteinData = await loadProteins()
-    const grainData = await loadGrains()
-    const seasoningData = await loadSeasonings()
-    const oilData = await loadOils()
-    const vinegarData = await loadVinegars()
-    // Add each category's data to the result array;
-    Object.values(vegData || {}).forEach(data => allData.push(data as Ingredient))
-    Object.values(fruitData || {}).forEach(data => allData.push(data as Ingredient))
-    Object.values(herbData || {}).forEach(data => allData.push(data as Ingredient))
-    Object.values(spiceData || {}).forEach(data => allData.push(data as Ingredient))
-    Object.values(proteinData || {}).forEach(data => allData.push(data as Ingredient))
-    Object.values(grainData || {}).forEach(data => allData.push(data as Ingredient))
-    Object.values(seasoningData || {}).forEach(data => allData.push(data as Ingredient))
-    Object.values(oilData || {}).forEach(data => allData.push(data as Ingredient))
-    Object.values(vinegarData || {}).forEach(data => allData.push(data as Ingredient))
-;
+    const vegData = await loadVegetables();
+    const fruitData = await loadFruits();
+    const herbData = await loadHerbs();
+    const spiceData = await loadSpices();
+    const proteinData = await loadProteins();
+    const grainData = await loadGrains();
+    const seasoningData = await loadSeasonings();
+    const oilData = await loadOils();
+    const vinegarData = await loadVinegars();
+    // Add each category's data to the result array
+    Object.values(vegData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(fruitData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(herbData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(spiceData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(proteinData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(grainData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(seasoningData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(oilData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(vinegarData || {}).forEach(data => allData.push(data as Ingredient));
+
     return allData;
   } catch (error) {
-    _logger.error('Error loading all ingredient data: ', error),
-    return []
+    _logger.error('Error loading all ingredient data: ', error);
+    return [];
   }
 }
 
@@ -474,16 +475,16 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
     oilsData,
     vinegarsData
   ] = await Promise.all([
-    loadVegetables()
-    loadFruits()
-    loadHerbs()
-    loadSpices()
-    loadProteins()
-    loadGrains()
-    loadSeasonings()
-    loadOils()
+    loadVegetables(),
+    loadFruits(),
+    loadHerbs(),
+    loadSpices(),
+    loadProteins(),
+    loadGrains(),
+    loadSeasonings(),
+    loadOils(),
     loadVinegars()
-  ]),
+  ]);
 
   // Create eggs and dairy from proteins by filtering category
   const eggs = Object.entries(proteinsData || {})
@@ -505,13 +506,13 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
     { name: 'Seasonings', data: seasoningsData },
     { name: 'Vinegars', data: vinegarsData },
     { name: 'Eggs', data: eggs },
-    { name: 'Dairy', data: dairy }
+    { name: 'Dairy', data: dairy },
   ],
 
   // Process each category
   categories.forEach(category => {
-    if (!category.data) {;
-      _logger.warn(`No data for category: ${category.name}`)
+    if (!category.data) {
+      _logger.warn(`No data for category: ${category.name}`);
       return;
     }
 
@@ -524,36 +525,36 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
       } as EnhancedIngredient,
 
       // Special categorization for grains and herbs
-      if (category.name === 'Grains') {;
-        ingredientData.category = 'grains',
+      if (category.name === 'Grains') {
+        ingredientData.category = 'grains';
         if (!ingredientData.subCategory) {
           if (['white rice', 'white bread', 'white pasta'].includes(name.toLowerCase())) {
-            ingredientData.subCategory = 'refined_grain',
+            ingredientData.subCategory = 'refined_grain';
           } else if (
             ['quinoa', 'amaranth', 'buckwheat', 'chia', 'flaxseed'].includes(name.toLowerCase())
           ) {
-            ingredientData.subCategory = 'pseudo_grain',
+            ingredientData.subCategory = 'pseudo_grain';
           } else {
-            ingredientData.subCategory = 'whole_grain',
+            ingredientData.subCategory = 'whole_grain';
           }
         }
-      } else if (category.name === 'Herbs') {;
-        ingredientData.category = 'herbs',
+      } else if (category.name === 'Herbs') {
+        ingredientData.category = 'herbs';
         if (!ingredientData.subCategory) {
           if (
             name.includes('dried') ||
             name === 'dried' ||
-            name.includes('powdered') ||;
-            name === 'powdered',
+            name.includes('powdered') ||
+            name === 'powdered'
           ) {
-            ingredientData.subCategory = 'dried_herb',
+            ingredientData.subCategory = 'dried_herb';
           } else {
-            ingredientData.subCategory = 'fresh_herb',
+            ingredientData.subCategory = 'fresh_herb';
           }
         }
       }
 
-      allIngredients.push(ingredientData)
+      allIngredients.push(ingredientData);
     })
   })
 
@@ -561,12 +562,12 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   const validIngredients = allIngredients.filter(
     ing =>
       ing.astrologicalProfile &&
-      (ing.astrologicalProfile.elementalAffinity as unknown as any).base &&;
-      ing.astrologicalProfile.rulingPlanets,
-  )
+      (ing.astrologicalProfile.elementalAffinity as unknown as any).base &&
+      ing.astrologicalProfile.rulingPlanets
+  );
 
   // Standardize all ingredients
-  return validIngredients.map(ingredient => standardizeIngredient(ingredient))
+  return validIngredients.map(ingredient => standardizeIngredient(ingredient));
 }
 
 function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredient {
@@ -574,29 +575,29 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
     name: ingredient.name,
     amount: ingredient.amount || 0,
     unit: ingredient.unit || '',
-    element: ingredient.element || 'Fire'
+    element: ingredient.element || 'Fire',
     category: ingredient.category || '',
     elementalProperties: ingredient.elementalProperties ||
-      createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
+      createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
     astrologicalProfile: ingredient.astrologicalProfile
-  }
+  };
 
   // Add other properties safely
-  if (ingredient.flavorProfile) standardized.flavorProfile = ingredient.flavorProfile,
-  if (ingredient.season) standardized.season = ingredient.season,
+  if (ingredient.flavorProfile) standardized.flavorProfile = ingredient.flavorProfile;
+  if (ingredient.season) standardized.season = ingredient.season;
   if (ingredient.nutritionalProfile)
-    standardized.nutritionalProfile = ingredient.nutritionalProfile,
-  if (ingredient.score) (standardized as ScoredItem).score >= (ingredient as ScoredItem).score,
-  if (ingredient.scoreDetails) standardized.scoreDetails = ingredient.scoreDetails,
-  if (ingredient.subCategory) standardized.subCategory = ingredient.subCategory,
-  if (ingredient.qualities) standardized.qualities = ingredient.qualities,
-  if (ingredient.seasonality) standardized.seasonality = ingredient.seasonality,
+    standardized.nutritionalProfile = ingredient.nutritionalProfile;
+  if (ingredient.score) (standardized as ScoredItem).score = (ingredient as ScoredItem).score;
+  if (ingredient.scoreDetails) standardized.scoreDetails = ingredient.scoreDetails;
+  if (ingredient.subCategory) standardized.subCategory = ingredient.subCategory;
+  if (ingredient.qualities) standardized.qualities = ingredient.qualities;
+  if (ingredient.seasonality) standardized.seasonality = ingredient.seasonality;
   if (ingredient.lunarPhaseModifiers)
-    standardized.lunarPhaseModifiers = ingredient.lunarPhaseModifiers,
-  if (ingredient.sensoryProfile) standardized.sensoryProfile = ingredient.sensoryProfile,
+    standardized.lunarPhaseModifiers = ingredient.lunarPhaseModifiers;
+  if (ingredient.sensoryProfile) standardized.sensoryProfile = ingredient.sensoryProfile;
   if (ingredient.recommendedCookingMethods)
-    standardized.recommendedCookingMethods = ingredient.recommendedCookingMethods,
-  if (ingredient.culturalOrigins) standardized.culturalOrigins = ingredient.culturalOrigins,
+    standardized.recommendedCookingMethods = ingredient.recommendedCookingMethods;
+  if (ingredient.culturalOrigins) standardized.culturalOrigins = ingredient.culturalOrigins;
 
   return standardized;
 }

@@ -258,7 +258,6 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-              },
               culinaryProfile: {
                 flavorProfile: {
                   primary: ['balanced'],
@@ -359,7 +358,6 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
@@ -416,7 +414,6 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
@@ -501,7 +498,6 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
@@ -525,7 +521,6 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
@@ -588,7 +583,6 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
@@ -618,7 +612,6 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-          },
           culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
@@ -1096,6 +1089,6 @@ const rawWholeSpices = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const, _wholeSpices: Record<string, IngredientMapping> = fixIngredientMappings(
+export const _wholeSpices: Record<string, IngredientMapping> = fixIngredientMappings(
   rawWholeSpices as Record<string, Partial<IngredientMapping>>,
 );

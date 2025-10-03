@@ -66,19 +66,19 @@ export interface DevelopmentMetrics {
  * Enhanced Development Experience Manager
  */
 export class DevelopmentExperienceOptimizer {
-  private static instance: DevelopmentExperienceOptimizer,
-  private metrics: DevelopmentMetrics
+  private static instance: DevelopmentExperienceOptimizer;
+  private metrics: DevelopmentMetrics;
   private optimizationConfig: {
-    typescript: TypeScriptOptimizationConfig,
-    intelliSense: IntelliSenseConfig,
-    importOrganization: ImportOrganizationConfig;,
-    performanceMonitoring: PerformanceMonitoringConfig
-  }
+    typescript: TypeScriptOptimizationConfig;
+    intelliSense: IntelliSenseConfig;
+    importOrganization: ImportOrganizationConfig;
+    performanceMonitoring: PerformanceMonitoringConfig;
+  };
 
   private constructor() {
-    this.metrics = this.initializeMetrics()
-    this.optimizationConfig = this.getDefaultOptimizationConfig()
-    this.startPerformanceMonitoring()
+    this.metrics = this.initializeMetrics();
+    this.optimizationConfig = this.getDefaultOptimizationConfig();
+    this.startPerformanceMonitoring();
   }
 
   public static getInstance(): DevelopmentExperienceOptimizer {
@@ -170,8 +170,8 @@ declare global {
     // Planetary positions with enhanced IntelliSense
     interface PlanetaryPosition {
       /** Zodiac sign (e.g., 'aries', 'taurus', 'gemini') */
-      sign: 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' |,
-            'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces'
+      sign: 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' |
+            'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
       /** Degree within the sign (0-30) */
       _degree: number,
       /** Exact longitude (0-360) */
@@ -261,6 +261,7 @@ declare global {
       optimalStartTime?: string
     }
   }
+}`;
 }
 
 // Export enhanced types for use in components
@@ -270,9 +271,7 @@ export type {
   Astrology.CulinaryAstrologyData as CulinaryAstrologyData,
   EnhancedIngredient,
   EnhancedRecipe
-}
-`,
-  }
+};
 
   /**
    * Organize and optimize imports automatically
@@ -282,85 +281,85 @@ export type {
       return sourceCode
     }
 
-    const lines = sourceCode.split('\n')
-    const imports: string[] = [],
-    const otherLines: string[] = [],
-    let inImportSection = true,
+    const lines = sourceCode.split('\n');
+    const imports: string[] = [];
+    const otherLines: string[] = [];
+    let inImportSection = true;
 
     for (const line of lines) {
       if (line.trim().startsWith('import ') || line.trim().startsWith('export ')) {
         if (inImportSection) {
-          imports.push(line)
+          imports.push(line);
         } else {
-          otherLines.push(line)
+          otherLines.push(line);
         }
       } else if (line.trim() === '') {
         if (inImportSection && imports.length > 0) {
-          imports.push(line)
+          imports.push(line);
         } else {
-          otherLines.push(line)
+          otherLines.push(line);
         }
       } else {
         inImportSection = false;
-        otherLines.push(line)
+        otherLines.push(line);
       }
     }
 
     // Remove unused imports
-    const usedImports = this.optimizationConfig.importOrganization.enableUnusedImportRemoval;
+    const usedImports = this.optimizationConfig.importOrganization.enableUnusedImportRemoval
       ? this.removeUnusedImports(imports, otherLines.join('\n'))
       : imports;
 
     // Sort imports
-    const sortedImports = this.optimizationConfig.importOrganization.enableImportSorting;
+    const sortedImports = this.optimizationConfig.importOrganization.enableImportSorting
       ? this.sortImports(usedImports)
-      : usedImports
+      : usedImports;
 
-    return [...sortedImports, '', ...otherLines].join('\n')
+    return [...sortedImports, '', ...otherLines].join('\n');
   }
 
   /**
    * Real-time error detection and fixing
    */
   public detectAndFixCommonErrors(sourceCode: string): {
-    fixedCode: string,
-    fixes: string[],
-    remainingErrors: string[]
+    fixedCode: string;
+    fixes: string[];
+    remainingErrors: string[];
   } {
-    let fixedCode = sourceCode,
-    const fixes: string[] = [],
-    const remainingErrors: string[] = []
+    let fixedCode = sourceCode;
+    const fixes: string[] = [];
+    const remainingErrors: string[] = [];
 
     // Fix common TypeScript errors
     const commonFixes = [
-      {;
+      {
         pattern: /React\.FC<([^>]+)>/g,
         replacement: 'React.FC<1>',
         description: 'Fixed React.FC type annotation'
-}
+      },
       {
         pattern: /useEffect\(\(\) => \{([^}]+)\}, \[\]\)/g,
         replacement: 'useEffect(() => {1}, [])',
         description: 'Fixed useEffect dependency array'
-}
+      },
       {
-        pattern: /const \[([^,]+), set([^\]]+)\] = useState\(\)/g;,
-        replacement: 'const [1, set2] = useState<any>()';,
+        pattern: /const \[([^,]+), set([^\]]+)\] = useState\(\)/g,
+        replacement: 'const [1, set2] = useState<any>()',
         description: 'Added type annotation to useState'
-}
+      },
       {
         pattern: /interface ([A-Z][a-zA-Z]*) \{/g,
         replacement: 'interface 1 {',
         description: 'Fixed interface naming convention'
-}
-    ],
+      }
+    ];
 
     commonFixes.forEach(fix => {
-      if (fix.pattern.test(fixedCode)) {;
-        fixedCode = fixedCode.replace(fix.pattern, fix.replacement)
-        fixes.push(fix.description)
+      if (fix.pattern.test(fixedCode)) {
+        fixedCode = fixedCode.replace(fix.pattern, fix.replacement);
+        fixes.push(fix.description);
       }
-    })
+    });
 
     // Detect remaining errors (simplified detection)
     const errorPatterns = [
@@ -562,13 +561,13 @@ export type {
 
     Object.entries(thresholds).forEach(([metric, threshold]) => {
       const currentValue = this.metrics[metric as keyof DevelopmentMetrics];
-      if (typeof currentValue === 'number' && currentValue > threshold) {;
+      if (typeof currentValue === 'number' && currentValue > threshold) {
         logger.warn(`Performance threshold exceeded for ${metric}:`, {
           current: currentValue,
           threshold
-        })
+        });
       }
-    })
+    });
   }
 
   private removeUnusedImports(imports: string[], codeBody: string): string[] {
@@ -582,30 +581,30 @@ export type {
         : [importMatch[2] || importMatch[3]]
 
       // Check if any imported name is used in the code
-      return importedNames.some(name => {;
-        const regex = new RegExp(`\\b${name}\\b`, 'g')
-        return regex.test(codeBody)
-      })
-    })
+      return importedNames.some(name => {
+        const regex = new RegExp(`\\b${name}\\b`, 'g');
+        return regex.test(codeBody);
+      });
+    });
   }
 
   private sortImports(imports: string[]): string[] {
-    const externalImports: string[] = [],
-    const internalImports: string[] = [],
+    const externalImports: string[] = [];
+    const internalImports: string[] = [];
 
     imports.forEach(importLine => {
       if (importLine.includes('@/') || importLine.includes('./') || importLine.includes('../')) {
-        internalImports.push(importLine)
+        internalImports.push(importLine);
       } else if (importLine.trim().startsWith('import ')) {
-        externalImports.push(importLine)
+        externalImports.push(importLine);
       }
-    })
+    });
 
     return [
       ...externalImports.sort(),
       ...(externalImports.length > 0 && internalImports.length > 0 ? [''] : []),
       ...internalImports.sort()
-    ],
+    ];
   }
 
   private startRealTimeErrorDetection(): void {
@@ -637,11 +636,11 @@ export function useDevelopmentExperienceOptimizations() {
     generateAstrologicalTypeDefinitions: () => optimizer.generateAstrologicalTypeDefinitions(),
     organizeImports: (code: string) => optimizer.organizeImports(code),
     detectAndFixCommonErrors: (code: string) => optimizer.detectAndFixCommonErrors(code),
-    updatePerformanceMetrics: (metrics: Partial<DevelopmentMetrics>) =>,
+    updatePerformanceMetrics: (metrics: Partial<DevelopmentMetrics>) =>
       optimizer.updatePerformanceMetrics(metrics),
     getDevelopmentMetrics: () => optimizer.getDevelopmentMetrics(),
-    getPerformanceOptimizationRecommendations: () =>,
+    getPerformanceOptimizationRecommendations: () =>
       optimizer.getPerformanceOptimizationRecommendations(),
-    applyAutomaticOptimizations: () => optimizer.applyAutomaticOptimizations()
+    applyAutomaticOptimizations: () => optimizer.applyAutomaticOptimizations();
   }
 }
