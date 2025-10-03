@@ -240,11 +240,11 @@ export interface IngredientServiceInterface {
    * @returns Analysis of ingredient combinations
    */
   analyzeRecipeIngredients(recipe: Recipe): {
-    overallHarmony: number,
-    flavorProfile: { [key: string]: number },
-    strongPairings: Array<{ ingredients: string[] score: number }>,
-    weakPairings: Array<{ ingredients: string[] score: number }>
-}
+    overallHarmony: number;
+    flavorProfile: { [key: string]: number };
+    strongPairings: Array<{ ingredients: string[]; score: number }>;
+    weakPairings: Array<{ ingredients: string[]; score: number }>;
+  }
 
   /**
    * Enhance an ingredient with elemental properties

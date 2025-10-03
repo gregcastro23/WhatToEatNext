@@ -1,5 +1,6 @@
 import { _logger } from '@/lib/logger';
 import { AstrologicalState, ElementalProperties } from '@/types/alchemy';
+import type { ElementalData, ScoredItem } from '@/types/common';
 import type { Element } from '@/types/unified';
 
 import type {
@@ -17,18 +18,6 @@ interface _CalculationData {
   score?: number
 }
 
-interface ScoredItem {
-  score: number,
-  [key: string]: unknown
-}
-
-interface ElementalData {
-  Fire: number,
-  Water: number,
-  Earth: number,
-  Air: number,
-  [key: string]: unknown
-}
 
 interface _CuisineData {
   id: string,

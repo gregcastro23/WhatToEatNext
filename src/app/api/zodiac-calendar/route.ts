@@ -31,20 +31,26 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
 
-    logger.info(`Zodiac calendar API request: ${action}`),
+    logger.info(`Zodiac calendar API request: ${action}`);
 
     switch (action) {
-      case 'degree-for-date': return handleDegreeForDate(searchParams),
+      case 'degree-for-date':
+        return handleDegreeForDate(searchParams);
 
-      case 'dates-for-degree': return handleDatesForDegree(searchParams),
+      case 'dates-for-degree':
+        return handleDatesForDegree(searchParams);
 
-      case 'year-map': return handleYearMap(searchParams),
+      case 'year-map':
+        return handleYearMap(searchParams);
 
-      case 'current-period': return handleCurrentPeriod(),
+      case 'current-period':
+        return handleCurrentPeriod();
 
-      case 'monthly-calendar': return handleMonthlyCalendar(searchParams),
+      case 'monthly-calendar':
+        return handleMonthlyCalendar(searchParams);
 
-      case 'compare-accuracy': return handleCompareAccuracy(searchParams),
+      case 'compare-accuracy':
+        return handleCompareAccuracy(searchParams);
 
       default:
         return NextResponse.json(

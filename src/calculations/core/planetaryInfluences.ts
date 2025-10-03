@@ -30,7 +30,7 @@ export const PLANETARY_ALCHEMICAL_MAPPINGS = {
  * Planetary elemental correspondences (day/night variations)
  */
 export const PLANETARY_ELEMENTAL_MAPPINGS = {
-  diurnal: {,
+  diurnal: {
     Sun: 'Fire',
     moon: 'Water',
     Mercury: 'Air',
@@ -40,8 +40,9 @@ export const PLANETARY_ELEMENTAL_MAPPINGS = {
     Saturn: 'Air',
     Uranus: 'Water',
     Neptune: 'Water',
-    Pluto: 'Earth' },
-        nocturnal: {
+    Pluto: 'Earth'
+  },
+  nocturnal: {
     Sun: 'Fire',
     moon: 'Water',
     Mercury: 'Earth',
@@ -52,14 +53,14 @@ export const PLANETARY_ELEMENTAL_MAPPINGS = {
     Uranus: 'Air',
     Neptune: 'Water',
     Pluto: 'Water'
-}
-} as const,
+  }
+} as const;
 
 /**
  * Planetary dignity effects
  */
 export const PLANETARY_DIGNITIES = {
-  Sun: {,
+  Sun: {
     rulership: ['leo'],
     exaltation: ['aries'],
     detriment: ['aquarius'],
@@ -141,27 +142,27 @@ export function calculatePlanetaryDignity(planet: string,
     Array.isArray(dignities.rulership)
       ? dignities.rulership.includes(signKey)
       : dignities.rulership === signKey
-  ) {;
-    return { type: 'rulership', modifier: 1.5 }
+  ) {
+    return { type: 'rulership', modifier: 1.5 };
   }
   if (
     Array.isArray(dignities.exaltation)
       ? dignities.exaltation.includes(signKey)
       : dignities.exaltation === signKey
-  ) {;
-    return { type: 'exaltation', modifier: 1.3 }
+  ) {
+    return { type: 'exaltation', modifier: 1.3 };
   }
   if (
     Array.isArray(dignities.detriment)
       ? dignities.detriment.includes(signKey)
       : dignities.detriment === signKey
-  ) {;
-    return { type: 'detriment', modifier: 0.7 }
+  ) {
+    return { type: 'detriment', modifier: 0.7 };
   }
   if (
     Array.isArray(dignities.fall) ? dignities.fall.includes(signKey) : dignities.fall === signKey
-  ) {;
-    return { type: 'fall', modifier: 0.5 }
+  ) {
+    return { type: 'fall', modifier: 0.5 };
   }
 
   return { type: 'neutral', modifier: 1.0 }
@@ -173,16 +174,18 @@ export function calculatePlanetaryDignity(planet: string,
 export function calculatePlanetaryStrength(planet: string,
   position: PlanetaryPosition,
   aspects?: Array<{ planet1: string, planet2: string, type: string, orb: number }>): number {
-  let strength = 1.0
+  let strength = 1.0;
 
   // Base strength from dignity
-  if (position.sign) {;
-    const dignity = calculatePlanetaryDignity(planet, position.sign),
-    strength *= dignity.modifier,
+  if (position.sign) {
+    const dignity = calculatePlanetaryDignity(planet, position.sign);
+    strength *= dignity.modifier;
   }
 
   // Adjust for retrograde motion
-  if (position.isRetrograde) {strength *= 0.8}
+  if (position.isRetrograde) {
+    strength *= 0.8;
+  }
 
   // Adjust for aspects (if provided)
   if (aspects) {
@@ -193,22 +196,24 @@ export function calculatePlanetaryStrength(planet: string,
     )
 
     (planetAspects || []).forEach(aspect => {
-      switch (aspect.type) {;
-        case 'conjunction': strength *= 1.2,
-          break,
+      switch (aspect.type) {
+        case 'conjunction':
+          strength *= 1.2;
+          break;
         case 'trine':
-          strength *= 1.15,
-          break,
+          strength *= 1.15;
+          break;
         case 'sextile':
-          strength *= 1.1,
-          break,
+          strength *= 1.1;
+          break;
         case 'square':
-          strength *= 0.9
-          break,
-        case 'opposition': strength *= 0.85
-          break
+          strength *= 0.9;
+          break;
+        case 'opposition':
+          strength *= 0.85;
+          break;
       }
-    })
+    });
   }
 
   return Math.max(0.3, Math.min(2.0, strength))
@@ -233,15 +238,15 @@ export function getPlanetaryElementalInfluence(
 /**
  * Calculate planetary hours influence
  */
-export function calculatePlanetaryHoursInfluence(_date: Date): {
+export function calculatePlanetaryHoursInfluence(date: Date): {
   dayRuler: string,
   hourRuler: string,
   influence: number
 } {
-  const dayOfWeek = date.getDay()
-  const hour = date.getHours()
-;
-  const dayRulers = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'],
+  const dayOfWeek = date.getDay();
+  const hour = date.getHours();
+
+  const dayRulers = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
   const hourRulers = [
     'Sun',
     'Venus',
@@ -267,25 +272,27 @@ export function calculatePlanetaryHoursInfluence(_date: Date): {
     'Sun',
     'Venus',
     'Mercury'
-  ],
+  ];
 
   const dayRuler = dayRulers[dayOfWeek];
   const hourRuler = hourRulers[hour];
 
   // Calculate combined influence
-  let influence = 1.0,
-  if (dayRuler === hourRuler) {;
-    influence = 1.5, // Same planet rules both day and hour,
-  } else {influence = 1.2, // Different planets}
+  let influence = 1.0;
+  if (dayRuler === hourRuler) {
+    influence = 1.5; // Same planet rules both day and hour
+  } else {
+    influence = 1.2; // Different planets
+  }
 
-  return { dayRuler, hourRuler, influence }
+  return { dayRuler, hourRuler, influence };
 }
 
 /**
  * Calculate comprehensive planetary influences
  */
 export function calculatePlanetaryInfluences(planetaryPositions: { [key: string]: PlanetaryPosition },
-  isDaytime: boolean = true,,
+  isDaytime: boolean = true,
   currentDate?: Date): {
   alchemicalInfluences: { [key: string]: number },
   elementalInfluences: { [key: string]: number },
@@ -296,58 +303,58 @@ export function calculatePlanetaryInfluences(planetaryPositions: { [key: string]
 
   return getCachedCalculation(
     cacheKey,
-    { positions: planetaryPositions, isDaytime, date: currentDate?.getTime() }
+    { positions: planetaryPositions, isDaytime, date: currentDate?.getTime() },
     () => {
       const alchemicalInfluences: { [key: string]: number } = {
         Spirit: 0,
         Essence: 0,
         Matter: 0,
         Substance: 0
-}
+      };
 
       const elementalInfluences: { [key: string]: number } = {
         Fire: 0,
         Water: 0,
         Air: 0,
         Earth: 0
-}
+      };
 
       const dominantPlanets: Array<{ planet: string, strength: number, element: Element }> = [];
 
       // Process each planet
       Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
-        const planetKey = planet.toLowerCase()
-        const mapping =;
-          PLANETARY_ALCHEMICAL_MAPPINGS[planetKey as keyof typeof PLANETARY_ALCHEMICAL_MAPPINGS],
+        const planetKey = planet.toLowerCase();
+        const mapping =
+          PLANETARY_ALCHEMICAL_MAPPINGS[planetKey as keyof typeof PLANETARY_ALCHEMICAL_MAPPINGS];
 
         if (mapping) {
           // Calculate planetary strength
-          const strength = calculatePlanetaryStrength(planet, position)
+          const strength = calculatePlanetaryStrength(planet, position);
 
           // Add to alchemical influences
-          alchemicalInfluences.Spirit += mapping.Spirit * strength,
-          alchemicalInfluences.Essence += mapping.Essence * strength,
-          alchemicalInfluences.Matter += mapping.Matter * strength,
-          alchemicalInfluences.Substance += mapping.Substance * strength,
+          alchemicalInfluences.Spirit += mapping.Spirit * strength;
+          alchemicalInfluences.Essence += mapping.Essence * strength;
+          alchemicalInfluences.Matter += mapping.Matter * strength;
+          alchemicalInfluences.Substance += mapping.Substance * strength;
 
           // Get elemental influence
-          const _element = getPlanetaryElementalInfluence(planet, isDaytime),
-          elementalInfluences[_element] += strength,
+          const _element = getPlanetaryElementalInfluence(planet, isDaytime);
+          elementalInfluences[_element] += strength;
 
           // Add to dominant planets list
           dominantPlanets.push({
             planet,
             strength,
             element: _element as Element
-          })
+          });
         }
-      })
+      });
 
       // Sort dominant planets by strength
-      dominantPlanets.sort((ab) => b.strength - a.strength)
+      dominantPlanets.sort((a, b) => b.strength - a.strength);
 
       // Calculate planetary hours if date provided
-      let planetaryHours,
+      let planetaryHours;
       if (currentDate) {
         planetaryHours = calculatePlanetaryHoursInfluence(currentDate);
       }
@@ -357,15 +364,15 @@ export function calculatePlanetaryInfluences(planetaryPositions: { [key: string]
         elementalInfluences,
         dominantPlanets,
         planetaryHours
-      }
-    }
-    300000, // 5 minute cache
+      };
+    },
+    300000 // 5 minute cache
   ) as {
     alchemicalInfluences: { [key: string]: number },
     elementalInfluences: { [key: string]: number },
     dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
     planetaryHours?: { dayRuler: string, hourRuler: string, influence: number }
-  }
+  };
 }
 
 /**
@@ -385,57 +392,57 @@ export function getPlanetaryCulinaryRecommendations(dominantPlanets: Array<{ pla
   }
 
   // Get top 3 dominant planets
-  const topPlanets = dominantPlanets.slice(03)
-;
+  const topPlanets = dominantPlanets.slice(0, 3);
+
   (topPlanets || []).forEach(({ planet, element: _element }) => {
-    const planetKey = planet.toLowerCase()
+    const planetKey = planet.toLowerCase();
 
     // Planetary ingredient associations
     switch (planetKey) {
-      case 'Sun':;
-        recommendations.ingredients.push('citrus fruits', 'golden grains', 'sunflower oil')
-        recommendations.cookingMethods.push('grilling', 'roasting')
-        recommendations.flavors.push('bright', 'warming', 'energizing')
-        recommendations.timing.push('midday', 'solar hours')
-        break,
+      case 'Sun':
+        recommendations.ingredients.push('citrus fruits', 'golden grains', 'sunflower oil');
+        recommendations.cookingMethods.push('grilling', 'roasting');
+        recommendations.flavors.push('bright', 'warming', 'energizing');
+        recommendations.timing.push('midday', 'solar hours');
+        break;
       case 'Moon':
-        recommendations.ingredients.push('dAiry products', 'seafood', 'white vegetables')
-        recommendations.cookingMethods.push('steaming', 'poaching')
-        recommendations.flavors.push('cooling', 'soothing', 'nurturing')
-        recommendations.timing.push('evening', 'lunar hours')
-        break,
+        recommendations.ingredients.push('dairy products', 'seafood', 'white vegetables');
+        recommendations.cookingMethods.push('steaming', 'poaching');
+        recommendations.flavors.push('cooling', 'soothing', 'nurturing');
+        recommendations.timing.push('evening', 'lunar hours');
+        break;
       case 'Mercury':
-        recommendations.ingredients.push('nuts', 'seeds', 'leafy greens')
-        recommendations.cookingMethods.push('quick sautéing', 'stir-frying')
-        recommendations.flavors.push('light', 'crisp', 'stimulating')
-        recommendations.timing.push('morning', 'communication hours')
-        break,
+        recommendations.ingredients.push('nuts', 'seeds', 'leafy greens');
+        recommendations.cookingMethods.push('quick sautéing', 'stir-frying');
+        recommendations.flavors.push('light', 'crisp', 'stimulating');
+        recommendations.timing.push('morning', 'communication hours');
+        break;
       case 'Venus':
-        recommendations.ingredients.push('fruits', 'herbs', 'sweet vegetables')
-        recommendations.cookingMethods.push('gentle cooking', 'raw preparation')
-        recommendations.flavors.push('sweet', 'harmonious', 'pleasant')
-        recommendations.timing.push('afternoon', 'social hours')
-        break,
+        recommendations.ingredients.push('fruits', 'herbs', 'sweet vegetables');
+        recommendations.cookingMethods.push('gentle cooking', 'raw preparation');
+        recommendations.flavors.push('sweet', 'harmonious', 'pleasant');
+        recommendations.timing.push('afternoon', 'social hours');
+        break;
       case 'Mars':
-        recommendations.ingredients.push('spicy peppers', 'red meat', 'garlic')
-        recommendations.cookingMethods.push('high-heat cooking', 'grilling')
-        recommendations.flavors.push('spicy', 'intense', 'energizing')
-        recommendations.timing.push('early morning', 'action hours')
-        break,
+        recommendations.ingredients.push('spicy peppers', 'red meat', 'garlic');
+        recommendations.cookingMethods.push('high-heat cooking', 'grilling');
+        recommendations.flavors.push('spicy', 'intense', 'energizing');
+        recommendations.timing.push('early morning', 'action hours');
+        break;
       case 'Jupiter':
-        recommendations.ingredients.push('legumes', 'rich foods', 'exotic spices')
-        recommendations.cookingMethods.push('slow cooking', 'braising')
-        recommendations.flavors.push('rich', 'abundant', 'satisfying')
-        recommendations.timing.push('feast times', 'expansion hours')
-        break,
+        recommendations.ingredients.push('legumes', 'rich foods', 'exotic spices');
+        recommendations.cookingMethods.push('slow cooking', 'braising');
+        recommendations.flavors.push('rich', 'abundant', 'satisfying');
+        recommendations.timing.push('feast times', 'expansion hours');
+        break;
       case 'Saturn':
-        recommendations.ingredients.push('root vegetables', 'aged foods', 'grains')
-        recommendations.cookingMethods.push('slow roasting', 'preservation')
-        recommendations.flavors.push('earthy', 'structured', 'grounding')
-        recommendations.timing.push('late evening', 'discipline hours'),
-        break
+        recommendations.ingredients.push('root vegetables', 'aged foods', 'grains');
+        recommendations.cookingMethods.push('slow roasting', 'preservation');
+        recommendations.flavors.push('earthy', 'structured', 'grounding');
+        recommendations.timing.push('late evening', 'discipline hours');
+        break;
     }
-  })
+  });
 
   return recommendations;
 }

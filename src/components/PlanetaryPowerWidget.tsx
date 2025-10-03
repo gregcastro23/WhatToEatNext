@@ -132,7 +132,7 @@ export default function PlanetaryPowerWidget({
                 className={`h-full rounded-full transition-all duration-500 ${
                   currentPowerLevel >= 0.8 ? 'bg-green-500' :
                   currentPowerLevel >= 0.6 ? 'bg-yellow-500' :
-                  currentPowerLevel >= 0.4 ? 'bg-orange-500' : 'bg-red-500',
+                  currentPowerLevel >= 0.4 ? 'bg-orange-500' : 'bg-red-500'
                 }`}
                 style={{ width: `${currentPowerLevel * 100}%` }}
               />

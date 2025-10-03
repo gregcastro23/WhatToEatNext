@@ -12,15 +12,7 @@ export {
     type UnifiedDataAdapterInterface
 } from './UnifiedDataAdapter';
 
-// Export FoodAlchemySystemAdapter
-export {
-    EnhancedFoodAlchemySystem, default as enhancedFoodAlchemySystem
-} from './FoodAlchemySystemAdapter';
-
-// Export EnhancedIngredientSystem
-export {
-    EnhancedIngredientSystem, default as enhancedIngredientSystem
-} from './IngredientServiceAdapter';
+// Adapter files removed during consolidation - obsolete bridge code
 
 // Export NutritionalDataAdapter
 export {

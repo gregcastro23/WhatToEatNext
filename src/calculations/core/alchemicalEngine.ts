@@ -249,7 +249,7 @@ export { alchemize, planetInfo, signInfo, signs };
 
 // Pattern OO-4: Integration Import Resolution - AlchemicalEngine class for service compatibility
 export class AlchemicalEngine {
-  private advanced: AlchemicalEngineAdvanced,
+  private advanced: AlchemicalEngineAdvanced;
 
   constructor() {
     this.advanced = new AlchemicalEngineAdvanced();
@@ -284,7 +284,7 @@ export class AlchemicalEngine {
     astrologicalState?: AstrologicalState,
     season?: string,
     cuisine?: string) {
-    return this.advanced.calculateAstroCuisineMatch(recipeElements;
+    return this.advanced.calculateAstroCuisineMatch(recipeElements,
       astrologicalState,
       season,
       cuisine);

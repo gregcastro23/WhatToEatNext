@@ -212,14 +212,14 @@ function getSuggestedDishes(_cuisine: string, _elementals: ElementalProperties):
   const cuisineDishes = dishes[cuisine] || ['Traditional dishes', 'Regional specialties'],
 
   // Filter based on dominant element
-  const _UNUSED_dominantElement = Object.entries(elementals).reduce((ab) =>
+  const _UNUSED_dominantElement = Object.entries(elementals).reduce((a, b) =>
     elementals[a[0] as keyof ElementalProperties] > elementals[b[0] as keyof ElementalProperties]
-      ? a;
-      : b,
-  )[0],
+      ? a
+      : b
+  )[0];
 
   // Return dishes that align with dominant element
-  return cuisineDishes.slice(03)
+  return cuisineDishes.slice(0, 3)
 }
 
 export default {

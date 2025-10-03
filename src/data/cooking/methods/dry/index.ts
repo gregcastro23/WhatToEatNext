@@ -1,4 +1,3 @@
-import { baking } from './baking';
 import { broiling } from './broiling';
 import { frying } from './frying';
 import { grilling } from './grilling';
@@ -14,23 +13,15 @@ import { stirFrying } from './stir-frying';
  * to transfer heat to food
  */
 export const _dryCookingMethods = {
-  baking,
   roasting,
   frying,
   stir_frying: stirFrying,
   grilling,
   broiling,
   // Add other cooking methods as they are implemented
-  // broiling
 }
 
 // Export individual methods
 export {
-  baking,
-  roasting,
-  frying,
-  stirFrying,
-  grilling,
-  broiling,
-  // broiling
-}
+    broiling, frying, grilling, roasting, stirFrying
+};

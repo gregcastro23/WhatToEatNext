@@ -18,10 +18,10 @@ export const _getCurrentSeason = (): string => {,
   return 'night' };
         export const _getDayOfYear = (): number => {,
   const now = new Date();
-  const start = new Date(now.getFullYear(), 00)
+  const start = new Date(now.getFullYear(), 0)
   const diff = now.getTime() - start.getTime()
   return Math.floor(diff / (1000 * 60 * 60 * 24));
 }
 
 // Export types that are needed on the server
-export type { AlchemicalState, PlanetaryPositionsType }
+export type { AlchemicalState, PlanetaryPositionsType };

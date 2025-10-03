@@ -9,14 +9,14 @@ import { createLogger } from '../logger';
 const _logger = createLogger('RecipeMatching');
 
 import {
-  getRecipeAstrologicalInfluences,
-  getRecipeCookingMethods,
-  getRecipeCookingTime,
-  getRecipeElementalProperties,
-  getRecipeMealTypes,
-  getRecipeSeasons,
-  isRecipeDietaryCompatible,
-  recipeHasIngredient,
+    getRecipeAstrologicalInfluences,
+    getRecipeCookingMethods,
+    getRecipeCookingTime,
+    getRecipeElementalProperties,
+    getRecipeMealTypes,
+    getRecipeSeasons,
+    isRecipeDietaryCompatible,
+    recipeHasIngredient,
 } from './recipeUtils';
 
 // ===== INTERFACES =====
@@ -47,10 +47,6 @@ interface MatchFilters {
   preferHigherContrast?: boolean;
 }
 
-interface ScoredItem {
-  score: number;
-  [key: string]: unknown;
-}
 
 // ===== CACHING SYSTEM =====
 

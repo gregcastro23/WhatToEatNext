@@ -1,10 +1,10 @@
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import {
-    Element,
-    ElementalProperties,
-    Planet,
-    Season
+  Element,
+  ElementalProperties,
+  Planet,
+  Season
 } from '@/types/alchemy';
 import { alchemicalEngine } from '@/utils/alchemyInitializer';
 
@@ -18,55 +18,22 @@ import { alchemicalEngine } from '@/utils/alchemyInitializer';
  * Implements the IngredientServiceInterface and follows the singleton pattern.
  */
 
-// Missing interface definitions
-interface IngredientServiceInterface {
-  getAllIngredients(): Record<string, UnifiedIngredient[]>,
-  getIngredientByName(name: string): UnifiedIngredient | undefined,
-  getIngredientsByCategory(category: string): UnifiedIngredient[],
-  filterIngredients(filter: IngredientFilter): Record<string, UnifiedIngredient[]>
-}
-
-interface IngredientFilter {
-  nutritional?: NutritionalFilter,
-  elemental?: ElementalFilter,
-  dietary?: DietaryFilter,
-  currentSeason?: string
-  searchQuery?: string,
-  excludeIngredients?: string[],
-  currentZodiacSign?: any,
-  planetaryInfluence?: Planet
-}
-
-interface ElementalFilter {
-  element?: Element,
-  minThreshold?: number,
-  maxThreshold?: number,
-  dominantElement?: Element
-}
-
-interface NutritionalFilter {
-  maxCalories?: number,
-  minProtein?: number,
-  maxCarbs?: number
-  minFiber?: number,
-  vegetarian?: boolean,
-  vegan?: boolean,
-  glutenFree?: boolean
-}
-
-interface DietaryFilter {
-  restrictions: string[],
-  preferences: string[],
-  allergies?: string[]
-}
+// Import proper interfaces instead of redefining them
+import {
+  DietaryFilter,
+  ElementalFilter,
+  IngredientFilter,
+  IngredientServiceInterface,
+  NutritionalFilter
+} from './interfaces/IngredientServiceInterface';
 
 export class UnifiedIngredientService implements IngredientServiceInterface {
-  private static instance: UnifiedIngredientService,
+  private static instance: UnifiedIngredientService;
   private ingredientCache: Map<string, UnifiedIngredient[]> = new Map();
 
   private constructor() {
     // Initialize the ingredient cache
-    void this.loadIngredients()
+    void this.loadIngredients();
   }
 
   /**
@@ -839,16 +806,16 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   seasons: string[] | Season[],
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(_ingredient => {
-      if (!_ingredient.seasonality || _ingredient.seasonality || [].length === 0) {;
-        return true, // Include ingredients with no seasonality data
+      if (!_ingredient.seasonality || _ingredient.seasonality.length === 0) {
+        return true; // Include ingredients with no seasonality data
       }
 
       return (seasons || []).some(season =>
-        void Array.isArray(_ingredient.seasonality)
-          ? _ingredient?.seasonality.includes((season as any)(as as any)(unknown as unknown));
-          : _ingredient.seasonality === (season as unknown),
-      )
-    })
+        Array.isArray(_ingredient.seasonality)
+          ? _ingredient.seasonality.includes(season as any)
+          : _ingredient.seasonality === season
+      );
+    });
   }
 
   /**
@@ -959,25 +926,25 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const { elementalProperties } = ingredient;
 
     if (!elementalProperties) {
-      return 'Earth', // Default
+      return 'Earth'; // Default
     }
 
-    let maxElement: Element = 'Earth',
-    let maxValue = elementalProperties.Earth,
+    let maxElement: Element = 'Earth';
+    let maxValue = elementalProperties.Earth;
 
     if (elementalProperties.Fire > maxValue) {
-      maxElement = 'Fire',
+      maxElement = 'Fire';
       maxValue = elementalProperties.Fire;
     }
 
     if (elementalProperties.Water > maxValue) {
-      maxElement = 'Water',
-      maxValue = elementalProperties.Water,
+      maxElement = 'Water';
+      maxValue = elementalProperties.Water;
     }
 
     if (elementalProperties.Air > maxValue) {
-      maxElement = 'Air',
-      maxValue = elementalProperties.Air,
+      maxElement = 'Air';
+      maxValue = elementalProperties.Air;
     }
 
     return maxElement;
@@ -1016,13 +983,13 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   private calculateSeasonalCompatibility(ing1: UnifiedIngredient, ing2: UnifiedIngredient): number {
     if (!ing1.seasonality || !ing2.seasonality) {
-      return 0.5, // Neutral compatibility if no seasonality data
+      return 0.5; // Neutral compatibility if no seasonality data
     }
 
     // Count overlapping seasons
-    const overlappingSeasons = (ing1.seasonality || []).filter(season =>,
-      (ing2.seasonality || []).includes(season),
-    )
+    const overlappingSeasons = (ing1.seasonality || []).filter(season =>
+      (ing2.seasonality || []).includes(season)
+    );
 
     // Calculate based on overlap
     const maxPossibleOverlap = Math.min(
@@ -1070,46 +1037,46 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     let Fire = 0;
     let Water = 0;
     let Earth = 0;
-    let Air = 0,
+    let Air = 0;
 
     for (const ingredient of ingredients) {
-      Fire += ingredient.elementalProperties.Fire,
-      Water += ingredient.elementalProperties.Water,
-      Earth += ingredient.elementalProperties.Earth,
-      Air += ingredient.elementalProperties.Air,
+      Fire += ingredient.elementalProperties.Fire;
+      Water += ingredient.elementalProperties.Water;
+      Earth += ingredient.elementalProperties.Earth;
+      Air += ingredient.elementalProperties.Air;
     }
 
     // Calculate average
     const count = (ingredients || []).length;
 
-    return { Fire: Fire / count, Water: Water / count, Earth: Earth / count, Air: Air / count }
+    return { Fire: Fire / count, Water: Water / count, Earth: Earth / count, Air: Air / count };
   }
 
   /**
    * Calculate the flavor profile of a recipe
    */
   private calculateRecipeFlavorProfile(ingredients: UnifiedIngredient[]): {
-    [key: string]: number
+    [key: string]: number;
   } {
-    if ((ingredients || []).length === 0) {,
-      return {}
+    if ((ingredients || []).length === 0) {
+      return {};
     }
 
-    const result: { [key: string]: number } = {}
-    const flavorCounts: { [key: string]: number } = {}
+    const result: { [key: string]: number } = {};
+    const flavorCounts: { [key: string]: number } = {};
 
     // Sum up flavor values
     // Pattern KK-9: Cross-Module Arithmetic Safety for service calculations
     for (const ingredient of ingredients) {
-      if (!ingredient.flavorProfile) continue
+      if (!ingredient.flavorProfile) continue;
 
       for (const [flavor, value] of Object.entries(ingredient.flavorProfile)) {
         const currentResult = Number(result[flavor]) || 0;
         const numericValue = Number(value) || 0;
-        result[flavor] = currentResult + numericValue,
+        result[flavor] = currentResult + numericValue;
 
         const currentCount = Number(flavorCounts[flavor]) || 0;
-        flavorCounts[flavor] = currentCount + 1,
+        flavorCounts[flavor] = currentCount + 1;
       }
     }
 
@@ -1128,7 +1095,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 }
 
 // Export a singleton instance for use across the application
-export const unifiedIngredientService = UnifiedIngredientService.getInstance()
+export const unifiedIngredientService = UnifiedIngredientService.getInstance();
 
-// Export default for compatibility with existing code;
-export default unifiedIngredientService,
+// Export default for compatibility with existing code
+export default unifiedIngredientService;

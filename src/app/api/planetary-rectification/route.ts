@@ -85,11 +85,14 @@ export async function GET(request: NextRequest) {
     const action = searchParams.get('action');
 
     switch (action) {
-      case 'status': return handleStatusRequest(),
+      case 'status':
+        return handleStatusRequest();
 
-      case 'health': return handleHealthRequest(),
+      case 'health':
+        return handleHealthRequest();
 
-      case 'current': return handleCurrentRectification(),
+      case 'current':
+        return handleCurrentRectification();
 
       default:
         return NextResponse.json(

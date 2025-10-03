@@ -157,7 +157,7 @@ export default function PlanetaryFoodRecommendations({
         <h2 className="text-xl font-semibold">Planetary Food Guidance</h2>
         <span className={`px-3 py-1 rounded-full text-sm font-medium ${
           currentPowerLevel >= 0.7 ? 'bg-green-100 text-green-700' :
-          currentPowerLevel >= 0.5 ? 'bg-yellow-100 text-yellow-700' : 'bg-orange-100 text-orange-700',
+          currentPowerLevel >= 0.5 ? 'bg-yellow-100 text-yellow-700' : 'bg-orange-100 text-orange-700'
         }`}>
           {getRecommendationStrength()}
         </span>
@@ -231,7 +231,7 @@ export default function PlanetaryFoodRecommendations({
               className={`px-3 py-1 rounded text-sm font-medium ${
                 element === dominantElement
                   ? 'bg-purple-100 text-purple-700 ring-2 ring-purple-300'
-                  : 'bg-gray-100 text-gray-600',
+                  : 'bg-gray-100 text-gray-600'
               }`}
             >
               {element}

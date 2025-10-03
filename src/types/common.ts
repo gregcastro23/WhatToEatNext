@@ -29,3 +29,17 @@ export interface PlanetaryAlignment {
 
 export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night'
 export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack'
+
+// Common interfaces used across recommendation and filtering utilities
+export interface ScoredItem {
+  score: number;
+  [key: string]: unknown;
+}
+
+export interface ElementalData {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+  [key: string]: unknown;
+}

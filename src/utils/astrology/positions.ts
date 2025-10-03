@@ -1,7 +1,6 @@
 import * as Astronomy from 'astronomy-engine';
 
 // Removed unused log import
-import type { ZodiacSign } from '@/types/alchemy';
 
 /**
  * A utility function for logging debug information
@@ -15,20 +14,20 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
 // Updated reference data for July 2, 2025 at, 10: 45 PM EDT (Cancer season)
 const REFERENCE_POSITIONS = {
   // _Planet: [degrees, minutes, seconds, currentZodiacSign],
-  Sun: [1045, 0, 'cancer'],
-  moon: [1819, 0, 'libra'],
-  Mercury: [29, 0, 'leo'],
-  Venus: [1451, 0, 'leo'],
-  Mars: [2525, 0, 'taurus'],
-  Jupiter: [1244, 0, 'gemini'],
-  Saturn: [1917, 0, 'pisces'],
-  Uranus: [269, 0, 'taurus'],
-  Neptune: [2955, 0, 'aries'],
-  Pluto: [153, 0, 'aquarius'],
-  NorthNode: [2346, 0, 'pisces'],
-  Chiron: [2225, 0, 'aries'],
-  Ascendant: [2219, 0, 'scorpio'],
-  MC: [657, 0, 'leo']
+  Sun: [104, 5, 0, 'cancer'],
+  moon: [181, 9, 0, 'libra'],
+  Mercury: [2, 9, 0, 'leo'],
+  Venus: [145, 1, 0, 'leo'],
+  Mars: [252, 5, 0, 'taurus'],
+  Jupiter: [124, 4, 0, 'gemini'],
+  Saturn: [191, 7, 0, 'pisces'],
+  Uranus: [26, 9, 0, 'taurus'],
+  Neptune: [295, 5, 0, 'aries'],
+  Pluto: [15, 3, 0, 'aquarius'],
+  NorthNode: [234, 6, 0, 'pisces'],
+  Chiron: [222, 5, 0, 'aries'],
+  Ascendant: [221, 9, 0, 'scorpio'],
+  MC: [65, 7, 0, 'leo']
 }
 
 // Reference date for July 2, 2025 at, 10: 45 PM EDT
@@ -105,7 +104,7 @@ const PLANET_MAPPING: Record<string, Astronomy.Body> = {
 }
 
 // Cache for planetary positions to avoid frequent recalculations
-let positionsCache: PositionsCache | null = null,
+let positionsCache: PositionsCache | null = null;
 
 // Cache expiration in milliseconds (15 minutes)
 const CACHE_EXPIRATION = 15 * 60 * 1000;

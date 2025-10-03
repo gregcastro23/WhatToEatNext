@@ -1,5 +1,4 @@
-import { ElementalProperties, ThermodynamicMetrics, Planet, Element } from '@/types/alchemy';
-import { PlanetaryAlignment } from '@/types/celestial';
+import { ElementalProperties, ThermodynamicMetrics } from '@/types/alchemy';
 import type { CookingMethod } from '@/types/cooking';
 
 import { Ingredient } from '../types/ingredient';
@@ -7,19 +6,18 @@ import { Recipe } from '../types/recipe';
 // Import utility functions
 import { getCuisineRecommendations } from '../utils/cuisineRecommender';
 import { calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
-import { getIngredientRecommendations } from '../utils/recommendation/foodRecommendation';
 import { getCookingMethodRecommendations } from '../utils/recommendation/methodRecommendation';
 
 // Import consolidated services
-import { ConsolidatedIngredientService } from './ConsolidatedIngredientService';
 import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
+import { unifiedIngredientService } from './UnifiedIngredientService';
 import {
-  RecommendationServiceInterface,
-  RecipeRecommendationCriteria,
-  IngredientRecommendationCriteria,
-  CuisineRecommendationCriteria,
-  CookingMethodRecommendationCriteria,
-  RecommendationResult,
+    CookingMethodRecommendationCriteria,
+    CuisineRecommendationCriteria,
+    IngredientRecommendationCriteria,
+    RecipeRecommendationCriteria,
+    RecommendationResult,
+    RecommendationServiceInterface,
 } from './interfaces/RecommendationServiceInterface';
 
 /**
@@ -29,15 +27,13 @@ import {
  */
 export class ConsolidatedRecommendationService implements RecommendationServiceInterface {
   private static instance: ConsolidatedRecommendationService,
-  private recipeService: ConsolidatedRecipeService,
-  private ingredientService: ConsolidatedIngredientService;
+  private recipeService: ConsolidatedRecipeService;
 
   /**
    * Private constructor for singleton pattern
    */
   private constructor() {
     this.recipeService = ConsolidatedRecipeService.getInstance();
-    this.ingredientService = ConsolidatedIngredientService.getInstance();
   }
 
   /**
@@ -182,7 +178,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
   ): Promise<RecommendationResult<Ingredient>> {
     try {
       // Get all ingredients
-      const allIngredients = await this.ingredientService.getAllIngredients();
+      const allIngredients = unifiedIngredientService.getAllIngredients();
 
       // Ensure allIngredients is always an array of Ingredient
       let filteredIngredients: Ingredient[],

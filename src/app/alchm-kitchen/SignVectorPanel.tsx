@@ -5,10 +5,9 @@ import { planetaryPositionsService } from '@/services/PlanetaryPositionsService'
 import { TelemetryDev } from '@/services/TelemetryDev';
 import type { Season } from '@/types/alchemy';
 import type { PlanetaryPosition } from '@/types/celestial';
-import { getAlchemicalStateWithVectors } from '@/utils';
 import { calculateAspects } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
-import { VECTOR_CONFIG } from '@/utils/signVectors';
+import { VECTOR_CONFIG, getAlchemicalStateWithVectors } from '@/utils/signVectors';
 
 type Props = {
   planetaryPositions?: Record<string, PlanetaryPosition>

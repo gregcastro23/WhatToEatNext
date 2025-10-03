@@ -239,7 +239,7 @@ export function safePropertyAccess<T>(
   }
 
   try {
-    let current: unknown = obj,
+    let current: unknown = obj;
     for (const prop of properties) {
       if (current === null || current === undefined || typeof current !== 'object') {
         warnNullValue(`${properties.join('.')}.${prop}`, context);
