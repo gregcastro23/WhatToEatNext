@@ -292,7 +292,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
 },
 
-    varieties: {},,
+    varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Jupiter'],
@@ -351,7 +351,6 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
 
     culinaryProfile: {
       flavorProfile: {
@@ -382,13 +381,13 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
 },
 
-    varieties: {},,
+    varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
-}
-  },
+},
+
 
   za_atar: {
     name: 'Za Atar',
@@ -466,13 +465,13 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
 },
 
-    varieties: {},,
+    varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
-}
-  },
+},
+
 
   curry_powder: {
     name: 'Curry Powder',
@@ -547,13 +546,13 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
 },
 
-    varieties: {},,
+    varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
-}
-  },
+},
+
 
   berbere: {
     name: 'Berbere',
@@ -623,13 +622,13 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
 },
 
-    varieties: {},,
+    varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
-}
-  },
+},
+
 
   dukkah: {
     name: 'Dukkah',
@@ -699,13 +698,13 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
 },
 
-    varieties: {},,
+    varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
-}
-  },
+},
+
 
   shichimi_togarashi: {
     name: 'Shichimi Togarashi',
@@ -776,13 +775,13 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
 },
 
-    varieties: {},,
+    varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
-}
-  },
+},
+
 
   baharat: {
     name: 'Baharat',
@@ -852,13 +851,13 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
 },
 
-    varieties: {},,
+    varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
-}
-  },
+},
+
 
   jerk_seasoning: {
     name: 'Jerk Seasoning',
@@ -931,12 +930,12 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
 },
 
-    varieties: {},,
+    varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
-}
+    }
   }
 };
 

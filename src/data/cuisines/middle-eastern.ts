@@ -133,8 +133,8 @@ export const middleEastern: Cuisine = {
             'Prepare bread dough',
             'Let dough rise',
             'Roll out into circles',
-            'Mix za'atar with oil',
-            'Spread za'atar mixture',
+            'Mix za\'atar with oil',
+            'Spread za\'atar mixture',
             'Bake until golden'
           ],
           ingredients: [
@@ -145,7 +145,7 @@ export const middleEastern: Cuisine = {
               category: 'grain',
               swaps: ['whole wheat flour']
             },
-            { name: 'za'atar', amount: '1/2', unit: 'cup', category: 'spice blend' },
+            { name: 'za\'atar', amount: '1/2', unit: 'cup', category: 'spice blend' },
             { name: 'olive oil', amount: '1/2', unit: 'cup', category: 'oil' },
             { name: 'yeast', amount: '2', unit: 'tsp', category: 'leavening' },
             { name: 'sugar', amount: '1', unit: 'tsp', category: 'sweetener' },
@@ -153,7 +153,7 @@ export const middleEastern: Cuisine = {
           ],
           substitutions: {
             'bread flour': ['all-purpose flour', 'gluten-free flour blend'],
-            'za'atar': ['dried oregano + sesame seeds + sumac'],
+            'za\'atar': ['dried oregano + sesame seeds + sumac'],
             'olive oil': ['grapeseed oil', 'avocado oil']
           },
           servingSize: 6,
@@ -183,8 +183,8 @@ export const middleEastern: Cuisine = {
 }
         },
         {
-          name: 'Labneh with Za'atar',
-          description: 'Strained yogurt cheese with olive oil and za'atar spice blend',
+          name: 'Labneh with Za\'atar',
+          description: 'Strained yogurt cheese with olive oil and za\'atar spice blend',
           cuisine: 'Middle Eastern (Levant)',
           cookingMethods: ['straining', 'garnishing'],
           tools: ['cheesecloth', 'strainer', 'mixing bowl', 'serving plate'],
@@ -192,7 +192,7 @@ export const middleEastern: Cuisine = {
             'Strain yogurt overnight',
             'Form into balls or spread',
             'Drizzle with olive oil',
-            'Sprinkle with za'atar',
+            'Sprinkle with za\'atar',
             'Garnish with fresh herbs'
           ],
           ingredients: [
@@ -203,7 +203,7 @@ export const middleEastern: Cuisine = {
               category: 'dairy',
               swaps: ['coconut yogurt']
             },
-            { name: 'za'atar', amount: '3', unit: 'tbsp', category: 'spice blend' },
+            { name: 'za\'atar', amount: '3', unit: 'tbsp', category: 'spice blend' },
             { name: 'olive oil', amount: '1/4', unit: 'cup', category: 'oil' },
             { name: 'mint leaves', amount: '1', unit: 'handful', category: 'herb' },
             {
@@ -216,7 +216,7 @@ export const middleEastern: Cuisine = {
           ],
           substitutions: {
             yogurt: ['Greek yogurt', 'coconut yogurt'],
-            'za'atar': ['dried thyme + sesame seeds'],
+            'za\'atar': ['dried thyme + sesame seeds'],
             'pita bread': ['gluten-free bread', 'vegetables']
           },
           servingSize: 6,
@@ -281,7 +281,7 @@ export const middleEastern: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '180 minutes',
           culturalNotes:
-            'Jordan's national dish, traditionally served on special occasions. The dish represents Bedouin hospitality and generosity',
+            'Jordan\'s national dish, traditionally served on special occasions. The dish represents Bedouin hospitality and generosity',
           pairingSuggestions: ['Arabic salad', 'yogurt', 'mint tea'],
           dietaryInfo: ['halal'],
           spiceLevel: 'mild',
@@ -411,7 +411,7 @@ export const middleEastern: Cuisine = {
           prepTime: '45 minutes',
           cookTime: '45 minutes',
           culturalNotes:
-            'A beloved dish throughout the Middle East and Mediterranean, each region having its own variation. The combination of meat and eggplant reflects the region's agricultural heritage',
+            'A beloved dish throughout the Middle East and Mediterranean, each region having its own variation. The combination of meat and eggplant reflects the region\'s agricultural heritage',
           pairingSuggestions: ['Greek salad', 'crusty bread', 'red wine'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',
@@ -833,7 +833,7 @@ export const middleEastern: Cuisine = {
           prepTime: '20 minutes',
           cookTime: '30 minutes',
           culturalNotes:
-            'A beloved Egyptian dessert with a royal history, named after Umm Alia sultan's wife',
+            'A beloved Egyptian dessert with a royal history, named after Umm Alia sultan\'s wife',
           pairingSuggestions: ['Arabic coffee', 'mint tea'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -1079,7 +1079,7 @@ export const middleEastern: Cuisine = {
       technicalTips: 'Cook chickpeas with baking soda to help break down skins for smoother texture'
 },
     zaatar: {
-      name: 'Za'atar Oil',
+      name: 'Za\'atar Oil',
       description: 'Herb and sesame blend mixed with olive oil for dipping and spreading',
       base: 'dried herbs and sesame',
       keyIngredients: [
@@ -1181,7 +1181,7 @@ export const middleEastern: Cuisine = {
         'sumac-onion dressing',
         'pomegranate vinaigrette',
         'lemon-garlic',
-        'za'atar oil',
+        'za\'atar oil',
         'tahini-yogurt'
       ],
       eggplant: [
@@ -1209,7 +1209,7 @@ export const middleEastern: Cuisine = {
     forCookingMethod: {
       grilling: ['toum', 'harissa', 'chermoula', 'sumac-onion', 'zhug'],
       baking: [
-        'za'atar oil',
+        'za\'atar oil',
         'sesame paste',
         'pomegranate glaze',
         'rose water syrup',
@@ -1229,10 +1229,10 @@ export const middleEastern: Cuisine = {
       fire: ['harissa', 'zhug', 'chermoula', 'hot pepper paste', 'garlic-chili oil'],
       earth: ['tahini', 'hummus', 'baba ganoush', 'walnut-pomegranate', 'chickpea-olive'],
       water: ['yogurt sauces', 'tarator', 'cucumber-mint', 'lemon-herb', 'rosewater-honey'],
-      air: ['za'atar oil', 'herb-infused oils', 'citrus dressings', 'sumac-onion', 'mint-lemon']
+      air: ['za\'atar oil', 'herb-infused oils', 'citrus dressings', 'sumac-onion', 'mint-lemon']
     },
     byRegion: {
-      levant: ['tahini sauce', 'toum', 'za'atar oil', 'yogurt-cucumber', 'pomegranate molasses'],
+      levant: ['tahini sauce', 'toum', 'za\'atar oil', 'yogurt-cucumber', 'pomegranate molasses'],
       northAfrica: [
         'harissa',
         'chermoula',
@@ -1262,7 +1262,7 @@ export const middleEastern: Cuisine = {
         'yogurt-based sauces',
         'herb oils',
         'pomegranate molasses',
-        'za'atar oil'
+        'za\'atar oil'
       ],
       vegan: ['tahini sauce', 'harissa', 'chermoula', 'herb oils', 'pomegranate molasses'],
       glutenFree: ['tahini sauce', 'harissa', 'chermoula', 'yogurt-based sauces', 'herb oils'],
@@ -1329,7 +1329,7 @@ export const middleEastern: Cuisine = {
     levantine: {
       name: 'Levantine Cuisine',
       description:
-        'Cuisine of the Eastern Mediterranean coast, featuring olive oil, herbs, and za'atar',
+        'Cuisine of the Eastern Mediterranean coast, featuring olive oil, herbs, and za\'atar',
       signature: ['mezze', 'kibbeh', 'tabbouleh', 'manakish', 'knafeh'],
       elementalProperties: { Earth: 0.4, Water: 0.2, Air: 0.2, Fire: 0.2 },
       astrologicalInfluences: ['Venus', 'Mercury', 'gemini'],
