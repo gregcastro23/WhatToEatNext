@@ -1,6 +1,6 @@
 # WhatToEatNext - Claude AI Assistant Guide
 
-*Last Updated: October 2, 2025*
+*Last Updated: October 3, 2025*
 
 ## Project Overview
 
@@ -36,6 +36,15 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
    - Sub-30 second full codebase analysis achieved
    - Enhanced caching and parallel processing
    - CI/CD integration with quality gates
+
+4. **Phase 3: TS1109 Parsing Error Elimination Campaign (October 2025)**:
+   - **2,857 total errors eliminated** in Week 1 (19.1% total reduction)
+   - **7 files completely fixed** (100% error elimination)
+   - Baseline: 14,926 errors → Current: 12,069 errors
+   - Files completed: otherVegetables.ts, wholespices.ts, salts.ts, spiceBlends.ts, italian.ts, american.ts, indian.ts
+   - Proven methodology: Orphaned brace removal, quote escaping, comma/semicolon correction
+   - Success rate: 70% of targeted files, 79% of Week 1 goal achieved
+   - See `PHASE3_HANDOFF.md` for complete methodology and continuation guide
 
 ## Core Architecture
 
@@ -218,6 +227,88 @@ Monica = -GregsEnergy / (Reactivity × ln(Kalchm)) if Kalchm > 0, else 1.0
 2. **Elements Reinforce Themselves**: Like strengthens like (Fire + Fire = stronger Fire)
 3. **All Combinations Work**: Different elements have good compatibility (0.7+)
 4. **No "Balancing"**: Don't write code that tries to balance elements against each other
+
+### **⚡ NEW: Common Parsing Error Patterns (Phase 3 - October 2025)**
+
+**Pattern 1: Orphaned Closing Braces**
+```typescript
+// ❌ WRONG - Extra closing brace after removed content
+// Removed excessive sensoryProfile nesting
+// Removed nested content
+},  // ← This orphaned brace causes errors!
+
+culinaryProfile: {
+
+// ✅ CORRECT - Remove the orphaned closing brace
+// Removed excessive sensoryProfile nesting
+// Removed nested content
+
+culinaryProfile: {
+```
+
+**Pattern 2: Apostrophe Escaping**
+```typescript
+// ❌ WRONG - Apostrophe breaks string
+'The region's cuisine is famous'
+'It's a tradition'
+'za'atar spice'
+
+// ✅ CORRECT - Escape apostrophes or use double quotes
+'The region\'s cuisine is famous'
+'It\'s a tradition'
+'za\'atar spice'
+// OR
+"The region's cuisine is famous"
+```
+
+**Pattern 3: Smart Quotes (Curly Quotes)**
+```typescript
+// ❌ WRONG - Smart quotes from copy-paste
+'The name means 'rose berry' in Arabic'
+
+// ✅ CORRECT - Use straight quotes
+'The name means "rose berry" in Arabic'
+// OR
+'The name means \'rose berry\' in Arabic'
+```
+
+**Pattern 4: Comma/Semicolon Confusion**
+```typescript
+// ❌ WRONG - Comma after statements
+const recipes: RecipeData[] = [],
+logger.debug('Starting process'),
+if (condition) doSomething(),
+
+// ✅ CORRECT - Semicolon after statements
+const recipes: RecipeData[] = [];
+logger.debug('Starting process');
+if (condition) doSomething();
+```
+
+**Pattern 5: Export Statement Typos**
+```typescript
+// ❌ WRONG - Extra comma after const
+export const, _ingredients: Record<string, IngredientMapping> =
+
+// ✅ CORRECT - No comma after const
+export const _ingredients: Record<string, IngredientMapping> =
+```
+
+**Detection Commands:**
+```bash
+# Check brace balance
+grep -o "{" file.ts | wc -l  # Opening braces
+grep -o "}" file.ts | wc -l  # Closing braces (should match)
+
+# Find apostrophe issues
+grep -n "[a-z]'[a-z]" file.ts
+
+# Find double commas
+grep -n "{},,\|},," file.ts
+
+# Find export const typos
+grep -n "^export const," file.ts
+```
 
 ### **Type Safety Rules**
 - **Never use `as any`** - Always use proper type assertions
