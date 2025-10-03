@@ -754,32 +754,32 @@ export async function getRecommendedCookingMethods(
     const temperamentData = saturnDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (earthSigns.includes(lowerSign) && temperamentData?.EarthSaturn) {
-      _saturnTemperament = temperamentData.EarthSaturn,
+      _saturnTemperament = temperamentData.EarthSaturn;
     } else if (airSigns.includes(lowerSign) && temperamentData?.AirSaturn) {
-      _saturnTemperament = temperamentData.AirSaturn,
+      _saturnTemperament = temperamentData.AirSaturn;
     }
   }
 
   // Get the current lunar phase for additional scoring
-  const lunarPhaseValue = await calculateLunarPhase(new Date())
-  const lunarPhase = getLunarPhaseName(lunarPhaseValue)
+  const lunarPhaseValue = await calculateLunarPhase(new Date());
+  const lunarPhase = getLunarPhaseName(lunarPhaseValue);
 
-  // Track recommendations to prevent adding duplicates;
-  const recommendationsMap: Record<string, boolean> = {}
+  // Track recommendations to prevent adding duplicates
+  const recommendationsMap: Record<string, boolean> = {};
   const recommendations: CookingMethodData[] = [];
 
   // Score each method based on multiple criteria
   filteredMethods.forEach(method => {
     // Skip if we already have a similar method
     // ✅ Pattern MM-1: Safe type assertion for method with elemental properties
-    const methodWithProps = method as unknown as MethodWithElementalProperties
-    const methodNameNorm = normalizeMethodName(methodWithProps.name || '')
+    const methodWithProps = method as unknown as MethodWithElementalProperties;
+    const methodNameNorm = normalizeMethodName(methodWithProps.name || '');
     if (
-      Object.keys(recommendationsMap).some(existingMethod =>,
+      Object.keys(recommendationsMap).some(existingMethod =>
         areSimilarMethods(existingMethod, methodNameNorm)
       )
     ) {
-      return
+      return;
     }
 
     // Initialize all component scores for transparency
@@ -799,12 +799,12 @@ export async function getRecommendedCookingMethods(
     // Enhanced Elemental compatibility calculation (40% of score)
     if (methodWithProps.elementalEffect || methodWithProps.elementalProperties) {
       const elementalProps = methodWithProps.elementalEffect ||
-        methodWithProps.elementalProperties || {;
+        methodWithProps.elementalProperties || {
           Fire: 0,
           Water: 0,
           Earth: 0,
           Air: 0
-}
+        };
 
       // Use enhanced calculation that considers element combinations
       elementalScore = calculateEnhancedElementalCompatibility(
@@ -818,9 +818,9 @@ export async function getRecommendedCookingMethods(
       // Zodiac compatibility
       if (currentZodiac) {
         if (method.astrologicalInfluences.favorableZodiac?.includes(currentZodiac)) {
-          astrologicalScore += 0.25,
+          astrologicalScore += 0.25;
         } else if (method.astrologicalInfluences.unfavorableZodiac?.includes(currentZodiac)) {
-          astrologicalScore -= 0.2,
+          astrologicalScore -= 0.2;
         }
       }
 
@@ -910,7 +910,7 @@ export async function getRecommendedCookingMethods(
       methodWithProps.preferences?.seasonalPreference &&
       methodWithProps.preferences.seasonalPreference.includes(season)
     ) {
-      seasonalScore += 0.15,
+      seasonalScore += 0.15;
     } else {
       // Enhanced default seasonal preferences
       const methodName = methodWithProps.name?.toLowerCase() || '';
@@ -920,8 +920,8 @@ export async function getRecommendedCookingMethods(
           methodName.includes('roast') ||
           methodName.includes('stew') ||
           methodName.includes('bake')
-        ) {;
-          seasonalScore += 0.12,
+        ) {
+          seasonalScore += 0.12;
         }
       } else if (season === 'summer') {
         if (
@@ -929,8 +929,8 @@ export async function getRecommendedCookingMethods(
           methodName.includes('raw') ||
           methodName.includes('ceviche') ||
           methodName.includes('cold')
-        ) {;
-          seasonalScore += 0.12,
+        ) {
+          seasonalScore += 0.12;
         }
       } else if (season === 'spring') {
         if (
@@ -938,8 +938,8 @@ export async function getRecommendedCookingMethods(
           methodName.includes('stir') ||
           methodName.includes('blanch') ||
           methodName.includes('quick')
-        ) {;
-          seasonalScore += 0.12,
+        ) {
+          seasonalScore += 0.12;
         }
       } else if (season === 'fall' || season === 'autumn') {
         if (
@@ -947,8 +947,8 @@ export async function getRecommendedCookingMethods(
           methodName.includes('brais') ||
           methodName.includes('slow') ||
           methodName.includes('roast')
-        ) {;
-          seasonalScore += 0.12,
+        ) {
+          seasonalScore += 0.12;
         }
       }
     }
@@ -956,18 +956,18 @@ export async function getRecommendedCookingMethods(
     // Tools availability (10% of score)
     if (availableTools && method.toolsRequired) {
       const requiredTools = method.toolsRequired;
-      const availableRequiredTools = requiredTools.filter(tool =>,
-        availableTools.some(available => available.toLowerCase().includes(tool.toLowerCase())),
-      ),
+      const availableRequiredTools = requiredTools.filter(tool =>
+        availableTools.some(available => available.toLowerCase().includes(tool.toLowerCase()))
+      );
 
-      toolScore = (availableRequiredTools.length / requiredTools.length) * 0.1,
+      toolScore = (availableRequiredTools.length / requiredTools.length) * 0.1;
     } else {
       // Enhanced assumptions about basic tools availability
       const methodName = methodWithProps.name?.toLowerCase() || '';
       if (methodName.includes('sous_vide') || methodName.includes('sous vide')) {
-        toolScore = 0.01, // Specialized equipment,
+        toolScore = 0.01; // Specialized equipment
       } else if (methodName.includes('pressure') || methodName.includes('instant pot')) {
-        toolScore = 0.03, // Somewhat specialized,
+        toolScore = 0.03; // Somewhat specialized
       } else if (
         methodName.includes('smoker') ||
         methodName.includes('smoke') ||
@@ -976,11 +976,11 @@ export async function getRecommendedCookingMethods(
         methodName.includes('thermal immersion') ||
         methodName.includes('liquid nitrogen')
       ) {
-        toolScore = 0.02, // Quite specialized,
+        toolScore = 0.02; // Quite specialized
       } else if (methodName.includes('grill') && !methodName.includes('stove top')) {
-        toolScore = 0.05, // Common but not universal,
+        toolScore = 0.05; // Common but not universal
       } else {
-        toolScore = 0.08, // Most common methods,
+        toolScore = 0.08; // Most common methods
       }
     }
 
@@ -993,14 +993,14 @@ export async function getRecommendedCookingMethods(
         // Direct matches
         if (
           method.suitable_for.some(suitable => suitable.toLowerCase().includes(pref.toLowerCase()))
-        ) {;
-          matchStrength += 1.0,
-          continue
+        ) {
+          matchStrength += 1.0;
+          continue;
         }
 
         // Special case mappings - fixed type access
         const prefStr = typeof pref === 'string' ? pref.toLowerCase() : '';
-        const methodName = typeof method.name === 'string' ? method.name.toLowerCase() : '',
+        const methodName = typeof method.name === 'string' ? method.name.toLowerCase() : '';
 
         if (prefStr === 'vegetarian' && methodName.includes('veget')) {
           matchStrength += 0.8;
@@ -1008,38 +1008,37 @@ export async function getRecommendedCookingMethods(
           prefStr === 'vegan' &&
           !methodName.includes('meat') &&
           !methodName.includes('fish')
-        ) {;
-          matchStrength += 0.6,
+        ) {
+          matchStrength += 0.6;
         } else if (
           prefStr.includes('gluten') &&
           !methodName.includes('bread') &&
           !methodName.includes('pasta') &&
           !methodName.includes('flour')
         ) {
-          matchStrength += 0.7,
+          matchStrength += 0.7;
         }
       }
 
       // Normalize between 0-0.1
-      dietaryScore = Math.min(0.1, (matchStrength / dietaryPreferences.length) * 0.1)
+      dietaryScore = Math.min(0.1, (matchStrength / dietaryPreferences.length) * 0.1);
     }
 
     // Cultural preference bonus (add extra points for methods from preferred culture)
-    if (culturalPreference && method.culturalOrigin === culturalPreference) {;
-      culturalScore = 0.05, // 5% boost for direct cultural match,
+    if (culturalPreference && method.culturalOrigin === culturalPreference) {
+      culturalScore = 0.05; // 5% boost for direct cultural match
     } else if (
       culturalPreference &&
       method.variations &&
       method.variations.some(v => v.culturalOrigin === culturalPreference)
-    ) {;
-      culturalScore = 0.03, // 3% boost if a variation matches the culture,
+    ) {
+      culturalScore = 0.03; // 3% boost if a variation matches the culture
     }
 
     // Lunar phase influence (new component)
     if (lunarPhase) {
       const methodData = method as unknown;
-      const methodNameLower = String(methodData.name || '').toLowerCase()
-;
+      const methodNameLower = String(methodData.name || '').toLowerCase();
       // New moon favors starting new methods, preparation methods
       if (lunarPhase === 'new moon') {
         if (

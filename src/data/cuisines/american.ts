@@ -525,7 +525,7 @@ export const american: Cuisine = {
           prepTime: '15 minutes',
           cookTime: '10 minutes',
           culturalNotes:
-            'The quintessential American food, evolved from German immigrants' Hamburg steak in the late 19th century. Became a cultural icon in mid-20th century America',
+            'The quintessential American food, evolved from German immigrants\' Hamburg steak in the late 19th century. Became a cultural icon in mid-20th century America',
           pairingSuggestions: ['french fries', 'coleslaw', 'pickle', 'beer'],
           dietaryInfo: ['contains meat', 'high protein'],
           spiceLevel: 'none',
@@ -1480,7 +1480,7 @@ export const american: Cuisine = {
           allergens: ['gluten', 'dairy'],
           prepTime: '45 minutes',
           cookTime: '50 minutes',
-          culturalNotes: 'Apple pie is an iconic American dessert that symbolizes American national pride ('as American as apple pie'). Traditional at Thanksgiving and throughout autumn',
+          culturalNotes: 'Apple pie is an iconic American dessert that symbolizes American national pride ("as American as apple pie"). Traditional at Thanksgiving and throughout autumn',
           pairingSuggestions: ['vanilla ice cream', 'cheddar cheese', 'caramel sauce'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -1733,7 +1733,7 @@ export const american: Cuisine = {
       ],
       summer: [
         {
-          name: 'S'mores Ice Cream Pie',
+          name: 'S\'mores Ice Cream Pie',
           description:
             'Graham cracker crust filled with chocolate ice cream and topped with toasted marshmallow',
           cuisine: 'American',
@@ -2109,7 +2109,7 @@ export const american: Cuisine = {
         'mac and cheese',
         'green bean casserole',
         'tuna noodle casserole',
-        'shepherd's pie'
+        'shepherd\'s pie'
       ],
       difficulty: 'easy'
 },

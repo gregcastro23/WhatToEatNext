@@ -521,7 +521,7 @@ export const indian: Cuisine = {
           prepTime: '2 hours',
           cookTime: '1 hour',
           culturalNotes:
-            'A royal dish from the Nizam's kitchen, Hyderabadi biryani is distinguished by its layering technique and use of saffron',
+            'A royal dish from the Nizam\'s kitchen, Hyderabadi biryani is distinguished by its layering technique and use of saffron',
           pairingSuggestions: ['mirchi ka salan', 'raita', 'boiled eggs', 'onion salad'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'medium to hot',
@@ -907,7 +907,7 @@ export const indian: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '30 minutes',
           culturalNotes:
-            'A beloved dessert served at festivals and celebrations. The name means 'rose berry' due to the rose-scented syrup traditionally used',
+            'A beloved dessert served at festivals and celebrations. The name means "rose berry" due to the rose-scented syrup traditionally used',
           pairingSuggestions: ['masala chai', 'ice cream', 'rabri'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -960,7 +960,7 @@ export const indian: Cuisine = {
           prepTime: '45 minutes',
           cookTime: '1 hour',
           culturalNotes:
-            'A refined Bengali dessert that showcases the region's expertise in milk-based sweets. Often served at weddings and special occasions',
+            'A refined Bengali dessert that showcases the region\'s expertise in milk-based sweets. Often served at weddings and special occasions',
           pairingSuggestions: ['masala chai', 'paan'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',

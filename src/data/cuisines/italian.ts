@@ -481,7 +481,7 @@ export const italian: Cuisine = {
           prepTime: '15 minutes',
           cookTime: '0 minutes',
           culturalNotes:
-            'A simple and refreshing Tuscan salad that showcases the region's love for bread and vegetables',
+            'A simple and refreshing Tuscan salad that showcases the region\'s love for bread and vegetables',
           pairingSuggestions: ['Chianti wine', 'crusty bread'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'mild',
@@ -598,7 +598,7 @@ export const italian: Cuisine = {
           allergens: ['gluten'],
           prepTime: '20 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'A hearty and comforting soup that's perfect for cold winter days',
+          culturalNotes: 'A hearty and comforting soup that\'s perfect for cold winter days',
           pairingSuggestions: ['Chianti wine', 'crusty bread'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'mild',
@@ -709,7 +709,7 @@ export const italian: Cuisine = {
           prepTime: '15 minutes',
           cookTime: '25 minutes',
           culturalNotes:
-            'A northern Italian specialty that showcases the region's love for rice dishes',
+            'A northern Italian specialty that showcases the region\'s love for rice dishes',
           pairingSuggestions: ['Barolo', 'simple green salad'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -782,7 +782,7 @@ export const italian: Cuisine = {
       summer: [
         {
           name: 'Acqua Pazza',
-          description: 'Neapolitan style fish in 'crazy water'',
+          description: 'Neapolitan style fish in \'crazy water\'',
           cuisine: 'Italian (Neapolitan)',
           cookingMethods: ['poaching', 'simmering'],
           tools: ['large skillet', 'fish spatula', 'knife', 'cutting board'],
@@ -822,7 +822,7 @@ export const italian: Cuisine = {
           prepTime: '15 minutes',
           cookTime: '25 minutes',
           culturalNotes:
-            'A traditional Neapolitan fisherman's dish, where fish is cooked in 'crazy water' (acqua pazza) - a fragrant broth of tomatoes, herbs, and wine',
+            'A traditional Neapolitan fisherman\'s dish, where fish is cooked in "crazy water" (acqua pazza) - a fragrant broth of tomatoes, herbs, and wine',
           pairingSuggestions: ['Falanghina wine', 'crusty bread', 'sautéed greens'],
           dietaryInfo: ['contains fish', 'gluten-free', 'dairy-free'],
           spiceLevel: 'mild',
@@ -988,7 +988,7 @@ export const italian: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            'A beloved Italian dessert that showcases the country's love for sweet, creamy treats',
+            'A beloved Italian dessert that showcases the country\'s love for sweet, creamy treats',
           pairingSuggestions: ['fresh fruit', 'balsamic glaze'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -1050,7 +1050,7 @@ export const italian: Cuisine = {
           prepTime: '3 hours',
           cookTime: '45 minutes',
           culturalNotes:
-            'A traditional Italian Christmas bread that's enjoyed during the holiday season',
+            'A traditional Italian Christmas bread that\'s enjoyed during the holiday season',
           pairingSuggestions: ['vin santo', 'espresso'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -1309,7 +1309,7 @@ export const italian: Cuisine = {
       name: 'Battuto',
       description: 'Finely chopped raw aromatic ingredients that form the base of many dishes',
       elementalProperties: { Earth: 0.5, Air: 0.3, Water: 0.1, Fire: 0.1 },
-      toolsRequired: ['chef's knife', 'cutting board', 'mezzaluna'],
+      toolsRequired: ['chef\'s knife', 'cutting board', 'mezzaluna'],
       bestFor: ['sauce preparation', 'flavor base', 'soup starters', 'stuffings'],
       difficulty: 'easy'
 }
