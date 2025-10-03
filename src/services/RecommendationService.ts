@@ -1,847 +1,630 @@
-// Celestial calculations service not yet implemented
-import { calculateRecipeCompatibility } from '@/calculations/culinary/recipeMatching';
-import { ElementalCharacter } from '@/constants/planetaryElements';
-import astrologizeCache from '@/services/AstrologizeApiCache';
-import type {
-  AlchemicalItem,
-  ElementalItem,
-  ElementalProperties,
-  LunarPhaseWithSpaces,
-  PlanetaryAspect,
-  PlanetaryPosition,
-  StandardizedAlchemicalResult
+import { ThermodynamicMetrics } from '@/types/alchemical';
+import {
+    ElementalProperties
 } from '@/types/alchemy';
-import { AstrologicalState } from '@/types/alchemy';
-import { Recipe, ScoredRecipe } from '@/types/recipe';
-import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
+import { CookingMethod } from '@/types/cooking';
+import { Ingredient } from '@/types/ingredient';
+import { Recipe } from '@/types/recipe';
+import { logger } from '@/utils/logger';
 
-import { calculatePlanetaryPositions, normalizePlanetaryPositions } from '../utils/astrology/core';
-import { calculateLunarPhase, transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
-import createError from '../utils/errorHandling';
-import { logger } from '../utils/logger';
+// Import recommendation criteria and result interfaces
+import {
+    CookingMethodRecommendationCriteria,
+    CuisineRecommendationCriteria,
+    IngredientRecommendationCriteria,
+    RecipeRecommendationCriteria,
+    RecommendationResult,
+    RecommendationServiceInterface
+} from './interfaces/RecommendationServiceInterface';
 
-/**
- * Interface for recommendation criteria
- */
-interface RecommendationCriteria {
-  celestialInfluence?: ElementalProperties,
-  season?: string,
-  timeOfDay?: string,
-  dietaryRestrictions?: string[],
-  previousMeals?: string[],
-  cuisine?: string,
-  preferredIngredients?: string[],
-  preferredTechniques?: string[]
-  astrologicalState?: AstrologicalState,
-  currentLocation?: { lat: number, lng: number }
-  nutritionalGoals?: Record<string, number>,
-}
+// Import data services
+import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
+import { unifiedIngredientService } from './UnifiedIngredientService';
 
 /**
- * Interface for transformation item
+ * Consolidated Recommendation Service
+ *
+ * A unified service that provides all recommendation functionality
+ * based on astrological and elemental harmony principles.
+ *
+ * This service implements the RecommendationServiceInterface and provides:
+ * - Recipe recommendations based on elemental compatibility
+ * - Ingredient recommendations for elemental balance
+ * - Cuisine recommendations based on planetary alignment
+ * - Cooking method recommendations based on elemental properties
  */
-interface TransformedItem extends AlchemicalItem {
-  elementalProperties: { Fire: number, Water: number, Earth: number, Air: number },
-  id: string
-}
-
-/**
- * Interface for planet data
- */
-interface PlanetData {
-  sign?: string,
-  degree?: number,
-  isRetrograde?: boolean
-  exactLongitude?: number,
-  speed?: number
-}
-
-/**
- * Consolidated service for recipe and ingredient recommendations based on astrological and elemental data
- */
-export class RecommendationService {
-  private static instance: RecommendationService,
-  private ingredients: ElementalItem[]
-  private methods: ElementalItem[],
-  private cuisines: ElementalItem[],
-  private planetaryPositions: { [key: string]: PlanetData }
-  private isDaytime: boolean,
-  private currentZodiac: string | null,
-  private lunarPhase: LunarPhaseWithSpaces | null,
-  private transformedIngredients: AlchemicalItem[] = [],
-  private transformedMethods: AlchemicalItem[] = [],
-  private transformedCuisines: AlchemicalItem[] = []
-  private tarotElementBoosts?: Record<ElementalCharacter, number>,
-  private tarotPlanetaryBoosts?: { [key: string]: number }
-  private aspects: PlanetaryAspect[] = []
-  private retrogradeStatus: { [key: string]: boolean } = {}
-  private convertedPositions: { [key: string]: PlanetData } = {}
+export class RecommendationService implements RecommendationServiceInterface {
+  private static instance: RecommendationService;
+  private recipeService: ConsolidatedRecipeService;
 
   /**
-   * Private constructor to enforce singleton pattern
+   * Private constructor for singleton pattern
    */
-  private constructor(
-    ingredients: ElementalItem[] = [],
-    methods: ElementalItem[] = [],
-    cuisines: ElementalItem[] = []) {
-    this.ingredients = ingredients,
-    this.methods = methods,
-    this.cuisines = cuisines;
-    this.planetaryPositions = {}
-    this.isDaytime = true,
-    this.currentZodiac = null,
-    this.lunarPhase = null,
+  private constructor() {
+    this.recipeService = ConsolidatedRecipeService.getInstance();
   }
 
   /**
-   * Get singleton instance
+   * Get singleton instance of the service
    */
-  public static getInstance(
-    ingredients: ElementalItem[] = [],
-    methods: ElementalItem[] = [],
-    cuisines: ElementalItem[] = []): RecommendationService {
+  public static getInstance(): RecommendationService {
     if (!RecommendationService.instance) {
-      RecommendationService.instance = new RecommendationService(ingredients, methods, cuisines),
+      RecommendationService.instance = new RecommendationService();
     }
     return RecommendationService.instance;
   }
 
-  // ===== INITIALIZATION METHODS =====,
-
   /**
-   * Initialize the service with planetary positions, daytime status, and other context
+   * Get recommended recipes based on criteria
    */
-  initialize(
-    planetaryPositions: { [key: string]: PlanetData }
-    isDaytime = true,
-    currentZodiac: string | null = null,
-    lunarPhase: LunarPhaseWithSpaces | null = null,,
-    tarotElementBoosts?: Record<ElementalCharacter, number>,
-    tarotPlanetaryBoosts?: { [key: string]: number },
-    aspects: PlanetaryAspect[] = []): RecommendationService {
-    // Normalize planetary positions for robust, type-safe access
-    this.planetaryPositions = normalizePlanetaryPositions(planetaryPositions);
-    this.isDaytime = isDaytime,
-    this.currentZodiac = currentZodiac,
-    this.lunarPhase = lunarPhase,
-    this.tarotElementBoosts = tarotElementBoosts,
-    this.tarotPlanetaryBoosts = tarotPlanetaryBoosts,
-    this.aspects = aspects,
-    // Track retrograde planets
-    if (this.planetaryPositions) {
-      Object.entries(this.planetaryPositions || {}).forEach(([planet, data]) => {
-        if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {,
-          this.retrogradeStatus[planet] = !!data.isRetrograde,
-        }
-      })
-    }
-    // Convert planetary positions to the format expected by the alchemical engine
-    this.convertedPositions = {}
-    if (this.planetaryPositions) {
-      Object.entries(this.planetaryPositions || {}).forEach(([planet, data]) => {
-        if (typeof data === 'object' && data !== null) {,
-          this.convertedPositions[planet] = {
-            sign: data.sign || '',
-            degree: data.degree || 0,
-            ...(data.isRetrograde !== undefined ? { isRetrograde: data.isRetrograde } : {})
-          }
-        } else if (typeof data === 'number') {,
-          this.convertedPositions[planet] = {
-            degree: data
-          }
-        }
-      })
-    }
-    // Transform ingredients, methods, and cuisines
-    this.transformItems()
-    return this;
-  }
-
-  /**
-   * Initialize from current planetary positions
-   * Uses astrologyUtils to calculate positions automatically
-   */
-  async initializeFromCurrentPositions(): Promise<RecommendationService> {
+  async getRecommendedRecipes(
+    criteria: RecipeRecommendationCriteria
+  ): Promise<RecommendationResult<Recipe>> {
     try {
-      // Calculate real-time planetary positions
-      const rawPositions = await calculatePlanetaryPositions()
-      const positions = normalizePlanetaryPositions(rawPositions)
-      // Calculate current lunar phase
-      const lunarPhase = await calculateLunarPhase(new Date())
-      // Convert to format expected by adapter
-      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase)
-      // Calculate if it's currently daytime
-      const now = new Date()
-      const hours = now.getHours();
-      const isDaytime = hours >= 6 && hours < 18;
-      // Get current Sun sign as current zodiac
-      const sunPosition = positions['Sun'];
-      const currentZodiac = sunPosition.sign || null
-      // Initialize with calculated values;
-      this.initialize(positions, isDaytime, currentZodiac, lunarPhaseFormatted)
-      logger.info('Initialized service with current planetary positions')
-      return this
-    } catch (error) {
-      logger.error('Failed to initialize from current positions', error)
-      throw error
-    }
-  }
+      logger.info('Getting recommended recipes with criteria:', criteria);
 
-  /**
-   * Set ingredients data
-   */
-  setIngredients(ingredients: ElementalItem[]): RecommendationService {
-    this.ingredients = ingredients,
-    this.transformItems()
-    return this
-  }
+      // Get all recipes from the recipe service
+      const allRecipes = await this.recipeService.getAllRecipes();
 
-  /**
-   * Set cooking methods data
-   */
-  setCookingMethods(methods: ElementalItem[]): RecommendationService {
-    this.methods = methods,
-    this.transformItems()
-    return this
-  }
-
-  /**
-   * Set cuisines data
-   */
-  setCuisines(cuisines: ElementalItem[]): RecommendationService {
-    this.cuisines = cuisines,
-    this.transformItems()
-    return this
-  }
-
-  // ===== TRANSFORMATION METHODS =====,
-
-  /**
-   * Transform items based on current settings
-   */
-  private transformItems(): void {
-    try {
-      // Transform ingredients directly
-      this.transformedIngredients = transformItemsWithPlanetaryPositions(,
-        this.ingredients,
-        this.planetaryPositions,
-        this.isDaytime
-        this.currentZodiac || undefined
-      )
-
-      // Transform cooking methods
-      this.transformedMethods = transformItemsWithPlanetaryPositions(,
-        this.methods,
-        this.planetaryPositions,
-        this.isDaytime
-        this.currentZodiac || undefined
-      )
-
-      // Transform cuisines
-      this.transformedCuisines = transformItemsWithPlanetaryPositions(,
-        this.cuisines,
-        this.planetaryPositions,
-        this.isDaytime
-        this.currentZodiac || undefined
-      )
-
-      // Apply tarot element boosts if available
-      if (this.tarotElementBoosts) {
-        this.applyTarotElementBoosts()
+      if (!allRecipes || allRecipes.length === 0) {
+        logger.warn('No recipes available for recommendations');
+        return {
+          items: [],
+          scores: {},
+          context: { criteria, totalRecipes: 0, filteredCount: 0 }
+        };
       }
 
-      // Apply tarot planetary boosts if available
-      if (this.tarotPlanetaryBoosts) {
-        this.applyTarotPlanetaryBoosts()
+      let filteredRecipes = [...allRecipes];
+
+      // Filter by elemental properties compatibility
+      if (criteria.elementalProperties) {
+        filteredRecipes = filteredRecipes.filter(recipe => {
+          if (!recipe.elementalProperties) return false;
+
+          const compatibility = this.calculateElementalCompatibility(
+            criteria.elementalProperties,
+            recipe.elementalProperties
+          );
+          return compatibility >= (criteria.minCompatibility || 0.3);
+        });
       }
 
-      logger.info('Items transformed using planetary positions')
+      // Filter by planetary positions if provided
+      if (criteria.planetaryPositions) {
+        // For now, use elemental properties as proxy for planetary influence
+        // TODO: Implement direct planetary compatibility calculation
+        filteredRecipes = filteredRecipes.filter(recipe => {
+          return recipe.elementalProperties !== undefined;
+        });
+      }
+
+      // Filter by cooking method
+      if (criteria.cookingMethod) {
+        filteredRecipes = filteredRecipes.filter(recipe =>
+          recipe.cookingMethod?.toLowerCase() === criteria.cookingMethod.toLowerCase()
+        );
+      }
+
+      // Filter by cuisine
+      if (criteria.cuisine) {
+        filteredRecipes = filteredRecipes.filter(recipe =>
+          recipe.cuisine?.toLowerCase() === criteria.cuisine.toLowerCase()
+        );
+      }
+
+      // Filter by included ingredients
+      if (criteria.includeIngredients && criteria.includeIngredients.length > 0) {
+        filteredRecipes = filteredRecipes.filter(recipe => {
+          const recipeIngredients = recipe.ingredients || [];
+          return criteria.includeIngredients!.every(ingredient =>
+            recipeIngredients.some((recipeIngredient: any) =>
+              String(recipeIngredient.name || '')
+                .toLowerCase()
+                .includes(String(ingredient || '').toLowerCase())
+            )
+          );
+        });
+      }
+
+      // Filter by excluded ingredients
+      if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
+        filteredRecipes = filteredRecipes.filter(recipe => {
+          const recipeIngredients = recipe.ingredients || [];
+          return !criteria.excludeIngredients!.some(ingredient =>
+            recipeIngredients.some((recipeIngredient: any) =>
+              String(recipeIngredient.name || '')
+                .toLowerCase()
+                .includes(String(ingredient || '').toLowerCase())
+            )
+          );
+        });
+      }
+
+      // Calculate scores for each recipe
+      const scores: { [key: string]: number } = {};
+      const elementalState = criteria.elementalProperties;
+
+      filteredRecipes.forEach(recipe => {
+        if (recipe.elementalProperties && elementalState) {
+          scores[recipe.id] = this.calculateElementalCompatibility(
+            elementalState,
+            recipe.elementalProperties
+          );
+        } else {
+          scores[recipe.id] = 0.5; // Default score if we can't calculate compatibility
+        }
+      });
+
+      // Sort recipes by score (highest first)
+      filteredRecipes.sort((a, b) => scores[b.id] - scores[a.id]);
+
+      // Apply limit if specified
+      if (criteria.limit && criteria.limit > 0) {
+        filteredRecipes = filteredRecipes.slice(0, criteria.limit);
+      }
+
+      logger.info(`Returning ${filteredRecipes.length} recommended recipes`);
+
+      return {
+        items: filteredRecipes,
+        scores,
+        context: {
+          criteria,
+          totalRecipes: allRecipes.length,
+          filteredCount: filteredRecipes.length
+        }
+      };
     } catch (error) {
-      logger.error('Error transforming items: ', error)
+      logger.error('Error getting recommended recipes:', error);
+      return {
+        items: [],
+        scores: {},
+        context: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
 
   /**
-   * Apply tarot element boosts to transformed items
+   * Get recommended ingredients based on criteria
    */
-  private applyTarotElementBoosts(): void {
-    if (!this.tarotElementBoosts) return,
+  async getRecommendedIngredients(
+    criteria: IngredientRecommendationCriteria
+  ): Promise<RecommendationResult<Ingredient>> {
+    try {
+      logger.info('Getting recommended ingredients with criteria:', criteria);
 
-    // Apply boosts to each ingredient
-    this.transformedIngredients =
-      this.transformedIngredients ||
-      [].map(item => {
-        const properties = ((item as any).elementalState as ElementalProperties) || {;
-          Fire: 0,
-          Water: 0,
-          Earth: 0,
-          Air: 0
-}
+      // Get all ingredients
+      const allIngredients = unifiedIngredientService.getAllIngredientsFlat();
 
-        // Apply boosts to each element
-        Object.entries(this.tarotElementBoosts || []).forEach(([element, boost]) => {
-          if (element in properties) {
-            properties[element as keyof typeof properties] += boost,
+      if (!allIngredients || allIngredients.length === 0) {
+        logger.warn('No ingredients available for recommendations');
+        return {
+          items: [],
+          scores: {},
+          context: { criteria, totalIngredients: 0, filteredCount: 0 }
+        };
+      }
+
+      // Score ingredients based on criteria
+      const scoredIngredients = allIngredients.map(ingredient => {
+        let score = 0;
+
+        // Calculate elemental compatibility if criteria includes elemental properties
+        if (criteria.elementalProperties && ingredient.elementalProperties) {
+          const elementalScore = this.calculateElementalCompatibility(
+            criteria.elementalProperties,
+            ingredient.elementalProperties
+          );
+          score += elementalScore * 0.7; // Elemental compatibility is weighted heavily
+        }
+
+        // Check for category match
+        if (criteria.categories && criteria.categories.length > 0) {
+          const categoryMatch = criteria.categories.some(cat =>
+            ingredient.category?.toLowerCase().includes(cat.toLowerCase())
+          );
+          score += categoryMatch ? 0.2 : 0;
+        }
+
+        // Check for exclusion
+        if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
+          const excluded = criteria.excludeIngredients.some(excluded =>
+            ingredient.name?.toLowerCase().includes(excluded.toLowerCase())
+          );
+          if (excluded) {
+            score = 0; // Automatic disqualification
           }
-        })
+        }
+
+        // Check for planetary ruler match (simplified)
+        if (criteria.planetaryRuler && ingredient.planetaryRuler) {
+          const rulerMatch = ingredient.planetaryRuler === criteria.planetaryRuler;
+          score += rulerMatch ? 0.1 : 0;
+        }
+
+        // Check for season match
+        if (criteria.season && ingredient.season) {
+          const seasonMatch = Array.isArray(ingredient.season)
+            ? ingredient.season.includes(criteria.season)
+            : ingredient.season === criteria.season;
+          score += seasonMatch ? 0.1 : 0;
+        }
 
         return {
-          ...(item as any)
-          elementalProperties: properties
+          ingredient,
+          score
+        };
+      });
+
+      // Filter by minimum compatibility score
+      const minScore = criteria.minCompatibility || 0.3;
+      const filteredIngredients = scoredIngredients.filter(item => item.score >= minScore);
+
+      // Sort by score (highest first)
+      filteredIngredients.sort((a, b) => b.score - a.score);
+
+      // Apply limit if specified
+      const limit = criteria.limit || 10;
+      const limitedIngredients = filteredIngredients.slice(0, limit);
+
+      // Build scores record
+      const scores: { [key: string]: number } = {};
+      limitedIngredients.forEach(item => {
+        scores[item.ingredient.id || item.ingredient.name] = item.score;
+      });
+
+      logger.info(`Returning ${limitedIngredients.length} recommended ingredients`);
+
+      return {
+        items: limitedIngredients.map(item => item.ingredient),
+        scores,
+        context: {
+          criteria,
+          totalIngredients: allIngredients.length,
+          filteredCount: limitedIngredients.length
         }
-      })
-
-    // Similarly apply to methods and cuisines
-    // (Implementation similar to ingredients)
-  }
-
-  /**
-   * Apply tarot planetary boosts to transformed items
-   */
-  private applyTarotPlanetaryBoosts(): void {
-    if (!this.tarotPlanetaryBoosts) return
-
-    // Apply planetary boosts to items (simplified implementation)
-    // Real implementation would map planets to alchemical properties
-  }
-
-  // ===== RECOMMENDATION METHODS =====,
-
-  /**
-   * Get recommended ingredients based on current planetary positions
-   */
-  getRecommendedIngredients(limit = 10): AlchemicalItem[] {,
-    return this.getSortedItems(this.transformedIngredients, limit)
-  }
-
-  /**
-   * Get recommended cooking methods based on current planetary positions
-   */
-  getRecommendedCookingMethods(limit = 5): AlchemicalItem[] {,
-    return this.getSortedItems(this.transformedMethods, limit)
-  }
-
-  /**
-   * Get recommended cuisines based on current planetary positions
-   */
-  getRecommendedCuisines(limit = 5): AlchemicalItem[] {,
-    return this.getSortedItems(this.transformedCuisines, limit)
-  }
-
-  /**
-   * Get sorted items by compatibility score
-   */
-  private getSortedItems(items: AlchemicalItem[], limit: number): AlchemicalItem[] {
-    return [...items]
-      .sort((ab) => {
-        // Sort by compatibility score (higher is better) - safe property access
-        return (
-          ((b as { compatibilityScore?: number }).compatibilityScore || 0) -
-          ((a as { compatibilityScore?: number }).compatibilityScore || 0)
-        )
-      })
-      .slice(0, limit)
-  }
-
-  /**
-   * Get all transformed ingredients
-   */
-  getAllTransformedIngredients(): AlchemicalItem[] {
-    return this.transformedIngredients
-  }
-
-  /**
-   * Get all transformed cooking methods
-   */
-  getAllTransformedMethods(): AlchemicalItem[] {
-    return this.transformedMethods
-  }
-
-  /**
-   * Get all transformed cuisines
-   */
-  getAllTransformedCuisines(): AlchemicalItem[] {
-    return this.transformedCuisines
-  }
-
-  /**
-   * Get ingredient by ID
-   */
-  getIngredientById(id: string): ElementalItem | undefined {
-    return this.ingredients.find(item => item.id === id);
-  }
-
-  /**
-   * Get cooking method by ID
-   */
-  getMethodById(id: string): ElementalItem | undefined {
-    return this.methods.find(item => item.id === id);
-  }
-
-  /**
-   * Get cuisine by ID
-   */
-  getCuisineById(id: string): ElementalItem | undefined {
-    return this.cuisines.find(item => item.id === id);
-  }
-
-  /**
-   * Recommend recipes based on current planetary and elemental influences
-   */
-  async recommendRecipes(
-    recipes: Recipe[],
-    criteria: RecommendationCriteria = {}): Promise<ScoredRecipe[]> {
-    try {
-      if (!Array.isArray(recipes) || (recipes || []).length === 0) {
-        throw new (createError as unknown as new (
-          message: string,
-          details?: Record<string, unknown>,
-        ) => Error)('INVALID_REQUEST', { context: 'Empty recipe list' })
-      }
-
-      // If celestial influence not provided, calculate from current settings
-      const celestialInfluence = criteria.celestialInfluence || this.getCurrentElementalInfluence()
-
-      // Score and sort recipes
-      const scoredRecipes = (recipes || []);
-        .map(recipe => ({,
-          ...recipe,
-          score: this.calculateRecipeScore(recipe, {
-            ...criteria
-            celestialInfluence
-          })
-        }))
-        .sort((ab) => b.score - a.score)
-
-      // Always ensure at least one recommendation
-      if ((scoredRecipes || []).length === 0) {,
-        logger.warn('No recipes matched criteria, using fallback')
-        return [this.getFallbackRecipe()]
-      }
-
-      return scoredRecipes;
+      };
     } catch (error) {
-      logger.error('Error recommending recipes: ', error)
-      return [this.getFallbackRecipe()]
-    }
-  }
-
-  /**
-   * Calculate current elemental influence from planetary positions
-   */
-  private getCurrentElementalInfluence(): ElementalProperties {
-    // Always return a full ElementalProperties object
-    return { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-  }
-
-  /**
-   * Calculates a numeric score for how well a recipe fits the given criteria
-   */
-  private calculateRecipeScore(recipe: Recipe, criteria: RecommendationCriteria): number {
-    let score = 0.5; // Start with neutral score
-
-    // Enhanced alchemical score calculation using the current state and location
-    if (criteria.astrologicalState && criteria.currentLocation) {
-      const alchemicalScore = this.calculateEnhancedAlchemicalScore(
-        recipe,
-        criteria.astrologicalState
-        criteria.currentLocation
-      )
-      score += alchemicalScore * 0.4, // 40% weight for alchemical compatibility
-    } else if (criteria.astrologicalState) {
-      // Fallback without location
-      const fallbackLocation = { lat: 40.7128, lng: -74.006 }; // Default to NYC
-      const alchemicalScore = this.calculateEnhancedAlchemicalScore(
-        recipe,
-        criteria.astrologicalState
-        fallbackLocation,
-      )
-      score += alchemicalScore * 0.35; // Slightly lower weight without location
-    } else if (criteria.astrologicalState) {
-      // Basic compatibility check using simple elemental matching
-      const currentElements = this.getCurrentElementalInfluence();
-      const recipeElements = recipe.elementalProperties || {;
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25
-}
-      const elementalMatch = this.calculateElementalMatch(recipeElements, currentElements)
-      score += elementalMatch * 0.3; // 30% weight for basic elemental matching
-    }
-
-    // Nutritional scoring
-    if (criteria.nutritionalGoals) {
-      // Simple nutritional scoring based on available recipe data
-      let nutritionalScore = 0.5; // Default neutral score
-      if (recipe.nutrition) {
-        // Basic nutritional matching logic here
-        nutritionalScore = 0.7, // Placeholder - could be enhanced,
-      }
-      score += nutritionalScore * 0.2; // 20% weight for nutritional matching
-    }
-
-    // Seasonal matching
-    if (criteria.season) {
-      // Simple seasonal scoring based on recipe season data
-      let seasonalScore = 0.5; // Default neutral score
-      if (recipe.season && Array.isArray(recipe.season)) {
-        seasonalScore = recipe.season.includes(criteria.season) ? 0.9 : 0.3;
-      } else if (recipe.season === criteria.season) {,
-        seasonalScore = 0.9,
-      }
-      score += seasonalScore * 0.15; // 15% weight for seasonal matching
-    }
-
-    // Time of day matching
-    if (criteria.timeOfDay) {
-      // Simple time-based scoring
-      let timeScore = 0.5; // Default neutral score
-      if (recipe.mealType) {
-        const mealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
-        // Basic time matching logic
-        if (criteria.timeOfDay === 'morning' && mealTypes.includes('breakfast')) timeScore = 0.9,
-        else if (criteria.timeOfDay === 'afternoon' && mealTypes.includes('lunch')) timeScore = 0.9,
-        else if (criteria.timeOfDay === 'evening' && mealTypes.includes('dinner')) timeScore = 0.9;
-      }
-      score += timeScore * 0.1; // 10% weight for time matching
-    }
-
-    // Additional scoring factors can be added here...
-
-    // Normalize score to 0-1 range
-    return Math.max(0, Math.min(1, score))
-  }
-
-  /**
-   * Enhanced alchemical score calculation that takes into account current astrological state
-   */
-  private calculateEnhancedAlchemicalScore(
-    recipe: Recipe,
-    astrologicalState: AstrologicalState,
-    location: { lat: number, lng: number }): number {
-    try {
-      // Get recipe elemental properties, defaulting if not available
-      const recipeElements: ElementalProperties = recipe.elementalProperties || {,
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25
-}
-
-      // Get current moment's elemental influence
-      const astroStateData = astrologicalState as {;
-        currentZodiac?: string,
-        lunarPhase?: string
-        activePlanets?: string[],
-        [key: string]: unknown
-      }
-      const currentMomentElements: ElementalProperties = (
-        astroStateData.elementalProperties &&
-        Object.keys(astroStateData.elementalProperties).length > 0
-          ? astroStateData.elementalProperties
-          : astroStateData.elementalState && Object.keys(astroStateData.elementalState).length > 0
-            ? astroStateData.elementalState;
-            : { Fire: 0, Water: 0, Earth: 0, Air: 0 }) as ElementalProperties,
-
-      // Calculate elemental compatibility
-      const elementalScore = this.calculateElementalMatch(recipeElements, currentMomentElements)
-
-      // Calculate advanced compatibility using the culinary recipe matching system
-      let advancedScore = 0.5; // Default neutral score
-      try {
-        // Create a mock KalchmResult from AstrologicalState for compatibility
-        const mockKalchmResult = {
-          alchemicalProperties: {,
-            totalKalchm: 1.0,
-            gregsEnergy: 1.0,
-            monica: 1.0,
-            Spirit: 0.25,
-            Essence: 0.25,
-            Matter: 0.25,
-            Substance: 0.25
-},
-          elementalValues: currentMomentElements,
-          thermodynamics: {
-            heat: 0.5,
-            entropy: 0.5,
-            reactivity: 0.5,
-            gregsEnergy: 0.5,
-            kalchm: 1.0,
-            monicaConstant: 1.0
-},
-          dominantElement: 'Fire' as const,
-          dominantProperty: 'Spirit' as const,
-          timestamp: Date.now().toString()
+      logger.error('Error getting recommended ingredients:', error);
+      return {
+        items: [],
+        scores: {},
+        context: {
+          error: error instanceof Error ? error.message : 'Unknown error'
         }
-        const compatibilityResult = calculateRecipeCompatibility(recipeElements, mockKalchmResult)
-        // Extract numerical score from the result object
-        advancedScore =
-          typeof compatibilityResult === 'number'
-            ? compatibilityResult;
-            : (compatibilityResult as { score?: number, compatibility?: number }).score ||
-              (compatibilityResult as { score?: number, compatibility?: number }).compatibility ||
-              0.5,
-      } catch (error) {
-        logger.warn(
-          'Advanced compatibility calculation failed, using basic elemental match: ',
-          error,
-        )
-        advancedScore = elementalScore,
-      }
-
-      // Combine scores with weighted average
-      const combinedScore = elementalScore * 0.4 + advancedScore * 0.6;
-
-      return Math.max(0, Math.min(1, combinedScore))
-    } catch (error) {
-      logger.error('Error in enhanced alchemical score calculation: ', error)
-      // Return neutral score on error
-      return 0.5;
+      };
     }
   }
 
   /**
-   * Enhanced elemental matching using both absolute and relative values
+   * Get recommended cuisines based on criteria
    */
-  private calculateElementalMatch(
-    recipeElements: ElementalProperties,
-    currentMomentElements: ElementalProperties,
-  ): number {
-    // Calculate absolute elemental similarity
-    const absoluteMatch = this.calculateAbsoluteElementalMatch(
-      recipeElements,
-      currentMomentElements,
-    )
+  async getRecommendedCuisines(
+    criteria: CuisineRecommendationCriteria
+  ): Promise<RecommendationResult<string>> {
+    try {
+      logger.info('Getting recommended cuisines with criteria:', criteria);
 
-    // Calculate relative elemental similarity
-    const relativeMatch = this.calculateRelativeElementalMatch(
-      recipeElements,
-      currentMomentElements,
-    )
+      // For now, return some default cuisines based on elemental properties
+      // TODO: Implement full cuisine recommendation logic
+      const defaultCuisines = [
+        'Italian', 'Mexican', 'Indian', 'Japanese', 'Mediterranean',
+        'Thai', 'French', 'Chinese', 'Greek', 'Middle-Eastern'
+      ];
 
-    // Calculate dominant element compatibility
-    const dominantMatch = this.calculateDominantElementMatch(recipeElements, currentMomentElements)
+      let filteredCuisines = [...defaultCuisines];
+      const scores: { [key: string]: number } = {};
 
-    // Weighted combination
-    return absoluteMatch * 0.4 + relativeMatch * 0.35 + dominantMatch * 0.25;
+      // Apply elemental filtering (simplified)
+      if (criteria.elementalProperties) {
+        // For now, assign random-ish scores based on elemental properties
+        // TODO: Implement proper cuisine-elemental mapping
+        filteredCuisines.forEach(cuisine => {
+          scores[cuisine] = Math.random() * 0.5 + 0.5; // Random score between 0.5-1.0
+        });
+
+        // Sort by score
+        filteredCuisines.sort((a, b) => scores[b] - scores[a]);
+      } else {
+        // Default scores
+        filteredCuisines.forEach(cuisine => {
+          scores[cuisine] = 0.8;
+        });
+      }
+
+      // Apply exclusions
+      if (criteria.excludeCuisines && criteria.excludeCuisines.length > 0) {
+        filteredCuisines = filteredCuisines.filter(cuisine =>
+          !criteria.excludeCuisines!.some(excluded =>
+            cuisine.toLowerCase().includes(excluded.toLowerCase())
+          )
+        );
+      }
+
+      // Apply limit
+      if (criteria.limit && criteria.limit > 0) {
+        filteredCuisines = filteredCuisines.slice(0, criteria.limit);
+      }
+
+      logger.info(`Returning ${filteredCuisines.length} recommended cuisines`);
+
+      return {
+        items: filteredCuisines,
+        scores,
+        context: {
+          criteria,
+          totalCuisines: defaultCuisines.length,
+          filteredCount: filteredCuisines.length
+        }
+      };
+    } catch (error) {
+      logger.error('Error getting recommended cuisines:', error);
+      return {
+        items: [],
+        scores: {},
+        context: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
+    }
   }
 
   /**
-   * Calculate absolute elemental match (direct comparison)
+   * Get recommended cooking methods based on criteria
    */
-  private calculateAbsoluteElementalMatch(
-    recipeElements: ElementalProperties,
-    currentMomentElements: ElementalProperties,
-  ): number {
-    const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
-    let totalSimilarity = 0;
-    let totalWeight = 0,
+  async getRecommendedCookingMethods(
+    criteria: CookingMethodRecommendationCriteria
+  ): Promise<RecommendationResult<CookingMethod>> {
+    try {
+      logger.info('Getting recommended cooking methods with criteria:', criteria);
+
+      // For now, return some default cooking methods
+      // TODO: Implement full cooking method recommendation logic
+      const defaultMethods: CookingMethod[] = [
+        'Grilling', 'Baking', 'Stir-frying', 'Steaming', 'Roasting',
+        'Braising', 'Sautéing', 'Boiling', 'Frying', 'Slow-cooking'
+      ];
+
+      let filteredMethods = [...defaultMethods];
+      const scores: { [key: string]: number } = {};
+
+      // Apply elemental filtering (simplified)
+      if (criteria.elementalProperties) {
+        // For now, assign scores based on elemental properties
+        // TODO: Implement proper cooking method-elemental mapping
+        filteredMethods.forEach(method => {
+          scores[method] = Math.random() * 0.5 + 0.5;
+        });
+
+        // Sort by score
+        filteredMethods.sort((a, b) => scores[b] - scores[a]);
+      } else {
+        // Default scores
+        filteredMethods.forEach(method => {
+          scores[method] = 0.8;
+        });
+      }
+
+      // Apply exclusions
+      if (criteria.excludeMethods && criteria.excludeMethods.length > 0) {
+        filteredMethods = filteredMethods.filter(method =>
+          !criteria.excludeMethods!.some(excluded =>
+            method.toLowerCase().includes(excluded.toLowerCase())
+          )
+        );
+      }
+
+      // Apply limit
+      if (criteria.limit && criteria.limit > 0) {
+        filteredMethods = filteredMethods.slice(0, criteria.limit);
+      }
+
+      logger.info(`Returning ${filteredMethods.length} recommended cooking methods`);
+
+      return {
+        items: filteredMethods,
+        scores,
+        context: {
+          criteria,
+          totalMethods: defaultMethods.length,
+          filteredCount: filteredMethods.length
+        }
+      };
+    } catch (error) {
+      logger.error('Error getting recommended cooking methods:', error);
+      return {
+        items: [],
+        scores: {},
+        context: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
+    }
+  }
+
+  /**
+   * Calculate compatibility score between elemental properties
+   */
+  calculateElementalCompatibility(source: ElementalProperties, target: ElementalProperties): number {
+    // Simple compatibility calculation based on elemental balance
+    // Elements work best when they complement each other, not oppose
+    const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
+
+    let totalCompatibility = 0;
+    let elementCount = 0;
 
     for (const element of elements) {
-      const recipeValue = recipeElements[element] || 0;
-      const currentMomentValue = currentMomentElements[element] || 0;
+      const sourceValue = source[element] || 0;
+      const targetValue = target[element] || 0;
 
-      // Weight by element importance
-      const weight = Math.max(recipeValue, currentMomentValue) + 0.1; // +0.1 to prevent zero weights
-
-      // Calculate similarity
-      const similarity = 1 - Math.abs(recipeValue - currentMomentValue)
-;
-      totalSimilarity += similarity * weight,
-      totalWeight += weight,
+      if (sourceValue > 0 && targetValue > 0) {
+        // Same element reinforcement (like strengthens like)
+        totalCompatibility += Math.min(sourceValue, targetValue);
+        elementCount++;
+      }
     }
 
-    return totalWeight > 0 ? totalSimilarity / totalWeight : 0.5;
+    // Return average compatibility or minimum score
+    return elementCount > 0 ? totalCompatibility / elementCount : 0.5;
   }
 
   /**
-   * Calculate relative elemental match (using ratios)
+   * Get recommendations based on elemental properties
    */
-  private calculateRelativeElementalMatch(
-    recipeElements: ElementalProperties,
-    currentMomentElements: ElementalProperties,
-  ): number {
-    const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
-    let totalSimilarity = 0;
-    let count = 0,
-
-    for (const element of elements) {
-      // Calculate relative, values: element / sum of other three
-      const otherElements = elements.filter(e => e !== element);
-      const recipeOthersSum = otherElements.reduce((sume) => sum + (recipeElements[e] || 0), 0)
-      const currentMomentOthersSum = otherElements.reduce(
-        (sume) => sum + (currentMomentElements[e] || 0),
-        0,
-      )
-
-      const recipeRelative =
-        recipeOthersSum > 0 ? (recipeElements[element] || 0) / recipeOthersSum : 0;
-      const currentMomentRelative =
-        currentMomentOthersSum > 0
-          ? (currentMomentElements[element] || 0) / currentMomentOthersSum;
-          : 0,
-
-      // Calculate similarity between relative values
-      const maxRelative = Math.max(recipeRelative, currentMomentRelative, 0.1); // Prevent division by zero
-      const similarity = 1 - Math.abs(recipeRelative - currentMomentRelative) / maxRelative;
-
-      totalSimilarity += similarity,
-      count++
-    }
-
-    return count > 0 ? totalSimilarity / count : 0.5;
-  }
-
-  /**
-   * Calculate dominant element compatibility
-   */
-  private calculateDominantElementMatch(
-    recipeElements: ElementalProperties,
-    currentMomentElements: ElementalProperties,
-  ): number {
-    // Get dominant elements
-    const recipeDominant = this.getDominantElement(recipeElements)
-    const currentMomentDominant = this.getDominantElement(currentMomentElements)
-
-    // Perfect match for same element;
-    if (recipeDominant === currentMomentDominant) {,
-      return 1.0
-    }
-
-    // Check elemental harmony (elements that work well together)
-    const elementalHarmony = {
-      Fire: ['Air', 'Fire'], // Fire enhances with Air,
-      Water: ['Earth', 'Water'], // Water nourishes Earth,
-      Earth: ['Water', 'Earth'], // Earth grounds Water,
-      Air: ['Fire', 'Air'], // Air feeds Fire
-    }
-
-    const isHarmonious = elementalHarmony[recipeDominant]?.includes(currentMomentDominant) || false;
-    return isHarmonious ? 0.8 : 0.4;
-  }
-
-  /**
-   * Get dominant element from elemental properties
-   */
-  private getDominantElement(elements: ElementalProperties): keyof ElementalProperties {
-    const entries = Object.entries(elements) as [keyof ElementalProperties, number][],
-    return entries.reduce(
-      (dominant, [element, value]) => (value > (elements[dominant] || 0) ? element : dominant),
-      'Fire',
-    )
-  }
-
-  /**
-   * Apply non-linear score transformation for better differentiation
-   */
-  private applyScoreTransformation(normalizedScore: number): number {
-    if (normalizedScore >= 0.85) {
-      return 0.85 + (normalizedScore - 0.85) * 2, // Boost excellent matches
-    } else if (normalizedScore >= 0.7) {
-      return 0.7 + (normalizedScore - 0.7) * 1.5, // Boost good matches
-    } else if (normalizedScore >= 0.5) {
-      return 0.5 + (normalizedScore - 0.5) * 1.2, // Slightly boost average matches
-    } else {
-      return normalizedScore * 0.9, // Slightly penalize poor matches
-    }
-  }
-
-  /**
-   * Store successful recommendation in cache for future use
-   */
-  public storeRecommendationResult(
-    lat: number,
-    lng: number,
-    astrologicalState: AstrologicalState,
-    alchemicalResult: StandardizedAlchemicalResult,
-    planetaryPositions: Record<string, PlanetaryPosition>,
-  ): void {
+  async getRecommendationsForElements(
+    elementalProperties: ElementalProperties,
+    type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
+    limit?: number
+  ): Promise<RecommendationResult<unknown>> {
     try {
-      astrologizeCache.store(
-        lat,
-        lng,
-        new Date(),
-        astrologicalState,
-        alchemicalResult,
-        planetaryPositions,
-      )
+      logger.info(`Getting ${type} recommendations for elemental properties:`, elementalProperties);
+
+      switch (type) {
+        case 'recipe':
+          return await this.getRecommendedRecipes({
+            elementalProperties,
+            limit
+          });
+
+        case 'ingredient':
+          return await this.getRecommendedIngredients({
+            elementalProperties,
+            limit
+          });
+
+        case 'cuisine':
+          return await this.getRecommendedCuisines({
+            elementalProperties,
+            limit
+          });
+
+        case 'cookingMethod':
+          return await this.getRecommendedCookingMethods({
+            elementalProperties,
+            limit
+          });
+
+        default:
+          throw new Error(`Unknown recommendation type: ${type}`);
+      }
     } catch (error) {
-      logger.error('Error storing recommendation result in cache: ', error)
+      logger.error(`Error getting ${type} recommendations for elements:`, error);
+      return {
+        items: [],
+        scores: {},
+        context: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
 
   /**
-   * Get fallback recipe when no recommendations are available
+   * Get recommendations based on planetary alignment
    */
-  private getFallbackRecipe(): ScoredRecipe {
+  async getRecommendationsForPlanetaryAlignment(
+    planetaryPositions: Record<string, { sign: string; degree: number }>,
+    type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
+    limit?: number
+  ): Promise<RecommendationResult<unknown>> {
+    try {
+      logger.info(`Getting ${type} recommendations for planetary alignment:`, planetaryPositions);
+
+      // For now, convert planetary positions to elemental properties
+      // TODO: Implement direct planetary compatibility calculation
+      const elementalProperties = this.planetaryPositionsToElemental(planetaryPositions);
+
+      return await this.getRecommendationsForElements(elementalProperties, type, limit);
+    } catch (error) {
+      logger.error(`Error getting ${type} recommendations for planetary alignment:`, error);
+      return {
+        items: [],
+        scores: {},
+        context: {
+          error: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
+    }
+  }
+
+  /**
+   * Calculate thermodynamic metrics based on elemental properties
+   */
+  calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicMetrics {
+    // Simplified thermodynamic calculation
+    // In a full implementation, this would use the alchemizer engine
+    const { Fire = 0, Water = 0, Earth = 0, Air = 0 } = elementalProperties;
+
+    // Heat: Fire + Air (active elements)
+    const heat = (Fire + Air) / 2;
+
+    // Entropy: Air + Fire (chaotic elements)
+    const entropy = (Air + Fire) / 2;
+
+    // Reactivity: Fire + Water (opposing elements create reactivity)
+    const reactivity = Math.abs(Fire - Water) / 2;
+
+    // Greg's Energy: Balance between heat and entropy
+    const gregsEnergy = heat - entropy * reactivity;
+
     return {
-      id: 'fallback-recipe',
-      name: 'Universal Balanced Meal',
-      description: 'A well-balanced meal that works with any elemental influence.',
-      ingredients: [
-        {
-          id: 'mixed-vegetables',
-          name: 'Mixed vegetables',
-          amount: 2,
-          unit: 'cups',
-          category: 'vegetable',
-          elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1 }
-        }
-        {
-          id: 'protein-choice',
-          name: 'Protein of choice',
-          amount: 4,
-          unit: 'oz',
-          category: 'protein',
-          elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 }
-        }
-        {
-          id: 'whole-grains',
-          name: 'Whole grains',
-          amount: 0.5,
-          unit: 'cup',
-          category: 'grain',
-          elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 }
-        }
-        {
-          id: 'healthy-fats',
-          name: 'Healthy fats',
-          amount: 1,
-          unit: 'tbsp',
-          category: 'oil',
-          elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.3, Air: 0.4 }
-        }
-      ],
-      instructions: [
-        'Combine all ingredients in a balanced way.',
-        'Cook using your preferred method.',
-        'Season to taste with herbs and spices.'
-      ],
-      cookingMethod: ['balanced', 'flexible'],
-      elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-      score: 0.5,
-      mealType: 'any',
-      season: 'any',
-      difficulty: 'medium',
-      preparationTime: 30,
-      servings: 2
-}
+      heat,
+      entropy,
+      reactivity,
+      gregsEnergy,
+      kalchm: 0, // Placeholder
+      monica: 0  // Placeholder
+    };
   }
 
   /**
-   * Get Spoonacular recommendations as a fallback
+   * Convert planetary positions to elemental properties (simplified)
    */
-  private async getSpoonacularRecommendations(criteria: RecommendationCriteria): Promise<Recipe[]> {
-    try {
-      // This would be implemented to call Spoonacular API
-      // For, example: using SpoonacularService
-      return []
-    } catch (error) {
-      logger.error('Error getting Spoonacular recommendations: ', error)
-      return []
+  private planetaryPositionsToElemental(
+    positions: Record<string, { sign: string; degree: number }>
+  ): ElementalProperties {
+    // Simplified conversion - in reality this would use the planetary alchemy mapping
+    const elements: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+
+    // Count planets in each element's signs
+    const elementSigns = {
+      Fire: ['aries', 'leo', 'sagittarius'],
+      Water: ['cancer', 'scorpio', 'pisces'],
+      Earth: ['taurus', 'virgo', 'capricorn'],
+      Air: ['gemini', 'libra', 'aquarius']
+    };
+
+    let totalPlanets = 0;
+
+    Object.values(positions).forEach(position => {
+      const sign = position.sign.toLowerCase();
+      totalPlanets++;
+
+      for (const [element, signs] of Object.entries(elementSigns)) {
+        if (signs.includes(sign)) {
+          elements[element as keyof ElementalProperties] += 1;
+        }
+      }
+    });
+
+    // Normalize to sum to 1
+    if (totalPlanets > 0) {
+      Object.keys(elements).forEach(key => {
+        elements[key as keyof ElementalProperties] /= totalPlanets;
+      });
+    } else {
+      // Default balanced distribution
+      Object.keys(elements).forEach(key => {
+        elements[key as keyof ElementalProperties] = 0.25;
+      });
     }
+
+    return elements;
   }
 }
 
-export default RecommendationService,
+// Export singleton instance
+export const recommendationService = RecommendationService.getInstance();

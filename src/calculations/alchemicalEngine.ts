@@ -1,11 +1,13 @@
 // Type imports
 import type { AlchemicalCalculationResult, BirthInfo } from '@/types/alchemy';
 import type { ChakraEnergies } from '@/types/chakra';
-import type {AstrologicalState,
-  ElementalProperties,
-  PlanetPosition,
-  StandardizedAlchemicalResult,
-  ZodiacSign} from '@/types/unified';
+import type {
+    AstrologicalState,
+    ElementalProperties,
+    PlanetPosition,
+    StandardizedAlchemicalResult,
+    ZodiacSign
+} from '@/types/unified';
 
 // Internal imports
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
@@ -79,7 +81,7 @@ export class AlchemicalEngineAdvanced {
   private readonly elementalStrengths: Record<string, number> = {Fire: 1,
     Air: 1,
     Water: 1,
-    Earth: 1},
+    Earth: 1};
 
   private readonly zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {aries: 'Fire',
     leo: 'Fire',
@@ -92,7 +94,7 @@ export class AlchemicalEngineAdvanced {
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water'},
+    pisces: 'Water'};
 
   private readonly lunarPhaseModifiers: Record<string, ElementalProperties> = {
     'new moon': { Fire: 0.1, Water: 0.4, Air: 0.3, Earth: 0.2 },

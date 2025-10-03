@@ -236,7 +236,7 @@ export interface SuitChakraMapping {
   element: Element,
   energyState: AlchemicalEnergyState,
   description: string
-},
+}
 
 export const _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[]  = [
   {
@@ -279,7 +279,7 @@ export const _KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[]  = [
     cardName: 'The Fool',
     chakraPosition: 'crown',
     planet: 'Uranus',
-    description: 'Represents new beginnings, innocence, and spontaneity, connecting to the Crown Chakra's spiritual openness.'
+    description: 'Represents new beginnings, innocence, and spontaneity, connecting to the Crown Chakra\'s spiritual openness.'
 },
   {
     cardName: 'The Magician',
@@ -291,7 +291,7 @@ export const _KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[]  = [
     cardName: 'The High Priestess',
     chakraPosition: 'brow',
     planet: 'Moon',
-    description: 'Symbolizes intuition, mystery, and inner wisdom, matching the Third Eye's focus on insight.'
+    description: 'Symbolizes intuition, mystery, and inner wisdom, matching the Third Eye\'s focus on insight.'
 },
   {
     cardName: 'The Empress',
@@ -415,7 +415,7 @@ export interface ChakraMappingSummary {
   majorArcana: string[],
   primarySuit?: TarotSuit,
   secondarySuit?: TarotSuit
-},
+}
 
 export const _CHAKRA_MAPPING_SUMMARY: ChakraMappingSummary[]  = [
   {
@@ -464,7 +464,7 @@ export interface ChakraEnergies {
   thirdEye: number,
   crown: number,
   brow: number
-},
+}
 
 // Export alias for compatibility
-export type Chakra = ChakraProperty,
+export type Chakra = ChakraProperty;

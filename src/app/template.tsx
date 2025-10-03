@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import { errorHandler } from '@/services/errorHandler';
 import { logger } from '@/utils/logger';
 
 const Loading = ({
@@ -61,10 +60,10 @@ export default function Template({ children }: TemplateProps) {
         document.head.appendChild(style)
       }
     } catch (error) {
-      errorHandler.handleError(error, {
+      console.error('Template hydration error:', error, {
         context: 'Template',
         action: 'hydration'
-})
+      })
       setHasError(true)
     }
   }, [])

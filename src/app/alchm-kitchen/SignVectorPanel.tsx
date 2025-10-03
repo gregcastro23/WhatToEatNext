@@ -1,8 +1,7 @@
 'use client';
 import React from 'react';
 
-import { planetaryPositionsService } from '@/services/PlanetaryPositionsService';
-import { TelemetryDev } from '@/services/TelemetryDev';
+import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import type { Season } from '@/types/alchemy';
 import type { PlanetaryPosition } from '@/types/celestial';
 import { calculateAspects } from '@/utils/astrologyUtils';
@@ -38,10 +37,9 @@ export default function SignVectorPanel({planetaryPositions: propPositions,
     let mounted = true;
     if (!propPositions) {
       setLoading(true);
-      planetaryPositionsService
-        .getCurrent()
+      getCurrentPlanetaryPositions()
         .then(p => {
-          if (mounted) setPositions(p as unknown as Record<string, PlanetaryPosition>);
+          if (mounted) setPositions(p);
         })
         .finally(() => {
           if (mounted) setLoading(false);
@@ -92,10 +90,6 @@ export default function SignVectorPanel({planetaryPositions: propPositions,
         Matter: Number((blended.Matter - base.Matter).toFixed(4)),
         Substance: Number((blended.Substance - base.Substance).toFixed(4))
       };
-      TelemetryDev.recordVectorBlend(res.selected.sign,
-        alpha,
-        deltas as any,
-        res.thermodynamics as any);
     }
     return res;
   }, [positions, aspects, season, mode, alpha, logger]);

@@ -22,9 +22,9 @@ import type {
     // PlanetaryAlignment, // unused
     Planet,
     Season,
-    ThermodynamicProperties,
-    ZodiacSign
+    ThermodynamicProperties
 } from '@/types/alchemy';
+import type { ZodiacSign } from '@/types/celestial';
 import type { TimeFactors } from '@/types/time';
 // Removed unused, imports: getCurrentSeason, getTimeOfDay
 import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/utils/safeAstrology';
@@ -139,7 +139,7 @@ export interface AstrologicalEffects {
   dignity: LowercaseElementalProperties,
   aspect: LowercaseElementalProperties,
   stellium: LowercaseElementalProperties,
-  house: Record<ElementalCharacter, number>;
+  house: Record<ElementalCharacter, number>,
   joy: LowercaseElementalProperties;
 }
 
@@ -157,7 +157,7 @@ export const zodiacSigns: any[] = [
   'capricorn',
   'aquarius',
   'pisces'
-],
+];
 
 // Utility function to validate zodiac sign
 export function isValidZodiacSign(sign: string): sign is ZodiacSign {
@@ -195,10 +195,10 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
     }
 
     // Calculate the angular distance between sun and moon
-    let angularDistance = positions.Moon.exactLongitude - positions.Sun.exactLongitude,
+    let angularDistance = positions.Moon.exactLongitude - positions.Sun.exactLongitude;
 
     // Normalize to 0-360 range
-    angularDistance = ((angularDistance % 360) + 360) % 360,
+    angularDistance = ((angularDistance % 360) + 360) % 360;
 
     // Convert to phase percentage (0 to 1)
     return angularDistance / 360;
@@ -261,12 +261,12 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
     // Calculate corrected illumination fraction
     // SunCalc returns a value between 0-1 representing illumination
     // We'll adjust it based on the phase for more accurate representation;
-    let correctedFraction = moonIllumination.fraction,
+    let correctedFraction = moonIllumination.fraction;
 
     // Correction for phase transitions (improves visual perception)
-    if (phaseName === 'new moon') {;
+    if (phaseName === 'new moon') {
       correctedFraction = Math.min(correctedFraction, 0.02); // Cap at 2%
-    } else if (phaseName === 'full moon') {;
+    } else if (phaseName === 'full moon') {
       correctedFraction = Math.max(correctedFraction, 0.98); // Minimum 98%
     }
 

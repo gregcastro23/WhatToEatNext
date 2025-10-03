@@ -1,36 +1,57 @@
-/**
- * Recipe Service - Database Integration
- * Phase 3 Frontend Integration
- *
- * Service for recipe operations using PostgreSQL database
- */
-
-import { RecipeService as DatabaseRecipeService } from '@/lib/database';
-import type { ElementalProperties } from '@/types/alchemy';
+import { cuisinesMap } from '@/data/cuisines';
+import type { ElementalProperties, LunarPhase, ZodiacSign } from '@/types/alchemy';
+import type { Cuisine } from '@/types/cuisine';
 import type { Recipe, ScoredRecipe } from '@/types/recipe';
 import { logger } from '@/utils/logger';
 
-export interface RecipeSearchCriteria {
-  cuisine?: string,
-  maxPrepTime?: number,
-  dietaryRestrictions?: string[],
-  limit?: number;
+// Import recipe service interface
+import type {
+    RecipeRecommendationOptions,
+    RecipeSearchCriteria,
+    RecipeServiceInterface
+} from './interfaces/RecipeServiceInterface';
+
+// Extended cuisine interface for internal use
+interface ExtendedCuisine extends Cuisine {
+  dishes?: Record<string, unknown>[];
+  [key: string]: unknown;
 }
 
-export interface RecipeRecommendation {
-  recipe: Recipe,
-  score: number,
-  matchReasons: string[];
+// Recipe search criteria interface
+interface RecipeSearchCriteriaInternal extends RecipeSearchCriteria {
+  elementalProperties?: ElementalProperties;
+  zodiacSign?: ZodiacSign;
+  lunarPhase?: LunarPhase;
+  planetaryAlignment?: Record<string, { sign: string; degree: number }>;
 }
 
 /**
- * Recipe Service using database queries
+ * Consolidated Recipe Service
+ *
+ * A unified service for all recipe-related operations, combining functionality
+ * from LocalRecipeService, UnifiedRecipeService, and other recipe services.
+ *
+ * This service provides:
+ * - Recipe retrieval from local cuisine data
+ * - Search and filtering capabilities
+ * - Elemental and astrological compatibility matching
+ * - Recipe recommendations based on various criteria
  */
-export class RecipeService {
-  private static instance: RecipeService,
+export class RecipeService implements RecipeServiceInterface {
+  private static instance: RecipeService;
+  private static _allRecipes: Recipe[] | null = null;
+  private recipeCache: Map<string, Recipe[]> = new Map();
 
-  private constructor() {}
+  /**
+   * Private constructor for singleton pattern
+   */
+  private constructor() {
+    // Private constructor
+  }
 
+  /**
+   * Get singleton instance
+   */
   public static getInstance(): RecipeService {
     if (!RecipeService.instance) {
       RecipeService.instance = new RecipeService();
@@ -39,76 +60,117 @@ export class RecipeService {
   }
 
   /**
-   * Get recipe by ID from database
+   * Get all available recipes
    */
-  async getRecipeById(id: string): Promise<Recipe | null> {
-    try {
-      logger.debug('Getting recipe by ID from database:', id);
-      const recipe = await DatabaseRecipeService.getById(id);
+  async getAllRecipes(): Promise<Recipe[]> {
+    // Return cached recipes if available
+    if (RecipeService._allRecipes) {
+      return RecipeService._allRecipes;
+    }
 
-      if (!recipe) {
-        return null;
+    try {
+      const recipes: Recipe[] = [];
+
+      // Get recipes from all available cuisines
+      for (const cuisine of Object.values(cuisinesMap)) {
+        if (cuisine) {
+          const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as ExtendedCuisine);
+          recipes.push(...cuisineRecipes);
+        }
       }
 
-      // Convert database format to application format
-      return this.convertDatabaseRecipeToAppFormat(recipe);
+      logger.debug(`Loaded ${recipes.length} total recipes`);
+
+      // Cache the recipes for future use
+      RecipeService._allRecipes = recipes;
+
+      return recipes;
     } catch (error) {
-      logger.error('Failed to get recipe by ID:', error);
-      return null;
-    }
-  }
-
-  /**
-   * Search recipes by criteria
-   */
-  async searchRecipes(criteria: RecipeSearchCriteria): Promise<ScoredRecipe[]> {
-    try {
-      logger.debug('Searching recipes with criteria:', criteria);
-
-      const searchCriteria = {
-        cuisine: criteria.cuisine,
-        limit: criteria.limit || 20
-      };
-
-      const results = await DatabaseRecipeService.searchRecipes(
-        criteria.cuisine || '',
-        { limit: criteria.limit || 20 }
-      );
-
-      return results.data.map(result => ({
-        recipe: this.convertDatabaseRecipeToAppFormat(result),
-        score: 0.8, // Default score for now
-        matchReasons: ['Database match']
-      }));
-    } catch (error) {
-      logger.error('Failed to search recipes:', error);
+      logger.error('Error getting all recipes:', error);
       return [];
     }
   }
 
   /**
-   * Get recipe recommendations based on elemental properties
+   * Get recipe by ID
    */
-  async getRecipeRecommendations(
-    elementalState: ElementalProperties,
-    options: RecipeSearchCriteria = {}
-  ): Promise<RecipeRecommendation[]> {
+  async getRecipeById(id: string): Promise<Recipe | null> {
     try {
-      logger.debug('Getting recipe recommendations for elemental state:', elementalState);
+      logger.debug('Getting recipe by ID:', id);
 
-      // For now, return general recommendations
-      // In Phase 4, this will use actual elemental matching
-      const results = await DatabaseRecipeService.searchRecipes('', {
-        limit: options.limit || 10
-      });
+      const allRecipes = await this.getAllRecipes();
+      const recipe = allRecipes.find(r => r.id === id);
 
-      return results.data.map(result => ({
-        recipe: this.convertDatabaseRecipeToAppFormat(result),
-        score: 0.7,
-        matchReasons: ['General recommendation']
-      }));
+      if (recipe) {
+        logger.debug('Found recipe:', recipe.name);
+        return recipe;
+      }
+
+      logger.debug('Recipe not found with ID:', id);
+      return null;
     } catch (error) {
-      logger.error('Failed to get recipe recommendations:', error);
+      logger.error('Error getting recipe by ID:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Search recipes based on criteria
+   */
+  async searchRecipes(
+    criteria: RecipeSearchCriteria,
+    options: RecipeRecommendationOptions = {}
+  ): Promise<Recipe[]> {
+    try {
+      logger.debug('Searching recipes with criteria:', criteria);
+
+      const allRecipes = await this.getAllRecipes();
+      let filteredRecipes = [...allRecipes];
+
+      // Filter by cuisine
+      if (criteria.cuisine) {
+        filteredRecipes = filteredRecipes.filter(recipe =>
+          recipe.cuisine?.toLowerCase().includes(criteria.cuisine!.toLowerCase())
+        );
+      }
+
+      // Filter by max prep time
+      if (criteria.maxPrepTime) {
+        filteredRecipes = filteredRecipes.filter(recipe => {
+          const prepTime = this.parseTimeToMinutes(recipe.timeToMake);
+          return prepTime <= criteria.maxPrepTime!;
+        });
+      }
+
+      // Filter by dietary restrictions
+      if (criteria.dietaryRestrictions && criteria.dietaryRestrictions.length > 0) {
+        filteredRecipes = filteredRecipes.filter(recipe => {
+          return criteria.dietaryRestrictions!.every(restriction => {
+            switch (restriction.toLowerCase()) {
+              case 'vegetarian':
+                return recipe.isVegetarian === true;
+              case 'vegan':
+                return recipe.isVegan === true;
+              case 'gluten-free':
+                return recipe.isGlutenFree === true;
+              case 'dairy-free':
+                return recipe.isDairyFree === true;
+              default:
+                return true;
+            }
+          });
+        });
+      }
+
+      // Apply limit
+      if (criteria.limit && criteria.limit > 0) {
+        filteredRecipes = filteredRecipes.slice(0, criteria.limit);
+      }
+
+      logger.debug(`Found ${filteredRecipes.length} recipes matching criteria`);
+      return filteredRecipes;
+    } catch (error) {
+      logger.error('Error searching recipes:', error);
       return [];
     }
   }
@@ -116,77 +178,307 @@ export class RecipeService {
   /**
    * Get recipes by cuisine
    */
-  async getRecipesByCuisine(cuisine: string, limit: number = 20): Promise<Recipe[]> {
-    try {
-      logger.debug('Getting recipes by cuisine:', cuisine);
+  async getRecipesByCuisine(cuisineName: string): Promise<Recipe[]> {
+    if (!cuisineName) {
+      logger.warn('No cuisine name provided to getRecipesByCuisine');
+      return [];
+    }
 
-      const results = await DatabaseRecipeService.getByCuisine(cuisine, { limit });
-      return results.data.map(recipe => this.convertDatabaseRecipeToAppFormat(recipe));
+    try {
+      logger.debug(`Getting recipes for cuisine: ${cuisineName}`);
+
+      // Normalize cuisine name for comparison
+      const normalizedName = cuisineName.toLowerCase().trim();
+
+      // Handle special cases
+      if (normalizedName === 'african' || normalizedName === 'american') {
+        return [];
+      }
+
+      // Find matching cuisine
+      const cuisine = Object.values(cuisinesMap).find((c: any) =>
+        c?.name?.toLowerCase().includes(normalizedName) ||
+        c?.key?.toLowerCase().includes(normalizedName)
+      ) as ExtendedCuisine;
+
+      if (!cuisine) {
+        logger.debug(`No cuisine found for: ${cuisineName}`);
+        return [];
+      }
+
+      return await this.getRecipesFromCuisine(cuisine);
     } catch (error) {
-      logger.error('Failed to get recipes by cuisine:', error);
+      logger.error(`Error getting recipes for cuisine ${cuisineName}:`, error);
       return [];
     }
   }
 
   /**
-   * Convert database recipe format to application format
+   * Get recipes by zodiac sign
    */
-  private convertDatabaseRecipeToAppFormat(dbRecipe: any): Recipe {
-    return {
-      id: dbRecipe.id,
-      name: dbRecipe.name,
-      description: dbRecipe.description,
-      cuisine: dbRecipe.cuisine,
-      category: dbRecipe.category,
-      instructions: Array.isArray(dbRecipe.instructions)
-        ? dbRecipe.instructions
-        : [dbRecipe.instructions || 'No instructions available'],
-      prepTime: dbRecipe.prep_time_minutes || 30,
-      cookTime: dbRecipe.cook_time_minutes || 30,
-      servings: dbRecipe.servings || 4,
-      difficulty: dbRecipe.difficulty_level || 2,
-      dietaryTags: dbRecipe.dietary_tags || [],
-      allergens: dbRecipe.allergens || [],
-      nutritionalProfile: dbRecipe.nutritional_profile || {},
-      popularityScore: dbRecipe.popularity_score || 0.5,
-      alchemicalHarmonyScore: dbRecipe.alchemical_harmony_score || 0.5,
-      culturalAuthenticityScore: dbRecipe.cultural_authenticity_score || 0.5,
-      userRating: dbRecipe.user_rating || 0.0,
-      ratingCount: dbRecipe.rating_count || 0,
-      authorId: dbRecipe.author_id,
-      source: dbRecipe.source,
-      isPublic: dbRecipe.is_public !== false,
-      isVerified: dbRecipe.is_verified || false,
-      ingredients: [], // Will be populated separately if needed
-      createdAt: new Date(dbRecipe.created_at),
-      updatedAt: new Date(dbRecipe.updated_at)
-    };
-  }
-
-  /**
-   * Get recipe ingredients with full details
-   */
-  async getRecipeIngredients(recipeId: string): Promise<any[]> {
+  async getRecipesByZodiac(zodiacSign: ZodiacSign): Promise<Recipe[]> {
     try {
-      const ingredients = await DatabaseRecipeService.getRecipeIngredients(recipeId);
-      return ingredients;
+      logger.debug(`Getting recipes for zodiac sign: ${zodiacSign}`);
+
+      const allRecipes = await this.getAllRecipes();
+
+      return allRecipes.filter(recipe => {
+        const influences = recipe.astrologicalInfluences || [];
+        return influences.some((influence: string) =>
+          influence.toLowerCase().includes(zodiacSign.toLowerCase())
+        );
+      });
     } catch (error) {
-      logger.error('Failed to get recipe ingredients:', error);
+      logger.error(`Error getting recipes for zodiac ${zodiacSign}:`, error);
       return [];
     }
   }
 
   /**
-   * Get recipe contexts (seasonal, lunar, etc.)
+   * Get recipes by lunar phase
    */
-  async getRecipeContexts(recipeId: string): Promise<any> {
+  async getRecipesByLunarPhase(lunarPhase: LunarPhase): Promise<Recipe[]> {
     try {
-      const contexts = await DatabaseRecipeService.getRecipeContexts(recipeId);
-      return contexts;
+      logger.debug(`Getting recipes for lunar phase: ${lunarPhase}`);
+
+      const allRecipes = await this.getAllRecipes();
+
+      return allRecipes.filter(recipe => {
+        const influences = recipe.astrologicalInfluences || [];
+        return influences.some((influence: string) =>
+          influence.toLowerCase().includes(lunarPhase.toLowerCase())
+        );
+      });
     } catch (error) {
-      logger.error('Failed to get recipe contexts:', error);
+      logger.error(`Error getting recipes for lunar phase ${lunarPhase}:`, error);
+      return [];
+    }
+  }
+
+  /**
+   * Get recipes by season
+   */
+  async getRecipesBySeason(season: string): Promise<Recipe[]> {
+    try {
+      logger.debug(`Getting recipes for season: ${season}`);
+
+      const allRecipes = await this.getAllRecipes();
+
+      return allRecipes.filter(recipe => {
+        const recipeSeasons = recipe.season || [];
+        return recipeSeasons.some((recipeSeason: string) =>
+          recipeSeason.toLowerCase().includes(season.toLowerCase())
+        );
+      });
+    } catch (error) {
+      logger.error(`Error getting recipes for season ${season}:`, error);
+      return [];
+    }
+  }
+
+  /**
+   * Get recipes by planetary alignment
+   */
+  async getRecipesByPlanetaryAlignment(
+    planetaryPositions: Record<string, { sign: string; degree: number }>
+  ): Promise<Recipe[]> {
+    try {
+      logger.debug('Getting recipes for planetary alignment:', planetaryPositions);
+
+      // For now, return all recipes - full planetary matching would require
+      // more complex alchemical calculations
+      // TODO: Implement proper planetary recipe matching
+      return await this.getAllRecipes();
+    } catch (error) {
+      logger.error('Error getting recipes for planetary alignment:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get recipes by flavor profile
+   */
+  async getRecipesByFlavorProfile(flavorProfile: Record<string, number>): Promise<Recipe[]> {
+    try {
+      logger.debug('Getting recipes for flavor profile:', flavorProfile);
+
+      // For now, return all recipes - full flavor profile matching would require
+      // more complex flavor analysis
+      // TODO: Implement proper flavor profile matching
+      return await this.getAllRecipes();
+    } catch (error) {
+      logger.error('Error getting recipes for flavor profile:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get best recipe matches based on criteria
+   */
+  async getBestRecipeMatches(
+    criteria: RecipeSearchCriteriaInternal,
+    options: RecipeRecommendationOptions = {}
+  ): Promise<ScoredRecipe[]> {
+    try {
+      logger.debug('Getting best recipe matches with criteria:', criteria);
+
+      const recipes = await this.searchRecipes(criteria, options);
+
+      // For now, assign equal scores - full scoring would require
+      // elemental compatibility calculations
+      // TODO: Implement proper recipe scoring
+      return recipes.map(recipe => ({
+        recipe,
+        score: 0.8,
+        matchReasons: ['Basic match']
+      }));
+    } catch (error) {
+      logger.error('Error getting best recipe matches:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get recipes from a specific cuisine object
+   */
+  private async getRecipesFromCuisine(cuisine: ExtendedCuisine): Promise<Recipe[]> {
+    try {
+      const recipes: Recipe[] = [];
+      const dishes = cuisine.dishes || [];
+
+      for (const dish of dishes) {
+        const recipe = await this.convertDishToRecipe(dish as Record<string, unknown>, cuisine);
+        if (recipe) {
+          recipes.push(recipe);
+        }
+      }
+
+      return recipes;
+    } catch (error) {
+      logger.error('Error getting recipes from cuisine:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Convert dish data to Recipe format
+   */
+  private async convertDishToRecipe(
+    dish: Record<string, unknown>,
+    cuisine: ExtendedCuisine
+  ): Promise<Recipe | null> {
+    try {
+      // Generate unique ID
+      const dishName = String(dish.name || 'Unknown Dish');
+      const cuisineName = String(cuisine.name || 'Unknown Cuisine');
+      const id = `${cuisineName.toLowerCase().replace(/\s+/g, '-')}-${dishName.toLowerCase().replace(/\s+/g, '-')}`;
+
+      // Convert ingredients
+      const ingredients = Array.isArray(dish.ingredients)
+        ? dish.ingredients.map((ing: any) => ({
+            name: String(ing.name || ''),
+            amount: typeof ing.amount === 'number' ? ing.amount : 1,
+            unit: String(ing.unit || 'unit'),
+            optional: Boolean(ing.optional),
+            preparation: String(ing.preparation || ''),
+            category: String(ing.category || '')
+          }))
+        : [];
+
+      // Convert instructions
+      const instructions = Array.isArray(dish.instructions)
+        ? dish.instructions.map((inst: any) => String(inst))
+        : Array.isArray(dish.preparationSteps)
+        ? dish.preparationSteps.map((step: any) => String(step))
+        : [String(dish.instructions || dish.preparationSteps || '')];
+
+      // Parse time
+      const timeToMake = this.parseTime(String(dish.timeToMake || dish.prepTime || '30 minutes'));
+      const cookTime = this.parseTime(String(dish.cookTime || '0 minutes'));
+
+      // Parse servings
+      const numberOfServings = typeof dish.numberOfServings === 'number'
+        ? dish.numberOfServings
+        : typeof dish.servings === 'number'
+        ? dish.servings
+        : typeof dish.servingSize === 'number'
+        ? dish.servingSize
+        : 2;
+
+      // Elemental properties
+      const elementalProperties = dish.elementalProperties as ElementalProperties ||
+        dish.elementalState as ElementalProperties || {
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25
+        };
+
+      const recipe: Recipe = {
+        id,
+        name: dishName,
+        description: String(dish.description || ''),
+        ingredients,
+        instructions,
+        timeToMake,
+        cookTime,
+        numberOfServings,
+        elementalProperties,
+        season: Array.isArray(dish.season) ? dish.season.map((s: any) => String(s)) : ['all'],
+        mealType: Array.isArray(dish.mealType) ? dish.mealType.map((m: any) => String(m)) : ['dinner'],
+        cuisine: cuisineName,
+        isVegetarian: Boolean(dish.isVegetarian),
+        isVegan: Boolean(dish.isVegan),
+        isGlutenFree: Boolean(dish.isGlutenFree),
+        isDairyFree: Boolean(dish.isDairyFree),
+        astrologicalInfluences: Array.isArray(dish.astrologicalInfluences)
+          ? dish.astrologicalInfluences.map((inf: any) => String(inf))
+          : []
+      };
+
+      return recipe;
+    } catch (error) {
+      logger.error('Error converting dish to recipe:', error);
       return null;
     }
+  }
+
+  /**
+   * Parse time string to minutes
+   */
+  private parseTimeToMinutes(timeString: string): number {
+    if (!timeString) return 30;
+
+    const lower = timeString.toLowerCase();
+
+    // Handle "X minutes" format
+    const minutesMatch = lower.match(/(\d+)\s*minutes?/);
+    if (minutesMatch) {
+      return parseInt(minutesMatch[1], 10);
+    }
+
+    // Handle "X hours" format
+    const hoursMatch = lower.match(/(\d+)\s*hours?/);
+    if (hoursMatch) {
+      return parseInt(hoursMatch[1], 10) * 60;
+    }
+
+    // Handle "X-X minutes" range
+    const rangeMatch = lower.match(/(\d+)-(\d+)\s*minutes?/);
+    if (rangeMatch) {
+      return (parseInt(rangeMatch[1], 10) + parseInt(rangeMatch[2], 10)) / 2;
+    }
+
+    // Default
+    return 30;
+  }
+
+  /**
+   * Parse time for display
+   */
+  private parseTime(timeString: string): string {
+    if (!timeString || timeString === 'undefined') return '30 minutes';
+    return timeString;
   }
 }
 

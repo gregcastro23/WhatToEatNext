@@ -1,5 +1,21 @@
-// Export services for easy importing
-export { default as ingredientMappingService } from './ingredientMappingService';
+// Core consolidated services
+export { alchemicalService } from './AlchemicalService';
+export { currentMomentManager } from './CurrentMomentManager';
+export { ingredientService } from './IngredientService';
+export { recipeService } from './RecipeService';
+export { recommendationService } from './RecommendationService';
+export {
+    fetchPlanetaryPositions, getCurrentPlanetaryPositions,
+    getPlanetaryPositionsForDateTime, testAstrologizeApi
+} from './astrologizeApi';
 
-// Export ServicesManager and related types
-export { servicesManager, InitializationStatus } from './ServicesManager';
+// Core alchemical calculation service
+export { alchemize } from './RealAlchemizeService';
+export type {
+    PlanetaryPosition,
+    StandardizedAlchemicalResult,
+    ThermodynamicProperties
+} from './RealAlchemizeService';
+
+// Logging service
+export { log } from './LoggingService';

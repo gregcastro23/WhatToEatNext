@@ -2,8 +2,6 @@
 
 import { useEffect } from 'react';
 
-import { errorHandler } from '@/services/errorHandler';
-
 export default function Error({
   error,
   reset
@@ -12,7 +10,7 @@ export default function Error({
   reset: () => void
 }) {
   useEffect(() => {
-    errorHandler.handleError(error, {
+    console.error('Root error boundary caught error:', error, {
       context: 'RootErrorBoundary',
       digest: error.digest
     })

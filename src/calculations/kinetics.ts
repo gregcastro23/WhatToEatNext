@@ -63,7 +63,7 @@ export function calculateKinetics(input: KineticsCalculationInput): KineticMetri
 
   (Object.keys(velocity) as Element[]).forEach(element => {
     const currentValue = currentTotals[element] || 0;
-    const previousValue = previousTotals[element] || 0,
+    const previousValue = previousTotals[element] || 0;
     velocity[element] = timeInterval > 0
       ? ((currentValue - previousValue) / timeInterval) * modifiers.velocity
       : 0;
@@ -82,7 +82,7 @@ export function calculateKinetics(input: KineticsCalculationInput): KineticMetri
 };
 
   (Object.keys(momentum) as Element[]).forEach(element => {
-    momentum[element] = inertia * velocity[element],
+    momentum[element] = inertia * velocity[element];
   });
 
   // 5. Potential Difference (V) = Greg's Energy / Q
@@ -137,7 +137,7 @@ export function calculateKinetics(input: KineticsCalculationInput): KineticMetri
   const aspectPhase = determineAspectPhase(currentThermo, previousThermo);
 
   // 11. Thermal Direction
-  const heatRate = timeInterval > 0 ? (currentHeat - previousHeat) / timeInterval : 0,
+  const heatRate = timeInterval > 0 ? (currentHeat - previousHeat) / timeInterval : 0;
   let thermalDirection: 'heating' | 'cooling' | 'stable'
   if (heatRate > 0.001) {
     thermalDirection = 'heating';

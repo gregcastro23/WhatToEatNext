@@ -128,7 +128,7 @@ export function usePlanetaryKinetics(
       });
 
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch kinetics data',
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch kinetics data';
       setError(errorMessage);
       setIsOnline(false);
 
