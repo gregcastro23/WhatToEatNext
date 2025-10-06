@@ -21,8 +21,8 @@ jest.mock('@/utils/ingredientRecommender', () => {
         qualities: ['aromatic', 'warming'],
         elementalProperties: { Fire: 0.4, Air: 0.4, Earth: 0.2, Water: 0 },
         astrologicalProfile: {
-          rulingPlanets: ['Mercury']
-},
+          rulingPlanets: ['Mercury'],
+        },
       } as Ingredient,
     ],
   };
@@ -35,8 +35,8 @@ describe('getRecommendedIngredients', () => {
       moonPhase: 'full moon',
       currentPlanetaryAlignment: {
         Sun: { sign: 'leo', degree: 15 },
-        Moon: { sign: 'cancer', degree: 5 }
-},
+        Moon: { sign: 'cancer', degree: 5 },
+      },
       activePlanets: ['sun', 'moon'],
       planetaryPositions: {
         Sun: { sign: 'leo', degree: 15 },
@@ -59,7 +59,7 @@ describe('getRecommendedIngredients', () => {
     ingredients.forEach(ingredient => {
       expect(ingredient).toHaveProperty('elementalProperties');
       expect(ingredient).toHaveProperty('astrologicalProfile');
-      const astroProfile = (ingredient as { astrologicalProfile: { rulingPlanets: string[] } }).astrologicalProfile,
+      const astroProfile = (ingredient as { astrologicalProfile: { rulingPlanets: string[] } }).astrologicalProfile;
       expect(astroProfile).toHaveProperty('rulingPlanets');
       expect(astroProfile.rulingPlanets.some((planet: string) => ['Sun', 'Mercury', 'Saturn'].includes(planet))).toBe(
         true,

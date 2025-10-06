@@ -290,14 +290,14 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
 
       // Approximate illumination based on phase name
       switch (phaseName) {
-        case 'new moon': return 0,
-        case 'waxing crescent': return 25,
-        case 'first quarter': return 50,
-        case 'waxing gibbous': return 75,
-        case 'full moon': return 100,
-        case 'waning gibbous': return 75,
-        case 'last quarter': return 50,
-        case 'waning crescent': return 25,
+        case 'new moon': return 0;
+        case 'waxing crescent': return 25;
+        case 'first quarter': return 50;
+        case 'waxing gibbous': return 75;
+        case 'full moon': return 100;
+        case 'waning gibbous': return 75;
+        case 'last quarter': return 50;
+        case 'waning crescent': return 25;
         default:
           return 50;
       }
@@ -425,10 +425,10 @@ export async function calculatePlanetaryPositions(
     const defaults = getDefaultPlanetaryPositions();
     // Mark all positions as error states (all positions exist by design)
     Object.values(defaults).forEach(p => {
-      p.error = true,
+      p.error = true;
       // Add accuracy metadata even for fallbacks
-      p.accuracy = 'Default fallback positions',
-      p.calculation_method = 'Static default values',
+      p.accuracy = 'Default fallback positions';
+      p.calculation_method = 'Static default values';
     });
 
     return defaults;
@@ -439,9 +439,9 @@ export async function calculatePlanetaryPositions(
     // Emergency fallback
     const defaults = getDefaultPlanetaryPositions();
     Object.values(defaults).forEach(p => {
-      p.error = true,
-      p.accuracy = 'Emergency fallback',
-      p.calculation_method = 'Critical failure recovery',
+      p.error = true;
+      p.accuracy = 'Emergency fallback';
+      p.calculation_method = 'Critical failure recovery';
     });
 
     return defaults;
@@ -463,9 +463,10 @@ function _standardizePlanetName(_planet: string): string {
     saturn: 'Saturn',
     uranus: 'Uranus',
     neptune: 'Neptune',
-    pluto: 'Pluto' },
-        const lowerPlanet = planet.toLowerCase()
-  return nameMap[lowerPlanet] || planet;
+    pluto: 'Pluto'
+  };
+  const lowerPlanet = _planet.toLowerCase();
+  return nameMap[lowerPlanet] || _planet;
 }
 
 /**

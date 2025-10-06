@@ -122,7 +122,7 @@ function checkRequiredFields(recipe: Partial<Recipe>, errors: string[]): boolean
  */
 function validateIngredientResolution(ingredients: RecipeIngredient[], errors: string[]): boolean {
   let resolved = 0;
-  let total = ingredients.length;
+  const total = ingredients.length;
 
   for (const ingredient of ingredients) {
     if (!ingredient.name) {

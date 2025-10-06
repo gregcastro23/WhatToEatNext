@@ -134,7 +134,7 @@ export function calculateAlchemicalCompatibility(
   let weightedCount = 0;
 
   properties.forEach(property => {
-    const userPref = userPreferences[property],
+    const userPref = userPreferences[property];
     if (userPref === undefined) return; // Skip if user has no preference for this property
 
     const cuisineValue = cuisineAlchemical[property];

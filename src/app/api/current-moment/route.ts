@@ -74,8 +74,9 @@ export async function POST(request: Request) {
     let result;
 
     switch (action) {
-      case 'update': const customDate = customDateTime ? new Date(customDateTime) : undefined,
-        const customLocation = latitude && longitude ? { latitude, longitude } : undefined,
+      case 'update':
+        const customDate = customDateTime ? new Date(customDateTime) : undefined;
+        const customLocation = latitude && longitude ? { latitude, longitude } : undefined;
 
         result = await updateCurrentMoment(customDate, customLocation)
 
@@ -93,7 +94,8 @@ export async function POST(request: Request) {
           ]
         })
 
-      case 'status': const currentMoment = await getCurrentMoment(),
+      case 'status':
+        const currentMoment = await getCurrentMoment();
         return NextResponse.json({
           success: true,
           action: 'status',
@@ -142,7 +144,7 @@ export async function PUT(request: Request) {
 
     // Get current moment first
     const customDate = customDateTime ? new Date(customDateTime) : undefined;
-    const customLocation = latitude && longitude ? { latitude, longitude } : undefined
+    const customLocation = latitude && longitude ? { latitude, longitude } : undefined;
 
     const currentMoment = await updateCurrentMoment(customDate, customLocation)
 

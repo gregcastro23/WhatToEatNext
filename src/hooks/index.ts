@@ -26,10 +26,10 @@ export function useAstroTarotElementalState() {
 
   useEffect(() => {
     // Simulate tarot reading influence (could be replaced with actual tarot API)
-    const generateTarotInfluence = () => {;
+    const generateTarotInfluence = () => {
       // Simple randomization for tarot influence (replace with actual tarot logic)
       const random = Math.random()
-      if (random < 0.25) {;
+      if (random < 0.25) {
         return { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 }
       } else if (random < 0.5) {
         return { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 }

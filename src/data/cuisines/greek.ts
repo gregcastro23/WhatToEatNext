@@ -1,7 +1,7 @@
 // src/data/cuisines/greek.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const, greek: Cuisine = {
+export const greek: Cuisine = {
   id: 'greek',
   name: 'Greek',
   description:
@@ -110,7 +110,7 @@ export const, greek: Cuisine = {
           prepTime: '5 minutes',
           cookTime: '0 minutes',
           culturalNotes:
-            'A traditional Greek breakfast that showcases the country's famous thick strained yogurt and local honey. Often served as a healthy dessert option as well',
+            'A traditional Greek breakfast that showcases the country\'s famous thick strained yogurt and local honey. Often served as a healthy dessert option as well',
           pairingSuggestions: ['Greek coffee', 'fresh fruit', 'rusks'],
           dietaryInfo: ['vegetarian', 'gluten-free', 'probiotic'],
           spiceLevel: 'none',
@@ -175,8 +175,7 @@ export const, greek: Cuisine = {
           allergens: ['eggs', 'dairy'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A rustic breakfast dish that makes use of Greece's abundant tomatoes and olive oil. Popular throughout the Peloponnese region',
+          culturalNotes: 'A rustic breakfast dish that makes use of Greece\'s abundant tomatoes and olive oil. Popular throughout the Peloponnese region',
           pairingSuggestions: ['crusty bread', 'olives', 'Greek coffee'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'mild',

@@ -1,8 +1,7 @@
 // src/data/cuisines/french.ts
-import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const, french: Cuisine = {
+export const french: Cuisine = {
   id: 'french',
   name: 'French',
   description:
@@ -139,7 +138,7 @@ export const, french: Cuisine = {
     forCookingMethod: {
       roasting: ['jus lie', 'demi-glace', 'au poivre'],
       poaching: ['veloute', 'vin blanc', 'nage'],
-      grilling: ['bearnaise', 'bordelaise', 'maitre d'hotel butter'],
+      grilling: ['bearnaise', 'bordelaise', 'maitre d\'hotel butter'],
       braising: ['espagnole', 'romesco', 'chasseur']
     },
     byAstrological: {
@@ -354,7 +353,7 @@ export const, french: Cuisine = {
           prepTime: '10 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            'While called 'French toast' in English, in France it's known as 'pain perdu' (lost bread), as it was originally a way to use stale bread',
+            'While called \'French toast\' in English, in France it\'s known as \'pain perdu\' (lost bread), as it was originally a way to use stale bread',
           pairingSuggestions: ['fresh berries', 'crème fraîche', 'maple syrup'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',

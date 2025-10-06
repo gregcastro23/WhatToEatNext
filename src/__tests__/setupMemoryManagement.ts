@@ -73,7 +73,7 @@ function performPeriodicMemoryCheck(): void {
  * Emergency memory cleanup procedure
  */
 function performEmergencyCleanup(): void {
-  if (globalMemoryMonitor != null) {
+  if (globalMemoryMonitor !== null) {
     globalMemoryMonitor.cleanup('emergency-cleanup');
   }
 
@@ -113,7 +113,7 @@ function performEmergencyCleanup(): void {
 function setupMemoryHooks(): void {
   // Before each test suite
   beforeAll(() => {
-    if (globalMemoryMonitor != null) {
+    if (globalMemoryMonitor !== null) {
       globalMemoryMonitor.takeSnapshot('suite-start');
     }
   });
@@ -141,7 +141,7 @@ function setupMemoryHooks(): void {
 
   // After each test
   afterEach(() => {
-    if (globalMemoryMonitor != null) {
+    if (globalMemoryMonitor !== null) {
       const testName = expect.getState().currentTestName || 'unknown-test'
       const memoryCheck = globalMemoryMonitor.checkMemoryUsage(`after-${testName}`);
 
@@ -169,7 +169,7 @@ function setupMemoryHooks(): void {
 
   // After each test suite
   afterAll(() => {
-    if (globalMemoryMonitor != null) {
+    if (globalMemoryMonitor !== null) {
       globalMemoryMonitor.takeSnapshot('suite-end');
 
       // Generate memory report for the suite
@@ -222,7 +222,7 @@ function addGarbageCollectionHints(): void {
 
   // Add cleanup utility
   global.cleanupTestMemory = () => {
-    if (globalMemoryMonitor != null) {
+    if (globalMemoryMonitor !== null) {
       return globalMemoryMonitor.cleanup('manual-cleanup');
     }
     return null;
@@ -282,20 +282,20 @@ try {
 }
 
 // Export utilities for use in tests
-export { TestMemoryMonitor, performEmergencyCleanup, MEMORY_CONFIG };
+export { MEMORY_CONFIG, TestMemoryMonitor, performEmergencyCleanup };
 
 // Global type declarations
 declare global {
-  var forceGC: () => boolean,
-  var getMemoryUsage: () => {
+  let forceGC: () => boolean;
+  let getMemoryUsage: () => {
     heapUsed: string,
     heapTotal: string,
     external: string,
     arrayBuffers: string;
   };
-  var cleanupTestMemory: () => any,
-  var __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined,
-  var __TEST_REFS__: any[] | undefined;
+  let cleanupTestMemory: () => any;
+  let __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
+  let __TEST_REFS__: any[] | undefined;
 }
 
 export default {};

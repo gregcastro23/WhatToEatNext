@@ -1,7 +1,7 @@
 // src/data/cuisines/russian.ts
 import { Cuisine } from '@/types/cuisine';
 
-export const, russian: Cuisine = {
+export const russian: Cuisine = {
   id: 'russian',
   name: 'Russian',
   description:
@@ -11,7 +11,7 @@ export const, russian: Cuisine = {
       all: [
         {
           name: 'Syrniki',
-          description: 'Farmer's cheese pancakes',
+          description: 'Farmers cheese pancakes',
           cuisine: 'Russian',
           cookingMethods: ['frying', 'mixing'],
           tools: ['mixing bowl', 'frying pan', 'spatula', 'cheese grater', 'measuring cups'],
@@ -53,7 +53,7 @@ export const, russian: Cuisine = {
           prepTime: '15 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            'A beloved breakfast dish that transforms humble farmer's cheese into delicate pancakes. Often served during traditional Russian celebrations',
+            'A beloved breakfast dish that transforms humble farmers cheese into delicate pancakes. Often served during traditional Russian celebrations',
           pairingSuggestions: ['berry jam', 'honey', 'fresh berries', 'sour cream'],
           dietaryInfo: ['vegetarian', 'adaptable to gluten-free'],
           spiceLevel: 'none',
@@ -104,7 +104,7 @@ export const, russian: Cuisine = {
           prepTime: '5 minutes',
           cookTime: '20 minutes',
           culturalNotes:
-            'A fundamental Russian breakfast dish that symbolizes prosperity and health. The word 'kasha' is so central to Russian cuisine that it's used as a general term for all grain porridges',
+            'A fundamental Russian breakfast dish that symbolizes prosperity and health. The word \'kasha\' is so central to Russian cuisine that it\'s used as a general term for all grain porridges',
           pairingSuggestions: [
             'fried mushrooms',
             'soft-boiled egg',

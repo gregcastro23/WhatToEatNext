@@ -55,8 +55,10 @@ const EnhancedRecommendationEngine = dynamic(
 }
 );
 
-export const metadata: Metadata = {title: 'alchm.kitchen | Alchemical Culinary Intelligence',
-  description: 'Discover the perfect meal through ancient alchemical wisdom and modern AI. Real-time planetary influences guide your culinary journey.'},
+export const metadata: Metadata = {
+  title: 'alchm.kitchen | Alchemical Culinary Intelligence',
+  description: 'Discover the perfect meal through ancient alchemical wisdom and modern AI. Real-time planetary influences guide your culinary journey.'
+};
 
 const FeatureCard = ({
   icon,

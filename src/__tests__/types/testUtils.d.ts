@@ -156,12 +156,12 @@ export interface AlchemicalProviderProps {
 
 // Global declarations
 declare global {
-  var testUtils: ExtendedTestUtils,
-  var forceGC: (() => boolean) | undefined,
-  var getMemoryUsage: (() => MemoryUsage) | undefined,
-  var cleanupTestMemory: (() => any) | undefined,
-  var __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined,
-  var __TEST_REFS__: any[] | undefined;
+  let testUtils: ExtendedTestUtils;
+  let forceGC: (() => boolean) | undefined;
+  let getMemoryUsage: (() => MemoryUsage) | undefined;
+  let cleanupTestMemory: (() => any) | undefined;
+  let __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
+  let __TEST_REFS__: any[] | undefined;
 
   // Allow process.memoryUsage to be mocked in tests
   namespace NodeJS {
@@ -177,4 +177,4 @@ declare global {
   }
 }
 
-export {};
+export { };

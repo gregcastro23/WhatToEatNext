@@ -5,20 +5,18 @@
 
 import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type {
-  Season,
-  Element,
-  ElementalProperties,
-  ZodiacSign,
-  PlanetName,
-  LunarPhase,
-  CookingMethod
+    CookingMethod,
+    Element,
+    ElementalProperties,
+    LunarPhase,
+    PlanetName,
+    Season
 } from '@/types/alchemy';
-import { _ } from '@/types/bridges/astrologicalBridge';
 
 import {
-  getAllEnhancedCookingMethods,
-  getMonicaCompatibleCookingMethods,
-  type EnhancedCookingMethod
+    getAllEnhancedCookingMethods,
+    getMonicaCompatibleCookingMethods,
+    type EnhancedCookingMethod
 } from '../../constants/alchemicalPillars';
 
 import { unifiedIngredients } from './ingredients';
@@ -672,15 +670,15 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
 // ===== UNIFIED SEASONAL SYSTEM CLASS =====,
 
 export class UnifiedSeasonalSystem {
-  private enhancedCookingMethods: { [key: string]: EnhancedCookingMethod }
+  private enhancedCookingMethods: { [key: string]: EnhancedCookingMethod };
 
   constructor() {
-    this.enhancedCookingMethods = getAllEnhancedCookingMethods() as unknown as {,
+    this.enhancedCookingMethods = getAllEnhancedCookingMethods() as unknown as {
       [key: string]: EnhancedCookingMethod
-    }
+    };
   }
 
-  // ===== CORE SEASONAL FUNCTIONS =====,
+  // ===== CORE SEASONAL FUNCTIONS =====
 
   /**
    * Get current season based on date
@@ -734,17 +732,17 @@ export class UnifiedSeasonalSystem {
       traditionalUse.push('seasonal vegetable')
 
     // Get complementary flavors for the season (top scoring ingredients)
-    const complementaryFlavors = Object.entries(seasonProfile.ingredients);
+    const complementaryFlavors = Object.entries(seasonProfile.ingredients)
       .filter(([key, value]) => value > 0.7 && key !== ingredientName)
       .sort(([, a], [, b]) => b - a)
-      .slice(05)
-      .map(([name]) => name)
+      .slice(5)
+      .map(([name]) => name);
 
     // Calculate Kalchm compatibility
     const unifiedIngredient = unifiedIngredients[ingredientName];
-    const kalchmCompatibility = unifiedIngredient;
+    const kalchmCompatibility = unifiedIngredient
       ? this.calculateKalchmSeasonalCompatibility(unifiedIngredient.kalchm ?? 0, season)
-      : 0.5
+      : 0.5;
 
     // Calculate Monica resonance
     const monicaResonance = this.calculateMonicaSeasonalResonance(season, availability),
@@ -791,12 +789,12 @@ export class UnifiedSeasonalSystem {
   /**
    * Check if an ingredient is in season
    */
-  isInSeason(ingredientName: string, threshold = 0.5): boolean {,
-    const score = this.getSeasonalScore(ingredientName)
+  isInSeason(ingredientName: string, threshold = 0.5): boolean {
+    const score = this.getSeasonalScore(ingredientName);
     return score >= threshold;
   }
 
-  // ===== ENHANCED SEASONAL CALCULATIONS =====,
+  // ===== ENHANCED SEASONAL CALCULATIONS =====
 
   /**
    * Calculate seasonal compatibility for an ingredient with current conditions
@@ -817,27 +815,27 @@ export class UnifiedSeasonalSystem {
 
     // Kalchm compatibility
     const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(
-      ingredient.kalchm ?? 0
-      season,
-    )
+      ingredient.kalchm ?? 0,
+      season
+    );
 
     // Elemental compatibility
     const elementalCompatibility = this.calculateElementalSeasonalCompatibility(
-      ingredient.elementalProperties
+      ingredient.elementalProperties,
       seasonProfile.elementalDominance
-    )
+    );
 
     // Combine scores with weights
     let totalCompatibility =
-      baseScore * 0.4 + kalchmCompatibility * 0.3 + elementalCompatibility * 0.3,
+      baseScore * 0.4 + kalchmCompatibility * 0.3 + elementalCompatibility * 0.3;
 
     // Apply current conditions modifiers if provided
     if (currentConditions) {
-      const conditionModifier = this.calculateConditionModifier(currentConditions, seasonProfile),
-      totalCompatibility *= conditionModifier,
+      const conditionModifier = this.calculateConditionModifier(currentConditions, seasonProfile);
+      totalCompatibility *= conditionModifier;
     }
 
-    return Math.min(1.0, Math.max(0.0, totalCompatibility))
+    return Math.min(1.0, Math.max(0.0, totalCompatibility));
   }
 
   /**

@@ -1,10 +1,10 @@
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import MainPageLayout from '@/components/layout/MainPageLayout';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { useNavigationState, useScrollPreservation, useAutoStateCleanup } from '@/hooks/useStatePreservation';
+import { useAutoStateCleanup, useNavigationState, useScrollPreservation } from '@/hooks/useStatePreservation';
 
 // Mock all dependencies
 jest.mock('next/navigation', () => ({
@@ -63,7 +63,7 @@ jest.mock('@/components/IngredientRecommender', () => {
 
     const toggleIngredient = (ingredient: string) => {
       setSelectedIngredients(prev =>
-        void prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient],
+        !prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient],
       );
     };
 

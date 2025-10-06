@@ -119,7 +119,7 @@ export function calculateReactivity(Spirit: number,
 
 /**
  * Calculate Greg's Energy using the exact formula: * Greg's Energy = Heat - (Entropy × Reactivity)
- */;
+ */
 export function calculateGregsEnergy(heat: number, entropy: number, reactivity: number): number {
   return heat - entropy * reactivity
 }

@@ -2302,9 +2302,9 @@ function determineIngredientModality(
 ;
   // If there's a clear quality indicator, use that
   if (hasCardinalQuality && !hasFixedQuality && !hasMutableQuality) {
-    return 'Cardinal' };
+    return 'Cardinal' }
         if (hasFixedQuality && !hasCardinalQuality && !hasMutableQuality) {
-    return 'Fixed' };
+    return 'Fixed' }
         if (hasMutableQuality && !hasCardinalQuality && !hasFixedQuality) {
     return 'Mutable'
   }

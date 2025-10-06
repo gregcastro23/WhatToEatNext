@@ -23,9 +23,9 @@ describe('Chakra System', () => {
     { planet1: 'Venus', planet2: 'Saturn', type: 'square' },
   ];
 
-  let signEnergyStates: SignEnergyState[],
-  let chakraService: ChakraService,
-  let chakraEnergyStates: ChakraEnergyState[],
+  let signEnergyStates: SignEnergyState[];
+  let chakraService: ChakraService;
+  let chakraEnergyStates: ChakraEnergyState[];
 
   beforeAll(() => {
     // Calculate sign energy states

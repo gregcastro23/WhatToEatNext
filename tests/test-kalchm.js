@@ -30,7 +30,7 @@ console.log("Spirit: ".concat(Spirit));
 console.log("Essence: ".concat(Essence));
 console.log("Matter: ".concat(Matter));
 console.log("Substance: ".concat(Substance));
-console.log("Fire": ".concat(Fire));
+console.log("Fire: ".concat(Fire));
 console.log("Water": ".concat(Water));
 console.log("Air: ".concat(Air));
 console.log("Earth": ".concat(Earth));

@@ -5,15 +5,16 @@
  * Tests both GET and POST endpoints with various scenarios
  */
 
-import fetch from 'node-fetch;
+import fetch from 'node-fetch';
 
-const BASE_URL = http://localhost:30 // Adjust if your dev server runs on different port
+const BASE_URL = 'http://localhost:3000'; // Adjust if your dev server runs on different port
 const ASTROLOGIZE_ENDPOINT = `${BASE_URL}/api/astrologize`;
 
 // Test scenarios
-const testScenarios =  {
+const testScenarios = [
+  {
     name: 'GET - Current Time (Default Location)',
-    method: 'GET,
+    method: 'GET',
     url: `${ASTROLOGIZE_ENDPOINT}`,
     expectedStatus: 200
   },
@@ -108,20 +109,20 @@ async function testAstrologizeAPI()[object Object]
 
       if (response.status === scenario.expectedStatus) {
         const data = await response.json();
-        
+
         // Validate response structure
         const hasCelestialBodies = data._celestialBodies && typeof data._celestialBodies ===object';
         const hasAstrologyInfo = data.astrology_info && data.astrology_info.horoscope_parameters;
-        
+
         if (hasCelestialBodies || hasAstrologyInfo) {
           console.log(   ✅ PASS - Valid response structure');
-          
+
           // Count planets if available
           if (hasCelestialBodies) {
             const planetCount = Object.keys(data._celestialBodies).length;
             console.log(`   📊 Found ${planetCount} planetary positions`);
           }
-          
+
           passedTests++;
         } else {
           console.log('   ❌ FAIL - Invalid response structure');
@@ -151,4 +152,4 @@ async function testAstrologizeAPI()[object Object]
 }
 
 // Run the tests
-testAstrologizeAPI().catch(console.error); 
+testAstrologizeAPI().catch(console.error);

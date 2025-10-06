@@ -4,7 +4,7 @@ module.exports = {
     'postcss-simple-vars': {},
     'postcss-nesting': {},
     'postcss-custom-properties': {},
-    tailwindcss: {},
+    '@tailwindcss/postcss': {},
     autoprefixer: {},
   },
 };

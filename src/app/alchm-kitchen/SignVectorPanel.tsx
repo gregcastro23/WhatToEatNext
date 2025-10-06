@@ -55,7 +55,7 @@ export default function SignVectorPanel({planetaryPositions: propPositions,
   const state = React.useMemo(() => {
     if (!positions) return null;
     // Compute aspects from current positions if not provided
-    let realAspects = aspects as any;
+    const realAspects = aspects as any;
     try {
       if (!realAspects) {
         const minimal = Object.fromEntries(

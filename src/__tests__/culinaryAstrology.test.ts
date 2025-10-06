@@ -49,7 +49,7 @@ jest.mock('@/calculations/culinaryAstrology', () => {
 });
 
 describe('CulinaryAstrologer', () => {
-  let astrologer: CulinaryAstrologer,
+  let astrologer: CulinaryAstrologer;
 
   beforeEach(() => {
     astrologer = new CulinaryAstrologer();

@@ -4,16 +4,16 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'What to Eat Next',
   description: 'Personalized food recommendations based on your chakra energies and astrological harmony'
-}
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning={true}>
       <body className={inter.className}>
         <ChakraProvider>
           <header className='bg-gray-50 py-6'>
@@ -60,4 +60,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </ChakraProvider>
       </body>
     </html>
+  );
 }

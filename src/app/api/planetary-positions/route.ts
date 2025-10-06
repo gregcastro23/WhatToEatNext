@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
 import { _logger } from '@/lib/logger';
+import { NextResponse } from 'next/server';
 
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import { calculateAspects, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
 import { cache } from '@/utils/cache';
 
@@ -15,9 +15,8 @@ export async function GET() {
     const cached = cache.get(CACHE_KEY);
     if (cached) return NextResponse.json(cached);
 
-    // Instead of calculating positions, use the default positions that we've corrected
-    const response = await getLatestAstrologicalState();
-    const positions = response.data?.planetaryPositions || {};
+    // Get current planetary positions
+    const positions = await getCurrentPlanetaryPositions();
 
     // Cache with TTL
     cache.set(CACHE_KEY, positions, CACHE_TTL);

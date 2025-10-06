@@ -193,7 +193,7 @@ const rawAromaticHerbs = {
       }
     },
     modality: 'Cardinal'
-},
+  },
 
   'lemon verbena': {
     name: 'Lemon Verbena',
@@ -250,7 +250,7 @@ const rawAromaticHerbs = {
       }
     },
     modality: 'Mutable'
-},
+  },
 
   savory: {
     name: 'Savory',
@@ -284,11 +284,6 @@ const rawAromaticHerbs = {
     subCategory: 'culinary',
     affinities: ['beans', 'lentils', 'meat', 'poultry', 'eggs'],
     cookingMethods: ['dried', 'fresh', 'infused'],
-    // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-    },
     culinaryUses: ['bean dishes', 'meat stews', 'sausages', 'herb blends', 'vinegars'],
     flavor: 'Peppery, thyme-like flavor with hints of oregano and marjoram',
     varieties: {
@@ -314,7 +309,7 @@ const rawAromaticHerbs = {
       }
     },
     modality: 'Fixed'
-},
+  },
 
   'curry leaf': {
     name: 'Curry Leaf',
@@ -373,7 +368,7 @@ const rawAromaticHerbs = {
       }
     },
     modality: 'Cardinal'
-},
+  },
 
   chervil: {
     name: 'Chervil',
@@ -407,11 +402,6 @@ const rawAromaticHerbs = {
     subCategory: 'culinary',
     affinities: ['eggs', 'fish', 'chicken', 'potatoes', 'carrots'],
     cookingMethods: ['fresh', 'garnish', 'light cooking'],
-    // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-    },
     culinaryUses: ['fine sauces', 'egg dishes', 'salads', 'soups', 'fish dishes'],
     flavor: 'Delicate flavor similar to parsley with subtle anise notes',
     preparation: {
@@ -437,8 +427,6 @@ const rawAromaticHerbs = {
       Earth: 0.2,
       Water: 0.1
 },
-    category: 'culinary_herb',
-    qualities: ['nourishing'],
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -447,7 +435,29 @@ const rawAromaticHerbs = {
       fiber_g: 0,
       vitamins: [],
       minerals: []
-    }
+    },
+    qualities: ['cooling', 'digestive', 'balancing'],
+    origin: ['Europe', 'Asia'],
+    season: ['summer', 'fall'],
+    category: 'herb',
+    subCategory: 'culinary',
+    affinities: ['fish', 'potatoes', 'eggs', 'cucumbers', 'yogurt'],
+    cookingMethods: ['fresh', 'garnish', 'pickling'],
+    culinaryUses: ['pickles', 'fish dishes', 'potato dishes', 'yogurt sauces', 'salads'],
+    flavor: 'Fresh, tangy flavor with notes of anise and lemon',
+    preparation: {
+      fresh: {
+        storage: 'stem in water, refrigerated',
+        duration: '1-2 weeks',
+        tips: ['very perishable', 'add at the end of cooking']
+      },
+      cooking: {
+        techniques: ['add last minute', 'raw in dressings', 'pickling spice'],
+        tips: ['heat destroys flavor quickly']
+      }
+    },
+    traditionalUses: {},
+    modality: 'Mutable'
   },
 
   bay_leaf: {
@@ -458,8 +468,6 @@ const rawAromaticHerbs = {
       Earth: 0.2,
       Water: 0.1
 },
-    category: 'culinary_herb',
-    qualities: ['nourishing'],
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -468,7 +476,29 @@ const rawAromaticHerbs = {
       fiber_g: 0,
       vitamins: [],
       minerals: []
-    }
+    },
+    qualities: ['warming', 'digestive', 'aromatic'],
+    origin: ['Mediterranean', 'Asia Minor'],
+    season: ['year-round'],
+    category: 'herb',
+    subCategory: 'culinary',
+    affinities: ['tomatoes', 'beans', 'meats', 'soups', 'stews'],
+    cookingMethods: ['whole leaf', 'removed before serving', 'long cooking'],
+    culinaryUses: ['soups', 'stews', 'sauces', 'braises', 'pickling'],
+    flavor: 'Strong, aromatic flavor with notes of eucalyptus and clove',
+    preparation: {
+      fresh: {
+        storage: 'dry storage in cool place',
+        duration: 'indefinite',
+        tips: ['use whole and remove before serving']
+      },
+      cooking: {
+        techniques: ['add early in cooking', 'whole leaves', 'remove before serving'],
+        tips: ['bitter if overcooked', 'enhances long-cooked dishes']
+      }
+    },
+    traditionalUses: {},
+    modality: 'Fixed'
   },
   anise: {
     name: 'Anise',
@@ -478,8 +508,6 @@ const rawAromaticHerbs = {
       Earth: 0.2,
       Water: 0.1
 },
-    category: 'culinary_herb',
-    qualities: ['nourishing'],
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -488,12 +516,33 @@ const rawAromaticHerbs = {
       fiber_g: 0,
       vitamins: [],
       minerals: []
-    }
-  }
+    },
+    qualities: ['warming', 'digestive', 'expectorant'],
+    origin: ['Mediterranean', 'Middle East'],
+    season: ['year-round'],
+    category: 'herb',
+    subCategory: 'culinary',
+    affinities: ['fish', 'pork', 'baking', 'liqueurs', 'pastries'],
+    cookingMethods: ['whole seeds', 'ground', 'infused', 'baking'],
+    culinaryUses: ['baking', 'liqueurs', 'pickling', 'fish dishes', 'pastries'],
+    flavor: 'Strong licorice-like flavor, sweet and aromatic',
+    preparation: {
+      fresh: {
+        storage: 'dry storage in cool place',
+        duration: 'indefinite',
+        tips: ['whole seeds last longer than ground']
+      },
+      cooking: {
+        techniques: ['toast seeds first', 'grind fresh', 'infuse in liquids'],
+        tips: ['strong flavor - use sparingly', 'excellent for baking']
+      }
+    },
+    traditionalUses: {},
+    modality: 'Mutable'
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const, _aromaticHerbs: Record<string, IngredientMapping> = fixIngredientMappings(
+export const _aromaticHerbs: Record<string, IngredientMapping> = fixIngredientMappings(
   rawAromaticHerbs as Record<string, Partial<IngredientMapping>>,
 );

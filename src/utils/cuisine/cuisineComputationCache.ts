@@ -114,9 +114,9 @@ const DEFAULT_CACHE_CONFIG = {
  */
 class CuisineComputationCache {
   private cache = new Map<string, CuisineCacheEntry>();
-  private config: typeof DEFAULT_CACHE_CONFIG,
-  private stats: CacheStatistics,
-  private cleanupTimer?: NodeJS.Timeout,
+  private config: typeof DEFAULT_CACHE_CONFIG;
+  private stats: CacheStatistics;
+  private cleanupTimer?: NodeJS.Timeout;
 
   constructor(config: Partial<typeof DEFAULT_CACHE_CONFIG> = {}) {
     this.config = { ...DEFAULT_CACHE_CONFIG, ...config };
@@ -235,8 +235,8 @@ class CuisineComputationCache {
    * @param cuisineId - Cuisine identifier
    * @param reason - Reason for invalidation
    */
-  invalidateCuisine(cuisineId: string, reason: InvalidationReason = 'manual_invalidation'): void {
-    const keysToDelete: string[] = [],
+  public invalidateCuisine(cuisineId: string, reason: InvalidationReason = 'manual_invalidation'): void {
+    const keysToDelete: string[] = [];
 
     this.cache.forEach((_, cacheKey) => {
       if (cacheKey.startsWith(`${cuisineId}:`)) {
@@ -253,9 +253,9 @@ class CuisineComputationCache {
    * @param recipeId - Recipe ID that changed
    * @param changeType - Type of change (added/removed/modified)
    */
-  invalidateByRecipe(recipeId: string, changeType: 'added' | 'removed' | 'modified'): void {
+  public invalidateByRecipe(recipeId: string, changeType: 'added' | 'removed' | 'modified'): void {
     const reason = `recipe_${changeType}` as InvalidationReason;
-    const keysToDelete: string[] = [],
+    const keysToDelete: string[] = [];
 
     this.cache.forEach((entry, cacheKey) => {
       if (entry.metadata.recipeIds.includes(recipeId)) {

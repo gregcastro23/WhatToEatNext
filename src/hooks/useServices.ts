@@ -16,7 +16,7 @@ const logger = createLogger('useServices')
 /**
  * A hook that provides access to application services with proper initialization
  */
-export function useServices() {;
+export function useServices() {
   const [isInitialized, setIsInitialized] = useState(servicesManager.isInitialized)
   const [error, setError] = useState<Error | null>(null)
   const [isLoading, setIsLoading] = useState(!servicesManager.isInitialized)

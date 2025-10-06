@@ -1004,7 +1004,7 @@ export const middleEastern: Cuisine = {
           prepTime: '45 minutes',
           cookTime: '90 minutes',
           culturalNotes:
-            'A celebratory dish that means 'upside-down' in Arabic. The dramatic unveiling of the dish is part of the dining experience',
+            'A celebratory dish that means \'upside-down\' in Arabic. The dramatic unveiling of the dish is part of the dining experience',
           pairingSuggestions: ['yogurt sauce', 'Arabic salad', 'pickled vegetables'],
           dietaryInfo: ['halal'],
           spiceLevel: 'mild',

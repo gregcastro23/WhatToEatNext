@@ -638,17 +638,17 @@ function calculateModalityScore(
     if (
       (recipeModality === 'cardinal' && preferredModality === 'fixed') ||
       (recipeModality === 'fixed' && preferredModality === 'cardinal')
-    ) {;
+    ) {
       return 0.6;
     } else if (
       (recipeModality === 'cardinal' && preferredModality === 'mutable') ||
       (recipeModality === 'mutable' && preferredModality === 'cardinal')
-    ) {;
+    ) {
       return 0.7;
     } else if (
       (recipeModality === 'fixed' && preferredModality === 'mutable') ||
       (recipeModality === 'mutable' && preferredModality === 'fixed')
-    ) {;
+    ) {
       return 0.5;
     }
   }
@@ -1344,7 +1344,7 @@ function _calculateAstrologicalMatch(
     const recipeSignLower = String(sign).toLowerCase()
 
     // Direct sign match is very favorable
-    if (recipeSignLower === userSignLower) {;
+    if (recipeSignLower === userSignLower) {
       return 1.0;
     }
 

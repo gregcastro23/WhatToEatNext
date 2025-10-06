@@ -107,7 +107,7 @@ export function useScrollPreservation(sectionId: string) {
     const position = getScrollPosition(sectionId)
     if (position > 0) {
       // Use requestAnimationFrame to ensure DOM is ready
-      requestAnimationFrame(() => {;
+      requestAnimationFrame(() => {
         window.scrollTo({ top: position, behavior: 'smooth' })
       })
     }
@@ -278,7 +278,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
 
   const restoreAstrologicalState = useCallback(() => {
     const stored = getState()
-    if (stored) {;
+    if (stored) {
       logger.debug(`Restored astrological state for ${componentId}`)
     }
     return stored;
@@ -351,7 +351,7 @@ export function useCulturalSensitivityGuidance() {
       // Check ingredient names for cultural sensitivity
       if (content.ingredientNames) {
         content.ingredientNames.forEach(name => {
-          if (name.includes('exotic') || name.includes('ethnic')) {;
+          if (name.includes('exotic') || name.includes('ethnic')) {
             issues.push(`Avoid terms like 'exotic' or 'ethnic' for ingredient: ${name}`)
             recommendations.push(`Use specific cultural origin or descriptive terms instead`)
           }
