@@ -141,8 +141,8 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
   errors: string[],
   warnings: string[]
 } {
-  const errors: string[] = [],
-  const warnings: string[] = [],
+  const errors: string[] = [];
+  const warnings: string[] = [];
 
   try {
     const signs = Object.keys(transitDates).filter(key => key !== 'RetrogradePhases')

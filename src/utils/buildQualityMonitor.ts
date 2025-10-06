@@ -738,7 +738,7 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
  * Generate build optimization recommendations
  */
 function generateBuildOptimizationRecommendations(metrics: BuildMetrics): string[] {
-  const recommendations: string[] = [],
+  const recommendations: string[] = [];
 
   if (metrics.duration > PERFORMANCE_THRESHOLDS.BUILD_TIME.DEVELOPMENT) {
     recommendations.push('Consider enabling incremental builds to reduce compilation time')
@@ -833,7 +833,7 @@ function analyzeGCStats(metrics: BuildMetrics): GCStats {
  * Generate memory optimization suggestions
  */
 function generateMemoryOptimizationSuggestions(metrics: BuildMetrics): string[] {
-  const suggestions: string[] = [],
+  const suggestions: string[] = [];
 
   if (metrics.memoryUsage.peak > PERFORMANCE_THRESHOLDS.MEMORY_USAGE.WARNING) {
     suggestions.push('Consider increasing Node.js heap size for large builds')

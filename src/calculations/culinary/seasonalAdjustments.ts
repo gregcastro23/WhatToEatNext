@@ -208,7 +208,7 @@ function calculateElementalHarmony(properties: ElementalProperties): number {
 function generateSeasonalRecommendations(overallScore: number,
   seasonalAlignment: number,
   lunarAlignment: number): string[] {
-  const recommendations: string[] = [],
+  const recommendations: string[] = [];
 
   if (overallScore >= 0.8) {
     recommendations.push('Excellent seasonal alignment - perfect timing for this recipe')

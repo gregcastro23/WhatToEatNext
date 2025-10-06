@@ -162,8 +162,8 @@ export function classifyError(error: Error | string): ErrorType {
 
 // Error handler class
 export class ErrorHandler {
-  private recoveryStrategies: ErrorRecoveryStrategy[] = [],
-  private errorQueue: EnhancedError[] = [],
+  private recoveryStrategies: ErrorRecoveryStrategy[] = [];
+  private errorQueue: EnhancedError[] = [];
   private maxQueueSize = 50,
 
   // Add recovery strategy
@@ -308,7 +308,7 @@ export class ErrorHandler {
 
   // Clear error queue
   clearErrorQueue() {
-    this.errorQueue = [],
+    this.errorQueue = [];
   }
 }
 

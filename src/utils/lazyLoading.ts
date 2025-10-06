@@ -140,7 +140,7 @@ export const performanceMonitoring = {
   getPerformanceRecommendations: () => {
     if (typeof window === 'undefined') return [];
     const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}')
-    const recommendations: string[] = [],
+    const recommendations: string[] = [];
 
     Object.entries(perfData).forEach(([module, data]: [string, any]) => {
       if (data.loadTime > 1000) { // > 1 second

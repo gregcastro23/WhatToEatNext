@@ -1520,7 +1520,7 @@ export class UnifiedCuisineIntegrationSystem {
 
     // Get seasonal cooking methods
     const monica = cuisineMonicaConstants[cuisine];
-    const adaptedCookingMethods: EnhancedCookingMethod[] = [],
+    const adaptedCookingMethods: EnhancedCookingMethod[] = [];
 
     if (monica) {
       const seasonalProfile = unifiedSeasonalProfiles[season];

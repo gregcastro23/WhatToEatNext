@@ -731,8 +731,8 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   const hourPlanet = planetaryHour.toLowerCase()
 
   // Initialize results;
-  const focusNutrients: string[] = [],
-  const healthAreas: string[] = [],
+  const focusNutrients: string[] = [];
+  const healthAreas: string[] = [];
   const recommendedFoods: string[] = []
   const elements: Record<string, number> = {
     Fire: 0,
@@ -807,9 +807,9 @@ export function getPlanetaryNutritionalRecommendations(_planets: string[]): {
   recommendedFoods: string[]
 } {
   // Combine recommendations from all influential planets
-  const focusNutrients: string[] = [],
-  const healthAreas: string[] = [],
-  const recommendedFoods: string[] = [],
+  const focusNutrients: string[] = [];
+  const healthAreas: string[] = [];
+  const recommendedFoods: string[] = [];
 
   planets.forEach(planet => {
     const influence = planetaryNutritionInfluence[planet]
@@ -880,8 +880,8 @@ export function evaluateNutritionalElementalBalance(
   const score = Math.max(0, Math.min(100, 100 * (1 - avgDifference * 2)))
 
   // Identify significant imbalances (difference > 0.15)
-  const imbalances: string[] = [],
-  const recommendations: string[] = [],
+  const imbalances: string[] = [];
+  const recommendations: string[] = [];
 
   if (differences.Fire > 0.15) {
     if (currentElements.Fire < targetElements.Fire) {

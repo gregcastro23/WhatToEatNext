@@ -145,7 +145,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
  * @returns Validation result
  */
 export function validateIngredient(ingredient: Partial<Ingredient>): ValidationResult {
-  const errors: string[] = [],
+  const errors: string[] = [];
   const warnings: string[] = [];
 
   // Required fields
@@ -195,7 +195,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
  * @returns Validation result
  */
 export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
-  const errors: string[] = [],
+  const errors: string[] = [];
   const warnings: string[] = [];
 
   // Required fields
@@ -516,7 +516,7 @@ function validateDifficulty(difficulty: unknown): boolean {
 }
 
 function validateElementalProperties(properties: ElementalProperties): ValidationResult {
-  const errors: string[] = [],
+  const errors: string[] = [];
 
   if (!properties || typeof properties !== 'object') {
     errors.push('Elemental properties must be an object')
@@ -543,7 +543,7 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
 }
 
 function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationResult {
-  const errors: string[] = [],
+  const errors: string[] = [];
 
   if (!profile || typeof profile !== 'object') {
     errors.push('Astrological profile must be an object')
@@ -568,7 +568,7 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
 }
 
 function validateRecipeIngredient(ingredient: unknown): ValidationResult {
-  const errors: string[] = [],
+  const errors: string[] = [];
 
   if (!ingredient || typeof ingredient !== 'object') {
     errors.push('Ingredient must be an object')

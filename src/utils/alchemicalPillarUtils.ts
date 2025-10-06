@@ -626,7 +626,7 @@ export const _getHolisticCookingRecommendations = async (item: AlchemicalItem,
   planet?: string,
   tarotCard?: string,
   isDaytime = true,
-  availableMethods: string[] = [],
+  availableMethods: string[] = [];
   count = 5,
 ): Promise<Array<{ method: string, compatibility: number, reason: string }>> => {
   logger.debug('\n--- HOLISTIC COOKING RECOMMENDATIONS ---')
@@ -675,7 +675,7 @@ export const _getHolisticCookingRecommendations = async (item: AlchemicalItem,
   )
 
   // Calculate compatibility for each method
-  const compatibility: Array<{ method: string, compatibility: number, reason: string }> = [],
+  const compatibility: Array<{ method: string, compatibility: number, reason: string }> = [];
 
   logger.debug('\nCALCULATING METHOD COMPATIBILITY: ')
   logger.debug('--------------------------------')
@@ -693,7 +693,7 @@ export const _getHolisticCookingRecommendations = async (item: AlchemicalItem,
 
     if (pillar) {
       // Add which properties it enhances
-      const enhancedProps: string[] = [],
+      const enhancedProps: string[] = [];
       if (pillar.effects.Spirit > 0) (enhancedProps as unknown[]).push('Spirit')
       if (pillar.effects.Essence > 0) (enhancedProps as unknown[]).push('Essence')
       if (pillar.effects.Matter > 0) (enhancedProps as unknown[]).push('Matter')

@@ -289,7 +289,7 @@ export class CampaignTestController {
     issues: string[],
     warnings: string[];
   } {
-    const issues: string[] = [],
+    const issues: string[] = [];
     const warnings: string[] = [];
 
     // Check environment variables

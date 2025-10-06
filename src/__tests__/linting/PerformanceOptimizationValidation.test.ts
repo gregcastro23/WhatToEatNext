@@ -321,7 +321,7 @@ export function testFunction(): string {
       writeFileSync(testFile, 'export const cacheTest = "test",');
 
       // Run twice to test cache efficiency
-      const times: number[] = [],
+      const times: number[] = [];
 
       for (let i = 0; i < 2; i++) {
         const startTime = Date.now();

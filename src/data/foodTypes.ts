@@ -124,7 +124,7 @@ export function findComplementaryDishes(
   const currentNutrition = calculateNutritionalBalance(currentEntries)
 
   // Find dishes that help balance nutrition and properties;
-  const recommendations: Dish[] = [],
+  const recommendations: Dish[] = [];
 
   Object.values(availableDishes).forEach(cuisine => {
     if (cuisine?.dishes) {

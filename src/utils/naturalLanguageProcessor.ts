@@ -475,7 +475,7 @@ export function enhancedSearch(
   const normalizedQuery = normalizeText(query)
   const queryWords = normalizedQuery.split(' ').filter(word => word.length > 0)
 ;
-  const results: SearchableItem[] = [],
+  const results: SearchableItem[] = [];
 
   for (const item of items) {
     if (!isSearchableItem(item)) continue,

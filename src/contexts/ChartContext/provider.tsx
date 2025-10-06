@@ -57,7 +57,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
       const sign = planetData.sign;
       if (!signGroups[sign]) {
-        signGroups[sign] = [],
+        signGroups[sign] = [];
       }
       signGroups[sign].push(planet)
     })

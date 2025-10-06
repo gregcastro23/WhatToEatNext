@@ -405,7 +405,7 @@ describe('Linting Performance and Memory Usage', () => {
   describe('Scalability Tests', () => {
     test('should scale with increasing file count', async () => {
       const fileCounts = [10, 50, 100, 500];
-      const executionTimes: number[] = [],
+      const executionTimes: number[] = [];
 
       fileCounts.forEach(count => {
         const mockOutput = JSON.stringify(

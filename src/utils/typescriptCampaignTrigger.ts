@@ -286,7 +286,7 @@ async function getTypeScriptErrors(): Promise<string> {
  * Parse TypeScript error output into structured format
  */
 function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
-  const errors: TypeScriptError[] = [],
+  const errors: TypeScriptError[] = [];
 
   if (!errorOutput.trim()) {
     return errors;
@@ -404,7 +404,7 @@ function groupErrorsByFile(errors: TypeScriptError[]): Record<string, TypeScript
 function identifyHighImpactFiles(
   errorsByFile: Record<string, TypeScriptError[]>,
 ): HighImpactFile[] {
-  const highImpactFiles: HighImpactFile[] = [],
+  const highImpactFiles: HighImpactFile[] = [];
 
   for (const [filePath, errors] of Object.entries(errorsByFile)) {
     if (errors.length >= 5) {
@@ -439,7 +439,7 @@ function generateCampaignRecommendations(
   totalErrors: number,
   _errorsByCategory: Record<string, TypeScriptError[]>,
 ): CampaignRecommendation[] {
-  const recommendations: CampaignRecommendation[] = [],
+  const recommendations: CampaignRecommendation[] = [];
 
   if (totalErrors >= ERROR_THRESHOLDS.CRITICAL) {
     recommendations.push({
@@ -496,7 +496,7 @@ function determineCampaignMode(errorCount: number): CampaignMode {
  * Generate fix recommendations for each error category
  */
 function generateFixRecommendations(analysis: ErrorAnalysisResult): FixRecommendation[] {
-  const recommendations: FixRecommendation[] = [],
+  const recommendations: FixRecommendation[] = [];
 
   for (const [category, errors] of Object.entries(analysis.errorsByCategory)) {
     if (errors.length > 0) {
@@ -615,8 +615,8 @@ function createBatchSchedule(
   recommendations: FixRecommendation[],
   mode: CampaignMode,
 ): BatchSchedule {
-  const batches: ProcessingBatch[] = [],
-  const safetyProtocols: SafetyProtocol[] = [],
+  const batches: ProcessingBatch[] = [];
+  const safetyProtocols: SafetyProtocol[] = [];
   let totalEstimatedTime = 0;
   let currentTime = new Date();
 
@@ -654,7 +654,7 @@ function createBatchSchedule(
  * Get safety protocols for campaign mode
  */
 function getSafetyProtocols(mode: CampaignMode): SafetyProtocol[] {
-  const protocols: SafetyProtocol[] = [],
+  const protocols: SafetyProtocol[] = [];
 
   switch (mode) {
     case CampaignMode.EMERGENCY:

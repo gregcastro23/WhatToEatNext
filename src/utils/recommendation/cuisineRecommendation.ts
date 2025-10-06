@@ -81,8 +81,8 @@ export function generateEnhancedCuisineRecommendations(
 ): EnhancedCuisineRecommendation[] {
   const {
     elementalProperties,
-    preferences = [],
-    dietaryRestrictions = [],
+    preferences = [];
+    dietaryRestrictions = [];
     astrologicalProfile,
     useAdvancedAnalysis = true,
     includePlanetaryData = true,

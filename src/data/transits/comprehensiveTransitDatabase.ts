@@ -429,8 +429,8 @@ export class TransitAnalysisService {
   } {
     const seasons: TransitSeason[] = []
     const dominantElements: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 }
-    const keyAspects: PlanetaryAspect[] = [],
-    const retrogradePlanets: string[] = [],
+    const keyAspects: PlanetaryAspect[] = [];
+    const retrogradePlanets: string[] = [];
 
     const years = this.getAvailableYears()
     years.forEach(year => {

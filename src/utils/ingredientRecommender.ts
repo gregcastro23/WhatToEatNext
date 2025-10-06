@@ -2276,7 +2276,7 @@ function enhanceMercuryIngredientScoring(
  * @returns The modality (Cardinal, Fixed, or Mutable)
  */
 function determineIngredientModality(
-  qualities: string[] = [],
+  qualities: string[] = [];
   elementalProperties?: ElementalProperties,
 ): any {
   // Ensure qualities is an array

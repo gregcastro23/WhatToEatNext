@@ -260,7 +260,7 @@ export function describePlanetaryInfluences(
     return 'No planetary influences specified';
   }
 
-  const segments: string[] = [],
+  const segments: string[] = [];
 
   if (isNonEmptyArray(influences._favorable)) {
     segments.push(`Favorable: ${influences._favorable.join(', ')}`);
@@ -292,7 +292,7 @@ export function summarizeNutritionalBalance(recipe: Recipe): string {
   }
 
   const { calories, protein, carbs, fat } = recipe.nutrition;
-  const parts: string[] = [],
+  const parts: string[] = [];
 
   if (typeof calories === 'number') parts.push(`${calories} kcal`);
   if (typeof protein === 'number') parts.push(`${protein}g protein`);
@@ -325,7 +325,7 @@ function scoreRecipe(
   timeFactors: TimeFactors,
 ): { score: number; reasons: string[] } {
   let score = 50;
-  const reasons: string[] = [],
+  const reasons: string[] = [];
 
   const mealTypes = getRecipeMealTypes(recipe).map(type => type.toLowerCase());
   const timeOfDay = String(timeFactors.timeOfDay).toLowerCase();

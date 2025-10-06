@@ -31,7 +31,7 @@ export function validateRecipe(recipe: Partial<Recipe>,
     strictMode = false
   } = options;
 
-  const errors: string[] = [],
+  const errors: string[] = [];
   const warnings: string[] = [];
 
   // Check 1: Required fields
@@ -347,7 +347,7 @@ function generateRecommendations(context: {
   warnings: string[],
   qualityMetrics: RecipeValidationResult['qualityMetrics']
 }): string[] {
-  const recommendations: string[] = [],
+  const recommendations: string[] = [];
 
   const { errors, warnings, qualityMetrics } = context;
 

@@ -38,7 +38,7 @@ export class TestUtils {
     const {
       timeout = this.DEFAULT_TIMEOUT,
       retries = this.DEFAULT_RETRIES,
-      expectedErrors = [],
+      expectedErrors = [];
       memoryLimit = 4096 * 1024 * 1024, // 4GB in bytes
     } = options;
 
@@ -272,7 +272,7 @@ export class TestUtils {
     runs: number = 3,
     tolerancePercent: number = 20,
   ): Promise<{ isConsistent: boolean; results: any[]; variance: number }> {
-    const results: any[] = [],
+    const results: any[] = [];
 
     for (let i = 0; i < runs; i++) {
       try {

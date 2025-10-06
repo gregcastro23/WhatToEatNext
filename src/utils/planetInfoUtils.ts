@@ -111,7 +111,7 @@ export async function getPlanetInfo(
       };
     }
 
-    let planetAspects: Array<{ planet: string; type: string; orb: number }> = [],
+    let planetAspects: Array<{ planet: string; type: string; orb: number }> = [];
     try {
       const { aspects } = calculateAspects(positions as Record<string, unknown>, 0);
       planetAspects = aspects

@@ -296,7 +296,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
         // Calculate alchemical values from tarot energies
         if (tarotCards.minorCard || tarotCards.majorCard) {
-          const cards: unknown[] = [],
+          const cards: unknown[] = [];
           if (tarotCards.minorCard) cards.push(tarotCards.minorCard)
           if (tarotCards.majorCard) cards.push(tarotCards.majorCard)
           // calculateTarotEnergyBoosts will be called in a separate useEffect

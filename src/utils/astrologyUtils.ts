@@ -1021,7 +1021,7 @@ export function calculateEnhancedStelliumEffects(
       const house = calculateHousePosition(risingDegree, absoluteDegree)
 
       if (!planetsByHouse[house]) {
-        planetsByHouse[house] = [],
+        planetsByHouse[house] = [];
       }
       planetsByHouse[house].push(planet)
     })
@@ -2161,7 +2161,7 @@ export const _parseAstroChartAspects = (
       planet2: string,
       orb: number,
       applying: boolean
-    }> = [],
+    }> = [];
 
     const data = astroChartData as any;
 

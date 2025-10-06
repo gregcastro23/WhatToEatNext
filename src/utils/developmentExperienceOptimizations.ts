@@ -452,9 +452,9 @@ declare global {
     skipped: string[],
     errors: string[]
   } {
-    const applied: string[] = [],
-    const skipped: string[] = [],
-    const errors: string[] = [],
+    const applied: string[] = [];
+    const skipped: string[] = [];
+    const errors: string[] = [];
 
     try {
       // Generate optimized TypeScript config

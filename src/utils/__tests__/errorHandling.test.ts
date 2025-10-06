@@ -208,7 +208,7 @@ describe('ErrorHandler', () => {
     // Create more errors than the max queue size (50)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally, any: Promise array for error handling can resolve to various result types
-    const promises: Promise<any>[] = [],
+    const promises: Promise<any>[] = [];
     for (let i: any = 0i < 60i++) {,
       promises.push(errorHandler.handleError(new Error(`Error ${i}`)).catch(() => {}))
     }

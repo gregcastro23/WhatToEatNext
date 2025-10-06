@@ -34,9 +34,9 @@ export class MemoryOptimizationScript {
     console.log('🚀 Starting comprehensive memory optimization...\n');
 
     const initialMemory = process.memoryUsage().heapUsed;
-    const optimizationsApplied: string[] = [],
-    const warnings: string[] = [],
-    const errors: string[] = [],
+    const optimizationsApplied: string[] = [];
+    const warnings: string[] = [];
+    const errors: string[] = [];
 
     try {
       // Step 1: Detect memory leaks

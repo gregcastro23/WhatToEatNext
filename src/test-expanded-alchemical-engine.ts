@@ -265,7 +265,7 @@ async function runComprehensiveTests() {
       cuisine: string,
       score: string,
       confidence: number
-    }> = [],
+    }> = [];
     for (const cuisine of cuisines) {
       const result = await alchemicalEngine.calculateAstroCuisineMatch(
         testRecipeElements,

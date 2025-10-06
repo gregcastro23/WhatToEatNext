@@ -56,7 +56,7 @@ export class RealTimeTestRunner {
       memoryLimit = MEMORY_LIMITS.integration,
       retries = 2,
       cleanupFunction,
-      expectedErrors = [],
+      expectedErrors = [];
     } = config;
 
     const result: RealTimeTestResult = {
@@ -214,7 +214,7 @@ export class RealTimeTestRunner {
       requiredSuccessTests?: string[],
     },
   ): { isValid: boolean; issues: string[]; summary: any } {
-    const issues: string[] = [],
+    const issues: string[] = [];
     const summary = {
       totalTests: results.size,
       successfulTests: 0,

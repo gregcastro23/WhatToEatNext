@@ -24,7 +24,7 @@ export interface PerformanceMetrics {
  * @returns Object with optimization status
  */
 export function optimizePerformance(): { success: boolean, optimizations: string[] } {
-  const appliedOptimizations: string[] = [],
+  const appliedOptimizations: string[] = [];
 
   try {
     // Only run browser-specific optimizations if in browser environment

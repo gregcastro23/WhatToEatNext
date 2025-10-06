@@ -33,7 +33,7 @@ interface ValidationResult {
 
 class LintingPerformanceValidator {
   private baselineMetrics: PerformanceMetrics | null = null,
-  private results: ValidationResult[] = [],
+  private results: ValidationResult[] = [];
 
   async validatePerformanceOptimizations(): Promise<void> {
     console.log('🚀 Starting Linting Performance Validation...\n');

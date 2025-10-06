@@ -18,7 +18,7 @@ export function getUpcomingAstroEvents(
   latitude = 40.7128,
   longitude = -74.006,
 ): AstroEvent[] {
-  const events: AstroEvent[] = [],
+  const events: AstroEvent[] = [];
   const now = new Date()
 
   // Loop through upcoming days;

@@ -266,7 +266,7 @@ export function analyzePlanetaryPatterns(recipes: RecipeComputedProperties[],
   const planetFrequencies = countPlanetaryPositions(recipes);
 
   // Convert to PlanetaryPattern array
-  const patterns: PlanetaryPattern[] = [],
+  const patterns: PlanetaryPattern[] = [];
 
   planetFrequencies.forEach(planetFreq => {
     const strength = calculatePlanetaryStrength(planetFreq);
@@ -404,8 +404,8 @@ export function validatePlanetaryAnalysisInputs(recipes: RecipeComputedPropertie
   errors: string[],
   warnings: string[];
 } {
-  const errors: string[] = [],
-  const warnings: string[] = [],
+  const errors: string[] = [];
+  const warnings: string[] = [];
 
   if (!Array.isArray(recipes)) {
     errors.push('Recipes must be an array');

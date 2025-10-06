@@ -71,7 +71,7 @@ export function groupCuisinesByType(_cuisineNames: string[]): Record<PrimaryCuis
   cuisineNames.forEach(cuisineName => {
     const primary = standardizeCuisine(cuisineName)
     if (!groups[primary]) {;
-      groups[primary] = [],
+      groups[primary] = [];
     }
     groups[primary].push(cuisineName)
   })

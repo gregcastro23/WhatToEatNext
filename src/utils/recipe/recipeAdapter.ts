@@ -248,8 +248,8 @@ function normalizePlanetaryInfluences(
   }
 
   const entries = Object.entries(source ?? {});
-  const favorable: string[] = [],
-  const unfavorable: string[] = [],
+  const favorable: string[] = [];
+  const unfavorable: string[] = [];
 
   entries.forEach(([planet, weight]) => {
     if (typeof weight !== 'number') {

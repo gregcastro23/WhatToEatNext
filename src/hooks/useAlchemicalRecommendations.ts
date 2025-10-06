@@ -61,7 +61,7 @@ export const _useAlchemicalRecommendations = ({,
   lunarPhase,
   tarotElementBoosts,
   tarotPlanetaryBoosts,
-  aspects = [],
+  aspects = [];
 }: UseAlchemicalRecommendationsProps): AlchemicalRecommendationResults => {,
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)

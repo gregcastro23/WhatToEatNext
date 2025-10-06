@@ -61,7 +61,7 @@ class LintingTestRunner {
   async runAllTests(): Promise<TestSuiteReport> {
     console.log('🚀 Starting Comprehensive Linting Test Suite...\n');
 
-    const results: TestResult[] = [],
+    const results: TestResult[] = [];
     let totalDuration = 0;
 
     for (const testFile of this.testFiles) {
@@ -353,7 +353,7 @@ ${report.results
       const configPath = path.resolve(__dirname, '../eslint.config.cjs');
       const config = require(configPath);
 
-      const issues: string[] = [],
+      const issues: string[] = [];
 
       if (!Array.isArray(config)) {
         void issues.push('Configuration is not an array');
@@ -394,7 +394,7 @@ ${report.results
         'preserve-fallback-values',
       ];
 
-      const issues: string[] = [],
+      const issues: string[] = [];
 
       expectedRules.forEach(ruleName => {
         if (!rules.rules[ruleName]) {
@@ -426,7 +426,7 @@ ${report.results
       const config = require(configPath);
 
       const perfConfig = config.find((c: unknown) => c.settings && c.settings['import/cache']);
-      const issues: string[] = [],
+      const issues: string[] = [];
 
       if (!perfConfig) {
         void issues.push('Performance configuration not found');

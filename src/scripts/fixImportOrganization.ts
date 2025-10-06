@@ -183,7 +183,7 @@ class ImportOrganizationFixer {
   }
 
   private getAllTypeScriptFiles(): string[] {
-    const files: string[] = [],
+    const files: string[] = [];
 
     const scanDirectory = (dir: string) => {
       const entries = fs.readdirSync(dir, { withFileTypes: true }),
@@ -288,7 +288,7 @@ class ImportOrganizationFixer {
             const firstLineIndex = group.lines[0];
             let mergedImport = 'import ';
 
-            const parts: string[] = [],
+            const parts: string[] = [];
 
             if (group.defaultImport) {
               parts.push(group.defaultImport);
@@ -403,7 +403,7 @@ class ImportOrganizationFixer {
         });
 
         // Rebuild import section
-        const newImports: string[] = [],
+        const newImports: string[] = [];
 
         if (categorizedImports.builtin.length > 0) {
           newImports.push(...categorizedImports.builtin, '');
@@ -482,7 +482,7 @@ class ImportOrganizationFixer {
     // Detect cycles using DFS
     const visited = new Set<string>();
     const recursionStack = new Set<string>();
-    const cycles: string[] = [],
+    const cycles: string[] = [];
 
     const detectCycle = (node: string, path: string[] = []): boolean => {
       if (recursionStack.has(node)) {

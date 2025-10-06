@@ -13,7 +13,7 @@ import { join } from 'path';
 
 describe('Test File Rule Validation', () => {
   const projectRoot = process.cwd();
-  const tempFiles: string[] = [],
+  const tempFiles: string[] = [];
 
   afterEach(() => {
     // Clean up temporary test files

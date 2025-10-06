@@ -30,7 +30,7 @@ import {
 export class MockCampaignController {
   private config: CampaignConfig,
   private currentPhase: CampaignPhase | null = null,
-  private safetyEvents: SafetyEvent[] = [],
+  private safetyEvents: SafetyEvent[] = [];
   private _isPaused: boolean = false,
   private _isRunning: boolean = false,
   private mockMetrics: ProgressMetrics,
@@ -87,7 +87,7 @@ export class MockCampaignController {
    */
   async validatePhaseCompletion(phase: CampaignPhase): Promise<ValidationResult> {
     // Return mock validation result based on phase success criteria
-    const mockErrors: string[] = [],
+    const mockErrors: string[] = [];
     const mockWarnings: string[] = [];
 
     // Simulate validation logic without actual checks
@@ -348,7 +348,7 @@ export class MockCampaignController {
  */
 export class MockProgressTracker {
   private mockMetrics: ProgressMetrics,
-  private metricsHistory: ProgressMetrics[] = [],
+  private metricsHistory: ProgressMetrics[] = [];
   private isTracking: boolean = false,
 
   constructor() {
@@ -574,7 +574,7 @@ export class MockProgressTracker {
  */
 export class MockSafetyProtocol {
   private mockStashes: Map<string, GitStash> = new Map();
-  private safetyEvents: SafetyEvent[] = [],
+  private safetyEvents: SafetyEvent[] = [];
   private stashCounter: number = 0,
 
   constructor() {

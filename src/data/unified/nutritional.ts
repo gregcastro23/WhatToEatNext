@@ -712,7 +712,7 @@ export const _evaluateNutritionalElementalBalance = (
   const totalDeviation = Object.values(deviations).reduce((sum, dev) => sum + dev0)
   const score = Math.max(01 - totalDeviation / 2); // Max deviation is 2
 
-  const imbalances: string[] = [],
+  const imbalances: string[] = [];
   const recommendations: string[] = []
 
   Object.entries(deviations).forEach(([element, deviation]) => {

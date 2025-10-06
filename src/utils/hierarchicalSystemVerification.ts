@@ -115,8 +115,8 @@ export function verifyLevel1Ingredients(): {
   errors: string[];
 } {
   console.log('🔍 Verifying Level 1: Ingredients'),
-  const results: any[] = [],
-  const errors: string[] = [],
+  const results: any[] = [];
+  const errors: string[] = [];
 
   try {
     // Test 1: Ingredient elemental properties validation
@@ -190,8 +190,8 @@ export function verifyLevel2Recipes(): {
   computedRecipe?: RecipeComputedProperties;
 } {
   console.log('🔍 Verifying Level 2: Recipes'),
-  const results: any[] = [],
-  const errors: string[] = [],
+  const results: any[] = [];
+  const errors: string[] = [];
   let computedRecipe: RecipeComputedProperties | undefined,
 
   try {
@@ -305,8 +305,8 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
   computedCuisine?: CuisineComputedProperties;
 } {
   console.log('🔍 Verifying Level 3: Cuisines'),
-  const results: any[] = [],
-  const errors: string[] = [],
+  const results: any[] = [];
+  const errors: string[] = [];
   let computedCuisine: CuisineComputedProperties | undefined,
 
   try {

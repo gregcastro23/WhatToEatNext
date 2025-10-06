@@ -289,7 +289,7 @@ export async function executeCampaignTestScenario(
 
     // Execute phases
     const campaignConfig = createMockCampaignConfig(config);
-    const results: PhaseResult[] = [],
+    const results: PhaseResult[] = [];
 
     for (let i = 0; i < campaignConfig.phases.length; i++) {
       const phase = campaignConfig.phases[i];
@@ -354,7 +354,7 @@ export function validateCampaignMemoryUsage(context: CampaignTestContext): {
   memoryStats: any,
   recommendations: string[];
 } {
-  const recommendations: string[] = [],
+  const recommendations: string[] = [];
   let isMemoryEfficient = true;
 
   // Check test-safe tracker memory usage

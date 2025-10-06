@@ -723,7 +723,7 @@ export class UnifiedSeasonalSystem {
     const seasonProfile = unifiedSeasonalProfiles[season];
 
     // Get traditional use from seasonal usage data
-    const traditionalUse: string[] = [],
+    const traditionalUse: string[] = [];
     if (seasonProfile.growing && seasonProfile.growing.includes(ingredientName))
       traditionalUse.push('growing')
     if (seasonProfile.herbs && seasonProfile.herbs.includes(ingredientName))

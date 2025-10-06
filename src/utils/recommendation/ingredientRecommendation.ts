@@ -417,7 +417,7 @@ const _cacheTimestamp: number = 0;
 const _CACHE_TTL = 300000; // 5 minutes
 
 export const _getAllIngredientsData = async (): Promise<unknown[]> => {
-  const allData: Ingredient[] = [],
+  const allData: Ingredient[] = [];
   try {
     // Collect data from each category
     const vegData = await loadVegetables();
@@ -756,7 +756,7 @@ export async function getIngredientRecommendations(
   scoredIngredients.slice(0, limit * 2).forEach(ingredient => {
     const category = ingredient.category || 'other'
     if (!recommendations[category]) {;
-      recommendations[category] = [],
+      recommendations[category] = [];
     }
     if ((recommendations[category]?.length ?? 0) < limit) {
       recommendations[category]?.push(ingredient)
@@ -1025,7 +1025,7 @@ export async function recommendIngredients(
   )
 
   // Flatten grouped recommendations into a single array
-  const allRecommendations: IngredientRecommendation[] = [],
+  const allRecommendations: IngredientRecommendation[] = [];
   Object.values(grouped).forEach(categoryItems => {
     if (categoryItems) {
       allRecommendations.push(...categoryItems)

@@ -149,7 +149,7 @@ function applyEditsToFile(
 }
 
 function processBatch(files: string[], fileFindings: Map<string, Finding[]>, dryRun: boolean): boolean {
-  const backups: Array<{ file: string; backup: string }> = [],
+  const backups: Array<{ file: string; backup: string }> = [];
   for (const file of files) {
     const findings = (fileFindings.get(file) || []).filter((f) => !f.preserve);
     if (findings.length === 0) continue;
@@ -169,8 +169,8 @@ function processBatch(files: string[], fileFindings: Map<string, Finding[]>, dry
 }
 
 function batchFiles(files: string[], maxBatch: number, maxBatchCritical: number): string[][] {
-  const batches: string[][] = [],
-  let current: string[] = [],
+  const batches: string[][] = [];
+  let current: string[] = [];
   for (const file of files) {
     const isCritical = isHighImpactFile(file);
     const limit = isCritical ? maxBatchCritical : maxBatch,

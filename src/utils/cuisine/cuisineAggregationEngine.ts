@@ -385,7 +385,7 @@ export function validateCuisineComputationInputs(recipes: RecipeComputedProperti
   isValid: boolean,
   errors: string[];
 } {
-  const errors: string[] = [],
+  const errors: string[] = [];
 
   if (!Array.isArray(recipes)) {
     errors.push('Recipes must be an array');

@@ -279,7 +279,7 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
     considerSeasonalFactors = true
   } = options;
 
-  const recommendations: CuisineRecommendation[] = [],
+  const recommendations: CuisineRecommendation[] = [];
 
   availableCuisines.forEach((cuisineData, cuisineId) => {
     const { name: cuisineName, properties: cuisineProperties } = cuisineData;
@@ -331,7 +331,7 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
     }
 
     // Generate reasoning
-    const reasoning: string[] = [],
+    const reasoning: string[] = [];
     if (includeReasoning) {
       if (elementalCompatibility > 0.7) {
         reasoning.push('Strong elemental alignment with your preferences');
@@ -468,7 +468,7 @@ export function validateUserProfile(profile: UserProfile): {
   errors: string[],
   warnings: string[];
 } {
-  const errors: string[] = [],
+  const errors: string[] = [];
   const warnings: string[] = [];
 
   // Validate elemental preferences

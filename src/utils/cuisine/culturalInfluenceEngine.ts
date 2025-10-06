@@ -321,7 +321,7 @@ function normalizeElementalProperties(properties: ElementalProperties): Elementa
  * @returns Human-readable description
  */
 export function generateCulturalDescription(influence: CulturalInfluence): string {
-  const parts: string[] = [],
+  const parts: string[] = [];
 
   if (influence.region) {
     const regionData = GEOGRAPHIC_REGIONS[influence.region as keyof typeof GEOGRAPHIC_REGIONS];
@@ -423,7 +423,7 @@ export function validateCulturalInfluence(influence: CulturalInfluence): {
   errors: string[],
   warnings: string[];
 } {
-  const errors: string[] = [],
+  const errors: string[] = [];
   const warnings: string[] = [];
 
   // Validate region

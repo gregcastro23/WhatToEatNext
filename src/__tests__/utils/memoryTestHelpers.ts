@@ -170,7 +170,7 @@ export function createTestDataset<T>(
   data: T[],
   cleanup: () => void;
 } {
-  const data: T[] = [],
+  const data: T[] = [];
 
   for (let i = 0; i < size; i++) {
     data.push(generator());
@@ -235,7 +235,7 @@ export async function processBatchWithMemoryManagement<T, R>(
   batchSize: number = 10,
   cleanupBetweenBatches: boolean = true,
 ): Promise<R[]> {
-  const results: R[] = [],
+  const results: R[] = [];
 
   for (let i = 0, i < items.length, i += batchSize) {
     const batch = items.slice(i, i + batchSize);

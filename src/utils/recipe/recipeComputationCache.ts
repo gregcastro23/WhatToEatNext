@@ -22,7 +22,7 @@ interface CacheConfig {
 class RecipeComputationCacheManager {
   private cache = new Map<string, RecipeComputationCache>();
   private config: CacheConfig,
-  private accessOrder: string[] = [],
+  private accessOrder: string[] = [];
 
   constructor(config: Partial<CacheConfig> = {}) {
     this.config = {
@@ -242,7 +242,7 @@ class RecipeComputationCacheManager {
 
   private cleanup(): void {
     const now = Date.now();
-    const keysToDelete: string[] = [],
+    const keysToDelete: string[] = [];
 
     for (const [key, entry] of this.cache.entries()) {
       if (now > entry.expiresAt.getTime()) {
@@ -330,7 +330,7 @@ export function batchCacheOperations(operations: Array<{
   cache?: RecipeComputationCacheManager
 ): Array<RecipeComputedProperties | null> {
   const cacheManager = cache || getRecipeComputationCache();
-  const results: Array<RecipeComputedProperties | null> = [],
+  const results: Array<RecipeComputedProperties | null> = [];
 
   for (const op of operations) {
     switch (op.operation) {

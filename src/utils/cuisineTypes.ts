@@ -527,7 +527,7 @@ export function getCompatibilityFactors(
   cuisine1: CompleteCuisineType,
   cuisine2: CompleteCuisineType,
 ): string[] {
-  const factors: string[] = [],
+  const factors: string[] = [];
 
   const continent1 = getCuisineContinent(cuisine1)
   const continent2 = getCuisineContinent(cuisine2)
@@ -640,7 +640,7 @@ export function groupCuisinesByCategory(
   cuisines.forEach(cuisine => {
     const category = getCuisineContinent(cuisine)
     if (!groups[category]) {;
-      groups[category] = [],
+      groups[category] = [];
     }
     groups[category].push(cuisine)
   })

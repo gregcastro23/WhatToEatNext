@@ -55,7 +55,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
   const results: EslintResult[] = JSON.parse(json),
   const limited = typeof maxFiles === 'number' ? results.slice(0, Math.max(0, maxFiles)) : results,
 
-  const findings: Finding[] = [],
+  const findings: Finding[] = [];
   for (const res of limited) {
     const filePath = res.filePath;
     const fileKind = classifyFileKind(filePath);

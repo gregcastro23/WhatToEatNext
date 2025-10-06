@@ -31,7 +31,7 @@ interface MemorySummary {
 }
 
 export class TestMemoryMonitor {
-  private snapshots: MemorySnapshot[] = [],
+  private snapshots: MemorySnapshot[] = [];
   private startTime: number,
   private memoryLimits: {
     heapUsed: number,
@@ -101,7 +101,7 @@ export class TestMemoryMonitor {
    */
   checkMemoryUsage(_testName: string): MemoryCheck {
     const currentUsage = this.getCurrentMemoryUsage();
-    const warnings: string[] = [],
+    const warnings: string[] = [];
     const errors: string[] = [];
 
     // Check against limits
@@ -188,7 +188,7 @@ export class TestMemoryMonitor {
     }
 
     const recentSnapshots = this.snapshots.slice(-5); // Last 5 snapshots
-    const increases: number[] = [],
+    const increases: number[] = [];
 
     for (let i = 1; i < recentSnapshots.length; i++) {
       const increase = recentSnapshots[i].heapUsed - recentSnapshots[i - 1].heapUsed;
@@ -215,7 +215,7 @@ export class TestMemoryMonitor {
     actions: string[];
   } {
     const beforeCleanup = this.getCurrentMemoryUsage();
-    const actions: string[] = [],
+    const actions: string[] = [];
 
     try {
       // Clear any test-specific caches

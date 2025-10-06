@@ -65,8 +65,8 @@ export function findMatchedItalianDinnerRecipes() {
  */
 export function findRecipesMatchingElementalAndIngredientRequirements(
   elementalTarget: ElementalProperties,
-  requiredIngredients: string[] = [],
-  excludedIngredients: string[] = [],
+  requiredIngredients: string[] = [];
+  excludedIngredients: string[] = [];
   dietaryRestrictions: string[] = []) {
   // Collect recipes from all cuisines
   const allRecipes: Recipe[] = []

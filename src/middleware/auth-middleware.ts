@@ -58,8 +58,8 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
     try {
       const {
         required = true,
-        roles = [],
-        permissions = [],
+        roles = [];
+        permissions = [];
         allowGuest = false;
       } = options,
 

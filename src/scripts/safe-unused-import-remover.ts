@@ -149,7 +149,7 @@ class SafeUnusedImportRemover {
    * Extract unused import information from ESLint output
    */
   private extractUnusedImports(lintOutput: string): UnusedImport[] {
-    const unusedImports: UnusedImport[] = [],
+    const unusedImports: UnusedImport[] = [];
     const lines = lintOutput.split('\n');
 
     for (const line of lines) {

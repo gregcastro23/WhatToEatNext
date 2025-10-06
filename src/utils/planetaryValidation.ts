@@ -55,8 +55,8 @@ const VALIDATION_TOLERANCES = {
  */
 export async function validatePlanetaryData(): Promise<ValidationResult> {
   const startTime = Date.now()
-  const errors: ValidationError[] = [],
-  const warnings: ValidationWarning[] = [],
+  const errors: ValidationError[] = [];
+  const warnings: ValidationWarning[] = [];
 
   try {
     logger.info('Starting comprehensive planetary data validation')
@@ -124,7 +124,7 @@ async function validateTransitDates(): Promise<{
   errors: ValidationError[],
   warnings: ValidationWarning[]
 }> {
-  const errors: ValidationError[] = [],
+  const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = []
 
   try {
@@ -182,8 +182,8 @@ function validatePlanetTransitDates(
   transitDates: Record<string, unknown>,
   currentDate: Date,
 ): { errors: ValidationError[], warnings: ValidationWarning[] } {
-  const errors: ValidationError[] = [],
-  const warnings: ValidationWarning[] = [],
+  const errors: ValidationError[] = [];
+  const warnings: ValidationWarning[] = [];
 
   try {
     const signs = Object.keys(transitDates)
@@ -275,8 +275,8 @@ async function validatePositionConsistency(): Promise<{
   errors: ValidationError[],
   warnings: ValidationWarning[]
 }> {
-  const errors: ValidationError[] = [],
-  const warnings: ValidationWarning[] = [],
+  const errors: ValidationError[] = [];
+  const warnings: ValidationWarning[] = [];
 
   try {
     // Get current calculated positions
@@ -341,8 +341,8 @@ async function validatePositionConsistency(): Promise<{
 async function validatePositionChange(
   planetName: string,
   currentPosition: { degree: number, exactLongitude: number, sign: string }): Promise<{ errors: ValidationError[], warnings: ValidationWarning[] }> {
-  const errors: ValidationError[] = [],
-  const warnings: ValidationWarning[] = [],
+  const errors: ValidationError[] = [];
+  const warnings: ValidationWarning[] = [];
 
   try {
     // Get expected daily motion for the planet
@@ -724,7 +724,7 @@ async function validateElementalProperties(): Promise<{
   errors: ValidationError[],
   warnings: ValidationWarning[]
 }> {
-  const errors: ValidationError[] = [],
+  const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = []
 
   try {
@@ -796,8 +796,8 @@ function analyzeTestResults(_testResults: TestResult[]): {
   errors: ValidationError[],
   warnings: ValidationWarning[]
 } {
-  const errors: ValidationError[] = [],
-  const warnings: ValidationWarning[] = [],
+  const errors: ValidationError[] = [];
+  const warnings: ValidationWarning[] = [];
 
   const totalTests = testResults.length;
   const passedTests = testResults.filter(t => t.passed).length;

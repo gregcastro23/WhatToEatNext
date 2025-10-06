@@ -367,7 +367,7 @@ export function toScoredRecipe(recipe: Recipe, _score?: number): ScoredRecipe {
  */
 export function isRecipeDietaryCompatible(
   recipe: Recipe,
-  dietaryRestrictions: string[] = [],
+  dietaryRestrictions: string[] = [];
 ): boolean {
   if (!recipe || !Array.isArray(dietaryRestrictions) || dietaryRestrictions.length === 0) {
     return true;

@@ -194,7 +194,7 @@ export function getMissingElements(
     return ['Fire', 'Water', 'Earth', 'Air']
   }
 
-  const missing: Element[] = [],
+  const missing: Element[] = [];
   const _idealBalance = 0.25; // Each element should ideally be 25%
   const threshold = 0.15 // Consider missing if below 15%
 ;
@@ -358,7 +358,7 @@ export const elementalUtils = {
    * @returns Array of recommended cooking techniques
    */
   getSuggestedCookingTechniques: function(properties: ElementalProperties): string[] {
-    const techniques: string[] = [],
+    const techniques: string[] = [];
     const threshold = 0.3; // Only consider elements above this threshold for recommendations
 
     if (properties.Fire > threshold) {
@@ -387,7 +387,7 @@ export const elementalUtils = {
    * @returns Array of recommended complementary ingredients
    */
   getRecommendedTimeOfDay: function(properties: ElementalProperties): string[] {
-    const _times: string[] = [],
+    const _times: string[] = [];
     const threshold = 0.3; // Only consider elements above this threshold for recommendations
     const weightedTimes: string[] = [];
 
@@ -601,7 +601,7 @@ export function transformItemsWithPlanetaryPositions(
     )[0][0] as AlchemicalProperty;
 
     // Extract dominant planets based on planetary positions if available
-    let dominantPlanets: string[] = [],
+    let dominantPlanets: string[] = [];
     if (planetaryPositions) {
       // Get top 3 planets with highest values or dignity
       const planetEntries = Object.entries(planetaryPositions).filter(
@@ -1344,7 +1344,7 @@ export function enhanceOilProperties(
     if (!enhancedOil.recommendedCookingMethods) {
       const smokePointData = enhancedOil.smokePoint as unknown as any;
       const smokePoint = Number(smokePointData.fahrenheit) || 0;
-      const methods: Array<{ name: string, potency: number }> = [],
+      const methods: Array<{ name: string, potency: number }> = [];
 
       if (smokePoint > 400) {
         methods.push({ name: 'deepFrying', potency: 0.9 })

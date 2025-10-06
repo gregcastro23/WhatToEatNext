@@ -33,7 +33,7 @@ import { ElementalProperties } from '@/types/alchemy';
  * @returns The modality (Cardinal, Fixed, or Mutable)
  */
 export function determineIngredientModality(
-  qualities: string[] = [],
+  qualities: string[] = [];
   elementalProperties?: ElementalProperties,
 ): any {
   // Ensure qualities is an array

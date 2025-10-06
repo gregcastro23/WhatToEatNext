@@ -151,7 +151,7 @@ export class RecipeEnhancer {
       kalchm: number,
       contribution: number,
       elementalContribution: ElementalProperties
-    }> = [],
+    }> = [];
 
     for (const ingredient of ingredients) {
       if (!isIngredientLike(ingredient)) continue,

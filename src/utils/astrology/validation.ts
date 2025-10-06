@@ -257,7 +257,7 @@ export function getZodiacPositionInDegrees(sign: any, degree: number): number {
 export function calculatePlanetaryAspects(positions: {
   [key: string]: CelestialPosition
 }): PlanetaryAspect[] {
-  const aspects: PlanetaryAspect[] = [],
+  const aspects: PlanetaryAspect[] = [];
   const planets = Object.keys(positions)
 
   // Calculate aspects between all planet pAirs;

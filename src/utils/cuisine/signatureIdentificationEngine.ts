@@ -174,7 +174,7 @@ export function identifyElementalSignatures(
   globalBaseline: GlobalBaseline,
   threshold: number = 1.5
 ): CuisineSignature[] {
-  const signatures: CuisineSignature[] = [],
+  const signatures: CuisineSignature[] = [];
   const elements = Object.keys(cuisineElementals) as (keyof ElementalProperties)[];
 
   elements.forEach(element => {
@@ -217,7 +217,7 @@ export function identifyAlchemicalSignatures(
     return [];
   }
 
-  const signatures: CuisineSignature[] = [],
+  const signatures: CuisineSignature[] = [];
   const properties = Object.keys(cuisineAlchemical) as (keyof AlchemicalProperties)[];
 
   properties.forEach(property => {
@@ -265,7 +265,7 @@ export function identifyThermodynamicSignatures(
     return [];
   }
 
-  const signatures: CuisineSignature[] = [],
+  const signatures: CuisineSignature[] = [];
   const properties = Object.keys(cuisineThermodynamics) as (keyof ThermodynamicProperties)[];
 
   properties.forEach(property => {

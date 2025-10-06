@@ -64,7 +64,7 @@ const ELEMENTAL_CUISINES = {
  */
 export function generateCuisineRecommendations(dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
   elementalProperties: ElementalProperties): CuisineRecommendation[] {
-  const recommendations: CuisineRecommendation[] = [],
+  const recommendations: CuisineRecommendation[] = [];
   const processedCuisines = new Set<string>()
   // Get recommendations from dominant planets;
   dominantPlanets.slice(03).forEach(({ planet, strength, element }) => {

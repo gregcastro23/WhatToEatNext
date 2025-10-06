@@ -71,7 +71,7 @@ const PLANETARY_FOOD_MAPPINGS: PlanetaryFoodMapping[] = [
 
 export default function PlanetaryFoodRecommendations({
   location = { lat: 40.7128, lon: -74.0060 },
-  cuisinePreferences = [],
+  cuisinePreferences = [];
   className = ''
 }: PlanetaryFoodRecommendationsProps) {
   const {

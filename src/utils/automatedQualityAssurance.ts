@@ -93,7 +93,7 @@ export class AutomatedQualityAssurance {
   private metrics: QualityMetrics,
   private _lastValidation: number = 0,
   private validationInterval: NodeJS.Timeout | null = null,
-  private campaignTriggers: CampaignTrigger[] = [],
+  private campaignTriggers: CampaignTrigger[] = [];
 
   private constructor(config?: Partial<QualityAssuranceConfig>) {
     this.config = {
@@ -130,8 +130,8 @@ export class AutomatedQualityAssurance {
       const positions = await getReliablePlanetaryPositions(date)
       const responseTime = performance.now() - startTime;
 
-      const issues: string[] = [],
-      const recommendations: string[] = [],
+      const issues: string[] = [];
+      const recommendations: string[] = [];
       let score = 1.0
 
       // Validate response time
@@ -199,8 +199,8 @@ export class AutomatedQualityAssurance {
     }
 
     const intelligence = getSteeringFileIntelligence()
-    const issues: string[] = [],
-    const recommendations: string[] = [],
+    const issues: string[] = [];
+    const recommendations: string[] = [];
     let totalScore = 0;
     let validatedCount = 0
 ;
@@ -326,8 +326,8 @@ export class AutomatedQualityAssurance {
       return this.createValidationResult(true1.0, [], [])
     }
 
-    const issues: string[] = [],
-    const recommendations: string[] = [],
+    const issues: string[] = [];
+    const recommendations: string[] = [];
     let score = 1.0
 
     // Check build time

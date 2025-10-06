@@ -623,7 +623,7 @@ function generateMantraRecommendations(analysis: {
   effectiveness?: { pronunciationAccuracy?: number vibrationalResonance?: number }
   advancedVibrations?: { harmonicResonance?: { fundamental?: number } }
 }): string[] {
-  const recommendations: string[] = [],
+  const recommendations: string[] = [];
 
   if (
     analysis.effectiveness?.pronunciationAccuracy &&
@@ -653,7 +653,7 @@ function generateVisualRecommendations(analysis: {
   colorAnalysis?: { colorHarmony?: number }
   advancedVisual?: { geometricAnalysis?: { symmetry?: number } }
 }): string[] {
-  const recommendations: string[] = [],
+  const recommendations: string[] = [];
 
   if (
     analysis.symbolicEffectiveness?.visualClarity &&
@@ -680,7 +680,7 @@ function generateNutritionalRecommendations(analysis: {
   dietaryAnalysis?: { foodCompatibility?: number }
   advancedNutritional?: { energeticAnalysis?: { pranicValue?: number } }
 }): string[] {
-  const recommendations: string[] = [],
+  const recommendations: string[] = [];
 
   if (
     analysis.nutritionalEffectiveness?.dietaryAlignment &&
@@ -710,7 +710,7 @@ function generateFunctionalRecommendations(analysis: {
   herbalAnalysis?: { herbEffectiveness?: number }
   advancedFunctional?: { operationalAnalysis?: { systemEfficiency?: number } }
 }): string[] {
-  const recommendations: string[] = [],
+  const recommendations: string[] = [];
 
   if (
     analysis.functionalEffectiveness?.operationalEfficiency &&
@@ -740,7 +740,7 @@ function generatePlatformRecommendations(analysis: {
   systemAnalysis?: { systemCoherence?: number }
   advancedPlatform?: { demonstrationAnalysis?: { clarityEffectiveness?: number } }
 }): string[] {
-  const recommendations: string[] = [],
+  const recommendations: string[] = [];
 
   if (
     analysis.platformEffectiveness?.demonstrationClarity &&

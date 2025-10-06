@@ -676,7 +676,7 @@ export class UnifiedRecipeBuildingSystem {
     originalMonica: number | null,
     targetMonica: number,
   ): number[] {
-    const adjustments: number[] = [],
+    const adjustments: number[] = [];
     const currentMonica = originalMonica || 50; // Default to neutral if not provided
     const monicaDiff = targetMonica - currentMonica;
 
@@ -706,7 +706,7 @@ export class UnifiedRecipeBuildingSystem {
     originalMonica: number | null,
     targetMonica: number,
   ): number[] {
-    const adjustments: number[] = [],
+    const adjustments: number[] = [];
     const currentMonica = originalMonica || 50;
     const monicaDiff = targetMonica - currentMonica
 
@@ -736,7 +736,7 @@ export class UnifiedRecipeBuildingSystem {
     originalMonica: number | null,
     targetMonica: number,
   ): string[] {
-    const modifications: string[] = [],
+    const modifications: string[] = [];
     const currentMonica = originalMonica || 50;
     const monicaDiff = targetMonica - currentMonica
 
@@ -1721,7 +1721,7 @@ export class UnifiedRecipeBuildingSystem {
       ingredient: UnifiedIngredient,
       sourceCuisine: string,
       fusionRole: 'base' | 'accent' | 'bridge' | 'innovation'
-    }> = [],
+    }> = [];
 
     if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
       recipe.ingredients.forEach((ingredient, index) => {
@@ -1753,7 +1753,7 @@ export class UnifiedRecipeBuildingSystem {
       method: EnhancedCookingMethod,
       sourceCuisine: string,
       fusionApplication: string
-    }> = [],
+    }> = [];
 
     if (recipe.cookingMethods && Array.isArray(recipe.cookingMethods)) {
       recipe.cookingMethods.forEach((method, index) => {

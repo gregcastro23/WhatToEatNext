@@ -387,7 +387,7 @@ class CuisineComputationCache {
    */
   cleanup(): void {
     const now = new Date();
-    const keysToDelete: string[] = [],
+    const keysToDelete: string[] = [];
 
     this.cache.forEach((entry, cacheKey) => {
       if (now.getTime() - entry.metadata.cachedAt.getTime() > this.config.ttl) {

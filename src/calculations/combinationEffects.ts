@@ -136,7 +136,7 @@ const hasIngredientCombination = (
 }
 
 const calculateElementalInteractions = (ingredients: string[]): CombinationEffect[] => {
-  const effects: CombinationEffect[] = [],
+  const effects: CombinationEffect[] = [];
   const ingredientPairs = getPairs(ingredients);
   ingredientPairs.forEach(([ing1, ing2]) => {
     const elem1 = ingredientMappings[ing1]?.elementalProperties;
@@ -209,7 +209,7 @@ export const _suggestComplementaryIngredients = (
   currentIngredients: string[],
   season?: Season,
 ): string[] => {
-  const suggestions: string[] = [],
+  const suggestions: string[] = [];
   const currentElements = calculateCombinedElements(currentIngredients);
   const dominantElement = getDominantElement(currentElements);
   Object.entries(ingredientMappings).forEach(([ingredient, mapping]) => {

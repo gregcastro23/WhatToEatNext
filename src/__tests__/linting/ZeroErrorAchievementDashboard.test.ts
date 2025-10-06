@@ -221,7 +221,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       const testMetrics = { ...mockMetrics, totalIssues: 500 };
 
       // Run the same detection multiple times
-      const results: number[] = [],
+      const results: number[] = [];
       for (let i = 0; i < 5; i++) {
         const changes = dashboard['detectSignificantChanges'](mockMetrics, testMetrics);
         void results.push(changes.length);

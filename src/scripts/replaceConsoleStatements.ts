@@ -22,7 +22,7 @@ class ConsoleStatementReplacer {
   private readonly srcDir = path.join(process.cwd(), 'src');
   private readonly backupDir = path.join(process.cwd(), '.console-replacement-backup');
   private processedFiles = 0;
-  private replacements: ConsoleReplacement[] = [],
+  private replacements: ConsoleReplacement[] = [];
 
   constructor() {
     this.ensureBackupDirectory();
@@ -47,7 +47,7 @@ class ConsoleStatementReplacer {
   }
 
   private getAllTypeScriptFiles(): string[] {
-    const files: string[] = [],
+    const files: string[] = [];
 
     const scanDirectory = (dir: string) => {
       const entries = fs.readdirSync(dir, { withFileTypes: true }),

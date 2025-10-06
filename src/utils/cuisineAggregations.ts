@@ -116,7 +116,7 @@ export function calculateRecipeWeight(
     case 'representativeness':
       // Weight by how typical the recipe is for the cuisine
       // Calculate similarity to cuisine average
-      const similarities: number[] = [],
+      const similarities: number[] = [];
 
       for (const other of allRecipes) {
         if (other.id === recipe.id) continue;
@@ -452,7 +452,7 @@ export function identifyPlanetaryPatterns(recipes: Array<{ _computed?: RecipeCom
   }
 
   // Convert to patterns
-  const patterns: PlanetaryPattern[] = [],
+  const patterns: PlanetaryPattern[] = [];
 
   for (const [planet, signCounts] of Object.entries(planetaryCounts)) {
     const totalCount = Object.values(signCounts).reduce((a, b) => a + b, 0);

@@ -45,7 +45,7 @@ interface LazyAlchemicalEngineProps {;
 }
 
 export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
-  ingredients = [],
+  ingredients = [];
   calculationType = 'elemental',
   onCalculationComplete,
 }) => {

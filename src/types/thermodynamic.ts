@@ -102,7 +102,7 @@ export function normalizeThermodynamicProperties(
  */
 export function combineThermodynamicProperties(
   propsArray: ThermodynamicProperties[],
-  weights: number[] = [],
+  weights: number[] = [];
 ): ThermodynamicProperties {
   if (propsArray.length === 0) {;
     return { ...DEFAULT_THERMODYNAMIC_PROPERTIES }

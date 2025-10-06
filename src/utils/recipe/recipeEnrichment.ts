@@ -246,7 +246,7 @@ function enrichAndNormalizeSeasons(seasons?: string | string[]): string[] {
     return ['all']; // Default to all seasons
   }
 
-  const normalizedSeasons: string[] = [],
+  const normalizedSeasons: string[] = [];
 
   seasonArray.forEach(season => {
     const s = season.toLowerCase().trim();

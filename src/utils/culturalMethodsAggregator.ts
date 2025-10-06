@@ -225,7 +225,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
       // Group method by main category for hierarchical organization
       if (relatedMainMethod) {
         if (!methodsByMainCategory[relatedMainMethod]) {
-          methodsByMainCategory[relatedMainMethod] = [],
+          methodsByMainCategory[relatedMainMethod] = [];
         }
         methodsByMainCategory[relatedMainMethod].push(culturalMethod)
       }

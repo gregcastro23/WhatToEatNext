@@ -141,7 +141,7 @@ export async function calculateActivePlanets(
     'neptune',
     'pluto'
   ];
-  const activePlanets: string[] = [],
+  const activePlanets: string[] = [];
 
   try {
     // Add ruling planet of current sun sign

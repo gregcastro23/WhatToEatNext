@@ -72,8 +72,8 @@ const VALIDATION_TOLERANCES = {
  */
 export async function validateIngredientData(): Promise<IngredientValidationResult> {
   const startTime = Date.now()
-  const errors: IngredientValidationError[] = [],
-  const warnings: IngredientValidationWarning[] = [],
+  const errors: IngredientValidationError[] = [];
+  const warnings: IngredientValidationWarning[] = [];
 
   try {
     logger.info('Starting comprehensive ingredient data validation')
@@ -155,8 +155,8 @@ async function validateElementalProperties(): Promise<{
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[]
 }> {
-  const errors: IngredientValidationError[] = [],
-  const warnings: IngredientValidationWarning[] = [],
+  const errors: IngredientValidationError[] = [];
+  const warnings: IngredientValidationWarning[] = [];
 
   try {
     const ingredients = allIngredients
@@ -195,7 +195,7 @@ function validateIngredientElementalProperties(
   name: string,
   ingredient: Ingredient,
 ): { errors: IngredientValidationError[], warnings: IngredientValidationWarning[] } {
-  const errors: IngredientValidationError[] = [],
+  const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = []
 
   try {
@@ -316,8 +316,8 @@ async function validateCompatibilityScores(): Promise<{
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[]
 }> {
-  const errors: IngredientValidationError[] = [],
-  const warnings: IngredientValidationWarning[] = [],
+  const errors: IngredientValidationError[] = [];
+  const warnings: IngredientValidationWarning[] = [];
 
   try {
     const ingredients = allIngredients;
@@ -414,8 +414,8 @@ async function validateAlchemicalMappings(): Promise<{
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[]
 }> {
-  const errors: IngredientValidationError[] = [],
-  const warnings: IngredientValidationWarning[] = [],
+  const errors: IngredientValidationError[] = [];
+  const warnings: IngredientValidationWarning[] = [];
 
   try {
     const ingredients = allIngredients
@@ -463,8 +463,8 @@ function validateAlchemicalConsistency(
   name: string,
   ingredient: Ingredient,
 ): { errors: IngredientValidationError[], warnings: IngredientValidationWarning[] } {
-  const errors: IngredientValidationError[] = [],
-  const warnings: IngredientValidationWarning[] = [],
+  const errors: IngredientValidationError[] = [];
+  const warnings: IngredientValidationWarning[] = [];
 
   try {
     const ingredientData = ingredient as unknown as any;
@@ -546,8 +546,8 @@ async function validateDataCompleteness(): Promise<{
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[]
 }> {
-  const errors: IngredientValidationError[] = [],
-  const warnings: IngredientValidationWarning[] = [],
+  const errors: IngredientValidationError[] = [];
+  const warnings: IngredientValidationWarning[] = [];
 
   try {
     const ingredients = allIngredients;
@@ -889,8 +889,8 @@ function analyzeIngredientTestResults(_testResults: IngredientTestResult[]): {
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[]
 } {
-  const errors: IngredientValidationError[] = [],
-  const warnings: IngredientValidationWarning[] = [],
+  const errors: IngredientValidationError[] = [];
+  const warnings: IngredientValidationWarning[] = [];
 
   const totalTests = testResults.length;
   const passedTests = testResults.filter(t => t.passed).length;
@@ -994,8 +994,8 @@ async function validateKineticsIntegration(): Promise<{
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[]
 }> {
-  const errors: IngredientValidationError[] = [],
-  const warnings: IngredientValidationWarning[] = [],
+  const errors: IngredientValidationError[] = [];
+  const warnings: IngredientValidationWarning[] = [];
 
   try {
     const ingredients = allIngredients;

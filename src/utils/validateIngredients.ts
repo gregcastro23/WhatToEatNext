@@ -3,7 +3,7 @@ import { _logger } from '@/lib/logger';
 import type { RecipeIngredient } from '@/types/recipe';
 
 export function validateIngredientData(_recipes: { ingredients: RecipeIngredient[] }[]): boolean {
-  const missingElementals: RecipeIngredient[] = [],
+  const missingElementals: RecipeIngredient[] = [];
 
   recipes.forEach(recipe => {
     recipe.ingredients.forEach(ingredient => {
@@ -39,7 +39,7 @@ export function validateIngredientData(_recipes: { ingredients: RecipeIngredient
 }
 
 export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
-  let validationErrors: string[] = [],
+  let validationErrors: string[] = [];
 
   // Check that ingredients is an array
   if (!Array.isArray(ingredients)) {

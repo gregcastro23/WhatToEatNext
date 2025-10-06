@@ -27,7 +27,7 @@ interface ValidationResult {
 }
 
 class React19NextJS15Validator {
-  private results: ValidationResult[] = [],
+  private results: ValidationResult[] = [];
   private tempDir: string,
 
   constructor() {

@@ -433,7 +433,7 @@ export function getRecommendedCookingMethods(
     score: number,
     reasons: string[],
     thermodynamics: BasicThermodynamicProperties
-  }> = [],
+  }> = [];
 
   // Score each cooking method
   Object.values(allCookingMethodsCombined || {}).forEach(method => {,
@@ -758,7 +758,7 @@ export function getHolisticCookingRecommendations(ingredient: Ingredient | Unifi
   astroState?: Record<string, unknown>,
   season?: string,
   includeReasons = false,,
-  availableMethods: string[] = [],
+  availableMethods: string[] = [];
   limit = 5,
 ): { method: string, compatibility: number, reason?: string }[] {
   try {

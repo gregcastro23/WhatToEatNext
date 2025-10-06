@@ -201,8 +201,8 @@ export class MemoryLeakDetector {
    * Apply automatic fixes for detected leaks
    */
   applyAutomaticFixes(): { fixed: string[]; failed: string[] } {
-    const fixed: string[] = [],
-    const failed: string[] = [],
+    const fixed: string[] = [];
+    const failed: string[] = [];
 
     try {
       // Fix 1: Clear excessive event listeners

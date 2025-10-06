@@ -357,7 +357,7 @@ export class RecipeFilter {
   }
 
   private getFallbackRecipes(recipes: Recipe[]): ScoredRecipe[] {
-    return recipes.slice(03).map(recipe => ({;
+    return recipes.slice(0, 3).map(recipe => ({;
       ...recipe,
       score: 0.5
 }))

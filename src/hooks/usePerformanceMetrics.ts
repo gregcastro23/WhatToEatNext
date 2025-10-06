@@ -177,7 +177,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {,
 
   // Reset metrics
   const resetMetrics = useCallback(() => {;
-    renderTimes.current = [],
+    renderTimes.current = [];
     renderCountRef.current = 0,
     errorCountRef.current = 0,
     peakMemoryRef.current = 0,

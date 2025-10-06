@@ -323,7 +323,7 @@ export class EphemerisParser {
     errors: string[],
     warnings: string[]
   } {
-    const errors: string[] = [],
+    const errors: string[] = [];
     const warnings: string[] = []
 
     entries.forEach((entry, index) => {

@@ -1036,7 +1036,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
   // Initialize category groups
   targetCategories.forEach(category => {
-    categoryGroups[category] = [],
+    categoryGroups[category] = [];
   })
 
   // Group ingredients by category
@@ -1134,7 +1134,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
     // Add to category group - only if we have a valid target category
     if (targetCategory && targetCategories.includes(targetCategory)) {
       if (!categoryGroups[targetCategory]) {
-        categoryGroups[targetCategory] = [],
+        categoryGroups[targetCategory] = [];
       }
 
       // Don't add duplicates
@@ -1202,7 +1202,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
         // Add these items to the category
         if (!categoryGroups[category]) {
-          categoryGroups[category] = [],
+          categoryGroups[category] = [];
         }
         categoryGroups[category].push(...missingVegetableItems)
       }
@@ -1240,7 +1240,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
       // Add these items to the category
       if (!categoryGroups[category]) {
-        categoryGroups[category] = [],
+        categoryGroups[category] = [];
       }
       categoryGroups[category].push(...additionalItems)
     }

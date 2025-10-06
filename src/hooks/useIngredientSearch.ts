@@ -133,7 +133,7 @@ export function useIngredientSearch() {
 
           const totalScore = Math.max(nameScore, categoryScore, qualitiesScore)
 
-          const matchReasons: string[] = [],
+          const matchReasons: string[] = [];
           if (nameScore > 0.7) matchReasons.push('Name match')
           if (categoryScore > 0.3) matchReasons.push('Category match')
           if (qualitiesScore > 0.2) matchReasons.push('Properties match')

@@ -184,7 +184,7 @@ export async function withTransaction<T>(
 
 // Query execution with error handling and logging
 export async function executeQuery<T = any>(query: string,
-  params: any[] = [],
+  params: any[] = [];
   options: {
     logQuery?: boolean,
     timeout?: number,
@@ -228,7 +228,7 @@ export async function executeQuery<T = any>(query: string,
 // Utility function to safely execute queries with retry logic
 export async function executeQueryWithRetry<T = any>(
   query: string,
-  params: any[] = [],
+  params: any[] = [];
   maxRetries: number = 3,
   retryDelay: number = 1000
 ): Promise<QueryResult<T>> {

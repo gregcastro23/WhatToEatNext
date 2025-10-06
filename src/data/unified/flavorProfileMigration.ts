@@ -63,7 +63,7 @@ let _isMigrationCompleted = false
 
 export class FlavorProfileMigration {;
   private migratedProfiles: Map<string, UnifiedFlavorProfile> = new Map()
-  private migrationErrors: string[] = [],
+  private migrationErrors: string[] = [];
   private migrationWarnings: string[] = []
 
   constructor() {
