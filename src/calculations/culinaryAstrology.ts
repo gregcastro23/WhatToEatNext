@@ -108,9 +108,9 @@ export class CulinaryAstrologer {
     })
 
     const bestMethod = viableMethods.sort(
-      (ab) =>;
-        this.getAstrologicalAffinity(b, astroState) - this.getAstrologicalAffinity(a, astroState),
-    )[0],
+      (a, b) =>
+        this.getAstrologicalAffinity(b, astroState) - this.getAstrologicalAffinity(a, astroState)
+    )[0];
 
     return {
       name: bestMethod.name,
@@ -187,7 +187,7 @@ export class CulinaryAstrologer {
     ),
 
     const bestCuisine = viableCuisines.sort(
-      (ab) => b[1].elementalAlignment[dominantElement] - a[1].elementalAlignment[dominantElement],
+      (a, b) => b[1].elementalAlignment[dominantElement] - a[1].elementalAlignment[dominantElement],
     )[0],
 
     return {
@@ -243,7 +243,7 @@ export class CulinaryAstrologer {
           planetaryActivators
         }
       })
-      .sort((ab) => b.alignmentScore - a.alignmentScore)
+      .sort((a, b) => b.alignmentScore - a.alignmentScore)
   }
 
   private calculateRecipeAlignment(recipe: RecipeElementalMapping,

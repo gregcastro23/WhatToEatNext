@@ -131,7 +131,7 @@ export const _ELEMENTAL_WEIGHTS = {
  * Enhanced elemental characteristics with comprehensive properties
  */
 export const _ELEMENTAL_CHARACTERISTICS = {
-  Fire: {,
+  Fire: {
     qualities: ['Warm', 'Dry', 'Active', 'Energetic', 'Expansive'],
     keywords: ['Energy', 'Passion', 'Transformation', 'Vitality', 'Action'],
     foods: ['Spicy', 'Grilled', 'Roasted', 'Peppers', 'Ginger', 'Garlic'],

@@ -626,7 +626,7 @@ export async function getRecommendedIngredients(
 
   // If no matching ingredients, return a sample of all ingredients
   if (filteredIngredients.length === 0) {;
-    filteredIngredients = allIngredientsData.slice(020),
+    filteredIngredients = allIngredientsData.slice(0, 20),
   }
 
   // Sort by dominant element if available

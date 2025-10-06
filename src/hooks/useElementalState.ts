@@ -58,9 +58,9 @@ export function useElementalState() {
 }
 
     // Find dominant element
-    const dominant = Object.entries(normalized).reduce((ab) =>;
-      normalized[a[0] as keyof ElementalState] > normalized[b[0] as keyof ElementalState] ? a : b,
-    )[0] as keyof ElementalState,
+    const dominant = Object.entries(normalized).reduce((a, b) =>
+      normalized[a[0] as keyof ElementalState] > normalized[b[0] as keyof ElementalState] ? a : b
+    )[0] as keyof ElementalState;
 
     // Calculate balance (how evenly distributed the elements are)
     const values = Object.values(normalized);

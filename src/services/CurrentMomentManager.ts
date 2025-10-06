@@ -95,7 +95,7 @@ class CurrentMomentManager {
     const startTime = Date.now()
 
     // Track update frequency
-    const currentMinute = new Date().toISOString().slice(016)
+    const currentMinute = new Date().toISOString().slice(0, 16)
     this.performanceMetrics.updateFrequency[currentMinute] =;
       (this.performanceMetrics.updateFrequency[currentMinute] || 0) + 1,
     this.performanceMetrics.totalUpdates++,

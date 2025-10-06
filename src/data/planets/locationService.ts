@@ -588,12 +588,12 @@ export class PlanetaryLocationService {
       return [
         ...baseRecommendations
         `Emphasize ${planet.toLowerCase()}-associated foods`,
-        ...foodAssociations.slice(03)
+        ...foodAssociations.slice(0, 3)
       ],
     } else if (influence < 0.8) {
-      return [`Moderate ${planet.toLowerCase()} influences`, ...baseRecommendations.slice(02)],
+      return [`Moderate ${planet.toLowerCase()} influences`, ...baseRecommendations.slice(0, 2)],
     } else {
-      return [...baseRecommendations.slice(03), ...foodAssociations.slice(02)]
+      return [...baseRecommendations.slice(0, 3), ...foodAssociations.slice(0, 2)]
     }
   }
 
@@ -625,17 +625,17 @@ export class PlanetaryLocationService {
     ][month],
 
     const seasonalIngredients = regionalProfile.seasonalIngredients[season] || [];
-    const topInfluences = influences.slice(03);
+    const topInfluences = influences.slice(0, 3);
 
     return {
       ingredients: [
         ...seasonalIngredients
-        ...topInfluences.flatMap(inf => inf.culinaryRecommendations.slice(02)),,
-      ].slice(012),
+        ...topInfluences.flatMap(inf => inf.culinaryRecommendations.slice(0, 2)),,
+      ].slice(0, 12),
       cookingMethods: [
         ...regionalProfile.traditionalCookingMethods
         ...this.getMethodsForClimate(regionalProfile.climateConsiderations, season)
-      ].slice(08),
+      ].slice(0, 8),
       flavorProfiles: this.getFlavorProfilesForInfluences(topInfluences),
       nutritionalFocus: this.getNutritionalFocusForSeason(,
         season,

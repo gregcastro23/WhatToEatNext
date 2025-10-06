@@ -37,7 +37,7 @@ const PLANETARY_CUISINES = {
  * Elemental cuisine characteristics
  */
 const ELEMENTAL_CUISINES = {
-  Fire: {,
+  Fire: {
     cuisines: ['Mexican', 'Indian', 'Thai', 'Cajun', 'Ethiopian'],
     characteristics: ['Spicy', 'Grilled', 'Roasted', 'High heat cooking'],
     ingredients: ['Chili peppers', 'Ginger', 'Garlic', 'Spices']

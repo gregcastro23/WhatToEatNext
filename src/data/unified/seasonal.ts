@@ -1234,14 +1234,14 @@ export class UnifiedSeasonalSystem {
     const transitionalIngredients: UnifiedIngredient[] = [];
 
     // Add ingredients from departing season (weighted by 1-progress)
-    for (const ingredient of fromIngredients.slice(010)) {
+    for (const ingredient of fromIngredients.slice(0, 10)) {
       if (Math.random() < 1 - progress) {
         transitionalIngredients.push(ingredient)
       }
     }
 
     // Add ingredients from arriving season (weighted by progress)
-    for (const ingredient of toIngredients.slice(010)) {
+    for (const ingredient of toIngredients.slice(0, 10)) {
       if (
         Math.random() < progress &&
         !transitionalIngredients.find(i => i.name === ingredient.name)
@@ -1267,14 +1267,14 @@ export class UnifiedSeasonalSystem {
     const transitionalMethods: EnhancedCookingMethod[] = [];
 
     // Add methods from departing season
-    for (const method of fromMethods.slice(03)) {
+    for (const method of fromMethods.slice(0, 3)) {
       if (Math.random() < 1 - progress) {
         transitionalMethods.push(method)
       }
     }
 
     // Add methods from arriving season
-    for (const method of toMethods.slice(03)) {
+    for (const method of toMethods.slice(0, 3)) {
       if (Math.random() < progress && !transitionalMethods.find(m => m.name === method.name)) {,
         transitionalMethods.push(method)
       }

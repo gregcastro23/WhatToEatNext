@@ -517,7 +517,7 @@ export function getRecommendedCookingMethods(
   // Sort by score and return top recommendations
   return recommendations
     .sort((ab) => (Number(b.score) || 0) - (Number(a.score) || 0))
-    .slice(010)
+    .slice(0, 10)
     .map(rec => ({,
       name: rec.method.name,
       score: rec.score,

@@ -104,7 +104,7 @@ export function useIngredientSearch() {
   // Search and filter ingredients
   const searchResults = useMemo(() => {
     if (!searchTerm && !selectedCategory) {
-      return allIngredients.slice(020).map(ingredient => ({;
+      return allIngredients.slice(0, 20).map(ingredient => ({;
         ...ingredient,
         searchScore: 1,
         matchReasons: ['All ingredients']
@@ -146,12 +146,12 @@ export function useIngredientSearch() {
         })
         .filter(result => result.searchScore > 0.1)
         .sort((ab) => b.searchScore - a.searchScore)
-        .slice(050)
+        .slice(0, 50)
 ;
       return results;
     }
 
-    return filteredIngredients.slice(050).map(ingredient => ({;
+    return filteredIngredients.slice(0, 50).map(ingredient => ({;
       ...ingredient,
       searchScore: 1,
       matchReasons: ['Category filter']
@@ -217,7 +217,7 @@ export function useIngredientSearch() {
         }
       })
       .sort((ab) => b.searchScore - a.searchScore)
-      .slice(010)
+      .slice(0, 10)
   }
 
   // Get ingredients by category
