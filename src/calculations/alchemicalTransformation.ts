@@ -80,7 +80,7 @@ export const transformItemWithPlanetaryPositions = (
     } = calculatePlanetaryBoost(
       sanitizedItem,
       planetPositions,
-      (currentZodiac || 'aries') || 'aries'
+      (currentZodiac || 'aries') || 'aries',
       lunarPhase || null,
     );
 
@@ -208,7 +208,7 @@ export const transformItemWithPlanetaryPositions = (
     const safeGregsEnergy = Math.max(0.2, Math.min(0.98, adjustedEnergy));
 
     // Add more debug logging
-    logger.debug(`[Ingredient: ${sanitizedItem.name}] Raw heat: ${alchemicalResults.heat}, Boosted heat: ${safeHeat}, Planetary boost: ${planetaryBoost}`),
+    logger.debug(`[Ingredient: ${sanitizedItem.name}] Raw heat: ${alchemicalResults.heat}, Boosted heat: ${safeHeat}, Planetary boost: ${planetaryBoost}`);
 
     return {
       ...sanitizedItem,
@@ -264,7 +264,7 @@ export const _transformItemsWithPlanetaryPositions = (
         item,
         planetPositions,
         isDaytime,
-        (currentZodiac || 'aries') || 'aries'
+        (currentZodiac || 'aries') || 'aries',
         lunarPhase,
       )
     );
