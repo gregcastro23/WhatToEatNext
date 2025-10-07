@@ -237,7 +237,7 @@ export async function PUT(request: NextRequest) {
  */
 export async function PATCH() {
   try {
-    logger.warn('🚨 EMERGENCY: API endpoint called for emergency planetary rectification'),
+    logger.warn('🚨 EMERGENCY: API endpoint called for emergency planetary rectification');
 
     const result = await emergencyPositionRectification();
 
