@@ -742,39 +742,39 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       if (profileData.aspectEnhancers && (profileData.aspectEnhancers as unknown[]).length > 0) {
         const relevantAspects = astroState.aspects.filter(aspect => {
           // Check if this aspect type is specifically listed as an enhancer
-          return aspect.type && (profileData.aspectEnhancers as string[]).includes(aspect.type)
-        })
+          return aspect.type && (profileData.aspectEnhancers as string[]).includes(aspect.type);
+        });
 
         if (relevantAspects.length > 0) {
-          aspectScore = 0.9, // Strong boost for specifically favorable aspects,
+          aspectScore = 0.9; // Strong boost for specifically favorable aspects
         }
       } else if (profile.rulingPlanets && profile.rulingPlanets.length > 0) {
         // Use enhanced aspect logic - find aspects involving the ingredient's ruling planets
         const relevantAspects = astroState.aspects.filter(aspect => {
           return profile.rulingPlanets.some(planet => {
-            const planetLower = planet.toLowerCase()
+            const planetLower = planet.toLowerCase();
             return (
               aspect.planet1.toLowerCase() === planetLower ||
               aspect.planet2.toLowerCase() === planetLower
-            )
-          })
-        })
+            );
+          });
+        });
 
         if (relevantAspects.length > 0) {
           // Calculate average aspect strength considering aspect type
           const totalStrength = 0;
 
           relevantAspects.forEach(aspect => {
-            let multiplier = 1.0
+            let multiplier = 1.0;
 
             // More detailed aspect type classification
-            // Beneficial aspects enhance score,
-            if (aspect.type === 'trine') multiplier = 1.3,
-            else if (aspect.type === 'sextile') multiplier = 1.2,
+            // Beneficial aspects enhance score
+            if (aspect.type === 'trine') multiplier = 1.3;
+            else if (aspect.type === 'sextile') multiplier = 1.2;
             else if (aspect.type === 'conjunction') {
               // Conjunctions can be beneficial or challenging depending on planets
-              const planet1 = aspect.planet1.toLowerCase()
-              const planet2 = aspect.planet2.toLowerCase()
+              const planet1 = aspect.planet1.toLowerCase();
+              const planet2 = aspect.planet2.toLowerCase();
 
               // Beneficial conjunctions (examples)
               if (
@@ -782,34 +782,34 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
                 (planet1 === 'jupiter' && planet2 === 'venus') ||
                 (planet1 === 'sun' && planet2 === 'jupiter') ||
                 (planet1 === 'jupiter' && planet2 === 'sun')
-              ) {;
-                multiplier = 1.3,
+              ) {
+                multiplier = 1.3;
               }
               // Challenging conjunctions (examples)
               else if (
                 (planet1 === 'mars' && planet2 === 'saturn') ||
                 (planet1 === 'saturn' && planet2 === 'mars')
-              ) {;
-                multiplier = 0.8,
+              ) {
+                multiplier = 0.8;
               } else {
-                multiplier = 1.1, // Default for other conjunctions,
+                multiplier = 1.1; // Default for other conjunctions
               }
             }
             // Challenging aspects reduce score
-            else if (aspect.type === 'square') multiplier = 0.8,
-            else if (aspect.type === 'opposition') multiplier = 0.7,
+            else if (aspect.type === 'square') multiplier = 0.8;
+            else if (aspect.type === 'opposition') multiplier = 0.7;
             // Quincunx/Inconjunct aspects
-            else if (aspect.type === 'quincunx' || aspect.type === 'inconjunct') multiplier = 0.85,
+            else if (aspect.type === 'quincunx' || aspect.type === 'inconjunct') multiplier = 0.85;
             // Semi-sextile aspects - minor benefit
             else if (aspect.type === 'semi-sextile' || aspect.type === 'semisextile')
-              multiplier = 1.05,
+              multiplier = 1.05;
 
-            totalStrength += (aspect.strength || 0.5) * multiplier,
-          })
+            totalStrength += (aspect.strength || 0.5) * multiplier;
+          });
 
-          aspectScore = totalStrength / relevantAspects.length,
+          aspectScore = totalStrength / relevantAspects.length;
           // Cap at 1.0
-          aspectScore = Math.min(1, aspectScore)
+          aspectScore = Math.min(1, aspectScore);
         }
       }
     }
@@ -855,15 +855,15 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
     // Get user preferences from the state manager if available
     // instead of using a placeholder assumption
     const astroStateData = astroState as any;
-    const userPreferences = astroStateData.userPreferences || {}
-    const tastePreferences = (userPreferences ).taste || {;
+    const userPreferences = astroStateData.userPreferences || {};
+    const tastePreferences = userPreferences.taste || {
       sweet: 0.5,
       salty: 0.5,
       sour: 0.5,
       bitter: 0.5,
       umami: 0.5,
       spicy: 0.5
-}
+    };
 
     if (standardized.sensoryProfile) {
       const sensory = standardized.sensoryProfile as unknown;
@@ -877,22 +877,22 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         Object.entries(sensory.taste).forEach(([taste, value]) => {
           const tasteValue = value;
           const preference = tastePreferences[taste] || 0.5;
-          tasteScore += tasteValue * preference,
-          weightSum += preference,
-        })
+          tasteScore += tasteValue * preference;
+          weightSum += preference;
+        });
 
         // Normalize taste score
         // Pattern KK-9: Cross-Module Arithmetic Safety for utility calculations
         const numericWeightSum = Number(weightSum) || 1;
         const numericTasteScore = Number(tasteScore) || 0;
         const avgTaste =
-          numericWeightSum > 0,
+          numericWeightSum > 0
             ? numericTasteScore / numericWeightSum
             : // Pattern KK-9: Safe reduction for taste values
               (Object.values(sensory.taste)
                 .map(val => Number(val) || 0)
-                .reduce((acc: number, val: number) => acc + val0) || 0) /
-              (Object.values(sensory.taste).length || 1)
+                .reduce((acc: number, val: number) => acc + val, 0) || 0) /
+              (Object.values(sensory.taste).length || 1);
 
         sensoryScore = (sensoryScore + avgTaste) / 2;
       }

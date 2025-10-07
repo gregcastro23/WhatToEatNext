@@ -266,14 +266,18 @@ declare global {
 
 // Export enhanced types for use in components
     export type {
-        Astrology, Astrology, Astrology, CulinaryAstrologyData as CulinaryAstrologyData, ElementalProperties as ElementalProperties, EnhancedIngredient,
-        EnhancedRecipe, PlanetaryPosition as PlanetaryPosition
+        Astrology,
+        CulinaryAstrologyData,
+        ElementalProperties,
+        EnhancedIngredient,
+        EnhancedRecipe,
+        PlanetaryPosition
     };
 
-  /**
-   * Organize and optimize imports automatically
-   */
-  public organizeImports(sourceCode: string): string {
+/**
+ * Organize and optimize imports automatically
+ */
+export function organizeImports(sourceCode: string): string {
     if (!this.optimizationConfig.importOrganization.enableAutoImportOrganization) {
       return sourceCode
     }

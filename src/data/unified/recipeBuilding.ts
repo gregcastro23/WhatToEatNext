@@ -677,29 +677,31 @@ export class UnifiedRecipeBuildingSystem {
     targetMonica: number,
   ): number[] {
     const adjustments: number[] = [];
-    const currentMonica = originalMonica || 50; // Default to neutral if not provided
-    const monicaDiff = targetMonica - currentMonica;
 
-    // Monica scoring affects temperature preferences
-    // Higher Monica = higher energy = higher temperatures
-    if (monicaDiff > 20) {
-      // Need significant temperature increase;
-      adjustments.push(2550), // Increase by 25-50°F
-    } else if (monicaDiff > 10) {
-      // Moderate temperature increase
-      adjustments.push(1025), // Increase by 10-25°F
-    } else if (monicaDiff < -20) {
-      // Need temperature decrease for lower Monica
-      adjustments.push(-25, -10), // Decrease by 10-25°F
-    } else if (monicaDiff < -10) {
-      // Slight temperature decrease
-      adjustments.push(-15, -5), // Decrease by 5-15°F
-    } else {
-      // Monica is close to target
-      adjustments.push(-55), // Minor adjustments only
+    if (!originalMonica) {
+      return [-25, -10, 0, 10, 25]; // Default range for exploration
     }
 
-    return adjustments
+    const monicaDiff = targetMonica - originalMonica;
+
+    if (monicaDiff > 20) {
+      // Need significant temperature increase
+      adjustments.push(25, 50); // Increase by 25-50°F
+    } else if (monicaDiff > 10) {
+      // Moderate temperature increase
+      adjustments.push(10, 25); // Increase by 10-25°F
+    } else if (monicaDiff < -20) {
+      // Need temperature decrease for lower Monica
+      adjustments.push(-25, -10); // Decrease by 10-25°F
+    } else if (monicaDiff < -10) {
+      // Slight temperature decrease
+      adjustments.push(-15, -5); // Decrease by 5-15°F
+    } else {
+      // Monica is close to target
+      adjustments.push(-5, 5); // Minor adjustments only
+    }
+
+    return adjustments;
   }
 
   private calculateTimingAdjustments(
@@ -707,29 +709,25 @@ export class UnifiedRecipeBuildingSystem {
     targetMonica: number,
   ): number[] {
     const adjustments: number[] = [];
-    const currentMonica = originalMonica || 50;
-    const monicaDiff = targetMonica - currentMonica
 
-    // Higher Monica scores require shorter cooking times (more energy preserved)
-    // Lower Monica scores benefit from longer cooking times (gentler transformation)
-    if (monicaDiff > 20) {
-      // Reduce cooking time to preserve energy;
-      adjustments.push(-0.3, -0.2), // Reduce by 20-30%
-    } else if (monicaDiff > 10) {
-      // Slightly reduce cooking time
-      adjustments.push(-0.15, -0.1), // Reduce by 10-15%
-    } else if (monicaDiff < -20) {
-      // Increase cooking time for gentler transformation
-      adjustments.push(0.20.4), // Increase by 20-40%
-    } else if (monicaDiff < -10) {
-      // Slightly increase cooking time
-      adjustments.push(0.10.2), // Increase by 10-20%
-    } else {
-      // Minor timing adjustments
-      adjustments.push(-0.050.05), // ±5%
+    if (!originalMonica) {
+      return [-15, -5, 0, 5, 15]; // Default timing variations
     }
 
-    return adjustments
+    const monicaDiff = targetMonica - originalMonica;
+
+    if (Math.abs(monicaDiff) > 15) {
+      // Significant Monica difference - larger time adjustments
+      adjustments.push(-20, -10, 10, 20); // ±10-20 minutes
+    } else if (Math.abs(monicaDiff) > 5) {
+      // Moderate difference
+      adjustments.push(-10, -5, 5, 10); // ±5-10 minutes
+    } else {
+      // Close to target
+      adjustments.push(-5, 0, 5); // Minor timing tweaks
+    }
+
+    return adjustments;
   }
 
   private calculateIntensityModifications(
@@ -800,8 +798,8 @@ export class UnifiedRecipeBuildingSystem {
 
     // Add seasonal timing if provided
     if (criteria.season) {
-      const seasonalTiming = this.getSeasonalPlanetaryTiming(criteria.season, targetMonica),
-      recommendations.push(seasonalTiming)
+      const seasonalTiming = this.getSeasonalPlanetaryTiming(criteria.season, targetMonica);
+      recommendations.push(seasonalTiming);
     }
 
     return recommendations;
@@ -814,103 +812,109 @@ export class UnifiedRecipeBuildingSystem {
     timingAdjustments: number[],
   ): number {
     const currentMonica = originalMonica || 50;
-    const monicaDiff = Math.abs(targetMonica - currentMonica)
+    const monicaDiff = Math.abs(targetMonica - currentMonica);
 
-    // Base score starts high and decreases with difficulty;
-    let score = 1.0,
+    // Base score starts high and decreases with difficulty
+    let score = 1.0;
 
     // Deduct for large Monica differences (harder to achieve)
     score -= (monicaDiff / 100) * 0.3; // Up to 30% deduction
 
     // Factor in adjustment ranges
-    const tempRange = Math.abs(temperatureAdjustments[1] - temperatureAdjustments[0])
-    const timeRange = Math.abs(timingAdjustments[1] - timingAdjustments[0])
-;
-    // Smaller adjustment ranges = more precise = better score,
-    score -= (tempRange / 100) * 0.1 // Up to 10% for temperature variance
-    score -= timeRange * 0.1, // Up to 10% for timing variance
+    const tempRange = Math.abs(temperatureAdjustments[1] - temperatureAdjustments[0]);
+    const timeRange = Math.abs(timingAdjustments[1] - timingAdjustments[0]);
+
+    // Smaller adjustment ranges = more precise = better score
+    score -= (tempRange / 100) * 0.1; // Up to 10% for temperature variance
+    score -= timeRange * 0.1; // Up to 10% for timing variance
 
     // Bonus for staying within comfortable ranges
     if (monicaDiff < 20) {
-      score += 0.1, // 10% bonus for achievable target
+      score += 0.1; // 10% bonus for achievable target
     }
 
     // Ensure score stays within bounds
-    return Math.max(0.4, Math.min(1.0, score))
+    return Math.max(0.4, Math.min(1.0, score));
   }
 
   private getSeasonalPlanetaryTiming(season: Season, targetMonica: number): string {
     const timingMap: Record<Season, Record<string, string>> = {
       spring: {
-        high: 'Dawn cooking aligns with Spring's rising energy',
+        high: 'Dawn cooking aligns with Spring\'s rising energy',
         medium: 'Mid-morning preparation captures growth energy',
-        low: 'Evening cooking grounds Spring's active energy' },
-        summer: {
-        high: 'Noon cooking maximizes Summer's peak energy',
+        low: 'Evening cooking grounds Spring\'s active energy'
+      },
+      summer: {
+        high: 'Noon cooking maximizes Summer\'s peak energy',
         medium: 'Late afternoon balances Summer intensity',
-        low: 'Early morning or late evening for cooling' },
-        autumn: {
-        high: 'Afternoon cooking gathers Autumn's harvest energy',
+        low: 'Early morning or late evening for cooling'
+      },
+      autumn: {
+        high: 'Afternoon cooking gathers Autumn\'s harvest energy',
         medium: 'Sunset preparation for balanced transformation',
-        low: 'Evening cooking enhances Autumn's introspection' },
-        fall: {
-        high: 'Afternoon cooking gathers Fall's harvest energy',
+        low: 'Evening cooking enhances Autumn\'s introspection'
+      },
+      fall: {
+        high: 'Afternoon cooking gathers Fall\'s harvest energy',
         medium: 'Sunset preparation for balanced transformation',
-        low: 'Evening cooking enhances Fall's introspection' },
-        winter: {
-        high: 'Midday cooking counters Winter's dormancy',
+        low: 'Evening cooking enhances Fall\'s introspection'
+      },
+      winter: {
+        high: 'Midday cooking counters Winter\'s dormancy',
         medium: 'Late afternoon for warming comfort',
-        low: 'Long, slow evening cooking for deep nourishment' },
-        all: {
-        high: 'Solar noon maximizes any season's energy',
+        low: 'Long, slow evening cooking for deep nourishment'
+      },
+      all: {
+        high: 'Solar noon maximizes any season\'s energy',
         medium: 'Golden hour cooking for balanced energy',
         low: 'Blue hour cooking for gentle transformation'
-}
-    }
+      }
+    };
 
-    const intensity = targetMonica > 65 ? 'high' : targetMonica > 35 ? 'medium' : 'low',
+    const intensity = targetMonica > 65 ? 'high' : targetMonica > 35 ? 'medium' : 'low';
     return (
-      timingMap[season][intensity] || 'Cook during planetary hours aligned with your intention')
+      timingMap[season][intensity] || 'Cook during planetary hours aligned with your intention'
+    );
   }
 
   private calculateSeasonalScore(recipe: EnhancedRecipe, season: Season): number {
-    let score = 0.5, // Base seasonal score,
+    let score = 0.5; // Base seasonal score
 
     // Check if recipe has explicit seasonality
-    if (recipe.seasonality === season) {;
-      score = 0.95, // Perfect match,
-    } else if (recipe.seasonality === 'all') {;
-      score = 0.75, // Universal recipes work in any season,
+    if (recipe.seasonality === season) {
+      score = 0.95; // Perfect match
+    } else if (recipe.seasonality === 'all') {
+      score = 0.75; // Universal recipes work in any season
     } else if (recipe.seasonality && recipe.seasonality.includes(season)) {
-      score = 0.85, // Good match for multi-season recipes,
+      score = 0.85; // Good match for multi-season recipes
     }
 
     // Analyze ingredient seasonality
     const seasonalIngredientScore =
       recipe.ingredients.reduce((total, ingredient) => {
-        if (ingredient.seasonality === season) {;
+        if (ingredient.seasonality === season) {
           return total + 1.0;
-        } else if (ingredient.seasonality === 'all') {;
+        } else if (ingredient.seasonality === 'all') {
           return total + 0.7;
         } else if (ingredient.seasonality?.includes(season)) {
           return total + 0.85;
         }
         return total + 0.3; // Out of season ingredient
-      }, 0) / recipe.ingredients.length,
+      }, 0) / recipe.ingredients.length;
 
     // Weight recipe seasonality more heavily than ingredients
-    score = score * 0.6 + seasonalIngredientScore * 0.4,
+    score = score * 0.6 + seasonalIngredientScore * 0.4;
 
     // Cooking method seasonal appropriateness
     const cookingMethodArray = recipe.cookingMethods;
-    if (!cookingMethodArray || cookingMethodArray.length === 0) {;
-      return Math.max(0.2, Math.min(1.0, score)), // Return early if no cooking methods
+    if (!cookingMethodArray || cookingMethodArray.length === 0) {
+      return Math.max(0.2, Math.min(1.0, score)); // Return early if no cooking methods
     }
     const primaryMethod = cookingMethodArray[0]; // Use first method for scoring
-    const methodScore = this.getCookingMethodSeasonalScore(primaryMethod, season)
-    score = score * 0.8 + methodScore * 0.2,
+    const methodScore = this.getCookingMethodSeasonalScore(primaryMethod, season);
+    score = score * 0.8 + methodScore * 0.2;
 
-    return Math.max(0.2, Math.min(1.0, score))
+    return Math.max(0.2, Math.min(1.0, score));
   }
 
   private getCookingMethodSeasonalScore(method: string, season: Season): number {

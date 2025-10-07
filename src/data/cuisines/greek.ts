@@ -350,7 +350,7 @@ export const greek: Cuisine = {
           prepTime: '15 minutes',
           cookTime: '0 minutes',
           culturalNotes:
-            'The authentic Greek salad never includes lettuce. It's a summer dish that celebrates the ripeness of Mediterranean vegetables',
+            'The authentic Greek salad never includes lettuce. It\'s a summer dish that celebrates the ripeness of Mediterranean vegetables',
           pairingSuggestions: ['crusty bread', 'grilled meat', 'white wine'],
           dietaryInfo: ['vegetarian', 'gluten-free', 'low-carb'],
           spiceLevel: 'none',
@@ -531,7 +531,7 @@ export const greek: Cuisine = {
           prepTime: '45 minutes',
           cookTime: '45 minutes',
           culturalNotes:
-            'A traditional pie that showcases Greece's love for wild greens and feta. Often made by village women using foraged greens',
+            'A traditional pie that showcases Greece\'s love for wild greens and feta. Often made by village women using foraged greens',
           pairingSuggestions: ['Greek white wine', 'tzatziki', 'village salad'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -594,7 +594,7 @@ export const greek: Cuisine = {
           prepTime: '45 minutes',
           cookTime: '45 minutes',
           culturalNotes:
-            'A Greek interpretation of Italian baked pasta, enriched with spices that reflect the country's position between East and West',
+            'A Greek interpretation of Italian baked pasta, enriched with spices that reflect the country\'s position between East and West',
           pairingSuggestions: ['Greek red wine', 'simple green salad', 'crusty bread'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -692,7 +692,7 @@ export const greek: Cuisine = {
           prepTime: '45 minutes',
           cookTime: '45 minutes',
           culturalNotes:
-            'A beloved dessert that showcases the Greek mastery of phyllo pastry and custard-making. The name literally means 'milk bourek'',
+            'A beloved dessert that showcases the Greek mastery of phyllo pastry and custard-making. The name literally means \'milk bourek\'',
           pairingSuggestions: ['Greek coffee', 'tea'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -740,7 +740,7 @@ export const greek: Cuisine = {
           prepTime: 'overnight + 20 minutes',
           cookTime: '90 minutes',
           culturalNotes:
-            'Often called Greece's national dish, this hearty soup has sustained generations through both prosperity and hardship',
+            'Often called Greece\'s national dish, this hearty soup has sustained generations through both prosperity and hardship',
           pairingSuggestions: ['crusty bread', 'olives', 'feta cheese', 'red wine'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'none',

@@ -1,17 +1,16 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { ChakraAlchemyService } from '@/lib/ChakraAlchemyService';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import type {
-  ChakraEnergies,
-  AstrologicalState,
-  Planet,
-  BasicThermodynamicProperties,
-  ZodiacSign
+    AstrologicalState,
+    BasicThermodynamicProperties,
+    ChakraEnergies,
+    Planet
 } from '@/types/alchemy';
-import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecommender';
+import { EnhancedIngredient, getRecommendedIngredients } from '@/utils/foodRecommender';
 
 /**
  * Interface for the chakra-influenced food recommendations
@@ -28,12 +27,12 @@ interface ChakraInfluencedFoodResult {
 /**
  * A hook that combines chakra energy calculations with food recommendations
  */
-export const useChakraInfluencedFood = (options?: {,
+export const useChakraInfluencedFood = (options?: {
   limit?: number,
   filter?: (ingredient: EnhancedIngredient) => boolean
 }): ChakraInfluencedFoodResult => {
-  // Get astrological data;
-  const { state, planetaryPositions } = useAlchemical()
+  // Get astrological data
+  const { state, planetaryPositions } = useAlchemical();
   const {
     currentPlanetaryAlignment,
     activePlanets,
@@ -90,31 +89,31 @@ export const useChakraInfluencedFood = (options?: {,
           'uranus',
           'neptune',
           'pluto'
-        ],
+        ];
         if (validPlanets.includes(planetName)) {
-          setPlanetaryHour(planetName as unknown as Planet)
+          setPlanetaryHour(planetName as unknown as Planet);
         }
       }
     } catch (error) {
-      _logger.error('Error getting planetary hour: ', error)
+      _logger.error('Error getting planetary hour: ', error);
     }
-  }, [planetaryHourCalculator])
+  }, [planetaryHourCalculator]);
 
   // Memoize the astrological state to prevent unnecessary re-renders
   const astroState = useMemo(() => {
-    return {;
-      currentZodiac: currentZodiac || 'aries'
-      moonPhase: lunarPhase || 'NEW_MOON'
-      currentPlanetaryAlignment: currentPlanetaryAlignment || {}
+    return {
+      currentZodiac: currentZodiac || 'aries',
+      moonPhase: lunarPhase || 'NEW_MOON',
+      currentPlanetaryAlignment: currentPlanetaryAlignment || {},
       activePlanets: activePlanets || ['sun', 'moon'],
-      planetaryPositions: planetaryPositions || {}
-      lunarPhase: lunarPhase || 'NEW_MOON'
-      zodiacSign: currentZodiac || 'aries'
+      planetaryPositions: planetaryPositions || {},
+      lunarPhase: lunarPhase || 'NEW_MOON',
+      zodiacSign: currentZodiac || 'aries',
       planetaryHour: planetaryHour as unknown as Planet,
       aspects: state.astrologicalState.aspects || [],
-      tarotElementBoosts: state.astrologicalState.tarotElementBoosts || {}
+      tarotElementBoosts: state.astrologicalState.tarotElementBoosts || {},
       tarotPlanetaryBoosts: state.astrologicalState.tarotPlanetaryBoosts || {}
-    } as unknown as AstrologicalState,
+    } as unknown as AstrologicalState;
   }, [
     currentZodiac,
     lunarPhase,
@@ -125,7 +124,7 @@ export const useChakraInfluencedFood = (options?: {,
     state.astrologicalState.aspects,
     state.astrologicalState.tarotElementBoosts,
     state.astrologicalState.tarotPlanetaryBoosts
-  ])
+  ]);
 
   // Extract moon sign to avoid complex expression in dependency array
   const moonSign = (planetaryPositions.moon as any).sign;
@@ -135,18 +134,18 @@ export const useChakraInfluencedFood = (options?: {,
     if (!astroLoading && currentZodiac && activePlanets) {
       // Calculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
-        currentZodiac || 'aries'
+        currentZodiac || 'aries',
         (moonSign || 'taurus'),
         // Pattern, Y: Safe Planet array casting with validation and null checking
         (activePlanets
-          ? activePlanets.slice(03).map(p => (typeof p === 'string' ? p.toLowerCase() : p)),
+          ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p))
           : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour,
       ),
 
-      setChakraEnergies(energies)
+      setChakraEnergies(energies);
     }
-  }, [astroLoading, currentZodiac, activePlanets, moonSign, planetaryHour, chakraService])
+  }, [astroLoading, currentZodiac, activePlanets, moonSign, planetaryHour, chakraService]);
 
   // Generate food recommendations with chakra influence
   useEffect(() => {

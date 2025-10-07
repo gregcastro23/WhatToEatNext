@@ -2,88 +2,88 @@ export class ThermodynamicCalculator {
   // Implementation for calculating thermodynamic properties of ingredients
 
   calculateHeatValue(ingredients: unknown[]): number {
-    if (!ingredients || ingredients.length === 0) {,
-      return 0.5 // Default neutral value
+    if (!ingredients || ingredients.length === 0) {
+      return 0.5; // Default neutral value
     }
 
     // Calculate heat based on ingredient properties
     // Higher values for spicy, high-protein, or naturally hot ingredients
     let totalHeat = 0;
-    let totalWeight = 0,
+    let totalWeight = 0;
 
-    ingredients.forEach(ingredient => {;
+    ingredients.forEach(ingredient => {
       let heatValue = 0.5; // Default neutral value
       let weight = 1; // Default weight
 
       // Extract ingredient data with safe property access
-      const ingredientData = ingredient as {;
-        spiciness?: number,
-        elementalProperties?: { Fire?: number; Water?: number Earth?: number Air?: number }
-        cookingTemperature?: number,
-        proteinContent?: number,
-        moistureContent?: number,
-        name?: string
-        [key: string]: unknown
-      }
+      const ingredientData = ingredient as {
+        spiciness?: number;
+        elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
+        cookingTemperature?: number;
+        proteinContent?: number;
+        moistureContent?: number;
+        name?: string;
+        [key: string]: unknown;
+      };
       const spiciness = ingredientData?.spiciness;
       const elementalProperties = ingredientData?.elementalProperties;
-      const cookingTemperature = ingredientData?.cookingTemperature
+      const cookingTemperature = ingredientData?.cookingTemperature;
 
       // Adjust heat value based on ingredient properties
-      if (spiciness) {;
-        heatValue += spiciness * 0.3,
-        weight += 1,
+      if (spiciness) {
+        heatValue += spiciness * 0.3;
+        weight += 1;
       }
 
       if (elementalProperties?.Fire) {
-        heatValue += ((elementalProperties as any)?.Fire || 0) * 0.2,
-        weight += 2,
+        heatValue += ((elementalProperties as any)?.Fire || 0) * 0.2;
+        weight += 2;
       }
 
       if (cookingTemperature) {
         // Normalize cooking temperature (assuming max around 500°F)
-        const normalizedTemp = Math.min(cookingTemperature / 5001);
-        heatValue += normalizedTemp * 0.2,
-        weight += 1,
+        const normalizedTemp = Math.min(cookingTemperature / 500, 1);
+        heatValue += normalizedTemp * 0.2;
+        weight += 1;
       }
 
-      totalHeat += heatValue * weight,
-      totalWeight += weight,
+      totalHeat += heatValue * weight;
+      totalWeight += weight;
     })
 
     // Normalize to a value between 0 and 1
-    return Math.min(1, Math.max(0, totalHeat / totalWeight))
+    return Math.min(1, Math.max(0, totalHeat / totalWeight));
   }
 
   calculateEntropyValue(ingredients: unknown[]): number {
-    if (!ingredients || ingredients.length === 0) {,
-      return 0.5 // Default neutral value
+    if (!ingredients || ingredients.length === 0) {
+      return 0.5; // Default neutral value
     }
 
     // Calculate entropy based on complexity, variety, and fermentation
     let totalEntropy = 0;
-    let totalWeight = 0,
+    let totalWeight = 0;
 
-    // More ingredients = higher entropy,
-    const ingredientCountFactor = Math.min(ingredients.length / 101) * 0.3;
-    totalEntropy += ingredientCountFactor,
-    totalWeight += 1,
+    // More ingredients = higher entropy
+    const ingredientCountFactor = Math.min(ingredients.length / 10, 1) * 0.3;
+    totalEntropy += ingredientCountFactor;
+    totalWeight += 1;
 
     // Check for diversity in ingredient types
-    const categories = new Set()
+    const categories = new Set();
     ingredients.forEach(ingredient => {
-      // Extract ingredient data with safe property access;
-      const ingredientData = ingredient as {;
-        spiciness?: number,
-        elementalProperties?: { Fire?: number; Water?: number; Earth?: number Air?: number }
-        moistureContent?: number,
-        proteinContent?: number
-        [key: string]: unknown
-      }
+      // Extract ingredient data with safe property access
+      const ingredientData = ingredient as {
+        spiciness?: number;
+        elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
+        moistureContent?: number;
+        proteinContent?: number;
+        [key: string]: unknown;
+      };
       const category = ingredientData?.category;
       const fermented = ingredientData?.fermented;
       const complexity = ingredientData?.complexity;
-      const elementalProperties = ingredientData?.elementalProperties
+      const elementalProperties = ingredientData?.elementalProperties;
 
       if (category) {
         categories.add(category);

@@ -1,4 +1,4 @@
-import type { ElementalProperties, ZodiacSign, Planet, Element } from '@/types/celestial';
+import type { Element, Planet } from '@/types/celestial';
 
 import { PlanetaryHourCalculator } from './PlanetaryHourCalculator';
 import { ThermodynamicCalculator } from './ThermodynamicCalculator';
@@ -294,17 +294,17 @@ export interface PreparationMethod {
     optimal: Planet[],
     acceptable: Planet[],
     avoid: Planet[]
-  }
+  };
 }
 
 export class FoodAlchemySystem {
-  private readonly, thermodynamics: ThermodynamicCalculator
-  private readonly, foodDatabase: FoodCorrespondence[],
-  private readonly, preparationMethods: PreparationMethod[],
+  private readonly thermodynamics: ThermodynamicCalculator;
+  private readonly foodDatabase: FoodCorrespondence[];
+  private readonly preparationMethods: PreparationMethod[];
 
   constructor() {
-    this.thermodynamics = new ThermodynamicCalculator()
-    this.foodDatabase = this.initializeFoodDatabase()
+    this.thermodynamics = new ThermodynamicCalculator();
+    this.foodDatabase = this.initializeFoodDatabase();
     this.preparationMethods = this.initializePreparationMethods();
   }
 
@@ -320,15 +320,15 @@ export class FoodAlchemySystem {
         element: 'Fire',
         planet: 'Mars',
         alchemy: {
-          day: [0.80.40.6],
-          night: [0.60.30.5]
+          day: [0.8, 0.4, 0.6],
+          night: [0.6, 0.3, 0.5]
         },
         energyValues: {
           heat: 0.8,
           entropy: 0.4,
           reactivity: 0.6
-}
-      }
+        }
+      },
       {
         food: 'Ginger',
         foodGroup: 'Roots',
@@ -336,17 +336,17 @@ export class FoodAlchemySystem {
         element: 'Fire',
         planet: 'Mars',
         alchemy: {
-          day: [0.70.50.6],
-          night: [0.50.40.5]
+          day: [0.7, 0.5, 0.6],
+          night: [0.5, 0.4, 0.5]
         },
         energyValues: {
           heat: 0.7,
           entropy: 0.5,
           reactivity: 0.6
-}
+        }
       }
       // Add more foods as needed
-    ],
+    ];
   }
 
   /**

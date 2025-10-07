@@ -720,7 +720,7 @@ export const FRUIT_TYPE_INTELLIGENCE = {
     const typeOptimization = fruitTypes.reduce(
       (acc, type) => {
         const results = getFruitsBySubCategory(type);
-        acc[type] = Object.keys(results).slice(5),
+        acc[type] = Object.keys(results).slice(5);
         return acc;
       },
       {} as Record<string, string[]>,
@@ -729,7 +729,7 @@ export const FRUIT_TYPE_INTELLIGENCE = {
     const typeHarmony = fruitTypes.reduce(
       (acc, type) => {
         const results = getFruitsBySubCategory(type);
-        acc[type] = Object.keys(results).length > 0 ? 1.0 : 0.0
+        acc[type] = Object.keys(results).length > 0 ? 1.0 : 0.0;
         return acc;
       },
       {} as Record<string, number>,
@@ -781,65 +781,65 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
         ),
         averageConnections:
           sampleFruits.reduce((sum, fruit) => sum + compatibilityFunc(fruit).length, 0) /
-          sampleFruits.length;
+          sampleFruits.length,
         maxConnections: Math.max(...sampleFruits.map(fruit => compatibilityFunc(fruit).length)),
         minConnections: Math.min(...sampleFruits.map(fruit => compatibilityFunc(fruit).length)),
         connectionDensity:
           sampleFruits.reduce((sum, fruit) => sum + compatibilityFunc(fruit).length, 0) /
-          (sampleFruits.length * sampleFruits.length);
+          (sampleFruits.length * sampleFruits.length)
       },
       reciprocityAnalysis: sampleFruits.map(fruit => {
         const compatible = compatibilityFunc(fruit);
         const reciprocal = compatible.filter(comp =>
-          compatibilityFunc(comp).includes(fruit);
-        ).length
+          compatibilityFunc(comp).includes(fruit)
+        ).length;
         return {
           fruit,
           reciprocalConnections: reciprocal,
           reciprocityScore: compatible.length > 0 ? reciprocal / compatible.length : 0
-};
+        };
       })
     };
 
     const compatibilityMetrics = {
       networkConnectivity: compatibilityAnalysis.connectedFruits / compatibilityAnalysis.totalTestFruits,
       compatibilityCompleteness: compatibilityAnalysis.networkMetrics.totalConnections /
-        (sampleFruits.length * Object.keys(fruits).length);
+        (sampleFruits.length * Object.keys(fruits).length),
       networkDensity: compatibilityAnalysis.networkMetrics.connectionDensity,
       reciprocityScore:
-        compatibilityAnalysis.reciprocityAnalysis.reduce((sumr) => sum + r.reciprocityScore, 0) /
-        sampleFruits.length;
+        compatibilityAnalysis.reciprocityAnalysis.reduce((sum, r) => sum + r.reciprocityScore, 0) /
+        sampleFruits.length,
       compatibilityBalance: 1 -
         (compatibilityAnalysis.networkMetrics.maxConnections -
           compatibilityAnalysis.networkMetrics.minConnections) /
-          Object.keys(fruits).length;
+          Object.keys(fruits).length,
       functionalIntegrity: compatibilityAnalysis.compatibilityResults.every(r =>
-        Array.isArray(r.compatibleFruits);
+        Array.isArray(r.compatibleFruits)
       )
         ? 1.0
         : 0.8,
       networkEfficiency:
-        compatibilityAnalysis.networkMetrics.averageConnections / Object.keys(fruits).length
+        compatibilityAnalysis.networkMetrics.averageConnections / Object.keys(fruits).length,
     };
 
     const isolatedFruits =
-      compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount === 0).length /;
+      compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount === 0).length /
       sampleFruits.length;
 
     const compatibilityStructure = {
-      highlyConnected: compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount > 5).length /,
-        sampleFruits.length;
+      highlyConnected: compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount > 5).length /
+        sampleFruits.length,
       moderatelyConnected:
         compatibilityAnalysis.compatibilityResults.filter(
           r => r.compatibleCount >= 2 && r.compatibleCount <= 5
-        ).length / sampleFruits.length;
-      poorlyConnected: compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount < 2).length /,
+        ).length / sampleFruits.length,
+      poorlyConnected: compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount < 2).length /
         sampleFruits.length,
       isolatedFruits: isolatedFruits,
       networkCohesion: compatibilityMetrics.networkConnectivity * compatibilityMetrics.reciprocityScore,
       connectivityDistribution:
         compatibilityMetrics.networkDensity * compatibilityMetrics.compatibilityBalance,
-      structuralIntegrity: compatibilityMetrics.functionalIntegrity * (1 - isolatedFruits);
+      structuralIntegrity: compatibilityMetrics.functionalIntegrity * (1 - isolatedFruits),
     };
 
     const compatibilityOptimization = [
@@ -872,10 +872,10 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
       compatibilityMetrics,
       compatibilityStructure,
       compatibilityOptimization: { suggestions: compatibilityOptimization },
-      compatibilityHarmony
-    }
+      compatibilityHarmony,
+    };
   }
-},
+};
 
 // 5. FRUIT ASTROLOGICAL INTELLIGENCE PLATFORM
 export const FRUIT_ASTROLOGICAL_INTELLIGENCE = {

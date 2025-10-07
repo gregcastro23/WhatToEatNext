@@ -9,31 +9,30 @@ import fs from 'fs/promises';
 import path from 'path';
 
 import {
-  getCurrentPlanetaryPositions,
-  getPlanetaryPositionsForDateTime
+    getCurrentPlanetaryPositions,
+    getPlanetaryPositionsForDateTime
 } from '@/services/astrologizeApi';
 import { ZodiacSign } from '@/types/alchemy';
-import {_PlanetaryPosition, CelestialPosition} from '@/types/celestial';
-import {PlanetPosition} from '@/utils/astrologyUtils';
-import {createLogger} from '@/utils/logger';
+import { PlanetPosition } from '@/utils/astrologyUtils';
+import { createLogger } from '@/utils/logger';
 
-const logger = createLogger('CurrentMomentManager')
+const logger = createLogger('CurrentMomentManager');
 
 // Current moment data structure
-export interface CurrentMomentData {;
-  timestamp: string,
-  date: string,
+export interface CurrentMomentData {
+  timestamp: string;
+  date: string;
   location: {
-    latitude: number,
-    longitude: number,
-    timezone: string
-  },
-  planetaryPositions: Record<string, PlanetPosition>,
+    latitude: number;
+    longitude: number;
+    timezone: string;
+  };
+  planetaryPositions: Record<string, PlanetPosition>;
   metadata: {
-    source: 'api' | 'calculated' | 'fallback'
-    apiCallTimestamp?: string,
-    lastUpdated: string
-  }
+    source: 'api' | 'calculated' | 'fallback';
+    apiCallTimestamp?: string;
+    lastUpdated: string;
+  };
 }
 
 // Default location (New York Area)
@@ -50,13 +49,13 @@ interface PerformanceMetrics {
   failedUpdates: number,
   averageResponseTime: number,
   lastError?: string,
-  updateFrequency: { [minute: string]: number }
+  updateFrequency: { [minute: string]: number };
 }
 
 class CurrentMomentManager {
-  private currentMoment: CurrentMomentData | null = null,
-  private lastUpdateTime: Date | null = null,
-  private updateInProgress = false
+  private currentMoment: CurrentMomentData | null = null;
+  private lastUpdateTime: Date | null = null;
+  private updateInProgress = false;
   private performanceMetrics: PerformanceMetrics = {
     totalUpdates: 0,
     successfulUpdates: 0,
@@ -83,48 +82,48 @@ class CurrentMomentManager {
     customDateTime?: Date,
     customLocation?: { latitude: number, longitude: number }): Promise<CurrentMomentData> {
     if (this.updateInProgress) {
-      void logger.info('Update already in progress, waiting...'),
+      void logger.info('Update already in progress, waiting...');
       // Wait for current update to complete
       while (this.updateInProgress) {
-        await new Promise(resolve => setTimeout(resolve, 100)),
+        await new Promise(resolve => setTimeout(resolve, 100));
       }
       return this.currentMoment!;
     }
 
-    this.updateInProgress = true,
-    const startTime = Date.now()
+    this.updateInProgress = true;
+    const startTime = Date.now();
 
     // Track update frequency
-    const currentMinute = new Date().toISOString().slice(0, 16)
-    this.performanceMetrics.updateFrequency[currentMinute] =;
-      (this.performanceMetrics.updateFrequency[currentMinute] || 0) + 1,
-    this.performanceMetrics.totalUpdates++,
+    const currentMinute = new Date().toISOString().slice(0, 16);
+    this.performanceMetrics.updateFrequency[currentMinute] =
+      (this.performanceMetrics.updateFrequency[currentMinute] || 0) + 1;
+    this.performanceMetrics.totalUpdates++;
 
     try {
-      void logger.info('Starting current moment update...')
+      void logger.info('Starting current moment update...');
 
       const targetDate = customDateTime || new Date();
       const location = customLocation || DEFAULT_LOCATION;
 
-      // Step, 1: Get fresh planetary positions from API
-      let planetaryPositions: Record<string, PlanetPosition>,
-      let source: 'api' | 'calculated' | 'fallback' = 'fallback'
+      // Step 1: Get fresh planetary positions from API
+      let planetaryPositions: Record<string, PlanetPosition>;
+      let source: 'api' | 'calculated' | 'fallback' = 'fallback';
 
       try {
         if (customDateTime) {
-          planetaryPositions = await getPlanetaryPositionsForDateTime(targetDate, location),
+          planetaryPositions = await getPlanetaryPositionsForDateTime(targetDate, location);
         } else {
           planetaryPositions = await getCurrentPlanetaryPositions(location);
         }
-        source = 'api',
-        void logger.info('Successfully retrieved positions from astrologize API')
+        source = 'api';
+        void logger.info('Successfully retrieved positions from astrologize API');
       } catch (error) {
-        void logger.warn('Failed to get positions from API, using fallback', error)
+        void logger.warn('Failed to get positions from API, using fallback', error);
         planetaryPositions = this.getFallbackPositions();
-        source = 'fallback',
+        source = 'fallback';
       }
 
-      // Step, 2: Create current moment data structure
+      // Step 2: Create current moment data structure
       this.currentMoment = {
         timestamp: targetDate.toISOString(),
         date: targetDate.toLocaleDateString('en-US', {
@@ -134,42 +133,42 @@ class CurrentMomentManager {
           hour: 'numeric',
           minute: '2-digit',
           timeZoneName: 'short'
-}),
+        }),
         location: {
           ...location,
           timezone: this.getTimezone(targetDate)
-        }
+        },
         planetaryPositions,
         metadata: {
           source,
           apiCallTimestamp: new Date().toISOString(),
           lastUpdated: new Date().toISOString()
         }
-      }
+      };
 
-      // Step, 3: Propagate updates to all storage locations
-      await this.propagateUpdates(this.currentMoment)
+      // Step 3: Propagate updates to all storage locations
+      await this.propagateUpdates(this.currentMoment);
 
-      this.lastUpdateTime = new Date()
+      this.lastUpdateTime = new Date();
 
-      // Track successful update;
-      this.performanceMetrics.successfulUpdates++,
+      // Track successful update
+      this.performanceMetrics.successfulUpdates++;
       const responseTime = Date.now() - startTime;
       this.performanceMetrics.averageResponseTime =
         (this.performanceMetrics.averageResponseTime *
           (this.performanceMetrics.successfulUpdates - 1) +
           responseTime) /
-        this.performanceMetrics.successfulUpdates
-;
-      void logger.info('Current moment update completed successfully', { responseTime })
+        this.performanceMetrics.successfulUpdates;
+
+      void logger.info('Current moment update completed successfully', { responseTime });
 
       return this.currentMoment;
     } catch (error) {
       // Track failed update
-      this.performanceMetrics.failedUpdates++,
-      this.performanceMetrics.lastError = error instanceof Error ? error.message : 'Unknown error',
-      void logger.error('Current moment update failed', error),
-      throw error
+      this.performanceMetrics.failedUpdates++;
+      this.performanceMetrics.lastError = error instanceof Error ? error.message : 'Unknown error';
+      void logger.error('Current moment update failed', error);
+      throw error;
     } finally {
       this.updateInProgress = false;
     }
@@ -180,14 +179,14 @@ class CurrentMomentManager {
    */
   private async propagateUpdates(momentData: CurrentMomentData): Promise<void> {
     const updatePromises = [
-      this.updateNotebook(momentData)
-      this.updateSystemDefaults(momentData)
-      this.updateStreamlinedPositions(momentData)
-      void this.updateAccurateAstronomy(momentData);
-    ],
+      this.updateNotebook(momentData),
+      this.updateSystemDefaults(momentData),
+      this.updateStreamlinedPositions(momentData),
+      void this.updateAccurateAstronomy(momentData)
+    ];
 
-    const results = await Promise.allSettled(updatePromises)
-    // Log any failures;
+    const results = await Promise.allSettled(updatePromises);
+    // Log any failures
     results.forEach((result, index) => {
       if (result.status === 'rejected') {
         const updateNames = [

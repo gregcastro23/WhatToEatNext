@@ -635,36 +635,37 @@ export function getTechnicalTips(methodName: string): string[] {
  * @returns A detailed description of the cooking method
  */
 export function getMethodDetails(methodName: string): string {
-  const methodLower = methodName.toLowerCase()
+  const methodLower = methodName.toLowerCase();
   switch (methodLower) {
-    case 'hand pounding': case 'hand_pounding':,
-      return 'Hand pounding is an ancient culinary technique utilizing a mortar and pestle to crush, grind, and blend ingredients through direct mechanical force. This method releases aromatic compounds and creates unique textures that modern electric processors cannot replicate. Hand pounding preserves traditional knowledge and produces superior textural and flavor profiles in many global cuisines.',
+    case 'hand pounding':
+    case 'hand_pounding':
+      return 'Hand pounding is an ancient culinary technique utilizing a mortar and pestle to crush, grind, and blend ingredients through direct mechanical force. This method releases aromatic compounds and creates unique textures that modern electric processors cannot replicate. Hand pounding preserves traditional knowledge and produces superior textural and flavor profiles in many global cuisines.';
 
     case 'slow simmering':
-      return 'Slow simmering is a gentle cooking method where ingredients are cooked in liquid maintained just below the boiling point. This technique allows for gradual extraction of flavors and transformation of tough proteins into tender morsels. The gentle, sustained heat breaks down connective tissues while preserving structural integrity, resulting in deeply flavored dishes with exceptional tenderness.',
+      return 'Slow simmering is a gentle cooking method where ingredients are cooked in liquid maintained just below the boiling point. This technique allows for gradual extraction of flavors and transformation of tough proteins into tender morsels. The gentle, sustained heat breaks down connective tissues while preserving structural integrity, resulting in deeply flavored dishes with exceptional tenderness.';
 
     case 'clay pot cooking':
-      return 'Clay pot cooking utilizes unglazed or partially glazed earthenware that naturally regulates moisture and temperature. The porous nature of clay allows micro-evaporation that concentrates flavors while keeping ingredients moist. The clay also imparts subtle mineral notes to the food and creates a uniquely even, radiant heating environment that's forgiving and develops deep, complex flavors.',
+      return 'Clay pot cooking utilizes unglazed or partially glazed earthenware that naturally regulates moisture and temperature. The porous nature of clay allows micro-evaporation that concentrates flavors while keeping ingredients moist. The clay also imparts subtle mineral notes to the food and creates a uniquely even, radiant heating environment that\'s forgiving and develops deep, complex flavors.';
 
     case 'charcoal grilling':
-      return 'Charcoal grilling harnesses the intense, dry heat produced by burning hardwood charcoal to quickly cook ingredients while developing complex smoky flavors and distinctive caramelization patterns. This method creates the characteristic grilled appearance through the Maillard reaction and introduces aromatic compounds from both the charcoal itself and drippings that vaporize on contact with the hot coals.',
+      return 'Charcoal grilling harnesses the intense, dry heat produced by burning hardwood charcoal to quickly cook ingredients while developing complex smoky flavors and distinctive caramelization patterns. This method creates the characteristic grilled appearance through the Maillard reaction and introduces aromatic compounds from both the charcoal itself and drippings that vaporize on contact with the hot coals.';
 
     case 'steaming':
-      return 'Steaming is a gentle, moist-heat cooking method where ingredients are suspended above boiling water and cooked exclusively by hot vapor. This technique preserves nutrients, color, and texture while minimizing the loss of water-soluble vitamins and minerals. Steaming allows foods to cook in their own juices while absorbing aromatic elements that can be added to the steaming liquid.',
+      return 'Steaming is a gentle, moist-heat cooking method where ingredients are suspended above boiling water and cooked exclusively by hot vapor. This technique preserves nutrients, color, and texture while minimizing the loss of water-soluble vitamins and minerals. Steaming allows foods to cook in their own juices while absorbing aromatic elements that can be added to the steaming liquid.';
 
     case 'tagine cooking':
     case 'tagine':
-      return 'Tagine cooking employs a distinctive conical clay vessel designed to create a self-basting environment. The cone-shaped lid captures rising steam, condenses it, and returns moisture to ingredients, allowing for slow, gentle cooking with minimal added liquid. This Moroccan technique excels at developing intense, harmonized flavors while preserving the distinct character of individual ingredients.',
+      return 'Tagine cooking employs a distinctive conical clay vessel designed to create a self-basting environment. The cone-shaped lid captures rising steam, condenses it, and returns moisture to ingredients, allowing for slow, gentle cooking with minimal added liquid. This Moroccan technique excels at developing intense, harmonized flavors while preserving the distinct character of individual ingredients.';
 
     case 'wok cooking':
     case 'stir fry':
     case 'stir-fry':
-      return 'Wok cooking utilizes a rounded, high-sided pan capable of achieving extremely high temperatures to quickly cook ingredients while preserving texture and nutritional value. The technique relies on the wok's unique thermal properties—intense heat at the bottom that diminishes up the sides—to allow simultaneous cooking at different temperatures. The high heat and constant motion produce 'wok hei', a distinctive smoky flavor prized in Asian cuisines.',
+      return 'Wok cooking utilizes a rounded, high-sided pan capable of achieving extremely high temperatures to quickly cook ingredients while preserving texture and nutritional value. The technique relies on the wok\'s unique thermal properties—intense heat at the bottom that diminishes up the sides—to allow simultaneous cooking at different temperatures. The high heat and constant motion produce \'wok hei\', a distinctive smoky flavor prized in Asian cuisines.';
 
     case 'open fire cooking':
     case 'open-fire cooking':
     case 'fire cooking':
-      return 'Open fire cooking connects with our most primal cooking techniques, utilizing direct flame, radiant heat, and smoke to transform ingredients. This versatile method adapts to various cooking styles from direct searing to low-and-slow roasting. The unpredictable nature of fire requires constant attention and adjustment, rewarding skill with uniquely complex flavors impossible to replicate with modern appliances.',
+      return 'Open fire cooking connects with our most primal cooking techniques, utilizing direct flame, radiant heat, and smoke to transform ingredients. This versatile method adapts to various cooking styles from direct searing to low-and-slow roasting. The unpredictable nature of fire requires constant attention and adjustment, rewarding skill with uniquely complex flavors impossible to replicate with modern appliances.';
 
     default: try {
         // Get cooking method data from imported methods

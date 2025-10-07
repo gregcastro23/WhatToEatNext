@@ -6,31 +6,31 @@
  * with cuisine recommendation components.
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
-  EnterpriseIntelligenceIntegration,
-  enterpriseIntelligenceIntegration
+    EnterpriseIntelligenceIntegration,
+    enterpriseIntelligenceIntegration
 } from '@/services/EnterpriseIntelligenceIntegration';
-import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
+import type { ElementalProperties, LunarPhase } from '@/types/alchemy';
 import type {
-  EnterpriseRecipeData,
-  EnterpriseIngredientData,
-  EnterpriseAstrologicalContext,
-  EnterpriseIntelligenceAnalysisState
+    EnterpriseAstrologicalContext,
+    EnterpriseIngredientData,
+    EnterpriseIntelligenceAnalysisState,
+    EnterpriseRecipeData
 } from '@/types/enterpriseHooks';
 import type {
-  EnterpriseIntelligenceConfig,
-  EnterpriseIntelligenceResult
+    EnterpriseIntelligenceConfig,
+    EnterpriseIntelligenceResult
 } from '@/types/enterpriseIntelligence';
 import { logger } from '@/utils/logger';
 
 // ========== INTERFACES ==========
 
-export interface UseEnterpriseIntelligenceConfig extends Partial<EnterpriseIntelligenceConfig> {;
-  autoAnalyze?: boolean,
-  analysisInterval?: number,
-  enableRealTimeUpdates?: boolean
+export interface UseEnterpriseIntelligenceConfig extends Partial<EnterpriseIntelligenceConfig> {
+  autoAnalyze?: boolean;
+  analysisInterval?: number;
+  enableRealTimeUpdates?: boolean;
 }
 
 export interface EnterpriseIntelligenceState {
@@ -120,13 +120,13 @@ export function useEnterpriseIntelligence(
 
   const recommendations = useMemo(() => {
     if (!state.analysis) {
-      return {;
+      return {
         recipe: [],
         ingredient: [],
         validation: [],
         safety: [],
         optimization: []
-      }
+      };
     }
 
     return {
@@ -180,35 +180,35 @@ export function useEnterpriseIntelligence(
         ).optimizationRecommendations?.systemIntegration?.recommendations || [])
       ]
     }
-  }, [state.analysis])
+  }, [state.analysis]);
 
   const systemHealth = useMemo(() => {
     if (!state.analysis) {
-      return {;
+      return {
         overall: 'fair' as const,
         score: 0.7,
         issues: ['No analysis available'],
         warnings: []
-      }
+      };
     }
 
     const analysis = state.analysis;
     const issues = [
       ...((
-        analysis.validationIntelligence as unknown as {,
+        analysis.validationIntelligence as unknown as {
           overallValidation?: { criticalIssues?: string[] }
         })?.overallValidation?.criticalIssues || []),
-      ...((analysis.safetyIntelligence as { riskAssessment?: { level?: string } })?.riskAssessment
-        ?.level === 'high' ||;
+      ...(((analysis.safetyIntelligence as { riskAssessment?: { level?: string } })?.riskAssessment
+        ?.level === 'high' ||
       (analysis.safetyIntelligence as { riskAssessment?: { level?: string } })?.riskAssessment
-        ?.level === 'critical',
+        ?.level === 'critical')
         ? ['High risk level detected']
         : [])
-    ]
+    ];
 
     const warnings = [
       ...((
-        analysis.validationIntelligence as unknown as {,
+        analysis.validationIntelligence as unknown as {
           dataIntegrity?: { warnings?: string[] }
           astrologicalConsistency?: { warnings?: string[] }
           elementalHarmony?: { warnings?: string[] }
@@ -225,28 +225,28 @@ export function useEnterpriseIntelligence(
     ],
 
     return {
-      overall: (analysis as { systemHealth?: string }).systemHealth || 'fair'
+      overall: (analysis as { systemHealth?: string }).systemHealth || 'fair',
       score: (analysis as { overallScore?: number }).overallScore ||
         analysis.overallIntelligenceScore ||
         0.7,
       issues,
       warnings
-    }
-  }, [state.analysis])
+    };
+  }, [state.analysis]);
 
-  const isHealthy = useMemo(() => {;
+  const isHealthy = useMemo(() => {
     return systemHealth.overall === 'excellent' || systemHealth.overall === 'good';
-  }, [systemHealth.overall])
+  }, [systemHealth.overall]);
 
   const needsAttention = useMemo(() => {
     return (systemHealth.issues.length > 0 ||
-      systemHealth.overall === 'poor' ||,
+      systemHealth.overall === 'poor' ||
       (state.analysis?.safetyIntelligence as { riskAssessment?: { level?: string } })
-        ?.riskAssessment?.level === 'high' ||;
+        ?.riskAssessment?.level === 'high' ||
       (state.analysis?.safetyIntelligence as { riskAssessment?: { level?: string } })
-        ?.riskAssessment?.level === 'critical',
-    )
-  }, [systemHealth.issues.length, systemHealth.overall, state.analysis])
+        ?.riskAssessment?.level === 'critical'
+    );
+  }, [systemHealth.issues.length, systemHealth.overall, state.analysis]);
 
   // ========== ACTIONS ==========
 
@@ -255,20 +255,20 @@ export function useEnterpriseIntelligence(
       recipeData: EnterpriseRecipeData,
       ingredientData: EnterpriseIngredientData,
       astrologicalContext: {
-        zodiacSign: any,
-        lunarPhase: LunarPhase,
-        elementalProperties: ElementalProperties,
-        planetaryPositions?: Record<string, unknown>
+        zodiacSign: any;
+        lunarPhase: LunarPhase;
+        elementalProperties: ElementalProperties;
+        planetaryPositions?: Record<string, unknown>;
       }
     ): Promise<EnterpriseIntelligenceResult | null> => {
-      setState(prev => ({,
+      setState(prev => ({
         ...prev,
         isAnalyzing: true,
         error: null
-      }))
+      }));
 
       try {
-        logger.info('[useEnterpriseIntelligence] Starting enterprise intelligence analysis'),
+        logger.info('[useEnterpriseIntelligence] Starting enterprise intelligence analysis');
 
         const analysis = await intelligenceService.performEnterpriseAnalysis(
           recipeData,
@@ -305,75 +305,73 @@ export function useEnterpriseIntelligence(
 
         return analysis;
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
 
-        setState(prev => ({,
+        setState(prev => ({
           ...prev,
           isAnalyzing: false,
           error: errorMessage,
           performanceMetrics: intelligenceService.getPerformanceMetrics()
-        }))
+        }));
 
-        logger.error('[useEnterpriseIntelligence] Enterprise intelligence analysis failed', error)
+        logger.error('[useEnterpriseIntelligence] Enterprise intelligence analysis failed', error);
         return null;
       }
-    }
-    [intelligenceService],
-  )
+    }, [intelligenceService]);
 
   const clearAnalysis = useCallback(() => {
-    setState(prev => ({,
+    setState(prev => ({
       ...prev,
       analysis: null,
       error: null,
       lastAnalyzed: null
-    }))
-    setLastAnalysisParams(null)
-    logger.info('[useEnterpriseIntelligence] Analysis cleared')
-  }, [])
+    }));
+    setLastAnalysisParams(null);
+    logger.info('[useEnterpriseIntelligence] Analysis cleared');
+  }, []);
 
   const updateConfig = useCallback(
     (newConfig: Partial<EnterpriseIntelligenceConfig>) => {
-      intelligenceService.updateConfig(newConfig)
+      intelligenceService.updateConfig(newConfig);
       logger.info('[useEnterpriseIntelligence] Configuration updated');
-    }
+    },
     [intelligenceService],
-  )
+  );
 
   const clearCache = useCallback(() => {
-    intelligenceService.clearCache()
+    intelligenceService.clearCache();
     logger.info('[useEnterpriseIntelligence] Cache cleared');
-  }, [intelligenceService])
+  }, [intelligenceService]);
 
   const resetMetrics = useCallback(() => {
-    intelligenceService.resetMetrics()
+    intelligenceService.resetMetrics();
     setState(prev => ({
-      ...prev
-      performanceMetrics: {,
+      ...prev,
+      performanceMetrics: {
         analysisCount: 0,
         averageExecutionTime: 0,
         cacheHitRate: 0,
         errorRate: 0
-}
-    }))
-    logger.info('[useEnterpriseIntelligence] Metrics reset')
-  }, [intelligenceService])
+      }
+    }));
+    logger.info('[useEnterpriseIntelligence] Metrics reset');
+  }, [intelligenceService]);
 
   const retryAnalysis = useCallback(async () => {
     if (!lastAnalysisParams) {
       logger.warn(
-        '[useEnterpriseIntelligence] No previous analysis parameters available for retry',
-      ),
-      return
+        '[useEnterpriseIntelligence] No previous analysis parameters available for retry'
+      );
+      return;
     }
 
-    logger.info('[useEnterpriseIntelligence] Retrying enterprise intelligence analysis')
+    logger.info('[useEnterpriseIntelligence] Retrying enterprise intelligence analysis');
     await performAnalysis(
       lastAnalysisParams.recipeData,
-      lastAnalysisParams.ingredientData
+      lastAnalysisParams.ingredientData,
       lastAnalysisParams.astrologicalContext
-    )
-  }, [lastAnalysisParams, performAnalysis])
+    );
+  }, [lastAnalysisParams, performAnalysis]);
 
   // ========== EFFECTS ==========
 

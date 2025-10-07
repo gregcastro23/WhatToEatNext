@@ -293,31 +293,31 @@ export const COOKING_METHOD_PILLAR_MAPPING = {
   stewing: 11, // Fermentation (slow transformation)
   sous_vide: 12, // Fixation (stabilizing at fixed temperature)
   // Dry Cooking Methods,
-  baking: 7 // Calcination
-  roasting: 7 // Calcination
-  broiling: 7 // Calcination
-  grilling: 7 // Calcination
-  frying: 7 // Calcination
-  sauteing: 5 // Separation
+  baking: 7, // Calcination
+  roasting: 7, // Calcination
+  broiling: 7, // Calcination
+  grilling: 7, // Calcination
+  frying: 7, // Calcination
+  sauteing: 5, // Separation
   'stir-frying': 5, // Separation
 
   // Transformation Methods,
-  fermenting: 11 // Fermentation
-  pickling: 11 // Fermentation
-  curing: 12 // Fixation
-  smoking: 13 // Multiplication
-  drying: 3 // Evaporation
+  fermenting: 11, // Fermentation
+  pickling: 11, // Fermentation
+  curing: 12, // Fixation
+  smoking: 13, // Multiplication
+  drying: 3, // Evaporation
 
   // Modern/Molecular Methods,
-  spherification: 6 // Rectification
-  emulsification: 8 // Comixion
-  gelification: 12 // Fixation
-  foam: 3 // Evaporation
-  cryo_cooking: 10 // Inhibition
+  spherification: 6, // Rectification
+  emulsification: 8, // Comixion
+  gelification: 12, // Fixation
+  foam: 3, // Evaporation
+  cryo_cooking: 10, // Inhibition
 
   // No-heat Methods,
-  raw: 9 // Purification
-  ceviche: 1 // Solution
+  raw: 9, // Purification
+  ceviche: 1, // Solution
   marinating: 4, // Distillation (flavor extraction)
 }
 
@@ -1494,8 +1494,8 @@ export function createEnhancedCookingMethod(cookingMethodName: string): Enhanced
     id: cookingMethodName.toLowerCase(),
   name: cookingMethodName,
   description: `Enhanced ${cookingMethodName} with Monica constant analysis`,
-    category: 'traditional' as const // Default category
-    alchemicalEffects: enhancedPillar.effects,
+  category: 'traditional' as const, // Default category
+  alchemicalEffects: enhancedPillar.effects,
   thermodynamics: enhancedPillar.monicaProperties.thermodynamicProfile,
     elementalInfluence: {
       Fire: enhancedPillar.monicaProperties.thermodynamicProfile.heat,

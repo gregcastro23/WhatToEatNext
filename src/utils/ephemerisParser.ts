@@ -36,7 +36,7 @@ export class EphemerisParser {
     _L: 'NorthNode',
     _K: 'SouthNode',
     _M: 'Chiron',
-    _N: 'Lilith' },
+    _N: 'Lilith' };
         private zodiacSigns: string[] = [
     'Aries',
     'Taurus',
@@ -49,15 +49,15 @@ export class EphemerisParser {
     'Sagittarius',
     'Capricorn',
     'Aquarius',
-    'Pisces'
-  ],
+    'Pisces',
+  ];
 
   private signSymbols: Record<string, number> = {
-    a: 0b: 1c: 2d: 3e: 4f: 5g: 6h: 7i: 8j: 9k: 10l: 11
-}
+    a: 0, b: 1, c: 2, d: 3, e: 4, f: 5, g: 6, h: 7, i: 8, j: 9, k: 10, l: 11
+  };
 
   constructor() {
-    log.info('Ephemeris Parser initialized')
+    log.info('Ephemeris Parser initialized');
   }
 
   /**
@@ -72,24 +72,24 @@ export class EphemerisParser {
         signName: 'Aries',
         absoluteLongitude: 0,
         retrograde: false
-}
+      };
     }
 
     // Clean the string
-    let cleanStr = posStr.trim().replace('°', '').replace(''', '')
+    let cleanStr = posStr.trim().replace('°', '').replace("'", '');
 
     // Extract retrograde marker
-    const retrograde = cleanStr.includes('R') || cleanStr.includes('D')
-    cleanStr = cleanStr.replace('R', '').replace('D', '')
+    const retrograde = cleanStr.includes('R') || cleanStr.includes('D');
+    cleanStr = cleanStr.replace('R', '').replace('D', '');
 
     // Pattern for degrees and sign
     const pattern = /(\d+)([a-l])(\d+)/;
-    const match = cleanStr.toLowerCase().match(pattern)
+    const match = cleanStr.toLowerCase().match(pattern);
 
     if (match) {
-      const degrees = parseInt(match[1])
+      const degrees = parseInt(match[1]);
       const signChar = match[2];
-      const minutes = parseInt(match[3])
+      const minutes = parseInt(match[3]);
       const signNum = this.signSymbols[signChar] || 0;
 
       // Calculate absolute longitude (0-360°)
@@ -136,26 +136,26 @@ export class EphemerisParser {
    * Parse a line of ephemeris data
    */
   parseEphemerisLine(line: string): Record<string, ParsedPosition> | null {
-    const parts = line.trim().split(/\s+/)
+    const parts = line.trim().split(/\s+/);
 
     if (parts.length < 3) {
       return null;
     }
 
-    const positions: Record<string, ParsedPosition> = {}
+    const positions: Record<string, ParsedPosition> = {};
 
     // Parse each planet position
     Object.entries(this.planetCodes).forEach(([code, planetName]) => {
-      const positionIndex = this.getPositionIndex(code)
-      if (positionIndex < parts.length) {;
+      const positionIndex = this.getPositionIndex(code);
+      if (positionIndex < parts.length) {
         const posStr = parts[positionIndex];
         if (posStr && posStr !== '') {
-          positions[planetName] = this.parseAstronomicalPosition(posStr)
+          positions[planetName] = this.parseAstronomicalPosition(posStr);
         }
       }
-    }),
+    });
 
-    return positions
+    return positions;
   }
 
   /**
