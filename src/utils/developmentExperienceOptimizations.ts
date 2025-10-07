@@ -96,7 +96,7 @@ export class DevelopmentExperienceOptimizer {
 
     return {
       _compilerOptions: {
-        // Performance optimizations;
+        // Performance optimizations
         target: config.target,
         module: config.module,
         moduleResolution: config.moduleResolution,
@@ -261,72 +261,13 @@ declare global {
       optimalStartTime?: string
     }
   }
-}`;
-}
-
-// Export enhanced types for use in components
-    export type {
-        Astrology,
-        CulinaryAstrologyData,
-        ElementalProperties,
-        EnhancedIngredient,
-        EnhancedRecipe,
-        PlanetaryPosition
-    };
-
-/**
- * Organize and optimize imports automatically
- */
-export function organizeImports(sourceCode: string): string {
-    if (!this.optimizationConfig.importOrganization.enableAutoImportOrganization) {
-      return sourceCode
-    }
-
-    const lines = sourceCode.split('\n');
-    const imports: string[] = [];
-    const otherLines: string[] = [];
-    let inImportSection = true;
-
-    for (const line of lines) {
-      if (line.trim().startsWith('import ') || line.trim().startsWith('export ')) {
-        if (inImportSection) {
-          imports.push(line);
-        } else {
-          otherLines.push(line);
-        }
-      } else if (line.trim() === '') {
-        if (inImportSection && imports.length > 0) {
-          imports.push(line);
-        } else {
-          otherLines.push(line);
-        }
-      } else {
-        inImportSection = false;
-        otherLines.push(line);
-      }
-    }
-
-    // Remove unused imports
-    const usedImports = this.optimizationConfig.importOrganization.enableUnusedImportRemoval
-      ? this.removeUnusedImports(imports, otherLines.join('\n'))
-      : imports;
-
-    // Sort imports
-    const sortedImports = this.optimizationConfig.importOrganization.enableImportSorting
-      ? this.sortImports(usedImports)
-      : usedImports;
-
-    return [...sortedImports, '', ...otherLines].join('\n');
+`;
   }
 
   /**
    * Real-time error detection and fixing
    */
-  public detectAndFixCommonErrors(sourceCode: string): {
-    fixedCode: string;
-    fixes: string[];
-    remainingErrors: string[];
-  } {
+  public detectAndFixCommonErrors(sourceCode: string): { fixedCode: string; fixes: string[]; remainingErrors: string[]; } {
     let fixedCode = sourceCode;
     const fixes: string[] = [];
     const remainingErrors: string[] = [];
@@ -367,14 +308,14 @@ export function organizeImports(sourceCode: string): string {
       /Property '([^']+)' does not exist on type/g,
       /Type '([^']+)' is not assignable to type/g,
       /Cannot find name '([^']+)'/g
-    ],
+    ];
 
     errorPatterns.forEach(pattern => {
-      const matches = fixedCode.match(pattern)
+      const matches = fixedCode.match(pattern);
       if (matches) {
-        matches.forEach(match => remainingErrors.push(match))
+        matches.forEach(match => remainingErrors.push(match));
       }
-    })
+    });
 
     return { fixedCode, fixes, remainingErrors }
   }
@@ -477,8 +418,8 @@ export function organizeImports(sourceCode: string): string {
 
       logger.info('Automatic optimizations applied: ', applied)
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error',
-      errors.push(errorMessage)
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      errors.push(errorMessage);
       logger.error('Error applying automatic optimizations: ', error)
     }
 
@@ -577,9 +518,9 @@ export function organizeImports(sourceCode: string): string {
       const importMatch = importLine.match(/import\s+(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))/)
       if (!importMatch) return true;
 
-      const importedNames = importMatch[1];
+      const importedNames = importMatch[1]
         ? importMatch[1].split(',').map(name => name.trim().split(' as ')[0])
-        : [importMatch[2] || importMatch[3]]
+        : [importMatch[2] || importMatch[3]];
 
       // Check if any imported name is used in the code
       return importedNames.some(name => {
@@ -642,6 +583,6 @@ export function useDevelopmentExperienceOptimizations() {
     getDevelopmentMetrics: () => optimizer.getDevelopmentMetrics(),
     getPerformanceOptimizationRecommendations: () =>
       optimizer.getPerformanceOptimizationRecommendations(),
-    applyAutomaticOptimizations: () => optimizer.applyAutomaticOptimizations();
+    applyAutomaticOptimizations: () => optimizer.applyAutomaticOptimizations()
   }
 }

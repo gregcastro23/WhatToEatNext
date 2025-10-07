@@ -163,7 +163,7 @@ export class EphemerisParser {
    */
   private getPositionIndex(planetCode: string): number {
     const positionMap: Record<string, number> = {
-      A: 1B: 2C: 3D: 4E: 5F: 6G: 7O: 8I: 9J: 10L: 11K: 12M: 13N: 14
+      A: 1, B: 2, C: 3, D: 4, E: 5, F: 6, G: 7, O: 8, I: 9, J: 10, L: 11, K: 12, M: 13, N: 14
 }
 
     return positionMap[planetCode] || 0;
@@ -189,7 +189,7 @@ export class EphemerisParser {
         const positions = this.parseEphemerisLine(line)
 
         if (positions && Object.keys(positions).length > 0) {
-          entries.push({,
+          entries.push({
             date,
             siderealTime,
             positions
@@ -232,23 +232,23 @@ export class EphemerisParser {
     const orb = Math.min(diff, 360 - diff)
 
     let type = 'none';
-    let influence = 0,
+    let influence = 0;
 
     if (orb <= 8) {
-      type = 'conjunction',
-      influence = 1.0 - orb / 8,
+      type = 'conjunction';
+      influence = 1.0 - orb / 8;
     } else if (orb >= 172 && orb <= 188) {
-      type = 'opposition',
-      influence = 1.0 - Math.abs(orb - 180) / 8,
+      type = 'opposition';
+      influence = 1.0 - Math.abs(orb - 180) / 8;
     } else if (orb >= 118 && orb <= 122) {
-      type = 'trine',
-      influence = 1.0 - Math.abs(orb - 120) / 4,
+      type = 'trine';
+      influence = 1.0 - Math.abs(orb - 120) / 4;
     } else if (orb >= 88 && orb <= 92) {
-      type = 'square',
-      influence = 1.0 - Math.abs(orb - 90) / 4,
+      type = 'square';
+      influence = 1.0 - Math.abs(orb - 90) / 4;
     } else if (orb >= 58 && orb <= 62) {
-      type = 'sextile',
-      influence = 1.0 - Math.abs(orb - 60) / 4,
+      type = 'sextile';
+      influence = 1.0 - Math.abs(orb - 60) / 4;
     }
 
     return { type, orb, influence }
@@ -277,7 +277,7 @@ export class EphemerisParser {
   /**
    * Calculate dominant elements from planetary positions
    */
-  (() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(positions: Record<string, ParsedPosition>): Record<string, number> {
+  calculateDominantElements(positions: Record<string, ParsedPosition>): Record<string, number> {
     const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 }
 
     Object.values(positions).forEach(position => {
@@ -288,10 +288,10 @@ export class EphemerisParser {
     })
 
     // Normalize to percentages
-    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0)
+    const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0)
     if (total > 0) {
       Object.keys(elementCounts).forEach(element => {
-        elementCounts[element] /= total,
+        elementCounts[element] /= total;
       })
     }
 
@@ -362,7 +362,7 @@ export class EphemerisParser {
     })
 
     return {
-      valid: errors.length === 0,,
+      valid: errors.length === 0,
       errors,
       warnings
     }
@@ -382,7 +382,7 @@ export const calculateAspect = (longitude1: number, longitude2: number) =>
   ephemerisParser.calculateAspect(longitude1, longitude2)
 export const getElementForSign = (signName: string) => ephemerisParser.getElementForSign(signName)
 export const _calculateDominantElements = (positions: Record<string, ParsedPosition>) =>
-  ephemerisParser.(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(positions)
+  ephemerisParser.calculateDominantElements(positions)
 export const getRetrogradePlanets = (positions: Record<string, ParsedPosition>) =>
   ephemerisParser.getRetrogradePlanets(positions)
 export const formatPosition = (position: ParsedPosition) =>
