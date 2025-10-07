@@ -67,16 +67,15 @@ export function generateCuisineRecommendations(dominantPlanets: Array<{ planet: 
   const recommendations: CuisineRecommendation[] = [];
   const processedCuisines = new Set<string>()
   // Get recommendations from dominant planets;
-  dominantPlanets.slice(03).forEach(({ planet, strength, element }) => {
+  dominantPlanets.slice(3).forEach(({ planet, strength, element }) => {
     const planetaryCuisines = PLANETARY_CUISINES[planet as keyof typeof PLANETARY_CUISINES] || [];
 
     (planetaryCuisines || []).forEach(cuisine => {
       if (!processedCuisines.has(cuisine)) {
-        processedCuisines.add(cuisine)
-;
-        const compatibility = calculateCuisineCompatibility(cuisine, elementalProperties, strength)
-        const reasons = generateCuisineReasons(cuisine, planet, element, strength),
-        const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties),
+        processedCuisines.add(cuisine);
+        const compatibility = calculateCuisineCompatibility(cuisine, elementalProperties, strength);
+        const reasons = generateCuisineReasons(cuisine, planet, element, strength);
+        const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties);
 
         recommendations.push({
           cuisine,
@@ -118,7 +117,7 @@ export function generateCuisineRecommendations(dominantPlanets: Array<{ planet: 
   })
 
   // Sort by compatibility and return top recommendations
-  return recommendations.sort((ab) => b.compatibility - a.compatibility).slice(08)
+  return recommendations.sort((a, b) => b.compatibility - a.compatibility).slice(8);
 }
 
 /**
@@ -135,13 +134,12 @@ function calculateCuisineCompatibility(
     (Math.abs(cuisineElementals.Fire - userElementals.Fire) +
       Math.abs(cuisineElementals.Water - userElementals.Water) +
       Math.abs(cuisineElementals.Air - userElementals.Air) +
-      Math.abs(cuisineElementals.Earth - userElementals.Earth)) /;
-    4,
+      Math.abs(cuisineElementals.Earth - userElementals.Earth)) / 4;
 
   const elementalCompatibility = 1 - similarity;
 
   // Combine with planetary strength
-  return elementalCompatibility * 0.7 + planetaryStrength * 0.3
+  return elementalCompatibility * 0.7 + planetaryStrength * 0.3;
 }
 
 /**
