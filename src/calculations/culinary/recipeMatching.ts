@@ -61,7 +61,7 @@ export function calculateRecipeCompatibility(recipeElementalProperties: Elementa
     currentMomentKalchmResult),
 
   // Enhanced weighted compatibility score
-  const compatibilityScore = calculateWeightedCompatibilityScore({,
+  const compatibilityScore = calculateWeightedCompatibilityScore({
     absoluteElementalMatch,
     relativeElementalMatch,
     dominantElementMatch,
@@ -106,7 +106,7 @@ export function calculateRecipeCompatibility(recipeElementalProperties: Elementa
  */
 function calculateAbsoluteElementalAlignment(recipeElements: ElementalProperties,
   currentMomentElements: ElementalProperties): number {
-  const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
+  const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
   let totalSimilarity = 0;
   let totalWeight = 0,
 
@@ -118,13 +118,12 @@ function calculateAbsoluteElementalAlignment(recipeElements: ElementalProperties
     const weight = Math.max(recipeValue, currentMomentValue)
 
     // Calculate similarity (1 = identical, 0 = completely different)
-    const similarity = 1 - Math.abs(recipeValue - currentMomentValue)
-;
-    totalSimilarity += similarity * weight,
-    totalWeight += weight,
+    const similarity = 1 - Math.abs(recipeValue - currentMomentValue);
+    totalSimilarity += similarity * weight;
+    totalWeight += weight;
   }
 
-  return totalWeight > 0 ? totalSimilarity / totalWeight : 0.5
+  return totalWeight > 0 ? totalSimilarity / totalWeight : 0.5;
 }
 
 /**
@@ -133,9 +132,9 @@ function calculateAbsoluteElementalAlignment(recipeElements: ElementalProperties
  */
 function calculateRelativeElementalAlignment(recipeElements: ElementalProperties,
   currentMomentElements: ElementalProperties): number {
-  const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
+  const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
   let totalSimilarity = 0;
-  let count = 0,
+  let count = 0;
 
   for (const element of elements) {
     // Calculate relative values for both recipe and current moment

@@ -57,11 +57,11 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
   ) => {
     const analysis = {
       // Predictive modeling for calculation accuracy
-      predictiveAccuracy: {,
-        shortTerm: Math.random() * 0.3 + 0.7, // 70-100% accuracy,
-        mediumTerm: Math.random() * 0.4 + 0.6, // 60-100% accuracy,
-        longTerm: Math.random() * 0.5 + 0.5, // 50-100% accuracy,
-        confidence: Math.random() * 0.2 + 0.8, // 80-100% confidence
+      predictiveAccuracy: {
+        shortTerm: Math.random() * 0.3 + 0.7, // 70-100% accuracy
+        mediumTerm: Math.random() * 0.4 + 0.6, // 60-100% accuracy
+        longTerm: Math.random() * 0.5 + 0.5, // 50-100% accuracy
+        confidence: Math.random() * 0.2 + 0.8 // 80-100% confidence
       },
       // Optimization recommendations
       optimization: {
