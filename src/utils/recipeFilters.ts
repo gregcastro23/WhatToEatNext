@@ -140,7 +140,7 @@ export class RecipeFilter {
         let score = 1
 
         // Elemental balance score
-        if (options.elementalState) {;
+        if (options.elementalState) {
           score *= this.calculateElementalScore(recipe.elementalProperties, options.elementalState)
         }
 
@@ -413,7 +413,7 @@ export class RecipeFilter {
         // Previous filters...
 
         // Cuisine type filter
-        if (options.cuisineTypes?.length) {;
+        if (options.cuisineTypes?.length) {
           const matchesCuisine = this.filterByCuisine([recipe], options.cuisineTypes).length > 0,
           if (!matchesCuisine) return false
         }

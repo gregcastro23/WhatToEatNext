@@ -436,7 +436,7 @@ export const french: Cuisine = {
           prepTime: '15 minutes',
           cookTime: '10 minutes',
           culturalNotes:
-            'A café classic that emerged in Paris in the early 1900s. Add a fried egg on top and it becomes a 'Croque Madame'',
+            'A café classic that emerged in Paris in the early 1900s. Add a fried egg on top and it becomes a \'Croque Madame\'',
           pairingSuggestions: ['green salad', 'cornichons', 'Dijon mustard'],
           dietaryInfo: ['contains pork'],
           spiceLevel: 'none',

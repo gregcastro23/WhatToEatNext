@@ -42,15 +42,15 @@ export function standardizeElementalAffinity(
   value: string | { base: string, decanModifiers?: { [key: string]: unknown } }): ElementalAffinity {
   if (typeof value === 'string') {
     return {
-      primary: value as 'Fire' | 'Water' | 'Earth' | 'Air'
+      primary: value as 'Fire' | 'Water' | 'Earth' | 'Air',
       strength: 1.0,
       compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
     }
   }
 
-  if (value && typeof value === 'object' && 'base' in value) {,
+  if (value && typeof value === 'object' && 'base' in value) {
     return {
-      primary: (value.base || 'Fire') as 'Fire' | 'Water' | 'Earth' | 'Air'
+      primary: (value.base || 'Fire') as 'Fire' | 'Water' | 'Earth' | 'Air',
       strength: 1.0,
       compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
     }
@@ -89,10 +89,10 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
     cookingMethods: Array.isArray(raw.cookingMethods) ? raw.cookingMethods || [].map(String) : [],
     pairings: Array.isArray(raw.pairings) ? raw.pairings || [].map(String) : [],
     storage: raw.storage ? String(raw.storage) : undefined,
-    preparationTips: Array.isArray(raw.preparationTips),
+    preparationTips: Array.isArray(raw.preparationTips)
       ? raw.preparationTips || [].map(String)
       : []
-  } as Ingredient,
+  } as Ingredient;
 }
 
 /**
@@ -113,22 +113,22 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     description: raw.description ? String(raw.description) : undefined,
     cuisine: String(raw.cuisine || 'international'),
     mealType: Array.isArray(raw.mealType) ? raw.mealType || [].map(String) : ['dinner'],
-    servings: typeof raw.servings === 'number' ? raw.servings : 4,,
-    prepTime: typeof raw.prepTime === 'number',
+    servings: typeof raw.servings === 'number' ? raw.servings : 4,
+    prepTime: typeof raw.prepTime === 'number'
         ? `${raw.prepTime} minutes`
         : typeof raw.prepTime === 'string'
-          ? raw.prepTime;
+          ? raw.prepTime
           : '30 minutes',
-    cookTime: typeof raw.cookTime === 'number',
+    cookTime: typeof raw.cookTime === 'number'
         ? `${raw.cookTime} minutes`
         : typeof raw.cookTime === 'string'
-          ? raw.cookTime;
+          ? raw.cookTime
           : '30 minutes',
     difficulty: validateDifficulty(raw.difficulty) ? (raw.difficulty as unknown) : 'medium',
     ingredients: standardizeRecipeIngredients(raw.ingredients),
     instructions: Array.isArray(raw.instructions) ? raw.instructions || [].map(String) : [],
     elementalProperties: standardizeElementalProperties(raw.elementalState),
-    astrologicalInfluences: Array.isArray(raw.astrologicalInfluences),
+    astrologicalInfluences: Array.isArray(raw.astrologicalInfluences)
       ? raw.astrologicalInfluences || [].map(String)
       : [],
     seasons: standardizeSeasons(raw.seasons),
@@ -183,7 +183,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   }
 
   return {
-    isValid: (errors || []).length === 0,,
+    isValid: (errors || []).length === 0,
     errors,
     warnings
   }
@@ -210,8 +210,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   if (
     !recipe.ingredients ||
     !Array.isArray(recipe.ingredients) ||
-    recipe.ingredients ||
-    [].length === 0,
+    recipe.ingredients.length === 0
   ) {
     errors.push('Recipe must have at least one ingredient')
   }
@@ -219,18 +218,16 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   if (
     !recipe.instructions ||
     !Array.isArray(recipe.instructions) ||
-    recipe.instructions ||
-    [].length === 0,
+    recipe.instructions.length === 0
   ) {
     errors.push('Recipe must have instructions')
   }
 
   // Validate ingredients
   if (recipe.ingredients) {
-    recipe.ingredients ||
-      [].forEach((ingredient, index) => {
+    recipe.ingredients.forEach((ingredient, index) => {
         const ingredientValidation = validateRecipeIngredient(ingredient)
-        if (!ingredientValidation.isValid) {;
+        if (!ingredientValidation.isValid) {
           errors.push(`Ingredient ${index + 1}: ${ingredientValidation.errors.join(', ')}`)
         }
       })
@@ -251,8 +248,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
 
   // Elemental properties validation
   if (recipe.elementalState) {
-    const elementalValidation = validateElementalProperties(recipe.elementalState as unknown as ElementalProperties,
-    ),
+    const elementalValidation = validateElementalProperties(recipe.elementalState as unknown as ElementalProperties)
     if (!elementalValidation.isValid) {
       warnings.push(...elementalValidation.errors)
     }
@@ -261,7 +257,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   }
 
   return {
-    isValid: (errors || []).length === 0,,
+    isValid: (errors || []).length === 0,
     errors,
     warnings
   }
@@ -286,7 +282,7 @@ export function cleanupIngredientsDatabase(
   const cleanedIngredients: Ingredient[] = []
 
   (Array.isArray(ingredients) ? ingredients : []).forEach((rawIngredient, index) => {
-    result.processed++,
+    result.processed++;
 
     try {
       const standardized = standardizeIngredient(rawIngredient)
@@ -294,19 +290,19 @@ export function cleanupIngredientsDatabase(
 
       if (validation.isValid) {
         cleanedIngredients.push(standardized)
-        result.cleaned++,
+        result.cleaned++;
       } else {
-        result.errors++,
+        result.errors++;
         result.warnings.push(`Ingredient ${index}: ${validation.errors.join(', ')}`)
       }
 
-      if ((validation.warnings && validation.warnings) || [].length > 0) {
+      if ((validation.warnings && validation.warnings.length) > 0) {
         result.warnings.push(`Ingredient ${index} warnings: ${validation.warnings?.join(', ')}`)
       }
     } catch (error) {
-      result.errors++,
+      result.errors++;
       result.warnings.push(
-        `Ingredient ${index}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        `Ingredient ${index}: ${error instanceof Error ? error.message : 'Unknown error'}`
       )
     }
   })
@@ -361,7 +357,7 @@ function createDefaultIngredient(id: string): Ingredient {
     cookingMethods: [],
     pairings: [],
     preparationTips: []
-  } as Ingredient,
+  } as Ingredient;
 }
 
 function createDefaultRecipe(id: string): Recipe {
@@ -382,7 +378,7 @@ function createDefaultRecipe(id: string): Recipe {
     tags: [],
     equipment: [],
     tips: []
-  }
+  };
 }
 
 function standardizeElementalProperties(properties: unknown): ElementalProperties {
@@ -392,13 +388,13 @@ function standardizeElementalProperties(properties: unknown): ElementalPropertie
 
   const props = properties as any;
   const Fire = typeof props.Fire === 'number' ? props.Fire : 0.25;
-  const Water = typeof props.Water === 'number' ? props.Water : 0.25,
+  const Water = typeof props.Water === 'number' ? props.Water : 0.25;
   const Earth = typeof props.Earth === 'number' ? props.Earth : 0.25;
   const Air = typeof props.Air === 'number' ? props.Air : 0.25;
 
   // Normalize
   const total = Fire + Water + Earth + Air
-  if (total > 0) {;
+  if (total > 0) {
     return { Fire: Fire / total, Water: Water / total, Earth: Earth / total, Air: Air / total }
   }
 
@@ -411,21 +407,21 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
       elementalAffinity: {} as ElementalAffinity,
       rulingPlanets: [],
       favorableZodiac: []
-    } as unknown as AstrologicalProfile,
+    } as unknown as AstrologicalProfile;
   }
-  const prof = profile as unknown;
+  const prof = profile as any;
   return {
-    elementalAffinity: standardizeElementalAffinity(,
-      String((prof.elementalAffinity as any).base || '')
+    elementalAffinity: standardizeElementalAffinity(
+      String((prof.elementalAffinity as any)?.base || '')
     ),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
-    favorableZodiac: Array.isArray(prof.favorableZodiac),
+    favorableZodiac: Array.isArray(prof.favorableZodiac)
       ? (prof.favorableZodiac || []).map(String)
       : []
-  } as unknown as AstrologicalProfile,
+  } as unknown as AstrologicalProfile;
 }
 
-function standardizeFlavorProfile(_profile: unknown): { [key: string]: number } {
+function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
   if (!profile || typeof profile !== 'object') {
     return {
       sweet: 0,
@@ -434,27 +430,27 @@ function standardizeFlavorProfile(_profile: unknown): { [key: string]: number } 
       bitter: 0,
       umami: 0,
       spicy: 0
-}
+    };
   }
 
   const result: { [key: string]: number } = {}
-  const prof = profile as unknown;
+  const prof = profile as any;
 
   Object.entries(prof || {}).forEach(([key, value]) => {
-    if (typeof value === 'number' && value >= 0 && value <= 1) {,
-      result[key] = value,
+    if (typeof value === 'number' && value >= 0 && value <= 1) {
+      result[key] = value;
     }
   })
 
   return result
 }
 
-function standardizeNutritionalProfile(_profile: unknown): { [key: string]: unknown } | undefined {
+function standardizeNutritionalProfile(profile: unknown): { [key: string]: unknown } | undefined {
   if (!profile || typeof profile !== 'object') {
     return undefined
   }
 
-  return profile as unknown
+  return profile as any
 }
 
 function standardizeSeasons(seasons: unknown): string[] {
@@ -462,7 +458,7 @@ function standardizeSeasons(seasons: unknown): string[] {
     return (seasons || []).map(String)
   }
 
-  if (typeof seasons === 'string') {,
+  if (typeof seasons === 'string') {
     return [seasons]
   }
 
@@ -474,36 +470,36 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     return []
   }
 
-  return (ingredients || []).map(ingredient => {;
-    if (typeof ingredient === 'string') {,
+  return (ingredients || []).map(ingredient => {
+    if (typeof ingredient === 'string') {
       return {
         name: ingredient,
         amount: 1,
         unit: 'item'
-}
+      };
     }
 
-    if (ingredient && typeof ingredient === 'object') {,
-      const ing = ingredient ;
+    if (ingredient && typeof ingredient === 'object') {
+      const ing = ingredient as any;
       return {
         name: String(ing.name || 'Unknown'),
-        amount: typeof ing.amount === 'number' ? ing.amount : 1,,
+        amount: typeof ing.amount === 'number' ? ing.amount : 1,
         unit: String(ing.unit || 'item'),
         preparation: ing.preparation ? String(ing.preparation) : undefined,
         optional: Boolean(ing.optional),
         notes: ing.notes ? String(ing.notes) : undefined
-      }
+      };
     }
 
     return {
       name: 'Unknown',
       amount: 1,
       unit: 'item'
-}
+    };
   })
 }
 
-function standardizeNutritionalInfo(_info: unknown): { [key: string]: unknown } | undefined {
+function standardizeNutritionalInfo(info: unknown): { [key: string]: unknown } | undefined {
   if (!info || typeof info !== 'object') {
     return undefined
   }
@@ -512,7 +508,7 @@ function standardizeNutritionalInfo(_info: unknown): { [key: string]: unknown } 
 }
 
 function validateDifficulty(difficulty: unknown): boolean {
-  return typeof difficulty === 'string' && ['easy', 'medium', 'hard'].includes(difficulty),
+  return typeof difficulty === 'string' && ['easy', 'medium', 'hard'].includes(difficulty);
 }
 
 function validateElementalProperties(properties: ElementalProperties): ValidationResult {
@@ -523,10 +519,10 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
     return { isValid: false, errors }
   }
 
-  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'],
+  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
 
   (requiredElements || []).forEach(element => {
-    if (typeof properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] !== 'number') {;
+    if (typeof properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] !== 'number') {
       errors.push(`${element} must be a number`)
     } else {
       const value = properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'];
@@ -537,7 +533,7 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
   })
 
   return {
-    isValid: (errors || []).length === 0,,
+    isValid: (errors || []).length === 0,
     errors
   }
 }
@@ -562,7 +558,7 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   }
 
   return {
-    isValid: (errors || []).length === 0,,
+    isValid: (errors || []).length === 0,
     errors
   }
 }
@@ -590,7 +586,7 @@ function validateRecipeIngredient(ingredient: unknown): ValidationResult {
   }
 
   return {
-    isValid: (errors || []).length === 0,,
+    isValid: (errors || []).length === 0,
     errors
   }
 }

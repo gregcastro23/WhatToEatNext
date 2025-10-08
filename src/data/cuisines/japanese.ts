@@ -763,7 +763,7 @@ export const japanese: Cuisine = {
           prepTime: '20 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            'A popular street food from Osaka. The name means 'grilled as you like it', reflecting its customizable nature',
+            'A popular street food from Osaka. The name means \'grilled as you like it\', reflecting its customizable nature',
           pairingSuggestions: ['beer', 'sake', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',

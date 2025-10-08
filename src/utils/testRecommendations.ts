@@ -60,16 +60,16 @@ export async function testCookingMethodRecommendations() {
   ],
 
   // Run the test
-  _logger.warn('TESTING COOKING METHOD RECOMMENDATIONS')
-  _logger.warn('=====================================')
-  _logger.warn('_Ingredient: ', mockIngredient.name)
-  _logger.warn('_Element: ', mockIngredient.element)
-  _logger.warn('Elemental _Character: ', mockIngredient.elementalCharacter)
+  _logger.warn('TESTING COOKING METHOD RECOMMENDATIONS');
+  _logger.warn('=====================================');
+  _logger.warn('_Ingredient: ', mockIngredient.name);
+  _logger.warn('_Element: ', mockIngredient.element);
+  _logger.warn('Elemental _Character: ', mockIngredient.elementalCharacter);
 
   // Test holistic recommendations directly
   try {
-    _logger.warn('\nTESTING HOLISTIC RECOMMENDATIONS _DIRECTLY: ')
-    const methods = mockCookingMethods.map(m => m.name)
+    _logger.warn('\nTESTING HOLISTIC RECOMMENDATIONS _DIRECTLY: ');
+    const methods = mockCookingMethods.map(m => m.name);
     const holisticRecs = await getHolisticCookingRecommendations(
       mockIngredient,
       undefined,

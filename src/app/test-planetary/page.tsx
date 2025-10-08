@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics';
+import { useEffect, useState } from 'react';
 
 export default function TestPlanetaryPage() {
   const {

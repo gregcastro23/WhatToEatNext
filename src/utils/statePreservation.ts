@@ -25,8 +25,8 @@ const STATE_KEYS = {
   MAIN_PAGE_STATE: 'mainPageState',
   NAVIGATION_STATE: 'navigationState',
   COMPONENT_STATES: 'componentStates',
-  SCROLL_POSITIONS: 'scrollPositions' },
-        as const,
+  SCROLL_POSITIONS: 'scrollPositions'
+} as const;
 
 // State expiration time (1 hour)
 const STATE_EXPIRATION_TIME = 60 * 60 * 1000;
@@ -215,50 +215,50 @@ export function clearAllState(): void {
  */
 export function clearExpiredState(): void {
   // Clear expired navigation state
-  const navState = safeGetItem(STATE_KEYS.NAVIGATION_STATE)
+  const navState = safeGetItem(STATE_KEYS.NAVIGATION_STATE);
   if (navState) {
     try {
-      const parsed: ComponentState = JSON.parse(navState)
+      const parsed: ComponentState = JSON.parse(navState);
       if (!isStateValid(parsed.timestamp)) {
-        sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE)
+        sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE);
       }
     } catch (error) {
-      sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE)
+      sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE);
     }
   }
 
   // Clear expired component states
-  const componentStates = getComponentStates()
-  const validStates: Record<string, ComponentState> = {}
+  const componentStates = getComponentStates();
+  const validStates: Record<string, ComponentState> = {};
   let hasChanges = false;
 
   Object.entries(componentStates).forEach(([key, state]) => {
     if (isStateValid(state.timestamp)) {
-      validStates[key] = state,
+      validStates[key] = state;
     } else {
-      hasChanges = true,
+      hasChanges = true;
     }
-  })
+  });
 
   if (hasChanges) {
-    safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(validStates))
+    safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(validStates));
   }
 
   // Clear expired scroll positions
-  const scrollPositions = getScrollPositions()
-  const validPositions: Record<string, ComponentState> = {}
+  const scrollPositions = getScrollPositions();
+  const validPositions: Record<string, ComponentState> = {};
   hasChanges = false;
 
   Object.entries(scrollPositions).forEach(([key, position]) => {
     if (isStateValid(position.timestamp)) {
-      validPositions[key] = position,
+      validPositions[key] = position;
     } else {
-      hasChanges = true,
+      hasChanges = true;
     }
-  })
+  });
 
   if (hasChanges) {
-    safeSetItem(STATE_KEYS.SCROLL_POSITIONS, JSON.stringify(validPositions))
+    safeSetItem(STATE_KEYS.SCROLL_POSITIONS, JSON.stringify(validPositions));
   }
 }
 

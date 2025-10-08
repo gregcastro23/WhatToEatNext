@@ -170,7 +170,7 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
     const magnitude = normalize(0.7 * scaledMagnitude + 0.3 * components.seasonal);
 
     // _Direction: dominant modality component
-    const modalityTriplet: Array<{ key: 'cardinal' | 'fixed' | 'mutable' value: number }> = [
+    const modalityTriplet: Array<{ key: 'cardinal' | 'fixed' | 'mutable'; value: number }> = [
       { key: 'cardinal', value: components.cardinal },
       { key: 'fixed', value: components.fixed },
       { key: 'mutable', value: components.mutable }
@@ -190,14 +190,14 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
 }
 
 export function cosineSimilarity(a: number[], b: number[]): number {
-  const minLen = Math.min(a.lengthb.length);
+  const minLen = Math.min(a.length, b.length);
   const dot = 0;
   let magA = 0;
   let magB = 0;
-  for (const i = 0, i < minLen i += 1) {
+  for (let i = 0; i < minLen; i += 1) {
     dot += a[i] * b[i];
     magA += a[i] * a[i];
-    magB += b[i] * b[i]
+    magB += b[i] * b[i];
   }
   if (magA === 0 || magB === 0) return 0;
   return dot / (Math.sqrt(magA) * Math.sqrt(magB));
@@ -206,35 +206,45 @@ export function cosineSimilarity(a: number[], b: number[]): number {
 export function compareSignVectors(a: SignVector, b: SignVector): SignVectorCompatibilityResult {
   const aVec = [
     a.components.cardinal,
-    a.components.fixeda.components.mutable,
-    a.components.Firea.components.Watera.components.Eartha.components.Aira.components.seasonal
+    a.components.fixed,
+    a.components.mutable,
+    a.components.Fire,
+    a.components.Water,
+    a.components.Earth,
+    a.components.Air,
+    a.components.seasonal
   ];
   const bVec = [
     b.components.cardinal,
-    b.components.fixedb.components.mutable,
-    b.components.Fireb.components.Waterb.components.Earthb.components.Airb.components.seasonal
+    b.components.fixed,
+    b.components.mutable,
+    b.components.Fire,
+    b.components.Water,
+    b.components.Earth,
+    b.components.Air,
+    b.components.seasonal
   ];
   const similarity = normalize((cosineSimilarity(aVec, bVec) + 1) / 2); // map [-11] -> [01]
 
   // Determine dominant shared axis by maximum product of corresponding components
   const modalityScore =
-    a.components.cardinal * b.components.cardinal +;
+    a.components.cardinal * b.components.cardinal +
     a.components.fixed * b.components.fixed +
     a.components.mutable * b.components.mutable;
   const elementalScore =
-    a.components.Fire * b.components.Fire +;
+    a.components.Fire * b.components.Fire +
     a.components.Water * b.components.Water +
     a.components.Earth * b.components.Earth +
     a.components.Air * b.components.Air;
   const seasonalScore = a.components.seasonal * b.components.seasonal;
 
-  const axisScores: Array<{ axis: 'modality' | 'elemental' | 'seasonal' score: number }> = [
+  const axisScores: Array<{ axis: 'modality' | 'elemental' | 'seasonal'; score: number }> = [
     { axis: 'modality', score: modalityScore },
     { axis: 'elemental', score: elementalScore },
     { axis: 'seasonal', score: seasonalScore }
   ];
-  axisScores.sort((xy) => y.score - x.score);
-  const dominantSharedAxis = axisScores[0].score > 0 ? axisScores[0].axis : 'none'
+  axisScores.sort((x, y) => y.score - x.score);
+  const dominantSharedAxis = axisScores[0].score > 0 ? axisScores[0].axis : 'none';
 
   return { similarity, dominantSharedAxis };
 }

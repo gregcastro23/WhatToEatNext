@@ -340,7 +340,7 @@ export class EphemerisParser {
       const actualPlanets = Object.keys(entry.positions)
 
       expectedPlanets.forEach(planet => {
-        if (!actualPlanets.includes(planet)) {;
+        if (!actualPlanets.includes(planet)) {
           warnings.push(`Entry ${index + 1}: Missing position for ${planet}`)
         }
       })

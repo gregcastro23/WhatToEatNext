@@ -1255,13 +1255,13 @@ export function calculatePillarMonica(gregsEnergy: number,
  */
 export function determinePillarMonicaClassification(monica: number, kalchm: number): string {
   if (isNaN(monica)) {
-    return kalchm > 1.0 ? 'Spirit-Dominant Pillar' : 'Matter-Dominant Pillar' };
+    return kalchm > 1.0 ? 'Spirit-Dominant Pillar' : 'Matter-Dominant Pillar' }
         if (Math.abs(monica) > 2.0) {
-    return 'Highly Volatile Pillar' };
+    return 'Highly Volatile Pillar' }
         if (Math.abs(monica) > 1.0) {
-    return 'Transformative Pillar' };
+    return 'Transformative Pillar' }
         if (Math.abs(monica) > 0.5) {
-    return 'Balanced Pillar' };
+    return 'Balanced Pillar' }
         return 'Stable Pillar';
 }
 
@@ -1333,7 +1333,7 @@ export function calculateOptimalCookingConditions(
   if (thermodynamics.entropy > 0.6) {
     void planetaryHours.push('Neptune', 'Pluto')
   }
-  if (planetaryHours.length === 0) {;
+  if (planetaryHours.length === 0) {
     planetaryHours.push('Jupiter'); // Default
   }
 

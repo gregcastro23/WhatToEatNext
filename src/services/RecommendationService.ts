@@ -18,8 +18,7 @@ import {
 } from './interfaces/RecommendationServiceInterface';
 
 // Import data services
-import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
-import { unifiedIngredientService } from './UnifiedIngredientService';
+import { RecipeService } from './RecipeService';
 
 /**
  * Consolidated Recommendation Service
@@ -35,13 +34,13 @@ import { unifiedIngredientService } from './UnifiedIngredientService';
  */
 export class RecommendationService implements RecommendationServiceInterface {
   private static instance: RecommendationService;
-  private recipeService: ConsolidatedRecipeService;
+  private recipeService: RecipeService;
 
   /**
    * Private constructor for singleton pattern
    */
   private constructor() {
-    this.recipeService = ConsolidatedRecipeService.getInstance();
+    this.recipeService = RecipeService.getInstance();
   }
 
   /**
@@ -197,7 +196,7 @@ export class RecommendationService implements RecommendationServiceInterface {
       logger.info('Getting recommended ingredients with criteria:', criteria);
 
       // Get all ingredients
-      const allIngredients = unifiedIngredientService.getAllIngredientsFlat();
+      const allIngredients = ingredientService.getAllIngredientsFlat();
 
       if (!allIngredients || allIngredients.length === 0) {
         logger.warn('No ingredients available for recommendations');

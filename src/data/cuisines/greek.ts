@@ -896,7 +896,7 @@ export const greek: Cuisine = {
           prepTime: 'overnight + 20 minutes',
           cookTime: '2 hours',
           culturalNotes:
-            'A classic dish from Macedonia and northern Greece, showcasing the region's famous giant beans',
+            'A classic dish from Macedonia and northern Greece, showcasing the region\'s famous giant beans',
           pairingSuggestions: ['feta cheese', 'crusty bread', 'Greek wine'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'none',

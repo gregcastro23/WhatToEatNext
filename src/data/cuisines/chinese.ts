@@ -858,7 +858,7 @@ export const chinese = {
     sichuan: {
       name: 'Sichuan Cuisine',
       description:
-        'Bold, spicy flavors featuring Sichuan peppercorns' numbing sensation (málà) and complex layering of flavors',
+        'Bold, spicy flavors featuring Sichuan peppercorns\' numbing sensation (málà) and complex layering of flavors',
       signature: ['mapo tofu', 'kung pao chicken', 'dan dan noodles', 'hot pot'],
       elementalProperties: { Fire: 0.7, Earth: 0.2, Water: 0.1, Air: 0.0 },
       astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],

@@ -231,7 +231,7 @@ export function calculateSignatureMatch(
   let totalMatch = 0;
 
   cuisineSignatures.forEach(signature => {
-    const property = signature.property,
+    const property = signature.property;
 
     // Check if signature property is elemental
     if (['Fire', 'Water', 'Earth', 'Air'].includes(property)) {
@@ -294,12 +294,12 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
       calculateAlchemicalCompatibility(
         userProfile.alchemicalPreferences,
         cuisineProperties.averageAlchemical
-      ) : undefined,
+      ) : undefined;
 
     const culturalAlignment = calculateCulturalAlignment(userProfile, cuisineId, cuisineName);
 
     const seasonalRelevance = considerSeasonalFactors ?
-      calculateSeasonalRelevance(userProfile, cuisineProperties) : 0.5,
+      calculateSeasonalRelevance(userProfile, cuisineProperties) : 0.5;
 
     const signatureMatch = calculateSignatureMatch(
       cuisineProperties.signatures,
@@ -445,12 +445,12 @@ function normalizeElementalPreferences(preferences: ElementalProperties): Elemen
 
   if (sum > 0) {
     (Object.keys(preferences) as (keyof ElementalProperties)[]).forEach(key => {
-      normalized[key] = preferences[key] / sum,
+      normalized[key] = preferences[key] / sum;
     });
   } else {
     // Fallback to equal distribution
     (Object.keys(normalized) as (keyof ElementalProperties)[]).forEach(key => {
-      normalized[key] = 0.25,
+      normalized[key] = 0.25;
     });
   }
 
@@ -531,7 +531,7 @@ export function getRecommendationSummary(recommendations: CuisineRecommendation[
   const totalCompatibility = recommendations.reduce((sum, rec) => sum + rec.compatibilityScore, 0);
   const averageCompatibility = totalCompatibility / recommendations.length;
 
-  const distribution = { excellent: 0, good: 0, fair: 0, poor: 0 },
+  const distribution = { excellent: 0, good: 0, fair: 0, poor: 0 };
   recommendations.forEach(rec => {
     if (rec.compatibilityScore > 0.8) distribution.excellent++;
     else if (rec.compatibilityScore > 0.6) distribution.good++;

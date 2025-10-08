@@ -841,7 +841,7 @@ export const russian: Cuisine = {
           cookTime: '30 minutes',
           chillTime: '60 minutes',
           culturalNotes:
-            'Also known as 'Russian Salad' internationally, this is a must-have dish at New Year's celebrations and other festive occasions',
+            'Also known as \'Russian Salad\' internationally, this is a must-have dish at New Year\'s celebrations and other festive occasions',
           pairingSuggestions: ['black bread', 'cold cuts', 'pickled vegetables'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'none',
@@ -896,7 +896,7 @@ export const russian: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '120 minutes',
           culturalNotes:
-            'A hearty winter dish that exemplifies Russian cooking's focus on simple, filling ingredients. Traditionally cooked in a clay pot in a Russian oven',
+            'A hearty winter dish that exemplifies Russian cooking\'s focus on simple, filling ingredients. Traditionally cooked in a clay pot in a Russian oven',
           pairingSuggestions: ['rye bread', 'sauerkraut', 'pickled vegetables', 'kvass'],
           dietaryInfo: ['gluten-free', 'adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',

@@ -364,7 +364,7 @@ class CuisineComputationCache {
     }>;
   } {
     const entries = Array.from(this.cache.entries()).map(([cacheKey, entry]) => {
-      const [cuisineId, optionsHash] = cacheKey.split(': '),
+      const [cuisineId, optionsHash] = cacheKey.split(': ');
       return {
         cuisineId,
         options: entry.metadata.computationOptions,

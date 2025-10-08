@@ -31,8 +31,8 @@ export function findMatchedItalianDinnerRecipes() {
   // Map all ingredients to our ingredient database
   const mappedRecipes = allDinnerRecipes.map(recipe => {
     const mappedIngredients = connectIngredientsToMappings(
-      recipe as import('@/types/alchemy').Recipe;
-    )
+      recipe as import('@/types/alchemy').Recipe
+    );
 
     // Calculate mapping score (percentage of ingredients with a mapping)
     // Apply Pattern GG-6: Enhanced property access with type guards
@@ -40,22 +40,22 @@ export function findMatchedItalianDinnerRecipes() {
     const ingredients = recipeData.ingredients || [];
 
     // Apply Pattern GG-6: Safe property access with type guard
-    const ingredientsArray = Array.isArray(ingredients) ? ingredients : []
-    const mappingScore =;
-      mappedIngredients.filter(i => i.matchedTo).length / Math.max(1, ingredientsArray.length),
+    const ingredientsArray = Array.isArray(ingredients) ? ingredients : [];
+    const mappingScore =
+      mappedIngredients.filter(i => i.matchedTo).length / Math.max(1, ingredientsArray.length);
 
     return {
       recipe,
       mappingScore,
       mappedIngredients
-    }
-  })
+    };
+  });
 
   // Filter to recipes with at least 50% of ingredients mapped
-  const wellMappedRecipes = mappedRecipes.filter(r => r.mappingScore >= 0.5)
+  const wellMappedRecipes = mappedRecipes.filter(r => r.mappingScore >= 0.5);
 
   // Sort by mapping score (descending)
-  return wellMappedRecipes.sort((ab) => b.mappingScore - a.mappingScore)
+  return wellMappedRecipes.sort((a, b) => b.mappingScore - a.mappingScore);
 }
 
 /**

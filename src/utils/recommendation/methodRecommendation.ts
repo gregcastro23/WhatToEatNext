@@ -466,7 +466,7 @@ export function getRecommendedCookingMethods(
     const dominantPlanets = astrologicalInfluences.dominantPlanets as string[];
     if (planets && dominantPlanets) {
       const planetMatch = planets.some(planet => dominantPlanets.includes(planet))
-      if (planetMatch) {;
+      if (planetMatch) {
         score += 0.15,
         reasons.push('Planetary alignment')
       }
@@ -481,7 +481,7 @@ export function getRecommendedCookingMethods(
 
     // Cultural preference (10% weight)
     const culturalOrigin = String(methodData.culturalOrigin || '')
-    if (culturalPreference && culturalOrigin === culturalPreference) {;
+    if (culturalPreference && culturalOrigin === culturalPreference) {
       score += 0.1,
       reasons.push(`${culturalPreference} tradition`)
     }
@@ -530,7 +530,7 @@ export function getRecommendedCookingMethods(
 }
 
 // ===== LUNAR AND ASPECT CALCULATIONS =====
-;
+
 export function calculateLunarMethodAffinity(_method: CookingMethodData, _phase: LunarPhase): number {
   const lunarAffinities = {
     'new moon': ['ferment', 'pickle', 'cure', 'preserve'],
@@ -655,7 +655,7 @@ export function createElementalProfileFromAstroState(
 
   // Enhance the dominant element
   Object.keys(profile || {}).forEach(element => {
-    if (element === astroState.dominantElement) {;
+    if (element === astroState.dominantElement) {
       profile[element as Element] = Math.min(1.0, profile[element as Element] + 0.3)
     }
   })

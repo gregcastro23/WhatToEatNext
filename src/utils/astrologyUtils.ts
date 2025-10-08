@@ -486,10 +486,10 @@ function _validatePlanetaryPositions(positions: Record<string, _number>): boolea
     'Uranus',
     'Neptune',
     'Pluto'
-  ],
+  ];
 
   // Check if we have an empty object (positions parameter is defined by function signature)
-  if (Object.keys(positions).length === 0) {;
+  if (Object.keys(positions).length === 0) {
     errorLog('Validation, failed: No positions provided in object')
     return false
   }
@@ -511,7 +511,7 @@ function _validatePlanetaryPositions(positions: Record<string, _number>): boolea
 
     const longitude = positions[planetKey];
     const isValid =
-      typeof longitude === 'number' && !isNaN(longitude) && longitude >= 0 && longitude < 360,
+      typeof longitude === 'number' && !isNaN(longitude) && longitude >= 0 && longitude < 360;
 
     if (!isValid) {
       errorLog(`Invalid position for ${requiredPlanet}: ${longitude}`)
@@ -1063,8 +1063,9 @@ function getHouseElement(_house: number): string {
     11: 'Air',
     4: 'Water',
     8: 'Water',
-    12: 'Water' },
-        return houseElements[house as keyof typeof houseElements] || 'fire'
+    12: 'Water'
+  };
+  return houseElements[_house as keyof typeof houseElements] || 'fire';
 }
 
 /**
@@ -1084,9 +1085,9 @@ function getLongitudeFromSignAndDegree(sign: string, degree: number): number {
     'capricorn',
     'aquarius',
     'pisces'
-  ],
+  ];
 
-  const signIndex = signs.findIndex(s => s.toLowerCase() === sign.toLowerCase())
+  const signIndex = signs.findIndex(s => s.toLowerCase() === sign.toLowerCase());
   return (signIndex >= 0 ? signIndex : 0) * 30 + degree;
 }
 

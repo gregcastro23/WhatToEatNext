@@ -4,11 +4,11 @@
 
 import type { UnifiedIngredient } from '@/types';
 import type {
-  AlchemicalProperties,
-  ElementalProperties,
-  IngredientMapping,
-  ThermodynamicMetrics,
-  ThermodynamicProperties
+    AlchemicalProperties,
+    ElementalProperties,
+    IngredientMapping,
+    ThermodynamicMetrics,
+    ThermodynamicProperties
 } from '@/types/alchemy';
 
 // TODO: Fix import - add what to import from './unifiedTypes.ts'
@@ -36,7 +36,7 @@ const proteins = {
  * Calculate Kalchm value based on alchemical properties
  * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  */
-function calculateKalchm(_alchemical: AlchemicalProperties): number {,
+function calculateKalchm(_alchemical: AlchemicalProperties): number {
   const { Spirit, Essence, Matter, Substance} = alchemical;
 
   // Prevent division by zero or negative values
@@ -70,7 +70,7 @@ function calculateMonica(
   const energyValue = gregsEnergy !== undefined ? gregsEnergy : energy || 0
 
   // Safe calculation of logarithm;
-  const lnK = Math.log(Math.max(0.001, kalchm)),
+  const lnK = Math.log(Math.max(0.001, kalchm));
 
   // Calculate monica value
   if (lnK !== 0 && reactivity !== 0) {
@@ -95,29 +95,29 @@ function enhanceIngredient(
     Essence: Number(alchemicalData.Essence) || 0.25,
     Matter: Number(alchemicalData.Matter) || 0.25,
     Substance: Number(alchemicalData.Substance) || 0.25
-  }
+  };
 
   // Calculate Kalchm value
-  const kalchm = calculateKalchm(alchemicalProperties)
+  const kalchm = calculateKalchm(alchemicalProperties);
 
   // Get or create thermodynamic properties
   const thermodynamics = ingredient.thermodynamicProperties ||
-    ingredient.energyValues || {;
+    ingredient.energyValues || {
       heat: 0.5,
       entropy: 0.5,
       reactivity: 0.5,
-      gregsEnergy: 0.5 - ((0 as any)?.5 || 0) * 0.2
-    }
+      gregsEnergy: 0.5 - (0.5 || 0) * 0.2
+    };
 
   // ✅ Pattern MM-1: Safe union type casting for thermodynamics parameter compatibility
   const monica = calculateMonica(
     kalchm,
-    thermodynamics as unknown as ThermodynamicProperties | ThermodynamicMetrics,
-  ),
+    thermodynamics as unknown as ThermodynamicProperties | ThermodynamicMetrics
+  );
 
   // Create enhanced unified ingredient
   return {
-    // ✅ Pattern GG-6: Safe property access for core ingredient properties,
+    // ✅ Pattern GG-6: Safe property access for core ingredient properties
     name: String((ingredient as any).name || ''),
     category: String((ingredient as any).category || sourceCategory),
     subcategory: String((ingredient as any).subCategory || ''),
@@ -126,7 +126,7 @@ function enhanceIngredient(
     elementalProperties:
       ((ingredient as any).elementalPropertiesState as ElementalProperties) ||
       ((ingredient as any).elementalProperties as ElementalProperties) ||
-      createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
+      createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
     alchemicalProperties,
 
     // New calculated values
@@ -155,50 +155,50 @@ function createUnifiedCollection(
   // ✅ Pattern GG-6: Safe array operation for source collection
   return Object.entries(sourceCollection || {}).reduce(
     (result, [key, ingredient]) => {
-      result[key] = enhanceIngredient(ingredient, category),
-      return result
-    }
-    {} as Record<string, UnifiedIngredient>,
-  )
+      result[key] = enhanceIngredient(ingredient, category);
+      return result;
+    },
+    {} as Record<string, UnifiedIngredient>
+  );
 }
 
 // ✅ Pattern MM-1: Safe Record type casting for createUnifiedCollection compatibility
 export const unifiedFruits = createUnifiedCollection(
-  fruits as { [key: string]: IngredientMapping }
-  'fruits',
-)
+  fruits as { [key: string]: IngredientMapping },
+  'fruits'
+);
 export const unifiedVegetables = createUnifiedCollection(
-  vegetables as { [key: string]: IngredientMapping }
-  'vegetables',
-)
+  vegetables as { [key: string]: IngredientMapping },
+  'vegetables'
+);
 export const unifiedHerbs = createUnifiedCollection(
-  herbs as { [key: string]: IngredientMapping }
-  'herbs',
-)
+  herbs as { [key: string]: IngredientMapping },
+  'herbs'
+);
 export const unifiedSpices = createUnifiedCollection(
-  spices as { [key: string]: IngredientMapping }
-  'spices',
-)
+  spices as { [key: string]: IngredientMapping },
+  'spices'
+);
 export const unifiedGrains = createUnifiedCollection(
-  grains as { [key: string]: IngredientMapping }
-  'grains',
-)
+  grains as { [key: string]: IngredientMapping },
+  'grains'
+);
 export const unifiedOils = createUnifiedCollection(
-  oils as { [key: string]: IngredientMapping }
-  'oils',
-)
+  oils as { [key: string]: IngredientMapping },
+  'oils'
+);
 export const unifiedVinegars = createUnifiedCollection(
-  vinegars as { [key: string]: IngredientMapping }
-  'vinegars',
-)
+  vinegars as { [key: string]: IngredientMapping },
+  'vinegars'
+);
 export const unifiedSeasonings = createUnifiedCollection(
-  seasonings as { [key: string]: IngredientMapping }
-  'seasonings',
-)
+  seasonings as { [key: string]: IngredientMapping },
+  'seasonings'
+);
 export const unifiedProteins = createUnifiedCollection(
-  proteins as { [key: string]: IngredientMapping }
-  'proteins',
-)
+  proteins as { [key: string]: IngredientMapping },
+  'proteins'
+);
 
 // Combine all unified collections
 export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {

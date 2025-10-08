@@ -484,7 +484,7 @@ declare global {
     if (typeof window === 'undefined') return
 
     // Monitor memory usage
-    setInterval(() => {;
+    setInterval(() => {
       const perfWithMemory = performance as { memory?: { usedJSHeapSize: number } }
       if (perfWithMemory.memory) {
         const memoryUsage = perfWithMemory.memory.usedJSHeapSize / 1024 / 1024;

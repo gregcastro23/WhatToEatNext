@@ -873,7 +873,7 @@ export function getRecipesForCuisineMatch(
 
     // If no recipes are provided or empty array, try to fetch from LocalRecipeService
     if (!Array.isArray(recipes) || recipes.length === 0) {
-      try {;
+      try {
         log.info(`No recipes array provided, trying LocalRecipeService for ${cuisineName}`)
         // Use ESM import at top
         const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName)
@@ -902,7 +902,7 @@ export function getRecipesForCuisineMatch(
 
     // Get the cuisine profile
     const cuisineProfile = getCuisineProfile(cuisineName)
-    if (!cuisineProfile) {;
+    if (!cuisineProfile) {
       _logger.warn(`No cuisine profile found for ${cuisineName}, using direct matches only`)
       // Even without a profile, we can still try direct matches
     }

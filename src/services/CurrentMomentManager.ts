@@ -194,8 +194,8 @@ class CurrentMomentManager {
           'systemDefaults',
           'streamlinedPositions',
           'accurateAstronomy'
-        ],
-        void logger.warn(`Failed to update ${updateNames[index]}:`, result.reason)
+        ];
+        logger.warn(`Failed to update ${updateNames[index]}:`, result.reason)
       }
     })
   }
@@ -215,8 +215,8 @@ class CurrentMomentManager {
       const codeCell = notebook.cells.find(
         (cell: unknown) =>
           cell.cell_type === 'code' &&
-          cell.source.some((line: string) => line.includes('live_positions'));
-      ),
+          cell.source.some((line: string) => line.includes('live_positions'))
+      );
 
       if (codeCell) {
         // Generate new positions data for the notebook
@@ -232,22 +232,22 @@ class CurrentMomentManager {
           '# *Enhanced Integration with WhatToEatNext Debug Pane*  \n',
           `# **Location: ** New York Area (${momentData.location.latitude}°N, ${momentData.location.longitude}°W) | **Timezone: ** ${momentData.location.timezone}\n`,
           '\n',
-          'import pandas as pd\n';
-          'import numpy as np\n';
-          'import matplotlib.pyplot as plt\n';
-          'import seaborn as sns\n';
-          'from datetime import datetime\n';
-          'import json\n';
-          'import warnings\n';
-          'import requests\n';
-          'warnings.filterwarnings('ignore')\n',
+          'import pandas as pd\n',
+          'import numpy as np\n',
+          'import matplotlib.pyplot as plt\n',
+          'import seaborn as sns\n',
+          'from datetime import datetime\n',
+          'import json\n',
+          'import warnings\n',
+          'import requests\n',
+          'warnings.filterwarnings(\'ignore\')\n',
           '\n',
           '# Set up plotting style\n',
-          'plt.style.use('seaborn-v0_8')\n',
-          'sns.set_palette('husl')\n',
+          'plt.style.use(\'seaborn-v0_8\')\n',
+          'sns.set_palette(\'husl\')\n',
           '\n',
           `# LIVE CURRENT MOMENT ANALYSIS - ${momentData.date}\n`,
-          `current_timestamp = datetime.fromisoformat('${momentData.timestamp.slice(0, -1)}').isoformat()  # ${momentData.date}\n`,,
+          `current_timestamp = datetime.fromisoformat('${momentData.timestamp.slice(0, -1)}').isoformat()  # ${momentData.date}\n`,
           `print(f\'🌟 RUNNING LIVE API CALL FOR ${momentData.date.toUpperCase()}: {current_timestamp}\")\n`,
           '\n',
           `# CORRECT PLANETARY POSITIONS FOR ${momentData.date.toUpperCase()}\n`,
@@ -256,21 +256,21 @@ class CurrentMomentManager {
           '\n',
           `print(f\"🎉 SUCCESS - Live planetary positions for ${momentData.date}:\")\n`,
           'for planet, data in live_positions.items():\n',
-          '    retro = ' (R)' if data.get(\'retrograde\') else ''\n',,
-          '    print(f\'   {planet}: {data['minutes']} {data['sign']}{retro} ({data['element']})\")\n',
+          '    retro = \' (R)\' if data.get(\'retrograde\') else \'\'\n',
+          '    print(f\'   {planet}: {data[\'minutes\']} {data[\'sign\']}{retro} ({data[\'element\']})\")\n',
           '\n',
-          'print('✅ CURRENT MOMENT ANALYSIS COMPLETE')\n'
+          'print(\'✅ CURRENT MOMENT ANALYSIS COMPLETE\')\n'
         ],
 
-        codeCell.source = newSource,
+        codeCell.source = newSource;
 
         // Write updated notebook
-        await fs.writeFile(notebookPath, JSON.stringify(notebook, null, 2))
-        void logger.info('Updated current-moment-chart.ipynb successfully')
+        await fs.writeFile(notebookPath, JSON.stringify(notebook, null, 2));
+        void logger.info('Updated current-moment-chart.ipynb successfully');
       }
     } catch (error) {
-      void logger.error('Failed to update notebook: ', error),
-      throw error
+      void logger.error('Failed to update notebook: ', error);
+      throw error;
     }
   }
 
@@ -279,26 +279,26 @@ class CurrentMomentManager {
    */
   private async updateSystemDefaults(momentData: CurrentMomentData): Promise<void> {
     try {
-      const defaultsPath = path.join(process.cwd(), 'src/constants/systemDefaults.ts')
-      const content = await fs.readFile(defaultsPath, 'utf-8')
+      const defaultsPath = path.join(process.cwd(), 'src/constants/systemDefaults.ts');
+      const content = await fs.readFile(defaultsPath, 'utf-8');
 
       // Generate new positions constant
       const newPositions = this.formatPositionsForSystemDefaults(
-        momentData.planetaryPositions
+        momentData.planetaryPositions,
         momentData.date
-      ),
+      );
 
       // Replace the DEFAULT_PLANETARY_POSITIONS constant
       const updatedContent = content.replace(
         /export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = \{[\s\S]*?\},/,
-        newPositions,
-      )
+        newPositions
+      );
 
-      await fs.writeFile(defaultsPath, updatedContent)
-      void logger.info('Updated systemDefaults.ts successfully')
+      await fs.writeFile(defaultsPath, updatedContent);
+      void logger.info('Updated systemDefaults.ts successfully');
     } catch (error) {
-      void logger.error('Failed to update systemDefaults: ', error),
-      throw error
+      void logger.error('Failed to update systemDefaults: ', error);
+      throw error;
     }
   }
 
