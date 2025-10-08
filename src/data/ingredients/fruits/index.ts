@@ -932,20 +932,19 @@ export const FRUIT_ASTROLOGICAL_INTELLIGENCE = {
         }
       },
       astrologicalCoverage: {
-        planetaryCoverage: testPlanets.filter(planet => Object.keys(rulingPlanetFunc(planet)).length > 0).length /,
-          testPlanets.length;
-        elementalCoverage:
-          testElements.filter(element => Object.keys(elementalAffinityFunc(element)).length > 0);
-            .length / testElements.length,
+        planetaryCoverage: testPlanets.filter(planet => Object.keys(rulingPlanetFunc(planet)).length > 0).length /
+          testPlanets.length,
+        elementalCoverage: testElements.filter(element => Object.keys(elementalAffinityFunc(element)).length > 0)
+          .length / testElements.length,
         validationCoverage: 1.0, // Validation function exists
       }
     };
 
     // Calculate astrologicalMetrics first
     const astrologicalMetrics = {
-      planetaryReliability: astrologicalAnalysis.planetaryAnalysis.filter(p => p.hasRulership).length /,
-        testPlanets.length;
-      elementalReliability: astrologicalAnalysis.elementalAnalysis.filter(e => e.hasAffinity).length /,
+      planetaryReliability: astrologicalAnalysis.planetaryAnalysis.filter(p => p.hasRulership).length /
+        testPlanets.length,
+      elementalReliability: astrologicalAnalysis.elementalAnalysis.filter(e => e.hasAffinity).length /
         testElements.length
       astrologicalCompleteness:
         (astrologicalAnalysis.astrologicalCoverage.planetaryCoverage +

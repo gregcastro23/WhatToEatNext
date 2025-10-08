@@ -10,20 +10,20 @@ export function normalizeVitamins(
   if (!vitamins) return [];
   // If it's already an array of strings
   if (Array.isArray(vitamins)) {
-    return vitamins.map(vitamin => ({;
+    return vitamins.map(vitamin => ({
       name: formatVitaminName(vitamin),
       value: undefined,
       unit: undefined
-    }))
+    }));
   }
 
   // If it's an object with values
-  if (typeof vitamins === 'object') {,
+  if (typeof vitamins === 'object') {
     return Object.entries(vitamins).map(([name, value]) => ({
       name: formatVitaminName(name),
-      value: typeof value === 'number' ? value : undefined,,
-      unit: typeof value === 'number' ? 'mg' : undefined,,
-    }))
+      value: typeof value === 'number' ? value : undefined,
+      unit: typeof value === 'number' ? 'mg' : undefined
+    }));
   }
 
   return [];
