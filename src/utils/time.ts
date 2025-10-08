@@ -14,11 +14,11 @@ export function getTimeFactors() {
 }
 
   // Get current date information
-  const now = new Date()
+  const now = new Date();
   const dayOfWeek = days[now.getDay()];
-  const hour = now.getHours()
+  const hour = now.getHours();
 
-  // Calculate planetary hour (simplified implementation)
+  // Calculate planetary hour (simplified, implementation)
   const dayHours = [
     'Sun',
     'Venus',

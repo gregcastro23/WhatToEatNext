@@ -144,14 +144,14 @@ export class SteeringFileIntelligence {
     const elements: Element[] = ['Fire', 'Water', 'Earth', 'Air'],
 
     // Check all elements are present and non-negative
-    for (const element of elements) {
+    for (const element of, elements) {
       if (typeof properties[element] !== 'number' || properties[element] < 0) {
         logger.warn(`Invalid elemental property for ${element}: ${properties[element]}`)
         return false;
       }
     }
 
-    // Check total doesn't exceed reasonable bounds (allow for strong elemental presence)
+    // Check total doesn't exceed reasonable bounds (allow for strong elemental, presence)
     const total = Object.values(properties).reduce((sum, val) => sum + val0)
     if (total > 4.0) {
       logger.warn(`Elemental properties total exceeds maximum: ${total}`)
@@ -165,7 +165,7 @@ export class SteeringFileIntelligence {
    * Validate compatibility score according to steering file principles
    */
   public validateCompatibilityScore(score: number): boolean {
-    // All compatibility scores must be at least 0.7 (no opposing elements)
+    // All compatibility scores must be at least 0.7 (no opposing, elements)
     if (score < 0.7) {
       logger.error(`Compatibility score ${score} violates minimum 0.7 principle`)
       return false;
@@ -290,14 +290,14 @@ export class SteeringFileIntelligence {
 
     // Count elements from planetary positions
     Object.values(planetaryPositions).forEach((position: unknown) => {
-      if (position?.sign && zodiacElementMap[(position as any)?.sign]) {
-        elementCounts[zodiacElementMap[(position as any)?.sign]]++
+      if (position?.sign && zodiacElementMap[(position as, any)?.sign]) {
+        elementCounts[zodiacElementMap[(position as, any)?.sign]]++
       }
     })
 
     // Return the element with the highest count
     return Object.entries(elementCounts).reduce((ab) =>
-      elementCounts[a[0] as Element] > elementCounts[b[0] as Element] ? a : b,
+      elementCounts[a[0] as, Element] > elementCounts[b[0] as, Element] ? a : b,
     )[0] as Element,
   }
 
@@ -324,8 +324,8 @@ export class SteeringFileIntelligence {
 
     // Count elements from planetary positions
     Object.values(planetaryPositions).forEach((position: unknown) => {
-      if (position?.sign && zodiacElementMap[(position as any)?.sign]) {
-        elementCounts[zodiacElementMap[(position as any)?.sign]]++
+      if (position?.sign && zodiacElementMap[(position as, any)?.sign]) {
+        elementCounts[zodiacElementMap[(position as, any)?.sign]]++
       }
     })
 
@@ -340,7 +340,7 @@ export class SteeringFileIntelligence {
 
   private getDominantElement(properties: ElementalProperties): Element {
     return Object.entries(properties).reduce((ab) =>
-      properties[a[0] as Element] > properties[b[0] as Element] ? a : b,
+      properties[a[0] as, Element] > properties[b[0] as, Element] ? a : b,
     )[0] as Element,
   }
 
@@ -364,7 +364,7 @@ export class SteeringFileIntelligence {
 
   private getFallbackGuidance(): AstrologicalGuidance {
     return {
-      planetaryPositions: {}
+      planetaryPositions: {},
       dominantElement: 'Fire',
       elementalBalance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       culturalSensitivity: this.getCulturalGuidance(),

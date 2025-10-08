@@ -69,7 +69,7 @@ export async function testCookingMethodRecommendations() {
   try {
     _logger.warn('\nTESTING HOLISTIC RECOMMENDATIONS _DIRECTLY: ');
     const methods = mockCookingMethods.map(m => m.name);
-    const holisticRecs = await getHolisticCookingRecommendations(
+    const holisticRecs = await getHolisticCookingRecommendations(;
       mockIngredient,
       undefined,
       undefined,
@@ -83,16 +83,16 @@ export async function testCookingMethodRecommendations() {
       )
     })
   } catch (error) {
-    _logger.error('ERROR GETTING HOLISTIC RECOMMENDATIONS: ', error)
+    _logger.error('ERROR GETTING HOLISTIC RECOMMENDATIONS: ', error);
     if (error instanceof Error && error.stack) {
-      _logger.error(error.stack)
+      _logger.error(error.stack);
     }
   }
 
   // Test the ingredient-specific function - Pattern ZZZ: Array Object Interface Expansion
   try {
-    _logger.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:')
-    const recommendations = await getRecommendedCookingMethodsForIngredient(
+    _logger.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:');
+    const recommendations = await getRecommendedCookingMethodsForIngredient(;
       mockIngredient,
       mockCookingMethods as any
     )
@@ -102,13 +102,13 @@ export async function testCookingMethodRecommendations() {
       )
     })
   } catch (error) {
-    _logger.error('ERROR GETTING RECOMMENDATIONS: ', error)
+    _logger.error('ERROR GETTING RECOMMENDATIONS: ', error);
     if (error instanceof Error && error.stack) {
-      _logger.error(error.stack)
+      _logger.error(error.stack);
     }
   }
 
-  const holisticRecs = await getHolisticCookingRecommendations(
+  const holisticRecs = await getHolisticCookingRecommendations(;
     mockIngredient,
     undefined,
     undefined,
@@ -116,7 +116,7 @@ export async function testCookingMethodRecommendations() {
     mockCookingMethods.map(m => m.name),
     5
   )
-  const standardRecs = await getRecommendedCookingMethodsForIngredient(
+  const standardRecs = await getRecommendedCookingMethodsForIngredient(;
     mockIngredient,
     mockCookingMethods as any
   ); // Pattern ZZZ: Array Object Interface Expansion

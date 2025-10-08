@@ -14,7 +14,7 @@ export interface TimeFactors {
  * ruling planet of the day, and ruling planet of the hour
  */
 export function getCurrentTimeFactors(): TimeFactors {
-  const now = new Date()
+  const now = new Date();
 
   return {
     season: getCurrentSeason(now),
@@ -31,16 +31,16 @@ export function getCurrentTimeFactors(): TimeFactors {
  * This is primarily northern hemisphere focused
  */
 export function getCurrentSeason(date: Date = new Date()): 'spring' | 'summer' | 'fall' | 'winter' {
-  const month = date.getMonth(); // 0-11
+  const month = date.getMonth(); // 0-11;
 
   if (month >= 2 && month <= 4) {
-    return 'spring'; // March, April, May
+    return 'spring'; // March, April, May;
   } else if (month >= 5 && month <= 7) {
-    return 'summer'; // June, July, August
+    return 'summer'; // June, July, August;
   } else if (month >= 8 && month <= 10) {
-    return 'fall'; // September, October, November
+    return 'fall'; // September, October, November;
   } else {
-    return 'winter'; // December, January, February
+    return 'winter'; // December, January, February;
   }
 }
 
@@ -81,10 +81,10 @@ export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
   ],
 
   // Each day starts with its ruling planet
-  const dayPlanet = getPlanetaryDayRuler(dayOfWeek)
+  const dayPlanet = getPlanetaryDayRuler(dayOfWeek);
 
   // Find the position of the day's ruling planet in the Chaldean order
-  const startPosition = planetaryOrder.indexOf(dayPlanet)
+  const startPosition = planetaryOrder.indexOf(dayPlanet);
 ;
   // For planetary hourswe count from sunrise to sunset as 12 hours,
   // and sunset to sunrise as 12 hours. For simplicity, we use civil hours.
@@ -97,16 +97,16 @@ export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
  * Determine how appropriate a recipe is for the current season
  * Returns a value between 0 and 1
  */
-export function calculateSeasonalAppropriateness(
+export function calculateSeasonalAppropriateness(;
   recipeSeason: 'spring' | 'summer' | 'fall' | 'winter' | 'all'
   currentSeason: 'spring' | 'summer' | 'fall' | 'winter'
 ): number {
   if (recipeSeason === 'all') {
-    return 0.8; // All-season recipes are generally good but not perfect
+    return 0.8; // All-season recipes are generally good but not perfect;
   }
 
   if (recipeSeason === currentSeason) {
-    return 1.0; // Perfect match for the season
+    return 1.0; // Perfect match for the season;
   }
 
   // Adjacent seasons have some compatibility
@@ -116,11 +116,11 @@ export function calculateSeasonalAppropriateness(
 
   // Check if it's an adjacent season (circular)
   if ((currentIndex + 1) % 4 === recipeIndex || (currentIndex - 1 + 4) % 4 === recipeIndex) {
-    return 0.6; // Adjacent season, moderate appropriateness
+    return 0.6; // Adjacent season, moderate appropriateness;
   }
 
   // Opposite season
-  return 0.3; // Least appropriate
+  return 0.3; // Least appropriate;
 }
 
 /**
@@ -128,7 +128,7 @@ export function calculateSeasonalAppropriateness(
  */
 export function calculatePlanetaryTimeAffinity(_planet: Planet, hour: number): number {
   // Morning: 5-11, Afternoon: 12-17, Evening: 18-22, _Night: 23-4
-  const timeOfDay =
+  const timeOfDay =;
     hour >= 5 && hour <= 11
       ? 'morning'
       : hour >= 12 && hour <= 17
@@ -158,7 +158,7 @@ export function calculatePlanetaryTimeAffinity(_planet: Planet, hour: number): n
 export function calculatePrepTimeAppropriateness(prepTimeMinutes: number, hour: number): number {
   // Morning: generally prefer quick recipes
   if (hour >= 5 && hour <= 11) {
-    return prepTimeMinutes <= 30
+    return prepTimeMinutes <= 30;
       ? 1.0
       : prepTimeMinutes <= 60
         ? 0.7
@@ -169,7 +169,7 @@ export function calculatePrepTimeAppropriateness(prepTimeMinutes: number, hour: 
 
   // Afternoon: moderate prep time is okay
   if (hour >= 12 && hour <= 17) {
-    return prepTimeMinutes <= 30
+    return prepTimeMinutes <= 30;
       ? 0.8
       : prepTimeMinutes <= 60
         ? 1.0
@@ -180,7 +180,7 @@ export function calculatePrepTimeAppropriateness(prepTimeMinutes: number, hour: 
 
   // Evening: can handle longer prep times
   if (hour >= 18 && hour <= 21) {
-    return prepTimeMinutes <= 30
+    return prepTimeMinutes <= 30;
       ? 0.6
       : prepTimeMinutes <= 60
         ? 0.8
@@ -190,7 +190,7 @@ export function calculatePrepTimeAppropriateness(prepTimeMinutes: number, hour: 
   }
 
   // Late night: quick recipes preferred again
-  return prepTimeMinutes <= 30
+  return prepTimeMinutes <= 30;
     ? 1.0
     : prepTimeMinutes <= 60
       ? 0.6
