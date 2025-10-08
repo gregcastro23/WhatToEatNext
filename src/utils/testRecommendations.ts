@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
-import { _logger } from '@/lib/logger';
 // Test utility for cooking method recommendations
 
 import { AlchemicalItem } from '../calculations/alchemicalTransformation';
