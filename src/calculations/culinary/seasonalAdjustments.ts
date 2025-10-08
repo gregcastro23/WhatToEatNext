@@ -39,7 +39,7 @@ export function applySeasonalAdjustments(baseProperties: ElementalProperties,
   const seasonKey = season.toLowerCase()
   const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring
 
-  return {;
+  return {
     Fire: ((baseProperties as any)?.Fire || 0) * 0.2 + ((modifier as any)?.Fire || 0) * 0.2,
     Water: ((baseProperties as any)?.Water || 0) * 0.2 + ((modifier as any)?.Water || 0) * 0.2,
     Air: ((baseProperties as any)?.Air || 0) * 0.2 + ((modifier as any)?.Air || 0) * 0.2,
@@ -55,7 +55,7 @@ export function applyLunarPhaseAdjustments(baseProperties: ElementalProperties,
   const phaseKey = lunarPhase.toLowerCase()
   const modifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon']
 
-  return {;
+  return {
     Fire: ((baseProperties as any)?.Fire || 0) * 0.2 + ((modifier as any)?.Fire || 0) * 0.2,
     Water: ((baseProperties as any)?.Water || 0) * 0.2 + ((modifier as any)?.Water || 0) * 0.2,
     Air: ((baseProperties as any)?.Air || 0) * 0.2 + ((modifier as any)?.Air || 0) * 0.2,

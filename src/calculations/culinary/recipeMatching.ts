@@ -169,8 +169,8 @@ function calculateDominantElementAlignment(recipeElements: ElementalProperties,
   const recipeDominant = getDominantElement(recipeElements)
   const currentMomentDominant = getDominantElement(currentMomentElements)
 
-  // Perfect match if same dominant element;
-  if (recipeDominant === currentMomentDominant) {,
+  // Perfect match if same dominant element
+  if (recipeDominant === currentMomentDominant) {
     return 1.0
   }
 
@@ -196,8 +196,8 @@ function calculateKalchmAlignment(recipeElements: ElementalProperties,
   const currentMomentKalchm = currentMomentKalchmResult.thermodynamics.kalchm
 
   // Both high kalchm values indicate good alchemical potential
-  if (recipeKalchm > 5 && currentMomentKalchm > 5) {;
-    return 0.9, // Both are alchemically potent
+  if (recipeKalchm > 5 && currentMomentKalchm > 5) {
+    return 0.9; // Both are alchemically potent
   }
 
   // Calculate similarity between kalchm values (with logarithmic scaling)
@@ -216,8 +216,8 @@ function calculateMonicaAlignment(recipeElements: ElementalProperties,
   // Monica constant indicates how well the alchemical transformation will proceed
   const currentMomentMonica = currentMomentKalchmResult.thermodynamics.monicaConstant
 
-  if (isNaN(currentMomentMonica) || !isFinite(currentMomentMonica)) {;
-    return 0.5, // Neutral if monica can't be calculated
+  if (isNaN(currentMomentMonica) || !isFinite(currentMomentMonica)) {
+    return 0.5; // Neutral if monica can't be calculated
   }
 
   // Higher monica values generally indicate better transformation potential
@@ -240,8 +240,8 @@ function calculateEnhancedThermodynamicAlignment(recipeElements: ElementalProper
   const entropyAlignment = 1 - Math.abs(recipeThermodynamics.entropy - userThermodynamics.entropy)
   const reactivityAlignment =
     1 - Math.abs(recipeThermodynamics.reactivity - userThermodynamics.reactivity)
-  const energyAlignment = calculateEnergyAlignment(recipeThermodynamics.gregsEnergy
-    userThermodynamics.gregsEnergy),
+  const energyAlignment = calculateEnergyAlignment(recipeThermodynamics.gregsEnergy,
+    userThermodynamics.gregsEnergy);
 
   // Weighted average (heat and reactivity are most important for cooking)
   return (
@@ -259,13 +259,13 @@ function calculateEnergeticResonance(recipeElements: ElementalProperties,
   const currentMomentGregsEnergy = currentMomentKalchmResult.thermodynamics.gregsEnergy || 0;
 
   // Calculate frequency-like resonance
-  const energyRatio = recipeGregsEnergy !== 0 ? currentMomentGregsEnergy / recipeGregsEnergy : 1
-;
+  const energyRatio = recipeGregsEnergy !== 0 ? currentMomentGregsEnergy / recipeGregsEnergy : 1;
+
   // Resonance occurs at simple ratios (1: 12:11:23:2, etc.)
-  const simpleRatios = [10.52, 0.671.50.751.33],
+  const simpleRatios = [10.52, 0.67, 1.5, 0.75, 1.33];
   const resonanceScore = Math.max(
-    ...simpleRatios.map(ratio => 1 - Math.abs(energyRatio - ratio) / ratio),
-  ),
+    ...simpleRatios.map(ratio => 1 - Math.abs(energyRatio - ratio) / ratio)
+  );
 
   return Math.max(0.1, Math.min(1.0, resonanceScore))
 }
@@ -294,13 +294,13 @@ function calculateWeightedCompatibilityScore(scores: {
   }
 
   let totalScore = 0;
-  let totalWeight = 0,
+  let totalWeight = 0;
 
   for (const [factor, weight] of Object.entries(weights)) {
     const score = scores[factor as keyof typeof scores];
-    if (typeof score === 'number' && !isNaN(score)) {,
-      totalScore += score * weight,
-      totalWeight += weight,
+    if (typeof score === 'number' && !isNaN(score)) {
+      totalScore += score * weight;
+      totalWeight += weight;
     }
   }
 
@@ -328,7 +328,7 @@ function calculateRecipeKalchm(_elements: ElementalProperties): number {
   const Substance = Air || 0.001;
 
   const kalchm =
-    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /,
+    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
     (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
 
   return isFinite(kalchm) ? kalchm : 1.0
@@ -352,12 +352,12 @@ function calculateRecipeGregsEnergy(elements: ElementalProperties): number {
 
 function calculateEnergyAlignment(recipeEnergy: number, userEnergy: number): number {
   if (Math.abs(recipeEnergy) < 0.001 && Math.abs(userEnergy) < 0.001) {
-    return 1.0, // Both are near zero
+    return 1.0; // Both are near zero
   }
 
-  const maxEnergy = Math.max(Math.abs(recipeEnergy), Math.abs(userEnergy))
-  const energyDiff = Math.abs(recipeEnergy - userEnergy)
-;
+  const maxEnergy = Math.max(Math.abs(recipeEnergy), Math.abs(userEnergy));
+  const energyDiff = Math.abs(recipeEnergy - userEnergy);
+
   return 1 - energyDiff / (maxEnergy + 1); // +1 to prevent division issues
 }
 

@@ -150,7 +150,7 @@ export default function CuisineSectionTestPage() {
                 Water: state.elementalState.Water ?? 0.25,
                 Earth: state.elementalState.Earth ?? 0.25,
                 Air: state.elementalState.Air ?? 0.25,
-                season: state.currentSeason || 'spring'
+                season: state.currentSeason || 'spring',
                 timeOfDay: (state.timeOfDay || 'morning') ?? 'morning'
               }}
             />
@@ -169,7 +169,7 @@ export default function CuisineSectionTestPage() {
                 Water: state.elementalState.Water ?? 0.25,
                 Earth: state.elementalState.Earth ?? 0.25,
                 Air: state.elementalState.Air ?? 0.25,
-                season: state.currentSeason || 'spring'
+                season: state.currentSeason || 'spring',
                 timeOfDay: (state.timeOfDay || 'morning') ?? 'morning'
               }}
             />
