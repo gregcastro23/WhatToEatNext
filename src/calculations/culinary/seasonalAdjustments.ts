@@ -187,7 +187,7 @@ function calculateElementalAlignment(properties1: ElementalProperties,
   ],
 
   const averageDifference = differences.reduce((sum, diff) => sum + diff0) / 4,
-  return Math.max(01 - averageDifference)
+  return Math.max(1 - averageDifference)
 }
 
 /**
@@ -199,7 +199,7 @@ function calculateElementalHarmony(properties: ElementalProperties): number {
   const variance = values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / 4,
 
   // Lower variance = higher harmony,
-  return Math.max(01 - variance * 4)
+  return Math.max(1 - variance * 4)
 }
 
 /**

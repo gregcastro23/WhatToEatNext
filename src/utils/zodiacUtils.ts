@@ -1,17 +1,16 @@
-import: { ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import {
     DEFAULT_ZODIAC_AFFINITY
 } from '@/types/zodiacAffinity';
-// Removed duplicate: // Removed duplicate: import { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): (void) => {
-  // Comment out console.log to avoid linting warnings;
+const debugLog = (message: string, ...args: unknown[]): void => {
+  // Comment out console.log to avoid linting warnings
   // console.log(message, ...args)
-}
+};
 
 /**
  * Get the current zodiac sign based on the current date
@@ -45,7 +44,7 @@ export const getCurrentZodiacSign = (): string => {
  * @param zodiac String representing a zodiac sign
  * @returns A valid ZodiacSign or 'Aries' as default
  */
-export function toZodiacSign( ZodiacSign {) {
+export function toZodiacSign(zodiac: string): ZodiacSign {
   if (!zodiac) return 'aries';
 
   const validSigns = [
@@ -63,12 +62,12 @@ export function toZodiacSign( ZodiacSign {) {
     'pisces',
   ];
 
-  const normalized = zodiac.toLowerCase()
+  const normalized = zodiac.toLowerCase();
   return (
     validSigns.find((sign) => {
-    return sign.toLowerCase() === normalized) || 'aries';
-  }
-  )
+      return sign.toLowerCase() === normalized;
+    }) || 'aries'
+  ) as ZodiacSign;
 }
 
 /**
@@ -76,7 +75,7 @@ export function toZodiacSign( ZodiacSign {) {
  * @param longitude Longitude in degrees (0-360)
  * @returns Zodiac sign as a string
  */
-export function getSignFromLongitude( string {
+export function getSignFromLongitude(longitude: number): string {
   const signs = [
     'Aries',
     'Taurus',
@@ -90,8 +89,8 @@ export function getSignFromLongitude( string {
     'Capricorn',
     'Aquarius',
     'Pisces',
-  ];) {
-  const signIndex = Math.floor((longitude % 360) / 30)
+  ];
+  const signIndex = Math.floor((longitude % 360) / 30);
   return signs[signIndex];
 }
 
@@ -100,9 +99,9 @@ export function getSignFromLongitude( string {
  * @param date Date to calculate zodiac sign for
  * @returns Zodiac sign
  */
-export function getZodiacSign( ZodiacSign {) {
+export function getZodiacSign(date: Date): ZodiacSign {
   const month = date.getMonth() + 1;
-  const day = date.getDate()
+  const day = date.getDate();
 
   if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries';
   if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'taurus';
@@ -127,12 +126,12 @@ export function getZodiacSign( ZodiacSign {) {
  * @param sign Zodiac sign
  * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
  */
-export function getElementForZodiac( 'Fire' | 'Earth' | 'Air' | 'Water' {
+export function getElementForZodiac(sign: ZodiacSign): 'Fire' | 'Earth' | 'Air' | 'Water' {
   const fireZodiacs: ZodiacSign[] = ['aries', 'leo', 'sagittarius'];
   const earthZodiacs: ZodiacSign[] = ['taurus', 'virgo', 'capricorn'];
   const airZodiacs: ZodiacSign[] = ['gemini', 'libra', 'aquarius'];
   const waterZodiacs: ZodiacSign[] = ['cancer', 'scorpio', 'pisces'];
-) {
+
   if (fireZodiacs.includes(sign)) return 'Fire';
   if (earthZodiacs.includes(sign)) return 'Earth';
   if (airZodiacs.includes(sign)) return 'Air';
@@ -144,8 +143,8 @@ export function getElementForZodiac( 'Fire' | 'Earth' | 'Air' | 'Water' {
  * @param sign Zodiac sign
  * @returns Elemental properties with the sign's element boosted
  */
-export function getZodiacElementalInfluence( ElementalProperties {) {
-  const element = getElementForZodiac(sign)
+export function getZodiacElementalInfluence(sign: ZodiacSign): ElementalProperties {
+  const element = getElementForZodiac(sign);
 
   // Base values
   const result: ElementalProperties = {
@@ -153,7 +152,7 @@ export function getZodiacElementalInfluence( ElementalProperties {) {
     Earth: 0.2,
     Air: 0.2,
     Water: 0.2
-}
+  };
 
   // Boost the primary element
   result[element] = 0.7;

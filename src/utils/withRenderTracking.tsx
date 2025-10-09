@@ -105,7 +105,7 @@ export function withRenderTracking<P extends object>(;
               _color: renderCount > 10 ? '#ff6b6b' : renderCount > 5 ? '#ffa94d' : '#74c0fc',
               _textAlign: 'right',
               _padding: '2px: 4px',
-              _backgroundColor: 'rgba(00,00.03)',
+              _backgroundColor: 'rgba(0,0.3)',
               _borderRadius: '2px',
               _margin: '2px: 0',
               display: 'flex',

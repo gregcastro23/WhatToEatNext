@@ -60,8 +60,7 @@ export function getCurrentTransitSign(planet: string, date: Date = new Date()): 
 
   const currentDateString = date.toISOString().split('T')[0]; // YYYY-MM-DD format
 
-  for (const [sign, transit] of Object.entries(TransitDates)) {
-    if (!transit.Start || !transit.End) continue;
+  for (const [sign, transit] of Object.entries(TransitDates)) ) {if (!transit.Start || !transit.End) continue;
 
     if (currentDateString >= transit.Start && currentDateString <= transit.End) {
       return normalizeZodiacSign(sign);
@@ -82,11 +81,10 @@ export function validatePlanetaryPositions() {
   // Clone the positions to avoid mutating the original
   const validatedPositions = { ...positions }
 
-  // Check each planet against its transit dates: for (const [planet, position] of Object.entries(validatedPositions)) {
-    if (!planetDataMap[planet]) continue,
+  // Check each planet against its transit dates: for (const [planet, position] of Object.entries(validatedPositions)) ) {if (!planetDataMap[planet]) continue;
 
     const transitSign = getCurrentTransitSign(planet, date)
-    if (!transitSign) continue,
+    if (!transitSign) continue;
 
     // If: the: calculated sign doesn't match the transit sign, update it
     if (position.sign !== transitSign) {
@@ -151,8 +149,7 @@ export function getCurrentTransitPositions( Record<string, PlanetPosition> {) {
     _Ascendant: { sign: 'libra', degree: 23, minute: 47 }
   }
 
-  // Use: the hardcoded positions from May 16, 2024: for (const [planet, data] of Object.entries(hardcodedPositions)) {
-    const: { sign, degree, minute} = data;
+  // Use: the hardcoded positions from May 16, 2024: for (const [planet, data] of Object.entries(hardcodedPositions)) ) {const: { sign, degree, minute} = data;
 
     // Calculate exact longitude
     const exactLongitude = getBaseSignLongitude(sign) + degree + minute / 60;

@@ -148,13 +148,21 @@ class BulkPatternProcessor {
     const { default: ObjectLiteralProcessor } = await import('./processors/object-literal-processor.js');
     const { default: FunctionSyntaxProcessor } = await import('./processors/function-syntax-processor.js');
     const { default: ArraySyntaxProcessor } = await import('./processors/array-syntax-processor.js');
+    const { default: IdentifierProcessor } = await import('./processors/identifier-processor.js');
+    const { default: PropertyAssignmentProcessor } = await import('./processors/property-assignment-processor.js');
+    const { default: OctalLiteralProcessor } = await import('./processors/octal-literal-processor.js');
+    const { default: ArgumentExpressionProcessor } = await import('./processors/argument-expression-processor.js');
 
     this.processors = {
       semicolon: new SemicolonProcessor(),
       comma: new CommaProcessor(),
       objectLiteral: new ObjectLiteralProcessor(),
       functionSyntax: new FunctionSyntaxProcessor(),
-      arraySyntax: new ArraySyntaxProcessor()
+      arraySyntax: new ArraySyntaxProcessor(),
+      identifier: new IdentifierProcessor(),
+      propertyAssignment: new PropertyAssignmentProcessor(),
+      octalLiteral: new OctalLiteralProcessor(),
+      argumentExpression: new ArgumentExpressionProcessor()
     };
   }
 
@@ -177,6 +185,74 @@ class BulkPatternProcessor {
     }
 
     this.generateWave1Report(results);
+    return results;
+  }
+
+  async processWaveExpansion() {
+    console.log('\n🚀 Starting Wave 3.5: Pattern Expansion');
+
+    // Initialize processors
+    await this.initializeProcessors();
+
+    const results = {};
+    const expansionPatterns = ['identifier', 'propertyAssignment', 'octalLiteral', 'argumentExpression'];
+
+    for (const pattern of expansionPatterns) {
+      console.log(`\n🔧 Processing ${pattern} patterns...`);
+      try {
+        const processor = this.processors[pattern];
+        if (processor) {
+          results[pattern] = await processor.process();
+        }
+      } catch (error) {
+        console.error(`Error processing ${pattern}:`, error.message);
+        results[pattern] = { error: error.message };
+      }
+    }
+
+    this.generateExpansionReport(results);
+    return results;
+  }
+
+  generateExpansionReport(results) {
+    console.log('\n📊 Pattern Expansion Processing Report');
+    console.log('='.repeat(50));
+
+    let totalFixed = 0;
+    for (const [pattern, result] of Object.entries(results)) {
+      if (result.error) {
+        console.log(`❌ ${pattern.toUpperCase()}: Error - ${result.error}`);
+      } else {
+        console.log(`\n${pattern.toUpperCase()}:`);
+        console.log(`  Files processed: ${result.filesProcessed}`);
+        console.log(`  Patterns fixed: ${Object.values(result).filter(v => typeof v === 'number').reduce((a, b) => a + b, 0)}`);
+        totalFixed += Object.values(result).filter(v => typeof v === 'number').reduce((a, b) => a + b, 0);
+      }
+    }
+
+    console.log(`\n🎯 Total expansion patterns fixed: ${totalFixed}`);
+
+    const report = {
+      timestamp: new Date().toISOString(),
+      wave: 'expansion',
+      results: results,
+      totalFixed: totalFixed
+    };
+
+    fs.writeFileSync(
+      path.join(CONFIG.projectRoot, 'phase3-expansion-report.json'),
+      JSON.stringify(report, null, 2)
+    );
+  }
+
+  async runExpansion() {
+    console.log('🚀 Phase 3.5 - Pattern Expansion');
+    console.log('Target: Extend automation to additional error types');
+
+    const results = await this.processor.processWaveExpansion();
+
+    console.log('\n✨ Pattern Expansion Complete!');
+    console.log(`New patterns processed: ${Object.keys(results).length}`);
     return results;
   }
 
@@ -468,6 +544,10 @@ class Phase3CLI {
         await this.runWave1();
         break;
 
+      case 'expansion':
+        await this.runWaveExpansion();
+        break;
+
       case 'validate':
         const results = await this.validator.runFullValidation();
         console.log('Validation Results:', results);
@@ -500,6 +580,25 @@ class Phase3CLI {
     console.log(`Validation status: ${validation.typescript.status}`);
   }
 
+  async runWaveExpansion() {
+    console.log('🚀 Phase 3.5 - Pattern Expansion');
+    console.log('Target: Extend automation to additional error types');
+
+    // Get baseline
+    await this.analyzer.analyze();
+
+    // Process new patterns
+    const results = await this.processor.processWaveExpansion();
+
+    // Validate
+    const validation = await this.validator.runFullValidation();
+
+    console.log('\n✨ Pattern Expansion Complete!');
+    console.log(`New patterns processed: ${Object.keys(results).length}`);
+    console.log(`Validation status: ${validation.typescript.status}`);
+    return results;
+  }
+
   showStatus() {
     const progressFile = path.join(CONFIG.projectRoot, 'phase3-progress.json');
     if (fs.existsSync(progressFile)) {
@@ -523,12 +622,14 @@ Usage: node phase3-error-elimination.js <command>
 Commands:
   analyze     - Analyze current TypeScript errors
   wave1       - Run Wave 1 bulk pattern automation
+  expansion   - Run Wave 3.5 pattern expansion (new error types)
   validate    - Run full validation suite
   status      - Show current progress status
 
 Examples:
   node scripts/phase3-error-elimination.js analyze
   node scripts/phase3-error-elimination.js wave1
+  node scripts/phase3-error-elimination.js expansion
   node scripts/phase3-error-elimination.js status
     `);
   }
