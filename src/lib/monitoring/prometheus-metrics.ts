@@ -365,7 +365,7 @@ export function trackAlchemicalCalculation(
  */
 export function trackRecipeRecommendation(
   cuisine: string,
-  dietaryRestrictions: string[] = [];
+  dietaryRestrictions: string[] = [];,
   algorithmVersion: string = '1.0') {
   const timer = recipeRecommendationDuration.startTimer({,
     algorithm_version: algorithmVersion,

@@ -13,11 +13,11 @@ export const databaseConfig = {
   // Database connection
   databaseUrl: process.env.DATABASE_URL || 'postgresql://user:pass@localhost:5432/alchm_kitchen'
   // Individual connection parameters (fallback if DATABASE_URL not provided)
-  host: process.env.DB_HOST || 'localhost'
+  host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT || '5432', 10),
   database: process.env.DB_NAME || 'alchm_kitchen'
-  user: process.env.DB_USER || 'user'
-  password: process.env.DB_PASSWORD || 'pass'
+  user: process.env.DB_USER || 'user',
+  password: process.env.DB_PASSWORD || 'pass',
   ssl: process.env.DB_SSL === 'true',
 
   // Connection pool settings

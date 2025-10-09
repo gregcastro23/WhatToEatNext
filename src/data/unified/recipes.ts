@@ -154,45 +154,46 @@ export class RecipeEnhancer {
     }> = [];
 
     for (const ingredient of ingredients) {
-      if (!isIngredientLike(ingredient)) continue,
+      if (!isIngredientLike(ingredient)) continue;
 
       const ingredientName =
-        hasProperty(ingredient, 'name') && typeof ingredient.name === 'string',
+        hasProperty(ingredient, 'name') && typeof ingredient.name === 'string'
           ? ingredient.name.toLowerCase()
-          : undefined,
-      let kalchm = 1.0, // Default Kalchm,
+          : undefined;
+      let kalchm = 1.0; // Default Kalchm
       let elementalContribution: ElementalProperties = {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-}
+      };
 
       // Try to find ingredient in unified ingredients
-      const unifiedIngredient = ingredientName ? this.findUnifiedIngredient(ingredientName) : null,
+      const unifiedIngredient = ingredientName ? this.findUnifiedIngredient(ingredientName) : null;
       if (unifiedIngredient) {
-        kalchm = unifiedIngredient.kalchm ?? 1.0,
+        kalchm = unifiedIngredient.kalchm ?? 1.0;
         const elementalState = unifiedIngredient.elementalState;
-        if (elementalState && typeof elementalState === 'object') {,
+        if (elementalState && typeof elementalState === 'object') {
           elementalContribution = elementalState as ElementalProperties;
         }
-        matchedIngredients++,
+        matchedIngredients++;
       } else {
         // Fallback: derive from element if available
         const elementValue =
-          hasProperty(ingredient, 'element') && typeof ingredient.element === 'string',
+          hasProperty(ingredient, 'element') && typeof ingredient.element === 'string'
             ? ingredient.element
-            : nullif (elementValue) {
-          elementalContribution = this.elementToElementalProperties(elementValue as Element)
+            : null;
+        if (elementValue) {
+          elementalContribution = this.elementToElementalProperties(elementValue as Element);
           kalchm = this.estimateKalchmFromElement(elementValue as Element);
         }
       }
 
-      totalKalchm += kalchm,
+      totalKalchm += kalchm;
       const ingredientDisplayName =
-        hasProperty(ingredient, 'name') && typeof ingredient.name === 'string',
+        hasProperty(ingredient, 'name') && typeof ingredient.name === 'string'
           ? ingredient.name
-          : 'unknown ingredient'
+          : 'unknown ingredient';
       breakdown.push({
         name: ingredientDisplayName,
         kalchm,

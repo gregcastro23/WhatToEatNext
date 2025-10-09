@@ -2461,7 +2461,7 @@ export function transformItemsWithPlanetaryPositions(
         reactivity: thermodynamicProperties.reactivity,
         gregsEnergy: thermodynamicProperties.gregsEnergy,
         dominantAlchemicalProperty: 'Essence' as AlchemicalProperty,
-        planetaryBoost: 1.0 + compatibilityScore * 0.5; // Calculate based on compatibility
+        planetaryBoost: 1.0 + compatibilityScore * 0.5; // Calculate based on compatibility,
         dominantPlanets: [] as string[],
         planetaryDignities: {} as Record<string, unknown>,
         // Optional legacy properties

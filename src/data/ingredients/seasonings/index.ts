@@ -116,7 +116,7 @@ export const _getTraditionalCombinations = (cuisine: string): Record<string, str
   });
 
   return combinations;
-};
+;
 
 export const _getSeasoningsByLunarPhase = (phase: string): IngredientMapping => {
   return Object.entries(seasonings);

@@ -226,7 +226,7 @@ export const korean: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '20 minutes',
           culturalNotes:
-            'Originally served to royalty, bibimbap represents the Korean principle of balanced eating with its colorful array of vegetables. The dish name means 'mixed rice'',
+            'Originally served to royalty, bibimbap represents the Korean principle of balanced eating with its colorful array of vegetables. The dish name means "mixed rice"',
           pairingSuggestions: ['kimchi', 'doenjang soup', 'korean tea'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'adjustable',
@@ -359,7 +359,7 @@ export const korean: Cuisine = {
       winter: [
         {
           name: 'Tteokguk',
-          description: 'Rice cake soup traditionally eaten on New Year's Day',
+          description: 'Rice cake soup traditionally eaten on New Year\'s Day',
           cuisine: 'Korean',
           cookingMethods: ['simmering', 'slicing', 'garnishing'],
           tools: ['large pot', 'knife', 'strainer', 'ladle', 'serving bowls'],
@@ -694,7 +694,7 @@ export const korean: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '2 hours',
           culturalNotes:
-            'A hearty soup that became popular during the Korean War as a way to use affordable cuts of meat. Now it's a beloved hangover cure',
+            'A hearty soup that became popular during the Korean War as a way to use affordable cuts of meat. Now it\'s a beloved hangover cure',
           pairingSuggestions: ['rice', 'kimchi', 'soju'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'medium to hot',
@@ -1289,7 +1289,7 @@ export const korean: Cuisine = {
     jeonju: {
       name: 'Jeonju (Southwest) Cuisine',
       description:
-        'Known as Korea's food capital, with emphasis on quality ingredients and tradition',
+        'Known as Korea\'s food capital, with emphasis on quality ingredients and tradition',
       signature: ['bibimbap', 'kongnamul gukbap', 'makgeolli', 'traditional banchan'],
       elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Moon', 'Venus', 'Taurus'],

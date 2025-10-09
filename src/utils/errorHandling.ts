@@ -50,7 +50,7 @@ const USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
   [ErrorType.NETWORK]: 'Unable to connect to the server. Please check your internet connection and try again.'
   [ErrorType.VALIDATION]: 'Please check your input and try again.',
   [ErrorType.AUTHENTICATION]: 'Please log in to continue.',
-  [ErrorType.AUTHORIZATION]: 'You don't have permission to access this resource.',
+  [ErrorType.AUTHORIZATION]: 'You don\'t have permission to access this resource.',
   [ErrorType.NOT_FOUND]: 'The requested information could not be found.',
   [ErrorType.SERVER_ERROR]: 'A server error occurred. Please try again later.',
   [ErrorType.CLIENT_ERROR]: 'An error occurred while processing your request.',

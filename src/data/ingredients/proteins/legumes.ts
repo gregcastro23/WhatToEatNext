@@ -237,7 +237,7 @@ const rawLegumes = {
         required: false,
         benefits: 'Can reduce cooking time and improve digestibility',
         method: 'Cover with water for 2-8 hours, then drain and rinse',
-        exceptions: 'Split red and yellow varieties don't benefit much from soaking'
+        exceptions: 'Split red and yellow varieties don\'t benefit much from soaking'
       },
       sprouting: {
         method: 'Soak 12 hours, drain, rinse twice daily for 2-3 days',

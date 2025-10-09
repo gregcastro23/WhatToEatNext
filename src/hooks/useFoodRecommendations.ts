@@ -52,13 +52,13 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
     return {
       // Required fields from the type definition;
       currentZodiac: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries'
-      moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon'
+      moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon',
       currentPlanetaryAlignment: state.astrologicalState.currentPlanetaryAlignment || {}
       activePlanets: state.astrologicalState.activePlanets || ['sun', 'moon'],
       planetaryPositions: (planetaryPositions || {}) as Record<string, CelestialPosition>,
       lunarPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon'
-      zodiacSign: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries'
-      planetaryHours: (state.astrologicalState.planetaryHour as Planet) || 'Sun'
+      zodiacSign: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries',
+      planetaryHours: (state.astrologicalState.planetaryHour as Planet) || 'Sun',
       aspects: (state.astrologicalState.aspects || []) as PlanetaryAspect[],
       tarotElementBoosts: (state.astrologicalState.tarotElementBoosts || {}) as Record<string, number>,
       tarotPlanetaryBoosts: (state.astrologicalState.tarotPlanetaryBoosts || {}) as Record<string, number>,

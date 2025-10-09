@@ -184,8 +184,8 @@ export function transformSingleItem(
     uniqueness: ((item as unknown as any).uniqueness) || uniqueness,
     planetaryInfluences: ((item as unknown as any).planetaryInfluences as string[]) ||,
       Object.keys(planetaryInfluences)
-    _lunarPhaseEffect: context.lunarPhase || 'new Moon'
-    _zodiacInfluence: context.currentZodiac || 'aries'
+    _lunarPhaseEffect: context.lunarPhase || 'new Moon',
+    _zodiacInfluence: context.currentZodiac || 'aries',
     transformationScore: calculateTransformationScore(alchemicalProperties, uniqueness)
   } as unknown as AlchemicalItem,
 }

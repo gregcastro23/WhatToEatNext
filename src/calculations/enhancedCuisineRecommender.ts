@@ -195,7 +195,7 @@ export class EnhancedCuisineRecommender {
       return {
         cuisine: cuisineName,
         recipeName: recipe.name || 'Unknown Recipe'
-        recipeId: recipe.id || 'unknown'
+        recipeId: recipe.id || 'unknown',
         matchPercentage: 0.1,
         seasonalScore: 0.5,
         planetaryDayScore: 0.5,

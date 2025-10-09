@@ -42,7 +42,7 @@ interface Recipe {
  * Get a list of recipes that match the element of the tarot card
  */
 export async function getRecipesForTarotCard(cards: TarotCardResult): Promise<Recipe[]> {
-  // Default recipes if we can't find any
+  // Default recipes if we can\'t find any
   const defaultRecipes: Recipe[] = [
     {
       id: 'recipe-1',

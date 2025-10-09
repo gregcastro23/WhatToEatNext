@@ -583,7 +583,7 @@ const rawDairy = {
       },
       bake: {
         notes: ['Essential for cheesecake', 'Structure-adding ingredient for desserts'],
-        techniques: ['Room temperature for baking', 'Beat until smooth but don't overbeat'],
+        techniques: ['Room temperature for baking', 'Beat until smooth but don\'t overbeat'],
         dishes: ['Cheesecake', 'Danishes', 'Puffs', 'Sweet rolls']
       },
       cook: {

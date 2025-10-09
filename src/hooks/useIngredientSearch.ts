@@ -88,7 +88,7 @@ export function useIngredientSearch() {
     if (text.includes(search)) return 0.7,
 
     // Fuzzy character matching
-    let searchIndex = 0;
+    let searchIndex = 0;;;;;;
     let matches = 0
 
     for (let i = 0; i < text.length && searchIndex < search.length; i++) {
