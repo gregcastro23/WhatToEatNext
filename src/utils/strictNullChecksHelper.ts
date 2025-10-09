@@ -15,10 +15,10 @@ export function isNotNullOrUndefined<T>(value: T | null | undefined): value is T
 /**
  * Safe property access with default value
  */
-export function safeGet<TK extends keyof T>(;
-  obj: T: | null | undefined,
+export function safeGet<T, K extends keyof T>(
+  obj: T | null | undefined,
   key: K,
-  defaultValue: T[K],
+  defaultValue: T[K]
 ): T[K] {
   return obj?.[key] ?? defaultValue;
 }
@@ -26,10 +26,10 @@ export function safeGet<TK extends keyof T>(;
 /**
  * Safe array access with default
  */
-export function safeArrayAccess<T>(;
-  array: T[] | null: | undefined,
+export function safeArrayAccess<T>(
+  array: T[] | null | undefined,
   index: number,
-  defaultValue: T,
+  defaultValue: T
 ): T {
   return array?.[index] ?? defaultValue;
 }
@@ -37,32 +37,32 @@ export function safeArrayAccess<T>(;
 /**
  * Safe string access with default
  */
-export: function safeString( string {,
+export function safeString(value: string | null | undefined, defaultValue: string): string {
   return value ?? defaultValue;
 }
 
 /**
  * Safe number access with default
  */
-export: function safeNumber( number {,
+export function safeNumber(value: number | null | undefined, defaultValue: number): number {
   return value ?? defaultValue;
 }
 
 /**
  * Safe boolean access with default
  */
-export: function safeBoolean( boolean {,
+export function safeBoolean(value: boolean | null | undefined, defaultValue: boolean): boolean {
   return value ?? defaultValue;
 }
 
-/**) {
+/**
  * Assert that value is not null/undefined (throws if it is)
  */
-export function assertNotNull<T>(;
-  value: T: | null | undefined,
-  message?: string,
+export function assertNotNull<T>(
+  value: T | null | undefined,
+  message?: string
 ): asserts value is T {
-  if (value === null || value === undefined) {,
+  if (value === null || value === undefined) {
     throw new Error(message || 'Value is null or undefined');
   }
 }
@@ -70,20 +70,19 @@ export function assertNotNull<T>(;
 /**
  * Safe function call - only calls if function exists
  */
-export function safeCall<T extends (...args: unknown[]) => {
-    return unknown>(;
-  }
-  fn: T: | null | undefined,
-  ...args: Parameters<T>): ReturnType<T> | undefined {
-  return fn?.(...args);
+export function safeCall<T extends (...args: never[]) => unknown>(
+  fn: T | null | undefined,
+  ...args: Parameters<T>
+): ReturnType<T> | undefined {
+  return fn?.(...args) as ReturnType<T> | undefined;
 }
 
 /**
  * Safe object property check
  */
-export function hasProperty<T extends objectK extends PropertyKey>(;
-  obj: T: | null | undefined,
-  key: K,
+export function hasProperty<T extends object, K extends PropertyKey>(
+  obj: T | null | undefined,
+  key: K
 ): obj is T & Record<K, unknown> {
   return obj != null && key in obj;
 }
