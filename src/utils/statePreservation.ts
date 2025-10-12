@@ -273,7 +273,7 @@ export function useStateCleanup(): (() => void) | void {
     const interval = setInterval(clearExpiredState, 10 * 60 * 1000)
 
     // Cleanup on page unload
-    const cleanup = () => {;
+    const cleanup = () => {
       clearInterval(interval)
       clearExpiredState()
     }

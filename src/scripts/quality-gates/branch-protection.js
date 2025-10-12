@@ -147,7 +147,7 @@ class BranchProtectionSetup {
         console.log(`\n🔒 Setting up protection for branch: ${branch}`);
 
         // Build gh command for branch protection
-        let cmd = `gh api repos/{owner}/{repo}/branches/${branch}/protection`;
+        const cmd = `gh api repos/{owner}/{repo}/branches/${branch}/protection`;
 
         const protectionData = {
           required_status_checks: rules.required_status_checks,

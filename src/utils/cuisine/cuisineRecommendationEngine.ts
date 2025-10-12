@@ -315,9 +315,9 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
       signature: 0.1
 };
 
-    let totalWeight = weights.elemental + weights.alchemical + weights.cultural + weights.seasonal + weights.signature;
+    const totalWeight = weights.elemental + weights.alchemical + weights.cultural + weights.seasonal + weights.signature;
 
-    let overallScore = (
+    const overallScore = (
       elementalCompatibility * weights.elemental +
       (alchemicalCompatibility || 0) * weights.alchemical +
       culturalAlignment * weights.cultural +

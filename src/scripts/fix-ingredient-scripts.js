@@ -33,7 +33,7 @@ TARGET_FILES.forEach(filename => {
   // console.log(`Processing ${filename}...`);
 
   // Read the target file
-  const content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, 'utf8');
 
   // Replace searchData.foods with searchResults.foods
   const buggyCode = /for\s*\(\s*const\s+food\s+of\s+searchData\.foods\s*\)/;

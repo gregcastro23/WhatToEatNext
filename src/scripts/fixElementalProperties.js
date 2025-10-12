@@ -10,8 +10,8 @@ function fixElementalProperties(filePath) {
   // console.log(`Processing ${filePath}...`);
 
   // Read the file
-  const content = fs.readFileSync(filePath, 'utf8');
-  const modified = false;
+  let content = fs.readFileSync(filePath, 'utf8');
+  let modified = false;
 
   // Fix missing elemental properties
   const missingAir = /elementalProperties:\s*{\s*(?!.*?\bAir\b.*?})[^}]+}/g;
@@ -93,7 +93,7 @@ function fixElementalProperties(filePath) {
 // Process all TypeScript files in a directory
 function processDirectory(dirPath) {
   const files = fs.readdirSync(dirPath);
-  const processed = 0;
+  let processed = 0;
 
   for (const file of files) {
     const fullPath = path.join(dirPath, file);
@@ -113,7 +113,7 @@ function processDirectory(dirPath) {
 
 // Main function
 async function main() {
-  const totalProcessed = 0;
+  let totalProcessed = 0;
 
   for (const category of CATEGORIES) {
     const categoryPath = path.join(INGREDIENTS_BASE_PATH, category);

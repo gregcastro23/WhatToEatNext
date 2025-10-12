@@ -46,7 +46,7 @@ TARGET_FILES.forEach(filename => {
   // console.log(`\nProcessing ${filename}...`);
 
   // Read the target file
-  const content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, 'utf8');
 
   // Extract the category name from the file
   const categoryMatch = content.match(/const CATEGORY = ['"]([^'"]+)['"]/);
@@ -101,7 +101,7 @@ TARGET_FILES.forEach(filename => {
     const targetFindIngredientMatch = content.match(findIngredientMatchRegex);
     if (targetFindIngredientMatch) {
       // Update the function but preserve the category-specific caching
-      const newFunc = findIngredientMatchFunc[0];
+      let newFunc = findIngredientMatchFunc[0];
 
       // Update any herbs-specific cache references to use the current category
       newFunc = newFunc.replace(

@@ -252,4 +252,38 @@ module.exports = [
       'no-console': 'off',
     },
   },
+  {
+    // Configuration for .cjs files (CommonJS scripts)
+    files: ['**/*.cjs'],
+    languageOptions: {
+      ecmaVersion: 2021,
+      sourceType: 'commonjs',
+      globals: {
+        ...globals.node,
+        console: 'readonly',
+        process: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        Buffer: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        exports: 'writable',
+        module: 'readonly',
+        require: 'readonly',
+        global: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-undef': 'error',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-unused-vars': ['warn', {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      }],
+    },
+  },
 ];

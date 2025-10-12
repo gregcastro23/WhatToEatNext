@@ -416,7 +416,7 @@ export class UnifiedNutritionalSystem {
   ): NutritionalCompatibilityAnalysis {
     // Calculate Kalchm harmony
     const kalchmHarmony =
-      profiles.reduce((sum, profile) => {;
+      profiles.reduce((sum, profile) => {
         const profileData = profile as unknown;
         const kalchmValue = typeof profileData.kalchm === 'number' ? profileData.kalchm : 0.5
         return sum + kalchmValue;

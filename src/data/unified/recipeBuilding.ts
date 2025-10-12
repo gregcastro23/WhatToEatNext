@@ -414,7 +414,7 @@ export class UnifiedRecipeBuildingSystem {
 
   /**
    * Adapt an existing recipe for a specific season
-   */;
+   */
   adaptRecipeForSeason(recipe: EnhancedRecipe, targetSeason: Season): SeasonalRecipeAdaptation {
     const originalRecipe = recipe
 
@@ -499,7 +499,7 @@ export class UnifiedRecipeBuildingSystem {
 
   /**
    * Generate a fusion recipe from multiple cuisines
-   */;
+   */
   generateFusionRecipe(cuisines: string[], criteria: RecipeBuildingCriteria): FusionRecipeProfile {
     if ((cuisines || []).length < 2) {
       throw new Error('Fusion recipes require at least 2 cuisines')
@@ -739,7 +739,7 @@ export class UnifiedRecipeBuildingSystem {
     const monicaDiff = targetMonica - currentMonica
 
     // Determine intensity modifications based on Monica gap
-    if (monicaDiff > 30) {;
+    if (monicaDiff > 30) {
       modifications.push('intensify-strong', 'add-power-ingredients', 'increase-spice-level')
     } else if (monicaDiff > 15) {
       modifications.push('intensify-moderate', 'enhance-aromatics', 'boost-umami')
@@ -1156,7 +1156,7 @@ export class UnifiedRecipeBuildingSystem {
     const adaptations = []
 
     // Generate modern adaptations based on recipe and cuisine characteristics
-    if (recipe.ingredients && recipe.ingredients.length > 0) {;
+    if (recipe.ingredients && recipe.ingredients.length > 0) {
       (adaptations as string[]).push(`Modern ${cuisine} fusion with contemporary techniques`)
 
       // Add health-conscious adaptations
@@ -1197,22 +1197,22 @@ export class UnifiedRecipeBuildingSystem {
         const name = ingredient.name.toLowerCase()
 ;
         // Spirit nutrients (Air-like, volatile, energizing)
-        if (['citrus', 'mint', 'herbs', 'spices'].some(type => name.includes(type))) {;
+        if (['citrus', 'mint', 'herbs', 'spices'].some(type => name.includes(type))) {
           alchemicalNutrition.spiritNutrients.push('vitamin C', 'antioxidants', 'volatile oils')
         }
 
         // Essence nutrients (Water-like, flowing, cleansing)
-        if (['fish', 'seaweed', 'cucumber', 'melon'].some(type => name.includes(type))) {;
+        if (['fish', 'seaweed', 'cucumber', 'melon'].some(type => name.includes(type))) {
           alchemicalNutrition.essenceNutrients.push('omega-3', 'minerals', 'electrolytes')
         }
 
         // Matter nutrients (Earth-like, solid, grounding)
-        if (['meat', 'beans', 'nuts', 'seeds'].some(type => name.includes(type))) {;
+        if (['meat', 'beans', 'nuts', 'seeds'].some(type => name.includes(type))) {
           alchemicalNutrition.matterNutrients.push('protein', 'fiber', 'iron')
         }
 
         // Substance nutrients (Fire-like, energetic, transformative)
-        if (['grains', 'starches', 'oils', 'sugars'].some(type => name.includes(type))) {;
+        if (['grains', 'starches', 'oils', 'sugars'].some(type => name.includes(type))) {
           alchemicalNutrition.substanceNutrients.push('carbohydrates', 'fats', 'energy')
         }
       }
@@ -1551,16 +1551,16 @@ export class UnifiedRecipeBuildingSystem {
 
   private generateRecipeName(_criteria: RecipeBuildingCriteria): string {
     // TODO: Generate dynamic recipe names based on criteria
-    return 'Generated Recipe' };
+    return 'Generated Recipe' }
         private generateRecipeDescription(_criteria: RecipeBuildingCriteria): string {
     // TODO: Generate dynamic recipe descriptions
-    return 'A delicious recipe' };
+    return 'A delicious recipe' }
         private estimatePrepTime(_ingredients: unknown[], _methods: string[]): string {
     // TODO: Calculate prep time based on ingredients and methods
-    return '15 minutes' };
+    return '15 minutes' }
         private estimateCookTime(_methods: string[]): string {
     // TODO: Calculate cook time based on methods
-    return '30 minutes' };
+    return '30 minutes' }
         private calculateBaseElementalProperties(_ingredients: unknown[]): ElementalProperties {
     // TODO: Calculate elemental properties from ingredients
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
