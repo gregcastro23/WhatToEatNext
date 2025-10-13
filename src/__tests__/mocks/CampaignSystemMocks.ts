@@ -28,12 +28,12 @@ import {
  * Mock Campaign Controller for test environments
  */
 export class MockCampaignController {
-  private config: CampaignConfig,
+  private config: CampaignConfig;
   private currentPhase: CampaignPhase | null = null;
   private safetyEvents: SafetyEvent[] = [];
   private _isPaused: boolean = false;
   private _isRunning: boolean = false;
-  private mockMetrics: ProgressMetrics,
+  private mockMetrics: ProgressMetrics;
   private mockStashes: Map<string, GitStash> = new Map();
 
   constructor(config: CampaignConfig) {

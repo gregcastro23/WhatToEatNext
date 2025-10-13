@@ -6,11 +6,11 @@ import { ChartContextType, CurrentChart } from './types';
 
 // Create default chart
 const _: CurrentChart = {
-  planetaryPositions: {}
+  planetaryPositions: {},
   aspects: [],
   currentSeason: '',
   lastUpdated: new Date(),
-  stelliums: {}
+  stelliums: {},
   houseEffects: {}
 }
 

@@ -1,22 +1,17 @@
 'use client';
 
 import {
-  AlchemicalState as BaseAlchemicalState,
-  AstrologicalState as BaseAstrologicalState
+    AlchemicalState as BaseAlchemicalState,
+    AstrologicalState as BaseAstrologicalState
 } from '@/types/alchemical';
 import {
-  __,
-  CelestialPosition,
-  _ZodiacSign,
-  _,
-  _Planet,
-  _PlanetaryAlignment
+    CelestialPosition
 } from '@/types/celestial';
 
 // Import types directly from alchemical types
 
 // Type for planetary positions
-export type PlanetaryPositionsType = Record<string, CelestialPosition>,
+export type PlanetaryPositionsType = Record<string, CelestialPosition>;
 
 // Re-export the types with proper names
 export type AlchemicalState = BaseAlchemicalState;

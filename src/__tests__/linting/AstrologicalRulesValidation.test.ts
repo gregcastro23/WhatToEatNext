@@ -9,7 +9,7 @@
 import { ESLint } from 'eslint';
 
 describe('Astrological ESLint Rules', () => {
-  let eslint: ESLint,
+  let eslint: ESLint;
 
   beforeAll(() => {
     // Create ESLint instance with our custom rules

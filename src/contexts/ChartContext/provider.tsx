@@ -14,63 +14,63 @@ import { CurrentChart } from './types';
 
 // Phase 5: Type-safe interfaces for planetary data access
 interface SafePlanetaryData {
-  sign?: string,
-  degree?: number,
-  isRetrograde?: boolean,
-  exactLongitude?: number
-  [key: string]: unknown
+  sign?: string;
+  degree?: number;
+  isRetrograde?: boolean;
+  exactLongitude?: number;
+  [key: string]: unknown;
 }
 
 interface _ {
-  [key: string]: SafePlanetaryData
+  [key: string]: SafePlanetaryData;
 }
 
 export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { planetaryPositions: alchemicalPositions } = useAlchemical()
+  const { planetaryPositions: alchemicalPositions } = useAlchemical();
   const [chart, setChart] = useState<CurrentChart>({
-    planetaryPositions: {}
+    planetaryPositions: {},
     aspects: [],
     currentSeason: '',
     lastUpdated: new Date(),
-    stelliums: {}
+    stelliums: {},
     houseEffects: {}
-  })
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Safe helper function for planetary data access
   const getSafePlanetaryData = (data: unknown): SafePlanetaryData => {
-    if (!data || typeof data !== 'object') {;
-      return {}
+    if (!data || typeof data !== 'object') {
+      return {};
     }
     return data as SafePlanetaryData;
-  }
+  };
 
   const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
-    const signGroups: Record<string, string[]> = {}
+    const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
-      if (planet === 'ascendant' || !data) return,
+      if (planet === 'ascendant' || !data) return;
 
       // Use safe type casting for planetary data access
       const planetData = getSafePlanetaryData(data);
-      if (!planetData.sign) return,
+      if (!planetData.sign) return;
 
       const sign = planetData.sign;
       if (!signGroups[sign]) {
         signGroups[sign] = [];
       }
-      signGroups[sign].push(planet)
-    })
+      signGroups[sign].push(planet);
+    });
 
-    const stelliums: Record<string, string[]> = {}
+    const stelliums: Record<string, string[]> = {};
     Object.entries(signGroups).forEach(([sign, planets]) => {
       if (planets.length >= 3) {
-        stelliums[sign] = planets,
+        stelliums[sign] = planets;
       }
-    })
+    });
 
     return stelliums;
-  }
+  };
 
   const calculateHouseEffects = (positions: Record<string, unknown>): Record<string, number> => {
     const houseEffects: Record<string, number> = {
@@ -78,37 +78,37 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       Water: 0,
       Earth: 0,
       Air: 0
-}
+    };
 
     Object.entries(positions).forEach(([planet, data]) => {
-      if (planet === 'ascendant' || !data) return,
+      if (planet === 'ascendant' || !data) return;
 
       // Use safe type casting for planetary data access
       const planetData = getSafePlanetaryData(data);
-      if (!planetData.sign) return,
+      if (!planetData.sign) return;
 
       const sign = planetData.sign;
-      const element = _getElementFromSign(sign)
-      if (element) {;
-        houseEffects[element] += 1,
+      const element = _getElementFromSign(sign);
+      if (element) {
+        houseEffects[element] += 1;
       }
-    })
+    });
 
     return houseEffects;
-  }
+  };
 
-  const _getElementFromSign = (sign: string): string => {;
-    const fireElements = ['aries', 'leo', 'sagittarius'],
-    const earthElements = ['taurus', 'virgo', 'capricorn'],
-    const airElements = ['gemini', 'libra', 'aquarius'],
-    const waterElements = ['cancer', 'scorpio', 'pisces'],
+  const _getElementFromSign = (sign: string): string => {
+    const fireElements = ['aries', 'leo', 'sagittarius'];
+    const earthElements = ['taurus', 'virgo', 'capricorn'];
+    const airElements = ['gemini', 'libra', 'aquarius'];
+    const waterElements = ['cancer', 'scorpio', 'pisces'];
 
-    if (fireElements.includes(sign)) return 'Fire',
-    if (earthElements.includes(sign)) return 'Earth',
-    if (airElements.includes(sign)) return 'Air',
-    if (waterElements.includes(sign)) return 'Water',
+    if (fireElements.includes(sign)) return 'Fire';
+    if (earthElements.includes(sign)) return 'Earth';
+    if (airElements.includes(sign)) return 'Air';
+    if (waterElements.includes(sign)) return 'Water';
     return 'Fire'; // Default
-  }
+  };
 
   const refreshChart = async () => {
     setLoading(true)
@@ -145,12 +145,12 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }
 
       // Calculate derived data
-      const { aspects, elementalEffects } = calculateAspects(positions)
-      const season = getCurrentSeason()
-      const stelliums = calculateStelliums(positions)
-      const houseEffects = calculateHouseEffects(positions)
+      const { aspects, elementalEffects } = calculateAspects(positions);
+      const season = getCurrentSeason();
+      const stelliums = calculateStelliums(positions);
+      const houseEffects = calculateHouseEffects(positions);
 
-      setChart({,
+      setChart({
         planetaryPositions: positions,
         aspects,
         elementalEffects,
@@ -158,62 +158,62 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         lastUpdated: new Date(),
         stelliums,
         houseEffects
-      })
+      });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update chart')
-      _logger.error('Error updating chart: ', err)
+      setError(err instanceof Error ? err.message : 'Failed to update chart');
+      _logger.error('Error updating chart: ', err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   const createChartSvg = () => {
-    // Convert chart data to the format expected by components;
-    const formattedPlanets: Record<string, SafePlanetaryData> = {}
+    // Convert chart data to the format expected by components
+    const formattedPlanets: Record<string, SafePlanetaryData> = {};
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
-      if (key === 'ascendant') return,
+      if (key === 'ascendant') return;
 
       // Use safe type casting for planetary data access
-      const planetData = getSafePlanetaryData(data)
+      const planetData = getSafePlanetaryData(data);
 
-      const planetName = key.charAt(0).toUpperCase() + key.slice(1)
+      const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
-        sign: planetData.sign || 'Unknown'
+        sign: planetData.sign || 'Unknown',
         degree: planetData.degree || 0,
         isRetrograde: planetData.isRetrograde || false,
         exactLongitude: planetData.exactLongitude || 0
-      }
-    })
+      };
+    });
 
     // Get ascendant data safely
-    const ascendantData = getSafePlanetaryData(chart.planetaryPositions.ascendant)
+    const ascendantData = getSafePlanetaryData(chart.planetaryPositions.ascendant);
 
     // Create a basic SVG representation
-    return {;
+    return {
       planetPositions: formattedPlanets,
-      ascendantSign: ascendantData.sign || 'Libra'
+      ascendantSign: ascendantData.sign || 'Libra',
       svgContent: `<svg width='300' height='300' viewBox='0 0 300 300'>,
         <circle cx='150' cy='150' r='140' fill='none' stroke='#333' stroke-width='1'/>,
         <text x='150' y='20' text-anchor='middle'>Current Chart</text>,
         ${Object.entries(formattedPlanets)
           .map(([planet, planetInfo], index) => {
             const angle = (index * 30) % 360;
-            const x = 150 + 120 * Math.cos((angle * Math.PI) / 180)
+            const x = 150 + 120 * Math.cos((angle * Math.PI) / 180);
             const y = 150 + 120 * Math.sin((angle * Math.PI) / 180);
             return `<text x='${x}' y='${y}' text-anchor='middle'>${planet}: ${planetInfo.sign}</text>`;
           })
           .join('')}
       </svg>`
-    }
-  }
+    };
+  };
 
   useEffect(() => {
-    void refreshChart()
-  }, [alchemicalPositions])
+    void refreshChart();
+  }, [alchemicalPositions]);
 
   return (
-    <ChartContext.Provider value={{ chart, loading, error, refreshChart, createChartSvg }}>,
+    <ChartContext.Provider value={{ chart, loading, error, refreshChart, createChartSvg }}>
       {children}
     </ChartContext.Provider>
-  )
+  );
 }

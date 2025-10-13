@@ -1,13 +1,13 @@
 'use client';
 
-import React, { ReactNode, useState, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { themeManager } from '@/utils/theme';
 
 import { ThemeContext } from './context';
 import { Theme } from './types';
 
-export function ThemeProvider(_{ children }: { children: ReactNode }) {
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>('light')
 
   useEffect(() => {

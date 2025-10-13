@@ -62,9 +62,9 @@ describe('Automated Error Resolution Integration', () => {
 
       // Simulate running ESLint with --fix
       const command = 'yarn lint: fix --format=json';
-      const result = mockExecSync(command, { encoding: 'utf8' }),
+      const result = mockExecSync(command, { encoding: 'utf8' });
 
-      expect(mockExecSync).toHaveBeenCalledWith(command, { encoding: 'utf8' }),
+      expect(mockExecSync).toHaveBeenCalledWith(command, { encoding: 'utf8' });
       expect(JSON.parse(result as unknown as string)[0].fixableErrorCount).toBe(2);
     });
 

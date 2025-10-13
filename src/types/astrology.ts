@@ -72,7 +72,7 @@ export type PlanetaryPositionDetails = {
   isRetrograde?: boolean;
   element?: string;
   dignity?: string;
-}
+};
 
 /**
  * Astrological Aspect Types
@@ -85,7 +85,7 @@ export type AspectType =
   | 'trine'
   | 'opposition'
   | 'quincunx'
-  | 'semisextile'
+  | 'semisextile';
 /**
  * Planetary Aspect Details
  * Complete information about planetary aspects
@@ -97,7 +97,7 @@ export type PlanetaryAspectDetails = {
   orb: number;
   influence: 'harmonious' | 'challenging' | 'neutral';
   strength: number;
-}
+};
 
 /**
  * Birth Chart Data
@@ -109,7 +109,7 @@ export type BirthChartData = {
   ascendant: string;
   lunarPhase: string;
   aspects: PlanetaryAspectDetails[];
-}
+};
 
 /**
  * Astrological Profile Type
@@ -121,7 +121,7 @@ export type AstrologicalProfileType = {
   planetary?: PlanetaryPositionDetails[];
   aspects?: PlanetaryAspectDetails[];
   elementalInfluence?: ElementalPropertiesType;
-}
+};
 
 // ========== EXISTING TYPES (Updated to use new aliases) ==========
 
@@ -198,6 +198,6 @@ export type AstrologyLunarPhase =
   | 'full_moon'
   | 'waning_gibbous'
   | 'last_quarter'
-  | 'waning_crescent'
+  | 'waning_crescent';
 // Re-export types for convenience
 export type { LunarPhase, Planet, PlanetName, ZodiacSign } from '@/types/alchemy';

@@ -233,7 +233,7 @@ describe('Astrological Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars'
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars';
             );
 
             expect(unusedVarErrors.length).toBe(0);
@@ -278,7 +278,7 @@ describe('Astrological Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const camelCaseErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'camelcase' && msg.severity === 2
+              (msg: any) => msg.ruleId === 'camelcase' && msg.severity === 2;
             );
 
             expect(camelCaseErrors.length).toBe(0);
@@ -565,7 +565,7 @@ describe('Astrological Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const transitWarnings = result[0].messages.filter(
-            (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation'
+            (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation';
           );
 
           // Should suggest transit validation
@@ -577,7 +577,7 @@ describe('Astrological Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const transitWarnings = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation'
+              (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation';
             );
 
             // Should suggest transit validation
@@ -614,7 +614,7 @@ describe('Astrological Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const transitWarnings = result[0].messages.filter(
-            (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation'
+            (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation';
           );
 
           // Should not warn when validation is present
@@ -626,7 +626,7 @@ describe('Astrological Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const transitWarnings = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation'
+              (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation';
             );
 
             expect(transitWarnings.length).toBe(0);
@@ -675,7 +675,7 @@ describe('Astrological Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const consoleErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2
+              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2;
             );
 
             expect(consoleErrors.length).toBe(0);
@@ -746,7 +746,7 @@ describe('Astrological Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const complexityErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2
+              (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2;
             );
 
             expect(complexityErrors.length).toBe(0);
