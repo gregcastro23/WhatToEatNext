@@ -48,7 +48,7 @@ interface AlchemicalRecommendationResults {
  *
  * @returns Recommendations, transformed data, loading state, and any errors
  */
-export const _useAlchemicalRecommendations = ({,
+export const _useAlchemicalRecommendations = ({;
   ingredients,
   cookingMethods,
   cuisines,
@@ -56,8 +56,8 @@ export const _useAlchemicalRecommendations = ({,
   isDaytime,
   targetElement,
   targetAlchemicalProperty: _targetAlchemicalProperty,
-  count = 5,
-  currentZodiac = null,
+  count = 5;
+  currentZodiac = null;
   lunarPhase,
   tarotElementBoosts,
   tarotPlanetaryBoosts,
@@ -110,7 +110,7 @@ export const _useAlchemicalRecommendations = ({,
         setRecommendations(recs)
 
         // Apply deep type conversion to resolve cross-import conflicts
-        const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {,
+        const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {;
           return items.map(item => {
             // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
             const convertedItem = {

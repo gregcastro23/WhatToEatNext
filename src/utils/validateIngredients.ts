@@ -20,7 +20,7 @@ export function validateIngredientData(boolean {
             ingredient.elementalProperties[element] === undefined
           ) {
             if (ingredient.elementalProperties) {;
-              ingredient.elementalProperties[element] = 0,
+              ingredient.elementalProperties[element] = 0;
             }
           }
         })
@@ -69,7 +69,7 @@ export function validateIngredients( string[] {
             `Ingredient ${ingredient.name || index} is missing ${element} elementalProperty`,
           )
           if (ingredient.elementalProperties) {
-            ingredient.elementalProperties[element] = 0,
+            ingredient.elementalProperties[element] = 0;
           }
         }
       })

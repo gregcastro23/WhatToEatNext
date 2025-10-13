@@ -26,8 +26,8 @@ export function validateRecipe(recipe: Partial<Recipe>,
   } = {}
 ): RecipeValidationResult {
   const {
-    checkIngredients = true,
-    checkComputations = false,
+    checkIngredients = true;
+    checkComputations = false;
     strictMode = false
   } = options;
 

@@ -69,7 +69,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as Record<string, unknown>).memoryUsage === 'number' &&
-          ((result as Record<string, unknown>).memoryUsage as number) >= 0,
+          ((result as Record<string, unknown>).memoryUsage as number) >= 0;
         errorMessage: 'Memory usage must be a non-negative number',
         severity: 'error'
 },
@@ -123,7 +123,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as Record<string, unknown>).resourcesCleanedUp === 'boolean' &&
-          (result as Record<string, unknown>).resourcesCleanedUp === true,
+          (result as Record<string, unknown>).resourcesCleanedUp === true;
         errorMessage: 'Resources were not properly cleaned up',
         severity: 'warning'
 },
@@ -137,7 +137,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as Record<string, unknown>).success === 'boolean' &&
-          (result as Record<string, unknown>).success === true,
+          (result as Record<string, unknown>).success === true;
         errorMessage: 'Build did not complete successfully',
         severity: 'error'
 },
@@ -147,7 +147,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as Record<string, unknown>).errorCount === 'number' &&
-          ((result as Record<string, unknown>).errorCount as number) >= 0,
+          ((result as Record<string, unknown>).errorCount as number) >= 0;
         errorMessage: 'Error count must be a non-negative number',
         severity: 'error'
 },
@@ -171,7 +171,7 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as Record<string, unknown>).memoryLeakDetected === 'boolean' &&
-          (result as Record<string, unknown>).memoryLeakDetected !== true,
+          (result as Record<string, unknown>).memoryLeakDetected !== true;
         errorMessage: 'Memory leak detected during test execution',
         severity: 'error'
 },
@@ -300,7 +300,7 @@ export class TestResultValidator {
       if (check.requiredFields) {
         for (const field of check.requiredFields) {
           const fieldCheck = results.every(
-            result => typeof result === 'object' && result !== null && field in result,
+            result => typeof result === 'object' && result !== null && field in result;
           );
           if (!fieldCheck) {
             validationResult.errors.push(`Required field missing: ${field}`),
@@ -486,7 +486,7 @@ export function createValidationRule(
   name: string,
   validator: (result: unknown) => boolean,
   errorMessage: string,
-  severity: 'error' | 'warning' | 'info' = 'error',
+  severity: 'error' | 'warning' | 'info' = 'error';
 ): TestValidationRule {
   return { name, validator, errorMessage, severity };
 }
@@ -501,7 +501,7 @@ export function createConsistencyCheck(
     tolerancePercent?: number,
     requiredFields?: string[],
     customValidator?: (results: unknown[]) => boolean;
-  } = {},
+  } = {};
 ): TestConsistencyCheck {
   return {
     testName,

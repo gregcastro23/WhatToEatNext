@@ -211,7 +211,7 @@ export function validateIngredient(ingredient: Partial<Ingredient> & {
   }
 
   return {
-    isValid: errors.length === 0,
+    isValid: errors.length === 0;
     errors
   }
 }
@@ -257,7 +257,7 @@ export function validateRecipeIngredient(_ingredient: Partial<RecipeIngredient>)
   }
 
   return {
-    isValid: errors.length === 0,
+    isValid: errors.length === 0;
     errors
   }
 }
@@ -339,7 +339,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
  */
 export function ingredientToRecipeIngredient(
   ingredient: Ingredient,
-  amount = 1,
+  amount = 1;
   unit = 'item'
 ): RecipeIngredient {
   return {

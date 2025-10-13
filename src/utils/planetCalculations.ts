@@ -10,7 +10,7 @@ export function calculateSunPosition(date: Date = new Date()) {
   return {
     sign: getSignFromLongitude(longitude),
     degree: longitude % 30,
-    minutes: (longitude % 1) * 60,
+    minutes: (longitude % 1) * 60;
     isRetrograde: false, // Sun never retrograde
   }
 }
@@ -23,7 +23,7 @@ export function calculateMoonPosition(date: Date = new Date()) {
   return {
     sign: getSignFromLongitude(longitude),
     degree: longitude % 30,
-    minutes: (longitude % 1) * 60,
+    minutes: (longitude % 1) * 60;
     isRetrograde: false, // Moon never retrograde
   }
 }
@@ -36,7 +36,7 @@ export function calculateMercuryPosition(date: Date = new Date()) {
   return {
     sign: getSignFromLongitude(longitude),
     degree: longitude % 30,
-    minutes: (longitude % 1) * 60,
+    minutes: (longitude % 1) * 60;
     isRetrograde: Math.random() < 0.2, // Mercury is retrograde ~20% of the time
   }
 }
@@ -81,7 +81,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
 
     // First try to import and use the accurate astronomy module
     const nodeData =
-      calculateLunarNodesMethod && typeof calculateLunarNodesMethod === 'function',
+      calculateLunarNodesMethod && typeof calculateLunarNodesMethod === 'function';
         ? calculateLunarNodesMethod(date)
         : null,
 
@@ -122,8 +122,8 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     // If that fails, fall back to the simplified calculation
     try {
       const lunarNodes = astrologyUtils.calculateLunarNodes(date)
-      northNode = (lunarNodes as any).northNode,
-      southNode = (lunarNodes as any).southNode,
+      northNode = (lunarNodes as any).northNode;
+      southNode = (lunarNodes as any).southNode;
     } catch (fallbackError) {
       // Ultimate fallback with hardcoded values (current positions as of 2024)
       northNode = {

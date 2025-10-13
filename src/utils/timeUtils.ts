@@ -162,13 +162,13 @@ export function getTimeBasedContext( {
   const isOptimalTime = isOptimalCookingTime()
   const timeConfidence = getTimeBasedConfidence()
 ;
-  let recommendation = '',
+  let recommendation = '';
   if (isOptimalTime) {
-    recommendation = 'Optimal cooking time - high confidence in recommendations',
+    recommendation = 'Optimal cooking time - high confidence in recommendations';
   } else if (timeConfidence >= 0.8) {
-    recommendation = 'Good cooking time - reliable recommendations',
+    recommendation = 'Good cooking time - reliable recommendations';
   } else {
-    recommendation = 'Consider timing for optimal results',
+    recommendation = 'Consider timing for optimal results';
   }
 
   return {

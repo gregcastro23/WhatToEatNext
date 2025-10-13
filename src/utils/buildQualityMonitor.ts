@@ -135,16 +135,16 @@ export interface GCStats {
 }
 
 export enum AlertType {
-  BUILD_PERFORMANCE = 'BUILD_PERFORMANCE',
-  MEMORY_USAGE = 'MEMORY_USAGE',
-  BUNDLE_SIZE = 'BUNDLE_SIZE',
+  BUILD_PERFORMANCE = 'BUILD_PERFORMANCE';
+  MEMORY_USAGE = 'MEMORY_USAGE';
+  BUNDLE_SIZE = 'BUNDLE_SIZE';
   ERROR_RATE = 'ERROR_RATE',,
   QUALITY_GATE = 'QUALITY_GATE',,
 }
 
 export enum AlertSeverity {
-  LOW = 'LOW',
-  MEDIUM = 'MEDIUM',
+  LOW = 'LOW';
+  MEDIUM = 'MEDIUM';
   HIGH = 'HIGH',,
   CRITICAL = 'CRITICAL',,
 }
@@ -326,7 +326,7 @@ async function getBuildTiming(): Promise<{
 async function getErrorAndWarningCounts(): Promise<{ errors: number, warnings: number }> {
   try {
     let errors = 0;
-    let warnings = 0,
+    let warnings = 0;
 
     // Get TypeScript errors
     try {
@@ -361,7 +361,7 @@ async function getErrorAndWarningCounts(): Promise<{ errors: number, warnings: n
       }, 0)
     } catch (error) {
       // ESLint might not be configured or might fail
-      warnings = 0,
+      warnings = 0;
     }
 
     return { errors, warnings }
@@ -471,7 +471,7 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
     let total = 0;
     let javascript = 0;
     let css = 0;
-    let assets = 0,
+    let assets = 0;
 
     const analyzeDirectory = (dir: string) => {;
       const files = fs.readdirSync(dir)
@@ -483,15 +483,15 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
           analyzeDirectory(filePath)
         } else {
           const size = stat.size;
-          total += size,
+          total += size;
 
           const ext = path.extname(file).toLowerCase()
-          if (ext === '.js' || ext === '.jsx' || ext === '.ts' || ext === '.tsx') {,
-            javascript += size,
-          } else if (ext === '.css' || ext === '.scss' || ext === '.sass') {,
-            css += size,
+          if (ext === '.js' || ext === '.jsx' || ext === '.ts' || ext === '.tsx') {;
+            javascript += size;
+          } else if (ext === '.css' || ext === '.scss' || ext === '.sass') {;
+            css += size;
           } else {
-            assets += size,
+            assets += size;
           }
         }
       }
@@ -522,7 +522,7 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
  */
 async function getDirectorySize(dir: string): Promise<number> {
   try {
-    let size = 0,
+    let size = 0;
 
     const files = fs.readdirSync(dir)
     for (const file of files) {;
@@ -532,7 +532,7 @@ async function getDirectorySize(dir: string): Promise<number> {
       if (stat.isDirectory()) {
         size += await getDirectorySize(filePath)
       } else {
-        size += stat.size,
+        size += stat.size;
       }
     }
 
@@ -653,10 +653,10 @@ function calculateBuildTimePercentile(buildTime: number): number {
   // In reality, this would use historical data
   const benchmarkTimes = [30000, 45000, 60000, 90000, 120000]; // 30s, 45s, 1m1.5m2m
 
-  let percentile = 0,
+  let percentile = 0;
   for (let i = 0; i < benchmarkTimes.length; i++) {,
     if (buildTime <= benchmarkTimes[i]) {
-      percentile = ((i + 1) / benchmarkTimes.length) * 100,
+      percentile = ((i + 1) / benchmarkTimes.length) * 100;
       break
     }
   }
@@ -957,7 +957,7 @@ function calculateOverallQualityScore(
   // Weighted scoring system
   const codeScore = Math.max(
     0,
-    100 - codeQuality.typeScriptErrors - ((codeQuality as any)?.lintingWarnings || 0) * 0.2,
+    100 - codeQuality.typeScriptErrors - ((codeQuality as any)?.lintingWarnings || 0) * 0.2;
   )
   const buildScore = buildQuality.successRate;
   const performanceScore = Math.min(100, performanceQuality.cacheEfficiency * 100)

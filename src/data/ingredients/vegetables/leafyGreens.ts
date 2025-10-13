@@ -19,7 +19,7 @@ const generateVegetableAttributes = (vegData: {
     nutrient_density: Math.round(
       ((vegData as any)?.fiber || 0) * 0.2 +
         (100 - vegData.water) * 0.05 +
-        Math.min(7, vegData.bitterness) * 0.3,
+        Math.min(7, vegData.bitterness) * 0.3
     )
   };
 };
@@ -86,12 +86,14 @@ const rawLeafyGreens = {
         fiber: 2.5
 },
       vitamins: {
-        A: 0.206, // Values as percentage of RDA,
-        C: 0.134K: 0.684,
-    B6: 0.14E: 0.1,
+        A: 0.206, // Values as percentage of RDA
+        C: 0.134,
+        K: 0.684,
+        B6: 0.14,
+        E: 0.1,
         folate: 0.07,
-    B2: 0.09
-},
+        B2: 0.09
+      },
       minerals: {
         calcium: 0.15,
         potassium: 0.08,
@@ -456,7 +458,7 @@ const rawLeafyGreens = {
 };
 
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const, leafyGreens: Record<string, IngredientMapping> = fixIngredientMappings(
+export const leafyGreens: Record<string, IngredientMapping> = fixIngredientMappings(
   rawLeafyGreens as unknown,
 ) as Record<string, IngredientMapping>;
 

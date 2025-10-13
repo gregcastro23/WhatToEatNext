@@ -7,28 +7,30 @@ export type WeekDay =
   | 'Wednesday'
   | 'Thursday'
   | 'Friday'
-  | 'Saturday'
-export type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter'
-export type TimeOfDay = 'Morning' | 'Afternoon' | 'Evening' | 'Night'
+  | 'Saturday';
+
+export type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter';
+export type TimeOfDay = 'Morning' | 'Afternoon' | 'Evening' | 'Night';
 export interface PlanetaryDay {
-  day: WeekDay,
-  planet: PlanetName
+  day: WeekDay;
+  planet: PlanetName;
 }
 
 export interface PlanetaryHour {
-  planet: PlanetName,
-  hourOfDay: number
+  planet: PlanetName;
+  hourOfDay: number;
 }
 
-export type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime'
+export type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime';
+
 export interface TimeFactors {
-  currentDate: Date,
-  season: Season,
-  timeOfDay: TimeOfDay,
-  planetaryDay: PlanetaryDay,
-  planetaryHour: PlanetaryHour,
-  weekDay: WeekDay,
-  mealType?: MealType // Added to support meal recommendations
+  currentDate: Date;
+  season: Season;
+  timeOfDay: TimeOfDay;
+  planetaryDay: PlanetaryDay;
+  planetaryHour: PlanetaryHour;
+  weekDay: WeekDay;
+  mealType?: MealType; // Added to support meal recommendations
 }
 
 const DAY_RULERS: Record<WeekDay, PlanetName> = {
@@ -38,8 +40,8 @@ const DAY_RULERS: Record<WeekDay, PlanetName> = {
   Wednesday: 'Mercury',
   Thursday: 'Jupiter',
   Friday: 'Venus',
-  Saturday: 'Saturn'
-}
+  Saturday: 'Saturn',
+};
 
 // Chaldean order of planets used for planetary hours
 const PLANETARY_HOUR_SEQUENCE: PlanetName[] = [
@@ -49,8 +51,8 @@ const PLANETARY_HOUR_SEQUENCE: PlanetName[] = [
   'Sun',
   'Venus',
   'Mercury',
-  'Moon'
-],
+  'Moon',
+];
 
 export function getTimeFactors(): TimeFactors {
   const now = new Date()
@@ -71,15 +73,15 @@ export function getTimeFactors(): TimeFactors {
   }
 
   // Determine time of day
-  let timeOfDay: TimeOfDay,
+  let timeOfDay: TimeOfDay;
   if (hour >= 5 && hour < 12) {
-    timeOfDay = 'Morning' },
-        else if (hour >= 12 && hour < 17) {
-    timeOfDay = 'Afternoon',
+    timeOfDay = 'Morning';
+  } else if (hour >= 12 && hour < 17) {
+    timeOfDay = 'Afternoon';
   } else if (hour >= 17 && hour < 21) {
-    timeOfDay = 'Evening',
+    timeOfDay = 'Evening';
   } else {
-    timeOfDay = 'Night',
+    timeOfDay = 'Night';
   }
 
   // Determine day of week
@@ -90,15 +92,15 @@ export function getTimeFactors(): TimeFactors {
     'Wednesday',
     'Thursday',
     'Friday',
-    'Saturday'
-  ],
+    'Saturday',
+  ];
   const weekDay = weekDays[dayOfWeek];
 
   // Determine planetary day
   const planetaryDay: PlanetaryDay = {
     day: weekDay,
-    planet: DAY_RULERS[weekDay]
-  }
+    planet: DAY_RULERS[weekDay],
+  };
 
   // Calculate planetary hour
   // First, determine sunrise and sunset times (approximate)
@@ -107,9 +109,9 @@ export function getTimeFactors(): TimeFactors {
   const _hoursPerPlanetaryHour = isDay ? 12 / 12 : 12 / 12; // 1 hour each
 
   // Starting planet for the day's first hour
-  const startingPlanetIndex = PLANETARY_HOUR_SEQUENCE.indexOf(DAY_RULERS[weekDay])
+  const startingPlanetIndex = PLANETARY_HOUR_SEQUENCE.indexOf(DAY_RULERS[weekDay]);
 
-  // Calculate current planetary hour (0-23);
+  // Calculate current planetary hour (0-23)
   const planetaryHourOfDay = isDay ? hour - 6 : hour < 6 ? hour + 18 : hour - 6;
 
   // Get the ruling planet for the current hour
@@ -118,19 +120,19 @@ export function getTimeFactors(): TimeFactors {
 
   const planetaryHour: PlanetaryHour = {
     planet: hourPlanet,
-    hourOfDay: planetaryHourOfDay
-  }
+    hourOfDay: planetaryHourOfDay,
+  };
 
   // Determine meal type based on time of day
-  let mealType: MealType,
+  let mealType: MealType;
   if (hour >= 5 && hour < 11) {
-    mealType = 'Breakfast' },
-        else if (hour >= 11 && hour < 15) {
-    mealType = 'Lunch',
+    mealType = 'Breakfast';
+  } else if (hour >= 11 && hour < 15) {
+    mealType = 'Lunch';
   } else if (hour >= 17 && hour < 22) {
-    mealType = 'Dinner',
+    mealType = 'Dinner';
   } else {
-    mealType = 'Snack',
+    mealType = 'Snack';
   }
 
   return {
@@ -140,6 +142,6 @@ export function getTimeFactors(): TimeFactors {
     planetaryDay,
     planetaryHour,
     weekDay,
-    mealType
-  }
+    mealType,
+  };
 }

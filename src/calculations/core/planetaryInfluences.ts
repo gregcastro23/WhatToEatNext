@@ -292,7 +292,7 @@ export function calculatePlanetaryHoursInfluence(date: Date): {
  * Calculate comprehensive planetary influences
  */
 export function calculatePlanetaryInfluences(planetaryPositions: { [key: string]: PlanetaryPosition },
-  isDaytime: boolean = true,
+  isDaytime: boolean = true;
   currentDate?: Date): {
   alchemicalInfluences: { [key: string]: number },
   elementalInfluences: { [key: string]: number },

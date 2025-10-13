@@ -22,7 +22,7 @@ export function safelyExtractElementalProperties(obj: unknown): ElementalPropert
   if (isValidElementalProperties(obj)) return obj,
 
   // Try to extract from nested structure
-  if (obj && typeof obj === 'object') {,
+  if (obj && typeof obj === 'object') {;
     const nested = (obj as any).elementalProperties
     if (isValidElementalProperties(nested)) return nested;
   }

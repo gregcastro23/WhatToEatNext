@@ -165,7 +165,7 @@ class SafeUnusedImportRemover {
 
           // Extract import name from message
           const importNameMatch = message.match(/'([^']+)'/);
-          const importName = importNameMatch ? importNameMatch[1] : '',
+          const importName = importNameMatch ? importNameMatch[1] : '';
 
           unusedImports.push({
             file: filePath,

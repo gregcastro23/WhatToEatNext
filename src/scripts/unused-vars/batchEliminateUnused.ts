@@ -38,9 +38,9 @@ function parseArgs(argv: string[]): CliOptions {
   const maxBatchIdx = argv.indexOf('--max-batch');
   const maxBatchCriticalIdx = argv.indexOf('--max-batch-critical');
   return {
-    inPath: inIndex !== -1 && argv[inIndex + 1] ? argv[inIndex + 1] : 'reports/unused-vars.json',
+    inPath: inIndex !== -1 && argv[inIndex + 1] ? argv[inIndex + 1] : 'reports/unused-vars.json';
     dryRun: dry,
-    maxBatch: maxBatchIdx !== -1 && argv[maxBatchIdx + 1] ? Number(argv[maxBatchIdx + 1]) : 15,
+    maxBatch: maxBatchIdx !== -1 && argv[maxBatchIdx + 1] ? Number(argv[maxBatchIdx + 1]) : 15;
     maxBatchCritical:
       maxBatchCriticalIdx !== -1 && argv[maxBatchCriticalIdx + 1]
         ? Number(argv[maxBatchCriticalIdx + 1])
@@ -69,7 +69,7 @@ function runTypeCheck(): boolean {
 
 function readFindings(inPath: string): Finding[] {
   const content = fs.readFileSync(inPath, 'utf8');
-  const data = JSON.parse(content) as { findings: Finding[] },
+  const data = JSON.parse(content) as { findings: Finding[] };
   return data.findings || [];
 }
 
@@ -85,7 +85,7 @@ function groupByFile(findings: Finding[]): Map<string, Finding[]> {
 function sortFilesForSafety(files: string[]): string[] {
   return files.sort((a, b) => {
     const aImpact = isHighImpactFile(a) ? 1 : 0;
-    const bImpact = isHighImpactFile(b) ? 1 : 0,
+    const bImpact = isHighImpactFile(b) ? 1 : 0;
     if (aImpact !== bImpact) return aImpact - bImpact; // low impact first
     return a.localeCompare(b);
   });
@@ -173,7 +173,7 @@ function batchFiles(files: string[], maxBatch: number, maxBatchCritical: number)
   let current: string[] = [];
   for (const file of files) {
     const isCritical = isHighImpactFile(file);
-    const limit = isCritical ? maxBatchCritical : maxBatch,
+    const limit = isCritical ? maxBatchCritical : maxBatch;
     if (current.length >= limit) {
       batches.push(current);
       current = [];

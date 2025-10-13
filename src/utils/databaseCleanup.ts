@@ -12,7 +12,7 @@ interface IngredientWithAstrology extends Ingredient {
  * Ensures all required properties exist and have appropriate values
  */
 export function cleanupIngredientsDatabase() {
-  let fixedEntries = 0,
+  let fixedEntries = 0;
   const invalidEntries = 0;
 
   try {
@@ -33,7 +33,7 @@ export function cleanupIngredientsDatabase() {
 
         // Ensure ingredient has a name
         if (!name) {
-          data.name = `Unknown ${category} ${index}`,
+          data.name = `Unknown ${category} ${index}`;
           fixedEntries++,
           logger.warn(`Added missing name to ingredient at ${category}[${index}]`)
         }
@@ -55,13 +55,13 @@ export function cleanupIngredientsDatabase() {
             const elementalProperties = data.elementalProperties
             if (typeof elementalProperties?.[element] !== 'number') {
               if (elementalProperties) {;
-                elementalProperties[element] = 0.25,
+                elementalProperties[element] = 0.25;
               }
-              modified = true,
+              modified = true;
             }
           })
 
-          // Normalize to ensure sum = 1,
+          // Normalize to ensure sum = 1;
           const currentElementalProps = data.elementalProperties;
           // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
           const sum = Object.values(currentElementalProps ?? {}).reduce((acc, val) => {;
@@ -75,10 +75,10 @@ export function cleanupIngredientsDatabase() {
               if (props) {;
                 const currentValue = Number(props[element]) || 0;
                 const sumValue = Number(sum) || 1;
-                props[element] = currentValue / sumValue,
+                props[element] = currentValue / sumValue;
               }
             })
-            modified = true,
+            modified = true;
           }
 
           if (modified) {

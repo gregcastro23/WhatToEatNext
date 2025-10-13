@@ -60,4 +60,4 @@ export function enhanceDishWithProperties(dishName: string, originalDish: unknow
 }
 
 // Type for food properties
-export type FoodPropertyType = keyof typeof dishProperties,
+export type FoodPropertyType = keyof typeof dishProperties;

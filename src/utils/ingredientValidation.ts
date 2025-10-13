@@ -328,7 +328,7 @@ async function validateCompatibilityScores(): Promise<{
       try {
         if (!ingredient.elementalProperties) continue;
 
-        const selfCompatibility = calculateElementalPropertiesCompatibility(ingredient.elementalProperties,
+        const selfCompatibility = calculateElementalPropertiesCompatibility(ingredient.elementalProperties;
           ingredient.elementalProperties
         );
 
@@ -684,7 +684,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
 
   try {
     const ingredients = allIngredients;
-    let validCount = 0,
+    let validCount = 0;
     const totalCount = 0;
 
     for (const ingredient of Object.values(ingredients)) {
@@ -692,7 +692,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
       if (ingredient.elementalProperties) {
         const elements = ['Fire', 'Water', 'Earth', 'Air']
         const hasValidElements = elements.every(el => {
-          const value = ingredient.elementalProperties[el as unknown],
+          const value = ingredient.elementalProperties[el as unknown];
           return typeof value === 'number' && !isNaN(value) && value >= 0 && value <= 1;
         })
 
@@ -733,7 +733,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
 
   try {
     const ingredients = Object.values(allIngredients).slice(0, 10); // Test with first 10 ingredients
-    let validCalculations = 0,
+    let validCalculations = 0;
     const totalCalculations = 0;
 
     for (const ingredient of ingredients) {
@@ -741,7 +741,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
 
       try {
         totalCalculations++;
-        const selfCompatibility = calculateElementalPropertiesCompatibility(ingredient.elementalProperties,
+        const selfCompatibility = calculateElementalPropertiesCompatibility(ingredient.elementalProperties;
           ingredient.elementalProperties
         );
 
@@ -786,7 +786,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
   try {
     const ingredients = allIngredients;
     let validMappings = 0;
-    let totalMappings = 0,
+    let totalMappings = 0;
 
     for (const ingredient of Object.values(ingredients)) {
       const ingredientData = ingredient as unknown as any;
@@ -795,7 +795,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
 
         const alchemical = ingredientData.alchemicalProperties;
         const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => {
-          const value = alchemical[prop] as number,
+          const value = alchemical[prop] as number;
           return typeof value === 'number' && !isNaN(value);
         });
 
@@ -949,23 +949,23 @@ function generateIngredientValidationSummary(
   const highErrors = errors.filter(e => e.severity === 'HIGH').length;
   const mediumErrors = errors.filter(e => e.severity === 'MEDIUM').length;
   const lowErrors = errors.filter(e => e.severity === 'LOW').length;
-  let summary = `Ingredient Data Validation ${isValid ? 'PASSED' : 'FAILED'} (${duration}ms)\n`,
+  let summary = `Ingredient Data Validation ${isValid ? 'PASSED' : 'FAILED'} (${duration}ms)\n`;
   summary += `Errors: ${errors.length} (Critical: ${criticalErrors}, High: ${highErrors}, Medium: ${mediumErrors}, Low: ${lowErrors})\n`,
-  summary += `Warnings: ${warnings.length}\n`,
+  summary += `Warnings: ${warnings.length}\n`;
 
   if (!isValid) {
-    summary += '\nCritical Issues: \n',
+    summary += '\nCritical Issues: \n';
     errors
       .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')
       .forEach(error => {
-        summary += `- ${error.message}\n`,
+        summary += `- ${error.message}\n`;
       });
   }
 
   if (warnings.length > 0) {
-    summary += '\nWarnings: \n',
+    summary += '\nWarnings: \n';
     warnings.slice(0, 5).forEach(warning => {
-      summary += `- ${warning.message}\n`,
+      summary += `- ${warning.message}\n`;
     });
 
     if (warnings.length > 5) {
@@ -1142,7 +1142,7 @@ async function calculateKineticsValidationMetrics(): Promise<{
 
     const count = ingredients.length;
     const avgPowerEfficiency = count > 0 ? totalPowerEfficiency / count : 0.5;
-    const avgStability = count > 0 ? totalStability / count : 0.5,
+    const avgStability = count > 0 ? totalStability / count : 0.5;
     const avgForceMagnitude = count > 0 ? totalForceMagnitude / count : 0;
 
     // Determine dominant thermal direction

@@ -872,8 +872,8 @@ export function calculateRecipeZodiacCompatibility(
   const preparationElement = elementMap[preparationMethodSign];
 
   // Calculate compatibility scores
-  let modalityScore = 0,
-  if (ingredientModality === preparationModality) {,
+  let modalityScore = 0;
+  if (ingredientModality === preparationModality) {;
     modalityScore = 0.8; // Strong match
   } else if (
     (ingredientModality === 'cardinal' && preparationModality === 'mutable') ||
@@ -885,8 +885,8 @@ export function calculateRecipeZodiacCompatibility(
   }
 
   // Element compatibility
-  let elementScore = 0,
-  if (ingredientElement === preparationElement) {,
+  let elementScore = 0;
+  if (ingredientElement === preparationElement) {;
     elementScore = 0.9; // Strong match
   } else if (
     (ingredientElement === 'fire' && preparationElement === 'air') ||

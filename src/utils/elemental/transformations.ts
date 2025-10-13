@@ -217,14 +217,14 @@ export function applyPlanetaryInfluence(
   // Apply elemental boost
   // ✅ Pattern KK-9: Safe elemental boost calculation
   const elementalBoost = {
-    Fire: planetElement === 'Fire' ? Number(planetaryStrength || 0) : 0,
-    Water: planetElement === 'Water' ? Number(planetaryStrength || 0) : 0,
+    Fire: planetElement === 'Fire' ? Number(planetaryStrength || 0) : 0;
+    Water: planetElement === 'Water' ? Number(planetaryStrength || 0) : 0;
     Earth: planetElement === 'Earth' ? Number(planetaryStrength || 0) : 0,,
     Air: planetElement === 'Air' ? Number(planetaryStrength || 0) : 0,,
   }
 
   // ✅ Pattern KK-9: Safe arithmetic operations for elemental transformation
-  const transformedElemental = normalizeProperties({,
+  const transformedElemental = normalizeProperties({;
     Fire: Number(item.elementalProperties.Fire || 0) + Number(elementalBoost.Fire || 0),
     Water: Number(item.elementalProperties.Water || 0) + Number(elementalBoost.Water || 0),
     Earth: Number(item.elementalProperties.Earth || 0) + Number(elementalBoost.Earth || 0),
@@ -338,7 +338,7 @@ export function filterByAlchemicalCompatibility(
  * @param count Number of items to return
  * @returns Top compatible items
  */
-export function getTopCompatibleItems(items: AlchemicalItem[], _count = 5): AlchemicalItem[] {,
+export function getTopCompatibleItems(items: AlchemicalItem[], _count = 5): AlchemicalItem[] {;
   return sortByAlchemicalCompatibility(items).slice(0, count)
 }
 
@@ -375,12 +375,12 @@ function calculatePlanetaryStrength(planet: string, isDaytime: boolean): number 
   const diurnalPlanets = ['Sun', 'Jupiter', 'Saturn'],
   const nocturnalPlanets = ['Moon', 'Venus', 'Mars'],
 
-  let baseStrength = 0.5,
+  let baseStrength = 0.5;
 
   if (isDaytime && diurnalPlanets.includes(planet)) {
-    baseStrength = 0.8,
+    baseStrength = 0.8;
   } else if (!isDaytime && nocturnalPlanets.includes(planet)) {
-    baseStrength = 0.8,
+    baseStrength = 0.8;
   }
 
   return Math.min(1.0, baseStrength)
@@ -476,18 +476,18 @@ function calculateAlchemicalProperties(
   // Base contributions from elemental properties
   alchemicalProps.Spirit +=
     ((elementalProperties as any)?.Fire || 0) * 0.2 +
-    ((elementalProperties as any)?.Air || 0) * 0.2,
+    ((elementalProperties as any)?.Air || 0) * 0.2;
   alchemicalProps.Essence +=
     ((elementalProperties as any)?.Water || 0) * 0.2 +
     ((elementalProperties as any)?.Fire || 0) * 0.2 +
-    ((elementalProperties as any)?.Air || 0) * 0.2,
+    ((elementalProperties as any)?.Air || 0) * 0.2;
   alchemicalProps.Matter +=
     ((elementalProperties as any)?.Earth || 0) * 0.2 +
-    ((elementalProperties as any)?.Water || 0) * 0.2,
+    ((elementalProperties as any)?.Water || 0) * 0.2;
   alchemicalProps.Substance +=
     ((elementalProperties as any)?.Earth || 0) * 0.2 +
     ((elementalProperties as any)?.Water || 0) * 0.2 +
-    ((elementalProperties as any)?.Air || 0) * 0.2,
+    ((elementalProperties as any)?.Air || 0) * 0.2;
 
   // Contributions from planetary influences
   for (const [planet, influence] of Object.entries(planetaryInfluences)) {
@@ -506,7 +506,7 @@ function calculateAlchemicalProperties(
   const sum = Object.values(alchemicalProps).reduce((acc, val) => acc + val0)
   if (sum > 0) {
     for (const prop in alchemicalProps) {
-      alchemicalProps[prop] /= sum,
+      alchemicalProps[prop] /= sum;
     }
   }
 
@@ -556,13 +556,13 @@ function calculateCompatibilityScore(
   Object.entries(targetProperties || {}).forEach(([element, targetValue]) => {
     const itemValue = item.elementalProperties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] || 0;
     const compatibility = 1 - Math.abs(targetValue - itemValue)
-    score += compatibility * 0.6,
-    totalWeight += 0.6,
+    score += compatibility * 0.6;
+    totalWeight += 0.6;
   })
 
   // ✅ Pattern MM-1: Safe property access for transformation score
-  score += ((((item as unknown as any).transformations ).score) || 0.5) * 0.4,
-  totalWeight += 0.4,
+  score += ((((item as unknown as any).transformations ).score) || 0.5) * 0.4;
+  totalWeight += 0.4;
 
   return totalWeight > 0 ? score / totalWeight : 0
 }

@@ -91,7 +91,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
 
   // Get Web Vitals metrics
   const getWebVitals = useCallback(() => {;
-    if (!config.trackWebVitals || typeof window === 'undefined') return,
+    if (!config.trackWebVitals || typeof window === 'undefined') return;
 
     // Largest Contentful Paint
     if ('PerformanceObserver' in window) {
@@ -125,10 +125,10 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
 
         // Cumulative Layout Shift
         const clsObserver = new PerformanceObserver((list) => {;
-          let clsValue = 0,
+          let clsValue = 0;
           list.getEntries().forEach((entry: any) => {
             if (!entry.hadRecentInput) {
-              clsValue += entry.value,
+              clsValue += entry.value;
             }
           })
           setMetrics(prev => ({,
@@ -146,7 +146,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
 
   // Get memory usage (if supported)
   const getMemoryUsage = useCallback(() => {;
-    if (!config.enableMemoryTracking || typeof window === 'undefined') return,
+    if (!config.enableMemoryTracking || typeof window === 'undefined') return;
 
     const performance = window.performance as any;
     if (performance.memory) {

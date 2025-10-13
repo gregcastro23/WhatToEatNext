@@ -37,7 +37,7 @@ export const tarotSuitElementMap: Record<string, ElementalCharacter> = {
 /**
  * Maps tarot cards to their quantum values
  * Court cards have the following values:
- * Page = 1, Knight = 2, Queen = 3, King = 4,
+ * Page = 1, Knight = 2, Queen = 3, King = 4;
  */
 export const tarotCardQuantumValues: Record<string, number> = {
   // Wands (Fire)

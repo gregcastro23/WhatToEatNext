@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { _logger } from '@/lib/logger';
+import { NextResponse } from 'next/server';
 
 import { onAstrologizeApiCall } from '@/services/CurrentMomentManager';
 import { log } from '@/services/LoggingService';
@@ -36,13 +36,13 @@ export async function POST(request: Request) {
     // Extract parameters from request or use defaults
   const {
       year = new Date().getFullYear(),
-      month = new Date().getMonth() + 1, // Convert from conventional 1-indexed to our expected format,
+      month = new Date().getMonth() + 1, // Convert from conventional 1-indexed to our expected format
       date = new Date().getDate(),
       hour = new Date().getHours(),
       minute = new Date().getMinutes(),
       latitude = DEFAULT_LOCATION.latitude,
       longitude = DEFAULT_LOCATION.longitude,
-      zodiacSystem = 'tropical' // Default to tropical zodiac,
+      zodiacSystem = 'tropical' // Default to tropical zodiac
     } = body;
 
     // Convert conventional month (1-12) to 0-indexed month (0-11) for the API

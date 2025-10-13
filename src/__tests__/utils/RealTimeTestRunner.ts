@@ -52,9 +52,9 @@ export class RealTimeTestRunner {
   ): Promise<RealTimeTestResult> {
     const {
       testName,
-      timeout = TEST_TIMEOUTS.realtime,
-      memoryLimit = MEMORY_LIMITS.integration,
-      retries = 2,
+      timeout = TEST_TIMEOUTS.realtime;
+      memoryLimit = MEMORY_LIMITS.integration;
+      retries = 2;
       cleanupFunction,
       expectedErrors = [];
     } = config;
@@ -277,7 +277,7 @@ export class RealTimeTestRunner {
     }
 
     return {
-      isValid: issues.length === 0,
+      isValid: issues.length === 0;
       issues,
       summary,
     };

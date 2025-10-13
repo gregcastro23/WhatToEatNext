@@ -7,7 +7,7 @@
 
 import type { ProgressMetrics } from '../../types/campaign';
 
-type AnyMockFn = jest.MockedFunction<(...args: unknown[]) => unknown>,
+type AnyMockFn = jest.MockedFunction<(...args: unknown[]) => unknown>;
 
 export interface GitMock {
   stash: AnyMockFn,

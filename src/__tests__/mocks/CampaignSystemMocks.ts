@@ -29,10 +29,10 @@ import {
  */
 export class MockCampaignController {
   private config: CampaignConfig,
-  private currentPhase: CampaignPhase | null = null,
+  private currentPhase: CampaignPhase | null = null;
   private safetyEvents: SafetyEvent[] = [];
-  private _isPaused: boolean = false,
-  private _isRunning: boolean = false,
+  private _isPaused: boolean = false;
+  private _isRunning: boolean = false;
   private mockMetrics: ProgressMetrics,
   private mockStashes: Map<string, GitStash> = new Map();
 
@@ -98,7 +98,7 @@ export class MockCampaignController {
     }
 
     return {
-      success: mockErrors.length === 0,
+      success: mockErrors.length === 0;
       errors: mockErrors,
       warnings: mockWarnings,
       metrics: this.mockMetrics
@@ -349,7 +349,7 @@ export class MockCampaignController {
 export class MockProgressTracker {
   private mockMetrics: ProgressMetrics,
   private metricsHistory: ProgressMetrics[] = [];
-  private isTracking: boolean = false,
+  private isTracking: boolean = false;
 
   constructor() {
     this.mockMetrics = this.createMockMetrics();
@@ -575,7 +575,7 @@ export class MockProgressTracker {
 export class MockSafetyProtocol {
   private mockStashes: Map<string, GitStash> = new Map();
   private safetyEvents: SafetyEvent[] = [];
-  private stashCounter: number = 0,
+  private stashCounter: number = 0;
 
   constructor() {
     this.initializeMockStashes();
@@ -724,10 +724,10 @@ export class MockSafetyProtocol {
  * tests don't interfere with each other or trigger actual builds.
  */
 export class CampaignTestIsolationManager {
-  private static instance: CampaignTestIsolationManager | null = null,
-  private mockController: MockCampaignController | null = null,
-  private mockTracker: MockProgressTracker | null = null,
-  private mockSafety: MockSafetyProtocol | null = null,
+  private static instance: CampaignTestIsolationManager | null = null;
+  private mockController: MockCampaignController | null = null;
+  private mockTracker: MockProgressTracker | null = null;
+  private mockSafety: MockSafetyProtocol | null = null;
   private originalProcessEnv: Record<string, string | undefined> = {};
 
   private constructor() {

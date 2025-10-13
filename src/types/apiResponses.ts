@@ -13,23 +13,23 @@ import {
 } from './alchemy';
 import { IngredientAnalysisResponse, IngredientRecommendationResponse } from './ingredients';
 
-// ========== PHASE, 1: API RESPONSE TYPE ALIASES ==========
+// ========== PHASE 1: API RESPONSE TYPE ALIASES ==========
 
 /**
  * Generic Service Response
  * Standardized response structure for all services
  */
-export type ServiceResponse<T> = ServiceResponseType<T>
+export type ServiceResponse<T> = ServiceResponseType<T>;
 
 /**
  * Alchemical Recommendation Response
  * Standardized response for alchemical recommendation services
  */
 export type AlchemicalRecommendationResponse = ServiceResponseType<{
-  recommendations: AlchemicalTransformationResultType[],
-  compatibility: number,
-  reasoning: string[],
-  elementalBalance: ElementalPropertiesType,
+  recommendations: AlchemicalTransformationResultType[];
+  compatibility: number;
+  reasoning: string[];
+  elementalBalance: ElementalPropertiesType;
   thermodynamicMetrics: ThermodynamicMetricsType;
 }>;
 
@@ -55,33 +55,33 @@ export type StandardizedPlanetaryResponse = ServiceResponseType<{
  * Standardized response for recipe recommendations
  */
 export type RecipeRecommendationResponse = ServiceResponseType<{
-  recipes: Array<{,
-    id: string,
-    name: string,
-    compatibility: number,
-    elementalBalance: ElementalPropertiesType,
-    ingredients: string[],
-    reasoning: string[]
-  }>,
-  totalMatches: number,
-  searchCriteria: Record<string, Record<string, number>>,
-}>,
+  recipes: Array<{
+    id: string;
+    name: string;
+    compatibility: number;
+    elementalBalance: ElementalPropertiesType;
+    ingredients: string[];
+    reasoning: string[];
+  }>;
+  totalMatches: number;
+  searchCriteria: Record<string, Record<string, number>>;
+}>;
 
 /**
  * Culinary Analysis Response
  * Comprehensive culinary analysis response
  */
-export type CulinaryAnalysisResponse = ServiceResponseType<{;
-  overallCompatibility: number,
-  elementalAnalysis: ElementalPropertiesType,
-  thermodynamicProfile: ThermodynamicMetricsType,
+export type CulinaryAnalysisResponse = ServiceResponseType<{
+  overallCompatibility: number;
+  elementalAnalysis: ElementalPropertiesType;
+  thermodynamicProfile: ThermodynamicMetricsType;
   recommendations: {
-    ingredients: string[],
-    cookingMethods: string[],
-    seasonalTiming: string[]
-  },
-  warnings: string[]
-}>,
+    ingredients: string[];
+    cookingMethods: string[];
+    seasonalTiming: string[];
+  };
+  warnings: string[];
+}>;
 
 // ========== EXTERNAL API RESPONSE TYPES ==========
 
@@ -91,21 +91,21 @@ export type CulinaryAnalysisResponse = ServiceResponseType<{;
 export interface NasaHorizonsResponse {
   /**
    * Result string containing the data in text format
-   */;
-  result?: string,
+   */
+  result?: string;
 
   /**
    * Error message if the request failed
    */
-  error?: string,
+  error?: string;
 
   /**
    * Signature indicating the type of error
    */
   signature?: {
-    source?: string,
-    version?: string
-  }
+    source?: string;
+    version?: string;
+  };
 }
 
 /**
@@ -131,56 +131,56 @@ export interface AstronomyApiResponse {
           /**
            * Unique identifier
            */
-          id?: string
+          id?: string;
 
           /**
            * Planet name
            */
-          name?: string,
+          name?: string;
 
           /**
            * Equatorial coordinates (right ascension and declination)
            */
           equatorialCoordinates?: {
             rightAscension?: {
-              hours?: number,
-              minutes?: number,
-              seconds?: number
-            }
+              hours?: number;
+              minutes?: number;
+              seconds?: number;
+            };
             declination?: {
-              degrees?: number,
-              minutes?: number,
-              seconds?: number
-            }
-          }
+              degrees?: number;
+              minutes?: number;
+              seconds?: number;
+            };
+          };
 
           /**
            * Ecliptic coordinates (longitude and latitude)
            */
           eclipticCoordinates?: {
             longitude?: {
-              degrees?: number,
-              minutes?: number,
-              seconds?: number
-            }
+              degrees?: number;
+              minutes?: number;
+              seconds?: number;
+            };
             latitude?: {
-              degrees?: number,
-              minutes?: number,
-              seconds?: number
-            }
-          }
-        }
-      }>,
-    }
-  }
+              degrees?: number;
+              minutes?: number;
+              seconds?: number;
+            };
+          };
+        };
+      }>;
+    };
+  };
 
   /**
    * Error information
    */
   error?: {
-    code?: number,
-    message?: string
-  }
+    code?: number;
+    message?: string;
+  };
 }
 
 /**
@@ -194,7 +194,7 @@ export interface SwissEphemerisApiResponse {
     /**
      * Planet name
      */
-    name?: string,
+    name?: string;
 
     /**
      * Position information
@@ -203,19 +203,19 @@ export interface SwissEphemerisApiResponse {
       /**
        * Longitude in degrees (0-360)
        */
-      longitude?: number,
+      longitude?: number;
 
       /**
        * Whether the planet is retrograde
        */
-      retrograde?: boolean,
+      retrograde?: boolean;
 
       /**
        * Speed of the planet
        */
-      speed?: number
-    }
-  }>,
+      speed?: number;
+    };
+  }>;
 
   /**
    * Error information
@@ -223,9 +223,9 @@ export interface SwissEphemerisApiResponse {
   error?:
     | string
     | {
-        message?: string,
-        code?: number
-      }
+        message?: string;
+        code?: number;
+      };
 }
 
 /**
@@ -235,32 +235,32 @@ export interface StandardizedPlanetaryPosition {
   /**
    * Zodiac sign (e.g., 'aries', 'taurus')
    */
-  sign: anyType,
+  sign: string;
 
   /**
    * Degree within the sign (0-29)
    */
-  degree: number,
+  degree: number;
 
   /**
    * Exact longitude in degrees (0-360)
    */
-  exactLongitude?: number,
+  exactLongitude?: number;
 
   /**
    * Whether the planet is retrograde
    */
-  isRetrograde?: boolean,
+  isRetrograde?: boolean;
 
   /**
    * Minutes within the degree (0-59)
    */
-  minute?: number,
+  minute?: number;
 
   /**
    * Speed of the planet (positive for direct, negative for retrograde)
    */
-  speed?: number
+  speed?: number;
 }
 
 /**

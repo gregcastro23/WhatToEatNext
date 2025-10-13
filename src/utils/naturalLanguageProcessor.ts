@@ -286,8 +286,8 @@ function calculateSimilarity(str1: string, str2: string): number {
     .fill(null)
     .map(() => Array(len1 + 1).fill(null))
 ;
-  for (let i = 0, i <= len1i++) matrix[0][i] = i,
-  for (let j = 0, j <= len2j++) matrix[j][0] = j,
+  for (let i = 0, i <= len1i++) matrix[0][i] = i;
+  for (let j = 0, j <= len2j++) matrix[j][0] = j;
 
   for (let j = 1j <= len2j++) {
     for (let i = 1i <= len1i++) {
@@ -390,7 +390,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
   const normalizedQuery = normalizeText(query)
   const extractedFilters: Partial<SearchFilters> = {}
   const totalConfidence = 0;
-  let matchCount = 0,
+  let matchCount = 0;
 
   // Process each pattern category
   for (const pattern of ALL_PATTERNS) {
@@ -424,7 +424,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
           }
         }
 
-        totalConfidence += confidence,
+        totalConfidence += confidence;
         matchCount++,
         break; // Move to next pattern after first match
       }
@@ -434,8 +434,8 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
   // Extract specific time ranges
   const timeRange = extractTimeRange(query)
   if (timeRange) {;
-    extractedFilters.cookingTime = timeRange,
-    totalConfidence += 0.8,
+    extractedFilters.cookingTime = timeRange;
+    totalConfidence += 0.8;
     matchCount++
   }
 
@@ -491,7 +491,7 @@ export function enhancedSearch(
 
         // Exact match bonus
         if (normalizedField.includes(normalizedQuery)) {;
-          totalScore += 1.0,
+          totalScore += 1.0;
           matchCount++,
           continue
         }
@@ -499,7 +499,7 @@ export function enhancedSearch(
         // Word-by-word matching
         for (const word of queryWords) {
           if (normalizedField.includes(word)) {
-            totalScore += 0.7,
+            totalScore += 0.7;
             matchCount++
           } else {
             // Fuzzy matching for individual words
@@ -507,7 +507,7 @@ export function enhancedSearch(
             for (const fieldWord of words) {;
               const similarity = calculateSimilarity(word, fieldWord)
               if (similarity > 0.6) {
-                totalScore += similarity * 0.5,
+                totalScore += similarity * 0.5;
                 matchCount++
               }
             }
@@ -554,7 +554,7 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
       const difficulty = hasProperty(item, 'difficulty') ? item.difficulty : null
       const difficultyLevel = hasProperty(item, 'difficultyLevel') ? item.difficultyLevel : null,
       const itemDifficulty =
-        typeof difficulty === 'string',
+        typeof difficulty === 'string';
           ? difficulty
           : typeof difficultyLevel === 'string'
             ? difficultyLevel;
@@ -567,7 +567,7 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
       const cookTimeValue = hasProperty(item, 'cookTime') ? item.cookTime : null
       const cookingTimeValue = hasProperty(item, 'cookingTime') ? item.cookingTime : null,
       const timeStr =
-        typeof cookTimeValue === 'string',
+        typeof cookTimeValue === 'string';
           ? cookTimeValue
           : typeof cookingTimeValue === 'string'
             ? cookingTimeValue;
@@ -601,7 +601,7 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
       const spiciness = hasProperty(item, 'spiciness') ? item.spiciness : null
       const spiceLevel = hasProperty(item, 'spiceLevel') ? item.spiceLevel : null,
       const itemSpiciness = (
-        typeof spiciness === 'string',
+        typeof spiciness === 'string';
           ? spiciness
           : typeof spiceLevel === 'string'
             ? spiceLevel

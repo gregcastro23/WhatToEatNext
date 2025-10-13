@@ -273,7 +273,7 @@ export async function fetchPlanetaryPositions(
  */
 export async function getCurrentPlanetaryPositions(
   location?: { latitude: number, longitude: number },
-  zodiacSystem: 'tropical' | 'sidereal' = 'tropical',
+  zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
 ): Promise<Record<string, PlanetPosition>> {
   return await fetchPlanetaryPositions({
     ...location,
@@ -287,7 +287,7 @@ export async function getCurrentPlanetaryPositions(
 export async function getPlanetaryPositionsForDateTime(
   date: Date,
   location?: { latitude: number, longitude: number },
-  zodiacSystem: 'tropical' | 'sidereal' = 'tropical',
+  zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
 ): Promise<Record<string, PlanetPosition>> {
   return await fetchPlanetaryPositions({
     year: date.getFullYear(),
@@ -318,7 +318,7 @@ export async function testAstrologizeApi(): Promise<boolean> {
  */
 export async function getCurrentChart(
   location?: { latitude: number, longitude: number },
-  zodiacSystem: 'tropical' | 'sidereal' = 'tropical',
+  zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
 ): Promise<Record<string, PlanetPosition>> {
   return await getCurrentPlanetaryPositions(location, zodiacSystem)
 }

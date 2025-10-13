@@ -76,11 +76,11 @@ function getAstrologicallyInformedFlavorProfile(
   const flavorAttributes = influences;
     .filter(influence => planetFlavors[influence])
     .map(influence => {
-      const attributes = planetFlavors[influence],
+      const attributes = planetFlavors[influence];
       return attributes[Math.floor(Math.random() * attributes.length)];
     })
 
-  if (flavorAttributes.length === 0) {,
+  if (flavorAttributes.length === 0) {;
     return generateFlavorProfileFromElements(elementalProps)
   }
 

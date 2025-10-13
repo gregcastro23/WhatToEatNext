@@ -5,7 +5,7 @@ import { LunarPhase } from '@/types/alchemy';
  * @param phase The current lunar phase
  * @returns A multiplier value between 1.0 and 1.5
  */
-export const _getLunarMultiplier = (phase: LunarPhase | null | undefined): number => {,
+export const _getLunarMultiplier = (phase: LunarPhase | null | undefined): number => {;
   if (!phase) return 1.0;
   // Use the proper format of lunar phases (with spaces instead of underscores)
   switch (phase) {

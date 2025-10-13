@@ -23,8 +23,8 @@ export type WSMessage =
   | { channel: 'celestial_events'; data: CelestialEvent }
 
 export class AlchmWebSocket {
-  private ws: WebSocket | null = null,
-  private readonly url: string | undefined = process.env.NEXT_PUBLIC_WEBSOCKET_URL,
+  private ws: WebSocket | null = null;
+  private readonly url: string | undefined = process.env.NEXT_PUBLIC_WEBSOCKET_URL;
 
   connect(): void {
     if (!this.url) return,

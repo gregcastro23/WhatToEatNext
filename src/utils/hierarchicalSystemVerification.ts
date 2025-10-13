@@ -571,7 +571,7 @@ export function getSystemHealth(): {
     cacheReady = false;
   }
 
-  let overallHealth: 'excellent' | 'good' | 'fair' | 'poor' = 'poor',
+  let overallHealth: 'excellent' | 'good' | 'fair' | 'poor' = 'poor';
   const readyCount = [level1Ready, level2Ready, level3Ready, cacheReady].filter(Boolean).length;
 
   if (readyCount === 4) overallHealth = 'excellent';

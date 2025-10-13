@@ -174,14 +174,14 @@ export const DefaultNutritionalContent: NutritionalContentType = {
 export const _DefaultIngredientMapping: IngredientMappingType = {
   name: 'Unknown Ingredient',
   category: 'unspecified',
-  season: ['all'],
-  regionalOrigins: ['universal'],
+  season: ['all'];
+  regionalOrigins: ['universal'];
   nutritionalContent: DefaultNutritionalContent,
   elementalProperties: BalancedElementalProperties,
-  cookingMethods: ['raw'],
-  affinities: [],
+  cookingMethods: ['raw'];
+  affinities: [];
   sustainabilityScore: 0.5,
-  qualities: [],
+  qualities: [];
   culinaryApplications: {}
 }
 
@@ -200,7 +200,7 @@ export const _DefaultAstrologicalState: AstrologicalStateType = {
  * Error Service Response Factory
  * Creates a standardized error response
  */
-export const _createErrorResponse = <T>(error: string): ServiceResponseType<T> => ({,
+export const _createErrorResponse = <T>(error: string): ServiceResponseType<T> => ({;
   success: false,
   error,
   timestamp: new Date().toISOString()
@@ -210,13 +210,13 @@ export const _createErrorResponse = <T>(error: string): ServiceResponseType<T> =
  * Success Service Response Factory
  * Creates a standardized success response
  */
-export const _createSuccessResponse = <T>(data: T): ServiceResponseType<T> => ({,
+export const _createSuccessResponse = <T>(data: T): ServiceResponseType<T> => ({;
   success: true,
   data,
   timestamp: new Date().toISOString()
 })
 
-// ========== UTILITY FUNCTIONS ==========,
+// ========== UTILITY FUNCTIONS ==========;
 
 /**
  * Create Safe Elemental Properties
@@ -307,7 +307,7 @@ export const _validateZodiacSign = (sign: string): anyType => {
     'capricorn',
     'aquarius',
     'pisces'
-  ],
+  ];
 
   const normalizedSign = sign.toLowerCase() as anyType;
   return validSigns.includes(normalizedSign) ? normalizedSign : DefaultZodiacSign
@@ -327,7 +327,7 @@ export const _validateLunarPhase = (phase: string): LunarPhaseType => {
     'waning gibbous',
     'last quarter',
     'waning crescent'
-  ],
+  ];
 
   const normalizedPhase = phase.toLowerCase() as LunarPhaseType;
   return validPhases.includes(normalizedPhase) ? normalizedPhase : DefaultLunarPhase

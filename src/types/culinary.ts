@@ -8,86 +8,86 @@ import type { PrimaryCuisineType } from './cuisineAliases';
 export interface CulinaryProfile {
   /** Primary flavor characteristics */
   flavorProfile: {
-    primary: string,
-    secondary: string[],
-    intensity: 'mild' | 'moderate' | 'strong'
-    umami: number, // 0-1 scale
-  }
+    primary: string;
+    secondary: string[];
+    intensity: 'mild' | 'moderate' | 'strong';
+    umami: number; // 0-1 scale
+  };
 
   /** Texture characteristics */
   texture: {
-    raw: string,
-    cooked: string,
-    mouthfeel: string
-  }
+    raw: string;
+    cooked: string;
+    mouthfeel: string;
+  };
 
   /** Best cooking methods for this ingredient */
   cookingMethods: {
-    primary: string[],
-    secondary: string[],
-    bestResults: string
-  }
+    primary: string[];
+    secondary: string[];
+    bestResults: string;
+  };
 
   /** Cuisine affinities where this ingredient is commonly used */
   cuisineAffinities: {
-    primary: CuisineType[],
-    secondary: CuisineType[],
-    regionalUses: Record<string, string>
-  }
+    primary: CuisineType[];
+    secondary: CuisineType[];
+    regionalUses: Record<string, string>;
+  };
 
   /** Classic ingredient pairings */
   pairings: {
-    proteins: string[],
-    vegetables: string[],
-    herbs: string[],
-    dairy: string[],
-    acids: string[]
-  }
+    proteins: string[];
+    vegetables: string[];
+    herbs: string[];
+    dairy: string[];
+    acids: string[];
+  };
 
   /** Common culinary uses */
   culinaryUses: {
-    primary: string[],
-    secondary: string[],
-    presentation: string
-  }
+    primary: string[];
+    secondary: string[];
+    presentation: string;
+  };
 
   /** Seasonal availability */
   seasonality: {
-    peak: string[],
-    available: string[],
-    storage: string
-  }
+    peak: string[];
+    available: string[];
+    storage: string;
+  };
 
   /** Storage and shelf life information */
   shelfLife: {
-    fresh: string,
-    frozen: string,
-    preserved: string
-  }
+    fresh: string;
+    frozen: string;
+    preserved: string;
+  };
 
   /** Possible substitutions */
   substitutions: {
-    similar: string[],
-    texture: string[],
-    flavor: string[]
-  }
+    similar: string[];
+    texture: string[];
+    flavor: string[];
+  };
 
   /** Additional culinary notes */
-  notes: string,
+  notes: string;
 
   /** Flavor intensity level */
-  intensity: 'mild' | 'moderate' | 'strong'
+  intensity: 'mild' | 'moderate' | 'strong';
   /** Allergen information */
-  allergenInfo: string,
+  allergenInfo: string;
 
   /** Regional varieties or preparations */
-  regionalVarieties: Record<string, string>,
+  regionalVarieties: Record<string, string>;
 
   /** Preparation tips */
-  preparationTips: string[],
+  preparationTips: string[];
 
   /** Umami score (0-1) */
-  umamiScore: number
+  umamiScore: number;
 }
 
 /**
@@ -106,7 +106,7 @@ export type ContinentalCuisineType =
   | 'American'
   | 'Oceanic'
   | 'Middle-Eastern'
-  | 'Mediterranean'
+  | 'Mediterranean';
 /**
  * Regional Cuisine Types
  * Specific regional variations within primary cuisines
@@ -219,7 +219,7 @@ export type RegionalCuisineType =
   | 'StPetersburg'
   | 'Siberian'
   | 'Caucasian'
-  | 'CentralAsian'
+  | 'CentralAsian';
 /**
  * Fusion Cuisine Types
  * Modern fusion and contemporary cuisine categories
@@ -236,7 +236,7 @@ export type FusionCuisineType =
   | 'New-American'
   | 'California-Cuisine'
   | 'Pacific-Rim'
-  | 'Caribbean-Fusion'
+  | 'Caribbean-Fusion';
 /**
  * Dietary Cuisine Types
  * Cuisine categories based on dietary preferences
@@ -253,7 +253,7 @@ export type DietaryCuisineType =
   | 'Whole30'
   | 'Plant-Based'
   | 'Mediterranean-Diet'
-  | 'DASH-Diet'
+  | 'DASH-Diet';
 /**
  * Historical Cuisine Types
  * Cuisine categories based on historical periods
@@ -268,7 +268,7 @@ export type HistoricalCuisineType =
   | 'Classical-Greek'
   | 'Ancient-Egyptian'
   | 'Moorish-Spanish'
-  | 'Ottoman-Turkish'
+  | 'Ottoman-Turkish';
 /**
  * Street Food Cuisine Types
  * Street food and casual dining categories
@@ -285,7 +285,7 @@ export type StreetFoodCuisineType =
   | 'Comfort-Food'
   | 'Pub-Food'
   | 'Diner-Food'
-  | 'Barbecue'
+  | 'Barbecue';
 /**
  * Complete Cuisine Type Union
  * All possible cuisine types in the system
@@ -297,7 +297,7 @@ export type CompleteCuisineType =
   | FusionCuisineType
   | DietaryCuisineType
   | HistoricalCuisineType
-  | StreetFoodCuisineType,
+  | StreetFoodCuisineType;
 
 /**
  * Cuisine Category Mapping
@@ -549,7 +549,7 @@ export type IngredientSubCategory =
  * Enhanced ingredient interface with new culinary profile
  */
 export interface EnhancedIngredient {
-  name: string,
+  name: string;
   category: IngredientCategory,
   subCategory?: IngredientSubCategory,
   culinaryProfile: CulinaryProfile,
@@ -562,8 +562,8 @@ export interface EnhancedIngredient {
 export interface CuisineCompatibility {
   cuisine: CompleteCuisineType,
   score: number, // 0-1 scale,
-  factors: string[],
-  ingredientMatches: string[],
+  factors: string[];
+  ingredientMatches: string[];
   regionalVariations: string[]
 }
 
@@ -574,18 +574,18 @@ export interface CuisinePairing {
   primary: CompleteCuisineType,
   secondary: CompleteCuisineType,
   compatibility: number, // 0-1 scale,
-  commonIngredients: string[],
-  fusionOpportunities: string[],
+  commonIngredients: string[];
+  fusionOpportunities: string[];
   culturalNotes: string
 }
 
-// ========== MISSING TYPE EXPORTS ==========,
+// ========== MISSING TYPE EXPORTS ==========;
 
 /**
  * Cuisine Type - Primary Export
  * Used by components for cuisine selection and filtering
  */
-export type Cuisine = CompleteCuisineType,
+export type Cuisine = CompleteCuisineType;
 
 /**
  * Cooking Method Types
@@ -617,12 +617,12 @@ export type CookingMethodType =
   | 'emulsifying'
   | 'tempering'
   | 'marinating'
-  | 'brining'
+  | 'brining';
 /**
  * Flavor Intensity Levels
  * Used for matching flavors to user preferences
  */
-export type FlavorIntensity = 'mild' | 'moderate' | 'strong' | 'intense'
+export type FlavorIntensity = 'mild' | 'moderate' | 'strong' | 'intense';
 /**
  * Dietary Classification Types
  * Used for dietary restriction filtering
@@ -642,12 +642,12 @@ export type DietaryClassification =
   | 'whole30'
   | 'raw-food'
   | 'halal'
-  | 'kosher'
+  | 'kosher';
 /**
  * Recipe Difficulty Levels
  * Used for skill-based recipe filtering
  */
-export type RecipeDifficulty = 'beginner' | 'intermediate' | 'advanced' | 'expert'
+export type RecipeDifficulty = 'beginner' | 'intermediate' | 'advanced' | 'expert';
 /**
  * Meal Type Categories
  * Used for time-based recipe recommendations
@@ -661,7 +661,7 @@ export type MealType =
   | 'appetizer'
   | 'dessert'
   | 'beverage'
-  | 'late-night'
+  | 'late-night';
 /**
  * Course Type Categories
  * Used for menu planning and recipe organization
@@ -677,7 +677,7 @@ export type CourseType =
   | 'dessert'
   | 'mignardises'
   | 'cheese-course'
-  | 'digestif'
+  | 'digestif';
 /**
  * Dish Type Categories
  * Used for recipe classification and searching
@@ -705,6 +705,6 @@ export type DishType =
   | 'marinade'
   | 'sauce'
   | 'dressing'
-  | 'dip'
+  | 'dip';
 // Re-export CuisineType from cuisineAliases for backwards compatibility
 export type { PrimaryCuisineType as CuisineType } from './cuisineAliases';

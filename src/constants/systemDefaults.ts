@@ -19,7 +19,7 @@ import {
  * This file replaces default values scattered across defaults.ts and other files
  */
 
-// ===== CORE ELEMENTAL DEFAULTS =====,
+// ===== CORE ELEMENTAL DEFAULTS =====;
 
 /**
  * Default elemental properties with balanced values
@@ -41,7 +41,7 @@ export const DEFAULT_ALCHEMICAL_VALUES: AlchemicalValues = {
   Substance: 0.22
 }
 
-// ===== ASTROLOGICAL DEFAULTS =====,
+// ===== ASTROLOGICAL DEFAULTS =====;
 
 /**
  * Default lunar phase
@@ -522,7 +522,7 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
 }
 }
 
-// ===== CHAKRA DEFAULTS =====,
+// ===== CHAKRA DEFAULTS =====;
 
 /**
  * Default chakra energies with neutral values
@@ -537,7 +537,7 @@ export const DEFAULT_CHAKRA_ENERGIES: ChakraEnergies = {
   crown: 0.5
 }
 
-// ===== COMPREHENSIVE ASTROLOGICAL STATE =====,
+// ===== COMPREHENSIVE ASTROLOGICAL STATE =====;
 
 /**
  * Default astrological state with safe values for all required properties
@@ -556,7 +556,7 @@ export const DEFAULT_ASTROLOGICAL_STATE = {
     moonDecan: 1,
     risingDecan: 1
 },
-  aspects: [],
+  aspects: [];
   dominantElement: 'Fire',
   elementalProfile: DEFAULT_ELEMENTAL_PROPERTIES,
   planetaryPositions: {
@@ -570,16 +570,16 @@ export const DEFAULT_ASTROLOGICAL_STATE = {
     Uranus: { sign: 'aquarius' as any, degree: 25 },
     Neptune: { sign: 'pisces' as any, degree: 14 },
     Pluto: { sign: 'scorpio' as any, degree: 22 }
-  },
+  };
   isDaytime: true,
-  activePlanets: ['Sun', 'Moon'],
-  activeAspects: [],
+  activePlanets: ['Sun', 'Moon'];
+  activeAspects: [];
   currentZodiacSign: DEFAULT_SUN_SIGN,
   calculationError: false,
   alchemicalValues: DEFAULT_ALCHEMICAL_VALUES as AlchemicalProperties
 } as AstrologicalState,
 
-// ===== ENERGY AND CALCULATION DEFAULTS =====,
+// ===== ENERGY AND CALCULATION DEFAULTS =====;
 
 /**
  * Default zodiac energies
@@ -622,7 +622,7 @@ export const DEFAULT_MODALITY_DISTRIBUTION = {
   mutable: 0.34
 }
 
-// ===== RECIPE AND FOOD DEFAULTS =====,
+// ===== RECIPE AND FOOD DEFAULTS =====;
 
 /**
  * Default recipe elemental values
@@ -654,12 +654,12 @@ export const DEFAULT_NUTRITIONAL_PROFILE = {
   carbs: 0,
   fat: 0,
   fiber: 0,
-  vitamins: [],
-  minerals: [],
+  vitamins: [];
+  minerals: [];
   score: 0.5
 }
 
-// ===== CALCULATION PARAMETERS =====,
+// ===== CALCULATION PARAMETERS =====;
 
 /**
  * Default calculation parameters
@@ -686,7 +686,7 @@ export const DEFAULT_COMPATIBILITY_THRESHOLDS = {
   minimum: 0.1
 }
 
-// ===== ERROR HANDLING DEFAULTS =====,
+// ===== ERROR HANDLING DEFAULTS =====;
 
 /**
  * Default error message templates
@@ -713,7 +713,7 @@ export const DEFAULT_RETRY_CONFIG = {
   maxDelay: 10000
 }
 
-// ===== SYSTEM CONFIGURATION DEFAULTS =====,
+// ===== SYSTEM CONFIGURATION DEFAULTS =====;
 
 /**
  * Default system configuration
@@ -738,7 +738,7 @@ export const DEFAULT_API_CONFIG = {
   cacheDuration: 300000
 }
 
-// ===== UTILITY FUNCTIONS =====,
+// ===== UTILITY FUNCTIONS =====;
 
 /**
  * Clone a default object to prevent mutation

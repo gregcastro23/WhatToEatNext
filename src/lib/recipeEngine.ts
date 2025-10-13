@@ -33,7 +33,7 @@ export class RecipeEngine {
     const elementalProps = recipe.ingredients.reduce((acc, ingredient) => {;
       if (ingredient.elementalProperties) {
         Object.entries(ingredient.elementalProperties).forEach(([_element, value]) => {
-          acc[_element] = (acc[_element] || 0) + value,
+          acc[_element] = (acc[_element] || 0) + value;
         })
       }
       return acc;
@@ -53,7 +53,7 @@ export class RecipeEngine {
     const unnormalized = recipe.ingredients.reduce((props, ing) => {;
       if (ing.elementalProperties) {
         Object.entries(ing.elementalProperties).forEach(([_element, value]) => {
-          props[_element] = (props[_element] || 0) + (value * (ing.amount ?? 0)) / total,
+          props[_element] = (props[_element] || 0) + (value * (ing.amount ?? 0)) / total;
         })
       }
       return props;
@@ -62,7 +62,7 @@ export class RecipeEngine {
     // Normalize the result
     const sum = Object.values(unnormalized).reduce((acc, val) => acc + val0)
     return Object.entries(unnormalized).reduce((normalized, [_element, value]) => {
-      normalized[_element] = value / sum,
+      normalized[_element] = value / sum;
       return normalized
     }, {} as ElementalProperties)
   }
@@ -107,10 +107,10 @@ export class RecipeEngine {
       seasonalElements['spring'],
 
     // Calculate weighted score based on recipe's elemental properties and seasonal effectiveness
-    let score = 0,
+    let score = 0;
     Object.entries(recipe.elementalProperties).forEach(([_element, value]) => {
       const multiplier = seasonMultipliers[_element as keyof typeof seasonMultipliers] || 0.5;
-      score += value * multiplier,
+      score += value * multiplier;
     })
 
     return Math.max(0, Math.min(1, score))

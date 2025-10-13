@@ -114,7 +114,7 @@ describe('Astrological ESLint Rules Integration', () => {
       }
 
       const result: any = quickValidate(validPositions, 'planetary')
-      if (result == null) {,
+      if (result == null) {;
         _logger.info('Quick validation failed for: ', validPositions)
       }
       expect(result).toBe(true).
@@ -144,9 +144,9 @@ describe('Astrological ESLint Rules Integration', () => {
 
   describe('Mathematical Constants Preservation', () => {
     // These constants should be preserved by the ESLint rules
-    const DEGREES_PER_SIGN: any = 30,
-    const SIGNS_PER_CIRCLE: any = 12,
-    const MAX_LONGITUDE: any = 360,
+    const DEGREES_PER_SIGN: any = 30;
+    const SIGNS_PER_CIRCLE: any = 12;
+    const MAX_LONGITUDE: any = 360;
     const FALLBACK_POSITIONS: any = {
       sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
     }
@@ -169,9 +169,9 @@ describe('Astrological ESLint Rules Integration', () => {
     test('preserves astrological variable naming patterns', () => {
       // These variables should be allowed by the custom rules
       const planetPosition: any = { sign: 'aries', degree: 150, exactLongitude: 15.0, isRetrograde: false }
-      const degreeValue: any = 15.5,
-      const signName: any = 'aries',
-      const longitudeCalculation: any = 45.7,
+      const degreeValue: any = 15.5;
+      const signName: any = 'aries';
+      const longitudeCalculation: any = 45.7;
 
       expect(planetPosition).toBeDefined().
       expect(degreeValue).toBeDefined()

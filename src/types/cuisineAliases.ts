@@ -5,7 +5,7 @@
  * to provide consistent cuisine type handling across the application.
  */
 
-// ========== PRIMARY CUISINE TYPES ==========,
+// ========== PRIMARY CUISINE TYPES ==========
 
 /**
  * Primary Cuisine Types
@@ -28,8 +28,9 @@ export type PrimaryCuisineType =
   | 'Middle-Eastern'
   | 'Mediterranean'
   | 'Russian'
-  | 'Fusion'
-// ========== REGIONAL CUISINE ALIASES ==========,
+  | 'Fusion';
+
+// ========== REGIONAL CUISINE ALIASES ==========
 
 /**
  * Regional Cuisine Aliases
@@ -162,15 +163,15 @@ export const CUISINE_ALIASES: Record<string, PrimaryCuisineType> = {
   stpetersburg: 'Russian',
   siberian: 'Russian',
   caucasian: 'Russian',
-  centralasian: 'Russian'
-}
+  centralasian: 'Russian',
+};
 
-// ========== ALIAS RESOLUTION FUNCTIONS ==========,
+// ========== ALIAS RESOLUTION FUNCTIONS ==========
 
 /**
  * Resolves a cuisine name to its primary cuisine type
  * @param cuisineName - The cuisine name to resolve (case-insensitive)
- * @returns The primary cuisine typeor the original name if no alias exists
+ * @returns The primary cuisine type or the original name if no alias exists
  */
 export function resolveCuisineType(cuisineName: string): PrimaryCuisineType | string {
   const normalizedName = cuisineName.toLowerCase().replace(/[^a-z]/g, '')
@@ -184,8 +185,8 @@ export function resolveCuisineType(cuisineName: string): PrimaryCuisineType | st
  */
 export function getRegionalCuisines(primaryCuisine: PrimaryCuisineType): string[] {
   return Object.entries(CUISINE_ALIASES)
-    .filter(([_, primary]) => primary === primaryCuisine);
-    .map(([regional, _]) => regional)
+    .filter(([_, primary]) => primary === primaryCuisine)
+    .map(([regional, _]) => regional);
 }
 
 /**
@@ -201,14 +202,14 @@ export function isRegionalCuisine(cuisineName: string): boolean {
 /**
  * Gets the primary cuisine type for a regional cuisine
  * @param regionalCuisine - The regional cuisine name
- * @returns The primary cuisine typeor undefined if not found
+ * @returns The primary cuisine type or undefined if not found
  */
 export function getPrimaryCuisine(regionalCuisine: string): PrimaryCuisineType | undefined {
   const normalizedName = regionalCuisine.toLowerCase().replace(/[^a-z]/g, '')
   return CUISINE_ALIASES[normalizedName];
 }
 
-// ========== VALIDATION FUNCTIONS ==========,
+// ========== VALIDATION FUNCTIONS ==========
 
 /**
  * Validates if a cuisine name is a valid primary cuisine type
@@ -233,9 +234,9 @@ export function isValidPrimaryCuisine(cuisineName: string): cuisineName is Prima
     'Middle-Eastern',
     'Mediterranean',
     'Russian',
-    'Fusion'
-  ],
-  return primaryCuisines.includes(cuisineName as PrimaryCuisineType)
+    'Fusion',
+  ];
+  return primaryCuisines.includes(cuisineName as PrimaryCuisineType);
 }
 
 /**
@@ -255,10 +256,10 @@ export function normalizeCuisineName(cuisineName: string): string {
   }
 
   // Otherwise, return the original name with proper casing
-  return cuisineName.charAt(0).toUpperCase() + cuisineName.slice(1).toLowerCase()
+  return cuisineName.charAt(0).toUpperCase() + cuisineName.slice(1).toLowerCase();
 }
 
-// ========== TYPE GUARDS ==========,
+// ========== TYPE GUARDS ==========
 
 /**
  * Type guard to check if a string is a primary cuisine type
@@ -266,24 +267,24 @@ export function normalizeCuisineName(cuisineName: string): string {
  * @returns True if the value is a primary cuisine type
  */
 export function isPrimaryCuisineType(value: string): value is PrimaryCuisineType {
-  return isValidPrimaryCuisine(value)
+  return isValidPrimaryCuisine(value);
 }
 
-// ========== EXPORT TYPES ==========,
+// ========== EXPORT TYPES ==========
 
 /**
  * Union type for all possible cuisine names (primary + regional)
  */
-export type AllCuisineTypes = PrimaryCuisineType | keyof typeof CUISINE_ALIASES,
+export type AllCuisineTypes = PrimaryCuisineType | keyof typeof CUISINE_ALIASES;
 
 /**
  * Type for cuisine alias mapping
  */
-export type CuisineAliasMap = typeof CUISINE_ALIASES,
+export type CuisineAliasMap = typeof CUISINE_ALIASES;
 
-// ========== TYPE ALIASES FOR BACKWARDS COMPATIBILITY ==========,
+// ========== TYPE ALIASES FOR BACKWARDS COMPATIBILITY ==========
 
 /**
  * CuisineType alias for backwards compatibility
  */
-export type CuisineType = PrimaryCuisineType,
+export type CuisineType = PrimaryCuisineType;

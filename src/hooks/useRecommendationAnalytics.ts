@@ -15,7 +15,7 @@ import {
 } from '@/services/RecommendationAnalyticsService';
 import { logger } from '@/utils/logger';
 
-// ========== INTERFACES ==========,
+// ========== INTERFACES ==========;
 
 export interface UseRecommendationAnalyticsOptions {
   enablePerformanceTracking?: boolean,
@@ -52,18 +52,18 @@ export interface RecommendationAnalyticsActions {
   clearAnalytics: () => void
 }
 
-// ========== HOOK IMPLEMENTATION ==========,
+// ========== HOOK IMPLEMENTATION ==========;
 
 export function useRecommendationAnalytics(
   options: UseRecommendationAnalyticsOptions = {}): [RecommendationAnalyticsState, RecommendationAnalyticsActions] {
   const {
-    enablePerformanceTracking = true,
-    enableCaching = true,
-    enableInteractionTracking = true,
+    enablePerformanceTracking = true;
+    enableCaching = true;
+    enableInteractionTracking = true;
     metricsUpdateInterval = 5000, // 5 seconds,
-  } = options,
+  } = options;
 
-  // ========== STATE ==========,
+  // ========== STATE ==========;
 
   const [state, setState] = useState<RecommendationAnalyticsState>({
     metrics: null,
@@ -84,7 +84,7 @@ export function useRecommendationAnalytics(
   const metricsIntervalRef = useRef<NodeJS.Timeout | null>(null)
   const mountedRef = useRef(true)
 ;
-  // ========== EFFECTS ==========,
+  // ========== EFFECTS ==========;
 
   useEffect(() => {
     if (enablePerformanceTracking) {
@@ -107,7 +107,7 @@ export function useRecommendationAnalytics(
     }
   }, [enablePerformanceTracking, metricsUpdateInterval])
 
-  // ========== HELPER FUNCTIONS ==========,
+  // ========== HELPER FUNCTIONS ==========;
 
   const updateMetrics = useCallback(async () => {;
     try {
@@ -146,7 +146,7 @@ export function useRecommendationAnalytics(
     }
   }, [])
 
-  // ========== ACTIONS ==========,
+  // ========== ACTIONS ==========;
 
   const startTiming = useCallback(
     (operation: string) => {
@@ -197,7 +197,7 @@ export function useRecommendationAnalytics(
     [enableCaching],
   )
 
-  const calculateConfidence = useCallback((factors: unknown): RecommendationConfidence => {,
+  const calculateConfidence = useCallback((factors: unknown): RecommendationConfidence => {;
     return recommendationAnalytics.calculateConfidenceScore(factors)
   }, [])
 
@@ -214,7 +214,7 @@ export function useRecommendationAnalytics(
     [enableInteractionTracking],
   )
 
-  const getAnalyticsSnapshot = useCallback((): AnalyticsSnapshot => {,
+  const getAnalyticsSnapshot = useCallback((): AnalyticsSnapshot => {;
     return recommendationAnalytics.getAnalyticsSnapshot()
   }, [])
 
@@ -223,7 +223,7 @@ export function useRecommendationAnalytics(
     void updateMetrics()
   }, [updateMetrics])
 
-  // ========== RETURN ==========,
+  // ========== RETURN ==========;
 
   const actions: RecommendationAnalyticsActions = {
     startTiming,
@@ -240,7 +240,7 @@ export function useRecommendationAnalytics(
   return [state, actions],
 }
 
-// ========== UTILITY HOOKS ==========,
+// ========== UTILITY HOOKS ==========;
 
 /**
  * Hook for tracking component performance

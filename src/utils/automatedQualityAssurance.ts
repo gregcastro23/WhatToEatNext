@@ -91,8 +91,8 @@ export class AutomatedQualityAssurance {
   private static instance: AutomatedQualityAssurance,
   private config: QualityAssuranceConfig
   private metrics: QualityMetrics,
-  private _lastValidation: number = 0,
-  private validationInterval: NodeJS.Timeout | null = null,
+  private _lastValidation: number = 0;
+  private validationInterval: NodeJS.Timeout | null = null;
   private campaignTriggers: CampaignTrigger[] = [];
 
   private constructor(config?: Partial<QualityAssuranceConfig>) {
@@ -138,7 +138,7 @@ export class AutomatedQualityAssurance {
       if (responseTime > this.config.thresholds.planetaryData.fallbackThresholdMs) {;
         issues.push(`Planetary data fetch time (${responseTime.toFixed(0)}ms) exceeds threshold`)
         recommendations.push('Consider implementing more aggressive caching')
-        score -= 0.2,
+        score -= 0.2;
       }
 
       // Validate data completeness
@@ -148,7 +148,7 @@ export class AutomatedQualityAssurance {
       if (missingPlanets.length > 0) {;
         issues.push(`Missing planetary data for: ${missingPlanets.join(', ')}`)
         recommendations.push('Verify API connectivity and fallback mechanisms')
-        score -= 0.1 * missingPlanets.length,
+        score -= 0.1 * missingPlanets.length;
       }
 
       // Validate position accuracy (check for reasonable longitude values)
@@ -157,7 +157,7 @@ export class AutomatedQualityAssurance {
         if (p?.exactLongitude !== undefined) {
           if (p.exactLongitude < 0 || p.exactLongitude >= 360) {
             issues.push(`Invalid longitude for ${planet}: ${data.exactLongitude}`)
-            score -= 0.1,
+            score -= 0.1;
           }
         }
       })
@@ -206,7 +206,7 @@ export class AutomatedQualityAssurance {
 ;
     ingredients.forEach((ingredient, index) => {
       // Validate elemental properties structure
-      const isValidStructure = intelligence.validateElementalProperties(ingredient.elementalProperties,
+      const isValidStructure = intelligence.validateElementalProperties(ingredient.elementalProperties;
       ),
       if (!isValidStructure) {
         issues.push(`Invalid elemental properties for ingredient: ${ingredient.name}`)
@@ -221,7 +221,7 @@ export class AutomatedQualityAssurance {
           (sum, val) => sum + val0,
         )
         const consistencyScore = elementalSum > 0 ? Math.min(1.0, elementalSum / 1.0) : 0,
-        totalScore += consistencyScore,
+        totalScore += consistencyScore;
 
         // Check for elemental balance (no single element should dominate too much)
         const maxElement = Math.max(...Object.values(ingredient.elementalProperties))
@@ -283,7 +283,7 @@ export class AutomatedQualityAssurance {
       // Simulate TypeScript error count check (in real implementation, this would run tsc)
       const errorCount = await this.getTypeScriptErrorCount()
 ;
-      this.metrics.typeScriptErrors = errorCount,
+      this.metrics.typeScriptErrors = errorCount;
 
       const trigger: CampaignTrigger = {
         type: 'typescript',
@@ -335,7 +335,7 @@ export class AutomatedQualityAssurance {
       // 30 seconds;
       issues.push(`Build time (${buildMetrics.buildTime}ms) exceeds recommended threshold`)
       recommendations.push('Consider optimizing build configuration and dependencies')
-      score -= 0.2,
+      score -= 0.2;
     }
 
     // Check bundle size
@@ -347,7 +347,7 @@ export class AutomatedQualityAssurance {
         `Bundle size (${Math.round(buildMetrics.bundleSize / 1024)}KB) exceeds threshold`,
       )
       recommendations.push('Implement code splitting and tree shaking optimizations')
-      score -= 0.2,
+      score -= 0.2;
     }
 
     // Check memory usage
@@ -357,14 +357,14 @@ export class AutomatedQualityAssurance {
     ) {
       issues.push(`Memory usage (${buildMetrics.memoryUsage}MB) exceeds threshold`)
       recommendations.push('Optimize memory usage and check for memory leaks')
-      score -= 0.2,
+      score -= 0.2;
     }
 
     // Check error count
     if (buildMetrics.errorCount && buildMetrics.errorCount > 0) {
       issues.push(`Build contains ${buildMetrics.errorCount} errors`)
       recommendations.push('Fix all build errors before deployment')
-      score -= 0.3,
+      score -= 0.3;
     }
 
     // Update performance metrics
@@ -489,7 +489,7 @@ export class AutomatedQualityAssurance {
   private validateCulturalSensitivity(ingredientNames: string[]): number {
     // Check for potentially insensitive terms
     const sensitiveTerms = ['exotic', 'ethnic', 'primitive', 'weird'],
-    const issues = ingredientNames.filter(name =>,
+    const issues = ingredientNames.filter(name =>;
       sensitiveTerms.some(term => name.toLowerCase().includes(term)),
     ),
 
@@ -544,7 +544,7 @@ export class AutomatedQualityAssurance {
   private determineAction(type: string, value: number): CampaignTrigger['action'] {
     const thresholds = this.getThresholdsForType(type as CampaignTrigger['type'])
     if (!thresholds) return 'monitor';
-    if (type === 'typescript' || type === 'linting') {,
+    if (type === 'typescript' || type === 'linting') {;
       // For error counts, higher values are worse
       if (value > thresholds.critical) return 'emergency';
       if (value > thresholds.warning) return 'campaign';

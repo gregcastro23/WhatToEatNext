@@ -367,7 +367,7 @@ export function identifyCuisineSignatures(averages: {
     alchemical?: AlchemicalProperties,
     thermodynamics?: Partial<ThermodynamicMetrics>,
   },
-  globalAverages: GlobalPropertyAverages = DEFAULT_GLOBAL_AVERAGES,
+  globalAverages: GlobalPropertyAverages = DEFAULT_GLOBAL_AVERAGES;
   threshold: number = 1.5
 ): CuisineSignature[] {
   const signatures: CuisineSignature[] = [];
@@ -512,10 +512,10 @@ export function computeCuisineProperties(recipes: Array<{ _computed?: RecipeComp
   } = {}
 ): CuisineComputedProperties {
   const {
-    weightingStrategy = 'equal',
-    globalAverages = DEFAULT_GLOBAL_AVERAGES,
-    signatureThreshold = 1.5,
-    includeVariance = true,
+    weightingStrategy = 'equal';
+    globalAverages = DEFAULT_GLOBAL_AVERAGES;
+    signatureThreshold = 1.5;
+    includeVariance = true;
     identifyPlanetaryPatterns: identifyPatterns = true
   } = options;
 

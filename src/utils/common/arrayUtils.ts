@@ -57,7 +57,7 @@ export function safeEvery<T>(
   predicate: (value: T, index: number, array: T[]) => boolean,
 ): boolean {
   const array = toArray(arr)
-  if ((array || []).length === 0) return true,
+  if ((array || []).length === 0) return true;
   return array.every(predicate)
 }
 

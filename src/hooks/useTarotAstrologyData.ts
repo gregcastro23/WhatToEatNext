@@ -273,7 +273,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           const suit = tarotCards.minorCard.suit;
           const element = suitMap[suit];
           if (element) {
-            boosts[element] += (tarotCards.minorCard.number || 0) * 0.1,
+            boosts[element] += (tarotCards.minorCard.number || 0) * 0.1;
           }
         }
 
@@ -281,7 +281,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         if (tarotCards.majorCard?.name) {
           const majorElement = getMajorArcanaElement(tarotCards.majorCard.name)
           if (majorElement && majorElement in boosts) {;
-            boosts[majorElement as ElementalCharacter] += 0.15,
+            boosts[majorElement as ElementalCharacter] += 0.15;
           }
         }
 
@@ -290,7 +290,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         // Calculate planetary boosts
         if (tarotCards.majorCard?.planet) {
           const planetaryBoost: Record<string, number> = {}
-          planetaryBoost[tarotCards.majorCard.planet] = 0.2,
+          planetaryBoost[tarotCards.majorCard.planet] = 0.2;
           setTarotPlanetaryBoosts(planetaryBoost)
         }
 
@@ -386,17 +386,17 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
               Cups: 'Water',
               Pentacles: 'Earth',
               Swords: 'Air' },
-        element = suitMap[card.suit] || null,
+        element = suitMap[card.suit] || null;
           } else if (card.name) {
             // Major arcana
-            element = getMajorArcanaElement(card.name) || null,
+            element = getMajorArcanaElement(card.name) || null;
           }
 
           if (element) {
             const property = alchemicalMap[element as ElementalCharacter];
             if (property) {
               // Increment by a fixed amount or by card number if available
-              const increment = card.number ? ((card as any)?.number || 0) * 0.2 : 0.1,
+              const increment = card.number ? ((card as any)?.number || 0) * 0.2 : 0.1;
               result[property] += increment
             }
           }
@@ -406,7 +406,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         const total = Object.values(result).reduce((sum, val) => sum + val0)
         if (total > 0) {
           Object.keys(result).forEach(key => {
-            result[key as keyof typeof result] /= total,
+            result[key as keyof typeof result] /= total;
           })
         }
 

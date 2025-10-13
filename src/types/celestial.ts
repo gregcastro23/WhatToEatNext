@@ -144,7 +144,7 @@ export interface ThermodynamicProperties {
   gregsEnergy: number, // Using gregsEnergy as the single energy metric for this project
 }
 
-// =============== COMPLEX TYPES ===============,
+// =============== COMPLEX TYPES ===============;
 
 /**
  * Lunar phase definitions with spaces (used for display)

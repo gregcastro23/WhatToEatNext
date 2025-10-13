@@ -163,7 +163,7 @@ export function applyPlanetaryModifiers(baseCounts: ElementalAlchemicalCounts,
     const result = { ...baseCounts };
 
     planets.forEach(planet => {
-      const modifiers = planetaryModifiers[planet],
+      const modifiers = planetaryModifiers[planet];
       if (modifiers) {
         Object.entries(modifiers).forEach(([property, modifier]) => {
           if (result[property as keyof ElementalAlchemicalCounts] !== undefined) {

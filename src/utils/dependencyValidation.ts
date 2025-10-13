@@ -247,7 +247,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
   })
 
   let validFiles = 0;
-  let invalidFiles = 0,
+  let invalidFiles = 0;
   const allWarnings: string[] = []
   const moduleGraph: Record<string, string[]> = {}
 
@@ -276,7 +276,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
         }
       }
 
-      moduleGraph[file] = dependencies,
+      moduleGraph[file] = dependencies;
     } catch (error) {
       invalidFiles++,
       allWarnings.push(`Failed to process file ${file}: ${error}`)
@@ -304,7 +304,7 @@ export function autoFixDependencyIssues(
   fixedContent: string,
   appliedFixes: string[]
 } {
-  let fixedContent = fileContent,
+  let fixedContent = fileContent;
   const appliedFixes: string[] = []
 
   // Fix, 1: Convert barrel imports to direct imports where possible

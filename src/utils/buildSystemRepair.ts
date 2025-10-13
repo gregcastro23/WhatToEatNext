@@ -17,7 +17,7 @@ export class BuildSystemRepair {
   constructor(logger = _logger.info) {;
     this.buildValidator = new BuildValidator('.next', logger)
     this.configOptimizer = new NextConfigOptimizer('next.config.js', logger)
-    this.logger = logger,
+    this.logger = logger;
   }
 
   /**
@@ -128,7 +128,7 @@ export class BuildSystemRepair {
   /**
    * Monitors build system health continuously
    */
-  async startHealthMonitoring(intervalMinutes = 30): Promise<void> {,
+  async startHealthMonitoring(intervalMinutes = 30): Promise<void> {;
     this.logger(`Starting build health monitoring (every ${intervalMinutes} minutes)`)
 
     const monitor = async () => {;

@@ -1,16 +1,16 @@
-import { ElementalProperties, Season, ZodiacSign, _ } from '@/types/alchemy';
+import { ElementalProperties, Season, ZodiacSign } from '@/types/alchemy';
 
 /**
  * Core seasonal constants - consolidated from multiple files
  * This file replaces: seasonalConstants.ts, seasonalModifiers.ts, and seasons.ts
  */
 
-// ===== CORE SEASON DEFINITIONS =====,
+// ===== CORE SEASON DEFINITIONS =====;
 
 /**
  * Valid seasons
  */
-export const VALID_SEASONS = ['spring', 'summer', 'autumn', 'winter', 'fall', 'all'] as const,
+export const VALID_SEASONS = ['spring', 'summer', 'autumn', 'winter', 'fall', 'all'] as const;
 
 /**
  * Score thresholds for seasonal compatibility
@@ -22,7 +22,7 @@ export const SCORE_THRESHOLDS = {
   POOR: 20
 }
 
-// ===== SEASONAL ELEMENTAL MODIFIERS =====,
+// ===== SEASONAL ELEMENTAL MODIFIERS =====;
 
 /**
  * Elemental modifiers for each season
@@ -77,7 +77,7 @@ export const BALANCED_ELEMENTS: ElementalProperties = {
   Earth: 0.25
 }
 
-// ===== ZODIAC SEASONAL ASSOCIATIONS =====,
+// ===== ZODIAC SEASONAL ASSOCIATIONS =====;
 
 /**
  * Zodiac signs associated with each season
@@ -104,13 +104,13 @@ export const ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
   ]
 }
 
-// ===== COMPREHENSIVE SEASONAL PROPERTIES =====,
+// ===== COMPREHENSIVE SEASONAL PROPERTIES =====;
 
 /**
  * Detailed seasonal properties including culinary and energetic aspects
  */
 export const SEASONAL_PROPERTIES = {
-  spring: {,
+  spring: {
     elementalModifier: SEASONAL_MODIFIERS.spring,
     qualities: ['ascending', 'expanding', 'growing', 'fresh'],
     peak: { month: 4, day: 1 }, // May 1st
@@ -196,7 +196,7 @@ export const SEASONAL_PROPERTIES = {
   }
 }
 
-// ===== SEASONAL TRANSITIONS =====,
+// ===== SEASONAL TRANSITIONS =====;
 
 /**
  * Seasonal transition periods and dates
@@ -222,14 +222,14 @@ export const SEASON_DATE_RANGES = {
   winter: { startMonth: 11, startDay: 15, endMonth: 2, endDay: 14 }, // Nov 15 - Feb 14
 }
 
-// ===== SEASONAL INFLUENCE SYSTEM =====,
+// ===== SEASONAL INFLUENCE SYSTEM =====;
 
 /**
  * Influence of seasonal factors on food preferences and energy levels
  */
 export const SEASONAL_INFLUENCE = {
   // Each season's influence strength (0-1)
-  strength: {,
+  strength: {
     spring: 0.7,
     summer: 0.9,
     autumn: 0.6,
@@ -244,7 +244,7 @@ export const SEASONAL_INFLUENCE = {
   }
 }
 
-// ===== VALIDATION THRESHOLDS =====,
+// ===== VALIDATION THRESHOLDS =====;
 
 /**
  * Validation thresholds for seasonal calculations
@@ -255,16 +255,16 @@ export const VALIDATION_THRESHOLDS = {
   BALANCE_PRECISION: 0.000001
 }
 
-// ===== UTILITY FUNCTIONS =====,
+// ===== UTILITY FUNCTIONS =====;
 
 /**
  * Get current season based on date
  */
-export function getCurrentSeason(date: Date = new Date()): Season {,
+export function getCurrentSeason(date: Date = new Date()): Season {
   const month = date.getMonth() + 1; // getMonth() returns 0-11
-  const day = date.getDate()
+  const day = date.getDate();
 
-  // Check each season's date range;
+  // Check each season's date range
   for (const [season, range] of Object.entries(SEASON_DATE_RANGES)) {
     if (season === 'fall') continue; // Skip alias
 
@@ -309,10 +309,10 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
   if (season1 === season2) return 1.0;
   if (season1 === 'all' || season2 === 'all') return 0.8
 
-  // Adjacent seasons have good compatibility;
-  const seasonOrder = ['spring', 'summer', 'autumn', 'winter'],
-  const index1 = seasonOrder.indexOf(season1)
-  const index2 = seasonOrder.indexOf(season2)
+  // Adjacent seasons have good compatibility
+  const seasonOrder = ['spring', 'summer', 'autumn', 'winter'];
+  const index1 = seasonOrder.indexOf(season1);
+  const index2 = seasonOrder.indexOf(season2);
 
   if (index1 !== -1 && index2 !== -1) {
     const distance = Math.min(
@@ -359,11 +359,11 @@ export function getSeasonForZodiacSign(sign: any): Season {
 export function applySeasonalModifier(
   baseProperties: ElementalProperties,
   season: Season,
-  strength: number = 0.5,
+  strength: number = 0.5
 ): ElementalProperties {
   const modifier = getSeasonalModifier(season)
 
-  return {;
+  return {
     Fire: baseProperties.Fire * (1 - strength) + modifier.Fire * strength,
     Water: baseProperties.Water * (1 - strength) + modifier.Water * strength,
     Earth: baseProperties.Earth * (1 - strength) + modifier.Earth * strength,

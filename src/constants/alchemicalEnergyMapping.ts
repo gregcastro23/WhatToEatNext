@@ -9,13 +9,13 @@ import { createLogger } from '@/utils/logger';
 export interface AlchemicalEnergyState {
   name: 'Spirit' | 'Substance' | 'Essence' | 'Matter'
   level: 'Highest' | 'Middle' | 'Lowest'
-  description: string,
-  chakra: string,
+  description: string;
+  chakra: string;
   planets: {
-    daytime: string[],
+    daytime: string[];
     nighttime: string[]
-  },
-  elements: string[],
+  };
+  elements: string[];
   properties: {
     heat: '+' | '-'
     entropy: '+' | '-'
@@ -31,10 +31,10 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     description: 'Energy that exists beyond Matter, Mind',
     chakra: 'Crown Chakra',
     planets: {
-      daytime: ['Sun', 'Jupiter', 'Saturn', 'Mercury'],
+      daytime: ['Sun', 'Jupiter', 'Saturn', 'Mercury'];
       nighttime: []
-    },
-    elements: ['Fire', 'Air'],
+    };
+    elements: ['Fire', 'Air'];
     properties: {
       heat: '+',
       entropy: '+',
@@ -47,10 +47,10 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     description: 'That which is of reactive, mutable matter',
     chakra: 'Throat Chakra',
     planets: {
-      daytime: [],
+      daytime: [];
       nighttime: ['Mercury', 'Neptune']
-    },
-    elements: ['Air', 'Earth'],
+    };
+    elements: ['Air', 'Earth'];
     properties: {
       heat: '-',
       entropy: '+',
@@ -63,10 +63,10 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     description: 'That which an object cannot exist without',
     chakra: 'Brow, Solar Plexus, Sacral Chakras',
     planets: {
-      daytime: ['Venus', 'Mars'],
+      daytime: ['Venus', 'Mars'];
       nighttime: ['Jupiter', 'Neptune']
-    },
-    elements: ['Fire', 'Water'],
+    };
+    elements: ['Fire', 'Water'];
     properties: {
       heat: '-',
       entropy: '-',
@@ -79,17 +79,17 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     description: 'That which is minimally reactive',
     chakra: 'Root Chakra',
     planets: {
-      daytime: [],
+      daytime: [];
       nighttime: ['Venus', 'Saturn', 'Mars', 'Uranus']
-    },
-    elements: ['Water', 'Earth'],
+    };
+    elements: ['Water', 'Earth'];
     properties: {
       heat: '-',
       entropy: '-',
       reactivity: '-'
 }
   }
-],
+];
 
 // The Moon appears in both Essence and Matter states
 export const _SHARED_PLANETS = {
@@ -158,7 +158,7 @@ export function calculateAlchemicalDistribution(planetaryPositions: Record<strin
 }
 
     // Skip calculation if no positions provided
-    if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {,
+    if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {;
       return distribution;
     }
 
@@ -166,7 +166,7 @@ export function calculateAlchemicalDistribution(planetaryPositions: Record<strin
     const propertyMap = planetPropertyMap(isDaytime)
 
     // Track the total influence to normalize later;
-    let totalInfluence = 0,
+    let totalInfluence = 0;
     const influences: Record<string, number> = {
       Spirit: 0,
       Essence: 0,
@@ -190,7 +190,7 @@ export function calculateAlchemicalDistribution(planetaryPositions: Record<strin
       }
 
       // Base influence - importance of planet
-      let influence = 1.0,
+      let influence = 1.0;
 
       // Adjust based on planet importance
       if (['sun', 'moon'].includes(planetLower)) {
@@ -203,8 +203,8 @@ export function calculateAlchemicalDistribution(planetaryPositions: Record<strin
 
       // Add to the appropriate property
       if (property in influences) {
-        influences[property] += influence,
-        totalInfluence += influence,
+        influences[property] += influence;
+        totalInfluence += influence;
       }
     })
 
@@ -241,10 +241,10 @@ export function convertToElementalProperties(alchemicalProps: AlchemicalProperti
 }
 
     // Map alchemical properties to elemental properties
-    elementalProps.Fire = alchemicalProps.Spirit,
-    elementalProps.Water = alchemicalProps.Essence,
-    elementalProps.Earth = alchemicalProps.Matter,
-    elementalProps.Air = alchemicalProps.Substance,
+    elementalProps.Fire = alchemicalProps.Spirit;
+    elementalProps.Water = alchemicalProps.Essence;
+    elementalProps.Earth = alchemicalProps.Matter;
+    elementalProps.Air = alchemicalProps.Substance;
 
     return elementalProps;
   } catch (error) {

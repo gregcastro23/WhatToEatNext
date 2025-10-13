@@ -45,17 +45,17 @@ interface TestIsolationConfig {
  * to ensure proper isolation and prevent interference between tests.
  */
 export class CampaignTestController {
-  private static instance: CampaignTestController | null = null,
+  private static instance: CampaignTestController | null = null;
   private testState: CampaignTestState,
   private isolationConfig: TestIsolationConfig,
-  private testSafeTracker: TestSafeProgressTracker | null = null,
+  private testSafeTracker: TestSafeProgressTracker | null = null;
   private mockInstances: {
     controller: MockCampaignController | null,
     tracker: MockProgressTracker | null,
     safety: MockSafetyProtocol | null;
   };
   private originalEnvVars: Record<string, string | undefined> = {};
-  private activeTestName: string | null = null,
+  private activeTestName: string | null = null;
 
   private constructor() {
     this.testState = {
@@ -230,7 +230,7 @@ export class CampaignTestController {
    */
   async simulateProgress(
     targetMetrics: Partial<ProgressMetrics>,
-    durationMs: number = 1000,
+    durationMs: number = 1000;
     testName?: string,
   ): Promise<void> {
     if (!this.testSafeTracker) {
@@ -270,7 +270,7 @@ export class CampaignTestController {
   createMockSafetyEvent(
     type: SafetyEventType,
     description: string,
-    severity: SafetyEventSeverity = SafetyEventSeverity.INFO,
+    severity: SafetyEventSeverity = SafetyEventSeverity.INFO;
   ): SafetyEvent {
     return {
       type,
@@ -327,7 +327,7 @@ export class CampaignTestController {
     }
 
     return {
-      isValid: issues.length === 0,
+      isValid: issues.length === 0;
       issues,
       warnings,
     };

@@ -265,7 +265,7 @@ export const rateLimitRemaining = new client.Gauge({
 
 export const serviceHealth = new client.Gauge({
   name: 'alchm_service_health',
-  help: 'Service health status (1 = healthy, 0 = unhealthy)',
+  help: 'Service health status (1 = healthy, 0 = unhealthy)';
   labelNames: ['service_name', 'instance_id']
 })
 
@@ -345,7 +345,7 @@ export function collectHttpMetrics(serviceName: string) {
 export function trackAlchemicalCalculation(
   calculationType: string,
   complexity: string = 'medium') {
-  const timer = alchemicalCalculationDuration.startTimer({,
+  const timer = alchemicalCalculationDuration.startTimer({;
     calculation_type: calculationType,
     complexity
   })
@@ -367,7 +367,7 @@ export function trackRecipeRecommendation(
   cuisine: string,
   dietaryRestrictions: string[] = [];,
   algorithmVersion: string = '1.0') {
-  const timer = recipeRecommendationDuration.startTimer({,
+  const timer = recipeRecommendationDuration.startTimer({;
     algorithm_version: algorithmVersion,
     result_count: '0'
 })

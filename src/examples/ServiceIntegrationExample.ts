@@ -55,7 +55,7 @@ export async function runServiceIntegrationExample() {
 
     // Step 6: Get ingredient recommendations based on elemental properties
     log.info('\n6. Getting ingredient recommendations...')
-    const ingredientRecommendations = await recommendationService.getRecommendedIngredients({,
+    const ingredientRecommendations = await recommendationService.getRecommendedIngredients({;
       elementalProperties,
       limit: 5
 })
@@ -68,7 +68,7 @@ export async function runServiceIntegrationExample() {
 
     // Step 7: Get recipe recommendations based on elemental properties
     log.info('\n7. Getting recipe recommendations...')
-    const recipeRecommendations = await recommendationService.getRecommendedRecipes({,
+    const recipeRecommendations = await recommendationService.getRecommendedRecipes({;
       elementalProperties,
       limit: 3
 })
@@ -81,7 +81,7 @@ export async function runServiceIntegrationExample() {
 
     // Step 8: Get cooking method recommendations based on elemental properties
     log.info('\n8. Getting cooking method recommendations...')
-    const cookingMethodRecommendations = await recommendationService.getRecommendedCookingMethods({,
+    const cookingMethodRecommendations = await recommendationService.getRecommendedCookingMethods({;
       elementalProperties,
       limit: 3
 })
@@ -136,7 +136,7 @@ export async function runServiceIntegrationExample() {
 }
 
 // If this file is run directly, execute the example
-if (require.main === module) {,
+if (require.main === module) {;
   runServiceIntegrationExample().catch(_logger.error)
 }
 

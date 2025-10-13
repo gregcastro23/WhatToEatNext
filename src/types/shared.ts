@@ -13,7 +13,7 @@ import {
     isElementalProperties
 } from './elemental';
 
-// ========== ELEMENTAL TYPES ==========,
+// ========== ELEMENTAL TYPES ==========;
 
 /**
  * The four primary elements in our system
@@ -28,7 +28,7 @@ export type { ElementalProperties };
 // Re-export celestial types that are commonly needed
     export type { Element, Planet, ZodiacSign };
 
-// ========== CELESTIAL TYPES ==========,
+// ========== CELESTIAL TYPES ==========;
 
 /**
  * Celestial position type
@@ -58,7 +58,7 @@ export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Ne
  */
 // Planet type imported from @/types/celestial
 
-// ========== LUNAR TYPES ==========,
+// ========== LUNAR TYPES ==========;
 
 /**
  * Lunar phases with spaces (UI friendly)
@@ -190,14 +190,14 @@ export interface ElementalScore {
   _score: number
 }
 
-// ========== SEASONAL TYPES ==========,
+// ========== SEASONAL TYPES ==========;
 
 /**
  * Seasons of the year
  * Note: Both 'autumn' and 'fall' are included for flexibility
  */
 export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter'
-// ========== UI COMPONENT TYPES ==========,
+// ========== UI COMPONENT TYPES ==========;
 
 /**
  * View options for recipe displays

@@ -80,9 +80,9 @@ export function useAstrologicalInfluence() {
 
     // Calculate overall influence
     const lunarPhaseStrength =
-      astrologicalState.lunarPhase === 'full moon',
+      astrologicalState.lunarPhase === 'full moon';
         ? 1.0
-        : astrologicalState.lunarPhase === 'new moon',
+        : astrologicalState.lunarPhase === 'new moon';
           ? 0.3
           : 0.6,
 

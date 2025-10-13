@@ -47,7 +47,7 @@ export function calculateMatchScore(
 
   // Validate elementalState to avoid NaN results
   const validatedState = {
-    Fire: typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire),
+    Fire: typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire);
         ? elementalState.Fire
         : 0.25,
     Water: typeof elementalState.Water === 'number' && !isNaN(elementalState.Water)
@@ -63,7 +63,7 @@ export function calculateMatchScore(
 
   // Calculate similarity score between the ingredient's elemental properties and current elemental state
   let similarityScore = 0;
-  let totalWeight = 0,
+  let totalWeight = 0;
 
   // Process each element (Fire, Water, Earth, Air)
   for (const element of ['Fire', 'Water', 'Earth', 'Air']) {
@@ -72,7 +72,7 @@ export function calculateMatchScore(
     const stateValue = validatedState[element] || 0;
 
     // Calculate the element-specific match using a more nuanced formula
-    // Higher values in both ingredient and state = better match,
+    // Higher values in both ingredient and state = better match;
     // For high contrast, we want bigger differences between values
     let elementMatch,
     if (options?.preferHigherContrast) {
@@ -84,42 +84,42 @@ export function calculateMatchScore(
     }
 
     // Apply seasonal weight adjustments if season is provided
-    let elementWeight = 1,
+    let elementWeight = 1;
 
     if (options?.season) {
       // Adjust weight based on season
       const season = options.season.toLowerCase()
-      if (season === 'winter' && element === 'Fire') elementWeight = 1.5,
-      if (season === 'spring' && element === 'Air') elementWeight = 1.5,
-      if (season === 'summer' && element === 'Fire') elementWeight = 1.5,
-      if (season === 'autumn' && element === 'Earth') elementWeight = 1.5,
+      if (season === 'winter' && element === 'Fire') elementWeight = 1.5;
+      if (season === 'spring' && element === 'Air') elementWeight = 1.5;
+      if (season === 'summer' && element === 'Fire') elementWeight = 1.5;
+      if (season === 'autumn' && element === 'Earth') elementWeight = 1.5;
 
       // Secondary seasonal affinities
-      if (season === 'winter' && element === 'Earth') elementWeight = 1.25,
-      if (season === 'spring' && element === 'Water') elementWeight = 1.25,
-      if (season === 'summer' && element === 'Air') elementWeight = 1.25,
-      if (season === 'autumn' && element === 'Water') elementWeight = 1.25,
+      if (season === 'winter' && element === 'Earth') elementWeight = 1.25;
+      if (season === 'spring' && element === 'Water') elementWeight = 1.25;
+      if (season === 'summer' && element === 'Air') elementWeight = 1.25;
+      if (season === 'autumn' && element === 'Water') elementWeight = 1.25;
     }
 
     // Apply meal type weight adjustments
     if (options?.mealType) {
       const mealType = options.mealType.toLowerCase()
       // Breakfast emphasizes Fire and Air (energy for the day)
-      if (mealType === 'breakfast') {,
-        if (element === 'Fire' || element === 'Air') elementWeight *= 1.3,
+      if (mealType === 'breakfast') {;
+        if (element === 'Fire' || element === 'Air') elementWeight *= 1.3;
       }
       // Lunch is balanced but with slight Fire emphasis
-      else if (mealType === 'lunch') {,
-        if (element === 'Fire') elementWeight *= 1.1,
+      else if (mealType === 'lunch') {;
+        if (element === 'Fire') elementWeight *= 1.1;
       }
       // Dinner emphasizes Earth and Water (grounding, relaxation)
-      else if (mealType === 'dinner') {,
-        if (element === 'Earth' || element === 'Water') elementWeight *= 1.3,
+      else if (mealType === 'dinner') {;
+        if (element === 'Earth' || element === 'Water') elementWeight *= 1.3;
       }
       // Dessert emphasizes Water (moisture) and Earth (substance)
-      else if (mealType === 'dessert') {,
-        if (element === 'Water') elementWeight *= 1.4,
-        if (element === 'Earth') elementWeight *= 1.2,
+      else if (mealType === 'dessert') {;
+        if (element === 'Water') elementWeight *= 1.4;
+        if (element === 'Earth') elementWeight *= 1.2;
       }
     }
 
@@ -149,8 +149,8 @@ export function calculateMatchScore(
     }
 
     // Add to the weighted sum
-    similarityScore += elementMatch * elementWeight,
-    totalWeight += elementWeight,
+    similarityScore += elementMatch * elementWeight;
+    totalWeight += elementWeight;
   }
 
   // Calculate final score (normalize by total weight)

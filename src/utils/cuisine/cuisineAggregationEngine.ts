@@ -97,7 +97,7 @@ export function calculateConfidenceInterval(
   // t-distribution approximation for small samples
   // Using z-score approximation for simplicity (works well for n > 30)
   const zScore = confidenceLevel === 0.95 ? 1.96 :
-                 confidenceLevel === 0.99 ? 2.576 : confidenceLevel === 0.90 ? 1.645 : 1.96,
+                 confidenceLevel === 0.99 ? 2.576 : confidenceLevel === 0.90 ? 1.645 : 1.96;
 
   const standardError = standardDeviation / Math.sqrt(sampleSize);
   const marginOfError = zScore * standardError;
@@ -278,7 +278,7 @@ export function calculateAlchemicalVariance(
 export function calculateDiversityScore(variance: PropertyVariance): number {
   const elementalVariances = Object.values(variance.elementals);
   const alchemicalVariances = variance.alchemical ? Object.values(variance.alchemical) : [];
-  const thermodynamicVariances = variance.thermodynamics ? Object.values(variance.thermodynamics) : [],
+  const thermodynamicVariances = variance.thermodynamics ? Object.values(variance.thermodynamics) : [];
 
   const allVariances = [...elementalVariances, ...alchemicalVariances, ...thermodynamicVariances];
 
@@ -308,7 +308,7 @@ export function computeCuisineProperties(
   options: CuisineComputationOptions = {}
 ): CuisineComputedProperties {
   const {
-    weightingStrategy = 'equal',
+    weightingStrategy = 'equal';
     includeVariance = true
   } = options;
 
@@ -410,7 +410,7 @@ export function validateCuisineComputationInputs(recipes: RecipeComputedProperti
   }
 
   return {
-    isValid: errors.length === 0,
+    isValid: errors.length === 0;
     errors
   };
 }

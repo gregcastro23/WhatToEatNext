@@ -117,7 +117,7 @@ export async function getPlanetInfo(
       planetAspects = aspects
         .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey)
         .map(aspect => ({
-          planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,
+          planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1;
           type: aspect.type,
           orb: aspect.orb || 0
 }));
@@ -142,7 +142,7 @@ export async function getPlanetInfo(
         pisces: 'water'
 };
       const element = signToElement[planetSign];
-      const strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3,
+      const strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3;
       if (element) elementalInfluence[element] = strength;
     } else {
       const modifiers = planetaryModifiers[normalizedPlanetName];
@@ -175,7 +175,7 @@ export async function getPlanetInfo(
         pisces: 'substance'
 };
       const token = signToToken[planetSign];
-      const strength = normalizedPlanetName === 'SouthNode' ? 0.15 : 0.25,
+      const strength = normalizedPlanetName === 'SouthNode' ? 0.15 : 0.25;
       if (token) tokenInfluence[token] = strength;
     } else {
       const modifiers = planetaryModifiers[normalizedPlanetName];

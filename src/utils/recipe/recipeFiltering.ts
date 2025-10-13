@@ -101,7 +101,7 @@ export class RecipeFilter {
           if (recipeSeason) {
             const seasonMatches = Array.isArray(recipeSeason)
               ? recipeSeason.includes(options.currentSeason)
-              : recipeSeason === options.currentSeason,
+              : recipeSeason === options.currentSeason;
             if (!seasonMatches) return false;
           }
         }
@@ -275,7 +275,7 @@ export class RecipeFilter {
 
     return recipes.map(recipe => {
       try {
-        let score = 1,
+        let score = 1;
 
         // Elemental balance score
         if (options.elementalState) {
@@ -331,15 +331,15 @@ export class RecipeFilter {
       let comparison = 0;
 
       switch (options.by) {
-        case 'relevance': comparison = b.score - a.score,
+        case 'relevance': comparison = b.score - a.score;
           break;
         case 'prepTime':
           comparison =
             this.parseTime(String(a.timeToMake || '')) - this.parseTime(String(b.timeToMake || ''));
           break;
-        case 'elementalState': comparison = this.getElementalScore(b) - this.getElementalScore(a),
+        case 'elementalState': comparison = this.getElementalScore(b) - this.getElementalScore(a);
           break;
-        case 'seasonal': comparison = this.getSeasonalScore(a) - this.getSeasonalScore(b),
+        case 'seasonal': comparison = this.getSeasonalScore(a) - this.getSeasonalScore(b);
           break;
         default:
           comparison = b.score - a.score;
@@ -793,7 +793,7 @@ export function filterRecipesByIngredientMappings(recipes: Recipe[],
 
   return recipes.filter(recipe => {
     try {
-      const ingredients = recipe.ingredients || [],
+      const ingredients = recipe.ingredients || [];
 
       // Check required ingredients
       if (isNonEmptyArray(ingredientRequirements?.required)) {

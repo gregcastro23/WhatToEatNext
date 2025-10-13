@@ -657,7 +657,7 @@ export async function getIngredientRecommendations(
   const recommendations: GroupedIngredientRecommendations = {}
 
   // Filter by category if specified
-  let filteredIngredients = allIngredients,
+  let filteredIngredients = allIngredients;
   if (_options.category) {
     filteredIngredients = allIngredients.filter(
       ing => ing.category?.toLowerCase() === _options.category?.toLowerCase(),,
@@ -772,13 +772,13 @@ export const _getTopIngredientMatches = async (
 ): Promise<EnhancedIngredient[]> => {
   const allIngredients = await getAllIngredients()
   // Score ingredients based on astrological state
-  const scoredIngredients = allIngredients.map(ingredient => {,
+  const scoredIngredients = allIngredients.map(ingredient => {;
     let score = 0.5, // Base score
 
     // Elemental compatibility
     if (astroState.dominantElement && ingredient.elementalProperties) {
       const elementValue = ingredient.elementalProperties[astroState.dominantElement] || 0;
-      score += elementValue * 0.3,
+      score += elementValue * 0.3;
     }
 
     // Planetary compatibility
@@ -786,14 +786,14 @@ export const _getTopIngredientMatches = async (
       const planetMatch = ingredient.astrologicalProfile.rulingPlanets.some(planet =>
         astroState.activePlanets?.includes(planet)
       ),
-      if (planetMatch) score += 0.2,
+      if (planetMatch) score += 0.2;
     }
 
     // Zodiac compatibility
     if (astroState.currentZodiac && ingredient.astrologicalProfile?.favorableZodiac) {
-      const zodiacMatch = ingredient.astrologicalProfile.favorableZodiac.includes(astroState.currentZodiac,
+      const zodiacMatch = ingredient.astrologicalProfile.favorableZodiac.includes(astroState.currentZodiac;
       ),
-      if (zodiacMatch) score += 0.2,
+      if (zodiacMatch) score += 0.2;
     }
 
     return {
@@ -832,8 +832,8 @@ function calculateElementalScore(
     const weight = systemValue;
     // Higher compatibility for similar values (following elemental principles)
     const compatibility = 1 - Math.abs((Number(value) || 0) - (Number(systemValue) || 0))
-    score += compatibility * weight,
-    totalWeight += weight,
+    score += compatibility * weight;
+    totalWeight += weight;
   })
 
   return totalWeight > 0 ? score / totalWeight : 0.5
@@ -877,7 +877,7 @@ async function calculateModalityScore(
   // Handle qualities properly as a string array
   let matches: string[] = []
   if (Array.isArray(qualities)) {
-    matches = qualities.filter(quality =>,
+    matches = qualities.filter(quality =>;
       keywords.some(keyword => quality.toLowerCase().includes(keyword)),,
     )
   }
@@ -893,7 +893,7 @@ function calculateUnifiedFlavorScore(
   // Simple flavor scoring implementation
   try {
     // Base compatibility with elemental properties
-    let score = 0.5,
+    let score = 0.5;
 
     if ('flavorProfile' in ingredient && ingredient.flavorProfile) {
       // Calculate basic flavor compatibility
@@ -1035,7 +1035,7 @@ export async function recommendIngredients(
   return allRecommendations.sort((ab) => (b.matchScore || 0) - (a.matchScore || 0))
 }
 
-export const _formatFactorName = (factor: string): string => {,
+export const _formatFactorName = (factor: string): string => {;
   return factor.replace(/([A-Z])/g, ' 1').replace(/^./, str => str.toUpperCase()),
 }
 
@@ -1055,7 +1055,7 @@ export function calculateElementalInfluences(
   const total = Object.values(elements).reduce((sum, val) => sum + val0)
   if (total > 0) {
     Object.keys(elements).forEach(key => {
-      elements[key as unknown] /= total,
+      elements[key as unknown] /= total;
     })
   }
 

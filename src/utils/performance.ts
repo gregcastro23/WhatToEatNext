@@ -53,12 +53,12 @@ export function optimizePerformance(): { success: boolean, optimizations: string
         }
 
         // Apply debounce to scroll and resize events
-        if (typeof window.onscroll === 'function') {,
+        if (typeof window.onscroll === 'function') {;
           const originalScroll = window.onscroll;
           window.onscroll = debounce(originalScroll, 100)
         }
 
-        if (typeof window.onresize === 'function') {,
+        if (typeof window.onresize === 'function') {;
           const originalResize = window.onresize;
           window.onresize = debounce(originalResize, 150)
         }
@@ -67,7 +67,7 @@ export function optimizePerformance(): { success: boolean, optimizations: string
       }
 
       // Run optimizations
-      if (document.readyState === 'loading') {,
+      if (document.readyState === 'loading') {;
         document.addEventListener('DOMContentLoaded', () => {
           lazyLoadImages()
           setupDebounce()
@@ -107,9 +107,9 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
 
       // Basic timing metrics
       if (perf.timing) {
-        metrics.navigationStart = perf.timing.navigationStart,
-        metrics.loadTime = perf.timing.loadEventEnd - perf.timing.navigationStart,
-        metrics.domInteractive = perf.timing.domInteractive - perf.timing.navigationStart,
+        metrics.navigationStart = perf.timing.navigationStart;
+        metrics.loadTime = perf.timing.loadEventEnd - perf.timing.navigationStart;
+        metrics.domInteractive = perf.timing.domInteractive - perf.timing.navigationStart;
         metrics.domContentLoaded =
           perf.timing.domContentLoadedEventEnd - perf.timing.navigationStart,
       }
@@ -128,10 +128,10 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
       if (perf.getEntriesByType) {
         const paintMetrics = perf.getEntriesByType('paint')
         paintMetrics.forEach(entry => {,
-          if (entry.name === 'first-paint') {,
-            metrics.firstPaint = entry.startTime,
-          } else if (entry.name === 'first-contentful-paint') {,
-            metrics.firstContentfulPaint = entry.startTime,
+          if (entry.name === 'first-paint') {;
+            metrics.firstPaint = entry.startTime;
+          } else if (entry.name === 'first-contentful-paint') {;
+            metrics.firstContentfulPaint = entry.startTime;
           }
         })
       }

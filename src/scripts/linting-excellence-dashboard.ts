@@ -73,19 +73,19 @@ class LintingExcellenceDashboardCLI {
 
       switch (arg) {
         case '--verbose':
-        case '-v': options.verbose = true,
+        case '-v': options.verbose = true;
           break;
         case '--format':
         case '-f': options.format = args[++i] as 'text' | 'json' | 'markdown'
           break;
         case '--output':
-        case '-o': options.output = args[++i],
+        case '-o': options.output = args[++i];
           break;
         case '--watch':
-        case '-w': options.watch = true,
+        case '-w': options.watch = true;
           break;
         case '--threshold':
-        case '-t': options.threshold = parseInt(args[++i]),
+        case '-t': options.threshold = parseInt(args[++i]);
           break;
       }
     }
@@ -118,7 +118,7 @@ class LintingExcellenceDashboardCLI {
     console.log('🔍 DETAILED METRICS');
     console.log('-'.repeat(30));
     console.log(
-      `Parser Errors: ${result.metrics.parserErrors} ${result.metrics.parserErrors === 0 ? '✅' : '🚨'}`,
+      `Parser Errors: ${result.metrics.parserErrors} ${result.metrics.parserErrors === 0 ? '✅' : '🚨'}`;
     );
     console.log(
       `Explicit Any Errors: ${result.metrics.explicitAnyErrors} ${result.metrics.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
@@ -329,10 +329,10 @@ class LintingExcellenceDashboardCLI {
         const issuesChange = current.totalIssues - previous.totalIssues;
 
         console.log(
-          `Quality Score: ${qualityChange >= 0 ? '+' : ''}${qualityChange} ${qualityChange >= 0 ? '📈' : '📉'}`,
+          `Quality Score: ${qualityChange >= 0 ? '+' : ''}${qualityChange} ${qualityChange >= 0 ? '📈' : '📉'}`;
         );
         console.log(
-          `Total Issues: ${issuesChange >= 0 ? '+' : ''}${issuesChange} ${issuesChange <= 0 ? '📈' : '📉'}`,
+          `Total Issues: ${issuesChange >= 0 ? '+' : ''}${issuesChange} ${issuesChange <= 0 ? '📈' : '📉'}`;
         );
       }
     } catch (error) {
@@ -385,7 +385,7 @@ class LintingExcellenceDashboardCLI {
     for (const check of checks) {
       try {
         const result = typeof check.check === 'function' ? await check.check() : check.check;
-        const status = result ? '✅ PASS' : '❌ FAIL',
+        const status = result ? '✅ PASS' : '❌ FAIL';
 
         console.log(`${status} ${check.name}`);
 

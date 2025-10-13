@@ -22,8 +22,8 @@ import {planetaryFlavorProfiles, _type PlanetaryFlavorProfile} from '../planetar
 // Missing unified system type imports
 
 // Import local types (not available in main types)
-type PlanetaryFlavorInfluence = unknown,
-type CuisineFlavorCompatibility = unknown,
+type PlanetaryFlavorInfluence = unknown;
+type CuisineFlavorCompatibility = unknown;
 
 // Missing unified data imports
 import {unifiedFlavorProfiles} from './data/unifiedFlavorProfiles';
@@ -55,7 +55,7 @@ interface _ {
 // Singleton management
 let _migrationInstance: FlavorProfileMigration | null = null;
 let _cachedProfiles: Map<string, UnifiedFlavorProfile> = new Map()
-let _cachedMigrationStats: MigrationStats | null = null,
+let _cachedMigrationStats: MigrationStats | null = null;
 let _isMigrationRunning = false;
 let _isMigrationCompleted = false
 
@@ -73,7 +73,7 @@ export class FlavorProfileMigration {;
     }
 
     // Set this as the singleton instance
-    _migrationInstance = this,
+    _migrationInstance = this;
 
     // Use cached profiles if migration already completed
     if (_isMigrationCompleted && _cachedProfiles.size > 0) {
@@ -103,7 +103,7 @@ export class FlavorProfileMigration {;
     }
 
     // Set flag to indicate migration is running
-    _isMigrationRunning = true,
+    _isMigrationRunning = true;
 
     const startTime = Date.now()
 
@@ -140,7 +140,7 @@ export class FlavorProfileMigration {;
 
       // Cache the profiles for future use
       _cachedProfiles = new Map(this.migratedProfiles);
-      _isMigrationCompleted = true,
+      _isMigrationCompleted = true;
 
       log.info('✅ Migration completed successfully!')
       log.info(`📊 Migrated ${_cachedMigrationStats.totalProfiles} profiles in ${migrationTime}ms`)
@@ -662,7 +662,7 @@ export class FlavorProfileMigration {;
       spicy: 'spicy' },
         const mappedFlavor = flavorMap[flavorName.toLowerCase()];
     if (mappedFlavor) {
-      baseNotes[mappedFlavor] = Number(flavorData.intensity) || 0.8,
+      baseNotes[mappedFlavor] = Number(flavorData.intensity) || 0.8;
     }
 
     return baseNotes;
@@ -862,7 +862,7 @@ export class FlavorProfileMigration {;
     const stats: { [key: string]: number } = {}
 
     for (const profile of this.migratedProfiles.values()) {
-      stats[profile.category] = (stats[profile.category] || 0) + 1,
+      stats[profile.category] = (stats[profile.category] || 0) + 1;
     }
 
     return stats;

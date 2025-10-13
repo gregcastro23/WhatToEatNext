@@ -28,7 +28,7 @@ export function useSafeFlavorEngine() {
   const renderCountRef = useRef(0)
 
   // Increment render count on each render;
-  renderCountRef.current += 1,
+  renderCountRef.current += 1;
 
   // Add circuit breaker to prevent infinite update loops
   if (renderCountRef.current > 100) {
@@ -51,11 +51,11 @@ export function useSafeFlavorEngine() {
 
   // Check if flavor engine is ready (only once per component)
   useEffect(() => {
-    isMountedRef.current = true,
+    isMountedRef.current = true;
 
     // Skip if we've already checked in this component
     if (initCheckedRef.current) return,
-    initCheckedRef.current = true,
+    initCheckedRef.current = true;
 
     // Circuit, breaker: prevent checking more than once every 100ms globally
     const now = Date.now()
@@ -63,7 +63,7 @@ export function useSafeFlavorEngine() {
       // logger.warn('Throttling flavor engine initialization checks')
       return;
     }
-    globalInitState.lastCheckTime = now,
+    globalInitState.lastCheckTime = now;
 
     // If we already know globally it's initialized, use that state
     if (globalInitState.initialized) {
@@ -83,10 +83,10 @@ export function useSafeFlavorEngine() {
     // Only check if the engine is actually available
     if (flavorEngine) {
       globalInitState.checkCount++,
-      globalInitState.attempted = true,
+      globalInitState.attempted = true;
 
       if (flavorEngine.isInitialized) {
-        globalInitState.initialized = true,
+        globalInitState.initialized = true;
         if (isMountedRef.current) {
           setIsReady(true)
         }

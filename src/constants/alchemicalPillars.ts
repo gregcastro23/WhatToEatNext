@@ -13,10 +13,10 @@ export interface AlchemicalPillar {
     Essence: number; // Effect on Essence
     Matter: number; // Effect on Matter
     Substance: number; // Effect on Substance
-  }
+  },
   // Adding planetary and tarot associations
   planetaryAssociations?: string[]; // Associated planets
-  tarotAssociations?: string[] // Associated tarot cards
+  tarotAssociations?: string[]; // Associated tarot cards
   elementalAssociations?: {
     // Associated elemental character
     primary: Element; // Primary element associated with the pillar
@@ -278,7 +278,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       secondary: 'Earth',
     }
   }
-],
+];
 
 /**
  * Maps cooking methods to their corresponding alchemical pillars
@@ -686,7 +686,7 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
       Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 },
       Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 },
       Air: { heat: 0.6, entropy: 0.8, reactivity: 0.7 }
-    }[element],
+    }[element];
 
     return {
       element,
@@ -1179,7 +1179,7 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
         planetaryAssociations: ['Pluto', 'Jupiter'],
     zodiacAffinity: ['Scorpio', 'Sagittarius']
   }
-],
+];
 
 // getAllEnhancedCookingMethods function (causing errors in recipeBuilding.ts and seasonal.ts)
 export function getAllEnhancedCookingMethods(): EnhancedCookingMethod[] {
@@ -1311,7 +1311,7 @@ export function calculateOptimalCookingConditions(
   const temperature = Math.round(baseTemp + monicaAdjustment + thermodynamicAdjustment)
 
   // Timing based on Monica and entropy;
-  let timing = 'medium',
+  let timing = 'medium';
   if (!isNaN(monica)) {
     if (monica > 0.5 && thermodynamics.entropy < 0.4) {
       timing = 'quick';

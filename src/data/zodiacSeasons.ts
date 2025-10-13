@@ -4,7 +4,7 @@ import { ZodiacSign, Element } from '@/types/alchemy';
 interface ZodiacSeasonData {
   name: any,
   element: Element,
-  startMonth: number, // 1-based month (1 = January),
+  startMonth: number, // 1-based month (1 = January);
   startDay: number,
   endMonth: number,
   endDay: number,

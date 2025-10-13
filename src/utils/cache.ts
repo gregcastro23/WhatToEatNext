@@ -15,7 +15,7 @@ export class Cache {
    * @param ttl Time to live in milliseconds (optional)
    */
   set(key: string, value: unknown, ttl?: number): void {
-    const expiry = ttl ? Date.now() + ttl : null,
+    const expiry = ttl ? Date.now() + ttl : null;
     this.cache.set(key, { data: value, expiry })
   }
 

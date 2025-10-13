@@ -13,11 +13,11 @@ export const calculationUtils = {
 }
 
     if (temp < 0) {
-      baseEffect.Water = Math.abs(temp) / 100,
-      baseEffect.Earth = Math.abs(temp) / 200,
+      baseEffect.Water = Math.abs(temp) / 100;
+      baseEffect.Earth = Math.abs(temp) / 200;
     } else {
-      baseEffect.Fire = temp / 100,
-      baseEffect.Air = temp / 200,
+      baseEffect.Fire = temp / 100;
+      baseEffect.Air = temp / 200;
     }
 
     return elementalUtils.normalizeProperties(baseEffect)

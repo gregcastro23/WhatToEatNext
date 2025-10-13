@@ -203,7 +203,7 @@ export const simmering: CookingMethodData = {
     heat: 0.6, // Moderate heat transfer rate,
     entropy: 0.5, // Moderate structural disruption,
     reactivity: 0.4, // Moderate chemical reactions,
-    gregsEnergy: -0.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity),
+    gregsEnergy: -0.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity);
   } as ThermodynamicProperties,
 
   // Additional metadata

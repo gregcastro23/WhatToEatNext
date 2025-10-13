@@ -54,11 +54,11 @@ export interface CampaignTestContext {
 export async function setupCampaignTest(setup: CampaignTestSetup): Promise<CampaignTestContext> {
   const {
     testName,
-    enableMemoryMonitoring = true,
-    preventActualBuilds = true,
-    preventGitOperations = true,
-    mockProgressTracking = true,
-    simulateRealProgress: _simulateRealProgress = false,
+    enableMemoryMonitoring = true;
+    preventActualBuilds = true;
+    preventGitOperations = true;
+    mockProgressTracking = true;
+    simulateRealProgress: _simulateRealProgress = false;
     customConfig: _customConfig
 } = setup;
 
@@ -189,7 +189,7 @@ export function createMockProgressMetrics(overrides?: Partial<ProgressMetrics>):
 export function createMockSafetyEvent(
   type: SafetyEventType,
   description: string,
-  severity: SafetyEventSeverity = SafetyEventSeverity.INFO,
+  severity: SafetyEventSeverity = SafetyEventSeverity.INFO;
 ): SafetyEvent {
   return {
     type,
@@ -230,7 +230,7 @@ export async function simulateCampaignPhase(
 export async function simulateProgressTracking(
   context: CampaignTestContext,
   targetMetrics: Partial<ProgressMetrics>,
-  durationMs: number = 1000,
+  durationMs: number = 1000;
 ): Promise<ProgressMetrics> {
   if (context.testSafeTracker) {
     await context.testSafeTracker.simulateProgress(targetMetrics, durationMs, 'test-simulation');

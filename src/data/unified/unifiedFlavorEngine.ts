@@ -3,7 +3,7 @@ import type { AlchemicalProperties, ElementalProperties, Season } from '@/types/
 
 import * as flavorProfileMigration from './flavorProfileMigration';
 
-// ===== UNIFIED INTERFACES =====,
+// ===== UNIFIED INTERFACES =====;
 
 export interface BaseFlavorNotes {
   sweet: number,
@@ -427,7 +427,7 @@ export class UnifiedFlavorEngine {
     return weightSum > 0 ? totalCompatibility / weightSum : 0.7;
   }
 
-  // ===== KALCHM RESONANCE =====,
+  // ===== KALCHM RESONANCE =====;
 
   private calculateKalchmResonance(kalchm1: number, kalchm2: number): number {
     if (kalchm1 === 0 || kalchm2 === 0) return 0.5; // Neutral if either is undefined
@@ -441,7 +441,7 @@ export class UnifiedFlavorEngine {
     return Math.max(0, Math.min(1, resonance))
   }
 
-  // ===== MONICA OPTIMIZATION =====,
+  // ===== MONICA OPTIMIZATION =====;
 
   private calculateMonicaOptimization(monica1: number, monica2: number): number {
     if (isNaN(monica1) || isNaN(monica2)) return 0.5; // Neutral if either is NaN
@@ -460,7 +460,7 @@ export class UnifiedFlavorEngine {
     return similarity * 0.6 + optimality * 0.4;
   }
 
-  // ===== SEASONAL ALIGNMENT =====,
+  // ===== SEASONAL ALIGNMENT =====;
 
   private calculateSeasonalAlignment(
     _profile1: UnifiedFlavorProfile,
@@ -489,7 +489,7 @@ export class UnifiedFlavorEngine {
     return baseAlignment;
   }
 
-  // ===== CULTURAL COMPATIBILITY =====,
+  // ===== CULTURAL COMPATIBILITY =====;
 
   private calculateCulturalCompatibility(
     _profile1: UnifiedFlavorProfile,
@@ -509,7 +509,7 @@ export class UnifiedFlavorEngine {
     if (_culturalPreference) {
       const prefLower = _culturalPreference.toLowerCase();
       const pref1Match = origins1.has(prefLower) ? 1: 0;
-      const pref2Match = origins2.has(prefLower) ? 1: 0,
+      const pref2Match = origins2.has(prefLower) ? 1: 0;
       const preferenceAlignment = (pref1Match + pref2Match) / 2;
 
       return baseCompatibility * 0.6 + preferenceAlignment * 0.4
@@ -519,7 +519,7 @@ export class UnifiedFlavorEngine {
     return Math.max(baseCompatibility, 0.7)
   }
 
-  // ===== NUTRITIONAL SYNERGY =====,
+  // ===== NUTRITIONAL SYNERGY =====;
 
   private calculateNutritionalSynergy(
     _profile1: UnifiedFlavorProfile,
@@ -541,7 +541,7 @@ export class UnifiedFlavorEngine {
     return Math.min(1, elementalBalance + complexityBonus)
   }
 
-  // ===== PREPARATION METHOD COMPATIBILITY =====,
+  // ===== PREPARATION METHOD COMPATIBILITY =====;
 
   private calculatePreparationCompatibility(
     _profile1: UnifiedFlavorProfile,
@@ -561,7 +561,7 @@ export class UnifiedFlavorEngine {
     if (_contextMethod) {
       const methodLower = _contextMethod.toLowerCase();
       const method1Match = methods1.has(methodLower) ? 1: 0;
-      const method2Match = methods2.has(methodLower) ? 1: 0,
+      const method2Match = methods2.has(methodLower) ? 1: 0;
       const methodAlignment = (method1Match + method2Match) / 2;
 
       return baseCompatibility * 0.5 + methodAlignment * 0.5
@@ -571,7 +571,7 @@ export class UnifiedFlavorEngine {
     return Math.max(baseCompatibility, 0.7)
   }
 
-  // ===== FLAVOR HARMONY =====,
+  // ===== FLAVOR HARMONY =====;
 
   private calculateFlavorHarmony(notes1: BaseFlavorNotes, notes2: BaseFlavorNotes): number {
     const flavors: (keyof BaseFlavorNotes)[] = [
@@ -1035,7 +1035,7 @@ export function calculateFlavorCompatibility(
  */
 export function findCompatibleProfiles(
   targetProfile: UnifiedFlavorProfile,
-  minCompatibility = 0.7,
+  minCompatibility = 0.7;
   _context?: { season?: Season, culturalPreference?: string, preparationMethod?: string }
 ): Array<{ profile: UnifiedFlavorProfile, compatibility: UnifiedFlavorCompatibility }> {
   const allProfiles = unifiedFlavorEngine.getAllProfiles();

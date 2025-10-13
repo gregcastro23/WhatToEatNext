@@ -119,12 +119,12 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
 export const getTemperatureRange = (temp: number): string => {
   return (
     Object.keys(temperatureEffects).find(
-      range => temp >= temperatureEffects[range].min && temp <= temperatureEffects[range].max,
+      range => temp >= temperatureEffects[range].min && temp <= temperatureEffects[range].max;
     ) || 'room'
   )
 }
 
-export const _getElementalEffect = (temp: number): ElementalProperties => {,
+export const _getElementalEffect = (temp: number): ElementalProperties => {;
   const range = getTemperatureRange(temp)
   return temperatureEffects[range].elementalEffect;
 }

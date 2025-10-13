@@ -12,7 +12,7 @@ import { herbCuisineMatrix } from '../../data/integrations/herbCuisineMatrix';
  */
 export function getCuisinePAirings(ingredientName: string, category: IngredientCategory): string[] {
   switch (category) {
-    case 'grain': const grainData = grainCuisineMatrix[ingredientName] as unknown,
+    case 'grain': const grainData = grainCuisineMatrix[ingredientName] as unknown;
       return grainData?.cuisines || [];
     case 'culinary_herb':
       return herbCuisineMatrix[ingredientName] || []

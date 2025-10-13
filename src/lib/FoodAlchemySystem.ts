@@ -524,7 +524,7 @@ export class FoodAlchemySystem {
     // Calculate a weighted score - both elements are equally important for planetary day
     let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
     let dignityBonus = 0;
-    let decanBonus = 0,
+    let decanBonus = 0;
 
     // Apply dignity effects if we have planet positions
     if (planetaryPositions?.[planetaryDay]) {

@@ -1,4 +1,4 @@
-// ===== UNIFIED CUISINE INTEGRATION SYSTEM =====,
+// ===== UNIFIED CUISINE INTEGRATION SYSTEM =====;
 // Phase 3 Step 2 of WhatToEatNext Data Consolidation
 // Consolidates cuisineMatrix.ts and related files with Monica/Kalchm integration
 // Integrates with unified seasonal system for dynamic cuisine recommendations
@@ -58,7 +58,7 @@ const unifiedIngredients = {
 import { grainCuisineMatrix } from '../integrations/grainCuisineMatrix';
 import { herbCuisineMatrix } from '../integrations/herbCuisineMatrix';
 
-// ===== ENHANCED CUISINE INTEGRATION INTERFACES =====,
+// ===== ENHANCED CUISINE INTEGRATION INTERFACES =====;
 
 export interface CuisineMonicaProfile {
   baseMonicaConstant: number, // Base Monica constant for cuisine,
@@ -166,7 +166,7 @@ export interface CuisineIngredientAnalysis {
   uniqueIngredients: UnifiedIngredient[]
 }
 
-// ===== UNIFIED CUISINE INTEGRATION INTERFACE =====,
+// ===== UNIFIED CUISINE INTEGRATION INTERFACE =====;
 
 export interface UnifiedCuisineIntegration {
   // Cuisine Compatibility Matrix,
@@ -205,7 +205,7 @@ export interface UnifiedCuisineIntegration {
   }
 }
 
-// ===== CONSOLIDATED CUISINE DATA =====,
+// ===== CONSOLIDATED CUISINE DATA =====;
 
 // Enhanced cuisine matrix that includes all ingredient categories
 export const enhancedCuisineMatrix = {
@@ -545,7 +545,7 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
   }
 }
 
-// ===== UNIFIED CUISINE INTEGRATION SYSTEM CLASS =====,
+// ===== UNIFIED CUISINE INTEGRATION SYSTEM CLASS =====;
 
 export class UnifiedCuisineIntegrationSystem {
   private enhancedCookingMethods: { [key: string]: EnhancedCookingMethod };
@@ -570,7 +570,7 @@ export class UnifiedCuisineIntegrationSystem {
     return createAstrologicalBridge()
   }
 
-  // ===== CUISINE COMPATIBILITY CALCULATIONS =====,
+  // ===== CUISINE COMPATIBILITY CALCULATIONS =====;
 
   /**
    * Calculate comprehensive compatibility between two cuisines
@@ -726,7 +726,7 @@ export class UnifiedCuisineIntegrationSystem {
     const kalchm1 = kalchmEstimates[cuisine1] || 1.0;
     const kalchm2 = kalchmEstimates[cuisine2] || 1.0;
 
-    // Self-reinforcement, principle: similar Kalchm = higher harmony,
+    // Self-reinforcement, principle: similar Kalchm = higher harmony;
     const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2)
     return 0.7 + ratio * 0.3; // Minimum 0.7 harmony
   }
@@ -877,7 +877,7 @@ export class UnifiedCuisineIntegrationSystem {
 
     // Calculate elemental compatibility using self-reinforcement principles
     let compatibility = 0;
-    let totalWeight = 0,
+    let totalWeight = 0;
 
     const elements: Element[] = ['Fire', 'Water', 'Earth', 'Air'],
 
@@ -887,13 +887,13 @@ export class UnifiedCuisineIntegrationSystem {
 
       if (value1 > 0 && value2 > 0) {
         // Same element reinforcement (0.9 compatibility)
-        compatibility += Math.min(value1, value2) * 0.9,
+        compatibility += Math.min(value1, value2) * 0.9;
         totalWeight += Math.min(value1, value2)
       }
 
       // Different elements still have good compatibility (0.7)
       const crossCompatibility = Math.abs((Number(value1) || 0) - (Number(value2) || 0)) * 0.7;
-      compatibility += crossCompatibility,
+      compatibility += crossCompatibility;
       totalWeight += Math.abs((Number(value1) || 0) - (Number(value2) || 0))
     }
 
@@ -1415,7 +1415,7 @@ export class UnifiedCuisineIntegrationSystem {
     return (dishes || []).filter((dish, index, self) => self.indexOf(dish) === index)
   }
 
-  // ===== SEASONAL CUISINE INTEGRATION =====,
+  // ===== SEASONAL CUISINE INTEGRATION =====;
 
   /**
    * Get cuisine seasonal compatibility
@@ -1860,7 +1860,7 @@ export class UnifiedCuisineIntegrationSystem {
     return result;
   }
 
-  // ===== CUISINE INGREDIENT ANALYSIS =====,
+  // ===== CUISINE INGREDIENT ANALYSIS =====;
 
   /**
    * Analyze cuisine ingredients
@@ -2004,7 +2004,7 @@ export class UnifiedCuisineIntegrationSystem {
 }
 
     for (const season of ['spring', 'summer', 'autumn', 'fall', 'winter', 'all'] as Season[]) {
-      let totalScore = 0,
+      let totalScore = 0;
       // Safe property access for getSeasonalScore
       const seasonalSystem = unifiedSeasonalSystem as any;
       const getSeasonalScore = seasonalSystem.getSeasonalScore;
@@ -2071,11 +2071,11 @@ export class UnifiedCuisineIntegrationSystem {
   }
 }
 
-// ===== UNIFIED CUISINE INTEGRATION SYSTEM INSTANCE =====,
+// ===== UNIFIED CUISINE INTEGRATION SYSTEM INSTANCE =====;
 
 export const unifiedCuisineIntegrationSystem = new UnifiedCuisineIntegrationSystem()
 ;
-// ===== BACKWARD COMPATIBILITY EXPORTS =====,
+// ===== BACKWARD COMPATIBILITY EXPORTS =====;
 
 // Export functions that match the original cuisineMatrix.ts interface
 export { getCuisinePAirings, getIngredientsForCuisine };

@@ -80,4 +80,4 @@ export function useCurrentChart() {
   return context;
 }
 
-export default ChartContext,
+export default ChartContext;

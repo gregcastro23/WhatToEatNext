@@ -10,10 +10,10 @@ export class NextConfigOptimizer {
 
   constructor(
     configPath = 'next.config.js',,
-    logger: (message: string, ...args: unknown[]) => void = _logger.info,
+    logger: (message: string, ...args: unknown[]) => void = _logger.info;
   ) {
-    this.configPath = configPath,
-    this.logger = logger,
+    this.configPath = configPath;
+    this.logger = logger;
   }
 
   /**
@@ -178,7 +178,7 @@ const nextConfig = {
     for (const fix of fixes) {
       if (fix.issue.test(content)) {
         content = content.replace(fix.issue, fix.fix),
-        modified = true,
+        modified = true;
         this.logger(`_Fixed: ${fix.description}`)
       }
     }

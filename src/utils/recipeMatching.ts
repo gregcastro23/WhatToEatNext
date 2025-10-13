@@ -71,8 +71,8 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
  */
 export async function findBestMatches(
   recipes?: Recipe[],
-  matchFilters: MatchFilters = {},
-  currentEnergy: ElementalProperties | null = null,
+  matchFilters: MatchFilters = {};
+  currentEnergy: ElementalProperties | null = null;
   limit = 10
 ): Promise<MatchResult[]> {
   // log.info(`Finding best matches from ${recipes?.length || 0} recipes with filters: `, matchFilters)
@@ -136,10 +136,10 @@ export async function findBestMatches(
     filteredRecipes = filteredRecipes.sort((ab) => {
       const aIsInSeason = Array.isArray(a.season)
         ? a.season.includes((matchFilters as any).season as Season) || a.season.includes('all')
-        : a.season === (matchFilters as any).season || a.season === 'all',
+        : a.season === (matchFilters as any).season || a.season === 'all';
       const bIsInSeason = Array.isArray(b.season)
         ? b.season.includes((matchFilters as any).season as Season) || b.season.includes('all')
-        : b.season === (matchFilters as any).season || b.season === 'all',
+        : b.season === (matchFilters as any).season || b.season === 'all';
 
       if (aIsInSeason && !bIsInSeason) return -1
       if (!aIsInSeason && bIsInSeason) return 1;
@@ -231,7 +231,7 @@ export async function findBestMatches(
         .sort(([, a], [, b]) => b - a)
 
       // Calculate match score
-      let score = 0,
+      let score = 0;
 
       if (currentEnergy) {
         // Calculate elemental alignment
@@ -339,7 +339,7 @@ interface EnergyData {
 }
 
 const calculateEnergyMatch = (recipeEnergy: EnergyData, currentEnergy: EnergyData) => {
-  let score = 0,
+  let score = 0;
 
   // Check if we're in Aries season
   const isAriesSeason = currentEnergy.zodiacEnergy === 'aries';
@@ -634,7 +634,7 @@ function calculateModalityScore(
     return 1.0; // Full match
   } else {
     // Partial match - some modalities are more compatible than others
-    // Cardinal and fixed = 0.6, Cardinal and mutable = 0.7, Fixed and mutable = 0.5,
+    // Cardinal and fixed = 0.6, Cardinal and mutable = 0.7, Fixed and mutable = 0.5;
     if (
       (recipeModality === 'cardinal' && preferredModality === 'fixed') ||
       (recipeModality === 'fixed' && preferredModality === 'cardinal')
@@ -756,7 +756,7 @@ function getCacheKey(
     recipes
       ?.map(r => {
         // Apply Pattern GG-6: Enhanced property access with type guards
-        const recipeData = r as any,
+        const recipeData = r as any;
         return r.id || `${recipeData.name || 'unknown'}-${r.cuisine || 'unknown'}`
       })
       .join(',') || 'none'

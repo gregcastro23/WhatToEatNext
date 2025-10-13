@@ -49,7 +49,7 @@ export const calculateElementalBalance = async (
  * KALCHM ENGINE ADAPTER
  * Replaces src/calculations/core/kalchmEngine.ts (457 lines)
  */
-export const calculateKalchmMetrics = async (elements: ElementalProperties) => {,
+export const calculateKalchmMetrics = async (elements: ElementalProperties) => {;
   const cacheKey = `kalchm_${JSON.stringify(elements)}`;
   return withCache(cacheKey, () => alchemicalApi.calculateThermodynamics(elements))
 }

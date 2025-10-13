@@ -285,8 +285,8 @@ declare global {
         description: 'Fixed useEffect dependency array'
       },
       {
-        pattern: /const \[([^,]+), set([^\]]+)\] = useState\(\)/g,
-        replacement: 'const [1, set2] = useState<any>()',
+        pattern: /const \[([^,]+), set([^\]]+)\] = useState\(\)/g;
+        replacement: 'const [1, set2] = useState<any>()';
         description: 'Added type annotation to useState'
       },
       {

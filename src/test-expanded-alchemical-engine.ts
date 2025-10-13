@@ -200,7 +200,7 @@ async function runComprehensiveTests() {
 
     // Test, 5: Natural Influences with Enhanced Precision
     log.info('🌿 Test, 5: Natural Influences with Enhanced Precision')
-    const naturalInfluences = await alchemicalEngine.calculateNaturalInfluences({,
+    const naturalInfluences = await alchemicalEngine.calculateNaturalInfluences({;
       _season: 'spring',
       _moonPhase: 'waxing gibbous',
       _timeOfDay: 'day',
@@ -343,4 +343,4 @@ runComprehensiveTests()
     _logger.error('💥 Test execution failed: ', error)
   })
 
-export default runComprehensiveTests,
+export default runComprehensiveTests;

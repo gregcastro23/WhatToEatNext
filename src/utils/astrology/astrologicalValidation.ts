@@ -51,7 +51,7 @@ export interface ValidationOptions {
 export function validatePlanetaryPositions(
   positions: Record<string, unknown>,
   options: ValidationOptions = {}): ValidationResult {
-  const { _strictMode = false; _autoCorrect = false; _logWarnings = true} = options,
+  const { _strictMode = false; _autoCorrect = false; _logWarnings = true} = options;
   const errors: string[] = [];
   const warnings: string[] = []
   const correctedData: Record<string, PlanetaryPosition> = {}
@@ -84,7 +84,7 @@ export function validatePlanetaryPositions(
       warnings.push(...validation.warnings)
 
       if (validation.correctedData && autoCorrect) {
-        correctedData[planet] = validation.correctedData as PlanetaryPosition,
+        correctedData[planet] = validation.correctedData as PlanetaryPosition;
       }
     }
 
@@ -106,7 +106,7 @@ export function validatePlanetaryPositions(
         warnings.push(...validation.warnings)
 
         if (validation.correctedData && autoCorrect) {
-          correctedData[planet] = validation.correctedData as PlanetaryPosition,
+          correctedData[planet] = validation.correctedData as PlanetaryPosition;
         }
       }
     }
@@ -134,7 +134,7 @@ export function validatePlanetaryPositions(
       correctedData: Object.keys(correctedData).length > 0 ? correctedData : undefined
     }
   } catch (error) {
-    const errorMessage = `Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    const errorMessage = `Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`;
     errors.push(errorMessage)
     return { isValid: false, errors, warnings }
   }
@@ -146,7 +146,7 @@ export function validatePlanetaryPositions(
 function validateSinglePlanetaryPosition(
   planet: string,
   position: unknown,
-  strictMode: boolean = false): ValidationResult {,
+  strictMode: boolean = false): ValidationResult {;
   const errors: string[] = [];
   const warnings: string[] = []
   let correctedData: PlanetaryPosition | undefined,
@@ -189,7 +189,7 @@ function validateSinglePlanetaryPosition(
       } else {
         warnings.push(message)
         // Auto-correct if possible
-        if (typeof degree === 'number') {,
+        if (typeof degree === 'number') {;
           correctedData = {
             sign: String(sign),
             degree: Math.max(0, Math.min(TRANSIT_CONSTANTS.DEGREES_PER_SIGN - 0.01, degree)),
@@ -213,7 +213,7 @@ function validateSinglePlanetaryPosition(
       } else {
         warnings.push(message)
         // Auto-correct if possible
-        if (typeof longitude === 'number') {,
+        if (typeof longitude === 'number') {;
           const correctedLongitude =
             ((longitude % TRANSIT_CONSTANTS.MAX_LONGITUDE) + TRANSIT_CONSTANTS.MAX_LONGITUDE) %,
             TRANSIT_CONSTANTS.MAX_LONGITUDE,
@@ -225,7 +225,7 @@ function validateSinglePlanetaryPosition(
               isRetrograde: Boolean(pos.isRetrograde)
             }
           } else {
-            correctedData.exactLongitude = correctedLongitude,
+            correctedData.exactLongitude = correctedLongitude;
           }
         }
       }
@@ -261,7 +261,7 @@ function validateSinglePlanetaryPosition(
     ) {
       warnings.push(`${planet} should always be retrograde`)
       if (correctedData) {
-        correctedData.isRetrograde = true,
+        correctedData.isRetrograde = true;
       }
     }
 
@@ -295,7 +295,7 @@ export function validateAstrologicalElementalProperties(
       errors.push(`Invalid elemental properties${context ? ` in ${context}` : ''}`)
 
       // Try to normalize the properties
-      if (properties && typeof properties === 'object') {,
+      if (properties && typeof properties === 'object') {;
         correctedData = normalizeElementalProperties(properties as Partial<ElementalProperties>)
         warnings.push('Elemental properties were normalized to valid values')
       }
@@ -410,7 +410,7 @@ export async function validateAstrologicalCalculation(
       warnings.push(...positionValidation.warnings)
 
       if (positionValidation.correctedData) {
-        correctedData.planetaryPositions = positionValidation.correctedData,
+        correctedData.planetaryPositions = positionValidation.correctedData;
       }
 
       // Validate against transit dates if requested
@@ -444,7 +444,7 @@ export async function validateAstrologicalCalculation(
       warnings.push(...elementalValidation.warnings)
 
       if (elementalValidation.correctedData) {
-        correctedData.elementalProperties = elementalValidation.correctedData,
+        correctedData.elementalProperties = elementalValidation.correctedData;
       }
     }
 

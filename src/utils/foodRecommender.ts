@@ -825,7 +825,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
       // Check if this element is boosted by tarot
       if (astroState.tarotElementBoosts[dominantElement as any]) {
-        tarotScore = Math.min(10.5 + astroState.tarotElementBoosts[dominantElement as any]),
+        tarotScore = Math.min(10.5 + astroState.tarotElementBoosts[dominantElement as any]);
       }
     }
 
@@ -953,7 +953,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       const totalMacros = nutrition.macros;
         ? nutrition.macros.protein + nutrition.macros.carbs + nutrition.macros.fat
         : 0,
-      let macroBalanceScore = 0.5,
+      let macroBalanceScore = 0.5;
 
       if (totalMacros > 0 && nutrition.macros) {
         const proteinRatio = nutrition.macros.protein / totalMacros;
@@ -970,7 +970,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         const carbsDeviation = Math.abs(carbsRatio - idealCarbs)
         const fatDeviation = Math.abs(fatRatio - idealFat)
 ;
-        // Lower deviation = better balance,
+        // Lower deviation = better balance;
         const totalDeviation = proteinDeviation + carbsDeviation + fatDeviation;
         macroBalanceScore = 1 - Math.min(1, totalDeviation / 2),
       }
@@ -1044,13 +1044,13 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
     const category = ingredient.category?.toLowerCase() || '';
 
     // Map to our target categories if needed
-    let targetCategory = '',
+    let targetCategory = '';
 
     // Enhanced categorization to properly identify oils and vinegars
     if (category.includes('oil') || ingredient.name.toLowerCase().includes('oil')) {
-      targetCategory = 'oils',
+      targetCategory = 'oils';
     } else if (category.includes('vinegar') || ingredient.name.toLowerCase().includes('vinegar')) {
-      targetCategory = 'vinegars',
+      targetCategory = 'vinegars';
     } else if (
       category.includes('protein') ||
       category.includes('meat') ||
@@ -1059,7 +1059,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       category.includes('dairy') ||
       category.includes('egg')
     ) {
-      targetCategory = 'proteins',
+      targetCategory = 'proteins';
     } else if (
       category.includes('vegetable') ||
       category.includes('leafy') ||
@@ -1100,7 +1100,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         'potato'
       ].includes(ingredient.name.toLowerCase())
     ) {
-      targetCategory = 'vegetables',
+      targetCategory = 'vegetables';
     } else if (
       category.includes('grain') ||
       category.includes('rice') ||
@@ -1108,16 +1108,16 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       category.includes('pasta') ||
       category.includes('cereal')
     ) {
-      targetCategory = 'grains',
+      targetCategory = 'grains';
     } else if (category.includes('fruit')) {
-      targetCategory = 'fruits',
+      targetCategory = 'fruits';
     } else if (
       category.includes('herb') ||
       category.includes('leafy') ||
       ingredient.name.toLowerCase().includes('leaf') ||
       ingredient.name.toLowerCase().includes('herb')
     ) {
-      targetCategory = 'herbs',
+      targetCategory = 'herbs';
     } else if (
       category.includes('spice') ||
       category.includes('seasoning') ||
@@ -1125,10 +1125,10 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       ingredient.name.toLowerCase().includes('salt') ||
       ingredient.name.toLowerCase().includes('powder')
     ) {
-      targetCategory = 'spices',
+      targetCategory = 'spices';
     } else {
       // If we can't categorize, put it in vegetables as default
-      targetCategory = 'vegetables',
+      targetCategory = 'vegetables';
     }
 
     // Add to category group - only if we have a valid target category
@@ -1197,7 +1197,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
               vegName =>
                 ingredient.name.toLowerCase() === vegName.toLowerCase() ||
                 ingredient.name.toLowerCase().includes(vegName.toLowerCase())
-            ) && !categoryGroups[category].some(item => item.name === ingredient.name),
+            ) && !categoryGroups[category].some(item => item.name === ingredient.name);
         ),
 
         // Add these items to the category

@@ -41,13 +41,13 @@ export const _ZODIAC_ELEMENTS = zodiacElementMap;
  * Planetary rulerships - which planets rule which signs
  */
 export const _PLANETARY_RULERSHIPS: Record<string, ZodiacSign[]> = {
-  sun: ['leo'],
-  moon: ['cancer'],
-  mercury: ['gemini', 'virgo'],
-  venus: ['taurus', 'libra'],
-  mars: ['aries', 'scorpio'],
-  jupiter: ['sagittarius', 'pisces'],
-  saturn: ['capricorn', 'aquarius'],
+  sun: ['leo'];
+  moon: ['cancer'];
+  mercury: ['gemini', 'virgo'];
+  venus: ['taurus', 'libra'];
+  mars: ['aries', 'scorpio'];
+  jupiter: ['sagittarius', 'pisces'];
+  saturn: ['capricorn', 'aquarius'];
   uranus: ['aquarius'], // Modern rulership,
   neptune: ['pisces'], // Modern rulership,
   pluto: ['scorpio'], // Modern rulership
@@ -73,16 +73,16 @@ export const _PLANETARY_EXALTATIONS: Record<string, ZodiacSign> = {
  * Triplicity rulers - planets that rule elements
  */
 export const _TRIPLICITY_RULERS: Record<ElementalCharacter, string[]> = {
-  Fire: ['sun', 'jupiter', 'mars'],
-  Earth: ['venus', 'saturn', 'mercury'],
-  Air: ['saturn', 'mercury', 'jupiter'],
+  Fire: ['sun', 'jupiter', 'mars'];
+  Earth: ['venus', 'saturn', 'mercury'];
+  Air: ['saturn', 'mercury', 'jupiter'];
   Water: ['venus', 'mars', 'moon']
 }
 
 /**
  * Converts a zodiac sign to its corresponding element
  */
-export const _getElementFromZodiac = (sign: any): ElementalCharacter => {,
+export const _getElementFromZodiac = (sign: any): ElementalCharacter => {;
   return zodiacElementMap[sign]
 }
 

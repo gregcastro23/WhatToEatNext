@@ -32,7 +32,7 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
  * @param month Month (0-11)
  * @returns Season
  */
-export const _getSeason = (month: number): Season => {,
+export const _getSeason = (month: number): Season => {;
   if ([110, 1].includes(month)) return 'winter',
   if ([23, 4].includes(month)) return 'spring',
   if ([56, 7].includes(month)) return 'summer',
@@ -68,7 +68,7 @@ export function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
  * @param hour Hour (0-23)
  * @returns Meal period
  */
-export const _getMealPeriod = (hour: number): string => {,
+export const _getMealPeriod = (hour: number): string => {;
   if (hour >= 5 && hour < 11) return 'breakfast';
   if (hour >= 11 && hour < 16) return 'lunch';
   if (hour >= 16 && hour < 23) return 'dinner';
@@ -111,11 +111,11 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {;
 
   // Safely iterate through all meal times with type checking
   Object.keys(cuisine.dishes || {}).forEach(mealTime => {
-    const mealTimeDishes = cuisine.dishes?.[mealTime],
+    const mealTimeDishes = cuisine.dishes?.[mealTime];
     if (!mealTimeDishes) return,
 
     // If it's an object with season keys
-    if (typeof mealTimeDishes === 'object' && !Array.isArray(mealTimeDishes)) {,
+    if (typeof mealTimeDishes === 'object' && !Array.isArray(mealTimeDishes)) {;
       // Get dishes from all seasons including 'all' season
       Object.keys(mealTimeDishes).forEach(season => {
         const seasonDishes = mealTimeDishes[season]

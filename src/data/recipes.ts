@@ -304,7 +304,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
 
                       // Additional properties for compatibility
                       elementalProperties: undefined, // To be calculated later if needed
-                      season: season !== 'all' ? (season as Season) : undefined,
+                      season: season !== 'all' ? (season as Season) : undefined;
                       mealType: mealType,
                       cookingMethod: undefined, // Could be derived from instructions
                       cookingMethods: undefined,
@@ -331,7 +331,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
 }
 
 // Cache recipes to avoid re-processing
-let cachedRecipes: RecipeData[] | null = null,
+let cachedRecipes: RecipeData[] | null = null;
 
 export const getRecipes = async (): Promise<RecipeData[]> => {
   if (!cachedRecipes) {

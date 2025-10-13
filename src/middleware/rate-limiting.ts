@@ -160,7 +160,7 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
   return rateLimit({
     windowMs: 15 * 60 * 1000, // Default window,
     max: (req: Request) => {
-      const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req),
+      const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req);
       return tier.max;
     },
     message: (req: Request) => {

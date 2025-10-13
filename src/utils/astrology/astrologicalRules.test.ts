@@ -392,7 +392,7 @@ describe('Astrological Validation Utilities', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate, any: Test circular reference handling
       const circular: any = { Fire: 0.5 }
-      circular.self = circular,
+      circular.self = circular;
 
       // Should not throw an error or cause infinite loops
       expect(() => validateElementalProperties(circular)).not.toThrow()

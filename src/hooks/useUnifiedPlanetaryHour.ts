@@ -33,7 +33,7 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
     let cancelled = false;
     (async () => {
       try {
-        const result = await planetaryHoursClient.getCurrentPlanetaryHour({,
+        const result = await planetaryHoursClient.getCurrentPlanetaryHour({;
           datetime: new Date(),
           location,
         })
@@ -45,7 +45,7 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
           end: result.end,
           loading: false,
           error: null,
-          source: (String(process.env.NEXT_PUBLIC_PLANETARY_HOURS_BACKEND).toLowerCase() === 'true' && process.env.NEXT_PUBLIC_BACKEND_URL),
+          source: (String(process.env.NEXT_PUBLIC_PLANETARY_HOURS_BACKEND).toLowerCase() === 'true' && process.env.NEXT_PUBLIC_BACKEND_URL);
             ? 'backend'
             : 'local',
         })

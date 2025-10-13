@@ -409,7 +409,7 @@ type ButtonProps = ComponentProps<'button'> & CustomProps;
 
 export const TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
   title,
-  optional = false,
+  optional = false;
   children
 }) => {
   return (
@@ -475,7 +475,7 @@ export function PropValidationComponent({ required, optional, callback }: Props)
       const eslintConfig = require('../../../eslint.config.cjs');
 
       // Find React settings in configuration
-      const reactSettings = eslintConfig.find((config: any) => config.settings?.react?.version),
+      const reactSettings = eslintConfig.find((config: any) => config.settings?.react?.version);
 
       expect(reactSettings).toBeDefined();
       expect(reactSettings.settings.react.version).toBe('19.1.0');
@@ -485,7 +485,7 @@ export function PropValidationComponent({ required, optional, callback }: Props)
       const eslintConfig = require('../../../eslint.config.cjs');
 
       // Find React rules configuration
-      const reactRules = eslintConfig.find((config: any) => config.rules && config.rules['react/react-in-jsx-scope']),
+      const reactRules = eslintConfig.find((config: any) => config.rules && config.rules['react/react-in-jsx-scope']);
 
       expect(reactRules).toBeDefined();
       expect(reactRules.rules['react/react-in-jsx-scope']).toBe('off');

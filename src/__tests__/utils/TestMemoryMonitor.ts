@@ -136,7 +136,7 @@ export class TestMemoryMonitor {
     }
 
     return {
-      isWithinLimits: errors.length === 0,
+      isWithinLimits: errors.length === 0;
       currentUsage,
       warnings,
       errors,

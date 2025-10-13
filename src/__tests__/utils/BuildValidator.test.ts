@@ -128,7 +128,7 @@ describe('BuildValidator', () => {
     });
 
     it('should validate existing config', async () => {
-      mockFs.existsSync.mockImplementation((path: string) => path === 'next.config.js'),
+      mockFs.existsSync.mockImplementation((path: string) => path === 'next.config.js');
       mockFs.readFileSync.mockReturnValue(`
         module.exports = {
           output: 'standalone',

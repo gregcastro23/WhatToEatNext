@@ -151,7 +151,7 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
     Array.isArray(recipe.astrologicalPropertiesInfluences)
   ) {
     return recipe.astrologicalPropertiesInfluences.filter(
-      influence => typeof influence === 'string',
+      influence => typeof influence === 'string';
     );
   }
 
@@ -167,7 +167,7 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
     Array.isArray(recipe.elementalMapping.astrologicalInfluences)
   ) {
     return recipe.elementalMapping.astrologicalInfluences.filter(
-      influence => typeof influence === 'string',
+      influence => typeof influence === 'string';
     );
   }
 
@@ -195,7 +195,7 @@ export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
     Array.isArray(recipe.elementalMapping.astrologicalProfile.favorableZodiac)
   ) {
     return recipe.elementalMapping.astrologicalProfile.favorableZodiac.filter(
-      zodiac => typeof zodiac === 'string',
+      zodiac => typeof zodiac === 'string';
     );
   }
 
@@ -260,12 +260,12 @@ export function isRecipeCompatibleWithDiet(recipe: Recipe, restriction: string):
   }
 
   switch (restriction.toLowerCase()) {
-    case 'vegetarian': return recipe.isVegetarian === true,
-    case 'vegan': return recipe.isVegan === true,
-    case 'gluten-free': return recipe.isGlutenFree === true,
-    case 'dairy-free': return recipe.isDairyFree === true,
-    case 'keto': return recipe.isKeto === true,
-    case 'paleo': return recipe.isPaleo === true,
+    case 'vegetarian': return recipe.isVegetarian === true;
+    case 'vegan': return recipe.isVegan === true;
+    case 'gluten-free': return recipe.isGlutenFree === true;
+    case 'dairy-free': return recipe.isDairyFree === true;
+    case 'keto': return recipe.isKeto === true;
+    case 'paleo': return recipe.isPaleo === true;
     default:
       return true;
   }
@@ -354,7 +354,7 @@ export function toScoredRecipe(recipe: Recipe, _score?: number): ScoredRecipe {
     throw new Error('Cannot convert null or undefined recipe to ScoredRecipe');
   }
 
-  const defaultScore = _score !== undefined ? _score : 0.5,
+  const defaultScore = _score !== undefined ? _score : 0.5;
 
   return {
     ...recipe,
@@ -375,13 +375,13 @@ export function isRecipeDietaryCompatible(
 
   return dietaryRestrictions.every(restriction => {
     switch (restriction.toLowerCase()) {
-      case 'vegetarian': return recipe.isVegetarian === true,
-      case 'vegan': return recipe.isVegan === true,
-      case 'gluten-free': return recipe.isGlutenFree === true,
-      case 'dairy-free': return recipe.isDairyFree === true,
-      case 'nut-free': return recipe.isNutFree === true,
-      case 'keto': return recipe.isKeto === true,
-      case 'paleo': return recipe.isPaleo === true,
+      case 'vegetarian': return recipe.isVegetarian === true;
+      case 'vegan': return recipe.isVegan === true;
+      case 'gluten-free': return recipe.isGlutenFree === true;
+      case 'dairy-free': return recipe.isDairyFree === true;
+      case 'nut-free': return recipe.isNutFree === true;
+      case 'keto': return recipe.isKeto === true;
+      case 'paleo': return recipe.isPaleo === true;
       default:
         return true; // Unknown restrictions are ignored
     }

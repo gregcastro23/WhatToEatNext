@@ -23,7 +23,7 @@ export const elementalBalance = {
   normalizeProperties(properties: ElementalProperties): ElementalProperties {
     const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),
 
-    if (total === 0) {,
+    if (total === 0) {;
       return { ...DEFAULT_ELEMENTAL_PROPERTIES }
     }
 
@@ -44,7 +44,7 @@ export const elementalBalance = {
     // Check value ranges
     const hasValidValues = Object.values(properties).every(value =>
         value >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
-        value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT,
+        value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT;
     ),
 
     // Check total is approximately 1

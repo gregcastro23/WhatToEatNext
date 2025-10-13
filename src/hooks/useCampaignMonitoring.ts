@@ -62,7 +62,7 @@ export const useCampaignMonitoring = (
     onCampaignComplete,
     onCampaignFailed,
     onSystemHealthChange
-  } = options,
+  } = options;
 
   // State
   const [state, setState] = useState<CampaignMonitoringState>({
@@ -101,7 +101,7 @@ export const useCampaignMonitoring = (
         if (!prevHealth || prevHealth.overallHealth !== controlPanel.systemHealth.overallHealth) {
           onSystemHealthChange(controlPanel.systemHealth)
         }
-        previousHealthRef.current = controlPanel.systemHealth,
+        previousHealthRef.current = controlPanel.systemHealth;
       }
 
       // Check for campaign status changes
@@ -110,9 +110,9 @@ export const useCampaignMonitoring = (
         const currentStatus = campaign.status;
 
         if (prevStatus && prevStatus !== currentStatus) {
-          if (currentStatus === 'completed') {,
+          if (currentStatus === 'completed') {;
             onCampaignComplete?.(campaign.campaignId)
-          } else if (currentStatus === 'failed') {,
+          } else if (currentStatus === 'failed') {;
             const errorMessage =
               campaign.safetyEvents,
                 .filter(e => e.severity === 'ERROR')
@@ -147,7 +147,7 @@ export const useCampaignMonitoring = (
         onCampaignStart?.(campaignId)
         return campaignId;
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to start campaign',
+        const errorMessage = error instanceof Error ? error.message : 'Failed to start campaign';
         setState(prev => ({ ...prev, error: errorMessage }))
         throw error,
       }
@@ -165,7 +165,7 @@ export const useCampaignMonitoring = (
         }
         return success;
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to pause campaign',
+        const errorMessage = error instanceof Error ? error.message : 'Failed to pause campaign';
         setState(prev => ({ ...prev, error: errorMessage }))
         return false;
       }
@@ -183,7 +183,7 @@ export const useCampaignMonitoring = (
         }
         return success;
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to resume campaign',
+        const errorMessage = error instanceof Error ? error.message : 'Failed to resume campaign';
         setState(prev => ({ ...prev, error: errorMessage }))
         return false;
       }
@@ -202,7 +202,7 @@ export const useCampaignMonitoring = (
         }
         return success;
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to stop campaign',
+        const errorMessage = error instanceof Error ? error.message : 'Failed to stop campaign';
         setState(prev => ({ ...prev, error: errorMessage }))
         return false;
       }
@@ -231,7 +231,7 @@ export const useCampaignMonitoring = (
       try {
         return await kiroCampaignIntegration.scheduleCampaign(schedule)
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to schedule campaign',
+        const errorMessage = error instanceof Error ? error.message : 'Failed to schedule campaign';
         setState(prev => ({ ...prev, error: errorMessage }))
         throw error,
       }
@@ -240,7 +240,7 @@ export const useCampaignMonitoring = (
   )
 
   // Get scheduled campaigns
-  const getScheduledCampaigns = useCallback((): CampaignSchedule[] => {,
+  const getScheduledCampaigns = useCallback((): CampaignSchedule[] => {;
     return kiroCampaignIntegration.getScheduledCampaigns()
   }, [])
 
@@ -289,7 +289,7 @@ export const useCampaignMonitoring = (
 /**
  * Hook for monitoring a specific campaign
  */
-export const _useCampaignStatus = (campaignId: string) => {,
+export const _useCampaignStatus = (campaignId: string) => {;
   const [status, setStatus] = useState<KiroCampaignStatus | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

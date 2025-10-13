@@ -114,7 +114,7 @@ const MODULE_MAP = {
 }
 
 // Type for known module paths
-type KnownModulePath = keyof typeof MODULE_MAP,
+type KnownModulePath = keyof typeof MODULE_MAP;
 
 /**
  * Safely import and execute a function using a known module path
@@ -199,17 +199,17 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
     // Use static imports for known modules
     let importedModule: unknown,
 
-    if (path === '@/utils/astrologyUtils') {,
+    if (path === '@/utils/astrologyUtils') {;
       importedModule = astrologyUtils;
-    } else if (path === '@/utils/accurateAstronomy') {,
+    } else if (path === '@/utils/accurateAstronomy') {;
       importedModule = accurateAstronomy;
-    } else if (path === '@/utils/safeAstrology') {,
+    } else if (path === '@/utils/safeAstrology') {;
       importedModule = safeAstrology;
-    } else if (path === '@/calculations/alchemicalCalculations') {,
+    } else if (path === '@/calculations/alchemicalCalculations') {;
       importedModule = alchemicalCalculations;
-    } else if (path === '@/calculations/gregsEnergy') {,
+    } else if (path === '@/calculations/gregsEnergy') {;
       importedModule = gregsEnergy;
-    } else if (path === 'astronomia') {,
+    } else if (path === 'astronomia') {;
       // astronomia removed from dependencies
       errorLog(`Astronomia module removed: ${functionName}`)
       return null;
@@ -231,7 +231,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
       return null;
     }
 
-    const func = (importedModule as any)[functionName] as (...args: A) => R,
+    const func = (importedModule as any)[functionName] as (...args: A) => R;
     return func(..._args)
   } catch (error) {
     errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error)
@@ -286,7 +286,7 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
     }
 
     // astronomia modules removed
-    if (path === 'astronomia') {,
+    if (path === 'astronomia') {;
       errorLog(`Astronomia module removed: ${functionName}`)
       return null;
     }
@@ -306,7 +306,7 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
 
 export async function dynamicImport<TF = null>(
   importFn: () => Promise<T>;,
-  fallbackFn: (() => F) | null = null,
+  fallbackFn: (() => F) | null = null;
 ): Promise<T | F | null> {
   debugLog('dynamicImport is deprecated, use safeImportFunction instead')
   try {
@@ -319,8 +319,8 @@ export async function dynamicImport<TF = null>(
 
 export async function dynamicImportFunction<
   T extends (...args: unknown[]) => unknown
-  F extends (...args: unknown[]) => unknown = T,
->(path: string, functionName: string, _fallbackFn: F | null = null): Promise<T | F | null> {,
+  F extends (...args: unknown[]) => unknown = T;
+>(path: string, functionName: string, _fallbackFn: F | null = null): Promise<T | F | null> {;
   debugLog('dynamicImportFunction is deprecated, use safeImportFunction instead')
   return safeImportFunction<T>(path, functionName)
 }
@@ -329,7 +329,7 @@ export async function dynamicImportAndExecute<RA extends unknown[] = unknown[], 
   path: string,
   functionName: string,
   _args: A,
-  _fallbackFn: ((...args: A) => F) | null = null,
+  _fallbackFn: ((...args: A) => F) | null = null;
 ): Promise<R | F | null> {
   debugLog('dynamicImportAndExecute is deprecated, use safeImportAndExecute instead')
   return safeImportAndExecute<RA>(path, functionName, _args)

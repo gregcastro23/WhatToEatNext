@@ -135,7 +135,7 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
 
   const total = normalized.Fire + normalized.Water + normalized.Earth + normalized.Air;
 
-  if (total === 0) {,
+  if (total === 0) {;
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }; // Default balanced state
   }
 
@@ -155,12 +155,12 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
 export function calculateDominantElement(
   elementalState: ElementalProperties,
 ): keyof ElementalProperties {
-  let dominantElement: keyof ElementalProperties = 'Fire',
+  let dominantElement: keyof ElementalProperties = 'Fire';
   let maxValue = 0
 ;
   Object.entries(elementalState || {}).forEach(([element, value]) => {
     if (value > maxValue) {
-      maxValue = value,
+      maxValue = value;
       dominantElement = element as 'Fire' | 'Water' | 'Earth' | 'Air'
     }
   })
@@ -358,7 +358,7 @@ function calculateElementalStateFromIngredients(
   ingredients: Array<{ category?: string, amount?: number }>,
 ): ElementalProperties {
   const elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-  let totalWeight = 0,
+  let totalWeight = 0;
 
   (ingredients || []).forEach(ingredient => {,
     const category = ingredient.category?.toLowerCase() || '';
@@ -368,17 +368,17 @@ function calculateElementalStateFromIngredients(
     let elementContribution = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
 
     if (category.includes('spice') || category.includes('pepper')) {
-      elementContribution.Fire = 0.7,
-      elementContribution.Air = 0.3,
+      elementContribution.Fire = 0.7;
+      elementContribution.Air = 0.3;
     } else if (category.includes('vegetable') || category.includes('root')) {
-      elementContribution.Earth = 0.6,
-      elementContribution.Water = 0.4,
+      elementContribution.Earth = 0.6;
+      elementContribution.Water = 0.4;
     } else if (category.includes('fruit') || category.includes('liquid')) {
-      elementContribution.Water = 0.7,
-      elementContribution.Air = 0.3,
+      elementContribution.Water = 0.7;
+      elementContribution.Air = 0.3;
     } else if (category.includes('herb') || category.includes('leaf')) {
-      elementContribution.Air = 0.6,
-      elementContribution.Earth = 0.4,
+      elementContribution.Air = 0.6;
+      elementContribution.Earth = 0.4;
     } else {
       // Default balanced contribution
       elementContribution = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
@@ -390,13 +390,13 @@ function calculateElementalStateFromIngredients(
         elementContribution[element as 'Fire' | 'Water' | 'Earth' | 'Air'] * amount,
     })
 
-    totalWeight += amount,
+    totalWeight += amount;
   })
 
   // Normalize
   if (totalWeight > 0) {
     Object.keys(elementalState || {}).forEach(element => {
-      elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] /= totalWeight,
+      elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] /= totalWeight;
     })
   }
 
@@ -462,7 +462,7 @@ function calculateComplementaryScore(
   element2: keyof ElementalProperties,
 ): number {
   // Same element has highest complementary score
-  if (element1 === element2) {,
+  if (element1 === element2) {;
     return 0.9
   }
 
@@ -480,7 +480,7 @@ function calculateBalanceScore(
 
   (elements || []).forEach(element => {
     const difference = Math.abs(recipeProps[element] - userProps[element])
-    totalDifference += difference,
+    totalDifference += difference;
   })
 
   // Convert difference to balance score (lower difference = higher balance)

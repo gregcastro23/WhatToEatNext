@@ -68,9 +68,9 @@ interface ChakraFoodOptions {
 
 export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
   const {
-    planetaryPositions = {},
-    userChakraState = [],
-    availableIngredients = [],
+    planetaryPositions = {};
+    userChakraState = [];
+    availableIngredients = [];
     focusChakra
   } = options;
 

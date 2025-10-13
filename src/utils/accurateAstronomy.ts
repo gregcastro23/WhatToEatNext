@@ -1,13 +1,6 @@
 import { _logger } from '@/lib/logger';
-import { getDegreeForDate } from '@/services/degreeCalendarMapping';
-import {
-    calculateSolarPosition,
-    getCardinalPoints,
-    getDatesForZodiacDegree,
-    getSignDurations,
-    getSolarSpeed,
-    getZodiacPositionForDate
-} from '@/services/vsop87EphemerisService';
+// Removed: import { getDegreeForDate } from '@/services/degreeCalendarMapping'; - service was removed during external API cleanup campaign
+// Removed: import from '@/services/vsop87EphemerisService'; - service was removed during external API cleanup campaign
 import * as Astronomy from 'astronomy-engine';
 
 
@@ -233,10 +226,10 @@ const PLANET_MAPPING: Record<string, Astronomy.Body> = {
 }
 
 // Cache for planetary positions to avoid frequent recalculations
-let positionsCache: PositionsCache | null = null,
+let positionsCache: PositionsCache | null = null;
 
 // Cache expiration in milliseconds (15 minutes)
-const CACHE_EXPIRATION = 15 * 60 * 1000
+const CACHE_EXPIRATION = 15 * 60 * 1000;
 
 // Zodiac signs in order
 const ZODIAC_SIGNS = [
@@ -252,13 +245,13 @@ const ZODIAC_SIGNS = [
   'Capricorn',
   'Aquarius',
   'Pisces'
-],
+];
 
 /**
  * Convert a position in degrees, minutes, seconds to decimal degrees
  */
 function dmsToDecimal(degrees: number, minutes: number, seconds: number): number {
-  return degrees + minutes / 60 + seconds / 3600
+  return degrees + minutes / 60 + seconds / 3600;
 }
 
 /**
@@ -279,9 +272,8 @@ function calculateReferenceLongitude(planet: string): number {
   }
 
   const [degrees, minutes, seconds, sign] = REFERENCE_POSITIONS[planet];
-  const decimalDegrees = dmsToDecimal(degrees, minutes, seconds)
-  const signStart = zodiacStartDegree(sign)
-;
+  const decimalDegrees = dmsToDecimal(degrees, minutes, seconds);
+  const signStart = zodiacStartDegree(sign);
   return (signStart + decimalDegrees) % 360;
 }
 
@@ -306,10 +298,10 @@ export function getFallbackPlanetaryPositions(_date: Date): Record<string, Plane
     // Calculate new position with minimal randomness (just for slight variation)
     // Reduced randomness for more accurate predictions;
     const randomFactor = Math.sin(date.getTime() / 1000000 + planet.charCodeAt(0)) * 0.2;
-    let newLongitude = refLongitude + adjustedMotion * daysDiff + randomFactor,
+    let newLongitude = refLongitude + adjustedMotion * daysDiff + randomFactor;
 
     // Normalize to 0-360 degrees
-    newLongitude = ((newLongitude % 360) + 360) % 360,
+    newLongitude = ((newLongitude % 360) + 360) % 360;
 
     // Get zodiac sign and degree
     const signIndex = Math.floor(newLongitude / 30)
@@ -343,10 +335,10 @@ function calculateLunarNodes(_date: Date): { northNode: number, isRetrograde: bo
     const T = (jd - 2451545.0) / 36525;
 
     // Mean longitude of ascending node (Meeus formula)
-    let Omega = 125.04452 - 1934.136261 * T + 0.0020708 * T * T + (T * T * T) / 450000,
+    let Omega = 125.04452 - 1934.136261 * T + 0.0020708 * T * T + (T * T * T) / 450000;
 
     // Normalize to 0-360 range
-    Omega = ((Omega % 360) + 360) % 360,
+    Omega = ((Omega % 360) + 360) % 360;
 
     // The ascending node (North Node) is the opposite of Omega
     const northNode = (Omega + 180) % 360;
@@ -369,7 +361,7 @@ function calculateLunarNodes(_date: Date): { northNode: number, isRetrograde: bo
  * @returns Record of planetary positions in degrees (0-360)
  */
 export async function getAccuratePlanetaryPositions(
-  date: Date = new Date(),
+  date: Date = new Date()
 ): Promise<Record<string, PlanetPositionData>> {
   try {
     // Check cache first
@@ -493,7 +485,7 @@ function isPlanetRetrograde(body: Astronomy.Body, _date: Date): boolean {
     const prevLong = Astronomy.EclipticLongitude(body, prevTime)
 
     // Adjust for crossing 0/360 boundary
-    let diff = currentLong - prevLong,
+    let diff = currentLong - prevLong;
     if (Math.abs(diff) > 180) {
       diff = diff > 0 ? diff - 360 : diff + 360;
     }
@@ -541,11 +533,11 @@ export function getLongitudeToZodiacPosition(_longitude: number): { sign: string
     'capricorn',
     'aquarius',
     'pisces'
-  ],
+  ];
 
   const sign = signs[signIndex];
 
-  return { sign, degree }
+  return { sign, degree };
 }
 
 /**
@@ -701,7 +693,7 @@ export function calculateSolarSpeedAtDate(date: Date): number {
  * @returns Record of planetary positions with VSOP87 Sun accuracy
  */
 export async function getEnhancedPlanetaryPositions(
-  date: Date = new Date(),
+  date: Date = new Date()
 ): Promise<Record<string, PlanetPositionData>> {
   try {
     // Get positions using astronomy-engine
@@ -718,7 +710,7 @@ export async function getEnhancedPlanetaryPositions(
       isRetrograde: false, // Sun is never retrograde
     };
 
-    debugLog(`Enhanced planetary positions calculated with VSOP87 Sun accuracy: ${sunLongitude.toFixed(4)}°`),
+    debugLog(`Enhanced planetary positions calculated with VSOP87 Sun accuracy: ${sunLongitude.toFixed(4)}°`);
 
     return positions;
   } catch (error) {
@@ -765,8 +757,8 @@ export function compareSolarAccuracy(date: Date): {
   // New method using VSOP87
   const newLongitude = calculateSolarPosition(date);
 
-  const { sign: oldSign, degree: oldDegree } = getLongitudeToZodiacPosition(normalizedOldLongitude),
-  const { sign: newSign, degree: newDegree } = getLongitudeToZodiacPosition(newLongitude),
+  const { sign: oldSign, degree: oldDegree } = getLongitudeToZodiacPosition(normalizedOldLongitude);
+  const { sign: newSign, degree: newDegree } = getLongitudeToZodiacPosition(newLongitude);
 
   const diffDegrees = Math.abs(newLongitude - normalizedOldLongitude);
   const diffArcminutes = diffDegrees * 60;

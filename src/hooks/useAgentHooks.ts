@@ -75,7 +75,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
             // Planetary data validation
             if (finalConfig.enablePlanetaryValidation) {
               const planetaryResult = await qa.validatePlanetaryData();
-              results.planetary = planetaryResult,
+              results.planetary = planetaryResult;
 
               if (!planetaryResult.isValid) {
                 logger.warn('Planetary data validation failed: ', planetaryResult.issues)
@@ -115,7 +115,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
   const stopAgentHooks = useCallback(() => {;
     if (intervalRef.current) {
       clearInterval(intervalRef.current)
-      intervalRef.current = null,
+      intervalRef.current = null;
     }
 
     setHookState(prev => ({ ...prev, isActive: false }))
@@ -128,11 +128,11 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
       try {;
         const results: Record<string, ValidationResult> = {}
 
-        if (!type || type === 'all' || type === 'planetary') {,
+        if (!type || type === 'all' || type === 'planetary') {;
           results.planetary = await qa.validatePlanetaryData();
         }
 
-        if (!type || type === 'all' || type === 'typescript') {,
+        if (!type || type === 'all' || type === 'typescript') {;
           const trigger = await qa.checkTypeScriptErrorThreshold()
           if (trigger) {;
             setHookState(prev => ({,
@@ -178,7 +178,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
 /**
  * Agent hook specifically for planetary data validation
  */
-export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {,
+export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {;
   const qa = getAutomatedQualityAssurance();
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null)
   const [isValidating, setIsValidating] = useState(false)
@@ -244,7 +244,7 @@ export function useIngredientConsistencyHook() {
         category?: string
       }>,
     ) => {
-      if (ingredients.length === 0) {,
+      if (ingredients.length === 0) {;
         return null
       }
 
@@ -288,7 +288,7 @@ export function useIngredientConsistencyHook() {
 /**
  * Agent hook for TypeScript campaign triggers
  */
-export function useTypeScriptCampaignHook(_autoCheck: boolean = true) {,
+export function useTypeScriptCampaignHook(_autoCheck: boolean = true) {;
   const qa = getAutomatedQualityAssurance();
   const [campaignTrigger, setCampaignTrigger] = useState<CampaignTrigger | null>(null)
   const [isChecking, setIsChecking] = useState(false)
@@ -395,7 +395,7 @@ export function useBuildQualityMonitoringHook() {
 /**
  * Agent hook for comprehensive quality metrics monitoring
  */
-export function useQualityMetricsHook(_updateInterval: number = 30000) {,
+export function useQualityMetricsHook(_updateInterval: number = 30000) {;
   // 30 seconds
   const qa = getAutomatedQualityAssurance();
   const [metrics, setMetrics] = useState<QualityMetrics>(qa.getQualityMetrics())

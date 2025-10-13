@@ -200,7 +200,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
   }, [astroState, kinetics, currentPowerLevel, aspectPhase, dominantElement, options?.filter, options?.limit, options.enableKinetics]);
 
   // Group dining support
-  const getGroupRecommendations = useCallback(async (userIds: string[]) => {,
+  const getGroupRecommendations = useCallback(async (userIds: string[]) => {;
     if (!kinetics || !options.enableKinetics) return recommendations;
 
     try {
@@ -227,7 +227,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
     activePlanets: astroState.activePlanets || [],
 
     // Kinetics enhancement
-    isKineticsEnabled: options.enableKinetics !== false && isKineticsOnline,
+    isKineticsEnabled: options.enableKinetics !== false && isKineticsOnline;
     temporalRecommendations,
     elementalRecommendations,
     aspectEnhancedRecommendations,

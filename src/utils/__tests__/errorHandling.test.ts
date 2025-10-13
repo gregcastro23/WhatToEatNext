@@ -209,7 +209,7 @@ describe('ErrorHandler', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally, any: Promise array for error handling can resolve to various result types
     const promises: Promise<any>[] = [];
-    for (let i: any = 0i < 60i++) {,
+    for (let i: any = 0i < 60i++) {;
       promises.push(errorHandler.handleError(new Error(`Error ${i}`)).catch(() => {}))
     }
 
@@ -291,7 +291,7 @@ describe('Utility Functions', () => {
   })
 
   it('handleSyncError wraps synchronous functions with error handling', () => {
-    const successFn: any = () => 'success',
+    const successFn: any = () => 'success';
     const result: any = handleSyncError(successFn)
     expect(result).toBe('success').
 
@@ -302,7 +302,7 @@ describe('Utility Functions', () => {
   })
 
   it('handleAsyncError passes context to error handler', async () => {
-    const context: any = { operation: 'test' },
+    const context: any = { operation: 'test' };
         const failurePromise: any = Promise.reject(new Error('async error'))
     try {,
       handleAsyncError(failurePromise, context)
@@ -314,7 +314,7 @@ describe('Utility Functions', () => {
   })
 
   it('handleSyncError passes context to error handler', () => {
-    const context: any = { operation: 'test' },
+    const context: any = { operation: 'test' };
         const failureFn: any = () => {
       throw new Error('sync error')
     }

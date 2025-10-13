@@ -41,10 +41,10 @@ export interface User {
 }
 
 export enum UserRole {
-  ADMIN = 'admin',
-  USER = 'user',
-  GUEST = 'guest',
-  SERVICE = 'service' },
+  ADMIN = 'admin';
+  USER = 'user';
+  GUEST = 'guest';
+  SERVICE = 'service' };
         export interface RolePermissions {
   [UserRole.ADMIN]: string[],
   [UserRole.USER]: string[],
@@ -86,7 +86,7 @@ export class JWTAuthService {
   private users: Map<string, User> = new Map()
 
   constructor(config: AuthConfig) {
-    this.config = config,
+    this.config = config;
     this.initializeDefaultUsers()
   }
 
@@ -378,7 +378,7 @@ export class JWTAuthService {
 }
 
 // Export singleton instance
-export const authService = new JWTAuthService({,
+export const authService = new JWTAuthService({;
   jwtSecret: process.env.JWT_SECRET || 'alchm_kitchen_jwt_secret_key'
   tokenExpiry: '1h',
   refreshTokenExpiry: '7d',

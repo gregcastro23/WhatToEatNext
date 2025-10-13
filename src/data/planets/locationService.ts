@@ -127,25 +127,25 @@ export class AstronomicalCalculations {
       phaseName = 'new moon';
       culinaryEffect = 'New beginnings in cooking, seed sprouting, minimal preserving',
     } else if (phase < 0.25) {
-      phaseName = 'waxing crescent',
+      phaseName = 'waxing crescent';
       culinaryEffect = 'Growth energy, ideal for bread rising, fermentation starts',
     } else if (phase < 0.375) {
-      phaseName = 'first quarter',
+      phaseName = 'first quarter';
       culinaryEffect = 'Action-oriented cooking, quick preparations, energizing foods',
     } else if (phase < 0.5) {
-      phaseName = 'waxing gibbous',
+      phaseName = 'waxing gibbous';
       culinaryEffect = 'Building flavors, slow cooking, ingredient absorption',
     } else if (phase < 0.625) {
-      phaseName = 'full moon',
+      phaseName = 'full moon';
       culinaryEffect = 'Peak harvest, maximum flavor intensity, completion of preserving',
     } else if (phase < 0.75) {
-      phaseName = 'waning gibbous',
+      phaseName = 'waning gibbous';
       culinaryEffect = 'Sharing abundance, community cooking, thanksgiving meals',
     } else if (phase < 0.875) {
-      phaseName = 'last quarter',
+      phaseName = 'last quarter';
       culinaryEffect = 'Release and cleansing foods, detox preparations, clearing',
     } else {
-      phaseName = 'waning crescent',
+      phaseName = 'waning crescent';
       culinaryEffect = 'Rest and reflection, simple foods, preparation for new cycle',
     }
 
@@ -385,7 +385,7 @@ export class PlanetaryLocationService {
    */
   static getLocationCulinaryRecommendations(
     coordinates: GeographicCoordinates,
-    date: Date = new Date(),
+    date: Date = new Date();
   ): LocationCulinaryRecommendation {
     const regionalProfile = this.getRegionalProfile(coordinates);
     const activeInfluences = this.calculateLocationPlanetaryInfluences(coordinates, date)
@@ -526,7 +526,7 @@ export class PlanetaryLocationService {
 
     switch (planet) {
       case 'Sun':
-        // Higher altitude = more intense solar effects,
+        // Higher altitude = more intense solar effects;
         return 1.0 + altitudeKm * 0.1;
       case 'Moon':
         // Slight increase at altitude (clearer nights)
@@ -547,9 +547,9 @@ export class PlanetaryLocationService {
     const isNorthernHemisphere = coordinates.latitude >= 0;
 
     // Adjust seasons for hemisphere
-    let seasonalMonth = month,
+    let seasonalMonth = month;
     if (!isNorthernHemisphere) {
-      seasonalMonth = (month + 6) % 12,
+      seasonalMonth = (month + 6) % 12;
     }
 
     const seasonalFactor = Math.sin((seasonalMonth * Math.PI) / 6) * 0.3 + 1.0;
@@ -669,13 +669,13 @@ export class PlanetaryLocationService {
     const { temperature, humidity } = regionalProfile.climateConsiderations;
 
     return {
-      hotWeather: temperature === 'tropical',
+      hotWeather: temperature === 'tropical';
           ? ['Cooling foods', 'Raw preparations', 'Hydrating ingredients', 'Quick cooking methods']
           : ['Light cooking', 'Cold soups', 'Fresh salads', 'Minimal heat cooking'],
-      coldWeather: temperature === 'cold',
+      coldWeather: temperature === 'cold';
           ? ['Warming spices', 'Hot broths', 'Slow-cooked stews', 'Calorie-dense foods']
           : ['Moderate warming foods', 'Cooked vegetables', 'Warm beverages'],
-      humidity: humidity === 'humid',
+      humidity: humidity === 'humid';
           ? ['Light, non-greasy foods', 'Fresh preparations', 'Cooling herbs']
           : ['Moistening foods', 'Broths and soups', 'Oil-rich preparations'],
       pressure: [
@@ -730,7 +730,7 @@ export class PlanetaryLocationService {
     }
 
     const climateModifications =
-      climate.temperature === 'tropical',
+      climate.temperature === 'tropical';
         ? ['Electrolyte balance', 'Cooling nutrition']
         : climate.temperature === 'cold';
           ? ['Warming spices', 'Dense calories']

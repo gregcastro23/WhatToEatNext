@@ -84,8 +84,8 @@ export function generateEnhancedCuisineRecommendations(
     preferences = [];
     dietaryRestrictions = [];
     astrologicalProfile,
-    useAdvancedAnalysis = true,
-    includePlanetaryData = true,
+    useAdvancedAnalysis = true;
+    includePlanetaryData = true;
     includeSignatures = true
   } = params;
 
@@ -475,7 +475,7 @@ export function calculateElementalContributionsFromPlanets(
   Object.entries(planetaryPositions).forEach(([planet, position]) => {
     const planetElements = planetaryElements[planet.toLowerCase()];
     if (planetElements && position) {
-      const strength = typeof position === 'object' && (position as any).strength ? (position as any).strength : 0.5,
+      const strength = typeof position === 'object' && (position as any).strength ? (position as any).strength : 0.5;
       contributions.Fire += planetElements.Fire * strength;
       contributions.Water += planetElements.Water * strength;
       contributions.Earth += planetElements.Earth * strength;

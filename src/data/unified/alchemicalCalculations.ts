@@ -1,7 +1,7 @@
 import type { ElementalProperties } from '@/types/alchemy';
 import type { AlchemicalProperties } from '@/types/celestial';
 
-// ===== ALCHEMICAL CALCULATION SYSTEM =====,
+// ===== ALCHEMICAL CALCULATION SYSTEM =====;
 // Implements Kalchm (K_alchm) and Monica constant calculations
 // Based on the core alchemical engine with enhanced metrics
 
@@ -38,13 +38,13 @@ export interface AlchemicalIngredient {
   cookingMethods?: string[]
 }
 
-// ===== CORE CALCULATION FUNCTIONS =====,
+// ===== CORE CALCULATION FUNCTIONS =====;
 
 /**
  * Calculate Kalchm (K_alchm) - Baseline alchemical equilibrium
  * Formula: K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  */
-export function calculateKalchm(alchemicalProps: AlchemicalProperties): number {,
+export function calculateKalchm(alchemicalProps: AlchemicalProperties): number {
   const { Spirit, Essence, Matter, Substance} = alchemicalProps;
 
   // Handle edge cases where values might be 0
@@ -130,7 +130,7 @@ export function performAlchemicalAnalysis(
   }
 }
 
-// ===== INGREDIENT ENHANCEMENT FUNCTIONS =====,
+// ===== INGREDIENT ENHANCEMENT FUNCTIONS =====;
 
 /**
  * Derive alchemical properties from elemental properties
@@ -168,7 +168,7 @@ export function enhanceIngredientWithAlchemy(ingredient: {
 
   // Calculate Kalchm
   const kalchm = calculateKalchm(alchemicalProperties)
-  return {;
+  return {
     ...ingredient,
     alchemicalProperties,
     kalchm
@@ -187,7 +187,7 @@ export function calculateKalchmCompatibility(kalchm1: number, kalchm2: number): 
   return 0.7 + ratio * 0.3;
 }
 
-// ===== CUISINE ENHANCEMENT FUNCTIONS =====,
+// ===== CUISINE ENHANCEMENT FUNCTIONS =====;
 
 /**
  * Calculate aggregate Kalchm for a cuisine based on its typical ingredients
@@ -196,17 +196,16 @@ export function calculateCuisineKalchm(
   ingredients: AlchemicalIngredient[],
   weights?: number[],
 ): number {
-  if ((ingredients || []).length === 0) return 1.0,
+  if ((ingredients || []).length === 0) return 1.0;
 
-  const effectiveWeights = weights || (ingredients || []).map(() => 1 / (ingredients || []).length)
-;
+  const effectiveWeights = weights || (ingredients || []).map(() => 1 / (ingredients || []).length);
   let weightedKalchmSum = 0;
-  let totalWeight = 0,
+  let totalWeight = 0;
 
-  for (let i = 0, i < (ingredients || []).length; i++) {
+  for (let i = 0; i < (ingredients || []).length; i++) {
     const weight = effectiveWeights[i] || 0;
-    weightedKalchmSum += ingredients[i].kalchm * weight,
-    totalWeight += weight
+    weightedKalchmSum += ingredients[i].kalchm * weight;
+    totalWeight += weight;
   }
 
   return totalWeight > 0 ? weightedKalchmSum / totalWeight : 1.0
@@ -226,7 +225,7 @@ export function findKalchmSimilarIngredients(
   })
 }
 
-// ===== VALIDATION AND UTILITY FUNCTIONS =====,
+// ===== VALIDATION AND UTILITY FUNCTIONS =====;
 
 /**
  * Validate alchemical properties to ensure they're within reasonable bounds
@@ -279,9 +278,9 @@ export function getDefaultAlchemicalProperties(): AlchemicalProperties {
 }
 }
 
-// ===== EXPORT TYPES AND CONSTANTS =====,
+// ===== EXPORT TYPES AND CONSTANTS =====;
 
-export type { AlchemicalProperties }
+export type { AlchemicalProperties };
 
 // Default Kalchm value for unknown ingredients
 export const DEFAULT_KALCHM = 1.0;

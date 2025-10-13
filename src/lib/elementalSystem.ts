@@ -50,7 +50,7 @@ class ElementalSystem {
   normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
     const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0),
 
-    if (total === 0) {,
+    if (total === 0) {;
       return ELEMENTS.reduce(
         (acc, element) => ({
           ...acc
@@ -70,13 +70,13 @@ class ElementalSystem {
   }
 
   calculateElementalDominance(properties: ElementalProperties): Element {
-    let dominantElement: Element = 'Fire',
-    let maxValue = -Infinity,
+    let dominantElement: Element = 'Fire';
+    let maxValue = -Infinity;
 
     ELEMENTS.forEach(element => {
       const value = properties[element] || 0
       if (value > maxValue) {;
-        maxValue = value,
+        maxValue = value;
         dominantElement = element;
       }
     })
@@ -88,7 +88,7 @@ class ElementalSystem {
     const zodiacElement = ZODIAC_ELEMENTS[state.currentZodiac?.toLowerCase() || 'aries'];
     const moonSignValue = state.currentPlanetaryAlignment?.Moon?.sign || '';
     const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
-    const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water',
+    const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
 
     const baseProperties: ElementalProperties = {
       Fire: 0.25,
@@ -98,11 +98,11 @@ class ElementalSystem {
 }
 
     if (zodiacElement) {
-      baseProperties[zodiacElement] += 0.2,
+      baseProperties[zodiacElement] += 0.2;
     }
 
     if (moonElement) {
-      baseProperties[moonElement] += 0.1,
+      baseProperties[moonElement] += 0.1;
     }
 
     return this.normalizeProperties(baseProperties)

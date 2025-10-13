@@ -185,7 +185,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
 
   // Apply uniform standardization to the ingredient
   const ingredientData = ingredient as unknown as any;
-  const standardized = standardizeIngredient({,
+  const standardized = standardizeIngredient({;
     name: name,
     category: ingredientData.category || 'culinary_herb'
     elementalProperties: calculateElementalProperties(,
@@ -340,13 +340,13 @@ export const allIngredients = (() => {
     Object.entries(source).forEach(([key, ingredient]) => {
       // Store both the original key and any potential name-based key
       // for better deduplication
-      result[key] = ingredient,
+      result[key] = ingredient;
 
       // Also index by normalized name if it differs from the key
       const normalizedKey = normalizeIngredientName(ingredient.name || key);
       if (normalizedKey !== key.toLowerCase().replace(/\s+/g, '_')) {
         // Add 'name_' prefix to avoid collisions with original keys
-        result[`name_${normalizedKey}`] = ingredient,
+        result[`name_${normalizedKey}`] = ingredient;
       }
     })
   })
@@ -355,7 +355,7 @@ export const allIngredients = (() => {
   const finalResult: Record<string, Ingredient> = {}
   Object.entries(result).forEach(([key, value]) => {
     if (!key.startsWith('name_')) {
-      finalResult[key] = value,
+      finalResult[key] = value;
     }
   })
 

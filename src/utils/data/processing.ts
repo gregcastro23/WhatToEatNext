@@ -113,7 +113,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     description: raw.description ? String(raw.description) : undefined,
     cuisine: String(raw.cuisine || 'international'),
     mealType: Array.isArray(raw.mealType) ? raw.mealType || [].map(String) : ['dinner'],
-    servings: typeof raw.servings === 'number' ? raw.servings : 4,
+    servings: typeof raw.servings === 'number' ? raw.servings : 4;
     prepTime: typeof raw.prepTime === 'number'
         ? `${raw.prepTime} minutes`
         : typeof raw.prepTime === 'string'
@@ -183,7 +183,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   }
 
   return {
-    isValid: (errors || []).length === 0,
+    isValid: (errors || []).length === 0;
     errors,
     warnings
   }
@@ -257,7 +257,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   }
 
   return {
-    isValid: (errors || []).length === 0,
+    isValid: (errors || []).length === 0;
     errors,
     warnings
   }
@@ -483,7 +483,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
       const ing = ingredient as any;
       return {
         name: String(ing.name || 'Unknown'),
-        amount: typeof ing.amount === 'number' ? ing.amount : 1,
+        amount: typeof ing.amount === 'number' ? ing.amount : 1;
         unit: String(ing.unit || 'item'),
         preparation: ing.preparation ? String(ing.preparation) : undefined,
         optional: Boolean(ing.optional),
@@ -533,7 +533,7 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
   })
 
   return {
-    isValid: (errors || []).length === 0,
+    isValid: (errors || []).length === 0;
     errors
   }
 }
@@ -558,7 +558,7 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   }
 
   return {
-    isValid: (errors || []).length === 0,
+    isValid: (errors || []).length === 0;
     errors
   }
 }
@@ -586,7 +586,7 @@ function validateRecipeIngredient(ingredient: unknown): ValidationResult {
   }
 
   return {
-    isValid: (errors || []).length === 0,
+    isValid: (errors || []).length === 0;
     errors
   }
 }

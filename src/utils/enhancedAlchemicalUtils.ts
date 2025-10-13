@@ -171,8 +171,8 @@ export function generatePersonalizedMealPlan(
     Air: ['light salad with citrus', 'mixed herb bruschetta', 'whipped ricotta with honey']
   }
 
-  mealPlan.appetizer.suggestion = appetizers[dominantElement as keyof typeof appetizers][0],
-  mealPlan.appetizer.explanation = `Complements your ${dominantElement} dominant energy with a suitable starter`,
+  mealPlan.appetizer.suggestion = appetizers[dominantElement as keyof typeof appetizers][0];
+  mealPlan.appetizer.explanation = `Complements your ${dominantElement} dominant energy with a suitable starter`;
 
   // Generate dessert based on balancing elements
   const balancingElement = getBalancingElement(dominantElement)
@@ -183,8 +183,8 @@ export function generatePersonalizedMealPlan(
     Air: ['soufflé', 'light pastry', 'meringue-based dessert']
   }
 
-  mealPlan.dessert.suggestion = desserts[balancingElement as keyof typeof desserts][0],
-  mealPlan.dessert.explanation = `Reinforces your ${dominantElement} energy with complementary ${balancingElement} influences`,
+  mealPlan.dessert.suggestion = desserts[balancingElement as keyof typeof desserts][0];
+  mealPlan.dessert.explanation = `Reinforces your ${dominantElement} energy with complementary ${balancingElement} influences`;
 
   // Generate beverage recommendations
   const beverages = {
@@ -194,15 +194,15 @@ export function generatePersonalizedMealPlan(
     Air: ['sparkling wine', 'floral infusions', 'light herbal cocktails']
   }
 
-  mealPlan.beverage.suggestion = beverages[dominantElement as keyof typeof beverages][0],
-  mealPlan.beverage.explanation = `Enhances the ${dominantElement} qualities of your meal`,
+  mealPlan.beverage.suggestion = beverages[dominantElement as keyof typeof beverages][0];
+  mealPlan.beverage.explanation = `Enhances the ${dominantElement} qualities of your meal`;
 
   // Calculate overall harmony
   const userElementalProfile = getZodiacElementalInfluence(userSign)
   const mealElements: ElementalProperties = {
-    Fire: dominantElement === 'Fire' ? 0.6 : balancingElement === 'Fire' ? 0.3 : 0.1,
-    Water: dominantElement === 'Water' ? 0.6 : balancingElement === 'Water' ? 0.3 : 0.1,
-    Earth: dominantElement === 'Earth' ? 0.6 : balancingElement === 'Earth' ? 0.3 : 0.1,
+    Fire: dominantElement === 'Fire' ? 0.6 : balancingElement === 'Fire' ? 0.3 : 0.1;
+    Water: dominantElement === 'Water' ? 0.6 : balancingElement === 'Water' ? 0.3 : 0.1;
+    Earth: dominantElement === 'Earth' ? 0.6 : balancingElement === 'Earth' ? 0.3 : 0.1;
     Air: dominantElement === 'Air' ? 0.6 : balancingElement === 'Air' ? 0.3 : 0.1;
   }
 

@@ -274,9 +274,9 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
     const moonLong = (positions.Moon as any)?.longitude || 0;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     const sunLong = (positions.Sun as any)?.longitude || 0;
-    let angularDistance = moonLong - sunLong,
+    let angularDistance = moonLong - sunLong;
     // Normalize to 0-360 range
-    angularDistance = ((angularDistance % 360) + 360) % 360,
+    angularDistance = ((angularDistance % 360) + 360) % 360;
     // Convert to phase percentage (0 to 1)
     return angularDistance / 360;
   } catch (error) {
@@ -345,21 +345,21 @@ export async function getmoonIllumination(date: Date = new Date()): Promise<numb
  * @param date Date to calculate for
  * @returns Zodiac sign
  */
-export function calculateSunSign(date: Date = new Date()): any | undefined {,
+export function calculateSunSign(date: Date = new Date()): any | undefined {;
   const month = date.getMonth() + 1, // getMonth() returns 0-11,
   const day = date.getDate()
   // Approximate Sun sign dates (tropical zodiac)
-  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries',
-  if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'taurus',
-  if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return 'gemini',
-  if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return 'cancer',
-  if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return 'leo',
-  if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return 'virgo',
-  if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'libra',
-  if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'scorpio',
-  if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius',
-  if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn',
-  if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius',
+  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries';
+  if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'taurus';
+  if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return 'gemini';
+  if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return 'cancer';
+  if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return 'leo';
+  if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return 'virgo';
+  if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'libra';
+  if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'scorpio';
+  if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius';
+  if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn';
+  if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius';
   // If date is out of range, return undefined and let the UI handle the error
   return undefined
 }
@@ -392,7 +392,7 @@ export async function calculatemoonSign(date: Date = new Date()): Promise<Zodiac
  * @returns Object with planetary positions
  */
 export async function calculatePlanetaryPositions(
-  date: Date = new Date(),
+  date: Date = new Date();
 ): Promise<Record<string, PlanetaryPosition>> {
   try {
     // Get and normalize planetary positions
@@ -416,7 +416,7 @@ export async function calculatePlanetaryPositions(
  * @returns Promise for astrological state
  */
 export async function getCurrentAstrologicalState(
-  date: Date = new Date(),
+  date: Date = new Date();
 ): Promise<AstrologicalState> {
   try {
     // Get and normalize planetary positions from data provider
@@ -573,22 +573,22 @@ export async function calculateDominantElement(
       const element = getZodiacElementalInfluence(position.sign as unknown)
 
       // Weight by planet importance;
-      let weight = 1,
-      if (planet === 'Sun' || planet === 'Moon') weight = 3,
-      else if (['Mercury', 'Venus', 'Mars'].includes(planet)) weight = 2,
+      let weight = 1;
+      if (planet === 'Sun' || planet === 'Moon') weight = 3;
+      else if (['Mercury', 'Venus', 'Mars'].includes(planet)) weight = 2;
 
-      elementCounts[element] += weight,
+      elementCounts[element] += weight;
     })
   }
 
   // Find dominant element
-  let dominantElement: Element = 'Fire',
+  let dominantElement: Element = 'Fire';
   let maxCount = 0
 ;
   Object.entries(elementCounts || {}).forEach(([element, count]) => {
     if (count > maxCount) {
-      maxCount = count,
-      dominantElement = element as Element,
+      maxCount = count;
+      dominantElement = element as Element;
     }
   })
 
@@ -618,11 +618,11 @@ export async function calculateElementalProfile(
       const element = getZodiacElementalInfluence(position.sign as unknown)
 
       // Weight by planet importance;
-      let weight = 1,
-      if (planet === 'Sun' || planet === 'Moon') weight = 3,
-      else if (['Mercury', 'Venus', 'Mars'].includes(planet)) weight = 2,
+      let weight = 1;
+      if (planet === 'Sun' || planet === 'Moon') weight = 3;
+      else if (['Mercury', 'Venus', 'Mars'].includes(planet)) weight = 2;
 
-      elementCounts[element] += weight,
+      elementCounts[element] += weight;
     })
   }
 
@@ -636,7 +636,7 @@ export async function calculateElementalProfile(
 
   const profile: Record<Element, number> = {} as Record<Element, number>,
   Object.entries(elementCounts || {}).forEach(([element, count]) => {
-    profile[element as Element] = count / total,
+    profile[element as Element] = count / total;
   })
 
   return profile;
@@ -722,7 +722,7 @@ export async function calculateAspects(
 
       // Calculate angular difference
       let diff = Math.abs(long1 - long2)
-      if (diff > 180) diff = 360 - diff,
+      if (diff > 180) diff = 360 - diff;
 
       // Check each aspect type
       for (const [type, definition] of Object.entries(aspectTypes)) {
@@ -738,7 +738,7 @@ export async function calculateAspects(
           const element2 = getZodiacElement(pos2.sign as unknown).toLowerCase()
 
           // Base multiplier from definition;
-          let multiplier = definition.significance,
+          let multiplier = definition.significance;
 
           // Special, _case: Square aspect with Ascendant is positive
           if (type === 'square' && (element1 === 'ascendant' || element2 === 'ascendant')) {
@@ -754,7 +754,7 @@ export async function calculateAspects(
             strength: strength * Math.abs(multiplier),
             influence: multiplier,
             exactAngle: orb,
-            applyingSeparating: orb <= 120 ? 'applying' : 'separating',
+            applyingSeparating: orb <= 120 ? 'applying' : 'separating';
             significance: orb / 180,
             description: `Aspect between ${element1} and ${element2}`,
             elementalInfluence: {
@@ -766,8 +766,8 @@ export async function calculateAspects(
           })
 
           // Apply elemental effects
-          elementalEffects[element1 as 'Fire' | 'Water' | 'Earth' | 'Air'] += multiplier * strength,
-          elementalEffects[element2 as 'Fire' | 'Water' | 'Earth' | 'Air'] += multiplier * strength,
+          elementalEffects[element1 as 'Fire' | 'Water' | 'Earth' | 'Air'] += multiplier * strength;
+          elementalEffects[element2 as 'Fire' | 'Water' | 'Earth' | 'Air'] += multiplier * strength;
 
           // Only count the closest aspect between two planets
           break,

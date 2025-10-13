@@ -95,7 +95,7 @@ export async function compareNutritionalValues(
   const profile2Macros = profile2Data?.macros || {}
 
   const differences: Record<string, number> = {
-    calories: (((profile2.calories || 0) - (profile1.calories || 0)) / (profile1.calories || 1)) * 100,
+    calories: (((profile2.calories || 0) - (profile1.calories || 0)) / (profile1.calories || 1)) * 100;
     protein: profile1Macros.protein
       ? ((profile2Macros.protein - profile1Macros.protein) / profile1Macros.protein) * 100
       : 0,

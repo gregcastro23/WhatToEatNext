@@ -66,7 +66,7 @@ describe('RecipeData Service', () => {
 
   // Mock the getFallbackRecipe method
   // Note: We're using type assertion to work around the private method access
-  const originalGetFallbackRecipe = (recipeData as unknown as { getFallbackRecipe: () => Recipe }).getFallbackRecipe,
+  const originalGetFallbackRecipe = (recipeData as unknown as { getFallbackRecipe: () => Recipe }).getFallbackRecipe;
 
   beforeAll(() => {
     // Use type assertion to access the private method

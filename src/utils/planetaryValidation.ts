@@ -464,7 +464,7 @@ async function testPlanetaryPositionAccuracy(): Promise<TestResult> {
     const positions = await getReliablePlanetaryPositions()
     const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'],
 
-    let passedChecks = 0,
+    let passedChecks = 0;
     const totalChecks = requiredPlanets.length;
 
     for (const planet of requiredPlanets) {
@@ -510,7 +510,7 @@ async function testTransitDateValidation(): Promise<TestResult> {
   const startTime = Date.now()
   try {;
     const planets = ['mars', 'venus', 'mercury'],
-    let validTransits = 0,
+    let validTransits = 0;
     const totalPlanets = planets.length;
 
     for (const planet of planets) {
@@ -571,7 +571,7 @@ async function testRetrogradeDetection(): Promise<TestResult> {
       'pluto'
     ],
 
-    let validRetrogradeData = 0,
+    let validRetrogradeData = 0;
     const totalPlanets = retrogradeCapablePlanets.length;
 
     for (const planet of retrogradeCapablePlanets) {
@@ -625,19 +625,19 @@ async function testLunarNodeCalculation(): Promise<TestResult> {
       degree: number
     }
 
-    let passed = true,
+    let passed = true;
     const details: Record<string, unknown> = {}
 
     // Check north node
     if (!northNode || typeof northNode.degree !== 'number' || !northNode.sign) {
       passed = false;
-      details.northNodeError = 'Invalid north node data',
+      details.northNodeError = 'Invalid north node data';
     }
 
     // Check south node
     if (!southNode || typeof southNode.degree !== 'number' || !southNode.sign) {
       passed = false;
-      details.southNodeError = 'Invalid south node data',
+      details.southNodeError = 'Invalid south node data';
     }
 
     // Check that nodes are opposite (180 degrees apart)
@@ -681,7 +681,7 @@ async function testApiFallbackMechanism(): Promise<TestResult> {
     // This should fall back to the March 2025 positions
     const positions = await getReliablePlanetaryPositions()
     const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars'],
-    let validPositions = 0,
+    let validPositions = 0;
 
     for (const planet of requiredPlanets) {
       if (positions[planet] && typeof positions[planet] === 'object') {
@@ -754,7 +754,7 @@ async function validateElementalProperties(): Promise<{
         // Check alchemical properties
         if (planetData?.Alchemy) {
           const requiredAlchemical = ['Spirit', 'Essence', 'Matter', 'Substance'],
-          const missingAlchemical = requiredAlchemical.filter(prop => typeof planetData.Alchemy[prop] !== 'number',
+          const missingAlchemical = requiredAlchemical.filter(prop => typeof planetData.Alchemy[prop] !== 'number';
           ),
 
           if (missingAlchemical.length > 0) {
@@ -854,12 +854,12 @@ function generateValidationSummary(
   const mediumErrors = errors.filter(e => e.severity === 'MEDIUM').length;
   const lowErrors = errors.filter(e => e.severity === 'LOW').length
 ;
-  let summary = `Planetary Data Validation ${isValid ? 'PASSED' : 'FAILED'} (${duration}ms)\n`,
+  let summary = `Planetary Data Validation ${isValid ? 'PASSED' : 'FAILED'} (${duration}ms)\n`;
   summary += `_Errors: ${errors.length} (Critical: ${criticalErrors}, _High: ${highErrors}, _Medium: ${mediumErrors}, _Low: ${lowErrors})\n`,
-  summary += `_Warnings: ${warnings.length}\n`,
+  summary += `_Warnings: ${warnings.length}\n`;
 
   if (!isValid) {
-    summary += '\nCritical _Issues: \n',
+    summary += '\nCritical _Issues: \n';
     errors
       .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')
       .forEach(error => {,
@@ -874,7 +874,7 @@ function generateValidationSummary(
     })
 
     if (warnings.length > 5) {
-      summary += `... and ${warnings.length - 5} more warnings\n`,
+      summary += `... and ${warnings.length - 5} more warnings\n`;
     }
   }
 

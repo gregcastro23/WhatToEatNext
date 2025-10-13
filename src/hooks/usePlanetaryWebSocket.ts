@@ -24,7 +24,7 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
     if (!wsUrl) return,
 
     const ws = new WebSocket(wsUrl);
-    wsRef.current = ws,
+    wsRef.current = ws;
 
     ws.onopen = () => {
       setConnected(true)
@@ -61,7 +61,7 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
 
     return () => {
       ws.close()
-      wsRef.current = null,
+      wsRef.current = null;
     }
   }, [location?.latitude, location?.longitude])
 

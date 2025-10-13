@@ -14,7 +14,7 @@ const logger = createLogger('ElementalCalculator');
  */
 export class ElementalCalculator {
   private static instance: ElementalCalculator,
-  private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES,
+  private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
   private initialized = false;
 
   private constructor() {}
@@ -64,7 +64,7 @@ export class ElementalCalculator {
 
       // Apply seasonal bonuses/penalties
       if (recipeData.season) {
-        const seasons = Array.isArray(recipeData.season) ? recipeData.season : [recipeData.season],
+        const seasons = Array.isArray(recipeData.season) ? recipeData.season : [recipeData.season];
 
         if (seasons.map((s: string) => s.toLowerCase()).includes(season.toLowerCase())) {
           score += 20;
@@ -90,23 +90,23 @@ export class ElementalCalculator {
     const seasonLower = season.toLowerCase() as Season;
 
     switch (seasonLower) {
-      case 'spring': baseModifiers.Air = 0.4,
+      case 'spring': baseModifiers.Air = 0.4;
         baseModifiers.Fire = 0.3;
         baseModifiers.Water = 0.2;
         baseModifiers.Earth = 0.1;
         break;
-      case 'summer': baseModifiers.Fire = 0.4,
+      case 'summer': baseModifiers.Fire = 0.4;
         baseModifiers.Air = 0.3;
         baseModifiers.Earth = 0.2;
         baseModifiers.Water = 0.1;
         break;
       case 'autumn':
-      case 'fall': baseModifiers.Earth = 0.4,
+      case 'fall': baseModifiers.Earth = 0.4;
         baseModifiers.Air = 0.3;
         baseModifiers.Water = 0.2;
         baseModifiers.Fire = 0.1;
         break;
-      case 'winter': baseModifiers.Water = 0.4,
+      case 'winter': baseModifiers.Water = 0.4;
         baseModifiers.Earth = 0.3;
         baseModifiers.Fire = 0.2;
         baseModifiers.Air = 0.1;
@@ -159,7 +159,7 @@ export class ElementalCalculator {
    * @returns Enhanced elemental properties with additional information
    */
   calculateElementalState(baseProperties: ElementalProperties,
-    phase = 'default',
+    phase = 'default';
     time = 'neutral'): {
     properties: ElementalProperties,
     seasonalInfluence: ElementalProperties;
@@ -169,7 +169,7 @@ export class ElementalCalculator {
       const properties = { ...baseProperties };
 
       // Create default seasonal influence
-      const seasonalInfluence: ElementalProperties = {Fire: 0.25,
+      const seasonalInfluence: ElementalProperties = {Fire: 0.25;
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25};

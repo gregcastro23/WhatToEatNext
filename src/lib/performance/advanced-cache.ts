@@ -30,8 +30,8 @@ class AdvancedCache {
   private stats: CacheStats,
 
   constructor(maxSize = 1000, defaultTTL = 30 * 60 * 1000) { // 30 minutes default;
-    this.maxSize = maxSize,
-    this.defaultTTL = defaultTTL,
+    this.maxSize = maxSize;
+    this.defaultTTL = defaultTTL;
     this.stats = {
       hits: 0,
       misses: 0,
@@ -69,7 +69,7 @@ class AdvancedCache {
 
     // Update access statistics
     entry.accessCount++,
-    entry.lastAccessed = now,
+    entry.lastAccessed = now;
     this.stats.hits++,
     this.updateHitRate()
 
@@ -152,7 +152,7 @@ class AdvancedCache {
    * Invalidate cache entries by pattern
    */
   invalidatePattern(pattern: RegExp): number {
-    let invalidated = 0,
+    let invalidated = 0;
 
     for (const key of this.cache.keys()) {
       if (pattern.test(key)) {
@@ -182,10 +182,10 @@ class AdvancedCache {
    */
   clear(): void {
     this.cache.clear()
-    this.stats.size = 0,
-    this.stats.hits = 0,
-    this.stats.misses = 0,
-    this.stats.hitRate = 0,
+    this.stats.size = 0;
+    this.stats.hits = 0;
+    this.stats.misses = 0;
+    this.stats.hitRate = 0;
     logger.info('Cache cleared')
   }
 
@@ -201,7 +201,7 @@ class AdvancedCache {
    */
   private cleanup(): void {
     const now = Date.now();
-    let removed = 0,
+    let removed = 0;
 
     for (const [key, entry] of this.cache.entries()) {
       if (now - entry.timestamp > entry.ttl) {
@@ -220,13 +220,13 @@ class AdvancedCache {
    * Evict least recently used item
    */
   private evictLRU(): void {
-    let oldestKey: string | null = null,
+    let oldestKey: string | null = null;
     let oldestTime = Date.now()
 ;
     for (const [key, entry] of this.cache.entries()) {
       if (entry.lastAccessed < oldestTime) {
-        oldestTime = entry.lastAccessed,
-        oldestKey = key,
+        oldestTime = entry.lastAccessed;
+        oldestKey = key;
       }
     }
 
@@ -242,7 +242,7 @@ class AdvancedCache {
    */
   private updateHitRate(): void {
     const total = this.stats.hits + this.stats.misses;
-    this.stats.hitRate = total > 0 ? this.stats.hits / total : 0,
+    this.stats.hitRate = total > 0 ? this.stats.hits / total : 0;
   }
 }
 

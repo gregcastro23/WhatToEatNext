@@ -223,7 +223,7 @@ export function identifyAlchemicalSignatures(
   properties.forEach(property => {
     const value = cuisineAlchemical[property];
     const globalMean = globalBaseline.alchemical[property];
-    const globalStdDev = globalBaseline.alchemicalStdDevs[property],
+    const globalStdDev = globalBaseline.alchemicalStdDevs[property];
 
     if (globalMean === undefined || globalStdDev === undefined) {
       return; // Skip if no global data available
@@ -271,7 +271,7 @@ export function identifyThermodynamicSignatures(
   properties.forEach(property => {
     const value = cuisineThermodynamics[property];
     const globalMean = globalBaseline.thermodynamics[property];
-    const globalStdDev = globalBaseline.thermodynamicStdDevs[property],
+    const globalStdDev = globalBaseline.thermodynamicStdDevs[property];
 
     if (globalMean === undefined || globalStdDev === undefined) {
       return; // Skip if no global data available
@@ -308,7 +308,7 @@ function generateElementalSignatureDescription(
 ): string {
   const direction = zScore > 0 ? 'high' : 'low';
   const strengthText = strength === 'very_high' ? 'exceptionally' :
-                      strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat',
+                      strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat';
 
   const elementDescriptions = {
     Fire: 'cooking techniques and spicy ingredients',
@@ -330,7 +330,7 @@ function generateAlchemicalSignatureDescription(
 ): string {
   const direction = zScore > 0 ? 'high' : 'low';
   const strengthText = strength === 'very_high' ? 'exceptionally' :
-                      strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat',
+                      strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat';
 
   const propertyDescriptions = {
     Spirit: 'innovative and transformative cooking approaches',
@@ -352,7 +352,7 @@ function generateThermodynamicSignatureDescription(
 ): string {
   const direction = zScore > 0 ? 'high' : 'low';
   const strengthText = strength === 'very_high' ? 'exceptionally' :
-                      strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat',
+                      strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat';
 
   const propertyDescriptions = {
     heat: 'thermal energy and cooking intensity',
@@ -380,7 +380,7 @@ function generateThermodynamicSignatureDescription(
  * @returns Complete array of cuisine signatures
  */
 export function identifyCuisineSignatures(cuisineProperties: CuisineComputedProperties,
-  globalBaseline: GlobalBaseline = DEFAULT_GLOBAL_BASELINE,
+  globalBaseline: GlobalBaseline = DEFAULT_GLOBAL_BASELINE;
   options: {
     threshold?: number,
     includeConfidence?: boolean,
@@ -388,8 +388,8 @@ export function identifyCuisineSignatures(cuisineProperties: CuisineComputedProp
   } = {}
 ): CuisineSignature[] {
   const {
-    threshold = 1.5,
-    includeConfidence = true,
+    threshold = 1.5;
+    includeConfidence = true;
     sampleSize = cuisineProperties.sampleSize
   } = options;
 

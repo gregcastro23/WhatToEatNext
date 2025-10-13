@@ -881,7 +881,7 @@ export function getTraditionalRuler(_sign: string): string {
 
 /**
  * Calculate enhanced stellium effects based on planetary positions
- * Stellium = 3+ planets in the same sign or house,
+ * Stellium = 3+ planets in the same sign or house;
  *
  * @param planetPositions Record of planetary positions
  * @param risingDegree Optional rising degree for house calculations
@@ -1124,8 +1124,8 @@ export function calculateJoyEffects(
       'capricorn',
       'aquarius',
       'pisces'
-    ],
-    const signIndex = zodiacSigns.indexOf(position.sign)
+    ];
+    const signIndex = zodiacSigns.indexOf(position.sign);
     const absoluteDegree = signIndex * 30 + position.degree;
 
     // Calculate house
@@ -1266,7 +1266,7 @@ export function longitudeToZodiacPosition(_longitude: number): { sign: string, d
       'capricorn',
       'aquarius',
       'pisces'
-    ],
+    ];
 
     if (signIndex < 0 || signIndex >= signs.length) {
       errorLog(
@@ -1380,7 +1380,7 @@ export function getPlanetaryDignityInfo(
       'capricorn',
       'aquarius',
       'pisces'
-    ],
+    ];
 
     const rules = rulerships[planet] || [];
     return rules.map(sign => signs[oppositeSignIndexes[sign]])
@@ -1453,7 +1453,7 @@ export function calculateAspects(
       'capricorn',
       'aquarius',
       'pisces'
-    ],
+    ];
     const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase())
     return signIndex * 30 + position.degree;
   }
@@ -1477,7 +1477,7 @@ export function calculateAspects(
 
       // Calculate angular difference
       let diff = Math.abs(long1 - long2)
-      if (diff > 180) diff = 360 - diff,
+      if (diff > 180) diff = 360 - diff;
 
       // Check each aspect type
       for (const [type, definition] of Object.entries(aspectDefinitions)) {
@@ -1508,13 +1508,13 @@ export function calculateAspects(
           const element2 = getZodiacElement(pos2.sign as unknown).toLowerCase()
 
           // Base multiplier from definition;
-          let multiplier = definition.multiplier,
+          let multiplier = definition.multiplier;
 
           // Special, case: Square aspect with Ascendant is positive (+1) instead of negative
           if (
             type === 'square' &&
             (planet1.toLowerCase() === 'ascendant' || planet2.toLowerCase() === 'ascendant')
-          ) {;
+          ) {
             multiplier = 1 // From original, algorithm: Square to Ascendant is +1 instead of -1
           }
 
@@ -1774,7 +1774,7 @@ export function getZodiacSign(longitude: number): string {
     'capricorn',
     'aquarius',
     'pisces'
-  ],
+  ];
 
   // Normalize longitude to 0-360 range
   const adjustedLong = (longitude + 0.00001) % 360;
@@ -2051,7 +2051,7 @@ export function getSignFromLongitude(_longitude: number): { sign: string, degree
     'capricorn',
     'aquarius',
     'pisces'
-  ],
+  ];
 
   return {
     sign: signs[signIndex] || 'aries',
@@ -2222,8 +2222,10 @@ export function getPlanetaryElementalInfluence(_planet: string): Element {
     Uranus: 'Air',
     Neptune: 'Water',
     Pluto: 'Fire',
-    Ascendant: 'Earth' },
-        return planetElementMap[planet] || 'Earth'
+    Ascendant: 'Earth'
+  };
+
+  return planetElementMap[planet] || 'Earth';
 }
 
 /**
@@ -2245,8 +2247,10 @@ export function getZodiacElementalInfluence(_sign: any): Element {
     sagittarius: 'Fire',
     capricorn: 'Earth',
     aquarius: 'Air',
-    pisces: 'Water' },
-        return zodiacElementMap[sign];
+    pisces: 'Water'
+  };
+
+  return zodiacElementMap[sign];
 }
 
 /**
@@ -2404,7 +2408,7 @@ export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
   planetaryPositions: { [key: string]: unknown },
   isDaytime: boolean = true,
-  currentZodiac?: string,
+  currentZodiac?: string
 ): AlchemicalItem[] {
   if (!items || items.length === 0) {
     return [];
@@ -2461,7 +2465,7 @@ export function transformItemsWithPlanetaryPositions(
         reactivity: thermodynamicProperties.reactivity,
         gregsEnergy: thermodynamicProperties.gregsEnergy,
         dominantAlchemicalProperty: 'Essence' as AlchemicalProperty,
-        planetaryBoost: 1.0 + compatibilityScore * 0.5; // Calculate based on compatibility,
+        planetaryBoost: 1.0 + compatibilityScore * 0.5, // Calculate based on compatibility
         dominantPlanets: [] as string[],
         planetaryDignities: {} as Record<string, unknown>,
         // Optional legacy properties
@@ -2469,8 +2473,8 @@ export function transformItemsWithPlanetaryPositions(
           item.elementalProperties,
           currentElementalInfluence,
         ) as Array<{ from: Element, to: Element, _intensity: number }>,
-        seasonalResonance: calculateSeasonalResonance(dominantElement);
-      } as unknown as AlchemicalItem,
+        seasonalResonance: calculateSeasonalResonance(dominantElement)
+      } as unknown as AlchemicalItem;
 
       return alchemicalItem;
     })
@@ -2513,10 +2517,10 @@ export function transformItemsWithPlanetaryPositions(
           entropy: 0.5,
           reactivity: 0.5,
           gregsEnergy: 0.5
-},
+        },
         transformations: [],
         seasonalResonance: []
-      } as AlchemicalItem,
+      } as AlchemicalItem;
     })
   }
 }
@@ -2549,7 +2553,7 @@ function calculateCurrentElementalInfluence(
     // Add influence from each planet
     Object.entries(planetaryPositions).forEach(([planet, data]) => {
       const weight = planetWeights[planet] || 0.5;
-      const sign = typeof data === 'object' && data?.sign ? data.sign : '',
+      const sign = typeof data === 'object' && data?.sign ? data.sign : '';
 
       if (sign) {
         const element = getZodiacElement(sign.toLowerCase() )
@@ -2559,25 +2563,25 @@ function calculateCurrentElementalInfluence(
 
     // Adjust for day/night cycle
     if (isDaytime) {
-      influence.Fire *= 1.2,
-      influence.Air *= 1.1,
+      influence.Fire *= 1.2;
+      influence.Air *= 1.1;
     } else {
-      influence.Water *= 1.2,
-      influence.Earth *= 1.1,
+      influence.Water *= 1.2;
+      influence.Earth *= 1.1;
     }
 
     // Boost current zodiac element if available
     if (currentZodiac) {
-      const currentElement = getZodiacElement(currentZodiac.toLowerCase() as any)
-      influence[currentElement] *= 1.3,
+      const currentElement = getZodiacElement(currentZodiac.toLowerCase() as any);
+      influence[currentElement] *= 1.3;
     }
 
     // Normalize to 0-1 range
     const total = Object.values(influence).reduce((sum, val) => sum + val, 0)
     if (total > 0) {
       Object.keys(influence).forEach(key => {
-        influence[key as unknown] /= total,
-      })
+        influence[key as unknown] /= total;
+      });
     }
 
     return influence;
@@ -2601,11 +2605,11 @@ function calculateItemCompatibilityScore(
 ): number {
   try {
     // Base compatibility from elemental alignment
-    let compatibility = 0,
+    let compatibility = 0;
 
     // Calculate weighted alignment for each element
     Object.keys(itemProperties).forEach(element => {
-      if (element in currentInfluence) {;
+      if (element in currentInfluence) {
         const itemStrength = itemProperties[element] || 0;
         const currentStrength = currentInfluence[element as unknown] || 0;
 
@@ -2614,24 +2618,24 @@ function calculateItemCompatibilityScore(
           compatibility += Math.sqrt(itemStrength * currentStrength)
         }
       }
-    })
+    });
 
     // Bonus for dominant element alignment
-    const itemDominant = getDominantElementFromProperties(itemProperties)
-    const currentDominant = getDominantElementFromProperties(currentInfluence)
+    const itemDominant = getDominantElementFromProperties(itemProperties);
+    const currentDominant = getDominantElementFromProperties(currentInfluence);
 
-    if (itemDominant === currentDominant) {;
+    if (itemDominant === currentDominant) {
       compatibility *= 1.4; // Strong bonus for same dominant element
     }
 
     // Adjust for planetary strength
-    const planetaryStrength = calculatePlanetaryStrength(planetaryPositions)
-    compatibility *= 0.8 + planetaryStrength * 0.4,
+    const planetaryStrength = calculatePlanetaryStrength(planetaryPositions);
+    compatibility *= 0.8 + planetaryStrength * 0.4;
 
     // Time of day adjustment
     const timeBonus = isDaytime
-      ? (itemProperties.Fire + itemProperties.Air) * 0.1;
-      : (itemProperties.Water + itemProperties.Earth) * 0.1,
+      ? (itemProperties.Fire + itemProperties.Air) * 0.1
+      : (itemProperties.Water + itemProperties.Earth) * 0.1;
 
     compatibility += timeBonus
 
@@ -2651,7 +2655,7 @@ function calculateItemCompatibilityScore(
  */
 function getDominantElementFromProperties(properties: ElementalProperties): ElementalCharacter {
   try {
-    const elements = Object.entries(properties) as [ElementalCharacter, number][],
+    const elements = Object.entries(properties) as [ElementalCharacter, number][];
     const dominant = elements.reduce(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: 'Fire' as ElementalCharacter, value: 0 })
@@ -2702,13 +2706,13 @@ function calculateAlchemicalProperties(
 
     // Calculate Kalchm
     const kalchm =
-      Spirit > 0 && Essence > 0 && Matter > 0 && Substance > 0;
+      Spirit > 0 && Essence > 0 && Matter > 0 && Substance > 0
         ? (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
           (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
-        : 1,
+        : 1;
 
     // Calculate Monica constant
-    let monica = 0,
+    let monica = 0;
     if (kalchm > 0) {
       const lnK = Math.log(kalchm)
       if (lnK !== 0 && reactivity !== 0) {
@@ -2844,8 +2848,8 @@ function calculatePlanetaryStrength(_planetaryPositions: { [key: string]: unknow
 }
 
         const strength = (basePlanetStrength[planet] || 0.5) * retrogradeModifier;
-        totalStrength += strength,
-        planetCount++,
+        totalStrength += strength;
+        planetCount++;
       }
     })
 
@@ -2870,11 +2874,10 @@ function calculateOverallAlchemicalScore(
 
     // Current influence alignment;
     const influenceSum = Object.values(currentInfluence).reduce((sum, val) => sum + val, 0)
-    const influenceBalance = influenceSum > 0 ? Math.min(1, influenceSum) : 0.5,
+    const influenceBalance = influenceSum > 0 ? Math.min(1, influenceSum) : 0.5;
 
     // Combine factors
-    const score = (balance * 0.6 + influenceBalance * 0.4 + gregsEnergy * 0.1) / 1.1
-;
+    const score = (balance * 0.6 + influenceBalance * 0.4 + gregsEnergy * 0.1) / 1.1;
     return Math.max(0, Math.min(1, score))
   } catch (error) {
     return 0.5;

@@ -329,14 +329,14 @@ export const _getIngredientsByElement = (
 }
 
 /** * Get ingredients by planetary influence */
-export const _getIngredientsByPlanet = (planet: string): IngredientElementalProperties[] => {,
+export const _getIngredientsByPlanet = (planet: string): IngredientElementalProperties[] => {;
   return ingredientElementalDatabase.filter(ingredient =>
     ingredient.planetaryInfluences.includes(planet)
   );
 }
 
 /** * Get ingredients by season */
-export const _getIngredientsBySeason = (season: string): IngredientElementalProperties[] => {,
+export const _getIngredientsBySeason = (season: string): IngredientElementalProperties[] => {;
   return ingredientElementalDatabase.filter(
     ingredient =>
       ingredient.seasonality.includes(season.toLowerCase()) ||
@@ -345,7 +345,7 @@ export const _getIngredientsBySeason = (season: string): IngredientElementalProp
 }
 
 /** * Get ingredients by cuisine */
-export const _getIngredientsByCuisine = (cuisine: string): IngredientElementalProperties[] => {,
+export const _getIngredientsByCuisine = (cuisine: string): IngredientElementalProperties[] => {;
   return ingredientElementalDatabase.filter(ingredient =>
     ingredient.cuisineAffinities.some(affinity =>
       affinity.toLowerCase().includes(cuisine.toLowerCase());

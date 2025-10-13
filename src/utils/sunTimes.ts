@@ -91,6 +91,6 @@ export function isDaytime( boolean {,) {
     times.sunrise &&
       times.sunset &&
       now.getTime() >= times.sunrise.getTime() &&
-      now.getTime() <= times.sunset.getTime(),
+      now.getTime() <= times.sunset.getTime();
   )
 }

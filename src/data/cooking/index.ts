@@ -42,7 +42,7 @@ export const _getAstrologicalEffect = (
     astroState.sunSign &&
     methodData.astrologicalInfluences.unfavorableZodiac?.includes(astroState.sunSign)
   ) {
-    effectScore -= 0.2,
+    effectScore -= 0.2;
   }
 
   // Check lunar phase if available
@@ -50,7 +50,7 @@ export const _getAstrologicalEffect = (
     astroState.lunarPhase &&
     methodData.astrologicalInfluences.lunarPhaseEffect?.[astroState.lunarPhase]
   ) {
-    effectScore *= methodData.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase],
+    effectScore *= methodData.astrologicalInfluences.lunarPhaseEffect[astroState.lunarPhase];
   }
 
   // Keep score within 0.0-1.0 range
@@ -136,7 +136,7 @@ export function getCookingMethods(names: string[]): Record<string, CookingMethod
     (methods, name) => {
       const method = getCookingMethod(name)
       if (method) {;
-        methods[name] = method,
+        methods[name] = method;
       }
       return methods;
     }
@@ -201,7 +201,7 @@ export function getCookingMethodsByTemperature(
  * @param descending Whether to sort in descending order (most sustainable first)
  * @returns Array of cooking methods sorted by sustainability rating
  */
-export function getCookingMethodsBySustainability(_descending = true): CookingMethodData[] {,
+export function getCookingMethodsBySustainability(_descending = true): CookingMethodData[] {;
   return Object.values(allCookingMethods)
     .filter(method => {
       // Apply safe type casting for method property access

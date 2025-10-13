@@ -78,7 +78,7 @@ export async function validatePlanetaryPositions(
   // Otherwise, perform detailed validation against reference data
   try {
     const diff: Record<string, unknown> = {}
-    let totalAccuracy = true,
+    let totalAccuracy = true;
 
     // Check each planet in the reference data
     const astrologicalState = await getLatestAstrologicalState()
@@ -87,7 +87,7 @@ export async function validatePlanetaryPositions(
       const calculated = astrologicalState.data?.planetaryPositions[planet];
 
       if (!calculated) {
-        diff[planet] = { status: 'missing' },
+        diff[planet] = { status: 'missing' };
         totalAccuracy = false;
         return;
       }
@@ -162,14 +162,14 @@ export async function getValidationSummary(): Promise<string> {
     differences: Record<string, unknown>,
   }
 
-  let summary = `Planetary Positions Validation (Reference: Jessica Adams):\n`,
-  summary += `Overall _Accuracy: ${accurate ? 'PASSED ✓' : 'FAILED ✗'}\n\n`,
+  let summary = `Planetary Positions Validation (Reference: Jessica Adams):\n`;
+  summary += `Overall _Accuracy: ${accurate ? 'PASSED ✓' : 'FAILED ✗'}\n\n`;
 
   Object.entries(differences).forEach(([planet, data]) => {
     const planetData = data as any;
 
     if (planetData.status === 'missing') {;
-      summary += `${planet}: MISSING\n`,
+      summary += `${planet}: MISSING\n`;
       return
     }
 
@@ -177,20 +177,20 @@ export async function getValidationSummary(): Promise<string> {
     const reference = planetData.reference;
     const planetAccurate = planetData.accurate;
 
-    summary += `${planet.padEnd(10)}: ${planetAccurate ? '✓' : '✗'} `,
-    summary += `_Calculated: ${(calculated).sign} ${(calculated ).degree}°${(calculated ).minute}' `,
+    summary += `${planet.padEnd(10)}: ${planetAccurate ? '✓' : '✗'} `;
+    summary += `_Calculated: ${(calculated).sign} ${(calculated ).degree}°${(calculated ).minute}' `;
 
     if ((calculated ).isRetrograde) {
-      summary += 'R ',
+      summary += 'R ';
     }
 
-    summary += `| Reference: ${(reference).sign} ${(reference ).degree}°${(reference ).minute}' `,
+    summary += `| Reference: ${(reference).sign} ${(reference ).degree}°${(reference ).minute}' `;
 
     if ((reference ).isRetrograde) {
-      summary += 'R',
+      summary += 'R';
     }
 
-    summary += '\n',
+    summary += '\n';
   })
 
   return summary;
@@ -221,7 +221,7 @@ export async function validateAgainstAPI(): Promise<{
 }> {
   const calculatedPositions = await fetchLatestPositions()
   const differences: Record<string, unknown> = {}
-  let accurate = true,
+  let accurate = true;
 
   // If we couldn't fetch positions, return early
   if (!calculatedPositions || Object.keys(calculatedPositions).length === 0) {
@@ -236,7 +236,7 @@ export async function validateAgainstAPI(): Promise<{
     const calculatedPosition = calculatedPositions[planet];
 
     if (!calculatedPosition) {
-      differences[planet] = { status: 'missing' },
+      differences[planet] = { status: 'missing' };
         accurate = false;
       return;
     }
@@ -300,9 +300,9 @@ export function validatePlanetaryPositionsStructure(positions: Record<string, _u
   ],
 
   return requiredPlanets.every(planet => {;
-    const p = positions[planet],
+    const p = positions[planet];
     // Apply safe type casting for property access
-    const planetData = p as any,
+    const planetData = p as any;
     return (
       planetData &&
       typeof planetData.longitude === 'number' &&

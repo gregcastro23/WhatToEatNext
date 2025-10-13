@@ -5,121 +5,123 @@
 import { ElementalProperties, Ingredient, Recipe, ZodiacSign } from './unified';
 
 export interface EnterpriseIntelligenceConfig {
-  enableRecipeIntelligence: boolean,
-  enableIngredientIntelligence: boolean,
-  enableCuisineIntelligence: boolean,
-  enableValidationIntelligence: boolean,
-  enableSafetyIntelligence: boolean,
-  enableOptimizationRecommendations: boolean,
-  enablePredictiveIntelligence: boolean,
-  enableMLIntelligence: boolean,
-  enableAdvancedAnalyticsIntelligence: boolean,
-  cacheResults: boolean,
-  logLevel: 'debug' | 'info' | 'warn' | 'error' },
-        export interface CompatibilityAnalysis {
-  elementalCompatibility: number,
-  seasonalCompatibility: number,
-  astrologicalCompatibility: number,
-  culturalCompatibility: number,
-  nutritionalCompatibility: number,
-  flavorCompatibility: number
+  enableRecipeIntelligence: boolean;
+  enableIngredientIntelligence: boolean;
+  enableCuisineIntelligence: boolean;
+  enableValidationIntelligence: boolean;
+  enableSafetyIntelligence: boolean;
+  enableOptimizationRecommendations: boolean;
+  enablePredictiveIntelligence: boolean;
+  enableMLIntelligence: boolean;
+  enableAdvancedAnalyticsIntelligence: boolean;
+  cacheResults: boolean;
+  logLevel: 'debug' | 'info' | 'warn' | 'error';
+}
+
+export interface CompatibilityAnalysis {
+  elementalCompatibility: number;
+  seasonalCompatibility: number;
+  astrologicalCompatibility: number;
+  culturalCompatibility: number;
+  nutritionalCompatibility: number;
+  flavorCompatibility: number;
 }
 
 export interface RecipeIntelligenceResult {
-  compatibilityAnalysis: CompatibilityAnalysis,
-  optimizationScore: number,
-  safetyScore: number,
-  recommendations: string[],
-  confidence: number,
-  timestamp: string
+  compatibilityAnalysis: CompatibilityAnalysis;
+  optimizationScore: number;
+  safetyScore: number;
+  recommendations: string[];
+  confidence: number;
+  timestamp: string;
 }
 
 export interface CategorizationAnalysis {
-  primaryCategory: string,
-  secondaryCategories: string[],
-  nutritionalCategory: string,
-  seasonalCategory: string,
-  culturalCategory: string
+  primaryCategory: string;
+  secondaryCategories: string[];
+  nutritionalCategory: string;
+  seasonalCategory: string;
+  culturalCategory: string;
 }
 
 export interface SeasonalAnalysis {
-  currentSeasonCompatibility: number,
-  optimalSeasons: string[],
-  seasonalAvailability: Record<string, number>,
-  energeticProperties: Record<string, number>,
+  currentSeasonCompatibility: number;
+  optimalSeasons: string[];
+  seasonalAvailability: Record<string, number>;
+  energeticProperties: Record<string, number>;
 }
 
 export interface AstrologicalAnalysis {
-  zodiacInfluences: Record<ZodiacSign, number>,
-  planetaryInfluences: Record<string, number>,
-  elementalProperties: ElementalProperties,
-  lunarPhaseCompatibility: Record<string, number>,
+  zodiacInfluences: Record<ZodiacSign, number>;
+  planetaryInfluences: Record<string, number>;
+  elementalProperties: ElementalProperties;
+  lunarPhaseCompatibility: Record<string, number>;
 }
 
 export interface IngredientIntelligenceResult {
-  categorizationAnalysis: CategorizationAnalysis,
-  seasonalAnalysis: SeasonalAnalysis,
-  compatibilityAnalysis: CompatibilityAnalysis,
-  astrologicalAnalysis: AstrologicalAnalysis,
-  validationResults: ValidationResults,
-  optimizationScore: number,
-  safetyScore: number,
-  recommendations: string[],
-  confidence: number,
-  timestamp: string
+  categorizationAnalysis: CategorizationAnalysis;
+  seasonalAnalysis: SeasonalAnalysis;
+  compatibilityAnalysis: CompatibilityAnalysis;
+  astrologicalAnalysis: AstrologicalAnalysis;
+  validationResults: ValidationResults;
+  optimizationScore: number;
+  safetyScore: number;
+  recommendations: string[];
+  confidence: number;
+  timestamp: string;
 }
 
 export interface CulturalAnalysis {
-  primaryCulture: string,
-  secondaryCultures: string[],
-  traditionLevel: number,
-  modernAdaptation: number,
-  fusionPotential: number
+  primaryCulture: string;
+  secondaryCultures: string[];
+  traditionLevel: number;
+  modernAdaptation: number;
+  fusionPotential: number;
 }
 
 export interface FusionAnalysis {
-  compatibleCuisines: string[],
-  fusionScore: number,
-  innovationPotential: number,
-  culturalHarmony: number,
-  marketAcceptance: number
+  compatibleCuisines: string[];
+  fusionScore: number;
+  innovationPotential: number;
+  culturalHarmony: number;
+  marketAcceptance: number;
 }
 
 export interface CuisineIntelligenceResult {
-  culturalAnalysis: CulturalAnalysis,
-  fusionAnalysis: FusionAnalysis,
-  seasonalAnalysis: SeasonalAnalysis,
-  compatibilityAnalysis: CompatibilityAnalysis,
-  astrologicalAnalysis: AstrologicalAnalysis,
-  validationResults: ValidationResults,
-  optimizationScore: number,
-  safetyScore: number,
-  recommendations: string[],
-  confidence: number,
-  timestamp: string
+  culturalAnalysis: CulturalAnalysis;
+  fusionAnalysis: FusionAnalysis;
+  seasonalAnalysis: SeasonalAnalysis;
+  compatibilityAnalysis: CompatibilityAnalysis;
+  astrologicalAnalysis: AstrologicalAnalysis;
+  validationResults: ValidationResults;
+  optimizationScore: number;
+  safetyScore: number;
+  recommendations: string[];
+  confidence: number;
+  timestamp: string;
 }
 
 export interface ValidationResults {
   dataIntegrity: {
-    score: number,
-    issues: string[],
-    warnings: string[]
-  },
+    score: number;
+    issues: string[];
+    warnings: string[];
+  };
   astrologicalConsistency: {
-    score: number,
-    inconsistencies: string[],
-    recommendations: string[]
-  },
+    score: number;
+    inconsistencies: string[];
+    recommendations: string[];
+  };
   nutritionalAccuracy: {
-    score: number,
-    inaccuracies: string[],
-    suggestions: string[]
-  },
+    score: number;
+    inaccuracies: string[];
+    suggestions: string[];
+  };
   seasonalValidity: {
-    score: number,
-    conflicts: string[],
-    adjustments: string[]
-  }
+    score: number;
+    conflicts: string[];
+    adjustments: string[];
+  };
 }
 
 export interface ValidationIntelligenceResult {

@@ -133,7 +133,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
       const mainId = methodData.relatedToMainMethod;
       if (methods[mainId]) {
         const existingVariations = methods[mainId].variations || [];
-        const existingVariationsArray = Array.isArray(existingVariations) ? existingVariations : [],
+        const existingVariationsArray = Array.isArray(existingVariations) ? existingVariations : [];
         if (!existingVariationsArray.some(v => v.id === methodData.id)) {
           methods[mainId].variations = [
             ...existingVariationsArray,
@@ -344,7 +344,7 @@ export function calculateEnhancedElementalCompatibility(
     // Weight by the target element's importance;
     const weight = targetValue + 0.1; // Ensure minimum weight
 
-    totalCompatibility += compatibility * weight,
+    totalCompatibility += compatibility * weight;
     elementCount += weight
   })
 
@@ -422,7 +422,7 @@ export function getRecommendedCookingMethods(
   elementalComposition: ElementalProperties,
   currentZodiac?: any,
   planets?: string[],
-  season = getCurrentSeason(),
+  season = getCurrentSeason();
   culturalPreference?: string,
   dietaryPreferences?: string[],
   availableTools?: string[],
@@ -467,7 +467,7 @@ export function getRecommendedCookingMethods(
     if (planets && dominantPlanets) {
       const planetMatch = planets.some(planet => dominantPlanets.includes(planet))
       if (planetMatch) {
-        score += 0.15,
+        score += 0.15;
         reasons.push('Planetary alignment')
       }
     }
@@ -475,14 +475,14 @@ export function getRecommendedCookingMethods(
     // Seasonal compatibility (10% weight)
     const seasonalPreference = methodData.seasonalPreference as string[];
     if (seasonalPreference.includes(season)) {
-      score += 0.1,
+      score += 0.1;
       reasons.push(`Perfect for ${season}`)
     }
 
     // Cultural preference (10% weight)
     const culturalOrigin = String(methodData.culturalOrigin || '')
     if (culturalPreference && culturalOrigin === culturalPreference) {
-      score += 0.1,
+      score += 0.1;
       reasons.push(`${culturalPreference} tradition`)
     }
 
@@ -497,7 +497,7 @@ export function getRecommendedCookingMethods(
         ),
       )
       if (toolsAvailable) {
-        score += 0.05,
+        score += 0.05;
         reasons.push('Tools available')
       }
     }
@@ -679,7 +679,7 @@ export function calculateElementalCompatibility(
 
     // Higher compatibility for similar values (following elemental principles)
     const compatibility = 1 - Math.abs((Number(valueA) || 0) - (Number(valueB) || 0))
-    totalCompatibility += compatibility,
+    totalCompatibility += compatibility;
     elementCount++
   })
 
@@ -756,9 +756,9 @@ export function getHolisticCookingRecommendations(
   ingredient: Ingredient | UnifiedIngredient,
   astroState?: Record<string, unknown>,
   season?: string,
-  includeReasons = false,
-  availableMethods: string[] = [],
-  limit = 5,
+  includeReasons = false;
+  availableMethods: string[] = [];
+  limit = 5;
 ): { method: string, compatibility: number, reason?: string }[] {
   try {
     // Default to empty elementalProperties if not provided
@@ -799,7 +799,7 @@ export function getHolisticCookingRecommendations(
           (rec as any).id ||
           'unknown'
       ),
-      compatibility: (Number((rec as any).score) || 0) * 100,
+      compatibility: (Number((rec as any).score) || 0) * 100;
       reason: includeReasons
         ? String(((rec as any).reasons as string[])[0]) || `Good match for ${ingredient.name}`
         : undefined
@@ -817,7 +817,7 @@ export function getHolisticCookingRecommendations(
  */
 export function getRecommendedCookingMethodsForIngredient(ingredient: Ingredient | UnifiedIngredient,
   cookingMethods: Ingredient | UnifiedIngredient[],
-  limit = 5,
+  limit = 5;
 ): { method: string, compatibility: number }[] {
   try {
     // Extract elemental properties from ingredient

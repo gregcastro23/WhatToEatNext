@@ -1,4 +1,4 @@
-// ===== UNIFIED SEASONAL SYSTEM =====,
+// ===== UNIFIED SEASONAL SYSTEM =====;
 // Phase 3 of WhatToEatNext Data Consolidation
 // Consolidates seasonal.ts, seasonalPatterns.ts, and seasonalUsage.ts
 // Integrates Monica constants and Kalchm values from the existing systems.
@@ -21,7 +21,7 @@ import {
 
 import { unifiedIngredients } from './ingredients';
 
-// ===== ENHANCED SEASONAL INTERFACES =====,
+// ===== ENHANCED SEASONAL INTERFACES =====;
 
 export interface SeasonalMonicaModifiers {
   temperatureAdjustment: number // Temperature adjustment for seasonal cooking,
@@ -112,7 +112,7 @@ export interface SeasonalRecommendations {
   kalchmHarmony: number
 }
 
-// ===== CONSOLIDATED SEASONAL DATA =====,
+// ===== CONSOLIDATED SEASONAL DATA =====;
 
 export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
   spring: {
@@ -667,7 +667,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
 }
 }
 
-// ===== UNIFIED SEASONAL SYSTEM CLASS =====,
+// ===== UNIFIED SEASONAL SYSTEM CLASS =====;
 
 export class UnifiedSeasonalSystem {
   private enhancedCookingMethods: { [key: string]: EnhancedCookingMethod };
@@ -717,7 +717,7 @@ export class UnifiedSeasonalSystem {
    */
   getSeasonalIngredientProfile(
     ingredientName: string,
-    season: Season = this.getCurrentSeason(),
+    season: Season = this.getCurrentSeason();
   ): SeasonalIngredientProfile {
     const availability = this.getSeasonalScore(ingredientName, season)
     const seasonProfile = unifiedSeasonalProfiles[season];
@@ -902,7 +902,7 @@ export class UnifiedSeasonalSystem {
     return modifier;
   }
 
-  // ===== MONICA-ENHANCED SEASONAL RECOMMENDATIONS =====,
+  // ===== MONICA-ENHANCED SEASONAL RECOMMENDATIONS =====;
 
   /**
    * Get seasonal recommendations with Monica optimization
@@ -963,7 +963,7 @@ export class UnifiedSeasonalSystem {
       if (!ingredient) continue;
 
       // Check Kalchm compatibility
-      const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(ingredient.kalchm ?? 0,
+      const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(ingredient.kalchm ?? 0;
         season
       );
 
@@ -1035,7 +1035,7 @@ export class UnifiedSeasonalSystem {
     targetMonica?: number,
   ): number {
     const seasonProfile = unifiedSeasonalProfiles[season];
-    let score = 0,
+    let score = 0;
 
     // Base seasonal compatibility
     if (seasonProfile.optimalCookingMethods.includes(method.name)) {
@@ -1287,7 +1287,7 @@ export class UnifiedSeasonalSystem {
 
 export const unifiedSeasonalSystem = new UnifiedSeasonalSystem()
 ;
-// ===== BACKWARD COMPATIBILITY EXPORTS =====,
+// ===== BACKWARD COMPATIBILITY EXPORTS =====;
 
 // Export functions that match the original seasonal.ts interface
 export const getCurrentSeason = () => unifiedSeasonalSystem.getCurrentSeason();

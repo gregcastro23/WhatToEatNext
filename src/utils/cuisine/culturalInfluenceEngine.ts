@@ -194,10 +194,10 @@ export function applyPhilosophyInfluences(
   philosophies: string[]
 ): { elementals: ElementalProperties; alchemical: AlchemicalProperties | undefined } {
   let modifiedElementals = { ...elementals };
-  let modifiedAlchemical = alchemical ? { ...alchemical } : undefined,
+  let modifiedAlchemical = alchemical ? { ...alchemical } : undefined;
 
   philosophies.forEach(philosophy => {
-    const philosophyData = CULINARY_PHILOSOPHIES[philosophy as keyof typeof CULINARY_PHILOSOPHIES],
+    const philosophyData = CULINARY_PHILOSOPHIES[philosophy as keyof typeof CULINARY_PHILOSOPHIES];
     if (!philosophyData) return;
 
     // Apply elemental modifiers
@@ -229,7 +229,7 @@ export function applyExchangeInfluences(
   let modified = { ...elementals };
 
   exchanges.forEach(exchange => {
-    const exchangeData = CULTURAL_EXCHANGES[exchange as keyof typeof CULTURAL_EXCHANGES],
+    const exchangeData = CULTURAL_EXCHANGES[exchange as keyof typeof CULTURAL_EXCHANGES];
     if (!exchangeData) return;
 
     modified = applyElementalModifiers(modified, exchangeData.elementalImpact);
@@ -300,12 +300,12 @@ function normalizeElementalProperties(properties: ElementalProperties): Elementa
   // Scale to sum to 1.0
   if (sum > 0) {
     (Object.keys(properties) as (keyof ElementalProperties)[]).forEach(key => {
-      normalized[key] = properties[key] / sum,
+      normalized[key] = properties[key] / sum;
     });
   } else {
     // Fallback to equal distribution
     (Object.keys(normalized) as (keyof ElementalProperties)[]).forEach(key => {
-      normalized[key] = 0.25,
+      normalized[key] = 0.25;
     });
   }
 
@@ -455,7 +455,7 @@ export function validateCulturalInfluence(influence: CulturalInfluence): {
   }
 
   return {
-    isValid: errors.length === 0,
+    isValid: errors.length === 0;
     errors,
     warnings
   };

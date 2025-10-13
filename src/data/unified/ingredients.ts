@@ -1,4 +1,4 @@
-// ===== UNIFIED INGREDIENTS SYSTEM =====,
+// ===== UNIFIED INGREDIENTS SYSTEM =====;
 // This file provides a unified interface for accessing ingredients with enhanced alchemical properties
 // It acts as an adapter/enhancer for existing ingredient data rather than duplicating it
 
@@ -227,7 +227,7 @@ export function getUnifiedIngredient(name: string): UnifiedIngredient | undefine
   // ✅ Pattern KK-1: Safe string conversion for case-insensitive search
   const normalizedName = String(name || '').toLowerCase();
   return Object.values(unifiedIngredients || {}).find(
-    ingredient => String(ingredient.name || '').toLowerCase() === normalizedName,
+    ingredient => String(ingredient.name || '').toLowerCase() === normalizedName
   )
 }
 
@@ -245,7 +245,7 @@ export function getUnifiedIngredientsByCategory(category: string): UnifiedIngred
   // ✅ Pattern KK-1: Safe string conversion for category comparison
   const categoryLower = String(category || '').toLowerCase();
   return Object.values(unifiedIngredients || {}).filter(
-    ingredient => String(ingredient.category || '').toLowerCase() === categoryLower,
+    ingredient => String(ingredient.category || '').toLowerCase() === categoryLower
   )
 }
 
@@ -263,7 +263,7 @@ export function getUnifiedIngredientsBySubcategory(subcategory: string): Unified
   // ✅ Pattern KK-1: Safe string conversion for subcategory comparison
   const subcategoryLower = String(subcategory || '').toLowerCase();
   return Object.values(unifiedIngredients || {}).filter(
-    ingredient => String(ingredient.subcategory || '').toLowerCase() === subcategoryLower,
+    ingredient => String(ingredient.subcategory || '').toLowerCase() === subcategoryLower
   )
 }
 
@@ -274,7 +274,7 @@ export function getIngredientsBySubcategory(subcategory: string): UnifiedIngredi
   // ✅ Pattern KK-1: Safe string conversion for subcategory comparison
   const subcategoryLower = String(subcategory || '').toLowerCase();
   return Object.values(unifiedIngredients || {}).filter(
-    ingredient => String(ingredient.subcategory || '').toLowerCase() === subcategoryLower,
+    ingredient => String(ingredient.subcategory || '').toLowerCase() === subcategoryLower
   )
 }
 
@@ -292,7 +292,7 @@ export function getHighKalchmIngredients(_threshold = 1.5): UnifiedIngredient[] 
  * Get ingredients by Kalchm range (alias for backward compatibility)
  */
 export function getIngredientsByKalchmRange(
-  min: number = 1.5,,
+  min: number = 1.5,
   max: number = Infinity): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe number conversion for kalchm range comparison,
   return Object.values(unifiedIngredients || {})
@@ -311,9 +311,9 @@ export function getIngredientsByMonicaRange(_min: number, _max: number): Unified
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {
       const monica = Number(ingredient.monica || 0);
-      return monica >= min && monica <= max;
+      return monica >= _min && monica <= _max;
     })
-    .sort((ab) => Number(a.monica || 0) - Number(b.monica || 0))
+    .sort((a, b) => Number(a.monica || 0) - Number(b.monica || 0))
 }
 
 /**
@@ -326,12 +326,12 @@ export function getIngredientsByElement(
   // ✅ Pattern GG-6: Safe property access for elemental properties,
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {
-      const props = ingredient.elementalProperties,
+      const props = ingredient.elementalProperties;
       return props && Number(props[element] || 0) >= threshold;
     })
-    .sort((ab) => {
-      const valueA = Number(a.elementalProperties[element] || 0)
-      const valueB = Number(b.elementalProperties[element] || 0)
+    .sort((a, b) => {
+      const valueA = Number(a.elementalProperties[element] || 0);
+      const valueB = Number(b.elementalProperties[element] || 0);
       return valueB - valueA;
     })
 }
@@ -341,7 +341,7 @@ export function getIngredientsByElement(
  */
 export function findComplementaryIngredients(
   ingredient: UnifiedIngredient | string,
-  maxResults: number = 10): UnifiedIngredient[] {;
+  maxResults: number = 10): UnifiedIngredient[] {
   // If string is provided, convert to ingredient
   const targetIngredient =
     typeof ingredient === 'string' ? getUnifiedIngredient(ingredient) : ingredient
@@ -357,16 +357,16 @@ export function findComplementaryIngredients(
   // ✅ Pattern KK-1: Safe number conversion for complementarity calculations
   return Object.values(unifiedIngredients || {})
     .filter(other => String(other.name || '') !== String(targetIngredient.name || ''))
-    .map(other => ({,
+    .map(other => ({
       ingredient: other,
-      complementarityScore: (1 - Math.abs(Number(other.kalchm || 0) - targetKalchmRatio)) * 0.5 +,
+      complementarityScore: (1 - Math.abs(Number(other.kalchm || 0) - targetKalchmRatio)) * 0.5 +
         (1 -
           Math.abs(
             Number(targetIngredient.monica || 0) + Number(other.monica || 0) - targetMonicaSum
           )) *
           0.5
     }))
-    .sort((ab) => Number(b.complementarityScore || 0) - Number(a.complementarityScore || 0))
+    .sort((a, b) => Number(b.complementarityScore || 0) - Number(a.complementarityScore || 0))
     .slice(0, maxResults)
     .map(result => result.ingredient);
 }
@@ -375,4 +375,4 @@ export function findComplementaryIngredients(
 export type { UnifiedIngredient } from './unifiedTypes';
 
 // Export default
-export default unifiedIngredients,
+export default unifiedIngredients;

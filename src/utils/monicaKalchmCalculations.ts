@@ -328,7 +328,7 @@ export function performEnhancedAnalysis(
   }
 }
 
-// ========== EXPORT DEFAULT CALCULATION SUITE ==========,
+// ========== EXPORT DEFAULT CALCULATION SUITE ==========;
 
 export const MonicaKalchmCalculations = {
   calculateHeat,
@@ -421,7 +421,7 @@ export function calculateThermodynamicMetricsWithKinetics(
     // Enhance metrics with kinetics
     const enhancedMetrics: ThermodynamicMetrics = {
       heat: baseMetrics.heat * (1 + kinetics.velocityBoost * 0.1),
-      entropy: baseMetrics.entropy * (kinetics.aspectPhase === 'square' ? 1.2 : 0.9),
+      entropy: baseMetrics.entropy * (kinetics.aspectPhase === 'square' ? 1.2 : 0.9);
       reactivity: baseMetrics.reactivity * (kinetics.forceMagnitude / 5 + 0.8),
       gregsEnergy: baseMetrics.gregsEnergy,
       kalchm: calculateKalchmWithKinetics(alchemical, kinetics),

@@ -1,7 +1,7 @@
 // Export hooks for easy importing
 export { useIngredientMapping } from './useIngredientMapping';
 
-// ========== MISSING HOOK EXPORTS FOR TS2305 FIXES ==========,
+// ========== MISSING HOOK EXPORTS FOR TS2305 FIXES ==========;
 
 // useElementalState (causing error in CuisineRecommender.tsx)
 export { useElementalState } from './useElementalState';
@@ -46,9 +46,9 @@ export function useAstroTarotElementalState() {
 
   // Combine astrological and tarot influences
   const combinedState: ElementalProperties = {
-    Fire: Fire * 0.7 + ((tarotInfluence as any)?.Fire || 0) * 0.2,
-    Water: Water * 0.7 + ((tarotInfluence as any)?.Water || 0) * 0.2,
-    Earth: Earth * 0.7 + ((tarotInfluence as any)?.Earth || 0) * 0.2,
+    Fire: Fire * 0.7 + ((tarotInfluence as any)?.Fire || 0) * 0.2;
+    Water: Water * 0.7 + ((tarotInfluence as any)?.Water || 0) * 0.2;
+    Earth: Earth * 0.7 + ((tarotInfluence as any)?.Earth || 0) * 0.2;
     Air: Air * 0.7 + ((tarotInfluence as any)?.Air || 0) * 0.2
   }
 

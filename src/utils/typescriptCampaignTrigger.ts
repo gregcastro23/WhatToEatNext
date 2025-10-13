@@ -89,10 +89,10 @@ export interface SafetyProtocol {
 }
 
 export enum CampaignMode {
-  EMERGENCY = 'EMERGENCY',
-  AGGRESSIVE = 'AGGRESSIVE',
-  STANDARD = 'STANDARD',
-  MONITORING = 'MONITORING',
+  EMERGENCY = 'EMERGENCY';
+  AGGRESSIVE = 'AGGRESSIVE';
+  STANDARD = 'STANDARD';
+  MONITORING = 'MONITORING';
 }
 
 export enum ErrorCategory {
@@ -101,19 +101,19 @@ export enum ErrorCategory {
   TS2345 = 'TS2345', // Argument type mismatch
   TS2698 = 'TS2698', // Spread syntax errors
   TS2362 = 'TS2362', // Arithmetic operation errors
-  OTHER = 'OTHER',
+  OTHER = 'OTHER';
 }
 
 export enum ErrorSeverity {
-  HIGH = 'HIGH',
-  MEDIUM = 'MEDIUM',
-  LOW = 'LOW',
+  HIGH = 'HIGH';
+  MEDIUM = 'MEDIUM';
+  LOW = 'LOW';
 }
 
 export enum SafetyLevel {
-  MAXIMUM = 'MAXIMUM',
-  HIGH = 'HIGH',
-  MEDIUM = 'MEDIUM',
+  MAXIMUM = 'MAXIMUM';
+  HIGH = 'HIGH';
+  MEDIUM = 'MEDIUM';
 }
 
 // Configuration constants
@@ -359,7 +359,7 @@ function determineSeverity(category: ErrorCategory): ErrorSeverity {
 function calculatePriority(category: ErrorCategory, severity: ErrorSeverity): number {
   const categoryWeight = CATEGORY_PRIORITY_WEIGHTS[category] || 0.5;
   const severityWeight =
-    severity === ErrorSeverity.HIGH ? 1.0 : severity === ErrorSeverity.MEDIUM ? 0.7 : 0.4,
+    severity === ErrorSeverity.HIGH ? 1.0 : severity === ErrorSeverity.MEDIUM ? 0.7 : 0.4;
 
   return categoryWeight * severityWeight;
 }

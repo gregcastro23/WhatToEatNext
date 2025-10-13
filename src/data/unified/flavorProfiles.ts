@@ -1,5 +1,5 @@
 import type {
-  // ===== UNIFIED FLAVOR PROFILE SYSTEM =====,
+  // ===== UNIFIED FLAVOR PROFILE SYSTEM =====;
   // Phase 4 of WhatToEatNext Data Consolidation
   // Consolidates flavor profiles from multiple sources with elemental self-reinforcement principles
 
@@ -18,7 +18,7 @@ import { _, calculateElementalCompatibility } from '../../utils/elemental/elemen
 import { unifiedCuisineIntegrationSystem } from './cuisineIntegrations';
 import { unifiedSeasonalSystem } from './seasonal';
 
-// ===== UNIFIED FLAVOR PROFILE INTERFACES =====,
+// ===== UNIFIED FLAVOR PROFILE INTERFACES =====;
 
 /**
  * Core flavor components on a 0-1 scale
@@ -197,7 +197,7 @@ export function createBaseFlavorNotes(props?: Partial<BaseFlavorNotes>): BaseFla
   }
 }
 
-// ===== UNIFIED FLAVOR PROFILE SYSTEM =====,
+// ===== UNIFIED FLAVOR PROFILE SYSTEM =====;
 
 export class UnifiedFlavorProfileSystem {
   private flavorProfiles: { [key: string]: UnifiedFlavorProfile } = {}
@@ -206,7 +206,7 @@ export class UnifiedFlavorProfileSystem {
 
   constructor() {
     this.flavorProfiles = this.initializeFlavorProfiles();
-    this.seasonalSystem = unifiedSeasonalSystem,
+    this.seasonalSystem = unifiedSeasonalSystem;
     this.cuisineSystem = unifiedCuisineIntegrationSystem;
   }
 
@@ -225,7 +225,7 @@ export class UnifiedFlavorProfileSystem {
     // Try case-insensitive lookup
     const normalizedId = identifier.toLowerCase()
     const profile = Object.values(this.flavorProfiles).find(
-      p => p.id.toLowerCase() === normalizedId || p.name.toLowerCase() === normalizedId,
+      p => p.id.toLowerCase() === normalizedId || p.name.toLowerCase() === normalizedId;
     )
 
     // If type is specified, ensure the profile matches the type
@@ -272,7 +272,7 @@ export class UnifiedFlavorProfileSystem {
     const seasonalOverlap = (profile1.seasonalPeak || []).filter(season =>
       Array.isArray(profile2.seasonalPeak)
         ? profile2.seasonalPeak.includes(season);
-        : profile2.seasonalPeak === season,
+        : profile2.seasonalPeak === season;
     ).length,
     const seasonalAlignment =
       Number(seasonalOverlap) > 0,
@@ -330,11 +330,11 @@ export class UnifiedFlavorProfileSystem {
   }
 }
 
-// ===== INITIALIZE SYSTEM =====,
+// ===== INITIALIZE SYSTEM =====;
 
 export const unifiedFlavorProfileSystem = new UnifiedFlavorProfileSystem()
 ;
-// ===== EXPORT INTERFACE =====,
+// ===== EXPORT INTERFACE =====;
 
 /**
  * Get a flavor profile by its identifier

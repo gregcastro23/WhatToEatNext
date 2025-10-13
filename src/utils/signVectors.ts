@@ -287,19 +287,19 @@ export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
   const modality = VECTOR_CONFIG.modalityBoosts[direction];
 
   const Spirit =
-    (elemental.Fire * (e2.Spirit.Fire || 0) + elemental.Air * (e2.Spirit.Air || 0)) *;
+    (elemental.Fire * (e2.Spirit.Fire || 0) + elemental.Air * (e2.Spirit.Air || 0)) *
     modality.Spirit *
     magnitude;
   const Essence =
-    (elemental.Water * (e2.Essence.Water || 0) + elemental.Fire * (e2.Essence.Fire || 0)) *;
+    (elemental.Water * (e2.Essence.Water || 0) + elemental.Fire * (e2.Essence.Fire || 0)) *
     modality.Essence *
     magnitude;
   const Matter =
-    (elemental.Earth * (e2.Matter.Earth || 0) + elemental.Water * (e2.Matter.Water || 0)) *;
+    (elemental.Earth * (e2.Matter.Earth || 0) + elemental.Water * (e2.Matter.Water || 0)) *
     modality.Matter *
     magnitude;
   const Substance =
-    (elemental.Earth * (e2.Substance.Earth || 0) + elemental.Air * (e2.Substance.Air || 0)) *;
+    (elemental.Earth * (e2.Substance.Earth || 0) + elemental.Air * (e2.Substance.Air || 0)) *
     modality.Substance *
     magnitude;
 
@@ -316,7 +316,7 @@ export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
 export function blendESMS(
   base: AlchemicalProperties,
   contribution: AlchemicalProperties,
-  alpha: number = VECTOR_CONFIG.blendWeightAlpha,
+  alpha: number = VECTOR_CONFIG.blendWeightAlpha
 ): AlchemicalProperties {
   const Spirit = base.Spirit * (1 - alpha) + contribution.Spirit * alpha;
   const Essence = base.Essence * (1 - alpha) + contribution.Essence * alpha;
@@ -358,7 +358,7 @@ export function getAlchemicalStateWithVectors(input: {
 
   const signVectors = calculateSignVectors({ planetaryPositions, aspects, season });
 
-  let, selected: SignVector | null = null,
+  let selected: SignVector | null = null;
   if (governing === 'sun') {
     const sunSign = String(planetaryPositions?.Sun?.sign || '').toLowerCase() as any;
     selected = sunSign ? signVectors[sunSign] : null

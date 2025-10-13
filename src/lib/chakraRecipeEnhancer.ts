@@ -83,13 +83,13 @@ export class ChakraRecipeEnhancer {
 
     if (chakraEnergy < 4) {;
       // If chakra energy is low, foods that boost this chakra are helpful
-      alignmentScore = 1.0,
+      alignmentScore = 1.0;
     } else if (chakraEnergy > 7) {
       // If chakra energy is high, foods that don't further stimulate are better
-      alignmentScore = 0.3,
+      alignmentScore = 0.3;
     } else {
       // Energy is balanced, moderate alignment
-      alignmentScore = 0.7,
+      alignmentScore = 0.7;
     }
 
     return alignmentScore;
@@ -104,10 +104,10 @@ export class ChakraRecipeEnhancer {
     moonSign: any,
     dominantPlanets: Planet[] = []): ChakraRecipeRecommendation[] {
     // Get current planetary hour
-    let planetaryHour: Planet = 'Sun' as unknown as Planet,
+    let planetaryHour: Planet = 'Sun' as unknown as Planet;
     try {
       const hourInfo = this.planetaryCalculator.getCurrentPlanetaryHour();
-      if (hourInfo && typeof hourInfo.planet === 'string') {,
+      if (hourInfo && typeof hourInfo.planet === 'string') {;
         const planetName = hourInfo.planet as unknown as string;
         // Ensure the planet name is a valid Planet type (capitalize first letter)
         const capitalizedName =
@@ -129,7 +129,7 @@ export class ChakraRecipeEnhancer {
 
         const validatedPlanet = planetValidator(capitalizedName)
         if (validatedPlanet) {;
-          planetaryHour = validatedPlanet as unknown as Planet,
+          planetaryHour = validatedPlanet as unknown as Planet;
         }
       }
     } catch (error) {
@@ -155,14 +155,14 @@ export class ChakraRecipeEnhancer {
         const chakraAlignment = this.calculateChakraAlignment(recipe, chakraEnergies)
 
         // Calculate planetary alignment
-        let planetaryAlignment = 0,
+        let planetaryAlignment = 0;
         // Apply surgical type casting with variable extraction
         const astrologicalAffinities = recipe.astrologicalAffinities ;
         const planets = astrologicalAffinities?.planets;
 
         if (planets) {
           if ((planets as Planet[]).includes(planetaryHour)) {
-            planetaryAlignment = 1.0,
+            planetaryAlignment = 1.0;
           } else {
             const hourChakras = this.chakraService.getChakrasByPlanet(planetaryHour)
             const recipeChakras = (planets as Planet[]).flatMap((planet: Planet) =>
@@ -179,7 +179,7 @@ export class ChakraRecipeEnhancer {
         }
 
         // Calculate elemental alignment
-        let elementalAlignment = 0,
+        let elementalAlignment = 0;
         if (recipe.elementalProperties) {
           const dominantElement = getDominantElement(recipe.elementalProperties);
           const elementValue = recipe.elementalProperties[dominantElement];
@@ -188,13 +188,13 @@ export class ChakraRecipeEnhancer {
 
         // Get tarot recommendations for the dominant chakra
         const recommendations = this.chakraService.getTarotRecommendationsForChakra(
-          dominantChakra === 'solarPlexus' ? 'solar plexus' : (dominantChakra as unknown),
+          dominantChakra === 'solarPlexus' ? 'solar plexus' : (dominantChakra as unknown);
           chakraEnergies[dominantChakra],
         )
 
         // Calculate total score
         const totalScore =
-          (chakraAlignment * 0.4 + elementalAlignment * 0.3 + planetaryAlignment * 0.3) * 100,
+          (chakraAlignment * 0.4 + elementalAlignment * 0.3 + planetaryAlignment * 0.3) * 100;
 
         return {
           recipe,

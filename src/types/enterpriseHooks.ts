@@ -6,118 +6,118 @@
  */
 
 export interface EnterpriseRecipeData {
-  id?: string,
-  name?: string,
-  ingredients?: unknown[],
-  instructions?: string[],
-  cuisine?: string,
+  id?: string;
+  name?: string;
+  ingredients?: unknown[];
+  instructions?: string[];
+  cuisine?: string;
   elementalProperties?: {
-    Fire: number,
-    Water: number,
-    Earth: number,
-    Air: number
-  }
-  nutritionalProfile?: Record<string, number>,
-  metadata?: Record<string, unknown>,
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+  };
+  nutritionalProfile?: Record<string, number>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface EnterpriseIngredientData {
-  name: string,
-  category?: string,
-  subcategory?: string,
-  nutritionalData?: Record<string, number>,
+  name: string;
+  category?: string;
+  subcategory?: string;
+  nutritionalData?: Record<string, number>;
   elementalProperties?: {
-    Fire: number,
-    Water: number,
-    Earth: number,
-    Air: number
-  }
-  seasonalAvailability?: Record<string, number>,
-  astrologicalAffinity?: Record<string, number>,
-  metadata?: Record<string, unknown>,
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+  };
+  seasonalAvailability?: Record<string, number>;
+  astrologicalAffinity?: Record<string, number>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface EnterpriseAstrologicalContext {
   planetaryPositions?: Record<
     string,
     {
-      longitude: number,
-      latitude?: number,
-      retrograde?: boolean,
-      house?: number,
+      longitude: number;
+      latitude?: number;
+      retrograde?: boolean;
+      house?: number;
     }
-  >,
-  zodiacSign?: string,
-  lunarPhase?: string,
+  >;
+  zodiacSign?: string;
+  lunarPhase?: string;
   elementalInfluence?: {
-    Fire: number,
-    Water: number,
-    Earth: number,
-    Air: number
-  }
-  transitData?: Record<string, unknown>,
-  timestamp?: Date,
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+  };
+  transitData?: Record<string, unknown>;
+  timestamp?: Date;
 }
 
 export interface EnterpriseIntelligenceOptions {
-  enableRecipeIntelligence?: boolean,
-  enableIngredientIntelligence?: boolean,
-  enableValidationIntelligence?: boolean,
-  enableSafetyIntelligence?: boolean,
-  cacheResults?: boolean,
-  logLevel?: 'debug' | 'info' | 'warn' | 'error'
-  analysisDepth?: 'shallow' | 'standard' | 'deep'
+  enableRecipeIntelligence?: boolean;
+  enableIngredientIntelligence?: boolean;
+  enableValidationIntelligence?: boolean;
+  enableSafetyIntelligence?: boolean;
+  cacheResults?: boolean;
+  logLevel?: 'debug' | 'info' | 'warn' | 'error';
+  analysisDepth?: 'shallow' | 'standard' | 'deep';
 }
 
 export interface EnterpriseIntelligenceRecommendations {
-  recipe: string[],
-  ingredient: string[],
-  validation: string[],
-  optimization: string[],
-  safety: string[]
+  recipe: string[];
+  ingredient: string[];
+  validation: string[];
+  optimization: string[];
+  safety: string[];
 }
 
 export interface EnterpriseIntelligenceAnalysisState {
   recipeIntelligence?: {
-    recommendations: string[],
-    compatibilityScore: number,
-    optimizationSuggestions: string[],
-    confidence: number
-  }
+    recommendations: string[];
+    compatibilityScore: number;
+    optimizationSuggestions: string[];
+    confidence: number;
+  };
   ingredientIntelligence?: {
-    recommendations: string[],
-    seasonalScore: number,
-    nutritionalScore: number,
-    confidence: number
-  }
+    recommendations: string[];
+    seasonalScore: number;
+    nutritionalScore: number;
+    confidence: number;
+  };
   validationIntelligence?: {
     dataIntegrity: {
-      issues: string[],
-      score: number
-    },
+      issues: string[];
+      score: number;
+    };
     astrologicalConsistency: {
-      issues: string[],
-      score: number
-    },
-    overallValid: boolean
-  }
+      issues: string[];
+      score: number;
+    };
+    overallValid: boolean;
+  };
   safetyIntelligence?: {
-    allergenWarnings: string[],
-    nutritionalConcerns: string[],
-    interactionWarnings: string[],
-    safetyScore: number
-  },
-  timestamp: Date,
-  processingTime: number
+    allergenWarnings: string[];
+    nutritionalConcerns: string[];
+    interactionWarnings: string[];
+    safetyScore: number;
+  };
+  timestamp: Date;
+  processingTime: number;
 }
 
 export interface EnterpriseIntelligenceHookState {
-  loading: boolean,
-  error: string | null,
-  analysis: EnterpriseIntelligenceAnalysisState | null,
-  recommendations: EnterpriseIntelligenceRecommendations,
-  isAnalyzing: boolean,
-  lastUpdate: Date | null
+  loading: boolean;
+  error: string | null;
+  analysis: EnterpriseIntelligenceAnalysisState | null;
+  recommendations: EnterpriseIntelligenceRecommendations;
+  isAnalyzing: boolean;
+  lastUpdate: Date | null;
 }
 
 export interface EnterpriseIntelligenceHookMethods {
@@ -126,34 +126,34 @@ export interface EnterpriseIntelligenceHookMethods {
     ingredientData: EnterpriseIngredientData,
     astrologicalContext: EnterpriseAstrologicalContext,
     options?: EnterpriseIntelligenceOptions,
-  ) => Promise<void>,
+  ) => Promise<void>;
 
-  clearAnalysis: () => void,
-  refreshAnalysis: () => Promise<void>,
-  getRecommendations: () => EnterpriseIntelligenceRecommendations,
-  getAnalysisState: () => EnterpriseIntelligenceAnalysisState | null
+  clearAnalysis: () => void;
+  refreshAnalysis: () => Promise<void>;
+  getRecommendations: () => EnterpriseIntelligenceRecommendations;
+  getAnalysisState: () => EnterpriseIntelligenceAnalysisState | null;
 }
 
 export type EnterpriseIntelligenceHook = EnterpriseIntelligenceHookState &
-  EnterpriseIntelligenceHookMethods,
+  EnterpriseIntelligenceHookMethods;
 
 // Chakra analysis types
 export interface ChakraAnalysisContext {
-  chakraType: 'root' | 'sacral' | 'solarPlexus' | 'heart' | 'throat' | 'brow' | 'crown'
-  analysisMode: 'mantra' | 'visual' | 'nutritional' | 'functional' | 'platform'
-  analysisData: Record<string, unknown>,
+  chakraType: 'root' | 'sacral' | 'solarPlexus' | 'heart' | 'throat' | 'brow' | 'crown';
+  analysisMode: 'mantra' | 'visual' | 'nutritional' | 'functional' | 'platform';
+  analysisData: Record<string, unknown>;
   chakraProperties: {
-    color: string,
-    element: string,
-    frequency: number,
-    symbol: string
-  }
+    color: string;
+    element: string;
+    frequency: number;
+    symbol: string;
+  };
 }
 
 export interface ChakraAnalysisResult {
-  effectiveness: number,
-  recommendations: string[],
-  analysisDetails: Record<string, unknown>,
-  confidenceScore: number,
-  improvementSuggestions: string[]
+  effectiveness: number;
+  recommendations: string[];
+  analysisDetails: Record<string, unknown>;
+  confidenceScore: number;
+  improvementSuggestions: string[];
 }

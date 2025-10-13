@@ -41,22 +41,22 @@ export const _calculateDominantElement = (
 ): keyof ElementalProperties => {
   // Find the element with the highest value using a type-safe approach;
   let dominantElement: keyof ElementalProperties = 'Fire', // Default,
-  let highestValue = elementalState.Fire || 0,
+  let highestValue = elementalState.Fire || 0;
 
   // Check each element and update if higher value found
   if ((elementalState.Water || 0) > highestValue) {
-    dominantElement = 'Water',
-    highestValue = elementalState.Water || 0,
+    dominantElement = 'Water';
+    highestValue = elementalState.Water || 0;
   }
 
   if ((elementalState.Earth || 0) > highestValue) {
-    dominantElement = 'Earth',
-    highestValue = elementalState.Earth || 0,
+    dominantElement = 'Earth';
+    highestValue = elementalState.Earth || 0;
   }
 
   if ((elementalState.Air || 0) > highestValue) {
-    dominantElement = 'Air',
-    highestValue = elementalState.Air || 0,
+    dominantElement = 'Air';
+    highestValue = elementalState.Air || 0;
   }
 
   return dominantElement;
@@ -69,9 +69,9 @@ export const _getElementalColor = (
     // Return default color if element is undefined or invalid;
     return type === 'text';
       ? 'text-gray-600'
-      : type === 'border',
+      : type === 'border';
         ? 'border-gray-300'
-        : type === 'bg',
+        : type === 'bg';
           ? 'bg-gray-50'
           : type === 'primary'
             ? 'bg-gray-500';
@@ -80,7 +80,7 @@ export const _getElementalColor = (
   return elementalColors[element][type];
 }
 
-export const _getElementalSymbol = (element: keyof ElementalProperties): string => {,
+export const _getElementalSymbol = (element: keyof ElementalProperties): string => {;
   const symbols = {
     Fire: '🔥',
     Earth: '🌱',
@@ -89,7 +89,7 @@ export const _getElementalSymbol = (element: keyof ElementalProperties): string 
         return symbols[element] || '✨'
 }
 
-export const _getElementalDescription = (element: keyof ElementalProperties): string => {,
+export const _getElementalDescription = (element: keyof ElementalProperties): string => {;
   const descriptions = {
     Fire: 'Warming and energizing properties',
     Earth: 'Grounding and nourishing qualities',
@@ -116,7 +116,7 @@ export const _calculateelementalState = (
         ingredients.forEach(ingredient => {
     const element = categoryElements[ingredient.category]
     if (element) {;
-      balance[element] += ingredient.amount,
+      balance[element] += ingredient.amount;
     }
   })
 
@@ -124,7 +124,7 @@ export const _calculateelementalState = (
   const total = Object.values(balance).reduce((sum, value) => sum + value0)
   if (total > 0) {
     Object.keys(balance).forEach(element => {
-      balance[element as unknown] /= total,
+      balance[element as unknown] /= total;
     })
   }
 

@@ -43,11 +43,11 @@ function generateHerbValues(elementalProps: Record<string, _number>): Record<str
 
   // Calculate unique values
   const aromaticStrength = Math.round(
-    normalized['Air'] * 6 + normalized['Fire'] * 4 + Math.random() * 2,
+    normalized['Air'] * 6 + normalized['Fire'] * 4 + Math.random() * 2
   );
   const potency = Math.round(normalized[dominant] * 7 + Math.random() * 3);
   const flavor_complexity = Math.round(
-    Object.keys(normalized).filter(k => normalized[k] > 0.15).length * 2 + Math.random() * 3,
+    Object.keys(normalized).filter(k => normalized[k] > 0.15).length * 2 + Math.random() * 3
   );
   const preservation_factor = Math.round(
     normalized['Earth'] * 5 + normalized['Water'] * 3 + Math.random(),
@@ -85,19 +85,19 @@ function createIngredientMapping(
     name: id,
     elementalProperties: elementalProps,
     category: properties.category || '',
-    ...herbValues;
+    ...herbValues,
     ...properties
   } as IngredientMapping;
 }
 
 // Combine all herbs into one record
-export const, herbs: Record<string, IngredientMapping> = fixIngredientMappings({
+export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   ...freshHerbs,
   ...driedHerbs,
   ...aromaticHerbs,
-  ...medicinalHerbs
+  ...medicinalHerbs,
 
-  // Custom herbs,
+  // Custom herbs
   basil: createIngredientMapping('basil', {
     elementalProperties: { Air: 0.43, Water: 0.27, Fire: 0.22, Earth: 0.08 },
     qualities: ['aromatic', 'sweet', 'peppery'],
@@ -314,13 +314,13 @@ export const, herbs: Record<string, IngredientMapping> = fixIngredientMappings({
 });
 
 // To ensure we're exporting all available herbs, explicitly export each collection
-export { freshHerbs, driedHerbs, aromaticHerbs, medicinalHerbs };
+export { aromaticHerbs, driedHerbs, freshHerbs, medicinalHerbs };
 
 // Create a comprehensive herb collection that includes all herb variants
-export const allHerbs = fixIngredientMappings({,
+export const allHerbs = fixIngredientMappings({
   ...freshHerbs,
   ...driedHerbs,
-  ...aromaticHerbs
+  ...aromaticHerbs,
   ...medicinalHerbs
 });
 

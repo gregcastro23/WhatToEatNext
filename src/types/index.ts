@@ -20,125 +20,125 @@ export const _ZODIAC_SEASONS: any[] = [
   'capricorn',
   'aquarius',
   'pisces'
-],
+];
 
 // Recipe and ingredient types
 export interface Ingredient {
-  name: string,
-  category: string,
-  amount: string,
-  elementalProperties: ElementalProperties,
+  name: string;
+  category: string;
+  amount: string;
+  elementalProperties: ElementalProperties;
   astrologicalProfile: {
     elementalAffinity: {
-      base: string,
-      secondary?: string
-    },
-    rulingPlanets: string[],
-    zodiacAffinity?: string[]
-  }
+      base: string;
+      secondary?: string;
+    };
+    rulingPlanets: string[];
+    zodiacAffinity?: string[];
+  };
   flavorProfile?: {
-    spicy: number,
-    sweet: number,
-    sour: number,
-    bitter: number,
-    salty: number,
-    umami: number
-  }
+    spicy: number;
+    sweet: number;
+    sour: number;
+    bitter: number;
+    salty: number;
+    umami: number;
+  };
 }
 
 export interface Nutrition {
-  calories: number,
-  protein: number,
-  carbs: number
+  calories: number;
+  protein: number;
+  carbs: number;
 }
 
 export interface Dish {
-  name: string,
-  ingredients: Ingredient[],
-  instructions: string[],
-  timeToMake: string,
-  nutrition: Nutrition
+  name: string;
+  ingredients: Ingredient[];
+  instructions: string[];
+  timeToMake: string;
+  nutrition: Nutrition;
 }
 
 export interface FilterOptions {
   dietary: {
-    vegetarian: boolean,
-    vegan: boolean,
-    glutenFree: boolean,
-    dairyFree: boolean
-  },
+    vegetarian: boolean;
+    vegan: boolean;
+    glutenFree: boolean;
+    dairyFree: boolean;
+  };
   time: {
-    quick: boolean,
-    medium: boolean,
-    long: boolean
-  },
+    quick: boolean;
+    medium: boolean;
+    long: boolean;
+  };
   spice: {
-    mild: boolean,
-    medium: boolean,
-    spicy: boolean
-  },
+    mild: boolean;
+    medium: boolean;
+    spicy: boolean;
+  };
   temperature: {
-    hot: boolean,
-    cold: boolean
-  }
+    hot: boolean;
+    cold: boolean;
+  };
 }
 
 export interface NutritionPreferences {
-  lowCalorie: boolean,
-  highProtein: boolean,
-  lowCarb: boolean
+  lowCalorie: boolean;
+  highProtein: boolean;
+  lowCarb: boolean;
 }
 
 export type TimeData = {
   [season in Season]?: Dish[];
-}
+};
 
 export type CuisineData = {
-  name: string,
-  recipes: Recipe[],
-  score?: number,
-  matchPercentage?: number,
-  monicaCompatibility?: number,
-  userMonica?: number,
-  cuisineMonica?: number,
-  thermodynamicHarmony?: number,
-  alchemicalBalance?: number,
-  elementalProperties?: ElementalProperties,
+  name: string;
+  recipes: Recipe[];
+  score?: number;
+  matchPercentage?: number;
+  monicaCompatibility?: number;
+  userMonica?: number;
+  cuisineMonica?: number;
+  thermodynamicHarmony?: number;
+  alchemicalBalance?: number;
+  elementalProperties?: ElementalProperties;
   dishes?: {
-    [mealTime in MealTime]?: TimeData
-  }
+    [mealTime in MealTime]?: TimeData;
+  };
 
   // Additional properties for enhanced compatibility
-  region?: string,
-  description?: string,
-  culturalContext?: string,
-  traditionalTechniques?: string[],
-  seasonalFocus?: Season[],
-  astrologicalAffinities?: string[]
-}
+  region?: string;
+  description?: string;
+  culturalContext?: string;
+  traditionalTechniques?: string[];
+  seasonalFocus?: Season[];
+  astrologicalAffinities?: string[];
+};
 
 export type Cuisines = {
   [id: string]: CuisineData;
-}
+};
 
 // Helper type for time-based context
 export type TimeOfDay = {
-  hour: number,
-  minute: number,
-  period: MealTime,
-  season: Season
-}
+  hour: number;
+  minute: number;
+  period: MealTime;
+  season: Season;
+};
 
 // Use as type instead of enum to avoid merging issues
-export type CuisineTypeEnum = 'ITALIAN' | 'FRENCH' | 'CHINESE' | 'INDIAN' | 'MEXICAN'
+export type CuisineTypeEnum = 'ITALIAN' | 'FRENCH' | 'CHINESE' | 'INDIAN' | 'MEXICAN';
 // Export essential utils
 export * from './cuisine';
 export * from './utils';
-,
-,
+
+
 
 // Add CuisineType for compatibility
-export type CuisineType = string,
+export type CuisineType = string;
 
 // Add DietaryRestriction type if missing from any type files
 export type DietaryRestriction =
@@ -151,14 +151,14 @@ export type DietaryRestriction =
   | 'keto'
   | 'paleo'
   | 'low-carb'
-  | 'low-fat'
+  | 'low-fat';
 // Export ZodiacAffinity types (removed to avoid Modality conflict)
 // export * from './zodiacAffinity',
 
 // Re-export all relevant types from their modules
 // Remove duplicate exports to avoid conflicts
 export * from './nutrition';
-,
+
 // spoonacular types removed with cleanup
 // Note: Removing './recipe', './time', './lunar', './cookingMethod', './validation' to avoid conflicts
 // Note: Removing './seasons' and './zodiacAffinity' to avoid conflicts
@@ -166,26 +166,27 @@ export * from './astrology';
 export * from './chakra';
 export * from './cuisine';
 export * from './seasonal';
-,
-,
-,
+
+
+
 // PlanetaryPositions now consolidated in astrology.ts
 export * from './ingredient-compatibility';
 export * from './utils';
-,
+
 
 // Define core app state types
 export interface AppState {
-  currentIngredients: Ingredient[],
-  savedRecipes: unknown[],
+  currentIngredients: Ingredient[];
+  savedRecipes: unknown[];
   userPreferences: {
-    theme: 'light' | 'dark'
-    dietaryRestrictions: string[],
-    favoriteIngredients: string[]
-  }
+    theme: 'light' | 'dark';
+    dietaryRestrictions: string[];
+    favoriteIngredients: string[];
+  };
 }
 
-// Instead, import and export only from './alchemy' for these types: export type {
+// Instead, import and export only from './alchemy' for these types:
+export type {
   AlchemicalProperties,
   ThermodynamicProperties,
   Season,
@@ -194,7 +195,7 @@ export interface AppState {
   ZodiacSign,
   LunarPhase,
   PlanetaryAlignment,
-  ElementalProperties
+  ElementalProperties,
 } from './alchemy';
 
 // Add missing exports for frequently used types

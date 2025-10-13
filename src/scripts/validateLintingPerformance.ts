@@ -32,7 +32,7 @@ interface ValidationResult {
 }
 
 class LintingPerformanceValidator {
-  private baselineMetrics: PerformanceMetrics | null = null,
+  private baselineMetrics: PerformanceMetrics | null = null;
   private results: ValidationResult[] = [];
 
   async validatePerformanceOptimizations(): Promise<void> {

@@ -56,15 +56,15 @@ export function calculateAstrologicalAffinity(signA: ZodiacSign,
     }
 
     // Calculate decanic compatibility
-    const decanCompat = compareDecanRulers(signs[signA]?.['Decan Effects'] || {},
+    const decanCompat = compareDecanRulers(signs[signA]?.['Decan Effects'] || {};
       signs[signB]?.['Decan Effects'] || {});
 
     // Calculate degree-specific influences
-    const degreeCompat = calculateDegreeOverlap(signs[signA]?.['Degree Effects'] || {},
+    const degreeCompat = calculateDegreeOverlap(signs[signA]?.['Degree Effects'] || {};
       signs[signB]?.['Degree Effects'] || {});
 
     // Calculate tarot correspondences influence
-    const tarotCompat = compareTarotArcana(signs[signA]?.['Major Tarot Card'] || '',
+    const tarotCompat = compareTarotArcana(signs[signA]?.['Major Tarot Card'] || '';
       signs[signB]?.['Major Tarot Card'] || '');
 
     // Calculate modality compatibility with elements
@@ -198,7 +198,7 @@ export function calculateEnhancedElementalMatch(recipeElements: ElementalPropert
     // Compare each element
     (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
       const recipeValue = recipeElements[element] || 0;
-      const currentValue = currentElements[element] || 0,
+      const currentValue = currentElements[element] || 0;
 
       // Calculate similarity (inverse of difference)
       const difference = Math.abs(recipeValue - currentValue);

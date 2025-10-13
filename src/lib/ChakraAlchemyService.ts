@@ -178,7 +178,7 @@ export class ChakraAlchemyService {
       const chakras = this.getChakrasByPlanet(planet)
       chakras.forEach(chakra => {
         const key = this.getChakraKey(chakra);
-        if (key) energies[key] += 0.8,
+        if (key) energies[key] += 0.8;
       })
     })
 
@@ -186,7 +186,7 @@ export class ChakraAlchemyService {
     const hourChakras = this.getChakrasByPlanet(planetaryHour)
     hourChakras.forEach(chakra => {
       const key = this.getChakraKey(chakra);
-      if (key) energies[key] += 1.0,
+      if (key) energies[key] += 1.0;
     })
 
     // Normalize values to be between 0 and 10
@@ -256,8 +256,8 @@ export class ChakraAlchemyService {
     const normalized: ChakraEnergies = { ...energies }
 
     Object.keys(energies).forEach(key => {
-      const chakraKey = key as keyof ChakraEnergies,
-      normalized[chakraKey] = (energies[chakraKey] / max) * 10,
+      const chakraKey = key as keyof ChakraEnergies;
+      normalized[chakraKey] = (energies[chakraKey] / max) * 10;
     })
 
     return normalized;
@@ -303,7 +303,7 @@ export class ChakraAlchemyService {
 
       if (hasMatchingElement) {
         const key = this.getChakraKey(chakraPos as ChakraPosition);
-        if (key) energies[key] += strength,
+        if (key) energies[key] += strength;
       }
     })
   }

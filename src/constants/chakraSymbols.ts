@@ -1,5 +1,5 @@
 // Order of chakras from crown to root
-export const _CHAKRA_ORDER = ['crown', 'brow', 'throat', 'heart', 'solarPlexus', 'sacral', 'root'],
+export const _CHAKRA_ORDER = ['crown', 'brow', 'throat', 'heart', 'solarPlexus', 'sacral', 'root'];
 
 // Map of chakra positions to their symbols
 export const CHAKRA_SYMBOLS: Record<string, string> = {
@@ -58,31 +58,31 @@ export const CHAKRA_SANSKRIT_NAMES: Record<string, string> = {
 
 // Nutritional correlations for each chakra
 export const CHAKRA_NUTRITIONAL_CORRELATIONS: Record<string, string[]> = {
-  root: ['Root vegetables', 'Protein-rich foods', 'Red foods', 'Grounding spices'],
-  sacral: ['Orange foods', 'Sweet fruits', 'Nuts', 'Seeds', 'Honey'],
-  solarPlexus: ['Whole grains', 'Yellow foods', 'Spices', 'Fermented foods'],
-  heart: ['Green leafy vegetables', 'Herbal teas', 'Sprouts', 'Cruciferous vegetables'],
-  throat: ['Blue and purple fruits', 'Tart fruits', 'Liquids', 'Sea vegetables'],
-  brow: ['Purple foods', 'Omega-3 rich foods', 'Antioxidants', 'Dark chocolate'],
+  root: ['Root vegetables', 'Protein-rich foods', 'Red foods', 'Grounding spices'];
+  sacral: ['Orange foods', 'Sweet fruits', 'Nuts', 'Seeds', 'Honey'];
+  solarPlexus: ['Whole grains', 'Yellow foods', 'Spices', 'Fermented foods'];
+  heart: ['Green leafy vegetables', 'Herbal teas', 'Sprouts', 'Cruciferous vegetables'];
+  throat: ['Blue and purple fruits', 'Tart fruits', 'Liquids', 'Sea vegetables'];
+  brow: ['Purple foods', 'Omega-3 rich foods', 'Antioxidants', 'Dark chocolate'];
   crown: ['Pure water', 'Fasting', 'Detoxifying herbs', 'Light foods']
 }
 
 // Medicinal herb correlations for each chakra
 export const CHAKRA_HERBS: Record<string, string[]> = {
-  root: ['Dandelion root', 'Ashwagandha', 'Ginger', 'Turmeric'],
-  sacral: ['Damiana', 'Vanilla', 'Cinnamon', 'Orange peel'],
-  solarPlexus: ['Chamomile', 'Fennel', 'Yellow dock', 'Lemon balm'],
-  heart: ['Rose', 'Hawthorn', 'Motherwort', 'Green tea'],
-  throat: ['Slippery elm', 'Sage', 'Lemon', 'Peppermint'],
-  brow: ['Mugwort', 'Star anise', 'Passionflower', 'Lavender'],
+  root: ['Dandelion root', 'Ashwagandha', 'Ginger', 'Turmeric'];
+  sacral: ['Damiana', 'Vanilla', 'Cinnamon', 'Orange peel'];
+  solarPlexus: ['Chamomile', 'Fennel', 'Yellow dock', 'Lemon balm'];
+  heart: ['Rose', 'Hawthorn', 'Motherwort', 'Green tea'];
+  throat: ['Slippery elm', 'Sage', 'Lemon', 'Peppermint'];
+  brow: ['Mugwort', 'Star anise', 'Passionflower', 'Lavender'];
   crown: ['Lotus', 'Frankincense', 'White sage', 'Gotu kola']
 }
 
 // Helper function to convert from capitalized chakra name to key format
 export function normalizeChakraKey(chakraName: string | undefined | null): string {
   if (!chakraName) return '';
-  if (chakraName.toLowerCase() === 'solar plexus') return 'solarPlexus',
-  if (chakraName.toLowerCase() === 'third eye') return 'brow',
+  if (chakraName.toLowerCase() === 'solar plexus') return 'solarPlexus';
+  if (chakraName.toLowerCase() === 'third eye') return 'brow';
   return chakraName.toLowerCase()
 }
 
@@ -95,9 +95,9 @@ export function getChakraDisplayName(chakraKey: string): string {
 
 // Mapping between alchemical energy states and chakras
 export const _ENERGY_STATE_CHAKRA_MAPPING: Record<string, string[]> = {
-  Spirit: ['crown'],
-  Substance: ['throat'],
-  Essence: ['brow', 'solarPlexus', 'sacral'],
+  Spirit: ['crown'];
+  Substance: ['throat'];
+  Essence: ['brow', 'solarPlexus', 'sacral'];
   Matter: ['root']
 }
 
@@ -131,14 +131,14 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
         throat: Math.random() * 140 + 360, // 360-500 Hz,
         brow: Math.random() * 120 + 380, // 380-500 Hz,
         crown: Math.random() * 100 + 400, // 400-500 Hz
-      },
+      };
       // Mantra effectiveness metrics
       effectiveness: {
         pronunciationAccuracy: Math.random() * 0.3 + 0.7, // 70-100% accuracy,
         vibrationalResonance: Math.random() * 0.25 + 0.75, // 75-100% resonance,
         energyTransmission: Math.random() * 0.2 + 0.8, // 80-100% transmission,
         chakraActivation: Math.random() * 0.15 + 0.85, // 85-100% activation
-      },
+      };
       // Advanced vibrational analysis
       advancedVibrations: {
         harmonicResonance: {
@@ -146,7 +146,7 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
           overtones: Math.random() * 0.25 + 0.75, // 75-100% overtone resonance,
           harmonics: Math.random() * 0.3 + 0.7, // 70-100% harmonic resonance,
           subharmonics: Math.random() * 0.35 + 0.65, // 65-100% subharmonic resonance
-        },
+        };
         temporalAnalysis: {
           shortTerm: Math.random() * 0.15 + 0.85, // 85-100% short-term effectiveness,
           mediumTerm: Math.random() * 0.2 + 0.8, // 80-100% medium-term effectiveness,
@@ -224,14 +224,14 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
         symbolicResonance: Math.random() * 0.2 + 0.8, // 80-100% resonance,
         energyTransmission: Math.random() * 0.15 + 0.85, // 85-100% transmission,
         visualHarmony: Math.random() * 0.1 + 0.9, // 90-100% harmony
-      },
+      };
       // Color analysis
       colorAnalysis: {
         colorBalance: Math.random() * 0.2 + 0.8, // 80-100% balance,
         colorHarmony: Math.random() * 0.15 + 0.85, // 85-100% harmony,
         colorResonance: Math.random() * 0.25 + 0.75, // 75-100% resonance,
         colorEffectiveness: Math.random() * 0.1 + 0.9, // 90-100% effectiveness
-      },
+      };
       // Advanced visual analysis
       advancedVisual: {
         geometricAnalysis: {
@@ -239,7 +239,7 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
           proportion: Math.random() * 0.25 + 0.75, // 75-100% proportion,
           balance: Math.random() * 0.15 + 0.85, // 85-100% balance,
           harmony: Math.random() * 0.1 + 0.9, // 90-100% harmony
-        },
+        };
         energyFlow: {
           visualFlow: Math.random() * 0.2 + 0.8, // 80-100% visual flow,
           energyDirection: Math.random() * 0.25 + 0.75, // 75-100% direction,
@@ -315,14 +315,14 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
         nutritionalBalance: Math.random() * 0.2 + 0.8, // 80-100% balance,
         energyEnhancement: Math.random() * 0.15 + 0.85, // 85-100% enhancement,
         chakraSupport: Math.random() * 0.1 + 0.9, // 90-100% support
-      },
+      };
       // Dietary analysis
       dietaryAnalysis: {
         foodCompatibility: Math.random() * 0.2 + 0.8, // 80-100% compatibility,
         nutritionalDensity: Math.random() * 0.25 + 0.75, // 75-100% density,
         energyValue: Math.random() * 0.15 + 0.85, // 85-100% energy value,
         dietaryEffectiveness: Math.random() * 0.1 + 0.9, // 90-100% effectiveness
-      },
+      };
       // Advanced nutritional analysis
       advancedNutritional: {
         seasonalAlignment: {
@@ -330,7 +330,7 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
           summerAlignment: Math.random() * 0.25 + 0.75, // 75-100% summer alignment,
           autumnAlignment: Math.random() * 0.2 + 0.8, // 80-100% autumn alignment,
           winterAlignment: Math.random() * 0.25 + 0.75, // 75-100% winter alignment
-        },
+        };
         energeticAnalysis: {
           pranicValue: Math.random() * 0.15 + 0.85, // 85-100% pranic value,
           vitalForce: Math.random() * 0.2 + 0.8, // 80-100% vital force,
@@ -396,14 +396,14 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
         systemIntegration: Math.random() * 0.2 + 0.8, // 80-100% integration,
         performanceOptimization: Math.random() * 0.15 + 0.85, // 85-100% optimization,
         functionalHarmony: Math.random() * 0.1 + 0.9, // 90-100% harmony
-      },
+      };
       // Herbal analysis
       herbalAnalysis: {
         herbEffectiveness: Math.random() * 0.2 + 0.8, // 80-100% effectiveness,
         herbCompatibility: Math.random() * 0.25 + 0.75, // 75-100% compatibility,
         herbResonance: Math.random() * 0.15 + 0.85, // 85-100% resonance,
         herbIntegration: Math.random() * 0.1 + 0.9, // 90-100% integration
-      },
+      };
       // Advanced functional analysis
       advancedFunctional: {
         operationalAnalysis: {
@@ -411,7 +411,7 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
           operationalBalance: Math.random() * 0.25 + 0.75, // 75-100% operational balance,
           functionalFlow: Math.random() * 0.15 + 0.85, // 85-100% functional flow,
           systemHarmony: Math.random() * 0.1 + 0.9, // 90-100% system harmony
-        },
+        };
         integrationAnalysis: {
           crossChakraIntegration: Math.random() * 0.2 + 0.8, // 80-100% cross-chakra integration,
           systemCoherence: Math.random() * 0.25 + 0.75, // 75-100% system coherence,
@@ -486,14 +486,14 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
         platformIntegration: Math.random() * 0.2 + 0.8, // 80-100% integration,
         userExperience: Math.random() * 0.15 + 0.85, // 85-100% user experience,
         platformHarmony: Math.random() * 0.1 + 0.9, // 90-100% harmony
-      },
+      };
       // System analysis
       systemAnalysis: {
         systemCoherence: Math.random() * 0.2 + 0.8, // 80-100% coherence,
         systemIntegration: Math.random() * 0.25 + 0.75, // 75-100% integration,
         systemResonance: Math.random() * 0.15 + 0.85, // 85-100% resonance,
         systemEffectiveness: Math.random() * 0.1 + 0.9, // 90-100% effectiveness
-      },
+      };
       // Advanced platform analysis
       advancedPlatform: {
         demonstrationAnalysis: {
@@ -501,7 +501,7 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
           integrationEfficiency: Math.random() * 0.25 + 0.75, // 75-100% integration efficiency,
           userEngagement: Math.random() * 0.15 + 0.85, // 85-100% user engagement,
           platformBalance: Math.random() * 0.1 + 0.9, // 90-100% platform balance
-        },
+        };
         comprehensiveAnalysis: {
           overallEffectiveness: Math.random() * 0.2 + 0.8, // 80-100% overall effectiveness,
           systemHarmony: Math.random() * 0.25 + 0.75, // 75-100% system harmony,
@@ -569,35 +569,35 @@ export const PHASE_32_CHAKRA_INTELLIGENCE_SUMMARY = {
         systemEffectiveness: Math.random() * 0.2 + 0.8, // 80-100% effectiveness,
         integrationLevel: Math.random() * 0.15 + 0.85, // 85-100% integration,
         overallHarmony: Math.random() * 0.1 + 0.9, // 90-100% harmony
-      },
+      };
       // Individual system summaries
       systemSummaries: {
         mantraIntelligence: {
           effectiveness: Math.random() * 0.2 + 0.8, // 80-100% effectiveness,
           integration: Math.random() * 0.25 + 0.75, // 75-100% integration,
           resonance: Math.random() * 0.15 + 0.85, // 85-100% resonance
-        },
+        };
         visualIntelligence: {
           effectiveness: Math.random() * 0.25 + 0.75, // 75-100% effectiveness,
           integration: Math.random() * 0.2 + 0.8, // 80-100% integration,
           resonance: Math.random() * 0.15 + 0.85, // 85-100% resonance
-        },
+        };
         nutritionalIntelligence: {
           effectiveness: Math.random() * 0.2 + 0.8, // 80-100% effectiveness,
           integration: Math.random() * 0.25 + 0.75, // 75-100% integration,
           resonance: Math.random() * 0.15 + 0.85, // 85-100% resonance
-        },
+        };
         functionalIntelligence: {
           effectiveness: Math.random() * 0.25 + 0.75, // 75-100% effectiveness,
           integration: Math.random() * 0.2 + 0.8, // 80-100% integration,
           resonance: Math.random() * 0.15 + 0.85, // 85-100% resonance
-        },
+        };
         demonstrationPlatform: {
           effectiveness: Math.random() * 0.2 + 0.8, // 80-100% effectiveness,
           integration: Math.random() * 0.25 + 0.75, // 75-100% integration,
           resonance: Math.random() * 0.15 + 0.85, // 85-100% resonance
         }
-      },
+      };
       // Comprehensive recommendations
       comprehensiveRecommendations: [
         'Enhance mantra vibrational frequencies for improved chakra activation',
@@ -605,7 +605,7 @@ export const PHASE_32_CHAKRA_INTELLIGENCE_SUMMARY = {
         'Strengthen nutritional alignment for better chakra support',
         'Improve functional integration for enhanced system performance',
         'Enhance demonstration platform for optimal user experience'
-      ],
+      ];
 
       // System metrics
       systemMetrics: {

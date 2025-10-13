@@ -4,215 +4,215 @@
  */
 
 export interface CampaignConfig {
-  phases: CampaignPhase[],
-  safetySettings: SafetySettings,
-  progressTargets: ProgressTargets,
-  toolConfiguration: ToolConfiguration
+  phases: CampaignPhase[];
+  safetySettings: SafetySettings;
+  progressTargets: ProgressTargets;
+  toolConfiguration: ToolConfiguration;
 }
 
 export interface CampaignPhase {
-  id: string,
-  name: string,
-  description: string,
-  tools: ScriptTool[],
-  successCriteria: SuccessCriteria,
-  safetyCheckpoints: SafetyCheckpoint[]
+  id: string;
+  name: string;
+  description: string;
+  tools: ScriptTool[];
+  successCriteria: SuccessCriteria;
+  safetyCheckpoints: SafetyCheckpoint[];
 }
 
 export interface ScriptTool {
-  scriptPath: string,
-  parameters: ScriptParameters,
-  batchSize: number,
-  safetyLevel: SafetyLevel
+  scriptPath: string;
+  parameters: ScriptParameters;
+  batchSize: number;
+  safetyLevel: SafetyLevel;
 }
 
 export interface ScriptParameters {
-  maxFiles?: number,
-  autoFix?: boolean,
-  validateSafety?: boolean,
-  resetMetrics?: boolean,
-  dryRun?: boolean,
-  [key: string]: unknown // Enterprise intelligence: allow additional configuration options
+  maxFiles?: number;
+  autoFix?: boolean;
+  validateSafety?: boolean;
+  resetMetrics?: boolean;
+  dryRun?: boolean;
+  [key: string]: unknown; // Enterprise intelligence: allow additional configuration options
 }
 
 export interface SuccessCriteria {
-  typeScriptErrors?: number,
-  lintingWarnings?: number,
-  buildTime?: number,
-  enterpriseSystems?: number,
-  customValidation?: () => Promise<boolean>
+  typeScriptErrors?: number;
+  lintingWarnings?: number;
+  buildTime?: number;
+  enterpriseSystems?: number;
+  customValidation?: () => Promise<boolean>;
 }
 
 export interface SafetyCheckpoint {
-  id: string,
-  timestamp: Date,
-  stashId: string,
-  metrics: ProgressMetrics,
-  description: string
+  id: string;
+  timestamp: Date;
+  stashId: string;
+  metrics: ProgressMetrics;
+  description: string;
 }
 
 export interface ProgressMetrics {
   typeScriptErrors: {
-    current: number,
-    target: number,
-    reduction: number,
-    percentage: number
-  },
+    current: number;
+    target: number;
+    reduction: number;
+    percentage: number;
+  };
   lintingWarnings: {
-    current: number,
-    target: number,
-    reduction: number,
-    percentage: number
-  },
+    current: number;
+    target: number;
+    reduction: number;
+    percentage: number;
+  };
   buildPerformance: {
-    currentTime: number,
-    targetTime: number,
-    cacheHitRate: number,
-    memoryUsage: number
-  },
+    currentTime: number;
+    targetTime: number;
+    cacheHitRate: number;
+    memoryUsage: number;
+  };
   enterpriseSystems: {
-    current: number,
-    target: number,
-    transformedExports: number
-  }
+    current: number;
+    target: number;
+    transformedExports: number;
+  };
 }
 
 export interface PhaseResult {
-  phaseId: string,
-  success: boolean,
-  metricsImprovement: MetricsImprovement,
-  filesProcessed: number,
-  errorsFixed: number,
-  warningsFixed: number,
-  executionTime: number,
-  safetyEvents: SafetyEvent[]
+  phaseId: string;
+  success: boolean;
+  metricsImprovement: MetricsImprovement;
+  filesProcessed: number;
+  errorsFixed: number;
+  warningsFixed: number;
+  executionTime: number;
+  safetyEvents: SafetyEvent[];
 }
 
 export interface MetricsImprovement {
-  typeScriptErrorsReduced: number,
-  lintingWarningsReduced: number,
-  buildTimeImproved: number,
-  enterpriseSystemsAdded: number
+  typeScriptErrorsReduced: number;
+  lintingWarningsReduced: number;
+  buildTimeImproved: number;
+  enterpriseSystemsAdded: number;
 }
 
 export interface SafetyEvent {
-  type: SafetyEventType,
-  timestamp: Date,
-  description: string,
-  severity: SafetyEventSeverity,
-  action: string
+  type: SafetyEventType;
+  timestamp: Date;
+  description: string;
+  severity: SafetyEventSeverity;
+  action: string;
 }
 
 export interface SafetySettings {
-  maxFilesPerBatch: number,
-  buildValidationFrequency: number,
-  testValidationFrequency: number,
-  corruptionDetectionEnabled: boolean,
-  automaticRollbackEnabled: boolean,
-  stashRetentionDays: number
+  maxFilesPerBatch: number;
+  buildValidationFrequency: number;
+  testValidationFrequency: number;
+  corruptionDetectionEnabled: boolean;
+  automaticRollbackEnabled: boolean;
+  stashRetentionDays: number;
 }
 
 export interface ProgressTargets {
-  typeScriptErrors: number,
-  lintingWarnings: number,
-  buildTime: number,
-  enterpriseSystems: number
+  typeScriptErrors: number;
+  lintingWarnings: number;
+  buildTime: number;
+  enterpriseSystems: number;
 }
 
 export interface ToolConfiguration {
-  enhancedErrorFixer: string,
-  explicitAnyFixer: string,
-  unusedVariablesFixer: string,
-  consoleStatementFixer: string
+  enhancedErrorFixer: string;
+  explicitAnyFixer: string;
+  unusedVariablesFixer: string;
+  consoleStatementFixer: string;
 }
 
 export interface CorruptionReport {
-  detectedFiles: string[],
-  corruptionPatterns: CorruptionPattern[],
-  severity: CorruptionSeverity,
-  recommendedAction: RecoveryAction
+  detectedFiles: string[];
+  corruptionPatterns: CorruptionPattern[];
+  severity: CorruptionSeverity;
+  recommendedAction: RecoveryAction;
 }
 
 export interface CorruptionPattern {
-  pattern: string,
-  description: string,
-  files: string[]
+  pattern: string;
+  description: string;
+  files: string[];
 }
 
 export interface ValidationResult {
-  success: boolean,
-  errors: string[],
-  warnings: string[],
-  metrics?: ProgressMetrics
+  success: boolean;
+  errors: string[];
+  warnings: string[];
+  metrics?: ProgressMetrics;
 }
 
 export interface BuildValidation {
-  success: boolean,
-  buildTime: number,
-  errors: string[],
-  warnings: string[]
+  success: boolean;
+  buildTime: number;
+  errors: string[];
+  warnings: string[];
 }
 
 export interface TestValidation {
-  success: boolean,
-  testsRun: number,
-  testsPassed: number,
-  testsFailed: number,
-  errors: string[]
+  success: boolean;
+  testsRun: number;
+  testsPassed: number;
+  testsFailed: number;
+  errors: string[];
 }
 
 export interface DryRunResult {
-  wouldProcess: string[],
-  estimatedChanges: number,
-  potentialIssues: string[],
-  safetyScore: number
+  wouldProcess: string[];
+  estimatedChanges: number;
+  potentialIssues: string[];
+  safetyScore: number;
 }
 
 export interface ExecutionResult {
-  success: boolean,
-  filesProcessed: string[],
-  changesApplied: number,
-  errors: string[],
-  warnings: string[],
-  executionTime: number
+  success: boolean;
+  filesProcessed: string[];
+  changesApplied: number;
+  errors: string[];
+  warnings: string[];
+  executionTime: number;
 }
 
 export interface BatchResult {
-  batchId: string,
-  filesProcessed: string[],
-  success: boolean,
-  errors: string[],
-  warnings: string[],
-  metricsChange: Partial<ProgressMetrics>
+  batchId: string;
+  filesProcessed: string[];
+  success: boolean;
+  errors: string[];
+  warnings: string[];
+  metricsChange: Partial<ProgressMetrics>;
 }
 
 export interface GitStash {
-  id: string,
-  description: string,
-  timestamp: Date,
-  branch: string,
-  ref?: string // Git stash reference (e.g., stash@{0})
+  id: string;
+  description: string;
+  timestamp: Date;
+  branch: string;
+  ref?: string; // Git stash reference (e.g., stash@{0})
 }
 
 export interface PhaseReport {
-  phaseId: string,
-  phaseName: string,
-  startTime: Date,
-  endTime?: Date
-  status: PhaseStatus,
-  metrics: ProgressMetrics,
-  achievements: string[],
-  issues: string[],
-  recommendations: string[]
+  phaseId: string;
+  phaseName: string;
+  startTime: Date;
+  endTime?: Date;
+  status: PhaseStatus;
+  metrics: ProgressMetrics;
+  achievements: string[];
+  issues: string[];
+  recommendations: string[];
 }
 
 export interface ProgressReport {
-  campaignId: string,
-  overallProgress: number,
-  phases: PhaseReport[],
-  currentMetrics: ProgressMetrics,
-  targetMetrics: ProgressMetrics,
-  estimatedCompletion: Date
+  campaignId: string;
+  overallProgress: number;
+  phases: PhaseReport[];
+  currentMetrics: ProgressMetrics;
+  targetMetrics: ProgressMetrics;
+  estimatedCompletion: Date;
 }
 
 // Enums

@@ -747,7 +747,7 @@ export function getCuisineProfile(cuisineName: string): CuisineFlavorProfile | u
 export function getRecipesForCuisineMatch(
   cuisineName: string,
   recipes: unknown[],
-  limit = 8,
+  limit = 8;
 ): unknown[] {
   try {
     // Apply safe type conversion for string operations
@@ -855,7 +855,7 @@ export function getRecipesForCuisineMatch(
 
           // Remove duplicates by name
           const uniqueRecipes = allRecipes.filter(
-            (recipe, index, self) => index === self.findIndex(r => r.name === recipe.name),
+            (recipe, index, self) => index === self.findIndex(r => r.name === recipe.name);
           )
 
           if (uniqueRecipes.length > 0) {

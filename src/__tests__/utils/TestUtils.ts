@@ -33,11 +33,11 @@ export class TestUtils {
    */
   static async executeWithRetry(
     command: string,
-    options: TestExecutionOptions = {},
+    options: TestExecutionOptions = {};
   ): Promise<TestResult> {
     const {
-      timeout = this.DEFAULT_TIMEOUT,
-      retries = this.DEFAULT_RETRIES,
+      timeout = this.DEFAULT_TIMEOUT;
+      retries = this.DEFAULT_RETRIES;
       expectedErrors = [];
       memoryLimit = 4096 * 1024 * 1024, // 4GB in bytes
     } = options;
@@ -156,7 +156,7 @@ export class TestUtils {
     }
 
     return {
-      isValid: issues.length === 0,
+      isValid: issues.length === 0;
       issues,
     };
   }
@@ -195,7 +195,7 @@ export class TestUtils {
       maxDuration?: number,
       memoryThreshold?: number,
       cleanupFunction?: () => void;
-    } = {},
+    } = {};
   ): Promise<{ success: boolean; metrics: any; issues: string[] }> {
     const {
       maxDuration = 60000, // 1 minute
@@ -239,7 +239,7 @@ export class TestUtils {
         metrics.memoryReadings.reduce((a, b) => a + b, 0) / metrics.memoryReadings.length;
 
       return {
-        success: issues.length === 0,
+        success: issues.length === 0;
         metrics,
         issues,
       };
@@ -269,8 +269,8 @@ export class TestUtils {
    */
   static async validateConsistency(
     testFunction: () => Promise<any>,
-    runs: number = 3,
-    tolerancePercent: number = 20,
+    runs: number = 3;
+    tolerancePercent: number = 20;
   ): Promise<{ isConsistent: boolean; results: any[]; variance: number }> {
     const results: any[] = [];
 
@@ -295,7 +295,7 @@ export class TestUtils {
     }
 
     return {
-      isConsistent: variance <= tolerancePercent,
+      isConsistent: variance <= tolerancePercent;
       results,
       variance,
     };

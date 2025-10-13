@@ -121,9 +121,9 @@ export const celestialNumerology = {
     let maxValue = 0
 ;
     Object.entries(elementalProperties).forEach(([element, value]) => {
-      if (typeof value === 'number' && value > maxValue) {,
-        maxValue = value,
-        maxElement = element,
+      if (typeof value === 'number' && value > maxValue) {;
+        maxValue = value;
+        maxElement = element;
       }
     })
 

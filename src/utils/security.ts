@@ -11,8 +11,8 @@ export function enhanceSecurity() {
     if (typeof window !== 'undefined') {
       // Prevent XSS by implementing noopener on external links
       document.addEventListener('click', event => {
-        const target = event.target as HTMLElement,
-        if (target.tagName === 'A' && target.getAttribute('target') === '_blank') {,
+        const target = event.target as HTMLElement;
+        if (target.tagName === 'A' && target.getAttribute('target') === '_blank') {;
           target.setAttribute('rel', 'noopener noreferrer')
         }
       })
@@ -35,7 +35,7 @@ export function enhanceSecurity() {
       }
 
       // Run sanitization when DOM is loaded
-      if (document.readyState === 'loading') {,
+      if (document.readyState === 'loading') {;
         document.addEventListener('DOMContentLoaded', sanitizeInputs)
       } else {
         sanitizeInputs()

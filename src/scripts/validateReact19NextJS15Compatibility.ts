@@ -60,7 +60,7 @@ class React19NextJS15Validator {
       return { success: true, output, errors: [] };
     } catch (error: unknown) {
       const output = error.stdout || error.message || '';
-      const errors = output.split('\n').filter((line: string) => line.trim()),
+      const errors = output.split('\n').filter((line: string) => line.trim());
       return { success: false, output, errors };
     }
   }
@@ -531,7 +531,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
         totalTests++;
         if (result.passed) passedTests++;
 
-        const status = result.passed ? '✅' : '❌',
+        const status = result.passed ? '✅' : '❌';
         console.log(`${status} ${result.test}`);
         console.log(`   ${result.details}`);
 

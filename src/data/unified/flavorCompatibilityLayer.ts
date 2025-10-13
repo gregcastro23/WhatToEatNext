@@ -1,7 +1,7 @@
 import { _, ElementalProperties, _ } from '@/types/alchemy';
 
 import {
-  // ===== BACKWARD COMPATIBILITY LAYER - PHASE 4 =====,
+  // ===== BACKWARD COMPATIBILITY LAYER - PHASE 4 =====;
   // Provides the same API as old fragmented systems while using unified engine
   // Ensures 100% backward compatibility during migration
 
@@ -44,7 +44,7 @@ export interface LegacyCuisineProfile {
   description?: string
 }
 
-// ===== BACKWARD COMPATIBILITY FUNCTIONS =====,
+// ===== BACKWARD COMPATIBILITY FUNCTIONS =====;
 
 /**
  * Legacy calculateFlavorCompatibility function
@@ -180,7 +180,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
  * @deprecated Use findCompatibleProfiles from unifiedFlavorEngine instead
  */
 export function findCompatibleProfiles(targetProfile,
-  minCompatibility = 0.7,
+  minCompatibility = 0.7;
 ): Array<{ profile: unknown, compatibility: number }> {
   try {
     const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy')
@@ -250,7 +250,7 @@ export function calculateElementalCompatibility(
   }
 }
 
-// ===== CONVERSION HELPERS =====,
+// ===== CONVERSION HELPERS =====;
 
 function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfile {
   // Extract base notes from various legacy formats

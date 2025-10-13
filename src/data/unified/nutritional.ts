@@ -1,4 +1,4 @@
-// ===== UNIFIED NUTRITIONAL SYSTEM =====,
+// ===== UNIFIED NUTRITIONAL SYSTEM =====;
 // Phase 3 Step 4 of WhatToEatNext Data Consolidation
 // Enhances nutritional data with alchemical principles and Monica/Kalchm integration
 // Integrates with unified seasonal, cuisine, ingredients, and recipe systems
@@ -22,7 +22,7 @@ import { createElementalProperties } from '../../utils/elemental/elementalUtils'
 
 import { calculateKalchm, _, _ } from './alchemicalCalculations';
 
-// ===== ENHANCED NUTRITIONAL INTERFACES =====,
+// ===== ENHANCED NUTRITIONAL INTERFACES =====;
 
 export interface AlchemicalNutritionalProfile extends NutritionalProfile {
   // Enhanced Alchemical Properties,
@@ -126,7 +126,7 @@ export interface NutritionalRecommendations {
   warnings: string[]
 }
 
-// ===== ALCHEMICAL NUTRITIONAL CATEGORIZATION =====,
+// ===== ALCHEMICAL NUTRITIONAL CATEGORIZATION =====;
 
 // Categorize nutrients by alchemical properties (Spirit, Essence, Matter, Substance)
 export const _alchemicalNutrientMapping: { [key: string]: AlchemicalProperties } = {
@@ -632,7 +632,7 @@ export const _getPlanetaryNutritionalRecommendations = (
 export const _getEnhancedPlanetaryNutritionalRecommendations = (
   planetaryDay: string,
   planetaryHour: string,
-  _: Date = new Date(),
+  _: Date = new Date();
 ): {
   elements: ElementalProperties,
   focusNutrients: string[],
@@ -724,6 +724,6 @@ export const _evaluateNutritionalElementalBalance = (
   return { score, imbalances, recommendations }
 }
 
-// ===== SINGLETON INSTANCE =====,
+// ===== SINGLETON INSTANCE =====;
 export const _unifiedNutritionalSystem = new UnifiedNutritionalSystem()
 ;

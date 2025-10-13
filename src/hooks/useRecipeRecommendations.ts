@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 
 // Mock useAlchemical hook since the import is missing
-const useAlchemical = () => ({,
+const useAlchemical = () => ({;
   planetaryPositions: {}
   isLoading: false
 })
@@ -44,7 +44,7 @@ export function useRecipeRecommendations(
   })
 
   const currentElementalProfile = useMemo(() => {;
-    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {,
+    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
 
@@ -131,7 +131,7 @@ export function useRecipeRecommendations(
         })
 
         // Apply filters
-        let filteredRecipes = recipesWithScores,
+        let filteredRecipes = recipesWithScores;
 
         if (state.filters.cuisine) {
           filteredRecipes = filteredRecipes.filter(r => r.cuisine === state.filters.cuisine);
@@ -144,7 +144,7 @@ export function useRecipeRecommendations(
         }
 
         // Sort by score and limit results
-        filteredRecipes = filteredRecipes,
+        filteredRecipes = filteredRecipes;
           .sort((ab) => (b.score || 0) - (a.score || 0))
           .slice(0, state.filters.maxResults || 10)
 
@@ -165,7 +165,7 @@ export function useRecipeRecommendations(
     void fetchRecipes()
   }, [astroLoading, currentElementalProfile, state.filters])
 
-  const updateFilters = (newFilters: Partial<RecipeRecommendationsData['filters']>) => {,
+  const updateFilters = (newFilters: Partial<RecipeRecommendationsData['filters']>) => {;
     setState(prev => ({
       ...prev,
       filters: { ...prev.filters, ...newFilters }

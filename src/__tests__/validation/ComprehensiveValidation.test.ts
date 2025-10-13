@@ -102,7 +102,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         // Mock domain-specific linting
         mockExecSync.mockReturnValue(Buffer.from('Astrological rules applied successfully'));
 
-        const result = mockExecSync('yarn lint: domain-astro'),
+        const result = mockExecSync('yarn lint: domain-astro');
         expect(result.toString()).toContain('successfully');
       });
     });
@@ -223,7 +223,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         // Mock parallel linting
         mockExecSync.mockReturnValue(Buffer.from('✓ Parallel linting completed in 2.1s'));
 
-        const result = mockExecSync('yarn lint: parallel'),
+        const result = mockExecSync('yarn lint: parallel');
         expect(result.toString()).toContain('Parallel linting completed');
       });
     });
@@ -271,7 +271,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
           .mockReturnValueOnce(Buffer.from('✓ Second run: 1.1s (cache hit: 80%)')),
 
         const firstRun = mockExecSync('yarn lint: cache-test');
-        const secondRun = mockExecSync('yarn lint: cache-test'),
+        const secondRun = mockExecSync('yarn lint: cache-test');
 
         expect(firstRun.toString()).toContain('no cache');
         expect(secondRun.toString()).toContain('cache hit');
@@ -287,7 +287,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         fileCounts.forEach((fileCount, index) => {
           mockExecSync.mockReturnValueOnce(Buffer.from(`✓ ${fileCount} files linted in ${expectedTimes[index]}s`));
 
-          const result = mockExecSync(`yarn lint: scale-test --files=${fileCount}`),
+          const result = mockExecSync(`yarn lint: scale-test --files=${fileCount}`);
           expect(result.toString()).toContain(`${fileCount} files linted`);
 
           // Ensure scaling is reasonable (not exponential)
@@ -329,7 +329,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         // Mock astrological calculation validation
         mockExecSync.mockReturnValue(Buffer.from('✓ Astrological rules validated: 0 violations')),
 
-        const result = mockExecSync('yarn lint: domain-astro --validate-rules'),
+        const result = mockExecSync('yarn lint: domain-astro --validate-rules');
         expect(result.toString()).toContain('0 violations');
       });
 

@@ -120,7 +120,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const complexityErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2,
+              (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2;
             );
 
             expect(complexityErrors.length).toBe(0);
@@ -138,54 +138,54 @@ describe('Campaign System Rule Validation', () => {
             report += '========================\\n\\n';
 
             // Phase 1 Analysis
-            report += 'Phase 1: Initial Analysis\\n',
-            report += 'Status: Completed\\n',
-            report += 'Duration: 2.5 hours\\n',
+            report += 'Phase 1: Initial Analysis\\n';
+            report += 'Status: Completed\\n';
+            report += 'Duration: 2.5 hours\\n';
             report += 'Files Processed: 1,250\\n';
             report += 'Errors Found: 4,310\\n';
             report += 'Errors Fixed: 3,890\\n';
             report += 'Success Rate: 90.2%\\n\\n';
 
             // Phase 2 Analysis
-            report += 'Phase 2: Error Elimination\\n',
-            report += 'Status: In Progress\\n',
-            report += 'Duration: 4.1 hours\\n',
+            report += 'Phase 2: Error Elimination\\n';
+            report += 'Status: In Progress\\n';
+            report += 'Duration: 4.1 hours\\n';
             report += 'Files Processed: 2,100\\n';
             report += 'Errors Found: 2,566\\n';
             report += 'Errors Fixed: 2,200\\n';
             report += 'Success Rate: 85.7%\\n\\n';
 
             // Phase 3 Analysis
-            report += 'Phase 3: Optimization\\n',
-            report += 'Status: Pending\\n',
-            report += 'Estimated Duration: 3.0 hours\\n',
+            report += 'Phase 3: Optimization\\n';
+            report += 'Status: Pending\\n';
+            report += 'Estimated Duration: 3.0 hours\\n';
             report += 'Estimated Files: 1,800\\n';
             report += 'Estimated Errors: 1,500\\n';
             report += 'Target Success Rate: 95%\\n\\n';
 
             // Safety Metrics
-            report += 'Safety Metrics: \\n',
-            report += 'Build Failures: 0\\n',
-            report += 'Rollbacks Triggered: 2\\n',
-            report += 'Corruption Events: 0\\n',
+            report += 'Safety Metrics: \\n';
+            report += 'Build Failures: 0\\n';
+            report += 'Rollbacks Triggered: 2\\n';
+            report += 'Corruption Events: 0\\n';
             report += 'Safety Score: 98.5%\\n\\n';
 
             // Performance Metrics
-            report += 'Performance Metrics: \\n',
-            report += 'Average Processing Speed: 125 files/hour\\n',
-            report += 'Memory Usage: 2.1GB peak\\n',
-            report += 'CPU Usage: 65% average\\n',
+            report += 'Performance Metrics: \\n';
+            report += 'Average Processing Speed: 125 files/hour\\n';
+            report += 'Memory Usage: 2.1GB peak\\n';
+            report += 'CPU Usage: 65% average\\n';
             report += 'Cache Hit Rate: 87%\\n\\n';
 
             // Quality Metrics
-            report += 'Quality Metrics: \\n',
-            report += 'Code Quality Score: 92/100\\n',
-            report += 'Type Safety Score: 89/100\\n',
-            report += 'Linting Score: 94/100\\n',
+            report += 'Quality Metrics: \\n';
+            report += 'Code Quality Score: 92/100\\n';
+            report += 'Type Safety Score: 89/100\\n';
+            report += 'Linting Score: 94/100\\n';
             report += 'Overall Quality: 91.7/100\\n\\n';
 
             // Recommendations
-            report += 'Recommendations: \\n',
+            report += 'Recommendations: \\n';
             report += '1. Increase batch size for Phase 3\\n';
             report += '2. Enable parallel processing\\n';
             report += '3. Implement additional safety checks\\n';
@@ -193,16 +193,16 @@ describe('Campaign System Rule Validation', () => {
             report += '5. Enhance error categorization\\n\\n';
 
             // Next Steps
-            report += 'Next Steps: \\n',
+            report += 'Next Steps: \\n';
             report += '1. Complete Phase 2 error elimination\\n';
             report += '2. Begin Phase 3 optimization\\n';
             report += '3. Implement performance improvements\\n';
             report += '4. Conduct comprehensive validation\\n';
             report += '5. Prepare for production deployment\\n\\n';
 
-            report += 'Report Generated: ' + new Date().toISOString() + '\\n',
-            report += 'Campaign ID: typescript-elimination-2024\\n',
-            report += 'Report Version: 1.2.3\\n',
+            report += 'Report Generated: ' + new Date().toISOString() + '\\n';
+            report += 'Campaign ID: typescript-elimination-2024\\n';
+            report += 'Report Version: 1.2.3\\n';
 
             return report;
           }
@@ -235,7 +235,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const functionLengthErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'max-lines-per-function' && msg.severity === 2,
+              (msg: any) => msg.ruleId === 'max-lines-per-function' && msg.severity === 2;
             );
 
             expect(functionLengthErrors.length).toBe(0);
@@ -249,8 +249,8 @@ describe('Campaign System Rule Validation', () => {
         class CampaignIntelligenceSystem {
           private analyzeErrorPatterns(data: any): any {
             // Enterprise intelligence requires flexible typing
-            const patterns: any = {},
-            const metrics: any = data.metrics || {},
+            const patterns: any = {};
+            const metrics: any = data.metrics || {};
             const config: any = data.config || {};
 
             // Dynamic analysis based on campaign type
@@ -321,7 +321,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const anyTypeErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2,
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2;
             );
 
             expect(anyTypeErrors.length).toBe(0);
@@ -412,7 +412,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const depthErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'max-depth' && msg.severity === 2,
+              (msg: any) => msg.ruleId === 'max-depth' && msg.severity === 2;
             );
 
             expect(depthErrors.length).toBe(0);
@@ -500,7 +500,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const consoleErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2,
+              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2;
             );
 
             expect(consoleErrors.length).toBe(0);
@@ -564,7 +564,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const processExitErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'no-process-exit' && msg.severity === 2,
+              (msg: any) => msg.ruleId === 'no-process-exit' && msg.severity === 2;
             );
 
             expect(processExitErrors.length).toBe(0);
@@ -691,7 +691,7 @@ describe('Campaign System Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars',
+            (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars';
           );
 
           // Campaign constants should be allowed even if unused
@@ -703,7 +703,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars',
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars';
             );
 
             expect(unusedVarErrors.length).toBe(0);
@@ -772,7 +772,7 @@ describe('Campaign System Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const dynamicImportErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
+              (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2;
             );
 
             expect(dynamicImportErrors.length).toBe(0);
@@ -844,7 +844,7 @@ describe('Campaign System Rule Validation', () => {
               (msg: any) =>
                 (msg.ruleId === 'complexity' && msg.severity === 2) ||
                 (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
-                (msg.ruleId === 'no-console' && msg.severity === 2),
+                (msg.ruleId === 'no-console' && msg.severity === 2);
             );
 
             // Existing campaign files should not have restrictive errors
@@ -859,7 +859,7 @@ describe('Campaign System Rule Validation', () => {
                 (msg: any) =>
                   (msg.ruleId === 'complexity' && msg.severity === 2) ||
                   (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
-                  (msg.ruleId === 'no-console' && msg.severity === 2),
+                  (msg.ruleId === 'no-console' && msg.severity === 2);
               );
 
               expect(restrictiveErrors.length).toBe(0);
@@ -888,7 +888,7 @@ describe('Campaign System Rule Validation', () => {
               (msg: any) =>
                 (msg.ruleId === 'complexity' && msg.severity === 2) ||
                 (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
-                (msg.ruleId === 'no-console' && msg.severity === 2),
+                (msg.ruleId === 'no-console' && msg.severity === 2);
             );
 
             expect(restrictiveErrors.length).toBe(0);
@@ -902,7 +902,7 @@ describe('Campaign System Rule Validation', () => {
                 (msg: any) =>
                   (msg.ruleId === 'complexity' && msg.severity === 2) ||
                   (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
-                  (msg.ruleId === 'no-console' && msg.severity === 2),
+                  (msg.ruleId === 'no-console' && msg.severity === 2);
               );
 
               expect(restrictiveErrors.length).toBe(0);

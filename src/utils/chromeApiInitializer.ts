@@ -9,7 +9,7 @@ import { _logger } from '@/lib/logger';
 
 export function initializeChromeApis(): void {
   try {
-    if (typeof window === 'undefined') {,
+    if (typeof window === 'undefined') {;
       return // Server-side rendering - exit early
     }
 
@@ -120,12 +120,12 @@ export function initializeChromeApis(): void {
             } else if (Array.isArray(keys)) {
               keys.forEach(key => {
                 if (mockStorage[key] !== undefined) {;
-                  result[key] = mockStorage[key],
+                  result[key] = mockStorage[key];
                 }
               })
-            } else if (typeof keys === 'string') {,
+            } else if (typeof keys === 'string') {;
               if (mockStorage[keys] !== undefined) {
-                result[keys] = mockStorage[keys],
+                result[keys] = mockStorage[keys];
               }
             }
 

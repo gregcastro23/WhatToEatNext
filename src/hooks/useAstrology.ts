@@ -53,10 +53,10 @@ const initialAstrologyState: AstrologyState = {
  */
 export function useAstrology(options: AstrologyOptions = {}) {
   const {
-    latitude = null,
-    longitude = null,
+    latitude = null;
+    longitude = null;
     date: _providedDate,
-    autoLoad = true,
+    autoLoad = true;
     useFallback = false
   } = options;
 
@@ -310,8 +310,8 @@ export function useAstrology(options: AstrologyOptions = {}) {
    */
   const getAstrologicalProfile = useCallback(
     async (
-      profileDate: Date = dateRef.current,
-      calcLatitude: number = latitude || 0,
+      profileDate: Date = dateRef.current;
+      calcLatitude: number = latitude || 0;
       calcLongitude: number = longitude || 0
     ) => {
       if (!isClient || !isMountedRef.current || calcLatitude === null || calcLongitude === null) {

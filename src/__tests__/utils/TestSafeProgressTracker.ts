@@ -36,13 +36,13 @@ interface ProgressSnapshot {
  */
 export class TestSafeProgressTracker {
   private config: TestProgressConfig,
-  private memoryMonitor: TestMemoryMonitor | null = null,
+  private memoryMonitor: TestMemoryMonitor | null = null;
   private progressHistory: ProgressSnapshot[] = [];
   private currentMetrics: ProgressMetrics,
-  private isTracking: boolean = false,
-  private trackingStartTime: number = 0,
-  private progressUpdateTimer: NodeJS.Timeout | null = null,
-  private memoryCheckCounter: number = 0,
+  private isTracking: boolean = false;
+  private trackingStartTime: number = 0;
+  private progressUpdateTimer: NodeJS.Timeout | null = null;
+  private memoryCheckCounter: number = 0;
 
   constructor(config?: Partial<TestProgressConfig>) {
     this.config = {
@@ -267,7 +267,7 @@ export class TestSafeProgressTracker {
     }
 
     return {
-      success: errors.length === 0,
+      success: errors.length === 0;
       errors,
       warnings,
     };
@@ -472,7 +472,7 @@ export class TestSafeProgressTracker {
     const result = { ...current };
 
     Object.keys(updates).forEach(key => {
-      const updateValue = updates[key as keyof ProgressMetrics],
+      const updateValue = updates[key as keyof ProgressMetrics];
       if (updateValue && typeof updateValue === 'object') {
         result[key as keyof ProgressMetrics] = {
           ...current[key as keyof ProgressMetrics],
@@ -516,7 +516,7 @@ export class TestSafeProgressTracker {
     const tsProgress =
       target.typeScriptErrors.current === 0 ? (1 - current.typeScriptErrors.current / 86) * 100 : 0;
     const lintProgress =
-      target.lintingWarnings.current === 0 ? (1 - current.lintingWarnings.current / 4506) * 100 : 0,
+      target.lintingWarnings.current === 0 ? (1 - current.lintingWarnings.current / 4506) * 100 : 0;
 
     const buildProgress =
       current.buildPerformance.currentTime <= target.buildPerformance.currentTime ? 100 : 0;

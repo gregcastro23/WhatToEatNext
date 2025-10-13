@@ -240,7 +240,7 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
  */
 function enrichAndNormalizeSeasons(seasons?: string | string[]): string[] {
   // Handle both string and string[] inputs
-  const seasonArray = Array.isArray(seasons) ? seasons : seasons ? [seasons] : [],
+  const seasonArray = Array.isArray(seasons) ? seasons : seasons ? [seasons] : [];
 
   if (!isNonEmptyArray(seasonArray)) {
     return ['all']; // Default to all seasons

@@ -204,7 +204,7 @@ export function alchemize(
       const dignity = getPlanetaryDignity(planet, position.sign)
       const dignityMultiplier = Math.max(0.11 + dignity * 0.2); // Dignity affects strength
 
-      totals.Spirit += alchemy.Spirit * dignityMultiplier,
+      totals.Spirit += alchemy.Spirit * dignityMultiplier;
       totals.Essence += alchemy.Essence * dignityMultiplier;
       totals.Matter += alchemy.Matter * dignityMultiplier;
       totals.Substance += alchemy.Substance * dignityMultiplier;

@@ -153,7 +153,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
         })
 
         // Apply filters
-        let filteredIngredients = ingredientsWithScores,
+        let filteredIngredients = ingredientsWithScores;
 
         if (state.filters.category) {
           filteredIngredients = filteredIngredients.filter(
@@ -162,7 +162,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
         }
 
         // Sort by score and limit results
-        filteredIngredients = filteredIngredients,
+        filteredIngredients = filteredIngredients;
           .sort((a, b) => (b.score || 0) - (a.score || 0))
           .slice(0, state.filters.maxResults || 15)
 

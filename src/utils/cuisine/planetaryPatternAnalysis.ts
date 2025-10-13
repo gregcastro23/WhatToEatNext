@@ -81,18 +81,18 @@ export function countPlanetaryPositions(recipes: RecipeComputedProperties[]): Pl
 
   // Initialize planet data
   PLANETS.forEach(planet => {
-    planetData[planet] = {},
+    planetData[planet] = {};
     ZODIAC_SIGNS.forEach(sign => {
-      planetData[planet][sign] = 0,
+      planetData[planet][sign] = 0;
     });
   });
 
   // Count positions across all recipes
   recipes.forEach(recipe => {
-    const positions = recipe.computationMetadata.planetaryPositionsUsed,
+    const positions = recipe.computationMetadata.planetaryPositionsUsed;
 
     PLANETS.forEach(planet => {
-      const sign = positions[planet],
+      const sign = positions[planet];
       if (sign && planetData[planet][sign] !== undefined) {
         planetData[planet][sign]++;
       }
@@ -106,7 +106,7 @@ export function countPlanetaryPositions(recipes: RecipeComputedProperties[]): Pl
 
     // Find dominant sign
     let dominantSign = '';
-    let dominantFrequency = 0,
+    let dominantFrequency = 0;
 
     Object.entries(signFrequencies).forEach(([sign, frequency]) => {
       if (frequency > dominantFrequency) {
@@ -280,7 +280,7 @@ export function analyzePlanetaryPatterns(recipes: RecipeComputedProperties[],
     const elementalDist = calculateElementalDistribution(planetFreq);
 
     // Find dominant element
-    let dominantElement: 'Fire' | 'Water' | 'Earth' | 'Air' = 'Fire',
+    let dominantElement: 'Fire' | 'Water' | 'Earth' | 'Air' = 'Fire';
     let maxCount = 0;
 
     (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
@@ -336,9 +336,9 @@ export function getPlanetaryPatternSummary(patterns: PlanetaryPattern[]): {
   let totalStrength = 0;
 
   patterns.forEach(pattern => {
-    totalStrength += pattern.planetaryStrength,
+    totalStrength += pattern.planetaryStrength;
     dominantElements[pattern.dominantElement]++,
-    planetDistribution[pattern.planet] = pattern.planetaryStrength,
+    planetDistribution[pattern.planet] = pattern.planetaryStrength;
   });
 
   return {
@@ -427,7 +427,7 @@ export function validatePlanetaryAnalysisInputs(recipes: RecipeComputedPropertie
       recipesWithPositions++;
       // Validate position format
       PLANETS.forEach(planet => {
-        const sign = positions[planet],
+        const sign = positions[planet];
         if (sign && !ZODIAC_SIGNS.includes(sign as any)) {
           errors.push(`Recipe ${index}: Invalid zodiac sign '${sign}' for ${planet}`);
         }
@@ -440,7 +440,7 @@ export function validatePlanetaryAnalysisInputs(recipes: RecipeComputedPropertie
   }
 
   return {
-    isValid: errors.length === 0,
+    isValid: errors.length === 0;
     errors,
     warnings
   };

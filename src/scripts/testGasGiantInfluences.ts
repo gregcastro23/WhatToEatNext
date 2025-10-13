@@ -32,7 +32,7 @@ async function testGasGiantInfluences() {
     for (const planet of influences.dominantPlanets) {
       if (planet.name === 'Jupiter' || planet.name === 'Saturn') {
         console.log(
-          `${planet.name}: influence = ${planet.influence}, effect = ${planet.effect || 'balanced'}`,
+          `${planet.name}: influence = ${planet.influence}, effect = ${planet.effect || 'balanced'}`;
         );
       }
     }

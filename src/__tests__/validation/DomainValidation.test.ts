@@ -33,7 +33,7 @@ describe('Domain Validation Tests - Task 12', () => {
 
         // Test self-reinforcement principle
         Object.keys(elementalCompatibility).forEach(element => {
-          const selfCompatibility = elementalCompatibility[element][element],
+          const selfCompatibility = elementalCompatibility[element][element];
           expect(selfCompatibility).toBeGreaterThanOrEqual(0.9);
           expect(selfCompatibility).toBeLessThanOrEqual(1.0);
         });

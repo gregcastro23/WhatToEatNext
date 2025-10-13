@@ -59,8 +59,8 @@ export function calculateElementalProfileCompatibility(
       const compatibility = getElementalCompatibility(element1 as Element, element2 as Element)
       const combinedWeight = weight1 * weight2;
 
-      totalCompatibility += compatibility * combinedWeight,
-      totalWeight += combinedWeight,
+      totalCompatibility += compatibility * combinedWeight;
+      totalWeight += combinedWeight;
     })
   })
 
@@ -79,18 +79,18 @@ export function enhanceElementalProfile(profile: Record<Element, _number>): Reco
   const enhancedProfile: Record<Element, number> = { ...profile }
 
   // Find the strongest element
-  let strongestElement: Element = 'Fire',
+  let strongestElement: Element = 'Fire';
   let highestValue = profile.Fire
 ;
   Object.entries(profile || {}).forEach(([element, value]) => {
     if (value > highestValue) {
-      highestValue = value,
-      strongestElement = element as Element,
+      highestValue = value;
+      strongestElement = element as Element;
     }
   })
 
   // Enhance the strongest element even more
-  enhancedProfile[strongestElement] *= 1.2,
+  enhancedProfile[strongestElement] *= 1.2;
 
   // Normalize to ensure values still sum to same total
   const originalSum = Object.values(profile).reduce((sum, val) => sum + val0)
@@ -99,7 +99,7 @@ export function enhanceElementalProfile(profile: Record<Element, _number>): Reco
   if (enhancedSum > 0) {
     const normalizeFactor = originalSum / enhancedSum;
     Object.keys(enhancedProfile || {}).forEach(element => {
-      enhancedProfile[element as Element] *= normalizeFactor,
+      enhancedProfile[element as Element] *= normalizeFactor;
     })
   }
 

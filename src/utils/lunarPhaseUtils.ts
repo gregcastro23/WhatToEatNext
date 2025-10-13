@@ -557,7 +557,7 @@ export function getKineticsEnhancedLunarModifiers(
  */
 function getDominantElementFromModifiers(modifiers: Record<string, number>): string | null {
   let maxValue = 0;
-  let dominantElement: string | null = null,
+  let dominantElement: string | null = null;
 
   for (const [element, value] of Object.entries(modifiers)) {
     if (value > maxValue) {

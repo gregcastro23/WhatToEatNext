@@ -257,7 +257,7 @@ export interface PlanetaryPosition {
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
-  isDaytime = true,
+  isDaytime = true;
   lunarPhase?: string,
   retrogrades?: Record<string, boolean>,
 ): AlchemicalResult {
@@ -309,42 +309,42 @@ export function alchemize(
     }
 
     // Increase elemental balance based on the planet's sign
-    elementalBalance[planetElement] += planetWeight,
+    elementalBalance[planetElement] += planetWeight;
 
     // Add alchemical property contributions
     switch (planetName.toLowerCase()) {
-      case 'sun': spirit += 1 * planetWeight,
+      case 'sun': spirit += 1 * planetWeight;
         break,
       case 'moon':
-        essence += 1 * planetWeight,
+        essence += 1 * planetWeight;
         break,
       case 'mercury':
-        substance += 0.5 * planetWeight,
-        spirit += 0.5 * planetWeight,
+        substance += 0.5 * planetWeight;
+        spirit += 0.5 * planetWeight;
         break,
       case 'venus':
-        essence += 1 * planetWeight,
+        essence += 1 * planetWeight;
         break,
       case 'mars':
-        matter += 0.5 * planetWeight,
-        essence += 0.5 * planetWeight,
+        matter += 0.5 * planetWeight;
+        essence += 0.5 * planetWeight;
         break,
       case 'jupiter':
-        spirit += 0.5 * planetWeight,
-        essence += 0.5 * planetWeight,
+        spirit += 0.5 * planetWeight;
+        essence += 0.5 * planetWeight;
         break,
       case 'saturn':
-        matter += 1 * planetWeight,
+        matter += 1 * planetWeight;
         break,
       case 'uranus':
-        substance += 1 * planetWeight,
+        substance += 1 * planetWeight;
         break,
       case 'neptune':
-        essence += 0.5 * planetWeight,
-        substance += 0.5 * planetWeight,
+        essence += 0.5 * planetWeight;
+        substance += 0.5 * planetWeight;
         break,
       case 'pluto':
-        matter += 0.5 * planetWeight,
+        matter += 0.5 * planetWeight;
         essence += 0.5 * planetWeight
         break
     }
@@ -352,46 +352,46 @@ export function alchemize(
 
   // Apply daytime/nighttime adjustment
   if (isDaytime) {
-    elementalBalance.fire *= 1.2,
-    elementalBalance.air *= 1.1,
+    elementalBalance.fire *= 1.2;
+    elementalBalance.air *= 1.1;
   } else {
-    elementalBalance.water *= 1.2,
-    elementalBalance.earth *= 1.1,
+    elementalBalance.water *= 1.2;
+    elementalBalance.earth *= 1.1;
   }
 
   // Apply lunar phase adjustment if provided
   if (lunarPhase) {
     if (lunarPhase.includes('full')) {
-      elementalBalance.fire *= 1.1,
-      elementalBalance.water *= 1.1,
-      spirit += 0.5,
-      essence += 0.5,
+      elementalBalance.fire *= 1.1;
+      elementalBalance.water *= 1.1;
+      spirit += 0.5;
+      essence += 0.5;
     } else if (lunarPhase.includes('new')) {
-      elementalBalance.earth *= 1.1,
-      elementalBalance.air *= 1.1,
-      matter += 0.5,
-      substance += 0.5,
+      elementalBalance.earth *= 1.1;
+      elementalBalance.air *= 1.1;
+      matter += 0.5;
+      substance += 0.5;
     } else if (lunarPhase.includes('waxing')) {
-      elementalBalance.fire *= 1.05,
-      elementalBalance.air *= 1.05,
-      spirit += 0.3,
-      substance += 0.3,
+      elementalBalance.fire *= 1.05;
+      elementalBalance.air *= 1.05;
+      spirit += 0.3;
+      substance += 0.3;
     } else if (lunarPhase.includes('waning')) {
-      elementalBalance.water *= 1.05,
-      elementalBalance.earth *= 1.05,
-      matter += 0.3,
-      essence += 0.3,
+      elementalBalance.water *= 1.05;
+      elementalBalance.earth *= 1.05;
+      matter += 0.3;
+      essence += 0.3;
     }
   }
 
   // Calculate dominant element
   let dominantElement = 'balanced';
-  let maxValue = 0,
+  let maxValue = 0;
 
   for (const [element, value] of Object.entries(elementalBalance)) {
     if (value > maxValue) {
-      maxValue = value,
-      dominantElement = element,
+      maxValue = value;
+      dominantElement = element;
     }
   }
 
@@ -403,32 +403,32 @@ export function alchemize(
     elementalBalance.fire + elementalBalance.earth + elementalBalance.air + elementalBalance.water,
 
   if (totalElemental > 0) {
-    elementalBalance.fire /= totalElemental,
-    elementalBalance.earth /= totalElemental,
-    elementalBalance.air /= totalElemental,
-    elementalBalance.water /= totalElemental,
+    elementalBalance.fire /= totalElemental;
+    elementalBalance.earth /= totalElemental;
+    elementalBalance.air /= totalElemental;
+    elementalBalance.water /= totalElemental;
   } else {
     // Default to balanced
-    elementalBalance.fire = 0.25,
-    elementalBalance.earth = 0.25,
-    elementalBalance.air = 0.25,
-    elementalBalance.water = 0.25,
+    elementalBalance.fire = 0.25;
+    elementalBalance.earth = 0.25;
+    elementalBalance.air = 0.25;
+    elementalBalance.water = 0.25;
   }
 
   // Normalize alchemical properties
   const totalAlchemical = spirit + essence + matter + substance;
 
   if (totalAlchemical > 0) {
-    spirit /= totalAlchemical,
-    essence /= totalAlchemical,
-    matter /= totalAlchemical,
-    substance /= totalAlchemical,
+    spirit /= totalAlchemical;
+    essence /= totalAlchemical;
+    matter /= totalAlchemical;
+    substance /= totalAlchemical;
   } else {
     // Default to balanced
-    spirit = 0.25,
-    essence = 0.25,
-    matter = 0.25,
-    substance = 0.25,
+    spirit = 0.25;
+    essence = 0.25;
+    matter = 0.25;
+    substance = 0.25;
   }
 
   // Convert to upper case for ElementalProperties return

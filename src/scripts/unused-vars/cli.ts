@@ -19,7 +19,7 @@ function tryCompiled(toolBaseName: 'analyzeUnusedVariables' | 'batchEliminateUnu
   // Try sibling compiled files first
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const here = typeof __dirname !== 'undefined' ? __dirname : null,
+  const here = typeof __dirname !== 'undefined' ? __dirname : null;
   if (!here) return null;
   const candidate = path.join(here, `${toolBaseName}.cjs`);
   return candidate;
@@ -30,7 +30,7 @@ function main(): void {
   switch (command) {
     case 'baseline': {
       const baselineIdx = rest.indexOf('--count');
-      const count = baselineIdx !== -1 && rest[baselineIdx + 1] ? Number(rest[baselineIdx + 1]) : 965,
+      const count = baselineIdx !== -1 && rest[baselineIdx + 1] ? Number(rest[baselineIdx + 1]) : 965;
       createBaselineReport('reports/unused-vars-baseline.json', count);
       break;
     }
@@ -48,11 +48,11 @@ function main(): void {
     case 'batch': {
       const inIdx = rest.indexOf('--in');
       const inPath = inIdx !== -1 && rest[inIdx + 1] ? rest[inIdx + 1] : 'reports/unused-vars.json';
-      const dry = rest.includes('--apply') ? '' : '--dry-run',
+      const dry = rest.includes('--apply') ? '' : '--dry-run';
       const maxBatchIdx = rest.indexOf('--max-batch');
       const maxCritIdx = rest.indexOf('--max-batch-critical');
       const maxBatch = maxBatchIdx !== -1 && rest[maxBatchIdx + 1] ? rest[maxBatchIdx + 1] : '15';
-      const maxCrit = maxCritIdx !== -1 && rest[maxCritIdx + 1] ? rest[maxCritIdx + 1] : '8',
+      const maxCrit = maxCritIdx !== -1 && rest[maxCritIdx + 1] ? rest[maxCritIdx + 1] : '8';
       const compiled = tryCompiled('batchEliminateUnused');
       if (compiled) {
         execNode(`node ${compiled} --in ${inPath} ${dry} --max-batch ${maxBatch} --max-batch-critical ${maxCrit}`);

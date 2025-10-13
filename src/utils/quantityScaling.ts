@@ -108,7 +108,7 @@ export function scaleElementalProperties(
 
   // Apply scaling with "like reinforces like" principle
   Object.keys(scaled).forEach(element => {
-    const baseValue = base[element as keyof ElementalProperties],
+    const baseValue = base[element as keyof ElementalProperties];
 
     if (element === dominantElement.key) {
       // Dominant element gets enhanced scaling (reinforces itself)
@@ -124,7 +124,7 @@ export function scaleElementalProperties(
   if (sum > 0) {
     const normalizationFactor = 1.0 / sum;
     Object.keys(scaled).forEach(element => {
-      scaled[element as keyof ElementalProperties] *= normalizationFactor,
+      scaled[element as keyof ElementalProperties] *= normalizationFactor;
     });
   }
 
@@ -167,7 +167,7 @@ export function scaleAlchemicalProperties(
 
   // Apply basic scaling
   Object.keys(scaled).forEach(property => {
-    scaled[property as keyof AlchemicalProperties] *= factor,
+    scaled[property as keyof AlchemicalProperties] *= factor;
   });
 
   // Apply kinetics modulation if available
@@ -187,7 +187,7 @@ export function scaleAlchemicalProperties(
 
   // Ensure non-negative values
   Object.keys(scaled).forEach(property => {
-    scaled[property as keyof AlchemicalProperties] = Math.max(0,
+    scaled[property as keyof AlchemicalProperties] = Math.max(0;
       scaled[property as keyof AlchemicalProperties]);
   });
 
@@ -302,7 +302,7 @@ export function validateScalingIntegrity(scaled: QuantityScaledProperties): {
   }
 
   return {
-    isValid: issues.length === 0,
+    isValid: issues.length === 0;
     issues
   };
 }

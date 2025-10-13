@@ -177,7 +177,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
       const methodId = `${cuisine.name.toLowerCase()}_${methodName.replace(/\s+/g, '_')}`,
 
       // Skip if this is a duplicate name/cuisine combination
-      const caseInsensitiveKey = `${cuisine.name.toLowerCase()}: ${methodName.toLowerCase()}`,
+      const caseInsensitiveKey = `${cuisine.name.toLowerCase()}: ${methodName.toLowerCase()}`;
       if (addedMethods.has(caseInsensitiveKey)) {
         return
       }
@@ -196,7 +196,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
           methodVariationsMap[relatedMainMethod] = new Set<string>()
         }
 
-        const culturalMethodKey = `${cuisine.name.toLowerCase()}: ${relatedMainMethod}`,
+        const culturalMethodKey = `${cuisine.name.toLowerCase()}: ${relatedMainMethod}`;
         if (methodVariationsMap[relatedMainMethod].has(culturalMethodKey)) {
           return
         }

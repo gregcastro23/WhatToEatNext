@@ -107,7 +107,7 @@ export function calculateElementalMatch(
 
   ELEMENT_KEYS.forEach(element => {
     const recipeValue = recipeElements[element];
-    const targetValue = targetElements[element],
+    const targetValue = targetElements[element];
 
     if (typeof recipeValue === 'number' && typeof targetValue === 'number') {
       total += 1 - Math.abs(recipeValue - targetValue);
@@ -189,7 +189,7 @@ export function calculateRecipeMatchScore(recipe: Recipe, context: RecipeMatchCo
   }
 
   const idealTime =
-    typeof recipe.idealTimeOfDay === 'string' ? recipe.idealTimeOfDay.toLowerCase() : '',
+    typeof recipe.idealTimeOfDay === 'string' ? recipe.idealTimeOfDay.toLowerCase() : '';
   if (idealTime && idealTime === timeOfDay) {
     score += 7;
   }
@@ -226,7 +226,7 @@ export function getMatchRatingSummary(score: number): string {
 export function getRecommendedRecipes(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
-  limit = 3,
+  limit = 3;
 ): RecommendationExplanation[] {
   const timeFactors = buildTimeFactors();
 
@@ -701,9 +701,9 @@ function extractElementalSnapshot(
   value: Partial<ElementalProperties> | undefined | null,
 ): Pick<ElementalProperties, 'Fire' | 'Water' | 'Earth' | 'Air'> {
   return {
-    Fire: typeof value?.Fire === 'number' ? value.Fire : 0,
-    Water: typeof value?.Water === 'number' ? value.Water : 0,
-    Earth: typeof value?.Earth === 'number' ? value.Earth : 0,
+    Fire: typeof value?.Fire === 'number' ? value.Fire : 0;
+    Water: typeof value?.Water === 'number' ? value.Water : 0;
+    Earth: typeof value?.Earth === 'number' ? value.Earth : 0;
     Air: typeof value?.Air === 'number' ? value.Air : 0
 };
 }

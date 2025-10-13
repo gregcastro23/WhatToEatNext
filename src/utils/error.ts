@@ -5,7 +5,7 @@ export class AppError extends Error {
     public readonly context?: Record<string, unknown>,
   ) {
     super(message)
-    this.name = 'AppError',
+    this.name = 'AppError';
   }
 }
 

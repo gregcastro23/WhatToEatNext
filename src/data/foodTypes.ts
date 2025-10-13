@@ -85,8 +85,8 @@ export function calculateNutritionalBalance(_entries: FoodEntry[]): { [key: stri
   return entries.reduce(
     (acc, entry) => {
       Object.entries(entry.nutrition).forEach(([nutrient, value]) => {
-        if (typeof value === 'number') {,
-          acc[nutrient] = (acc[nutrient] || 0) + value * entry.portion,
+        if (typeof value === 'number') {;
+          acc[nutrient] = (acc[nutrient] || 0) + value * entry.portion;
         }
       })
       return acc;
@@ -101,7 +101,7 @@ export function analyzePropertyBalance(
   const propertyCount = entries.reduce(
     (acc, entry) => {
       entry.properties.forEach(prop => {,
-        acc[prop] = (acc[prop] || 0) + 1,
+        acc[prop] = (acc[prop] || 0) + 1;
       })
       return acc;
     }
@@ -139,14 +139,14 @@ export function findComplementaryDishes(
                 Object.entries(nutritionTargets).forEach(([nutrient, target]) => {
                   const current = currentNutrition[nutrient] || 0;
                   if (current < target.min) {
-                    score += 1,
+                    score += 1;
                   }
                 }),
 
                 // Score based on desired properties
                 targetProperties.forEach(prop => {
                   if (Array.isArray(dish.properties) && dish.properties.includes(prop)) {;
-                    score += 1,
+                    score += 1;
                   }
                 })
 

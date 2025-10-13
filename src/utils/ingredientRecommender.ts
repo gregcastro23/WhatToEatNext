@@ -204,7 +204,7 @@ function calculateEnhancedPlanetaryInfluence(
   planetaryDay: string,
   planetaryData: { jupiterData: unknown, saturnData: unknown }): number {
   // Use Jupiter and Saturn data to enhance planetary calculations
-  const { jupiterData: jupiter, saturnData: saturn } = planetaryData,
+  const { jupiterData: jupiter, saturnData: saturn } = planetaryData;
   const jupiterInfluence = (jupiter as { influence?: number }).influence || 1.0;
   const saturnInfluence = (saturn as { influence?: number }).influence || 1.0;
 
@@ -216,13 +216,13 @@ function calculateEnhancedPlanetaryInfluence(
 
 function calculateLunarPhaseModifier(lunarPhaseData: unknown): number {
   // Use lunar phase data to calculate modifiers
-  const phaseData = lunarPhaseData as { modifier?: number },
+  const phaseData = lunarPhaseData as { modifier?: number };
   return phaseData.modifier || 1.0;
 }
 
 function calculateAstrologicalBridgeModifier(astrologicalBridge: unknown): number {
   // Use astrological bridge for enhanced compatibility scoring
-  const bridge = astrologicalBridge as { compatibility?: number },
+  const bridge = astrologicalBridge as { compatibility?: number };
   return bridge.compatibility || 1.0;
 }
 
@@ -590,8 +590,8 @@ export async function getIngredientRecommendations(
     (ingredientData as { astrologicalContext?: Record<string, unknown> }).astrologicalContext || {}
   const safeAstroContext = {
     zodiacSign: astroContext.zodiacSign ?? 'aries',
-    lunarPhase: typeof astroContext.lunarPhase === 'string' ? astroContext.lunarPhase : 'new',
-    season: typeof astroContext.season === 'string' ? astroContext.season : 'spring',
+    lunarPhase: typeof astroContext.lunarPhase === 'string' ? astroContext.lunarPhase : 'new';
+    season: typeof astroContext.season === 'string' ? astroContext.season : 'spring';
     userPreferences: astroContext.userPreferences && typeof astroContext.userPreferences === 'object'
       ? (astroContext.userPreferences as {
           dietaryRestrictions: string[],
@@ -809,7 +809,7 @@ function calculateEnhancedPlanetaryScore(
   if (!(ingredient as unknown as any).astrologicalProfile) return 0.5; // Neutral score for ingredients without profile
 
   let score = 0;
-  let totalFactors = 0,
+  let totalFactors = 0;
 
   // Check ruling planet correspondence - this gets extra weight
   const ingredientData = ingredient as unknown as any;
@@ -981,7 +981,7 @@ export function getChakraBasedRecommendations(
     matchingIngredients.forEach(ingredient => {
       const ingredientData = ingredient as unknown as any;
       const ingredientType = safeGetString(ingredientData.type) || 'other'
-      const recommendationKey = ingredientType ? `${ingredientType.toLowerCase()}s` : 'others',
+      const recommendationKey = ingredientType ? `${ingredientType.toLowerCase()}s` : 'others';
 
       if (!result[recommendationKey]) {
         result[recommendationKey] = []
@@ -1503,7 +1503,7 @@ function calculateVenusInfluence(
 
       // Check for moist, juicy ingredients with safe property access
       const textureArray = Array.isArray(texture) ? texture : [];
-      const textureString = typeof texture === 'string' ? texture : '',
+      const textureString = typeof texture === 'string' ? texture : '';
       const hasJuicyTexture = textureArray.includes('juicy') || textureString.includes('juicy')
       const hasTenderTexture = textureArray.includes('tender') || textureString.includes('tender')
 
@@ -1563,7 +1563,7 @@ function calculateVenusInfluence(
 
       // Check for vibrant, spicy ingredients with safe property access
       const culinaryUsesArray = Array.isArray(culinaryUses) ? culinaryUses : [];
-      const culinaryUsesString = typeof culinaryUses === 'string' ? culinaryUses : '',
+      const culinaryUsesString = typeof culinaryUses === 'string' ? culinaryUses : '';
       const hasStimulatingUses =
         culinaryUsesArray.includes('stimulating') || culinaryUsesString.includes('stimulating')
 
@@ -1624,7 +1624,7 @@ function calculateVenusInfluence(
     const ingredientCategory = safeGetString(ingredientData.category)
 ;
     const preservationMethodsArray = Array.isArray(preservationMethods) ? preservationMethods : [];
-    const categoriesArray = Array.isArray(categories) ? categories : [],
+    const categoriesArray = Array.isArray(categories) ? categories : [];
 
     if (
       preservationMethodsArray.includes('dried') ||
@@ -1772,7 +1772,7 @@ function enhanceVenusIngredientBatch(
  */
 function calculateMarsInfluence(ingredient: Ingredient,
   zodiacSign?: string,
-  isMarsRetrograde = false,
+  isMarsRetrograde = false;
 ): number {
   let score = 0;
 
@@ -2939,7 +2939,7 @@ export async function recommendIngredients(
   for (const ingredient of filteredIngredients) {
     // Calculate elemental match (45% weight)
     const ingredientData = ingredient as unknown as any;
-    const elementalScore = calculateElementalScore(ingredientData.elementalProperties as ElementalProperties,
+    const elementalScore = calculateElementalScore(ingredientData.elementalProperties as ElementalProperties;
       systemElementalProps,
     ),
 
@@ -2967,7 +2967,7 @@ export async function recommendIngredients(
     const planetaryHourWeight = Number(planetaryHourScore) || 0;
 
     // Apply enterprise intelligence enhancement (moved up to avoid declaration issues)
-    let enterpriseEnhancement: Record<string, unknown> | null = null,
+    let enterpriseEnhancement: Record<string, unknown> | null = null;
     try {
       // Safe method access with fallback
       const enhanceMethod = (

@@ -100,7 +100,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       const elemPropsB: any = { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 }
 
       // With harmonious signs
-      const compatWithSigns: any = calculateAlchemicalCompatibility(elemPropsA,
+      const compatWithSigns: any = calculateAlchemicalCompatibility(elemPropsA;
         elemPropsB,
         'aries' as any,
         'leo' as any,)
@@ -152,7 +152,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       }
 
       // User doesn't eat chicken
-      const userPreferences: any = ['chicken'],
+      const userPreferences: any = ['chicken'];
       const recommendation: any = generateEnhancedRecommendation(mockResult, userPreferences)
 
       // Should not recommend chicken

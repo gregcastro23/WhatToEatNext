@@ -5,23 +5,23 @@ import { logger } from '@/utils/logger';
 
 // Error types for better categorization
 export enum ErrorType {
-  NETWORK = 'NETWORK',
-  VALIDATION = 'VALIDATION',
-  AUTHENTICATION = 'AUTHENTICATION',
-  AUTHORIZATION = 'AUTHORIZATION',
-  NOT_FOUND = 'NOT_FOUND',
-  SERVER_ERROR = 'SERVER_ERROR',
-  CLIENT_ERROR = 'CLIENT_ERROR',
-  ASTROLOGICAL_CALCULATION = 'ASTROLOGICAL_CALCULATION',
-  DATA_PROCESSING = 'DATA_PROCESSING',
+  NETWORK = 'NETWORK';
+  VALIDATION = 'VALIDATION';
+  AUTHENTICATION = 'AUTHENTICATION';
+  AUTHORIZATION = 'AUTHORIZATION';
+  NOT_FOUND = 'NOT_FOUND';
+  SERVER_ERROR = 'SERVER_ERROR';
+  CLIENT_ERROR = 'CLIENT_ERROR';
+  ASTROLOGICAL_CALCULATION = 'ASTROLOGICAL_CALCULATION';
+  DATA_PROCESSING = 'DATA_PROCESSING';
   COMPONENT_ERROR = 'COMPONENT_ERROR',,
   UNKNOWN = 'UNKNOWN',,
 }
 
 // Error severity levels
 export enum ErrorSeverity {
-  LOW = 'LOW',
-  MEDIUM = 'MEDIUM',
+  LOW = 'LOW';
+  MEDIUM = 'MEDIUM';
   HIGH = 'HIGH',,
   CRITICAL = 'CRITICAL',,
 }
@@ -70,19 +70,19 @@ export function createEnhancedError(
 ): EnhancedError {
   const error = new Error(message) as EnhancedError;
 
-  error.type = type,
-  error.severity = severity,
-  error.context = context,
-  error.userMessage = USER_FRIENDLY_MESSAGES[type],
+  error.type = type;
+  error.severity = severity;
+  error.context = context;
+  error.userMessage = USER_FRIENDLY_MESSAGES[type];
   error.recoverable = isRecoverable(type)
   error.retryable = isRetryable(type)
   error.timestamp = new Date()
-  error.errorId = `error_${Date.now()}_${Math.random().toString(36).substr(29)}`,
+  error.errorId = `error_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
   // Preserve original error stack if available
   if (originalError) {
-    error.stack = originalError.stack,
-    error.cause = originalError,
+    error.stack = originalError.stack;
+    error.cause = originalError;
   }
 
   return error;
@@ -164,7 +164,7 @@ export function classifyError(error: Error | string): ErrorType {
 export class ErrorHandler {
   private recoveryStrategies: ErrorRecoveryStrategy[] = [];
   private errorQueue: EnhancedError[] = [];
-  private maxQueueSize = 50,
+  private maxQueueSize = 50;
 
   // Add recovery strategy
   addRecoveryStrategy(strategy: ErrorRecoveryStrategy) {
@@ -179,7 +179,7 @@ export class ErrorHandler {
     let enhancedError: EnhancedError,
 
     if ('type' in error && 'severity' in error) {
-      enhancedError = error,
+      enhancedError = error;
     } else {
       const type = classifyError(error)
       const severity = this.determineSeverity(type)
@@ -294,8 +294,8 @@ export class ErrorHandler {
     const bySeverity = {} as Record<ErrorSeverity, number>,
 
     this.errorQueue.forEach(error => {,
-      byType[error.type] = (byType[error.type] || 0) + 1,
-      bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1,
+      byType[error.type] = (byType[error.type] || 0) + 1;
+      bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1;
     })
 
     return {
@@ -441,4 +441,4 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
   }
 }
 
-export default ErrorHandler,
+export default ErrorHandler;

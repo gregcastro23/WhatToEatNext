@@ -16,7 +16,7 @@ import { CUISINE_CATEGORY_MAP } from '@/types/culinary';
  * Comprehensive helper functions for working with the enhanced cuisine type system
  */
 
-// ========== CUISINE CATEGORIZATION ==========,
+// ========== CUISINE CATEGORIZATION ==========;
 
 /**
  * Get the continental category for a cuisine type
@@ -255,7 +255,7 @@ export function isStreetFoodCuisine(
   return streetFoodCuisines.includes(cuisine as StreetFoodCuisineType)
 }
 
-// ========== CUISINE COMPATIBILITY ==========,
+// ========== CUISINE COMPATIBILITY ==========;
 
 /**
  * Calculate compatibility between two cuisines
@@ -264,35 +264,35 @@ export function calculateCuisineCompatibility(
   cuisine1: CompleteCuisineType,
   cuisine2: CompleteCuisineType,
 ): number {
-  // Same cuisine = perfect compatibility,
+  // Same cuisine = perfect compatibility;
   if (cuisine1 === cuisine2) return 1.0;
-  // Same continental category = high compatibility,
+  // Same continental category = high compatibility;
   const continent1 = getCuisineContinent(cuisine1)
   const continent2 = getCuisineContinent(cuisine2)
   if (continent1 === continent2) return 0.8;
-  // Regional variations of same primary cuisine = very high compatibility,
+  // Regional variations of same primary cuisine = very high compatibility;
   if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2)) {
     const primary1 = getPrimaryCuisineFromRegional(cuisine1)
     const primary2 = getPrimaryCuisineFromRegional(cuisine2)
     if (primary1 === primary2) return 0.9;
   }
 
-  // Fusion cuisines with shared elements = moderate compatibility,
+  // Fusion cuisines with shared elements = moderate compatibility;
   if (isFusionCuisine(cuisine1) || isFusionCuisine(cuisine2)) {
     return 0.6;
   }
 
-  // Dietary cuisines can work with most others = moderate compatibility,
+  // Dietary cuisines can work with most others = moderate compatibility;
   if (isDietaryCuisine(cuisine1) || isDietaryCuisine(cuisine2)) {
     return 0.7;
   }
 
-  // Historical cuisines = lower compatibility with modern cuisines,
+  // Historical cuisines = lower compatibility with modern cuisines;
   if (isHistoricalCuisine(cuisine1) || isHistoricalCuisine(cuisine2)) {
     return 0.4;
   }
 
-  // Street food cuisines = moderate compatibility,
+  // Street food cuisines = moderate compatibility;
   if (isStreetFoodCuisine(cuisine1) || isStreetFoodCuisine(cuisine2)) {
     return 0.6;
   }
@@ -495,7 +495,7 @@ export function getRegionalCuisinesForPrimary(_primary: PrimaryCuisineType): Reg
   return primaryToRegional[primary] || [];
 }
 
-// ========== CUISINE RECOMMENDATIONS ==========,
+// ========== CUISINE RECOMMENDATIONS ==========;
 
 /**
  * Get cuisine compatibility recommendations
@@ -539,7 +539,7 @@ export function getCompatibilityFactors(
   if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2)) {
     const primary1 = getPrimaryCuisineFromRegional(cuisine1)
     const primary2 = getPrimaryCuisineFromRegional(cuisine2)
-    if (primary1 === primary2) {,
+    if (primary1 === primary2) {;
       factors.push(`Regional variations of ${primary1}`)
     }
   }
@@ -597,7 +597,7 @@ export function getRegionalVariations(
   return variations;
 }
 
-// ========== CUISINE VALIDATION ==========,
+// ========== CUISINE VALIDATION ==========;
 
 /**
  * Validate if a string is a valid cuisine type
@@ -627,7 +627,7 @@ export function getCuisineDisplayName(cuisine: CompleteCuisineType): string {
   return cuisine.replace(/-/g, ' ')
 }
 
-// ========== CUISINE GROUPING ==========,
+// ========== CUISINE GROUPING ==========;
 
 /**
  * Group cuisines by category
@@ -657,6 +657,6 @@ export function getCuisinesInCategory(category: string): CompleteCuisineType[] {
     .map(([cuisine, _]) => cuisine as CompleteCuisineType)
 }
 
-// ========== EXPORT ALL UTILITIES ==========,
+// ========== EXPORT ALL UTILITIES ==========;
 
 export { CUISINE_CATEGORY_MAP }

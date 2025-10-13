@@ -129,16 +129,16 @@ export const _sortByAlchemicalCompatibility = (
       const itemValue = item.elementalProperties[element] || 0;
       const targetValue = targetElementalProperties[element] || 0;
 
-      dotProduct += itemValue * targetValue,
-      itemNorm += itemValue * itemValue,
-      targetNorm += targetValue * targetValue,
+      dotProduct += itemValue * targetValue;
+      itemNorm += itemValue * itemValue;
+      targetNorm += targetValue * targetValue;
     }
 
     itemNorm = Math.sqrt(itemNorm)
     targetNorm = Math.sqrt(targetNorm)
 
     // Avoid division by zero;
-    if (itemNorm === 0 || targetNorm === 0) {,
+    if (itemNorm === 0 || targetNorm === 0) {
       return { ...item, compatibilityScore: 0.5 }; // Neutral match if either has no elemental values
     }
 
@@ -213,7 +213,7 @@ export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): Alch
  */
 export const _getRecommendedCookingMethodsForIngredient = async (ingredient: AlchemicalItem,
   cookingMethods: AlchemicalItem[],
-  count = 5,
+  count = 5
 ): Promise<Array<{ method: string, compatibility: number }>> => {
   // For each method, calculate how well it transforms the ingredient using enhanced algorithm
   // that takes into account elemental character associations
@@ -245,7 +245,7 @@ export const _getRecommendedCookingMethodsForIngredient = async (ingredient: Alc
   )
 
   // Convert to the expected return format
-  const results = holisticRecommendations.map(rec => ({,
+  const results = holisticRecommendations.map(rec => ({
     method: rec.method,
     compatibility: rec.compatibility
   }))
@@ -275,7 +275,7 @@ function _calculateAlchemicalScore(item: AlchemicalItem): number {
   // Add spirit, essence, matter, substance if they exist
   ['spirit', 'essence', 'matter', 'substance'].forEach(prop => {
     if (prop in item && typeof item[prop as keyof AlchemicalItem] === 'number') {;
-      score += item[prop as keyof AlchemicalItem] as number,
+      score += item[prop as keyof AlchemicalItem] as number;
       count++
     }
   })
@@ -283,7 +283,7 @@ function _calculateAlchemicalScore(item: AlchemicalItem): number {
   // Include thermodynamic properties if they exist
   ['heat', 'entropy', 'reactivity', 'gregsEnergy'].forEach(prop => {
     if (prop in item && typeof item[prop as keyof AlchemicalItem] === 'number') {;
-      score += item[prop as keyof AlchemicalItem] as number,
+      score += item[prop as keyof AlchemicalItem] as number;
       count++
     }
   })

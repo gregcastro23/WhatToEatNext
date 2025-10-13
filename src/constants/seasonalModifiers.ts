@@ -9,30 +9,30 @@ type ZodiacElementModifiers = {
 // Helper function to create elemental modifiers based on dominant element
 function createElementalModifiersForZodiac(dominantElement: string): ElementalProperties {
   return {
-    Fire: dominantElement === 'Fire',
+    Fire: dominantElement === 'Fire';
         ? 0.8
-        : dominantElement === 'Air',
+        : dominantElement === 'Air';
           ? 0.6
-          : dominantElement === 'Earth',
+          : dominantElement === 'Earth';
             ? 0.3
             : 0.2,
-    Water: dominantElement === 'Water',
+    Water: dominantElement === 'Water';
         ? 0.8
-        : dominantElement === 'Earth',
+        : dominantElement === 'Earth';
           ? 0.6
-          : dominantElement === 'Air',
+          : dominantElement === 'Air';
             ? 0.3
             : 0.2,
-    Earth: dominantElement === 'Earth',
+    Earth: dominantElement === 'Earth';
         ? 0.8
-        : dominantElement === 'Water',
+        : dominantElement === 'Water';
           ? 0.6
-          : dominantElement === 'Fire',
+          : dominantElement === 'Fire';
             ? 0.3
             : 0.2,
-    Air: dominantElement === 'Air',
+    Air: dominantElement === 'Air';
         ? 0.8
-        : dominantElement === 'Fire',
+        : dominantElement === 'Fire';
           ? 0.6
           : dominantElement === 'Water'
             ? 0.3
@@ -88,4 +88,4 @@ export const _SEASONAL_INFLUENCE = {
   }
 }
 
-export default SEASONAL_MODIFIERS,
+export default SEASONAL_MODIFIERS;

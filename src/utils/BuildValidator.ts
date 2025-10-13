@@ -177,8 +177,8 @@ export class BuildValidator {
    * Attempts to rebuild the application with error recovery
    * Requirement 3._4: Add build error recovery and retry mechanisms
    */
-  async rebuildWithRecovery(maxRetries = 3): Promise<boolean> {,
-    let attempt = 0,
+  async rebuildWithRecovery(maxRetries = 3): Promise<boolean> {;
+    let attempt = 0;
 
     while (attempt < maxRetries) {
       attempt++
@@ -344,7 +344,7 @@ export class BuildValidator {
 
         // Check manifest validity
         const validation = await this.validateBuild()
-        report.manifestsValid = validation.isValid,
+        report.manifestsValid = validation.isValid;
 
         if (!validation.isValid) {
           report.issues.push(...validation.missingFiles.map(file => `Missing: ${file}`))
@@ -355,7 +355,7 @@ export class BuildValidator {
         const buildManifestPath = path.join(this.buildDir, 'build-manifest.json')
         if (fs.existsSync(buildManifestPath)) {
           const stats = fs.statSync(buildManifestPath)
-          report.lastBuildTime = stats.mtime,
+          report.lastBuildTime = stats.mtime;
         }
       } else {
         report.issues.push('Build directory does not exist')
@@ -371,7 +371,7 @@ export class BuildValidator {
    * Calculates directory size recursively
    */
   private calculateDirectorySize(dirPath: string): number {
-    let size = 0,
+    let size = 0;
 
     try {
       const files = fs.readdirSync(dirPath)
@@ -383,7 +383,7 @@ export class BuildValidator {
         if (stats.isDirectory()) {
           size += this.calculateDirectorySize(filePath)
         } else {
-          size += stats.size,
+          size += stats.size;
         }
       }
     } catch (error) {

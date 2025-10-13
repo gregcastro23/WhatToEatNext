@@ -420,7 +420,7 @@ describe('Domain-Specific Rule Behavior', () => {
           elementalProperties.Water * 0.6 +
           elementalProperties.Earth * 0.7 +
           elementalProperties.Air * 0.9;
-        const transitModifier = transitDates ? 1.1 : 0.9,
+        const transitModifier = transitDates ? 1.1 : 0.9;
 
         return Math.min(1.0, baseInfluence * elementalModifier * transitModifier);
       };

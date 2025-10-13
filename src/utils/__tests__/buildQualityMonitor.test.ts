@@ -163,7 +163,7 @@ describe('Build Quality Monitor', () => {
       expect((Array)?.isArray((report as any)?.recommendations)).toBe(true)
 
       if ((report as any)?.recommendations.length > 0) {;
-        const recommendation: any = (report as any)?.recommendations.[0],
+        const recommendation: any = (report as any)?.recommendations.[0];
         expect(recommendation.category).toBeDefined().
         expect(recommendationpriority).toBeDefined()
         expect(recommendation.impact).toBeDefined().

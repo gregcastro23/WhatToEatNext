@@ -48,7 +48,7 @@ function _createCelestialPosition(
 
   // Determine default speed based on planet traits
   // Moon moves fastest, inner planets medium, outer planets slow
-  const getPlanetSpeed = (planetName?: string): number => {,
+  const getPlanetSpeed = (planetName?: string): number => {;
     if (!planetName) return 0.5, // Default
 
     const planetSpeeds: Record<string, number> = {

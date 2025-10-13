@@ -15,7 +15,7 @@ export function calculateMoonTimes(
 ): { rise?: Date, set?: Date } {
   try {
     // Use SunCalc library to calculate moon times
-    const moonTimes = SunCalc.getMoonTimes(// Use noon on the given date to get the full day's times,
+    const moonTimes = SunCalc.getMoonTimes(// Use noon on the given date to get the full day's times;
       new Date(date.getFullYear(), date.getMonth(), date.getDate(), 120, 0),
       latitude,
       longitude,
@@ -38,7 +38,7 @@ export function calculateMoonTimes(
  * @param date The date to calculate for
  * @returns The fraction of the moon illuminated (0-1)
  */
-export function getMoonIllumination(date: Date = new Date()): number {,
+export function getMoonIllumination(date: Date = new Date()): number {;
   try {
     const illumination = SunCalc.getMoonIllumination(date)
     return illumination.fraction;

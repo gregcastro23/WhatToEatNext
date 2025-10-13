@@ -315,7 +315,7 @@ describe('Domain-Specific Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const complexityErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2,
+              (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2;
             );
 
             expect(complexityErrors.length).toBe(0);
@@ -362,7 +362,7 @@ describe('Domain-Specific Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const consoleErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2,
+              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2;
             );
 
             expect(consoleErrors.length).toBe(0);
@@ -488,7 +488,7 @@ describe('Domain-Specific Rule Validation', () => {
 
     test('should have relaxed rules for testing patterns', async () => {
       const testContent = `
-        const anyValue: any = 'test-any',
+        const anyValue: any = 'test-any';
         console.log('Test output');
         const value = someObject!.property; // non-null assertion
         const magicNumber = 42; // magic number
@@ -511,7 +511,7 @@ describe('Domain-Specific Rule Validation', () => {
               (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
               (msg.ruleId === 'no-console' && msg.severity === 2) ||
               (msg.ruleId === '@typescript-eslint/no-non-null-assertion' && msg.severity === 2) ||
-              (msg.ruleId === 'no-magic-numbers' && msg.severity === 2),
+              (msg.ruleId === 'no-magic-numbers' && msg.severity === 2);
           );
 
           expect(restrictiveErrors.length).toBe(0);
@@ -526,7 +526,7 @@ describe('Domain-Specific Rule Validation', () => {
                 (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                 (msg.ruleId === 'no-console' && msg.severity === 2) ||
                 (msg.ruleId === '@typescript-eslint/no-non-null-assertion' && msg.severity === 2) ||
-                (msg.ruleId === 'no-magic-numbers' && msg.severity === 2),
+                (msg.ruleId === 'no-magic-numbers' && msg.severity === 2);
             );
 
             expect(restrictiveErrors.length).toBe(0);
@@ -621,7 +621,7 @@ describe('Domain-Specific Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const requireErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
+            (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2;
           );
 
           expect(requireErrors.length).toBe(0);
@@ -632,7 +632,7 @@ describe('Domain-Specific Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const requireErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
+              (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2;
             );
 
             expect(requireErrors.length).toBe(0);
@@ -647,7 +647,7 @@ describe('Domain-Specific Rule Validation', () => {
 
     test('should have relaxed rules for build patterns', async () => {
       const testContent = `
-        const anyConfig: any = process.env.CONFIG,
+        const anyConfig: any = process.env.CONFIG;
         console.log('Configuration loaded');
         const dynamicRequire = require(process.env.MODULE);
       `;
@@ -668,7 +668,7 @@ describe('Domain-Specific Rule Validation', () => {
             (msg: any) =>
               (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
               (msg.ruleId === 'no-console' && msg.severity === 2) ||
-              (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
+              (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2);
           );
 
           expect(restrictiveErrors.length).toBe(0);
@@ -682,7 +682,7 @@ describe('Domain-Specific Rule Validation', () => {
               (msg: any) =>
                 (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                 (msg.ruleId === 'no-console' && msg.severity === 2) ||
-                (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
+                (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2);
             );
 
             expect(restrictiveErrors.length).toBe(0);

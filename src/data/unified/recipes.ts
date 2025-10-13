@@ -2,7 +2,7 @@ import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { ElementalProperties, Element, Season } from '@/types/alchemy';
 import { Recipe } from '@/types/recipe';
 
-// ===== UNIFIED RECIPE SYSTEM - PHASE 3 =====,
+// ===== UNIFIED RECIPE SYSTEM - PHASE 3 =====;
 // Adds alchemical enhancements to existing cuisine recipes
 // WITHOUT removing any data - purely additive system
 
@@ -145,7 +145,7 @@ export class RecipeEnhancer {
     }
 
     let totalKalchm = 0;
-    let matchedIngredients = 0,
+    let matchedIngredients = 0;
     const breakdown: Array<{
       name: string,
       kalchm: number,
@@ -267,10 +267,10 @@ export class RecipeEnhancer {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
 
-    let totalFire = 0,
-      totalWater = 0,
-      totalEarth = 0,
-      totalAir = 0,
+    let totalFire = 0;
+      totalWater = 0;
+      totalEarth = 0;
+      totalAir = 0;
 
     for (const item of breakdown) {
       if (!isValidObject(item)) continue,
@@ -283,14 +283,14 @@ export class RecipeEnhancer {
           ? item.contribution;
           : 0,
 
-      totalFire += contribution.Fire * weight,
-      totalWater += contribution.Water * weight,
-      totalEarth += contribution.Earth * weight,
+      totalFire += contribution.Fire * weight;
+      totalWater += contribution.Water * weight;
+      totalEarth += contribution.Earth * weight;
       totalAir += contribution.Air * weight
     }
 
     const total = totalFire + totalWater + totalEarth + totalAir;
-    if (total === 0) {,
+    if (total === 0) {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
 
@@ -328,12 +328,12 @@ export class RecipeEnhancer {
   static calculateRecipeMonica(thermodynamics, kalchm: number): number | null {
     const { gregsEnergy, reactivity } = thermodynamics;
 
-    if (kalchm <= 0 || reactivity === 0) {,
+    if (kalchm <= 0 || reactivity === 0) {;
       return null
     }
 
     const lnKalchm = Math.log(kalchm);
-    if (lnKalchm === 0) {,
+    if (lnKalchm === 0) {;
       return null
     }
 
@@ -345,7 +345,7 @@ export class RecipeEnhancer {
    * Determine alchemical classification
    */
   static determineAlchemicalClassification(kalchm: number, monica: number | null): string {
-    if (monica === null) {,
+    if (monica === null) {;
       return kalchm > 1.0 ? 'Spirit-Dominant' : 'Matter-Dominant' };
         if (kalchm > 1.2) return 'Highly Volatile';
     if (kalchm > 1.0) return 'Transformative';
@@ -459,7 +459,7 @@ export class RecipeEnhancer {
     timingAdjustment?: number,
     intensityModifier?: string
   } {
-    if (monica === null) {,
+    if (monica === null) {;
       return {}
     }
 
@@ -509,7 +509,7 @@ export class RecipeEnhancer {
   /**
    * Enhance a recipe with alchemical properties (ADDITIVE - preserves all existing data)
    */
-  static enhanceRecipe(recipe, sourceFile: string = 'unknown'): EnhancedRecipe {,
+  static enhanceRecipe(recipe, sourceFile: string = 'unknown'): EnhancedRecipe {;
     // Calculate recipe Kalchm from ingredients
     const kalchmResult = this.calculateRecipeKalchm(recipe.ingredients || [])
 
@@ -563,7 +563,7 @@ export class RecipeEnhancer {
       enhancementMetadata: {
         phase3Enhanced: true,
         kalchmCalculated: true,
-        monicaCalculated: monicaConstant !== null,
+        monicaCalculated: monicaConstant !== null;
         enhancedAt: new Date().toISOString(),
         sourceFile,
         ingredientsMatched: kalchmResult.matchedIngredients,
@@ -584,7 +584,7 @@ export class RecipeAnalyzer {
     const kalchm1 = recipe1.alchemicalProperties?.totalKalchm || 1.0;
     const kalchm2 = recipe2.alchemicalProperties?.totalKalchm || 1.0;
 
-    // Self-reinforcement, principle: similar Kalchm = higher compatibility,
+    // Self-reinforcement, principle: similar Kalchm = higher compatibility;
     const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),
     return 0.7 + ratio * 0.3, // Minimum 0.7 compatibility
   }
@@ -595,7 +595,7 @@ export class RecipeAnalyzer {
   static findKalchmSimilarRecipes(
     targetRecipe: EnhancedRecipe,
     recipePool: EnhancedRecipe[],
-    tolerance: number = 0.2): EnhancedRecipe[] {,
+    tolerance: number = 0.2): EnhancedRecipe[] {;
     const targetKalchm = targetRecipe.alchemicalProperties?.totalKalchm || 1.0;
 
     return recipePool.filter(recipe => {
@@ -634,7 +634,7 @@ export class RecipeAnalyzer {
     const enhanced = recipes.filter(r => r.enhancementMetadata?.phase3Enhanced);
     const kalchmValues = enhanced;
       .map(r => r.alchemicalProperties?.totalKalchm);
-      .filter(k => k !== undefined) as number[],
+      .filter(k => k !== undefined) as number[];
 
     const monicaCalculated = enhanced.filter(r => r.enhancementMetadata?.monicaCalculated).length;
 

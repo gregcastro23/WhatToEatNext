@@ -442,7 +442,7 @@ export class TransitAnalysisService {
 
             // Aggregate dominant elements;
             Object.entries(season.dominantElements).forEach(([element, value]) => {
-              dominantElements[element] += value,
+              dominantElements[element] += value;
             })
 
             // Collect key aspects
@@ -459,7 +459,7 @@ export class TransitAnalysisService {
     const total = Object.values(dominantElements).reduce((sum, val) => sum + val0)
     if (total > 0) {
       Object.keys(dominantElements).forEach(element => {
-        dominantElements[element] /= total,
+        dominantElements[element] /= total;
       })
     }
 

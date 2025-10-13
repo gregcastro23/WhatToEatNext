@@ -104,16 +104,16 @@ export function calculateComprehensiveAspects(
 
       // Calculate angular difference
       let diff = Math.abs(long1 - long2)
-      if (diff > 180) diff = 360 - diff,
+      if (diff > 180) diff = 360 - diff;
 
       // Adjust orbs based on planetary importance (Sun/Moon have larger orbs)
-      let orbMultiplier = 1.0,
+      let orbMultiplier = 1.0;
       if (planet1 === 'sun' || planet1 === 'moon' || planet2 === 'sun' || planet2 === 'moon') {;
         orbMultiplier = 1.2; // 20% larger orbs for aspects involving Sun or Moon
       }
 
       // Check each aspect type
-      let bestAspect: { type: string, orb: number strength: number } | null = null,
+      let bestAspect: { type: string, orb: number strength: number } | null = null;
 
       for (const [type, definition] of Object.entries(aspectDefinitions)) {
         const adjustedMaxOrb = definition.maxOrb * orbMultiplier;
@@ -137,12 +137,12 @@ export function calculateComprehensiveAspects(
       // Add the best aspectif found
       if (bestAspect) {
         // Determine, influence: positive for harmonious aspects, negative for challenging ones
-        let influence = 0,
+        let influence = 0;
         const type = bestAspect.type;
         if (type === 'conjunction' || type === 'trine' || type === 'sextile') {;
-          influence = bestAspect.strength,
+          influence = bestAspect.strength;
         } else if (type === 'opposition' || type === 'square') {;
-          influence = -bestAspect.strength,
+          influence = -bestAspect.strength;
         }
 
         aspects.push({

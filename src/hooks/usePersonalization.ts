@@ -236,7 +236,7 @@ export function usePersonalization(
       })
 
       return personalizedScores.map(score => ({;
-        ...baseRecommendations.find(rec => rec.id === score.recipeId),
+        ...baseRecommendations.find(rec => rec.id === score.recipeId);
         personalizedScore: score.personalizedScore,
         reasons: score.reasons,
         confidence: score.confidence

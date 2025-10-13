@@ -35,8 +35,8 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
 
   // Default options
   const {
-    useCurrentTime = true,
-    useCurrentLocation = true,
+    useCurrentTime = true;
+    useCurrentLocation = true;
     year,
     month,
     date,
@@ -44,8 +44,8 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
     minute,
     latitude,
     longitude,
-    zodiacSystem = 'tropical',
-  } = options,
+    zodiacSystem = 'tropical';
+  } = options;
 
   // Get current location if needed
   useEffect(() => {
@@ -82,12 +82,12 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       // Determine if we're using current time or custom time
       let url = '/api/astrologize';
       let method = 'GET';
-      let body: string | undefined = undefined,
+      let body: string | undefined = undefined;
 
       if (!useCurrentTime && year && month && date) {
         // Use POST with custom date/time
         method = 'POST'
-        body = JSON.stringify({,
+        body = JSON.stringify({;
           year,
           month,
           date,
@@ -106,7 +106,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
         params.append('zodiacSystem', zodiacSystem)
 
         if (params.toString()) {
-          url = `/api/astrologize?${params.toString()}`,
+          url = `/api/astrologize?${params.toString()}`;
         }
       }
 

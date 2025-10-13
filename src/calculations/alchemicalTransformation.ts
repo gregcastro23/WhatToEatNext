@@ -102,11 +102,11 @@ export const transformItemWithPlanetaryPositions = (
     // Apply safety checks for energy metrics
     const safeHeat = Number.isFinite(alchemicalResults.heat)
       ? Math.max(0.1, Math.min(1.0, alchemicalResults.heat * planetaryBoost * 2.5))
-      : 0.5,
+      : 0.5;
 
     const safeEntropy = Number.isFinite(alchemicalResults.entropy)
       ? Math.max(0.1, Math.min(1.0, alchemicalResults.entropy * 1.5))
-      : 0.5,
+      : 0.5;
 
     const safeReactivity = Number.isFinite(alchemicalResults.reactivity)
       ? Math.max(0.1, Math.min(1.0, alchemicalResults.reactivity * 1.5))
@@ -158,7 +158,8 @@ export const transformItemWithPlanetaryPositions = (
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water'},
+      pisces: 'Water'
+    };
     const zodiacElement = zodiacElementMap[zodiacSign];
     if (zodiacElement && zodiacElement === dominantElement) {
       zodiacModifier = 0.25; // Increased bonus for matching zodiac element
@@ -301,7 +302,7 @@ const transformElementalProperties = (
   originalProperties: Record<ElementalCharacter, number>,
   alchemicalResults: AlchemicalResults,
   planetaryBoost: number = 1.0,
-  zodiacSign?: ZodiacSign,
+  zodiacSign?: ZodiacSign
 ): Record<ElementalCharacter, number> => {
   try {
     // Create a copy of the original properties
@@ -410,7 +411,7 @@ const applyElementalInfluences = (
   transformedProperties: Record<ElementalCharacter, number>,
   elementalCounts: Record<ElementalCharacter, number>,
   originalProperties: Record<ElementalCharacter, number>,
-  planetaryBoost: number = 1.0,
+  planetaryBoost: number = 1.0
 ): void => {
   try {
     // Calculate influence factors based on elemental counts

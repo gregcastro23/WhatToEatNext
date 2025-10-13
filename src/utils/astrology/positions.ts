@@ -177,10 +177,10 @@ export function getFallbackPlanetaryPositions(_date: Date): { [key: string]: unk
     // Calculate new position with minimal randomness (just for slight variation)
     // Reduced randomness for more accurate predictions;
     const randomFactor = Math.sin(date.getTime() / 1000000 + planet.charCodeAt(0)) * 0.2;
-    let newLongitude = refLongitude + adjustedMotion * daysDiff + randomFactor,
+    let newLongitude = refLongitude + adjustedMotion * daysDiff + randomFactor;
 
     // Normalize to 0-360 degrees
-    newLongitude = ((newLongitude % 360) + 360) % 360,
+    newLongitude = ((newLongitude % 360) + 360) % 360;
 
     // Get zodiac sign and degree
     const signIndex = Math.floor(newLongitude / 30)
@@ -214,10 +214,10 @@ function calculateLunarNodesInternal(_date: Date): { NorthNode: number, isRetrog
     const T = (jd - 2451545.0) / 36525;
 
     // Mean longitude of ascending node (Meeus formula)
-    let Omega = 125.04452 - 1934.136261 * T + 0.0020708 * T * T + (T * T * T) / 450000,
+    let Omega = 125.04452 - 1934.136261 * T + 0.0020708 * T * T + (T * T * T) / 450000;
 
     // Normalize to 0-360 range
-    Omega = ((Omega % 360) + 360) % 360,
+    Omega = ((Omega % 360) + 360) % 360;
 
     // The ascending node (North Node) is the opposite of Omega
     const NorthNode = (Omega + 180) % 360;
@@ -316,12 +316,12 @@ export function getAccuratePlanetaryPositions(_date: Date): { [key: string]: Pla
     try {
       const nodeData = calculateLunarNodes(date)
       const NorthNode = getNodeInfo(nodeData.NorthNode)
-      positions.NorthNode = NorthNode,
+      positions.NorthNode = NorthNode;
 
       // Calculate South Node (opposite North Node)
       const southNodeLongitude = (nodeData.NorthNode + 180) % 360;
       const SouthNode = getNodeInfo(southNodeLongitude)
-      positions.SouthNode = SouthNode,
+      positions.SouthNode = SouthNode;
     } catch (error) {
       debugLog(
         'Error calculating lunar nodes: ',
@@ -401,7 +401,7 @@ export function getSignFromLongitude(_longitude: number): { sign: string, degree
  * Clear the positions cache
  */
 export function clearPositionsCache(): void {
-  positionsCache = null,
+  positionsCache = null;
   debugLog('Positions cache cleared')
 }
 
@@ -418,7 +418,7 @@ export function getPositionsSummary(): string {
   let summary = `Planetary positions as of ${formattedDate}: \n`
 
   for (const [planet, data] of Object.entries(positions)) {
-    summary += `${planet}: ${data.sign} ${data.degree.toFixed(2)}° ${data.isRetrograde ? '(R)' : ''}\n`,
+    summary += `${planet}: ${data.sign} ${data.degree.toFixed(2)}° ${data.isRetrograde ? '(R)' : ''}\n`;
   }
 
   return summary;
@@ -499,7 +499,7 @@ function isPlanetRetrograde(body: Astronomy.Body, _date: Date): boolean {
     const prevLong = Astronomy.EclipticLongitude(body, prevTime)
 
     // Adjust for crossing 0/360 boundary
-    let diff = currentLong - prevLong,
+    let diff = currentLong - prevLong;
     if (Math.abs(diff) > 180) {
       diff = diff > 0 ? diff - 360 : diff + 360;
     }

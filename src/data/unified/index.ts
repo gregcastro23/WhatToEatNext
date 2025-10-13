@@ -1,4 +1,4 @@
-// ===== UNIFIED DATA SYSTEMS INDEX =====,
+// ===== UNIFIED DATA SYSTEMS INDEX =====;
 // Central export point for all unified data systems
 // Phases 12, and 3 consolidated systems
 

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { logger } from '../logger';
-// ===== THEME MANAGEMENT =====,
+// ===== THEME MANAGEMENT =====;
 
 export interface ThemeData {
   mode: 'light' | 'dark' | 'system'
@@ -44,9 +44,9 @@ export class ThemeManager {
 
 export const themeManager = new ThemeManager()
 ;
-// ===== ENVIRONMENT VALIDATION =====,
+// ===== ENVIRONMENT VALIDATION =====;
 
-const envSchema = z.object({,
+const envSchema = z.object({;
   _NODE_ENV: z.enum(['development', 'production', 'test']),
   _NEXT_PUBLIC_API_URL: z.string().url().optional(),
   // Add other environment variables here
@@ -72,7 +72,7 @@ export function validateAstrologyConfig() {;
   }
 }
 
-// ===== FEEDBACK COLLECTION =====,
+// ===== FEEDBACK COLLECTION =====;
 
 export interface FeedbackData {
   type: 'bug' | 'feature' | 'improvement' | 'other'
@@ -137,5 +137,5 @@ export function getFeedbackCategories(): { id: string, label: string }[] {
   ],
 }
 
-// ===== EXPORTS =====,
+// ===== EXPORTS =====;
 export { themeManager as default }

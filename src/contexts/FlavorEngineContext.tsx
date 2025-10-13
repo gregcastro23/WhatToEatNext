@@ -199,4 +199,4 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
   )
 }
 
-export default FlavorEngineProvider,
+export default FlavorEngineProvider;

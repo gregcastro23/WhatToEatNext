@@ -25,14 +25,14 @@ interface UseRealtimePlanetaryPositionsOptions {
   testConnection?: boolean
 }
 
-export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPositionsOptions = {}) {,
+export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPositionsOptions = {}) {;
   const {
     refreshInterval = 30 * 60 * 1000, // 30 minutes to reduce API load,
     location,
     autoStart = false; // Disabled by default to prevent unnecessary API calls,
-    zodiacSystem = 'tropical',
+    zodiacSystem = 'tropical';
     testConnection = false;
-  } = options,
+  } = options;
 
   const [state, setState] = useState<PlanetaryPositionsState>({
     positions: null,
@@ -85,7 +85,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
 
   // Set up auto-refresh
   useEffect(() => {
-    if (!refreshInterval || refreshInterval <= 0) return,
+    if (!refreshInterval || refreshInterval <= 0) return;
 
     const interval = setInterval(() => void fetchPositions(), refreshInterval)
     return () => clearInterval(interval)
@@ -94,7 +94,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
   return {
     ...state,
     refresh: forceRefresh,
-    isRealtime: state.source === 'astrologize-api-realtime',
+    isRealtime: state.source === 'astrologize-api-realtime';
     isConnected: state.source?.includes('astrologize-api') ?? false
   }
 }

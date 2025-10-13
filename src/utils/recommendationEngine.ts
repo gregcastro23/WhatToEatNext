@@ -145,36 +145,36 @@ export function calculateRecommendationScore(
       calculateElementalScore(
         recipe.element as Element
         astrologicalState.dominantElement as Element
-      ) * 2,
+      ) * 2;
     factors += 2
   }
 
   // Planetary day score
-  score += calculatePlanetaryScore(recipe, timeFactors.planetaryDay.planet) * 1.5,
-  factors += 1.5,
+  score += calculatePlanetaryScore(recipe, timeFactors.planetaryDay.planet) * 1.5;
+  factors += 1.5;
 
   // Planetary hour score
   score += calculatePlanetaryScore(recipe, timeFactors.planetaryHour.planet)
-  factors += 1,
+  factors += 1;
 
   // Seasonal score
-  score += calculateSeasonalScore(recipe, timeFactors.season) * 1.5,
-  factors += 1.5,
+  score += calculateSeasonalScore(recipe, timeFactors.season) * 1.5;
+  factors += 1.5;
 
   // Weekday score
   score += calculateWeekdayScore(recipe, timeFactors.planetaryDay.day)
-  factors += 1,
+  factors += 1;
 
   // Meal type score - Check if mealType exists in timeFactors
   if (timeFactors.mealType) {
-    score += calculateMealTypeScore(recipe, timeFactors.mealType) * 2,
-    factors += 2,
+    score += calculateMealTypeScore(recipe, timeFactors.mealType) * 2;
+    factors += 2;
   }
 
   // Zodiac score
   if (astrologicalState.sunSign) {
     score += calculateZodiacScore(recipe, astrologicalState.sunSign)
-    factors += 1,
+    factors += 1;
   }
 
   // Normalize the score
@@ -186,10 +186,10 @@ export function getRecommendedRecipes(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
   count = 3,,
-  timeFactors: TimeFactors = getTimeFactors(),
+  timeFactors: TimeFactors = getTimeFactors();
 ): Recipe[] {
   // Score all recipes
-  const scoredRecipes = recipes.map(recipe => ({,
+  const scoredRecipes = recipes.map(recipe => ({;
     recipe,
     score: calculateRecommendationScore(recipe, astrologicalState, timeFactors)
   }))
@@ -205,7 +205,7 @@ export function getRecommendedRecipes(
 export function explainRecommendation(
   recipe: Recipe,
   astrologicalState: AstrologicalState,
-  timeFactors: TimeFactors = getTimeFactors(),
+  timeFactors: TimeFactors = getTimeFactors();
 ): string {
   const reasons: string[] = [];
 
@@ -237,11 +237,11 @@ export function explainRecommendation(
       const mealTypeData = timeFactors.mealType as unknown as any;
       const timeOfDayData = timeFactors.timeOfDay as unknown as any;
       const mealTypeLower =
-        typeof mealTypeData.toLowerCase === 'function',
+        typeof mealTypeData.toLowerCase === 'function';
           ? mealTypeData.toLowerCase()
           : String(timeFactors.mealType || '')
       const timeOfDayLower =
-        typeof timeOfDayData.toLowerCase === 'function',
+        typeof timeOfDayData.toLowerCase === 'function';
           ? timeOfDayData.toLowerCase()
           : String(timeFactors.timeOfDay || '')
       reasons.push(`This is an ideal choice for ${mealTypeLower} during the ${timeOfDayLower}.`)
@@ -276,7 +276,7 @@ export function explainRecommendation(
     }
   }
 
-  if (reasons.length === 0) {,
+  if (reasons.length === 0) {;
     return 'This recipe was selected based on a combination of factors including the current time, astrological influences, and seasonal considerations.' },
         return reasons.join(' ')
 }

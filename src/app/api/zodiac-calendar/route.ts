@@ -7,16 +7,17 @@
  * Based on Planetary Agents implementation achieving 200-500x accuracy improvement.
  */
 
-import {
-    buildAnnualCalendar,
-    getCurrentZodiacPeriod,
-    getDegreeForDate,
-    getMonthlyZodiacCalendar
-} from '@/services/degreeCalendarMapping';
-import {
-    getDatesForZodiacDegree,
-    getZodiacPositionForDate
-} from '@/services/vsop87EphemerisService';
+// These services were removed during external API cleanup campaign
+// import {
+//     buildAnnualCalendar,
+//     getCurrentZodiacPeriod,
+//     getDegreeForDate,
+//     getMonthlyZodiacCalendar
+// } from '@/services/degreeCalendarMapping';
+// import {
+//     getDatesForZodiacDegree,
+//     getZodiacPositionForDate
+// } from '@/services/vsop87EphemerisService';
 import { compareSolarAccuracy } from '@/utils/accurateAstronomy';
 import { createLogger } from '@/utils/logger';
 import { NextRequest, NextResponse } from 'next/server';

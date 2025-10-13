@@ -642,7 +642,7 @@ export class UnifiedRecipeBuildingSystem {
    */
   private calculateOptimalMonica(recipe: EnhancedRecipe, criteria: RecipeBuildingCriteria): number {
     // Base Monica calculation
-    let optimalMonica = 1.0,
+    let optimalMonica = 1.0;
 
     // Adjust for season with enhanced type safety
     const seasonCriteria = criteria.currentSeason || criteria.season;
@@ -1026,7 +1026,7 @@ export class UnifiedRecipeBuildingSystem {
     const adjustments = []
 
     // Adapt cooking methods based on season and recipe type;
-    const currentMethods = (recipe as { cookingMethods?: string[] | string })?.cookingMethods || [],
+    const currentMethods = (recipe as { cookingMethods?: string[] | string })?.cookingMethods || [];
     for (const method of Array.isArray(currentMethods) ? currentMethods : [currentMethods]) {
       const seasonalAdjustment = (seasonalRecommendations as unknown as {
           getCookingMethodAdjustment?: (method: string, season: Season) => string
@@ -1292,7 +1292,7 @@ export class UnifiedRecipeBuildingSystem {
 
     if (recipe.ingredients) {
       const totalIngredients = recipe.ingredients.length;
-      let balanceFactors = 0,
+      let balanceFactors = 0;
 
       for (const ingredient of recipe.ingredients) {
         const name = ingredient.name.toLowerCase();
@@ -1342,7 +1342,7 @@ export class UnifiedRecipeBuildingSystem {
 
     if (recipe.ingredients) {
       const totalIngredients = recipe.ingredients.length;
-      let harmonyFactors = 0,
+      let harmonyFactors = 0;
 
       for (const ingredient of recipe.ingredients) {
         const name = ingredient.name.toLowerCase();
@@ -1396,14 +1396,14 @@ export class UnifiedRecipeBuildingSystem {
     if ((criteria as { preferredCuisine?: string })?.preferredCuisine) {
       // Create cuisine-adapted alternative
       const cuisineAlternative = { ...recipe }
-      cuisineAlternative.name = `${recipe.name} (${(criteria as { preferredCuisine: string }).preferredCuisine} style)`,
+      cuisineAlternative.name = `${recipe.name} (${(criteria as { preferredCuisine: string }).preferredCuisine} style)`;
       alternatives.push(cuisineAlternative)
     }
 
     if ((criteria as { seasonalPreference?: string })?.seasonalPreference) {
       // Create seasonal alternative
       const seasonalAlternative = { ...recipe }
-      seasonalAlternative.name = `${recipe.name} (${(criteria as { seasonalPreference: string }).seasonalPreference} seasonal)`,
+      seasonalAlternative.name = `${recipe.name} (${(criteria as { seasonalPreference: string }).seasonalPreference} seasonal)`;
       alternatives.push(seasonalAlternative)
     }
 

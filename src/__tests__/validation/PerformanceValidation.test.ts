@@ -116,7 +116,7 @@ describe('Performance Validation Tests - Task 12', () => {
       });
 
       const sequentialResult = mockExecSync('yarn lint: sequential');
-      const parallelResult = mockExecSync('yarn lint: parallel'),
+      const parallelResult = mockExecSync('yarn lint: parallel');
 
       expect(sequentialResult.toString()).toContain('Sequential linting completed');
       expect(parallelResult.toString()).toContain('Parallel linting completed');
@@ -211,7 +211,7 @@ describe('Performance Validation Tests - Task 12', () => {
           return Buffer.from(`✓ Linting (${scenario.name}): ${scenario.expectedMemory}MB peak memory`);
         });
 
-        const result = mockExecSync(`yarn lint: cache-${scenario.name}`),
+        const result = mockExecSync(`yarn lint: cache-${scenario.name}`);
         expect(result.toString()).toContain(`${scenario.expectedMemory}MB peak memory`);
       });
 
@@ -226,13 +226,13 @@ describe('Performance Validation Tests - Task 12', () => {
       const memoryPerFile = 0.1; // 0.1MB per file
 
       fileCounts.forEach(fileCount => {
-        const expectedMemory = baseMemory + fileCount * memoryPerFile,
+        const expectedMemory = baseMemory + fileCount * memoryPerFile;
 
         mockExecSync.mockImplementation((_command: string) => {
           return Buffer.from(`✓ ${fileCount} files linted, memory: ${expectedMemory.toFixed(1)}MB`);
         });
 
-        const result = mockExecSync(`yarn lint: scale-${fileCount}`),
+        const result = mockExecSync(`yarn lint: scale-${fileCount}`);
         expect(result.toString()).toContain(`${fileCount} files linted`);
 
         // Memory should scale reasonably (less than 1MB per file)
@@ -286,7 +286,7 @@ describe('Performance Validation Tests - Task 12', () => {
           return Buffer.from(`✓ Run ${run} completed in ${time / 1000}s`);
         });
 
-        const result = mockExecSync(`yarn lint: regression-test-${run}`),
+        const result = mockExecSync(`yarn lint: regression-test-${run}`);
         expect(result.toString()).toContain(`Run ${run} completed`);
 
         // Check for regression
@@ -322,7 +322,7 @@ describe('Performance Validation Tests - Task 12', () => {
           return Buffer.from(`✓ Memory run ${run}: ${memory}MB peak`);
         });
 
-        const result = mockExecSync(`yarn lint: memory-regression-${run}`),
+        const result = mockExecSync(`yarn lint: memory-regression-${run}`);
         expect(result.toString()).toContain(`Memory run ${run}`);
 
         // Check for memory regression
@@ -358,7 +358,7 @@ describe('Performance Validation Tests - Task 12', () => {
       });
 
       const noCacheResult = mockExecSync('yarn lint: no-cache');
-      const cachedResult = mockExecSync('yarn lint: cached'),
+      const cachedResult = mockExecSync('yarn lint: cached');
 
       expect(noCacheResult.toString()).toContain('No cache');
       expect(cachedResult.toString()).toContain('With cache');
@@ -380,7 +380,7 @@ describe('Performance Validation Tests - Task 12', () => {
         .mockImplementationOnce(() => Buffer.from(`✓ Parallel (4 cores): ${parallelTime / 1000}s`)),
 
       const sequentialResult = mockExecSync('yarn lint: sequential');
-      const parallelResult = mockExecSync('yarn lint: parallel'),
+      const parallelResult = mockExecSync('yarn lint: parallel');
 
       expect(sequentialResult.toString()).toContain('Sequential');
       expect(parallelResult.toString()).toContain('Parallel');
@@ -401,7 +401,7 @@ describe('Performance Validation Tests - Task 12', () => {
         .mockImplementationOnce(() => Buffer.from(`✓ Incremental: ${incrementalTime / 1000}s (5 files changed)`)),
 
       const fullResult = mockExecSync('yarn lint: full');
-      const incrementalResult = mockExecSync('yarn lint: incremental'),
+      const incrementalResult = mockExecSync('yarn lint: incremental');
 
       expect(fullResult.toString()).toContain('Full processing');
       expect(incrementalResult.toString()).toContain('Incremental');

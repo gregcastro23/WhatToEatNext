@@ -193,10 +193,10 @@ export class EnhancedIngredientsSystem {
 
   constructor() {
     this.ingredients = this.enhanceExistingIngredients();
-    this.flavorProfileSystem = unifiedFlavorProfileSystem,
-    this.seasonalSystem = unifiedSeasonalSystem,
-    this.cuisineSystem = unifiedCuisineIntegrationSystem,
-    this.nutritionalSystem = unifiedNutritionalSystem,
+    this.flavorProfileSystem = unifiedFlavorProfileSystem;
+    this.seasonalSystem = unifiedSeasonalSystem;
+    this.cuisineSystem = unifiedCuisineIntegrationSystem;
+    this.nutritionalSystem = unifiedNutritionalSystem;
 
     // Build indexes for fast lookups
     this.buildIndexes();
@@ -235,9 +235,9 @@ export class EnhancedIngredientsSystem {
     const ingredients = Object.values(this.ingredients)
     return {
       total: (ingredients || []).length,
-      high: (ingredients || []).filter(i => i.metadata.dataQuality === 'high').length,
-      medium: (ingredients || []).filter(i => i.metadata.dataQuality === 'medium').length,
-      low: (ingredients || []).filter(i => i.metadata.dataQuality === 'low').length,
+      high: (ingredients || []).filter(i => i.metadata.dataQuality === 'high').length;
+      medium: (ingredients || []).filter(i => i.metadata.dataQuality === 'medium').length;
+      low: (ingredients || []).filter(i => i.metadata.dataQuality === 'low').length;
     }
   }
 

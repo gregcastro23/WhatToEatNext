@@ -1,4 +1,4 @@
-// ===== UNIFIED TYPES SYSTEM =====,
+// ===== UNIFIED TYPES SYSTEM =====;
 // This file defines type interfaces for the unified data system
 // with compatibility for existing type systems
 

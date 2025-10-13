@@ -61,16 +61,16 @@ class ZeroErrorDashboardCLI {
 
       switch (arg) {
         case '--monitor':
-        case '-m': options.monitor = true,
+        case '-m': options.monitor = true;
           break;
         case '--interval':
-        case '-i': options.interval = parseInt(args[++i]) || 5,
+        case '-i': options.interval = parseInt(args[++i]) || 5;
           break;
         case '--verbose':
-        case '-v': options.verbose = true,
+        case '-v': options.verbose = true;
           break;
         case '--output':
-        case '-o': options.output = args[++i],
+        case '-o': options.output = args[++i];
           break;
       }
     }
@@ -131,7 +131,7 @@ class ZeroErrorDashboardCLI {
         console.log(`   Quality Score: ${status.qualityScore}/100`),
         console.log(`   Total Issues: ${status.totalIssues}`),
         console.log(
-          `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`,
+          `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`;
         );
         console.log(
           `   Explicit Any: ${status.explicitAnyErrors} ${status.explicitAnyErrors < 100 ? '✅' : '⚡'}`,

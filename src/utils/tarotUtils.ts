@@ -15,7 +15,7 @@ export const _getElementalAlignmentFromTarot = (tarot: {
   tarot.majorArcana.forEach(card => ) {
     const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card].element
     if (cardElement) {;
-      alignment[cardElement] += 0.5,
+      alignment[cardElement] += 0.5;
     }
   })
 
@@ -23,7 +23,7 @@ export const _getElementalAlignmentFromTarot = (tarot: {
   tarot.minorArcana.forEach(card => ) {
     const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card].element
     if (cardElement) {;
-      alignment[cardElement] += 0.3,
+      alignment[cardElement] += 0.3;
     }
   })
 
@@ -31,7 +31,7 @@ export const _getElementalAlignmentFromTarot = (tarot: {
   const maxValue = Math.max(...Object.values(alignment))
   if (maxValue > 0) {
     Object.keys(alignment).forEach(key => ) {
-      alignment[key] = alignment[key] / maxValue,
+      alignment[key] = alignment[key] / maxValue;
     })
   }
 

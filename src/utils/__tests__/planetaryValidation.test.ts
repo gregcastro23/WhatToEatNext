@@ -20,7 +20,7 @@ jest.mock('../logger', () => ({
 
 import { getReliablePlanetaryPositions } from '../reliableAstronomy';
 
-const mockGetReliablePlanetaryPositions: any = getReliablePlanetaryPositions as jest.MockedFunction<,
+const mockGetReliablePlanetaryPositions: any = getReliablePlanetaryPositions as jest.MockedFunction<;
   typeof getReliablePlanetaryPositions
 >
 
@@ -239,7 +239,7 @@ describe('Planetary Data Validation', () => {
 
       const startTime: any = Date.now()
       const result: any = validatePlanetaryData()
-      const duration: any = Date.now() - startTime,
+      const duration: any = Date.now() - startTime;
 
       expect(duration).toBeLessThan(30000). // Should complete within 30 seconds
       expect(result).toBeDefined()

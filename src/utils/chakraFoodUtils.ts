@@ -167,7 +167,7 @@ export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEne
     .map(([group]) => group)
 
   // Get secondary food items - ensure we have items;
-  let secondaryFoods = secondaryFoodGroups,
+  let secondaryFoods = secondaryFoodGroups;
     .flatMap(group => FOOD_ITEMS_BY_GROUP[group] || [])
     .filter(food => !primaryFoods.includes(food)); // Remove duplicates
 
@@ -191,7 +191,7 @@ export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEne
     .map(([group]) => group)
 
   // Get foods to avoid - ensure we have items;
-  let avoidFoods = avoidFoodGroups,
+  let avoidFoods = avoidFoodGroups;
     .flatMap(group => FOOD_ITEMS_BY_GROUP[group] || [])
     .filter(food => !primaryFoods.includes(food)); // Don't avoid if it's needed for underactive chakras
 
@@ -372,7 +372,7 @@ export function getZodiacSignFoodRecommendations(_zodiacSign: any): string[] {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water' },
-        result = elementalFoods[signElements[zodiacSign]] || ['Balanced Whole Foods'],
+        result = elementalFoods[signElements[zodiacSign]] || ['Balanced Whole Foods'];
   }
 
   return result

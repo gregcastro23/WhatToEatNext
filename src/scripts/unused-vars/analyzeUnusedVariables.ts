@@ -33,7 +33,7 @@ function parseArgs(argv: string[]): CliOptions {
   const outIndex = argv.indexOf('--out');
   const maxIndex = argv.indexOf('--max');
   const outPath = outIndex !== -1 && argv[outIndex + 1] ? argv[outIndex + 1] : 'reports/unused-vars.json';
-  const maxFiles = maxIndex !== -1 && argv[maxIndex + 1] ? Number(argv[maxIndex + 1]) : undefined,
+  const maxFiles = maxIndex !== -1 && argv[maxIndex + 1] ? Number(argv[maxIndex + 1]) : undefined;
   return { outPath, maxFiles };
 }
 
@@ -52,7 +52,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
   const json = fs.readFileSync(outputFile, 'utf8');
   type EslintMessage = { ruleId?: string; message: string; line?: number; column?: number },
   type EslintResult = { filePath: string; messages: EslintMessage[] },
-  const results: EslintResult[] = JSON.parse(json),
+  const results: EslintResult[] = JSON.parse(json);
   const limited = typeof maxFiles === 'number' ? results.slice(0, Math.max(0, maxFiles)) : results,
 
   const findings: Finding[] = [];

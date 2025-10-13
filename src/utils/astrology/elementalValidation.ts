@@ -60,8 +60,8 @@ export function normalizeElementalProperties(
   // Apply provided values if valid
   if (properties) {
     Object.entries(properties).forEach(([element, value]) => {
-      if (element in normalized && typeof value === 'number' && value >= 0 && value <= 1) {,
-        (normalized as unknown)[element] = value,
+      if (element in normalized && typeof value === 'number' && value >= 0 && value <= 1) {;
+        (normalized as unknown)[element] = value;
       }
     })
   }
@@ -82,7 +82,7 @@ export function calculateElementalHarmony(
   }
 
   let totalHarmony = 0;
-  let weightedSum = 0,
+  let weightedSum = 0;
 
   const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
 
@@ -95,8 +95,8 @@ export function calculateElementalHarmony(
       const compatibility = 0.9;
       const weight = Math.min(sourceStrength, targetStrength)
 
-      totalHarmony += compatibility * weight,
-      weightedSum += weight,
+      totalHarmony += compatibility * weight;
+      weightedSum += weight;
     }
   }
 
@@ -112,8 +112,8 @@ export function calculateElementalHarmony(
           const compatibility = getElementalCompatibility(sourceElement, targetElement)
           const weight = Math.min(sourceStrength, targetStrength) * 0.5; // Reduced weight for cross-element
 
-          totalHarmony += compatibility * weight,
-          weightedSum += weight,
+          totalHarmony += compatibility * weight;
+          weightedSum += weight;
         }
       }
     }

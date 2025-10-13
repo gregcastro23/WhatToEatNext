@@ -29,14 +29,14 @@ if (typeof window !== 'undefined') {
 
   // Setup global properties for lockdown
   if (!(window as unknown as any).lockdown) {
-    (window as unknown as any).lockdown = function () {,
+    (window as unknown as any).lockdown = function () {;
       log.info('[ScriptReplacer] Safely intercepted lockdown() call')
       return true;
     }
   }
 
   if (!(window as unknown as any).harden) {
-    (window as unknown as any).harden = function (obj) {,
+    (window as unknown as any).harden = function (obj) {;
       return obj;
     }
   }

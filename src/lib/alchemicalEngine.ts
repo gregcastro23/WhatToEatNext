@@ -217,7 +217,7 @@ export class AlchemicalEngineBase {
         const astroHarmony = baseHarmony * astroValue;
         const seasonHarmony = baseHarmony * seasonValue;
 
-        harmonyScore += (astroHarmony + seasonHarmony) / 2,
+        harmonyScore += (astroHarmony + seasonHarmony) / 2;
         totalFactors++
       }
     })

@@ -11,11 +11,11 @@ import { logger } from '../logger';
 // Environment variable validation and defaults
 export const databaseConfig = {
   // Database connection
-  databaseUrl: process.env.DATABASE_URL || 'postgresql://user:pass@localhost:5432/alchm_kitchen'
+  databaseUrl: process.env.DATABASE_URL || 'postgresql://user:pass@localhost:5432/alchm_kitchen',
   // Individual connection parameters (fallback if DATABASE_URL not provided)
   host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT || '5432', 10),
-  database: process.env.DB_NAME || 'alchm_kitchen'
+  database: process.env.DB_NAME || 'alchm_kitchen',
   user: process.env.DB_USER || 'user',
   password: process.env.DB_PASSWORD || 'pass',
   ssl: process.env.DB_SSL === 'true',
@@ -26,7 +26,7 @@ export const databaseConfig = {
   connectionTimeout: parseInt(process.env.DB_CONNECTION_TIMEOUT || '2000', 10),
 
   // Application settings
-  environment: process.env.NODE_ENV || 'development'
+  environment: process.env.NODE_ENV || 'development',
   logQueries: process.env.DB_LOG_QUERIES === 'true',
   autoMigrate: process.env.DB_AUTO_MIGRATE !== 'false', // Default true
   seedData: process.env.DB_SEED_DATA === 'true', // Default false
@@ -73,7 +73,7 @@ export function validateDatabaseConfig(): { valid: boolean; errors: string[] } {
   }
 
   return {
-    valid: errors.length === 0,
+    valid: errors.length === 0;
     errors
   };
 }

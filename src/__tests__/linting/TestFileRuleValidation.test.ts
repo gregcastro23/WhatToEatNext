@@ -123,7 +123,7 @@ describe('Test File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars' && msg.message.includes('mock'),
+            (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars' && msg.message.includes('mock');
           );
 
           // Jest mock functions should be allowed
@@ -135,7 +135,7 @@ describe('Test File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars' && msg.message.includes('mock'),
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars' && msg.message.includes('mock');
             );
 
             expect(unusedVarErrors.length).toBe(0);
@@ -174,7 +174,7 @@ describe('Test File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors = result[0].messages.filter(
-            (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars' && msg.message.includes('test'),
+            (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars' && msg.message.includes('test');
           );
 
           // Test data structures should be allowed
@@ -186,7 +186,7 @@ describe('Test File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars' && msg.message.includes('test'),
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars' && msg.message.includes('test');
             );
 
             expect(unusedVarErrors.length).toBe(0);
@@ -201,8 +201,8 @@ describe('Test File Rule Validation', () => {
       const testContent = `
         describe('Any Type Tests', () => {
           test('should allow any types for flexible testing', () => {
-            const anyValue: any = 'test-value',
-            const anyObject: any = { prop: 'value' },
+            const anyValue: any = 'test-value';
+            const anyObject: any = { prop: 'value' };
             const anyArray: any[] = [1, 'two', { three: 3 }],
             const anyFunction: any = () => 'result';
             
@@ -254,7 +254,7 @@ describe('Test File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const anyTypeErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2,
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2;
             );
 
             expect(anyTypeErrors.length).toBe(0);
@@ -319,7 +319,7 @@ describe('Test File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const consoleErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2,
+              (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2;
             );
 
             expect(consoleErrors.length).toBe(0);
@@ -332,8 +332,8 @@ describe('Test File Rule Validation', () => {
       const testContent = `
         describe('Non-null Assertion Tests', () => {
           test('should allow non-null assertions for test certainty', () => {
-            const maybeValue: string | null = 'test-value',
-            const maybeObject: { prop?: string } = { prop: 'value' },
+            const maybeValue: string | null = 'test-value';
+            const maybeObject: { prop?: string } = { prop: 'value' };
             const maybeArray: number[] | undefined = [1, 2, 3];
             
             // Non-null assertions should be allowed in tests
@@ -382,7 +382,7 @@ describe('Test File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const nonNullErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === '@typescript-eslint/no-non-null-assertion' && msg.severity === 2,
+              (msg: any) => msg.ruleId === '@typescript-eslint/no-non-null-assertion' && msg.severity === 2;
             );
 
             expect(nonNullErrors.length).toBe(0);
@@ -459,7 +459,7 @@ describe('Test File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const magicNumberErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'no-magic-numbers' && msg.severity === 2,
+              (msg: any) => msg.ruleId === 'no-magic-numbers' && msg.severity === 2;
             );
 
             expect(magicNumberErrors.length).toBe(0);
@@ -536,7 +536,7 @@ describe('Test File Rule Validation', () => {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const complexityErrors = result[0].messages.filter(
-              (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2,
+              (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2;
             );
 
             expect(complexityErrors.length).toBe(0);
@@ -733,7 +733,7 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const undefErrors = result[0].messages.filter((msg: any) => msg.ruleId === 'no-undef'),
+            const undefErrors = result[0].messages.filter((msg: any) => msg.ruleId === 'no-undef');
 
             expect(undefErrors.length).toBe(0);
           }
@@ -839,7 +839,7 @@ describe('Test File Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const undefErrors = result[0].messages.filter((msg: any) => msg.ruleId === 'no-undef'),
+            const undefErrors = result[0].messages.filter((msg: any) => msg.ruleId === 'no-undef');
 
             expect(undefErrors.length).toBe(0);
           }
@@ -881,7 +881,7 @@ describe('Test File Rule Validation', () => {
           };
           
           test('should use test helpers', () => {
-            const user = createTestUser({ name: 'Custom User' }),
+            const user = createTestUser({ name: 'Custom User' });
             expect(user.name).toBe('Custom User');
           });
         });

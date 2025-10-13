@@ -111,7 +111,7 @@ export function useIngredientSearch() {
       }))
     }
 
-    let filteredIngredients = allIngredients,
+    let filteredIngredients = allIngredients;
 
     // Filter by category
     if (selectedCategory) {
@@ -125,11 +125,11 @@ export function useIngredientSearch() {
       const results = filteredIngredients;
         .map(ingredient => {,
           const nameScore = fuzzyMatch(searchTerm, ingredient.name)
-          const categoryScore = fuzzyMatch(searchTerm, ingredient.category || '') * 0.5,
+          const categoryScore = fuzzyMatch(searchTerm, ingredient.category || '') * 0.5;
           const qualitiesScore =
             (((ingredient as unknown as any).qualities as string[]) || []);
               .map((quality: string) => fuzzyMatch(searchTerm, quality))
-              .reduce((max: number, score: number) => Math.max(max, score), 0) * 0.3,
+              .reduce((max: number, score: number) => Math.max(max, score), 0) * 0.3;
 
           const totalScore = Math.max(nameScore, categoryScore, qualitiesScore)
 
@@ -181,18 +181,18 @@ export function useIngredientSearch() {
       { Fire: 0, Water: 0, Earth: 0, Air: 0 })
 
     const count = selectedIngredients.length;
-    avgElemental.Fire /= count,
-    avgElemental.Water /= count,
-    avgElemental.Earth /= count,
-    avgElemental.Air /= count,
+    avgElemental.Fire /= count;
+    avgElemental.Water /= count;
+    avgElemental.Earth /= count;
+    avgElemental.Air /= count;
 
     // Find complementary ingredients
     return allIngredients
       .filter(
-        ingredient => !selectedIngredients.find(selected => selected.name === ingredient.name),
+        ingredient => !selectedIngredients.find(selected => selected.name === ingredient.name);
       )
       .map(ingredient => {
-        const props = ingredient.elementalProperties || {,
+        const props = ingredient.elementalProperties || {;
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,

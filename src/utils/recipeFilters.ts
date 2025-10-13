@@ -596,7 +596,7 @@ export function filterRecipesByIngredientMappings(
     let score = 0.5; // Start with neutral score
 
     // 1. Check required ingredients
-    let hasAllRequired = true,
+    let hasAllRequired = true;
     if (ingredientRequirements?.required?.length) {
       const requiredIngredientsMapped = mappedIngredients.filter(
         match =>

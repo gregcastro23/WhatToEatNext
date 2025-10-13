@@ -62,7 +62,7 @@ export function generateTopSauceRecommendations(
 
   // Map all sauces with enhanced scoring
   const scoredSauces = saucesArray.map(sauce => {;
-    const { elementalProperties, _astrologicalInfluences: planetaryInfluences, name} = sauce,
+    const { elementalProperties, _astrologicalInfluences: planetaryInfluences, name} = sauce;
 
     // 1. Elemental Match Score (50% weight)
     const elementalMatchScore = calculateElementalMatch(
@@ -102,7 +102,7 @@ export function generateTopSauceRecommendations(
             ingredient.toLowerCase().includes(flavor)
           ),
         )
-        flavorMatchScore = 0.7 + (matchingIngredients.length / sauce.keyIngredients.length) * 0.3,
+        flavorMatchScore = 0.7 + (matchingIngredients.length / sauce.keyIngredients.length) * 0.3;
       }
     }
 
@@ -140,7 +140,7 @@ export function getMatchScoreClass(score: number): string {
   return score > 0.7 ? 'high' : score > 0.4 ? 'medium' : 'low'
 }
 
-// ========== Enhanced Functions with Cuisine Type Support ==========,
+// ========== Enhanced Functions with Cuisine Type Support ==========;
 
 /**
  * Get enhanced cuisine recommendations with comprehensive scoring and data
@@ -154,10 +154,10 @@ export function getCuisineRecommendations(
   astrologicalState?: AstrologicalState,
   options: { count?: number, includeRegional?: boolean } = {}
 ) {
-  const { _count = 10, _includeRegional = true} = options,
+  const { _count = 10, _includeRegional = true} = options;
 
   // Get all cuisines from flavor profiles, ensuring they are correctly typed
-  const cuisines = Object.values(cuisineFlavorProfiles).map(cuisine => ({,
+  const cuisines = Object.values(cuisineFlavorProfiles).map(cuisine => ({;
     ...cuisine,
     id: cuisine.id || cuisine.name.toLowerCase().replace(/\s+/g, '-') || 'unknown'
     name: cuisine.name || 'Unknown Cuisine'
@@ -175,9 +175,9 @@ export function getCuisineRecommendations(
 }) as ElementalProperties,
       elementalState,
     )
-    let score = elementalMatch * 0.4,
+    let score = elementalMatch * 0.4;
 
-    const reasoning: string[] = [`${Math.round(elementalMatch * 100)}% elemental match`],
+    const reasoning: string[] = [`${Math.round(elementalMatch * 100)}% elemental match`];
 
     if (astrologicalState) {
       // Zodiac Match Score (30% weight) - safe property access
@@ -186,7 +186,7 @@ export function getCuisineRecommendations(
         astrologicalState.zodiacSign &&
         (zodiacInfluences as string[]).includes(astrologicalState.zodiacSign)
       ) {
-        score += 0.3,
+        score += 0.3;
         reasoning.push(`Favorable for ${astrologicalState.zodiacSign}`)
       }
 
@@ -196,7 +196,7 @@ export function getCuisineRecommendations(
         astrologicalState.lunarPhase &&
         (lunarPhaseInfluences as string[]).includes(astrologicalState.lunarPhase)
       ) {
-        score += 0.2,
+        score += 0.2;
         reasoning.push(`Harmonizes with the ${astrologicalState.lunarPhase}`)
       }
 
@@ -248,7 +248,7 @@ export function calculateElementalMatch(
   elements.forEach(element => {
     const diff = Math.abs((profile1[element] || 0) - (profile2[element] || 0))
     const elementMatch = 1 - diff;
-    totalMatch += elementMatch,
+    totalMatch += elementMatch;
   })
 
   return totalMatch / elements.length;
@@ -278,19 +278,19 @@ export function calculateElementalContributionsFromPlanets(
     const signData = getSignElementalContribution(position?.sign)
 
     // Add weighted contributions;
-    contributions.Fire += (planetData.Fire + signData.Fire) * 0.5,
-    contributions.Water += (planetData.Water + signData.Water) * 0.5,
-    contributions.Earth += (planetData.Earth + signData.Earth) * 0.5,
-    contributions.Air += (planetData.Air + signData.Air) * 0.5,
+    contributions.Fire += (planetData.Fire + signData.Fire) * 0.5;
+    contributions.Water += (planetData.Water + signData.Water) * 0.5;
+    contributions.Earth += (planetData.Earth + signData.Earth) * 0.5;
+    contributions.Air += (planetData.Air + signData.Air) * 0.5;
   })
 
   // Normalize to ensure total is reasonable
   const total = contributions.Fire + contributions.Water + contributions.Earth + contributions.Air;
   if (total > 0) {
-    contributions.Fire = contributions.Fire / total,
-    contributions.Water = contributions.Water / total,
-    contributions.Earth = contributions.Earth / total,
-    contributions.Air = contributions.Air / total,
+    contributions.Fire = contributions.Fire / total;
+    contributions.Water = contributions.Water / total;
+    contributions.Earth = contributions.Earth / total;
+    contributions.Air = contributions.Air / total;
   }
 
   return contributions;

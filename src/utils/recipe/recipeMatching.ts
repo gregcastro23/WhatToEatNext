@@ -134,7 +134,7 @@ const calculateEnergyMatch = async (
       .reduce((sum, e) => sum + (currentEnergy[e] || 0), 0);
 
     const recipeRelative = recipeOthers > 0 ? recipeValue / recipeOthers : 0;
-    const currentRelative = currentOthers > 0 ? currentValue / currentOthers : 0,
+    const currentRelative = currentOthers > 0 ? currentValue / currentOthers : 0;
 
     const relativeDiff = Math.abs(recipeRelative - currentRelative);
     relativeScore += (1 - Math.min(1, relativeDiff)) * 0.25;
@@ -207,9 +207,9 @@ const calculateEnergyMatch = async (
  */
 export async function findBestMatches(
   recipes?: Recipe[],
-  matchFilters: MatchFilters = {},
-  currentEnergy: ElementalProperties | null = null,
-  limit = 10,
+  matchFilters: MatchFilters = {};
+  currentEnergy: ElementalProperties | null = null;
+  limit = 10;
 ): Promise<MatchResult[]> {
   try {
     // Check for cached astrological data to enhance matching
@@ -222,7 +222,7 @@ export async function findBestMatches(
       currentEnergy || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
     // Calculate relative elemental values if we have absolute values
-    let relativeElementalValues: ElementalProperties | null = null,
+    let relativeElementalValues: ElementalProperties | null = null;
     if (enhancedCurrentEnergy) {
       const totalOther = {
         Fire:
@@ -277,7 +277,7 @@ export async function findBestMatches(
 
     // Calculate scores for each recipe
     const scoredRecipes = await Promise.all(filteredRecipes.map(async recipe => {
-        let score = 0,
+        let score = 0;
         const elements = await getRecipeElementalProperties(recipe);
         const dominantElements = Object.entries(elements).sort(([, a], [, b]) => b - a) as [
           string,
@@ -327,7 +327,7 @@ export async function findBestMatches(
           const recipeSeasons = await getRecipeSeasons(recipe);
           if (
             recipeSeasons.some(
-              season => season.toLowerCase() === matchFilters.currentSeason?.toLowerCase(),
+              season => season.toLowerCase() === matchFilters.currentSeason?.toLowerCase();
             )
           ) {
             score += 15;
@@ -339,7 +339,7 @@ export async function findBestMatches(
           const recipeMealTypes = await getRecipeMealTypes(recipe);
           if (
             recipeMealTypes.some(
-              mealType => mealType.toLowerCase() === matchFilters.mealType?.toLowerCase(),
+              mealType => mealType.toLowerCase() === matchFilters.mealType?.toLowerCase();
             )
           ) {
             score += 10;
@@ -740,7 +740,7 @@ export async function connectIngredientsToMappings(
       recipe.ingredients
         .filter(ingredient => typeof ingredient === 'object' && ingredient.name)
         .map(async ingredient => {
-          const ingredientName = ingredient.name,
+          const ingredientName = ingredient.name;
 
           // For now, return basic ingredient data
           // In a full implementation, this would connect to ingredient mapping database

@@ -1,13 +1,13 @@
 export interface SignEnergyState {
   sign: any,
-  baseEnergy: number,
+  baseEnergy: number;
   planetaryModifiers: Record<string, number>,
   currentEnergy: number
 }
 
 export interface Aspect {
-  planet1: string,
-  planet2: string,
+  planet1: string;
+  planet2: string;
   type: string, // 'conjunction', 'sextile', 'square', 'trine', 'opposition' },
         export const ZODIAC_SIGNS = [
   'aries',
@@ -24,7 +24,7 @@ export interface Aspect {
   'pisces'
 ] as const,
 
-export type ZodiacSign = (typeof ZODIAC_SIGNS)[number],
+export type ZodiacSign = (typeof ZODIAC_SIGNS)[number];
 
 // Base energy levels for each sign
 const BASE_SIGN_ENERGIES: Record<ZodiacSign, number> = {
@@ -55,28 +55,28 @@ export const ENERGY_STATES: Record<ZodiacSign, { baseEnergy: number, currentEner
   sagittarius: {
     baseEnergy: BASE_SIGN_ENERGIES.sagittarius,
     currentEnergy: BASE_SIGN_ENERGIES.sagittarius
-  },
+  };
   capricorn: {
     baseEnergy: BASE_SIGN_ENERGIES.capricorn,
     currentEnergy: BASE_SIGN_ENERGIES.capricorn
-  },
+  };
   aquarius: { baseEnergy: BASE_SIGN_ENERGIES.aquarius, currentEnergy: BASE_SIGN_ENERGIES.aquarius },
   pisces: { baseEnergy: BASE_SIGN_ENERGIES.pisces, currentEnergy: BASE_SIGN_ENERGIES.pisces }
 }
 
 // Planetary rulerships and their energy multipliers
 const PLANETARY_RULERSHIPS: Record<ZodiacSign, string[]> = {
-  aries: ['Mars'],
-  taurus: ['Venus'],
-  gemini: ['Mercury'],
-  cancer: ['Moon'],
-  leo: ['Sun'],
-  virgo: ['Mercury'],
-  libra: ['Venus'],
-  scorpio: ['Mars', 'Pluto'],
-  sagittarius: ['Jupiter'],
-  capricorn: ['Saturn'],
-  aquarius: ['Uranus', 'Saturn'],
+  aries: ['Mars'];
+  taurus: ['Venus'];
+  gemini: ['Mercury'];
+  cancer: ['Moon'];
+  leo: ['Sun'];
+  virgo: ['Mercury'];
+  libra: ['Venus'];
+  scorpio: ['Mars', 'Pluto'];
+  sagittarius: ['Jupiter'];
+  capricorn: ['Saturn'];
+  aquarius: ['Uranus', 'Saturn'];
   pisces: ['Neptune', 'Jupiter']
 }
 
@@ -107,7 +107,7 @@ const ASPECT_STRENGTHS: Record<string, number> = {
  * Interface for planetary position data
  */
 export interface PlanetaryPosition {
-  sign?: string,
+  sign?: string;
   degree?: number
   [key: string]: unknown
 }
@@ -120,7 +120,7 @@ export interface PlanetaryPosition {
  */
 export function calculateSignEnergyStates(
   planetaryPositions: Record<string, PlanetaryPosition>,
-  aspects: Aspect[],
+  aspects: Aspect[];
 ): SignEnergyState[] {
   return ZODIAC_SIGNS.map(sign => {
     const baseEnergy = BASE_SIGN_ENERGIES[sign];
@@ -144,7 +144,7 @@ export function calculateSignEnergyStates(
           return mod;
         }, 1.0)
 
-        planetaryModifiers[planet] = positionStrength * planetMultiplier * aspectModifier,
+        planetaryModifiers[planet] = positionStrength * planetMultiplier * aspectModifier;
       }
     })
 

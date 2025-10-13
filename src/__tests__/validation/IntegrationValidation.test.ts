@@ -117,7 +117,7 @@ describe('Integration Validation Tests - Task 12', () => {
             Buffer.from(`✓ Domain ${override.domain} (${override.file}): ${override.rule} → ${override.status}`),
           );
 
-          const result = mockExecSync(`yarn lint: domain-${override.domain} --rule-check ${override.rule}`),
+          const result = mockExecSync(`yarn lint: domain-${override.domain} --rule-check ${override.rule}`);
           expect(result.toString()).toContain(override.status);
         });
 
@@ -135,7 +135,7 @@ describe('Integration Validation Tests - Task 12', () => {
         performanceFeatures.forEach(feature => {
           mockExecSync.mockReturnValue(Buffer.from(`✓ Performance feature ${feature.feature}: ${feature.status}`)),
 
-          const result = mockExecSync(`yarn lint: performance --check-${feature.feature}`),
+          const result = mockExecSync(`yarn lint: performance --check-${feature.feature}`);
           expect(result.toString()).toContain(feature.status);
         });
 
@@ -281,7 +281,7 @@ describe('Integration Validation Tests - Task 12', () => {
         ];
 
         workflowPhases.forEach((phase, index) => {
-          const reduction = index > 0 ? workflowPhases[index - 1].errors - phase.errors : 0,
+          const reduction = index > 0 ? workflowPhases[index - 1].errors - phase.errors : 0;
 
           mockExecSync.mockReturnValue(
             Buffer.from(

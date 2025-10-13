@@ -19,8 +19,8 @@ import {
 export type PlanetaryPositionsType = Record<string, CelestialPosition>,
 
 // Re-export the types with proper names
-export type AlchemicalState = BaseAlchemicalState,
-export type AstrologicalState = BaseAstrologicalState,
+export type AlchemicalState = BaseAlchemicalState;
+export type AstrologicalState = BaseAstrologicalState;
 
 // AlchemicalContextType interface
 export interface AlchemicalContextType {

@@ -238,7 +238,7 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
     }
 
     return {
-      isValid: errors.length === 0,
+      isValid: errors.length === 0;
       errors,
       warnings
     }
@@ -293,7 +293,7 @@ export async function loadPlanetTransitDates(
 export async function validatePlanetaryPosition(
   planetName: string,
   position: { sign: string, degree: number, exactLongitude: number },
-  date: Date = new Date(),
+  date: Date = new Date();
 ): Promise<boolean> {
   try {
     const transitDates = await loadPlanetTransitDates(planetName)

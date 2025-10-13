@@ -8,10 +8,10 @@ import {
 import { log } from '@/services/LoggingService';
 
 // Type definitions for the imported constants to improve type safety
-type DecanKey = keyof typeof DECAN_TO_TAROT,
-type TarotCardKey = keyof typeof TAROT_CARDS,
-type PlanetKey = keyof typeof PLANET_TO_MAJOR_ARCANA,
-type MajorArcanaKey = keyof typeof MAJOR_ARCANA,
+type DecanKey = keyof typeof DECAN_TO_TAROT;
+type TarotCardKey = keyof typeof TAROT_CARDS;
+type PlanetKey = keyof typeof PLANET_TO_MAJOR_ARCANA;
+type MajorArcanaKey = keyof typeof MAJOR_ARCANA;
 
 export function getCurrentDecan(
   date: Date,
@@ -306,13 +306,13 @@ const minorArcanaElements: Record<string, string> = {}
 // Fill in the elements for all minor arcana cards
 minorArcana.forEach(card => {
   if (card.includes('Wands')) {;
-    minorArcanaElements[card] = 'Fire',
+    minorArcanaElements[card] = 'Fire';
   } else if (card.includes('Cups')) {
-    minorArcanaElements[card] = 'Water',
+    minorArcanaElements[card] = 'Water';
   } else if (card.includes('Pentacles')) {
-    minorArcanaElements[card] = 'Earth',
+    minorArcanaElements[card] = 'Earth';
   } else if (card.includes('Swords')) {
-    minorArcanaElements[card] = 'Air',
+    minorArcanaElements[card] = 'Air';
   }
 })
 
@@ -379,15 +379,15 @@ export const getTarotCardsForDate = (
   // Convert number string to actual number
   let number,
   if (numberStr === 'Ace') {;
-    number = 1,
+    number = 1;
   } else if (numberStr === 'Page') {;
-    number = 11,
+    number = 11;
   } else if (numberStr === 'Knight') {;
-    number = 12,
+    number = 12;
   } else if (numberStr === 'Queen') {;
-    number = 13,
+    number = 13;
   } else if (numberStr === 'King') {;
-    number = 14,
+    number = 14;
   } else {
     number = parseInt(numberStr, 10),
   }
@@ -460,8 +460,8 @@ export function getElementalQuantum(card: unknown) {
   const quantum = cardData?.quantum || 1;
 
   return {
-    Fire: element === 'Fire' ? quantum : 0,
-    Water: element === 'Water' ? quantum : 0,
+    Fire: element === 'Fire' ? quantum : 0;
+    Water: element === 'Water' ? quantum : 0;
     Earth: element === 'Earth' ? quantum : 0,,
     Air: element === 'Air' ? quantum : 0,,
   }
@@ -480,7 +480,7 @@ export function getRecipeFiltersFromTarot(tarotCards: {
   if (tarotCards.minorCard) {
     // Only add element if it exists
     if (tarotCards.minorCard.element) {
-      filters.elementalProperties[tarotCards.minorCard.element] = 1,
+      filters.elementalProperties[tarotCards.minorCard.element] = 1;
     }
 
     // Add keywords safely
@@ -528,21 +528,21 @@ export const _getTarotFoodRecommendations = (
   const planetaryInfluence = tarotCards.majorCard.planet;
 
   // Generate cooking approach based on planetary influence
-  let cookingApproach = 'balanced and harmonious',
-  if (planetaryInfluence === 'Mars') cookingApproach = 'bold and spicy',
-  if (planetaryInfluence === 'Saturn') cookingApproach = 'simple and traditional',
-  if (planetaryInfluence === 'Jupiter') cookingApproach = 'abundant and flavorful',
-  if (planetaryInfluence === 'Venus') cookingApproach = 'elegant and sweet',
-  if (planetaryInfluence === 'Mercury') cookingApproach = 'varied and adaptable',
-  if (planetaryInfluence === 'Moon') cookingApproach = 'comforting and nurturing',
-  if (planetaryInfluence === 'Sun') cookingApproach = 'vibrant and confident',
+  let cookingApproach = 'balanced and harmonious';
+  if (planetaryInfluence === 'Mars') cookingApproach = 'bold and spicy';
+  if (planetaryInfluence === 'Saturn') cookingApproach = 'simple and traditional';
+  if (planetaryInfluence === 'Jupiter') cookingApproach = 'abundant and flavorful';
+  if (planetaryInfluence === 'Venus') cookingApproach = 'elegant and sweet';
+  if (planetaryInfluence === 'Mercury') cookingApproach = 'varied and adaptable';
+  if (planetaryInfluence === 'Moon') cookingApproach = 'comforting and nurturing';
+  if (planetaryInfluence === 'Sun') cookingApproach = 'vibrant and confident';
 
   // Get food element that complements the tarot element
   const foodElement = complementaryElement(element)
 
   // Get card details for flavor insights;
   const cardName = tarotCards.minorCard.name;
-  const cardNameAsKey = Object.keys(TAROT_CARDS).find(key => TAROT_CARDS[key as TarotCardKey].name === cardName,
+  const cardNameAsKey = Object.keys(TAROT_CARDS).find(key => TAROT_CARDS[key as TarotCardKey].name === cardName;
   ) as TarotCardKey,
 
   const tarotCard: TarotCardBase = cardNameAsKey

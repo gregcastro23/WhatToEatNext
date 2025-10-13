@@ -200,7 +200,7 @@ class PerformanceValidationCLI {
       console.log('🚨 Recent Alerts');
       console.log('===============');
       report.recentAlerts.slice(-5).forEach(alert => {
-        const icon = alert.type === 'critical' ? '🔴' : alert.type === 'error' ? '🟠' : '🟡',
+        const icon = alert.type === 'critical' ? '🔴' : alert.type === 'error' ? '🟠' : '🟡';
         console.log(`${icon} ${alert.message}`);
       });
       console.log();
@@ -308,13 +308,13 @@ function parseArgs(): CLIOptions {
     }
 
     switch (arg) {
-      case '--continuous': options.continuous = true,
+      case '--continuous': options.continuous = true;
         break;
-      case '--interval': options.interval = parseInt(args[++i]) || 300000,
+      case '--interval': options.interval = parseInt(args[++i]) || 300000;
         break;
-      case '--verbose': options.verbose = true,
+      case '--verbose': options.verbose = true;
         break;
-      case '--output': options.output = args[++i],
+      case '--output': options.output = args[++i];
         break;
     }
   }

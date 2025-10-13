@@ -158,7 +158,7 @@ function testKalchmMonicaCalculations() {
   log.info('\n📝 Formula _Verification: ')
   log.info('K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)')
   log.info(
-    `K_alchm = (${Spirit}^${Spirit} * ${Essence}^${Essence}) / (${Matter}^${Matter} * ${Substance}^${Substance})`,
+    `K_alchm = (${Spirit}^${Spirit} * ${Essence}^${Essence}) / (${Matter}^${Matter} * ${Substance}^${Substance})`;
   )
   log.info(
     `K_alchm = (${Math.pow(Spirit, Spirit).toFixed(2)} * ${Math.pow(Essence, Essence).toFixed(2)}) / (${Math.pow(Matter, Matter).toFixed(2)} * ${Math.pow(Substance, Substance).toFixed(2)})`,
@@ -167,7 +167,7 @@ function testKalchmMonicaCalculations() {
 
   log.info('\nMonica = -Greg's Energy / (Reactivity × ln(K_alchm))')
   log.info(
-    `Monica = -${gregsEnergy.toFixed(6)} / (${reactivity.toFixed(6)} × ${Math.log(K_alchm).toFixed(6)})`,
+    `Monica = -${gregsEnergy.toFixed(6)} / (${reactivity.toFixed(6)} × ${Math.log(K_alchm).toFixed(6)})`;
   )
   log.info(`Monica = ${monicaConstant.toFixed(6)}`)
 

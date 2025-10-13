@@ -334,7 +334,7 @@ ${report.results
 
     console.log('📊 SYSTEM READINESS SUMMARY: '),
     results.forEach(result => {
-      const status = result.passed ? '✅' : '❌',
+      const status = result.passed ? '✅' : '❌';
       console.log(`  ${status} ${result.name}`);
       if (!result.passed && result.issues) {
         result.issues.forEach(issue => console.log(`     - ${issue}`));
@@ -365,7 +365,7 @@ ${report.results
 
       return {
         name: 'ESLint Configuration',
-        passed: issues.length === 0,
+        passed: issues.length === 0;
         issues,
       };
     } catch (error) {
@@ -404,7 +404,7 @@ ${report.results
 
       return {
         name: 'Astrological Rules',
-        passed: issues.length === 0,
+        passed: issues.length === 0;
         issues,
       };
     } catch (error) {
@@ -441,7 +441,7 @@ ${report.results
 
       return {
         name: 'Performance Settings',
-        passed: issues.length === 0,
+        passed: issues.length === 0;
         issues,
       };
     } catch (error) {
@@ -471,7 +471,7 @@ ${report.results
 
     return {
       name: 'Integration Points',
-      passed: issues.length === 0,
+      passed: issues.length === 0;
       issues,
     };
   }
@@ -489,7 +489,7 @@ async function main() {
     const isReady = await runner.validateSystemReadiness();
 
     // Exit with appropriate code
-    const exitCode = report.failedTests === 0 && isReady ? 0 : 1,
+    const exitCode = report.failedTests === 0 && isReady ? 0 : 1;
     void process.exit(exitCode);
   } catch (error) {
     console.error('❌ Test suite execution failed:', error);

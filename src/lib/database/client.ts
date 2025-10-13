@@ -231,7 +231,7 @@ export class RecipeService {
     const result = await executeQuery(
       `SELECT recommended_moon_phases, recommended_seasons, time_of_day, occasion, energy_intention
        FROM recipe_contexts
-       WHERE recipe_id = $1`,
+       WHERE recipe_id = $1`;
       [recipeId]
     );
     return result.rows[0] || null;
@@ -246,7 +246,7 @@ export class ElementalService {
   static async getEntityProperties(entityType: string, entityId: string): Promise<ElementalProperties | null> {
     const result = await executeQuery<ElementalProperties>(
       `SELECT * FROM elemental_properties
-       WHERE entity_type = $1 AND entity_id = $2`,
+       WHERE entity_type = $1 AND entity_id = $2`;
       [entityType, entityId]
     );
     return result.rows[0] || null;
@@ -260,7 +260,7 @@ export class ElementalService {
     const result = await withTransaction(async (client) => {
       // Check if properties already exist
       const existing = await client.query(
-        'SELECT id FROM elemental_properties WHERE entity_type = $1 AND entity_id = $2',
+        'SELECT id FROM elemental_properties WHERE entity_type = $1 AND entity_id = $2';
         [entityType, entityId]
       );
 
@@ -268,7 +268,7 @@ export class ElementalService {
         // Update existing
         const updateResult = await client.query<ElementalProperties>(
           `UPDATE elemental_properties
-           SET fire = $3, water = $4, earth = $5, air = $6,
+           SET fire = $3, water = $4, earth = $5, air = $6;
                calculation_method = $7, confidence_score = $8, updated_at = CURRENT_TIMESTAMP
            WHERE entity_type = $1 AND entity_id = $2
            RETURNING *`,
@@ -309,7 +309,7 @@ export class CacheService {
     try {
       const result = await executeQuery(
         `SELECT result_data FROM calculation_cache
-         WHERE cache_key = $1 AND expires_at > CURRENT_TIMESTAMP`,
+         WHERE cache_key = $1 AND expires_at > CURRENT_TIMESTAMP`;
         [key]
       );
 
@@ -318,7 +318,7 @@ export class CacheService {
         await executeQuery(
           `UPDATE calculation_cache
            SET hit_count = hit_count + 1, last_accessed_at = CURRENT_TIMESTAMP
-           WHERE cache_key = $1`,
+           WHERE cache_key = $1`;
           [key]
         );
 
@@ -339,10 +339,10 @@ export class CacheService {
         `INSERT INTO calculation_cache (cache_key, calculation_type, input_data, result_data, expires_at)
          VALUES ($1, $2, $3, $4, $5)
          ON CONFLICT (cache_key) DO UPDATE SET
-           result_data = EXCLUDED.result_data,
-           expires_at = EXCLUDED.expires_at,
-           hit_count = 0,
-           last_accessed_at = CURRENT_TIMESTAMP`,
+           result_data = EXCLUDED.result_data;
+           expires_at = EXCLUDED.expires_at;
+           hit_count = 0;
+           last_accessed_at = CURRENT_TIMESTAMP`;
         [key, 'general', {}, data, expiresAt]
       );
     } catch (error) {
@@ -358,7 +358,7 @@ export class CacheService {
       );
       return result.rowCount || 0;
     } catch (error) {
-      logger.warn('Cache invalidation failed', { pattern, error: error instanceof Error ? error.message : 'Unknown error' }),
+      logger.warn('Cache invalidation failed', { pattern, error: error instanceof Error ? error.message : 'Unknown error' });
       return 0;
     }
   }
@@ -370,7 +370,7 @@ export class CacheService {
       );
       return result.rows[0].deleted_count || 0;
     } catch (error) {
-      logger.warn('Cache cleanup failed', { error: error instanceof Error ? error.message : 'Unknown error' }),
+      logger.warn('Cache cleanup failed', { error: error instanceof Error ? error.message : 'Unknown error' });
       return 0;
     }
   }

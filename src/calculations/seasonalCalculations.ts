@@ -18,7 +18,7 @@ export interface SeasonalEffectiveness {
  */
 export function calculateSeasonalEffectiveness(recipe: Recipe,
   season: string): SeasonalEffectiveness {
-  let totalScore = 0,
+  let totalScore = 0;
   const breakdown = {
     elementalAlignment: 0,
     ingredientSuitability: 0,
@@ -39,13 +39,13 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,
     }
     0,
   )
-  breakdown.elementalAlignment = elementalScore * 50,
-  totalScore += breakdown.elementalAlignment,
+  breakdown.elementalAlignment = elementalScore * 50;
+  totalScore += breakdown.elementalAlignment;
 
   // 2. Calculate Ingredient Seasonality (30% of total)
   if (recipe.ingredients.length) {
     // Count ingredients that have this season in their seasonality array
-    let seasonalCount = 0,
+    let seasonalCount = 0;
     for (const ingredient of recipe.ingredients) {
       if (Array.isArray(ingredient.seasonality)) {
         const lowerSeasons = ingredient.seasonality.map((s: string) => s.toLowerCase())
@@ -56,8 +56,8 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,
     }
 
     const ingredientScore = (seasonalCount / recipe.ingredients.length) * 30;
-    breakdown.ingredientSuitability = ingredientScore,
-    totalScore += ingredientScore,
+    breakdown.ingredientSuitability = ingredientScore;
+    totalScore += ingredientScore;
   }
 
   // 3. Calculate Direct Season Match (20% of total)
@@ -66,7 +66,7 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,
     const recipeSeasonLower = recipeSeasons.map((s: string) => s.toLowerCase())
 
     if (recipeSeasonLower.includes(seasonLower)) {;
-      breakdown.seasonalBonus = 20,
+      breakdown.seasonalBonus = 20;
       totalScore += 20
     }
   }
@@ -75,11 +75,11 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,
   const normalizedScore = Math.round(Math.max(0, Math.min(100, totalScore)))
 
   // Determine rating based on score
-  let rating = 'Poor',
-  if (normalizedScore >= 80) rating = 'Excellent',
-  else if (normalizedScore >= 60) rating = 'Good',
-  else if (normalizedScore >= 40) rating = 'Average',
-  else if (normalizedScore >= 20) rating = 'Below Average',
+  let rating = 'Poor';
+  if (normalizedScore >= 80) rating = 'Excellent';
+  else if (normalizedScore >= 60) rating = 'Good';
+  else if (normalizedScore >= 40) rating = 'Average';
+  else if (normalizedScore >= 20) rating = 'Below Average';
 
   return {
     score: normalizedScore,

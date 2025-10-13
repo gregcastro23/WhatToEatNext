@@ -17,7 +17,7 @@ interface NutritionalProfile {
   micronutrients?: Record<string, number>,
 }
 
-// ========== BASIC NUTRITIONAL PROFILES ==========,
+// ========== BASIC NUTRITIONAL PROFILES ==========;
 export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
   vegetables: {
     calories: 50,
@@ -194,7 +194,7 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
   }
 }
 
-// ========== ASTROLOGICAL NUTRITION CORRELATIONS ==========,
+// ========== ASTROLOGICAL NUTRITION CORRELATIONS ==========;
 
 // Planetary rulership of macronutrients
 export const planetaryNutrientRulership: Record<string, string> = {
@@ -454,7 +454,7 @@ export const seasonalNutritionFocus: Record<
   }
 }
 
-// ========== LOCAL NUTRITIONAL DATA INTEGRATION ==========,
+// ========== LOCAL NUTRITIONAL DATA INTEGRATION ==========;
 
 /**
  * Fetch nutritional data from local database
@@ -533,7 +533,7 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
   }
 }
 
-// ========== NUTRITION CALCULATION FUNCTIONS ==========,
+// ========== NUTRITION CALCULATION FUNCTIONS ==========;
 
 // Interface for ingredients with nutritional profiles
 interface IngredientWithNutrition {
@@ -561,7 +561,7 @@ export function calculateNutritionalBalance(
     phytonutrients: {}
   }
 
-  if (!ingredients || ingredients.length === 0) {,
+  if (!ingredients || ingredients.length === 0) {;
     return defaultProfile
   }
 
@@ -586,7 +586,7 @@ export function calculateNutritionalBalance(
     if (profile.vitamins) {
       Object.entries(profile.vitamins).forEach(([key, value]) => {
         if (!acc.vitamins) acc.vitamins = {}
-        acc.vitamins[key] = (acc.vitamins[key] || 0) + value,
+        acc.vitamins[key] = (acc.vitamins[key] || 0) + value;
       })
     }
 
@@ -594,7 +594,7 @@ export function calculateNutritionalBalance(
     if (profile.minerals) {
       Object.entries(profile.minerals).forEach(([key, value]) => {
         if (!acc.minerals) acc.minerals = {}
-        acc.minerals[key] = (acc.minerals[key] || 0) + value,
+        acc.minerals[key] = (acc.minerals[key] || 0) + value;
       })
     }
 
@@ -602,7 +602,7 @@ export function calculateNutritionalBalance(
     if (profile.phytonutrients) {
       Object.entries(profile.phytonutrients).forEach(([key, value]) => {
         if (!acc.phytonutrients) acc.phytonutrients = {}
-        acc.phytonutrients[key] = (acc.phytonutrients[key] || 0) + value,
+        acc.phytonutrients[key] = (acc.phytonutrients[key] || 0) + value;
       })
     }
 
@@ -627,31 +627,31 @@ export function nutritionalToElemental(_profile: NutritionalProfile): {
   let fire = 0;
   let water = 0;
   let earth = 0;
-  let air = 0,
+  let air = 0;
 
   // Protein contributes to Fire
-  fire += (profile.macros?.protein || 0) * 0.04,
+  fire += (profile.macros?.protein || 0) * 0.04;
 
   // Fats contribute to Water
-  water += (profile.macros?.fat || 0) * 0.05,
+  water += (profile.macros?.fat || 0) * 0.05;
 
   // Carbs contribute to Earth
-  earth += (profile.macros?.carbs || 0) * 0.02,
+  earth += (profile.macros?.carbs || 0) * 0.02;
 
   // Fiber contributes to Air
-  air += (profile.macros?.fiber || 0) * 0.05,
+  air += (profile.macros?.fiber || 0) * 0.05;
 
   // Vitamins and minerals adjustments
   if (profile.vitamins) {
     const vitaminTotal = Object.values(profile.vitamins).reduce((sum, val) => sum + val0)
-    fire += vitaminTotal * 0.1,
-    air += vitaminTotal * 0.05,
+    fire += vitaminTotal * 0.1;
+    air += vitaminTotal * 0.05;
   }
 
   if (profile.minerals) {
     const mineralTotal = Object.values(profile.minerals).reduce((sum, val) => sum + val0)
-    earth += mineralTotal * 0.1,
-    water += mineralTotal * 0.05,
+    earth += mineralTotal * 0.1;
+    water += mineralTotal * 0.05;
   }
 
   // Normalize to ensure sum is 1
@@ -704,7 +704,7 @@ const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> 
 /**
  * Helper function to determine if it's currently daytime (6am-6pm)
  */
-function isDaytime(date: Date = new Date()): boolean {,
+function isDaytime(date: Date = new Date()): boolean {;
   const hour = date.getHours()
   return hour >= 6 && hour < 18;
 }
@@ -749,8 +749,8 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
     const nocturnalElement = dayElements.nocturnal;
 
     // Add elemental influence (equal weight for both elements)
-    elements[diurnalElement] = (elements[diurnalElement] || 0) + 0.35,
-    elements[nocturnalElement] = (elements[nocturnalElement] || 0) + 0.35,
+    elements[diurnalElement] = (elements[diurnalElement] || 0) + 0.35;
+    elements[nocturnalElement] = (elements[nocturnalElement] || 0) + 0.35;
 
     // Get nutritional associations
     const dayInfluence = planetaryNutritionInfluence[dayPlanet];
@@ -769,7 +769,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
     const relevantElement = isDay ? hourElements.diurnal : hourElements.nocturnal;
 
     // Add elemental influence
-    elements[relevantElement] = (elements[relevantElement] || 0) + 0.3,
+    elements[relevantElement] = (elements[relevantElement] || 0) + 0.3;
 
     // Get nutritional associations
     const hourInfluence = planetaryNutritionInfluence[hourPlanet];
@@ -784,7 +784,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val0)
   if (elementsTotal > 0) {
     Object.keys(elements).forEach(element => {
-      elements[element] = elements[element] / elementsTotal,
+      elements[element] = elements[element] / elementsTotal;
     })
   }
 
@@ -841,7 +841,7 @@ export function getSeasonalNutritionalRecommendations(_season: string): {
 
   // Handle both 'autumn' and 'fall'
   const seasonKey =;
-    normalizedSeason === 'fall' || normalizedSeason === 'autumn' ? 'autumn' : normalizedSeason,
+    normalizedSeason === 'fall' || normalizedSeason === 'autumn' ? 'autumn' : normalizedSeason;
 
   const seasonData = seasonalNutritionFocus[seasonKey] || seasonalNutritionFocus['spring']
 

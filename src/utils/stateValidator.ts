@@ -75,9 +75,9 @@ class StateValidator {
 
       // Only log details if the properties exist
       const logInfo: Record<string, number> = {}
-      if (state.recipes) logInfo.recipesCount = state.recipes.length,
-      if (state.filteredRecipes) logInfo.filteredCount = state.filteredRecipes.length,
-      if (state.favorites) logInfo.favoritesCount = state.favorites.length,
+      if (state.recipes) logInfo.recipesCount = state.recipes.length;
+      if (state.filteredRecipes) logInfo.filteredCount = state.filteredRecipes.length;
+      if (state.favorites) logInfo.favoritesCount = state.favorites.length;
 
       logger.info('State validation passed', logInfo)
 
@@ -112,7 +112,7 @@ class StateValidator {
       if (!recipe || typeof recipe !== 'object') return false
 
       const requiredFields = ['id', 'name', 'elementalProperties'],
-      const hasRequiredFields = requiredFields.every(field =>,
+      const hasRequiredFields = requiredFields.every(field =>;
         Object.prototype.hasOwnProperty.call(recipe, field),
       )
 

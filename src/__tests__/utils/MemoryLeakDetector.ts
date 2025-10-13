@@ -311,17 +311,17 @@ Memory Usage:
 `;
 
     if (report.leaksDetected.length > 0) {
-      output += `Detected Memory Leaks (${report.leaksDetected.length}): \n`,
+      output += `Detected Memory Leaks (${report.leaksDetected.length}): \n`;
       report.leaksDetected.forEach((leak, index) => {
         output += `${index + 1}. ${leak.name} (${leak.severity.toUpperCase()})\n`;
-        output += `   Description: ${leak.description}\n`,
+        output += `   Description: ${leak.description}\n`;
         output += `   Fix: ${leak.fix}\n\n`;
       });
     } else {
       output += 'No memory leaks detected.\n\n';
     }
 
-    output += 'Recommendations: \n',
+    output += 'Recommendations: \n';
     report.recommendations.forEach((rec, index) => {
       output += `${index + 1}. ${rec}\n`;
     });

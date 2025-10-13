@@ -140,7 +140,7 @@ class StateManager {
         return cached;
       }
 
-      const stored = typeof window !== 'undefined' ? localStorage.getItem(this.STORAGE_KEY) : null,
+      const stored = typeof window !== 'undefined' ? localStorage.getItem(this.STORAGE_KEY) : null;
 
       if (stored) {
         const parsed = JSON.parse(stored)

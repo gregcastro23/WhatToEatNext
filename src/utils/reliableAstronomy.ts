@@ -16,14 +16,14 @@ interface PositionsCache {
   date: string
 }
 
-let positionsCache: PositionsCache | null = null,
-const CACHE_DURATION = 6 * 60 * 60 * 1000 // 6 hours
+let positionsCache: PositionsCache | null = null;
+const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours
 
 /**
  * Fetch accurate planetary positions from JPL Horizons API
  */
 export async function getReliablePlanetaryPositions(
-  date: Date = new Date(),
+  date: Date = new Date()
 ): Promise<Record<string, unknown>> {
   try {
     // Format date for cache key
@@ -44,7 +44,7 @@ export async function getReliablePlanetaryPositions(
       // Skip MCP integration and go directly to fallback
       throw new Error('MCP integration removed - using fallback positions')
     } catch (error) {
-      logger.warn('MCP server integration removed, continuing to fallback positions'),
+      logger.warn('MCP server integration removed, continuing to fallback positions');
       // Continue to fallback positions
     }
 
@@ -63,7 +63,7 @@ export async function getReliablePlanetaryPositions(
         return positions;
       }
     } catch (error) {
-      logger.error('Error fetching from NASA JPL Horizons: ', error),
+      logger.error('Error fetching from NASA JPL Horizons: ', error);
       // Continue to tertiary API
     }
 
@@ -82,7 +82,7 @@ export async function getReliablePlanetaryPositions(
         return positions;
       }
     } catch (error) {
-      logger.error('Error fetching from public API: ', error),
+      logger.error('Error fetching from public API: ', error);
       // Continue to third API
     }
 
@@ -102,7 +102,7 @@ export async function getReliablePlanetaryPositions(
           return positions;
         }
       } catch (error) {
-        logger.error('Error fetching from TimeAndDate.com API: ', error),
+        logger.error('Error fetching from TimeAndDate.com API: ', error);
         // Continue to fallback
       }
     }
@@ -136,8 +136,8 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
     'Oct',
     'Nov',
     'Dec'
-  ],
-  const horizonsDate = `${date.getFullYear()}-${months[date.getMonth()]}-${date.getDate().toString().padStart(2, '0')}`,
+  ];
+  const horizonsDate = `${date.getFullYear()}-${months[date.getMonth()]}-${date.getDate().toString().padStart(2, '0')}`;
 
   // Initialize positions object
   const positions: Record<string, unknown> = {}
@@ -154,7 +154,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
     { name: 'Uranus', id: '799' },
     { name: 'Neptune', id: '899' },
     { name: 'Pluto', id: '999' }
-  ],
+  ];
 
   try {
     // Batch approach with Promise.all for parallel requests
@@ -180,7 +180,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
         if (data?.result) {;
           const result = processHorizonsResponse(data.result, planet.name)
           if (result) {
-            positions[planet.name] = result,
+            positions[planet.name] = result;
           }
         }
       } catch (error) {
@@ -275,7 +275,7 @@ function getLongitudeToZodiacSign(_longitude: number): { sign: string, degree: n
     'capricorn',
     'aquarius',
     'pisces'
-  ],
+  ];
 
   return {
     sign: signs[signIndex],
@@ -293,7 +293,7 @@ function calculateLunarNode(date: Date, nodeType: 'northNode' | 'southNode'): un
     const T = (jd - 2451545.0) / 36525;
 
     // Mean longitude of ascending node (Meeus formula)
-    let Omega = 125.04452 - 1934.136261 * T + 0.0020708 * T * T + (T * T * T) / 450000,
+    let Omega = 125.04452 - 1934.136261 * T + 0.0020708 * T * T + (T * T * T) / 450000;
 
     // Normalize to 0-360 range
     Omega = ((Omega % 360) + 360) % 360
@@ -427,7 +427,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
               sign,
               degree,
               exactLongitude,
-              isRetrograde: planetData?.isRetrograde === true,,
+              isRetrograde: planetData?.isRetrograde === true
             }
           }
         })
@@ -447,16 +447,16 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
         'Pluto',
         'northNode',
         'southNode'
-      ],
-      let missingCount = 0,
+      ];
+      let missingCount = 0;
 
       requiredPlanets.forEach(planet => {
-        if (!positions[planet]) {;
-          missingCount++,
+        if (!positions[planet]) {
+          missingCount++;
           // For missing planets, add a placeholder with approximate positions from March 2025
-          const marchPositions = getMarch2025Positions()
-          if (marchPositions[planet]) {;
-            positions[planet] = marchPositions[planet],
+          const marchPositions = getMarch2025Positions();
+          if (marchPositions[planet]) {
+            positions[planet] = marchPositions[planet];
           }
         }
       })
@@ -513,7 +513,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
     try {
       // Make the request with authorization
       const response = await fetch(
-        `${baseUrl}/positions?object=sun,moon,mercury,venus,mars,jupiter,saturn,uranus,neptune,pluto&date=${formattedDate}`,,
+        `${baseUrl}/positions?object=sun,moon,mercury,venus,mars,jupiter,saturn,uranus,neptune,pluto&date=${formattedDate}`,
         {
           method: 'GET',
           headers: {
@@ -549,7 +549,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
               sign,
               degree,
               exactLongitude: objData.position.eclipticLongitude,
-              isRetrograde: objData.position?.isRetrograde === true,,
+              isRetrograde: objData.position?.isRetrograde === true
             }
           }
         })
@@ -567,16 +567,16 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
         'Uranus',
         'Neptune',
         'Pluto'
-      ],
-      let missingCount = 0,
+      ];
+      let missingCount = 0;
 
       requiredPlanets.forEach(planet => {
-        if (!positions[planet]) {;
-          missingCount++,
+        if (!positions[planet]) {
+          missingCount++;
           // For missing planets, add a placeholder with approximate positions from March 2025
-          const marchPositions = getMarch2025Positions()
-          if (marchPositions[planet]) {;
-            positions[planet] = marchPositions[planet],
+          const marchPositions = getMarch2025Positions();
+          if (marchPositions[planet]) {
+            positions[planet] = marchPositions[planet];
           }
         }
       })
@@ -589,14 +589,14 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
 
       // Add lunar nodes (TimeAndDate API doesn't provide these)
       try {
-        positions.northNode = calculateLunarNode(date, 'northNode')
-        positions.southNode = calculateLunarNode(date, 'southNode'),
+        positions.northNode = calculateLunarNode(date, 'northNode');
+        positions.southNode = calculateLunarNode(date, 'southNode');
       } catch (nodeError) {
-        _logger.warn('Error calculating lunar nodes: ', nodeError)
+        _logger.warn('Error calculating lunar nodes: ', nodeError);
         // Use fallback data for nodes
-        const fallback = getMarch2025Positions()
-        positions.northNode = fallback.northNode,
-        positions.southNode = fallback.southNode,
+        const fallback = getMarch2025Positions();
+        positions.northNode = fallback.northNode;
+        positions.southNode = fallback.southNode;
       }
 
       return positions;

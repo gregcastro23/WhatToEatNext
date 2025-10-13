@@ -311,7 +311,7 @@ export class EphemerisParser {
    * Format position for display
    */
   formatPosition(position: ParsedPosition): string {
-    const retrogradeSymbol = position.retrograde ? 'R' : '',
+    const retrogradeSymbol = position.retrograde ? 'R' : '';
     return `${position.degrees}° ${position.signName} ${position.minutes}' ${retrogradeSymbol}`;
   }
 
@@ -362,7 +362,7 @@ export class EphemerisParser {
     })
 
     return {
-      valid: errors.length === 0,
+      valid: errors.length === 0;
       errors,
       warnings
     }

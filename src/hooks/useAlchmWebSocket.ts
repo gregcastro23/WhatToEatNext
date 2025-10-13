@@ -50,9 +50,9 @@ export function useAlchmWebSocket(): WebSocketState {
 
     // Cleanup on unmount
     return () => {
-      alchmWs['updatePlanetaryHour'] = originalUpdatePlanetaryHour,
-      alchmWs['updateEnergy'] = originalUpdateEnergy,
-      alchmWs['updateCelestial'] = originalUpdateCelestial,
+      alchmWs['updatePlanetaryHour'] = originalUpdatePlanetaryHour;
+      alchmWs['updateEnergy'] = originalUpdateEnergy;
+      alchmWs['updateCelestial'] = originalUpdateCelestial;
       setState(prev => ({ ...prev, isConnected: false }))
     }
   }, [])

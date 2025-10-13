@@ -207,7 +207,7 @@ export const boiling: CookingMethodData = {
     heat: 0.8, // High heat transfer rate,
     entropy: 0.65, // Moderate-high structural disruption,
     reactivity: 0.45, // Moderate chemical reactions (no Maillard),
-    gregsEnergy: -12.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity),
+    gregsEnergy: -12.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity);
   } as ThermodynamicProperties,
 
   // Additional metadata
