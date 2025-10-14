@@ -13,7 +13,7 @@ import type {
 import type { CookingMethodData } from '@/types/cookingMethod';
 
 // Export everything from the new methods system
-export * from './methods',
+export * from './methods';
 
 // Re-export methods from the methods module for backward compatibility
 import { allCookingMethods } from './methods';

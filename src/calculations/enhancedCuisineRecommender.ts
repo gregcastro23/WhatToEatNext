@@ -75,7 +75,7 @@ type Season = 'spring' | 'summer' | 'autumn' | 'winter'
  * - Uniform recipe structure across cuisine files
  */
 export class EnhancedCuisineRecommender {
-  private static instance: EnhancedCuisineRecommender,
+  private static instance: EnhancedCuisineRecommender;
 
   private constructor() {}
 

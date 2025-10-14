@@ -31,8 +31,8 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     color: 'Red',
     element: 'Earth',
     planet: 'Saturn',
-    governs: ['Survival', 'Grounding', 'Security', 'Basic needs'];
-    balanceIndicators: ['Stability', 'Security', 'Presence'];
+    governs: ['Survival', 'Grounding', 'Security', 'Basic needs'],
+    balanceIndicators: ['Stability', 'Security', 'Presence'],
     imbalanceIndicators: ['Fear', 'Anxiety', 'Disconnection']
   };
   Sacral: {

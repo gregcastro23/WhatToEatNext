@@ -225,7 +225,7 @@ export class CulinaryAstrologer {
     cuisineFilter?: string): RecipeRecommendation[] {
     return Object.entries(recipeElementalMappings)
       .filter(
-        ([_, recipe]) => !cuisineFilter || recipe.cuisine === culinaryTraditions[cuisineFilter];
+        ([_, recipe]) => !cuisineFilter || recipe.cuisine === culinaryTraditions[cuisineFilter]
       )
       .map(([name, recipe]) => {
         // Ensure Sun is always included in the planetary activators for consistent testing

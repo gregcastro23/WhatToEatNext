@@ -1,12 +1,12 @@
 export const _LUNAR_PHASES = {
   new: {
-    elementalModifier: {,
+    elementalModifier: {
       Fire: 0.1,
       Water: 0.4,
       Air: 0.1,
       Earth: 0.4
 },
-    qualities: ['introspective', 'beginning'];
+    qualities: ['introspective', 'beginning'],
     duration: 1,
     enhancedCategories: ['seeds', 'sprouts', 'root vegetables'];
     cookingMethods: ['simple cooking', 'sprouting', 'fermenting']

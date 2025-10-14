@@ -9,8 +9,8 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
   describe('calculateAstrologicalAffinity', () => {
     it('should calculate compatibility between signs with the same element', () => {
       // Test Fire signs (should be harmonious)
-      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),
-      expect(compatibility).toBeGreaterThan(0.5), // Should be above neutral,
+      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any);
+      expect(compatibility).toBeGreaterThan(0.5); // Should be above neutral
     })
 
     it('should calculate compatibility between signs with different elements', () => {

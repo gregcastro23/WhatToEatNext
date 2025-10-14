@@ -44,7 +44,7 @@ export const elements = {
 
 // Export planetInfo data structure needed by the calculations
 export const planetInfo = {
-  Sun: {;
+  Sun: {
     'Dignity Effect': { leo: 1, aries: 2, aquarius: -1, libra: -2 },
     Elements: ['Fire', 'Fire'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 },

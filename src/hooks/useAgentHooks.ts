@@ -52,7 +52,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
   const [hookState, setHookState] = useState<AgentHookState>({
     isActive: false,
     lastValidation: 0,
-    validationResults: {}
+    validationResults: {},
     campaignTriggers: [],
     qualityMetrics: qa.getQualityMetrics()
   })

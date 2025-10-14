@@ -1,12 +1,12 @@
 export const _SEASONAL_PROPERTIES = {
   spring: {
-    elementalModifier: {,
+    elementalModifier: {
       Fire: 0.2,
       Water: 0.3,
       Air: 0.4,
       Earth: 0.1
 },
-    qualities: ['ascending', 'expanding'];
+    qualities: ['ascending', 'expanding'],
     peak: {
       month: 4, // May,
       day: 1

@@ -1,10 +1,10 @@
 export const _ELEMENTAL_PROPERTIES = {
   Fire: {
-    qualities: ['hot', 'dry'];
+    qualities: ['hot', 'dry'],
     season: 'summer',
     direction: 'south',
-    taste: ['spicy', 'bitter'];
-    colors: ['red', 'orange', 'yellow'];
+    taste: ['spicy', 'bitter'],
+    colors: ['red', 'orange', 'yellow'],
     energy: 'expansive' },
         Water: {
     qualities: ['cold', 'wet'];

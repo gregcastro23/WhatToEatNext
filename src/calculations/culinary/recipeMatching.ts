@@ -31,24 +31,24 @@ export interface RecipeCompatibilityResult {
 export function calculateRecipeCompatibility(recipeElementalProperties: ElementalProperties,
   currentMomentKalchmResult: KalchmResult): RecipeCompatibilityResult {
   // Convert ElementalValues to ElementalProperties for compatibility
-  const currentMomentElementalProperties = toElementalProperties(currentMomentKalchmResult)
+  const currentMomentElementalProperties = toElementalProperties(currentMomentKalchmResult);
   // Calculate comprehensive elemental alignments
-  const absoluteElementalMatch = calculateAbsoluteElementalAlignment(recipeElementalProperties;
-    currentMomentElementalProperties)
+  const absoluteElementalMatch = calculateAbsoluteElementalAlignment(recipeElementalProperties,
+    currentMomentElementalProperties);
 
-  const relativeElementalMatch = calculateRelativeElementalAlignment(recipeElementalProperties;
-    currentMomentElementalProperties)
+  const relativeElementalMatch = calculateRelativeElementalAlignment(recipeElementalProperties,
+    currentMomentElementalProperties);
 
-  const dominantElementMatch = calculateDominantElementAlignment(recipeElementalProperties;
-    currentMomentElementalProperties)
+  const dominantElementMatch = calculateDominantElementAlignment(recipeElementalProperties,
+    currentMomentElementalProperties);
 
   // Calculate alchemical alignment using kalchm
-  const kalchmAlignment = calculateKalchmAlignment(recipeElementalProperties;
-    currentMomentKalchmResult)
+  const kalchmAlignment = calculateKalchmAlignment(recipeElementalProperties,
+    currentMomentKalchmResult);
 
   // Calculate monica constant alignment for cooking method compatibility
-  const monicaAlignment = calculateMonicaAlignment(recipeElementalProperties;
-    currentMomentKalchmResult)
+  const monicaAlignment = calculateMonicaAlignment(recipeElementalProperties,
+    currentMomentKalchmResult);
 
   // Calculate thermodynamic alignment
   const thermodynamicAlignment = calculateEnhancedThermodynamicAlignment(
