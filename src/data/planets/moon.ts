@@ -2,7 +2,7 @@ import { PlanetData, MoonSpecificData } from './types';
 export type { MoonSpecificData }
 
 const moonData: PlanetData = {
-  'Dignity Effect': {,
+  'Dignity Effect': {
     cancer: 1,
     taurus: 2,
     capricorn: -1,
@@ -150,4 +150,4 @@ const moonData: PlanetData = {
   }
 }
 
-export default moonData,
+export default moonData;

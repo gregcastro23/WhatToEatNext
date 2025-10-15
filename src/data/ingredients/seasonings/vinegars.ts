@@ -11,7 +11,7 @@ function createIngredientMapping(id: string, properties: unknown) {
       Water: 0.25,
       Fire: 0.25,
       Air: 0.25
-},
+    },
     category: properties.category || '',
     ...properties
   };
@@ -24,7 +24,7 @@ const rawVinegars = {
       Air: 0.3,
       Earth: 0.2,
       Fire: 0.1
-},
+    },
     nutritionalProfile: {
       calories: 5,
       carbs_g: 1.5,
@@ -251,7 +251,7 @@ const rawVinegars = {
         flavor: 'intense, complex',
         aging: '10+ years',
         uses: 'finishing'
-}
+      }
     },
     culinaryApplications: {
       vinaigrettes: {
@@ -314,7 +314,7 @@ const rawVinegars = {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile pan sauces for various uses'
-},
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']

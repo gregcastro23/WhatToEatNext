@@ -30,11 +30,11 @@ export const culturalRules: Record<string, CulturalBalance> = {
       {
         foods: ['green tea', 'oily foods'],
         reason: 'Can cause stomach discomfort'
-}
+      },
       {
         foods: ['raw fish', 'dairy'],
         reason: 'Conflicts with traditional flavor profiles'
-}
+      }
     ]
   },
   middleEastern: {

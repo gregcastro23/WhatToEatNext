@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const ascendantData: PlanetData = {
-  'Dignity Effect': {}
+  'Dignity Effect': {},
   Elements: ['Earth', 'Earth'],
   Alchemy: {
     Spirit: 0,

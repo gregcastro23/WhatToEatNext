@@ -530,7 +530,7 @@ export const vietnamese: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '45 minutes',
           culturalNotes:
-            'A Saigon specialty that originated from using broken rice grains that couldn't be sold at full price. Now it\'s a beloved dish throughout Vietnam',
+            'A Saigon specialty that originated from using broken rice grains that couldn\'t be sold at full price. Now it\'s a beloved dish throughout Vietnam',
           pairingSuggestions: ['scallion oil', 'chili sauce', 'soup broth'],
           dietaryInfo: ['dairy-free'],
           spiceLevel: 'mild',

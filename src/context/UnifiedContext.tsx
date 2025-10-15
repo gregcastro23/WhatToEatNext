@@ -55,7 +55,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       logger.info('UnifiedContext: Fetched astrological data.', astroData),
 
       // 2. Perform Alchemical Calculation
-      const planetaryPositions = {}
+      const planetaryPositions = {};
 
       // Handle the actual astrologicalData structure from debug output
       // The data structure shows planets as direct, keys: Sun, moon, Mercury, etc.
@@ -70,8 +70,9 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
         Uranus: 'Uranus',
         Neptune: 'Neptune',
         Pluto: 'Pluto',
-        Ascendant: 'Ascendant' },
-        Object.entries(planetMap).forEach(([dataKey, planetName]) => {
+        Ascendant: 'Ascendant'
+      };
+      Object.entries(planetMap).forEach(([dataKey, planetName]) => {
         const planetData = astroData[dataKey];
         if (planetData && typeof planetData === 'object' && 'sign' in planetData) {,
           planetaryPositions[planetName] = {

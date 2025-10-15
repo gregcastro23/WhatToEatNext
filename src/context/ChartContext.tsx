@@ -50,8 +50,8 @@ export function ChartProvider({ children }: { children: ReactNode }) {
         // For now, setting a placeholder empty chart
         setCurrentChart({
           // Placeholder chart data
-          planets: {}
-          houses: {}
+          planets: {},
+          houses: {},
           aspects: [],
           timestamp: new Date()
         })

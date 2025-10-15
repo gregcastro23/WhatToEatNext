@@ -72,4 +72,4 @@ export {
   nutritionalToElemental
 }
 
-export default FoodData,
+export default FoodData;

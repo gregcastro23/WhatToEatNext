@@ -964,7 +964,7 @@ export const russian: Cuisine = {
           prepTime: '30 minutes',
           chillTime: '24 hours',
           culturalNotes:
-            'A traditional Easter dessert symbolizing the Paschal pyramid. The mold often has the letters XB, meaning 'Christ is Risen' in Church Slavonic',
+            'A traditional Easter dessert symbolizing the Paschal pyramid. The mold often has the letters XB, meaning \'Christ is Risen\' in Church Slavonic',
           pairingSuggestions: ['kulich', 'Easter bread', 'tea'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'none',

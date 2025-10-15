@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const uranusData: PlanetData = {
-  'Dignity Effect': {,
+  'Dignity Effect': {
     aquarius: 1,
     scorpio: 2,
     taurus: -3
@@ -382,4 +382,4 @@ const uranusData: PlanetData = {
   }
 }
 
-export default uranusData,
+export default uranusData;

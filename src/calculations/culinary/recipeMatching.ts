@@ -115,7 +115,7 @@ function calculateAbsoluteElementalAlignment(recipeElements: ElementalProperties
     const currentMomentValue = currentMomentElements[element] || 0;
 
     // Weight by the importance of this element (higher values get more weight)
-    const weight = Math.max(recipeValue, currentMomentValue)
+    const weight = Math.max(recipeValue, currentMomentValue);
 
     // Calculate similarity (1 = identical, 0 = completely different)
     const similarity = 1 - Math.abs(recipeValue - currentMomentValue);

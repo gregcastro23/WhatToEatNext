@@ -244,7 +244,7 @@ export const mexican = {
           prepTime: '20 minutes',
           cookTime: '10 minutes',
           culturalNotes:
-            'A comforting dish that showcases Mexico's mastery of bean preparations. Often served for breakfast or as a light dinner',
+            'A comforting dish that showcases Mexico\'s mastery of bean preparations. Often served for breakfast or as a light dinner',
           pairingSuggestions: ['Mexican rice', 'pickled jalapeños', 'café de olla'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'medium',

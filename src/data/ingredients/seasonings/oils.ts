@@ -25,7 +25,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['e', 'k'],
       antioxidants: ['oleocanthal', 'oleuropein', 'hydroxytyrosol'],
       notes: 'Rich in monounsaturated fats and antioxidants'
-},
+    },
     preparation: {
       fresh: {
         duration: '2 years',
@@ -38,7 +38,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       duration: '24 months',
       temperature: 'room temperature',
       notes: 'keep away from heat sources'
-},
+    },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Sun'],
       favorableZodiac: ['taurus', 'leo'],

@@ -19,4 +19,4 @@ export const ingredientCategories = {
   oils
 }
 
-export default ingredientCategories,
+export default ingredientCategories;

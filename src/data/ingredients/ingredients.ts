@@ -33,9 +33,9 @@ export { vinegars } from './vinegars/vinegars';
 export { meats, poultry, seafood, plantBased } from './proteins/index';
 
 // Re-export flavor profiles
-export * from './flavorProfiles',
-export * from './elementalProperties',
+export * from './flavorProfiles';
+export * from './elementalProperties';
 
 // Re-export the main index as default
 import * as ingredientData from './index';
-export default ingredientData,
+export default ingredientData;

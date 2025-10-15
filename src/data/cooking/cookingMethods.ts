@@ -467,4 +467,4 @@ export const cookingMethods = {
 }
 
 // Export as default as well
-export default cookingMethods,
+export default cookingMethods;

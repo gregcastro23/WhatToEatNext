@@ -100,11 +100,11 @@ export function analyzePropertyBalance(
 ): { property: FoodProperty, count: number }[] {
   const propertyCount = entries.reduce(
     (acc, entry) => {
-      entry.properties.forEach(prop => {,
+      entry.properties.forEach(prop => {
         acc[prop] = (acc[prop] || 0) + 1;
       })
       return acc;
-    }
+    },
     {} as Record<FoodProperty, number>,
   )
 

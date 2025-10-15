@@ -3,17 +3,17 @@
 import { grainCuisineMatrix } from './grainCuisineMatrix';
 import { herbCuisineMatrix } from './herbCuisineMatrix';
 
-type IngredientCategory = 'grain' | 'herb' | 'spice' | 'protein' | 'vegetable'
+type IngredientCategory = 'grain' | 'herb' | 'spice' | 'protein' | 'vegetable';
 /**
  * Get cuisine pairings for a specific ingredient
  */
 export function getCuisinePairings(ingredientName: string, category: IngredientCategory): string[] {
   switch (category) {
-    case 'grain': return grainCuisineMatrix[ingredientName] || [],
+    case 'grain': return grainCuisineMatrix[ingredientName] || [];
     case 'herb':
-      return herbCuisineMatrix[ingredientName] || []
+      return herbCuisineMatrix[ingredientName] || [];
     // Additional categories can be added as their matrix files are created
-    default: return []
+    default: return [];
   }
 }
 
@@ -30,23 +30,23 @@ export function getIngredientsForCuisine(
     spice: [],
     protein: [],
     vegetable: []
-  }
+  };
 
   // Process each matrix to find ingredients that pair with this cuisine
   if (categories.includes('grain')) {
     Object.entries(grainCuisineMatrix).forEach(([grain, cuisines]) => {
       if (cuisines.includes(cuisineName)) {
-        result.grain.push(grain)
+        result.grain.push(grain);
       }
-    })
+    });
   }
 
   if (categories.includes('herb')) {
     Object.entries(herbCuisineMatrix).forEach(([herb, cuisines]) => {
       if (cuisines.includes(cuisineName)) {
-        result.herb.push(herb)
+        result.herb.push(herb);
       }
-    })
+    });
   }
 
   // Additional matrices can be processed here

@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const plutoData: PlanetData = {
-  'Dignity Effect': {,
+  'Dignity Effect': {
     scorpio: 1,
     leo: 2,
     taurus: -1,
@@ -372,4 +372,4 @@ const plutoData: PlanetData = {
   }
 }
 
-export default plutoData,
+export default plutoData;

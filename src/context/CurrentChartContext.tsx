@@ -77,10 +77,10 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [error, setError] = useState<string | null>(null)
 
   const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
-    const signGroups: Record<string, string[]> = {}
+    const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
-      const planetData = data as { sign?: string degree?: number }
-      if (planet === 'ascendant' || !data || !planetData?.sign) return,
+      const planetData = data as { sign?: string; degree?: number };
+      if (planet === 'ascendant' || !data || !planetData?.sign) return;
 
       const sign = planetData.sign;
       if (!signGroups[sign]) {

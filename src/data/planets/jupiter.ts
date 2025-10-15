@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const jupiterData: PlanetData = {
-  'Dignity Effect': {,
+  'Dignity Effect': {
     pisces: 1,
     sagittarius: 1,
     cancer: 2,
@@ -360,4 +360,4 @@ const jupiterData: PlanetData = {
   }
 }
 
-export default jupiterData,
+export default jupiterData;

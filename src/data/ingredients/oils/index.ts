@@ -12,19 +12,19 @@ export const processedOils: Record<string, IngredientMapping> = fixIngredientMap
 export default processedOils;
 
 // Export specific oil categories
-export const _cookingOils = Object.entries(processedOils);
-  .filter(([_, value]) => value.subCategory === 'cooking');
+export const _cookingOils = Object.entries(processedOils)
+  .filter(([_, value]) => value.subCategory === 'cooking')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _finishingOils = Object.entries(processedOils);
-  .filter(([_, value]) => value.subCategory === 'finishing');
+export const _finishingOils = Object.entries(processedOils)
+  .filter(([_, value]) => value.subCategory === 'finishing')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _supplementOils = Object.entries(processedOils);
-  .filter(([_, value]) => value.subCategory === 'supplement');
+export const _supplementOils = Object.entries(processedOils)
+  .filter(([_, value]) => value.subCategory === 'supplement')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _specialtyOils = Object.entries(processedOils);
+export const _specialtyOils = Object.entries(processedOils)
   .filter(
     ([_, value]) =>
       !value.subCategory ||

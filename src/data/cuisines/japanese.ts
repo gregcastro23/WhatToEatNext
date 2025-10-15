@@ -1159,7 +1159,7 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'egg', 'soy'],
           prepTime: '20 minutes',
           cookTime: '25 minutes',
-          culturalNotes: 'A popular comfort food that combines tonkatsu with the donburi style. Often eaten before important exams as 'katsu' sounds like 'win' in Japanese',
+          culturalNotes: 'A popular comfort food that combines tonkatsu with the donburi style. Often eaten before important exams as \'katsu\' sounds like \'win\' in Japanese',
           pairingSuggestions: ['miso soup', 'pickled vegetables', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',

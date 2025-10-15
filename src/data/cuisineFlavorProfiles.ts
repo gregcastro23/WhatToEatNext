@@ -855,7 +855,7 @@ export function getRecipesForCuisineMatch(
 
           // Remove duplicates by name
           const uniqueRecipes = allRecipes.filter(
-            (recipe, index, self) => index === self.findIndex(r => r.name === recipe.name);
+            (recipe, index, self) => index === self.findIndex(r => r.name === recipe.name)
           )
 
           if (uniqueRecipes.length > 0) {

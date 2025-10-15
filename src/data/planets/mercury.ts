@@ -2,7 +2,7 @@ import { PlanetData, MercurySpecificData } from './types';
 export type { MercurySpecificData }
 
 const mercuryData: PlanetData = {
-  'Dignity Effect': {,
+  'Dignity Effect': {
     gemini: 1,
     virgo: 3,
     sagittarius: 1,
@@ -455,4 +455,4 @@ const mercuryData: PlanetData = {
   }
 }
 
-export default mercuryData,
+export default mercuryData;

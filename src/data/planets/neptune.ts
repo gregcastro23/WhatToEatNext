@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const neptuneData: PlanetData = {
-  'Dignity Effect': {,
+  'Dignity Effect': {
     pisces: 1,
     cancer: 2,
     virgo: -1,
@@ -371,4 +371,4 @@ const neptuneData: PlanetData = {
   }
 }
 
-export default neptuneData,
+export default neptuneData;

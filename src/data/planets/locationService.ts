@@ -88,7 +88,7 @@ export class AstronomicalCalculations {
    */
   static getSolarElevation(coords: GeographicCoordinates, date: Date): number {
     const dayOfYear = Math.floor(
-      (date.getTime() - new Date(date.getFullYear(), 00).getTime()) / 86400000,
+      (date.getTime() - new Date(date.getFullYear(), 0).getTime()) / 86400000,
     )
     const declination = 23.45 * Math.sin((((360 * (284 + dayOfYear)) / 365) * Math.PI) / 180)
 

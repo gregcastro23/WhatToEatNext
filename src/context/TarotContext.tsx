@@ -49,7 +49,7 @@ export const _TarotProvider = ({ children }: { children: ReactNode }) => {
 })
 
   return (<TarotContext.Provider
-      value={{,
+      value={{
         tarotCard,
         tarotElementalInfluences,
         setTarotCard,

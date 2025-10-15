@@ -2,7 +2,10 @@ import { ElementalProperties, LowercaseElementalProperties } from '@/types/eleme
 
 import { _ } from '../../utils/elementalUtils';
 
-/** * Comprehensive database of ingredient elemental properties * These values are used to calculate food recommendations based on a users elemental profile */
+/**
+ * Comprehensive database of ingredient elemental properties
+ * These values are used to calculate food recommendations based on a users elemental profile
+ */
 export interface IngredientElementalProperties {
   name: string;
   category: string;
@@ -12,10 +15,12 @@ export interface IngredientElementalProperties {
   flavorProfile: string[];
   healthBenefits: string[];
   cookingMethods: string[];
-  planetaryInfluences: string[]
+  planetaryInfluences: string[];
 }
 
-/** * Database of ingredients with their elemental properties */
+/**
+ * Database of ingredients with their elemental properties
+ */
 export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   // Proteins
   {

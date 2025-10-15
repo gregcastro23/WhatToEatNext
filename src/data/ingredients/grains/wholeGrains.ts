@@ -268,7 +268,7 @@ const rawWholeGrains = {
           mediterranean: 'chickpeas, cucumber, tomato, feta, herb-lemon dressing',
           mexican: 'black beans, corn, avocado, lime-cilantro dressing',
         },
-        notes: 'Infinitely customizable to dietary preferences and what's on hand'
+        notes: 'Infinitely customizable to dietary preferences and what\'s on hand'
       },
       fried_rice: {
         name: 'Brown Fried Rice',
