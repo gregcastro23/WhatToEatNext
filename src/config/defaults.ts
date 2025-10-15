@@ -7,8 +7,8 @@ export const _DEFAULT_FILTERS: FilterOptions = {
   elementalFocus: null,
   mealType: 'any',
   seasonality: null,
-  difficulty: 'any' },
-        as unknown as FilterOptions,
+  difficulty: 'any'
+} as unknown as FilterOptions;
 
 // Separate dietary preferences - these are no longer part of FilterOptions
 export const _DEFAULT_DIETARY_PREFERENCES = {
@@ -44,7 +44,7 @@ export const _DEFAULT_NUTRITION_PREFS: NutritionPreferences = {
     protein: 50,
     carbs: 250,
     fat: 70
-},
+  },
   vitamins: [],
   minerals: [],
   allergens: [],

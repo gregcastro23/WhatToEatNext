@@ -6,13 +6,13 @@ import { BasicThermodynamicProperties } from '@/types/alchemy';
 export const molecularCookingMethods: Record<
   string,
   {
-    name: string,
-    description: string,
-    chemicalProcess: string,
-    precisionRequirements: string,
-    commonErrors: string[],
-    advancedEquipment: string[],
-    texturalOutcomes: string[],
+    name: string;
+    description: string;
+    chemicalProcess: string;
+    precisionRequirements: string;
+    commonErrors: string[];
+    advancedEquipment: string[];
+    texturalOutcomes: string[];
     thermodynamicProperties: BasicThermodynamicProperties
   }
 > = {
@@ -41,7 +41,7 @@ export const molecularCookingMethods: Record<
       heat: 0.2,
       entropy: 0.4,
       reactivity: 0.8,
-      gregsEnergy: 0.2 - ((0 as any)?.4 || 0) * 0.2
+      gregsEnergy: 0.2 - 0.4 * 0.2
     }
   },
   gelification: {

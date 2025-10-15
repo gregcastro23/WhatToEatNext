@@ -9,53 +9,53 @@ type ZodiacElementModifiers = {
 // Helper function to create elemental modifiers based on dominant element
 function createElementalModifiersForZodiac(dominantElement: string): ElementalProperties {
   return {
-    Fire: dominantElement === 'Fire';
+    Fire: dominantElement === 'Fire'
         ? 0.8
-        : dominantElement === 'Air';
+        : dominantElement === 'Air'
           ? 0.6
-          : dominantElement === 'Earth';
+          : dominantElement === 'Earth'
             ? 0.3
             : 0.2,
-    Water: dominantElement === 'Water';
+    Water: dominantElement === 'Water'
         ? 0.8
-        : dominantElement === 'Earth';
+        : dominantElement === 'Earth'
           ? 0.6
-          : dominantElement === 'Air';
+          : dominantElement === 'Air'
             ? 0.3
             : 0.2,
-    Earth: dominantElement === 'Earth';
+    Earth: dominantElement === 'Earth'
         ? 0.8
-        : dominantElement === 'Water';
+        : dominantElement === 'Water'
           ? 0.6
-          : dominantElement === 'Fire';
+          : dominantElement === 'Fire'
             ? 0.3
             : 0.2,
-    Air: dominantElement === 'Air';
+    Air: dominantElement === 'Air'
         ? 0.8
-        : dominantElement === 'Fire';
+        : dominantElement === 'Fire'
           ? 0.6
           : dominantElement === 'Water'
             ? 0.3
-            : 0.2;
+            : 0.2
   }
 }
 
 // Build the modifiers for each zodiac sign
 export const ZODIAC_MODIFIERS: ZodiacElementModifiers = Object.entries(zodiacSeasons).reduce(
   (acc, [sign, data]) => {
-    acc[sign as any] = createElementalModifiersForZodiac(data.element)
-    return acc
-  }
-  {} as ZodiacElementModifiers,
-)
+    acc[sign as any] = createElementalModifiersForZodiac(data.element);
+    return acc;
+  },
+  {} as ZodiacElementModifiers
+);
 
 // Define a type with string index signature for SEASONAL_MODIFIERS
 export interface SeasonalModifiers {
-  spring: ElementalProperties,
-  summer: ElementalProperties,
-  autumn: ElementalProperties,
-  winter: ElementalProperties,
-  [key: string]: ElementalProperties, // Allow string indexing for zodiac signs and any other keys
+  spring: ElementalProperties;
+  summer: ElementalProperties;
+  autumn: ElementalProperties;
+  winter: ElementalProperties;
+  [key: string]: ElementalProperties // Allow string indexing for zodiac signs and any other keys
 }
 
 // For backward compatibility with the old season names
@@ -64,7 +64,7 @@ export const SEASONAL_MODIFIERS: SeasonalModifiers = {
   summer: createElementalModifiersForZodiac('Fire'),
   autumn: createElementalModifiersForZodiac('Earth'),
   winter: createElementalModifiersForZodiac('Water'),
-  // Add fall as an alias for autumn to maintain backward compatibility,
+  // Add fall as an alias for autumn to maintain backward compatibility
   fall: createElementalModifiersForZodiac('Earth'),
   // Add zodiac signs to the seasonal modifiers for direct access
   ...ZODIAC_MODIFIERS
@@ -73,12 +73,12 @@ export const SEASONAL_MODIFIERS: SeasonalModifiers = {
 // Influence of seasonal factors on food preferences and energy levels
 export const _SEASONAL_INFLUENCE = {
   // Each season's influence strength (0-1)
-  strength: {,
+  strength: {
     spring: 0.7,
     summer: 0.9,
     autumn: 0.6,
     winter: 0.8
-},
+  },
   // How seasons affect mood and energy
   energyModifier: {
     spring: { vitality: 0.6, creativity: 0.7, stability: 0.4, adaptability: 0.8 },

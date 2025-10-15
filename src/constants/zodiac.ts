@@ -41,16 +41,16 @@ export const _ZODIAC_ELEMENTS = zodiacElementMap;
  * Planetary rulerships - which planets rule which signs
  */
 export const _PLANETARY_RULERSHIPS: Record<string, ZodiacSign[]> = {
-  sun: ['leo'];
-  moon: ['cancer'];
-  mercury: ['gemini', 'virgo'];
-  venus: ['taurus', 'libra'];
-  mars: ['aries', 'scorpio'];
-  jupiter: ['sagittarius', 'pisces'];
-  saturn: ['capricorn', 'aquarius'];
-  uranus: ['aquarius'], // Modern rulership,
-  neptune: ['pisces'], // Modern rulership,
-  pluto: ['scorpio'], // Modern rulership
+  sun: ['leo'],
+  moon: ['cancer'],
+  mercury: ['gemini', 'virgo'],
+  venus: ['taurus', 'libra'],
+  mars: ['aries', 'scorpio'],
+  jupiter: ['sagittarius', 'pisces'],
+  saturn: ['capricorn', 'aquarius'],
+  uranus: ['aquarius'], // Modern rulership
+  neptune: ['pisces'], // Modern rulership
+  pluto: ['scorpio'] // Modern rulership
 }
 
 /**
@@ -64,25 +64,25 @@ export const _PLANETARY_EXALTATIONS: Record<string, ZodiacSign> = {
   mars: 'capricorn',
   jupiter: 'cancer',
   saturn: 'libra',
-  uranus: 'scorpio', // Modern assignment,
-  neptune: 'cancer', // Modern assignment,
-  pluto: 'leo', // Modern assignment
+  uranus: 'scorpio', // Modern assignment
+  neptune: 'cancer', // Modern assignment
+  pluto: 'leo' // Modern assignment
 }
 
 /**
  * Triplicity rulers - planets that rule elements
  */
 export const _TRIPLICITY_RULERS: Record<ElementalCharacter, string[]> = {
-  Fire: ['sun', 'jupiter', 'mars'];
-  Earth: ['venus', 'saturn', 'mercury'];
-  Air: ['saturn', 'mercury', 'jupiter'];
+  Fire: ['sun', 'jupiter', 'mars'],
+  Earth: ['venus', 'saturn', 'mercury'],
+  Air: ['saturn', 'mercury', 'jupiter'],
   Water: ['venus', 'mars', 'moon']
 }
 
 /**
  * Converts a zodiac sign to its corresponding element
  */
-export const _getElementFromZodiac = (sign: any): ElementalCharacter => {;
+export const _getElementFromZodiac = (sign: any): ElementalCharacter => {
   return zodiacElementMap[sign]
 }
 
@@ -90,7 +90,7 @@ export const _getElementFromZodiac = (sign: any): ElementalCharacter => {;
  * Gets all zodiac signs associated with a specific element
  */
 export const _getZodiacSignsByElement = (element: ElementalCharacter): any[] => {
-  return Object.entries(zodiacElementMap);
+  return Object.entries(zodiacElementMap)
     .filter(([_, signElement]) => signElement === element)
-    .map(([sign_]) => sign as unknown);
+    .map(([sign_]) => sign as unknown)
 }

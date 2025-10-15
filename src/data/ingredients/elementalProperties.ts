@@ -4,14 +4,14 @@ import { _ } from '../../utils/elementalUtils';
 
 /** * Comprehensive database of ingredient elemental properties * These values are used to calculate food recommendations based on a users elemental profile */
 export interface IngredientElementalProperties {
-  name: string,
-  category: string,
-  elementalProperties: LowercaseElementalProperties,
-  seasonality: string[],
-  cuisineAffinities: string[],
-  flavorProfile: string[],
-  healthBenefits: string[],
-  cookingMethods: string[],
+  name: string;
+  category: string;
+  elementalProperties: LowercaseElementalProperties;
+  seasonality: string[];
+  cuisineAffinities: string[];
+  flavorProfile: string[];
+  healthBenefits: string[];
+  cookingMethods: string[];
   planetaryInfluences: string[]
 }
 
@@ -26,14 +26,14 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.3,
       earth: 0.3,
       air: 0.1
-},
+    },
     seasonality: ['all'],
     cuisineAffinities: ['Mediterranean', 'Asian', 'American', 'Mexican', 'Indian'],
     flavorProfile: ['mild', 'adaptable', 'savory'],
     healthBenefits: ['protein-rich', 'lean', 'vitamin B'],
     cookingMethods: ['bake', 'grill', 'roast', 'stir-fry', 'poach'],
     planetaryInfluences: ['Moon', 'Mercury']
-  }
+  },
   {
     name: 'Beef',
     category: 'protein',
@@ -42,14 +42,14 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.1,
       earth: 0.3,
       air: 0.0
-},
+    },
     seasonality: ['winter', 'fall'],
     cuisineAffinities: ['American', 'French', 'Italian', 'Korean', 'Argentinian'],
     flavorProfile: ['rich', 'umami', 'robust'],
     healthBenefits: ['protein-rich', 'iron', 'zinc', 'vitamin B12'],
     cookingMethods: ['grill', 'roast', 'braise', 'stew'],
     planetaryInfluences: ['Mars', 'Sun']
-  }
+  },
   {
     name: 'Salmon',
     category: 'protein',

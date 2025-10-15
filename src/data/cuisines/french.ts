@@ -648,7 +648,7 @@ export const french: Cuisine = {
           description: 'Classic French chicken braised in red wine with mushrooms and lardons',
           cuisine: 'french',
           cookingMethods: ['braising', 'sautéing'],
-          tools: ['Dutch oven', 'tongs', 'wooden spoon', 'chef's knife', 'kitchen twine'],
+          tools: ['Dutch oven', 'tongs', 'wooden spoon', 'chef\'s knife', 'kitchen twine'],
           preparationSteps: [
             'Pat chicken pieces dry and season',
             'Render fat from lardons in Dutch oven',
@@ -930,7 +930,7 @@ export const french: Cuisine = {
           prepTime: '20 minutes',
           cookTime: '35 minutes',
           culturalNotes:
-            'A classic French dessert dating back to the 17th century, the name means 'burnt cream'',
+            'A classic French dessert dating back to the 17th century, the name means \'burnt cream\'',
           pairingSuggestions: ['fresh berries', 'dessert wine', 'coffee'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'none',

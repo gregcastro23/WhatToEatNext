@@ -40,9 +40,9 @@ export function applySeasonalAdjustments(baseProperties: ElementalProperties,
   const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring
 
   return {
-    Fire: ((baseProperties as any)?.Fire || 0) * 0.2 + ((modifier as any)?.Fire || 0) * 0.2;
-    Water: ((baseProperties as any)?.Water || 0) * 0.2 + ((modifier as any)?.Water || 0) * 0.2;
-    Air: ((baseProperties as any)?.Air || 0) * 0.2 + ((modifier as any)?.Air || 0) * 0.2;
+    Fire: ((baseProperties as any)?.Fire || 0) * 0.2 + ((modifier as any)?.Fire || 0) * 0.2,
+    Water: ((baseProperties as any)?.Water || 0) * 0.2 + ((modifier as any)?.Water || 0) * 0.2,
+    Air: ((baseProperties as any)?.Air || 0) * 0.2 + ((modifier as any)?.Air || 0) * 0.2,
     Earth: ((baseProperties as any)?.Earth || 0) * 0.2 + ((modifier as any)?.Earth || 0) * 0.2
   }
 }
@@ -56,9 +56,9 @@ export function applyLunarPhaseAdjustments(baseProperties: ElementalProperties,
   const modifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon']
 
   return {
-    Fire: ((baseProperties as any)?.Fire || 0) * 0.2 + ((modifier as any)?.Fire || 0) * 0.2;
-    Water: ((baseProperties as any)?.Water || 0) * 0.2 + ((modifier as any)?.Water || 0) * 0.2;
-    Air: ((baseProperties as any)?.Air || 0) * 0.2 + ((modifier as any)?.Air || 0) * 0.2;
+    Fire: ((baseProperties as any)?.Fire || 0) * 0.2 + ((modifier as any)?.Fire || 0) * 0.2,
+    Water: ((baseProperties as any)?.Water || 0) * 0.2 + ((modifier as any)?.Water || 0) * 0.2,
+    Air: ((baseProperties as any)?.Air || 0) * 0.2 + ((modifier as any)?.Air || 0) * 0.2,
     Earth: ((baseProperties as any)?.Earth || 0) * 0.2 + ((modifier as any)?.Earth || 0) * 0.2
   }
 }
@@ -71,33 +71,33 @@ export function applyTimeOfDayAdjustments(baseProperties: ElementalProperties,
   if (isDaytime) {
     return {
       Fire: baseProperties.Fire * 1.2,
-      Water: ((baseProperties as any)?.Water || 0) * 0.2;
+      Water: ((baseProperties as any)?.Water || 0) * 0.2,
       Air: baseProperties.Air * 1.1,
       Earth: ((baseProperties as any)?.Earth || 0) * 0.2
     }
   } else {
     return {
-      Fire: ((baseProperties as any)?.Fire || 0) * 0.2;
+      Fire: ((baseProperties as any)?.Fire || 0) * 0.2,
       Water: baseProperties.Water * 1.2,
-      Air: ((baseProperties as any)?.Air || 0) * 0.2;
+      Air: ((baseProperties as any)?.Air || 0) * 0.2,
       Earth: baseProperties.Earth * 1.1
-    }
+    };
   }
 }
 
 /**
  * Get seasonal cooking recommendations
  */
-export function getSeasonalCookingRecommendations(_season: string): {
-  cookingMethods: string[],
-  ingredients: string[],
-  flavors: string[],
-  timing: string[]
+export function getSeasonalCookingRecommendations(season: string): {
+  cookingMethods: string[];
+  ingredients: string[];
+  flavors: string[];
+  timing: string[];
 } {
-  const seasonKey = season.toLowerCase()
+  const seasonKey = season.toLowerCase();
 
   const recommendations = {
-    spring: {,
+    spring: {
       cookingMethods: ['Steaming', 'Light sautéing', 'Raw preparations', 'Quick grilling'],
       ingredients: ['Fresh greens', 'Young vegetables', 'Herbs', 'Light proteins'],
       flavors: ['Fresh', 'Green', 'Mild', 'Cleansing'],
@@ -169,7 +169,7 @@ export function calculateSeasonalEffectiveness(recipeElements: ElementalProperti
       seasonalAlignment,
       lunarAlignment,
       overallHarmony
-    }
+    },
     recommendations
   }
 }

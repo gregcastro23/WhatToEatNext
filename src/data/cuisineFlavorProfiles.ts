@@ -6,32 +6,32 @@ import type { ElementalProperties } from '@/types/alchemy';
 import { Recipe } from '@/types/unified';
 
 export interface CuisineFlavorProfile {
-  id: string,
-  name: string,
-  description?: string
+  id: string;
+  name: string;
+  description?: string;
   flavorProfiles: {
-    spicy: number,
-    sweet: number,
-    sour: number,
-    bitter: number,
-    salty: number,
+    spicy: number;
+    sweet: number;
+    sour: number;
+    bitter: number;
+    salty: number;
     umami: number
-  },
-  elementalAlignment: ElementalProperties,
-  signatureTechniques: string[],
-  signatureIngredients: string[],
-  traditionalMealPatterns: string[],
-  planetaryResonance: string[], // Planets that resonate with this cuisine,
-  seasonalPreference: string[]; // Seasons when this cuisine shines,
+  };
+  elementalAlignment: ElementalProperties;
+  signatureTechniques: string[];
+  signatureIngredients: string[];
+  traditionalMealPatterns: string[];
+  planetaryResonance: string[]; // Planets that resonate with this cuisine
+  seasonalPreference: string[]; // Seasons when this cuisine shines
   parentCuisine?: string; // Parent cuisine for regional variants
   regionalVariants?: string[]; // Regional variants of this cuisine
-  dietarySuitability?: string[]
-  elementalProperties?: Record<string, number>,
-  flavorIntensities?: Record<string, number>,
-  tastingNotes?: string[],
-  primaryIngredients?: string[],
-  commonCookingMethods?: string[],
-  signatureDishes?: string[],
+  dietarySuitability?: string[];
+  elementalProperties?: Record<string, number>;
+  flavorIntensities?: Record<string, number>;
+  tastingNotes?: string[];
+  primaryIngredients?: string[];
+  commonCookingMethods?: string[];
+  signatureDishes?: string[];
   culturalContext?: string
 }
 
@@ -747,7 +747,7 @@ export function getCuisineProfile(cuisineName: string): CuisineFlavorProfile | u
 export function getRecipesForCuisineMatch(
   cuisineName: string,
   recipes: unknown[],
-  limit = 8;
+  limit = 8
 ): unknown[] {
   try {
     // Apply safe type conversion for string operations

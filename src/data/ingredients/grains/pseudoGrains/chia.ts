@@ -15,7 +15,7 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
     qualities: ['gelatinous', 'hydrophilic', 'versatile', 'gluten-free', 'omega-rich'],
     category: 'pseudo_grain',
     origin: ['Central America', 'Mexico', 'Guatemala'],
-    varieties: {}
+    varieties: {},
     preparation: {
       fresh: {
         duration: 'No cooking required, soak 10-20 minutes for gel',

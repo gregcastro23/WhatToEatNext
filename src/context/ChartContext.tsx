@@ -22,26 +22,26 @@ const defaultContextValue: ChartContextType = {
   isLoading: false,
   error: null,
   updateChart: () => {}
-}
+};
 
-const ChartContext = createContext<ChartContextType>(defaultContextValue)
-;
-export function ChartProvider(_{ children }: { children: ReactNode }) {
-  const [currentChart, setCurrentChart] = useState<AstrologicalChart | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+const ChartContext = createContext<ChartContextType>(defaultContextValue);
 
-  const updateChart = (data: AstrologicalChart | null) => {,
+export function ChartProvider({ children }: { children: ReactNode }) {
+  const [currentChart, setCurrentChart] = useState<AstrologicalChart | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const updateChart = (data: AstrologicalChart | null) => {
     try {
-      setCurrentChart(data)
+      setCurrentChart(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error updating chart')
+      setError(err instanceof Error ? err.message : 'Unknown error updating chart');
     }
-  }
+  };
 
   // Load initial chart data
   useEffect(() => {
-    const loadInitialChart = async () => {;
+    const loadInitialChart = async () => {
       try {
         setIsLoading(true)
         setError(null)

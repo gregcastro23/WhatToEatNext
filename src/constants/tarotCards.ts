@@ -1,220 +1,220 @@
 export const _TAROT_CARDS = {
-  '10_of_cups': {,
+  '10_of_cups': {
     name: '10 of Cups',
     element: 'Water',
-    keywords: ['fulfillment', 'harmony', 'joy'];
+    keywords: ['fulfillment', 'harmony', 'joy'],
     associatedRecipes: ['family_dinner', 'comfort_food']
-  };
+  },
   '2_of_wands': {
     name: '2 of Wands',
     element: 'Fire',
-    keywords: ['planning', 'future', 'potential'];
+    keywords: ['planning', 'future', 'potential'],
     associatedRecipes: ['spicy_stir_fry', 'grilled_meat']
-  };
+  },
   '3_of_wands': {
     name: '3 of Wands',
     element: 'Fire',
-    keywords: ['expansion', 'opportunity', 'progress'];
+    keywords: ['expansion', 'opportunity', 'progress'],
     associatedRecipes: ['roasted_vegetables', 'barbecue']
-  };
+  },
   '4_of_wands': {
     name: '4 of Wands',
     element: 'Fire',
-    keywords: ['celebration', 'harmony', 'home'];
+    keywords: ['celebration', 'harmony', 'home'],
     associatedRecipes: ['festive_meal', 'shared_platter']
-  };
+  },
   '5_of_wands': {
     name: '5 of Wands',
     element: 'Fire',
-    keywords: ['competition', 'conflict', 'diversity'];
+    keywords: ['competition', 'conflict', 'diversity'],
     associatedRecipes: ['hot_pot', 'mixed_grill', 'fusion_cuisine']
-  };
+  },
   '6_of_wands': {
     name: '6 of Wands',
     element: 'Fire',
-    keywords: ['victory', 'recognition', 'success'];
+    keywords: ['victory', 'recognition', 'success'],
     associatedRecipes: ['celebratory_feast', 'award_winning_dish']
-  };
+  },
   '7_of_wands': {
     name: '7 of Wands',
     element: 'Fire',
-    keywords: ['challenge', 'defensiveness', 'perseverance'];
+    keywords: ['challenge', 'defensiveness', 'perseverance'],
     associatedRecipes: ['spicy_dishes', 'bold_flavors', 'hearty_stew']
-  };
+  },
   '8_of_wands': {
     name: '8 of Wands',
     element: 'Fire',
-    keywords: ['speed', 'action', 'movement'];
+    keywords: ['speed', 'action', 'movement'],
     associatedRecipes: ['quick_meals', 'food_on_the_go', 'stir_fry']
-  };
+  },
   '9_of_wands': {
     name: '9 of Wands',
     element: 'Fire',
-    keywords: ['resilience', 'courage', 'persistence'];
+    keywords: ['resilience', 'courage', 'persistence'],
     associatedRecipes: ['slow_cooked_meals', 'hearty_soup', 'energy_foods']
-  };
+  },
   '10_of_wands': {
     name: '10 of Wands',
     element: 'Fire',
-    keywords: ['burden', 'responsibility', 'completion'];
+    keywords: ['burden', 'responsibility', 'completion'],
     associatedRecipes: ['meal_prep', 'batch_cooking', 'nourishing_bowl']
-  };
+  },
   '2_of_cups': {
     name: '2 of Cups',
     element: 'Water',
-    keywords: ['partnership', 'connection', 'attraction'];
+    keywords: ['partnership', 'connection', 'attraction'],
     associatedRecipes: ['romantic_dinner', 'shared_dessert', 'wine_pairing']
-  };
+  },
   '3_of_cups': {
     name: '3 of Cups',
     element: 'Water',
-    keywords: ['celebration', 'friendship', 'abundance'];
+    keywords: ['celebration', 'friendship', 'abundance'],
     associatedRecipes: ['party_food', 'tapas', 'potluck_dishes']
-  };
+  },
   '4_of_cups': {
     name: '4 of Cups',
     element: 'Water',
-    keywords: ['contemplation', 'apathy', 'meditation'];
+    keywords: ['contemplation', 'apathy', 'meditation'],
     associatedRecipes: ['comfort_food', 'simple_meals', 'mindful_eating']
-  };
+  },
   '5_of_cups': {
     name: '5 of Cups',
     element: 'Water',
-    keywords: ['loss', 'regret', 'disappointment'];
+    keywords: ['loss', 'regret', 'disappointment'],
     associatedRecipes: ['nostalgic_food', 'childhood_favorites', 'healing_soups']
-  };
+  },
   '6_of_cups': {
     name: '6 of Cups',
     element: 'Water',
-    keywords: ['nostalgia', 'memories', 'innocence'];
+    keywords: ['nostalgia', 'memories', 'innocence'],
     associatedRecipes: ['childhood_favorites', 'family_recipes', 'sweet_treats']
-  };
+  },
   '7_of_cups': {
     name: '7 of Cups',
     element: 'Water',
-    keywords: ['choices', 'fantasy', 'illusion'];
+    keywords: ['choices', 'fantasy', 'illusion'],
     associatedRecipes: ['visually_stunning_food', 'fusion_cuisine', 'experimental_cooking']
-  };
+  },
   '8_of_cups': {
     name: '8 of Cups',
     element: 'Water',
-    keywords: ['walking away', 'detachment', 'seeking truth'];
+    keywords: ['walking away', 'detachment', 'seeking truth'],
     associatedRecipes: ['cleansing_foods', 'detox_meals', 'simplified_cooking']
-  };
+  },
   '9_of_cups': {
     name: '9 of Cups',
     element: 'Water',
-    keywords: ['wishes fulfilled', 'satisfaction', 'indulgence'];
+    keywords: ['wishes fulfilled', 'satisfaction', 'indulgence'],
     associatedRecipes: ['indulgent_desserts', 'luxury_ingredients', 'favorite_meals']
-  };
+  },
   '2_of_pentacles': {
     name: '2 of Pentacles',
     element: 'Earth',
-    keywords: ['balance', 'adaptability', 'juggling priorities'];
+    keywords: ['balance', 'adaptability', 'juggling priorities'],
     associatedRecipes: ['balanced_meals', 'budget_cooking', 'time_saving_recipes']
-  };
+  },
   '3_of_pentacles': {
     name: '3 of Pentacles',
     element: 'Earth',
-    keywords: ['collaboration', 'craftsmanship', 'skill'];
+    keywords: ['collaboration', 'craftsmanship', 'skill'],
     associatedRecipes: ['artisan_food', 'team_cooking', 'technical_recipes']
-  };
+  },
   '4_of_pentacles': {
     name: '4 of Pentacles',
     element: 'Earth',
-    keywords: ['security', 'conserving resources', 'stability'];
+    keywords: ['security', 'conserving resources', 'stability'],
     associatedRecipes: ['budget_meals', 'stored_foods', 'preserves']
-  };
+  },
   '5_of_pentacles': {
     name: '5 of Pentacles',
     element: 'Earth',
-    keywords: ['hardship', 'poverty', 'isolation'];
+    keywords: ['hardship', 'poverty', 'isolation'],
     associatedRecipes: ['frugal_cooking', 'resourceful_meals', 'simple_ingredients']
-  };
+  },
   '6_of_pentacles': {
     name: '6 of Pentacles',
     element: 'Earth',
-    keywords: ['generosity', 'sharing', 'receiving'];
+    keywords: ['generosity', 'sharing', 'receiving'],
     associatedRecipes: ['sharing_platters', 'charity_cooking', 'food_gifts']
-  };
+  },
   '7_of_pentacles': {
     name: '7 of Pentacles',
     element: 'Earth',
-    keywords: ['patience', 'waiting', 'investment'];
+    keywords: ['patience', 'waiting', 'investment'],
     associatedRecipes: ['slow_food', 'fermented_dishes', 'long_marinades']
-  };
+  },
   '8_of_pentacles': {
     name: '8 of Pentacles',
     element: 'Earth',
-    keywords: ['skill', 'diligence', 'craftsmanship'];
+    keywords: ['skill', 'diligence', 'craftsmanship'],
     associatedRecipes: ['detailed_techniques', 'precision_cooking', 'artisanal_food']
-  };
+  },
   '9_of_pentacles': {
     name: '9 of Pentacles',
     element: 'Earth',
-    keywords: ['abundance', 'luxury', 'self-sufficiency'];
+    keywords: ['abundance', 'luxury', 'self-sufficiency'],
     associatedRecipes: ['gourmet_dishes', 'homegrown_ingredients', 'high_quality_food']
-  };
+  },
   '10_of_pentacles': {
     name: '10 of Pentacles',
     element: 'Earth',
-    keywords: ['legacy', 'inheritance', 'establishment'];
+    keywords: ['legacy', 'inheritance', 'establishment'],
     associatedRecipes: ['traditional_recipes', 'family_meals', 'heirloom_ingredients']
-  };
+  },
   '2_of_swords': {
     name: '2 of Swords',
     element: 'Air',
-    keywords: ['decision', 'stalemate', 'balance'];
+    keywords: ['decision', 'stalemate', 'balance'],
     associatedRecipes: ['fusion_dishes', 'contrasting_flavors', 'balanced_meals']
-  };
+  },
   '3_of_swords': {
     name: '3 of Swords',
     element: 'Air',
-    keywords: ['heartbreak', 'sorrow', 'grief'];
+    keywords: ['heartbreak', 'sorrow', 'grief'],
     associatedRecipes: ['comfort_foods', 'bitter_flavors', 'healing_broths']
-  };
+  },
   '4_of_swords': {
     name: '4 of Swords',
     element: 'Air',
-    keywords: ['rest', 'recovery', 'contemplation'];
+    keywords: ['rest', 'recovery', 'contemplation'],
     associatedRecipes: ['restorative_foods', 'light_meals', 'calming_teas']
-  };
+  },
   '5_of_swords': {
     name: '5 of Swords',
     element: 'Air',
-    keywords: ['conflict', 'defeat', 'winning at all costs'];
+    keywords: ['conflict', 'defeat', 'winning at all costs'],
     associatedRecipes: ['challenging_recipes', 'competitive_dishes', 'bold_combinations']
-  };
+  },
   '6_of_swords': {
     name: '6 of Swords',
     element: 'Air',
-    keywords: ['transition', 'moving on', 'recovery'];
+    keywords: ['transition', 'moving on', 'recovery'],
     associatedRecipes: ['travel_foods', 'transitional_seasonal_dishes', 'light_cleansing_meals']
-  };
+  },
   '7_of_swords': {
     name: '7 of Swords',
     element: 'Air',
-    keywords: ['deception', 'strategy', 'cleverness'];
+    keywords: ['deception', 'strategy', 'cleverness'],
     associatedRecipes: ['deceptive_dishes', 'surprising_combinations', 'molecular_gastronomy']
-  };
+  },
   '8_of_swords': {
     name: '8 of Swords',
     element: 'Air',
-    keywords: ['restriction', 'limitation', 'imprisonment'];
+    keywords: ['restriction', 'limitation', 'imprisonment'],
     associatedRecipes: ['restrictive_diet_foods', 'simple_ingredients', 'minimalist_cooking']
-  };
+  },
   '9_of_swords': {
     name: '9 of Swords',
     element: 'Air',
-    keywords: ['anxiety', 'worry', 'nightmare'];
+    keywords: ['anxiety', 'worry', 'nightmare'],
     associatedRecipes: ['calming_foods', 'stress_reducing_ingredients', 'comfort_meals']
-  };
+  },
   '10_of_swords': {
     name: '10 of Swords',
     element: 'Air',
-    keywords: ['painful ending', 'rock bottom', 'new beginning'];
+    keywords: ['painful ending', 'rock bottom', 'new beginning'],
     associatedRecipes: ['cleansing_foods', 'last_supper', 'transformation_meals']
-  };
+  },
   'Ace of Wands': {
     id: 'ace_of_wands',
     name: 'Ace of Wands',
@@ -222,25 +222,25 @@ export const _TAROT_CARDS = {
     energyState: 'Spirit',
     quantum: 1.0,
     description: 'Represents the pure essence of Spirit energy - creativity, inspiration, and new beginnings',
-  };
+  },
   'Page of Wands': {
     name: 'Page of Wands',
     element: 'Fire',
     quantum: 1,
     keywords: ['enthusiasm', 'exploration', 'discovery']
-  };
+  },
   'Queen of Wands': {
     name: 'Queen of Wands',
     element: 'Fire',
     quantum: 2,
     keywords: ['confidence', 'vitality', 'leadership']
-  };
+  },
   'King of Wands': {
     name: 'King of Wands',
     element: 'Fire',
     quantum: 3,
     keywords: ['vision', 'charisma', 'boldness']
-  };
+  },
   'Ace of Cups': {
     id: 'ace_of_cups',
     name: 'Ace of Cups',
@@ -248,25 +248,25 @@ export const _TAROT_CARDS = {
     energyState: 'Essence',
     quantum: 1.0,
     description: 'Represents the pure essence of Essence energy - emotions, intuition, and relationships',
-  };
+  },
   'Page of Cups': {
     name: 'Page of Cups',
     element: 'Water',
     quantum: 1,
     keywords: ['sensitivity', 'imagination', 'curiosity']
-  };
+  },
   'Queen of Cups': {
     name: 'Queen of Cups',
     element: 'Water',
     quantum: 2,
     keywords: ['compassion', 'empathy', 'intuition']
-  };
+  },
   'King of Cups': {
     name: 'King of Cups',
     element: 'Water',
     quantum: 3,
     keywords: ['emotional balance', 'wisdom', 'diplomacy']
-  };
+  },
   'Ace of Swords': {
     id: 'ace_of_swords',
     name: 'Ace of Swords',
@@ -274,25 +274,25 @@ export const _TAROT_CARDS = {
     energyState: 'Matter',
     quantum: 1.0,
     description: 'Represents the pure essence of Matter energy - intellect, clarity, and truth',
-  };
+  },
   'Page of Swords': {
     name: 'Page of Swords',
     element: 'Air',
     quantum: 1,
     keywords: ['curiosity', 'analysis', 'communication']
-  };
+  },
   'Queen of Swords': {
     name: 'Queen of Swords',
     element: 'Air',
     quantum: 2,
     keywords: ['objectivity', 'perception', 'independence']
-  };
+  },
   'King of Swords': {
     name: 'King of Swords',
     element: 'Air',
     quantum: 3,
     keywords: ['intellect', 'authority', 'truth']
-  };
+  },
   'Ace of Pentacles': {
     id: 'ace_of_pentacles',
     name: 'Ace of Pentacles',
@@ -300,19 +300,19 @@ export const _TAROT_CARDS = {
     energyState: 'Substance',
     quantum: 1.0,
     description: 'Represents the pure essence of Substance energy - material wealth, stability, and practicality',
-  };
+  },
   'Page of Pentacles': {
     name: 'Page of Pentacles',
     element: 'Earth',
     quantum: 1,
     keywords: ['learning', 'practicality', 'opportunity']
-  };
+  },
   'Queen of Pentacles': {
     name: 'Queen of Pentacles',
     element: 'Earth',
     quantum: 2,
     keywords: ['nurturing', 'abundance', 'practicality']
-  };
+  },
   'King of Pentacles': {
     name: 'King of Pentacles',
     element: 'Earth',

@@ -15,7 +15,7 @@ const AlchemicalCalculator = createLazyComponent(
       // This would wrap the actual calculation logic
       return (<div className="alchemical-calculator">
           <h3>Alchemical Calculation Engine</h3>
-          <p>Performing complex elemental calculations...</p>,
+          <p>Performing complex elemental calculations...</p>
           {/* Calculation results would be rendered here */}
         </div>
       )
@@ -38,51 +38,52 @@ const AlchemicalCalculator = createLazyComponent(
   )
 )
 
-interface LazyAlchemicalEngineProps {;
-  ingredients?: string[],
-  calculationType?: 'elemental' | 'thermodynamic' | 'energy'
-  onCalculationComplete?: (result: any) => void
+interface LazyAlchemicalEngineProps {
+  ingredients?: string[];
+  calculationType?: 'elemental' | 'thermodynamic' | 'energy';
+  onCalculationComplete?: (result: any) => void;
 }
 
 export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
-  ingredients = [];
+  ingredients = [],
   calculationType = 'elemental',
-  onCalculationComplete,
+  onCalculationComplete
 }) => {
-  const [isVisible, setIsVisible] = useState(false)
-  const [shouldPreload, setShouldPreload] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
+  const [shouldPreload, setShouldPreload] = useState(false);
 
   // Preload the module when user hovers over the trigger
   const handlePreloadHover = () => {
     if (!shouldPreload) {
-      setShouldPreload(true)
+      setShouldPreload(true);
       // Trigger preload
       import('@/calculations/alchemicalEngine');
     }
-  }
+  };
 
-  return (<div className="lazy-alchemical-engine">;
+  return (
+    <div className="lazy-alchemical-engine">
       {/* Trigger button with preload on hover */}
       <button
         onClick={() => setIsVisible(!isVisible)}
         onMouseEnter={handlePreloadHover}
-        className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-3 rounded-lg hover: from-purple-600 hover:to-blue-600 transition-all duration-200 shadow-lg"
-      >;
-        {isVisible ? 'Hide' : 'Show' },
-        Alchemical Calculator
+        className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-3 rounded-lg hover:from-purple-600 hover:to-blue-600 transition-all duration-200 shadow-lg"
+      >
+        {isVisible ? 'Hide' : 'Show'} Alchemical Calculator
         {shouldPreload && (
-          <span className="ml-2 text-xs opacity-75">(Preloaded)</span>;
+          <span className="ml-2 text-xs opacity-75">(Preloaded)</span>
         )}
       </button>
 
       {/* Lazy-loaded calculator component */}
-      {isVisible && (<div className="mt-4 border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+      {isVisible && (
+        <div className="mt-4 border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
           <Suspense fallback={
             <div className="animate-pulse">
               <div className="h-32 bg-gray-200 rounded mb-4"></div>
               <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
               <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-            </div>,
+            </div>
           }>
             <AlchemicalCalculator
               ingredients={ingredients}
@@ -94,12 +95,12 @@ export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
       )}
 
       {/* Performance indicator */}
-      <div className="mt-2 text-xs text-gray-500">;
+      <div className="mt-2 text-xs text-gray-500">
         {isVisible ? '✓ Engine loaded' : '○ Engine ready to load'}
         {shouldPreload && !isVisible && ' (Preloaded)'}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LazyAlchemicalEngine,
+export default LazyAlchemicalEngine;

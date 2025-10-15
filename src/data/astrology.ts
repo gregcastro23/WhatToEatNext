@@ -119,7 +119,7 @@ export const planetInfo = {
 
 // Export signInfo data structure needed by the calculations
 export const signInfo = {
-  aries: {,
+  aries: {
     Element: 'Fire',
     Start: { Day: 21, Month: 3, Year: 2022 },
     End: { Day: 19, Month: 4, Year: 2022 },

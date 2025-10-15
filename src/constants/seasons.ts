@@ -5,73 +5,73 @@ export const _SEASONAL_PROPERTIES = {
       Water: 0.3,
       Air: 0.4,
       Earth: 0.1
-},
+    },
     qualities: ['ascending', 'expanding'],
     peak: {
-      month: 4, // May,
+      month: 4, // May
       day: 1
-},
-    enhancedCategories: ['leafy greens', 'sprouts', 'herbs'];
+    },
+    enhancedCategories: ['leafy greens', 'sprouts', 'herbs'],
     diminishedCategories: ['roots', 'preserved foods', 'heavy proteins']
-  };
+  },
   summer: {
     elementalModifier: {
       Fire: 0.4,
       Water: 0.2,
       Air: 0.3,
       Earth: 0.1
-},
-    qualities: ['expansive', 'active'];
+    },
+    qualities: ['expansive', 'active'],
     peak: {
-      month: 7, // August,
+      month: 7, // August
       day: 1
-},
-    enhancedCategories: ['fruits', 'cooling herbs', 'raw foods'];
+    },
+    enhancedCategories: ['fruits', 'cooling herbs', 'raw foods'],
     diminishedCategories: ['warming spices', 'heavy soups', 'roasted foods']
-  };
+  },
   fall: {
     elementalModifier: {
       Fire: 0.1,
       Water: 0.2,
       Air: 0.3,
       Earth: 0.4
-},
-    qualities: ['contracting', 'descending'];
+    },
+    qualities: ['contracting', 'descending'],
     peak: {
-      month: 10, // November,
+      month: 10, // November
       day: 1
-},
-    enhancedCategories: ['roots', 'grains', 'mushrooms'];
+    },
+    enhancedCategories: ['roots', 'grains', 'mushrooms'],
     diminishedCategories: ['raw foods', 'tropical fruits', 'cooling herbs']
-  };
+  },
   winter: {
     elementalModifier: {
       Fire: 0.1,
       Water: 0.4,
       Air: 0.1,
       Earth: 0.4
-},
-    qualities: ['contracting', 'storing'];
+    },
+    qualities: ['contracting', 'storing'],
     peak: {
-      month: 1, // February,
+      month: 1, // February
       day: 1
-},
-    enhancedCategories: ['preserved foods', 'warming spices', 'broths'];
+    },
+    enhancedCategories: ['preserved foods', 'warming spices', 'broths'],
     diminishedCategories: ['raw foods', 'cooling herbs', 'light proteins']
   }
-}
+};
 
 export const _SEASONAL_TRANSITIONS = {
-  daysPerTransition: 21, // 3 weeks of transition between seasons,
+  daysPerTransition: 21, // 3 weeks of transition between seasons
   transitionPoints: {
     springToSummer: { month: 5, day: 15 }, // June 15
     summerToFall: { month: 8, day: 15 }, // September 15
     fallToWinter: { month: 11, day: 15 }, // December 15
-    winterToSpring: { month: 2, day: 15 }, // March 15
+    winterToSpring: { month: 2, day: 15 } // March 15
   }
-}
+};
 
-export const VALID_SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const,
+export const VALID_SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const;
 export type Season = (typeof VALID_SEASONS)[number];
 
 // Date ranges for each season
@@ -80,5 +80,5 @@ export const _SEASON_DATE_RANGES = {
   summer: { startMonth: 5, startDay: 15, endMonth: 8, endDay: 14 }, // May 15 - Aug 14
   autumn: { startMonth: 8, startDay: 15, endMonth: 11, endDay: 14 }, // Aug 15 - Nov 14
   fall: { startMonth: 8, startDay: 15, endMonth: 11, endDay: 14 }, // Alias for autumn
-  winter: { startMonth: 11, startDay: 15, endMonth: 2, endDay: 14 }, // Nov 15 - Feb 14
-}
+  winter: { startMonth: 11, startDay: 15, endMonth: 2, endDay: 14 } // Nov 15 - Feb 14
+};

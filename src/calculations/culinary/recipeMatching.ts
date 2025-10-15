@@ -12,17 +12,17 @@ import { KalchmResult, ThermodynamicResults, toElementalProperties } from '../co
  * Recipe compatibility result
  */
 export interface RecipeCompatibilityResult {
-  compatibilityScore: number,
-  elementalAlignment: number,
-  alchemicalAlignment: number,
-  thermodynamicAlignment: number,
-  kalchmAlignment: number,
-  monicaAlignment: number,
-  recommendations: string[],
-  absoluteElementalMatch: number,
-  relativeElementalMatch: number,
-  dominantElementMatch: number,
-  energeticResonance: number
+  compatibilityScore: number;
+  elementalAlignment: number;
+  alchemicalAlignment: number;
+  thermodynamicAlignment: number;
+  kalchmAlignment: number;
+  monicaAlignment: number;
+  recommendations: string[];
+  absoluteElementalMatch: number;
+  relativeElementalMatch: number;
+  dominantElementMatch: number;
+  energeticResonance: number;
 }
 
 /**
@@ -54,11 +54,11 @@ export function calculateRecipeCompatibility(recipeElementalProperties: Elementa
   const thermodynamicAlignment = calculateEnhancedThermodynamicAlignment(
     recipeElementalProperties,
     currentMomentKalchmResult.thermodynamics
-  ),
+  );
 
   // Calculate energetic resonance (how well the energies harmonize)
-  const energeticResonance = calculateEnergeticResonance(recipeElementalProperties;
-    currentMomentKalchmResult),
+  const energeticResonance = calculateEnergeticResonance(recipeElementalProperties,
+    currentMomentKalchmResult);
 
   // Enhanced weighted compatibility score
   const compatibilityScore = calculateWeightedCompatibilityScore({
@@ -69,11 +69,11 @@ export function calculateRecipeCompatibility(recipeElementalProperties: Elementa
     monicaAlignment,
     thermodynamicAlignment,
     energeticResonance
-  })
+  });
 
   // Combined elemental alignment for backward compatibility
   const elementalAlignment =
-    absoluteElementalMatch * 0.4 + relativeElementalMatch * 0.35 + dominantElementMatch * 0.25,
+    absoluteElementalMatch * 0.4 + relativeElementalMatch * 0.35 + dominantElementMatch * 0.25;
 
   // Generate enhanced recommendations
   const recommendations = generateEnhancedRecipeRecommendations(compatibilityScore, {
@@ -84,7 +84,7 @@ export function calculateRecipeCompatibility(recipeElementalProperties: Elementa
     monicaAlignment,
     thermodynamicAlignment,
     energeticResonance
-  })
+  });
 
   return {
     compatibilityScore,

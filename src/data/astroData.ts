@@ -21,7 +21,7 @@ export const planetInfo = planets;
 
 // Complete sign information for all zodiac signs
 export const signInfo = {
-  aries: {,
+  aries: {
     Element: 'Fire',
     Start: { Day: 21, Month: 3, Year: 2022 },
     End: { Day: 19, Month: 4, Year: 2022 },
@@ -29,7 +29,7 @@ export const signInfo = {
     'Minor Tarot Cards': {
       '1st Decan': '2 of Wands',
       '2nd Decan': '3 of Wands',
-      '3rd Decan': '4 of Wands',
+      '3rd Decan': '4 of Wands'
     },
     'Decan Effects': {
       '1st Decan': ['Mars'],
@@ -44,8 +44,9 @@ export const signInfo = {
       Saturn: [2730]
     },
     Ruler: 'Mars',
-    Modality: 'Cardinal' },
-        taurus: {
+    Modality: 'Cardinal'
+  },
+  taurus: {
     Element: 'Earth',
     Start: { Day: 20, Month: 4, Year: 2022 },
     End: { Day: 20, Month: 5, Year: 2022 },

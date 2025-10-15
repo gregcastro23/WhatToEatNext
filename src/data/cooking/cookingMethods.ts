@@ -2,37 +2,37 @@
  * Cooking methods with their elemental properties, astrological influences, and alchemical attributes
  */
 export const cookingMethods = {
-  roasting: {,
+  roasting: {
     name: 'Roasting',
     elementalEffect: {
       Fire: 0.8,
       Air: 0.5,
       Earth: 0.3,
       Water: 0.1
-},
+    },
     benefits: ['caramelization', 'flavor concentration', 'texture development'],
     astrologicalInfluences: {
       dominantPlanets: ['Sun', 'Mars'],
       lunarPhaseEffect: {
         full_moon: 0.8,
         new_moon: 0.4
-}
+      }
     },
     alchemicalProperties: {
       Spirit: 0.7,
       Essence: 0.4,
       Matter: 0.3,
       Substance: 0.2
-},
+    },
     thermodynamicProperties: {
       heat: 0.8,
       entropy: 0.5,
       reactivity: 0.6
-},
+    },
     duration: {
       min: 20,
       max: 120
-},
+    },
     suitable_for: ['meats', 'root vegetables', 'tubers', 'whole poultry']
   },
   steaming: {
@@ -42,7 +42,7 @@ export const cookingMethods = {
       Air: 0.4,
       Earth: 0.2,
       Fire: 0.1
-},
+    },
     benefits: ['nutrient preservation', 'gentle cooking', 'moisture retention'],
     astrologicalInfluences: {
       dominantPlanets: ['Moon', 'Neptune'],

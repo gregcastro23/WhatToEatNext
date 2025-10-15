@@ -1,7 +1,7 @@
 import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 
 // Re-export ElementalProperties to fix TS2459 errors
-export type { ElementalProperties }
+export type { ElementalProperties };
 
 export type IngredientCategory =
   | 'culinary_herb'
@@ -13,41 +13,42 @@ export type IngredientCategory =
   | 'dairy'
   | 'oil'
   | 'vinegar'
-  | 'seasoning'
+  | 'seasoning';
+
 // New interface for sensory profiles
 export interface SensoryProfile {
   taste: | {
-        sweet: number,
-        salty: number,
-        sour: number,
-        bitter: number,
-        umami: number,
+        sweet: number;
+        salty: number;
+        sour: number;
+        bitter: number;
+        umami: number;
         spicy: number
       }
-    | Record<string, number>,
+    | Record<string, number>;
   aroma: | {
-        floral: number,
-        fruity: number,
-        herbal: number,
-        spicy: number,
-        earthy: number,
+        floral: number;
+        fruity: number;
+        herbal: number;
+        spicy: number;
+        earthy: number;
         woody: number
       }
-    | Record<string, number>,
+    | Record<string, number>;
   texture: | {
-        crisp: number,
-        tender: number,
-        creamy: number,
-        chewy: number,
-        crunchy: number,
+        crisp: number;
+        tender: number;
+        creamy: number;
+        chewy: number;
+        crunchy: number;
         silky: number
       }
-    | Record<string, number>,
+    | Record<string, number>
 }
 
 // New interface for cooking methods
 export interface CookingMethod {
-  name: string,
+  name: string;
   elementalEffect: Partial<ElementalProperties>,
   cookingTime: {
     min: number,

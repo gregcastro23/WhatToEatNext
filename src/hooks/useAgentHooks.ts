@@ -57,20 +57,20 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
     qualityMetrics: qa.getQualityMetrics()
   })
 
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Start agent hooks;
-  const startAgentHooks = useCallback(() => {;
-    if (hookState.isActive) return,
+  // Start agent hooks
+  const startAgentHooks = useCallback(() => {
+    if (hookState.isActive) return;
 
-    setHookState(prev => ({ ...prev, isActive: true }))
+    setHookState(prev => ({ ...prev, isActive: true }));
 
     // Set up validation interval
     intervalRef.current = setInterval(
       () => {
         void (async () => {
-          try {;
-            const results: Record<string, ValidationResult> = {}
+          try {
+            const results: Record<string, ValidationResult> = {};
 
             // Planetary data validation
             if (finalConfig.enablePlanetaryValidation) {

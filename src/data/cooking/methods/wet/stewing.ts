@@ -14,10 +14,10 @@ export const stewing: CookingMethodData = {
     Fire: 0.2,
     Earth: 0.2,
     Air: 0.0
-},
+  },
   duration: {
-    min: 45, // 45 minutes,
-    max: 480, // 8 hours
+    min: 45, // 45 minutes
+    max: 480 // 8 hours
   },
   suitable_for: [
     'tough meat cuts',
@@ -49,10 +49,10 @@ export const stewing: CookingMethodData = {
     unfavorableZodiac: ['aries', 'leo', 'gemini'] as any[],
     dominantPlanets: ['Moon', 'Saturn', 'Neptune'],
     lunarPhaseEffect: {
-      full_moon: 1.15, // Enhanced flavor development,
-      new_moon: 0.9, // Subdued flavor profile,
-      waxing_crescent: 1.05, // Good for initiating stews,
-      waning_gibbous: 0.95, // Less optimal
+      full_moon: 1.15, // Enhanced flavor development
+      new_moon: 0.9, // Subdued flavor profile
+      waxing_crescent: 1.05, // Good for initiating stews
+      waning_gibbous: 0.95 // Less optimal
     }
   },
   toolsRequired: [
@@ -250,7 +250,7 @@ export const stewing: CookingMethodData = {
         doneness_indicators: {
     protein_texture:
       'Properly stewed meat should retain its structure but separate easily with gentle pressure. Collagen-rich cuts develop spoon-tender quality. Poultry separates cleanly from bone. Fish and seafood maintain discrete flakes without becoming mushy. Meat fibers should separate easily but not disintegrate completely. Fork should penetrate with minimal resistance. In long-cooked stews, well-rendered fat integrates with liquid instead of pooling separately. Overcooked proteins appear dry despite liquid environment and may become stringy or mealy in texture.',
-    liquid_body: 'Properly developed stew liquid coats the back of a spoon with slight viscosity. When stirred, liquid should show 'trail' effect rather than immediate leveling. Bubbles become smaller and more frequent as stew develops body. Natural gelatin creates silky mouthfeel without added thickeners. Cooled stew with sufficient collagen develops soft gel consistency. Reduced liquid should have concentrated flavor without becoming overly salt-forward. Light should not penetrate stew liquid completely, indicating suspended solids and emulsified fats.',
+    liquid_body: 'Properly developed stew liquid coats the back of a spoon with slight viscosity. When stirred, liquid should show \'trail\' effect rather than immediate leveling. Bubbles become smaller and more frequent as stew develops body. Natural gelatin creates silky mouthfeel without added thickeners. Cooled stew with sufficient collagen develops soft gel consistency. Reduced liquid should have concentrated flavor without becoming overly salt-forward. Light should not penetrate stew liquid completely, indicating suspended solids and emulsified fats.',
     aromatic_integration: 'Individual aromatic ingredients surrender their distinct character to create unified flavor profile. Volatile oil compounds from herbs fully distribute throughout. Sharp notes from wine or spirits mellow completely. Raw allium flavors transform to sweet, rounded notes. Harsh tannins from red wine convert to smooth richness. Early seared flavors integrate with liquid components. Whole spices have fully released their essential oils. Taste profile shows depth with sequential flavor notes rather than singular impact.',
     color_development: 'Beef stews develop mahogany-brown color. Poultry stews show golden undertones. Tomato-based stews deepen from bright red to brick red or russet. Clear broths develop amber hue. Green vegetables will dull in extended cooking (unavoidable color change). Surface may show small spheres of emulsified fat with desirable glossy appearance. Stew edges may develop darker caramelization. Cloudy appearance becomes clearer as proteins fully denature.',
     aroma_profile: 'Complex layering of aromas replaces singular ingredient notes. Sharp alcoholic scent from wine or spirits completely dissipates. Harmonious integration of aromatics without individual domination. Developed stews exhibit savory roundness rather than raw ingredient character. Gentle steam carries full aromatic bouquet. Well-developed stews show distinct volatile compound release when lid is removed after resting period. Aromatic herbs added late maintain distinctive high notes above bass notes of long-cooked ingredients.',
@@ -297,4 +297,4 @@ export const stewing: CookingMethodData = {
       texture_spectrum: 'Strategic addition timing creates intentional texture gradient from soft to firm. Cellular structure transformation follows predictable timeline for each vegetable type. Perfect stewed vegetables maintain identity while integrating with surrounding flavors. Dense root vegetables develop external tenderness while maintaining slight firmness at center. Gradient cooking creates multiple texture experiences within single vegetable piece. Stewing creates tendency toward uniform texture unless strategically managed through addition timing.'
 }
   }
-} as unknown as CookingMethodData,
+} as unknown as CookingMethodData;

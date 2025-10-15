@@ -661,7 +661,7 @@ export const vietnamese: Cuisine = {
           prepTime: '15 minutes',
           cookTime: '25 minutes',
           culturalNotes:
-            'A comforting dessert soup that's often served both hot and cold. The combination of bananas and coconut milk is a classic Vietnamese pairing',
+            'A comforting dessert soup that\'s often served both hot and cold. The combination of bananas and coconut milk is a classic Vietnamese pairing',
           pairingSuggestions: ['Vietnamese coffee', 'sesame crackers'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'none',

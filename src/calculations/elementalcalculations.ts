@@ -13,7 +13,7 @@ const logger = createLogger('ElementalCalculator');
  * ElementalCalculator class for managing and calculating elemental state
  */
 export class ElementalCalculator {
-  private static instance: ElementalCalculator,
+  private static instance: ElementalCalculator;
   private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
   private initialized = false;
 
@@ -75,7 +75,7 @@ export class ElementalCalculator {
     } catch (error) {
       logger.error('Error calculating seasonal effectiveness:', {
         error: error instanceof Error ? error.message : String(error)
-});
+      });
       return 0;
     }
   }
@@ -90,23 +90,27 @@ export class ElementalCalculator {
     const seasonLower = season.toLowerCase() as Season;
 
     switch (seasonLower) {
-      case 'spring': baseModifiers.Air = 0.4;
+      case 'spring':
+        baseModifiers.Air = 0.4;
         baseModifiers.Fire = 0.3;
         baseModifiers.Water = 0.2;
         baseModifiers.Earth = 0.1;
         break;
-      case 'summer': baseModifiers.Fire = 0.4;
+      case 'summer':
+        baseModifiers.Fire = 0.4;
         baseModifiers.Air = 0.3;
         baseModifiers.Earth = 0.2;
         baseModifiers.Water = 0.1;
         break;
       case 'autumn':
-      case 'fall': baseModifiers.Earth = 0.4;
+      case 'fall':
+        baseModifiers.Earth = 0.4;
         baseModifiers.Air = 0.3;
         baseModifiers.Water = 0.2;
         baseModifiers.Fire = 0.1;
         break;
-      case 'winter': baseModifiers.Water = 0.4;
+      case 'winter':
+        baseModifiers.Water = 0.4;
         baseModifiers.Earth = 0.3;
         baseModifiers.Fire = 0.2;
         baseModifiers.Air = 0.1;
@@ -159,9 +163,9 @@ export class ElementalCalculator {
    * @returns Enhanced elemental properties with additional information
    */
   calculateElementalState(baseProperties: ElementalProperties,
-    phase = 'default';
+    phase = 'default',
     time = 'neutral'): {
-    properties: ElementalProperties,
+    properties: ElementalProperties;
     seasonalInfluence: ElementalProperties;
   } {
     try {
@@ -169,10 +173,12 @@ export class ElementalCalculator {
       const properties = { ...baseProperties };
 
       // Create default seasonal influence
-      const seasonalInfluence: ElementalProperties = {Fire: 0.25;
+      const seasonalInfluence: ElementalProperties = {
+        Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25};
+        Air: 0.25
+      };
 
       // Apply time-based modifiers
       if (time === 'day') {
@@ -187,14 +193,18 @@ export class ElementalCalculator {
         properties.Air = Math.max(0, properties.Air * 0.95);
       }
 
-      return {properties,
-        seasonalInfluence};
+      return {
+        properties,
+        seasonalInfluence
+      };
     } catch (error) {
       logger.error('Error calculating elemental state:', {
         error: error instanceof Error ? error.message : String(error)
-});
-      return {properties: DEFAULT_ELEMENTAL_PROPERTIES,
-        seasonalInfluence: DEFAULT_ELEMENTAL_PROPERTIES};
+      });
+      return {
+        properties: DEFAULT_ELEMENTAL_PROPERTIES,
+        seasonalInfluence: DEFAULT_ELEMENTAL_PROPERTIES
+      };
     }
   }
 
@@ -229,7 +239,7 @@ export function combineElementalProperties(primary: ElementalProperties,
     Water: primary.Water * weight + secondary.Water * (1 - weight),
     Earth: primary.Earth * weight + secondary.Earth * (1 - weight),
     Air: primary.Air * weight + secondary.Air * (1 - weight)
-};
+  };
 }
 
 /**

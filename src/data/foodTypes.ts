@@ -90,7 +90,7 @@ export function calculateNutritionalBalance(_entries: FoodEntry[]): { [key: stri
         }
       })
       return acc;
-    }
+    },
     {} as { [key: string]: number })
 }
 

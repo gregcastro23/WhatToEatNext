@@ -7,20 +7,20 @@ import {
 import { createLogger } from '@/utils/logger';
 
 export interface AlchemicalEnergyState {
-  name: 'Spirit' | 'Substance' | 'Essence' | 'Matter'
-  level: 'Highest' | 'Middle' | 'Lowest'
+  name: 'Spirit' | 'Substance' | 'Essence' | 'Matter';
+  level: 'Highest' | 'Middle' | 'Lowest';
   description: string;
   chakra: string;
   planets: {
     daytime: string[];
-    nighttime: string[]
+    nighttime: string[];
   };
   elements: string[];
   properties: {
-    heat: '+' | '-'
-    entropy: '+' | '-'
-    reactivity: '+' | '-'
-  }
+    heat: '+' | '-';
+    entropy: '+' | '-';
+    reactivity: '+' | '-';
+  };
 }
 
 // Alchemical energy states based on the provided table
@@ -31,109 +31,109 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     description: 'Energy that exists beyond Matter, Mind',
     chakra: 'Crown Chakra',
     planets: {
-      daytime: ['Sun', 'Jupiter', 'Saturn', 'Mercury'];
+      daytime: ['Sun', 'Jupiter', 'Saturn', 'Mercury'],
       nighttime: []
-    };
-    elements: ['Fire', 'Air'];
+    },
+    elements: ['Fire', 'Air'],
     properties: {
       heat: '+',
       entropy: '+',
       reactivity: '+'
-}
-  }
+    }
+  },
   {
     name: 'Substance',
     level: 'Middle',
     description: 'That which is of reactive, mutable matter',
     chakra: 'Throat Chakra',
     planets: {
-      daytime: [];
+      daytime: [],
       nighttime: ['Mercury', 'Neptune']
-    };
-    elements: ['Air', 'Earth'];
+    },
+    elements: ['Air', 'Earth'],
     properties: {
       heat: '-',
       entropy: '+',
       reactivity: '+'
-}
-  }
+    }
+  },
   {
     name: 'Essence',
     level: 'Middle',
     description: 'That which an object cannot exist without',
     chakra: 'Brow, Solar Plexus, Sacral Chakras',
     planets: {
-      daytime: ['Venus', 'Mars'];
+      daytime: ['Venus', 'Mars'],
       nighttime: ['Jupiter', 'Neptune']
-    };
-    elements: ['Fire', 'Water'];
+    },
+    elements: ['Fire', 'Water'],
     properties: {
       heat: '-',
       entropy: '-',
       reactivity: '+'
-}
-  }
+    }
+  },
   {
     name: 'Matter',
     level: 'Lowest',
     description: 'That which is minimally reactive',
     chakra: 'Root Chakra',
     planets: {
-      daytime: [];
+      daytime: [],
       nighttime: ['Venus', 'Saturn', 'Mars', 'Uranus']
-    };
-    elements: ['Water', 'Earth'];
+    },
+    elements: ['Water', 'Earth'],
     properties: {
       heat: '-',
       entropy: '-',
       reactivity: '-'
-}
+    }
   }
 ];
 
 // The Moon appears in both Essence and Matter states
 export const _SHARED_PLANETS = {
   Moon: ['Essence', 'Matter']
-}
+};
 
 // Create a component-specific logger
-const logger = createLogger('alchemicalEnergyMapping')
+const logger = createLogger('alchemicalEnergyMapping');
 
-// Define day/night element maps for all planets;
+// Define day/night element maps for all planets
 export const _planetElementMap = (isDaytime: boolean): Record<string, string> => ({
-  sun: 'Fire', // Sun is always Fire,
-  moon: 'Water', // Moon is always Water,
+  sun: 'Fire', // Sun is always Fire
+  moon: 'Water', // Moon is always Water
   mercury: isDaytime ? 'Air' : 'Earth',
   venus: isDaytime ? 'Water' : 'Earth',
   mars: isDaytime ? 'Fire' : 'Water',
   jupiter: isDaytime ? 'Air' : 'Fire',
   saturn: isDaytime ? 'Air' : 'Earth',
   uranus: isDaytime ? 'Water' : 'Air',
-  neptune: 'Water', // Neptune is always Water,
+  neptune: 'Water', // Neptune is always Water
   pluto: isDaytime ? 'Earth' : 'Water',
   northnode: 'Fire',
   southnode: 'Earth',
   chiron: 'Water',
   ascendant: 'Earth'
-})
+});
 
 // Define day/night alchemical property maps
 export const planetPropertyMap = (isDaytime: boolean): Record<string, string> => ({
-  sun: 'Spirit', // Always Spirit,
-  moon: 'Essence', // Always Essence,
+  sun: 'Spirit', // Always Spirit
+  moon: 'Essence', // Always Essence
   mercury: isDaytime ? 'Spirit' : 'Matter',
   venus: isDaytime ? 'Essence' : 'Matter',
   mars: isDaytime ? 'Essence' : 'Essence',
   jupiter: isDaytime ? 'Spirit' : 'Spirit',
   saturn: isDaytime ? 'Spirit' : 'Matter',
   uranus: isDaytime ? 'Essence' : 'Substance',
-  neptune: 'Essence', // Always Essence,
+  neptune: 'Essence', // Always Essence
   pluto: isDaytime ? 'Matter' : 'Essence',
   northnode: 'Spirit',
   southnode: 'Matter',
   chiron: 'Essence',
   ascendant: 'Matter'
-})
+});
 
 // Direct mapping from alchemical properties to elements
 const _: Record<string, string> = {
@@ -141,7 +141,7 @@ const _: Record<string, string> = {
   Essence: 'Water',
   Matter: 'Earth',
   Substance: 'Air'
-}
+};
 
 /**
  * Calculate the distribution of alchemical properties based on planetary positions
@@ -155,24 +155,24 @@ export function calculateAlchemicalDistribution(planetaryPositions: Record<strin
       Essence: 0.25,
       Matter: 0.25,
       Substance: 0.25
-}
+    };
 
     // Skip calculation if no positions provided
-    if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {;
+    if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
       return distribution;
     }
 
     // Get the property map based on day/night
-    const propertyMap = planetPropertyMap(isDaytime)
+    const propertyMap = planetPropertyMap(isDaytime);
 
-    // Track the total influence to normalize later;
+    // Track the total influence to normalize later
     let totalInfluence = 0;
     const influences: Record<string, number> = {
       Spirit: 0,
       Essence: 0,
       Matter: 0,
       Substance: 0
-}
+    };
 
     // Calculate the influence of each planet
     Object.entries(planetaryPositions).forEach(([planet, position]) => {
@@ -206,14 +206,14 @@ export function calculateAlchemicalDistribution(planetaryPositions: Record<strin
         influences[property] += influence;
         totalInfluence += influence;
       }
-    })
+    });
 
     // Normalize the influences to sum to 1
     if (totalInfluence > 0) {
       Object.keys(influences).forEach(property => {
         distribution[property as keyof AlchemicalProperties] =
-          influences[property] / totalInfluence,
-      })
+          influences[property] / totalInfluence;
+      });
     }
 
     return distribution;
@@ -224,7 +224,7 @@ export function calculateAlchemicalDistribution(planetaryPositions: Record<strin
       Essence: 0.25,
       Matter: 0.25,
       Substance: 0.25
-}
+    };
   }
 }
 
@@ -238,7 +238,7 @@ export function convertToElementalProperties(alchemicalProps: AlchemicalProperti
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-}
+    };
 
     // Map alchemical properties to elemental properties
     elementalProps.Fire = alchemicalProps.Spirit;
@@ -254,7 +254,7 @@ export function convertToElementalProperties(alchemicalProps: AlchemicalProperti
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-}
+    };
   }
 }
 
@@ -276,21 +276,21 @@ export function calculateThermodynamicProperties(alchemicalProps: AlchemicalProp
     const reactivity = 0.5 * alchemicalProps.Spirit + 0.5 * alchemicalProps.Essence;
 
     // Calculate Greg's Energy using the standard formula
-    const gregsEnergy = heat - entropy * reactivity
+    const gregsEnergy = heat - entropy * reactivity;
 
-    return {;
+    return {
       heat,
       entropy,
       reactivity,
       gregsEnergy
-    }
+    };
   } catch (error) {
     logger.error('Error calculating thermodynamic properties: ', error)
     return {
       heat: 0.5,
       entropy: 0.5,
       reactivity: 0.5,
-      gregsEnergy: -0.35, // Calculated using heat - (entropy * reactivity), // Default Greg's Energy calculation
-    }
+      gregsEnergy: -0.35 // Calculated using heat - (entropy * reactivity), Default Greg's Energy calculation
+    };
   }
 }

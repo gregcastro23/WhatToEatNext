@@ -980,7 +980,7 @@ export const japanese: Cuisine = {
           allergens: ['egg', 'shellfish', 'fish'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'A delicate dish that showcases the Japanese mastery of egg cookery. The name means 'steamed in a tea bowl'',
+          culturalNotes: 'A delicate dish that showcases the Japanese mastery of egg cookery. The name means \'steamed in a tea bowl\'',
           pairingSuggestions: ['sake', 'green tea', 'rice'],
           dietaryInfo: ['contains seafood', 'contains meat'],
           spiceLevel: 'none',

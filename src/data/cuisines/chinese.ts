@@ -16,11 +16,11 @@ export const chinese = {
         Water: 0.3,
         Fire: 0.1,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Saturn', 'Neptune', 'capricorn'],
       seasonality: 'all',
       preparationNotes: 'Traditionally fermented for months or years to develop complexity',
-      technicalTips: 'Use light soy for flavor, dark soy for color and deeper notes',
+      technicalTips: 'Use light soy for flavor, dark soy for color and deeper notes'
     },
     hoisin: {
       name: 'Hoisin Sauce',
@@ -34,12 +34,12 @@ export const chinese = {
         Fire: 0.3,
         Water: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Venus', 'Jupiter', 'taurus'],
       seasonality: 'all',
       preparationNotes: 'Balance of sweet and savory can vary by region and brand',
       technicalTips: 'Thin with water or rice wine for a lighter glaze'
-},
+    },
     xo: {
       name: 'XO Sauce',
       description: 'Luxury seafood sauce with deep umami flavors',
@@ -867,7 +867,7 @@ export const chinese = {
     shandong: {
       name: 'Shandong Cuisine',
       description:
-        'One of China's oldest cuisines, featuring fresh seafood, quick frying, and clear soups',
+        'One of China\'s oldest cuisines, featuring fresh seafood, quick frying, and clear soups',
       signature: ['braised sea cucumber', 'sweet and sour carp', 'Dezhou chicken'],
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Capricorn'],
@@ -877,7 +877,7 @@ export const chinese = {
       name: 'Jiangsu Cuisine',
       description:
         'Refined, artistically presented cuisine emphasizing seasonal ingredients and precise cutting techniques',
-      signature: ['Nanjing salted duck', 'sweet and sour mandarin fish', 'beggar's chicken'],
+      signature: ['Nanjing salted duck', 'sweet and sour mandarin fish', 'beggar\'s chicken'],
       elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Mercury', 'Venus', 'Gemini'],
       seasonality: 'all'

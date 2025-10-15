@@ -18,25 +18,25 @@ interface PlanetaryAspect {
 }
 
 export interface ChartData {
-  planetaryPositions: Record<string, unknown>,
-  ascendant?: string,
-  midheaven?: string,
-  planets: Record<,
+  planetaryPositions: Record<string, unknown>;
+  ascendant?: string;
+  midheaven?: string;
+  planets: Record<
     string,
     {
-      sign: string,
-      degree: number,
-      isRetrograde?: boolean,
-      exactLongitude?: number
+      sign: string;
+      degree: number;
+      isRetrograde?: boolean;
+      exactLongitude?: number;
     }
-  >,
+  >;
   houses?: Record<
     number,
     {
-      sign: string,
-      degree: number
+      sign: string;
+      degree: number;
     }
-  >,
+  >;
 }
 
 interface CurrentChart {
@@ -66,11 +66,11 @@ const CurrentChartContext = createContext<CurrentChartContextType | null>(null)
 export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { planetaryPositions: alchemicalPositions } = useAlchemical()
   const [chart, setChart] = useState<CurrentChart>({
-    planetaryPositions: {}
+    planetaryPositions: {},
     aspects: [],
     currentSeason: '',
     lastUpdated: new Date(),
-    stelliums: {}
+    stelliums: {},
     houseEffects: {}
   })
   const [loading, setLoading] = useState(true)

@@ -47,8 +47,8 @@ export const _seasonalData = {
   seasons: ['spring', 'summer', 'fall', 'winter', 'autumn', 'all'] as Season[],
 
   // Additional seasonal data helpers
-  getSeasonalElement: (season: Season) => seasonalElements[season].primary || 'Air'
+  getSeasonalElement: (season: Season) => seasonalElements[season].primary || 'Air',
   getSeasonalStrength: (season: Season) => seasonalElements[season].strength || 0.5,
-  getSeasonalCompatibility: (season: Season) =>,
+  getSeasonalCompatibility: (season: Season) =>
     seasonalElements[season].compatibility || { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
 }

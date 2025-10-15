@@ -394,7 +394,7 @@ export const korean: Cuisine = {
           prepTime: '20 minutes',
           cookTime: '40 minutes',
           culturalNotes:
-            'Eating tteokguk on New Year's Day is said to add a year to one's age. The white rice cakes symbolize purity and a fresh start',
+            'Eating tteokguk on New Year\'s Day is said to add a year to one\'s age. The white rice cakes symbolize purity and a fresh start',
           pairingSuggestions: ['kimchi', 'japchae', 'Korean tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',

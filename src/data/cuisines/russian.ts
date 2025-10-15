@@ -923,7 +923,7 @@ export const russian: Cuisine = {
       all: [
         {
           name: 'Pashka',
-          description: 'Traditional Easter dessert with farmer's cheese',
+          description: 'Traditional Easter dessert with farmer\'s cheese',
           cuisine: 'Russian',
           cookingMethods: ['mixing', 'molding', 'chilling'],
           tools: [

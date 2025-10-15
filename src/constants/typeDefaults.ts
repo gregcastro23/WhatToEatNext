@@ -105,18 +105,18 @@ export const DefaultThermodynamicMetrics: ThermodynamicMetricsType = {
  * Combined default state with both elemental and alchemical properties
  */
 export const DefaultAlchemicalState: AlchemicalStateType = {
-  ...BalancedAlchemicalProperties
-  ...BalancedElementalProperties;
-} as const,
+  ...BalancedAlchemicalProperties,
+  ...BalancedElementalProperties
+} as const;
 
 /**
  * Default Complete Alchemical Result
  * Full default result including all properties and metrics
  */
 export const _DefaultCompleteAlchemicalResult: CompleteAlchemicalResultType = {
-  ...DefaultAlchemicalState
-  ...DefaultThermodynamicMetrics;
-} as const,
+  ...DefaultAlchemicalState,
+  ...DefaultThermodynamicMetrics
+} as const;
 
 /**
  * Empty Planetary Positions
@@ -138,8 +138,8 @@ export const DefaultPlanetaryPositions: PlanetaryPositionsType = {
   Saturn: 'capricorn',
   Uranus: 'aquarius',
   Neptune: 'pisces',
-  Pluto: 'scorpio' },
-        as const,
+  Pluto: 'scorpio'
+} as const;
 
 /**
  * Default Zodiac Sign
@@ -163,9 +163,9 @@ export const DefaultNutritionalContent: NutritionalContentType = {
   fat: 0,
   carbohydrates: 0,
   fiber: 0,
-  vitamins: {}
+  vitamins: {},
   minerals: {}
-} as const,
+} as const;
 
 /**
  * Default Ingredient Mapping
@@ -174,16 +174,16 @@ export const DefaultNutritionalContent: NutritionalContentType = {
 export const _DefaultIngredientMapping: IngredientMappingType = {
   name: 'Unknown Ingredient',
   category: 'unspecified',
-  season: ['all'];
-  regionalOrigins: ['universal'];
+  season: ['all'],
+  regionalOrigins: ['universal'],
   nutritionalContent: DefaultNutritionalContent,
   elementalProperties: BalancedElementalProperties,
-  cookingMethods: ['raw'];
-  affinities: [];
+  cookingMethods: ['raw'],
+  affinities: [],
   sustainabilityScore: 0.5,
-  qualities: [];
+  qualities: [],
   culinaryApplications: {}
-}
+};
 
 /**
  * Default Astrological State
@@ -200,94 +200,94 @@ export const _DefaultAstrologicalState: AstrologicalStateType = {
  * Error Service Response Factory
  * Creates a standardized error response
  */
-export const _createErrorResponse = <T>(error: string): ServiceResponseType<T> => ({;
+export const _createErrorResponse = <T>(error: string): ServiceResponseType<T> => ({
   success: false,
   error,
   timestamp: new Date().toISOString()
-})
+});
 
 /**
  * Success Service Response Factory
  * Creates a standardized success response
  */
-export const _createSuccessResponse = <T>(data: T): ServiceResponseType<T> => ({;
+export const _createSuccessResponse = <T>(data: T): ServiceResponseType<T> => ({
   success: true,
   data,
   timestamp: new Date().toISOString()
-})
+});
 
-// ========== UTILITY FUNCTIONS ==========;
+// ========== UTILITY FUNCTIONS ==========
 
 /**
  * Create Safe Elemental Properties
  * Ensures all elemental values are valid numbers and sum to 1.0
  */
 export const _createSafeElementalProperties = (
-  properties: Partial<ElementalPropertiesType>,
-): ElementalPropertiesType => {,
-  const fire = Number.isFinite(properties.Fire) ? Math.max(0, properties.Fire ?? 0) : 0.25
-  const water = Number.isFinite(properties.Water) ? Math.max(0, properties.Water ?? 0) : 0.25
-  const earth = Number.isFinite(properties.Earth) ? Math.max(0, properties.Earth ?? 0) : 0.25
-  const air = Number.isFinite(properties.Air) ? Math.max(0, properties.Air ?? 0) : 0.25,
+  properties: Partial<ElementalPropertiesType>
+): ElementalPropertiesType => {
+  const fire = Number.isFinite(properties.Fire) ? Math.max(0, properties.Fire ?? 0) : 0.25;
+  const water = Number.isFinite(properties.Water) ? Math.max(0, properties.Water ?? 0) : 0.25;
+  const earth = Number.isFinite(properties.Earth) ? Math.max(0, properties.Earth ?? 0) : 0.25;
+  const air = Number.isFinite(properties.Air) ? Math.max(0, properties.Air ?? 0) : 0.25;
 
   const total = fire + water + earth + air;
-  const normalizer = total > 0 ? 1.0 / total : 0.25
+  const normalizer = total > 0 ? 1.0 / total : 0.25;
 
-  return {;
+  return {
     Fire: fire * normalizer,
     Water: water * normalizer,
     Earth: earth * normalizer,
     Air: air * normalizer
-  }
-}
+  };
+};
 
 /**
  * Create Safe Alchemical Properties
  * Ensures all alchemical values are valid numbers and sum to 1.0
  */
 export const _createSafeAlchemicalProperties = (
-  properties: Partial<AlchemicalPropertiesType>,
-): AlchemicalPropertiesType => {,
-  const spirit = Number.isFinite(properties.Spirit) ? Math.max(0, properties.Spirit ?? 0) : 0.25
-  const essence = Number.isFinite(properties.Essence) ? Math.max(0, properties.Essence ?? 0) : 0.25
-  const matter = Number.isFinite(properties.Matter) ? Math.max(0, properties.Matter ?? 0) : 0.25,
-  const substance = Number.isFinite(properties.Substance);
+  properties: Partial<AlchemicalPropertiesType>
+): AlchemicalPropertiesType => {
+  const spirit = Number.isFinite(properties.Spirit) ? Math.max(0, properties.Spirit ?? 0) : 0.25;
+  const essence = Number.isFinite(properties.Essence) ? Math.max(0, properties.Essence ?? 0) : 0.25;
+  const matter = Number.isFinite(properties.Matter) ? Math.max(0, properties.Matter ?? 0) : 0.25;
+  const substance = Number.isFinite(properties.Substance)
     ? Math.max(0, properties.Substance ?? 0)
-    : 0.25,
+    : 0.25;
 
   const total = spirit + essence + matter + substance;
-  const normalizer = total > 0 ? 1.0 / total : 0.25
+  const normalizer = total > 0 ? 1.0 / total : 0.25;
 
-  return {;
+  return {
     Spirit: spirit * normalizer,
     Essence: essence * normalizer,
     Matter: matter * normalizer,
     Substance: substance * normalizer
-  }
-}
+  };
+};
 
 /**
  * Create Safe Thermodynamic Metrics
  * Ensures all thermodynamic values are valid numbers within reasonable ranges
  */
 export const _createSafeThermodynamicMetrics = (
-  metrics: Partial<ThermodynamicMetricsType>,
+  metrics: Partial<ThermodynamicMetricsType>
 ): ThermodynamicMetricsType => {
-  return {;
+  return {
     heat: Number.isFinite(metrics.heat) ? Math.max(0.1, Math.min(1.0, metrics.heat ?? 0.5)) : 0.5,
-    entropy: Number.isFinite(metrics.entropy),
+    entropy: Number.isFinite(metrics.entropy)
       ? Math.max(0.1, Math.min(1.0, metrics.entropy ?? 0.5))
       : 0.5,
-    reactivity: Number.isFinite(metrics.reactivity),
+    reactivity: Number.isFinite(metrics.reactivity)
       ? Math.max(0.1, Math.min(1.0, metrics.reactivity ?? 0.5))
       : 0.5,
-    gregsEnergy: Number.isFinite(metrics.gregsEnergy),
+    gregsEnergy: Number.isFinite(metrics.gregsEnergy)
       ? Math.max(0.1, Math.min(1.0, metrics.gregsEnergy ?? 0.5))
       : 0.5,
     kalchm: Number.isFinite(metrics.kalchm) ? Math.max(0.1, metrics.kalchm ?? 1.0) : 1.0,
-    monica: Number.isFinite(metrics.monica) ? Math.max(0.1, metrics.monica ?? 1.0) : 1.0,
-  }
-}
+    monica: Number.isFinite(metrics.monica) ? Math.max(0.1, metrics.monica ?? 1.0) : 1.0
+  };
+};
 
 /**
  * Validate Zodiac Sign

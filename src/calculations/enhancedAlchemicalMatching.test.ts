@@ -15,8 +15,8 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
 
     it('should calculate compatibility between signs with different elements', () => {
       // Test Fire and Water signs (should still have good compatibility)
-      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'cancer' as any),
-      expect(compatibility).toBeGreaterThanOrEqual(0.5), // All elements work well together,
+      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'cancer' as any);
+      expect(compatibility).toBeGreaterThanOrEqual(0.5); // All elements work well together
     })
 
     it('should incorporate modality compatibility in scoring', () => {

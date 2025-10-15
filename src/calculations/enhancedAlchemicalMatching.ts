@@ -56,15 +56,15 @@ export function calculateAstrologicalAffinity(signA: ZodiacSign,
     }
 
     // Calculate decanic compatibility
-    const decanCompat = compareDecanRulers(signs[signA]?.['Decan Effects'] || {};
+    const decanCompat = compareDecanRulers(signs[signA]?.['Decan Effects'] || {},
       signs[signB]?.['Decan Effects'] || {});
 
     // Calculate degree-specific influences
-    const degreeCompat = calculateDegreeOverlap(signs[signA]?.['Degree Effects'] || {};
+    const degreeCompat = calculateDegreeOverlap(signs[signA]?.['Degree Effects'] || {},
       signs[signB]?.['Degree Effects'] || {});
 
     // Calculate tarot correspondences influence
-    const tarotCompat = compareTarotArcana(signs[signA]?.['Major Tarot Card'] || '';
+    const tarotCompat = compareTarotArcana(signs[signA]?.['Major Tarot Card'] || '',
       signs[signB]?.['Major Tarot Card'] || '');
 
     // Calculate modality compatibility with elements
@@ -88,7 +88,7 @@ export function calculateAstrologicalAffinity(signA: ZodiacSign,
       signA,
       signB,
       error: error instanceof Error ? error.message : String(error)
-});
+    });
     return 0.5; // Return neutral score on error
   }
 }
@@ -104,7 +104,7 @@ function compareDecanRulers(decanA: Record<string, unknown>,
   } catch (error) {
     logger.error('Error comparing decan rulers:', {
       error: error instanceof Error ? error.message : String(error)
-});
+    });
     return 0.5;
   }
 }
@@ -120,7 +120,7 @@ function calculateDegreeOverlap(degreeA: Record<string, unknown>,
   } catch (error) {
     logger.error('Error calculating degree overlap:', {
       error: error instanceof Error ? error.message : String(error)
-});
+    });
     return 0.5;
   }
 }
@@ -138,7 +138,7 @@ function compareTarotArcana(cardA: string, cardB: string): number {
   } catch (error) {
     logger.error('Error comparing tarot arcana:', {
       error: error instanceof Error ? error.message : String(error)
-});
+    });
     return 0.5;
   }
 }
@@ -161,7 +161,7 @@ function compareModalities(modalityA: string,
   } catch (error) {
     logger.error('Error comparing modalities:', {
       error: error instanceof Error ? error.message : String(error)
-});
+    });
     return 0.5;
   }
 }
@@ -181,7 +181,7 @@ function compareRulers(rulerA: string, rulerB: string): number {
   } catch (error) {
     logger.error('Error comparing rulers:', {
       error: error instanceof Error ? error.message : String(error)
-});
+    });
     return 0.5;
   }
 }
@@ -212,7 +212,7 @@ export function calculateEnhancedElementalMatch(recipeElements: ElementalPropert
   } catch (error) {
     logger.error('Error calculating enhanced elemental match:', {
       error: error instanceof Error ? error.message : String(error)
-});
+    });
     return 0.5;
   }
 }
@@ -242,7 +242,7 @@ export function calculateAlchemicalCompatibility(recipeElements: ElementalProper
   } catch (error) {
     logger.error('Error calculating alchemical compatibility:', {
       error: error instanceof Error ? error.message : String(error)
-});
+    });
     return 0.5;
   }
 }

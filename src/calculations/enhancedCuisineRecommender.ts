@@ -9,63 +9,63 @@ const logger = createLogger('EnhancedCuisineRecommender');
 
 // Recipe interface for internal use in enhanced recommender
 interface RecipeData {
-  name?: string,
-  id?: string,
-  tags?: string[],
-  description?: string,
-  ingredients?: unknown[],
-  season?: string[],
-  mealType?: string[],
-  dietaryInfo?: string[],
-  planetary?: string[],
-  zodiac?: string[],
-  lunar?: string[],
+  name?: string;
+  id?: string;
+  tags?: string[];
+  description?: string;
+  ingredients?: unknown[];
+  season?: string[];
+  mealType?: string[];
+  dietaryInfo?: string[];
+  planetary?: string[];
+  zodiac?: string[];
+  lunar?: string[];
   flavorProfile?: Record<string, number>;
-  timeToMake?: number,
-  spiceLevel?: number | string,
-  preparationSteps?: string[],
-  instructions?: string[],
+  timeToMake?: number;
+  spiceLevel?: number | string;
+  preparationSteps?: string[];
+  instructions?: string[];
   elementalProperties?: ElementalProperties | Record<string, number>;
   astrologicalAffinities?: {
-    planets?: string[],
-    zodiac?: string[],
+    planets?: string[];
+    zodiac?: string[];
     lunar?: string[];
   };
-  zodiacInfluences?: string[],
-  lunarPhaseInfluences?: string[],
+  zodiacInfluences?: string[];
+  lunarPhaseInfluences?: string[];
   allergens?: string[];
 }
 
 interface EnhancedRecipeMatch {
-  cuisine: string,
-  recipeName: string,
-  recipeId: string,
-  matchPercentage: number,
-  seasonalScore: number,
-  planetaryDayScore: number,
-  planetaryHourScore: number,
-  elementalScore: number,
-  astrologicalScore: number,
-  timeOfDayScore: number,
-  tags: string[],
-  description: string,
-  ingredients: unknown[],
-  season: string[],
+  cuisine: string;
+  recipeName: string;
+  recipeId: string;
+  matchPercentage: number;
+  seasonalScore: number;
+  planetaryDayScore: number;
+  planetaryHourScore: number;
+  elementalScore: number;
+  astrologicalScore: number;
+  timeOfDayScore: number;
+  tags: string[];
+  description: string;
+  ingredients: unknown[];
+  season: string[];
   mealType: string[];
 }
 
 interface TimeFactors {
-  planetaryDay: PlanetaryDay,
-  planetaryHour: PlanetaryHour,
-  timeOfDay: TimeOfDay,
-  currentSeason: Season,
+  planetaryDay: PlanetaryDay;
+  planetaryHour: PlanetaryHour;
+  timeOfDay: TimeOfDay;
+  currentSeason: Season;
   currentDate: Date;
 }
 
-type PlanetaryDay = 'Sun' | 'Moon' | 'Mars' | 'Mercury' | 'Jupiter' | 'Venus' | 'Saturn'
+type PlanetaryDay = 'Sun' | 'Moon' | 'Mars' | 'Mercury' | 'Jupiter' | 'Venus' | 'Saturn';
 type PlanetaryHour = PlanetaryDay;
-type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night'
-type Season = 'spring' | 'summer' | 'autumn' | 'winter'
+type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
+type Season = 'spring' | 'summer' | 'autumn' | 'winter';
 /**
  * Enhanced cuisine-specific recipe recommender that incorporates:
  * - Day of week (planetary day)
@@ -98,14 +98,14 @@ export class EnhancedCuisineRecommender {
    */
   public getRecommendationsForCuisine(cuisineName: string,
     astroState: AstrologicalState,
-    count = 5;
+    count = 5,
     mealType?: string,
     dietaryRestrictions?: string[]): EnhancedRecipeMatch[] {
     try {
       // Get recipes for the specified cuisine
       const recipes = this.getRecipesForCuisine(cuisineName);
       if (!recipes || recipes.length === 0) {
-        logger.warn(`No recipes found for cuisine: ${cuisineName}`),
+        logger.warn(`No recipes found for cuisine: ${cuisineName}`);
         return [];
       }
 
@@ -120,7 +120,7 @@ export class EnhancedCuisineRecommender {
       logger.error('Error getting recommendations for cuisine:', {
         cuisineName,
         error: error instanceof Error ? error.message : String(error)
-});
+      });
       return [];
     }
   }
@@ -137,7 +137,7 @@ export class EnhancedCuisineRecommender {
       logger.error('Error getting recipes for cuisine:', {
         cuisineName,
         error: error instanceof Error ? error.message : String(error)
-});
+      });
       return [];
     }
   }
@@ -170,8 +170,8 @@ export class EnhancedCuisineRecommender {
 
       return {
         cuisine: cuisineName,
-        recipeName: recipe.name || 'Unknown Recipe'
-        recipeId: recipe.id || 'unknown'
+        recipeName: recipe.name || 'Unknown Recipe',
+        recipeId: recipe.id || 'unknown',
         matchPercentage,
         seasonalScore,
         planetaryDayScore,
@@ -184,17 +184,17 @@ export class EnhancedCuisineRecommender {
         ingredients: recipe.ingredients || [],
         season: recipe.season || [],
         mealType: recipe.mealType || []
-};
+      };
     } catch (error) {
       logger.error('Error calculating recipe match:', {
         recipe: recipe.name,
         error: error instanceof Error ? error.message : String(error)
-});
+      });
 
       // Return default match with low score
       return {
         cuisine: cuisineName,
-        recipeName: recipe.name || 'Unknown Recipe'
+        recipeName: recipe.name || 'Unknown Recipe',
         recipeId: recipe.id || 'unknown',
         matchPercentage: 0.1,
         seasonalScore: 0.5,
@@ -208,7 +208,7 @@ export class EnhancedCuisineRecommender {
         ingredients: recipe.ingredients || [],
         season: recipe.season || [],
         mealType: recipe.mealType || []
-};
+      };
     }
   }
 

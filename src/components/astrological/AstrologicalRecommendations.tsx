@@ -121,11 +121,16 @@ export const AstrologicalRecommendations: React.FC = () => {
 
   const getElementIcon = (element: string) => {
     switch (element) {
-      case 'Fire': return FaFire,
-      case 'Water': return FaSnowflake,
-      case 'Earth': return FaLeaf,
-      case 'Air': return FaSun,
-      default: return FaStar;
+      case 'Fire':
+        return FaFire;
+      case 'Water':
+        return FaSnowflake;
+      case 'Earth':
+        return FaLeaf;
+      case 'Air':
+        return FaSun;
+      default:
+        return FaStar;
     }
   };
 

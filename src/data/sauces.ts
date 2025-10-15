@@ -278,7 +278,7 @@ export const italianSauces: Record<string, Sauce> = {
     yield: 'Makes about 4 cups' },
         arrabbiata: {
     name: 'Arrabbiata',
-    description: 'Spicy tomato sauce with garlic and chili peppers. The name means 'angry' in Italian, referring to the fiery heat that distinguishes this bold sauce.',
+    description: 'Spicy tomato sauce with garlic and chili peppers. The name means \'angry\' in Italian, referring to the fiery heat that distinguishes this bold sauce.',
     base: 'tomato',
     keyIngredients: ['tomatoes', 'garlic', 'chili peppers', 'olive oil', 'parsley'],
     culinaryUses: ['pasta sauce', 'pizza topping', 'protein topping', 'dipping sauce'],
@@ -290,7 +290,7 @@ export const italianSauces: Record<string, Sauce> = {
 },
     astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
     seasonality: 'all',
-    preparationNotes: 'The name means 'angry' in Italian, referring to the spiciness',
+    preparationNotes: 'The name means \'angry\' in Italian, referring to the spiciness',
     technicalTips: 'Add chili at the beginning with garlic for more heat throughout',
     cuisine: 'Italian',
     ingredients: [
@@ -492,7 +492,7 @@ export const allSauces: Record<string, Sauce> = {
 // Sauce recommendations
 export const sauceRecommendations: SauceRecommendation = {
   forProtein: {
-    beef: [;
+    beef: [
       'ragù alla Bolognese',
       'sugo di carne',
       'salsa alla pizzaiola',

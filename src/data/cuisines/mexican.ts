@@ -179,7 +179,7 @@ export const mexican = {
           prepTime: '10 minutes',
           cookTime: '5 minutes',
           culturalNotes:
-            'A popular student breakfast that combines European bread with Mexican ingredients. The name comes from 'molletes', meaning 'cheeks' in Spanish',
+            'A popular student breakfast that combines European bread with Mexican ingredients. The name comes from \'molletes\', meaning \'cheeks\' in Spanish',
           pairingSuggestions: ['Mexican hot chocolate', 'fresh fruit', 'café con leche'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',

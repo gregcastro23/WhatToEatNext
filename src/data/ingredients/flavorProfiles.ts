@@ -259,7 +259,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.0,
     salty: 0.0,
     umami: 0.1
-}
+  },
 
   // Fermented & Umami-Rich
   'soy sauce': {

@@ -16,15 +16,15 @@ export const culturalRules: Record<string, CulturalBalance> = {
       {
         foods: ['rice', 'miso soup', 'grilled fish'],
         reason: 'Traditional ichiju-sansai (one soup, three sides) balance',
-      }
+      },
       {
         foods: ['cold noodles', 'hot broth'],
         reason: 'Temperature contrast provides balance'
-}
+      },
       {
         foods: ['rich foods', 'pickled vegetables'],
         reason: 'Pickles aid digestion and provide contrast'
-}
+      }
     ],
     avoidCombinations: [
       {

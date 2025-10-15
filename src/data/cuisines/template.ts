@@ -21,7 +21,7 @@ export const cuisine: Cuisine = {
         Earth: 0.3,
         Air: 0.1,
         Fire: 0.2
-},
+      },
       astrologicalInfluences: [
         'astrological influence1',
         'astrological influence2',
@@ -33,7 +33,7 @@ export const cuisine: Cuisine = {
       difficulty: 'easy/medium/hard',
       storageInstructions: 'How to store the sauce properly',
       yield: 'Amount the recipe produces'
-}
+    }
   },
   dishes: {
     breakfast: {
@@ -108,7 +108,7 @@ export const cuisine: Cuisine = {
             'This dish should be served immediately for the best experience. For a richer flavor, allow the batter to rest for 30 minutes before cooking.',
           technicalTips: [
             'Make sure all wet ingredients are at room temperature for a smoother batter',
-            'Don't overmix the batteror the pancakes will become tough',
+            'Don\'t overmix the batter or the pancakes will become tough',
             'The skillet is ready when water droplets sizzle and dance on the surface'
           ],
           astrologicalInfluences: [
