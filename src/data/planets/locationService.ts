@@ -92,7 +92,7 @@ export class AstronomicalCalculations {
     )
     const declination = 23.45 * Math.sin((((360 * (284 + dayOfYear)) / 365) * Math.PI) / 180)
 
-    const hourAngle = 15 * (date.getHours() - 12)
+    const hourAngle = 15 * (date.getHours() - 12);
     const elevation =
       (Math.asin(
         Math.sin((declination * Math.PI) / 180) * Math.sin((coords.latitude * Math.PI) / 180) +
@@ -100,10 +100,10 @@ export class AstronomicalCalculations {
             Math.cos((coords.latitude * Math.PI) / 180) *
             Math.cos((hourAngle * Math.PI) / 180)
       ) *
-        180) /;
-      Math.PI,
+        180) /
+      Math.PI;
 
-    return Math.max(0, elevation)
+    return Math.max(0, elevation);
   }
 
   /**
@@ -119,31 +119,32 @@ export class AstronomicalCalculations {
   } {
     const lunarCycle = 29.53058867; // days
     const knownNewMoon = new Date('2024-01-11T11: 57:00Z'); // Known new moon
-    const daysSinceNewMoon = (date.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24)
-    const phase = ((daysSinceNewMoon % lunarCycle) + lunarCycle) % lunarCycle
-;
-    let phaseName: string,
-    let culinaryEffect: stringif (phase < 0.125) {
+    const daysSinceNewMoon = (date.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24);
+    const phase = ((daysSinceNewMoon % lunarCycle) + lunarCycle) % lunarCycle;
+
+    let phaseName: string;
+    let culinaryEffect: string;
+    if (phase < 0.125) {
       phaseName = 'new moon';
-      culinaryEffect = 'New beginnings in cooking, seed sprouting, minimal preserving',
+      culinaryEffect = 'New beginnings in cooking, seed sprouting, minimal preserving';
     } else if (phase < 0.25) {
       phaseName = 'waxing crescent';
-      culinaryEffect = 'Growth energy, ideal for bread rising, fermentation starts',
+      culinaryEffect = 'Growth energy, ideal for bread rising, fermentation starts';
     } else if (phase < 0.375) {
       phaseName = 'first quarter';
-      culinaryEffect = 'Action-oriented cooking, quick preparations, energizing foods',
+      culinaryEffect = 'Action-oriented cooking, quick preparations, energizing foods';
     } else if (phase < 0.5) {
       phaseName = 'waxing gibbous';
-      culinaryEffect = 'Building flavors, slow cooking, ingredient absorption',
+      culinaryEffect = 'Building flavors, slow cooking, ingredient absorption';
     } else if (phase < 0.625) {
       phaseName = 'full moon';
-      culinaryEffect = 'Peak harvest, maximum flavor intensity, completion of preserving',
+      culinaryEffect = 'Peak harvest, maximum flavor intensity, completion of preserving';
     } else if (phase < 0.75) {
       phaseName = 'waning gibbous';
-      culinaryEffect = 'Sharing abundance, community cooking, thanksgiving meals',
+      culinaryEffect = 'Sharing abundance, community cooking, thanksgiving meals';
     } else if (phase < 0.875) {
       phaseName = 'last quarter';
-      culinaryEffect = 'Release and cleansing foods, detox preparations, clearing',
+      culinaryEffect = 'Release and cleansing foods, detox preparations, clearing';
     } else {
       phaseName = 'waning crescent';
       culinaryEffect = 'Rest and reflection, simple foods, preparation for new cycle',

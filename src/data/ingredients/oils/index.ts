@@ -30,49 +30,49 @@ export const _specialtyOils = Object.entries(processedOils)
       !value.subCategory ||
       (value.subCategory !== 'cooking' &&
         value.subCategory !== 'finishing' &&
-        value.subCategory !== 'supplement');
+        value.subCategory !== 'supplement')
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 // Export by elemental properties
-export const _fireOils = Object.entries(processedOils);
+export const _fireOils = Object.entries(processedOils)
   .filter(
     ([_, value]) =>
       value.elementalProperties.Fire >= 0.4 ||
       (typeof value.astrologicalProfile?.elementalAffinity === 'object' &&
-        value.astrologicalProfile.elementalAffinity.base === 'Fire');
+        value.astrologicalProfile.elementalAffinity.base === 'Fire')
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _waterOils = Object.entries(processedOils);
+export const _waterOils = Object.entries(processedOils)
   .filter(
     ([_, value]) =>
       value.elementalProperties.Water >= 0.4 ||
       (typeof value.astrologicalProfile?.elementalAffinity === 'object' &&
-        value.astrologicalProfile.elementalAffinity.base === 'Water');
+        value.astrologicalProfile.elementalAffinity.base === 'Water')
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _earthOils = Object.entries(processedOils);
+export const _earthOils = Object.entries(processedOils)
   .filter(
     ([_, value]) =>
       value.elementalProperties.Earth >= 0.4 ||
       (typeof value.astrologicalProfile?.elementalAffinity === 'object' &&
-        value.astrologicalProfile.elementalAffinity.base === 'Earth');
+        value.astrologicalProfile.elementalAffinity.base === 'Earth')
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _airOils = Object.entries(processedOils);
+export const _airOils = Object.entries(processedOils)
   .filter(
     ([_, value]) =>
       value.elementalProperties.Air >= 0.4 ||
       (typeof value.astrologicalProfile?.elementalAffinity === 'object' &&
-        value.astrologicalProfile.elementalAffinity.base === 'Air');
+        value.astrologicalProfile.elementalAffinity.base === 'Air')
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 // Export by culinary applications
-export const _highHeatOils = Object.entries(processedOils);
+export const _highHeatOils = Object.entries(processedOils)
   .filter(
     ([_, value]) =>
       (typeof value.smokePoint === 'object' &&
@@ -80,25 +80,25 @@ export const _highHeatOils = Object.entries(processedOils);
         'fahrenheit' in value.smokePoint &&
         (value.smokePoint as unknown).fahrenheit >= 400) ||
       value.culinaryApplications?.frying ||
-      value.culinaryApplications?.deepfrying;
+      value.culinaryApplications?.deepfrying
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _bakingOils = Object.entries(processedOils);
-  .filter(([_, value]) => value.culinaryApplications?.baking);
+export const _bakingOils = Object.entries(processedOils)
+  .filter(([_, value]) => value.culinaryApplications?.baking)
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _dressingOils = Object.entries(processedOils);
-  .filter(([_, value]) => value.culinaryApplications?.dressings);
+export const _dressingOils = Object.entries(processedOils)
+  .filter(([_, value]) => value.culinaryApplications?.dressings)
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-export const _nutOils = Object.entries(processedOils);
+export const _nutOils = Object.entries(processedOils)
   .filter(
-    ([key_]) =>
+    ([key, _]) =>
       key.includes('walnut') ||
       key.includes('almond') ||
       key.includes('macadamia') ||
-      key.includes('peanut');
+      key.includes('peanut')
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 

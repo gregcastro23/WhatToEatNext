@@ -3,54 +3,54 @@
 import { config } from '@/config';
 
 export interface ConfigurationUpdate {
-  section: 'api' | 'astrology' | 'debug'
-  key: string,
-   
-  // Intentionally, any: Configuration values can be strings, numbers, booleans, or objects
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility,
-  value: any,
-  timestamp: number
+  section: 'api' | 'astrology' | 'debug';
+  key: string;
+
+  // Intentionally any: Configuration values can be strings, numbers, booleans, or objects
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+  value: any;
+  timestamp: number;
 }
 
 export interface ConfigurationState {
   api: {
-    celestialUpdateInterval: number,
-    timeout: number,
-    retryCount: number,
-    baseUrl: string
-  },
+    celestialUpdateInterval: number;
+    timeout: number;
+    retryCount: number;
+    baseUrl: string;
+  };
   astrology: {
-    defaultTimezoneName: string,
-    retrogradeThreshold: number,
-    aspectOrbs: Record<string, number>
-  },
-  debug: boolean
+    defaultTimezoneName: string;
+    retrogradeThreshold: number;
+    aspectOrbs: Record<string, number>;
+  };
+  debug: boolean;
 }
 
 export interface ConfigurationValidation {
-  isValid: boolean,
+  isValid: boolean;
   errors: Array<{
-    section: string,
-    key: string,
-    message: string,
-    severity: 'error' | 'warning'
-  }>,
+    section: string;
+    key: string;
+    message: string;
+    severity: 'error' | 'warning';
+  }>;
 }
 
 export interface ConfigurationListener {
-  id: string,
-  callback: (update: ConfigurationUpdate) => void,
-  sections?: Array<'api' | 'astrology' | 'debug'>
+  id: string;
+  callback: (update: ConfigurationUpdate) => void;
+  sections?: Array<'api' | 'astrology' | 'debug'>;
 }
 
 class ConfigurationServiceImpl {
-  private static instance: ConfigurationServiceImpl
-  private listeners: Map<string, ConfigurationListener> = new Map()
-  private currentConfig: ConfigurationState,
-  private configHistory: ConfigurationUpdate[] = [],
-  private readonly STORAGE_KEY = 'app-configuration',
-  private readonly HISTORY_KEY = 'configuration-history',
-  private readonly MAX_HISTORY = 50,
+  private static instance: ConfigurationServiceImpl;
+  private listeners: Map<string, ConfigurationListener> = new Map();
+  private currentConfig: ConfigurationState;
+  private configHistory: ConfigurationUpdate[] = [];
+  private readonly STORAGE_KEY = 'app-configuration';
+  private readonly HISTORY_KEY = 'configuration-history';
+  private readonly MAX_HISTORY = 50;
 
   private constructor() {
     this.currentConfig = this.loadConfiguration();

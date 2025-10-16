@@ -232,7 +232,6 @@ const rawVinegars = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
@@ -293,10 +292,9 @@ const rawVinegars = {
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
           },
-          season: ['year-round']
+          season: ['year-round'],
+          pairings: ['olive oil', 'mustard', 'shallots']
         },
-        pairings: ['olive oil', 'mustard', 'shallots']
-      },
       pan_sauces: {
         name: 'Pan Sauces',
         method: 'deglaze pan',
@@ -308,7 +306,6 @@ const rawVinegars = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
@@ -327,7 +324,7 @@ const rawVinegars = {
       duration: 'indefinite',
       container: 'glass bottle',
       notes: 'Maintains quality well'
-}
+    }
   }),
 
   apple_cider_vinegar: createIngredientMapping('apple_cider_vinegar', {
@@ -375,7 +372,7 @@ const rawVinegars = {
     varieties: {
       'Raw Unfiltered': {
         name: 'Raw Unfiltered',
-        appearance: 'cloudy with 'mother' sediment',
+        appearance: 'cloudy with \'mother\' sediment',
         flavor: 'bold, fruity, with yeast notes',
         acidity: '5-6%',
         uses: 'health tonics, salad dressings, marinades',
@@ -415,8 +412,8 @@ const rawVinegars = {
           detox: '2-3 times daily before meals'
 },
         pairings: ['honey', 'lemon', 'cinnamon', 'cayenne', 'ginger'],
-        cautions: 'may erode tooth enamel if not diluted rinse mouth after consuming'
-}
+        cautions: 'may erode tooth enamel if not diluted, rinse mouth after consuming'
+      }
     },
     storage: {
       temperature: 'room temperature',

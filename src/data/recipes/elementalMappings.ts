@@ -119,10 +119,10 @@ export function getRecipeEnhancedRecommendations(recipeId: string) {
   // Get base recommendations from the ElementalRecommendationService
   const baseRecommendation = ElementalRecommendationService.generateRecommendation(
     recipe.elementalProperties
-  )
+  );
 
   // Merge with any recipe-specific overrides
-  return {;
+  return {
     ...baseRecommendation,
     cookingTechniques: recipe.cookingTechniques || baseRecommendation.cookingTechniques,
     flavorProfiles: recipe.flavorProfiles || baseRecommendation.flavorProfiles,
@@ -130,5 +130,5 @@ export function getRecipeEnhancedRecommendations(recipeId: string) {
     culinaryHerbs: recipe.complementaryHerbs || baseRecommendation.culinaryHerbs,
     timeOfDay: recipe.idealTimeOfDay || baseRecommendation.timeOfDay,
     seasonalBest: recipe.seasonalRecommendation || baseRecommendation.seasonalBest
-  }
+  };
 }

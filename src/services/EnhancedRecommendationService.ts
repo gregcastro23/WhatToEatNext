@@ -6,52 +6,53 @@ import type { Ingredient } from '@/types/ingredient';
 import type { Recipe } from '@/types/recipe';
 
 export interface EnhancedRecommendationContext {
-  datetime?: Date,
-  location?: { latitude: number, longitude: number }
+  datetime?: Date;
+  location?: { latitude: number; longitude: number };
   preferences?: {
-    dietaryRestrictions?: DietaryRestriction[],
-    cuisineTypes?: CuisineType[],
-    intensity?: 'mild' | 'moderate' | 'intense' },
-        useBackendInfluence?: boolean
+    dietaryRestrictions?: DietaryRestriction[];
+    cuisineTypes?: CuisineType[];
+    intensity?: 'mild' | 'moderate' | 'intense';
+  };
+  useBackendInfluence?: boolean;
 }
 
 export interface EnhancedRecommendationResult<T> {
   items: Array<{
-    item: T,
-    score: number,
+    item: T;
+    score: number;
     breakdown: {
-      baseScore: number,
-      runeInfluence: number,
-      agentResonance: number,
-      tokenAlignment: number,
-      thermodynamicHarmony: number
-    },
-    reasoning: string
-  }>,
+      baseScore: number;
+      runeInfluence: number;
+      agentResonance: number;
+      tokenAlignment: number;
+      thermodynamicHarmony: number;
+    };
+    reasoning: string;
+  }>;
   context: {
     rune?: {
-      symbol: string,
-      name: string,
-      guidance: string
-    }
+      symbol: string;
+      name: string;
+      guidance: string;
+    };
     agent?: {
-      name: string,
-      archetype: string,
-      guidance: string
-    }
+      name: string;
+      archetype: string;
+      guidance: string;
+    };
     tokens?: {
-      Spirit: number,
-      Essence: number,
-      Matter: number,
-      Substance: number,
-      kalchm: number,
-      monica: number
-    }
-  }
+      Spirit: number;
+      Essence: number;
+      Matter: number;
+      Substance: number;
+      kalchm: number;
+      monica: number;
+    };
+  };
 }
 
 export class EnhancedRecommendationService {
-  private static instance: EnhancedRecommendationService,
+  private static instance: EnhancedRecommendationService;
 
   private constructor() {}
 

@@ -17,7 +17,7 @@ export const unifiedFlavorProfiles: UnifiedFlavorProfile[] = [
     description: 'Bold, heating flavors that stimulate the senses',
     commonIngredients: ['chili peppers', 'black pepper', 'ginger', 'cayenne'],
     cuisineAssociations: ['Mexican', 'Indian', 'Thai']
-  }
+  },
   {
     id: 'cooling',
     name: 'Cooling',
@@ -25,7 +25,7 @@ export const unifiedFlavorProfiles: UnifiedFlavorProfile[] = [
     description: 'Refreshing, cooling flavors that soothe and hydrate',
     commonIngredients: ['cucumber', 'mint', 'yogurt', 'coconut'],
     cuisineAssociations: ['Mediterranean', 'Middle-Eastern', 'Indian']
-  }
+  },
   {
     id: 'earthy',
     name: 'Earthy',
@@ -33,7 +33,7 @@ export const unifiedFlavorProfiles: UnifiedFlavorProfile[] = [
     description: 'Grounding, robust flavors from the earth',
     commonIngredients: ['mushrooms', 'root vegetables', 'herbs', 'grains'],
     cuisineAssociations: ['Italian', 'French', 'American']
-  }
+  },
   {
     id: 'light',
     name: 'Light & Airy',
@@ -41,7 +41,7 @@ export const unifiedFlavorProfiles: UnifiedFlavorProfile[] = [
     description: 'Delicate, uplifting flavors that energize',
     commonIngredients: ['citrus', 'herbs', 'light vegetables', 'fish'],
     cuisineAssociations: ['Asian', 'Mediterranean', 'Japanese']
-  }
+  },
   {
     id: 'umami',
     name: 'Umami Rich',
@@ -49,7 +49,7 @@ export const unifiedFlavorProfiles: UnifiedFlavorProfile[] = [
     description: 'Savory, deep flavors that satisfy',
     commonIngredients: ['mushrooms', 'soy sauce', 'cheese', 'tomatoes'],
     cuisineAssociations: ['Japanese', 'Italian', 'Chinese']
-  }
+  },
   {
     id: 'sweet',
     name: 'Sweet',
@@ -57,7 +57,7 @@ export const unifiedFlavorProfiles: UnifiedFlavorProfile[] = [
     description: 'Naturally sweet, comforting flavors',
     commonIngredients: ['fruits', 'honey', 'sweet vegetables', 'vanilla'],
     cuisineAssociations: ['American', 'French', 'Indian']
-  }
+  },
   {
     id: 'bitter',
     name: 'Bitter',
@@ -65,7 +65,7 @@ export const unifiedFlavorProfiles: UnifiedFlavorProfile[] = [
     description: 'Complex, cleansing bitter flavors',
     commonIngredients: ['dark leafy greens', 'coffee', 'dark chocolate', 'herbs'],
     cuisineAssociations: ['Italian', 'Mediterranean', 'Ethiopian']
-  }
+  },
   {
     id: 'sour',
     name: 'Sour',

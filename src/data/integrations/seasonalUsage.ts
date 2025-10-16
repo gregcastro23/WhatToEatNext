@@ -205,12 +205,12 @@ export const seasonalUsage = {
 
 // Helper functions if needed
 export function getSeasonalUsageData(ingredient: string, season: Season) {
-  const seasonData = seasonalUsage[season]
-  return {;
+  const seasonData = seasonalUsage[season];
+  return {
     inGrowing: seasonData.growing.includes(ingredient),
     inHerbs: seasonData.herbs.includes(ingredient),
     inVegetables: seasonData.vegetables.includes(ingredient)
-  }
+  };
 }
 
 export function getTarotRecommendationsForSeason(season: Season) {

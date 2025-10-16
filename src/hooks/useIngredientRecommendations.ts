@@ -48,7 +48,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
   })
 
   const currentElementalProfile = useMemo(() => {;
-    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {;
+    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0)) {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
 
@@ -259,7 +259,7 @@ function generateRecommendationReason(
   const currentDominant = Object.entries(currentProfile).reduce((a, b) => (a[1] > b[1] ? a : b))[0];
   const timeContext = isDaytime ? 'daytime solar' : 'nighttime lunar'
 
-  if (dominantElement === currentDominant) {;
+  if (dominantElement === currentDominant)) {
     return `Strong ${dominantElement} alignment with current ${timeContext} energies enhances compatibility`;
   } else {
     return `${dominantElement} element provides balancing energy to complement ${currentDominant} influence during ${timeContext}`;

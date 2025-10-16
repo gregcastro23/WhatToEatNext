@@ -546,9 +546,9 @@ export const sauceRecommendations: SauceRecommendation = {
 
 // Helper functions
 export function getSaucesByAstrologicalInfluence(influence: string): Sauce[] {
-  return Object.values(allSauces).filter(sauce =>;
-    sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,
-  )
+  return Object.values(allSauces).filter(sauce =>
+    sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase())
+  );
 }
 
 export function getSaucesByElement(element: keyof ElementalProperties): Sauce[] {

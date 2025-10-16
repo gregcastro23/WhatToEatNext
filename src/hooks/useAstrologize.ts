@@ -4,20 +4,20 @@ import { AstrologicalService } from '@/services/AstrologicalService';
 import { log } from '@/services/LoggingService';
 
 interface AstrologizeOptions {
-  useCurrentTime?: boolean,
-  useCurrentLocation?: boolean,
-  year?: number,
-  month?: number,
-  date?: number,
-  hour?: number,
-  minute?: number,
-  latitude?: number,
-  longitude?: number,
-  zodiacSystem?: 'tropical' | 'sidereal' },
+  useCurrentTime?: boolean;
+  useCurrentLocation?: boolean;
+  year?: number;
+  month?: number;
+  date?: number;
+  hour?: number;
+  minute?: number;
+  latitude?: number;
+  longitude?: number;
+  zodiacSystem?: 'tropical' | 'sidereal' };
         interface AstrologizeResult {
-  loading: boolean,
-  error: Error | null,
-  data: unknown,
+  loading: boolean;
+  error: Error | null;
+  data: unknown;
   refetch: () => Promise<void>
 }
 
@@ -35,8 +35,8 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
 
   // Default options
   const {
-    useCurrentTime = true;
-    useCurrentLocation = true;
+    useCurrentTime = true,
+    useCurrentLocation = true,
     year,
     month,
     date,
@@ -44,7 +44,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
     minute,
     latitude,
     longitude,
-    zodiacSystem = 'tropical';
+    zodiacSystem = 'tropical',
   } = options;
 
   // Get current location if needed
@@ -54,8 +54,8 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
         try {
           const coords = await (AstrologicalService as unknown)?.requestLocation?.()
           if (coords) {
-            setLocation({,
-              latitude: coords.latitude,
+            setLocation({;
+              latitude: coords.latitude;
               longitude: coords.longitude
             })
           }
@@ -88,18 +88,18 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
         // Use POST with custom date/time
         method = 'POST'
         body = JSON.stringify({;
-          year,
-          month,
-          date,
-          hour,
-          minute,
-          zodiacSystem,
+          year;
+          month;
+          date;
+          hour;
+          minute;
+          zodiacSystem;
           ...(location && { latitude: location.latitude, longitude: location.longitude })
         })
       } else {
         // Use GET with query params for current time
         const params = new URLSearchParams()
-        if (location) {;
+        if (location)) {
           params.append('latitude', location.latitude.toString())
           params.append('longitude', location.longitude.toString())
         }
@@ -111,15 +111,15 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       }
 
       log.info(`🌟 Making ${method} request to astrologize API: `, {
-        url,
+        url;
         body: body ? JSON.parse(body) : 'GET params'
 })
 
       // Make the API request
       const response = await fetch(url, {
-        method,
+        method;
         headers: {
-          'Content-Type': 'application/json' },
+          'Content-Type': 'application/json' };
         body
       })
 
@@ -149,9 +149,9 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
 
   // Return the result
   return {
-    loading,
-    error,
-    data,
+    loading;
+    error;
+    data;
     refetch: fetchData
   }
 }

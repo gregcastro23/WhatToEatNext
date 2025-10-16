@@ -632,12 +632,12 @@ export const _getPlanetaryNutritionalRecommendations = (
 export const _getEnhancedPlanetaryNutritionalRecommendations = (
   planetaryDay: string,
   planetaryHour: string,
-  _: Date = new Date();
+  _: Date = new Date()
 ): {
-  elements: ElementalProperties,
-  focusNutrients: string[],
-  healthAreas: string[],
-  recommendedFoods: string[]
+  elements: ElementalProperties;
+  focusNutrients: string[];
+  healthAreas: string[];
+  recommendedFoods: string[];
 } => {
   return {
     elements: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),

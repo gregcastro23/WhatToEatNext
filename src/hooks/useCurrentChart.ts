@@ -45,7 +45,7 @@ export function useCurrentChart() {
 
         Object.entries(planetaryPositions).forEach(([key, data]) => {
           // Skip non-planetary keys like ascendant
-          if (key === 'ascendant') {;
+          if (key === 'ascendant')) {
             return
           }
 
@@ -53,9 +53,9 @@ export function useCurrentChart() {
           let planetName = key.charAt(0).toUpperCase() + key.slice(1)
 
           // Special handling for nodes to ensure consistent casing;
-          if (key === 'northnode') {;
+          if (key === 'northnode')) {
             planetName = 'NorthNode';
-          } else if (key === 'southnode') {;
+          } else if (key === 'southnode')) {
             planetName = 'SouthNode';
           }
 

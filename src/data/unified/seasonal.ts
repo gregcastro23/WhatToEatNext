@@ -717,9 +717,9 @@ export class UnifiedSeasonalSystem {
    */
   getSeasonalIngredientProfile(
     ingredientName: string,
-    season: Season = this.getCurrentSeason();
+    season: Season = this.getCurrentSeason()
   ): SeasonalIngredientProfile {
-    const availability = this.getSeasonalScore(ingredientName, season)
+    const availability = this.getSeasonalScore(ingredientName, season);
     const seasonProfile = unifiedSeasonalProfiles[season];
 
     // Get traditional use from seasonal usage data
@@ -963,7 +963,7 @@ export class UnifiedSeasonalSystem {
       if (!ingredient) continue;
 
       // Check Kalchm compatibility
-      const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(ingredient.kalchm ?? 0;
+      const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(ingredient.kalchm ?? 0,
         season
       );
 

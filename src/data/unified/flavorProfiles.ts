@@ -200,9 +200,9 @@ export function createBaseFlavorNotes(props?: Partial<BaseFlavorNotes>): BaseFla
 // ===== UNIFIED FLAVOR PROFILE SYSTEM =====;
 
 export class UnifiedFlavorProfileSystem {
-  private flavorProfiles: { [key: string]: UnifiedFlavorProfile } = {}
-  private seasonalSystem: typeof unifiedSeasonalSystem,
-  private cuisineSystem: typeof unifiedCuisineIntegrationSystem,
+  private flavorProfiles: { [key: string]: UnifiedFlavorProfile } = {};
+  private seasonalSystem: typeof unifiedSeasonalSystem;
+  private cuisineSystem: typeof unifiedCuisineIntegrationSystem;
 
   constructor() {
     this.flavorProfiles = this.initializeFlavorProfiles();
@@ -225,7 +225,7 @@ export class UnifiedFlavorProfileSystem {
     // Try case-insensitive lookup
     const normalizedId = identifier.toLowerCase()
     const profile = Object.values(this.flavorProfiles).find(
-      p => p.id.toLowerCase() === normalizedId || p.name.toLowerCase() === normalizedId;
+      p => p.id.toLowerCase() === normalizedId || p.name.toLowerCase() === normalizedId
     )
 
     // If type is specified, ensure the profile matches the type
@@ -256,9 +256,9 @@ export class UnifiedFlavorProfileSystem {
   ): FlavorCompatibilityResult {
     // Calculate elemental harmony using our self-reinforcement principles
     const elementalHarmony = calculateElementalCompatibility(
-      profile1.elementalFlavors
+      profile1.elementalFlavors,
       profile2.elementalFlavors
-    )
+    );
 
     // Calculate Kalchm resonance
     const kalchmDiff = Math.abs(profile1.kalchm - profile2.kalchm);
@@ -271,11 +271,11 @@ export class UnifiedFlavorProfileSystem {
     // Calculate seasonal alignment
     const seasonalOverlap = (profile1.seasonalPeak || []).filter(season =>
       Array.isArray(profile2.seasonalPeak)
-        ? profile2.seasonalPeak.includes(season);
-        : profile2.seasonalPeak === season;
-    ).length,
+        ? profile2.seasonalPeak.includes(season)
+        : profile2.seasonalPeak === season
+    ).length;
     const seasonalAlignment =
-      Number(seasonalOverlap) > 0,
+      Number(seasonalOverlap) > 0
         ? Number(seasonalOverlap) /
           Math.max(
             Number((profile1.seasonalPeak || []).length),
@@ -355,8 +355,8 @@ export const getFlavorProfilesByCategory = (
  */
 export const calculateFlavorCompatibility = (
   profile1: UnifiedFlavorProfile,
-  profile2: UnifiedFlavorProfile,
-): FlavorCompatibilityResult =>,
-  unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2)
+  profile2: UnifiedFlavorProfile
+): FlavorCompatibilityResult =>
+  unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2);
 
 export default unifiedFlavorProfileSystem;

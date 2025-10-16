@@ -304,12 +304,12 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
 
                       // Additional properties for compatibility
                       elementalProperties: undefined, // To be calculated later if needed
-                      season: season !== 'all' ? (season as Season) : undefined;
+                      season: season !== 'all' ? (season as Season) : undefined,
                       mealType: mealType,
                       cookingMethod: undefined, // Could be derived from instructions
                       cookingMethods: undefined,
                       matchPercentage: 0
-};
+                    };
 
                     recipes.push(recipeData)
                   })

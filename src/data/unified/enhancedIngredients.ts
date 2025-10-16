@@ -231,14 +231,14 @@ export class EnhancedIngredientsSystem {
   /**
    * Get ingredient count by data quality
    */
-  getIngredientStats(): { total: number, high: number, medium: number, low: number } {
-    const ingredients = Object.values(this.ingredients)
+  getIngredientStats(): { total: number; high: number; medium: number; low: number } {
+    const ingredients = Object.values(this.ingredients);
     return {
       total: (ingredients || []).length,
-      high: (ingredients || []).filter(i => i.metadata.dataQuality === 'high').length;
-      medium: (ingredients || []).filter(i => i.metadata.dataQuality === 'medium').length;
-      low: (ingredients || []).filter(i => i.metadata.dataQuality === 'low').length;
-    }
+      high: (ingredients || []).filter(i => i.metadata.dataQuality === 'high').length,
+      medium: (ingredients || []).filter(i => i.metadata.dataQuality === 'medium').length,
+      low: (ingredients || []).filter(i => i.metadata.dataQuality === 'low').length
+    };
   }
 
   /**

@@ -3,21 +3,21 @@ import { _, _ZodiacSign, _Planet } from '@/types/alchemy';
 
 // Define NutritionalProfile locally
 interface NutritionalProfile {
-  calories?: number
+  calories?: number;
   macros?: {
-    protein?: number,
-    carbs?: number,
-    fat?: number,
-    fiber?: number
-  }
-  vitamins?: Record<string, number>,
-  minerals?: Record<string, number>,
-  phytonutrients?: Record<string, number>,
-  macronutrients?: Record<string, number>,
-  micronutrients?: Record<string, number>,
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
+  };
+  vitamins?: Record<string, number>;
+  minerals?: Record<string, number>;
+  phytonutrients?: Record<string, number>;
+  macronutrients?: Record<string, number>;
+  micronutrients?: Record<string, number>;
 }
 
-// ========== BASIC NUTRITIONAL PROFILES ==========;
+// ========== BASIC NUTRITIONAL PROFILES ==========
 export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
   vegetables: {
     calories: 50,
@@ -39,11 +39,11 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       magnesium: 0.15,
       iron: 0.1,
       calcium: 0.1
-},
+    },
     phytonutrients: {
       antioxidants: 0.3,
       flavonoids: 0.25
-}
+    }
   },
   fruits: {
     calories: 75,
@@ -52,21 +52,23 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       carbs: 20,
       fat: 0.2,
       fiber: 3
-},
+    },
     vitamins: {
-      A: 0.1C: 0.4E: 0.1,
-    B6: 0.1
-},
+      A: 0.1,
+      C: 0.4,
+      E: 0.1,
+      B6: 0.1
+    },
     minerals: {
       potassium: 0.2,
       magnesium: 0.1,
       iron: 0.05,
       calcium: 0.05
-},
+    },
     phytonutrients: {
       antioxidants: 0.35,
       flavonoids: 0.3
-}
+    }
   },
   grains: {
     calories: 150,
@@ -75,18 +77,19 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       carbs: 30,
       fat: 1,
       fiber: 4
-},
+    },
     vitamins: {
       B1: 0.2,
-    B3: 0.2,
-    B6: 0.1E: 0.1
-},
+      B3: 0.2,
+      B6: 0.1,
+      E: 0.1
+    },
     minerals: {
       iron: 0.15,
       magnesium: 0.15,
       zinc: 0.1,
       selenium: 0.1
-}
+    }
   },
   legumes: {
     calories: 120,
@@ -95,21 +98,22 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       carbs: 20,
       fat: 1,
       fiber: 7
-},
+    },
     vitamins: {
       B1: 0.1,
-    B6: 0.1K: 0.1,
+      B6: 0.1,
+      K: 0.1,
       folate: 0.2
-},
+    },
     minerals: {
       iron: 0.2,
       magnesium: 0.15,
       zinc: 0.1,
       potassium: 0.15
-},
+    },
     phytonutrients: {
       isoflavones: 0.3
-}
+    }
   },
   nuts: {
     calories: 180,
@@ -142,7 +146,8 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 0
 },
     vitamins: {
-      A: 0.1D: 0.15,
+      A: 0.1,
+      D: 0.15,
       B12: 0.2,
       riboflavin: 0.25
 },
@@ -472,9 +477,9 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
 
     // Map food names to categories
     if (
-      normalizedName.includes('vegetable') ||;
+      normalizedName.includes('vegetable') ||
       ['spinach', 'lettuce', 'broccoli', 'carrot', 'pepper'].some(v => normalizedName.includes(v))
-    ) {;
+    ) {
       return baseNutritionalProfiles.vegetables;
     }
 
@@ -531,8 +536,8 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
     log.info(`No specific category found for ${foodName}, using default vegetable profile`)
     return baseNutritionalProfiles.vegetables;
   } catch (error) {
-    _logger.error('Error fetching nutritional data: ', error),
-    return null
+    _logger.error('Error fetching nutritional data: ', error);
+    return null;
   }
 }
 
@@ -559,10 +564,10 @@ export function calculateNutritionalBalance(
       fat: 0,
       fiber: 0
 },
-    vitamins: {}
-    minerals: {}
+    vitamins: {},
+    minerals: {},
     phytonutrients: {}
-  }
+  };
 
   if (!ingredients || ingredients.length === 0) {;
     return defaultProfile
@@ -681,7 +686,7 @@ export function getZodiacNutritionalRecommendations(_sign: string): {
 
   return {
     elementalBalance:
-      (signData as { elementalNeeds?: Record<string, number> })?.elementalNeeds ?? {}
+      (signData as { elementalNeeds?: Record<string, number> })?.elementalNeeds ?? {},
     focusNutrients: (signData as { nutritionalFocus?: string[] })?.nutritionalFocus ?? [],
     recommendedFoods: signData.beneficialFoods,
     avoidFoods: signData.challengeFoods

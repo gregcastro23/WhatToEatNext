@@ -59,7 +59,7 @@ export const culturalRules: Record<string, CulturalBalance> = {
       {
         foods: ['fish', 'dairy'],
         reason: 'Traditional dietary guideline'
-}
+      }
     ]
   },
   thai: {
@@ -74,17 +74,17 @@ export const culturalRules: Record<string, CulturalBalance> = {
       {
         foods: ['spicy curry', 'plain rice', 'fresh vegetables'],
         reason: 'Balances heat and provides textural contrast'
-}
+      },
       {
         foods: ['papaya salad', 'grilled protein', 'sticky rice'],
         reason: 'Traditional Isaan combination'
-}
+      }
     ],
     avoidCombinations: [
       {
         foods: ['very spicy dishes', 'very sweet dishes'],
         reason: 'Overwhelms palate'
-}
+      }
     ]
   },
   chinese: {
@@ -100,25 +100,25 @@ export const culturalRules: Record<string, CulturalBalance> = {
       {
         foods: ['rice', 'stir-fried vegetables', 'protein'],
         reason: 'Traditional balanced meal structure'
-}
+      },
       {
         foods: ['soup', 'cold dishes'],
         reason: 'Temperature and texture contrast'
-}
+      },
       {
         foods: ['congee', 'pickled vegetables'],
         reason: 'Digestive harmony'
-}
+      }
     ],
     avoidCombinations: [
       {
         foods: ['cold drinks', 'spicy food'],
         reason: 'Disrupts digestive balance'
-}
+      },
       {
         foods: ['crab', 'persimmon'],
         reason: 'Traditional dietary restriction'
-}
+      }
     ]
   },
   indian: {
@@ -134,25 +134,25 @@ export const culturalRules: Record<string, CulturalBalance> = {
       {
         foods: ['dal', 'rice', 'ghee'],
         reason: 'Complete protein combination'
-}
+      },
       {
         foods: ['curry', 'yogurt', 'rice'],
         reason: 'Balanced meal with cooling element'
-}
+      },
       {
         foods: ['spicy dishes', 'raita'],
         reason: 'Temperature and flavor balance'
-}
+      }
     ],
     avoidCombinations: [
       {
         foods: ['milk', 'fish'],
         reason: 'Ayurvedic incompatibility'
-}
+      },
       {
         foods: ['honey', 'hot foods'],
         reason: 'Creates toxins according to Ayurveda'
-}
+      }
     ]
   },
   vietnamese: {
@@ -168,17 +168,17 @@ export const culturalRules: Record<string, CulturalBalance> = {
       {
         foods: ['rice noodles', 'fresh herbs', 'protein'],
         reason: 'Traditional pho combination'
-}
+      },
       {
         foods: ['rice paper rolls', 'dipping sauce'],
         reason: 'Classic pairing for texture and flavor'
-}
+      }
     ],
     avoidCombinations: [
       {
         foods: ['durian', 'alcohol'],
         reason: 'Traditional belief of negative effects'
-}
+      }
     ]
   },
   korean: {
@@ -194,17 +194,17 @@ export const culturalRules: Record<string, CulturalBalance> = {
       {
         foods: ['rice', 'kimchi', 'soup'],
         reason: 'Traditional Korean meal structure'
-}
+      },
       {
         foods: ['grilled meat', 'lettuce wraps', 'ssamjang'],
         reason: 'Classic Korean BBQ combination'
-}
+      }
     ],
     avoidCombinations: [
       {
         foods: ['kimchi', 'milk'],
         reason: 'Flavor clash and digestive concerns'
-}
+      }
     ]
   },
   mexican: {
@@ -220,38 +220,38 @@ export const culturalRules: Record<string, CulturalBalance> = {
       {
         foods: ['beans', 'rice', 'corn tortillas'],
         reason: 'Complete protein combination'
-}
+      },
       {
         foods: ['spicy dishes', 'crema', 'lime'],
         reason: 'Heat balanced with cooling elements'
-}
+      }
     ],
     avoidCombinations: [
       {
         foods: ['fish', 'cheese'],
         reason: 'Traditional flavor conflict'
-}
+      }
     ]
   }
-}
+};
 
 // Helper function to get cultural recommendations
 export function getCulturalRecommendations(
   cuisineId: string,
-  currentDishes: string[],
-): { recommended: string[] avoid: string[] } {
+  currentDishes: string[]
+): { recommended: string[]; avoid: string[] } {
   const rules = culturalRules[cuisineId];
-  if (!rules) return { recommended: [], avoid: [] }
+  if (!rules) return { recommended: [], avoid: [] };
 
-  const recommended = rules.preferredCombinations;
+  const recommended = rules.preferredCombinations
     .filter(combo => currentDishes.some(dish => combo.foods.includes(dish)))
     .map(combo => combo.foods.filter(food => !currentDishes.includes(food)))
-    .flat()
-;
-  const avoid = rules.avoidCombinations;
+    .flat();
+
+  const avoid = rules.avoidCombinations
     .filter(combo => currentDishes.some(dish => combo.foods.includes(dish)))
     .map(combo => combo.foods.filter(food => !currentDishes.includes(food)))
-    .flat()
-;
-  return { recommended, avoid }
+    .flat();
+
+  return { recommended, avoid };
 }

@@ -1,12 +1,12 @@
 import type { ElementalProperties } from '@/types/alchemy';
 
 interface FlavorProfile {
-  elementalProperties: ElementalProperties,
-  taste: string[],
-  intensity: number, // 0 to 1,
-  pairings: string[],
-  seasonalPeak?: string[]
-  description: string
+  elementalProperties: ElementalProperties;
+  taste: string[];
+  intensity: number; // 0 to 1
+  pairings: string[];
+  seasonalPeak?: string[];
+  description: string;
 }
 
 export const flavorProfiles: Record<string, FlavorProfile> = {
@@ -16,34 +16,37 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
       Water: 0.3,
       Air: 0.2,
       Fire: 0.1
-},
+    },
     taste: ['sweet', 'mellow', 'rich'],
     intensity: 0.6,
     pairings: ['salty', 'bitter', 'sour'],
-    description: 'Nurturing and grounding, builds essence' },
-        salty: {
+    description: 'Nurturing and grounding, builds essence'
+  },
+  salty: {
     elementalProperties: {
       Water: 0.4,
       Fire: 0.3,
       Earth: 0.2,
       Air: 0.1
-},
+    },
     taste: ['salty', 'mineral', 'sharp'],
     intensity: 0.7,
     pairings: ['sweet', 'sour'],
-    description: 'Softening and penetrating, aids digestion' },
-        sour: {
+    description: 'Softening and penetrating, aids digestion'
+  },
+  sour: {
     elementalProperties: {
       Water: 0.4,
       Air: 0.3,
       Fire: 0.2,
       Earth: 0.1
-},
+    },
     taste: ['sour', 'tart', 'bright'],
     intensity: 0.8,
     pairings: ['sweet', 'salty', 'umami'],
-    description: 'Refreshing and cleansing, stimulates digestion' },
-        bitter: {
+    description: 'Refreshing and cleansing, stimulates digestion'
+  },
+  bitter: {
     elementalProperties: {
       Fire: 0.4,
       Air: 0.3,
@@ -127,7 +130,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
 
 // Flavor Combinations for Reference
 export const _flavorCombinations = {
-  harmonious: [;
+  harmonious: [
     ['sweet', 'sour'],
     ['salty', 'umami'],
     ['bitter', 'aromatic'],

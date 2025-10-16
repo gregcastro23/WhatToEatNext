@@ -15,12 +15,12 @@ import { getCurrentSeason } from '@/types/seasons';
  * AlchemicalRecommendation interface for providing structured recommendations
  */
 export interface AlchemicalRecommendation {
-  dominantElement: keyof ElementalProperties,
-  thermodynamics: ThermodynamicProperties,
-  recommendedIngredients: string[],
-  recommendedCookingMethods: CookingMethod[],
-  recommendations: string[],
-  warnings: string[]
+  dominantElement: keyof ElementalProperties;
+  thermodynamics: ThermodynamicProperties;
+  recommendedIngredients: string[];
+  recommendedCookingMethods: CookingMethod[];
+  recommendations: string[];
+  warnings: string[];
 }
 
 /**
@@ -28,8 +28,8 @@ export interface AlchemicalRecommendation {
  * Uses the AlchemicalEngine as its core calculation engine
  */
 export class AlchemicalRecommendationService {
-  private static instance: AlchemicalRecommendationService,
-  private engine: AlchemicalEngine,
+  private static instance: AlchemicalRecommendationService;
+  private engine: AlchemicalEngine;
 
   private constructor() {
     this.engine = new AlchemicalEngine();

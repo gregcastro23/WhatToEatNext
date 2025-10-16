@@ -377,7 +377,7 @@ export function useEnterpriseIntelligence(
 
   // Auto-analyze effect
   useEffect(() => {
-    if (config.autoAnalyze && lastAnalysisParams && !state.isAnalyzing) {;
+    if (config.autoAnalyze && lastAnalysisParams && !state.isAnalyzing)) {
       const interval = config.analysisInterval || 30000, // Default 30 seconds,
 
       const timer = setInterval(() => {
@@ -437,7 +437,7 @@ export function useEnterpriseIntelligence(
 /**
  * Hook for monitoring enterprise intelligence health
  */
-export function useEnterpriseIntelligenceHealth() {;
+export function useEnterpriseIntelligenceHealth()) {
   const { systemHealth, isHealthy, needsAttention, state } = useEnterpriseIntelligence({
     enableRecipeIntelligence: true,
     enableIngredientIntelligence: true,

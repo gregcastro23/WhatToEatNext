@@ -13,9 +13,9 @@ import {
 import type { CookingMethod } from '@/types/constants';
 import {_getCurrentElementalState} from '@/utils/elementalUtils';
 
-import {cuisineFlavorProfiles, _type CuisineFlavorProfile} from '../cuisineFlavorProfiles';
+import {cuisineFlavorProfiles, type CuisineFlavorProfile} from '../cuisineFlavorProfiles';
 import {flavorProfiles as integrationFlavorProfiles} from '../integrations/flavorProfiles';
-import {planetaryFlavorProfiles, _type PlanetaryFlavorProfile} from '../planetaryFlavorProfiles';
+import {planetaryFlavorProfiles, type PlanetaryFlavorProfile} from '../planetaryFlavorProfiles';
 // ingredientFlavorMap import disabled - not exported
 // import { ingredientFlavorMap } from '../ingredients/flavorProfiles';
 
@@ -38,12 +38,12 @@ import {_processAstrologicalData as processData} from '@/services/AstrologicalSe
 
 // ===== MIGRATION INTERFACES =====
 
-interface MigrationStats {;
-  totalProfiles: number,
-  byCategory: { [key: string]: number },
-  migrationTime: number,
-  errors: string[],
-  warnings: string[]
+interface MigrationStats {
+  totalProfiles: number;
+  byCategory: { [key: string]: number };
+  migrationTime: number;
+  errors: string[];
+  warnings: string[];
 }
 
 interface _ {
@@ -150,9 +150,9 @@ export class FlavorProfileMigration {;
 
       return { ..._cachedMigrationStats }
     } catch (error) {
-      this.migrationErrors.push(`Migration failed: ${error}`)
+      this.migrationErrors.push(`Migration failed: ${error}`);
       _isMigrationRunning = false;
-      throw error,
+      throw error;
     }
   }
 
@@ -173,8 +173,8 @@ export class FlavorProfileMigration {;
   }
 
   private convertUnifiedProfile(id: string, profile: unknown): UnifiedFlavorProfile {
-    const profileData = profile as any
-    return {;
+    const profileData = profile as any;
+    return {
       id: (profileData.id) || id,
       name: (profileData.name) || id,
       category: this.mapCategory((profileData.category) || (profileData.type)),
@@ -499,7 +499,7 @@ export class FlavorProfileMigration {;
 
   // ===== DATA EXTRACTION HELPERS =====
 
-  private extractBaseNotes(profile: unknown): BaseFlavorNotes {,
+  private extractBaseNotes(profile: unknown): BaseFlavorNotes {
     const profileData = profile as any;
     if (profileData.baseNotes) return profileData.baseNotes as BaseFlavorNotes;
     // Try to extract from various formats

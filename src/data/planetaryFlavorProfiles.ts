@@ -358,12 +358,12 @@ export const _getResonantCuisines = (planetaryInfluences: Record<string, number>
   // Calculate cuisine scores based on planetary influences
   Object.entries(planetaryInfluences).forEach(([planet, weight]) => {
     if (planetaryFlavorProfiles[planet]) {
-      planetaryFlavorProfiles[planet].culinaryAffinity.forEach(cuisine => {,
+      planetaryFlavorProfiles[planet].culinaryAffinity.forEach(cuisine => {
         if (!cuisineScores[cuisine]) cuisineScores[cuisine] = 0;
         cuisineScores[cuisine] += weight;
-      })
+      });
     }
-  })
+  });
 
   // Sort cuisines by score and return top matches
   return Object.entries(cuisineScores)
@@ -415,8 +415,9 @@ export const _calculatePlanetaryFlavorMatch = (
       if (strength > 0.6 && planetaryFlavorProfiles[planet]) {
         const planetaryEmphasis = planetaryFlavorProfiles[planet].flavorProfiles[
           flavor as keyof (typeof planetaryFlavorProfiles)[typeof planet]['flavorProfiles']
-        ] as unknown as numberif (planetaryEmphasis && planetaryEmphasis > 0.6) {;
-          weight += strength * 0.5, // Add bonus based on planet strength
+        ] as unknown as number;
+        if (planetaryEmphasis && planetaryEmphasis > 0.6) {
+          weight += strength * 0.5; // Add bonus based on planet strength
         }
       }
     })

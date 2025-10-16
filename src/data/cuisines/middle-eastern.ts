@@ -1141,7 +1141,7 @@ export const middleEastern: Cuisine = {
         Fire: 0.3,
         Water: 0.2,
         Earth: 0.1
-},
+      },
       astrologicalInfluences: ['Mercury', 'Mars', 'gemini'],
       seasonality: 'all',
       preparationNotes:

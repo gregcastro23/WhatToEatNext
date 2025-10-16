@@ -654,7 +654,7 @@ export const _zodiacSeasonalAffinities: Record<
     winter: 0.9,
     bestSeasonalIngredients: [
       'winter spices',
-      'exotic imports';
+      'exotic imports',
       'hearty vegetables',
       'aged ingredients'
     ]

@@ -55,16 +55,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'conjunction' as AspectType,
             orb: 2.5,
             influence: 0.9,
-            description: 'Dynamic fire energy, perfect for bold culinary experiments' },
-        as PlanetaryAspect,
+            description: 'Dynamic fire energy, perfect for bold culinary experiments'
+          } as PlanetaryAspect,
           {
             planet1: 'Mercury',
             planet2: 'Venus',
             aspectType: 'conjunction' as AspectType,
             orb: 1.8,
             influence: 0.8,
-            description: 'Harmonious communication between air and earth elements' },
-        as PlanetaryAspect
+            description: 'Harmonious communication between air and earth elements'
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'aries', degree: 15, exactLongitude: 15, isRetrograde: false },
@@ -96,7 +96,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         dominantPlanets: ['Sun', 'Mars', 'Mercury'],
         retrogradePlanets: ['Mercury', 'Venus'],
         specialEvents: ['Spring Equinox', 'Mercury Retrograde', 'Venus Retrograde']
-      }
+      },
       {
         id: '2024-taurus-early',
         name: 'Early Taurus (April 20 - May 20)',
@@ -111,16 +111,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'trine' as AspectType,
             orb: 1.2,
             influence: 0.8,
-            description: 'Harmonious earth energy, ideal for grounding comfort foods' },
-        as PlanetaryAspect,
+            description: 'Harmonious earth energy, ideal for grounding comfort foods'
+          } as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Uranus',
             aspectType: 'conjunction' as AspectType,
             orb: 3.1,
             influence: 0.7,
-            description: 'Innovative earth energy, perfect for experimental comfort cooking' },
-        as PlanetaryAspect
+            description: 'Innovative earth energy, perfect for experimental comfort cooking'
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'taurus', degree: 12, exactLongitude: 42, isRetrograde: false },

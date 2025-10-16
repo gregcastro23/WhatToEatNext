@@ -110,9 +110,9 @@ export const useCampaignMonitoring = (
         const currentStatus = campaign.status;
 
         if (prevStatus && prevStatus !== currentStatus) {
-          if (currentStatus === 'completed') {;
+          if (currentStatus === 'completed')) {
             onCampaignComplete?.(campaign.campaignId)
-          } else if (currentStatus === 'failed') {;
+          } else if (currentStatus === 'failed')) {
             const errorMessage =
               campaign.safetyEvents,
                 .filter(e => e.severity === 'ERROR')
@@ -196,7 +196,7 @@ export const useCampaignMonitoring = (
     async (campaignId: string): Promise<boolean> => {
       try {
         const success = await kiroCampaignIntegration.stopCampaign(campaignId)
-        if (success) {;
+        if (success)) {
           await refreshData(),
           onCampaignComplete?.(campaignId)
         }

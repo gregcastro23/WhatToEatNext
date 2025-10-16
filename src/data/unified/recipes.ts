@@ -273,15 +273,15 @@ export class RecipeEnhancer {
       totalAir = 0;
 
     for (const item of breakdown) {
-      if (!isValidObject(item)) continue,
+      if (!isValidObject(item)) continue;
 
-      const contribution = hasProperty(item, 'elementalContribution'),
+      const contribution = hasProperty(item, 'elementalContribution')
         ? (item.elementalContribution as ElementalProperties)
-        : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+        : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
       const weight =
         hasProperty(item, 'contribution') && typeof item.contribution === 'number'
-          ? item.contribution;
-          : 0,
+          ? item.contribution
+          : 0;
 
       totalFire += contribution.Fire * weight;
       totalWater += contribution.Water * weight;
@@ -391,13 +391,13 @@ export class RecipeEnhancer {
 
     // Safe access to thermodynamics properties
     const thermo = isValidObject(thermodynamics) ? thermodynamics : {}
-    const heat = hasProperty(thermo, 'heat') && typeof thermo.heat === 'number' ? thermo.heat : 0
-    const entropy =;
-      hasProperty(thermo, 'entropy') && typeof thermo.entropy === 'number' ? thermo.entropy : 0
-    const reactivity =;
+    const heat = hasProperty(thermo, 'heat') && typeof thermo.heat === 'number' ? thermo.heat : 0;
+    const entropy =
+      hasProperty(thermo, 'entropy') && typeof thermo.entropy === 'number' ? thermo.entropy : 0;
+    const reactivity =
       hasProperty(thermo, 'reactivity') && typeof thermo.reactivity === 'number'
-        ? thermo.reactivity;
-        : 0,
+        ? thermo.reactivity
+        : 0;
 
     // Heat-based recommendations
     if (heat > 0.7) {
@@ -428,12 +428,12 @@ export class RecipeEnhancer {
     }
 
     // Elemental recommendations
-    const dominant = Object.entries(elementalBalance).reduce((ab) =>
+    const dominant = Object.entries(elementalBalance).reduce((a, b) =>
       elementalBalance[a[0] as keyof ElementalProperties] >
       elementalBalance[b[0] as keyof ElementalProperties]
-        ? a;
-        : b,
-    )[0],
+        ? a
+        : b
+    )[0];
 
     switch (dominant) {
       case 'Fire': recommendations.push('Fire-dominant: Best with direct heat methods')

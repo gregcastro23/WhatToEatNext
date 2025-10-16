@@ -7,23 +7,23 @@ import { ElementalProperties, Recipe, Season, ZodiacSign } from '../types/alchem
 import { backendCalculations, getElementalProperties, getSeasonalModifier } from '../utils/backendAdapter';
 
 interface ElementalSummary {
-  totalFire: number,
-  totalWater: number,
-  totalEarth: number,
-  totalAir: number,
-  dominantElement: keyof ElementalProperties
+  totalFire: number;
+  totalWater: number;
+  totalEarth: number;
+  totalAir: number;
+  dominantElement: keyof ElementalProperties;
 }
 
-const logger = createLogger('ElementalCalculator')
+const logger = createLogger('ElementalCalculator');
 
-export class ElementalCalculator {;
-  private static instance: ElementalCalculator,
-  private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES,
+export class ElementalCalculator {
+  private static instance: ElementalCalculator;
+  private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
   private initialized = false;
-  private debugMode: boolean,
+  private debugMode: boolean;
 
   public constructor(debugMode = false) {
-    this.debugMode = debugMode
+    this.debugMode = debugMode;
 
     if (this.debugMode) {
       log.info('[ElementalCalculator] Instance created with debug mode');

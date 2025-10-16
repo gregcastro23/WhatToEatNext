@@ -112,7 +112,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
         const fidObserver = new PerformanceObserver((list) => {
           const entries = list.getEntries()
           entries.forEach((entry: any) => {
-            if (entry.processingStart && entry.startTime) {;
+            if (entry.processingStart && entry.startTime)) {
               const fid = entry.processingStart - entry.startTime;
               setMetrics(prev => ({,
                 ...prev,

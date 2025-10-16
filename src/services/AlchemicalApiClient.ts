@@ -12,11 +12,11 @@ import { ElementalProperties } from '@/types/alchemy';
 
 // Backend service configuration
 const API_CONFIG = {
-  alchemical: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
-  kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL || 'http://localhost:8100'
-  websocket: process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:8001'
+  alchemical: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000',
+  kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL || 'http://localhost:8100',
+  websocket: process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:8001',
   runes: process.env.NEXT_PUBLIC_RUNE_AGENT_URL || 'http://localhost:8002'
-}
+};
 
 // Request/Response interfaces matching backend models
 export interface RecommendationRequest {

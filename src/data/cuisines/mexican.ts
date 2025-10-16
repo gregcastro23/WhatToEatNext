@@ -1252,12 +1252,12 @@ export const mexican = {
   regionalCuisines: {
     oaxaca: {
       name: 'Oaxacan Cuisine',
-      description: 'Known as the 'land of seven moles' with rich indigenous culinary traditions',
+      description: 'Known as the \'land of seven moles\' with rich indigenous culinary traditions',
       signature: ['mole negro', 'tlayudas', 'chapulines', 'quesillo', 'tamales oaxaqueños'],
       elementalProperties: { earth: 0.5, fire: 0.2, water: 0.2, air: 0.1 },
       astrologicalInfluences: ['moon', 'saturn', 'taurus'],
       seasonality: 'highly seasonal with ceremonial dishes'
-},
+    },
     yucatan: {
       name: 'Yucatecan Cuisine',
       description: 'Maya-influenced cuisine with distinctive achiote and citrus flavors',

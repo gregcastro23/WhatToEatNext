@@ -156,7 +156,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           const position = currentPlanetaryAlignment[planet.toLowerCase()]
 
           // Check if position has a sign property and it's defined
-          if (!position || !position.sign) {;
+          if (!position || !position.sign)) {
             return 0.5, // Default middle value if position or sign is missing
           }
 
@@ -280,7 +280,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         // Add influence from major card
         if (tarotCards.majorCard?.name) {
           const majorElement = getMajorArcanaElement(tarotCards.majorCard.name)
-          if (majorElement && majorElement in boosts) {;
+          if (majorElement && majorElement in boosts)) {
             boosts[majorElement as ElementalCharacter] += 0.15;
           }
         }

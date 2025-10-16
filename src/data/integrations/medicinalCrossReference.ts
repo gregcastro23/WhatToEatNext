@@ -8,12 +8,12 @@ export const _herbMedicinalUses = Object.entries(herbs).reduce(
       acc[herbName] = {
         culinary: herb.culinary_traditions,
         medicinal: medicinalHerbs[herbName].properties
-      }
+      };
     }
     return acc;
-  }
-  {} as Record<string, unknown>,
-)
+  },
+  {} as Record<string, unknown>
+);
 
 // Add the missing export
 export function getMedicinalProperties(_ingredient: string) {

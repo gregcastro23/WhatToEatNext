@@ -1257,8 +1257,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 // Fix the ingredient mappings to ensure they have all required properties
 export const oils: Record<string, IngredientMapping> = fixIngredientMappings(rawOils);
 
-// Property verification checklist: /*
-All oils must, have:
+/* Property verification checklist:
+All oils must have:
 1. name (string);
 2. category ('oil');
 3. elementalProperties (sum = 1.0);

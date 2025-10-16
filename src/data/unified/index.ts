@@ -1,6 +1,6 @@
-// ===== UNIFIED DATA SYSTEMS INDEX =====;
+// ===== UNIFIED DATA SYSTEMS INDEX =====
 // Central export point for all unified data systems
-// Phases 12, and 3 consolidated systems
+// Phases 1, 2, and 3 consolidated systems
 
 // Phase 1: Unified Flavor Profiles
 export * from './flavorProfiles';
@@ -19,7 +19,7 @@ export * from './cuisineIntegrations';
 export * from './seasonal';
 
 // Export the cuisine integration system
-export * from './cuisineIntegrations'
+export * from './cuisineIntegrations';
 
 // Pattern OO-4: Integration Import Resolution - Fix type imports to use correct sources
 export type { UnifiedIngredient } from './ingredients';
@@ -41,11 +41,11 @@ export { CuisineEnhancer, CuisineAnalyzer } from './cuisines';
 class UnifiedSeasonalSystem {}
 class UnifiedCuisineIntegrationSystem {}
 
-export const _unifiedSeasonalSystem = new UnifiedSeasonalSystem()
-export const _unifiedCuisineIntegrationSystem = new UnifiedCuisineIntegrationSystem()
+export const _unifiedSeasonalSystem = new UnifiedSeasonalSystem();
+export const _unifiedCuisineIntegrationSystem = new UnifiedCuisineIntegrationSystem();
 
 // Pattern OO-4: Integration Import Resolution - Export only existing functions
-export {;
+export {
   getIngredientById,
   getIngredientsByCategory,
   getIngredientsBySubcategory,

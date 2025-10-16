@@ -18,15 +18,15 @@ import { normalizePlanetaryPositions } from '@/utils/astrology/core';
  * standardized interface following a consistent singleton pattern.
  */
 export class AstrologyService {
-  private static instance: AstrologyService,
+  private static instance: AstrologyService;
 
   private currentState: AstrologicalState = {
     currentZodiac: 'aries',
     moonPhase: 'new moon',
-    currentPlanetaryAlignment: {}
+    currentPlanetaryAlignment: {},
     loading: false,
     isReady: false
-}
+  };
 
   private constructor() {}
 

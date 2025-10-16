@@ -222,7 +222,7 @@ export const raw: CookingMethodData = {
 
   modernVariations: [
     'High-pressure processing (HPP) for safety and shelf-life extension',
-    'Sous vide 'raw' (very low temperature water bath preparation)',
+    'Sous vide \'raw\' (very low temperature water bath preparation)',
     'Cold-smoking techniques (below enzyme denaturation threshold)',
     'Molecular gastronomy applications (spherification, gelification)',
     'Ultrasonic extraction methods for intensified flavors',

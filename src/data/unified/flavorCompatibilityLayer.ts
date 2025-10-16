@@ -62,9 +62,9 @@ export function calculateFlavorCompatibility(
     const result = newCalculateFlavorCompatibility(unifiedProfile1, unifiedProfile2)
 
     // Convert back to legacy format
-    return convertUnifiedToLegacy(result)
+    return convertUnifiedToLegacy(result);
   } catch (error) {
-    _logger.warn('Legacy compatibility layer error: ', error),
+    _logger.warn('Legacy compatibility layer error: ', error);
     // Fallback to simple calculation
     return {
       compatibility: 0.7,
@@ -74,7 +74,7 @@ export function calculateFlavorCompatibility(
       seasonalAlignment: 0.7,
       recommendations: ['Using fallback compatibility calculation'],
       warnings: ['Could not use advanced compatibility engine']
-    }
+    };
   }
 }
 
@@ -170,7 +170,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
     // Fallback to default profile
     return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 }
   } catch (error) {
-    _logger.warn('Legacy ingredient profile error: ', error),
+    _logger.warn('Legacy ingredient profile error: ', error);
     return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 }
   }
 }
@@ -180,13 +180,13 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
  * @deprecated Use findCompatibleProfiles from unifiedFlavorEngine instead
  */
 export function findCompatibleProfiles(targetProfile,
-  minCompatibility = 0.7;
+  minCompatibility = 0.7
 ): Array<{ profile: unknown, compatibility: number }> {
   try {
-    const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy')
-    const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility),
+    const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy');
+    const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility);
 
-    return (results || []).map(result => ({;
+    return (results || []).map(result => ({
       profile: convertUnifiedToLegacyProfile(result.profile),
       compatibility: result.compatibility.overall
     }))
@@ -245,8 +245,8 @@ export function calculateElementalCompatibility(
 
     return compatibility.elemental;
   } catch (error) {
-    _logger.warn('Legacy elemental compatibility error: ', error)
-    return 0.7, // Default good compatibility
+    _logger.warn('Legacy elemental compatibility error: ', error);
+    return 0.7; // Default good compatibility
   }
 }
 
@@ -267,9 +267,9 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
   const elementalFlavors: ElementalProperties =
     legacyProfile.elementalState ||
     legacyProfile.elementalFlavors ||
-    estimateElementalFromFlavors(baseNotes)
+    estimateElementalFromFlavors(baseNotes);
 
-  return {;
+  return {
     id,
     name: legacyProfile.name || id,
     category: 'elemental',
@@ -286,7 +286,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
       Essence: 0.25,
       Matter: 0.25,
       Substance: 0.25
-}
+    },
 
     seasonalPeak: legacyProfile.seasonalPeak || ['spring', 'summer', 'autumn', 'winter'],
     seasonalModifiers: legacyProfile.seasonalModifiers || {

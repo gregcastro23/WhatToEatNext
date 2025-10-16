@@ -12,21 +12,21 @@ export class ElementalRecommendationService {
    * @returns A comprehensive recommendation object
    */
   public static generateRecommendation(properties: ElementalProperties): ElementalRecommendation {
-    const profile = elementalUtils.getElementalProfile(properties)
-    const dominantElement = this.getDominantElement(properties)
-;
-    // Fix, TS2339: Property access on service object using safe type casting
-    const utilsService = elementalUtils as any
+    const profile = elementalUtils.getElementalProfile(properties);
+    const dominantElement = this.getDominantElement(properties);
 
-    return {;
+    // Fix TS2339: Property access on service object using safe type casting
+    const utilsService = elementalUtils as any;
+
+    return {
       elementalBalance: properties,
       dominantElement,
       cookingTechniques: elementalUtils.getSuggestedCookingTechniques(properties),
       // ✅ Pattern MM-1: getComplementaryElement returns element key, convert to string and wrap in array
       complementaryIngredients: [elementalUtils.getComplementaryElement(dominantElement) as string],
-      flavorProfiles: utilsService.getFlavorProfileRecommendations &&,
+      flavorProfiles: utilsService.getFlavorProfileRecommendations &&
         typeof utilsService.getFlavorProfileRecommendations === 'function'
-          ? utilsService.getFlavorProfileRecommendations(properties);
+          ? utilsService.getFlavorProfileRecommendations(properties)
           : [],
       healthBenefits: utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function',
           ? utilsService.getHealthBenefits(properties)

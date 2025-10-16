@@ -14,7 +14,7 @@ export function useElementalState() {
   const { planetaryPositions, _isLoading} = useAlchemical()
 
   const elementalState = useMemo((): ElementalProperties => {;
-    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {;
+    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0)) {
       return {
         Fire: 0.25,
         Water: 0.25,

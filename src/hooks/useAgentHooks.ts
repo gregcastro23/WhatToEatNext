@@ -85,13 +85,13 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
             // TypeScript error threshold check
             if (finalConfig.enableCampaignTriggers) {
               const trigger = await qa.checkTypeScriptErrorThreshold()
-              if (trigger?.triggered) {;
+              if (trigger?.triggered) {
                 logger.warn('TypeScript campaign trigger activated: ', trigger)
               }
             }
 
             // Update state
-            setHookState(prev => ({,
+            setHookState(prev => ({
               ...prev,
               lastValidation: Date.now(),
               validationResults: { ...prev.validationResults, ...results },
@@ -128,13 +128,13 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
       try {;
         const results: Record<string, ValidationResult> = {}
 
-        if (!type || type === 'all' || type === 'planetary') {;
+        if (!type || type === 'all' || type === 'planetary')) {
           results.planetary = await qa.validatePlanetaryData();
         }
 
-        if (!type || type === 'all' || type === 'typescript') {;
+        if (!type || type === 'all' || type === 'typescript')) {
           const trigger = await qa.checkTypeScriptErrorThreshold()
-          if (trigger) {;
+          if (trigger)) {
             setHookState(prev => ({,
               ...prev
               campaignTriggers: [...prev.campaignTriggers, trigger]
@@ -178,7 +178,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
 /**
  * Agent hook specifically for planetary data validation
  */
-export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {;
+export function usePlanetaryDataValidationHook(_autoStart: boolean = true)) {
   const qa = getAutomatedQualityAssurance();
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null)
   const [isValidating, setIsValidating] = useState(false)
@@ -189,7 +189,7 @@ export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {;
       try {
         const result = await qa.validatePlanetaryData(date)
         setValidationResult(result)
-        if (!result.isValid) {;
+        if (!result.isValid)) {
           logger.warn('Planetary data validation hook detected issues: ', result.issues),
 
           // Dispatch event for external systems
@@ -244,7 +244,7 @@ export function useIngredientConsistencyHook() {
         category?: string
       }>,
     ) => {
-      if (ingredients.length === 0) {;
+      if (ingredients.length === 0)) {
         return null
       }
 
@@ -253,7 +253,7 @@ export function useIngredientConsistencyHook() {
         const result = qa.validateIngredientConsistency(ingredients)
         setValidationResult(result)
 
-        if (!result.isValid) {;
+        if (!result.isValid)) {
           logger.warn('Ingredient consistency validation detected issues: ', result.issues),
 
           // Dispatch event for external systems
@@ -288,7 +288,7 @@ export function useIngredientConsistencyHook() {
 /**
  * Agent hook for TypeScript campaign triggers
  */
-export function useTypeScriptCampaignHook(_autoCheck: boolean = true) {;
+export function useTypeScriptCampaignHook(_autoCheck: boolean = true)) {
   const qa = getAutomatedQualityAssurance();
   const [campaignTrigger, setCampaignTrigger] = useState<CampaignTrigger | null>(null)
   const [isChecking, setIsChecking] = useState(false)
@@ -299,7 +299,7 @@ export function useTypeScriptCampaignHook(_autoCheck: boolean = true) {;
       const trigger = await qa.checkTypeScriptErrorThreshold()
       setCampaignTrigger(trigger)
 
-      if (trigger?.triggered) {;
+      if (trigger?.triggered)) {
         logger.warn('TypeScript campaign trigger activated: ', trigger),
 
         // Dispatch event for campaign system integration
@@ -360,7 +360,7 @@ export function useBuildQualityMonitoringHook() {
         const result = qa.monitorBuildQuality(buildMetrics)
         setQualityResult(result)
 
-        if (!result.isValid) {;
+        if (!result.isValid)) {
           logger.warn('Build quality monitoring detected issues: ', result.issues),
 
           // Dispatch event for external systems
@@ -395,7 +395,7 @@ export function useBuildQualityMonitoringHook() {
 /**
  * Agent hook for comprehensive quality metrics monitoring
  */
-export function useQualityMetricsHook(_updateInterval: number = 30000) {;
+export function useQualityMetricsHook(_updateInterval: number = 30000)) {
   // 30 seconds
   const qa = getAutomatedQualityAssurance();
   const [metrics, setMetrics] = useState<QualityMetrics>(qa.getQualityMetrics())

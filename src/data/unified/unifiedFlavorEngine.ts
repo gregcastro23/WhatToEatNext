@@ -1035,9 +1035,9 @@ export function calculateFlavorCompatibility(
  */
 export function findCompatibleProfiles(
   targetProfile: UnifiedFlavorProfile,
-  minCompatibility = 0.7;
-  _context?: { season?: Season, culturalPreference?: string, preparationMethod?: string }
-): Array<{ profile: UnifiedFlavorProfile, compatibility: UnifiedFlavorCompatibility }> {
+  minCompatibility = 0.7,
+  _context?: { season?: Season; culturalPreference?: string; preparationMethod?: string }
+): Array<{ profile: UnifiedFlavorProfile; compatibility: UnifiedFlavorCompatibility }> {
   const allProfiles = unifiedFlavorEngine.getAllProfiles();
   const results: Array<{
     profile: UnifiedFlavorProfile,
