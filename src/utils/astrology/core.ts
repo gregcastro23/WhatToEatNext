@@ -218,7 +218,7 @@ export async function calculateActivePlanets(
  * @param phase Lunar phase
  * @returns Modifier value between 0 and 1
  */
-export function getLunarPhaseModifier(_phase: LunarPhase): number {
+export function getLunarPhaseModifier(phase: LunarPhase): number {
   const modifiers: Record<LunarPhase, number> = {
     'new moon': 0.2,
     'waxing crescent': 0.5,
@@ -227,9 +227,8 @@ export function getLunarPhaseModifier(_phase: LunarPhase): number {
     'full moon': 1.0,
     'waning gibbous': 0.8,
     'last quarter': 0.6,
-    'waning crescent': 0.3,
+    'waning crescent': 0.3
   };
-  }
 
   return modifiers[phase] || 0.5; // default to 0.5 if phase is not recognized
 }

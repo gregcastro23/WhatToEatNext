@@ -78,7 +78,7 @@ export function calculateElementalHarmony(
 ): number {
   if (!validateElementalProperties(source) || !validateElementalProperties(target)) {
     logger.warn('Invalid elemental properties provided for harmony calculation')
-    return 0.7, // Default good compatibility
+    return 0.7; // Default good compatibility
   }
 
   let totalHarmony = 0;

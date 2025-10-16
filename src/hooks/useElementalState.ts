@@ -22,7 +22,7 @@ export function useElementalState() {
         Air: 0.25,
         dominant: 'Fire',
         balance: 1.0
-} as unknown as ElementalProperties,
+      } as unknown as ElementalProperties;
     }
 
     // Calculate elemental distribution from planetary positions

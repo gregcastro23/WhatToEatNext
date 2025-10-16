@@ -405,8 +405,8 @@ export class PlanetaryLocationService {
     const localOptimalTiming = {
       solarCooking: this.getSolarCookingTimes(coordinates, date),
       moonPhases: { [lunarPhase.phase]: [lunarPhase.culinaryEffect] },
-      planetaryHours: Object.fromEntries(,
-        Object.entries(planetaryHours).map(([key, value]) => [key, [value.influence]]),
+      planetaryHours: Object.fromEntries(
+        Object.entries(planetaryHours).map(([key, value]) => [key, [value.influence]])
       )
     }
 

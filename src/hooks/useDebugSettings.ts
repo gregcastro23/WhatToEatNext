@@ -43,8 +43,8 @@ export const _useDebugSettings = () => {;
 
   // Save settings to localStorage whenever they change
   const saveSettings = useCallback(
-    (newSettings: Partial<DebugSettings>) => {,
-      const updatedSettings = { ...settings, ...newSettings }
+    (newSettings: Partial<DebugSettings>) => {
+      const updatedSettings = { ...settings, ...newSettings };
       setSettings(updatedSettings)
 
       try {

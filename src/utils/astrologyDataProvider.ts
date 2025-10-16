@@ -20,9 +20,9 @@ import * as safeAstrology from '@/utils/safeAstrology';
 const logger = createLogger('AstrologyDataProvider')
 
 // Cache system for API responses
-interface CacheEntry {;
-  data: { [key: string]: CelestialPosition },
-  timestamp: number
+interface CacheEntry {
+  data: { [key: string]: CelestialPosition };
+  timestamp: number;
 }
 
 // Cache duration in milliseconds (15 minutes)

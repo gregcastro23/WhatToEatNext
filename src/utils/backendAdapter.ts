@@ -100,15 +100,15 @@ export const getElementalProperties = (ingredient: string): ElementalProperties 
     // Fire-dominant
     chili: { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 },
     ginger: { Fire: 0.7, Water: 0.15, Earth: 0.1, Air: 0.05 },
-    cinnamon: { Fire: 0.65, Water: 0.1, Earth: 0.15, Air: 0.1 }
+    cinnamon: { Fire: 0.65, Water: 0.1, Earth: 0.15, Air: 0.1 },
 
     // Water-dominant
     cucumber: { Fire: 0.05, Water: 0.8, Earth: 0.1, Air: 0.05 },
-    lettuce: { Fire: 0.05, Water: 0.75, Earth: 0.15, Air: 0.05 }
+    lettuce: { Fire: 0.05, Water: 0.75, Earth: 0.15, Air: 0.05 },
 
     // Earth-dominant
     potato: { Fire: 0.1, Water: 0.2, Earth: 0.65, Air: 0.05 },
-    carrot: { Fire: 0.15, Water: 0.25, Earth: 0.55, Air: 0.05 }
+    carrot: { Fire: 0.15, Water: 0.25, Earth: 0.55, Air: 0.05 },
 
     // Air-dominant
     mint: { Fire: 0.1, Water: 0.2, Earth: 0.1, Air: 0.6 },

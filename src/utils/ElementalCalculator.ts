@@ -47,14 +47,14 @@ export function calculateMatchScore(
 
   // Validate elementalState to avoid NaN results
   const validatedState = {
-    Fire: typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire);
+    Fire: typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire)
         ? elementalState.Fire
         : 0.25,
     Water: typeof elementalState.Water === 'number' && !isNaN(elementalState.Water)
-        ? elementalState.Water;
+        ? elementalState.Water
         : 0.25,
     Earth: typeof elementalState.Earth === 'number' && !isNaN(elementalState.Earth)
-        ? elementalState.Earth;
+        ? elementalState.Earth
         : 0.25,
     Air: typeof elementalState.Air === 'number' && !isNaN(elementalState.Air)
         ? elementalState.Air

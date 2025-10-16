@@ -89,7 +89,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
         if (kinetics && options.enableKinetics !== false) {
           enhancedResults = results.map(ingredient => {
             const kineticScore = calculateKineticAlignment(
-              {,
+              {
                 id: ingredient.name,
                 name: ingredient.name,
                 tags: (ingredient.tags as string[]) || [],

@@ -257,9 +257,9 @@ export interface PlanetaryPosition {
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
-  isDaytime = true;
+  isDaytime = true,
   lunarPhase?: string,
-  retrogrades?: Record<string, boolean>,
+  retrogrades?: Record<string, boolean>
 ): AlchemicalResult {
   // Initialize results with default values
   const elementalBalance = {

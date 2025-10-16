@@ -81,12 +81,12 @@ export function usePersonalization(
 })
 
   // Load user preferences
-  const loadPreferences = useCallback(async () => {;
-    if (!userId) return,
+  const loadPreferences = useCallback(async () => {
+    if (!userId) return;
 
-    const startTime = performance.now()
+    const startTime = performance.now();
 
-    try {;
+    try {
       setData(prev => ({ ...prev, isLoading: true }))
 
       const preferences = await userLearning.getUserPreferences(userId)

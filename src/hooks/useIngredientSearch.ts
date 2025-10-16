@@ -105,7 +105,7 @@ export function useIngredientSearch() {
   // Search and filter ingredients
   const searchResults = useMemo(() => {
     if (!searchTerm && !selectedCategory) {
-      return allIngredients.slice(0, 20).map(ingredient => ({;
+      return allIngredients.slice(0, 20).map(ingredient => ({
         ...ingredient,
         searchScore: 1,
         matchReasons: ['All ingredients']

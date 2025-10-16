@@ -254,8 +254,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'conjunction' as AspectType,
             orb: 3.1,
             influence: 0.85,
-            description: 'Intellectual air energy, perfect for experimental and varied cuisine' },
-        as PlanetaryAspect,
+            description: 'Intellectual air energy, perfect for experimental and varied cuisine'
+          } as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Venus',

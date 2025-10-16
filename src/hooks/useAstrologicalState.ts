@@ -48,21 +48,21 @@ function _createCelestialPosition(
 
   // Determine default speed based on planet traits
   // Moon moves fastest, inner planets medium, outer planets slow
-  const getPlanetSpeed = (planetName?: string): number => {;
-    if (!planetName) return 0.5, // Default
+  const getPlanetSpeed = (planetName?: string): number => {
+    if (!planetName) return 0.5; // Default
 
     const planetSpeeds: Record<string, number> = {
-      moon: 13.2;
-      sun: 1.0;
-      mercury: 1.4;
-      venus: 1.2;
-      mars: 0.5;
-      jupiter: 0.1;
-      saturn: 0.03;
-      uranus: 0.01;
-      neptune: 0.005;
+      moon: 13.2,
+      sun: 1.0,
+      mercury: 1.4,
+      venus: 1.2,
+      mars: 0.5,
+      jupiter: 0.1,
+      saturn: 0.03,
+      uranus: 0.01,
+      neptune: 0.005,
       pluto: 0.002
-}
+    };
 
     return planetSpeeds[planetName.toLowerCase()] || 0.5;
   }

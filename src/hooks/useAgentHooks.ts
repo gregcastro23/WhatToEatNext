@@ -207,9 +207,9 @@ export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {
         logger.error('Error in planetary data validation hook: ', error);
         throw error;
       } finally {
-        setIsValidating(false)
+        setIsValidating(false);
       }
-    }
+    },
     [qa],
   )
 

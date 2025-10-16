@@ -300,10 +300,10 @@ export function getAccuratePlanetaryPositions(_date: Date): { [key: string]: Pla
 
         // Use fallback method for this planet
         const fallbackData = getFallbackPlanetaryPositions(date)
-        if (fallbackData[planet]) {;
+        if (fallbackData[planet]) {
           const fallback = fallbackData[planet];
           positions[planet] = {
-            sign: fallback.sign || 'aries'
+            sign: fallback.sign || 'aries',
             degree: fallback.degree || 0,
             exactLongitude: fallback.exactLongitude || 0,
             isRetrograde: fallback.isRetrograde || false

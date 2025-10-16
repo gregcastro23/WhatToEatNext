@@ -764,12 +764,12 @@ export class FlavorProfileMigration {;
       'braising',
       'stewing',
       'raw'
-    ],
-    const affinity: Record<CookingMethod, number> = {} as Record<CookingMethod, number>,
+    ];
+    const affinity: Record<CookingMethod, number> = {} as Record<CookingMethod, number>;
 
-    methods.forEach(method => {,
-      affinity[method] = 0.5, // Default neutral affinity
-    })
+    methods.forEach(method => {
+      affinity[method] = 0.5; // Default neutral affinity
+    });
 
     return affinity;
   }

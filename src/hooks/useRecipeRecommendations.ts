@@ -43,9 +43,9 @@ export function useRecipeRecommendations(
     }
   })
 
-  const currentElementalProfile = useMemo(() => {;
-    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0)) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+  const currentElementalProfile = useMemo(() => {
+    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
     // Calculate elemental distribution from planetary positions

@@ -80,7 +80,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
 
   // Track API response times
   const trackApiCall = useCallback((endpoint: string, responseTime: number) => {
-    setMetrics(prev => ({,
+    setMetrics(prev => ({
       ...prev,
       apiResponseTimes: {
         ...prev.apiResponseTimes,

@@ -50,8 +50,9 @@ export interface ValidationOptions {
  */
 export function validatePlanetaryPositions(
   positions: Record<string, unknown>,
-  options: ValidationOptions = {}): ValidationResult {
-  const { _strictMode = false; _autoCorrect = false; _logWarnings = true} = options;
+  options: ValidationOptions = {}
+): ValidationResult {
+  const { _strictMode = false, _autoCorrect = false, _logWarnings = true } = options;
   const errors: string[] = [];
   const warnings: string[] = []
   const correctedData: Record<string, PlanetaryPosition> = {}

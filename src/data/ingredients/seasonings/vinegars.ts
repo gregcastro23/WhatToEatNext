@@ -505,7 +505,7 @@ const rawVinegars = {
                 primary: ['balanced'],
                 secondary: ['versatile'],
                 notes: 'Versatile herb infused for various uses'
-},
+              },
               cookingMethods: ['sautéing', 'steaming', 'roasting'],
               cuisineAffinity: ['Global', 'International'],
               preparationTips: ['Use as needed', 'Season to taste']

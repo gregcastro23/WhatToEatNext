@@ -86,10 +86,10 @@ export function calculateComprehensiveAspects(
   }
 
   // Calculate aspects between each planet pair
-  const planets = Object.keys(positions)
-;
-  for (let i = 0, i < planets.length i++) {
-    for (let j = i + 1, j < planets.length j++) {
+  const planets = Object.keys(positions);
+
+  for (let i = 0; i < planets.length; i++) {
+    for (let j = i + 1; j < planets.length; j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 

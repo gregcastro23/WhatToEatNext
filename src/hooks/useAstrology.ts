@@ -53,10 +53,10 @@ const initialAstrologyState: AstrologyState = {
  */
 export function useAstrology(options: AstrologyOptions = {}) {
   const {
-    latitude = null;
-    longitude = null;
-    date: _providedDate;
-    autoLoad = true;
+    latitude = null,
+    longitude = null,
+    date: _providedDate,
+    autoLoad = true,
     useFallback = false
   } = options;
 

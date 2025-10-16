@@ -45,8 +45,8 @@ export function useCurrentChart() {
 
         Object.entries(planetaryPositions).forEach(([key, data]) => {
           // Skip non-planetary keys like ascendant
-          if (key === 'ascendant')) {
-            return
+          if (key === 'ascendant') {
+            return;
           }
 
           // Format each planet entry with proper capitalization

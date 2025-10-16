@@ -23,7 +23,7 @@ export class BuildValidator {
       'app-paths-manifest.json',
       'next-font-manifest.json',
       'middleware-manifest.json'
-    ],
+    ];
   }
 
   /**
@@ -244,10 +244,10 @@ export class BuildValidator {
       'app-paths-manifest.json': {},
       'next-font-manifest.json': {
         pages: {},
-        app: {}
+        app: {},
         _appUsingSizeAdjust: false,
         _pagesUsingSizeAdjust: false
-},
+      },
       'middleware-manifest.json': {
         _sortedMiddleware: [],
         middleware: {},

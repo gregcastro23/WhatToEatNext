@@ -105,10 +105,10 @@ export async function validatePlanetaryPositions(
 
       // Calculate difference
       const signDiff = formattedCalculated.sign !== refPosition.sign;
-      const degreeDiff = Math.abs(formattedCalculated.degree - refPosition.degree)
-      const minuteDiff = refPosition.minute;
+      const degreeDiff = Math.abs(formattedCalculated.degree - refPosition.degree);
+      const minuteDiff = refPosition.minute
         ? Math.abs((formattedCalculated.minute || 0) - refPosition.minute)
-        : 0,
+        : 0;
       const retrogradeMatch = formattedCalculated.isRetrograde === refPosition.isRetrograde;
 
       // Consider accurate if sign matches and degree is within tolerance

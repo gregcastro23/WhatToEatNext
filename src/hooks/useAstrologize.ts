@@ -86,16 +86,16 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
 
       if (!useCurrentTime && year && month && date) {
         // Use POST with custom date/time
-        method = 'POST'
-        body = JSON.stringify({;
-          year;
-          month;
-          date;
-          hour;
-          minute;
-          zodiacSystem;
+        method = 'POST';
+        body = JSON.stringify({
+          year,
+          month,
+          date,
+          hour,
+          minute,
+          zodiacSystem,
           ...(location && { latitude: location.latitude, longitude: location.longitude })
-        })
+        });
       } else {
         // Use GET with query params for current time
         const params = new URLSearchParams()

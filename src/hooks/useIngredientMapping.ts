@@ -90,7 +90,7 @@ export function useIngredientMapping() {
   /**
    * Calculate compatibility between two ingredients
    */
-  const calculateCompatibility = useCallback((ingredient1: string, ingredient2: string) => {,
+  const calculateCompatibility = useCallback((ingredient1: string, ingredient2: string) => {
     try {
       setIsLoading(true)
       setError(null)

@@ -69,23 +69,23 @@ export interface MemoryUsageAnalysis {
 export interface QualityMetricsReport {
   overallScore: number // 0-100,
   codeQuality: {
-    typeScriptErrors: number,
-    lintingWarnings: number,
-    testCoverage: number,
-    codeComplexity: number
-  },
+    typeScriptErrors: number;
+    lintingWarnings: number;
+    testCoverage: number;
+    codeComplexity: number;
+  };
   buildQuality: {
-    successRate: number,
-    averageBuildTime: number,
-    failureRate: number,
-    recoveryTime: number
-  },
+    successRate: number;
+    averageBuildTime: number;
+    failureRate: number;
+    recoveryTime: number;
+  };
   performanceQuality: {
-    bundleSize: number,
-    loadTime: number,
-    memoryEfficiency: number,
-    cacheEfficiency: number
-  },
+    bundleSize: number;
+    loadTime: number;
+    memoryEfficiency: number;
+    cacheEfficiency: number;
+  };
   technicalDebt: {
     debtRatio: number,
     maintainabilityIndex: number,
@@ -135,11 +135,11 @@ export interface GCStats {
 }
 
 export enum AlertType {
-  BUILD_PERFORMANCE = 'BUILD_PERFORMANCE';
-  MEMORY_USAGE = 'MEMORY_USAGE';
-  BUNDLE_SIZE = 'BUNDLE_SIZE';
-  ERROR_RATE = 'ERROR_RATE',,
-  QUALITY_GATE = 'QUALITY_GATE',,
+  BUILD_PERFORMANCE = 'BUILD_PERFORMANCE',
+  MEMORY_USAGE = 'MEMORY_USAGE',
+  BUNDLE_SIZE = 'BUNDLE_SIZE',
+  ERROR_RATE = 'ERROR_RATE',
+  QUALITY_GATE = 'QUALITY_GATE'
 }
 
 export enum AlertSeverity {

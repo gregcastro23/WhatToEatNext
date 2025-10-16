@@ -78,7 +78,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
         const result = await fetchFunction();
         const fetchTime = performance.now() - startTime;
 
-        setMetrics(prev => ({,
+        setMetrics(prev => ({
           ...prev,
           dataFetchTime: fetchTime,
           lastUpdated: new Date()

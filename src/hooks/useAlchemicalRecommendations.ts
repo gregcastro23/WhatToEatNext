@@ -102,7 +102,7 @@ export const _useAlchemicalRecommendations = ({
             'Spirit') as AlchemicalProperty,
           heat: adapter.getHeatIndex() || 0.5,
           entropy: adapter.getEntropyIndex() || 0.5,
-          reactivity: adapter.getReactivityIndex() || 0.5;
+          reactivity: adapter.getReactivityIndex() || 0.5,
           gregsEnergy: adapter.getGregsEnergyIndex() || 0.5
         }
 

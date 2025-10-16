@@ -99,8 +99,8 @@ export function getCurrentTransitSign(
 export function validateRetrogradePhase(
   planet: string,
   date: Date,
-  transitDates: PlanetTransitDates,
-): { isRetrograde: boolean phase?: string } {
+  transitDates: PlanetTransitDates
+): { isRetrograde: boolean; phase?: string } {
   try {
     if (!transitDates.RetrogradePhases) {
       return { isRetrograde: false }

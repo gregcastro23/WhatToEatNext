@@ -66,15 +66,15 @@ export function useAstrologicalInfluence() {
       }
     })
 
-    const dominantElement = Object.entries(elementCounts).reduce((ab) =>
+    const dominantElement = Object.entries(elementCounts).reduce((a, b) =>
       elementCounts[a[0] as keyof typeof elementCounts] >
       elementCounts[b[0] as keyof typeof elementCounts]
-        ? a;
-        : b;
+        ? a
+        : b
     )[0];
 
     // Calculate aspect strength (simplified)
-    const aspectStrength = astrologicalState.aspects;
+    const aspectStrength = astrologicalState.aspects
       ? Math.min(1, astrologicalState.aspects || [].length / 10)
       : 0.5;
 

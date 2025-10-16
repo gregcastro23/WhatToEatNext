@@ -31,8 +31,8 @@ export function initializeAlchemicalEngine() {
  * A static version of the alchemize function that can be used directly
  * This wraps the core engine's implementation
  */
-export const _staticAlchemize = ...,
-  return alchemicalEngine.alchemize(birthInfo, horoscopeDict)
+export const _staticAlchemize = (birthInfo: any, horoscopeDict: any) => {
+  return alchemicalEngine.alchemize(birthInfo, horoscopeDict);
 }
 
 // Re-export the core functionality

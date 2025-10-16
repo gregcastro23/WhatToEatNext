@@ -634,8 +634,8 @@ export class RecipeAnalyzer {
     alchemicalClassifications: { [key: string]: number }
   } {
     const enhanced = recipes.filter(r => r.enhancementMetadata?.phase3Enhanced);
-    const kalchmValues = enhanced;
-      .map(r => r.alchemicalProperties?.totalKalchm);
+    const kalchmValues = enhanced
+      .map(r => r.alchemicalProperties?.totalKalchm)
       .filter(k => k !== undefined) as number[];
 
     const monicaCalculated = enhanced.filter(r => r.enhancementMetadata?.monicaCalculated).length;

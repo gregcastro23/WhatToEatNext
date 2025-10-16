@@ -88,9 +88,9 @@ export interface CampaignTrigger {
  * Automated Quality Assurance System
  */
 export class AutomatedQualityAssurance {
-  private static instance: AutomatedQualityAssurance,
-  private config: QualityAssuranceConfig
-  private metrics: QualityMetrics,
+  private static instance: AutomatedQualityAssurance;
+  private config: QualityAssuranceConfig;
+  private metrics: QualityMetrics;
   private _lastValidation: number = 0;
   private validationInterval: NodeJS.Timeout | null = null;
   private campaignTriggers: CampaignTrigger[] = [];

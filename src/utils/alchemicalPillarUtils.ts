@@ -622,13 +622,14 @@ const getMethodCompatibility = (
  * @param count Number of recommendations to return
  * @returns Array of recommended cooking methods with compatibility scores
  */
-export const _getHolisticCookingRecommendations = ...,
+export const _getHolisticCookingRecommendations = async (
+  item: any,
   planet?: string,
   tarotCard?: string,
   isDaytime = true,
   availableMethods: string[] = [],
   count = 5
-): Promise<Array<{ method: string, compatibility: number, reason: string }>> => {
+): Promise<Array<{ method: string; compatibility: number; reason: string }>> => {
   logger.debug('\n--- HOLISTIC COOKING RECOMMENDATIONS ---')
   logger.debug(`Ingredient: ${(item as any).name}`)
   logger.debug(`Planet influence: ${planet || 'None'}`)

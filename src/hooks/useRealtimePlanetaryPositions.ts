@@ -61,13 +61,13 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
         source
       })
 
-      log.info('🌟 Updated planetary positions from: ', { source })
+      log.info('🌟 Updated planetary positions from: ', { source });
     } catch (error) {
-      setState(prev => ({,
+      setState(prev => ({
         ...prev,
         loading: false,
         error: error instanceof Error ? error.message : 'Unknown error'
-}))
+      }));
       _logger.error('Failed to fetch planetary positions: ', error)
     }
   }, [location, zodiacSystem])
