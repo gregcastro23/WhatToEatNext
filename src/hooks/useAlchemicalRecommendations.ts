@@ -94,14 +94,14 @@ export const _useAlchemicalRecommendations = ({
 
         // Get recommendations
         const recs: AlchemicalRecommendations = {
-          topIngredients: adapter.getRecommendedIngredients(count || 5).items;
-          topMethods: adapter.getRecommendedCookingMethods(count || 3).items;
-          topCuisines: adapter.getRecommendedCuisines(count || 3).items;
-          dominantElement: adapter.getDominantElement() || 'Fire'
-          dominantAlchemicalProperty: (adapter.getDominantAlchemicalProperty() ||;
-            'Spirit') as AlchemicalProperty;
-          heat: adapter.getHeatIndex() || 0.5;
-          entropy: adapter.getEntropyIndex() || 0.5;
+          topIngredients: adapter.getRecommendedIngredients(count || 5).items,
+          topMethods: adapter.getRecommendedCookingMethods(count || 3).items,
+          topCuisines: adapter.getRecommendedCuisines(count || 3).items,
+          dominantElement: adapter.getDominantElement() || 'Fire',
+          dominantAlchemicalProperty: (adapter.getDominantAlchemicalProperty() ||
+            'Spirit') as AlchemicalProperty,
+          heat: adapter.getHeatIndex() || 0.5,
+          entropy: adapter.getEntropyIndex() || 0.5,
           reactivity: adapter.getReactivityIndex() || 0.5;
           gregsEnergy: adapter.getGregsEnergyIndex() || 0.5
         }
@@ -110,44 +110,44 @@ export const _useAlchemicalRecommendations = ({
         setRecommendations(recs)
 
         // Apply deep type conversion to resolve cross-import conflicts
-        const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {;
+        const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {
           return items.map(item => {
             // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
             const convertedItem = {
-              ...item
+              ...item,
               // Ensure all required AlchemicalItem properties are present
-              elementalProperties: (item as any).elementalProperties || {;
-                Fire: 0.25;
-                Water: 0.25;
-                Earth: 0.25;
+              elementalProperties: (item as any).elementalProperties || {
+                Fire: 0.25,
+                Water: 0.25,
+                Earth: 0.25,
                 Air: 0.25
-};
+              },
               alchemicalProperties: (item as any).alchemicalProperties || {
-                Spirit: 0.25;
-                Essence: 0.25;
-                Matter: 0.25;
+                Spirit: 0.25,
+                Essence: 0.25,
+                Matter: 0.25,
                 Substance: 0.25
-};
+              },
               // Add required properties for alchemicalTransformation.AlchemicalItem
-              transformedElementalProperties: (item as any).transformedElementalProperties ||;
+              transformedElementalProperties: (item as any).transformedElementalProperties ||
                 (item as any).elementalProperties || {
-                  Fire: 0.25;
-                  Water: 0.25;
-                  Earth: 0.25;
+                  Fire: 0.25,
+                  Water: 0.25,
+                  Earth: 0.25,
                   Air: 0.25
-};
-              heat: (item as any).heat || 0.5;
-              entropy: (item as any).entropy || 0.5;
-              reactivity: (item as any).reactivity || 0.5;
-              gregsEnergy: (item as any).gregsEnergy || (item as any).energy || 0.5;
-              kalchm: (item as any).kalchm || 1.0;
-              monica: (item as any).monica || 0.5;
-              transformations: (item as any).transformations || [];
-              seasonalResonance: (item as any).seasonalResonance || [];
+                },
+              heat: (item as any).heat || 0.5,
+              entropy: (item as any).entropy || 0.5,
+              reactivity: (item as any).reactivity || 0.5,
+              gregsEnergy: (item as any).gregsEnergy || (item as any).energy || 0.5,
+              kalchm: (item as any).kalchm || 1.0,
+              monica: (item as any).monica || 0.5,
+              transformations: (item as any).transformations || [],
+              seasonalResonance: (item as any).seasonalResonance || [],
               thermodynamicProperties: (item as any).thermodynamicProperties || {
-                heat: (item as any).heat || 0.5;
-                entropy: (item as any).entropy || 0.5;
-                reactivity: (item as any).reactivity || 0.5;
+                heat: (item as any).heat || 0.5,
+                entropy: (item as any).entropy || 0.5,
+                reactivity: (item as any).reactivity || 0.5,
                 gregsEnergy: (item as any).gregsEnergy || (item as any).energy || 0.5
               }
             }

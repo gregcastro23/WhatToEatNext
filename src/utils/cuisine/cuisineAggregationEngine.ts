@@ -308,7 +308,7 @@ export function computeCuisineProperties(
   options: CuisineComputationOptions = {}
 ): CuisineComputedProperties {
   const {
-    weightingStrategy = 'equal';
+    weightingStrategy = 'equal',
     includeVariance = true
   } = options;
 

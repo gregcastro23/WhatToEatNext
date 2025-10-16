@@ -27,7 +27,7 @@ export async function calculateElementalCompatibility(
 
   // Calculate simple similarity score
   const similarity = recipeElementalService.calculateSimilarity(
-    recipe.elementalProperties
+    recipe.elementalProperties,
     user.elementalProperties
   )
 

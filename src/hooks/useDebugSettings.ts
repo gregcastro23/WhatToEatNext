@@ -5,14 +5,16 @@ import { useState, useEffect, useCallback } from 'react';
 export interface DebugSettings {
   isVisible: boolean,
   isCollapsed: boolean,
-  position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
-  customPosition?: { x: numbery: number },
+  position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left',
+  customPosition?: { x: number, y: number },
   showPerformanceMetrics: boolean,
   showAstrologicalData: boolean,
   showComponentStates: boolean,
   opacity: number,
-  size: 'small' | 'medium' | 'large' },
-        const DEFAULT_SETTINGS: DebugSettings = {
+  size: 'small' | 'medium' | 'large'
+}
+
+const DEFAULT_SETTINGS: DebugSettings = {
   isVisible: true,
   isCollapsed: false,
   position: 'bottom-right',

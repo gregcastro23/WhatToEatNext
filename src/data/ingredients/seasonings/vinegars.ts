@@ -405,8 +405,7 @@ const rawVinegars = {
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
           },
-          season: ['year-round']
-        },
+          season: ['year-round'],
         timing: {
           daily_use: 'morning or before meals',
           detox: '2-3 times daily before meals'
@@ -445,7 +444,6 @@ const rawVinegars = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
@@ -518,7 +516,7 @@ const rawVinegars = {
             name: 'Shallot Based',
             method: 'macerate shallots in vinegar',
             timing: '15 minutes before adding oil'
-}
+          }
         },
         pairings: ['dijon mustard', 'shallots', 'herbs']
       },
@@ -529,12 +527,12 @@ const rawVinegars = {
           vegetables: '30 minutes to 2 hours',
           chicken: '2-4 hours',
           beef: '4-6 hours'
-},
+        },
         ratios: {
           basic: '1:3:1 (vinegar:oil:aromatics)',
           tenderizing: '2:2:1 (vinegar:oil:aromatics)',
           vegetable: '1:2:1 (vinegar:oil:aromatics)'
-},
+        },
         techniques: {
           provençal: {
             name: 'Provençal',

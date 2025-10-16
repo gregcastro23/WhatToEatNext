@@ -32,7 +32,7 @@ export function useThermodynamics(initial?: UseThermodynamicsOptions) {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
-      throw err,
+      throw err;
     }
   }, [initial?.elemental, initial?.esms, initial?.ingredients, initial?.planetaryPositions])
 

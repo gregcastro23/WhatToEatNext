@@ -287,8 +287,8 @@ export class UnifiedFlavorProfileSystem {
     const compatibility =
       elementalHarmony * 0.4 +
       kalchmResonance * 0.3 +
-      monicaOptimization * 0.15 +;
-      seasonalAlignment * 0.15,
+      monicaOptimization * 0.15 +
+      seasonalAlignment * 0.15;
 
     // Generate recommendations and warnings
     const recommendations: string[] = [];

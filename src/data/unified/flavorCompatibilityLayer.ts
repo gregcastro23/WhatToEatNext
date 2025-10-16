@@ -302,10 +302,10 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
     nutritionalSynergy: legacyProfile.nutritionalSynergy || 0.7,
     temperatureOptimal: legacyProfile.temperatureOptimal || 20,
 
-    description: legacyProfile.description || 'Legacy profile'
+    description: legacyProfile.description || 'Legacy profile',
     tags: legacyProfile.tags || ['legacy'],
     lastUpdated: new Date()
-  } as unknown as UnifiedFlavorProfile,
+  } as unknown as UnifiedFlavorProfile;
 }
 
 function convertUnifiedToLegacy(

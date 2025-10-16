@@ -510,7 +510,7 @@ export function getCuisineCompatibilityRecommendations(
 
   return allCuisines
     .filter(c => c !== cuisine)
-    .map(targetCuisine => ({,
+    .map(targetCuisine => ({
       cuisine: targetCuisine,
       score: calculateCuisineCompatibility(cuisine, targetCuisine),
       factors: getCompatibilityFactors(cuisine, targetCuisine),

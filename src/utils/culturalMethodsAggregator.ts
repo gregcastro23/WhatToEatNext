@@ -168,8 +168,8 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   const methodsByMainCategory: Record<string, CulturalCookingMethod[]> = {}
 
   // Extract cooking techniques from each cuisine
-  cuisines.forEach(cuisine => {,
-    if (!cuisine.data.cookingTechniques) return,
+  cuisines.forEach(cuisine => {
+    if (!cuisine.data.cookingTechniques) return;
 
     cuisine.data.cookingTechniques.forEach(technique => {
       // Generate a unique ID for each cooking method

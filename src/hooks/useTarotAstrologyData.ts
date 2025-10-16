@@ -18,12 +18,12 @@ import {useAstrologicalState} from './useAstrologicalState';
 const logger = createLogger('TarotAstrology')
 
 // Define types for tarot cards
-interface TarotCard {;
-  name: string,
-  number?: number,
-  suit?: string,
-  planet?: string
-  element?: string,
+interface TarotCard {
+  name: string;
+  number?: number;
+  suit?: string;
+  planet?: string;
+  element?: string;
   description?: string,
   keywords?: string[],
   [key: string]: unknown

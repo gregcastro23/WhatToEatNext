@@ -727,7 +727,7 @@ function isDaytime(date: Date = new Date()): boolean {;
 export function getEnhancedPlanetaryNutritionalRecommendations(
   planetaryDay: string,
   planetaryHour: string,
-  currentTime: Date = new Date(),,
+  currentTime: Date = new Date()
 ): {
   elements: Record<string, number>,
   focusNutrients: string[],
@@ -845,15 +845,15 @@ export function getSeasonalNutritionalRecommendations(_season: string): {
   seasonalFoods: string[]
 } {
   // Normalize season name
-  const normalizedSeason = season.toLowerCase()
+  const normalizedSeason = season.toLowerCase();
 
   // Handle both 'autumn' and 'fall'
-  const seasonKey =;
+  const seasonKey =
     normalizedSeason === 'fall' || normalizedSeason === 'autumn' ? 'autumn' : normalizedSeason;
 
-  const seasonData = seasonalNutritionFocus[seasonKey] || seasonalNutritionFocus['spring']
+  const seasonData = seasonalNutritionFocus[seasonKey] || seasonalNutritionFocus['spring'];
 
-  return {;
+  return {
     element: (seasonData as { elementalEmphasis?: string })?.elementalEmphasis ?? 'Earth',
     focusNutrients: (seasonData as { nutritionalFocus?: string[] })?.nutritionalFocus ?? [],
     seasonalFoods: seasonData.recommendedFoods

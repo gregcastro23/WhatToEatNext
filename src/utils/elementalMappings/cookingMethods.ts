@@ -9,9 +9,9 @@ export const _cookingMethodModifiers: CookingMethodModifier[] = [
     duration: {
       min: 5,
       max: 30
-},
-    notes: 'Boiling increases water element, good for softening foods',
-  }
+    },
+    notes: 'Boiling increases water element, good for softening foods'
+  },
   {
     element: 'Fire',
     intensity: 0.8,

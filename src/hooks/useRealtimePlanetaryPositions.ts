@@ -25,14 +25,14 @@ interface UseRealtimePlanetaryPositionsOptions {
   testConnection?: boolean
 }
 
-export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPositionsOptions = {})) {
+export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPositionsOptions = {}) {
   const {
-    refreshInterval = 30 * 60 * 1000, // 30 minutes to reduce API load,
+    refreshInterval = 30 * 60 * 1000, // 30 minutes to reduce API load
     location,
-    autoStart = false; // Disabled by default to prevent unnecessary API calls,
-    zodiacSystem = 'tropical';
-    testConnection = false;
-  } = options;
+    autoStart = false, // Disabled by default to prevent unnecessary API calls
+    zodiacSystem = 'tropical',
+    testConnection = false
+  } = _options;
 
   const [state, setState] = useState<PlanetaryPositionsState>({
     positions: null,

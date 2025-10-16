@@ -28,8 +28,10 @@ export interface RecipeCompatibilityResult {
 /**
  * Calculate recipe compatibility with current moment's alchemical profile
  */
-export function calculateRecipeCompatibility(recipeElementalProperties: ElementalProperties,
-  currentMomentKalchmResult: KalchmResult): RecipeCompatibilityResult {
+export function calculateRecipeCompatibility(
+  recipeElementalProperties: ElementalProperties,
+  currentMomentKalchmResult: KalchmResult
+): RecipeCompatibilityResult {
   // Convert ElementalValues to ElementalProperties for compatibility
   const currentMomentElementalProperties = toElementalProperties(currentMomentKalchmResult);
   // Calculate comprehensive elemental alignments
@@ -210,8 +212,10 @@ function calculateKalchmAlignment(recipeElements: ElementalProperties,
 /**
  * Calculate monica constant alignment for cooking method compatibility
  */
-function calculateMonicaAlignment(recipeElements: ElementalProperties,
-  currentMomentKalchmResult: KalchmResult): number {
+function calculateMonicaAlignment(
+  recipeElements: ElementalProperties,
+  currentMomentKalchmResult: KalchmResult
+): number {
   // Monica constant indicates how well the alchemical transformation will proceed
   const currentMomentMonica = currentMomentKalchmResult.thermodynamics.monicaConstant;
 

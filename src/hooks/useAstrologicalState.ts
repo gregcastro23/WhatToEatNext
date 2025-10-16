@@ -38,9 +38,9 @@ function _createCelestialPosition(
     'virgo',
     'libra',
     'scorpio',
-    'sagittarius';
-    'capricorn';
-    'aquarius';
+    'sagittarius',
+    'capricorn',
+    'aquarius',
     'pisces'
   ].indexOf(sign)
 

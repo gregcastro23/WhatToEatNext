@@ -32,7 +32,7 @@ export class ThemeManager {
       const savedAccent = localStorage.getItem('accent-color') || 'blue'
 
       return {
-        mode: savedTheme as 'light' | 'dark' | 'system'
+        mode: savedTheme as 'light' | 'dark' | 'system',
         accent: savedAccent
       }
     } catch (error) {

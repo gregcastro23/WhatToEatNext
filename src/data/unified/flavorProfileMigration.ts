@@ -563,7 +563,7 @@ export class FlavorProfileMigration {;
 
   private extractCuisineBaseNotes(cuisineData: CuisineFlavorProfile): BaseFlavorNotes {
     if (cuisineData.flavorProfiles) {
-      return {;
+      return {
         sweet: cuisineData.flavorProfiles.sweet || 0,
         sour: cuisineData.flavorProfiles.sour || 0,
         salty: cuisineData.flavorProfiles.salty || 0,
@@ -621,11 +621,11 @@ export class FlavorProfileMigration {;
 
   // ===== PLANETARY-SPECIFIC HELPERS =====
 
-  private extractPlanetaryBaseNotes(planetData: Planet): BaseFlavorNotes {,
+  private extractPlanetaryBaseNotes(planetData: Planet): BaseFlavorNotes {
     const planetRecord = planetData as unknown as any;
-    const flavorProfiles = planetRecord.flavorProfiles 
+    const flavorProfiles = planetRecord.flavorProfiles;
     if (flavorProfiles) {
-      return {;
+      return {
         sweet: Number(flavorProfiles.sweet) || 0,
         sour: Number(flavorProfiles.sour) || 0,
         salty: Number(flavorProfiles.salty) || 0,
@@ -699,16 +699,16 @@ export class FlavorProfileMigration {;
 
   // ===== DEFAULT VALUES =====
 
-  private getDefaultAlchemicalProperties(): AlchemicalValues {,
-    return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
+  private getDefaultAlchemicalProperties(): AlchemicalValues {
+    return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 };
   }
 
   private getDefaultPlanetaryResonance(): Record<PlanetName, PlanetaryFlavorInfluence> {
-    const planets: PlanetName[] = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'],
+    const planets: PlanetName[] = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'];
     const resonance: Record<PlanetName, PlanetaryFlavorInfluence> = {} as Record<
       PlanetName,
       PlanetaryFlavorInfluence
-    >,
+    >;
 
     planets.forEach(planet => {
       resonance[planet] = {

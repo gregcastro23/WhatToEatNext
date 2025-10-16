@@ -11,10 +11,11 @@ import { Recipe } from '@/types/recipe';
 // --- Core Types ---
 
 export type ElementalColor = {
-  primary: string,
-  secondary: string,
-  text: string,
-  border: stringbg: string
+  primary: string;
+  secondary: string;
+  text: string;
+  border: string;
+  bg: string;
 }
 
 export interface ElementalCompatibility {

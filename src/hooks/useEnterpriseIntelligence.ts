@@ -75,7 +75,7 @@ export interface UseEnterpriseIntelligenceReturn {
     optimization: string[]
   },
   systemHealth: {
-    overall: 'excellent' | 'good' | 'fair' | 'poor'
+    overall: 'excellent' | 'good' | 'fair' | 'poor',
     score: number,
     issues: string[],
     warnings: string[]
@@ -377,8 +377,8 @@ export function useEnterpriseIntelligence(
 
   // Auto-analyze effect
   useEffect(() => {
-    if (config.autoAnalyze && lastAnalysisParams && !state.isAnalyzing)) {
-      const interval = config.analysisInterval || 30000, // Default 30 seconds,
+    if (config.autoAnalyze && lastAnalysisParams && !state.isAnalyzing) {
+      const interval = config.analysisInterval || 30000; // Default 30 seconds
 
       const timer = setInterval(() => {
         if (config.enableRealTimeUpdates) {

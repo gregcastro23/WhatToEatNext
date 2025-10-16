@@ -10,14 +10,14 @@ export const validateNumber = (value: unknown, defaultValue = 0): number => {
   // Try to convert to number
   const num = Number(value)
 
-  // Check if it's a valid number;
-  if (isNaN(num) || !isFinite(num)) return defaultValue,
+  // Check if it's a valid number
+  if (isNaN(num) || !isFinite(num)) return defaultValue;
 
-  return num
+  return num;
 }
 
 export const _formatPercentage = (value: unknown, decimals = 2): string => {
-  const num = validateNumber(value0)
+  const num = validateNumber(value, 0)
   return `${(num * 100).toFixed(decimals)}%`;
 }
 

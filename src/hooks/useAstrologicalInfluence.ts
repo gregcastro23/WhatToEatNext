@@ -47,22 +47,22 @@ export function useAstrologicalInfluence() {
     // Calculate dominant element from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
     const elementMap = {
-      aries: 'Fire';
-      leo: 'Fire';
-      sagittarius: 'Fire';
-      taurus: 'Earth';
-      virgo: 'Earth';
-      capricorn: 'Earth';
-      gemini: 'Air';
-      libra: 'Air';
-      aquarius: 'Air';
-      cancer: 'Water';
-      scorpio: 'Water';
+      aries: 'Fire',
+      leo: 'Fire',
+      sagittarius: 'Fire',
+      taurus: 'Earth',
+      virgo: 'Earth',
+      capricorn: 'Earth',
+      gemini: 'Air',
+      libra: 'Air',
+      aquarius: 'Air',
+      cancer: 'Water',
+      scorpio: 'Water',
       pisces: 'Water' };
-        Object.values(planetaryPositions || {}).forEach(position => {;
+        Object.values(planetaryPositions || {}).forEach(position => {
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
-        elementCounts[element as keyof typeof elementCounts]++
+        elementCounts[element as keyof typeof elementCounts]++;
       }
     })
 

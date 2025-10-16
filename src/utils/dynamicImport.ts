@@ -58,8 +58,8 @@ interface MoonTimesModule {
   _calculateMoonTimes: (
     date: Date,
     latitude: number,
-    longitude: number,
-  ) => { rise?: Date set?: Date }
+    longitude: number
+  ) => { rise?: Date; set?: Date }
 }
 
 interface CuisineCalculationsModule {

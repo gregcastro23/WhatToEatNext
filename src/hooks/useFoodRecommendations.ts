@@ -50,13 +50,13 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
   const astroState = useMemo<AstrologicalState>(() => {
     // Provide fallback values to ensure the object is always complete
     return {
-      // Required fields from the type definition;
-      currentZodiac: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries'
+      // Required fields from the type definition
+      currentZodiac: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries',
       moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon',
-      currentPlanetaryAlignment: state.astrologicalState.currentPlanetaryAlignment || {}
+      currentPlanetaryAlignment: state.astrologicalState.currentPlanetaryAlignment || {},
       activePlanets: state.astrologicalState.activePlanets || ['sun', 'moon'],
       planetaryPositions: (planetaryPositions || {}) as Record<string, CelestialPosition>,
-      lunarPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon'
+      lunarPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon',
       zodiacSign: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries',
       planetaryHours: (state.astrologicalState.planetaryHour as Planet) || 'Sun',
       aspects: (state.astrologicalState.aspects || []) as PlanetaryAspect[],

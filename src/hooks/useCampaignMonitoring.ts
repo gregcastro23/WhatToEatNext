@@ -55,9 +55,9 @@ export interface UseCampaignMonitoringReturn {
  */
 export const useCampaignMonitoring = (
   options: UseCampaignMonitoringOptions = {}): UseCampaignMonitoringReturn => {
-  const {;
-    autoRefresh = true,,
-    refreshInterval = 30000, // 30 seconds,
+  const {
+    autoRefresh = true,
+    refreshInterval = 30000, // 30 seconds
     onCampaignStart,
     onCampaignComplete,
     onCampaignFailed,

@@ -122,10 +122,9 @@ export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEne
   balancingMeals: string[]
 } {
   // Identify underactive chakras that need support
-  const underactiveChakras = chakraEnergyStates;
+  const underactiveChakras = chakraEnergyStates
     .filter(state => state.balanceState === 'underactive')
-    .map(state => state.chakra)
-;
+    .map(state => state.chakra);
   // If no underactive chakras, use the first few chakras to generate recommendations
   const chakrasToUse: Chakra[] =
     underactiveChakras.length > 0 ? underactiveChakras : ['Root', 'Heart', 'Crown'],

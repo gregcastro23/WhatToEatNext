@@ -24,7 +24,7 @@ export function determineModalityFromElements(_elementalProperties: ElementalPro
       if (Air > 0.5) {
         return 'Mutable';
       }
-      break,
+      break;
     case 'Earth':
       // Earth has strongest affinity with Fixed, then Cardinal, then Mutable
       if (Earth > 0.5) {

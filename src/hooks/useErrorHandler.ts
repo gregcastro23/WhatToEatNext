@@ -66,8 +66,8 @@ export default function useErrorHandler({
       // Update state
       setFoodError(errorObj)
       setFoodLoading(false)
-    }
-    [componentName],
+    },
+    [componentName]
   )
 
   return {

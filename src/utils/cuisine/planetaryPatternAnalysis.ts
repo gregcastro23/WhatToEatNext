@@ -440,7 +440,7 @@ export function validatePlanetaryAnalysisInputs(recipes: RecipeComputedPropertie
   }
 
   return {
-    isValid: errors.length === 0;
+    isValid: errors.length === 0,
     errors,
     warnings
   };

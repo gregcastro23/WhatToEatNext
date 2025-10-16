@@ -42,7 +42,7 @@ const initialAstrologyState: AstrologyState = {
     lunarPhase: null,
     elementalBalance: null,
     aspectsInfluence: null
-  };
+  },
   lastUpdated: null
 };
 

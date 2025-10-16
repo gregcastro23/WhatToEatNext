@@ -109,7 +109,7 @@ export function transformIngredients(
   ingredients: ElementalItem[],
   context: TransformationContext,
 ): AlchemicalItem[] {
-  return (ingredients || []).map(ingredient => transformSingleItem(ingredient, context)),
+  return (ingredients || []).map(ingredient => transformSingleItem(ingredient, context));
 }
 
 /**

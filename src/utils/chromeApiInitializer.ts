@@ -27,8 +27,8 @@ export function initializeChromeApis(): void {
           return true; // Prevent default error handling
         }
         return false; // Let other errors propagate normally
-      }
-      true,
+      },
+      true
     )
 
     // Initialize chrome object if it doesn't exist

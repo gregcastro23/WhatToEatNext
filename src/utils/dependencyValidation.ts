@@ -96,19 +96,19 @@ export async function validateBarrelExports(
  * Common problematic import patterns to avoid
  */
 export const PROBLEMATIC_PATTERNS = [
-  {;
-    pattern: /import.*from.*['']\.\/.*index['']/;,
+  {
+    pattern: /import.*from.*['"]\.\/.*index['"]/,
     message: 'Avoid importing from index files in the same directory - import directly from source files'
-}
+  },
   {
-    pattern: /import.*from.*['']\.\.\/\.\.\/.*index['']/;,
+    pattern: /import.*from.*['"]\.\.\/\.\.\/.*index['"]/,
     message: 'Deep relative imports to index files can create circular dependencies'
-}
+  },
   {
-    pattern: /export \* from.*['']\.\/.*index['']/,
+    pattern: /export \* from.*['"]\.\/.*index['"]/,
     message: 'Re-exporting from index files can create circular dependencies'
-}
-],
+  }
+];
 
 /**
  * Validate import statement against problematic patterns

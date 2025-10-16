@@ -19,9 +19,9 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
 
   const wsRef = useRef<WebSocket | null>(null)
 
-  useEffect(() => {;
+  useEffect(() => {
     const wsUrl = process.env.NEXT_PUBLIC_WEBSOCKET_URL;
-    if (!wsUrl) return,
+    if (!wsUrl) return;
 
     const ws = new WebSocket(wsUrl);
     wsRef.current = ws;

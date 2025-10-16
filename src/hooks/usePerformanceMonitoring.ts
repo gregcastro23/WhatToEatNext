@@ -55,7 +55,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
       user: { hits: 0, misses: 0, hitRate: 0, size: 0 }
     },
     renderTime: 0,
-    apiResponseTimes: {}
+    apiResponseTimes: {},
     timeToInteractive: 0,
     largestContentfulPaint: 0,
     firstInputDelay: 0,

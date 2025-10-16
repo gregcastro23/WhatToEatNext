@@ -58,8 +58,8 @@ export function useIngredientMapping() {
       } finally {
         setIsLoading(false)
       }
-    }
-    [],
+    },
+    []
   )
 
   /**

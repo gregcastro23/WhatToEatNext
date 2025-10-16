@@ -29,10 +29,10 @@ export function toArray<T>(value: T | T[] | undefined | null): T[] {
 export function safeIncludes<T>(
   arr: T | T[] | undefined | null,
   value: T,
-  compareFn?: (a: Tb: T) => boolean,
+  compareFn?: (a: T, b: T) => boolean
 ): boolean {
   const array = toArray(arr)
-  if (compareFn) {;
+  if (compareFn) {
     return (array || []).some(item => compareFn(item, value))
   }
   return Array.isArray(array) ? array.includes(value) : array === value;

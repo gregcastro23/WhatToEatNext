@@ -147,12 +147,12 @@ export class AstronomicalCalculations {
       culinaryEffect = 'Release and cleansing foods, detox preparations, clearing';
     } else {
       phaseName = 'waning crescent';
-      culinaryEffect = 'Rest and reflection, simple foods, preparation for new cycle',
+      culinaryEffect = 'Rest and reflection, simple foods, preparation for new cycle';
     }
 
-    const illumination = 0.5 * (1 - Math.cos((2 * Math.PI * phase) / lunarCycle))
-;
-    return { phase: phaseName, illumination, culinaryEffect }
+    const illumination = 0.5 * (1 - Math.cos((2 * Math.PI * phase) / lunarCycle));
+
+    return { phase: phaseName, illumination, culinaryEffect };
   }
 
   /**
@@ -164,22 +164,22 @@ export class AstronomicalCalculations {
   ): Record<string, { start: Date, end: Date, influence: string }> {
     // Simplified planetary hours calculation
     const sunrise = new Date(date);
-    sunrise.setHours(60, 00); // Simplified - should use actual sunrise calculation
+    sunrise.setHours(6, 0); // Simplified - should use actual sunrise calculation
 
     const sunset = new Date(date);
-    sunset.setHours(180, 00); // Simplified - should use actual sunset calculation
+    sunset.setHours(18, 0); // Simplified - should use actual sunset calculation
 
     const dayLength = sunset.getTime() - sunrise.getTime();
     const hourLength = dayLength / 12;
 
-    const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
-    const planetaryHours: Record<string, { start: Date, end: Date, influence: string }> = {}
+    const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
+    const planetaryHours: Record<string, { start: Date, end: Date, influence: string }> = {};
 
     // Start with day of week offset
-    const dayOfWeek = date.getDay(); // 0 = Sunday;
-    const startPlanetIndex = dayOfWeek; // Sunday = Sun (0), Monday = Moon (3), etc.,
+    const dayOfWeek = date.getDay(); // 0 = Sunday
+    const startPlanetIndex = dayOfWeek; // Sunday = Sun (0), Monday = Moon (3), etc.
 
-    for (let i = 0, i < 12i++) {;
+    for (let i = 0; i < 12; i++) {
       const planetIndex = (startPlanetIndex + i) % 7;
       const planet = planets[planetIndex];
 
@@ -386,12 +386,12 @@ export class PlanetaryLocationService {
    */
   static getLocationCulinaryRecommendations(
     coordinates: GeographicCoordinates,
-    date: Date = new Date();
+    date: Date = new Date()
   ): LocationCulinaryRecommendation {
     const regionalProfile = this.getRegionalProfile(coordinates);
-    const activeInfluences = this.calculateLocationPlanetaryInfluences(coordinates, date)
-    const lunarPhase = AstronomicalCalculations.getLunarPhaseInfluence(coordinates, date)
-    const planetaryHours = AstronomicalCalculations.getPlanetaryHours(coordinates, date),
+    const activeInfluences = this.calculateLocationPlanetaryInfluences(coordinates, date);
+    const lunarPhase = AstronomicalCalculations.getLunarPhaseInfluence(coordinates, date);
+    const planetaryHours = AstronomicalCalculations.getPlanetaryHours(coordinates, date);
 
     // Generate seasonal recommendations based on location and planetary influences
     const seasonalRecommendations = this.generateSeasonalRecommendations(

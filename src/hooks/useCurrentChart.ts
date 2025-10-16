@@ -8,7 +8,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 export interface ChartData {
   ascendant?: string,
   midheaven?: string,
-  planets: Record<,
+  planets: Record<
     string,
     {
       sign: string,

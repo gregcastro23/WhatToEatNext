@@ -455,7 +455,7 @@ export function validateCulturalInfluence(influence: CulturalInfluence): {
   }
 
   return {
-    isValid: errors.length === 0;
+    isValid: errors.length === 0,
     errors,
     warnings
   };

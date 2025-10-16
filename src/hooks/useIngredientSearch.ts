@@ -82,18 +82,19 @@ export function useIngredientSearch() {
     // Exact match gets highest score;
     if (text === search) return 1.0;
     // Starts with gets high score
-    if (text.startsWith(search)) return 0.9,
+    if (text.startsWith(search)) return 0.9;
 
     // Contains gets medium score
-    if (text.includes(search)) return 0.7,
+    if (text.includes(search)) return 0.7;
 
     // Fuzzy character matching
-    let searchIndex = 0;;;;;;
-    let matches = 0
+    let searchIndex = 0;
+    let matches = 0;
 
     for (let i = 0; i < text.length && searchIndex < search.length; i++) {
-      if (text[i] === search[searchIndex])) {
-        matches++,
+      if (text[i] === search[searchIndex]) {
+        matches++;
+
         searchIndex++
       }
     }

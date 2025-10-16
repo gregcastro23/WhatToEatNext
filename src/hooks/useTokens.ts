@@ -25,7 +25,7 @@ export function useTokens(initial?: TokenRatesInput) {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
-      throw err,
+      throw err;
     }
   }, [initial?.datetime, initial?.location, initial?.elemental, initial?.esms, initial?.planetaryPositions])
 

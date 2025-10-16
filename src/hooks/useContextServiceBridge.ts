@@ -64,8 +64,8 @@ export function useAlchemicalBridge() {
     servicePositions,
 
     // State information
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility,
-    isDaytime: daytime !== undefined ? daytime : (contextState as any)?.isDaytime;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+    isDaytime: daytime !== undefined ? daytime : (contextState as any)?.isDaytime,
 
     // Service references for direct access
     astrologyService,

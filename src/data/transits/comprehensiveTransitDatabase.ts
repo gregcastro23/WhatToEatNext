@@ -152,7 +152,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         dominantPlanets: ['Venus', 'Jupiter', 'Uranus'],
         retrogradePlanets: [],
         specialEvents: ['Venus Direct', 'Mercury Direct']
-      }
+      },
       {
         id: '2024-gemini-early',
         name: 'Early Gemini (May 21 - June 20)',
@@ -167,16 +167,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'conjunction' as AspectType,
             orb: 2.8,
             influence: 0.85,
-            description: 'Intellectual air energy, perfect for experimental and varied cuisine' },
-        as PlanetaryAspect,
+            description: 'Intellectual air energy, perfect for experimental and varied cuisine'
+          } as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Venus',
             aspectType: 'trine' as AspectType,
             orb: 1.5,
             influence: 0.75,
-            description: 'Harmonious communication between fire and earth elements' },
-        as PlanetaryAspect
+            description: 'Harmonious communication between fire and earth elements'
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'gemini', degree: 8, exactLongitude: 68, isRetrograde: false },
@@ -217,8 +217,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         aspectType: 'square' as AspectType,
         orb: 1.8,
         influence: 0.9,
-        description: 'Major structural changes in spiritual and material realms' },
-        as PlanetaryAspect
+        description: 'Major structural changes in spiritual and material realms'
+      } as PlanetaryAspect
     ],
     eclipseSeasons: [
       new Date('2024-04-08'), // Solar Eclipse

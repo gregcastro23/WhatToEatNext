@@ -47,7 +47,7 @@ export function cleanupIngredientsDatabase() {
             `Added default elemental properties to ${data.name || name || 'unknown ingredient'}`,
           )
         } else {
-          const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
+          const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
           let modified = false;
 
           // Ensure all elemental properties are present and normalized

@@ -548,10 +548,10 @@ export async function getRecommendedCookingMethods(
   elementalComposition: ElementalProperties,
   currentZodiac?: any,
   planets?: string[],
-  season = getCurrentSeason();
+  season = getCurrentSeason(),
   culturalPreference?: string,
   dietaryPreferences?: string[],
-  availableTools?: string[],
+  availableTools?: string[]
 ): Promise<CookingMethodData[]> {
   // Convert cooking methods to array for easier processing
   const methodsArray = Object.entries(allCookingMethodsCombined)

@@ -113,7 +113,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     description: raw.description ? String(raw.description) : undefined,
     cuisine: String(raw.cuisine || 'international'),
     mealType: Array.isArray(raw.mealType) ? raw.mealType || [].map(String) : ['dinner'],
-    servings: typeof raw.servings === 'number' ? raw.servings : 4;
+    servings: typeof raw.servings === 'number' ? raw.servings : 4,
     prepTime: typeof raw.prepTime === 'number'
         ? `${raw.prepTime} minutes`
         : typeof raw.prepTime === 'string'

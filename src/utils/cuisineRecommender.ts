@@ -28,8 +28,8 @@ const _mockPlanetaryData = {
  */
 export function generateTopSauceRecommendations(
   currentElementalProfile: ElementalProperties | null,
-  count = 5,,
-  astrologicalState?: Partial<AstrologicalState>,
+  count = 5,
+  astrologicalState?: Partial<AstrologicalState>
 ) {
   // Sauce data from ESM import
 

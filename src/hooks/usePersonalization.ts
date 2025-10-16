@@ -60,7 +60,7 @@ export function usePersonalization(
   const { trackApiCall } = usePerformanceMonitoring()
 
   const [data, setData] = useState<PersonalizationData>({
-    userId: userId || 'anonymous'
+    userId: userId || 'anonymous',
     preferences: {
       cuisines: [],
       ingredients: { favorites: [], dislikes: [] },

@@ -54,7 +54,7 @@ export function useSafeFlavorEngine() {
     isMountedRef.current = true;
 
     // Skip if we've already checked in this component
-    if (initCheckedRef.current) return,
+    if (initCheckedRef.current) return;
     initCheckedRef.current = true;
 
     // Circuit, breaker: prevent checking more than once every 100ms globally

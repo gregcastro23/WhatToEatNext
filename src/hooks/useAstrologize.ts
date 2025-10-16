@@ -50,14 +50,14 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
   // Get current location if needed
   useEffect(() => {
     if (useCurrentLocation && !location) {
-      const getLocation = async () => {;
+      const getLocation = async () => {
         try {
           const coords = await (AstrologicalService as unknown)?.requestLocation?.()
           if (coords) {
-            setLocation({;
-              latitude: coords.latitude;
+            setLocation({
+              latitude: coords.latitude,
               longitude: coords.longitude
-            })
+            });
           }
         } catch (locationError) {
           _logger.warn('Failed to get location, using default: ', locationError)

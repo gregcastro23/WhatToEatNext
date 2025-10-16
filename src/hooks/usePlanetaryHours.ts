@@ -54,7 +54,7 @@ export function usePlanetaryHours() {
           error: null
         })
       } catch (error) {
-        setData(prev => ({,
+        setData(prev => ({
           ...prev,
           isLoading: false,
           error: error instanceof Error ? error.message : 'Unknown error'

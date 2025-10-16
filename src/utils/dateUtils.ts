@@ -32,10 +32,10 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
  * @param month Month (0-11)
  * @returns Season
  */
-export const _getSeason = (month: number): Season => {;
-  if ([110, 1].includes(month)) return 'winter',
-  if ([23, 4].includes(month)) return 'spring',
-  if ([56, 7].includes(month)) return 'summer',
+export const _getSeason = (month: number): Season => {
+  if ([11, 0, 1].includes(month)) return 'winter';
+  if ([2, 3, 4].includes(month)) return 'spring';
+  if ([5, 6, 7].includes(month)) return 'summer';
   return 'fall';
 }
 

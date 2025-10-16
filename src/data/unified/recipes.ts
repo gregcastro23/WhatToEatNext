@@ -436,15 +436,17 @@ export class RecipeEnhancer {
     )[0];
 
     switch (dominant) {
-      case 'Fire': recommendations.push('Fire-dominant: Best with direct heat methods')
-        break,
+      case 'Fire':
+        recommendations.push('Fire-dominant: Best with direct heat methods');
+        break;
       case 'Water':
-        recommendations.push('Water-dominant: Excellent for moist heat cooking')
-        break
+        recommendations.push('Water-dominant: Excellent for moist heat cooking');
+        break;
       case 'Earth':
-        recommendations.push('Earth-dominant: Perfect for slow, steady cooking')
-        break,
-      case 'Air': recommendations.push('Air-dominant: Benefits from aeration and light cooking')
+        recommendations.push('Earth-dominant: Perfect for slow, steady cooking');
+        break;
+      case 'Air':
+        recommendations.push('Air-dominant: Benefits from aeration and light cooking');
         break
     }
 
@@ -523,9 +525,9 @@ export class RecipeEnhancer {
 
     // Determine alchemical classification
     const alchemicalClassification = this.determineAlchemicalClassification(
-      kalchmResult.totalKalchm
-      monicaConstant,
-    )
+      kalchmResult.totalKalchm,
+      monicaConstant
+    );
 
     // Calculate cooking optimization
     const optimalTemperature = this.calculateOptimalTemperature(thermodynamics)
@@ -563,7 +565,7 @@ export class RecipeEnhancer {
       enhancementMetadata: {
         phase3Enhanced: true,
         kalchmCalculated: true,
-        monicaCalculated: monicaConstant !== null;
+        monicaCalculated: monicaConstant !== null,
         enhancedAt: new Date().toISOString(),
         sourceFile,
         ingredientsMatched: kalchmResult.matchedIngredients,
@@ -585,8 +587,8 @@ export class RecipeAnalyzer {
     const kalchm2 = recipe2.alchemicalProperties?.totalKalchm || 1.0;
 
     // Self-reinforcement, principle: similar Kalchm = higher compatibility;
-    const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),
-    return 0.7 + ratio * 0.3, // Minimum 0.7 compatibility
+    const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2);
+    return 0.7 + ratio * 0.3; // Minimum 0.7 compatibility
   }
 
   /**

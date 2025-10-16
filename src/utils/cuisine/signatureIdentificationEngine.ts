@@ -379,17 +379,18 @@ function generateThermodynamicSignatureDescription(
  * @param options - Identification options
  * @returns Complete array of cuisine signatures
  */
-export function identifyCuisineSignatures(cuisineProperties: CuisineComputedProperties,
-  globalBaseline: GlobalBaseline = DEFAULT_GLOBAL_BASELINE;
+export function identifyCuisineSignatures(
+  cuisineProperties: CuisineComputedProperties,
+  globalBaseline: GlobalBaseline = DEFAULT_GLOBAL_BASELINE,
   options: {
     threshold?: number,
     includeConfidence?: boolean,
-    sampleSize?: number,
+    sampleSize?: number
   } = {}
 ): CuisineSignature[] {
   const {
-    threshold = 1.5;
-    includeConfidence = true;
+    threshold = 1.5,
+    includeConfidence = true,
     sampleSize = cuisineProperties.sampleSize
   } = options;
 

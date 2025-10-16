@@ -105,7 +105,7 @@ export function calculateRecipeWeight(
   allRecipes: any[] = []
 ): number {
   switch (strategy) {
-    case 'equal': return 1.0,
+    case 'equal': return 1.0;
 
     case 'popularity':
       // Weight by view count and rating (if available)

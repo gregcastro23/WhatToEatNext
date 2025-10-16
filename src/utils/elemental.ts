@@ -1,10 +1,11 @@
 import { ElementalProperties } from '@/types/alchemy';
 
 export type ElementalColor = {
-  primary: string,
-  secondary: string,
-  text: string,
-  border: stringbg: string
+  primary: string;
+  secondary: string;
+  text: string;
+  border: string;
+  bg: string;
 }
 
 // Define the color mappings

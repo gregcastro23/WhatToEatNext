@@ -28,7 +28,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
-      throw err,
+      throw err;
     }
   }, [initial?.datetime, initial?.location, initial?.context, initial?.preferences])
 
