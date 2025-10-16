@@ -9,9 +9,11 @@ const _CuisineType = {
   CHINESE: 'chinese',
   JAPANESE: 'japanese',
   THAI: 'thai',
-  MEXICAN: 'mexican' },
-        export const seasonalUsage = {
-  spring: {,
+  MEXICAN: 'mexican'
+};
+
+export const seasonalUsage = {
+  spring: {
     growing: ['basil', 'oregano', 'thyme'],
     cuisines: {
       // Use string literal instead of enum reference

@@ -315,4 +315,4 @@ class IngredientMappingService {
 
 // Create singleton instance
 const ingredientMappingService = new IngredientMappingService();
-export default ingredientMappingService,
+export default ingredientMappingService;

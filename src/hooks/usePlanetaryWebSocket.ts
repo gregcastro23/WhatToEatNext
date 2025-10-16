@@ -68,4 +68,4 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
   return { connected, planetaryHour }
 }
 
-export default usePlanetaryWebSocket,
+export default usePlanetaryWebSocket;

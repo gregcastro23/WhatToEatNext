@@ -37,24 +37,24 @@ import {
 } from 'react-icons/fa';
 
 interface AstrologicalRecommendation {
-  recipe_id: string,
-  name: string,
-  description: string,
-  cuisine: string,
-  zodiac_affinity_score?: number,
-  seasonal_score?: number,
-  matching_ingredients?: number,
-  seasonal_ingredients?: number,
-  reason: string,
-  type?: string,
+  recipe_id: string;
+  name: string;
+  description: string;
+  cuisine: string;
+  zodiac_affinity_score?: number;
+  seasonal_score?: number;
+  matching_ingredients?: number;
+  seasonal_ingredients?: number;
+  reason: string;
+  type?: string;
   priority?: string;
 }
 
 interface CookingPlan {
-  zodiac_sign?: string,
-  season?: string,
-  preferences?: string,
-  recommendations: AstrologicalRecommendation[],
+  zodiac_sign?: string;
+  season?: string;
+  preferences?: string;
+  recommendations: AstrologicalRecommendation[];
   insights: string[];
 }
 
@@ -99,7 +99,7 @@ export const AstrologicalRecommendations: React.FC = () => {
       if (zodiacSign) params.append('zodiac_sign', zodiacSign);
       if (season) params.append('season', season);
 
-      const response = await fetch(`http: //localhost:8101/astrological/personalized-cooking?${params}`),
+      const response = await fetch(`http://localhost:8101/astrological/personalized-cooking?${params}`);
       if (!response.ok) {
         throw new Error('Failed to fetch cooking recommendations');
       }
@@ -136,9 +136,9 @@ export const AstrologicalRecommendations: React.FC = () => {
 
   const getPriorityColor = (priority?: string) => {
     switch (priority) {
-      case 'high': return 'red',
-      case 'medium': return 'orange',
-      case 'low': return 'green',
+      case 'high': return 'red';
+      case 'medium': return 'orange';
+      case 'low': return 'green';
       default: return 'blue';
     }
   };

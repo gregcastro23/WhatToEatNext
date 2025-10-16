@@ -46,4 +46,4 @@ export const calculationUtils = {
   }
 }
 
-export default calculationUtils,
+export default calculationUtils;

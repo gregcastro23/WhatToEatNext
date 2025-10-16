@@ -733,4 +733,4 @@ class BuildPerformanceMonitor {
 }
 
 export const _buildPerformanceMonitor = new BuildPerformanceMonitor();
-export default BuildPerformanceMonitor,
+export default BuildPerformanceMonitor;

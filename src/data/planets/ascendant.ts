@@ -186,4 +186,4 @@ const ascendantData: PlanetData = {
   }
 }
 
-export default ascendantData,
+export default ascendantData;

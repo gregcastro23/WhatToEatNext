@@ -201,8 +201,9 @@ export const LivePlanetaryTracker: React.FC = () => {
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
               🍳 Recommended Cooking Focus
             </h3>
-            <div className="grid grid-cols-1 sm: grid-cols-3 gap-3">;
-              {planetaryData.recommendations.map((rec, index) => (<div key={index} className="bg-gray-50 rounded-lg p-3 text-center">,
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {planetaryData.recommendations.map((rec, index) => (
+                <div key={index} className="bg-gray-50 rounded-lg p-3 text-center">
                   <div className="text-sm font-medium text-gray-800">{rec}</div>
                 </div>
               ))}
@@ -210,8 +211,9 @@ export const LivePlanetaryTracker: React.FC = () => {
           </div>
 
           {/* Live Update Indicator */}
-          {lastPlanetaryHour && (<div className="mt-6 p-3 bg-blue-50 rounded-lg">
-              <div className="text-sm text-blue-800">,
+          {lastPlanetaryHour && (
+            <div className="mt-6 p-3 bg-blue-50 rounded-lg">
+              <div className="text-sm text-blue-800">
                 <strong>Live Update: </strong> Last received at{' '}
                 {new Date(lastPlanetaryHour.timestamp).toLocaleTimeString()}
               </div>
@@ -219,8 +221,8 @@ export const LivePlanetaryTracker: React.FC = () => {
           )}
 
           {/* Cooking Suggestions Call-to-Action */}
-          <div className="mt-6 text-center">;
-            <button className={`px-6 py-3 bg-gradient-to-r ${planetaryData.color} text-white rounded-lg font-semibold hover: shadow-lg transition-all duration-200`}>
+          <div className="mt-6 text-center">
+            <button className={`px-6 py-3 bg-gradient-to-r ${planetaryData.color} text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-200`}>
               Get {planetaryData.planet} Recipes 🔮
             </button>
           </div>
@@ -229,12 +231,13 @@ export const LivePlanetaryTracker: React.FC = () => {
 
       {/* Phase 26 Feature Note */}
       <div className="mt-4 p-3 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg border border-purple-200">
-        <div className="text-sm text-purple-800">;
+        <div className="text-sm text-purple-800">
           <strong>Phase 26 Feature:</strong> Live planetary tracking with WebSocket integration.{' '}
           {isConnected ? 'Receiving real-time updates from backend services.' : 'Using cached data in offline mode.'}
         </div>
       </div>
-    </div>)
-}
+    </div>
+  );
+};
 
-export default LivePlanetaryTracker,
+export default LivePlanetaryTracker;

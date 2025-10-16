@@ -194,4 +194,4 @@ log.info('   • Thermodynamic properties (Heat, Entropy, Reactivity, Greg's Ene
 log.info('   • Real-time updates based on current astrological state')
 log.info('\n💡 The values will change dynamically as planetary positions update!')
 
-export default results,
+export default results;

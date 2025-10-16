@@ -636,4 +636,4 @@ export class DirectRecipeService {
   }
 }
 
-export default DirectRecipeService,
+export default DirectRecipeService;

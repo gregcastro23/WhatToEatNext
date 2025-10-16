@@ -946,4 +946,4 @@ class AlertingSystem {
 }
 
 export const _alertingSystem = new AlertingSystem();
-export default AlertingSystem,
+export default AlertingSystem;

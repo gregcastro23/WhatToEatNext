@@ -421,4 +421,4 @@ export class ServicesManager {
 export const servicesManager = ServicesManager.getInstance()
 
 // Export default for compatibility with existing code;
-export default servicesManager,
+export default servicesManager;

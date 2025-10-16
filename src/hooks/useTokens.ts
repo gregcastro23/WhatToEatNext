@@ -32,4 +32,4 @@ export function useTokens(initial?: TokenRatesInput) {
   return useMemo(() => ({ result, loading, error, calculateRates }), [result, loading, error, calculateRates])
 }
 
-export default useTokens,
+export default useTokens;

@@ -345,4 +345,4 @@ export function useCurrentChart() {
 }
 
 // For backward compatibility with both named and default imports
-export default useCurrentChart,
+export default useCurrentChart;

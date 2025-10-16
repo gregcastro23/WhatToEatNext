@@ -337,4 +337,4 @@ export function usePersonalization(
   }
 }
 
-export default usePersonalization,
+export default usePersonalization;

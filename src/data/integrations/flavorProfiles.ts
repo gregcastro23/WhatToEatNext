@@ -147,4 +147,4 @@ export const _flavorCombinations = {
   }
 }
 
-export default flavorProfiles,
+export default flavorProfiles;

@@ -109,4 +109,4 @@ export class UnifiedRecipeService {
 export const unifiedRecipeService = UnifiedRecipeService.getInstance()
 
 // Export default;
-export default unifiedRecipeService,
+export default unifiedRecipeService;

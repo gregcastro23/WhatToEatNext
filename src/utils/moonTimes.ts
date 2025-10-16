@@ -78,4 +78,4 @@ const moonTimesApi = {
   getMoonPosition
 }
 
-export default moonTimesApi,
+export default moonTimesApi;

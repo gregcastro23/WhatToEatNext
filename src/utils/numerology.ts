@@ -131,4 +131,4 @@ export const celestialNumerology = {
   }
 }
 
-export default celestialNumerology,
+export default celestialNumerology;

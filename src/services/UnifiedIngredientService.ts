@@ -1133,4 +1133,4 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 export const unifiedIngredientService = UnifiedIngredientService.getInstance()
 
 // Export default for compatibility with existing code;
-export default unifiedIngredientService,
+export default unifiedIngredientService;

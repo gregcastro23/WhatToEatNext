@@ -39,4 +39,4 @@ export function useThermodynamics(initial?: UseThermodynamicsOptions) {
   return useMemo(() => ({ result, loading, error, calculate }), [result, loading, error, calculate])
 }
 
-export default useThermodynamics,
+export default useThermodynamics;

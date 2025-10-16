@@ -86,4 +86,4 @@ export function useRuneAgent(initial?: RuneAgentInput) {
   }), [result, rune, agent, loading, error, generateComplete, generateRuneOnly, generateAgentOnly])
 }
 
-export default useRuneAgent,
+export default useRuneAgent;

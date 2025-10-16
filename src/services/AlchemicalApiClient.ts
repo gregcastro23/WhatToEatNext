@@ -293,4 +293,4 @@ export const useBackendCalculations = () => {
   }
 }
 
-export default AlchemicalApiClient,
+export default AlchemicalApiClient;

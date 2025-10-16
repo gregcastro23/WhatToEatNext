@@ -8,7 +8,7 @@
  */
 
 // Data processing functions
-export * from './processing',
+export * from './processing';
 
 // Re-export commonly used functions for backward compatibility
 export {

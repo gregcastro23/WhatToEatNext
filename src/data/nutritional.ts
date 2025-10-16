@@ -26,11 +26,14 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       carbs: 10,
       fat: 0.5,
       fiber: 3
-},
+    },
     vitamins: {
-      A: 0.2C: 0.3K: 0.25E: 0.1,
-    B6: 0.1
-},
+      A: 0.2,
+      C: 0.3,
+      K: 0.25,
+      E: 0.1,
+      B6: 0.1
+    },
     minerals: {
       potassium: 0.2,
       magnesium: 0.15,

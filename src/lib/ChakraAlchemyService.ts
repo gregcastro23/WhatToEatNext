@@ -347,4 +347,4 @@ export class ChakraAlchemyService {
   }
 }
 
-export default ChakraAlchemyService,
+export default ChakraAlchemyService;

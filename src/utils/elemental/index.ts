@@ -8,10 +8,10 @@
  */
 
 // Core elemental functions
-export * from './core',
+export * from './core';
 
 // Elemental transformations and alchemical functions
-export * from './transformations',
+export * from './transformations';
 
 // Re-export commonly used functions for backward compatibility
 export {

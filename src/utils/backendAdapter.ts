@@ -227,4 +227,4 @@ export const backendCalculations = {
   health: checkBackendHealth
 }
 
-export default backendCalculations,
+export default backendCalculations;

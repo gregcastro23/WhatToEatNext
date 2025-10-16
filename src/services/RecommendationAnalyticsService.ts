@@ -449,4 +449,4 @@ class RecommendationAnalyticsService {
 // ========== SINGLETON EXPORT ==========,
 
 export const _recommendationAnalytics = new RecommendationAnalyticsService();
-export default RecommendationAnalyticsService,
+export default RecommendationAnalyticsService;

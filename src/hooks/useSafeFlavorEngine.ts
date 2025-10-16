@@ -172,4 +172,4 @@ export function useSafeFlavorEngine() {
   )
 }
 
-export default useSafeFlavorEngine,
+export default useSafeFlavorEngine;

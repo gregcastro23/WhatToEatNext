@@ -976,4 +976,4 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 export const unifiedRecommendationService = UnifiedRecommendationService.getInstance()
 
 // Export default for compatibility with existing code;
-export default unifiedRecommendationService,
+export default unifiedRecommendationService;

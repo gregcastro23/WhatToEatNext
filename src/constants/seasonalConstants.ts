@@ -13,7 +13,7 @@ export const _SEASONAL_MODIFIERS: Record<Season, ElementalProperties> = {
     Water: 0.3,
     Earth: 0.2,
     Fire: 0.1
-},
+  },
   summer: {
     Fire: 0.4,
     Air: 0.3,
@@ -82,4 +82,4 @@ export const _VALIDATION_THRESHOLDS = {
   BALANCE_PRECISION: 0.000001
 }
 
-export const _VALID_SEASONS = ['spring', 'summer', 'autumn', 'winter', 'fall', 'all'] as const,
+export const _VALID_SEASONS = ['spring', 'summer', 'autumn', 'winter', 'fall', 'all'] as const;

@@ -350,4 +350,4 @@ export const _useSystemHealth = () => {;
   return { health, loading, error, refreshHealth }
 }
 
-export default useCampaignMonitoring,
+export default useCampaignMonitoring;

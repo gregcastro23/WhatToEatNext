@@ -148,4 +148,4 @@ export interface ElementalRecommendation {
   culinaryHerbs: string[]
 }
 
-export default ElementalRecommendationService,
+export default ElementalRecommendationService;

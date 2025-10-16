@@ -84,4 +84,4 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
   }
 }
 
-export default useUnifiedPlanetaryHour,
+export default useUnifiedPlanetaryHour;

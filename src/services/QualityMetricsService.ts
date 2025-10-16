@@ -951,4 +951,4 @@ class QualityMetricsService {
 }
 
 export const _qualityMetricsService = new QualityMetricsService();
-export default QualityMetricsService,
+export default QualityMetricsService;

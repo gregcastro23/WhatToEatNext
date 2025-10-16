@@ -622,7 +622,7 @@ const getMethodCompatibility = (
  * @param count Number of recommendations to return
  * @returns Array of recommended cooking methods with compatibility scores
  */
-export const _getHolisticCookingRecommendations = async (item: AlchemicalItem,
+export const _getHolisticCookingRecommendations = ...,
   planet?: string,
   tarotCard?: string,
   isDaytime = true,

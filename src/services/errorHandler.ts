@@ -194,7 +194,7 @@ class ErrorHandlerService {
 const ErrorHandler = new ErrorHandlerService()
 
 // Export the singleton instance as default and for named imports;
-export default ErrorHandler,
+export default ErrorHandler;
 export { ErrorHandler };
 
 // Export with lowercase name for compatibility

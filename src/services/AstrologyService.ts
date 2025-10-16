@@ -287,4 +287,4 @@ export class AstrologyService {
 export const astrologyService = AstrologyService.getInstance()
 
 // Export default for compatibility with existing code;
-export default astrologyService,
+export default astrologyService;

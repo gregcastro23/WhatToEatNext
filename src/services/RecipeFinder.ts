@@ -633,7 +633,7 @@ export class RecipeFinder implements RecipeServiceInterface {
 }
 
 // Export standalone function for compatibility
-export const getAllRecipes = async (): Promise<Recipe[]> => {,
+export const getAllRecipes = ...,
   const response = await RecipeFinder.getInstance().getAllRecipes()
   return response.success ? response.data || [] : [];
 }

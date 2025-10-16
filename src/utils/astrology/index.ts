@@ -17,7 +17,7 @@ export {
   calculateAspects
 } from './core';
 
-export * from './positions',
+export * from './positions';
 
 // Re-export validation functions
 export { validatePlanetaryPositions } from './validation';

@@ -914,4 +914,4 @@ export class ElementalCalculator {;
   }
 }
 
-export default ElementalCalculator,
+export default ElementalCalculator;

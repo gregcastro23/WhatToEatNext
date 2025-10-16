@@ -96,7 +96,7 @@ const nextConfig = {
   }
 }
 
-  export default nextConfig,
+  export default nextConfig;
 `,
 
     fs.writeFileSync('next.config.js', defaultConfig)

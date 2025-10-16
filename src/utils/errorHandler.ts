@@ -77,7 +77,7 @@ export const ErrorHandler = {
   }
 }
 
-export default ErrorHandler,
+export default ErrorHandler;
 
 // Export alias for compatibility
 export const _errorHandler = ErrorHandler;

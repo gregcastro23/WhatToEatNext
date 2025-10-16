@@ -123,4 +123,4 @@ export const molecularCookingMethods: Record<
   }
 }
 
-export default molecularCookingMethods,
+export default molecularCookingMethods;

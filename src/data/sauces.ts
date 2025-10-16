@@ -576,4 +576,4 @@ const saucesExport = {
   getMarsInfluencedSauces
 }
 
-export default saucesExport,
+export default saucesExport;

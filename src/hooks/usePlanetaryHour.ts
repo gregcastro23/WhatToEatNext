@@ -39,4 +39,4 @@ export function usePlanetaryHour(): PlanetaryHourData {
   }
 }
 
-export default usePlanetaryHour,
+export default usePlanetaryHour;

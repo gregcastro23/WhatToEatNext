@@ -326,4 +326,4 @@ class PerformanceMonitoringService {
 
 // Export singleton instance
 export const _performanceMonitor = new PerformanceMonitoringService();
-export default PerformanceMonitoringService,
+export default PerformanceMonitoringService;

@@ -44,4 +44,4 @@ export const planetaryData = {
   }
 }
 
-export default planetaryData,
+export default planetaryData;

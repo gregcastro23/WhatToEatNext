@@ -45,4 +45,4 @@ export function useCurrentSeason(): Season {
   return season;
 }
 
-export default useCurrentSeason,
+export default useCurrentSeason;

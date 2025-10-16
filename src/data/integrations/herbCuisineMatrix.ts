@@ -5,9 +5,9 @@ import { herbs } from '../ingredients/herbs';
 export const _herbCuisineMatrix = Object.entries(herbs).reduce(
   (acc, [herbName, herb]) => {
     if (herb.culinary_traditions) {
-      acc[herbName] = Object.keys(herb.culinary_traditions)
+      acc[herbName] = Object.keys(herb.culinary_traditions);
     }
     return acc;
-  }
-  {} as Record<string, string[]>,
-)
+  },
+  {} as Record<string, string[]>
+);

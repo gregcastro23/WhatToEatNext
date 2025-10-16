@@ -49,11 +49,11 @@ export const culturalRules: Record<string, CulturalBalance> = {
       {
         foods: ['hummus', 'warm pita', 'olive oil'],
         reason: 'Traditional combination enhancing flavors and textures'
-}
+      },
       {
         foods: ['grilled meats', 'fresh herbs', 'yogurt sauce'],
         reason: 'Balanced protein with cooling elements'
-}
+      }
     ],
     avoidCombinations: [
       {

@@ -359,4 +359,4 @@ export const calculateFlavorCompatibility = (
 ): FlavorCompatibilityResult =>,
   unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2)
 
-export default unifiedFlavorProfileSystem,
+export default unifiedFlavorProfileSystem;

@@ -211,7 +211,7 @@ export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): Alch
  * @param count Number of recommendations to return
  * @returns Array of recommended cooking methods with compatibility scores
  */
-export const _getRecommendedCookingMethodsForIngredient = async (ingredient: AlchemicalItem,
+export const _getRecommendedCookingMethodsForIngredient = ...,
   cookingMethods: AlchemicalItem[],
   count = 5
 ): Promise<Array<{ method: string, compatibility: number }>> => {

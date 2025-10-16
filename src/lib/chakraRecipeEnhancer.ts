@@ -210,4 +210,4 @@ export class ChakraRecipeEnhancer {
   }
 }
 
-export default ChakraRecipeEnhancer,
+export default ChakraRecipeEnhancer;

@@ -783,4 +783,4 @@ class ErrorTrackingSystem {
 }
 
 export const _errorTrackingSystem = new ErrorTrackingSystem();
-export default ErrorTrackingSystem,
+export default ErrorTrackingSystem;

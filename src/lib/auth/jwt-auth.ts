@@ -385,4 +385,4 @@ export const authService = new JWTAuthService({;
   issuer: 'alchm.kitchen'
 })
 
-export default authService,
+export default authService;

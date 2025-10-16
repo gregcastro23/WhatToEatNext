@@ -259,4 +259,4 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
   }
 }
 
-export default usePerformanceMonitoring,
+export default usePerformanceMonitoring;

@@ -167,4 +167,4 @@ class ElementalSystem {
 }
 
 export const elementalSystem = new ElementalSystem();
-export default elementalSystem,
+export default elementalSystem;

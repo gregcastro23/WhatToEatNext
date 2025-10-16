@@ -435,4 +435,4 @@ export class AlchemicalRecommendationService {
 export const alchemicalRecommendationService = AlchemicalRecommendationService.getInstance()
 
 // Export default for compatibility with existing code;
-export default alchemicalRecommendationService,
+export default alchemicalRecommendationService;

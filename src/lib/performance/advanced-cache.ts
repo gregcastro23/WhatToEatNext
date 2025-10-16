@@ -311,4 +311,4 @@ export function getCacheMetrics() {
   }
 }
 
-export default AdvancedCache,
+export default AdvancedCache;

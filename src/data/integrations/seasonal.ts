@@ -27,13 +27,13 @@ export function getCurrentSeason(): Season {
  */
 export function getSeasonalScore(
   ingredientName: string,
-  season: Season = getCurrentSeason();
+  season: Season = getCurrentSeason()
 ): number {
   // Check if the ingredient exists in seasonal patterns
   if (!seasonalPatterns[season] || !seasonalPatterns[season][ingredientName]) {
     // If ingredient is not found in the specific season, check if it's marked as 'all' seasons
     if (season !== 'all' && seasonalPatterns['all'] && seasonalPatterns['all'][ingredientName]) {
-      return seasonalPatterns['all'][ingredientName] as number
+      return seasonalPatterns['all'][ingredientName] as number;
     }
     return 0.1; // Default low score if not found
   }

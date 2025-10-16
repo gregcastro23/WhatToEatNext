@@ -3,20 +3,20 @@
 // Phases 12, and 3 consolidated systems
 
 // Phase 1: Unified Flavor Profiles
-export * from './flavorProfiles',
+export * from './flavorProfiles';
 
 // Phase 2: Unified Ingredients with Kalchm Integration
-export * from './ingredients',
-export * from './alchemicalCalculations',
+export * from './ingredients';
+export * from './alchemicalCalculations';
 
 // Phase 3: Unified Recipe System with Monica Constants
-export * from './recipes',
+export * from './recipes';
 
 // Phase 3: Unified Cuisine Integration System
-export * from './cuisineIntegrations',
+export * from './cuisineIntegrations';
 
 // Export the seasonal system
-export * from './seasonal',
+export * from './seasonal';
 
 // Export the cuisine integration system
 export * from './cuisineIntegrations'

@@ -2,23 +2,23 @@ import { ZodiacSign, Element } from '@/types/alchemy';
 
 // Define the interface for zodiac season data
 interface ZodiacSeasonData {
-  name: any,
-  element: Element,
-  startMonth: number, // 1-based month (1 = January);
-  startDay: number,
-  endMonth: number,
-  endDay: number,
-  ruling_planet: string,
-  polarity: 'positive' | 'negative'
-  modality: 'cardinal' | 'fixed' | 'mutable'
+  name: any;
+  element: Element;
+  startMonth: number; // 1-based month (1 = January)
+  startDay: number;
+  endMonth: number;
+  endDay: number;
+  ruling_planet: string;
+  polarity: 'positive' | 'negative';
+  modality: 'cardinal' | 'fixed' | 'mutable';
   // Culinary properties specific to this zodiac period
   culinaryProperties: {
-    flavorProfile: string[],
-    enhancedTechniques: string[],
-    foodGroups: string[],
-    herbs: string[],
-    spices: string[]
-  }
+    flavorProfile: string[];
+    enhancedTechniques: string[];
+    foodGroups: string[];
+    herbs: string[];
+    spices: string[];
+  };
 }
 
 // Define the zodiac seasons with their properties
@@ -248,30 +248,30 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
  */
 export function getZodiacSignForDate(date: Date): any {
   const month = date.getMonth() + 1; // JavaScript months are 0-indexed
-  const day = date.getDate()
+  const day = date.getDate();
 
   // Check each zodiac sign's date range
-  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) {;
-    return 'aries' };
-        else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) {;
+  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) {
+    return 'aries';
+  } else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) {
     return 'taurus';
-  } else if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) {;
+  } else if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) {
     return 'gemini';
-  } else if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) {;
+  } else if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) {
     return 'cancer';
-  } else if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) {;
+  } else if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) {
     return 'leo';
-  } else if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) {;
+  } else if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) {
     return 'virgo';
-  } else if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) {;
+  } else if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) {
     return 'libra';
-  } else if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) {;
+  } else if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) {
     return 'scorpio';
-  } else if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) {;
+  } else if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) {
     return 'sagittarius';
-  } else if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) {;
+  } else if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) {
     return 'capricorn';
-  } else if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) {;
+  } else if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) {
     return 'aquarius';
   } else {
     return 'pisces'; // Feb 19 - Mar 20
@@ -283,7 +283,7 @@ export function getZodiacSignForDate(date: Date): any {
  * @returns The current zodiac sign
  */
 export function getCurrentZodiacSign(): any {
-  return getZodiacSignForDate(new Date())
+  return getZodiacSignForDate(new Date());
 }
 
 /**
@@ -292,7 +292,7 @@ export function getCurrentZodiacSign(): any {
  * @returns The element (Fire, Earth, Air, Water)
  */
 export function getElementForZodiacSign(sign: any): Element {
-  return zodiacSeasons[sign].element
+  return zodiacSeasons[sign].element;
 }
 
 /**
@@ -301,5 +301,5 @@ export function getElementForZodiacSign(sign: any): Element {
  * @returns The ruling planet
  */
 export function getRulingPlanetForZodiacSign(sign: any): string {
-  return zodiacSeasons[sign].ruling_planet
+  return zodiacSeasons[sign].ruling_planet;
 }
