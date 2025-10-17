@@ -49,7 +49,7 @@ export class ThermodynamicCalculator {
 
       totalHeat += heatValue * weight;
       totalWeight += weight;
-    })
+    });
 
     // Normalize to a value between 0 and 1
     return Math.min(1, Math.max(0, totalHeat / totalWeight));
@@ -70,7 +70,7 @@ export class ThermodynamicCalculator {
     totalWeight += 1;
 
     // Check for diversity in ingredient types
-    const categories = new Set();
+    const categories = new Set<string>();
     ingredients.forEach(ingredient => {
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as {
@@ -106,45 +106,48 @@ export class ThermodynamicCalculator {
         totalEntropy += ((elementalProperties as any)?.Air || 0) * 0.2;
         totalWeight += 1;
       }
-    })
+    });
 
     // Add diversity factor
-    const diversityFactor = Math.min(categories.size / 51) * 0.4;
+    const diversityFactor = Math.min(categories.size / 5, 1) * 0.4;
     totalEntropy += diversityFactor;
     totalWeight += 1;
 
     // Normalize to a value between 0 and 1
-    return Math.min(1, Math.max(0, totalEntropy / totalWeight))
+    return Math.min(1, Math.max(0, totalEntropy / totalWeight));
   }
 
   calculateReactivityValue(ingredients: unknown[]): number {
-    if (!ingredients || ingredients.length === 0) {;
-      return 0.5 // Default neutral value
+    if (!ingredients || ingredients.length === 0) {
+      return 0.5; // Default neutral value
     }
 
     // Calculate reactivity based on acidity, alkalinity, and chemical properties
     let totalReactivity = 0;
     let totalWeight = 0;
 
-    ingredients.forEach(ingredient => {;
+    ingredients.forEach(ingredient => {
       let reactivityValue = 0.5; // Default neutral value
       let weight = 1; // Default weight
 
       // Extract ingredient data with safe property access
-      const ingredientData = ingredient as {;
-        spiciness?: number,
-        elementalProperties?: { Fire?: number; Water?: number; Earth?: number Air?: number }
-        moistureContent?: number,
-        proteinContent?: number
-        [key: string]: unknown
-      }
+      const ingredientData = ingredient as {
+        spiciness?: number;
+        elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
+        moistureContent?: number;
+        proteinContent?: number;
+        pH?: number;
+        alcoholContent?: number;
+        enzymeActivity?: number;
+        [key: string]: unknown;
+      };
       const pH = ingredientData?.pH;
       const alcoholContent = ingredientData?.alcoholContent;
       const enzymeActivity = ingredientData?.enzymeActivity;
-      const elementalProperties = ingredientData?.elementalProperties
+      const elementalProperties = ingredientData?.elementalProperties;
 
       // pH value affects reactivity (further from neutral = more reactive)
-      if (pH) {;
+      if (pH) {
         const pHDeviation = Math.abs(pH - 7) / 7; // Normalize pH deviation
         reactivityValue += pHDeviation * 0.5;
         weight += 2;
@@ -170,9 +173,9 @@ export class ThermodynamicCalculator {
 
       totalReactivity += reactivityValue * weight;
       totalWeight += weight;
-    })
+    });
 
     // Normalize to a value between 0 and 1
-    return Math.min(1, Math.max(0, totalReactivity / totalWeight))
+    return Math.min(1, Math.max(0, totalReactivity / totalWeight));
   }
 }
