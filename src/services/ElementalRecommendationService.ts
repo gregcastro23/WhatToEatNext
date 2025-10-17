@@ -28,25 +28,25 @@ export class ElementalRecommendationService {
         typeof utilsService.getFlavorProfileRecommendations === 'function'
           ? utilsService.getFlavorProfileRecommendations(properties)
           : [],
-      healthBenefits: utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function',
+      healthBenefits: utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function'
           ? utilsService.getHealthBenefits(properties)
           : [],
       timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties),
       seasonalBest: this.getSeasonalRecommendations(dominantElement),
-      // Fix, TS2339: Property access on array type using safe type casting
+      // Fix TS2339: Property access on array type using safe type casting
       moodEffects: (() => {
-        const characteristics = profile.characteristics as unknown as any
+        const characteristics = profile.characteristics as unknown as any;
         return Array.isArray(characteristics.moodEffects)
           ? (characteristics.moodEffects as string[])
           : [];
       })(),
       culinaryHerbs: (() => {
-        const characteristics = profile.characteristics as unknown as any
+        const characteristics = profile.characteristics as unknown as any;
         return Array.isArray(characteristics.culinaryHerbs)
           ? (characteristics.culinaryHerbs as string[])
           : [];
       })()
-    }
+    };
   }
 
   /**
@@ -60,10 +60,10 @@ export class ElementalRecommendationService {
       Fire: element === 'Fire' ? 0.6 : 0.1,
       Water: element === 'Water' ? 0.6 : 0.1,
       Earth: element === 'Earth' ? 0.6 : 0.1,
-      Air: element === 'Air' ? 0.6 : 0.1;
-    }
+      Air: element === 'Air' ? 0.6 : 0.1
+    };
 
-    return this.generateRecommendation(elementalUtils.normalizeProperties(properties))
+    return this.generateRecommendation(elementalUtils.normalizeProperties(properties));
   }
 
   /**
@@ -82,16 +82,16 @@ export class ElementalRecommendationService {
       'waning gibbous': { Water: 0.4, Earth: 0.3 },
       'last quarter': { Earth: 0.4, Water: 0.3 },
       'waning crescent': { Earth: 0.5, Air: 0.2 }
-    }
+    };
 
     const properties = {
       Fire: lunarElementalMap[lunarPhase].Fire || 0.25,
       Water: lunarElementalMap[lunarPhase].Water || 0.25,
       Earth: lunarElementalMap[lunarPhase].Earth || 0.25,
       Air: lunarElementalMap[lunarPhase].Air || 0.25
-    }
+    };
 
-    return this.generateRecommendation(elementalUtils.normalizeProperties(properties))
+    return this.generateRecommendation(elementalUtils.normalizeProperties(properties));
   }
 
   /**
@@ -100,7 +100,7 @@ export class ElementalRecommendationService {
    * @returns A recommendation tailored to the recipe
    */
   public static generateRecipeRecommendation(recipe: Recipe): ElementalRecommendation {
-    const properties = elementalUtils.calculateelementalState(recipe)
+    const properties = elementalUtils.calculateelementalState(recipe);
     return this.generateRecommendation(properties);
   }
 
@@ -112,8 +112,8 @@ export class ElementalRecommendationService {
   private static getDominantElement(properties: ElementalProperties): string {
     return Object.entries(properties).reduce(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
-      { element: '', value: 0 }).element
-}
+      { element: '', value: 0 }).element;
+  }
 
   /**
    * Gets seasonal recommendations based on element
@@ -126,7 +126,7 @@ export class ElementalRecommendationService {
       Water: ['Winter', 'Late Autumn'],
       Earth: ['Autumn', 'Late Summer'],
       Air: ['Spring', 'Early Summer']
-    }
+    };
 
     return seasonalMap[element] || ['Any season'];
   }
@@ -136,16 +136,16 @@ export class ElementalRecommendationService {
  * Comprehensive elemental recommendation type
  */
 export interface ElementalRecommendation {
-  elementalBalance: ElementalProperties,
-  dominantElement: string,
-  cookingTechniques: string[],
-  complementaryIngredients: string[],
-  flavorProfiles: string[],
-  healthBenefits: string[],
-  timeOfDay: string[],
-  seasonalBest: string[],
-  moodEffects: string[],
-  culinaryHerbs: string[]
+  elementalBalance: ElementalProperties;
+  dominantElement: string;
+  cookingTechniques: string[];
+  complementaryIngredients: string[];
+  flavorProfiles: string[];
+  healthBenefits: string[];
+  timeOfDay: string[];
+  seasonalBest: string[];
+  moodEffects: string[];
+  culinaryHerbs: string[];
 }
 
 export default ElementalRecommendationService;
