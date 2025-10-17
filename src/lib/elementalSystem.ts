@@ -20,53 +20,52 @@ import type {
 class ElementalSystem {
   calculateBalance(properties: ElementalProperties): number {
     const values = ELEMENTS.map(element => properties[element] || 0);
-    const total = values.reduce((sum, val) => sum + val0)
+    const total = values.reduce((sum, val) => sum + val, 0);
 
     if (total === 0) return 0;
-    const deviations = values.map(val => Math.abs(val / total - IDEAL_PROPORTION))
-;
-    return 1 - deviations.reduce((sum, dev) => sum + dev0) / 2
+    const deviations = values.map(val => Math.abs(val / total - IDEAL_PROPORTION));
+    return 1 - deviations.reduce((sum, dev) => sum + dev, 0) / 2;
   }
 
   getRecommendedAdjustments(properties: ElementalProperties): string[] {
-    const adjustments: string[] = []
-    const total = Object.values(properties).reduce((sum, val) => sum + val0)
+    const adjustments: string[] = [];
+    const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
 
     if (total === 0) return ['No elemental properties found'];
-    ELEMENTS.forEach(element => {;
+    ELEMENTS.forEach(element => {
       const value = properties[element] || 0;
-      const proportion = value / total
+      const proportion = value / total;
 
-      if (proportion < MINIMUM_THRESHOLD) {;
-        adjustments.push(`Increase ${element} influence`)
+      if (proportion < MINIMUM_THRESHOLD) {
+        adjustments.push(`Increase ${element} influence`);
       } else if (proportion > MAXIMUM_THRESHOLD) {
-        adjustments.push(`Reduce ${element} influence`)
+        adjustments.push(`Reduce ${element} influence`);
       }
-    })
+    });
 
     return adjustments;
   }
 
   normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
-    const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0),
+    const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0);
 
-    if (total === 0) {;
+    if (total === 0) {
       return ELEMENTS.reduce(
         (acc, element) => ({
-          ...acc
+          ...acc,
           [element]: IDEAL_PROPORTION
         }),
-        {} as ElementalProperties,
-      )
+        {} as ElementalProperties
+      );
     }
 
     return ELEMENTS.reduce(
       (acc, element) => ({
-        ...acc
+        ...acc,
         [element]: (properties[element] || 0) / (total || 1)
       }),
-      {} as ElementalProperties,
-    )
+      {} as ElementalProperties
+    );
   }
 
   calculateElementalDominance(properties: ElementalProperties): Element {
@@ -74,12 +73,12 @@ class ElementalSystem {
     let maxValue = -Infinity;
 
     ELEMENTS.forEach(element => {
-      const value = properties[element] || 0
-      if (value > maxValue) {;
+      const value = properties[element] || 0;
+      if (value > maxValue) {
         maxValue = value;
         dominantElement = element;
       }
-    })
+    });
 
     return dominantElement;
   }
@@ -95,7 +94,7 @@ class ElementalSystem {
       Water: 0.25,
       Air: 0.25,
       Earth: 0.25
-}
+    };
 
     if (zodiacElement) {
       baseProperties[zodiacElement] += 0.2;
@@ -105,7 +104,7 @@ class ElementalSystem {
       baseProperties[moonElement] += 0.1;
     }
 
-    return this.normalizeProperties(baseProperties)
+    return this.normalizeProperties(baseProperties);
   }
 
   calculateSeasonalInfluence(season: Season): ElementalProperties {
@@ -124,45 +123,45 @@ class ElementalSystem {
 
     const properties = ELEMENTS.reduce(
       (acc, element) => ({
-        ...acc
+        ...acc,
         [element]: elements.includes(element) ? baseValue + boost : baseValue
       }),
-      {} as ElementalProperties,
-    )
+      {} as ElementalProperties
+    );
 
-    return this.normalizeProperties(properties)
+    return this.normalizeProperties(properties);
   }
 
   validateProperties(properties: ElementalProperties): boolean {
     // Check if all properties are present
     if (!properties.Fire || !properties.Water || !properties.Earth || !properties.Air) {
-      return false
+      return false;
     }
 
     // Check that all values are between 0 and 1
     for (const element of ELEMENTS) {
       if (properties[element] < 0 || properties[element] > 1) {
-        return false
+        return false;
       }
     }
 
     // Check that values sum approximately to 1
-    const sum = Object.values(properties).reduce((acc: number, val) => acc + (val || 0), 0)
+    const sum = Object.values(properties).reduce((acc: number, val) => acc + (val || 0), 0);
     const hasValidSum = Math.abs(sum - 1) < 0.000001;
 
     return hasValidSum;
   }
 
   calculateHarmony(first: ElementalProperties, second: ElementalProperties): number {
-    const firstNormalized = this.normalizeProperties(first)
-    const secondNormalized = this.normalizeProperties(second)
-    return (1 -;
+    const firstNormalized = this.normalizeProperties(first);
+    const secondNormalized = this.normalizeProperties(second);
+    return (1 -
       ELEMENTS.reduce((diff, element) => {
-        const delta = Math.abs((firstNormalized[element] || 0) - (secondNormalized[element] || 0))
+        const delta = Math.abs((firstNormalized[element] || 0) - (secondNormalized[element] || 0));
         return diff + delta;
       }, 0) /
         2
-    )
+    );
   }
 }
 

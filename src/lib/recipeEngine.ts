@@ -2,7 +2,7 @@ import { ElementalCalculator } from '@/services/ElementalCalculator';
 import type { ElementalProperties, Recipe } from '@/types/alchemy';
 
 export class RecipeEngine {
-  private calculator: ElementalCalculator,
+  private calculator: ElementalCalculator;
 
   constructor() {
     this.calculator = ElementalCalculator.getInstance();
@@ -22,7 +22,7 @@ export class RecipeEngine {
     const harmony = (Fire + Water + Earth + Air) / 4;
 
     // Ensure harmony is between 0 and 1
-    return Math.max(0, Math.min(1, harmony))
+    return Math.max(0, Math.min(1, harmony));
   }
 
   getDominantElements(recipe: Recipe) {
@@ -30,62 +30,62 @@ export class RecipeEngine {
       return [];
     }
 
-    const elementalProps = recipe.ingredients.reduce((acc, ingredient) => {;
+    const elementalProps = recipe.ingredients.reduce((acc, ingredient) => {
       if (ingredient.elementalProperties) {
         Object.entries(ingredient.elementalProperties).forEach(([_element, value]) => {
           acc[_element] = (acc[_element] || 0) + value;
-        })
+        });
       }
       return acc;
-    }, {} as ElementalProperties)
+    }, {} as ElementalProperties);
 
     return Object.entries(elementalProps)
       .sort(([, a], [, b]) => b - a)
-      .map(([_element, value]) => ({ _element, value }))
+      .map(([_element, value]) => ({ _element, value }));
   }
 
   calculateIngredientProportions(recipe: Recipe): ElementalProperties {
     if (!recipe.ingredients.length) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
-    const total = recipe.ingredients.reduce((sum, ing) => sum + (ing.amount ?? 0), 0)
-    const unnormalized = recipe.ingredients.reduce((props, ing) => {;
+    const total = recipe.ingredients.reduce((sum, ing) => sum + (ing.amount ?? 0), 0);
+    const unnormalized = recipe.ingredients.reduce((props, ing) => {
       if (ing.elementalProperties) {
         Object.entries(ing.elementalProperties).forEach(([_element, value]) => {
           props[_element] = (props[_element] || 0) + (value * (ing.amount ?? 0)) / total;
-        })
+        });
       }
       return props;
-    }, {} as ElementalProperties)
+    }, {} as ElementalProperties);
 
     // Normalize the result
-    const sum = Object.values(unnormalized).reduce((acc, val) => acc + val0)
+    const sum = Object.values(unnormalized).reduce((acc, val) => acc + val, 0);
     return Object.entries(unnormalized).reduce((normalized, [_element, value]) => {
       normalized[_element] = value / sum;
-      return normalized
-    }, {} as ElementalProperties)
+      return normalized;
+    }, {} as ElementalProperties);
   }
 
   findComplementaryRecipes(recipe: Recipe, availableRecipes: Recipe[]) {
     return availableRecipes
-      .map(other => ({,
+      .map(other => ({
         ...other,
-        harmonyScore: this.calculateHarmonyBetween(,
-          recipe.elementalProperties
+        harmonyScore: this.calculateHarmonyBetween(
+          recipe.elementalProperties,
           other.elementalProperties
         )
       }))
-      .sort((ab) => b.harmonyScore - a.harmonyScore)
+      .sort((a, b) => b.harmonyScore - a.harmonyScore);
   }
 
   rankBySeasonalEffectiveness(recipes: Recipe[], season: string) {
     return recipes
-      .map(recipe => ({,
+      .map(recipe => ({
         ...recipe,
         seasonalScore: this.calculateSeasonalEffectivenessScore(recipe, season)
       }))
-      .sort((ab) => b.seasonalScore - a.seasonalScore)
+      .sort((a, b) => b.seasonalScore - a.seasonalScore);
   }
 
   /**
@@ -103,17 +103,17 @@ export class RecipeEngine {
     }
 
     const seasonMultipliers =
-      seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] ||;
-      seasonalElements['spring'],
+      seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] ||
+      seasonalElements['spring'];
 
     // Calculate weighted score based on recipe's elemental properties and seasonal effectiveness
     let score = 0;
     Object.entries(recipe.elementalProperties).forEach(([_element, value]) => {
       const multiplier = seasonMultipliers[_element as keyof typeof seasonMultipliers] || 0.5;
       score += value * multiplier;
-    })
+    });
 
-    return Math.max(0, Math.min(1, score))
+    return Math.max(0, Math.min(1, score));
   }
 
   private calculateHarmonyBetween(
@@ -125,19 +125,18 @@ export class RecipeEngine {
       return (
         1 -
         Object.entries(props1).reduce((diff, [_element, value]) => {
-          return diff + Math.abs(value - (props2[_element] || 0)) / 2
+          return diff + Math.abs(value - (props2[_element] || 0)) / 2;
         }, 0)
-      )
+      );
     } catch (error) {
-      return 0
+      return 0;
     }
   }
 
-  getRecipesForTarotCard(card: { associatedRecipes?: Recipe[], element?: string }) {
+  getRecipesForTarotCard(card: { associatedRecipes?: Recipe[]; element?: string }) {
     const associatedRecipes = card.associatedRecipes || [];
-    const elementBasedRecipes = card.element ? this.getRecipesForElement(card.element) : []
-;
-    return [...new Set([...associatedRecipes, ...elementBasedRecipes])]
+    const elementBasedRecipes = card.element ? this.getRecipesForElement(card.element) : [];
+    return [...new Set([...associatedRecipes, ...elementBasedRecipes])];
   }
 
   /**
@@ -145,6 +144,6 @@ export class RecipeEngine {
    */
   getRecipesForElement(element: string): Recipe[] {
     // This is a simple implementation - in a production app this would filter recipes by element
-    return []
+    return [];
   }
 }

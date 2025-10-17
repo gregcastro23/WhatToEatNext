@@ -73,7 +73,7 @@ export function validateDatabaseConfig(): { valid: boolean; errors: string[] } {
   }
 
   return {
-    valid: errors.length === 0;
+    valid: errors.length === 0,
     errors
   };
 }
