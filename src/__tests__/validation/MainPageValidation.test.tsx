@@ -144,7 +144,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
       const element = React.createElement(TestComponent, {
         title: 'Test Button',
         onClick: mockClick
-});
+      });
 
       expect(element).toBeDefined();
       expect(element.props.title).toBe('Test Button');
@@ -176,7 +176,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
           'aria-pressed': false,
           role: 'button',
           tabIndex: 0
-},
+        },
         'Accessible Button',
       );
 
@@ -199,19 +199,19 @@ describe('Simplified Main Page Validation - Task 12', () => {
   describe('7. TypeScript Integration Validation', () => {
     test('TypeScript interfaces work with React', () => {
       interface TestProps {
-        title: string,
-        count: number,
+        title: string;
+        count: number;
         optional?: boolean;
       }
 
       const TypedComponent = ({ title, count, optional }: TestProps) =>
-        React.createElement('div', {}, `${title}: ${count}${optional ? ' (optional)' : ''}`),
+        React.createElement('div', {}, `${title}: ${count}${optional ? ' (optional)' : ''}`);
 
       const element = React.createElement(TypedComponent, {
         title: 'Test',
         count: 42,
         optional: true
-});
+      });
 
       expect(element).toBeDefined();
       expect(element.props.title).toBe('Test');
@@ -221,11 +221,11 @@ describe('Simplified Main Page Validation - Task 12', () => {
 
     test('Generic components work', () => {
       interface GenericProps<T> {
-        data: T,
+        data: T;
         render: (data: T) => React.ReactElement;
       }
 
-      const GenericComponent = <T,>({ data, render }: GenericProps<T>) => render(data),
+      const GenericComponent = <T,>({ data, render }: GenericProps<T>) => render(data);
 
       expect(GenericComponent).toBeDefined();
     });
@@ -259,7 +259,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
       expect(React.useEffect).toBeDefined();
 
       console.log('✅ React component system validation complete');
-      console.log(`✅ React version: ${React.version}`),
+      console.log(`✅ React version: ${React.version}`);
       console.log('✅ All core React features are available and functional');
     });
   });

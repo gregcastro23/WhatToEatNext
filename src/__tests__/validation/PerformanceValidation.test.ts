@@ -20,7 +20,7 @@ jest.mock('child_process', () => ({
 const mockExecSync = execSync as jest.MockedFunction<any>;
 
 describe('Performance Validation Tests - Task 12', () => {
-  let memoryMonitor: TestMemoryMonitor,
+  let memoryMonitor: TestMemoryMonitor;
 
   beforeAll(() => {
     memoryMonitor = TestMemoryMonitor.createDefault();
@@ -32,7 +32,7 @@ describe('Performance Validation Tests - Task 12', () => {
   });
 
   afterEach(() => {
-    const testName = expect.getState().currentTestName || 'unknown'
+    const testName = expect.getState().currentTestName || 'unknown';
     memoryMonitor.takeSnapshot(`performance-test-${testName}-end`);
 
     // Cleanup after each test
@@ -194,7 +194,7 @@ describe('Performance Validation Tests - Task 12', () => {
       expect(cleanupResult.success).toBe(true);
       expect(memoryRetained).toBeLessThan(50); // Less than 50MB retained
 
-      console.log(`Memory retained after cleanup: ${memoryRetained.toFixed(2)}MB`),
+      console.log(`Memory retained after cleanup: ${memoryRetained.toFixed(2)}MB`);
       console.log(`Cleanup actions: ${cleanupResult.actions.join(', ')}`);
     });
 
@@ -301,7 +301,7 @@ describe('Performance Validation Tests - Task 12', () => {
       expect(averageTime).toBeLessThan(baselineTime * regressionThreshold);
       expect(performanceVariation).toBeLessThan(baselineTime * 0.1); // Less than 10% variation
 
-      console.log(`Average performance: ${(averageTime / 1000).toFixed(2)}s`),
+      console.log(`Average performance: ${(averageTime / 1000).toFixed(2)}s`);
       console.log(`Performance variation: ${(performanceVariation / 1000).toFixed(2)}s`);
     });
 
@@ -336,7 +336,7 @@ describe('Performance Validation Tests - Task 12', () => {
       expect(averageMemory).toBeLessThan(baselineMemory * memoryRegressionThreshold);
       expect(memoryVariation).toBeLessThan(baselineMemory * 0.2); // Less than 20% variation
 
-      console.log(`Average memory usage: ${averageMemory.toFixed(2)}MB`),
+      console.log(`Average memory usage: ${averageMemory.toFixed(2)}MB`);
       console.log(`Memory variation: ${memoryVariation.toFixed(2)}MB`);
     });
   });
@@ -377,7 +377,7 @@ describe('Performance Validation Tests - Task 12', () => {
 
       mockExecSync
         .mockImplementationOnce(() => Buffer.from(`✓ Sequential: ${sequentialTime / 1000}s`))
-        .mockImplementationOnce(() => Buffer.from(`✓ Parallel (4 cores): ${parallelTime / 1000}s`)),
+        .mockImplementationOnce(() => Buffer.from(`✓ Parallel (4 cores): ${parallelTime / 1000}s`));
 
       const sequentialResult = mockExecSync('yarn lint: sequential');
       const parallelResult = mockExecSync('yarn lint: parallel');
@@ -398,7 +398,7 @@ describe('Performance Validation Tests - Task 12', () => {
 
       mockExecSync
         .mockImplementationOnce(() => Buffer.from(`✓ Full processing: ${fullProcessingTime / 1000}s`))
-        .mockImplementationOnce(() => Buffer.from(`✓ Incremental: ${incrementalTime / 1000}s (5 files changed)`)),
+        .mockImplementationOnce(() => Buffer.from(`✓ Incremental: ${incrementalTime / 1000}s (5 files changed)`));
 
       const fullResult = mockExecSync('yarn lint: full');
       const incrementalResult = mockExecSync('yarn lint: incremental');
@@ -432,7 +432,7 @@ describe('Performance Validation Tests - Task 12', () => {
           cachedLinting: 3000,
           memoryUsage: 150,
           cacheHitRate: 0.85
-};
+        };
         return Buffer.from(JSON.stringify(summary));
       });
 
@@ -451,7 +451,7 @@ describe('Performance Validation Tests - Task 12', () => {
         cachedLinting: `${(result.cachedLinting / 1000).toFixed(2)}s`,
         memoryUsage: `${result.memoryUsage}MB`,
         cacheHitRate: `${(result.cacheHitRate * 100).toFixed(1)}%`
-});
+      });
     });
 
     test('Memory monitoring provides accurate insights', () => {
@@ -471,7 +471,7 @@ describe('Performance Validation Tests - Task 12', () => {
         peakMemory: `${memoryReport.summary.peakMemory.toFixed(2)}MB`,
         testDuration: `${(memoryReport.summary.testDuration / 1000).toFixed(2)}s`,
         recommendations: memoryReport.recommendations
-});
+      });
     });
   });
 });
