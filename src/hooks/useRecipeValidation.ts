@@ -273,7 +273,7 @@ export function useRecipeValidation() {
     score = Math.max(0, Math.min(100, score));
 
     return {
-      isValid: errors.filter(e => e.severity === 'high').length === 0;
+      isValid: errors.filter(e => e.severity === 'high').length === 0,
       errors,
       warnings,
       suggestions,

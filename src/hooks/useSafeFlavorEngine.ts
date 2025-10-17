@@ -19,15 +19,15 @@ const globalInitState = {
  */
 export function useSafeFlavorEngine() {
   const flavorEngine = useFlavorEngine();
-  const [error, setError] = useState<Error | null>(null)
-  const [isReady, setIsReady] = useState(false)
+  const [error, setError] = useState<Error | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   // Use refs to track component lifecycle and prevent useEffect loops
-  const isMountedRef = useRef(false)
-  const initCheckedRef = useRef(false)
-  const renderCountRef = useRef(0)
+  const isMountedRef = useRef(false);
+  const initCheckedRef = useRef(false);
+  const renderCountRef = useRef(0);
 
-  // Increment render count on each render;
+  // Increment render count on each render
   renderCountRef.current += 1;
 
   // Add circuit breaker to prevent infinite update loops
@@ -45,7 +45,7 @@ export function useSafeFlavorEngine() {
         calculateCompatibility: () => null,
         profileCount: 0,
         categories: {}
-      }
+      };
     }
   }
 
@@ -57,8 +57,8 @@ export function useSafeFlavorEngine() {
     if (initCheckedRef.current) return;
     initCheckedRef.current = true;
 
-    // Circuit, breaker: prevent checking more than once every 100ms globally
-    const now = Date.now()
+    // Circuit breaker: prevent checking more than once every 100ms globally
+    const now = Date.now();
     if (now - globalInitState.lastCheckTime < 100) {
       // logger.warn('Throttling flavor engine initialization checks')
       return;
@@ -67,83 +67,83 @@ export function useSafeFlavorEngine() {
 
     // If we already know globally it's initialized, use that state
     if (globalInitState.initialized) {
-      setIsReady(flavorEngine.isInitialized)
-      setError(flavorEngine.error)
-      return
+      setIsReady(flavorEngine.isInitialized);
+      setError(flavorEngine.error);
+      return;
     }
 
     // Limit check attempts to prevent infinite loops
     if (globalInitState.checkCount >= 3) {
       if (isMountedRef.current) {
-        setError(new Error('Failed to initialize flavor engine after multiple attempts'))
+        setError(new Error('Failed to initialize flavor engine after multiple attempts'));
       }
       return;
     }
 
     // Only check if the engine is actually available
     if (flavorEngine) {
-      globalInitState.checkCount++,
+      globalInitState.checkCount++;
       globalInitState.attempted = true;
 
       if (flavorEngine.isInitialized) {
         globalInitState.initialized = true;
         if (isMountedRef.current) {
-          setIsReady(true)
+          setIsReady(true);
         }
       } else if (flavorEngine.error) {
         if (isMountedRef.current) {
-          setError(flavorEngine.error)
+          setError(flavorEngine.error);
         }
       }
     }
 
     return () => {
       isMountedRef.current = false;
-    }
-  }, [flavorEngine])
+    };
+  }, [flavorEngine]);
 
   // Create safe, memoized versions of the engine methods to prevent re-renders
   const getProfile = useCallback(
-    (id: string): UnifiedFlavorProfile | undefined => {,
+    (id: string): UnifiedFlavorProfile | undefined => {
       if (!isReady) return undefined;
       try {
-        return flavorEngine.getProfile(id)
+        return flavorEngine.getProfile(id);
       } catch (err) {
         // logger.error('Error getting flavor profile: ', err)
-        return undefined
+        return undefined;
       }
-    }
-    [isReady, flavorEngine],
-  )
+    },
+    [isReady, flavorEngine]
+  );
 
   // Safe search profiles function with error handling
   const searchProfiles = useCallback(
-    (_criteria: unknown): UnifiedFlavorProfile[] => {,
+    (_criteria: unknown): UnifiedFlavorProfile[] => {
       if (!isReady) return [];
       try {
-        return flavorEngine.searchProfiles(_criteria)
+        return flavorEngine.searchProfiles(_criteria);
       } catch (err) {
         // logger.error('Error searching flavor profiles: ', err)
-        return []
+        return [];
       }
-    }
-    [isReady, flavorEngine],
-  )
+    },
+    [isReady, flavorEngine]
+  );
 
   // Safe compatibility calculation with error handling
   const calculateCompatibility = useCallback(
     (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) => {
-      if (!isReady) return null
+      if (!isReady) return null;
 
       try {
-        return flavorEngine.calculateCompatibility(profile1, profile2)
+        return flavorEngine.calculateCompatibility(profile1, profile2);
       } catch (err) {
         // logger.error('Error calculating compatibility: ', err)
-        return null
+        return null;
       }
-    }
-    [isReady, flavorEngine],
-  )
+    },
+    [isReady, flavorEngine]
+  );
 
   // Extract values to avoid complex expressions in dependency array
   const profileCount = isReady ? flavorEngine.profileCount : 0;
@@ -168,8 +168,8 @@ export function useSafeFlavorEngine() {
       calculateCompatibility,
       profileCount,
       categoriesString
-    ],
-  )
+    ]
+  );
 }
 
 export default useSafeFlavorEngine;

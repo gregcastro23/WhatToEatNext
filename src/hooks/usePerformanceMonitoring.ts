@@ -37,9 +37,9 @@ interface PerformanceMetrics {
 }
 
 interface PerformanceConfig {
-  updateInterval: number,
-  trackWebVitals: boolean,
-  enableMemoryTracking: boolean
+  updateInterval: number;
+  trackWebVitals: boolean;
+  enableMemoryTracking: boolean;
 }
 
 export function usePerformanceMonitoring(config: PerformanceConfig = {
@@ -65,18 +65,18 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
     recommendations: []
   })
 
-  const [isTracking, setIsTracking] = useState(false)
+  const [isTracking, setIsTracking] = useState(false);
 
   // Measure render performance
   const measureRenderTime = useCallback(() => {
-    const startTime = performance.now()
+    const startTime = performance.now();
     return () => {
       const endTime = performance.now();
       const renderTime = endTime - startTime;
-      setMetrics(prev => ({ ...prev, renderTime }))
+      setMetrics(prev => ({ ...prev, renderTime }));
       return renderTime;
-    }
-  }, [])
+    };
+  }, []);
 
   // Track API response times
   const trackApiCall = useCallback((endpoint: string, responseTime: number) => {
@@ -86,11 +86,11 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
         ...prev.apiResponseTimes,
         [endpoint]: responseTime
       }
-    }))
-  }, [])
+    }));
+  }, []);
 
   // Get Web Vitals metrics
-  const getWebVitals = useCallback(() => {;
+  const getWebVitals = useCallback(() => {
     if (!config.trackWebVitals || typeof window === 'undefined') return;
 
     // Largest Contentful Paint
@@ -100,103 +100,103 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
           const entries = list.getEntries();
           const lastEntry = entries[entries.length - 1] as any;
           if (lastEntry) {
-            setMetrics(prev => ({,
+            setMetrics(prev => ({
               ...prev,
               largestContentfulPaint: lastEntry.startTime
-            }))
+            }));
           }
-        })
-        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] })
+        });
+        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
 
         // First Input Delay
         const fidObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries()
+          const entries = list.getEntries();
           entries.forEach((entry: any) => {
-            if (entry.processingStart && entry.startTime)) {
+            if (entry.processingStart && entry.startTime) {
               const fid = entry.processingStart - entry.startTime;
-              setMetrics(prev => ({,
+              setMetrics(prev => ({
                 ...prev,
                 firstInputDelay: fid
-              }))
+              }));
             }
-          })
-        })
-        fidObserver.observe({ entryTypes: ['first-input'] })
+          });
+        });
+        fidObserver.observe({ entryTypes: ['first-input'] });
 
         // Cumulative Layout Shift
-        const clsObserver = new PerformanceObserver((list) => {;
+        const clsObserver = new PerformanceObserver((list) => {
           let clsValue = 0;
           list.getEntries().forEach((entry: any) => {
             if (!entry.hadRecentInput) {
               clsValue += entry.value;
             }
-          })
-          setMetrics(prev => ({,
+          });
+          setMetrics(prev => ({
             ...prev,
             cumulativeLayoutShift: clsValue
-          }))
-        })
-        clsObserver.observe({ entryTypes: ['layout-shift'] })
+          }));
+        });
+        clsObserver.observe({ entryTypes: ['layout-shift'] });
 
       } catch (error) {
-        logger.warn('Web Vitals tracking failed', error)
+        logger.warn('Web Vitals tracking failed', error);
       }
     }
-  }, [config.trackWebVitals])
+  }, [config.trackWebVitals]);
 
   // Get memory usage (if supported)
-  const getMemoryUsage = useCallback(() => {;
+  const getMemoryUsage = useCallback(() => {
     if (!config.enableMemoryTracking || typeof window === 'undefined') return;
 
     const performance = window.performance as any;
     if (performance.memory) {
       const memoryUsage = performance.memory.usedJSHeapSize / (1024 * 1024); // MB
-      setMetrics(prev => ({ ...prev, memoryUsage }))
+      setMetrics(prev => ({ ...prev, memoryUsage }));
     }
-  }, [config.enableMemoryTracking])
+  }, [config.enableMemoryTracking]);
 
   // Generate performance recommendations
-  const generateRecommendations = useCallback((currentMetrics: PerformanceMetrics): string[] => {;
+  const generateRecommendations = useCallback((currentMetrics: PerformanceMetrics): string[] => {
     const recommendations: string[] = [];
 
     // Cache performance
     Object.entries(currentMetrics.cacheStats).forEach(([cache, stats]) => {
       if (stats.hitRate < 0.8 && stats.hits + stats.misses > 10) {
-        recommendations.push(`Improve ${cache} cache hit rate (currently ${(stats.hitRate * 100).toFixed(1)}%)`)
+        recommendations.push(`Improve ${cache} cache hit rate (currently ${(stats.hitRate * 100).toFixed(1)}%)`);
       }
-    })
+    });
 
     // API response times
     Object.entries(currentMetrics.apiResponseTimes).forEach(([endpoint, time]) => {
       if (time > 1000) {
-        recommendations.push(`Optimize ${endpoint} API response time (${time.toFixed(0)}ms)`)
+        recommendations.push(`Optimize ${endpoint} API response time (${time.toFixed(0)}ms)`);
       }
-    })
+    });
 
     // Web Vitals
     if (currentMetrics.largestContentfulPaint > 2500) {
-      recommendations.push('Optimize Largest Contentful Paint (>2.5s)')
+      recommendations.push('Optimize Largest Contentful Paint (>2.5s)');
     }
     if (currentMetrics.firstInputDelay > 100) {
-      recommendations.push('Reduce First Input Delay (>100ms)')
+      recommendations.push('Reduce First Input Delay (>100ms)');
     }
     if (currentMetrics.cumulativeLayoutShift > 0.1) {
-      recommendations.push('Minimize Cumulative Layout Shift')
+      recommendations.push('Minimize Cumulative Layout Shift');
     }
 
     // Memory usage
     if (currentMetrics.memoryUsage && currentMetrics.memoryUsage > 50) {
-      recommendations.push(`High memory usage (${currentMetrics.memoryUsage.toFixed(1)}MB)`)
+      recommendations.push(`High memory usage (${currentMetrics.memoryUsage.toFixed(1)}MB)`);
     }
 
     return recommendations;
-  }, [])
+  }, []);
 
   // Update all metrics
   const updateMetrics = useCallback(() => {
     try {
-      const cacheStats = getCacheMetrics()
-      const now = Date.now()
+      const cacheStats = getCacheMetrics();
+      const now = Date.now();
 
       setMetrics(prev => {
         const updated = {
@@ -212,41 +212,41 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
           ...updated,
           recommendations,
           isOptimal
-        }
-      })
+        };
+      });
 
-      getMemoryUsage()
+      getMemoryUsage();
     } catch (error) {
-      logger.error('Performance metrics update failed', error)
+      logger.error('Performance metrics update failed', error);
     }
-  }, [generateRecommendations, getMemoryUsage])
+  }, [generateRecommendations, getMemoryUsage]);
 
   // Start/stop tracking
   const startTracking = useCallback(() => {
-    setIsTracking(true)
-    updateMetrics()
-    getWebVitals()
+    setIsTracking(true);
+    updateMetrics();
+    getWebVitals();
     logger.info('Performance monitoring started');
-  }, [updateMetrics, getWebVitals])
+  }, [updateMetrics, getWebVitals]);
 
   const stopTracking = useCallback(() => {
-    setIsTracking(false)
+    setIsTracking(false);
     logger.info('Performance monitoring stopped');
-  }, [])
+  }, []);
 
   // Setup periodic updates
   useEffect(() => {
-    if (!isTracking) return,
+    if (!isTracking) return;
 
-    const interval = setInterval(updateMetrics, config.updateInterval)
-    return () => clearInterval(interval)
-  }, [isTracking, updateMetrics, config.updateInterval])
+    const interval = setInterval(updateMetrics, config.updateInterval);
+    return () => clearInterval(interval);
+  }, [isTracking, updateMetrics, config.updateInterval]);
 
   // Auto-start on mount
   useEffect(() => {
-    startTracking()
-    return () => stopTracking()
-  }, [startTracking, stopTracking])
+    startTracking();
+    return () => stopTracking();
+  }, [startTracking, stopTracking]);
 
   return {
     metrics,
@@ -256,7 +256,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
     measureRenderTime,
     trackApiCall,
     updateMetrics
-  }
+  };
 }
 
 export default usePerformanceMonitoring;
