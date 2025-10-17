@@ -52,60 +52,60 @@ export const _useDebugSettings = () => {;
       } catch (error) {
         _logger.warn('[Debug Settings] Failed to save settings: ', error)
       }
-    }
-    [settings],
+    },
+    [settings]
   )
 
   // Individual setting updaters
-  const toggleVisibility = useCallback(() => {;
+  const toggleVisibility = useCallback(() => {
     saveSettings({ isVisible: !settings.isVisible })
   }, [settings.isVisible, saveSettings])
 
-  const toggleCollapsed = useCallback(() => {;
+  const toggleCollapsed = useCallback(() => {
     saveSettings({ isCollapsed: !settings.isCollapsed })
   }, [settings.isCollapsed, saveSettings])
 
   const setPosition = useCallback(
-    (position: DebugSettings['position']) => {,
+    (position: DebugSettings['position']) => {
       saveSettings({ position, customPosition: undefined })
-    }
-    [saveSettings],
+    },
+    [saveSettings]
   )
 
   const setCustomPosition = useCallback(
-    (x: numbery: number) => {,
-      saveSettings({ customPosition: { xy }, position: 'bottom-right' })
-    }
+    (x: number, y: number) => {
+      saveSettings({ customPosition: { x, y }, position: 'bottom-right' })
+    },
     [saveSettings],
   )
 
-  const togglePerformanceMetrics = useCallback(() => {;
+  const togglePerformanceMetrics = useCallback(() => {
     saveSettings({ showPerformanceMetrics: !settings.showPerformanceMetrics })
   }, [settings.showPerformanceMetrics, saveSettings])
 
-  const toggleAstrologicalData = useCallback(() => {;
+  const toggleAstrologicalData = useCallback(() => {
     saveSettings({ showAstrologicalData: !settings.showAstrologicalData })
   }, [settings.showAstrologicalData, saveSettings])
 
-  const toggleComponentStates = useCallback(() => {;
+  const toggleComponentStates = useCallback(() => {
     saveSettings({ showComponentStates: !settings.showComponentStates })
   }, [settings.showComponentStates, saveSettings])
 
   const setOpacity = useCallback(
-    (opacity: number) => {,
+    (opacity: number) => {
       saveSettings({ opacity: Math.max(0.1, Math.min(1, opacity)) })
-    }
-    [saveSettings],
+    },
+    [saveSettings]
   )
 
   const setSize = useCallback(
-    (size: DebugSettings['size']) => {,
+    (size: DebugSettings['size']) => {
       saveSettings({ size })
-    }
-    [saveSettings],
+    },
+    [saveSettings]
   )
 
-  const resetSettings = useCallback(() => {;
+  const resetSettings = useCallback(() => {
     setSettings(DEFAULT_SETTINGS)
     try {
       localStorage.removeItem(STORAGE_KEY)

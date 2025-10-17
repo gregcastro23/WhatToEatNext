@@ -98,11 +98,11 @@ export class MockCampaignController {
     }
 
     return {
-      success: mockErrors.length === 0;
+      success: mockErrors.length === 0,
       errors: mockErrors,
       warnings: mockWarnings,
       metrics: this.mockMetrics
-};
+    };
   }
 
   /**
@@ -347,7 +347,7 @@ export class MockCampaignController {
  * Mock Progress Tracker for test environments
  */
 export class MockProgressTracker {
-  private mockMetrics: ProgressMetrics,
+  private mockMetrics: ProgressMetrics;
   private metricsHistory: ProgressMetrics[] = [];
   private isTracking: boolean = false;
 

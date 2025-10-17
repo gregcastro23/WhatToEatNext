@@ -33,7 +33,7 @@ jest.mock('child_process', () => ({
 const mockExecSync = execSync as jest.MockedFunction<any>;
 
 describe('Comprehensive Validation Test Suite - Task 12', () => {
-  let memoryMonitor: TestMemoryMonitor,
+  let memoryMonitor: TestMemoryMonitor;
 
   beforeAll(() => {
     // Initialize memory monitoring for performance tests
@@ -233,7 +233,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         const initialMemory = process.memoryUsage();
 
         // Mock memory-efficient linting
-        mockExecSync.mockReturnValue(Buffer.from('✓ Memory usage: 45MB')),
+        mockExecSync.mockReturnValue(Buffer.from('✓ Memory usage: 45MB'));
 
         const result = mockExecSync('yarn lint: memory-efficient');
         const finalMemory = process.memoryUsage();
@@ -268,7 +268,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         // Mock cache-enabled linting
         mockExecSync
           .mockReturnValueOnce(Buffer.from('✓ First run: 5.2s (no cache)'))
-          .mockReturnValueOnce(Buffer.from('✓ Second run: 1.1s (cache hit: 80%)')),
+          .mockReturnValueOnce(Buffer.from('✓ Second run: 1.1s (cache hit: 80%)'));
 
         const firstRun = mockExecSync('yarn lint: cache-test');
         const secondRun = mockExecSync('yarn lint: cache-test');
@@ -327,7 +327,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Astrological calculation rules preserve domain logic', () => {
         // Mock astrological calculation validation
-        mockExecSync.mockReturnValue(Buffer.from('✓ Astrological rules validated: 0 violations')),
+        mockExecSync.mockReturnValue(Buffer.from('✓ Astrological rules validated: 0 violations'));
 
         const result = mockExecSync('yarn lint: domain-astro --validate-rules');
         expect(result.toString()).toContain('0 violations');

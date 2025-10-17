@@ -10,8 +10,8 @@ const mockFs = fs as jest.Mocked<typeof fs>;
 jest.mock('child_process');
 
 describe('BuildValidator', () => {
-  let buildValidator: BuildValidator,
-  let mockLogger: jest.Mock,
+  let buildValidator: BuildValidator;
+  let mockLogger: jest.Mock;
 
   beforeEach(() => {
     mockLogger = jest.fn();

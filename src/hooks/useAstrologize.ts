@@ -99,7 +99,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       } else {
         // Use GET with query params for current time
         const params = new URLSearchParams()
-        if (location)) {
+        if (location) {
           params.append('latitude', location.latitude.toString())
           params.append('longitude', location.longitude.toString())
         }
@@ -111,15 +111,16 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       }
 
       log.info(`🌟 Making ${method} request to astrologize API: `, {
-        url;
+        url,
         body: body ? JSON.parse(body) : 'GET params'
-})
+      })
 
       // Make the API request
       const response = await fetch(url, {
-        method;
+        method,
         headers: {
-          'Content-Type': 'application/json' };
+          'Content-Type': 'application/json'
+        },
         body
       })
 
@@ -149,9 +150,9 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
 
   // Return the result
   return {
-    loading;
-    error;
-    data;
+    loading,
+    error,
+    data,
     refetch: fetchData
   }
 }

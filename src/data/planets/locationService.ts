@@ -413,7 +413,7 @@ export class PlanetaryLocationService {
     // Weather-based considerations
     const weatherConsiderations = this.getWeatherConsiderations(regionalProfile)
 
-    return {;
+    return {
       location: coordinates,
       activeInfluences,
       regionalProfile,
@@ -445,10 +445,10 @@ export class PlanetaryLocationService {
       const seasonalAdjustment = this.calculateSeasonalAdjustment(planetName, coordinates, date)
 
       // Location modifier (regional planetary affinities)
-      const locationModifier = this.getRegionalPlanetaryAffinity(planetName, coordinates),
+      const locationModifier = this.getRegionalPlanetaryAffinity(planetName, coordinates);
 
       const finalInfluence =
-        baseInfluence * latitudeEffect * altitudeEffect * seasonalAdjustment * locationModifier,
+        baseInfluence * latitudeEffect * altitudeEffect * seasonalAdjustment * locationModifier;
 
       influences.push({
         planet: planetName,
@@ -458,7 +458,7 @@ export class PlanetaryLocationService {
         latitudeEffect,
         seasonalAdjustment,
         finalInfluence,
-        culinaryRecommendations: this.getPlanetaryCulinaryRecommendations(,
+        culinaryRecommendations: this.getPlanetaryCulinaryRecommendations(
           planetName,
           finalInfluence,
           planetData,
@@ -535,7 +535,7 @@ export class PlanetaryLocationService {
       case 'Mercury':
         // Communication/travel planet benefits from elevation
         return 1.0 + altitudeKm * 0.08;
-      default: return 1.0 + altitudeKm * 0.02, // Minimal effect for other planets
+      default: return 1.0 + altitudeKm * 0.02; // Minimal effect for other planets
     }
   }
 
@@ -587,12 +587,12 @@ export class PlanetaryLocationService {
     // Intensity-based recommendations
     if (influence > 1.2) {
       return [
-        ...baseRecommendations
+        ...baseRecommendations,
         `Emphasize ${planet.toLowerCase()}-associated foods`,
         ...foodAssociations.slice(0, 3)
-      ],
+      ];
     } else if (influence < 0.8) {
-      return [`Moderate ${planet.toLowerCase()} influences`, ...baseRecommendations.slice(0, 2)],
+      return [`Moderate ${planet.toLowerCase()} influences`, ...baseRecommendations.slice(0, 2)];
     } else {
       return [...baseRecommendations.slice(0, 3), ...foodAssociations.slice(0, 2)]
     }
@@ -630,15 +630,15 @@ export class PlanetaryLocationService {
 
     return {
       ingredients: [
-        ...seasonalIngredients
-        ...topInfluences.flatMap(inf => inf.culinaryRecommendations.slice(0, 2)),,
+        ...seasonalIngredients,
+        ...topInfluences.flatMap(inf => inf.culinaryRecommendations.slice(0, 2))
       ].slice(0, 12),
       cookingMethods: [
-        ...regionalProfile.traditionalCookingMethods
+        ...regionalProfile.traditionalCookingMethods,
         ...this.getMethodsForClimate(regionalProfile.climateConsiderations, season)
       ].slice(0, 8),
       flavorProfiles: this.getFlavorProfilesForInfluences(topInfluences),
-      nutritionalFocus: this.getNutritionalFocusForSeason(,
+      nutritionalFocus: this.getNutritionalFocusForSeason(
         season,
         regionalProfile.climateConsiderations
       )
@@ -670,13 +670,13 @@ export class PlanetaryLocationService {
     const { temperature, humidity } = regionalProfile.climateConsiderations;
 
     return {
-      hotWeather: temperature === 'tropical';
+      hotWeather: temperature === 'tropical'
           ? ['Cooling foods', 'Raw preparations', 'Hydrating ingredients', 'Quick cooking methods']
           : ['Light cooking', 'Cold soups', 'Fresh salads', 'Minimal heat cooking'],
-      coldWeather: temperature === 'cold';
+      coldWeather: temperature === 'cold'
           ? ['Warming spices', 'Hot broths', 'Slow-cooked stews', 'Calorie-dense foods']
           : ['Moderate warming foods', 'Cooked vegetables', 'Warm beverages'],
-      humidity: humidity === 'humid';
+      humidity: humidity === 'humid'
           ? ['Light, non-greasy foods', 'Fresh preparations', 'Cooling herbs']
           : ['Moistening foods', 'Broths and soups', 'Oil-rich preparations'],
       pressure: [
@@ -691,12 +691,12 @@ export class PlanetaryLocationService {
     climate: RegionalCulinaryProfile['climateConsiderations'],
     season: string,
   ): string[] {
-    if (climate.temperature === 'tropical') {;
+    if (climate.temperature === 'tropical') {
       return ['Quick steaming', 'Raw preparations', 'Light grilling']
-    } else if (climate.temperature === 'cold') {;
+    } else if (climate.temperature === 'cold') {
       return ['Slow braising', 'Roasting', 'Hot soup making']
     } else {
-      return season === 'summer' ? ['Grilling', 'Light cooking'] : ['Roasting', 'Stewing'],
+      return season === 'summer' ? ['Grilling', 'Light cooking'] : ['Roasting', 'Stewing'];
     }
   }
 
@@ -705,16 +705,16 @@ export class PlanetaryLocationService {
   ): string[] {
     return influences.map(inf => {
       switch (inf.planet) {
-        case 'Sun':;
+        case 'Sun':
           return 'Bold and bright';
-        case 'Moon': return 'Subtle and comforting',
-        case 'Mars': return 'Spicy and intense',
+        case 'Moon': return 'Subtle and comforting';
+        case 'Mars': return 'Spicy and intense';
         case 'Venus':
-          return 'Sweet and pleasant'
-        case 'Mercury': return 'Complex and varied',
-        case 'Jupiter': return 'Rich and abundant',
-        case 'Saturn': return 'Traditional and structured',
-        default: return 'Balanced'
+          return 'Sweet and pleasant';
+        case 'Mercury': return 'Complex and varied';
+        case 'Jupiter': return 'Rich and abundant';
+        case 'Saturn': return 'Traditional and structured';
+        default: return 'Balanced';
       }
     })
   }
@@ -731,13 +731,13 @@ export class PlanetaryLocationService {
     }
 
     const climateModifications =
-      climate.temperature === 'tropical';
+      climate.temperature === 'tropical'
         ? ['Electrolyte balance', 'Cooling nutrition']
-        : climate.temperature === 'cold';
+        : climate.temperature === 'cold'
           ? ['Warming spices', 'Dense calories']
           : []
 
-    return [...baseNutrition[season as keyof typeof baseNutrition], ...climateModifications],
+    return [...baseNutrition[season as keyof typeof baseNutrition], ...climateModifications];
   }
 }
 

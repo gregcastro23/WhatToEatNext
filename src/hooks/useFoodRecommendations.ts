@@ -93,17 +93,17 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
                 id: ingredient.name,
                 name: ingredient.name,
                 tags: (ingredient.tags as string[]) || [],
-                elementalProfile: ingredient.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 }
+                elementalProfile: ingredient.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 },
                 basePortionSize: 1,
                 nutritionalDensity: (ingredient.nutritionalScore as number) || 0.5
-              }
+              },
               kinetics
             );
 
             return {
               ...ingredient,
               kineticScore,
-              temporalCategory: currentPowerLevel > 0.7 ? 'energizing' :,
+              temporalCategory: currentPowerLevel > 0.7 ? 'energizing' :
                               currentPowerLevel < 0.4 ? 'grounding' : 'balanced',
               aspectPhase,
               dominantElement,
@@ -119,14 +119,14 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
         const filteredResults = options?.filter ? enhancedResults.filter(options.filter) : enhancedResults;
 
         // Apply limit if specified
-        const limitedResults = options?.limit;
+        const limitedResults = options?.limit
           ? filteredResults.slice(0, options.limit)
-          : filteredResults,
+          : filteredResults;
 
         setRecommendations(limitedResults);
       } catch (err) {
         _logger.error('Error fetching ingredient recommendations: ', err);
-        setError(err instanceof Error ? err.message : 'Unknown error occurred'),
+        setError(err instanceof Error ? err.message : 'Unknown error occurred');
         setRecommendations([]);
       } finally {
         setLoading(false);
@@ -160,20 +160,20 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
       if (kinetics && options.enableKinetics !== false) {
         enhancedResults = results.map(ingredient => {
           const kineticScore = calculateKineticAlignment(
-            {,
+            {
               id: ingredient.name,
               name: ingredient.name,
               tags: ingredient.tags || [],
-              elementalProfile: ingredient.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 }
+              elementalProfile: ingredient.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 },
               basePortionSize: 1,
               nutritionalDensity: ingredient.nutritionalScore || 0.5
-            }
+            },
             kinetics);
 
           return {
             ...ingredient,
             kineticScore,
-            temporalCategory: currentPowerLevel > 0.7 ? 'energizing' :,
+            temporalCategory: currentPowerLevel > 0.7 ? 'energizing' :
                             currentPowerLevel < 0.4 ? 'grounding' : 'balanced',
             aspectPhase,
             dominantElement,
@@ -185,9 +185,9 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
       }
 
       const filteredResults = options?.filter ? enhancedResults.filter(options.filter) : enhancedResults;
-      const limitedResults = options?.limit;
+      const limitedResults = options?.limit
         ? filteredResults.slice(0, options.limit)
-        : filteredResults,
+        : filteredResults;
 
       setRecommendations(limitedResults);
       setError(null);
@@ -222,12 +222,12 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
 
     // Astrological data
     currentSeason,
-    currentZodiac: astroState.zodiacSign || 'aries'
+    currentZodiac: astroState.zodiacSign || 'aries',
     lunarPhase: astroState.lunarPhase,
     activePlanets: astroState.activePlanets || [],
 
     // Kinetics enhancement
-    isKineticsEnabled: options.enableKinetics !== false && isKineticsOnline;
+    isKineticsEnabled: options.enableKinetics !== false && isKineticsOnline,
     temporalRecommendations,
     elementalRecommendations,
     aspectEnhancedRecommendations,

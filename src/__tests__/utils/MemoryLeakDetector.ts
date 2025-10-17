@@ -25,8 +25,8 @@ interface MemoryLeakReport {
 }
 
 export class MemoryLeakDetector {
-  private baseline: number,
-  private patterns: MemoryLeakPattern[],
+  private baseline: number;
+  private patterns: MemoryLeakPattern[];
 
   constructor() {
     this.baseline = process.memoryUsage().heapUsed;

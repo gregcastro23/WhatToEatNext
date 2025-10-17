@@ -80,27 +80,27 @@ export function useAstrologicalInfluence() {
 
     // Calculate overall influence
     const lunarPhaseStrength =
-      astrologicalState.lunarPhase === 'full moon';
+      astrologicalState.lunarPhase === 'full moon'
         ? 1.0
-        : astrologicalState.lunarPhase === 'new moon';
+        : astrologicalState.lunarPhase === 'new moon'
           ? 0.3
           : 0.6;
 
     const overallInfluence = aspectStrength * 0.4 + lunarPhaseStrength * 0.6
 
-    return {;
-      planetaryDay: astrologicalState.planetaryDay || 'Sun'
-      planetaryHour: astrologicalState.planetaryHour || 'Sun';
-      lunarPhase: astrologicalState.lunarPhase || 'new moon'
-      dominantElement;
-      aspectStrength;
+    return {
+      planetaryDay: astrologicalState.planetaryDay || 'Sun',
+      planetaryHour: astrologicalState.planetaryHour || 'Sun',
+      lunarPhase: astrologicalState.lunarPhase || 'new moon',
+      dominantElement,
+      aspectStrength,
       overallInfluence
     }
   }, [astrologicalState, planetaryPositions])
 
   return {
-    ...influence;
-    isLoading: isLoading || !astrologicalState;
+    ...influence,
+    isLoading: isLoading || !astrologicalState,
     astrologicalState
   }
 }

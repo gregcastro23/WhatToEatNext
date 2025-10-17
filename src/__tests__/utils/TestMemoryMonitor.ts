@@ -32,11 +32,11 @@ interface MemorySummary {
 
 export class TestMemoryMonitor {
   private snapshots: MemorySnapshot[] = [];
-  private startTime: number,
+  private startTime: number;
   private memoryLimits: {
-    heapUsed: number,
-    heapTotal: number,
-    external: number,
+    heapUsed: number;
+    heapTotal: number;
+    external: number;
     rss: number;
   };
 
@@ -136,10 +136,10 @@ export class TestMemoryMonitor {
     }
 
     return {
-      isWithinLimits: errors.length === 0;
+      isWithinLimits: errors.length === 0,
       currentUsage,
       warnings,
-      errors,
+      errors
     };
   }
 

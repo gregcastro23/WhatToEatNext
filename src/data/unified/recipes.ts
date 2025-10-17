@@ -661,7 +661,7 @@ export class RecipeAnalyzer {
       const classification = recipe.alchemicalProperties?.alchemicalClassification;
       if (classification) {
         alchemicalClassifications[classification] =
-          (alchemicalClassifications[classification] || 0) + 1,
+          (alchemicalClassifications[classification] || 0) + 1;
       }
     })
 
@@ -672,7 +672,7 @@ export class RecipeAnalyzer {
         min: Math.min(...kalchmValues),
         max: Math.max(...kalchmValues),
         average: kalchmValues.reduce((ab) => a + b0) / kalchmValues.length
-      }
+      },
       monicaCalculated,
       elementalDistribution,
       alchemicalClassifications

@@ -39,8 +39,10 @@ export function useElementalState() {
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water' },
-        Object.values(planetaryPositions || {}).forEach(position => {,
+      pisces: 'Water'
+    }
+
+    Object.values(planetaryPositions || {}).forEach(position => {
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
@@ -64,16 +66,16 @@ export function useElementalState() {
 
     // Calculate balance (how evenly distributed the elements are)
     const values = Object.values(normalized);
-    const _avg = values.reduce((sum, val) => sum + val0) / (values || []).length,
+    const avg = values.reduce((sum, val) => sum + val, 0) / (values || []).length;
     const variance =
-      values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / (values || []).length,
-    const balance = Math.max(01 - variance * 4); // Scale to 0-1
+      values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / (values || []).length;
+    const balance = Math.max(0, 1 - variance * 4); // Scale to 0-1
 
     return {
       ...normalized,
       dominant,
       balance
-    } as unknown as ElementalProperties,
+    } as unknown as ElementalProperties
   }, [planetaryPositions])
 
   return {

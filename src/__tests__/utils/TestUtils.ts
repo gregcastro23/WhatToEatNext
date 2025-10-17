@@ -33,16 +33,16 @@ export class TestUtils {
    */
   static async executeWithRetry(
     command: string,
-    options: TestExecutionOptions = {};
+    options: TestExecutionOptions = {}
   ): Promise<TestResult> {
     const {
-      timeout = this.DEFAULT_TIMEOUT;
-      retries = this.DEFAULT_RETRIES;
-      expectedErrors = [];
-      memoryLimit = 4096 * 1024 * 1024, // 4GB in bytes
+      timeout = this.DEFAULT_TIMEOUT,
+      retries = this.DEFAULT_RETRIES,
+      expectedErrors = [],
+      memoryLimit = 4096 * 1024 * 1024 // 4GB in bytes
     } = options;
 
-    let lastError: Error | undefined,
+    let lastError: Error | undefined;
     let retryCount = 0;
     const startTime = Date.now();
     let peakMemoryUsage = 0;
@@ -156,8 +156,8 @@ export class TestUtils {
     }
 
     return {
-      isValid: issues.length === 0;
-      issues,
+      isValid: issues.length === 0,
+      issues
     };
   }
 
@@ -192,10 +192,10 @@ export class TestUtils {
   static async monitorRealTimeTest(
     testFunction: () => Promise<void>,
     options: {
-      maxDuration?: number,
-      memoryThreshold?: number,
+      maxDuration?: number;
+      memoryThreshold?: number;
       cleanupFunction?: () => void;
-    } = {};
+    } = {}
   ): Promise<{ success: boolean; metrics: any; issues: string[] }> {
     const {
       maxDuration = 60000, // 1 minute
@@ -239,16 +239,16 @@ export class TestUtils {
         metrics.memoryReadings.reduce((a, b) => a + b, 0) / metrics.memoryReadings.length;
 
       return {
-        success: issues.length === 0;
+        success: issues.length === 0,
         metrics,
-        issues,
+        issues
       };
     } catch (error) {
-      issues.push(`Test execution failed: ${error}`),
+      issues.push(`Test execution failed: ${error}`);
       return {
         success: false,
         metrics,
-        issues,
+        issues
       };
     } finally {
       clearInterval(memoryMonitor);
@@ -269,8 +269,8 @@ export class TestUtils {
    */
   static async validateConsistency(
     testFunction: () => Promise<any>,
-    runs: number = 3;
-    tolerancePercent: number = 20;
+    runs: number = 3,
+    tolerancePercent: number = 20
   ): Promise<{ isConsistent: boolean; results: any[]; variance: number }> {
     const results: any[] = [];
 
@@ -295,9 +295,9 @@ export class TestUtils {
     }
 
     return {
-      isConsistent: variance <= tolerancePercent;
+      isConsistent: variance <= tolerancePercent,
       results,
-      variance,
+      variance
     };
   }
 

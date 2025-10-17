@@ -32,7 +32,7 @@ export interface RealTimeTestResult {
 }
 
 export class RealTimeTestRunner {
-  private static instance: RealTimeTestRunner,
+  private static instance: RealTimeTestRunner;
   private activeTests: Map<string, NodeJS.Timeout> = new Map();
   private testResults: Map<string, RealTimeTestResult> = new Map();
 
@@ -52,11 +52,11 @@ export class RealTimeTestRunner {
   ): Promise<RealTimeTestResult> {
     const {
       testName,
-      timeout = TEST_TIMEOUTS.realtime;
-      memoryLimit = MEMORY_LIMITS.integration;
-      retries = 2;
+      timeout = TEST_TIMEOUTS.realtime,
+      memoryLimit = MEMORY_LIMITS.integration,
+      retries = 2,
       cleanupFunction,
-      expectedErrors = [];
+      expectedErrors = []
     } = config;
 
     const result: RealTimeTestResult = {
@@ -125,7 +125,7 @@ export class RealTimeTestRunner {
           await this.delay(1000 * attempt);
         }
       } catch (error) {
-        result.errors.push(`Critical error in attempt ${attempt + 1}: ${error}`),
+        result.errors.push(`Critical error in attempt ${attempt + 1}: ${error}`);
         break;
       }
     }
@@ -277,9 +277,9 @@ export class RealTimeTestRunner {
     }
 
     return {
-      isValid: issues.length === 0;
+      isValid: issues.length === 0,
       issues,
-      summary,
+      summary
     };
   }
 

@@ -401,7 +401,7 @@ describe('Domain Validation Tests - Task 12', () => {
         ];
 
         domainRequirements.forEach(req => {
-          mockExecSync.mockReturnValue(Buffer.from(`✓ Domain requirement ${req.requirement}: ${req.status}`)),
+          mockExecSync.mockReturnValue(Buffer.from(`✓ Domain requirement ${req.requirement}: ${req.status}`));
 
           const result = mockExecSync(`test-domain-requirement ${req.requirement}`);
           expect(result.toString()).toContain(req.status);

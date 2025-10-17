@@ -46,12 +46,12 @@ interface TestIsolationConfig {
  */
 export class CampaignTestController {
   private static instance: CampaignTestController | null = null;
-  private testState: CampaignTestState,
-  private isolationConfig: TestIsolationConfig,
+  private testState: CampaignTestState;
+  private isolationConfig: TestIsolationConfig;
   private testSafeTracker: TestSafeProgressTracker | null = null;
   private mockInstances: {
-    controller: MockCampaignController | null,
-    tracker: MockProgressTracker | null,
+    controller: MockCampaignController | null;
+    tracker: MockProgressTracker | null;
     safety: MockSafetyProtocol | null;
   };
   private originalEnvVars: Record<string, string | undefined> = {};
@@ -127,7 +127,7 @@ export class CampaignTestController {
    */
   async pauseCampaignForTest(testName: string): Promise<void> {
     if (this.testState.isPaused) {
-      console.warn(`Campaign already paused for test: ${this.testState.testName}`),
+      console.warn(`Campaign already paused for test: ${this.testState.testName}`);
       return;
     }
 
@@ -230,8 +230,8 @@ export class CampaignTestController {
    */
   async simulateProgress(
     targetMetrics: Partial<ProgressMetrics>,
-    durationMs: number = 1000;
-    testName?: string,
+    durationMs: number = 1000,
+    testName?: string
   ): Promise<void> {
     if (!this.testSafeTracker) {
       throw new Error('Test-safe tracker not initialized');
@@ -270,7 +270,7 @@ export class CampaignTestController {
   createMockSafetyEvent(
     type: SafetyEventType,
     description: string,
-    severity: SafetyEventSeverity = SafetyEventSeverity.INFO;
+    severity: SafetyEventSeverity = SafetyEventSeverity.INFO
   ): SafetyEvent {
     return {
       type,
@@ -327,9 +327,9 @@ export class CampaignTestController {
     }
 
     return {
-      isValid: issues.length === 0;
+      isValid: issues.length === 0,
       issues,
-      warnings,
+      warnings
     };
   }
 

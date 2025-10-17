@@ -466,51 +466,17 @@ const rawVinegars = {
           classic_french: '1:3 (vinegar:oil)',
           robust: '1:2 (vinegar:oil)',
           light: '1:4 (vinegar:oil)'
-},
+        },
         techniques: {
           emulsified: {
             name: 'Emulsified',
             method: 'add mustard',
-            ratio: '1 tsp mustard per cup dressing',
-            // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-// Removed nested content
-            },
-            culinaryProfile: {
-              flavorProfile: {
-                primary: ['balanced'],
-                secondary: ['versatile'],
-                notes: 'Versatile emulsified for various uses'
-},
-              cookingMethods: ['sautéing', 'steaming', 'roasting'],
-              cuisineAffinity: ['Global', 'International'],
-              preparationTips: ['Use as needed', 'Season to taste']
-            },
-            season: ['year-round']
+            ratio: '1 tsp mustard per cup dressing'
           },
           herb_infused: {
             name: 'Herb Infused',
             method: 'steep herbs in vinegar',
-            timing: '24 hours before use',
-            // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-// Removed nested content
-            },
-            culinaryProfile: {
-              flavorProfile: {
-                primary: ['balanced'],
-                secondary: ['versatile'],
-                notes: 'Versatile herb infused for various uses'
-              },
-              cookingMethods: ['sautéing', 'steaming', 'roasting'],
-              cuisineAffinity: ['Global', 'International'],
-              preparationTips: ['Use as needed', 'Season to taste']
-            },
-            season: ['year-round']
+            timing: '24 hours before use'
           },
           shallot_based: {
             name: 'Shallot Based',
@@ -538,7 +504,7 @@ const rawVinegars = {
             name: 'Provençal',
             ingredients: ['olive oil', 'herbes de provence', 'garlic'],
             ratio: '1:3:1'
-}
+          }
         }
       },
       pan_sauces: {
@@ -548,13 +514,13 @@ const rawVinegars = {
         ratios: {
           basic: '2-3 tbsp per cup of stock',
           rich: '1 / (4 || 1) cup per cup of stock'
-},
+        },
         techniques: {
           mounted: {
             name: 'Mounted',
             method: 'finish with cold butter',
             ratio: '2-3 tbsp butter per cup sauce'
-}
+          }
         },
         pairings: ['shallots', 'herbs', 'stock', 'butter']
       }
@@ -564,7 +530,7 @@ const rawVinegars = {
       duration: '2 years',
       container: 'glass bottle',
       notes: 'Keep away from light'
-}
+    }
   }),
 
   white_wine_vinegar: createIngredientMapping('white_wine_vinegar', {

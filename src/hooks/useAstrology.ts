@@ -172,15 +172,15 @@ export function useAstrology(options: AstrologyOptions = {}) {
           // Only update state if component is still mounted
           if (isMountedRef.current) {
             setState(prev => ({
-              ...prev;
-              loading: false;
-              error: null;
-              lastUpdated: Date.now();
+              ...prev,
+              loading: false,
+              error: null,
+              lastUpdated: Date.now(),
               data: {
-                planetaryPositions: data.data.positions;
-                currentSign: data.data.currentSign;
-                lunarPhase: data.data.lunarPhase;
-                elementalBalance: data.data.elementalBalance || prev.data.elementalBalance;
+                planetaryPositions: data.data.positions,
+                currentSign: data.data.currentSign,
+                lunarPhase: data.data.lunarPhase,
+                elementalBalance: data.data.elementalBalance || prev.data.elementalBalance,
                 aspectsInfluence: data.data.aspectsInfluence || prev.data.aspectsInfluence
               }
             }));
@@ -194,8 +194,8 @@ export function useAstrology(options: AstrologyOptions = {}) {
           // Only update state if component is still mounted
           if (isMountedRef.current) {
             setState(prev => ({
-              ...prev;
-              loading: false;
+              ...prev,
+              loading: false,
               error: errorMessage
             }));
 
@@ -216,7 +216,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
       activeRequests.set(cacheKey, requestPromise);
 
       return requestPromise;
-    };
+    },
     [isClient, state.loading, useFallback, createCacheKey]
   );
 
@@ -248,14 +248,14 @@ export function useAstrology(options: AstrologyOptions = {}) {
         const requestPromise = (async () => {
           try {
             const response = await fetch('/api/astrology', {
-              method: 'POST';
+              method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
-              };
+              },
               body: JSON.stringify({
-                latitude: calcLat;
-                longitude: calcLng;
-                timestamp: targetDate.toISOString();
+                latitude: calcLat,
+                longitude: calcLng,
+                timestamp: targetDate.toISOString(),
                 calculation: 'elementalBalance'
               })
             });
@@ -272,9 +272,9 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
             if (isMountedRef.current) {
               setState(prev => ({
-                ...prev;
+                ...prev,
                 data: {
-                  ...prev.data;
+                  ...prev.data,
                   elementalBalance: data.data
                 }
               }));
@@ -301,7 +301,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
         logger.error('Error in calculateElementalBalance: ', error);
         return null;
       }
-    };
+    },
     [isClient, latitude, longitude, useFallback, state.loading]
   );
 
@@ -310,8 +310,8 @@ export function useAstrology(options: AstrologyOptions = {}) {
    */
   const getAstrologicalProfile = useCallback(
     async (
-      profileDate: Date = dateRef.current;
-      calcLatitude: number = latitude || 0;
+      profileDate: Date = dateRef.current,
+      calcLatitude: number = latitude || 0,
       calcLongitude: number = longitude || 0
     ) => {
       if (!isClient || !isMountedRef.current || calcLatitude === null || calcLongitude === null) {
@@ -330,13 +330,13 @@ export function useAstrology(options: AstrologyOptions = {}) {
       const requestPromise = (async () => {
         try {
           const response = await fetch('/api/astrology', {
-            method: 'POST';
+            method: 'POST',
             headers: {
               'Content-Type': 'application/json'
-            };
+            },
             body: JSON.stringify({
-              latitude: calcLatitude;
-              longitude: calcLongitude;
+              latitude: calcLatitude,
+              longitude: calcLongitude,
               timestamp: profileDate.toISOString()
             })
           });
@@ -354,16 +354,16 @@ export function useAstrology(options: AstrologyOptions = {}) {
           // Transform API data to AstrologicalProfile format
           const planetaryPositions = Object.entries(data.data.positions || {}).map(
             ([planet, position]: [string, any]) => ({
-              planet;
-              sign: position.sign;
-              degree: position.degree;
+              planet,
+              sign: position.sign,
+              degree: position.degree,
               isRetrograde: position.isRetrograde
             })
           );
 
           const profile = {
-            zodiac: [data.data.currentSign];
-            lunar: [data.data.lunarPhase];
+            zodiac: [data.data.currentSign],
+            lunar: [data.data.lunarPhase],
             planetary: planetaryPositions
           };
 
@@ -378,7 +378,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
       activeRequests.set(cacheKey, requestPromise);
       return requestPromise;
-    };
+    },
     [isClient, latitude, longitude, state.loading]
   );
 
@@ -396,21 +396,21 @@ export function useAstrology(options: AstrologyOptions = {}) {
       const currentSign = safeAstrology.calculateSunSign();
 
       setState(prev => ({
-        ...prev;
-        loading: false;
-        error: 'Using fallback data due to API error';
+        ...prev,
+        loading: false,
+        error: 'Using fallback data due to API error',
         data: {
-          ...prev.data;
-          planetaryPositions: positions;
-          currentSign;
+          ...prev.data,
+          planetaryPositions: positions,
+          currentSign,
           lunarPhase
-        };
+        },
         lastUpdated: Date.now()
       }));
 
       return {
-        positions;
-        currentSign;
+        positions,
+        currentSign,
         lunarPhase
       };
     } catch (error) {
@@ -428,36 +428,36 @@ export function useAstrology(options: AstrologyOptions = {}) {
     try {
       const positions = safeAstrology.getReliablePlanetaryPositions();
       const elementalBalance: Record<string, number> = {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       };
 
       // Simple calculation based on sign elements
       const signElements: Record<string, string> = {
-        aries: 'Fire';
-        leo: 'Fire';
-        sagittarius: 'Fire';
-        taurus: 'Earth';
-        virgo: 'Earth';
-        capricorn: 'Earth';
-        gemini: 'Air';
-        libra: 'Air';
-        aquarius: 'Air';
-        cancer: 'Water';
-        scorpio: 'Water';
+        aries: 'Fire',
+        leo: 'Fire',
+        sagittarius: 'Fire',
+        taurus: 'Earth',
+        virgo: 'Earth',
+        capricorn: 'Earth',
+        gemini: 'Air',
+        libra: 'Air',
+        aquarius: 'Air',
+        cancer: 'Water',
+        scorpio: 'Water',
         pisces: 'Water'
       };
 
       // Planet weights
       const weights: Record<string, number> = {
-        sun: 3;
-        moon: 2;
-        mercury: 1;
-        venus: 1;
-        mars: 1;
-        jupiter: 1;
+        sun: 3,
+        moon: 2,
+        mercury: 1,
+        venus: 1,
+        mars: 1,
+        jupiter: 1,
         saturn: 1
       };
 
@@ -485,9 +485,9 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
       if (isMountedRef.current) {
         setState(prev => ({
-          ...prev;
+          ...prev,
           data: {
-            ...prev.data;
+            ...prev.data,
             elementalBalance
           }
         }));
@@ -497,9 +497,9 @@ export function useAstrology(options: AstrologyOptions = {}) {
     } catch (error) {
       logger.error('Error using fallback elemental balance: ', error);
       return {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       };
     }
@@ -550,12 +550,12 @@ export function useAstrology(options: AstrologyOptions = {}) {
   }, [latitude, longitude, fetchAstrologyData]);
 
   return {
-    ...state;
-    fetchAstrologyData;
-    calculateElementalBalance;
-    getAstrologicalProfile;
-    getDominantElement;
-    refreshData;
+    ...state,
+    fetchAstrologyData,
+    calculateElementalBalance,
+    getAstrologicalProfile,
+    getDominantElement,
+    refreshData,
     isClient
   };
 }

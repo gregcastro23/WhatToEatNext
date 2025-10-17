@@ -35,10 +35,10 @@ interface ProgressSnapshot {
  * controlled progress simulation for testing campaign systems.
  */
 export class TestSafeProgressTracker {
-  private config: TestProgressConfig,
+  private config: TestProgressConfig;
   private memoryMonitor: TestMemoryMonitor | null = null;
   private progressHistory: ProgressSnapshot[] = [];
-  private currentMetrics: ProgressMetrics,
+  private currentMetrics: ProgressMetrics;
   private isTracking: boolean = false;
   private trackingStartTime: number = 0;
   private progressUpdateTimer: NodeJS.Timeout | null = null;
@@ -267,9 +267,9 @@ export class TestSafeProgressTracker {
     }
 
     return {
-      success: errors.length === 0;
+      success: errors.length === 0,
       errors,
-      warnings,
+      warnings
     };
   }
 

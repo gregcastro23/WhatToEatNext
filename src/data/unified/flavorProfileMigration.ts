@@ -784,12 +784,12 @@ export class FlavorProfileMigration {;
       summer: 1.0,
       fall: 1.0,
       winter: 1.0
-} as Record<Season, number>,
+    } as Record<Season, number>;
   }
 
   // ===== UTILITY METHODS =====
 
-  private mapCategory(category: string): UnifiedFlavorProfile['category'] {,
+  private mapCategory(category: string): UnifiedFlavorProfile['category'] {
     const categoryMap: Record<string, UnifiedFlavorProfile['category']> = {
       cuisine: 'cuisine',
       planetary: 'planetary',
@@ -801,13 +801,13 @@ export class FlavorProfileMigration {;
 
   private mergeCuisineData(profileId: string, cuisineData: CuisineFlavorProfile): void {
     const existingProfile = this.migratedProfiles.get(profileId);
-    if (!existingProfile) return,
+    if (!existingProfile) return;
 
     // Merge additional cuisine-specific data
     if (cuisineData.signatureIngredients) {
       existingProfile.pairingRecommendations = [
         ...new Set([
-          ...existingProfile.pairingRecommendations
+          ...existingProfile.pairingRecommendations,
           ...cuisineData.signatureIngredients
         ])
       ];

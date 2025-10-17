@@ -161,31 +161,31 @@ export const _useAlchemicalRecommendations = ({
 
         // Create an energetic profile for the current recommendations
         const profile = {
-          dominantElement: recs.dominantElement;
-          dominantProperty: recs.dominantAlchemicalProperty;
-          heat: recs.heat;
-          entropy: recs.entropy;
-          reactivity: recs.reactivity;
-          gregsEnergy: recs.gregsEnergy;
+          dominantElement: recs.dominantElement,
+          dominantProperty: recs.dominantAlchemicalProperty,
+          heat: recs.heat,
+          entropy: recs.entropy,
+          reactivity: recs.reactivity,
+          gregsEnergy: recs.gregsEnergy,
           elementalBalance: {
-            Fire: 0;
-            Water: 0;
-            Earth: 0;
+            Fire: 0,
+            Water: 0,
+            Earth: 0,
             Air: 0
-};
+          },
           alchemicalProperties: {
-            Spirit: 0;
-            Essence: 0;
-            Matter: 0;
+            Spirit: 0,
+            Essence: 0,
+            Matter: 0,
             Substance: 0
-}
+          }
         }
 
         // Calculate average elemental values from top ingredients
         if (recs.topIngredients.length > 0) {
           recs.topIngredients.forEach(item => {
             if (item.elementalProperties) {
-              profile.elementalBalance.Fire +=;
+              profile.elementalBalance.Fire +=
                 (item.elementalProperties.Fire || 0) / recs.topIngredients.length;
               profile.elementalBalance.Water +=
                 (item.elementalProperties.Water || 0) / recs.topIngredients.length;
@@ -219,36 +219,36 @@ export const _useAlchemicalRecommendations = ({
 
     void fetchRecommendations()
   }, [
-    ingredients;
-    cookingMethods;
-    cuisines;
-    planetPositions;
-    isDaytime;
-    currentZodiac;
-    lunarPhase;
-    tarotElementBoosts;
-    tarotPlanetaryBoosts;
-    aspects;
+    ingredients,
+    cookingMethods,
+    cuisines,
+    planetPositions,
+    isDaytime,
+    currentZodiac,
+    lunarPhase,
+    tarotElementBoosts,
+    tarotPlanetaryBoosts,
+    aspects,
     count
   ])
 
   return {
     recommendations: recommendations || {
-      topIngredients: [];
-      topMethods: [];
-      topCuisines: [];
-      dominantElement: 'Fire';
-      dominantAlchemicalProperty: 'Spirit';
-      heat: 0.5;
-      entropy: 0.5;
-      reactivity: 0.5;
+      topIngredients: [],
+      topMethods: [],
+      topCuisines: [],
+      dominantElement: 'Fire',
+      dominantAlchemicalProperty: 'Spirit',
+      heat: 0.5,
+      entropy: 0.5,
+      reactivity: 0.5,
       gregsEnergy: 0.5
-}
-    transformedIngredients;
-    transformedMethods;
-    transformedCuisines;
-    loading;
-    error;
+    },
+    transformedIngredients,
+    transformedMethods,
+    transformedCuisines,
+    loading,
+    error,
     energeticProfile
   }
 }

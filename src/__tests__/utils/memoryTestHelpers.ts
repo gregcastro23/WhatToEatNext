@@ -27,7 +27,7 @@ interface MemorySafeTestConfig {
  */
 export function withMemoryManagement<T>(
   testFn: () => Promise<T> | T,
-  config: MemorySafeTestConfig = {};
+  config: MemorySafeTestConfig = {}
 ): () => Promise<T> {
   return async () => {
     const monitor = config.enableMonitoring ? new TestMemoryMonitor(config.memoryThresholds) : null;
@@ -70,7 +70,7 @@ export function withMemoryManagement<T>(
 export function describeWithMemoryManagement(
   description: string,
   testSuite: () => void,
-  config: MemorySafeTestConfig = {};
+  config: MemorySafeTestConfig = {}
 ): void {
   describe(description, () => {
     let suiteMonitor: TestMemoryMonitor | null = null;
@@ -196,7 +196,7 @@ export function createTestDataset<T>(
  */
 export async function withMemoryTracking<T>(
   operation: () => Promise<T>,
-  operationName: string = 'async-operation';
+  operationName: string = 'async-operation'
 ): Promise<T> {
   const initialMemory = process.memoryUsage().heapUsed;
 
@@ -232,12 +232,12 @@ export async function withMemoryTracking<T>(
 export async function processBatchWithMemoryManagement<T, R>(
   items: T[],
   processor: (item: T) => Promise<R> | R,
-  batchSize: number = 10;
-  cleanupBetweenBatches: boolean = true;
+  batchSize: number = 10,
+  cleanupBetweenBatches: boolean = true
 ): Promise<R[]> {
   const results: R[] = [];
 
-  for (let i = 0, i < items.length, i += batchSize) {
+  for (let i = 0; i < items.length; i += batchSize) {
     const batch = items.slice(i, i + batchSize);
 
     // Process batch

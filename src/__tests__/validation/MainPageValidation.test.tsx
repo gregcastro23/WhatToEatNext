@@ -88,7 +88,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
     });
 
     test('Context creation works', () => {
-      const TestContext = React.createContext({ value: 'test' }),
+      const TestContext = React.createContext({ value: 'test' });
       expect(TestContext).toBeDefined();
       expect(TestContext.Provider).toBeDefined();
       expect(TestContext.Consumer).toBeDefined();

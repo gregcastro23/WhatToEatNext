@@ -40,8 +40,8 @@ jest.mock('@/services/recipeData', () => ({
 }));
 
 describe('Phase 3: Quantity-Aware Recipe Recommendations', () => {
-  let ingredientService: IngredientService,
-  let recommendationService: UnifiedRecommendationService,
+  let ingredientService: IngredientService;
+  let recommendationService: UnifiedRecommendationService;
 
   beforeEach(() => {
     ingredientService = IngredientService.getInstance();

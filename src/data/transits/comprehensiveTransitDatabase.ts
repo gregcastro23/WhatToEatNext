@@ -262,16 +262,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'trine' as AspectType,
             orb: 2.8,
             influence: 0.75,
-            description: 'Harmonious communication between fire and earth elements' },
-        as PlanetaryAspect,
+            description: 'Harmonious communication between fire and earth elements'
+          } as PlanetaryAspect,
           {
             planet1: 'Mars',
             planet2: 'Jupiter',
             aspectType: 'conjunction' as AspectType,
             orb: 1.2,
             influence: 0.9,
-            description: 'Dynamic fire expansion, ideal for bold culinary experiments' },
-        as PlanetaryAspect
+            description: 'Dynamic fire expansion, ideal for bold culinary experiments'
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'gemini', degree: 15, exactLongitude: 75, isRetrograde: false },
@@ -303,7 +303,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         dominantPlanets: ['Mercury', 'Jupiter', 'Mars', 'Sun'],
         retrogradePlanets: ['Pluto'],
         specialEvents: ['Gemini Season', 'Mars-Jupiter Conjunction', 'Pluto Retrograde']
-      }
+      },
       {
         id: '2025-cancer-early',
         name: 'Early Cancer (June 21 - July 22)',
@@ -318,16 +318,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             aspectType: 'trine' as AspectType,
             orb: 2.1,
             influence: 0.8,
-            description: 'Intuitive water energy, perfect for nurturing comfort foods' },
-        as PlanetaryAspect,
+            description: 'Intuitive water energy, perfect for nurturing comfort foods'
+          } as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Saturn',
             aspectType: 'opposition' as AspectType,
             orb: 1.8,
             influence: 0.7,
-            description: 'Balancing structure with emotional nourishment' },
-        as PlanetaryAspect
+            description: 'Balancing structure with emotional nourishment'
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false },
@@ -368,8 +368,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         aspectType: 'square',
         orb: 2.1,
         influence: 0.8,
-        description: 'Expansion meets structure in food and culture' },
-        as PlanetaryAspect
+        description: 'Expansion meets structure in food and culture'
+      } as PlanetaryAspect
     ],
     eclipseSeasons: [
       new Date('2025-03-29'), // Solar Eclipse

@@ -273,7 +273,7 @@ export function useIngredientConsistencyHook() {
       } finally {
         setIsValidating(false)
       }
-    }
+    },
     [qa],
   )
 
@@ -380,7 +380,7 @@ export function useBuildQualityMonitoringHook() {
       } finally {
         setIsMonitoring(false)
       }
-    }
+    },
     [qa],
   )
 
@@ -430,7 +430,7 @@ export function useAgentHookConfiguration() {
     (config: Partial<QualityAssuranceConfig>) => {
       qa.updateConfig(config);
       logger.info('Agent hook configuration updated: ', config)
-    }
+    },
     [qa],
   )
 

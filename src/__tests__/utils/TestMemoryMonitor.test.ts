@@ -8,7 +8,7 @@
 import { TestMemoryMonitor } from './TestMemoryMonitor';
 
 describe('TestMemoryMonitor', () => {
-  let monitor: TestMemoryMonitor,
+  let monitor: TestMemoryMonitor;
 
   beforeEach(() => {
     monitor = new TestMemoryMonitor({

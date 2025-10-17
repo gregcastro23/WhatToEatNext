@@ -35,7 +35,7 @@ export interface ValidationResult {
 }
 
 export class TestResultValidator {
-  private static instance: TestResultValidator,
+  private static instance: TestResultValidator;
   private validationRules: Map<string, TestValidationRule[]> = new Map();
   private consistencyChecks: Map<string, TestConsistencyCheck> = new Map();
 
@@ -69,10 +69,10 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as Record<string, unknown>).memoryUsage === 'number' &&
-          ((result as Record<string, unknown>).memoryUsage as number) >= 0;
+          ((result as Record<string, unknown>).memoryUsage as number) >= 0,
         errorMessage: 'Memory usage must be a non-negative number',
         severity: 'error'
-},
+      },
       {
         name: 'reasonable_execution_time',
         validator: result =>
@@ -123,10 +123,10 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as Record<string, unknown>).resourcesCleanedUp === 'boolean' &&
-          (result as Record<string, unknown>).resourcesCleanedUp === true;
+          (result as Record<string, unknown>).resourcesCleanedUp === true,
         errorMessage: 'Resources were not properly cleaned up',
         severity: 'warning'
-},
+      },
     ]);
 
     // Build and compilation test validation rules
@@ -137,20 +137,20 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as Record<string, unknown>).success === 'boolean' &&
-          (result as Record<string, unknown>).success === true;
+          (result as Record<string, unknown>).success === true,
         errorMessage: 'Build did not complete successfully',
         severity: 'error'
-},
+      },
       {
         name: 'error_count',
         validator: result =>
           typeof result === 'object' &&
           result !== null &&
           typeof (result as Record<string, unknown>).errorCount === 'number' &&
-          ((result as Record<string, unknown>).errorCount as number) >= 0;
+          ((result as Record<string, unknown>).errorCount as number) >= 0,
         errorMessage: 'Error count must be a non-negative number',
         severity: 'error'
-},
+      },
       {
         name: 'build_time',
         validator: result =>
@@ -160,7 +160,7 @@ export class TestResultValidator {
           ((result as Record<string, unknown>).buildTime as number) < 120000, // 2 minutes
         errorMessage: 'Build time exceeds acceptable limit (2 minutes)',
         severity: 'warning'
-},
+      },
     ]);
 
     // Memory test validation rules
@@ -171,10 +171,10 @@ export class TestResultValidator {
           typeof result === 'object' &&
           result !== null &&
           typeof (result as Record<string, unknown>).memoryLeakDetected === 'boolean' &&
-          (result as Record<string, unknown>).memoryLeakDetected !== true;
+          (result as Record<string, unknown>).memoryLeakDetected !== true,
         errorMessage: 'Memory leak detected during test execution',
         severity: 'error'
-},
+      },
       {
         name: 'peak_memory',
         validator: result =>
@@ -240,19 +240,22 @@ export class TestResultValidator {
           validationResult.summary.passedChecks++;
         } else {
           switch (rule.severity) {
-            case 'error': validationResult.errors.push(`${rule.name}: ${rule.errorMessage}`),
+            case 'error':
+              validationResult.errors.push(`${rule.name}: ${rule.errorMessage}`);
               validationResult.summary.failedChecks++;
               validationResult.isValid = false;
               break;
-            case 'warning': validationResult.warnings.push(`${rule.name}: ${rule.errorMessage}`),
+            case 'warning':
+              validationResult.warnings.push(`${rule.name}: ${rule.errorMessage}`);
               validationResult.summary.warningChecks++;
               break;
-            case 'info': validationResult.info.push(`${rule.name}: ${rule.errorMessage}`),
+            case 'info':
+              validationResult.info.push(`${rule.name}: ${rule.errorMessage}`);
               break;
           }
         }
       } catch (error) {
-        validationResult.errors.push(`${rule.name}: Validation error - ${error}`),
+        validationResult.errors.push(`${rule.name}: Validation error - ${error}`);
         validationResult.summary.failedChecks++;
         validationResult.isValid = false;
       }
@@ -280,7 +283,7 @@ export class TestResultValidator {
 
     const check = this.consistencyChecks.get(testName);
     if (!check) {
-      validationResult.warnings.push(`No consistency check defined for test: ${testName}`),
+      validationResult.warnings.push(`No consistency check defined for test: ${testName}`);
       return validationResult;
     }
 
@@ -290,7 +293,7 @@ export class TestResultValidator {
       // Check if all results are of expected type
       const typeCheck = results.every(result => typeof result === check.expectedType);
       if (!typeCheck) {
-        validationResult.errors.push(`Results type mismatch. Expected: ${check.expectedType}`),
+        validationResult.errors.push(`Results type mismatch. Expected: ${check.expectedType}`);
         validationResult.isValid = false;
         validationResult.summary.failedChecks++;
         return validationResult;
@@ -300,10 +303,10 @@ export class TestResultValidator {
       if (check.requiredFields) {
         for (const field of check.requiredFields) {
           const fieldCheck = results.every(
-            result => typeof result === 'object' && result !== null && field in result;
+            result => typeof result === 'object' && result !== null && field in result
           );
           if (!fieldCheck) {
-            validationResult.errors.push(`Required field missing: ${field}`),
+            validationResult.errors.push(`Required field missing: ${field}`);
             validationResult.isValid = false;
             validationResult.summary.failedChecks++;
           }
@@ -486,7 +489,7 @@ export function createValidationRule(
   name: string,
   validator: (result: unknown) => boolean,
   errorMessage: string,
-  severity: 'error' | 'warning' | 'info' = 'error';
+  severity: 'error' | 'warning' | 'info' = 'error'
 ): TestValidationRule {
   return { name, validator, errorMessage, severity };
 }
@@ -498,10 +501,10 @@ export function createConsistencyCheck(
   testName: string,
   expectedType: string,
   options: {
-    tolerancePercent?: number,
-    requiredFields?: string[],
+    tolerancePercent?: number;
+    requiredFields?: string[];
     customValidator?: (results: unknown[]) => boolean;
-  } = {};
+  } = {}
 ): TestConsistencyCheck {
   return {
     testName,
