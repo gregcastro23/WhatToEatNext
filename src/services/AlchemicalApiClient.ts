@@ -20,33 +20,33 @@ const API_CONFIG = {
 
 // Request/Response interfaces matching backend models
 export interface RecommendationRequest {
-  current_time: string,
-  location?: { latitude: number; longitude: number }
-  current_elements?: ElementalProperties,
-  desired_elements?: ElementalProperties,
-  cuisine_preferences?: string[],
-  dietary_restrictions?: string[],
-  max_prep_time?: number,
-  limit?: number,
+  current_time: string;
+  location?: { latitude: number; longitude: number };
+  current_elements?: ElementalProperties;
+  desired_elements?: ElementalProperties;
+  cuisine_preferences?: string[];
+  dietary_restrictions?: string[];
+  max_prep_time?: number;
+  limit?: number;
 }
 
 export interface ThermodynamicsResult {
-  heat: number,
-  entropy: number,
-  reactivity: number,
-  gregsEnergy: number,
-  equilibrium: number
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  equilibrium: number;
 }
 
 export interface PlanetaryInfluenceResponse {
-  current_time: string,
-  dominant_planet: string,
-  influence_strength: number,
-  all_influences: Record<string, number>,
+  current_time: string;
+  dominant_planet: string;
+  influence_strength: number;
+  all_influences: Record<string, number>;
 }
 
 export class AlchemicalApiClient {
-  private baseUrls = API_CONFIG,
+  private baseUrls = API_CONFIG;
 
   /**
    * Calculate elemental balance using backend service
@@ -98,7 +98,7 @@ export class AlchemicalApiClient {
         reactivity: 0.7,
         gregsEnergy: 75.0,
         equilibrium: 0.6
-}
+      };
     }
   }
 
@@ -130,8 +130,8 @@ export class AlchemicalApiClient {
           Mars: 0.6,
           Jupiter: 0.5,
           Saturn: 0.3
-}
-      }
+        }
+      };
     }
   }
 
@@ -218,28 +218,28 @@ export class AlchemicalApiClient {
       const ws = new WebSocket(this.baseUrls.websocket)
 
       ws.onopen = () => {
-        _logger.info('🔮 Connected to alchm.kitchen real-time service')
+        _logger.info('🔮 Connected to alchm.kitchen real-time service');
         // Subscribe to planetary hours
-        ws.send(JSON.stringify({,
+        ws.send(JSON.stringify({
           action: 'subscribe',
           channel: 'planetary_hours'
-}))
-      }
+        }));
+      };
 
       ws.onmessage = (event) => {
-        const data = JSON.parse(event.data)
+        const data = JSON.parse(event.data);
         if (data.channel === 'planetary_hours' && onPlanetaryUpdate) {
           onPlanetaryUpdate(data.current_hour);
         }
-      }
+      };
 
-      ws.onerror = (error) => {;
-        _logger.error('WebSocket connection error: ', error)
-      }
+      ws.onerror = (error) => {
+        _logger.error('WebSocket connection error: ', error);
+      };
 
       return ws;
     } catch (error) {
-      _logger.error('Failed to create WebSocket connection: ', error)
+      _logger.error('Failed to create WebSocket connection: ', error);
       return null;
     }
   }
@@ -249,33 +249,33 @@ export class AlchemicalApiClient {
    */
   async checkHealth(): Promise<{ service: string; status: string; }[]> {
     const services = [
-      { name: 'Alchemical Core', url: `${this.baseUrls.alchemical}/health` }
-      { name: 'Kitchen Intelligence', url: `${this.baseUrls.kitchen}/health` }
+      { name: 'Alchemical Core', url: `${this.baseUrls.alchemical}/health` },
+      { name: 'Kitchen Intelligence', url: `${this.baseUrls.kitchen}/health` },
       { name: 'Rune Agent', url: `${this.baseUrls.runes}/health` }
-    ],
+    ];
 
     const results = await Promise.allSettled(
       services.map(async (service) => {
-        try {;
+        try {
           const response = await fetch(service.url, {
             method: 'GET',
             timeout: 5000
-} as any)
+          } as any);
           return {
             service: service.name,
             status: response.ok ? 'healthy' : 'unhealthy'
-}
+          };
         } catch {
           return {
             service: service.name,
             status: 'offline'
-}
+          };
         }
       })
-    )
+    );
 
-    return results.map(result =>,
-      result.status === 'fulfilled' ? result.value : { service: 'unknown', status: 'error' })
+    return results.map(result =>
+      result.status === 'fulfilled' ? result.value : { service: 'unknown', status: 'error' });
   }
 }
 
@@ -284,13 +284,13 @@ export const alchemicalApi = new AlchemicalApiClient()
 
 // Utility function for easy integration
 export const useBackendCalculations = () => {
-  return {;
+  return {
     calculateElements: alchemicalApi.calculateElementalBalance.bind(alchemicalApi),
     calculateThermodynamics: alchemicalApi.calculateThermodynamics.bind(alchemicalApi),
     getPlanetaryData: alchemicalApi.getCurrentPlanetaryHour.bind(alchemicalApi),
     getRecommendations: alchemicalApi.getRecipeRecommendations.bind(alchemicalApi),
     createRealtimeConnection: alchemicalApi.createRealtimeConnection.bind(alchemicalApi)
-  }
-}
+  };
+};
 
 export default AlchemicalApiClient;
