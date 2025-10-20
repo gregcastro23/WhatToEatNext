@@ -2,7 +2,7 @@
 # Multi-stage Docker build optimized for Next.js 15.3.4 + React 19 + TypeScript
 
 # Stage 1: Base image with Node.js 20+ (required by package.json)
-FROM node:20-alpine AS base
+FROM node:25-alpine AS base
 
 # Install system dependencies for native modules
 RUN apk add --no-cache \
