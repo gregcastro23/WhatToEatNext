@@ -3309,20 +3309,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.61.0":
-  version: 5.62.0
-  resolution: "@typescript-eslint/parser@npm:5.62.0"
+"@typescript-eslint/parser@npm:^8.46.1":
+  version: 8.46.1
+  resolution: "@typescript-eslint/parser@npm:8.46.1"
   dependencies:
-    "@typescript-eslint/scope-manager": "npm:5.62.0"
-    "@typescript-eslint/types": "npm:5.62.0"
-    "@typescript-eslint/typescript-estree": "npm:5.62.0"
+    "@typescript-eslint/scope-manager": "npm:8.46.1"
+    "@typescript-eslint/types": "npm:8.46.1"
+    "@typescript-eslint/typescript-estree": "npm:8.46.1"
+    "@typescript-eslint/visitor-keys": "npm:8.46.1"
     debug: "npm:^4.3.4"
   peerDependencies:
-    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 315194b3bf39beb9bd16c190956c46beec64b8371e18d6bb72002108b250983eb1e186a01d34b77eb4045f4941acbb243b16155fbb46881105f65e37dc9e24d4
+    eslint: ^8.57.0 || ^9.0.0
+    typescript: ">=4.8.4 <6.0.0"
+  checksum: 4d14e9dbd5b4ba6001d35ae8833b1b03588911d44b1e01a7e38b1883148c3b1d22e4d4de50e5c6a698a4697ef067e235524b521023d0f5a830767d54c8c5fff5
   languageName: node
   linkType: hard
 
@@ -3444,6 +3443,16 @@ __metadata:
     "@typescript-eslint/types": "npm:8.45.0"
     eslint-visitor-keys: "npm:^4.2.1"
   checksum: 119adcf50c902dad7f7757bcdd88fad0a23a171d309d9b7cefe78af12e451cf84c04ae611f4c31f7e23f16c2b47665ad92e6e5648fc77d542ef306f465bf1f29
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/visitor-keys@npm:8.46.1":
+  version: 8.46.1
+  resolution: "@typescript-eslint/visitor-keys@npm:8.46.1"
+  dependencies:
+    "@typescript-eslint/types": "npm:8.46.1"
+    eslint-visitor-keys: "npm:^4.2.1"
+  checksum: 4139a8d78ad95e59fff2285beb623a530b7c2e6af89b994a92e9d8728d0c86eb8d86f64f2372aa874f9f24924253ba9887a2f77bec6bfc6028380b024c24e582
   languageName: node
   linkType: hard
 
@@ -11821,7 +11830,7 @@ __metadata:
     "@types/react-dom": "npm:^19.0.2"
     "@types/testing-library__jest-dom": "npm:6.0.0"
     "@typescript-eslint/eslint-plugin": "npm:^5.61.0"
-    "@typescript-eslint/parser": "npm:^5.61.0"
+    "@typescript-eslint/parser": "npm:^8.46.1"
     astronomy-engine: "npm:^2.1.17"
     autoprefixer: "npm:10.4.14"
     axios: "npm:^1.10.0"
