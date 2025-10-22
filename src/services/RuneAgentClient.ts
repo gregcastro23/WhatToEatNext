@@ -4,22 +4,22 @@ import { getCurrentAlchemicalState } from '@/services/RealAlchemizeService';
 import type { ElementalProperties } from '@/types/celestial';
 
 export interface RuneAgentInput {
-  datetime?: Date,
+  datetime?: Date;
   location?: { latitude: number, longitude: number }
   context?: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method'
   preferences?: {
-    dietaryRestrictions?: string[],
-    cuisineTypes?: string[],
+    dietaryRestrictions?: string[];
+    cuisineTypes?: string[];
     intensity?: 'mild' | 'moderate' | 'intense'
   }
 }
 
 export interface RuneResult {
-  symbol: string,
-  name: string,
-  meaning: string,
+  symbol: string;
+  name: string;
+  meaning: string;
   influence: {
-    elemental: ElementalProperties,
+    elemental: ElementalProperties;
     energy: { Spirit: number, Essence: number, Matter: number, Substance: number },
     guidance: string
   }
@@ -29,30 +29,30 @@ export interface RuneResult {
 export interface AgentRecommendation {
   type: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method'
   recommendations: Array<{
-    name: string,
-    score: number,
-    reasoning: string,
-    elementalAlignment: number,
+    name: string;
+    score: number;
+    reasoning: string;
+    elementalAlignment: number;
     runeResonance: number
   }>,
   agentPersonality: {
-    name: string,
-    archetype: string,
-    guidance: string,
+    name: string;
+    archetype: string;
+    guidance: string;
     specialties: string[]
   }
 }
 
 export interface RuneAgentResult {
-  rune: RuneResult,
-  agent: AgentRecommendation,
+  rune: RuneResult;
+  agent: AgentRecommendation;
   consciousness: {
     mcValues: { [key: string]: number },
-    transitEffects: string[],
+    transitEffects: string[];
     momentumIndicators: {
-      creativity: number,
-      stability: number,
-      transformation: number,
+      creativity: number;
+      stability: number;
+      transformation: number;
       harmony: number
     }
   }
@@ -71,9 +71,9 @@ function generateLocalRune(): RuneResult {
   const selected = runes[Math.floor(Math.random() * runes.length)];
 
   return {
-    symbol: selected.symbol,
-    name: selected.name,
-    meaning: selected.meaning,
+    symbol: selected.symbol;
+    name: selected.name;
+    meaning: selected.meaning;
     influence: {
       elemental: { Fire: 0.3, Water: 0.2, Earth: 0.25, Air: 0.25 },
       energy: { Spirit: 0.5, Essence: 0.4, Matter: 0.3, Substance: 0.6 }
@@ -85,27 +85,27 @@ function generateLocalRune(): RuneResult {
 function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
   const agents = {
     cuisine: {,
-      name: 'Culinary Sage',
-      archetype: 'Wise Cook',
-      guidance: 'Balance flavors with elemental harmony',
+      name: 'Culinary Sage';
+      archetype: 'Wise Cook';
+      guidance: 'Balance flavors with elemental harmony';
       specialties: ['fusion', 'seasonal cooking', 'elemental balance']
     },
     recipe: {
-      name: 'Recipe Alchemist',
-      archetype: 'Transformative Chef',
-      guidance: 'Transform simple ingredients into magical dishes',
+      name: 'Recipe Alchemist';
+      archetype: 'Transformative Chef';
+      guidance: 'Transform simple ingredients into magical dishes';
       specialties: ['ingredient transformation', 'flavor alchemy', 'nutritional optimization']
     },
     ingredient: {
-      name: 'Ingredient Oracle',
-      archetype: 'Nature\'s Voice',
-      guidance: 'Choose ingredients that resonate with your current energy',
+      name: 'Ingredient Oracle';
+      archetype: 'Nature\'s Voice';
+      guidance: 'Choose ingredients that resonate with your current energy';
       specialties: ['seasonal selection', 'energetic properties', 'healing foods']
     },
     cooking_method: {
-      name: 'Method Master',
-      archetype: 'Technique Guardian',
-      guidance: 'The right technique unlocks hidden potential',
+      name: 'Method Master';
+      archetype: 'Technique Guardian';
+      guidance: 'The right technique unlocks hidden potential';
       specialties: ['thermal dynamics', 'texture mastery', 'timing precision']
     }
   }
@@ -113,7 +113,7 @@ function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
   const agent = agents[context as keyof typeof agents] || agents.cuisine;
 
   return {
-    type: context as any,
+    type: context as any;
     recommendations: [
       { name: 'Sample Recommendation', score: 0.8, reasoning: 'Aligned with current energies', elementalAlignment: 0.75, runeResonance: 0.7 }
     ],
@@ -127,9 +127,8 @@ function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
  * - NEXT_PUBLIC_RUNE_AGENT_BACKEND: 'true' to enable backend-first calls
  */
 export class RuneAgentClient {
-  private readonly backendUrl: string | undefined,
-  private readonly useBackend: boolean,
-
+  private readonly backendUrl: string | undefined;private
+  private readonly useBackend: boolean;private
   constructor() {
     this.backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL,
     this.useBackend = String(process.env.NEXT_PUBLIC_RUNE_AGENT_BACKEND).toLowerCase() === 'true',
@@ -141,8 +140,8 @@ export class RuneAgentClient {
       try {
         const request: RuneAgentRequest = {
           datetime: input.datetime?.toISOString(),
-          location: input.location,
-          context: input.context,
+          location: input.location;
+          context: input.context;
           preferences: input.preferences
         }
 
@@ -166,13 +165,13 @@ export class RuneAgentClient {
         const url = new URL('/api/consciousness/live', this.backendUrl)
         const payload = {
           datetime: input.datetime?.toISOString() || new Date().toISOString(),
-          location: input.location,
+          location: input.location;
           context: input.context || 'cuisine'
           preferences: input.preferences
         }
 
         const res = await fetch(url.toString(), {
-          method: 'POST',
+          method: 'POST';
           headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
         })
@@ -201,16 +200,16 @@ export class RuneAgentClient {
     const alchemicalState = getCurrentAlchemicalState()
     const consciousness = {
       mcValues: {,
-        creativity: alchemicalState.thermodynamicProperties.entropy,
-        stability: 1 - alchemicalState.thermodynamicProperties.reactivity,
-        transformation: alchemicalState.thermodynamicProperties.heat,
+        creativity: alchemicalState.thermodynamicProperties.entropy;
+        stability: 1 - alchemicalState.thermodynamicProperties.reactivity;
+        transformation: alchemicalState.thermodynamicProperties.heat;
         harmony: alchemicalState.score
       },
-      transitEffects: ['Current planetary alignment supports culinary exploration'],
+      transitEffects: ['Current planetary alignment supports culinary exploration'];
       momentumIndicators: {
-        creativity: alchemicalState.thermodynamicProperties.entropy,
-        stability: 1 - alchemicalState.thermodynamicProperties.reactivity,
-        transformation: alchemicalState.thermodynamicProperties.heat,
+        creativity: alchemicalState.thermodynamicProperties.entropy;
+        stability: 1 - alchemicalState.thermodynamicProperties.reactivity;
+        transformation: alchemicalState.thermodynamicProperties.heat;
         harmony: alchemicalState.score
       }
     }

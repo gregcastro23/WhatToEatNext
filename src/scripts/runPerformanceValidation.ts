@@ -16,16 +16,16 @@ import { PerformanceMonitoringService } from '../services/linting/PerformanceMon
 import { LintingPerformanceValidator } from './validateLintingPerformance';
 
 interface CLIOptions {
-  command: 'validate' | 'monitor' | 'report' | 'test'
-  continuous?: boolean,
-  interval?: number,
-  verbose?: boolean,
+  command: 'validate' | 'monitor' | 'report' | 'test';
+  continuous?: boolean;
+  interval?: number;
+  verbose?: boolean;
   output?: string;
 }
 
 class PerformanceValidationCLI {
-  private validator: LintingPerformanceValidator,
-  private monitor: PerformanceMonitoringService,
+  private validator: LintingPerformanceValidator;
+  private monitor: PerformanceMonitoringService;
 
   constructor() {
     this.validator = new LintingPerformanceValidator();
@@ -36,13 +36,17 @@ class PerformanceValidationCLI {
     console.log('🚀 Linting Performance Validation CLI\n');
 
     switch (options.command) {
-      case 'validate': await this.runValidation(options),
+      case 'validate':
+        await this.runValidation(options);
         break;
-      case 'monitor': await this.runMonitoring(options),
+      case 'monitor':
+        await this.runMonitoring(options);
         break;
-      case 'report': await this.generateReport(options),
+      case 'report':
+        await this.generateReport(options);
         break;
-      case 'test': await this.runTests(options),
+      case 'test':
+        await this.runTests(options);
         break;
       default:
         this.showHelp();
@@ -71,17 +75,17 @@ class PerformanceValidationCLI {
         name: 'Fast Lint (Cached)',
         cmd: 'yarn lint:fast --max-warnings=10000',
         opts: { cached: true }
-},
+      },
       {
         name: 'Parallel Lint',
         cmd: 'yarn lint:parallel --max-warnings=10000',
         opts: { parallel: true }
-},
+      },
       {
         name: 'Changed Files',
         cmd: 'yarn lint:changed --max-warnings=10000',
         opts: { incremental: true }
-},
+      },
     ];
 
     if (options.continuous) {
@@ -90,14 +94,14 @@ class PerformanceValidationCLI {
       const monitorLoop = async () => {
         for (const command of commands) {
           try {
-            console.log(`📊 Measuring: ${command.name}...`),
+            console.log(`📊 Measuring: ${command.name}...`);
             const metrics = await this.monitor.measurePerformance(command.cmd, command.opts);
 
             if (options.verbose) {
-              console.log(`   Time: ${metrics.executionTime}ms`),
-              console.log(`   Memory: ${Math.round(metrics.memoryUsage / 1024 / 1024)}MB`),
-              console.log(`   Cache Hit Rate: ${metrics.cacheHitRate}%`),
-              console.log(`   Files: ${metrics.filesProcessed}`),
+              console.log(`   Time: ${metrics.executionTime}ms`);
+              console.log(`   Memory: ${Math.round(metrics.memoryUsage / 1024 / 1024)}MB`);
+              console.log(`   Cache Hit Rate: ${metrics.cacheHitRate}%`);
+              console.log(`   Files: ${metrics.filesProcessed}`);
               console.log(`   Processes: ${metrics.parallelProcesses}\n`);
             }
           } catch (error) {

@@ -10,80 +10,80 @@ import type { Recipe } from '@/types/recipe';
 
 // Interface for cuisine recipe with builder compatibility
 export interface CuisineRecipe {
-  id: string,
-  name: string,
-  description: string,
-  cuisine: string,
+  id: string;
+  name: string;
+  description: string;
+  cuisine: string;
   ingredients: Array<{
-    name: string,
-    amount: string | number,
-    unit: string,
-    category?: string,
-    swaps?: string[]
-  }>,
-  instructions?: string[],
-  preparationSteps?: string[],
-  cookingMethods?: string[],
-  tools?: string[]
+    name: string;
+    amount: string | number;
+    unit: string;
+    category?: string;
+    swaps?: string[];
+  }>;
+  instructions?: string[];
+  preparationSteps?: string[];
+  cookingMethods?: string[];
+  tools?: string[];
   nutrition?: {
-    calories: number,
-    protein: number,
-    carbs: number,
-    fat: number,
-    vitamins?: string[],
-    minerals?: string[]
-  }
-  servingSize?: number,
-  prepTime?: string,
-  cookTime?: string,
-  allergens?: string[],
-  dietaryInfo?: string[],
-  season?: string[],
-  mealType?: string[]
-  substitutions?: Record<string, string[]>,
-  culturalNotes?: string,
-  pairingSuggestions?: string[],
-  spiceLevel?: string
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+    vitamins?: string[];
+    minerals?: string[];
+  };
+  servingSize?: number;
+  prepTime?: string;
+  cookTime?: string;
+  allergens?: string[];
+  dietaryInfo?: string[];
+  season?: string[];
+  mealType?: string[];
+  substitutions?: Record<string, string[]>;
+  culturalNotes?: string;
+  pairingSuggestions?: string[];
+  spiceLevel?: string;
   astrologicalAffinities?: {
-    planets?: string[],
-    signs?: string[],
-    lunarPhases?: string[]
-  }
-  elementalProperties?: ElementalProperties
+    planets?: string[];
+    signs?: string[];
+    lunarPhases?: string[];
+  };
+  elementalProperties?: ElementalProperties;
 }
 
 // Search filters for cuisine recipes
 export interface RecipeSearchFilters {
-  cuisine?: string,
-  mealType?: string,
-  season?: Season,
-  dietaryRestrictions?: string[],
-  maxPrepTime?: number,
-  maxCookTime?: number,
-  allergenFree?: string[],
-  ingredients?: string[]
-  cookingMethods?: string[],
-  spiceLevel?: string,
-  maxCalories?: number,
-  minProtein?: number
+  cuisine?: string;
+  mealType?: string;
+  season?: Season;
+  dietaryRestrictions?: string[];
+  maxPrepTime?: number;
+  maxCookTime?: number;
+  allergenFree?: string[];
+  ingredients?: string[];
+  cookingMethods?: string[];
+  spiceLevel?: string;
+  maxCalories?: number;
+  minProtein?: number;
 }
 
 // Recipe import result
 export interface RecipeImportResult {
-  success: boolean,
-  recipe?: Recipe,
-  warnings?: string[],
-  errors?: string[],
-  suggestions?: string[]
+  success: boolean;
+  recipe?: Recipe;
+  warnings?: string[];
+  errors?: string[];
+  suggestions?: string[];
 }
 
 export class RecipeCuisineConnector {
-  private cuisineDatabase: Record<string, Cuisine>,
-  private recipeCache: Map<string, CuisineRecipe>,
+  private cuisineDatabase: Record<string, Cuisine>;
+  private recipeCache: Map<string, CuisineRecipe>;
 
   constructor() {
-    this.cuisineDatabase = cuisinesMap as unknown as any,
-    this.recipeCache = new Map()
+    this.cuisineDatabase = cuisinesMap as unknown as any;
+    this.recipeCache = new Map();
     this.buildRecipeCache();
   }
 
@@ -92,8 +92,8 @@ export class RecipeCuisineConnector {
    */
   private buildRecipeCache(): void {
     Object.entries(this.cuisineDatabase).forEach(([cuisineName, cuisine]) => {
-      this.extractRecipesFromCuisine(cuisine).forEach(recipe => {,
-        const recipeId = this.generateRecipeId(recipe.name, cuisine.name),
+      this.extractRecipesFromCuisine(cuisine).forEach(recipe => {
+        const recipeId = this.generateRecipeId(recipe.name, cuisine.name);
         this.recipeCache.set(recipeId, {
           ...recipe,
           id: recipeId,

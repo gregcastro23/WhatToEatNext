@@ -54,28 +54,28 @@ async function collectMetrics(args: string[]) {
   const tracker = new LintingProgressTracker();
   const metrics = await tracker.collectMetrics();
 
-  console.log('\n📊 Linting Metrics: '),
-  console.log(`Total Issues: ${metrics.totalIssues}`),
-  console.log(`Errors: ${metrics.errors}`),
-  console.log(`Warnings: ${metrics.warnings}`),
-  console.log(`Files Covered: ${metrics.filesCovered}`),
-  console.log(`Fixable Issues: ${metrics.fixableIssues}`),
-  console.log(`Execution Time: ${metrics.performanceMetrics.executionTime}ms`),
-  console.log(`Memory Usage: ${metrics.performanceMetrics.memoryUsage.toFixed(2)}MB`),
-  console.log(`Cache Hit Rate: ${(metrics.performanceMetrics.cacheHitRate * 100).toFixed(1)}%`),
+  console.log('\n📊 Linting Metrics: ');
+  console.log(`Total Issues: ${metrics.totalIssues}`);
+  console.log(`Errors: ${metrics.errors}`);
+  console.log(`Warnings: ${metrics.warnings}`);
+  console.log(`Files Covered: ${metrics.filesCovered}`);
+  console.log(`Fixable Issues: ${metrics.fixableIssues}`);
+  console.log(`Execution Time: ${metrics.performanceMetrics.executionTime}ms`);
+  console.log(`Memory Usage: ${metrics.performanceMetrics.memoryUsage.toFixed(2)}MB`);
+  console.log(`Cache Hit Rate: ${(metrics.performanceMetrics.cacheHitRate * 100).toFixed(1)}%`);
 
   if (args.includes('--json')) {
-    console.log('\n📄 JSON Output: '),
+    console.log('\n📄 JSON Output: ');
     console.log(JSON.stringify(metrics, null, 2));
   }
 
   if (args.includes('--categories')) {
-    console.log('\n🏷️  Error Categories: '),
+    console.log('\n🏷️  Error Categories: ');
     Object.entries(metrics.errorsByCategory).forEach(([rule, count]) => {
       console.log(`  ${rule}: ${count}`);
     });
 
-    console.log('\n⚠️  Warning Categories: '),
+    console.log('\n⚠️  Warning Categories: ');
     Object.entries(metrics.warningsByCategory).forEach(([rule, count]) => {
       console.log(`  ${rule}: ${count}`);
     });
@@ -91,37 +91,37 @@ async function generateReport(args: string[]) {
   const tracker = new LintingProgressTracker();
   const report = await tracker.generateProgressReport();
 
-  console.log('\n📊 Progress Report: '),
-  console.log(`Current Issues: ${report.currentMetrics.totalIssues}`),
-  console.log(`Current Errors: ${report.currentMetrics.errors}`),
-  console.log(`Current Warnings: ${report.currentMetrics.warnings}`),
+  console.log('\n📊 Progress Report: ');
+  console.log(`Current Issues: ${report.currentMetrics.totalIssues}`);
+  console.log(`Current Errors: ${report.currentMetrics.errors}`);
+  console.log(`Current Warnings: ${report.currentMetrics.warnings}`);
 
   if (report.previousMetrics) {
-    console.log(`\n📉 Improvement: `),
-    console.log(`Issues Reduced: ${report.improvement.totalIssuesReduced}`),
-    console.log(`Errors Reduced: ${report.improvement.errorsReduced}`),
-    console.log(`Warnings Reduced: ${report.improvement.warningsReduced}`),
+    console.log(`\n📉 Improvement: `);
+    console.log(`Issues Reduced: ${report.improvement.totalIssuesReduced}`);
+    console.log(`Errors Reduced: ${report.improvement.errorsReduced}`);
+    console.log(`Warnings Reduced: ${report.improvement.warningsReduced}`);
     console.log(`Improvement: ${report.improvement.percentageImprovement.toFixed(2)}%`);
   }
 
-  console.log('\n🎯 Quality Gates: '),
-  console.log(`Zero Errors: ${report.qualityGates.zeroErrors ? '✅' : '❌'}`),
+  console.log('\n🎯 Quality Gates: ');
+  console.log(`Zero Errors: ${report.qualityGates.zeroErrors ? '✅' : '❌'}`);
   console.log(
     `Warnings Under Threshold: ${report.qualityGates.warningsUnderThreshold ? '✅' : '❌'}`,
   );
-  console.log(`Performance Acceptable: ${report.qualityGates.performanceAcceptable ? '✅' : '❌'}`),
+  console.log(`Performance Acceptable: ${report.qualityGates.performanceAcceptable ? '✅' : '❌'}`);
 
-  console.log('\n📈 Trends: '),
+  console.log('\n📈 Trends: ');
   console.log(
     `Last 24 Hours: ${report.trends.last24Hours > 0 ? '+' : ''}${report.trends.last24Hours}`,
   );
-  console.log(`Last 7 Days: ${report.trends.last7Days > 0 ? '+' : ''}${report.trends.last7Days}`),
+  console.log(`Last 7 Days: ${report.trends.last7Days > 0 ? '+' : ''}${report.trends.last7Days}`);
   console.log(
     `Last 30 Days: ${report.trends.last30Days > 0 ? '+' : ''}${report.trends.last30Days}`,
   );
 
   if (args.includes('--json')) {
-    console.log('\n📄 JSON Output: '),
+    console.log('\n📄 JSON Output: ');
     console.log(JSON.stringify(report, null, 2));
   }
 }
@@ -130,8 +130,8 @@ async function generateReport(args: string[]) {
  * Start a linting campaign
  */
 async function startCampaign(args: string[]) {
-  const campaignType = args[0] || 'standard'
-  console.log(`🚀 Starting linting campaign: ${campaignType}`),
+  const campaignType = args[0] || 'standard';
+  console.log(`🚀 Starting linting campaign: ${campaignType}`);
 
   const integration = new LintingCampaignIntegration();
   const standardCampaigns = integration.createStandardCampaigns();
@@ -139,22 +139,22 @@ async function startCampaign(args: string[]) {
   const campaign = standardCampaigns.find(c => c.campaignId.includes(campaignType));
   if (!campaign) {
     console.error(`Campaign type '${campaignType}' not found`);
-    console.log('Available campaigns: '),
+    console.log('Available campaigns: ');
     standardCampaigns.forEach(c => {
       console.log(`  - ${c.campaignId}: ${c.name}`);
     });
     return;
   }
 
-  console.log(`Campaign: ${campaign.name}`),
-  console.log(`Description: ${campaign.description}`),
-  console.log(`Phases: ${campaign.phases.length}`),
-  console.log(`Target: ${campaign.targets.targetReduction}% reduction`),
+  console.log(`Campaign: ${campaign.name}`);
+  console.log(`Description: ${campaign.description}`);
+  console.log(`Phases: ${campaign.phases.length}`);
+  console.log(`Target: ${campaign.targets.targetReduction}% reduction`);
 
   if (args.includes('--dry-run')) {
-    console.log('\n🔍 Dry run - campaign would execute the following phases: '),
+    console.log('\n🔍 Dry run - campaign would execute the following phases: ');
     campaign.phases.forEach((phase, index) => {
-      console.log(`  ${index + 1}. ${phase.name}: ${phase.description}`),
+      console.log(`  ${index + 1}. ${phase.name}: ${phase.description}`);
       console.log(`     Tools: ${phase.tools.join(', ')}`);
       console.log(`     Estimated Duration: ${phase.estimatedDuration} minutes`);
     });
@@ -180,14 +180,14 @@ async function evaluateQualityGates(args: string[]) {
   const gates = new LintingQualityGates();
   const result = await gates.evaluateQualityGates();
 
-  console.log('\n🎯 Quality Gate Results: '),
-  console.log(`Gate: ${result.gateName}`),
-  console.log(`Status: ${result.passed ? '✅ PASSED' : '❌ FAILED'}`),
-  console.log(`Risk Level: ${result.riskLevel.toUpperCase()}`),
-  console.log(`Deployment Approved: ${result.deploymentApproved ? '✅ YES' : '❌ NO'}`),
+  console.log('\n🎯 Quality Gate Results: ');
+  console.log(`Gate: ${result.gateName}`);
+  console.log(`Status: ${result.passed ? '✅ PASSED' : '❌ FAILED'}`);
+  console.log(`Risk Level: ${result.riskLevel.toUpperCase()}`);
+  console.log(`Deployment Approved: ${result.deploymentApproved ? '✅ YES' : '❌ NO'}`);
 
   if (result.violations.length > 0) {
-    console.log('\n⚠️  Violations: '),
+    console.log('\n⚠️  Violations: ');
     result.violations.forEach((violation, index) => {
       const icon =
         violation.severity === 'critical'
@@ -196,31 +196,31 @@ async function evaluateQualityGates(args: string[]) {
             ? '⚠️'
             : violation.severity === 'medium'
               ? '⚡'
-              : 'ℹ️',
+              : 'ℹ️';
       console.log(`  ${index + 1}. ${icon} ${violation.message}`);
       if (violation.file) {
         console.log(`     File: ${violation.file}${violation.line ? `:${violation.line}` : ''}`);
       }
-      console.log(`     Rule: ${violation.rule} (${violation.type})`),
+      console.log(`     Rule: ${violation.rule} (${violation.type})`);
       console.log(`     Auto-fixable: ${violation.autoFixable ? 'Yes' : 'No'}`);
     });
   }
 
   if (result.recommendations.length > 0) {
-    console.log('\n💡 Recommendations: '),
+    console.log('\n💡 Recommendations: ');
     result.recommendations.forEach((rec, index) => {
       console.log(`  ${index + 1}. ${rec}`);
     });
   }
 
-  console.log('\n📊 Current Metrics: '),
-  console.log(`Total Issues: ${result.metrics.totalIssues}`),
-  console.log(`Errors: ${result.metrics.errors}`),
-  console.log(`Warnings: ${result.metrics.warnings}`),
-  console.log(`Fixable: ${result.metrics.fixableIssues}`),
+  console.log('\n📊 Current Metrics: ');
+  console.log(`Total Issues: ${result.metrics.totalIssues}`);
+  console.log(`Errors: ${result.metrics.errors}`);
+  console.log(`Warnings: ${result.metrics.warnings}`);
+  console.log(`Fixable: ${result.metrics.fixableIssues}`);
 
   if (args.includes('--json')) {
-    console.log('\n📄 JSON Output: '),
+    console.log('\n📄 JSON Output: ');
     console.log(JSON.stringify(result, null, 2));
   }
 }
@@ -234,14 +234,14 @@ async function checkDeploymentReadiness(args: string[]) {
   const gates = new LintingQualityGates();
   const readiness = await gates.assessDeploymentReadiness();
 
-  console.log('\n🚢 Deployment Readiness Assessment: '),
-  console.log(`Ready: ${readiness.ready ? '✅ YES' : '❌ NO'}`),
-  console.log(`Confidence: ${readiness.confidence.toFixed(1)}%`),
-  console.log(`Quality Score: ${readiness.qualityScore.toFixed(1)}/100`),
-  console.log(`Risk Level: ${readiness.riskAssessment.level.toUpperCase()}`),
+  console.log('\n🚢 Deployment Readiness Assessment: ');
+  console.log(`Ready: ${readiness.ready ? '✅ YES' : '❌ NO'}`);
+  console.log(`Confidence: ${readiness.confidence.toFixed(1)}%`);
+  console.log(`Quality Score: ${readiness.qualityScore.toFixed(1)}/100`);
+  console.log(`Risk Level: ${readiness.riskAssessment.level.toUpperCase()}`);
 
   if (readiness.blockers.length > 0) {
-    console.log('\n🚨 Blockers: '),
+    console.log('\n🚨 Blockers: ');
     readiness.blockers.forEach((blocker, index) => {
       console.log(`  ${index + 1}. ${blocker}`);
     });

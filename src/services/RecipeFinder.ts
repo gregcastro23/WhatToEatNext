@@ -41,8 +41,8 @@ import type { RecipeServiceInterface } from './interfaces/RecipeServiceInterface
  * Implements the RecipeServiceInterface and adds additional error handling
  */
 export class RecipeFinder implements RecipeServiceInterface {
-  private static instance: RecipeFinder
-  private recipeService: ConsolidatedRecipeService,
+  private static instance: RecipeFinder;
+  private recipeService: ConsolidatedRecipeService;
 
   /**
    * Private constructor to enforce singleton pattern
@@ -66,8 +66,8 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getAllRecipes(): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getAllRecipes()
-      return {;
+      const recipes = await this.recipeService.getAllRecipes();
+      return {
         success: true,
         data: recipes,
         metadata: {
@@ -75,19 +75,19 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getAllRecipes', data: {} }
-      })
+      });
       return {
         success: false,
         error: {
           code: 'DATA_SOURCE_ERROR',
           message: 'Failed to retrieve recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -96,7 +96,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async searchRecipes(params: SearchRecipesParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.searchRecipes(params.criteria, params.options),
+      const recipes = await this.recipeService.searchRecipes(params.criteria, params.options);
       return {
         success: true,
         data: recipes,

@@ -67,7 +67,7 @@ function main(): void {
       // For future live updates; for now, ensure baseline exists
       updateProgress({});
       break;
-    },
+    }
     default: {
       // eslint-disable-next-line no-console
       console.log('Usage: yarn unused-vars <baseline|analyze|batch|progress> [options]');

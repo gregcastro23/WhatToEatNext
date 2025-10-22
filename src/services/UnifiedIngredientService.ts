@@ -23,49 +23,49 @@ import { Recipe } from '../types/recipe';
 
 // Missing interface definitions
 interface IngredientServiceInterface {
-  getAllIngredients(): Record<string, UnifiedIngredient[]>,
-  getIngredientByName(name: string): UnifiedIngredient | undefined,
-  getIngredientsByCategory(category: string): UnifiedIngredient[],
-  filterIngredients(filter: IngredientFilter): Record<string, UnifiedIngredient[]>
+  getAllIngredients(): Record<string, UnifiedIngredient[]>;
+  getIngredientByName(name: string): UnifiedIngredient | undefined;
+  getIngredientsByCategory(category: string): UnifiedIngredient[];
+  filterIngredients(filter: IngredientFilter): Record<string, UnifiedIngredient[]>;
 }
 
 interface IngredientFilter {
-  nutritional?: NutritionalFilter,
-  elemental?: ElementalFilter,
-  dietary?: DietaryFilter,
-  currentSeason?: string
-  searchQuery?: string,
-  excludeIngredients?: string[],
-  currentZodiacSign?: any,
-  planetaryInfluence?: Planet
+  nutritional?: NutritionalFilter;
+  elemental?: ElementalFilter;
+  dietary?: DietaryFilter;
+  currentSeason?: string;
+  searchQuery?: string;
+  excludeIngredients?: string[];
+  currentZodiacSign?: any;
+  planetaryInfluence?: Planet;
 }
 
 interface ElementalFilter {
-  element?: Element,
-  minThreshold?: number,
-  maxThreshold?: number,
-  dominantElement?: Element
+  element?: Element;
+  minThreshold?: number;
+  maxThreshold?: number;
+  dominantElement?: Element;
 }
 
 interface NutritionalFilter {
-  maxCalories?: number,
-  minProtein?: number,
-  maxCarbs?: number
-  minFiber?: number,
-  vegetarian?: boolean,
-  vegan?: boolean,
-  glutenFree?: boolean
+  maxCalories?: number;
+  minProtein?: number;
+  maxCarbs?: number;
+  minFiber?: number;
+  vegetarian?: boolean;
+  vegan?: boolean;
+  glutenFree?: boolean;
 }
 
 interface DietaryFilter {
-  restrictions: string[],
-  preferences: string[],
-  allergies?: string[]
+  restrictions: string[];
+  preferences: string[];
+  allergies?: string[];
 }
 
 export class UnifiedIngredientService implements IngredientServiceInterface {
-  private static instance: UnifiedIngredientService,
-  private ingredientCache: Map<string, UnifiedIngredient[]> = new Map(),
+  private static instance: UnifiedIngredientService;
+  private ingredientCache: Map<string, UnifiedIngredient[]> = new Map();
 
   private constructor() {
     // Initialize the ingredient cache
@@ -87,14 +87,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   private loadIngredients(): void {
     // This would load ingredients from data files or APIs
-    // For nowwe'll use a mock implementation with an empty cache
-    this.ingredientCache.set('vegetables', [])
-    this.ingredientCache.set('fruits', [])
-    this.ingredientCache.set('grains', [])
-    this.ingredientCache.set('proteins', [])
-    this.ingredientCache.set('herbs', [])
-    this.ingredientCache.set('spices', []),
-    this.ingredientCache.set('oils', [])
+    // For now we'll use a mock implementation with an empty cache
+    this.ingredientCache.set('vegetables', []);
+    this.ingredientCache.set('fruits', []);
+    this.ingredientCache.set('grains', []);
+    this.ingredientCache.set('proteins', []);
+    this.ingredientCache.set('herbs', []);
+    this.ingredientCache.set('spices', []);
+    this.ingredientCache.set('oils', []);
   }
 
   /**

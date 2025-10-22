@@ -38,9 +38,9 @@ function parseArgs(argv: string[]): CliOptions {
   const maxBatchIdx = argv.indexOf('--max-batch');
   const maxBatchCriticalIdx = argv.indexOf('--max-batch-critical');
   return {
-    inPath: inIndex !== -1 && argv[inIndex + 1] ? argv[inIndex + 1] : 'reports/unused-vars.json';
+    inPath: inIndex !== -1 && argv[inIndex + 1] ? argv[inIndex + 1] : 'reports/unused-vars.json',
     dryRun: dry,
-    maxBatch: maxBatchIdx !== -1 && argv[maxBatchIdx + 1] ? Number(argv[maxBatchIdx + 1]) : 15;
+    maxBatch: maxBatchIdx !== -1 && argv[maxBatchIdx + 1] ? Number(argv[maxBatchIdx + 1]) : 15,
     maxBatchCritical:
       maxBatchCriticalIdx !== -1 && argv[maxBatchCriticalIdx + 1]
         ? Number(argv[maxBatchCriticalIdx + 1])
@@ -53,12 +53,12 @@ function execCmd(cmd: string): { code: number; stdout: string; stderr: string } 
     const stdout = childProcess.execSync(cmd, { stdio: ['ignore', 'pipe', 'pipe'] }).toString();
     return { code: 0, stdout, stderr: '' };
   } catch (err) {
-    const e = err as { status?: number; stdout?: Buffer; stderr?: Buffer },
+    const e = err as { status?: number; stdout?: Buffer; stderr?: Buffer };
     return {
       code: e.status ?? 1,
       stdout: e.stdout ? e.stdout.toString() : '',
       stderr: e.stderr ? e.stderr.toString() : 'Execution failed'
-};
+    };
   }
 }
 
@@ -93,7 +93,7 @@ function sortFilesForSafety(files: string[]): string[] {
 
 function writeBackup(filePath: string, content: string): string {
   const backupDir = path.join('.lint-backup-' + Date.now().toString());
-  if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true }),
+  if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true });
   const rel = path.relative(process.cwd(), filePath).replace(/[\/]/g, '__');
   const backupPath = path.join(backupDir, rel + '.bak');
   fs.writeFileSync(backupPath, content, 'utf8');

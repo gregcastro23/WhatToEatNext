@@ -4,11 +4,11 @@ import { FoodDataCentral } from './apiClients';
 
 export class NutritionService {
   async getNutritionalProfile(fdcId: string): Promise<NutritionalProfile> {
-    const data = await FoodDataCentral.getFood(fdcId)
+    const data = await FoodDataCentral.getFood(fdcId);
 
-    const foodData = data as unknown as FoodDataCentralFood
+    const foodData = data as unknown as FoodDataCentralFood;
 
-    return {;
+    return {
       calories: foodData.foodNutrients.find(n => n.nutrientNumber === '208')?.value || 0,
       macros: {
         protein: this.getNutrientValue(foodData, '203'),
@@ -28,7 +28,7 @@ export class NutritionService {
         potassium: this.getNutrientValue(foodData, '306')
       },
       phytonutrients: this.extractPhytonutrients(foodData)
-    }
+    };
   }
 
   private getNutrientValue(data: FoodDataCentralFood, nutrientId: string): number {
@@ -44,6 +44,6 @@ export class NutritionService {
           [n.nutrientName || '']: n.value || 0
         }),
         {}
-      )
+      );
   }
 }

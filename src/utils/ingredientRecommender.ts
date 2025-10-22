@@ -121,9 +121,6 @@ import saturnData from '@/data/planets/saturn';
 import venusData from '@/data/planets/venus';
 import { calculateLunarPhase, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
 
-// Enterprise Intelligence Integration - Phase 27 Ingredient Intelligence Systems
-import { EnterpriseIntelligenceIntegration } from '@/services/EnterpriseIntelligenceIntegration';
-
 // Import the getAllIngredients function if it exists, otherwise we'll create our own
 import { getAllIngredients as getIngredientsUtil } from '@/utils/foodRecommender';
 
@@ -414,12 +411,6 @@ export async function getIngredientRecommendations(
   },
   options: RecommendationOptions,
 ): Promise<GroupedIngredientRecommendations> {
-  // Enterprise Intelligence Integration - Phase 27 Ingredient Intelligence Systems
-  const enterpriseIntelligence = new EnterpriseIntelligenceIntegration({
-    _enableIngredientIntelligence: true,
-    _enableValidationIntelligence: true,
-    _enableOptimizationRecommendations: true
-});
   // Get all ingredients
   const allIngredients = getAllIngredients();
 
@@ -601,13 +592,6 @@ export async function getIngredientRecommendations(
       : undefined
   }
 
-  const enterpriseAnalysis = await enterpriseIntelligence.performEnterpriseAnalysis(
-    undefined, // No recipe data for ingredient-only analysis
-    ingredientData as any,
-    { name: 'general', type: 'universal', _region: 'global', _characteristics: [] }, // Generic cuisine data for ingredient-only analysis
-    safeAstroContext,
-  )
-
   // Group ingredients by category
   const groupedRecommendations: GroupedIngredientRecommendations = {}
 
@@ -628,10 +612,6 @@ export async function getIngredientRecommendations(
       // Apply Pattern, L: Interface property mapping for IngredientRecommendation compatibility
       const ingredientData = ingredient as unknown as any;
 
-      // Enterprise Intelligence Enhancement - Phase 27 Ingredient Intelligence Systems
-      const ingredientIntelligence = enterpriseAnalysis.ingredientIntelligence;
-      const validationIntelligence = enterpriseAnalysis.validationIntelligence
-
       const ingredientRecommendation: IngredientRecommendation = {
         name: ingredient.name || '',
         type: safeGetString(ingredientData.type) ||
@@ -642,15 +622,7 @@ export async function getIngredientRecommendations(
         qualities: safeGetStringArray(ingredient.qualities),
         matchScore: safeGetNumber(ingredient.score),
         modality: ingredient.modality,
-        recommendations: [
-          ...safeGetStringArray(ingredientData.recommendations),
-          ...(ingredientIntelligence?.recommendations ?? []).slice(0, 3), // Top 3 enterprise recommendations
-          ...((validationIntelligence?.overallValidation?.criticalIssues ?? []).length > 0
-            ? [
-                `_Validation: ${(validationIntelligence?.overallValidation?.criticalIssues ?? [])[0]}`
-              ]
-            : [])
-        ],
+        recommendations: safeGetStringArray(ingredientData.recommendations),
         description: safeGetString(ingredientData.description) || `Recommended ${ingredient.name}`,
         totalScore: safeGetNumber(ingredientData.totalScore) || safeGetNumber(ingredient.score),
         elementalScore: safeGetNumber(ingredient.elementalScore),
@@ -2875,10 +2847,7 @@ export async function recommendIngredients(
   const lunarPhase = calculateLunarPhase(date)
 
   // Calculate planetary positions using imported utility
-  const _calculatedPositions = calculatePlanetaryPositions(date)
-
-  // Integrate enterprise intelligence for enhanced recommendations
-  const enterpriseIntelligence = new EnterpriseIntelligenceIntegration()
+  const _calculatedPositions = calculatePlanetaryPositions(date);
 
   // Use LUNAR_PHASES data for phase-based filtering (await lunarPhase since it's a Promise)
   const lunarPhaseValue = await lunarPhase;

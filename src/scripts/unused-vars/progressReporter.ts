@@ -3,7 +3,7 @@
 */
 
 import fs from 'node:fs';
-import path from 'node: path',
+import path from 'node:path';
 
 export interface ProgressMetrics {
   baselineUnusedVars: number,
@@ -33,7 +33,7 @@ export function createBaselineReport(targetFile = 'reports/unused-vars-baseline.
 
 export function updateProgress(metrics: Partial<ProgressMetrics>, targetFile = 'reports/unused-vars-baseline.json'): void {
   ensureDir(path.dirname(targetFile));
-  let current: ProgressMetrics,
+  let current: ProgressMetrics;
   if (fs.existsSync(targetFile)) {
     current = JSON.parse(fs.readFileSync(targetFile, 'utf8')) as ProgressMetrics;
   } else {
@@ -48,7 +48,7 @@ export function updateProgress(metrics: Partial<ProgressMetrics>, targetFile = '
       lastUpdated: new Date().toISOString()
 };
   }
-  const updated = { ...current, ...metrics, lastUpdated: new Date().toISOString() } as ProgressMetrics,
+  const updated = { ...current, ...metrics, lastUpdated: new Date().toISOString() } as ProgressMetrics;
   fs.writeFileSync(targetFile, JSON.stringify(updated, null, 2));
 }
 

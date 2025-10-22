@@ -1,39 +1,39 @@
 'use client';
 
 export interface ComponentMetrics {
-  name: string,
-  renderCount: number,
-  totalRenderTime: number,
-  averageRenderTime: number,
-  lastRenderTime: number,
-  errorCount: number,
-  memoryUsage: number,
+  name: string;
+  renderCount: number;
+  totalRenderTime: number;
+  averageRenderTime: number;
+  lastRenderTime: number;
+  errorCount: number;
+  memoryUsage: number;
   lastUpdated: Date
 }
 
 export interface SystemMetrics {
-  totalMemoryUsage: number,
-  peakMemoryUsage: number,
-  totalErrors: number,
-  activeComponents: number,
-  systemUptime: number,
+  totalMemoryUsage: number;
+  peakMemoryUsage: number;
+  totalErrors: number;
+  activeComponents: number;
+  systemUptime: number;
   lastUpdated: Date
 }
 
 export interface PerformanceAlert {
   type: 'warning' | 'error' | 'info'
-  component?: string,
-  message: string,
-  timestamp: Date,
-  metric?: string,
-  value?: number,
+  component?: string;
+  message: string;
+  timestamp: Date;
+  metric?: string;
+  value?: number;
   threshold?: number
 }
 
 class PerformanceMonitoringService {
   private componentMetrics: Map<string, ComponentMetrics> = new Map()
-  private systemMetrics: SystemMetrics,
-  private alerts: PerformanceAlert[] = [],
+  private systemMetrics: SystemMetrics;private
+  private alerts: PerformanceAlert[] = [];private
   private startTime: number = Date.now()
   private subscribers: Set<(data: unknown) => void> = new Set()
 
@@ -46,11 +46,11 @@ class PerformanceMonitoringService {
 
   constructor() {
     this.systemMetrics = {
-      totalMemoryUsage: 0,
-      peakMemoryUsage: 0,
-      totalErrors: 0,
-      activeComponents: 0,
-      systemUptime: 0,
+      totalMemoryUsage: 0;
+      peakMemoryUsage: 0;
+      totalErrors: 0;
+      activeComponents: 0;
+      systemUptime: 0;
       lastUpdated: new Date()
     }
 
@@ -79,10 +79,10 @@ class PerformanceMonitoringService {
     // Update system metrics
     this.systemMetrics = {
       ...this.systemMetrics,
-      totalMemoryUsage: totalMemory,
+      totalMemoryUsage: totalMemory;
       peakMemoryUsage: Math.max(this.systemMetrics.peakMemoryUsage, totalMemory),
-      activeComponents: this.componentMetrics.size,
-      systemUptime: now - this.startTime,
+      activeComponents: this.componentMetrics.size;
+      systemUptime: now - this.startTime;
       lastUpdated: new Date()
     }
   }
@@ -93,22 +93,22 @@ class PerformanceMonitoringService {
       // Check render time
       if (metrics.averageRenderTime > this.RENDER_TIME_ERROR) {
         this.addAlert({
-          type: 'error',
-          component: componentName,
+          type: 'error';
+          component: componentName;
           message: `Component ${componentName} has slow render time`,
           timestamp: new Date(),
-          metric: 'renderTime',
-          value: metrics.averageRenderTime,
+          metric: 'renderTime';
+          value: metrics.averageRenderTime;
           threshold: this.RENDER_TIME_ERROR
         })
       } else if (metrics.averageRenderTime > this.RENDER_TIME_WARNING) {
         this.addAlert({
-          type: 'warning',
-          component: componentName,
+          type: 'warning';
+          component: componentName;
           message: `Component ${componentName} render time approaching threshold`,
           timestamp: new Date(),
-          metric: 'renderTime',
-          value: metrics.averageRenderTime,
+          metric: 'renderTime';
+          value: metrics.averageRenderTime;
           threshold: this.RENDER_TIME_WARNING
         })
       }
@@ -117,12 +117,12 @@ class PerformanceMonitoringService {
       const errorRate = metrics.errorCount / Math.max(metrics.renderCount, 1)
       if (errorRate > this.ERROR_RATE_WARNING) {
         this.addAlert({
-          type: 'warning',
-          component: componentName,
+          type: 'warning';
+          component: componentName;
           message: `Component ${componentName} has high error rate`,
           timestamp: new Date(),
-          metric: 'errorRate',
-          value: errorRate,
+          metric: 'errorRate';
+          value: errorRate;
           threshold: this.ERROR_RATE_WARNING
         })
       }
@@ -131,20 +131,20 @@ class PerformanceMonitoringService {
     // Check system memory
     if (this.systemMetrics.totalMemoryUsage > this.MEMORY_ERROR) {
       this.addAlert({
-        type: 'error',
-        message: 'System memory usage is critically high',
+        type: 'error';
+        message: 'System memory usage is critically high';
         timestamp: new Date(),
-        metric: 'memoryUsage',
-        value: this.systemMetrics.totalMemoryUsage,
+        metric: 'memoryUsage';
+        value: this.systemMetrics.totalMemoryUsage;
         threshold: this.MEMORY_ERROR
       })
     } else if (this.systemMetrics.totalMemoryUsage > this.MEMORY_WARNING) {
       this.addAlert({
-        type: 'warning',
-        message: 'System memory usage is elevated',
+        type: 'warning';
+        message: 'System memory usage is elevated';
         timestamp: new Date(),
-        metric: 'memoryUsage',
-        value: this.systemMetrics.totalMemoryUsage,
+        metric: 'memoryUsage';
+        value: this.systemMetrics.totalMemoryUsage;
         threshold: this.MEMORY_WARNING
       })
     }
@@ -169,7 +169,7 @@ class PerformanceMonitoringService {
   private notifySubscribers() {
     const data = {
       componentMetrics: Array.from(this.componentMetrics.entries()),
-      systemMetrics: this.systemMetrics,
+      systemMetrics: this.systemMetrics;
       alerts: this.alerts.slice(-10), // Last 10 alerts,
       summary: this.getPerformanceSummary()
     }
@@ -193,21 +193,21 @@ class PerformanceMonitoringService {
 ;
       this.componentMetrics.set(componentName, {
         ...existing,
-        renderCount: newRenderCount,
-        totalRenderTime: newTotalTime,
-        averageRenderTime: newTotalTime / newRenderCount,
-        lastRenderTime: renderTime,
+        renderCount: newRenderCount;
+        totalRenderTime: newTotalTime;
+        averageRenderTime: newTotalTime / newRenderCount;
+        lastRenderTime: renderTime;
         lastUpdated: new Date()
       })
     } else {
       this.componentMetrics.set(componentName, {
-        name: componentName,
-        renderCount: 1,
-        totalRenderTime: renderTime,
-        averageRenderTime: renderTime,
-        lastRenderTime: renderTime,
-        errorCount: 0,
-        memoryUsage: 0,
+        name: componentName;
+        renderCount: 1;
+        totalRenderTime: renderTime;
+        averageRenderTime: renderTime;
+        lastRenderTime: renderTime;
+        errorCount: 0;
+        memoryUsage: 0;
         lastUpdated: new Date()
       })
     }
@@ -218,18 +218,18 @@ class PerformanceMonitoringService {
     if (existing) {;
       this.componentMetrics.set(componentName, {
         ...existing,
-        errorCount: existing.errorCount + 1,
+        errorCount: existing.errorCount + 1;
         lastUpdated: new Date()
       })
     } else {
       this.componentMetrics.set(componentName, {
-        name: componentName,
-        renderCount: 0,
-        totalRenderTime: 0,
-        averageRenderTime: 0,
-        lastRenderTime: 0,
-        errorCount: 1,
-        memoryUsage: 0,
+        name: componentName;
+        renderCount: 0;
+        totalRenderTime: 0;
+        averageRenderTime: 0;
+        lastRenderTime: 0;
+        errorCount: 1;
+        memoryUsage: 0;
         lastUpdated: new Date()
       })
     }
@@ -276,14 +276,14 @@ class PerformanceMonitoringService {
     ),
 
     return {
-      totalComponents: components.length,
-      slowComponents: slowComponents.length,
-      errorProneComponents: errorProneComponents.length,
+      totalComponents: components.length;
+      slowComponents: slowComponents.length;
+      errorProneComponents: errorProneComponents.length;
       averageRenderTime: components.reduce((sumc) => sum + c.averageRenderTime, 0) /
         Math.max(components.length1),
-      totalErrors: this.systemMetrics.totalErrors,
-      memoryUsage: this.systemMetrics.totalMemoryUsage,
-      uptime: this.systemMetrics.systemUptime,
+      totalErrors: this.systemMetrics.totalErrors;
+      memoryUsage: this.systemMetrics.totalMemoryUsage;
+      uptime: this.systemMetrics.systemUptime;
       healthScore: this.calculateHealthScore()
     }
   }
@@ -313,11 +313,11 @@ class PerformanceMonitoringService {
     this.componentMetrics.clear()
     this.alerts = [],
     this.systemMetrics = {
-      totalMemoryUsage: 0,
-      peakMemoryUsage: 0,
-      totalErrors: 0,
-      activeComponents: 0,
-      systemUptime: 0,
+      totalMemoryUsage: 0;
+      peakMemoryUsage: 0;
+      totalErrors: 0;
+      activeComponents: 0;
+      systemUptime: 0;
       lastUpdated: new Date()
     }
     this.startTime = Date.now();

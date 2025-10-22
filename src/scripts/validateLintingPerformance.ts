@@ -14,20 +14,20 @@ import { existsSync, statSync, unlinkSync, writeFileSync } from 'fs';
 import { cpus } from 'os';
 
 interface PerformanceMetrics {
-  executionTime: number,
-  memoryUsage: number,
-  cacheHitRate: number,
-  filesProcessed: number,
-  parallelProcesses: number,
+  executionTime: number;
+  memoryUsage: number;
+  cacheHitRate: number;
+  filesProcessed: number;
+  parallelProcesses: number;
   incrementalTime?: number;
 }
 
 interface ValidationResult {
-  testName: string,
-  passed: boolean,
-  metrics: PerformanceMetrics,
-  expectedImprovement: number,
-  actualImprovement: number,
+  testName: string;
+  passed: boolean;
+  metrics: PerformanceMetrics;
+  expectedImprovement: number;
+  actualImprovement: number;
   details: string;
 }
 
