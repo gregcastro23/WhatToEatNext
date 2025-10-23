@@ -116,7 +116,7 @@ export class LocalRecipeService {
       // Get recipes from all available cuisines
       for (const cuisine of Object.values(cuisinesMap)) {
         if (cuisine) {
-          const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as ExtendedCuisine)
+          const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as ExtendedCuisine);
           recipes.push(...cuisineRecipes);
         }
       }
@@ -160,7 +160,7 @@ export class LocalRecipeService {
         try {
           // Try importing the cuisine directly from its file using dynamic imports
           if (normalizedName === 'african') {
-            const africanModule = await import('../data/cuisines/african')
+            const africanModule = await import('../data/cuisines/african');
             directCuisine = africanModule.african as ExtendedCuisine;
           } else {
             const americanModule = await import('../data/cuisines/american');
@@ -186,7 +186,7 @@ export class LocalRecipeService {
               id: directCuisine.id,
               name: directCuisine.name,
               hasDishes: !!directCuisine.dishes,
-              dishTypes: directCuisine.dishes,
+              dishTypes: directCuisine.dishes
                 ? Object.keys(directCuisine.dishes).join(', ')
                 : 'none',
               breakfast: (() => {
@@ -296,7 +296,7 @@ export class LocalRecipeService {
 
       // Log specific debug info for African cuisine
       if (cuisine.name.toLowerCase() === 'african') {
-        logger.debug('AFRICAN CUISINE DETAILED DEBUG INFO: ')
+        logger.debug('AFRICAN CUISINE DETAILED DEBUG INFO: ');
         logger.debug(
           'Full cuisine structure: ',
           JSON.stringify({
@@ -352,7 +352,7 @@ export class LocalRecipeService {
               return 0;
             })()
           }),
-        )
+        );
 
         // Check if 'all' arrays actually contain recipes with safe type casting
         const dishesData = cuisine.dishes as unknown;
@@ -472,7 +472,7 @@ export class LocalRecipeService {
           logger.debug('Found nested dishes property, trying to extract from there instead');
           return this.getRecipesFromCuisine({
             ...cuisine,
-            dishes: cuisine.dishes.dishes as unknown
+            dishes: cuisine.dishes.dishes as MealCollection
           });
         }
       }

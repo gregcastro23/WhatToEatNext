@@ -20,14 +20,14 @@ const INGREDIENT_DATABASE: Record<string, any> = {};
  */
 export function validateRecipe(recipe: Partial<Recipe>,
   options: {
-    checkIngredients?: boolean,
-    checkComputations?: boolean,
-    strictMode?: boolean,
+    checkIngredients?: boolean;
+    checkComputations?: boolean;
+    strictMode?: boolean;
   } = {}
 ): RecipeValidationResult {
   const {
-    checkIngredients = true;
-    checkComputations = false;
+    checkIngredients = true,
+    checkComputations = false,
     strictMode = false
   } = options;
 
@@ -97,7 +97,7 @@ function checkRequiredFields(recipe: Partial<Recipe>, errors: string[]): boolean
 
   for (const field of requiredFields) {
     if (!recipe[field as keyof Recipe]) {
-      errors.push(`Missing required field: ${field}`),
+      errors.push(`Missing required field: ${field}`);
       isValid = false;
     }
   }
@@ -329,7 +329,7 @@ function calculateQualityMetrics(
   // Cooking method diversity
   const cookingMethods = recipe.cookingMethod;
   const cookingMethodDiversity = cookingMethods ?
-    Math.min(1, cookingMethods.length / 5) : 0,
+    Math.min(1, cookingMethods.length / 5) : 0;
 
   return {
     completenessScore,
@@ -420,10 +420,10 @@ export function validateRecipes(
 export function getValidationStatistics(
   validationResults: RecipeValidationResult[]
 ): {
-  totalRecipes: number,
-  validRecipes: number,
-  averageQualityScore: number,
-  commonErrors: Array<{ error: string; count: number }>,
+  totalRecipes: number;
+  validRecipes: number;
+  averageQualityScore: number;
+  commonErrors: Array<{ error: string; count: number }>;
   commonWarnings: Array<{ warning: string; count: number }>;
 } {
   const totalRecipes = validationResults.length;

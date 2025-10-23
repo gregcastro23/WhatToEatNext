@@ -109,15 +109,15 @@ export class RecipeFinder implements RecipeServiceInterface {
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'searchRecipes', data: params.criteria }
-      })
+      });
       return {
         success: false,
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to search recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -126,8 +126,8 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesByCuisine(params: GetRecipesByCuisineParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByCuisine(params.cuisine)
-      return {;
+      const recipes = await this.recipeService.getRecipesByCuisine(params.cuisine);
+      return {
         success: true,
         data: recipes,
         metadata: {
@@ -135,19 +135,19 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getRecipesByCuisine', data: params.cuisine }
-      })
+      });
       return {
         success: false,
         error: {
           code: 'DATA_SOURCE_ERROR',
           message: 'Failed to retrieve cuisine recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -156,8 +156,8 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesByZodiac(params: GetRecipesByZodiacParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByZodiac(params.currentZodiacSign)
-      return {;
+      const recipes = await this.recipeService.getRecipesByZodiac(params.currentZodiacSign);
+      return {
         success: true,
         data: recipes,
         metadata: {
@@ -165,7 +165,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -173,15 +173,15 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'getRecipesByZodiac',
           data: params.currentZodiacSign
         }
-      })
+      });
       return {
         success: false,
         error: {
           code: 'DATA_SOURCE_ERROR',
           message: 'Failed to retrieve zodiac recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -190,8 +190,8 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesBySeason(params: GetRecipesBySeasonParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesBySeason(params.season)
-      return {;
+      const recipes = await this.recipeService.getRecipesBySeason(params.season);
+      return {
         success: true,
         data: recipes,
         metadata: {
@@ -199,19 +199,19 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getRecipesBySeason', data: params.season }
-      })
+      });
       return {
         success: false,
         error: {
           code: 'DATA_SOURCE_ERROR',
           message: 'Failed to retrieve seasonal recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -222,8 +222,8 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: GetRecipesByLunarPhaseParams,
   ): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByLunarPhase(params.lunarPhase)
-      return {;
+      const recipes = await this.recipeService.getRecipesByLunarPhase(params.lunarPhase);
+      return {
         success: true,
         data: recipes,
         metadata: {
@@ -231,7 +231,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -239,15 +239,15 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'getRecipesByLunarPhase',
           data: params.lunarPhase
         }
-      })
+      });
       return {
         success: false,
         error: {
           code: 'DATA_SOURCE_ERROR',
           message: 'Failed to retrieve lunar phase recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -256,8 +256,8 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesByMealType(params: GetRecipesByMealTypeParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByMealType(params.mealType)
-      return {;
+      const recipes = await this.recipeService.getRecipesByMealType(params.mealType);
+      return {
         success: true,
         data: recipes,
         metadata: {
@@ -265,19 +265,19 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getRecipesByMealType', data: params.mealType }
-      })
+      });
       return {
         success: false,
         error: {
           code: 'DATA_SOURCE_ERROR',
           message: 'Failed to retrieve meal type recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -288,9 +288,10 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: GetRecipesForPlanetaryAlignmentParams,
   ): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesForPlanetaryAlignment(params.planetaryInfluences
-        params.minMatchScore,
-      ),
+      const recipes = await this.recipeService.getRecipesForPlanetaryAlignment(
+        params.planetaryInfluences,
+        params.minMatchScore
+      );
       return {
         success: true,
         data: recipes,
@@ -299,7 +300,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -310,15 +311,15 @@ export class RecipeFinder implements RecipeServiceInterface {
             minMatchScore: params.minMatchScore
           }
         }
-      })
+      });
       return {
         success: false,
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to retrieve planetary alignment recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -329,9 +330,10 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: GetRecipesForFlavorProfileParams,
   ): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesForFlavorProfile(params.flavorProfile
-        params.minMatchScore,
-      ),
+      const recipes = await this.recipeService.getRecipesForFlavorProfile(
+        params.flavorProfile,
+        params.minMatchScore
+      );
       return {
         success: true,
         data: recipes,
@@ -340,7 +342,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -348,15 +350,15 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'getRecipesForFlavorProfile',
           data: { flavorProfile: params.flavorProfile, minMatchScore: params.minMatchScore }
         }
-      })
+      });
       return {
         success: false,
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to retrieve flavor profile recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -367,12 +369,12 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: GetBestRecipeMatchesParams,
   ): Promise<ApiResponse<ScoredRecipe[]>> {
     try {
-      const recipes = await this.recipeService.getBestRecipeMatches(params.criteria, 10),
+      const recipes = await this.recipeService.getBestRecipeMatches(params.criteria, 10);
       // Convert recipes to scored recipes if they don't already have scores
       const scoredRecipes: ScoredRecipe[] = recipes.map((recipe, index) => ({
         ...recipe,
-        score: recipe.score ?? 1 - index * 0.1, // Assign decreasing scores if not present
-      }))
+        score: recipe.score ?? 1 - index * 0.1 // Assign decreasing scores if not present
+      }));
 
       return {
         success: true,
@@ -382,7 +384,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: scoredRecipes.length
         }
-      }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -390,15 +392,15 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'getBestRecipeMatches',
           data: { criteria: params.criteria }
         }
-      })
+      });
       return {
         success: false,
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to get best recipe matches',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -408,18 +410,18 @@ export class RecipeFinder implements RecipeServiceInterface {
   async getRecipeById(params: GetRecipeByIdParams): Promise<ApiResponse<Recipe>> {
     try {
       // Since ConsolidatedRecipeService doesn't have getRecipeById, we'll search for it
-      const allRecipes = await this.recipeService.getAllRecipes()
-      const recipe = allRecipes.find(r => r.id === params.id)
+      const allRecipes = await this.recipeService.getAllRecipes();
+      const recipe = allRecipes.find(r => r.id === params.id);
 
       if (!recipe) {
-        return {;
+        return {
           success: false,
           error: {
             code: 'RECIPE_NOT_FOUND',
             message: `Recipe with ID ${params.id} not found`,
             details: 'The requested recipe does not exist in the database'
-}
-        }
+          }
+        };
       }
 
       return {
@@ -428,20 +430,20 @@ export class RecipeFinder implements RecipeServiceInterface {
         metadata: {
           timestamp: Date.now(),
           version: '1.0.0'
-}
-      }
+        }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getRecipeById', data: { id: params.id } }
-      })
+      });
       return {
         success: false,
         error: {
           code: 'RECIPE_NOT_FOUND',
           message: 'Failed to retrieve recipe',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -450,19 +452,19 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async generateRecipe(params: GenerateRecipeParams): Promise<ApiResponse<Recipe>> {
     try {
-      const recipe = await this.recipeService.generateRecipe(params.criteria)
-      return {;
+      const recipe = await this.recipeService.generateRecipe(params.criteria);
+      return {
         success: true,
         data: recipe,
         metadata: {
           timestamp: Date.now(),
           version: '1.0.0'
-}
-      }
+        }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'generateRecipe', data: params.criteria }
-      })
+      });
       return {
         success: false,
         data: {
@@ -477,8 +479,8 @@ export class RecipeFinder implements RecipeServiceInterface {
           code: 'PROCESSING_ERROR',
           message: 'Failed to generate recipe',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -487,17 +489,18 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async generateFusionRecipe(params: GenerateFusionRecipeParams): Promise<ApiResponse<Recipe>> {
     try {
-      const recipe = await this.recipeService.generateFusionRecipe(params.cuisines
-        params.criteria,
-      ),
+      const recipe = await this.recipeService.generateFusionRecipe(
+        params.cuisines,
+        params.criteria
+      );
       return {
         success: true,
         data: recipe,
         metadata: {
           timestamp: Date.now(),
           version: '1.0.0'
-}
-      }
+        }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -505,7 +508,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'generateFusionRecipe',
           data: { cuisines: params.cuisines, criteria: params.criteria }
         }
-      })
+      });
       return {
         success: false,
         data: {
@@ -520,8 +523,8 @@ export class RecipeFinder implements RecipeServiceInterface {
           code: 'PROCESSING_ERROR',
           message: 'Failed to generate fusion recipe',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -540,8 +543,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         metadata: {
           timestamp: Date.now(),
           version: '1.0.0'
-}
-      }
+        }
+      };
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -549,15 +552,15 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'adaptRecipeForSeason',
           data: { recipeId: params.recipeId, season: params.season }
         }
-      })
+      });
       return {
         success: false,
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to adapt recipe',
           details: error instanceof Error ? error.message : 'Unknown error'
-}
-      }
+        }
+      };
     }
   }
 
@@ -574,18 +577,18 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'calculateElementalProperties',
           data: { recipeId: recipe.id || 'unknown' }
         }
-      })
+      });
       // Return balanced elemental properties on error
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
   }
 
   /**
    * Get the dominant element of a recipe
    */
-  getDominantElement(recipe: Recipe): { element: keyof ElementalProperties, value: number } {
+  getDominantElement(recipe: Recipe): { element: keyof ElementalProperties; value: number } {
     try {
-      return this.recipeService.getDominantElement(recipe)
+      return this.recipeService.getDominantElement(recipe);
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -593,9 +596,9 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'getDominantElement',
           data: { recipeId: recipe.id || 'unknown' }
         }
-      })
+      });
       // Return a default element on error
-      return { element: 'Fire', value: 0 }
+      return { element: 'Fire', value: 0 };
     }
   }
 
@@ -604,7 +607,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   calculateSimilarity(recipe1: Recipe, recipe2: Recipe): number {
     try {
-      return this.recipeService.calculateSimilarity(recipe1, recipe2)
+      return this.recipeService.calculateSimilarity(recipe1, recipe2);
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -612,7 +615,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           action: 'calculateSimilarity',
           data: { recipe1Id: recipe1.id || 'unknown', recipe2Id: recipe2.id || 'unknown' }
         }
-      })
+      });
       // Return zero similarity on error
       return 0;
     }
@@ -623,17 +626,17 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   clearCache(): void {
     try {
-      this.recipeService.clearCache()
+      this.recipeService.clearCache();
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'clearCache' }
-      })
+      });
     }
   }
 }
 
 // Export standalone function for compatibility
-export const getAllRecipes = ...,
-  const response = await RecipeFinder.getInstance().getAllRecipes()
+export const getAllRecipes = async (): Promise<Recipe[]> => {
+  const response = await RecipeFinder.getInstance().getAllRecipes();
   return response.success ? response.data || [] : [];
-}
+};

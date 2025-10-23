@@ -106,7 +106,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Ensure water doesn\'t touch the food or steamer basket to prevent boiling instead of steaming',
       )
-      tips.push('Add herbs, citrus peelor spices to the steaming water for aromatic infusion')
+      tips.push('Add herbs, citrus peel or spices to the steaming water for aromatic infusion')
       tips.push('Arrange foods with longest cooking times at the bottom of multi-tier steamers')
       tips.push('Leave space between food pieces for steam circulation')
       tips.push('Monitor water level to prevent boiling dry, adding more hot water as needed')
@@ -121,7 +121,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'Use a heat diffuser between heat source and tagine to distribute heat evenly and prevent cracking',
       )
       tips.push(
-        'Layer ingredients, _strategically: aromatics on bottom, meat in middle, vegetables on top',
+        'Layer ingredients strategically: aromatics on bottom, meat in middle, vegetables on top',
       )
       tips.push(
         'Add minimal liquid as the conical lid condenses and returns moisture to the ingredients',
@@ -217,14 +217,15 @@ export function getTechnicalTips(methodName: string): string[] {
         'For fish, brine before smoking to maintain moisture and enhance flavor penetration',
       )
       tips.push(
-        'Monitor smoke, color: blue-gray smoke is ideal, thick white or black smoke creates bitter flavors',
+        'Monitor smoke color: blue-gray smoke is ideal, thick white or black smoke creates bitter flavors',
       )
       tips.push(
         'Use the Texas Crutch (wrapping in foil) to overcome the \'stall\' in large meat cuts',
       )
       break;
 
-    case 'pressure cooking': case 'pressure_cooking':
+    case 'pressure cooking':
+    case 'pressure_cooking':
       tips.push('Brown proteins and sauté aromatics before sealing for deeper flavor development')
       tips.push('Respect the maximum fill line—overfilling can block pressure release valves')
       tips.push('For quick-release recipes, point steam release away from cabinets and people')
@@ -326,7 +327,8 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push('Use a kitchen thermometer to monitor oil temperature, adjusting heat as needed')
       break;
 
-    case 'sauteing': tips.push('Use a pan with good heat conductivity and a flat bottom for even cooking')
+    case 'sauteing':
+      tips.push('Use a pan with good heat conductivity and a flat bottom for even cooking')
       tips.push('Heat the pan before adding oil to prevent sticking and ensure proper sear')
       tips.push(
         'Pat food dry and allow to reach room temperature before sautéing for even cooking',
@@ -405,7 +407,8 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push('Keep accurate records of temperature, time, and cuts for reproducible results')
       break;
 
-    case 'emulsification': tips.push('Ensure all ingredients are at the same temperature for stable emulsions')
+    case 'emulsification':
+      tips.push('Ensure all ingredients are at the same temperature for stable emulsions')
       tips.push('Add oil or fat in a slow, thin stream while constantly whisking or blending')
       tips.push(
         'Use natural emulsifiers like egg yolks, mustard, or lecithin to help bind incompatible ingredients',
@@ -416,23 +419,24 @@ export function getTechnicalTips(methodName: string): string[] {
       )
       tips.push('For maximum stability, use high-speed blending with minimal air incorporation')
       tips.push(
-        'Optimize ingredient, _ratios: for aioli/mayonnaise, use 1 egg yolk per 3/4 cup oil for stable results',
+        'Optimize ingredient ratios: for aioli/mayonnaise, use 1 egg yolk per 3/4 cup oil for stable results',
       )
       break;
 
-    case 'gelification': tips.push('Bloom gelatin in cold liquid for 5-10 minutes before dissolving in hot liquid')
+    case 'gelification':
+      tips.push('Bloom gelatin in cold liquid for 5-10 minutes before dissolving in hot liquid')
       tips.push(
         'For plant-based alternatives, agar sets more firmly than gelatin but can break when frozen',
       )
       tips.push(
-        'Calculate gelatin strength, precisely: 1 sheet (silver) equals about 1g powdered gelatin',
+        'Calculate gelatin strength precisely: 1 sheet (silver) equals about 1g powdered gelatin',
       )
       tips.push(
         'Be aware that acidic ingredients and some fresh fruits (pineapple, kiwi, papaya) contain enzymes that break down gelatin',
       )
       tips.push('For clearer gels, clarify stock or juice using egg whites or freeze-thaw methods')
       tips.push(
-        'Control setting, temperature: gelatin sets at refrigerator temperature, agar begins setting at 95°F/35°C',
+        'Control setting temperature: gelatin sets at refrigerator temperature, agar begins setting at 95°F/35°C',
       )
       tips.push(
         'For layered preparations, allow each layer to partially set before adding the next',
@@ -441,14 +445,14 @@ export function getTechnicalTips(methodName: string): string[] {
 
     case 'curing':
       tips.push(
-        'Calculate salt, precisely: use 2-3% salt by weight for short-term cures4-6% for long-term preservation',
+        'Calculate salt precisely: use 2-3% salt by weight for short-term cures, 4-6% for long-term preservation',
       )
       tips.push(
         'Add 0.25% pink curing salt (sodium nitrite) for items requiring protection from botulism',
       )
       tips.push('Ensure even distribution of cure mixture by massaging thoroughly into protein')
       tips.push(
-        'Maintain consistent temperature and, humidity: 50-60°F (10-15°C) and 65-75% humidity for most cures',
+        'Maintain consistent temperature and humidity: 50-60°F (10-15°C) and 65-75% humidity for most cures',
       )
       tips.push(
         'Weigh items regularly during curing—most whole muscle cures are complete at 30-35% weight loss',
@@ -459,7 +463,8 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push('For even results, rotate and flip items regularly throughout the curing process')
       break;
 
-    case 'infusing': tips.push('Toast spices and herbs briefly before infusing to activate volatile oils')
+    case 'infusing':
+      tips.push('Toast spices and herbs briefly before infusing to activate volatile oils')
       tips.push(
         'For cold infusions, increase infusion time (12-24 hours) but retain more delicate flavors',
       )
@@ -480,7 +485,7 @@ export function getTechnicalTips(methodName: string): string[] {
 
     case 'marinating':
       tips.push(
-        'Balance marinade, components: acid, oil, aromatics, and salt in proper proportions',
+        'Balance marinade components: acid, oil, aromatics, and salt in proper proportions',
       )
       tips.push(
         'Use non-reactive containers (glass, stainless steel, food-grade plastic) to prevent metallic flavors',
@@ -496,9 +501,10 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push('Pat marinated items dry before cooking to ensure proper searing and browning')
       break;
 
-    case 'dehydrating': tips.push('Maintain consistent airflow around all items by using proper spacing on trays')
+    case 'dehydrating':
+      tips.push('Maintain consistent airflow around all items by using proper spacing on trays')
       tips.push(
-        'Control temperature, precisely: 135°F/57°C for fruits, 145°F/63°C for vegetables, 160°F/71°C for meats',
+        'Control temperature precisely: 135°F/57°C for fruits, 145°F/63°C for vegetables, 160°F/71°C for meats',
       )
       tips.push('Pretreat fruits with ascorbic acid solution to prevent browning')
       tips.push(
@@ -517,21 +523,21 @@ export function getTechnicalTips(methodName: string): string[] {
 
     case 'broiling':
       tips.push(
-        'Position oven rack 3-4 inches from heating element for smaller items5-6 inches for larger cuts',
+        'Position oven rack 3-4 inches from heating element for smaller items, 5-6 inches for larger cuts',
       )
       tips.push('Preheat broiler for at least 5-10 minutes to ensure maximum radiant heat')
       tips.push(
-        'Use broiler-safe cookware—avoid glass, non-stickor cookware with wooden components',
+        'Use broiler-safe cookware—avoid glass, non-stick or cookware with wooden components',
       )
       tips.push('For even browning, start with room temperature ingredients whenever possible')
       tips.push(
-        'Keep oven door slightly ajar when broiling to release steam and maintain high, dry heat',
+        'Keep oven door slightly ajar when broiling to release steam and maintain high dry heat',
       )
       tips.push(
         'Rotate food halfway through cooking, checking every 1-2 minutes to prevent burning',
       )
       tips.push(
-        'For delicate fish, use a two-temperature, method: start with low broiler setting, finish on high',
+        'For delicate fish, use a two-temperature method: start with low broiler setting, finish on high',
       )
       break;
 
@@ -552,7 +558,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'Balance acidity carefully to \'cook\' proteins without heat in preparations like ceviche',
       )
       tips.push(
-        'Apply heat-mimicking techniques, _selectively: salting, massaging kale/cabbage, acid marination',
+        'Apply heat-mimicking techniques selectively: salting, massaging kale/cabbage, acid marination',
       )
       tips.push(
         'Create textural contrast by combining different cutting techniques in the same dish',
@@ -566,20 +572,21 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'For reverse spherification (calcium in liquid, alginate bath), suitable for dairy or calcium-rich items',
       )
-      tips.push('Control, acidity: pH 4.0-6.0 works best for sodium alginate reactions')
+      tips.push('Control acidity: pH 4.0-6.0 works best for sodium alginate reactions')
       tips.push('Allow alginate solutions to rest for 24 hours to remove air bubbles before use')
       tips.push(
         'For frozen reverse spherification, freeze liquid into half-sphere molds before dipping in alginate',
       )
       tips.push(
-        'Control bath time, precisely: 1-3 minutes creates flexible spheres with liquid centers',
+        'Control bath time precisely: 1-3 minutes creates flexible spheres with liquid centers',
       )
       tips.push(
         'Rinse completed spheres in clean water to stop the reaction and remove residual sodium alginate',
       )
       break;
 
-    case 'cryo_cooking': case 'cryo cooking':
+    case 'cryo_cooking':
+    case 'cryo cooking':
       tips.push('Use liquid nitrogen only in well-ventilated areas to prevent oxygen displacement')
       tips.push('Always wear insulated cryo-gloves and face shield to prevent freeze burns')
       tips.push('For rapid freezing, keep items small and uniform in size for even results')
@@ -595,7 +602,8 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push('Allow frozen items to temper slightly before serving to enhance flavor release')
       break;
 
-    default: // Get expert tips from the cooking method data,
+    default:
+      // Get expert tips from the cooking method data
       try {
         const allMethods = getAllCookingMethodNames()
         const methodData = allMethods.find(
@@ -667,14 +675,15 @@ export function getMethodDetails(methodName: string): string {
     case 'fire cooking':
       return 'Open fire cooking connects with our most primal cooking techniques, utilizing direct flame, radiant heat, and smoke to transform ingredients. This versatile method adapts to various cooking styles from direct searing to low-and-slow roasting. The unpredictable nature of fire requires constant attention and adjustment, rewarding skill with uniquely complex flavors impossible to replicate with modern appliances.';
 
-    default: try {
+    default:
+      try {
         // Get cooking method data from imported methods
         const allMethods = getAllCookingMethodNames()
         const methodData = allMethods.find(
           method =>
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase())
-        ),
+        );
 
         const methodObj = methodData as { expertTips?: string[], category?: string }
         if (methodObj?.description) {
@@ -699,7 +708,8 @@ export function getIdealIngredients(methodName: string): string[] {
 
   // Switch case with ideal ingredients for different cooking methods
   switch (methodLower) {
-    case 'hand pounding': case 'hand_pounding':,
+    case 'hand pounding':
+    case 'hand_pounding':
       ingredients.push('Fresh herbs (basil, cilantro, mint, parsley)')
       ingredients.push('Garlic, ginger, galangal, lemongrass')
       ingredients.push('Whole spices (peppercorns, cardamom, coriander)')
@@ -718,7 +728,8 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Aromatics (bay leaves, thyme, peppercorns)')
       break;
 
-    case 'clay pot cooking': ingredients.push('Bone-in chicken pieces')
+    case 'clay pot cooking':
+      ingredients.push('Bone-in chicken pieces')
       ingredients.push('Firm fish and seafood')
       ingredients.push('Pork belly and shoulder cuts')
       ingredients.push('Rice and grains')
@@ -749,7 +760,8 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Grains (for sourdough, beer)')
       break;
 
-    case 'steaming': ingredients.push('Delicate fish fillets')
+    case 'steaming':
+      ingredients.push('Delicate fish fillets')
       ingredients.push('Shellfish (crab, lobster, mussels)')
       ingredients.push('Chicken breast')
       ingredients.push('Leafy green vegetables')
@@ -782,7 +794,8 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Shellfish (shrimp, scallops)')
       break;
 
-    case 'open fire cooking': case 'open-fire cooking':
+    case 'open fire cooking':
+    case 'open-fire cooking':
     case 'fire cooking':
       ingredients.push('Whole animals or large cuts')
       ingredients.push('Root vegetables (buried in embers)')
@@ -804,7 +817,8 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Fruits for infusions')
       break;
 
-    case 'smoking': ingredients.push('Brisket and pork shoulder')
+    case 'smoking':
+      ingredients.push('Brisket and pork shoulder')
       ingredients.push('Ribs (beef, pork)')
       ingredients.push('Whole poultry (chicken, turkey)')
       ingredients.push('Firm fish (salmon, trout)')
@@ -844,7 +858,8 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Garlic and alliums (for roasted flavor)')
       break;
 
-    case 'baking': ingredients.push('Flour (varying protein levels for different applications)')
+    case 'baking':
+      ingredients.push('Flour (varying protein levels for different applications)')
       ingredients.push('Leavening agents (yeast, baking powder, baking soda)')
       ingredients.push('Eggs and dairy')
       ingredients.push('Sugars (granulated, brown, powdered)')
@@ -853,7 +868,8 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Chocolate and cocoa')
       break;
 
-    case 'boiling': ingredients.push('Pasta and noodles')
+    case 'boiling':
+      ingredients.push('Pasta and noodles')
       ingredients.push('Rice and grains')
       ingredients.push('Eggs')
       ingredients.push('Hearty vegetables (potatoes, corn)')
@@ -862,7 +878,8 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Bones and aromatics (for stocks)')
       break;
 
-    case 'frying': ingredients.push('Chicken pieces (bone-in or boneless)')
+    case 'frying':
+      ingredients.push('Chicken pieces (bone-in or boneless)')
       ingredients.push('Fish fillets')
       ingredients.push('Potatoes (for french fries)')
       ingredients.push('Breaded vegetables (zucchini, eggplant)')
@@ -921,14 +938,15 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Lecithin (for modern emulsions)')
       break;
 
-    case 'gelification': ingredients.push('Gelatin (from animal sources)')
+    case 'gelification':
+      ingredients.push('Gelatin (from animal sources)')
       ingredients.push('Agar-agar (plant-based alternative)')
       ingredients.push('Fruit juices and purees')
       ingredients.push('Broths and stocks')
       ingredients.push('Cream and dairy')
       ingredients.push('Wine and spirits')
       ingredients.push('Vegetable purees')
-      break
+      break;
 
     case 'curing':
       ingredients.push('Pork (belly, loin, leg)')
@@ -970,7 +988,8 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Nuts and seeds')
       break;
 
-    case 'broiling': ingredients.push('Thin cuts of steak')
+    case 'broiling':
+      ingredients.push('Thin cuts of steak')
       ingredients.push('Chicken breasts and thighs')
       ingredients.push('Fish fillets')
       ingredients.push('Shellfish (shrimp, scallops)')
@@ -989,7 +1008,8 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Cold-pressed oils and vinegars')
       break;
 
-    case 'spherification': ingredients.push('Fruit juices and purees')
+    case 'spherification':
+      ingredients.push('Fruit juices and purees')
       ingredients.push('Vegetable juices')
       ingredients.push('Broths and consommés')
       ingredients.push('Liqueurs and spirits')
@@ -998,7 +1018,8 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Infused waters and teas')
       break;
 
-    case 'cryo_cooking': case 'cryo cooking':
+    case 'cryo_cooking':
+    case 'cryo cooking':
       ingredients.push('Cream bases (for instant ice cream)')
       ingredients.push('Fruits (for shattering and powders)')
       ingredients.push('Herbs (for instantaneous drying)')
@@ -1008,14 +1029,15 @@ export function getIdealIngredients(methodName: string): string[] {
       ingredients.push('Vegetables (for flash-freezing)')
       break;
 
-    default: // Get method-specific ingredients from the cooking method data
+    default:
+      // Get method-specific ingredients from the cooking method data
       try {
         const allMethods = getAllCookingMethodNames()
         const methodData = allMethods.find(
           method =>
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase())
-        ),
+        );
 
         const methodObj = methodData as { expertTips?: string[], category?: string }
         if (methodObj?.suitable_for && Array.isArray(methodObj.suitable_for)) {
@@ -1024,17 +1046,17 @@ export function getIdealIngredients(methodName: string): string[] {
         } else {
           // Generic fallback
           ingredients.push('Ingredients traditionally used with this method')
-          ingredients.push('Foods that benefit from this method's properties')
+          ingredients.push('Foods that benefit from this method\'s properties')
           ingredients.push('Items with complementary flavors and textures')
-          ingredients.push('Local, seasonal produce'),
+          ingredients.push('Local, seasonal produce')
           ingredients.push('Proteins suited to this cooking technique')
         }
       } catch (error) {
         // Generic fallback if import fails
         ingredients.push('Ingredients traditionally used with this method')
-        ingredients.push('Foods that benefit from this method's properties')
+        ingredients.push('Foods that benefit from this method\'s properties')
         ingredients.push('Items with complementary flavors and textures')
-        ingredients.push('Local, seasonal produce'),
+        ingredients.push('Local, seasonal produce')
         ingredients.push('Proteins suited to this cooking technique')
       }
   }

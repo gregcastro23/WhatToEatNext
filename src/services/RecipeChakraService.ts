@@ -102,13 +102,13 @@ export class RecipeChakraService {
           case 'Throat': return 'Add blue foods like blueberries';
           case 'Third Eye': return 'Include purple foods like eggplant or grapes';
           case 'Crown':
-            return 'Add violet or white foods like cauliflower'
-          default: return ''
+            return 'Add violet or white foods like cauliflower';
+          default: return '';
         }
       })
-      .filter(suggestion => suggestion !== '')
+      .filter(suggestion => suggestion !== '');
 
-    // Calculate overall score (0-1) based on the number of balanced chakras;
+    // Calculate overall score (0-1) based on the number of balanced chakras
     const score = balancedChakras.length / 7;
 
     return {
@@ -116,7 +116,7 @@ export class RecipeChakraService {
       balancedChakras,
       imbalancedChakras,
       suggestions
-    }
+    };
   }
 
   /**
@@ -132,11 +132,11 @@ export class RecipeChakraService {
       blue: ['blueberry', 'blue cheese'],
       purple: ['eggplant', 'grape', 'plum', 'blackberry'],
       white: ['cauliflower', 'garlic', 'onion', 'potato', 'rice']
-    }
+    };
 
     // Try to match ingredient to a color
     for (const [color, foods] of Object.entries(colorMap)) {
-      if (foods.some(food => ingredientName.toLowerCase().includes(food))) {,
+      if (foods.some(food => ingredientName.toLowerCase().includes(food))) {
         return color;
       }
     }

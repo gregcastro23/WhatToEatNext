@@ -160,8 +160,8 @@ export function calculateRecipeMatchScore(recipe: Recipe, context: RecipeMatchCo
         protein: protein / totalMacros,
         carbs: carbs / totalMacros,
         fat: fat / totalMacros
-};
-      const targets = { protein: 0.25, carbs: 0.55, fat: 0.2 },
+      };
+      const targets = { protein: 0.25, carbs: 0.55, fat: 0.2 };
       const deviation =
         Math.abs(ratios.protein - targets.protein) +
         Math.abs(ratios.carbs - targets.carbs) +
@@ -211,10 +211,10 @@ export function getMatchScoreClass(score: number): string {
 }
 
 export function getMatchRating(score: number): { stars: string; tooltip: string } {
-  if (score >= 95) return { stars: '★★★★★', tooltip: 'Perfect match — highly recommended' },
-  if (score >= 85) return { stars: '★★★★☆', tooltip: 'Excellent match — great choice' },
-  if (score >= 75) return { stars: '★★★☆☆', tooltip: 'Good match — worth trying' },
-  if (score >= 65) return { stars: '★★☆☆☆', tooltip: 'Fair match — might work for you' },
+  if (score >= 95) return { stars: '★★★★★', tooltip: 'Perfect match — highly recommended' };
+  if (score >= 85) return { stars: '★★★★☆', tooltip: 'Excellent match — great choice' };
+  if (score >= 75) return { stars: '★★★☆☆', tooltip: 'Good match — worth trying' };
+  if (score >= 65) return { stars: '★★☆☆☆', tooltip: 'Fair match — might work for you' };
   return { stars: '★☆☆☆☆', tooltip: 'Poor match — consider other options' };
 }
 
@@ -226,7 +226,7 @@ export function getMatchRatingSummary(score: number): string {
 export function getRecommendedRecipes(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
-  limit = 3;
+  limit = 3,
 ): RecommendationExplanation[] {
   const timeFactors = buildTimeFactors();
 
@@ -241,7 +241,7 @@ export function getRecommendedRecipes(
           recipe,
           score: 0,
           reasons: ['Unable to compute compatibility']
-} satisfies RecommendationScore;
+        } satisfies RecommendationScore;
       }
     })
     .sort((a, b) => b.score - a.score)
@@ -250,7 +250,7 @@ export function getRecommendedRecipes(
   return scored.map(entry => ({
     recipe: entry.recipe,
     explanation: generateExplanation(entry)
-}));
+  }));
 }
 
 export function describePlanetaryInfluences(
@@ -299,7 +299,7 @@ export function summarizeNutritionalBalance(recipe: Recipe): string {
   if (typeof carbs === 'number') parts.push(`${carbs}g carbs`);
   if (typeof fat === 'number') parts.push(`${fat}g fat`);
 
-  return parts.join(' · ') || 'Nutrition data unavailable'
+  return parts.join(' · ') || 'Nutrition data unavailable';
 }
 
 export function getRecipeDominantElement(
@@ -442,7 +442,7 @@ function scoreRecipe(
 }
 
 function generateExplanation({ recipe, score, reasons }: RecommendationScore): string {
-  let explanation: string,
+  let explanation: string;
 
   if (score >= 90) {
     explanation = `${recipe.name} is a perfect choice right now.`;
@@ -484,42 +484,42 @@ function calculatePlanetaryDayInfluence(
       ingredients: ['citrus', 'sunflower', 'saffron', 'cinnamon', 'honey'],
       flavor: 'bright and vibrant',
       elements: ['Fire']
-},
+    },
     Moon: {
       styles: ['steaming', 'poaching', 'simmering'],
       ingredients: ['dairy', 'coconut', 'cucumber', 'mushroom', 'vanilla'],
       flavor: 'subtle and soothing',
       elements: ['Water']
-},
+    },
     Mars: {
       styles: ['frying', 'searing', 'spicy'],
       ingredients: ['peppers', 'garlic', 'onion', 'red meat', 'ginger'],
       flavor: 'bold and spicy',
       elements: ['Fire']
-},
+    },
     Mercury: {
       styles: ['stir-frying', 'quick cooking', 'diverse'],
       ingredients: ['seeds', 'nuts', 'herbs', 'leafy greens', 'berries'],
       flavor: 'complex and varied',
-      elements: ['Air', 'Earth'],
+      elements: ['Air', 'Earth']
     },
     Jupiter: {
       styles: ['slow cooking', 'feasting', 'abundance'],
       ingredients: ['fruits', 'rich meats', 'wine', 'sage', 'nutmeg'],
       flavor: 'generous and expansive',
-      elements: ['Air', 'Fire'],
+      elements: ['Air', 'Fire']
     },
     Venus: {
       styles: ['sweet', 'artistic', 'delicate'],
       ingredients: ['berries', 'flowers', 'chocolate', 'honey', 'butter'],
       flavor: 'sweet and pleasing',
-      elements: ['Water', 'Earth'],
+      elements: ['Water', 'Earth']
     },
     Saturn: {
       styles: ['traditional', 'preserved', 'aged'],
       ingredients: ['root vegetables', 'beans', 'aged cheese', 'dried fruits'],
       flavor: 'structured and grounding',
-      elements: ['Air', 'Earth'],
+      elements: ['Air', 'Earth']
     },
   };
 
@@ -560,7 +560,7 @@ function calculatePlanetaryDayInfluence(
     score = Math.min(1, score + 0.1);
   }
 
-  let reason: string | undefined,
+  let reason: string | undefined;
   if (score >= 0.9) {
     reason = `Perfect for ${planetaryDay.planet}'s day with its ${association.flavor} qualities`;
   } else if (score >= 0.7) {
@@ -587,37 +587,37 @@ function calculatePlanetaryHourInfluence(
       daytime: ['energizing', 'warming', 'bright'],
       nighttime: ['comforting', 'golden', 'radiant'],
       flavor: 'invigorating'
-},
+    },
     Moon: {
       daytime: ['cooling', 'refreshing', 'hydrating'],
       nighttime: ['soothing', 'calming', 'comforting'],
       flavor: 'nurturing'
-},
+    },
     Mars: {
       daytime: ['stimulating', 'spicy', 'lively'],
       nighttime: ['warming', 'passionate', 'deep'],
       flavor: 'energetic'
-},
+    },
     Mercury: {
       daytime: ['light', 'varied', 'clever'],
       nighttime: ['thoughtful', 'diverse', 'balanced'],
       flavor: 'stimulating'
-},
+    },
     Jupiter: {
       daytime: ['abundant', 'expansive', 'celebratory'],
       nighttime: ['rich', 'festive', 'indulgent'],
       flavor: 'abundant'
-},
+    },
     Venus: {
       daytime: ['beautiful', 'harmonious', 'balanced'],
       nighttime: ['sensual', 'sweet', 'indulgent'],
       flavor: 'pleasing'
-},
+    },
     Saturn: {
       daytime: ['structured', 'traditional', 'disciplined'],
       nighttime: ['grounding', 'earthy', 'practical'],
       flavor: 'satisfying'
-},
+    },
   };
 
   const association = hourlyAssociations[planetaryHour.planet];
@@ -639,7 +639,7 @@ function calculatePlanetaryHourInfluence(
     score = 0.65;
   }
 
-  let reason: string | undefined,
+  let reason: string | undefined;
   if (score >= 0.8) {
     reason = `Excellent choice for the current ${planetaryHour.planet} hour with its ${association.flavor} qualities`;
   } else if (score >= 0.65) {
@@ -661,7 +661,7 @@ function buildTimeFactors(date: Date = new Date()): TimeFactors {
         ? 'Summer'
         : month >= 8 && month <= 10
           ? 'Fall'
-          : 'Winter',
+          : 'Winter';
 
   const timeOfDay: TimeOfDay =
     hour >= 5 && hour < 12
@@ -670,13 +670,13 @@ function buildTimeFactors(date: Date = new Date()): TimeFactors {
         ? 'Afternoon'
         : hour >= 17 && hour < 22
           ? 'Evening'
-          : 'Night',
+          : 'Night';
 
   const weekDay = WEEK_DAYS[dayIndex];
   const planetaryDay: PlanetaryDay = {
     day: weekDay,
     planet: DAY_RULERS[weekDay]
-};
+  };
 
   const hoursSinceSunrise = hour >= 6 ? hour - 6 : hour + 18; // approximate sunrise at 6
   const startingIndex = HOURLY_SEQUENCE.indexOf(planetaryDay.planet);
@@ -685,7 +685,7 @@ function buildTimeFactors(date: Date = new Date()): TimeFactors {
   const planetaryHour: PlanetaryHour = {
     planet: HOURLY_SEQUENCE[planetIndex],
     hourOfDay: hour
-};
+  };
 
   return {
     currentDate: date,
@@ -701,11 +701,11 @@ function extractElementalSnapshot(
   value: Partial<ElementalProperties> | undefined | null,
 ): Pick<ElementalProperties, 'Fire' | 'Water' | 'Earth' | 'Air'> {
   return {
-    Fire: typeof value?.Fire === 'number' ? value.Fire : 0;
-    Water: typeof value?.Water === 'number' ? value.Water : 0;
-    Earth: typeof value?.Earth === 'number' ? value.Earth : 0;
+    Fire: typeof value?.Fire === 'number' ? value.Fire : 0,
+    Water: typeof value?.Water === 'number' ? value.Water : 0,
+    Earth: typeof value?.Earth === 'number' ? value.Earth : 0,
     Air: typeof value?.Air === 'number' ? value.Air : 0
-};
+  };
 }
 
 function extractContextElements(
@@ -716,7 +716,7 @@ function extractContextElements(
     Water: context.Water,
     Earth: context.Earth,
     Air: context.Air
-};
+  };
 }
 
 function normalizeSeasonName(value: RecipeSeason | string | undefined | null): string {

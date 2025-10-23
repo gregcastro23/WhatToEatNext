@@ -23,7 +23,7 @@ export enum ErrorType {
   DATA = 'DATA',
   NETWORK = 'NETWORK',
   ASTROLOGY = 'ASTROLOGY',
-  UNKNOWN = 'UNKNOWN';
+  UNKNOWN = 'UNKNOWN'
 }
 
 // Error severity levels
@@ -32,62 +32,65 @@ export enum ErrorSeverity {
   WARNING = 'WARNING',
   ERROR = 'ERROR',
   CRITICAL = 'CRITICAL',
-  FATAL = 'FATAL';
+  FATAL = 'FATAL'
 }
 
 // Options for the error handler
 export interface ErrorOptions {
-  type?: ErrorType,
-  severity?: ErrorSeverity,
-  component?: string
-  context?: string,
-  data?: unknown,
-  isFatal?: boolean,
-  silent?: boolean
+  type?: ErrorType;
+  severity?: ErrorSeverity;
+  component?: string;
+  context?: string;
+  data?: unknown;
+  isFatal?: boolean;
+  silent?: boolean;
 }
 
 interface ErrorDetails {
-  message: string,
-  stack?: string,
-  componentStack?: string
-  context?: string,
-  data?: unknown,
-  timestamp: string,
-  errorType: string
+  message: string;
+  stack?: string;
+  componentStack?: string;
+  context?: string;
+  data?: unknown;
+  timestamp: string;
+  errorType: string;
 }
 
 class ErrorHandlerService {
   /**
    * Log an error with additional context
    */
-  log(error: unknown, options: ErrorOptions = {}) {,
+  log(error: unknown, options: ErrorOptions = {}) {
     const {
       type = ErrorType.UNKNOWN,
       severity = ErrorSeverity.ERROR,
       component = 'unknown',
-      context = {}
-      data = {}
-      isFatal = false;
-      silent = false;
-    } = options,
+      context = {},
+      data = {},
+      isFatal = false,
+      silent = false
+    } = options;
 
-    const errorDetails = this.prepareErrorDetails(error, options)
+    const errorDetails = this.prepareErrorDetails(error, options);
 
     // Log to console based on severity
     if (!silent) {
       switch (severity) {
-        case ErrorSeverity.INFO: logInfo(`[${component}] ${errorDetails.message}`, { error, context, data })
-          break,
-        case ErrorSeverity.WARNING: logWarning(`[${component}] ${errorDetails.message}`, { error, context, data })
-          break,
-        case ErrorSeverity.ERROR: case ErrorSeverity.CRITICAL:
+        case ErrorSeverity.INFO:
+          logInfo(`[${component}] ${errorDetails.message}`, { error, context, data });
+          break;
+        case ErrorSeverity.WARNING:
+          logWarning(`[${component}] ${errorDetails.message}`, { error, context, data });
+          break;
+        case ErrorSeverity.ERROR:
+        case ErrorSeverity.CRITICAL:
         case ErrorSeverity.FATAL:
           logError(`[${severity}][${type}][${component}] ${errorDetails.message}`, {
             error,
             context,
             data
-          })
-          break,
+          });
+          break;
       }
     }
 
@@ -100,20 +103,20 @@ class ErrorHandlerService {
       severity,
       timestamp: new Date().toISOString(),
       handled: true
-}
+    };
   }
 
   /**
    * Create a custom application error
    */
-  createError(message: string, options: ErrorOptions = {}): Error {,
-    const error = new Error(message)
-    // Add custom properties to the error;
+  createError(message: string, options: ErrorOptions = {}): Error {
+    const error = new Error(message);
+    // Add custom properties to the error
     Object.assign(error, {
       type: options.type || ErrorType.UNKNOWN,
       severity: options.severity || ErrorSeverity.ERROR,
       context: options.context || {}
-    })
+    });
     return error;
   }
 
@@ -124,7 +127,7 @@ class ErrorHandlerService {
     try {
       return await fn();
     } catch (error) {
-      this.log(error, { context })
+      this.log(error, { context });
       return defaultValue;
     }
   }
@@ -136,7 +139,7 @@ class ErrorHandlerService {
     try {
       return fn();
     } catch (error) {
-      this.log(error, { context })
+      this.log(error, { context });
       return defaultValue;
     }
   }
@@ -147,10 +150,10 @@ class ErrorHandlerService {
   handleError(error: unknown, context?: unknown): void {
     // Delegate to the main log method with proper options
     this.log(error, {
-      context: (context) || 'unknown'
+      context: (context) || 'unknown',
       type: ErrorType.UNKNOWN,
       severity: ErrorSeverity.ERROR
-    })
+    });
   }
 
   /**
@@ -158,22 +161,22 @@ class ErrorHandlerService {
    */
   private prepareErrorDetails(error: unknown, options: ErrorOptions): ErrorDetails {
     let message = 'Unknown error';
-    let stack: string | undefined,
+    let stack: string | undefined;
     let errorType = 'unknown';
-    let componentStack: string | undefined,
+    let componentStack: string | undefined;
 
     if (error instanceof Error) {
-      message = error.message,
-      stack = error.stack,
-      errorType = error.name,
+      message = error.message;
+      stack = error.stack;
+      errorType = error.name;
       // @ts-expect-error: componentStack is not standard on Error
       componentStack = error.componentStack;
-    } else if (typeof error === 'string') {,
-      message = error,
-      errorType = 'string',
-    } else if (error !== null && typeof error === 'object') {,
+    } else if (typeof error === 'string') {
+      message = error;
+      errorType = 'string';
+    } else if (error !== null && typeof error === 'object') {
       message = String(error);
-      errorType = 'object',
+      errorType = 'object';
       // @ts-expect-error: componentStack may exist
       componentStack = error.componentStack;
     }
@@ -186,14 +189,14 @@ class ErrorHandlerService {
       timestamp: new Date().toISOString(),
       errorType,
       componentStack
-    }
+    };
   }
 }
 
 // Create singleton instance
-const ErrorHandler = new ErrorHandlerService()
+const ErrorHandler = new ErrorHandlerService();
 
-// Export the singleton instance as default and for named imports;
+// Export the singleton instance as default and for named imports
 export default ErrorHandler;
 export { ErrorHandler };
 
@@ -211,9 +214,9 @@ export function safeValue<T>(
   variableName: string,
 ): T {
   if (value === null || value === undefined) {
-    // Use standalone warnNullValue function since it's not a method on ErrorHandler;
-    warnNullValue(variableName, context, value)
-    return fallback
+    // Use standalone warnNullValue function since it's not a method on ErrorHandler
+    warnNullValue(variableName, context, value);
+    return fallback;
   }
   return value;
 }
@@ -231,26 +234,26 @@ export function safePropertyAccess<T>(
   defaultValue: T,
   context: string,
 ): T {
-  if (obj === null || obj === undefined) {;
-    warnNullValue(properties.join('.'), context)
+  if (obj === null || obj === undefined) {
+    warnNullValue(properties.join('.'), context);
     return defaultValue;
   }
 
   try {
-    let current: unknown = obj,
+    let current: unknown = obj;
     for (const prop of properties) {
-      if (current === null || current === undefined || typeof current !== 'object') {;
-        warnNullValue(`${properties.join('.')}.${prop}`, context)
+      if (current === null || current === undefined || typeof current !== 'object') {
+        warnNullValue(`${properties.join('.')}.${prop}`, context);
         return defaultValue;
       }
-      current = (current as any)[prop],
+      current = (current as any)[prop];
     }
-    if (current === undefined || current === null) {,
-      return defaultValue
+    if (current === undefined || current === null) {
+      return defaultValue;
     }
     return current as T;
   } catch (error) {
-    handlePropertyAccessError(error, properties.join('.'), context)
+    handlePropertyAccessError(error, properties.join('.'), context);
     return defaultValue;
   }
 }
@@ -263,9 +266,9 @@ export function safePropertyAccess<T>(
  */
 export function safeExecuteWithContext<T>(fn: () => T, defaultValue: T, context: string): T {
   try {
-    return fn()
+    return fn();
   } catch (error) {
-    ErrorHandler.log(error, { context })
+    ErrorHandler.log(error, { context });
     return defaultValue;
   }
 }
@@ -297,16 +300,16 @@ export function validateType(
   }
 
   // Handle object type special case (but not null)
-  if (expectedType === 'object' && actualType === 'object' && value !== null) {,
-    return true
+  if (expectedType === 'object' && actualType === 'object' && value !== null) {
+    return true;
   }
 
   // Basic type checking
-  if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value))) {,
+  if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value))) {
     logWarning(
       `Type mismatch in ${context}: ${variableName} should be ${expectedType}, but got ${actualType}`,
       { value }
-    )
+    );
     return false;
   }
 
@@ -322,30 +325,30 @@ export function handlePropertyAccessError(
   propertyPath: string,
   context: string,
 ): void {
-  let message = 'Property access error'
+  let message = 'Property access error';
   if (
     error instanceof TypeError &&
     (error.message.includes('Cannot read properties of undefined') ||
       error.message.includes('Cannot read properties of null') ||
       error.message.includes('is not a function') ||
       error.message.includes('is not iterable'))
-  ) {;
-    message = `TypeError accessing ${propertyPath} in ${context}: ${error.message}`,
+  ) {
+    message = `TypeError accessing ${propertyPath} in ${context}: ${error.message}`;
   } else if (error instanceof Error) {
-    message = `Error accessing ${propertyPath} in ${context}: ${error.message}`,
+    message = `Error accessing ${propertyPath} in ${context}: ${error.message}`;
   }
 
   ErrorHandler.log(error, {
     context,
     data: { propertyPath }
-  })
+  });
 }
 
 /**
  * Track code execution paths for debugging
  */
 export function trackExecution(functionName: string, _step: string, _data?: unknown): void {
-  logInfo(`[EXECUTION] ${functionName} - ${step}`, data)
+  logInfo(`[EXECUTION] ${functionName} - ${step}`, data);
 }
 
 /**
@@ -355,5 +358,5 @@ export function logTypeError(error: unknown, context: string, _operation: string
   ErrorHandler.log(error, {
     context: `TypeScript:${context}`,
     data: { operation }
-  })
+  });
 }

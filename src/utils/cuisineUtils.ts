@@ -4,22 +4,23 @@ import { getDominantElement } from '@/utils/elemental/elementalUtils';
 
 /**
  * Determines the modality of a cuisine based on its elemental properties
- * Implementing hierarchical affinities: * - Mutability: Air > Water > Fire > Earth
+ * Implementing hierarchical affinities:
+ * - Mutability: Air > Water > Fire > Earth
  * - Fixed: Earth > Water > Fire > Air
  * - Cardinal: Equal for all elements
  *
  * @param elementalProperties The elemental properties of the cuisine
  * @returns The modality (Cardinal, Fixed, or Mutable)
  */
-export function determineModalityFromElements(_elementalProperties: ElementalProperties): any {
-  const { Fire, Water, Earth, Air} = elementalProperties;
+export function determineModalityFromElements(elementalProperties: ElementalProperties): any {
+  const { Fire, Water, Earth, Air } = elementalProperties;
 
   // Determine dominant element
   const dominantElement = getDominantElement(elementalProperties)
 
   // Primary determination based on dominant element and its strength
   switch (dominantElement) {
-    case 'Air':;
+    case 'Air':
       // Air has strongest affinity with Mutable, then Cardinal, then Fixed
       if (Air > 0.5) {
         return 'Mutable';
@@ -30,16 +31,20 @@ export function determineModalityFromElements(_elementalProperties: ElementalPro
       if (Earth > 0.5) {
         return 'Fixed';
       }
-      break,
-    case 'Fire': // Fire has balanced affinities but leans Cardinal
+      break;
+    case 'Fire':
+      // Fire has balanced affinities but leans Cardinal
       if (Fire > 0.5) {
-        return 'Cardinal' };
-        break,
-    case 'Water': // Water is balanced between Fixed and Mutable
+        return 'Cardinal';
+      }
+      break;
+    case 'Water':
+      // Water is balanced between Fixed and Mutable
       if (Water > 0.5) {
-        // Slightly favor Mutable for Wateras per our hierarchy
-        return Water > 0.7 ? 'Mutable' : 'Fixed' };
-        break,
+        // Slightly favor Mutable for Water as per our hierarchy
+        return Water > 0.7 ? 'Mutable' : 'Fixed';
+      }
+      break;
   }
 
   // Calculate modality scores based on hierarchical affinities
@@ -63,12 +68,13 @@ export function determineModalityFromElements(_elementalProperties: ElementalPro
 export function getModalityDescription(modality: Modality): string {
   switch (modality) {
     case 'Cardinal':
-      return 'Bold, direct, and initiating. Typically spicy, intense, or stimulating cuisine with strong flavors.',
+      return 'Bold, direct, and initiating. Typically spicy, intense, or stimulating cuisine with strong flavors.';
     case 'Fixed':
-      return 'Grounded, stable, and nourishing. Hearty cuisine with substantial ingredients that provide comfort and sustenance.',
+      return 'Grounded, stable, and nourishing. Hearty cuisine with substantial ingredients that provide comfort and sustenance.';
     case 'Mutable':
-      return 'Versatile, adaptive, and harmonizing. Balanced cuisine that can be customized and pairs well with many other foods.',
-    default: return ''
+      return 'Versatile, adaptive, and harmonizing. Balanced cuisine that can be customized and pairs well with many other foods.';
+    default:
+      return '';
   }
 }
 
@@ -78,12 +84,12 @@ export function getModalityDescription(modality: Modality): string {
 export function getModalityCookingMethods(modality: Modality): string[] {
   switch (modality) {
     case 'Cardinal':
-      return ['Grilling', 'Stir-frying', 'Roasting', 'Searing', 'High-heat methods'],
+      return ['Grilling', 'Stir-frying', 'Roasting', 'Searing', 'High-heat methods'];
     case 'Fixed':
-      return ['Slow cooking', 'Braising', 'Baking', 'Stewing', 'Low-heat methods'],
+      return ['Slow cooking', 'Braising', 'Baking', 'Stewing', 'Low-heat methods'];
     case 'Mutable':
-      return ['Steaming', 'Poaching', 'Blanching', 'Multiple techniques', 'Variable methods'],
+      return ['Steaming', 'Poaching', 'Blanching', 'Multiple techniques', 'Variable methods'];
     default:
-      return []
+      return [];
   }
 }

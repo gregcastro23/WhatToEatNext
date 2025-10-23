@@ -1,11 +1,11 @@
 // Define PlanetaryPositionsType if we can't import it
 export interface PlanetaryPositionsType {
   [key: string]: {
-    sign?: string,
-    degree?: number,
-    isRetrograde?: boolean,
-    [key: string]: unknown
-  }
+    sign?: string;
+    degree?: number;
+    isRetrograde?: boolean;
+    [key: string]: unknown;
+  };
 }
 
 // Map elements to zodiac signs
@@ -45,7 +45,7 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
     Earth: 0,
     Air: 0,
     Water: 0
-}
+  };
 
   // Count planets by element
   Object.entries(positions).forEach(([planet, data]) => {
@@ -74,7 +74,7 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
     Essence: (elements.Fire + elements.Water) / (total * 2) + 0.1,
     Matter: (elements.Earth + elements.Water) / (total * 2) + 0.1,
     Substance: (elements.Earth + elements.Air) / (total * 2) + 0.1
-  }
+  };
 }
 
 // Calculate planetary contributions to alchemical values
@@ -84,7 +84,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
     Essence: 0.25,
     Matter: 0.25,
     Substance: 0.25
-}
+  };
 
   let totalWeight = 0;
 
@@ -111,21 +111,21 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
         (planet === 'uranus' && data.sign === 'aquarius') ||
         (planet === 'neptune' && data.sign === 'pisces') ||
         (planet === 'pluto' && data.sign === 'scorpio')
-      ) {;
+      ) {
         dignityMultiplier = 1.5; // Domicile or rulership
       } else if (
         (planet === 'sun' && data.sign === 'aries') ||
         (planet === 'moon' && data.sign === 'taurus') ||
         (planet === 'jupiter' && data.sign === 'cancer') ||
         (planet === 'venus' && data.sign === 'pisces')
-      ) {;
+      ) {
         dignityMultiplier = 1.3; // Exaltation
       } else if (
         (planet === 'venus' && data.sign === 'virgo') ||
         (planet === 'mercury' && data.sign === 'pisces') ||
         (planet === 'mars' && data.sign === 'cancer') ||
         (planet === 'jupiter' && data.sign === 'capricorn')
-      ) {;
+      ) {
         dignityMultiplier = 0.7; // Fall
       }
     }
@@ -149,7 +149,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
       Essence: alchemicalValues.Essence / normalizer,
       Matter: alchemicalValues.Matter / normalizer,
       Substance: alchemicalValues.Substance / normalizer
-    }
+    };
   }
 
   return alchemicalValues;
@@ -163,7 +163,7 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
     Earth: 0.25,
     Air: 0.25,
     Water: 0.25
-}
+  };
 
   if (!positions || Object.keys(positions).length === 0) {
     return elements;
@@ -183,7 +183,7 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
       return;
     }
 
-    const signKey = data.sign.toLowerCase()
+    const signKey = data.sign.toLowerCase();
     const element = signElements[signKey];
 
     // Only proceed if it's a valid element
@@ -211,7 +211,7 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
       Earth: elements.Earth / total,
       Air: elements.Air / total,
       Water: elements.Water / total
-    }
+    };
   }
 
   return elements;
@@ -219,31 +219,31 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
 
 // Interface for alchemical result
 export interface AlchemicalResult {
-  spirit: number,
-  essence: number,
-  matter: number,
-  substance: number,
+  spirit: number;
+  essence: number;
+  matter: number;
+  substance: number;
   elementalBalance: {
-    fire: number,
-    earth: number,
-    air: number,
-    water: number
-  },
-  dominantElement: string,
-  recommendation: string,
+    fire: number;
+    earth: number;
+    air: number;
+    water: number;
+  };
+  dominantElement: string;
+  recommendation: string;
   'Total Effect Value': {
-    Fire: number,
-    Earth: number,
-    Air: number,
-    Water: number
-  }
+    Fire: number;
+    Earth: number;
+    Air: number;
+    Water: number;
+  };
 }
 
 // Interface for planetary position
 export interface PlanetaryPosition {
-  sign: string,
-  degree?: number,
-  isRetrograde?: boolean
+  sign: string;
+  degree?: number;
+  isRetrograde?: boolean;
 }
 
 /**
@@ -267,7 +267,7 @@ export function alchemize(
     earth: 0,
     air: 0,
     water: 0
-}
+  };
 
   let spirit = 0;
   let essence = 0;
@@ -314,41 +314,41 @@ export function alchemize(
     // Add alchemical property contributions
     switch (planetName.toLowerCase()) {
       case 'sun': spirit += 1 * planetWeight;
-        break,
+        break;
       case 'moon':
         essence += 1 * planetWeight;
-        break,
+        break;
       case 'mercury':
         substance += 0.5 * planetWeight;
         spirit += 0.5 * planetWeight;
-        break,
+        break;
       case 'venus':
         essence += 1 * planetWeight;
-        break,
+        break;
       case 'mars':
         matter += 0.5 * planetWeight;
         essence += 0.5 * planetWeight;
-        break,
+        break;
       case 'jupiter':
         spirit += 0.5 * planetWeight;
         essence += 0.5 * planetWeight;
-        break,
+        break;
       case 'saturn':
         matter += 1 * planetWeight;
-        break,
+        break;
       case 'uranus':
         substance += 1 * planetWeight;
-        break,
+        break;
       case 'neptune':
         essence += 0.5 * planetWeight;
         substance += 0.5 * planetWeight;
-        break,
+        break;
       case 'pluto':
         matter += 0.5 * planetWeight;
-        essence += 0.5 * planetWeight
-        break
+        essence += 0.5 * planetWeight;
+        break;
     }
-  })
+  });
 
   // Apply daytime/nighttime adjustment
   if (isDaytime) {
@@ -396,11 +396,11 @@ export function alchemize(
   }
 
   // Generate a recommendation based on the dominant element
-  const recommendation = generateRecommendation(dominantElement)
+  const recommendation = generateRecommendation(dominantElement);
 
   // Normalize the values
-  const totalElemental =;
-    elementalBalance.fire + elementalBalance.earth + elementalBalance.air + elementalBalance.water,
+  const totalElemental =
+    elementalBalance.fire + elementalBalance.earth + elementalBalance.air + elementalBalance.water;
 
   if (totalElemental > 0) {
     elementalBalance.fire /= totalElemental;
@@ -448,7 +448,7 @@ export function alchemize(
     dominantElement,
     recommendation,
     'Total Effect Value': totalEffectValue
-  }
+  };
 }
 
 /**
@@ -459,14 +459,14 @@ export function alchemize(
 function generateRecommendation(dominantElement: string): string {
   switch (dominantElement) {
     case 'fire':
-      return 'Foods that cool and, ground: fresh vegetables, fruits, and cooling herbs like mint and cucumber.',
+      return 'Foods that cool and ground: fresh vegetables, fruits, and cooling herbs like mint and cucumber.';
     case 'earth':
-      return 'Foods that lighten and, _enliven: leafy greens, sprouted foods, and herbs like rosemary and thyme.',
+      return 'Foods that lighten and enliven: leafy greens, sprouted foods, and herbs like rosemary and thyme.';
     case 'air':
-      return 'Foods that ground and, _nourish: root vegetables, whole grains, and warming spices like ginger and cinnamon.',
+      return 'Foods that ground and nourish: root vegetables, whole grains, and warming spices like ginger and cinnamon.';
     case 'water':
-      return 'Foods that warm and, _stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.',
+      return 'Foods that warm and stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.';
     default:
-      return 'A balanced diet incorporating elements from all food groups for holistic nourishment.'
+      return 'A balanced diet incorporating elements from all food groups for holistic nourishment.';
   }
 }

@@ -210,7 +210,7 @@ function applyEnergyProfile(
   if (energyProfile.zodiac) {
     const zodiacValues = Array.isArray(energyProfile.zodiac)
       ? energyProfile.zodiac
-      : [energyProfile.zodiac],
+      : [energyProfile.zodiac];
     recipe.zodiacInfluences = zodiacValues
       .map(value => String(value).toLowerCase())
       .filter(Boolean) as ZodiacSign[];
@@ -219,7 +219,7 @@ function applyEnergyProfile(
   if (energyProfile.lunar) {
     const lunarValues = Array.isArray(energyProfile.lunar)
       ? energyProfile.lunar
-      : [energyProfile.lunar],
+      : [energyProfile.lunar];
     recipe.lunarPhaseInfluences = lunarValues
       .map(value => String(value).toLowerCase())
       .filter(Boolean) as LunarPhase[];
@@ -244,7 +244,7 @@ function normalizePlanetaryInfluences(
     return {
       _favorable: source,
       unfavorable: []
-};
+    };
   }
 
   const entries = Object.entries(source ?? {});

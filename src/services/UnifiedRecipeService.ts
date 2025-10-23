@@ -11,7 +11,7 @@ import type { ExtendedRecipe } from '@/types/ExtendedRecipe';
 // Using local error handler implementation
 
 export class UnifiedRecipeService {
-  private static instance: UnifiedRecipeService,
+  private static instance: UnifiedRecipeService;
 
   private constructor() {}
 
@@ -28,9 +28,9 @@ export class UnifiedRecipeService {
   async getAllRecipes(): Promise<Recipe[]> {
     try {
       // TODO: Implement recipe fetching logic
-      return []
+      return [];
     } catch (error) {
-      errorHandler.log(error, { context: 'UnifiedRecipeService.getAllRecipes' })
+      errorHandler.log(error, { context: 'UnifiedRecipeService.getAllRecipes' });
       return [];
     }
   }
@@ -41,9 +41,9 @@ export class UnifiedRecipeService {
   async getRecipeById(id: string): Promise<Recipe | null> {
     try {
       // TODO: Implement recipe fetching by ID
-      return null
+      return null;
     } catch (error) {
-      errorHandler.log(error, { context: 'UnifiedRecipeService.getRecipeById' })
+      errorHandler.log(error, { context: 'UnifiedRecipeService.getRecipeById' });
       return null;
     }
   }
@@ -54,9 +54,9 @@ export class UnifiedRecipeService {
   async searchRecipes(query: string): Promise<Recipe[]> {
     try {
       // TODO: Implement recipe search logic
-      return []
+      return [];
     } catch (error) {
-      errorHandler.log(error, { context: 'UnifiedRecipeService.searchRecipes' })
+      errorHandler.log(error, { context: 'UnifiedRecipeService.searchRecipes' });
       return [];
     }
   }
@@ -66,19 +66,19 @@ export class UnifiedRecipeService {
   async getRecipesForCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();
-      const filtered = (allRecipes || []).filter(recipe => {,
+      const filtered = (allRecipes || []).filter(recipe => {
         const recipeCuisine =
           recipe.cuisine && typeof recipe.cuisine === 'string'
-            ? recipe.cuisine.toLowerCase();
-            : recipe.cuisine,
+            ? recipe.cuisine.toLowerCase()
+            : recipe.cuisine;
         const targetCuisine =
-          cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine,
+          cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine;
         return recipeCuisine === targetCuisine;
-      })
+      });
       return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
-      _logger.error('Error getting recipes for cuisine: ', error),
-      return []
+      errorHandler.log(error, { context: 'UnifiedRecipeService.getRecipesForCuisine' });
+      return [];
     }
   }
 
@@ -86,7 +86,7 @@ export class UnifiedRecipeService {
    * Get recipes by cuisine (alias for compatibility)
    */
   async getRecipesByCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
-    return this.getRecipesForCuisine(cuisine)
+    return this.getRecipesForCuisine(cuisine);
   }
 
   /**
@@ -94,19 +94,19 @@ export class UnifiedRecipeService {
    */
   async getBestRecipeMatches(criteria: RecipeSearchCriteria): Promise<ExtendedRecipe[]> {
     try {
-      const allRecipes = await this.getAllRecipes()
-      // Simple implementation for now;
-      const matches = allRecipes.slice(010);
-      return matches as unknown as ExtendedRecipe[]
+      const allRecipes = await this.getAllRecipes();
+      // Simple implementation for now
+      const matches = allRecipes.slice(0, 10);
+      return matches as unknown as ExtendedRecipe[];
     } catch (error) {
-      _logger.error('Error getting best recipe matches: ', error),
-      return []
+      errorHandler.log(error, { context: 'UnifiedRecipeService.getBestRecipeMatches' });
+      return [];
     }
   }
 }
 
 // Export singleton instance
-export const unifiedRecipeService = UnifiedRecipeService.getInstance()
+export const unifiedRecipeService = UnifiedRecipeService.getInstance();
 
-// Export default;
+// Export default
 export default unifiedRecipeService;

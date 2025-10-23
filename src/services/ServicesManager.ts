@@ -9,14 +9,14 @@ import { unifiedRecommendationService } from '@/services/UnifiedRecommendationSe
 import { createLogger } from '../utils/logger';
 
 // Initialize logger
-const logger = createLogger('ServicesManager')
+const logger = createLogger('ServicesManager');
 
 // Define initialization states
-export enum InitializationStatus {;
+export enum InitializationStatus {
   NOT_STARTED = 'not_started',
   IN_PROGRESS = 'in_progress',
-  COMPLETED = 'completed',,
-  FAILED = 'failed',,
+  COMPLETED = 'completed',
+  FAILED = 'failed'
 }
 
 // Define service initialization result
@@ -25,7 +25,7 @@ export interface ServiceInitializationResult {
   serviceName: string;
   message?: string;
   error?: Error;
-  timestamp: number
+  timestamp: number;
 }
 
 /**
@@ -36,11 +36,11 @@ export interface ServiceInitializationResult {
  * are properly initialized before use.
  */
 export class ServicesManager {
-  private static instance: ServicesManager;private
-  private _isInitialized: boolean = false;private
-  private _initializationError: Error | null = null;private
-  private _initializationStatus: InitializationStatus = InitializationStatus.NOT_STARTED;private
-  private _serviceResults: ServiceInitializationResult[] = []
+  private static instance: ServicesManager;
+  private _isInitialized: boolean = false;
+  private _initializationError: Error | null = null;
+  private _initializationStatus: InitializationStatus = InitializationStatus.NOT_STARTED;
+  private _serviceResults: ServiceInitializationResult[] = [];
 
   private constructor() {}
 
@@ -58,28 +58,28 @@ export class ServicesManager {
    * Check if services are initialized
    */
   get isInitialized(): boolean {
-    return this._isInitialized
+    return this._isInitialized;
   }
 
   /**
-   * Get initialization errorif any
+   * Get initialization error if any
    */
   get initializationError(): Error | null {
-    return this._initializationError
+    return this._initializationError;
   }
 
   /**
    * Get current initialization status
    */
   get initializationStatus(): InitializationStatus {
-    return this._initializationStatus
+    return this._initializationStatus;
   }
 
   /**
    * Get detailed initialization results
    */
   get serviceResults(): ServiceInitializationResult[] {
-    return [...this._serviceResults]
+    return [...this._serviceResults];
   }
 
   /**
@@ -87,19 +87,19 @@ export class ServicesManager {
    */
   async initialize(): Promise<void> {
     if (this._isInitialized) {
-      logger.info('Services already initialized')
-      return
+      logger.info('Services already initialized');
+      return;
     }
 
-    if (this._initializationStatus === InitializationStatus.IN_PROGRESS) {,
-      logger.warn('Services initialization already in progress')
-      return
+    if (this._initializationStatus === InitializationStatus.IN_PROGRESS) {
+      logger.warn('Services initialization already in progress');
+      return;
     }
 
     try {
-      this._initializationStatus = InitializationStatus.IN_PROGRESS,
-      this._serviceResults = [],
-      logger.info('Initializing services...')
+      this._initializationStatus = InitializationStatus.IN_PROGRESS;
+      this._serviceResults = [];
+      logger.info('Initializing services...');
 
       // Initialize AlchemicalEngine first
       await this.initializeAlchemicalEngine()
@@ -110,17 +110,17 @@ export class ServicesManager {
       // Then initialize other services
       await this.initializeIngredientService()
       await this.initializeRecipeService()
-      await this.initializeRecommendationService()
-      await this.initializeAlchemicalRecommendationService()
+      await this.initializeRecommendationService();
+      await this.initializeAlchemicalRecommendationService();
 
-      this._isInitialized = true,
-      this._initializationStatus = InitializationStatus.COMPLETED,
-      logger.info('All services initialized successfully')
+      this._isInitialized = true;
+      this._initializationStatus = InitializationStatus.COMPLETED;
+      logger.info('All services initialized successfully');
     } catch (error) {
-      this._initializationError = error instanceof Error ? error : new Error(String(error))
+      this._initializationError = error instanceof Error ? error : new Error(String(error));
       this._initializationStatus = InitializationStatus.FAILED;
-      logger.error('Error initializing services: ', this._initializationError),
-      throw this._initializationError,
+      logger.error('Error initializing services: ', this._initializationError);
+      throw this._initializationError;
     }
   }
 
@@ -129,46 +129,47 @@ export class ServicesManager {
    */
   private async initializeAlchemicalEngine(): Promise<void> {
     try {
-      logger.info('Initializing AlchemicalEngine...')
+      logger.info('Initializing AlchemicalEngine...');
 
       // The engine is already initialized through its singleton instance
       // Just perform a simple operation to verify it's working
       const dummyPositions = {
-        Sun: 'aries';
-        moon: 'taurus';
-        Mercury: 'gemini';
-        Venus: 'cancer';
-        Mars: 'leo';
-        Jupiter: 'virgo';
-        Saturn: 'libra';
-        Uranus: 'scorpio';
-        Neptune: 'sagittarius';
-        Pluto: 'capricorn';
-        Ascendant: 'aquarius' },
-        const result = alchemicalEngine.alchemize(dummyPositions)
-      logger.info('AlchemicalEngine test calculation completed')
-
-      this._serviceResults.push({,
-        success: true;
-        serviceName: 'AlchemicalEngine';
-        message: 'Engine initialized successfully';
-        timestamp: Date.now()
-      })
-
-      logger.info('AlchemicalEngine initialized successfully')
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error),
-      logger.error('Error initializing AlchemicalEngine: ', errorMessage),
+        Sun: 'aries',
+        moon: 'taurus',
+        Mercury: 'gemini',
+        Venus: 'cancer',
+        Mars: 'leo',
+        Jupiter: 'virgo',
+        Saturn: 'libra',
+        Uranus: 'scorpio',
+        Neptune: 'sagittarius',
+        Pluto: 'capricorn',
+        Ascendant: 'aquarius'
+      };
+      const result = alchemicalEngine.alchemize(dummyPositions);
+      logger.info('AlchemicalEngine test calculation completed');
 
       this._serviceResults.push({
-        success: false;
-        serviceName: 'AlchemicalEngine';
-        message: 'Failed to initialize engine';
+        success: true,
+        serviceName: 'AlchemicalEngine',
+        message: 'Engine initialized successfully',
+        timestamp: Date.now()
+      });
+
+      logger.info('AlchemicalEngine initialized successfully');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing AlchemicalEngine: ', errorMessage);
+
+      this._serviceResults.push({
+        success: false,
+        serviceName: 'AlchemicalEngine',
+        message: 'Failed to initialize engine',
         error: error instanceof Error ? error : new Error(String(error)),
         timestamp: Date.now()
-      })
+      });
 
-      throw error,
+      throw error;
     }
   }
 
@@ -177,36 +178,36 @@ export class ServicesManager {
    */
   private async initializeAstrologyService(): Promise<void> {
     try {
-      logger.info('Initializing AstrologyService...')
+      logger.info('Initializing AstrologyService...');
 
       // The astrologyService is already initialized through its singleton instance
       // Just perform any additional setup if needed
-      const positions = await astrologyService.getCurrentPlanetaryPositions()
+      const positions = await astrologyService.getCurrentPlanetaryPositions();
       logger.info(
         `AstrologyService loaded positions for ${Object.keys(positions || {}).length} celestial bodies`,
-      )
+      );
 
       this._serviceResults.push({
-        success: true;
-        serviceName: 'AstrologyService';
-        message: 'Service initialized successfully';
+        success: true,
+        serviceName: 'AstrologyService',
+        message: 'Service initialized successfully',
         timestamp: Date.now()
-      })
+      });
 
-      logger.info('AstrologyService initialized successfully')
+      logger.info('AstrologyService initialized successfully');
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error),
-      logger.error('Error initializing AstrologyService: ', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing AstrologyService: ', errorMessage);
 
       this._serviceResults.push({
-        success: false;
-        serviceName: 'AstrologyService';
-        message: 'Failed to initialize service';
+        success: false,
+        serviceName: 'AstrologyService',
+        message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
         timestamp: Date.now()
-      })
+      });
 
-      throw error,
+      throw error;
     }
   }
 
@@ -215,34 +216,34 @@ export class ServicesManager {
    */
   private async initializeIngredientService(): Promise<void> {
     try {
-      logger.info('Initializing IngredientService...')
+      logger.info('Initializing IngredientService...');
 
       // The unifiedIngredientService is already initialized through its singleton instance
       // We just need to ensure it's used
       const ingredients = unifiedIngredientService.getAllIngredientsFlat();
-      logger.info(`IngredientService loaded (${(ingredients || []).length}) ingredients`)
+      logger.info(`IngredientService loaded (${(ingredients || []).length}) ingredients`);
 
       this._serviceResults.push({
-        success: true;
-        serviceName: 'IngredientService';
+        success: true,
+        serviceName: 'IngredientService',
         message: `Loaded (${(ingredients || []).length}) ingredients`,
         timestamp: Date.now()
-      })
+      });
 
-      logger.info('IngredientService initialized successfully')
+      logger.info('IngredientService initialized successfully');
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error),
-      logger.error('Error initializing IngredientService: ', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing IngredientService: ', errorMessage);
 
       this._serviceResults.push({
-        success: false;
-        serviceName: 'IngredientService';
-        message: 'Failed to initialize service';
+        success: false,
+        serviceName: 'IngredientService',
+        message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
         timestamp: Date.now()
-      })
+      });
 
-      throw error,
+      throw error;
     }
   }
 
@@ -251,34 +252,34 @@ export class ServicesManager {
    */
   private async initializeRecipeService(): Promise<void> {
     try {
-      logger.info('Initializing RecipeService...')
+      logger.info('Initializing RecipeService...');
 
       // The unifiedRecipeService is already initialized through its singleton instance
       // We just need to ensure it's used
       const recipes = await unifiedRecipeService.getAllRecipes();
-      logger.info(`RecipeService loaded (${(recipes || []).length}) recipes`)
+      logger.info(`RecipeService loaded (${(recipes || []).length}) recipes`);
 
       this._serviceResults.push({
-        success: true;
-        serviceName: 'RecipeService';
+        success: true,
+        serviceName: 'RecipeService',
         message: `Loaded (${(recipes || []).length}) recipes`,
         timestamp: Date.now()
-      })
+      });
 
-      logger.info('RecipeService initialized successfully')
+      logger.info('RecipeService initialized successfully');
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error),
-      logger.error('Error initializing RecipeService: ', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing RecipeService: ', errorMessage);
 
       this._serviceResults.push({
-        success: false;
-        serviceName: 'RecipeService';
-        message: 'Failed to initialize service';
+        success: false,
+        serviceName: 'RecipeService',
+        message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
         timestamp: Date.now()
-      })
+      });
 
-      throw error,
+      throw error;
     }
   }
 
@@ -287,40 +288,40 @@ export class ServicesManager {
    */
   private async initializeRecommendationService(): Promise<void> {
     try {
-      logger.info('Initializing RecommendationService...')
+      logger.info('Initializing RecommendationService...');
       // The unifiedRecommendationService is already initialized through its singleton instance
       // Just verify that it's ready by performing a simple operation
-      const elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      const elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
       // Just calculate compatibility as a simple test
       const compatibility = unifiedRecommendationService.calculateElementalCompatibility(
         elementalProperties,
         elementalProperties,
-      )
+      );
 
-      logger.info(`RecommendationService verification: ${compatibility}`)
+      logger.info(`RecommendationService verification: ${compatibility}`);
 
       this._serviceResults.push({
-        success: true;
-        serviceName: 'RecommendationService';
-        message: 'Service initialized successfully';
+        success: true,
+        serviceName: 'RecommendationService',
+        message: 'Service initialized successfully',
         timestamp: Date.now()
-      })
+      });
 
-      logger.info('RecommendationService initialized successfully')
+      logger.info('RecommendationService initialized successfully');
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error),
-      logger.error('Error initializing RecommendationService: ', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing RecommendationService: ', errorMessage);
 
       this._serviceResults.push({
-        success: false;
-        serviceName: 'RecommendationService';
-        message: 'Failed to initialize service';
+        success: false,
+        serviceName: 'RecommendationService',
+        message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
         timestamp: Date.now()
-      })
+      });
 
-      throw error,
+      throw error;
     }
   }
 
@@ -329,61 +330,61 @@ export class ServicesManager {
    */
   private async initializeAlchemicalRecommendationService(): Promise<void> {
     try {
-      logger.info('Initializing AlchemicalRecommendationService...')
+      logger.info('Initializing AlchemicalRecommendationService...');
       // Ensure the service is initialized
       // ✅ Pattern MM-1: Type assertion for Record<Planet, ZodiacSign> compatibility
       const dummyPositions = {
-        Sun: 'aries';
-        moon: 'taurus';
-        Mercury: 'gemini';
-        Venus: 'cancer';
-        Mars: 'leo';
-        Jupiter: 'virgo';
-        Saturn: 'libra';
-        Uranus: 'scorpio';
-        Neptune: 'sagittarius';
-        Pluto: 'capricorn';
-        Ascendant: 'aquarius';
+        Sun: 'aries',
+        moon: 'taurus',
+        Mercury: 'gemini',
+        Venus: 'cancer',
+        Mars: 'leo',
+        Jupiter: 'virgo',
+        Saturn: 'libra',
+        Uranus: 'scorpio',
+        Neptune: 'sagittarius',
+        Pluto: 'capricorn',
+        Ascendant: 'aquarius'
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      } as any,
+      } as any;
 
       // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
       const testRecipe = {
-        id: 'test';
-        name: 'Test Recipe';
-        ingredients: [];
-        instructions: [];
+        id: 'test',
+        name: 'Test Recipe',
+        ingredients: [],
+        instructions: [],
         elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      } as any,
+      } as any;
       const _recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(
         testRecipe,
         dummyPositions,
-      )
+      );
 
-      logger.info('AlchemicalRecommendationService test completed')
+      logger.info('AlchemicalRecommendationService test completed');
 
       this._serviceResults.push({
-        success: true;
-        serviceName: 'AlchemicalRecommendationService';
-        message: 'Service initialized successfully';
+        success: true,
+        serviceName: 'AlchemicalRecommendationService',
+        message: 'Service initialized successfully',
         timestamp: Date.now()
-      })
+      });
 
-      logger.info('AlchemicalRecommendationService initialized successfully')
+      logger.info('AlchemicalRecommendationService initialized successfully');
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error),
-      logger.error('Error initializing AlchemicalRecommendationService: ', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing AlchemicalRecommendationService: ', errorMessage);
 
       this._serviceResults.push({
-        success: false;
-        serviceName: 'AlchemicalRecommendationService';
-        message: 'Failed to initialize service';
+        success: false,
+        serviceName: 'AlchemicalRecommendationService',
+        message: 'Failed to initialize service',
         error: error instanceof Error ? error : new Error(String(error)),
         timestamp: Date.now()
-      })
+      });
 
-      throw error,
+      throw error;
     }
   }
 
@@ -392,17 +393,17 @@ export class ServicesManager {
    */
   getServices() {
     if (!this._isInitialized) {
-      throw new Error('ServicesManager not initialized. Call initialize() first.')
+      throw new Error('ServicesManager not initialized. Call initialize() first.');
     }
 
     return {
       alchemicalEngine,
       astrologyService,
-      ingredientService: unifiedIngredientService;
-      recipeService: unifiedRecipeService;
-      recommendationService: unifiedRecommendationService;
+      ingredientService: unifiedIngredientService,
+      recipeService: unifiedRecipeService,
+      recommendationService: unifiedRecommendationService,
       alchemicalRecommendationService
-    }
+    };
   }
 
   /**
@@ -410,15 +411,15 @@ export class ServicesManager {
    */
   reset(): void {
     this._isInitialized = false;
-    this._initializationError = null,
-    this._initializationStatus = InitializationStatus.NOT_STARTED,
-    this._serviceResults = [],
-    logger.info('ServicesManager reset completed')
+    this._initializationError = null;
+    this._initializationStatus = InitializationStatus.NOT_STARTED;
+    this._serviceResults = [];
+    logger.info('ServicesManager reset completed');
   }
 }
 
 // Export singleton instance
-export const servicesManager = ServicesManager.getInstance()
+export const servicesManager = ServicesManager.getInstance();
 
-// Export default for compatibility with existing code;
+// Export default for compatibility with existing code
 export default servicesManager;

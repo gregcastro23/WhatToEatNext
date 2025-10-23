@@ -14,33 +14,33 @@ import type { Recipe } from '../types/recipe';
 
 import { scoreRecommendation, ScoringContext } from './UnifiedScoringService';
 
-// ==================== INTERFACES ====================,
+// ==================== INTERFACES ====================
 
 export interface ScoringAdapterOptions {
-  debugMode?: boolean
-  weights?: Record<string, number>,
+  debugMode?: boolean;
+  weights?: Record<string, number>;
   location?: {
-    latitude: number,
-    longitude: number,
-    timezone: string,
-    name: string
-  }
+    latitude: number;
+    longitude: number;
+    timezone: string;
+    name: string;
+  };
 }
 
 export interface ScoredItem<T> {
-  item: T,
-  score: number,
-  confidence: number,
-  breakdown: Record<string, number>,
-  dominantEffects: string[],
-  notes: string[],
-  warnings: string[]
+  item: T;
+  score: number;
+  confidence: number;
+  breakdown: Record<string, number>;
+  dominantEffects: string[];
+  notes: string[];
+  warnings: string[];
 }
 
-// ==================== ADAPTER CLASS ====================,
+// ==================== ADAPTER CLASS ====================
 
 export class UnifiedScoringAdapter {
-  private static instance: UnifiedScoringAdapter,
+  private static instance: UnifiedScoringAdapter;
 
   private constructor() {}
 
@@ -63,8 +63,9 @@ export class UnifiedScoringAdapter {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: 'America/New_York',
-        name: 'New York City' },
-        item: {
+        name: 'New York City'
+      },
+      item: {
         name: ingredient.name,
         type: 'ingredient',
         elementalProperties: ingredient.elementalProperties || ingredient.elementalPropertiesState,
@@ -77,11 +78,11 @@ export class UnifiedScoringAdapter {
         debugMode: options.debugMode,
         weights: options.weights
       }
-    }
+    };
 
-    const result = await scoreRecommendation(context)
+    const result = await scoreRecommendation(context);
 
-    return {;
+    return {
       item: ingredient,
       score: result.score,
       confidence: result.confidence,
@@ -89,7 +90,7 @@ export class UnifiedScoringAdapter {
       dominantEffects: result.metadata.dominantEffects,
       notes: result.notes,
       warnings: result.metadata.warnings
-    }
+    };
   }
 
   /**
@@ -99,11 +100,11 @@ export class UnifiedScoringAdapter {
     ingredients: UnifiedIngredient[],
     options: ScoringAdapterOptions = {}): Promise<ScoredItem<UnifiedIngredient>[]> {
     const scoredIngredients = await Promise.all(
-      ingredients.map(ingredient => this.scoreIngredient(ingredient, options)),
-    ),
+      ingredients.map(ingredient => this.scoreIngredient(ingredient, options))
+    );
 
     // Sort by score descending
-    return scoredIngredients.sort((ab) => b.score - a.score)
+    return scoredIngredients.sort((a, b) => b.score - a.score);
   }
 
   /**
@@ -118,20 +119,21 @@ export class UnifiedScoringAdapter {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: 'America/New_York',
-        name: 'New York City' },
-        item: {
+        name: 'New York City'
+      },
+      item: {
         name: recipe.name,
         type: 'recipe',
-        elementalProperties: (recipe.elementalState as ElementalProperties) ||,
+        elementalProperties: (recipe.elementalState as ElementalProperties) ||
           recipe.elementalProperties || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25
-},
+          },
         seasonality: (recipe.seasonality as Season[]) || [],
         planetaryRulers: ((recipe as any).planetaryRulers as Planet[]) || [],
-        flavorProfile: ((recipe as any).flavorProfile as Record<string, number>) || {}
+        flavorProfile: ((recipe as any).flavorProfile as Record<string, number>) || {},
         culturalOrigins: ((recipe as unknown as any).culturalOrigins as string[]) ||
           [String((recipe as unknown as any).cuisine || '')].filter(Boolean)
       },
@@ -139,11 +141,11 @@ export class UnifiedScoringAdapter {
         debugMode: options.debugMode,
         weights: options.weights
       }
-    }
+    };
 
-    const result = await scoreRecommendation(context)
+    const result = await scoreRecommendation(context);
 
-    return {;
+    return {
       item: recipe,
       score: result.score,
       confidence: result.confidence,
@@ -151,7 +153,7 @@ export class UnifiedScoringAdapter {
       dominantEffects: result.metadata.dominantEffects,
       notes: result.notes,
       warnings: result.metadata.warnings
-    }
+    };
   }
 
   /**
@@ -166,31 +168,32 @@ export class UnifiedScoringAdapter {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: 'America/New_York',
-        name: 'New York City' },
-        item: {
+        name: 'New York City'
+      },
+      item: {
         name: method.name,
         type: 'cooking_method',
-        elementalProperties: ((method as unknown as any),
+        elementalProperties: ((method as unknown as any)
           .elementalEffect as ElementalProperties) || {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
-},
+        },
         seasonality: ((method as unknown as any).seasonality as Season[]) || [],
         planetaryRulers: ((method as unknown as any).planetaryRulers as Planet[]) || [],
-        flavorProfile: ((method as unknown as any).flavorProfile as Record<string, number>) || {}
+        flavorProfile: ((method as unknown as any).flavorProfile as Record<string, number>) || {},
         culturalOrigins: ((method as unknown as any).culturalOrigins as string[]) || []
       },
       options: {
         debugMode: options.debugMode,
         weights: options.weights
       }
-    }
+    };
 
-    const result = await scoreRecommendation(context)
+    const result = await scoreRecommendation(context);
 
-    return {;
+    return {
       item: method,
       score: result.score,
       confidence: result.confidence,
@@ -198,7 +201,7 @@ export class UnifiedScoringAdapter {
       dominantEffects: result.metadata.dominantEffects,
       notes: result.notes,
       warnings: result.metadata.warnings
-    }
+    };
   }
 
   /**
@@ -214,8 +217,9 @@ export class UnifiedScoringAdapter {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: 'America/New_York',
-        name: 'New York City' },
-        item: {
+        name: 'New York City'
+      },
+      item: {
         name: cuisineName,
         type: 'cuisine',
         elementalProperties: cuisineElementalProperties,
@@ -228,11 +232,11 @@ export class UnifiedScoringAdapter {
         debugMode: options.debugMode,
         weights: options.weights
       }
-    }
+    };
 
-    const result = await scoreRecommendation(context)
+    const result = await scoreRecommendation(context);
 
-    return {;
+    return {
       item: cuisineName,
       score: result.score,
       confidence: result.confidence,
@@ -240,7 +244,7 @@ export class UnifiedScoringAdapter {
       dominantEffects: result.metadata.dominantEffects,
       notes: result.notes,
       warnings: result.metadata.warnings
-    }
+    };
   }
 
   /**
@@ -248,12 +252,12 @@ export class UnifiedScoringAdapter {
    */
   async getRecommendedIngredients(
     ingredients: UnifiedIngredient[],
-    minScore: number = 0.5,,
-    limit: number = 10,,
+    minScore: number = 0.5,
+    limit: number = 10,
     options: ScoringAdapterOptions = {}): Promise<ScoredItem<UnifiedIngredient>[]> {
-    const scoredIngredients = await this.scoreIngredients(ingredients, options),
+    const scoredIngredients = await this.scoreIngredients(ingredients, options);
 
-    return scoredIngredients.filter(item => item.score >= minScore).slice(0, limit),
+    return scoredIngredients.filter(item => item.score >= minScore).slice(0, limit);
   }
 
   /**
@@ -261,17 +265,17 @@ export class UnifiedScoringAdapter {
    */
   async getRecommendedRecipes(
     recipes: Recipe[],
-    minScore: number = 0.5,,
-    limit: number = 10,,
+    minScore: number = 0.5,
+    limit: number = 10,
     options: ScoringAdapterOptions = {}): Promise<ScoredItem<Recipe>[]> {
     const scoredRecipes = await Promise.all(
-      recipes.map(recipe => this.scoreRecipe(recipe, options)),
-    )
+      recipes.map(recipe => this.scoreRecipe(recipe, options))
+    );
 
     return scoredRecipes
       .filter(item => item.score >= minScore)
-      .sort((ab) => b.score - a.score);
-      .slice(0, limit)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, limit);
   }
 }
 

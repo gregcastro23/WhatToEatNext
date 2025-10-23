@@ -26,9 +26,9 @@ import { ElementalProperties } from '@/types/alchemy';
  * Legacy cuisine recommendation interface (maintained for compatibility)
  */
 export interface CuisineRecommendation {
-  cuisine: string,
-  score: number,
-  reasoning: string,
+  cuisine: string;
+  score: number;
+  reasoning: string;
   elementalMatch: number;
 }
 
@@ -36,8 +36,8 @@ export interface CuisineRecommendation {
  * Legacy cuisine recommendation parameters
  */
 export interface CuisineRecommendationParams {
-  elementalProperties: ElementalProperties,
-  preferences?: string[],
+  elementalProperties: ElementalProperties;
+  preferences?: string[];
   dietaryRestrictions?: string[];
 }
 
@@ -47,10 +47,10 @@ export interface CuisineRecommendationParams {
  * Enhanced cuisine recommendation with comprehensive analysis
  */
 export interface EnhancedCuisineRecommendation extends CuisineRecommendation {
-  planetaryAlignment?: number,
-  signatureMatch?: number,
-  confidence: number,
-  detailedReasoning: string[],
+  planetaryAlignment?: number;
+  signatureMatch?: number;
+  confidence: number;
+  detailedReasoning: string[];
   recommendedRecipes?: string[];
 }
 
@@ -59,12 +59,12 @@ export interface EnhancedCuisineRecommendation extends CuisineRecommendation {
  */
 export interface EnhancedCuisineRecommendationParams extends CuisineRecommendationParams {
   astrologicalProfile?: {
-    sunSign?: string,
-    moonSign?: string,
+    sunSign?: string;
+    moonSign?: string;
     currentPlanets?: { [planet: string]: string };
   };
-  useAdvancedAnalysis?: boolean,
-  includePlanetaryData?: boolean,
+  useAdvancedAnalysis?: boolean;
+  includePlanetaryData?: boolean;
   includeSignatures?: boolean;
 }
 
@@ -81,11 +81,11 @@ export function generateEnhancedCuisineRecommendations(
 ): EnhancedCuisineRecommendation[] {
   const {
     elementalProperties,
-    preferences = [];
-    dietaryRestrictions = [];
+    preferences = [],
+    dietaryRestrictions = [],
     astrologicalProfile,
-    useAdvancedAnalysis = true;
-    includePlanetaryData = true;
+    useAdvancedAnalysis = true,
+    includePlanetaryData = true,
     includeSignatures = true
   } = params;
 
@@ -131,7 +131,7 @@ export function generateEnhancedCuisineRecommendations(
         maxRecommendations: 10,
         minCompatibilityThreshold: 0.1,
         includeReasoning: true
-}
+      }
     );
 
     // Convert to enhanced format
@@ -195,7 +195,7 @@ function generateBasicCuisineRecommendations(
       detailedReasoning: ['High Fire element matches spicy Mexican cuisine'],
       planetaryAlignment: 0,
       signatureMatch: 0
-});
+    });
   }
 
   // Water-based cuisines
@@ -209,7 +209,7 @@ function generateBasicCuisineRecommendations(
       detailedReasoning: ['High Water element matches Mediterranean freshness'],
       planetaryAlignment: 0,
       signatureMatch: 0
-});
+    });
   }
 
   // Earth-based cuisines
@@ -223,7 +223,7 @@ function generateBasicCuisineRecommendations(
       detailedReasoning: ['High Earth element matches hearty Italian cuisine'],
       planetaryAlignment: 0,
       signatureMatch: 0
-});
+    });
   }
 
   // Air-based cuisines
@@ -237,7 +237,7 @@ function generateBasicCuisineRecommendations(
       detailedReasoning: ['High Air element matches light Asian cuisine'],
       planetaryAlignment: 0,
       signatureMatch: 0
-});
+    });
   }
 
   // Boost scores for preferred cuisines
@@ -271,7 +271,7 @@ function getMockCuisineData() {
             averageValue: 0.3,
             globalAverage: 0.25,
             description: 'Italian cuisine has a high Earth signature due to wheat-based dishes and cheese'
-}
+          }
         ],
         planetaryPatterns: [
           {
@@ -282,12 +282,12 @@ function getMockCuisineData() {
             ],
             planetaryStrength: 0.65,
             dominantElement: 'Earth'
-}
+          }
         ],
         sampleSize: 50,
         computedAt: new Date(),
         version: '1.0.0'
-}
+      }
     }],
     ['Mexican', {
       name: 'Mexican',
@@ -302,7 +302,7 @@ function getMockCuisineData() {
             averageValue: 0.6,
             globalAverage: 0.25,
             description: 'Mexican cuisine has a very high Fire signature due to chili peppers and spices'
-}
+          }
         ],
         planetaryPatterns: [
           {
@@ -313,12 +313,12 @@ function getMockCuisineData() {
             ],
             planetaryStrength: 0.72,
             dominantElement: 'Fire'
-}
+          }
         ],
         sampleSize: 40,
         computedAt: new Date(),
         version: '1.0.0'
-}
+      }
     }],
     ['Japanese', {
       name: 'Japanese',
@@ -333,7 +333,7 @@ function getMockCuisineData() {
             averageValue: 0.4,
             globalAverage: 0.25,
             description: 'Japanese cuisine has a high Water signature due to seafood and delicate preparations'
-}
+          }
         ],
         planetaryPatterns: [
           {
@@ -344,12 +344,12 @@ function getMockCuisineData() {
             ],
             planetaryStrength: 0.58,
             dominantElement: 'Air'
-}
+          }
         ],
         sampleSize: 45,
         computedAt: new Date(),
         version: '1.0.0'
-}
+      }
     }],
     ['Indian', {
       name: 'Indian',
@@ -364,7 +364,7 @@ function getMockCuisineData() {
             averageValue: 4.0,
             globalAverage: 2.5,
             description: 'Indian cuisine has exceptional Spirit due to complex spice combinations and transformative cooking'
-}
+          }
         ],
         planetaryPatterns: [
           {
@@ -375,12 +375,12 @@ function getMockCuisineData() {
             ],
             planetaryStrength: 0.68,
             dominantElement: 'Fire'
-}
+          }
         ],
         sampleSize: 60,
         computedAt: new Date(),
         version: '1.0.0'
-}
+      }
     }]
   ]);
 

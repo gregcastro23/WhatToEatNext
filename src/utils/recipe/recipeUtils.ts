@@ -151,7 +151,7 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
     Array.isArray(recipe.astrologicalPropertiesInfluences)
   ) {
     return recipe.astrologicalPropertiesInfluences.filter(
-      influence => typeof influence === 'string';
+      influence => typeof influence === 'string'
     );
   }
 
@@ -167,7 +167,7 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
     Array.isArray(recipe.elementalMapping.astrologicalInfluences)
   ) {
     return recipe.elementalMapping.astrologicalInfluences.filter(
-      influence => typeof influence === 'string';
+      influence => typeof influence === 'string'
     );
   }
 
@@ -195,7 +195,7 @@ export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
     Array.isArray(recipe.elementalMapping.astrologicalProfile.favorableZodiac)
   ) {
     return recipe.elementalMapping.astrologicalProfile.favorableZodiac.filter(
-      zodiac => typeof zodiac === 'string';
+      zodiac => typeof zodiac === 'string'
     );
   }
 
@@ -260,12 +260,18 @@ export function isRecipeCompatibleWithDiet(recipe: Recipe, restriction: string):
   }
 
   switch (restriction.toLowerCase()) {
-    case 'vegetarian': return recipe.isVegetarian === true;
-    case 'vegan': return recipe.isVegan === true;
-    case 'gluten-free': return recipe.isGlutenFree === true;
-    case 'dairy-free': return recipe.isDairyFree === true;
-    case 'keto': return recipe.isKeto === true;
-    case 'paleo': return recipe.isPaleo === true;
+    case 'vegetarian':
+      return recipe.isVegetarian === true;
+    case 'vegan':
+      return recipe.isVegan === true;
+    case 'gluten-free':
+      return recipe.isGlutenFree === true;
+    case 'dairy-free':
+      return recipe.isDairyFree === true;
+    case 'keto':
+      return recipe.isKeto === true;
+    case 'paleo':
+      return recipe.isPaleo === true;
     default:
       return true;
   }
@@ -359,7 +365,7 @@ export function toScoredRecipe(recipe: Recipe, _score?: number): ScoredRecipe {
   return {
     ...recipe,
     score: defaultScore
-} as ScoredRecipe;
+  } as ScoredRecipe;
 }
 
 /**
@@ -375,13 +381,20 @@ export function isRecipeDietaryCompatible(
 
   return dietaryRestrictions.every(restriction => {
     switch (restriction.toLowerCase()) {
-      case 'vegetarian': return recipe.isVegetarian === true;
-      case 'vegan': return recipe.isVegan === true;
-      case 'gluten-free': return recipe.isGlutenFree === true;
-      case 'dairy-free': return recipe.isDairyFree === true;
-      case 'nut-free': return recipe.isNutFree === true;
-      case 'keto': return recipe.isKeto === true;
-      case 'paleo': return recipe.isPaleo === true;
+      case 'vegetarian':
+        return recipe.isVegetarian === true;
+      case 'vegan':
+        return recipe.isVegan === true;
+      case 'gluten-free':
+        return recipe.isGlutenFree === true;
+      case 'dairy-free':
+        return recipe.isDairyFree === true;
+      case 'nut-free':
+        return recipe.isNutFree === true;
+      case 'keto':
+        return recipe.isKeto === true;
+      case 'paleo':
+        return recipe.isPaleo === true;
       default:
         return true; // Unknown restrictions are ignored
     }
@@ -408,24 +421,24 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
           name: ingredient,
           amount: 1,
           unit: 'piece'
-} as RecipeIngredient;
+        } as RecipeIngredient;
       }
 
       if (typeof ingredient === 'object' && ingredient) {
         return {
-          name: ingredient.name || 'Unknown ingredient'
+          name: ingredient.name || 'Unknown ingredient',
           amount: ingredient.amount || 1,
-          unit: ingredient.unit || 'piece'
+          unit: ingredient.unit || 'piece',
           optional: ingredient.optional || false,
           preparation: ingredient.preparation || undefined
-} as RecipeIngredient;
+        } as RecipeIngredient;
       }
 
       return {
         name: 'Unknown ingredient',
         amount: 1,
         unit: 'piece'
-} as RecipeIngredient;
+      } as RecipeIngredient;
     })
     .filter(ingredient => ingredient.name !== 'Unknown ingredient');
 }

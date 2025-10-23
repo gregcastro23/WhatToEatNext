@@ -17,14 +17,14 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
  * @returns Season as a lowercase string ('spring', 'summer', 'fall', or 'winter')
  */
 export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
-  const now = new Date()
-  const month = now.getMonth()
+  const now = new Date();
+  const month = now.getMonth();
 
   // Astronomical seasons (approximate dates)
   if (month >= 2 && month <= 4) return 'spring'; // March 20 - June 20
   if (month >= 5 && month <= 7) return 'summer'; // June 21 - September 21
   if (month >= 8 && month <= 10) return 'fall'; // September 22 - December 20
-  return 'winter' // December 21 - March 19
+  return 'winter'; // December 21 - March 19
 }
 
 /**
@@ -45,9 +45,9 @@ export const _getSeason = (month: number): Season => {
  * @returns Day of year (1-366)
  */
 export function getDayOfYear(date: Date): number {
-  const start = new Date(date.getFullYear(), 00)
-  const diff = date.getTime() - start.getTime()
-  return Math.floor(diff / (1000 * 60 * 60 * 24))
+  const start = new Date(date.getFullYear(), 0, 0);
+  const diff = date.getTime() - start.getTime();
+  return Math.floor(diff / (1000 * 60 * 60 * 24));
 }
 
 /**
@@ -55,12 +55,12 @@ export function getDayOfYear(date: Date): number {
  * @returns Time of day ('morning', 'afternoon', 'evening', or 'night')
  */
 export function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
-  const hour = new Date().getHours()
-;
+  const hour = new Date().getHours();
+
   if (hour >= 5 && hour < 12) return 'morning';
   if (hour >= 12 && hour < 17) return 'afternoon';
   if (hour >= 17 && hour < 22) return 'evening';
-  return 'night'
+  return 'night';
 }
 
 /**
@@ -68,12 +68,12 @@ export function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
  * @param hour Hour (0-23)
  * @returns Meal period
  */
-export const _getMealPeriod = (hour: number): string => {;
+export const _getMealPeriod = (hour: number): string => {
   if (hour >= 5 && hour < 11) return 'breakfast';
   if (hour >= 11 && hour < 16) return 'lunch';
   if (hour >= 16 && hour < 23) return 'dinner';
-  return 'breakfast'
-}
+  return 'breakfast';
+};
 
 /**
  * Get the current moon phase using a simplified calculation
@@ -82,14 +82,14 @@ export const _getMealPeriod = (hour: number): string => {;
 export function getMoonPhase(): LunarPhaseWithSpaces {
   // Calculate moon age (in days) from the latest known new moon
   // April 2024 new moon was on April 8, 2024
-  const LATEST_NEW_MOON = new Date(20243, 8).getTime(); // April 8, 2024
+  const LATEST_NEW_MOON = new Date(2024, 3, 8).getTime(); // April 8, 2024
   const LUNAR_MONTH = 29.53059; // days
 
-  const now = new Date().getTime()
-  const daysSinceNewMoon = (now - LATEST_NEW_MOON) / (1000 * 60 * 60 * 24)
+  const now = new Date().getTime();
+  const daysSinceNewMoon = (now - LATEST_NEW_MOON) / (1000 * 60 * 60 * 24);
   const lunarAge = daysSinceNewMoon % LUNAR_MONTH;
 
-  debugLog(`Calculated lunar age: ${lunarAge.toFixed(2)} days`)
+  debugLog(`Calculated lunar age: ${lunarAge.toFixed(2)} days`);
 
   // Determine phase based on lunar age
   if (lunarAge < 1.84) return 'new moon';
@@ -104,30 +104,30 @@ export function getMoonPhase(): LunarPhaseWithSpaces {
 }
 
 // Helper function to get all dishes for a cuisine
-const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {;
+const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {
   const cuisine = cuisines[cuisineId];
   if (!cuisine || !cuisine.dishes) return [];
-  let allDishes: Dish[] = []
+  let allDishes: Dish[] = [];
 
   // Safely iterate through all meal times with type checking
   Object.keys(cuisine.dishes || {}).forEach(mealTime => {
     const mealTimeDishes = cuisine.dishes?.[mealTime];
-    if (!mealTimeDishes) return,
+    if (!mealTimeDishes) return;
 
     // If it's an object with season keys
-    if (typeof mealTimeDishes === 'object' && !Array.isArray(mealTimeDishes)) {;
+    if (typeof mealTimeDishes === 'object' && !Array.isArray(mealTimeDishes)) {
       // Get dishes from all seasons including 'all' season
       Object.keys(mealTimeDishes).forEach(season => {
-        const seasonDishes = mealTimeDishes[season]
-        if (Array.isArray(seasonDishes)) {;
-          allDishes = [...allDishes, ...(seasonDishes as unknown as Dish[])],
+        const seasonDishes = mealTimeDishes[season];
+        if (Array.isArray(seasonDishes)) {
+          allDishes = [...allDishes, ...(seasonDishes as unknown as Dish[])];
         }
-      })
+      });
     }
-  })
+  });
 
   return allDishes;
-}
+};
 
 /**
  * Get food recommendations based on meal time, season, and cuisine
@@ -163,14 +163,14 @@ export const _getRecommendations = (
 
     // Get dishes from both 'all' season and current season
     const allSeasonDishes = Array.isArray(mealTimeDishes['all']) ? mealTimeDishes['all'] : [];
-    const seasonalDishes = Array.isArray(mealTimeDishes[season]) ? mealTimeDishes[season] : []
-;
-    const combinedDishes = [...allSeasonDishes, ...seasonalDishes],
-    debugLog(`Found ${combinedDishes.length} dishes for ${cuisineId}`)
+    const seasonalDishes = Array.isArray(mealTimeDishes[season]) ? mealTimeDishes[season] : [];
+
+    const combinedDishes = [...allSeasonDishes, ...seasonalDishes];
+    debugLog(`Found ${combinedDishes.length} dishes for ${cuisineId}`);
 
     return combinedDishes as unknown as Dish[];
   } catch (error) {
-    _logger.error(`Error getting recommendations for ${cuisineId}:`, error)
+    _logger.error(`Error getting recommendations for ${cuisineId}:`, error);
     return [];
   }
-}
+};

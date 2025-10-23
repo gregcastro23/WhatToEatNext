@@ -11,7 +11,8 @@ jest.mock('../reliableAstronomy', () => ({
 
 // Mock the logger
 jest.mock('../logger', () => ({
-  logger: { info: jest.fn(),
+  logger: {
+    info: jest.fn(),
     warn: jest.fn(),
     error: jest.fn(),
     debug: jest.fn()
@@ -20,9 +21,9 @@ jest.mock('../logger', () => ({
 
 import { getReliablePlanetaryPositions } from '../reliableAstronomy';
 
-const mockGetReliablePlanetaryPositions: any = getReliablePlanetaryPositions as jest.MockedFunction<;
+const mockGetReliablePlanetaryPositions: any = getReliablePlanetaryPositions as jest.MockedFunction<
   typeof getReliablePlanetaryPositions
->
+>;
 
 describe('Planetary Data Validation', () => {
   beforeEach(() => {
@@ -45,50 +46,50 @@ describe('Planetary Data Validation', () => {
         pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
         northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
         southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
-      })
+      });
 
-      const result: any = validatePlanetaryData()
+      const result: any = validatePlanetaryData();
 
       // The main requirement is no critical or high-severity errors
-      expect(result.errors.filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')).toHaveLength(0)
-      expect(result.timestamp).toBeInstanceOf(Date).
+      expect(result.errors.filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')).toHaveLength(0);
+      expect(result.timestamp).toBeInstanceOf(Date);
 
       // Log the result for debugging
-      if (!resultisValid) {;
-        _logger.info('Validation failed with errors: ', result.errors),
-        _logger.info('Warnings: ', result.warnings)
+      if (!result.isValid) {
+        console.info('Validation failed with errors: ', result.errors);
+        console.info('Warnings: ', result.warnings);
       }
 
       // Should be valid if no critical/high errors
-      expect(result.isValid).toBe(true).
+      expect(result.isValid).toBe(true);
     })
 
     it('should fail validation with invalid planetary positions', async () => {
       // Mock invalid planetary positions (invalid degree values)
-      mockGetReliablePlanetaryPositionsmockResolvedValue({
+      mockGetReliablePlanetaryPositions.mockResolvedValue({
         sun: { sign: 'aries', degree: 35, exactLongitude: 8.5, isRetrograde: false }, // Invalid degree > 30
         moon: { sign: 'aries', degree: -5, exactLongitude: 1.57, isRetrograde: false }, // Invalid degree < 0
-        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 400, isRetrograde: true }, // Invalid longitude > 360
-      })
+        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 400, isRetrograde: true } // Invalid longitude > 360
+      });
 
-      const result: any = validatePlanetaryData()
+      const result: any = validatePlanetaryData();
 
-      expect(result.isValid).toBe(false).;
-      expect(resulterrors.length).toBeGreaterThan(0);;,
-      expect(result.errors.some(e => e.type === 'POSITION_DRIFT')).toBe(true)
-      expect(result.summary).toContain('FAILED').;
+      expect(result.isValid).toBe(false);
+      expect(result.errors.length).toBeGreaterThan(0);
+      expect(result.errors.some(e => e.type === 'POSITION_DRIFT')).toBe(true);
+      expect(result.summary).toContain('FAILED');
     })
 
     it('should handle API failures gracefully', async () => {
       // Mock API failure
-      mockGetReliablePlanetaryPositionsmockRejectedValue(new Error('API timeout'))
+      mockGetReliablePlanetaryPositions.mockRejectedValue(new Error('API timeout'));
 
-      const result: any = validatePlanetaryData()
+      const result: any = validatePlanetaryData();
 
       // Should still complete validation even with API failure
-      expect(result).toBeDefined().
-      expect(resulttimestamp).toBeInstanceOf(Date)
-      expect(result.errors.some(e => e.type === 'API_TIMEOUT')).toBe(true)
+      expect(result).toBeDefined();
+      expect(result.timestamp).toBeInstanceOf(Date);
+      expect(result.errors.some(e => e.type === 'API_TIMEOUT')).toBe(true);
     })
 
     it('should validate retrograde status correctly', async () => {
@@ -126,21 +127,22 @@ describe('Planetary Data Validation', () => {
         neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
         pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
         northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
-        southNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true }, // Same position as north node - should fail
-      })
+        southNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true } // Same position as north node - should fail
+      });
 
-      const result: any = validatePlanetaryData()
+      const result: any = validatePlanetaryData();
       // Should detect that nodes are not opposite (either in errors or test failures)
       const hasOppositeError: any = result.errors.some(
-        e => e.message.includes('opposite') || e.message.includes('Lunar Node') || e.message.includes('opposition'),,
-      )
-      expect(hasOppositeError).toBe(true).
+        e => e.message.includes('opposite') || e.message.includes('Lunar Node') || e.message.includes('opposition')
+      );
+      expect(hasOppositeError).toBe(true);
     })
   })
 
   describe('shouldRollback', () => {
     it('should recommend rollback for critical errors', () => {
-      const validationResult: ValidationResult = { isValid: false,,
+      const validationResult: ValidationResult = {
+        isValid: false,
         errors: [
           {
             type: 'DATA_CORRUPTION',
@@ -152,13 +154,14 @@ describe('Planetary Data Validation', () => {
         warnings: [],
         summary: 'Critical failure',
         timestamp: new Date()
-      }
+      };
 
-      expect(shouldRollback(validationResult))toBe(true)
+      expect(shouldRollback(validationResult)).toBe(true);
     })
 
     it('should recommend rollback for multiple high-severity errors', () => {
-      const validationResult: ValidationResult = { isValid: false,,
+      const validationResult: ValidationResult = {
+        isValid: false,
         errors: [
           {
             type: 'POSITION_DRIFT',
@@ -171,7 +174,7 @@ describe('Planetary Data Validation', () => {
             severity: 'HIGH',
             message: 'Transit mismatch detected',
             timestamp: new Date()
-          }
+          },
           {
             type: 'TEST_FAILURE',
             severity: 'HIGH',
@@ -182,13 +185,14 @@ describe('Planetary Data Validation', () => {
         warnings: [],
         summary: 'Multiple high-severity errors',
         timestamp: new Date()
-      }
+      };
 
-      expect(shouldRollback(validationResult)).toBe(true)
+      expect(shouldRollback(validationResult)).toBe(true);
     })
 
     it('should not recommend rollback for minor issues', () => {
-      const validationResult: ValidationResult = { isValid: true,,
+      const validationResult: ValidationResult = {
+        isValid: true,
         errors: [
           {
             type: 'POSITION_DRIFT',
@@ -206,13 +210,14 @@ describe('Planetary Data Validation', () => {
         ],
         summary: 'Minor issues only',
         timestamp: new Date()
-      }
+      };
 
-      expect(shouldRollback(validationResult)).toBe(false)
+      expect(shouldRollback(validationResult)).toBe(false);
     })
 
     it('should not recommend rollback for single high-severity error', () => {
-      const validationResult: ValidationResult = { isValid: false,,
+      const validationResult: ValidationResult = {
+        isValid: false,
         errors: [
           {
             type: 'POSITION_DRIFT',
@@ -224,9 +229,9 @@ describe('Planetary Data Validation', () => {
         warnings: [],
         summary: 'Single high error',
         timestamp: new Date()
-      }
+      };
 
-      expect(shouldRollback(validationResult)).toBe(false)
+      expect(shouldRollback(validationResult)).toBe(false);
     })
   })
 
@@ -235,42 +240,42 @@ describe('Planetary Data Validation', () => {
       mockGetReliablePlanetaryPositions.mockResolvedValue({
         sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
         moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
-      })
+      });
 
-      const startTime: any = Date.now()
-      const result: any = validatePlanetaryData()
+      const startTime: any = Date.now();
+      const result: any = validatePlanetaryData();
       const duration: any = Date.now() - startTime;
 
-      expect(duration).toBeLessThan(30000). // Should complete within 30 seconds
-      expect(result).toBeDefined()
+      expect(duration).toBeLessThan(30000); // Should complete within 30 seconds
+      expect(result).toBeDefined();
     })
   })
 
   describe('Error Handling', () => {
     it('should handle missing planet data gracefully', async () => {
       // Mock empty planetary positions
-      mockGetReliablePlanetaryPositions.mockResolvedValue({})
+      mockGetReliablePlanetaryPositions.mockResolvedValue({});
 
-      const result: any = validatePlanetaryData()
+      const result: any = validatePlanetaryData();
 
-      expect(result).toBeDefined().
-      expect(resulterrors.length).toBeGreaterThan(0)
-      expect(result.summary).toContain('FAILED').;
+      expect(result).toBeDefined();
+      expect(result.errors.length).toBeGreaterThan(0);
+      expect(result.summary).toContain('FAILED');
     })
 
     it('should handle malformed planetary data', async () => {
       // Mock malformed planetary positions
-      mockGetReliablePlanetaryPositionsmockResolvedValue({
+      mockGetReliablePlanetaryPositions.mockResolvedValue({
         sun: null,
         moon: undefined,
         mercury: 'invalid',
-        venus: { invalidStructur, e: true }
-      })
+        venus: { invalidStructure: true }
+      });
 
-      const result: any = validatePlanetaryData()
+      const result: any = validatePlanetaryData();
 
-      expect(result).toBeDefined().
-      expect(resulterrors.length).toBeGreaterThan(0)
+      expect(result).toBeDefined();
+      expect(result.errors.length).toBeGreaterThan(0);
     })
   })
 })

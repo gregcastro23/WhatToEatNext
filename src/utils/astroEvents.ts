@@ -1,9 +1,9 @@
 import SunCalc from 'suncalc';
 
 interface AstroEvent {
-  type: string,
-  date: Date,
-  description: string
+  type: string;
+  date: Date;
+  description: string;
 }
 
 /**
@@ -19,21 +19,21 @@ export function getUpcomingAstroEvents(
   longitude = -74.006
 ): AstroEvent[] {
   const events: AstroEvent[] = [];
-  const now = new Date()
+  const now = new Date();
 
-  // Loop through upcoming days;
-  for (let i = 0, i < days i++) {
-    const date = new Date(now.getTime() + i * 24 * 60 * 60 * 1000)
+  // Loop through upcoming days
+  for (let i = 0; i < days; i++) {
+    const date = new Date(now.getTime() + i * 24 * 60 * 60 * 1000);
 
     // Get moon illumination for the date
-    const moonIllum = SunCalc.getMoonIllumination(date)
+    const moonIllum = SunCalc.getMoonIllumination(date);
     // Check for full moon
     if (moonIllum.phase > 0.48 && moonIllum.phase < 0.52) {
-      events.push({,
+      events.push({
         type: 'full_moon',
         date,
         description: `Full Moon ${Math.round(moonIllum.fraction * 100)}% illuminated`
-      })
+      });
     }
 
     // Check for new moon
@@ -42,7 +42,7 @@ export function getUpcomingAstroEvents(
         type: 'new_moon',
         date,
         description: 'New Moon'
-})
+      });
     }
 
     // Check for first/last quarter
@@ -53,9 +53,8 @@ export function getUpcomingAstroEvents(
       events.push({
         type: moonIllum.phase < 0.5 ? 'first_quarter' : 'last_quarter',
         date,
-        description: `${moonIllum.phase < 0.5 ? 'First' : 'Last' },
-        Quarter Moon`
-      })
+        description: `${moonIllum.phase < 0.5 ? 'First' : 'Last'} Quarter Moon`
+      });
     }
 
     // Check for sun events (solstices, equinoxes)
@@ -68,7 +67,7 @@ export function getUpcomingAstroEvents(
         type: 'equinox',
         date,
         description: 'Spring Equinox (approximate)'
-})
+      });
     }
 
     // Summer solstice (around June 21)
@@ -77,7 +76,7 @@ export function getUpcomingAstroEvents(
         type: 'solstice',
         date,
         description: 'Summer Solstice (approximate)'
-})
+      });
     }
 
     // Fall equinox (around September 22)
@@ -86,7 +85,7 @@ export function getUpcomingAstroEvents(
         type: 'equinox',
         date,
         description: 'Fall Equinox (approximate)'
-})
+      });
     }
 
     // Winter solstice (around December 21)
@@ -95,7 +94,7 @@ export function getUpcomingAstroEvents(
         type: 'solstice',
         date,
         description: 'Winter Solstice (approximate)'
-})
+      });
     }
   }
 

@@ -17,7 +17,7 @@ import {createLogger} from '@/utils/logger';
 import * as safeAstrology from '@/utils/safeAstrology';
 
 // Create a component-specific logger
-const logger = createLogger('AstrologyDataProvider')
+const logger = createLogger('AstrologyDataProvider');
 
 // Cache system for API responses
 interface CacheEntry {
@@ -29,15 +29,15 @@ interface CacheEntry {
 const CACHE_DURATION = 15 * 60 * 1000;
 
 // In-memory cache
-let positionsCache: CacheEntry | null = null
+let positionsCache: CacheEntry | null = null;
 
 /**
  * Get planetary positions from live API
  * @returns Promise that resolves to planetary positions or null if API fails
- */;
+ */
 async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> | null> {
   try {
-    logger.debug('Fetching planetary positions from API...')
+    logger.debug('Fetching planetary positions from API...');
 
     // Try to fetch from API endpoint
     const response = await fetch('/api/planetary-positions', {
@@ -47,49 +47,49 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
       },
       // Short timeout to prevent long waits
       _signal: AbortSignal.timeout(3000)
-    })
+    });
 
     if (!response.ok) {
-      throw new Error(`API returned status ${response.status}`)
+      throw new Error(`API returned status ${response.status}`);
     }
 
-    const data = await response.json()
+    const data = await response.json();
 
-    // Validate the data;
-    if (!data || typeof data !== 'object' || Object.keys(data || {}).length === 0) {;
-      throw new Error('Invalid data format received from API')
+    // Validate the data
+    if (!data || typeof data !== 'object' || Object.keys(data || {}).length === 0) {
+      throw new Error('Invalid data format received from API');
     }
 
     // Process and normalize the API response
-    const positions: { [key: string]: CelestialPosition } = {}
+    const positions: { [key: string]: CelestialPosition } = {};
 
     Object.entries(data || {}).forEach(([planet, position]) => {
-      if (typeof position === 'object' && position !== null && 'sign' in position) {;
+      if (typeof position === 'object' && position !== null && 'sign' in position) {
         positions[planet.toLowerCase()] = {
-          sign: (typeof (position as any).sign === 'string';
+          sign: (typeof (position as any).sign === 'string'
             ? ((position as any).sign).toLowerCase()
             : 'aries'),
           degree: Number((position as any).degree) || 0,
           exactLongitude: Number((position as any).exactLongitude) || 0,
           isRetrograde: !!(position as Record<string, Record<string, number>>).isRetrograde
-        }
+        };
       }
-    })
+    });
 
-    if (Object.keys(positions || {}).length === 0) {;
-      throw new Error('No valid planetary positions in API response')
+    if (Object.keys(positions || {}).length === 0) {
+      throw new Error('No valid planetary positions in API response');
     }
 
     // Update cache
     positionsCache = {
       data: positions,
       timestamp: Date.now()
-    }
+    };
 
     return positions;
   } catch (error) {
-    logger.warn('Error fetching from API: ', error)
-    return null
+    logger.warn('Error fetching from API: ', error);
+    return null;
   }
 }
 
@@ -99,17 +99,17 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
  */
 function getPositionsFromTransitFiles(): { [key: string]: CelestialPosition } | null {
   try {
-    logger.debug('Getting planetary positions from transit files...')
+    logger.debug('Getting planetary positions from transit files...');
 
-    // For nowwe'll just use the same hardcoded data
+    // For now we'll just use the same hardcoded data
     // In a real implementation, this would load and parse transit data files
     // for the current date
 
     // This is a placeholder for the actual implementation
-    return null
+    return null;
   } catch (error) {
-    logger.warn('Error reading transit files: ', error)
-    return null
+    logger.warn('Error reading transit files: ', error);
+    return null;
   }
 }
 
@@ -120,38 +120,38 @@ function getPositionsFromTransitFiles(): { [key: string]: CelestialPosition } | 
 export async function getPlanetaryPositions(): Promise<Record<string, CelestialPosition>> {
   // Try using cached data first if it's recent
   if (positionsCache && Date.now() - positionsCache.timestamp < CACHE_DURATION) {
-    logger.debug('Using cached planetary positions')
+    logger.debug('Using cached planetary positions');
     return positionsCache.data;
   }
 
   // Try sources in order of accuracy/recency
 
   // 1. Try the live API
-  const apiPositions = await getPositionsFromAPI()
+  const apiPositions = await getPositionsFromAPI();
   if (apiPositions) {
-    logger.info('Using planetary positions from API')
+    logger.info('Using planetary positions from API');
     return apiPositions;
   }
 
   // 2. Try transit data files
-  const transitPositions = getPositionsFromTransitFiles()
+  const transitPositions = getPositionsFromTransitFiles();
   if (transitPositions) {
-    logger.info('Using planetary positions from transit files')
+    logger.info('Using planetary positions from transit files');
     return transitPositions;
   }
 
   // 3. Use reliable hardcoded positions as final fallback
-  logger.info('Using reliable hardcoded planetary positions')
-  return safeAstrology.getReliablePlanetaryPositions()
+  logger.info('Using reliable hardcoded planetary positions');
+  return safeAstrology.getReliablePlanetaryPositions();
 }
 
 /**
  * Get the dominant element based on planetary positions
- * @returns Dominant element (Fire, Water, Earthor Air)
+ * @returns Dominant element (Fire, Water, Earth or Air)
  */
 export async function getDominantElement(): Promise<string> {
-  const positions = await getPlanetaryPositions()
-  // Apply surgical type casting with variable extraction;
+  const positions = await getPlanetaryPositions();
+  // Apply surgical type casting with variable extraction
   const safeAstrologyData = safeAstrology as any;
   const getDominantElementMethod = safeAstrologyData.getDominantElement;
   const countElementsMethod = safeAstrologyData.countElements;
@@ -162,7 +162,7 @@ export async function getDominantElement(): Promise<string> {
     typeof getDominantElementMethod === 'function' &&
     typeof countElementsMethod === 'function'
   ) {
-    return getDominantElementMethod(countElementsMethod(positions))
+    return getDominantElementMethod(countElementsMethod(positions));
   }
 
   return 'Fire'; // Default fallback
@@ -173,7 +173,7 @@ export async function getDominantElement(): Promise<string> {
  * This can be useful for monitoring how often we fall back to hardcoded data
  */
 export function logDataSourceTelemetry(source: 'api' | 'cache' | 'transit' | 'hardcoded'): void {
-  logger.info(`Data source used: ${source}`)
+  logger.info(`Data source used: ${source}`);
 
   // In a production system, this would send telemetry to a monitoring service
   // to track how often we're using each data source

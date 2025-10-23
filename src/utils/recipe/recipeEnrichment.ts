@@ -14,9 +14,9 @@ export function enrichRecipeData(recipe: Partial<Recipe>): Recipe {
   // Ensure all required properties exist with proper defaults
   const enriched: Recipe = {
     id: enrichedRecipe.id || `recipe-${Date.now()}`,
-    name: enrichedRecipe.name || 'Unnamed Recipe'
+    name: enrichedRecipe.name || 'Unnamed Recipe',
     description: enrichedRecipe.description || '',
-    cuisine: enrichedRecipe.cuisine || 'Various'
+    cuisine: enrichedRecipe.cuisine || 'Various',
     ingredients: enrichedRecipe.ingredients || [],
     instructions: enrichedRecipe.instructions || [],
     elementalProperties: enrichedRecipe.elementalProperties || {
@@ -24,8 +24,8 @@ export function enrichRecipeData(recipe: Partial<Recipe>): Recipe {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-},
-    timeToMake: enrichedRecipe.timeToMake || '30 minutes'
+    },
+    timeToMake: enrichedRecipe.timeToMake || '30 minutes',
     numberOfServings: enrichedRecipe.numberOfServings || 4,
     // Copy over all other properties
     ...enrichedRecipe,
@@ -341,7 +341,7 @@ function deriveCelestialTiming(recipe: Recipe): {
       Water: 'Moon hour',
       Earth: 'Venus hour',
       Air: 'Mercury hour'
-};
+    };
 
     timing.optimalPlanetaryHour = planetaryHours[dominantElement];
   }

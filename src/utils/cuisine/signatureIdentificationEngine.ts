@@ -93,13 +93,13 @@ export function calculateSignatureConfidence(
  * This represents averages across all cuisines in the system
  */
 export interface GlobalBaseline {
-  elementals: ElementalProperties,
-  alchemical?: AlchemicalProperties,
+  elementals: ElementalProperties;
+  alchemical?: AlchemicalProperties;
   thermodynamics?: Partial<ThermodynamicProperties>;
 
   // Standard deviations for z-score calculation
-  elementalStdDevs: ElementalProperties,
-  alchemicalStdDevs?: Partial<AlchemicalProperties>,
+  elementalStdDevs: ElementalProperties;
+  alchemicalStdDevs?: Partial<AlchemicalProperties>;
   thermodynamicStdDevs?: Partial<ThermodynamicProperties>;
 
   // Metadata
@@ -117,7 +117,7 @@ export const DEFAULT_GLOBAL_BASELINE: GlobalBaseline = {
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-},
+  },
   alchemical: {
     Spirit: 2.5, // Balanced alchemical profile
     Essence: 3.5,
@@ -337,7 +337,7 @@ function generateAlchemicalSignatureDescription(
     Essence: 'flavor depth and sensory richness',
     Matter: 'substantial, hearty, and grounding dishes',
     Substance: 'structured techniques and preserved ingredients'
-};
+  };
 
   return `${strengthText} ${direction} levels of ${propertyDescriptions[property]} in dish composition`;
 }
@@ -453,7 +453,7 @@ export function filterSignaturesByStrength(
   signatures: CuisineSignature[],
   minStrength: 'low' | 'moderate' | 'high' | 'very_high'
 ): CuisineSignature[] {
-  const strengthOrder = { low: 0, moderate: 1, high: 2, very_high: 3 },
+  const strengthOrder = { low: 0, moderate: 1, high: 2, very_high: 3 };
   const minOrder = strengthOrder[minStrength];
 
   return signatures.filter(sig => strengthOrder[sig.strength] >= minOrder);
@@ -466,18 +466,18 @@ export function filterSignaturesByStrength(
  * @returns Summary statistics
  */
 export function getSignatureSummary(signatures: CuisineSignature[]): {
-  total: number,
+  total: number;
   byStrength: Record<string, number>;
   byPropertyType: Record<string, number>;
   averageZScore: number;
 } {
-  const byStrength: Record<string, number> = { low: 0, moderate: 0, high: 0, very_high: 0 },
-  const byPropertyType: Record<string, number> = { elemental: 0, alchemical: 0, thermodynamic: 0 },
+  const byStrength: Record<string, number> = { low: 0, moderate: 0, high: 0, very_high: 0 };
+  const byPropertyType: Record<string, number> = { elemental: 0, alchemical: 0, thermodynamic: 0 };
 
   let totalZScore = 0;
 
   signatures.forEach(sig => {
-    byStrength[sig.strength]++,
+    byStrength[sig.strength]++;
 
     // Classify property type
     if (['Fire', 'Water', 'Earth', 'Air'].includes(sig.property)) {

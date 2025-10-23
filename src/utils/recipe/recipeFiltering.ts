@@ -9,19 +9,19 @@ const _logger = createLogger('RecipeFiltering');
 // ===== INTERFACES =====
 
 interface FilterOptions {
-  season?: string,
-  mealType?: string[],
-  maxPrepTime?: number,
-  dietaryRestrictions?: DietaryRestriction[],
-  ingredients?: string[],
-  elementalState?: ElementalProperties,
-  searchQuery?: string,
+  season?: string;
+  mealType?: string[];
+  maxPrepTime?: number;
+  dietaryRestrictions?: DietaryRestriction[];
+  ingredients?: string[];
+  elementalState?: ElementalProperties;
+  searchQuery?: string;
   currentSeason?: string;
 }
 
 interface SortOptions {
-  by: 'relevance' | 'prepTime' | 'elementalState' | 'seasonal'
-  direction: 'asc' | 'desc'
+  by: 'relevance' | 'prepTime' | 'elementalState' | 'seasonal';
+  direction: 'asc' | 'desc';
 }
 
 interface EnhancedFilterOptions extends FilterOptions {
@@ -54,7 +54,7 @@ interface ScoredRecipe extends Recipe {
 // ===== MAIN RECIPE FILTER CLASS =====
 
 export class RecipeFilter {
-  private static instance: RecipeFilter,
+  private static instance: RecipeFilter;
 
   private constructor() {
     // Singleton pattern - private constructor
@@ -112,7 +112,7 @@ export class RecipeFilter {
           if (recipeMealType) {
             const mealTypeMatches = Array.isArray(recipeMealType)
               ? options.mealType.some(type => recipeMealType.includes(type))
-              : options.mealType.includes(String(recipeMealType)),
+              : options.mealType.includes(String(recipeMealType));
             if (!mealTypeMatches) return false;
           }
         }
@@ -331,16 +331,19 @@ export class RecipeFilter {
       let comparison = 0;
 
       switch (options.by) {
-        case 'relevance': comparison = b.score - a.score;
-          break;
-        case 'prepTime':
-          comparison =
-            this.parseTime(String(a.timeToMake || '')) - this.parseTime(String(b.timeToMake || ''));
-          break;
-        case 'elementalState': comparison = this.getElementalScore(b) - this.getElementalScore(a);
-          break;
-        case 'seasonal': comparison = this.getSeasonalScore(a) - this.getSeasonalScore(b);
-          break;
+        case 'relevance':
+        comparison = b.score - a.score;
+        break;
+      case 'prepTime':
+        comparison =
+          this.parseTime(String(a.timeToMake || '')) - this.parseTime(String(b.timeToMake || ''));
+        break;
+      case 'elementalState':
+        comparison = this.getElementalScore(b) - this.getElementalScore(a);
+        break;
+      case 'seasonal':
+        comparison = this.getSeasonalScore(a) - this.getSeasonalScore(b);
+        break;
         default:
           comparison = b.score - a.score;
       }
@@ -401,8 +404,8 @@ export class RecipeFilter {
             Boolean(recipe.isDairyFree) ||
             (isNonEmptyArray(recipe.tags) && recipe.tags.includes('dairy-free'))
           );
-        case 'Keto': return this.hasKetoAttributes(recipe),
-        case 'Paleo': return this.hasPaleoAttributes(recipe),
+        case 'Keto': return this.hasKetoAttributes(recipe);
+        case 'Paleo': return this.hasPaleoAttributes(recipe);
         default:
           return true;
       }
@@ -597,7 +600,7 @@ export class RecipeFilter {
     return recipes.slice(0, 10).map(recipe => ({
       ...recipe,
       score: 0.5
-}));
+    }));
   }
 
   /**

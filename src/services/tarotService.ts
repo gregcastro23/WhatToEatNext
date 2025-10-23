@@ -1,21 +1,21 @@
-const API_URL = 'https: //rws-cards-api.herokuapp.com/api/v1/cards'
+const API_URL = 'https://rws-cards-api.herokuapp.com/api/v1/cards'
 
-interface TarotCard {;
-  name: string,
-  name_short: string,
-  value: string,
-  value_int: number,
-  suit: string,
-  type: string,
-  meaning_up: string,
-  meaning_rev: string,
-  desc: string,
-  image: string,
-  image_back: string,
-  astrological?: string,
-  numerological?: string,
-  elemental?: string,
-  questions?: string[]
+interface TarotCard {
+  name: string;
+  name_short: string;
+  value: string;
+  value_int: number;
+  suit: string;
+  type: string;
+  meaning_up: string;
+  meaning_rev: string;
+  desc: string;
+  image: string;
+  image_back: string;
+  astrological?: string;
+  numerological?: string;
+  elemental?: string;
+  questions?: string[];
 }
 
 export async function getTarotCard(cardName: string): Promise<TarotCard | null> {

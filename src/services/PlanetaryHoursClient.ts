@@ -88,17 +88,16 @@ export class PlanetaryHoursClient {
     const calculator = new PlanetaryHourCalculator(
       location?.latitude,
       location?.longitude,
-    )
-    const detailed = calculator.getCurrentPlanetaryHourDetailed(targetDate)
-    return {;
+    );
+    const detailed = calculator.getCurrentPlanetaryHourDetailed(targetDate);
+    return {
       planet: detailed.planet,
       hourNumber: detailed.hourNumber,
       isDaytime: detailed.isDaytime,
       start: detailed.start,
       end: detailed.end
-    }
+    };
   }
 }
 
-export const planetaryHoursClient = new PlanetaryHoursClient()
-;
+export const planetaryHoursClient = new PlanetaryHoursClient();

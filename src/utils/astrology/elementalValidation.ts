@@ -12,15 +12,15 @@ import { logger } from '@/utils/logger';
  * Validate elemental properties structure and values
  */
 export function validateElementalProperties(
-  properties: unknown,
+  properties: unknown
 ): properties is ElementalProperties {
   if (!properties || typeof properties !== 'object') {
-    logger.warn('Elemental properties must be an object')
-    return false
+    logger.warn('Elemental properties must be an object');
+    return false;
   }
 
   const props = properties as any;
-  const REQUIRED_ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'],
+  const REQUIRED_ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'];
 
   // Check for required elements
   for (const element of REQUIRED_ELEMENTS) {
@@ -48,22 +48,22 @@ export function validateElementalProperties(
  * Normalize elemental properties to ensure valid structure
  */
 export function normalizeElementalProperties(
-  properties: Partial<ElementalProperties>,
+  properties: Partial<ElementalProperties>
 ): ElementalProperties {
   const normalized: ElementalProperties = {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-}
+  };
 
   // Apply provided values if valid
   if (properties) {
     Object.entries(properties).forEach(([element, value]) => {
-      if (element in normalized && typeof value === 'number' && value >= 0 && value <= 1) {;
-        (normalized as unknown)[element] = value;
+      if (element in normalized && typeof value === 'number' && value >= 0 && value <= 1) {
+        (normalized as any)[element] = value;
       }
-    })
+    });
   }
 
   return normalized;
@@ -84,7 +84,7 @@ export function calculateElementalHarmony(
   let totalHarmony = 0;
   let weightedSum = 0;
 
-  const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
+  const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
 
   for (const element of elements) {
     const sourceStrength = source[element];
@@ -93,7 +93,7 @@ export function calculateElementalHarmony(
     if (sourceStrength > 0 && targetStrength > 0) {
       // Self-reinforcement: same elements have highest compatibility (0.9)
       const compatibility = 0.9;
-      const weight = Math.min(sourceStrength, targetStrength)
+      const weight = Math.min(sourceStrength, targetStrength);
 
       totalHarmony += compatibility * weight;
       weightedSum += weight;
@@ -109,7 +109,7 @@ export function calculateElementalHarmony(
 
         if (sourceStrength > 0 && targetStrength > 0) {
           // Different elements have good compatibility (0.7-0.8)
-          const compatibility = getElementalCompatibility(sourceElement, targetElement)
+          const compatibility = getElementalCompatibility(sourceElement, targetElement);
           const weight = Math.min(sourceStrength, targetStrength) * 0.5; // Reduced weight for cross-element
 
           totalHarmony += compatibility * weight;
@@ -120,7 +120,7 @@ export function calculateElementalHarmony(
   }
 
   // Ensure minimum compatibility of 0.7
-  return Math.max(0.7, weightedSum > 0 ? totalHarmony / weightedSum : 0.7)
+  return Math.max(0.7, weightedSum > 0 ? totalHarmony / weightedSum : 0.7);
 }
 
 /**
@@ -128,14 +128,14 @@ export function calculateElementalHarmony(
  */
 function getElementalCompatibility(
   source: keyof ElementalProperties,
-  target: keyof ElementalProperties,
+  target: keyof ElementalProperties
 ): number {
   const compatibilityMatrix = {
     Fire: { Water: 0.7, Earth: 0.7, Air: 0.8 },
     Water: { Fire: 0.7, Earth: 0.8, Air: 0.7 },
     Earth: { Fire: 0.7, Water: 0.8, Air: 0.7 },
     Air: { Fire: 0.8, Water: 0.7, Earth: 0.7 }
-  }
+  };
 
   return compatibilityMatrix[source][target] || 0.7;
 }
@@ -145,12 +145,14 @@ function getElementalCompatibility(
  */
 export function getDominantElement(properties: ElementalProperties): keyof ElementalProperties {
   if (!validateElementalProperties(properties)) {
-    logger.warn('Invalid elemental properties, defaulting to Fire')
-    return 'Fire' };
-        const elements = Object.entries(properties) as [keyof ElementalProperties, number][],
-  const dominant = elements.reduce((max, current) => (current[1] > max[1] ? current : max))
+    logger.warn('Invalid elemental properties, defaulting to Fire');
+    return 'Fire';
+  }
 
-  return dominant[0]
+  const elements = Object.entries(properties) as [keyof ElementalProperties, number][];
+  const dominant = elements.reduce((max, current) => (current[1] > max[1] ? current : max));
+
+  return dominant[0];
 }
 
 /**
@@ -158,14 +160,14 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
  */
 export function enhanceDominantElement(properties: ElementalProperties): ElementalProperties {
   if (!validateElementalProperties(properties)) {
-    return normalizeElementalProperties(properties)
+    return normalizeElementalProperties(properties);
   }
 
-  const dominant = getDominantElement(properties)
-  const enhanced = { ...properties }
+  const dominant = getDominantElement(properties);
+  const enhanced = { ...properties };
 
   // Self-reinforcement: boost the dominant element by 10%
-  enhanced[dominant] = Math.min(1.0, properties[dominant] * 1.1)
+  enhanced[dominant] = Math.min(1.0, properties[dominant] * 1.1);
 
   return enhanced;
 }
@@ -175,27 +177,28 @@ export function enhanceDominantElement(properties: ElementalProperties): Element
  */
 export function createElementalProperties(
   dominantElement: keyof ElementalProperties,
-  strength: number = 0.7): ElementalProperties {
+  strength: number = 0.7
+): ElementalProperties {
   const properties: ElementalProperties = {
     Fire: 0.1,
     Water: 0.1,
     Earth: 0.1,
     Air: 0.1
-}
+  };
 
   // Set the dominant element strength
-  properties[dominantElement] = Math.max(0.1, Math.min(1.0, strength))
+  properties[dominantElement] = Math.max(0.1, Math.min(1.0, strength));
 
   // Distribute remaining strength among other elements
-  const remainingStrength = Math.max(01.0 - properties[dominantElement])
-  const otherElements = (['Fire', 'Water', 'Earth', 'Air'] as const).filter(,
+  const remainingStrength = Math.max(0, 1.0 - properties[dominantElement]);
+  const otherElements = (['Fire', 'Water', 'Earth', 'Air'] as const).filter(
     e => e !== dominantElement
-  )
+  );
   const perElement = remainingStrength / otherElements.length;
 
-  otherElements.forEach(element => {,
-    properties[element] = Math.max(0.05, perElement)
-  })
+  otherElements.forEach(element => {
+    properties[element] = Math.max(0.05, perElement);
+  });
 
   return properties;
 }
@@ -205,17 +208,17 @@ export function createElementalProperties(
  */
 export function validateSelfReinforcement(properties: ElementalProperties): boolean {
   if (!validateElementalProperties(properties)) {
-    return false
+    return false;
   }
 
-  const dominant = getDominantElement(properties)
+  const dominant = getDominantElement(properties);
   const dominantValue = properties[dominant];
 
   // Dominant element should be at least 0.3 for clear self-reinforcement
   if (dominantValue < 0.3) {
     logger.warn(
-      `Dominant element ${dominant} strength ${dominantValue} is too low for self-reinforcement`,
-    )
+      `Dominant element ${dominant} strength ${dominantValue} is too low for self-reinforcement`
+    );
     return false;
   }
 
@@ -235,4 +238,4 @@ export const _ELEMENTAL_CONSTANTS = {
   _DIFFERENT_ELEMENT_COMPATIBILITY: 0.7,
   _FIRE_AIR_COMPATIBILITY: 0.8,
   WATER_EARTH_COMPATIBILITY: 0.8
-} as const,
+} as const;
