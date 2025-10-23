@@ -4,11 +4,9 @@
 
 // Export all validation utilities
 export * from './validation';
-,
 
 // Export safe accessor utilities
 export * from './safeAccess';
-,
 
 // Export logger
 export { createLogger, logger } from './logger';
@@ -21,11 +19,9 @@ export {
     getZodiacElementalInfluence as zodiacUtilsGetZodiacElementalInfluence,
     getZodiacSign as zodiacUtilsGetZodiacSign
 } from './zodiacUtils';
-,
 
 // Export sign vector utilities
 export * from './signVectors';
-,
 
 // Named exports for specific utilities
 export { default as ErrorHandler } from '../services/errorHandler';

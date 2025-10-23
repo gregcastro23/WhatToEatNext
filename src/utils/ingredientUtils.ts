@@ -33,14 +33,14 @@ import { ElementalProperties } from '@/types/alchemy';
  * @returns The modality (Cardinal, Fixed, or Mutable)
  */
 export function determineIngredientModality(
-  qualities: string[] = [];
-  elementalProperties?: ElementalProperties,
+  qualities: string[] = [],
+  elementalProperties?: ElementalProperties
 ): any {
   // Ensure qualities is an array
   const qualitiesArray = Array.isArray(qualities) ? qualities : [];
 
   // Create normalized arrays of qualities for easier matching
-  const normalizedQualities = qualitiesArray.map(q => q.toLowerCase())
+  const normalizedQualities = qualitiesArray.map(q => q.toLowerCase());
   // Look for explicit quality indicators in the ingredients
   const cardinalKeywords = [
     'initiating',
@@ -49,14 +49,13 @@ export function determineIngredientModality(
     'stimulating',
     'invigorating',
     'activating'
-  ],
-  const fixedKeywords = ['grounding', 'stabilizing', 'nourishing', 'sustaining', 'foundational'],
-  const mutableKeywords = ['adaptable', 'flexible', 'versatile', 'balancing', 'harmonizing'],
+  ];
+  const fixedKeywords = ['grounding', 'stabilizing', 'nourishing', 'sustaining', 'foundational'];
+  const mutableKeywords = ['adaptable', 'flexible', 'versatile', 'balancing', 'harmonizing'];
 
-  const hasCardinalQuality = normalizedQualities.some(q => cardinalKeywords.includes(q))
-  const hasFixedQuality = normalizedQualities.some(q => fixedKeywords.includes(q))
-  const hasMutableQuality = normalizedQualities.some(q => mutableKeywords.includes(q))
-;
+  const hasCardinalQuality = normalizedQualities.some(q => cardinalKeywords.includes(q));
+  const hasFixedQuality = normalizedQualities.some(q => fixedKeywords.includes(q));
+  const hasMutableQuality = normalizedQualities.some(q => mutableKeywords.includes(q));
   // If there's a clear quality indicator, use that
   if (hasCardinalQuality && !hasFixedQuality && !hasMutableQuality) {
     return 'Cardinal';
@@ -154,112 +153,112 @@ export function isFullIngredient(ingredient: unknown): ingredient is Ingredient 
  * Validates that an ingredient object has all required properties
  */
 export function validateIngredient(ingredient: Partial<Ingredient> & {
-    qualities?: string[]
-    storage?: { temperature?: string, humidity?: string },
+    qualities?: string[];
+    storage?: { temperature?: string; humidity?: string };
   }): {
-  isValid: boolean,
-  errors: string[]
+  isValid: boolean;
+  errors: string[];
 } {
   const errors: string[] = [];
 
   // Required fields
   if (!ingredient.name || typeof ingredient.name !== 'string') {
-    errors.push('Name is required and must be a string')
+    errors.push('Name is required and must be a string');
   }
 
   if (!ingredient.category) {
-    errors.push('Category is required')
+    errors.push('Category is required');
   }
 
   if (!ingredient.elementalProperties) {
-    errors.push('Elemental properties are required')
+    errors.push('Elemental properties are required');
   }
 
   // Optional validations
   if (ingredient.qualities && !Array.isArray(ingredient.qualities)) {
-    errors.push('Qualities must be an array')
+    errors.push('Qualities must be an array');
   }
 
   // Fix specific property access errors
   if (ingredient.qualities && Array.isArray(ingredient.qualities)) {
     // Check each quality is a string
-    const invalidQualities = ingredient.qualities.filter((q: unknown) => typeof q !== 'string')
+    const invalidQualities = ingredient.qualities.filter((q: unknown) => typeof q !== 'string');
     if (invalidQualities.length > 0) {
-      errors.push('All qualities must be strings')
+      errors.push('All qualities must be strings');
     }
   }
 
   // Storage validation
   if (ingredient.storage && typeof ingredient.storage !== 'object') {
-    errors.push('Storage must be an object')
+    errors.push('Storage must be an object');
   }
 
   if (ingredient.storage && typeof ingredient.storage === 'object') {
-    // Additional storage property validations could go here;
+    // Additional storage property validations could go here
   }
 
   // Elemental properties validation
   if (ingredient.elementalProperties) {
-    const elements = ['Fire', 'Water', 'Earth', 'Air']
+    const elements = ['Fire', 'Water', 'Earth', 'Air'];
     const props = ingredient.elementalProperties;
 
     for (const element of elements) {
       if (typeof props[element] !== 'number') {
-        errors.push(`Elemental property ${element} must be a number`)
+        errors.push(`Elemental property ${element} must be a number`);
       }
     }
   }
 
   return {
-    isValid: errors.length === 0;
+    isValid: errors.length === 0,
     errors
-  }
+  };
 }
 
 /**
  * Validates a recipe ingredient
  */
-export function validateRecipeIngredient(_ingredient: Partial<RecipeIngredient>): {
-  isValid: boolean,
-  errors: string[]
+export function validateRecipeIngredient(ingredient: Partial<RecipeIngredient>): {
+  isValid: boolean;
+  errors: string[];
 } {
   const errors: string[] = [];
 
   // Check required fields
   if (!ingredient.name) {
-    errors.push('Name is required')
+    errors.push('Name is required');
   }
 
   if (typeof ingredient.amount !== 'number') {
-    errors.push('Amount must be a number')
+    errors.push('Amount must be a number');
   }
 
   if (!ingredient.unit) {
-    errors.push('Unit is required')
+    errors.push('Unit is required');
   }
 
   // If elemental properties are provided, validate them
   if (ingredient.elementalProperties) {
-    const { Fire, Water, Earth, Air} = ingredient.elementalProperties;
+    const { Fire, Water, Earth, Air } = ingredient.elementalProperties;
 
     if (typeof Fire !== 'number' || Fire < 0 || Fire > 1) {
-      errors.push('Fire elemental property must be a number between 0 and 1')
+      errors.push('Fire elemental property must be a number between 0 and 1');
     }
     if (typeof Water !== 'number' || Water < 0 || Water > 1) {
-      errors.push('Water elemental property must be a number between 0 and 1')
+      errors.push('Water elemental property must be a number between 0 and 1');
     }
     if (typeof Earth !== 'number' || Earth < 0 || Earth > 1) {
-      errors.push('Earth elemental property must be a number between 0 and 1')
+      errors.push('Earth elemental property must be a number between 0 and 1');
     }
     if (typeof Air !== 'number' || Air < 0 || Air > 1) {
-      errors.push('Air elemental property must be a number between 0 and 1')
+      errors.push('Air elemental property must be a number between 0 and 1');
     }
   }
 
   return {
-    isValid: errors.length === 0;
+    isValid: errors.length === 0,
     errors
-  }
+  };
 }
 
 /**
@@ -275,15 +274,15 @@ export function mergeElementalProperties(
     Water: base.Water * (1 - weight) + addition.Water * weight,
     Earth: base.Earth * (1 - weight) + addition.Earth * weight,
     Air: base.Air * (1 - weight) + addition.Air * weight
-  }
+  };
 }
 
 /**
  * Gets the dominant element from an ElementalProperties object
  */
-export function getDominantElement(_elementalProperties: ElementalProperties): string {
-  const { Fire, Water, Earth, Air} = elementalProperties;
-  const max = Math.max(Fire, Water, Earth, Air)
+export function getDominantElement(elementalProperties: ElementalProperties): string {
+  const { Fire, Water, Earth, Air } = elementalProperties;
+  const max = Math.max(Fire, Water, Earth, Air);
 
   if (max === Fire) return 'Fire';
   if (max === Water) return 'Water';
@@ -299,25 +298,25 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
   // Set default values for required properties
   const ingredient = {
     name: (mapping.name as unknown) || '',
-    category: (mapping.category as unknown as IngredientCategory) || 'culinary_herb'
+    category: (mapping.category as unknown as IngredientCategory) || 'culinary_herb',
     elementalProperties: (mapping.elementalProperties as unknown as ElementalProperties) || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-},
+    },
     qualities: (mapping.qualities as unknown as string[]) || [],
     storage: (mapping.storage as unknown) || {
-      _duration: 'unknown'
-},
+      duration: 'unknown'
+    },
     // Add missing required properties for Ingredient interface
-    amount: (mapping as unknown).amount || 1,
-    astrologicalProfile: (mapping as unknown).astrologicalProfile || {
-      _elementalAffinity: { base: 'Earth' },
-      _rulingPlanets: [],
-      _zodiacAffinity: []
+    amount: (mapping as unknown as any).amount || 1,
+    astrologicalProfile: (mapping as unknown as any).astrologicalProfile || {
+      elementalAffinity: { base: 'Earth' },
+      rulingPlanets: [],
+      zodiacAffinity: []
     }
-  } as unknown as Ingredient,
+  } as unknown as Ingredient;
 
   // Add any additional properties from the mapping
   for (const key in mapping) {
@@ -339,14 +338,14 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
  */
 export function ingredientToRecipeIngredient(
   ingredient: Ingredient,
-  amount = 1;
+  amount = 1,
   unit = 'item'
 ): RecipeIngredient {
   return {
     name: ingredient.name,
     amount,
     unit,
-    category: ingredient.category || 'culinary_herb'
+    category: ingredient.category || 'culinary_herb',
     elementalProperties: ingredient.elementalProperties as any,
     qualities: (ingredient as any).qualities || [],
     astrologicalProfile: ingredient.astrologicalProfile,
@@ -359,13 +358,13 @@ export function ingredientToRecipeIngredient(
 /**
  * Normalizes elemental properties to ensure they sum to 1
  */
-export function normalizeElementalProperties(_properties: ElementalProperties): ElementalProperties {
-  const { Fire, Water, Earth, Air} = properties;
+export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
+  const { Fire, Water, Earth, Air } = properties;
   const sum = Fire + Water + Earth + Air;
 
-  if (sum === 0) {;
+  if (sum === 0) {
     // If all values are 0, return an evenly balanced set
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
 
   return {
@@ -373,5 +372,5 @@ export function normalizeElementalProperties(_properties: ElementalProperties): 
     Water: Water / sum,
     Earth: Earth / sum,
     Air: Air / sum
-  }
+  };
 }
