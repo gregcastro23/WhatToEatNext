@@ -270,3 +270,6 @@ const rawLegumes = {
 export const _legumes: Record<string, IngredientMapping> = fixIngredientMappings(
   rawLegumes as Record<string, Partial<IngredientMapping>>,
 );
+
+// Export without underscore for compatibility
+export const legumes = _legumes;

@@ -63,13 +63,13 @@ const alchemicalEngine = {
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
-},
+        },
         thermodynamicProperties: {
           heat: 0.5,
           entropy: 0.5,
           reactivity: 0.5,
           gregsEnergy: 0.0
-},
+        },
         kalchm: 1.0,
         monica: 1.0,
         score: 0.5,
@@ -122,7 +122,7 @@ const alchemicalEngine = {
         capricorn: 0.0833,
         aquarius: 0.0833,
         pisces: 0.0833
-}
+      }
     }
   },
 
@@ -141,7 +141,7 @@ const alchemicalEngine = {
         throat: 0.125,
         thirdEye: 0.125,
         crown: 0.125
-}
+      }
     }
   },
 
@@ -158,7 +158,7 @@ const alchemicalEngine = {
           Water: 0.25,
           Air: 0.25,
           Earth: 0.25
-})
+        })
       }
     }
   },
@@ -182,7 +182,7 @@ const alchemicalEngine = {
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
-}
+        }
       } as AstrologicalState
     } catch (error) {
       _logger.error('Error getting current astrological state: ', error)
@@ -201,11 +201,11 @@ const alchemicalEngine = {
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
-}
+        }
       } as AstrologicalState
     }
   }
-}
+};
 
 // Create and export the alchemical engine instance
 export const _alchemicalEngineInstance = new AlchemicalEngineBase()

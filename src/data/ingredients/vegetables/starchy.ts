@@ -205,3 +205,6 @@ const rawStarchyVegetables = {
 export const _starchyVegetables: Record<string, IngredientMapping> = fixIngredientMappings(
   rawStarchyVegetables as unknown as Record<string, Partial<IngredientMapping>>,
 );
+
+// Export without underscore for compatibility
+export const starchyVegetables = _starchyVegetables;

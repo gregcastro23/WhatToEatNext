@@ -80,3 +80,6 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Fix the ingredient mappings to ensure they have all required properties
 export const _groundSpices: Record<string, IngredientMapping> =
   fixIngredientMappings(rawGroundSpices);
+
+// Export without underscore for compatibility
+export const groundSpices = _groundSpices;

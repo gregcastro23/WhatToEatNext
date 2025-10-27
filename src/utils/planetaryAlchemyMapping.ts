@@ -108,7 +108,7 @@ export function calculateAlchemicalFromPlanets(
   for (const planet in planetaryPositions) {
     const planetData = PLANETARY_ALCHEMY[planet as PlanetName];
     if (!planetData) {
-      console.warn(`Unknown planet in alchemical calculation: ${planet}`),
+      console.warn(`Unknown planet in alchemical calculation: ${planet}`);
       continue;
     }
 
@@ -153,7 +153,7 @@ export function aggregateZodiacElementals(
     const element = ZODIAC_ELEMENTS[sign];
 
     if (!element) {
-      console.warn(`Unknown zodiac sign in elemental aggregation: ${sign}`),
+      console.warn(`Unknown zodiac sign in elemental aggregation: ${sign}`);
       continue;
     }
 

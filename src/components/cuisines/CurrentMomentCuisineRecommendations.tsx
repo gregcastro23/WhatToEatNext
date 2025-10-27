@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Current Moment Cuisine Recommendations Component
  * Phase 6: Complete Astrological Cuisine Integration
@@ -163,7 +165,7 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
       setLoading(true);
       setError('');
 
-      const response = await fetch('http: //localhost:8101/cuisines/recommend'),
+      const response = await fetch('http://localhost:8101/cuisines/recommend');
       if (!response.ok) {
         throw new Error('Failed to fetch cuisine recommendations');
       }

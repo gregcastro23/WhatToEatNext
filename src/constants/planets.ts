@@ -25,3 +25,6 @@ export const _PLANETARY_MODIFIERS: Record<RulingPlanet, number> = {
   Pluto: 0.2,
   Moon: 0.35
 }
+
+// Export without underscore for compatibility
+export const PLANETARY_MODIFIERS = _PLANETARY_MODIFIERS;

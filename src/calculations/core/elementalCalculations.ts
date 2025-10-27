@@ -13,6 +13,22 @@ import type {
 import type { CelestialPosition } from '@/types/celestial';
 import { getCurrentPlanetaryPositions } from '../../utils/streamlinedPlanetaryPositions';
 
+// Zodiac to Element mapping (exported for reuse)
+export const ZODIAC_ELEMENTS: Record<string, Element> = {
+  aries: 'Fire',
+  taurus: 'Earth',
+  gemini: 'Air',
+  cancer: 'Water',
+  leo: 'Fire',
+  virgo: 'Earth',
+  libra: 'Air',
+  scorpio: 'Water',
+  sagittarius: 'Fire',
+  capricorn: 'Earth',
+  aquarius: 'Air',
+  pisces: 'Water'
+};
+
 // Type guards for safe property access
 function isValidObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
@@ -37,25 +53,10 @@ export function calculateBaseElementalProperties(planetaryPositions: { [key: str
     Air: 0
 };
 
-  // Elemental mapping for zodiac signs
-  const signElements: Record<string, Element> = {
-    aries: 'Fire',
-    taurus: 'Earth',
-    gemini: 'Air',
-    cancer: 'Water',
-    leo: 'Fire',
-    virgo: 'Earth',
-    libra: 'Air',
-    scorpio: 'Water',
-    sagittarius: 'Fire',
-    capricorn: 'Earth',
-    aquarius: 'Air',
-    pisces: 'Water'
-};
-
+  // Use the exported ZODIAC_ELEMENTS mapping
   // Calculate elemental influence from each planet
   for (const [planetName, position] of Object.entries(planetaryPositions)) {
-    const signElement = signElements[position.sign];
+    const signElement = ZODIAC_ELEMENTS[position.sign];
     if (signElement && elements[signElement] !== undefined) {
       // Base influence of 1.0 for each planet in its sign
       elements[signElement] += 1.0;

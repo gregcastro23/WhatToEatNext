@@ -1092,3 +1092,6 @@ const rawWholeSpices = {
 export const _wholeSpices: Record<string, IngredientMapping> = fixIngredientMappings(
   rawWholeSpices as Record<string, Partial<IngredientMapping>>,
 );
+
+// Export without underscore for compatibility
+export const wholeSpices = _wholeSpices;

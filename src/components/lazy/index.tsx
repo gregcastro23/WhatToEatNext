@@ -1,34 +1,33 @@
-import React, { lazy } from 'react';
+'use client';
+
+import React from 'react';
+import dynamic from 'next/dynamic';
 
 // Simple logger fallback
 const _logger = {
   error: (message: string, ...args: any[]) => console.error(`[ERROR] ${message}`, ...args)
 };
 
-// Lazy-loaded components for code splitting
-export const LazyPlanetaryHourDisplay = lazy(() =>
-  import('../PlanetaryHourDisplay').then(module => ({
-    default: module.PlanetaryHourDisplay
-  }))
-)
+// Lazy-loaded components for code splitting - use Next.js dynamic instead of React.lazy
+export const LazyPlanetaryHourDisplay = dynamic(
+  () => import('../PlanetaryHourDisplay').then(module => module.PlanetaryHourDisplay),
+  { ssr: false }
+);
 
-export const LazyEnhancedRecommendationEngine = lazy(() =>
-  import('../EnhancedRecommendationEngine').then(module => ({
-    default: module.EnhancedRecommendationEngine
-  }))
-)
+export const LazyEnhancedRecommendationEngine = dynamic(
+  () => import('../EnhancedRecommendationEngine').then(module => module.EnhancedRecommendationEngine),
+  { ssr: false }
+);
 
-export const LazyEnergyVisualization = lazy(() =>
-  import('../EnergyVisualization').then(module => ({
-    default: module.EnergyVisualization
-  }))
-)
+export const LazyEnergyVisualization = dynamic(
+  () => import('../EnergyVisualization').then(module => module.EnergyVisualization),
+  { ssr: false }
+);
 
-export const LazyCelestialEventNotifications = lazy(() =>
-  import('../CelestialEventNotifications').then(module => ({
-    default: module.CelestialEventNotifications
-  }))
-)
+export const LazyCelestialEventNotifications = dynamic(
+  () => import('../CelestialEventNotifications').then(module => module.CelestialEventNotifications),
+  { ssr: false }
+);
 
 // Loading component for Suspense fallbacks
 export const ComponentLoader: React.FC<{ message?: string }> = ({ message = 'Loading component...' }) => (

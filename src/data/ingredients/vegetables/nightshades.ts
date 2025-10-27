@@ -92,3 +92,6 @@ const rawNightshades = {
 export const _nightshades: Record<string, IngredientMapping> = fixIngredientMappings(
   rawNightshades as Record<string, Partial<IngredientMapping>>,
 );
+
+// Export without underscore for compatibility
+export const nightshades = _nightshades;

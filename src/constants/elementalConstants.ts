@@ -20,7 +20,10 @@ export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-}
+};
+
+// Non-underscored export for compatibility
+export const DEFAULT_ELEMENTAL_PROPERTIES = _DEFAULT_ELEMENTAL_PROPERTIES;
 
 /**
  * Validation thresholds for elemental properties

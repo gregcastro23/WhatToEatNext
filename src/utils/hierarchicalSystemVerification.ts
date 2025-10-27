@@ -110,11 +110,11 @@ export const TEST_COOKING_METHODS: (string | CookingMethod)[] = [
  * Verify Level 1 (Ingredients) functionality
  */
 export function verifyLevel1Ingredients(): {
-  isValid: boolean,
-  results: any[],
+  isValid: boolean;
+  results: any[];
   errors: string[];
 } {
-  console.log('🔍 Verifying Level 1: Ingredients'),
+  console.log('🔍 Verifying Level 1: Ingredients');
   const results: any[] = [];
   const errors: string[] = [];
 
@@ -184,15 +184,15 @@ export function verifyLevel1Ingredients(): {
  * Verify Level 2 (Recipes) functionality
  */
 export function verifyLevel2Recipes(): {
-  isValid: boolean,
-  results: any[],
-  errors: string[],
+  isValid: boolean;
+  results: any[];
+  errors: string[];
   computedRecipe?: RecipeComputedProperties;
 } {
-  console.log('🔍 Verifying Level 2: Recipes'),
+  console.log('🔍 Verifying Level 2: Recipes');
   const results: any[] = [];
   const errors: string[] = [];
-  let computedRecipe: RecipeComputedProperties | undefined,
+  let computedRecipe: RecipeComputedProperties | undefined;
 
   try {
     // Test 1: Recipe computation with planetary positions
@@ -212,7 +212,7 @@ export function verifyLevel2Recipes(): {
         applyCookingMethods: true,
         quantityScaling: 'logarithmic',
         cacheResults: false
-}
+      }
     );
 
     // Test 2: Validate computed properties structure
@@ -299,19 +299,19 @@ export function verifyLevel2Recipes(): {
  * Verify Level 3 (Cuisines) functionality
  */
 export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
-  isValid: boolean,
-  results: any[],
-  errors: string[],
+  isValid: boolean;
+  results: any[];
+  errors: string[];
   computedCuisine?: CuisineComputedProperties;
 } {
-  console.log('🔍 Verifying Level 3: Cuisines'),
+  console.log('🔍 Verifying Level 3: Cuisines');
   const results: any[] = [];
   const errors: string[] = [];
-  let computedCuisine: CuisineComputedProperties | undefined,
+  let computedCuisine: CuisineComputedProperties | undefined;
 
   try {
     if (!recipe) {
-      errors.push('Level 3 verification: No recipe data provided from Level 2'),
+      errors.push('Level 3 verification: No recipe data provided from Level 2');
       return { isValid: false, results, errors };
     }
 
@@ -333,13 +333,13 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
       weightingStrategy: 'equal',
       includeVariance: true,
       identifyPlanetaryPatterns: true
-});
+    });
 
     // Test 2: Validate cuisine properties
     if (!computedCuisine.averageElementals) {
       errors.push('Cuisine computation: Missing average elementals');
     } else {
-      results.push('✅ Cuisine computation: Average elementals calculated'),
+      results.push('✅ Cuisine computation: Average elementals calculated');
 
       const sum = Object.values(computedCuisine.averageElementals).reduce((s, v) => s + v, 0);
       if (Math.abs(sum - 1.0) > 0.01) {
@@ -364,7 +364,7 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
     if (!computedCuisine.variance) {
       errors.push('Cuisine computation: Missing variance data');
     } else {
-      results.push('✅ Cuisine computation: Statistical variance calculated'),
+      results.push('✅ Cuisine computation: Statistical variance calculated');
       results.push(`   Diversity score: ${computedCuisine.variance.diversityScore.toFixed(3)}`);
     }
 
@@ -372,11 +372,11 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
     const signatures = identifyCuisineSignatures(computedCuisine, DEFAULT_GLOBAL_BASELINE, {
       threshold: 1.5,
       includeConfidence: true
-});
+    });
 
     computedCuisine.signatures = signatures;
 
-    results.push(`✅ Signature identification: ${signatures.length} signatures identified`),
+    results.push(`✅ Signature identification: ${signatures.length} signatures identified`);
 
     signatures.forEach(signature => {
       results.push(`   ${signature.property}: ${signature.strength} strength (z-score: ${signature.zscore.toFixed(2)})`);
@@ -386,11 +386,11 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
     const planetaryPatterns = analyzePlanetaryPatterns(mockRecipes, {
       minStrength: 0.3,
       includeCulturalNotes: true
-});
+    });
 
     computedCuisine.planetaryPatterns = planetaryPatterns;
 
-    results.push(`✅ Planetary pattern analysis: ${planetaryPatterns.length} patterns identified`),
+    results.push(`✅ Planetary pattern analysis: ${planetaryPatterns.length} patterns identified`);
 
     planetaryPatterns.forEach(pattern => {
       results.push(`   ${pattern.planet}: ${pattern.planetaryStrength.toFixed(2)} strength, dominant element: ${pattern.dominantElement}`);
@@ -402,15 +402,15 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
       Water: 0.1,
       Earth: 0.1,
       Air: 0.1
-});
+    });
 
     const recommendations = generateEnhancedCuisineRecommendations({
       elementalProperties: userProfile.elementalPreferences,
       useAdvancedAnalysis: true
-});
+    });
 
     if (recommendations.length > 0) {
-      results.push(`✅ Recommendation engine: ${recommendations.length} recommendations generated`),
+      results.push(`✅ Recommendation engine: ${recommendations.length} recommendations generated`);
       results.push(`   Top recommendation: ${recommendations[0].cuisine} (${Math.round(recommendations[0].score * 100)}% match)`);
     } else {
       errors.push('Recommendation engine: No recommendations generated');
@@ -427,7 +427,7 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
     const cachedResult = cache.get(cacheKey, {});
 
     if (cachedResult) {
-      results.push('✅ Caching system: Successfully stored and retrieved data'),
+      results.push('✅ Caching system: Successfully stored and retrieved data');
       const cacheStats = cache.getStats();
       results.push(`   Cache stats: ${cacheStats.totalEntries} entries, ${Math.round(cacheStats.hitRate * 100)}% hit rate`);
     } else {
@@ -450,14 +450,14 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
  * Run complete hierarchical system verification
  */
 export async function verifyHierarchicalSystem(): Promise<{
-  overallValid: boolean,
-  level1: ReturnType<typeof verifyLevel1Ingredients>,
-  level2: ReturnType<typeof verifyLevel2Recipes>,
-  level3: ReturnType<typeof verifyLevel3Cuisines>,
+  overallValid: boolean;
+  level1: ReturnType<typeof verifyLevel1Ingredients>;
+  level2: ReturnType<typeof verifyLevel2Recipes>;
+  level3: ReturnType<typeof verifyLevel3Cuisines>;
   summary: {
-    totalTests: number,
-    passedTests: number,
-    failedTests: number,
+    totalTests: number;
+    passedTests: number;
+    failedTests: number;
     performance: any;
   };
 }> {
@@ -471,7 +471,7 @@ export async function verifyHierarchicalSystem(): Promise<{
     maxSize: 10,
     ttl: 60 * 1000, // 1 minute for testing
     enableStats: true
-});
+  });
 
   // Run Level 1 verification
   const level1 = verifyLevel1Ingredients();
@@ -499,7 +499,7 @@ export async function verifyHierarchicalSystem(): Promise<{
       level1Time: 0, // Would need to track individually
       level2Time: 0,
       level3Time: 0
-}
+    }
   };
 
   const overallValid = level1.isValid && level2.isValid && level3.isValid;
@@ -509,19 +509,19 @@ export async function verifyHierarchicalSystem(): Promise<{
   console.log('📊 HIERARCHICAL SYSTEM VERIFICATION RESULTS');
   console.log('='.repeat(60));
 
-  console.log(`🎯 Overall Status: ${overallValid ? '✅ ALL SYSTEMS OPERATIONAL' : '❌ ISSUES DETECTED'}`),
-  console.log(`⏱️  Total Execution Time: ${(executionTime / 1000).toFixed(2)}s`),
-  console.log(`🧪 Tests Executed: ${summary.totalTests + summary.failedTests}`),
-  console.log(`✅ Tests Passed: ${summary.passedTests}`),
-  console.log(`❌ Tests Failed: ${summary.failedTests}`),
+  console.log(`🎯 Overall Status: ${overallValid ? '✅ ALL SYSTEMS OPERATIONAL' : '❌ ISSUES DETECTED'}`);
+  console.log(`⏱️  Total Execution Time: ${(executionTime / 1000).toFixed(2)}s`);
+  console.log(`🧪 Tests Executed: ${summary.totalTests + summary.failedTests}`);
+  console.log(`✅ Tests Passed: ${summary.passedTests}`);
+  console.log(`❌ Tests Failed: ${summary.failedTests}`);
 
-  console.log('\n📈 LEVEL BREAKDOWN: '),
+  console.log('\n📈 LEVEL BREAKDOWN: ');
   console.log(`   Level 1 (Ingredients): ${level1.isValid ? '✅' : '❌'} (${level1.results.length} passed, ${level1.errors.length} errors)`);
   console.log(`   Level 2 (Recipes): ${level2.isValid ? '✅' : '❌'} (${level2.results.length} passed, ${level2.errors.length} errors)`);
   console.log(`   Level 3 (Cuisines): ${level3.isValid ? '✅' : '❌'} (${level3.results.length} passed, ${level3.errors.length} errors)`);
 
   if (allErrors.length > 0) {
-    console.log('\n🚨 CRITICAL ISSUES FOUND: '),
+    console.log('\n🚨 CRITICAL ISSUES FOUND: ');
     allErrors.forEach((error, index) => {
       console.log(`   ${index + 1}. ${error}`);
     });
@@ -530,9 +530,9 @@ export async function verifyHierarchicalSystem(): Promise<{
     console.log('   The hierarchical culinary system is fully operational.');
   }
 
-  console.log('\n🔗 SYSTEM INTEGRITY CONFIRMED: '),
-  console.log('   • Level 1 → Level 2: Ingredient elementals feed recipe computation'),
-  console.log('   • Level 2 → Level 3: Recipe properties aggregate into cuisine signatures'),
+  console.log('\n🔗 SYSTEM INTEGRITY CONFIRMED: ');
+  console.log('   • Level 1 → Level 2: Ingredient elementals feed recipe computation');
+  console.log('   • Level 2 → Level 3: Recipe properties aggregate into cuisine signatures');
   console.log('   • Planetary positions properly integrated throughout all levels');
   console.log('   • Statistical calculations maintain numerical stability');
   console.log('   • Caching system provides performance optimization');
@@ -552,11 +552,11 @@ export async function verifyHierarchicalSystem(): Promise<{
  * Get system health status
  */
 export function getSystemHealth(): {
-  level1Ready: boolean,
-  level2Ready: boolean,
-  level3Ready: boolean,
-  cacheReady: boolean,
-  overallHealth: 'excellent' | 'good' | 'fair' | 'poor'
+  level1Ready: boolean;
+  level2Ready: boolean;
+  level3Ready: boolean;
+  cacheReady: boolean;
+  overallHealth: 'excellent' | 'good' | 'fair' | 'poor';
 } {
   // Simple health checks
   const level1Ready = TEST_INGREDIENTS.length > 0;

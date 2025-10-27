@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Astrological Recommendations Component
  * Phase 5: Frontend Integration - Astrological UI Components

@@ -302,3 +302,4 @@ const rawPeppers = {
 export const _peppers: Record<string, IngredientMapping> = fixIngredientMappings(
   rawPeppers as Record<string, Partial<IngredientMapping>>,
 );
+export const peppers = _peppers;

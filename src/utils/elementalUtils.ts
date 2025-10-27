@@ -1458,6 +1458,9 @@ export const _fixIngredientMappings = <T extends Record<string, Partial<Ingredie
   return result
 }
 
+// Export without underscore for compatibility
+export const fixIngredientMappings = _fixIngredientMappings;
+
 /**
  * Fixes ingredient mappings by ensuring all required properties are present
  * @param ingredients Raw ingredient mappings

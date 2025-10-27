@@ -237,7 +237,10 @@ export const _calculatePlanetaryBoost = (
     dominantPlanets: Array.from(new Set(dominantPlanets)), // Fix for Set iteration in older JS versions,
     dignities
   }
-}
+};
+
+// Non-underscored export for compatibility
+export const calculatePlanetaryBoost = _calculatePlanetaryBoost;
 
 // Helper functions for calculations
 const _getTriplicityRulers = (_zodiacSign?: string | null): Planet[] => {

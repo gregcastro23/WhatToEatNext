@@ -17,3 +17,6 @@ export const _CUISINE_TYPES = {
   TURKISH: 'turkish',
   VIETNAMESE: 'vietnamese'
 } as const;
+
+// Non-underscored export for compatibility
+export const CUISINE_TYPES = _CUISINE_TYPES;

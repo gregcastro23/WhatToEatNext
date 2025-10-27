@@ -1582,3 +1582,60 @@ export function findCookingMethodsByMonicaRange(minMonica: number, maxMonica: nu
 
   return methods;
 }
+
+/**
+ * Main alchemize function - calculates thermodynamic metrics from planetary positions
+ * Uses the /api/alchemize endpoint for calculations (server-side only)
+ * Client-side code should call the API directly
+ *
+ * @param planetaryPositions - Planetary positions object
+ * @returns Thermodynamic metrics including heat, entropy, reactivity, gregsEnergy, kalchm, monica
+ */
+export function alchemize(planetaryPositions: Record<string, any>): {
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  kalchm: number;
+  monica: number;
+} {
+  // Import the calculation functions (server-side)
+  const { calculateAlchemicalFromPlanets } = require('@/utils/planetaryAlchemyMapping');
+  const { calculateThermodynamicMetrics } = require('@/utils/monicaKalchmCalculations');
+
+  // Get default elemental properties (balanced)
+  const defaultElementals = {
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25
+  };
+
+  try {
+    // Calculate ESMS from planetary positions
+    const alchemicalProperties = calculateAlchemicalFromPlanets(planetaryPositions);
+
+    // Calculate thermodynamic metrics
+    const metrics = calculateThermodynamicMetrics(alchemicalProperties, defaultElementals);
+
+    return {
+      heat: metrics.heat || 0,
+      entropy: metrics.entropy || 0,
+      reactivity: metrics.reactivity || 0,
+      gregsEnergy: metrics.gregsEnergy || 0,
+      kalchm: metrics.kalchm || 0,
+      monica: metrics.monica || 0
+    };
+  } catch (error) {
+    // Return safe defaults if calculation fails
+    console.warn('Alchemize calculation failed, returning defaults:', error);
+    return {
+      heat: 0,
+      entropy: 0,
+      reactivity: 0,
+      gregsEnergy: 0,
+      kalchm: 1,
+      monica: 1
+    };
+  }
+}

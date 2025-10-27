@@ -1,14 +1,14 @@
 // Base ingredient interface for safe type access
 interface BaseIngredient {
-  name?: string,
-  type?: string
-  category?: string,
-  elementalProperties?: ElementalProperties,
+  name?: string;
+  type?: string;
+  category?: string;
+  elementalProperties?: ElementalProperties;
   astrologicalProfile?: {
-    rulingPlanets?: string[],
-    signAffinities?: string[]
-  }
-  [key: string]: unknown // For dynamic properties
+    rulingPlanets?: string[];
+    signAffinities?: string[];
+  };
+  [key: string]: unknown; // For dynamic properties
 }
 
 // Helper functions for safe type access
@@ -18,7 +18,7 @@ function safeGetString(value: unknown): string | undefined {
 
 function safeGetStringArray(value: unknown): string[] {
   if (Array.isArray(value)) {
-    return value.filter(item => typeof item === 'string')
+    return value.filter(item => typeof item === 'string');
   }
   return [];
 }
@@ -47,7 +47,7 @@ function safeGetIngredientName(ingredient: unknown): string | undefined {
     return ingredient;
   }
   if (ingredient && typeof ingredient === 'object') {
-    return safeGetString((ingredient as any).name)
+    return safeGetString((ingredient as any).name);
   }
   return undefined;
 }
@@ -80,36 +80,36 @@ import { ElementalState } from '@/types/elemental';
 
 // AstrologicalInfluences interface
 export interface AstrologicalInfluences {
-  rulingPlanets?: string[]
-  favorableZodiac?: string[],
-  elementalAffinity?: string,
-  lunarPhaseModifiers?: Record<string, unknown>,
-  aspectEnhancers?: string[]
+  rulingPlanets?: string[];
+  favorableZodiac?: string[];
+  elementalAffinity?: string;
+  lunarPhaseModifiers?: Record<string, unknown>;
+  aspectEnhancers?: string[];
 }
 
 // Enhanced Ingredient interface for Phase 11
 interface EnhancedIngredient {
-  name: string,
-  type: string,
-  elementalProperties?: ElementalProperties,
-  astrologicalInfluences?: AstrologicalInfluences,
-  elementalState?: ElementalState
-  season?: Season,
-  regionalCuisine?: string,
+  name: string;
+  type: string;
+  elementalProperties?: ElementalProperties;
+  astrologicalInfluences?: AstrologicalInfluences;
+  elementalState?: ElementalState;
+  season?: Season;
+  regionalCuisine?: string;
   astrologicalProfile?: {
-    rulingPlanets?: string[],
-    signAffinities?: string[]
-  }
+    rulingPlanets?: string[];
+    signAffinities?: string[];
+  };
   // Add commonly missing properties
-  flavorProfile?: Record<string, number>,
-  cuisine?: string,
-  description?: string,
-  category?: string,
-  qualities?: string[],
-  mealType?: string,
-  matchScore?: number,
-  timing?: unknown,
-  duration?: unknown
+  flavorProfile?: Record<string, number>;
+  cuisine?: string;
+  description?: string;
+  category?: string;
+  qualities?: string[];
+  mealType?: string;
+  matchScore?: number;
+  timing?: unknown;
+  duration?: unknown;
 }
 // Moved seasonings and oils imports to organized section above
 
@@ -126,74 +126,74 @@ import { getAllIngredients as getIngredientsUtil } from '@/utils/foodRecommender
 
 // Export the necessary types needed by IngredientRecommendations.ts
 export interface IngredientRecommendation {
-  name: string,
-  type: string,
-  category?: string,
-  elementalProperties?: ElementalProperties,
-  qualities?: string[],
-  matchScore: number,
-  modality?: Modality,
-  recommendations?: string[],
-  description?: string,
-  totalScore?: number,
-  elementalScore?: number,
-  astrologicalScore?: number,
-  seasonalScore?: number,
-  dietary?: string[]
+  name: string;
+  type: string;
+  category?: string;
+  elementalProperties?: ElementalProperties;
+  qualities?: string[];
+  matchScore: number;
+  modality?: Modality;
+  recommendations?: string[];
+  description?: string;
+  totalScore?: number;
+  elementalScore?: number;
+  astrologicalScore?: number;
+  seasonalScore?: number;
+  dietary?: string[];
   // Add commonly missing properties
-  flavorProfile?: Record<string, number>,
-  cuisine?: string,
-  regionalCuisine?: string,
+  flavorProfile?: Record<string, number>;
+  cuisine?: string;
+  regionalCuisine?: string;
   astrologicalProfile?: {
-    rulingPlanets?: string[],
-    signAffinities?: string[]
-  }
-  astrologicalInfluences?: AstrologicalInfluences,
-  season?: Season,
-  mealType?: string,
-  timing?: unknown,
-  duration?: unknown,
-  isRetrograde?: boolean
+    rulingPlanets?: string[];
+    signAffinities?: string[];
+  };
+  astrologicalInfluences?: AstrologicalInfluences;
+  season?: Season;
+  mealType?: string;
+  timing?: unknown;
+  duration?: unknown;
+  isRetrograde?: boolean;
   sensoryProfile?: {
-    _taste: Record<string, number>,
-    aroma: Record<string, number>,
-    texture: Record<string, number>
-  }
+    _taste: Record<string, number>;
+    aroma: Record<string, number>;
+    texture: Record<string, number>;
+  };
   recommendedCookingMethods?: Array<{
-    name: string,
-    description: string,
+    name: string;
+    description: string;
     _cookingTime: {
-      min: number,
-      max: number,
-      _unit: string
-    },
-    _elementalEffect: Record<string, number>,
-  }>,
+      min: number;
+      max: number;
+      _unit: string;
+    };
+    _elementalEffect: Record<string, number>;
+  }>;
   pairingRecommendations?: {
-    _complementary: string[],
-    contrasting: string[]
-  }
+    _complementary: string[];
+    contrasting: string[];
+  };
 }
 
 export interface GroupedIngredientRecommendations {
-  vegetables?: IngredientRecommendation[],
-  fruits?: IngredientRecommendation[],
-  proteins?: IngredientRecommendation[]
-  grains?: IngredientRecommendation[],
-  spices?: IngredientRecommendation[],
-  herbs?: IngredientRecommendation[],
-  [key: string]: IngredientRecommendation[] | undefined
+  vegetables?: IngredientRecommendation[];
+  fruits?: IngredientRecommendation[];
+  proteins?: IngredientRecommendation[];
+  grains?: IngredientRecommendation[];
+  spices?: IngredientRecommendation[];
+  herbs?: IngredientRecommendation[];
+  [key: string]: IngredientRecommendation[] | undefined;
 }
 
 export interface RecommendationOptions {
-  currentSeason?: string,
-  dietaryPreferences?: string[],
-  modalityPreference?: Modality,
-  currentZodiac?: string
-  limit?: number,
-  excludeIngredients?: string[],
-  includeOnly?: string[],
-  category?: string
+  currentSeason?: string;
+  dietaryPreferences?: string[];
+  modalityPreference?: Modality;
+  currentZodiac?: string;
+  limit?: number;
+  excludeIngredients?: string[];
+  includeOnly?: string[];
+  category?: string;
 }
 
 // Enhanced calculation helper functions using imported utilities
@@ -257,9 +257,9 @@ function getAllIngredients(): Ingredient[] {
         elementalProperties: ingredientData.elementalProperties,
         astrologicalProfile: ingredientData.astrologicalProfile,
         ...ingredientData
-      } as unknown as Ingredient)
-    })
-  })
+      } as unknown as Ingredient);
+    });
+  });
 
   return allIngredients;
 }
@@ -307,21 +307,21 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
   if (planetsToUse.includes('Venus')) {
     // Apply Pattern, K: Safe array type casting for function parameter compatibility
     // Prioritize Venus-ruled ingredients with improved scoring based on detailed Venus data
-    enhanceVenusIngredientBatch(filteredIngredients as unknown as Ingredient[], astroState)
+    enhanceVenusIngredientBatch(filteredIngredients as unknown as Ingredient[], astroState);
   }
 
   // Special handling for Mars influence when present
   if (planetsToUse.includes('Mars')) {
     // Apply Pattern, K: Safe array type casting for function parameter compatibility
     // Prioritize Mars-ruled ingredients with improved scoring based on detailed Mars data
-    enhanceMarsIngredientScoring(filteredIngredients as unknown as Ingredient[], astroState)
+    enhanceMarsIngredientScoring(filteredIngredients as unknown as Ingredient[], astroState);
   }
 
   // Special handling for Mercury influence when present
   if (planetsToUse.includes('Mercury')) {
     // Apply Pattern, K: Safe array type casting for function parameter compatibility
     // Prioritize Mercury-ruled ingredients with improved scoring based on detailed Mercury data
-    enhanceMercuryIngredientScoring(filteredIngredients as unknown as Ingredient[], astroState)
+    enhanceMercuryIngredientScoring(filteredIngredients as unknown as Ingredient[], astroState);
   }
 
   // If we have a dominant element from the astro state, prioritize ingredients of that element
@@ -331,8 +331,8 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
       const ingredientB = b as unknown as BaseIngredient;
       const aValue = ingredientA.elementalProperties?.[astroState.dominantElement as unknown] || 0;
       const bValue = ingredientB.elementalProperties?.[astroState.dominantElement as unknown] || 0;
-      return bValue - aValue
-    })
+      return bValue - aValue;
+    });
   }
 
   // If we have a current zodiac sign, prioritize ingredients with that affinity
@@ -390,7 +390,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
       }
 
       return bHasAffinity - aHasAffinity;
-    })
+    });
   }
 
   return filteredIngredients;
@@ -429,14 +429,14 @@ export async function getIngredientRecommendations(
     scorpio: 'Mars',
     sagittarius: 'Jupiter',
     capricorn: 'Saturn',
-    aquarius: 'Saturn', // Traditional ruler,
-    pisces: 'Jupiter', // Traditional ruler
-  }
+    aquarius: 'Saturn', // Traditional ruler
+    pisces: 'Jupiter' // Traditional ruler
+  };
 
-  const rulingPlanet = signRulers[sunSign] || 'Sun'
+  const rulingPlanet = signRulers[sunSign] || 'Sun';
   // Get decan information for each planet position
-  const planetDecans: Record<string, { decanNum: number, decanRuler: string, tarotCard: string }> =
-    {}
+  const planetDecans: Record<string, { decanNum: number; decanRuler: string; tarotCard: string }> =
+    {};
 
   Object.entries(elementalProps.planetaryAlignment || {}).forEach(([planet, position]) => {
     if (!position || !position.sign) return;
@@ -452,39 +452,39 @@ export async function getIngredientRecommendations(
     // Reference data for decan rulers and tarot cards based on sign and decan
     const decanRulerMap: Record<string, Record<number, string>> = {
       aries: { 1: 'Mars', 2: 'Sun', 3: 'Venus' },
-        taurus: { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
-        gemini: { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
-        cancer: { 1: 'Venus', 2: 'Mercury', 3: 'Moon' },
-        leo: { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' },
-        virgo: { 1: 'Sun', 2: 'Venus', 3: 'Mercury' },
-        libra: { 1: 'Moon', 2: 'Saturn', 3: 'Jupiter' },
-        scorpio: { 1: 'Mars', 2: 'Sun', 3: 'Venus' },
-        sagittarius: { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
-        capricorn: { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
-        aquarius: { 1: 'Venus', 2: 'Mercury', 3: 'Moon' },
-        pisces: { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' }
-    }
+      taurus: { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
+      gemini: { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
+      cancer: { 1: 'Venus', 2: 'Mercury', 3: 'Moon' },
+      leo: { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' },
+      virgo: { 1: 'Sun', 2: 'Venus', 3: 'Mercury' },
+      libra: { 1: 'Moon', 2: 'Saturn', 3: 'Jupiter' },
+      scorpio: { 1: 'Mars', 2: 'Sun', 3: 'Venus' },
+      sagittarius: { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
+      capricorn: { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
+      aquarius: { 1: 'Venus', 2: 'Mercury', 3: 'Moon' },
+      pisces: { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' }
+    };
 
     const tarotCardMap: Record<string, Record<number, string>> = {
       aries: { 1: '2 of Wands', 2: '3 of Wands', 3: '4 of Wands' },
-        taurus: { 1: '5 of Pentacles', 2: '6 of Pentacles', 3: '7 of Pentacles' },
-        gemini: { 1: '8 of Swords', 2: '9 of Swords', 3: '10 of Swords' },
-        cancer: { 1: '2 of Cups', 2: '3 of Cups', 3: '4 of Cups' },
-        leo: { 1: '5 of Wands', 2: '6 of Wands', 3: '7 of Wands' },
-        virgo: { 1: '8 of Pentacles', 2: '9 of Pentacles', 3: '10 of Pentacles' },
-        libra: { 1: '2 of Swords', 2: '3 of Swords', 3: '4 of Swords' },
-        scorpio: { 1: '5 of Cups', 2: '6 of Cups', 3: '7 of Cups' },
-        sagittarius: { 1: '8 of Wands', 2: '9 of Wands', 3: '10 of Wands' },
-        capricorn: { 1: '2 of Pentacles', 2: '3 of Pentacles', 3: '4 of Pentacles' },
-        aquarius: { 1: '5 of Swords', 2: '6 of Swords', 3: '7 of Swords' },
-        pisces: { 1: '8 of Cups', 2: '9 of Cups', 3: '10 of Cups' }
-    }
+      taurus: { 1: '5 of Pentacles', 2: '6 of Pentacles', 3: '7 of Pentacles' },
+      gemini: { 1: '8 of Swords', 2: '9 of Swords', 3: '10 of Swords' },
+      cancer: { 1: '2 of Cups', 2: '3 of Cups', 3: '4 of Cups' },
+      leo: { 1: '5 of Wands', 2: '6 of Wands', 3: '7 of Wands' },
+      virgo: { 1: '8 of Pentacles', 2: '9 of Pentacles', 3: '10 of Pentacles' },
+      libra: { 1: '2 of Swords', 2: '3 of Swords', 3: '4 of Swords' },
+      scorpio: { 1: '5 of Cups', 2: '6 of Cups', 3: '7 of Cups' },
+      sagittarius: { 1: '8 of Wands', 2: '9 of Wands', 3: '10 of Wands' },
+      capricorn: { 1: '2 of Pentacles', 2: '3 of Pentacles', 3: '4 of Pentacles' },
+      aquarius: { 1: '5 of Swords', 2: '6 of Swords', 3: '7 of Swords' },
+      pisces: { 1: '8 of Cups', 2: '9 of Cups', 3: '10 of Cups' }
+    };
 
     const decanRuler = decanRulerMap[sign][decanNum] || '';
     const tarotCard = tarotCardMap[sign][decanNum] || '';
 
     planetDecans[planet] = { decanNum, decanRuler, tarotCard };
-  })
+  });
 
   // Filter and score ingredients
   const scoredIngredients = allIngredients
@@ -509,7 +509,7 @@ export async function getIngredientRecommendations(
           determineIngredientModality(
             ingredient.qualities,
             safeGetElementalProperties((ingredient as unknown as any).elementalProperties)
-          ),
+          );
 
         if (ingredientModality !== options.modalityPreference) return false;
       }
@@ -520,29 +520,29 @@ export async function getIngredientRecommendations(
       // Calculate elemental score (30% of total)
       const elementalScore = calculateElementalScore(
         safeGetElementalProperties((ingredient as unknown as any).elementalProperties),
-        elementalProps,
-      )
+        elementalProps
+      );
 
       // Calculate modality score (15% of total)
       const modalityScore = calculateModalityScore(
         ingredient.qualities || [],
         options.modalityPreference
-      )
+      );
 
       // Calculate seasonal score (15% of total)
-      const seasonalScore = calculateSeasonalScore(ingredient, elementalProps.timestamp)
+      const seasonalScore = calculateSeasonalScore(ingredient, elementalProps.timestamp);
 
       // Calculate planetary score (40% of total) - increased weight for planetary alignment
       const planetaryScore = calculateEnhancedPlanetaryScore(
         ingredient,
         elementalProps.planetaryAlignment,
         planetDecans,
-        rulingPlanet,
-      )
+        rulingPlanet
+      );
 
       // Calculate total score with weighted components
       const totalScore =
-        elementalScore * 0.3 + modalityScore * 0.15 + seasonalScore * 0.15 + planetaryScore * 0.4,
+        elementalScore * 0.3 + modalityScore * 0.15 + seasonalScore * 0.15 + planetaryScore * 0.4;
 
       // Assign modality if not already present
       const modality =
@@ -550,7 +550,7 @@ export async function getIngredientRecommendations(
         determineIngredientModality(
           ingredient.qualities,
           safeGetElementalProperties((ingredient as unknown as any).elementalProperties)
-        ),
+        );
 
       return {
         ...ingredient,
@@ -560,9 +560,9 @@ export async function getIngredientRecommendations(
         seasonalScore,
         planetaryScore,
         modality
-      }
+      };
     })
-    .sort((ab) => b.score - a.score)
+    .sort((a, b) => b.score - a.score);
 
   // Enterprise Intelligence Analysis - Phase 27 Ingredient Intelligence Systems
   const ingredientData = {
@@ -578,30 +578,30 @@ export async function getIngredientRecommendations(
 
   // Perform enterprise intelligence analysis
   const astroContext =
-    (ingredientData as { astrologicalContext?: Record<string, unknown> }).astrologicalContext || {}
+    (ingredientData as { astrologicalContext?: Record<string, unknown> }).astrologicalContext || {};
   const safeAstroContext = {
     zodiacSign: astroContext.zodiacSign ?? 'aries',
-    lunarPhase: typeof astroContext.lunarPhase === 'string' ? astroContext.lunarPhase : 'new';
-    season: typeof astroContext.season === 'string' ? astroContext.season : 'spring';
+    lunarPhase: typeof astroContext.lunarPhase === 'string' ? astroContext.lunarPhase : 'new',
+    season: typeof astroContext.season === 'string' ? astroContext.season : 'spring',
     userPreferences: astroContext.userPreferences && typeof astroContext.userPreferences === 'object'
       ? (astroContext.userPreferences as {
-          dietaryRestrictions: string[],
-          _flavorPreferences: string[],
-          _culturalPreferences: string[]
+          dietaryRestrictions: string[];
+          _flavorPreferences: string[];
+          _culturalPreferences: string[];
         })
       : undefined
-  }
+  };
 
   // Group ingredients by category
-  const groupedRecommendations: GroupedIngredientRecommendations = {}
+  const groupedRecommendations: GroupedIngredientRecommendations = {};
 
   // Apply limit per category before grouping to ensure diversity
   const limit = options.limit || 24;
-  const categoryCounts: Record<string, number> = {}
+  const categoryCounts: Record<string, number> = {};
   const categoryMaxItems = Math.ceil(limit / 8); // Max items per category
 
   scoredIngredients.forEach(ingredient => {
-    const category = ingredient.category || 'other'
+    const category = ingredient.category || 'other';
 
     if (!groupedRecommendations[category]) {
       groupedRecommendations[category] = [];
@@ -666,7 +666,7 @@ export async function getIngredientRecommendations(
       groupedRecommendations[category]?.push(ingredientRecommendation);
       categoryCounts[category]++;
     }
-  })
+  });
 
   return groupedRecommendations;
 }
@@ -674,17 +674,17 @@ export async function getIngredientRecommendations(
 // Helper function to calculate modality score
 function calculateModalityScore(qualities: string[], preferredModality?: Modality): number {
   // Get the ingredient's modality based on qualities
-  const ingredientModality = determineIngredientModality(qualities)
+  const ingredientModality = determineIngredientModality(qualities);
   // If no preferred modality, return neutral score
   if (!preferredModality) return 0.5;
-  // Return 1.0 for exact match0.5 for partial match0.0 for mismatch
+  // Return 1.0 for exact match, 0.5 for partial match, 0.0 for mismatch
   if (ingredientModality === preferredModality) return 1.0;
   // Consider partial matches based on modality compatibility
   const compatibleModalities = {
     Cardinal: ['Mutable'],
     Fixed: ['Mutable'],
     Mutable: ['Cardinal', 'Fixed']
-  }
+  };
 
   if (compatibleModalities[preferredModality].includes(ingredientModality)) {
     return 0.7;
@@ -699,19 +699,19 @@ function calculateModalityScore(qualities: string[], preferredModality?: Modalit
  */
 function calculateElementalScore(
   ingredientProps?: ElementalProperties,
-  systemProps?: ElementalProperties,
+  systemProps?: ElementalProperties
 ): number {
   // Return neutral score if either properties are missing
-  if (!ingredientProps || !systemProps) return 0.5
+  if (!ingredientProps || !systemProps) return 0.5;
 
   // Find dominant system element for extra weighting
   const dominantElement = Object.entries(systemProps).sort(
-    (ab) => b[1] - a[1],
-  )[0][0] as keyof ElementalProperties,
+    (a, b) => b[1] - a[1]
+  )[0][0] as keyof ElementalProperties;
 
   // Calculate similarity based on overlap of elemental properties
-  const similarityScore = 0;
-  const totalWeight = 0;
+  let similarityScore = 0;
+  let totalWeight = 0;
 
   // Process each element
   for (const element of ['Fire', 'Water', 'Earth', 'Air'] as const) {
@@ -720,9 +720,9 @@ function calculateElementalScore(
 
     // Calculate similarity (1 - absolute difference)
     // This gives higher scores when values are closer together
-    const similarity = 1 - Math.abs(ingredientValue - systemValue)
-;
-    // Enhanced, weighting: dominant element gets extra emphasis
+    const similarity = 1 - Math.abs(ingredientValue - systemValue);
+
+    // Enhanced weighting: dominant element gets extra emphasis
     // Base weight includes the system's value for this element
     const baseWeight = systemValue + 0.25; // Add 0.25 to ensure all elements have some weight
 
@@ -734,7 +734,7 @@ function calculateElementalScore(
   }
 
   // Normalize to 0-1 range with explicit bounds
-  return totalWeight > 0 ? Math.min(1, Math.max(0, similarityScore / totalWeight)) : 0.5
+  return totalWeight > 0 ? Math.min(1, Math.max(0, similarityScore / totalWeight)) : 0.5;
 }
 
 /**
@@ -824,12 +824,12 @@ function calculateEnhancedPlanetaryScore(
       score += 0.7;
       totalFactors += 0.7;
     }
-  })
+  });
 
   // If there are no factors to consider, return neutral score
   if (totalFactors === 0) return 0.5;
   // Return normalized score (0-1 range)
-  return Math.min(1, score / (totalFactors + 0.5))
+  return Math.min(1, score / (totalFactors + 0.5));
 }
 
 /**
@@ -838,7 +838,7 @@ function calculateEnhancedPlanetaryScore(
  * @returns Elemental influence values
  */
 export function calculateElementalInfluences(
-  planetaryAlignment: Record<string, { sign: string, degree: number }>,
+  planetaryAlignment: Record<string, { sign: string; degree: number }>
 ): ElementalProperties {
   // Define elemental affinities for each zodiac sign
   const zodiacElements: Record<string, keyof ElementalProperties> = {
@@ -854,7 +854,7 @@ export function calculateElementalInfluences(
     capricorn: 'Earth',
     aquarius: 'Air',
     pisces: 'Water'
-}
+  };
 
   // Define planet weights
   const planetWeights: Record<string, number> = {
@@ -868,7 +868,7 @@ export function calculateElementalInfluences(
     _uranus: 1,
     _neptune: 1,
     _pluto: 1
-}
+  };
 
   // Initialize elemental influences
   const elementalInfluences: ElementalProperties = {
@@ -876,11 +876,11 @@ export function calculateElementalInfluences(
     Earth: 0,
     Air: 0,
     Water: 0
-}
+  };
 
   // Process each planetary position
   Object.entries(planetaryAlignment).forEach(([planet, position]) => {
-    const planetLower = planet.toLowerCase()
+    const planetLower = planet.toLowerCase();
     const weight = planetWeights[planetLower] || 1;
     const sign = position.sign.toLowerCase();
     const element = zodiacElements[position.sign] || zodiacElements[sign];
@@ -888,14 +888,14 @@ export function calculateElementalInfluences(
     if (element) {
       elementalInfluences[element] += weight;
     }
-  })
+  });
 
   // Normalize values to sum to 1
   const total = Object.values(elementalInfluences).reduce((sum, val) => sum + val, 0);
   if (total > 0) {
     Object.keys(elementalInfluences).forEach(element => {
       elementalInfluences[element as any] = elementalInfluences[element as any] / total;
-    })
+    });
   }
 
   return elementalInfluences;
@@ -912,15 +912,15 @@ export function getChakraBasedRecommendations(
   limit = 3
 ): GroupedIngredientRecommendations {
   // Find the dominant chakras (highest energy levels)
-  const chakraEntries = Object.entries(chakraEnergies)
+  const chakraEntries = Object.entries(chakraEnergies);
   // Sort chakras by energy level (highest first)
-  const sortedChakras = chakraEntries.sort(([, energyA], [, energyB]) => energyB - energyA),
+  const sortedChakras = chakraEntries.sort(([, energyA], [, energyB]) => energyB - energyA);
 
   // Take only chakras with significant energy (> 0)
-  const significantChakras = sortedChakras.filter(([, energy]) => energy > 0),
+  const significantChakras = sortedChakras.filter(([, energy]) => energy > 0);
 
   // Prepare the result object
-  const result: GroupedIngredientRecommendations = {}
+  const result: GroupedIngredientRecommendations = {};
 
   // For each significant chakra, add corresponding recommended ingredients
   significantChakras.forEach(([chakra, energy]) => {
@@ -939,35 +939,35 @@ export function getChakraBasedRecommendations(
         correlation =>
           ingredientName.toLowerCase().includes(correlation.toLowerCase()) ||
           ingredientType.toLowerCase().includes(correlation.toLowerCase())
-      )
+      );
 
       // Check if ingredient name matches any herb recommendation
       const matchesHerb = herbRecommendations.some(herb =>
         ingredientName.toLowerCase().includes(herb.toLowerCase())
-      ),
+      );
 
-      return matchesNutritional || matchesHerb
-    })
+      return matchesNutritional || matchesHerb;
+    });
 
     // Add matching ingredients to the result, with a score based on chakra energy
     matchingIngredients.forEach(ingredient => {
       const ingredientData = ingredient as unknown as any;
-      const ingredientType = safeGetString(ingredientData.type) || 'other'
+      const ingredientType = safeGetString(ingredientData.type) || 'other';
       const recommendationKey = ingredientType ? `${ingredientType.toLowerCase()}s` : 'others';
 
       if (!result[recommendationKey]) {
-        result[recommendationKey] = []
+        result[recommendationKey] = [];
       }
 
       // Create recommendation with chakra-based score
-      const ingredientName = safeGetString(ingredientData.name) || 'Unknown Ingredient'
+      const ingredientName = safeGetString(ingredientData.name) || 'Unknown Ingredient';
       const recommendation: IngredientRecommendation = {
         name: ingredientName,
         type: ingredientType,
         category: safeGetString(ingredientData.category),
         elementalProperties: ingredientData.elementalProperties as ElementalProperties,
         qualities: safeGetStringArray(ingredientData.qualities),
-        matchScore: energy / 10, // Normalize to 0-1 range,
+        matchScore: energy / 10, // Normalize to 0-1 range
         modality: ingredientData.modality as Modality,
         recommendations: [
           `Supports ${chakra} chakra energy`,
@@ -983,23 +983,23 @@ export function getChakraBasedRecommendations(
         astrologicalScore: 0,
         seasonalScore: 0,
         dietary: []
-      }
+      };
 
       // Only add if not already present
       if (!result[recommendationKey]?.some(rec => rec.name === ingredientName)) {
-        result[recommendationKey]?.push(recommendation)
+        result[recommendationKey]?.push(recommendation);
       }
-    })
-  })
+    });
+  });
 
   // Apply limit to each category
   Object.keys(result).forEach(key => {
     if (result[key]?.length && (result[key]?.length ?? 0) > limit) {
-      result[key] = result[key]?.slice(0, limit)
+      result[key] = result[key]?.slice(0, limit);
     }
-  })
+  });
 
-  return result
+  return result;
 }
 
 // Helper function to check if an ingredient is Venus-associated
@@ -1615,13 +1615,13 @@ function calculateVenusInfluence(
       ? culturalSignificance
       : typeof culturalSignificance === 'string'
         ? [culturalSignificance]
-        : [],
+        : [];
 
     if (
       culturalSignificanceArray.includes('traditional') ||
       culturalSignificanceArray.includes('nostalgic')
     ) {
-      score += 1.8
+      score += 1.8;
     }
 
     // Check retrograde food focus
@@ -1653,7 +1653,7 @@ function calculateVenusInfluence(
       for (const element in elementsData) {
         const elementKey = element as any;
         if (ingredient.elementalProperties[elementKey]) {
-          const elementValue = safeGetNumber(elementsData[element])
+          const elementValue = safeGetNumber(elementsData[element]);
           score += elementValue * ingredient.elementalProperties[elementKey] * 0.9;
         }
       }
@@ -1676,11 +1676,11 @@ function calculateVenusInfluence(
 function _enhanceVenusIngredientScoring(
   ingredient: Ingredient,
   astroState: AstrologicalState,
-  score: number,
+  score: number
 ): number {
   // Only apply Venus scoring if Venus is active
   if (!astroState.activePlanets?.includes('Venus')) {
-    return score
+    return score;
   }
 
   // Get current zodiac sign
@@ -1692,8 +1692,8 @@ function _enhanceVenusIngredientScoring(
   const retrogradeArray = Array.isArray(astroStateData.retrograde) ? astroStateData.retrograde : [];
   const isVenusRetrograde = retrogradeArray.includes('Venus') || false;
 
-  // Calculate Venus influence score;
-  const venusInfluence = calculateVenusInfluence(ingredient, zodiacSign, isVenusRetrograde)
+  // Calculate Venus influence score
+  const venusInfluence = calculateVenusInfluence(ingredient, zodiacSign, isVenusRetrograde);
 
   // Apply Venus influence to the base score (weight it appropriately)
   return score + venusInfluence * 0.3;
@@ -1727,7 +1727,7 @@ function enhanceVenusIngredientBatch(
     // Store the Venus score with the ingredient
     const ingredientData = ingredient as unknown as any;
     ingredientData.venusScore = venusScore;
-  })
+  });
 
   // Sort ingredients by Venus score
   ingredients.sort((a, b) => {
@@ -1735,16 +1735,17 @@ function enhanceVenusIngredientBatch(
     const bData = b as unknown as any;
     const aScore = safeGetNumber(aData.venusScore) || 0;
     const bScore = safeGetNumber(bData.venusScore) || 0;
-    return bScore - aScore
-  })
+    return bScore - aScore;
+  });
 }
 
 /**
  * Calculates a Mars influence score for an ingredient
  */
-function calculateMarsInfluence(ingredient: Ingredient,
+function calculateMarsInfluence(
+  ingredient: Ingredient,
   zodiacSign?: string,
-  isMarsRetrograde = false;
+  isMarsRetrograde = false
 ): number {
   let score = 0;
 
@@ -1756,8 +1757,8 @@ function calculateMarsInfluence(ingredient: Ingredient,
   if (marsData.FoodAssociations) {
     for (const food of marsData.FoodAssociations) {
       if (name.includes(food.toLowerCase()) || food.toLowerCase().includes(name)) {
-        score += 1.5
-        break
+        score += 1.5;
+        break;
       }
     }
   }
@@ -1767,7 +1768,7 @@ function calculateMarsInfluence(ingredient: Ingredient,
     for (const herb of marsData.HerbalAssociations.Herbs) {
       if (name.includes(herb.toLowerCase()) || herb.toLowerCase().includes(name)) {
         score += 2.0;
-        break
+        break;
       }
     }
   }
@@ -1778,7 +1779,7 @@ function calculateMarsInfluence(ingredient: Ingredient,
 
   if (marsData.FlavorProfiles && ingredientFlavorProfile) {
     for (const flavor in marsData.FlavorProfiles) {
-      const flavorValue = safeGetNumber(ingredientFlavorProfile[flavor])
+      const flavorValue = safeGetNumber(ingredientFlavorProfile[flavor]);
       if (flavorValue > 0) {
         // Higher score when both have high values for same flavor
         score += marsData.FlavorProfiles[flavor] * flavorValue;
@@ -1829,7 +1830,7 @@ function calculateMarsInfluence(ingredient: Ingredient,
     // During retrograde, Mars emphasizes dried herbs and spices
     // Extract ingredient data with safe property access for type
     const ingredientType =
-      safeGetString(ingredientData.type) || safeGetString(ingredientData.category) || '',
+      safeGetString(ingredientData.type) || safeGetString(ingredientData.category) || '';
 
     if (ingredientType === 'spice' || ingredientType === 'herb' || ingredientType === 'seasoning') {
       score += 1.5;
@@ -1912,14 +1913,14 @@ function enhanceMarsIngredientScoring(
     const bData = b as unknown as any;
     const aScore = safeGetNumber(aData.matchScore) || 0;
     const bScore = safeGetNumber(bData.matchScore) || 0;
-    return bScore - aScore
-  })
+    return bScore - aScore;
+  });
 }
 
 // Add the new function for Mercury associated ingredients
 function isMercuryAssociatedIngredient(ingredientName: string): boolean {
   if (!ingredientName) return false;
-  const lowerIngredient = ingredientName.toLowerCase()
+  const lowerIngredient = ingredientName.toLowerCase();
 
   // Check direct Mercury food associations
   if (
@@ -1972,7 +1973,7 @@ function isMercuryAssociatedIngredient(ingredientName: string): boolean {
     'seeds',
     'nuts',
     'grain'
-  ],
+  ];
 
   if (mercuryFlavorSignals.some(signal => lowerIngredient.includes(signal))) {
     return true;
@@ -1989,7 +1990,7 @@ function isMercuryAssociatedIngredient(ingredientName: string): boolean {
     lowerIngredient.includes('root') ||
     lowerIngredient.includes('tuber')
   ) {
-    return true
+    return true;
   }
 
   // Check Mercury ZodiacTransit ingredient associations in current sign
@@ -2000,7 +2001,7 @@ function isMercuryAssociatedIngredient(ingredientName: string): boolean {
     mercuryData.PlanetSpecific?.ZodiacTransit?.[currentZodiacSign]?.Ingredients
   ) {
     const transitIngredients =
-      mercuryData.PlanetSpecific.ZodiacTransit[currentZodiacSign].Ingredients,
+      mercuryData.PlanetSpecific.ZodiacTransit[currentZodiacSign].Ingredients;
     if (
       transitIngredients.some(
         ingredient =>
@@ -2041,7 +2042,7 @@ function calculateMercuryInfluence(
         food.toLowerCase().includes(ingredientName)
       ) {
         score += 2.0;
-        break
+        break;
       }
     }
   }
@@ -2049,7 +2050,7 @@ function calculateMercuryInfluence(
   // Mercury herb associations
   // Extract ingredient data with safe property access for type
   const ingredientType =
-    safeGetString(ingredientData.type) || safeGetString(ingredientData.category) || '',
+    safeGetString(ingredientData.type) || safeGetString(ingredientData.category) || '';
 
   if (
     mercuryData.HerbalAssociations?.Herbs &&
@@ -2175,7 +2176,7 @@ function calculateMercuryInfluence(
       versatile: 1.4,
       detailed: 1.2,
       _precise: 1.2
-}
+    };
 
     for (const quality of ingredient.qualities) {
       const lowerQuality = quality.toLowerCase();
@@ -2194,7 +2195,7 @@ function calculateMercuryInfluence(
 // Add the function to enhance Mercury ingredient scoring
 function enhanceMercuryIngredientScoring(
   ingredients: Ingredient[],
-  astroState: AstrologicalState,
+  astroState: AstrologicalState
 ): void {
   // Check if Mercury is retrograde
   // Extract astrological state with safe property access for Mercury retrograde
@@ -2206,7 +2207,7 @@ function enhanceMercuryIngredientScoring(
   const zodiacSign = astroState.zodiacSign;
   // For each ingredient, calculate and apply Mercury influence score
   ingredients.forEach(ingredient => {
-    const mercuryScore = calculateMercuryInfluence(ingredient, zodiacSign, isMercuryRetrograde)
+    const mercuryScore = calculateMercuryInfluence(ingredient, zodiacSign, isMercuryRetrograde);
 
     // Extract ingredient data with safe property access for score manipulation
     const ingredientData = ingredient as unknown as any;
@@ -2214,10 +2215,10 @@ function enhanceMercuryIngredientScoring(
     // Apply Mercury score as a multiplier to the ingredient's existing score
     if (ingredientData.matchScore !== undefined) {
       const currentScore = safeGetNumber(ingredientData.matchScore) || 0;
-      ingredientData.matchScore = currentScore * (1 + mercuryScore * 0.3)
+      ingredientData.matchScore = currentScore * (1 + mercuryScore * 0.3);
     } else if ('score' in ingredientData) {
       const currentScore = safeGetNumber(ingredientData.score) || 0;
-      ingredientData.score = currentScore * (1 + mercuryScore * 0.3)
+      ingredientData.score = currentScore * (1 + mercuryScore * 0.3);
     }
 
     // If the ingredient has a Mercury score field, update it
@@ -2234,7 +2235,7 @@ function enhanceMercuryIngredientScoring(
         mercuryAffinity: mercuryScore
       };
     }
-  })
+  });
 }
 
 /**
@@ -2248,14 +2249,14 @@ function enhanceMercuryIngredientScoring(
  * @returns The modality (Cardinal, Fixed, or Mutable)
  */
 function determineIngredientModality(
-  qualities: string[] = [];
-  elementalProperties?: ElementalProperties,
+  qualities: string[] = [],
+  elementalProperties?: ElementalProperties
 ): any {
   // Ensure qualities is an array
   const qualitiesArray = Array.isArray(qualities) ? qualities : [];
 
   // Create normalized arrays of qualities for easier matching
-  const normalizedQualities = qualitiesArray.map(q => q.toLowerCase())
+  const normalizedQualities = qualitiesArray.map(q => q.toLowerCase());
   // Look for explicit quality indicators in the ingredients
   const cardinalKeywords = [
     'initiating',
@@ -2264,21 +2265,23 @@ function determineIngredientModality(
     'stimulating',
     'invigorating',
     'activating'
-  ],
-  const fixedKeywords = ['grounding', 'stabilizing', 'nourishing', 'sustaining', 'foundational'],
-  const mutableKeywords = ['adaptable', 'flexible', 'versatile', 'balancing', 'harmonizing'],
+  ];
+  const fixedKeywords = ['grounding', 'stabilizing', 'nourishing', 'sustaining', 'foundational'];
+  const mutableKeywords = ['adaptable', 'flexible', 'versatile', 'balancing', 'harmonizing'];
 
-  const hasCardinalQuality = normalizedQualities.some(q => cardinalKeywords.includes(q))
-  const hasFixedQuality = normalizedQualities.some(q => fixedKeywords.includes(q))
-  const hasMutableQuality = normalizedQualities.some(q => mutableKeywords.includes(q))
-;
+  const hasCardinalQuality = normalizedQualities.some(q => cardinalKeywords.includes(q));
+  const hasFixedQuality = normalizedQualities.some(q => fixedKeywords.includes(q));
+  const hasMutableQuality = normalizedQualities.some(q => mutableKeywords.includes(q));
+
   // If there's a clear quality indicator, use that
   if (hasCardinalQuality && !hasFixedQuality && !hasMutableQuality) {
-    return 'Cardinal' }
-        if (hasFixedQuality && !hasCardinalQuality && !hasMutableQuality) {
-    return 'Fixed' }
-        if (hasMutableQuality && !hasCardinalQuality && !hasFixedQuality) {
-    return 'Mutable'
+    return 'Cardinal';
+  }
+  if (hasFixedQuality && !hasCardinalQuality && !hasMutableQuality) {
+    return 'Fixed';
+  }
+  if (hasMutableQuality && !hasCardinalQuality && !hasFixedQuality) {
+    return 'Mutable';
   }
 
   // If elemental properties are provided, use them to determine modality
@@ -2908,9 +2911,10 @@ export async function recommendIngredients(
   for (const ingredient of filteredIngredients) {
     // Calculate elemental match (45% weight)
     const ingredientData = ingredient as unknown as any;
-    const elementalScore = calculateElementalScore(ingredientData.elementalProperties as ElementalProperties;
-      systemElementalProps,
-    ),
+    const elementalScore = calculateElementalScore(
+      ingredientData.elementalProperties as ElementalProperties,
+      systemElementalProps
+    );
 
     // Calculate planetary day influence with enhanced dignity effects (35% weight)
     const planetaryDayScore = calculatePlanetaryDayInfluence(
