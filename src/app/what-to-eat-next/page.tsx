@@ -1,3 +1,5 @@
+'use client';
+
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext';
 import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 
