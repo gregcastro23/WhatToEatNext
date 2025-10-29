@@ -2,102 +2,112 @@
 
 /**
  * Cooking Method Preview Component
- * Shows a preview of cooking method recommendations
- * Displays methods by category with elemental properties
+ * Shows cooking methods from real data organized by category
+ * Uses actual cooking method database with elemental properties
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import {
+  dryCookingMethods,
+  wetCookingMethods,
+  molecularCookingMethods,
+  traditionalCookingMethods,
+  transformationMethods
+} from '@/data/cooking/methods';
 
-interface CookingMethod {
-  id: string;
+interface MethodData {
   name: string;
   description: string;
-  category: string;
-  score: number;
-  elements: {
+  elementalEffect: {
     Fire: number;
     Water: number;
     Earth: number;
     Air: number;
   };
-  duration: string;
+  time_range?: { min: number; max: number };
+  suitable_for?: string[];
 }
 
-const mockMethods: CookingMethod[] = [
+interface CategoryConfig {
+  id: string;
+  name: string;
+  icon: string;
+  methods: Record<string, MethodData>;
+}
+
+const categories: CategoryConfig[] = [
   {
-    id: 'grilling',
-    name: 'Grilling',
-    description: 'High heat cooking over open flame or hot surface',
-    category: 'Dry',
-    score: 0.93,
-    elements: { Fire: 0.95, Water: 0.1, Earth: 0.3, Air: 0.7 },
-    duration: '10-30 min'
+    id: 'dry',
+    name: 'Dry Heat',
+    icon: '🔥',
+    methods: dryCookingMethods as Record<string, MethodData>
   },
   {
-    id: 'steaming',
-    name: 'Steaming',
-    description: 'Gentle cooking with hot vapor',
-    category: 'Wet',
-    score: 0.89,
-    elements: { Fire: 0.4, Water: 0.9, Earth: 0.2, Air: 0.6 },
-    duration: '5-20 min'
+    id: 'wet',
+    name: 'Wet Heat',
+    icon: '💧',
+    methods: wetCookingMethods as Record<string, MethodData>
   },
   {
-    id: 'roasting',
-    name: 'Roasting',
-    description: 'Slow cooking in dry heat environment',
-    category: 'Dry',
-    score: 0.87,
-    elements: { Fire: 0.8, Water: 0.2, Earth: 0.7, Air: 0.4 },
-    duration: '30-120 min'
+    id: 'molecular',
+    name: 'Molecular',
+    icon: '🧪',
+    methods: molecularCookingMethods as Record<string, MethodData>
   },
   {
-    id: 'braising',
-    name: 'Braising',
-    description: 'Combination of searing and slow cooking in liquid',
-    category: 'Wet',
-    score: 0.85,
-    elements: { Fire: 0.6, Water: 0.8, Earth: 0.6, Air: 0.3 },
-    duration: '60-180 min'
+    id: 'traditional',
+    name: 'Traditional',
+    icon: '🏺',
+    methods: traditionalCookingMethods as Record<string, MethodData>
   },
   {
-    id: 'fermentation',
-    name: 'Fermentation',
-    description: 'Transformation through microbial activity',
-    category: 'Transformation',
-    score: 0.84,
-    elements: { Fire: 0.2, Water: 0.6, Earth: 0.8, Air: 0.5 },
-    duration: '1-30 days'
-  },
-  {
-    id: 'sous-vide',
-    name: 'Sous Vide',
-    description: 'Precision temperature water bath cooking',
-    category: 'Molecular',
-    score: 0.82,
-    elements: { Fire: 0.3, Water: 0.9, Earth: 0.4, Air: 0.2 },
-    duration: '30-240 min'
+    id: 'transformation',
+    name: 'Transformation',
+    icon: '⚗️',
+    methods: transformationMethods as Record<string, MethodData>
   }
 ];
 
-const categories = [
-  { id: 'all', name: 'All Methods', icon: '🌟' },
-  { id: 'Dry', name: 'Dry Heat', icon: '🔥' },
-  { id: 'Wet', name: 'Wet Heat', icon: '💧' },
-  { id: 'Molecular', name: 'Molecular', icon: '🧪' },
-  { id: 'Transformation', name: 'Transformation', icon: '⚗️' }
-];
+// Calculate score based on elemental balance
+function calculateScore(method: MethodData): number {
+  const avg = (method.elementalEffect.Fire +
+    method.elementalEffect.Water +
+    method.elementalEffect.Earth +
+    method.elementalEffect.Air) / 4;
+  return avg;
+}
 
 export default function CookingMethodPreview() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('dry');
   const [expandedMethod, setExpandedMethod] = useState<string | null>(null);
 
-  const filteredMethods = selectedCategory === 'all'
-    ? mockMethods
-    : mockMethods.filter(method => method.category === selectedCategory);
+  const currentMethods = useMemo(() => {
+    const category = categories.find(cat => cat.id === selectedCategory);
+    if (!category) return [];
+
+    return Object.entries(category.methods)
+      .map(([id, method]) => ({
+        id,
+        ...method,
+        score: calculateScore(method)
+      }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 6);
+  }, [selectedCategory]);
 
   const toggleMethod = (methodId: string) => {
     setExpandedMethod(expandedMethod === methodId ? null : methodId);
+  };
+
+  const formatDuration = (time_range?: { min: number; max: number }) => {
+    if (!time_range) return 'Variable';
+    if (time_range.min >= 1440) {
+      return `${Math.floor(time_range.min / 1440)}-${Math.floor(time_range.max / 1440)} days`;
+    }
+    if (time_range.min >= 60) {
+      return `${Math.floor(time_range.min / 60)}-${Math.floor(time_range.max / 60)} hrs`;
+    }
+    return `${time_range.min}-${time_range.max} min`;
   };
 
   return (
@@ -121,7 +131,7 @@ export default function CookingMethodPreview() {
 
       {/* Method Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filteredMethods.map(method => (
+        {currentMethods.map(method => (
           <div key={method.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden">
             <div
               className="p-4 cursor-pointer hover:bg-gray-50 transition-colors"
@@ -132,7 +142,12 @@ export default function CookingMethodPreview() {
                   <h4 className="text-lg font-semibold text-gray-900">{method.name}</h4>
                   <p className="text-sm text-gray-600">{method.description}</p>
                   <div className="text-xs text-gray-500 mt-1">
-                    ⏱️ {method.duration} • {method.category}
+                    ⏱️ {formatDuration(method.time_range)}
+                    {method.suitable_for && method.suitable_for.length > 0 && (
+                      <span className="ml-2">
+                        • {method.suitable_for.slice(0, 2).join(', ')}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -150,7 +165,7 @@ export default function CookingMethodPreview() {
               <div className="px-4 pb-4 border-t border-gray-200 pt-3">
                 <div className="text-xs font-medium text-gray-600 mb-2">Elemental Effects</div>
                 <div className="space-y-2">
-                  {Object.entries(method.elements).map(([element, value]) => (
+                  {Object.entries(method.elementalEffect).map(([element, value]) => (
                     <div key={element} className="flex items-center gap-2">
                       <span className="text-xs w-12 text-gray-600">{element}</span>
                       <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -168,13 +183,27 @@ export default function CookingMethodPreview() {
                     </div>
                   ))}
                 </div>
+
+                {/* Suitable For */}
+                {method.suitable_for && method.suitable_for.length > 0 && (
+                  <div className="mt-3">
+                    <div className="text-xs font-medium text-gray-600 mb-1">Suitable For:</div>
+                    <div className="flex flex-wrap gap-1">
+                      {method.suitable_for.map((item, idx) => (
+                        <span key={idx} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
         ))}
       </div>
 
-      {filteredMethods.length === 0 && (
+      {currentMethods.length === 0 && (
         <div className="text-center py-8 text-gray-500">
           No cooking methods in this category.
         </div>
