@@ -60,4 +60,7 @@ export const _pressureCooking: CookingMethodData = {
     'Some nutrients sensitive to high heat may be reduced',
     'Not ideal for foods needing monitoring during cooking'
   ]
-}
+};
+
+// Export without underscore for compatibility
+export const pressureCooking = _pressureCooking;

@@ -18,5 +18,7 @@ export const _molecularCookingMethods = {
   cryo_cooking: cryoCooking
 }
 
+export const molecularCookingMethods = _molecularCookingMethods;
+
 // Export individual methods
 export { spherification, gelification, emulsification, cryoCooking };

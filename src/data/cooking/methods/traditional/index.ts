@@ -18,6 +18,8 @@ export const _traditionalCookingMethods = {
   // curing
 }
 
+export const traditionalCookingMethods = _traditionalCookingMethods;
+
 // Export individual methods
 export {
   fermentation,

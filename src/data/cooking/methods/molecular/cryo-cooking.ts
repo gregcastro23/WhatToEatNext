@@ -62,3 +62,5 @@ export const _cryoCooking: CookingMethodData = {
     'Should only be performed by trained professionals'
   ]
 }
+
+export const cryoCooking = _cryoCooking;

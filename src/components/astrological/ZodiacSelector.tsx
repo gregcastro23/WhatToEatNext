@@ -8,8 +8,7 @@ import {
     HStack,
     Icon,
     Select,
-    Text,
-    useColorModeValue
+    Text
 } from '@chakra-ui/react';
 import React from 'react';
 import {
@@ -59,8 +58,8 @@ export const ZodiacSelector: React.FC<ZodiacSelectorProps> = ({
   showElement = true,
   size = 'md'
 }) => {
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const bgColor = 'white';
+  const borderColor = 'gray.200';
 
   return (
     <Box>
@@ -80,7 +79,7 @@ export const ZodiacSelector: React.FC<ZodiacSelectorProps> = ({
         {ZODIAC_SIGNS.map(sign => {
           const element = ZODIAC_ELEMENTS[sign as keyof typeof ZODIAC_ELEMENTS];
           const ElementIcon = ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS];
-          const elementColor = ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS],
+          const elementColor = ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS];
 
           return (
             <option key={sign} value={sign}>

@@ -54,3 +54,5 @@ export const _marinating: CookingMethodData = {
     'Proper refrigeration is essential for food safety'
   ]
 }
+
+export const marinating = _marinating;

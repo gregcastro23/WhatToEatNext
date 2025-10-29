@@ -9,13 +9,14 @@
  */
 
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
+  AccordionRoot,
   AccordionItem,
-  AccordionPanel,
-  Alert,
-  AlertIcon,
+  AccordionItemTrigger,
+  AccordionItemContent,
+  AccordionItemIndicator,
+  AlertRoot,
+  AlertIndicator,
+  AlertContent,
   Badge,
   Box,
   Button,
@@ -27,22 +28,19 @@ import {
   HStack,
   Heading,
   Icon,
-  List,
-  ListIcon,
+  ListRoot,
   ListItem,
-  OrderedList,
+  ListIndicator,
   Progress,
   SimpleGrid,
   Spinner,
-  Tag,
+  TagRoot,
   TagLabel,
-  TagLeftIcon,
   Text,
   Tooltip,
   VStack,
   Wrap,
-  WrapItem,
-  useColorModeValue
+  WrapItem
 } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
@@ -157,8 +155,8 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
 
-  const bgColor = useColorModeValue('gray.50', 'gray.700');
-  const cardBg = useColorModeValue('white', 'gray.800');
+  const bgColor = 'gray.50';
+  const cardBg = 'white';
 
   const fetchCuisineRecommendations = useCallback(async () => {
     try {
@@ -247,10 +245,12 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
           {/* Ingredients */}
           <Box>
             <Text fontSize="sm" fontWeight="medium" mb={2}>Ingredients:</Text>
-            <List spacing={1}>
+            <ListRoot spacing={1}>
               {recipe.ingredients.slice(0, 5).map((ingredient, idx) => (
                 <ListItem key={idx} fontSize="xs">
-                  <ListIcon as={FaAppleAlt} color="green.500" boxSize={2} />
+                  <ListIndicator asChild>
+                    <FaAppleAlt color="green.500" size={8} />
+                  </ListIndicator>
                   {ingredient.amount && ingredient.unit ?
                     `${ingredient.amount} ${ingredient.unit} ${ingredient.name}` :
                     ingredient.name
@@ -265,20 +265,20 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                   ...and {recipe.ingredients.length - 5} more ingredients
                 </ListItem>
               )}
-            </List>
+            </ListRoot>
           </Box>
 
           {/* Instructions Preview */}
           {recipe.instructions.length > 0 && (
             <Box>
               <Text fontSize="sm" fontWeight="medium" mb={1}>Quick Steps:</Text>
-              <OrderedList spacing={1}>
+              <ListRoot as="ol" spacing={1}>
                 {recipe.instructions.slice(0, 3).map((step, idx) => (
                   <ListItem key={idx} fontSize="xs" pl={4}>
                     {step.length > 60 ? `${step.substring(0, 60)}...` : step}
                   </ListItem>
                 ))}
-              </OrderedList>
+              </ListRoot>
             </Box>
           )}
         </VStack>
@@ -305,10 +305,10 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
             <Wrap spacing={1}>
               {sauce.key_ingredients.slice(0, 3).map((ingredient, idx) => (
                 <WrapItem key={idx}>
-                  <Tag size="sm" variant="subtle" colorScheme="orange">
-                    <TagLeftIcon as={FaPepperHot} boxSize={2} />
+                  <TagRoot size="sm" variant="subtle" colorScheme="orange">
+                    <FaPepperHot size={8} />
                     <TagLabel>{ingredient}</TagLabel>
-                  </Tag>
+                  </TagRoot>
                 </WrapItem>
               ))}
             </Wrap>
@@ -343,16 +343,18 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
 
   if (error) {
     return (
-      <Alert status="error" maxW="600px" mx="auto" mt={8}>
-        <AlertIcon />
-        <Box>
-          <Text fontWeight="bold">Failed to load cuisine recommendations</Text>
-          <Text fontSize="sm">{error}</Text>
-          <Button size="sm" mt={2} onClick={fetchCuisineRecommendations}>
-            Try Again
-          </Button>
-        </Box>
-      </Alert>
+      <AlertRoot status="error" maxW="600px" mx="auto" mt={8}>
+        <AlertIndicator />
+        <AlertContent>
+          <Box>
+            <Text fontWeight="bold">Failed to load cuisine recommendations</Text>
+            <Text fontSize="sm">{error}</Text>
+            <Button size="sm" mt={2} onClick={fetchCuisineRecommendations}>
+              Try Again
+            </Button>
+          </Box>
+        </AlertContent>
+      </AlertRoot>
     );
   }
 
@@ -450,10 +452,10 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                     </Box>
 
                     {/* Accordion for Recipes and Sauces */}
-                    <Accordion allowMultiple>
+                    <AccordionRoot collapsible multiple>
                       {/* Nested Recipes */}
-                      <AccordionItem>
-                        <AccordionButton>
+                      <AccordionItem value="recipes">
+                        <AccordionItemTrigger>
                           <Box flex="1" textAlign="left">
                             <HStack>
                               <Icon as={FaUtensils} color="green.500" />
@@ -462,18 +464,18 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                               </Text>
                             </HStack>
                           </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-                        <AccordionPanel pb={4}>
+                          <AccordionItemIndicator />
+                        </AccordionItemTrigger>
+                        <AccordionItemContent pb={4}>
                           <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={4}>
                             {cuisine.nested_recipes.map(renderRecipeCard)}
                           </SimpleGrid>
-                        </AccordionPanel>
+                        </AccordionItemContent>
                       </AccordionItem>
 
                       {/* Recommended Sauces */}
-                      <AccordionItem>
-                        <AccordionButton>
+                      <AccordionItem value="sauces">
+                        <AccordionItemTrigger>
                           <Box flex="1" textAlign="left">
                             <HStack>
                               <Icon as={FaPepperHot} color="red.500" />
@@ -482,15 +484,15 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                               </Text>
                             </HStack>
                           </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-                        <AccordionPanel pb={4}>
+                          <AccordionItemIndicator />
+                        </AccordionItemTrigger>
+                        <AccordionItemContent pb={4}>
                           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
                             {cuisine.recommended_sauces.map(renderSauceCard)}
                           </SimpleGrid>
-                        </AccordionPanel>
+                        </AccordionItemContent>
                       </AccordionItem>
-                    </Accordion>
+                    </AccordionRoot>
                   </VStack>
                 </CardBody>
 

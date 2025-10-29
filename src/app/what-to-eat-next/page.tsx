@@ -2,10 +2,7 @@
 
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext';
 import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
-
-const KalchmRecommender = ({ maxRecommendations }: { maxRecommendations?: number }) => (
-  <div className='p-6 text-gray-600'>KalchmRecommender unavailable.</div>
-);
+import { KalchmRecommender } from '@/components/recommendations/KalchmRecommender';
 
 export default function WhatToEatNextPage() {
   const { cuisines, loading, error, getCuisineRecommendations } = useEnhancedRecommendations({

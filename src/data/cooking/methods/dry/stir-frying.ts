@@ -140,3 +140,5 @@ export const _stirFrying: CookingMethodData = {
     'Can adjust oil and salt content for health needs'
   ]
 }
+
+export const stirFrying = _stirFrying;

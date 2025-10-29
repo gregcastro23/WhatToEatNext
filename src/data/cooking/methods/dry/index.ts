@@ -19,7 +19,10 @@ export const _dryCookingMethods = {
   grilling,
   broiling,
   // Add other cooking methods as they are implemented
-}
+};
+
+// Export without underscore for compatibility
+export const dryCookingMethods = _dryCookingMethods;
 
 // Export individual methods
 export {

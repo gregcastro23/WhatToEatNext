@@ -8,8 +8,8 @@
  */
 
 import {
-    Alert,
-    AlertIcon,
+    AlertRoot,
+    AlertIndicator,
     Badge,
     Box,
     Button,
@@ -25,8 +25,7 @@ import {
     Spinner,
     Text,
     Tooltip,
-    VStack,
-    useColorModeValue
+    VStack
 } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
@@ -87,8 +86,8 @@ export const AstrologicalRecommendations: React.FC = () => {
   const [cookingPlan, setCookingPlan] = useState<CookingPlan | null>(null);
   const [error, setError] = useState<string>('');
 
-  const bgColor = useColorModeValue('gray.50', 'gray.700');
-  const cardBg = useColorModeValue('white', 'gray.800');
+  const bgColor = 'gray.50';
+  const cardBg = 'white';
 
   const fetchCookingPlan = useCallback(async () => {
     if (!zodiacSign && !season) return;
@@ -211,10 +210,10 @@ export const AstrologicalRecommendations: React.FC = () => {
 
         {/* Error Display */}
         {error && (
-          <Alert status="error">
-            <AlertIcon />
+          <AlertRoot status="error">
+            <AlertIndicator />
             {error}
-          </Alert>
+          </AlertRoot>
         )}
 
         {/* Loading State */}

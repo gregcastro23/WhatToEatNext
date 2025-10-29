@@ -79,4 +79,7 @@ export const _AlchemicalContext = createContext<AlchemicalContextType>({
 })
 });
 
+// Export without underscore for compatibility
+export const AlchemicalContext = _AlchemicalContext;
+
 export default _AlchemicalContext;

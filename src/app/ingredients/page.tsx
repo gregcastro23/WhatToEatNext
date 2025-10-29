@@ -6,22 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { useNavigationContext, useScrollPreservation } from '@/hooks/useStatePreservation';
-
-// Fallback lightweight placeholder if the full component isn't available
-const IngredientRecommender = ({
-  initialCategory,
-  initialSelectedIngredient,
-  isFullPageVersion
-}: {
-  initialCategory?: string | null,
-  initialSelectedIngredient?: string | null,
-  isFullPageVersion?: boolean
-}) => (
-  <div className='text-center text-gray-600'>
-    Ingredient recommender component unavailable in this build.
-    {initialCategory && <div>Category: {initialCategory}</div>}
-    {initialSelectedIngredient && <div>Ingredient: {initialSelectedIngredient}</div>}
-  </div>)
+import { IngredientRecommender } from '@/components/recommendations/IngredientRecommender';
 
 export default function IngredientsPage() {
   const searchParams = useSearchParams()

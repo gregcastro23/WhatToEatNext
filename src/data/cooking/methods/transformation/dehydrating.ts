@@ -54,3 +54,5 @@ export const _dehydrating: CookingMethodData = {
     'Insufficient drying can lead to mold growth'
   ]
 }
+
+export const dehydrating = _dehydrating;

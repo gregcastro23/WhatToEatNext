@@ -9,8 +9,7 @@ import {
     Icon,
     Select,
     Text,
-    VStack,
-    useColorModeValue
+    VStack
 } from '@chakra-ui/react';
 import React from 'react';
 import {
@@ -64,8 +63,8 @@ export const SeasonSelector: React.FC<SeasonSelectorProps> = ({
   showDescription = true,
   size = 'md'
 }) => {
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const bgColor = 'white';
+  const borderColor = 'gray.200';
 
   return (
     <Box>

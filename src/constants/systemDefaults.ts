@@ -450,13 +450,83 @@ export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
 /**
  * Default planetary positions for October 28, 2025 at 10:47 PM EDT
  */
+/**
+ * Default planetary positions for October 28, 2025 at 10:48 PM EDT
+ */
 export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
   Sun: {
-    sign: 'cancer' as any,
-    degree: 10.75,
-    exactLongitude: 100.75,
+    sign: 'scorpio' as any,
+    degree: 215.91666666666666,
+    exactLongitude: 215.9307,
     isRetrograde: false
   },
+  Moon: {
+    sign: 'virgo' as any,
+    degree: 176.3,
+    exactLongitude: 176.31349999999998,
+    isRetrograde: false
+  },
+  Mercury: {
+    sign: 'scorpio' as any,
+    degree: 232.98333333333332,
+    exactLongitude: 232.98900000000003,
+    isRetrograde: false
+  },
+  Venus: {
+    sign: 'sagittarius' as any,
+    degree: 253.33333333333334,
+    exactLongitude: 253.3456,
+    isRetrograde: false
+  },
+  Mars: {
+    sign: 'cancer' as any,
+    degree: 117.7,
+    exactLongitude: 117.7063,
+    isRetrograde: false
+  },
+  Jupiter: {
+    sign: 'gemini' as any,
+    degree: 80.7,
+    exactLongitude: 80.70010000000002,
+    isRetrograde: false
+  },
+  Saturn: {
+    sign: 'pisces' as any,
+    degree: 342.95,
+    exactLongitude: 342.96530000000007,
+    isRetrograde: false
+  },
+  Uranus: {
+    sign: 'taurus' as any,
+    degree: 56.016666666666666,
+    exactLongitude: 56.0222,
+    isRetrograde: false
+  },
+  Neptune: {
+    sign: 'pisces' as any,
+    degree: 357.55,
+    exactLongitude: 357.5626,
+    isRetrograde: false
+  },
+  Pluto: {
+    sign: 'capricorn' as any,
+    degree: 299.7,
+    exactLongitude: 299.70990000000006,
+    isRetrograde: false
+  },
+  Chiron: {
+    sign: 'aries' as any,
+    degree: 20.683333333333334,
+    exactLongitude: 20.68459999999999,
+    isRetrograde: false
+  },
+  Sirius: {
+    sign: 'aries' as any,
+    degree: 1.7666666666666666,
+    exactLongitude: 1.7726000000000113,
+    isRetrograde: false
+  },
+ }
   Moon: {
     sign: 'libra' as any,
     degree: 18.316666666666666,

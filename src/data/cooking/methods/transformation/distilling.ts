@@ -52,3 +52,5 @@ export const _distilling: CookingMethodData = {
     'High proof spirits should be consumed in moderation'
   ]
 }
+
+export const distilling = _distilling;

@@ -20,3 +20,5 @@ export const _transformationMethods = {
   marinating,
   // Add other transformation methods as they are implemented
 }
+
+export const transformationMethods = _transformationMethods;
