@@ -447,13 +447,77 @@ export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
 /**
  * Default planetary positions for July 2, 2025 at, 11: 36 PM EDT
  */
+/**
+ * Default planetary positions for October 28, 2025 at 10:47 PM EDT
+ */
 export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
   Sun: {
     sign: 'cancer' as any,
-    degree: 101.48333333333333,
-    exactLongitude: 101.4844,
+    degree: 10.75,
+    exactLongitude: 100.75,
     isRetrograde: false
   },
+  Moon: {
+    sign: 'libra' as any,
+    degree: 18.316666666666666,
+    exactLongitude: 198.32,
+    isRetrograde: false
+  },
+  Mercury: {
+    sign: 'leo' as any,
+    degree: 2.15,
+    exactLongitude: 122.15,
+    isRetrograde: false
+  },
+  Venus: {
+    sign: 'leo' as any,
+    degree: 14.85,
+    exactLongitude: 134.85,
+    isRetrograde: false
+  },
+  Mars: {
+    sign: 'taurus' as any,
+    degree: 25.416666666666668,
+    exactLongitude: 55.42,
+    isRetrograde: false
+  },
+  Jupiter: {
+    sign: 'gemini' as any,
+    degree: 12.733333333333333,
+    exactLongitude: 72.73,
+    isRetrograde: false
+  },
+  Saturn: {
+    sign: 'pisces' as any,
+    degree: 19.283333333333335,
+    exactLongitude: 349.28,
+    isRetrograde: false
+  },
+  Uranus: {
+    sign: 'taurus' as any,
+    degree: 26.15,
+    exactLongitude: 56.15,
+    isRetrograde: false
+  },
+  Neptune: {
+    sign: 'aries' as any,
+    degree: 29.916666666666668,
+    exactLongitude: 29.92,
+    isRetrograde: false
+  },
+  Pluto: {
+    sign: 'aquarius' as any,
+    degree: 1.8833333333333333,
+    exactLongitude: 301.88,
+    isRetrograde: true
+  },
+  Ascendant: {
+    sign: 'capricorn' as any,
+    degree: 20.75,
+    exactLongitude: 290.75,
+    isRetrograde: false
+  },
+ }
   Moon: {
     sign: 'libra' as any,
     degree: 195.16666666666666,

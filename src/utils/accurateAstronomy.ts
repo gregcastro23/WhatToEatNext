@@ -138,136 +138,20 @@ const debugLog = (_message: string, ...args: unknown[]): void => {
 // Updated reference data based on accurate positions for July 2, 2025 at, 11: 36 PM EDT
 // Updated reference data based on accurate positions for July 2, 2025 at, 11: 36 PM EDT
 // Updated reference data based on accurate positions for July 2, 2025 at, 11: 36 PM EDT
+// Updated reference data based on accurate positions for October 28, 2025 at 10:47 PM EDT
 const REFERENCE_POSITIONS = {
-  Sun: [10129, 0, 'cancer'],
-  Moon: [19510, 0, 'libra'],
-  Mercury: [12723, 0, 'leo'],
-  Venus: [5821, 0, 'taurus'],
-  Mars: [1590, 0, 'virgo'],
-  Jupiter: [9518, 0, 'cancer'],
-  Saturn: [151, 0, 'aries'],
-  Uranus: [5948, 0, 'taurus'],
-  Neptune: [210, 0, 'aries'],
-  Pluto: [3035, 0, 'aquarius'],
-  Chiron: [2656, 0, 'aries'],
-  _Sirius: [146, 0, 'aries']
-}
-
-// Reference date for July 2, 2025 at, 10: 45 PM EDT
-const REFERENCE_DATE = new Date('2025-07-03T03:36:29.687Z') // New York time (EDT)
-// Approximate daily motion of planets in degrees - more accurate values from ephemeris
-const DAILY_MOTION = {
-  Sun: 0.986,
-  Moon: 13.2,
-  Mercury: 1.383,
-  Venus: 1.2,
-  Mars: 0.524,
-  Jupiter: 0.083,
-  Saturn: 0.034,
-  Uranus: 0.012,
-  Neptune: 0.006,
-  Pluto: 0.004,
-  northNode: 0.053,
-  Chiron: 0.018,
-  Ascendant: 1.0, // Varies based on location and time,
-  MC: 1.0, // Varies based on location and time
-}
-
-// Keep the retrograde information for the planets based on July 2, 2025 data
-const RETROGRADE_STATUS = {
-  Sun: false,
-  Moon: false,
-  Mercury: false, // Direct in Leo,
-  Venus: false, // Direct in Leo,
-  Mars: false,
-  Jupiter: false,
-  Saturn: false,
-  Uranus: false,
-  Neptune: false,
-  Pluto: true, // Retrograde in Aquarius,
-  northNode: true, // Nodes are always retrograde,
-  southNode: true,
-  Chiron: false,
-  Ascendant: false,
-  MC: false
-}
-
-/**
- * Type definition for cached positions
- */
-interface PositionsCache {
-  positions: Record<string, PlanetPositionData>,
-  timestamp: number,
-  date: Date
-}
-
-/**
- * Type for planetary position object
- */
-interface PlanetPositionData {
-  sign: any,
-  degree: number,
-  exactLongitude: number,
-  isRetrograde: boolean
-}
-
-// Map our planet names to astronomy-engine bodies
-const PLANET_MAPPING: Record<string, Astronomy.Body> = {
-  Sun: Astronomy.Body.Sun,
-  Moon: Astronomy.Body.Moon,
-  Mercury: Astronomy.Body.Mercury,
-  Venus: Astronomy.Body.Venus,
-  Mars: Astronomy.Body.Mars,
-  Jupiter: Astronomy.Body.Jupiter,
-  Saturn: Astronomy.Body.Saturn,
-  Uranus: Astronomy.Body.Uranus,
-  Neptune: Astronomy.Body.Neptune,
-  Pluto: Astronomy.Body.Pluto
-}
-
-// Cache for planetary positions to avoid frequent recalculations
-let positionsCache: PositionsCache | null = null;
-
-// Cache expiration in milliseconds (15 minutes)
-const CACHE_EXPIRATION = 15 * 60 * 1000;
-
-// Zodiac signs in order
-const ZODIAC_SIGNS = [
-  'Aries',
-  'Taurus',
-  'Gemini',
-  'Cancer',
-  'Leo',
-  'Virgo',
-  'Libra',
-  'Scorpio',
-  'Sagittarius',
-  'Capricorn',
-  'Aquarius',
-  'Pisces'
-];
-
-/**
- * Convert a position in degrees, minutes, seconds to decimal degrees
- */
-function dmsToDecimal(degrees: number, minutes: number, seconds: number): number {
-  return degrees + minutes / 60 + seconds / 3600;
-}
-
-/**
- * Convert a zodiac sign to its starting degree (0-330)
- */
-function zodiacStartDegree(sign: string): number {
-  const index = ZODIAC_SIGNS.indexOf(sign)
-  return index * 30;
-}
-
-/**
- * Calculate the longitude in decimal degrees based on reference data
- */
-function calculateReferenceLongitude(planet: string): number {
-  if (!REFERENCE_POSITIONS[planet]) {
-    _logger.warn(`No reference position for ${planet}, using default`)
+  Sun: [10, 45, 0, 'cancer'],
+  Moon: [18, 19, 0, 'libra'],
+  Mercury: [2, 9, 0, 'leo'],
+  Venus: [14, 51, 0, 'leo'],
+  Mars: [25, 25, 0, 'taurus'],
+  Jupiter: [12, 44, 0, 'gemini'],
+  Saturn: [19, 17, 0, 'pisces'],
+  Uranus: [26, 9, 0, 'taurus'],
+  Neptune: [29, 55, 0, 'aries'],
+  Pluto: [1, 53, 0, 'aquarius'],
+  Ascendant: [20, 45, 0, 'capricorn'],
+ } using default`)
     return 0;
   }
 

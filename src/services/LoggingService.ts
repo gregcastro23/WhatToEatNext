@@ -136,20 +136,20 @@ class LoggingService {
     switch (entry.level) {
       case LogLevel.DEBUG:
         if (this.isDevelopment) {
-          log.info(`🐛 ${baseMessage}`, entry.data || '');
+          console.log(`🐛 ${baseMessage}`, entry.data || '');
         }
         break;
 
       case LogLevel.INFO:
-        log.info(`ℹ️ ${baseMessage}`, entry.data || '');
+        console.info(`ℹ️ ${baseMessage}`, entry.data || '');
         break;
 
       case LogLevel.WARN:
-        _logger.warn(`⚠️ ${baseMessage}`, entry.data || '');
+        console.warn(`⚠️ ${baseMessage}`, entry.data || '');
         break;
 
       case LogLevel.ERROR:
-        _logger.error(`❌ ${baseMessage}`, entry.error || entry.data || '');
+        console.error(`❌ ${baseMessage}`, entry.error || entry.data || '');
         break;
     }
   }

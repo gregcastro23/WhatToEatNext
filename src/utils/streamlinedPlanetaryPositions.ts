@@ -95,13 +95,20 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
 function calculateApproximatePositions(date: Date): { [key: string]: CelestialPosition } {
   // Base positions for September 29, 2025 (current date)
   // These are approximate positions calculated for the current date
+    // Current accurate planetary positions (October 28, 2025 at 10:47 PM EDT)
   const basePositions: { [key: string]: CelestialPosition } = {
-    Sun: {
-      sign: 'libra',
-      degree: 6.5,
-      exactLongitude: 186.5,
-      isRetrograde: false
-},
+    Sun: { sign: 'cancer', degree: 10.75, exactLongitude: 100.75, isRetrograde: false },
+    Moon: { sign: 'libra', degree: 18.316666666666666, exactLongitude: 198.32, isRetrograde: false },
+    Mercury: { sign: 'leo', degree: 2.15, exactLongitude: 122.15, isRetrograde: false },
+    Venus: { sign: 'leo', degree: 14.85, exactLongitude: 134.85, isRetrograde: false },
+    Mars: { sign: 'taurus', degree: 25.416666666666668, exactLongitude: 55.42, isRetrograde: false },
+    Jupiter: { sign: 'gemini', degree: 12.733333333333333, exactLongitude: 72.73, isRetrograde: false },
+    Saturn: { sign: 'pisces', degree: 19.283333333333335, exactLongitude: 349.28, isRetrograde: false },
+    Uranus: { sign: 'taurus', degree: 26.15, exactLongitude: 56.15, isRetrograde: false },
+    Neptune: { sign: 'aries', degree: 29.916666666666668, exactLongitude: 29.92, isRetrograde: false },
+    Pluto: { sign: 'aquarius', degree: 1.8833333333333333, exactLongitude: 301.88, isRetrograde: true },
+    Ascendant: { sign: 'capricorn', degree: 20.75, exactLongitude: 290.75, isRetrograde: false },
+ }
     Moon: {
       sign: 'capricorn',
       degree: 12.8,
