@@ -110,51 +110,79 @@ export default function CookingMethodPreview() {
     return `${time_range.min}-${time_range.max} min`;
   };
 
+  const category = categories.find(cat => cat.id === selectedCategory);
+
   return (
     <div className="space-y-6">
       {/* Category Selector */}
-      <div className="flex flex-wrap gap-2 justify-center">
-        {categories.map(category => (
+      <div className="flex flex-wrap gap-3 justify-center">
+        {categories.map(cat => (
           <button
-            key={category.id}
-            onClick={() => setSelectedCategory(category.id)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              selectedCategory === category.id
-                ? 'bg-orange-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            key={cat.id}
+            onClick={() => setSelectedCategory(cat.id)}
+            className={`px-5 py-3 rounded-xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 ${
+              selectedCategory === cat.id
+                ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white scale-105'
+                : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-orange-300'
             }`}
           >
-            {category.icon} {category.name}
+            <span className="text-2xl mr-2">{cat.icon}</span>
+            <span>{cat.name}</span>
           </button>
         ))}
+      </div>
+
+      {/* Category Info Banner */}
+      <div className="bg-gradient-to-r from-orange-50 via-red-50 to-pink-50 border-l-4 border-orange-500 rounded-lg p-4 shadow-sm">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-4xl">{category?.icon}</span>
+            <div>
+              <h3 className="text-lg font-bold text-gray-900">{category?.name} Techniques</h3>
+              <p className="text-sm text-gray-600">
+                {currentMethods.length} cooking methods available
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Method Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {currentMethods.map(method => (
-          <div key={method.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <div
+            key={method.id}
+            className="border-2 border-gray-100 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white"
+          >
             <div
-              className="p-4 cursor-pointer hover:bg-gray-50 transition-colors"
+              className="bg-gradient-to-r from-orange-50 via-red-50 to-pink-50 p-5 cursor-pointer hover:from-orange-100 hover:via-red-100 hover:to-pink-100 transition-all duration-300"
               onClick={() => toggleMethod(method.id)}
             >
-              <div className="flex justify-between items-start mb-2">
+              <div className="flex justify-between items-start mb-3">
                 <div className="flex-1">
-                  <h4 className="text-lg font-semibold text-gray-900">{method.name}</h4>
-                  <p className="text-sm text-gray-600">{method.description}</p>
-                  <div className="text-xs text-gray-500 mt-1">
-                    ⏱️ {formatDuration(method.time_range)}
+                  <div className="flex items-center gap-2 mb-2">
+                    <h4 className="text-xl font-bold text-gray-900">{method.name}</h4>
+                    <div className="inline-block w-2 h-2 bg-orange-500 rounded-full animate-pulse" title="Available"></div>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-2">{method.description}</p>
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    <span className="inline-flex items-center gap-1 bg-white bg-opacity-70 text-gray-700 px-2 py-1 rounded-full font-medium border border-gray-200">
+                      <span>⏱️</span>
+                      <span>{formatDuration(method.time_range)}</span>
+                    </span>
                     {method.suitable_for && method.suitable_for.length > 0 && (
-                      <span className="ml-2">
-                        • {method.suitable_for.slice(0, 2).join(', ')}
+                      <span className="inline-flex items-center gap-1 bg-white bg-opacity-70 text-gray-700 px-2 py-1 rounded-full font-medium border border-gray-200">
+                        <span>👨‍🍳</span>
+                        <span>{method.suitable_for.slice(0, 2).join(', ')}</span>
                       </span>
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="bg-orange-100 text-orange-800 px-2 py-1 rounded text-sm font-medium">
+                <div className="flex flex-col items-center gap-2 ml-4">
+                  <div className="bg-gradient-to-br from-orange-500 to-red-600 text-white px-4 py-2 rounded-full text-base font-bold shadow-lg">
                     {(method.score * 100).toFixed(0)}%
                   </div>
-                  <div className="text-gray-400">
+                  <div className="text-3xl text-gray-400 font-light">
                     {expandedMethod === method.id ? '−' : '+'}
                   </div>
                 </div>
@@ -162,35 +190,59 @@ export default function CookingMethodPreview() {
             </div>
 
             {expandedMethod === method.id && (
-              <div className="px-4 pb-4 border-t border-gray-200 pt-3">
-                <div className="text-xs font-medium text-gray-600 mb-2">Elemental Effects</div>
-                <div className="space-y-2">
+              <div className="p-6 bg-gradient-to-br from-gray-50 to-white border-t-2 border-orange-100">
+                <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <span className="text-2xl">⚗️</span>
+                  <span>Elemental Effects</span>
+                </h4>
+                <div className="grid grid-cols-2 gap-3 mb-4">
                   {Object.entries(method.elementalEffect).map(([element, value]) => (
-                    <div key={element} className="flex items-center gap-2">
-                      <span className="text-xs w-12 text-gray-600">{element}</span>
-                      <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div key={element} className="bg-white p-3 rounded-lg shadow-sm border border-gray-100">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className={`text-xl ${
+                            element === 'Fire' ? '🔥' :
+                            element === 'Water' ? '💧' :
+                            element === 'Earth' ? '🌍' :
+                            '💨'
+                          }`}>{
+                            element === 'Fire' ? '🔥' :
+                            element === 'Water' ? '💧' :
+                            element === 'Earth' ? '🌍' :
+                            '💨'
+                          }</span>
+                          <span className="text-sm font-bold text-gray-800">{element}</span>
+                        </div>
+                        <span className="text-xs font-bold text-gray-600">{(value * 100).toFixed(0)}%</span>
+                      </div>
+                      <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
                         <div
-                          className={`h-full ${
-                            element === 'Fire' ? 'bg-red-500' :
-                            element === 'Water' ? 'bg-blue-500' :
-                            element === 'Earth' ? 'bg-green-500' :
-                            'bg-purple-500'
+                          className={`h-full transition-all duration-500 ${
+                            element === 'Fire' ? 'bg-gradient-to-r from-red-400 to-orange-500' :
+                            element === 'Water' ? 'bg-gradient-to-r from-blue-400 to-cyan-500' :
+                            element === 'Earth' ? 'bg-gradient-to-r from-green-500 to-emerald-600' :
+                            'bg-gradient-to-r from-purple-400 to-indigo-500'
                           }`}
                           style={{ width: `${value * 100}%` }}
                         />
                       </div>
-                      <span className="text-xs text-gray-500 w-8">{(value * 100).toFixed(0)}%</span>
                     </div>
                   ))}
                 </div>
 
                 {/* Suitable For */}
                 {method.suitable_for && method.suitable_for.length > 0 && (
-                  <div className="mt-3">
-                    <div className="text-xs font-medium text-gray-600 mb-1">Suitable For:</div>
-                    <div className="flex flex-wrap gap-1">
+                  <div className="bg-gradient-to-r from-orange-50 to-red-50 p-4 rounded-lg border border-orange-100">
+                    <div className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                      <span>👨‍🍳</span>
+                      <span>Best Used With:</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
                       {method.suitable_for.map((item, idx) => (
-                        <span key={idx} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
+                        <span
+                          key={idx}
+                          className="text-sm bg-white text-gray-800 px-3 py-1.5 rounded-full font-medium border border-orange-200 shadow-sm"
+                        >
                           {item}
                         </span>
                       ))}
@@ -204,8 +256,10 @@ export default function CookingMethodPreview() {
       </div>
 
       {currentMethods.length === 0 && (
-        <div className="text-center py-8 text-gray-500">
-          No cooking methods in this category.
+        <div className="flex flex-col items-center justify-center py-16 bg-gradient-to-br from-orange-50 to-red-50 rounded-xl border-2 border-dashed border-orange-200">
+          <div className="text-6xl mb-4">🍳</div>
+          <p className="text-xl font-semibold text-gray-700 mb-2">No cooking methods available</p>
+          <p className="text-sm text-gray-500">Try selecting a different category.</p>
         </div>
       )}
     </div>

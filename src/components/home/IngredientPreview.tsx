@@ -125,54 +125,111 @@ export default function IngredientPreview() {
   const data = category ? category.getData() : [];
   const currentIngredients = calculateScore(data);
 
+  // Get dominant element for selected category
+  const getDominantElement = (): string => {
+    if (!currentIngredients.length) return 'Fire';
+    const totals = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    currentIngredients.forEach(ing => {
+      Object.entries(ing.elementalProperties).forEach(([element, value]) => {
+        totals[element as keyof typeof totals] += value;
+      });
+    });
+    return Object.entries(totals).sort((a, b) => b[1] - a[1])[0][0];
+  };
+
+  const dominantElement = getDominantElement();
+
   return (
     <div className="space-y-6">
       {/* Category Selector */}
-      <div className="flex flex-wrap gap-2 justify-center">
-        {categories.map(category => (
+      <div className="flex flex-wrap gap-3 justify-center">
+        {categories.map(cat => (
           <button
-            key={category.id}
-            onClick={() => setSelectedCategory(category.id)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              selectedCategory === category.id
-                ? 'bg-green-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            key={cat.id}
+            onClick={() => setSelectedCategory(cat.id)}
+            className={`px-5 py-3 rounded-xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 ${
+              selectedCategory === cat.id
+                ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white scale-105'
+                : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-green-300'
             }`}
           >
-            {category.icon} {category.name}
+            <span className="text-2xl mr-2">{cat.icon}</span>
+            <span>{cat.name}</span>
           </button>
         ))}
       </div>
 
+      {/* Category Info Banner */}
+      <div className="bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 border-l-4 border-green-500 rounded-lg p-4 shadow-sm">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-4xl">{category?.icon}</span>
+            <div>
+              <h3 className="text-lg font-bold text-gray-900">{category?.name} Collection</h3>
+              <p className="text-sm text-gray-600">
+                Dominant element: <span className="font-bold text-green-700">{dominantElement}</span> {
+                  dominantElement === 'Fire' ? '🔥' :
+                  dominantElement === 'Water' ? '💧' :
+                  dominantElement === 'Earth' ? '🌍' :
+                  '💨'
+                }
+              </p>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="text-2xl font-bold text-green-700">{currentIngredients.length}</div>
+            <div className="text-xs text-gray-600">ingredients</div>
+          </div>
+        </div>
+      </div>
+
       {/* Ingredient Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentIngredients.map((ingredient, index) => (
-          <div key={index} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
-            <div className="flex justify-between items-start mb-3">
-              <h4 className="text-lg font-semibold text-gray-900">{ingredient.name}</h4>
-              <div className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-medium">
+          <div
+            key={index}
+            className="bg-white border-2 border-gray-100 rounded-xl p-5 hover:shadow-2xl hover:border-green-300 transition-all duration-300 transform hover:-translate-y-1"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <h4 className="text-xl font-bold text-gray-900">{ingredient.name}</h4>
+              <div className="bg-gradient-to-br from-green-500 to-emerald-600 text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-md">
                 {(ingredient.score * 100).toFixed(0)}%
               </div>
             </div>
 
             {/* Elemental Properties */}
-            <div className="space-y-2">
-              <div className="text-xs font-medium text-gray-600 mb-2">Elemental Properties</div>
+            <div className="space-y-2.5">
+              <div className="text-xs font-bold text-gray-700 mb-3 uppercase tracking-wide">Elemental Balance</div>
               {Object.entries(ingredient.elementalProperties).map(([element, value]) => (
-                <div key={element} className="flex items-center gap-2">
-                  <span className="text-xs w-12 text-gray-600">{element}</span>
-                  <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div key={element} className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className={`text-lg ${
+                        element === 'Fire' ? '🔥' :
+                        element === 'Water' ? '💧' :
+                        element === 'Earth' ? '🌍' :
+                        '💨'
+                      }`}>{
+                        element === 'Fire' ? '🔥' :
+                        element === 'Water' ? '💧' :
+                        element === 'Earth' ? '🌍' :
+                        '💨'
+                      }</span>
+                      <span className="text-sm font-semibold text-gray-700">{element}</span>
+                    </div>
+                    <span className="text-xs font-bold text-gray-600">{(value * 100).toFixed(0)}%</span>
+                  </div>
+                  <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden shadow-inner">
                     <div
-                      className={`h-full ${
-                        element === 'Fire' ? 'bg-red-500' :
-                        element === 'Water' ? 'bg-blue-500' :
-                        element === 'Earth' ? 'bg-green-500' :
-                        'bg-purple-500'
+                      className={`h-full transition-all duration-500 ${
+                        element === 'Fire' ? 'bg-gradient-to-r from-red-400 to-orange-500' :
+                        element === 'Water' ? 'bg-gradient-to-r from-blue-400 to-cyan-500' :
+                        element === 'Earth' ? 'bg-gradient-to-r from-green-500 to-emerald-600' :
+                        'bg-gradient-to-r from-purple-400 to-indigo-500'
                       }`}
                       style={{ width: `${value * 100}%` }}
                     />
                   </div>
-                  <span className="text-xs text-gray-500 w-8">{(value * 100).toFixed(0)}%</span>
                 </div>
               ))}
             </div>
@@ -181,8 +238,10 @@ export default function IngredientPreview() {
       </div>
 
       {currentIngredients.length === 0 && (
-        <div className="text-center py-8 text-gray-500">
-          No ingredients available in this category.
+        <div className="flex flex-col items-center justify-center py-16 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-dashed border-green-200">
+          <div className="text-6xl mb-4">🌿</div>
+          <p className="text-xl font-semibold text-gray-700 mb-2">No ingredients available</p>
+          <p className="text-sm text-gray-500">Try selecting a different category.</p>
         </div>
       )}
     </div>
