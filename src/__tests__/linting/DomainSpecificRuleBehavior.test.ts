@@ -318,7 +318,7 @@ describe('Domain-Specific Rule Behavior', () => {
           'transit',
           'elemental',
         ];
-        const containsAstrologicalTerm = astrologicalTerms.some(term =>
+        const containsAstrologicalTerm = astrologicalTerms.some(term =>)
           variable.toLowerCase().includes(term.toLowerCase()),
         );
         expect(containsAstrologicalTerm).toBe(true);
@@ -341,7 +341,7 @@ describe('Domain-Specific Rule Behavior', () => {
 
       mathVariables.forEach(variable => {
         // Mathematical constants should be uppercase
-        if (variable.includes('_')) {
+        if (variable.includes('_') {
           expect(variable).toMatch(/^[A-Z_]+$/);
         }
 
@@ -357,9 +357,9 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should work with TypeScript strict mode', () => {
       // Test that our domain-specific rules don't conflict with TypeScript
       interface PlanetaryPosition {
-        sign: string,
-        degree: number,
-        exactLongitude: number,
+        sign: string;
+        degree: number;
+        exactLongitude: number;
         isRetrograde: boolean;
       }
 
@@ -425,7 +425,7 @@ describe('Domain-Specific Rule Behavior', () => {
         return Math.min(1.0, baseInfluence * elementalModifier * transitModifier);
       };
 
-      const result = calculatePlanetaryInfluence(
+      const result = calculatePlanetaryInfluence()
         { degree: 15 },
         { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 },
         true,
@@ -490,7 +490,7 @@ describe('Domain-Specific Rule Behavior', () => {
 
     test('should handle error conditions gracefully', () => {
       // Test with malformed data
-      const malformedData = [null, undefined, {}, { invalidStructure: true }, { sun: null }, { sun: { sign: null } }],
+      const malformedData = [null, undefined, {}, { invalidStructure: true }, { sun: null }, { sun: { sign, null } }],
 
       malformedData.forEach(data => {
         expect(() => {

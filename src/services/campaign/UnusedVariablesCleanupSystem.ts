@@ -54,7 +54,7 @@ export class UnusedVariablesCleanupSystem {
   private config: UnusedVariablesConfig;
 
   constructor(config: Partial<UnusedVariablesConfig> = {}) {
-    this.scriptPath = path.join(
+    this.scriptPath = path.join()
       process.cwd(),
       'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
     );
@@ -138,7 +138,7 @@ export class UnusedVariablesCleanupSystem {
       const batchCount = Math.ceil(estimatedFiles / this.config.batchSize);
       batchResult.totalBatches = batchCount;
 
-      console.log(
+      console.log()
         `📊 Processing ${estimatedFiles} files in ${batchCount} batches of ${this.config.batchSize} files each`,
       );
 
@@ -192,7 +192,7 @@ export class UnusedVariablesCleanupSystem {
           safetyScores.reduce((a, b) => a + b, 0) / safetyScores.length;
       }
 
-      console.log(
+      console.log()
         `\n✅ Batch processing completed: ${batchResult.successfulBatches}/${batchResult.totalBatches} batches successful`,
       );
 
@@ -208,7 +208,7 @@ export class UnusedVariablesCleanupSystem {
    */
   private async validatePreConditions(): Promise<void> {
     // Check if script exists
-    if (!fs.existsSync(this.scriptPath)) {
+    if (!fs.existsSync(this.scriptPath) {
       throw new Error(`Unused variables script not found: ${this.scriptPath}`);
     }
 
@@ -217,7 +217,7 @@ export class UnusedVariablesCleanupSystem {
       try {
         const gitStatus = execSync('git status --porcelain', { encoding: 'utf-8' });
         if (gitStatus.trim() && !this.config.autoFix) {
-          console.warn(
+          console.warn()
             '⚠️ Git working directory has uncommitted changes. Consider using --auto-fix or commit changes first.',
           );
         }
@@ -324,9 +324,9 @@ export class UnusedVariablesCleanupSystem {
       // Extract warnings and errors
       const lines = output.split('\n');
       for (const line of lines) {
-        if (line.includes('⚠️') || line.includes('WARNING')) {
+        if (line.includes('⚠️') || line.includes('WARNING') {
           result.warnings.push(line.trim());
-        } else if (line.includes('❌') || line.includes('ERROR')) {
+        } else if (line.includes('❌') || line.includes('ERROR') {
           result.errors.push(line.trim());
         }
       }
@@ -457,7 +457,7 @@ Generated: ${new Date().toISOString()}
 - **Git Stash**: ${this.config.enableGitStash}
 
 ## Issues
-${result.errors.length > 0 ? '### Errors\n' + result.errors.map(e => `- ${e}`).join('\n') : 'No errors'}
+${result.errors.length > 0 ? '### Errors\n' + result.errors.map(e => }`- ${e}`).join('\n') : 'No errors'}
 ${result.warnings.length > 0 ? '### Warnings\n' + result.warnings.map(w => `- ${w}`).join('\n') : 'No warnings'}
 
 ## Next Steps
@@ -496,7 +496,7 @@ Generated: ${new Date().toISOString()}
 - **Safety Protocols**: ${this.config.validateSafety}
 
 ## Issues
-${result.errors.length > 0 ? '### Batch Errors\n' + result.errors.map(e => `- ${e}`).join('\n') : 'No batch errors'}
+${result.errors.length > 0 ? '### Batch Errors\n' + result.errors.map(e => }`- ${e}`).join('\n') : 'No batch errors'}
 
 ## Recommendations
 ${

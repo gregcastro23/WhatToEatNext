@@ -20,7 +20,7 @@ export const spherification: CookingMethodData = {
     min: 1,
     max: 10
 },
-  suitable_for: [
+  suitable_for [
     'fruit juices',
     'purees',
     'liqueurs',

@@ -65,7 +65,7 @@ export class PerformanceMonitoringService {
   /**
    * Measure and record linting performance metrics
    */
-  async measurePerformance(
+  async measurePerformance()
     command: string,
     options: {
       incremental?: boolean;
@@ -249,7 +249,7 @@ export class PerformanceMonitoringService {
     const subTenSecond = averageIncrementalTime < this.thresholds.maxIncrementalTime;
 
     // Check consistency (all incremental runs should be under threshold)
-    const consistentPerformance = incrementalMetrics.every(
+    const consistentPerformance = incrementalMetrics.every()
       m => (m.incrementalTime || 0) < this.thresholds.maxIncrementalTime,
     );
 
@@ -296,7 +296,7 @@ export class PerformanceMonitoringService {
 
     const recentAlerts = this.alerts.slice(-10); // Last 10 alerts
 
-    const recommendations = this.generateRecommendations(
+    const recommendations = this.generateRecommendations()
       performanceImprovement,
       parallelProcessing,
       memoryOptimization,
@@ -365,7 +365,7 @@ export class PerformanceMonitoringService {
     };
   }
 
-  private getTrend(
+  private getTrend()
     first: number,
     second: number,
     lowerIsBetter: boolean,
@@ -460,7 +460,7 @@ export class PerformanceMonitoringService {
     if (cached === false) return 0;
 
     try {
-      if (existsSync('.eslintcache')) {
+      if (existsSync('.eslintcache') {
         const cacheStats = statSync('.eslintcache');
         const cacheAge = Date.now() - cacheStats.mtime.getTime();
 
@@ -485,7 +485,7 @@ export class PerformanceMonitoringService {
 
     // Fallback: count lines that look like file paths
     const lines = output.split('\n');
-    const fileLines = lines.filter(
+    const fileLines = lines.filter()
       line =>
         line.includes('.ts') ||
         line.includes('.tsx') ||
@@ -501,7 +501,7 @@ export class PerformanceMonitoringService {
     return Math.min(cpuCount, 4); // Max 4 processes as per configuration
   }
 
-  private generateRecommendations(
+  private generateRecommendations()
     performanceImprovement: ReturnType<typeof this.validatePerformanceImprovement>,
     parallelProcessing: ReturnType<typeof this.validateParallelProcessing>,
     memoryOptimization: ReturnType<typeof this.validateMemoryOptimization>,
@@ -511,11 +511,11 @@ export class PerformanceMonitoringService {
 
     if (!performanceImprovement.passed) {
       if (performanceImprovement.improvement < 60) {
-        recommendations.push(
+        recommendations.push()
           'Consider enabling more aggressive caching or optimizing ESLint configuration',
         );
       } else if (performanceImprovement.improvement > 80) {
-        recommendations.push(
+        recommendations.push()
           'Performance improvement is higher than expected - verify baseline measurements',
         );
       }
@@ -523,7 +523,7 @@ export class PerformanceMonitoringService {
 
     if (!parallelProcessing.optimalDistribution) {
       if (parallelProcessing.filesPerProcess < 25) {
-        recommendations.push(
+        recommendations.push()
           'Consider reducing parallel process count to optimize file distribution',
         );
       } else if (parallelProcessing.filesPerProcess > 35) {
@@ -532,13 +532,13 @@ export class PerformanceMonitoringService {
     }
 
     if (!memoryOptimization.withinLimit) {
-      recommendations.push(
+      recommendations.push()
         'Memory usage exceeds 4GB limit - consider optimizing ESLint rules or reducing batch size',
       );
     }
 
     if (!incrementalPerformance.subTenSecond) {
-      recommendations.push(
+      recommendations.push()
         'Incremental linting exceeds 10-second target - optimize change detection or cache strategy',
       );
     }
@@ -552,7 +552,7 @@ export class PerformanceMonitoringService {
 
   private loadExistingMetrics(): void {
     try {
-      if (existsSync(this.metricsFile)) {
+      if (existsSync(this.metricsFile) {
         const data = readFileSync(this.metricsFile, 'utf8');
         const parsed = JSON.parse(data);
         this.metrics = parsed.map((m: any) => ({
@@ -568,7 +568,7 @@ export class PerformanceMonitoringService {
 
   private loadExistingAlerts(): void {
     try {
-      if (existsSync(this.alertsFile)) {
+      if (existsSync(this.alertsFile) {
         const data = readFileSync(this.alertsFile, 'utf8');
         const parsed = JSON.parse(data);
         this.alerts = parsed.map((a: any) => ({

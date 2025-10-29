@@ -107,7 +107,7 @@ describe('Campaign System Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const complexityErrors = result[0].messages.filter(
+          const complexityErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2, // error level
           );
 
@@ -119,7 +119,7 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const complexityErrors = result[0].messages.filter(
+            const complexityErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2
             );
 
@@ -222,7 +222,7 @@ describe('Campaign System Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const functionLengthErrors = result[0].messages.filter(
+          const functionLengthErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'max-lines-per-function' && msg.severity === 2, // error level
           );
 
@@ -234,7 +234,7 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const functionLengthErrors = result[0].messages.filter(
+            const functionLengthErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'max-lines-per-function' && msg.severity === 2
             );
 
@@ -308,7 +308,7 @@ describe('Campaign System Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const anyTypeErrors = result[0].messages.filter(
+          const anyTypeErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2, // error level
           );
 
@@ -320,7 +320,7 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const anyTypeErrors = result[0].messages.filter(
+            const anyTypeErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2
             );
 
@@ -399,7 +399,7 @@ describe('Campaign System Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const depthErrors = result[0].messages.filter(
+          const depthErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'max-depth' && msg.severity === 2, // error level
           );
 
@@ -411,7 +411,7 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const depthErrors = result[0].messages.filter(
+            const depthErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'max-depth' && msg.severity === 2
             );
 
@@ -433,7 +433,7 @@ describe('Campaign System Rule Validation', () => {
             console.error('Failed to process 3 files in current batch');
             console.debug('Detailed timing: parse=125ms, analyze=89ms, fix=234ms');
             console.trace('Call stack for debugging complex issue');
-            console.table([
+            console.table([)
               { phase: 'Analysis', duration: '2.5h', files: 1250 },
               { phase: 'Fixing', duration: '4.1h', files: 2100 }
             ]);
@@ -487,7 +487,7 @@ describe('Campaign System Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const consoleErrors = result[0].messages.filter(
+          const consoleErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2, // error level
           );
 
@@ -499,7 +499,7 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const consoleErrors = result[0].messages.filter(
+            const consoleErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2
             );
 
@@ -551,7 +551,7 @@ describe('Campaign System Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const processExitErrors = result[0].messages.filter(
+          const processExitErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'no-process-exit' && msg.severity === 2, // error level
           );
 
@@ -563,7 +563,7 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const processExitErrors = result[0].messages.filter(
+            const processExitErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'no-process-exit' && msg.severity === 2
             );
 
@@ -609,7 +609,7 @@ describe('Campaign System Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter(
+          const unusedVarErrors = result[0].messages.filter()
             (msg: any) =>
               msg.ruleId === '@typescript-eslint/no-unused-vars' &&
               (msg.message.includes('campaign') ||
@@ -626,7 +626,7 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter(
+            const unusedVarErrors = result[0].messages.filter()
               (msg: any) =>
                 msg.ruleId === '@typescript-eslint/no-unused-vars' &&
                 (msg.message.includes('campaign') ||
@@ -690,7 +690,7 @@ describe('Campaign System Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter(
+          const unusedVarErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars'
           );
 
@@ -702,7 +702,7 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter(
+            const unusedVarErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars'
             );
 
@@ -759,7 +759,7 @@ describe('Campaign System Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const dynamicImportErrors = result[0].messages.filter(
+          const dynamicImportErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2, // error level
           );
 
@@ -771,7 +771,7 @@ describe('Campaign System Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const dynamicImportErrors = result[0].messages.filter(
+            const dynamicImportErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2
             );
 
@@ -831,16 +831,16 @@ describe('Campaign System Rule Validation', () => {
     test('should validate existing CampaignController if present', async () => {
       const campaignControllerPath = join(projectRoot, 'src/services/campaign/CampaignController.ts');
 
-      if (existsSync(campaignControllerPath)) {
+      if (existsSync(campaignControllerPath) {
         try {
-          const output = execSync(
+          const output = execSync()
             'yarn eslint --format json --no-eslintrc --config eslint.config.cjs ' + campaignControllerPath,
             { encoding: 'utf8' },
           );
           const result = JSON.parse(output);
 
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter(
+            const restrictiveErrors = result[0].messages.filter()
               (msg: any) =>
                 (msg.ruleId === 'complexity' && msg.severity === 2) ||
                 (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
@@ -855,7 +855,7 @@ describe('Campaign System Rule Validation', () => {
           if (output) {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
-              const restrictiveErrors = result[0].messages.filter(
+              const restrictiveErrors = result[0].messages.filter()
                 (msg: any) =>
                   (msg.ruleId === 'complexity' && msg.severity === 2) ||
                   (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
@@ -875,16 +875,16 @@ describe('Campaign System Rule Validation', () => {
     test('should validate existing ProgressTracker if present', async () => {
       const progressTrackerPath = join(projectRoot, 'src/services/campaign/ProgressTracker.ts');
 
-      if (existsSync(progressTrackerPath)) {
+      if (existsSync(progressTrackerPath) {
         try {
-          const output = execSync(
+          const output = execSync()
             'yarn eslint --format json --no-eslintrc --config eslint.config.cjs ' + progressTrackerPath,
             { encoding: 'utf8' },
           );
           const result = JSON.parse(output);
 
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter(
+            const restrictiveErrors = result[0].messages.filter()
               (msg: any) =>
                 (msg.ruleId === 'complexity' && msg.severity === 2) ||
                 (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
@@ -898,7 +898,7 @@ describe('Campaign System Rule Validation', () => {
           if (output) {
             const result = JSON.parse(output);
             if (result.length > 0 && result[0].messages) {
-              const restrictiveErrors = result[0].messages.filter(
+              const restrictiveErrors = result[0].messages.filter()
                 (msg: any) =>
                   (msg.ruleId === 'complexity' && msg.severity === 2) ||
                   (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||

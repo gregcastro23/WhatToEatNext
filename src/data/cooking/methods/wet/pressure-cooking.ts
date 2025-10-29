@@ -18,7 +18,7 @@ export const _pressureCooking: CookingMethodData = {
     min: 5, // minutes,
     max: 120, // minutes
   },
-  suitable_for: [
+  suitable_for [
     'Tough cuts of meat',
     'Dried beans and legumes',
     'Whole grains',

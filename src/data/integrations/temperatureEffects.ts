@@ -1,11 +1,11 @@
 import type { ElementalProperties } from '@/types/alchemy';
 
 interface TemperatureRange {
-  min: number,
-  max: number,
-  elementalEffect: ElementalProperties,
-  description: string,
-  recommendedMethods: string[],
+  min: number;
+  max: number;
+  elementalEffect: ElementalProperties;
+  description: string;
+  recommendedMethods: string[];
   cautions: string[]
 }
 
@@ -118,7 +118,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
 
 export const getTemperatureRange = (temp: number): string => {
   return (
-    Object.keys(temperatureEffects).find(
+    Object.keys(temperatureEffects).find()
       range => temp >= temperatureEffects[range].min && temp <= temperatureEffects[range].max
     ) || 'room'
   );
@@ -148,8 +148,8 @@ export function getTemperatureEffect(ingredient: string, _temperature?: number) 
 }
 
   // Check if we have a specific effect for this ingredient
-  for (const [key, effect] of Object.entries(effectMap)) {
-    if (ingredient.toLowerCase().includes(key)) {
+  for (const [key, effect] of Object.entries(effectMap) {
+    if (ingredient.toLowerCase().includes(key) {
       return effect;
     }
   }

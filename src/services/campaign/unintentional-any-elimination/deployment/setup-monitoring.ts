@@ -190,7 +190,7 @@ function setupMonitoringDirectories(): void {
   ];
 
   for (const dir of directories) {
-    if (!existsSync(dir)) {
+    if (!existsSync(dir) {
       mkdirSync(dir, { recursive: true });
       console.log(`Created monitoring directory: ${dir}`);
     }

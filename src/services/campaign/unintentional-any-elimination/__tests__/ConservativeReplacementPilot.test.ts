@@ -88,7 +88,7 @@ describe('ConservativeReplacementPilot', () => {
 
       // Mock file content with any types
       mockFs.readFileSync.mockImplementation((filePath: any) => {
-        if (filePath.includes('test1.ts')) {
+        if (filePath.includes('test1.ts') {
           return `
             const items: any[] = [];
             const config: Record<string, any> = {};
@@ -97,7 +97,7 @@ describe('ConservativeReplacementPilot', () => {
             }
           `;
         }
-        if (filePath.includes('test2.tsx')) {
+        if (filePath.includes('test2.tsx') {
           return `
             const data: any[] = [1, 2, 3];
             const mapping: Record<number, any> = {};
@@ -129,7 +129,7 @@ describe('ConservativeReplacementPilot', () => {
     });
 
     test('should exclude cases in comments', async () => {
-      mockFs.readFileSync.mockReturnValue(`
+      mockFs.readFileSync.mockReturnValue(`)
         // const items: any[] = []; // This should be ignored
         const realItems: any[] = []; // This should be found
       `);
@@ -141,7 +141,7 @@ describe('ConservativeReplacementPilot', () => {
     });
 
     test('should exclude cases in error handling contexts', async () => {
-      mockFs.readFileSync.mockReturnValue(`
+      mockFs.readFileSync.mockReturnValue(`)
         try {
           // some code
         } catch (error: any) {
@@ -176,7 +176,7 @@ describe('ConservativeReplacementPilot', () => {
       await pilot.executePilot();
 
       // Should have called TypeScript compilation validation
-      expect(mockExecSync).toHaveBeenCalledWith(
+      expect(mockExecSync).toHaveBeenCalledWith()
         expect.stringContaining('tsc --noEmit'),
         expect.any(Object)
       );
@@ -185,7 +185,7 @@ describe('ConservativeReplacementPilot', () => {
     test('should rollback on build failure when configured', async () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('tsc --noEmit')) {
+        if (command.includes('tsc --noEmit') {
           throw new Error('TypeScript compilation failed');
         }
         return '';
@@ -199,7 +199,7 @@ describe('ConservativeReplacementPilot', () => {
     test('should stop processing on consecutive build failures', async () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('tsc --noEmit')) {
+        if (command.includes('tsc --noEmit') {
           throw new Error('Build failed');
         }
         return '';
@@ -215,7 +215,7 @@ describe('ConservativeReplacementPilot', () => {
       await pilot.executePilot();
 
       // Should have created backup directory
-      expect(mockFs.mkdirSync).toHaveBeenCalledWith(
+      expect(mockFs.mkdirSync).toHaveBeenCalledWith()
         expect.stringContaining('conservative-pilot-backups'),
         expect.any(Object)
       );
@@ -227,7 +227,7 @@ describe('ConservativeReplacementPilot', () => {
       const result = await pilot.executePilot();
 
       // Should have performed build validation
-      expect(mockExecSync).toHaveBeenCalledWith(
+      expect(mockExecSync).toHaveBeenCalledWith()
         expect.stringContaining('tsc --noEmit'),
         expect.any(Object)
       );
@@ -236,7 +236,7 @@ describe('ConservativeReplacementPilot', () => {
     test('should track TypeScript error count', async () => {
       // Mock error count output
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c "error TS"') {
           return '5'; // Mock 5 errors
         }
         return '';
@@ -292,7 +292,7 @@ describe('ConservativeReplacementPilot', () => {
     test('should activate safety protocols on build failure', async () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('tsc --noEmit')) {
+        if (command.includes('tsc --noEmit') {
           throw new Error('Build failed');
         }
         return '';
@@ -365,7 +365,7 @@ describe('ConservativeReplacementPilot', () => {
       await pilot.executePilot();
 
       // Should have attempted to create report directory
-      expect(mockFs.mkdirSync).toHaveBeenCalledWith(
+      expect(mockFs.mkdirSync).toHaveBeenCalledWith()
         expect.stringContaining('.kiro/campaign-reports'),
         expect.any(Object)
       );

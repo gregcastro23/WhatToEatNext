@@ -73,8 +73,7 @@ const RETROGRADE_STATUS = {
 /**
  * Type definition for cached positions
  */
-interface PositionsCache {
-  positions: { [key: string]: PlanetPositionData };
+interface PositionsCache { positions: { [key: string], PlanetPositionData };
   timestamp: number;
   date: Date;
 }
@@ -166,7 +165,7 @@ export function getFallbackPlanetaryPositions(date: Date): { [key: string]: unkn
   const daysDiff = (date.getTime() - REFERENCE_DATE.getTime()) / (24 * 60 * 60 * 1000);
 
   // Calculate position for each planet
-  for (const planet of Object.keys(REFERENCE_POSITIONS)) {
+  for (const planet of Object.keys(REFERENCE_POSITIONS) {
     const refLongitude = calculateReferenceLongitude(planet);
     const motion = DAILY_MOTION[planet] || 0;
     const isRetrograde = RETROGRADE_STATUS[planet] || false;
@@ -204,7 +203,7 @@ export function getFallbackPlanetaryPositions(date: Date): { [key: string]: unkn
  * @param date Date to calculate for
  * @returns Object with north node position and retrograde status
  */
-function calculateLunarNodesInternal(date: Date): { NorthNode: number; isRetrograde: boolean } {
+function calculateLunarNodesInternal(date: Date): { NorthNode: number; isRetrograde, boolean } {
   try {
     // Since moonNode is not available in astronomy-engine,
     // we'll implement a simple approximation using astronomical formulas
@@ -225,7 +224,7 @@ function calculateLunarNodesInternal(date: Date): { NorthNode: number; isRetrogr
     // Nodes are always retrograde
     return { NorthNode, isRetrograde: true };
   } catch (error) {
-    debugLog(
+    debugLog()
       'Error calculating lunar nodes: ',
       error instanceof Error ? error.message : String(error)
     );
@@ -255,7 +254,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
     const positions: { [key: string]: PlanetPositionData } = {};
 
     // Calculate position for each planet
-    for (const [planet, body] of Object.entries(PLANET_MAPPING)) {
+    for (const [planet, body] of Object.entries(PLANET_MAPPING) {
       try {
         // Special handling for the Sun - can't calculate heliocentric longitude of the Sun
         if (planet === 'Sun') {
@@ -293,7 +292,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
           };
         }
       } catch (error) {
-        debugLog(
+        debugLog()
           `Error calculating position for ${planet}:`,
           error instanceof Error ? error.message : String(error)
         );
@@ -323,7 +322,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
       const SouthNode = getNodeInfo(southNodeLongitude);
       positions.SouthNode = SouthNode;
     } catch (error) {
-      debugLog(
+      debugLog()
         'Error calculating lunar nodes: ',
         error instanceof Error ? error.message : String(error)
       );
@@ -338,7 +337,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
 
     return positions;
   } catch (error) {
-    debugLog(
+    debugLog()
       'Error in getAccuratePlanetaryPositions: ',
       error instanceof Error ? error.message : String(error)
     );
@@ -347,7 +346,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
     const fallbackData = getFallbackPlanetaryPositions(date);
     const convertedPositions: { [key: string]: PlanetPositionData } = {};
 
-    for (const [planet, data] of Object.entries(fallbackData)) {
+    for (const [planet, data] of Object.entries(fallbackData) {
       const planetData = data as any;
       convertedPositions[planet] = {
         sign: planetData.sign || 'aries',
@@ -394,7 +393,7 @@ export function getNodeInfo(nodeLongitude: number): PlanetPositionData {
  * @param longitude Longitude in degrees
  * @returns Object with sign and degree
  */
-export function getSignFromLongitude(longitude: number): { sign: string; degree: number } {
+export function getSignFromLongitude(longitude: number): { sign: string; degree, number } {
   return getLongitudeToZodiacPosition(longitude);
 }
 
@@ -420,7 +419,7 @@ export function getPositionsSummary(): string {
 
   let summary = `Planetary positions as of ${formattedDate}:\n`;
 
-  for (const [planet, data] of Object.entries(positions)) {
+  for (const [planet, data] of Object.entries(positions) {
     summary += `${planet}: ${data.sign} ${data.degree.toFixed(2)}° ${data.isRetrograde ? '(R)' : ''}\n`;
   }
 
@@ -464,7 +463,7 @@ export function validatePositionsStructure(positions: { [key: string]: unknown }
  * @param longitude Longitude in degrees
  * @returns Object with sign and degree
  */
-export function getLongitudeToZodiacPosition(longitude: number): { sign: string; degree: number } {
+export function getLongitudeToZodiacPosition(longitude: number): { sign: string; degree, number } {
   // Normalize longitude to 0-360 range
   const normalizedLongitude = ((longitude % 360) + 360) % 360;
 
@@ -509,7 +508,7 @@ function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
 
     return diff < 0;
   } catch (error) {
-    debugLog(
+    debugLog()
       `Error determining retrograde for ${body}:`,
       error instanceof Error ? error.message : String(error)
     );

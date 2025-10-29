@@ -61,7 +61,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     // Mock fs.readFileSync to return empty JSON for stash tracking
     mockFs.readFileSync.mockImplementation((path: string) => {
-      if (path.toString().includes('campaign-stashes.json')) {
+      if (path.toString().includes('campaign-stashes.json') {
         return JSON.stringify({ stashes: {}, counter: 0 });
       }
       return '';
@@ -137,7 +137,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     test('should handle rollback failures gracefully', async () => {
       execSync.mockImplementation((command: string) => {
-        if (command.includes('git stash apply')) {
+        if (command.includes('git stash apply') {
           throw new Error('Stash apply failed');
         }
         return '';
@@ -163,13 +163,13 @@ describe('Emergency Recovery System - Task 6.3', () => {
       const invalidCommit = 'invalid123';
 
       execSync.mockImplementation((command: string) => {
-        if (command.includes('git cat-file -e invalid123')) {
+        if (command.includes('git cat-file -e invalid123') {
           throw new Error('Commit does not exist');
         }
         return '';
       });
 
-      await expect(emergencyRecovery.rollbackToCommit(invalidCommit)).rejects.toThrow(
+      await expect(emergencyRecovery.rollbackToCommit(invalidCommit)).rejects.toThrow()
         'Commit invalid123 does not exist',
       );
     });
@@ -190,7 +190,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       const commitHash = 'abc123def456';
 
       execSync.mockImplementation((command: string) => {
-        if (command.includes('git reset --hard')) {
+        if (command.includes('git reset --hard') {
           throw new Error('Reset failed');
         }
         return '';
@@ -248,7 +248,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     test('should handle nuclear reset failures gracefully', async () => {
       execSync.mockImplementation((command: string) => {
-        if (command.includes('git reset --hard')) {
+        if (command.includes('git reset --hard') {
           throw new Error('Nuclear reset failed');
         }
         return '';
@@ -311,7 +311,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       const targets = ['src/components/Component.tsx'];
 
       execSync.mockImplementation((command: string) => {
-        if (command.includes('git checkout HEAD --')) {
+        if (command.includes('git checkout HEAD --') {
           throw new Error('Checkout failed');
         }
         if (command.includes('git stash push')) return 'Saved working directory';
@@ -327,7 +327,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       await expect(emergencyRecovery.selectiveRecovery(targets)).rejects.toThrow('Selective recovery failed');
 
       // Should attempt cleanup
-      expect(execSync).toHaveBeenCalledWith(
+      expect(execSync).toHaveBeenCalledWith()
         expect.stringContaining('git branch -D temp-recovery-'),
         expect.any(Object),
       );
@@ -365,7 +365,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     test('should detect build failures during validation', async () => {
       execSync.mockImplementation((command: string) => {
-        if (command.includes('yarn build')) {
+        if (command.includes('yarn build') {
           throw new Error('Build failed');
         }
         return '';
@@ -380,7 +380,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     test('should handle test failures as warnings', async () => {
       execSync.mockImplementation((command: string) => {
-        if (command.includes('yarn test')) {
+        if (command.includes('yarn test') {
           throw new Error('Tests failed');
         }
         return '';
@@ -409,7 +409,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     test('should validate git state during recovery validation', async () => {
       execSync.mockImplementation((command: string) => {
-        if (command.includes('git status --porcelain')) {
+        if (command.includes('git status --porcelain') {
           return 'M modified-file.ts';
         }
         if (command.includes('yarn build')) return 'Build successful';
@@ -425,7 +425,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     test('should handle validation errors gracefully', async () => {
       execSync.mockImplementation((command: string) => {
-        if (command.includes('git ls-files')) {
+        if (command.includes('git ls-files') {
           throw new Error('Git command failed');
         }
         return '';
@@ -486,7 +486,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     test('should track failed recoveries', async () => {
       execSync.mockImplementation((command: string) => {
-        if (command.includes('git stash apply')) {
+        if (command.includes('git stash apply') {
           throw new Error('Recovery failed');
         }
         return '';

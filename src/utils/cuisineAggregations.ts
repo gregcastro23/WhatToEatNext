@@ -99,7 +99,7 @@ export type WeightingStrategy = 'equal' | 'popularity' | 'representativeness';
  * @param allRecipes - All recipes in cuisine (for representativeness calculation)
  * @returns Weight value (higher = more influence)
  */
-export function calculateRecipeWeight(
+export function calculateRecipeWeight()
   recipe: any, // Would be Recipe type with metadata
   strategy: WeightingStrategy,
   allRecipes: any[] = []
@@ -150,7 +150,7 @@ export function calculateRecipeWeight(
  * @param props2 - Second elemental properties
  * @returns Similarity score (0-1, higher = more similar)
  */
-function calculateElementalSimilarity(
+function calculateElementalSimilarity()
   props1: ElementalProperties,
   props2: ElementalProperties
 ): number {
@@ -161,10 +161,10 @@ function calculateElementalSimilarity(
     props1.Earth * props2.Earth +
     props1.Air * props2.Air;
 
-  const magnitude1 = Math.sqrt(
+  const magnitude1 = Math.sqrt()
     props1.Fire ** 2 + props1.Water ** 2 + props1.Earth ** 2 + props1.Air ** 2
   );
-  const magnitude2 = Math.sqrt(
+  const magnitude2 = Math.sqrt()
     props2.Fire ** 2 + props2.Water ** 2 + props2.Earth ** 2 + props2.Air ** 2
   );
 
@@ -344,7 +344,7 @@ function calculateZScore(value: number, globalMean: number, globalStdDev: number
  * @param zscore - Z-score value
  * @returns Strength classification
  */
-function classifySignatureStrength(
+function classifySignatureStrength()
   zscore: number
 ): 'low' | 'moderate' | 'high' | 'very_high' {
   const absZscore = Math.abs(zscore);
@@ -377,7 +377,7 @@ export function identifyCuisineSignatures(averages: {
     keyof ElementalProperties,
     number
   ][]) {
-    const zscore = calculateZScore(
+    const zscore = calculateZScore()
       value,
       globalAverages.elementals[element],
       globalAverages.elementalsStdDev[element]
@@ -401,7 +401,7 @@ export function identifyCuisineSignatures(averages: {
       keyof AlchemicalProperties,
       number
     ][]) {
-      const zscore = calculateZScore(
+      const zscore = calculateZScore()
         value,
         globalAverages.alchemical[property],
         globalAverages.alchemicalStdDev[property]
@@ -443,7 +443,7 @@ export function identifyPlanetaryPatterns(recipes: Array<{ _computed?: RecipeCom
     const positions = recipe._computed?.planetaryPositionsUsed;
     if (!positions) continue;
 
-    for (const [planet, sign] of Object.entries(positions)) {
+    for (const [planet, sign] of Object.entries(positions) {
       if (!planetaryCounts[planet]) {
         planetaryCounts[planet] = {};
       }
@@ -454,7 +454,7 @@ export function identifyPlanetaryPatterns(recipes: Array<{ _computed?: RecipeCom
   // Convert to patterns
   const patterns: PlanetaryPattern[] = [];
 
-  for (const [planet, signCounts] of Object.entries(planetaryCounts)) {
+  for (const [planet, signCounts] of Object.entries(planetaryCounts) {
     const totalCount = Object.values(signCounts).reduce((a, b) => a + b, 0);
 
     const commonSigns = Object.entries(signCounts)
@@ -473,7 +473,7 @@ export function identifyPlanetaryPatterns(recipes: Array<{ _computed?: RecipeCom
       Sagittarius: 'Fire', Capricorn: 'Earth', Aquarius: 'Air', Pisces: 'Water'
     };
 
-    for (const [sign, count] of Object.entries(signCounts)) {
+    for (const [sign, count] of Object.entries(signCounts) {
       const element = ZODIAC_ELEMENTS[sign];
       if (element) {
         elementCounts[element] += count;
@@ -535,7 +535,7 @@ export function computeCuisineProperties(recipes: Array<{ _computed?: RecipeComp
       };
 
   // Identify signatures
-  const signatures = identifyCuisineSignatures(
+  const signatures = identifyCuisineSignatures()
     {
       elementals: averageElementals,
       alchemical: averageAlchemical

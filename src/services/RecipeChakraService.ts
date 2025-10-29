@@ -17,7 +17,7 @@ export class RecipeChakraService {
    * @param chakraEnergyStates Current chakra energy states
    * @returns Enhanced recipe with chakra-balancing ingredients
    */
-  public enhanceRecipeWithChakraBalance(
+  public enhanceRecipeWithChakraBalance()
     recipe: Recipe,
     chakraEnergyStates: ChakraEnergyState[],
   ): Recipe {
@@ -48,7 +48,7 @@ export class RecipeChakraService {
    * @param chakraEnergyStates Current chakra energy states
    * @returns Score and suggestions for improvement
    */
-  public evaluateRecipeChakraBalance(
+  public evaluateRecipeChakraBalance()
     recipe: Recipe,
     chakraEnergyStates: ChakraEnergyState[],
   ): {
@@ -135,8 +135,8 @@ export class RecipeChakraService {
     };
 
     // Try to match ingredient to a color
-    for (const [color, foods] of Object.entries(colorMap)) {
-      if (foods.some(food => ingredientName.toLowerCase().includes(food))) {
+    for (const [color, foods] of Object.entries(colorMap) {
+      if (foods.some(food => ingredientName.toLowerCase().includes(food)) {
         return color;
       }
     }

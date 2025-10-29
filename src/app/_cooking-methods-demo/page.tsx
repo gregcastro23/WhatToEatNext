@@ -29,7 +29,7 @@ const CookingMethodsSection = ({
   <div className='space-y-2'>
     {methods.map(m => {
       const method = m as any
-      return (
+      return ()
         <button
           key={String(method.id)}
           onClick={() => onSelectMethod(m)}
@@ -86,7 +86,7 @@ export default function CookingMethodsDemoPage() {
           },
         score,
         duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
-        suitable_for: (method as any).suitable_for || [],
+        suitable_for (method as any).suitable_for || [],
         benefits: (method as any).benefits || [],
         // Create variations if they exist
         variations: (method as any).variations

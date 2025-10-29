@@ -20,8 +20,8 @@ function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, 
 
 // Type guard for ingredient-like objects
 interface IngredientLike {
-  name?: string,
-  element?: string,
+  name?: string;
+  element?: string;
   [key: string]: unknown
 }
 
@@ -32,20 +32,20 @@ function isIngredientLike(value: unknown): value is IngredientLike {
 // Enhanced recipe interface that extends existing recipe structure
 export interface EnhancedRecipe {
   // ===== EXISTING RECIPE PROPERTIES (PRESERVED) =====
-  name: string,
-  description: string,
-  cuisine: string,
-  cookingMethods?: string[],
-  tools?: string[],
+  name: string;
+  description: string;
+  cuisine: string;
+  cookingMethods?: string[];
+  tools?: string[];
   preparationSteps?: string[]
   ingredients: Array<{
-    name: string,
-    amount: string | number,
-    unit: string,
-    category?: string,
-    element?: string,
-    optional?: boolean,
-    preparation?: string,
+    name: string;
+    amount: string | number;
+    unit: string;
+    category?: string;
+    element?: string;
+    optional?: boolean;
+    preparation?: string;
     seasonality?: Season | 'all' | Season[]
   }>,
   substitutions?: Record<string, string[]> | Array<{ original: string, alternatives: string[] }>,
@@ -136,7 +136,7 @@ export class RecipeEnhancer {
     }>,
     matchedIngredients: number
   } {
-    if (!ingredients || !Array.isArray(ingredients)) {
+    if (!ingredients || !Array.isArray(ingredients) {
       return {
         totalKalchm: 1.0,
         breakdown: [],
@@ -221,9 +221,9 @@ export class RecipeEnhancer {
 
     // Fuzzy matching
     const normalizedName = ingredientName.replace(/[^a-z0-9]/g, '').toLowerCase()
-    for (const [key, ingredient] of Object.entries(unifiedIngredients)) {
+    for (const [key, ingredient] of Object.entries(unifiedIngredients) {
       const normalizedKey = key.replace(/[^a-z0-9]/g, '').toLowerCase(),
-      if (normalizedKey.includes(normalizedName) || normalizedName.includes(normalizedKey)) {
+      if (normalizedKey.includes(normalizedName) || normalizedName.includes(normalizedKey) {
         return ingredient
       }
     }
@@ -382,7 +382,7 @@ export class RecipeEnhancer {
   /**
    * Generate thermodynamic recommendations
    */
-  static generateThermodynamicRecommendations(
+  static generateThermodynamicRecommendations()
     thermodynamics: unknown,
     elementalBalance: ElementalProperties,
     monica: number | null,
@@ -524,7 +524,7 @@ export class RecipeEnhancer {
     const monicaConstant = this.calculateRecipeMonica(thermodynamics, kalchmResult.totalKalchm)
 
     // Determine alchemical classification
-    const alchemicalClassification = this.determineAlchemicalClassification(
+    const alchemicalClassification = this.determineAlchemicalClassification()
       kalchmResult.totalKalchm,
       monicaConstant
     );
@@ -534,7 +534,7 @@ export class RecipeEnhancer {
     const planetaryTiming = this.calculatePlanetaryTiming(recipe)
     const monicaAdjustments = this.calculateMonicaAdjustments(monicaConstant)
     const elementalCookingMethod = this.determineElementalCookingMethod(elementalBalance)
-    const thermodynamicRecommendations = this.generateThermodynamicRecommendations(
+    const thermodynamicRecommendations = this.generateThermodynamicRecommendations()
       thermodynamics,
       elementalBalance,
       monicaConstant,
@@ -594,7 +594,7 @@ export class RecipeAnalyzer {
   /**
    * Find recipes with similar Kalchm values
    */
-  static findKalchmSimilarRecipes(
+  static findKalchmSimilarRecipes()
     targetRecipe: EnhancedRecipe,
     recipePool: EnhancedRecipe[],
     tolerance: number = 0.2): EnhancedRecipe[] {;
@@ -609,7 +609,7 @@ export class RecipeAnalyzer {
   /**
    * Get recipes by elemental dominance
    */
-  static getRecipesByElementalDominance(
+  static getRecipesByElementalDominance()
     recipes: EnhancedRecipe[],
     element: keyof ElementalProperties,
     threshold: number = 0.4): EnhancedRecipe[] {

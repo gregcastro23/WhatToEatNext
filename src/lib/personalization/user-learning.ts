@@ -11,53 +11,53 @@ import { ElementalProperties } from '@/types/alchemy';
 
 interface UserInteraction {
   type: 'recipe_view' | 'recipe_save' | 'ingredient_select' | 'cooking_method' | 'planetary_query'
-  data: any,
-  timestamp: number,
+  data: any;
+  timestamp: number;
   context?: {
-    planetaryHour?: string,
-    timeOfDay?: string,
-    season?: string,
-    weather?: string,
+    planetaryHour?: string;
+    timeOfDay?: string;
+    season?: string;
+    weather?: string;
   }
 }
 
 interface UserPreferences {
-  userId: string,
+  userId: string;
 
   // Dietary preferences
-  dietaryRestrictions: string[],
-  cuisinePreferences: string[],
-  favoriteIngredients: string[],
-  dislikedIngredients: string[],
+  dietaryRestrictions: string[];
+  cuisinePreferences: string[];
+  favoriteIngredients: string[];
+  dislikedIngredients: string[];
 
   // Elemental preferences (learned)
-  elementalAffinities: ElementalProperties,
+  elementalAffinities: ElementalProperties;
   planetaryPreferences: Record<string, number>,
 
   // Cooking patterns
-  preferredCookingMethods: string[],
-  typicalMealTimes: string[],
+  preferredCookingMethods: string[];
+  typicalMealTimes: string[];
   complexityPreference: 'simple' | 'moderate' | 'complex'
   // Interaction history
-  totalInteractions: number,
-  lastActivity: number,
+  totalInteractions: number;
+  lastActivity: number;
   learningConfidence: number; // 0-1 score,
 
   // Personalization weights
   weights: {
-    elemental: number,
-    planetary: number,
-    cuisine: number,
-    complexity: number,
+    elemental: number;
+    planetary: number;
+    cuisine: number;
+    complexity: number;
     time: number
 }
 }
 
 interface RecommendationScore {
-  recipeId: string,
-  baseScore: number,
-  personalizedScore: number,
-  reasons: string[],
+  recipeId: string;
+  baseScore: number;
+  personalizedScore: number;
+  reasons: string[];
   confidence: number
 }
 
@@ -104,7 +104,7 @@ class UserLearningSystem {
   /**
    * Compute personalized recommendation scores
    */
-  async personalizeRecommendations(userId: string,
+  async personalizeRecommendations(userId: string,)
     baseRecommendations: any[],
     context?: { planetaryHour?: string, timeOfDay?: string }
   ): Promise<RecommendationScore[]> {
@@ -216,16 +216,16 @@ class UserLearningSystem {
   /**
    * Calculate personalized score for a recommendation
    */
-  private calculatePersonalizedScore(
+  private calculatePersonalizedScore()
     recommendation: any,
     preferences: UserPreferences,
     context?: any
-  ): { score: number; reasons: string[] } {
+  ): { score: number; reasons, string[] } {
     let score = recommendation.baseScore || 0.5;
     const reasons: string[] = [];
 
     // Cuisine preference boost
-    if (preferences.cuisinePreferences.includes(recommendation.cuisine)) {
+    if (preferences.cuisinePreferences.includes(recommendation.cuisine) {
       const boost = 0.2 * preferences.weights.cuisine;
       score += boost;
       reasons.push(`Matches your ${recommendation.cuisine} preference (+${(boost * 100).toFixed(0)}%)`)
@@ -233,7 +233,7 @@ class UserLearningSystem {
 
     // Elemental affinity boost
     if (recommendation.elementalBalance) {
-      const elementalScore = this.calculateElementalMatch(
+      const elementalScore = this.calculateElementalMatch()
         recommendation.elementalBalance,
         preferences.elementalAffinities
       );

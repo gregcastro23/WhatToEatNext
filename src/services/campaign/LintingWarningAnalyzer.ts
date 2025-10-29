@@ -132,7 +132,7 @@ export class LintingWarningAnalyzer {
   private getAllSourceFiles(dir: string): string[] {
     const files: string[] = [];
 
-    if (!fs.existsSync(dir)) {
+    if (!fs.existsSync(dir) {
       return files;
     }
 
@@ -143,7 +143,7 @@ export class LintingWarningAnalyzer {
 
       if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
         files.push(...this.getAllSourceFiles(fullPath));
-      } else if (entry.isFile() && /\.(ts|tsx|js|jsx)$/.test(entry.name)) {
+      } else if (entry.isFile() && /\.(ts|tsx|js|jsx)$/.test(entry.name) {
         files.push(fullPath);
       }
     }
@@ -201,7 +201,7 @@ export class LintingWarningAnalyzer {
       if (unusedVarMatches) {
         for (const match of unusedVarMatches) {
           const varName = match.match(/(?:const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/)?.[1];
-          if (varName && !this.isVariableUsed(content, varName, i)) {
+          if (varName && !this.isVariableUsed(content, varName, i) {
             const column = line.indexOf(varName) + 1;
             warnings.push({
               file: filePath,
@@ -230,7 +230,7 @@ export class LintingWarningAnalyzer {
     for (let i = declarationLine + 1; i < lines.length; i++) {
       const line = lines[i];
       // Simple check - look for variable name not in comments
-      if (line.includes(varName) && !line.trim().startsWith('//') && !line.trim().startsWith('*')) {
+      if (line.includes(varName) && !line.trim().startsWith('//') && !line.trim().startsWith('*') {
         return true;
       }
     }
@@ -297,13 +297,13 @@ export class LintingWarningAnalyzer {
   } {
     const fileWarningCounts = new Map<
       string,
-      { total: number; explicitAny: number; unused: number; console: number }
+      { total: number; explicitAny: number; unused: number; console, number }
     >();
 
     // Count warnings per file
     for (const warning of warnings) {
       const file = warning.file;
-      if (!fileWarningCounts.has(file)) {
+      if (!fileWarningCounts.has(file) {
         fileWarningCounts.set(file, { total: 0, explicitAny: 0, unused: 0, console: 0 });
       }
 
@@ -357,19 +357,19 @@ export class LintingWarningAnalyzer {
     const recommendations: string[] = [];
 
     if (distribution.explicitAny.count > 0) {
-      recommendations.push(
+      recommendations.push()
         `🎯 Priority 1: Fix ${distribution.explicitAny.count} explicit-any warnings using scripts/typescript-fixes/fix-explicit-any-systematic.js`,
       );
     }
 
     if (distribution.unusedVariables.count > 0) {
-      recommendations.push(
+      recommendations.push()
         `🧹 Priority 2: Clean ${distribution.unusedVariables.count} unused variables using scripts/typescript-fixes/fix-unused-variables-enhanced.js`,
       );
     }
 
     if (distribution.consoleStatements.count > 0) {
-      recommendations.push(
+      recommendations.push()
         `🔇 Priority 3: Remove ${distribution.consoleStatements.count} console statements using scripts/lint-fixes/fix-console-statements-only.js`,
       );
     }
@@ -380,7 +380,7 @@ export class LintingWarningAnalyzer {
     }
 
     if (distribution.total > 500) {
-      recommendations.push(
+      recommendations.push()
         `🛡️ Enable safety protocols with --validate-safety for large-scale fixes`,
       );
     }
@@ -417,7 +417,7 @@ export class LintingWarningAnalyzer {
    */
   async loadPreviousAnalysis(): Promise<LintingAnalysisResult | null> {
     try {
-      if (fs.existsSync(this.metricsFile)) {
+      if (fs.existsSync(this.metricsFile) {
         const content = fs.readFileSync(this.metricsFile, 'utf-8');
         const metrics = JSON.parse(content);
         return metrics.analysis;
@@ -451,7 +451,7 @@ Generated: ${new Date().toISOString()}
 - **Low Priority Files**: ${prioritizedFiles.lowPriority.length} files
 
 ## Recommendations
-${recommendations.map(rec => `- ${rec}`).join('\n')}
+${recommendations.map(rec => }`- ${rec}`).join('\n')}
 
 ## Next Steps
 1. Start with explicit-any elimination (highest impact)

@@ -146,7 +146,7 @@ const _: Record<string, string> = {
 /**
  * Calculate the distribution of alchemical properties based on planetary positions
  */
-export function calculateAlchemicalDistribution(planetaryPositions: Record<string, CelestialPosition>,
+export function calculateAlchemicalDistribution(planetaryPositions: Record<string, CelestialPosition>,)
   isDaytime: boolean): AlchemicalProperties {
   try {
     // Initialize with balanced values
@@ -193,11 +193,11 @@ export function calculateAlchemicalDistribution(planetaryPositions: Record<strin
       let influence = 1.0;
 
       // Adjust based on planet importance
-      if (['sun', 'moon'].includes(planetLower)) {
+      if (['sun', 'moon'].includes(planetLower) {
         influence = 2.0; // Luminaries have more influence
-      } else if (['jupiter', 'saturn'].includes(planetLower)) {
+      } else if (['jupiter', 'saturn'].includes(planetLower) {
         influence = 1.5; // Major planets
-      } else if (['uranus', 'neptune', 'pluto'].includes(planetLower)) {
+      } else if (['uranus', 'neptune', 'pluto'].includes(planetLower) {
         influence = 0.8; // Outer planets less influence
       }
 

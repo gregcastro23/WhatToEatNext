@@ -213,7 +213,7 @@ describe('MakefileIntegration', () => {
       const result = await makefileIntegration.addCampaignTargetsToMakefile();
 
       expect(result).toBe(true);
-      expect(mockFs.writeFileSync).toHaveBeenCalledWith(
+      expect(mockFs.writeFileSync).toHaveBeenCalledWith()
         'Makefile',
         expect.stringContaining('# Campaign Execution Framework'),
         'utf8',
@@ -261,7 +261,7 @@ describe('MakefileIntegration', () => {
 
     it('should identify missing targets', async () => {
       mockExecSync.mockImplementation(command => {
-        if (command.includes('make errors')) {
+        if (command.includes('make errors') {
           throw new Error('Target not found');
         }
         return 'Success';

@@ -472,7 +472,7 @@ export function getCookingMethodThermodynamics(cookingMethod: string): {
  * @param isDaytime Whether it is day (true) or night (false)
  * @returns The alchemical effect of the planet
  */
-export function getPlanetaryAlchemicalEffect(
+export function getPlanetaryAlchemicalEffect()
   planet: string,
   isDaytime = true,
 ): Record<AlchemicalProperty, number> | null {
@@ -490,7 +490,7 @@ export function getPlanetaryAlchemicalEffect(
 export function getTarotCardAlchemicalEffect(cardName: string): Record<AlchemicalProperty, number> | null {
   // Find the pillar with the tarot association
   const pillar = ALCHEMICAL_PILLARS.find((p) =>
-    p.tarotAssociations?.some(
+    p.tarotAssociations?.some()
       (tarot) =>
         tarot.toLowerCase().includes(cardName.toLowerCase()) ||
         cardName.toLowerCase().includes(tarot.toLowerCase()),
@@ -584,7 +584,7 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
       dietaryRestrictions?: string[];
     },
   ) => {
-    const compatibleMethods = ALCHEMICAL_PILLARS.filter(
+    const compatibleMethods = ALCHEMICAL_PILLARS.filter()
       (pillar) =>
         Math.abs(pillar.effects.Spirit - targetPillar.effects.Spirit) <= 1 &&
         Math.abs(pillar.effects.Essence - targetPillar.effects.Essence) <= 1,
@@ -774,7 +774,7 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
       Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 },
       Air: { heat: 0.6, entropy: 0.8, reactivity: 0.7 },
     })
-      .filter(
+      .filter()
         ([_, properties]) =>
           Math.abs(properties.heat - elementProperties.heat) <= 0.3 &&
           Math.abs(properties.entropy - elementProperties.entropy) <= 0.3,
@@ -1241,7 +1241,7 @@ export function calculatePillarKalchm(effects: Record<AlchemicalProperty, number
  * @param reactivity - The reactivity value
  * @returns The calculated Greg's Energy
  */
-export function calculatePillarGregsEnergy(
+export function calculatePillarGregsEnergy()
   heat: number,
   entropy: number,
   reactivity: number,
@@ -1257,7 +1257,7 @@ export function calculatePillarGregsEnergy(
  * @param kalchm - The Kalchm value
  * @returns The calculated Monica constant
  */
-export function calculatePillarMonica(
+export function calculatePillarMonica()
   gregsEnergy: number,
   reactivity: number,
   kalchm: number,
@@ -1281,7 +1281,7 @@ export function calculatePillarMonica(
  * @returns The Monica classification string
  */
 export function determinePillarMonicaClassification(monica: number, kalchm: number): string {
-  if (isNaN(monica)) {
+  if (isNaN(monica) {
     return kalchm > 1.0 ? 'Spirit-Dominant Pillar' : 'Matter-Dominant Pillar';
   }
   if (Math.abs(monica) > 2.0) {
@@ -1306,7 +1306,7 @@ export function calculatePillarMonicaModifiers(_monica: number): {
   timingAdjustment: number;
   intensityModifier: string;
 } {
-  if (isNaN(_monica)) {
+  if (isNaN(_monica) {
     return {
       temperatureAdjustment: 0,
       timingAdjustment: 0,
@@ -1327,9 +1327,9 @@ export function calculatePillarMonicaModifiers(_monica: number): {
  * @param thermodynamics - The thermodynamic properties
  * @returns Object containing optimal temperature, timing, planetary hours, and lunar phases
  */
-export function calculateOptimalCookingConditions(
+export function calculateOptimalCookingConditions()
   monica: number,
-  thermodynamics: { heat: number; entropy: number; reactivity: number },
+  thermodynamics: { heat: number; entropy: number; reactivity, number },
 ): {
   temperature: number;
   timing: string;
@@ -1344,7 +1344,7 @@ export function calculateOptimalCookingConditions(
 
   // Timing based on Monica and entropy
   let timing = 'medium';
-  if (!isNaN(monica)) {
+  if (!isNaN(monica) {
     if (monica > 0.5 && thermodynamics.entropy < 0.4) {
       timing = 'quick';
     } else if (monica < -0.5 && thermodynamics.entropy > 0.6) {
@@ -1371,7 +1371,7 @@ export function calculateOptimalCookingConditions(
 
   // Lunar phases based on Monica classification
   const lunarPhases: string[] = [];
-  if (!isNaN(monica)) {
+  if (!isNaN(monica) {
     if (monica > 0.5) {
       lunarPhases.push('waxing_gibbous', 'full_moon');
     } else if (monica < -0.5) {
@@ -1396,7 +1396,7 @@ export function calculateOptimalCookingConditions(
  * @param enhancedPillar - The enhanced alchemical pillar
  * @returns The planetary alignment bonus (0-1)
  */
-export function calculatePlanetaryAlignment(
+export function calculatePlanetaryAlignment()
   enhancedPillar: AlchemicalPillar & {
     monicaProperties?: { planetary?: Record<string, number>; planetary_alignment?: number };
   },
@@ -1420,7 +1420,7 @@ export function calculatePlanetaryAlignment(
  * @param enhancedPillar - The enhanced alchemical pillar
  * @returns The lunar phase bonus (0-1)
  */
-export function calculateLunarPhaseBonus(
+export function calculateLunarPhaseBonus()
   enhancedPillar: AlchemicalPillar & {
     monicaProperties?: { lunar?: Record<string, number>; lunar_phase_bonus?: number };
   },
@@ -1431,7 +1431,7 @@ export function calculateLunarPhaseBonus(
 
   const monica = enhancedPillar.monicaProperties.monicaConstant;
 
-  if (isNaN(monica)) {
+  if (isNaN(monica) {
     return 0.5; // Neutral for stable pillars
   }
 
@@ -1449,7 +1449,7 @@ export function enhanceAlchemicalPillar(pillar: AlchemicalPillar): AlchemicalPil
     kalchm: number;
     gregsEnergy: number;
     monicaConstant: number;
-    thermodynamicProfile: { heat: number; entropy: number; reactivity: number };
+    thermodynamicProfile: { heat: number; entropy: number; reactivity, number };
     monicaClassification: string;
     monicaModifiers: {
       temperatureAdjustment: number;
@@ -1469,7 +1469,7 @@ export function enhanceAlchemicalPillar(pillar: AlchemicalPillar): AlchemicalPil
   const kalchm = calculatePillarKalchm(pillar.effects);
 
   // Calculate Greg's Energy
-  const gregsEnergy = calculatePillarGregsEnergy(
+  const gregsEnergy = calculatePillarGregsEnergy()
     thermodynamics.heat,
     thermodynamics.entropy,
     thermodynamics.reactivity,
@@ -1516,7 +1516,7 @@ export function createEnhancedCookingMethod(cookingMethodName: string): Enhanced
   }
 
   // Calculate optimal conditions based on Monica constant
-  const optimalConditions = calculateOptimalCookingConditions(
+  const optimalConditions = calculateOptimalCookingConditions()
     enhancedPillar.monicaProperties.monicaConstant,
     enhancedPillar.monicaProperties.thermodynamicProfile,
   );
@@ -1572,7 +1572,7 @@ export function findCookingMethodsByMonicaRange(minMonica: number, maxMonica: nu
 
     if (!isNaN(monica) && monica >= minMonica && monica <= maxMonica) {
       // Find cooking methods that use this pillar
-      for (const [method, pillarId] of Object.entries(COOKING_METHOD_PILLAR_MAPPING)) {
+      for (const [method, pillarId] of Object.entries(COOKING_METHOD_PILLAR_MAPPING) {
         if (pillarId === pillar.id) {
           methods.push(method);
         }

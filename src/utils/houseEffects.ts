@@ -18,9 +18,9 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
  * Interface for house data in astrological charts
  */
 export interface HouseData {
-  number: number,
-  name: string,
-  element: ElementalCharacter,
+  number: number;
+  name: string;
+  element: ElementalCharacter;
   modality: 'Cardinal' | 'Fixed' | 'Mutable'
   nature: 'Angular' | 'Succedent' | 'Cadent'
   significance: number, // 1-10 rating of overall significance,
@@ -158,7 +158,7 @@ export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> 
  * @param sign Zodiac sign the planet is in
  * @returns Record of elemental effects for each element
  */
-export function calculateHouseEffect(
+export function calculateHouseEffect()
   planet: string,
   house: number,
   sign: any,
@@ -207,7 +207,7 @@ export function calculateHouseEffect(
   }
 
   // Planet in ruling house
-  if (houseData.ruling_planet.toLowerCase() === planet.toLowerCase()) {
+  if (houseData.ruling_planet.toLowerCase() === planet.toLowerCase() {
     effects[signElement] += 0.7; // Bonus for planet in its ruling house
     debugLog(`Ruling planet bonus for ${planet} in house ${house}: +0.7 to ${signElement}`)
   }
@@ -222,7 +222,7 @@ export function calculateHouseEffect(
  * @param houses Map of house numbers to their signs
  * @returns Combined elemental effects from all house placements
  */
-export function calculateAllHouseEffects(
+export function calculateAllHouseEffects()
   planetPositions: Record<string, { sign: any, house?: number }>,
   _houses: Record<number, ZodiacSign>,
 ): Record<ElementalCharacter, number> {
@@ -236,7 +236,7 @@ export function calculateAllHouseEffects(
   debugLog(`Calculating house effects for ${Object.keys(planetPositions).length} planets`)
 
   // Calculate effects for each planet
-  for (const [planet, position] of Object.entries(planetPositions)) {
+  for (const [planet, position] of Object.entries(planetPositions) {
     // Skip if house is not defined
     if (!position.house) {
       debugLog(`House not defined for ${planet}, skipping`)

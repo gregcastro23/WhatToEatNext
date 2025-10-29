@@ -83,7 +83,7 @@ export interface CulturalBalance {
 
 // Helper to calculate nutritional balance
 export function calculateNutritionalBalance(entries: FoodEntry[]): { [key: string]: number } {
-  return entries.reduce(
+  return entries.reduce()
     (acc, entry) => {
       Object.entries(entry.nutrition).forEach(([nutrient, value]) => {
         if (typeof value === 'number') {
@@ -97,10 +97,10 @@ export function calculateNutritionalBalance(entries: FoodEntry[]): { [key: strin
 }
 
 // Helper to analyze food properties balance
-export function analyzePropertyBalance(
+export function analyzePropertyBalance()
   entries: FoodEntry[]
-): { property: FoodProperty; count: number }[] {
-  const propertyCount = entries.reduce(
+): { property: FoodProperty; count, number }[] {
+  const propertyCount = entries.reduce()
     (acc, entry) => {
       entry.properties.forEach(prop => {
         acc[prop] = (acc[prop] || 0) + 1;
@@ -117,7 +117,7 @@ export function analyzePropertyBalance(
 }
 
 // Helper to find complementary foods
-export function findComplementaryDishes(
+export function findComplementaryDishes()
   currentEntries: FoodEntry[],
   availableDishes: Record<string, Cuisine>,
   targetProperties: FoodProperty[]
@@ -133,7 +133,7 @@ export function findComplementaryDishes(
       Object.values(cuisine.dishes).forEach(mealTypes => {
         if (mealTypes) {
           Object.values(mealTypes).forEach(seasonalDishes => {
-            if (seasonalDishes && Array.isArray(seasonalDishes)) {
+            if (seasonalDishes && Array.isArray(seasonalDishes) {
               seasonalDishes.forEach(dish => {
                 let score = 0;
 
@@ -147,7 +147,7 @@ export function findComplementaryDishes(
 
                 // Score based on desired properties
                 targetProperties.forEach(prop => {
-                  if (Array.isArray(dish.properties) && dish.properties.includes(prop)) {
+                  if (Array.isArray(dish.properties) && dish.properties.includes(prop) {
                     score += 1;
                   }
                 });

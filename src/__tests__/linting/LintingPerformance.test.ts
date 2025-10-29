@@ -33,7 +33,7 @@ describe('Linting Performance and Memory Usage', () => {
   describe('Execution Speed Tests', () => {
     test('should complete linting within performance targets', async () => {
       // Mock a medium-sized codebase response
-      const mockLintOutput = JSON.stringify(
+      const mockLintOutput = JSON.stringify()
         Array.from({ length: 50 }, (_, i) => ({
           filePath: `/test/file${i}.ts`,
           messages: Array.from({ length: 3 }, (_, j) => ({
@@ -100,7 +100,7 @@ describe('Linting Performance and Memory Usage', () => {
       const changedFiles = ['src/calculations/planetary.ts', 'src/components/AstrologicalChart.tsx'];
 
       const gitDiffOutput = changedFiles.join('\n');
-      const mockLintOutput = JSON.stringify(
+      const mockLintOutput = JSON.stringify()
         changedFiles.map(file => ({
           filePath: file,
           messages: [{ ruleId: 'no-unused-vars', severity: 1, message: 'Unused variable' }]
@@ -121,7 +121,7 @@ describe('Linting Performance and Memory Usage', () => {
 
     test('should optimize performance for large codebases', async () => {
       // Mock large codebase with many files
-      const largeCodebaseOutput = JSON.stringify(
+      const largeCodebaseOutput = JSON.stringify()
         Array.from({ length: 500 }, (_, i) => ({
           filePath: `/src/file${i}.ts`,
           messages: Array.from({ length: Math.floor(Math.random() * 5) }, (_, j) => ({
@@ -147,7 +147,7 @@ describe('Linting Performance and Memory Usage', () => {
     });
 
     test('should measure parallel processing performance', async () => {
-      const mockParallelOutput = JSON.stringify([
+      const mockParallelOutput = JSON.stringify([)
         { filePath: '/test/batch1.ts', messages: [] },
         { filePath: '/test/batch2.ts', messages: [] },
         { filePath: '/test/batch3.ts', messages: [] },
@@ -185,7 +185,7 @@ describe('Linting Performance and Memory Usage', () => {
     });
 
     test('should handle memory-intensive astrological calculations', async () => {
-      const astrologicalLintOutput = JSON.stringify([
+      const astrologicalLintOutput = JSON.stringify([)
         {
           filePath: '/src/calculations/planetary.ts',
           messages: [{ ruleId: 'astrological/validate-planetary-position-structure', severity: 1 }]
@@ -205,7 +205,7 @@ describe('Linting Performance and Memory Usage', () => {
     });
 
     test('should optimize TypeScript parser memory usage', async () => {
-      const typescriptLintOutput = JSON.stringify([
+      const typescriptLintOutput = JSON.stringify([)
         {
           filePath: '/src/complex.ts',
           messages: [{ ruleId: '@typescript-eslint/no-explicit-any', severity: 2 }]
@@ -282,7 +282,7 @@ describe('Linting Performance and Memory Usage', () => {
     test('should optimize cache storage size', async () => {
       const largeCacheData = {
         version: '1.0.0',
-        files: Object.fromEntries(
+        files: Object.fromEntries()
           Array.from({ length: 1000 }, (_, i) => [`/test/file${i}.ts`, { hash: `hash${i}`, results: [] }]),
         ),
       };
@@ -361,7 +361,7 @@ describe('Linting Performance and Memory Usage', () => {
     });
 
     test('should optimize import resolution performance', async () => {
-      const importResolutionOutput = JSON.stringify([
+      const importResolutionOutput = JSON.stringify([)
         {
           filePath: '/test/imports.ts',
           messages: [{ ruleId: 'import/no-unresolved', severity: 1, message: 'Unable to resolve path' }]
@@ -408,7 +408,7 @@ describe('Linting Performance and Memory Usage', () => {
       const executionTimes: number[] = [];
 
       fileCounts.forEach(count => {
-        const mockOutput = JSON.stringify(
+        const mockOutput = JSON.stringify()
           Array.from({ length: count }, (_, i) => ({
             filePath: `/test/file${i}.ts`,
             messages: []
@@ -431,7 +431,7 @@ describe('Linting Performance and Memory Usage', () => {
 
     test('should handle memory pressure gracefully', async () => {
       // Simulate memory pressure scenario
-      const memoryIntensiveOutput = JSON.stringify(
+      const memoryIntensiveOutput = JSON.stringify()
         Array.from({ length: 1000 }, (_, i) => ({
           filePath: `/test/large-file${i}.ts`,
           messages: Array.from({ length: 20 }, (_, j) => ({

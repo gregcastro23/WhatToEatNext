@@ -19,8 +19,8 @@ const logger = createLogger('AlchemicalEngine');
 
 // Define interfaces
 interface Decan {
-  ruler: RulingPlanet,
-  element: keyof ElementalProperties,
+  ruler: RulingPlanet;
+  element: keyof ElementalProperties;
   degree: number;
 }
 
@@ -44,7 +44,7 @@ const DEFAULT_ELEMENT_VALUE = 0.25;
 /**
  * Safely gets an element value from elemental properties
  */
-function safeGetElementValue(props: Partial<ElementalProperties> | null | undefined,
+function safeGetElementValue(props: Partial<ElementalProperties> | null | undefined,)
   element: keyof ElementalProperties): number {
   try {
     if (!props || typeof props !== 'object') {
@@ -52,7 +52,7 @@ function safeGetElementValue(props: Partial<ElementalProperties> | null | undefi
     }
 
     const value = props[element];
-    if (typeof value !== 'number' || isNaN(value)) {
+    if (typeof value !== 'number' || isNaN(value) {
       return DEFAULT_ELEMENT_VALUE;
     }
 
@@ -181,13 +181,13 @@ export class AlchemicalEngineAdvanced {
   /**
    * Calculate the astrological match between a recipe and the current astrological state
    */
-  calculateAstroCuisineMatch(recipeElements?: ElementalProperties,
+  calculateAstroCuisineMatch(recipeElements?: ElementalProperties,)
     astrologicalState?: AstrologicalState,
     season?: string,
     cuisine?: string): AlchemicalCalculationResult {
     try {
       // Get dominant element
-      const dominantElement = Object.entries(recipeElements || DEFAULT_ELEMENTAL_PROPERTIES).sort(
+      const dominantElement = Object.entries(recipeElements || DEFAULT_ELEMENTAL_PROPERTIES).sort()
         ([, a], [, b]) => b - a,
       )[0][0];
 
@@ -201,7 +201,7 @@ export class AlchemicalEngineAdvanced {
 
       // Calculate astronomical score
       const astronomicalScore = astrologicalState?.activePlanets
-        ? astrologicalState.activePlanets.filter(
+        ? astrologicalState.activePlanets.filter()
             p => isRulingPlanet(p) && PLANETARY_MODIFIERS[p] > 0,
           ).length * 10
         : 0;
@@ -231,8 +231,7 @@ export class AlchemicalEngineAdvanced {
         season: validSeason
 };
     } catch (error) {
-      logger.error('Error in calculateAstroCuisineMatch:', {
-        error: error instanceof Error ? error.message : String(error)
+      logger.error('Error in calculateAstroCuisineMatch:', { error: error instanceof Error ? error.message , String(error)
 });
       return {
         result: {
@@ -270,7 +269,7 @@ export class AlchemicalEngineAdvanced {
   /**
    * Get cuisine compatibility score
    */
-  private getCuisineCompatibility(cuisine: string,
+  private getCuisineCompatibility(cuisine: string,)
     astrologicalState?: AstrologicalState,
     season?: string): number {
     // Simple implementation - can be expanded
@@ -315,8 +314,7 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
 },
     };
   } catch (error) {
-    logger.error('Error in alchemize:', {
-      error: error instanceof Error ? error.message : String(error)
+    logger.error('Error in alchemize:', { error: error instanceof Error ? error.message , String(error)
 });
     throw error;
   }
@@ -355,13 +353,12 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, number>)
 /**
  * Safe alchemize wrapper
  */
-export function safeAlchemize(birthInfo: BirthInfo,
+export function safeAlchemize(birthInfo: BirthInfo,)
   horoscopeDict: HoroscopeData): AlchemicalResult {
   try {
     return alchemize(birthInfo, horoscopeDict);
   } catch (error) {
-    logger.error('Safe alchemize failed:', {
-      error: error instanceof Error ? error.message : String(error)
+    logger.error('Safe alchemize failed:', { error: error instanceof Error ? error.message , String(error)
 });
     // Return default result
     return {
@@ -387,7 +384,7 @@ export function safeAlchemize(birthInfo: BirthInfo,
 /**
  * Alchemize with safety wrapper
  */
-export function alchemizeWithSafety(birthInfo: BirthInfo,
+export function alchemizeWithSafety(birthInfo: BirthInfo,)
   horoscopeDict: HoroscopeData): AlchemicalResult {
   return safeAlchemize(birthInfo, horoscopeDict);
 }

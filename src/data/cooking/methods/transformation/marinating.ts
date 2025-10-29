@@ -18,7 +18,7 @@ export const _marinating: CookingMethodData = {
     min: 15, // 15 minutes,
     max: 1440, // 24 hours
   },
-  suitable_for: ['Meats', 'Poultry', 'Fish', 'Seafood', 'Vegetables', 'Tofu', 'Fruits'],
+  suitable_for ['Meats', 'Poultry', 'Fish', 'Seafood', 'Vegetables', 'Tofu', 'Fruits'],
   benefits: [
     'Can infuse foods with antioxidants from herbs and spices',
     'Reduces formation of harmful compounds during high-heat cooking',

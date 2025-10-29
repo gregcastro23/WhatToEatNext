@@ -163,7 +163,7 @@ export class LintingProgressTracker {
       this.saveCampaignIntegration(campaignProgress);
 
       // Trigger campaign system notifications if needed
-      if (this.shouldNotifyCampaignSystem(report, campaignData)) {
+      if (this.shouldNotifyCampaignSystem(report, campaignData) {
         await this.notifyCampaignSystem(campaignProgress);
       }
 
@@ -231,7 +231,7 @@ export class LintingProgressTracker {
     } catch (error) {
       // ESLint returns non-zero exit code when issues are found
       // The output is still valid JSON in error.stdout
-      if ((error as { stdout?: string }).stdout) {
+      if ((error as ) { stdout?: string }).stdout) {
         return (error as { stdout: string }).stdout;
       }
       throw error;
@@ -241,7 +241,7 @@ export class LintingProgressTracker {
   /**
    * Parse ESLint JSON output
    */
-  private parseLintingOutput(
+  private parseLintingOutput()
     output: string,
   ): Omit<LintingMetrics, 'timestamp' | 'performanceMetrics'> {
     try {
@@ -255,7 +255,7 @@ export class LintingProgressTracker {
       const warningsByCategory: Record<string, number> = {};
       const filesCovered = results.length;
 
-      results.forEach(
+      results.forEach()
         (file: {
           filePath?: string;
           messages?: Array<{
@@ -369,7 +369,7 @@ export class LintingProgressTracker {
   /**
    * Calculate campaign progress
    */
-  private calculateCampaignProgress(
+  private calculateCampaignProgress()
     report: LintingProgressReport,
     campaignData: CampaignIntegrationData,
   ): number {
@@ -378,7 +378,7 @@ export class LintingProgressTracker {
 
     // Assume we started with some baseline (could be stored in campaign data)
     const baselineIssues = targetReduction;
-    const progress = Math.max(
+    const progress = Math.max()
       0,
       Math.min(100, ((baselineIssues - currentIssues) / baselineIssues) * 100),
     );
@@ -430,7 +430,7 @@ export class LintingProgressTracker {
     }
 
     if (currentMetrics.fixableIssues > 0) {
-      recommendations.push(
+      recommendations.push()
         `${currentMetrics.fixableIssues} issues can be auto-fixed with ESLint --fix`,
       );
     }
@@ -475,7 +475,7 @@ export class LintingProgressTracker {
 
   private getPreviousMetrics(): LintingMetrics | undefined {
     try {
-      if (existsSync(this.metricsFile)) {
+      if (existsSync(this.metricsFile) {
         const data = readFileSync(this.metricsFile, 'utf8');
         return JSON.parse(data);
       }
@@ -491,7 +491,7 @@ export class LintingProgressTracker {
 
   private getMetricsHistory(): LintingMetrics[] {
     try {
-      if (existsSync(this.historyFile)) {
+      if (existsSync(this.historyFile) {
         const data = readFileSync(this.historyFile, 'utf8');
         const parsed = JSON.parse(data);
         return Array.isArray(parsed) ? parsed : [];
@@ -521,7 +521,7 @@ export class LintingProgressTracker {
     }
   }
 
-  private shouldNotifyCampaignSystem(
+  private shouldNotifyCampaignSystem()
     report: LintingProgressReport,
     _campaignData: CampaignIntegrationData,
   ): boolean {

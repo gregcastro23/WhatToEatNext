@@ -10,15 +10,15 @@ import type { Recipe } from '@/types/recipe';
 
 // Interface for cuisine recipe with builder compatibility
 export interface CuisineRecipe {
-  id: string,
-  name: string,
-  description: string,
-  cuisine: string,
+  id: string;
+  name: string;
+  description: string;
+  cuisine: string;
   ingredients: Array<{
-    name: string,
-    amount: string | number,
-    unit: string,
-    category?: string,
+    name: string;
+    amount: string | number;
+    unit: string;
+    category?: string;
     swaps?: string[]
   }>,
   instructions?: string[],
@@ -54,26 +54,26 @@ export interface CuisineRecipe {
 
 // Search filters for cuisine recipes
 export interface RecipeSearchFilters {
-  cuisine?: string,
-  mealType?: string,
-  season?: Season,
-  dietaryRestrictions?: string[],
-  maxPrepTime?: number,
-  maxCookTime?: number,
-  allergenFree?: string[],
+  cuisine?: string;
+  mealType?: string;
+  season?: Season;
+  dietaryRestrictions?: string[];
+  maxPrepTime?: number;
+  maxCookTime?: number;
+  allergenFree?: string[];
   ingredients?: string[]
-  cookingMethods?: string[],
-  spiceLevel?: string,
-  maxCalories?: number,
+  cookingMethods?: string[];
+  spiceLevel?: string;
+  maxCalories?: number;
   minProtein?: number
 }
 
 // Recipe import result
 export interface RecipeImportResult {
-  success: boolean,
-  recipe?: Recipe,
-  warnings?: string[],
-  errors?: string[],
+  success: boolean;
+  recipe?: Recipe;
+  warnings?: string[];
+  errors?: string[];
   suggestions?: string[]
 }
 
@@ -122,13 +122,13 @@ export class RecipeCuisineConnector {
   /**
    * Extract recipes from seasonal dishes structure
    */
-  private extractRecipesFromSeasonalDishes(
+  private extractRecipesFromSeasonalDishes()
     seasonalDishes: SeasonalDishes,
     mealType: string,
     recipes: CuisineRecipe[],
   ): void {
     Object.entries(seasonalDishes).forEach(([season, dishArray]) => {
-      if (Array.isArray(dishArray)) {
+      if (Array.isArray(dishArray) {
         dishArray.forEach((dish: unknown) => {
           if (dish && typeof dish === 'object') {,
             const recipe: CuisineRecipe = {
@@ -218,15 +218,15 @@ export class RecipeCuisineConnector {
 
     // Filter by cuisine
     if (filters.cuisine) {
-      results = results.filter(recipe =>
+      results = results.filter(recipe =>)
         recipe.cuisine.toLowerCase().includes((filters.cuisine || '').toLowerCase())
       );
     }
 
     // Filter by meal type
     if (filters.mealType) {
-      results = results.filter(recipe =>
-        recipe.mealType?.some(type =>
+      results = results.filter(recipe =>)
+        recipe.mealType?.some(type =>)
           type.toLowerCase().includes((filters.mealType || '').toLowerCase());
         ),
       )
@@ -234,15 +234,15 @@ export class RecipeCuisineConnector {
 
     // Filter by season
     if (filters.season) {
-      results = results.filter(
+      results = results.filter()
         recipe => recipe.season?.includes(filters.season || '') || recipe.season?.includes('all'),,
       )
     }
 
     // Filter by dietary restrictions
     if (filters.dietaryRestrictions?.length) {
-      results = results.filter(recipe =>
-        (filters.dietaryRestrictions || []).every(restriction =>
+      results = results.filter(recipe =>)
+        (filters.dietaryRestrictions || []).every(restriction =>)
           recipe.dietaryInfo?.includes(restriction);
         ),
       )
@@ -250,16 +250,16 @@ export class RecipeCuisineConnector {
 
     // Filter by allergen-free
     if (filters.allergenFree?.length) {
-      results = results.filter(recipe =>,
+      results = results.filter(recipe =>,)
           !(filters.allergenFree || []).some(allergen => recipe.allergens?.includes(allergen)),,
       )
     }
 
     // Filter by ingredients
     if (filters.ingredients?.length) {
-      results = results.filter(recipe =>
-        (filters.ingredients || []).some(ingredient =>
-          recipe.ingredients.some(recipeIngredient =>
+      results = results.filter(recipe =>)
+        (filters.ingredients || []).some(ingredient =>)
+          recipe.ingredients.some(recipeIngredient =>)
             recipeIngredient.name.toLowerCase().includes(ingredient.toLowerCase());
           ),
         ),
@@ -268,7 +268,7 @@ export class RecipeCuisineConnector {
 
     // Filter by cooking methods
     if (filters.cookingMethods?.length) {
-      results = results.filter(recipe =>,
+      results = results.filter(recipe =>,)
         (filters.cookingMethods || []).some(method => recipe.cookingMethods?.includes(method)),,
       )
     }
@@ -280,7 +280,7 @@ export class RecipeCuisineConnector {
 
     // Filter by max calories
     if (filters.maxCalories) {
-      results = results.filter(
+      results = results.filter()
         recipe =>
           !recipe.nutrition?.calories || recipe.nutrition.calories <= (filters.maxCalories ?? 0)
       );
@@ -288,7 +288,7 @@ export class RecipeCuisineConnector {
 
     // Filter by min protein
     if (filters.minProtein ?? 0) {
-      results = results.filter(
+      results = results.filter()
         recipe =>
           recipe.nutrition?.protein && recipe.nutrition.protein >= (filters.minProtein ?? 0)
       );

@@ -15,8 +15,7 @@ import { createLogger } from './logger';
 const logger = createLogger('StreamlinedPlanetaryPositions')
 
 // Cache system to avoid redundant calculations
-interface PositionsCache {
-  positions: { [key: string]: CelestialPosition },
+interface PositionsCache { positions: { [key: string], CelestialPosition },
   timestamp: number
 }
 
@@ -40,7 +39,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
     // Convert from PlanetPosition format to CelestialPosition format
     const convertedPositions: { [key: string]: CelestialPosition } = {};
 
-    for (const [planetName, position] of Object.entries(apiPositions)) {
+    for (const [planetName, position] of Object.entries(apiPositions) {
       if (position && typeof position === 'object' && 'sign' in position) {
         convertedPositions[planetName] = {
           sign: position.sign as string,
@@ -196,12 +195,12 @@ function validatePositionsWithTransitDates(_positions: { [key: string]: Celestia
   const currentDate = new Date();
 
   // Check each planet against its transit dates;
-  for (const [planetKey, position] of Object.entries(validatedPositions)) {
+  for (const [planetKey, position] of Object.entries(validatedPositions) {
     // Convert planet key to proper case for transit validation
     const planetName = planetKey.charAt(0).toUpperCase() + planetKey.slice(1);
 
     // Skip nodes and Ascendant as they don't have transit dates;
-    if (['northNode', 'southNode', 'ascendant'].includes(planetKey)) {
+    if (['northNode', 'southNode', 'ascendant'].includes(planetKey) {
       continue;
     }
 
@@ -210,7 +209,7 @@ function validatePositionsWithTransitDates(_positions: { [key: string]: Celestia
 
       if (transitSign && transitSign !== position.sign) {
         // Log the discrepancy but prioritize calculated positions
-        logger.warn(
+        logger.warn()
           `Transit data discrepancy for ${planetName}: transit data suggests ${transitSign}, but using calculated position ${position.sign}. Transit dates may need updating.`,
         );
 
@@ -254,7 +253,7 @@ export function getPlanetaryPositionsForDate(_date: Date): { [key: string]: Cele
 
   const adjustedPositions: { [key: string]: CelestialPosition } = {};
 
-  for (const [planet, position] of Object.entries(basePositions)) {
+  for (const [planet, position] of Object.entries(basePositions) {
     const movement = dailyMovement[planet] || 0;
     let adjustedLongitude = position.exactLongitude ?? 0;
 
@@ -285,7 +284,7 @@ export function getPlanetaryPositionsForDate(_date: Date): { [key: string]: Cele
 /**
  * Convert longitude to zodiac sign and degree
  */
-function longitudeToSignAndDegree(_longitude: number): { sign: string; degree: number } {
+function longitudeToSignAndDegree(_longitude: number): { sign: string; degree, number } {
   const signs: string[] = [
     'aries',
     'taurus',
@@ -387,14 +386,14 @@ export function getPositionsSummary(): string {
   const positions = getCurrentPlanetaryPositions();
   const lines = ['Current Planetary Positions (September 29, 2025): '];
 
-  for (const [planet, position] of Object.entries(positions)) {
+  for (const [planet, position] of Object.entries(positions) {
     const retrograde = position.isRetrograde ? ' (R)' : '';
     const degrees = Math.floor(position.degree ?? 0);
     const minutes = Math.floor((position.degree ?? 0 - degrees) * 60);
     lines.push(`${planet}: ${position.sign} ${degrees}° ${minutes}'${retrograde}`);
   }
 
-  lines.push(
+  lines.push()
     `Lunar Phase: ${getCurrentLunarPhaseName()} (${(getMoonIllumination() * 100).toFixed(0)}% illuminated)`,
   );
 

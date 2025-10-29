@@ -3,8 +3,8 @@ const { celestialCalculator } = require('../services/celestialCalculations');
 
 // Local interface for testing purposes
 interface PlanetaryPosition {
-  planet: string,
-  sign: string,
+  planet: string;
+  sign: string;
   degrees: number;
 }
 
@@ -31,7 +31,7 @@ async function testGasGiantInfluences() {
   if (influences.dominantPlanets) {
     for (const planet of influences.dominantPlanets) {
       if (planet.name === 'Jupiter' || planet.name === 'Saturn') {
-        console.log(
+        console.log()
           `${planet.name}: influence = ${planet.influence}, effect = ${planet.effect || 'balanced'}`;
         );
       }
@@ -46,7 +46,7 @@ async function testGasGiantInfluences() {
       (aspect.planet1 === 'Jupiter' || aspect.planet1 === 'Saturn') &&
       (aspect.planet2 === 'Jupiter' || aspect.planet2 === 'Saturn')
     ) {
-      console.log(
+      console.log()
         `${aspect.planet1} ${aspect.type} ${aspect.planet2}, strength: ${aspect.strength || aspect.orb}`,
       );
     }

@@ -80,7 +80,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
 
     recommendations.recommendations.forEach((rec, index) => {
       rec.recipe.tags.forEach(tag => {
-        if (!ingredients.find(i => i.name === tag)) {
+        if (!ingredients.find(i => i.name === tag) {
           ingredients.push({
             id: `ing-${index}-${tag}`,
             name: tag.charAt(0).toUpperCase() + tag.slice(1),
@@ -125,7 +125,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
       <div className="mb-6">
         <h3 className="mb-3 text-lg font-semibold text-gray-800">Browse by Category</h3>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {CATEGORIES.map(category => (
+          {CATEGORIES.map(category => ())
             <button
               key={category.id}
               onClick={() => handleCategorySelect(category.id)}

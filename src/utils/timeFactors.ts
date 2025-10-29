@@ -4,8 +4,8 @@ export interface TimeFactors {
   season: 'spring' | 'summer' | 'fall' | 'winter'
   dayOfWeek: number, // 0-6, where 0 is Sunday,
   hour: number; // 0-23,
-  minute: number // 0-59,
-  dayPlanet: Planet,
+  minute: number // 0-59;
+  dayPlanet: Planet;
   hourPlanet: Planet
 }
 
@@ -97,7 +97,7 @@ export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
  * Determine how appropriate a recipe is for the current season
  * Returns a value between 0 and 1
  */
-export function calculateSeasonalAppropriateness(
+export function calculateSeasonalAppropriateness()
   recipeSeason: 'spring' | 'summer' | 'fall' | 'winter' | 'all'
   currentSeason: 'spring' | 'summer' | 'fall' | 'winter'
 ): number {

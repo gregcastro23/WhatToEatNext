@@ -373,7 +373,7 @@ export class TypeScriptErrorResolutionCampaign {
 
   private async rollbackVariableChange(variable: UnusedVariableIntelligence): Promise<void> {
     // Rollback specific variable change
-    console.log(`Rolling back change for: ${variable.variableName}`);
+    console.log(`Rolling back change for ${variable.variableName}`);
   }
 
   private async flagForManualReview(variable: UnusedVariableIntelligence): Promise<void> {

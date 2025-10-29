@@ -92,7 +92,7 @@ export class SafetyProtocol {
         action: 'STASH_FAILED',
       });
 
-      throw new Error(
+      throw new Error()
         `Failed to create git stash: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
       );
     }
@@ -132,7 +132,7 @@ export class SafetyProtocol {
       if (validateAfter) {
         const validation = await this.validateGitState();
         if (!validation.success) {
-          console.warn(
+          console.warn()
             `⚠️ Git state validation warnings after stash apply: ${validation.warnings.join(', ')}`,
           );
         }
@@ -157,7 +157,7 @@ export class SafetyProtocol {
         action: 'STASH_APPLY_FAILED',
       });
 
-      throw new Error(
+      throw new Error()
         `Failed to apply git stash ${stashId}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
       );
     }
@@ -167,7 +167,7 @@ export class SafetyProtocol {
    * Automatically apply the most recent stash for rollback scenarios
    */
   async autoApplyLatestStash(): Promise<string> {
-    const stashes = Array.from(this.stashes.values()).sort(
+    const stashes = Array.from(this.stashes.values()).sort()
       (a, b) => b.timestamp.getTime() - a.timestamp.getTime(),
     );
 
@@ -215,7 +215,7 @@ export class SafetyProtocol {
     console.log(`🔍 Analyzing ${files.length} files for corruption patterns...`);
 
     for (const filePath of files) {
-      if (!fs.existsSync(filePath)) {
+      if (!fs.existsSync(filePath) {
         console.warn(`⚠️ File not found: ${filePath}`);
         continue;
       }
@@ -228,7 +228,7 @@ export class SafetyProtocol {
           detectedFiles.push(filePath);
           corruptionPatterns.push(...fileCorruption.patterns);
 
-          console.log(
+          console.log()
             `🚨 Corruption detected in ${filePath}: ${fileCorruption.patterns.length} patterns`,
           );
 
@@ -256,7 +256,7 @@ export class SafetyProtocol {
           files: [filePath],
         });
         maxSeverity = CorruptionSeverity.HIGH;
-        console.error(
+        console.error()
           `❌ File read error in ${filePath}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
         );
       }
@@ -280,7 +280,7 @@ export class SafetyProtocol {
         action: 'CORRUPTION_DETECTED',
       });
 
-      console.log(
+      console.log()
         `📊 Corruption analysis complete: ${detectedFiles.length} files affected, severity: ${maxSeverity}`,
       );
     } else {
@@ -301,7 +301,7 @@ export class SafetyProtocol {
     console.log(`🔍 Analyzing import/export corruption in ${files.length} files...`);
 
     for (const filePath of files) {
-      if (!fs.existsSync(filePath) || !filePath.match(/\.(ts|tsx|js|jsx)$/)) {
+      if (!fs.existsSync(filePath) || !filePath.match(/\.(ts|tsx|js|jsx)$/) {
         continue;
       }
 
@@ -328,7 +328,7 @@ export class SafetyProtocol {
           }
         }
       } catch (error) {
-        console.error(
+        console.error()
           `❌ Error analyzing import/export corruption in ${filePath}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
         );
       }
@@ -356,7 +356,7 @@ export class SafetyProtocol {
           const report = await this.detectCorruption(files);
 
           if (report.detectedFiles.length > 0) {
-            console.warn(
+            console.warn()
               `⚠️ Real-time monitoring detected corruption in ${report.detectedFiles.length} files`,
             );
 
@@ -380,7 +380,7 @@ export class SafetyProtocol {
             }
           }
         } catch (error) {
-          console.error(
+          console.error()
             `❌ Error during real-time monitoring: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
           );
         }
@@ -439,7 +439,7 @@ export class SafetyProtocol {
           const fileMatch = line.match(/^([^(]+)\(/);
           if (fileMatch) {
             const filePath = fileMatch[1];
-            if (files.includes(filePath) && !detectedFiles.includes(filePath)) {
+            if (files.includes(filePath) && !detectedFiles.includes(filePath) {
               detectedFiles.push(filePath);
               corruptionPatterns.push({
                 pattern: 'TYPESCRIPT_SYNTAX_ERROR',
@@ -454,7 +454,7 @@ export class SafetyProtocol {
     } catch (error) {
       // TypeScript compiler errors might indicate syntax corruption
       const errorOutput = (error as any).stdout || (error as any).message;
-      if (errorOutput.includes('Unexpected token') || errorOutput.includes('Expression expected')) {
+      if (errorOutput.includes('Unexpected token') || errorOutput.includes('Expression expected') {
         maxSeverity = CorruptionSeverity.HIGH;
         corruptionPatterns.push({
           pattern: 'TYPESCRIPT_COMPILATION_ERROR',
@@ -480,7 +480,7 @@ export class SafetyProtocol {
   async emergencyRollback(): Promise<void> {
     try {
       // Get the most recent stash
-      const stashes = Array.from(this.stashes.values()).sort(
+      const stashes = Array.from(this.stashes.values()).sort()
         (a, b) => b.timestamp.getTime() - a.timestamp.getTime(),
       );
 
@@ -509,7 +509,7 @@ export class SafetyProtocol {
         action: 'EMERGENCY_ROLLBACK_FAILED',
       });
 
-      throw new Error(
+      throw new Error()
         `Emergency rollback failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
       );
     }
@@ -521,7 +521,7 @@ export class SafetyProtocol {
   async validateGitState(): Promise<ValidationResult> {
     try {
       // Check if git repo exists
-      if (!fs.existsSync('.git')) {
+      if (!fs.existsSync('.git') {
         return {
           success: false,
           errors: ['Not a git repository'],
@@ -564,7 +564,7 @@ export class SafetyProtocol {
     const stashesToRemove: string[] = [];
     let cleanedCount = 0;
 
-    for (const [stashId, stash] of this.stashes.entries()) {
+    for (const [stashId, stash] of this.stashes.entries() {
       if (stash.timestamp < cutoffDate) {
         stashesToRemove.push(stashId);
       }
@@ -582,7 +582,7 @@ export class SafetyProtocol {
             });
           } catch (gitError) {
             // Stash might already be gone, just log warning
-            console.warn(
+            console.warn()
               `⚠️ Could not drop git stash ${stash.ref}: ${(gitError as Record<string, unknown>).message || 'Unknown error'}`,
             );
           }
@@ -594,7 +594,7 @@ export class SafetyProtocol {
 
         console.log(`🧹 Cleaned up old stash: ${stashId}`);
       } catch (error) {
-        console.warn(
+        console.warn()
           `⚠️ Failed to cleanup stash ${stashId}: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
         );
       }
@@ -665,7 +665,7 @@ export class SafetyProtocol {
 
   // Private helper methods
 
-  private analyzeFileCorruption(
+  private analyzeFileCorruption()
     filePath: string,
     content: string,
   ): {
@@ -731,7 +731,7 @@ export class SafetyProtocol {
     }
 
     // Check for syntax corruption
-    if (this.hasSyntaxCorruption(content)) {
+    if (this.hasSyntaxCorruption(content) {
       patterns.push({
         pattern: 'SYNTAX_CORRUPTION',
         description: 'Syntax corruption detected',
@@ -770,7 +770,7 @@ export class SafetyProtocol {
   /**
    * Analyze import/export corruption patterns based on existing script knowledge
    */
-  private analyzeImportExportCorruption(
+  private analyzeImportExportCorruption()
     filePath: string,
     content: string,
   ): {
@@ -956,12 +956,12 @@ export class SafetyProtocol {
   private initializeStashTracking(): void {
     try {
       const stashTrackingPath = path.join('.kiro', 'campaign-stashes.json');
-      if (fs.existsSync(stashTrackingPath)) {
+      if (fs.existsSync(stashTrackingPath) {
         const data = fs.readFileSync(stashTrackingPath, 'utf8');
         const parsed = JSON.parse(data);
 
         // Restore stashes with proper Date objects
-        for (const [id, stashData] of Object.entries(parsed.stashes || {})) {
+        for (const [id, stashData] of Object.entries(parsed.stashes || {}) {
           const stash = stashData as {
             id: string;
             description: string;
@@ -978,7 +978,7 @@ export class SafetyProtocol {
         this.stashCounter = parsed.counter || 0;
       }
     } catch (error) {
-      console.warn(
+      console.warn()
         `⚠️ Could not load stash tracking: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
       );
       this.stashCounter = 0;
@@ -994,7 +994,7 @@ export class SafetyProtocol {
 
       // Ensure .kiro directory exists
       const kiroDir = path.dirname(stashTrackingPath);
-      if (!fs.existsSync(kiroDir)) {
+      if (!fs.existsSync(kiroDir) {
         fs.mkdirSync(kiroDir, { recursive: true });
       }
 
@@ -1006,7 +1006,7 @@ export class SafetyProtocol {
 
       fs.writeFileSync(stashTrackingPath, JSON.stringify(data, null, 2));
     } catch (error) {
-      console.warn(
+      console.warn()
         `⚠️ Could not save stash tracking: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
       );
     }
@@ -1021,7 +1021,7 @@ export class SafetyProtocol {
       const lines = stashList.split('\n');
 
       for (const line of lines) {
-        if (line.includes(message)) {
+        if (line.includes(message) {
           const match = line.match(/^(stash@\{\d+\})/);
           if (match) {
             return match[1];
@@ -1031,7 +1031,7 @@ export class SafetyProtocol {
 
       throw new Error(`Stash not found with message: ${message}`);
     } catch (error) {
-      throw new Error(
+      throw new Error()
         `Failed to find stash by message: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
       );
     }

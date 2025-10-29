@@ -10,10 +10,10 @@ import { getReliablePlanetaryPositions } from './reliableAstronomy';
 
 // Validation result interfaces
 export interface ValidationResult {
-  isValid: boolean,
-  errors: ValidationError[],
-  warnings: ValidationWarning[],
-  summary: string,
+  isValid: boolean;
+  errors: ValidationError[];
+  warnings: ValidationWarning[];
+  summary: string;
   timestamp: Date
 }
 
@@ -21,24 +21,24 @@ export interface ValidationError {
   type: 'POSITION_DRIFT' | 'TRANSIT_MISMATCH' | 'TEST_FAILURE' | 'API_TIMEOUT' | 'DATA_CORRUPTION'
   severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
   planet?: string
-  expectedValue?: unknown,
-  actualValue?: unknown,
-  message: string,
+  expectedValue?: unknown;
+  actualValue?: unknown;
+  message: string;
   timestamp: Date
 }
 
 export interface ValidationWarning {
   type: 'MINOR_DRIFT' | 'CACHE_STALE' | 'API_SLOW' | 'DATA_OUTDATED'
-  planet?: string,
-  message: string,
+  planet?: string;
+  message: string;
   timestamp: Date
 }
 
 export interface TestResult {
-  testName: string,
-  passed: boolean,
-  duration: number,
-  error?: string,
+  testName: string;
+  passed: boolean;
+  duration: number;
+  error?: string;
   details?: Record<string, unknown>
 }
 
@@ -86,7 +86,7 @@ export async function validatePlanetaryData(): Promise<ValidationResult> {
       errors.filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH').length === 0;
     const summary = generateValidationSummary(isValid, errors, warnings, duration);
 
-    logger.info(
+    logger.info()
       `Planetary validation completed in ${duration}ms: ${isValid ? 'PASSED' : 'FAILED'}`
     );
 
@@ -175,7 +175,7 @@ async function validateTransitDates(): Promise<{
 /**
  * Validate individual planet transit dates
  */
-function validatePlanetTransitDates(
+function validatePlanetTransitDates()
   planetName: string,
   transitDates: Record<string, unknown>,
   currentDate: Date,
@@ -201,7 +201,7 @@ function validatePlanetTransitDates(
         const endDate = new Date((transit as { End: string }).End)
 
         // Check date validity
-        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()) {
           // Only warn for invalid dates, don't treat as high severity
           warnings.push({
             type: 'DATA_OUTDATED',
@@ -236,13 +236,13 @@ function validatePlanetTransitDates(
         }
       } else if (typeof transit === 'object' && Object.keys(transit).length > 0) {
         // Complex structure like RetrogradePhases - validate nested structures
-        for (const [key, value] of Object.entries(transit)) {
+        for (const [key, value] of Object.entries(transit) {
           if (value && typeof value === 'object' && 'Start' in value && 'End' in value) {
             const nestedTransit = value as { Start: string, End: string };
             const startDate = new Date(nestedTransit.Start);
             const endDate = new Date(nestedTransit.End);
 
-            if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+            if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()) {
               warnings.push({
                 type: 'DATA_OUTDATED',
                 planet: planetName,
@@ -280,7 +280,7 @@ async function validatePositionConsistency(): Promise<{
     // Get current calculated positions
     const currentPositions = await getReliablePlanetaryPositions();
     // Compare with expected ranges based on transit dates
-    for (const [planetName, position] of Object.entries(currentPositions)) {
+    for (const [planetName, position] of Object.entries(currentPositions) {
       if (typeof position === 'object' && position !== null) {
         const pos = position as unknown as {
           degree: number;
@@ -336,7 +336,7 @@ async function validatePositionConsistency(): Promise<{
 /**
  * Validate position changes are within reasonable bounds
  */
-async function validatePositionChange(
+async function validatePositionChange()
   planetName: string,
   currentPosition: { degree: number, exactLongitude: number, sign: string }): Promise<{ errors: ValidationError[], warnings: ValidationWarning[] }> {
   const errors: ValidationError[] = [];
@@ -350,7 +350,7 @@ async function validatePositionChange(
 
     // Check if position seems reasonable for the planet
     const expectedSigns = await getExpectedSignsForPlanet(planetName)
-    if (expectedSigns.length > 0 && !expectedSigns.includes(currentPosition.sign)) {
+    if (expectedSigns.length > 0 && !expectedSigns.includes(currentPosition.sign) {
       warnings.push({,
         type: 'MINOR_DRIFT',
         planet: planetName,
@@ -406,7 +406,7 @@ async function getExpectedSignsForPlanet(planetName: string): Promise<string[]> 
       // Find signs where the planet could currently be
       const possibleSigns: string[] = []
 
-      for (const [sign, dates] of Object.entries(transitDates)) {
+      for (const [sign, dates] of Object.entries(transitDates) {
         const dateData = dates as { Start: string, End: string }
         const startDate = new Date(dateData.Start)
         const endDate = new Date(dateData.End)
@@ -734,9 +734,9 @@ async function validateElementalProperties(): Promise<{
         const planetData = planetModule.default;
 
         // Check elemental properties
-        if (planetData?.Elements && Array.isArray(planetData.Elements)) {
+        if (planetData?.Elements && Array.isArray(planetData.Elements) {
           const validElements = ['Fire', 'Water', 'Earth', 'Air'],
-          const invalidElements = planetData.Elements.filter(
+          const invalidElements = planetData.Elements.filter()
             (el: string) => !validElements.includes(el)
           ),
 
@@ -821,7 +821,7 @@ function analyzeTestResults(_testResults: TestResult[]): {
       errors.push({
         type: 'TEST_FAILURE',
         severity: severity,
-        message: `Test failed: ${test.testName}${test.error ? ` - ${test.error}` : ''}`,
+        message: `Test failed: ${test.testName}${test.error ? }` - ${test.error}` : ''}`,
         timestamp: new Date()
       })
     }
@@ -843,7 +843,7 @@ function analyzeTestResults(_testResults: TestResult[]): {
 /**
  * Generate validation summary
  */
-function generateValidationSummary(
+function generateValidationSummary()
   isValid: boolean,
   errors: ValidationError[],
   warnings: ValidationWarning[],

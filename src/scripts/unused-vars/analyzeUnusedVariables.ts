@@ -46,12 +46,12 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
     // ESLint exits 1 if issues found, but file is written
     console.warn('ESLint exited with code 1 (expected if issues found)');
   }
-  if (!fs.existsSync(outputFile)) {
+  if (!fs.existsSync(outputFile) {
     throw new Error('Lint output file not created');
   }
   const json = fs.readFileSync(outputFile, 'utf8');
   type EslintMessage = { ruleId?: string; message: string; line?: number; column?: number },
-  type EslintResult = { filePath: string; messages: EslintMessage[] },
+  type EslintResult = { filePath: string; messages, EslintMessage[] },
   const results: EslintResult[] = JSON.parse(json);
   const limited = typeof maxFiles === 'number' ? results.slice(0, Math.max(0, maxFiles)) : results,
 
@@ -82,7 +82,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
 }
 
 function ensureDir(dirPath: string): void {
-  if (!fs.existsSync(dirPath)) {
+  if (!fs.existsSync(dirPath) {
     fs.mkdirSync(dirPath, { recursive: true });
   }
 }
@@ -102,7 +102,7 @@ function generateHumanReadableReport(findings: Finding[]): string {
     `Eliminate: ${eliminate}` ,
     `Breakdown by reason:` ,
   ];
-  for (const [reason, count] of Object.entries(byReason).sort((a, b) => b[1] - a[1])) {
+  for (const [reason, count] of Object.entries(byReason).sort((a, b) => b[1] - a[1]) {
     lines.push(`  - ${reason}: ${count}`);
   }
   return lines.join('\n');

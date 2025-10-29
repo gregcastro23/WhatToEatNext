@@ -77,7 +77,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
     name: safeGetString((recipe as any).name) || 'Unnamed Recipe',
     description: safeGetString((recipe as any).description) || '',
     cuisine: safeGetString((recipe as any).cuisine) || '',
-    ingredients: validateAndNormalizeIngredients(
+    ingredients: validateAndNormalizeIngredients()
       Array.isArray(recipe.ingredients) ? (recipe.ingredients as Partial<RecipeIngredient>[]) : [],
     ),
     instructions: validateAndNormalizeInstructions(recipe.instructions || []),
@@ -103,12 +103,12 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
 
   // Optional complex properties
   if (recipe.astrologicalInfluences) {
-    safeRecipe.astrologicalInfluences = validateAstrologicalInfluences(
+    safeRecipe.astrologicalInfluences = validateAstrologicalInfluences()
       recipe.astrologicalInfluences
     );
   }
   if ((recipe as any).nutrition) {
-    safeRecipe.nutrition = validateAndNormalizeNutrition(
+    safeRecipe.nutrition = validateAndNormalizeNutrition()
       (recipe as any).nutrition as NutritionData,
     );
   }
@@ -121,10 +121,10 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
 }
 
 // Helper validation functions
-function validateAndNormalizeIngredients(
+function validateAndNormalizeIngredients()
   ingredients: Array<Partial<RecipeIngredient>>,
 ): RecipeIngredient[] {
-  if (!Array.isArray(ingredients)) {
+  if (!Array.isArray(ingredients) {
     throw new Error('Ingredients must be an array')
   }
 
@@ -146,7 +146,7 @@ function validateAndNormalizeIngredients(
 }
 
 function validateAndNormalizeInstructions(instructions: string[] | unknown[]): string[] {
-  if (!Array.isArray(instructions)) {
+  if (!Array.isArray(instructions) {
     return ['Prepare ingredients', 'Cook until done']
   }
 
@@ -154,7 +154,7 @@ function validateAndNormalizeInstructions(instructions: string[] | unknown[]): s
     return ['Prepare ingredients', 'Cook until done'];
   }
 
-  return instructions.map(step =>
+  return instructions.map(step =>)
     typeof step === 'string' ? step : 'Prepare according to preference'
   );
 }
@@ -167,13 +167,13 @@ function validateAndNormalizeTime(time: string | number | unknown): string {
 
   if (typeof time === 'string') {
     // Check if already has time units
-    if (/minutes|mins|hours|hrs/i.test(time)) {
+    if (/minutes|mins|hours|hrs/i.test(time) {
       return time;
     }
 
     // Try to parse
     const timeNum = parseInt(time, 10);
-    if (!isNaN(timeNum)) {
+    if (!isNaN(timeNum) {
       return `${timeNum} minutes`;
     }
   }
@@ -188,7 +188,7 @@ function validateServings(servings: number | string | unknown): number {
 
   if (typeof servings === 'string') {
     const num = parseInt(servings, 10);
-    if (!isNaN(num)) {
+    if (!isNaN(num) {
       return Math.max(1, Math.min(12, num));
     }
   }
@@ -209,13 +209,13 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
   ];
 
   if (typeof mealType === 'string') {
-    if (validMealTypes.includes(mealType.toLowerCase())) {
+    if (validMealTypes.includes(mealType.toLowerCase()) {
       return [mealType.toLowerCase()];
     }
     return ['dinner'];
   }
 
-  if (Array.isArray(mealType)) {
+  if (Array.isArray(mealType) {
     const validEntries = mealType
       .filter(type => typeof type === 'string')
       .map(type => (type).toLowerCase())
@@ -231,13 +231,13 @@ function validateSeason(season: string | string[] | unknown): string[] {
   const validSeasons = ['spring', 'summer', 'fall', 'winter', 'all'];
 
   if (typeof season === 'string') {
-    if (validSeasons.includes(season.toLowerCase())) {
+    if (validSeasons.includes(season.toLowerCase()) {
       return [season.toLowerCase()];
     }
     return ['all'];
   }
 
-  if (Array.isArray(season)) {
+  if (Array.isArray(season) {
     const validEntries = season
       .filter(s => typeof s === 'string')
       .map(s => (s).toLowerCase())
@@ -254,7 +254,7 @@ function validateAstrologicalInfluences(influences: string | string[] | unknown)
     return [influences];
   }
 
-  if (Array.isArray(influences)) {
+  if (Array.isArray(influences) {
     const validEntries = influences.filter(i => typeof i === 'string').filter(i => i.length > 0);
 
     return validEntries.length > 0 ? validEntries : ['all'];
@@ -278,13 +278,13 @@ function validateAndNormalizeNutrition(nutrition: NutritionData): NutritionData 
   });
 
   // Validate array fields (vitamins, minerals)
-  if (Array.isArray(nutrition.vitamins)) {
+  if (Array.isArray(nutrition.vitamins) {
     safeNutrition.vitamins = nutrition.vitamins
       .filter((v: unknown) => typeof v === 'string')
       .slice(0, 10); // Limit to 10 items
   }
 
-  if (Array.isArray(nutrition.minerals)) {
+  if (Array.isArray(nutrition.minerals) {
     safeNutrition.minerals = nutrition.minerals
       .filter((m: unknown) => typeof m === 'string')
       .slice(0, 10); // Limit to 10 items
@@ -612,7 +612,7 @@ class RecipeData {
           const recipeCuisine = String(recipe.cuisine || '').toLowerCase();
           const targetCuisine = String(filters.cuisine || '').toLowerCase();
 
-          if (!recipeCuisine.includes(targetCuisine)) {
+          if (!recipeCuisine.includes(targetCuisine) {
             return false;
           }
         }
@@ -625,7 +625,7 @@ class RecipeData {
 
           const targetMealTypes = filters.mealType.map(mt => String(mt || '').toLowerCase());
 
-          if (!targetMealTypes.some(target => mealTypes.includes(target))) {
+          if (!targetMealTypes.some(target => mealTypes.includes(target)) {
             return false;
           }
         }
@@ -637,10 +637,10 @@ class RecipeData {
             : [String(recipe.season || '').toLowerCase()];
 
           // Special case: if 'all' is included in recipe seasons, it matches any season
-          if (!seasons.includes('all')) {
+          if (!seasons.includes('all') {
             const targetSeasons = filters.season.map(s => String(s || '').toLowerCase());
 
-            if (!targetSeasons.some(target => seasons.includes(target))) {
+            if (!targetSeasons.some(target => seasons.includes(target)) {
               return false;
             }
           }
@@ -651,9 +651,9 @@ class RecipeData {
           const influences = recipe.astrologicalInfluences || [];
 
           // Special case: if 'all' is included, it matches any influence
-          if (!influences.includes('all')) {
-            const hasMatch = filters.astrologicalInfluences.some(influence =>
-              influences.some(
+          if (!influences.includes('all') {
+            const hasMatch = filters.astrologicalInfluences.some(influence =>)
+              influences.some()
                 recipeInfluence =>
                   String(recipeInfluence || '').toLowerCase() ===
                   String(influence || '').toLowerCase()

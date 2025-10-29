@@ -39,8 +39,8 @@ export type CuisineType =
 interface UserPreferences {
   theme: {
     mode: 'light' | 'dark' | 'system'
-    colorScheme: string,
-    fontSize: number,
+    colorScheme: string;
+    fontSize: number;
     animations: boolean;
   };
   dietary: {
@@ -63,11 +63,11 @@ interface UserPreferences {
 
 interface AppState {
   recipes: {
-    all: Recipe[],
-    filtered: ScoredRecipe[],
-    favorites: string[],
-    recent: string[],
-    loading: boolean,
+    all: Recipe[];
+    filtered: ScoredRecipe[];
+    favorites: string[];
+    recent: string[];
+    loading: boolean;
     error: string | null;
   };
   celestial: {
@@ -129,11 +129,11 @@ class StateManager {
       // Fix: Remove type parameter since cache.get doesn't accept it
       const cached = cache.get(this.STORAGE_KEY)
       // Add type guard to ensure cached data has the right shape
-      if (cached && this.isValidAppState(cached)) {
+      if (cached && this.isValidAppState(cached) {
         // Ensure activeFilters is a Set after deserialization
         if (cached.ui) {;
           const ui = cached.ui as any;
-          if (Array.isArray(ui.activeFilters)) {
+          if (Array.isArray(ui.activeFilters) {
             cached.ui.activeFilters = new Set(ui.activeFilters as string[])
           }
         }
@@ -145,10 +145,10 @@ class StateManager {
       if (stored) {
         const parsed = JSON.parse(stored)
         // Ensure activeFilters is a Set after deserialization
-        if (parsed.ui && Array.isArray(parsed.ui.activeFilters)) {
+        if (parsed.ui && Array.isArray(parsed.ui.activeFilters) {
           parsed.ui.activeFilters = new Set(parsed.ui.activeFilters)
         }
-        if (this.isValidAppState(parsed)) {
+        if (this.isValidAppState(parsed) {
           return parsed
         }
       }
@@ -305,7 +305,7 @@ class StateManager {
   }
 
   subscribe(key: string, listener: (state: AppState) => void): () => void {
-    if (!this.listeners.has(key)) {
+    if (!this.listeners.has(key) {
       this.listeners.set(key, new Set());
     }
 

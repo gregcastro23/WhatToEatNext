@@ -18,7 +18,7 @@ export const infusing: CookingMethodData = {
     min: 15, // 15 minutes,
     max: 10080, // 7 days
   },
-  suitable_for: ['Oils', 'Alcohols', 'Water', 'Vinegars', 'Honey', 'Milk', 'Cream'],
+  suitable_for ['Oils', 'Alcohols', 'Water', 'Vinegars', 'Honey', 'Milk', 'Cream'],
   benefits: [
     'Extracts beneficial compounds from herbs and spices',
     'Creates flavorful alternatives to salt and sugar',

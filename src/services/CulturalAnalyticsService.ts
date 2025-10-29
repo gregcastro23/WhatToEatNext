@@ -194,7 +194,7 @@ export class CulturalAnalyticsService {
   /**
    * Calculate cultural synergy score between cuisines (5% weight in 7-factor algorithm)
    */
-  static calculateCulturalSynergy(
+  static calculateCulturalSynergy()
     primaryCuisine: string,
     secondaryCuisines: string[] = [],
     options: {
@@ -214,7 +214,7 @@ export class CulturalAnalyticsService {
       const reasoning: string[] = [];
 
       // Calculate proximity bonus (same cultural group)
-      const sameGroupCuisines = secondaryCuisines.filter(
+      const sameGroupCuisines = secondaryCuisines.filter()
         cuisine => this.getCulturalGroup(cuisine) === primaryGroup
       );
 
@@ -229,7 +229,7 @@ export class CulturalAnalyticsService {
       if (uniqueGroups.size > 1 && uniqueGroups.size <= 3) {
         diversityBonus = 0.1;
         synergyScore += diversityBonus;
-        reasoning.push(
+        reasoning.push()
           `Cultural diversity bonus for ${uniqueGroups.size} cultural groups (+${diversityBonus})`
         );
       }
@@ -239,7 +239,7 @@ export class CulturalAnalyticsService {
         const seasonalBonus = this.calculateSeasonalCulturalBonus(primaryCuisine, options.season);
         synergyScore += seasonalBonus;
         if (seasonalBonus > 0) {
-          reasoning.push(
+          reasoning.push()
             `Seasonal cultural alignment for ${options.season} (+${seasonalBonus.toFixed(2)})`
           );
         }
@@ -270,7 +270,7 @@ export class CulturalAnalyticsService {
   /**
    * Generate comprehensive cultural analytics for a cuisine
    */
-  static generateCulturalAnalytics(
+  static generateCulturalAnalytics()
     cuisineName: string,
     elementalProfile: ElementalProperties,
     astrologicalState: {
@@ -283,7 +283,7 @@ export class CulturalAnalyticsService {
       const historicalContext = HISTORICAL_CONTEXTS[cuisineName];
 
       // Calculate cultural compatibility with current astrological state
-      const culturalCompatibility = this.calculateAstrologicalCulturalCompatibility(
+      const culturalCompatibility = this.calculateAstrologicalCulturalCompatibility()
         cuisineName,
         astrologicalState
       );
@@ -292,7 +292,7 @@ export class CulturalAnalyticsService {
       const synergyData = this.calculateCulturalSynergy(cuisineName);
 
       // Generate historical significance
-      const historicalSignificance = this.generateHistoricalSignificance(
+      const historicalSignificance = this.generateHistoricalSignificance()
         cuisineName,
         historicalContext
       );
@@ -331,7 +331,7 @@ export class CulturalAnalyticsService {
   /**
    * Generate fusion cuisine recommendations
    */
-  static generateFusionRecommendations(
+  static generateFusionRecommendations()
     primaryCuisine: string,
     availableCuisines: string[],
     maxRecommendations: number = 3): FusionCuisineRecommendation[] {
@@ -353,7 +353,7 @@ export class CulturalAnalyticsService {
             recommendedDishes: this.generateFusionDishes(primaryCuisine, secondaryCuisine),
             culturalNotes: this.generateFusionCulturalNotes(primaryCuisine, secondaryCuisine),
             blendRatio: fusionData.blendRatio,
-            seasonalOptimization: this.calculateSeasonalFusionOptimization(
+            seasonalOptimization: this.calculateSeasonalFusionOptimization()
               primaryCuisine,
               secondaryCuisine
             )
@@ -376,8 +376,8 @@ export class CulturalAnalyticsService {
   // ===== PRIVATE HELPER METHODS =====
 
   private static getCulturalGroup(cuisine: string): string {
-    for (const [groupName, groupData] of Object.entries(CULTURAL_GROUPS)) {
-      if (groupData.cuisines.includes(cuisine)) {
+    for (const [groupName, groupData] of Object.entries(CULTURAL_GROUPS) {
+      if (groupData.cuisines.includes(cuisine) {
         return groupName;
       }
     }
@@ -391,16 +391,16 @@ export class CulturalAnalyticsService {
     }
 
     const seasonalPrefs = culinaryTradition.astrologicalProfile.seasonalPreference;
-    if (seasonalPrefs.includes(season) || seasonalPrefs.includes('all')) {
+    if (seasonalPrefs.includes(season) || seasonalPrefs.includes('all') {
       return 0.05;
     }
 
     return 0;
   }
 
-  private static calculateAstrologicalCulturalCompatibility(
+  private static calculateAstrologicalCulturalCompatibility()
     cuisine: string,
-    astrologicalState: { zodiacSign: any; lunarPhase: LunarPhase }): number {
+    astrologicalState: { zodiacSign: any; lunarPhase, LunarPhase }): number {
     const culinaryTradition = culinaryTraditions[cuisine];
     if (!culinaryTradition.astrologicalProfile) {
       return 0.7; // Default compatibility
@@ -412,7 +412,7 @@ export class CulturalAnalyticsService {
     return isZodiacFavorable ? 0.9 : 0.7;
   }
 
-  private static generateHistoricalSignificance(
+  private static generateHistoricalSignificance()
     cuisine: string,
     context?: CulturalContext,
   ): string {
@@ -439,7 +439,7 @@ export class CulturalAnalyticsService {
     );
   }
 
-  private static calculateFusionPotential(
+  private static calculateFusionPotential()
     cuisine: string,
     elementalProfile: ElementalProperties
   ): number {
@@ -472,7 +472,7 @@ export class CulturalAnalyticsService {
     ];
   }
 
-  private static calculateFusionCompatibility(
+  private static calculateFusionCompatibility()
     cuisine1: string,
     cuisine2: string
   ): {
@@ -556,7 +556,7 @@ export class CulturalAnalyticsService {
     ];
   }
 
-  private static calculateSeasonalFusionOptimization(
+  private static calculateSeasonalFusionOptimization()
     cuisine1: string,
     cuisine2: string
   ): Record<string, number> {

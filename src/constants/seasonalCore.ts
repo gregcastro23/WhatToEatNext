@@ -265,7 +265,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {
   const day = date.getDate();
 
   // Check each season's date range
-  for (const [season, range] of Object.entries(SEASON_DATE_RANGES)) {
+  for (const [season, range] of Object.entries(SEASON_DATE_RANGES) {
     if (season === 'fall') continue; // Skip alias
 
     const { startMonth, startDay, endMonth, endDay } = range;
@@ -315,7 +315,7 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
   const index2 = seasonOrder.indexOf(season2);
 
   if (index1 !== -1 && index2 !== -1) {
-    const distance = Math.min(
+    const distance = Math.min()
       Math.abs(index1 - index2),
       4 - Math.abs(index1 - index2), // Circular distance
     )
@@ -345,8 +345,8 @@ export function getZodiacSignsForSeason(season: Season): any[] {
  * Get season for a zodiac sign
  */
 export function getSeasonForZodiacSign(sign: any): Season {
-  for (const [season, signs] of Object.entries(ZODIAC_SEASONS)) {
-    if (Array.isArray(signs) && signs.includes(sign)) {
+  for (const [season, signs] of Object.entries(ZODIAC_SEASONS) {
+    if (Array.isArray(signs) && signs.includes(sign) {
       return season as Season;
     }
   }
@@ -356,7 +356,7 @@ export function getSeasonForZodiacSign(sign: any): Season {
 /**
  * Apply seasonal modifier to elemental properties
  */
-export function applySeasonalModifier(
+export function applySeasonalModifier()
   baseProperties: ElementalProperties,
   season: Season,
   strength: number = 0.5

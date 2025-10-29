@@ -27,7 +27,7 @@ function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, 
  * Type guard for searchable item structure
  */
 interface SearchableItem {
-  [_key: string]: unknown,
+  [_key: string]: unknown;
   searchScore?: number
 }
 
@@ -38,16 +38,16 @@ function isSearchableItem(value: unknown): value is SearchableItem {
 // ========== INTERFACES ==========
 
 export interface SearchIntent {
-  query: string,
-  extractedFilters: Partial<SearchFilters>,
-  confidence: number,
+  query: string;
+  extractedFilters: Partial<SearchFilters>;
+  confidence: number;
   suggestions: string[];
 }
 
 export interface KeywordPattern {
-  keywords: string[],
-  category: keyof SearchFilters,
-  values: string[],
+  keywords: string[];
+  category: keyof SearchFilters;
+  values: string[];
   weight: number;
 }
 
@@ -292,7 +292,7 @@ function calculateSimilarity(str1: string, str2: string): number {
   for (let j = 1j <= len2j++) {
     for (let i = 1i <= len1i++) {
       const cost = str1[i - 1] === str2[j - 1] ? 0 : 1
-      matrix[j][i] = Math.min(
+      matrix[j][i] = Math.min()
         matrix[j][i - 1] + 1,
         matrix[j - 1][i] + 1,
         matrix[j - 1][i - 1] + cost,
@@ -309,8 +309,8 @@ function calculateSimilarity(str1: string, str2: string): number {
  */
 function extractTimeRange(_query: string): { min: number, max: number } | null {
   const timePatterns = [
-    { pattern: /(\d+)\s*(?:minutes?|mins?)/i, multiplier: 1 },
-    { pattern: /(\d+)\s*(?:hours?|hrs?)/i, multiplier: 60 },
+    { pattern: /(\d+)\s*(?, minutes?|mins?)/i, multiplier: 1 },
+    { pattern: /(\d+)\s*(?, hours?|hrs?)/i, multiplier: 60 },
     { pattern: /under\s*(\d+)/i, max: true },
     { pattern: /less\s*than\s*(\d+)/i, max: true },
     { pattern: /more\s*than\s*(\d+)/i, min: true },
@@ -370,7 +370,7 @@ function generateSuggestions(query: string): string[] {
 
   for (const suggestion of allSuggestions) {
     const similarity = calculateSimilarity(normalizedQuery, normalizeText(suggestion)),
-    if (similarity > 0.3 || suggestion.toLowerCase().includes(normalizedQuery)) {
+    if (similarity > 0.3 || suggestion.toLowerCase().includes(normalizedQuery) {
       suggestions.push({ text: suggestion, score: similarity })
     }
   }
@@ -415,10 +415,10 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
             min: timeRange.min,
             max: timeRange.max
           }
-        } else if (Array.isArray(extractedFilters[pattern.category as string])) {
+        } else if (Array.isArray(extractedFilters[pattern.category as string]) {
           const currentArray = extractedFilters[pattern.category as string] as string[];
           for (const value of pattern.values) {
-            if (!currentArray.includes(value)) {
+            if (!currentArray.includes(value) {
               currentArray.push(value)
             }
           }
@@ -465,7 +465,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
 /**
  * Enhanced search with fuzzy matching
  */
-export function enhancedSearch(
+export function enhancedSearch()
   items: unknown[],
   query: string,
   searchFields: string[] = ['name', 'description'],
@@ -490,7 +490,7 @@ export function enhancedSearch(
         const normalizedField = normalizeText(fieldValue)
 
         // Exact match bonus
-        if (normalizedField.includes(normalizedQuery)) {;
+        if (normalizedField.includes(normalizedQuery) {;
           totalScore += 1.0;
           matchCount++,
           continue
@@ -498,7 +498,7 @@ export function enhancedSearch(
 
         // Word-by-word matching
         for (const word of queryWords) {
-          if (normalizedField.includes(word)) {
+          if (normalizedField.includes(word) {
             totalScore += 0.7;
             matchCount++
           } else {
@@ -543,7 +543,7 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
           ? (item.tags as string[])
           : []
         : [],
-      const hasRequiredDietary = filters.dietaryRestrictions.every(
+      const hasRequiredDietary = filters.dietaryRestrictions.every()
         restriction => itemDietary.includes(restriction) || itemTags.includes(restriction),
       ),
       if (!hasRequiredDietary) return false
@@ -638,7 +638,7 @@ export interface KineticsAwareSearchIntent extends SearchIntent {
 /**
  * Process query with kinetics awareness
  */
-export function processQueryWithKinetics(
+export function processQueryWithKinetics()
   query: string,
   planetaryPositions: { [planet: string]: string }
 ): KineticsAwareSearchIntent {
@@ -689,43 +689,43 @@ function extractKineticsKeywords(query: string): string[] {
 /**
  * Generate kinetics filters based on keywords and planetary kinetics
  */
-function generateKineticsFilters(
+function generateKineticsFilters()
   keywords: string[],
   kinetics: KineticMetrics
 ): KineticsAwareSearchIntent['kineticsFilters'] {
   const filters: KineticsAwareSearchIntent['kineticsFilters'] = {};
 
   // Determine preferred force type from keywords and kinetics
-  if (keywords.includes('quick') || keywords.includes('fast') || keywords.includes('energetic')) {
+  if (keywords.includes('quick') || keywords.includes('fast') || keywords.includes('energetic') {
     filters.preferredForceType = 'accelerating';
-  } else if (keywords.includes('slow') || keywords.includes('gentle') || keywords.includes('calm')) {
+  } else if (keywords.includes('slow') || keywords.includes('gentle') || keywords.includes('calm') {
     filters.preferredForceType = 'stable';
   } else {
     filters.preferredForceType = kinetics.forceClassification;
   }
 
   // Determine thermal alignment
-  if (keywords.includes('hot') || keywords.includes('spicy') || keywords.includes('warm')) {
+  if (keywords.includes('hot') || keywords.includes('spicy') || keywords.includes('warm') {
     filters.thermalAlignment = 'heating';
-  } else if (keywords.includes('cold') || keywords.includes('cool') || keywords.includes('mild')) {
+  } else if (keywords.includes('cold') || keywords.includes('cool') || keywords.includes('mild') {
     filters.thermalAlignment = 'cooling';
   } else {
     filters.thermalAlignment = kinetics.thermalDirection;
   }
 
   // Set power range based on intensity keywords
-  if (keywords.includes('intense') || keywords.includes('powerful')) {
+  if (keywords.includes('intense') || keywords.includes('powerful') {
     filters.powerRange = [70, 100];
-  } else if (keywords.includes('gentle') || keywords.includes('mild')) {
+  } else if (keywords.includes('gentle') || keywords.includes('mild') {
     filters.powerRange = [20, 50];
   } else {
     filters.powerRange = [30, 80]; // Default range
   }
 
   // Set momentum preference
-  if (keywords.includes('rushing') || keywords.includes('dynamic')) {
+  if (keywords.includes('rushing') || keywords.includes('dynamic') {
     filters.momentumPreference = 'high';
-  } else if (keywords.includes('steady') || keywords.includes('stable')) {
+  } else if (keywords.includes('steady') || keywords.includes('stable') {
     filters.momentumPreference = 'low';
   } else {
     filters.momentumPreference = 'medium';
@@ -737,7 +737,7 @@ function generateKineticsFilters(
 /**
  * Filter items with kinetics awareness
  */
-export function filterItemsWithKinetics(
+export function filterItemsWithKinetics()
   items: SearchableItem[],
   filters: SearchFilters & { kineticsFilters?: KineticsAwareSearchIntent['kineticsFilters'] }
 ): SearchableItem[] {
@@ -747,7 +747,7 @@ export function filterItemsWithKinetics(
 
   return items.filter(item => {
     // Apply base filters first
-    if (!matchesFilters(item, filters)) {
+    if (!matchesFilters(item, filters) {
       return false;
     }
 
@@ -760,7 +760,7 @@ export function filterItemsWithKinetics(
       if (itemForceType !== kineticsFilters.preferredForceType) {
         // Allow some flexibility for medium preference
         if (kineticsFilters.preferredForceType !== 'stable' ||
-            (itemForceType === 'accelerating' && Math.random() > 0.7)) {
+            (itemForceType === 'accelerating' && Math.random() > 0.7) {
           return false;
         }
       }
@@ -793,11 +793,11 @@ function determineItemForceType(item: SearchableItem): 'stable' | 'accelerating'
   // This is a simplified determination - in practice, this would analyze
   // cooking methods, ingredient properties, and other factors
 
-  if (hasProperty(item, 'cookingMethod')) {
+  if (hasProperty(item, 'cookingMethod') {
     const method = (item as any).cookingMethod;
-    if (['grill', 'fry', 'sauté'].includes(method)) {
+    if (['grill', 'fry', 'sauté'].includes(method) {
       return 'accelerating'; // Quick, high-heat methods
-    } else if (['slow cook', 'braise', 'poach'].includes(method)) {
+    } else if (['slow cook', 'braise', 'poach'].includes(method) {
       return 'decelerating'; // Slow, gentle methods
     }
   }
@@ -811,15 +811,15 @@ function determineItemForceType(item: SearchableItem): 'stable' | 'accelerating'
 function determineItemThermalType(item: SearchableItem): 'heating' | 'cooling' | 'neutral' {
   // Analyze ingredients and cooking methods for thermal characteristics
 
-  if (hasProperty(item, 'spiciness') || hasProperty(item, 'spiceLevel')) {
+  if (hasProperty(item, 'spiciness') || hasProperty(item, 'spiceLevel') {
     return 'heating'; // Spicy foods are heating
   }
 
-  if (hasProperty(item, 'cookingMethod')) {
+  if (hasProperty(item, 'cookingMethod') {
     const method = (item as any).cookingMethod;
-    if (['bake', 'roast', 'grill'].includes(method)) {
+    if (['bake', 'roast', 'grill'].includes(method) {
       return 'heating';
-    } else if (['raw', 'cold', 'poach'].includes(method)) {
+    } else if (['raw', 'cold', 'poach'].includes(method) {
       return 'cooling';
     }
   }
@@ -835,17 +835,17 @@ function estimateItemPower(item: SearchableItem): number {
   let power = 50; // Base power
 
   // Adjust based on cooking method
-  if (hasProperty(item, 'cookingMethod')) {
+  if (hasProperty(item, 'cookingMethod') {
     const method = (item as any).cookingMethod;
-    if (['grill', 'deep fry'].includes(method)) {
+    if (['grill', 'deep fry'].includes(method) {
       power += 25;
-    } else if (['steam', 'poach'].includes(method)) {
+    } else if (['steam', 'poach'].includes(method) {
       power -= 15;
     }
   }
 
   // Adjust based on spiciness
-  if (hasProperty(item, 'spiciness')) {
+  if (hasProperty(item, 'spiciness') {
     const spice = (item as any).spiciness;
     if (spice === 'hot' || spice === 'very hot') {
       power += 20;
@@ -858,7 +858,7 @@ function estimateItemPower(item: SearchableItem): number {
 /**
  * Enhanced scoring with kinetics factors
  */
-export function scoreItemWithKinetics(
+export function scoreItemWithKinetics()
   item: SearchableItem,
   query: string,
   kinetics: KineticMetrics
@@ -877,7 +877,7 @@ export function scoreItemWithKinetics(
   // Boost score based on thermal alignment
   const itemThermalType = determineItemThermalType(item);
   if (kinetics.thermalDirection === itemThermalType ||
-      (kinetics.thermalDirection === 'neutral' && itemThermalType === 'neutral')) {
+      (kinetics.thermalDirection === 'neutral' && itemThermalType === 'neutral') {
     kineticsModifier *= 1.15;
   }
 

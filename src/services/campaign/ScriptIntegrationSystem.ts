@@ -146,7 +146,7 @@ export class ScriptIntegrationSystem {
   /**
    * Execute a campaign script with specified options
    */
-  async executeScript(
+  async executeScript()
     scriptId: string,
     options: ScriptExecutionOptions = {},
   ): Promise<ScriptExecutionResult> {
@@ -157,7 +157,7 @@ export class ScriptIntegrationSystem {
 
     // Validate script exists
     const scriptPath = path.resolve(config.scriptPath);
-    if (!fs.existsSync(scriptPath)) {
+    if (!fs.existsSync(scriptPath) {
       throw new Error(`Script not found: ${scriptPath}`);
     }
 
@@ -224,7 +224,7 @@ export class ScriptIntegrationSystem {
 
       // Fallback: try to read metrics file directly
       const metricsFile = this.getMetricsFilePath(scriptId);
-      if (fs.existsSync(metricsFile)) {
+      if (fs.existsSync(metricsFile) {
         const metricsData = JSON.parse(fs.readFileSync(metricsFile, 'utf8'));
         return {
           totalRuns: metricsData.totalRuns || 0,
@@ -265,7 +265,7 @@ export class ScriptIntegrationSystem {
       });
 
       // Parse safety validation from output
-      if (result.stdout.includes('safetyValidation')) {
+      if (result.stdout.includes('safetyValidation') {
         const safetyData = JSON.parse(result.stdout);
         return {
           safe: safetyData.safe || false,
@@ -321,7 +321,7 @@ export class ScriptIntegrationSystem {
   /**
    * Get available script configurations
    */
-  getAvailableScripts(): Array<{ id: string; config: ScriptConfig }> {
+  getAvailableScripts(): Array<{ id: string; config, ScriptConfig }> {
     return Array.from(this.scriptConfigs.entries()).map(([id, config]) => ({
       id,
       config,
@@ -371,7 +371,7 @@ export class ScriptIntegrationSystem {
   /**
    * Parse execution output into structured result
    */
-  private parseExecutionOutput(
+  private parseExecutionOutput()
     output: string,
     executionTime: number,
     success: boolean,
@@ -391,7 +391,7 @@ export class ScriptIntegrationSystem {
 
     // Try to parse JSON output first
     try {
-      if (output.trim().startsWith('{')) {
+      if (output.trim().startsWith('{') {
         const jsonData = JSON.parse(output);
         if (jsonData.safetyMetrics) {
           result.metrics = {
@@ -433,7 +433,7 @@ export class ScriptIntegrationSystem {
       }
 
       // Parse safety events
-      if (line.includes('🚨') || line.includes('corruption')) {
+      if (line.includes('🚨') || line.includes('corruption') {
         result.safetyEvents.push({
           type: 'corruption',
           timestamp: new Date(),
@@ -442,7 +442,7 @@ export class ScriptIntegrationSystem {
         });
       }
 
-      if (line.includes('Build validation failed')) {
+      if (line.includes('Build validation failed') {
         result.safetyEvents.push({
           type: 'build_failure',
           timestamp: new Date(),
@@ -451,7 +451,7 @@ export class ScriptIntegrationSystem {
         });
       }
 
-      if (line.includes('git stash')) {
+      if (line.includes('git stash') {
         result.safetyEvents.push({
           type: 'stash_created',
           timestamp: new Date(),
@@ -471,12 +471,12 @@ export class ScriptIntegrationSystem {
     try {
       const status = execSync('git status --porcelain', { encoding: 'utf8' });
       if (status.trim().length > 0) {
-        throw new Error(
+        throw new Error()
           'Git working directory has uncommitted changes. Commit or stash changes first.',
         );
       }
     } catch (error: any) {
-      if (error.message.includes('uncommitted changes')) {
+      if (error.message.includes('uncommitted changes') {
         throw error;
       }
       // Git not available or other error - warn but continue

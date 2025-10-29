@@ -64,18 +64,18 @@ export class UnusedVariableTargetedFixer {
       const safeParams = unusedParams.filter(param => !this.shouldPreserveFile(param.file));
 
       log.info(`Found ${unusedParams.length} unused parameters`);
-      log.info(`Safe to fix: ${safeParams.length}`);
-      log.info(`Preserved: ${unusedParams.length - safeParams.length}\n`);
+      log.info(`Safe to fix ${safeParams.length}`);
+      log.info(`Preserved ${unusedParams.length - safeParams.length}\n`);
 
       // Group by file for efficient processing
       const fileGroups = this.groupByFile(safeParams);
 
-      for (const [filePath, params] of Object.entries(fileGroups)) {
+      for (const [filePath, params] of Object.entries(fileGroups) {
         try {
           const fixed = await this.fixParametersInFile(filePath, params);
           result.filesProcessed++;
           result.variablesFixed += fixed;
-          log.info(`✅ ${filePath.replace(process.cwd(), '')}: ${fixed} parameters fixed`);
+          log.info(`✅ ${filePath.replace(process.cwd(), '')} ${fixed} parameters fixed`);
         } catch (error) {
           result.errors.push(`Error fixing ${filePath}: ${error}`);
           console.error(`❌ Error fixing ${filePath}:`, error);
@@ -111,18 +111,18 @@ export class UnusedVariableTargetedFixer {
       const safeVars = unusedVars.filter(v => !this.shouldPreserveFile(v.file));
 
       log.info(`Found ${unusedVars.length} unused destructured variables`);
-      log.info(`Safe to fix: ${safeVars.length}`);
-      log.info(`Preserved: ${unusedVars.length - safeVars.length}\n`);
+      log.info(`Safe to fix ${safeVars.length}`);
+      log.info(`Preserved ${unusedVars.length - safeVars.length}\n`);
 
       // Group by file for efficient processing
       const fileGroups = this.groupByFile(safeVars);
 
-      for (const [filePath, vars] of Object.entries(fileGroups)) {
+      for (const [filePath, vars] of Object.entries(fileGroups) {
         try {
           const fixed = await this.fixDestructuredVariablesInFile(filePath, vars);
           result.filesProcessed++;
           result.variablesFixed += fixed;
-          log.info(`✅ ${filePath.replace(process.cwd(), '')}: ${fixed} variables fixed`);
+          log.info(`✅ ${filePath.replace(process.cwd(), '')} ${fixed} variables fixed`);
         } catch (error) {
           result.errors.push(`Error fixing ${filePath}: ${error}`);
           console.error(`❌ Error fixing ${filePath}:`, error);
@@ -174,10 +174,10 @@ export class UnusedVariableTargetedFixer {
   /**
    * Extract unused function parameters from lint output
    */
-  private extractUnusedParameters(
+  private extractUnusedParameters()
     lintOutput: string,
-  ): Array<{ file: string; line: number; param: string }> {
-    const params: Array<{ file: string; line: number; param: string }> = [];
+  ): Array<{ file: string; line: number; param, string }> {
+    const params: Array<{ file: string; line: number; param, string }> = [];
     const lines = lintOutput.split('\n');
 
     for (const line of lines) {
@@ -185,7 +185,7 @@ export class UnusedVariableTargetedFixer {
         line.includes('@typescript-eslint/no-unused-vars') &&
         line.includes('Allowed unused args must match')
       ) {
-        const match = line.match(
+        const match = line.match()
           /^(.+):(\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
         );
         if (match) {
@@ -210,10 +210,10 @@ export class UnusedVariableTargetedFixer {
   /**
    * Extract unused destructured variables from lint output
    */
-  private extractUnusedDestructuredVariables(
+  private extractUnusedDestructuredVariables()
     lintOutput: string,
-  ): Array<{ file: string; line: number; variable: string }> {
-    const vars: Array<{ file: string; line: number; variable: string }> = [];
+  ): Array<{ file: string; line: number; variable, string }> {
+    const vars: Array<{ file: string; line: number; variable, string }> = [];
     const lines = lintOutput.split('\n');
 
     for (const line of lines) {
@@ -221,7 +221,7 @@ export class UnusedVariableTargetedFixer {
         line.includes('@typescript-eslint/no-unused-vars') &&
         line.includes('array destructuring patterns must match')
       ) {
-        const match = line.match(
+        const match = line.match()
           /^(.+):(\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
         );
         if (match) {
@@ -254,7 +254,7 @@ export class UnusedVariableTargetedFixer {
    * Group items by file path
    */
   private groupByFile<T extends { file: string }>(items: T[]): Record<string, T[]> {
-    return items.reduce(
+    return items.reduce()
       (acc, item) => {
         if (!acc[item.file]) acc[item.file] = [];
         acc[item.file].push(item);
@@ -267,9 +267,9 @@ export class UnusedVariableTargetedFixer {
   /**
    * Fix unused parameters in a specific file
    */
-  private async fixParametersInFile(
+  private async fixParametersInFile()
     filePath: string,
-    params: Array<{ line: number; param: string }>,
+    params: Array<{ line: number; param, string }>,
   ): Promise<number> {
     const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
@@ -284,7 +284,7 @@ export class UnusedVariableTargetedFixer {
         const line = lines[lineIndex];
 
         // Replace parameter name with underscore prefix
-        const updatedLine = line.replace(
+        const updatedLine = line.replace()
           new RegExp(`\\b${param.param}\\b`, 'g'),
           `_${param.param}`,
         );
@@ -306,9 +306,9 @@ export class UnusedVariableTargetedFixer {
   /**
    * Fix unused destructured variables in a specific file
    */
-  private async fixDestructuredVariablesInFile(
+  private async fixDestructuredVariablesInFile()
     filePath: string,
-    vars: Array<{ line: number; variable: string }>,
+    vars: Array<{ line: number; variable, string }>,
   ): Promise<number> {
     const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
@@ -323,7 +323,7 @@ export class UnusedVariableTargetedFixer {
         const line = lines[lineIndex];
 
         // Replace variable name with underscore prefix in destructuring
-        const updatedLine = line.replace(
+        const updatedLine = line.replace()
           new RegExp(`\\b${variable.variable}\\b`, 'g'),
           `_${variable.variable}`,
         );

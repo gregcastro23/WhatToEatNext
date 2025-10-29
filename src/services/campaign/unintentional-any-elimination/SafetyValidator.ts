@@ -59,7 +59,7 @@ export class SafetyValidator {
     private buildCommand: string;
     private testCommand: string;
 
-    constructor(
+    constructor()
         validationTimeout = 60000, // 1 minute default
         safetyThresholds: Partial<SafetyThresholds> = {},
         buildCommand = 'yarn tsc --noEmit --skipLibCheck',
@@ -122,7 +122,7 @@ export class SafetyValidator {
     /**
      * Build validation after batch operations
      */
-    async validateBuildAfterBatch(
+    async validateBuildAfterBatch()
         modifiedFiles: string[],
         includeTests = false
     ): Promise<BuildValidationResult> {
@@ -140,7 +140,7 @@ export class SafetyValidator {
         }
 
         // Validate performance metrics
-        const performanceValid = this.validatePerformanceMetrics(
+        const performanceValid = this.validatePerformanceMetrics()
             compilationResult.performanceMetrics!
         );
 
@@ -155,7 +155,7 @@ export class SafetyValidator {
     /**
      * Rollback verification to ensure exact restoration
      */
-    async validateRollbackCapability(
+    async validateRollbackCapability()
         originalFiles: Map<string, string>,
         backupFiles: Map<string, string>
     ): Promise<RollbackValidationResult> {
@@ -165,8 +165,8 @@ export class SafetyValidator {
 
         try {
             // Verify all backup files exist and are readable
-            for (const [filePath, backupPath] of backupFiles.entries()) {
-                if (!fs.existsSync(backupPath)) {
+            for (const [filePath, backupPath] of backupFiles.entries() {
+                if (!fs.existsSync(backupPath) {
                     rollbackErrors.push(`Backup file missing: ${backupPath}`);
                     backupIntegrity = false;
                     canRollback = false;
@@ -187,7 +187,7 @@ export class SafetyValidator {
             }
 
             // Test rollback operation on a temporary copy
-            const restorationVerified = await this.testRollbackOperation(
+            const restorationVerified = await this.testRollbackOperation()
                 originalFiles,
                 backupFiles
             );
@@ -213,7 +213,7 @@ export class SafetyValidator {
     /**
      * Safety scoring system for replacement confidence
      */
-    calculateSafetyScore(
+    calculateSafetyScore()
         replacement: TypeReplacement,
         context: ClassificationContext
     ): SafetyValidationResult {
@@ -240,7 +240,7 @@ export class SafetyValidator {
 
         // Validation requirements
         if (replacement.validationRequired && safetyScore < this.safetyThresholds.minimumSafetyScore) {
-            validationErrors.push(
+            validationErrors.push()
                 `Safety score ${safetyScore.toFixed(2)} below required threshold ${this.safetyThresholds.minimumSafetyScore}`
             );
         }
@@ -273,7 +273,7 @@ export class SafetyValidator {
 
         // Build time validation
         if (metrics.buildTime > this.safetyThresholds.maximumBuildTime) {
-            validationErrors.push(
+            validationErrors.push()
                 `Build time ${metrics.buildTime}ms exceeds threshold ${this.safetyThresholds.maximumBuildTime}ms`
             );
             recommendations.push('Consider reducing batch size to improve build performance');
@@ -340,7 +340,7 @@ export class SafetyValidator {
     /**
      * Test rollback operation without actually modifying files
      */
-    private async testRollbackOperation(
+    private async testRollbackOperation()
         originalFiles: Map<string, string>,
         backupFiles: Map<string, string>
     ): Promise<boolean> {
@@ -348,13 +348,13 @@ export class SafetyValidator {
             // Create temporary copies to test rollback
             const tempDir = path.join(process.cwd(), '.temp-rollback-test');
 
-            if (!fs.existsSync(tempDir)) {
+            if (!fs.existsSync(tempDir) {
                 fs.mkdirSync(tempDir, { recursive: true });
             }
 
             let allRestored = true;
 
-            for (const [originalPath, backupPath] of backupFiles.entries()) {
+            for (const [originalPath, backupPath] of backupFiles.entries() {
                 try {
                     const backupContent = fs.readFileSync(backupPath, 'utf8');
                     const tempFilePath = path.join(tempDir, path.basename(originalPath));
@@ -402,7 +402,7 @@ export class SafetyValidator {
 
         // Error handling contexts are riskier
         if (context.codeSnippet.toLowerCase().includes('catch') ||
-            context.codeSnippet.toLowerCase().includes('error')) {
+            context.codeSnippet.toLowerCase().includes('error') {
             score -= 0.3;
             warnings.push('Error handling context detected - higher risk');
             recommendations.push('Consider preserving any types in error handling');
@@ -411,7 +411,7 @@ export class SafetyValidator {
         // External API contexts are riskier
         if (context.codeSnippet.toLowerCase().includes('api') ||
             context.codeSnippet.toLowerCase().includes('fetch') ||
-            context.codeSnippet.toLowerCase().includes('response')) {
+            context.codeSnippet.toLowerCase().includes('response') {
             score -= 0.2;
             warnings.push('External API context detected');
             recommendations.push('Verify API response types before replacement');
@@ -453,24 +453,24 @@ export class SafetyValidator {
 
         // Record replacements are generally safe
         else if (replacement.original.includes('Record<string, any>') &&
-                 replacement.replacement.includes('Record<string, unknown>')) {
+                 replacement.replacement.includes('Record<string, unknown>') {
             score = 0.9;
         }
 
         // Function parameter replacements are riskier
-        else if (replacement.original.includes('(') && replacement.original.includes(': any')) {
+        else if (replacement.original.includes('(') && replacement.original.includes(': any') {
             score = 0.6;
             warnings.push('Function parameter replacement - verify usage patterns');
         }
 
         // Return type replacements are moderately risky
-        else if (replacement.original.includes('): any')) {
+        else if (replacement.original.includes('): any') {
             score = 0.7;
             warnings.push('Return type replacement - verify return statements');
         }
 
         // Generic replacements need careful consideration
-        else if (replacement.original.includes('<any>')) {
+        else if (replacement.original.includes('<any>') {
             score = 0.65;
             warnings.push('Generic type replacement - verify type constraints');
         }
@@ -489,24 +489,24 @@ export class SafetyValidator {
         const warnings: string[] = [];
 
         // Test files are safer to modify
-        if (filePath.includes('.test.') || filePath.includes('__tests__')) {
+        if (filePath.includes('.test.') || filePath.includes('__tests__') {
             score = 0.9;
         }
 
         // Type definition files are riskier
-        else if (filePath.endsWith('.d.ts')) {
+        else if (filePath.endsWith('.d.ts') {
             score = 0.6;
             warnings.push('Type definition file - changes may affect multiple files');
         }
 
         // Configuration files are riskier
-        else if (filePath.includes('config') || filePath.includes('Config')) {
+        else if (filePath.includes('config') || filePath.includes('Config') {
             score = 0.65;
             warnings.push('Configuration file - verify dynamic property access');
         }
 
         // Core library files are riskier
-        else if (filePath.includes('node_modules') || filePath.includes('lib/')) {
+        else if (filePath.includes('node_modules') || filePath.includes('lib/') {
             score = 0.5;
             warnings.push('Library file - avoid modifications');
         }
@@ -543,7 +543,7 @@ export class SafetyValidator {
     private parseTestFailures(output: string): string[] {
         const lines = output.split('\n');
         const failures = lines
-            .filter(line =>
+            .filter(line =>)
                 line.includes('FAIL') ||
                 line.includes('✕') ||
                 line.includes('failed')

@@ -17,7 +17,7 @@ import { join } from 'path';
 const { DomainSpecificRuleValidator } = require('../../scripts/validateDomainSpecificRules.cjs');
 
 describe('Domain-Specific Rule Validation', () => {
-  let validator: typeof DomainSpecificRuleValidator,
+  let validator: typeof DomainSpecificRuleValidator;
   const projectRoot = process.cwd();
 
   beforeEach(() => {
@@ -105,7 +105,7 @@ describe('Domain-Specific Rule Validation', () => {
       } catch (error) {
         // Check if it's a legitimate constant preservation error
         const output = (error as any).stderr?.toString() || '';
-        if (output.includes('preserve-planetary-constants')) {
+        if (output.includes('preserve-planetary-constants') {
           fail('Mathematical constants should be preserved');
         }
       } finally {
@@ -137,7 +137,7 @@ describe('Domain-Specific Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter(
+          const unusedVarErrors = result[0].messages.filter()
             (msg: any) =>
               msg.ruleId === '@typescript-eslint/no-unused-vars' &&
               (msg.message.includes('planet') || msg.message.includes('position') || msg.message.includes('longitude')),
@@ -151,7 +151,7 @@ describe('Domain-Specific Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter(
+            const unusedVarErrors = result[0].messages.filter()
               (msg: any) =>
                 msg.ruleId === '@typescript-eslint/no-unused-vars' &&
                 (msg.message.includes('planet') ||
@@ -192,7 +192,7 @@ describe('Domain-Specific Rule Validation', () => {
         expect(true).toBe(true);
       } catch (error) {
         const output = (error as any).stderr?.toString() || '';
-        if (output.includes('validate-elemental-properties')) {
+        if (output.includes('validate-elemental-properties') {
           fail('Valid elemental properties should not be flagged');
         }
       } finally {
@@ -254,7 +254,7 @@ describe('Domain-Specific Rule Validation', () => {
         expect(true).toBe(true);
       } catch (error) {
         const output = (error as any).stderr?.toString() || '';
-        if (output.includes('preserve-fallback-values')) {
+        if (output.includes('preserve-fallback-values') {
           fail('Valid fallback values should not be flagged');
         }
       } finally {
@@ -302,7 +302,7 @@ describe('Domain-Specific Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const complexityErrors = result[0].messages.filter(
+          const complexityErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2, // error level
           );
 
@@ -314,7 +314,7 @@ describe('Domain-Specific Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const complexityErrors = result[0].messages.filter(
+            const complexityErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2
             );
 
@@ -349,7 +349,7 @@ describe('Domain-Specific Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const consoleErrors = result[0].messages.filter(
+          const consoleErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2, // error level
           );
 
@@ -361,7 +361,7 @@ describe('Domain-Specific Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const consoleErrors = result[0].messages.filter(
+            const consoleErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2
             );
 
@@ -396,7 +396,7 @@ describe('Domain-Specific Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter(
+          const unusedVarErrors = result[0].messages.filter()
             (msg: any) =>
               msg.ruleId === '@typescript-eslint/no-unused-vars' &&
               (msg.message.includes('campaign') ||
@@ -412,7 +412,7 @@ describe('Domain-Specific Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter(
+            const unusedVarErrors = result[0].messages.filter()
               (msg: any) =>
                 msg.ruleId === '@typescript-eslint/no-unused-vars' &&
                 (msg.message.includes('campaign') ||
@@ -453,7 +453,7 @@ describe('Domain-Specific Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter(
+          const unusedVarErrors = result[0].messages.filter()
             (msg: any) =>
               msg.ruleId === '@typescript-eslint/no-unused-vars' &&
               (msg.message.includes('mockFunction') ||
@@ -468,7 +468,7 @@ describe('Domain-Specific Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter(
+            const unusedVarErrors = result[0].messages.filter()
               (msg: any) =>
                 msg.ruleId === '@typescript-eslint/no-unused-vars' &&
                 (msg.message.includes('mockFunction') ||
@@ -506,7 +506,7 @@ describe('Domain-Specific Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const restrictiveErrors = result[0].messages.filter(
+          const restrictiveErrors = result[0].messages.filter()
             (msg: any) =>
               (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
               (msg.ruleId === 'no-console' && msg.severity === 2) ||
@@ -521,7 +521,7 @@ describe('Domain-Specific Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter(
+            const restrictiveErrors = result[0].messages.filter()
               (msg: any) =>
                 (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                 (msg.ruleId === 'no-console' && msg.severity === 2) ||
@@ -564,7 +564,7 @@ describe('Domain-Specific Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const undefErrors = result[0].messages.filter(
+          const undefErrors = result[0].messages.filter()
             (msg: any) =>
               msg.ruleId === 'no-undef' &&
               (msg.message.includes('describe') ||
@@ -580,7 +580,7 @@ describe('Domain-Specific Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const undefErrors = result[0].messages.filter(
+            const undefErrors = result[0].messages.filter()
               (msg: any) =>
                 msg.ruleId === 'no-undef' &&
                 (msg.message.includes('describe') ||
@@ -620,7 +620,7 @@ describe('Domain-Specific Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const requireErrors = result[0].messages.filter(
+          const requireErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2
           );
 
@@ -631,7 +631,7 @@ describe('Domain-Specific Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const requireErrors = result[0].messages.filter(
+            const requireErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2
             );
 
@@ -664,7 +664,7 @@ describe('Domain-Specific Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const restrictiveErrors = result[0].messages.filter(
+          const restrictiveErrors = result[0].messages.filter()
             (msg: any) =>
               (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
               (msg.ruleId === 'no-console' && msg.severity === 2) ||
@@ -678,7 +678,7 @@ describe('Domain-Specific Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const restrictiveErrors = result[0].messages.filter(
+            const restrictiveErrors = result[0].messages.filter()
               (msg: any) =>
                 (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
                 (msg.ruleId === 'no-console' && msg.severity === 2) ||

@@ -60,7 +60,7 @@ export class RecipeFilter {
     return RecipeFilter.instance;
   }
 
-  filterAndSortRecipes(
+  filterAndSortRecipes()
     recipes: Recipe[],
     filterOptions: FilterOptions,
     sortOptions: SortOptions,
@@ -79,7 +79,7 @@ export class RecipeFilter {
     return recipes.filter(recipe => {
       try {
         // Season filter
-        if (
+        if ()
           options.season &&
           !recipe.season?.includes(options.season) &&
           !recipe.season?.includes('all')
@@ -102,7 +102,7 @@ export class RecipeFilter {
 
         // Dietary restrictions filter
         if (options.dietaryRestrictions?.length) {
-          const meetsRestrictions = options.dietaryRestrictions.every(restriction =>
+          const meetsRestrictions = options.dietaryRestrictions.every(restriction =>)
             this.meetsRestriction(recipe, restriction)
           );
           if (!meetsRestrictions) return false;
@@ -110,7 +110,7 @@ export class RecipeFilter {
 
         // Ingredients filter
         if (options.ingredients?.length) {
-          const hasIngredients = options.ingredients.every(ingredient =>
+          const hasIngredients = options.ingredients.every(ingredient =>)
             recipe.ingredients.some(ri => ri.name.toLowerCase().includes(ingredient.toLowerCase()))
           );
           if (!hasIngredients) return false;
@@ -262,7 +262,7 @@ export class RecipeFilter {
 
     // If no nutrition info, do a basic check of ingredients
     const highCarbIngredients = ['sugar', 'flour', 'bread', 'pasta', 'rice', 'potato', 'corn'];
-    return !recipe.ingredients.some(ing =>
+    return !recipe.ingredients.some(ing =>)
       highCarbIngredients.some(carbIng => ing.name.toLowerCase().includes(carbIng))
     );
   }
@@ -290,12 +290,12 @@ export class RecipeFilter {
       'soybean oil'
     ],
 
-    return !recipe.ingredients.some(ing =>
+    return !recipe.ingredients.some(ing =>)
       nonPaleoIngredients.some(nonPaleoIng => ing.name.toLowerCase().includes(nonPaleoIng))
     );
   }
 
-  private calculateElementalScore(
+  private calculateElementalScore()
     recipeElements?: ElementalProperties,
     targetElements?: ElementalProperties,
   ): number {
@@ -330,7 +330,7 @@ export class RecipeFilter {
       if (recipe.description?.toLowerCase().includes(queryLower)) score += 0.3;
 
       // Ingredient match
-      if (recipe.ingredients.some(i => i.name.toLowerCase().includes(queryLower))) {
+      if (recipe.ingredients.some(i => i.name.toLowerCase().includes(queryLower)) {
         score += 0.2;
       }
 
@@ -383,19 +383,19 @@ export class RecipeFilter {
           }
 
           // Handle different structures of cuisine.dishes
-          if (Array.isArray(cuisine.dishes)) {
+          if (Array.isArray(cuisine.dishes) {
             return cuisine.dishes.some(dish => checkMatch(dish))
           }
 
           // Handle structured dishes by meal time and season
           return Object.values(cuisine.dishes).some(mealTimeDishes => {
             if (!mealTimeDishes) return false;
-            if (Array.isArray(mealTimeDishes)) {
+            if (Array.isArray(mealTimeDishes) {
               return mealTimeDishes.some(dish => checkMatch(dish))
             }
 
             // If it's an object with season keys
-            return Object.values(mealTimeDishes).some(seasonDishes =>
+            return Object.values(mealTimeDishes).some(seasonDishes =>)
                 Array.isArray(seasonDishes) && seasonDishes.some(dish => checkMatch(dish))
             )
           })
@@ -463,7 +463,7 @@ export class RecipeFilter {
 
         // Excluded ingredients
         if (options.excludedIngredients?.length) {
-          const hasExcluded = options.excludedIngredients.some(excluded =>
+          const hasExcluded = options.excludedIngredients.some(excluded =>)
             recipe.ingredients.some(ing => ing.name.toLowerCase().includes(excluded.toLowerCase()))
           );
           if (hasExcluded) return false
@@ -471,7 +471,7 @@ export class RecipeFilter {
 
         // Favorite ingredients boost
         if (options.favoriteIngredients?.length) {
-          const hasFavorite = options.favoriteIngredients.some(favorite =>
+          const hasFavorite = options.favoriteIngredients.some(favorite =>)
             recipe.ingredients.some(ing => ing.name.toLowerCase().includes(favorite.toLowerCase()))
           );
           recipe.favoriteScore = hasFavorite ? 1.5 : 1;
@@ -510,19 +510,19 @@ export class RecipeFilter {
         }
 
         // Handle different structures of cuisine.dishes
-        if (Array.isArray(cuisine.dishes)) {
+        if (Array.isArray(cuisine.dishes) {
           return cuisine.dishes.some(dish => checkMatch(dish))
         }
 
         // Handle structured dishes by meal time and season
         return Object.values(cuisine.dishes).some(mealTimeDishes => {
           if (!mealTimeDishes) return false;
-          if (Array.isArray(mealTimeDishes)) {
+          if (Array.isArray(mealTimeDishes) {
             return mealTimeDishes.some(dish => checkMatch(dish))
           }
 
           // If it's an object with season keys
-          return Object.values(mealTimeDishes).some(seasonDishes =>
+          return Object.values(mealTimeDishes).some(seasonDishes =>)
               Array.isArray(seasonDishes) && seasonDishes.some(dish => checkMatch(dish))
           )
         })
@@ -560,7 +560,7 @@ export function getRecipesForCuisine(cuisine: string, recipes: Recipe[]): Recipe
  * @param ingredientRequirements Optional specific ingredients to include / (exclude || 1) / (emphasize || 1)
  * @returns Filtered and scored recipes sorted by match quality
  */
-export function filterRecipesByIngredientMappings(
+export function filterRecipesByIngredientMappings()
   recipes: Recipe[],
   elementalTarget?: ElementalProperties,
   ingredientRequirements?: {
@@ -598,10 +598,10 @@ export function filterRecipesByIngredientMappings(
     // 1. Check required ingredients
     let hasAllRequired = true;
     if (ingredientRequirements?.required?.length) {
-      const requiredIngredientsMapped = mappedIngredients.filter(
+      const requiredIngredientsMapped = mappedIngredients.filter()
         match =>
           match.matchedTo &&
-          ingredientRequirements.required?.some(
+          ingredientRequirements.required?.some()
             req =>
               match.name.toLowerCase().includes(req.toLowerCase()) ||
               match.matchedTo?.name.toLowerCase().includes(req.toLowerCase())
@@ -638,8 +638,8 @@ export function filterRecipesByIngredientMappings(
 
     // 2. Check excluded ingredients
     if (ingredientRequirements?.excluded?.length) {
-      const hasExcludedIngredient = mappedIngredients.some(match =>
-        ingredientRequirements.excluded?.some(
+      const hasExcludedIngredient = mappedIngredients.some(match =>)
+        ingredientRequirements.excluded?.some()
           excl =>
             match.name.toLowerCase().includes(excl.toLowerCase()) ||
             (match.matchedTo?.name &&
@@ -669,7 +669,7 @@ export function filterRecipesByIngredientMappings(
 
     // 3. Check dietary restrictions
     if (ingredientRequirements?.dietaryRestrictions?.length && recipe.dietaryInfo) {
-      const meetsRestrictions = ingredientRequirements.dietaryRestrictions.every(restriction =>
+      const meetsRestrictions = ingredientRequirements.dietaryRestrictions.every(restriction =>)
         Array.isArray(recipe.dietaryInfo)
           ? recipe.dietaryInfo.includes(restriction)
           : (recipe.dietaryInfo)?.includes?.(restriction) || false
@@ -707,10 +707,10 @@ export function filterRecipesByIngredientMappings(
 
     // 5. Check for emphasized ingredients
     if (ingredientRequirements?.emphasized?.length) {
-      const emphasisMatches = mappedIngredients.filter(
+      const emphasisMatches = mappedIngredients.filter()
         match =>
           match.matchedTo &&
-          ingredientRequirements.emphasized?.some(
+          ingredientRequirements.emphasized?.some()
             emph =>
               match.name.toLowerCase().includes(emph.toLowerCase()) ||
               (match.matchedTo?.name &&

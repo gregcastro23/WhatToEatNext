@@ -12,7 +12,7 @@ import { logger } from '@/utils/logger';
 // Cache system to avoid frequent API calls
 interface PositionsCache {
   positions: Record<string, unknown>,
-  timestamp: number,
+  timestamp: number;
   date: string
 }
 
@@ -22,7 +22,7 @@ const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours
 /**
  * Fetch accurate planetary positions from JPL Horizons API
  */
-export async function getReliablePlanetaryPositions(
+export async function getReliablePlanetaryPositions()
   date: Date = new Date()
 ): Promise<Record<string, unknown>> {
   try {
@@ -411,7 +411,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
       }
 
       // Process each planet
-      if (data && Array.isArray(data)) {
+      if (data && Array.isArray(data) {
         data.forEach((planet: unknown) => {
           const planetData = planet as any;
           if (
@@ -512,7 +512,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
 
     try {
       // Make the request with authorization
-      const response = await fetch(
+      const response = await fetch()
         `${baseUrl}/positions?object=sun,moon,mercury,venus,mars,jupiter,saturn,uranus,neptune,pluto&date=${formattedDate}`,
         {
           method: 'GET',
@@ -534,7 +534,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       // Process the response;
       const positions: Record<string, unknown> = {}
 
-      if (data?.objects && Array.isArray(data.objects)) {
+      if (data?.objects && Array.isArray(data.objects) {
         data.objects.forEach((obj: unknown) => {
           const objData = obj as any;
           if (

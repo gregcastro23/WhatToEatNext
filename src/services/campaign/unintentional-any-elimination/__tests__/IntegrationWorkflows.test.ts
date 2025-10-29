@@ -51,12 +51,12 @@ describe('Integration Workflows', () => {
 
     // Mock successful TypeScript compilation by default
     mockExecSync.mockImplementation((command) => {
-      if (command.includes('grep -c "error TS"')) {
+      if (command.includes('grep -c "error TS"') {
         const error = new Error('No matches') as any;
         error.status = 1;
         throw error;
       }
-      if (command.includes('grep -r -l')) {
+      if (command.includes('grep -r -l') {
         return 'src/test1.ts\nsrc/test2.ts\n';
       }
       return '';
@@ -76,8 +76,8 @@ describe('Integration Workflows', () => {
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         const fileName = path.toString();
-        for (const [file, content] of Object.entries(testFiles)) {
-          if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
+        for (const [file, content] of Object.entries(testFiles) {
+          if (fileName.includes(file.split('/').pop()?.replace('.ts', '')) {
             return content;
           }
         }
@@ -86,10 +86,10 @@ describe('Integration Workflows', () => {
 
       // Step 1: Analyze domain context for each file
       const contexts: ClassificationContext[] = [];
-      for (const [filePath, content] of Object.entries(testFiles)) {
+      for (const [filePath, content] of Object.entries(testFiles) {
         const lines = content.split('\n');
         for (let i = 0; i < lines.length; i++) {
-          if (lines[i].includes(': any')) {
+          if (lines[i].includes(': any') {
             const context: ClassificationContext = {
               filePath,
               lineNumber: i + 1,
@@ -166,8 +166,8 @@ describe('Integration Workflows', () => {
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         const fileName = path.toString();
-        for (const [file, content] of Object.entries(mixedScenarios)) {
-          if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
+        for (const [file, content] of Object.entries(mixedScenarios) {
+          if (fileName.includes(file.split('/').pop()?.replace('.ts', '')) {
             return content;
           }
         }
@@ -177,7 +177,7 @@ describe('Integration Workflows', () => {
       // Mock compilation to fail for risky replacements
       let compilationAttempts = 0;
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('tsc')) {
+        if (command.includes('tsc') {
           compilationAttempts++;
           if (compilationAttempts > 2) { // Fail after a few attempts
             const error = new Error('Compilation failed') as any;
@@ -185,7 +185,7 @@ describe('Integration Workflows', () => {
             throw error;
           }
         }
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c "error TS"') {
           const error = new Error('No matches') as any;
           error.status = 1;
           throw error;
@@ -233,8 +233,8 @@ describe('Integration Workflows', () => {
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         const fileName = path.toString();
-        for (const [file, content] of Object.entries(domainSpecificFiles)) {
-          if (fileName.includes(file.split('/').slice(-1)[0].replace('.ts', ''))) {
+        for (const [file, content] of Object.entries(domainSpecificFiles) {
+          if (fileName.includes(file.split('/').slice(-1)[0].replace('.ts', '')) {
             return content;
           }
         }
@@ -243,11 +243,11 @@ describe('Integration Workflows', () => {
 
       // Process each domain-specific file
       const results = [];
-      for (const [filePath, content] of Object.entries(domainSpecificFiles)) {
+      for (const [filePath, content] of Object.entries(domainSpecificFiles) {
         const lines = content.trim().split('\n').filter(line => line.trim());
 
         for (let i = 0; i < lines.length; i++) {
-          if (lines[i].includes(': any')) {
+          if (lines[i].includes(': any') {
             const context: ClassificationContext = {
               filePath,
               lineNumber: i + 1,
@@ -273,13 +273,13 @@ describe('Integration Workflows', () => {
       }
 
       // Verify domain-specific preservation
-      const astrologicalResults = results.filter(r =>
+      const astrologicalResults = results.filter(r =>)
         r.context.filePath.includes('planetary') || r.context.filePath.includes('calculations')
       );
-      const recipeResults = results.filter(r =>
+      const recipeResults = results.filter(r =>)
         r.context.filePath.includes('ingredients') || r.context.filePath.includes('spices')
       );
-      const campaignResults = results.filter(r =>
+      const campaignResults = results.filter(r =>)
         r.context.filePath.includes('campaign') || r.context.filePath.includes('metrics')
       );
 
@@ -308,7 +308,7 @@ describe('Integration Workflows', () => {
 
       // Mock campaign execution
       mockFs.readFileSync.mockImplementation((path: any) => {
-        if (path.includes('test')) {
+        if (path.includes('test') {
           return 'const items: any[] = []; const data: Record<string, any> = {};';
         }
         return 'backup content';
@@ -327,7 +327,7 @@ describe('Integration Workflows', () => {
       // Mock scenario that triggers safety protocols
       let errorCount = 0;
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c "error TS"') {
           errorCount++;
           if (errorCount > 2) {
             return '15'; // Return increasing error count
@@ -336,7 +336,7 @@ describe('Integration Workflows', () => {
           error.status = 1;
           throw error;
         }
-        if (command.includes('grep -r -l')) {
+        if (command.includes('grep -r -l') {
           return 'src/problematic.ts\n';
         }
         return '';
@@ -357,14 +357,14 @@ describe('Integration Workflows', () => {
       const campaignResult = await campaign.execute(campaignConfig);
 
       expect(campaignResult.safetyEvents.length).toBeGreaterThan(0);
-      expect(campaignResult.safetyEvents.some(event =>
+      expect(campaignResult.safetyEvents.some(event =>))
         event.type === 'LOW_SAFETY_SCORE' || event.type === 'BATCH_FAILURE'
       )).toBe(true);
     });
 
     test('should integrate with progress tracking and metrics', async () => {
       mockFs.readFileSync.mockImplementation((path: any) => {
-        if (path.includes('metrics')) {
+        if (path.includes('metrics') {
           return 'const progressData: any = getMetrics(); const config: Record<string, any> = {};';
         }
         return 'const items: any[] = [];';
@@ -399,7 +399,7 @@ describe('Integration Workflows', () => {
 
       // Mock compilation failure
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('tsc')) {
+        if (command.includes('tsc') {
           const error = new Error('Compilation failed') as any;
           error.stdout = 'error TS2322: Type "unknown" is not assignable to type "string"';
           throw error;
@@ -452,7 +452,7 @@ describe('Integration Workflows', () => {
       // Mock overall build failure after individual replacements succeed
       let buildCheckCount = 0;
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('tsc') && command.includes('--noEmit')) {
+        if (command.includes('tsc') && command.includes('--noEmit') {
           buildCheckCount++;
           if (buildCheckCount > 1) { // Fail on overall build check
             const error = new Error('Overall build failed') as any;
@@ -482,7 +482,7 @@ describe('Integration Workflows', () => {
 
       const originalContent = 'const items: any[] = [];';
       mockFs.readFileSync.mockImplementation((path: any) => {
-        if (path.includes('.backup')) {
+        if (path.includes('.backup') {
           return originalContent;
         }
         return originalContent;
@@ -502,7 +502,7 @@ describe('Integration Workflows', () => {
       expect(result.backupPath).toBeDefined();
 
       // Verify backup was created and used for rollback
-      expect(mockFs.writeFileSync).toHaveBeenCalledWith(
+      expect(mockFs.writeFileSync).toHaveBeenCalledWith()
         expect.stringContaining('.backup'),
         originalContent,
         'utf8'
@@ -582,8 +582,8 @@ describe('Integration Workflows', () => {
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         const fileName = path.toString();
-        for (const [file, content] of Object.entries(realisticCodeSamples)) {
-          if (fileName.includes(file.split('/').pop()?.replace('.tsx', '').replace('.ts', ''))) {
+        for (const [file, content] of Object.entries(realisticCodeSamples) {
+          if (fileName.includes(file.split('/').pop()?.replace('.tsx', '').replace('.ts', '')) {
             return content;
           }
         }
@@ -591,10 +591,10 @@ describe('Integration Workflows', () => {
       });
 
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -r -l')) {
+        if (command.includes('grep -r -l') {
           return Object.keys(realisticCodeSamples).join('\n');
         }
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c "error TS"') {
           const error = new Error('No matches') as any;
           error.status = 1;
           throw error;
@@ -639,10 +639,10 @@ describe('Integration Workflows', () => {
 
       const fileCount = 50;
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -r -l')) {
+        if (command.includes('grep -r -l') {
           return Array(fileCount).fill(null).map((_, i) => `src/file${i}.ts`).join('\n');
         }
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c "error TS"') {
           const error = new Error('No matches') as any;
           error.status = 1;
           throw error;
@@ -707,11 +707,11 @@ describe('Integration Workflows', () => {
         }
       };
 
-      for (const [codebaseType, { files, expectedBehavior }] of Object.entries(codebases)) {
+      for (const [codebaseType, { files, expectedBehavior }] of Object.entries(codebases) {
         mockFs.readFileSync.mockImplementation((path: any) => {
           const fileName = path.toString();
-          for (const [file, content] of Object.entries(files)) {
-            if (fileName.includes(file.split('/').pop()?.replace(/\.(test|spec)\.ts$/, '').replace('.ts', ''))) {
+          for (const [file, content] of Object.entries(files) {
+            if (fileName.includes(file.split('/').pop()?.replace(/\.(test|spec)\.ts$/, '').replace('.ts', '')) {
               return content;
             }
           }
@@ -719,10 +719,10 @@ describe('Integration Workflows', () => {
         });
 
         mockExecSync.mockImplementation((command) => {
-          if (command.includes('grep -r -l')) {
+          if (command.includes('grep -r -l') {
             return Object.keys(files).join('\n');
           }
-          if (command.includes('grep -c "error TS"')) {
+          if (command.includes('grep -c "error TS"') {
             const error = new Error('No matches') as any;
             error.status = 1;
             throw error;
@@ -763,7 +763,7 @@ describe('Integration Workflows', () => {
     test('should recover from transient failures', async () => {
       let failureCount = 0;
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('tsc')) {
+        if (command.includes('tsc') {
           failureCount++;
           if (failureCount <= 2) {
             // Fail first two attempts, then succeed
@@ -772,7 +772,7 @@ describe('Integration Workflows', () => {
             throw error;
           }
         }
-        if (command.includes('grep -r -l')) {
+        if (command.includes('grep -r -l') {
           return 'src/test.ts\n';
         }
         return '';
@@ -801,14 +801,14 @@ describe('Integration Workflows', () => {
       let backupContent = '';
 
       mockFs.readFileSync.mockImplementation((path: any) => {
-        if (path.includes('.backup')) {
+        if (path.includes('.backup') {
           return backupContent;
         }
         return originalContent;
       });
 
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
-        if (path.includes('.backup')) {
+        if (path.includes('.backup') {
           backupContent = content;
         }
       });

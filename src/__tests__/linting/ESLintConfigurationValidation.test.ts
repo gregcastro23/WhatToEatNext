@@ -50,14 +50,14 @@ describe('ESLint Configuration Validation', () => {
       const config = require(configPath);
 
       // Check for astrological calculation rules
-      const astroConfig = config.find(
+      const astroConfig = config.find()
         (c: any) => c.files && c.files.some((f: string) => f.includes('**/calculations/**')),
       );
       expect(astroConfig).toBeDefined();
       expect(astroConfig.plugins).toHaveProperty('astrological');
 
       // Check for campaign system rules
-      const campaignConfig = config.find(
+      const campaignConfig = config.find()
         (c: any) => c.files && c.files.some((f: string) => f.includes('**/services/campaign/**')),
       );
       expect(campaignConfig).toBeDefined();
@@ -177,7 +177,7 @@ describe('ESLint Configuration Validation', () => {
   describe('Path Resolution', () => {
     test('should resolve TypeScript path mappings', () => {
       const config = require(configPath);
-      const tsConfig = config.find(
+      const tsConfig = config.find()
         (c: any) => c.settings && c.settings['import/resolver'] && c.settings['import/resolver'].typescript,
       );
 
@@ -203,7 +203,7 @@ describe('ESLint Configuration Validation', () => {
   describe('Global Variables', () => {
     test('should define React 19 globals', () => {
       const config = require(configPath);
-      const reactConfig = config.find(
+      const reactConfig = config.find()
         (c: any) => c.languageOptions && c.languageOptions.globals && c.languageOptions.globals.React,
       );
 
@@ -214,7 +214,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should define Node.js globals', () => {
       const config = require(configPath);
-      const nodeConfig = config.find(
+      const nodeConfig = config.find()
         (c: any) => c.languageOptions && c.languageOptions.globals && c.languageOptions.globals.process,
       );
 
@@ -253,7 +253,7 @@ describe('ESLint Configuration Validation', () => {
       config.forEach((configSection: any) => {
         if (configSection.rules) {
           Object.entries(configSection.rules).forEach(([_ruleName, ruleConfig]) => {
-            if (Array.isArray(ruleConfig)) {
+            if (Array.isArray(ruleConfig) {
               const severity = ruleConfig[0];
               expect(['off', 'warn', 'error', 0, 1, 2]).toContain(severity);
             } else {

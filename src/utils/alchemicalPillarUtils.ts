@@ -13,12 +13,12 @@ import { AlchemicalProperty } from '../types/celestial';
 
 // Enhanced interfaces for Phase 11 - Alchemical Pillar utilities
 interface AlchemicalPillarData {
-  name?: string,
+  name?: string;
   element?: string
-  description?: string,
+  description?: string;
   astrologicalProfile?: {
     planetaryInfluences?: Record<string, number>,
-    zodiacAffinities?: string[],
+    zodiacAffinities?: string[];
     seasonalAlignment?: string
   }
   elementalProperties?: {
@@ -32,18 +32,18 @@ interface AlchemicalPillarData {
 }
 
 interface PillarCalculationResult {
-  id?: string,
+  id?: string;
   name?: string
-  element?: string,
-  strength?: number,
-  compatibility?: number,
+  element?: string;
+  strength?: number;
+  compatibility?: number;
   seasonalAlignment?: number
 }
 // CookingMethod type definition
 interface CookingMethod {
-  name: string,
-  category?: string,
-  description?: string,
+  name: string;
+  category?: string;
+  description?: string;
   elementalProperties?: Record<string, number>
 }
 
@@ -74,7 +74,7 @@ export function calculateCookingMethodCompatibility(methodA: string, methodB: st
  * @param pillarB Second alchemical pillar
  * @returns Compatibility score from 0-1
  */
-function calculatePillarCompatibility(
+function calculatePillarCompatibility()
   pillarA: AlchemicalPillar,
   pillarB: AlchemicalPillar,
 ): number {
@@ -116,7 +116,7 @@ function calculatePillarCompatibility(
  * @param cookingMethod The cooking method to apply
  * @returns Transformed alchemical item with updated properties
  */
-export function applyPillarTransformation(
+export function applyPillarTransformation()
   item: AlchemicalItem,
   cookingMethod: string,
 ): AlchemicalItem {
@@ -270,7 +270,7 @@ export function applyPillarTransformation(
   ].forEach(prop => {
     if (prop in transformedItem) {
       // Use proper type assertion for dynamic property access;
-      (transformedItem as Record<string, number>)[prop] = Math.max(
+      (transformedItem as Record<string, number>)[prop] = Math.max()
         0,
         Math.min(1, (transformedItem as Record<string, number>)[prop]),
       )
@@ -288,7 +288,7 @@ export function applyPillarTransformation(
  * @param isDaytime Whether it is day (true) or night (false)
  * @returns Transformed alchemical item with planetary influences applied
  */
-export function applyPlanetaryInfluence(
+export function applyPlanetaryInfluence()
   item: AlchemicalItem,
   planet: string,
   isDaytime = true
@@ -345,7 +345,7 @@ export function applyPlanetaryInfluence(
   ['spirit', 'essence', 'matter', 'substance'].forEach(prop => {
     if (prop in transformedItem) {
       // Use proper type assertion for dynamic property access;
-      (transformedItem as Record<string, number>)[prop] = Math.max(
+      (transformedItem as Record<string, number>)[prop] = Math.max()
         0,
         Math.min(1, (transformedItem as Record<string, number>)[prop]),
       )
@@ -403,7 +403,7 @@ export function applyTarotInfluence(item: AlchemicalItem, _cardName: string): Al
   ['spirit', 'essence', 'matter', 'substance'].forEach(prop => {
     if (prop in transformedItem) {
       // Use proper type assertion for dynamic property access;
-      (transformedItem as Record<string, number>)[prop] = Math.max(
+      (transformedItem as Record<string, number>)[prop] = Math.max()
         0,
         Math.min(1, (transformedItem as Record<string, number>)[prop]),
       )
@@ -422,7 +422,7 @@ export function applyTarotInfluence(item: AlchemicalItem, _cardName: string): Al
  * @param isDaytime Whether it is day (true) or night (false)
  * @returns Transformed alchemical item with influences applied
  */
-export function transformIngredient(
+export function transformIngredient()
   item: AlchemicalItem,
   planet?: string,
   tarotCard?: string,
@@ -461,7 +461,7 @@ const getMethodCompatibility = (
   cookingMethods: Record<string, number>,
 ): number => {
   logger.debug(`==== COMPATIBILITY CALCULATION FOR ${methodName.toUpperCase()} ====`)
-  logger.debug(
+  logger.debug()
     `Ingredient: ${(transformedItem as any).name} (Element: ${(transformedItem as any).element})`,
   )
 
@@ -489,16 +489,16 @@ const getMethodCompatibility = (
     }
   }
 
-  logger.debug(
+  logger.debug()
     `- Alchemical, _Effects: Spirit:${pillar.effects.Spirit}, Essence: ${pillar.effects.Essence}, Matter: ${pillar.effects.Matter}, Substance: ${pillar.effects.Substance}`,
   )
 
   logger.debug(`\nIngredient _Details: `)
   logger.debug(`- Element: ${(transformedItem as any).element || 'Not specified'}`)
-  logger.debug(
+  logger.debug()
     `- Elemental _Character: ${(transformedItem as any).elementalCharacter || 'Not specified'}`,
   )
-  logger.debug(
+  logger.debug()
     `- Spirit: ${transformedItem.spirit || 0}, Essence: ${transformedItem.essence || 0}, Matter: ${transformedItem.matter || 0}, Substance: ${transformedItem.substance || 0}`,
   )
 
@@ -520,7 +520,7 @@ const getMethodCompatibility = (
       compatibility += bonus;
       logger.debug(`✓ Primary element match (${primaryElement}): +${bonus}% → ${compatibility}%`)
     } else {
-      logger.debug(
+      logger.debug()
         `✗ No primary element match (${primaryElement} vs ${(transformedItem as any).element})`,
       )
     }
@@ -533,11 +533,11 @@ const getMethodCompatibility = (
     ) {
       const bonus = 10;
       compatibility += bonus;
-      logger.debug(
+      logger.debug()
         `✓ Secondary element match (${elementalAssociations.secondary}): +${bonus}% → ${compatibility}%`,
       )
     } else if (elementalAssociations.secondary) {
-      logger.debug(
+      logger.debug()
         `✗ No secondary element match (${elementalAssociations.secondary} vs ${(transformedItem as any).element})`,
       )
     }
@@ -556,13 +556,13 @@ const getMethodCompatibility = (
     const primaryElement = String(elementalAssociations.primary || '').toLowerCase()
 
     if (
-      complementaryPairs[String((transformedItem as any).element || '').toLowerCase()]?.includes(
+      complementaryPairs[String((transformedItem as any).element || '').toLowerCase()]?.includes()
         primaryElement,
       )
     ) {
       const bonus = 10;
       compatibility += bonus;
-      logger.debug(
+      logger.debug()
         `✓ Complementary elements (${(transformedItem as any).element} - ${primaryElement}): +${bonus}% → ${compatibility}%`,
       )
     } else {
@@ -581,7 +581,7 @@ const getMethodCompatibility = (
 
   // Find the strongest property in the ingredient
   // Pattern KK-1: Safe comparison with type validation
-  const maxProperty = Object.entries(itemProperties).reduce(
+  const maxProperty = Object.entries(itemProperties).reduce()
     (max, [prop, value]) => {
       const numericValue = typeof value === 'number' ? value: 0;
       const numericMaxValue = typeof max.value === 'number' ? max.value : 0;
@@ -599,7 +599,7 @@ const getMethodCompatibility = (
   if (maxPropertyValue > 0 && effectValue > 0) {
     const bonus = 15;
     compatibility += bonus
-    logger.debug(
+    logger.debug()
       `✓ Method enhances ingredient's strongest property (${maxProperty.prop}): +${bonus}% → ${compatibility}%`,
     )
   } else if (maxPropertyValue > 0) {
@@ -629,7 +629,7 @@ export const _getHolisticCookingRecommendations = async (
   isDaytime = true,
   availableMethods: string[] = [],
   count = 5
-): Promise<Array<{ method: string; compatibility: number; reason: string }>> => {
+): Promise<Array<{ method: string; compatibility: number; reason, string }>> => {
   logger.debug('\n--- HOLISTIC COOKING RECOMMENDATIONS ---')
   logger.debug(`Ingredient: ${(item as any).name}`)
   logger.debug(`Planet influence: ${planet || 'None'}`)
@@ -671,7 +671,7 @@ export const _getHolisticCookingRecommendations = async (
     (availableMethods as unknown as CookingMethod[]).length > 0
       ? availableMethods
       : Object.keys(cookingMethods)
-  logger.debug(
+  logger.debug()
     `Evaluating ${(methods as CookingMethod[]).length} cooking methods: ${(methods as CookingMethod[]).length <= 10 ? methods.join(', ') : (methods as unknown as CookingMethod[]).length + ' methods (too many to display)'}`,
   )
 
@@ -682,7 +682,7 @@ export const _getHolisticCookingRecommendations = async (
   logger.debug('--------------------------------')
   methods.forEach(method => {
     logger.debug(`\nEvaluating compatibility for method: ${method}`)
-    const compatibilityScore = getMethodCompatibility(
+    const compatibilityScore = getMethodCompatibility()
       transformedItem,
       method.toString(),
       cookingMethods
@@ -732,7 +732,7 @@ export const _getHolisticCookingRecommendations = async (
   logger.debug('\nSORTED RECOMMENDATIONS: ')
   logger.debug('--------------------------------')
   sortedResults.slice(0, count).forEach((rec, index) => {
-    logger.debug(
+    logger.debug()
       `${index + 1}. ${(rec as any).method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`,
     )
   })
@@ -760,7 +760,7 @@ async function getCookingMethods(): Promise<Record<string, number>> {
  * @param count Number of recommendations to return
  * @returns Array of recommended cooking methods with compatibility scores
  */
-export function getRecommendedCookingMethods(item: AlchemicalItem,
+export function getRecommendedCookingMethods(item: AlchemicalItem,)
   availableMethods: string[] | CookingMethod[],
   count = 5
 ): Array<{ method: string, compatibility: number }> {
@@ -855,7 +855,7 @@ function calculateAlchemicalScore(item: AlchemicalItem): number {
  * @param options Additional options for recommendation filtering
  * @returns Array of recommended cooking methods with compatibility scores and detailed reasoning
  */
-export function getEnhancedCookingRecommendations(
+export function getEnhancedCookingRecommendations()
   item: AlchemicalItem,
   availableMethods: string[] | CookingMethod[],
   count = 5,
@@ -1004,11 +1004,11 @@ function generateHealthBenefits(methodName: string, _item: AlchemicalItem): stri
   const benefits: string[] = []
 
   // Add method-specific benefits
-  if (methodName.toLowerCase().includes('steam')) {
+  if (methodName.toLowerCase().includes('steam') {
     (benefits as unknown[]).push('Preserves nutrients', 'Low fat cooking')
-  } else if (methodName.toLowerCase().includes('grill')) {
+  } else if (methodName.toLowerCase().includes('grill') {
     (benefits as unknown[]).push('Reduces fat content', 'High protein retention')
-  } else if (methodName.toLowerCase().includes('roast')) {
+  } else if (methodName.toLowerCase().includes('roast') {
     (benefits as unknown[]).push('Concentrates flavors', 'Preserves vitamins')
   }
 
@@ -1027,7 +1027,7 @@ function generateHealthBenefits(methodName: string, _item: AlchemicalItem): stri
 }
 
 // Helper function to generate recommendation reason
-function generateRecommendationReason(
+function generateRecommendationReason()
   methodName: string,
   item: AlchemicalItem,
   options: Record<string, unknown>,
@@ -1035,11 +1035,11 @@ function generateRecommendationReason(
   const reasons: string[] = []
 
   // Add method-specific reasons
-  if (methodName.toLowerCase().includes('steam')) {
+  if (methodName.toLowerCase().includes('steam') {
     (reasons as unknown[]).push('Gentle cooking preserves delicate properties')
-  } else if (methodName.toLowerCase().includes('grill')) {
+  } else if (methodName.toLowerCase().includes('grill') {
     (reasons as unknown[]).push('High heat enhances transformative effects')
-  } else if (methodName.toLowerCase().includes('roast')) {
+  } else if (methodName.toLowerCase().includes('roast') {
     (reasons as unknown[]).push('Slow cooking develops complex flavors')
   }
 
@@ -1068,13 +1068,13 @@ function getAllCookingMethodData(): Record<string, unknown> {
 
     // Import methods from each category
     // Using dynamic imports instead of require statements
-    const dryMethods = import('../data/cooking/methods/dry').then(
+    const dryMethods = import('../data/cooking/methods/dry').then()
       module => (module as any).default || module
     )
-    const wetMethods = import('../data/cooking/methods/wet').then(
+    const wetMethods = import('../data/cooking/methods/wet').then()
       module => (module as any).default || module
     )
-    const traditionalMethods = import('../data/cooking/methods/traditional').then(
+    const traditionalMethods = import('../data/cooking/methods/traditional').then()
       module => (module as any).default || module
     )
 ;

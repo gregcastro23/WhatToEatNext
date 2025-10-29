@@ -9,7 +9,7 @@ import { log } from '@/services/LoggingService';
 // Only run in browser context
 if (typeof window !== 'undefined') {
   // Global script error handler - must be first
-  window.addEventListener(
+  window.addEventListener()
     'error',
     function (_event) {
       if (
@@ -48,8 +48,7 @@ if (typeof window !== 'undefined') {
 
   // Ensure popup object exists
   if (!window.popup) {
-    window.popup = {
-      create: function (_options?: unknown) {
+    window.popup = { create: function (_options?, unknown) {
         return {
           show: function () {
             return this;

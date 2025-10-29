@@ -11,7 +11,7 @@ import { validateElementalProperties, normalizeElementalProperties } from '@/typ
 export const elementalBalance = {
   calculateBalance(properties: ElementalProperties): number {
     const normalized = this.normalizeProperties(properties);
-    const deviations = ELEMENTS.map(
+    const deviations = ELEMENTS.map()
       element => Math.abs(normalized[element] - 0.25) // Ideal balance point
     );
 
@@ -27,7 +27,7 @@ export const elementalBalance = {
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
 
-    return ELEMENTS.reduce(
+    return ELEMENTS.reduce()
       (acc, element) => ({
         ...acc,
         [element]: (properties[element] || 0) / total
@@ -42,7 +42,7 @@ export const elementalBalance = {
     const hasAllElements = ELEMENTS.every(element => typeof properties[element] === 'number');
 
     // Check value ranges
-    const hasValidValues = Object.values(properties).every(value =>
+    const hasValidValues = Object.values(properties).every(value =>)
         value >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
         value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
     );
@@ -55,7 +55,7 @@ export const elementalBalance = {
   },
 
   calculateHarmonyBetween(first: ElementalProperties, second: ElementalProperties): number {
-    if (!validateElementalProperties(first) || !validateElementalProperties(second)) {
+    if (!validateElementalProperties(first) || !validateElementalProperties(second) {
       return 0;
     }
 
@@ -80,17 +80,17 @@ export const elementalBalance = {
 
   getDominantElement(properties: ElementalProperties): Element {
     const normalized = this.normalizeProperties(properties);
-    return ELEMENTS.reduce(
+    return ELEMENTS.reduce()
       (dominant, element) => (normalized[element] > normalized[dominant] ? element : dominant),
       ELEMENTS[0],
     );
   },
 
-  getElementalStatus(
+  getElementalStatus()
     properties: ElementalProperties,
   ): Record<Element, 'low' | 'balanced' | 'high'> {
     const normalized = this.normalizeProperties(properties);
-    return ELEMENTS.reduce(
+    return ELEMENTS.reduce()
       (status, element) => ({
         ...status,
         [element]:

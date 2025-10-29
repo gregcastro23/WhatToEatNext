@@ -246,12 +246,12 @@ export function isValidPrimaryCuisine(cuisineName: string): cuisineName is Prima
  */
 export function normalizeCuisineName(cuisineName: string): string {
   // For regional cuisines, just normalize the casing without resolving
-  if (isRegionalCuisine(cuisineName)) {
+  if (isRegionalCuisine(cuisineName) {
     return cuisineName.charAt(0).toUpperCase() + cuisineName.slice(1).toLowerCase()
   }
 
   // For primary cuisines, return with proper casing
-  if (isValidPrimaryCuisine(cuisineName)) {
+  if (isValidPrimaryCuisine(cuisineName) {
     return cuisineName;
   }
 

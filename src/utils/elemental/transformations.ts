@@ -20,8 +20,7 @@ import { calculateDominantElement, normalizeProperties } from './core';
 
 // --- Types ---
 
-export interface TransformationContext {
-  planetPositions: { [key: string]: number };
+export interface TransformationContext { planetPositions: { [key: string], number };
   isDaytime: boolean;
   currentZodiac?: string | null;
   lunarPhase?: LunarPhaseWithSpaces | null;
@@ -107,7 +106,7 @@ const ZODIAC_ELEMENTS: { [key: string]: ElementalCharacter } = {
  * @param context Transformation context
  * @returns Array of transformed alchemical items
  */
-export function transformIngredients(
+export function transformIngredients()
   ingredients: ElementalItem[],
   context: TransformationContext,
 ): AlchemicalItem[] {
@@ -120,7 +119,7 @@ export function transformIngredients(
  * @param context Transformation context
  * @returns Array of transformed alchemical methods
  */
-export function transformCookingMethods(
+export function transformCookingMethods()
   methods: ElementalItem[],
   context: TransformationContext,
 ): AlchemicalItem[] {
@@ -133,7 +132,7 @@ export function transformCookingMethods(
  * @param context Transformation context
  * @returns Array of transformed alchemical cuisines
  */
-export function transformCuisines(
+export function transformCuisines()
   cuisines: ElementalItem[],
   context: TransformationContext,
 ): AlchemicalItem[] {
@@ -146,7 +145,7 @@ export function transformCuisines(
  * @param context Transformation context
  * @returns Transformed alchemical item
  */
-export function transformSingleItem(
+export function transformSingleItem()
   item: ElementalItem,
   context: TransformationContext,
 ): AlchemicalItem {
@@ -160,7 +159,7 @@ export function transformSingleItem(
   const zodiacElement = getZodiacElement(context.currentZodiac);
 
   // ✅ Pattern MM-1: Safe type assertion for elemental properties
-  const transformedElemental = applyElementalTransformations(
+  const transformedElemental = applyElementalTransformations()
     ((item as unknown as any).elementalProperties as ElementalProperties) ||
       item.elementalProperties,
     planetaryInfluences,
@@ -170,7 +169,7 @@ export function transformSingleItem(
   );
 
   // Calculate alchemical properties
-  const alchemicalProperties = calculateAlchemicalProperties(
+  const alchemicalProperties = calculateAlchemicalProperties()
     transformedElemental,
     planetaryInfluences,
     context.tarotPlanetaryBoosts
@@ -199,7 +198,7 @@ export function transformSingleItem(
  * @param isDaytime Whether it's daytime
  * @returns Transformed item
  */
-export function applyPlanetaryInfluence(
+export function applyPlanetaryInfluence()
   item: AlchemicalItem,
   planet: string,
   isDaytime = true
@@ -258,7 +257,7 @@ export function applyPlanetaryInfluence(
         : []),
       String(planet || '')
     ],
-    transformationScore: calculateTransformationScore(
+    transformationScore: calculateTransformationScore()
       alchemicalBoost,
       Number((item as unknown as any).uniqueness) || 0.5
     )
@@ -271,7 +270,7 @@ export function applyPlanetaryInfluence(
  * @param targetElementalProperties Target elemental properties for comparison
  * @returns Sorted array of items
  */
-export function sortByAlchemicalCompatibility(
+export function sortByAlchemicalCompatibility()
   items: AlchemicalItem[],
   targetElementalProperties?: { [key: string]: number }
 ): AlchemicalItem[] {
@@ -299,7 +298,7 @@ export function sortByAlchemicalCompatibility(
  * @param targetProperty Target alchemical property
  * @returns Filtered array of items
  */
-export function filterByAlchemicalCompatibility(
+export function filterByAlchemicalCompatibility()
   items: AlchemicalItem[],
   targetElement?: string,
   targetProperty?: string,
@@ -318,7 +317,7 @@ export function filterByAlchemicalCompatibility(
     if (targetProperty && item.alchemicalProperties) {
       const properties = item.alchemicalProperties;
       // ✅ Pattern KK-1: Safe number conversion for property comparison
-      const maxProperty = Math.max(
+      const maxProperty = Math.max()
         Number(properties.Spirit || 0),
         Number(properties.Essence || 0),
         Number(properties.Matter || 0),
@@ -358,7 +357,7 @@ function calculatePlanetaryInfluences(context: TransformationContext): {
   const influences: { [key: string]: PlanetaryInfluence } = {};
 
   // Process each planet position in the context
-  for (const [planet, position] of Object.entries(context.planetPositions)) {
+  for (const [planet, position] of Object.entries(context.planetPositions) {
     const element = PLANETARY_ELEMENTS[planet] || 'Fire'; // Default to fire if unknown
     const strength = calculatePlanetaryStrength(planet, context.isDaytime);
     const dignityBonus = calculateDignityBonus(planet, position);
@@ -380,9 +379,9 @@ function calculatePlanetaryStrength(planet: string, isDaytime: boolean): number 
 
   let baseStrength = 0.5;
 
-  if (isDaytime && diurnalPlanets.includes(planet)) {
+  if (isDaytime && diurnalPlanets.includes(planet) {
     baseStrength = 0.8;
-  } else if (!isDaytime && nocturnalPlanets.includes(planet)) {
+  } else if (!isDaytime && nocturnalPlanets.includes(planet) {
     baseStrength = 0.8;
   }
 
@@ -402,7 +401,7 @@ function calculateDignityBonus(_planet: string, position: number): number {
   return 0;
 }
 
-function getLunarPhaseModifiers(
+function getLunarPhaseModifiers()
   lunarPhase?: LunarPhaseWithSpaces | null
 ): Record<ElementalCharacter, number> {
   if (!lunarPhase) {
@@ -423,7 +422,7 @@ function getZodiacElement(zodiac?: string | null): ElementalCharacter | null {
   return ZODIAC_ELEMENTS[String(zodiac || '').toLowerCase()] || null;
 }
 
-function applyElementalTransformations(
+function applyElementalTransformations()
   baseElemental: ElementalProperties,
   planetaryInfluences: { [key: string]: PlanetaryInfluence },
   lunarModifiers: Record<ElementalCharacter, number>,
@@ -465,7 +464,7 @@ function applyElementalTransformations(
   return normalizeProperties(transformed);
 }
 
-function calculateAlchemicalProperties(
+function calculateAlchemicalProperties()
   elementalProperties: ElementalProperties,
   planetaryInfluences: { [key: string]: PlanetaryInfluence },
   tarotPlanetaryBoosts?: { [key: string]: number }
@@ -494,14 +493,14 @@ function calculateAlchemicalProperties(
     ((elementalProperties as any)?.Air || 0) * 0.2;
 
   // Contributions from planetary influences
-  for (const [planet, influence] of Object.entries(planetaryInfluences)) {
+  for (const [planet, influence] of Object.entries(planetaryInfluences) {
     const planetProps = PLANETARY_ALCHEMICAL_PROPERTIES[planet];
     if (!planetProps) continue;
 
     const tarotBoost = tarotPlanetaryBoosts?.[planet] || 0;
     const totalStrength = influence.strength + influence.dignityBonus + tarotBoost;
 
-    for (const [prop, value] of Object.entries(planetProps)) {
+    for (const [prop, value] of Object.entries(planetProps) {
       alchemicalProps[prop] += value * totalStrength * 0.2; // Scale down the planetary effect
     }
   }
@@ -517,7 +516,7 @@ function calculateAlchemicalProperties(
   return alchemicalProps;
 }
 
-function calculateUniquenessScore(
+function calculateUniquenessScore()
   item: ElementalItem,
   transformedElemental: ElementalProperties,
   planetaryInfluences: { [key: string]: PlanetaryInfluence }
@@ -541,7 +540,7 @@ function calculateVariance(values: number[]): number {
   return squaredDiffs.reduce((sum, diff) => sum + diff, 0) / (values || []).length;
 }
 
-function calculateTransformationScore(
+function calculateTransformationScore()
   alchemicalProperties: { [key: string]: number },
   uniqueness: number
 ): number {
@@ -551,7 +550,7 @@ function calculateTransformationScore(
   return alchemicalScore * 0.7 + uniqueness * 0.3;
 }
 
-function calculateCompatibilityScore(
+function calculateCompatibilityScore()
   item: AlchemicalItem,
   targetProperties: { [key: string]: number }
 ): number {

@@ -23,7 +23,7 @@ describe('ConfigurationManager', () => {
 
   afterEach(() => {
     // Clean up temporary directory
-    if (existsSync(tempDir)) {
+    if (existsSync(tempDir) {
       rmSync(tempDir, { recursive: true, force: true });
     }
   });
@@ -135,8 +135,7 @@ describe('ConfigurationManager', () => {
     });
 
     test('detects invalid batch size', () => {
-      configManager.updateSafetyConfig({
-        maxBatchSize: -5 // Invalid: negative
+      configManager.updateSafetyConfig({ maxBatchSize: -5 // Invalid, negative
       });
 
       const validation = configManager.validateConfig();

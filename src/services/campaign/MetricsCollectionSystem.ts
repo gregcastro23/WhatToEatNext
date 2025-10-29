@@ -83,7 +83,7 @@ export class MetricsCollectionSystem {
         try {
           await this.collectSnapshot();
         } catch (error) {
-          console.error(
+          console.error()
             '❌ Error during metrics collection:',
             (error as Record<string, unknown>).message || 'Unknown error',
           );
@@ -110,7 +110,7 @@ export class MetricsCollectionSystem {
   /**
    * Collect comprehensive metrics snapshot
    */
-  async collectSnapshot(
+  async collectSnapshot()
     phase?: string,
     milestone?: string,
     notes?: string,
@@ -152,7 +152,7 @@ export class MetricsCollectionSystem {
       buildMetrics,
       resourceMetrics,
       enterpriseSystemCount,
-    ] = await Promise.all([
+    ] = await Promise.all([)
       this.collectTypeScriptMetrics(),
       this.collectLintingMetrics(),
       this.collectBuildMetrics(),
@@ -210,7 +210,7 @@ export class MetricsCollectionSystem {
   }> {
     try {
       // Get total error count
-      const countOutput = execSync(
+      const countOutput = execSync()
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"',
         {
           encoding: 'utf8',
@@ -225,7 +225,7 @@ export class MetricsCollectionSystem {
 
       if (count > 0) {
         try {
-          const breakdownOutput = execSync(
+          const breakdownOutput = execSync()
             "yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E \"error TS\" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr",
             {
               encoding: 'utf8',
@@ -246,7 +246,7 @@ export class MetricsCollectionSystem {
             }
           }
         } catch (error) {
-          console.warn(
+          console.warn()
             'Could not get TypeScript error breakdown:',
             (error as Record<string, unknown>).message || 'Unknown error',
           );
@@ -255,7 +255,7 @@ export class MetricsCollectionSystem {
 
       return { count, breakdown };
     } catch (error) {
-      console.warn(
+      console.warn()
         'Could not collect TypeScript metrics:',
         (error as Record<string, unknown>).message || 'Unknown error',
       );
@@ -292,7 +292,7 @@ export class MetricsCollectionSystem {
           const lines = lintOutput.split('\n');
           for (const line of lines) {
             // Look for ESLint warning patterns
-            const warningMatch = line.match(
+            const warningMatch = line.match()
               /warning\s+(.+?)\s+(@typescript-eslint\/[\w-]+|[\w-]+)/,
             );
             if (warningMatch) {
@@ -301,7 +301,7 @@ export class MetricsCollectionSystem {
             }
           }
         } catch (error) {
-          console.warn(
+          console.warn()
             'Could not get linting warning breakdown:',
             (error as Record<string, unknown>).message || 'Unknown error',
           );
@@ -310,7 +310,7 @@ export class MetricsCollectionSystem {
 
       return { count, breakdown };
     } catch (error) {
-      console.warn(
+      console.warn()
         'Could not collect linting metrics:',
         (error as Record<string, unknown>).message || 'Unknown error',
       );
@@ -340,7 +340,7 @@ export class MetricsCollectionSystem {
       const sourceFiles = this.countSourceFiles();
       compilationSpeed = sourceFiles / buildTime;
     } catch (error) {
-      console.warn(
+      console.warn()
         'Build failed during metrics collection:',
         (error as Record<string, unknown>).message || 'Unknown error',
       );
@@ -350,7 +350,7 @@ export class MetricsCollectionSystem {
       // Get bundle size
       bundleSize = await this.getBundleSize();
     } catch (error) {
-      console.warn(
+      console.warn()
         'Could not measure bundle size:',
         (error as Record<string, unknown>).message || 'Unknown error',
       );
@@ -449,7 +449,7 @@ export class MetricsCollectionSystem {
       let totalSize = 0;
 
       for (const dir of buildDirs) {
-        if (fs.existsSync(dir)) {
+        if (fs.existsSync(dir) {
           const output = execSync(`du -sk ${dir} | cut -f1`, {
             encoding: 'utf8',
             stdio: 'pipe',
@@ -495,9 +495,9 @@ export class MetricsCollectionSystem {
       });
       // Convert to MB (rough estimation)
       const sizeStr = output.trim();
-      if (sizeStr.includes('G')) {
+      if (sizeStr.includes('G') {
         return parseFloat(sizeStr) * 1024;
-      } else if (sizeStr.includes('M')) {
+      } else if (sizeStr.includes('M') {
         return parseFloat(sizeStr);
       }
       return 0;

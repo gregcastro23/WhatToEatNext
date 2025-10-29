@@ -13,13 +13,13 @@ const logger = createLogger('AlchemizeAPI')
 
 // Interface for the API request
 interface AlchemizeRequest {
-  year?: number,
+  year?: number;
   month?: number // 1-indexed (January = 1, February = 2, etc.)
-  date?: number,
-  hour?: number,
+  date?: number;
+  hour?: number;
   minute?: number
-  latitude?: number,
-  longitude?: number,
+  latitude?: number;
+  longitude?: number;
   zodiacSystem?: 'tropical' | 'sidereal'
   planetaryPositions?: Record<string, PlanetPosition>, // Optional: use provided positions instead of fetching
 }
@@ -71,13 +71,13 @@ export async function POST(request: Request) {
 
       if (useCustomDate) {
         const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute)
-        planetaryPositions = await getPlanetaryPositionsForDateTime(
+        planetaryPositions = await getPlanetaryPositionsForDateTime()
           customDate,
           { latitude, longitude },
           zodiacSystem
         )
       } else {
-        planetaryPositions = await getCurrentPlanetaryPositions(
+        planetaryPositions = await getCurrentPlanetaryPositions()
           { latitude, longitude },
           zodiacSystem
         )
@@ -108,7 +108,7 @@ export async function POST(request: Request) {
       import('@/services/RealAlchemizeService').PlanetaryPosition
     > = {}
 
-    for (const [planet, position] of Object.entries(planetaryPositions)) {
+    for (const [planet, position] of Object.entries(planetaryPositions) {
       convertedPositions[planet] = {
         sign: position.sign,
         degree: position.degree,
@@ -147,7 +147,7 @@ export async function POST(request: Request) {
   } catch (error) {
     logger.error('Error in alchemize API: ', error)
 
-    return NextResponse.json(
+    return NextResponse.json()
       {
         success: false,
         error: 'Failed to calculate alchemical properties',
@@ -175,7 +175,7 @@ export async function GET(request: Request) {
     zodiacSystem
   }
 
-  return POST(
+  return POST()
     new Request(request.url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

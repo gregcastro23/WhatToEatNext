@@ -54,7 +54,7 @@ export class ConservativeReplacementPilot {
     };
 
     this.classifier = new AnyTypeClassifier();
-    this.replacer = new SafeTypeReplacer(
+    this.replacer = new SafeTypeReplacer()
       './.conservative-pilot-backups',
       this.config.safetyThreshold
     );
@@ -87,7 +87,7 @@ export class ConservativeReplacementPilot {
       const integrationValidation = await this.validateCampaignIntegration();
 
       // Phase 4: Generate comprehensive results
-      const pilotResult = this.createPilotResult(
+      const pilotResult = this.createPilotResult()
         batchProcessingResult.success && integrationValidation.success,
         batchProcessingResult.success ? 'Pilot completed successfully' : batchProcessingResult.error
       );
@@ -122,7 +122,7 @@ export class ConservativeReplacementPilot {
       let filesAnalyzed = 0;
       const maxFilesToAnalyze = 100; // Limit for pilot
 
-      for (const filePath of tsFiles.slice(0, maxFilesToAnalyze)) {
+      for (const filePath of tsFiles.slice(0, maxFilesToAnalyze) {
         try {
           const fileContent = fs.readFileSync(filePath, 'utf8');
           const anyTypeOccurrences = this.findAnyTypeOccurrences(fileContent, filePath);
@@ -131,7 +131,7 @@ export class ConservativeReplacementPilot {
             const classification = await this.classifier.classify(occurrence.context);
 
             // Focus on high-confidence, low-risk categories
-            if (this.isHighConfidenceCase(classification)) {
+            if (this.isHighConfidenceCase(classification) {
               const replacement = this.createTypeReplacement(occurrence, classification);
               if (replacement) {
                 highConfidenceCases.push(replacement);
@@ -397,7 +397,7 @@ export class ConservativeReplacementPilot {
   /**
    * Validate integration with existing campaign infrastructure
    */
-  private async validateCampaignIntegration(): Promise<{ success: boolean; error?: string }> {
+  private async validateCampaignIntegration(): Promise<{ success: boolean; error?, string }> {
     console.log('🔗 Validating campaign infrastructure integration...');
 
     try {
@@ -444,7 +444,7 @@ export class ConservativeReplacementPilot {
     console.log('📄 Generating pilot report...');
 
     const reportPath = '.kiro/campaign-reports/conservative-pilot';
-    if (!fs.existsSync(reportPath)) {
+    if (!fs.existsSync(reportPath) {
       fs.mkdirSync(reportPath, { recursive: true });
     }
 
@@ -492,16 +492,16 @@ export class ConservativeReplacementPilot {
     const files: string[] = [];
     const srcDir = 'src';
 
-    if (fs.existsSync(srcDir)) {
+    if (fs.existsSync(srcDir) {
       const walkDir = (dir: string) => {
         const items = fs.readdirSync(dir);
         for (const item of items) {
           const fullPath = path.join(dir, item);
           const stat = fs.statSync(fullPath);
 
-          if (stat.isDirectory() && !item.includes('__tests__') && !item.includes('node_modules')) {
+          if (stat.isDirectory() && !item.includes('__tests__') && !item.includes('node_modules') {
             walkDir(fullPath);
-          } else if (stat.isFile() && (item.endsWith('.ts') || item.endsWith('.tsx')) && !item.includes('.test.')) {
+          } else if (stat.isFile() && (item.endsWith('.ts') || item.endsWith('.tsx')) && !item.includes('.test.') {
             files.push(fullPath);
           }
         }
@@ -513,15 +513,15 @@ export class ConservativeReplacementPilot {
     return files.slice(0, 100); // Limit for pilot
   }
 
-  private findAnyTypeOccurrences(content: string, filePath: string): Array<{ context: any; lineNumber: number }> {
+  private findAnyTypeOccurrences(content: string, filePath: string): Array<{ context: any; lineNumber, number }> {
     const lines = content.split('\n');
-    const occurrences: Array<{ context: any; lineNumber: number }> = [];
+    const occurrences: Array<{ context: any; lineNumber, number }> = [];
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
 
       // Look for any[] patterns
-      if (line.includes('any[]')) {
+      if (line.includes('any[]') {
         occurrences.push({
           context: {
             filePath,
@@ -537,7 +537,7 @@ export class ConservativeReplacementPilot {
       }
 
       // Look for Record<string, any> patterns
-      if (line.includes('Record<string, any>')) {
+      if (line.includes('Record<string, any>') {
         occurrences.push({
           context: {
             filePath,
@@ -571,16 +571,16 @@ export class ConservativeReplacementPilot {
   }
 
   private inferDomain(filePath: string): string {
-    if (filePath.includes('astro') || filePath.includes('planet') || filePath.includes('calculation')) {
+    if (filePath.includes('astro') || filePath.includes('planet') || filePath.includes('calculation') {
       return 'astrological';
     }
-    if (filePath.includes('recipe') || filePath.includes('ingredient') || filePath.includes('food')) {
+    if (filePath.includes('recipe') || filePath.includes('ingredient') || filePath.includes('food') {
       return 'recipe';
     }
-    if (filePath.includes('campaign') || filePath.includes('intelligence')) {
+    if (filePath.includes('campaign') || filePath.includes('intelligence') {
       return 'campaign';
     }
-    if (filePath.includes('service') || filePath.includes('api')) {
+    if (filePath.includes('service') || filePath.includes('api') {
       return 'service';
     }
     return 'utility';
@@ -588,7 +588,7 @@ export class ConservativeReplacementPilot {
 
   private isHighConfidenceCase(classification: AnyTypeClassification): boolean {
     // Focus on specific categories for conservative pilot
-    if (!this.config.focusCategories.includes(classification.category)) {
+    if (!this.config.focusCategories.includes(classification.category) {
       return false;
     }
 
@@ -647,7 +647,7 @@ export class ConservativeReplacementPilot {
     const grouped = new Map<string, TypeReplacement[]>();
 
     for (const case_ of cases) {
-      if (!grouped.has(case_.filePath)) {
+      if (!grouped.has(case_.filePath) {
         grouped.set(case_.filePath, []);
       }
       grouped.get(case_.filePath)!.push(case_);
@@ -656,7 +656,7 @@ export class ConservativeReplacementPilot {
     return grouped;
   }
 
-  private selectBatchFiles(
+  private selectBatchFiles()
     fileGroups: Array<[string, TypeReplacement[]]>,
     processedCount: number
   ): Array<[string, TypeReplacement[]]> {
@@ -689,7 +689,7 @@ export class ConservativeReplacementPilot {
     return false; // For now, assume no cases are pre-processed
   }
 
-  private async validateBuildStability(): Promise<{ buildSuccessful: boolean; errors?: string[] }> {
+  private async validateBuildStability(): Promise<{ buildSuccessful: boolean; errors?, string[] }> {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
@@ -829,7 +829,7 @@ export class ConservativeReplacementPilot {
 
 ## Batch Results
 
-${report.batchResults.map((batch: any, index: number) => `
+${report.batchResults.map((batch: any, index: number) => }`
 ### Batch ${batch.batchNumber}
 - **Cases**: ${batch.casesProcessed}
 - **Successful**: ${batch.successfulReplacements}

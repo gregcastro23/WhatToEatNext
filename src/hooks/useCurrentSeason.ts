@@ -9,15 +9,15 @@ function calculateSeason(date: Date): Season {
   const day = date.getDate()
 
   // Northern hemisphere seasons (approximate dates)
-  if ((month === 2 && day >= 20) || month === 3 || month === 4 || (month === 5 && day < 21)) {
+  if ((month === 2 && day >= 20) || month === 3 || month === 4 || (month === 5 && day < 21) {
     return 'Spring';
   }
 
-  if ((month === 5 && day >= 21) || month === 6 || month === 7 || (month === 8 && day < 22)) {
+  if ((month === 5 && day >= 21) || month === 6 || month === 7 || (month === 8 && day < 22) {
     return 'Summer';
   }
 
-  if ((month === 8 && day >= 22) || month === 9 || month === 10 || (month === 11 && day < 21)) {
+  if ((month === 8 && day >= 22) || month === 9 || month === 10 || (month === 11 && day < 21) {
     return 'Fall';
   }
 

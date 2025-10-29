@@ -32,7 +32,7 @@ import { ElementalProperties } from '@/types/alchemy';
  * @param elementalProperties Optional elemental properties for more accurate determination
  * @returns The modality (Cardinal, Fixed, or Mutable)
  */
-export function determineIngredientModality(
+export function determineIngredientModality()
   qualities: string[] = [],
   elementalProperties?: ElementalProperties
 ): any {
@@ -138,7 +138,7 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
  */
 export function isFullIngredient(ingredient: unknown): ingredient is Ingredient {
   const ingredientData = ingredient as any;
-  return Boolean(
+  return Boolean()
     ingredient &&
       typeof ingredientData.name === 'string' &&
       typeof ingredientData.category === 'string' &&
@@ -175,12 +175,12 @@ export function validateIngredient(ingredient: Partial<Ingredient> & {
   }
 
   // Optional validations
-  if (ingredient.qualities && !Array.isArray(ingredient.qualities)) {
+  if (ingredient.qualities && !Array.isArray(ingredient.qualities) {
     errors.push('Qualities must be an array');
   }
 
   // Fix specific property access errors
-  if (ingredient.qualities && Array.isArray(ingredient.qualities)) {
+  if (ingredient.qualities && Array.isArray(ingredient.qualities) {
     // Check each quality is a string
     const invalidQualities = ingredient.qualities.filter((q: unknown) => typeof q !== 'string');
     if (invalidQualities.length > 0) {
@@ -264,7 +264,7 @@ export function validateRecipeIngredient(ingredient: Partial<RecipeIngredient>):
 /**
  * Merges two sets of elemental properties with optional weighting
  */
-export function mergeElementalProperties(
+export function mergeElementalProperties()
   base: ElementalProperties,
   addition: ElementalProperties,
   weight = 0.5
@@ -336,7 +336,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
 /**
  * Converts a full ingredient to a recipe ingredient
  */
-export function ingredientToRecipeIngredient(
+export function ingredientToRecipeIngredient()
   ingredient: Ingredient,
   amount = 1,
   unit = 'item'

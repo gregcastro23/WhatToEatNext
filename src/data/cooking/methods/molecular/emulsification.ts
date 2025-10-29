@@ -18,7 +18,7 @@ export const emulsification: CookingMethodData = {
     min: 5, // minutes,
     max: 30, // minutes
   },
-  suitable_for: ['Oils', 'Vinegars', 'Fats', 'Juices', 'Dairy', 'Purees', 'Stocks'],
+  suitable_for ['Oils', 'Vinegars', 'Fats', 'Juices', 'Dairy', 'Purees', 'Stocks'],
   benefits: [
     'Can reduce the amount of fat needed in a dish while preserving flavor',
     'Creates light, airy textures with concentrated flavors',

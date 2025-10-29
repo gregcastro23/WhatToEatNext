@@ -57,7 +57,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param limit Maximum number of results
    * @returns Promise resolving to an array of scored recipes
    */
-  async getRecommendedRecipes(
+  async getRecommendedRecipes()
     state: SystemState,
     criteria: {
       cuisine?: string;
@@ -99,7 +99,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param minMatchScore Minimum match score
    * @returns Promise resolving to an array of recipes
    */
-  async getRecipesForCurrentPlanetaryAlignment(
+  async getRecipesForCurrentPlanetaryAlignment()
     state: SystemState,
     minMatchScore: number = 0.6,
   ): Promise<Recipe[]> {
@@ -111,7 +111,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       // Create a planetary influences object from the positions
       const planetaryInfluences: { [key: string]: number } = {};
 
-      for (const [planet, position] of Object.entries(state.planetaryPositions)) {
+      for (const [planet, position] of Object.entries(state.planetaryPositions) {
         // Apply surgical type casting with variable extraction
         const positionData = position as Record<string, unknown>;
         const sign = positionData.sign;
@@ -133,7 +133,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       }
 
       // Get matching recipes from the consolidated service
-      const recipes = await consolidatedRecipeService.getRecipesForPlanetaryAlignment(
+      const recipes = await consolidatedRecipeService.getRecipesForPlanetaryAlignment()
         planetaryInfluences,
         minMatchScore,
       );
@@ -151,7 +151,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param options Additional options
    * @returns Array of recommended ingredients
    */
-  getRecommendedIngredients(
+  getRecommendedIngredients()
     state: SystemState,
     options: {
       season?: Season;
@@ -189,7 +189,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param filter Additional filter options
    * @returns Record of filtered ingredients by category
    */
-  getSeasonalIngredients(
+  getSeasonalIngredients()
     season: Season,
     filter: {
       categories?: string[];

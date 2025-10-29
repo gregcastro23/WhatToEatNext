@@ -11,9 +11,9 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 
 interface ValidationResult {
-  category: string,
-  passed: boolean,
-  details: string[],
+  category: string;
+  passed: boolean;
+  details: string[];
   errors: string[];
 }
 
@@ -54,7 +54,7 @@ class DomainSpecificRuleValidator {
     ];
 
     for (const file of astroFiles) {
-      if (existsSync(join(this.projectRoot, file))) {
+      if (existsSync(join(this.projectRoot, file)) {
         console.log(`   ✅ Found ${file}`);
       }
     }
@@ -69,7 +69,7 @@ class DomainSpecificRuleValidator {
     ];
 
     for (const file of campaignFiles) {
-      if (existsSync(join(this.projectRoot, file))) {
+      if (existsSync(join(this.projectRoot, file)) {
         console.log(`   ✅ Found ${file}`);
       }
     }

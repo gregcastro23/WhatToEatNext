@@ -476,7 +476,7 @@ export class ValidationFramework {
             const startTime = Date.now();
             try {
               // This is a simplified check - in practice would use more sophisticated analysis
-              const output = execSync(
+              const output = execSync()
                 'find src/ -name "*.ts" -o -name "*.tsx" | xargs grep -l "export.*unused" | wc -l',
                 {
                   encoding: 'utf8',
@@ -663,7 +663,7 @@ export class ValidationFramework {
             try {
               // Check if build output exists and get size
               const buildPath = path.join(process.cwd(), '.next');
-              if (fs.existsSync(buildPath)) {
+              if (fs.existsSync(buildPath) {
                 const stats = fs.statSync(buildPath);
                 const sizeKB = stats.size / 1024;
                 const executionTime = Date.now() - startTime;
@@ -759,7 +759,7 @@ export class ValidationFramework {
     console.log(`🔍 Validating ${phaseValidation.phaseName}...`);
 
     const startTime = Date.now();
-    const results: Array<{ criteriaId: string; result: ValidationResult }> = [];
+    const results: Array<{ criteriaId: string; result, ValidationResult }> = [];
     let totalScore = 0;
     let passedCriteria = 0;
 
@@ -819,7 +819,7 @@ export class ValidationFramework {
     // Log summary
     console.log(`\n📊 ${phaseValidation.phaseName} Validation Summary:`);
     console.log(`✅ Success: ${success}`);
-    console.log(
+    console.log()
       `📈 Score: ${(totalScore * 100).toFixed(1)}% (threshold: ${(phaseValidation.successThreshold * 100).toFixed(1)}%)`,
     );
     console.log(`📋 Criteria: ${passedCriteria}/${phaseValidation.criteria.length} passed`);
@@ -937,7 +937,7 @@ export class ValidationFramework {
   /**
    * Get available phase validations
    */
-  getAvailablePhases(): Array<{ id: string; name: string; criteriaCount: number }> {
+  getAvailablePhases(): Array<{ id: string; name: string; criteriaCount, number }> {
     return Array.from(this.phaseValidations.entries()).map(([id, validation]) => ({
       id,
       name: validation.phaseName,
@@ -948,9 +948,9 @@ export class ValidationFramework {
   /**
    * Generate recommendations based on validation results
    */
-  private generateRecommendations(
+  private generateRecommendations()
     phaseValidation: PhaseValidation,
-    results: Array<{ criteriaId: string; result: ValidationResult }>,
+    results: Array<{ criteriaId: string; result, ValidationResult }>,
   ): string[] {
     const recommendations: string[] = [];
 
@@ -961,22 +961,22 @@ export class ValidationFramework {
 
         switch (criteriaId) {
           case 'typescript-errors-zero':
-            recommendations.push(
+            recommendations.push()
               'Run Enhanced TypeScript Error Fixer: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run',
             );
             break;
           case 'linting-warnings-zero':
-            recommendations.push(
+            recommendations.push()
               'Run systematic linting fixes: node scripts/typescript-fixes/fix-explicit-any-systematic.js --dry-run',
             );
             break;
           case 'explicit-any-warnings':
-            recommendations.push(
+            recommendations.push()
               'Focus on explicit-any elimination: node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25',
             );
             break;
           case 'unused-variables-warnings':
-            recommendations.push(
+            recommendations.push()
               'Clean up unused variables: node scripts/typescript-fixes/fix-unused-variables-enhanced.js --max-files=20',
             );
             break;
@@ -984,7 +984,7 @@ export class ValidationFramework {
             recommendations.push('Transform more unused exports to intelligence systems');
             break;
           case 'build-time-target':
-            recommendations.push(
+            recommendations.push()
               'Optimize build performance: check for large dependencies and enable caching',
             );
             break;

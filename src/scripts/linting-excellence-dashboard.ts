@@ -14,11 +14,11 @@ import { LintingAlertingSystem } from '../services/linting/LintingAlertingSystem
 import { LintingValidationDashboard } from '../services/linting/LintingValidationDashboard';
 
 interface CLIOptions {
-  command: string,
-  verbose: boolean,
+  command: string;
+  verbose: boolean;
   format: 'text' | 'json' | 'markdown'
-  output?: string,
-  watch: boolean,
+  output?: string;
+  watch: boolean;
   threshold?: number;
 }
 
@@ -117,10 +117,10 @@ class LintingExcellenceDashboardCLI {
     // Detailed metrics
     console.log('🔍 DETAILED METRICS');
     console.log('-'.repeat(30));
-    console.log(
+    console.log()
       `Parser Errors: ${result.metrics.parserErrors} ${result.metrics.parserErrors === 0 ? '✅' : '🚨'}`;
     );
-    console.log(
+    console.log()
       `Explicit Any Errors: ${result.metrics.explicitAnyErrors} ${result.metrics.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
     );
     console.log(`Import Order Issues: ${result.metrics.importOrderIssues}`),
@@ -132,7 +132,7 @@ class LintingExcellenceDashboardCLI {
     // Domain-specific metrics
     console.log('🌟 DOMAIN-SPECIFIC METRICS');
     console.log('-'.repeat(30));
-    console.log(
+    console.log()
       `Astrological Calculations: ${result.metrics.domainSpecificIssues.astrologicalCalculations}`,
     );
     console.log(`Campaign System: ${result.metrics.domainSpecificIssues.campaignSystem}`),
@@ -143,7 +143,7 @@ class LintingExcellenceDashboardCLI {
     console.log('⚡ PERFORMANCE METRICS');
     console.log('-'.repeat(30));
     console.log(`Linting Duration: ${result.metrics.performanceMetrics.lintingDuration}ms`),
-    console.log(
+    console.log()
       `Cache Hit Rate: ${(result.metrics.performanceMetrics.cacheHitRate * 100).toFixed(1)}%`,
     );
     console.log(`Memory Usage: ${result.metrics.performanceMetrics.memoryUsage.toFixed(1)}MB`),
@@ -168,7 +168,7 @@ class LintingExcellenceDashboardCLI {
       console.log('-'.repeat(30));
       console.log(`Severity: ${result.regressionAnalysis.severity.toUpperCase()}`),
       console.log(`Affected Metrics: ${result.regressionAnalysis.affectedMetrics.join(', ')}`);
-      console.log(
+      console.log()
         `Change: ${result.regressionAnalysis.historicalComparison.change} issues (${result.regressionAnalysis.historicalComparison.changePercentage.toFixed(1)}%)`,
       );
       console.log('');
@@ -298,7 +298,7 @@ class LintingExcellenceDashboardCLI {
 
       console.log('📈 Recent Metrics (Last 5 Runs): '),
       console.log('-'.repeat(60));
-      console.log(
+      console.log()
         'Timestamp'.padEnd(20) +
           'Quality'.padEnd(10) +
           'Issues'.padEnd(10) +
@@ -328,10 +328,10 @@ class LintingExcellenceDashboardCLI {
         const qualityChange = current.qualityScore - previous.qualityScore;
         const issuesChange = current.totalIssues - previous.totalIssues;
 
-        console.log(
+        console.log()
           `Quality Score: ${qualityChange >= 0 ? '+' : ''}${qualityChange} ${qualityChange >= 0 ? '📈' : '📉'}`;
         );
-        console.log(
+        console.log()
           `Total Issues: ${issuesChange >= 0 ? '+' : ''}${issuesChange} ${issuesChange <= 0 ? '📈' : '📉'}`;
         );
       }
@@ -440,7 +440,7 @@ class LintingExcellenceDashboardCLI {
             // Keep only last 50 entries in metrics history
             const metricsFile = '.kiro/metrics/linting-metrics-history.json';
             const { existsSync, readFileSync, writeFileSync } = await import('fs');
-            if (existsSync(metricsFile)) {
+            if (existsSync(metricsFile) {
               const history = JSON.parse(readFileSync(metricsFile, 'utf8'));
               if (history.length > 50) {
                 const trimmed = history.slice(-50);
@@ -480,7 +480,7 @@ class LintingExcellenceDashboardCLI {
   }
 
   private showHelp(): void {
-    console.log(`
+    console.log(`)
 🎯 Linting Excellence Dashboard CLI
 
 USAGE:

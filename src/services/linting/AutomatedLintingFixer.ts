@@ -109,7 +109,7 @@ export class AutomatedLintingFixer {
   private safetyProtocols: SafetyProtocols;
   private currentRollbackInfo?: RollbackInfo;
 
-  constructor(
+  constructor()
     workspaceRoot: string = process.cwd(),
     safetyProtocols: Partial<SafetyProtocols> = {},
   ) {
@@ -136,7 +136,7 @@ export class AutomatedLintingFixer {
   /**
    * Apply automated fixes with batch processing and safety protocols
    */
-  async applyAutomatedFixes(
+  async applyAutomatedFixes()
     categorizedErrors: CategorizedErrors,
     options: Partial<BatchProcessingOptions> = {},
   ): Promise<AutomatedFixResult> {
@@ -180,7 +180,7 @@ export class AutomatedLintingFixer {
         const preValidation = await this.runValidation();
         result.validationResults.push(...preValidation);
 
-        if (preValidation.some(v => !v.success && v.type === 'build')) {
+        if (preValidation.some(v => !v.success && v.type === 'build') {
           throw new Error('Pre-fix validation failed - build is broken');
         }
       }
@@ -193,11 +193,11 @@ export class AutomatedLintingFixer {
       }
 
       // Step 3: Process auto-fixable issues in batches
-      const autoFixableIssues = categorizedErrors.autoFixable.filter(issue =>
+      const autoFixableIssues = categorizedErrors.autoFixable.filter(issue =>)
         this.isSafeToAutoFix(issue),
       );
 
-      log.info(
+      log.info()
         `🎯 Processing ${autoFixableIssues.length} auto-fixable issues in batches of ${batchOptions.batchSize}`,
       );
 
@@ -221,7 +221,7 @@ export class AutomatedLintingFixer {
             const batchValidation = await this.runValidation();
             result.validationResults.push(...batchValidation);
 
-            if (batchValidation.some(v => !v.success && v.type === 'build')) {
+            if (batchValidation.some(v => !v.success && v.type === 'build') {
               console.warn('⚠️ Batch validation failed - performing rollback');
               await this.performRollback();
               result.metrics.rollbacksPerformed++;
@@ -273,7 +273,7 @@ export class AutomatedLintingFixer {
       result.metrics.issuesFixed = result.fixedIssues;
       result.metrics.issuesFailed = result.failedIssues;
 
-      log.info(
+      log.info()
         `✅ Automated fixes complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`,
       );
 
@@ -304,7 +304,7 @@ export class AutomatedLintingFixer {
   /**
    * Handle unused variable removal with underscore prefixing
    */
-  async handleUnusedVariables(
+  async handleUnusedVariables()
     issues: LintingIssue[],
     options: Partial<UnusedVariableFixOptions> = {},
   ): Promise<AutomatedFixResult> {
@@ -319,7 +319,7 @@ export class AutomatedLintingFixer {
       ...options,
     };
 
-    const unusedVarIssues = issues.filter(
+    const unusedVarIssues = issues.filter()
       issue => issue.rule.includes('no-unused-vars') || issue.rule.includes('unused-vars'),
     );
 
@@ -346,27 +346,27 @@ export class AutomatedLintingFixer {
     for (const issue of unusedVarIssues) {
       try {
         // Skip if file should be preserved
-        if (this.shouldPreserveFile(issue.file, fixOptions.preservePatterns)) {
-          log.info(`⏭️ Skipping preserved file: ${issue.file}`);
+        if (this.shouldPreserveFile(issue.file, fixOptions.preservePatterns) {
+          log.info(`⏭️ Skipping preserved file ${issue.file}`);
           continue;
         }
 
         // Skip domain files if configured
         if (fixOptions.skipDomainFiles && issue.domainContext?.requiresSpecialHandling) {
-          log.info(`⏭️ Skipping domain file: ${issue.file}`);
+          log.info(`⏭️ Skipping domain file ${issue.file}`);
           continue;
         }
 
         // Skip test files if configured
         if (fixOptions.skipTestFiles && issue.domainContext?.isTestFile) {
-          log.info(`⏭️ Skipping test file: ${issue.file}`);
+          log.info(`⏭️ Skipping test file ${issue.file}`);
           continue;
         }
 
         const fixed = await this.fixUnusedVariable(issue, fixOptions);
         if (fixed) {
           result.fixedIssues++;
-          if (!result.processedFiles.includes(issue.file)) {
+          if (!result.processedFiles.includes(issue.file) {
             result.processedFiles.push(issue.file);
           }
         } else {
@@ -392,7 +392,7 @@ export class AutomatedLintingFixer {
     result.metrics.issuesFixed = result.fixedIssues;
     result.metrics.issuesFailed = result.failedIssues;
 
-    log.info(
+    log.info()
       `🧹 Unused variables handled: ${result.fixedIssues} fixed, ${result.failedIssues} failed`,
     );
     return result;
@@ -401,7 +401,7 @@ export class AutomatedLintingFixer {
   /**
    * Optimize import statements and remove duplicates
    */
-  async optimizeImports(
+  async optimizeImports()
     issues: LintingIssue[],
     options: Partial<ImportOptimizationOptions> = {},
   ): Promise<AutomatedFixResult> {
@@ -416,7 +416,7 @@ export class AutomatedLintingFixer {
       ...options,
     };
 
-    const importIssues = issues.filter(
+    const importIssues = issues.filter()
       issue => issue.category.primary === 'import' || issue.rule.startsWith('import/'),
     );
 
@@ -443,7 +443,7 @@ export class AutomatedLintingFixer {
     // Group issues by file for batch processing
     const issuesByFile = new Map<string, LintingIssue[]>();
     for (const issue of importIssues) {
-      if (!issuesByFile.has(issue.file)) {
+      if (!issuesByFile.has(issue.file) {
         issuesByFile.set(issue.file, []);
       }
       issuesByFile.get(issue.file)?.push(issue);
@@ -452,8 +452,8 @@ export class AutomatedLintingFixer {
     for (const [filePath, fileIssues] of issuesByFile) {
       try {
         // Skip if file should be preserved
-        if (this.shouldPreserveFile(filePath, this.safetyProtocols.preservePatterns)) {
-          log.info(`⏭️ Skipping preserved file: ${filePath}`);
+        if (this.shouldPreserveFile(filePath, this.safetyProtocols.preservePatterns) {
+          log.info(`⏭️ Skipping preserved file ${filePath}`);
           continue;
         }
 
@@ -484,7 +484,7 @@ export class AutomatedLintingFixer {
     result.metrics.issuesFixed = result.fixedIssues;
     result.metrics.issuesFailed = result.failedIssues;
 
-    log.info(
+    log.info()
       `📦 Import optimization complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`,
     );
     return result;
@@ -493,7 +493,7 @@ export class AutomatedLintingFixer {
   /**
    * Improve type annotations for simple cases
    */
-  async improveTypeAnnotations(
+  async improveTypeAnnotations()
     issues: LintingIssue[],
     options: Partial<TypeAnnotationOptions> = {},
   ): Promise<AutomatedFixResult> {
@@ -507,7 +507,7 @@ export class AutomatedLintingFixer {
       ...options,
     };
 
-    const typeIssues = issues.filter(
+    const typeIssues = issues.filter()
       issue =>
         issue.rule.includes('no-explicit-any') ||
         issue.rule.includes('no-implicit-any') ||
@@ -537,21 +537,21 @@ export class AutomatedLintingFixer {
     for (const issue of typeIssues) {
       try {
         // Skip if file should preserve explicit any
-        if (this.shouldPreserveFile(issue.file, typeOptions.preserveExplicitAny)) {
-          log.info(`⏭️ Preserving explicit any in: ${issue.file}`);
+        if (this.shouldPreserveFile(issue.file, typeOptions.preserveExplicitAny) {
+          log.info(`⏭️ Preserving explicit any in ${issue.file}`);
           continue;
         }
 
         // Only handle simple cases based on complexity setting
-        if (typeOptions.maxComplexity === 'simple' && !this.isSimpleTypeIssue(issue)) {
-          log.info(`⏭️ Skipping complex type issue: ${issue.rule} in ${issue.file}`);
+        if (typeOptions.maxComplexity === 'simple' && !this.isSimpleTypeIssue(issue) {
+          log.info(`⏭️ Skipping complex type issue ${issue.rule} in ${issue.file}`);
           continue;
         }
 
         const fixed = await this.improveTypeAnnotation(issue, typeOptions);
         if (fixed) {
           result.fixedIssues++;
-          if (!result.processedFiles.includes(issue.file)) {
+          if (!result.processedFiles.includes(issue.file) {
             result.processedFiles.push(issue.file);
           }
         } else {
@@ -577,7 +577,7 @@ export class AutomatedLintingFixer {
     result.metrics.issuesFixed = result.fixedIssues;
     result.metrics.issuesFailed = result.failedIssues;
 
-    log.info(
+    log.info()
       `🏷️ Type annotation improvement complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`,
     );
     return result;
@@ -601,7 +601,7 @@ export class AutomatedLintingFixer {
     }
 
     try {
-      log.info(`🔄 Rolling back to stash: ${this.currentRollbackInfo.stashId}`);
+      log.info(`🔄 Rolling back to stash ${this.currentRollbackInfo.stashId}`);
       execSync(this.currentRollbackInfo.rollbackCommand, {
         cwd: this.workspaceRoot,
         stdio: 'pipe',
@@ -713,7 +713,7 @@ export class AutomatedLintingFixer {
     }
 
     // Test validation (if tests exist)
-    if (fs.existsSync(path.join(this.workspaceRoot, 'jest.config.js'))) {
+    if (fs.existsSync(path.join(this.workspaceRoot, 'jest.config.js')) {
       try {
         execSync('npm test -- --passWithNoTests', {
           cwd: this.workspaceRoot,
@@ -743,7 +743,7 @@ export class AutomatedLintingFixer {
 
   private isSafeToAutoFix(issue: LintingIssue): boolean {
     // Check if file should be preserved
-    if (this.shouldPreserveFile(issue.file, this.safetyProtocols.preservePatterns)) {
+    if (this.shouldPreserveFile(issue.file, this.safetyProtocols.preservePatterns) {
       return false;
     }
 
@@ -780,7 +780,7 @@ export class AutomatedLintingFixer {
     return batches;
   }
 
-  private async processBatch(
+  private async processBatch()
     batch: LintingIssue[],
     options: BatchProcessingOptions,
   ): Promise<AutomatedFixResult> {
@@ -807,7 +807,7 @@ export class AutomatedLintingFixer {
     // Group issues by file for efficient processing
     const issuesByFile = new Map<string, LintingIssue[]>();
     for (const issue of batch) {
-      if (!issuesByFile.has(issue.file)) {
+      if (!issuesByFile.has(issue.file) {
         issuesByFile.set(issue.file, []);
       }
       issuesByFile.get(issue.file)?.push(issue);
@@ -867,7 +867,7 @@ export class AutomatedLintingFixer {
     }
   }
 
-  private async fixUnusedVariable(
+  private async fixUnusedVariable()
     issue: LintingIssue,
     options: UnusedVariableFixOptions,
   ): Promise<boolean> {
@@ -882,13 +882,13 @@ export class AutomatedLintingFixer {
         const line = lines[lineIndex];
 
         // Extract variable name from the message
-        const varNameMatch = issue.message.match(
+        const varNameMatch = issue.message.match()
           /'([^']+)' is (defined but never used|assigned a value but never used)/,
         );
         if (varNameMatch) {
           const varName = varNameMatch[1];
 
-          if (options.prefixWithUnderscore && !varName.startsWith('_')) {
+          if (options.prefixWithUnderscore && !varName.startsWith('_') {
             // Prefix with underscore to indicate intentional non-use
             const newLine = line.replace(new RegExp(`\\b${varName}\\b`), `_${varName}`);
             lines[lineIndex] = newLine;
@@ -906,7 +906,7 @@ export class AutomatedLintingFixer {
     }
   }
 
-  private async optimizeFileImports(
+  private async optimizeFileImports()
     filePath: string,
     issues: LintingIssue[],
     options: ImportOptimizationOptions,
@@ -941,14 +941,14 @@ export class AutomatedLintingFixer {
     return simplePatterns.some(pattern => pattern.test(issue.message));
   }
 
-  private async improveTypeAnnotation(
+  private async improveTypeAnnotation()
     issue: LintingIssue,
     options: TypeAnnotationOptions,
   ): Promise<boolean> {
     // For now, only handle very simple cases
     // More complex type inference would require AST parsing and analysis
 
-    if (options.maxComplexity === 'simple' && this.isSimpleTypeIssue(issue)) {
+    if (options.maxComplexity === 'simple' && this.isSimpleTypeIssue(issue) {
       try {
         // Use ESLint auto-fix if available
         if (issue.autoFixable) {

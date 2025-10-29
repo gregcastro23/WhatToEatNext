@@ -4,20 +4,20 @@
  */
 
 export interface ComponentState {
-  timestamp: number,
+  timestamp: number;
   data: unknown
 }
 
 export interface NavigationState {
-  activeSection: string | null,
-  navigationHistory: string[],
-  selectedIngredients: string[],
-  selectedCuisine: string | null,
-  selectedCookingMethods: string[],
-  currentRecipe: unknown | null,
-  selectedIngredientCategory: string | null,
-  selectedIngredient: string | null,
-  selectedCookingMethod: unknown | null,
+  activeSection: string | null;
+  navigationHistory: string[];
+  selectedIngredients: string[];
+  selectedCuisine: string | null;
+  selectedCookingMethods: string[];
+  currentRecipe: unknown | null;
+  selectedIngredientCategory: string | null;
+  selectedIngredient: string | null;
+  selectedCookingMethod: unknown | null;
   scrollPosition: number
 }
 
@@ -102,7 +102,7 @@ export function getNavigationState(): NavigationState {
   if (!stored) return defaultState;
   try {
     const parsed: ComponentState = JSON.parse(stored)
-    if (!isStateValid(parsed.timestamp)) {
+    if (!isStateValid(parsed.timestamp) {
       return defaultState;
     }
     const data = (parsed.data || {}) as Partial<NavigationState>;
@@ -133,7 +133,7 @@ export function getComponentState(componentId: string): unknown {
   const allStates = getComponentStates()
   const componentState = allStates[componentId];
 
-  if (!componentState || !isStateValid(componentState.timestamp)) {
+  if (!componentState || !isStateValid(componentState.timestamp) {
     return null
   }
 
@@ -175,7 +175,7 @@ export function getScrollPosition(sectionId: string): number {
   const positions = getScrollPositions()
   const position = positions[sectionId];
 
-  if (!position || !isStateValid(position.timestamp)) {
+  if (!position || !isStateValid(position.timestamp) {
     return 0
   }
 
@@ -219,7 +219,7 @@ export function clearExpiredState(): void {
   if (navState) {
     try {
       const parsed: ComponentState = JSON.parse(navState);
-      if (!isStateValid(parsed.timestamp)) {
+      if (!isStateValid(parsed.timestamp) {
         sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE);
       }
     } catch (error) {
@@ -233,7 +233,7 @@ export function clearExpiredState(): void {
   let hasChanges = false;
 
   Object.entries(componentStates).forEach(([key, state]) => {
-    if (isStateValid(state.timestamp)) {
+    if (isStateValid(state.timestamp) {
       validStates[key] = state;
     } else {
       hasChanges = true;
@@ -250,7 +250,7 @@ export function clearExpiredState(): void {
   hasChanges = false;
 
   Object.entries(scrollPositions).forEach(([key, position]) => {
-    if (isStateValid(position.timestamp)) {
+    if (isStateValid(position.timestamp) {
       validPositions[key] = position;
     } else {
       hasChanges = true;
@@ -289,8 +289,7 @@ export function useStateCleanup(): (() => void) | void {
  * Create a state preservation hook for components
  */
 export function createStatePreservationHook(componentId: string) {
-  return {
-    _saveState: (state: unknown) => saveComponentState(componentId, state),
+  return { _saveState: (state, unknown) => saveComponentState(componentId, state),
     _getState: () => getComponentState(componentId),
     _clearState: () => {
       const allStates = getComponentStates()

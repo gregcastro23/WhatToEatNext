@@ -19,7 +19,7 @@ export const gelification: CookingMethodData = {
     min: 10,
     max: 60
 },
-  suitable_for: [
+  suitable_for [
     'fruit purees',
     'stock reductions',
     'dairy products',

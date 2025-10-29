@@ -18,7 +18,7 @@ export const _distilling: CookingMethodData = {
     min: 60, // 1 hour,
     max: 480, // 8 hours
   },
-  suitable_for: ['Herbs', 'Flowers', 'Fruits', 'Grains', 'Spices', 'Fermented liquids'],
+  suitable_for ['Herbs', 'Flowers', 'Fruits', 'Grains', 'Spices', 'Fermented liquids'],
   benefits: [
     'Creates concentrated extracts with medicinal properties',
     'Removes impurities from volatile compounds',

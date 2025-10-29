@@ -10,10 +10,10 @@ import { UserRole } from '@/lib/auth/jwt-auth';
 import { logger } from '@/utils/logger';
 
 export interface RateLimitTier {
-  windowMs: number,
-  max: number,
-  message: string,
-  standardHeaders: boolean,
+  windowMs: number;
+  max: number;
+  message: string;
+  standardHeaders: boolean;
   legacyHeaders: boolean
 }
 
@@ -135,18 +135,18 @@ function determineRateLimitTier(req: Request): RateLimitTier {
   }
 
   // Check for admin role
-  if (user.roles.includes(UserRole.ADMIN)) {
+  if (user.roles.includes(UserRole.ADMIN) {
     return rateLimitTiers.admin;
   }
 
   // Check for service role
-  if (user.roles.includes(UserRole.SERVICE)) {
+  if (user.roles.includes(UserRole.SERVICE) {
     return rateLimitTiers.service;
   }
 
   // Check for premium user (could be determined by subscription status)
   // For now, treat all authenticated users as premium
-  if (user.roles.includes(UserRole.USER)) {
+  if (user.roles.includes(UserRole.USER) {
     return rateLimitTiers.premium;
   }
 
@@ -313,8 +313,7 @@ export function rateLimitStatus(req: Request, res: Response): void {
       maxRequests: tier.max,
       message: tier.message
     },
-    recommendations: {
-      authenticate: !userId ? 'Authenticate for higher rate limits' : null,
+    recommendations: { authenticate: !userId ? 'Authenticate for higher rate limits' , null,
       upgrade: userId && !isAdmin(req) ? 'Upgrade to premium for higher limits' : null
     }
   });

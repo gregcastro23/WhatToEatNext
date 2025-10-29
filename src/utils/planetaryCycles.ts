@@ -212,7 +212,7 @@ export function calculateTokenizedValues(_date: Date = new Date()): {
  * @param daysSinceEpoch Days since epoch for cycle calculation
  * @returns The calculated token value
  */
-function calculateTokenValue(
+function calculateTokenValue()
   tokenName: 'Spirit' | 'Essence' | 'Matter' | 'Substance'
   daysSinceEpoch: number,
 ): number {

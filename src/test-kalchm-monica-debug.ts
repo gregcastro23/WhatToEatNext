@@ -109,13 +109,13 @@ function testKalchmMonicaCalculations() {
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = testValues;
 
   log.info('📊 Input _Values: ')
-  log.info(`Spirit: ${Spirit}, Essence: ${Essence}, Matter: ${Matter}, Substance: ${Substance}`)
-  log.info(`Fire: ${Fire}, Water: ${Water}, Air: ${Air}, Earth: ${Earth}\n`)
+  log.info(`Spirit ${Spirit}, Essence: ${Essence}, Matter: ${Matter}, Substance: ${Substance}`)
+  log.info(`Fire ${Fire}, Water: ${Water}, Air: ${Air}, Earth: ${Earth}\n`)
 
   // Calculate thermodynamic properties
   const heat = calculateHeat(Spirit, Fire, Substance, Essence, Matter, Water, Air, Earth)
   const entropy = calculateEntropy(Spirit, Substance, Fire, Air, Essence, Matter, Earth, Water)
-  const reactivity = calculateReactivity(
+  const reactivity = calculateReactivity()
     Spirit,
     Substance,
     Essence,
@@ -128,18 +128,18 @@ function testKalchmMonicaCalculations() {
   const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity)
 
   log.info('🔥 Thermodynamic _Properties: ')
-  log.info(`Heat: ${heat.toFixed(6)}`)
-  log.info(`Entropy: ${entropy.toFixed(6)}`)
-  log.info(`Reactivity: ${reactivity.toFixed(6)}`)
-  log.info(`Greg's Energy: ${gregsEnergy.toFixed(6)}\n`)
+  log.info(`Heat ${heat.toFixed(6)}`)
+  log.info(`Entropy ${entropy.toFixed(6)}`)
+  log.info(`Reactivity ${reactivity.toFixed(6)}`)
+  log.info(`Greg's Energy ${gregsEnergy.toFixed(6)}\n`)
 
   // Calculate Kalchm and Monica constants
   const K_alchm = calculateKAlchm(Spirit, Essence, Matter, Substance)
   const monicaConstant = calculateMonicaConstant(gregsEnergy, reactivity, K_alchm)
 
   log.info('⚗️ Kalchm & Monica Constants: ')
-  log.info(`K_alchm: ${K_alchm.toFixed(2)}`)
-  log.info(`Monica Constant (M): ${monicaConstant.toFixed(6)}\n`)
+  log.info(`K_alchm ${K_alchm.toFixed(2)}`)
+  log.info(`Monica Constant (M) ${monicaConstant.toFixed(6)}\n`)
 
   // _Note: The expected values from the notepad are for different input values
   // These calculations are correct for the given inputs
@@ -150,23 +150,23 @@ function testKalchmMonicaCalculations() {
 
   log.info('\n🎯 Debug Component _Integration: ')
   log.info('The enhanced DebugInfo component will now display: ')
-  log.info(`- K_alchm: ${K_alchm > 1000000 ? K_alchm.toExponential(3) : K_alchm.toFixed(6)}`)
-  log.info(
+  log.info(`- K_alchm ${K_alchm > 1000000 ? K_alchm.toExponential(3) : K_alchm.toFixed(6)}`)
+  log.info()
     `- M (Monica): ${isNaN(monicaConstant) ? 'NaN' : Math.abs(monicaConstant) > 1000000 ? monicaConstant.toExponential(3) : monicaConstant.toFixed(6)}`,
   )
 
   log.info('\n📝 Formula _Verification: ')
   log.info('K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)')
-  log.info(
+  log.info()
     `K_alchm = (${Spirit}^${Spirit} * ${Essence}^${Essence}) / (${Matter}^${Matter} * ${Substance}^${Substance})`;
   )
-  log.info(
+  log.info()
     `K_alchm = (${Math.pow(Spirit, Spirit).toFixed(2)} * ${Math.pow(Essence, Essence).toFixed(2)}) / (${Math.pow(Matter, Matter).toFixed(2)} * ${Math.pow(Substance, Substance).toFixed(2)})`,
   )
   log.info(`K_alchm = ${K_alchm.toFixed(6)}`)
 
   log.info('\nMonica = -Greg's Energy / (Reactivity × ln(K_alchm))')
-  log.info(
+  log.info()
     `Monica = -${gregsEnergy.toFixed(6)} / (${reactivity.toFixed(6)} × ${Math.log(K_alchm).toFixed(6)})`;
   )
   log.info(`Monica = ${monicaConstant.toFixed(6)}`)
@@ -186,7 +186,7 @@ function testKalchmMonicaCalculations() {
 const results = testKalchmMonicaCalculations()
 
 log.info('\n🏁 Test Results _Summary: ');
-log.info(`Overall Test: ${results.testPassed ? '✅ PASSED' : '❌ FAILED'}`)
+log.info(`Overall Test ${results.testPassed ? '✅ PASSED' : '❌ FAILED'}`)
 log.info('\n🎉 Success! The debug component is now enhanced _with: ')
 log.info('   • Kalchm constant (K_alchm) calculations')
 log.info('   • Monica constant (M) calculations')

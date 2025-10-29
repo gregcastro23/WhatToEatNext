@@ -48,7 +48,7 @@ describe('ProgressTracker', () => {
       const count = await progressTracker.getTypeScriptErrorCount();
 
       expect(count).toBe(5);
-      expect(mockExecSync).toHaveBeenCalledWith(
+      expect(mockExecSync).toHaveBeenCalledWith()
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
         expect.any(Object),
       );
@@ -89,7 +89,7 @@ describe('ProgressTracker', () => {
 
   describe('getTypeScriptErrorBreakdown', () => {
     it('should return error breakdown by type', async () => {
-      mockExecSync.mockReturnValue(`
+      mockExecSync.mockReturnValue(`)
         15 TS2352
         10 TS2345
          5 TS2698
@@ -160,7 +160,7 @@ describe('ProgressTracker', () => {
 
   describe('getLintingWarningBreakdown', () => {
     it('should return warning breakdown by rule type', async () => {
-      mockExecSync.mockReturnValue(`
+      mockExecSync.mockReturnValue(`)
         file1.ts:10:5 - warning: Unexpected any @typescript-eslint/no-explicit-any
         file2.ts:15:10 - warning: Unused variable no-unused-vars
         file3.ts:20:1 - warning: Console statement no-console
@@ -305,10 +305,10 @@ describe('ProgressTracker', () => {
       });
 
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk .next')) {
+        if (command.toString().includes('du -sk .next') {
           return '300';
         }
-        if (command.toString().includes('du -sk dist')) {
+        if (command.toString().includes('du -sk dist') {
           return '120';
         }
         return '';
@@ -582,7 +582,7 @@ describe('ProgressTracker', () => {
     it('should export metrics to JSON file', async () => {
       await progressTracker.exportMetrics('test-metrics.json');
 
-      expect(mockFs.writeFileSync).toHaveBeenCalledWith(
+      expect(mockFs.writeFileSync).toHaveBeenCalledWith()
         'test-metrics.json',
         expect.stringContaining('"campaignId": "perfect-codebase-campaign"'),
         undefined,
@@ -604,7 +604,7 @@ describe('ProgressTracker', () => {
         throw new Error('Write failed');
       });
 
-      await expect(progressTracker.exportMetrics('test-metrics.json')).rejects.toThrow(
+      await expect(progressTracker.exportMetrics('test-metrics.json')).rejects.toThrow()
         'Failed to export metrics: Write failed',
       );
     });

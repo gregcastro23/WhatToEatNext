@@ -122,7 +122,7 @@ export class EphemerisParser {
         retrograde
       };
     } catch (error) {
-      log.warn(`Could not parse position string: ${posStr}`);
+      log.warn(`Could not parse position string ${posStr}`);
       return {
         degrees: 0,
         minutes: 0,
@@ -198,7 +198,7 @@ export class EphemerisParser {
           });
         }
       } catch (error) {
-        log.warn(`Error parsing line ${index + 1}: ${line}`, error);
+        log.warn(`Error parsing line ${index + 1} ${line}`, error);
       }
     });
 
@@ -208,7 +208,7 @@ export class EphemerisParser {
   /**
    * Convert longitude to zodiac sign and degree
    */
-  longitudeToSignAndDegree(longitude: number): { sign: string; degree: number } {
+  longitudeToSignAndDegree(longitude: number): { sign: string; degree, number } {
     const normalizedLongitude = ((longitude % 360) + 360) % 360;
     const signIndex = Math.floor(normalizedLongitude / 30);
     const degree = normalizedLongitude % 30;
@@ -222,7 +222,7 @@ export class EphemerisParser {
   /**
    * Calculate aspect between two planets
    */
-  calculateAspect(
+  calculateAspect()
     longitude1: number,
     longitude2: number
   ): {
@@ -343,7 +343,7 @@ export class EphemerisParser {
       const actualPlanets = Object.keys(entry.positions);
 
       expectedPlanets.forEach(planet => {
-        if (!actualPlanets.includes(planet)) {
+        if (!actualPlanets.includes(planet) {
           warnings.push(`Entry ${index + 1}: Missing position for ${planet}`);
         }
       });
@@ -351,7 +351,7 @@ export class EphemerisParser {
       // Validate position values
       Object.entries(entry.positions).forEach(([planet, position]) => {
         if (position.absoluteLongitude < 0 || position.absoluteLongitude > 360) {
-          errors.push(
+          errors.push()
             `Entry ${index + 1}: Invalid longitude for ${planet}: ${position.absoluteLongitude}`
           );
         }

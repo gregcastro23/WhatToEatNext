@@ -252,18 +252,18 @@ export class LintingValidationDashboard {
           importOrderIssues++;
         } else if (ruleId === '@typescript-eslint/no-unused-vars') {
           unusedVariables++;
-        } else if (ruleId?.startsWith('react-hooks/')) {
+        } else if (ruleId?.startsWith('react-hooks/') {
           reactHooksIssues++;
         } else if (ruleId === 'no-console') {
           consoleStatements++;
         }
 
         // Domain-specific categorization
-        if (this.isAstrologicalFile(filePath)) {
+        if (this.isAstrologicalFile(filePath) {
           domainSpecificIssues.astrologicalCalculations++;
-        } else if (this.isCampaignFile(filePath)) {
+        } else if (this.isCampaignFile(filePath) {
           domainSpecificIssues.campaignSystem++;
-        } else if (this.isTestFile(filePath)) {
+        } else if (this.isTestFile(filePath) {
           domainSpecificIssues.testFiles++;
         }
       }
@@ -330,7 +330,7 @@ export class LintingValidationDashboard {
     for (const threshold of thresholds) {
       const currentValue = this.getMetricValue(metrics, threshold.metric);
 
-      if (this.shouldTriggerAlert(currentValue, threshold)) {
+      if (this.shouldTriggerAlert(currentValue, threshold) {
         alerts.push({
           id: `${threshold.metric}-${Date.now()}`,
           timestamp: new Date(),
@@ -395,7 +395,7 @@ export class LintingValidationDashboard {
       }
     }
 
-    const severity = this.calculateRegressionSeverity(
+    const severity = this.calculateRegressionSeverity()
       affectedMetrics,
       currentMetrics,
       previousMetrics,
@@ -428,7 +428,7 @@ export class LintingValidationDashboard {
 
     // Parser error recommendations
     if (metrics.parserErrors > 0) {
-      recommendations.push(
+      recommendations.push()
         '🚨 URGENT: Fix parser errors immediately - they block accurate linting analysis',
         'Check src/utils/recommendationEngine.ts and other files with syntax errors',
         'Run `yarn tsc --noEmit` to identify TypeScript compilation issues',
@@ -437,7 +437,7 @@ export class LintingValidationDashboard {
 
     // Explicit any recommendations
     if (metrics.explicitAnyErrors > 100) {
-      recommendations.push(
+      recommendations.push()
         '⚡ HIGH PRIORITY: Reduce explicit any types using systematic type inference',
         'Focus on React components, service layers, and utility functions first',
         'Use domain-specific exceptions for astrological calculations where needed',
@@ -446,7 +446,7 @@ export class LintingValidationDashboard {
 
     // Import organization recommendations
     if (metrics.importOrderIssues > 50) {
-      recommendations.push(
+      recommendations.push()
         '🚀 READY: Deploy enhanced import organization with alphabetical sorting',
         'Run `yarn lint:fix` to automatically organize imports',
         'Use batch processing for systematic completion of remaining issues',
@@ -455,7 +455,7 @@ export class LintingValidationDashboard {
 
     // Performance recommendations
     if (metrics.performanceMetrics.lintingDuration > 30000) {
-      recommendations.push(
+      recommendations.push()
         '⚡ PERFORMANCE: Linting duration exceeds 30 seconds',
         'Enable ESLint caching with `yarn lint:fast` for incremental changes',
         'Consider using `yarn lint:changed` for git-aware changed-files-only processing',
@@ -464,7 +464,7 @@ export class LintingValidationDashboard {
 
     // Quality score recommendations
     if (metrics.qualityScore < 80) {
-      recommendations.push(
+      recommendations.push()
         '📊 QUALITY: Code quality score below target (80%)',
         'Focus on eliminating critical errors first, then warnings',
         'Use domain-specific linting commands for targeted improvements',
@@ -473,7 +473,7 @@ export class LintingValidationDashboard {
 
     // Domain-specific recommendations
     if (metrics.domainSpecificIssues.astrologicalCalculations > 20) {
-      recommendations.push(
+      recommendations.push()
         '🌟 DOMAIN: Review astrological calculation files for rule compliance',
         'Ensure mathematical constants and planetary variables are preserved',
         'Use `yarn lint:domain-astro` for specialized astrological file linting',
@@ -531,9 +531,9 @@ ${
   result.alerts.length === 0
     ? 'No active alerts ✅'
     : result.alerts
-        .map(
+        .map()
           alert =>
-            `- **${alert.severity.toUpperCase()}**: ${alert.message} (${alert.currentValue} > ${alert.threshold})`,
+            }`- **${alert.severity.toUpperCase()}**: ${alert.message} (${alert.currentValue} > ${alert.threshold})`,
         )
         .join('\n')
 }
@@ -586,14 +586,14 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
   private ensureDirectoriesExist(): void {
     const dirs = ['.kiro/metrics'];
     for (const dir of dirs) {
-      if (!existsSync(dir)) {
+      if (!existsSync(dir) {
         execSync(`mkdir -p ${dir}`);
       }
     }
   }
 
   private initializeConfiguration(): void {
-    if (!existsSync(this.configFile)) {
+    if (!existsSync(this.configFile) {
       const config = {
         thresholds: this.defaultThresholds,
         alertingEnabled: true,
@@ -616,7 +616,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
 
   private loadMetricsHistory(): LintingMetrics[] {
     try {
-      if (existsSync(this.metricsHistoryFile)) {
+      if (existsSync(this.metricsHistoryFile) {
         return JSON.parse(readFileSync(this.metricsHistoryFile, 'utf8'));
       }
     } catch (error) {
@@ -659,7 +659,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
     return currentValue > threshold.threshold; // Other metrics should be below threshold
   }
 
-  private calculateRegressionSeverity(
+  private calculateRegressionSeverity()
     affectedMetrics: string[],
     current: LintingMetrics,
     previous: LintingMetrics,
@@ -685,15 +685,15 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
   private generateRegressionRecommendations(affectedMetrics: string[]): string[] {
     const recommendations: string[] = [];
 
-    if (affectedMetrics.includes('parserErrors')) {
+    if (affectedMetrics.includes('parserErrors') {
       recommendations.push('Immediately investigate and fix new parser errors');
     }
 
-    if (affectedMetrics.includes('explicitAnyErrors')) {
+    if (affectedMetrics.includes('explicitAnyErrors') {
       recommendations.push('Review recent changes that introduced explicit any types');
     }
 
-    if (affectedMetrics.includes('totalIssues')) {
+    if (affectedMetrics.includes('totalIssues') {
       recommendations.push('Run comprehensive linting validation to identify new issues');
     }
 
@@ -703,7 +703,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
   private async calculateCacheHitRate(): Promise<number> {
     try {
       // Check if ESLint cache exists and calculate hit rate
-      if (existsSync('.eslintcache')) {
+      if (existsSync('.eslintcache') {
         // Simplified cache hit rate calculation
         return 0.75; // Assume 75% cache hit rate for now
       }

@@ -51,7 +51,7 @@ describe('Domain-Specific Testing', () => {
   describe('Astrological Code Analysis and Preservation', () => {
     describe('Planetary Position Data Preservation', () => {
       test('should preserve planetary position API responses', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const planetaryPositions: any = await getReliablePlanetaryPositions();',
           'src/calculations/planetary/positions.ts',
           CodeDomain.ASTROLOGICAL,
@@ -63,7 +63,7 @@ describe('Domain-Specific Testing', () => {
 
         const domainAnalysis = await analyzer.analyzeDomain(context);
         expect(domainAnalysis.domain).toBe(CodeDomain.ASTROLOGICAL);
-        expect(domainAnalysis.preservationReasons).toContain(
+        expect(domainAnalysis.preservationReasons).toContain()
           'Astrological calculations require compatibility with external astronomical libraries'
         );
 
@@ -74,7 +74,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve ephemeris data from external sources', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const ephemerisData: any = astronomyEngine.getEphemeris(date);',
           'src/calculations/ephemeris/calculator.ts',
           CodeDomain.ASTROLOGICAL,
@@ -91,7 +91,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve Swiss Ephemeris compatibility', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const swissData: any = swisseph.calc_ut(julianDay, planet);',
           'src/calculations/swiss-ephemeris/wrapper.ts',
           CodeDomain.ASTROLOGICAL,
@@ -108,7 +108,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve NASA JPL Horizons API responses', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const horizonsResponse: any = await nasaJplApi.getHorizonsData(params);',
           'src/services/astronomy/nasa-jpl.ts',
           CodeDomain.ASTROLOGICAL,
@@ -127,7 +127,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('Elemental Properties Preservation', () => {
       test('should preserve dynamic elemental calculations', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const elementalBalance: any = calculateElementalHarmony(ingredients);',
           'src/calculations/elemental/harmony.ts',
           CodeDomain.ASTROLOGICAL,
@@ -143,7 +143,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest specific types for elemental properties when possible', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const fireValue: any = ingredient.fire;',
           'src/calculations/elemental/properties.ts',
           CodeDomain.ASTROLOGICAL,
@@ -160,7 +160,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve complex elemental compatibility matrices', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const compatibilityMatrix: Record<string, any> = buildElementalMatrix();',
           'src/calculations/elemental/compatibility.ts',
           CodeDomain.ASTROLOGICAL,
@@ -178,7 +178,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('Transit and Timing Calculations', () => {
       test('should preserve transit date validation logic', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const transitData: any = validateTransitDate(planet, date, sign);',
           'src/utils/planetaryConsistencyCheck.ts',
           CodeDomain.ASTROLOGICAL,
@@ -194,7 +194,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve retrograde motion calculations', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const retrogradeData: any = calculateRetrogradePhases(planet, year);',
           'src/calculations/retrograde/motion.ts',
           CodeDomain.ASTROLOGICAL,
@@ -212,7 +212,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('Astrological Chart Calculations', () => {
       test('should preserve house system calculations', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const houseData: any = calculateHouses(latitude, longitude, time);',
           'src/calculations/houses/systems.ts',
           CodeDomain.ASTROLOGICAL,
@@ -228,7 +228,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve aspect calculations', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const aspects: any[] = calculateAspects(planetPositions);',
           'src/calculations/aspects/calculator.ts',
           CodeDomain.ASTROLOGICAL,
@@ -248,7 +248,7 @@ describe('Domain-Specific Testing', () => {
   describe('Recipe/Ingredient Type Suggestions', () => {
     describe('Ingredient Data Type Suggestions', () => {
       test('should suggest Ingredient interface for ingredient data', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const ingredient: any = getIngredientData(name);',
           'src/data/ingredients/processor.ts',
           CodeDomain.RECIPE,
@@ -268,17 +268,17 @@ describe('Domain-Specific Testing', () => {
 
       test('should suggest specific ingredient subtypes', async () => {
         const contexts = [
-          createDomainContext(
+          createDomainContext()
             'const spice: any = getSpiceProperties(name);',
             'src/data/ingredients/spices.ts',
             CodeDomain.RECIPE
           ),
-          createDomainContext(
+          createDomainContext()
             'const herb: any = getHerbData(name);',
             'src/data/ingredients/herbs.ts',
             CodeDomain.RECIPE
           ),
-          createDomainContext(
+          createDomainContext()
             'const vegetable: any = getVegetableInfo(name);',
             'src/data/ingredients/vegetables.ts',
             CodeDomain.RECIPE
@@ -292,18 +292,18 @@ describe('Domain-Specific Testing', () => {
           expect(classification.isIntentional).toBe(false);
           expect(domainAnalysis.suggestedTypes.length).toBeGreaterThan(0);
 
-          if (context.filePath.includes('spices')) {
+          if (context.filePath.includes('spices') {
             expect(domainAnalysis.suggestedTypes).toContain('Spice');
-          } else if (context.filePath.includes('herbs')) {
+          } else if (context.filePath.includes('herbs') {
             expect(domainAnalysis.suggestedTypes).toContain('Herb');
-          } else if (context.filePath.includes('vegetables')) {
+          } else if (context.filePath.includes('vegetables') {
             expect(domainAnalysis.suggestedTypes).toContain('Vegetable');
           }
         }
       });
 
       test('should suggest array types for ingredient collections', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const ingredients: any[] = getAllIngredients();',
           'src/data/ingredients/collection.ts',
           CodeDomain.RECIPE,
@@ -320,7 +320,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest nutritional info types', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const nutrition: any = getNutritionalData(ingredient);',
           'src/data/nutrition/calculator.ts',
           CodeDomain.RECIPE,
@@ -338,7 +338,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('Recipe Data Type Suggestions', () => {
       test('should suggest Recipe interface for recipe data', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const recipe: any = buildRecipe(ingredients, instructions);',
           'src/data/recipes/builder.ts',
           CodeDomain.RECIPE,
@@ -354,7 +354,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest cooking method types', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const method: any = selectCookingMethod(ingredients);',
           'src/data/cooking/methods.ts',
           CodeDomain.RECIPE,
@@ -370,7 +370,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest cuisine type for cultural data', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const cuisine: any = identifyCuisineType(recipe);',
           'src/data/cuisines/classifier.ts',
           CodeDomain.RECIPE,
@@ -388,7 +388,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('External Food API Preservation', () => {
       test('should preserve Spoonacular API responses', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const spoonacularData: any = await spoonacularApi.getRecipe(id);',
           'src/services/external/spoonacular.ts',
           CodeDomain.RECIPE,
@@ -405,7 +405,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve USDA Food Data Central responses', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const usdaResponse: any = await usdaApi.getFoodData(fdcId);',
           'src/services/external/usda.ts',
           CodeDomain.RECIPE,
@@ -423,7 +423,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('Elemental Properties in Recipe Context', () => {
       test('should suggest ElementalProperties for ingredient elements', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const elements: any = ingredient.elementalProperties;',
           'src/data/ingredients/elemental.ts',
           CodeDomain.RECIPE,
@@ -440,7 +440,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve dynamic elemental calculations in recipes', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const harmony: any = calculateRecipeHarmony(recipe);',
           'src/calculations/recipe/harmony.ts',
           CodeDomain.RECIPE,
@@ -460,7 +460,7 @@ describe('Domain-Specific Testing', () => {
   describe('Campaign System Flexibility Preservation', () => {
     describe('Dynamic Configuration Preservation', () => {
       test('should preserve campaign configuration flexibility', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const campaignConfig: any = loadDynamicConfig(environment);',
           'src/services/campaign/ConfigLoader.ts',
           CodeDomain.CAMPAIGN,
@@ -477,7 +477,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve adaptive strategy configurations', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const adaptiveSettings: any = calculateOptimalSettings(metrics);',
           'src/services/campaign/AdaptiveStrategy.ts',
           CodeDomain.CAMPAIGN,
@@ -493,7 +493,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve intelligence system configurations', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const intelligenceConfig: any = buildIntelligenceSystem(params);',
           'src/services/campaign/IntelligenceSystem.ts',
           CodeDomain.CAMPAIGN,
@@ -511,7 +511,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('Metrics and Progress Tracking', () => {
       test('should suggest specific types for well-defined metrics', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const progress: any = calculateProgress();',
           'src/services/campaign/ProgressTracker.ts',
           CodeDomain.CAMPAIGN,
@@ -527,7 +527,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve dynamic metrics calculations', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const dynamicMetrics: any = aggregateMetrics(sources);',
           'src/services/campaign/MetricsAggregator.ts',
           CodeDomain.CAMPAIGN,
@@ -543,7 +543,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest TypeScriptError for error analysis', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const errors: any[] = analyzeTypeScriptErrors();',
           'src/services/campaign/TypeScriptErrorAnalyzer.ts',
           CodeDomain.CAMPAIGN,
@@ -561,7 +561,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('Tool Integration Flexibility', () => {
       test('should preserve tool integration configurations', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const toolConfig: any = integrateExternalTool(toolName, settings);',
           'src/services/campaign/ToolIntegration.ts',
           CodeDomain.CAMPAIGN,
@@ -577,7 +577,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve validation framework flexibility', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const validationResult: any = runValidation(rules, data);',
           'src/services/campaign/ValidationFramework.ts',
           CodeDomain.CAMPAIGN,
@@ -595,7 +595,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('Safety Protocol Flexibility', () => {
       test('should preserve safety event handling', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const safetyEvent: any = createSafetyEvent(type, data);',
           'src/services/campaign/SafetyProtocol.ts',
           CodeDomain.CAMPAIGN,
@@ -611,7 +611,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should preserve rollback mechanism flexibility', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const rollbackData: any = prepareRollback(changes);',
           'src/services/campaign/RollbackManager.ts',
           CodeDomain.CAMPAIGN,
@@ -631,7 +631,7 @@ describe('Domain-Specific Testing', () => {
   describe('Service Layer Interface Suggestions', () => {
     describe('API Service Interface Suggestions', () => {
       test('should suggest ApiResponse for API service responses', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const response: any = await this.httpClient.get(endpoint);',
           'src/services/api/BaseApiService.ts',
           CodeDomain.SERVICE,
@@ -648,17 +648,17 @@ describe('Domain-Specific Testing', () => {
 
       test('should suggest specific service interfaces', async () => {
         const contexts = [
-          createDomainContext(
+          createDomainContext()
             'const service: any = new RecommendationService();',
             'src/services/RecommendationService.ts',
             CodeDomain.SERVICE
           ),
-          createDomainContext(
+          createDomainContext()
             'const astroService: any = new AstrologicalService();',
             'src/services/AstrologicalService.ts',
             CodeDomain.SERVICE
           ),
-          createDomainContext(
+          createDomainContext()
             'const recipeService: any = new RecipeService();',
             'src/services/RecipeService.ts',
             CodeDomain.SERVICE
@@ -669,18 +669,18 @@ describe('Domain-Specific Testing', () => {
           const classification = await classifier.classify(context);
           expect(classification.isIntentional).toBe(false);
 
-          if (context.filePath.includes('Recommendation')) {
+          if (context.filePath.includes('Recommendation') {
             expect(classification.suggestedReplacement).toBe('RecommendationService');
-          } else if (context.filePath.includes('Astrological')) {
+          } else if (context.filePath.includes('Astrological') {
             expect(classification.suggestedReplacement).toBe('AstrologicalService');
-          } else if (context.filePath.includes('Recipe')) {
+          } else if (context.filePath.includes('Recipe') {
             expect(classification.suggestedReplacement).toBe('RecipeService');
           }
         }
       });
 
       test('should preserve external service integration flexibility', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const externalService: any = createExternalServiceClient(config);',
           'src/services/external/ExternalServiceFactory.ts',
           CodeDomain.SERVICE,
@@ -698,7 +698,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('Data Transformation Service Suggestions', () => {
       test('should suggest specific transformer interfaces', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const transformer: any = new DataTransformer();',
           'src/services/data/DataTransformer.ts',
           CodeDomain.SERVICE,
@@ -714,7 +714,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest mapper interfaces for data mapping', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const mapper: any = createMapper(sourceSchema, targetSchema);',
           'src/services/data/SchemaMapper.ts',
           CodeDomain.SERVICE,
@@ -732,7 +732,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('Caching Service Interface Suggestions', () => {
       test('should suggest cache interface types', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const cache: any = new CacheService();',
           'src/services/cache/CacheService.ts',
           CodeDomain.SERVICE,
@@ -748,7 +748,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest cache entry types', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const entry: any = cache.get(key);',
           'src/services/cache/CacheManager.ts',
           CodeDomain.SERVICE,
@@ -766,7 +766,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('Validation Service Interface Suggestions', () => {
       test('should suggest validation result interfaces', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const result: any = validator.validate(data);',
           'src/services/validation/ValidationService.ts',
           CodeDomain.SERVICE,
@@ -782,7 +782,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest schema validation interfaces', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const schema: any = buildValidationSchema(rules);',
           'src/services/validation/SchemaBuilder.ts',
           CodeDomain.SERVICE,
@@ -800,7 +800,7 @@ describe('Domain-Specific Testing', () => {
 
     describe('Service Error Handling', () => {
       test('should preserve service error handling flexibility', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const error: any = new ServiceError(message, code);',
           'src/services/errors/ServiceError.ts',
           CodeDomain.SERVICE,
@@ -816,7 +816,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest specific error types when available', async () => {
-        const context = createDomainContext(
+        const context = createDomainContext()
           'const apiError: any = handleApiError(response);',
           'src/services/errors/ApiErrorHandler.ts',
           CodeDomain.SERVICE,
@@ -836,7 +836,7 @@ describe('Domain-Specific Testing', () => {
   describe('Cross-Domain Integration', () => {
     test('should handle mixed domain contexts appropriately', async () => {
       // Test a service that integrates astrological calculations with recipe recommendations
-      const context = createDomainContext(
+      const context = createDomainContext()
         'const recommendation: any = await astroRecipeService.getRecommendation(userChart, preferences);',
         'src/services/AstrologicalRecipeService.ts',
         CodeDomain.SERVICE,
@@ -852,7 +852,7 @@ describe('Domain-Specific Testing', () => {
     });
 
     test('should preserve campaign system integration with domain services', async () => {
-      const context = createDomainContext(
+      const context = createDomainContext()
         'const campaignData: any = integrateDomainServices(services);',
         'src/services/campaign/DomainIntegration.ts',
         CodeDomain.CAMPAIGN,
@@ -911,7 +911,7 @@ describe('Domain-Specific Testing', () => {
       // Mock successful compilation
       jest.spyOn(require('child_process'), 'execSync').mockReturnValue('');
 
-      const results = await Promise.all(
+      const results = await Promise.all()
         replacements.map(replacement => replacer.applyReplacement(replacement))
       );
 

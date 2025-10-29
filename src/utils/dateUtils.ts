@@ -115,11 +115,11 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {
     if (!mealTimeDishes) return;
 
     // If it's an object with season keys
-    if (typeof mealTimeDishes === 'object' && !Array.isArray(mealTimeDishes)) {
+    if (typeof mealTimeDishes === 'object' && !Array.isArray(mealTimeDishes) {
       // Get dishes from all seasons including 'all' season
       Object.keys(mealTimeDishes).forEach(season => {
         const seasonDishes = mealTimeDishes[season];
-        if (Array.isArray(seasonDishes)) {
+        if (Array.isArray(seasonDishes) {
           allDishes = [...allDishes, ...(seasonDishes as unknown as Dish[])];
         }
       });
@@ -142,7 +142,7 @@ export const _getRecommendations = (
   cuisineId: string,
 ): Dish[] => {
   try {
-    void debugLog(`Getting recommendations for: ${cuisineId}, ${mealTime}, ${season}`)
+    void debugLog(`Getting recommendations for ${cuisineId}, ${mealTime}, ${season}`)
 
     const cuisine = cuisines[cuisineId];
     if (!cuisine || !cuisine.dishes) {
@@ -157,7 +157,7 @@ export const _getRecommendations = (
     }
 
     // If mealTimeDishes is an array, return it directly
-    if (Array.isArray(mealTimeDishes)) {
+    if (Array.isArray(mealTimeDishes) {
       return mealTimeDishes;
     }
 

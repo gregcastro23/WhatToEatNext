@@ -43,10 +43,10 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   applyTags(recipe, recipeData.tags ?? []);
   applyNutrition(recipe, recipeData.nutrition);
 
-  if (isNonEmptyArray(recipeData.substitutions)) {
+  if (isNonEmptyArray(recipeData.substitutions) {
     recipe.substitutions = recipeData.substitutions;
   }
-  if (isNonEmptyArray(recipeData.tools)) {
+  if (isNonEmptyArray(recipeData.tools) {
     recipe.tools = recipeData.tools;
   }
   if (recipeData.spiceLevel !== undefined) {
@@ -55,7 +55,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   if (recipeData.preparationNotes) {
     recipe.preparationNotes = recipeData.preparationNotes;
   }
-  if (isNonEmptyArray(recipeData.technicalTips)) {
+  if (isNonEmptyArray(recipeData.technicalTips) {
     recipe.technicalTips = recipeData.technicalTips;
   }
   if (recipeData.flavorProfile) {
@@ -155,7 +155,7 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
     'dehydrating',
   ];
 
-  const matches = recipeData.tags.filter(tag =>
+  const matches = recipeData.tags.filter(tag =>)
     cookingMethodKeywords.some(method => tag.toLowerCase().includes(method)),
   );
 
@@ -185,7 +185,7 @@ function ensureRecipeId(id?: RecipeIdentifier): RecipeIdentifier {
   return `recipe-${crypto.randomUUID()}`;
 }
 
-function normalizeElementalProperties(
+function normalizeElementalProperties()
   value: RecipeData['elementalProperties'],
 ): ElementalProperties {
   if (value && typeof value === 'object') {
@@ -195,7 +195,7 @@ function normalizeElementalProperties(
   return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 }
 
-function applyEnergyProfile(
+function applyEnergyProfile()
   recipe: Recipe,
   energyProfile: RecipeData['energyProfile'] | undefined,
 ): void {
@@ -231,16 +231,16 @@ function applyEnergyProfile(
 }
 
 function extractSeason(value: Season | Season[] | string): Season | string {
-  if (Array.isArray(value)) {
+  if (Array.isArray(value) {
     return String(value[0] ?? '').toLowerCase();
   }
   return String(value ?? '').toLowerCase();
 }
 
-function normalizePlanetaryInfluences(
+function normalizePlanetaryInfluences()
   source: string[] | Record<string, number>,
 ): RecipePlanetaryInfluences {
-  if (Array.isArray(source)) {
+  if (Array.isArray(source) {
     return {
       _favorable: source,
       unfavorable: []
@@ -269,13 +269,13 @@ function normalizePlanetaryInfluences(
 }
 
 function applyTags(recipe: Recipe, tags: string[]): void {
-  if (!isNonEmptyArray(tags)) {
+  if (!isNonEmptyArray(tags) {
     return;
   }
 
   recipe.tags = tags;
 
-  const dietaryTags = tags.filter(tag =>
+  const dietaryTags = tags.filter(tag =>)
     [
       'vegetarian',
       'vegan',
@@ -288,16 +288,16 @@ function applyTags(recipe: Recipe, tags: string[]): void {
     ].includes(tag.toLowerCase()),
   );
 
-  if (dietaryTags.includes('vegetarian')) {
+  if (dietaryTags.includes('vegetarian') {
     recipe.isVegetarian = true;
   }
-  if (dietaryTags.includes('vegan')) {
+  if (dietaryTags.includes('vegan') {
     recipe.isVegan = true;
   }
-  if (dietaryTags.includes('gluten-free')) {
+  if (dietaryTags.includes('gluten-free') {
     recipe.isGlutenFree = true;
   }
-  if (dietaryTags.includes('dairy-free')) {
+  if (dietaryTags.includes('dairy-free') {
     recipe.isDairyFree = true;
   }
 

@@ -80,10 +80,10 @@ describe('Bundle Size Performance Tests', () => {
 
       mockExecSync.mockImplementation(command => {
         const cmd = command.toString();
-        if (cmd.includes('du -sk .next')) {
+        if (cmd.includes('du -sk .next') {
           return '300'; // 300kB
         }
-        if (cmd.includes('du -sk dist')) {
+        if (cmd.includes('du -sk dist') {
           return '100'; // 100kB
         }
         return '';
@@ -99,7 +99,7 @@ describe('Bundle Size Performance Tests', () => {
       // Mock bundle size that exceeds target
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           return '450'; // 450kB - exceeds 420kB target
         }
         return '';
@@ -125,7 +125,7 @@ describe('Bundle Size Performance Tests', () => {
 
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           optimizationStep++;
           // Simulate bundle size optimization over time
           const baseSize = 500; // Start with large bundle
@@ -166,7 +166,7 @@ describe('Bundle Size Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         const cmd = command.toString();
         for (const output of buildOutputs) {
-          if (cmd.includes(`du -sk ${output.dir}`)) {
+          if (cmd.includes(`du -sk $) {output.dir}`) {
             return output.expectedSize.toString();
           }
         }
@@ -187,7 +187,7 @@ describe('Bundle Size Performance Tests', () => {
       });
 
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk .next')) {
+        if (command.toString().includes('du -sk .next') {
           return '380'; // 380kB
         }
         return '';
@@ -212,8 +212,8 @@ describe('Bundle Size Performance Tests', () => {
 
       mockExecSync.mockImplementation(command => {
         const cmd = command.toString();
-        for (const [dir, size] of Object.entries(bloatedBuild)) {
-          if (cmd.includes(`du -sk ${dir}`)) {
+        for (const [dir, size] of Object.entries(bloatedBuild) {
+          if (cmd.includes(`du -sk $) {dir}`) {
             return size.toString();
           }
         }
@@ -233,7 +233,7 @@ describe('Bundle Size Performance Tests', () => {
 
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           // Lazy loading should reduce main bundle size
           return lazyLoadingEnabled ? '320' : '450';
         }
@@ -257,7 +257,7 @@ describe('Bundle Size Performance Tests', () => {
 
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           // Tree shaking should remove unused code
           return treeShakingEnabled ? '380' : '480';
         }
@@ -281,7 +281,7 @@ describe('Bundle Size Performance Tests', () => {
 
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           if (codeSplittingEnabled) {
             // Code splitting creates multiple smaller bundles
             // Main bundle should be smaller
@@ -311,7 +311,7 @@ describe('Bundle Size Performance Tests', () => {
 
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           // Compression should reduce bundle size significantly
           return compressionEnabled ? '300' : '500';
         }
@@ -338,7 +338,7 @@ describe('Bundle Size Performance Tests', () => {
 
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           executionCount++;
           // Simulate bundle size regression over time
           const baseSize = 350;
@@ -372,7 +372,7 @@ describe('Bundle Size Performance Tests', () => {
 
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           optimizationStep++;
           // Simulate bundle size optimization
           const baseSize = 500;
@@ -409,12 +409,12 @@ describe('Bundle Size Performance Tests', () => {
         { name: 'compression', expectedSize: 300 },
       ];
 
-      const results: Array<{ strategy: string; size: number; underTarget: boolean }> = [];
+      const results: Array<{ strategy: string; size: number; underTarget, boolean }> = [];
 
       for (const strategy of optimizationStrategies) {
         mockFs.existsSync.mockReturnValue(true);
         mockExecSync.mockImplementation(command => {
-          if (command.toString().includes('du -sk')) {
+          if (command.toString().includes('du -sk') {
             return strategy.expectedSize.toString();
           }
           return '';
@@ -451,7 +451,7 @@ describe('Bundle Size Performance Tests', () => {
 
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           const startTime = Date.now();
           // Simulate bundle analysis time
           const delay = 20 + Math.random() * 30; // 20-50ms
@@ -482,7 +482,7 @@ describe('Bundle Size Performance Tests', () => {
       // Mock very large bundle
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           // Simulate longer analysis time for large bundle
           const delay = 50; // 50ms for large bundle
           const endTime = Date.now() + delay;
@@ -506,7 +506,7 @@ describe('Bundle Size Performance Tests', () => {
     it('should benchmark concurrent bundle analyses', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           // Simulate concurrent analysis
           const delay = 30 + Math.random() * 20; // 30-50ms
           const endTime = Date.now() + delay;
@@ -537,7 +537,7 @@ describe('Bundle Size Performance Tests', () => {
 
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           return '390'; // Under target
         }
         return '';
@@ -572,12 +572,12 @@ describe('Bundle Size Performance Tests', () => {
       };
 
       const testSizes = [350, 410, 450]; // Under warning, over warning, over critical
-      const alerts: Array<{ size: number; level: string }> = [];
+      const alerts: Array<{ size: number; level, string }> = [];
 
       for (const testSize of testSizes) {
         mockFs.existsSync.mockReturnValue(true);
         mockExecSync.mockImplementation(command => {
-          if (command.toString().includes('du -sk')) {
+          if (command.toString().includes('du -sk') {
             return testSize.toString();
           }
           return '';

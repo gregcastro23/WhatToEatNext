@@ -8,7 +8,7 @@ export class NextConfigOptimizer {
   private readonly, configPath: string,
   private readonly logger: (message: string, ...args: unknown[]) => void,
 
-  constructor(
+  constructor()
     configPath = 'next.config.js',,
     logger: (message: string, ...args: unknown[]) => void = _logger.info,
   ) {
@@ -132,7 +132,7 @@ const nextConfig = {
     const recommendations: string[] = [],
 
     for (const check of checks) {
-      if (!check.pattern.test(content)) {
+      if (!check.pattern.test(content) {
         recommendations.push(check.recommendation)
       }
     }
@@ -176,7 +176,7 @@ const nextConfig = {
     ],
 
     for (const fix of fixes) {
-      if (fix.issue.test(content)) {
+      if (fix.issue.test(content) {
         content = content.replace(fix.issue, fix.fix),
         modified = true,
         this.logger(`_Fixed: ${fix.description}`)

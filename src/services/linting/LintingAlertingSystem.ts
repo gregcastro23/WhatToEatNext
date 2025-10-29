@@ -111,7 +111,7 @@ export class LintingAlertingSystem {
       await this.triggerAutoResponses(activeAlerts, performanceEvents);
     }
 
-    console.log(
+    console.log()
       `✅ Processed ${activeAlerts.length} active alerts and ${performanceEvents.length} performance events`,
     );
   }
@@ -130,7 +130,7 @@ export class LintingAlertingSystem {
     for (const threshold of thresholds) {
       const value = this.getPerformanceMetricValue(metrics, threshold.metric);
 
-      if (this.isThresholdExceeded(value, threshold)) {
+      if (this.isThresholdExceeded(value, threshold) {
         const event: PerformanceEvent = {
           id: `perf-${threshold.metric}-${Date.now()}`,
           timestamp: new Date(),
@@ -143,7 +143,7 @@ export class LintingAlertingSystem {
         };
 
         events.push(event);
-        console.log(
+        console.log()
           `⚠️ Performance threshold exceeded: ${threshold.metric} = ${value} > ${threshold.threshold}`,
         );
       }
@@ -157,7 +157,7 @@ export class LintingAlertingSystem {
    */
   private async sendAlert(alert: Alert): Promise<void> {
     for (const channel of this.config.channels) {
-      if (channel.severityFilter.includes(alert.severity)) {
+      if (channel.severityFilter.includes(alert.severity) {
         await this.sendAlertToChannel(alert, channel);
       }
     }
@@ -300,7 +300,7 @@ export class LintingAlertingSystem {
     const actions = this.config.autoResponse.actions;
 
     for (const action of actions) {
-      if (this.shouldTriggerAction(action, alerts, events)) {
+      if (this.shouldTriggerAction(action, alerts, events) {
         await this.executeAutoResponse(action);
       }
     }
@@ -338,7 +338,7 @@ export class LintingAlertingSystem {
   private filterActiveAlerts(alerts: Alert[]): Alert[] {
     return alerts.filter(alert => {
       // Check suppression
-      if (this.suppressedAlerts.has(alert.metric)) {
+      if (this.suppressedAlerts.has(alert.metric) {
         return false;
       }
 
@@ -415,7 +415,7 @@ export class LintingAlertingSystem {
   // Helper methods
   private loadConfiguration(): AlertingConfig {
     try {
-      if (existsSync(this.configFile)) {
+      if (existsSync(this.configFile) {
         return JSON.parse(readFileSync(this.configFile, 'utf8'));
       }
     } catch (error) {
@@ -490,7 +490,7 @@ export class LintingAlertingSystem {
 
   private loadSuppressions(): void {
     try {
-      if (existsSync(this.suppressionFile)) {
+      if (existsSync(this.suppressionFile) {
         const suppressions = JSON.parse(readFileSync(this.suppressionFile, 'utf8'));
         this.suppressedAlerts = new Set(suppressions);
       }
@@ -536,7 +536,7 @@ export class LintingAlertingSystem {
 
   private loadAlertHistory(): AlertHistory {
     try {
-      if (existsSync(this.historyFile)) {
+      if (existsSync(this.historyFile) {
         return JSON.parse(readFileSync(this.historyFile, 'utf8'));
       }
     } catch (error) {
@@ -587,7 +587,7 @@ export class LintingAlertingSystem {
     }
   }
 
-  private shouldTriggerAction(
+  private shouldTriggerAction()
     action: AutoResponseAction,
     alerts: Alert[],
     events: PerformanceEvent[],

@@ -50,7 +50,7 @@ export async function GET(request: Request) {
   } catch (error) {
     logger.error('Error getting current moment: ', error)
 
-    return NextResponse.json(
+    return NextResponse.json()
       {
         success: false,
         error: 'Failed to get current moment data',
@@ -109,7 +109,7 @@ export async function POST(request: Request) {
 }
         })
 
-      default: return NextResponse.json(
+      default: return NextResponse.json()
           {
             success: false,
             error: 'Invalid action',
@@ -121,7 +121,7 @@ export async function POST(request: Request) {
   } catch (error) {
     logger.error('Error in current moment POST: ', error)
 
-    return NextResponse.json(
+    return NextResponse.json()
       {
         success: false,
         error: 'Failed to process current moment request',
@@ -157,16 +157,16 @@ export async function PUT(request: Request) {
 
     // Note: The updateCurrentMoment already updates all files,
     // so this is more of a status report
-    if (targets.includes('all') || targets.includes('notebook')) {
+    if (targets.includes('all') || targets.includes('notebook') {
       updateResults.notebook = true;
     }
-    if (targets.includes('all') || targets.includes('systemDefaults')) {
+    if (targets.includes('all') || targets.includes('systemDefaults') {
       updateResults.systemDefaults = true;
     }
-    if (targets.includes('all') || targets.includes('streamlinedPositions')) {
+    if (targets.includes('all') || targets.includes('streamlinedPositions') {
       updateResults.streamlinedPositions = true;
     }
-    if (targets.includes('all') || targets.includes('accurateAstronomy')) {
+    if (targets.includes('all') || targets.includes('accurateAstronomy') {
       updateResults.accurateAstronomy = true;
     }
 
@@ -182,7 +182,7 @@ export async function PUT(request: Request) {
   } catch (error) {
     logger.error('Error in current moment PUT: ', error)
 
-    return NextResponse.json(
+    return NextResponse.json()
       {
         success: false,
         error: 'Failed to process selective update',

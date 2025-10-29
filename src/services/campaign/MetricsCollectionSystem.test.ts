@@ -94,7 +94,7 @@ describe('MetricsCollectionSystem', () => {
       mockExecSync
         .mockReturnValueOnce('0') // TS errors first
         .mockReturnValueOnce('10') // Warning count
-        .mockReturnValueOnce(`
+        .mockReturnValueOnce(`)
           warning: Unused variable 'test' @typescript-eslint/no-unused-vars
           warning: Explicit any type @typescript-eslint/no-explicit-any
           warning: Console statement no-console
@@ -144,7 +144,7 @@ describe('MetricsCollectionSystem', () => {
 
     test('should handle build failures gracefully', async () => {
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('yarn build')) {
+        if (command.toString().includes('yarn build') {
           throw new Error('Build failed');
         }
         return '0';
@@ -266,7 +266,7 @@ describe('MetricsCollectionSystem', () => {
       await metricsSystem.collectSnapshot('phase1');
       await metricsSystem.exportSnapshots('test-metrics.json');
 
-      expect(mockFs.writeFileSync).toHaveBeenCalledWith(
+      expect(mockFs.writeFileSync).toHaveBeenCalledWith()
         'test-metrics.json',
         expect.stringContaining('"totalSnapshots": 1'),
       );

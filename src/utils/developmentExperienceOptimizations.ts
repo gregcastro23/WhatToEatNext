@@ -11,14 +11,14 @@ import { logger } from '@/utils/logger';
 
 // TypeScript compilation optimization settings
 export interface TypeScriptOptimizationConfig {
-  enableIncrementalCompilation: boolean,
-  enableProjectReferences: boolean,
-  enableCompositeMode: boolean,
-  skipLibCheck: boolean,
-  skipDefaultLibCheck: boolean,
-  useDefineForClassFields: boolean,
-  exactOptionalPropertyTypes: boolean,
-  noUncheckedIndexedAccess: boolean,
+  enableIncrementalCompilation: boolean;
+  enableProjectReferences: boolean;
+  enableCompositeMode: boolean;
+  skipLibCheck: boolean;
+  skipDefaultLibCheck: boolean;
+  useDefineForClassFields: boolean;
+  exactOptionalPropertyTypes: boolean;
+  noUncheckedIndexedAccess: boolean;
   target: 'es2018' | 'es2020' | 'es2022' | 'esnext'
   module: 'commonjs' | 'esnext' | 'es2020' | 'es2022'
   moduleResolution: 'node' | 'bundler'
@@ -26,39 +26,39 @@ export interface TypeScriptOptimizationConfig {
 
 // IntelliSense enhancement configuration
 export interface IntelliSenseConfig {
-  enableAstrologicalTypeDefinitions: boolean,
-  enableElementalPropertyIntelliSense: boolean,
-  enablePlanetaryPositionAutoComplete: boolean,
-  enableCulinaryAstrologySnippets: boolean,
+  enableAstrologicalTypeDefinitions: boolean;
+  enableElementalPropertyIntelliSense: boolean;
+  enablePlanetaryPositionAutoComplete: boolean;
+  enableCulinaryAstrologySnippets: boolean;
   enableCustomTypeGuards: boolean
 }
 
 // Import organization configuration
 export interface ImportOrganizationConfig {
-  enableAutoImportOrganization: boolean,
-  enableUnusedImportRemoval: boolean,
-  enableImportSorting: boolean,
-  enablePathMapping: boolean,
-  groupExternalImports: boolean,
+  enableAutoImportOrganization: boolean;
+  enableUnusedImportRemoval: boolean;
+  enableImportSorting: boolean;
+  enablePathMapping: boolean;
+  groupExternalImports: boolean;
   groupInternalImports: boolean
 }
 
 // Performance monitoring configuration
 export interface PerformanceMonitoringConfig {
-  enableRealTimeErrorDetection: boolean,
-  enableCompilationTimeTracking: boolean,
-  enableMemoryUsageMonitoring: boolean,
-  enableBundleSizeTracking: boolean,
+  enableRealTimeErrorDetection: boolean;
+  enableCompilationTimeTracking: boolean;
+  enableMemoryUsageMonitoring: boolean;
+  enableBundleSizeTracking: boolean;
   enableHotReloadOptimization: boolean
 }
 
 export interface DevelopmentMetrics {
-  compilationTime: number,
-  memoryUsage: number,
-  bundleSize: number,
-  errorCount: number,
-  warningCount: number,
-  hotReloadTime: number,
+  compilationTime: number;
+  memoryUsage: number;
+  bundleSize: number;
+  errorCount: number;
+  warningCount: number;
+  hotReloadTime: number;
   lastOptimization: number
 }
 
@@ -173,9 +173,9 @@ declare global {
       sign: 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' |
             'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
       /** Degree within the sign (0-30) */
-      _degree: number,
+      _degree: number;
       /** Exact longitude (0-360) */
-      _exactLongitude: number,
+      _exactLongitude: number;
       /** Whether the planet is in retrograde motion */
       isRetrograde: boolean
     }
@@ -183,11 +183,11 @@ declare global {
     // Elemental properties with validation
     interface ElementalProperties {
       /** Fire element strength (0-1) - Energy, spice, quick cooking */
-      Fire: number,
+      Fire: number;
       /** Water element strength (0-1) - Cooling, fluid, steaming */
-      Water: number,
+      Water: number;
       /** Earth element strength (0-1) - Grounding, root vegetables, slow cooking */
-      Earth: number,
+      Earth: number;
       /** Air element strength (0-1) - Light, leafy, raw preparations */
       Air: number
     }
@@ -197,7 +197,7 @@ declare global {
       /** Primary ruling planet */
       rulingPlanet: 'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn'
       /** Secondary planetary influences */
-      influences?: Array<'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn'>,
+      influences?: Array<'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn'>;
       /** Optimal timing for use */
       optimalTiming?: string
     }
@@ -207,13 +207,13 @@ declare global {
       /** Current dominant element based on planetary positions */
       dominantElement: 'Fire' | 'Water' | 'Earth' | 'Air'
       /** Recommended cooking methods */
-      recommendedMethods: string[],
+      recommendedMethods: string[];
       /** Optimal ingredients for current conditions */
-      optimalIngredients: string[],
+      optimalIngredients: string[];
       /** Timing recommendations */
       timing: {
-        bestHours: string[],
-        _lunarPhase: string,
+        bestHours: string[];
+        _lunarPhase: string;
         _planetaryHour: string
       }
     }
@@ -226,14 +226,14 @@ declare global {
 
   // Enhanced ingredient type definitions
   interface EnhancedIngredient {
-    name: string,
-    _category: string,
-    _elementalProperties: Astrology.ElementalProperties,
-    _planetaryCorrespondence: Astrology.PlanetaryCorrespondence,
+    name: string;
+    _category: string;
+    _elementalProperties: Astrology.ElementalProperties;
+    _planetaryCorrespondence: Astrology.PlanetaryCorrespondence;
     _culinaryProperties: {
-      flavorProfile: string[],
-      _cookingMethods: string[],
-      _seasonality: string[],
+      flavorProfile: string[];
+      _cookingMethods: string[];
+      _seasonality: string[];
       _pairings: string[]
     }
     nutritionalData?: {
@@ -248,16 +248,16 @@ declare global {
 
   // Enhanced recipe type definitions
   interface EnhancedRecipe {
-    id: string,
-    name: string,
-    ingredients: EnhancedIngredient[],
-    _instructions: string[],
-    _astrologicalOptimization: Astrology.CulinaryAstrologyData,
-    _elementalBalance: Astrology.ElementalProperties,
+    id: string;
+    name: string;
+    ingredients: EnhancedIngredient[];
+    _instructions: string[];
+    _astrologicalOptimization: Astrology.CulinaryAstrologyData;
+    _elementalBalance: Astrology.ElementalProperties;
     timing: {
-      prepTime: number,
-      _cookTime: number,
-      _totalTime: number,
+      prepTime: number;
+      _cookTime: number;
+      _totalTime: number;
       optimalStartTime?: string
     }
   }
@@ -267,7 +267,7 @@ declare global {
   /**
    * Real-time error detection and fixing
    */
-  public detectAndFixCommonErrors(sourceCode: string): { fixedCode: string; fixes: string[]; remainingErrors: string[]; } {
+  public detectAndFixCommonErrors(sourceCode: string): { fixedCode: string; fixes: string[]; remainingErrors, string[]; } {
     let fixedCode = sourceCode;
     const fixes: string[] = [];
     const remainingErrors: string[] = [];
@@ -297,7 +297,7 @@ declare global {
     ];
 
     commonFixes.forEach(fix => {
-      if (fix.pattern.test(fixedCode)) {
+      if (fix.pattern.test(fixedCode) {
         fixedCode = fixedCode.replace(fix.pattern, fix.replacement);
         fixes.push(fix.description);
       }
@@ -535,9 +535,9 @@ declare global {
     const internalImports: string[] = [];
 
     imports.forEach(importLine => {
-      if (importLine.includes('@/') || importLine.includes('./') || importLine.includes('../')) {
+      if (importLine.includes('@/') || importLine.includes('./') || importLine.includes('../') {
         internalImports.push(importLine);
-      } else if (importLine.trim().startsWith('import ')) {
+      } else if (importLine.trim().startsWith('import ') {
         externalImports.push(importLine);
       }
     });

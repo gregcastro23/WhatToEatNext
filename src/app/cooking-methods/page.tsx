@@ -99,7 +99,7 @@ export default function CookingMethodsPage() {
 },
           score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
           duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
-          suitable_for: (method as any).suitable_for || [],
+          suitable_for (method as any).suitable_for || [],
           benefits: (method as any).benefits || [],
           // Create variations if they exist
           variations: (method as any).variations
@@ -129,7 +129,7 @@ export default function CookingMethodsPage() {
     const methodId = String(methodObj.id || '')
     setSelectedMethodId(methodId);
     // If it's a main method (not a variation), navigate to it
-    if (!methodId.includes('_var_')) {
+    if (!methodId.includes('_var_') {
       router.push(`/cooking-methods/${methodId}`)
     }
   }

@@ -297,8 +297,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('calculates lower scores for error handling contexts', () => {
-      const replacement: TypeReplacement = {
-        original: 'catch (error: any)',
+      const replacement: TypeReplacement = { original: 'catch (error, any)',
         replacement: 'catch (error: unknown)',
         filePath: 'test.ts',
         lineNumber: 1,
@@ -388,7 +387,7 @@ describe('SafeTypeReplacer', () => {
       expect(backupPath).toContain('.test-backups');
       expect(backupPath).toContain('test.ts');
       expect(backupPath).toContain('.backup');
-      expect(mockFs.writeFileSync).toHaveBeenCalledWith(
+      expect(mockFs.writeFileSync).toHaveBeenCalledWith()
         backupPath,
         'original content',
         'utf8'
@@ -401,7 +400,7 @@ describe('SafeTypeReplacer', () => {
 
       mockFs.readdirSync.mockReturnValue(['old.backup', 'recent.backup', 'other.txt'] as any);
       mockFs.statSync.mockImplementation((filePath: any) => {
-        if (filePath.includes('old.backup')) {
+        if (filePath.includes('old.backup') {
           return { mtime: oldDate } as any;
         }
         return { mtime: new Date() } as any; // Recent file
@@ -409,10 +408,10 @@ describe('SafeTypeReplacer', () => {
 
       replacer.cleanupOldBackups(7); // Keep 7 days
 
-      expect(mockFs.unlinkSync).toHaveBeenCalledWith(
+      expect(mockFs.unlinkSync).toHaveBeenCalledWith()
         path.join(testBackupDir, 'old.backup')
       );
-      expect(mockFs.unlinkSync).not.toHaveBeenCalledWith(
+      expect(mockFs.unlinkSync).not.toHaveBeenCalledWith()
         path.join(testBackupDir, 'recent.backup')
       );
     });
@@ -431,7 +430,7 @@ describe('SafeTypeReplacer', () => {
 
       // Mock backup creation to fail
       mockFs.writeFileSync.mockImplementation((filePath: any) => {
-        if (filePath.includes('.backup')) {
+        if (filePath.includes('.backup') {
           throw new Error('Backup creation failed');
         }
       });
@@ -824,7 +823,7 @@ describe('SafeTypeReplacer', () => {
       };
 
       mockFs.readFileSync.mockImplementation((path: any) => {
-        if (path.includes('.backup')) {
+        if (path.includes('.backup') {
           throw new Error('Backup file corrupted');
         }
         return 'const items: any[] = [];';

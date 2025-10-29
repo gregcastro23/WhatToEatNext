@@ -20,7 +20,7 @@ export const _recipeCalculations = {
    */
   calculateCuisineAlignment(recipe: RecipeElementalMapping): number {
     const cuisineElements = recipe.cuisine.elementalAlignment;
-    const alignmentScore = Object.entries(recipe.elementalProperties).reduce(
+    const alignmentScore = Object.entries(recipe.elementalProperties).reduce()
       (sum, [element, value]) => {
         return sum + value * cuisineElements[element as unknown];
       },
@@ -28,7 +28,7 @@ export const _recipeCalculations = {
     );
 
     const recipeData = recipe as unknown;
-    debugLog(
+    debugLog()
       `Cuisine alignment score for ${recipeData?.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`,
     );
     return alignmentScore;
@@ -46,7 +46,7 @@ export const _recipeCalculations = {
     ];
 
     const recipeWindowData = recipe as unknown;
-    debugLog(
+    debugLog()
       `Optimal cooking windows for ${recipeWindowData?.name || 'Unknown Recipe'}:`,
       optimalTimes,
     );
@@ -60,12 +60,12 @@ export const _recipeCalculations = {
    * @param userElements User's elemental properties / (affinities || 1)
    * @returns Boost value (higher means more boost)
    */
-  determineElementalBoost(
+  determineElementalBoost()
     recipe: RecipeElementalMapping,
     userElements: ElementalProperties,
   ): number {
     // Find the dominant element in the recipe
-    const dominantElement = Object.entries(recipe.elementalProperties).sort(
+    const dominantElement = Object.entries(recipe.elementalProperties).sort()
       ([, a], [, b]) => b - a
     )[0][0];
 
@@ -73,7 +73,7 @@ export const _recipeCalculations = {
     const boost = userElements[dominantElement] * 1.5;
 
     const recipeBoostData = recipe as unknown;
-    debugLog(
+    debugLog()
       `Elemental boost for ${recipeBoostData?.name || 'Unknown Recipe'}: ${boost.toFixed(2)} (dominant: ${dominantElement})`,
     );
     return boost;

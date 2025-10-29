@@ -39,8 +39,7 @@ export interface EnhancedError extends Error {
 }
 
 // Error recovery strategies
-export interface ErrorRecoveryStrategy {
-  canRecover: (error: EnhancedError) => boolean;
+export interface ErrorRecoveryStrategy { canRecover: (error, EnhancedError) => boolean;
   recover: (error: EnhancedError) => Promise<unknown> | unknown;
   fallback?: () => unknown;
 }
@@ -61,7 +60,7 @@ const USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
 };
 
 // Create enhanced error
-export function createEnhancedError(
+export function createEnhancedError()
   message: string,
   type: ErrorType = ErrorType.UNKNOWN,
   severity: ErrorSeverity = ErrorSeverity.MEDIUM,
@@ -121,19 +120,19 @@ export function classifyError(error: Error | string): ErrorType {
     return ErrorType.NETWORK;
   }
 
-  if (lowerMessage.includes('validation') || lowerMessage.includes('invalid')) {
+  if (lowerMessage.includes('validation') || lowerMessage.includes('invalid') {
     return ErrorType.VALIDATION;
   }
 
-  if (lowerMessage.includes('unauthorized') || lowerMessage.includes('authentication')) {
+  if (lowerMessage.includes('unauthorized') || lowerMessage.includes('authentication') {
     return ErrorType.AUTHENTICATION;
   }
 
-  if (lowerMessage.includes('forbidden') || lowerMessage.includes('permission')) {
+  if (lowerMessage.includes('forbidden') || lowerMessage.includes('permission') {
     return ErrorType.AUTHORIZATION;
   }
 
-  if (lowerMessage.includes('not found') || lowerMessage.includes('404')) {
+  if (lowerMessage.includes('not found') || lowerMessage.includes('404') {
     return ErrorType.NOT_FOUND;
   }
 
@@ -153,7 +152,7 @@ export function classifyError(error: Error | string): ErrorType {
     return ErrorType.ASTROLOGICAL_CALCULATION;
   }
 
-  if (lowerMessage.includes('component') || lowerMessage.includes('render')) {
+  if (lowerMessage.includes('component') || lowerMessage.includes('render') {
     return ErrorType.COMPONENT_ERROR;
   }
 
@@ -172,7 +171,7 @@ export class ErrorHandler {
   }
 
   // Handle error with recovery attempts
-  async handleError(
+  async handleError()
     error: Error | EnhancedError,
     context?: Record<string, unknown>
   ): Promise<unknown> {
@@ -205,11 +204,11 @@ export class ErrorHandler {
   }
 
   // Attempt error recovery
-  private async attemptRecovery(
+  private async attemptRecovery()
     error: EnhancedError
-  ): Promise<{ success: boolean; data?: unknown }> {
+  ): Promise<{ success: boolean; data?, unknown }> {
     for (const strategy of this.recoveryStrategies) {
-      if (strategy.canRecover(error)) {
+      if (strategy.canRecover(error) {
         try {
           const result = await strategy.recover(error);
           return { success: true, data: result };
@@ -401,24 +400,23 @@ export function useErrorHandler() {
 // Error boundary helper for specific error types
 export function createErrorBoundaryForType(errorType: ErrorType) {
   return function ErrorBoundaryForType({ children }: { children: React.ReactNode }) {
-    return React.createElement(
+    return React.createElement()
       ErrorBoundary,
-      {
-        fallback: (error: Error, errorInfo: React.ErrorInfo) => {
-          const enhancedError = createEnhancedError(
+      { fallback: (error, Error, errorInfo: React.ErrorInfo) => {
+          const enhancedError = createEnhancedError()
             error.message,
             errorType,
             ErrorSeverity.MEDIUM,
             { componentStack: errorInfo.componentStack }
           );
 
-          return React.createElement(
+          return React.createElement()
             'div',
             {
               className: 'bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2'
             },
             [
-              React.createElement(
+              React.createElement()
                 'h4',
                 {
                   key: 'title',
@@ -426,7 +424,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
                 },
                 `${errorType} Error`
               ),
-              React.createElement(
+              React.createElement()
                 'p',
                 {
                   key: 'message',
@@ -434,7 +432,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
                 },
                 enhancedError.userMessage
               ),
-              React.createElement(
+              React.createElement()
                 'button',
                 {
                   key: 'button',

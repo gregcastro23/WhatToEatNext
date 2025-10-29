@@ -33,7 +33,7 @@ export const cookingMethods = {
       min: 20,
       max: 120
     },
-    suitable_for: ['meats', 'root vegetables', 'tubers', 'whole poultry']
+    suitable_for ['meats', 'root vegetables', 'tubers', 'whole poultry']
   },
   steaming: {
     name: 'Steaming',
@@ -66,7 +66,7 @@ export const cookingMethods = {
       min: 5,
       max: 30
 },
-    suitable_for: ['vegetables', 'fish', 'dumplings', 'custards']
+    suitable_for ['vegetables', 'fish', 'dumplings', 'custards']
   },
   grilling: {
     name: 'Grilling',
@@ -99,7 +99,7 @@ export const cookingMethods = {
       min: 5,
       max: 45
 },
-    suitable_for: ['meats', 'seafood', 'vegetables', 'fruits']
+    suitable_for ['meats', 'seafood', 'vegetables', 'fruits']
   },
   boiling: {
     name: 'Boiling',
@@ -132,7 +132,7 @@ export const cookingMethods = {
       min: 3,
       max: 60
 },
-    suitable_for: ['pasta', 'grains', 'legumes', 'hard vegetables']
+    suitable_for ['pasta', 'grains', 'legumes', 'hard vegetables']
   },
   sauteing: {
     name: 'Sautéing',
@@ -165,7 +165,7 @@ export const cookingMethods = {
       min: 2,
       max: 15
 },
-    suitable_for: ['vegetables', 'thin cuts of meat', 'seafood', 'aromatics']
+    suitable_for ['vegetables', 'thin cuts of meat', 'seafood', 'aromatics']
   },
   baking: {
     name: 'Baking',
@@ -198,7 +198,7 @@ export const cookingMethods = {
       min: 15,
       max: 180
 },
-    suitable_for: ['doughs', 'batters', 'casseroles', 'gratins']
+    suitable_for ['doughs', 'batters', 'casseroles', 'gratins']
   },
   fermenting: {
     name: 'Fermenting',
@@ -231,7 +231,7 @@ export const cookingMethods = {
       min: 1440, // 24 hours,
       max: 10080, // 7 days
     },
-    suitable_for: ['cabbage', 'milk', 'grains', 'vegetables']
+    suitable_for ['cabbage', 'milk', 'grains', 'vegetables']
   },
   braising: {
     name: 'Braising',
@@ -264,7 +264,7 @@ export const cookingMethods = {
       min: 60,
       max: 240
 },
-    suitable_for: ['tough cuts of meat', 'root vegetables', 'hardy greens']
+    suitable_for ['tough cuts of meat', 'root vegetables', 'hardy greens']
   },
   poaching: {
     name: 'Poaching',
@@ -297,7 +297,7 @@ export const cookingMethods = {
       min: 3,
       max: 20
 },
-    suitable_for: ['eggs', 'fish', 'fruit', 'delicate proteins']
+    suitable_for ['eggs', 'fish', 'fruit', 'delicate proteins']
   },
   smoking: {
     name: 'Smoking',
@@ -330,7 +330,7 @@ export const cookingMethods = {
       min: 30,
       max: 720
 },
-    suitable_for: ['meats', 'fish', 'cheese', 'vegetables']
+    suitable_for ['meats', 'fish', 'cheese', 'vegetables']
   },
   dehydrating: {
     name: 'Dehydrating',
@@ -363,7 +363,7 @@ export const cookingMethods = {
       min: 240,
       max: 1440
 },
-    suitable_for: ['fruits', 'herbs', 'vegetables', 'meats']
+    suitable_for ['fruits', 'herbs', 'vegetables', 'meats']
   },
   pressure_cooking: {
     name: 'Pressure Cooking',
@@ -396,7 +396,7 @@ export const cookingMethods = {
       min: 5,
       max: 60
 },
-    suitable_for: ['tough cuts of meat', 'beans', 'grains', 'root vegetables']
+    suitable_for ['tough cuts of meat', 'beans', 'grains', 'root vegetables']
   },
   sous_vide: {
     name: 'Sous Vide',
@@ -429,7 +429,7 @@ export const cookingMethods = {
       min: 30,
       max: 1440
 },
-    suitable_for: ['meats', 'eggs', 'fish', 'vegetables']
+    suitable_for ['meats', 'eggs', 'fish', 'vegetables']
   },
   pickling: {
     name: 'Pickling',
@@ -462,7 +462,7 @@ export const cookingMethods = {
       min: 720,
       max: 4320
 },
-    suitable_for: ['vegetables', 'fruits', 'eggs', 'ginger']
+    suitable_for ['vegetables', 'fruits', 'eggs', 'ginger']
   }
 }
 

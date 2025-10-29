@@ -234,23 +234,23 @@ function addGarbageCollectionHints(): void {
  */
 function configureProcessMemory(): void {
   // Set Node?.js memory limits if not already set
-  if (!process.env.NODE_OPTIONS?.includes('--max-old-space-size')) {
+  if (!process.env.NODE_OPTIONS?.includes('--max-old-space-size') {
     // Set reasonable memory limit for tests (2GB)
     process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --max-old-space-size=2048';
   }
 
   // Enable garbage collection exposure if not already enabled
-  if (!process.env.NODE_OPTIONS.includes('--expose-gc')) {
+  if (!process.env.NODE_OPTIONS.includes('--expose-gc') {
     process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --expose-gc';
   }
 
   // Handle process memory warnings
   process.on('warning', warning => {
-    if (warning.name === 'MaxListenersExceededWarning' || warning.message.includes('memory')) {
+    if (warning.name === 'MaxListenersExceededWarning' || warning.message.includes('memory') {
       console.warn('Process memory warning:', warning.message);
 
       // Trigger emergency cleanup on memory warnings
-      if (warning.message.includes('memory') || warning.message.includes('heap')) {
+      if (warning.message.includes('memory') || warning.message.includes('heap') {
         performEmergencyCleanup();
       }
     }
@@ -258,7 +258,7 @@ function configureProcessMemory(): void {
 
   // Handle uncaught exceptions that might be memory-related
   process.on('uncaughtException', error => {
-    if (
+    if ()
       error.message.includes('out of memory') ||
       error.message.includes('heap') ||
       error.name === 'RangeError'

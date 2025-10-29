@@ -11,20 +11,20 @@ import { logger } from '@/utils/logger';
 declare global {
   namespace Express {
     interface Request {
-      user?: TokenPayload,
+      user?: TokenPayload;
       authTokens?: {
-        accessToken: string,
-        refreshToken?: string,
+        accessToken: string;
+        refreshToken?: string;
       }
     }
   }
 }
 
 export interface AuthMiddlewareOptions {
-  required?: boolean,
-  roles?: UserRole[],
-  permissions?: string[],
-  allowGuest?: boolean,
+  required?: boolean;
+  roles?: UserRole[];
+  permissions?: string[];
+  allowGuest?: boolean;
 }
 
 /**
@@ -33,7 +33,7 @@ export interface AuthMiddlewareOptions {
 function extractTokenFromRequest(req: Request): string | null {
   const authHeader = req.headers.authorization;
 
-  if (authHeader && authHeader.startsWith('Bearer ')) {
+  if (authHeader && authHeader.startsWith('Bearer ') {
     return authHeader.slice(7); // Remove 'Bearer ' prefix
   }
 
@@ -56,11 +56,10 @@ function extractTokenFromRequest(req: Request): string | null {
 export function authenticate(options: AuthMiddlewareOptions = {}) {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const {
-        required = true,
+      const { required = true,
         roles = [],
         permissions = [],
-        allowGuest = false,
+        allowGuest = false
       } = options;
 
       const token = extractTokenFromRequest(req);
@@ -136,7 +135,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
 
       // Check specific permission requirements
       if (permissions.length > 0) {
-        const hasPermission = permissions.every(permission =>
+        const hasPermission = permissions.every(permission =>)
           authService.hasPermission(payload.roles, permission)
         );
 

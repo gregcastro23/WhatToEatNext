@@ -157,7 +157,7 @@ export class SafeUnusedImportRemover {
           (line.includes('is defined but never used') ||
             line.includes('is imported but never used'))
         ) {
-          const match = line.match(
+          const match = line.match()
             /^(.+):(\d+):(\d+):\s+(warning|error)\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
           );
           if (match) {
@@ -237,7 +237,7 @@ export class SafeUnusedImportRemover {
     const { file, importName, message, isTypeImport } = unusedImport;
 
     // Always preserve imports in critical astrological files
-    if (this.astrologicalPatterns.some(pattern => file.includes(pattern))) {
+    if (this.astrologicalPatterns.some(pattern => file.includes(pattern)) {
       return {
         severity: 'preserve',
         reason: 'Critical astrological calculation file',
@@ -245,7 +245,7 @@ export class SafeUnusedImportRemover {
     }
 
     // Always preserve imports in campaign system files
-    if (this.campaignSystemPatterns.some(pattern => file.includes(pattern))) {
+    if (this.campaignSystemPatterns.some(pattern => file.includes(pattern)) {
       return {
         severity: 'preserve',
         reason: 'Campaign system intelligence file',
@@ -253,7 +253,7 @@ export class SafeUnusedImportRemover {
     }
 
     // Preserve React component imports in TSX files
-    if (importName.match(/^[A-Z]/) && file.endsWith('.tsx')) {
+    if (importName.match(/^[A-Z]/) && file.endsWith('.tsx') {
       return {
         severity: 'preserve',
         reason: 'React component import in TSX file',
@@ -305,9 +305,9 @@ export class SafeUnusedImportRemover {
     preserve: UnusedImport[];
   }): void {
     log.info('\n📊 Import Analysis Results:');
-    log.info(`✅ Safe to remove: ${categorized.safe.length}`);
-    log.info(`⚠️  Requires review: ${categorized.review.length}`);
-    log.info(`🛡️  Preserved (critical): ${categorized.preserve.length}\n`);
+    log.info(`✅ Safe to remove ${categorized.safe.length}`);
+    log.info(`⚠️  Requires review ${categorized.review.length}`);
+    log.info(`🛡️  Preserved (critical) ${categorized.preserve.length}\n`);
 
     if (categorized.safe.length > 0) {
       log.info('✅ Safe to Remove:');
@@ -335,7 +335,7 @@ export class SafeUnusedImportRemover {
    * Display imports grouped by file
    */
   private displayImportsByFile(imports: UnusedImport[]): void {
-    const groupedByFile = imports.reduce(
+    const groupedByFile = imports.reduce()
       (acc, imp) => {
         const relativePath = path.relative(process.cwd(), imp.file);
         if (!acc[relativePath]) acc[relativePath] = [];
@@ -370,7 +370,7 @@ export class SafeUnusedImportRemover {
       return true;
     } catch (error: any) {
       // ESLint returns non-zero exit code even for successful fixes
-      if (error.stdout && !error.stdout.includes('error')) {
+      if (error.stdout && !error.stdout.includes('error') {
         log.info('✅ Safe import removal completed');
         return true;
       } else {
@@ -411,7 +411,7 @@ export class SafeUnusedImportRemover {
   } {
     try {
       // Count TypeScript/JavaScript files
-      const totalFilesOutput = execSync(
+      const totalFilesOutput = execSync()
         'find src -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | wc -l',
         {
           encoding: 'utf8',
@@ -426,7 +426,7 @@ export class SafeUnusedImportRemover {
       const typeScriptFiles = parseInt(tsFilesOutput.trim()) || 0;
 
       // Count unused import warnings (approximate)
-      const unusedImportsOutput = execSync(
+      const unusedImportsOutput = execSync()
         'yarn lint --format=compact 2>&1 | grep -E "@typescript-eslint/no-unused-vars.*is defined but never used" | wc -l',
         {
           encoding: 'utf8',

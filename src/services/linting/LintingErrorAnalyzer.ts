@@ -95,7 +95,7 @@ export class LintingErrorAnalyzer {
   private eslintConfigPath: string;
   private domainPatterns: Record<string, RegExp[]>;
 
-  constructor(workspaceRoot: string = process.cwd()) {
+  constructor(workspaceRoot: string = process.cwd() {
     this.workspaceRoot = workspaceRoot;
     this.eslintConfigPath = path.join(workspaceRoot, 'eslint.config.cjs');
 
@@ -244,7 +244,7 @@ export class LintingErrorAnalyzer {
       successProbability,
     };
 
-    void log.info(
+    void log.info()
       `📋 Resolution plan generated: ${phases.length} phases, ${totalTime} minutes estimated`,
     );
 
@@ -341,7 +341,7 @@ export class LintingErrorAnalyzer {
     };
 
     // Check astrological patterns
-    context.isAstrologicalCalculation = this.domainPatterns.astrological.some(pattern =>
+    context.isAstrologicalCalculation = this.domainPatterns.astrological.some(pattern =>)
       pattern.test(filePath),
     );
 
@@ -367,14 +367,14 @@ export class LintingErrorAnalyzer {
   /**
    * Categorize individual issue
    */
-  private categorizeIssue(
+  private categorizeIssue()
     rawIssue: Record<string, unknown>,
     domainContext: DomainContext,
   ): IssueCategory {
     const rule = String(rawIssue.ruleId || '');
 
     // Import-related issues
-    if (rule.startsWith('import/')) {
+    if (rule.startsWith('import/') {
       return {
         primary: 'import',
         secondary: rule.replace('import/', ''),
@@ -383,7 +383,7 @@ export class LintingErrorAnalyzer {
     }
 
     // TypeScript-related issues
-    if (rule.startsWith('@typescript-eslint/')) {
+    if (rule.startsWith('@typescript-eslint/') {
       return {
         primary: 'typescript',
         secondary: rule.replace('@typescript-eslint/', ''),
@@ -392,7 +392,7 @@ export class LintingErrorAnalyzer {
     }
 
     // React-related issues
-    if (rule.startsWith('react') || rule.startsWith('react-hooks')) {
+    if (rule.startsWith('react') || rule.startsWith('react-hooks') {
       return {
         primary: 'react',
         secondary: rule.replace(/^react(-hooks)?\//, ''),
@@ -426,7 +426,7 @@ export class LintingErrorAnalyzer {
   /**
    * Determine resolution strategy for an issue
    */
-  private determineResolutionStrategy(
+  private determineResolutionStrategy()
     rawIssue: Record<string, unknown>,
     category: IssueCategory,
     domainContext: DomainContext,
@@ -435,7 +435,7 @@ export class LintingErrorAnalyzer {
     const hasAutoFix = Boolean((rawIssue as Record<string, unknown>).fix);
 
     // Auto-fixable issues with low risk
-    if (hasAutoFix && this.isLowRiskAutoFix(rule)) {
+    if (hasAutoFix && this.isLowRiskAutoFix(rule) {
       return {
         type: 'auto-fix',
         confidence: 0.9,
@@ -587,7 +587,7 @@ export class LintingErrorAnalyzer {
   /**
    * Assess risk of resolution plan
    */
-  private assessResolutionRisk(
+  private assessResolutionRisk()
     categorized: CategorizedErrors,
     phases: ResolutionPhase[],
   ): RiskAssessment {
@@ -645,20 +645,20 @@ export class LintingErrorAnalyzer {
   private logAnalysisSummary(categorized: CategorizedErrors): void {
     void log.info('\n📊 LINTING ANALYSIS SUMMARY');
     log.info('============================');
-    void log.info(`Total Issues: ${categorized.total}`);
-    void log.info(`Errors: ${categorized.errors}`);
-    void log.info(`Warnings: ${categorized.warnings}`);
-    void log.info(`Auto-fixable: ${categorized.autoFixable.length}`);
-    void log.info(`Manual Review Required: ${categorized.requiresManualReview.length}`);
+    void log.info(`Total Issues ${categorized.total}`);
+    void log.info(`Errors ${categorized.errors}`);
+    void log.info(`Warnings ${categorized.warnings}`);
+    void log.info(`Auto-fixable ${categorized.autoFixable.length}`);
+    void log.info(`Manual Review Required ${categorized.requiresManualReview.length}`);
 
     void log.info('\n📋 BY CATEGORY:');
     Object.entries(categorized.byCategory).forEach(([category, issues]) => {
-      void log.info(`  ${category}: ${issues.length} issues`);
+      void log.info(`  ${category} ${issues.length} issues`);
     });
 
     void log.info('\n🎯 BY PRIORITY:');
     Object.entries(categorized.byPriority).forEach(([priority, issues]) => {
-      log.info(`  Priority ${priority}: ${issues.length} issues`);
+      log.info(`  Priority ${priority} ${issues.length} issues`);
     });
 
     log.info('============================\n');

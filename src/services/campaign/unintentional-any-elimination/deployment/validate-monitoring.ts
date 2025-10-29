@@ -79,7 +79,7 @@ function validateDirectories(): ValidationResult {
 function validateConfiguration(): ValidationResult {
   const configPath = '.kiro/monitoring/monitoring-config.json';
 
-  if (!existsSync(configPath)) {
+  if (!existsSync(configPath) {
     return {
       component: 'Configuration',
       status: 'fail',
@@ -144,7 +144,7 @@ function validateConfiguration(): ValidationResult {
 function validateMonitoringService(): ValidationResult {
   const servicePath = '.kiro/monitoring/UnintentionalAnyMonitoringService.ts';
 
-  if (!existsSync(servicePath)) {
+  if (!existsSync(servicePath) {
     return {
       component: 'Monitoring Service',
       status: 'fail',
@@ -179,7 +179,7 @@ function validateMonitoringService(): ValidationResult {
 function validateDashboard(): ValidationResult {
   const dashboardPath = '.kiro/monitoring/dashboard.ts';
 
-  if (!existsSync(dashboardPath)) {
+  if (!existsSync(dashboardPath) {
     return {
       component: 'Dashboard',
       status: 'fail',
@@ -214,7 +214,7 @@ function validateDashboard(): ValidationResult {
 function validateStartupScripts(): ValidationResult {
   const startupScript = '.kiro/monitoring/start-monitoring.sh';
 
-  if (!existsSync(startupScript)) {
+  if (!existsSync(startupScript) {
     return {
       component: 'Startup Scripts',
       status: 'fail',
@@ -252,7 +252,7 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
 
   // Load configuration to get health check endpoints
   const configPath = '.kiro/monitoring/monitoring-config.json';
-  if (!existsSync(configPath)) {
+  if (!existsSync(configPath) {
     return [{
       component: 'Health Checks',
       status: 'fail',
@@ -281,15 +281,13 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
           timeout: Math.min(endpoint.timeout, 30000) // Cap at 30 seconds for validation
         });
 
-        results.push({
-          component: `Health Check: ${endpoint.name}`,
+        results.push({ component: `Health Check, ${endpoint.name}`,
           status: 'pass',
           message: `Health check endpoint is responding`
         });
 
       } catch (error) {
-        results.push({
-          component: `Health Check: ${endpoint.name}`,
+        results.push({ component: `Health Check, ${endpoint.name}`,
           status: 'fail',
           message: `Health check endpoint failed`,
           details: String(error)

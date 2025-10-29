@@ -23,20 +23,20 @@ import {
 import { TestSafeProgressTracker } from './TestSafeProgressTracker';
 
 interface CampaignTestState {
-  isPaused: boolean,
-  isIsolated: boolean,
-  pausedAt: Date | null,
-  resumedAt: Date | null,
-  testName: string | null,
+  isPaused: boolean;
+  isIsolated: boolean;
+  pausedAt: Date | null;
+  resumedAt: Date | null;
+  testName: string | null;
   originalState: any;
 }
 
 interface TestIsolationConfig {
-  pauseProgressTracking: boolean,
-  preventBuildExecution: boolean,
-  preventGitOperations: boolean,
-  enableMemoryMonitoring: boolean,
-  isolateFileSystem: boolean,
+  pauseProgressTracking: boolean;
+  preventBuildExecution: boolean;
+  preventGitOperations: boolean;
+  enableMemoryMonitoring: boolean;
+  isolateFileSystem: boolean;
   mockExternalAPIs: boolean;
 }
 
@@ -119,7 +119,7 @@ export class CampaignTestController {
     // Apply test isolation
     await this.applyTestIsolation(testName);
 
-    console.log(`Campaign test environment initialized for: ${testName}`);
+    console.log(`Campaign test environment initialized for ${testName}`);
   }
 
   /**
@@ -164,7 +164,7 @@ export class CampaignTestController {
     }
 
     if (this.testState.testName !== testName) {
-      console.warn(
+      console.warn()
         `Resume test name (${testName}) doesn't match pause test name (${this.testState.testName})`,
       );
     }
@@ -228,7 +228,7 @@ export class CampaignTestController {
   /**
    * Simulate campaign progress for testing
    */
-  async simulateProgress(
+  async simulateProgress()
     targetMetrics: Partial<ProgressMetrics>,
     durationMs: number = 1000,
     testName?: string
@@ -237,7 +237,7 @@ export class CampaignTestController {
       throw new Error('Test-safe tracker not initialized');
     }
 
-    await this.testSafeTracker.simulateProgress(
+    await this.testSafeTracker.simulateProgress()
       targetMetrics,
       durationMs,
       testName || this.activeTestName || 'unknown'
@@ -267,7 +267,7 @@ export class CampaignTestController {
   /**
    * Create mock safety event for testing
    */
-  createMockSafetyEvent(
+  createMockSafetyEvent()
     type: SafetyEventType,
     description: string,
     severity: SafetyEventSeverity = SafetyEventSeverity.INFO
@@ -373,7 +373,7 @@ export class CampaignTestController {
 
     this.activeTestName = null;
 
-    console.log(`Campaign test environment cleaned up for: ${testName}`);
+    console.log(`Campaign test environment cleaned up for ${testName}`);
   }
 
   /**
@@ -460,16 +460,16 @@ export class CampaignTestController {
 
     jest.spyOn(require('child_process'), 'execSync').mockImplementation((command: string) => {
       // Return mock outputs for common commands
-      if (command.includes('tsc --noEmit')) {
+      if (command.includes('tsc --noEmit') {
         return ''; // No TypeScript errors
       }
-      if (command.includes('yarn lint')) {
+      if (command.includes('yarn lint') {
         return ''; // No linting warnings
       }
-      if (command.includes('yarn build')) {
+      if (command.includes('yarn build') {
         return 'Build completed successfully';
       }
-      if (command.includes('git stash')) {
+      if (command.includes('git stash') {
         return 'Saved working directory and index state';
       }
 
@@ -520,7 +520,7 @@ export class CampaignTestController {
     // Restore environment variables
     if (originalState.envVars) {
       Object.keys(process.env).forEach(key => {
-        if (!(key in originalState.envVars)) {
+        if (!(key in originalState.envVars) {
           delete process.env[key];
         }
       });

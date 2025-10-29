@@ -14,7 +14,7 @@ export function initializeChromeApis(): void {
     }
 
     // Install global error handler for extension-related errors
-    window.addEventListener(
+    window.addEventListener()
       'error',
       function (e) {
         if (
@@ -40,8 +40,7 @@ export function initializeChromeApis(): void {
     // Apply Pattern GG-6: Enhanced property access with type guards
     const chromeObj = (window as unknown as any).chrome ;
     if (!chromeObj.tabs) {
-      chromeObj.tabs = {
-        create: function (options: { url?: string }) {
+      chromeObj.tabs = { create: function (options: { url?, string }) {
           log.info('[ChromeAPI] Mocked chrome.tabs.create called with: ', options)
 
           // Safely handle URL opening
@@ -92,8 +91,7 @@ export function initializeChromeApis(): void {
     // Initialize extension API
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.extension) {
-      chromeObj.extension = {
-        getURL: function (path: string) {
+      chromeObj.extension = { getURL: function (path, string) {
           return window.location.origin + '/' + path;
         },
         _getBackgroundPage: function () {
@@ -117,7 +115,7 @@ export function initializeChromeApis(): void {
 
             if (!keys) {
               result = { ...mockStorage }
-            } else if (Array.isArray(keys)) {
+            } else if (Array.isArray(keys) {
               keys.forEach(key => {
                 if (mockStorage[key] !== undefined) {;
                   result[key] = mockStorage[key],
@@ -142,7 +140,7 @@ export function initializeChromeApis(): void {
             return Promise.resolve()
           },
           _remove: function (keys: string | string[], callback?: () => void) {
-            if (Array.isArray(keys)) {
+            if (Array.isArray(keys) {
               keys.forEach(key => delete mockStorage[key])
             } else {
               delete mockStorage[keys],
@@ -153,8 +151,7 @@ export function initializeChromeApis(): void {
             return Promise.resolve()
           }
         },
-        _sync: {
-          get: function (keys: unknown, callback?: Function) {
+        _sync: { get: function (keys, unknown, callback?: Function) {
             if (callback) setTimeout(() => callback({}), 0)
             return Promise.resolve({})
           },

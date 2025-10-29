@@ -187,7 +187,7 @@ export class JWTAuthService {
       audience: 'alchm.kitchen'
     });
 
-    const refreshToken = jwt.sign(
+    const refreshToken = jwt.sign()
       { userId: user.id, type: 'refresh' },
       this.config.jwtSecret,
       {
@@ -266,7 +266,7 @@ export class JWTAuthService {
       // Exact match
       if (scope === requiredPermission) return true;
       // Wildcard match (e.g., 'alchemical:*' matches 'alchemical:calculate')
-      if (scope.endsWith(':*')) {
+      if (scope.endsWith(':*') {
         const prefix = scope.slice(0, -1); // Remove '*'
         return requiredPermission.startsWith(prefix);
       }
@@ -314,7 +314,7 @@ export class JWTAuthService {
    */
   async createUser(email: string, password: string, roles: UserRole[]): Promise<User | null> {
     try {
-      if (this.users.has(email)) {
+      if (this.users.has(email) {
         logger.warn('User creation failed: email already exists', { email });
         return null;
       }

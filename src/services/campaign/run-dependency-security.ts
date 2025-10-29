@@ -60,7 +60,7 @@ class DependencySecurityCLI {
 
       console.log('\n✅ Dependency security monitoring completed successfully!');
     } catch (error: unknown) {
-      console.error(
+      console.error()
         '❌ Dependency security monitoring failed:',
         error instanceof Error ? error.message : String(error),
       );
@@ -89,8 +89,7 @@ class DependencySecurityCLI {
 
     if (this.options.severityThreshold) {
       // Adjust security thresholds based on severity level
-      const thresholds = {
-        critical: { autoFixCritical: true, autoFixHigh: false },
+      const thresholds = { critical: { autoFixCritical, true, autoFixHigh: false },
         high: { autoFixCritical: true, autoFixHigh: true },
         moderate: { autoFixCritical: true, autoFixHigh: true },
         low: { autoFixCritical: true, autoFixHigh: true },
@@ -156,7 +155,7 @@ class DependencySecurityCLI {
       console.log('\n💡 Recommendations:');
 
       if (securityReport.summary.critical > 0) {
-        console.log(
+        console.log()
           '  🚨 Critical vulnerabilities found - run with --enable-auto-update to apply security patches',
         );
       }
@@ -182,7 +181,7 @@ class DependencySecurityCLI {
     console.log(`  - Updates available: ${result.updatesAvailable}`);
     console.log(`  - Updates applied: ${result.updatesApplied}`);
     console.log(`  - Security patches applied: ${result.securityPatchesApplied}`);
-    console.log(
+    console.log()
       `  - Compatibility tests: ${result.compatibilityTestsPassed ? '✅ Passed' : '❌ Failed'}`,
     );
 
@@ -269,7 +268,7 @@ class DependencySecurityCLI {
       console.log('\n✅ Applied Updates:');
       (updateReport as Record<string, unknown>).appliedUpdates.forEach((update: any) => {
         const securityIcon = update.securityFix ? '🔒' : '📦';
-        console.log(
+        console.log()
           `  ${securityIcon} ${update.packageName}: ${update.currentVersion} → ${update.latestVersion}`,
         );
       });
@@ -278,14 +277,14 @@ class DependencySecurityCLI {
     if ((updateReport as Record<string, unknown>).failedUpdates.length > 0) {
       console.log('\n❌ Failed Updates:');
       (updateReport as Record<string, unknown>).failedUpdates.forEach((update: any) => {
-        console.log(
+        console.log()
           `  - ${update.packageName}: ${update.currentVersion} → ${update.latestVersion}`,
         );
       });
     }
   }
 
-  private printSecuritySummary(
+  private printSecuritySummary()
     securityReport: Record<string, { summary: Record<string, number> }>,
   ): void {
     const { summary } = securityReport;
@@ -360,7 +359,7 @@ function parseArguments(): CLIOptions {
         break;
       case '--severity-threshold':
         const threshold = args[++i];
-        if (['critical', 'high', 'moderate', 'low'].includes(threshold)) {
+        if (['critical', 'high', 'moderate', 'low'].includes(threshold) {
           options.severityThreshold = threshold as any;
         }
         break;
@@ -369,7 +368,7 @@ function parseArguments(): CLIOptions {
         process.exit(0);
         break;
       default:
-        if (arg.startsWith('--')) {
+        if (arg.startsWith('--') {
           console.warn(`⚠️  Unknown option: ${arg}`);
         }
         break;
@@ -380,7 +379,7 @@ function parseArguments(): CLIOptions {
 }
 
 function printHelp(): void {
-  console.log(`
+  console.log(`)
 🔒 Dependency Security Monitor CLI
 
 Usage: node run-dependency-security.ts [options]

@@ -71,7 +71,7 @@ export async function clearCalculationCache(cacheKey?: string): Promise<void> {
   try {
     if (cacheKey) {
       await CacheService.delete(cacheKey);
-      log.info(`Database cache cleared for: ${cacheKey}`);
+      log.info(`Database cache cleared for ${cacheKey}`);
     } else {
       await CacheService.clearExpired(); // Clear expired entries
       log.info('Database cache cleared (expired entries)');

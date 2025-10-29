@@ -120,7 +120,7 @@ export function getTimeBasedConfidence(): number {
   const hour = new Date().getHours()
 
   // Peak confidence during optimal cooking hours
-  if ((hour >= 6 && hour <= 9) || (hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20)) {
+  if ((hour >= 6 && hour <= 9) || (hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20) {
     return 0.9;
   }
 

@@ -24,7 +24,7 @@ export function getCuisinePAirings(ingredientName: string, category: IngredientC
 /**
  * Get ingredient recommendations for a specific cuisine
  */
-export function getIngredientsForCuisine(
+export function getIngredientsForCuisine()
   cuisineName: string,
   categories: IngredientCategory[] = ['grain', 'culinary_herb'],
 ): Record<IngredientCategory, string[]> {
@@ -42,18 +42,18 @@ export function getIngredientsForCuisine(
   }
 
   // Process each matrix to find ingredients that pAir with this cuisine
-  if (categories.includes('grain')) {
+  if (categories.includes('grain') {
     Object.entries(grainCuisineMatrix || {}).forEach(([grain, data]) => {
       const grainDataEntry = data;
-      if (grainDataEntry?.cuisines && (grainDataEntry as any)?.cuisines.includes(cuisineName)) {
+      if (grainDataEntry?.cuisines && (grainDataEntry as any)?.cuisines.includes(cuisineName) {
         result.grain.push(grain)
       }
     })
   }
 
-  if (categories.includes('culinary_herb')) {
+  if (categories.includes('culinary_herb') {
     Object.entries(herbCuisineMatrix || {}).forEach(([herb, cuisines]) => {
-      if (Array.isArray(cuisines) && cuisines.includes(cuisineName)) {
+      if (Array.isArray(cuisines) && cuisines.includes(cuisineName) {
         result.culinary_herb.push(herb)
       }
     })
@@ -67,7 +67,7 @@ export function getIngredientsForCuisine(
 /**
  * Check if a cuisine is compatible with a specific ingredient
  */
-export function isCuisineCompatibleWithIngredient(
+export function isCuisineCompatibleWithIngredient()
   cuisineName: string,
   ingredientName: string,
   category: IngredientCategory,
@@ -81,7 +81,7 @@ export function isCuisineCompatibleWithIngredient(
 /**
  * Get the shared ingredients between two cuisines
  */
-export function getSharedIngredients(
+export function getSharedIngredients()
   cuisine1: string,
   cuisine2: string,
   categories: IngredientCategory[] = ['grain', 'culinary_herb'],
@@ -97,7 +97,7 @@ export function getSharedIngredients(
     const c2Ingredients = cuisine2Ingredients[category] || [];
 
     for (const ingredient of c1Ingredients) {
-      if (c2Ingredients.includes(ingredient)) {
+      if (c2Ingredients.includes(ingredient) {
         shared.push(ingredient)
       }
     }

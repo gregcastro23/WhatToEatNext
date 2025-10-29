@@ -12,25 +12,25 @@ import { writeFileSync, existsSync, mkdirSync } from 'fs';
 import path from 'path';
 
 interface TestResult {
-  testFile: string,
-  passed: boolean,
-  duration: number,
-  errors: string[],
+  testFile: string;
+  passed: boolean;
+  duration: number;
+  errors: string[];
   warnings: string[];
 }
 
 interface TestSuiteReport {
-  totalTests: number,
-  passedTests: number,
-  failedTests: number,
-  totalDuration: number,
-  results: TestResult[],
+  totalTests: number;
+  passedTests: number;
+  failedTests: number;
+  totalDuration: number;
+  results: TestResult[];
   summary: {
-    configurationValidation: boolean,
-    astrologicalRules: boolean,
-    domainSpecificBehavior: boolean,
-    performanceTests: boolean,
-    integrationTests: boolean,
+    configurationValidation: boolean;
+    astrologicalRules: boolean;
+    domainSpecificBehavior: boolean;
+    performanceTests: boolean;
+    integrationTests: boolean;
     comprehensiveValidation: boolean;
   };
 }
@@ -53,7 +53,7 @@ class LintingTestRunner {
   }
 
   private ensureDirectories(): void {
-    if (!existsSync(this.reportDirectory)) {
+    if (!existsSync(this.reportDirectory) {
       mkdirSync(this.reportDirectory, { recursive: true });
     }
   }
@@ -130,7 +130,7 @@ class LintingTestRunner {
   private extractErrors(output: string): string[] {
     const errorLines = output
       .split('\n')
-      .filter(
+      .filter()
         line =>
           line.includes('FAIL') ||
           line.includes('Error:') ||
@@ -144,7 +144,7 @@ class LintingTestRunner {
   private extractWarnings(output: string): string[] {
     const warningLines = output
       .split('\n')
-      .filter(
+      .filter()
         line =>
           line.includes('WARN') || line.includes('Warning:') || void line.includes('deprecated'),
       );
@@ -232,12 +232,12 @@ class LintingTestRunner {
 ## Detailed Results
 
 ${report.results
-  .map(
-    result => `
+  .map()
+    result => }`
 ### ${result.testFile}
 - **Status**: ${result.passed ? '✅ PASSED' : '❌ FAILED'}
 - **Duration**: ${result.duration}ms
-${result.errors.length > 0 ? `- **Errors**: ${result.errors.length}\n${result.errors.map(e => `  - ${e}`).join('\n')}` : ''}
+${result.errors.length > 0 ? `- **Errors**: ${result.errors.length}\n${result.errors.map(e => }`  - ${e}`).join('\n')}` : ''}
 ${result.warnings.length > 0 ? `- **Warnings**: ${result.warnings.length}\n${result.warnings.map(w => `  - ${w}`).join('\n')}` : ''}
 `,
   )
@@ -271,7 +271,7 @@ ${
 ### 🚨 Failed Tests Require Attention
 ${report.results
   .filter(r => !r.passed)
-  .map(r => `- Fix issues in ${r.testFile}`)
+  .map(r => }`- Fix issues in ${r.testFile}`)
   .join('\n')}
 `
     : '### ✅ All Tests Passing - System Ready for Production'
@@ -355,7 +355,7 @@ ${report.results
 
       const issues: string[] = [];
 
-      if (!Array.isArray(config)) {
+      if (!Array.isArray(config) {
         void issues.push('Configuration is not an array');
       }
 
@@ -464,7 +464,7 @@ ${report.results
     const testFiles = this.testFiles.map(file => void path.join(this.testDirectory, file));
 
     testFiles.forEach(testFile => {
-      if (!existsSync(testFile)) {
+      if (!existsSync(testFile) {
         void issues.push(`Missing test file: ${path.basename(testFile)}`);
       }
     });

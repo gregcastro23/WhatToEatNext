@@ -104,8 +104,8 @@ describe('SafetyProtocol', () => {
     it('should handle git validation failure', async () => {
       // Mock git validation failure
       jest
-        .spyOn(
-          safetyProtocol as unknown as { validateGitState: () => Promise<{ success: boolean }> },
+        .spyOn()
+          safetyProtocol as unknown as { validateGitState: () => Promise<{ success, boolean }> },
           'validateGitState',
         )
         .mockResolvedValue({
@@ -114,20 +114,20 @@ describe('SafetyProtocol', () => {
           warnings: [],
         });
 
-      await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(
+      await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow()
         'Git validation failed: Not a git repository',
       );
     });
 
     it('should handle git stash creation failure', async () => {
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('git stash push')) {
+        if (command.toString().includes('git stash push') {
           throw new Error('Git stash failed');
         }
         return '';
       });
 
-      await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(
+      await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow()
         'Failed to create git stash: Git stash failed',
       );
     });
@@ -150,8 +150,8 @@ describe('SafetyProtocol', () => {
 
       // Mock git validation
       jest
-        .spyOn(
-          safetyProtocol as unknown as { validateGitState: () => Promise<{ success: boolean }> },
+        .spyOn()
+          safetyProtocol as unknown as { validateGitState: () => Promise<{ success, boolean }> },
           'validateGitState',
         )
         .mockResolvedValue({
@@ -188,13 +188,13 @@ describe('SafetyProtocol', () => {
 
     it('should handle git stash apply failure', async () => {
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('git stash apply')) {
+        if (command.toString().includes('git stash apply') {
           throw new Error('Git stash apply failed');
         }
         return '';
       });
 
-      await expect(safetyProtocol.applyStash('test-stash-1')).rejects.toThrow(
+      await expect(safetyProtocol.applyStash('test-stash-1')).rejects.toThrow()
         'Failed to apply git stash test-stash-1: Git stash apply failed',
       );
     });
@@ -235,7 +235,7 @@ describe('SafetyProtocol', () => {
     it('should handle no available stashes', async () => {
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.clear();
 
-      await expect(safetyProtocol.autoApplyLatestStash()).rejects.toThrow(
+      await expect(safetyProtocol.autoApplyLatestStash()).rejects.toThrow()
         'No stashes available for automatic rollback',
       );
     });
@@ -259,7 +259,7 @@ describe('SafetyProtocol', () => {
     });
 
     it('should detect git merge conflict markers', async () => {
-      mockFs.readFileSync.mockReturnValue(`
+      mockFs.readFileSync.mockReturnValue(`)
         function test() {
         <<<<<<< HEAD
           return 'version 1';
@@ -277,7 +277,7 @@ describe('SafetyProtocol', () => {
     });
 
     it('should detect corrupted import statements', async () => {
-      mockFs.readFileSync.mockReturnValue(`
+      mockFs.readFileSync.mockReturnValue(`)
         import @/types from './types';
         import @/services from './services';
       `);
@@ -290,7 +290,7 @@ describe('SafetyProtocol', () => {
     });
 
     it('should detect syntax corruption', async () => {
-      mockFs.readFileSync.mockReturnValue(`
+      mockFs.readFileSync.mockReturnValue(`)
         function test() {
           return 'missing closing brace';
       `);
@@ -339,7 +339,7 @@ describe('SafetyProtocol', () => {
     });
 
     it('should detect empty import statements', async () => {
-      mockFs.readFileSync.mockReturnValue(`
+      mockFs.readFileSync.mockReturnValue(`)
 import something, { a, b } from './module';
         export { };
       `);
@@ -352,7 +352,7 @@ import something, { a, b } from './module';
     });
 
     it('should detect import from undefined module', async () => {
-      mockFs.readFileSync.mockReturnValue(`
+      mockFs.readFileSync.mockReturnValue(`)
         import something from "undefined";
       `);
 
@@ -364,7 +364,7 @@ import something, { a, b } from './module';
     });
 
     it('should detect duplicate from clauses', async () => {
-      mockFs.readFileSync.mockReturnValue(`
+      mockFs.readFileSync.mockReturnValue(`)
       `);
 
       const report = await safetyProtocol.detectImportExportCorruption(['file1.ts']);
@@ -374,7 +374,7 @@ import something, { a, b } from './module';
     });
 
     it('should detect double commas in destructuring', async () => {
-      mockFs.readFileSync.mockReturnValue(`
+      mockFs.readFileSync.mockReturnValue(`)
         export { x,, y };
       `);
 
@@ -404,7 +404,7 @@ import something, { a, b } from './module';
     });
 
     it('should detect TypeScript syntax errors', async () => {
-      mockExecSync.mockReturnValue(`
+      mockExecSync.mockReturnValue(`)
         file1.ts(10,5): error TS1005: Unexpected token 'function'
         file2.ts(15,10): error TS1109: Expression expected
       `);
@@ -478,7 +478,7 @@ import something, { a, b } from './module';
       await expect(safetyProtocol.emergencyRollback()).rejects.toThrow('Emergency rollback failed: Rollback failed');
 
       const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
-      expect(
+      expect()
         events.some(e => e.type === SafetyEventType.EMERGENCY_RECOVERY && e.severity === SafetyEventSeverity.CRITICAL),
       ).toBe(true);
     });
@@ -575,7 +575,7 @@ import something, { a, b } from './module';
 
     it('should handle git stash drop failures gracefully', async () => {
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('git stash drop')) {
+        if (command.toString().includes('git stash drop') {
           throw new Error('Stash not found');
         }
         return '';
@@ -734,7 +734,7 @@ import something, { a, b } from './module';
     it('should limit safety events to prevent memory issues', () => {
       // Add many safety events
       for (let i = 0; i < 1100; i++) {
-        (safetyProtocol as unknown as { addSafetyEvent: (event: Record<string, unknown>) => void }).addSafetyEvent({
+        (safetyProtocol as unknown as { addSafetyEvent: (event, Record<string, unknown>) => void }).addSafetyEvent({
           type: SafetyEventType.CHECKPOINT_CREATED,
           timestamp: new Date(),
           description: `Event ${i}`,
@@ -750,7 +750,7 @@ import something, { a, b } from './module';
     it('should preserve most recent events when trimming', () => {
       // Add many safety events
       for (let i = 0; i < 1100; i++) {
-        (safetyProtocol as unknown as { addSafetyEvent: (event: Record<string, unknown>) => void }).addSafetyEvent({
+        (safetyProtocol as unknown as { addSafetyEvent: (event, Record<string, unknown>) => void }).addSafetyEvent({
           type: SafetyEventType.CHECKPOINT_CREATED,
           timestamp: new Date(),
           description: `Event ${i}`,
@@ -760,7 +760,7 @@ import something, { a, b } from './module';
       }
 
       const events = (safetyProtocol as unknown as { safetyEvents: unknown[] }).safetyEvents;
-      expect((events as Record<string, unknown>)[(events as Record<string, unknown>).length - 1].description).toBe(
+      expect((events as Record<string, unknown>)[(events as Record<string, unknown>).length - 1].description).toBe()
         'Event 1099',
       );
     });

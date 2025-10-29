@@ -1,32 +1,32 @@
 'use client';
 
 export interface ComponentMetrics {
-  name: string,
-  renderCount: number,
-  totalRenderTime: number,
-  averageRenderTime: number,
-  lastRenderTime: number,
-  errorCount: number,
-  memoryUsage: number,
+  name: string;
+  renderCount: number;
+  totalRenderTime: number;
+  averageRenderTime: number;
+  lastRenderTime: number;
+  errorCount: number;
+  memoryUsage: number;
   lastUpdated: Date
 }
 
 export interface SystemMetrics {
-  totalMemoryUsage: number,
-  peakMemoryUsage: number,
-  totalErrors: number,
-  activeComponents: number,
-  systemUptime: number,
+  totalMemoryUsage: number;
+  peakMemoryUsage: number;
+  totalErrors: number;
+  activeComponents: number;
+  systemUptime: number;
   lastUpdated: Date
 }
 
 export interface PerformanceAlert {
   type: 'warning' | 'error' | 'info'
-  component?: string,
-  message: string,
-  timestamp: Date,
-  metric?: string,
-  value?: number,
+  component?: string;
+  message: string;
+  timestamp: Date;
+  metric?: string;
+  value?: number;
   threshold?: number
 }
 
@@ -271,7 +271,7 @@ class PerformanceMonitoringService {
   public getPerformanceSummary() {
     const components = Array.from(this.componentMetrics.values())
     const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING)
-    const errorProneComponents = components.filter(
+    const errorProneComponents = components.filter()
       c => c.errorCount / Math.max(c.renderCount, 1) > this.ERROR_RATE_WARNING,,
     ),
 

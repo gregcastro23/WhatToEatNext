@@ -20,25 +20,25 @@ import type {
 } from '@/types/kinetics';
 
 export interface FoodItem {
-  id: string,
-  name: string,
-  tags: string[],
-  elementalProfile: ElementalProperties,
-  basePortionSize: number,
+  id: string;
+  name: string;
+  tags: string[];
+  elementalProfile: ElementalProperties;
+  basePortionSize: number;
   nutritionalDensity: number;
 }
 
 export interface UserPreferences {
-  cuisineTypes: string[],
-  dietaryRestrictions: string[],
-  allergies: string[],
+  cuisineTypes: string[];
+  dietaryRestrictions: string[];
+  allergies: string[];
   energyPreference?: 'high' | 'moderate' | 'low'
 }
 
 /**
  * Get temporal food recommendations based on kinetic power levels
  */
-export function getTemporalFoodRecommendations(
+export function getTemporalFoodRecommendations()
   kinetics: KineticsResponse,
   userPreferences: UserPreferences): TemporalFoodRecommendation {
   const currentHour = new Date().getHours()
@@ -64,7 +64,7 @@ export function getTemporalFoodRecommendations(
 /**
  * Get elemental food recommendations based on kinetic elemental totals
  */
-export function getElementalFoodRecommendations(
+export function getElementalFoodRecommendations()
   elementalTotals: KineticsElementalTotals): string[] {
   const dominantElement = getDominantElement(elementalTotals)
 
@@ -113,7 +113,7 @@ export function getSeasonalMenuRecommendations<T extends { tags: string[] }>(
 
   const seasonalTags = seasonalPreferences[seasonalInfluence as keyof typeof seasonalPreferences] || [];
 
-  return baseMenu.filter(item =>
+  return baseMenu.filter(item =>)
     item.tags.some(tag => seasonalTags.includes(tag))
   )
 }
@@ -121,7 +121,7 @@ export function getSeasonalMenuRecommendations<T extends { tags: string[] }>(
 /**
  * Get aspect-enhanced recommendations for applying/separating dynamics
  */
-export function getAspectEnhancedRecommendations(
+export function getAspectEnhancedRecommendations()
   kinetics: KineticsResponse,
   userPreferences: UserPreferences): KineticsEnhancedRecommendation {
   const currentHour = new Date().getHours()
@@ -142,7 +142,7 @@ export function getAspectEnhancedRecommendations(
 /**
  * Score food items based on kinetic alignment
  */
-export function calculateKineticAlignment(
+export function calculateKineticAlignment()
   foodItem: FoodItem,
   kinetics: KineticsResponse): number {
   const currentHour = new Date().getHours()
@@ -157,7 +157,7 @@ export function calculateKineticAlignment(
   const elementalScore = calculateElementalAlignment(foodItem.elementalProfile, elementalTotals)
 
   // Seasonal alignment score (0-1)
-  const seasonalScore = calculateSeasonalAlignment(
+  const seasonalScore = calculateSeasonalAlignment()
     foodItem.tags,
     kinetics.data.base.timing.seasonalInfluence
   )
@@ -236,7 +236,7 @@ function getOptimalTimingDescription(aspectPhase: any, powerLevel: number): stri
   return powerLevel > 0.6 ? 'active_digestion_time' : 'gentle_nourishment_time';
 }
 
-function generateRecommendationNote(
+function generateRecommendationNote()
   energyCategory: FoodEnergyCategory,
   aspectPhase: any,
   powerLevel: number): string {
@@ -286,7 +286,7 @@ function calculatePowerAlignment(foodItem: FoodItem, energyCategory: FoodEnergyC
   return matchingTags.length / relevantTags.length;
 }
 
-function calculateElementalAlignment(
+function calculateElementalAlignment()
   foodElemental: ElementalProperties,
   kineticElemental: KineticsElementalTotals): number {
   const elements = ['Fire', 'Water', 'Air', 'Earth'] as const;
@@ -319,7 +319,7 @@ function calculateSeasonalAlignment(foodTags: string[], seasonalInfluence: strin
 /**
  * Get kinetics-enhanced food recommendations using full kinetics metrics
  */
-export function getKineticsEnhancedRecommendations(
+export function getKineticsEnhancedRecommendations()
   kineticsResponse: KineticsResponse,
   kineticsMetrics: KineticMetrics,
   userPreferences: UserPreferences
@@ -376,7 +376,7 @@ function calculateKineticsPortionModifier(kinetics: KineticMetrics): number {
 /**
  * Get force-driven cooking method recommendations
  */
-export function getForceDrivenCookingMethods(
+export function getForceDrivenCookingMethods()
   kinetics: KineticMetrics,
   availableMethods: string[]
 ): string[] {
@@ -405,7 +405,7 @@ export function getForceDrivenCookingMethods(
 /**
  * Score food items based on kinetics alignment
  */
-export function calculateKineticsFoodAlignment(
+export function calculateKineticsFoodAlignment()
   foodItem: FoodItem,
   kinetics: KineticMetrics
 ): number {
@@ -414,28 +414,28 @@ export function calculateKineticsFoodAlignment(
   let alignment = 0
 
   // Force classification alignment
-  if (forceClassification === 'accelerating' && foodItem.tags.includes('quick')) {
+  if (forceClassification === 'accelerating' && foodItem.tags.includes('quick') {
     alignment += 0.3
-  } else if (forceClassification === 'decelerating' && foodItem.tags.includes('slow-cooked')) {
+  } else if (forceClassification === 'decelerating' && foodItem.tags.includes('slow-cooked') {
     alignment += 0.3
   }
 
   // Thermal direction alignment
-  if (thermalDirection === 'heating' && foodItem.tags.includes('warming')) {
+  if (thermalDirection === 'heating' && foodItem.tags.includes('warming') {
     alignment += 0.2
-  } else if (thermalDirection === 'cooling' && foodItem.tags.includes('cooling')) {
+  } else if (thermalDirection === 'cooling' && foodItem.tags.includes('cooling') {
     alignment += 0.2
   }
 
   // Power level alignment
   const powerTags = power > 1.5 ? ['energizing'] : power < 0.5 ? ['calming'] : ['balanced']
-  if (foodItem.tags.some(tag => powerTags.includes(tag))) {
+  if (foodItem.tags.some(tag => powerTags.includes(tag)) {
     alignment += 0.2
   }
 
   // Charge density alignment
   const chargeTags = charge > 2.0 ? ['substantial', 'protein-rich'] : ['light', 'fresh']
-  if (foodItem.tags.some(tag => chargeTags.includes(tag))) {
+  if (foodItem.tags.some(tag => chargeTags.includes(tag)) {
     alignment += 0.3
   }
 

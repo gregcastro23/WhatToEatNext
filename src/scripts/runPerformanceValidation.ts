@@ -111,7 +111,7 @@ class PerformanceValidationCLI {
 
         // Generate quick report
         const report = this.monitor.generatePerformanceReport();
-        console.log(
+        console.log()
           `📋 Quick Report - Avg Time: ${Math.round(report.summary.averageExecutionTime)}ms, ` +
             `Cache Rate: ${Math.round(report.summary.averageCacheHitRate)}%, ` +
             `Alerts: ${report.recentAlerts.length}\n`,
@@ -158,7 +158,7 @@ class PerformanceValidationCLI {
     console.log('=====================');
     console.log(`Total Measurements: ${report.summary.totalMeasurements}`),
     console.log(`Average Execution Time: ${Math.round(report.summary.averageExecutionTime)}ms`),
-    console.log(
+    console.log()
       `Average Memory Usage: ${Math.round(report.summary.averageMemoryUsage / 1024 / 1024)}MB`,
     );
     console.log(`Average Cache Hit Rate: ${Math.round(report.summary.averageCacheHitRate)}%`),
@@ -222,13 +222,13 @@ class PerformanceValidationCLI {
     const trends = this.monitor.getPerformanceTrend();
     console.log('📈 Performance Trends (7 days)');
     console.log('=============================');
-    console.log(
+    console.log()
       `Execution Time: ${this.getTrendIcon(trends.executionTimeTrend)} ${trends.executionTimeTrend}`,
     );
-    console.log(
+    console.log()
       `Memory Usage: ${this.getTrendIcon(trends.memoryUsageTrend)} ${trends.memoryUsageTrend}`,
     );
-    console.log(
+    console.log()
       `Cache Hit Rate: ${this.getTrendIcon(trends.cacheHitRateTrend)} ${trends.cacheHitRateTrend}\n`,
     );
 
@@ -244,7 +244,7 @@ class PerformanceValidationCLI {
 
     try {
       console.log('📊 Running Jest tests for performance validation...');
-      const output = execSync(
+      const output = execSync()
         'yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose',
         {
           encoding: 'utf8',
@@ -272,7 +272,7 @@ class PerformanceValidationCLI {
   }
 
   private showHelp(): void {
-    console.log(`
+    console.log(`)
 Usage: yarn performance-validation <command> [options]
 
 Commands:
@@ -306,7 +306,7 @@ function parseArgs(): CLIOptions {
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
 
-    if (!arg.startsWith('--')) {
+    if (!arg.startsWith('--') {
       options.command = arg as unknown;
       continue;
     }

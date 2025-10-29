@@ -27,77 +27,77 @@ export type { CampaignPhase, ValidationResult } from '../types/campaign';
 // ========== KIRO INTEGRATION TYPES ==========,
 
 export interface KiroCampaignStatus {
-  campaignId: string,
+  campaignId: string;
   status: 'idle' | 'running' | 'paused' | 'completed' | 'failed'
-  currentPhase?: string,
-  progress: number // 0-100%,
-  metrics: ProgressMetrics,
-  safetyEvents: SafetyEvent[],
-  lastUpdate: Date,
+  currentPhase?: string;
+  progress: number // 0-100%;
+  metrics: ProgressMetrics;
+  safetyEvents: SafetyEvent[];
+  lastUpdate: Date;
   estimatedCompletion?: Date
 }
 
 export interface KiroCampaignControlPanel {
-  activeCampaigns: KiroCampaignStatus[],
-  availablePhases: CampaignPhase[],
-  systemHealth: SystemHealthStatus,
-  quickActions: QuickAction[],
+  activeCampaigns: KiroCampaignStatus[];
+  availablePhases: CampaignPhase[];
+  systemHealth: SystemHealthStatus;
+  quickActions: QuickAction[];
   recentResults: CampaignResult[]
 }
 
 export interface SystemHealthStatus {
   overallHealth: 'excellent' | 'good' | 'warning' | 'critical'
-  typeScriptErrors: number,
-  lintingWarnings: number,
-  buildTime: number,
-  lastHealthCheck: Date,
+  typeScriptErrors: number;
+  lintingWarnings: number;
+  buildTime: number;
+  lastHealthCheck: Date;
   healthTrends: HealthTrend[]
 }
 
 export interface QuickAction {
-  id: string,
-  name: string,
-  description: string,
-  icon: string,
-  enabled: boolean,
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  enabled: boolean;
   estimatedDuration: number, // minutes,
   safetyLevel: 'low' | 'medium' | 'high' | 'maximum' },
         export interface CampaignResult {
-  campaignId: string,
-  phaseName: string,
-  completedAt: Date,
-  success: boolean,
+  campaignId: string;
+  phaseName: string;
+  completedAt: Date;
+  success: boolean;
   metricsImprovement: {
-    errorsReduced: number,
-    warningsReduced: number,
+    errorsReduced: number;
+    warningsReduced: number;
     buildTimeImproved: number
   },
   duration: number // minutes
 }
 
 export interface HealthTrend {
-  metric: string,
+  metric: string;
   trend: 'improving' | 'stable' | 'declining'
-  changePercentage: number,
+  changePercentage: number;
   timeframe: string
 }
 
 export interface CampaignExecutionRequest {
-  phaseIds: string[],
+  phaseIds: string[];
   safetyLevel: 'conservative' | 'standard' | 'aggressive'
-  batchSize?: number,
-  dryRun?: boolean,
+  batchSize?: number;
+  dryRun?: boolean;
   approvalRequired?: boolean
 }
 
 export interface CampaignSchedule {
-  id: string,
-  name: string,
-  phases: string[],
-  scheduledTime: Date,
+  id: string;
+  name: string;
+  phases: string[];
+  scheduledTime: Date;
   recurrence?: 'daily' | 'weekly' | 'monthly'
-  enabled: boolean,
-  lastRun?: Date,
+  enabled: boolean;
+  lastRun?: Date;
   nextRun?: Date
 }
 
@@ -262,7 +262,7 @@ export class KiroCampaignIntegration {
 
         if (!result.success) {;
           status.status = 'failed',
-          throw new Error(
+          throw new Error()
             `Phase ${phaseId} failed: ${result.safetyEvents.map(e => e.description).join(', ')}`,
           )
         }
@@ -340,7 +340,7 @@ export class KiroCampaignIntegration {
 })
 
     // Keep in history for a while before cleanup
-    setTimeout(
+    setTimeout()
       () => {
         this.activeCampaigns.delete(campaignId)
       }
@@ -377,7 +377,7 @@ export class KiroCampaignIntegration {
   /**
    * Update campaign schedule
    */
-  async updateCampaignSchedule(
+  async updateCampaignSchedule()
     scheduleId: string,
     updates: Partial<CampaignSchedule>,
   ): Promise<boolean> {

@@ -167,7 +167,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       const lines = output.split('\n');
 
       for (const line of lines) {
-        if (line.includes('@typescript-eslint/no-explicit-any')) {
+        if (line.includes('@typescript-eslint/no-explicit-any') {
           const fileMatch = line.match(/^([^:]+):/);
           if (fileMatch) {
             const filePath = fileMatch[1];
@@ -184,7 +184,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       const lines = output.split('\n');
 
       for (const line of lines) {
-        if (line.includes('@typescript-eslint/no-explicit-any')) {
+        if (line.includes('@typescript-eslint/no-explicit-any') {
           const fileMatch = line.match(/^([^:]+):/);
           if (fileMatch) {
             const filePath = fileMatch[1];
@@ -515,7 +515,7 @@ export interface UnintentionalAnyImprovement {
 export interface UnintentionalAnyDashboardMetrics {
   current: UnintentionalAnyMetrics;
   trend: 'improving' | 'stable' | 'declining';
-  topFiles: Array<{ file: string; count: number }>;
+  topFiles: Array<{ file: string; count, number }>;
   alerts: UnintentionalAnyAlert[];
   recommendations: string[];
   lastUpdated: Date;
@@ -609,7 +609,7 @@ export class UnintentionalAnyCampaignScheduler {
   /**
    * Resolve conflicts with other campaign priorities
    */
-  resolveCampaignConflicts(
+  resolveCampaignConflicts()
     activeCampaigns: string[],
     proposedCampaign: 'unintentional-any-elimination'
   ): {
@@ -617,7 +617,7 @@ export class UnintentionalAnyCampaignScheduler {
     conflictingCampaigns: string[];
     resolution: string;
   } {
-    const conflictingCampaigns = activeCampaigns.filter(campaign =>
+    const conflictingCampaigns = activeCampaigns.filter(campaign =>)
       campaign.includes('typescript') ||
       campaign.includes('linting') ||
       campaign.includes('explicit-any')
@@ -632,7 +632,7 @@ export class UnintentionalAnyCampaignScheduler {
     }
 
     // Check if conflicts can be resolved
-    const canResolve = conflictingCampaigns.every(campaign =>
+    const canResolve = conflictingCampaigns.every(campaign =>)
       !campaign.includes('critical') && !campaign.includes('emergency')
     );
 
@@ -654,7 +654,7 @@ export class UnintentionalAnyCampaignScheduler {
   /**
    * Get recommended execution time based on system load and other campaigns
    */
-  getRecommendedExecutionTime(
+  getRecommendedExecutionTime()
     activeCampaigns: string[],
     systemLoad: 'low' | 'medium' | 'high'
   ): {

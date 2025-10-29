@@ -13,9 +13,9 @@ import { getCachedCalculation } from '../../utils/calculationCache';
  * Core alchemical properties derived from planetary positions
  */
 export interface AlchemicalProperties {
-  Spirit: number,
-  Essence: number,
-  Matter: number,
+  Spirit: number;
+  Essence: number;
+  Matter: number;
   Substance: number
 }
 
@@ -23,9 +23,9 @@ export interface AlchemicalProperties {
  * Elemental values derived from zodiac signs and planetary influences
  */
 export interface ElementalValues {
-  Fire: number,
-  Water: number,
-  Air: number,
+  Fire: number;
+  Water: number;
+  Air: number;
   Earth: number
 }
 
@@ -33,11 +33,11 @@ export interface ElementalValues {
  * Complete thermodynamic calculation results
  */
 export interface ThermodynamicResults {
-  heat: number,
-  entropy: number,
-  reactivity: number,
-  gregsEnergy: number,
-  kalchm: number,
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  kalchm: number;
   monicaConstant: number
 }
 
@@ -45,18 +45,18 @@ export interface ThermodynamicResults {
  * Complete alchemical calculation result
  */
 export interface KalchmResult {
-  alchemicalProperties: AlchemicalProperties,
-  elementalValues: ElementalValues,
-  thermodynamics: ThermodynamicResults,
-  dominantElement: keyof ElementalValues,
-  dominantProperty: keyof AlchemicalProperties,
+  alchemicalProperties: AlchemicalProperties;
+  elementalValues: ElementalValues;
+  thermodynamics: ThermodynamicResults;
+  dominantElement: keyof ElementalValues;
+  dominantProperty: keyof AlchemicalProperties;
   timestamp: string
 }
 
 /**
  * Calculate Heat using the exact formula: * Heat = (Spirit^2 + Fire^2) / (Substance + Essence + Matter + Water + (Air || 0) + (Earth || 0))^2
  */
-export function calculateHeat(Spirit: number,
+export function calculateHeat(Spirit: number,)
   Fire: number,
   Substance: number,
   Essence: number,
@@ -75,7 +75,7 @@ export function calculateHeat(Spirit: number,
 /**
  * Calculate Entropy using the exact formula: * Entropy = (Spirit^2 + Substance^2 + Fire^2 + Air^2) / (Essence + Matter + Earth + Water)^2
  */
-export function calculateEntropy(Spirit: number,
+export function calculateEntropy(Spirit: number,)
   Substance: number,
   Fire: number,
   Air: number,
@@ -95,7 +95,7 @@ export function calculateEntropy(Spirit: number,
 /**
  * Calculate Reactivity using the exact formula: * Reactivity = (Spirit^2 + Substance^2 + Essence^2 + Fire^2 + Air^2 + Water^2) / (Matter + Earth)^2
  */
-export function calculateReactivity(Spirit: number,
+export function calculateReactivity(Spirit: number,)
   Substance: number,
   Essence: number,
   Fire: number,
@@ -127,7 +127,7 @@ export function calculateGregsEnergy(heat: number, entropy: number, reactivity: 
 /**
  * Calculate Kalchm (K_alchm) using the exact formula: * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  */
-export function calculateKAlchm(Spirit: number,
+export function calculateKAlchm(Spirit: number,)
   Essence: number,
   Matter: number,
   Substance: number): number {
@@ -148,7 +148,7 @@ export function calculateKAlchm(Spirit: number,
 /**
  * Calculate Monica Constant using the exact formula: * M = -Greg's Energy / (Reactivity × ln(K_alchm))
  */
-export function calculateMonicaConstant(gregsEnergy: number,
+export function calculateMonicaConstant(gregsEnergy: number,)
   reactivity: number,
   K_alchm: number): number {
   // Check for valid K_alchm
@@ -258,7 +258,7 @@ export function calculateElementalValues(planetaryPositions: {
         const planetName = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
         if (planetName === 'Sun' || planetName === 'Moon') {
           weight = 2.0;
-        } else if (['Mercury', 'Venus', 'Mars'].includes(planetName)) {
+        } else if (['Mercury', 'Venus', 'Mars'].includes(planetName) {
           weight = 1.5;
         }
 
@@ -308,7 +308,7 @@ export function calculateKalchmResults(planetaryPositions: {
 }): KalchmResult {
   const cacheKey = `kalchm_${JSON.stringify(planetaryPositions)}`;
 
-  return getCachedCalculation(
+  return getCachedCalculation()
     cacheKey,
     { positions: planetaryPositions },
     () => {
@@ -319,7 +319,7 @@ export function calculateKalchmResults(planetaryPositions: {
       const elementalValues = calculateElementalValues(planetaryPositions);
 
       // Calculate thermodynamic properties
-      const heat = calculateHeat(
+      const heat = calculateHeat()
         alchemicalProperties.Spirit,
         elementalValues.Fire,
         alchemicalProperties.Substance,
@@ -330,7 +330,7 @@ export function calculateKalchmResults(planetaryPositions: {
         elementalValues.Earth
       );
 
-      const entropy = calculateEntropy(
+      const entropy = calculateEntropy()
         alchemicalProperties.Spirit,
         alchemicalProperties.Substance,
         elementalValues.Fire,
@@ -341,7 +341,7 @@ export function calculateKalchmResults(planetaryPositions: {
         elementalValues.Water
       );
 
-      const reactivity = calculateReactivity(
+      const reactivity = calculateReactivity()
         alchemicalProperties.Spirit,
         alchemicalProperties.Substance,
         alchemicalProperties.Essence,
@@ -354,7 +354,7 @@ export function calculateKalchmResults(planetaryPositions: {
 
       const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
 
-      const kalchm = calculateKAlchm(
+      const kalchm = calculateKAlchm()
         alchemicalProperties.Spirit,
         alchemicalProperties.Essence,
         alchemicalProperties.Matter,
@@ -414,7 +414,7 @@ export function toElementalProperties(result: KalchmResult): ElementalProperties
  * Get dominant property from alchemical properties
  */
 function getDominantProperty(properties: AlchemicalProperties): keyof AlchemicalProperties {
-  return Object.entries(properties).reduce(
+  return Object.entries(properties).reduce()
     (max, [key, value]) =>
       value > max.value ? { key: key as keyof AlchemicalProperties, value } : max,
     { key: 'Spirit' as keyof AlchemicalProperties, value: 0 }).key

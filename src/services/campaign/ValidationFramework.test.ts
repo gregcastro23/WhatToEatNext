@@ -35,7 +35,7 @@ describe('ValidationFramework', () => {
     it('should return all available phases with correct structure', () => {
       const phases = validationFramework.getAvailablePhases();
 
-      expect(phases).toEqual([
+      expect(phases).toEqual([)
         { id: 'phase1', name: 'TypeScript Error Elimination', criteriaCount: 3 },
         { id: 'phase2', name: 'Linting Excellence Achievement', criteriaCount: 4 },
         { id: 'phase3', name: 'Enterprise Intelligence Transformation', criteriaCount: 3 },
@@ -53,7 +53,7 @@ describe('ValidationFramework', () => {
     });
 
     it('should throw error for unknown phase', async () => {
-      await expect(validationFramework.validatePhase('unknown-phase')).rejects.toThrow(
+      await expect(validationFramework.validatePhase('unknown-phase')).rejects.toThrow()
         'Unknown phase ID: unknown-phase',
       );
     });
@@ -98,7 +98,7 @@ describe('ValidationFramework', () => {
 
     it('should validate Phase 2 as failed with linting warnings present', async () => {
       // Mock linting warnings present
-      mockExecSync.mockReturnValue(`
+      mockExecSync.mockReturnValue(`)
         warning: @typescript-eslint/no-explicit-any found
         warning: no-unused-vars found
         warning: no-console found
@@ -138,11 +138,11 @@ describe('ValidationFramework', () => {
     it('should validate Phase 4 successfully with good performance metrics', async () => {
       // Mock fast build and test execution
       mockExecSync.mockImplementation(command => {
-        if (command.includes('yarn build')) {
+        if (command.includes('yarn build') {
           // Simulate 5 second build
           return new Promise(resolve => setTimeout(() => resolve(''), 100)) as any;
         }
-        if (command.includes('yarn test')) {
+        if (command.includes('yarn test') {
           // Simulate 30 second test run
           return new Promise(resolve => setTimeout(() => resolve(''), 100)) as any;
         }
@@ -194,7 +194,7 @@ describe('ValidationFramework', () => {
       const buildError = new Error('Build failed') as any;
       buildError.status = 1;
       mockExecSync.mockImplementation(command => {
-        if (command.includes('yarn build')) {
+        if (command.includes('yarn build') {
           throw buildError;
         }
         return '';
@@ -212,10 +212,10 @@ describe('ValidationFramework', () => {
     it('should detect test failures', async () => {
       // Mock test failure
       mockExecSync.mockImplementation(command => {
-        if (command.includes('yarn test')) {
+        if (command.includes('yarn test') {
           throw new Error('Tests failed');
         }
-        if (command.includes('yarn build')) {
+        if (command.includes('yarn build') {
           return '';
         }
         return '';
@@ -232,7 +232,7 @@ describe('ValidationFramework', () => {
       // Mock high number of TypeScript errors
       const manyErrors = Array(150).fill('error TS2322: Type error').join('\n');
       mockExecSync.mockImplementation(command => {
-        if (command.includes('tsc --noEmit')) {
+        if (command.includes('tsc --noEmit') {
           return manyErrors;
         }
         return '';
@@ -249,7 +249,7 @@ describe('ValidationFramework', () => {
     it('should detect performance degradation', async () => {
       // Mock slow build (simulate by making execSync take time)
       mockExecSync.mockImplementation(command => {
-        if (command.includes('yarn build')) {
+        if (command.includes('yarn build') {
           // Simulate slow build by delaying
           const start = Date.now();
           while (Date.now() - start < 100) {

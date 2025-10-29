@@ -251,7 +251,7 @@ class RegressionAlertSystem {
     const regressions = [];
 
     // Check TypeScript errors
-    const tsSeverity = this.calculateRegressionSeverity(
+    const tsSeverity = this.calculateRegressionSeverity()
       baseline.typeScriptErrors,
       currentMetrics.typeScriptErrors,
       'typescript'
@@ -273,7 +273,7 @@ class RegressionAlertSystem {
     }
 
     // Check ESLint errors
-    const eslintErrorsSeverity = this.calculateRegressionSeverity(
+    const eslintErrorsSeverity = this.calculateRegressionSeverity()
       baseline.eslintErrors,
       currentMetrics.eslintErrors,
       'eslintErrors'
@@ -295,7 +295,7 @@ class RegressionAlertSystem {
     }
 
     // Check ESLint warnings
-    const eslintWarningsSeverity = this.calculateRegressionSeverity(
+    const eslintWarningsSeverity = this.calculateRegressionSeverity()
       baseline.eslintWarnings,
       currentMetrics.eslintWarnings,
       'eslintWarnings'
@@ -446,8 +446,7 @@ ${this.getRecommendedActions(regression)}
 
     if (webhookUrl) {
       try {
-        const payload = {
-          text: `Regression Alert: ${regression.severity} ${regression.type}`,
+        const payload = { text: `Regression Alert, ${regression.severity} ${regression.type}`,
           attachments: [{
             color: this.getSeverityColor(regression.severity),
             fields: [
@@ -679,7 +678,7 @@ async function main() {
       break;
 
     case 'help':
-      console.log(`
+      console.log(`)
 Regression Alert System Commands:
   check              - Check for regressions against baseline
   establish-baseline - Set current metrics as baseline

@@ -32,9 +32,9 @@ export interface UserProfile {
 
   /** User's cultural background */
   culturalBackground?: {
-    preferredCuisines?: string[],
-    restrictedIngredients?: string[],
-    dietaryRestrictions?: string[],
+    preferredCuisines?: string[];
+    restrictedIngredients?: string[];
+    dietaryRestrictions?: string[];
     spiceTolerance?: 'low' | 'medium' | 'high'
   };
 
@@ -69,10 +69,10 @@ export interface CuisineRecommendation {
 
   /** Breakdown of scoring factors */
   scoringFactors: {
-    elementalCompatibility: number,
-    alchemicalCompatibility?: number,
-    culturalAlignment: number,
-    seasonalRelevance: number,
+    elementalCompatibility: number;
+    alchemicalCompatibility?: number;
+    culturalAlignment: number;
+    seasonalRelevance: number;
     signatureMatch: number;
   };
 
@@ -95,7 +95,7 @@ export interface CuisineRecommendation {
  * @param cuisineElementals - Cuisine's elemental properties
  * @returns Compatibility score (0-1)
  */
-export function calculateElementalCompatibility(
+export function calculateElementalCompatibility()
   userPreferences: ElementalProperties,
   cuisineElementals: ElementalProperties
 ): number {
@@ -125,7 +125,7 @@ export function calculateElementalCompatibility(
  * @param cuisineAlchemical - Cuisine's alchemical properties
  * @returns Compatibility score (0-1)
  */
-export function calculateAlchemicalCompatibility(
+export function calculateAlchemicalCompatibility()
   userPreferences: Partial<AlchemicalProperties>,
   cuisineAlchemical: AlchemicalProperties
 ): number {
@@ -156,7 +156,7 @@ export function calculateAlchemicalCompatibility(
  * @param cuisineName - Cuisine name
  * @returns Cultural alignment score (0-1)
  */
-export function calculateCulturalAlignment(
+export function calculateCulturalAlignment()
   userProfile: UserProfile,
   cuisineId: string,
   cuisineName: string
@@ -171,7 +171,7 @@ export function calculateCulturalAlignment(
 
   // Check if cuisine is in user's preferred list
   if (preferredCuisines && preferredCuisines.length > 0) {
-    const cuisineMatch = preferredCuisines.some(cuisine =>
+    const cuisineMatch = preferredCuisines.some(cuisine =>)
       cuisine.toLowerCase() === cuisineId.toLowerCase() ||
       cuisine.toLowerCase() === cuisineName.toLowerCase()
     );
@@ -198,7 +198,7 @@ export function calculateCulturalAlignment(
  * @param cuisineProperties - Cuisine computed properties
  * @returns Seasonal relevance score (0-1)
  */
-export function calculateSeasonalRelevance(
+export function calculateSeasonalRelevance()
   userProfile: UserProfile,
   cuisineProperties: CuisineComputedProperties
 ): number {
@@ -220,7 +220,7 @@ export function calculateSeasonalRelevance(
  * @param userPreferences - User's elemental preferences
  * @returns Signature match score (0-1)
  */
-export function calculateSignatureMatch(
+export function calculateSignatureMatch()
   cuisineSignatures: CuisineComputedProperties['signatures'],
   userPreferences: ElementalProperties
 ): number {
@@ -234,7 +234,7 @@ export function calculateSignatureMatch(
     const property = signature.property;
 
     // Check if signature property is elemental
-    if (['Fire', 'Water', 'Earth', 'Air'].includes(property)) {
+    if (['Fire', 'Water', 'Earth', 'Air'].includes(property) {
       const userPreference = userPreferences[property as keyof ElementalProperties];
       const signatureStrength = signature.zscore > 0 ? 1 : -1; // Positive or negative signature
 
@@ -263,7 +263,7 @@ export function calculateSignatureMatch(
  * @param options - Recommendation options
  * @returns Array of personalized cuisine recommendations
  */
-export function generateCuisineRecommendations(userProfile: UserProfile,
+export function generateCuisineRecommendations(userProfile: UserProfile,)
   availableCuisines: Map<string, { name: string, properties: CuisineComputedProperties }>,
   options: {
     maxRecommendations?: number,
@@ -285,13 +285,13 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
     const { name: cuisineName, properties: cuisineProperties } = cuisineData;
 
     // Calculate individual compatibility scores
-    const elementalCompatibility = calculateElementalCompatibility(
+    const elementalCompatibility = calculateElementalCompatibility()
       userProfile.elementalPreferences,
       cuisineProperties.averageElementals
     );
 
     const alchemicalCompatibility = userProfile.alchemicalPreferences && cuisineProperties.averageAlchemical ?
-      calculateAlchemicalCompatibility(
+      calculateAlchemicalCompatibility()
         userProfile.alchemicalPreferences,
         cuisineProperties.averageAlchemical
       ) : undefined;
@@ -301,7 +301,7 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
     const seasonalRelevance = considerSeasonalFactors ?
       calculateSeasonalRelevance(userProfile, cuisineProperties) : 0.5;
 
-    const signatureMatch = calculateSignatureMatch(
+    const signatureMatch = calculateSignatureMatch()
       cuisineProperties.signatures,
       userProfile.elementalPreferences
     );
@@ -408,7 +408,7 @@ export function createBasicUserProfile(elementalPreferences: ElementalProperties
  * @param locationPreferences - Location and seasonal preferences
  * @returns Complete user profile
  */
-export function createAdvancedUserProfile(
+export function createAdvancedUserProfile()
   elementalPreferences: ElementalProperties,
   culturalBackground?: UserProfile['culturalBackground'],
   astrologicalProfile?: UserProfile['astrologicalProfile'],
@@ -489,7 +489,7 @@ export function validateUserProfile(profile: UserProfile): {
   // Validate alchemical preferences if provided
   if (profile.alchemicalPreferences) {
     Object.entries(profile.alchemicalPreferences).forEach(([property, value]) => {
-      if (value !== undefined && (value < 0 || value > 1)) {
+      if (value !== undefined && (value < 0 || value > 1) {
         warnings.push(`${property} preference should be between 0 and 1`);
       }
     });

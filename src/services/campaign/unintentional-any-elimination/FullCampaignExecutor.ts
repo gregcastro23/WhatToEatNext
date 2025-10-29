@@ -207,7 +207,7 @@ export class FullCampaignExecutor {
         }
 
         // Process batch with enhanced safety
-        const batchResult = await this.processBatchWithSafety(
+        const batchResult = await this.processBatchWithSafety()
           highConfidenceCases.slice(0, this.config.maxBatchSize),
           'high-confidence'
         );
@@ -216,7 +216,7 @@ export class FullCampaignExecutor {
         this.metrics.totalFixesApplied += batchResult.successfulReplacements;
 
         // Validate build after each batch
-        if (!await this.validateBuildStability()) {
+        if (!await this.validateBuildStability() {
           console.error('❌ Build instability detected, stopping phase');
           break;
         }
@@ -273,7 +273,7 @@ export class FullCampaignExecutor {
         this.metrics.totalFixesApplied += categoryFixes;
 
         // Validate after each category
-        if (!await this.validateBuildStability()) {
+        if (!await this.validateBuildStability() {
           console.error(`❌ Build instability after ${category}, stopping`);
           break;
         }
@@ -326,7 +326,7 @@ export class FullCampaignExecutor {
         domainResults.push(domainFixes);
 
         // Validate after each domain
-        if (!await this.validateBuildStability()) {
+        if (!await this.validateBuildStability() {
           console.error(`❌ Build instability after ${domain} domain`);
           break;
         }
@@ -460,13 +460,13 @@ export class FullCampaignExecutor {
     const files = await this.getTypeScriptFiles();
     const highConfidenceCases: AnyTypeClassification[] = [];
 
-    for (const file of files.slice(0, 50)) { // Process in chunks
+    for (const file of files.slice(0, 50) { // Process in chunks
       try {
         const content = fs.readFileSync(file, 'utf8');
         const cases = await this.classifier.classifyFileContent(file, content);
 
         // Filter for high-confidence unintentional cases
-        const highConfidence = cases.filter(c =>
+        const highConfidence = cases.filter(c =>)
           !c.isIntentional &&
           c.confidence >= 0.85 &&
           (c.category === AnyTypeCategory.ARRAY_TYPE || c.category === AnyTypeCategory.RECORD_TYPE)
@@ -485,7 +485,7 @@ export class FullCampaignExecutor {
   /**
    * Process a batch with enhanced safety protocols
    */
-  private async processBatchWithSafety(
+  private async processBatchWithSafety()
     cases: AnyTypeClassification[],
     batchType: string
   ): Promise<ReplacementResult> {
@@ -498,7 +498,7 @@ export class FullCampaignExecutor {
       const result = await this.replacer.processBatch(cases);
 
       // Validate build after replacement
-      if (!await this.validateBuildStability()) {
+      if (!await this.validateBuildStability() {
         console.warn('⚠️ Build instability detected, rolling back');
         await this.restoreBackup(backupPath);
         return {
@@ -546,7 +546,7 @@ export class FullCampaignExecutor {
         break;
       }
 
-      const batchResult = await this.processBatchWithSafety(
+      const batchResult = await this.processBatchWithSafety()
         categoryCases.slice(0, this.config.minBatchSize), // Smaller batches for medium-risk
         `${category}-batch-${batchCount + 1}`
       );
@@ -556,7 +556,7 @@ export class FullCampaignExecutor {
 
       // More frequent validation for medium-risk
       if (batchCount % 3 === 0) {
-        if (!await this.validateBuildStability()) {
+        if (!await this.validateBuildStability() {
           console.warn(`⚠️ Stopping ${category} processing due to build instability`);
           break;
         }
@@ -574,14 +574,14 @@ export class FullCampaignExecutor {
     let fixesApplied = 0;
     const processedFiles: string[] = [];
 
-    for (const file of domainFiles.slice(0, 20)) { // Limit per domain
+    for (const file of domainFiles.slice(0, 20) { // Limit per domain
       try {
         const content = fs.readFileSync(file, 'utf8');
         const domainContext = await this.domainAnalyzer.analyzeDomain(file, content);
         const cases = await this.classifier.classifyFileContent(file, content);
 
         // Filter for domain-appropriate cases
-        const domainCases = cases.filter(c =>
+        const domainCases = cases.filter(c =>)
           !c.isIntentional &&
           c.confidence >= 0.7 &&
           this.isDomainAppropriate(c, domainContext)
@@ -639,7 +639,7 @@ export class FullCampaignExecutor {
   /**
    * Add ESLint disable comments to a specific file
    */
-  private async addESLintCommentsToFile(
+  private async addESLintCommentsToFile()
     filePath: string,
     content: string,
     intentionalCases: AnyTypeClassification[]
@@ -653,7 +653,7 @@ export class FullCampaignExecutor {
         const line = lines[lineIndex];
 
         // Check if ESLint disable comment already exists
-        if (!line.includes('eslint-disable') && !lines[lineIndex - 1]?.includes('eslint-disable')) {
+        if (!line.includes('eslint-disable') && !lines[lineIndex - 1]?.includes('eslint-disable') {
           const reason = this.getESLintDisableReason(case_);
           const comment = `// eslint-disable-next-line @typescript-eslint/no-explicit-any -- ${reason}`;
 
@@ -688,7 +688,7 @@ export class FullCampaignExecutor {
   /**
    * Validate documentation completeness
    */
-  private async validateDocumentationCompleteness(): Promise<{ complete: boolean; undocumented: number }> {
+  private async validateDocumentationCompleteness(): Promise<{ complete: boolean; undocumented, number }> {
     const files = await this.getTypeScriptFiles();
     let undocumented = 0;
 
@@ -729,7 +729,7 @@ export class FullCampaignExecutor {
     // Check previous lines for comments or ESLint disable
     for (let i = Math.max(0, lineIndex - 3); i < lineIndex; i++) {
       const line = lines[i];
-      if (line.includes('//') || line.includes('/*') || line.includes('eslint-disable')) {
+      if (line.includes('//') || line.includes('/*') || line.includes('eslint-disable') {
         return true;
       }
     }
@@ -879,18 +879,18 @@ export class FullCampaignExecutor {
     });
   }
 
-  private async findCategorySpecificCases(
+  private async findCategorySpecificCases()
     category: AnyTypeCategory,
     files: string[]
   ): Promise<AnyTypeClassification[]> {
     const cases: AnyTypeClassification[] = [];
 
-    for (const file of files.slice(0, 30)) {
+    for (const file of files.slice(0, 30) {
       try {
         const content = fs.readFileSync(file, 'utf8');
         const fileCases = await this.classifier.classifyFileContent(file, content);
 
-        const categoryCases = fileCases.filter(c =>
+        const categoryCases = fileCases.filter(c =>)
           !c.isIntentional &&
           c.category === category &&
           c.confidence >= 0.6
@@ -926,7 +926,7 @@ export class FullCampaignExecutor {
   }
 
   private async restoreBackup(backupPath: string): Promise<void> {
-    if (!backupPath || !fs.existsSync(backupPath)) {
+    if (!backupPath || !fs.existsSync(backupPath) {
       console.warn('Warning: Backup path not found, cannot restore');
       return;
     }
@@ -963,7 +963,7 @@ export class FullCampaignExecutor {
     achievements.push(`Applied ${this.metrics.totalFixesApplied} successful type improvements`);
     achievements.push(`Achieved ${this.calculateReductionPercentage().toFixed(1)}% reduction in explicit any usage`);
 
-    if (this.isTargetAchieved()) {
+    if (this.isTargetAchieved() {
       achievements.push('✅ Successfully met campaign targets');
     }
 

@@ -277,7 +277,7 @@ export class ImportCleanupSystem {
 
         // Check if each imported name is used
         for (const importName of importedNames) {
-          if (!this.isImportUsed(content, importName, i)) {
+          if (!this.isImportUsed(content, importName, i) {
             unusedImports.push({
               filePath,
               importName,
@@ -327,7 +327,7 @@ export class ImportCleanupSystem {
     const unusedByLine = new Map<number, UnusedImport[]>();
     for (const unused of unusedImports) {
       const lineIndex = unused.importLine - 1;
-      if (!unusedByLine.has(lineIndex)) {
+      if (!unusedByLine.has(lineIndex) {
         unusedByLine.set(lineIndex, []);
       }
       unusedByLine.get(lineIndex)?.push(unused);
@@ -344,7 +344,7 @@ export class ImportCleanupSystem {
 
       // If all imports on this line are unused, remove the entire line
       const allImportsOnLine = this.extractAllImportsFromLine(originalLine);
-      const allUnused = allImportsOnLine.every(imp =>
+      const allUnused = allImportsOnLine.every(imp =>)
         lineUnused.some(unused => unused.importName === imp),
       );
 
@@ -415,21 +415,21 @@ export class ImportCleanupSystem {
     const lines = content.split('\n');
 
     // Find import section
-    const importLines: { line: string; index: number; isExternal: boolean; isType: boolean }[] = [];
+    const importLines: { line: string; index: number; isExternal: boolean; isType, boolean }[] = [];
     const importRegex = /^import\s+/;
     const typeImportRegex = /^import\s+type\s+/;
     const externalImportRegex = /from\s+['"](?![@./])/;
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
-      if (importRegex.test(line)) {
+      if (importRegex.test(line) {
         importLines.push({
           line: lines[i],
           index: i,
           isExternal: externalImportRegex.test(line),
           isType: typeImportRegex.test(line),
         });
-      } else if (line && !line.startsWith('//') && !line.startsWith('/*')) {
+      } else if (line && !line.startsWith('//') && !line.startsWith('/*') {
         // Stop at first non-import, non-comment line
         break;
       }
@@ -464,8 +464,8 @@ export class ImportCleanupSystem {
     return true;
   }
 
-  private organizeImportLines(
-    importLines: { line: string; isExternal: boolean; isType: boolean }[],
+  private organizeImportLines()
+    importLines: { line: string; isExternal: boolean; isType, boolean }[],
   ): string[] {
     const { organizationRules } = this.config;
     const organized: string[] = [];
@@ -537,7 +537,7 @@ export class ImportCleanupSystem {
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
-      if (/^import\s+/.test(line.trim())) {
+      if (/^import\s+/.test(line.trim()) {
         const styledLine = this.applyImportStyle(line);
         if (styledLine !== line) {
           lines[i] = styledLine;
@@ -560,7 +560,7 @@ export class ImportCleanupSystem {
     // Enforce trailing commas in multi-line imports
     if (organizationRules.enforceTrailingCommas) {
       styledLine = styledLine.replace(/\{\s*([^}]+[^,])\s*\}/g, (match, imports) => {
-        if (imports.includes(',')) {
+        if (imports.includes(',') {
           return `{ ${imports.trim()}, }`;
         }
         return match;
@@ -587,7 +587,7 @@ export class ImportCleanupSystem {
 
   private async getTypeScriptFiles(): Promise<string[]> {
     try {
-      const output = execSync(
+      const output = execSync()
         'find src -name "*.ts" -o -name "*.tsx" | grep -v __tests__ | grep -v .test. | grep -v .spec.',
         { encoding: 'utf8', stdio: 'pipe' },
       );
@@ -620,7 +620,7 @@ export class ImportCleanupSystem {
     }
   }
 
-  private mergeBatchResults(
+  private mergeBatchResults()
     total: ImportCleanupResult,
     batch: ImportCleanupResult,
   ): ImportCleanupResult {

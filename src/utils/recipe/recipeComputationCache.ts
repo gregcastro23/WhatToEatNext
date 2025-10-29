@@ -61,7 +61,7 @@ class RecipeComputationCacheManager {
     }
 
     // Check if entry has expired
-    if (Date.now() > entry.expiresAt.getTime()) {
+    if (Date.now() > entry.expiresAt.getTime() {
       this.cache.delete(cacheKey);
       this.removeFromAccessOrder(cacheKey);
       return null;
@@ -76,7 +76,7 @@ class RecipeComputationCacheManager {
   /**
    * Set cached computation result
    */
-  set(
+  set()
     cacheKey: string,
     computedProperties: RecipeComputedProperties,
     computationTimeMs: number,
@@ -110,7 +110,7 @@ class RecipeComputationCacheManager {
     if (!entry) return false;
 
     // Check expiration
-    if (Date.now() > entry.expiresAt.getTime()) {
+    if (Date.now() > entry.expiresAt.getTime() {
       this.cache.delete(cacheKey);
       this.removeFromAccessOrder(cacheKey);
       return false;
@@ -174,7 +174,7 @@ class RecipeComputationCacheManager {
   warmUp(entries: RecipeComputationCache[]): void {
     for (const entry of entries) {
       // Only add if not expired
-      if (Date.now() <= entry.expiresAt.getTime()) {
+      if (Date.now() <= entry.expiresAt.getTime() {
         this.cache.set(entry.cacheKey, entry);
         this.updateAccessOrder(entry.cacheKey);
       }
@@ -244,8 +244,8 @@ class RecipeComputationCacheManager {
     const now = Date.now();
     const keysToDelete: string[] = [];
 
-    for (const [key, entry] of this.cache.entries()) {
-      if (now > entry.expiresAt.getTime()) {
+    for (const [key, entry] of this.cache.entries() {
+      if (now > entry.expiresAt.getTime() {
         keysToDelete.push(key);
       }
     }
@@ -284,8 +284,7 @@ export function createRecipeComputationCache(config?: Partial<CacheConfig>): Rec
  */
 export function withComputationCaching<T extends any[], R>(
   computationFn: (...args: T) => R,
-  options: {
-    getCacheKey: (args: T) => string;
+  options: { getCacheKey: (args, T) => string;
     getPlanetaryPositions: (args: T) => { [planet: string]: string };
     cache?: RecipeComputationCacheManager;
   }
@@ -296,7 +295,7 @@ export function withComputationCaching<T extends any[], R>(
     const cacheKey = options.getCacheKey(args);
 
     // Try to get from cache first
-    if (cache.has(cacheKey)) {
+    if (cache.has(cacheKey) {
       const cached = cache.get(cacheKey);
       if (cached) {
         return cached as R;
@@ -365,7 +364,7 @@ export interface CachePerformanceMetrics {
   totalRequests: number;
 }
 
-export function getCachePerformanceMetrics(
+export function getCachePerformanceMetrics()
   cache?: RecipeComputationCacheManager
 ): CachePerformanceMetrics {
   // This would require additional instrumentation

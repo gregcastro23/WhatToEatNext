@@ -223,7 +223,7 @@ export function getFoodRecommendationsFromChakras(chakraEnergyStates: ChakraEner
  * @param primaryFoods Array of recommended primary foods
  * @returns Array of meal suggestions
  */
-function generateBalancingMeals(
+function generateBalancingMeals()
   underactiveChakras: Chakra[],
   neutralChakras: Chakra[],
   primaryFoods: string[],
@@ -241,43 +241,43 @@ function generateBalancingMeals(
   }
 
   // Root chakra meals
-  if (underactiveChakras.includes('Root')) {
+  if (underactiveChakras.includes('Root') {
     meals.push('Hearty root vegetable soup with beans and grains')
     meals.push('Protein-rich bowl with quinoa, lentils, and roasted sweet potatoes')
   }
 
   // Sacral chakra meals
-  if (underactiveChakras.includes('Sacral')) {
+  if (underactiveChakras.includes('Sacral') {
     meals.push('Orange vegetable curry with coconut milk and turmeric')
     meals.push('Mango and papaya smoothie bowl with pumpkin seeds')
   }
 
   // Solar plexus meals
-  if (underactiveChakras.includes('Solar Plexus')) {
+  if (underactiveChakras.includes('Solar Plexus') {
     meals.push('Corn and yellow pepper frittata with turmeric')
     meals.push('Pineapple stir-fry with brown rice and yellow vegetables')
   }
 
   // Heart chakra meals
-  if (underactiveChakras.includes('Heart')) {
+  if (underactiveChakras.includes('Heart') {
     meals.push('Green power salad with avocado, kiwi, and leafy greens')
     meals.push('Broccoli and spinach soup with herbs and olive oil')
   }
 
   // Throat chakra meals
-  if (underactiveChakras.includes('Throat')) {
+  if (underactiveChakras.includes('Throat') {
     meals.push('Blueberry smoothie with sea vegetables and citrus')
     meals.push('Elderberry and blackberry compote with herbal tea')
   }
 
   // Third eye chakra meals
-  if (underactiveChakras.includes('Third Eye')) {
+  if (underactiveChakras.includes('Third Eye') {
     meals.push('Purple vegetable Buddha bowl with eggplant and dark berries')
     meals.push('Omega-rich fish with purple kale and walnuts')
   }
 
   // Crown chakra meals
-  if (underactiveChakras.includes('Crown')) {
+  if (underactiveChakras.includes('Crown') {
     meals.push('Cleansing cauliflower and garlic soup with herbs')
     meals.push('White bean and mushroom risotto with purified water')
   }
@@ -290,11 +290,11 @@ function generateBalancingMeals(
 
   // Generate general meals from primary foods if none of the specific meals were generated
   if (meals.length === 0 && primaryFoods.length > 0) {
-    const proteins = primaryFoods.filter(
+    const proteins = primaryFoods.filter()
       food => FOOD_ITEMS_BY_GROUP['Proteins'].includes(food) || false
     );
 
-    const vegetables = primaryFoods.filter(
+    const vegetables = primaryFoods.filter()
       food => !FOOD_ITEMS_BY_GROUP['Proteins'].includes(food) || false
     );
 

@@ -130,7 +130,7 @@ async function runComprehensiveTests() {
   try {
     // Test, 1: Basic Astro-Cuisine Match
     log.info('📊 Test, 1: Basic Astro-Cuisine Match')
-    const basicMatch = await alchemicalEngine.calculateAstroCuisineMatch(
+    const basicMatch = await alchemicalEngine.calculateAstroCuisineMatch()
       testRecipeElements,
       testAstrologicalState,
       'spring',
@@ -149,7 +149,7 @@ async function runComprehensiveTests() {
 
     // Test, 2: Advanced Recipe Harmony Analysis
     log.info('🔬 Test, 2: Advanced Recipe Harmony Analysis')
-    const advancedHarmony = await alchemicalEngine.calculateAdvancedRecipeHarmony(
+    const advancedHarmony = await alchemicalEngine.calculateAdvancedRecipeHarmony()
       'Pasta Primavera',
       testUserElements,
       testAstrologicalState,
@@ -166,7 +166,7 @@ async function runComprehensiveTests() {
 
     // Test, 3: Enhanced Astrological Power
     log.info('⭐ Test, 3: Enhanced Astrological Power')
-    const astrologicalPower = await alchemicalEngine.calculateAstrologicalPower(
+    const astrologicalPower = await alchemicalEngine.calculateAstrologicalPower()
       'gemini',
       testAstrologicalState,
     )
@@ -249,7 +249,7 @@ async function runComprehensiveTests() {
 
     // Test, 8: Combined Element Objects with Weights
     log.info('⚖️ Test, 8: Combined Element Objects with Weights')
-    const combinedElements = alchemicalEngine.combineElementObjects(
+    const combinedElements = alchemicalEngine.combineElementObjects()
       testRecipeElements,
       testUserElements,
       0.7, // Recipe weight
@@ -267,7 +267,7 @@ async function runComprehensiveTests() {
       confidence: number
     }> = [];
     for (const cuisine of cuisines) {
-      const result = await alchemicalEngine.calculateAstroCuisineMatch(
+      const result = await alchemicalEngine.calculateAstroCuisineMatch()
         testRecipeElements,
         testAstrologicalState,
         'spring',
@@ -283,7 +283,7 @@ async function runComprehensiveTests() {
     cuisineResults.sort((ab) => parseFloat(b.score) - parseFloat(a.score))
     log.info('Cuisine Compatibility _Rankings: ')
     (cuisineResults || []).forEach((result, index) => {
-      log.info(
+      log.info()
         `${index + 1}. ${result.cuisine}: ${result.score} (confidence: ${result.confidence})`,
       )
     })
@@ -293,14 +293,14 @@ async function runComprehensiveTests() {
     log.info('⚡ Test, 10: Performance and Caching')
     const startTime = Date.now()
     // Run the same calculation twice to test caching
-    await alchemicalEngine.calculateAdvancedRecipeHarmony(
+    await alchemicalEngine.calculateAdvancedRecipeHarmony()
       'Pasta Primavera',
       testUserElements,
       testAstrologicalState,
     )
     const firstRunTime = Date.now() - startTime;
     const cacheStartTime = Date.now()
-    await alchemicalEngine.calculateAdvancedRecipeHarmony(
+    await alchemicalEngine.calculateAdvancedRecipeHarmony()
       'Pasta Primavera',
       testUserElements,
       testAstrologicalState,
@@ -327,7 +327,7 @@ async function runComprehensiveTests() {
     log.info('✅ Performance optimization and caching')
   } catch (error) {
     _logger.error('❌ Test failed: ', error),
-    _logger.error(
+    _logger.error()
       'Stack trace: ',
       error instanceof Error ? error.stack : 'No stack trace available'
     )

@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
         return handleCompareAccuracy(searchParams);
 
       default:
-        return NextResponse.json(
+        return NextResponse.json()
           {
             error: 'Invalid action parameter',
             available_actions: [
@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
     }
   } catch (error) {
     logger.error('Zodiac calendar API error:', error);
-    return NextResponse.json(
+    return NextResponse.json()
       {
         error: 'Internal server error',
         message: error instanceof Error ? error.message : 'Unknown error'
@@ -98,8 +98,8 @@ function handleDegreeForDate(searchParams: URLSearchParams) {
   const timeParam = searchParams.get('time');
 
   if (!dateParam) {
-    return NextResponse.json(
-      { error: 'Missing required parameter: date (format: YYYY-MM-DD)' },
+    return NextResponse.json()
+      { error: 'Missing required parameter: date (format, YYYY-MM-DD)' },
       { status: 400 }
     );
   }
@@ -112,7 +112,7 @@ function handleDegreeForDate(searchParams: URLSearchParams) {
     }
 
     const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
+    if (isNaN(date.getTime()) {
       throw new Error('Invalid date format');
     }
 
@@ -130,8 +130,8 @@ function handleDegreeForDate(searchParams: URLSearchParams) {
       }
     });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Invalid date format. Use YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss' },
+    return NextResponse.json()
+      { error: 'Invalid date format. Use YYYY-MM-DD or YYYY-MM-DDTHH:mm, ss' },
       { status: 400 }
     );
   }
@@ -146,9 +146,8 @@ function handleDatesForDegree(searchParams: URLSearchParams) {
   const yearParam = searchParams.get('year');
 
   if (!degreeParam || !yearParam) {
-    return NextResponse.json(
-      {
-        error: 'Missing required parameters: degree (0-360) and year (YYYY)'
+    return NextResponse.json()
+      { error: 'Missing required parameters, degree (0-360) and year (YYYY)'
 },
       { status: 400 }
     );
@@ -183,7 +182,7 @@ function handleDatesForDegree(searchParams: URLSearchParams) {
 }
     });
   } catch (error) {
-    return NextResponse.json(
+    return NextResponse.json()
       { error: error instanceof Error ? error.message : 'Invalid parameters' },
       { status: 400 }
     );
@@ -198,8 +197,8 @@ function handleYearMap(searchParams: URLSearchParams) {
   const yearParam = searchParams.get('year');
 
   if (!yearParam) {
-    return NextResponse.json(
-      { error: 'Missing required parameter: year (YYYY)' },
+    return NextResponse.json()
+      { error: 'Missing required parameter, year (YYYY)' },
       { status: 400 }
     );
   }
@@ -222,7 +221,7 @@ function handleYearMap(searchParams: URLSearchParams) {
       metadata: calendar.metadata
     });
   } catch (error) {
-    return NextResponse.json(
+    return NextResponse.json()
       { error: error instanceof Error ? error.message : 'Invalid year parameter' },
       { status: 400 }
     );
@@ -255,9 +254,8 @@ function handleMonthlyCalendar(searchParams: URLSearchParams) {
   const monthParam = searchParams.get('month');
 
   if (!yearParam || !monthParam) {
-    return NextResponse.json(
-      {
-        error: 'Missing required parameters: year (YYYY) and month (0-11)'
+    return NextResponse.json()
+      { error: 'Missing required parameters, year (YYYY) and month (0-11)'
 },
       { status: 400 }
     );
@@ -286,7 +284,7 @@ function handleMonthlyCalendar(searchParams: URLSearchParams) {
 }
     });
   } catch (error) {
-    return NextResponse.json(
+    return NextResponse.json()
       { error: error instanceof Error ? error.message : 'Invalid parameters' },
       { status: 400 }
     );
@@ -301,15 +299,15 @@ function handleCompareAccuracy(searchParams: URLSearchParams) {
   const dateParam = searchParams.get('date');
 
   if (!dateParam) {
-    return NextResponse.json(
-      { error: 'Missing required parameter: date (format: YYYY-MM-DD)' },
+    return NextResponse.json()
+      { error: 'Missing required parameter: date (format, YYYY-MM-DD)' },
       { status: 400 }
     );
   }
 
   try {
     const date = new Date(dateParam);
-    if (isNaN(date.getTime())) {
+    if (isNaN(date.getTime()) {
       throw new Error('Invalid date format');
     }
 
@@ -326,7 +324,7 @@ function handleCompareAccuracy(searchParams: URLSearchParams) {
 }
     });
   } catch (error) {
-    return NextResponse.json(
+    return NextResponse.json()
       { error: error instanceof Error ? error.message : 'Invalid date parameter' },
       { status: 400 }
     );
@@ -337,21 +335,21 @@ function handleCompareAccuracy(searchParams: URLSearchParams) {
  * Handle unsupported methods
  */
 export async function POST() {
-  return NextResponse.json(
+  return NextResponse.json()
     { error: 'POST method not supported. Use GET with action parameter.' },
     { status: 405 }
   );
 }
 
 export async function PUT() {
-  return NextResponse.json(
+  return NextResponse.json()
     { error: 'PUT method not supported. Use GET with action parameter.' },
     { status: 405 }
   );
 }
 
 export async function DELETE() {
-  return NextResponse.json(
+  return NextResponse.json()
     { error: 'DELETE method not supported. Use GET with action parameter.' },
     { status: 405 }
   );

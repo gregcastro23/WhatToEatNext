@@ -286,7 +286,7 @@ export function warnNullValue(variableName: string, _context: string, value?: un
 /**
  * Detect issues with runtime type mismatches
  */
-export function validateType(
+export function validateType()
   value: unknown,
   expectedType: string,
   context: string,
@@ -295,7 +295,7 @@ export function validateType(
   const actualType = value === null ? 'null' : typeof value;
 
   // Handle array type special case
-  if (expectedType === 'array' && Array.isArray(value)) {
+  if (expectedType === 'array' && Array.isArray(value) {
     return true;
   }
 
@@ -305,8 +305,8 @@ export function validateType(
   }
 
   // Basic type checking
-  if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value))) {
-    logWarning(
+  if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value)) {
+    logWarning()
       `Type mismatch in ${context}: ${variableName} should be ${expectedType}, but got ${actualType}`,
       { value }
     );
@@ -320,7 +320,7 @@ export function validateType(
  * Handle property access errors with detailed reporting
  * Use this when accessing potentially undefined nested properties
  */
-export function handlePropertyAccessError(
+export function handlePropertyAccessError()
   error: unknown,
   propertyPath: string,
   context: string,
@@ -355,8 +355,7 @@ export function trackExecution(functionName: string, _step: string, _data?: unkn
  * Log TypeScript specific errors (undefined access, type mismatches)
  */
 export function logTypeError(error: unknown, context: string, _operation: string): void {
-  ErrorHandler.log(error, {
-    context: `TypeScript:${context}`,
+  ErrorHandler.log(error, { context: `TypeScript, ${context}`,
     data: { operation }
   });
 }

@@ -8,7 +8,7 @@ import { _logger } from '@/lib/logger';
  * @param longitude The longitude of the location
  * @returns Object containing moonrise and moonset times
  */
-export function calculateMoonTimes(
+export function calculateMoonTimes()
   date: Date,
   latitude: number,
   longitude: number,
@@ -55,7 +55,7 @@ export function getMoonIllumination(date: Date = new Date()): number {;
  * @param longitude The longitude of the location
  * @returns Object with altitude and azimuth
  */
-export function getMoonPosition(
+export function getMoonPosition()
   date: Date,
   latitude: number,
   longitude: number,

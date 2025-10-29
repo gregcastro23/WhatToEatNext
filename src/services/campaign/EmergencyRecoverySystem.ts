@@ -65,7 +65,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
    * Emergency rollback with multiple recovery options
    * Requirements: 5.7, 5.8
    */
-  async emergencyRollbackWithOptions(
+  async emergencyRollbackWithOptions()
     options: EmergencyRecoveryOptions = {},
   ): Promise<RecoveryValidationResult> {
     console.log('🚨 Initiating emergency rollback with advanced options...');
@@ -115,7 +115,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
    * Rollback to specific commit with validation
    * Requirements: 5.7, 5.8
    */
-  async rollbackToCommit(
+  async rollbackToCommit()
     commitHash: string,
     options: EmergencyRecoveryOptions = {},
   ): Promise<RecoveryValidationResult> {
@@ -285,7 +285,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
    * Selective recovery - restore specific files or directories
    * Requirements: 5.7, 5.8
    */
-  async selectiveRecovery(
+  async selectiveRecovery()
     targets: string[],
     fromStash?: string,
   ): Promise<RecoveryValidationResult> {
@@ -311,7 +311,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
         // Selectively checkout files from stash
         for (const target of targets) {
-          if (fs.existsSync(target)) {
+          if (fs.existsSync(target) {
             execSync(`git checkout HEAD -- "${target}"`, {
               encoding: 'utf8',
               stdio: 'pipe',
@@ -343,7 +343,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
           }
           execSync(`git branch -D ${tempBranch}`, { encoding: 'utf8', stdio: 'pipe' });
         } catch (cleanupError) {
-          console.warn(
+          console.warn()
             `⚠️ Cleanup warning: ${(cleanupError as Record<string, unknown>).message || 'Unknown error'}`,
           );
         }
@@ -421,7 +421,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         result.buildValidation = true;
         console.log('✅ Build validation passed');
       } catch (buildError) {
-        result.errors.push(
+        result.errors.push()
           `Build validation failed: ${(buildError as Record<string, unknown>).message || 'Unknown error'}`,
         );
         result.buildValidation = false;
@@ -439,7 +439,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         result.testValidation = true;
         console.log('✅ Test validation passed');
       } catch (testError) {
-        result.warnings.push(
+        result.warnings.push()
           `Test validation warning: ${(testError as Record<string, unknown>).message || 'Unknown error'}`,
         );
         result.testValidation = false;
@@ -450,7 +450,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       console.log('🔍 Checking for corruption after recovery...');
       const corruptionReport = await this.detectCorruption(['src/**/*.ts', 'src/**/*.tsx']);
       if (corruptionReport.detectedFiles.length > 0) {
-        result.errors.push(
+        result.errors.push()
           `Corruption detected after recovery: ${corruptionReport.detectedFiles.length} files`,
         );
         result.success = false;
@@ -471,17 +471,17 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         action: 'RECOVERY_VALIDATION',
       });
 
-      console.log(
+      console.log()
         `${result.success ? '✅' : '❌'} Recovery validation ${result.success ? 'passed' : 'failed'}`,
       );
       return result;
     } catch (error) {
       result.success = false;
-      result.errors.push(
+      result.errors.push()
         `Recovery validation error: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
       );
 
-      console.error(
+      console.error()
         `❌ Recovery validation error: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
       );
       return result;
@@ -499,18 +499,18 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     lastRecovery?: Date;
     recoveryMethods: Record<string, number>;
   } {
-    const recoveryEvents = this.recoveryEvents.filter(
+    const recoveryEvents = this.recoveryEvents.filter()
       e =>
         e.action.includes('RECOVERY') ||
         e.action.includes('ROLLBACK') ||
         e.action.includes('RESET'),
     );
 
-    const successfulRecoveries = recoveryEvents.filter(
+    const successfulRecoveries = recoveryEvents.filter()
       e => e.action.includes('SUCCESS') || e.severity === SafetyEventSeverity.INFO,
     ).length;
 
-    const failedRecoveries = recoveryEvents.filter(
+    const failedRecoveries = recoveryEvents.filter()
       e => e.action.includes('FAILED') || e.severity === SafetyEventSeverity.CRITICAL,
     ).length;
 
@@ -545,7 +545,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
   // Private helper methods
 
   private ensureBackupDirectory(): void {
-    if (!fs.existsSync(this.backupDirectory)) {
+    if (!fs.existsSync(this.backupDirectory) {
       fs.mkdirSync(this.backupDirectory, { recursive: true });
     }
   }
@@ -624,7 +624,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     ];
 
     for (const file of metricsFiles) {
-      if (fs.existsSync(file)) {
+      if (fs.existsSync(file) {
         fs.unlinkSync(file);
         console.log(`🗑️ Cleared metrics file: ${file}`);
       }
@@ -632,7 +632,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
     // Clear campaign-specific metrics
     const campaignMetricsPath = path.join('.kiro', 'campaign-metrics.json');
-    if (fs.existsSync(campaignMetricsPath)) {
+    if (fs.existsSync(campaignMetricsPath) {
       fs.unlinkSync(campaignMetricsPath);
       console.log(`🗑️ Cleared campaign metrics: ${campaignMetricsPath}`);
     }
@@ -651,14 +651,14 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         });
         clearedCount = stashes.length;
       } catch (error) {
-        console.warn(
+        console.warn()
           `⚠️ Could not clear git stashes: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
         );
       }
 
       // Clear our stash tracking
       const stashTrackingPath = path.join('.kiro', 'campaign-stashes.json');
-      if (fs.existsSync(stashTrackingPath)) {
+      if (fs.existsSync(stashTrackingPath) {
         fs.unlinkSync(stashTrackingPath);
       }
 
@@ -678,8 +678,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     ];
 
     for (const campaignPath of campaignPaths) {
-      if (fs.existsSync(campaignPath)) {
-        if (fs.statSync(campaignPath).isDirectory()) {
+      if (fs.existsSync(campaignPath) {
+        if (fs.statSync(campaignPath).isDirectory() {
           fs.rmSync(campaignPath, { recursive: true, force: true });
         } else {
           fs.unlinkSync(campaignPath);

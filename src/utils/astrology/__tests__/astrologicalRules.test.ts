@@ -117,7 +117,7 @@ describe('Astrological ESLint Rules Integration', () => {
 
       const result: any = quickValidate(validPositions, 'planetary');
       if (result == null) {
-        _logger.info('Quick validation failed for: ', validPositions);
+        _logger.info('Quick validation failed for ', validPositions);
       }
       expect(result).toBe(true);
     })

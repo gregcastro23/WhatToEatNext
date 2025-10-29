@@ -35,7 +35,7 @@ export function loadEnvironmentConfig(environment: Environment): Partial<Uninten
   const configDir = join(__dirname, 'environments');
   const configPath = join(configDir, `${environment}.json`);
 
-  if (!existsSync(configPath)) {
+  if (!existsSync(configPath) {
     console.warn(`Environment config not found: ${configPath}`);
     return {};
   }
@@ -52,7 +52,7 @@ export function loadEnvironmentConfig(environment: Environment): Partial<Uninten
 /**
  * Create configuration manager with environment-specific settings
  */
-export function createEnvironmentConfigManager(
+export function createEnvironmentConfigManager()
   environment?: Environment,
   customConfigPath?: string
 ): ConfigurationManager {
@@ -88,7 +88,7 @@ function deepMerge(target: any, source: any): any {
   const result = { ...target };
 
   for (const key in source) {
-    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) {
       result[key] = deepMerge(target[key] || {}, source[key]);
     } else {
       result[key] = source[key];

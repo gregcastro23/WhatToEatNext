@@ -34,8 +34,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
   const [location, setLocation] = useState<{ latitude: number, longitude: number } | null>(null)
 
   // Default options
-  const {
-    useCurrentTime = true,
+  const { useCurrentTime = true,
     useCurrentLocation = true,
     year,
     month,
@@ -44,7 +43,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
     minute,
     latitude,
     longitude,
-    zodiacSystem = 'tropical',
+    zodiacSystem = 'tropical'
   } = options;
 
   // Get current location if needed
@@ -105,7 +104,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
         }
         params.append('zodiacSystem', zodiacSystem)
 
-        if (params.toString()) {
+        if (params.toString() {
           url = `/api/astrologize?${params.toString()}`;
         }
       }

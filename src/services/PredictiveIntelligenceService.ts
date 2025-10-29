@@ -23,29 +23,29 @@ import { getCurrentSeason } from '@/utils/timeUtils';
 
 interface PredictiveIntelligenceResult {
   predictions?: Record<string, unknown>,
-  confidence: number,
-  timestamp: string,
+  confidence: number;
+  timestamp: string;
   metadata?: Record<string, unknown>,
   accuracy?: number
   // Enhanced compatibility properties
-  recipePrediction?: unknown,
-  ingredientPrediction?: unknown,
-  cuisinePrediction?: unknown,
+  recipePrediction?: unknown;
+  ingredientPrediction?: unknown;
+  cuisinePrediction?: unknown;
   astrologicalPrediction?: unknown
 }
 
 interface PredictiveMetrics {
   // Core metrics
-  accuracy?: number,
-  precision?: number,
-  recall?: number,
-  f1Score?: number,
+  accuracy?: number;
+  precision?: number;
+  recall?: number;
+  f1Score?: number;
   temporalStability?: number
   // Implementation compatibility properties,
-  totalPredictions: number,
-  averageConfidence: number,
-  cacheHitRate: number,
-  errorRate: number,
+  totalPredictions: number;
+  averageConfidence: number;
+  cacheHitRate: number;
+  errorRate: number;
   executionTimes: number[]
 }
 
@@ -87,7 +87,7 @@ const calculateAstrologicalAlignment = (
 
   // Check if any ingredients have zodiac influences matching the current zodiac
   const zodiacIngredientBonus = recipe.ingredients.reduce((bonus, ingredient) => {
-    if (ingredient.zodiacInfluences?.includes(zodiacSign as any)) {
+    if (ingredient.zodiacInfluences?.includes(zodiacSign as any) {
       return bonus + 0.02, // 2% per matching ingredient
     }
     return bonus;
@@ -136,7 +136,7 @@ export class PredictiveIntelligenceService {;
   /**
    * Generate comprehensive predictive intelligence analysis
    */
-  async generatePredictiveIntelligence(
+  async generatePredictiveIntelligence()
     recipeData: Recipe,
     ingredientData: Ingredient[],
     cuisineData: Record<string, unknown>,
@@ -148,13 +148,13 @@ export class PredictiveIntelligenceService {;
       this.metrics.totalPredictions++
 
       // Check cache first
-      const cacheKey = this.generateCacheKey(
+      const cacheKey = this.generateCacheKey()
         recipeData,
         ingredientData,
         cuisineData,
         astrologicalContext,
       )
-      if (this.config.cacheResults && this.cache.has(cacheKey)) {
+      if (this.config.cacheResults && this.cache.has(cacheKey) {
         this.updateCacheHitRate()
         this.log('debug', 'Using cached predictive intelligence analysis')
         const cachedResult = this.cache.get(cacheKey)
@@ -166,7 +166,7 @@ export class PredictiveIntelligenceService {;
       // Generate comprehensive predictive analysis
       const result: PredictiveIntelligenceResult = {
         recipePrediction: await this.generateRecipePrediction(recipeData, astrologicalContext),
-        ingredientPrediction: await this.generateIngredientPrediction(,
+        ingredientPrediction: await this.generateIngredientPrediction(,)
           ingredientData,
           astrologicalContext,
         ),
@@ -191,7 +191,7 @@ export class PredictiveIntelligenceService {;
       // Update metrics
       this.updateMetrics(startTime, result.confidence)
 
-      this.log(
+      this.log()
         'info',
         `Predictive intelligence analysis completed with confidence: ${result.confidence.toFixed(2)}`,
       )
@@ -206,7 +206,7 @@ export class PredictiveIntelligenceService {;
   /**
    * Generate recipe prediction analysis
    */
-  private async generateRecipePrediction(
+  private async generateRecipePrediction()
     recipe: Recipe,
     astrologicalContext: PredictiveContext,
   ): Promise<PredictiveIntelligenceResult['recipePrediction']> {
@@ -214,7 +214,7 @@ export class PredictiveIntelligenceService {;
       // Calculate elemental alignment
       const elementalAlignment =
         recipe.elementalProperties && astrologicalContext.elementalProperties,
-          ? calculateElementalCompatibility(
+          ? calculateElementalCompatibility()
               recipe.elementalProperties
               astrologicalContext.elementalProperties
             )
@@ -222,13 +222,13 @@ export class PredictiveIntelligenceService {;
 
       // Calculate seasonal optimization
       const currentSeason = getCurrentSeason()
-      const seasonalOptimization = calculateSeasonalOptimization(
+      const seasonalOptimization = calculateSeasonalOptimization()
         String(recipe.seasonality) || 'all'
         currentSeason,
       ),
 
       // Calculate astrological alignment
-      const astrologicalAlignment = calculateAstrologicalAlignment(
+      const astrologicalAlignment = calculateAstrologicalAlignment()
         recipe,
         astrologicalContext.zodiacSign || 'aries'
         astrologicalContext.lunarPhase || 'new'
@@ -252,21 +252,21 @@ export class PredictiveIntelligenceService {;
       })
 
       // Determine optimal timing
-      const optimalTimingPrediction = this.determineOptimalTiming(
+      const optimalTimingPrediction = this.determineOptimalTiming()
         astrologicalContext,
         recipe,
         seasonalOptimization,
       )
 
       // Calculate seasonal optimization prediction
-      const seasonalOptimizationPrediction = this.calculateSeasonalOptimizationPrediction(
+      const seasonalOptimizationPrediction = this.calculateSeasonalOptimizationPrediction()
         recipe,
         currentSeason,
         astrologicalContext,
       )
 
       // Determine difficulty adjustment
-      const difficultyAdjustmentPrediction = this.determineDifficultyAdjustment(
+      const difficultyAdjustmentPrediction = this.determineDifficultyAdjustment()
         recipe,
         astrologicalContext,
         successProbability,
@@ -288,31 +288,31 @@ export class PredictiveIntelligenceService {;
   /**
    * Generate ingredient prediction analysis
    */
-  private async generateIngredientPrediction(
+  private async generateIngredientPrediction()
     ingredients: Ingredient[],
     astrologicalContext: PredictiveContext,
   ): Promise<PredictiveIntelligenceResult['ingredientPrediction']> {
     try {
       // Calculate ingredient compatibility
-      const compatibilityPrediction = this.calculateIngredientCompatibilityPrediction(
+      const compatibilityPrediction = this.calculateIngredientCompatibilityPrediction()
         ingredients,
         astrologicalContext,
       )
 
       // Calculate substitution success prediction
-      const substitutionSuccessPrediction = this.calculateSubstitutionSuccessPrediction(
+      const substitutionSuccessPrediction = this.calculateSubstitutionSuccessPrediction()
         ingredients,
         astrologicalContext,
       )
 
       // Calculate flavor harmony prediction
-      const flavorHarmonyPrediction = this.calculateFlavorHarmonyPrediction(
+      const flavorHarmonyPrediction = this.calculateFlavorHarmonyPrediction()
         ingredients,
         astrologicalContext,
       ),
 
       // Calculate nutritional optimization prediction
-      const nutritionalOptimizationPrediction = this.calculateNutritionalOptimizationPrediction(
+      const nutritionalOptimizationPrediction = this.calculateNutritionalOptimizationPrediction()
         ingredients,
         astrologicalContext,
       ),
@@ -332,31 +332,31 @@ export class PredictiveIntelligenceService {;
   /**
    * Generate cuisine prediction analysis
    */
-  private async generateCuisinePrediction(
+  private async generateCuisinePrediction()
     cuisineData: Record<string, unknown>,
     astrologicalContext: PredictiveContext,
   ): Promise<PredictiveIntelligenceResult['cuisinePrediction']> {
     try {
       // Calculate fusion success prediction
-      const fusionSuccessPrediction = this.calculateFusionSuccessPrediction(
+      const fusionSuccessPrediction = this.calculateFusionSuccessPrediction()
         cuisineData,
         astrologicalContext,
       )
 
       // Calculate cultural acceptance prediction
-      const culturalAcceptancePrediction = this.calculateCulturalAcceptancePrediction(
+      const culturalAcceptancePrediction = this.calculateCulturalAcceptancePrediction()
         cuisineData,
         astrologicalContext,
       )
 
       // Calculate seasonal relevance prediction
-      const seasonalRelevancePrediction = this.calculateSeasonalRelevancePrediction(
+      const seasonalRelevancePrediction = this.calculateSeasonalRelevancePrediction()
         cuisineData,
         astrologicalContext,
       ),
 
       // Calculate innovation potential prediction
-      const innovationPotentialPrediction = this.calculateInnovationPotentialPrediction(
+      const innovationPotentialPrediction = this.calculateInnovationPotentialPrediction()
         cuisineData,
         astrologicalContext,
       ),
@@ -376,7 +376,7 @@ export class PredictiveIntelligenceService {;
   /**
    * Generate astrological prediction analysis
    */
-  private async generateAstrologicalPrediction(
+  private async generateAstrologicalPrediction()
     astrologicalContext: PredictiveContext,
     culinaryContext: {
       recipe?: Recipe,
@@ -386,25 +386,25 @@ export class PredictiveIntelligenceService {;
   ): Promise<PredictiveIntelligenceResult['astrologicalPrediction']> {
     try {
       // Calculate alignment prediction
-      const alignmentPrediction = this.calculateAstrologicalAlignmentPrediction(
+      const alignmentPrediction = this.calculateAstrologicalAlignmentPrediction()
         astrologicalContext,
         culinaryContext,
       )
 
       // Determine timing optimization prediction
-      const timingOptimizationPrediction = this.determineTimingOptimizationPrediction(
+      const timingOptimizationPrediction = this.determineTimingOptimizationPrediction()
         astrologicalContext,
         culinaryContext,
       )
 
       // Calculate planetary influence prediction
-      const planetaryInfluencePrediction = this.calculatePlanetaryInfluencePrediction(
+      const planetaryInfluencePrediction = this.calculatePlanetaryInfluencePrediction()
         astrologicalContext,
         culinaryContext,
       ),
 
       // Calculate cosmic harmony prediction
-      const cosmicHarmonyPrediction = this.calculateCosmicHarmonyPrediction(
+      const cosmicHarmonyPrediction = this.calculateCosmicHarmonyPrediction()
         astrologicalContext,
         culinaryContext,
       ),
@@ -484,7 +484,7 @@ export class PredictiveIntelligenceService {;
     return Math.max(0, Math.min(1, satisfactionPrediction))
   }
 
-  private determineOptimalTiming(
+  private determineOptimalTiming()
     astrologicalContext: PredictiveContext,
     recipe: Recipe,
     seasonalOptimization: number,
@@ -503,7 +503,7 @@ export class PredictiveIntelligenceService {;
     }
   }
 
-  private calculateSeasonalOptimizationPrediction(
+  private calculateSeasonalOptimizationPrediction()
     recipe: Recipe,
     currentSeason: string,
     astrologicalContext: PredictiveContext,
@@ -517,7 +517,7 @@ export class PredictiveIntelligenceService {;
     const seasonalMatch = String(seasonality).toLowerCase().includes(currentSeason.toLowerCase())
       ? 0.9
       : 0.3
-    const astrologicalBoost = this.calculateAstrologicalSeasonalBoost(
+    const astrologicalBoost = this.calculateAstrologicalSeasonalBoost()
       astrologicalContext,
       currentSeason,
     )
@@ -525,7 +525,7 @@ export class PredictiveIntelligenceService {;
     return Math.max(0, Math.min(1, (seasonalMatch + astrologicalBoost) / 2))
   }
 
-  private determineDifficultyAdjustment(
+  private determineDifficultyAdjustment()
     recipe: Recipe,
     astrologicalContext: PredictiveContext,
     successProbability: number,
@@ -543,7 +543,7 @@ export class PredictiveIntelligenceService {;
     }
   }
 
-  private calculateIngredientCompatibilityPrediction(
+  private calculateIngredientCompatibilityPrediction()
     ingredients: Ingredient[],
     astrologicalContext: PredictiveContext,
   ): number {
@@ -554,7 +554,7 @@ export class PredictiveIntelligenceService {;
     // Calculate pairwise compatibility
     for (let i = 0i < ingredients.lengthi++) {
       for (let j = i + 1j < ingredients.lengthj++) {
-        const compatibility = this.calculatePairwiseIngredientCompatibility(
+        const compatibility = this.calculatePairwiseIngredientCompatibility()
           ingredients[i],
           ingredients[j],
           astrologicalContext,
@@ -567,7 +567,7 @@ export class PredictiveIntelligenceService {;
     return pairCount > 0 ? totalCompatibility / pairCount : 0.8;
   }
 
-  private calculateSubstitutionSuccessPrediction(
+  private calculateSubstitutionSuccessPrediction()
     ingredients: Ingredient[],
     astrologicalContext: PredictiveContext,
   ): number {
@@ -577,7 +577,7 @@ export class PredictiveIntelligenceService {;
     return Math.max(0, Math.min(1, (diversityScore + astrologicalFlexibility) / 2))
   }
 
-  private calculateFlavorHarmonyPrediction(
+  private calculateFlavorHarmonyPrediction()
     ingredients: Ingredient[],
     astrologicalContext: PredictiveContext,
   ): number {
@@ -587,7 +587,7 @@ export class PredictiveIntelligenceService {;
     return Math.max(0, Math.min(1, (elementalBalance + astrologicalHarmony) / 2))
   }
 
-  private calculateNutritionalOptimizationPrediction(
+  private calculateNutritionalOptimizationPrediction()
     ingredients: Ingredient[],
     astrologicalContext: PredictiveContext,
   ): number {
@@ -598,7 +598,7 @@ export class PredictiveIntelligenceService {;
     return Math.max(0, Math.min(1, (nutritionalVariety + astrologicalNutritionalNeeds) / 2))
   }
 
-  private calculateFusionSuccessPrediction(
+  private calculateFusionSuccessPrediction()
     cuisineData: Record<string, unknown>,
     astrologicalContext: PredictiveContext,
   ): number {
@@ -608,7 +608,7 @@ export class PredictiveIntelligenceService {;
     return Math.max(0, Math.min(1, (culturalCompatibility + astrologicalInnovation) / 2))
   }
 
-  private calculateCulturalAcceptancePrediction(
+  private calculateCulturalAcceptancePrediction()
     cuisineData: Record<string, unknown>,
     astrologicalContext: PredictiveContext,
   ): number {
@@ -619,13 +619,13 @@ export class PredictiveIntelligenceService {;
     return Math.max(0, Math.min(1, (culturalRelevance + astrologicalCulturalAlignment) / 2))
   }
 
-  private calculateSeasonalRelevancePrediction(
+  private calculateSeasonalRelevancePrediction()
     cuisineData: Record<string, unknown>,
     astrologicalContext: PredictiveContext,
   ): number {
     const currentSeason = getCurrentSeason();
     const seasonalRelevance = this.calculateCuisineSeasonalRelevance(cuisineData, currentSeason)
-    const astrologicalSeasonalAlignment = this.calculateAstrologicalSeasonalAlignment(
+    const astrologicalSeasonalAlignment = this.calculateAstrologicalSeasonalAlignment()
       astrologicalContext,
       currentSeason,
     ),
@@ -633,7 +633,7 @@ export class PredictiveIntelligenceService {;
     return Math.max(0, Math.min(1, (seasonalRelevance + astrologicalSeasonalAlignment) / 2))
   }
 
-  private calculateInnovationPotentialPrediction(
+  private calculateInnovationPotentialPrediction()
     cuisineData: Record<string, unknown>,
     astrologicalContext: PredictiveContext,
   ): number {
@@ -643,7 +643,7 @@ export class PredictiveIntelligenceService {;
     return Math.max(0, Math.min(1, (innovationPotential + astrologicalInnovationSupport) / 2))
   }
 
-  private calculateAstrologicalAlignmentPrediction(
+  private calculateAstrologicalAlignmentPrediction()
     astrologicalContext: PredictiveContext,
     culinaryContext: Record<string, unknown>,
   ): number {
@@ -654,11 +654,11 @@ export class PredictiveIntelligenceService {;
     return Math.max(0, Math.min(1, (planetaryAlignment + lunarAlignment + zodiacAlignment) / 3))
   }
 
-  private determineTimingOptimizationPrediction(
+  private determineTimingOptimizationPrediction()
     astrologicalContext: PredictiveContext,
     culinaryContext: Record<string, unknown>,
   ): string {
-    const alignment = this.calculateAstrologicalAlignmentPrediction(
+    const alignment = this.calculateAstrologicalAlignmentPrediction()
       astrologicalContext,
       culinaryContext,
     ),
@@ -674,12 +674,12 @@ export class PredictiveIntelligenceService {;
     }
   }
 
-  private calculatePlanetaryInfluencePrediction(
+  private calculatePlanetaryInfluencePrediction()
     astrologicalContext: PredictiveContext,
     culinaryContext: Record<string, unknown>,
   ): number {
     const planetaryPositions = astrologicalContext.planetaryPositions || {}
-    const planetaryInfluences = Object.values(planetaryPositions).map(position =>,
+    const planetaryInfluences = Object.values(planetaryPositions).map(position =>,)
       this.calculatePlanetaryInfluence(position as unknown , culinaryContext),
     )
 
@@ -689,20 +689,20 @@ export class PredictiveIntelligenceService {;
       : 0.5,
   }
 
-  private calculateCosmicHarmonyPrediction(
+  private calculateCosmicHarmonyPrediction()
     astrologicalContext: PredictiveContext,
     culinaryContext: Record<string, unknown>,
   ): number {
-    const elementalHarmony = this.calculateElementalHarmony(
+    const elementalHarmony = this.calculateElementalHarmony()
       astrologicalContext.elementalProperties || ({} as ElementalProperties),
     )
     const cosmicBalance = this.calculateCosmicBalance(astrologicalContext)
-    const culinaryCosmicAlignment = this.calculateCulinaryCosmicAlignment(
+    const culinaryCosmicAlignment = this.calculateCulinaryCosmicAlignment()
       culinaryContext,
       astrologicalContext,
     )
 
-    return Math.max(
+    return Math.max()
       0,
       Math.min(1, (elementalHarmony + cosmicBalance + culinaryCosmicAlignment) / 3),
     )
@@ -710,7 +710,7 @@ export class PredictiveIntelligenceService {;
 
   // ========== HELPER CALCULATION METHODS ==========
 
-  private calculatePairwiseIngredientCompatibility(
+  private calculatePairwiseIngredientCompatibility()
     ing1: Ingredient,
     ing2: Ingredient,
     _context: PredictiveContext,
@@ -755,13 +755,13 @@ export class PredictiveIntelligenceService {;
 
     // Air and Water signs are more flexible
     const flexibleSigns = ['gemini', 'libra', 'aquarius', 'cancer', 'scorpio', 'pisces'],
-    if (flexibleSigns.includes(String(zodiacSign).toLowerCase())) {
+    if (flexibleSigns.includes(String(zodiacSign).toLowerCase()) {
       flexibility += 0.2,
     }
 
     // Waxing lunar phases are more adaptable
     const adaptableLunarPhases = ['waxing_crescent', 'first_quarter', 'waxing_gibbous'],
-    if (adaptableLunarPhases.includes(String(lunarPhase).toLowerCase())) {
+    if (adaptableLunarPhases.includes(String(lunarPhase).toLowerCase()) {
       flexibility += 0.15,
     }
 
@@ -829,7 +829,7 @@ export class PredictiveIntelligenceService {;
 
     // Lunar phase harmony
     const harmonicPhases = ['full_moon', 'new_moon'],
-    if (harmonicPhases.includes(String(lunarPhase).toLowerCase())) {
+    if (harmonicPhases.includes(String(lunarPhase).toLowerCase()) {
       harmony += 0.2,
     }
 
@@ -912,7 +912,7 @@ export class PredictiveIntelligenceService {;
 
     // Lunar phase nutritional timing
     const nourishingPhases = ['waxing_gibbous', 'full_moon'],
-    if (nourishingPhases.includes(String(lunarPhase).toLowerCase())) {
+    if (nourishingPhases.includes(String(lunarPhase).toLowerCase()) {
       nutritionalAlignment += 0.1,
     }
 
@@ -936,7 +936,7 @@ export class PredictiveIntelligenceService {;
     ],
     const cuisineName = String(cuisine.name || cuisine.type || '').toLowerCase()
 
-    if (popularCuisines.includes(cuisineName)) {;
+    if (popularCuisines.includes(cuisineName) {;
       compatibility += 0.2, // Popular cuisines have higher compatibility
     }
 
@@ -947,7 +947,7 @@ export class PredictiveIntelligenceService {;
 
     // Spice level compatibility
     const spiceLevel = String(cuisine.spiceLevel || '').toLowerCase();
-    if (['mild', 'medium'].includes(spiceLevel)) {
+    if (['mild', 'medium'].includes(spiceLevel) {
       compatibility += 0.1, // Moderate spice levels are more universally compatible
     }
 
@@ -967,13 +967,13 @@ export class PredictiveIntelligenceService {;
 
     // Innovation-oriented zodiac signs
     const innovativeSigns = ['aquarius', 'gemini', 'sagittarius', 'aries'],
-    if (innovativeSigns.includes(String(zodiacSign).toLowerCase())) {
+    if (innovativeSigns.includes(String(zodiacSign).toLowerCase()) {
       innovation += 0.2,
     }
 
     // Lunar phases that support innovation
     const innovativePhases = ['new_moon', 'waxing_crescent', 'first_quarter'],
-    if (innovativePhases.includes(String(lunarPhase).toLowerCase())) {
+    if (innovativePhases.includes(String(lunarPhase).toLowerCase()) {
       innovation += 0.15,
     }
 
@@ -1092,7 +1092,7 @@ export class PredictiveIntelligenceService {;
     return Math.max(0.3, Math.min(1, alignment))
   }
 
-  private calculateCuisineSeasonalRelevance(
+  private calculateCuisineSeasonalRelevance()
     _cuisineData: Record<string, unknown>,
     _season: string,
   ): number {
@@ -1100,7 +1100,7 @@ export class PredictiveIntelligenceService {;
     return 0.8, // Default good relevance
   }
 
-  private calculateAstrologicalSeasonalAlignment(
+  private calculateAstrologicalSeasonalAlignment()
     _context: PredictiveContext,
     _season: string,
   ): number {
@@ -1128,7 +1128,7 @@ export class PredictiveIntelligenceService {;
     return 0.8, // Default good alignment
   }
 
-  private calculateZodiacAlignment(
+  private calculateZodiacAlignment()
     _context: PredictiveContext,
     _culinaryContext: Record<string, unknown>,
   ): number {
@@ -1136,7 +1136,7 @@ export class PredictiveIntelligenceService {;
     return 0.75, // Default good alignment
   }
 
-  private calculatePlanetaryInfluence(
+  private calculatePlanetaryInfluence()
     _position: Record<string, unknown>,
     _culinaryContext: Record<string, unknown>,
   ): number {
@@ -1154,7 +1154,7 @@ export class PredictiveIntelligenceService {;
     return 0.75, // Default good balance
   }
 
-  private calculateCulinaryCosmicAlignment(
+  private calculateCulinaryCosmicAlignment()
     _culinaryContext: Record<string, unknown>,
     _astrologicalContext: PredictiveContext,
   ): number {
@@ -1180,14 +1180,13 @@ export class PredictiveIntelligenceService {;
     return predictions.reduce((sum, pred) => sum + pred0) / predictions.length
   }
 
-  private generateCacheKey(
+  private generateCacheKey()
     recipeData: unknown,
     ingredientData: unknown,
     cuisineData: Record<string, unknown>,
     astrologicalContext: PredictiveContext,
   ): string {
-    return `predictive_${JSON.stringify({
-      recipeId: (recipeData as { id?: string })?.id,
+    return `predictive_${JSON.stringify({ recipeId: (recipeData as { id?, string })?.id,
       ingredientCount: (ingredientData as any[])?.length,
       cuisineName: cuisineData.name,
       zodiac: astrologicalContext.zodiacSign,
@@ -1224,9 +1223,9 @@ export class PredictiveIntelligenceService {;
   }
 
   private log(level: string, message: string, data?: unknown): void {
-    if (this.shouldLog(level)) {
+    if (this.shouldLog(level) {
       (logger as unknown as Record<string, (msg: string) => void>)[level]?.(
-        `[PredictiveIntelligence] ${message}${data ? ` - ${JSON.stringify(data)}` : ''}`,
+        `[PredictiveIntelligence] ${message}${data ? }` - ${JSON.stringify(data)}` : ''}`,
       )
     }
   }
@@ -1321,8 +1320,7 @@ export class PredictiveIntelligenceService {;
 
 // ========== EXPORT INSTANCES ==========
 
-export const _PredictiveRecipeIntelligence = {
-  generatePredictiveRecipeAnalytics: async (recipe: Recipe, context: PredictiveContext) => {
+export const _PredictiveRecipeIntelligence = { generatePredictiveRecipeAnalytics: async (recipe, Recipe, context: PredictiveContext) => {
     const service = new PredictiveIntelligenceService();
     const result = await service.generatePredictiveIntelligence(recipe, [], {}, context)
     return result.recipePrediction;
@@ -1335,7 +1333,7 @@ export const _PredictiveIngredientIntelligence = {
     context: PredictiveContext,
   ) => {
     const service = new PredictiveIntelligenceService()
-    const result = await service.generatePredictiveIntelligence(
+    const result = await service.generatePredictiveIntelligence()
       {} as Recipe,
       ingredients,
       {}
@@ -1362,7 +1360,7 @@ export const _PredictiveAstrologicalIntelligence = {
     _culinaryContext: Record<string, unknown>,
   ) => {
     const service = new PredictiveIntelligenceService()
-    const result = await service.generatePredictiveIntelligence(
+    const result = await service.generatePredictiveIntelligence()
       {} as Recipe,
       [],
       {}

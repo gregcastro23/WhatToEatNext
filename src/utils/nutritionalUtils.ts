@@ -30,7 +30,7 @@ export function normalizeIngredientName(name: string): string {
  * @param ingredientName The name of the ingredient
  * @returns Nutritional profile or null if not found
  */
-export async function getNutritionalData(
+export async function getNutritionalData()
   ingredientName: string,
 ): Promise<NutritionalProfile | null> {
   // Use the fetchNutritionalData function from nutritional.ts
@@ -68,7 +68,7 @@ export function getAvailableNutritionalIngredients(): string[] {
  * @param ingredient2 Second ingredient name
  * @returns Comparison result with percentage differences
  */
-export async function compareNutritionalValues(
+export async function compareNutritionalValues()
   ingredient1: string,
   ingredient2: string,
 ): Promise<{

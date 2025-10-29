@@ -23,7 +23,7 @@ export interface AstrologyHookData {
 }
 
 // Helper function to create a celestial position with defaults
-function _createCelestialPosition(
+function _createCelestialPosition()
   sign: any,
   longOffset = 0,
   options?: { planetName?: string }
@@ -109,8 +109,8 @@ export function useAstrologicalState(): AstrologyHookData {
   })
 
   // Calculate active planets based on their positions and dignities
-  const getActivePlanets = useCallback(
-    (
+  const getActivePlanets = useCallback()
+    ()
       positions: Record<string, { sign?: string, degree?: number, exactLongitude?: number }>
     ): string[] => {
       if (!positions || typeof positions !== 'object') {
@@ -154,7 +154,7 @@ export function useAstrologicalState(): AstrologyHookData {
           }
 
           // Add the ruler of the current sun sign
-          if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign])) {
+          if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign]) {
             activePlanets.push(signRulers[sunSign])
           }
         }
@@ -182,7 +182,7 @@ export function useAstrologicalState(): AstrologyHookData {
           }
 
           // Check if planet is in a powerful sign position
-          if (dignities[planetLower].includes(signLower)) {
+          if (dignities[planetLower].includes(signLower) {
             activePlanets.push(planetLower)
           }
 
@@ -190,7 +190,7 @@ export function useAstrologicalState(): AstrologyHookData {
           const degree = position.degree || 0;
           if (degree >= 0 && degree <= 15) {
             // Planets in early degrees are more powerful
-            if (!activePlanets.includes(planetLower)) {
+            if (!activePlanets.includes(planetLower) {
               activePlanets.push(planetLower)
             }
           }

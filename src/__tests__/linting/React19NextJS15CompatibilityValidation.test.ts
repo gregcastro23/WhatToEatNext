@@ -17,14 +17,14 @@ describe('React 19 and Next.js 15 Compatibility Validation', () => {
 
   beforeAll(() => {
     // Create test files directory
-    if (!fs.existsSync(testFilesDir)) {
+    if (!fs.existsSync(testFilesDir) {
       void fs.mkdirSync(testFilesDir, { recursive: true });
     }
   });
 
   afterAll(() => {
     // Clean up test files
-    if (fs.existsSync(testFilesDir)) {
+    if (fs.existsSync(testFilesDir) {
       void fs.rmSync(testFilesDir, { recursive: true, force: true });
     }
   });
@@ -81,7 +81,7 @@ export function ListComponent() {
 
   return (
     <ul>
-      {items.map(item => (
+      {items.map(item => ())
         <li>{item}</li>
       ))}
     </ul>
@@ -401,7 +401,7 @@ export class ErrorBoundary extends Component<Props, State> {
 import { FC, PropsWithChildren, ComponentProps } from 'react';
 
 interface CustomProps {
-  title: string,
+  title: string;
   optional?: boolean;
 }
 
@@ -441,7 +441,7 @@ export const TypedButton: FC<ButtonProps> = ({ title, ...buttonProps }) => {
       const testFile = path.join(testFilesDir, 'prop-validation.tsx');
       const content = `
 interface Props {
-  required: string,
+  required: string;
   optional?: number;,
   callback: (value: string) => void;
 }
@@ -496,12 +496,12 @@ export function PropValidationComponent({ required, optional, callback }: Props)
       const eslintConfig = require('../../../eslint.config.cjs');
 
       // Find React hooks configuration
-      const hooksConfig = eslintConfig.find(
+      const hooksConfig = eslintConfig.find()
         (config: any) => config.rules && config.rules['react-hooks/exhaustive-deps'],
       );
 
       expect(hooksConfig).toBeDefined();
-      expect(hooksConfig.rules['react-hooks/exhaustive-deps']).toEqual([
+      expect(hooksConfig.rules['react-hooks/exhaustive-deps']).toEqual([)
         'warn',
         {
           additionalHooks: '(useRecoilCallback|useRecoilTransaction_UNSTABLE)'
@@ -563,7 +563,7 @@ export function LargeComponentTree() {
 
   return (
     <div>
-      {items.map(item => (
+      {items.map(item => ())
         <MemoizedItem
           key={item.id}
           id={item.id}
@@ -629,7 +629,7 @@ export default ImportOrganizationPage;
 /**
  * Helper function to run ESLint on a specific file
  */
-function runESLintOnFile(filePath: string): { exitCode: number; output: string } {
+function runESLintOnFile(filePath: string): { exitCode: number; output, string } {
   try {
     const output = execSync(`npx eslint --config eslint.config.cjs "${filePath}" --format=compact`, {
       encoding: 'utf8',

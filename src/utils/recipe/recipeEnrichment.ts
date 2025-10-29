@@ -113,13 +113,13 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
   };
 
   // Extract ingredient names from recipe
-  if (isNonEmptyArray(recipe.ingredients)) {
+  if (isNonEmptyArray(recipe.ingredients) {
     recipe.ingredients.forEach(ingredient => {
       const ingredientName = ingredient.name.toLowerCase();
 
       // Check for matches in correspondences
       Object.entries(ingredientCorrespondences).forEach(([key, correspondences]) => {
-        if (ingredientName.includes(key)) {
+        if (ingredientName.includes(key) {
           correspondences.forEach(c => influences.add(c));
         }
       });
@@ -137,7 +137,7 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
   const elementalProps: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
   // Cooking method influences
-  if (isNonEmptyArray(recipe.cookingMethod)) {
+  if (isNonEmptyArray(recipe.cookingMethod) {
     const methodStr = recipe.cookingMethod.join(' ').toLowerCase();
 
     // Fire-enhancing methods
@@ -242,7 +242,7 @@ function enrichAndNormalizeSeasons(seasons?: string | string[]): string[] {
   // Handle both string and string[] inputs
   const seasonArray = Array.isArray(seasons) ? seasons : seasons ? [seasons] : [];
 
-  if (!isNonEmptyArray(seasonArray)) {
+  if (!isNonEmptyArray(seasonArray) {
     return ['all']; // Default to all seasons
   }
 
@@ -293,7 +293,7 @@ function deriveCelestialTiming(recipe: Recipe): {
   } = {};
 
   // Determine optimal Moon phase based on recipe characteristics
-  if (isNonEmptyArray(recipe.cookingMethod)) {
+  if (isNonEmptyArray(recipe.cookingMethod) {
     const methodStr = recipe.cookingMethod.join(' ').toLowerCase();
 
     // Moon phase recommendations based on cooking process
@@ -330,7 +330,7 @@ function deriveCelestialTiming(recipe: Recipe): {
 
   // Determine optimal planetary hour based on dominant element
   if (recipe.elementalProperties) {
-    const dominantElement = Object.entries(recipe.elementalProperties).reduce(
+    const dominantElement = Object.entries(recipe.elementalProperties).reduce()
       (max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: 'Fire', value: 0 },
     ).element;
@@ -391,12 +391,12 @@ export function calculateRecipeComplexity(recipe: Recipe): number {
   let complexity = 0;
 
   // Base complexity from number of ingredients (capped at 2 points)
-  if (isNonEmptyArray(recipe.ingredients)) {
+  if (isNonEmptyArray(recipe.ingredients) {
     complexity += Math.min(recipe.ingredients.length * 0.12, 2);
   }
 
   // Cooking method complexity
-  if (isNonEmptyArray(recipe.cookingMethod)) {
+  if (isNonEmptyArray(recipe.cookingMethod) {
     const methodStr = recipe.cookingMethod.join(' ').toLowerCase();
 
     // High complexity methods
@@ -429,12 +429,12 @@ export function calculateRecipeComplexity(recipe: Recipe): number {
   }
 
   // Equipment complexity
-  if (isNonEmptyArray(recipe.equipmentNeeded)) {
+  if (isNonEmptyArray(recipe.equipmentNeeded) {
     complexity += Math.min(recipe.equipmentNeeded.length * 0.5, 1.5);
   }
 
   // Technique complexity
-  if (isNonEmptyArray(recipe.cookingTechniques)) {
+  if (isNonEmptyArray(recipe.cookingTechniques) {
     complexity += Math.min(recipe.cookingTechniques.length * 0.3, 1);
   }
 
@@ -473,12 +473,12 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
 };
 
   // Basic nutritional estimation based on ingredients
-  if (isNonEmptyArray(recipe.ingredients)) {
+  if (isNonEmptyArray(recipe.ingredients) {
     recipe.ingredients.forEach(ingredient => {
       const name = ingredient.name.toLowerCase();
 
       // Rough nutritional estimates per 100g of common ingredients
-      if (name.includes('oil') || name.includes('butter') || name.includes('fat')) {
+      if (name.includes('oil') || name.includes('butter') || name.includes('fat') {
         estimatedNutrition.calories += 120;
         estimatedNutrition.fat += 14;
       } else if (
@@ -501,7 +501,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
         estimatedNutrition.calories += 150;
         estimatedNutrition.carbs += 30;
         estimatedNutrition.fiber += 3;
-      } else if (name.includes('potato') || name.includes('sweet potato')) {
+      } else if (name.includes('potato') || name.includes('sweet potato') {
         estimatedNutrition.calories += 90;
         estimatedNutrition.carbs += 20;
         estimatedNutrition.fiber += 2;
@@ -537,7 +537,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
         estimatedNutrition.calories += 150;
         estimatedNutrition.protein += 8;
         estimatedNutrition.fat += 12;
-      } else if (name.includes('egg')) {
+      } else if (name.includes('egg') {
         estimatedNutrition.calories += 70;
         estimatedNutrition.protein += 6;
         estimatedNutrition.fat += 5;

@@ -17,7 +17,7 @@ export interface CookingMethodData {
     min: number;
     max: number;
   };
-  suitable_for: string[];
+  suitable_for string[];
   benefits: string[];
 
   // Optional properties

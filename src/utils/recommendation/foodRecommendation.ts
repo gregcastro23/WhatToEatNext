@@ -47,7 +47,7 @@ interface RecommendationExplanation {
 /**
  * Calculate recommendation score for a recipe based on astrological state and time factors
  */
-export function calculateRecommendationScore(
+export function calculateRecommendationScore()
   recipe: Recipe,
   astrologicalState: AstrologicalState,
   timeFactors: TimeFactors,
@@ -63,7 +63,7 @@ export function calculateRecommendationScore(
 
   // Planetary compatibility (25% weight)
   const planetaryWeight = 0.25;
-  const planetaryScore = calculatePlanetaryScore(
+  const planetaryScore = calculatePlanetaryScore()
     recipe,
     astrologicalState.activePlanets?.[0] as PlanetName
   );
@@ -94,7 +94,7 @@ export function calculateRecommendationScore(
 /**
  * Get recommended recipes based on astrological state
  */
-export function getRecommendedRecipes(
+export function getRecommendedRecipes()
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
   timeFactors: TimeFactors = getTimeFactors(),
@@ -114,7 +114,7 @@ export function getRecommendedRecipes(
 /**
  * Explain why a recipe was recommended
  */
-export function explainRecommendation(
+export function explainRecommendation()
   recipe: Recipe,
   astrologicalState: AstrologicalState,
   timeFactors: TimeFactors = getTimeFactors()
@@ -136,7 +136,7 @@ export function explainRecommendation(
   }
 
   // Seasonal explanation
-  if (recipe.season && Array.isArray(recipe.season) && recipe.season.includes(timeFactors.season)) {
+  if (recipe.season && Array.isArray(recipe.season) && recipe.season.includes(timeFactors.season) {
     explanations.push(`Perfect for ${timeFactors.season} season`);
   }
 
@@ -166,7 +166,7 @@ function calculateElementalScore(recipe: Recipe, userElement?: Element): number 
 function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): number {
   if (!recipe.astrologicalPropertiesInfluences || !planetName) return 0.5;
   // Apply Pattern, H: Safe unknown type array casting
-  const planetaryMatch = safeSome(
+  const planetaryMatch = safeSome()
     recipe.astrologicalPropertiesInfluences as unknown[],
     influence => {
       // Apply surgical type casting with variable extraction
@@ -184,7 +184,7 @@ function calculateSeasonalScore(recipe: Recipe, season: Season): number {
   if (!recipe.season) return 0.6;
 
   // Apply Pattern, _I: Safe union type array casting
-  const seasonMatch = safeSome(
+  const seasonMatch = safeSome()
     Array.isArray(recipe.season) ? recipe.season : ([recipe.season] as string[]),
     recipeSeason => recipeSeason.toLowerCase() === season.toLowerCase()
   );
@@ -206,7 +206,7 @@ function calculateWeekdayScore(_recipe: Recipe, _day: WeekDay): number {
   const dayPreferences = weekdayPreferences[day] || [];
   const recipeQualities = recipe.qualities || [];
 
-  const matches = safeFilter(dayPreferences, pref =>
+  const matches = safeFilter(dayPreferences, pref =>)
     // Apply Pattern, H: Safe unknown type array casting
     safeSome(recipeQualities as unknown[], quality => String(quality).toLowerCase().includes(pref))
   );
@@ -217,7 +217,7 @@ function calculateWeekdayScore(_recipe: Recipe, _day: WeekDay): number {
 function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
   if (!recipe.mealType) return 0.6;
 
-  const mealTypeMatch = safeSome(
+  const mealTypeMatch = safeSome()
     Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType],
     recipeMealType => recipeMealType.toLowerCase() === mealType.toLowerCase()
   );
@@ -321,7 +321,7 @@ function getTimeFactors(): TimeFactors {
 /**
  * Get detailed recipe recommendations with explanations
  */
-export function getDetailedRecipeRecommendations(
+export function getDetailedRecipeRecommendations()
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
   limit = 3
@@ -386,7 +386,7 @@ function generateExplanation(scoredRecipe: RecommendationScore): string {
 /**
  * Calculate elemental match between recipe and user preferences
  */
-export function calculateElementalMatch(
+export function calculateElementalMatch()
   recipeElements: ElementalProperties,
   userElements: ElementalProperties
 ): number {
@@ -418,7 +418,7 @@ export function getMatchScoreClass(score: number): string {
 /**
  * Get match rating with stars and tooltip
  */
-export function getMatchRating(score: number): { stars: string; tooltip: string } {
+export function getMatchRating(score: number): { stars: string; tooltip, string } {
   if (score >= 0.9) {
     return { stars: '★★★★★', tooltip: 'Excellent match - highly recommended' };
   } else if (score >= 0.7) {
@@ -436,7 +436,7 @@ export function getMatchRating(score: number): { stars: string; tooltip: string 
  * Check if recipe is appropriate for current time of day
  */
 export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): boolean {
-  if (!recipe.mealType || (Array.isArray(recipe.mealType) && recipe.mealType.length === 0)) {
+  if (!recipe.mealType || (Array.isArray(recipe.mealType) && recipe.mealType.length === 0) {
     return true; // If no meal type specified, assume it's appropriate anytime
   }
 
@@ -457,7 +457,7 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
 /**
  * Calculate recipe match score based on elemental state
  */
-export function calculateRecipeMatchScore(
+export function calculateRecipeMatchScore()
   recipe: Recipe,
   elementalState: {
     Fire: number;
@@ -481,7 +481,7 @@ export function calculateRecipeMatchScore(
     }
     // Apply Pattern, J: Safe type casting for recipe.elementalState
     const recipeElementalProperties = recipe.elementalState as unknown as ElementalProperties
-    const elementalMatch = calculateElementalMatch(
+    const elementalMatch = calculateElementalMatch()
       recipeElementalProperties,
       userElementalProperties
     );
@@ -490,7 +490,7 @@ export function calculateRecipeMatchScore(
   }
 
   // Time of day appropriateness (20% weight)
-  if (isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay)) {
+  if (isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay) {
     score += 0.8 * 0.2;
   } else {
     score += 0.3 * 0.2;

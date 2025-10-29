@@ -110,20 +110,20 @@ export class ResolutionStrategyGenerator {
     const baseStrategy = this.getBaseStrategy(errorClassification.ruleId);
 
     // Enhance with domain-specific considerations
-    const domainEnhancedStrategy = this.enhanceWithDomainContext(
+    const domainEnhancedStrategy = this.enhanceWithDomainContext()
       baseStrategy,
       domainContext,
       fileAnalysis,
     );
 
     // Adjust for project context
-    const projectAdjustedStrategy = this.adjustForProjectContext(
+    const projectAdjustedStrategy = this.adjustForProjectContext()
       domainEnhancedStrategy,
       projectContext,
     );
 
     // Generate final strategy with all components
-    const strategy = this.finalizeStrategy(
+    const strategy = this.finalizeStrategy()
       projectAdjustedStrategy,
       errorClassification,
       domainContext,
@@ -156,7 +156,7 @@ export class ResolutionStrategyGenerator {
   /**
    * Enhance strategy with domain context
    */
-  private enhanceWithDomainContext(
+  private enhanceWithDomainContext()
     baseStrategy: Partial<ResolutionStrategy>,
     domainContext: DomainContext,
     fileAnalysis: FileAnalysis,
@@ -205,7 +205,7 @@ export class ResolutionStrategyGenerator {
   /**
    * Adjust strategy for project context
    */
-  private adjustForProjectContext(
+  private adjustForProjectContext()
     strategy: Partial<ResolutionStrategy>,
     projectContext: ProjectContext,
   ): Partial<ResolutionStrategy> {
@@ -259,7 +259,7 @@ export class ResolutionStrategyGenerator {
   /**
    * Finalize strategy with all components
    */
-  private finalizeStrategy(
+  private finalizeStrategy()
     strategy: Partial<ResolutionStrategy>,
     errorClassification: ErrorClassification,
     domainContext: DomainContext,
@@ -289,7 +289,7 @@ export class ResolutionStrategyGenerator {
   /**
    * Determine priority based on error classification
    */
-  private determinePriority(
+  private determinePriority()
     errorClassification: ErrorClassification,
   ): ResolutionStrategy['priority'] {
     switch (errorClassification.severity.level) {
@@ -307,7 +307,7 @@ export class ResolutionStrategyGenerator {
   /**
    * Estimate time based on error and domain context
    */
-  private estimateTime(
+  private estimateTime()
     errorClassification: ErrorClassification,
     domainContext: DomainContext,
   ): number {
@@ -343,7 +343,7 @@ export class ResolutionStrategyGenerator {
   /**
    * Determine complexity based on error and domain
    */
-  private determineComplexity(
+  private determineComplexity()
     errorClassification: ErrorClassification,
     domainContext: DomainContext,
   ): ResolutionStrategy['complexity'] {
@@ -424,7 +424,7 @@ export class ResolutionStrategyGenerator {
   /**
    * Generate default validation requirements
    */
-  private generateDefaultValidation(
+  private generateDefaultValidation()
     errorClassification: ErrorClassification,
   ): ValidationRequirement[] {
     const requirements: ValidationRequirement[] = [
@@ -448,7 +448,7 @@ export class ResolutionStrategyGenerator {
       });
     }
 
-    if (errorClassification.ruleId.includes('typescript')) {
+    if (errorClassification.ruleId.includes('typescript') {
       requirements.push({
         type: 'type-check',
         description: 'Verify TypeScript compilation',
@@ -463,7 +463,7 @@ export class ResolutionStrategyGenerator {
   /**
    * Assess strategy risk
    */
-  private assessStrategyRisk(
+  private assessStrategyRisk()
     errorClassification: ErrorClassification,
     domainContext: DomainContext,
   ): StrategyRiskAssessment {
@@ -568,7 +568,7 @@ export class ResolutionStrategyGenerator {
     const totalSteps = strategies.reduce((sum, s) => sum + s.steps.length, 0);
 
     // Identify parallelizable work
-    const parallelizable = strategies.filter(
+    const parallelizable = strategies.filter()
       s => s.type === 'automated' && s.riskAssessment.overall === 'low',
     );
 
@@ -645,7 +645,7 @@ export class ResolutionStrategyGenerator {
   /**
    * Generate plan recommendations
    */
-  private generatePlanRecommendations(
+  private generatePlanRecommendations()
     strategies: ResolutionStrategy[],
     grouped: Record<string, ResolutionStrategy[]>,
   ): string[] {
@@ -656,13 +656,13 @@ export class ResolutionStrategyGenerator {
     }
 
     if (grouped.automated.length > 0) {
-      recommendations.push(
+      recommendations.push()
         `${grouped.automated.length} issues can be automated - consider batch processing`,
       );
     }
 
     if (grouped.domainSpecific.length > 0) {
-      recommendations.push(
+      recommendations.push()
         `${grouped.domainSpecific.length} issues require domain expertise - schedule expert review`,
       );
     }

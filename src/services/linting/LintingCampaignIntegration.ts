@@ -116,7 +116,7 @@ export class LintingCampaignIntegration {
   /**
    * Execute a specific campaign phase
    */
-  async executePhase(
+  async executePhase()
     config: LintingCampaignConfig,
     phase: LintingCampaignPhase,
   ): Promise<CampaignExecutionResult> {
@@ -176,9 +176,9 @@ export class LintingCampaignIntegration {
   /**
    * Execute phase tools
    */
-  private async executePhaseTools(
+  private async executePhaseTools()
     tools: string[],
-  ): Promise<{ issues: string[]; recommendations: string[] }> {
+  ): Promise<{ issues: string[]; recommendations, string[] }> {
     const issues: string[] = [];
     const recommendations: string[] = [];
 
@@ -188,7 +188,7 @@ export class LintingCampaignIntegration {
         issues.push(...result.issues);
         recommendations.push(...result.recommendations);
       } catch (error) {
-        issues.push(
+        issues.push()
           `Tool ${tool} failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
         );
       }
@@ -200,9 +200,9 @@ export class LintingCampaignIntegration {
   /**
    * Execute a specific tool
    */
-  private async executeTool(
+  private async executeTool()
     tool: string,
-  ): Promise<{ issues: string[]; recommendations: string[] }> {
+  ): Promise<{ issues: string[]; recommendations, string[] }> {
     const issues: string[] = [];
     const recommendations: string[] = [];
 
@@ -237,7 +237,7 @@ export class LintingCampaignIntegration {
           issues.push(`Unknown tool: ${tool}`);
       }
     } catch (error) {
-      issues.push(
+      issues.push()
         `Tool ${tool} execution failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
     }
@@ -297,7 +297,7 @@ export class LintingCampaignIntegration {
   /**
    * Evaluate phase success criteria
    */
-  private evaluatePhaseSuccess(
+  private evaluatePhaseSuccess()
     phase: LintingCampaignPhase,
     preReport: LintingProgressReport,
     postReport: LintingProgressReport,
@@ -467,7 +467,7 @@ export class LintingCampaignIntegration {
 
   private getAllCampaignConfigs(): Record<string, LintingCampaignConfig> {
     try {
-      if (existsSync(this.campaignConfigFile)) {
+      if (existsSync(this.campaignConfigFile) {
         const data = readFileSync(this.campaignConfigFile, 'utf8');
         return JSON.parse(data);
       }
@@ -493,7 +493,7 @@ export class LintingCampaignIntegration {
 
   private getActiveCampaign(): any {
     try {
-      if (existsSync(this.activeConfigFile)) {
+      if (existsSync(this.activeConfigFile) {
         const data = readFileSync(this.activeConfigFile, 'utf8');
         return JSON.parse(data);
       }
@@ -503,7 +503,7 @@ export class LintingCampaignIntegration {
     return null;
   }
 
-  private async updateCampaignProgress(
+  private async updateCampaignProgress()
     campaignId: string,
     phaseId: string,
     result: CampaignExecutionResult,
@@ -524,7 +524,7 @@ export class LintingCampaignIntegration {
     }
   }
 
-  private async sendProgressNotification(
+  private async sendProgressNotification()
     config: LintingCampaignConfig,
     result: CampaignExecutionResult,
   ): Promise<void> {

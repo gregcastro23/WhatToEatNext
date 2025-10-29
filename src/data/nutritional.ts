@@ -470,7 +470,7 @@ export const seasonalNutritionFocus: Record<
  */
 export async function fetchNutritionalData(foodName: string): Promise<NutritionalProfile | null> {
   try {
-    log.info(`Fetching local nutritional data for: ${foodName}`)
+    log.info(`Fetching local nutritional data for ${foodName}`)
 
     // Use base nutritional profiles for common food categories
     const normalizedName = foodName.toLowerCase()

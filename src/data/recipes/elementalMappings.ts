@@ -23,7 +23,7 @@ const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[]
     astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[];
   }
   if (!methodData.astrologicalInfluences) return [defaultAstrologicalInfluence];
-  if (Array.isArray(methodData.astrologicalInfluences)) {
+  if (Array.isArray(methodData.astrologicalInfluences) {
     return methodData.astrologicalInfluences;
   }
   return [methodData.astrologicalInfluences];
@@ -117,7 +117,7 @@ export function getRecipeEnhancedRecommendations(recipeId: string) {
   if (!recipe) return null;
 
   // Get base recommendations from the ElementalRecommendationService
-  const baseRecommendation = ElementalRecommendationService.generateRecommendation(
+  const baseRecommendation = ElementalRecommendationService.generateRecommendation()
     recipe.elementalProperties
   );
 

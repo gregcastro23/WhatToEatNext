@@ -18,7 +18,7 @@ export const curing: CookingMethodData = {
     min: 180, // 3 hours,
     max: 8640, // 6 months (in minutes)
   },
-  suitable_for: ['Meats', 'Fish', 'Vegetables', 'Eggs', 'Citrus peels'],
+  suitable_for ['Meats', 'Fish', 'Vegetables', 'Eggs', 'Citrus peels'],
   benefits: [
     'Preservation without artificial additives',
     'Enhanced flavor development',

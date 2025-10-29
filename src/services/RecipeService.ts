@@ -22,7 +22,7 @@ interface RecipeSearchCriteriaInternal extends RecipeSearchCriteria {
   elementalProperties?: ElementalProperties;
   zodiacSign?: ZodiacSign;
   lunarPhase?: LunarPhase;
-  planetaryAlignment?: Record<string, { sign: string; degree: number }>;
+  planetaryAlignment?: Record<string, { sign: string; degree, number }>;
 }
 
 /**
@@ -72,7 +72,7 @@ export class RecipeService implements RecipeServiceInterface {
       const recipes: Recipe[] = [];
 
       // Get recipes from all available cuisines
-      for (const cuisine of Object.values(cuisinesMap)) {
+      for (const cuisine of Object.values(cuisinesMap) {
         if (cuisine) {
           const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as ExtendedCuisine);
           recipes.push(...cuisineRecipes);
@@ -117,7 +117,7 @@ export class RecipeService implements RecipeServiceInterface {
   /**
    * Search recipes based on criteria
    */
-  async searchRecipes(
+  async searchRecipes()
     criteria: RecipeSearchCriteria,
     options: RecipeRecommendationOptions = {}
   ): Promise<Recipe[]> {
@@ -129,7 +129,7 @@ export class RecipeService implements RecipeServiceInterface {
 
       // Filter by cuisine
       if (criteria.cuisine) {
-        filteredRecipes = filteredRecipes.filter(recipe =>
+        filteredRecipes = filteredRecipes.filter(recipe =>)
           recipe.cuisine?.toLowerCase().includes(criteria.cuisine!.toLowerCase())
         );
       }
@@ -146,7 +146,7 @@ export class RecipeService implements RecipeServiceInterface {
       if (criteria.dietaryRestrictions && criteria.dietaryRestrictions.length > 0) {
         filteredRecipes = filteredRecipes.filter(recipe => {
           return criteria.dietaryRestrictions!.every(restriction => {
-            switch (restriction.toLowerCase()) {
+            switch (restriction.toLowerCase() {
               case 'vegetarian':
                 return recipe.isVegetarian === true;
               case 'vegan':
@@ -202,7 +202,7 @@ export class RecipeService implements RecipeServiceInterface {
       ) as ExtendedCuisine;
 
       if (!cuisine) {
-        logger.debug(`No cuisine found for: ${cuisineName}`);
+        logger.debug(`No cuisine found for ${cuisineName}`);
         return [];
       }
 
@@ -279,8 +279,8 @@ export class RecipeService implements RecipeServiceInterface {
   /**
    * Get recipes by planetary alignment
    */
-  async getRecipesByPlanetaryAlignment(
-    planetaryPositions: Record<string, { sign: string; degree: number }>
+  async getRecipesByPlanetaryAlignment()
+    planetaryPositions: Record<string, { sign: string; degree, number }>
   ): Promise<Recipe[]> {
     try {
       logger.debug('Getting recipes for planetary alignment:', planetaryPositions);
@@ -315,7 +315,7 @@ export class RecipeService implements RecipeServiceInterface {
   /**
    * Get best recipe matches based on criteria
    */
-  async getBestRecipeMatches(
+  async getBestRecipeMatches()
     criteria: RecipeSearchCriteriaInternal,
     options: RecipeRecommendationOptions = {}
   ): Promise<ScoredRecipe[]> {
@@ -363,7 +363,7 @@ export class RecipeService implements RecipeServiceInterface {
   /**
    * Convert dish data to Recipe format
    */
-  private async convertDishToRecipe(
+  private async convertDishToRecipe()
     dish: Record<string, unknown>,
     cuisine: ExtendedCuisine
   ): Promise<Recipe | null> {

@@ -15,12 +15,12 @@ export enum LogLevel {
 }
 
 export interface LogContext {
-  component?: string,
-  service?: string,
-  function?: string,
-  userId?: string,
-  sessionId?: string,
-  requestId?: string,
+  component?: string;
+  service?: string;
+  function?: string;
+  userId?: string;
+  sessionId?: string;
+  requestId?: string;
 
   // Intentionally any: Logging context needs flexibility for various metadata
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -28,11 +28,11 @@ export interface LogContext {
 }
 
 export interface LogEntry {
-  timestamp: Date,
-  level: LogLevel,
-  message: string,
-  context?: LogContext,
-  error?: Error,
+  timestamp: Date;
+  level: LogLevel;
+  message: string;
+  context?: LogContext;
+  error?: Error;
 
   // Intentionally, any: Log data can be of any type for debugging purposes
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -91,7 +91,7 @@ class LoggingService {
   }
 
 
-  private log(
+  private log()
     level: LogLevel,
     message: string,
     context?: LogContext,
@@ -166,7 +166,7 @@ class LoggingService {
 
     // Add other context properties
     Object.keys(context).forEach(key => {
-      if (!['component', 'service', 'function', 'userId', 'sessionId', 'requestId'].includes(key)) {
+      if (!['component', 'service', 'function', 'userId', 'sessionId', 'requestId'].includes(key) {
         parts.push(`${key}=${context[key]}`)
       }
     })

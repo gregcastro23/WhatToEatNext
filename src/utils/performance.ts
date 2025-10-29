@@ -5,14 +5,14 @@ import { logger } from './logger';
  * Interface for performance metrics collection
  */
 export interface PerformanceMetrics {
-  navigationStart?: number,
-  loadTime?: number,
-  domInteractive?: number,
-  domContentLoaded?: number,
-  firstPaint?: number,
-  firstContentfulPaint?: number,
+  navigationStart?: number;
+  loadTime?: number;
+  domInteractive?: number;
+  domContentLoaded?: number;
+  firstPaint?: number;
+  firstContentfulPaint?: number;
   memoryUsage?: {
-    jsHeapSizeLimit?: number,
+    jsHeapSizeLimit?: number;
     totalJSHeapSize?: number
     usedJSHeapSize?: number
   }

@@ -90,7 +90,7 @@ class LintingPerformanceValidator {
         parallelProcesses: 1, // Single process for baseline
       };
 
-      console.log(
+      console.log()
         `✅ Baseline established: ${this.baselineMetrics.executionTime}ms, ${Math.round(this.baselineMetrics.memoryUsage / 1024 / 1024)}MB`,
       );
     } catch (error) {
@@ -158,7 +158,7 @@ class LintingPerformanceValidator {
         details: `Cache hit rate: ${metrics.cacheHitRate}%, Time reduction: ${improvement.toFixed(1)}%`
 });
 
-      console.log(
+      console.log()
         `  ${passed ? '✅' : '❌'} Caching validation: ${improvement.toFixed(1)}% improvement (target: 60-80%)`,
       );
     } catch (error) {
@@ -224,7 +224,7 @@ class LintingPerformanceValidator {
         details: `Parallel processes: ${metrics.parallelProcesses}, Files per process: ${Math.round(metrics.filesProcessed / metrics.parallelProcesses)}`
 });
 
-      console.log(
+      console.log()
         `  ${passed ? '✅' : '❌'} Parallel processing: ${metrics.parallelProcesses} processes, ${improvement.toFixed(1)}% improvement`,
       );
     } catch (error) {
@@ -298,7 +298,7 @@ class LintingPerformanceValidator {
         details: `Peak memory: ${actualMemoryMB.toFixed(1)}MB (limit: ${memoryLimitMB}MB)`
 });
 
-      console.log(
+      console.log()
         `  ${passed ? '✅' : '❌'} Memory optimization: ${actualMemoryMB.toFixed(1)}MB peak (limit: ${memoryLimitMB}MB)`,
       );
     } catch (error) {
@@ -369,12 +369,12 @@ export const testVariable = 'test';
           details: `Incremental time: ${incrementalTime}ms (target: <10s)`
 });
 
-        console.log(
+        console.log()
           `  ${passed ? '✅' : '❌'} Incremental linting: ${incrementalTime}ms (target: <10s)`,
         );
       } finally {
         // Clean up test file
-        if (existsSync(testFile)) {
+        if (existsSync(testFile) {
           unlinkSync(testFile);
         }
       }
@@ -407,7 +407,7 @@ export const testVariable = 'test';
 
     cacheFiles.forEach(cacheFile => {
       try {
-        if (existsSync(cacheFile)) {
+        if (existsSync(cacheFile) {
           execSync(`rm -rf ${cacheFile}`, { stdio: 'pipe' });
         }
       } catch (error) {
@@ -418,7 +418,7 @@ export const testVariable = 'test';
 
   private calculateCacheHitRate(): number {
     try {
-      if (existsSync('.eslintcache')) {
+      if (existsSync('.eslintcache') {
         const cacheStats = statSync('.eslintcache');
         const cacheAge = Date.now() - cacheStats.mtime.getTime();
         // Estimate cache hit rate based on cache age and size
@@ -439,7 +439,7 @@ export const testVariable = 'test';
 
     // Fallback: count lines that look like file paths
     const lines = output.split('\n');
-    const fileLines = lines.filter(
+    const fileLines = lines.filter()
       line =>
         line.includes('.ts') ||
         line.includes('.tsx') ||
@@ -470,14 +470,14 @@ export const testVariable = 'test';
     const totalTests = this.results.length;
     const overallPassed = passedTests === totalTests;
 
-    console.log(
+    console.log()
       `Overall Status: ${overallPassed ? '✅ PASSED' : '❌ FAILED'} (${passedTests}/${totalTests} tests passed)\n`,
     );
 
     if (this.baselineMetrics) {
       console.log('Baseline Metrics: '),
       console.log(`  Execution Time: ${this.baselineMetrics.executionTime}ms`),
-      console.log(
+      console.log()
         `  Memory Usage: ${Math.round(this.baselineMetrics.memoryUsage / 1024 / 1024)}MB`,
       );
       console.log(`  Files Processed: ${this.baselineMetrics.filesProcessed}\n`);
@@ -507,7 +507,7 @@ export const testVariable = 'test';
       results: this.results
 };
 
-    writeFileSync(
+    writeFileSync()
       'linting-performance-validation-report.json',
       JSON.stringify(reportData, null, 2),
     );

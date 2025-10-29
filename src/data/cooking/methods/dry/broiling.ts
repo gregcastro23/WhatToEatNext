@@ -19,7 +19,7 @@ export const broiling: CookingMethodData = {
     min: 3,
     max: 15
 },
-  suitable_for: [
+  suitable_for [
     'steaks',
     'chops',
     'fish',

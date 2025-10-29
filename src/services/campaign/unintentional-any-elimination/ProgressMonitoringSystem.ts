@@ -351,7 +351,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         analysisReport,
         progressMetrics,
         buildStability
-      ] = await Promise.all([
+      ] = await Promise.all([)
         this.analysisTools.generateComprehensiveReport(),
         this.getProgressMetrics(),
         this.getCurrentBuildStability()
@@ -444,7 +444,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
   private emitAlert(alert: Alert): void {
     // Check if this is a duplicate alert (same type within last hour)
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-    const recentSimilarAlerts = this.alertHistory.filter(
+    const recentSimilarAlerts = this.alertHistory.filter()
       a => a.type === alert.type && a.timestamp > oneHourAgo
     );
 
@@ -529,7 +529,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
   private loadAlertHistory(): void {
     try {
       const historyPath = path.join(process.cwd(), '.kiro', 'campaign-reports', 'alert-history.json');
-      if (fs.existsSync(historyPath)) {
+      if (fs.existsSync(historyPath) {
         const historyData = fs.readFileSync(historyPath, 'utf8');
         this.alertHistory = JSON.parse(historyData).map((alert: any) => ({
           ...alert,
@@ -545,7 +545,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
   private saveAlertHistory(): void {
     try {
       const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports');
-      if (!fs.existsSync(historyDir)) {
+      if (!fs.existsSync(historyDir) {
         fs.mkdirSync(historyDir, { recursive: true });
       }
 
@@ -559,7 +559,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
   private loadBuildStabilityHistory(): void {
     try {
       const historyPath = path.join(process.cwd(), '.kiro', 'campaign-reports', 'build-stability-history.json');
-      if (fs.existsSync(historyPath)) {
+      if (fs.existsSync(historyPath) {
         const historyData = fs.readFileSync(historyPath, 'utf8');
         this.buildStabilityHistory = JSON.parse(historyData).map((record: any) => ({
           ...record,
@@ -575,7 +575,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
   private async saveBuildStabilityHistory(): Promise<void> {
     try {
       const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports');
-      if (!fs.existsSync(historyDir)) {
+      if (!fs.existsSync(historyDir) {
         fs.mkdirSync(historyDir, { recursive: true });
       }
 

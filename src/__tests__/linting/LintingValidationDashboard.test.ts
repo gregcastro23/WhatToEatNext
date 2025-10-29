@@ -36,14 +36,14 @@ describe('LintingValidationDashboard', () => {
     // Mock file operations
     mockWriteFileSync.mockImplementation(() => {});
     mockReadFileSync.mockImplementation((path: string) => {
-      if (path.includes('config.json')) {
+      if (path.includes('config.json') {
         return JSON.stringify({
           thresholds: [],
           alertingEnabled: true,
           regressionDetectionEnabled: true
 });
       }
-      if (path.includes('history.json')) {
+      if (path.includes('history.json') {
         return JSON.stringify([]);
       }
       return '{}';
@@ -314,7 +314,7 @@ describe('LintingValidationDashboard', () => {
       ];
 
       mockReadFileSync.mockImplementation((path: string) => {
-        if (path.includes('history.json')) {
+        if (path.includes('history.json') {
           return JSON.stringify(historicalMetrics);
         }
         return JSON.stringify({ thresholds: [], alertingEnabled: true });
@@ -345,7 +345,7 @@ describe('LintingValidationDashboard', () => {
 
     test('should not detect regression with insufficient historical data', async () => {
       mockReadFileSync.mockImplementation((path: string) => {
-        if (path.includes('history.json')) {
+        if (path.includes('history.json') {
           return JSON.stringify([]); // No historical data
         }
         return JSON.stringify({ thresholds: [], alertingEnabled: true });
@@ -355,7 +355,7 @@ describe('LintingValidationDashboard', () => {
 
       const result = await dashboard.runComprehensiveValidation();
       expect(result.regressionAnalysis.detected).toBe(false);
-      expect(result.regressionAnalysis.recommendations).toContain(
+      expect(result.regressionAnalysis.recommendations).toContain()
         'Insufficient historical data for regression analysis',
       );
     });
@@ -445,7 +445,7 @@ describe('LintingValidationDashboard', () => {
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));
 
       const result = await dashboard.runComprehensiveValidation();
-      expect(result.recommendations.some(rec => rec.includes('DOMAIN: Review astrological calculation files'))).toBe(
+      expect(result.recommendations.some(rec => rec.includes('DOMAIN: Review astrological calculation files'))).toBe()
         true,
       );
       expect(result.recommendations.some(rec => rec.includes('lint:domain-astro'))).toBe(true);
@@ -488,7 +488,7 @@ describe('LintingValidationDashboard', () => {
 
       const _result = await dashboard.runComprehensiveValidation();
       // Verify that writeFileSync was called to generate the report
-      expect(mockWriteFileSync).toHaveBeenCalledWith(
+      expect(mockWriteFileSync).toHaveBeenCalledWith()
         expect.stringContaining('linting-dashboard-report.md'),
         expect.stringContaining('# Linting Excellence Dashboard Report'),
         'utf8',
@@ -501,7 +501,7 @@ describe('LintingValidationDashboard', () => {
       await dashboard.runComprehensiveValidation();
 
       // Get the report content from the mock call
-      const reportCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
+      const reportCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>)
         call[0].includes('linting-validation-report.md'),
       );
 

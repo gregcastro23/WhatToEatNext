@@ -21,7 +21,7 @@ const CookingMethodsSection = ({
   <div className='space-y-2'>
     {methods.map(m => {
       const method = m as any
-      return (
+      return ()
         <button
           key={String(method.id)}
           onClick={() => onSelectMethod(m)}
@@ -53,7 +53,7 @@ const sampleMethods = [
       min: 10,
       max: 30
     },
-    suitable_for: ['Meats', 'Vegetables', 'Seafood'],
+    suitable_for ['Meats', 'Vegetables', 'Seafood'],
     alchemicalProperties: {
       Spirit: 0.7,
       Essence: 0.3,
@@ -86,7 +86,7 @@ const sampleMethods = [
       min: 5,
       max: 45
     },
-    suitable_for: ['Pasta', 'Vegetables', 'Eggs'],
+    suitable_for ['Pasta', 'Vegetables', 'Eggs'],
     alchemicalProperties: {
       Spirit: 0.2,
       Essence: 0.8,
@@ -105,7 +105,7 @@ const sampleMethods = [
       min: 20,
       max: 120
     },
-    suitable_for: ['Breads', 'Pastries', 'Casseroles'],
+    suitable_for ['Breads', 'Pastries', 'Casseroles'],
     alchemicalProperties: {
       Spirit: 0.4,
       Essence: 0.3,
@@ -132,7 +132,7 @@ const sampleMethods = [
       min: 5,
       max: 30
     },
-    suitable_for: ['Vegetables', 'Fish', 'Dumplings'],
+    suitable_for ['Vegetables', 'Fish', 'Dumplings'],
     alchemicalProperties: {
       Spirit: 0.3,
       Essence: 0.8,

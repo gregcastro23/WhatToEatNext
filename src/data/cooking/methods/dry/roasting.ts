@@ -19,7 +19,7 @@ export const roasting: CookingMethodData = {
     min: 15,
     max: 240
 },
-  suitable_for: [
+  suitable_for [
     'meat',
     'poultry',
     'fish',
@@ -336,9 +336,7 @@ export const roasting: CookingMethodData = {
     temperature_adjustment: 'Reduce oven temperature by 25°F when using convection, increase by 25°F when cooking multiple items. Glass or dark metal pans: reduce by 25°F. High altitude (3,000+ feet): increase by 25°F and extend time by 5-10%.',
     timing_by_weight: 'Calculate roasting time by weight: beef (rare) 15 min/lb, poultry 20 min/lb, pork 20 min/lb at standard temperatures. Precise timing varies by thickness rather than weight: 2-inch thick cuts require different timing than thin, flat cuts of same weight.',
     seasonal_adjustment: 'Reduce cooking time for summer vegetables by 15%, increase for winter vegetables by 10%. Adjust for humidity: drier environments may require lower temperatures or shorter times. Higher ambient humidity may require extended cooking times.' },
-        doneness_indicators: {
-    beef_rare:
-      'Internal temperature 125°F; soft when pressed bright red center. Finger test: feels like the base of thumb when thumb and index finger make an \'OK\' sign. Color is purple-red and warm rather than cool.',
+        doneness_indicators: { beef_rare: 'Internal temperature 125°F; soft when pressed bright red center. Finger test, feels like the base of thumb when thumb and index finger make an \'OK\' sign. Color is purple-red and warm rather than cool.',
     beef_medium: 'Internal temperature 135°F, slight resistance when pressed; pink center. Finger test: feels like base of thumb when thumb and middle finger make an \'OK\' sign. Color is rosy pink throughout with barely visible fibers.',
     beef_well: 'Internal temperature 150°F, firm when pressed; brown throughout. Finger test: feels like base of thumb when thumb and pinky make an \'OK\' sign. No pink visible and meat fibers are clearly defined.',
     poultry: 'Internal temperature 165°F in thigh, juices run clear; leg moves easily in socket. Probe inserted between thigh and body should meet minimal resistance. For breast, 155°F with rest will achieve safety while maintaining juiciness.',

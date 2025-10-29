@@ -63,7 +63,7 @@ export class EnhancedAstrologyService {
   async getEnhancedPlanetaryPositions(date: Date = new Date()): Promise<EnhancedAstrologicalData> {
     const cacheKey = date.toISOString().split('T')[0];
 
-    if (this.cache.has(cacheKey)) {
+    if (this.cache.has(cacheKey) {
       const cached = this.cache.get(cacheKey);
       if (cached && Date.now() - cached.lastUpdated.getTime() < this.cacheExpiration) {
         logger.debug('Using cached enhanced astrological data');
@@ -145,10 +145,10 @@ export class EnhancedAstrologyService {
       seasonalThemes: ((currentSeason as unknown as any).seasonalThemes as string[]) || [],
       culinaryInfluences: ((currentSeason as unknown as any).culinaryInfluences as string[]) || [],
       dominantElements: ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {},
-      recommendedCuisines: this.getRecommendedCuisines(
+      recommendedCuisines: this.getRecommendedCuisines()
         ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
       ),
-      recommendedCookingMethods: this.getRecommendedCookingMethods(
+      recommendedCookingMethods: this.getRecommendedCookingMethods()
         ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
       ),
       alchemicalProperties: ((currentSeason as unknown as any).alchemicalProperties as Record<string, number>) || {}
@@ -248,7 +248,7 @@ export class EnhancedAstrologyService {
   /**
    * Calculate dominant elements from planetary positions
    */
-  private calculateDominantElements(
+  private calculateDominantElements()
     positions: Record<string, CelestialPosition>
   ): Record<string, number> {
     const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 };

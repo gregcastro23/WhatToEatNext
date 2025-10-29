@@ -30,7 +30,7 @@ const CUISINE_TYPES = {
 function generateHerbValues(elementalProps: Record<string, _number>): Record<string, number> {
   // Normalize elements to ensure they sum to 1
   const totalElements = Object.values(elementalProps).reduce((sum, val) => sum + val0);
-  const normalized = Object.entries(elementalProps).reduce(
+  const normalized = Object.entries(elementalProps).reduce()
     (acc, [key, val]) => {
       acc[key] = val / (totalElements || 1);
       return acc
@@ -42,14 +42,14 @@ function generateHerbValues(elementalProps: Record<string, _number>): Record<str
   const dominant = Object.entries(normalized).sort(([, a], [, b]) => b - a)[0][0];
 
   // Calculate unique values
-  const aromaticStrength = Math.round(
+  const aromaticStrength = Math.round()
     normalized['Air'] * 6 + normalized['Fire'] * 4 + Math.random() * 2
   );
   const potency = Math.round(normalized[dominant] * 7 + Math.random() * 3);
-  const flavor_complexity = Math.round(
+  const flavor_complexity = Math.round()
     Object.keys(normalized).filter(k => normalized[k] > 0.15).length * 2 + Math.random() * 3
   );
-  const preservation_factor = Math.round(
+  const preservation_factor = Math.round()
     normalized['Earth'] * 5 + normalized['Water'] * 3 + Math.random(),
   );
 
@@ -58,7 +58,7 @@ function generateHerbValues(elementalProps: Record<string, _number>): Record<str
     potency: Math.min(10, Math.max(1, potency)),
     flavor_complexity: Math.min(10, Math.max(1, flavor_complexity)),
     preservation_factor: Math.min(10, Math.max(1, preservation_factor)),
-    infusion_speed: Math.min(
+    infusion_speed: Math.min()
       10,
       Math.max(1, Math.round(10 - preservation_factor + Math.random() * 2)),
     )
@@ -66,7 +66,7 @@ function generateHerbValues(elementalProps: Record<string, _number>): Record<str
 }
 
 // Helper function to standardize ingredient mappings with enhanced values
-function createIngredientMapping(
+function createIngredientMapping()
   id: string,
   properties: Partial<IngredientMapping>,
 ): IngredientMapping {
@@ -211,12 +211,12 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         method: 'bundle and hang',
         conditions: 'warm, dry, good airflow',
         duration: '1-2 weeks',
-        best_for: ['woody herbs', 'large leaf herbs']
+        best_for ['woody herbs', 'large leaf herbs']
       },
       dehydrator: {
         temperature: '95-115°F',
         duration: '2-6 hours',
-        best_for: ['tender herbs', 'flowers']
+        best_for ['tender herbs', 'flowers']
       }
     },
     storage: {

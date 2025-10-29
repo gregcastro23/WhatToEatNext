@@ -30,7 +30,7 @@ describe('Automated Error Resolution Integration', () => {
 
   describe('ESLint Auto-Fix Integration', () => {
     test('should execute ESLint auto-fix successfully', async () => {
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput = JSON.stringify([)
         {
           filePath: '/test/file.ts',
           messages: [
@@ -41,7 +41,7 @@ describe('Automated Error Resolution Integration', () => {
               fix: {
                 range: [0, 3],
                 text: 'const'
-},
+              },
             },
             {
               ruleId: 'no-extra-semi',
@@ -50,18 +50,18 @@ describe('Automated Error Resolution Integration', () => {
               fix: {
                 range: [10, 11],
                 text: ''
-},
+              },
             },
           ],
           fixableErrorCount: 2,
           fixableWarningCount: 0
-},
+        },
       ]);
 
       mockExecSync.mockReturnValue(mockLintOutput);
 
       // Simulate running ESLint with --fix
-      const command = 'yarn lint: fix --format=json';
+      const command = 'yarn lint:fix --format=json';
       const result = mockExecSync(command, { encoding: 'utf8' });
 
       expect(mockExecSync).toHaveBeenCalledWith(command, { encoding: 'utf8' });
@@ -92,27 +92,27 @@ describe('Automated Error Resolution Integration', () => {
     });
 
     test('should process multiple files in batch', async () => {
-      const mockBatchOutput = JSON.stringify([
+      const mockBatchOutput = JSON.stringify([)
         {
           filePath: '/test/file1.ts',
           messages: [{ ruleId: 'prefer-const', severity: 2, fix: { range: [0, 3], text: 'const' } }],
           fixableErrorCount: 1
-},
+        },
         {
           filePath: '/test/file2.ts',
           messages: [{ ruleId: 'no-unused-vars', severity: 1, fix: null }],
           fixableErrorCount: 0
-},
+        },
         {
           filePath: '/test/file3.ts',
           messages: [],
           fixableErrorCount: 0
-},
+        },
       ]);
 
       mockExecSync.mockReturnValue(mockBatchOutput);
 
-      const result = JSON.parse(mockExecSync('yarn lint:fix --format=json', { encoding: 'utf8' }) as unknown as string),
+      const result = JSON.parse(mockExecSync('yarn lint:fix --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result).toHaveLength(3);
       expect(result[0].fixableErrorCount).toBe(1);
@@ -143,17 +143,17 @@ describe('Automated Error Resolution Integration', () => {
       mockReadFileSync.mockReturnValue(testFileContent);
 
       // Simulate import organization fix
-      const mockFixedOutput = JSON.stringify([
+      const mockFixedOutput = JSON.stringify([)
         {
           filePath: '/test/file.ts',
           messages: [],
           output: expectedFixedContent
-},
+        },
       ]);
 
       mockExecSync.mockReturnValue(mockFixedOutput);
 
-      const result = JSON.parse(
+      const result = JSON.parse()
         mockExecSync('yarn lint:fix --fix-type layout', { encoding: 'utf8' }) as unknown as string,
       );
 
@@ -170,7 +170,7 @@ describe('Automated Error Resolution Integration', () => {
         import { calculatePlanetaryPositions } from '@/calculations/planetary';
       `;
 
-      const mockFixedOutput = JSON.stringify([
+      const mockFixedOutput = JSON.stringify([)
         {
           filePath: '/test/file.ts',
           messages: [],
@@ -181,7 +181,7 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockFixedOutput);
       mockReadFileSync.mockReturnValue(testFileContent);
 
-      const result = JSON.parse(mockExecSync('yarn lint:fix', { encoding: 'utf8' })),
+      const result = JSON.parse(mockExecSync('yarn lint:fix', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].output).not.toContain('// Duplicate');
       expect((result[0].output.match(/import.*from 'react'/g) || []).length).toBeLessThan(3);
@@ -197,7 +197,7 @@ describe('Automated Error Resolution Integration', () => {
 
       mockReadFileSync.mockReturnValue(astrologicalImports);
 
-      const mockFixedOutput = JSON.stringify([
+      const mockFixedOutput = JSON.stringify([)
         {
           filePath: '/test/astrological.ts',
           messages: [],
@@ -207,7 +207,7 @@ describe('Automated Error Resolution Integration', () => {
 
       mockExecSync.mockReturnValue(mockFixedOutput);
 
-      const result = JSON.parse(mockExecSync('yarn lint:fix', { encoding: 'utf8' })),
+      const result = JSON.parse(mockExecSync('yarn lint:fix', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].output).toContain('calculatePlanetaryPositions');
       expect(result[0].output).toContain('validateTransitDate');
@@ -228,7 +228,7 @@ describe('Automated Error Resolution Integration', () => {
         }
       `;
 
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput = JSON.stringify([)
         {
           filePath: '/test/file.ts',
           messages: [
@@ -238,7 +238,7 @@ describe('Automated Error Resolution Integration', () => {
               message: "'unusedVar' is assigned a value but never used.",
               line: 3,
               column: 15
-},
+            },
           ],
         },
       ]);
@@ -246,7 +246,7 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput);
       mockReadFileSync.mockReturnValue(testFileContent);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string),
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].messages).toHaveLength(1);
       expect(result[0].messages[0].ruleId).toBe('@typescript-eslint/no-unused-vars');
@@ -257,7 +257,7 @@ describe('Automated Error Resolution Integration', () => {
       const astrologicalCode = `
         function calculatePlanetaryInfluence() {
           const planet = 'mars';
-          const position = { sign: 'cancer', degree: 22.63 },
+          const position = { sign: 'cancer', degree: 22.63 };
           const degree = position.degree;
           const sign = position.sign;
           const UNUSED_fallback = FALLBACK_POSITIONS;
@@ -266,7 +266,7 @@ describe('Automated Error Resolution Integration', () => {
         }
       `;
 
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput = JSON.stringify([)
         {
           filePath: '/test/astrological.ts',
           messages: [], // Should not report errors for astrological patterns
@@ -276,7 +276,7 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput);
       mockReadFileSync.mockReturnValue(astrologicalCode);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string),
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].messages).toHaveLength(0);
     });
@@ -285,8 +285,8 @@ describe('Automated Error Resolution Integration', () => {
       const campaignCode = `
         function executeCampaign() {
           const campaign = 'typescript-elimination';
-          const progress = { completed: 50, total: 100 },
-          const UNUSED_metrics = { errors: 10, warnings: 25 },
+          const progress = { completed: 50, total: 100 };
+          const UNUSED_metrics = { errors: 10, warnings: 25 };
           const safety = { backupCreated: true };
           const UNUSED_debug = 'debug info';
 
@@ -294,7 +294,7 @@ describe('Automated Error Resolution Integration', () => {
         }
       `;
 
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput = JSON.stringify([)
         {
           filePath: '/test/campaign.ts',
           messages: [], // Should not report errors for campaign patterns
@@ -304,7 +304,7 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput);
       mockReadFileSync.mockReturnValue(campaignCode);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string),
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].messages).toHaveLength(0);
     });
@@ -321,7 +321,7 @@ describe('Automated Error Resolution Integration', () => {
         }
       `;
 
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput = JSON.stringify([)
         {
           filePath: '/test/file.ts',
           messages: [
@@ -331,7 +331,7 @@ describe('Automated Error Resolution Integration', () => {
               message: 'Unexpected console statement.',
               line: 3,
               column: 11
-},
+            },
           ],
         },
       ]);
@@ -357,7 +357,7 @@ describe('Automated Error Resolution Integration', () => {
         }
       `;
 
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput = JSON.stringify([)
         {
           filePath: '/test/calculations/planetary.ts',
           messages: [], // Should allow console in astrological files
@@ -367,7 +367,7 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput);
       mockReadFileSync.mockReturnValue(astrologicalCode);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' })),
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].messages).toHaveLength(0);
     });
@@ -376,14 +376,14 @@ describe('Automated Error Resolution Integration', () => {
       const campaignCode = `
         function executeCampaignPhase() {
           console.log('Starting campaign phase');
-          console.info('Progress: 50%'),
+          console.info('Progress: 50%');
           console.warn('Safety protocol activated');
 
           return { status: 'running' };
         }
       `;
 
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput = JSON.stringify([)
         {
           filePath: '/test/services/campaign/executor.ts',
           messages: [], // Should allow console in campaign files
@@ -393,7 +393,7 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput);
       mockReadFileSync.mockReturnValue(campaignCode);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' })),
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].messages).toHaveLength(0);
     });
@@ -411,7 +411,7 @@ describe('Automated Error Resolution Integration', () => {
         }
       `;
 
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput = JSON.stringify([)
         {
           filePath: '/test/file.ts',
           messages: [
@@ -421,7 +421,7 @@ describe('Automated Error Resolution Integration', () => {
               message: 'Unexpected any. Specify a different type.',
               line: 2,
               column: 42
-},
+            },
           ],
         },
       ]);
@@ -429,7 +429,7 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput);
       mockReadFileSync.mockReturnValue(testFileContent);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' })),
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].messages).toHaveLength(1);
       expect(result[0].messages[0].ruleId).toBe('@typescript-eslint/no-explicit-any');
@@ -445,7 +445,7 @@ describe('Automated Error Resolution Integration', () => {
         }
       `;
 
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput = JSON.stringify([)
         {
           filePath: '/test/file.ts',
           messages: [
@@ -455,7 +455,7 @@ describe('Automated Error Resolution Integration', () => {
               message: 'Unnecessary conditional, value is always truthy.',
               line: 3,
               column: 7
-},
+            },
           ],
         },
       ]);
@@ -463,7 +463,7 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput);
       mockReadFileSync.mockReturnValue(testFileContent);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' })),
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].messages).toHaveLength(1);
       expect(result[0].messages[0].ruleId).toBe('@typescript-eslint/no-unnecessary-condition');
@@ -487,7 +487,7 @@ describe('Automated Error Resolution Integration', () => {
         }
       `;
 
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput = JSON.stringify([)
         {
           filePath: '/test/Component.tsx',
           messages: [
@@ -497,7 +497,7 @@ describe('Automated Error Resolution Integration', () => {
               message: "React Hook useEffect has a missing dependency: 'name'.",
               line: 9,
               column: 7
-},
+            },
           ],
         },
       ]);
@@ -505,7 +505,7 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput);
       mockReadFileSync.mockReturnValue(reactCode);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' })),
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].messages).toHaveLength(1);
       expect(result[0].messages[0].ruleId).toBe('react-hooks/exhaustive-deps');
@@ -530,7 +530,7 @@ describe('Automated Error Resolution Integration', () => {
         }
       `;
 
-      const mockLintOutput = JSON.stringify([
+      const mockLintOutput = JSON.stringify([)
         {
           filePath: '/test/AstrologicalComponent.tsx',
           messages: [], // Should handle custom hooks correctly
@@ -540,7 +540,7 @@ describe('Automated Error Resolution Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput);
       mockReadFileSync.mockReturnValue(astrologicalReactCode);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' })),
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].messages).toHaveLength(0);
     });
@@ -570,7 +570,7 @@ describe('Automated Error Resolution Integration', () => {
 
       // Execute workflow
       workflowSteps.forEach((step, index) => {
-        const result = mockExecSync(step, { encoding: 'utf8' }) as unknown as string,
+        const result = mockExecSync(step, { encoding: 'utf8' }) as unknown as string;
         if (index === 0 || index === 3) {
           // Analysis steps should return JSON
           expect(() => JSON.parse(result as unknown as string)).not.toThrow();
@@ -585,7 +585,7 @@ describe('Automated Error Resolution Integration', () => {
     });
 
     test('should handle partial resolution gracefully', async () => {
-      const partialResolutionOutput = JSON.stringify([
+      const partialResolutionOutput = JSON.stringify([)
         {
           filePath: '/test/file.ts',
           messages: [
@@ -597,7 +597,7 @@ describe('Automated Error Resolution Integration', () => {
 
       mockExecSync.mockReturnValue(partialResolutionOutput);
 
-      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string),
+      const result = JSON.parse(mockExecSync('yarn lint --format=json', { encoding: 'utf8' }) as unknown as string);
 
       expect(result[0].messages).toHaveLength(2);
       expect(result[0].messages.every((msg: any) => msg.fix === null)).toBe(true);
@@ -616,7 +616,7 @@ describe('Automated Error Resolution Integration', () => {
         .mockReturnValueOnce('Tests passed'); // Successful tests
 
       safetyChecks.forEach(check => {
-        const result = mockExecSync(check, { encoding: 'utf8' }),
+        const result = mockExecSync(check, { encoding: 'utf8' });
         expect(result).toBeDefined();
       });
 

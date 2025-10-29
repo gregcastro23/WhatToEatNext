@@ -18,7 +18,7 @@ export const _dehydrating: CookingMethodData = {
     min: 120, // 2 hours,
     max: 2880, // 48 hours
   },
-  suitable_for: ['Fruits', 'Vegetables', 'Herbs', 'Meats', 'Mushrooms', 'Flowers', 'Seeds'],
+  suitable_for ['Fruits', 'Vegetables', 'Herbs', 'Meats', 'Mushrooms', 'Flowers', 'Seeds'],
   benefits: [
     'Preserves most nutrients',
     'Creates lightweight, portable food',

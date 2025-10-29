@@ -26,7 +26,7 @@ export class RecipeEngine {
   }
 
   getDominantElements(recipe: Recipe) {
-    if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties)) {
+    if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties) {
       return [];
     }
 
@@ -71,7 +71,7 @@ export class RecipeEngine {
     return availableRecipes
       .map(other => ({
         ...other,
-        harmonyScore: this.calculateHarmonyBetween(
+        harmonyScore: this.calculateHarmonyBetween()
           recipe.elementalProperties,
           other.elementalProperties
         )
@@ -116,7 +116,7 @@ export class RecipeEngine {
     return Math.max(0, Math.min(1, score));
   }
 
-  private calculateHarmonyBetween(
+  private calculateHarmonyBetween()
     props1: ElementalProperties,
     props2: ElementalProperties,
   ): number {

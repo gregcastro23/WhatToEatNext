@@ -129,7 +129,7 @@ export class DocumentationQualityAssurance {
       documentationCoverage,
       qualityBreakdown,
       undocumentedFiles: [...new Set(undocumentedTypes.map(t => t.filePath))],
-      recommendations: this.generateRecommendations(
+      recommendations: this.generateRecommendations()
         documentationCoverage,
         qualityBreakdown,
         undocumentedTypes
@@ -143,7 +143,7 @@ export class DocumentationQualityAssurance {
   async validateDocumentationQuality(context: ClassificationContext): Promise<DocumentationValidation> {
     const cacheKey = `${context.filePath}:${context.lineNumber}`;
 
-    if (this.qualityCache.has(cacheKey)) {
+    if (this.qualityCache.has(cacheKey) {
       return this.qualityCache.get(cacheKey)!;
     }
 
@@ -169,7 +169,7 @@ export class DocumentationQualityAssurance {
       eslintDisableHasExplanation;
 
     // Generate suggestions
-    const suggestions = this.generateQualityImprovementSuggestions(
+    const suggestions = this.generateQualityImprovementSuggestions()
       comment,
       hasComment,
       commentQuality,
@@ -280,12 +280,12 @@ export class DocumentationQualityAssurance {
       for (const entry of entries) {
         const fullPath = path.join(dir, entry.name);
 
-        if (entry.isDirectory()) {
+        if (entry.isDirectory() {
           const subFiles = await this.findFilesRecursively(fullPath, extensions);
           files.push(...subFiles);
-        } else if (entry.isFile()) {
+        } else if (entry.isFile() {
           const ext = path.extname(entry.name);
-          if (extensions.includes(ext)) {
+          if (extensions.includes(ext) {
             files.push(fullPath);
           }
         }
@@ -348,21 +348,21 @@ export class DocumentationQualityAssurance {
   /**
    * Extract comment from surrounding lines
    */
-  private extractComment(lines: string[], lineIndex: number): { comment: string; hasComment: boolean } {
+  private extractComment(lines: string[], lineIndex: number): { comment: string; hasComment, boolean } {
     // Check previous lines for comments
     for (let i = Math.max(0, lineIndex - 3); i < lineIndex; i++) {
       const line = lines[i]?.trim();
-      if (line && line.startsWith('//')) {
+      if (line && line.startsWith('//') {
         return {
           comment: line.replace(/^\/\/\s*/, ''),
           hasComment: true
         };
       }
-      if (line && line.startsWith('/*')) {
+      if (line && line.startsWith('/*') {
         // Handle multi-line comments
         let comment = line.replace(/^\/\*\s*/, '');
         let j = i;
-        while (j < lines.length && !lines[j].includes('*/')) {
+        while (j < lines.length && !lines[j].includes('*/') {
           j++;
           if (j < lines.length) {
             comment += ' ' + lines[j].trim();
@@ -385,7 +385,7 @@ export class DocumentationQualityAssurance {
   private hasCommentNearLine(lines: string[], lineIndex: number): boolean {
     for (let i = Math.max(0, lineIndex - 2); i <= Math.min(lines.length - 1, lineIndex + 1); i++) {
       const line = lines[i]?.trim();
-      if (line && (line.startsWith('//') || line.startsWith('/*'))) {
+      if (line && (line.startsWith('//') || line.startsWith('/*')) {
         return true;
       }
     }
@@ -407,7 +407,7 @@ export class DocumentationQualityAssurance {
   private hasEslintDisableComment(lines: string[], lineIndex: number): boolean {
     for (let i = Math.max(0, lineIndex - 2); i <= lineIndex; i++) {
       if (lines[i] && lines[i].includes('eslint-disable') &&
-          lines[i].includes('no-explicit-any')) {
+          lines[i].includes('no-explicit-any') {
         return true;
       }
     }
@@ -420,7 +420,7 @@ export class DocumentationQualityAssurance {
   private eslintDisableHasExplanation(lines: string[], lineIndex: number): boolean {
     for (let i = Math.max(0, lineIndex - 2); i <= lineIndex; i++) {
       const line = lines[i];
-      if (line && line.includes('eslint-disable') && line.includes('no-explicit-any')) {
+      if (line && line.includes('eslint-disable') && line.includes('no-explicit-any') {
         const parts = line.split('eslint-disable-next-line');
         return parts.length > 1 && parts[1].trim().length > '@typescript-eslint/no-explicit-any'.length;
       }
@@ -440,21 +440,21 @@ export class DocumentationQualityAssurance {
     let score = 0;
 
     // Check for required keywords
-    const hasRequiredKeyword = this.config.requiredKeywords.some(keyword =>
+    const hasRequiredKeyword = this.config.requiredKeywords.some(keyword =>)
       lowerComment.includes(keyword.toLowerCase())
     );
     if (hasRequiredKeyword) score += 30;
 
     // Check for explanation
     if (lowerComment.includes('because') || lowerComment.includes('for') ||
-        lowerComment.includes('due to') || lowerComment.includes('requires')) {
+        lowerComment.includes('due to') || lowerComment.includes('requires') {
       score += 25;
     }
 
     // Check for domain-specific context
     if (lowerComment.includes('api') || lowerComment.includes('external') ||
         lowerComment.includes('dynamic') || lowerComment.includes('flexible') ||
-        lowerComment.includes('legacy') || lowerComment.includes('compatibility')) {
+        lowerComment.includes('legacy') || lowerComment.includes('compatibility') {
       score += 20;
     }
 
@@ -482,28 +482,28 @@ export class DocumentationQualityAssurance {
   private categorizeAnyType(codeSnippet: string): AnyTypeCategory {
     const lower = codeSnippet.toLowerCase();
 
-    if (lower.includes('catch') || lower.includes('error')) {
+    if (lower.includes('catch') || lower.includes('error') {
       return AnyTypeCategory.ERROR_HANDLING;
     }
-    if (lower.includes('api') || lower.includes('response') || lower.includes('fetch')) {
+    if (lower.includes('api') || lower.includes('response') || lower.includes('fetch') {
       return AnyTypeCategory.EXTERNAL_API;
     }
-    if (lower.includes('mock') || lower.includes('jest') || lower.includes('test')) {
+    if (lower.includes('mock') || lower.includes('jest') || lower.includes('test') {
       return AnyTypeCategory.TEST_MOCK;
     }
-    if (lower.includes('config') || lower.includes('options') || lower.includes('params')) {
+    if (lower.includes('config') || lower.includes('options') || lower.includes('params') {
       return AnyTypeCategory.DYNAMIC_CONFIG;
     }
-    if (lower.includes('any[]')) {
+    if (lower.includes('any[]') {
       return AnyTypeCategory.ARRAY_TYPE;
     }
-    if (lower.includes('record') || lower.includes('object')) {
+    if (lower.includes('record') || lower.includes('object') {
       return AnyTypeCategory.RECORD_TYPE;
     }
-    if (lower.includes('function') || lower.includes('=>') || lower.includes('param')) {
+    if (lower.includes('function') || lower.includes('=>') || lower.includes('param') {
       return AnyTypeCategory.FUNCTION_PARAM;
     }
-    if (lower.includes('return') || lower.includes(':')) {
+    if (lower.includes('return') || lower.includes(':') {
       return AnyTypeCategory.RETURN_TYPE;
     }
 
@@ -517,25 +517,25 @@ export class DocumentationQualityAssurance {
     const lower = filePath.toLowerCase();
 
     // Check for test files first (they often contain other keywords)
-    if (lower.includes('test') || lower.includes('spec')) {
+    if (lower.includes('test') || lower.includes('spec') {
       return CodeDomain.TEST;
     }
-    if (lower.includes('astro') || lower.includes('planet') || lower.includes('lunar')) {
+    if (lower.includes('astro') || lower.includes('planet') || lower.includes('lunar') {
       return CodeDomain.ASTROLOGICAL;
     }
-    if (lower.includes('recipe') || lower.includes('ingredient') || lower.includes('food')) {
+    if (lower.includes('recipe') || lower.includes('ingredient') || lower.includes('food') {
       return CodeDomain.RECIPE;
     }
-    if (lower.includes('campaign') || lower.includes('automation')) {
+    if (lower.includes('campaign') || lower.includes('automation') {
       return CodeDomain.CAMPAIGN;
     }
-    if (lower.includes('intelligence') || lower.includes('ai') || lower.includes('ml')) {
+    if (lower.includes('intelligence') || lower.includes('ai') || lower.includes('ml') {
       return CodeDomain.INTELLIGENCE;
     }
-    if (lower.includes('service') || lower.includes('api')) {
+    if (lower.includes('service') || lower.includes('api') {
       return CodeDomain.SERVICE;
     }
-    if (lower.includes('component') || lower.includes('tsx')) {
+    if (lower.includes('component') || lower.includes('tsx') {
       return CodeDomain.COMPONENT;
     }
 
@@ -552,17 +552,17 @@ export class DocumentationQualityAssurance {
     if (isInTestFile) return 'low';
 
     // Critical files or patterns
-    if (filePath.includes('service') || filePath.includes('api')) {
+    if (filePath.includes('service') || filePath.includes('api') {
       return 'high';
     }
 
     // Function parameters and return types are medium priority
-    if (codeSnippet.includes('function') || codeSnippet.includes('=>')) {
+    if (codeSnippet.includes('function') || codeSnippet.includes('=>') {
       return 'medium';
     }
 
     // Array and Record types are medium priority
-    if (codeSnippet.includes('any[]') || codeSnippet.includes('Record')) {
+    if (codeSnippet.includes('any[]') || codeSnippet.includes('Record') {
       return 'medium';
     }
 
@@ -579,7 +579,7 @@ export class DocumentationQualityAssurance {
   /**
    * Generate quality improvement suggestions
    */
-  private generateQualityImprovementSuggestions(
+  private generateQualityImprovementSuggestions()
     comment: string,
     hasComment: boolean,
     commentQuality: 'poor' | 'fair' | 'good' | 'excellent',
@@ -643,7 +643,7 @@ export class DocumentationQualityAssurance {
       case CodeDomain.TEST:
         return 'Test mock requires flexible typing for comprehensive testing';
       default:
-        if (codeSnippet.includes('catch') || codeSnippet.includes('error')) {
+        if (codeSnippet.includes('catch') || codeSnippet.includes('error') {
           return 'Error handling requires flexible typing for unknown error structures';
         }
         return 'Requires flexible typing for specific use case';
@@ -653,7 +653,7 @@ export class DocumentationQualityAssurance {
   /**
    * Generate recommendations based on analysis results
    */
-  private generateRecommendations(
+  private generateRecommendations()
     coverage: number,
     qualityBreakdown: Record<string, number>,
     undocumentedTypes: UndocumentedAnyType[]

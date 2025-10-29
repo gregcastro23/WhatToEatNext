@@ -21,7 +21,7 @@ export const _sousVide: CookingMethodData = {
     min: 30,
     max: 4320, // Up to 72 hours for certain tough cuts of meat
   },
-  suitable_for: [
+  suitable_for [
     'meat',
     'fish',
     'eggs',

@@ -56,7 +56,7 @@ export class RecommendationService implements RecommendationServiceInterface {
   /**
    * Get recommended recipes based on criteria
    */
-  async getRecommendedRecipes(
+  async getRecommendedRecipes()
     criteria: RecipeRecommendationCriteria
   ): Promise<RecommendationResult<Recipe>> {
     try {
@@ -81,7 +81,7 @@ export class RecommendationService implements RecommendationServiceInterface {
         filteredRecipes = filteredRecipes.filter(recipe => {
           if (!recipe.elementalProperties) return false;
 
-          const compatibility = this.calculateElementalCompatibility(
+          const compatibility = this.calculateElementalCompatibility()
             criteria.elementalProperties,
             recipe.elementalProperties
           );
@@ -100,14 +100,14 @@ export class RecommendationService implements RecommendationServiceInterface {
 
       // Filter by cooking method
       if (criteria.cookingMethod) {
-        filteredRecipes = filteredRecipes.filter(recipe =>
+        filteredRecipes = filteredRecipes.filter(recipe =>)
           recipe.cookingMethod?.toLowerCase() === criteria.cookingMethod.toLowerCase()
         );
       }
 
       // Filter by cuisine
       if (criteria.cuisine) {
-        filteredRecipes = filteredRecipes.filter(recipe =>
+        filteredRecipes = filteredRecipes.filter(recipe =>)
           recipe.cuisine?.toLowerCase() === criteria.cuisine.toLowerCase()
         );
       }
@@ -116,7 +116,7 @@ export class RecommendationService implements RecommendationServiceInterface {
       if (criteria.includeIngredients && criteria.includeIngredients.length > 0) {
         filteredRecipes = filteredRecipes.filter(recipe => {
           const recipeIngredients = recipe.ingredients || [];
-          return criteria.includeIngredients!.every(ingredient =>
+          return criteria.includeIngredients!.every(ingredient =>)
             recipeIngredients.some((recipeIngredient: any) =>
               String(recipeIngredient.name || '')
                 .toLowerCase()
@@ -130,7 +130,7 @@ export class RecommendationService implements RecommendationServiceInterface {
       if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
         filteredRecipes = filteredRecipes.filter(recipe => {
           const recipeIngredients = recipe.ingredients || [];
-          return !criteria.excludeIngredients!.some(ingredient =>
+          return !criteria.excludeIngredients!.some(ingredient =>)
             recipeIngredients.some((recipeIngredient: any) =>
               String(recipeIngredient.name || '')
                 .toLowerCase()
@@ -146,7 +146,7 @@ export class RecommendationService implements RecommendationServiceInterface {
 
       filteredRecipes.forEach(recipe => {
         if (recipe.elementalProperties && elementalState) {
-          scores[recipe.id] = this.calculateElementalCompatibility(
+          scores[recipe.id] = this.calculateElementalCompatibility()
             elementalState,
             recipe.elementalProperties
           );
@@ -189,7 +189,7 @@ export class RecommendationService implements RecommendationServiceInterface {
   /**
    * Get recommended ingredients based on criteria
    */
-  async getRecommendedIngredients(
+  async getRecommendedIngredients()
     criteria: IngredientRecommendationCriteria
   ): Promise<RecommendationResult<Ingredient>> {
     try {
@@ -213,7 +213,7 @@ export class RecommendationService implements RecommendationServiceInterface {
 
         // Calculate elemental compatibility if criteria includes elemental properties
         if (criteria.elementalProperties && ingredient.elementalProperties) {
-          const elementalScore = this.calculateElementalCompatibility(
+          const elementalScore = this.calculateElementalCompatibility()
             criteria.elementalProperties,
             ingredient.elementalProperties
           );
@@ -222,7 +222,7 @@ export class RecommendationService implements RecommendationServiceInterface {
 
         // Check for category match
         if (criteria.categories && criteria.categories.length > 0) {
-          const categoryMatch = criteria.categories.some(cat =>
+          const categoryMatch = criteria.categories.some(cat =>)
             ingredient.category?.toLowerCase().includes(cat.toLowerCase())
           );
           score += categoryMatch ? 0.2 : 0;
@@ -230,7 +230,7 @@ export class RecommendationService implements RecommendationServiceInterface {
 
         // Check for exclusion
         if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
-          const excluded = criteria.excludeIngredients.some(excluded =>
+          const excluded = criteria.excludeIngredients.some(excluded =>)
             ingredient.name?.toLowerCase().includes(excluded.toLowerCase())
           );
           if (excluded) {
@@ -301,7 +301,7 @@ export class RecommendationService implements RecommendationServiceInterface {
   /**
    * Get recommended cuisines based on criteria
    */
-  async getRecommendedCuisines(
+  async getRecommendedCuisines()
     criteria: CuisineRecommendationCriteria
   ): Promise<RecommendationResult<string>> {
     try {
@@ -336,8 +336,8 @@ export class RecommendationService implements RecommendationServiceInterface {
 
       // Apply exclusions
       if (criteria.excludeCuisines && criteria.excludeCuisines.length > 0) {
-        filteredCuisines = filteredCuisines.filter(cuisine =>
-          !criteria.excludeCuisines!.some(excluded =>
+        filteredCuisines = filteredCuisines.filter(cuisine =>)
+          !criteria.excludeCuisines!.some(excluded =>)
             cuisine.toLowerCase().includes(excluded.toLowerCase())
           )
         );
@@ -374,7 +374,7 @@ export class RecommendationService implements RecommendationServiceInterface {
   /**
    * Get recommended cooking methods based on criteria
    */
-  async getRecommendedCookingMethods(
+  async getRecommendedCookingMethods()
     criteria: CookingMethodRecommendationCriteria
   ): Promise<RecommendationResult<CookingMethod>> {
     try {
@@ -409,8 +409,8 @@ export class RecommendationService implements RecommendationServiceInterface {
 
       // Apply exclusions
       if (criteria.excludeMethods && criteria.excludeMethods.length > 0) {
-        filteredMethods = filteredMethods.filter(method =>
-          !criteria.excludeMethods!.some(excluded =>
+        filteredMethods = filteredMethods.filter(method =>)
+          !criteria.excludeMethods!.some(excluded =>)
             method.toLowerCase().includes(excluded.toLowerCase())
           )
         );
@@ -473,7 +473,7 @@ export class RecommendationService implements RecommendationServiceInterface {
   /**
    * Get recommendations based on elemental properties
    */
-  async getRecommendationsForElements(
+  async getRecommendationsForElements()
     elementalProperties: ElementalProperties,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number
@@ -524,8 +524,8 @@ export class RecommendationService implements RecommendationServiceInterface {
   /**
    * Get recommendations based on planetary alignment
    */
-  async getRecommendationsForPlanetaryAlignment(
-    planetaryPositions: Record<string, { sign: string; degree: number }>,
+  async getRecommendationsForPlanetaryAlignment()
+    planetaryPositions: Record<string, { sign: string; degree, number }>,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number
   ): Promise<RecommendationResult<unknown>> {
@@ -582,8 +582,8 @@ export class RecommendationService implements RecommendationServiceInterface {
   /**
    * Convert planetary positions to elemental properties (simplified)
    */
-  private planetaryPositionsToElemental(
-    positions: Record<string, { sign: string; degree: number }>
+  private planetaryPositionsToElemental()
+    positions: Record<string, { sign: string; degree, number }>
   ): ElementalProperties {
     // Simplified conversion - in reality this would use the planetary alchemy mapping
     const elements: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -602,8 +602,8 @@ export class RecommendationService implements RecommendationServiceInterface {
       const sign = position.sign.toLowerCase();
       totalPlanets++;
 
-      for (const [element, signs] of Object.entries(elementSigns)) {
-        if (signs.includes(sign)) {
+      for (const [element, signs] of Object.entries(elementSigns) {
+        if (signs.includes(sign) {
           elements[element as keyof ElementalProperties] += 1;
         }
       }

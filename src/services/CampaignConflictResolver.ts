@@ -23,98 +23,98 @@ import type { KiroCampaignStatus, CampaignExecutionRequest } from './KiroCampaig
 // ========== CONFLICT RESOLUTION TYPES ==========,
 
 export interface CampaignConflict {
-  id: string,
-  type: ConflictType,
-  severity: ConflictSeverity,
-  description: string,
-  involvedCampaigns: string[],
-  conflictingResources: ConflictingResource[],
-  detectedAt: Date,
-  status: ConflictStatus,
-  resolutionStrategy?: ConflictResolutionStrategy,
-  resolvedAt?: Date,
+  id: string;
+  type: ConflictType;
+  severity: ConflictSeverity;
+  description: string;
+  involvedCampaigns: string[];
+  conflictingResources: ConflictingResource[];
+  detectedAt: Date;
+  status: ConflictStatus;
+  resolutionStrategy?: ConflictResolutionStrategy;
+  resolvedAt?: Date;
   resolvedBy?: string
 }
 
 export interface ConflictingResource {
-  type: ResourceType,
-  identifier: string,
-  conflictReason: string,
+  type: ResourceType;
+  identifier: string;
+  conflictReason: string;
   campaigns: string[]
 }
 
 export interface ConflictResolutionStrategy {
-  id: string,
-  name: string,
-  description: string,
-  type: ResolutionType,
-  priority: number,
+  id: string;
+  name: string;
+  description: string;
+  type: ResolutionType;
+  priority: number;
   estimatedDuration: number, // minutes,
   riskLevel: 'low' | 'medium' | 'high'
-  requiresApproval: boolean,
+  requiresApproval: boolean;
   steps: ResolutionStep[]
 }
 
 export interface ResolutionStep {
-  id: string,
-  description: string,
-  action: ResolutionAction,
+  id: string;
+  description: string;
+  action: ResolutionAction;
   parameters: Record<string, unknown>,
-  estimatedDuration: number,
+  estimatedDuration: number;
   rollbackable: boolean
 }
 
 export interface CampaignPriority {
-  campaignId: string,
+  campaignId: string;
   priority: number, // 1-10, higher is more important;,
-  reason: string,
-  setBy: string,
-  setAt: Date,
+  reason: string;
+  setBy: string;
+  setAt: Date;
   expiresAt?: Date
 }
 
 export interface CampaignDependency {
-  id: string,
-  dependentCampaign: string,
-  requiredCampaign: string,
-  dependencyType: DependencyType,
-  description: string,
-  status: DependencyStatus,
+  id: string;
+  dependentCampaign: string;
+  requiredCampaign: string;
+  dependencyType: DependencyType;
+  description: string;
+  status: DependencyStatus;
   createdAt: Date
 }
 
 export interface ConflictResolutionResult {
-  conflictId: string,
-  success: boolean,
-  resolutionStrategy: ConflictResolutionStrategy,
-  executionTime: number,
-  affectedCampaigns: string[],
-  sideEffects: string[],
+  conflictId: string;
+  success: boolean;
+  resolutionStrategy: ConflictResolutionStrategy;
+  executionTime: number;
+  affectedCampaigns: string[];
+  sideEffects: string[];
   rollbackPlan?: RollbackPlan
 }
 
 export interface RollbackPlan {
-  id: string,
-  conflictId: string,
-  steps: RollbackStep[],
-  estimatedDuration: number,
+  id: string;
+  conflictId: string;
+  steps: RollbackStep[];
+  estimatedDuration: number;
   riskAssessment: string
 }
 
 export interface RollbackStep {
-  id: string,
-  description: string,
-  action: string,
+  id: string;
+  description: string;
+  action: string;
   parameters: Record<string, unknown>,
   estimatedDuration: number
 }
 
 export interface SchedulingConstraint {
-  type: ConstraintType,
-  description: string,
-  campaigns: string[],
+  type: ConstraintType;
+  description: string;
+  campaigns: string[];
   timeWindow?: {
-    start: Date,
+    start: Date;
     end: Date
   }
   resourceLimits?: Record<string, number>,
@@ -248,7 +248,7 @@ export class CampaignConflictResolver {
   /**
    * Detect resource contention conflicts
    */
-  private async detectResourceConflicts(
+  private async detectResourceConflicts()
     campaigns: KiroCampaignStatus[],
   ): Promise<CampaignConflict[]> {
     const conflicts: CampaignConflict[] = []
@@ -266,7 +266,7 @@ export class CampaignConflictResolver {
     }
 
     // Find resources with multiple users
-    for (const [resource, users] of resourceUsage.entries()) {
+    for (const [resource, users] of resourceUsage.entries() {
       if (users.length > 1) {
         const conflictId = `resource_conflict_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
@@ -296,13 +296,13 @@ export class CampaignConflictResolver {
   /**
    * Detect dependency violations
    */
-  private async detectDependencyViolations(
+  private async detectDependencyViolations()
     campaigns: KiroCampaignStatus[],
   ): Promise<CampaignConflict[]> {
     const conflicts: CampaignConflict[] = [],
     const activeCampaignIds = campaigns.map(c => c.campaignId)
 
-    for (const dependency of this.dependencies.values()) {;
+    for (const dependency of this.dependencies.values() {;
       if (dependency.status === DependencyStatus.ACTIVE) {,
         const dependentActive = activeCampaignIds.includes(dependency.dependentCampaign)
         const requiredActive = activeCampaignIds.includes(dependency.requiredCampaign)
@@ -354,7 +354,7 @@ export class CampaignConflictResolver {
   /**
    * Detect priority conflicts
    */
-  private async detectPriorityConflicts(
+  private async detectPriorityConflicts()
     campaigns: KiroCampaignStatus[],
   ): Promise<CampaignConflict[]> {
     const conflicts: CampaignConflict[] = [],
@@ -369,7 +369,7 @@ export class CampaignConflictResolver {
       const lowerPriorities = campaignPriorities.slice(i + 1)
 
       for (const lowerPriority of lowerPriorities) {;
-        if (this.campaignsConflict(highPriority.campaign, lowerPriority.campaign)) {
+        if (this.campaignsConflict(highPriority.campaign, lowerPriority.campaign) {
           const conflictId = `priority_conflict_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
           conflicts.push({
@@ -395,7 +395,7 @@ export class CampaignConflictResolver {
   /**
    * Detect safety violations
    */
-  private async detectSafetyViolations(
+  private async detectSafetyViolations()
     campaigns: KiroCampaignStatus[],
   ): Promise<CampaignConflict[]> {
     const conflicts: CampaignConflict[] = [];
@@ -425,7 +425,7 @@ export class CampaignConflictResolver {
   /**
    * Resolve a specific conflict
    */
-  async resolveConflict(
+  async resolveConflict()
     conflictId: string,
     strategyId?: string,
   ): Promise<ConflictResolutionResult> {
@@ -455,7 +455,7 @@ export class CampaignConflictResolver {
       for (const step of strategy.steps) {
         await this.executeResolutionStep(step, conflict),
 
-        if (step.parameters && Array.isArray(step.parameters.affectedCampaigns)) {
+        if (step.parameters && Array.isArray(step.parameters.affectedCampaigns) {
           void affectedCampaigns.push(...(step.parameters.affectedCampaigns as string[]))
         }
       }
@@ -477,7 +477,7 @@ export class CampaignConflictResolver {
       }
 
       // Create rollback plan if needed
-      if (strategy.steps.some(s => s.rollbackable)) {,
+      if (strategy.steps.some(s => s.rollbackable) {,
         result.rollbackPlan = this.createRollbackPlan(conflict, strategy),
       }
 
@@ -500,7 +500,7 @@ export class CampaignConflictResolver {
    * Auto-resolve conflicts based on predefined strategies
    */
   async autoResolveConflicts(): Promise<ConflictResolutionResult[]> {
-    const unresolvedConflicts = Array.from(this.conflicts.values()).filter(
+    const unresolvedConflicts = Array.from(this.conflicts.values()).filter()
       c => c.status === ConflictStatus.DETECTED
     )
 ;
@@ -529,7 +529,7 @@ export class CampaignConflictResolver {
   /**
    * Set campaign priority
    */
-  setCampaignPriority(
+  setCampaignPriority()
     campaignId: string,
     priority: number,
     reason: string,
@@ -568,7 +568,7 @@ export class CampaignConflictResolver {
   /**
    * Create campaign dependency
    */
-  createDependency(
+  createDependency()
     dependentCampaign: string,
     requiredCampaign: string,
     type: DependencyType,
@@ -601,7 +601,7 @@ export class CampaignConflictResolver {
    * Get campaign dependencies
    */
   getCampaignDependencies(campaignId: string): CampaignDependency[] {
-    return Array.from(this.dependencies.values()).filter(
+    return Array.from(this.dependencies.values()).filter()
       dep => dep.dependentCampaign === campaignId || dep.requiredCampaign === campaignId
     );
   }
@@ -611,8 +611,7 @@ export class CampaignConflictResolver {
   /**
    * Schedule campaigns with conflict avoidance
    */
-  async scheduleCampaigns(requests: CampaignExecutionRequest[]): Promise<{
-    scheduled: Array<{ request: CampaignExecutionRequest, scheduledTime: Date }>,
+  async scheduleCampaigns(requests: CampaignExecutionRequest[]): Promise<{ scheduled: Array<{ request, CampaignExecutionRequest, scheduledTime: Date }>,
     conflicts: CampaignConflict[],
     deferred: CampaignExecutionRequest[]
   }> {
@@ -647,7 +646,7 @@ export class CampaignConflictResolver {
   /**
    * Create manual override for conflict resolution
    */
-  async createManualOverride(
+  async createManualOverride()
     conflictId: string,
     overrideReason: string,
     overrideBy: string,
@@ -683,7 +682,7 @@ export class CampaignConflictResolver {
 
   private async getActiveCampaigns(): Promise<KiroCampaignStatus[]> {
     const controlPanel = await kiroCampaignIntegration.getCampaignControlPanel()
-    return controlPanel.activeCampaigns.filter(
+    return controlPanel.activeCampaigns.filter()
       c => c.status === 'running' || c.status === 'paused'
     );
   }
@@ -732,7 +731,7 @@ export class CampaignConflictResolver {
     return campaign.metrics.typeScriptErrors.current > 100
   }
 
-  private selectOptimalResolutionStrategy(
+  private selectOptimalResolutionStrategy()
     conflict: CampaignConflict,
   ): ConflictResolutionStrategy | null {
     const strategies = this.resolutionStrategies.get(conflict.type) || [];
@@ -745,7 +744,7 @@ export class CampaignConflictResolver {
     return strategies.find(s => s.riskLevel === 'low') || strategies[0];
   }
 
-  private findResolutionStrategy(
+  private findResolutionStrategy()
     conflictType: ConflictType,
     strategyId: string,
   ): ConflictResolutionStrategy | null {
@@ -753,11 +752,11 @@ export class CampaignConflictResolver {
     return strategies.find(s => s.id === strategyId) || null;
   }
 
-  private async executeResolutionStep(
+  private async executeResolutionStep()
     step: ResolutionStep,
     conflict: CampaignConflict,
   ): Promise<void> {
-    void log.info(`Executing resolution step: ${step.description}`)
+    void log.info(`Executing resolution step ${step.description}`)
 
     switch (step.action) {
       case ResolutionAction.PAUSE_CAMPAIGN: if (step.parameters.campaignId) {
@@ -781,7 +780,7 @@ export class CampaignConflictResolver {
     }
   }
 
-  private createRollbackPlan(
+  private createRollbackPlan()
     conflict: CampaignConflict,
     strategy: ConflictResolutionStrategy,
   ): RollbackPlan {
@@ -821,7 +820,7 @@ export class CampaignConflictResolver {
     })
   }
 
-  private async findOptimalScheduleTime(
+  private async findOptimalScheduleTime()
     request: CampaignExecutionRequest,
     scheduled: Array<{ request: CampaignExecutionRequest, scheduledTime: Date }>,
   ): Promise<Date | null> {
@@ -829,7 +828,7 @@ export class CampaignConflictResolver {
     const now = new Date()
 
     // Check if any scheduled campaigns would conflict
-    const hasConflict = scheduled.some(s =>,
+    const hasConflict = scheduled.some(s =>,)
         this.requestsConflict(request, s.request) &&
         Math.abs(s.scheduledTime.getTime() - now.getTime()) < 30 * 60 * 1000, // 30 minutes
     ),
@@ -837,7 +836,7 @@ export class CampaignConflictResolver {
     return hasConflict ? null : now
   }
 
-  private requestsConflict(
+  private requestsConflict()
     request1: CampaignExecutionRequest,
     request2: CampaignExecutionRequest,
   ): boolean {
@@ -845,14 +844,14 @@ export class CampaignConflictResolver {
     return request1.phaseIds.some(phase => request2.phaseIds.includes(phase));
   }
 
-  private async analyzeSchedulingConflicts(
+  private async analyzeSchedulingConflicts()
     request: CampaignExecutionRequest,
     scheduled: Array<{ request: CampaignExecutionRequest, scheduledTime: Date }>,
   ): Promise<CampaignConflict[]> {
     const conflicts: CampaignConflict[] = []
 
     for (const scheduledItem of scheduled) {
-      if (this.requestsConflict(request, scheduledItem.request)) {
+      if (this.requestsConflict(request, scheduledItem.request) {
         const conflictId = `scheduling_conflict_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
         conflicts.push({
@@ -873,7 +872,7 @@ export class CampaignConflictResolver {
 
   private initializeResolutionStrategies(): void {
     // Resource contention strategies
-    this.resolutionStrategies.set(ConflictType.RESOURCE_CONTENTION, [
+    this.resolutionStrategies.set(ConflictType.RESOURCE_CONTENTION, [)
       {
         id: 'queue_campaigns',
         name: 'Queue Campaigns',
@@ -905,7 +904,7 @@ export class CampaignConflictResolver {
     ])
 
     // Priority conflict strategies
-    this.resolutionStrategies.set(ConflictType.PRIORITY_CONFLICT, [
+    this.resolutionStrategies.set(ConflictType.PRIORITY_CONFLICT, [)
       {
         id: 'prioritize_high',
         name: 'Prioritize High Priority Campaign',
@@ -937,7 +936,7 @@ export class CampaignConflictResolver {
     ])
 
     // Safety violation strategies
-    this.resolutionStrategies.set(ConflictType.SAFETY_VIOLATION, [
+    this.resolutionStrategies.set(ConflictType.SAFETY_VIOLATION, [)
       {
         id: 'reduce_concurrency',
         name: 'Reduce Concurrency',
@@ -992,7 +991,7 @@ export class CampaignConflictResolver {
     void cutoffDate.setDate(cutoffDate.getDate() - daysOld)
 
     let cleared = 0;
-    for (const [id, conflict] of this.conflicts.entries()) {
+    for (const [id, conflict] of this.conflicts.entries() {
       if (
         conflict.status === ConflictStatus.RESOLVED &&
         conflict.resolvedAt &&

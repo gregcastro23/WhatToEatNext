@@ -226,7 +226,7 @@ import type type Something, { a, b } from './module';
       });
 
       it('should detect TypeScript syntax errors', async () => {
-        mockExecSync.mockReturnValue(`
+        mockExecSync.mockReturnValue(`)
           test-file.ts(10,5): error TS1005: Unexpected token 'function'
           test-file.ts(15,10): error TS1109: Expression expected
         `);
@@ -383,13 +383,13 @@ import type type Something, { a, b } from './module';
 
     it('should handle git operation failures gracefully', async () => {
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('git stash push')) {
+        if (command.toString().includes('git stash push') {
           throw new Error('Git stash failed');
         }
         return '';
       });
 
-      await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(
+      await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow()
         'Failed to create git stash: Git stash failed',
       );
 
@@ -494,7 +494,7 @@ import type type Something, { a, b } from './module';
 
       jest.spyOn(campaignController, 'rollbackToCheckpoint').mockResolvedValue();
 
-      await expect(campaignController.executePhase(phase)).rejects.toThrow(
+      await expect(campaignController.executePhase(phase)).rejects.toThrow()
         'Tool execution failed: Corruption detected',
       );
 

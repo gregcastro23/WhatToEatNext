@@ -49,7 +49,7 @@ export function trackKineticsImprovement(data: {
 }): void {
   if (typeof window !== 'undefined' && window.gtag) {
     try {
-      const improvementPercentage = Math.round(
+      const improvementPercentage = Math.round()
         ((data.enhancedRecommendationCount - data.baseRecommendationCount) /
          data.baseRecommendationCount) * 100;
       )

@@ -9,26 +9,26 @@ import type { CookingMethod, Recipe } from '@/types/alchemy';
 import type { KineticMetrics } from '@/types/kinetics';
 
 export interface CircuitValidationResult {
-  isValid: boolean,
-  inputPower: number,
-  outputPower: number,
-  losses: number,
-  efficiency: number,
+  isValid: boolean;
+  inputPower: number;
+  outputPower: number;
+  losses: number;
+  efficiency: number;
   error?: string;
 }
 
 export interface RecipeCircuitRecommendation {
-  recipe: Recipe,
-  circuitEfficiency: number,
-  kineticsCompatibility: number,
-  recommendedCookingMethod?: CookingMethod,
+  recipe: Recipe;
+  circuitEfficiency: number;
+  kineticsCompatibility: number;
+  recommendedCookingMethod?: CookingMethod;
   powerFlowDescription: string;
 }
 
 /**
  * Validate recipe as circuit: Input P = Output P + Losses
  */
-export function validateRecipeCircuit(
+export function validateRecipeCircuit()
   kinetics: KineticMetrics,
   recipe: Recipe
 ): CircuitValidationResult {
@@ -64,7 +64,7 @@ export function validateRecipeCircuit(
 /**
  * Get circuit-based food recommendations
  */
-export function getCircuitBasedRecommendations(
+export function getCircuitBasedRecommendations()
   kinetics: KineticMetrics,
   recipes: Recipe[],
   cookingMethods: CookingMethod[]
@@ -100,14 +100,14 @@ function calculateKineticsCompatibility(kinetics: KineticMetrics, recipe: Recipe
   let compatibility = 0.5; // Base compatibility
 
   // Force classification affects cooking style
-  if (forceClassification === 'accelerating' && recipe.mealType?.includes('quick')) {
+  if (forceClassification === 'accelerating' && recipe.mealType?.includes('quick') {
     compatibility += 0.2;
-  } else if (forceClassification === 'decelerating' && recipe.mealType?.includes('slow-cooked')) {
+  } else if (forceClassification === 'decelerating' && recipe.mealType?.includes('slow-cooked') {
     compatibility += 0.2;
   }
 
   // High potential difference favors transformative recipes
-  if (potentialDifference > 1.0 && recipe.name.toLowerCase().includes('transformation')) {
+  if (potentialDifference > 1.0 && recipe.name.toLowerCase().includes('transformation') {
     compatibility += 0.15;
   }
 
@@ -117,7 +117,7 @@ function calculateKineticsCompatibility(kinetics: KineticMetrics, recipe: Recipe
   }
 
   // High force magnitude favors robust cooking methods
-  if (forceMagnitude > 3.0 && recipe.cookingMethods?.includes('grilling')) {
+  if (forceMagnitude > 3.0 && recipe.cookingMethods?.includes('grilling') {
     compatibility += 0.15;
   }
 
@@ -127,7 +127,7 @@ function calculateKineticsCompatibility(kinetics: KineticMetrics, recipe: Recipe
 /**
  * Recommend cooking method based on kinetics
  */
-function recommendCookingMethod(
+function recommendCookingMethod()
   kinetics: KineticMetrics,
   cookingMethods: CookingMethod[]
 ): CookingMethod | undefined {
@@ -135,27 +135,27 @@ function recommendCookingMethod(
 
   // High force magnitude -> forceful methods
   if (forceMagnitude > 4.0) {
-    return cookingMethods.find(method =>
+    return cookingMethods.find(method =>)
       method.category === 'heat' && method.intensity > 7
     );
   }
 
   // Heating direction -> hot methods
   if (thermalDirection === 'heating') {
-    return cookingMethods.find(method =>
+    return cookingMethods.find(method =>)
       method.element === 'Fire' && method.intensity > 5
     );
   }
 
   // Accelerating force -> quick methods
   if (forceClassification === 'accelerating') {
-    return cookingMethods.find(method =>
+    return cookingMethods.find(method =>)
       method.category === 'quick' || method.intensity > 6
     );
   }
 
   // Default to balanced method
-  return cookingMethods.find(method =>
+  return cookingMethods.find(method =>)
     method.intensity >= 4 && method.intensity <= 7
   );
 }
@@ -163,7 +163,7 @@ function recommendCookingMethod(
 /**
  * Generate power flow description
  */
-function generatePowerFlowDescription(
+function generatePowerFlowDescription()
   kinetics: KineticMetrics,
   validation: CircuitValidationResult
 ): string {
@@ -202,7 +202,7 @@ function generatePowerFlowDescription(
 /**
  * Validate power conservation across multiple recipes
  */
-export function validateMultiRecipeCircuit(
+export function validateMultiRecipeCircuit()
   kinetics: KineticMetrics,
   recipes: Recipe[]
 ): CircuitValidationResult {

@@ -44,7 +44,7 @@ export default function Template({ children }: TemplateProps) {
       }
 
       // Ensure minimum styling is applied
-      if (!document.getElementById('base-styles')) {
+      if (!document.getElementById('base-styles') {
         const style = document.createElement('style');
         style.id = 'base-styles'
         style.textContent = `

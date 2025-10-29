@@ -17,143 +17,143 @@ import type { KiroCampaignStatus } from './KiroCampaignIntegration';
 // ========== DEBUGGING TYPES ==========,
 
 export interface CampaignDebugSession {
-  id: string,
-  campaignId: string,
-  startTime: Date,
-  endTime?: Date,
-  status: DebugSessionStatus,
-  debugSteps: DebugStep[],
-  findings: DebugFinding[],
-  recommendations: DebugRecommendation[],
+  id: string;
+  campaignId: string;
+  startTime: Date;
+  endTime?: Date;
+  status: DebugSessionStatus;
+  debugSteps: DebugStep[];
+  findings: DebugFinding[];
+  recommendations: DebugRecommendation[];
   recoveryPlan?: RecoveryPlan
 }
 
 export interface DebugStep {
-  id: string,
-  name: string,
-  description: string,
-  type: DebugStepType,
-  status: DebugStepStatus,
-  startTime: Date,
-  endTime?: Date,
+  id: string;
+  name: string;
+  description: string;
+  type: DebugStepType;
+  status: DebugStepStatus;
+  startTime: Date;
+  endTime?: Date;
   output: Record<string, unknown>,
-  errors: string[],
+  errors: string[];
   warnings: string[]
 }
 
 export interface DebugFinding {
-  id: string,
-  category: FindingCategory,
-  severity: FindingSeverity,
-  title: string,
-  description: string,
-  evidence: Evidence[],
-  affectedComponents: string[],
-  rootCause?: string,
+  id: string;
+  category: FindingCategory;
+  severity: FindingSeverity;
+  title: string;
+  description: string;
+  evidence: Evidence[];
+  affectedComponents: string[];
+  rootCause?: string;
   detectedAt: Date
 }
 
 export interface Evidence {
-  type: EvidenceType,
-  source: string,
-  content: string,
+  type: EvidenceType;
+  source: string;
+  content: string;
   timestamp: Date
 }
 
 export interface DebugRecommendation {
-  id: string,
-  priority: RecommendationPriority,
-  title: string,
-  description: string,
-  actionItems: ActionItem[],
+  id: string;
+  priority: RecommendationPriority;
+  title: string;
+  description: string;
+  actionItems: ActionItem[];
   estimatedEffort: number, // hours,
   riskLevel: 'low' | 'medium' | 'high'
   category: RecommendationCategory
 }
 
 export interface ActionItem {
-  id: string,
-  description: string,
-  type: ActionType,
+  id: string;
+  description: string;
+  type: ActionType;
   parameters: Record<string, unknown>,
   estimatedDuration: number, // minutes,
   automated: boolean
 }
 
 export interface RecoveryPlan {
-  id: string,
-  campaignId: string,
-  recoveryType: RecoveryType,
-  description: string,
-  steps: RecoveryStep[],
+  id: string;
+  campaignId: string;
+  recoveryType: RecoveryType;
+  description: string;
+  steps: RecoveryStep[];
   estimatedDuration: number, // minutes,
-  riskAssessment: string,
+  riskAssessment: string;
   validationChecks: ValidationCheck[]
 }
 
 export interface RecoveryStep {
-  id: string,
-  name: string,
-  description: string,
-  type: RecoveryStepType,
-  action: string,
+  id: string;
+  name: string;
+  description: string;
+  type: RecoveryStepType;
+  action: string;
   parameters: Record<string, unknown>,
-  estimatedDuration: number,
-  criticalPath: boolean,
-  rollbackable: boolean,
+  estimatedDuration: number;
+  criticalPath: boolean;
+  rollbackable: boolean;
   validationRequired: boolean
 }
 
 export interface ValidationCheck {
-  id: string,
-  name: string,
-  description: string,
-  type: ValidationType,
-  criteria: ValidationCriteria,
+  id: string;
+  name: string;
+  description: string;
+  type: ValidationType;
+  criteria: ValidationCriteria;
   automated: boolean
 }
 
 export interface ValidationCriteria {
-  metric: string,
+  metric: string;
   operator: 'equals' | 'less_than' | 'greater_than' | 'contains'
   value: unknown
 }
 
 export interface CampaignHealthReport {
-  campaignId: string,
-  overallHealth: HealthStatus,
+  campaignId: string;
+  overallHealth: HealthStatus;
   healthScore: number, // 0-100,
-  lastCheckTime: Date,
-  healthMetrics: HealthMetric[],
-  issues: HealthIssue[],
+  lastCheckTime: Date;
+  healthMetrics: HealthMetric[];
+  issues: HealthIssue[];
   recommendations: MaintenanceRecommendation[]
 }
 
 export interface HealthMetric {
-  name: string,
-  value: number,
-  unit: string,
-  status: MetricStatus,
-  threshold: number,
+  name: string;
+  value: number;
+  unit: string;
+  status: MetricStatus;
+  threshold: number;
   trend: 'improving' | 'stable' | 'declining' },
         export interface HealthIssue {
-  id: string,
-  severity: IssueSeverity,
-  category: IssueCategory,
-  title: string,
-  description: string,
-  impact: string,
-  detectedAt: Date,
+  id: string;
+  severity: IssueSeverity;
+  category: IssueCategory;
+  title: string;
+  description: string;
+  impact: string;
+  detectedAt: Date;
   resolved: boolean
 }
 
 export interface MaintenanceRecommendation {
-  id: string,
-  priority: MaintenancePriority,
-  title: string,
-  description: string,
-  frequency: MaintenanceFrequency,
-  estimatedDuration: number,
+  id: string;
+  priority: MaintenancePriority;
+  title: string;
+  description: string;
+  frequency: MaintenanceFrequency;
+  estimatedDuration: number;
   nextDue: Date
 }
 
@@ -390,7 +390,7 @@ export class CampaignDebugger {
       throw new Error(`Campaign ${campaignId} not found`)
     }
 
-    const failureEvents = campaign.safetyEvents.filter(
+    const failureEvents = campaign.safetyEvents.filter()
       event => event.severity === 'ERROR' || event.severity === 'CRITICAL'
     )
 ;
@@ -412,7 +412,7 @@ export class CampaignDebugger {
     }
 
     const impactAssessment = this.assessFailureImpact(campaign)
-    const recommendations = await this.generateFailureRecommendations(
+    const recommendations = await this.generateFailureRecommendations()
       rootCauses,
       contributingFactors,
     )
@@ -621,7 +621,7 @@ export class CampaignDebugger {
 
     const conflicts = await campaignConflictResolver.detectConflicts()
     for (const conflict of conflicts) {
-      if (conflict.involvedCampaigns.includes(campaignId)) {
+      if (conflict.involvedCampaigns.includes(campaignId) {
         findings.push({,
           id: `dependency_finding_${conflict.id}`,
           category: FindingCategory.DEPENDENCY_ISSUE,
@@ -723,7 +723,7 @@ export class CampaignDebugger {
     return recommendations;
   }
 
-  private async createRecoveryPlan(
+  private async createRecoveryPlan()
     campaignId: string,
     findings: DebugFinding[],
   ): Promise<RecoveryPlan> {
@@ -806,13 +806,13 @@ export class CampaignDebugger {
     }
   }
 
-  private async generateFailureRecommendations(
+  private async generateFailureRecommendations()
     rootCauses: string[],
     contributingFactors: string[],
   ): Promise<DebugRecommendation[]> {
     const recommendations: DebugRecommendation[] = []
 
-    if (rootCauses.includes('Build system failure during campaign execution')) {
+    if (rootCauses.includes('Build system failure during campaign execution') {
       recommendations.push({
         id: `rec_build_${Date.now()}`,
         priority: RecommendationPriority.HIGH,
@@ -862,7 +862,7 @@ export class CampaignDebugger {
     ],
   }
 
-  private async detectHealthIssues(
+  private async detectHealthIssues()
     campaign: KiroCampaignStatus,
     metrics: HealthMetric[],
   ): Promise<HealthIssue[]> {
@@ -886,7 +886,7 @@ export class CampaignDebugger {
     return issues;
   }
 
-  private async generateMaintenanceRecommendations(
+  private async generateMaintenanceRecommendations()
     issues: HealthIssue[],
   ): Promise<MaintenanceRecommendation[]> {
     const recommendations: MaintenanceRecommendation[] = [],

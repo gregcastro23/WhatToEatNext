@@ -126,7 +126,7 @@ export class ProgressiveImprovementEngine {
   async setRealisticTargets(): Promise<{
     recommendedTarget: number;
     reasoning: string[];
-    milestones: Array<{ percentage: number; description: string; estimatedBatches: number }>;
+    milestones: Array<{ percentage: number; description: string; estimatedBatches, number }>;
   }> {
     const currentProgress = await this.getCurrentProgress();
     const candidateFiles = await this.findFilesWithAnyTypes();
@@ -222,7 +222,7 @@ export class ProgressiveImprovementEngine {
    */
   async monitorProgress(): Promise<{
     currentProgress: UnintentionalAnyProgress;
-    milestoneStatus: Array<{ milestone: number; achieved: boolean; description: string }>;
+    milestoneStatus: Array<{ milestone: number; achieved: boolean; description, string }>;
     recommendations: string[];
     needsManualIntervention: boolean;
   }> {
@@ -617,7 +617,7 @@ export class ProgressiveImprovementEngine {
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
-      if (this.containsAnyType(line)) {
+      if (this.containsAnyType(line) {
         const context: ClassificationContext = {
           filePath,
           lineNumber: i + 1,
@@ -696,7 +696,7 @@ export class ProgressiveImprovementEngine {
   private async findFilesWithAnyTypes(): Promise<string[]> {
     try {
       // Use grep to find files with explicit any types, excluding node_modules and test files initially
-      const output = execSync(
+      const output = execSync()
         'grep -r -l ":\\s*any" src/ --include="*.ts" --include="*.tsx" --exclude-dir=node_modules | head -100',
         { encoding: 'utf8', stdio: 'pipe' }
       );
@@ -720,10 +720,10 @@ export class ProgressiveImprovementEngine {
 
         if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
           walkDir(fullPath);
-        } else if (entry.isFile() && (entry.name.endsWith('.ts') || entry.name.endsWith('.tsx'))) {
+        } else if (entry.isFile() && (entry.name.endsWith('.ts') || entry.name.endsWith('.tsx')) {
           try {
             const content = fs.readFileSync(fullPath, 'utf8');
-            if (content.includes(': any') || content.includes('any[]') || content.includes('Record<string, any>')) {
+            if (content.includes(': any') || content.includes('any[]') || content.includes('Record<string, any>') {
               files.push(fullPath);
             }
           } catch (error) {
@@ -733,7 +733,7 @@ export class ProgressiveImprovementEngine {
       }
     };
 
-    if (fs.existsSync(srcDir)) {
+    if (fs.existsSync(srcDir) {
       walkDir(srcDir);
     }
 
@@ -819,19 +819,19 @@ export class ProgressiveImprovementEngine {
         const content = fs.readFileSync(filePath, 'utf8');
         const lines = content.split('\n');
 
-        if (this.isTestFile(filePath)) {
+        if (this.isTestFile(filePath) {
           testFiles++;
         }
 
         for (const line of lines) {
-          if (this.containsAnyType(line)) {
+          if (this.containsAnyType(line) {
             totalAnyTypes++;
 
-            if (line.includes('any[]') || line.includes('Array<any>')) {
+            if (line.includes('any[]') || line.includes('Array<any>') {
               arrayTypes++;
-            } else if (line.includes('Record<') && line.includes('any>')) {
+            } else if (line.includes('Record<') && line.includes('any>') {
               recordTypes++;
-            } else if (line.includes('(') && line.includes(': any') && line.includes(')')) {
+            } else if (line.includes('(') && line.includes(': any') && line.includes(')') {
               functionParams++;
             }
           }
@@ -847,8 +847,8 @@ export class ProgressiveImprovementEngine {
     const functionParamPercentage = totalAnyTypes > 0 ? (functionParams / totalAnyTypes) * 100 : 0;
 
     // Calculate complexity score (0-1, where 1 is most complex)
-    const complexityScore = Math.min(1,
-      (testFilePercentage * 0.1 + // Test files are easier
+    const complexityScore = Math.min(1,)
+      (testFilePercentage * 0.1 + // Test files are easier)
        functionParamPercentage * 0.4 + // Function params are harder
        recordTypePercentage * 0.2) / 100 // Record types are moderate
     );
@@ -896,7 +896,7 @@ export class ProgressiveImprovementEngine {
 
     // Count total any types across all files (sample for performance)
     const sampleSize = Math.min(30, totalFiles.length);
-    for (const filePath of totalFiles.slice(0, sampleSize)) {
+    for (const filePath of totalFiles.slice(0, sampleSize) {
       try {
         const content = fs.readFileSync(filePath, 'utf8');
         const lines = content.split('\n');

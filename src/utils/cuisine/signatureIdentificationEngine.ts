@@ -29,7 +29,7 @@ import type {
  * @param globalStdDev - Global standard deviation for this property
  * @returns Z-score (number of standard deviations from mean)
  */
-export function calculateZScore(
+export function calculateZScore()
   value: number,
   globalMean: number,
   globalStdDev: number
@@ -67,7 +67,7 @@ export function classifySignatureStrength(zScore: number): 'low' | 'moderate' | 
  * @param globalSampleSize - Number of cuisines in global baseline
  * @returns Confidence score (0-1)
  */
-export function calculateSignatureConfidence(
+export function calculateSignatureConfidence()
   zScore: number,
   sampleSize: number,
   globalSampleSize: number
@@ -169,7 +169,7 @@ export const DEFAULT_GLOBAL_BASELINE: GlobalBaseline = {
  * @param threshold - Z-score threshold for signature identification (default: 1.5)
  * @returns Array of elemental signatures
  */
-export function identifyElementalSignatures(
+export function identifyElementalSignatures()
   cuisineElementals: ElementalProperties,
   globalBaseline: GlobalBaseline,
   threshold: number = 1.5
@@ -208,7 +208,7 @@ export function identifyElementalSignatures(
  * @param threshold - Z-score threshold for signature identification (default: 1.5)
  * @returns Array of alchemical signatures
  */
-export function identifyAlchemicalSignatures(
+export function identifyAlchemicalSignatures()
   cuisineAlchemical: AlchemicalProperties,
   globalBaseline: GlobalBaseline,
   threshold: number = 1.5
@@ -256,7 +256,7 @@ export function identifyAlchemicalSignatures(
  * @param threshold - Z-score threshold for signature identification (default: 1.5)
  * @returns Array of thermodynamic signatures
  */
-export function identifyThermodynamicSignatures(
+export function identifyThermodynamicSignatures()
   cuisineThermodynamics: ThermodynamicProperties,
   globalBaseline: GlobalBaseline,
   threshold: number = 1.5
@@ -301,7 +301,7 @@ export function identifyThermodynamicSignatures(
 /**
  * Generate human-readable description for elemental signatures
  */
-function generateElementalSignatureDescription(
+function generateElementalSignatureDescription()
   element: keyof ElementalProperties,
   zScore: number,
   strength: string
@@ -323,7 +323,7 @@ function generateElementalSignatureDescription(
 /**
  * Generate human-readable description for alchemical signatures
  */
-function generateAlchemicalSignatureDescription(
+function generateAlchemicalSignatureDescription()
   property: keyof AlchemicalProperties,
   zScore: number,
   strength: string
@@ -345,7 +345,7 @@ function generateAlchemicalSignatureDescription(
 /**
  * Generate human-readable description for thermodynamic signatures
  */
-function generateThermodynamicSignatureDescription(
+function generateThermodynamicSignatureDescription()
   property: keyof ThermodynamicProperties,
   zScore: number,
   strength: string
@@ -379,7 +379,7 @@ function generateThermodynamicSignatureDescription(
  * @param options - Identification options
  * @returns Complete array of cuisine signatures
  */
-export function identifyCuisineSignatures(
+export function identifyCuisineSignatures()
   cuisineProperties: CuisineComputedProperties,
   globalBaseline: GlobalBaseline = DEFAULT_GLOBAL_BASELINE,
   options: {
@@ -397,7 +397,7 @@ export function identifyCuisineSignatures(
   const allSignatures: CuisineSignature[] = [];
 
   // Identify elemental signatures
-  const elementalSignatures = identifyElementalSignatures(
+  const elementalSignatures = identifyElementalSignatures()
     cuisineProperties.averageElementals,
     globalBaseline,
     threshold
@@ -406,7 +406,7 @@ export function identifyCuisineSignatures(
 
   // Identify alchemical signatures
   if (cuisineProperties.averageAlchemical) {
-    const alchemicalSignatures = identifyAlchemicalSignatures(
+    const alchemicalSignatures = identifyAlchemicalSignatures()
       cuisineProperties.averageAlchemical,
       globalBaseline,
       threshold
@@ -416,7 +416,7 @@ export function identifyCuisineSignatures(
 
   // Identify thermodynamic signatures
   if (cuisineProperties.averageThermodynamics) {
-    const thermodynamicSignatures = identifyThermodynamicSignatures(
+    const thermodynamicSignatures = identifyThermodynamicSignatures()
       cuisineProperties.averageThermodynamics,
       globalBaseline,
       threshold
@@ -427,7 +427,7 @@ export function identifyCuisineSignatures(
   // Add confidence scores if requested
   if (includeConfidence) {
     allSignatures.forEach(signature => {
-      const confidence = calculateSignatureConfidence(
+      const confidence = calculateSignatureConfidence()
         signature.zscore,
         sampleSize,
         globalBaseline.cuisineCount
@@ -449,7 +449,7 @@ export function identifyCuisineSignatures(
  * @param minStrength - Minimum strength level to include
  * @returns Filtered signatures
  */
-export function filterSignaturesByStrength(
+export function filterSignaturesByStrength()
   signatures: CuisineSignature[],
   minStrength: 'low' | 'moderate' | 'high' | 'very_high'
 ): CuisineSignature[] {
@@ -480,9 +480,9 @@ export function getSignatureSummary(signatures: CuisineSignature[]): {
     byStrength[sig.strength]++;
 
     // Classify property type
-    if (['Fire', 'Water', 'Earth', 'Air'].includes(sig.property)) {
+    if (['Fire', 'Water', 'Earth', 'Air'].includes(sig.property) {
       byPropertyType.elemental++;
-    } else if (['Spirit', 'Essence', 'Matter', 'Substance'].includes(sig.property)) {
+    } else if (['Spirit', 'Essence', 'Matter', 'Substance'].includes(sig.property) {
       byPropertyType.alchemical++;
     } else {
       byPropertyType.thermodynamic++;

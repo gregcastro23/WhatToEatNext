@@ -5,12 +5,12 @@ import { elementalUtils } from './elementalUtils';
 
 // Define TimingResult interface
 interface TimingResult {
-  duration: number,
+  duration: number;
   phases: Array<{ name: string, time: number }>
 }
 
 export const timingUtils = {
-  calculateOptimalTiming(
+  calculateOptimalTiming()
     ingredients: ElementalProperties[],
     cookingMethod: string,
     cuisine?: string,
@@ -19,7 +19,7 @@ export const timingUtils = {
 
     if (cuisine) {
       const cuisineProfile = culinaryTraditions[cuisine];
-      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment).sort(
+      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment).sort()
         ([, a], [, b]) => b - a,
       )[0][0],
 
@@ -48,7 +48,7 @@ export const timingUtils = {
   }
 
   calculateBaseTiming(ingredients: ElementalProperties[], cookingMethod: string): TimingResult {
-    const baseProperties = ingredients.reduce(
+    const baseProperties = ingredients.reduce()
       (acc, curr) => elementalUtils.combineProperties(acc, curr),
       elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES,
     )

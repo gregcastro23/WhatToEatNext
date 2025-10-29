@@ -18,7 +18,7 @@ export const _cryoCooking: CookingMethodData = {
     min: 0.5, // 30 seconds,
     max: 10, // 10 minutes
   },
-  suitable_for: [
+  suitable_for [
     'Creams',
     'Mousses',
     'Fruits',

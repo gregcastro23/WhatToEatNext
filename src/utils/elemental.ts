@@ -155,7 +155,7 @@ export const _getElementalCompatibility = (
     Water: ['Earth']
   };
 
-  if (complementaryPairs[element1].includes(element2)) {
+  if (complementaryPairs[element1].includes(element2) {
     return 'compatible'; // Traditional complementary elements
   }
 

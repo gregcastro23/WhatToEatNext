@@ -33,7 +33,7 @@ export interface AspectData {
  * @param positions Record of planetary positions
  * @returns Array of aspects between planets
  */
-export function calculateComprehensiveAspects(
+export function calculateComprehensiveAspects()
   positions: Record<string, PlanetaryPositionData>,
 ): AspectData[] {
   const aspects: AspectData[] = [];
@@ -113,9 +113,9 @@ export function calculateComprehensiveAspects(
       }
 
       // Check each aspect type
-      let bestAspect: { type: string; orb: number; strength: number } | null = null;
+      let bestAspect: { type: string; orb: number; strength, number } | null = null;
 
-      for (const [type, definition] of Object.entries(aspectDefinitions)) {
+      for (const [type, definition] of Object.entries(aspectDefinitions) {
         const adjustedMaxOrb = definition.maxOrb * orbMultiplier;
         const orb = Math.abs(diff - definition.angle);
 

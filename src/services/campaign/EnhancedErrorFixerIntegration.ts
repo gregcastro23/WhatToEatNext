@@ -251,14 +251,14 @@ export class EnhancedErrorFixerIntegration {
       child.stdout.on('data', data => {
         stdout += data.toString();
         // Show real-time output if not silent
-        if (!args.includes('--silent')) {
+        if (!args.includes('--silent') {
           process.stdout.write(data);
         }
       });
 
       child.stderr.on('data', data => {
         stderr += data.toString();
-        if (!args.includes('--silent')) {
+        if (!args.includes('--silent') {
           process.stderr.write(data);
         }
       });
@@ -290,7 +290,7 @@ export class EnhancedErrorFixerIntegration {
   /**
    * Parse Enhanced Error Fixer output to extract metrics
    */
-  private parseFixerOutput(
+  private parseFixerOutput()
     output: string,
     success: boolean,
   ): {

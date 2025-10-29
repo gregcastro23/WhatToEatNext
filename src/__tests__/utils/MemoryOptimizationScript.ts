@@ -11,10 +11,10 @@ import MemoryLeakDetector from './MemoryLeakDetector';
 import { TestMemoryMonitor } from './TestMemoryMonitor';
 
 interface OptimizationResult {
-  success: boolean,
-  memoryFreed: number,
-  optimizationsApplied: string[],
-  warnings: string[],
+  success: boolean;
+  memoryFreed: number;
+  optimizationsApplied: string[];
+  warnings: string[];
   errors: string[];
 }
 
@@ -116,7 +116,7 @@ export class MemoryOptimizationScript {
 
     const jestConfigPath = path.join(process.cwd(), 'jest.config.js');
 
-    if (!fs.existsSync(jestConfigPath)) {
+    if (!fs.existsSync(jestConfigPath) {
       console.log('⚠️ Jest config not found, skipping Jest optimization');
       return;
     }
@@ -135,7 +135,7 @@ export class MemoryOptimizationScript {
 
     let modified = false;
     optimizations.forEach(opt => {
-      if (!configContent.includes(opt.key)) {
+      if (!configContent.includes(opt.key) {
         // Add the optimization
         const insertion = `  ${opt.key}: ${opt.value},\n`;
         configContent = configContent.replace(/(const config = {[^}]*)/, `$1\n${insertion}`);
@@ -207,19 +207,19 @@ export class MemoryOptimizationScript {
     const optimizations: string[] = [];
 
     // Set memory limits if not already set
-    if (!process.env.NODE_OPTIONS?.includes('--max-old-space-size')) {
+    if (!process.env.NODE_OPTIONS?.includes('--max-old-space-size') {
       process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --max-old-space-size=2048';
       optimizations.push('Set max old space size to 2GB');
     }
 
     // Enable garbage collection exposure
-    if (!process.env.NODE_OPTIONS.includes('--expose-gc')) {
+    if (!process.env.NODE_OPTIONS.includes('--expose-gc') {
       process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --expose-gc';
       optimizations.push('Enabled garbage collection exposure');
     }
 
     // Optimize garbage collection
-    if (!process.env.NODE_OPTIONS.includes('--optimize-for-size')) {
+    if (!process.env.NODE_OPTIONS.includes('--optimize-for-size') {
       process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --optimize-for-size';
       optimizations.push('Enabled size optimization');
     }
@@ -318,7 +318,7 @@ export class MemoryOptimizationScript {
 if (require.main === module) {
   const args = process.argv.slice(2);
 
-  if (args.includes('--emergency')) {
+  if (args.includes('--emergency') {
     MemoryOptimizationScript.emergencyCleanup();
   } else {
     MemoryOptimizationScript.runQuickOptimization()

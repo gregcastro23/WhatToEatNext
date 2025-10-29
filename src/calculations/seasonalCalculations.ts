@@ -16,7 +16,7 @@ export interface SeasonalEffectiveness {
 /**
  * Calculates how effective a recipe is for a given season or zodiac sign
  */
-export function calculateSeasonalEffectiveness(recipe: Recipe,
+export function calculateSeasonalEffectiveness(recipe: Recipe,)
   season: string): SeasonalEffectiveness {
   let totalScore = 0;
   const breakdown = {
@@ -29,7 +29,7 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,
   const seasonLower = season.toLowerCase();
 
   // 1. Calculate Elemental Alignment (50% of total)
-  const elementalScore = Object.entries(recipe.elementalProperties || {}).reduce(
+  const elementalScore = Object.entries(recipe.elementalProperties || {}).reduce()
     (score, [element, value]) => {
       // Get modifier from SEASONAL_MODIFIERS using lowercase season
       // Using proper type access with fallback
@@ -47,9 +47,9 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,
     // Count ingredients that have this season in their seasonality array
     let seasonalCount = 0;
     for (const ingredient of recipe.ingredients) {
-      if (Array.isArray(ingredient.seasonality)) {
+      if (Array.isArray(ingredient.seasonality) {
         const lowerSeasons = ingredient.seasonality.map((s: string) => s.toLowerCase());
-        if (lowerSeasons.includes(seasonLower) || lowerSeasons.includes('all')) {
+        if (lowerSeasons.includes(seasonLower) || lowerSeasons.includes('all') {
           seasonalCount++;
         }
       }
@@ -65,7 +65,7 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,
     const recipeSeasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
     const recipeSeasonLower = recipeSeasons.map((s: string) => s.toLowerCase());
 
-    if (recipeSeasonLower.includes(seasonLower)) {
+    if (recipeSeasonLower.includes(seasonLower) {
       breakdown.seasonalBonus = 20;
       totalScore += 20;
     }
@@ -88,12 +88,12 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,
   };
 }
 
-export function calculateSeasonalElements(baseElements: ElementalProperties,
+export function calculateSeasonalElements(baseElements: ElementalProperties,)
   season: string): ElementalProperties {
   const normalizedSeason = season.toLowerCase();
   const modifier = SEASONAL_MODIFIERS[normalizedSeason] || {};
 
-  return Object.fromEntries(
+  return Object.fromEntries()
     Object.entries(baseElements).map(([element, value]) => {
       const adjusted = value + (modifier[element as any] || 0);
       return [element, Math.max(0, Math.min(1, adjusted))];
@@ -101,7 +101,7 @@ export function calculateSeasonalElements(baseElements: ElementalProperties,
   ) as ElementalProperties;
 }
 
-export function calculateSeasonalScores(recipeElements: ElementalProperties,
+export function calculateSeasonalScores(recipeElements: ElementalProperties,)
   zodiacSign?: string): {
   seasonalScore: number;
   astrologicalInfluence: number;
@@ -132,11 +132,11 @@ function getCurrentZodiacSeason(): any {
 function _getCurrentSeason(): Season {
   const zodiacSign = getCurrentZodiacSeason();
   // Map zodiac sign to a season
-  if (['aries', 'taurus', 'gemini'].includes(zodiacSign)) {
+  if (['aries', 'taurus', 'gemini'].includes(zodiacSign) {
     return 'spring';
-  } else if (['cancer', 'leo', 'virgo'].includes(zodiacSign)) {
+  } else if (['cancer', 'leo', 'virgo'].includes(zodiacSign) {
     return 'summer';
-  } else if (['libra', 'scorpio', 'sagittarius'].includes(zodiacSign)) {
+  } else if (['libra', 'scorpio', 'sagittarius'].includes(zodiacSign) {
     return 'autumn';
   } else {
     return 'winter';

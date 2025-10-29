@@ -84,7 +84,7 @@ export class PerformanceCache<T> {
     const ttl = customTTL || this.defaultTTL;
 
     // Check if we need to evict items
-    if (this.cache.size >= this.maxSize && !this.cache.has(key)) {
+    if (this.cache.size >= this.maxSize && !this.cache.has(key) {
       this.evictLRU();
     }
 
@@ -139,7 +139,7 @@ export class PerformanceCache<T> {
     let oldestEntry = now;
     let newestEntry = 0;
 
-    for (const [key, entry] of this.cache.entries()) {
+    for (const [key, entry] of this.cache.entries() {
       // Estimate memory usage (rough calculation)
       memoryUsage += (key || []).length * 2; // String characters are 2 bytes each
       memoryUsage += this.estimateObjectSize(entry.data);
@@ -169,7 +169,7 @@ export class PerformanceCache<T> {
   private evictLRU(): void {
     let lruKey: string | null = null;
     let lruTime = Date.now();
-    for (const [key, entry] of this.cache.entries()) {
+    for (const [key, entry] of this.cache.entries() {
       if (entry.lastAccessed < lruTime) {
         lruTime = entry.lastAccessed;
         lruKey = key;
@@ -188,7 +188,7 @@ export class PerformanceCache<T> {
     const now = Date.now();
     const keysToDelete: string[] = [];
 
-    for (const [key, entry] of this.cache.entries()) {
+    for (const [key, entry] of this.cache.entries() {
       if (now - entry.timestamp > entry.ttl) {
         keysToDelete.push(key);
       }
@@ -206,13 +206,13 @@ export class PerformanceCache<T> {
     if (typeof obj === 'number') return 8;
     if (typeof obj === 'boolean') return 4;
 
-    if (Array.isArray(obj)) {
+    if (Array.isArray(obj) {
       return obj.reduce((size, item) => size + this.estimateObjectSize(item), 0);
     }
 
     if (typeof obj === 'object') {
       let size = 0;
-      for (const [key, value] of Object.entries(obj)) {
+      for (const [key, value] of Object.entries(obj) {
         size += (key || []).length * 2; // Key size
         size += this.estimateObjectSize(value); // Value size
       }

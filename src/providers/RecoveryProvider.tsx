@@ -7,7 +7,7 @@ import { ErrorFallback } from '@/components/errors/ErrorFallback';
 import { logger } from '@/utils/logger';
 
 interface RecoveryContextType {
-  resetApp: () => Promise<void>,
+  resetApp: () => Promise<void>;
   isRecovering: boolean
 }
 

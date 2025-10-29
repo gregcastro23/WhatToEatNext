@@ -111,7 +111,7 @@ export function safeString(value: unknown, _defaultValue = ''): string {;
  *
  * @example
  * // Safely check if userData has name property
- * if (safeHasProperty(userData, 'name')) { ... }
+ * if (safeHasProperty(userData, 'name') { ... }
  */
 export function safeHasProperty(obj: unknown, prop: string): boolean {
   return (obj !== null &&
@@ -165,7 +165,7 @@ export function safeProperty<T>(
     return defaultValue;
   }
 
-  if (typeCheck && !typeCheck(value)) {
+  if (typeCheck && !typeCheck(value) {
     return defaultValue;
   }
 

@@ -47,8 +47,8 @@ interface MigrationStats {
 }
 
 interface _ {
-  id?: string,
-  name?: string,
+  id?: string;
+  name?: string;
   [key: string]: unknown
 }
 
@@ -160,7 +160,7 @@ export class FlavorProfileMigration {;
 
   private async migrateUnifiedFlavorProfiles(): Promise<void> {
     log.info('📦 Migrating unified flavor profiles...');
-    for (const [id, profile] of Object.entries(unifiedFlavorProfiles)) {
+    for (const [id, profile] of Object.entries(unifiedFlavorProfiles) {
       try {
         const migratedProfile = this.convertUnifiedProfile(id, profile),
         this.migratedProfiles.set(migratedProfile.id, migratedProfile)
@@ -212,19 +212,19 @@ export class FlavorProfileMigration {;
     log.info('🍽️ Migrating cuisine flavor profiles...')
     // Check if cuisineFlavorProfiles is available
     if (!cuisineFlavorProfiles || typeof cuisineFlavorProfiles !== 'object') {
-      this.migrationWarnings.push(
+      this.migrationWarnings.push()
         'cuisineFlavorProfiles is not available - skipping cuisine migration',
       )
       log.info('⚠️ Skipping cuisine migration - cuisineFlavorProfiles not available')
       return
     }
 
-    for (const [cuisineName, cuisineData] of Object.entries(cuisineFlavorProfiles)) {
+    for (const [cuisineName, cuisineData] of Object.entries(cuisineFlavorProfiles) {
       try {
         const migratedProfile = this.convertCuisineProfile(cuisineName, cuisineData),
 
         // Avoid duplicates - check if already exists from unified system
-        if (!this.migratedProfiles.has(migratedProfile.id)) {
+        if (!this.migratedProfiles.has(migratedProfile.id) {
           this.migratedProfiles.set(migratedProfile.id, migratedProfile)
         } else {
           // Merge additional data from cuisine profile
@@ -238,7 +238,7 @@ export class FlavorProfileMigration {;
     log.info(`✅ Migrated ${Object.keys(cuisineFlavorProfiles || {}).length} cuisine profiles`)
   }
 
-  private convertCuisineProfile(
+  private convertCuisineProfile()
     cuisineName: string,
     cuisineData: CuisineFlavorProfile,
   ): UnifiedFlavorProfile {
@@ -287,16 +287,16 @@ export class FlavorProfileMigration {;
     log.info('🪐 Migrating planetary flavor profiles...')
     // Check if planetaryFlavorProfiles is available
     if (!planetaryFlavorProfiles || typeof planetaryFlavorProfiles !== 'object') {
-      this.migrationWarnings.push(
+      this.migrationWarnings.push()
         'planetaryFlavorProfiles is not available - skipping planetary migration',
       )
       log.info('⚠️ Skipping planetary migration - planetaryFlavorProfiles not available')
       return
     }
 
-    for (const [planetName, planetData] of Object.entries(planetaryFlavorProfiles)) {
+    for (const [planetName, planetData] of Object.entries(planetaryFlavorProfiles) {
       try {
-        const migratedProfile = this.convertPlanetaryProfile(
+        const migratedProfile = this.convertPlanetaryProfile()
           planetName,
           planetData as unknown as any,
         ),
@@ -309,7 +309,7 @@ export class FlavorProfileMigration {;
     log.info(`✅ Migrated ${Object.keys(planetaryFlavorProfiles || {}).length} planetary profiles`)
   }
 
-  private convertPlanetaryProfile(
+  private convertPlanetaryProfile()
     planetName: string,
     planetData: Record<string, unknown>,
   ): UnifiedFlavorProfile {
@@ -358,16 +358,16 @@ export class FlavorProfileMigration {;
     log.info('🔗 Migrating integration flavor profiles...')
     // Check if integrationFlavorProfiles is available
     if (!integrationFlavorProfiles || typeof integrationFlavorProfiles !== 'object') {
-      this.migrationWarnings.push(
+      this.migrationWarnings.push()
         'integrationFlavorProfiles is not available - skipping integration migration',
       )
       log.info('⚠️ Skipping integration migration - integrationFlavorProfiles not available')
       return
     }
 
-    for (const [flavorName, flavorData] of Object.entries(integrationFlavorProfiles)) {
+    for (const [flavorName, flavorData] of Object.entries(integrationFlavorProfiles) {
       try {
-        const migratedProfile = this.convertIntegrationProfile(
+        const migratedProfile = this.convertIntegrationProfile()
           flavorName,
           flavorData as unknown as any,
         ),
@@ -377,12 +377,12 @@ export class FlavorProfileMigration {;
       }
     }
 
-    log.info(
+    log.info()
       `✅ Migrated ${Object.keys(integrationFlavorProfiles || {}).length} integration profiles`,
     )
   }
 
-  private convertIntegrationProfile(
+  private convertIntegrationProfile()
     flavorName: string,
     flavorData: Record<string, unknown>,
   ): UnifiedFlavorProfile {
@@ -438,19 +438,19 @@ export class FlavorProfileMigration {;
     // Check if ingredientFlavorMap is available (currently disabled)
     const ingredientFlavorMap = null // Disabled due to missing export
     if (!ingredientFlavorMap || typeof ingredientFlavorMap !== 'object') {
-      this.migrationWarnings.push(
+      this.migrationWarnings.push()
         'ingredientFlavorMap is not available - skipping ingredient migration',
       )
       log.info('⚠️ Skipping ingredient migration - ingredientFlavorMap not available')
       return
     }
 
-    for (const [ingredientName, flavorData] of Object.entries(ingredientFlavorMap || {})) {
+    for (const [ingredientName, flavorData] of Object.entries(ingredientFlavorMap || {}) {
       try {
         const migratedProfile = this.convertIngredientProfile(ingredientName, flavorData as any),
         this.migratedProfiles.set(migratedProfile.id, migratedProfile)
       } catch (error) {
-        this.migrationErrors.push(
+        this.migrationErrors.push()
           `Failed to migrate ingredient profile ${ingredientName}: ${error}`,
         )
       }
@@ -459,7 +459,7 @@ export class FlavorProfileMigration {;
     log.info(`✅ Migrated ${Object.keys(ingredientFlavorMap || {}).length} ingredient profiles`)
   }
 
-  private convertIngredientProfile(
+  private convertIngredientProfile()
     ingredientName: string,
     flavorData: Record<string, unknown>,
   ): UnifiedFlavorProfile {
@@ -647,7 +647,7 @@ export class FlavorProfileMigration {;
 
   // ===== INTEGRATION-SPECIFIC HELPERS =====
 
-  private extractIntegrationBaseNotes(
+  private extractIntegrationBaseNotes()
     flavorName: string,
     flavorData: Record<string, unknown>,
   ): BaseFlavorNotes {
@@ -806,7 +806,7 @@ export class FlavorProfileMigration {;
     // Merge additional cuisine-specific data
     if (cuisineData.signatureIngredients) {
       existingProfile.pairingRecommendations = [
-        ...new Set([
+        ...new Set([)
           ...existingProfile.pairingRecommendations,
           ...cuisineData.signatureIngredients
         ])
@@ -861,7 +861,7 @@ export class FlavorProfileMigration {;
   private getCategoryStats(): { [key: string]: number } {
     const stats: { [key: string]: number } = {}
 
-    for (const profile of this.migratedProfiles.values()) {
+    for (const profile of this.migratedProfiles.values() {
       stats[profile.category] = (stats[profile.category] || 0) + 1;
     }
 
@@ -918,7 +918,7 @@ export function getMigratedFlavorProfiles(): UnifiedFlavorProfile[] {
 /**
  * Get migrated profiles by category
  */
-export function getMigratedProfilesByCategory(
+export function getMigratedProfilesByCategory()
   category: UnifiedFlavorProfile['category'],
 ): UnifiedFlavorProfile[] {
   if (!_migrationInstance) {

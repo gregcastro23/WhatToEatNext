@@ -19,7 +19,7 @@ export const fermentation: CookingMethodData = {
     min: 1440, // 24 hours,
     max: 10080, // 7 days (or more for some ferments)
   },
-  suitable_for: [
+  suitable_for [
     'vegetables',
     'dairy',
     'grains',
@@ -339,8 +339,7 @@ export const fermentation: CookingMethodData = {
     acidity_balance: 'Lactic acid provides roundness and depth, acetic acid provides sharpness and higher notes, butyric acid (when appropriate) provides richness. Balance depends on ferment type and regional preferences.',
     microbial_succession: 'Progression through expected phases of fermentation: initial rapid growth phase, followed by slowing activity, and finally maturation phase with minimal visible activity but continued enzymatic processes.',
   },
-  ingredientInteractions: {
-    salt_effects: 'Creates selective pressure favoring salt-tolerant microbes like Lactobacillus while inhibiting pathogens. Above 10% primarily favors yeast activity. Traditional ranges: vegetables (1.5-3%), cheese (1-5%), bread (1.8-2.2% of flour weight), meat ferments (2.5-3.5%).',
+  ingredientInteractions: { salt_effects: 'Creates selective pressure favoring salt-tolerant microbes like Lactobacillus while inhibiting pathogens. Above 10% primarily favors yeast activity. Traditional ranges, vegetables (1.5-3%), cheese (1-5%), bread (1.8-2.2% of flour weight), meat ferments (2.5-3.5%).',
     sugar_concentration: 'Provides food for microbes, influencing rate of fermentation and final product. Higher concentrations (above 55%) become preservative, inhibiting most microbial activity. In vegetable ferments, natural sugars are converted to acidsin beverages, determines potential alcohol content.',
      protein_breakdown: 'Proteolysis during fermentation breaks proteins into peptides and amino acids, enhancing digestibility and flavor (especially umami). Particularly important in soy, dairy, and meat ferments. Different microbial strains produce distinct proteolytic enzyme profiles.',
     tannin_impact: 'Tannins from tea, grape skins, etc. can inhibit certain microbes while encouraging others. Provide structure in fermented beverages. Can bind to proteins, affecting texture development in both positive and negative ways depending on concentration.',

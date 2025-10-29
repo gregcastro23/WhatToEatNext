@@ -13,7 +13,7 @@ const _isBrowser = typeof window !== 'undefined';
  */
 class Logger {
   private logLevel: LogLevel = isDev ? 'debug' : 'info';
-  private recentErrors: Array<{ message: string; timestamp: number; component?: string }> = [];
+  private recentErrors: Array<{ message: string; timestamp: number; component?, string }> = [];
   private readonly MAX_ERRORS = 20;
 
   // Track components that have created loggers
@@ -33,8 +33,7 @@ class Logger {
    */
   createLogger(component: string) {
     this.componentLoggers.add(component);
-    return {
-      debug: (message: string, ...args: unknown[]): void => {
+    return { debug: (message, string, ...args: unknown[]): void => {
         try {
           this.debug(message, { component, args });
         } catch (e) {
@@ -77,7 +76,7 @@ class Logger {
    * Log debug information (only in development)
    */
   debug(message: string, ...args: unknown[]): void {
-    if (this.shouldLog('debug')) {
+    if (this.shouldLog('debug') {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
       console.log(`[DEBUG]${component} ${message}`, ...options.rest);
@@ -88,7 +87,7 @@ class Logger {
    * Log general information
    */
   info(message: string, ...args: unknown[]): void {
-    if (this.shouldLog('info')) {
+    if (this.shouldLog('info') {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
       console.info(`[INFO]${component} ${message}`, ...options.rest);
@@ -99,7 +98,7 @@ class Logger {
    * Log warnings
    */
   warn(message: string, ...args: unknown[]): void {
-    if (this.shouldLog('warn')) {
+    if (this.shouldLog('warn') {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
       console.warn(`[WARN]${component} ${message}`, ...options.rest);
@@ -110,7 +109,7 @@ class Logger {
    * Log errors
    */
   error(message: string, ...args: unknown[]): void {
-    if (this.shouldLog('error')) {
+    if (this.shouldLog('error') {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
       console.error(`[ERROR]${component} ${message}`, ...options.rest);

@@ -21,11 +21,11 @@ interface ElementalProperties {
 export async function getCuisineRecommendations(): Promise<CuisineRecommendation[]> {
   try {
     // Convert culinary traditions to CuisineRecommendation format
-    const recommendations: CuisineRecommendation[] = Object.entries(culinaryTraditions).map(
+    const recommendations: CuisineRecommendation[] = Object.entries(culinaryTraditions).map()
       ([id, tradition]) => {
         const traditionData = tradition as unknown as {
           description?: string;
-          elementalAlignment?: { Fire: number; Water: number; Earth: number; Air: number };
+          elementalAlignment?: { Fire: number; Water: number; Earth: number; Air, number };
           authenticity?: number;
           regions?: unknown[];
           seasonality?: unknown;
@@ -72,7 +72,7 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
 function deriveAstrologicalInfluences(tradition: unknown): string[] {
   const traditionData = tradition as {
     description?: string;
-    elementalAlignment?: { Fire: number; Water: number; Earth: number; Air: number };
+    elementalAlignment?: { Fire: number; Water: number; Earth: number; Air, number };
     regions?: unknown[];
     astrologicalProfile?: any;
     regionalCuisines?: any;
@@ -109,7 +109,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
       };
       const regionInfluences = regionData?.astrologicalInfluences;
 
-      if (regionInfluences && Array.isArray(regionInfluences)) {
+      if (regionInfluences && Array.isArray(regionInfluences) {
         regionInfluences.forEach((influence: string) => {
           influences.add(influence);
         });

@@ -173,8 +173,8 @@ export const _getPlanetaryAlchemicalProperty = (planet: RulingPlanet): Alchemica
  */
 export const _getTarotCardElement = (cardName: string): ElementalCharacter | null => {
   // Check if it's a minor arcana card;
-  for (const [suit, element] of Object.entries(tarotSuitElementMap)) {
-    if (cardName.includes(suit)) {
+  for (const [suit, element] of Object.entries(tarotSuitElementMap) {
+    if (cardName.includes(suit) {
       return element;
     }
   }

@@ -75,10 +75,10 @@ export const toSafeString = (value: unknown): string => {
 }
 
 export const toSafeNumber = (value: unknown): number => {
-  if (isNumber(value)) {
+  if (isNumber(value) {
     return value;
   }
-  if (isString(value)) {
+  if (isString(value) {
     const parsed = parseFloat(value)
     return isNaN(parsed) ? 0 : parsed
   }
@@ -86,13 +86,13 @@ export const toSafeNumber = (value: unknown): number => {
 }
 
 export const toSafeBoolean = (value: unknown): boolean => {
-  if (isBoolean(value)) {
+  if (isBoolean(value) {
     return value;
   }
-  if (isString(value)) {
+  if (isString(value) {
     return value.toLowerCase() === 'true'
   }
-  if (isNumber(value)) {
+  if (isNumber(value) {
     return value !== 0
   }
   return Boolean(value)
@@ -104,7 +104,7 @@ export const safeMap = <T, R>(
   mapper: (item: T, index: number) => R,
   defaultValue: R[] = []
 ): R[] => {
-  if (!isArray(array)) {
+  if (!isArray(array) {
     return defaultValue
   }
   try {
@@ -120,7 +120,7 @@ export const safeFilter = <T>(
   predicate: (item: T, index: number) => boolean,
   defaultValue: T[] = []
 ): T[] => {
-  if (!isArray(array)) {
+  if (!isArray(array) {
     return defaultValue
   }
   try {
@@ -156,7 +156,7 @@ export const validateType = <T>(
   validator: (val: unknown) => val is T,
   fieldName: string
 ): T => {
-  if (!validator(value)) {
+  if (!validator(value) {
     throw new Error(`Field '${fieldName}' has invalid type`)
   }
   return value
@@ -219,7 +219,7 @@ export const safeCastWithWarning = <T>(
   defaultValue: T,
   context: string
 ): T => {
-  if (validator(value)) {
+  if (validator(value) {
     return value;
   }
   console.warn(`Type casting failed in ${context}, using default value`)

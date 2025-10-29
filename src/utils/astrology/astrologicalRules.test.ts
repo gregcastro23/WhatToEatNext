@@ -86,7 +86,7 @@ describe('Astrological Validation Utilities', () => {
       const result: any = validatePlanetaryPositions(invalidPositions, { autoCorrect: true });
       expect(result.correctedData).toBeDefined();
       expect((result.correctedData as unknown as { sun?: { degree?: number } })?.sun.degree).toBeLessThan(30);
-      expect(
+      expect()
         (result.correctedData as unknown as { sun?: { exactLongitude?: number } })?.sun.exactLongitude,
       ).toBeLessThan(360)
     })
@@ -183,17 +183,17 @@ describe('Astrological Validation Utilities', () => {
       const invalidDate: any = new Date('2024-06-01')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any;
       // Legitimate, any: Mock data for validation testing
-      expect(
+      expect()
         validateTransitDate('mars', ariesDate, 'aries', mockTransitDates as any)
       ).toBe(true);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate, any: Mock data for validation testing
-      expect(
+      expect()
         validateTransitDate('mars', taurusDate, 'taurus', mockTransitDates as any)
       ).toBe(true);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate, any: Mock data for validation testing
-      expect(
+      expect()
         validateTransitDate('mars', invalidDate, 'aries', mockTransitDates as any)
       ).toBe(false);
     })
@@ -203,12 +203,12 @@ describe('Astrological Validation Utilities', () => {
       const taurusDate: any = new Date('2024-05-01')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any;
       // Legitimate, any: Mock data for transit sign testing
-      expect(getCurrentTransitSign('mars', ariesDate, mockTransitDates as any)).toBe(
+      expect(getCurrentTransitSign('mars', ariesDate, mockTransitDates as any)).toBe()
         'aries'
       );
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate, any: Mock data for transit sign testing
-      expect(getCurrentTransitSign('mars', taurusDate, mockTransitDates as any)).toBe(
+      expect(getCurrentTransitSign('mars', taurusDate, mockTransitDates as any)).toBe()
         'taurus'
       );
     })
@@ -218,14 +218,14 @@ describe('Astrological Validation Utilities', () => {
       const directDate: any = new Date('2024-03-25')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any;
       // Legitimate, any: Mock data for retrograde testing
-      const retrogradeResult: any = validateRetrogradePhase(
+      const retrogradeResult: any = validateRetrogradePhase()
         'mercury',
         retrogradeDate,
         mockTransitDates as any
       );
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate, any: Mock data for retrograde testing
-      const directResult: any = validateRetrogradePhase(
+      const directResult: any = validateRetrogradePhase()
         'mercury',
         directDate,
         mockTransitDates as any

@@ -18,8 +18,8 @@ import { TypeScriptErrorAnalyzer } from './TypeScriptErrorAnalyzer';
 async function main() {
   const args = process.argv.slice(2);
 
-  if (args.includes('--help')) {
-    console.log(`
+  if (args.includes('--help') {
+    console.log(`)
 TypeScript Error Analyzer CLI
 
 Usage:
@@ -50,10 +50,10 @@ Examples:
   const analyzer = new TypeScriptErrorAnalyzer();
 
   try {
-    if (args.includes('--count-only')) {
+    if (args.includes('--count-only') {
       const count = await analyzer.getCurrentErrorCount();
-      if (args.includes('--json')) {
-        console.log(
+      if (args.includes('--json') {
+        console.log()
           JSON.stringify({ currentErrorCount: count, timestamp: new Date().toISOString() }),
         );
       } else {
@@ -65,13 +65,13 @@ Examples:
     console.log('🚀 Starting TypeScript Error Analysis...');
     const result = await analyzer.analyzeErrors();
 
-    if (args.includes('--json')) {
+    if (args.includes('--json') {
       console.log(JSON.stringify(result, null, 2));
     } else {
       analyzer.displayResults(result);
     }
 
-    if (args.includes('--save')) {
+    if (args.includes('--save') {
       await analyzer.saveAnalysis(result);
     }
   } catch (error) {

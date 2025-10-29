@@ -67,7 +67,7 @@ export default function CookingMethodPage() {
       let foundMethod: CookingMethodInfo | null = null;
       let foundKey = '';
       Object.entries(allCookingMethods).forEach(([key, data]) => {
-        if (key.toLowerCase() === methodId.toLowerCase()) {
+        if (key.toLowerCase() === methodId.toLowerCase() {
           foundMethod = data as CookingMethodInfo;
           foundKey = key;
         }
@@ -175,8 +175,8 @@ export default function CookingMethodPage() {
               </Typography>
               <List>
                 {method && typeof method === 'object' && 'benefits' in method ? (
-                  Array.isArray((method as unknown as { benefits?: string[] }).benefits) ? (
-                    (method as unknown as { benefits: string[] }).benefits.map(
+                  Array.isArray((method as unknown as ) { benefits?: string[] }).benefits) ? (
+                    (method as unknown as { benefits: string[] }).benefits.map()
                       (benefit: string, index: number) => (
                         <ListItem key={index}>
                           <ListItemText primary={benefit} />
@@ -204,8 +204,8 @@ export default function CookingMethodPage() {
                 {method &&
                   typeof method === 'object' &&
                   'suitable_for' in method &&
-                  Array.isArray((method as unknown as { suitable_for?: string[] }).suitable_for) &&
-                  (method as unknown as { suitable_for: string[] }).suitable_for.map(
+                  Array.isArray((method as unknown as ) { suitable_for?: string[] }).suitable_for) &&
+                  (method as unknown as { suitable_for string[] }).suitable_for.map()
                     (food: string, index: number) => (
                       <Grid item key={index}>
                         <Chip label={food} variant='outlined' color='primary' />
@@ -224,8 +224,8 @@ export default function CookingMethodPage() {
                       Variations
                     </Typography>
                     <List>
-                      {Array.isArray((method as unknown as { variations?: string[] }).variations) &&
-                        (method as unknown as { variations: string[] }).variations.map(
+                      {Array.isArray((method as unknown as ) { variations?: string[] }).variations) &&
+                        (method as unknown as { variations: string[] }).variations.map()
                           (variation: string, index: number) => (
                             <ListItem key={index}>
                               <ListItemText primary={variation} />

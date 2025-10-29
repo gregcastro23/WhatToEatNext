@@ -550,9 +550,9 @@ export type IngredientSubCategory =
  */
 export interface EnhancedIngredient {
   name: string;
-  category: IngredientCategory,
-  subCategory?: IngredientSubCategory,
-  culinaryProfile: CulinaryProfile,
+  category: IngredientCategory;
+  subCategory?: IngredientSubCategory;
+  culinaryProfile: CulinaryProfile;
   // ... other existing properties
 }
 
@@ -560,7 +560,7 @@ export interface EnhancedIngredient {
  * Cuisine compatibility scoring interface
  */
 export interface CuisineCompatibility {
-  cuisine: CompleteCuisineType,
+  cuisine: CompleteCuisineType;
   score: number, // 0-1 scale,
   factors: string[];
   ingredientMatches: string[];
@@ -571,8 +571,8 @@ export interface CuisineCompatibility {
  * Cuisine pairing recommendations
  */
 export interface CuisinePairing {
-  primary: CompleteCuisineType,
-  secondary: CompleteCuisineType,
+  primary: CompleteCuisineType;
+  secondary: CompleteCuisineType;
   compatibility: number, // 0-1 scale,
   commonIngredients: string[];
   fusionOpportunities: string[];

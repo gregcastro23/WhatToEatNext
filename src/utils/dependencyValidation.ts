@@ -32,14 +32,14 @@ export function detectCircularDependencies(_moduleGraph: Record<string, string[]
   const cycles: string[][] = [];
 
   function dfs(node: string, path: string[]): void {
-    if (recursionStack.has(node)) {
+    if (recursionStack.has(node) {
       // Found a cycle
       const cycleStart = path.indexOf(node);
       cycles.push(path.slice(cycleStart).concat(node));
       return;
     }
 
-    if (visited.has(node)) {
+    if (visited.has(node) {
       return;
     }
 
@@ -54,8 +54,8 @@ export function detectCircularDependencies(_moduleGraph: Record<string, string[]
     recursionStack.delete(node);
   }
 
-  for (const node of Object.keys(_moduleGraph)) {
-    if (!visited.has(node)) {
+  for (const node of Object.keys(_moduleGraph) {
+    if (!visited.has(node) {
       dfs(node, []);
     }
   }
@@ -66,10 +66,10 @@ export function detectCircularDependencies(_moduleGraph: Record<string, string[]
 /**
  * Validate barrel exports to ensure all exported items exist
  */
-export async function validateBarrelExports(
+export async function validateBarrelExports()
   barrelPath: string,
   exports: string[]
-): Promise<{ valid: string[]; invalid: string[] }> {
+): Promise<{ valid: string[]; invalid, string[] }> {
   const valid: string[] = [];
   const invalid: string[] = [];
 
@@ -113,7 +113,7 @@ export const PROBLEMATIC_PATTERNS = [
 /**
  * Validate import statement against problematic patterns
  */
-export function validateImportStatement(
+export function validateImportStatement()
   importStatement: string,
   filePath: string
 ): {
@@ -124,7 +124,7 @@ export function validateImportStatement(
   let isValid = true;
 
   for (const { pattern, message } of PROBLEMATIC_PATTERNS) {
-    if (pattern.test(importStatement)) {
+    if (pattern.test(importStatement) {
       warnings.push(`${filePath}: ${message}`);
       isValid = false;
     }
@@ -144,7 +144,7 @@ export function extractImportStatements(fileContent: string): string[] {
 /**
  * Validate all imports in a file
  */
-export async function validateFileImports(
+export async function validateFileImports()
   filePath: string,
   fileContent: string
 ): Promise<{
@@ -165,7 +165,7 @@ export async function validateFileImports(
     const importPath = pathMatch[1];
 
     // Skip external packages (don't start with . or /)
-    if (!importPath.startsWith('.') && !importPath.startsWith('/')) {
+    if (!importPath.startsWith('.') && !importPath.startsWith('/') {
       continue;
     }
 
@@ -238,8 +238,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
 }> {
   const fs = await import('fs');
   const path = await import('path');
-  const glob = (await import('glob')).default as unknown as {
-    sync: (pattern: string, _options: { cwd: string; ignore: string[] }) => string[];
+  const glob = (await import('glob')).default as unknown as { sync: (pattern, string, _options: { cwd: string; ignore, string[] }) => string[];
   };
 
   const tsFiles = glob.sync('**/*.{ts,tsx}', {
@@ -272,7 +271,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
 
       for (const importStatement of imports) {
         const pathMatch = importStatement.match(/from\s+['"]([^'"]+)['"]/);
-        if (pathMatch && (pathMatch[1].startsWith('.') || pathMatch[1].startsWith('/'))) {
+        if (pathMatch && (pathMatch[1].startsWith('.') || pathMatch[1].startsWith('/')) {
           dependencies.push(pathMatch[1]);
         }
       }
@@ -298,7 +297,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
 /**
  * Auto-fix common dependency issues
  */
-export function autoFixDependencyIssues(
+export function autoFixDependencyIssues()
   fileContent: string,
   _filePath: string
 ): {

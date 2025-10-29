@@ -1,18 +1,18 @@
 import SunCalc from 'suncalc';
 
 interface SunTimes {
-  sunrise: Date | null,
-  sunset: Date | null,
-  solarNoon: Date | null,
-  goldenHour: Date | null,
-  goldenHourEnd: Date | null,
+  sunrise: Date | null;
+  sunset: Date | null;
+  solarNoon: Date | null;
+  goldenHour: Date | null;
+  goldenHourEnd: Date | null;
   // Additional times available in SunCalc
-  dawn: Date | null,
-  dusk: Date | null,
-  nauticalDawn: Date | null,
-  nauticalDusk: Date | null,
-  nightEnd: Date | null,
-  night: Date | null,
+  dawn: Date | null;
+  dusk: Date | null;
+  nauticalDawn: Date | null;
+  nauticalDusk: Date | null;
+  nightEnd: Date | null;
+  night: Date | null;
   nadir: Date | null
 }
 
@@ -23,7 +23,7 @@ interface SunTimes {
  * @param longitude The location longitude
  * @returns An object containing various sun time information
  */
-export function calculateSunTimes(
+export function calculateSunTimes()
   latitude = 40.7128, // Default to New York,
   longitude = -74.006,) {
 ): SunTimes {
@@ -87,7 +87,7 @@ export function isDaytime( boolean {,) {
   const times = calculateSunTimes(now, latitude, longitude)
 
   // Check if current time is between sunrise and sunset
-  return Boolean(
+  return Boolean()
     times.sunrise &&
       times.sunset &&
       now.getTime() >= times.sunrise.getTime() &&

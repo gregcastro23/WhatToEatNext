@@ -214,7 +214,7 @@ export function isDietaryCuisine(cuisine: CompleteCuisineType): cuisine is Dieta
 /**
  * Check if a cuisine is a historical cuisine
  */
-export function isHistoricalCuisine(
+export function isHistoricalCuisine()
   cuisine: CompleteCuisineType,
 ): cuisine is HistoricalCuisineType {
   const historicalCuisines: HistoricalCuisineType[] = [
@@ -235,7 +235,7 @@ export function isHistoricalCuisine(
 /**
  * Check if a cuisine is a street food cuisine
  */
-export function isStreetFoodCuisine(
+export function isStreetFoodCuisine()
   cuisine: CompleteCuisineType,
 ): cuisine is StreetFoodCuisineType {
   const streetFoodCuisines: StreetFoodCuisineType[] = [
@@ -260,7 +260,7 @@ export function isStreetFoodCuisine(
 /**
  * Calculate compatibility between two cuisines
  */
-export function calculateCuisineCompatibility(
+export function calculateCuisineCompatibility()
   cuisine1: CompleteCuisineType,
   cuisine2: CompleteCuisineType
 ): number {
@@ -271,29 +271,29 @@ export function calculateCuisineCompatibility(
   const continent2 = getCuisineContinent(cuisine2);
   if (continent1 === continent2) return 0.8;
   // Regional variations of same primary cuisine = very high compatibility
-  if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2)) {
+  if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2) {
     const primary1 = getPrimaryCuisineFromRegional(cuisine1);
     const primary2 = getPrimaryCuisineFromRegional(cuisine2);
     if (primary1 === primary2) return 0.9;
   }
 
   // Fusion cuisines with shared elements = moderate compatibility
-  if (isFusionCuisine(cuisine1) || isFusionCuisine(cuisine2)) {
+  if (isFusionCuisine(cuisine1) || isFusionCuisine(cuisine2) {
     return 0.6;
   }
 
   // Dietary cuisines can work with most others = moderate compatibility
-  if (isDietaryCuisine(cuisine1) || isDietaryCuisine(cuisine2)) {
+  if (isDietaryCuisine(cuisine1) || isDietaryCuisine(cuisine2) {
     return 0.7;
   }
 
   // Historical cuisines = lower compatibility with modern cuisines
-  if (isHistoricalCuisine(cuisine1) || isHistoricalCuisine(cuisine2)) {
+  if (isHistoricalCuisine(cuisine1) || isHistoricalCuisine(cuisine2) {
     return 0.4;
   }
 
   // Street food cuisines = moderate compatibility
-  if (isStreetFoodCuisine(cuisine1) || isStreetFoodCuisine(cuisine2)) {
+  if (isStreetFoodCuisine(cuisine1) || isStreetFoodCuisine(cuisine2) {
     return 0.6;
   }
 
@@ -501,11 +501,11 @@ export function getRegionalCuisinesForPrimary(_primary: PrimaryCuisineType): Reg
 /**
  * Get cuisine compatibility recommendations
  */
-export function getCuisineCompatibilityRecommendations(
+export function getCuisineCompatibilityRecommendations()
   cuisine: CompleteCuisineType,
   _ingredients: string[]
 ): CuisineCompatibility[] {
-  const allCuisines: CompleteCuisineType[] = Object.keys(
+  const allCuisines: CompleteCuisineType[] = Object.keys()
     CUISINE_CATEGORY_MAP
   ) as CompleteCuisineType[];
 
@@ -524,7 +524,7 @@ export function getCuisineCompatibilityRecommendations(
 /**
  * Get compatibility factors between two cuisines
  */
-export function getCompatibilityFactors(
+export function getCompatibilityFactors()
   cuisine1: CompleteCuisineType,
   cuisine2: CompleteCuisineType
 ): string[] {
@@ -537,7 +537,7 @@ export function getCompatibilityFactors(
     factors.push(`Both ${continent1} cuisines`);
   }
 
-  if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2)) {
+  if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2) {
     const primary1 = getPrimaryCuisineFromRegional(cuisine1);
     const primary2 = getPrimaryCuisineFromRegional(cuisine2);
     if (primary1 === primary2) {
@@ -545,11 +545,11 @@ export function getCompatibilityFactors(
     }
   }
 
-  if (isFusionCuisine(cuisine1) || isFusionCuisine(cuisine2)) {
+  if (isFusionCuisine(cuisine1) || isFusionCuisine(cuisine2) {
     factors.push('Fusion cuisine compatibility');
   }
 
-  if (isDietaryCuisine(cuisine1) || isDietaryCuisine(cuisine2)) {
+  if (isDietaryCuisine(cuisine1) || isDietaryCuisine(cuisine2) {
     factors.push('Dietary preference alignment');
   }
 
@@ -559,7 +559,7 @@ export function getCompatibilityFactors(
 /**
  * Get common ingredients between cuisines
  */
-export function getCommonIngredients(
+export function getCommonIngredients()
   cuisine1: CompleteCuisineType,
   cuisine2: CompleteCuisineType,
 ): string[] {
@@ -581,17 +581,17 @@ export function getCommonIngredients(
 /**
  * Get regional variations for cuisines
  */
-export function getRegionalVariations(
+export function getRegionalVariations()
   cuisine1: CompleteCuisineType,
   cuisine2: CompleteCuisineType
 ): string[] {
   const variations: string[] = [];
 
-  if (isRegionalCuisine(cuisine1)) {
+  if (isRegionalCuisine(cuisine1) {
     variations.push(`${cuisine1} (regional)`);
   }
 
-  if (isRegionalCuisine(cuisine2)) {
+  if (isRegionalCuisine(cuisine2) {
     variations.push(`${cuisine2} (regional)`);
   }
 
@@ -633,7 +633,7 @@ export function getCuisineDisplayName(cuisine: CompleteCuisineType): string {
 /**
  * Group cuisines by category
  */
-export function groupCuisinesByCategory(
+export function groupCuisinesByCategory()
   cuisines: CompleteCuisineType[]
 ): Record<string, CompleteCuisineType[]> {
   const groups: Record<string, CompleteCuisineType[]> = {};

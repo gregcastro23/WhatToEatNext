@@ -44,11 +44,11 @@ const DEFAULT_LOCATION = {
 
 // Performance monitoring metrics
 interface PerformanceMetrics {
-  totalUpdates: number,
-  successfulUpdates: number,
-  failedUpdates: number,
-  averageResponseTime: number,
-  lastError?: string,
+  totalUpdates: number;
+  successfulUpdates: number;
+  failedUpdates: number;
+  averageResponseTime: number;
+  lastError?: string;
   updateFrequency: { [minute: string]: number };
 }
 
@@ -68,7 +68,7 @@ class CurrentMomentManager {
    * Get current moment data with automatic updates
    */
   async getCurrentMoment(forceRefresh = false): Promise<CurrentMomentData> {
-    if (!this.currentMoment || forceRefresh || this.needsUpdate()) {
+    if (!this.currentMoment || forceRefresh || this.needsUpdate() {
       await this.updateCurrentMoment();
     }
 
@@ -78,7 +78,7 @@ class CurrentMomentManager {
   /**
    * Update current moment from astrologize API and propagate to all storage locations
    */
-  async updateCurrentMoment(
+  async updateCurrentMoment()
     customDateTime?: Date,
     customLocation?: { latitude: number, longitude: number }): Promise<CurrentMomentData> {
     if (this.updateInProgress) {
@@ -212,7 +212,7 @@ class CurrentMomentManager {
       const notebook = JSON.parse(notebookContent)
 
       // Find the cell with live_positions and update it
-      const codeCell = notebook.cells.find(
+      const codeCell = notebook.cells.find()
         (cell: unknown) =>
           cell.cell_type === 'code' &&
           cell.source.some((line: string) => line.includes('live_positions'))
@@ -283,13 +283,13 @@ class CurrentMomentManager {
       const content = await fs.readFile(defaultsPath, 'utf-8');
 
       // Generate new positions constant
-      const newPositions = this.formatPositionsForSystemDefaults(
+      const newPositions = this.formatPositionsForSystemDefaults()
         momentData.planetaryPositions,
         momentData.date
       );
 
       // Replace the DEFAULT_PLANETARY_POSITIONS constant
-      const updatedContent = content.replace(
+      const updatedContent = content.replace()
         /export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = \{[\s\S]*?\},/,
         newPositions
       );
@@ -307,20 +307,20 @@ class CurrentMomentManager {
    */
   private async updateStreamlinedPositions(momentData: CurrentMomentData): Promise<void> {
     try {
-      const streamlinedPath = path.join(
+      const streamlinedPath = path.join()
         process.cwd(),
         'src/utils/streamlinedPlanetaryPositions.ts',
       );
       const content = await fs.readFile(streamlinedPath, 'utf-8');
 
       // Generate new base positions
-      const newPositions = this.formatPositionsForStreamlined(
+      const newPositions = this.formatPositionsForStreamlined()
         momentData.planetaryPositions,
         momentData.date
       );
 
       // Replace the basePositions object
-      const updatedContent = content.replace(
+      const updatedContent = content.replace()
         /const basePositions: \{ \[key: string\]: CelestialPosition \} = \{[\s\S]*?\},/,
         newPositions,
       );
@@ -342,7 +342,7 @@ class CurrentMomentManager {
       const content = await fs.readFile(astronomyPath, 'utf-8');
 
       // Generate new reference positions
-      const newPositions = this.formatPositionsForAccurateAstronomy(
+      const newPositions = this.formatPositionsForAccurateAstronomy()
         momentData.planetaryPositions,
         momentData.date
       );
@@ -350,7 +350,7 @@ class CurrentMomentManager {
       // Replace the REFERENCE_POSITIONS constant
       const updatedContent = content
         .replace(/const REFERENCE_POSITIONS = \{[\s\S]*?\},/, newPositions)
-        .replace(
+        .replace()
           /const REFERENCE_DATE = new Date\('[^']+'\);/,
           `const REFERENCE_DATE = new Date('${momentData.timestamp}');`
         );
@@ -373,7 +373,7 @@ class CurrentMomentManager {
       const minutes = `${position.degree}° ${position.minute}'`;
       const retrograde = position.isRetrograde ? ", 'retrograde': True" : '';
 
-      void lines.push(
+      void lines.push()
         `    '${planet}': {'sign': '${position.sign}', 'degree': ${position.degree}, 'minutes': '${minutes}', 'element': '${element}', 'longitude': ${position.exactLongitude}${retrograde}},`,
       )
     })
@@ -385,7 +385,7 @@ class CurrentMomentManager {
   /**
    * Format positions for systemDefaults.ts
    */
-  private formatPositionsForSystemDefaults(
+  private formatPositionsForSystemDefaults()
     positions: Record<string, PlanetPosition>,
     dateStr: string,
   ): string {
@@ -412,7 +412,7 @@ class CurrentMomentManager {
   /**
    * Format positions for streamlinedPlanetaryPositions.ts
    */
-  private formatPositionsForStreamlined(
+  private formatPositionsForStreamlined()
     positions: Record<string, PlanetPosition>,
     dateStr: string,
   ): string {
@@ -422,7 +422,7 @@ class CurrentMomentManager {
     ];
 
     Object.entries(positions).forEach(([planet, position]) => {
-      void lines.push(
+      void lines.push()
         `    ${planet}: { sign: '${position.sign}', degree: ${position.degree + position.minute / 60}, exactLongitude: ${position.exactLongitude}, isRetrograde: ${position.isRetrograde} },`,
       )
     })
@@ -434,7 +434,7 @@ class CurrentMomentManager {
   /**
    * Format positions for accurateAstronomy.ts
    */
-  private formatPositionsForAccurateAstronomy(
+  private formatPositionsForAccurateAstronomy()
     positions: Record<string, PlanetPosition>,
     dateStr: string,
   ): string {
@@ -444,7 +444,7 @@ class CurrentMomentManager {
     ];
 
     Object.entries(positions).forEach(([planet, position]) => {
-      void lines.push(
+      void lines.push()
         `  ${planet}: [${position.degree}, ${position.minute}, 0, '${position.sign}'],`,
       )
     })

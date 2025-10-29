@@ -23,9 +23,9 @@ import { log } from '@/services/LoggingService';
 
 export interface SystemMetrics {
   cpu: {
-    usage: number,
-    loadAverage: number[],
-    cores: number,
+    usage: number;
+    loadAverage: number[];
+    cores: number;
     model: string
   },
   memory: {
@@ -50,49 +50,49 @@ export interface SystemMetrics {
 }
 
 export interface ProcessMetrics {
-  pid: number,
-  name: string,
-  cpu: number,
-  memory: number,
-  uptime: number,
-  threads: number,
-  fileDescriptors: number,
+  pid: number;
+  name: string;
+  cpu: number;
+  memory: number;
+  uptime: number;
+  threads: number;
+  fileDescriptors: number;
   timestamp: Date
 }
 
 export interface BuildMetrics {
-  buildTime: number,
-  buildSize: number,
-  bundleSize: number,
-  chunks: number,
-  assets: number,
-  errors: number,
-  warnings: number,
-  success: boolean,
+  buildTime: number;
+  buildSize: number;
+  bundleSize: number;
+  chunks: number;
+  assets: number;
+  errors: number;
+  warnings: number;
+  success: boolean;
   timestamp: Date
 }
 
 export interface TypeScriptMetrics {
-  errorCount: number,
-  warningCount: number,
-  compilationTime: number,
-  fileCount: number,
-  linesOfCode: number,
-  complexity: number,
-  maintainabilityIndex: number,
-  technicalDebt: number,
+  errorCount: number;
+  warningCount: number;
+  compilationTime: number;
+  fileCount: number;
+  linesOfCode: number;
+  complexity: number;
+  maintainabilityIndex: number;
+  technicalDebt: number;
   timestamp: Date
 }
 
 export interface TestMetrics {
-  totalTests: number,
-  passedTests: number,
-  failedTests: number,
-  skippedTests: number,
+  totalTests: number;
+  passedTests: number;
+  failedTests: number;
+  skippedTests: number;
   coverage: {
-    lines: number,
-    branches: number,
-    functions: number,
+    lines: number;
+    branches: number;
+    functions: number;
     statements: number
   },
   duration: number,
@@ -100,53 +100,53 @@ export interface TestMetrics {
 }
 
 export interface PerformanceSnapshot {
-  snapshotId: string,
-  systemMetrics: SystemMetrics,
-  processMetrics: ProcessMetrics,
-  buildMetrics: BuildMetrics,
-  typeScriptMetrics: TypeScriptMetrics,
-  testMetrics: TestMetrics,
-  timestamp: Date,
-  healthScore: number,
+  snapshotId: string;
+  systemMetrics: SystemMetrics;
+  processMetrics: ProcessMetrics;
+  buildMetrics: BuildMetrics;
+  typeScriptMetrics: TypeScriptMetrics;
+  testMetrics: TestMetrics;
+  timestamp: Date;
+  healthScore: number;
   alerts: PerformanceAlert[]
 }
 
 export interface PerformanceAlert {
-  alertId: string,
+  alertId: string;
   type: 'warning' | 'error' | 'critical'
   category: 'cpu' | 'memory' | 'disk' | 'build' | 'typescript' | 'test'
-  message: string,
-  threshold: number,
-  currentValue: number,
-  timestamp: Date,
+  message: string;
+  threshold: number;
+  currentValue: number;
+  timestamp: Date;
   resolved: boolean
 }
 
 export interface PerformanceTrend {
-  trendId: string,
-  metric: string,
+  trendId: string;
+  metric: string;
   direction: 'improving' | 'degrading' | 'stable'
-  changeRate: number,
-  significance: number,
-  dataPoints: number,
-  startDate: Date,
-  endDate: Date,
+  changeRate: number;
+  significance: number;
+  dataPoints: number;
+  startDate: Date;
+  endDate: Date;
   prediction: {
-    nextValue: number,
-    confidence: number,
+    nextValue: number;
+    confidence: number;
     timeframe: number
   }
 }
 
 export interface PerformanceReport {
-  reportId: string,
+  reportId: string;
   timeframe: '1h' | '6h' | '24h' | '7d' | '30d'
   summary: {
-    avgHealthScore: number,
-    totalAlerts: number,
-    criticalAlerts: number,
+    avgHealthScore: number;
+    totalAlerts: number;
+    criticalAlerts: number;
     performanceGrade: 'A' | 'B' | 'C' | 'D' | 'F'
-    topIssues: string[],
+    topIssues: string[];
     improvements: string[]
   },
   trends: PerformanceTrend[],
@@ -161,16 +161,16 @@ export interface PerformanceReport {
 }
 
 export interface PerformanceRecommendation {
-  recommendationId: string,
+  recommendationId: string;
   priority: 'low' | 'medium' | 'high' | 'critical'
   category: 'optimization' | 'maintenance' | 'scaling' | 'security'
-  title: string,
-  description: string,
+  title: string;
+  description: string;
   impact: 'low' | 'medium' | 'high'
   effort: 'low' | 'medium' | 'high'
-  estimatedImprovement: number,
-  implementation: string[],
-  dependencies: string[],
+  estimatedImprovement: number;
+  implementation: string[];
+  dependencies: string[];
   resources: string[]
 }
 
@@ -216,7 +216,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     this.isMonitoring = true,
     log.info(`🔄 Starting performance monitoring (${intervalMinutes}min intervals)`)
 
-    this.monitoringInterval = setInterval(
+    this.monitoringInterval = setInterval()
       () => {
         void (async () => {
           try {
@@ -262,7 +262,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     const startTime = Date.now()
     log.info('📊 Capturing performance snapshot...');
     const [systemMetrics, processMetrics, buildMetrics, typeScriptMetrics, testMetrics] =
-      await Promise.all([
+      await Promise.all([)
         this.collectSystemMetrics()
         this.collectProcessMetrics()
         this.collectBuildMetrics()
@@ -278,7 +278,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       typeScriptMetrics,
       testMetrics,
       timestamp: new Date(),
-      healthScore: this.calculateHealthScore(,
+      healthScore: this.calculateHealthScore(,)
         systemMetrics,
         buildMetrics,
         typeScriptMetrics,
@@ -304,7 +304,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     const captureTime = Date.now() - startTime;
     log.info(`✅ Performance snapshot captured in ${captureTime}ms`)
-    log.info(
+    log.info()
       `📊 Health Score: ${snapshot.healthScore.toFixed(2)}, Alerts: ${snapshot.alerts.length}`,
     )
 
@@ -570,7 +570,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     let warnings = 0,
 
     for (const line of lines) {
-      if (line.includes('built in')) {
+      if (line.includes('built in') {
         // Extract build stats from Next.js output
         const sizeMatch = line.match(/(\d+\.?\d*)\s*(kB|MB|GB)/)
         if (sizeMatch) {
@@ -793,7 +793,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     for (const line of lines) {
       // Jest output parsing
-      if (line.includes('Tests: ')) {
+      if (line.includes('Tests: ') {
         const testMatch = line.match(/(\d+) passed/)
         if (testMatch) passedTests = parseInt(testMatch[1])
 
@@ -807,7 +807,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       }
 
       // Coverage parsing
-      if (line.includes('All files')) {
+      if (line.includes('All files') {
         const coverageMatch = line.match(/(\d+\.?\d*)\s*%/g)
         if (coverageMatch && coverageMatch.length >= 4) {
           coverage.statements = parseFloat(coverageMatch[0])
@@ -826,7 +826,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   /**
    * Calculate overall health score
    */
-  private calculateHealthScore(
+  private calculateHealthScore()
     system: SystemMetrics,
     build: BuildMetrics,
     typescript: TypeScriptMetrics,
@@ -870,8 +870,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // CPU alerts
     if (snapshot.systemMetrics.cpu.usage > this.THRESHOLDS.cpu.critical) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'critical',
           'cpu',
           'Critical CPU usage detected',
@@ -880,8 +880,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         ),
       )
     } else if (snapshot.systemMetrics.cpu.usage > this.THRESHOLDS.cpu.error) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'error',
           'cpu',
           'High CPU usage detected',
@@ -890,8 +890,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         ),
       )
     } else if (snapshot.systemMetrics.cpu.usage > this.THRESHOLDS.cpu.warning) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'warning',
           'cpu',
           'Elevated CPU usage detected',
@@ -903,8 +903,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // Memory alerts
     if (snapshot.systemMetrics.memory.usage > this.THRESHOLDS.memory.critical) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'critical',
           'memory',
           'Critical memory usage detected',
@@ -913,8 +913,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         ),
       )
     } else if (snapshot.systemMetrics.memory.usage > this.THRESHOLDS.memory.error) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'error',
           'memory',
           'High memory usage detected',
@@ -923,8 +923,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         ),
       )
     } else if (snapshot.systemMetrics.memory.usage > this.THRESHOLDS.memory.warning) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'warning',
           'memory',
           'Elevated memory usage detected',
@@ -936,8 +936,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // Disk alerts
     if (snapshot.systemMetrics.disk.usage > this.THRESHOLDS.disk.critical) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'critical',
           'disk',
           'Critical disk usage detected',
@@ -946,8 +946,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         ),
       )
     } else if (snapshot.systemMetrics.disk.usage > this.THRESHOLDS.disk.error) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'error',
           'disk',
           'High disk usage detected',
@@ -956,8 +956,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         ),
       )
     } else if (snapshot.systemMetrics.disk.usage > this.THRESHOLDS.disk.warning) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'warning',
           'disk',
           'Elevated disk usage detected',
@@ -969,8 +969,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // Build alerts
     if (snapshot.buildMetrics.buildTime > this.THRESHOLDS.buildTime.critical) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'critical',
           'build',
           'Critical build time detected',
@@ -979,8 +979,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         ),
       )
     } else if (snapshot.buildMetrics.buildTime > this.THRESHOLDS.buildTime.error) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'error',
           'build',
           'High build time detected',
@@ -989,8 +989,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         ),
       )
     } else if (snapshot.buildMetrics.buildTime > this.THRESHOLDS.buildTime.warning) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'warning',
           'build',
           'Elevated build time detected',
@@ -1002,8 +1002,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // TypeScript alerts
     if (snapshot.typeScriptMetrics.errorCount > this.THRESHOLDS.errorCount.critical) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'critical',
           'typescript',
           'Critical TypeScript error count',
@@ -1012,8 +1012,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         ),
       )
     } else if (snapshot.typeScriptMetrics.errorCount > this.THRESHOLDS.errorCount.error) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'error',
           'typescript',
           'High TypeScript error count',
@@ -1022,8 +1022,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         ),
       )
     } else if (snapshot.typeScriptMetrics.errorCount > this.THRESHOLDS.errorCount.warning) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'warning',
           'typescript',
           'Elevated TypeScript error count',
@@ -1042,8 +1042,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       4,
 
     if (avgCoverage < this.THRESHOLDS.testCoverage.critical) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'critical',
           'test',
           'Critical test coverage',
@@ -1052,8 +1052,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         ),
       )
     } else if (avgCoverage < this.THRESHOLDS.testCoverage.error) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'error',
           'test',
           'Low test coverage',
@@ -1062,8 +1062,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         ),
       )
     } else if (avgCoverage < this.THRESHOLDS.testCoverage.warning) {
-      alerts.push(
-        this.createAlert(
+      alerts.push()
+        this.createAlert()
           'warning',
           'test',
           'Below target test coverage',
@@ -1079,7 +1079,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   /**
    * Create performance alert
    */
-  private createAlert(
+  private createAlert()
     type: 'warning' | 'error' | 'critical'
     category: 'cpu' | 'memory' | 'disk' | 'build' | 'typescript' | 'test'
     message: string,
@@ -1134,7 +1134,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         valueDiff > 0.1 ? 'degrading' : valueDiff < -0.1 ? 'improving' : 'stable',
       existingTrend.dataPoints++,
       existingTrend.endDate = new Date()
-      existingTrend.prediction = this.calculatePrediction(
+      existingTrend.prediction = this.calculatePrediction()
         metricName,
         value,
         existingTrend.changeRate
@@ -1162,7 +1162,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   /**
    * Calculate prediction for metric
    */
-  private calculatePrediction(
+  private calculatePrediction()
     metricName: string,
     currentValue: number,
     changeRate: number,
@@ -1189,7 +1189,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   /**
    * Generate performance report
    */
-  generatePerformanceReport(
+  generatePerformanceReport()
     timeframe: '1h' | '6h' | '24h' | '7d' | '30d' = '24h'): PerformanceReport {
     const endTime = new Date()
     const startTime = new Date(endTime)
@@ -1206,7 +1206,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     startTime.setTime(startTime.getTime() - timeframeMs[timeframe]),
 
     // Filter snapshots by timeframe
-    const timeframeSnapshots = this.snapshots.filter(snapshot => snapshot.timestamp >= startTime && snapshot.timestamp <= endTime,
+    const timeframeSnapshots = this.snapshots.filter(snapshot => snapshot.timestamp >= startTime && snapshot.timestamp <= endTime,)
     ),
 
     if (timeframeSnapshots.length === 0) {,
@@ -1297,7 +1297,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const last = snapshots[snapshots.length - 1]
 
       if (last.healthScore > first.healthScore) {
-        improvements.push(
+        improvements.push()
           `Health score improved by ${(last.healthScore - first.healthScore).toFixed(1)}%`,
         )
       }
@@ -1319,7 +1319,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   /**
    * Generate performance recommendations
    */
-  private generateRecommendations(
+  private generateRecommendations()
     summary: PerformanceReport['summary'],
     trends: PerformanceTrend[],
   ): PerformanceRecommendation[] {
@@ -1475,12 +1475,12 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
   private setupEventHandlers(): void {
     this.on('alert-generated', (alert: PerformanceAlert) => {
-      log.info(`🚨 Performance Alert: ${alert.message} (${alert.currentValue})`)
+      log.info(`🚨 Performance Alert ${alert.message} (${alert.currentValue})`)
     })
 
     this.on('trend-updated', (trend: PerformanceTrend) => {
       if (trend.direction !== 'stable') {
-        log.info(`📈 Trend Update: ${trend.metric} is ${trend.direction}`)
+        log.info(`📈 Trend Update ${trend.metric} is ${trend.direction}`)
       }
     })
   }
@@ -1502,7 +1502,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   private loadPersistedData(): void {
     try {
       // Load snapshots
-      if (fs.existsSync(this.METRICS_FILE)) {
+      if (fs.existsSync(this.METRICS_FILE) {
         const data = JSON.parse(fs.readFileSync(this.METRICS_FILE, 'utf8')),
         this.snapshots = data.map((item: unknown) => ({,
           ...item,
@@ -1511,7 +1511,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       }
 
       // Load alerts
-      if (fs.existsSync(this.ALERTS_FILE)) {
+      if (fs.existsSync(this.ALERTS_FILE) {
         const data = JSON.parse(fs.readFileSync(this.ALERTS_FILE, 'utf8')),
         this.alerts = data.map((item: unknown) => ({,
           ...item,

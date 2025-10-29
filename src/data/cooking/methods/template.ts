@@ -21,7 +21,7 @@ export const _methodName: CookingMethodData = {
     min: 0, // Minimum cooking time in minutes,
     max: 0, // Maximum cooking time in minutes
   },
-  suitable_for: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4', 'ingredient5'], // Types of ingredients this method works well with,
+  suitable_for ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4', 'ingredient5'], // Types of ingredients this method works well with,
   benefits: ['benefit1', 'benefit2', 'benefit3', 'benefit4', 'benefit5'], // Advantages of this cooking method,
 
   astrologicalInfluences: {

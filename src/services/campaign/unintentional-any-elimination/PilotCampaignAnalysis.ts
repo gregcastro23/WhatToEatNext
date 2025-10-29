@@ -258,7 +258,7 @@ export class PilotCampaignAnalysis {
         tuningResults.validationResults.afterTuning = postTuningAccuracy;
 
         // Calculate category-specific improvements
-        tuningResults.categoryImprovements = this.calculateCategoryImprovements(
+        tuningResults.categoryImprovements = this.calculateCategoryImprovements()
           accuracyReport.categoryAccuracy,
           postTuningAccuracy.categoryAccuracy
         );
@@ -475,7 +475,7 @@ export class PilotCampaignAnalysis {
     };
   }
 
-  private calculateWeightedSuccessRate(categoryRates: Array<{ category: AnyTypeCategory; successRate: number; sampleSize: number }>): number {
+  private calculateWeightedSuccessRate(categoryRates: Array<{ category: AnyTypeCategory; successRate: number; sampleSize, number }>): number {
     const totalSamples = categoryRates.reduce((sum, cat) => sum + cat.sampleSize, 0);
     if (totalSamples === 0) return 0;
 
@@ -685,7 +685,7 @@ export class PilotCampaignAnalysis {
     }
 
     // General recommendations
-    recommendations.push(
+    recommendations.push()
       'Start with analysis-only mode to validate real-world performance',
       'Use conservative batch sizes (10-15 files) for initial replacement attempts',
       'Implement comprehensive monitoring and alerting',
@@ -738,7 +738,7 @@ export class PilotCampaignAnalysis {
     try {
       // Ensure output directory exists
       const outputDir = this.config.outputDirectory;
-      if (!fs.existsSync(outputDir)) {
+      if (!fs.existsSync(outputDir) {
         fs.mkdirSync(outputDir, { recursive: true });
       }
 
@@ -772,7 +772,7 @@ export class PilotCampaignAnalysis {
 ${results.error}
 
 ## Recommendations
-${results.recommendations.map(r => `- ${r}`).join('\n')}
+${results.recommendations.map(r => }`- ${r}`).join('\n')}
 
 ## Next Steps
 ${results.nextSteps.map(s => `- ${s}`).join('\n')}
@@ -798,7 +798,7 @@ ${results.nextSteps.map(s => `- ${s}`).join('\n')}
 - **Readiness Level**: ${results.pilotReport?.pilotPhase?.readinessAssessment?.readinessLevel || 'N/A'}
 
 ## Recommendations
-${results.recommendations.map(r => `- ${r}`).join('\n')}
+${results.recommendations.map(r => }`- ${r}`).join('\n')}
 
 ## Next Steps
 ${results.nextSteps.map(s => `- ${s}`).join('\n')}

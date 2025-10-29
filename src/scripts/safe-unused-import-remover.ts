@@ -16,20 +16,20 @@ import fs from 'fs';
 import path from 'path';
 
 interface UnusedImport {
-  file: string,
-  line: number,
-  column: number,
-  importName: string,
-  message: string,
-  isTypeImport: boolean,
-  isDefaultImport: boolean,
+  file: string;
+  line: number;
+  column: number;
+  importName: string;
+  message: string;
+  isTypeImport: boolean;
+  isDefaultImport: boolean;
   isNamespaceImport: boolean;
 }
 
 interface ImportAnalysis {
-  totalUnusedImports: number,
-  safeToRemove: UnusedImport[],
-  requiresManualReview: UnusedImport[],
+  totalUnusedImports: number;
+  safeToRemove: UnusedImport[];
+  requiresManualReview: UnusedImport[];
   preserved: UnusedImport[];
 }
 
@@ -86,9 +86,9 @@ class SafeUnusedImportRemover {
 
     // Categorize each unused import
     for (const unusedImport of unusedImports) {
-      if (this.shouldPreserve(unusedImport)) {
+      if (this.shouldPreserve(unusedImport) {
         analysis.preserved.push(unusedImport);
-      } else if (this.isSafeToRemove(unusedImport)) {
+      } else if (this.isSafeToRemove(unusedImport) {
         analysis.safeToRemove.push(unusedImport);
       } else {
         analysis.requiresManualReview.push(unusedImport);
@@ -157,7 +157,7 @@ class SafeUnusedImportRemover {
         line.includes('@typescript-eslint/no-unused-vars') &&
         (line.includes('is defined but never used') || line.includes('is imported but never used'))
       ) {
-        const match = line.match(
+        const match = line.match()
           /^(.+):(\d+):(\d+):\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
         );
         if (match) {
@@ -191,23 +191,23 @@ class SafeUnusedImportRemover {
     const { file, importName, message } = unusedImport;
 
     // Preserve imports in critical astrological files
-    if (this.astrologicalFiles.some(pattern => file.includes(pattern))) {
+    if (this.astrologicalFiles.some(pattern => file.includes(pattern)) {
       return true;
     }
 
     // Preserve imports in campaign system files
-    if (this.campaignSystemFiles.some(pattern => file.includes(pattern))) {
+    if (this.campaignSystemFiles.some(pattern => file.includes(pattern)) {
       return true;
     }
 
     // Preserve imports that match preserve patterns
     const fileContent = this.getFileContent(file);
-    if (this.preservePatterns.some(pattern => pattern.test(fileContent))) {
+    if (this.preservePatterns.some(pattern => pattern.test(fileContent)) {
       return true;
     }
 
     // Preserve React component imports (might be used in JSX)
-    if (importName.match(/^[A-Z]/) && file.includes('.tsx')) {
+    if (importName.match(/^[A-Z]/) && file.includes('.tsx') {
       return true;
     }
 
@@ -230,7 +230,7 @@ class SafeUnusedImportRemover {
       'campaign',
     ];
 
-    if (preserveNames.some(name => importName.toLowerCase().includes(name.toLowerCase()))) {
+    if (preserveNames.some(name => importName.toLowerCase().includes(name.toLowerCase())) {
       return true;
     }
 
@@ -244,7 +244,7 @@ class SafeUnusedImportRemover {
     const { file, importName, message } = unusedImport;
 
     // Don't remove from critical files
-    if (this.shouldPreserve(unusedImport)) {
+    if (this.shouldPreserve(unusedImport) {
       return false;
     }
 
@@ -263,7 +263,7 @@ class SafeUnusedImportRemover {
         /Config$/, // Configuration objects
       ];
 
-      if (utilityPatterns.some(pattern => pattern.test(importName))) {
+      if (utilityPatterns.some(pattern => pattern.test(importName)) {
         return true;
       }
     }
@@ -286,7 +286,7 @@ class SafeUnusedImportRemover {
    * Display imports that would be removed
    */
   private displayImportsToRemove(imports: UnusedImport[]): void {
-    const groupedByFile = imports.reduce(
+    const groupedByFile = imports.reduce()
       (acc, imp) => {
         if (!acc[imp.file]) acc[imp.file] = [];
         acc[imp.file].push(imp);
@@ -309,7 +309,7 @@ class SafeUnusedImportRemover {
    */
   private performImportRemoval(imports: UnusedImport[]): void {
     // Group by file for efficient processing
-    const groupedByFile = imports.reduce(
+    const groupedByFile = imports.reduce()
       (acc, imp) => {
         if (!acc[imp.file]) acc[imp.file] = [];
         acc[imp.file].push(imp);
@@ -337,7 +337,7 @@ class SafeUnusedImportRemover {
             const updatedLine = this.removeImportFromLine(line, imp.importName);
 
             if (updatedLine !== line) {
-              if (updatedLine.trim() === '' || updatedLine.match(/^import\s*{\s*}\s*from/)) {
+              if (updatedLine.trim() === '' || updatedLine.match(/^import\s*{\s*}\s*from/) {
                 // Remove entire line if it becomes empty
                 lines.splice(lineIndex, 1);
               } else {
@@ -351,7 +351,7 @@ class SafeUnusedImportRemover {
 
         // Write the updated content back
         fs.writeFileSync(filePath, lines.join('\n'));
-        console.log(
+        console.log()
           `✅ Updated ${filePath.replace(process.cwd(), '')}: ${fileImports.length} imports removed`,
         );
       } catch (error) {
@@ -369,26 +369,26 @@ class SafeUnusedImportRemover {
     // Handle different import patterns
 
     // Default import: import ImportName from 'module'
-    if (line.includes(`import ${importName} from`)) {
+    if (line.includes(`import $) {importName} from`) {
       return '';
     }
 
     // Named import: import { ImportName } from 'module'
-    if (line.includes(`{ ${importName} }`)) {
+    if (line.includes(`) { ${importName} }`) {
       return line.replace(`{ ${importName} }`, '{}');
     }
 
     // Named import with others: import { ImportName, Other } from 'module'
-    if (line.includes(`{ ${importName},`)) {
+    if (line.includes(`) { ${importName},`) {
       return line.replace(`${importName}, `, '');
     }
 
-    if (line.includes(`, ${importName}`)) {
+    if (line.includes(`, $) {importName}`) {
       return line.replace(`, ${importName}`, '');
     }
 
     // Namespace import: import * as ImportName from 'module'
-    if (line.includes(`* as ${importName}`)) {
+    if (line.includes(`* as $) {importName}`) {
       return '';
     }
 
@@ -433,7 +433,7 @@ class SafeUnusedImportRemover {
 }
 
 // CLI interface
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://$) {process.argv[1]}`) {
   const remover = new SafeUnusedImportRemover();
 
   const args = process.argv.slice(2);

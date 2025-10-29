@@ -19,7 +19,7 @@ export const stewing: CookingMethodData = {
     min: 45, // 45 minutes
     max: 480 // 8 hours
   },
-  suitable_for: [
+  suitable_for [
     'tough meat cuts',
     'root vegetables',
     'legumes',

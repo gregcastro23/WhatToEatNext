@@ -50,10 +50,10 @@ export const SIGN_ELEMENT_MAP: Record<string, 'Fire' | 'Water' | 'Earth' | 'Air'
  * Planetary position frequency data
  */
 interface PlanetaryFrequency {
-  planet: string,
+  planet: string;
   signFrequencies: Record<string, number>;
-  totalRecipes: number,
-  dominantSign: string,
+  totalRecipes: number;
+  dominantSign: string;
   dominantFrequency: number;
 }
 
@@ -61,10 +61,10 @@ interface PlanetaryFrequency {
  * Element distribution for a planet across recipes
  */
 interface ElementalDistribution {
-  Fire: number,
-  Water: number,
-  Earth: number,
-  Air: number,
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
   totalCount: number;
 }
 
@@ -180,7 +180,7 @@ export function calculatePlanetaryStrength(planetFrequency: PlanetaryFrequency):
  * @param strength - Pattern strength score
  * @returns Cultural notes and significance
  */
-export function getCulturalSignificance(
+export function getCulturalSignificance()
   planet: string,
   dominantSign: string,
   strength: number
@@ -250,7 +250,7 @@ export function getCulturalSignificance(
  * @param options - Analysis options
  * @returns Array of planetary patterns for the cuisine
  */
-export function analyzePlanetaryPatterns(recipes: RecipeComputedProperties[],
+export function analyzePlanetaryPatterns(recipes: RecipeComputedProperties[],)
   options: {
     minStrength?: number, // Minimum strength threshold (0-1)
     includeCulturalNotes?: boolean;
@@ -357,7 +357,7 @@ export function getPlanetaryPatternSummary(patterns: PlanetaryPattern[]): {
  * @param sign - Zodiac sign to match
  * @returns Array of matching recipes
  */
-export function findRecipesWithPlanetaryPattern(
+export function findRecipesWithPlanetaryPattern()
   recipes: RecipeComputedProperties[],
   planet: string,
   sign: string
@@ -407,7 +407,7 @@ export function validatePlanetaryAnalysisInputs(recipes: RecipeComputedPropertie
   const errors: string[] = [];
   const warnings: string[] = [];
 
-  if (!Array.isArray(recipes)) {
+  if (!Array.isArray(recipes) {
     errors.push('Recipes must be an array');
     return { isValid: false, errors, warnings };
   }
@@ -428,7 +428,7 @@ export function validatePlanetaryAnalysisInputs(recipes: RecipeComputedPropertie
       // Validate position format
       PLANETS.forEach(planet => {
         const sign = positions[planet];
-        if (sign && !ZODIAC_SIGNS.includes(sign as any)) {
+        if (sign && !ZODIAC_SIGNS.includes(sign as any) {
           errors.push(`Recipe ${index}: Invalid zodiac sign '${sign}' for ${planet}`);
         }
       });

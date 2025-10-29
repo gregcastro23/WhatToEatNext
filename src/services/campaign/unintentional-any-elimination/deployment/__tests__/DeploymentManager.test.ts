@@ -24,7 +24,7 @@ describe('DeploymentManager', () => {
 
   afterEach(() => {
     // Clean up temporary directory
-    if (existsSync(tempDir)) {
+    if (existsSync(tempDir) {
       rmSync(tempDir, { recursive: true, force: true });
     }
   });

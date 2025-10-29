@@ -15,19 +15,19 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 interface ImportIssue {
-  file: string,
-  line: number,
-  column: number,
-  rule: string,
-  message: string,
+  file: string;
+  line: number;
+  column: number;
+  rule: string;
+  message: string;
   severity: 'error' | 'warning'
 }
 
 interface ImportAnalysis {
-  duplicateImports: ImportIssue[],
-  importOrderIssues: ImportIssue[],
-  circularDependencies: ImportIssue[],
-  namedImportIssues: ImportIssue[],
+  duplicateImports: ImportIssue[];
+  importOrderIssues: ImportIssue[];
+  circularDependencies: ImportIssue[];
+  namedImportIssues: ImportIssue[];
   totalIssues: number;
 }
 
@@ -42,7 +42,7 @@ class ImportOrganizationFixer {
   }
 
   private ensureBackupDirectory(): void {
-    if (!fs.existsSync(this.backupDir)) {
+    if (!fs.existsSync(this.backupDir) {
       fs.mkdirSync(this.backupDir, { recursive: true });
     }
   }
@@ -52,7 +52,7 @@ class ImportOrganizationFixer {
     const backupPath = path.join(this.backupDir, relativePath);
     const backupDir = path.dirname(backupPath);
 
-    if (!fs.existsSync(backupDir)) {
+    if (!fs.existsSync(backupDir) {
       fs.mkdirSync(backupDir, { recursive: true });
     }
 
@@ -64,7 +64,7 @@ class ImportOrganizationFixer {
 
     try {
       // Run ESLint with JSON output to get detailed import issues
-      const eslintOutput = execSync(
+      const eslintOutput = execSync()
         'yarn lint --format=json --no-eslintrc --config eslint.config.cjs src/',
         {
           encoding: 'utf8',
@@ -117,7 +117,7 @@ class ImportOrganizationFixer {
 
       return analysis;
     } catch (error) {
-      console.warn(
+      console.warn()
         '⚠️ ESLint analysis failed, using alternative approach:',
         (error as Error).message,
       );
@@ -153,7 +153,7 @@ class ImportOrganizationFixer {
           const match = line.match(/from\s+['"`]([^'"`]+)['"`]/);
           if (match) {
             const source = match[1];
-            if (!importSources.has(source)) {
+            if (!importSources.has(source) {
               importSources.set(source, []);
             }
             importSources.get(source)?.push(index + 1);
@@ -193,7 +193,7 @@ class ImportOrganizationFixer {
 
         if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
           scanDirectory(fullPath);
-        } else if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name)) {
+        } else if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name) {
           files.push(fullPath);
         }
       }
@@ -233,7 +233,7 @@ class ImportOrganizationFixer {
           if (match) {
             const [, importPart, source] = match;
 
-            if (!importGroups.has(source)) {
+            if (!importGroups.has(source) {
               importGroups.set(source, {
                 lines: [],
                 imports: []
@@ -244,7 +244,7 @@ class ImportOrganizationFixer {
             group?.lines.push(i);
 
             // Parse import types
-            if (importPart.includes('{')) {
+            if (importPart.includes(') {') {
               // Named imports
               const namedMatch = importPart.match(/\{([^}]+)\}/);
               if (namedMatch) {
@@ -256,7 +256,7 @@ class ImportOrganizationFixer {
               }
             }
 
-            if (importPart.includes('* as ')) {
+            if (importPart.includes('* as ') {
               // Namespace import
               const namespaceMatch = importPart.match(/\*\s+as\s+(\w+)/);
               if (namespaceMatch) {
@@ -266,7 +266,7 @@ class ImportOrganizationFixer {
 
             // Default import
             const defaultMatch = importPart.match(/^([^{,*]+)(?=,|\s*$)/);
-            if (defaultMatch && !defaultMatch[1].includes('*')) {
+            if (defaultMatch && !defaultMatch[1].includes('*') {
               if (group) group.defaultImport = defaultMatch[1].trim();
             }
           }
@@ -328,7 +328,7 @@ class ImportOrganizationFixer {
 
     try {
       // Use ESLint's --fix to automatically fix import order
-      execSync(
+      execSync()
         'yarn lint --fix --no-eslintrc --config eslint.config.cjs src/ --rule "import/order: error"',
         {
           stdio: 'pipe',
@@ -385,11 +385,11 @@ class ImportOrganizationFixer {
           if (match) {
             const source = match[1];
 
-            if (source.startsWith('node:') || ['fs', 'path', 'crypto', 'util'].includes(source)) {
+            if (source.startsWith('node:') || ['fs', 'path', 'crypto', 'util'].includes(source) {
               categorizedImports.builtin.push(importLine);
-            } else if (source.startsWith('@/') || source.startsWith('@components/')) {
+            } else if (source.startsWith('@/') || source.startsWith('@components/') {
               categorizedImports.internal.push(importLine);
-            } else if (source.startsWith('./') || source.startsWith('../')) {
+            } else if (source.startsWith('./') || source.startsWith('../') {
               categorizedImports.relative.push(importLine);
             } else {
               categorizedImports.external.push(importLine);
@@ -430,7 +430,7 @@ class ImportOrganizationFixer {
           ...lines.slice(importEndIndex + 1),
         ];
 
-        if (JSON.stringify(newImports) !== JSON.stringify(imports)) {
+        if (JSON.stringify(newImports) !== JSON.stringify(imports) {
           fs.writeFileSync(file, newLines.join('\n'));
           fixedCount++;
           this.processedFiles++;
@@ -463,10 +463,10 @@ class ImportOrganizationFixer {
             const source = match[1];
 
             // Convert relative imports to absolute paths
-            if (source.startsWith('./') || source.startsWith('../')) {
+            if (source.startsWith('./') || source.startsWith('../') {
               const absolutePath = path.resolve(path.dirname(file), source);
               dependencies.add(absolutePath);
-            } else if (source.startsWith('@/')) {
+            } else if (source.startsWith('@/') {
               const absolutePath = path.resolve(this.srcDir, source.substring(2));
               dependencies.add(absolutePath);
             }
@@ -485,14 +485,14 @@ class ImportOrganizationFixer {
     const cycles: string[] = [];
 
     const detectCycle = (node: string, path: string[] = []): boolean => {
-      if (recursionStack.has(node)) {
+      if (recursionStack.has(node) {
         const cycleStart = path.indexOf(node);
         const cycle = path.slice(cycleStart).concat(node);
         cycles.push(`Circular dependency: ${cycle.join(' -> ')}`),
         return true;
       }
 
-      if (visited.has(node)) {
+      if (visited.has(node) {
         return false;
       }
 
@@ -502,7 +502,7 @@ class ImportOrganizationFixer {
       const dependencies = dependencyGraph.get(node) || new Set();
 
       for (const dependency of dependencies) {
-        if (detectCycle(dependency, [...path, node])) {
+        if (detectCycle(dependency, [...path, node]) {
           // Continue to find all cycles
         }
       }
@@ -512,7 +512,7 @@ class ImportOrganizationFixer {
     };
 
     for (const file of files) {
-      if (!visited.has(file)) {
+      if (!visited.has(file) {
         detectCycle(file);
       }
     }

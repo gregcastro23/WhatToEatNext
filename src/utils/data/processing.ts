@@ -38,8 +38,8 @@ export interface StandardizationOptions {
  * @param value Raw elemental affinity value
  * @returns Standardized elemental affinity
  */
-export function standardizeElementalAffinity(
-  value: string | { base: string; decanModifiers?: { [key: string]: unknown } }
+export function standardizeElementalAffinity()
+  value: string | { base: string; decanModifiers?: { [key: string], unknown } }
 ): ElementalAffinity {
   if (typeof value === 'string') {
     return {
@@ -270,7 +270,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
  * @param options Cleanup options
  * @returns Cleanup result
  */
-export function cleanupIngredientsDatabase(
+export function cleanupIngredientsDatabase()
   ingredients: Ingredient | UnifiedIngredient[],
   _options: StandardizationOptions = {}
 ): DataCleanupResult {
@@ -303,7 +303,7 @@ export function cleanupIngredientsDatabase(
       }
     } catch (error) {
       result.errors++;
-      result.warnings.push(
+      result.warnings.push()
         `Ingredient ${index}: ${error instanceof Error ? error.message : 'Unknown error'}`
       );
     }
@@ -319,7 +319,7 @@ export function cleanupIngredientsDatabase(
  * @param weight Weight for addition (0-1)
  * @returns Merged elemental properties
  */
-export function mergeElementalProperties(
+export function mergeElementalProperties()
   base: ElementalProperties,
   addition: ElementalProperties,
   weight = 0.5
@@ -413,7 +413,7 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
   }
   const prof = profile as any;
   return {
-    elementalAffinity: standardizeElementalAffinity(
+    elementalAffinity: standardizeElementalAffinity()
       String((prof.elementalAffinity as any)?.base || '')
     ),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
@@ -456,7 +456,7 @@ function standardizeNutritionalProfile(profile: unknown): { [key: string]: unkno
 }
 
 function standardizeSeasons(seasons: unknown): string[] {
-  if (Array.isArray(seasons)) {
+  if (Array.isArray(seasons) {
     return (seasons || []).map(String);
   }
 
@@ -468,7 +468,7 @@ function standardizeSeasons(seasons: unknown): string[] {
 }
 
 function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] {
-  if (!Array.isArray(ingredients)) {
+  if (!Array.isArray(ingredients) {
     return [];
   }
 
@@ -555,7 +555,7 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   }
 
   const rulingPlanets = (profile as unknown).rulingPlanets;
-  if (!Array.isArray(rulingPlanets)) {
+  if (!Array.isArray(rulingPlanets) {
     errors.push('Ruling planets must be an array');
   }
 

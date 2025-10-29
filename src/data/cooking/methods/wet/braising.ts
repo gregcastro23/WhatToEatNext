@@ -21,7 +21,7 @@ export const braising: CookingMethodData = {
     min: 60,
     max: 480, // Extended maximum time for large, tough cuts
   },
-  suitable_for: [
+  suitable_for [
     'tough meats',
     'root vegetables',
     'legumes',

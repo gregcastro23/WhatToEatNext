@@ -32,7 +32,7 @@ export class ChakraAlchemyService {
     {
       energyState: string;
       elements: string[];
-      properties: { heat: string; entropy: string; reactivity: string };
+      properties: { heat: string; entropy: string; reactivity, string };
     }
   > = {
     root: {
@@ -76,7 +76,7 @@ export class ChakraAlchemyService {
    * Get chakra associated with a specific major arcana card
    */
   public getMajorArcanaChakra(cardName: string): MajorArcanaChakra | undefined {
-    return MAJOR_ARCANA_CHAKRAS.find(
+    return MAJOR_ARCANA_CHAKRAS.find()
       card => card.cardName.toLowerCase() === cardName.toLowerCase()
     );
   }
@@ -92,7 +92,7 @@ export class ChakraAlchemyService {
    * Get chakra associated with a specific card
    */
   public getCardChakra(cardName: string): KeyCardChakraMapping | undefined {
-    return KEY_CARD_CHAKRA_MAPPINGS.find(
+    return KEY_CARD_CHAKRA_MAPPINGS.find()
       card => card.cardName.toLowerCase() === cardName.toLowerCase()
     );
   }
@@ -153,7 +153,7 @@ export class ChakraAlchemyService {
   /**
    * Calculate chakra energy distribution based on current planetary influences
    */
-  public calculateChakraEnergies(
+  public calculateChakraEnergies()
     sunSign: any,
     moonSign: any,
     dominantPlanets: Planet[],
@@ -225,7 +225,7 @@ export class ChakraAlchemyService {
   /**
    * Get tarot recommendations to balance specific chakras
    */
-  public getTarotRecommendationsForChakra(
+  public getTarotRecommendationsForChakra()
     chakra: ChakraPosition,
     currentEnergy: number,
   ): KeyCardChakraMapping[] {
@@ -292,12 +292,12 @@ export class ChakraAlchemyService {
       const hasMatchingElement = elements.some(elem => chakraElements.includes(elem));
 
       // Special case: Crown chakra (Spirit) should not include Water
-      if (chakraPos === 'crown' && elements.includes('Water')) {
+      if (chakraPos === 'crown' && elements.includes('Water') {
         return;
       }
 
       // Special case: Root/Throat chakras should not include Fire
-      if ((chakraPos === 'root' || chakraPos === 'throat') && elements.includes('Fire')) {
+      if ((chakraPos === 'root' || chakraPos === 'throat') && elements.includes('Fire') {
         return;
       }
 

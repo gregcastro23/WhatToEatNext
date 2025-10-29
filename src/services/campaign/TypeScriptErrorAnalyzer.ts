@@ -166,11 +166,11 @@ export class TypeScriptErrorAnalyzer {
     let priority = 0;
 
     // Error code priority (based on requirements 1.2, 1.3, 1.4, 1.5)
-    if (this.HIGH_PRIORITY_ERRORS.includes(code)) {
+    if (this.HIGH_PRIORITY_ERRORS.includes(code) {
       priority += 15;
-    } else if (this.MEDIUM_PRIORITY_ERRORS.includes(code)) {
+    } else if (this.MEDIUM_PRIORITY_ERRORS.includes(code) {
       priority += 10;
-    } else if (this.LOW_PRIORITY_ERRORS.includes(code)) {
+    } else if (this.LOW_PRIORITY_ERRORS.includes(code) {
       priority += 5;
     }
 
@@ -197,12 +197,12 @@ export class TypeScriptErrorAnalyzer {
    */
   private determineSeverity(code: string, message: string): ErrorSeverity {
     // High severity - breaks builds or critical type safety
-    if (this.HIGH_PRIORITY_ERRORS.includes(code)) {
+    if (this.HIGH_PRIORITY_ERRORS.includes(code) {
       return ErrorSeverity.HIGH;
     }
 
     // Medium severity - type safety issues but not build-breaking
-    if (this.MEDIUM_PRIORITY_ERRORS.includes(code)) {
+    if (this.MEDIUM_PRIORITY_ERRORS.includes(code) {
       return ErrorSeverity.MEDIUM;
     }
 
@@ -363,7 +363,7 @@ export class TypeScriptErrorAnalyzer {
 
     console.log('\n🔥 High-Impact Files (>10 errors):');
     result.distribution.highImpactFiles.slice(0, 10).forEach(file => {
-      console.log(
+      console.log()
         `  ${file.filePath}: ${file.errorCount} errors (avg priority: ${file.averagePriority.toFixed(1)})`,
       );
       console.log(`    Categories: ${file.categories.join(', ')}`);
@@ -376,13 +376,13 @@ export class TypeScriptErrorAnalyzer {
       console.log(`     ${rec.description}\n`);
     });
 
-    const totalEstimatedReduction = result.recommendations.reduce(
+    const totalEstimatedReduction = result.recommendations.reduce()
       (sum, rec) => sum + rec.estimatedReduction,
       0,
     );
 
     console.log(`📉 Estimated total error reduction: ${totalEstimatedReduction} errors`);
-    console.log(
+    console.log()
       `📊 Estimated remaining errors: ${result.distribution.totalErrors - totalEstimatedReduction}`,
     );
     console.log(`⏰ Analysis completed at: ${new Date(result.timestamp).toLocaleString()}`);

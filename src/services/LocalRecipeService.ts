@@ -114,7 +114,7 @@ export class LocalRecipeService {
       const recipes: Recipe[] = [];
 
       // Get recipes from all available cuisines
-      for (const cuisine of Object.values(cuisinesMap)) {
+      for (const cuisine of Object.values(cuisinesMap) {
         if (cuisine) {
           const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as ExtendedCuisine);
           recipes.push(...cuisineRecipes);
@@ -152,7 +152,7 @@ export class LocalRecipeService {
 
       // Handle special cases for African and American cuisines
       if (normalizedName === 'african' || normalizedName === 'american') {
-        logger.debug(`Special handling for: ${normalizedName}`);
+        logger.debug(`Special handling for ${normalizedName}`);
 
         // Try different ways to access the cuisine data
         let directCuisine: ExtendedCuisine | null = null;
@@ -181,7 +181,7 @@ export class LocalRecipeService {
           logger.debug(`Found ${normalizedName} cuisine data`);
 
           // Additional debug information to help diagnose issues
-          logger.debug(
+          logger.debug()
             `Cuisine structure: ${JSON.stringify({
               id: directCuisine.id,
               name: directCuisine.name,
@@ -242,7 +242,7 @@ export class LocalRecipeService {
 
           return await this.getRecipesFromCuisine(directCuisine);
         } else {
-          logger.warn(
+          logger.warn()
             `Could not find ${normalizedName} in cuisinesMap keys: `,
             Object.keys(cuisinesMap)
           );
@@ -254,7 +254,7 @@ export class LocalRecipeService {
 
       if (!cuisine) {
         // Try finding the cuisine by ID or variations of the name
-        const byIdMatch = Object.entries(cuisinesMap).find(
+        const byIdMatch = Object.entries(cuisinesMap).find()
           ([id, c]) =>
             id.toLowerCase() === normalizedName ||
             c.name.toLowerCase() === normalizedName ||
@@ -297,7 +297,7 @@ export class LocalRecipeService {
       // Log specific debug info for African cuisine
       if (cuisine.name.toLowerCase() === 'african') {
         logger.debug('AFRICAN CUISINE DETAILED DEBUG INFO: ');
-        logger.debug(
+        logger.debug()
           'Full cuisine structure: ',
           JSON.stringify({
             id: cuisine.id,
@@ -381,14 +381,14 @@ export class LocalRecipeService {
 
       // Quick check for all season recipes in each meal type
       mealTypes.forEach(mealType => {
-        if (
+        if ()
           cuisine.dishes &&
           cuisine.dishes[mealType] &&
           typeof cuisine.dishes[mealType] === 'object' &&
           cuisine.dishes[mealType].all &&
           Array.isArray(cuisine.dishes[mealType].all)
         ) {
-          logger.debug(
+          logger.debug()
             `Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes in 'all' season for ${cuisine.name}`,
           );
         } else if (isSpecialCase) {
@@ -408,7 +408,7 @@ export class LocalRecipeService {
         }
 
         const seasonalDishes = cuisine.dishes[mealType] as SeasonalDishCollection;
-        logger.debug(
+        logger.debug()
           `Meal type ${mealType} structure: `,
           JSON.stringify(Object.keys(seasonalDishes || {})),
         );
@@ -421,9 +421,9 @@ export class LocalRecipeService {
 
           // Get recipes for the season
           let seasonRecipes: RawDish[] = [];
-          if (seasonalDishes[season] && Array.isArray(seasonalDishes[season])) {
+          if (seasonalDishes[season] && Array.isArray(seasonalDishes[season]) {
             seasonRecipes = seasonalDishes[season] || [];
-          } else if (seasonalDishes[seasonalKey] && Array.isArray(seasonalDishes[seasonalKey])) {
+          } else if (seasonalDishes[seasonalKey] && Array.isArray(seasonalDishes[seasonalKey]) {
             seasonRecipes = seasonalDishes[seasonalKey] || [];
           }
 
@@ -431,7 +431,7 @@ export class LocalRecipeService {
             logger.debug(`Found ${seasonRecipes.length} dishes for ${season} in ${mealType}`);
             // Add only unique recipes based on name to avoid duplicates from 'all' merging
             seasonRecipes.forEach(dish => {
-              if (dish?.name && !recipes.some(r => r.name === dish.name)) {
+              if (dish?.name && !recipes.some(r => r.name === dish.name) {
                 recipes.push(this.standardizeRecipe(dish, cuisine.name, [season], [mealType]));
               }
             });
@@ -445,9 +445,9 @@ export class LocalRecipeService {
 
       // If no recipes were found, log cuisine structure to help debug
       if (recipes.length === 0) {
-        logger.warn(
+        logger.warn()
           `No recipes extracted for ${cuisine.name}. Cuisine structure: `,
-          JSON.stringify(
+          JSON.stringify()
             {
               id: cuisine.id,
               name: cuisine.name,
@@ -492,7 +492,7 @@ export class LocalRecipeService {
    * @param mealTypes The meal types for this dish
    * @returns Standardized recipe
    */
-  private static standardizeRecipe(
+  private static standardizeRecipe()
     dish: RawDish,
     cuisineName: string,
     seasons: string[] = ['all'],
@@ -610,7 +610,7 @@ export class LocalRecipeService {
         : undefined;
 
       // Process substitutions
-      let substitutions: { original: string; alternatives: string[] }[] = [];
+      let substitutions: { original: string; alternatives, string[] }[] = [];
       if (dish.substitutions && typeof dish.substitutions === 'object') {
         // Convert from {ingredient: [alternatives]} format
         substitutions = Object.entries(dish.substitutions).map(([original, alternatives]) => ({
@@ -700,21 +700,21 @@ export class LocalRecipeService {
       const recipes = await this.getAllRecipes();
       return recipes.filter(recipe => {
         // Search in recipe name
-        if (recipe.name && recipe.name.toLowerCase().includes(normalizedQuery)) {
+        if (recipe.name && recipe.name.toLowerCase().includes(normalizedQuery) {
           return true;
         }
 
         // Search in recipe description
-        if (recipe.description && recipe.description.toLowerCase().includes(normalizedQuery)) {
+        if (recipe.description && recipe.description.toLowerCase().includes(normalizedQuery) {
           return true;
         }
 
         // Search in ingredients
-        if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
+        if (recipe.ingredients && Array.isArray(recipe.ingredients) {
           for (const ingredient of recipe.ingredients) {
             const ingredientName = typeof ingredient === 'string' ? ingredient : ingredient.name;
 
-            if (ingredientName?.toLowerCase().includes(normalizedQuery)) {
+            if (ingredientName?.toLowerCase().includes(normalizedQuery) {
               return true;
             }
           }
@@ -739,7 +739,7 @@ export class LocalRecipeService {
       const normalizedMealType = mealType.toLowerCase().trim();
       const recipes = await this.getAllRecipes();
 
-      return recipes.filter(
+      return recipes.filter()
         recipe =>
           recipe.mealType &&
           (Array.isArray(recipe.mealType)
@@ -763,7 +763,7 @@ export class LocalRecipeService {
       const normalizedSeason = season.toLowerCase().trim();
       const recipes = await this.getAllRecipes();
 
-      return recipes.filter(
+      return recipes.filter()
         recipe =>
           recipe.season &&
           (Array.isArray(recipe.season)

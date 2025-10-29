@@ -23,7 +23,7 @@ export type ElementalProperties = {
 // Zodiac Date Ranges
 export const zodiacDateRanges: Record<
   ZodiacSign,
-  { startMonth: number; startDay: number; endMonth: number, endDay: number }
+  { startMonth: number; startDay: number; endMonth, number, endDay: number }
 >  = {
   aries: { startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
   taurus: { startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },
@@ -59,10 +59,10 @@ export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties>  = {
 export const _getZodiacSign = (date: Date): any => {
   const month = date.getMonth() + 1;
   const day = date.getDate();
-  for (const [sign, range] of Object.entries(zodiacDateRanges)) {
+  for (const [sign, range] of Object.entries(zodiacDateRanges) {
     const { startMonth, startDay, endMonth, endDay } = range;
 
-    if ((month === startMonth && day >= startDay) || (month === endMonth && day <= endDay)) {
+    if ((month === startMonth && day >= startDay) || (month === endMonth && day <= endDay) {
       return sign as unknown;
     }
   }
@@ -180,20 +180,20 @@ export const _elementalCharacteristics: Record<
 
 export type ElementalType = 'Fire' | 'Earth' | 'Air' | 'Water'
 export interface ElementalAffinity {
-  Fire: number,
-  Earth: number,
-  Air: number,
+  Fire: number;
+  Earth: number;
+  Air: number;
   Water: number
 }
 
 export interface CelestialPosition {
-  sign: any,
-  _degree: number,
+  sign: any;
+  _degree: number;
   _minutes: number
 }
 
 export interface CelestialData {
-  sun: CelestialPosition,
-  _moon: CelestialPosition,
+  sun: CelestialPosition;
+  _moon: CelestialPosition;
   timestamp: number
 }

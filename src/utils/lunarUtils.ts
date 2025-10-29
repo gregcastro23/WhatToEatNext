@@ -3,7 +3,7 @@ import { LunarPhase, LunarPhaseWithSpaces } from '../types/alchemy';
 
 // Map each LunarPhaseWithSpaces value to its corresponding LunarPhase value
 // This is a more explicit approach for TypeScript to understand the conversion
-export function convertToLunarPhase(
+export function convertToLunarPhase()
   phase: LunarPhaseWithSpaces | null | undefined,
 ): LunarPhase | undefined {
   if (!phase) return undefined;

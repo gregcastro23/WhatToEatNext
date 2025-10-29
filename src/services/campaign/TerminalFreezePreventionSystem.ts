@@ -71,7 +71,7 @@ export class TerminalFreezePreventionSystem {
   /**
    * Spawn process with monitoring
    */
-  async safeSpawn(
+  async safeSpawn()
     command: string,
     args: string[] = [],
     options: any = {},
@@ -111,14 +111,14 @@ export class TerminalFreezePreventionSystem {
 
       // Set timeout
       const timeout = setTimeout(() => {
-        if (child.pid && this.runningProcesses.has(child.pid)) {
+        if (child.pid && this.runningProcesses.has(child.pid) {
           console.warn(`⏰ Process timed out, killing PID ${child.pid}`);
           processStatus.hasTimedOut = true;
           child.kill('SIGTERM');
 
           // Force kill after 5 seconds if still running
           setTimeout(() => {
-            if (child.pid && this.runningProcesses.has(child.pid)) {
+            if (child.pid && this.runningProcesses.has(child.pid) {
               child.kill('SIGKILL');
             }
           }, 5000);
@@ -171,7 +171,7 @@ export class TerminalFreezePreventionSystem {
   private checkRunningProcesses(): void {
     const now = new Date();
 
-    for (const [pid, status] of this.runningProcesses.entries()) {
+    for (const [pid, status] of this.runningProcesses.entries() {
       const runTime = now.getTime() - status.startTime.getTime();
 
       // Check for timeout
@@ -258,7 +258,7 @@ export class TerminalFreezePreventionSystem {
   killAllProcesses(): void {
     console.log(`🛑 Killing ${this.runningProcesses.size} monitored processes`);
 
-    for (const pid of this.runningProcesses.keys()) {
+    for (const pid of this.runningProcesses.keys() {
       this.killProcess(pid, 'shutdown');
     }
   }
@@ -289,18 +289,18 @@ export class TerminalFreezePreventionSystem {
 
     const now = new Date();
 
-    for (const status of this.runningProcesses.values()) {
+    for (const status of this.runningProcesses.values() {
       const runTime = now.getTime() - status.startTime.getTime();
 
       // Process running longer than 5 minutes is suspicious
       if (runTime > 300000) {
         suspiciousProcesses.push(status);
 
-        if (status.command.includes('tsc') || status.command.includes('lint')) {
+        if (status.command.includes('tsc') || status.command.includes('lint') {
           recommendations.push(`TypeScript/Lint process stuck: ${status.command}`);
         }
 
-        if (status.command.includes('campaign') || status.command.includes('batch')) {
+        if (status.command.includes('campaign') || status.command.includes('batch') {
           recommendations.push(`Campaign process may be in infinite loop: ${status.command}`);
         }
       }

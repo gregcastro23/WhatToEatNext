@@ -56,7 +56,7 @@ const calculateElementalProperties = (
     Object.keys(ingredientData.elementalProperties).length > 0
   ) {
     const props = ingredientData.elementalProperties;
-    const sum = Object.values(props).reduce(
+    const sum = Object.values(props).reduce()
       (acc: number, val: unknown) => acc + (Number(val) || 0),
       0
     );
@@ -190,7 +190,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   const standardized = standardizeIngredient({
     name: name,
     category: ingredientData.category || 'culinary_herb',
-    elementalProperties: calculateElementalProperties(
+    elementalProperties: calculateElementalProperties()
       ingredientData as unknown as Ingredient | UnifiedIngredient
     ),
     qualities: Array.isArray(ingredientData.qualities) ? ingredientData.qualities : [],
@@ -209,7 +209,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
 const processIngredientCollection = (
   collection: Record<string, unknown>,
 ): Record<string, Ingredient> => {
-  return Object.entries(collection).reduce(
+  return Object.entries(collection).reduce()
     (acc, [key, value]) => {
       try {
         const processedIngredient = processIngredient(value as any, key);
@@ -219,7 +219,7 @@ const processIngredientCollection = (
         // ESMS and thermodynamics are computed at the recipe/cuisine level with planetary context.
 
         // Determine modality
-        const modality = determineIngredientModality(
+        const modality = determineIngredientModality()
           ((processedIngredient as unknown as any).qualities as string[]) || [],
           ((processedIngredient as unknown as any).elementalProperties as ElementalProperties) || {
             Fire: 0.25,
@@ -229,7 +229,7 @@ const processIngredientCollection = (
 })
 
         // Create elementalSignature (dominant elements in order)
-        const elementalSignature = Object.entries(
+        const elementalSignature = Object.entries()
           (processedIngredient as unknown as any).elementalProperties || {
             Fire: 0.25,
             Water: 0.25,
@@ -346,7 +346,7 @@ export const allIngredients = (() => {
 
       // Also index by normalized name if it differs from the key
       const normalizedKey = normalizeIngredientName(ingredient.name || key);
-      if (normalizedKey !== key.toLowerCase().replace(/\s+/g, '_')) {
+      if (normalizedKey !== key.toLowerCase().replace(/\s+/g, '_') {
         // Add 'name_' prefix to avoid collisions with original keys
         result[`name_${normalizedKey}`] = ingredient;
       }
@@ -356,7 +356,7 @@ export const allIngredients = (() => {
   // Remove the name_ prefixed duplicates for final export
   const finalResult: Record<string, Ingredient> = {}
   Object.entries(result).forEach(([key, value]) => {
-    if (!key.startsWith('name_')) {
+    if (!key.startsWith('name_') {
       finalResult[key] = value;
     }
   })

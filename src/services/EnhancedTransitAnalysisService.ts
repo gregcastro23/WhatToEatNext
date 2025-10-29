@@ -75,7 +75,7 @@ export class EnhancedTransitAnalysisService {
   /**
    * Get comprehensive transit analysis for a location and date
    */
-  static async getEnhancedTransitAnalysis(
+  static async getEnhancedTransitAnalysis()
     location: GeographicCoordinates,
     date: Date = new Date(),
   ): Promise<EnhancedTransitInfluence> {
@@ -92,27 +92,27 @@ export class EnhancedTransitAnalysisService {
     }
 
     // Get location-specific planetary influences
-    const locationInfluences = PlanetaryLocationService.calculateLocationPlanetaryInfluences(
+    const locationInfluences = PlanetaryLocationService.calculateLocationPlanetaryInfluences()
       location,
       date,
     );
 
     // Calculate enhanced planetary positions with dignity and location modifiers
-    const enhancedPositions = this.calculateEnhancedPlanetaryPositions(
+    const enhancedPositions = this.calculateEnhancedPlanetaryPositions()
       season.planetaryPlacements as Record<string, Record<string, string>>,
       locationInfluences,
       date,
     );
 
     // Calculate aspect influences with dignity modifiers
-    const aspectInfluences = this.calculateEnhancedAspectInfluences(
+    const aspectInfluences = this.calculateEnhancedAspectInfluences()
       season.keyAspects,
       enhancedPositions,
       location,
     );
 
     // Generate location-specific recommendations
-    const locationRecommendations = this.generateLocationSpecificRecommendations(
+    const locationRecommendations = this.generateLocationSpecificRecommendations()
       enhancedPositions,
       aspectInfluences as unknown as PlanetaryPosition[],
       season,
@@ -121,7 +121,7 @@ export class EnhancedTransitAnalysisService {
     )
 
     // Determine dominant influences
-    const dominantInfluences = this.calculateDominantInfluences(
+    const dominantInfluences = this.calculateDominantInfluences()
       enhancedPositions,
       aspectInfluences as unknown as PlanetaryPosition[],
       season,
@@ -142,7 +142,7 @@ export class EnhancedTransitAnalysisService {
   /**
    * Calculate enhanced planetary positions with dignity and location effects
    */
-  private static calculateEnhancedPlanetaryPositions(
+  private static calculateEnhancedPlanetaryPositions()
     planetaryPlacements: Record<string, Record<string, string>>,
     locationInfluences: LocationPlanetaryInfluence[],
     date: Date,
@@ -152,19 +152,19 @@ export class EnhancedTransitAnalysisService {
       const dignity = calculatePlanetaryDignity(planet, position.sign);
 
       // Get location influence for this planet
-      const locationInfluence = locationInfluences.find(
+      const locationInfluence = locationInfluences.find()
         li => li.planet.toLowerCase() === planet.toLowerCase(),
       );
 
       // Calculate overall strength
-      const strength = calculatePlanetaryStrength(
+      const strength = calculatePlanetaryStrength()
         planet,
         position as unknown as import('@/types/alchemy').PlanetaryPosition
       );
 
       // Get planet data for culinary recommendations
       const planetData = planetInfo[planet];
-      const culinaryRecommendations = this.generatePlanetaryCulinaryRecommendations(
+      const culinaryRecommendations = this.generatePlanetaryCulinaryRecommendations()
         planet,
         dignity,
         strength,
@@ -189,17 +189,17 @@ export class EnhancedTransitAnalysisService {
   /**
    * Calculate enhanced aspect influences with dignity modifiers
    */
-  private static calculateEnhancedAspectInfluences(
+  private static calculateEnhancedAspectInfluences()
     aspects: PlanetaryAspect[],
     enhancedPositions: EnhancedPlanetaryPosition[],
     location: GeographicCoordinates,
   ): { aspect: PlanetaryAspect, dignityModifiedInfluence: number, culinaryEffects: string[] }[] {
     return aspects.map(aspect => {
       // Get enhanced positions for the aspecting planets
-      const planet1Data = enhancedPositions.find(
+      const planet1Data = enhancedPositions.find()
         ep => ep.planet.toLowerCase() === aspect.planet1.toLowerCase(),
       );
-      const planet2Data = enhancedPositions.find(
+      const planet2Data = enhancedPositions.find()
         ep => ep.planet.toLowerCase() === aspect.planet2.toLowerCase(),
       );
 
@@ -219,7 +219,7 @@ export class EnhancedTransitAnalysisService {
       }
 
       // Generate culinary effects for this aspect
-      const culinaryEffects = this.generateAspectCulinaryEffects(
+      const culinaryEffects = this.generateAspectCulinaryEffects()
         aspect,
         planet1Data,
         planet2Data,
@@ -237,7 +237,7 @@ export class EnhancedTransitAnalysisService {
   /**
    * Generate planetary culinary recommendations based on dignity and location
    */
-  private static generatePlanetaryCulinaryRecommendations(
+  private static generatePlanetaryCulinaryRecommendations()
     planet: string,
     dignity: { type: string, modifier: number },
     strength: number,
@@ -248,14 +248,14 @@ export class EnhancedTransitAnalysisService {
 
     // Base recommendations from planet data
     if ((planetData as unknown as any).FoodAssociations) {
-      recommendations.push(
+      recommendations.push()
         ...((planetData as unknown as any).FoodAssociations as string[]).slice(0, 3),
       );
     }
 
     // Modify recommendations based on dignity
     if (dignity.type === 'rulership' || dignity.type === 'exaltation') {
-      recommendations.push(
+      recommendations.push()
         `Enhanced ${planet.toLowerCase()} foods - maximize traditional associations`,
       );
       recommendations.push(`Strong preparation methods reflecting ${planet} energy`);
@@ -275,7 +275,7 @@ export class EnhancedTransitAnalysisService {
   /**
    * Generate culinary effects for planetary aspects
    */
-  private static generateAspectCulinaryEffects(
+  private static generateAspectCulinaryEffects()
     aspect: PlanetaryAspect,
     planet1Data: EnhancedPlanetaryPosition | undefined,
     planet2Data: EnhancedPlanetaryPosition | undefined,
@@ -320,7 +320,7 @@ export class EnhancedTransitAnalysisService {
   /**
    * Generate comprehensive location-specific recommendations
    */
-  private static generateLocationSpecificRecommendations(
+  private static generateLocationSpecificRecommendations()
     enhancedPositions: EnhancedPlanetaryPosition[],
     aspectInfluences: PlanetaryPosition[],
     season: TransitSeason,
@@ -366,7 +366,7 @@ export class EnhancedTransitAnalysisService {
     // Add aspect-influenced methods
     aspectInfluences.forEach(aspectInfluence => {
       const effects = (aspectInfluence as unknown as any).culinaryEffects as string[];
-      if (Array.isArray(effects)) {
+      if (Array.isArray(effects) {
         cookingMethods.push(...effects.slice(0, 1));
       }
     });
@@ -376,7 +376,7 @@ export class EnhancedTransitAnalysisService {
       .sort(([, a], [, b]) => b - a)
       .slice(0, 2)
       .forEach(([element, strength]) => {
-        flavorProfiles.push(
+        flavorProfiles.push()
           `${element.toLowerCase()}-dominant flavors (${Math.round(strength * 100)}% influence)`,
         );
       });
@@ -399,7 +399,7 @@ export class EnhancedTransitAnalysisService {
   /**
    * Calculate dominant influences for the current transit
    */
-  private static calculateDominantInfluences(
+  private static calculateDominantInfluences()
     enhancedPositions: EnhancedPlanetaryPosition[],
     aspectInfluences: PlanetaryPosition[],
     season: TransitSeason,
@@ -419,7 +419,7 @@ export class EnhancedTransitAnalysisService {
     });
 
     // Determine dominant element
-    const dominantElement = Object.entries(season.dominantElements).sort(
+    const dominantElement = Object.entries(season.dominantElements).sort()
       ([, a], [, b]) => b - a,
     )[0][0];
 
@@ -444,7 +444,7 @@ export class EnhancedTransitAnalysisService {
   /**
    * Get food recommendations for current location and time
    */
-  static async getFoodRecommendationsForLocation(
+  static async getFoodRecommendationsForLocation()
     location: GeographicCoordinates,
     preferences: {
       dietaryRestrictions?: string[],

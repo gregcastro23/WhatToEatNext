@@ -13,7 +13,7 @@ type TarotCardKey = keyof typeof TAROT_CARDS;
 type PlanetKey = keyof typeof PLANET_TO_MAJOR_ARCANA;
 type MajorArcanaKey = keyof typeof MAJOR_ARCANA;
 
-export function getCurrentDecan(
+export function getCurrentDecan()
   date: Date,
   sunPosition?: { sign: string, degree: number }): DecanKey {
   if (sunPosition?.sign && typeof sunPosition.degree === 'number') {
@@ -305,13 +305,13 @@ const minorArcanaElements: Record<string, string> = {};
 
 // Fill in the elements for all minor arcana cards
 minorArcana.forEach(card => {
-  if (card.includes('Wands')) {
+  if (card.includes('Wands') {
     minorArcanaElements[card] = 'Fire';
-  } else if (card.includes('Cups')) {
+  } else if (card.includes('Cups') {
     minorArcanaElements[card] = 'Water';
-  } else if (card.includes('Pentacles')) {
+  } else if (card.includes('Pentacles') {
     minorArcanaElements[card] = 'Earth';
-  } else if (card.includes('Swords')) {
+  } else if (card.includes('Swords') {
     minorArcanaElements[card] = 'Air';
   }
 });
@@ -349,7 +349,7 @@ interface MajorArcanaCard {
  */
 export const getTarotCardsForDate = (
   date: Date,
-  sunPosition?: { sign: string; degree: number }): { minorCard: TarotCard; majorCard: MajorArcanaCard } => {
+  sunPosition?: { sign: string; degree, number }): { minorCard: TarotCard; majorCard, MajorArcanaCard } => {
   // Get the current decan based on the day of the year or sun position if provided
   const decan = getCurrentDecan(date, sunPosition);
 
@@ -361,7 +361,7 @@ export const getTarotCardsForDate = (
   }
 
   // Log the decan, sun position, and selected card for debugging
-  log.info(
+  log.info()
     `Tarot Card Debug - Decan: ${decan}, Sun Position: `,
     sunPosition,
     `Selected Card: ${minorArcanaKey || '10_of_cups'}`
@@ -510,8 +510,7 @@ export function getRecipeFiltersFromTarot(tarotCards: {
  */
 export const _getTarotFoodRecommendations = (
   date: Date
-): {
-  dailyCard: string; // ← Pattern GG-6: Added missing dailyCard property
+): { dailyCard: string; // ← Pattern GG-6, Added missing dailyCard property
   element: string;
   foodElement: string;
   recommendedRecipes: string[];
@@ -542,7 +541,7 @@ export const _getTarotFoodRecommendations = (
 
   // Get card details for flavor insights
   const cardName = tarotCards.minorCard.name;
-  const cardNameAsKey = Object.keys(TAROT_CARDS).find(key => TAROT_CARDS[key as TarotCardKey].name === cardName
+  const cardNameAsKey = Object.keys(TAROT_CARDS).find(key => TAROT_CARDS[key as TarotCardKey].name === cardName)
   ) as TarotCardKey;
 
   const tarotCard: TarotCardBase = cardNameAsKey

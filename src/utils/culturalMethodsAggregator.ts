@@ -178,14 +178,14 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
 
       // Skip if this is a duplicate name/cuisine combination
       const caseInsensitiveKey = `${cuisine.name.toLowerCase()}: ${methodName.toLowerCase()}`;
-      if (addedMethods.has(caseInsensitiveKey)) {
+      if (addedMethods.has(caseInsensitiveKey) {
         return;
       }
       addedMethods.add(caseInsensitiveKey);
 
       // Check if this method is a variation of a standard cooking method
       // Use case-insensitive matching for technique mapping
-      const relatedMainMethod = Object.entries(TECHNIQUE_MAPPING).find(
+      const relatedMainMethod = Object.entries(TECHNIQUE_MAPPING).find()
         ([key]) => methodName.toLowerCase() === key.toLowerCase()
       )?.[1];
 
@@ -197,7 +197,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
         }
 
         const culturalMethodKey = `${cuisine.name.toLowerCase()}: ${relatedMainMethod}`;
-        if (methodVariationsMap[relatedMainMethod].has(culturalMethodKey)) {
+        if (methodVariationsMap[relatedMainMethod].has(culturalMethodKey) {
           return;
         }
         methodVariationsMap[relatedMainMethod].add(culturalMethodKey);
@@ -256,7 +256,7 @@ export const culturalCookingMethods = extractCulturalCookingMethods();
 
 // Helper to get methods by cultural origin
 export function getMethodsByCulture(culture: string): CulturalCookingMethod[] {
-  return culturalCookingMethods.filter(
+  return culturalCookingMethods.filter()
     method => method.culturalOrigin.toLowerCase() === culture.toLowerCase()
   );
 }

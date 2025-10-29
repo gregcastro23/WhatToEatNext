@@ -55,7 +55,7 @@ export function calculateBaseElementalProperties(planetaryPositions: { [key: str
 
   // Use the exported ZODIAC_ELEMENTS mapping
   // Calculate elemental influence from each planet
-  for (const [planetName, position] of Object.entries(planetaryPositions)) {
+  for (const [planetName, position] of Object.entries(planetaryPositions) {
     const signElement = ZODIAC_ELEMENTS[position.sign];
     if (signElement && elements[signElement] !== undefined) {
       // Base influence of 1.0 for each planet in its sign
@@ -185,7 +185,7 @@ export function getCurrentElementalProperties(context: string = 'general'): Elem
 /**
  * Analyze elemental compatibility between ingredients
  */
-export function analyzeElementalCompatibility(
+export function analyzeElementalCompatibility()
   ingredient1Elements: ElementalProperties,
   ingredient2Elements: ElementalProperties
 ): {

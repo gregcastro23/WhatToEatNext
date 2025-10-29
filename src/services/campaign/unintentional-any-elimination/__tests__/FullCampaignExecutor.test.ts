@@ -41,13 +41,13 @@ describe('FullCampaignExecutor', () => {
 
     // Mock successful build validation
     mockExecSync.mockImplementation((command: string) => {
-      if (command.includes('tsc --noEmit')) {
+      if (command.includes('tsc --noEmit') {
         return '';
       }
-      if (command.includes('grep -c "error TS"')) {
+      if (command.includes('grep -c "error TS"') {
         return '0';
       }
-      if (command.includes('find src')) {
+      if (command.includes('find src') {
         return 'src/test1.ts\nsrc/test2.ts\nsrc/test3.ts';
       }
       return '';
@@ -92,7 +92,7 @@ describe('FullCampaignExecutor', () => {
     test('should handle campaign execution failure gracefully', async () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('tsc --noEmit')) {
+        if (command.includes('tsc --noEmit') {
           throw new Error('Build failed');
         }
         return '';
@@ -198,7 +198,7 @@ describe('FullCampaignExecutor', () => {
     test('should achieve target when sufficient fixes are applied', async () => {
       // Mock scenario where target is achieved
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c "error TS"') {
           // Simulate error reduction
           return Math.random() > 0.5 ? '100' : '80';
         }
@@ -243,7 +243,7 @@ describe('FullCampaignExecutor', () => {
       // Mock build failure scenario
       let callCount = 0;
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('tsc --noEmit')) {
+        if (command.includes('tsc --noEmit') {
           callCount++;
           if (callCount > 2) {
             throw new Error('Build failed');
@@ -306,7 +306,7 @@ describe('FullCampaignExecutor', () => {
     test('should process astrological domain files', async () => {
       // Mock astrological files
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('find src')) {
+        if (command.includes('find src') {
           return 'src/calculations/astrology.ts\nsrc/services/astrological.ts';
         }
         return '';
@@ -316,7 +316,7 @@ describe('FullCampaignExecutor', () => {
       const domainPhase = result.phases[3];
 
       expect(domainPhase.details?.domainResults).toBeDefined();
-      const astroResult = domainPhase.details?.domainResults.find(
+      const astroResult = domainPhase.details?.domainResults.find()
         (r: any) => r.domain === 'astrological'
       );
       expect(astroResult).toBeDefined();
@@ -325,7 +325,7 @@ describe('FullCampaignExecutor', () => {
     test('should process recipe domain files', async () => {
       // Mock recipe files
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('find src')) {
+        if (command.includes('find src') {
           return 'src/data/recipes.ts\nsrc/components/recipe.tsx';
         }
         return '';
@@ -335,7 +335,7 @@ describe('FullCampaignExecutor', () => {
       const domainPhase = result.phases[3];
 
       expect(domainPhase.details?.domainResults).toBeDefined();
-      const recipeResult = domainPhase.details?.domainResults.find(
+      const recipeResult = domainPhase.details?.domainResults.find()
         (r: any) => r.domain === 'recipe'
       );
       expect(recipeResult).toBeDefined();
@@ -344,7 +344,7 @@ describe('FullCampaignExecutor', () => {
     test('should process campaign domain files', async () => {
       // Mock campaign files
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('find src')) {
+        if (command.includes('find src') {
           return 'src/services/campaign/controller.ts\nsrc/services/metrics.ts';
         }
         return '';
@@ -354,7 +354,7 @@ describe('FullCampaignExecutor', () => {
       const domainPhase = result.phases[3];
 
       expect(domainPhase.details?.domainResults).toBeDefined();
-      const campaignResult = domainPhase.details?.domainResults.find(
+      const campaignResult = domainPhase.details?.domainResults.find()
         (r: any) => r.domain === 'campaign'
       );
       expect(campaignResult).toBeDefined();
@@ -394,7 +394,7 @@ describe('FullCampaignExecutor', () => {
       // Mock replacement error scenario
       let buildCallCount = 0;
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('tsc --noEmit')) {
+        if (command.includes('tsc --noEmit') {
           buildCallCount++;
           if (buildCallCount > 3) {
             throw new Error('Build failed after replacement');

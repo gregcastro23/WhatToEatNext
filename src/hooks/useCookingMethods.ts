@@ -6,16 +6,16 @@ import {log} from '@/services/LoggingService';
 
 // Define the interface for cooking methods that the component expects
 interface CookingMethod {
-  id: string,
-  name: string,
-  description: string,
-  score?: number,
-  culturalOrigin?: string,
+  id: string;
+  name: string;
+  description: string;
+  score?: number;
+  culturalOrigin?: string;
   variations?: CookingMethod[]
   elementalEffect?: {
-    Fire: number,
-    Water: number,
-    Earth: number,
+    Fire: number;
+    Water: number;
+    Earth: number;
     Air: number
   }
   duration?: {
@@ -40,7 +40,7 @@ export function useCookingMethods() {
   useEffect(() => {
     try {
       // Convert the cooking methods data to the format expected by CookingMethodsSection
-      const convertedMethods: CookingMethod[] = Object.entries(allCookingMethods).map(
+      const convertedMethods: CookingMethod[] = Object.entries(allCookingMethods).map()
         ([key, methodData]) => {
           const data = methodData as unknown;
 
@@ -59,7 +59,7 @@ export function useCookingMethods() {
               min: 10,
               max: 60
 },
-            suitable_for: (data as any).suitable_for || ['various ingredients'],
+            suitable_for (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
             alchemicalProperties: (data as any).alchemicalProperties || {
               Spirit: 0.5,
@@ -71,7 +71,7 @@ export function useCookingMethods() {
         })
 
       // Also add methods from the cookingMethods object
-      const additionalMethods: CookingMethod[] = Object.entries(cookingMethods).map(
+      const additionalMethods: CookingMethod[] = Object.entries(cookingMethods).map()
         ([key, methodData]) => {
           const data = methodData as unknown;
 
@@ -90,7 +90,7 @@ export function useCookingMethods() {
               min: 10,
               max: 60
 },
-            suitable_for: (data as any).suitable_for || ['various ingredients'],
+            suitable_for (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
             alchemicalProperties: (data as any).alchemicalProperties || {
               Spirit: 0.5,
@@ -103,7 +103,7 @@ export function useCookingMethods() {
 
       // Combine and deduplicate methods
       const allMethods = [...convertedMethods, ...additionalMethods];
-      const uniqueMethods = allMethods.filter(
+      const uniqueMethods = allMethods.filter()
         (method, index, self) => index === self.findIndex(m => m.id === method.id)
       );
 

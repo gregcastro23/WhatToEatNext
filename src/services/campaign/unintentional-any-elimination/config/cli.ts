@@ -30,7 +30,7 @@ function displayConfig(config: any, title: string = 'Configuration'): void {
 /**
  * Display validation results
  */
-function displayValidation(validation: { isValid: boolean; errors: string[]; warnings?: string[] }): void {
+function displayValidation(validation: { isValid: boolean; errors: string[]; warnings?, string[] }): void {
   if (validation.isValid) {
     console.log('✅ Configuration is valid');
   } else {
@@ -58,7 +58,7 @@ program
   .option('-s, --section <section>', 'Show specific section (classification|domain|safety|targets)')
   .action((options) => {
     try {
-      if (options.environment !== getCurrentEnvironment()) {
+      if (options.environment !== getCurrentEnvironment() {
         const envConfig = getEnvironmentConfig(options.environment as Environment);
         displayConfig(envConfig, `${options.environment} Configuration`);
       } else {
@@ -126,7 +126,7 @@ program
       switch (options.type) {
         case 'number':
           parsedValue = parseFloat(value);
-          if (isNaN(parsedValue)) {
+          if (isNaN(parsedValue) {
             console.error('Invalid number value');
             process.exit(1);
           }
@@ -152,7 +152,7 @@ program
       }
 
       const sectionConfig = config[section as keyof typeof config] as any;
-      if (!(property in sectionConfig)) {
+      if (!(property in sectionConfig) {
         console.error(`Unknown property: ${property} in section ${section}`);
         process.exit(1);
       }
@@ -261,7 +261,7 @@ program
     try {
       const fs = require('fs');
 
-      if (!fs.existsSync(file)) {
+      if (!fs.existsSync(file) {
         console.error(`File not found: ${file}`);
         process.exit(1);
       }

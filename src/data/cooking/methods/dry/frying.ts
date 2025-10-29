@@ -21,7 +21,7 @@ export const frying: CookingMethodData = {
     min: 2,
     max: 15
 },
-  suitable_for: [
+  suitable_for [
     'vegetables',
     'meats',
     'seafood',
@@ -481,9 +481,7 @@ export const frying: CookingMethodData = {
       stability: 'Resistance to oxidation during repeated heating. Monounsaturated fats (olive, peanut) generally more stable than polyunsaturated (soybean, corn). Antioxidants in some oils (rice bran) enhance stability.',
       cooling_rate: 'Oils cool at different rates due to specific heat capacity differences. Higher viscosity oils (palm, coconut) maintain temperature longer than thinner oils.',
       oil_blending: 'Combining oils can optimize properties: high-heat tolerance oils with flavor-enhancing oils. Common commercial blend: 80% neutral oil with 20% flavor-enhancing oil.' },
-        batter_science: {
-      gluten_development:
-        'Minimal gluten development desired for most batters. Inhibited by: minimal mixing, cold temperature, alcohol addition, fat incorporation, acid addition, or substituting non-gluten flours.',
+        batter_science: { gluten_development: 'Minimal gluten development desired for most batters. Inhibited by, minimal mixing, cold temperature, alcohol addition, fat incorporation, acid addition, or substituting non-gluten flours.',
       carbonation: 'Carbon dioxide bubbles create nucleation sites for steam formation, resulting in lighter texture. Most effective when batter used immediately after mixing with carbonated liquid.',
       protein_content: 'Higher protein flours (bread flour) create stronger but potentially tougher coating, lower protein flours (cake flour) create more delicate coating.',
       viscosity: 'Thicker batters create thicker coatings but may trap more steam, thinner batters create lacier, crispier coatings. Optimal viscosity depends on application: thin for tempura, moderate for fish, thick for fritters.',

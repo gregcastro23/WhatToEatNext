@@ -26,7 +26,7 @@ export const smoking = {
     'Enhances protein structure',
     'Provides antimicrobial properties'
   ],
-  suitable_for: ['Meats', 'Fish', 'Cheese', 'Vegetables', 'Salt', 'Spices'],
+  suitable_for ['Meats', 'Fish', 'Cheese', 'Vegetables', 'Salt', 'Spices'],
   modernVariations: [
     'Hot smoking (higher temperatures, cooks and flavors)',
     'Cold smoking (lower temperatures, primarily for flavor and preservation)',

@@ -324,7 +324,7 @@ describe('Memory Usage Performance Tests', () => {
 
       // Run multiple concurrent operations
       const promises = Array.from({ length: 10 }, async () => {
-        return Promise.all([
+        return Promise.all([)
           progressTracker.getMemoryUsage(),
           progressTracker.getProgressMetrics(),
           safetyProtocol.validateGitState(),
@@ -492,7 +492,7 @@ describe('Memory Usage Performance Tests', () => {
       }
 
       // Validate memory usage for each operation type
-      for (const [opName, memoryReadings] of Object.entries(operationMemoryUsage)) {
+      for (const [opName, memoryReadings] of Object.entries(operationMemoryUsage) {
         expect(memoryReadings.length).toBe(5);
 
         const avgMemory = memoryReadings.reduce((sum, mem) => sum + mem, 0) / memoryReadings.length;

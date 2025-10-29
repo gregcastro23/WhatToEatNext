@@ -19,7 +19,7 @@ export const steaming: CookingMethodData = {
     min: 5,
     max: 45
 },
-  suitable_for: [
+  suitable_for [
     'vegetables',
     'fish',
     'shellfish',

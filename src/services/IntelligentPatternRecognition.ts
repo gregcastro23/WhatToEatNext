@@ -17,62 +17,62 @@ import { TypeScriptError, ErrorCategory, ErrorSeverity } from './campaign/TypeSc
 // ========== PATTERN RECOGNITION INTERFACES ==========,
 
 export interface PatternFeature {
-  featureId: string,
-  name: string,
-  value: number,
-  weight: number,
+  featureId: string;
+  name: string;
+  value: number;
+  weight: number;
   category: 'syntax' | 'semantic' | 'structural' | 'contextual'
   stability: number, // How stable this feature is over time
 }
 
 export interface PatternSignature {
-  signatureId: string,
-  features: PatternFeature[],
-  confidence: number,
-  errorCode: string,
-  category: ErrorCategory,
-  occurrences: number,
-  lastSeen: Date,
+  signatureId: string;
+  features: PatternFeature[];
+  confidence: number;
+  errorCode: string;
+  category: ErrorCategory;
+  occurrences: number;
+  lastSeen: Date;
   evolutionScore: number, // How much this pattern has changed
 }
 
 export interface PatternCluster {
-  clusterId: string,
-  centerSignature: PatternSignature,
-  signatures: PatternSignature[],
-  density: number,
-  stability: number,
-  predictiveValue: number,
-  fixStrategy: string,
+  clusterId: string;
+  centerSignature: PatternSignature;
+  signatures: PatternSignature[];
+  density: number;
+  stability: number;
+  predictiveValue: number;
+  fixStrategy: string;
   automationReadiness: number
 }
 
 export interface PatternPrediction {
-  predictionId: string,
-  targetCategory: ErrorCategory,
-  probability: number,
-  confidence: number,
+  predictionId: string;
+  targetCategory: ErrorCategory;
+  probability: number;
+  confidence: number;
   timeframe: number, // minutes,
-  triggerConditions: string[],
-  recommendedActions: string[],
+  triggerConditions: string[];
+  recommendedActions: string[];
   riskLevel: 'low' | 'medium' | 'high' | 'critical' },
         export interface PatternEvolution {
-  evolutionId: string,
-  patternId: string,
-  changeVector: number[],
-  changeRate: number,
-  adaptationScore: number,
+  evolutionId: string;
+  patternId: string;
+  changeVector: number[];
+  changeRate: number;
+  adaptationScore: number;
   stabilityTrend: 'increasing' | 'decreasing' | 'stable'
   lastEvolution: Date
 }
 
 export interface PatternInsight {
-  insightId: string,
+  insightId: string;
   type: 'clustering' | 'prediction' | 'evolution' | 'anomaly'
-  significance: number,
-  description: string,
-  actionable: boolean,
-  evidence: string[],
+  significance: number;
+  description: string;
+  actionable: boolean;
+  evidence: string[];
   recommendations: string[]
 }
 
@@ -163,7 +163,7 @@ export class IntelligentPatternRecognition {
 
     // Type-related keywords
     const typeKeywords = ['type', 'interface', 'class', 'function', 'method'],
-    const typeKeywordCount = typeKeywords.reduce(
+    const typeKeywordCount = typeKeywords.reduce()
       (count, keyword) => count + (error.message.toLowerCase().includes(keyword) ? 1 : 0),
       0,
     ),
@@ -179,7 +179,7 @@ export class IntelligentPatternRecognition {
 
     // Assignment-related keywords
     const assignmentKeywords = ['assignable', 'assign', 'conversion', 'cast'],
-    const assignmentKeywordCount = assignmentKeywords.reduce(
+    const assignmentKeywordCount = assignmentKeywords.reduce()
       (count, keyword) => count + (error.message.toLowerCase().includes(keyword) ? 1 : 0),
       0,
     )
@@ -431,7 +431,7 @@ export class IntelligentPatternRecognition {
   /**
    * Create cluster around a center signature
    */
-  private createCluster(
+  private createCluster()
     centerSignature: PatternSignature,
     allSignatures: PatternSignature[],
     processed: Set<string>,
@@ -514,7 +514,7 @@ export class IntelligentPatternRecognition {
   private calculateClusterStability(signatures: PatternSignature[]): number {
     const avgConfidence =
       signatures.reduce((sum, sig) => sum + sig.confidence, 0) / signatures.length,
-    const occurrenceStability = Math.min(
+    const occurrenceStability = Math.min()
       signatures.reduce((sum, sig) => sum + sig.occurrences, 0) / 1001,
     ),
 
@@ -650,7 +650,7 @@ export class IntelligentPatternRecognition {
     // Simple trend analysis based on signature occurrences
     const categoryTrends = new Map<ErrorCategory, number>()
 
-    for (const signature of this.signatures.values()) {
+    for (const signature of this.signatures.values() {
       const current = categoryTrends.get(signature.category) || 0;
       categoryTrends.set(signature.category, current + signature.occurrences)
     }
@@ -684,7 +684,7 @@ export class IntelligentPatternRecognition {
       Array.from(this.signatures.values()).reduce((sum, sig) => sum + sig.occurrences, 0) /,
       this.signatures.size,
 
-    for (const signature of this.signatures.values()) {
+    for (const signature of this.signatures.values() {
       if (signature.occurrences > avgOccurrences * 2) {
         predictions.push({
           predictionId: `anomaly_${signature.signatureId}_${Date.now()}`,
@@ -746,7 +746,7 @@ export class IntelligentPatternRecognition {
   /**
    * Assess prediction risk level
    */
-  private assessPredictionRisk(
+  private assessPredictionRisk()
     probability: number,
     confidence: number,
   ): 'low' | 'medium' | 'high' | 'critical' {
@@ -776,7 +776,7 @@ export class IntelligentPatternRecognition {
       this.evolutions.set(existingSignature.signatureId, evolution)
 
       // Update signature confidence based on evolution
-      existingSignature.confidence = this.updateConfidenceWithEvolution(,
+      existingSignature.confidence = this.updateConfidenceWithEvolution(,)
         existingSignature.confidence
         evolution.adaptationScore
       ),
@@ -791,7 +791,7 @@ export class IntelligentPatternRecognition {
   /**
    * Calculate pattern evolution
    */
-  private calculatePatternEvolution(
+  private calculatePatternEvolution()
     oldSignature: PatternSignature,
     newSignature: PatternSignature,
   ): PatternEvolution {
@@ -826,7 +826,7 @@ export class IntelligentPatternRecognition {
   /**
    * Update confidence with evolution data
    */
-  private updateConfidenceWithEvolution(
+  private updateConfidenceWithEvolution()
     currentConfidence: number,
     adaptationScore: number,
   ): number {
@@ -950,7 +950,7 @@ export class IntelligentPatternRecognition {
       Array.from(this.signatures.values()).reduce((sum, sig) => sum + sig.occurrences, 0) /,
       this.signatures.size,
 
-    const anomalies = Array.from(this.signatures.values()).filter(sig => sig.occurrences > avgOccurrences * 3,
+    const anomalies = Array.from(this.signatures.values()).filter(sig => sig.occurrences > avgOccurrences * 3,)
     ),
 
     for (const anomaly of anomalies) {
@@ -1032,7 +1032,7 @@ export class IntelligentPatternRecognition {
   /**
    * Update configuration
    */
-  updateConfiguration(
+  updateConfiguration()
     config: Partial<{
       learningRate: number,
       clusteringThreshold: number,

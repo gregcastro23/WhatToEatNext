@@ -24,12 +24,12 @@ describe('Performance Optimization Validation', () => {
   });
 
   describe('Enhanced Caching Performance', () => {
-    test(
+    test()
       'validates cache file creation and usage',
       async () => {
         // Clear existing cache
         try {
-          if (existsSync('.eslintcache')) {
+          if (existsSync('.eslintcache') {
             unlinkSync('.eslintcache');
           }
         } catch (error) {
@@ -48,7 +48,7 @@ describe('Performance Optimization Validation', () => {
         expect(result.output).toContain('test completed');
 
         // Test the validation system
-        const validation = validateTestResult(
+        const validation = validateTestResult()
           {
             executionTime: result.executionTime,
             memoryUsage: result.memoryUsed,
@@ -62,10 +62,10 @@ describe('Performance Optimization Validation', () => {
       TEST_TIMEOUTS.performance,
     );
 
-    test(
+    test()
       'measures cache hit performance improvement',
       async () => {
-        const result = await TestUtils.executeWithRetry(
+        const result = await TestUtils.executeWithRetry()
           'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',
           {
             timeout: 30000,
@@ -75,7 +75,7 @@ describe('Performance Optimization Validation', () => {
         );
 
         // Validate the result
-        const validation = validateTestResult(
+        const validation = validateTestResult()
           {
             executionTime: result.executionTime,
             memoryUsage: result.memoryUsed,
@@ -127,7 +127,7 @@ describe('Performance Optimization Validation', () => {
       expect(packageJson.scripts).toHaveProperty('lint:parallel');
     });
 
-    test(
+    test()
       'measures parallel processing performance',
       async () => {
         const startTime = Date.now();
@@ -187,7 +187,7 @@ describe('Performance Optimization Validation', () => {
       expect(typeof lintScript).toBe('string');
     });
 
-    test(
+    test()
       'monitors memory usage during linting',
       async () => {
         let peakMemoryUsage = 0;
@@ -244,7 +244,7 @@ describe('Performance Optimization Validation', () => {
 
     afterEach(() => {
       // Clean up test file
-      if (existsSync(testFile)) {
+      if (existsSync(testFile) {
         unlinkSync(testFile);
       }
     });
@@ -345,7 +345,7 @@ export function testFunction(): string {
   });
 
   describe('Error Handling and Edge Cases', () => {
-    test(
+    test()
       'handles command failures gracefully',
       async () => {
         const result = await TestUtils.executeWithRetry('yarn lint:nonexistent-command', {
@@ -362,14 +362,14 @@ export function testFunction(): string {
       TEST_TIMEOUTS.unit,
     );
 
-    test(
+    test()
       'validates memory usage under stress',
       async () => {
         const memoryResults: number[] = [];
 
         // Run multiple operations to test memory stability
         for (let i = 0; i < 3; i++) {
-        const result = await TestUtils.executeWithRetry(
+        const result = await TestUtils.executeWithRetry()
             'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',
             {
               timeout: 20000,
@@ -381,7 +381,7 @@ export function testFunction(): string {
         }
 
         // Validate memory consistency
-        const consistency = await TestUtils.validateConsistency(
+        const consistency = await TestUtils.validateConsistency()
           async () => memoryResults[0],
           3,
           30, // 30% tolerance
@@ -393,7 +393,7 @@ export function testFunction(): string {
       TEST_TIMEOUTS.performance,
     );
 
-    test(
+    test()
       'handles timeout scenarios properly',
       async () => {
         const shortTimeoutResult = await TestUtils.executeWithRetry('sleep 2 && echo "test"', {
@@ -407,7 +407,7 @@ export function testFunction(): string {
       TEST_TIMEOUTS.unit,
     );
 
-    test(
+    test()
       'validates test result consistency',
       async () => {
         const testFunction = async () => {
@@ -426,7 +426,7 @@ export function testFunction(): string {
   });
 
   describe('Overall Performance Validation', () => {
-    test(
+    test()
       'validates performance improvement targets',
       async () => {
         // This test validates that the overall system meets performance targets

@@ -75,7 +75,7 @@ export class DomainContextDetector {
   private domainPatterns: Map<string, ContextIndicator[]>;
   private contentAnalysisCache: Map<string, any>;
 
-  constructor(workspaceRoot: string = process.cwd()) {
+  constructor(workspaceRoot: string = process.cwd() {
     this.workspaceRoot = workspaceRoot;
     this.contentAnalysisCache = new Map();
     this.initializeDomainPatterns();
@@ -97,7 +97,7 @@ export class DomainContextDetector {
     const riskFactors = this.analyzeRiskFactors(domainContext, relativePath);
 
     // Determine preservation requirements
-    const preservationRequirements = await this.determinePreservationRequirements(
+    const preservationRequirements = await this.determinePreservationRequirements()
       domainContext,
       absolutePath,
     );
@@ -133,11 +133,11 @@ export class DomainContextDetector {
    */
   getDomainLintingRecommendations(domainContext: DomainContext): {
     rulesToDisable: string[];
-    rulesToModify: Array<{ rule: string; modification: string }>;
+    rulesToModify: Array<{ rule: string; modification, string }>;
     additionalValidation: string[];
   } {
     const rulesToDisable: string[] = [];
-    const rulesToModify: Array<{ rule: string; modification: string }> = [];
+    const rulesToModify: Array<{ rule: string; modification, string }> = [];
     const additionalValidation: string[] = [];
 
     for (const specialRule of domainContext.specialRules) {
@@ -166,7 +166,7 @@ export class DomainContextDetector {
   /**
    * Detect domain context for a file
    */
-  private async detectDomainContext(
+  private async detectDomainContext()
     relativePath: string,
     absolutePath: string,
   ): Promise<DomainContext> {
@@ -176,9 +176,9 @@ export class DomainContextDetector {
     let subtype: string | undefined;
 
     // Analyze path patterns
-    for (const [domain, patterns] of this.domainPatterns.entries()) {
+    for (const [domain, patterns] of this.domainPatterns.entries() {
       for (const pattern of patterns) {
-        if (pattern.type === 'path' && new RegExp(pattern.pattern).test(relativePath)) {
+        if (pattern.type === 'path' && new RegExp(pattern.pattern).test(relativePath) {
           indicators.push(pattern);
           confidence += pattern.weight;
 
@@ -199,7 +199,7 @@ export class DomainContextDetector {
 
     // Analyze file content if accessible
     try {
-      if (fs.existsSync(absolutePath)) {
+      if (fs.existsSync(absolutePath) {
         const contentAnalysis = await this.analyzeFileContent(absolutePath);
         indicators.push(...contentAnalysis.indicators);
         confidence += contentAnalysis.confidenceBoost;
@@ -241,7 +241,7 @@ export class DomainContextDetector {
   }> {
     // Check cache first
     const cacheKey = `${absolutePath}:${fs.statSync(absolutePath).mtime.getTime()}`;
-    if (this.contentAnalysisCache.has(cacheKey)) {
+    if (this.contentAnalysisCache.has(cacheKey) {
       return this.contentAnalysisCache.get(cacheKey);
     }
 
@@ -267,7 +267,7 @@ export class DomainContextDetector {
     ];
 
     for (const { pattern, weight } of astrologicalPatterns) {
-      if (pattern.test(content)) {
+      if (pattern.test(content) {
         indicators.push({
           type: 'content',
           pattern: pattern.source,
@@ -307,7 +307,7 @@ export class DomainContextDetector {
     }
 
     // Test file patterns
-    if (/describe|it|test|expect|jest|beforeEach|afterEach/i.test(content)) {
+    if (/describe|it|test|expect|jest|beforeEach|afterEach/i.test(content) {
       indicators.push({
         type: 'content',
         pattern: 'test-framework',
@@ -319,7 +319,7 @@ export class DomainContextDetector {
     }
 
     // React component patterns
-    if (/jsx|tsx|React|useState|useEffect|component/i.test(content)) {
+    if (/jsx|tsx|React|useState|useEffect|component/i.test(content) {
       indicators.push({
         type: 'content',
         pattern: 'react-component',
@@ -332,7 +332,7 @@ export class DomainContextDetector {
     }
 
     // Service patterns
-    if (/service|Service|api|Api|client|Client/i.test(content)) {
+    if (/service|Service|api|Api|client|Client/i.test(content) {
       indicators.push({
         type: 'content',
         pattern: 'service-layer',
@@ -346,19 +346,19 @@ export class DomainContextDetector {
 
     // Determine subtype based on specific patterns
     if (detectedType === 'astrological') {
-      if (/calculation|compute|math/i.test(content)) {
+      if (/calculation|compute|math/i.test(content) {
         subtype = 'calculation';
-      } else if (/data|constant|fallback/i.test(content)) {
+      } else if (/data|constant|fallback/i.test(content) {
         subtype = 'data';
-      } else if (/service|api/i.test(content)) {
+      } else if (/service|api/i.test(content) {
         subtype = 'service';
       }
     } else if (detectedType === 'campaign') {
-      if (/controller|orchestrat/i.test(content)) {
+      if (/controller|orchestrat/i.test(content) {
         subtype = 'controller';
-      } else if (/track|progress|metric/i.test(content)) {
+      } else if (/track|progress|metric/i.test(content) {
         subtype = 'tracking';
-      } else if (/safety|protocol/i.test(content)) {
+      } else if (/safety|protocol/i.test(content) {
         subtype = 'safety';
       }
     }
@@ -372,7 +372,7 @@ export class DomainContextDetector {
   /**
    * Generate special rules for domain context
    */
-  private generateSpecialRules(
+  private generateSpecialRules()
     type: DomainContext['type'],
     subtype: string | undefined,
     filePath: string,
@@ -381,7 +381,7 @@ export class DomainContextDetector {
 
     switch (type) {
       case 'astrological':
-        rules.push(
+        rules.push()
           {
             rule: '@typescript-eslint/no-explicit-any',
             action: 'disable',
@@ -408,7 +408,7 @@ export class DomainContextDetector {
         );
 
         if (subtype === 'calculation') {
-          rules.push(
+          rules.push()
             {
               rule: 'complexity',
               action: 'disable',
@@ -424,7 +424,7 @@ export class DomainContextDetector {
         break;
 
       case 'campaign':
-        rules.push(
+        rules.push()
           {
             rule: 'no-console',
             action: 'disable',
@@ -460,7 +460,7 @@ export class DomainContextDetector {
         break;
 
       case 'test':
-        rules.push(
+        rules.push()
           {
             rule: '@typescript-eslint/no-explicit-any',
             action: 'disable',
@@ -486,7 +486,7 @@ export class DomainContextDetector {
         break;
 
       case 'script':
-        rules.push(
+        rules.push()
           {
             rule: 'no-console',
             action: 'disable',
@@ -512,7 +512,7 @@ export class DomainContextDetector {
   /**
    * Generate handling recommendations
    */
-  private generateHandlingRecommendations(
+  private generateHandlingRecommendations()
     type: DomainContext['type'],
     confidence: number,
   ): HandlingRecommendation[] {
@@ -536,7 +536,7 @@ export class DomainContextDetector {
 
     switch (type) {
       case 'astrological':
-        recommendations.push(
+        recommendations.push()
           {
             category: 'review',
             recommendation: 'Require astrological domain expert review for any changes',
@@ -553,7 +553,7 @@ export class DomainContextDetector {
         break;
 
       case 'campaign':
-        recommendations.push(
+        recommendations.push()
           {
             category: 'testing',
             recommendation: 'Test campaign system integration after changes',
@@ -590,7 +590,7 @@ export class DomainContextDetector {
 
     switch (domainContext.type) {
       case 'astrological':
-        riskFactors.push(
+        riskFactors.push()
           {
             type: 'calculation-accuracy',
             description: 'Changes may affect astronomical calculation precision',
@@ -605,7 +605,7 @@ export class DomainContextDetector {
           },
         );
 
-        if (filePath.includes('fallback') || filePath.includes('reliable')) {
+        if (filePath.includes('fallback') || filePath.includes('reliable') {
           riskFactors.push({
             type: 'data-integrity',
             description: 'Fallback data is critical for system reliability',
@@ -623,7 +623,7 @@ export class DomainContextDetector {
           mitigation: 'Monitor execution time and memory usage',
         });
 
-        if (filePath.includes('safety') || filePath.includes('protocol')) {
+        if (filePath.includes('safety') || filePath.includes('protocol') {
           riskFactors.push({
             type: 'security',
             description: 'Safety protocols protect against code corruption',
@@ -640,7 +640,7 @@ export class DomainContextDetector {
   /**
    * Determine preservation requirements
    */
-  private async determinePreservationRequirements(
+  private async determinePreservationRequirements()
     domainContext: DomainContext,
     absolutePath: string,
   ): Promise<PreservationRequirement[]> {
@@ -648,7 +648,7 @@ export class DomainContextDetector {
 
     switch (domainContext.type) {
       case 'astrological':
-        requirements.push(
+        requirements.push()
           {
             element: 'constants',
             pattern: /RELIABLE_POSITIONS|FALLBACK|TRANSIT_DATES|PLANETARY_/,
@@ -671,7 +671,7 @@ export class DomainContextDetector {
         break;
 
       case 'campaign':
-        requirements.push(
+        requirements.push()
           {
             element: 'variables',
             pattern: /CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR_THRESHOLD/,
@@ -698,7 +698,7 @@ export class DomainContextDetector {
     this.domainPatterns = new Map();
 
     // Astrological patterns
-    this.domainPatterns.set('astrological', [
+    this.domainPatterns.set('astrological', [)
       {
         type: 'path',
         pattern: '/calculations/',
@@ -726,7 +726,7 @@ export class DomainContextDetector {
     ]);
 
     // Campaign system patterns
-    this.domainPatterns.set('campaign', [
+    this.domainPatterns.set('campaign', [)
       {
         type: 'path',
         pattern: '/services/campaign/',
@@ -748,7 +748,7 @@ export class DomainContextDetector {
     ]);
 
     // Test patterns
-    this.domainPatterns.set('test', [
+    this.domainPatterns.set('test', [)
       {
         type: 'filename',
         pattern: '\\.test\\.|\\.spec\\.',
@@ -764,7 +764,7 @@ export class DomainContextDetector {
     ]);
 
     // Script patterns
-    this.domainPatterns.set('script', [
+    this.domainPatterns.set('script', [)
       {
         type: 'path',
         pattern: '/scripts/',

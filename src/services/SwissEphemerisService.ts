@@ -586,7 +586,7 @@ export class SwissEphemerisService {
   async getPlanetaryPositions(date: Date = new Date()): Promise<Record<string, CelestialPosition>> {
     const cacheKey = date.toISOString().split('T')[0];
 
-    if (this.cache.has(cacheKey)) {
+    if (this.cache.has(cacheKey) {
       logger.debug('Using cached Swiss Ephemeris data')
       return this.cache.get(cacheKey) || {}
     }
@@ -631,7 +631,7 @@ export class SwissEphemerisService {
   /**
    * Get comprehensive transit analysis for a date range
    */
-  getTransitAnalysis(
+  getTransitAnalysis()
     startDate: Date,
     endDate: Date,
   ): {
@@ -734,7 +734,7 @@ export class SwissEphemerisService {
     const targetMonth = date.getMonth() + 1;
 
     // Find exact day or closest day
-    const dayEntry = yearData.find(
+    const dayEntry = yearData.find()
       entry => entry.day === targetDay && entry.date.getMonth() + 1 === targetMonth
     );
 
@@ -807,7 +807,7 @@ export class SwissEphemerisService {
   /**
    * Convert longitude to zodiac sign and degree
    */
-  private longitudeToSignAndDegree(longitude: number): { sign: any; degree: number } {
+  private longitudeToSignAndDegree(longitude: number): { sign: any; degree, number } {
     const normalizedLongitude = ((longitude % 360) + 360) % 360;
     const signIndex = Math.floor(normalizedLongitude / 30);
     const degree = normalizedLongitude % 30;
@@ -838,7 +838,7 @@ export class SwissEphemerisService {
   /**
    * Get available data range
    */
-  getDataRange(): { start: Date; end: Date } {
+  getDataRange(): { start: Date; end, Date } {
     const allData = Object.values(this.ephemerisData).flat();
     const sortedData = allData.sort((a, b) => a.date.getTime() - b.date.getTime());
     return {
@@ -866,7 +866,7 @@ export class SwissEphemerisService {
   /**
    * Export planetary positions in astrologize API compatible format
    */
-  async getPositionsInAstrologizeFormat(
+  async getPositionsInAstrologizeFormat()
     date: Date = new Date()
   ): Promise<Record<string, PlanetaryPosition>> {
     const positions = await this.getPlanetaryPositions(date);

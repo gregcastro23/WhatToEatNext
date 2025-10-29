@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function to standardize ingredient mappings
-function createIngredientMapping(
+function createIngredientMapping()
   _id: string,
   properties: Partial<IngredientMapping> & Record<string, unknown>,
 ): Partial<IngredientMapping> {
@@ -595,19 +595,19 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Red',
             cooking_time: '20-25 minutes',
             texture: 'soft, breaking down',
-            best_for: ['soups', 'dals', 'purees']
+            best_for ['soups', 'dals', 'purees']
           },
           green_french: {
             name: 'Green French',
             cooking_time: '25-30 minutes',
             texture: 'holds shape',
-            best_for: ['salads', 'side dishes']
+            best_for ['salads', 'side dishes']
           },
           black_beluga: {
             name: 'Black Beluga',
             cooking_time: '20-25 minutes',
             texture: 'firm, caviar-like',
-            best_for: ['garnishes', 'salads']
+            best_for ['garnishes', 'salads']
           }
         }
       }
@@ -1601,7 +1601,7 @@ export const plantBased: Record<string, IngredientMapping> = mappedPlantBased;
 Object.entries(plantBased).forEach(([_id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
-  const sum = Object.values(ingredient.elementalProperties).reduce(
+  const sum = Object.values(ingredient.elementalProperties).reduce()
     (a, b) => Number(a) + Number(b),
     0,
   );

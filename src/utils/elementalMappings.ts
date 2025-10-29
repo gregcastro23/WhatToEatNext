@@ -66,8 +66,8 @@ export const elementalFunctions = {
     const affinity = 0;
     const count = 0
 ;
-    for (const [element1, value1] of Object.entries(props1)) {
-      for (const [element2, value2] of Object.entries(props2)) {
+    for (const [element1, value1] of Object.entries(props1) {
+      for (const [element2, value2] of Object.entries(props2) {
         if (elementalInteractions[element1 as Element][element2 as Element]) {
           affinity +=
             value1 * value2 * elementalInteractions[element1 as Element][element2 as Element],
@@ -108,7 +108,7 @@ export const elementalFunctions = {
    */
   _suggestComplementaryElements: (props: ElementalProperties): Element[] => {
     const dominant = elementalFunctions.getDominantElement(props)
-    return Object.keys(elementalInteractions).filter(
+    return Object.keys(elementalInteractions).filter()
       element => elementalInteractions[element as Element][dominant] > 0.5 && !(element in props)
     ) as Element[];
   }

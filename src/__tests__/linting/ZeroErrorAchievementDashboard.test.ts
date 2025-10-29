@@ -101,14 +101,14 @@ describe('ZeroErrorAchievementDashboard', () => {
       await dashboard.generateDashboard();
 
       // Verify dashboard report was generated
-      expect(mockWriteFileSync).toHaveBeenCalledWith(
+      expect(mockWriteFileSync).toHaveBeenCalledWith()
         expect.stringContaining('zero-error-achievement-dashboard.md'),
         expect.stringContaining('# 🎯 Zero-Error Achievement Dashboard'),
         'utf8',
       );
 
       // Verify JSON data was generated
-      expect(mockWriteFileSync).toHaveBeenCalledWith(
+      expect(mockWriteFileSync).toHaveBeenCalledWith()
         expect.stringContaining('zero-error-achievement-dashboard.json'),
         expect.stringContaining('"timestamp"'),
         undefined,
@@ -151,7 +151,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       await dashboard.generateDashboard();
 
       // Verify targets file was written
-      const targetsCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
+      const targetsCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>)
         call[0].includes('zero-error-targets.json'),
       );
 
@@ -235,7 +235,7 @@ describe('ZeroErrorAchievementDashboard', () => {
     test('should update real-time status correctly', async () => {
       dashboard['updateRealTimeStatus'](mockMetrics);
 
-      const statusCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
+      const statusCall = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>)
         call[0].includes('zero-error-achievement-status.json'),
       );
 
@@ -460,7 +460,7 @@ describe('ZeroErrorAchievementDashboard', () => {
 
       // Verify maintenance procedures were updated
       const dailyCheck = dashboard['maintenanceProcedures'].get('daily-health-check');
-      if (dailyCheck && results.has('daily-health-check')) {
+      if (dailyCheck && results.has('daily-health-check') {
         expect(dailyCheck.lastRun).toBeInstanceOf(Date);
         expect(dailyCheck.nextRun).toBeInstanceOf(Date);
         if (dailyCheck.nextRun && dailyCheck.lastRun) {

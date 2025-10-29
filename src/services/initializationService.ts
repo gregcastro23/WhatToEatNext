@@ -162,7 +162,7 @@ class InitializationService {
   private async initializeRecipes(): Promise<Recipe[]> {
     try {
       const recipes = await recipeData.getAllRecipes();
-      if (!recipes.every(recipe => stateValidator.validateRecipe(recipe))) {
+      if (!recipes.every(recipe => stateValidator.validateRecipe(recipe)) {
         throw new Error('Invalid recipe data received')
       }
       return recipes;

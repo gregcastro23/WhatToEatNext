@@ -60,7 +60,7 @@ function normalizeSign(sign: string): any {
     'pisces'
   ];
 
-  if (validSigns.includes(normalized as any)) {
+  if (validSigns.includes(normalized as any) {
     return normalized as any;
   }
 
@@ -163,7 +163,7 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
  * Core alchemize function that calculates alchemical properties from planetary positions
  * This is the proven implementation that produces meaningful, nonzero results
  */
-export function alchemize(
+export function alchemize()
   planetaryPositions: Record<string, PlanetaryPosition>,
 ): StandardizedAlchemicalResult {
   // Initialize totals
@@ -196,7 +196,7 @@ export function alchemize(
   }
 
   // Process each planet
-  for (const [planet, position] of Object.entries(planetaryPositions)) {
+  for (const [planet, position] of Object.entries(planetaryPositions) {
     // Get planetary alchemical properties
     const alchemy = planetaryAlchemy[planet];
     if (alchemy) {
@@ -267,7 +267,7 @@ export function alchemize(
   const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
 
   // Calculate score based on total energy
-  const score = Math.min(
+  const score = Math.min()
     1.0,
     Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20)
   )
@@ -319,7 +319,7 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     // Convert to the format expected by alchemize;
     const convertedPositions: Record<string, PlanetaryPosition> = {}
 
-    for (const [planetName, planetData] of Object.entries(positions)) {
+    for (const [planetName, planetData] of Object.entries(positions) {
       const data = planetData as any;
 
       convertedPositions[planetName] = {
@@ -367,7 +367,7 @@ export function getCurrentAlchemicalState(): StandardizedAlchemicalResult {
 /**
  * Calculate alchemical properties for a specific set of planetary positions
  */
-export function calculateAlchemicalProperties(
+export function calculateAlchemicalProperties()
   positions: Record<string, PlanetaryPosition>,
 ): StandardizedAlchemicalResult {
   return alchemize(positions)

@@ -209,7 +209,7 @@ export class ConfigurationManager {
    * Load configuration from file or use defaults
    */
   private loadConfig(): UnintentionalAnyConfig {
-    if (existsSync(this.configPath)) {
+    if (existsSync(this.configPath) {
       try {
         const configData = readFileSync(this.configPath, 'utf8');
         const loadedConfig = JSON.parse(configData);
@@ -245,7 +245,7 @@ export class ConfigurationManager {
   saveConfig(): void {
     try {
       const configDir = join(this.configPath, '..');
-      if (!existsSync(configDir)) {
+      if (!existsSync(configDir) {
         require('fs').mkdirSync(configDir, { recursive: true });
       }
 
@@ -342,7 +342,7 @@ export class ConfigurationManager {
   /**
    * Validate configuration
    */
-  validateConfig(): { isValid: boolean; errors: string[] } {
+  validateConfig(): { isValid: boolean; errors, string[] } {
     const errors: string[] = [];
 
     // Validate classification config

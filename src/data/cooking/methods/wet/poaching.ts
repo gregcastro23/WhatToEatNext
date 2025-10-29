@@ -21,7 +21,7 @@ export const poaching: CookingMethodData = {
     min: 3,
     max: 45
 },
-  suitable_for: [
+  suitable_for [
     'fish fillets',
     'shellfish',
     'poultry',

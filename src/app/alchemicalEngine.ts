@@ -27,8 +27,7 @@ export { AlchemicalEngineAdvanced, AlchemicalEngineBase };
 export { alchemize };
 
 // Create and export a unified default object with all alchemical functionality
-const alchemicalEngine = {
-  alchemize: (birthInfo: BirthInfo, horoscopeDict: HoroscopeData): StandardizedAlchemicalResult => {
+const alchemicalEngine = { alchemize: (birthInfo, BirthInfo, horoscopeDict: HoroscopeData): StandardizedAlchemicalResult => {
     try {
       const tropical = horoscopeDict.tropical as any | undefined;
       const extendedHoroscope = {
@@ -45,7 +44,7 @@ const alchemicalEngine = {
       _logger.error('Error in alchemize: ', error)
 
       // Special handling for 'Assignment to constant variable' error
-      if (error instanceof TypeError && error.message.includes('Assignment to constant')) {
+      if (error instanceof TypeError && error.message.includes('Assignment to constant') {
         _logger.error('Assignment to constant variable detected!')
         _logger.error('Error stack: ', error.stack)
 
@@ -88,7 +87,7 @@ const alchemicalEngine = {
   calculateCurrentPlanetaryPositions: async (): Promise<Record<string, unknown>> => {
     try {
       // Import and call the function from the source module
-      const { calculateCurrentPlanetaryPositions } = await import(
+      const { calculateCurrentPlanetaryPositions } = await import()
         '@/calculations/alchemicalEngine'
       )
       return calculateCurrentPlanetaryPositions()

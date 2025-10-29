@@ -118,22 +118,22 @@ describe('Phase Execution Integration Tests', () => {
       mockExecSync.mockImplementation(command => {
         const cmd = command.toString();
 
-        if (cmd.includes('yarn tsc --noEmit --skipLibCheck')) {
+        if (cmd.includes('yarn tsc --noEmit --skipLibCheck') {
           return '0'; // No TypeScript errors after fixing
         }
-        if (cmd.includes('yarn build')) {
+        if (cmd.includes('yarn build') {
           return ''; // Successful build
         }
-        if (cmd.includes('git stash push')) {
+        if (cmd.includes('git stash push') {
           return ''; // Successful stash creation
         }
-        if (cmd.includes('git stash list')) {
+        if (cmd.includes('git stash list') {
           return 'stash@{0}: campaign-phase1-1-timestamp: Pre-phase checkpoint';
         }
-        if (cmd.includes('git branch --show-current')) {
+        if (cmd.includes('git branch --show-current') {
           return 'main';
         }
-        if (cmd.includes('git status --porcelain')) {
+        if (cmd.includes('git status --porcelain') {
           return ''; // Clean working directory
         }
 
@@ -211,22 +211,22 @@ describe('Phase Execution Integration Tests', () => {
       mockExecSync.mockImplementation(command => {
         const cmd = command.toString();
 
-        if (cmd.includes('yarn lint 2>&1 | grep -c "warning"')) {
+        if (cmd.includes('yarn lint 2>&1 | grep -c "warning"') {
           return '0'; // No linting warnings after fixing
         }
-        if (cmd.includes('yarn build')) {
+        if (cmd.includes('yarn build') {
           return ''; // Successful build
         }
-        if (cmd.includes('git stash push')) {
+        if (cmd.includes('git stash push') {
           return ''; // Successful stash creation
         }
-        if (cmd.includes('git stash list')) {
+        if (cmd.includes('git stash list') {
           return 'stash@{0}: campaign-phase2-1-timestamp: Pre-phase checkpoint';
         }
-        if (cmd.includes('git branch --show-current')) {
+        if (cmd.includes('git branch --show-current') {
           return 'main';
         }
-        if (cmd.includes('git status --porcelain')) {
+        if (cmd.includes('git status --porcelain') {
           return ''; // Clean working directory
         }
 
@@ -347,7 +347,7 @@ describe('Phase Execution Integration Tests', () => {
       // Mock rollback
       jest.spyOn(campaignController, 'rollbackToCheckpoint').mockResolvedValue();
 
-      await expect(campaignController.executePhase(phase1)).rejects.toThrow(
+      await expect(campaignController.executePhase(phase1)).rejects.toThrow()
         'Tool execution failed: Build validation failed',
       );
 
@@ -359,7 +359,7 @@ describe('Phase Execution Integration Tests', () => {
 
       // Mock build failure
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('yarn build')) {
+        if (command.toString().includes('yarn build') {
           throw new Error('Build failed');
         }
         return '';

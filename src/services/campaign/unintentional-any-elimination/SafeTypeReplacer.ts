@@ -31,7 +31,7 @@ export class SafeTypeReplacer {
   private maxRetries: number;
   private safetyValidator: SafetyValidator;
 
-  constructor(
+  constructor()
     backupDirectory = './.any-elimination-backups',
     safetyThreshold = 0.7,
     validationTimeout = 30000,
@@ -155,7 +155,7 @@ export class SafeTypeReplacer {
     try {
       // Create backups for all files
       for (const replacement of replacements) {
-        if (!backupPaths.has(replacement.filePath)) {
+        if (!backupPaths.has(replacement.filePath) {
           const backupPath = await this.createBackup(replacement.filePath);
           backupPaths.set(replacement.filePath, backupPath);
         }
@@ -165,7 +165,7 @@ export class SafeTypeReplacer {
       const replacementsByFile = this.groupReplacementsByFile(replacements);
 
       // Apply replacements file by file
-      for (const [filePath, fileReplacements] of Array.from(replacementsByFile.entries())) {
+      for (const [filePath, fileReplacements] of Array.from(replacementsByFile.entries()) {
         try {
           const result = await this.applyReplacementsToFile(filePath, fileReplacements);
           appliedReplacements.push(...result.applied);
@@ -198,7 +198,7 @@ export class SafeTypeReplacer {
       }
 
       // Validate rollback capability
-      const rollbackValidation = await this.safetyValidator.validateRollbackCapability(
+      const rollbackValidation = await this.safetyValidator.validateRollbackCapability()
         new Map(modifiedFiles.map(file => [file, file])),
         backupPaths
       );
@@ -221,7 +221,7 @@ export class SafeTypeReplacer {
       // Emergency rollback
       await this.rollbackAllFiles(backupPaths);
 
-      throw new SafetyProtocolError(
+      throw new SafetyProtocolError()
         'Batch replacement failed with emergency rollback',
         Array.from(backupPaths.values())[0] || '',
         Array.from(backupPaths.keys())
@@ -395,14 +395,14 @@ export class SafeTypeReplacer {
   }
 
   private async rollbackFromBackup(filePath: string, backupPath: string): Promise<void> {
-    if (fs.existsSync(backupPath)) {
+    if (fs.existsSync(backupPath) {
       const backupContent = fs.readFileSync(backupPath, 'utf8');
       fs.writeFileSync(filePath, backupContent, 'utf8');
     }
   }
 
   private async rollbackAllFiles(backupPaths: Map<string, string>): Promise<void> {
-    for (const [filePath, backupPath] of Array.from(backupPaths.entries())) {
+    for (const [filePath, backupPath] of Array.from(backupPaths.entries()) {
       await this.rollbackFromBackup(filePath, backupPath);
     }
   }
@@ -411,21 +411,21 @@ export class SafeTypeReplacer {
     const grouped = new Map<string, TypeReplacement[]>();
 
     for (const replacement of replacements) {
-      if (!grouped.has(replacement.filePath)) {
+      if (!grouped.has(replacement.filePath) {
         grouped.set(replacement.filePath, []);
       }
       grouped.get(replacement.filePath)!.push(replacement);
     }
 
     // Sort replacements within each file by line number (descending to avoid line number shifts)
-    for (const fileReplacements of grouped.values()) {
+    for (const fileReplacements of grouped.values() {
       fileReplacements.sort((a, b) => b.lineNumber - a.lineNumber);
     }
 
     return grouped;
   }
 
-  private async applyReplacementsToFile(
+  private async applyReplacementsToFile()
     filePath: string,
     replacements: TypeReplacement[]
   ): Promise<{ applied: TypeReplacement[], failed: TypeReplacement[], errors: string[] }> {
@@ -486,7 +486,7 @@ export class SafeTypeReplacer {
   }
 
   private ensureBackupDirectory(): void {
-    if (!fs.existsSync(this.backupDirectory)) {
+    if (!fs.existsSync(this.backupDirectory) {
       fs.mkdirSync(this.backupDirectory, { recursive: true });
     }
   }
@@ -494,7 +494,7 @@ export class SafeTypeReplacer {
   /**
    * Perform atomic replacement operation with comprehensive validation
    */
-  private async performAtomicReplacement(
+  private async performAtomicReplacement()
     replacement: TypeReplacement,
     backupPath: string
   ): Promise<ReplacementResult> {
@@ -570,13 +570,13 @@ export class SafeTypeReplacer {
   /**
    * Verify that rollback capability is working correctly
    */
-  private async verifyRollbackCapability(
+  private async verifyRollbackCapability()
     filePath: string,
     backupPath: string
   ): Promise<{ success: boolean, error?: string }> {
     try {
       // Read backup content
-      if (!fs.existsSync(backupPath)) {
+      if (!fs.existsSync(backupPath) {
         return { success: false, error: 'Backup file does not exist' };
       }
 
@@ -605,31 +605,31 @@ export class SafeTypeReplacer {
     let score = replacement.confidence; // Base score from classification confidence
 
     // Adjust based on replacement type
-    if (replacement.replacement.includes('unknown')) {
+    if (replacement.replacement.includes('unknown') {
       score += 0.1; // unknown is generally safer than any
     }
 
     // Adjust based on file type
-    if (replacement.filePath.includes('.test.') || replacement.filePath.includes('__tests__')) {
+    if (replacement.filePath.includes('.test.') || replacement.filePath.includes('__tests__') {
       score += 0.05; // Test files are safer to modify
     }
 
     // Adjust based on replacement pattern complexity
     if (replacement.original === 'any[]') {
       score += 0.15; // Array replacements are very safe
-    } else if (replacement.original.includes('Record<string, any>')) {
+    } else if (replacement.original.includes('Record<string, any>') {
       score += 0.1; // Record replacements are generally safe
-    } else if (replacement.original.includes('function') || replacement.original.includes('=>')) {
+    } else if (replacement.original.includes('function') || replacement.original.includes('=>') {
       score -= 0.1; // Function-related replacements are riskier
     }
 
     // Adjust based on line context (if available in the replacement)
     const lineContent = replacement.original;
-    if (lineContent.includes('catch') || lineContent.includes('error')) {
+    if (lineContent.includes('catch') || lineContent.includes('error') {
       score -= 0.2; // Error handling contexts are riskier
     }
 
-    if (lineContent.includes('interface') || lineContent.includes('type ')) {
+    if (lineContent.includes('interface') || lineContent.includes('type ') {
       score += 0.05; // Type definitions are safer
     }
 
@@ -670,7 +670,7 @@ export class SafeTypeReplacer {
       const files = fs.readdirSync(this.backupDirectory);
 
       for (const file of files) {
-        if (file.endsWith('.backup')) {
+        if (file.endsWith('.backup') {
           const filePath = path.join(this.backupDirectory, file);
           const stats = fs.statSync(filePath);
 
@@ -694,44 +694,44 @@ export class SafeTypeReplacer {
     const { codeSnippet, surroundingLines } = context;
 
     // Look for array initialization patterns
-    if (codeSnippet.includes('= [')) {
+    if (codeSnippet.includes('= [') {
       // Check if array has string literals
-      if (codeSnippet.includes("'") || codeSnippet.includes('"')) {
+      if (codeSnippet.includes("'") || codeSnippet.includes('"') {
         return 'string';
       }
       // Check if array has numbers
-      if (/=\s*\[\s*\d/.test(codeSnippet)) {
+      if (/=\s*\[\s*\d/.test(codeSnippet) {
         return 'number';
       }
       // Check if array has boolean values
-      if (codeSnippet.includes('true') || codeSnippet.includes('false')) {
+      if (codeSnippet.includes('true') || codeSnippet.includes('false') {
         return 'boolean';
       }
     }
 
     // Look for push operations in surrounding lines
     const allContext = [codeSnippet, ...surroundingLines].join(' ');
-    if (allContext.includes('.push(')) {
-      if (allContext.includes('.push("') || allContext.includes(".push('")) {
+    if (allContext.includes('.push(') {
+      if (allContext.includes('.push("') || allContext.includes(".push('") {
         return 'string';
       }
-      if (/\.push\(\d/.test(allContext)) {
+      if (/\.push\(\d/.test(allContext) {
         return 'number';
       }
     }
 
     // Domain-specific inference
     if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
-      if (codeSnippet.includes('planet') || codeSnippet.includes('sign')) {
+      if (codeSnippet.includes('planet') || codeSnippet.includes('sign') {
         return 'string';
       }
-      if (codeSnippet.includes('position') || codeSnippet.includes('degree')) {
+      if (codeSnippet.includes('position') || codeSnippet.includes('degree') {
         return 'number';
       }
     }
 
     if (context.domainContext.domain === CodeDomain.RECIPE) {
-      if (codeSnippet.includes('ingredient') || codeSnippet.includes('recipe')) {
+      if (codeSnippet.includes('ingredient') || codeSnippet.includes('recipe') {
         return 'string';
       }
     }
@@ -747,17 +747,17 @@ export class SafeTypeReplacer {
     const { codeSnippet, surroundingLines } = context;
 
     // Look for object literal assignments
-    if (codeSnippet.includes('= {')) {
+    if (codeSnippet.includes('= ) {') {
       // Check for string values
-      if (codeSnippet.includes(': "') || codeSnippet.includes(": '")) {
+      if (codeSnippet.includes(': "') || codeSnippet.includes(": '") {
         return 'string';
       }
       // Check for number values
-      if (/:\s*\d/.test(codeSnippet)) {
+      if (/:\s*\d/.test(codeSnippet) {
         return 'number';
       }
       // Check for boolean values
-      if (codeSnippet.includes(': true') || codeSnippet.includes(': false')) {
+      if (codeSnippet.includes(': true') || codeSnippet.includes(': false') {
         return 'boolean';
       }
     }
@@ -766,21 +766,21 @@ export class SafeTypeReplacer {
     const allContext = [codeSnippet, ...surroundingLines].join(' ');
 
     // Check for string operations
-    if (allContext.includes('.toString()') || allContext.includes('.toLowerCase()') || allContext.includes('.toUpperCase()')) {
+    if (allContext.includes('.toString()') || allContext.includes('.toLowerCase()') || allContext.includes('.toUpperCase()') {
       return 'string';
     }
 
     // Check for number operations
-    if (allContext.includes('parseInt(') || allContext.includes('parseFloat(') || allContext.includes('Number(')) {
+    if (allContext.includes('parseInt(') || allContext.includes('parseFloat(') || allContext.includes('Number(') {
       return 'number';
     }
 
     // Domain-specific inference
     if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
-      if (codeSnippet.includes('element') || codeSnippet.includes('Element')) {
+      if (codeSnippet.includes('element') || codeSnippet.includes('Element') {
         return 'number'; // Elemental properties are numeric
       }
-      if (codeSnippet.includes('config') || codeSnippet.includes('Config')) {
+      if (codeSnippet.includes('config') || codeSnippet.includes('Config') {
         return 'unknown'; // Config objects can be complex
       }
     }
@@ -807,7 +807,7 @@ export class SafeTypeReplacer {
 
     // Event handlers
     if (paramLower.includes('event') || paramLower === 'e') {
-      if (context.codeSnippet.includes('onClick') || context.codeSnippet.includes('onSubmit')) {
+      if (context.codeSnippet.includes('onClick') || context.codeSnippet.includes('onSubmit') {
         return 'React.MouseEvent | React.FormEvent';
       }
       return 'Event';
@@ -829,10 +829,10 @@ export class SafeTypeReplacer {
     }
 
     // Data parameters
-    if (paramLower.includes('data') || paramLower.includes('item') || paramLower.includes('element')) {
+    if (paramLower.includes('data') || paramLower.includes('item') || paramLower.includes('element') {
       // Try to infer from usage in function body
       const allContext = [codeSnippet, ...surroundingLines].join(' ');
-      if (allContext.includes(`${paramName}.`)) {
+      if (allContext.includes(`$) {paramName}.`) {
         return 'object'; // If accessing properties, likely an object
       }
       return 'unknown';
@@ -840,22 +840,22 @@ export class SafeTypeReplacer {
 
     // Domain-specific inference
     if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
-      if (paramLower.includes('planet') || paramLower.includes('sign')) {
+      if (paramLower.includes('planet') || paramLower.includes('sign') {
         return 'string';
       }
-      if (paramLower.includes('position') || paramLower.includes('degree')) {
+      if (paramLower.includes('position') || paramLower.includes('degree') {
         return 'number';
       }
-      if (paramLower.includes('properties') || paramLower.includes('element')) {
+      if (paramLower.includes('properties') || paramLower.includes('element') {
         return 'ElementalProperties';
       }
     }
 
     if (context.domainContext.domain === CodeDomain.RECIPE) {
-      if (paramLower.includes('ingredient')) {
+      if (paramLower.includes('ingredient') {
         return 'Ingredient';
       }
-      if (paramLower.includes('recipe')) {
+      if (paramLower.includes('recipe') {
         return 'Recipe';
       }
     }
@@ -873,48 +873,48 @@ export class SafeTypeReplacer {
     const allContext = [codeSnippet, ...surroundingLines].join(' ');
 
     // Check for explicit return statements
-    if (allContext.includes('return ')) {
+    if (allContext.includes('return ') {
       // String returns
-      if (allContext.includes('return "') || allContext.includes("return '")) {
+      if (allContext.includes('return "') || allContext.includes("return '") {
         return 'string';
       }
       // Number returns
-      if (/return\s+\d/.test(allContext)) {
+      if (/return\s+\d/.test(allContext) {
         return 'number';
       }
       // Boolean returns
-      if (allContext.includes('return true') || allContext.includes('return false')) {
+      if (allContext.includes('return true') || allContext.includes('return false') {
         return 'boolean';
       }
       // Array returns
-      if (allContext.includes('return [')) {
+      if (allContext.includes('return [') {
         return 'unknown[]';
       }
       // Object returns
-      if (allContext.includes('return {')) {
+      if (allContext.includes('return ) {') {
         return 'object';
       }
       // Promise returns
-      if (allContext.includes('return Promise') || allContext.includes('return new Promise')) {
+      if (allContext.includes('return Promise') || allContext.includes('return new Promise') {
         return 'Promise<unknown>';
       }
     }
 
     // Check for async functions
-    if (codeSnippet.includes('async ')) {
+    if (codeSnippet.includes('async ') {
       return 'Promise<unknown>';
     }
 
     // Function name inference
-    if (codeSnippet.includes('get') && codeSnippet.includes('(')) {
+    if (codeSnippet.includes('get') && codeSnippet.includes('(') {
       return 'unknown'; // Getter functions return something
     }
 
-    if (codeSnippet.includes('is') || codeSnippet.includes('has') || codeSnippet.includes('can')) {
+    if (codeSnippet.includes('is') || codeSnippet.includes('has') || codeSnippet.includes('can') {
       return 'boolean'; // Predicate functions
     }
 
-    if (codeSnippet.includes('calculate') || codeSnippet.includes('count')) {
+    if (codeSnippet.includes('calculate') || codeSnippet.includes('count') {
       return 'number'; // Calculation functions
     }
 
@@ -928,21 +928,21 @@ export class SafeTypeReplacer {
     const { codeSnippet } = context;
 
     // Check for common generic patterns
-    if (codeSnippet.includes('Array<any>')) {
+    if (codeSnippet.includes('Array<any>') {
       return 'unknown';
     }
 
-    if (codeSnippet.includes('Promise<any>')) {
+    if (codeSnippet.includes('Promise<any>') {
       return 'unknown';
     }
 
-    if (codeSnippet.includes('Map<') || codeSnippet.includes('Set<')) {
+    if (codeSnippet.includes('Map<') || codeSnippet.includes('Set<') {
       return 'unknown';
     }
 
     // Domain-specific generics
     if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
-      if (codeSnippet.includes('PlanetaryPosition') || codeSnippet.includes('ElementalProperties')) {
+      if (codeSnippet.includes('PlanetaryPosition') || codeSnippet.includes('ElementalProperties') {
         return 'unknown'; // Keep generic for flexibility
       }
     }
@@ -962,38 +962,38 @@ export class SafeTypeReplacer {
       return 'string | number';
     }
 
-    if (propLower.includes('name') || propLower.includes('title') || propLower.includes('description')) {
+    if (propLower.includes('name') || propLower.includes('title') || propLower.includes('description') {
       return 'string';
     }
 
-    if (propLower.includes('count') || propLower.includes('length') || propLower.includes('size')) {
+    if (propLower.includes('count') || propLower.includes('length') || propLower.includes('size') {
       return 'number';
     }
 
-    if (propLower.includes('enabled') || propLower.includes('active') || propLower.includes('visible')) {
+    if (propLower.includes('enabled') || propLower.includes('active') || propLower.includes('visible') {
       return 'boolean';
     }
 
-    if (propLower.includes('date') || propLower.includes('time')) {
+    if (propLower.includes('date') || propLower.includes('time') {
       return 'Date | string';
     }
 
     // Look for assignment patterns
     const allContext = [codeSnippet, ...surroundingLines].join(' ');
-    if (allContext.includes(`${propertyName}: "`)) {
+    if (allContext.includes(`$) {propertyName}: "`) {
       return 'string';
     }
-    if (allContext.includes(`${propertyName}: \d`)) {
+    if (allContext.includes(`$) {propertyName}: \d`) {
       return 'number';
     }
 
     // Domain-specific inference
     if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
       if (propLower.includes('element') || propLower.includes('fire') || propLower.includes('water') ||
-          propLower.includes('earth') || propLower.includes('air')) {
+          propLower.includes('earth') || propLower.includes('air') {
         return 'number';
       }
-      if (propLower.includes('sign') || propLower.includes('planet')) {
+      if (propLower.includes('sign') || propLower.includes('planet') {
         return 'string';
       }
     }
@@ -1008,27 +1008,27 @@ export class SafeTypeReplacer {
     const { codeSnippet } = context;
 
     // Look for assignment patterns
-    if (codeSnippet.includes('= "') || codeSnippet.includes("= '")) {
+    if (codeSnippet.includes('= "') || codeSnippet.includes("= '") {
       return 'string';
     }
 
-    if (/=\s*\d/.test(codeSnippet)) {
+    if (/=\s*\d/.test(codeSnippet) {
       return 'number';
     }
 
-    if (codeSnippet.includes('= true') || codeSnippet.includes('= false')) {
+    if (codeSnippet.includes('= true') || codeSnippet.includes('= false') {
       return 'boolean';
     }
 
-    if (codeSnippet.includes('= [')) {
+    if (codeSnippet.includes('= [') {
       return 'unknown[]';
     }
 
-    if (codeSnippet.includes('= {')) {
+    if (codeSnippet.includes('= ) {') {
       return 'object';
     }
 
-    if (codeSnippet.includes('= new ')) {
+    if (codeSnippet.includes('= new ') {
       // Try to extract constructor name
       const constructorMatch = codeSnippet.match(/= new (\w+)/);
       if (constructorMatch) {
@@ -1132,7 +1132,7 @@ export class SafeTypeReplacer {
   /**
    * Perform comprehensive safety validation for a replacement
    */
-  async validateReplacementSafety(
+  async validateReplacementSafety()
     replacement: TypeReplacement,
     context: ClassificationContext
   ): Promise<SafetyValidationResult> {
@@ -1142,7 +1142,7 @@ export class SafeTypeReplacer {
   /**
    * Validate build after applying replacements
    */
-  async validateBuildSafety(
+  async validateBuildSafety()
     modifiedFiles: string[],
     includeTests = false
   ): Promise<BuildValidationResult> {
@@ -1152,7 +1152,7 @@ export class SafeTypeReplacer {
   /**
    * Validate rollback capability for given files
    */
-  async validateRollbackSafety(
+  async validateRollbackSafety()
     originalFiles: Map<string, string>,
     backupFiles: Map<string, string>
   ) {

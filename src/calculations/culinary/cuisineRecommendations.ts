@@ -10,10 +10,10 @@ import { Element, ElementalProperties } from '@/types/alchemy';
  * Cuisine recommendation result
  */
 export interface CuisineRecommendation {
-  cuisine: string,
-  compatibility: number,
-  reasons: string[],
-  elementalAlignment: ElementalProperties,
+  cuisine: string;
+  compatibility: number;
+  reasons: string[];
+  elementalAlignment: ElementalProperties;
   suggestedDishes: string[]
 }
 
@@ -71,7 +71,7 @@ export function generateCuisineRecommendations(dominantPlanets: Array<{ planet: 
     const planetaryCuisines = PLANETARY_CUISINES[planet as keyof typeof PLANETARY_CUISINES] || [];
 
     (planetaryCuisines || []).forEach(cuisine => {
-      if (!processedCuisines.has(cuisine)) {
+      if (!processedCuisines.has(cuisine) {
         processedCuisines.add(cuisine);
         const compatibility = calculateCuisineCompatibility(cuisine, elementalProperties, strength);
         const reasons = generateCuisineReasons(cuisine, planet, element, strength);
@@ -95,7 +95,7 @@ export function generateCuisineRecommendations(dominantPlanets: Array<{ planet: 
       const elementalCuisines = ELEMENTAL_CUISINES[element as keyof typeof ELEMENTAL_CUISINES];
 
       (elementalCuisines.cuisines || []).forEach(cuisine => {
-        if (!processedCuisines.has(cuisine)) {
+        if (!processedCuisines.has(cuisine) {
           processedCuisines.add(cuisine)
 ;
           const compatibility = value * 0.8, // Base on elemental strength,
@@ -123,7 +123,7 @@ export function generateCuisineRecommendations(dominantPlanets: Array<{ planet: 
 /**
  * Calculate cuisine compatibility with user's elemental properties
  */
-function calculateCuisineCompatibility(
+function calculateCuisineCompatibility()
   cuisine: string,
   userElementals: ElementalProperties,
   planetaryStrength: number = 1.0): number {
@@ -152,15 +152,15 @@ function calculateCuisineElementalAlignment(_cuisine: string): ElementalProperti
   // Adjust based on cuisine characteristics
   const lowerCuisine = cuisine.toLowerCase()
 ;
-  if (['mexican', 'indian', 'thai', 'cajun', 'ethiopian', 'szechuan'].includes(lowerCuisine)) {
+  if (['mexican', 'indian', 'thai', 'cajun', 'ethiopian', 'szechuan'].includes(lowerCuisine) {
     alignment = { Fire: 0.4, Water: 0.2, Air: 0.2, Earth: 0.2 }
-  } else if (['japanese', 'scandinavian', 'seafood', 'coastal'].includes(lowerCuisine)) {
+  } else if (['japanese', 'scandinavian', 'seafood', 'coastal'].includes(lowerCuisine) {
     alignment = { Fire: 0.15, Water: 0.45, Air: 0.2, Earth: 0.2 }
-  } else if (['mediterranean', 'lebanese', 'greek', 'moroccan'].includes(lowerCuisine)) {
+  } else if (['mediterranean', 'lebanese', 'greek', 'moroccan'].includes(lowerCuisine) {
     alignment = { Fire: 0.2, Water: 0.2, Air: 0.4, Earth: 0.2 }
-  } else if (['german', 'russian', 'british', 'hungarian'].includes(lowerCuisine)) {
+  } else if (['german', 'russian', 'british', 'hungarian'].includes(lowerCuisine) {
     alignment = { Fire: 0.2, Water: 0.2, Air: 0.15, Earth: 0.45 }
-  } else if (['french', 'italian', 'spanish'].includes(lowerCuisine)) {
+  } else if (['french', 'italian', 'spanish'].includes(lowerCuisine) {
     alignment = { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 }
   }
 
@@ -170,13 +170,13 @@ function calculateCuisineElementalAlignment(_cuisine: string): ElementalProperti
 /**
  * Generate reasons for cuisine recommendation
  */
-function generateCuisineReasons(cuisine: string,
+function generateCuisineReasons(cuisine: string,)
   planet: string,
   element: Element,
   strength: number): string[] {
   const reasons: string[] = []
 
-  reasons.push(
+  reasons.push()
     `${planet} influence (${(strength * 100).toFixed(0)}%) aligns with ${cuisine} cuisine`,
   )
   reasons.push(`${element} elemental energy complements ${cuisine} cooking methods`)

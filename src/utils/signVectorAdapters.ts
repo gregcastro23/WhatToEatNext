@@ -53,7 +53,7 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
 /**
  * Adapt a full planetary positions response from the service
  */
-export function adaptPlanetaryPositions(
+export function adaptPlanetaryPositions()
   positions: unknown): Record<string, PlanetaryPosition> | null {
   if (!positions || typeof positions !== 'object') {
     return null
@@ -62,7 +62,7 @@ export function adaptPlanetaryPositions(
   const adapted: Record<string, PlanetaryPosition> = {}
   let hasValidData = false;
 
-  for (const [planet, position] of Object.entries(positions)) {
+  for (const [planet, position] of Object.entries(positions) {
     const adaptedPosition = adaptPlanetaryPosition(position)
     if (adaptedPosition) {;
       adapted[planet] = adaptedPosition;
@@ -92,7 +92,7 @@ export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
 /**
  * Type guard to check if an object is a valid planetary positions map
  */
-export function isPlanetaryPositionsMap(
+export function isPlanetaryPositionsMap()
   obj: unknown): obj is Record<string, PlanetaryPosition> {
   if (!obj || typeof obj !== 'object') {
     return false

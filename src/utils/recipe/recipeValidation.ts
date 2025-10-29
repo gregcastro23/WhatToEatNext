@@ -18,7 +18,7 @@ const INGREDIENT_DATABASE: Record<string, any> = {};
  * @param options - Validation options
  * @returns Comprehensive validation result
  */
-export function validateRecipe(recipe: Partial<Recipe>,
+export function validateRecipe(recipe: Partial<Recipe>,)
   options: {
     checkIngredients?: boolean;
     checkComputations?: boolean;
@@ -103,13 +103,13 @@ function checkRequiredFields(recipe: Partial<Recipe>, errors: string[]): boolean
   }
 
   // Validate ingredients array
-  if (recipe.ingredients && !Array.isArray(recipe.ingredients)) {
+  if (recipe.ingredients && !Array.isArray(recipe.ingredients) {
     errors.push('Ingredients must be an array');
     isValid = false;
   }
 
   // Validate instructions array
-  if (recipe.instructions && !Array.isArray(recipe.instructions)) {
+  if (recipe.instructions && !Array.isArray(recipe.instructions) {
     errors.push('Instructions must be an array');
     isValid = false;
   }
@@ -154,7 +154,7 @@ function validateIngredientResolution(ingredients: RecipeIngredient[], errors: s
 /**
  * Validate elemental properties normalization
  */
-function validateElementalProperties(
+function validateElementalProperties()
   recipe: Partial<Recipe>,
   errors: string[],
   warnings: string[]
@@ -194,7 +194,7 @@ function validateElementalProperties(
 /**
  * Validate cooking methods
  */
-function validateCookingMethods(
+function validateCookingMethods()
   recipe: Partial<Recipe>,
   errors: string[],
   warnings: string[]
@@ -209,7 +209,7 @@ function validateCookingMethods(
   for (const method of cookingMethod) {
     if (typeof method !== 'string') {
       errors.push(`Invalid cooking method type: ${typeof method}`);
-    } else if (!isValidCookingMethod(method)) {
+    } else if (!isValidCookingMethod(method) {
       warnings.push(`Unknown cooking method: ${method}`);
     }
   }
@@ -220,7 +220,7 @@ function validateCookingMethods(
 /**
  * Validate astrological timing for enhanced recipes
  */
-function validateAstrologicalTiming(
+function validateAstrologicalTiming()
   recipe: Partial<EnhancedRecipe>,
   warnings: string[]
 ): boolean {
@@ -243,7 +243,7 @@ function validateAstrologicalTiming(
 /**
  * Validate computational integrity of recipe properties
  */
-function validateComputationIntegrity(
+function validateComputationIntegrity()
   recipe: Partial<EnhancedRecipe>,
   errors: string[]
 ): boolean {
@@ -296,7 +296,7 @@ function validateComputationIntegrity(
 /**
  * Calculate quality metrics for the recipe
  */
-function calculateQualityMetrics(
+function calculateQualityMetrics()
   recipe: Partial<Recipe>,
   checks: Record<string, boolean>
 ): RecipeValidationResult['qualityMetrics'] {
@@ -352,15 +352,15 @@ function generateRecommendations(context: {
   const { errors, warnings, qualityMetrics } = context;
 
   // Critical errors first
-  if (errors.some(e => e.includes('required field'))) {
+  if (errors.some(e => e.includes('required field')) {
     recommendations.push('Add missing required fields (id, name, ingredients, instructions, elementalProperties)');
   }
 
-  if (errors.some(e => e.includes('not found in database'))) {
+  if (errors.some(e => e.includes('not found in database')) {
     recommendations.push('Resolve missing ingredients by adding them to the ingredient database');
   }
 
-  if (errors.some(e => e.includes('elemental properties'))) {
+  if (errors.some(e => e.includes('elemental properties')) {
     recommendations.push('Normalize elemental properties to sum to 1.0');
   }
 
@@ -377,7 +377,7 @@ function generateRecommendations(context: {
     recommendations.push('Add diverse cooking methods for richer transformations');
   }
 
-  if (warnings.some(w => w.includes('astrological timing'))) {
+  if (warnings.some(w => w.includes('astrological timing')) {
     recommendations.push('Add astrological timing for optimal preparation windows');
   }
 
@@ -407,7 +407,7 @@ function isValidCookingMethod(method: string): boolean {
 /**
  * Batch validate multiple recipes
  */
-export function validateRecipes(
+export function validateRecipes()
   recipes: Partial<Recipe>[],
   options?: Parameters<typeof validateRecipe>[1]
 ): RecipeValidationResult[] {
@@ -417,14 +417,14 @@ export function validateRecipes(
 /**
  * Get overall validation statistics for a recipe collection
  */
-export function getValidationStatistics(
+export function getValidationStatistics()
   validationResults: RecipeValidationResult[]
 ): {
   totalRecipes: number;
   validRecipes: number;
   averageQualityScore: number;
-  commonErrors: Array<{ error: string; count: number }>;
-  commonWarnings: Array<{ warning: string; count: number }>;
+  commonErrors: Array<{ error: string; count, number }>;
+  commonWarnings: Array<{ warning: string; count, number }>;
 } {
   const totalRecipes = validationResults.length;
   const validRecipes = validationResults.filter(r => r.isValid).length;

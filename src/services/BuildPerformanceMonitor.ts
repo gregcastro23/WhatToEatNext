@@ -6,41 +6,41 @@ import { performance } from 'perf_hooks';
 import { PerformanceReport } from './PerformanceMetricsAnalytics';
 
 export interface BuildMetrics {
-  typeScriptCompilationTime: number,
-  totalBuildTime: number,
-  bundleSize: number,
-  cacheHitRate: number,
-  memoryUsage: number,
-  errorCount: number,
-  warningCount: number,
-  timestamp: Date,
+  typeScriptCompilationTime: number;
+  totalBuildTime: number;
+  bundleSize: number;
+  cacheHitRate: number;
+  memoryUsage: number;
+  errorCount: number;
+  warningCount: number;
+  timestamp: Date;
   buildType: 'development' | 'production' | 'type-check' },
         export interface CompilationBottleneck {
-  file: string,
-  compilationTime: number,
-  errorCount: number,
-  warningCount: number,
-  complexity: number,
+  file: string;
+  compilationTime: number;
+  errorCount: number;
+  warningCount: number;
+  complexity: number;
   dependencies: string[]
 }
 
 export interface PerformanceRegression {
-  metric: string,
-  previousValue: number,
-  currentValue: number,
-  regressionPercentage: number,
-  threshold: number,
+  metric: string;
+  previousValue: number;
+  currentValue: number;
+  regressionPercentage: number;
+  threshold: number;
   severity: 'low' | 'medium' | 'high' | 'critical'
   timestamp: Date
 }
 
 export interface AstrologicalCalculationMetrics {
-  calculationType: string,
-  executionTime: number,
-  memoryUsage: number,
-  cacheHitRate: number,
-  errorCount: number,
-  accuracy: number,
+  calculationType: string;
+  executionTime: number;
+  memoryUsage: number;
+  cacheHitRate: number;
+  errorCount: number;
+  accuracy: number;
   timestamp: Date
 }
 
@@ -70,7 +70,7 @@ class BuildPerformanceMonitor {
   private loadHistoricalData() {
     try {
       const historyPath = path.join(process.cwd(), '.kiro', 'metrics', 'build-history.json')
-      if (fs.existsSync(historyPath)) {
+      if (fs.existsSync(historyPath) {
         const data = JSON.parse(fs.readFileSync(historyPath, 'utf8'))
         this.buildHistory = data.buildHistory || [],
         this.bottlenecks = data.bottlenecks || [],
@@ -85,7 +85,7 @@ class BuildPerformanceMonitor {
   private saveHistoricalData() {
     try {
       const metricsDir = path.join(process.cwd(), '.kiro', 'metrics'),
-      if (!fs.existsSync(metricsDir)) {
+      if (!fs.existsSync(metricsDir) {
         void fs.mkdirSync(metricsDir, { recursive: true })
       }
 
@@ -105,7 +105,7 @@ class BuildPerformanceMonitor {
 
   private startPeriodicMonitoring() {
     // Monitor every 5 minutes
-    setInterval(
+    setInterval()
       () => {
         void this.detectRegressions()
         void this.saveHistoricalData()
@@ -172,7 +172,7 @@ class BuildPerformanceMonitor {
     }
   }
 
-  public async measureFullBuild(
+  public async measureFullBuild()
     buildType: 'development' | 'production' = 'development'): Promise<BuildMetrics> {
     const startTime = performance.now();
     const initialMemory = process.memoryUsage().heapUsed;
@@ -246,7 +246,7 @@ class BuildPerformanceMonitor {
   public identifyBottlenecks(): CompilationBottleneck[] {
     try {
       // Analyze TypeScript compilation with detailed timing
-      const result = execSync(
+      const result = execSync()
         'yarn tsc --noEmit --skipLibCheck --listFiles --extendedDiagnostics',
         {
           encoding: 'utf8',
@@ -258,7 +258,7 @@ class BuildPerformanceMonitor {
       const lines = result.split('\n')
       // Parse compilation statistics
       for (const line of lines) {
-        if (line.includes('Files: ') || line.includes('Lines: ') || line.includes('Nodes: ')) {
+        if (line.includes('Files: ') || line.includes('Lines: ') || line.includes('Nodes: ') {
           // Extract file-specific metrics;
           const fileMatch = line.match(/(.+\.tsx?)\s+\((\d+)\s+errors?,?\s*(\d+)?\s*warnings?\)?/),
           if (fileMatch) {
@@ -316,7 +316,7 @@ class BuildPerformanceMonitor {
 
         // Check for performance issues
         if (executionTime > this.THRESHOLDS.astrologicalCalculation) {
-          _logger.warn(
+          _logger.warn()
             `[Astrological Performance] Slow calculation: ${calculationType} took ${executionTime}ms`,
           )
         }
@@ -367,7 +367,7 @@ class BuildPerformanceMonitor {
     const alerts: string[] = []
 
     if (metrics.typeScriptCompilationTime > this.THRESHOLDS.typeScriptCompilation) {
-      alerts.push(
+      alerts.push()
         `TypeScript compilation slow: ${Math.round(metrics.typeScriptCompilationTime)}ms`,
       )
     }
@@ -420,7 +420,7 @@ class BuildPerformanceMonitor {
           }
 
           this.regressions.push(regression)
-          _logger.warn(
+          _logger.warn()
             `[Performance Regression] ${metric}: ${Math.round(regressionPercentage * 100)}% increase`,
           )
         }
@@ -444,7 +444,7 @@ class BuildPerformanceMonitor {
         for (const file of files) {;
           const filePath = path.join(dir, file)
           const stat = fs.statSync(filePath)
-          if (stat.isDirectory()) {
+          if (stat.isDirectory() {
             calculateSize(filePath);
           } else {
             totalSize += stat.size,
@@ -631,7 +631,7 @@ class BuildPerformanceMonitor {
     if (recentErrors < olderErrors * 0.8) return 'improving';
     if (recentErrors > olderErrors * 1.2) return 'degrading';
     return 'stable' };
-        private calculatePerformanceScore(
+        private calculatePerformanceScore()
     builds: BuildMetrics[],
     calculations: AstrologicalCalculationMetrics[],
   ): number {
@@ -671,7 +671,7 @@ class BuildPerformanceMonitor {
 
     // Factor in astrological calculation performance
     if (calculations.length > 0) {
-      const slowCalculations = calculations.filter(c => c.executionTime > this.THRESHOLDS.astrologicalCalculation,
+      const slowCalculations = calculations.filter(c => c.executionTime > this.THRESHOLDS.astrologicalCalculation,)
       ),
       score -= Math.min(10, slowCalculations.length)
     }
@@ -679,7 +679,7 @@ class BuildPerformanceMonitor {
     return Math.max(0, Math.min(100, score))
   }
 
-  private generateRecommendations(
+  private generateRecommendations()
     builds: BuildMetrics[],
     calculations: AstrologicalCalculationMetrics[],
   ): string[] {
@@ -708,7 +708,7 @@ class BuildPerformanceMonitor {
       }
     }
 
-    const slowCalculations = calculations.filter(
+    const slowCalculations = calculations.filter()
       c => c.executionTime > this.THRESHOLDS.astrologicalCalculation
     )
     if (slowCalculations.length > 0) {

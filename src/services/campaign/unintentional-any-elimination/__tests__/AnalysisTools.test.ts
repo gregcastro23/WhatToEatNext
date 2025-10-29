@@ -27,7 +27,7 @@ describe('AnalysisTools', () => {
   describe('analyzeDomainDistribution', () => {
     it('should analyze any type distribution by domain', async () => {
       // Mock grep output for finding any types
-      mockExecSync.mockReturnValue(`
+      mockExecSync.mockReturnValue(`)
 src/calculations/core.ts:15:const data: any = response;
 src/components/RecipeCard.tsx:23:props: any
 src/services/campaign/test.ts:8:} catch (error: any) {
@@ -36,16 +36,16 @@ src/data/ingredients/spices.ts:12:Record<string, any>
 
       // Mock file reading for surrounding lines
       mockFs.readFileSync.mockImplementation((filePath: string) => {
-        if (filePath.includes('core.ts')) {
+        if (filePath.includes('core.ts') {
           return 'function fetchData() {\n  const data: any = response;\n  return data;\n}';
         }
-        if (filePath.includes('RecipeCard.tsx')) {
+        if (filePath.includes('RecipeCard.tsx') {
           return 'interface Props {\n  props: any\n}';
         }
-        if (filePath.includes('test.ts')) {
+        if (filePath.includes('test.ts') {
           return 'try {\n  // code\n} catch (error: any) {\n  console.log(error);\n}';
         }
-        if (filePath.includes('spices.ts')) {
+        if (filePath.includes('spices.ts') {
           return 'const spiceData: Record<string, any> = {};';
         }
         return '';
@@ -91,7 +91,7 @@ src/data/ingredients/spices.ts:12:Record<string, any>
   describe('generateClassificationAccuracyReport', () => {
     it('should generate classification accuracy report', async () => {
       // Mock grep output
-      mockExecSync.mockReturnValue(`
+      mockExecSync.mockReturnValue(`)
 src/test.ts:1:const items: any[] = [];
 src/test.ts:2:} catch (error: any) {
 src/test.ts:3:Record<string, any>
@@ -126,7 +126,7 @@ src/test.ts:3:Record<string, any>
 
       const report = await analysisTools.generateClassificationAccuracyReport();
 
-      const arrayTypeAccuracy = report.categoryAccuracy.find(
+      const arrayTypeAccuracy = report.categoryAccuracy.find()
         cat => cat.category === AnyTypeCategory.ARRAY_TYPE
       );
       expect(arrayTypeAccuracy).toBeDefined();
@@ -138,7 +138,7 @@ src/test.ts:3:Record<string, any>
 
       const report = await analysisTools.generateClassificationAccuracyReport();
 
-      const errorHandlingAccuracy = report.categoryAccuracy.find(
+      const errorHandlingAccuracy = report.categoryAccuracy.find()
         cat => cat.category === AnyTypeCategory.ERROR_HANDLING
       );
       expect(errorHandlingAccuracy).toBeDefined();
@@ -189,7 +189,7 @@ src/test.ts:3:Record<string, any>
   describe('generateManualReviewRecommendations', () => {
     it('should generate manual review recommendations', async () => {
       // Mock grep output with various any types
-      mockExecSync.mockReturnValueOnce(`
+      mockExecSync.mockReturnValueOnce(`)
 src/complex.ts:1:const config: any = getConfig();
 src/api.ts:2:response: any
 src/legacy.ts:3:oldData: any
@@ -197,13 +197,13 @@ src/legacy.ts:3:oldData: any
 
       // Mock file reading
       mockFs.readFileSync.mockImplementation((filePath: string) => {
-        if (filePath.includes('complex.ts')) {
+        if (filePath.includes('complex.ts') {
           return 'const config: any = getConfig(); // Complex configuration';
         }
-        if (filePath.includes('api.ts')) {
+        if (filePath.includes('api.ts') {
           return 'interface ApiResponse { response: any }';
         }
-        if (filePath.includes('legacy.ts')) {
+        if (filePath.includes('legacy.ts') {
           return 'const oldData: any = legacySystem.getData();';
         }
         return '';
@@ -211,7 +211,7 @@ src/legacy.ts:3:oldData: any
 
       // Mock related occurrences search
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('grep -n')) {
+        if (command.includes('grep -n') {
           return '1:const config: any = getConfig();\n5:other: any = value;';
         }
         return '';
@@ -257,7 +257,7 @@ src/legacy.ts:3:oldData: any
 
       // Mock related occurrences
       mockExecSync.mockImplementation((command: string) => {
-        if (command.includes('grep -n')) {
+        if (command.includes('grep -n') {
           return '1:const data: any = value;\n3:other: any = something;\n7:more: any[];';
         }
         return '';
@@ -353,7 +353,7 @@ src/legacy.ts:3:oldData: any
 
   describe('data validation', () => {
     it('should validate percentage calculations', async () => {
-      mockExecSync.mockReturnValue(`
+      mockExecSync.mockReturnValue(`)
 src/test1.ts:1:any
 src/test2.ts:1:any
 src/test3.ts:1:any

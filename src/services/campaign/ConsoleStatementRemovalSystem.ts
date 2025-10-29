@@ -151,7 +151,7 @@ export class ConsoleStatementRemovalSystem {
       const batchCount = Math.ceil(estimatedFiles / this.config.batchSize);
       batchResult.totalBatches = batchCount;
 
-      console.log(
+      console.log()
         `📊 Processing ${estimatedFiles} files in ${batchCount} batches of ${this.config.batchSize} files each`,
       );
 
@@ -198,7 +198,7 @@ export class ConsoleStatementRemovalSystem {
         batchResult.averageBuildTime = buildTimes.reduce((a, b) => a + b, 0) / buildTimes.length;
       }
 
-      console.log(
+      console.log()
         `\n✅ Batch processing completed: ${batchResult.successfulBatches}/${batchResult.totalBatches} batches successful`,
       );
 
@@ -284,7 +284,7 @@ export class ConsoleStatementRemovalSystem {
   /**
    * Determine if a console statement is critical and should be preserved
    */
-  private isConsoleStatementCritical(
+  private isConsoleStatementCritical()
     filePath: string,
     content: string,
     context: string,
@@ -297,7 +297,7 @@ export class ConsoleStatementRemovalSystem {
 
     // Preserve statements in debug/test files
     const debugFiles = ['debug', 'test', 'spec', '.test.', '.spec.', 'logger'];
-    if (debugFiles.some(pattern => filePath.toLowerCase().includes(pattern))) {
+    if (debugFiles.some(pattern => filePath.toLowerCase().includes(pattern)) {
       return true;
     }
 
@@ -311,7 +311,7 @@ export class ConsoleStatementRemovalSystem {
       /throw/i,
     ];
 
-    if (errorHandlingPatterns.some(pattern => pattern.test(context))) {
+    if (errorHandlingPatterns.some(pattern => pattern.test(context)) {
       return true;
     }
 
@@ -327,12 +327,12 @@ export class ConsoleStatementRemovalSystem {
       /important/i,
     ];
 
-    if (importantPatterns.some(pattern => pattern.test(content))) {
+    if (importantPatterns.some(pattern => pattern.test(content)) {
       return true;
     }
 
     // Preserve warn statements in production code
-    if (type === 'warn' && !filePath.includes('test')) {
+    if (type === 'warn' && !filePath.includes('test') {
       return true;
     }
 
@@ -345,7 +345,7 @@ export class ConsoleStatementRemovalSystem {
   private getAllSourceFiles(dir: string): string[] {
     const files: string[] = [];
 
-    if (!fs.existsSync(dir)) {
+    if (!fs.existsSync(dir) {
       return files;
     }
 
@@ -356,7 +356,7 @@ export class ConsoleStatementRemovalSystem {
 
       if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
         files.push(...this.getAllSourceFiles(fullPath));
-      } else if (entry.isFile() && /\.(ts|tsx|js|jsx)$/.test(entry.name)) {
+      } else if (entry.isFile() && /\.(ts|tsx|js|jsx)$/.test(entry.name) {
         files.push(fullPath);
       }
     }
@@ -369,7 +369,7 @@ export class ConsoleStatementRemovalSystem {
    */
   private async validatePreConditions(): Promise<void> {
     // Check if script exists
-    if (!fs.existsSync(this.scriptPath)) {
+    if (!fs.existsSync(this.scriptPath) {
       throw new Error(`Console removal script not found: ${this.scriptPath}`);
     }
 
@@ -378,7 +378,7 @@ export class ConsoleStatementRemovalSystem {
       try {
         const gitStatus = execSync('git status --porcelain', { encoding: 'utf-8' });
         if (gitStatus.trim() && !this.config.autoFix) {
-          console.warn(
+          console.warn()
             '⚠️ Git working directory has uncommitted changes. Consider using --auto-fix or commit changes first.',
           );
         }
@@ -467,15 +467,15 @@ export class ConsoleStatementRemovalSystem {
       // Extract warnings and errors
       const lines = output.split('\n');
       for (const line of lines) {
-        if (line.includes('⚠️') || line.includes('WARNING')) {
+        if (line.includes('⚠️') || line.includes('WARNING') {
           result.warnings.push(line.trim());
-        } else if (line.includes('❌') || line.includes('ERROR')) {
+        } else if (line.includes('❌') || line.includes('ERROR') {
           result.errors.push(line.trim());
         }
       }
 
       console.log(`✅ Script execution completed in ${result.buildTime}ms`);
-      console.log(
+      console.log()
         `📊 Removed: ${result.consoleStatementsRemoved}, Preserved: ${result.consoleStatementsPreserved}`,
       );
 
@@ -607,7 +607,7 @@ Generated: ${new Date().toISOString()}
 ## Preserved Files
 ${
   result.preservedFiles.length > 0
-    ? result.preservedFiles.map(f => `- ${f}`).join('\n')
+    ? result.preservedFiles.map(f => }`- ${f}`).join('\n')
     : 'No files had critical console statements preserved'
 }
 
@@ -651,7 +651,7 @@ Generated: ${new Date().toISOString()}
 - **Build Validation**: ${this.config.buildValidation}
 
 ## Issues
-${result.errors.length > 0 ? '### Batch Errors\n' + result.errors.map(e => `- ${e}`).join('\n') : 'No batch errors'}
+${result.errors.length > 0 ? '### Batch Errors\n' + result.errors.map(e => }`- ${e}`).join('\n') : 'No batch errors'}
 
 ## Recommendations
 ${

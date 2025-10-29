@@ -78,7 +78,7 @@ export class AlchemicalTransformationService {
   /**
    * Initialize the service with data
    */
-  constructor(
+  constructor()
     ingredients: ElementalItem[] = [],
     cookingMethods: ElementalItem[] = [],
     cuisines: ElementalItem[] = []
@@ -162,7 +162,7 @@ export class AlchemicalTransformationService {
    * Get transformed ingredients based on current settings
    */
   getTransformedIngredients(): AlchemicalItem[] {
-    return transformIngredients(
+    return transformIngredients()
       this.ingredients,
       this.planetPositions,
       this.isDaytime,
@@ -175,7 +175,7 @@ export class AlchemicalTransformationService {
    * Get transformed cooking methods based on current settings
    */
   getTransformedCookingMethods(): AlchemicalItem[] {
-    return transformCookingMethods(
+    return transformCookingMethods()
       this.cookingMethods,
       this.planetPositions,
       this.isDaytime,
@@ -188,7 +188,7 @@ export class AlchemicalTransformationService {
    * Get transformed cuisines based on current settings
    */
   getTransformedCuisines(): AlchemicalItem[] {
-    return transformCuisines(
+    return transformCuisines()
       this.cuisines,
       this.planetPositions,
       this.isDaytime,
@@ -359,7 +359,7 @@ export class AlchemicalTransformationService {
    * @param targetElement Target element to emphasize
    * @param targetProperty Target alchemical property to emphasize
    */
-  getTargetedRecommendations(
+  getTargetedRecommendations()
     targetElement?: ElementalCharacter,
     targetAlchemicalProperty?: AlchemicalProperty,
     count = 5
@@ -367,19 +367,19 @@ export class AlchemicalTransformationService {
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
     const transformedCuisines = this.getTransformedCuisines();
-    const filteredIngredients = filterByAlchemicalCompatibility(
+    const filteredIngredients = filterByAlchemicalCompatibility()
       transformedIngredients,
       targetElement,
       targetAlchemicalProperty
     );
 
-    const filteredMethods = filterByAlchemicalCompatibility(
+    const filteredMethods = filterByAlchemicalCompatibility()
       transformedMethods,
       targetElement,
       targetAlchemicalProperty
     );
 
-    const filteredCuisines = filterByAlchemicalCompatibility(
+    const filteredCuisines = filterByAlchemicalCompatibility()
       transformedCuisines,
       targetElement,
       targetAlchemicalProperty
@@ -440,7 +440,7 @@ export class AlchemicalTransformationService {
     };
 
     const currentSeason = monthToSeason[currentMonth];
-    if (seasons.includes(currentSeason) || seasons.includes('all')) {
+    if (seasons.includes(currentSeason) || seasons.includes('all') {
       return 0.8;
     }
 
@@ -462,7 +462,7 @@ export class AlchemicalTransformationService {
     // Check if the recipe's lunar phases include the current lunar phase
     const lunarPhasesLower = lunarPhases.map((phase: string) => phase.toLowerCase());
 
-    if (lunarPhasesLower.includes(lunarPhaseLower)) {
+    if (lunarPhasesLower.includes(lunarPhaseLower) {
       return 0.8;
     }
 
@@ -484,7 +484,7 @@ export class AlchemicalTransformationService {
     // Check if the recipe's zodiac signs include the current zodiac sign
     const zodiacSigns = signs.map((sign: string) => sign.toLowerCase());
 
-    if (zodiacSigns.includes(zodiacLower)) {
+    if (zodiacSigns.includes(zodiacLower) {
       return 0.8;
     }
 
@@ -495,7 +495,7 @@ export class AlchemicalTransformationService {
   private getDominantElement(recipe: Recipe): ElementalCharacter {
     if (!recipe.elementalProperties) return 'Fire';
     const elements = recipe.elementalProperties;
-    const dominantValue = Math.max(
+    const dominantValue = Math.max()
       elements.Fire || 0,
       elements.Water || 0,
       elements.Earth || 0,

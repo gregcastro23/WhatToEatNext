@@ -4,18 +4,18 @@ import { logger } from '@/utils/logger';
 
 // Define type for recipe objects
 interface Recipe {
-  id: string,
-  name: string,
-  elementalProperties: ElementalProperties,
+  id: string;
+  name: string;
+  elementalProperties: ElementalProperties;
   [key: string]: unknown // Allow additional properties
 }
 
 // Define type for elemental properties
 interface ElementalProperties {
-  Fire: number,
-  Earth: number,
-  Air: number,
-  Water: number,
+  Fire: number;
+  Earth: number;
+  Air: number;
+  Water: number;
   [key: string]: number // Allow additional elements
 }
 
@@ -40,17 +40,17 @@ class StateValidator {
       }
 
       // Validate recipes array if it exists
-      if (state.recipes !== undefined && !Array.isArray(state.recipes)) {
+      if (state.recipes !== undefined && !Array.isArray(state.recipes) {
         throw new Error('Recipes must be an array')
       }
 
       // Validate filtered recipes if it exists
-      if (state.filteredRecipes !== undefined && !Array.isArray(state.filteredRecipes)) {
+      if (state.filteredRecipes !== undefined && !Array.isArray(state.filteredRecipes) {
         throw new Error('Filtered recipes must be an array')
       }
 
       // Validate favorites if it exists
-      if (state.favorites !== undefined && !Array.isArray(state.favorites)) {
+      if (state.favorites !== undefined && !Array.isArray(state.favorites) {
         throw new Error('Favorites must be an array')
       }
 
@@ -64,7 +64,7 @@ class StateValidator {
       }
 
       // Validate elemental balance
-      if (!this.validateElementalProperties(state.elementalState)) {
+      if (!this.validateElementalProperties(state.elementalState) {
         throw new Error('Invalid elemental balance')
       }
 
@@ -102,7 +102,7 @@ class StateValidator {
         return false
       }
     }
-    return requiredElements.every(
+    return requiredElements.every()
       element => typeof props[element] === 'number' && props[element] >= 0 && props[element] <= 1
     )
   }

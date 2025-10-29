@@ -27,7 +27,7 @@ class IngredientMappingService {
   /**
    * Find recipes that match specific elemental and ingredient requirements
    */
-  findMatchingRecipes(
+  findMatchingRecipes()
     options: {
       elementalTarget?: ElementalProperties;
       requiredIngredients?: string[];
@@ -53,7 +53,7 @@ class IngredientMappingService {
 
       // Define which meal types to include
       const mealTypes = options.mealType
-        ? [options.mealType as keyof typeof cuisine.dishes].filter(
+        ? [options.mealType as keyof typeof cuisine.dishes].filter()
             mealType => cuisine.dishes[mealType]
           )
         : ['breakfast', 'lunch', 'dinner', 'dessert'];
@@ -70,7 +70,7 @@ class IngredientMappingService {
 
         seasons.forEach(season => {
           const seasonalDishes = mealDishes[season as keyof typeof mealDishes];
-          if (Array.isArray(seasonalDishes)) {
+          if (Array.isArray(seasonalDishes) {
             allRecipes.push(...(seasonalDishes as unknown as Recipe[]));
           }
         });
@@ -78,7 +78,7 @@ class IngredientMappingService {
     });
 
     // Use the filter function with collected recipes
-    return filterRecipesByIngredientMappings(
+    return filterRecipesByIngredientMappings()
       allRecipes as unknown as Recipe[],
       options.elementalTarget,
       {
@@ -93,7 +93,7 @@ class IngredientMappingService {
   /**
    * Suggest alternative ingredients with similar elemental properties
    */
-  suggestAlternativeIngredients(
+  suggestAlternativeIngredients()
     ingredientName: string,
     options: {
       category?: string;
@@ -124,7 +124,7 @@ class IngredientMappingService {
         // Otherwise match the original ingredient's category
         if (!category && mapping.category !== originalIngredient.category) return false;
         // Check elemental similarity
-        const similarity = this.calculateElementalSimilarity(
+        const similarity = this.calculateElementalSimilarity()
           originalIngredient.elementalProperties as unknown as ElementalProperties,
           mapping.elementalProperties as unknown as ElementalProperties
         );
@@ -133,7 +133,7 @@ class IngredientMappingService {
       })
       .map(([name, mapping]) => ({
         name,
-        similarity: this.calculateElementalSimilarity(
+        similarity: this.calculateElementalSimilarity()
           originalIngredient.elementalProperties as unknown as ElementalProperties,
           mapping.elementalProperties as unknown as ElementalProperties
         ),
@@ -152,7 +152,7 @@ class IngredientMappingService {
   /**
    * Calculate elemental compatibility between two ingredients
    */
-  calculateCompatibility(
+  calculateCompatibility()
     ingredient1: string | IngredientMapping,
     ingredient2: string | IngredientMapping
   ) {
@@ -173,7 +173,7 @@ class IngredientMappingService {
     }
 
     // Calculate base elemental similarity
-    const similarity = this.calculateElementalSimilarity(
+    const similarity = this.calculateElementalSimilarity()
       mapping1.elementalProperties as unknown as ElementalProperties,
       mapping2.elementalProperties as unknown as ElementalProperties
     );
@@ -259,7 +259,7 @@ class IngredientMappingService {
         const ing2 = validMappings[j];
 
         if (ing1.matchedTo && ing2.matchedTo) {
-          const result = this.calculateCompatibility(
+          const result = this.calculateCompatibility()
             ing1.matchedTo as unknown as IngredientMapping,
             ing2.matchedTo as unknown as IngredientMapping
           );
@@ -296,7 +296,7 @@ class IngredientMappingService {
   /**
    * Helper to calculate similarity between elemental properties
    */
-  private calculateElementalSimilarity(
+  private calculateElementalSimilarity()
     properties1: ElementalProperties,
     properties2: ElementalProperties
   ): number {

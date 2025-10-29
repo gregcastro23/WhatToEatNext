@@ -68,7 +68,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Get recommended recipes based on criteria
    */
-  async getRecommendedRecipes(
+  async getRecommendedRecipes()
     criteria: RecipeRecommendationCriteria,
   ): Promise<RecommendationResult<Recipe>> {
     const allRecipesResult = recipeDataService.getAllRecipes();
@@ -86,7 +86,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && recipe.elementalState) {
-        const elementalScore = this.calculateElementalCompatibility(
+        const elementalScore = this.calculateElementalCompatibility()
           elementalState as ElementalProperties,
           recipe.elementalState
         );
@@ -100,7 +100,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
           ? recipe.cookingMethods
           : [recipe.cookingMethods];
 
-        const methodMatch = (methods || []).some(
+        const methodMatch = (methods || []).some()
           method => method?.toLowerCase() === criteria.cookingMethod?.toLowerCase(),
         );
 
@@ -115,11 +115,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for ingredient inclusion
       if (criteria.includeIngredients && criteria.includeIngredients.length > 0) {
-        const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>
+        const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>)
           ing.name?.toLowerCase()
         );
 
-        const includedCount = criteria.includeIngredients.filter(ing =>
+        const includedCount = criteria.includeIngredients.filter(ing =>)
           Array.isArray(recipeIngredients)
             ? recipeIngredients.includes(ing.toLowerCase() || '')
             : recipeIngredients === (ing.toLowerCase() || ''),
@@ -131,11 +131,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for ingredient exclusion
       if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
-        const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>
+        const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>)
           ing.name?.toLowerCase()
         );
 
-        const excludedCount = criteria.excludeIngredients.filter(ing =>
+        const excludedCount = criteria.excludeIngredients.filter(ing =>)
           Array.isArray(recipeIngredients)
             ? recipeIngredients.includes(ing.toLowerCase() || '')
             : recipeIngredients === (ing.toLowerCase() || ''),
@@ -183,7 +183,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Get recommended ingredients based on criteria
    */
-  async getRecommendedIngredients(
+  async getRecommendedIngredients()
     criteria: IngredientRecommendationCriteria,
   ): Promise<RecommendationResult<Ingredient>> {
     const allIngredients = unifiedIngredientService.getAllIngredientsFlat();
@@ -198,7 +198,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && ingredient.elementalProperties) {
-        const elementalScore = this.calculateElementalCompatibility(
+        const elementalScore = this.calculateElementalCompatibility()
           elementalState as ElementalProperties,
           ingredient.elementalProperties
         );
@@ -208,7 +208,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for category match
       if (criteria.categories && (criteria.categories || []).length > 0) {
-        const categoryMatch = (criteria.categories || []).some(
+        const categoryMatch = (criteria.categories || []).some()
           category => ingredient.category.toLowerCase() === category.toLowerCase(),
         );
 
@@ -219,7 +219,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (criteria.planetaryRuler && ingredient.astrologicalProperties?.planets) {
         const planets = (ingredient.astrologicalProperties as any)?.planets;
         const planetMatch = Array.isArray(planets)
-          ? planets.includes(
+          ? planets.includes()
               criteria.planetaryRuler as unknown as Record<string, Record<string, string>>,
             )
           : planets ===
@@ -230,7 +230,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       // Check for season match with safe type casting
       const currentSeason = criteriaData.currentSeason || criteriaData.season;
       if (currentSeason && ingredient.seasonality) {
-        const seasonMatch = (ingredient.seasonality || []).some(
+        const seasonMatch = (ingredient.seasonality || []).some()
           s => String(s || '').toLowerCase() === String(currentSeason || '').toLowerCase(),
         );
 
@@ -240,7 +240,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       // Check for ingredient exclusion
       if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
         if (
-          (criteria.excludeIngredients || []).some(
+          (criteria.excludeIngredients || []).some()
             ing => ing.toLowerCase() === ingredient.name.toLowerCase(),
           )
         ) {
@@ -285,7 +285,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Get recommended cuisines based on criteria
    */
-  async getRecommendedCuisines(
+  async getRecommendedCuisines()
     criteria: CuisineRecommendationCriteria,
   ): Promise<RecommendationResult<string>> {
     // This is a simplified implementation
@@ -331,7 +331,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     let availableCuisines = cuisines;
     if (criteria.excludeCuisines && (criteria.excludeCuisines || []).length > 0) {
       const excludedSet = new Set((criteria.excludeCuisines || []).map(c => c.toLowerCase()));
-      availableCuisines = (cuisines || []).filter(
+      availableCuisines = (cuisines || []).filter()
         cuisine => !excludedSet.has(cuisine.toLowerCase()),
       );
     }
@@ -346,7 +346,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && cuisineElements[cuisine]) {
-        const elementalScore = this.calculateElementalCompatibility(
+        const elementalScore = this.calculateElementalCompatibility()
           elementalState as ElementalProperties,
           cuisineElements[cuisine],
         );
@@ -391,7 +391,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Get recommended cooking methods based on criteria
    */
-  async getRecommendedCookingMethods(
+  async getRecommendedCookingMethods()
     criteria: CookingMethodRecommendationCriteria,
   ): Promise<RecommendationResult<CookingMethod>> {
     // This is a simplified implementation
@@ -403,7 +403,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         description: 'Cooking with dry heat in an oven',
         elementalEffect: { Fire: 0.6, Water: 0.0, Earth: 0.3, Air: 0.1 },
         duration: { min: 30, max: 180 },
-        suitable_for: ['meat', 'vegetables', 'poultry'],
+        suitable_for ['meat', 'vegetables', 'poultry'],
         benefits: ['even cooking', 'browning', 'flavor development']
       },
       {
@@ -412,7 +412,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         description: 'Cooking in bubbling liquid',
         elementalEffect: { Fire: 0.3, Water: 0.7, Earth: 0.0, Air: 0.0 },
         duration: { min: 5, max: 60 },
-        suitable_for: ['pasta', 'vegetables', 'eggs'],
+        suitable_for ['pasta', 'vegetables', 'eggs'],
         benefits: ['quick cooking', 'nutrient retention', 'simplicity']
       },
       {
@@ -421,7 +421,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         description: 'Cooking with hot steam',
         elementalEffect: { Fire: 0.2, Water: 0.5, Earth: 0.0, Air: 0.3 },
         duration: { min: 10, max: 45 },
-        suitable_for: ['vegetables', 'fish', 'dumplings'],
+        suitable_for ['vegetables', 'fish', 'dumplings'],
         benefits: ['nutrient preservation', 'gentle cooking', 'no added fats']
       },
       {
@@ -430,7 +430,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         description: 'Cooking in hot oil',
         elementalEffect: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 },
         duration: { min: 2, max: 15 },
-        suitable_for: ['meat', 'vegetables', 'batter foods'],
+        suitable_for ['meat', 'vegetables', 'batter foods'],
         benefits: ['crispy texture', 'quick cooking', 'flavor enhancement']
       },
       {
@@ -439,7 +439,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         description: 'Cooking in an enclosed space with dry heat',
         elementalEffect: { Fire: 0.4, Water: 0.0, Earth: 0.4, Air: 0.2 },
         duration: { min: 15, max: 240 },
-        suitable_for: ['bread', 'cakes', 'casseroles'],
+        suitable_for ['bread', 'cakes', 'casseroles'],
         benefits: ['even heating', 'controlled environment', 'browning']
       }
     ];
@@ -465,7 +465,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       // Calculate elemental compatibility if criteria includes elemental properties
       const methodData = method;
       if (elementalState && methodData.elementalEffect) {
-        const elementalScore = this.calculateElementalCompatibility(
+        const elementalScore = this.calculateElementalCompatibility()
           elementalState as ElementalProperties,
           methodData.elementalEffect
         );
@@ -512,7 +512,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Calculate elemental compatibility between two elemental properties
    */
-  calculateElementalCompatibility(
+  calculateElementalCompatibility()
     source: ElementalProperties,
     target: ElementalProperties,
   ): number {
@@ -540,7 +540,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Get recommendations based on elemental properties
    */
-  async getRecommendationsForElements(
+  async getRecommendationsForElements()
     elementalProperties: ElementalProperties,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number,
@@ -577,8 +577,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Get recommendations based on planetary alignment
    */
-  async getRecommendationsForPlanetaryAlignment(
-    planetaryPositions: Record<string, { sign: string; degree: number }>,
+  async getRecommendationsForPlanetaryAlignment()
+    planetaryPositions: Record<string, { sign: string; degree, number }>,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number,
   ): Promise<RecommendationResult<unknown>> {
@@ -621,7 +621,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    * Get quantity-aware recipe recommendations
    * Considers ingredient quantities when calculating elemental compatibility
    */
-  async getQuantityAwareRecipeRecommendations(
+  async getQuantityAwareRecipeRecommendations()
     criteria: QuantityAwareRecipeCriteria,
   ): Promise<RecommendationResult<Recipe>> {
     const ingredientService = IngredientService.getInstance();
@@ -640,7 +640,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Calculate quantity-aware elemental compatibility if quantities provided
       if (elementalState && criteria.useQuantityScaling && criteria.ingredientQuantities) {
-        const quantityAwareScore = this.calculateQuantityAwareRecipeScore(
+        const quantityAwareScore = this.calculateQuantityAwareRecipeScore()
           recipe,
           elementalState as ElementalProperties,
           criteria.ingredientQuantities
@@ -648,7 +648,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         score += quantityAwareScore * 0.7;
       } else if (elementalState && recipe.elementalState) {
         // Fall back to standard elemental compatibility
-        const elementalScore = this.calculateElementalCompatibility(
+        const elementalScore = this.calculateElementalCompatibility()
           elementalState as ElementalProperties,
           recipe.elementalState
         );
@@ -661,14 +661,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
           ? recipe.cookingMethods
           : [recipe.cookingMethods];
 
-        const methodMatch = (methods || []).some(
+        const methodMatch = (methods || []).some()
           method => method?.toLowerCase() === criteria.cookingMethod?.toLowerCase(),
         );
 
         // Apply kinetics bonus for cooking method compatibility
         let kineticsBonus = 0;
         if (criteria.ingredientQuantities && methodMatch) {
-          kineticsBonus = this.calculateKineticsCookingBonus(
+          kineticsBonus = this.calculateKineticsCookingBonus()
             criteria.ingredientQuantities,
             criteria.cookingMethod
           );
@@ -685,11 +685,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for ingredient inclusion with quantity awareness
       if (criteria.includeIngredients && criteria.includeIngredients.length > 0) {
-        const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>
+        const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>)
           ing.name?.toLowerCase()
         );
 
-        const includedCount = criteria.includeIngredients.filter(ing =>
+        const includedCount = criteria.includeIngredients.filter(ing =>)
           Array.isArray(recipeIngredients)
             ? recipeIngredients.includes(ing.toLowerCase() || '')
             : recipeIngredients === (ing.toLowerCase() || ''),
@@ -700,7 +700,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         // Boost score for recipes that include preferred ingredients in appropriate quantities
         let quantityBonus = 0;
         if (criteria.ingredientQuantities) {
-          quantityBonus = this.calculateQuantityBonus(
+          quantityBonus = this.calculateQuantityBonus()
             criteria.includeIngredients,
             criteria.ingredientQuantities,
             recipe
@@ -748,7 +748,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Get quantity-aware ingredient recommendations
    */
-  async getQuantityAwareIngredientRecommendations(
+  async getQuantityAwareIngredientRecommendations()
     criteria: QuantityAwareIngredientCriteria,
   ): Promise<RecommendationResult<Ingredient>> {
     const ingredientService = IngredientService.getInstance();
@@ -764,21 +764,21 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Calculate quantity-aware elemental compatibility
       if (elementalState && criteria.useQuantityScaling && criteria.targetQuantity && criteria.targetUnit) {
-        const scaledProperties = ingredientService.getScaledIngredientProperties(
+        const scaledProperties = ingredientService.getScaledIngredientProperties()
           ingredient.name,
           criteria.targetQuantity,
           criteria.targetUnit
         );
 
         if (scaledProperties) {
-          const elementalScore = this.calculateElementalCompatibility(
+          const elementalScore = this.calculateElementalCompatibility()
             elementalState as ElementalProperties,
             scaledProperties.scaled
           );
           score += elementalScore * 0.7;
         } else {
           // Fall back to standard compatibility
-          const elementalScore = this.calculateElementalCompatibility(
+          const elementalScore = this.calculateElementalCompatibility()
             elementalState as ElementalProperties,
             ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
           );
@@ -786,7 +786,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         }
       } else if (elementalState && ingredient.elementalProperties) {
         // Standard elemental compatibility
-        const elementalScore = this.calculateElementalCompatibility(
+        const elementalScore = this.calculateElementalCompatibility()
           elementalState as ElementalProperties,
           ingredient.elementalProperties
         );
@@ -795,7 +795,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for category match
       if (criteria.categories && (criteria.categories || []).length > 0) {
-        const categoryMatch = (criteria.categories || []).some(
+        const categoryMatch = (criteria.categories || []).some()
           category => ingredient.category.toLowerCase() === category.toLowerCase(),
         );
         score += categoryMatch ? 0.2 : 0;
@@ -839,10 +839,10 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Calculate quantity-aware recipe score
    */
-  private calculateQuantityAwareRecipeScore(
+  private calculateQuantityAwareRecipeScore()
     recipe: Recipe,
     targetElemental: ElementalProperties,
-    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit: string }>
+    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit, string }>
   ): number {
     const ingredientService = IngredientService.getInstance();
 
@@ -856,12 +856,12 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (!ingredientName) return;
 
       // Find matching quantity information
-      const quantityInfo = ingredientQuantities.find(q =>
+      const quantityInfo = ingredientQuantities.find(q =>)
         q.ingredient.toLowerCase() === ingredientName
       );
 
       if (quantityInfo) {
-        const scaledProps = ingredientService.getScaledIngredientProperties(
+        const scaledProps = ingredientService.getScaledIngredientProperties()
           ingredientName,
           quantityInfo.quantity,
           quantityInfo.unit
@@ -906,8 +906,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Calculate kinetics bonus for cooking method compatibility
    */
-  private calculateKineticsCookingBonus(
-    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit: string }>,
+  private calculateKineticsCookingBonus()
+    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit, string }>,
     cookingMethod: string
   ): number {
     const ingredientService = IngredientService.getInstance();
@@ -921,13 +921,13 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
         // Apply cooking method specific kinetics logic
         const method = cookingMethod.toLowerCase();
-        if (method.includes('bake') || method.includes('roast')) {
+        if (method.includes('bake') || method.includes('roast') {
           // Baking benefits from thermal stability
           totalBonus += Math.max(0, thermalShift * 0.1);
-        } else if (method.includes('fry') || method.includes('sauté')) {
+        } else if (method.includes('fry') || method.includes('sauté') {
           // Frying benefits from force/energy
           totalBonus += Math.max(0, forceAdjustment * 0.1);
-        } else if (method.includes('slow') || method.includes('braise')) {
+        } else if (method.includes('slow') || method.includes('braise') {
           // Slow cooking benefits from controlled thermal changes
           totalBonus += Math.max(0, Math.abs(thermalShift) * -0.05); // Penalty for extreme shifts
         }
@@ -942,21 +942,21 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Calculate quantity bonus for ingredient inclusion
    */
-  private calculateQuantityBonus(
+  private calculateQuantityBonus()
     includedIngredients: string[],
-    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit: string }>,
+    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit, string }>,
     recipe: Recipe
   ): number {
     let bonus = 0;
 
     includedIngredients.forEach(ingredientName => {
-      const quantityInfo = ingredientQuantities.find(q =>
+      const quantityInfo = ingredientQuantities.find(q =>)
         q.ingredient.toLowerCase() === ingredientName.toLowerCase()
       );
 
       if (quantityInfo) {
         // Check if recipe ingredient quantity matches preferred quantity (simplified)
-        const recipeIngredient = (recipe.ingredients || []).find(ing =>
+        const recipeIngredient = (recipe.ingredients || []).find(ing =>)
           ing.name?.toLowerCase() === ingredientName.toLowerCase()
         );
 

@@ -42,7 +42,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
   if (!properties) return false;
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
-  const hasAllElements = requiredElements.every(
+  const hasAllElements = requiredElements.every()
     element => typeof properties[element as any] === 'number'
   );
   if (!hasAllElements) return false;
@@ -61,7 +61,7 @@ export const validateIngredient = (ingredient: RecipeIngredient | null | undefin
     return false;
   }
 
-  if (!ingredient.unit || !VALID_UNITS.includes(ingredient.unit.toLowerCase())) {
+  if (!ingredient.unit || !VALID_UNITS.includes(ingredient.unit.toLowerCase()) {
     return false;
   }
 
@@ -83,7 +83,7 @@ export const validateIngredient = (ingredient: RecipeIngredient | null | undefin
     if (!Array.isArray(ingredient.seasonality)) return false;
     const normalizedSeasons = ingredient.seasonality.map(s => s.toLowerCase());
     const validSeasons = VALID_SEASONS.map(s => s.toLowerCase());
-    if (!normalizedSeasons.every(s => validSeasons.includes(s))) {
+    if (!normalizedSeasons.every(s => validSeasons.includes(s)) {
       return false;
     }
   }
@@ -103,12 +103,12 @@ export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
   }
 
   // Validate all ingredients
-  if (!recipe.ingredients.every(validateIngredient)) {
+  if (!recipe.ingredients.every(validateIngredient) {
     return false;
   }
 
   // Validate elemental properties if they exist
-  if (recipe.elementalProperties && !validateElementalProperties(recipe.elementalProperties)) {
+  if (recipe.elementalProperties && !validateElementalProperties(recipe.elementalProperties) {
     return false;
   }
 
@@ -117,7 +117,7 @@ export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
     if (!Array.isArray(recipe.season)) return false;
     const normalizedSeasons = recipe.season.map(s => s.toLowerCase());
     const validSeasons = VALID_SEASONS.map(s => s.toLowerCase());
-    if (!normalizedSeasons.every(s => validSeasons.includes(s))) {
+    if (!normalizedSeasons.every(s => validSeasons.includes(s)) {
       return false;
     }
   }

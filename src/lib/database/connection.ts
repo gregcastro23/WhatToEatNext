@@ -15,14 +15,14 @@ types.setTypeParser(types.builtins.INT8, (value: string) => parseInt(value, 10))
 
 // Database configuration interface
 export interface DatabaseConfig {
-  host: string,
-  port: number,
-  database: string,
-  user: string,
-  password: string,
-  ssl: boolean | object,
-  max: number,
-  idleTimeoutMillis: number,
+  host: string;
+  port: number;
+  database: string;
+  user: string;
+  password: string;
+  ssl: boolean | object;
+  max: number;
+  idleTimeoutMillis: number;
   connectionTimeoutMillis: number;
 }
 
@@ -243,7 +243,7 @@ export async function executeQueryWithRetry<T = any>(
       // Don't retry on certain errors
       if (lastError.message.includes('syntax error') ||
           lastError.message.includes('does not exist') ||
-          lastError.message.includes('permission denied')) {
+          lastError.message.includes('permission denied') {
         throw lastError;
       }
 

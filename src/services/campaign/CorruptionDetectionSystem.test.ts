@@ -211,7 +211,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
-      expect(report.corruptionPatterns.some(p => p.description.includes('Double comma in import destructuring'))).toBe(
+      expect(report.corruptionPatterns.some(p => p.description.includes('Double comma in import destructuring'))).toBe()
         true,
       );
     });
@@ -226,7 +226,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
-      expect(
+      expect()
         report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import')),
       ).toBe(true);
     });
@@ -241,7 +241,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
-      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted namespace import syntax'))).toBe(
+      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted namespace import syntax'))).toBe()
         true,
       );
     });
@@ -258,7 +258,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
-      expect(
+      expect()
         report.corruptionPatterns.some(p => p.description.includes('Malformed import/export statement syntax')),
       ).toBe(true);
     });
@@ -277,7 +277,7 @@ import React, { Component } from 'undefined';
 
       await safetyProtocol.startRealTimeMonitoring(['test-file.ts'], 100);
 
-      expect(consoleSpy).toHaveBeenCalledWith(
+      expect(consoleSpy).toHaveBeenCalledWith()
         expect.stringContaining('Starting real-time corruption monitoring for 1 files'),
       );
 
@@ -353,7 +353,7 @@ import React, { Component } from 'undefined';
 
     test('should detect TypeScript syntax errors', async () => {
       execSync.mockImplementation((command: string) => {
-        if (command.includes('yarn tsc --noEmit')) {
+        if (command.includes('yarn tsc --noEmit') {
           return [
             'test-file.ts(10,5) error TS1005 Unexpected token',
             'test-file.ts(15,10) error TS1109 Expression expected',
@@ -371,7 +371,7 @@ import React, { Component } from 'undefined';
 
     test('should handle TypeScript compilation errors', async () => {
       execSync.mockImplementation((command: string) => {
-        if (command.includes('yarn tsc --noEmit')) {
+        if (command.includes('yarn tsc --noEmit') {
           const error = new Error('TypeScript compilation failed');
           (error as any).stdout = 'Unexpected token at line 5';
           throw error;

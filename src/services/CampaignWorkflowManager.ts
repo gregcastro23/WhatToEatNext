@@ -28,64 +28,64 @@ export type { ValidationResult, DryRunResult } from '../types/campaign';
 // ========== WORKFLOW TYPES ==========,
 
 export interface CampaignTemplate {
-  id: string,
-  name: string,
-  description: string,
+  id: string;
+  name: string;
+  description: string;
   category: 'typescript' | 'linting' | 'performance' | 'comprehensive'
   difficulty: 'beginner' | 'intermediate' | 'advanced'
   estimatedDuration: number, // minutes,
-  phases: CampaignPhaseTemplate[],
-  safetySettings: SafetySettings,
-  prerequisites: string[],
+  phases: CampaignPhaseTemplate[];
+  safetySettings: SafetySettings;
+  prerequisites: string[];
   expectedOutcomes: string[]
 }
 
 export interface CampaignPhaseTemplate {
-  id: string,
-  name: string,
-  description: string,
-  tools: ToolTemplate[],
+  id: string;
+  name: string;
+  description: string;
+  tools: ToolTemplate[];
   successCriteria: {
-    typeScriptErrors?: number,
-    lintingWarnings?: number,
+    typeScriptErrors?: number;
+    lintingWarnings?: number;
     buildTime?: number
     customValidation?: string // Function name or description
   },
   estimatedDuration: number // minutes,
   riskLevel: 'low' | 'medium' | 'high' },
         export interface ToolTemplate {
-  name: string,
-  scriptPath: string,
-  description: string,
+  name: string;
+  scriptPath: string;
+  description: string;
   parameters: Record<string, ParameterTemplate>,
-  batchSize: number,
+  batchSize: number;
   safetyLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'MAXIMUM' },
         export interface ParameterTemplate {
   type: 'string' | 'number' | 'boolean'
-  description: string,
-  defaultValue: unknown,
-  required: boolean,
+  description: string;
+  defaultValue: unknown;
+  required: boolean;
   validation?: string // Validation rule description
 }
 
 export interface CampaignWorkflow {
-  id: string,
-  name: string,
-  description: string,
-  steps: WorkflowStep[],
-  currentStep: number,
+  id: string;
+  name: string;
+  description: string;
+  steps: WorkflowStep[];
+  currentStep: number;
   status: 'draft' | 'configured' | 'validated' | 'ready' | 'executing' | 'completed' | 'failed'
-  config: Partial<CampaignConfig>,
-  validationResults: ValidationResult[],
-  dryRunResults: DryRunResult[],
-  createdAt: Date,
+  config: Partial<CampaignConfig>;
+  validationResults: ValidationResult[];
+  dryRunResults: DryRunResult[];
+  createdAt: Date;
   updatedAt: Date
 }
 
 export interface WorkflowStep {
-  id: string,
-  name: string,
-  description: string,
+  id: string;
+  name: string;
+  description: string;
   type: | 'template_selection'
     | 'configuration'
     | 'validation'
@@ -98,34 +98,34 @@ export interface WorkflowStep {
 }
 
 export interface ValidationRule {
-  field: string,
-  rule: string,
-  message: string,
+  field: string;
+  rule: string;
+  message: string;
   severity: 'error' | 'warning' | 'info' },
         export interface CampaignVersion {
-  id: string,
-  campaignId: string,
-  version: string,
-  config: CampaignConfig,
-  createdAt: Date,
-  createdBy: string,
-  description: string,
+  id: string;
+  campaignId: string;
+  version: string;
+  config: CampaignConfig;
+  createdAt: Date;
+  createdBy: string;
+  description: string;
   status: 'draft' | 'active' | 'archived'
   parentVersion?: string
 }
 
 export interface RollbackPlan {
-  campaignId: string,
-  targetVersion: string,
-  rollbackSteps: RollbackStep[],
-  estimatedDuration: number,
-  riskAssessment: string,
+  campaignId: string;
+  targetVersion: string;
+  rollbackSteps: RollbackStep[];
+  estimatedDuration: number;
+  riskAssessment: string;
   approvalRequired: boolean
 }
 
 export interface RollbackStep {
-  id: string,
-  description: string,
+  id: string;
+  description: string;
   action: 'restore_files' | 'revert_config' | 'rebuild' | 'validate'
   parameters: Record<string, unknown>,
   estimatedDuration: number
@@ -220,7 +220,7 @@ export class CampaignWorkflowManager {
   /**
    * Update workflow configuration
    */
-  async updateWorkflowConfig(
+  async updateWorkflowConfig()
     workflowId: string,
     configUpdates: Partial<CampaignConfig>,
   ): Promise<boolean> {
@@ -261,7 +261,7 @@ export class CampaignWorkflowManager {
   /**
    * Complete current workflow step
    */
-  async completeWorkflowStep(
+  async completeWorkflowStep()
     workflowId: string,
     stepData?: Record<string, unknown>,
   ): Promise<boolean> {
@@ -391,7 +391,7 @@ export class CampaignWorkflowManager {
   /**
    * Create a new version of campaign configuration
    */
-  async createCampaignVersion(
+  async createCampaignVersion()
     campaignId: string,
     config: CampaignConfig,
     description: string,
@@ -484,7 +484,7 @@ export class CampaignWorkflowManager {
   async executeRollback(rollbackPlan: RollbackPlan): Promise<boolean> {
     try {
       for (const step of rollbackPlan.rollbackSteps) {
-        log.info(`Executing rollback step: ${step.description}`)
+        log.info(`Executing rollback step ${step.description}`)
 
         switch (step.action) {
           case 'restore_files': await this.restoreFiles(step.parameters)
@@ -857,14 +857,14 @@ export class CampaignWorkflowManager {
   }
 
   private templateToConfig(template: CampaignTemplate): Partial<CampaignConfig> {
-    const phases: CampaignPhase[] = template.phases.map(phaseTemplate =>
+    const phases: CampaignPhase[] = template.phases.map(phaseTemplate =>)
         ({,
           id: phaseTemplate.id,
           name: phaseTemplate.name,
           description: phaseTemplate.description,
           tools: phaseTemplate.tools.map(toolTemplate => ({,
             scriptPath: toolTemplate.scriptPath,
-            parameters: Object.fromEntries(,
+            parameters: Object.fromEntries(,)
               Object.entries(toolTemplate.parameters).map(([key, param]) => [
                 key,
                 param.defaultValue

@@ -31,7 +31,7 @@ const DEFAULT_LOCATION = {
 /**
  * Convert ecliptic longitude to zodiac sign and degree
  */
-function longitudeToZodiacPosition(longitude: number): { sign: ZodiacSign; degree: number; minute: number } {
+function longitudeToZodiacPosition(longitude: number): { sign: ZodiacSign; degree: number; minute, number } {
   // Normalize to 0-360 range
   const normalizedLongitude = ((longitude % 360) + 360) % 360;
 
@@ -143,7 +143,7 @@ export async function POST(request: Request) {
     // Create date object (month is 1-indexed in request, 0-indexed in Date constructor)
     const targetDate = new Date(year, month - 1, date, hour, minute);
 
-    logger.info(`Calculating positions for: ${targetDate.toISOString()}`);
+    logger.info(`Calculating positions for ${targetDate.toISOString()}`);
 
     // Calculate planetary positions using local astronomy-engine
     const planetaryPositions = calculateLocalPlanetaryPositions(targetDate);
@@ -167,7 +167,7 @@ export async function POST(request: Request) {
     // Return in format compatible with previous API structure
     const celestialBodies: any = {};
 
-    for (const [planetName, position] of Object.entries(planetaryPositions)) {
+    for (const [planetName, position] of Object.entries(planetaryPositions) {
       const planetKey = planetName.toLowerCase();
       celestialBodies[planetKey] = {
         key: planetKey,
@@ -217,7 +217,7 @@ export async function POST(request: Request) {
 
   } catch (error) {
     _logger.error('Error in astrologize API:', error);
-    return NextResponse.json(
+    return NextResponse.json()
       {
         error: 'Failed to calculate astrological data',
         details: error instanceof Error ? error.message : 'Unknown error',
@@ -254,7 +254,7 @@ export async function GET(request: Request) {
   };
 
   // Forward to POST handler
-  return POST(
+  return POST()
     new Request(request.url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

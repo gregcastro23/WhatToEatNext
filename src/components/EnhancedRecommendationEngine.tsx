@@ -10,32 +10,32 @@
 import React from 'react';
 
 interface RecommendationFilters {
-  dietaryRestrictions: string[],
+  dietaryRestrictions: string[];
   cuisinePreferences: string[];
 }
 
 interface Recipe {
-  id: string,
-  name: string,
-  cuisine: string,
-  description: string,
-  cookingTime: number,
+  id: string;
+  name: string;
+  cuisine: string;
+  description: string;
+  cookingTime: number;
   difficulty: 'Easy' | 'Medium' | 'Hard'
-  rating: number,
+  rating: number;
   tags: string[];
 }
 
 interface RecommendationResult {
-  recipe: Recipe,
-  score: number,
-  matchReasons: string[],
+  recipe: Recipe;
+  score: number;
+  matchReasons: string[];
   alchemicalCompatibility: number;
 }
 
 interface EnhancedRecommendationEngineProps {
-  filters?: RecommendationFilters,
-  maxRecommendations?: number,
-  showScoring?: boolean,
+  filters?: RecommendationFilters;
+  maxRecommendations?: number;
+  showScoring?: boolean;
   className?: string;
 }
 
@@ -150,8 +150,8 @@ export function EnhancedRecommendationEngine({
 
     // Apply dietary restrictions
     if (currentFilters.dietaryRestrictions.length > 0) {
-      filteredRecipes = filteredRecipes.filter(recipe =>
-        currentFilters.dietaryRestrictions.some(restriction =>
+      filteredRecipes = filteredRecipes.filter(recipe =>)
+        currentFilters.dietaryRestrictions.some(restriction =>)
           recipe.tags.includes(restriction)
         )
       );
@@ -159,7 +159,7 @@ export function EnhancedRecommendationEngine({
 
     // Apply cuisine preferences
     if (currentFilters.cuisinePreferences.length > 0) {
-      filteredRecipes = filteredRecipes.filter(recipe =>
+      filteredRecipes = filteredRecipes.filter(recipe =>)
         currentFilters.cuisinePreferences.includes(recipe.cuisine)
       );
     }
@@ -174,10 +174,10 @@ export function EnhancedRecommendationEngine({
       const score = Math.min(baseScore + difficultyBonus + timeBonus + (alchemicalCompatibility * 0.2), 1.0);
 
       const matchReasons: string[] = []
-      if (currentFilters.dietaryRestrictions.some(r => recipe.tags.includes(r))) {
+      if (currentFilters.dietaryRestrictions.some(r => recipe.tags.includes(r)) {
         matchReasons.push('Meets dietary requirements');
       }
-      if (currentFilters.cuisinePreferences.includes(recipe.cuisine)) {
+      if (currentFilters.cuisinePreferences.includes(recipe.cuisine) {
         matchReasons.push('Preferred cuisine');
       }
       if (recipe.rating >= 4.5) {
@@ -281,7 +281,7 @@ export function EnhancedRecommendationEngine({
             flexWrap: 'wrap',
             gap: '8px'
 }}>
-            {DIETARY_OPTIONS.map(option => (
+            {DIETARY_OPTIONS.map(option => ())
               <label key={option} style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -319,7 +319,7 @@ export function EnhancedRecommendationEngine({
             flexWrap: 'wrap',
             gap: '8px'
 }}>
-            {CUISINE_OPTIONS.map(option => (
+            {CUISINE_OPTIONS.map(option => ())
               <label key={option} style={{
                 display: 'flex',
                 alignItems: 'center',

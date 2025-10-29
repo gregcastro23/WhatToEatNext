@@ -61,8 +61,8 @@ export async function POST(request: NextRequest) {
     const targetDate = date ? new Date(date) : undefined;
     const forceSync = force_sync === true;
 
-    if (date && isNaN(targetDate!.getTime())) {
-      return NextResponse.json(
+    if (date && isNaN(targetDate!.getTime()) {
+      return NextResponse.json()
         { error: 'Invalid date format. Use ISO string or omit for current time.' },
         { status: 400 }
       );
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     logger.error('❌ Planetary rectification API error:', error);
-    return NextResponse.json(
+    return NextResponse.json()
       {
         success: false,
         error: 'Planetary position rectification failed',
@@ -123,7 +123,7 @@ export async function GET(request: NextRequest) {
         return handleCurrentRectification();
 
       default:
-        return NextResponse.json(
+        return NextResponse.json()
           {
             error: 'Invalid action parameter',
             available_actions: ['status', 'health', 'current'],
@@ -138,7 +138,7 @@ export async function GET(request: NextRequest) {
     }
   } catch (error) {
     logger.error('❌ Planetary rectification status API error:', error);
-    return NextResponse.json(
+    return NextResponse.json()
       {
         error: 'Status request failed',
         message: error instanceof Error ? error.message : 'Unknown error'
@@ -199,7 +199,7 @@ async function handleCurrentRectification() {
 }
     });
   } catch (error) {
-    return NextResponse.json(
+    return NextResponse.json()
       {
         error: 'Current rectification failed',
         message: error instanceof Error ? error.message : 'Unknown error'
@@ -219,8 +219,8 @@ export async function PUT(request: NextRequest) {
 
     const targetDate = date ? new Date(date) : undefined;
 
-    if (date && isNaN(targetDate!.getTime())) {
-      return NextResponse.json(
+    if (date && isNaN(targetDate!.getTime()) {
+      return NextResponse.json()
         { error: 'Invalid date format. Use ISO string or omit for current time.' },
         { status: 400 }
       );
@@ -248,7 +248,7 @@ export async function PUT(request: NextRequest) {
 
   } catch (error) {
     logger.error('❌ Force sync API error:', error);
-    return NextResponse.json(
+    return NextResponse.json()
       {
         success: false,
         error: 'Force synchronization failed',
@@ -282,7 +282,7 @@ export async function PATCH() {
 
   } catch (error) {
     logger.error('🚨 EMERGENCY rectification API failed:', error);
-    return NextResponse.json(
+    return NextResponse.json()
       {
         success: false,
         error: 'Emergency rectification failed',
@@ -313,7 +313,7 @@ export async function DELETE() {
 
   } catch (error) {
     logger.error('❌ Cache clear API error:', error);
-    return NextResponse.json(
+    return NextResponse.json()
       {
         success: false,
         error: 'Cache clear failed',

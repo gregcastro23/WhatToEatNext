@@ -54,7 +54,7 @@ describe('ProgressiveImprovementEngine', () => {
 
       // Mock TypeScript error count (no errors)
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c "error TS"') {
           const error = new Error('No matches') as any;
           error.status = 1; // grep exit code for no matches
           throw error;
@@ -99,7 +99,7 @@ describe('ProgressiveImprovementEngine', () => {
       // Mock file analysis
       mockExecSync.mockReturnValue('src/test1.ts\nsrc/test2.ts\nsrc/test3.test.ts\n');
       mockFs.readFileSync.mockImplementation((path) => {
-        if (path.toString().includes('test')) {
+        if (path.toString().includes('test') {
           return 'const mockData: any = {};'; // Test file
         }
         return 'const items: any[] = []; const config: Record<string, any> = {};';
@@ -115,7 +115,7 @@ describe('ProgressiveImprovementEngine', () => {
 
       // Verify milestones are progressive
       for (let i = 1; i < targetInfo.milestones.length; i++) {
-        expect(targetInfo.milestones[i].percentage).toBeGreaterThan(
+        expect(targetInfo.milestones[i].percentage).toBeGreaterThan()
           targetInfo.milestones[i - 1].percentage
         );
       }
@@ -167,7 +167,7 @@ describe('ProgressiveImprovementEngine', () => {
       const monitoring = await engine.monitorProgress();
 
       expect(monitoring.needsManualIntervention).toBe(true);
-      expect(monitoring.recommendations.some(r =>
+      expect(monitoring.recommendations.some(r =>))
         r.includes('manual review') || r.includes('documentation')
       )).toBe(true);
     });
@@ -194,7 +194,7 @@ describe('ProgressiveImprovementEngine', () => {
       const targetInfo = await engine.setRealisticTargets();
 
       // Should increase target due to high success rate
-      expect(targetInfo.reasoning.some(r =>
+      expect(targetInfo.reasoning.some(r =>))
         r.includes('High historical success rate')
       )).toBe(true);
     });
@@ -263,7 +263,7 @@ describe('ProgressiveImprovementEngine', () => {
     test('should execute full campaign with progress tracking', async () => {
       // Mock minimal file system for quick test
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c "error TS"') {
           const error = new Error('No matches') as any;
           error.status = 1;
           throw error;
@@ -282,10 +282,10 @@ describe('ProgressiveImprovementEngine', () => {
     test('should handle campaign with realistic file processing', async () => {
       // Mock realistic file discovery and processing
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -r -l')) {
+        if (command.includes('grep -r -l') {
           return 'src/test1.ts\nsrc/test2.ts\nsrc/test3.ts\n';
         }
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c "error TS"') {
           const error = new Error('No matches') as any;
           error.status = 1;
           throw error;
@@ -314,10 +314,10 @@ describe('ProgressiveImprovementEngine', () => {
       // Mock scenario where campaign needs to stop due to safety concerns
       let batchCount = 0;
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -r -l')) {
+        if (command.includes('grep -r -l') {
           return 'src/test1.ts\nsrc/test2.ts\n';
         }
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c "error TS"') {
           batchCount++;
           if (batchCount > 2) {
             // Simulate increasing errors after a few batches
@@ -346,10 +346,10 @@ describe('ProgressiveImprovementEngine', () => {
   describe('Advanced Batch Processing Scenarios', () => {
     test('should handle mixed file types in single batch', async () => {
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -r -l')) {
+        if (command.includes('grep -r -l') {
           return 'src/component.tsx\nsrc/service.ts\nsrc/test.test.ts\n';
         }
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c "error TS"') {
           const error = new Error('No matches') as any;
           error.status = 1;
           throw error;
@@ -375,10 +375,10 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should adapt to compilation errors during batch', async () => {
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -r -l')) {
+        if (command.includes('grep -r -l') {
           return 'src/problematic.ts\n';
         }
-        if (command.includes('grep -c "error TS"')) {
+        if (command.includes('grep -c "error TS"') {
           // Simulate compilation errors appearing
           return '5';
         }
@@ -395,7 +395,7 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should handle file system errors during batch processing', async () => {
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -r -l')) {
+        if (command.includes('grep -r -l') {
           return 'src/inaccessible.ts\n';
         }
         return '';
@@ -415,7 +415,7 @@ describe('ProgressiveImprovementEngine', () => {
   describe('Realistic Target Management Edge Cases', () => {
     test('should handle codebase with no any types', async () => {
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -r -l')) {
+        if (command.includes('grep -r -l') {
           const error = new Error('No matches') as any;
           error.status = 1;
           throw error;
@@ -431,7 +431,7 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should handle codebase with only test files', async () => {
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -r -l')) {
+        if (command.includes('grep -r -l') {
           return 'src/test1.test.ts\nsrc/test2.spec.ts\n';
         }
         return '';
@@ -447,14 +447,14 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should handle extremely complex codebase', async () => {
       mockExecSync.mockImplementation((command) => {
-        if (command.includes('grep -r -l')) {
+        if (command.includes('grep -r -l') {
           return Array(100).fill(null).map((_, i) => `src/complex${i}.ts`).join('\n');
         }
         return '';
       });
 
       mockFs.readFileSync.mockImplementation((path: any) => {
-        if (path.includes('complex')) {
+        if (path.includes('complex') {
           return 'function complex(param: any): any { return param as any; }';
         }
         return 'backup content';
@@ -493,7 +493,7 @@ describe('ProgressiveImprovementEngine', () => {
       const monitoring = await engine.monitorProgress();
 
       expect(monitoring.needsManualIntervention).toBe(true);
-      expect(monitoring.recommendations.some(r =>
+      expect(monitoring.recommendations.some(r =>))
         r.includes('stagnated') || r.includes('manual')
       )).toBe(true);
     });
@@ -504,7 +504,7 @@ describe('ProgressiveImprovementEngine', () => {
 
       // Test early stage recommendations
       const earlyMonitoring = await engine.monitorProgress();
-      expect(earlyMonitoring.recommendations.some(r =>
+      expect(earlyMonitoring.recommendations.some(r =>))
         r.includes('array types') || r.includes('quick wins')
       )).toBe(true);
 
@@ -524,7 +524,7 @@ describe('ProgressiveImprovementEngine', () => {
       (engine as any).batchHistory.push(progressBatch);
 
       const midMonitoring = await engine.monitorProgress();
-      expect(midMonitoring.recommendations.some(r =>
+      expect(midMonitoring.recommendations.some(r =>))
         r.includes('Record') || r.includes('domain-specific')
       )).toBe(true);
     });

@@ -25,7 +25,7 @@ export function standardizeCuisine(cuisineName: string): PrimaryCuisineType {
   const resolved = resolveCuisineType(cuisineName)
 ;
   // If the resolved type is a primary cuisine, return it
-  if (typeof resolved === 'string' && !isRegionalCuisine(resolved)) {;
+  if (typeof resolved === 'string' && !isRegionalCuisine(resolved) {;
     return resolved as PrimaryCuisineType;
   }
 
@@ -97,7 +97,7 @@ export function filterPrimaryCuisines(cuisineNames: string[]): PrimaryCuisineTyp
  */
 export function getCuisineDisplayName(cuisineName: string): string {
   // Check if it's a regional cuisine first
-  if (isRegionalCuisine(cuisineName)) {
+  if (isRegionalCuisine(cuisineName) {
     const primary = getPrimaryCuisine(cuisineName)
     if (primary) {
       const normalized = normalizeCuisineName(cuisineName)
@@ -116,7 +116,7 @@ export function getCuisineDisplayName(cuisineName: string): string {
  */
 export function isSupportedCuisine(cuisineName: string): boolean {
   // Check if it's a known regional cuisine
-  if (isRegionalCuisine(cuisineName)) {
+  if (isRegionalCuisine(cuisineName) {
     return true
   }
 

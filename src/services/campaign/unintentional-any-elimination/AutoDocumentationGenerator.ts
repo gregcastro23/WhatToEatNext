@@ -132,7 +132,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
   /**
    * Generate documentation for an intentional any type
    */
-  async generateDocumentation(
+  async generateDocumentation()
     classification: AnyTypeClassification,
     context: ClassificationContext
   ): Promise<DocumentationResult> {
@@ -150,7 +150,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       }
 
       // Skip if already has adequate documentation
-      if (context.hasExistingComment && this.isCommentAdequate(context.existingComment || '')) {
+      if (context.hasExistingComment && this.isCommentAdequate(context.existingComment || '') {
         return {
           filePath: context.filePath,
           lineNumber: context.lineNumber,
@@ -170,7 +170,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       const eslintDisableComment = template.eslintDisableComment;
 
       // Insert documentation
-      const { updatedLines, insertedComment } = this.insertDocumentation(
+      const { updatedLines, insertedComment } = this.insertDocumentation()
         lines,
         context.lineNumber,
         documentationComment,
@@ -232,7 +232,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       eslintDisableHasExplanation;
 
     // Generate suggestions
-    const suggestions = this.generateSuggestions(
+    const suggestions = this.generateSuggestions()
       hasComment,
       commentQuality,
       hasEslintDisable,
@@ -310,7 +310,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
   /**
    * Generate contextual comment based on template and classification
    */
-  private generateComment(
+  private generateComment()
     template: DocumentationTemplate,
     classification: AnyTypeClassification,
     context: ClassificationContext
@@ -325,7 +325,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     // Add domain-specific context
     if (context.domainContext.preservationReasons.length > 0) {
       const reason = context.domainContext.preservationReasons[0];
-      if (!comment.includes(reason)) {
+      if (!comment.includes(reason) {
         comment += ` (${reason})`;
       }
     }
@@ -336,12 +336,12 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
   /**
    * Insert documentation into file lines
    */
-  private insertDocumentation(
+  private insertDocumentation()
     lines: string[],
     lineNumber: number,
     comment: string,
     eslintDisable?: string
-  ): { updatedLines: string[]; insertedComment: string } {
+  ): { updatedLines: string[]; insertedComment, string } {
     const lineIndex = lineNumber - 1;
     const updatedLines = [...lines];
     const indentation = this.getIndentation(lines[lineIndex] || '');
@@ -350,7 +350,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     let insertedComment = comment;
 
     // Check if there's already a comment on the previous line
-    if (lineIndex > 0 && lines[lineIndex - 1] && lines[lineIndex - 1].trim().startsWith('//')) {
+    if (lineIndex > 0 && lines[lineIndex - 1] && lines[lineIndex - 1].trim().startsWith('//') {
       // Replace existing comment
       updatedLines[lineIndex - 1] = `${indentation}${comment}`;
     } else {
@@ -360,7 +360,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     }
 
     // Add ESLint disable comment if needed
-    if (eslintDisable && !this.hasEslintDisableComment(lines, lineIndex)) {
+    if (eslintDisable && !this.hasEslintDisableComment(lines, lineIndex) {
       updatedLines.splice(insertIndex, 0, `${indentation}${eslintDisable}`);
       insertedComment += `\n${indentation}${eslintDisable}`;
     }
@@ -396,7 +396,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     // Check current line and previous lines
     for (let i = Math.max(0, lineIndex - 2); i <= lineIndex; i++) {
       if (lines[i] && lines[i].includes('eslint-disable') &&
-          lines[i].includes('no-explicit-any')) {
+          lines[i].includes('no-explicit-any') {
         return true;
       }
     }
@@ -409,7 +409,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
   private eslintDisableHasExplanation(lines: string[], lineIndex: number): boolean {
     for (let i = Math.max(0, lineIndex - 2); i <= lineIndex; i++) {
       const line = lines[i];
-      if (line && line.includes('eslint-disable') && line.includes('no-explicit-any')) {
+      if (line && line.includes('eslint-disable') && line.includes('no-explicit-any') {
         // Check if it's just the disable comment or has explanation
         const parts = line.split('eslint-disable-next-line');
         return parts.length > 1 && parts[1].trim().length > '@typescript-eslint/no-explicit-any'.length;
@@ -465,7 +465,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
   /**
    * Generate improvement suggestions
    */
-  private generateSuggestions(
+  private generateSuggestions()
     hasComment: boolean,
     commentQuality: 'poor' | 'fair' | 'good' | 'excellent',
     hasEslintDisable: boolean,

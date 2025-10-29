@@ -35,7 +35,7 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
         // Handle redirects or failed downloads
         if (response.statusCode === 302 || response.statusCode === 404) {
           // console.log(`File ${filename} not found at primary source, trying backup...`);
-          if (BACKUP_FILES.includes(filename)) {
+          if (BACKUP_FILES.includes(filename) {
             downloadFile(filename, BACKUP_URL).then(resolve).catch(reject);
           } else {
             // console.warn(`Warning: File ${filename} not found, but not critical.`);
@@ -55,7 +55,7 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
       .on('error', error => {
         // console.error(`Error downloading ${filename}:`, error.message);
         // Try backup for essential files
-        if (BACKUP_FILES.includes(filename)) {
+        if (BACKUP_FILES.includes(filename) {
           // console.log(`Trying backup source for ${filename}...`);
           downloadFile(filename, BACKUP_URL).then(resolve).catch(reject);
         } else {

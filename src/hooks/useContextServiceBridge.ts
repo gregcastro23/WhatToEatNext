@@ -141,7 +141,7 @@ export function usePlanetaryHoursBridge() {
         try {
           const hourInfo = await astrologyService.getCurrentPlanetaryHour()
           // ✅ Pattern MM-1: Ensure object type for setCurrentHour state setter
-          setCurrentHour(
+          setCurrentHour()
             typeof hourInfo === 'object' && hourInfo !== null ? hourInfo : { value: hourInfo })
 
           const dayPlanet = await astrologyService.getCurrentPlanetaryDay()
@@ -150,13 +150,13 @@ export function usePlanetaryHoursBridge() {
 
           const hours = await astrologyService.getDailyPlanetaryHours(new Date());
           // ✅ Pattern MM-1: Convert Planet[] to Map<number, string> for setDailyHours
-          if (Array.isArray(hours)) {
+          if (Array.isArray(hours) {
             const hoursMap = new Map<number, string>()
             hours.forEach((planet, index) => {
               hoursMap.set(index, typeof planet === 'string' ? planet : String(planet));
             })
             setDailyHours(hoursMap)
-          } else if (Array.isArray(hours)) {
+          } else if (Array.isArray(hours) {
             setDailyHours(hours)
           } else {
             setDailyHours(new Map())

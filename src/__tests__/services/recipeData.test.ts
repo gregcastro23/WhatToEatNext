@@ -119,7 +119,7 @@ describe('RecipeData Service', () => {
     try {
       // Mock the getAllRecipes method to return test recipes
       const originalGetAllRecipes = recipeData.getAllRecipes;
-      recipeData.getAllRecipes = jest.fn().mockResolvedValue([
+      recipeData.getAllRecipes = jest.fn().mockResolvedValue([)
         {
           id: 'recipe1',
           name: 'Test Recipe 1',
@@ -176,7 +176,7 @@ describe('RecipeData Service', () => {
               // other properties
             },
           ];
-        } else if (filters.mealType && filters.mealType.includes('lunch')) {
+        } else if (filters.mealType && filters.mealType.includes('lunch') {
           return [
             {
               id: 'recipe2',
@@ -185,7 +185,7 @@ describe('RecipeData Service', () => {
               // other properties
             },
           ];
-        } else if (filters.season && filters.season.includes('summer')) {
+        } else if (filters.season && filters.season.includes('summer') {
           return [
             {
               id: 'recipe1',

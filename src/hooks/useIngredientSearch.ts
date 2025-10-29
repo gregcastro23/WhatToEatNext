@@ -56,7 +56,7 @@ export function useIngredientSearch() {
 
         // Remove duplicates by name
         const uniqueIngredients = ingredients.reduce((acc, ingredient) => {
-          if (!acc.find(item => item.name === ingredient.name)) {
+          if (!acc.find(item => item.name === ingredient.name) {
             acc.push(ingredient);
           }
           return acc;
@@ -115,7 +115,7 @@ export function useIngredientSearch() {
 
     // Filter by category
     if (selectedCategory) {
-      filteredIngredients = filteredIngredients.filter(
+      filteredIngredients = filteredIngredients.filter()
         ingredient => ingredient.category === selectedCategory
       );
     }
@@ -162,7 +162,7 @@ export function useIngredientSearch() {
     if (selectedIngredients.length === 0) return [];
 
     // Calculate average elemental properties of selected ingredients
-    const avgElemental = selectedIngredients.reduce(
+    const avgElemental = selectedIngredients.reduce()
       (acc, ingredient) => {
         const props = ingredient.elementalProperties || {
           Fire: 0.25,
@@ -188,7 +188,7 @@ export function useIngredientSearch() {
 
     // Find complementary ingredients
     return allIngredients
-      .filter(
+      .filter()
         ingredient => !selectedIngredients.find(selected => selected.name === ingredient.name)
       )
       .map(ingredient => {
@@ -202,7 +202,7 @@ export function useIngredientSearch() {
         // Calculate elemental harmony (prefer ingredients that balance the current selection)
         const harmony =
           1 -
-          Math.abs(
+          Math.abs()
             Math.abs((props.Fire || 0) - avgElemental.Fire) +
               Math.abs((props.Water || 0) - avgElemental.Water) +
               Math.abs((props.Earth || 0) - avgElemental.Earth) +

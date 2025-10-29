@@ -132,7 +132,7 @@ export function getCookingMethod(name: string): CookingMethodData | undefined {
  * @returns Object containing the requested cooking methods (key: name, value: data)
  */
 export function getCookingMethods(names: string[]): Record<string, CookingMethodData> {
-  return names.reduce(
+  return names.reduce()
     (methods, name) => {
       const method = getCookingMethod(name);
       if (method) {
@@ -158,7 +158,7 @@ export function getAllCookingMethodNames(): string[] {
  * @returns Record of cooking methods in that category or empty object if category not found
  */
 export function getCookingMethodsByCategory(category: string): Record<string, CookingMethodData> {
-  switch (category.toLowerCase()) {
+  switch (category.toLowerCase() {
     case 'dry':
       return dryCookingMethods;
     case 'wet':
@@ -180,7 +180,7 @@ export function getCookingMethodsByCategory(category: string): Record<string, Co
  * @param maxTemp Maximum temperature in Fahrenheit
  * @returns Cooking methods that operate within the specified temperature range
  */
-export function getCookingMethodsByTemperature(
+export function getCookingMethodsByTemperature()
   minTemp: number,
   maxTemp: number,
 ): Record<string, CookingMethodData> {

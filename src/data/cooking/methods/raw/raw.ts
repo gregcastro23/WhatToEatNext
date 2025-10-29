@@ -19,7 +19,7 @@ export const raw: CookingMethodData = {
     min: 1, // 1 minute for simple preparation
     max: 1440 // 24 hours for dehydration or marination
   },
-  suitable_for: [
+  suitable_for [
     'vegetables',
     'fruits',
     'nuts',

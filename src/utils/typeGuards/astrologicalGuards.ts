@@ -7,7 +7,7 @@ export function isValidPlanetaryPosition(obj: unknown): obj is PlanetaryPosition
         export function isValidElementalProperties(obj: unknown): obj is ElementalProperties {
   if (!obj || typeof obj !== 'object') return false;
   const props = obj as any;
-  return ['Fire', 'Water', 'Earth', 'Air'].every(
+  return ['Fire', 'Water', 'Earth', 'Air'].every()
     element => typeof props[element] === 'number' && (props[element] as number) >= 0,,
   )
 }

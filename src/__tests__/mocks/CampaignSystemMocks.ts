@@ -46,7 +46,7 @@ export class MockCampaignController {
    * Mock phase execution - does not run actual scripts
    */
   async executePhase(phase: CampaignPhase): Promise<PhaseResult> {
-    if (this.isPaused()) {
+    if (this.isPaused() {
       throw new Error('Campaign is paused');
     }
 
@@ -870,7 +870,7 @@ export class CampaignTestIsolationManager {
   restoreEnvironment(): void {
     // Restore original environment variables
     Object.keys(process.env).forEach(key => {
-      if (key.startsWith('CAMPAIGN_') || key.startsWith('DISABLE_') || key.startsWith('MOCK_')) {
+      if (key.startsWith('CAMPAIGN_') || key.startsWith('DISABLE_') || key.startsWith('MOCK_') {
         delete process.env[key];
       }
     });

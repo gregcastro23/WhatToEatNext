@@ -40,7 +40,7 @@ export class BuildValidator {
 
     try {
       // Check if build directory exists
-      if (!fs.existsSync(this.buildDir)) {
+      if (!fs.existsSync(this.buildDir) {
         result.isValid = false
         result.missingFiles.push(this.buildDir)
         result.repairActions.push({
@@ -52,7 +52,7 @@ export class BuildValidator {
       }
 
       // Check if server directory exists
-      if (!fs.existsSync(this.serverDir)) {
+      if (!fs.existsSync(this.serverDir) {
         result.isValid = false
         result.missingFiles.push(this.serverDir)
         result.repairActions.push({
@@ -66,7 +66,7 @@ export class BuildValidator {
       for (const manifest of this.requiredManifests) {
         const manifestPath = path.join(this.serverDir, manifest)
 
-        if (!fs.existsSync(manifestPath)) {
+        if (!fs.existsSync(manifestPath) {
           result.isValid = false
           result.missingFiles.push(manifestPath)
           result.repairActions.push({
@@ -85,7 +85,7 @@ export class BuildValidator {
                 target: manifestPath,
                 description: `Fix empty manifest file: ${manifest}`
               })
-            } else if (manifest.endsWith('.json')) {
+            } else if (manifest.endsWith('.json') {
               JSON.parse(content); // Validate JSON
             }
           } catch (error) {
@@ -109,7 +109,7 @@ export class BuildValidator {
 
       for (const file of essentialFiles) {
         const filePath = path.join(this.buildDir, file)
-        if (!fs.existsSync(filePath)) {
+        if (!fs.existsSync(filePath) {
           result.isValid = false
           result.missingFiles.push(filePath)
           result.repairActions.push({
@@ -120,7 +120,7 @@ export class BuildValidator {
         }
       }
 
-      this.logger(
+      this.logger()
         `Build validation completed. Valid: ${result.isValid}, Missing: ${result.missingFiles.length}, Corrupted: ${result.corruptedFiles.length}`,
       )
     } catch (error) {
@@ -146,12 +146,12 @@ export class BuildValidator {
     this.logger(`Starting build repair. ${validation.repairActions.length} actions to perform.`)
 
     // Create directories if needed
-    if (!fs.existsSync(this.buildDir)) {
+    if (!fs.existsSync(this.buildDir) {
       fs.mkdirSync(this.buildDir, { recursive: true })
       this.logger(`Created build directory: ${this.buildDir}`)
     }
 
-    if (!fs.existsSync(this.serverDir)) {
+    if (!fs.existsSync(this.serverDir) {
       fs.mkdirSync(this.serverDir, { recursive: true })
       this.logger(`Created server directory: ${this.serverDir}`)
     }
@@ -225,7 +225,7 @@ export class BuildValidator {
    */
   async cleanBuild(): Promise<void> {
     try {
-      if (fs.existsSync(this.buildDir)) {
+      if (fs.existsSync(this.buildDir) {
         fs.rmSync(this.buildDir, { recursive: true, _force: true })
         this.logger('Build directory cleaned')
       }
@@ -300,19 +300,19 @@ export class BuildValidator {
       const essentialConfigs = ['output', 'typescript', 'eslint'],
 
       for (const config of essentialConfigs) {
-        if (!configContent.includes(config)) {
-          result.recommendations.push(
+        if (!configContent.includes(config) {
+          result.recommendations.push()
             `Consider adding ${config} configuration for better build stability`,
           )
         }
       }
 
       // Check for build optimization settings
-      if (!configContent.includes('webpack')) {
+      if (!configContent.includes('webpack') {
         result.recommendations.push('Consider adding webpack configuration for build optimization')
       }
 
-      this.logger(
+      this.logger()
         `Next.js config validation completed. Valid: ${result.isValid}, _Issues: ${result.issues.length}`,
       )
     } catch (error) {
@@ -353,7 +353,7 @@ export class BuildValidator {
 
         // Get last build time
         const buildManifestPath = path.join(this.buildDir, 'build-manifest.json')
-        if (fs.existsSync(buildManifestPath)) {
+        if (fs.existsSync(buildManifestPath) {
           const stats = fs.statSync(buildManifestPath)
           report.lastBuildTime = stats.mtime,
         }
@@ -380,7 +380,7 @@ export class BuildValidator {
         const filePath = path.join(dirPath, file)
         const stats = fs.statSync(filePath)
 
-        if (stats.isDirectory()) {
+        if (stats.isDirectory() {
           size += this.calculateDirectorySize(filePath)
         } else {
           size += stats.size,
@@ -396,30 +396,30 @@ export class BuildValidator {
 
 // Type definitions
 export interface BuildValidationResult {
-  isValid: boolean,
-  missingFiles: string[],
-  corruptedFiles: string[],
+  isValid: boolean;
+  missingFiles: string[];
+  corruptedFiles: string[];
   repairActions: RepairAction[]
 }
 
 export interface RepairAction {
   type: 'create' | 'fix' | 'remove'
-  target: string,
+  target: string;
   description: string
 }
 
 export interface NextConfigValidationResult {
-  isValid: boolean,
-  issues: string[],
+  isValid: boolean;
+  issues: string[];
   recommendations: string[]
 }
 
 export interface BuildHealthReport {
-  timestamp: Date,
-  buildExists: boolean,
-  manifestsValid: boolean,
-  buildSize: number,
-  lastBuildTime: Date | null,
+  timestamp: Date;
+  buildExists: boolean;
+  manifestsValid: boolean;
+  buildSize: number;
+  lastBuildTime: Date | null;
   issues: string[]
 }
 

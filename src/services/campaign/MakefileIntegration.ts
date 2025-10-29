@@ -316,7 +316,7 @@ export class MakefileIntegration {
   /**
    * Execute a make target
    */
-  async executeMakeTarget(
+  async executeMakeTarget()
     target: string,
     options: {
       silent?: boolean;
@@ -445,7 +445,7 @@ export class MakefileIntegration {
    */
   async addCampaignTargetsToMakefile(): Promise<boolean> {
     try {
-      if (!fs.existsSync(this.makefilePath)) {
+      if (!fs.existsSync(this.makefilePath) {
         console.warn(`⚠️ Makefile not found at ${this.makefilePath}`);
         return false;
       }
@@ -453,7 +453,7 @@ export class MakefileIntegration {
       let makefileContent = fs.readFileSync(this.makefilePath, 'utf8');
 
       // Check if campaign targets already exist
-      if (makefileContent.includes('# Campaign Execution Framework')) {
+      if (makefileContent.includes('# Campaign Execution Framework') {
         console.log('✅ Campaign targets already exist in Makefile');
         return true;
       }
@@ -495,7 +495,7 @@ export class MakefileIntegration {
     }
 
     // Add each target
-    for (const target of this.campaignTargets.values()) {
+    for (const target of this.campaignTargets.values() {
       lines.push(`# ${target.description}`);
 
       let targetLine = `${target.name}:`;
@@ -537,7 +537,7 @@ export class MakefileIntegration {
   /**
    * Validate that required make targets exist
    */
-  async validateExistingTargets(): Promise<{ valid: boolean; missing: string[] }> {
+  async validateExistingTargets(): Promise<{ valid: boolean; missing, string[] }> {
     const requiredTargets = [
       'errors',
       'errors-by-type',

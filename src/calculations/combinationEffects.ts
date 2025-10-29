@@ -13,24 +13,24 @@ type CookingMethod = 'simmered' | 'infused' | 'raw' | 'baked' | 'fried' | 'grill
 type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all'
 type Temperature = 'hot' | 'cold' | 'neutral'
 interface CombinationRule {
-  ingredients: string[],
-  effect: EffectType,
-  modifier: number,
-  elements?: Partial<ElementalProperties>,
+  ingredients: string[];
+  effect: EffectType;
+  modifier: number;
+  elements?: Partial<ElementalProperties>;
   conditions?: {
-    cookingMethod?: CookingMethod[],
-    season?: Season[],
+    cookingMethod?: CookingMethod[];
+    season?: Season[];
     temperature?: Temperature
   }
   notes?: string
 }
 
 interface CalculateEffectsParams {
-  ingredients: string[],
-  elementalProperties: ElementalProperties,
-  cookingMethod?: CookingMethod,
-  season?: Season,
-  temperature?: Temperature,
+  ingredients: string[];
+  elementalProperties: ElementalProperties;
+  cookingMethod?: CookingMethod;
+  season?: Season;
+  temperature?: Temperature;
   lunarPhase?: LunarPhase
 }
 
@@ -80,7 +80,7 @@ export function calculateCombinationEffects({
 
     // Check for known combinations
     COMBINATION_RULES.forEach(rule => {
-      if (hasIngredientCombination(ingredients, rule.ingredients)) {
+      if (hasIngredientCombination(ingredients, rule.ingredients) {
         // Verify conditions if they exist
         if (rule.conditions) {
           const meetsConditions =
@@ -130,7 +130,7 @@ const hasIngredientCombination = (
   recipeIngredients: string[],
   combinationIngredients: string[],
 ): boolean => {
-  return combinationIngredients.every(ingredient =>
+  return combinationIngredients.every(ingredient =>)
     recipeIngredients.some(recipeIng => recipeIng.toLowerCase().includes(ingredient.toLowerCase())),
   );
 }
@@ -143,7 +143,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
     const elem2 = ingredientMappings[ing2]?.elementalProperties;
 
     if (!elem1 || !elem2) return;
-    if (isHarmoniousCombination(elem1, elem2)) {
+    if (isHarmoniousCombination(elem1, elem2) {
       effects.push({
         ingredients: [ing1, ing2],
         type: 'synergy' as EffectType,
@@ -153,7 +153,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
 } as CombinationEffect);
     }
 
-    if (isAntagonisticCombination(elem1, elem2)) {
+    if (isAntagonisticCombination(elem1, elem2) {
       effects.push({
         ingredients: [ing1, ing2],
         type: 'conflict' as EffectType,
@@ -181,7 +181,7 @@ const isHarmoniousCombination = (
   elem1: ElementalProperties,
   elem2: ElementalProperties,
 ): boolean => {
-  return ELEMENT_COMBINATIONS.harmonious.some(
+  return ELEMENT_COMBINATIONS.harmonious.some()
     ([e1, e2]) =>
       (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
       (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1)
@@ -194,7 +194,7 @@ const isAntagonisticCombination = (
 ): boolean => {
   const antagonistic =
     (ELEMENT_COMBINATIONS as { antagonistic?: Array<[string, string]> })?.antagonistic || [];
-  return antagonistic.some(
+  return antagonistic.some()
     ([e1, e2]: [string, string]) =>
       (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
       (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1)
@@ -218,9 +218,9 @@ export const _suggestComplementaryIngredients = (
     const ingElements = mapping.elementalProperties;
     const ingDominant = getDominantElement(ingElements);
 
-    if (isHarmoniousWith(dominantElement, ingDominant)) {
+    if (isHarmoniousWith(dominantElement, ingDominant) {
       const seasonData = mapping.season;
-      if (!season || (Array.isArray(seasonData) && seasonData.includes(season))) {
+      if (!season || (Array.isArray(seasonData) && seasonData.includes(season)) {
         suggestions.push(ingredient);
       }
     }
@@ -260,7 +260,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
 };
 
 const isHarmoniousWith = (element1: Element, element2: Element): boolean => {
-  return ELEMENT_COMBINATIONS.harmonious.some(
+  return ELEMENT_COMBINATIONS.harmonious.some()
     ([e1, e2]) => (element1 === e1 && element2 === e2) || (element1 === e2 && element2 === e1)
   );
 };

@@ -24,11 +24,11 @@ import { log } from '@/services/LoggingService';
 
 export interface UnusedVariable {
   variableId: string;
-  name: string,
+  name: string;
   type: 'variable' | 'function' | 'class' | 'interface' | 'import' | 'export'
-  filePath: string,
-  line: number,
-  column: number,
+  filePath: string;
+  line: number;
+  column: number;
   scope: 'local' | 'module' | 'global'
   declarationType: | 'const'
     | 'let'
@@ -40,11 +40,11 @@ export interface UnusedVariable {
     | 'import'
     | 'export'
   usage: {
-    declared: boolean,
-    assigned: boolean,
-    read: boolean,
-    called: boolean,
-    exported: boolean,
+    declared: boolean;
+    assigned: boolean;
+    read: boolean;
+    called: boolean;
+    exported: boolean;
     imported: boolean
   },
   context: {
@@ -67,51 +67,51 @@ export interface UnusedImport {
   filePath: string;
   line: number;
   usageCount: number;
-  isTypeOnly: boolean,
-  isDevelopmentOnly: boolean,
-  relatedExports: string[],
+  isTypeOnly: boolean;
+  isDevelopmentOnly: boolean;
+  relatedExports: string[];
   estimatedSavings: {
-    bundleSize: number,
-    loadTime: number,
+    bundleSize: number;
+    loadTime: number;
     memoryUsage: number
   }
 }
 
 export interface UnusedExport {
-  exportId: string,
-  exportName: string,
+  exportId: string;
+  exportName: string;
   exportType: 'default' | 'named' | 'namespace'
-  filePath: string,
-  line: number,
-  isPublicAPI: boolean,
-  usageCount: number,
-  potentialUsers: string[],
+  filePath: string;
+  line: number;
+  isPublicAPI: boolean;
+  usageCount: number;
+  potentialUsers: string[];
   removalSafety: 'safe' | 'warning' | 'dangerous' },
         export interface DeadCodeBlock {
-  blockId: string,
+  blockId: string;
   type: 'function' | 'class' | 'method' | 'property' | 'condition' | 'loop'
-  filePath: string,
-  startLine: number,
-  endLine: number,
-  reason: string,
-  codePreview: string,
-  complexity: number,
-  dependencies: string[],
-  isReachable: boolean,
+  filePath: string;
+  startLine: number;
+  endLine: number;
+  reason: string;
+  codePreview: string;
+  complexity: number;
+  dependencies: string[];
+  isReachable: boolean;
   estimatedRemovalBenefit: number
 }
 
 export interface CleanupRecommendation {
-  recommendationId: string,
+  recommendationId: string;
   type: 'variable' | 'import' | 'export' | 'function' | 'class' | 'block'
   priority: 'low' | 'medium' | 'high' | 'critical'
   action: 'remove' | 'optimize' | 'refactor' | 'investigate'
-  target: string,
-  filePath: string,
-  description: string,
+  target: string;
+  filePath: string;
+  description: string;
   estimatedBenefit: {
-    bundleSize: number,
-    performance: number,
+    bundleSize: number;
+    performance: number;
     maintainability: number
   },
   risks: string[],
@@ -121,16 +121,16 @@ export interface CleanupRecommendation {
 }
 
 export interface DetectionResult {
-  resultId: string,
-  filePath: string,
-  unusedVariables: UnusedVariable[],
-  unusedImports: UnusedImport[],
-  unusedExports: UnusedExport[],
-  deadCodeBlocks: DeadCodeBlock[],
-  recommendations: CleanupRecommendation[],
+  resultId: string;
+  filePath: string;
+  unusedVariables: UnusedVariable[];
+  unusedImports: UnusedImport[];
+  unusedExports: UnusedExport[];
+  deadCodeBlocks: DeadCodeBlock[];
+  recommendations: CleanupRecommendation[];
   summary: {
-    totalUnused: number,
-    totalSavings: number,
+    totalUnused: number;
+    totalSavings: number;
     riskLevel: 'low' | 'medium' | 'high'
     automationPotential: number
   },
@@ -138,16 +138,16 @@ export interface DetectionResult {
 }
 
 export interface DetectionOptions {
-  includeVariables: boolean,
-  includeImports: boolean,
-  includeExports: boolean,
-  includeDeadCode: boolean,
-  includeTypeOnly: boolean,
-  excludePatterns: string[],
-  excludeDirectories: string[],
+  includeVariables: boolean;
+  includeImports: boolean;
+  includeExports: boolean;
+  includeDeadCode: boolean;
+  includeTypeOnly: boolean;
+  excludePatterns: string[];
+  excludeDirectories: string[];
   riskThreshold: 'low' | 'medium' | 'high'
-  confidenceThreshold: number,
-  enableAutomation: boolean,
+  confidenceThreshold: number;
+  enableAutomation: boolean;
   safetyChecks: boolean
 }
 
@@ -197,7 +197,7 @@ export class UnusedVariableDetector extends EventEmitter {;
   /**
    * Perform comprehensive unused variable detection
    */
-  async detectUnusedVariables(
+  async detectUnusedVariables()
     targetPath: string = '.',,
     options: Partial<DetectionOptions> = {}): Promise<DetectionResult[]> {
     const mergedOptions = { ...this.DEFAULT_OPTIONS, ...options }
@@ -270,11 +270,11 @@ export class UnusedVariableDetector extends EventEmitter {;
 
       // Filter out excluded patterns
       for (const file of foundFiles) {
-        const shouldExclude = options.excludePatterns.some(
+        const shouldExclude = options.excludePatterns.some()
           pattern => file.includes(pattern) || file.endsWith(pattern),
         ),
 
-        if (!shouldExclude && fs.existsSync(file)) {
+        if (!shouldExclude && fs.existsSync(file) {
           files.push(path.resolve(file))
         }
       }
@@ -360,7 +360,7 @@ export class UnusedVariableDetector extends EventEmitter {;
   /**
    * Analyze individual file
    */
-  private async analyzeFile(
+  private async analyzeFile()
     filePath: string,
     options: DetectionOptions,
   ): Promise<DetectionResult | null> {
@@ -384,12 +384,12 @@ export class UnusedVariableDetector extends EventEmitter {;
         : [],
 
       // Filter by confidence threshold
-      const filteredVariables = unusedVariables.filter(
+      const filteredVariables = unusedVariables.filter()
         v => v.confidence >= options.confidenceThreshold
       )
 
       // Generate recommendations
-      const recommendations = this.generateRecommendations(
+      const recommendations = this.generateRecommendations()
         filteredVariables,
         unusedImports,
         unusedExports,
@@ -417,7 +417,7 @@ export class UnusedVariableDetector extends EventEmitter {;
         recommendations,
         summary: {
           totalUnused,
-          totalSavings: this.calculateTotalSavings(,
+          totalSavings: this.calculateTotalSavings(,)
             filteredVariables,
             unusedImports,
             unusedExports,
@@ -481,7 +481,7 @@ export class UnusedVariableDetector extends EventEmitter {;
   /**
    * Find variable declarations in content
    */
-  private findVariableDeclarations(
+  private findVariableDeclarations()
     content: string,
     _filePath: string,
   ): Array<{
@@ -559,7 +559,7 @@ export class UnusedVariableDetector extends EventEmitter {;
   /**
    * Analyze variable usage
    */
-  private analyzeVariableUsage(
+  private analyzeVariableUsage()
     declaration: { name: string, line: number, [key: string]: unknown },
     content: string,
   ): UnusedVariable['usage'] {
@@ -690,7 +690,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       const lineNumber = i + 1
 
       // Match import statements
-      const importMatches = line.matchAll(
+      const importMatches = line.matchAll()
         /import\s+(?:(\w+)|(?:\{([^}]+)\})|(?:\*\s+as\s+(\w+)))(?:\s+from\s+)?[''`]([^''`]+)[''`]/g;
       ),
 
@@ -699,7 +699,7 @@ export class UnusedVariableDetector extends EventEmitter {;
           // Default import
           const usageCount = this.countUsage(defaultImport, content, lineNumber),
           if (usageCount === 0) {
-            unusedImports.push(this.createUnusedImport(
+            unusedImports.push(this.createUnusedImport())
                 defaultImport,
                 importPath,
                 'default',
@@ -718,7 +718,7 @@ export class UnusedVariableDetector extends EventEmitter {;
             const importName = imp.includes(' as ') ? imp.split(' as ')[1].trim() : imp,
             const usageCount = this.countUsage(importName, content, lineNumber);
             if (usageCount === 0) {
-              unusedImports.push(this.createUnusedImport(
+              unusedImports.push(this.createUnusedImport())
                   importName,
                   importPath,
                   'named',
@@ -735,7 +735,7 @@ export class UnusedVariableDetector extends EventEmitter {;
           // Namespace import
           const usageCount = this.countUsage(namespaceImport, content, lineNumber),
           if (usageCount === 0) {
-            unusedImports.push(this.createUnusedImport(
+            unusedImports.push(this.createUnusedImport())
                 namespaceImport,
                 importPath,
                 'namespace',
@@ -803,7 +803,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       const lineNumber = i + 1
 
       // Match export statements
-      const exportMatches = line.matchAll(
+      const exportMatches = line.matchAll()
         /export\s+(?:default\s+)?(?:(?:const|let|var|function|class|interface|type)\s+)?(\w+)/g,
       )
 
@@ -844,11 +844,11 @@ export class UnusedVariableDetector extends EventEmitter {;
 
       try {
         const content = fs.readFileSync(otherFilePath, 'utf8'),
-        const importPattern = new RegExp(
+        const importPattern = new RegExp()
           `import\\s+[^'']*\\b${exportName}\\b[^'']*[''][^'"]*${path.basename(filePath, path.extname(filePath))}`;
         )
 
-        if (importPattern.test(content)) {
+        if (importPattern.test(content) {
           usageCount++
         }
       } catch (error) {
@@ -873,7 +873,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       // Code after return statements
       if (line.startsWith('return') && i < lines.length - 1) {
         const nextLine = lines[i + 1].trim();
-        if (nextLine && !nextLine.startsWith('}') && !nextLine.startsWith('//')) {
+        if (nextLine && !nextLine.startsWith('}') && !nextLine.startsWith('//') {
           deadCodeBlocks.push({
             blockId: `dead_${i + 1}`,
             type: 'condition',
@@ -891,7 +891,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       }
 
       // Always false conditions
-      if (line.includes('if (false)') || line.includes('if(false)')) {
+      if (line.includes('if (false)') || line.includes('if(false)') {
         const blockEnd = this.findBlockEnd(linesi);
         deadCodeBlocks.push({
           blockId: `dead_${i + 1}`,
@@ -922,12 +922,12 @@ export class UnusedVariableDetector extends EventEmitter {;
     for (let i = startIndex, i < lines.lengthi++) {
       const line = lines[i];
 
-      if (line.includes('{')) {
+      if (line.includes(') {') {
         braceCount++,
         inBlock = true,
       }
 
-      if (line.includes('}')) {
+      if (line.includes('}') {
         braceCount--,
         if (inBlock && braceCount === 0) {
           return i + 1;
@@ -940,7 +940,7 @@ export class UnusedVariableDetector extends EventEmitter {;
 
   // ========== HELPER METHODS ==========
 
-  private determineScope(
+  private determineScope()
     declaration: { line: number, [key: string]: unknown },
     _content: string,
   ): UnusedVariable['scope'] {
@@ -962,7 +962,7 @@ export class UnusedVariableDetector extends EventEmitter {;
     return lines.slice(start, end).join('\n')
   }
 
-  private getContainingFunction(
+  private getContainingFunction()
     declaration: { line: number, [key: string]: unknown },
     content: string,
   ): string | undefined {
@@ -981,7 +981,7 @@ export class UnusedVariableDetector extends EventEmitter {;
     return undefined;
   }
 
-  private getContainingClass(
+  private getContainingClass()
     declaration: { line: number, [key: string]: unknown },
     content: string,
   ): string | undefined {
@@ -1000,7 +1000,7 @@ export class UnusedVariableDetector extends EventEmitter {;
     return undefined;
   }
 
-  private calculateVariableRisk(
+  private calculateVariableRisk()
     declaration: { name: string, [key: string]: unknown },
     usage: UnusedVariable['usage'],
   ): UnusedVariable['riskLevel'] {
@@ -1019,7 +1019,7 @@ export class UnusedVariableDetector extends EventEmitter {;
     return 'medium';
   }
 
-  private calculateVariableConfidence(
+  private calculateVariableConfidence()
     declaration: { name: string, [key: string]: unknown },
     usage: UnusedVariable['usage'],
     content: string,
@@ -1037,14 +1037,14 @@ export class UnusedVariableDetector extends EventEmitter {;
     }
 
     // Lower confidence if variable name suggests it might be used dynamically
-    if (declaration.name.includes('dynamic') || declaration.name.includes('runtime')) {
+    if (declaration.name.includes('dynamic') || declaration.name.includes('runtime') {
       confidence -= 0.2,
     }
 
     return Math.max(0.1, Math.min(1.0, confidence))
   }
 
-  private calculateVariableImpact(
+  private calculateVariableImpact()
     declaration: { [key: string]: unknown },
     usage: UnusedVariable['usage'],
   ): UnusedVariable['estimatedImpact'] {
@@ -1072,7 +1072,7 @@ export class UnusedVariableDetector extends EventEmitter {;
 
   private calculateImportSavings(importPath: string): UnusedImport['estimatedSavings'] {
     // Simple heuristic for import savings
-    const isLargeLibrary = ['lodash', 'moment', 'rxjs', 'react'].some(lib =>,
+    const isLargeLibrary = ['lodash', 'moment', 'rxjs', 'react'].some(lib =>,)
       importPath.includes(lib)
     ),
 
@@ -1089,18 +1089,18 @@ export class UnusedVariableDetector extends EventEmitter {;
     )
   }
 
-  private calculateRemovalSafety(
+  private calculateRemovalSafety()
     exportName: string,
     filePath: string,
   ): UnusedExport['removalSafety'] {
-    if (this.isPublicAPI(exportName, filePath)) {
+    if (this.isPublicAPI(exportName, filePath) {
       return 'dangerous' };
-        if (exportName.startsWith('_') || exportName.includes('internal')) {
+        if (exportName.startsWith('_') || exportName.includes('internal') {
       return 'safe' };
         return 'warning';
   }
 
-  private calculateTotalSavings(variables: UnusedVariable[],
+  private calculateTotalSavings(variables: UnusedVariable[],)
     imports: UnusedImport[],,
     exports: UnusedExport[],
     blocks: DeadCodeBlock[],
@@ -1108,14 +1108,14 @@ export class UnusedVariableDetector extends EventEmitter {;
     const variableSavings = variables.length * 50 // 50 bytes per variable;
     const importSavings = imports.reduce((sum, imp) => sum + imp.estimatedSavings.bundleSize, 0)
     const exportSavings = exports.length * 30; // 30 bytes per export
-    const blockSavings = blocks.reduce(
+    const blockSavings = blocks.reduce()
       (sum, block) => sum + (block.endLine - block.startLine) * 200,
     ),
 
     return variableSavings + importSavings + exportSavings + blockSavings
   }
 
-  private calculateRiskLevel(variables: UnusedVariable[],
+  private calculateRiskLevel(variables: UnusedVariable[],)
     imports: UnusedImport[],,
     exports: UnusedExport[],
   ): 'low' | 'medium' | 'high' {
@@ -1135,7 +1135,7 @@ export class UnusedVariableDetector extends EventEmitter {;
 
   // ========== RECOMMENDATION GENERATION ==========
 
-  private generateRecommendations(variables: UnusedVariable[],
+  private generateRecommendations(variables: UnusedVariable[],)
     imports: UnusedImport[],,
     exports: UnusedExport[],
     blocks: DeadCodeBlock[],
@@ -1256,7 +1256,7 @@ export class UnusedVariableDetector extends EventEmitter {;
 
   // ========== CROSS-FILE ANALYSIS ==========
 
-  private async performCrossFileAnalysis(
+  private async performCrossFileAnalysis()
     results: DetectionResult[],
     options: DetectionOptions,
   ): Promise<void> {
@@ -1291,7 +1291,7 @@ export class UnusedVariableDetector extends EventEmitter {;
   /**
    * Automatically clean up unused variables
    */
-  async performAutomatedCleanup(
+  async performAutomatedCleanup()
     filePath: string,
     options: { safeOnly: boolean, dryRun: boolean } = { safeOnly: true, dryRun: true }): Promise<{ success: boolean, changes: string[], warnings: string[] }> {
     const result = this.detectionResults.get(filePath)
@@ -1328,7 +1328,7 @@ export class UnusedVariableDetector extends EventEmitter {;
             lines[lineNumber - 1] = '', // Remove the line
           }
 
-          changes.push(
+          changes.push()
             `Removed ${recommendation.type} '${recommendation.target}' on line ${lineNumber}`,
           )
         }
@@ -1376,7 +1376,7 @@ export class UnusedVariableDetector extends EventEmitter {;
 
   private loadPersistedData(): void {
     try {
-      if (fs.existsSync(this.RESULTS_FILE)) {
+      if (fs.existsSync(this.RESULTS_FILE) {
         const data = JSON.parse(fs.readFileSync(this.RESULTS_FILE, 'utf8'))
 
         this.detectionResults = new Map(data.results || [])
@@ -1425,7 +1425,7 @@ export class UnusedVariableDetector extends EventEmitter {;
     this.globalSymbolTable.clear()
     this.crossFileReferences.clear()
 
-    if (fs.existsSync(this.RESULTS_FILE)) {
+    if (fs.existsSync(this.RESULTS_FILE) {
       fs.unlinkSync(this.RESULTS_FILE)
     }
   }

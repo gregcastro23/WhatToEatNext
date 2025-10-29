@@ -1,54 +1,54 @@
-// Removed unused ElementalProperties import
 import { _logger } from '@/lib/logger';
 import type { RecipeIngredient } from '@/types/recipe';
+import type { Recipe } from '@/types/recipe';
 
-export function validateIngredientData(boolean {
+export function validateIngredientData(recipes: Recipe[]): boolean {
   const missingElementals: RecipeIngredient[] = [];
 
   recipes.forEach((recipe) => {
-    recipe.ingredients.forEach(ingredient => ) {) {
+    recipe.ingredients.forEach((ingredient) => {
       if (!ingredient.elementalProperties) {
         missingElementals.push(ingredient);
-        // Set default values to prevent runtime errors;
-        ingredient.elementalProperties = { Fire: 0, Water: 0, Air: 0, Earth: 0 }
+        // Set default values to prevent runtime errors
+        ingredient.elementalProperties = { Fire: 0, Water: 0, Air: 0, Earth: 0 };
       } else {
         // Ensure all elemental properties exist
-        const elements = ['Fire', 'Water', 'Air', 'Earth'] as const,
-        elements.forEach(element => ) {
+        const elements = ['Fire', 'Water', 'Air', 'Earth'] as const;
+        elements.forEach((element) => {
           if (
             ingredient.elementalProperties &&
             ingredient.elementalProperties[element] === undefined
           ) {
-            if (ingredient.elementalProperties) {;
+            if (ingredient.elementalProperties) {
               ingredient.elementalProperties[element] = 0;
             }
           }
-        })
+        });
       }
-    })
-  })
+    });
+  });
 
   if (missingElementals.length > 0) {
     _logger.warn(
-      `Found ${missingElementals.length} ingredients with missing elemental properties: `,
-      missingElementals,
-    )
+      `Found ${missingElementals.length} ingredients with missing elemental properties`,
+      missingElementals
+    );
   }
 
   return missingElementals.length === 0;
 }
 
-export function validateIngredients( string[] {
-  let validationErrors: string[] = [];
+export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
+  const validationErrors: string[] = [];
 
-  // Check that ingredients is an array) {
+  // Check that ingredients is an array
   if (!Array.isArray(ingredients)) {
     return ['Ingredients must be an array'];
   }
 
   // Validate each ingredient
   ingredients.forEach((ingredient, index) => {
-    const errors: string[] = []
+    const errors: string[] = [];
 
     if (!ingredient) {
       errors.push(`Ingredient at position ${index} is undefined`);
@@ -60,26 +60,26 @@ export function validateIngredients( string[] {
       errors.push(`Ingredient at position ${index} is missing elementalProperties`);
     } else {
       // Check that each element has a valid value
-      (['Fire', 'Water', 'Earth', 'Air'] as, const).forEach(element => ) {
+      (['Fire', 'Water', 'Earth', 'Air'] as const).forEach((element) => {
         if (
           ingredient.elementalProperties &&
           ingredient.elementalProperties[element] === undefined
         ) {
           errors.push(
-            `Ingredient ${ingredient.name || index} is missing ${element} elementalProperty`,
-          )
+            `Ingredient ${ingredient.name || index} is missing ${element} elementalProperty`
+          );
           if (ingredient.elementalProperties) {
             ingredient.elementalProperties[element] = 0;
           }
         }
-      })
+      });
     }
 
     // Add all errors for this ingredient
     if (errors.length > 0) {
-      validationErrors = [...validationErrors, ...errors],
+      validationErrors.push(...errors);
     }
-  })
+  });
 
   return validationErrors;
 }

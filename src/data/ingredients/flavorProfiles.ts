@@ -1,11 +1,11 @@
 import type { Ingredient } from '@/types/alchemy';
 
 export interface IngredientFlavorProfile {
-  spicy: number,
-  sweet: number,
-  sour: number,
-  bitter: number,
-  salty: number,
+  spicy: number;
+  sweet: number;
+  sour: number;
+  bitter: number;
+  salty: number;
   umami: number
 }
 
@@ -366,26 +366,26 @@ export function getFlavorProfileForIngredient(_ingredientName: string): Ingredie
     const fullIngredient = ingredientFlavorMap[ingredientName.toLowerCase()];
     // Extract only the flavor profile properties to match IngredientFlavorProfile interface
     return {
-      spicy: fullIngredient.spicy,
-      sweet: fullIngredient.sweet,
-      sour: fullIngredient.sour,
-      bitter: fullIngredient.bitter,
-      salty: fullIngredient.salty,
+      spicy: fullIngredient.spicy;
+      sweet: fullIngredient.sweet;
+      sour: fullIngredient.sour;
+      bitter: fullIngredient.bitter;
+      salty: fullIngredient.salty;
       umami: fullIngredient.umami
     }
   }
 
   // Try to find partial matches
   const nameLower = ingredientName.toLowerCase();
-  for (const [key, profile] of Object.entries(ingredientFlavorMap)) {
-    if (nameLower.includes(key.toLowerCase()) || key.toLowerCase().includes(nameLower)) {
+  for (const [key, profile] of Object.entries(ingredientFlavorMap) {
+    if (nameLower.includes(key.toLowerCase()) || key.toLowerCase().includes(nameLower) {
       // Extract only the flavor profile properties to match IngredientFlavorProfile interface
       return {
-        spicy: profile.spicy,
-        sweet: profile.sweet,
-        sour: profile.sour,
-        bitter: profile.bitter,
-        salty: profile.salty,
+        spicy: profile.spicy;
+        sweet: profile.sweet;
+        sour: profile.sour;
+        bitter: profile.bitter;
+        salty: profile.salty;
         umami: profile.umami
       }
     }

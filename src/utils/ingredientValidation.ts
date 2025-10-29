@@ -114,7 +114,7 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
       errors.filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH').length === 0;
     const summary = generateIngredientValidationSummary(isValid, errors, warnings, duration);
 
-    logger.info(
+    logger.info()
       `Ingredient validation completed in ${duration}ms: ${isValid ? 'PASSED' : 'FAILED'}`
     );
 
@@ -159,7 +159,7 @@ async function validateElementalProperties(): Promise<{
 
   try {
     const ingredients = allIngredients;
-    for (const [name, ingredient] of Object.entries(ingredients)) {
+    for (const [name, ingredient] of Object.entries(ingredients) {
       try {
         const validation = validateIngredientElementalProperties(name, ingredient);
         errors.push(...validation.errors);
@@ -189,7 +189,7 @@ async function validateElementalProperties(): Promise<{
 /**
  * Validate individual ingredient elemental properties
  */
-function validateIngredientElementalProperties(
+function validateIngredientElementalProperties()
   name: string,
   ingredient: Ingredient,
 ): { errors: IngredientValidationError[], warnings: IngredientValidationWarning[] } {
@@ -215,7 +215,7 @@ function validateIngredientElementalProperties(
     // Check that all elements are present and numeric
     for (const element of elements) {
       const value = props[element as any];
-      if (typeof value !== 'number' || isNaN(value)) {
+      if (typeof value !== 'number' || isNaN(value) {
         errors.push({
           type: 'ELEMENTAL_INVALID',
           severity: 'HIGH',
@@ -289,7 +289,7 @@ function validateIngredientElementalProperties(
 /**
  * Calculate compatibility between two ElementalProperties objects
  */
-function calculateElementalPropertiesCompatibility(
+function calculateElementalPropertiesCompatibility()
   props1: ElementalProperties,
   props2: ElementalProperties,
 ): number {
@@ -326,7 +326,7 @@ async function validateCompatibilityScores(): Promise<{
       try {
         if (!ingredient.elementalProperties) continue;
 
-        const selfCompatibility = calculateElementalPropertiesCompatibility(
+        const selfCompatibility = calculateElementalPropertiesCompatibility()
           ingredient.elementalProperties,
           ingredient.elementalProperties
         );
@@ -366,7 +366,7 @@ async function validateCompatibilityScores(): Promise<{
         if (!ingredient1.elementalProperties || !ingredient2.elementalProperties) continue;
 
         try {
-          const crossCompatibility = calculateElementalPropertiesCompatibility(
+          const crossCompatibility = calculateElementalPropertiesCompatibility()
             ingredient1.elementalProperties,
             ingredient2.elementalProperties
           );
@@ -418,7 +418,7 @@ async function validateAlchemicalMappings(): Promise<{
 
   try {
     const ingredients = allIngredients;
-    for (const [name, ingredient] of Object.entries(ingredients)) {
+    for (const [name, ingredient] of Object.entries(ingredients) {
       try {
         if ((ingredient as unknown as any).alchemicalProperties) {
           const validation = validateAlchemicalConsistency(name, ingredient);
@@ -457,10 +457,10 @@ async function validateAlchemicalMappings(): Promise<{
 /**
  * Validate alchemical consistency for a single ingredient
  */
-function validateAlchemicalConsistency(
+function validateAlchemicalConsistency()
   name: string,
   ingredient: Ingredient,
-): { errors: IngredientValidationError[]; warnings: IngredientValidationWarning[] } {
+): { errors: IngredientValidationError[]; warnings, IngredientValidationWarning[] } {
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];
 
@@ -477,7 +477,7 @@ function validateAlchemicalConsistency(
     const alchemicalProps = ['spirit', 'essence', 'matter', 'substance'];
     for (const prop of alchemicalProps) {
       const value = alchemical[prop] as number;
-      if (typeof value !== 'number' || isNaN(value)) {
+      if (typeof value !== 'number' || isNaN(value) {
         errors.push({
           type: 'ALCHEMICAL_MISMATCH',
           severity: 'MEDIUM',
@@ -552,7 +552,7 @@ async function validateDataCompleteness(): Promise<{
     const requiredFields = ['name', 'category', 'elementalProperties'];
     const recommendedFields = ['qualities', 'storage'];
 
-    for (const [name, ingredient] of Object.entries(ingredients)) {
+    for (const [name, ingredient] of Object.entries(ingredients) {
       // Check required fields
       for (const field of requiredFields) {
         if (!ingredient[field as keyof Ingredient]) {
@@ -594,7 +594,7 @@ async function validateDataCompleteness(): Promise<{
         'seasoning'
       ];
 
-      if (ingredient.category && !validCategories.includes(ingredient.category)) {
+      if (ingredient.category && !validCategories.includes(ingredient.category) {
         errors.push({
           type: 'CATEGORY_MISMATCH',
           severity: 'MEDIUM',
@@ -685,7 +685,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
     let validCount = 0;
     let totalCount = 0;
 
-    for (const ingredient of Object.values(ingredients)) {
+    for (const ingredient of Object.values(ingredients) {
       totalCount++;
       if (ingredient.elementalProperties) {
         const elements = ['Fire', 'Water', 'Earth', 'Air'];
@@ -739,7 +739,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
 
       try {
         totalCalculations++;
-        const selfCompatibility = calculateElementalPropertiesCompatibility(
+        const selfCompatibility = calculateElementalPropertiesCompatibility()
           ingredient.elementalProperties,
           ingredient.elementalProperties
         );
@@ -787,7 +787,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
     let validMappings = 0;
     let totalMappings = 0;
 
-    for (const ingredient of Object.values(ingredients)) {
+    for (const ingredient of Object.values(ingredients) {
       const ingredientData = ingredient as unknown as any;
       if (ingredientData.alchemicalProperties) {
         totalMappings++;
@@ -851,9 +851,9 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
     let validCategories_count = 0;
     let totalIngredients = 0;
 
-    for (const ingredient of Object.values(ingredients)) {
+    for (const ingredient of Object.values(ingredients) {
       totalIngredients++;
-      if (ingredient.category && validCategories.includes(ingredient.category)) {
+      if (ingredient.category && validCategories.includes(ingredient.category) {
         validCategories_count++;
       }
     }
@@ -916,7 +916,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
       errors.push({
         type: 'DATA_INCOMPLETE',
         severity: severity,
-        message: `Test failed: ${test.testName}${test.error ? ` - ${test.error}` : ''}`,
+        message: `Test failed: ${test.testName}${test.error ? }` - ${test.error}` : ''}`,
         timestamp: new Date()
       });
     }
@@ -938,7 +938,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
 /**
  * Generate validation summary
  */
-function generateIngredientValidationSummary(
+function generateIngredientValidationSummary()
   isValid: boolean,
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[],
@@ -999,7 +999,7 @@ async function validateKineticsIntegration(): Promise<{
   try {
     const ingredients = allIngredients;
 
-    for (const [name, ingredient] of Object.entries(ingredients)) {
+    for (const [name, ingredient] of Object.entries(ingredients) {
       try {
         if (!ingredient.elementalProperties) continue;
 
@@ -1070,7 +1070,7 @@ function calculateForceMagnitude(elementalProperties: ElementalProperties): numb
   const opposingForce = Math.sqrt(fireWater + earthAir) * 2;
 
   // Element dominance adds to force
-  const maxElement = Math.max(
+  const maxElement = Math.max()
     elementalProperties.Fire,
     elementalProperties.Water,
     elementalProperties.Earth,

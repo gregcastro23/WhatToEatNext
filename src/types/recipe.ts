@@ -7,28 +7,28 @@ import {
 
 // Primary elemental properties interface - used throughout the application
 export interface ElementalProperties {
-  Fire: number,
-  Water: number,
-  Earth: number,
-  Air: number,
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
   [key: string]: number // Allow indexing with string
 }
 
 // Basic recipe ingredient interface
 export interface RecipeIngredient {
   id?: string
-  name: string,
+  name: string;
   amount: number, // Keep as number for calculations,
-  unit: string,
-  category?: string,
-  optional?: boolean,
-  preparation?: string,
-  notes?: string,
-  function?: string,
-  cookingPoint?: string,
-  substitutes?: string[],
-  elementalProperties?: ElementalProperties,
-  seasonality?: string[],
+  unit: string;
+  category?: string;
+  optional?: boolean;
+  preparation?: string;
+  notes?: string;
+  function?: string;
+  cookingPoint?: string;
+  substitutes?: string[];
+  elementalProperties?: ElementalProperties;
+  seasonality?: string[];
 
   // Astrological associations
   zodiacInfluences?: any[]
@@ -39,62 +39,62 @@ export interface RecipeIngredient {
 // Unified Recipe interface - consolidates all previous recipe types
 export interface Recipe {
   // Core identification
-  id: string,
-  name: string,
+  id: string;
+  name: string;
   description?: string
   cuisine?: string
 
   // Ingredients and instructions
-  ingredients: RecipeIngredient[],
-  instructions: string[],
+  ingredients: RecipeIngredient[];
+  instructions: string[];
 
   // Time and serving information
   timeToMake?: string
-  prepTime?: string,
-  cookTime?: string,
-  totalTime?: string,
-  restTime?: string,
-  servingSize?: number,
-  numberOfServings?: number,
+  prepTime?: string;
+  cookTime?: string;
+  totalTime?: string;
+  restTime?: string;
+  servingSize?: number;
+  numberOfServings?: number;
   yield?: string
 
   // Elemental properties (required)
-  elementalProperties: ElementalProperties,
+  elementalProperties: ElementalProperties;
 
   // Meal and cuisine classification
   mealType?: string | string[]
-  season?: string | string[],
-  course?: string[],
+  season?: string | string[];
+  course?: string[];
   dishType?: string[]
 
   // Dietary considerations
   isVegetarian?: boolean
-  isVegan?: boolean,
-  isGlutenFree?: boolean,
-  isDairyFree?: boolean,
-  isNutFree?: boolean,
-  isLowCarb?: boolean,
-  isKeto?: boolean,
-  isPaleo?: boolean,
+  isVegan?: boolean;
+  isGlutenFree?: boolean;
+  isDairyFree?: boolean;
+  isNutFree?: boolean;
+  isLowCarb?: boolean;
+  isKeto?: boolean;
+  isPaleo?: boolean;
   allergens?: string[]
 
   // Culinary details
   cookingMethod?: string[]
-  cookingTechniques?: string[],
-  equipmentNeeded?: string[],
-  skillsRequired?: string[],
+  cookingTechniques?: string[];
+  equipmentNeeded?: string[];
+  skillsRequired?: string[];
   spiceLevel?: number | 'mild' | 'medium' | 'hot' | 'very hot'
 
   // Flavor and sensory
   flavorProfile?: {
     primary?: string[]
-    accent?: string[],
-    base?: string[],
+    accent?: string[];
+    base?: string[];
     tasteBalance?: {
-      sweet: number,
-      salty: number,
-      sour: number,
-      bitter: number,
+      sweet: number;
+      salty: number;
+      sour: number;
+      bitter: number;
       umami: number
     }
   }
@@ -227,7 +227,7 @@ export const validateElementalProperties = (properties?: ElementalProperties): b
   if (!properties) return false
 ;
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'] as const,
-  if (!requiredElements.every(element => typeof properties[element] === 'number')) {;
+  if (!requiredElements.every(element => typeof properties[element] === 'number') {;
     return false;
   }
 
@@ -285,17 +285,17 @@ export type TimeOfDay = 'morning' | 'noon' | 'evening' | 'night'
 // Enhanced Recipe interface with culinary details
 export interface RecipeDetail {
   // Basic Information;
-  id: string,
-  name: string,
-  description: string,
-  cuisine: string,
+  id: string;
+  name: string;
+  description: string;
+  cuisine: string;
 
   // Time & Serving
   prepTime: string // e.g., '20 minutes',
   cookTime: string // e.g., '45 minutes',
   totalTime?: string; // Optional calculated total
   restTime?: string; // For recipes that need resting/marinating
-  numberOfServings: number,
+  numberOfServings: number;
   yield?: string; // For recipes that produce specific amounts
 
   // Culinary Classifications
@@ -311,11 +311,11 @@ export interface RecipeDetail {
 
   // Ingredients (enhanced)
   ingredients: {
-    name: string,
-    amount: string,
-    unit: string,
+    name: string;
+    amount: string;
+    unit: string;
     preparation: string, // e.g., 'finely diced', 'julienned',
-    optional: boolean,
+    optional: boolean;
     substitutes?: string[]; // Possible substitutions
     notes?: string; // Special notes about the ingredient
     category: string // e.g., 'protein', 'vegetable', 'spice',
@@ -456,10 +456,10 @@ export interface RecipeDetail {
 }
 
 export interface RecipeProps {
-  recipe: Recipe,
+  recipe: Recipe;
   // Add these props to the interface if they're needed
   score?: number
-  elements?: ElementalProperties,
+  elements?: ElementalProperties;
   dominantElements?: [string, number][]
 }
 
@@ -467,14 +467,14 @@ export interface RecipeProps {
 
 // RecipeSearchCriteria (causing error in LegacyRecipeAdapter.ts)
 export interface RecipeSearchCriteria {
-  cuisine?: string[],
-  mealType?: string[],
-  season?: string[],
-  dietaryRestrictions?: string[],
-  cookingMethods?: string[],
+  cuisine?: string[];
+  mealType?: string[];
+  season?: string[];
+  dietaryRestrictions?: string[];
+  cookingMethods?: string[];
   prepTimeRange?: {
-    min?: number,
-    max?: number,
+    min?: number;
+    max?: number;
   }
   servings?: {
     min?: number,
@@ -489,11 +489,11 @@ export interface RecipeSearchCriteria {
 
 // ingredient (lowercase - likely a simple ingredient type)
 export interface ingredient {
-  id: string,
-  name: string,
-  category: string,
+  id: string;
+  name: string;
+  category: string;
   nutritionalProfile?: unknown
-  elementalProperties?: ElementalProperties,
+  elementalProperties?: ElementalProperties;
 }
 
 // IngredientMapping (re-export from alchemy, likely needed here too)
@@ -504,27 +504,27 @@ export interface IngredientMapping {
 // nutritionInfo (causing error in recipeMatching.ts)
 export interface nutritionInfo {
   calories?: number
-  protein?: number,
-  carbs?: number,
-  fat?: number,
-  fiber?: number,
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  fiber?: number;
   vitamins?: Record<string, number>,
   minerals?: Record<string, number>,
-  servingSize?: string,
-  allergens?: string[],
+  servingSize?: string;
+  allergens?: string[];
 }
 
 // RecipeFilters (causing error in recipeFilters.ts)
 export interface RecipeFilters {
   cuisine?: string[]
-  mealType?: string[],
-  season?: string[],
-  cookingMethod?: string[],
-  dietaryRestrictions?: string[],
-  spiceLevel?: string[],
+  mealType?: string[];
+  season?: string[];
+  cookingMethod?: string[];
+  dietaryRestrictions?: string[];
+  spiceLevel?: string[];
   prepTime?: {
-    min?: number,
-    max?: number,
+    min?: number;
+    max?: number;
   }
   difficulty?: string[],
   elements?: {
@@ -547,15 +547,15 @@ export type RecipeIdentifier = string;
 export type RecipeSeason = Season | string;
 
 export interface RecipeNutrition {
-  calories?: number,
-  protein?: number,
-  carbs?: number,
-  fat?: number,
-  vitamins?: string[],
-  minerals?: string[],
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  vitamins?: string[];
+  minerals?: string[];
   macronutrients?: {
-    protein?: number,
-    carbs?: number,
+    protein?: number;
+    carbs?: number;
     fat?: number;
   };
   micronutrients?: {
@@ -565,7 +565,7 @@ export interface RecipeNutrition {
 }
 
 export interface RecipePlanetaryInfluences {
-  _favorable: string[],
-  unfavorable: string[],
+  _favorable: string[];
+  unfavorable: string[];
   neutral?: string[];
 }

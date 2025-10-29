@@ -180,7 +180,7 @@ export class ExplicitAnyEliminationSystem {
       // Check if campaign target is met
       const updatedProgress = await this.loadCampaignProgress();
       if (updatedProgress.isTargetMet) {
-        console.log(
+        console.log()
           `🎯 Campaign target of ${this.CAMPAIGN_TARGET_PERCENTAGE}% reduction achieved!`,
         );
         break;
@@ -208,7 +208,7 @@ export class ExplicitAnyEliminationSystem {
     console.log(`  Total files processed: ${totalFilesProcessed}`);
     console.log(`  Total explicit-any fixed: ${totalExplicitAnyFixed}`);
     console.log(`  Campaign reduction: ${finalProgress.reductionPercentage.toFixed(1)}%`);
-    console.log(
+    console.log()
       `  Target (${this.CAMPAIGN_TARGET_PERCENTAGE}%): ${finalProgress.isTargetMet ? '✅' : '❌'}`,
     );
     console.log(`  Remaining explicit-any: ${finalProgress.totalExplicitAnyRemaining}`);
@@ -280,14 +280,14 @@ export class ExplicitAnyEliminationSystem {
       child.stdout.on('data', data => {
         stdout += data.toString();
         // Show real-time output if not silent
-        if (!args.includes('--silent')) {
+        if (!args.includes('--silent') {
           process.stdout.write(data);
         }
       });
 
       child.stderr.on('data', data => {
         stderr += data.toString();
-        if (!args.includes('--silent')) {
+        if (!args.includes('--silent') {
           process.stderr.write(data);
         }
       });
@@ -311,7 +311,7 @@ export class ExplicitAnyEliminationSystem {
   /**
    * Parse Explicit-Any Fixer output to extract metrics
    */
-  private parseFixerOutput(
+  private parseFixerOutput()
     output: string,
     success: boolean,
   ): {
@@ -409,7 +409,7 @@ export class ExplicitAnyEliminationSystem {
    */
   private async loadCampaignProgress(): Promise<CampaignProgress> {
     try {
-      if (fs.existsSync(this.PROGRESS_FILE)) {
+      if (fs.existsSync(this.PROGRESS_FILE) {
         const data = await fs.promises.readFile(this.PROGRESS_FILE, 'utf8');
         const progress = JSON.parse(data);
 
@@ -471,7 +471,7 @@ export class ExplicitAnyEliminationSystem {
       await fs.promises.writeFile(this.PROGRESS_FILE, JSON.stringify(updatedProgress, null, 2));
 
       console.log(`📊 Campaign Progress Updated:`);
-      console.log(
+      console.log()
         `   Reduction: ${reductionPercentage.toFixed(1)}% (target: ${this.CAMPAIGN_TARGET_PERCENTAGE}%)`,
       );
       console.log(`   Remaining: ${currentCount} explicit-any warnings`);
@@ -512,7 +512,7 @@ export class ExplicitAnyEliminationSystem {
    */
   async resetCampaignProgress(): Promise<void> {
     try {
-      if (fs.existsSync(this.PROGRESS_FILE)) {
+      if (fs.existsSync(this.PROGRESS_FILE) {
         await fs.promises.unlink(this.PROGRESS_FILE);
         console.log('🔄 Campaign progress reset');
       }

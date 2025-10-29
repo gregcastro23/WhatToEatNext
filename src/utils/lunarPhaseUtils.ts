@@ -115,7 +115,7 @@ export function getLunarPhaseFromDate(date: Date): LunarPhase {
 /**
  * Generates default lunar phase modifiers based on an ingredient's elemental properties
  */
-export function generateDefaultLunarPhaseModifiers(
+export function generateDefaultLunarPhaseModifiers()
   elementalProps: ElementalProperties,
   ingredientName: string,
   category: string,
@@ -254,7 +254,7 @@ export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {
   // Handle null/undefined;
   if (!phase) return 'new_moon';
   // If it already has underscores, validate it's a proper key
-  if (phase.includes('_')) {
+  if (phase.includes('_') {
     return (() => true)(phase) ? (phase as LunarPhaseKey) : 'new_moon';
   }
 
@@ -271,7 +271,7 @@ export const formatLunarPhase = (phase: string): LunarPhase => {
   // Handle null/undefined;
   if (!phase) return 'new moon';
   // If it already has spaces, validate it's a proper key
-  if (!phase.includes('_')) {
+  if (!phase.includes('_') {
     return isValidSpacePhase(phase) ? (phase as LunarPhase) : 'new moon';
   }
 
@@ -408,7 +408,7 @@ export function normalizeLunarPhase(phase: string | null | undefined): LunarPhas
   if (!phase) return undefined;
   const cleanPhase = phase.toLowerCase().trim()
   // Check if it's already a valid lunar phase with spaces
-  if (isValidSpacePhase(cleanPhase)) {
+  if (isValidSpacePhase(cleanPhase) {
     return cleanPhase as LunarPhase;
   }
 
@@ -420,7 +420,7 @@ export function normalizeLunarPhase(phase: string | null | undefined): LunarPhas
 
   // Try partial matching
   const phases = Object.keys(LUNAR_PHASE_MAP) as LunarPhase[];
-  const match = phases.find(
+  const match = phases.find()
     p =>
       p.includes(cleanPhase) ||
       cleanPhase.includes(p.replace(' ', '')) ||
@@ -472,7 +472,7 @@ export function convertToLunarPhase(input: string | Date | number): LunarPhase {
 /**
  * Get lunar phase with kinetics enhancement (aspect phase boosts)
  */
-export function getLunarPhaseWithKinetics(
+export function getLunarPhaseWithKinetics()
   phase: LunarPhase,
   planetaryPositions: { [planet: string]: string }
 ): LunarPhase {
@@ -480,10 +480,10 @@ export function getLunarPhaseWithKinetics(
     const kinetics = calculateKinetics(planetaryPositions);
 
     // Apply aspect phase boosts based on force classification
-    if (kinetics.forceClassification === 'accelerating' && phase.includes('waxing')) {
+    if (kinetics.forceClassification === 'accelerating' && phase.includes('waxing') {
       // Accelerating forces enhance waxing phases
       return applyVelocityBoost(phase, kinetics.velocityBoost);
-    } else if (kinetics.forceClassification === 'decelerating' && phase.includes('waning')) {
+    } else if (kinetics.forceClassification === 'decelerating' && phase.includes('waning') {
       // Decelerating forces enhance waning phases
       return applyVelocityBoost(phase, kinetics.velocityBoost);
     }
@@ -513,7 +513,7 @@ function applyVelocityBoost(phase: LunarPhase, velocityBoost: number): LunarPhas
 /**
  * Get kinetics-enhanced elemental modifiers for lunar phases
  */
-export function getKineticsEnhancedLunarModifiers(
+export function getKineticsEnhancedLunarModifiers()
   phase: LunarPhase,
   planetaryPositions: { [planet: string]: string }
 ): Record<string, number> {
@@ -559,7 +559,7 @@ function getDominantElementFromModifiers(modifiers: Record<string, number>): str
   let maxValue = 0;
   let dominantElement: string | null = null;
 
-  for (const [element, value] of Object.entries(modifiers)) {
+  for (const [element, value] of Object.entries(modifiers) {
     if (value > maxValue) {
       maxValue = value;
       dominantElement = element;
@@ -572,7 +572,7 @@ function getDominantElementFromModifiers(modifiers: Record<string, number>): str
 /**
  * Calculate lunar phase kinetics metrics
  */
-export function calculateLunarKineticsMetrics(
+export function calculateLunarKineticsMetrics()
   phase: LunarPhase,
   planetaryPositions: { [planet: string]: string }
 ): {
@@ -622,9 +622,9 @@ function calculatePhaseVelocity(phase: LunarPhase, kinetics: KineticMetrics): nu
   // Base velocity by phase (waxing = increasing, waning = decreasing)
   let baseVelocity = 0.5;
 
-  if (phase.includes('waxing')) {
+  if (phase.includes('waxing') {
     baseVelocity = 0.7 + (kinetics.velocityBoost || 0) * 0.3;
-  } else if (phase.includes('waning')) {
+  } else if (phase.includes('waning') {
     baseVelocity = 0.3 - (kinetics.velocityBoost || 0) * 0.2;
   } else if (phase === 'full moon') {
     baseVelocity = 1.0; // Peak velocity
@@ -643,9 +643,9 @@ function calculateThermalAlignment(phase: LunarPhase, thermalDirection: string):
   const firePhases = ['waxing crescent', 'first quarter', 'waxing gibbous'];
   const waterPhases = ['waning gibbous', 'last quarter', 'waning crescent'];
 
-  if (thermalDirection === 'heating' && firePhases.includes(phase)) {
+  if (thermalDirection === 'heating' && firePhases.includes(phase) {
     return 0.9;
-  } else if (thermalDirection === 'cooling' && waterPhases.includes(phase)) {
+  } else if (thermalDirection === 'cooling' && waterPhases.includes(phase) {
     return 0.9;
   } else if (thermalDirection === 'neutral') {
     return 0.7; // Neutral aligns with most phases

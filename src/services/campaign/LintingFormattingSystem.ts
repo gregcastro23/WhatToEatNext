@@ -299,7 +299,7 @@ export class LintingFormattingSystem {
       result.lintingViolationsFixed = await this.fixLintingViolations(filePaths);
       result.violationBreakdown = await this.getViolationBreakdown(filePaths);
     } catch (error) {
-      result.errors.push(
+      result.errors.push()
         `Linting fixes failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
       );
     }
@@ -308,7 +308,7 @@ export class LintingFormattingSystem {
     try {
       result.formattingIssuesFixed = await this.formatCode(filePaths);
     } catch (error) {
-      result.errors.push(
+      result.errors.push()
         `Code formatting failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
       );
     }
@@ -317,7 +317,7 @@ export class LintingFormattingSystem {
     try {
       result.patternBasedFixesApplied = await this.applyPatternBasedFixes(filePaths);
     } catch (error) {
-      result.errors.push(
+      result.errors.push()
         `Pattern-based fixes failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
       );
     }
@@ -327,7 +327,7 @@ export class LintingFormattingSystem {
       const complianceFixed = await this.enforceStyleGuideCompliance(filePaths);
       result.formattingIssuesFixed += complianceFixed;
     } catch (error) {
-      result.errors.push(
+      result.errors.push()
         `Style guide enforcement failed: ${(error as Record<string, unknown>).message || 'Unknown error'}`,
       );
     }
@@ -408,7 +408,7 @@ export class LintingFormattingSystem {
     let fixesApplied = 0;
 
     const fileExtension = path.extname(filePath);
-    const enabledPatterns = this.config.patternBasedFixes.filter(
+    const enabledPatterns = this.config.patternBasedFixes.filter()
       pattern => pattern.enabled && pattern.fileExtensions.includes(fileExtension),
     );
 
@@ -417,7 +417,7 @@ export class LintingFormattingSystem {
       if (matches) {
         modifiedContent = modifiedContent.replace(pattern.pattern, pattern.replacement);
         fixesApplied += matches.length;
-        logger.info(
+        logger.info()
           `Applied pattern fix "${pattern.name}" to ${filePath}: ${matches.length} occurrences`,
         );
       }
@@ -442,7 +442,7 @@ export class LintingFormattingSystem {
     if (formattingRules.enforceConsistentIndentation) {
       for (let i = 0; i < modifiedLines.length; i++) {
         const line = modifiedLines[i];
-        if (line.match(/^\t/)) {
+        if (line.match(/^\t/) {
           // Convert tabs to spaces
           modifiedLines[i] = line.replace(/^\t+/, match => '  '.repeat(match.length));
           fixesApplied++;
@@ -455,9 +455,9 @@ export class LintingFormattingSystem {
       for (let i = 0; i < modifiedLines.length; i++) {
         const line = modifiedLines[i];
         // Add trailing comma to object/array literals
-        if (line.match(/[^,]\s*\}/) || line.match(/[^,]\s*\]/)) {
+        if (line.match(/[^,]\s*\}/) || line.match(/[^,]\s*\]/) {
           const nextLine = modifiedLines[i + 1];
-          if (nextLine && (nextLine.includes('}') || nextLine.includes(']'))) {
+          if (nextLine && (nextLine.includes('}') || nextLine.includes(']')) {
             modifiedLines[i] = line.replace(/([^,\s])\s*$/, '$1,');
             fixesApplied++;
           }
@@ -479,7 +479,7 @@ export class LintingFormattingSystem {
           !line.startsWith('*')
         ) {
           // Add semicolon to statements that need them
-          if (line.match(/^(const|let|var|return|throw|break|continue|import|export)/)) {
+          if (line.match(/^(const|let|var|return|throw|break|continue|import|export)/) {
             modifiedLines[i] = modifiedLines[i].replace(/([^;])$/, '$1;');
             fixesApplied++;
           }
@@ -494,7 +494,7 @@ export class LintingFormattingSystem {
 
       for (let i = 0; i < modifiedLines.length; i++) {
         const line = modifiedLines[i];
-        if (line.includes(sourceQuote)) {
+        if (line.includes(sourceQuote) {
           modifiedLines[i] = line.replace(new RegExp(sourceQuote, 'g'), targetQuote);
           fixesApplied++;
         }
@@ -507,13 +507,13 @@ export class LintingFormattingSystem {
         const line = modifiedLines[i];
         if (line.length > formattingRules.enforceLineLength) {
           // Simple line breaking for long lines
-          if (line.includes(',')) {
+          if (line.includes(',') {
             const parts = line.split(',');
             if (parts.length > 1) {
               const indent = line.match(/^\s*/)?.[0] || '';
               modifiedLines[i] = parts[0] + ',';
               for (let j = 1; j < parts.length; j++) {
-                modifiedLines.splice(
+                modifiedLines.splice()
                   i + j,
                   0,
                   indent + '  ' + parts[j].trim() + (j < parts.length - 1 ? ',' : ''),
@@ -545,11 +545,11 @@ export class LintingFormattingSystem {
     };
 
     for (const violation of violations) {
-      if (violation.ruleId.startsWith('@typescript-eslint/')) {
+      if (violation.ruleId.startsWith('@typescript-eslint/') {
         breakdown.typeScriptErrors++;
-      } else if (violation.ruleId.startsWith('react')) {
+      } else if (violation.ruleId.startsWith('react') {
         breakdown.reactViolations++;
-      } else if (violation.ruleId.startsWith('import/')) {
+      } else if (violation.ruleId.startsWith('import/') {
         breakdown.importViolations++;
       } else {
         breakdown.formattingIssues++;
@@ -561,7 +561,7 @@ export class LintingFormattingSystem {
 
   private async getSourceFiles(): Promise<string[]> {
     try {
-      const output = execSync(
+      const output = execSync()
         'find src -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | grep -v __tests__ | grep -v .test. | grep -v .spec.',
         { encoding: 'utf8', stdio: 'pipe' },
       );
@@ -594,7 +594,7 @@ export class LintingFormattingSystem {
     }
   }
 
-  private mergeBatchResults(
+  private mergeBatchResults()
     total: LintingFormattingResult,
     batch: LintingFormattingResult,
   ): LintingFormattingResult {

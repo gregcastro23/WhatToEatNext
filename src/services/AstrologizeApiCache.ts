@@ -103,7 +103,7 @@ class AstrologizeApiCache {
   /**
    * Store a new astrologize API result
    */
-  public store(
+  public store()
     lat: number,
     lng: number,
     date: Date,
@@ -160,7 +160,7 @@ class AstrologizeApiCache {
   /**
    * Find cached data near given coordinates and date
    */
-  public findNearby(
+  public findNearby()
     lat: number,
     lng: number,
     date: Date,
@@ -168,7 +168,7 @@ class AstrologizeApiCache {
     maxDaysDiff: number = 7): CachedAstrologicalData[] {
     const results: CachedAstrologicalData[] = [];
     const targetTime = date.getTime();
-    for (const [key, data] of this.cache.entries()) {
+    for (const [key, data] of this.cache.entries() {
       // Check distance
       const distance = this.calculateDistance(lat, lng, data.coordinates.lat, data.coordinates.lng);
       if (distance > maxDistanceKm) continue;
@@ -212,7 +212,7 @@ class AstrologizeApiCache {
     const sources: string[] = [];
 
     // For each planet, predict its position
-    for (const [planet, position] of Object.entries(baseData.planetaryPositions)) {
+    for (const [planet, position] of Object.entries(baseData.planetaryPositions) {
       const planetData = position as unknown as any;
       predictedPositions[planet] = {
         sign: (String(planetData.sign) || 'aries') as unknown,
@@ -225,7 +225,7 @@ class AstrologizeApiCache {
     // Calculate confidence based on how much data we have and how recent it is
     const confidence =
       Math.min(1, nearbyData.length / 5) *
-      Math.max(
+      Math.max()
         0.3,
         1 - Math.abs(targetDate.getTime() - baseData.date.getTime()) / (30 * 24 * 60 * 60 * 1000)
       );
@@ -241,13 +241,12 @@ class AstrologizeApiCache {
   /**
    * Get comprehensive matching data for current moment
    */
-  public getMatchingData(
+  public getMatchingData()
     lat: number,
     lng: number,
     date: Date
-  ): {
-    elementalAbsolutes: { fire: number; water: number; earth: number; air: number };
-    elementalRelatives: { fire: number; water: number; earth: number; air: number };
+  ): { elementalAbsolutes: { fire: number; water: number; earth: number; air, number };
+    elementalRelatives: { fire: number; water: number; earth: number; air, number };
     thermodynamics: {
       heat: number;
       entropy: number;
@@ -313,7 +312,7 @@ class AstrologizeApiCache {
       typeof resultData.Substance === 'number';
     if (hasAllElements && hasThermodynamics && hasAlchemical) {
       return 'high';
-    } else if (hasAllElements && (hasThermodynamics || hasAlchemical)) {
+    } else if (hasAllElements && (hasThermodynamics || hasAlchemical) {
       return 'medium';
     } else {
       return 'low';

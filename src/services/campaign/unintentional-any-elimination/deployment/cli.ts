@@ -82,7 +82,7 @@ program
 
       // Load custom config if provided
       if (options.config) {
-        if (!existsSync(options.config)) {
+        if (!existsSync(options.config) {
           console.error(`❌ Configuration file not found: ${options.config}`);
           process.exit(1);
         }
@@ -292,7 +292,7 @@ program
 
       // Show recent deployment logs
       const logsDir = '.kiro/logs';
-      if (existsSync(logsDir)) {
+      if (existsSync(logsDir) {
         const fs = require('fs');
         const logFiles = fs.readdirSync(logsDir)
           .filter((file: string) => file.startsWith('deployment-'))
@@ -343,7 +343,7 @@ program
   .argument('<file>', 'Input file path')
   .action((file) => {
     try {
-      if (!existsSync(file)) {
+      if (!existsSync(file) {
         console.error(`❌ File not found: ${file}`);
         process.exit(1);
       }

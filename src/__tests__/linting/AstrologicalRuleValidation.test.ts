@@ -49,7 +49,7 @@ describe('Astrological Rule Validation', () => {
         expect(true).toBe(true);
       } catch (error) {
         const output = (error as any).stderr?.toString() || '';
-        if (output.includes('preserve-planetary-constants')) {
+        if (output.includes('preserve-planetary-constants') {
           fail('Valid constant usage should not be flagged');
         }
       }
@@ -80,7 +80,7 @@ describe('Astrological Rule Validation', () => {
         expect(true).toBe(true);
       } catch (error) {
         const output = (error as any).stderr?.toString() || '';
-        if (output.includes('preserve-planetary-constants')) {
+        if (output.includes('preserve-planetary-constants') {
           fail('Valid RELIABLE_POSITIONS usage should not be flagged');
         }
       }
@@ -138,7 +138,7 @@ describe('Astrological Rule Validation', () => {
         expect(true).toBe(true);
       } catch (error) {
         const output = (error as any).stderr?.toString() || '';
-        if (output.includes('preserve-planetary-constants')) {
+        if (output.includes('preserve-planetary-constants') {
           fail('Valid MARCH2025_POSITIONS usage should not be flagged');
         }
       }
@@ -168,7 +168,7 @@ describe('Astrological Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter(
+          const unusedVarErrors = result[0].messages.filter()
             (msg: any) =>
               msg.ruleId === '@typescript-eslint/no-unused-vars' &&
               (msg.message.includes('planet') ||
@@ -185,7 +185,7 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter(
+            const unusedVarErrors = result[0].messages.filter()
               (msg: any) =>
                 msg.ruleId === '@typescript-eslint/no-unused-vars' &&
                 (msg.message.includes('planet') ||
@@ -221,7 +221,7 @@ describe('Astrological Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors = result[0].messages.filter(
+          const unusedVarErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars'
           );
 
@@ -232,7 +232,7 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors = result[0].messages.filter(
+            const unusedVarErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === '@typescript-eslint/no-unused-vars'
             );
 
@@ -265,7 +265,7 @@ describe('Astrological Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const camelCaseErrors = result[0].messages.filter(
+          const camelCaseErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'camelcase' && msg.severity === 2, // error level
           );
 
@@ -277,7 +277,7 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const camelCaseErrors = result[0].messages.filter(
+            const camelCaseErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'camelcase' && msg.severity === 2
             );
 
@@ -317,7 +317,7 @@ describe('Astrological Rule Validation', () => {
         expect(true).toBe(true);
       } catch (error) {
         const output = (error as any).stderr?.toString() || '';
-        if (output.includes('validate-elemental-properties')) {
+        if (output.includes('validate-elemental-properties') {
           fail('Complete elemental properties should not be flagged');
         }
       }
@@ -446,7 +446,7 @@ describe('Astrological Rule Validation', () => {
         expect(true).toBe(true);
       } catch (error) {
         const output = (error as any).stderr?.toString() || '';
-        if (output.includes('validate-planetary-position-structure')) {
+        if (output.includes('validate-planetary-position-structure') {
           fail('Complete planetary position should not be flagged');
         }
       }
@@ -511,7 +511,7 @@ describe('Astrological Rule Validation', () => {
         expect(true).toBe(true);
       } catch (error) {
         const output = (error as any).stderr?.toString() || '';
-        if (output.includes('preserve-fallback-values')) {
+        if (output.includes('preserve-fallback-values') {
           fail('Valid fallback values should not be flagged');
         }
       }
@@ -564,7 +564,7 @@ describe('Astrological Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const transitWarnings = result[0].messages.filter(
+          const transitWarnings = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation'
           );
 
@@ -576,7 +576,7 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const transitWarnings = result[0].messages.filter(
+            const transitWarnings = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation'
             );
 
@@ -613,7 +613,7 @@ describe('Astrological Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const transitWarnings = result[0].messages.filter(
+          const transitWarnings = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation'
           );
 
@@ -625,7 +625,7 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const transitWarnings = result[0].messages.filter(
+            const transitWarnings = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'astrological/require-transit-date-validation'
             );
 
@@ -662,7 +662,7 @@ describe('Astrological Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const consoleErrors = result[0].messages.filter(
+          const consoleErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2, // error level
           );
 
@@ -674,7 +674,7 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const consoleErrors = result[0].messages.filter(
+            const consoleErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'no-console' && msg.severity === 2
             );
 
@@ -733,7 +733,7 @@ describe('Astrological Rule Validation', () => {
         const result = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const complexityErrors = result[0].messages.filter(
+          const complexityErrors = result[0].messages.filter()
             (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2, // error level
           );
 
@@ -745,7 +745,7 @@ describe('Astrological Rule Validation', () => {
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const complexityErrors = result[0].messages.filter(
+            const complexityErrors = result[0].messages.filter()
               (msg: any) => msg.ruleId === 'complexity' && msg.severity === 2
             );
 

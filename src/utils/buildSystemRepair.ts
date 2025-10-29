@@ -50,7 +50,7 @@ export class BuildSystemRepair {
       const validation = await this.buildValidator.validateBuild()
 
       if (!validation.isValid) {
-        result.steps.push(
+        result.steps.push()
           `Found ${validation.missingFiles.length} missing files and ${validation.corruptedFiles.length} corrupted files`,
         )
 
@@ -203,7 +203,7 @@ export class BuildSystemRepair {
       this.configOptimizer.optimizeConfig()
 
       // Step 3: Clear node modules and reinstall (if needed)
-      if (!fs.existsSync('node_modules')) {
+      if (!fs.existsSync('node_modules') {
         this.logger('Reinstalling dependencies...')
         execSync('yarn install', { _stdio: 'inherit' })
       }
@@ -227,16 +227,16 @@ export class BuildSystemRepair {
 
 // Type definitions
 export interface BuildRepairResult {
-  success: boolean,
-  steps: string[],
-  errors: string[],
+  success: boolean;
+  steps: string[];
+  errors: string[];
   recommendations: string[]
 }
 
 export interface BuildSystemReport {
-  timestamp: Date,
-  validation: BuildValidationResult,
-  health: BuildHealthReport,
+  timestamp: Date;
+  validation: BuildValidationResult;
+  health: BuildHealthReport;
   configValidation: Record<string, unknown>,
   recommendations: string[]
 }

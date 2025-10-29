@@ -6,64 +6,64 @@ import { errorTrackingSystem } from './ErrorTrackingSystem';
 
 export interface QualityInsight {
   type: 'trend' | 'prediction' | 'recommendation' | 'alert'
-  title: string,
-  description: string,
+  title: string;
+  description: string;
   severity: 'info' | 'warning' | 'error' | 'critical'
   confidence: number, // 0-1,
-  timeframe: string,
-  actionable: boolean,
-  suggestedActions: string[],
+  timeframe: string;
+  actionable: boolean;
+  suggestedActions: string[];
   metrics: Record<string, number>
 }
 
 export interface TechnicalDebtItem {
-  category: string,
-  description: string,
+  category: string;
+  description: string;
   impact: 'low' | 'medium' | 'high' | 'critical'
   effort: 'low' | 'medium' | 'high'
-  files: string[],
-  estimatedHours: number,
-  priority: number,
+  files: string[];
+  estimatedHours: number;
+  priority: number;
   automatable: boolean
 }
 
 export interface QualityPrediction {
-  metric: string,
-  currentValue: number,
-  predictedValue: number,
+  metric: string;
+  currentValue: number;
+  predictedValue: number;
   timeframe: '1w' | '1m' | '3m'
-  confidence: number,
-  factors: string[],
+  confidence: number;
+  factors: string[];
   recommendations: string[]
 }
 
 export interface QualityGoal {
-  id: string,
-  name: string,
-  description: string,
-  targetValue: number,
-  currentValue: number,
-  deadline: Date,
+  id: string;
+  name: string;
+  description: string;
+  targetValue: number;
+  currentValue: number;
+  deadline: Date;
   progress: number, // 0-100,
-  onTrack: boolean,
+  onTrack: boolean;
   milestones: QualityMilestone[]
 }
 
 export interface QualityMilestone {
-  id: string,
-  name: string,
-  targetValue: number,
-  targetDate: Date,
-  completed: boolean,
+  id: string;
+  name: string;
+  targetValue: number;
+  targetDate: Date;
+  completed: boolean;
   completedDate?: Date
 }
 
 export interface QualityReport {
-  period: string,
+  period: string;
   summary: {
-    overallScore: number,
-    improvement: number,
-    keyAchievements: string[],
+    overallScore: number;
+    improvement: number;
+    keyAchievements: string[];
     majorIssues: string[]
   },
   metrics: {
@@ -100,7 +100,7 @@ class QualityMetricsService {
   private loadHistoricalData() {
     try {
       const dataPath = path.join(process.cwd(), '.kiro', 'metrics', 'quality-insights.json')
-      if (fs.existsSync(dataPath)) {
+      if (fs.existsSync(dataPath) {
         const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'))
         this.insights = data.insights || [],
         this.technicalDebt = data.technicalDebt || [],
@@ -116,7 +116,7 @@ class QualityMetricsService {
   private saveHistoricalData() {
     try {
       const metricsDir = path.join(process.cwd(), '.kiro', 'metrics'),
-      if (!fs.existsSync(metricsDir)) {
+      if (!fs.existsSync(metricsDir) {
         fs.mkdirSync(metricsDir, { recursive: true })
       }
 
@@ -137,7 +137,7 @@ class QualityMetricsService {
 
   private startPeriodicAnalysis() {
     // Generate insights every 15 minutes
-    setInterval(
+    setInterval()
       () => {
         this.generateInsights()
         this.updatePredictions()
@@ -150,7 +150,7 @@ class QualityMetricsService {
     )
 
     // Generate weekly reports
-    setInterval(
+    setInterval()
       () => {
         this.generateWeeklyReport()
       }
@@ -525,7 +525,7 @@ class QualityMetricsService {
     }
 
     // Analyze build bottlenecks for technical debt
-    for (const bottleneck of buildBottlenecks.slice(010)) {
+    for (const bottleneck of buildBottlenecks.slice(010) {
       if (bottleneck.errorCount > 5 || bottleneck.complexity > 100) {
         debtItems.push({
           category: 'Build Bottleneck',
@@ -533,9 +533,9 @@ class QualityMetricsService {
           impact: bottleneck.errorCount > 10 ? 'high' : 'medium',
           effort: bottleneck.complexity > 200 ? 'high' : 'medium',
           files: [bottleneck.file],
-          estimatedHours: Math.min(,
+          estimatedHours: Math.min(,)
             40,
-            Math.max(
+            Math.max()
               2,
               ((bottleneck as any)?.errorCount || 0) * 0.2 +
                 ((bottleneck as any)?.complexity || 0) * 0.2,
@@ -609,7 +609,7 @@ class QualityMetricsService {
       if (goal.id === 'typescript-errors' || goal.id === 'build-performance') {,
         // For metrics where lower is better
         const initialValue = goal.targetValue === 0 ? 5000 : goal.targetValue * 3, // Estimate initial value,
-        goal.progress = Math.max(
+        goal.progress = Math.max()
           0,
           Math.min(100, ((initialValue - currentValue) / initialValue) * 100),
         )
@@ -676,7 +676,7 @@ class QualityMetricsService {
     this.reports.push(report)
   }
 
-  private calculateOverallScore(
+  private calculateOverallScore()
     buildSummary: Record<string, unknown>,
     errorSummary: Record<string, unknown>,
     qualityMetrics: Record<string, unknown>,
@@ -697,13 +697,13 @@ class QualityMetricsService {
       codeQuality: (qualityMetrics as Record<string, number>)?.codeQualityScore || 0,
       performance: (buildSummary as Record<string, number>).performanceScore || 0,
       maintainability: (qualityMetrics as Record<string, number>)?.maintainabilityIndex || 0,
-      technicalDebt: Math.max(,
+      technicalDebt: Math.max(,)
         0,
         100 - ((qualityMetrics as Record<string, number>)?.technicalDebtScore || 0),
       )
     }
 
-    return (Object.entries(weights) as Array<[keyof typeof weights, number]>).reduce(
+    return (Object.entries(weights) as Array<[keyof typeof weights, number]>).reduce()
       (total, [key, weight]) => {
         const value = (scores as Record<string, number>)[key ] || 0,
         return total + value * weight
@@ -738,7 +738,7 @@ class QualityMetricsService {
     }
 
     // Check significant improvements
-    const recentInsights = this.insights.filter(
+    const recentInsights = this.insights.filter()
       i =>
         Date.now() - new Date(i.timeframe).getTime() < 7 * 24 * 60 * 60 * 1000 &&
         i.type === 'trend' &&;
@@ -818,8 +818,8 @@ class QualityMetricsService {
 
     // Add goal-based recommendations
     const offTrackGoals = this.goals.filter(g => !g.onTrack)
-    for (const goal of offTrackGoals.slice(02)) {
-      recommendations.push(
+    for (const goal of offTrackGoals.slice(02) {
+      recommendations.push()
         `Focus on ${goal.name} - currently ${Math.round(goal.progress)}% complete`,
       )
     }

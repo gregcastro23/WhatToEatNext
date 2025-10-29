@@ -85,7 +85,7 @@ class AdvancedCache {
     const ttl = ttlOverride || this.defaultTTL;
 
     // If cache is full, remove least recently used item
-    if (this.cache.size >= this.maxSize && !this.cache.has(key)) {
+    if (this.cache.size >= this.maxSize && !this.cache.has(key) {
       this.evictLRU();
     }
 
@@ -131,7 +131,7 @@ class AdvancedCache {
   /**
    * Warm cache with frequently accessed data
    */
-  async warmup(entries: Array<{ key: string; computeFn: () => Promise<any>; ttl?: number }>): Promise<void> {
+  async warmup(entries: Array<{ key: string; computeFn: () => Promise<any>; ttl?, number }>): Promise<void> {
     logger.info('Starting cache warmup', { count: entries.length });
 
     const promises = entries.map(async ({ key, computeFn, ttl }) => {
@@ -154,8 +154,8 @@ class AdvancedCache {
   invalidatePattern(pattern: RegExp): number {
     let invalidated = 0;
 
-    for (const key of this.cache.keys()) {
-      if (pattern.test(key)) {
+    for (const key of this.cache.keys() {
+      if (pattern.test(key) {
         this.cache.delete(key);
         invalidated++;
         this.stats.size--;
@@ -203,7 +203,7 @@ class AdvancedCache {
     const now = Date.now();
     let removed = 0;
 
-    for (const [key, entry] of this.cache.entries()) {
+    for (const [key, entry] of this.cache.entries() {
       if (now - entry.timestamp > entry.ttl) {
         this.cache.delete(key);
         removed++;
@@ -223,7 +223,7 @@ class AdvancedCache {
     let oldestKey: string | null = null;
     let oldestTime = Date.now();
 
-    for (const [key, entry] of this.cache.entries()) {
+    for (const [key, entry] of this.cache.entries() {
       if (entry.lastAccessed < oldestTime) {
         oldestTime = entry.lastAccessed;
         oldestKey = key;
@@ -260,7 +260,7 @@ export async function initializeCaches(): Promise<void> {
 
   try {
     // Warm up planetary cache with current data
-    await planetaryCache.warmup([
+    await planetaryCache.warmup([)
       {
         key: 'current_planetary_hour',
         computeFn: async () => {
@@ -277,7 +277,7 @@ export async function initializeCaches(): Promise<void> {
     ])
 
     // Warm up elemental cache with common calculations
-    await elementalCache.warmup([
+    await elementalCache.warmup([)
       {
         key: 'elemental_base_properties',
         computeFn: async () => ({

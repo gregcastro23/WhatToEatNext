@@ -66,15 +66,14 @@ export class ElementalCalculator {
       if (recipeData.season) {
         const seasons = Array.isArray(recipeData.season) ? recipeData.season : [recipeData.season];
 
-        if (seasons.map((s: string) => s.toLowerCase()).includes(season.toLowerCase())) {
+        if (seasons.map((s: string) => s.toLowerCase()).includes(season.toLowerCase()) {
           score += 20;
         }
       }
 
       return Math.max(0, Math.min(100, Math.round(score)));
     } catch (error) {
-      logger.error('Error calculating seasonal effectiveness:', {
-        error: error instanceof Error ? error.message : String(error)
+      logger.error('Error calculating seasonal effectiveness:', { error: error instanceof Error ? error.message , String(error)
       });
       return 0;
     }
@@ -162,7 +161,7 @@ export class ElementalCalculator {
    * @param time Optional time factor
    * @returns Enhanced elemental properties with additional information
    */
-  calculateElementalState(baseProperties: ElementalProperties,
+  calculateElementalState(baseProperties: ElementalProperties,)
     phase = 'default',
     time = 'neutral'): {
     properties: ElementalProperties;
@@ -198,8 +197,7 @@ export class ElementalCalculator {
         seasonalInfluence
       };
     } catch (error) {
-      logger.error('Error calculating elemental state:', {
-        error: error instanceof Error ? error.message : String(error)
+      logger.error('Error calculating elemental state:', { error: error instanceof Error ? error.message , String(error)
       });
       return {
         properties: DEFAULT_ELEMENTAL_PROPERTIES,
@@ -231,7 +229,7 @@ export class ElementalCalculator {
 /**
  * Combine two elemental property sets
  */
-export function combineElementalProperties(primary: ElementalProperties,
+export function combineElementalProperties(primary: ElementalProperties,)
   secondary: ElementalProperties,
   weight = 0.5): ElementalProperties {
   return {

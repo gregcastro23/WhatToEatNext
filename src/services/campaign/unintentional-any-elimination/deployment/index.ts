@@ -340,10 +340,10 @@ export class DeploymentManager {
   /**
    * Check success criteria
    */
-  private async checkSuccessCriteria(
+  private async checkSuccessCriteria()
     criteria: SuccessCriteria,
     validationResults: ValidationResult[]
-  ): Promise<{ success: boolean; errors: string[] }> {
+  ): Promise<{ success: boolean; errors, string[] }> {
     const errors: string[] = [];
 
     // Check build success
@@ -411,7 +411,7 @@ export class DeploymentManager {
    */
   private async checkPrerequisites(prerequisites: string[]): Promise<void> {
     for (const prerequisite of prerequisites) {
-      if (!existsSync(prerequisite)) {
+      if (!existsSync(prerequisite) {
         throw new Error(`Prerequisite not found: ${prerequisite}`);
       }
     }

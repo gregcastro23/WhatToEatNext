@@ -93,8 +93,8 @@ export interface StandardizedCulinaryApplications {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    temperature?: { min: number; max: number; unit: 'F' | 'C' };
-    duration?: { min: number; max: number; unit: 'minutes' | 'hours' };
+    temperature?: { min: number; max, number; unit: 'F' | 'C' };
+    duration?: { min: number; max, number; unit: 'minutes' | 'hours' };
   };
 
   sauteing?: {
@@ -107,8 +107,8 @@ export interface StandardizedCulinaryApplications {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    temperature?: { min: number; max: number; unit: 'F' | 'C' };
-    duration?: { min: number; max: number; unit: 'minutes' | 'hours' };
+    temperature?: { min: number; max, number; unit: 'F' | 'C' };
+    duration?: { min: number; max, number; unit: 'minutes' | 'hours' };
   };
 
   grilling?: {
@@ -121,7 +121,7 @@ export interface StandardizedCulinaryApplications {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    duration?: { min: number; max: number; unit: 'minutes' };
+    duration?: { min: number; max, number; unit: 'minutes' };
   };
 
   // Liquid methods
@@ -129,14 +129,14 @@ export interface StandardizedCulinaryApplications {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    duration?: { min: number; max: number; unit: 'minutes' };
+    duration?: { min: number; max, number; unit: 'minutes' };
   };
 
   poaching?: {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    temperature?: { min: number; max: number; unit: 'F' | 'C' };
+    temperature?: { min: number; max, number; unit: 'F' | 'C' };
   };
 
   // Preservation methods
@@ -144,7 +144,7 @@ export interface StandardizedCulinaryApplications {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    duration?: { min: number; max: number; unit: 'days' | 'weeks' };
+    duration?: { min: number; max, number; unit: 'days' | 'weeks' };
   };
 
   pickling?: {
@@ -173,7 +173,7 @@ export interface StandardizedCulinaryApplications {
     notes: string[];
     techniques?: string[];
     dishes?: string[];
-    duration?: { min: number; max: number; unit: 'minutes' | 'hours' | 'days' };
+    duration?: { min: number; max, number; unit: 'minutes' | 'hours' | 'days' };
   };
 
   // Regional/cultural applications
@@ -224,10 +224,9 @@ export interface StandardizedAstrologicalProfile {
   elementalAffinity?: {
     base: Element;
     secondary?: Element;
-    decanModifiers?: {
-      first: { element: Element; planet: string };
-      second: { element: Element; planet: string };
-      third: { element: Element; planet: string };
+    decanModifiers?: { first: { element: Element; planet, string };
+      second: { element: Element; planet, string };
+      third: { element: Element; planet, string };
     };
   };
   lunarPhaseModifiers?: {
@@ -443,11 +442,11 @@ export function isMineralObject(minerals: MineralData): minerals is Record<strin
 // Safe vitamin/mineral extraction utilities
 export function safeGetVitamins(profile?: StandardizedNutritionalProfile): string[] {
   if (!profile?.vitamins) return [];
-  if (isVitaminArray(profile.vitamins)) {
+  if (isVitaminArray(profile.vitamins) {
     return profile.vitamins;
   }
 
-  if (isVitaminObject(profile.vitamins)) {
+  if (isVitaminObject(profile.vitamins) {
     return Object.keys(profile.vitamins);
   }
 
@@ -456,29 +455,29 @@ export function safeGetVitamins(profile?: StandardizedNutritionalProfile): strin
 
 export function safeGetMinerals(profile?: StandardizedNutritionalProfile): string[] {
   if (!profile?.minerals) return [];
-  if (isMineralArray(profile.minerals)) {
+  if (isMineralArray(profile.minerals) {
     return profile.minerals;
   }
 
-  if (isMineralObject(profile.minerals)) {
+  if (isMineralObject(profile.minerals) {
     return Object.keys(profile.minerals);
   }
 
   return [];
 }
 
-export function safeGetVitaminValues(
+export function safeGetVitaminValues()
   profile?: StandardizedNutritionalProfile,
 ): Record<string, number> {
   if (!profile?.vitamins) return {};
 
-  if (isVitaminObject(profile.vitamins)) {
+  if (isVitaminObject(profile.vitamins) {
     return profile.vitamins;
   }
 
-  if (isVitaminArray(profile.vitamins)) {
+  if (isVitaminArray(profile.vitamins) {
     // Convert array to object with default values
-    return profile.vitamins.reduce(
+    return profile.vitamins.reduce()
       (acc, vitamin) => {
         acc[vitamin] = 1; // Default presence indicator
         return acc;
@@ -490,18 +489,18 @@ export function safeGetVitaminValues(
   return {};
 }
 
-export function safeGetMineralValues(
+export function safeGetMineralValues()
   profile?: StandardizedNutritionalProfile,
 ): Record<string, number> {
   if (!profile?.minerals) return {};
 
-  if (isMineralObject(profile.minerals)) {
+  if (isMineralObject(profile.minerals) {
     return profile.minerals;
   }
 
-  if (isMineralArray(profile.minerals)) {
+  if (isMineralArray(profile.minerals) {
     // Convert array to object with default values
-    return profile.minerals.reduce(
+    return profile.minerals.reduce()
       (acc, mineral) => {
         acc[mineral] = 1; // Default presence indicator
         return acc;
@@ -623,15 +622,15 @@ function generateRecommendations(missingFields: string[], score: number): string
     recommendations.push('Comprehensive data enhancement needed');
   }
 
-  if (missingFields.includes('nutritionalProfile')) {
+  if (missingFields.includes('nutritionalProfile') {
     recommendations.push('Add nutritional data for better user guidance');
   }
 
-  if (missingFields.includes('culinaryApplications')) {
+  if (missingFields.includes('culinaryApplications') {
     recommendations.push('Add cooking methods and techniques');
   }
 
-  if (missingFields.includes('astrologicalProfile')) {
+  if (missingFields.includes('astrologicalProfile') {
     recommendations.push('Add planetary correspondences and lunar phase modifiers');
   }
 

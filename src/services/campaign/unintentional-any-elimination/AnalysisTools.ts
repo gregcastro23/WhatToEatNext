@@ -129,7 +129,7 @@ export class AnalysisTools {
     let correctClassifications = 0;
     let totalClassifications = 0;
     const confidenceScores: number[] = [];
-    const categoryAccuracy: Record<AnyTypeCategory, { correct: number; total: number }> = {
+    const categoryAccuracy: Record<AnyTypeCategory, { correct: number; total, number }> = {
       [AnyTypeCategory.ERROR_HANDLING]: { correct: 0, total: 0 },
       [AnyTypeCategory.EXTERNAL_API]: { correct: 0, total: 0 },
       [AnyTypeCategory.TEST_MOCK]: { correct: 0, total: 0 },
@@ -224,7 +224,7 @@ export class AnalysisTools {
       const classification = await this.classifier.classify(context);
 
       // Identify cases that need manual review
-      if (this.requiresManualReview(classification, context)) {
+      if (this.requiresManualReview(classification, context) {
         const recommendation: ManualReviewRecommendation = {
           filePath: occurrence.filePath,
           lineNumber: occurrence.lineNumber,
@@ -262,7 +262,7 @@ export class AnalysisTools {
       accuracyReport,
       successRateAnalysis,
       manualReviewRecommendations
-    ] = await Promise.all([
+    ] = await Promise.all([)
       this.analyzeDomainDistribution(),
       this.generateClassificationAccuracyReport(),
       this.generateSuccessRateAnalysis(),
@@ -297,8 +297,8 @@ export class AnalysisTools {
 
   // Private helper methods
 
-  private async findAllAnyTypes(): Promise<Array<{ filePath: string; lineNumber: number; codeSnippet: string }>> {
-    const occurrences: Array<{ filePath: string; lineNumber: number; codeSnippet: string }> = [];
+  private async findAllAnyTypes(): Promise<Array<{ filePath: string; lineNumber: number; codeSnippet, string }>> {
+    const occurrences: Array<{ filePath: string; lineNumber: number; codeSnippet, string }> = [];
 
     try {
       // Use grep to find all explicit any types
@@ -325,7 +325,7 @@ export class AnalysisTools {
     return occurrences;
   }
 
-  private async createClassificationContext(occurrence: { filePath: string; lineNumber: number; codeSnippet: string }): Promise<ClassificationContext> {
+  private async createClassificationContext(occurrence: { filePath: string; lineNumber: number; codeSnippet, string }): Promise<ClassificationContext> {
     const surroundingLines = await this.getSurroundingLines(occurrence.filePath, occurrence.lineNumber);
     const hasExistingComment = this.hasExistingComment(surroundingLines);
     const domainContext = await this.domainAnalyzer.analyzeDomain({
@@ -363,7 +363,7 @@ export class AnalysisTools {
   }
 
   private hasExistingComment(surroundingLines: string[]): boolean {
-    return surroundingLines.some(line =>
+    return surroundingLines.some(line =>)
       line.trim().startsWith('//') ||
       line.trim().startsWith('/*') ||
       line.trim().startsWith('*')
@@ -371,7 +371,7 @@ export class AnalysisTools {
   }
 
   private extractComment(surroundingLines: string[]): string {
-    const commentLines = surroundingLines.filter(line =>
+    const commentLines = surroundingLines.filter(line =>)
       line.trim().startsWith('//') ||
       line.trim().startsWith('/*') ||
       line.trim().startsWith('*')
@@ -406,7 +406,7 @@ export class AnalysisTools {
     return true;
   }
 
-  private calculateConfidenceDistribution(scores: number[]): { range: string; count: number; percentage: number }[] {
+  private calculateConfidenceDistribution(scores: number[]): { range: string; count: number; percentage, number }[] {
     const ranges = [
       { min: 0.9, max: 1.0, label: '90-100%' },
       { min: 0.8, max: 0.9, label: '80-90%' },
@@ -452,7 +452,7 @@ export class AnalysisTools {
       }));
   }
 
-  private async calculateCategorySuccessRates(): Promise<Array<{ category: AnyTypeCategory; successRate: number; sampleSize: number }>> {
+  private async calculateCategorySuccessRates(): Promise<Array<{ category: AnyTypeCategory; successRate: number; sampleSize, number }>> {
     // Simulate category success rates - in real implementation, this would calculate from actual data
     return [
       { category: AnyTypeCategory.ARRAY_TYPE, successRate: 95.2, sampleSize: 156 },
@@ -516,7 +516,7 @@ export class AnalysisTools {
     return projectedDate;
   }
 
-  private async generateSuccessRateRecommendations(categorySuccessRates: Array<{ category: AnyTypeCategory; successRate: number; sampleSize: number }>): Promise<string[]> {
+  private async generateSuccessRateRecommendations(categorySuccessRates: Array<{ category: AnyTypeCategory; successRate: number; sampleSize, number }>): Promise<string[]> {
     const recommendations: string[] = [];
 
     // Find categories with low success rates
@@ -599,7 +599,7 @@ export class AnalysisTools {
 
   private calculateReviewPriority(classification: AnyTypeClassification, context: ClassificationContext): 'high' | 'medium' | 'low' {
     // High priority: Low confidence or conflicting signals
-    if (classification.confidence < 0.6 || (classification.isIntentional && classification.suggestedReplacement)) {
+    if (classification.confidence < 0.6 || (classification.isIntentional && classification.suggestedReplacement) {
       return 'high';
     }
 
@@ -651,9 +651,9 @@ export class AnalysisTools {
     return 'low';
   }
 
-  private async findRelatedOccurrences(occurrence: { filePath: string; lineNumber: number; codeSnippet: string }): Promise<Array<{ filePath: string; lineNumber: number }>> {
+  private async findRelatedOccurrences(occurrence: { filePath: string; lineNumber: number; codeSnippet, string }): Promise<Array<{ filePath: string; lineNumber, number }>> {
     // Find other any types in the same file
-    const relatedOccurrences: Array<{ filePath: string; lineNumber: number }> = [];
+    const relatedOccurrences: Array<{ filePath: string; lineNumber, number }> = [];
 
     try {
       const grepCommand = `grep -n "\\bany\\b" "${occurrence.filePath}"`;
@@ -697,7 +697,7 @@ export class AnalysisTools {
   private loadAnalysisHistory(): void {
     try {
       const historyPath = path.join(process.cwd(), '.kiro', 'campaign-reports', 'unintentional-any-analysis-history.json');
-      if (fs.existsSync(historyPath)) {
+      if (fs.existsSync(historyPath) {
         const historyData = fs.readFileSync(historyPath, 'utf8');
         this.analysisHistory = JSON.parse(historyData);
       }
@@ -710,7 +710,7 @@ export class AnalysisTools {
   private async saveAnalysisHistory(): Promise<void> {
     try {
       const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports');
-      if (!fs.existsSync(historyDir)) {
+      if (!fs.existsSync(historyDir) {
         fs.mkdirSync(historyDir, { recursive: true });
       }
 

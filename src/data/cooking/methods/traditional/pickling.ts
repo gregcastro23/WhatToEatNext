@@ -19,7 +19,7 @@ export const pickling: CookingMethodData = {
     min: 60, // 1 hour for quick pickles,
     max: 4320, // 3 days for some fermented pickles
   },
-  suitable_for: [
+  suitable_for [
     'vegetables',
     'fruits',
     'eggs',

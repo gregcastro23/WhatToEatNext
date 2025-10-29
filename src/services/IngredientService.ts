@@ -67,7 +67,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   getAllIngredients(): Record<string, UnifiedIngredient[]> {
     const result: Record<string, UnifiedIngredient[]> = {};
-    for (const [category, ingredients] of this.ingredientCache.entries()) {
+    for (const [category, ingredients] of this.ingredientCache.entries() {
       result[category] = [...ingredients];
     }
     return result;
@@ -82,7 +82,7 @@ export class IngredientService implements IngredientServiceInterface {
     }
 
     const allIngredients: UnifiedIngredient[] = [];
-    for (const ingredients of this.ingredientCache.values()) {
+    for (const ingredients of this.ingredientCache.values() {
       allIngredients.push(...ingredients);
     }
 
@@ -97,7 +97,7 @@ export class IngredientService implements IngredientServiceInterface {
     const normalizedName = name.toLowerCase().trim();
     const allIngredients = this.getAllIngredientsFlat();
 
-    return allIngredients.find(ingredient =>
+    return allIngredients.find(ingredient =>)
       ingredient.name.toLowerCase().includes(normalizedName)
     );
   }
@@ -117,7 +117,7 @@ export class IngredientService implements IngredientServiceInterface {
     const normalizedSubcategory = subcategory.toLowerCase().trim();
     const allIngredients = this.getAllIngredientsFlat();
 
-    return allIngredients.filter(ingredient =>
+    return allIngredients.filter(ingredient =>)
       ingredient.subcategory?.toLowerCase().includes(normalizedSubcategory)
     );
   }
@@ -131,7 +131,7 @@ export class IngredientService implements IngredientServiceInterface {
     // Apply search query
     if (filter.searchQuery) {
       const query = filter.searchQuery.toLowerCase();
-      filteredIngredients = filteredIngredients.filter(ingredient =>
+      filteredIngredients = filteredIngredients.filter(ingredient =>)
         ingredient.name.toLowerCase().includes(query) ||
         ingredient.category?.toLowerCase().includes(query) ||
         ingredient.subcategory?.toLowerCase().includes(query)
@@ -140,8 +140,8 @@ export class IngredientService implements IngredientServiceInterface {
 
     // Apply category filter
     if (filter.categories && filter.categories.length > 0) {
-      filteredIngredients = filteredIngredients.filter(ingredient =>
-        filter.categories!.some(cat =>
+      filteredIngredients = filteredIngredients.filter(ingredient =>)
+        filter.categories!.some(cat =>)
           ingredient.category?.toLowerCase().includes(cat.toLowerCase())
         )
       );
@@ -152,7 +152,7 @@ export class IngredientService implements IngredientServiceInterface {
       filteredIngredients = filteredIngredients.filter(ingredient => {
         if (!ingredient.season) return false;
         const ingredientSeasons = Array.isArray(ingredient.season) ? ingredient.season : [ingredient.season];
-        return filter.season!.some(season =>
+        return filter.season!.some(season =>)
           ingredientSeasons.some((ingSeason: string) =>
             ingSeason.toLowerCase().includes(season.toLowerCase())
           )
@@ -194,8 +194,8 @@ export class IngredientService implements IngredientServiceInterface {
 
     // Apply exclusions
     if (filter.excludeIngredients && filter.excludeIngredients.length > 0) {
-      filteredIngredients = filteredIngredients.filter(ingredient =>
-        !filter.excludeIngredients!.some(excluded =>
+      filteredIngredients = filteredIngredients.filter(ingredient =>)
+        !filter.excludeIngredients!.some(excluded =>)
           ingredient.name.toLowerCase().includes(excluded.toLowerCase())
         )
       );
@@ -223,7 +223,7 @@ export class IngredientService implements IngredientServiceInterface {
 
     // Flatten the results
     const result: UnifiedIngredient[] = [];
-    for (const ingredients of Object.values(filtered)) {
+    for (const ingredients of Object.values(filtered) {
       result.push(...ingredients);
     }
     return result;
@@ -232,7 +232,7 @@ export class IngredientService implements IngredientServiceInterface {
   /**
    * Get ingredients by flavor profile
    */
-  getIngredientsByFlavor(
+  getIngredientsByFlavor()
     flavorProfile: { [key: string]: number },
     minMatchScore: number = 0.5
   ): UnifiedIngredient[] {
@@ -251,7 +251,7 @@ export class IngredientService implements IngredientServiceInterface {
     const filtered = this.filterIngredients(filter);
 
     const result: UnifiedIngredient[] = [];
-    for (const ingredients of Object.values(filtered)) {
+    for (const ingredients of Object.values(filtered) {
       result.push(...ingredients);
     }
     return result;
@@ -262,7 +262,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   getIngredientsByPlanet(planet: PlanetName): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
-    return allIngredients.filter(ingredient =>
+    return allIngredients.filter(ingredient =>)
       ingredient.planetaryRuler === planet
     );
   }
@@ -283,7 +283,7 @@ export class IngredientService implements IngredientServiceInterface {
   /**
    * Get recommended ingredients based on elemental state
    */
-  getRecommendedIngredients(
+  getRecommendedIngredients()
     elementalState: ElementalProperties,
     options: IngredientRecommendationOptions = {}
   ): UnifiedIngredient[] {
@@ -293,7 +293,7 @@ export class IngredientService implements IngredientServiceInterface {
     candidates = candidates.filter(ingredient => {
       if (!ingredient.elementalProperties) return false;
 
-      const compatibility = this.calculateElementalCompatibility(
+      const compatibility = this.calculateElementalCompatibility()
         elementalState,
         ingredient.elementalProperties
       );
@@ -302,16 +302,16 @@ export class IngredientService implements IngredientServiceInterface {
 
     // Apply options
     if (options.categories && options.categories.length > 0) {
-      candidates = candidates.filter(ingredient =>
-        options.categories!.some(cat =>
+      candidates = candidates.filter(ingredient =>)
+        options.categories!.some(cat =>)
           ingredient.category?.toLowerCase().includes(cat.toLowerCase())
         )
       );
     }
 
     if (options.excludeIngredients && options.excludeIngredients.length > 0) {
-      candidates = candidates.filter(ingredient =>
-        !options.excludeIngredients!.some(excluded =>
+      candidates = candidates.filter(ingredient =>)
+        !options.excludeIngredients!.some(excluded =>)
           ingredient.name.toLowerCase().includes(excluded.toLowerCase())
         )
       );
@@ -319,11 +319,11 @@ export class IngredientService implements IngredientServiceInterface {
 
     // Sort by elemental compatibility
     candidates.sort((a, b) => {
-      const compatA = this.calculateElementalCompatibility(
+      const compatA = this.calculateElementalCompatibility()
         elementalState,
         a.elementalProperties!
       );
-      const compatB = this.calculateElementalCompatibility(
+      const compatB = this.calculateElementalCompatibility()
         elementalState,
         b.elementalProperties!
       );
@@ -341,7 +341,7 @@ export class IngredientService implements IngredientServiceInterface {
   /**
    * Calculate compatibility between two ingredients
    */
-  calculateIngredientCompatibility(
+  calculateIngredientCompatibility()
     ingredient1: string | UnifiedIngredient,
     ingredient2: string | UnifiedIngredient
   ): {
@@ -394,14 +394,14 @@ export class IngredientService implements IngredientServiceInterface {
   /**
    * Suggest alternative ingredients
    */
-  suggestAlternativeIngredients(
+  suggestAlternativeIngredients()
     ingredientName: string,
     options: {
       category?: string;
       similarityThreshold?: number;
       maxResults?: number;
     } = {}
-  ): Array<{ ingredient: UnifiedIngredient; similarityScore: number }> {
+  ): Array<{ ingredient: UnifiedIngredient; similarityScore, number }> {
     const baseIngredient = this.getIngredientByName(ingredientName);
     if (!baseIngredient) {
       return [];
@@ -411,7 +411,7 @@ export class IngredientService implements IngredientServiceInterface {
 
     // Filter by category if specified
     if (options.category) {
-      candidates = candidates.filter(ing =>
+      candidates = candidates.filter(ing =>)
         ing.category?.toLowerCase().includes(options.category!.toLowerCase())
       );
     }
@@ -443,8 +443,8 @@ export class IngredientService implements IngredientServiceInterface {
   analyzeRecipeIngredients(recipe: Recipe): {
     overallHarmony: number;
     flavorProfile: { [key: string]: number };
-    strongPairings: Array<{ ingredients: string[]; score: number }>;
-    weakPairings: Array<{ ingredients: string[]; score: number }>;
+    strongPairings: Array<{ ingredients: string[]; score, number }>;
+    weakPairings: Array<{ ingredients: string[]; score, number }>;
   } {
     // Simplified analysis - in a full implementation this would be more sophisticated
     const ingredients = recipe.ingredients || [];
@@ -463,8 +463,8 @@ export class IngredientService implements IngredientServiceInterface {
     };
 
     // Pairings (simplified)
-    const strongPairings: Array<{ ingredients: string[]; score: number }> = [];
-    const weakPairings: Array<{ ingredients: string[]; score: number }> = [];
+    const strongPairings: Array<{ ingredients: string[]; score, number }> = [];
+    const weakPairings: Array<{ ingredients: string[]; score, number }> = [];
 
     return {
       overallHarmony,
@@ -477,7 +477,7 @@ export class IngredientService implements IngredientServiceInterface {
   /**
    * Enhance ingredient with elemental properties
    */
-  enhanceIngredientWithElementalProperties(
+  enhanceIngredientWithElementalProperties()
     ingredient: Partial<UnifiedIngredient>
   ): UnifiedIngredient {
     const enhanced: UnifiedIngredient = {
@@ -500,7 +500,7 @@ export class IngredientService implements IngredientServiceInterface {
    * Get ingredients with high Kalchm values
    */
   getHighKalchmIngredients(threshold: number = 0.5): UnifiedIngredient[] {
-    return this.getAllIngredientsFlat().filter(ingredient =>
+    return this.getAllIngredientsFlat().filter(ingredient =>)
       ingredient.kalchm !== undefined && ingredient.kalchm >= threshold
     );
   }
@@ -508,7 +508,7 @@ export class IngredientService implements IngredientServiceInterface {
   /**
    * Find complementary ingredients
    */
-  findComplementaryIngredients(
+  findComplementaryIngredients()
     ingredient: UnifiedIngredient | string,
     maxResults: number = 5
   ): UnifiedIngredient[] {
@@ -520,7 +520,7 @@ export class IngredientService implements IngredientServiceInterface {
       return [];
     }
 
-    return this.getRecommendedIngredients(
+    return this.getRecommendedIngredients()
       baseIngredient.elementalProperties || {
         Fire: 0.25,
         Water: 0.25,
@@ -587,7 +587,7 @@ export class IngredientService implements IngredientServiceInterface {
   /**
    * Calculate elemental compatibility between two property sets
    */
-  private calculateElementalCompatibility(
+  private calculateElementalCompatibility()
     props1: ElementalProperties,
     props2: ElementalProperties
   ): number {

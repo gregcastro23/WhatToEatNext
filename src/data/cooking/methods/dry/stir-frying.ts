@@ -19,7 +19,7 @@ export const _stirFrying: CookingMethodData = {
     min: 3,
     max: 10
 },
-  suitable_for: [
+  suitable_for [
     'vegetables',
     'thin meats',
     'tofu',

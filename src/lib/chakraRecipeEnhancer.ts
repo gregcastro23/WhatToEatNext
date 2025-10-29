@@ -98,7 +98,7 @@ export class ChakraRecipeEnhancer {
   /**
    * Enhance recipes with chakra information
    */
-  enhanceRecipes(
+  enhanceRecipes()
     recipes: Recipe[],
     sunSign: any,
     moonSign: any,
@@ -137,7 +137,7 @@ export class ChakraRecipeEnhancer {
     }
 
     // Calculate current chakra energies
-    const chakraEnergies = this.chakraService.calculateChakraEnergies(
+    const chakraEnergies = this.chakraService.calculateChakraEnergies()
       sunSign,
       moonSign,
       dominantPlanets,
@@ -161,7 +161,7 @@ export class ChakraRecipeEnhancer {
         const planets = astrologicalAffinities?.planets;
 
         if (planets) {
-          if ((planets as Planet[]).includes(planetaryHour)) {
+          if ((planets as Planet[]).includes(planetaryHour) {
             planetaryAlignment = 1.0;
           } else {
             const hourChakras = this.chakraService.getChakrasByPlanet(planetaryHour);
@@ -187,7 +187,7 @@ export class ChakraRecipeEnhancer {
         }
 
         // Get tarot recommendations for the dominant chakra
-        const recommendations = this.chakraService.getTarotRecommendationsForChakra(
+        const recommendations = this.chakraService.getTarotRecommendationsForChakra()
           dominantChakra === 'solarPlexus' ? ('solarPlexus' as any) : (dominantChakra as any),
           chakraEnergies[dominantChakra]
         );

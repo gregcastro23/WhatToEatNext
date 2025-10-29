@@ -20,7 +20,7 @@ export const boiling: CookingMethodData = {
     min: 3,
     max: 120
 },
-  suitable_for: [
+  suitable_for [
     'pasta',
     'rice',
     'grains',

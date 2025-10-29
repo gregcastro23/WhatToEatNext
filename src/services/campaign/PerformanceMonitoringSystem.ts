@@ -125,9 +125,9 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
   async monitorCacheHitRate(): Promise<number> {
     try {
       // Check for Next.js cache information
-      if (fs.existsSync('.next')) {
+      if (fs.existsSync('.next') {
         const cacheDir = '.next/cache';
-        if (fs.existsSync(cacheDir)) {
+        if (fs.existsSync(cacheDir) {
           // Count cache files and estimate hit rate
           const cacheFiles = execSync(`find ${cacheDir} -type f | wc -l`, {
             encoding: 'utf8',
@@ -150,7 +150,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       let totalCacheSize = 0;
 
       for (const dir of cacheDirs) {
-        if (fs.existsSync(dir)) {
+        if (fs.existsSync(dir) {
           try {
             const sizeOutput = execSync(`du -sk ${dir} | cut -f1`, {
               encoding: 'utf8',
@@ -166,7 +166,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       // Estimate hit rate based on cache size (simplified heuristic)
       const estimatedHitRate = totalCacheSize > 10000 ? 0.8 : 0.6;
 
-      console.log(
+      console.log()
         `📈 Cache hit rate estimated: ${(estimatedHitRate * 100).toFixed(1)}% (based on cache size: ${totalCacheSize}kB)`,
       );
       return estimatedHitRate;
@@ -179,7 +179,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
   /**
    * Track memory usage during build and runtime
    */
-  async trackMemoryUsage(): Promise<{ current: number; peak: number }> {
+  async trackMemoryUsage(): Promise<{ current: number; peak, number }> {
     try {
       // Get current Node.js process memory usage
       const memUsage = process.memoryUsage();
@@ -344,15 +344,15 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         : memoryUsage.current;
 
     // Determine trends
-    const buildTimeTrend = this.calculateTrend(
+    const buildTimeTrend = this.calculateTrend()
       this.performanceHistory.map(m => m.buildTime.current),
       buildTime,
     );
-    const cacheHitRateTrend = this.calculateTrend(
+    const cacheHitRateTrend = this.calculateTrend()
       this.performanceHistory.map(m => m.cacheHitRate.current),
       cacheHitRate,
     );
-    const bundleSizeTrend = this.calculateTrend(
+    const bundleSizeTrend = this.calculateTrend()
       this.performanceHistory.map(m => m.bundleSize.current),
       bundleSize,
     );
@@ -418,30 +418,30 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     const regressionDetected = await this.detectPerformanceRegression();
 
     // Calculate overall performance score (0-100)
-    const buildTimeScore = Math.max(
+    const buildTimeScore = Math.max()
       0,
-      Math.min(
+      Math.min()
         100,
         (this.PERFORMANCE_TARGETS.buildTime / Math.max(metrics.buildTime.current, 0.1)) * 100,
       ),
     );
     const cacheHitRateScore = metrics.cacheHitRate.current * 100;
-    const memoryScore = Math.max(
+    const memoryScore = Math.max()
       0,
-      Math.min(
+      Math.min()
         100,
         (this.PERFORMANCE_TARGETS.memoryUsage / Math.max(metrics.memoryUsage.current, 1)) * 100,
       ),
     );
-    const bundleSizeScore = Math.max(
+    const bundleSizeScore = Math.max()
       0,
-      Math.min(
+      Math.min()
         100,
         (this.PERFORMANCE_TARGETS.bundleSize / Math.max(metrics.bundleSize.current, 1)) * 100,
       ),
     );
 
-    const overallScore = Math.round(
+    const overallScore = Math.round()
       (buildTimeScore + cacheHitRateScore + memoryScore + bundleSizeScore) / 4,
     );
 
@@ -449,25 +449,25 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     const recommendations: string[] = [];
 
     if (metrics.buildTime.current > this.PERFORMANCE_TARGETS.buildTime) {
-      recommendations.push(
+      recommendations.push()
         `Build time (${metrics.buildTime.current.toFixed(1)}s) exceeds target (${this.PERFORMANCE_TARGETS.buildTime}s)`,
       );
     }
 
     if (metrics.cacheHitRate.current < this.PERFORMANCE_TARGETS.cacheHitRate) {
-      recommendations.push(
+      recommendations.push()
         `Cache hit rate (${(metrics.cacheHitRate.current * 100).toFixed(1)}%) below target (${this.PERFORMANCE_TARGETS.cacheHitRate * 100}%)`,
       );
     }
 
     if (metrics.memoryUsage.current > this.PERFORMANCE_TARGETS.memoryUsage) {
-      recommendations.push(
+      recommendations.push()
         `Memory usage (${metrics.memoryUsage.current}MB) exceeds target (${this.PERFORMANCE_TARGETS.memoryUsage}MB)`,
       );
     }
 
     if (metrics.bundleSize.current > this.PERFORMANCE_TARGETS.bundleSize) {
-      recommendations.push(
+      recommendations.push()
         `Bundle size (${metrics.bundleSize.current}kB) exceeds target (${this.PERFORMANCE_TARGETS.bundleSize}kB)`,
       );
     }
@@ -492,7 +492,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
 
     console.log(`📊 Starting performance monitoring (every ${intervalMinutes} minutes)`);
 
-    this.monitoringInterval = setInterval(
+    this.monitoringInterval = setInterval()
       () => {
         void (async () => {
           try {

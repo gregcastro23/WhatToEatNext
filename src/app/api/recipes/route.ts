@@ -71,7 +71,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     // Basic validation
-    if (!body || typeof body !== 'object' || !body.name || !Array.isArray(body.ingredients)) {
+    if (!body || typeof body !== 'object' || !body.name || !Array.isArray(body.ingredients) {
       return NextResponse.json({ error: 'Invalid recipe data' }, { status: 400 });
     }
 

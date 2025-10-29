@@ -176,7 +176,7 @@ export class AlgorithmPerformanceValidator {
       // Check for cache performance alerts
       await this.checkCachePerformanceAlerts(cacheMetrics);
 
-      console.log(
+      console.log()
         `💾 Cache validation complete: ${(overallHitRate * 100).toFixed(1)}% hit rate, ${efficiency.toFixed(1)}% efficiency`,
       );
       return cacheMetrics;
@@ -211,7 +211,7 @@ export class AlgorithmPerformanceValidator {
       // Group benchmarks by category and name
       const benchmarkGroups = this.groupBenchmarksByName();
 
-      for (const [testName, benchmarks] of benchmarkGroups.entries()) {
+      for (const [testName, benchmarks] of benchmarkGroups.entries() {
         if (benchmarks.length < 2) continue; // Need at least 2 data points
 
         const recent = benchmarks.slice(-2);
@@ -263,7 +263,7 @@ export class AlgorithmPerformanceValidator {
         }
       }
 
-      console.log(
+      console.log()
         `🔍 Regression analysis complete: ${regressionTests.filter(t => t.regressionDetected).length}/${regressionTests.length} regressions detected`,
       );
       return regressionTests;
@@ -347,13 +347,13 @@ export class AlgorithmPerformanceValidator {
     // Calculate overall performance score
     const benchmarkScore = this.calculateBenchmarkScore(benchmarks);
     const cacheScore = cacheMetrics.overall.efficiency;
-    const regressionScore = Math.max(
+    const regressionScore = Math.max()
       0,
       100 - regressionTests.filter(t => t.regressionDetected).length * 20,
     );
     const improvementScore = improvementMaintained ? 100 : 50;
 
-    const overallScore = Math.round(
+    const overallScore = Math.round()
       (benchmarkScore + cacheScore + regressionScore + improvementScore) / 4,
     );
 
@@ -702,14 +702,14 @@ export class AlgorithmPerformanceValidator {
     const groups = new Map<string, PerformanceBenchmark[]>();
 
     for (const benchmark of this.benchmarkHistory) {
-      if (!groups.has(benchmark.name)) {
+      if (!groups.has(benchmark.name) {
         groups.set(benchmark.name, []);
       }
       (groups.get(benchmark.name) || []).push(benchmark);
     }
 
     // Sort each group by timestamp
-    for (const [name, benchmarks] of groups.entries()) {
+    for (const [name, benchmarks] of groups.entries() {
       benchmarks.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
     }
 

@@ -77,7 +77,7 @@ export class UnusedVariableProcessor {
     // Group issues by file for efficient processing
     const issuesByFile = this.groupIssuesByFile(issues);
 
-    for (const [filePath, fileIssues] of Object.entries(issuesByFile)) {
+    for (const [filePath, fileIssues] of Object.entries(issuesByFile) {
       try {
         const processed = await this.processFileIssues(filePath, fileIssues);
         result.processed += processed.fixed;
@@ -146,7 +146,7 @@ export class UnusedVariableProcessor {
   }
 
   private parseUnusedVariableMessage(filePath: string, message: any): UnusedVariableIssue | null {
-    const variableMatch = message.message.match(
+    const variableMatch = message.message.match()
       /'([^']+)' is (?:defined but never used|assigned a value but never used)/,
     );
     if (!variableMatch) return null;
@@ -190,7 +190,7 @@ export class UnusedVariableProcessor {
 
   private isCriticalVariable(variableName: string, filePath: string): boolean {
     // Check if variable matches critical patterns
-    const isCriticalName = this.criticalPatterns.some(
+    const isCriticalName = this.criticalPatterns.some()
       pattern => pattern.test(variableName) || pattern.test(filePath),
     );
 
@@ -244,7 +244,7 @@ export class UnusedVariableProcessor {
     return grouped;
   }
 
-  private async processFileIssues(
+  private async processFileIssues()
     filePath: string,
     issues: UnusedVariableIssue[],
   ): Promise<{
@@ -252,7 +252,7 @@ export class UnusedVariableProcessor {
     skipped: number;
     preserved: string[];
   }> {
-    if (!fs.existsSync(filePath)) {
+    if (!fs.existsSync(filePath) {
       return { fixed: 0, skipped: issues.length, preserved: [] };
     }
 
@@ -329,7 +329,7 @@ export class UnusedVariableProcessor {
     ];
 
     for (const pattern of patterns) {
-      if (pattern.test(line)) {
+      if (pattern.test(line) {
         return line.replace(pattern, `_${paramName}`);
       }
     }
@@ -347,7 +347,7 @@ export class UnusedVariableProcessor {
     ];
 
     for (const pattern of patterns) {
-      if (pattern.test(line)) {
+      if (pattern.test(line) {
         return line.replace(new RegExp(`\\b${varName}\\b`, 'g'), `_${varName}`);
       }
     }
@@ -364,7 +364,7 @@ export class UnusedVariableProcessor {
     ];
 
     for (const pattern of patterns) {
-      if (pattern.test(line)) {
+      if (pattern.test(line) {
         return line.replace(new RegExp(`\\b${importName}\\b`, 'g'), `_${importName}`);
       }
     }
@@ -380,7 +380,7 @@ export class UnusedVariableProcessor {
     ];
 
     for (const pattern of patterns) {
-      if (pattern.test(line)) {
+      if (pattern.test(line) {
         return line.replace(new RegExp(`\\b${typeName}\\b`, 'g'), `_${typeName}`);
       }
     }
@@ -410,13 +410,13 @@ export class UnusedVariableProcessor {
   async generateReport(result: ProcessingResult): Promise<void> {
     log.info('\n📊 Unused Variable Processing Report');
     log.info('=====================================');
-    log.info(`Total issues found: ${result.totalIssues}`);
-    log.info(`Successfully processed: ${result.processed}`);
-    log.info(`Skipped (safe): ${result.skipped}`);
-    log.info(`Critical variables preserved: ${result.preservedCritical.length}`);
+    log.info(`Total issues found ${result.totalIssues}`);
+    log.info(`Successfully processed ${result.processed}`);
+    log.info(`Skipped (safe) ${result.skipped}`);
+    log.info(`Critical variables preserved ${result.preservedCritical.length}`);
 
     if (result.errors.length > 0) {
-      log.info(`\n❌ Errors encountered: ${result.errors.length}`);
+      log.info(`\n❌ Errors encountered ${result.errors.length}`);
       result.errors.forEach(error => log.info(`  - ${error}`));
     }
 
@@ -431,6 +431,6 @@ export class UnusedVariableProcessor {
     const reductionPercentage =
       result.totalIssues > 0 ? ((result.processed / result.totalIssues) * 100).toFixed(1) : '0';
 
-    log.info(`\n✨ Reduction achieved: ${reductionPercentage}%`);
+    log.info(`\n✨ Reduction achieved ${reductionPercentage}%`);
   }
 }

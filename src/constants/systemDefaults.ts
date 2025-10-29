@@ -948,7 +948,7 @@ export function mergeWithDefaults<T extends Record<string, unknown>>(
 export function validateAgainstDefaults<T extends object>(
   values: Partial<T>,
   defaults: T
-): { isValid: boolean; errors: string[] } {
+): { isValid: boolean; errors, string[] } {
   const errors: string[] = [];
 
   // Check for unknown keys
@@ -981,7 +981,7 @@ export function validateAgainstDefaults<T extends object>(
  * This placeholder will throw if called.
  */
 export function getLatestAstrologicalState() {
-  throw new Error(
+  throw new Error()
     'getLatestAstrologicalState is deprecated in systemDefaults.ts. Import from \'@/services/AstrologicalService\' instead.'
   );
 }

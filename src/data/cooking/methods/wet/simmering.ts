@@ -20,7 +20,7 @@ export const simmering: CookingMethodData = {
     min: 15,
     max: 240
 },
-  suitable_for: [
+  suitable_for [
     'stocks',
     'soups',
     'stews',

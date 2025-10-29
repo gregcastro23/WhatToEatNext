@@ -117,7 +117,7 @@ class ImportCleanupCLI {
   private async getDefaultFiles(): Promise<string[]> {
     try {
       const { execSync } = require('child_process');
-      const output = execSync(
+      const output = execSync()
         'find src -name "*.ts" -o -name "*.tsx" | grep -v __tests__ | grep -v .test. | grep -v .spec.',
         { encoding: 'utf8', stdio: 'pipe' },
       );
@@ -128,7 +128,7 @@ class ImportCleanupCLI {
     }
   }
 
-  private async runFullCleanup(
+  private async runFullCleanup()
     cleanupSystem: ImportCleanupSystem,
     targetFiles: string[],
   ): Promise<void> {
@@ -144,7 +144,7 @@ class ImportCleanupCLI {
     this.printResults(result);
   }
 
-  private async runUnusedImportCleanup(
+  private async runUnusedImportCleanup()
     cleanupSystem: ImportCleanupSystem,
     targetFiles: string[],
   ): Promise<void> {
@@ -155,7 +155,7 @@ class ImportCleanupCLI {
       console.log(`\n📊 Found ${unusedImports.length} unused imports:`);
 
       const groupedByFile = this.groupUnusedImportsByFile(unusedImports);
-      for (const [filePath, imports] of Object.entries(groupedByFile)) {
+      for (const [filePath, imports] of Object.entries(groupedByFile) {
         console.log(`\n📄 ${filePath}:`);
         imports.forEach(imp => {
           console.log(`  - ${imp.importName} (line ${imp.importLine})`);
@@ -168,7 +168,7 @@ class ImportCleanupCLI {
     console.log(`\n✅ Removed ${removedCount} unused imports`);
   }
 
-  private async runImportOrganization(
+  private async runImportOrganization()
     cleanupSystem: ImportCleanupSystem,
     targetFiles: string[],
   ): Promise<void> {
@@ -183,7 +183,7 @@ class ImportCleanupCLI {
     console.log(`\n✅ Organized imports in ${organizedCount} files`);
   }
 
-  private async runStyleEnforcement(
+  private async runStyleEnforcement()
     cleanupSystem: ImportCleanupSystem,
     targetFiles: string[],
   ): Promise<void> {
@@ -198,7 +198,7 @@ class ImportCleanupCLI {
     console.log(`\n✅ Fixed import styles in ${fixedCount} files`);
   }
 
-  private async runDryRun(
+  private async runDryRun()
     cleanupSystem: ImportCleanupSystem,
     targetFiles: string[],
   ): Promise<void> {
@@ -212,7 +212,7 @@ class ImportCleanupCLI {
     if (unusedImports.length > 0) {
       console.log('\n🗑️  Unused imports by file:');
       const groupedByFile = this.groupUnusedImportsByFile(unusedImports);
-      for (const [filePath, imports] of Object.entries(groupedByFile)) {
+      for (const [filePath, imports] of Object.entries(groupedByFile) {
         console.log(`\n📄 ${filePath}:`);
         imports.forEach(imp => {
           const typeLabel = imp.isTypeImport ? ' (type)' : '';
@@ -238,7 +238,7 @@ class ImportCleanupCLI {
     console.log(`  - Unused imports removed: ${result.unusedImportsRemoved}`);
     console.log(`  - Files with organized imports: ${result.importsOrganized}`);
     console.log(`  - Style violations fixed: ${result.styleViolationsFixed}`);
-    console.log(
+    console.log()
       `  - Build validation: ${result.buildValidationPassed ? '✅ Passed' : '❌ Failed'}`,
     );
 
@@ -295,7 +295,7 @@ function parseArguments(): CLIOptions {
         process.exit(0);
         break;
       default:
-        if (arg.startsWith('--')) {
+        if (arg.startsWith('--') {
           console.warn(`⚠️  Unknown option: ${arg}`);
         }
         break;
@@ -306,7 +306,7 @@ function parseArguments(): CLIOptions {
 }
 
 function printHelp(): void {
-  console.log(`
+  console.log(`)
 🧹 Import Cleanup System CLI
 
 Usage: node run-import-cleanup.ts [options]

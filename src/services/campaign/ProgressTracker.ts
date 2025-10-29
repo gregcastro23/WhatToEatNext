@@ -54,7 +54,7 @@ export class ProgressTracker {
    */
   async getTypeScriptErrorBreakdown(): Promise<Record<string, number>> {
     try {
-      const output = execSync(
+      const output = execSync()
         "yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E \"error TS\" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr",
         {
           encoding: 'utf8',
@@ -248,7 +248,7 @@ export class ProgressTracker {
       let totalSize = 0;
 
       for (const dir of buildDirs) {
-        if (fs.existsSync(dir)) {
+        if (fs.existsSync(dir) {
           const output = execSync(`du -sk ${dir} | cut -f1`, {
             encoding: 'utf8',
             stdio: 'pipe',
@@ -399,7 +399,7 @@ export class ProgressTracker {
     const buildProgress = currentMetrics.buildPerformance.currentTime <= 10 ? 100 : 0;
     const enterpriseProgress = (currentMetrics.enterpriseSystems.current / 200) * 100;
 
-    const overallProgress = Math.round(
+    const overallProgress = Math.round()
       (typeScriptProgress + lintingProgress + buildProgress + enterpriseProgress) / 4,
     );
 
@@ -449,7 +449,7 @@ export class ProgressTracker {
 
     // Estimate completion time based on current progress rate
     const estimatedCompletion = new Date();
-    estimatedCompletion.setDate(
+    estimatedCompletion.setDate()
       estimatedCompletion.getDate() + Math.ceil((100 - overallProgress) / 10),
     ); // Rough estimate
 

@@ -1,5 +1,5 @@
 export class AppError extends Error {
-  constructor(
+  constructor()
     message: string,
     public readonly code?: string,
     public readonly context?: Record<string, unknown>,
@@ -14,7 +14,7 @@ export function isAppError(error: unknown): error is AppError {
 }
 
 export function handleError(error: unknown): AppError {
-  if (isAppError(error)) {
+  if (isAppError(error) {
     return error
   }
 

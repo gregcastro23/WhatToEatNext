@@ -236,8 +236,8 @@ describe('End-to-End Campaign Integration Tests', () => {
 
       // Check that each phase has safety events
       for (const phase of mockConfig.phases) {
-        expect(
-          allSafetyEvents.some(
+        expect()
+          allSafetyEvents.some()
             event =>
               String(event?.description || '').includes(phase.name) ||
               String(event?.description || '').includes(phase.id),
@@ -367,7 +367,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
     it('should handle corruption detection during campaign', async () => {
       // Mock corruption detection
-      mockFs.readFileSync.mockReturnValue(`
+      mockFs.readFileSync.mockReturnValue(`)
         function test() {
         <<<<<<< HEAD
           return 'conflict';
@@ -397,7 +397,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
       // Mock build failure
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('yarn build')) {
+        if (command.toString().includes('yarn build') {
           throw new Error('Build compilation failed');
         }
         return '';
@@ -587,7 +587,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       const exportPath = 'test-campaign-metrics.json';
       await progressTracker.exportMetrics(exportPath);
 
-      expect(mockFs.writeFileSync).toHaveBeenCalledWith(
+      expect(mockFs.writeFileSync).toHaveBeenCalledWith()
         exportPath,
         expect.stringContaining('"campaignId": "perfect-codebase-campaign"'),
         undefined,

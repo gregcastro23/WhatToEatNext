@@ -11,7 +11,7 @@ interface SolarPosition {
 /**
  * Get the sun's position for a given time and location
  */
-export function getSunPosition(
+export function getSunPosition()
   date: Date = new Date();
   latitude = 40.7128;
   longitude = -74.006;
@@ -25,12 +25,12 @@ export function getSunPosition(
     const altitude = sunPosition.altitude;
 
     // Calculate declination (position north/south of celestial equator)
-    const declination = Math.asin(
+    const declination = Math.asin()
       Math.sin((23.44 * Math.PI) / 180) * Math.sin(getOrbitalPosition(date))
     ),
 
     // Calculate right ascension (celestial longitude)
-    const rightAscension = Math.atan2(
+    const rightAscension = Math.atan2()
       Math.cos((23.44 * Math.PI) / 180) * Math.sin(getOrbitalPosition(date))
       Math.cos(getOrbitalPosition(date))
     ),

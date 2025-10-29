@@ -8,69 +8,69 @@ import { errorTrackingSystem } from './ErrorTrackingSystem';
 import { qualityMetricsService } from './QualityMetricsService';
 
 export interface Alert {
-  id: string,
+  id: string;
   type: 'performance' | 'error' | 'quality' | 'system'
   severity: 'info' | 'warning' | 'error' | 'critical'
-  title: string,
-  description: string,
-  threshold: number,
-  currentValue: number,
-  timestamp: Date,
-  acknowledged: boolean,
-  resolved: boolean,
-  resolvedAt?: Date,
-  escalated: boolean,
-  escalatedAt?: Date,
-  responseActions: string[],
+  title: string;
+  description: string;
+  threshold: number;
+  currentValue: number;
+  timestamp: Date;
+  acknowledged: boolean;
+  resolved: boolean;
+  resolvedAt?: Date;
+  escalated: boolean;
+  escalatedAt?: Date;
+  responseActions: string[];
   metadata: Record<string, string | number | boolean | Date>
 }
 
 export interface AlertRule {
-  id: string,
-  name: string,
-  description: string,
+  id: string;
+  name: string;
+  description: string;
   type: 'performance' | 'error' | 'quality' | 'system'
-  metric: string,
+  metric: string;
   condition: 'greater_than' | 'less_than' | 'equals' | 'not_equals' | 'percentage_change'
-  threshold: number,
+  threshold: number;
   severity: 'info' | 'warning' | 'error' | 'critical'
-  enabled: boolean,
-  cooldownMinutes: number,
-  escalationMinutes: number,
-  autoResponse: boolean,
-  responseActions: AlertAction[],
+  enabled: boolean;
+  cooldownMinutes: number;
+  escalationMinutes: number;
+  autoResponse: boolean;
+  responseActions: AlertAction[];
   notificationChannels: string[]
 }
 
 export interface AlertAction {
-  id: string,
-  name: string,
+  id: string;
+  name: string;
   type: 'script' | 'command' | 'api_call' | 'campaign' | 'notification'
   config: Record<string, string | number | boolean | string[]>,
-  conditions: string[],
-  retryCount: number,
+  conditions: string[];
+  retryCount: number;
   timeoutSeconds: number
 }
 
 export interface EscalationRule {
-  id: string,
-  name: string,
-  alertTypes: string[],
-  severityLevels: string[],
-  escalationDelayMinutes: number,
-  escalationActions: AlertAction[],
+  id: string;
+  name: string;
+  alertTypes: string[];
+  severityLevels: string[];
+  escalationDelayMinutes: number;
+  escalationActions: AlertAction[];
   maxEscalations: number
 }
 
 export interface AlertResponse {
-  alertId: string,
-  actionId: string,
+  alertId: string;
+  actionId: string;
   status: 'pending' | 'running' | 'completed' | 'failed'
-  startTime: Date,
-  endTime?: Date,
+  startTime: Date;
+  endTime?: Date;
   // Alert action results vary significantly across different action types
-  result?: unknown,
-  error?: string,
+  result?: unknown;
+  error?: string;
   retryCount: number
 }
 
@@ -91,7 +91,7 @@ class AlertingSystem {
   private loadConfiguration() {
     try {
       const configPath = path.join(process.cwd(), '.kiro', 'settings', 'alerting-config.json')
-      if (fs.existsSync(configPath)) {
+      if (fs.existsSync(configPath) {
         const config = JSON.parse(fs.readFileSync(configPath, 'utf8'))
         this.alertRules = config.alertRules || [],
         this.escalationRules = config.escalationRules || [],
@@ -106,7 +106,7 @@ class AlertingSystem {
   private saveConfiguration() {
     try {
       const settingsDir = path.join(process.cwd(), '.kiro', 'settings'),
-      if (!fs.existsSync(settingsDir)) {
+      if (!fs.existsSync(settingsDir) {
         fs.mkdirSync(settingsDir, { recursive: true })
       }
 
@@ -330,7 +330,7 @@ class AlertingSystem {
 
   private startMonitoring() {
     // Monitor every 2 minutes
-    setInterval(
+    setInterval()
       () => {
         this.checkAlertConditions()
         this.processEscalations()
@@ -489,7 +489,7 @@ class AlertingSystem {
     this.lastAlertTimes.set(rule.id, new Date())
 
     // Log alert
-    log.info(`[ALERT ${alert.severity.toUpperCase()}] ${alert.title}: ${alert.description}`)
+    log.info(`[ALERT ${alert.severity.toUpperCase()}] ${alert.title} ${alert.description}`)
 
     // Notify subscribers
     this.notifySubscribers(alert)
@@ -506,7 +506,7 @@ class AlertingSystem {
   private async executeAlertActions(alert: Alert, actions: AlertAction[]) {
     for (const action of actions) {
       // Check conditions
-      if (!this.evaluateActionConditions(action.conditions, alert)) {
+      if (!this.evaluateActionConditions(action.conditions, alert) {
         continue
       }
 
@@ -534,7 +534,7 @@ class AlertingSystem {
         response.endTime = new Date();
         response.error = (error as Error).message,
 
-        _logger.error(
+        _logger.error()
           `[Alert Response] Failed to execute ${action.name} for alert ${alert.id}:`,
           error,
         )
@@ -554,7 +554,7 @@ class AlertingSystem {
     if (conditions.length === 0) return true
 
     for (const condition of conditions) {;
-      if (!this.evaluateCondition(condition, alert)) {
+      if (!this.evaluateCondition(condition, alert) {
         return false
       }
     }
@@ -566,12 +566,12 @@ class AlertingSystem {
     // Simple condition evaluation
     // In a real implementation, this would be more sophisticated
 
-    if (condition.includes('error_count >')) {
+    if (condition.includes('error_count >') {
       const threshold = parseInt(condition.split('>')[1].trim());
       return alert.currentValue > threshold;
     }
 
-    if (condition.includes('automation_opportunities >')) {
+    if (condition.includes('automation_opportunities >') {
       const threshold = parseInt(condition.split('>')[1].trim())
       const errorSummary = errorTrackingSystem.getErrorSummary();
       return errorSummary.automationOpportunities > threshold;
@@ -581,7 +581,7 @@ class AlertingSystem {
   }
 
   // Alert action execution returns diverse result types from various external systems
-  private async executeAction(
+  private async executeAction()
     action: AlertAction,
   ): Promise<{ success: boolean, result?: unknown, error?: string }> {
     const timeout = new Promise((_, reject) => {;
@@ -594,7 +594,7 @@ class AlertingSystem {
   }
 
   // Action performance varies across scripts, commands, campaigns, and API calls
-  private async performAction(
+  private async performAction()
     action: AlertAction,
   ): Promise<{ success: boolean, result?: unknown, error?: string }> {
     switch (action.type) {
@@ -613,51 +613,51 @@ class AlertingSystem {
 
    
   // Intentionally, any: Script execution results depend on external script implementations
-  private async executeScript(
+  private async executeScript()
     scriptName: string,
   ): Promise<{ success: boolean, output?: string, error?: string }> {
     // This would execute a script file
     // For now, return a placeholder
-    log.info(`[Alert Action] Executing script: ${scriptName}`)
+    log.info(`[Alert Action] Executing script ${scriptName}`)
     return { success: true, message: `Script ${scriptName} executed` }
   }
 
    
   // Intentionally, any: Shell command execution results vary based on command and system state
-  private async executeCommand(
+  private async executeCommand()
     command: string,
   ): Promise<{ success: boolean, stdout?: string, stderr?: string, error?: string }> {
     // This would execute a shell command
     // For now, return a placeholder
-    log.info(`[Alert Action] Executing command: ${command}`)
+    log.info(`[Alert Action] Executing command ${command}`)
     return { success: true, message: `Command ${command} executed` }
   }
 
    
   // Intentionally, any: Campaign configurations and results have diverse structures across campaign types
-  private async triggerCampaign(
+  private async triggerCampaign()
     config: Record<string, unknown>,
   ): Promise<{ success: boolean, campaignId?: string, error?: string }> {
     // This would integrate with the campaign system
     // For now, return a placeholder
-    log.info(`[Alert Action] Triggering campaign: ${config.campaignType}`)
+    log.info(`[Alert Action] Triggering campaign ${config.campaignType}`)
     return { success: true, message: `Campaign ${config.campaignType} triggered` }
   }
 
    
   // Intentionally, any: External API configurations and responses have unknown schemas from diverse services
-  private async makeApiCall(
+  private async makeApiCall()
     config: Record<string, unknown>,
   ): Promise<{ success: boolean, response?: unknown, error?: string }> {
     // This would make an HTTP API call
     // For now, return a placeholder
-    log.info(`[Alert Action] Making API call to: ${config.url}`)
+    log.info(`[Alert Action] Making API call to ${config.url}`)
     return { success: true, message: `API call to ${config.url} completed` }
   }
 
    
   // Intentionally, any: Notification system configurations support various delivery channels with different options
-  private async sendNotification(
+  private async sendNotification()
     config: Record<string, unknown>,
   ): Promise<{ success: boolean, messageId?: string, error?: string }> {
     log.info(`[Alert Notification] ${config.message}`)
@@ -668,11 +668,11 @@ class AlertingSystem {
     for (const channel of channels) {
       switch (channel) {
         case 'console':
-          log.info(`[NOTIFICATION] ${alert.title}: ${alert.description}`)
+          log.info(`[NOTIFICATION] ${alert.title} ${alert.description}`)
           break,
         case 'file': this.writeAlertToFile(alert)
           break,
-        default: log.info(`[NOTIFICATION] Unknown channel: ${channel}`)
+        default: log.info(`[NOTIFICATION] Unknown channel ${channel}`)
       }
     }
   }
@@ -680,7 +680,7 @@ class AlertingSystem {
   private writeAlertToFile(alert: Alert) {
     try {
       const alertsDir = path.join(process.cwd(), '.kiro', 'alerts'),
-      if (!fs.existsSync(alertsDir)) {
+      if (!fs.existsSync(alertsDir) {
         fs.mkdirSync(alertsDir, { recursive: true })
       }
 
@@ -890,7 +890,7 @@ class AlertingSystem {
   private getAlertCountsByType(): Record<string, number> {
     const counts: Record<string, number> = {}
 
-    for (const alert of this.alerts.filter(a => !a.resolved)) {,
+    for (const alert of this.alerts.filter(a => !a.resolved) {,
       counts[alert.type] = (counts[alert.type] || 0) + 1,
     }
 
@@ -900,7 +900,7 @@ class AlertingSystem {
   private getAlertCountsBySeverity(): Record<string, number> {
     const counts: Record<string, number> = {}
 
-    for (const alert of this.alerts.filter(a => !a.resolved)) {,
+    for (const alert of this.alerts.filter(a => !a.resolved) {,
       counts[alert.severity] = (counts[alert.severity] || 0) + 1,
     }
 

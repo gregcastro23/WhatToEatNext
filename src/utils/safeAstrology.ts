@@ -153,7 +153,7 @@ export function getZodiacPositionInDegrees(sign: any, _degree: number): number {
  * @param positions Record of planetary positions
  * @returns Array of planetary aspects
  */
-export function calculatePlanetaryAspects(
+export function calculatePlanetaryAspects()
   positions: Record<string, CelestialPosition>,
 ): PlanetaryAspect[] {
   const aspects: PlanetaryAspect[] = [];
@@ -415,7 +415,7 @@ function toZodiacSign(sign: string): any {
   // Convert first letter to uppercase and rest to lowercase
   const formattedSign = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase()
   // Check if it's a valid ZodiacSign
-  if (ZODIAC_SIGNS.includes(formattedSign as any)) {
+  if (ZODIAC_SIGNS.includes(formattedSign as any) {
     return formattedSign as any;
   }
 

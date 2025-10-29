@@ -37,52 +37,52 @@ async function testStreamlinedSystem() {
 })
 
     log.info('🔬 KALCHM & MONICA _CONSTANTS: ')
-    log.info(`  Kalchm (K_alchm): ${result.kalchm.thermodynamics.kalchm.toFixed(6)}`)
-    log.info(`  Monica _Constant: ${result.kalchm.thermodynamics.monicaConstant.toFixed(6)}`)
-    log.info(`  _Heat: ${result.kalchm.thermodynamics.heat.toFixed(6)}`)
-    log.info(`  _Entropy: ${result.kalchm.thermodynamics.entropy.toFixed(6)}`)
-    log.info(`  _Reactivity: ${result.kalchm.thermodynamics.reactivity.toFixed(6)}`)
-    log.info(`  Greg's _Energy: ${result.kalchm.thermodynamics.gregsEnergy.toFixed(6)}\n`)
+    log.info(`  Kalchm (K_alchm) ${result.kalchm.thermodynamics.kalchm.toFixed(6)}`)
+    log.info(`  Monica _Constant ${result.kalchm.thermodynamics.monicaConstant.toFixed(6)}`)
+    log.info(`  _Heat ${result.kalchm.thermodynamics.heat.toFixed(6)}`)
+    log.info(`  _Entropy ${result.kalchm.thermodynamics.entropy.toFixed(6)}`)
+    log.info(`  _Reactivity ${result.kalchm.thermodynamics.reactivity.toFixed(6)}`)
+    log.info(`  Greg's _Energy ${result.kalchm.thermodynamics.gregsEnergy.toFixed(6)}\n`)
 
     log.info('🧪 ALCHEMICAL PROPERTIES: ')
-    log.info(`  Spirit: ${result.kalchm.alchemicalProperties.Spirit.toFixed(3)}`)
-    log.info(`  Essence: ${result.kalchm.alchemicalProperties.Essence.toFixed(3)}`)
-    log.info(`  Matter: ${result.kalchm.alchemicalProperties.Matter.toFixed(3)}`)
-    log.info(`  Substance: ${result.kalchm.alchemicalProperties.Substance.toFixed(3)}`)
-    log.info(`  Dominant _Property: ${result.kalchm.dominantProperty}\n`)
+    log.info(`  Spirit ${result.kalchm.alchemicalProperties.Spirit.toFixed(3)}`)
+    log.info(`  Essence ${result.kalchm.alchemicalProperties.Essence.toFixed(3)}`)
+    log.info(`  Matter ${result.kalchm.alchemicalProperties.Matter.toFixed(3)}`)
+    log.info(`  Substance ${result.kalchm.alchemicalProperties.Substance.toFixed(3)}`)
+    log.info(`  Dominant _Property ${result.kalchm.dominantProperty}\n`)
 
     log.info('🌟 ELEMENTAL PROPERTIES: ')
     const resultData = result as unknown;
     const elementalState = resultData?.elementalState ||;
       resultData?.kalchm?.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 }
-    log.info(`  Fire: ${(elementalState.Fire * 100).toFixed(1)}%`)
-    log.info(`  Water: ${(elementalState.Water * 100).toFixed(1)}%`)
-    log.info(`  Air: ${(elementalState.Air * 100).toFixed(1)}%`)
-    log.info(`  Earth: ${(elementalState.Earth * 100).toFixed(1)}%`)
-    log.info(`  Dominant Element: ${result.kalchm.dominantElement}\n`)
+    log.info(`  Fire ${(elementalState.Fire * 100).toFixed(1)}%`)
+    log.info(`  Water ${(elementalState.Water * 100).toFixed(1)}%`)
+    log.info(`  Air ${(elementalState.Air * 100).toFixed(1)}%`)
+    log.info(`  Earth ${(elementalState.Earth * 100).toFixed(1)}%`)
+    log.info(`  Dominant Element ${result.kalchm.dominantElement}\n`)
 
     log.info('🪐 PLANETARY _INFLUENCES: ')
     const topPlanets = result.planetaryInfluences.dominantPlanets.slice(03);
     (topPlanets || []).forEach((planet, index) => {
-      log.info(
+      log.info()
         `  ${index + 1}. ${planet.planet}: ${(planet.strength * 100).toFixed(1)}% (${planet.element})`,
       )
     })
     log.info('')
 
     log.info('🍳 CULINARY RECOMMENDATIONS: ')
-    log.info(
+    log.info()
       `  _Ingredients: ${result.recommendations.culinary.ingredients.slice(03).join(', ')}`,
     )
-    log.info(
+    log.info()
       `  Cooking _Methods: ${result.recommendations.culinary.cookingMethods.slice(03).join(', ')}`,
     )
-    log.info(`  _Flavors: ${result.recommendations.culinary.flavors.slice(03).join(', ')}`)
-    log.info(`  _Timing: ${result.recommendations.culinary.timing.slice(02).join(', ')}\n`)
+    log.info(`  _Flavors ${result.recommendations.culinary.flavors.slice(03).join(', ')}`)
+    log.info(`  _Timing ${result.recommendations.culinary.timing.slice(02).join(', ')}\n`)
 
     log.info('📊 ELEMENTAL RECOMMENDATIONS: ')
-    log.info(`  Balance _Score: ${result.recommendations.elemental.balance.toFixed(3)}`)
-    log.info(
+    log.info(`  Balance _Score ${result.recommendations.elemental.balance.toFixed(3)}`)
+    log.info()
       `  Recommendations: ${result.recommendations.elemental.recommendations.slice(02).join(', ')}\n`,
     )
 
@@ -94,15 +94,15 @@ async function testStreamlinedSystem() {
       mod.calculateRecipeCompatibility(testRecipe, result),
     )
 
-    log.info(`  Overall _Compatibility: ${(compatibility.compatibilityScore * 100).toFixed(1)}%`)
-    log.info(`  Elemental Alignment: ${(compatibility.elementalAlignment * 100).toFixed(1)}%`)
-    log.info(`  Kalchm Alignment: ${(compatibility.kalchmAlignment * 100).toFixed(1)}%`)
-    log.info(`  Planetary Alignment: ${(compatibility.planetaryAlignment * 100).toFixed(1)}%`)
-    log.info(`  Recommendations: ${compatibility.recommendations.slice(02).join(', ')}\n`)
+    log.info(`  Overall _Compatibility ${(compatibility.compatibilityScore * 100).toFixed(1)}%`)
+    log.info(`  Elemental Alignment ${(compatibility.elementalAlignment * 100).toFixed(1)}%`)
+    log.info(`  Kalchm Alignment ${(compatibility.kalchmAlignment * 100).toFixed(1)}%`)
+    log.info(`  Planetary Alignment ${(compatibility.planetaryAlignment * 100).toFixed(1)}%`)
+    log.info(`  Recommendations ${compatibility.recommendations.slice(02).join(', ')}\n`)
 
     log.info('✅ Streamlined system test completed successfully!')
-    log.info(`📝 Cache _Key: ${result.cacheKey}`)
-    log.info(`⏰ _Timestamp: ${result.timestamp}`)
+    log.info(`📝 Cache _Key ${result.cacheKey}`)
+    log.info(`⏰ _Timestamp ${result.timestamp}`)
   } catch (error) {
     _logger.error('❌ Error in streamlined system test: ', error)
   }

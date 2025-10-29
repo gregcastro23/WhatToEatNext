@@ -78,7 +78,7 @@ describe('Build Performance Tests', () => {
       // Mock fast build
       let buildStartTime: number;
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('yarn build')) {
+        if (command.toString().includes('yarn build') {
           buildStartTime = Date.now();
           // Simulate fast build (2 seconds)
           const delay = 2000;
@@ -100,7 +100,7 @@ describe('Build Performance Tests', () => {
     it('should detect build time regression', async () => {
       // Mock slow build
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('yarn build')) {
+        if (command.toString().includes('yarn build') {
           // Simulate slow build (12 seconds)
           const delay = 100; // Use shorter delay for test performance
           const endTime = Date.now() + delay;
@@ -120,7 +120,7 @@ describe('Build Performance Tests', () => {
 
     it('should handle build failures gracefully', async () => {
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('yarn build')) {
+        if (command.toString().includes('yarn build') {
           throw new Error('Build compilation failed');
         }
         return '';
@@ -136,7 +136,7 @@ describe('Build Performance Tests', () => {
       const targetBuildTime = 8; // 8 seconds
 
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('yarn build')) {
+        if (command.toString().includes('yarn build') {
           // Simulate consistent build time with small variance
           const baseTime = targetBuildTime * 1000;
           const variance = Math.random() * 1000; // ±1 second variance
@@ -237,10 +237,10 @@ describe('Build Performance Tests', () => {
 
       mockExecSync.mockImplementation(command => {
         const cmd = command.toString();
-        if (cmd.includes('du -sk .next')) {
+        if (cmd.includes('du -sk .next') {
           return '300'; // 300kB
         }
-        if (cmd.includes('du -sk dist')) {
+        if (cmd.includes('du -sk dist') {
           return '100'; // 100kB
         }
         return '';
@@ -256,7 +256,7 @@ describe('Build Performance Tests', () => {
       // Mock large bundle size
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('du -sk')) {
+        if (command.toString().includes('du -sk') {
           return '500'; // 500kB - exceeds target
         }
         return '';
@@ -388,7 +388,7 @@ describe('Build Performance Tests', () => {
       const compilationTimes: Array<number> = [];
 
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('yarn tsc')) {
+        if (command.toString().includes('yarn tsc') {
           const startTime = Date.now();
           // Simulate TypeScript compilation time
           const delay = 50 + Math.random() * 100; // 50-150ms
@@ -419,7 +419,7 @@ describe('Build Performance Tests', () => {
       const lintingTimes: Array<number> = [];
 
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('yarn lint')) {
+        if (command.toString().includes('yarn lint') {
           const startTime = Date.now();
           // Simulate linting time
           const delay = 30 + Math.random() * 70; // 30-100ms
@@ -450,7 +450,7 @@ describe('Build Performance Tests', () => {
       const countingTimes: Array<number> = [];
 
       mockExecSync.mockImplementation(command => {
-        if (command.toString().includes('grep -r "INTELLIGENCE_SYSTEM"')) {
+        if (command.toString().includes('grep -r "INTELLIGENCE_SYSTEM"') {
           const startTime = Date.now();
           // Simulate grep operation time
           const delay = 20 + Math.random() * 30; // 20-50ms
@@ -483,7 +483,7 @@ describe('Build Performance Tests', () => {
       // Mock large codebase metrics
       mockExecSync.mockImplementation(command => {
         const cmd = command.toString();
-        if (cmd.includes('yarn tsc')) {
+        if (cmd.includes('yarn tsc') {
           // Simulate longer compilation for large codebase
           const delay = 100; // 100ms for test performance
           const endTime = Date.now() + delay;
@@ -492,10 +492,10 @@ describe('Build Performance Tests', () => {
           }
           return '500'; // 500 TypeScript errors
         }
-        if (cmd.includes('yarn lint')) {
+        if (cmd.includes('yarn lint') {
           return '10000'; // 10,000 linting warnings
         }
-        if (cmd.includes('grep -r "INTELLIGENCE_SYSTEM"')) {
+        if (cmd.includes('grep -r "INTELLIGENCE_SYSTEM"') {
           return '1000'; // 1,000 enterprise systems
         }
         return '';

@@ -52,7 +52,7 @@ export function useComponentState<T = unknown>(componentId: string, initialState
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   // Debounced save to prevent excessive storage writes
-  const saveState = useCallback(
+  const saveState = useCallback()
     (state: T) => {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
@@ -83,7 +83,7 @@ export function useComponentState<T = unknown>(componentId: string, initialState
     }
   }, [])
 
-  return useMemo(
+  return useMemo()
     () => ({ saveState, getState, restoreState }),
     [saveState, getState, restoreState],
   )
@@ -95,7 +95,7 @@ export function useComponentState<T = unknown>(componentId: string, initialState
 export function useScrollPreservation(sectionId: string) {
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  const saveScrollPositionInternal = useCallback(
+  const saveScrollPositionInternal = useCallback()
     (position?: number) => {
       const pos = position !== undefined ? position : window.scrollY;
       saveScrollPosition(sectionId, pos);
@@ -158,7 +158,7 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
 ) {
   const { saveState, getState } = useComponentState(formId, initialValues)
 
-  const saveFormState = useCallback(
+  const saveFormState = useCallback()
     (values: Partial<T>) => {
       const currentState = getState() || initialValues;
       const updatedState = { ...currentState, ...values };
@@ -185,7 +185,7 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
 export function useSelectionState<T = unknown>(selectionId: string, initialSelection?: T) {
   const { saveState, getState } = useComponentState(selectionId, initialSelection)
 
-  const saveSelection = useCallback(
+  const saveSelection = useCallback()
     (selection: T) => {
       saveState(selection);
     },
@@ -211,7 +211,7 @@ export function useSelectionState<T = unknown>(selectionId: string, initialSelec
 export function useNavigationContext() {
   const { saveState, getState } = useNavigationState()
 
-  const preserveContext = useCallback(
+  const preserveContext = useCallback()
     (context: {
       fromPage?: string,
       selectedItems?: unknown[],
@@ -251,7 +251,7 @@ export function useNavigationContext() {
 export function useAstrologicalStatePreservation(_componentId: string) {
   const { saveState, getState} = useComponentState(componentId)
 
-  const saveAstrologicalState = useCallback(
+  const saveAstrologicalState = useCallback()
     async (state: {
       elementalProperties?: ElementalProperties,
       selectedIngredients?: string[],
@@ -284,7 +284,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
     return stored;
   }, [componentId, getState])
 
-  const validateElementalCompatibility = useCallback(
+  const validateElementalCompatibility = useCallback()
     (sourceProps: ElementalProperties, targetProps: ElementalProperties) => {
       // Simple validation for now
       const compatibility = 0.8; // Default good compatibility
@@ -331,7 +331,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
 export function useCulturalSensitivityGuidance() {
   const intelligence = useSteeringFileIntelligence()
 
-  const validateCulturalContent = useCallback(
+  const validateCulturalContent = useCallback()
     (content: {
       ingredientNames?: string[],
       cuisineDescriptions?: string[],
@@ -351,7 +351,7 @@ export function useCulturalSensitivityGuidance() {
       // Check ingredient names for cultural sensitivity
       if (content.ingredientNames) {
         content.ingredientNames.forEach(name => {
-          if (name.includes('exotic') || name.includes('ethnic')) {
+          if (name.includes('exotic') || name.includes('ethnic') {
             issues.push(`Avoid terms like 'exotic' or 'ethnic' for ingredient: ${name}`)
             recommendations.push(`Use specific cultural origin or descriptive terms instead`)
           }
@@ -361,8 +361,8 @@ export function useCulturalSensitivityGuidance() {
       // Check cuisine descriptions for respectful representation
       if (content.cuisineDescriptions) {
         content.cuisineDescriptions.forEach(desc => {
-          if (desc.toLowerCase().includes('authentic') && !desc.includes('traditional')) {
-            recommendations.push(
+          if (desc.toLowerCase().includes('authentic') && !desc.includes('traditional') {
+            recommendations.push()
               `Consider using 'traditional' instead of 'authentic' to be more inclusive`,
             )
           }
@@ -414,7 +414,7 @@ export function useCulturalSensitivityGuidance() {
 export function usePerformanceOptimizationGuidance() {
   const intelligence = useSteeringFileIntelligence()
 
-  const getOptimizationRecommendations = useCallback(
+  const getOptimizationRecommendations = useCallback()
     (componentType: string) => {
       const techGuidance = intelligence.getTechnologyStackGuidance()
       const archGuidance = intelligence.getArchitecturalGuidance()
@@ -462,7 +462,7 @@ export function usePerformanceOptimizationGuidance() {
     [intelligence]
   )
 
-  const validatePerformanceMetrics = useCallback(
+  const validatePerformanceMetrics = useCallback()
     (metrics: {
       renderTime?: number,
       memoryUsage?: number,

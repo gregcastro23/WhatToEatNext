@@ -56,7 +56,7 @@ describe('Build System Integration', () => {
 
   describe('Build System Validation', () => {
     it('should detect when build directory exists', () => {
-      if (fs.existsSync(buildDir)) {
+      if (fs.existsSync(buildDir) {
         const output = execSync('node scripts/build-system-repair.cjs validate', {
           encoding: 'utf8',
           stdio: 'pipe'
