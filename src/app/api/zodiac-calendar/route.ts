@@ -99,7 +99,7 @@ function handleDegreeForDate(searchParams: URLSearchParams) {
 
   if (!dateParam) {
     return NextResponse.json()
-      { error: 'Missing required parameter: date (format, YYYY-MM-DD)' },
+      { error: 'Missing required parameter, date (format, YYYY-MM-DD)' },
       { status: 400 }
     );
   }
@@ -131,7 +131,7 @@ function handleDegreeForDate(searchParams: URLSearchParams) {
     });
   } catch (error) {
     return NextResponse.json()
-      { error: 'Invalid date format. Use YYYY-MM-DD or YYYY-MM-DDTHH:mm, ss' },
+      { error: 'Invalid date format. Use YYYY-MM-DD or YYYY-MM-DDTHH, mm, ss' },
       { status: 400 }
     );
   }
@@ -300,7 +300,7 @@ function handleCompareAccuracy(searchParams: URLSearchParams) {
 
   if (!dateParam) {
     return NextResponse.json()
-      { error: 'Missing required parameter: date (format, YYYY-MM-DD)' },
+      { error: 'Missing required parameter, date (format, YYYY-MM-DD)' },
       { status: 400 }
     );
   }

@@ -629,7 +629,7 @@ export const _getHolisticCookingRecommendations = async (
   isDaytime = true,
   availableMethods: string[] = [],
   count = 5
-): Promise<Array<{ method: string; compatibility: number; reason, string }>> => {
+): Promise<Array<{ method: string; compatibility, number; reason, string }>> => {
   logger.debug('\n--- HOLISTIC COOKING RECOMMENDATIONS ---')
   logger.debug(`Ingredient: ${(item as any).name}`)
   logger.debug(`Planet influence: ${planet || 'None'}`)

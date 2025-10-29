@@ -60,7 +60,7 @@ export interface AlchemicalNutritionalProfile extends NutritionalProfile {
   }
 }
 
-export interface NutrientGroup { macronutrients: { [key: string], number }; // Protein, carbs, fats, fiber
+export interface NutrientGroup { macronutrients: { [key, string], number }; // Protein, carbs, fats, fiber
   micronutrients: { [key: string]: number }; // Vitamins and minerals
   phytonutrients: { [key: string]: number }; // Antioxidants, flavonoids, etc.
   bioactiveCompounds: { [key: string]: number }; // Specialized compounds,

@@ -404,7 +404,7 @@ export class FoodAlchemySystem {
     food: FoodCorrespondence,
     planetaryDay: string,
     planetaryPositions?: Record<string, { sign: string; degree, number }>,
-  ): { score: number; dignityBonus?: number; decanBonus?, number } {
+  ): { score: number; dignityBonus?, number; decanBonus?, number } {
     const normalizedPositions = normalizePlanetaryPositions(planetaryPositions || {});
     // Get the elements associated with the current planetary day
     const dayElements = planetaryElements[planetaryDay];
@@ -488,7 +488,7 @@ export class FoodAlchemySystem {
     isDaytime: boolean,
     planetaryPositions?: Record<string, { sign: string; degree, number }>,
     aspects?: Array<{ type: string; planets: [string, string] }>,
-  ): { score: number; dignityBonus?: number; aspectBonus?, number } {
+  ): { score: number; dignityBonus?, number; aspectBonus?, number } {
     // Get the elements associated with the current planetary hour
     const hourElements = planetaryElements[planetaryHour];
     if (!hourElements) return { score: 0.5 }; // Unknown planet

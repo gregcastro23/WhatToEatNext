@@ -435,7 +435,7 @@ export async function getIngredientRecommendations()
 
   const rulingPlanet = signRulers[sunSign] || 'Sun';
   // Get decan information for each planet position
-  const planetDecans: Record<string, { decanNum: number; decanRuler: string; tarotCard, string }> =
+  const planetDecans: Record<string, { decanNum: number; decanRuler, string; tarotCard, string }> =
     {};
 
   Object.entries(elementalProps.planetaryAlignment || {}).forEach(([planet, position]) => {

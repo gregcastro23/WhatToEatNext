@@ -14,13 +14,13 @@ const logger = createLogger('CurrentMomentAPI');
  */
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url)
+    const { searchParams } = new URL(request.url);
     const forceRefresh = searchParams.get('refresh') === 'true';
 
-    logger.info(`Getting current moment data (forceRefresh: ${forceRefresh})`)
+    logger.info(`Getting current moment data (forceRefresh: ${forceRefresh})`);
 
-    const currentMoment = await getCurrentMoment(forceRefresh)
-    const performanceMetrics = currentMomentManager.getPerformanceMetrics()
+    const currentMoment = await getCurrentMoment(forceRefresh);
+    const performanceMetrics = currentMomentManager.getPerformanceMetrics();
 
     const response = {
       success: true,
@@ -44,20 +44,21 @@ export async function GET(request: Request) {
           currentMinuteUpdates: performanceMetrics.updateFrequency[new Date().toISOString().slice(0, 16)] || 0
         }
       }
-    }
+    };
 
-    return NextResponse.json(response)
+    return NextResponse.json(response);
   } catch (error) {
-    logger.error('Error getting current moment: ', error)
+    logger.error('Error getting current moment: ', error);
 
-    return NextResponse.json()
+    return NextResponse.json(
       {
         success: false,
         error: 'Failed to get current moment data',
         details: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date().toISOString()
       },
-      { status: 500 })
+      { status: 500 }
+    );
   }
 }
 
@@ -69,7 +70,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { customDateTime, latitude, longitude, action = 'update' } = body;
 
-    logger.info(`Current moment ${action} requested`)
+    logger.info(`Current moment ${action} requested`);
 
     let result;
 
@@ -78,7 +79,7 @@ export async function POST(request: Request) {
         const customDate = customDateTime ? new Date(customDateTime) : undefined;
         const customLocation = latitude && longitude ? { latitude, longitude } : undefined;
 
-        result = await updateCurrentMoment(customDate, customLocation)
+        result = await updateCurrentMoment(customDate, customLocation);
 
         return NextResponse.json({
           success: true,
@@ -92,7 +93,7 @@ export async function POST(request: Request) {
             'src/utils/streamlinedPlanetaryPositions.ts',
             'src/utils/accurateAstronomy.ts'
           ]
-        })
+        });
 
       case 'status':
         const currentMoment = await getCurrentMoment();
@@ -106,29 +107,32 @@ export async function POST(request: Request) {
             lastUpdate: currentMoment.metadata.lastUpdated,
             source: currentMoment.metadata.source,
             dataIntegrity: Object.keys(currentMoment.planetaryPositions).length >= 10 ? 'good' : 'incomplete'
-}
-        })
+          }
+        });
 
-      default: return NextResponse.json()
+      default:
+        return NextResponse.json(
           {
             success: false,
             error: 'Invalid action',
             validActions: ['update', 'status'],
             timestamp: new Date().toISOString()
           },
-          { status: 400 })
+          { status: 400 }
+        );
     }
   } catch (error) {
-    logger.error('Error in current moment POST: ', error)
+    logger.error('Error in current moment POST: ', error);
 
-    return NextResponse.json()
+    return NextResponse.json(
       {
         success: false,
         error: 'Failed to process current moment request',
         details: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date().toISOString()
       },
-      { status: 500 })
+      { status: 500 }
+    );
   }
 }
 
@@ -140,33 +144,33 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { targets = ['all'], customDateTime, latitude, longitude } = body;
 
-    logger.info(`Selective update requested for targets: ${targets.join(', ')}`)
+    logger.info(`Selective update requested for targets: ${targets.join(', ')}`);
 
     // Get current moment first
     const customDate = customDateTime ? new Date(customDateTime) : undefined;
     const customLocation = latitude && longitude ? { latitude, longitude } : undefined;
 
-    const currentMoment = await updateCurrentMoment(customDate, customLocation)
+    const currentMoment = await updateCurrentMoment(customDate, customLocation);
 
     const updateResults = {
       notebook: false,
       systemDefaults: false,
       streamlinedPositions: false,
       accurateAstronomy: false
-}
+    };
 
     // Note: The updateCurrentMoment already updates all files,
     // so this is more of a status report
-    if (targets.includes('all') || targets.includes('notebook') {
+    if (targets.includes('all') || targets.includes('notebook')) {
       updateResults.notebook = true;
     }
-    if (targets.includes('all') || targets.includes('systemDefaults') {
+    if (targets.includes('all') || targets.includes('systemDefaults')) {
       updateResults.systemDefaults = true;
     }
-    if (targets.includes('all') || targets.includes('streamlinedPositions') {
+    if (targets.includes('all') || targets.includes('streamlinedPositions')) {
       updateResults.streamlinedPositions = true;
     }
-    if (targets.includes('all') || targets.includes('accurateAstronomy') {
+    if (targets.includes('all') || targets.includes('accurateAstronomy')) {
       updateResults.accurateAstronomy = true;
     }
 
@@ -178,17 +182,18 @@ export async function PUT(request: Request) {
       targets,
       updateResults,
       currentMoment
-    })
+    });
   } catch (error) {
-    logger.error('Error in current moment PUT: ', error)
+    logger.error('Error in current moment PUT: ', error);
 
-    return NextResponse.json()
+    return NextResponse.json(
       {
         success: false,
         error: 'Failed to process selective update',
         details: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date().toISOString()
       },
-      { status: 500 })
+      { status: 500 }
+    );
   }
 }

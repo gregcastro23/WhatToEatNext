@@ -113,7 +113,7 @@ export function calculateComprehensiveAspects()
       }
 
       // Check each aspect type
-      let bestAspect: { type: string; orb: number; strength, number } | null = null;
+      let bestAspect: { type: string; orb, number; strength, number } | null = null;
 
       for (const [type, definition] of Object.entries(aspectDefinitions) {
         const adjustedMaxOrb = definition.maxOrb * orbMultiplier;

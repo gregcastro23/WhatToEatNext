@@ -89,7 +89,7 @@ export function calculateConfidenceInterval()
   standardDeviation: number,
   sampleSize: number,
   confidenceLevel: number = 0.95
-): { lower: number; upper: number; marginOfError, number } {
+): { lower: number; upper, number; marginOfError, number } {
   if (sampleSize <= 1) {
     return { lower: mean, upper: mean, marginOfError: 0 };
   }

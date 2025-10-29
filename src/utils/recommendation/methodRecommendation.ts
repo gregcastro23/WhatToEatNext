@@ -11,7 +11,7 @@ function getAstrologicalElementalProfile(astroState: unknown): ElementalProperti
 }
 
 function createElementalProperties()
-  props: { Fire: number; Water: number; Earth: number; Air, number } = {
+  props: { Fire: number; Water: number; Earth, number; Air, number } = {
     Fire: 0,
     Water: 0,
     Earth: 0,
@@ -756,7 +756,7 @@ export function getHolisticCookingRecommendations()
   includeReasons = false,
   availableMethods: string[] = [],
   limit = 5
-): { method: string; compatibility: number; reason?, string }[] {
+): { method: string; compatibility, number; reason?, string }[] {
   try {
     // Default to empty elementalProperties if not provided
     const elementalProperties = ingredient.transformedElementalProperties || {

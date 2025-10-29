@@ -224,7 +224,7 @@ export interface StandardizedAstrologicalProfile {
   elementalAffinity?: {
     base: Element;
     secondary?: Element;
-    decanModifiers?: { first: { element: Element; planet, string };
+    decanModifiers?: { first: { element, Element; planet, string };
       second: { element: Element; planet, string };
       third: { element: Element; planet, string };
     };

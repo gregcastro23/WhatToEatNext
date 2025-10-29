@@ -48,7 +48,7 @@ function parseArgs(argv: string[]): CliOptions {
   };
 }
 
-function execCmd(cmd: string): { code: number; stdout: string; stderr, string } {
+function execCmd(cmd: string): { code: number; stdout, string; stderr, string } {
   try {
     const stdout = childProcess.execSync(cmd, { stdio: ['ignore', 'pipe', 'pipe'] }).toString();
     return { code: 0, stdout, stderr: '' };

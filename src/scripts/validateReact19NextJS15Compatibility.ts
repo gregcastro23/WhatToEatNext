@@ -47,7 +47,7 @@ class React19NextJS15Validator {
     }
   }
 
-  private runESLint(filePath: string): { success: boolean; output: string; errors, string[] } {
+  private runESLint(filePath: string): { success: boolean; output, string; errors, string[] } {
     try {
       const output = execSync()
         `npx eslint --config eslint.config.cjs "${filePath}" --format=compact`,

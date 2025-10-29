@@ -6,7 +6,7 @@
  */
 export function normalizeVitamins()
   vitamins: Record<string, unknown>
-): Array<{ name: string; value?: number; unit?, string }> {
+): Array<{ name: string; value?, number; unit?, string }> {
   if (!vitamins) return [];
   // If it's already an array of strings
   if (Array.isArray(vitamins) {
@@ -34,7 +34,7 @@ export function normalizeVitamins()
  */
 export function normalizeMinerals()
   minerals: Record<string, unknown>
-): Array<{ name: string; value?: number; unit?, string }> {
+): Array<{ name: string; value?, number; unit?, string }> {
   if (!minerals) return [];
   // If it's already an array of strings
   if (Array.isArray(minerals) {

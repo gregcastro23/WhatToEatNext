@@ -611,13 +611,13 @@ export function getBaseSignLongitude(sign: ZodiacSign): number {
  * @returns Current planetary positions
  */
 export function getCurrentTransitPositions(): {
-  [key: string]: { sign: ZodiacSign; degree: number; isRetrograde, boolean };
+  [key: string]: { sign: ZodiacSign; degree, number; isRetrograde, boolean };
 } {
   // First try to get reliable positions
   const positions = getReliablePlanetaryPositions();
 
   // Convert to transit format
-  const result: { [key: string]: { sign: ZodiacSign; degree: number; isRetrograde, boolean } } =
+  const result: { [key: string]: { sign: ZodiacSign; degree, number; isRetrograde, boolean } } =
     {};
 
   for (const [planet, data] of Object.entries(positions) {

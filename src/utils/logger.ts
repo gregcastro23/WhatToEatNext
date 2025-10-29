@@ -13,7 +13,7 @@ const _isBrowser = typeof window !== 'undefined';
  */
 class Logger {
   private logLevel: LogLevel = isDev ? 'debug' : 'info';
-  private recentErrors: Array<{ message: string; timestamp: number; component?, string }> = [];
+  private recentErrors: Array<{ message: string; timestamp, number; component?, string }> = [];
   private readonly MAX_ERRORS = 20;
 
   // Track components that have created loggers

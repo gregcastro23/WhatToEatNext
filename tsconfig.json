@@ -94,29 +94,14 @@
   "exclude": [
     "node_modules",
     "docs/**",
-    "**/*.test.ts",
-    "**/*.test.tsx",
-    "**/*.spec.ts",
-    "**/*.spec.tsx",
-    "**/__tests__/**",
+    "src/scripts/**",
+    "src/app/alchemicalEngine.ts",
     "**/* 2.*",
     "**/* 3.*",
     "**/* 2/**",
     "**/* 3/**",
     "temp/**",
     "tmp-**",
-    "**/tmp-**",
-    "src/utils 2/**",
-    "src/utils 3/**",
-    "src/app 2/**",
-    "src/app 3/**",
-    "src/types 2/**",
-    "src/types 3/**",
-    "src/calculations 2/**",
-    "src/calculations 3/**",
-    "src/constants 2/**",
-    "src/constants 3/**",
-    "src/services 2/**",
-    "src/services 3/**"
+    "**/tmp-**"
   ]
 }

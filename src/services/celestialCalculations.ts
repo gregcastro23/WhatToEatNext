@@ -933,9 +933,9 @@ class CelestialCalculator {
    */
   private calculatePlanetaryAspects()
     date: Date
-  ): Array<{ type: AspectType; planets: string[]; influence: number; orb?, number }> {
+  ): Array<{ type: AspectType; planets: string[]; influence, number; orb?, number }> {
     // Base aspects
-    const aspects: Array<{ type: AspectType; planets: string[]; influence: number; orb?, number }> =
+    const aspects: Array<{ type: AspectType; planets: string[]; influence, number; orb?, number }> =
       [];
 
     // Add a conjunction aspect based on day of week

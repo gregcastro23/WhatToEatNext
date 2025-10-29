@@ -25,7 +25,7 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
       ([id, tradition]) => {
         const traditionData = tradition as unknown as {
           description?: string;
-          elementalAlignment?: { Fire: number; Water: number; Earth: number; Air, number };
+          elementalAlignment?: { Fire: number; Water: number; Earth, number; Air, number };
           authenticity?: number;
           regions?: unknown[];
           seasonality?: unknown;
@@ -72,7 +72,7 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
 function deriveAstrologicalInfluences(tradition: unknown): string[] {
   const traditionData = tradition as {
     description?: string;
-    elementalAlignment?: { Fire: number; Water: number; Earth: number; Air, number };
+    elementalAlignment?: { Fire: number; Water: number; Earth, number; Air, number };
     regions?: unknown[];
     astrologicalProfile?: any;
     regionalCuisines?: any;

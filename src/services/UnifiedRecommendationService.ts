@@ -842,7 +842,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   private calculateQuantityAwareRecipeScore()
     recipe: Recipe,
     targetElemental: ElementalProperties,
-    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit, string }>
+    ingredientQuantities: Array<{ ingredient: string; quantity, number; unit, string }>
   ): number {
     const ingredientService = IngredientService.getInstance();
 
@@ -907,7 +907,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    * Calculate kinetics bonus for cooking method compatibility
    */
   private calculateKineticsCookingBonus()
-    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit, string }>,
+    ingredientQuantities: Array<{ ingredient: string; quantity, number; unit, string }>,
     cookingMethod: string
   ): number {
     const ingredientService = IngredientService.getInstance();
@@ -944,7 +944,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    */
   private calculateQuantityBonus()
     includedIngredients: string[],
-    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit, string }>,
+    ingredientQuantities: Array<{ ingredient: string; quantity, number; unit, string }>,
     recipe: Recipe
   ): number {
     let bonus = 0;

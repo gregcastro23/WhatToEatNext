@@ -956,7 +956,7 @@ export interface CelestialAlignment {
   energyStates?: EnergyStateProperties; // ESMS energy states (Spirit, Essence, Matter, Substance)
   chakraEnergies?: ChakraEnergies; // Chakra energy distribution
   // Additional calculation properties
-  aspectInfluences?: Array<{ type: AspectType; planets: string[]; influence, number }>; // Detailed aspect influences
+  aspectInfluences?: Array<{ type: AspectType; planets, string[]; influence, number }>; // Detailed aspect influences
   energyStateBalance?: EnergyStateProperties; // Energy state balance calculations
   chakraEmphasis?: ChakraEnergies; // Chakra emphasis calculations
   // Alchemizer engine integration properties

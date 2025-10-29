@@ -730,7 +730,7 @@ export async function calculateMonicaCompatibility()
  */
 export async function connectIngredientsToMappings()
   recipe: Recipe,
-): Promise<{ name: string; matchedTo?: IngredientMapping; confidence, number }[] | undefined> {
+): Promise<{ name: string; matchedTo?, IngredientMapping; confidence, number }[] | undefined> {
   if (!isNonEmptyArray(recipe.ingredients) {
     return undefined;
   }

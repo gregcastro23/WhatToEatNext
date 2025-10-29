@@ -326,7 +326,7 @@ export interface EnhancedIngredientRecommendation extends IngredientRecommendati
       seasonal: number;
       cultural: number;
       _nutritional: number;
-      _breakdown: { elementalDetails: { [key: string], number };
+      _breakdown: { elementalDetails: { [key, string], number };
         flavorHarmony: { [key: string]: number };
         seasonalAlignment: { [key: string]: number };
         culturalResonance: string[];
@@ -648,7 +648,7 @@ export async function getIngredientRecommendations()
     currentZodiac: string;
     activePlanets: string[];
     lunarPhase: string;
-    aspects: Array<{ aspectType: string; planet1: string; planet2, string }>;
+    aspects: Array<{ aspectType: string; planet1, string; planet2, string }>;
   },
   _options: RecommendationOptions,
 ): Promise<GroupedIngredientRecommendations> {
@@ -1016,7 +1016,7 @@ export async function recommendIngredients()
       currentZodiac: string;
       activePlanets: string[];
       lunarPhase: string;
-      aspects: Array<{ aspectType: string; planet1: string; planet2, string }>;
+      aspects: Array<{ aspectType: string; planet1, string; planet2, string }>;
     },
     options,
   );

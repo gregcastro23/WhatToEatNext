@@ -267,7 +267,7 @@ declare global {
   /**
    * Real-time error detection and fixing
    */
-  public detectAndFixCommonErrors(sourceCode: string): { fixedCode: string; fixes: string[]; remainingErrors, string[]; } {
+  public detectAndFixCommonErrors(sourceCode: string): { fixedCode: string; fixes, string[]; remainingErrors, string[]; } {
     let fixedCode = sourceCode;
     const fixes: string[] = [];
     const remainingErrors: string[] = [];

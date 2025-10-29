@@ -23,7 +23,7 @@ export type ElementalProperties = {
 // Zodiac Date Ranges
 export const zodiacDateRanges: Record<
   ZodiacSign,
-  { startMonth: number; startDay: number; endMonth, number, endDay: number }
+  { startMonth: number; startDay, number; endMonth, number, endDay: number }
 >  = {
   aries: { startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
   taurus: { startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },

@@ -39,7 +39,7 @@ export interface StandardizationOptions {
  * @returns Standardized elemental affinity
  */
 export function standardizeElementalAffinity()
-  value: string | { base: string; decanModifiers?: { [key: string], unknown } }
+  value: string | { base: string; decanModifiers?: { [key, string], unknown } }
 ): ElementalAffinity {
   if (typeof value === 'string') {
     return {

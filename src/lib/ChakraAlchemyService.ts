@@ -32,7 +32,7 @@ export class ChakraAlchemyService {
     {
       energyState: string;
       elements: string[];
-      properties: { heat: string; entropy: string; reactivity, string };
+      properties: { heat: string; entropy, string; reactivity, string };
     }
   > = {
     root: {

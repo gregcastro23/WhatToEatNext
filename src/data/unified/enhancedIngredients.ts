@@ -231,7 +231,7 @@ export class EnhancedIngredientsSystem {
   /**
    * Get ingredient count by data quality
    */
-  getIngredientStats(): { total: number; high: number; medium: number; low, number } {
+  getIngredientStats(): { total: number; high: number; medium, number; low, number } {
     const ingredients = Object.values(this.ingredients);
     return {
       total: (ingredients || []).length,

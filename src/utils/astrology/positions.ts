@@ -73,7 +73,7 @@ const RETROGRADE_STATUS = {
 /**
  * Type definition for cached positions
  */
-interface PositionsCache { positions: { [key: string], PlanetPositionData };
+interface PositionsCache { positions: { [key, string], PlanetPositionData };
   timestamp: number;
   date: Date;
 }

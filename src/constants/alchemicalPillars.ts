@@ -1329,7 +1329,7 @@ export function calculatePillarMonicaModifiers(_monica: number): {
  */
 export function calculateOptimalCookingConditions()
   monica: number,
-  thermodynamics: { heat: number; entropy: number; reactivity, number },
+  thermodynamics: { heat: number; entropy, number; reactivity, number },
 ): {
   temperature: number;
   timing: string;
@@ -1449,7 +1449,7 @@ export function enhanceAlchemicalPillar(pillar: AlchemicalPillar): AlchemicalPil
     kalchm: number;
     gregsEnergy: number;
     monicaConstant: number;
-    thermodynamicProfile: { heat: number; entropy: number; reactivity, number };
+    thermodynamicProfile: { heat: number; entropy, number; reactivity, number };
     monicaClassification: string;
     monicaModifiers: {
       temperatureAdjustment: number;

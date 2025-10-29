@@ -237,7 +237,7 @@ ${report.results
 ### ${result.testFile}
 - **Status**: ${result.passed ? '✅ PASSED' : '❌ FAILED'}
 - **Duration**: ${result.duration}ms
-${result.errors.length > 0 ? `- **Errors**: ${result.errors.length}\n${result.errors.map(e => }`  - ${e}`).join('\n')}` : ''}
+${result.errors.length > 0 ? }`- **Errors**: ${result.errors.length}\n${result.errors.map(e => }`  - ${e}`).join('\n')}` : ''}
 ${result.warnings.length > 0 ? `- **Warnings**: ${result.warnings.length}\n${result.warnings.map(w => `  - ${w}`).join('\n')}` : ''}
 `,
   )
