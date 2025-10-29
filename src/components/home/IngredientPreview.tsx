@@ -6,13 +6,7 @@
  * Uses actual ingredient database with elemental properties
  */
 
-import React, { useState, useMemo } from 'react';
-import { spices } from '@/data/ingredients/spices';
-import { enhancedVegetables } from '@/data/ingredients/vegetables';
-import { proteins } from '@/data/ingredients';
-import { fruits } from '@/data/ingredients/fruits';
-import { allGrains } from '@/data/ingredients/grains';
-import { allHerbs } from '@/data/ingredients/herbs';
+import React, { useState } from 'react';
 
 interface IngredientData {
   name: string;
@@ -36,37 +30,79 @@ const categories: CategoryConfig[] = [
     id: 'spices',
     name: 'Spices',
     icon: '🌶️',
-    getData: () => Object.values(spices).slice(0, 6)
+    getData: () => [
+      { name: 'Turmeric', elementalProperties: { Fire: 0.8, Water: 0.2, Earth: 0.6, Air: 0.4 } },
+      { name: 'Cumin', elementalProperties: { Fire: 0.9, Water: 0.1, Earth: 0.5, Air: 0.6 } },
+      { name: 'Paprika', elementalProperties: { Fire: 0.85, Water: 0.15, Earth: 0.4, Air: 0.7 } },
+      { name: 'Cinnamon', elementalProperties: { Fire: 0.7, Water: 0.3, Earth: 0.5, Air: 0.5 } },
+      { name: 'Black Pepper', elementalProperties: { Fire: 0.95, Water: 0.05, Earth: 0.3, Air: 0.8 } },
+      { name: 'Ginger', elementalProperties: { Fire: 0.9, Water: 0.2, Earth: 0.4, Air: 0.6 } }
+    ]
   },
   {
     id: 'herbs',
     name: 'Herbs',
     icon: '🌿',
-    getData: () => Object.values(allHerbs).slice(0, 6)
+    getData: () => [
+      { name: 'Basil', elementalProperties: { Fire: 0.6, Water: 0.3, Earth: 0.4, Air: 0.9 } },
+      { name: 'Rosemary', elementalProperties: { Fire: 0.5, Water: 0.2, Earth: 0.7, Air: 0.8 } },
+      { name: 'Thyme', elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.6, Air: 0.9 } },
+      { name: 'Oregano', elementalProperties: { Fire: 0.7, Water: 0.2, Earth: 0.5, Air: 0.8 } },
+      { name: 'Cilantro', elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.3, Air: 0.95 } },
+      { name: 'Parsley', elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.6, Air: 0.8 } }
+    ]
   },
   {
     id: 'vegetables',
     name: 'Vegetables',
     icon: '🥬',
-    getData: () => Object.values(enhancedVegetables).slice(0, 6)
+    getData: () => [
+      { name: 'Kale', elementalProperties: { Fire: 0.3, Water: 0.6, Earth: 0.7, Air: 0.5 } },
+      { name: 'Carrots', elementalProperties: { Fire: 0.4, Water: 0.5, Earth: 0.8, Air: 0.3 } },
+      { name: 'Spinach', elementalProperties: { Fire: 0.2, Water: 0.7, Earth: 0.6, Air: 0.6 } },
+      { name: 'Broccoli', elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.7, Air: 0.6 } },
+      { name: 'Bell Peppers', elementalProperties: { Fire: 0.6, Water: 0.4, Earth: 0.5, Air: 0.6 } },
+      { name: 'Sweet Potato', elementalProperties: { Fire: 0.5, Water: 0.4, Earth: 0.9, Air: 0.2 } }
+    ]
   },
   {
     id: 'proteins',
     name: 'Proteins',
     icon: '🍗',
-    getData: () => Object.values(proteins).slice(0, 6)
+    getData: () => [
+      { name: 'Salmon', elementalProperties: { Fire: 0.5, Water: 0.8, Earth: 0.4, Air: 0.3 } },
+      { name: 'Chicken', elementalProperties: { Fire: 0.6, Water: 0.4, Earth: 0.7, Air: 0.3 } },
+      { name: 'Lentils', elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.9, Air: 0.2 } },
+      { name: 'Tofu', elementalProperties: { Fire: 0.2, Water: 0.7, Earth: 0.6, Air: 0.4 } },
+      { name: 'Eggs', elementalProperties: { Fire: 0.4, Water: 0.6, Earth: 0.5, Air: 0.4 } },
+      { name: 'Black Beans', elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.9, Air: 0.3 } }
+    ]
   },
   {
     id: 'fruits',
     name: 'Fruits',
     icon: '🍎',
-    getData: () => Object.values(fruits).slice(0, 6)
+    getData: () => [
+      { name: 'Apples', elementalProperties: { Fire: 0.3, Water: 0.6, Earth: 0.5, Air: 0.7 } },
+      { name: 'Berries', elementalProperties: { Fire: 0.4, Water: 0.7, Earth: 0.3, Air: 0.6 } },
+      { name: 'Oranges', elementalProperties: { Fire: 0.5, Water: 0.8, Earth: 0.3, Air: 0.5 } },
+      { name: 'Bananas', elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.8, Air: 0.4 } },
+      { name: 'Mango', elementalProperties: { Fire: 0.6, Water: 0.7, Earth: 0.4, Air: 0.5 } },
+      { name: 'Pineapple', elementalProperties: { Fire: 0.7, Water: 0.6, Earth: 0.3, Air: 0.6 } }
+    ]
   },
   {
     id: 'grains',
     name: 'Grains',
     icon: '🌾',
-    getData: () => Object.values(allGrains).slice(0, 6)
+    getData: () => [
+      { name: 'Quinoa', elementalProperties: { Fire: 0.3, Water: 0.4, Earth: 0.9, Air: 0.3 } },
+      { name: 'Brown Rice', elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.9, Air: 0.2 } },
+      { name: 'Oats', elementalProperties: { Fire: 0.3, Water: 0.6, Earth: 0.8, Air: 0.3 } },
+      { name: 'Barley', elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.9, Air: 0.2 } },
+      { name: 'Millet', elementalProperties: { Fire: 0.4, Water: 0.4, Earth: 0.8, Air: 0.4 } },
+      { name: 'Buckwheat', elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.8, Air: 0.3 } }
+    ]
   }
 ];
 
@@ -85,13 +121,9 @@ function calculateScore(ingredients: IngredientData[]): Array<IngredientData & {
 export default function IngredientPreview() {
   const [selectedCategory, setSelectedCategory] = useState<string>('spices');
 
-  const currentIngredients = useMemo(() => {
-    const category = categories.find(cat => cat.id === selectedCategory);
-    if (!category) return [];
-
-    const data = category.getData();
-    return calculateScore(data);
-  }, [selectedCategory]);
+  const category = categories.find(cat => cat.id === selectedCategory);
+  const data = category ? category.getData() : [];
+  const currentIngredients = calculateScore(data);
 
   return (
     <div className="space-y-6">

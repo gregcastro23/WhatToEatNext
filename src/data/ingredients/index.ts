@@ -286,7 +286,7 @@ export const VALID_CATEGORIES = [
   'fruit',
   'vinegar',
   'seasoning'
-] as const,
+] as const;
 
 // Compile all ingredients into a single collection with deduplication
 // Order matters - later sources overwrite earlier ones
