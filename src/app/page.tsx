@@ -7,12 +7,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
-
-// Dynamic imports to avoid SSR issues
-const CuisinePreview = dynamic(() => import('@/components/home/CuisinePreview'), { ssr: false });
-const IngredientPreview = dynamic(() => import('@/components/home/IngredientPreview'), { ssr: false });
-const CookingMethodPreview = dynamic(() => import('@/components/home/CookingMethodPreview'), { ssr: false });
+import CuisinePreview from '@/components/home/CuisinePreview';
+import IngredientPreview from '@/components/home/IngredientPreview';
+import CookingMethodPreview from '@/components/home/CookingMethodPreview';
 
 export default function HomePage() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
