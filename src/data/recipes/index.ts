@@ -16,16 +16,16 @@ const flattenCuisineRecipes = (cuisines: unknown) => {
       Object.values(cuisine.dishes).forEach((mealType: unknown) => {
         // Iterate through seasons
         Object.values(mealType).forEach((recipes: unknown) => {
-          if (Array.isArray(recipes) {
-            allRecipes.push(...recipes)
+          if (Array.isArray(recipes)) {
+            allRecipes.push(...recipes);
           }
-        })
-      })
+        });
+      });
     }
-  })
+  });
 
   return allRecipes;
-}
+};
 
 // Export alias for compatibility
 export const allRecipes = flattenCuisineRecipes(Recipes);

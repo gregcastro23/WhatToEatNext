@@ -26,15 +26,15 @@ function CookingMethodsSection({ methods, _onSelectMethod }: { methods: any[], _
         </button>
       ))}
     </div>
-  )
+  );
 }
 
 type MethodCategory = {
-  name: string,
-  description: string,
-  methods: Record<string, unknown>,
-  icon?: string
-}
+  name: string;
+  description: string;
+  methods: Record<string, unknown>;
+  icon?: string;
+};
 
 const methodCategories: MethodCategory[] = [
   {
@@ -42,7 +42,7 @@ const methodCategories: MethodCategory[] = [
     description: 'Cooking with hot air, radiation, or hot fat',
     methods: dryCookingMethods,
     icon: '🔥'
-},
+  },
   {
     name: 'Wet',
     description: 'Cooking with water or steam',
@@ -77,9 +77,9 @@ const methodCategories: MethodCategory[] = [
 
 export default function CookingMethodsPage() {
   const router = useRouter();
-  const [tabValue, setTabValue] = useState(0)
-  const [formattedMethods, setFormattedMethods] = useState<CookingMethodData[]>([])
-  const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null)
+  const [tabValue, setTabValue] = useState(0);
+  const [formattedMethods, setFormattedMethods] = useState<CookingMethodData[]>([]);
+  const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
 
   // Transform method data to match CookingMethodsSection component format
   useEffect(() => {
@@ -96,10 +96,10 @@ export default function CookingMethodsPage() {
               Water: 0.5,
               Earth: 0.5,
               Air: 0.5
-},
+            },
           score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
           duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
-          suitable_for (method as any).suitable_for || [],
+          suitable_for: (method as any).suitable_for || [],
           benefits: (method as any).benefits || [],
           // Create variations if they exist
           variations: (method as any).variations
@@ -107,32 +107,32 @@ export default function CookingMethodsPage() {
               ? ((method as any).variations as string[]).map((v: string, i: number) => ({
                   id: `${key}_var_${i}`,
                   name: v,
-                  description: `Variation of $) => {capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
+                  description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
                   elementalEffect: (method as any).elementalEffect || (method as any).elementalProperties,
                   score: Math.random() * 0.3 + 0.6
                 }))
               : []
             : []
-        }
-      })
+        };
+      });
 
-      setFormattedMethods(transformed)
+      setFormattedMethods(transformed);
     }
-  }, [tabValue])
+  }, [tabValue]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue)
-  }
+    setTabValue(newValue);
+  };
 
   const handleSelectMethod = (method: unknown) => {
     const methodObj = method as any;
     const methodId = String(methodObj.id || '');
     setSelectedMethodId(methodId);
     // If it's a main method (not a variation), navigate to it
-    if (!methodId.includes('_var_') {
-      router.push(`/cooking-methods/${methodId}`)
+    if (!methodId.includes('_var_')) {
+      router.push(`/cooking-methods/${methodId}`);
     }
-  }
+  };
 
   return (
     <Container maxWidth='lg' sx={{ py: 6 }}>

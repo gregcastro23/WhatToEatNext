@@ -6,7 +6,7 @@ interface TemperatureRange {
   elementalEffect: ElementalProperties;
   description: string;
   recommendedMethods: string[];
-  cautions: string[]
+  cautions: string[];
 }
 
 export const temperatureEffects: Record<string, TemperatureRange> = {
@@ -18,7 +18,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.2,
       Earth: 0.1,
       Fire: 0
-},
+    },
     description: 'Preservation and crystallization of flavors',
     recommendedMethods: ['raw', 'frozen desserts'],
     cautions: ['texture changes', 'dulled flavors']
@@ -31,7 +31,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.3,
       Earth: 0.2,
       Fire: 0
-},
+    },
     description: 'Refreshing and crisp qualities',
     recommendedMethods: ['raw', 'chilled preparations', 'cold infusion'],
     cautions: ['reduced aroma', 'numbed taste buds']
@@ -44,7 +44,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.3,
       Earth: 0.2,
       Fire: 0.1
-},
+    },
     description: 'Balanced temperature for subtle flavors',
     recommendedMethods: ['room temperature service', 'light preparation'],
     cautions: ['temperature fluctuation']
@@ -57,7 +57,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Earth: 0.3,
       Water: 0.2,
       Fire: 0.1
-},
+    },
     description: 'Natural state for most ingredients',
     recommendedMethods: ['fermentation', 'proofing', 'resting'],
     cautions: ['food safety time limits']
@@ -70,7 +70,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.3,
       Earth: 0.2,
       Water: 0.2
-},
+    },
     description: 'Enhanced aromatics and flavors',
     recommendedMethods: ['warming', 'tempering', 'slow cooking'],
     cautions: ['protein degradation begins']
@@ -83,7 +83,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.3,
       Water: 0.1,
       Earth: 0.1
-},
+    },
     description: 'Active cooking and transformation',
     recommendedMethods: ['boiling', 'steaming', 'poaching'],
     cautions: ['moisture loss', 'overcooking risk']
@@ -96,7 +96,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.2,
       Earth: 0.1,
       Water: 0
-},
+    },
     description: 'Intense heat transformation',
     recommendedMethods: ['roasting', 'baking', 'frying'],
     cautions: ['burning risk', 'rapid moisture loss']
@@ -109,16 +109,16 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.2,
       Water: 0,
       Earth: 0
-},
+    },
     description: 'Extreme transformation and caramelization',
     recommendedMethods: ['grilling', 'broiling', 'searing'],
     cautions: ['very short cooking time', 'high burning risk']
   }
-}
+};
 
 export const getTemperatureRange = (temp: number): string => {
   return (
-    Object.keys(temperatureEffects).find()
+    Object.keys(temperatureEffects).find(
       range => temp >= temperatureEffects[range].min && temp <= temperatureEffects[range].max
     ) || 'room'
   );
@@ -127,7 +127,7 @@ export const getTemperatureRange = (temp: number): string => {
 export const _getElementalEffect = (temp: number): ElementalProperties => {
   const range = getTemperatureRange(temp);
   return temperatureEffects[range].elementalEffect;
-}
+};
 
 export function getTemperatureEffect(ingredient: string, _temperature?: number) {
   // Map of ingredient temperature effects
@@ -137,7 +137,7 @@ export function getTemperatureEffect(ingredient: string, _temperature?: number) 
     mint: 'cooling',
     cucumber: 'cool',
     // Add more ingredients as needed
-  }
+  };
 
   // Simple fallback with some common effects
   const _ = {
@@ -145,11 +145,11 @@ export function getTemperatureEffect(ingredient: string, _temperature?: number) 
     herbs: 'neutral',
     fruits: 'cooling',
     vegetables: 'neutral'
-}
+  };
 
   // Check if we have a specific effect for this ingredient
-  for (const [key, effect] of Object.entries(effectMap) {
-    if (ingredient.toLowerCase().includes(key) {
+  for (const [key, effect] of Object.entries(effectMap)) {
+    if (ingredient.toLowerCase().includes(key)) {
       return effect;
     }
   }

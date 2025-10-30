@@ -14,20 +14,20 @@ const defaultAstrologicalInfluence: AstrologicalInfluence = {
   element: 'Fire',
   strength: 1.0,
   aspects: []
-}
+};
 
 // Helper function to safely access astrologicalInfluences
 const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[] => {
   if (!method) return [defaultAstrologicalInfluence];
   const methodData = method as {
     astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[];
-  }
+  };
   if (!methodData.astrologicalInfluences) return [defaultAstrologicalInfluence];
-  if (Array.isArray(methodData.astrologicalInfluences) {
+  if (Array.isArray(methodData.astrologicalInfluences)) {
     return methodData.astrologicalInfluences;
   }
   return [methodData.astrologicalInfluences];
-}
+};
 
 /**
  * Enhanced recipe mappings with comprehensive elemental properties
@@ -105,7 +105,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
     idealTimeOfDay: ['Noon', 'Early afternoon'],
     seasonalRecommendation: ['Summer', 'Early autumn']
   }
-}
+};
 
 /**
  * Get enhanced elemental recommendations for a recipe
@@ -117,7 +117,7 @@ export function getRecipeEnhancedRecommendations(recipeId: string) {
   if (!recipe) return null;
 
   // Get base recommendations from the ElementalRecommendationService
-  const baseRecommendation = ElementalRecommendationService.generateRecommendation();
+  const baseRecommendation = ElementalRecommendationService.generateRecommendation(
     recipe.elementalProperties
   );
 

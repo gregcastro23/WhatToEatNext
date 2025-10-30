@@ -49,16 +49,16 @@ const MethodImage = ({ method }: { method: string }) => (
 
 const ZodiacSign = ({ sign,
   size = 'medium'}: {
-  sign: string,
-  size?: 'small' | 'medium' | 'large'
-}) => <span>{sign}</span>
+  sign: string;
+  size?: 'small' | 'medium' | 'large';
+}) => <span>{sign}</span>;
 
 export default function CookingMethodPage() {
   const params = useParams();
   const theme = useTheme();
-  const [method, setMethod] = useState<CookingMethodInfo | null>(null)
-  const [methodKey, setMethodKey] = useState<string>('')
-  const [loading, setLoading] = useState(true)
+  const [method, setMethod] = useState<CookingMethodInfo | null>(null);
+  const [methodKey, setMethodKey] = useState<string>('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (params?.method) {
@@ -72,13 +72,13 @@ export default function CookingMethodPage() {
           foundMethod = data as CookingMethodInfo;
           foundKey = key;
         }
-      })
+      });
 
       setMethod(foundMethod);
       setMethodKey(foundKey);
       setLoading(false);
     }
-  }, [params])
+  }, [params]);
 
   if (loading) {
     return (
@@ -86,7 +86,8 @@ export default function CookingMethodPage() {
         <Typography variant='h4' sx={{ my: 4, textAlign: 'center' }}>
           Loading cooking method...
         </Typography>
-      </Container>)
+      </Container>
+    );
   }
 
   if (!method) {
@@ -98,7 +99,8 @@ export default function CookingMethodPage() {
         <Typography variant='body1' sx={{ textAlign: 'center' }}>
           <Link href='/cooking-methods'>Return to cooking methods</Link>
         </Typography>
-      </Container>);
+      </Container>
+    );
   }
 
   return (
@@ -135,7 +137,7 @@ export default function CookingMethodPage() {
 
             <Typography variant='h6' color='text.secondary' paragraph>
               {method && typeof method === 'object' && 'description' in method
-                ? String((method as unknown as ) { description?: string }).description)
+                ? String((method as unknown as { description?: string }).description)
                 : 'No description available'}
             </Typography>
 
@@ -143,7 +145,7 @@ export default function CookingMethodPage() {
               <AccessTime />
               <Typography variant='body1'>
                 {method && typeof method === 'object' && 'duration' in method
-                  ? String((method as unknown as ) { duration?: string }).duration)
+                  ? String((method as unknown as { duration?: string }).duration)
                   : 'Duration not specified'}
               </Typography>
             </Box>
@@ -176,16 +178,16 @@ export default function CookingMethodPage() {
               </Typography>
               <List>
                 {method && typeof method === 'object' && 'benefits' in method ? (
-                  Array.isArray((method as unknown as ) { benefits?: string[] }).benefits) ? (
-                    (method as unknown as { benefits: string[] }).benefits.map(benefit: string, index: number) => (
+                  Array.isArray((method as unknown as { benefits?: string[] }).benefits) ? (
+                    (method as unknown as { benefits: string[] }).benefits.map((benefit: string, index: number) => (
                         <ListItem key={index}>
-                          <ListItemText primary=) => {benefit} />
+                          <ListItemText primary={benefit} />
                         </ListItem>
                       )
                     )
                   ) : (
                     <Typography variant='body1' paragraph>
-                      {String((method as unknown as ) { benefits?: string | string[] }).benefits)}
+                      {String((method as unknown as { benefits?: string | string[] }).benefits)}
                     </Typography>
                   )
                 ) : (

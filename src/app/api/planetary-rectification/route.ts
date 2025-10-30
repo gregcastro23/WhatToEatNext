@@ -189,18 +189,18 @@ async function handleCurrentRectification() {
 
     return NextResponse.json({
       current_rectification: result,
-      metadata: ) {
+      metadata: {
         service: 'Current Planetary Rectification',
         timestamp: new Date().toISOString(),
         authoritative_source: 'VSOP87 precision'
-}
+      }
     });
   } catch (error) {
     return NextResponse.json({
         error: 'Current rectification failed',
         message: error instanceof Error ? error.message : 'Unknown error'
-},
-      ) { status: 500 }
+      },
+      { status: 500 }
     );
   }
 }
@@ -222,7 +222,7 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    logger.info(`🔄 Forcing planetary position synchronization`, ) {
+    logger.info(`🔄 Forcing planetary position synchronization`, {
       date: targetDate?.toISOString()
     });
 
@@ -235,7 +235,7 @@ export async function PUT(request: NextRequest) {
       rectification_report: result.rectification_report,
       planetary_agents_sync_status: result.planetary_agents_sync_status,
       errors: result.errors,
-      metadata: ) {
+      metadata: {
         sync_type: 'forced',
         planetary_agents_integration: 'enabled',
         timestamp: new Date().toISOString()
@@ -248,8 +248,8 @@ export async function PUT(request: NextRequest) {
         success: false,
         error: 'Force synchronization failed',
         message: error instanceof Error ? error.message : 'Unknown error'
-},
-      ) { status: 500 }
+      },
+      { status: 500 }
     );
   }
 }
@@ -268,11 +268,11 @@ export async function PATCH() {
 
     return NextResponse.json({
       emergency_rectification: result,
-      metadata: ) {
+      metadata: {
         emergency_protocol: 'activated',
         timestamp: new Date().toISOString(),
         authoritative_source: 'VSOP87 emergency override'
-}
+      }
     }, { status: statusCode });
 
   } catch (error) {
@@ -282,8 +282,8 @@ export async function PATCH() {
         error: 'Emergency rectification failed',
         message: error instanceof Error ? error.message : 'Critical system error',
         emergency_status: 'FAILED'
-},
-      ) { status: 500 }
+      },
+      { status: 500 }
     );
   }
 }
@@ -311,8 +311,8 @@ export async function DELETE() {
         success: false,
         error: 'Cache clear failed',
         message: error instanceof Error ? error.message : 'Unknown error'
-},
-      ) { status: 500 }
+      },
+      { status: 500 }
     );
   }
 }
