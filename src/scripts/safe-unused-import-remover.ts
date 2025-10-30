@@ -105,9 +105,9 @@ class SafeUnusedImportRemover {
     const analysis = this.analyzeUnusedImports();
 
     console.log(`📊 Import Analysis Results: `);
-    console.log(`Total unused imports: $) {analysis.totalUnusedImports}`);
-    console.log(`Safe to remove: $) {analysis.safeToRemove.length}`);
-    console.log(`Requires manual review: $) {analysis.requiresManualReview.length}`);
+    console.log(`Total unused imports: ${analysis.totalUnusedImports}`);
+    console.log(`Safe to remove: ${analysis.safeToRemove.length}`);
+    console.log(`Requires manual review: ${analysis.requiresManualReview.length}`);
     console.log(`Preserved (critical): ${analysis.preserved.length}\n`);
 
     if (analysis.safeToRemove.length === 0) {
@@ -295,9 +295,9 @@ class SafeUnusedImportRemover {
     );
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
-      console.log(`📄 $) {file.replace(process.cwd(), '')}: `);
+      console.log(`📄 ${file.replace(process.cwd(), '')}: `);
       fileImports.forEach(imp => {
-        console.log(`  - Line $) {imp.line}: $) {imp.importName}`);
+        console.log(`  - Line ${imp.line}: ${imp.importName}`);
       });
       console.log('');
     });
@@ -353,11 +353,11 @@ class SafeUnusedImportRemover {
           `✅ Updated ${filePath.replace(process.cwd(), '')}: ${fileImports.length} imports removed`,
         );
       } catch (error) {
-        console.error(`❌ Error processing $) {filePath}:`, error);
+        console.error(`❌ Error processing ${filePath}:`, error);
       }
     });
 
-    console.log(`\n🎉 Total imports removed: $) {totalRemoved}`);
+    console.log(`\n🎉 Total imports removed: ${totalRemoved}`);
   }
 
   /**
@@ -367,7 +367,7 @@ class SafeUnusedImportRemover {
     // Handle different import patterns
 
     // Default import: import ImportName from 'module'
-    if (line.includes(`import $) {importName} from`) {
+    if (line.includes(`import ${importName} from`) {
       return '';
     }
 
@@ -378,15 +378,15 @@ class SafeUnusedImportRemover {
 
     // Named import with others: import = { ImportName, Other } from 'module'
     if (line.includes(`) { ${importName},`) {
-      return line.replace(`$) {importName}, `, '');
+      return line.replace(`${importName}, `, '');
     }
 
-    if (line.includes(`, $) {importName}`) {
-      return line.replace(`, $) {importName}`, '');
+    if (line.includes(`, ${importName}`) {
+      return line.replace(`, ${importName}`, '');
     }
 
     // Namespace import: import * as ImportName from 'module'
-    if (line.includes(`* as $) {importName}`) {
+    if (line.includes(`* as ${importName}`) {
       return '';
     }
 
@@ -431,7 +431,7 @@ class SafeUnusedImportRemover {
 }
 
 // CLI interface
-if (import.meta.url === `file://$) {process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const remover = new SafeUnusedImportRemover();
 
   const args = process.argv.slice(2);

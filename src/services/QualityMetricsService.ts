@@ -249,7 +249,7 @@ class QualityMetricsService {
       newInsights.push({,
         type: 'alert',
         title: 'Slow Build Performance',
-        description: `Build times averaging $) {Math.round(buildSummary.averageBuildTime / 1000)}s, exceeding 60s threshold`,
+        description: `Build times averaging ${Math.round(buildSummary.averageBuildTime / 1000)}s, exceeding 60s threshold`,
         severity: 'warning',
         confidence: 0.9,
         timeframe: 'current',
@@ -512,7 +512,7 @@ class QualityMetricsService {
       if (pattern.frequency > 5 && pattern.priority !== 'low') {
         debtItems.push({,
           category: 'Error Pattern',
-          description: `${pattern.pattern} occurs ${pattern.frequency} times across $) {pattern.files.length} files`,
+          description: `${pattern.pattern} occurs ${pattern.frequency} times across ${pattern.files.length} files`,
           impact: pattern.priority as 'low' | 'medium' | 'high' | 'critical'
           effort: pattern.automatable ? 'low' : pattern.frequency > 20 ? 'high' : 'medium',
           files: pattern.files,
@@ -528,7 +528,7 @@ class QualityMetricsService {
       if (bottleneck.errorCount > 5 || bottleneck.complexity > 100) {
         debtItems.push({
           category: 'Build Bottleneck',
-          description: `${bottleneck.file} has ${bottleneck.errorCount} errors and complexity score of $) {bottleneck.complexity}`,
+          description: `${bottleneck.file} has ${bottleneck.errorCount} errors and complexity score of ${bottleneck.complexity}`,
           impact: bottleneck.errorCount > 10 ? 'high' : 'medium',
           effort: bottleneck.complexity > 200 ? 'high' : 'medium',
           files: [bottleneck.file],
@@ -728,7 +728,7 @@ class QualityMetricsService {
           milestone.completedDate &&
           Date.now() - milestone.completedDate.getTime() < 7 * 24 * 60 * 60 * 1000
         ) {
-          achievements.push(`Completed milestone: $) {milestone.name}`)
+          achievements.push(`Completed milestone: ${milestone.name}`)
         }
       }
     }

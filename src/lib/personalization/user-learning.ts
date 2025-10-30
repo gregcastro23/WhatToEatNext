@@ -96,7 +96,7 @@ class UserLearningSystem {
     }
 
     const preferences = await this.computeUserPreferences(userId);
-    userCache.set(`preferences_$) {userId}`, preferences, 24 * 60 * 60 * 1000); // 24 hours
+    userCache.set(`preferences_${userId}`, preferences, 24 * 60 * 60 * 1000); // 24 hours
 
     return preferences;
   }
@@ -228,7 +228,7 @@ class UserLearningSystem {
     if (preferences.cuisinePreferences.includes(recommendation.cuisine) {
       const boost = 0.2 * preferences.weights.cuisine;
       score += boost;
-      reasons.push(`Matches your ${recommendation.cuisine} preference (+$) {(boost * 100).toFixed(0)}%)`)
+      reasons.push(`Matches your ${recommendation.cuisine} preference (+${(boost * 100).toFixed(0)}%)`)
     }
 
     // Elemental affinity boost
@@ -240,7 +240,7 @@ class UserLearningSystem {
       const boost = elementalScore * 0.3 * preferences.weights.elemental;
       score += boost;
       if (boost > 0.05) {
-        reasons.push(`Strong elemental compatibility (+$) {(boost * 100).toFixed(0)}%)`)
+        reasons.push(`Strong elemental compatibility (+${(boost * 100).toFixed(0)}%)`)
       }
     }
 
@@ -249,7 +249,7 @@ class UserLearningSystem {
       const boost = preferences.planetaryPreferences[context.planetaryHour] * 0.15 * preferences.weights.planetary;
       score += boost;
       if (boost > 0.03) {
-        reasons.push(`Aligned with ${context.planetaryHour} energy (+$) {(boost * 100).toFixed(0)}%)`)
+        reasons.push(`Aligned with ${context.planetaryHour} energy (+${(boost * 100).toFixed(0)}%)`)
       }
     }
 
@@ -265,13 +265,13 @@ class UserLearningSystem {
     if (favoriteIngredients.length > 0) {
       const boost = favoriteIngredients.length * 0.1;
       score += boost;
-      reasons.push(`Contains favorite ingredients: $) {favoriteIngredients.slice(0, 2).join(', ')} (+${(boost * 100).toFixed(0)}%)`)
+      reasons.push(`Contains favorite ingredients: ${favoriteIngredients.slice(0, 2).join(', ')} (+${(boost * 100).toFixed(0)}%)`)
     }
 
     if (dislikedIngredients.length > 0) {
       const penalty = dislikedIngredients.length * 0.15;
       score -= penalty;
-      reasons.push(`Contains disliked ingredients: $) {dislikedIngredients.slice(0, 2).join(', ')} (-${(penalty * 100).toFixed(0)}%)`)
+      reasons.push(`Contains disliked ingredients: ${dislikedIngredients.slice(0, 2).join(', ')} (-${(penalty * 100).toFixed(0)}%)`)
     }
 
     // Complexity preference
@@ -280,7 +280,7 @@ class UserLearningSystem {
       score += complexityMatch * 0.1 * preferences.weights.complexity;
       if (Math.abs(complexityMatch) > 0.3) {
         const description = complexityMatch > 0 ? 'matches' : 'differs from';
-        reasons.push(`Complexity $) {description} your preference`)
+        reasons.push(`Complexity ${description} your preference`)
       }
     }
 
@@ -523,7 +523,7 @@ class UserLearningSystem {
 
   private updateUserPreferences(userId: string): void {
     // Invalidate cached preferences to force recomputation
-    userCache.delete(`preferences_$) {userId}`)
+    userCache.delete(`preferences_${userId}`)
   }
 
   private loadFromCache(): void {

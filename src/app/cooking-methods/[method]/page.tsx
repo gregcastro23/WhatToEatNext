@@ -124,7 +124,7 @@ export default function CookingMethodPage() {
           p: 4,
           mb: 4,
           borderRadius: 2,
-          backgroundImage: `radial-gradient(circle at 50% 0%, ${theme.palette.background.paper}, $) {theme.palette.background.default})`
+          backgroundImage: `radial-gradient(circle at 50% 0%, ${theme.palette.background.paper}, ${theme.palette.background.default})`
         }}
       >
         <Grid container spacing={4} alignItems='center'>

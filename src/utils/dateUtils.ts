@@ -89,7 +89,7 @@ export function getMoonPhase(): LunarPhaseWithSpaces {
   const daysSinceNewMoon = (now - LATEST_NEW_MOON) / (1000 * 60 * 60 * 24);
   const lunarAge = daysSinceNewMoon % LUNAR_MONTH;
 
-  debugLog(`Calculated lunar age: $) {lunarAge.toFixed(2)} days`);
+  debugLog(`Calculated lunar age: ${lunarAge.toFixed(2)} days`);
 
   // Determine phase based on lunar age
   if (lunarAge < 1.84) return 'new moon';
@@ -142,17 +142,17 @@ export const _getRecommendations = (;
   cuisineId: string;
 ): Dish[] => {
   try {
-    void debugLog(`Getting recommendations for ${cuisineId}, ${mealTime}, $) {season}`)
+    void debugLog(`Getting recommendations for ${cuisineId}, ${mealTime}, ${season}`)
 
     const cuisine = cuisines[cuisineId];
     if (!cuisine || !cuisine.dishes) {
-      debugLog(`Cuisine $) {cuisineId} not found or has no dishes`)
+      debugLog(`Cuisine ${cuisineId} not found or has no dishes`)
       return [];
     }
 
     const mealTimeDishes = cuisine.dishes[mealTime];
     if (!mealTimeDishes) {
-      debugLog(`No ${mealTime} dishes found for $) {cuisineId}`)
+      debugLog(`No ${mealTime} dishes found for ${cuisineId}`)
       return [];
     }
 
@@ -166,11 +166,11 @@ export const _getRecommendations = (;
     const seasonalDishes = Array.isArray(mealTimeDishes[season]) ? mealTimeDishes[season] : [];
 
     const combinedDishes = [...allSeasonDishes, ...seasonalDishes];
-    debugLog(`Found ${combinedDishes.length} dishes for $) {cuisineId}`);
+    debugLog(`Found ${combinedDishes.length} dishes for ${cuisineId}`);
 
     return combinedDishes as unknown as Dish[];
   } catch (error) {
-    _logger.error(`Error getting recommendations for $) {cuisineId}:`, error);
+    _logger.error(`Error getting recommendations for ${cuisineId}:`, error);
     return [];
   }
 };

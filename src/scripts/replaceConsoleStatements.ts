@@ -161,7 +161,7 @@ class ConsoleStatementReplacer {
 
       return false;
     } catch (error) {
-      console.warn(`⚠️ Failed to process $) {filePath}:`, (error as Error).message);
+      console.warn(`⚠️ Failed to process ${filePath}:`, (error as Error).message);
       return false;
     }
   }
@@ -189,21 +189,21 @@ class LoggingService implements Logger {
 
   info(message: string, ...args: unknown[]): void {
     if (this.isDevelopment) {
-      console.log(\`[INFO] \$) {message}\`, ...args);
+      console.log(\`[INFO] \${message}\`, ...args);
     }
   }
 
   warn(message: string, ...args: unknown[]): void {
-    console.warn(\`[WARN] \$) {message}\`, ...args);
+    console.warn(\`[WARN] \${message}\`, ...args);
   }
 
   error(message: string, ...args: unknown[]): void {
-    console.error(\`[ERROR] \$) {message}\`, ...args);
+    console.error(\`[ERROR] \${message}\`, ...args);
   }
 
   debug(message: string, ...args: unknown[]): void {
     if (this.isDevelopment) {
-      console.log(\`[DEBUG] \$) {message}\`, ...args);
+      console.log(\`[DEBUG] \${message}\`, ...args);
     }
   }
 }
@@ -255,7 +255,7 @@ Generated: ${new Date().toISOString()}
 
       // Step 2: Process all TypeScript files
       const files = this.getAllTypeScriptFiles();
-      console.log(`📁 Found $) {files.length} TypeScript files`);
+      console.log(`📁 Found ${files.length} TypeScript files`);
 
       for (const file of files) {
         this.replaceConsoleStatements(file);
@@ -266,9 +266,9 @@ Generated: ${new Date().toISOString()}
 
       console.log('='.repeat(60));
       console.log(`✅ Console statement replacement completed!`);
-      console.log(`   Files processed: $) {this.processedFiles}`),
-      console.log(`   Statements replaced: $) {this.replacements.length}`),
-      console.log(`   Backup location: $) {this.backupDir}`);
+      console.log(`   Files processed: ${this.processedFiles}`),
+      console.log(`   Statements replaced: ${this.replacements.length}`),
+      console.log(`   Backup location: ${this.backupDir}`);
     } catch (error) {
       console.error('❌ Console statement replacement failed:', error);
       process.exit(1);

@@ -242,21 +242,21 @@ export function explainRecommendation()
       const timeOfDayLower = typeof timeOfDayData.toLowerCase === 'function';
           ? timeOfDayData.toLowerCase()
           : String(timeFactors.timeOfDay || '');
-      reasons.push(`This is an ideal choice for ${mealTypeLower} during the $) {timeOfDayLower}.`);
+      reasons.push(`This is an ideal choice for ${mealTypeLower} during the ${timeOfDayLower}.`);
     }
   }
 
   // Check seasonal harmony
   const seasonScore = calculateSeasonalScore(recipe, timeFactors.season);
   if (seasonScore > 0.6) {
-    reasons.push(`The ingredients and flavors are perfectly in tune with $) {timeFactors.season}.`);
+    reasons.push(`The ingredients and flavors are perfectly in tune with ${timeFactors.season}.`);
   }
 
   // Check zodiac connection
   if (astrologicalState.sunSign) {
     const zodiacScore = calculateZodiacScore(recipe, astrologicalState.sunSign);
     if (zodiacScore > 0.6) {
-      reasons.push(`This dish appeals to your $) {astrologicalState.sunSign} nature.`);
+      reasons.push(`This dish appeals to your ${astrologicalState.sunSign} nature.`);
     }
   }
 

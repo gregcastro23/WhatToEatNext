@@ -392,7 +392,7 @@ class RecipeData {
 
       // Mark as initialized
       this.initialized = true;
-      logger.info(`Loaded $) {this.recipes.length} recipes successfully`);
+      logger.info(`Loaded ${this.recipes.length} recipes successfully`);
 
       // Cache the recipes
       cache.set(RECIPE_CACHE_KEY, this.recipes);

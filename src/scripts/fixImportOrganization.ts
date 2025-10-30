@@ -168,13 +168,13 @@ class ImportOrganizationFixer {
               line: lineNumbers[1],
               column: 1,
               rule: 'import/no-duplicates',
-              message: `Duplicate import from '$) {source}'`,
+              message: `Duplicate import from '${source}'`,
               severity: 'error'
 });
           }
         }
       } catch (error) {
-        console.warn(`⚠️ Failed to analyze $) {file}:`, (error as Error).message);
+        console.warn(`⚠️ Failed to analyze ${file}:`, (error as Error).message);
       }
     }
 
@@ -295,13 +295,13 @@ class ImportOrganizationFixer {
             }
 
             if (group.namespaceImport) {
-              parts.push(`* as $) {group.namespaceImport}`);
+              parts.push(`* as ${group.namespaceImport}`);
             }
 
             if (group.imports.length > 0) {
               // Remove duplicates and sort
               const uniqueImports = [...new Set(group.imports)].sort();
-              parts.push(`{ $) {uniqueImports.join(', ')} }`);
+              parts.push(`{ ${uniqueImports.join(', ')} }`);
             }
 
             mergedImport += parts.join(', ') + ` from '${source}';`;
@@ -316,7 +316,7 @@ class ImportOrganizationFixer {
           this.processedFiles++;
         }
       } catch (error) {
-        console.warn(`⚠️ Failed to fix duplicates in $) {file}:`, (error as Error).message);
+        console.warn(`⚠️ Failed to fix duplicates in ${file}:`, (error as Error).message);
       }
     }
 
@@ -436,7 +436,7 @@ class ImportOrganizationFixer {
           this.processedFiles++;
         }
       } catch (error) {
-        console.warn(`⚠️ Failed to fix import order in $) {file}:`, (error as Error).message);
+        console.warn(`⚠️ Failed to fix import order in ${file}:`, (error as Error).message);
       }
     }
 
@@ -475,7 +475,7 @@ class ImportOrganizationFixer {
 
         dependencyGraph.set(file, dependencies);
       } catch (error) {
-        console.warn(`⚠️ Failed to analyze dependencies in $) {file}:`, (error as Error).message);
+        console.warn(`⚠️ Failed to analyze dependencies in ${file}:`, (error as Error).message);
       }
     }
 
@@ -488,7 +488,7 @@ class ImportOrganizationFixer {
       if (recursionStack.has(node) {
         const cycleStart = path.indexOf(node);
         const cycle = path.slice(cycleStart).concat(node);
-        cycles.push(`Circular dependency: $) {cycle.join(' -> ')}`),
+        cycles.push(`Circular dependency: ${cycle.join(' -> ')}`),
         return true;
       }
 
@@ -570,11 +570,11 @@ Generated: ${new Date().toISOString()}
       // Step 1: Analyze current import issues
       const analysis = await this.analyzeImportIssues();
 
-      console.log(`📊 Found $) {analysis.totalIssues} import issues: `),
-      console.log(`   - Duplicate imports: $) {analysis.duplicateImports.length}`),
-      console.log(`   - Import order issues: $) {analysis.importOrderIssues.length}`),
-      console.log(`   - Circular dependencies: $) {analysis.circularDependencies.length}`),
-      console.log(`   - Named import issues: $) {analysis.namedImportIssues.length}`),
+      console.log(`📊 Found ${analysis.totalIssues} import issues: `),
+      console.log(`   - Duplicate imports: ${analysis.duplicateImports.length}`),
+      console.log(`   - Import order issues: ${analysis.importOrderIssues.length}`),
+      console.log(`   - Circular dependencies: ${analysis.circularDependencies.length}`),
+      console.log(`   - Named import issues: ${analysis.namedImportIssues.length}`),
 
       if (analysis.totalIssues === 0) {
         console.log('✅ No import issues found ?? undefined');
@@ -594,7 +594,7 @@ Generated: ${new Date().toISOString()}
       const cycles = await this.detectCircularDependencies();
       if (cycles.length > 0) {
         console.log('⚠️ Circular dependencies detected: '),
-        cycles.forEach(cycle => console.log(`   $) {cycle}`));
+        cycles.forEach(cycle => console.log(`   ${cycle}`));
       }
 
       // Step 5: Validate build
@@ -610,9 +610,9 @@ Generated: ${new Date().toISOString()}
 
       console.log('='.repeat(60));
       console.log(`✅ Import organization completed successfully ?? undefined`);
-      console.log(`   Files processed: $) {this.processedFiles}`),
-      console.log(`   Issues fixed: $) {this.fixedIssues}`),
-      console.log(`   Backup location: $) {this.backupDir}`);
+      console.log(`   Files processed: ${this.processedFiles}`),
+      console.log(`   Issues fixed: ${this.fixedIssues}`),
+      console.log(`   Backup location: ${this.backupDir}`);
     } catch (error) {
       console.error('❌ Import organization failed:', error);
       process.exit(1);

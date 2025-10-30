@@ -500,7 +500,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   // Process each category
   categories.forEach(category => ) {
     if (!category.data) {
-      _logger.warn(`No data for category: $) {category.name}`);
+      _logger.warn(`No data for category: ${category.name}`);
       return;
     }
 

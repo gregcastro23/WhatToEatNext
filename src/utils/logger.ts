@@ -80,7 +80,7 @@ class Logger {
     if (this.shouldLog('debug') {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
-      console.log(`[DEBUG]${component} $) {message}`, ...options.rest);
+      console.log(`[DEBUG]${component} ${message}`, ...options.rest);
     }
   }
 
@@ -91,7 +91,7 @@ class Logger {
     if (this.shouldLog('info') {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
-      console.info(`[INFO]${component} $) {message}`, ...options.rest);
+      console.info(`[INFO]${component} ${message}`, ...options.rest);
     }
   }
 
@@ -102,7 +102,7 @@ class Logger {
     if (this.shouldLog('warn') {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
-      console.warn(`[WARN]${component} $) {message}`, ...options.rest);
+      console.warn(`[WARN]${component} ${message}`, ...options.rest);
     }
   }
 
@@ -113,7 +113,7 @@ class Logger {
     if (this.shouldLog('error') {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
-      console.error(`[ERROR]${component} $) {message}`, ...options.rest);
+      console.error(`[ERROR]${component} ${message}`, ...options.rest);
 
       // Store error for summary
       this.storeError(message, options.component);

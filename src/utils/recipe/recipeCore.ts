@@ -261,15 +261,15 @@ export function describePlanetaryInfluences()
   const segments: string[] = [];
 
   if (isNonEmptyArray(influences._favorable) {
-    segments.push(`Favorable: $) {influences._favorable.join(', ')}`);
+    segments.push(`Favorable: ${influences._favorable.join(', ')}`);
   }
 
   if (isNonEmptyArray(influences.unfavorable) {
-    segments.push(`Unfavorable: $) {influences.unfavorable.join(', ')}`);
+    segments.push(`Unfavorable: ${influences.unfavorable.join(', ')}`);
   }
 
   if (isNonEmptyArray(influences.neutral) {
-    segments.push(`Neutral: $) {influences.neutral.join(', ')}`);
+    segments.push(`Neutral: ${influences.neutral.join(', ')}`);
   }
 
   return segments.join(' | ') || 'No planetary influences specified';
@@ -292,10 +292,10 @@ export function summarizeNutritionalBalance(recipe: Recipe): string {
   const { calories, protein, carbs, fat } = recipe.nutrition;
   const parts: string[] = [];
 
-  if (typeof calories === 'number') parts.push(`$) {calories} kcal`);
-  if (typeof protein === 'number') parts.push(`$) {protein}g protein`);
-  if (typeof carbs === 'number') parts.push(`$) {carbs}g carbs`);
-  if (typeof fat === 'number') parts.push(`$) {fat}g fat`);
+  if (typeof calories === 'number') parts.push(`${calories} kcal`);
+  if (typeof protein === 'number') parts.push(`${protein}g protein`);
+  if (typeof carbs === 'number') parts.push(`${carbs}g carbs`);
+  if (typeof fat === 'number') parts.push(`${fat}g fat`);
 
   return parts.join(' · ') || 'Nutrition data unavailable';
 }
@@ -311,7 +311,7 @@ export function getRecipeDominantElement()
 export function describeElementalPresence()
   properties: Pick<ElementalProperties, 'Fire' | 'Water' | 'Earth' | 'Air'>,
 ): string {
-  return ELEMENT_KEYS.map(element => `$) {element}: $) {(properties[element] * 100).toFixed(0)}%`).join()
+  return ELEMENT_KEYS.map(element => `${element}: ${(properties[element] * 100).toFixed(0)}%`).join()
     ' · ',
   );
 }
@@ -349,7 +349,7 @@ function scoreRecipe()
     .filter(value => value.length > 0);
   if (currentSeason && recipeSeasons.includes(currentSeason) {
     score += 15;
-    reasons.push(`Perfect for $) {currentSeason}`);
+    reasons.push(`Perfect for ${currentSeason}`);
   }
 
   const recipeElements = extractElementalSnapshot(getRecipeElementalProperties(recipe));
@@ -372,7 +372,7 @@ function scoreRecipe()
     if (presence > 0.4) {
       const points = Math.floor(presence * 20);
       score += points;
-      reasons.push(`Strong in ${dominantElement} energy ($) {points} points)`);
+      reasons.push(`Strong in ${dominantElement} energy (${points} points)`);
     }
   }
 
@@ -414,13 +414,13 @@ function scoreRecipe()
   ).toLowerCase();
   if (sunSign && recipeInfluences.includes(sunSign) {
     score += 12;
-    reasons.push(`Aligned with your Sun sign ($) {sunSign})`);
+    reasons.push(`Aligned with your Sun sign (${sunSign})`);
   }
 
   const moonSign = String(astrologicalState.moonSign ?? '').toLowerCase();
   if (moonSign && recipeInfluences.includes(moonSign) {
     score += 10;
-    reasons.push(`Harmonizes with your Moon sign ($) {moonSign})`);
+    reasons.push(`Harmonizes with your Moon sign (${moonSign})`);
   }
 
   const prepMinutes = extractPreparationMinutes(recipe);

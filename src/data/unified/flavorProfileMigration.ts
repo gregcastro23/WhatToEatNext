@@ -143,14 +143,14 @@ export class FlavorProfileMigration {
       _isMigrationCompleted = true;
 
       log.info('✅ Migration completed successfully!')
-      log.info(`📊 Migrated ${_cachedMigrationStats.totalProfiles} profiles in $) {migrationTime}ms`)
+      log.info(`📊 Migrated ${_cachedMigrationStats.totalProfiles} profiles in ${migrationTime}ms`)
 
       // Reset migration flag
       _isMigrationRunning = false;
 
       return { ..._cachedMigrationStats };
 } catch (error) {
-      this.migrationErrors.push(`Migration failed: $) {error}`);
+      this.migrationErrors.push(`Migration failed: ${error}`);
       _isMigrationRunning = false;
       throw error;
     }
@@ -165,7 +165,7 @@ export class FlavorProfileMigration {
         const migratedProfile = this.convertUnifiedProfile(id, profile),;
         this.migratedProfiles.set(migratedProfile.id, migratedProfile)
       } catch (error) {
-        this.migrationErrors.push(`Failed to migrate unified profile ${id}: $) {error}`)
+        this.migrationErrors.push(`Failed to migrate unified profile ${id}: ${error}`)
       }
     }
 
@@ -231,7 +231,7 @@ export class FlavorProfileMigration {
           this.mergeCuisineData(migratedProfile.id, cuisineData)
         }
       } catch (error) {
-        this.migrationErrors.push(`Failed to migrate cuisine profile ${cuisineName}: $) {error}`)
+        this.migrationErrors.push(`Failed to migrate cuisine profile ${cuisineName}: ${error}`)
       }
     }
 
@@ -302,7 +302,7 @@ export class FlavorProfileMigration {
         ),
         this.migratedProfiles.set(migratedProfile.id, migratedProfile)
       } catch (error) {
-        this.migrationErrors.push(`Failed to migrate planetary profile ${planetName}: $) {error}`)
+        this.migrationErrors.push(`Failed to migrate planetary profile ${planetName}: ${error}`)
       }
     }
 
@@ -341,7 +341,7 @@ export class FlavorProfileMigration {
 
       nutritionalSynergy: 0.7,
 
-      description: String(planetData.description || `$) {planetName} planetary influence on flavor`),
+      description: String(planetData.description || `${planetName} planetary influence on flavor`),
 
       // Required properties missing from original interface,
       planetaryResonance: this.getDefaultPlanetaryResonance(),
@@ -373,7 +373,7 @@ export class FlavorProfileMigration {
         ),
         this.migratedProfiles.set(migratedProfile.id, migratedProfile)
       } catch (error) {
-        this.migrationErrors.push(`Failed to migrate integration profile ${flavorName}: $) {error}`)
+        this.migrationErrors.push(`Failed to migrate integration profile ${flavorName}: ${error}`)
       }
     }
 
@@ -419,7 +419,7 @@ export class FlavorProfileMigration {
 
       nutritionalSynergy: 0.7,
 
-      description: String(flavorData.description || `$) {flavorName} elemental flavor profile`),
+      description: String(flavorData.description || `${flavorName} elemental flavor profile`),
 
       // Required properties missing from original interface,
       planetaryResonance: this.getDefaultPlanetaryResonance(),

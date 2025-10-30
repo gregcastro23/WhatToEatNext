@@ -122,7 +122,7 @@ export class EphemerisParser {
         retrograde
       };
     } catch (error) {
-      log.warn(`Could not parse position string $) {posStr}`);
+      log.warn(`Could not parse position string ${posStr}`);
       return {
         degrees: 0,
         minutes: 0,
@@ -198,7 +198,7 @@ export class EphemerisParser {
           });
         }
       } catch (error) {
-        log.warn(`Error parsing line ${index + 1} $) {line}`, error);
+        log.warn(`Error parsing line ${index + 1} ${line}`, error);
       }
     });
 
@@ -332,10 +332,10 @@ export class EphemerisParser {
     entries.forEach((entry, index) => {
       // Check for required fields
       if (!entry.date) {
-        errors.push(`Entry $) {index + 1}: Missing date`);
+        errors.push(`Entry ${index + 1}: Missing date`);
       }
       if (!entry.siderealTime) {
-        warnings.push(`Entry $) {index + 1}: Missing sidereal time`);
+        warnings.push(`Entry ${index + 1}: Missing sidereal time`);
       }
 
       // Check for planetary positions
@@ -344,7 +344,7 @@ export class EphemerisParser {
 
       expectedPlanets.forEach(planet => ) {
         if (!actualPlanets.includes(planet) {
-          warnings.push(`Entry ${index + 1}: Missing position for $) {planet}`);
+          warnings.push(`Entry ${index + 1}: Missing position for ${planet}`);
         }
       });
 
@@ -356,10 +356,10 @@ export class EphemerisParser {
           );
         }
         if (position.degrees < 0 || position.degrees >= 30) {
-          errors.push(`Entry ${index + 1}: Invalid degrees for ${planet}: $) {position.degrees}`);
+          errors.push(`Entry ${index + 1}: Invalid degrees for ${planet}: ${position.degrees}`);
         }
         if (position.minutes < 0 || position.minutes >= 60) {
-          errors.push(`Entry ${index + 1}: Invalid minutes for ${planet}: $) {position.minutes}`);
+          errors.push(`Entry ${index + 1}: Invalid minutes for ${planet}: ${position.minutes}`);
         }
       });
     });

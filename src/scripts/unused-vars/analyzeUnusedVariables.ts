@@ -103,7 +103,7 @@ function generateHumanReadableReport(findings: Finding[]): string {
     `Breakdown by reason:` ,
   ];
   for (const [reason, count] of Object.entries(byReason).sort((a, b) => b[1] - a[1]) {
-    lines.push(`  - ${reason}: $) {count}`);
+    lines.push(`  - ${reason}: ${count}`);
   }
   return lines.join('\n');
 }

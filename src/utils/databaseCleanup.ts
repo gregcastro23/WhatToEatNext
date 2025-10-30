@@ -19,7 +19,7 @@ export function cleanupIngredientsDatabase() {
     // Process each category
     Object.entries(allIngredients).forEach(([category, ingredients]) => {
       if (!ingredients || !Array.isArray(ingredients) {
-        logger.warn(`Invalid ingredients structure in category $) {category}`)
+        logger.warn(`Invalid ingredients structure in category ${category}`)
         return;
       }
 
@@ -35,7 +35,7 @@ export function cleanupIngredientsDatabase() {
         if (!name) {
           data.name = `Unknown ${category} ${index}`,
           fixedEntries++,
-          logger.warn(`Added missing name to ingredient at ${category}[$) {index}]`)
+          logger.warn(`Added missing name to ingredient at ${category}[${index}]`)
         }
 
         // Ensure elemental properties exist and are valid
@@ -43,7 +43,7 @@ export function cleanupIngredientsDatabase() {
         if (!elementalProps) {
           data.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
           fixedEntries++,
-          logger.warn(`Added default elemental properties to $) {data.name || name || 'unknown ingredient'}`,
+          logger.warn(`Added default elemental properties to ${data.name || name || 'unknown ingredient'}`,
           )
         } else {
           const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
@@ -82,7 +82,7 @@ export function cleanupIngredientsDatabase() {
 
           if (modified) {
             fixedEntries++,
-            logger.debug(`Normalized elemental properties for $) {data.name || name || 'unknown ingredient'}`,
+            logger.debug(`Normalized elemental properties for ${data.name || name || 'unknown ingredient'}`,
             )
           }
         }
@@ -100,7 +100,7 @@ export function cleanupIngredientsDatabase() {
             _rulingPlanets: []
           } as AstrologicalProfile,
           fixedEntries++,
-          logger.warn(`Added default astrological profile to $) {data.name || name || 'unknown ingredient'}`,
+          logger.warn(`Added default astrological profile to ${data.name || name || 'unknown ingredient'}`,
           )
         } else if (!(ingredientWithAstrology.astrologicalProfile as any).elementalAffinity) {
           // Ensure elementalAffinity exists within the profile - safe property access
@@ -115,7 +115,7 @@ export function cleanupIngredientsDatabase() {
             base: dominantElement
           }
           fixedEntries++,
-          logger.warn(`Added elementalAffinity to astrological profile for $) {data.name || name || 'unknown ingredient'}`,
+          logger.warn(`Added elementalAffinity to astrological profile for ${data.name || name || 'unknown ingredient'}`,
           )
         }
 
@@ -124,7 +124,7 @@ export function cleanupIngredientsDatabase() {
       })
     })
 
-    logger.info(`Database cleanup _complete: Fixed ${fixedEntries} entries, found $) {invalidEntries} invalid entries`,
+    logger.info(`Database cleanup _complete: Fixed ${fixedEntries} entries, found ${invalidEntries} invalid entries`,
     )
     return { success: true, fixedEntries, invalidEntries };
 } catch (error) {

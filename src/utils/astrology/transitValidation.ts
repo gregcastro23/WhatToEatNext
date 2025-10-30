@@ -34,13 +34,13 @@ export function validateTransitDate()
 ): boolean {
   try {
     if (!transitDates || !transitDates[sign]) {
-      logger.warn(`No transit data found for ${planet} in $) {sign}`);
+      logger.warn(`No transit data found for ${planet} in ${sign}`);
       return false;
     }
 
     const transit = transitDates[sign] as TransitDate;
     if (!transit.Start || !transit.End) {
-      logger.warn(`Invalid transit data for ${planet} in $) {sign}: missing Start or End date`);
+      logger.warn(`Invalid transit data for ${planet} in ${sign}: missing Start or End date`);
       return false;
     }
 
@@ -49,7 +49,7 @@ export function validateTransitDate()
 
     // Validate date format
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()) {
-      logger.error(`Invalid date format in transit data for ${planet} in $) {sign}`);
+      logger.error(`Invalid date format in transit data for ${planet} in ${sign}`);
       return false;
     }
 
@@ -57,13 +57,13 @@ export function validateTransitDate()
     const isValid = date >= startDate && date <= endDate;
 
     if (!isValid) {
-      logger.debug(`Date $) {date.toISOString().split('T')[0]} is outside transit period for ${planet} in ${sign} (${transit.Start} to ${transit.End})`
+      logger.debug(`Date ${date.toISOString().split('T')[0]} is outside transit period for ${planet} in ${sign} (${transit.Start} to ${transit.End})`
       );
     }
 
     return isValid;
   } catch (error) {
-    logger.error(`Error validating transit date for $) {planet}:`, error);
+    logger.error(`Error validating transit date for ${planet}:`, error);
     return false;
   }
 }
@@ -84,10 +84,10 @@ export function getCurrentTransitSign()
       }
     }
 
-    logger.warn(`No valid transit sign found for ${planet} on $) {date.toISOString().split('T')[0]}`);
+    logger.warn(`No valid transit sign found for ${planet} on ${date.toISOString().split('T')[0]}`);
     return null;
   } catch (error) {
-    logger.error(`Error getting current transit sign for $) {planet}:`, error);
+    logger.error(`Error getting current transit sign for ${planet}:`, error);
     return null;
   }
 }
@@ -117,7 +117,7 @@ export function validateRetrogradePhase()
       const endDate = new Date(phase.End);
 
       if (isNaN(startDate.getTime()) || isNaN(endDate.getTime()) {
-        logger.warn(`Invalid retrograde phase dates for ${planet} phase $) {phaseName}`);
+        logger.warn(`Invalid retrograde phase dates for ${planet} phase ${phaseName}`);
         continue;
       }
 
@@ -128,7 +128,7 @@ export function validateRetrogradePhase()
 
     return { isRetrograde: false };
   } catch (error) {
-    logger.error(`Error validating retrograde phase for $) {planet}:`, error);
+    logger.error(`Error validating retrograde phase for ${planet}:`, error);
     return { isRetrograde: false };
   }
 }
@@ -152,7 +152,7 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
       const transit = transitDates[sign] as TransitDate;
 
       if (!transit.Start || !transit.End) {
-        errors.push(`Missing Start or End date for sign $) {sign}`);
+        errors.push(`Missing Start or End date for sign ${sign}`);
         continue;
       }
 
@@ -160,15 +160,15 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
       const endDate = new Date(transit.End as string | number | Date);
 
       if (isNaN(startDate.getTime()) {
-        errors.push(`Invalid Start date format for sign ${sign}: $) {transit.Start}`);
+        errors.push(`Invalid Start date format for sign ${sign}: ${transit.Start}`);
       }
 
       if (isNaN(endDate.getTime()) {
-        errors.push(`Invalid End date format for sign ${sign}: $) {transit.End}`);
+        errors.push(`Invalid End date format for sign ${sign}: ${transit.End}`);
       }
 
       if (startDate >= endDate) {
-        errors.push(`Start date must be before End date for sign $) {sign}`);
+        errors.push(`Start date must be before End date for sign ${sign}`);
       }
     }
 
@@ -198,7 +198,7 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
 
       // Check for overlaps
       if (current.end > next.start) {
-        warnings.push(`Overlap between ${current.sign} and $) {next.sign}`);
+        warnings.push(`Overlap between ${current.sign} and ${next.sign}`);
       }
     }
 
@@ -209,7 +209,7 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
       for (const [phaseName, phaseData] of phases) {
         const phase = phaseData as TransitDate;
         if (!phase.Start || !phase.End) {
-          warnings.push(`Missing Start or End date for retrograde phase $) {phaseName}`);
+          warnings.push(`Missing Start or End date for retrograde phase ${phaseName}`);
           continue;
         }
 
@@ -229,7 +229,7 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
         }
 
         if (startDate >= endDate) {
-          errors.push(`Start date must be before End date for retrograde phase $) {phaseName}`);
+          errors.push(`Start date must be before End date for retrograde phase ${phaseName}`);
         }
       }
     }
@@ -240,7 +240,7 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
       warnings
     };
   } catch (error) {
-    errors.push(`Validation error: $) {error instanceof Error ? error.message : 'Unknown error'}`);
+    errors.push(`Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     return {
       isValid: false,
       errors,
@@ -257,11 +257,11 @@ export async function loadPlanetTransitDates()
 ): Promise<PlanetTransitDates | null> {
   try {
     // Dynamic import to load planet data
-    const planetModule = await import(`@/data/planets/$) {planetName.toLowerCase()}`);
+    const planetModule = await import(`@/data/planets/${planetName.toLowerCase()}`);
     const planetData = planetModule.default;
 
     if (!planetData?.PlanetSpecific?.TransitDates) {
-      logger.warn(`No transit dates found for planet $) {planetName}`);
+      logger.warn(`No transit dates found for planet ${planetName}`);
       return null;
     }
 
@@ -269,17 +269,17 @@ export async function loadPlanetTransitDates()
     const validation = validateAllTransitDates(transitDates);
 
     if (!validation.isValid) {
-      logger.error(`Invalid transit dates for $) {planetName}:`, validation.errors);
+      logger.error(`Invalid transit dates for ${planetName}:`, validation.errors);
       return null;
     }
 
     if (validation.warnings.length > 0) {
-      logger.warn(`Transit date warnings for $) {planetName}:`, validation.warnings);
+      logger.warn(`Transit date warnings for ${planetName}:`, validation.warnings);
     }
 
     return transitDates;
   } catch (error) {
-    logger.error(`Error loading transit dates for $) {planetName}:`, error);
+    logger.error(`Error loading transit dates for ${planetName}:`, error);
     return null;
   }
 }
@@ -295,20 +295,20 @@ export async function validatePlanetaryPosition()
   try {
     const transitDates = await loadPlanetTransitDates(planetName);
     if (!transitDates) {
-      logger.warn(`Cannot validate position for $) {planetName}: no transit data available`);
+      logger.warn(`Cannot validate position for ${planetName}: no transit data available`);
       return false;
     }
 
     const isValid = validateTransitDate(planetName, date, position.sign, transitDates);
 
     if (!isValid) {
-      logger.warn(`Position validation failed for ${planetName}: ${position.sign} at ${position.degree}° on $) {date.toISOString().split('T')[0]}`
+      logger.warn(`Position validation failed for ${planetName}: ${position.sign} at ${position.degree}° on ${date.toISOString().split('T')[0]}`
       );
     }
 
     return isValid;
   } catch (error) {
-    logger.error(`Error validating planetary position for $) {planetName}:`, error);
+    logger.error(`Error validating planetary position for ${planetName}:`, error);
     return false;
   }
 }

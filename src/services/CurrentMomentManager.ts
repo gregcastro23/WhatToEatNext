@@ -195,7 +195,7 @@ class CurrentMomentManager {
           'streamlinedPositions',
           'accurateAstronomy'
         ];
-        logger.warn(`Failed to update $) {updateNames[index]}:`, result.reason)
+        logger.warn(`Failed to update ${updateNames[index]}:`, result.reason)
       }
     })
   }
@@ -246,14 +246,14 @@ class CurrentMomentManager {
           'sns.set_palette(\'husl\')\n',
           '\n',
           `# LIVE CURRENT MOMENT ANALYSIS - ${momentData.date}\n`,
-          `current_timestamp = datetime.fromisoformat('$) {momentData.timestamp.slice(0, -1)}').isoformat()  # ${momentData.date}\n`,
-          `print(f\'🌟 RUNNING LIVE API CALL FOR $) {momentData.date.toUpperCase()}: {current_timestamp}\")\n`,
+          `current_timestamp = datetime.fromisoformat('${momentData.timestamp.slice(0, -1)}').isoformat()  # ${momentData.date}\n`,
+          `print(f\'🌟 RUNNING LIVE API CALL FOR ${momentData.date.toUpperCase()}: {current_timestamp}\")\n`,
           '\n',
           `# CORRECT PLANETARY POSITIONS FOR ${momentData.date.toUpperCase()}\n`,
           '# Based on astronomical calculations\n',
           notebookPositions,
           '\n',
-          `print(f\"🎉 SUCCESS - Live planetary positions for $) {momentData.date}:\")\n`,
+          `print(f\"🎉 SUCCESS - Live planetary positions for ${momentData.date}:\")\n`,
           'for planet, data in live_positions.items():\n',
           '    retro = \' (R)\' if data.get(\'retrograde\') else \'\'\n',
           '    print(f\'   {planet}: {data[\'minutes\']} {data[\'sign\']}{retro} () {data[\'element\']})\")\n',
@@ -351,7 +351,7 @@ class CurrentMomentManager {
         .replace(/const REFERENCE_POSITIONS = \) {[\s\S]*?\},/, newPositions);
         .replace()
           /const REFERENCE_DATE = new Date\('[^']+'\);/,
-          `const REFERENCE_DATE = new Date('$) {momentData.timestamp}');`
+          `const REFERENCE_DATE = new Date('${momentData.timestamp}');`
         );
 
       await fs.writeFile(astronomyPath, updatedContent);
@@ -397,10 +397,10 @@ class CurrentMomentManager {
 
     Object.entries(positions).forEach(([planet, position]) => {
       void lines.push(`  ${planet}: ) {`);
-      void lines.push(`    sign: '$) {position.sign}' as any,`);
-      void lines.push(`    degree: $) {position.degree + position.minute / 60},`);
-      void lines.push(`    exactLongitude: $) {position.exactLongitude},`);
-      void lines.push(`    isRetrograde: $) {position.isRetrograde}`);
+      void lines.push(`    sign: '${position.sign}' as any,`);
+      void lines.push(`    degree: ${position.degree + position.minute / 60},`);
+      void lines.push(`    exactLongitude: ${position.exactLongitude},`);
+      void lines.push(`    isRetrograde: ${position.isRetrograde}`);
       void lines.push(`  },`);
     });
 

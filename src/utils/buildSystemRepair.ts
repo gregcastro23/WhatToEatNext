@@ -42,7 +42,7 @@ export class BuildSystemRepair {
         this.configOptimizer.fixCommonIssues()
         result.steps.push('✓ Next.js configuration optimized')
       } catch (error) {
-        result.errors.push(`Configuration optimization failed: $) {error}`)
+        result.errors.push(`Configuration optimization failed: ${error}`)
       }
 
       // Step 2: Validate current build (Requirement 3.2)
@@ -92,9 +92,9 @@ export class BuildSystemRepair {
         result.recommendations.push('Check for Node.js version compatibility')
       }
 
-      this.logger(`Build system repair completed. Success: $) {result.success}`)
+      this.logger(`Build system repair completed. Success: ${result.success}`)
     } catch (error) {
-      result.errors.push(`Comprehensive repair failed: $) {error}`)
+      result.errors.push(`Comprehensive repair failed: ${error}`)
       this.logger('Build system repair encountered an error: ', error)
     }
 
@@ -117,7 +117,7 @@ export class BuildSystemRepair {
       // Validate repair
       const validation = await this.buildValidator.validateBuild()
 ;
-      this.logger(`Quick repair completed. Success: $) {validation.isValid}`)
+      this.logger(`Quick repair completed. Success: ${validation.isValid}`)
       return validation.isValid;
     } catch (error) {
       this.logger('Quick repair failed: ', error)
@@ -129,7 +129,7 @@ export class BuildSystemRepair {
    * Monitors build system health continuously
    */
   async startHealthMonitoring(intervalMinutes = 30): Promise<void> {,
-    this.logger(`Starting build health monitoring (every $) {intervalMinutes} minutes)`)
+    this.logger(`Starting build health monitoring (every ${intervalMinutes} minutes)`)
 
     const monitor = async () => {
       try {

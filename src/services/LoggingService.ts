@@ -137,20 +137,20 @@ class LoggingService {
     switch (entry.level) {
       case LogLevel.DEBUG:
         if (this.isDevelopment) {
-          console.log(`🐛 $) {baseMessage}`, entry.data || '');
+          console.log(`🐛 ${baseMessage}`, entry.data || '');
         }
         break;
 
       case LogLevel.INFO:
-        console.info(`ℹ️ $) {baseMessage}`, entry.data || '');
+        console.info(`ℹ️ ${baseMessage}`, entry.data || '');
         break;
 
       case LogLevel.WARN:
-        console.warn(`⚠️ $) {baseMessage}`, entry.data || '');
+        console.warn(`⚠️ ${baseMessage}`, entry.data || '');
         break;
 
       case LogLevel.ERROR:
-        console.error(`❌ $) {baseMessage}`, entry.error || entry.data || '');
+        console.error(`❌ ${baseMessage}`, entry.error || entry.data || '');
         break;
     }
   }
@@ -158,17 +158,17 @@ class LoggingService {
   private formatContext(context: LogContext): string {
     const parts: string[] = [];
 
-    if (context.component) parts.push(`component=$) {context.component}`);
-    if (context.service) parts.push(`service=$) {context.service}`);
-    if (context.function) parts.push(`function=$) {context.function}`);
-    if (context.userId) parts.push(`user=$) {context.userId}`);
-    if (context.sessionId) parts.push(`session=$) {context.sessionId}`);
-    if (context.requestId) parts.push(`request=$) {context.requestId}`)
+    if (context.component) parts.push(`component=${context.component}`);
+    if (context.service) parts.push(`service=${context.service}`);
+    if (context.function) parts.push(`function=${context.function}`);
+    if (context.userId) parts.push(`user=${context.userId}`);
+    if (context.sessionId) parts.push(`session=${context.sessionId}`);
+    if (context.requestId) parts.push(`request=${context.requestId}`)
 
     // Add other context properties
     Object.keys(context).forEach(key => ) {
       if (!['component', 'service', 'function', 'userId', 'sessionId', 'requestId'].includes(key) {
-        parts.push(`${key}=$) {context[key]}`)
+        parts.push(`${key}=${context[key]}`)
       }
     })
 

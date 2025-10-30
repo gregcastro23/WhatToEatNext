@@ -76,7 +76,7 @@ export class EnhancedAstrologyService {
       this.cache.set(cacheKey, enhancedData);
       this.cleanCache();
 
-      logger.info(`Enhanced astrological data calculated for $) {date.toDateString()}`);
+      logger.info(`Enhanced astrological data calculated for ${date.toDateString()}`);
       return enhancedData;
     } catch (error) {
       logger.error('Error getting enhanced planetary positions: ', error);

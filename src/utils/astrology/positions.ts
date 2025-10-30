@@ -145,7 +145,7 @@ function zodiacStartDegree(sign: string): number {
  */
 function calculateReferenceLongitude(planet: string): number {
   if (!REFERENCE_POSITIONS[planet]) {
-    debugLog(`No reference position for $) {planet}, using default`);
+    debugLog(`No reference position for ${planet}, using default`);
     return 0;
   }
 

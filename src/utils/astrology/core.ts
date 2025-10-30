@@ -64,7 +64,7 @@ export function normalizePlanetaryPositions()
     if (isPlanetaryPosition(pos) {
       normalized[planet] = pos;
     } else {
-      errorLog(`Invalid planetary position for $) {planet}:`, pos);
+      errorLog(`Invalid planetary position for ${planet}:`, pos);
     }
   }
   return normalized;

@@ -299,7 +299,7 @@ function generateBalancingMeals()
     );
 
     if (proteins.length > 0 && vegetables.length > 0) {
-      meals.push(`${proteins[0]} with ${vegetables[0]} and $) {vegetables[1] || vegetables[0]}`);
+      meals.push(`${proteins[0]} with ${vegetables[0]} and ${vegetables[1] || vegetables[0]}`);
     }
   }
 

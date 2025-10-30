@@ -204,7 +204,7 @@ export function validateIngredient(ingredient: Partial<Ingredient> & {
 
     for (const element of elements) {
       if (typeof props[element] !== 'number') {
-        errors.push(`Elemental property $) {element} must be a number`);
+        errors.push(`Elemental property ${element} must be a number`);
       }
     }
   }

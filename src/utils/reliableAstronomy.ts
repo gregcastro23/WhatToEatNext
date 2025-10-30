@@ -161,7 +161,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
     const planetRequests = planets.map(async planet => {)
       try {
         // Construct request URL for each planet,
-        const url = `https: //ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND='${planet.id}'&OBJ_DATA='YES'&MAKE_EPHEM='YES'&EPHEM_TYPE='OBSERVER'&CENTER='500@399'&START_TIME='$) {horizonsDate}'&STOP_TIME='$) {horizonsDate}'&STEP_SIZE='1d'&QUANTITIES='31'`;
+        const url = `https: //ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND='${planet.id}'&OBJ_DATA='YES'&MAKE_EPHEM='YES'&EPHEM_TYPE='OBSERVER'&CENTER='500@399'&START_TIME='${horizonsDate}'&STOP_TIME='${horizonsDate}'&STEP_SIZE='1d'&QUANTITIES='31'`;
 
         // Add a timeout to the fetch
         const controller = new AbortController();
@@ -171,7 +171,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
         clearTimeout(timeoutId)
 
         if (!response.ok) {
-          throw new Error(`HTTP error $) {response.status}`)
+          throw new Error(`HTTP error ${response.status}`)
         }
 
         const data = await response.json();
@@ -184,7 +184,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
           }
         }
       } catch (error) {
-        logger.error(`Error fetching $) {planet.name} position: `, error)
+        logger.error(`Error fetching ${planet.name} position: `, error)
         // Individual planet fetch failures don't fail the whole batch
       }
     })
@@ -220,13 +220,13 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
     // Find the line with ecliptic longitude data
     const eclipticLine = lines.find(line => line.includes('ecliptic'));
     if (!eclipticLine) {
-      throw new Error(`Could not find ecliptic longitude data for $) {planetName}`)
+      throw new Error(`Could not find ecliptic longitude data for ${planetName}`)
     }
 
     // Extract the longitude value
     const longMatch = eclipticLine.match(/(\d+\.\d+)/);
     if (!longMatch) {
-      throw new Error(`Could not parse longitude for $) {planetName}`)
+      throw new Error(`Could not parse longitude for ${planetName}`)
     }
 
     const exactLongitude = parseFloat(longMatch[1]);
@@ -245,7 +245,7 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
       isRetrograde
     }
   } catch (error) {
-    logger.error(`Error processing $) {planetName} data: `, error)
+    logger.error(`Error processing ${planetName} data: `, error)
     return null;
   }
 }
@@ -311,7 +311,7 @@ function calculateLunarNode(date: Date, nodeType: 'northNode' | 'southNode'): un
       isRetrograde: true, // Both nodes are always retrograde
     }
   } catch (error) {
-    logger.error(`Error calculating $) {nodeType}:`, error)
+    logger.error(`Error calculating ${nodeType}:`, error)
 
     // Return fixed values from March 2025
     if (nodeType === 'northNode') {
@@ -386,7 +386,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
       clearTimeout(timeoutId)
 
       if (!response.ok) {
-        throw new Error(`Public API error: $) {response.status}`)
+        throw new Error(`Public API error: ${response.status}`)
       }
 
       const data = await response.json();
@@ -463,7 +463,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
 
       // If too many planets are missing, the data might be unreliable
       if (missingCount > 3) {
-        _logger.warn(`Too many planets missing ($) {missingCount}), using fallback data`)
+        _logger.warn(`Too many planets missing (${missingCount}), using fallback data`)
         return getMarch2025Positions(date);
 }
 
@@ -504,7 +504,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
     const baseUrl = 'https: //api.timeanddate.com/v3/astronomy';
 
     // Authorization token;
-    const auth = Buffer.from(`${apiKey}:$) {apiSecret}`).toString('base64');
+    const auth = Buffer.from(`${apiKey}:${apiSecret}`).toString('base64');
 
     // Add a timeout to the fetch request
     const controller = new AbortController();
@@ -526,7 +526,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       clearTimeout(timeoutId)
 
       if (!response.ok) {
-        throw new Error(`TimeAndDate API error: $) {response.status}`)
+        throw new Error(`TimeAndDate API error: ${response.status}`)
       }
 
       const data = await response.json();
@@ -583,7 +583,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
 
       // If too many planets are missing, the data might be unreliable
       if (missingCount > 3) {
-        _logger.warn(`Too many planets missing ($) {missingCount}), using fallback data`)
+        _logger.warn(`Too many planets missing (${missingCount}), using fallback data`)
         return getMarch2025Positions(date);
 }
 

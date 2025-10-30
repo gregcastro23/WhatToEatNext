@@ -478,7 +478,7 @@ export const calculateCuisineFlavorMatch = (;
 
   const cuisineProfile = getCuisineProfile(cuisineName);
   if (!cuisineProfile) {
-    // _logger.error(`Cuisine profile not found for $) {cuisineName}`)
+    // _logger.error(`Cuisine profile not found for ${cuisineName}`)
     return 0.5;
   }
 
@@ -488,7 +488,7 @@ export const calculateCuisineFlavorMatch = (;
     if (typeof value === 'number' && !isNaN(value) {
       validatedRecipeProfile[flavor] = value;
     } else {
-      // _logger.error(`Invalid ${flavor} value in recipe flavor profile: $) {value}`)
+      // _logger.error(`Invalid ${flavor} value in recipe flavor profile: ${value}`)
       validatedRecipeProfile[flavor] = 0;
     }
   }
@@ -779,7 +779,7 @@ export function getRecipesForCuisineMatch()
 
     // Special handling for American and African cuisines that have been problematic
     if (normalizedCuisineName === 'american' || normalizedCuisineName === 'african') {
-      log.info(`Using specialized handling for $) {cuisineName}`);
+      log.info(`Using specialized handling for ${cuisineName}`);
       try {
         // First, try LocalRecipeService (ESM import at top)
         // Clear cache to ensure fresh data
@@ -804,7 +804,7 @@ export function getRecipesForCuisineMatch()
         const cuisine = normalizedCuisineName === 'american' ? american : african;
 
         if (cuisine?.dishes) {
-          log.info(`Direct import successful for $) {cuisineName}, extracting recipes from dishes`);
+          log.info(`Direct import successful for ${cuisineName}, extracting recipes from dishes`);
 
           // Extract recipes from all meal types
           const allRecipes: unknown[] = [];
@@ -857,12 +857,12 @@ export function getRecipesForCuisineMatch()
           )
 
           if (uniqueRecipes.length > 0) {
-            log.info(`Returning ${uniqueRecipes.length} unique recipes for $) {cuisineName}`)
+            log.info(`Returning ${uniqueRecipes.length} unique recipes for ${cuisineName}`)
             return uniqueRecipes.slice(0, limit);
 }
         }
       } catch (error) {
-        _logger.error(`Error in special handling for $) {cuisineName}:`, error)
+        _logger.error(`Error in special handling for ${cuisineName}:`, error)
       }
     }
 
@@ -872,7 +872,7 @@ export function getRecipesForCuisineMatch()
     // If no recipes are provided or empty array, try to fetch from LocalRecipeService
     if (!Array.isArray(recipes) || recipes.length === 0) {
       try {
-        log.info(`No recipes array provided, trying LocalRecipeService for $) {cuisineName}`)
+        log.info(`No recipes array provided, trying LocalRecipeService for ${cuisineName}`)
         // Use ESM import at top
         const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
         log.info()
@@ -889,11 +889,11 @@ export function getRecipesForCuisineMatch()
             }))
             .slice(0, limit)
         } else {
-          log.info(`LocalRecipeService returned no recipes for $) {cuisineName}, using mock data`)
+          log.info(`LocalRecipeService returned no recipes for ${cuisineName}, using mock data`)
           return [];
         }
       } catch (error) {
-        _logger.error(`Error fetching recipes from LocalRecipeService for $) {cuisineName}:`, error)
+        _logger.error(`Error fetching recipes from LocalRecipeService for ${cuisineName}:`, error)
         return [];
       }
     }
@@ -901,7 +901,7 @@ export function getRecipesForCuisineMatch()
     // Get the cuisine profile
     const cuisineProfile = getCuisineProfile(cuisineName);
     if (!cuisineProfile) {
-      _logger.warn(`No cuisine profile found for $) {cuisineName}, using direct matches only`)
+      _logger.warn(`No cuisine profile found for ${cuisineName}, using direct matches only`)
       // Even without a profile, we can still try direct matches
     }
 
@@ -918,7 +918,7 @@ export function getRecipesForCuisineMatch()
       );
     })
 
-    log.info(`Found ${exactCuisineMatches.length} exact cuisine matches for $) {cuisineName}`)
+    log.info(`Found ${exactCuisineMatches.length} exact cuisine matches for ${cuisineName}`)
 
     // Regional variant matches
     const regionalMatches = recipes.filter(recipe => ) {
@@ -932,7 +932,7 @@ export function getRecipesForCuisineMatch()
       );
     })
 
-    log.info(`Found ${regionalMatches.length} regional matches for $) {cuisineName}`)
+    log.info(`Found ${regionalMatches.length} regional matches for ${cuisineName}`)
 
     // Calculate match scores for all other recipes
     const otherRecipes = recipes.filter();
@@ -1029,7 +1029,7 @@ export function getRecipesForCuisineMatch()
               matchPercentage: Math.round(finalScore * 100)
             };
           } catch (scoreError) {
-            _logger.error(`Error scoring recipe match for $) {cuisineName}:`, scoreError);
+            _logger.error(`Error scoring recipe match for ${cuisineName}:`, scoreError);
             return {
               ...(recipe),
               matchScore: 0.5,
@@ -1041,7 +1041,7 @@ export function getRecipesForCuisineMatch()
         .sort((a, b) => Number((b as any).matchScore || 0) - Number((a as any).matchScore || 0)); // Sort by score (high to low)
     }
 
-    log.info(`Found ${scoredOtherRecipes.length} scored other recipes for $) {cuisineName}`)
+    log.info(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`)
 
     // Combine all matches, prioritizing direct matches, then regional, then others
     const allMatches = [;
@@ -1068,7 +1068,7 @@ export function getRecipesForCuisineMatch()
     const sortedMatches = uniqueMatches.sort(a, b) => Number((b as any).matchScore || 0) - Number((a as any).matchScore || 0);
     );
 
-    log.info(`Returning ${sortedMatches.length} sorted matches for $) {cuisineName}`)
+    log.info(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`)
 
     // Use empty array if we didn't find enough recipes
     if (sortedMatches.length < Math.min(3, limit) {
@@ -1077,7 +1077,7 @@ export function getRecipesForCuisineMatch()
 
     return sortedMatches.slice(0, limit);
 } catch (error) {
-    _logger.error(`Error in getRecipesForCuisineMatch for $) {cuisineName}:`, error)
+    _logger.error(`Error in getRecipesForCuisineMatch for ${cuisineName}:`, error)
     return [];
   }
 }

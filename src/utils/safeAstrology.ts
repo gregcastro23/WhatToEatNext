@@ -142,7 +142,7 @@ export function calculateSunSign(date: Date = new Date()): any {
 export function getZodiacPositionInDegrees(sign: any, _degree: number): number {
   const signIndex = ZODIAC_SIGNS.indexOf(sign);
   if (signIndex === -1) {
-    logger.warn(`Unknown sign: $) {sign}, falling back to Aries`)
+    logger.warn(`Unknown sign: ${sign}, falling back to Aries`)
     return degree; // Aries starts at 0 degrees
   }
   return signIndex * 30 + degree;
@@ -194,7 +194,7 @@ export function calculatePlanetaryAspects()
     }
   }
 
-  logger.debug(`Found $) {aspects.length} aspects`)
+  logger.debug(`Found ${aspects.length} aspects`)
   return aspects;
 }
 

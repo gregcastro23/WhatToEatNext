@@ -163,7 +163,7 @@ export class RecommendationService implements RecommendationServiceInterface {
         filteredRecipes = filteredRecipes.slice(0, criteria.limit);
       }
 
-      logger.info(`Returning $) {filteredRecipes.length} recommended recipes`);
+      logger.info(`Returning ${filteredRecipes.length} recommended recipes`);
 
       return {
         items: filteredRecipes,
@@ -275,7 +275,7 @@ export class RecommendationService implements RecommendationServiceInterface {
         scores[item.ingredient.id || item.ingredient.name] = item.score;
       });
 
-      logger.info(`Returning $) {limitedIngredients.length} recommended ingredients`);
+      logger.info(`Returning ${limitedIngredients.length} recommended ingredients`);
 
       return {
         items: limitedIngredients.map(item => item.ingredient),
@@ -348,7 +348,7 @@ export class RecommendationService implements RecommendationServiceInterface {
         filteredCuisines = filteredCuisines.slice(0, criteria.limit);
       }
 
-      logger.info(`Returning $) {filteredCuisines.length} recommended cuisines`);
+      logger.info(`Returning ${filteredCuisines.length} recommended cuisines`);
 
       return {
         items: filteredCuisines,
@@ -421,7 +421,7 @@ export class RecommendationService implements RecommendationServiceInterface {
         filteredMethods = filteredMethods.slice(0, criteria.limit);
       }
 
-      logger.info(`Returning $) {filteredMethods.length} recommended cooking methods`);
+      logger.info(`Returning ${filteredMethods.length} recommended cooking methods`);
 
       return {
         items: filteredMethods,
@@ -479,7 +479,7 @@ export class RecommendationService implements RecommendationServiceInterface {
     limit?: number
   ): Promise<RecommendationResult<unknown>> {
     try {
-      logger.info(`Getting $) {type} recommendations for elemental properties:`, elementalProperties);
+      logger.info(`Getting ${type} recommendations for elemental properties:`, elementalProperties);
 
       switch (type) {
         case 'recipe':
@@ -507,10 +507,10 @@ export class RecommendationService implements RecommendationServiceInterface {
           });
 
         default:
-          throw new Error(`Unknown recommendation type: $) {type}`);
+          throw new Error(`Unknown recommendation type: ${type}`);
       }
     } catch (error) {
-      logger.error(`Error getting $) {type} recommendations for elements:`, error);
+      logger.error(`Error getting ${type} recommendations for elements:`, error);
       return {
         items: [],
         scores: {},
@@ -530,7 +530,7 @@ export class RecommendationService implements RecommendationServiceInterface {
     limit?: number
   ): Promise<RecommendationResult<unknown>> {
     try {
-      logger.info(`Getting $) {type} recommendations for planetary alignment:`, planetaryPositions);
+      logger.info(`Getting ${type} recommendations for planetary alignment:`, planetaryPositions);
 
       // For now, convert planetary positions to elemental properties
       // TODO: Implement direct planetary compatibility calculation
@@ -538,7 +538,7 @@ export class RecommendationService implements RecommendationServiceInterface {
 
       return await this.getRecommendationsForElements(elementalProperties, type, limit);
     } catch (error) {
-      logger.error(`Error getting $) {type} recommendations for planetary alignment:`, error);
+      logger.error(`Error getting ${type} recommendations for planetary alignment:`, error);
       return {
         items: [],
         scores: {},

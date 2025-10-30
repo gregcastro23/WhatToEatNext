@@ -1007,7 +1007,7 @@ export class UnifiedRecipeBuildingSystem {
         (substitutions as unknown as Array<unknown>).push({
           original: ingredient.name,
           seasonal: seasonalIngredient,
-          reason: `Better availability in $) {season}`,
+          reason: `Better availability in ${season}`,
           seasonalScore: 0.8
 })
       }
@@ -1035,7 +1035,7 @@ export class UnifiedRecipeBuildingSystem {
         (adjustments as unknown as MethodAdjustment[]).push({
           method: method,
           adjustment: seasonalAdjustment,
-          reason: `Optimized for $) {season} conditions`
+          reason: `Optimized for ${season} conditions`
         })
       }
     }
@@ -1103,7 +1103,7 @@ export class UnifiedRecipeBuildingSystem {
     const notes = [];
 
     // Add cuisine-specific notes;
-    (notes as string[]).push(`Traditional $) {cuisine} influences`)
+    (notes as string[]).push(`Traditional ${cuisine} influences`)
 
     // Add ingredient-based cultural notes
     const recipeIngredients = recipe.ingredients.map(ing => ing.name) || [];
@@ -1156,7 +1156,7 @@ export class UnifiedRecipeBuildingSystem {
 
     // Generate modern adaptations based on recipe and cuisine characteristics
     if (recipe.ingredients && recipe.ingredients.length > 0) {
-      (adaptations as string[]).push(`Modern $) {cuisine} fusion with contemporary techniques`)
+      (adaptations as string[]).push(`Modern ${cuisine} fusion with contemporary techniques`)
 
       // Add health-conscious adaptations
       (adaptations as string[]).push()
@@ -1683,7 +1683,7 @@ export class UnifiedRecipeBuildingSystem {
     // Apply fusion cuisine integration with complete interface
     const authenticity = 0.7, // Fusion recipes maintain moderate authenticity,;
     const fusionPotential = 0.9, // High fusion potential by design,;
-    const culturalNotes = cuisines.map(cuisine => `Integrates $) {cuisine} culinary traditions`);
+    const culturalNotes = cuisines.map(cuisine => `Integrates ${cuisine} culinary traditions`);
     const traditionalVariations = cuisines.map();
       cuisine => `Traditional ${cuisine} preparation method`
     )

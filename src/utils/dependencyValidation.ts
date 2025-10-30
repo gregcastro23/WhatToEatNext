@@ -18,7 +18,7 @@ export async function validateImportPath(importPath: string, fromFile: string): 
     await import(importPath);
     return true;
   } catch (error) {
-    logger.error(`Invalid import path '${importPath}' in $) {fromFile}:`, error);
+    logger.error(`Invalid import path '${importPath}' in ${fromFile}:`, error);
     return false;
   }
 }
@@ -81,11 +81,11 @@ export async function validateBarrelExports()
         valid.push(exportName);
       } else {
         invalid.push(exportName);
-        logger.warn(`Export '${exportName}' not found in $) {barrelPath}`);
+        logger.warn(`Export '${exportName}' not found in ${barrelPath}`);
       }
     }
   } catch (error) {
-    logger.error(`Failed to load barrel module $) {barrelPath}:`, error);
+    logger.error(`Failed to load barrel module ${barrelPath}:`, error);
     invalid.push(...exports);
   }
 
@@ -125,7 +125,7 @@ export function validateImportStatement()
 
   for (const ) { pattern, message } of PROBLEMATIC_PATTERNS) {
     if (pattern.test(importStatement) {
-      warnings.push(`${filePath}: $) {message}`);
+      warnings.push(`${filePath}: ${message}`);
       isValid = false;
     }
   }
@@ -183,7 +183,7 @@ export async function validateFileImports()
       }
     } catch (error) {
       invalidImports.push(importStatement);
-      warnings.push(`Failed to validate import '${importPath}' in $) {filePath}`);
+      warnings.push(`Failed to validate import '${importPath}' in ${filePath}`);
     }
   }
 
@@ -279,7 +279,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
       moduleGraph[file] = dependencies;
     } catch (error) {
       invalidFiles++;
-      allWarnings.push(`Failed to process file ${file}: $) {error}`);
+      allWarnings.push(`Failed to process file ${file}: ${error}`);
     }
   }
 
@@ -310,7 +310,7 @@ export function autoFixDependencyIssues()
   // Fix 1: Convert barrel imports to direct imports where possible
   const barrelImportRegex = /import\s+{([^}]+)}\s+from\s+['"](.*)\/index['"]/g;
   fixedContent = fixedContent.replace(barrelImportRegex, (match, imports, basePath) => {
-    appliedFixes.push(`Converted barrel import: $) {match}`);
+    appliedFixes.push(`Converted barrel import: ${match}`);
     return `import {${imports}} from '${basePath}'`;
   });
 
@@ -322,8 +322,8 @@ export function autoFixDependencyIssues()
       !importPath.endsWith('.tsx') &&
       !importPath.endsWith('.js')
     ) {
-      appliedFixes.push(`Added file extension: $) {match}`);
-      return match.replace(importPath, `$) {importPath}.ts`);
+      appliedFixes.push(`Added file extension: ${match}`);
+      return match.replace(importPath, `${importPath}.ts`);
     }
     return match;
   });

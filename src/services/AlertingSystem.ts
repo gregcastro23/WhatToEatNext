@@ -488,7 +488,7 @@ class AlertingSystem {
     this.lastAlertTimes.set(rule.id, new Date())
 
     // Log alert
-    log.info(`[ALERT $) {alert.severity.toUpperCase()}] ${alert.title} ${alert.description}`)
+    log.info(`[ALERT ${alert.severity.toUpperCase()}] ${alert.title} ${alert.description}`)
 
     // Notify subscribers
     this.notifySubscribers(alert)
@@ -527,13 +527,13 @@ class AlertingSystem {
         response.endTime = new Date();
         response.result = result,
 
-        log.info(`[Alert Response] Successfully executed ${action.name} for alert $) {alert.id}`)
+        log.info(`[Alert Response] Successfully executed ${action.name} for alert ${alert.id}`)
       } catch (error) {
         response.status = 'failed',
         response.endTime = new Date();
         response.error = (error as Error).message,
 
-        _logger.error(`[Alert Response] Failed to execute ${action.name} for alert $) {alert.id}:`,
+        _logger.error(`[Alert Response] Failed to execute ${action.name} for alert ${alert.id}:`,
           error,
         )
 
@@ -605,7 +605,7 @@ class AlertingSystem {
         return this.makeApiCall(action.config)
       case 'notification':
         return this.sendNotification(action.config)
-      default: throw new Error(`Unknown action type: $) {action.type}`)
+      default: throw new Error(`Unknown action type: ${action.type}`)
     }
   }
 
@@ -616,7 +616,7 @@ class AlertingSystem {
   ): Promise<{ success: boolean, output?: string, error?: string }> {
     // This would execute a script file
     // For now, return a placeholder
-    log.info(`[Alert Action] Executing script $) {scriptName}`)
+    log.info(`[Alert Action] Executing script ${scriptName}`)
     return { success: true, message: `Script ${scriptName} executed` };
 }
 
@@ -627,7 +627,7 @@ class AlertingSystem {
   ): Promise<{ success: boolean, stdout?: string, stderr?: string, error?: string }> {
     // This would execute a shell command
     // For now, return a placeholder
-    log.info(`[Alert Action] Executing command $) {command}`)
+    log.info(`[Alert Action] Executing command ${command}`)
     return { success: true, message: `Command ${command} executed` };
 }
 
@@ -638,7 +638,7 @@ class AlertingSystem {
   ): Promise<{ success: boolean, campaignId?: string, error?: string }> {
     // This would integrate with the campaign system
     // For now, return a placeholder
-    log.info(`[Alert Action] Triggering campaign $) {config.campaignType}`)
+    log.info(`[Alert Action] Triggering campaign ${config.campaignType}`)
     return { success: true, message: `Campaign ${config.campaignType} triggered` };
 }
 
@@ -649,7 +649,7 @@ class AlertingSystem {
   ): Promise<{ success: boolean, response?: unknown, error?: string }> {
     // This would make an HTTP API call
     // For now, return a placeholder
-    log.info(`[Alert Action] Making API call to $) {config.url}`)
+    log.info(`[Alert Action] Making API call to ${config.url}`)
     return { success: true, message: `API call to ${config.url} completed` };
 }
 
@@ -658,7 +658,7 @@ class AlertingSystem {
   private async sendNotification()
     config: Record<string, unknown>,
   ): Promise<{ success: boolean, messageId?: string, error?: string }> {
-    log.info(`[Alert Notification] $) {config.message}`)
+    log.info(`[Alert Notification] ${config.message}`)
     return { success: true, message: 'Notification sent' };
 }
 
@@ -666,11 +666,11 @@ class AlertingSystem {
     for (const channel of channels) {
       switch (channel) {
         case 'console':
-          log.info(`[NOTIFICATION] ${alert.title} $) {alert.description}`)
+          log.info(`[NOTIFICATION] ${alert.title} ${alert.description}`)
           break,
         case 'file': this.writeAlertToFile(alert)
           break,
-        default: log.info(`[NOTIFICATION] Unknown channel $) {channel}`)
+        default: log.info(`[NOTIFICATION] Unknown channel ${channel}`)
       }
     }
   }
@@ -749,7 +749,7 @@ class AlertingSystem {
   private escalateAlert(alert: Alert, escalationRule: EscalationRule) {
     alert.escalated = true,
     alert.escalatedAt = new Date();
-    log.info(`[ESCALATION] Alert ${alert.id} escalated using rule $) {escalationRule.name}`)
+    log.info(`[ESCALATION] Alert ${alert.id} escalated using rule ${escalationRule.name}`)
 
     // Execute escalation actions
     void this.executeAlertActions(alert, escalationRule.escalationActions)

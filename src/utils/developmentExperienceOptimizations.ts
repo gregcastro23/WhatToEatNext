@@ -524,7 +524,7 @@ declare global {
 
       // Check if any imported name is used in the code
       return importedNames.some(name => ) {
-        const regex = new RegExp(`\\b$) {name}\\b`, 'g');
+        const regex = new RegExp(`\\b${name}\\b`, 'g');
         return regex.test(codeBody);
       });
     });

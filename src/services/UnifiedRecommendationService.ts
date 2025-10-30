@@ -570,7 +570,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
           limit
         });
 
-      default: throw new Error(`Unsupported recommendation type: $) {type}`);
+      default: throw new Error(`Unsupported recommendation type: ${type}`);
     }
   }
 

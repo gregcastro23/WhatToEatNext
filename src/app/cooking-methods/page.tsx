@@ -130,7 +130,7 @@ export default function CookingMethodsPage() {
     setSelectedMethodId(methodId);
     // If it's a main method (not a variation), navigate to it
     if (!methodId.includes('_var_') {
-      router.push(`/cooking-methods/$) {methodId}`)
+      router.push(`/cooking-methods/${methodId}`)
     }
   }
 

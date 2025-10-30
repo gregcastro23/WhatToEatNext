@@ -97,7 +97,7 @@ function checkRequiredFields(recipe: Partial<Recipe>, errors: string[]): boolean
 
   for (const field of requiredFields) {
     if (!recipe[field as keyof Recipe]) {
-      errors.push(`Missing required field: $) {field}`);
+      errors.push(`Missing required field: ${field}`);
       isValid = false;
     }
   }
@@ -133,18 +133,18 @@ function validateIngredientResolution(ingredients: RecipeIngredient[], errors: s
     // Check if ingredient exists in database
     const ingredientId = generateIngredientId(ingredient.name);
     if (!INGREDIENT_DATABASE[ingredientId]) {
-      errors.push(`Ingredient not found in database: $) {ingredient.name}`);
+      errors.push(`Ingredient not found in database: ${ingredient.name}`);
     } else {
       resolved++;
     }
 
     // Validate ingredient structure
     if (typeof ingredient.amount !== 'number' || ingredient.amount <= 0) {
-      errors.push(`Invalid ingredient amount for ${ingredient.name}: $) {ingredient.amount}`);
+      errors.push(`Invalid ingredient amount for ${ingredient.name}: ${ingredient.amount}`);
     }
 
     if (!ingredient.unit || typeof ingredient.unit !== 'string') {
-      errors.push(`Invalid ingredient unit for ${ingredient.name}: $) {ingredient.unit}`);
+      errors.push(`Invalid ingredient unit for ${ingredient.name}: ${ingredient.unit}`);
     }
   }
 
@@ -169,9 +169,9 @@ function validateElementalProperties()
   for (const element of elements) {
     const value = elementals[element as keyof typeof elementals];
     if (typeof value !== 'number') {
-      errors.push(`Elemental property ${element} is not a number: $) {value}`);
+      errors.push(`Elemental property ${element} is not a number: ${value}`);
     } else if (value < 0 || value > 1) {
-      warnings.push(`Elemental property ${element} out of range [0,1]: $) {value}`);
+      warnings.push(`Elemental property ${element} out of range [0,1]: ${value}`);
     } else {
       total += value;
       validElements++;
@@ -185,7 +185,7 @@ function validateElementalProperties()
 
   // Check normalization (should sum to approximately 1.0)
   if (Math.abs(total - 1.0) > 0.01) {
-    warnings.push(`Elemental properties not normalized (sum: $) {total.toFixed(3)}, expected: 1.000)`);
+    warnings.push(`Elemental properties not normalized (sum: ${total.toFixed(3)}, expected: 1.000)`);
   }
 
   return validElements === 4;
@@ -208,9 +208,9 @@ function validateCookingMethods()
   // Validate each cooking method exists
   for (const method of cookingMethod) {
     if (typeof method !== 'string') {
-      errors.push(`Invalid cooking method type: $) {typeof method}`);
+      errors.push(`Invalid cooking method type: ${typeof method}`);
     } else if (!isValidCookingMethod(method) {
-      warnings.push(`Unknown cooking method: $) {method}`);
+      warnings.push(`Unknown cooking method: ${method}`);
     }
   }
 

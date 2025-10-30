@@ -255,7 +255,7 @@ export class AlchemicalService {
 
     const lowElements = elements.filter(el => averageProperties[el] < 0.2);
     if (lowElements.length > 0) {
-      recommendations.push(`Add ingredients with $) {lowElements.join(' or ')} properties`);
+      recommendations.push(`Add ingredients with ${lowElements.join(' or ')} properties`);
     }
 
     return {

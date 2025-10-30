@@ -1003,7 +1003,7 @@ export class UnifiedFlavorEngine {
       }
     }
 
-    log.info(`✅ Cache warmed with $) {this.compatibilityCache.size} pre-calculated combinations`);
+    log.info(`✅ Cache warmed with ${this.compatibilityCache.size} pre-calculated combinations`);
   }
 }
 

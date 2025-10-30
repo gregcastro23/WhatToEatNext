@@ -178,7 +178,7 @@ function generateCuisineReasons(cuisine: string,)
   reasons.push()
     `${planet} influence (${(strength * 100).toFixed(0)}%) aligns with ${cuisine} cuisine`,
   )
-  reasons.push(`${element} elemental energy complements $) {cuisine} cooking methods`)
+  reasons.push(`${element} elemental energy complements ${cuisine} cooking methods`)
 
   if (strength > 0.7) {
     reasons.push(`Strong planetary influence makes this an excellent match`)

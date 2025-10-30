@@ -260,9 +260,9 @@ export function useAstrologicalStatePreservation(_componentId: string) {
         }
 
         saveState(enhancedState)
-        logger.debug(`Saved astrological state for $) {componentId}`)
+        logger.debug(`Saved astrological state for ${componentId}`)
       } catch (error) {
-        logger.error(`Error saving astrological state for $) {componentId}:`, error)
+        logger.error(`Error saving astrological state for ${componentId}:`, error)
         // Fallback to basic state saving
         saveState(state);
       }
@@ -273,7 +273,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
   const restoreAstrologicalState = useCallback(() => {
     const stored = getState();
     if (stored) {
-      logger.debug(`Restored astrological state for $) {componentId}`)
+      logger.debug(`Restored astrological state for ${componentId}`)
     }
     return stored;
   }, [componentId, getState])
@@ -344,7 +344,7 @@ export function useCulturalSensitivityGuidance() {
       if (content.ingredientNames) {
         content.ingredientNames.forEach(name => ) {
           if (name.includes('exotic') || name.includes('ethnic') {
-            issues.push(`Avoid terms like 'exotic' or 'ethnic' for ingredient: $) {name}`)
+            issues.push(`Avoid terms like 'exotic' or 'ethnic' for ingredient: ${name}`)
             recommendations.push(`Use specific cultural origin or descriptive terms instead`)
           }
         })
@@ -473,7 +473,7 @@ export function usePerformanceOptimizationGuidance() {
         if (value !== undefined && thresholds[metric as keyof typeof thresholds]) {
           const threshold = thresholds[metric as keyof typeof thresholds];
           if (value > threshold) {
-            issues.push(`${metric} ($) {value}) exceeds threshold (${threshold})`)
+            issues.push(`${metric} (${value}) exceeds threshold (${threshold})`)
 
             switch (metric) {
               case 'renderTime':

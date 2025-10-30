@@ -155,7 +155,7 @@ class LintingPerformanceValidator {
         metrics,
         expectedImprovement: 70, // Target 60-80%
         actualImprovement: improvement,
-        details: `Cache hit rate: ${metrics.cacheHitRate}%, Time reduction: $) {improvement.toFixed(1)}%`
+        details: `Cache hit rate: ${metrics.cacheHitRate}%, Time reduction: ${improvement.toFixed(1)}%`
 });
 
       console.log()
@@ -175,7 +175,7 @@ class LintingPerformanceValidator {
 },
         expectedImprovement: 70,
         actualImprovement: 0,
-        details: `Error: $) {error}`
+        details: `Error: ${error}`
 });
     }
   }
@@ -221,7 +221,7 @@ class LintingPerformanceValidator {
         metrics,
         expectedImprovement: 40, // Expected from parallelization
         actualImprovement: improvement,
-        details: `Parallel processes: ${metrics.parallelProcesses}, Files per process: $) {Math.round(metrics.filesProcessed / metrics.parallelProcesses)}`
+        details: `Parallel processes: ${metrics.parallelProcesses}, Files per process: ${Math.round(metrics.filesProcessed / metrics.parallelProcesses)}`
 });
 
       console.log()
@@ -241,7 +241,7 @@ class LintingPerformanceValidator {
 },
         expectedImprovement: 40,
         actualImprovement: 0,
-        details: `Error: $) {error}`
+        details: `Error: ${error}`
 });
     }
   }
@@ -295,7 +295,7 @@ class LintingPerformanceValidator {
         metrics,
         expectedImprovement: 20, // Expected memory reduction
         actualImprovement: improvement,
-        details: `Peak memory: $) {actualMemoryMB.toFixed(1)}MB (limit: ${memoryLimitMB}MB)`
+        details: `Peak memory: ${actualMemoryMB.toFixed(1)}MB (limit: ${memoryLimitMB}MB)`
 });
 
       console.log()
@@ -315,7 +315,7 @@ class LintingPerformanceValidator {
 },
         expectedImprovement: 20,
         actualImprovement: 0,
-        details: `Error: $) {error}`
+        details: `Error: ${error}`
 });
     }
   }
@@ -392,7 +392,7 @@ export const testVariable = 'test';
 },
         expectedImprovement: 90,
         actualImprovement: 0,
-        details: `Error: $) {error}`
+        details: `Error: ${error}`
 });
     }
   }
@@ -476,25 +476,25 @@ export const testVariable = 'test';
 
     if (this.baselineMetrics) {
       console.log('Baseline Metrics: '),
-      console.log(`  Execution Time: $) {this.baselineMetrics.executionTime}ms`),
+      console.log(`  Execution Time: ${this.baselineMetrics.executionTime}ms`),
       console.log()
         `  Memory Usage: ${Math.round(this.baselineMetrics.memoryUsage / 1024 / 1024)}MB`,
       );
-      console.log(`  Files Processed: $) {this.baselineMetrics.filesProcessed}\n`);
+      console.log(`  Files Processed: ${this.baselineMetrics.filesProcessed}\n`);
     }
 
     this.results.forEach(result => {
-      console.log(`$) {result.passed ? '✅' : '❌'} $) {result.testName}`),
-      console.log(`   Expected: $) {result.expectedImprovement}% improvement`),
-      console.log(`   Actual: $) {result.actualImprovement.toFixed(1)}% improvement`),
-      console.log(`   Details: $) {result.details}`),
-      console.log(`   Execution Time: $) {result.metrics.executionTime}ms`),
+      console.log(`${result.passed ? '✅' : '❌'} ${result.testName}`),
+      console.log(`   Expected: ${result.expectedImprovement}% improvement`),
+      console.log(`   Actual: ${result.actualImprovement.toFixed(1)}% improvement`),
+      console.log(`   Details: ${result.details}`),
+      console.log(`   Execution Time: ${result.metrics.executionTime}ms`),
       if (result.metrics.memoryUsage > 0) {
-        console.log(`   Memory Usage: $) {Math.round(result.metrics.memoryUsage / 1024 / 1024)}MB`);
+        console.log(`   Memory Usage: ${Math.round(result.metrics.memoryUsage / 1024 / 1024)}MB`);
       }
-      console.log(`   Cache Hit Rate: $) {result.metrics.cacheHitRate}%`),
-      console.log(`   Files Processed: $) {result.metrics.filesProcessed}`),
-      console.log(`   Parallel Processes: $) {result.metrics.parallelProcesses}\n`);
+      console.log(`   Cache Hit Rate: ${result.metrics.cacheHitRate}%`),
+      console.log(`   Files Processed: ${result.metrics.filesProcessed}`),
+      console.log(`   Parallel Processes: ${result.metrics.parallelProcesses}\n`);
     });
 
     // Save detailed report

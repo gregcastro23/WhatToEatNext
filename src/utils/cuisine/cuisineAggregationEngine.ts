@@ -396,14 +396,14 @@ export function validateCuisineComputationInputs(recipes: RecipeComputedProperti
 
     recipes.forEach((recipe, index) => {
       if (!recipe.elementalProperties) {
-        errors.push(`Recipe $) {index} missing elemental properties`);
+        errors.push(`Recipe ${index} missing elemental properties`);
       }
 
       // Validate elemental properties sum to ~1.0
       if (recipe.elementalProperties) {
         const sum = Object.values(recipe.elementalProperties).reduce((s, v) => s + v, 0);
         if (Math.abs(sum - 1.0) > 0.01) {
-          errors.push(`Recipe ${index} elemental properties don't sum to 1.0 (sum: $) {sum})`);
+          errors.push(`Recipe ${index} elemental properties don't sum to 1.0 (sum: ${sum})`);
         }
       }
     });

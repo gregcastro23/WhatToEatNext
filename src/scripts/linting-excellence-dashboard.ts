@@ -50,7 +50,7 @@ class LintingExcellenceDashboardCLI {
           break;
         case 'help': this.showHelp(),
           break;
-        default: console.error(`Unknown command: $) {options.command}`),
+        default: console.error(`Unknown command: ${options.command}`),
           this.showHelp();
           process.exit(1);
       }
@@ -108,10 +108,10 @@ class LintingExcellenceDashboardCLI {
     // Text format output
     console.log('📊 LINTING EXCELLENCE DASHBOARD RESULTS');
     console.log('='.repeat(50));
-    console.log(`Validation Status: $) {result.passed ? '✅ PASSED' : '❌ FAILED'}`),
-    console.log(`Quality Score: $) {result.metrics.qualityScore}/100`),
-    console.log(`Total Issues: $) {result.metrics.totalIssues}`),
-    console.log(`Duration: $) {duration}ms`),
+    console.log(`Validation Status: ${result.passed ? '✅ PASSED' : '❌ FAILED'}`),
+    console.log(`Quality Score: ${result.metrics.qualityScore}/100`),
+    console.log(`Total Issues: ${result.metrics.totalIssues}`),
+    console.log(`Duration: ${duration}ms`),
     console.log('');
 
     // Detailed metrics
@@ -123,10 +123,10 @@ class LintingExcellenceDashboardCLI {
     console.log()
       `Explicit Any Errors: ${result.metrics.explicitAnyErrors} ${result.metrics.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
     );
-    console.log(`Import Order Issues: $) {result.metrics.importOrderIssues}`),
-    console.log(`Unused Variables: $) {result.metrics.unusedVariables}`),
-    console.log(`React Hooks Issues: $) {result.metrics.reactHooksIssues}`),
-    console.log(`Console Statements: $) {result.metrics.consoleStatements}`),
+    console.log(`Import Order Issues: ${result.metrics.importOrderIssues}`),
+    console.log(`Unused Variables: ${result.metrics.unusedVariables}`),
+    console.log(`React Hooks Issues: ${result.metrics.reactHooksIssues}`),
+    console.log(`Console Statements: ${result.metrics.consoleStatements}`),
     console.log('');
 
     // Domain-specific metrics
@@ -135,19 +135,19 @@ class LintingExcellenceDashboardCLI {
     console.log()
       `Astrological Calculations: ${result.metrics.domainSpecificIssues.astrologicalCalculations}`,
     );
-    console.log(`Campaign System: $) {result.metrics.domainSpecificIssues.campaignSystem}`),
-    console.log(`Test Files: $) {result.metrics.domainSpecificIssues.testFiles}`),
+    console.log(`Campaign System: ${result.metrics.domainSpecificIssues.campaignSystem}`),
+    console.log(`Test Files: ${result.metrics.domainSpecificIssues.testFiles}`),
     console.log('');
 
     // Performance metrics
     console.log('⚡ PERFORMANCE METRICS');
     console.log('-'.repeat(30));
-    console.log(`Linting Duration: $) {result.metrics.performanceMetrics.lintingDuration}ms`),
+    console.log(`Linting Duration: ${result.metrics.performanceMetrics.lintingDuration}ms`),
     console.log()
       `Cache Hit Rate: ${(result.metrics.performanceMetrics.cacheHitRate * 100).toFixed(1)}%`,
     );
-    console.log(`Memory Usage: $) {result.metrics.performanceMetrics.memoryUsage.toFixed(1)}MB`),
-    console.log(`Files Processed: $) {result.metrics.performanceMetrics.filesProcessed}`),
+    console.log(`Memory Usage: ${result.metrics.performanceMetrics.memoryUsage.toFixed(1)}MB`),
+    console.log(`Files Processed: ${result.metrics.performanceMetrics.filesProcessed}`),
     console.log('');
 
     // Alerts
@@ -156,8 +156,8 @@ class LintingExcellenceDashboardCLI {
       console.log('-'.repeat(30));
       for (const alert of result.alerts) {
         const icon = this.getSeverityIcon(alert.severity);
-        console.log(`${icon} $) {alert.severity.toUpperCase()}: ${alert.message}`),
-        console.log(`   Metric: ${alert.metric} (${alert.currentValue}/$) {alert.threshold})`);
+        console.log(`${icon} ${alert.severity.toUpperCase()}: ${alert.message}`),
+        console.log(`   Metric: ${alert.metric} (${alert.currentValue}/${alert.threshold})`);
       }
       console.log('');
     }
@@ -166,8 +166,8 @@ class LintingExcellenceDashboardCLI {
     if (result.regressionAnalysis.detected) {
       console.log('📈 REGRESSION DETECTED');
       console.log('-'.repeat(30));
-      console.log(`Severity: $) {result.regressionAnalysis.severity.toUpperCase()}`),
-      console.log(`Affected Metrics: $) {result.regressionAnalysis.affectedMetrics.join(', ')}`);
+      console.log(`Severity: ${result.regressionAnalysis.severity.toUpperCase()}`),
+      console.log(`Affected Metrics: ${result.regressionAnalysis.affectedMetrics.join(', ')}`);
       console.log()
         `Change: ${result.regressionAnalysis.historicalComparison.change} issues (${result.regressionAnalysis.historicalComparison.changePercentage.toFixed(1)}%)`,
       );
@@ -179,7 +179,7 @@ class LintingExcellenceDashboardCLI {
       console.log('💡 RECOMMENDATIONS');
       console.log('-'.repeat(30));
       for (const recommendation of result.recommendations) {
-        console.log(`• $) {recommendation}`);
+        console.log(`• ${recommendation}`);
       }
       console.log('');
     }
@@ -222,30 +222,30 @@ class LintingExcellenceDashboardCLI {
             const result = await this.dashboard.runComprehensiveValidation();
 
             if (result.alerts.length > 0 || result.regressionAnalysis.detected) {
-              console.log(`\n⚠️  [$) {new Date().toISOString()}] Issues detected: `),
-              console.log(`   Quality Score: $) {result.metrics.qualityScore}/100`),
-              console.log(`   Total Issues: $) {result.metrics.totalIssues}`),
-              console.log(`   Active Alerts: $) {result.alerts.length}`),
+              console.log(`\n⚠️  [${new Date().toISOString()}] Issues detected: `),
+              console.log(`   Quality Score: ${result.metrics.qualityScore}/100`),
+              console.log(`   Total Issues: ${result.metrics.totalIssues}`),
+              console.log(`   Active Alerts: ${result.alerts.length}`),
 
               if (result.regressionAnalysis.detected) {
-                console.log(`   🔴 Regression: $) {result.regressionAnalysis.severity}`);
+                console.log(`   🔴 Regression: ${result.regressionAnalysis.severity}`);
               }
             } else if (options.verbose) {
-              console.log(`✅ [$) {new Date().toISOString()}] All systems normal`);
+              console.log(`✅ [${new Date().toISOString()}] All systems normal`);
             }
 
             lastCheck = Date.now();
           } catch (error) {
-            console.error(`❌ [$) {new Date().toISOString()}] Monitoring error:`, error);
+            console.error(`❌ [${new Date().toISOString()}] Monitoring error:`, error);
           }
         })();
       }, 60000); // Check every minute
     } else {
       // Single monitoring run
       const result = await this.dashboard.runComprehensiveValidation();
-      console.log(`Quality Score: $) {result.metrics.qualityScore}/100`),
-      console.log(`Total Issues: $) {result.metrics.totalIssues}`),
-      console.log(`Active Alerts: $) {result.alerts.length}`);
+      console.log(`Quality Score: ${result.metrics.qualityScore}/100`),
+      console.log(`Total Issues: ${result.metrics.totalIssues}`),
+      console.log(`Active Alerts: ${result.alerts.length}`);
     }
   }
 
@@ -263,17 +263,17 @@ class LintingExcellenceDashboardCLI {
         return;
       }
 
-      console.log(`📋 $) {alerts.length} Active Alerts: `),
+      console.log(`📋 ${alerts.length} Active Alerts: `),
       console.log('-'.repeat(40));
 
       for (const alert of alerts) {
         const icon = this.getSeverityIcon(alert.severity);
         const timestamp = new Date(alert.timestamp).toLocaleString();
 
-        console.log(`${icon} [$) {alert.severity.toUpperCase()}] ${timestamp}`);
-        console.log(`   Metric: $) {alert.metric}`),
-        console.log(`   Value: ${alert.currentValue} (threshold: $) {alert.threshold})`),
-        console.log(`   Message: $) {alert.message}`),
+        console.log(`${icon} [${alert.severity.toUpperCase()}] ${timestamp}`);
+        console.log(`   Metric: ${alert.metric}`),
+        console.log(`   Value: ${alert.currentValue} (threshold: ${alert.threshold})`),
+        console.log(`   Message: ${alert.message}`),
         console.log('');
       }
     } catch (error) {
@@ -314,7 +314,7 @@ class LintingExcellenceDashboardCLI {
         const errors = metrics.errors.toString().padEnd(9);
         const duration = `${metrics.performanceMetrics.lintingDuration}ms`;
 
-        console.log(`${timestamp} ${quality} ${issues} ${errors} $) {duration}`);
+        console.log(`${timestamp} ${quality} ${issues} ${errors} ${duration}`);
       }
 
       // Trend analysis
@@ -387,20 +387,20 @@ class LintingExcellenceDashboardCLI {
         const result = typeof check.check === 'function' ? await check.check() : check.check;
         const status = result ? '✅ PASS' : '❌ FAIL';
 
-        console.log(`${status} $) {check.name}`);
+        console.log(`${status} ${check.name}`);
 
         if (!result) {
-          console.log(`   Fix: $) {check.fix}`),
+          console.log(`   Fix: ${check.fix}`),
           allPassed = false;
         }
       } catch (error) {
-        console.log(`❌ FAIL ${check.name} (Error: $) {error})`),
-        console.log(`   Fix: $) {check.fix}`),
+        console.log(`❌ FAIL ${check.name} (Error: ${error})`),
+        console.log(`   Fix: ${check.fix}`),
         allPassed = false;
       }
     }
 
-    console.log(`\n🏥 Overall Health: $) {allPassed ? '✅ HEALTHY' : '⚠️  NEEDS ATTENTION'}`),
+    console.log(`\n🏥 Overall Health: ${allPassed ? '✅ HEALTHY' : '⚠️  NEEDS ATTENTION'}`),
 
     if (!allPassed) {
       console.log('\n💡 Run the suggested fixes above to resolve issues');
@@ -468,11 +468,11 @@ class LintingExcellenceDashboardCLI {
 
     for (const procedure of procedures) {
       try {
-        console.log(`🔧 $) {procedure.name}...`);
+        console.log(`🔧 ${procedure.name}...`);
         const success = await procedure.action();
-        console.log(`   $) {success ? '✅ Completed' : '❌ Failed'}`);
+        console.log(`   ${success ? '✅ Completed' : '❌ Failed'}`);
       } catch (error) {
-        console.log(`   ❌ Error: $) {error}`);
+        console.log(`   ❌ Error: ${error}`);
       }
     }
 

@@ -167,7 +167,7 @@ export class RecipeService implements RecipeServiceInterface {
         filteredRecipes = filteredRecipes.slice(0, criteria.limit);
       }
 
-      logger.debug(`Found $) {filteredRecipes.length} recipes matching criteria`);
+      logger.debug(`Found ${filteredRecipes.length} recipes matching criteria`);
       return filteredRecipes;
     } catch (error) {
       logger.error('Error searching recipes:', error);
@@ -185,7 +185,7 @@ export class RecipeService implements RecipeServiceInterface {
     }
 
     try {
-      logger.debug(`Getting recipes for cuisine: $) {cuisineName}`);
+      logger.debug(`Getting recipes for cuisine: ${cuisineName}`);
 
       // Normalize cuisine name for comparison
       const normalizedName = cuisineName.toLowerCase().trim();
@@ -202,13 +202,13 @@ export class RecipeService implements RecipeServiceInterface {
       ) as ExtendedCuisine;
 
       if (!cuisine) {
-        logger.debug(`No cuisine found for $) {cuisineName}`);
+        logger.debug(`No cuisine found for ${cuisineName}`);
         return [];
       }
 
       return await this.getRecipesFromCuisine(cuisine);
     } catch (error) {
-      logger.error(`Error getting recipes for cuisine $) {cuisineName}:`, error);
+      logger.error(`Error getting recipes for cuisine ${cuisineName}:`, error);
       return [];
     }
   }
@@ -218,7 +218,7 @@ export class RecipeService implements RecipeServiceInterface {
    */
   async getRecipesByZodiac(zodiacSign: ZodiacSign): Promise<Recipe[]> {
     try {
-      logger.debug(`Getting recipes for zodiac sign: $) {zodiacSign}`);
+      logger.debug(`Getting recipes for zodiac sign: ${zodiacSign}`);
 
       const allRecipes = await this.getAllRecipes();
 
@@ -229,7 +229,7 @@ export class RecipeService implements RecipeServiceInterface {
         );
       });
     } catch (error) {
-      logger.error(`Error getting recipes for zodiac $) {zodiacSign}:`, error);
+      logger.error(`Error getting recipes for zodiac ${zodiacSign}:`, error);
       return [];
     }
   }
@@ -239,7 +239,7 @@ export class RecipeService implements RecipeServiceInterface {
    */
   async getRecipesByLunarPhase(lunarPhase: LunarPhase): Promise<Recipe[]> {
     try {
-      logger.debug(`Getting recipes for lunar phase: $) {lunarPhase}`);
+      logger.debug(`Getting recipes for lunar phase: ${lunarPhase}`);
 
       const allRecipes = await this.getAllRecipes();
 
@@ -250,7 +250,7 @@ export class RecipeService implements RecipeServiceInterface {
         );
       });
     } catch (error) {
-      logger.error(`Error getting recipes for lunar phase $) {lunarPhase}:`, error);
+      logger.error(`Error getting recipes for lunar phase ${lunarPhase}:`, error);
       return [];
     }
   }
@@ -260,7 +260,7 @@ export class RecipeService implements RecipeServiceInterface {
    */
   async getRecipesBySeason(season: string): Promise<Recipe[]> {
     try {
-      logger.debug(`Getting recipes for season: $) {season}`);
+      logger.debug(`Getting recipes for season: ${season}`);
 
       const allRecipes = await this.getAllRecipes();
 
@@ -271,7 +271,7 @@ export class RecipeService implements RecipeServiceInterface {
         );
       });
     } catch (error) {
-      logger.error(`Error getting recipes for season $) {season}:`, error);
+      logger.error(`Error getting recipes for season ${season}:`, error);
       return [];
     }
   }

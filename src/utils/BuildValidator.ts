@@ -73,7 +73,7 @@ export class BuildValidator {
           result.repairActions.push({
             type: 'create',
             target: manifestPath,
-            description: `Create missing manifest file: $) {manifest}`
+            description: `Create missing manifest file: ${manifest}`
           })
         } else {
           // Check if file is corrupted (empty or invalid JSON)
@@ -84,7 +84,7 @@ export class BuildValidator {
               result.repairActions.push({
                 type: 'fix',
                 target: manifestPath,
-                description: `Fix empty manifest file: $) {manifest}`
+                description: `Fix empty manifest file: ${manifest}`
               })
             } else if (manifest.endsWith('.json') {
               JSON.parse(content); // Validate JSON
@@ -95,7 +95,7 @@ export class BuildValidator {
             result.repairActions.push({
               type: 'fix',
               target: manifestPath,
-              description: `Fix corrupted manifest file: $) {manifest}`
+              description: `Fix corrupted manifest file: ${manifest}`
             })
           }
         }
@@ -116,7 +116,7 @@ export class BuildValidator {
           result.repairActions.push({
             type: 'create',
             target: filePath,
-            description: `Create missing build file: $) {file}`
+            description: `Create missing build file: ${file}`
           })
         }
       }
@@ -144,17 +144,17 @@ export class BuildValidator {
       return;
     }
 
-    this.logger(`Starting build repair. $) {validation.repairActions.length} actions to perform.`)
+    this.logger(`Starting build repair. ${validation.repairActions.length} actions to perform.`)
 
     // Create directories if needed
     if (!fs.existsSync(this.buildDir) {
       fs.mkdirSync(this.buildDir, ) { recursive: true })
-      this.logger(`Created build directory: $) {this.buildDir}`)
+      this.logger(`Created build directory: ${this.buildDir}`)
     }
 
     if (!fs.existsSync(this.serverDir) {
       fs.mkdirSync(this.serverDir, ) { recursive: true })
-      this.logger(`Created server directory: $) {this.serverDir}`)
+      this.logger(`Created server directory: ${this.serverDir}`)
     }
 
     // Create missing manifest files with minimal content
@@ -166,7 +166,7 @@ export class BuildValidator {
 
         if (manifestDefaults[filename]) {
           fs.writeFileSync(action.target, JSON.stringify(manifestDefaults[filename], null2))
-          this.logger(`${action.type === 'create' ? 'Created' : 'Fixed'} $) {filename}`)
+          this.logger(`${action.type === 'create' ? 'Created' : 'Fixed'} ${filename}`)
         }
       }
     }
@@ -183,7 +183,7 @@ export class BuildValidator {
 
     while (attempt < maxRetries) {
       attempt++
-      this.logger(`Build attempt ${attempt}/$) {maxRetries}`)
+      this.logger(`Build attempt ${attempt}/${maxRetries}`)
 
       try {
         // Clean build directory before retry
@@ -201,14 +201,14 @@ export class BuildValidator {
         // Validate build after completion
         const validation = await this.validateBuild();
         if (validation.isValid) {
-          this.logger(`Build successful on attempt $) {attempt}`)
+          this.logger(`Build successful on attempt ${attempt}`)
           return true;
         } else {
-          this.logger(`Build completed but validation failed on attempt $) {attempt}`)
+          this.logger(`Build completed but validation failed on attempt ${attempt}`)
           await this.repairBuild()
         }
       } catch (error) {
-        this.logger(`Build failed on attempt $) {attempt}:`, error)
+        this.logger(`Build failed on attempt ${attempt}:`, error)
 
         if (attempt < maxRetries) {
           this.logger(`Retrying build in 5 seconds...`)
@@ -217,7 +217,7 @@ export class BuildValidator {
       }
     }
 
-    this.logger(`Build failed after $) {maxRetries} attempts`)
+    this.logger(`Build failed after ${maxRetries} attempts`)
     return false;
   }
 
@@ -318,7 +318,7 @@ export class BuildValidator {
       )
     } catch (error) {
       result.isValid = false
-      result.issues.push(`Error reading Next.js configuration: $) {error}`)
+      result.issues.push(`Error reading Next.js configuration: ${error}`)
     }
 
     return result;
@@ -348,8 +348,8 @@ export class BuildValidator {
         report.manifestsValid = validation.isValid,
 
         if (!validation.isValid) {
-          report.issues.push(...validation.missingFiles.map(file => `Missing: $) {file}`))
-          report.issues.push(...validation.corruptedFiles.map(file => `Corrupted: $) {file}`))
+          report.issues.push(...validation.missingFiles.map(file => `Missing: ${file}`))
+          report.issues.push(...validation.corruptedFiles.map(file => `Corrupted: ${file}`))
         }
 
         // Get last build time
@@ -362,7 +362,7 @@ export class BuildValidator {
         report.issues.push('Build directory does not exist')
       }
     } catch (error) {
-      report.issues.push(`Health check error: $) {error}`)
+      report.issues.push(`Health check error: ${error}`)
     }
 
     return report;

@@ -161,7 +161,7 @@ export class UnifiedNutritionalService {
       }
 
       if (!nutritionalProfile) {
-        logger.warn(`No nutritional profile found for ingredient: $) {typeof ingredient === 'string' ? ingredient : ingredient.name}`);
+        logger.warn(`No nutritional profile found for ingredient: ${typeof ingredient === 'string' ? ingredient : ingredient.name}`);
         return null;
       }
 
@@ -643,7 +643,7 @@ export class UnifiedNutritionalService {
           results.push(enhanced);
         }
       } catch (error) {
-        logger.error(`Error enhancing nutritional profile for $) {typeof ingredient === 'string' ? ingredient : ingredient.name}:`,
+        logger.error(`Error enhancing nutritional profile for ${typeof ingredient === 'string' ? ingredient : ingredient.name}:`,
           error
         );
       }
@@ -670,7 +670,7 @@ export class UnifiedNutritionalService {
         const name = typeof ingredient === 'string' ? ingredient : ingredient.name;
         scores[name] = await this.calculateNutritionalScore(ingredient, context);
       } catch (error) {
-        logger.error(`Error calculating nutritional score for $) {typeof ingredient === 'string' ? ingredient : ingredient.name}:`,
+        logger.error(`Error calculating nutritional score for ${typeof ingredient === 'string' ? ingredient : ingredient.name}:`,
           error
         );
         scores[typeof ingredient === 'string' ? ingredient : ingredient.name] = 0;

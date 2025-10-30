@@ -124,7 +124,7 @@ function applyEditsToFile()
     // Conservative: blank only the identifier token on that line when safe
     const idx = f.line - 1;
     if (idx >= 0 && idx < lines.length) {
-      const re = new RegExp(`\\b$) {f.variableName}\\b`);
+      const re = new RegExp(`\\b${f.variableName}\\b`);
       lines[idx] = lines[idx].replace(re, '_');
       markForDeletion.add(idx);
     }
@@ -133,8 +133,8 @@ function applyEditsToFile()
   for (const f of transformations) {
     const idx = f.line - 1;
     if (idx >= 0 && idx < lines.length) {
-      const re = new RegExp(`\\b$) {f.variableName}\\b`);
-      lines[idx] = lines[idx].replace(re, `_$) {f.variableName}`);
+      const re = new RegExp(`\\b${f.variableName}\\b`);
+      lines[idx] = lines[idx].replace(re, `_${f.variableName}`);
       renameMap.set(idx, f.variableName);
     }
   }
@@ -192,14 +192,14 @@ async function main(): Promise<void> {
   const batches = batchFiles(files, opts.maxBatch, opts.maxBatchCritical);
 
   // eslint-disable-next-line no-console
-  console.log(`Processing ${files.length} files across ${batches.length} batches (dryRun=$) {opts.dryRun})`);
+  console.log(`Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`);
 
   for (let i = 0; i < batches.length; i++) {
     const batch = batches[i];
     const ok = processBatch(batch, byFile, opts.dryRun);
     if (!ok) {
       // eslint-disable-next-line no-console
-      console.error(`Type check failed for batch $) {i + 1}. Rolled back changes for the batch.`);
+      console.error(`Type check failed for batch ${i + 1}. Rolled back changes for the batch.`);
       break;
     }
     // If successful and not dry-run, keep changes staged for review

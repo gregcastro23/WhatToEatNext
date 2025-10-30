@@ -53,7 +53,7 @@ export async function getPlanetInfo()
     const planetPosition = positions[planetKey];
 
     if (!planetPosition) {
-      log.info(`No position data found for planet $) {planetName}`),
+      log.info(`No position data found for planet ${planetName}`),
       return null;
     }
 
@@ -153,7 +153,7 @@ export async function getPlanetInfo()
           earth: modifiers.Earth ?? 0
 };
       } else {
-        log.debug(`No planetary modifier found for $) {normalizedPlanetName}`);
+        log.debug(`No planetary modifier found for ${normalizedPlanetName}`);
       }
     }
 

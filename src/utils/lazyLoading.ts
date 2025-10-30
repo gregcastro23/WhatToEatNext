@@ -125,7 +125,7 @@ export const performanceMonitoring = {
     const loadTime = performance.now() - startTime;
 
     // In production, this would send to analytics
-    _logger.info(`Module ${moduleName} loaded in $) {loadTime.toFixed(2)}ms`)
+    _logger.info(`Module ${moduleName} loaded in ${loadTime.toFixed(2)}ms`)
 
     // Store performance data for optimization
     if (typeof window !== 'undefined') {
@@ -145,7 +145,7 @@ export const performanceMonitoring = {
 
     Object.entries(perfData).forEach(([module, data]: [string, any]) => {
       if (data.loadTime > 1000) { // > 1 second
-        recommendations.push(`Consider preloading $) {module} for better UX`)
+        recommendations.push(`Consider preloading ${module} for better UX`)
       }
     })
 

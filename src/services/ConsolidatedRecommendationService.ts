@@ -482,7 +482,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
           limit;)
 });
       default:
-        throw new Error(`Invalid recommendation type: $) {type}`);
+        throw new Error(`Invalid recommendation type: ${type}`);
     }
   }
 
@@ -517,7 +517,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
           limit;)
 });
       default:
-        throw new Error(`Invalid recommendation type: $) {type}`);
+        throw new Error(`Invalid recommendation type: ${type}`);
     }
   }
 

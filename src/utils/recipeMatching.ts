@@ -76,7 +76,7 @@ export async function findBestMatches()
   currentEnergy: ElementalProperties | null = null,
   limit = 10
 ): Promise<MatchResult[]> {
-  // log.info(`Finding best matches from $) {recipes?.length || 0} recipes with filters: `, matchFilters)
+  // log.info(`Finding best matches from ${recipes?.length || 0} recipes with filters: `, matchFilters)
 
   // Generate a cache key based on inputs
   const cacheKey = getCacheKey(recipes, matchFilters, currentEnergy, limit);
@@ -94,7 +94,7 @@ export async function findBestMatches()
       // log.info('No recipes provided, fetching from LocalRecipeService')
       const _recipeService = new LocalRecipeService();
       recipes = (await LocalRecipeService.getAllRecipes()) as unknown as Recipe[];
-      // log.info(`Fetched $) {recipes.length} recipes from LocalRecipeService`)
+      // log.info(`Fetched ${recipes.length} recipes from LocalRecipeService`)
     } catch (error) {
       // _logger.error('Error fetching recipes from LocalRecipeService: ', error);
       return []; // Return empty array if we can't fetch recipes
@@ -111,7 +111,7 @@ export async function findBestMatches()
         // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
         !recipe.cookingTime || Number(recipe.cookingTime) <= (matchFilters.maxCookingTime ?? 0)
     );
-    // log.info(`After maxCookingTime filter $) {filteredRecipes.length} recipes remain`)
+    // log.info(`After maxCookingTime filter ${filteredRecipes.length} recipes remain`)
   }
 
   if (matchFilters.dietaryRestrictions && matchFilters.dietaryRestrictions.length > 0) {
@@ -129,7 +129,7 @@ export async function findBestMatches()
       // If recipe has the restricted tag, exclude it
       return !hasRestrictedTag;
     });
-    // log.info(`After dietaryRestrictions filter $) {filteredRecipes.length} recipes remain`)
+    // log.info(`After dietaryRestrictions filter ${filteredRecipes.length} recipes remain`)
   }
 
   if (matchFilters.season) {
@@ -146,7 +146,7 @@ export async function findBestMatches()
       if (!aIsInSeason && bIsInSeason) return 1;
       return 0;
     });
-    // log.info(`After season sorting ($) {(matchFilters as any)?.season}): prioritized seasonal recipes`)
+    // log.info(`After season sorting (${(matchFilters as any)?.season}): prioritized seasonal recipes`)
   }
 
   if (matchFilters.servings) {
@@ -156,7 +156,7 @@ export async function findBestMatches()
         // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
         !recipe.servings || Number(recipe.servings) >= (matchFilters.servings ?? 1)
     );
-    // log.info(`After servings filter $) {filteredRecipes.length} recipes remain`)
+    // log.info(`After servings filter ${filteredRecipes.length} recipes remain`)
   }
 
   if (matchFilters.excludeIngredients && matchFilters.excludeIngredients.length > 0) {
@@ -181,7 +181,7 @@ export async function findBestMatches()
       // If recipe has excluded ingredient, filter it out
       return !hasExcludedIngredient;
     });
-    // log.info(`After excludeIngredients filter $) {filteredRecipes.length} recipes remain`)
+    // log.info(`After excludeIngredients filter ${filteredRecipes.length} recipes remain`)
   }
 
   if (matchFilters.cookingMethods && matchFilters.cookingMethods.length > 0) {
@@ -756,7 +756,7 @@ function getCacheKey()
       ?.map(r => {
         // Apply Pattern GG-6: Enhanced property access with type guards
         const recipeData = r as any;)
-        return r.id || `$) {recipeData.name || 'unknown'}-$) {r.cuisine || 'unknown'}`;
+        return r.id || `${recipeData.name || 'unknown'}-${r.cuisine || 'unknown'}`;
 })
       .join(',') || 'none'
   // Stringify the filters and energy objects

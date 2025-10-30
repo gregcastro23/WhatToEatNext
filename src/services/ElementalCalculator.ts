@@ -506,7 +506,7 @@ export class ElementalCalculator {
       return 'Air';
     }
 
-    logger.warn(`Unknown sign: $) {sign}`);
+    logger.warn(`Unknown sign: ${sign}`);
     return null;
   }
 

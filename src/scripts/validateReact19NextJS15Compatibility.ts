@@ -518,7 +518,7 @@ export function ConditionalHooksComponent({ condition }: ) { condition: boolean 
     let passedTests = 0;
 
     for (const category of categories) {
-      console.log(`\n📂 $) {category}`);
+      console.log(`\n📂 ${category}`);
       console.log('-'.repeat(40));
 
       const categoryResults = this.results.filter(r => r.category === category);
@@ -528,13 +528,13 @@ export function ConditionalHooksComponent({ condition }: ) { condition: boolean 
         if (result.passed) passedTests++;
 
         const status = result.passed ? '✅' : '❌';
-        console.log(`${status} $) {result.test}`);
-        console.log(`   $) {result.details}`);
+        console.log(`${status} ${result.test}`);
+        console.log(`   ${result.details}`);
 
         if (result.errors && result.errors.length > 0) {
           console.log('   Errors: '),
           result.errors.forEach(error => ) {
-            console.log(`     - $) {error}`);
+            console.log(`     - ${error}`);
           });
         }
       }
@@ -555,7 +555,7 @@ export function ConditionalHooksComponent({ condition }: ) { condition: boolean 
 }
 
 // Run validation if called directly
-if (import.meta.url === `file://$) {process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const validator = new React19NextJS15Validator();
   validator.validate().catch(error => ) {
     console.error('Validation failed:', error);

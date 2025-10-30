@@ -168,7 +168,7 @@ function calculateElementalPropertiesFromCategory(_category: string): Record<str
 // Process and validate a single ingredient
 const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   if (!ingredient) {
-    throw new Error(`Invalid ingredient data for $) {name}`);
+    throw new Error(`Invalid ingredient data for ${name}`);
   }
 
   // Create default lunar phase modifiers if none exist
@@ -253,7 +253,7 @@ const processIngredientCollection = (;
           planetaryInfluence: (processedIngredient as unknown as any).planetaryInfluence || undefined
         } as unknown as Ingredient;
       } catch (error) {
-        _logger.warn(`Skipping invalid ingredient $) {key}:`, error);
+        _logger.warn(`Skipping invalid ingredient ${key}:`, error);
       }
       return acc;
     },

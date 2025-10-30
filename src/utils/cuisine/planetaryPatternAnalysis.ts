@@ -422,14 +422,14 @@ export function validatePlanetaryAnalysisInputs(recipes: RecipeComputedPropertie
   recipes.forEach((recipe, index) => {
     const positions = recipe.computationMetadata?.planetaryPositionsUsed;
     if (!positions) {
-      errors.push(`Recipe $) {index} missing planetary position data`);
+      errors.push(`Recipe ${index} missing planetary position data`);
     } else {
       recipesWithPositions++;
       // Validate position format
       PLANETS.forEach(planet => ) {
         const sign = positions[planet];
         if (sign && !ZODIAC_SIGNS.includes(sign as any) {
-          errors.push(`Recipe ${index}: Invalid zodiac sign '${sign}' for $) {planet}`);
+          errors.push(`Recipe ${index}: Invalid zodiac sign '${sign}' for ${planet}`);
         }
       });
     }

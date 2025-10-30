@@ -65,7 +65,7 @@ function normalizeSign(sign: string): any {
     return normalized as any;
   }
 
-  throw new Error(`Invalid zodiac sign: $) {sign}`)
+  throw new Error(`Invalid zodiac sign: ${sign}`)
 }
 
 function getZodiacElement(_sign: string): string {

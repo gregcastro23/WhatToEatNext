@@ -24,8 +24,8 @@ async function testGasGiantInfluences() {
   const saturn = influences.dominantPlanets?.find(p => p.name === 'Saturn');
 
   console.log('Current Influences: '),
-  console.log(`Zodiac Sign: $) {influences.zodiacSign || 'unknown'}`),
-  console.log(`Lunar Phase: $) {influences.lunarPhase || 'unknown'}`),
+  console.log(`Zodiac Sign: ${influences.zodiacSign || 'unknown'}`),
+  console.log(`Lunar Phase: ${influences.lunarPhase || 'unknown'}`),
 
   console.log('\nDominant Planets: '),
   if (influences.dominantPlanets) {
@@ -56,7 +56,7 @@ async function testGasGiantInfluences() {
   if (influences.energyStateBalance) {
     console.log('\nEnergy State Balance: '),
     Object.entries(influences.energyStateBalance).forEach(([state, value]) => {
-      console.log(`  ${state}: $) {value}`);
+      console.log(`  ${state}: ${value}`);
     });
   }
 }

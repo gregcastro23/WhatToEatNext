@@ -25,18 +25,18 @@ export function validateElementalProperties()
   // Check for required elements
   for (const element of REQUIRED_ELEMENTS) {
     if (!(element in props) {
-      logger.warn(`Missing required element: $) {element}`)
+      logger.warn(`Missing required element: ${element}`)
       return false;
     }
 
     const value = props[element];
     if (typeof value !== 'number') {
-      logger.warn(`Element ${element} must be a number, got $) {typeof value}`)
+      logger.warn(`Element ${element} must be a number, got ${typeof value}`)
       return false;
     }
 
     if (value < 0 || value > 1) {
-      logger.warn(`Element ${element} value $) {value} must be between 0 and 1`)
+      logger.warn(`Element ${element} value ${value} must be between 0 and 1`)
       return false;
     }
   }
@@ -216,7 +216,7 @@ export function validateSelfReinforcement(properties: ElementalProperties): bool
 
   // Dominant element should be at least 0.3 for clear self-reinforcement
   if (dominantValue < 0.3) {
-    logger.warn(`Dominant element ${dominant} strength $) {dominantValue} is too low for self-reinforcement`
+    logger.warn(`Dominant element ${dominant} strength ${dominantValue} is too low for self-reinforcement`
     );
     return false;
   }

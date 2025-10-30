@@ -239,7 +239,7 @@ class CuisineComputationCache {
     const keysToDelete: string[] = [];
 
     this.cache.forEach((_, cacheKey) => {
-      if (cacheKey.startsWith(`$) {cuisineId}:`) {
+      if (cacheKey.startsWith(`${cuisineId}:`) {
         keysToDelete.push(cacheKey);
       }
     });
@@ -598,7 +598,7 @@ export async function computeCuisineWithCache()
   const properties = await computeFn();
 
   // Cache the result
-  const recipeIds = recipes.map(r => `$) {r.computationMetadata.planetaryPositionsUsed.Sun}_$) {r.computationMetadata.planetaryPositionsUsed.Moon}`);
+  const recipeIds = recipes.map(r => `${r.computationMetadata.planetaryPositionsUsed.Sun}_${r.computationMetadata.planetaryPositionsUsed.Moon}`);
   cache.set(cuisineId, properties, options, recipeIds);
 
   return properties;

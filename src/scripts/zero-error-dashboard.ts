@@ -38,7 +38,7 @@ class ZeroErrorDashboardCLI {
           break;
         case 'help': this.showHelp(),
           break;
-        default: console.error(`Unknown command: $) {options.command}`),
+        default: console.error(`Unknown command: ${options.command}`),
           this.showHelp();
           process.exit(1);
       }
@@ -94,12 +94,12 @@ class ZeroErrorDashboardCLI {
         if (existsSync(jsonPath) {
           const data = JSON.parse(readFileSync(jsonPath, 'utf8'));
           console.log('\n📈 Quick Summary: '),
-          console.log(`   Quality Score: $) {data.summary.qualityScore}/100`),
-          console.log(`   Zero-Error Progress: $) {data.summary.zeroErrorProgress}%`),
+          console.log(`   Quality Score: ${data.summary.qualityScore}/100`),
+          console.log(`   Zero-Error Progress: ${data.summary.zeroErrorProgress}%`),
           console.log()
             `   Quality Gates: ${data.summary.qualityGatesPassing}/${data.summary.totalQualityGates} passing`,
           );
-          console.log(`   Critical Issues: $) {data.summary.criticalIssues}`);
+          console.log(`   Critical Issues: ${data.summary.criticalIssues}`);
         }
       } catch (error) {
         console.warn('Could not load summary data:', error);
@@ -109,8 +109,8 @@ class ZeroErrorDashboardCLI {
 
   private async startMonitoring(options: CLIOptions): Promise<void> {
     console.log(`👀 Starting Zero-Error Achievement Monitoring...\n`);
-    console.log(`📊 Monitoring interval: $) {options.interval} minutes`),
-    console.log(`🔍 Verbose mode: $) {options.verbose ? 'enabled' : 'disabled'}`),
+    console.log(`📊 Monitoring interval: ${options.interval} minutes`),
+    console.log(`🔍 Verbose mode: ${options.verbose ? 'enabled' : 'disabled'}`),
     console.log('Press Ctrl+C to stop monitoring\n');
 
     // Start real-time monitoring
@@ -127,17 +127,17 @@ class ZeroErrorDashboardCLI {
         const status = JSON.parse(readFileSync(statusPath, 'utf8'));
 
         console.log('🎯 Current Status: '),
-        console.log(`   Overall: $) {this.getStatusDisplay(status.status)}`),
-        console.log(`   Quality Score: $) {status.qualityScore}/100`),
-        console.log(`   Total Issues: $) {status.totalIssues}`),
+        console.log(`   Overall: ${this.getStatusDisplay(status.status)}`),
+        console.log(`   Quality Score: ${status.qualityScore}/100`),
+        console.log(`   Total Issues: ${status.totalIssues}`),
         console.log()
           `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`;
         );
         console.log()
           `   Explicit Any: ${status.explicitAnyErrors} ${status.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
         );
-        console.log(`   Critical Issues: $) {status.criticalIssues}`),
-        console.log(`   Last Update: $) {new Date(status.timestamp).toLocaleString()}`);
+        console.log(`   Critical Issues: ${status.criticalIssues}`),
+        console.log(`   Last Update: ${new Date(status.timestamp).toLocaleString()}`);
       } else {
         console.log('ℹ️  No status data available. Run dashboard generation first.');
         console.log('   Command: node src/scripts/zero-error-dashboard.ts generate');
@@ -152,8 +152,8 @@ class ZeroErrorDashboardCLI {
         for (const target of targets.slice(0, 4) {
           // Show top 4 targets
           const progressBar = this.getProgressBar(target.progress);
-          console.log(`   ${target.metric}: ${target.progress}% $) {progressBar}`),
-          console.log(`     Current: ${target.currentValue} → Target: $) {target.targetValue}`);
+          console.log(`   ${target.metric}: ${target.progress}% ${progressBar}`),
+          console.log(`     Current: ${target.currentValue} → Target: ${target.targetValue}`);
         }
       }
 
@@ -165,7 +165,7 @@ class ZeroErrorDashboardCLI {
         console.log('\n🚦 Quality Gates: '),
         for (const gate of gates) {
           const statusIcon = this.getGateStatusIcon(gate.status);
-          console.log(`   ${statusIcon} ${gate.name}: $) {gate.status.toUpperCase()}`);
+          console.log(`   ${statusIcon} ${gate.name}: ${gate.status.toUpperCase()}`);
         }
       }
     } catch (error) {

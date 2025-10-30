@@ -596,7 +596,7 @@ export class SwissEphemerisService {
       this.cache.set(cacheKey, positions);
       this.cleanCache();
 
-      logger.info(`Swiss Ephemeris positions calculated for $) {date.toDateString()}`)
+      logger.info(`Swiss Ephemeris positions calculated for ${date.toDateString()}`)
       return positions;
     } catch (error) {
       logger.error('Error getting Swiss Ephemeris positions: ', error);
@@ -692,7 +692,7 @@ export class SwissEphemerisService {
     const ephemerisEntry = this.findClosestEphemerisEntry(targetDate);
 
     if (!ephemerisEntry) {
-      throw new Error(`No Swiss Ephemeris data available for date: $) {date.toDateString()}`);
+      throw new Error(`No Swiss Ephemeris data available for date: ${date.toDateString()}`);
     }
 
     const positions: Record<string, CelestialPosition> = {};

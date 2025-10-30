@@ -432,7 +432,7 @@ export function transformIngredient()
   // Apply planetary influences if provided
   if (planet) {
     transformedItem = applyPlanetaryInfluence(transformedItem, planet, isDaytime)
-    (influences as unknown[]).push(`${planet} ($) {isDaytime ? 'Day' : 'Night'})`)
+    (influences as unknown[]).push(`${planet} (${isDaytime ? 'Day' : 'Night'})`)
   }
 
   // Apply tarot influences if provided
@@ -457,47 +457,47 @@ const getMethodCompatibility = (;
   methodName: string,
   cookingMethods: Record<string, number>,
 ): number => {
-  logger.debug(`==== COMPATIBILITY CALCULATION FOR $) {methodName.toUpperCase()} ====`)
-  logger.debug(`Ingredient: $) {(transformedItem as any).name} (Element: ${(transformedItem as any).element})`,
+  logger.debug(`==== COMPATIBILITY CALCULATION FOR ${methodName.toUpperCase()} ====`)
+  logger.debug(`Ingredient: ${(transformedItem as any).name} (Element: ${(transformedItem as any).element})`,
   )
 
   // In case the method isn't found in our cooking methods
   if (!cookingMethods[methodName]) {
-    logger.error(`Method '$) {methodName}' not found in cooking methods mapping`)
+    logger.error(`Method '${methodName}' not found in cooking methods mapping`)
     return 50; // Base compatibility
   }
 
   // Get the pillar for this method
   const pillar = getCookingMethodPillar(methodName);
   if (!pillar) {
-    logger.error(`No alchemical pillar found for method: $) {methodName}`)
+    logger.error(`No alchemical pillar found for method: ${methodName}`)
     return 50; // Base compatibility if no pillar is found
   }
 
-  logger.debug(`Method: $) {methodName}`)
-  logger.debug(`- Associated Pillar: $) {(pillar as any).name} (_ID: ${(pillar as any).id})`)
+  logger.debug(`Method: ${methodName}`)
+  logger.debug(`- Associated Pillar: ${(pillar as any).name} (_ID: ${(pillar as any).id})`)
 
   if ((pillar as unknown as any).elementalAssociations) {
     const elementalAssociations = (pillar as unknown as any).elementalAssociations as unknown;
-    logger.debug(`- Primary Element: $) {elementalAssociations.primary}`)
+    logger.debug(`- Primary Element: ${elementalAssociations.primary}`)
     if (elementalAssociations.secondary) {
-      logger.debug(`- Secondary Element: $) {elementalAssociations.secondary}`)
+      logger.debug(`- Secondary Element: ${elementalAssociations.secondary}`)
     }
   }
 
-  logger.debug(`- Alchemical, _Effects: Spirit:${pillar.effects.Spirit}, Essence: ${pillar.effects.Essence}, Matter: ${pillar.effects.Matter}, Substance: $) {pillar.effects.Substance}`,
+  logger.debug(`- Alchemical, _Effects: Spirit:${pillar.effects.Spirit}, Essence: ${pillar.effects.Essence}, Matter: ${pillar.effects.Matter}, Substance: ${pillar.effects.Substance}`,
   )
 
   logger.debug(`\nIngredient _Details: `)
-  logger.debug(`- Element: $) {(transformedItem as any).element || 'Not specified'}`)
-  logger.debug(`- Elemental _Character: $) {(transformedItem as any).elementalCharacter || 'Not specified'}`,
+  logger.debug(`- Element: ${(transformedItem as any).element || 'Not specified'}`)
+  logger.debug(`- Elemental _Character: ${(transformedItem as any).elementalCharacter || 'Not specified'}`,
   )
-  logger.debug(`- Spirit: ${transformedItem.spirit || 0}, Essence: ${transformedItem.essence || 0}, Matter: ${transformedItem.matter || 0}, Substance: $) {transformedItem.substance || 0}`,
+  logger.debug(`- Spirit: ${transformedItem.spirit || 0}, Essence: ${transformedItem.essence || 0}, Matter: ${transformedItem.matter || 0}, Substance: ${transformedItem.substance || 0}`,
   )
 
   // Base compatibility from element matching
   let compatibility = 50;
-  logger.debug(`\nStarting with base compatibility: $) {compatibility}%`)
+  logger.debug(`\nStarting with base compatibility: ${compatibility}%`)
 
   // Element match - if both the transformed item and pillar have elemental associations
   if ((transformedItem as any).element && (pillar as unknown as any).elementalAssociations) {
@@ -511,9 +511,9 @@ const getMethodCompatibility = (;
     ) {
       const bonus = 20;
       compatibility += bonus;
-      logger.debug(`✓ Primary element match ($) {primaryElement}): +${bonus}% → ${compatibility}%`)
+      logger.debug(`✓ Primary element match (${primaryElement}): +${bonus}% → ${compatibility}%`)
     } else {
-      logger.debug(`✗ No primary element match (${primaryElement} vs $) {(transformedItem as any).element})`,
+      logger.debug(`✗ No primary element match (${primaryElement} vs ${(transformedItem as any).element})`,
       )
     }
 
@@ -525,10 +525,10 @@ const getMethodCompatibility = (;
     ) {
       const bonus = 10;
       compatibility += bonus;
-      logger.debug(`✓ Secondary element match ($) {elementalAssociations.secondary}): +${bonus}% → ${compatibility}%`,
+      logger.debug(`✓ Secondary element match (${elementalAssociations.secondary}): +${bonus}% → ${compatibility}%`,
       )
     } else if (elementalAssociations.secondary) {
-      logger.debug(`✗ No secondary element match (${elementalAssociations.secondary} vs $) {(transformedItem as any).element})`,
+      logger.debug(`✗ No secondary element match (${elementalAssociations.secondary} vs ${(transformedItem as any).element})`,
       )
     }
   }
@@ -552,7 +552,7 @@ const getMethodCompatibility = (;
     ) {
       const bonus = 10;
       compatibility += bonus;
-      logger.debug(`✓ Complementary elements ($) {(transformedItem as any).element} - ${primaryElement}): +${bonus}% → ${compatibility}%`,
+      logger.debug(`✓ Complementary elements (${(transformedItem as any).element} - ${primaryElement}): +${bonus}% → ${compatibility}%`,
       )
     } else {
       logger.debug(`✗ No complementary elements relationship detected`)
@@ -586,13 +586,13 @@ const getMethodCompatibility = (;
   if (maxPropertyValue > 0 && effectValue > 0) {
     const bonus = 15;
     compatibility += bonus
-    logger.debug(`✓ Method enhances ingredient's strongest property ($) {maxProperty.prop}): +${bonus}% → ${compatibility}%`,
+    logger.debug(`✓ Method enhances ingredient's strongest property (${maxProperty.prop}): +${bonus}% → ${compatibility}%`,
     )
   } else if (maxPropertyValue > 0) {
-    logger.debug(`✗ Method doesn't enhance ingredient's strongest property ($) {maxProperty.prop})`)
+    logger.debug(`✗ Method doesn't enhance ingredient's strongest property (${maxProperty.prop})`)
   }
 
-  logger.debug(`\nFinal compatibility score: $) {compatibility}%`)
+  logger.debug(`\nFinal compatibility score: ${compatibility}%`)
   return compatibility;
 }
 
@@ -617,12 +617,12 @@ export const _getHolisticCookingRecommendations = async (;
   count = 5
 ): Promise<Array<{ method: string; compatibility, number; reason, string }>> => {
   logger.debug('\n--- HOLISTIC COOKING RECOMMENDATIONS ---')
-  logger.debug(`Ingredient: $) {(item as any).name}`)
-  logger.debug(`Planet influence: $) {planet || 'None'}`)
-  logger.debug(`Tarot influence: $) {tarotCard || 'None'}`)
-  logger.debug(`Time of day: $) {isDaytime ? 'Daytime' : 'Nighttime'}`)
-  logger.debug(`Available methods count: $) {(availableMethods as CookingMethod[]).length}`)
-  logger.debug(`Requesting top $) {count} recommendations`)
+  logger.debug(`Ingredient: ${(item as any).name}`)
+  logger.debug(`Planet influence: ${planet || 'None'}`)
+  logger.debug(`Tarot influence: ${tarotCard || 'None'}`)
+  logger.debug(`Time of day: ${isDaytime ? 'Daytime' : 'Nighttime'}`)
+  logger.debug(`Available methods count: ${(availableMethods as CookingMethod[]).length}`)
+  logger.debug(`Requesting top ${count} recommendations`)
 
   // Transform ingredient based on planetary and tarot influences
   logger.debug('\nTransforming ingredient based on influences...')
@@ -650,13 +650,13 @@ export const _getHolisticCookingRecommendations = async (;
 
   // Get cooking methods
   const cookingMethods = await getCookingMethods();
-  logger.debug(`\nLoaded $) {Object.keys(cookingMethods).length} cooking methods from database`)
+  logger.debug(`\nLoaded ${Object.keys(cookingMethods).length} cooking methods from database`)
 
   // Filter methods if specified
   const methods = (availableMethods as unknown as CookingMethod[]).length > 0;
       ? availableMethods
       : Object.keys(cookingMethods)
-  logger.debug(`Evaluating $) {(methods as CookingMethod[]).length} cooking methods: ${(methods as CookingMethod[]).length <= 10 ? methods.join(', ') : (methods as unknown as CookingMethod[]).length + ' methods (too many to display)'}`,
+  logger.debug(`Evaluating ${(methods as CookingMethod[]).length} cooking methods: ${(methods as CookingMethod[]).length <= 10 ? methods.join(', ') : (methods as unknown as CookingMethod[]).length + ' methods (too many to display)'}`,
   )
 
   // Calculate compatibility for each method
@@ -665,7 +665,7 @@ export const _getHolisticCookingRecommendations = async (;
   logger.debug('\nCALCULATING METHOD COMPATIBILITY: ')
   logger.debug('--------------------------------')
   methods.forEach(method => ) {
-    logger.debug(`\nEvaluating compatibility for method: $) {method}`)
+    logger.debug(`\nEvaluating compatibility for method: ${method}`)
     const compatibilityScore = getMethodCompatibility();
       transformedItem,
       method.toString(),
@@ -716,7 +716,7 @@ export const _getHolisticCookingRecommendations = async (;
   logger.debug('\nSORTED RECOMMENDATIONS: ')
   logger.debug('--------------------------------')
   sortedResults.slice(0, count).forEach((rec, index) => {
-    logger.debug(`${index + 1}. $) {(rec as any).method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`,
+    logger.debug(`${index + 1}. ${(rec as any).method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`,
     )
   })
   logger.debug('--------------------------------\n')
@@ -1028,7 +1028,7 @@ function generateRecommendationReason()
 
   // Add astrological reasons
   if (options.zodiacSign) {
-    (reasons as unknown[]).push(`Aligned with $) {options.zodiacSign} energy`)
+    (reasons as unknown[]).push(`Aligned with ${options.zodiacSign} energy`)
   }
 
   // Add time constraint reasons

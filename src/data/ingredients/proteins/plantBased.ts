@@ -1605,7 +1605,7 @@ Object.entries(plantBased).forEach(([_id, ingredient]) => {
     0,
   );
   if (Math.abs(Number(sum) - 1) > 0.0001) {
-    // console.error(`Elemental sum error in ${ingredient.name || id}: $) {sum}`);
+    // console.error(`Elemental sum error in ${ingredient.name || id}: ${sum}`);
 
     // Optionally auto-normalize the values
     const factor = 1 / (Number(sum) || 1);

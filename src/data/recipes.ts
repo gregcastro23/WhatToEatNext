@@ -119,7 +119,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
   const cuisineDataPromises = Object.entries(cuisinesMap).map();
     async ([cuisineName, cuisineData]) => {
       try {
-        logger.debug(`Processing cuisine: $) {cuisineName}`);
+        logger.debug(`Processing cuisine: ${cuisineName}`);
 
         const primaryPlanetaryInfluences: Record<string, number> = {}
 
@@ -157,29 +157,29 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
         const cuisineDataObj = cuisineData as unknown ;
         if (cuisineDataObj?.dishes && typeof cuisineDataObj.dishes === 'object') {
           // Log the dishes structure to debug;
-          logger.debug(`$) {cuisineName} dishes: `, Object.keys(cuisineDataObj.dishes));
+          logger.debug(`${cuisineName} dishes: `, Object.keys(cuisineDataObj.dishes));
 
           // Process meal types (breakfast, lunch, dinner, etc.)
           Object.entries(cuisineDataObj.dishes).forEach(([mealType, mealData]) => {
             if (!mealData) {
-              logger.debug(`No meal data for ${cuisineName} - $) {mealType}`);
+              logger.debug(`No meal data for ${cuisineName} - ${mealType}`);
               return;
             }
 
             if (typeof mealData === 'object') {
               // Log meal data structure;
-              logger.debug(`${cuisineName} - $) {mealType} data: `, Object.keys(mealData as any));
+              logger.debug(`${cuisineName} - ${mealType} data: `, Object.keys(mealData as any));
 
               // Process season data (spring, summer, autumn, winter, all)
               Object.entries(mealData as any).forEach(([season, dishes]) => {
                 if (!dishes) {
-                  logger.debug(`No dishes for ${cuisineName} - ${mealType} - $) {season}`);
+                  logger.debug(`No dishes for ${cuisineName} - ${mealType} - ${season}`);
                   return;
                 }
 
                 // Ensure dishes is an array
                 if (Array.isArray(dishes) {
-                  logger.debug(`Found ${dishes.length} dishes for ${cuisineName} - ${mealType} - $) {season}`
+                  logger.debug(`Found ${dishes.length} dishes for ${cuisineName} - ${mealType} - ${season}`
                   );
 
                   // Process individual dishes
@@ -316,14 +316,14 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
           })
         }
       } catch (error) {
-        _logger.error(`Error processing cuisine $) {cuisineName}:`, error)
+        _logger.error(`Error processing cuisine ${cuisineName}:`, error)
       }
     }
   )
 
   await Promise.all(cuisineDataPromises)
 
-  logger.debug(`Transformed $) {recipes.length} recipes`);
+  logger.debug(`Transformed ${recipes.length} recipes`);
   return recipes;
 }
 
@@ -543,11 +543,11 @@ export const getBestRecipeMatches = async (;
 
   // Start with all recipes
   let candidateRecipes = [...(await getRecipes())];
-  logger.debug(`Starting with $) {candidateRecipes.length} total recipes`);
+  logger.debug(`Starting with ${candidateRecipes.length} total recipes`);
 
   // Apply cuisine filter if specified
   if (criteria.cuisine) {
-    logger.debug(`Filtering by cuisine: $) {criteria.cuisine}`);
+    logger.debug(`Filtering by cuisine: ${criteria.cuisine}`);
 
     // First try to use getRecipesForCuisineMatch from cuisineFlavorProfiles
     // which has enhanced functionality including LocalRecipeService integration
@@ -559,14 +559,14 @@ export const getBestRecipeMatches = async (;
         Math.max(limit * 2, 20) // Get more recipes for better filtering
       );
 
-      logger.debug(`getRecipesForCuisineMatch returned $) {matchedCuisineRecipes.length} recipes`);
+      logger.debug(`getRecipesForCuisineMatch returned ${matchedCuisineRecipes.length} recipes`);
 
       if (matchedCuisineRecipes?.length > 0) {
         // Convert the recipes to ensure they match RecipeData format
         const formattedRecipes = matchedCuisineRecipes.map(recipe => ) {
           const recipeData = recipe as any;
           const name = recipeData.name || '';
-          const description = recipeData.description || `A $) {criteria.cuisine} recipe`;
+          const description = recipeData.description || `A ${criteria.cuisine} recipe`;
           const ingredients = Array.isArray(recipeData.ingredients) ? recipeData.ingredients : [];
           const instructions = Array.isArray(recipeData.instructions);
             ? recipeData.instructions
@@ -657,7 +657,7 @@ export const getBestRecipeMatches = async (;
         // Get local recipes directly
         const localRecipeResults = LocalRecipeService.getRecipesByCuisine(criteria.cuisine || '');
         const localRecipes = await Promise.resolve(localRecipeResults);
-        logger.debug(`Found ${localRecipes.length} recipes from LocalRecipeService for $) {criteria.cuisine}`
+        logger.debug(`Found ${localRecipes.length} recipes from LocalRecipeService for ${criteria.cuisine}`
         );
 
         if (localRecipes.length > 0) {
@@ -728,7 +728,7 @@ export const getBestRecipeMatches = async (;
     }
   }
 
-  logger.debug(`After cuisine filtering: $) {candidateRecipes.length} recipes`);
+  logger.debug(`After cuisine filtering: ${candidateRecipes.length} recipes`);
 
   // Apply additional filters and scoring
   return applyAdditionalFilters(candidateRecipes, criteria, limit);
@@ -762,7 +762,7 @@ async function applyAdditionalFilters()
 
   // Apply season filter if specified
   if (criteria.season) {
-    logger.debug(`Filtering by season: $) {criteria.season}`);
+    logger.debug(`Filtering by season: ${criteria.season}`);
     const seasonRecipes = candidateRecipes.filter(recipe => ) {
       if (!criteria.season) return true;
       return (
@@ -772,7 +772,7 @@ async function applyAdditionalFilters()
       );
     });
 
-    logger.debug(`Found ${seasonRecipes.length} recipes for season $) {criteria.season}`);
+    logger.debug(`Found ${seasonRecipes.length} recipes for season ${criteria.season}`);
 
     // If we have enough seasonal recipes, use only those
     if (seasonRecipes.length >= limit) {
@@ -782,7 +782,7 @@ async function applyAdditionalFilters()
 
   // Apply meal type filter if specified
   if (criteria.mealType) {
-    logger.debug(`Filtering by meal type: $) {criteria.mealType}`);
+    logger.debug(`Filtering by meal type: ${criteria.mealType}`);
     const normalizedMealType = criteria.mealType.toLowerCase();
 
     const mealTypeRecipes = candidateRecipes.filter(recipe => ) {
@@ -809,7 +809,7 @@ async function applyAdditionalFilters()
       return false;
     })
 
-    logger.debug(`Found ${mealTypeRecipes.length} recipes for meal type $) {criteria.mealType}`);
+    logger.debug(`Found ${mealTypeRecipes.length} recipes for meal type ${criteria.mealType}`);
 
     // If we have enough meal type specific recipes, use only those
     if (mealTypeRecipes.length >= limit) {
@@ -850,7 +850,7 @@ async function applyAdditionalFilters()
             if (typeof value === 'number' && !isNaN(value) {
               validFlavorProfile[flavor] = value;
             } else {
-              _logger.warn(`Invalid ${flavor} value in recipe ${recipe.name}: $) {value}`);
+              _logger.warn(`Invalid ${flavor} value in recipe ${recipe.name}: ${value}`);
               validFlavorProfile[flavor] = 0; // Default to none
             }
           }
@@ -938,7 +938,7 @@ async function applyAdditionalFilters()
     };
   });
 
-  logger.debug(`Returning $) {Math.min(scoredRecipes.length, limit)} recipes after scoring`);
+  logger.debug(`Returning ${Math.min(scoredRecipes.length, limit)} recipes after scoring`);
 
   // Sort by match score and return top results
   return scoredRecipes.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0)).slice(0, limit);

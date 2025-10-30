@@ -211,7 +211,7 @@ export function createServiceBridge<TS>(
             const result = await fetchFunction(service);
             setData(result);
           } catch (err) {
-            _logger.error(`Error in custom bridge for $) {serviceName}:`, err)
+            _logger.error(`Error in custom bridge for ${serviceName}:`, err)
             setFetchError(err instanceof Error ? err : new Error(String(err)))
           }
         }

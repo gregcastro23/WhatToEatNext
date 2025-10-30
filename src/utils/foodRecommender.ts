@@ -107,12 +107,12 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
   categories.forEach(category => ) {
     // All categories guaranteed to have data by design
     if (Object.keys(category.data).length === 0) {
-      log.warn(`Empty data for category $) {category.name}`);
+      log.warn(`Empty data for category ${category.name}`);
       return;
     }
 
     // Count the entries in this category
-    log.info(`${category.name} category has $) {Object.keys(category.data).length} items`);
+    log.info(`${category.name} category has ${Object.keys(category.data).length} items`);
 
     Object.entries(category.data).forEach(([name, data]) => {
       // Make sure we add the name to the ingredient
@@ -163,7 +163,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     });
   });
 
-  log.info(`Added ${grainCount} grain ingredients and $) {herbCount} herb ingredients`);
+  log.info(`Added ${grainCount} grain ingredients and ${herbCount} herb ingredients`);
 
   // Filter out ingredients without proper astrological profiles (using optional chaining)
   const validIngredients = allIngredients.filter();

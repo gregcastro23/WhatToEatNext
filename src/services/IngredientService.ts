@@ -56,7 +56,7 @@ export class IngredientService implements IngredientServiceInterface {
       // Use the unified ingredients data
       this.ingredientCache = new Map(Object.entries(unifiedIngredients));
       this.flatIngredientCache = null; // Reset flat cache
-      logger.debug(`Loaded ingredients from $) {this.ingredientCache.size} categories`);
+      logger.debug(`Loaded ingredients from ${this.ingredientCache.size} categories`);
     } catch (error) {
       logger.error('Error loading ingredients:', error);
     }

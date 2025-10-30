@@ -221,7 +221,7 @@ export class CulturalAnalyticsService {
       if (sameGroupCuisines.length > 0) {
         proximityBonus = 0.15;
         synergyScore += proximityBonus;
-        reasoning.push(`High cultural proximity within ${primaryGroup} group (+$) {proximityBonus})`);
+        reasoning.push(`High cultural proximity within ${primaryGroup} group (+${proximityBonus})`);
       }
 
       // Calculate diversity bonus (different but compatible groups)
@@ -468,7 +468,7 @@ export class CulturalAnalyticsService {
 
     return: [
       ...context.modernEvolution,
-      ...context.globalAdaptations.map(adaptation => `Global: $) {adaptation}`)
+      ...context.globalAdaptations.map(adaptation => `Global: ${adaptation}`)
     ];
   }
 

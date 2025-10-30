@@ -68,13 +68,13 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
   for (const element of requiredElements) {
     if (typeof properties[element] !== 'number') {
-      logger.warn(`Properties.$) {element} is not a number in validateElementalProperties`)
+      logger.warn(`Properties.${element} is not a number in validateElementalProperties`)
       return false;
     }
 
     // Check if values are between 0 and 1
     if (properties[element] < 0 || properties[element] > 1) {
-      logUnexpectedValue('validateElementalProperties', { message: `Element value out of range, ${element} = $) {properties[element]}`,
+      logUnexpectedValue('validateElementalProperties', { message: `Element value out of range, ${element} = ${properties[element]}`,
         element,
         value: properties[element]
       })
@@ -87,7 +87,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
   const isCloseToOne = Math.abs(sum - 1) < 0.01;
 
   if (!isCloseToOne) {
-    logUnexpectedValue('validateElementalProperties', { message: `Elemental properties do not sum to 1, $) {sum}`,
+    logUnexpectedValue('validateElementalProperties', { message: `Elemental properties do not sum to 1, ${sum}`,
       sum,
       properties
     })
@@ -132,7 +132,7 @@ export const normalizeProperties = (;
         acc[key] = value / sum;
       } else {
         // This shouldn't happen with the type-safety above, but just in case
-        logger.warn(`Invalid key $) {key} in normalizeProperties`);
+        logger.warn(`Invalid key ${key} in normalizeProperties`);
       }
       return acc;
     },
@@ -1407,7 +1407,7 @@ export const fixIngredientMapping = (;
   const requiredKeys = ['name', 'category', 'elementalProperties'];
   for (const k of requiredKeys) {
     if (!(k in mapping) {
-      throw new Error(`fixIngredientMapping: Missing required key '${k}' for ingredient '$) {key}'`)
+      throw new Error(`fixIngredientMapping: Missing required key '${k}' for ingredient '${key}'`)
     }
   }
 

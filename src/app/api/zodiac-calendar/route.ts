@@ -306,7 +306,7 @@ function handleCompareAccuracy(searchParams: URLSearchParams) {
       ...comparison,
       metadata: {
         improvement_factor: comparison.difference.degrees > 0 ?
-          `$) {(179.2 / comparison.difference.degrees).toFixed(1)}x` : 'Baseline',
+          `${(179.2 / comparison.difference.degrees).toFixed(1)}x` : 'Baseline',
         new_system_accuracy: '±0.01°',
         old_system_accuracy: '±2-5°',
         astronomical_method: 'VSOP87 with aberration correction'

@@ -96,7 +96,7 @@ class PerformanceMonitoringService {
         this.addAlert({
           type: 'error',
           component: componentName,
-          message: `Component $) {componentName} has slow render time`,
+          message: `Component ${componentName} has slow render time`,
           timestamp: new Date(),
           metric: 'renderTime',
           value: metrics.averageRenderTime,
@@ -106,7 +106,7 @@ class PerformanceMonitoringService {
         this.addAlert({
           type: 'warning',
           component: componentName,
-          message: `Component $) {componentName} render time approaching threshold`,
+          message: `Component ${componentName} render time approaching threshold`,
           timestamp: new Date(),
           metric: 'renderTime',
           value: metrics.averageRenderTime,
@@ -120,7 +120,7 @@ class PerformanceMonitoringService {
         this.addAlert({
           type: 'warning',
           component: componentName,
-          message: `Component $) {componentName} has high error rate`,
+          message: `Component ${componentName} has high error rate`,
           timestamp: new Date(),
           metric: 'errorRate',
           value: errorRate,

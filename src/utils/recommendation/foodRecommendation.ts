@@ -125,19 +125,19 @@ export function explainRecommendation()
   if (astrologicalState.dominantElement && recipe.elementalState) {
     const elementValue = recipe.elementalState[astrologicalState.dominantElement as any] || 0;
     if (elementValue > 0.3) {
-      explanations.push(`Strong $) {astrologicalState.dominantElement} element alignment`);
+      explanations.push(`Strong ${astrologicalState.dominantElement} element alignment`);
     }
   }
 
   // Planetary explanation
   if (astrologicalState.activePlanets && astrologicalState.activePlanets.length > 0) {
     const activePlanet = astrologicalState.activePlanets[0];
-    explanations.push(`Harmonizes with $) {activePlanet} energy`);
+    explanations.push(`Harmonizes with ${activePlanet} energy`);
   }
 
   // Seasonal explanation
   if (recipe.season && Array.isArray(recipe.season) && recipe.season.includes(timeFactors.season) {
-    explanations.push(`Perfect for $) {timeFactors.season} season`);
+    explanations.push(`Perfect for ${timeFactors.season} season`);
   }
 
   // Meal type explanation
@@ -146,7 +146,7 @@ export function explainRecommendation()
     Array.isArray(recipe.mealType) &&
     recipe.mealType.includes(timeFactors.mealType)
   ) {
-    explanations.push(`Ideal for $) {timeFactors.mealType.toLowerCase()}`);
+    explanations.push(`Ideal for ${timeFactors.mealType.toLowerCase()}`);
   }
 
   return explanations.length > 0
@@ -335,7 +335,7 @@ export function getDetailedRecipeRecommendations()
     if (astrologicalState.dominantElement && recipe.elementalState) {
       const elementValue = recipe.elementalState[astrologicalState.dominantElement as any] || 0;
       if (elementValue > 0.3) {
-        reasons.push(`Strong $) {astrologicalState.dominantElement} element`);
+        reasons.push(`Strong ${astrologicalState.dominantElement} element`);
       }
     }
 
@@ -344,7 +344,7 @@ export function getDetailedRecipeRecommendations()
       Array.isArray(recipe.season) &&
       recipe.season.includes(timeFactors.season)
     ) {
-      reasons.push(`Seasonal match for $) {timeFactors.season}`);
+      reasons.push(`Seasonal match for ${timeFactors.season}`);
     }
 
     if (
@@ -352,7 +352,7 @@ export function getDetailedRecipeRecommendations()
       Array.isArray(recipe.mealType) &&
       recipe.mealType.includes(timeFactors.mealType)
     ) {
-      reasons.push(`Perfect for $) {timeFactors.mealType.toLowerCase()}`);
+      reasons.push(`Perfect for ${timeFactors.mealType.toLowerCase()}`);
     }
 
     return { recipe, score, reasons };

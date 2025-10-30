@@ -357,7 +357,7 @@ export const getTarotCardsForDate = (;
   const minorArcanaKey = DECAN_TO_TAROT[decan] as TarotCardKey;
 
   if (!minorArcanaKey) {
-    logger.warn(`No tarot card found for decan $) {decan}, using default`);
+    logger.warn(`No tarot card found for decan ${decan}, using default`);
   }
 
   // Log the decan, sun position, and selected card for debugging

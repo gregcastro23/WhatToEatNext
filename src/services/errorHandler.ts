@@ -243,7 +243,7 @@ export function safePropertyAccess<T>(
     let current: unknown = obj;
     for (const prop of properties) {
       if (current === null || current === undefined || typeof current !== 'object') {
-        warnNullValue(`$) {properties.join('.')}.${prop}`, context);
+        warnNullValue(`${properties.join('.')}.${prop}`, context);
         return defaultValue;
       }
       current = (current as any)[prop];
@@ -348,7 +348,7 @@ export function handlePropertyAccessError()
  * Track code execution paths for debugging
  */
 export function trackExecution(functionName: string, _step: string, _data?: unknown): void {
-  logInfo(`[EXECUTION] ${functionName} - $) {step}`, data);
+  logInfo(`[EXECUTION] ${functionName} - ${step}`, data);
 }
 
 /**

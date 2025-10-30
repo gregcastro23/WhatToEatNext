@@ -644,7 +644,7 @@ export class UnifiedScoringService {
       // Debug logging
       if (context.options?.debugMode) {
         const endTime = performance.now();
-        log.info(`Scoring completed in $) {endTime - startTime}ms`, result);
+        log.info(`Scoring completed in ${endTime - startTime}ms`, result);
       }
 
       return result;
@@ -855,7 +855,7 @@ export class UnifiedScoringService {
     }
 
     // Add source information
-    notes.push(`Astrological data from: $) {astroData.source}`);
+    notes.push(`Astrological data from: ${astroData.source}`);
 
     return notes;
   }

@@ -186,7 +186,7 @@ export function getCuisineRecommendations()
         (zodiacInfluences as string[]).includes(astrologicalState.zodiacSign)
       ) {
         score += 0.3;
-        reasoning.push(`Favorable for $) {astrologicalState.zodiacSign}`);
+        reasoning.push(`Favorable for ${astrologicalState.zodiacSign}`);
       }
 
       // Lunar Phase Match Score (20% weight) - safe property access
@@ -196,7 +196,7 @@ export function getCuisineRecommendations()
         (lunarPhaseInfluences as string[]).includes(astrologicalState.lunarPhase)
       ) {
         score += 0.2;
-        reasoning.push(`Harmonizes with the $) {astrologicalState.lunarPhase}`);
+        reasoning.push(`Harmonizes with the ${astrologicalState.lunarPhase}`);
       }
 
       // Planetary Influence Score (10% weight) - safe property access

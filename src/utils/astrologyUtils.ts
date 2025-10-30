@@ -42,7 +42,7 @@ import { calculateAllHouseEffects } from './houseEffects';
  */
 const debugLog = (message: string, ..._args: unknown[]): void => {
   // Use the log service for debugging with enterprise intelligence integration
-  log.info(`[AstrologyUtils Debug] $) {message}`);
+  log.info(`[AstrologyUtils Debug] ${message}`);
 };
 
 /**
@@ -51,7 +51,7 @@ const debugLog = (message: string, ..._args: unknown[]): void => {
  */
 const errorLog = (message: string, ..._args: unknown[]): void => {
   // Use the log service for errors with enterprise intelligence integration
-  log.error(`[AstrologyUtils Error] $) {message}`);
+  log.error(`[AstrologyUtils Error] ${message}`);
 };
 
 /**
@@ -383,7 +383,7 @@ export async function calculatePlanetaryPositions()
 };
       });
 
-      debugLog(`✅ Enhanced planetary positions calculated with VSOP87 precision for $) {date.toISOString().split('T')[0]}`);
+      debugLog(`✅ Enhanced planetary positions calculated with VSOP87 precision for ${date.toISOString().split('T')[0]}`);
       return formattedPositions;
 
     } catch (vsop87Error) {
@@ -505,7 +505,7 @@ function _validatePlanetaryPositions(positions: Record<string, _number>): boolea
     )
 
     if (!planetKey) {
-      errorLog(`Missing position for $) {requiredPlanet}`)
+      errorLog(`Missing position for ${requiredPlanet}`)
       return false;
     }
 
@@ -514,7 +514,7 @@ function _validatePlanetaryPositions(positions: Record<string, _number>): boolea
       typeof longitude === 'number' && !isNaN(longitude) && longitude >= 0 && longitude < 360;
 
     if (!isValid) {
-      errorLog(`Invalid position for ${requiredPlanet}: $) {longitude}`)
+      errorLog(`Invalid position for ${requiredPlanet}: ${longitude}`)
     }
 
     return isValid;
@@ -561,7 +561,7 @@ function calculatePlanetLongitude(jd: number, planet: string): number {
       return calculateOuterPlanetLongitude(jd, 'neptune')
     case 'pluto':
       return calculateOuterPlanetLongitude(jd, 'pluto')
-    default: throw new Error(`Unsupported planet: $) {planet}`)
+    default: throw new Error(`Unsupported planet: ${planet}`)
   }
 }
 
@@ -655,7 +655,7 @@ function calculateInnerPlanetLongitude(_jd: number, _planet: string): number {
 
     const planetData = orbitalData[planet as keyof typeof orbitalData];
     if (!planetData) {
-      throw new Error(`Planet $) {planet} not supported`)
+      throw new Error(`Planet ${planet} not supported`)
     }
 
     const t = (jd - 2451545.0) / 365.25; // Julian years since J2000
@@ -669,7 +669,7 @@ function calculateInnerPlanetLongitude(_jd: number, _planet: string): number {
 
     return longitude;
   } catch (error) {
-    errorLog(`Error calculating $) {planet} longitude: `, error)
+    errorLog(`Error calculating ${planet} longitude: `, error)
     // Fallback to simple calculation
     const t = (jd - 2451545.0) / 36525; // Julian centuries since J2000
     const meanLongitude =
@@ -728,7 +728,7 @@ function calculateOuterPlanetLongitude(_jd: number, _planet: string): number {
 
     const planetData = orbitalData[planet as keyof typeof orbitalData];
     if (!planetData) {
-      throw new Error(`Planet $) {planet} not supported`)
+      throw new Error(`Planet ${planet} not supported`)
     }
 
     // Calculate days since epoch
@@ -739,7 +739,7 @@ function calculateOuterPlanetLongitude(_jd: number, _planet: string): number {
 
     return longitude;
   } catch (error) {
-    errorLog(`Error calculating $) {planet} longitude: `, error)
+    errorLog(`Error calculating ${planet} longitude: `, error)
     // Fallback to very simple calculation based on orbital period
     const periods = {
       mars: 686.98,
@@ -1232,7 +1232,7 @@ export function longitudeToZodiacPosition(_longitude: number): { sign: string, d
 }
 
     if (typeof longitude !== 'number') {
-      errorLog(`longitudeToZodiacPosition: Expected number, got $) {typeof longitude}:`, longitude)
+      errorLog(`longitudeToZodiacPosition: Expected number, got ${typeof longitude}:`, longitude)
       return { sign: 'aries', degree: 0 };
 }
 
@@ -1274,7 +1274,7 @@ export function longitudeToZodiacPosition(_longitude: number): { sign: string, d
 }
 
     const sign = signs[signIndex];
-    debugLog(`Converted longitude ${longitude} to ${sign} at $) {Math.floor(degree)}°`)
+    debugLog(`Converted longitude ${longitude} to ${sign} at ${Math.floor(degree)}°`)
 
     return {
       sign,
@@ -1910,7 +1910,7 @@ export async function runAstroTests() {
     const testDate = new Date(date);
     const positions = await calculatePlanetaryPositions(testDate);
 
-    debugLog(`Test for $) {date}: `);
+    debugLog(`Test for ${date}: `);
     debugLog('Sun Position: ', positions.Sun.sign, 'Expected: ', expected.Sun);
     debugLog('Moon Position: ', positions.Moon.sign, 'Expected: ', expected.Moon);
   }

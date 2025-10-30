@@ -34,11 +34,11 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
       .get(url, response => ) {
         // Handle redirects or failed downloads
         if (response.statusCode === 302 || response.statusCode === 404) {
-          // console.log(`File $) {filename} not found at primary source, trying backup...`);
+          // console.log(`File ${filename} not found at primary source, trying backup...`);
           if (BACKUP_FILES.includes(filename) {
             downloadFile(filename, BACKUP_URL).then(resolve).catch(reject);
           } else {
-            // console.warn(`Warning: File $) {filename} not found, but not critical.`);
+            // console.warn(`Warning: File ${filename} not found, but not critical.`);
             resolve();
           }
           return;
@@ -48,15 +48,15 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
         response.pipe(fileStream);
         fileStream.on('finish', () => {
           fileStream.close();
-          // console.log(`Successfully downloaded $) {filename}`);
+          // console.log(`Successfully downloaded ${filename}`);
           resolve();
         });
       })
       .on('error', error => {
-        // console.error(`Error downloading $) {filename}:`, error.message);
+        // console.error(`Error downloading ${filename}:`, error.message);
         // Try backup for essential files
         if (BACKUP_FILES.includes(filename) {
-          // console.log(`Trying backup source for $) {filename}...`);
+          // console.log(`Trying backup source for ${filename}...`);
           downloadFile(filename, BACKUP_URL).then(resolve).catch(reject);
         } else {
           reject(error);

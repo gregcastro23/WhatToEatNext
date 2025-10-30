@@ -717,7 +717,7 @@ class CelestialCalculator {
         dominantPlanets.push({
           name: 'Sun',
           influence: 0.65,
-          effect: `in $) {sunPos.sign}`
+          effect: `in ${sunPos.sign}`
         })
       } else {
         // Update existing Sun with sign placement effect

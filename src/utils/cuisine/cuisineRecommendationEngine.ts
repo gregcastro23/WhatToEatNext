@@ -476,13 +476,13 @@ export function validateUserProfile(profile: UserProfile): {
     .reduce((sum, val) => sum + val, 0);
 
   if (Math.abs(elementalSum - 1.0) > 0.01) {
-    errors.push(`Elemental preferences must sum to 1.0 (current sum: $) {elementalSum})`);
+    errors.push(`Elemental preferences must sum to 1.0 (current sum: ${elementalSum})`);
   }
 
   // Check for negative values
   Object.entries(profile.elementalPreferences).forEach(([element, value]) => {
     if (value < 0) {
-      errors.push(`$) {element} preference cannot be negative`);
+      errors.push(`${element} preference cannot be negative`);
     }
   });
 
@@ -490,7 +490,7 @@ export function validateUserProfile(profile: UserProfile): {
   if (profile.alchemicalPreferences) {
     Object.entries(profile.alchemicalPreferences).forEach(([property, value]) => {
       if (value !== undefined && (value < 0 || value > 1) {
-        warnings.push(`$) {property} preference should be between 0 and 1`);
+        warnings.push(`${property} preference should be between 0 and 1`);
       }
     });
   }

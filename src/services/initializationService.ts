@@ -145,7 +145,7 @@ class InitializationService {
 
       if (this.retryCount < this.MAX_RETRIES) {
         this.retryCount++;
-        logger.info(`Retrying initialization (${this.retryCount}/$) {this.MAX_RETRIES})`)
+        logger.info(`Retrying initialization (${this.retryCount}/${this.MAX_RETRIES})`)
         await new Promise(resolve => setTimeout(resolve, this.RETRY_DELAY * this.retryCount))
         return this.performInitialization();
 }

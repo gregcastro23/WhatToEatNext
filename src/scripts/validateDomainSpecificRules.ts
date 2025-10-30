@@ -55,7 +55,7 @@ class DomainSpecificRuleValidator {
 
     for (const file of astroFiles) {
       if (existsSync(join(this.projectRoot, file)) {
-        console.log(`   ✅ Found $) {file}`);
+        console.log(`   ✅ Found ${file}`);
       }
     }
   }
@@ -70,7 +70,7 @@ class DomainSpecificRuleValidator {
 
     for (const file of campaignFiles) {
       if (existsSync(join(this.projectRoot, file)) {
-        console.log(`   ✅ Found $) {file}`);
+        console.log(`   ✅ Found ${file}`);
       }
     }
   }
@@ -84,7 +84,7 @@ class DomainSpecificRuleValidator {
         cwd: this.projectRoot
 }).trim();
 
-      console.log(`   ✅ Found $) {testCount} test files`);
+      console.log(`   ✅ Found ${testCount} test files`);
     } catch (error) {
       console.log('   ⚠️ Could not count test files');
     }

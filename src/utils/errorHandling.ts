@@ -195,7 +195,7 @@ export class ErrorHandler {
     const recoveryResult = await this.attemptRecovery(enhancedError);
 
     if (recoveryResult.success) {
-      logger.info(`Error recovered successfully: $) {enhancedError.errorId}`);
+      logger.info(`Error recovered successfully: ${enhancedError.errorId}`);
       return recoveryResult.data;
     }
 
@@ -213,7 +213,7 @@ export class ErrorHandler {
           const result = await strategy.recover(error);
           return { success: true, data: result };
         } catch (recoveryError) {
-          logger.warn(`Recovery strategy failed for error $) {error.errorId}:`, recoveryError);
+          logger.warn(`Recovery strategy failed for error ${error.errorId}:`, recoveryError);
 
           // Try fallback if available
           if (strategy.fallback) {
@@ -221,7 +221,7 @@ export class ErrorHandler {
               const fallbackResult = strategy.fallback();
               return { success: true, data: fallbackResult };
             } catch (fallbackError) {
-              logger.warn(`Fallback strategy failed for error $) {error.errorId}:`, fallbackError);
+              logger.warn(`Fallback strategy failed for error ${error.errorId}:`, fallbackError);
             }
           }
         }
@@ -327,7 +327,7 @@ export const globalErrorHandler = new ErrorHandler();
 globalErrorHandler.addRecoveryStrategy({
   canRecover: error => error.type === ErrorType.ASTROLOGICAL_CALCULATION,
   recover: async error => {
-    logger.info(`Attempting to recover from astrological calculation error: $) {error.errorId}`);
+    logger.info(`Attempting to recover from astrological calculation error: ${error.errorId}`);
     // Return cached astrological data
     const cachedData = localStorage.getItem('cachedAstrologicalData');
     if (cachedData) {
@@ -348,7 +348,7 @@ globalErrorHandler.addRecoveryStrategy({
 globalErrorHandler.addRecoveryStrategy({
   canRecover: error => error.type === ErrorType.NETWORK,
   recover: async error => {
-    logger.info(`Attempting to recover from network error: $) {error.errorId}`);
+    logger.info(`Attempting to recover from network error: ${error.errorId}`);
     // Try to use cached data
     const cacheKey = error.context?.cacheKey;
     if (cacheKey) {

@@ -314,7 +314,7 @@ class BuildPerformanceMonitor {
 
         // Check for performance issues
         if (executionTime > this.THRESHOLDS.astrologicalCalculation) {
-          _logger.warn(`[Astrological Performance] Slow calculation: ${calculationType} took $) {executionTime}ms`,
+          _logger.warn(`[Astrological Performance] Slow calculation: ${calculationType} took ${executionTime}ms`,
           )
         }
 
@@ -370,19 +370,19 @@ class BuildPerformanceMonitor {
     }
 
     if (metrics.totalBuildTime > this.THRESHOLDS.totalBuild) {
-      alerts.push(`Build time slow: $) {Math.round(metrics.totalBuildTime)}ms`)
+      alerts.push(`Build time slow: ${Math.round(metrics.totalBuildTime)}ms`)
     }
 
     if (metrics.bundleSize > this.THRESHOLDS.bundleSize) {
-      alerts.push(`Bundle size large: $) {Math.round(metrics.bundleSize / 1024 / 1024)}MB`)
+      alerts.push(`Bundle size large: ${Math.round(metrics.bundleSize / 1024 / 1024)}MB`)
     }
 
     if (metrics.memoryUsage > this.THRESHOLDS.memoryUsage) {
-      alerts.push(`Memory usage high: $) {Math.round(metrics.memoryUsage / 1024 / 1024)}MB`)
+      alerts.push(`Memory usage high: ${Math.round(metrics.memoryUsage / 1024 / 1024)}MB`)
     }
 
     if (metrics.cacheHitRate < this.THRESHOLDS.cacheHitRate) {
-      alerts.push(`Cache hit rate low: $) {Math.round(metrics.cacheHitRate * 100)}%`)
+      alerts.push(`Cache hit rate low: ${Math.round(metrics.cacheHitRate * 100)}%`)
     }
 
     if (alerts.length > 0) {
@@ -417,7 +417,7 @@ class BuildPerformanceMonitor {
           }
 
           this.regressions.push(regression)
-          _logger.warn(`[Performance Regression] ${metric}: $) {Math.round(regressionPercentage * 100)}% increase`,
+          _logger.warn(`[Performance Regression] ${metric}: ${Math.round(regressionPercentage * 100)}% increase`,
           )
         }
       }
@@ -694,7 +694,7 @@ class BuildPerformanceMonitor {
       }
 
       if (this.bottlenecks.length > 0) {
-        void recommendations.push(`Address compilation bottlenecks in $) {this.bottlenecks[0].file}`)
+        void recommendations.push(`Address compilation bottlenecks in ${this.bottlenecks[0].file}`)
       }
     }
 

@@ -136,7 +136,7 @@ export class AutomatedQualityAssurance {
 
       // Validate response time
       if (responseTime > this.config.thresholds.planetaryData.fallbackThresholdMs) {
-        issues.push(`Planetary data fetch time ($) {responseTime.toFixed(0)}ms) exceeds threshold`)
+        issues.push(`Planetary data fetch time (${responseTime.toFixed(0)}ms) exceeds threshold`)
         recommendations.push('Consider implementing more aggressive caching')
         score -= 0.2;
 }
@@ -146,7 +146,7 @@ export class AutomatedQualityAssurance {
       const missingPlanets = requiredPlanets.filter(planet => !positions[planet]);
 
       if (missingPlanets.length > 0) {
-        issues.push(`Missing planetary data for $) {missingPlanets.join(', ')}`)
+        issues.push(`Missing planetary data for ${missingPlanets.join(', ')}`)
         recommendations.push('Verify API connectivity and fallback mechanisms')
         score -= 0.1 * missingPlanets.length;
 }
@@ -156,7 +156,7 @@ export class AutomatedQualityAssurance {
         const p = data as { exactLongitude?: number };
         if (p?.exactLongitude !== undefined) {
           if (p.exactLongitude < 0 || p.exactLongitude >= 360) {
-            issues.push(`Invalid longitude for ${planet}: $) {data.exactLongitude}`)
+            issues.push(`Invalid longitude for ${planet}: ${data.exactLongitude}`)
             score -= 0.1;
 }
         }
@@ -209,7 +209,7 @@ export class AutomatedQualityAssurance {
       const isValidStructure = intelligence.validateElementalProperties(ingredient.elementalProperties,);
       ),
       if (!isValidStructure) {
-        issues.push(`Invalid elemental properties for ingredient: $) {ingredient.name}`)
+        issues.push(`Invalid elemental properties for ingredient: ${ingredient.name}`)
         recommendations.push()
           `Fix elemental properties for ${ingredient.name} to meet minimum standards`,
         )
@@ -294,7 +294,7 @@ export class AutomatedQualityAssurance {
       }
 
       if (trigger.triggered) {
-        logger.warn(`TypeScript error threshold _exceeded: ${errorCount} > $) {trigger.threshold}`)
+        logger.warn(`TypeScript error threshold _exceeded: ${errorCount} > ${trigger.threshold}`)
         this.campaignTriggers.push(trigger)
 
         // In a real implementation, this would trigger the campaign system
@@ -332,7 +332,7 @@ export class AutomatedQualityAssurance {
     // Check build time
     if (buildMetrics.buildTime && buildMetrics.buildTime > 30000) {
       // 30 seconds;
-      issues.push(`Build time ($) {buildMetrics.buildTime}ms) exceeds recommended threshold`)
+      issues.push(`Build time (${buildMetrics.buildTime}ms) exceeds recommended threshold`)
       recommendations.push('Consider optimizing build configuration and dependencies')
       score -= 0.2;
 }
@@ -354,14 +354,14 @@ export class AutomatedQualityAssurance {
       buildMetrics.memoryUsage &&
       buildMetrics.memoryUsage > this.config.thresholds.performance.memoryUsage
     ) {
-      issues.push(`Memory usage ($) {buildMetrics.memoryUsage}MB) exceeds threshold`)
+      issues.push(`Memory usage (${buildMetrics.memoryUsage}MB) exceeds threshold`)
       recommendations.push('Optimize memory usage and check for memory leaks')
       score -= 0.2;
 }
 
     // Check error count
     if (buildMetrics.errorCount && buildMetrics.errorCount > 0) {
-      issues.push(`Build contains $) {buildMetrics.errorCount} errors`)
+      issues.push(`Build contains ${buildMetrics.errorCount} errors`)
       recommendations.push('Fix all build errors before deployment')
       score -= 0.3;
 }
@@ -513,7 +513,7 @@ export class AutomatedQualityAssurance {
 
     if (trigger.triggered) {
       this.campaignTriggers.push(trigger)
-      logger.warn(`Campaign trigger activated for $) {type}:`, trigger)
+      logger.warn(`Campaign trigger activated for ${type}:`, trigger)
     }
   }
 
@@ -564,7 +564,7 @@ export class AutomatedQualityAssurance {
 
   private triggerCampaign(campaignType: string, context: unknown): void {
     // In a real implementation, this would integrate with the campaign system
-    logger.info(`Campaign triggered: $) {campaignType}`, context)
+    logger.info(`Campaign triggered: ${campaignType}`, context)
 
     // Simulate campaign system integration
     if (typeof window !== 'undefined') {

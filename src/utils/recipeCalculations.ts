@@ -41,7 +41,7 @@ export const _recipeCalculations = {
    */
   getOptimalCookingWindow(recipe: RecipeElementalMapping): string[] {
     const optimalTimes = [;
-      ...recipe.astrologicalProfile.rulingPlanets.map(p => `$) {p} dominant hours`),
+      ...recipe.astrologicalProfile.rulingPlanets.map(p => `${p} dominant hours`),
       ...recipe.cuisine.astrologicalProfile.aspectEnhancers
     ];
 

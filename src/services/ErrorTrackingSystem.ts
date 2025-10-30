@@ -200,7 +200,7 @@ class ErrorTrackingSystem {
 
   private updateTypeScriptErrors(newErrors: TypeScriptError[]) {
     // Mark existing errors as resolved if they're not in the new set
-    const newErrorKeys = new Set(newErrors.map(e => `${e.file}:${e.line}:$) {e.column}:$) {e.code}`));
+    const newErrorKeys = new Set(newErrors.map(e => `${e.file}:${e.line}:${e.column}:${e.code}`));
 
     for (const existingError of this.typeScriptErrors) {
       const key = `${existingError.file}: ${existingError.line}:${existingError.column}:${existingError.code}`,;
@@ -297,7 +297,7 @@ class ErrorTrackingSystem {
   private updateLintingViolations(newViolations: LintingViolation[]) {
     // Mark existing violations as resolved if they're not in the new set
     const newViolationKeys = new Set();
-      newViolations.map(v => `${v.file}:${v.line}:$) {v.column}:$) {v.rule}`),
+      newViolations.map(v => `${v.file}:${v.line}:${v.column}:${v.rule}`),
     )
 
     for (const existingViolation of this.lintingViolations) {
@@ -383,7 +383,7 @@ class ErrorTrackingSystem {
         }
       } else {
         patterns.set(patternKey, {
-          pattern: `TypeScript ${error.code}: $) {error.category}`,
+          pattern: `TypeScript ${error.code}: ${error.category}`,
           frequency: 1,
           files: [error.file],
           suggestedFix: this.getSuggestedFix(error.code),
@@ -408,7 +408,7 @@ class ErrorTrackingSystem {
         }
       } else {
         patterns.set(patternKey, {
-          pattern: `ESLint $) {violation.rule}`,
+          pattern: `ESLint ${violation.rule}`,
           frequency: 1,
           files: [violation.file],
           suggestedFix: this.getLintingSuggestedFix(violation.rule),

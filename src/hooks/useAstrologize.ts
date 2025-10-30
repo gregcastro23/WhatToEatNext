@@ -124,7 +124,7 @@ export function useAstrologize(_options: AstrologizeOptions = ) {}): Astrologize
       })
 
       if (!response.ok) {
-        throw new Error(`API request failed: ${response.status} $) {response.statusText}`)
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`)
       }
 
       const result = await response.json();

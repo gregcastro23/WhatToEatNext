@@ -275,29 +275,29 @@ export function validateScalingIntegrity(scaled: QuantityScaledProperties): {
   // Check elemental property bounds
   Object.entries(scaled.scaled).forEach(([element, value]) => {
     if (value < 0 || value > 1) {
-      issues.push(`${element} property out of bounds: $) {value}`);
+      issues.push(`${element} property out of bounds: ${value}`);
     }
   });
 
   // Check elemental harmony (sum should be close to 1.0)
   const sum = Object.values(scaled.scaled).reduce((acc, val) => acc + val, 0);
   if (Math.abs(sum - 1.0) > 0.1) {
-    issues.push(`Elemental properties sum $) {sum.toFixed(3)} deviates from harmony (1.0)`);
+    issues.push(`Elemental properties sum ${sum.toFixed(3)} deviates from harmony (1.0)`);
   }
 
   // Check factor bounds
   if (scaled.factor < 0.1 || scaled.factor > 2.0) {
-    issues.push(`Scaling factor $) {scaled.factor} out of expected bounds [0.1, 2.0]`);
+    issues.push(`Scaling factor ${scaled.factor} out of expected bounds [0.1, 2.0]`);
   }
 
   // Check kinetics impact if present
   if (scaled.kineticsImpact) {
     const { forceAdjustment, thermalShift } = scaled.kineticsImpact;
     if (Math.abs(forceAdjustment) > 10) {
-      issues.push(`Force adjustment $) {forceAdjustment} seems extreme`);
+      issues.push(`Force adjustment ${forceAdjustment} seems extreme`);
     }
     if (Math.abs(thermalShift) > 5) {
-      issues.push(`Thermal shift $) {thermalShift} seems extreme`);
+      issues.push(`Thermal shift ${thermalShift} seems extreme`);
     }
   }
 

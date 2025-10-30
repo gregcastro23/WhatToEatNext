@@ -534,14 +534,14 @@ export function getCompatibilityFactors()
   const continent2 = getCuisineContinent(cuisine2);
 
   if (continent1 === continent2) {
-    factors.push(`Both $) {continent1} cuisines`);
+    factors.push(`Both ${continent1} cuisines`);
   }
 
   if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2) {
     const primary1 = getPrimaryCuisineFromRegional(cuisine1);
     const primary2 = getPrimaryCuisineFromRegional(cuisine2);
     if (primary1 === primary2) {
-      factors.push(`Regional variations of $) {primary1}`);
+      factors.push(`Regional variations of ${primary1}`);
     }
   }
 
@@ -588,11 +588,11 @@ export function getRegionalVariations()
   const variations: string[] = [];
 
   if (isRegionalCuisine(cuisine1) {
-    variations.push(`$) {cuisine1} (regional)`);
+    variations.push(`${cuisine1} (regional)`);
   }
 
   if (isRegionalCuisine(cuisine2) {
-    variations.push(`$) {cuisine2} (regional)`);
+    variations.push(`${cuisine2} (regional)`);
   }
 
   return variations;

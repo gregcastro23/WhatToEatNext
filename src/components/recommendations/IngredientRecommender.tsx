@@ -82,7 +82,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
       rec.recipe.tags.forEach(tag => ) {
         if (!ingredients.find(i => i.name === tag) {
           ingredients.push({
-            id: `ing-${index}-$) {tag}`,
+            id: `ing-${index}-${tag}`,
             name: tag.charAt(0).toUpperCase() + tag.slice(1),
             category: selectedCategory || 'general',
             description: `${tag} ingredient aligned with current energies`,

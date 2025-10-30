@@ -202,7 +202,7 @@ export async function monitorBuildQuality(): Promise<BuildQualityReport> {
     ),
 
     const duration = Date.now() - startTime;
-    logger.info(`Build quality monitoring completed in $) {duration}ms`)
+    logger.info(`Build quality monitoring completed in ${duration}ms`)
 
     return {
       buildMetrics,
@@ -980,7 +980,7 @@ async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertRes
     alerts.push({
       type: AlertType.BUILD_PERFORMANCE,
       severity: AlertSeverity.CRITICAL,
-      message: `Build time $) {Math.round(metrics.duration / 1000)}s exceeds critical threshold ${PERFORMANCE_THRESHOLDS.BUILD_TIME.CRITICAL / 1000}s`,
+      message: `Build time ${Math.round(metrics.duration / 1000)}s exceeds critical threshold ${PERFORMANCE_THRESHOLDS.BUILD_TIME.CRITICAL / 1000}s`,
       recommendations: [
         'Implement incremental builds',
         'Optimize TypeScript configuration',
@@ -993,7 +993,7 @@ async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertRes
     alerts.push({
       type: AlertType.BUILD_PERFORMANCE,
       severity: AlertSeverity.HIGH,
-      message: `Build time $) {Math.round(metrics.duration / 1000)}s exceeds development threshold ${PERFORMANCE_THRESHOLDS.BUILD_TIME.DEVELOPMENT / 1000}s`,
+      message: `Build time ${Math.round(metrics.duration / 1000)}s exceeds development threshold ${PERFORMANCE_THRESHOLDS.BUILD_TIME.DEVELOPMENT / 1000}s`,
       recommendations: [
         'Review build configuration',
         'Consider code splitting',
@@ -1009,7 +1009,7 @@ async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertRes
     alerts.push({
       type: AlertType.MEMORY_USAGE,
       severity: AlertSeverity.CRITICAL,
-      message: `Memory usage ${metrics.memoryUsage.peak}MB exceeds critical threshold $) {PERFORMANCE_THRESHOLDS.MEMORY_USAGE.CRITICAL}MB`,
+      message: `Memory usage ${metrics.memoryUsage.peak}MB exceeds critical threshold ${PERFORMANCE_THRESHOLDS.MEMORY_USAGE.CRITICAL}MB`,
       recommendations: [
         'Increase Node.js heap size',
         'Implement memory profiling',
@@ -1025,7 +1025,7 @@ async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertRes
     alerts.push({
       type: AlertType.BUNDLE_SIZE,
       severity: AlertSeverity.HIGH,
-      message: `Bundle size ${metrics.bundleSize.total}KB exceeds maximum threshold $) {PERFORMANCE_THRESHOLDS.BUNDLE_SIZE.MAX_SIZE}KB`,
+      message: `Bundle size ${metrics.bundleSize.total}KB exceeds maximum threshold ${PERFORMANCE_THRESHOLDS.BUNDLE_SIZE.MAX_SIZE}KB`,
       recommendations: [
         'Implement code splitting',
         'Enable tree shaking',

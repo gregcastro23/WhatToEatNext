@@ -168,7 +168,7 @@ async function validateElementalProperties(): Promise<{
           type: 'ELEMENTAL_INVALID',
           severity: 'MEDIUM',
           ingredient: name,
-          message: `Failed to validate elemental properties for ${name}: $) {error instanceof Error ? error.message : 'Unknown error'}`,
+          message: `Failed to validate elemental properties for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
           timestamp: new Date()
         });
       }
@@ -177,7 +177,7 @@ async function validateElementalProperties(): Promise<{
     errors.push({
       type: 'DATA_INCOMPLETE',
       severity: 'HIGH',
-      message: `Elemental properties validation failed: $) {error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Elemental properties validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -202,7 +202,7 @@ function validateIngredientElementalProperties()
         severity: 'HIGH',
         ingredient: name,
         property: 'elementalProperties',
-        message: `Missing elemental properties for $) {name}`,
+        message: `Missing elemental properties for ${name}`,
         timestamp: new Date()
       });
       return { errors, warnings };
@@ -221,7 +221,7 @@ function validateIngredientElementalProperties()
           ingredient: name,
           property: element,
           actualValue: value,
-          message: `Invalid ${element} value for ${name}: $) {value} (should be a number)`,
+          message: `Invalid ${element} value for ${name}: ${value} (should be a number)`,
           timestamp: new Date()
         });
       } else if (value < 0 || value > 1) {
@@ -231,7 +231,7 @@ function validateIngredientElementalProperties()
           ingredient: name,
           property: element,
           actualValue: value,
-          message: `${element} value for ${name} out of range: $) {value} (should be 0-1)`,
+          message: `${element} value for ${name} out of range: ${value} (should be 0-1)`,
           timestamp: new Date()
         });
       }
@@ -251,7 +251,7 @@ function validateIngredientElementalProperties()
         property: 'elementalProperties',
         expectedValue: 1.0,
         actualValue: sum,
-        message: `Elemental properties sum for ${name} is $) {sum.toFixed(3)}, should be 1.0 (±${VALIDATION_TOLERANCES.ELEMENTAL_SUM_TOLERANCE})`,
+        message: `Elemental properties sum for ${name} is ${sum.toFixed(3)}, should be 1.0 (±${VALIDATION_TOLERANCES.ELEMENTAL_SUM_TOLERANCE})`,
         timestamp: new Date()
       });
     }
@@ -268,7 +268,7 @@ function validateIngredientElementalProperties()
         type: 'MINOR_INCONSISTENCY',
         ingredient: name,
         property: 'elementalProperties',
-        message: `No dominant element for ${name} (max: $) {maxElement.toFixed(3)})`,
+        message: `No dominant element for ${name} (max: ${maxElement.toFixed(3)})`,
         timestamp: new Date()
       });
     }
@@ -277,7 +277,7 @@ function validateIngredientElementalProperties()
       type: 'ELEMENTAL_INVALID',
       severity: 'MEDIUM',
       ingredient: name,
-      message: `Error validating elemental properties for ${name}: $) {error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Error validating elemental properties for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -339,7 +339,7 @@ async function validateCompatibilityScores(): Promise<{
             property: 'self-compatibility',
             expectedValue: `≥${VALIDATION_TOLERANCES.SELF_COMPATIBILITY_THRESHOLD}`,
             actualValue: selfCompatibility,
-            message: `Self-compatibility score $) {selfCompatibility.toFixed(3)} below ${VALIDATION_TOLERANCES.SELF_COMPATIBILITY_THRESHOLD} threshold for ${ingredient.name}`,
+            message: `Self-compatibility score ${selfCompatibility.toFixed(3)} below ${VALIDATION_TOLERANCES.SELF_COMPATIBILITY_THRESHOLD} threshold for ${ingredient.name}`,
             timestamp: new Date()
           });
         }
@@ -347,7 +347,7 @@ async function validateCompatibilityScores(): Promise<{
         warnings.push({
           type: 'PERFORMANCE_SLOW',
           ingredient: ingredient.name,
-          message: `Could not calculate self-compatibility for ${ingredient.name}: $) {error instanceof Error ? error.message : 'Unknown error'}`,
+          message: `Could not calculate self-compatibility for ${ingredient.name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
           timestamp: new Date()
         });
       }
@@ -379,7 +379,7 @@ async function validateCompatibilityScores(): Promise<{
               property: 'cross-compatibility',
               expectedValue: `≥${VALIDATION_TOLERANCES.CROSS_COMPATIBILITY_THRESHOLD}`,
               actualValue: crossCompatibility,
-              message: `Cross-compatibility score $) {crossCompatibility.toFixed(3)} below ${VALIDATION_TOLERANCES.CROSS_COMPATIBILITY_THRESHOLD} threshold for ${ingredient1.name} + ${ingredient2.name}`,
+              message: `Cross-compatibility score ${crossCompatibility.toFixed(3)} below ${VALIDATION_TOLERANCES.CROSS_COMPATIBILITY_THRESHOLD} threshold for ${ingredient1.name} + ${ingredient2.name}`,
               timestamp: new Date()
             });
           }
@@ -387,7 +387,7 @@ async function validateCompatibilityScores(): Promise<{
           warnings.push({
             type: 'PERFORMANCE_SLOW',
             ingredient: `${ingredient1.name} + ${ingredient2.name}`,
-            message: `Could not calculate cross-compatibility: $) {error instanceof Error ? error.message : 'Unknown error'}`,
+            message: `Could not calculate cross-compatibility: ${error instanceof Error ? error.message : 'Unknown error'}`,
             timestamp: new Date()
           });
         }
@@ -397,7 +397,7 @@ async function validateCompatibilityScores(): Promise<{
     errors.push({
       type: 'COMPATIBILITY_VIOLATION',
       severity: 'HIGH',
-      message: `Compatibility score validation failed: $) {error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Compatibility score validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -428,7 +428,7 @@ async function validateAlchemicalMappings(): Promise<{
             type: 'MISSING_OPTIONAL',
             ingredient: name,
             property: 'alchemicalProperties',
-            message: `Missing alchemical properties for $) {name}`,
+            message: `Missing alchemical properties for ${name}`,
             timestamp: new Date()
           });
         }
@@ -436,7 +436,7 @@ async function validateAlchemicalMappings(): Promise<{
         warnings.push({
           type: 'MINOR_INCONSISTENCY',
           ingredient: name,
-          message: `Could not validate alchemical properties for ${name}: $) {error instanceof Error ? error.message : 'Unknown error'}`,
+          message: `Could not validate alchemical properties for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
           timestamp: new Date()
         });
       }
@@ -445,7 +445,7 @@ async function validateAlchemicalMappings(): Promise<{
     errors.push({
       type: 'ALCHEMICAL_MISMATCH',
       severity: 'MEDIUM',
-      message: `Alchemical mapping validation failed: $) {error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Alchemical mapping validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -483,7 +483,7 @@ function validateAlchemicalConsistency()
           ingredient: name,
           property: prop,
           actualValue: value,
-          message: `Invalid ${prop} value for ${name}: $) {value} (should be a number)`,
+          message: `Invalid ${prop} value for ${name}: ${value} (should be a number)`,
           timestamp: new Date()
         });
       } else if (value < 0 || value > 1) {
@@ -491,7 +491,7 @@ function validateAlchemicalConsistency()
           type: 'MINOR_INCONSISTENCY',
           ingredient: name,
           property: prop,
-          message: `${prop} value for ${name} out of typical range: $) {value} (typically 0-1)`,
+          message: `${prop} value for ${name} out of typical range: ${value} (typically 0-1)`,
           timestamp: new Date()
         });
       }
@@ -506,7 +506,7 @@ function validateAlchemicalConsistency()
         type: 'MINOR_INCONSISTENCY',
         ingredient: name,
         property: 'spirit-elemental correlation',
-        message: `Spirit ($) {spirit.toFixed(3)}) doesn't correlate well with Air+Fire (${airFire.toFixed(3)}) for ${name}`,
+        message: `Spirit (${spirit.toFixed(3)}) doesn't correlate well with Air+Fire (${airFire.toFixed(3)}) for ${name}`,
         timestamp: new Date()
       });
     }
@@ -519,7 +519,7 @@ function validateAlchemicalConsistency()
         type: 'MINOR_INCONSISTENCY',
         ingredient: name,
         property: 'matter-elemental correlation',
-        message: `Matter ($) {matter.toFixed(3)}) doesn't correlate well with Earth+Water (${earthWater.toFixed(3)}) for ${name}`,
+        message: `Matter (${matter.toFixed(3)}) doesn't correlate well with Earth+Water (${earthWater.toFixed(3)}) for ${name}`,
         timestamp: new Date()
       });
     }
@@ -528,7 +528,7 @@ function validateAlchemicalConsistency()
       type: 'ALCHEMICAL_MISMATCH',
       severity: 'LOW',
       ingredient: name,
-      message: `Error validating alchemical consistency for ${name}: $) {error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Error validating alchemical consistency for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -560,7 +560,7 @@ async function validateDataCompleteness(): Promise<{
             severity: 'HIGH',
             ingredient: name,
             property: field,
-            message: `Missing required field '${field}' for $) {name}`,
+            message: `Missing required field '${field}' for ${name}`,
             timestamp: new Date()
           });
         }
@@ -573,7 +573,7 @@ async function validateDataCompleteness(): Promise<{
             type: 'MISSING_OPTIONAL',
             ingredient: name,
             property: field,
-            message: `Missing recommended field '${field}' for $) {name}`,
+            message: `Missing recommended field '${field}' for ${name}`,
             timestamp: new Date()
           });
         }
@@ -601,7 +601,7 @@ async function validateDataCompleteness(): Promise<{
           property: 'category',
           actualValue: ingredient.category,
           expectedValue: validCategories,
-          message: `Invalid category '${ingredient.category}' for $) {name}`,
+          message: `Invalid category '${ingredient.category}' for ${name}`,
           timestamp: new Date()
         });
       }
@@ -610,7 +610,7 @@ async function validateDataCompleteness(): Promise<{
     errors.push({
       type: 'DATA_INCOMPLETE',
       severity: 'MEDIUM',
-      message: `Data completeness validation failed: $) {error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Data completeness validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -899,7 +899,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
     errors.push({
       type: 'DATA_INCOMPLETE',
       severity: 'HIGH',
-      message: `Test pass rate $) {passRate.toFixed(1)}% below 80% threshold`,
+      message: `Test pass rate ${passRate.toFixed(1)}% below 80% threshold`,
       timestamp: new Date()
     });
   }
@@ -914,7 +914,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
       errors.push({
         type: 'DATA_INCOMPLETE',
         severity: severity,
-        message: `Test failed: ${test.testName}${test.error ? }` - $) {test.error}` : ''}`,
+        message: `Test failed: ${test.testName}${test.error ? }` - ${test.error}` : ''}`,
         timestamp: new Date()
       });
     }
@@ -924,7 +924,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
       // More than 5 seconds
       warnings.push({
         type: 'PERFORMANCE_SLOW',
-        message: `Test ${test.testName} took $) {test.duration}ms (>5s)`,
+        message: `Test ${test.testName} took ${test.duration}ms (>5s)`,
         timestamp: new Date()
       });
     }
@@ -955,14 +955,14 @@ function generateIngredientValidationSummary()
     errors
       .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')
       .forEach(error => ) {
-        summary += `- $) {error.message}\n`;
+        summary += `- ${error.message}\n`;
       });
   }
 
   if (warnings.length > 0) {
     summary += '\nWarnings: \n';
     warnings.slice(0, 5).forEach(warning => ) {
-      summary += `- $) {warning.message}\n`;
+      summary += `- ${warning.message}\n`;
     });
 
     if (warnings.length > 5) {
@@ -1010,7 +1010,7 @@ async function validateKineticsIntegration(): Promise<{
             ingredient: name,
             property: 'kinetics-force-magnitude',
             actualValue: forceMagnitude,
-            message: `Force magnitude $) {forceMagnitude.toFixed(3)} exceeds safe threshold (5.0) for ${name}`,
+            message: `Force magnitude ${forceMagnitude.toFixed(3)} exceeds safe threshold (5.0) for ${name}`,
             timestamp: new Date()
           });
         } else if (forceMagnitude < 0.1) {
@@ -1018,7 +1018,7 @@ async function validateKineticsIntegration(): Promise<{
             type: 'MINOR_INCONSISTENCY',
             ingredient: name,
             property: 'kinetics-force-magnitude',
-            message: `Very low force magnitude $) {forceMagnitude.toFixed(3)} may indicate weak kinetics for ${name}`,
+            message: `Very low force magnitude ${forceMagnitude.toFixed(3)} may indicate weak kinetics for ${name}`,
             timestamp: new Date()
           });
         }
@@ -1030,7 +1030,7 @@ async function validateKineticsIntegration(): Promise<{
             type: 'MINOR_INCONSISTENCY',
             ingredient: name,
             property: 'kinetics-thermal-direction',
-            message: `Heating direction conflicts with high water content ($) {(ingredient.elementalProperties.Water * 100).toFixed(1)}%) for ${name}`,
+            message: `Heating direction conflicts with high water content (${(ingredient.elementalProperties.Water * 100).toFixed(1)}%) for ${name}`,
             timestamp: new Date()
           });
         }
@@ -1039,7 +1039,7 @@ async function validateKineticsIntegration(): Promise<{
         warnings.push({
           type: 'PERFORMANCE_SLOW',
           ingredient: name,
-          message: `Could not validate kinetics for ${name}: $) {error instanceof Error ? error.message : 'Unknown error'}`,
+          message: `Could not validate kinetics for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
           timestamp: new Date()
         });
       }
@@ -1048,7 +1048,7 @@ async function validateKineticsIntegration(): Promise<{
     errors.push({
       type: 'DATA_INCOMPLETE',
       severity: 'MEDIUM',
-      message: `Kinetics integration validation failed: $) {error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Kinetics integration validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }

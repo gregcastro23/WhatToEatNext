@@ -618,19 +618,19 @@ export function getTechnicalTips(methodName: string): string[] {
           methodObj.expertTips.forEach((tip: string) => tips.push(tip))
         } else {
           // Fallback to a more specific default message if no method-specific tips found
-          tips.push(`Maintain appropriate temperature control for $) {methodName}`)
-          tips.push(`Properly prepare ingredients before $) {methodName}`)
-          tips.push(`Monitor the $) {methodName} process consistently for best results`)
-          tips.push(`Allow for appropriate resting time after $) {methodName}`)
-          tips.push(`Adjust timing based on ingredient size and density when $) {methodName}`)
+          tips.push(`Maintain appropriate temperature control for ${methodName}`)
+          tips.push(`Properly prepare ingredients before ${methodName}`)
+          tips.push(`Monitor the ${methodName} process consistently for best results`)
+          tips.push(`Allow for appropriate resting time after ${methodName}`)
+          tips.push(`Adjust timing based on ingredient size and density when ${methodName}`)
         }
       } catch (error) {
         // Fallback if import fails
-        tips.push(`Maintain appropriate temperature control for $) {methodName}`)
-        tips.push(`Properly prepare ingredients before $) {methodName}`)
-        tips.push(`Monitor the $) {methodName} process consistently for best results`)
-        tips.push(`Allow for appropriate resting time after $) {methodName}`)
-        tips.push(`Adjust timing based on ingredient size and density when $) {methodName}`)
+        tips.push(`Maintain appropriate temperature control for ${methodName}`)
+        tips.push(`Properly prepare ingredients before ${methodName}`)
+        tips.push(`Monitor the ${methodName} process consistently for best results`)
+        tips.push(`Allow for appropriate resting time after ${methodName}`)
+        tips.push(`Adjust timing based on ingredient size and density when ${methodName}`)
       }
   }
 

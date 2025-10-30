@@ -712,8 +712,8 @@ export const _evaluateNutritionalElementalBalance = (;
 
   Object.entries(deviations).forEach(([element, deviation]) => {
     if (deviation > 0.2) {
-      imbalances.push(`$) {element} element imbalance`)
-      recommendations.push(`Adjust $) {element} element through appropriate foods`)
+      imbalances.push(`${element} element imbalance`)
+      recommendations.push(`Adjust ${element} element through appropriate foods`)
     }
   })
 

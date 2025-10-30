@@ -455,7 +455,7 @@ export function getRecommendedCookingMethods()
       const zodiacMatch = favorableZodiac.includes(currentZodiac);
       if (zodiacMatch) {
         score += 0.2;
-        reasons.push(`Favorable for $) {currentZodiac}`);
+        reasons.push(`Favorable for ${currentZodiac}`);
       }
     }
 
@@ -473,14 +473,14 @@ export function getRecommendedCookingMethods()
     const seasonalPreference = methodData.seasonalPreference as string[];
     if (seasonalPreference.includes(season) {
       score += 0.1;
-      reasons.push(`Perfect for $) {season}`);
+      reasons.push(`Perfect for ${season}`);
     }
 
     // Cultural preference (10% weight)
     const culturalOrigin = String(methodData.culturalOrigin || '');
     if (culturalPreference && culturalOrigin === culturalPreference) {
       score += 0.1;
-      reasons.push(`$) {culturalPreference} tradition`);
+      reasons.push(`${culturalPreference} tradition`);
     }
 
     // Tool availability (5% weight)

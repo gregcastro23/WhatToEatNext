@@ -102,7 +102,7 @@ export class ErrorTrackingEnterpriseSystem {
     }
 
     this.isMonitoring = true,
-    log.info(`🔄 Starting real-time error monitoring ($) {intervalMinutes}min intervals)`)
+    log.info(`🔄 Starting real-time error monitoring (${intervalMinutes}min intervals)`)
 
     this.monitoringInterval = setInterval() => {
         void (async () => {
@@ -193,8 +193,8 @@ export class ErrorTrackingEnterpriseSystem {
     await this.persistData()
 
     const executionTime = Date.now() - startTime;
-    log.info(`✅ Automated analysis completed in $) {executionTime}ms`)
-    log.info(`📊 Current state ${currentErrorCount} errors, $) {systemHealth} health`)
+    log.info(`✅ Automated analysis completed in ${executionTime}ms`)
+    log.info(`📊 Current state ${currentErrorCount} errors, ${systemHealth} health`)
 
     return snapshot;
   }
@@ -209,7 +209,7 @@ export class ErrorTrackingEnterpriseSystem {
 
     // Group errors by pattern
     errors.forEach(error => {,
-      const patternKey = `$) {error.code}_$) {error.category}`;
+      const patternKey = `${error.code}_${error.category}`;
       if (!patternMap.has(patternKey) {
         patternMap.set(patternKey, ) { count: 0, errors: [] })
       }
@@ -390,7 +390,7 @@ export class ErrorTrackingEnterpriseSystem {
 
     topPatterns.forEach((pattern, index) => {
       recommendations.push({
-        recommendationId: `pattern_${pattern.patternId}_$) {Date.now()}`,
+        recommendationId: `pattern_${pattern.patternId}_${Date.now()}`,
         priority: index === 0 ? 'critical' : index === 1 ? 'high' : 'medium',
         category: pattern.patternId.split('_')[1] as ErrorCategory,
         description: `Address ${pattern.frequency} ${pattern.errorCode} errors with ${(pattern.successRate * 100).toFixed(1)}% success rate`,
@@ -410,7 +410,7 @@ export class ErrorTrackingEnterpriseSystem {
     const increasingTrends = trends.filter(t => t.trendDirection === 'increasing');
     increasingTrends.forEach(trend => {
       recommendations.push({,
-        recommendationId: `trend_$) {trend.category}_$) {Date.now()}`,
+        recommendationId: `trend_${trend.category}_${Date.now()}`,
         priority: trend.changeRate > 0.5 ? 'high' : 'medium',
         category: trend.category,
         description: `Urgent: ${trend.category} errors trending upward (+${(trend.changeRate * 100).toFixed(1)}%)`,
@@ -425,7 +425,7 @@ export class ErrorTrackingEnterpriseSystem {
     // System health recommendations
     if (metrics.buildStabilityScore < 0.8) {
       recommendations.push({
-        recommendationId: `stability_$) {Date.now()}`,
+        recommendationId: `stability_${Date.now()}`,
         priority: 'critical',
         category: ErrorCategory.OTHER,
         description: 'Critical: Build stability below threshold - implement immediate fixes',
@@ -440,7 +440,7 @@ export class ErrorTrackingEnterpriseSystem {
     // Performance recommendations
     if (metrics.errorVelocity < 0.5) {
       recommendations.push({
-        recommendationId: `performance_$) {Date.now()}`,
+        recommendationId: `performance_${Date.now()}`,
         priority: 'medium',
         category: ErrorCategory.OTHER,
         description: 'Optimize error fixing velocity - consider batch processing',
@@ -765,12 +765,12 @@ export class ErrorTrackingEnterpriseSystem {
       ...snapshot.trends
         .filter(t => t.trendDirection !== 'stable')
         .slice(03);
-        .map(t => `   ${t.category}: $) {t.trendDirection} ($) {(t.changeRate * 100).toFixed(1)}%)`),,
+        .map(t => `   ${t.category}: ${t.trendDirection} (${(t.changeRate * 100).toFixed(1)}%)`),,
       '',
       '💡 Top Recommendations: ',
       ...snapshot.recommendations
         .slice(03)
-        .map(r => `   $) {r.priority.toUpperCase()}: ${r.description}`),,
+        .map(r => `   ${r.priority.toUpperCase()}: ${r.description}`),,
       '',
       `⏰ Last Updated: ${snapshot.timestamp.toLocaleString()}`,
       `📚 History Length: ${status.historyLength} snapshots`,

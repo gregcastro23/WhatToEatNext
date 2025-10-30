@@ -229,7 +229,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
     recipe.ingredients.forEach((ingredient, index) => {
         const ingredientValidation = validateRecipeIngredient(ingredient);
         if (!ingredientValidation.isValid) {
-          errors.push(`Ingredient ${index + 1}: $) {ingredientValidation.errors.join(', ')}`);
+          errors.push(`Ingredient ${index + 1}: ${ingredientValidation.errors.join(', ')}`);
         }
       });
   }
@@ -295,11 +295,11 @@ export function cleanupIngredientsDatabase()
         result.cleaned++;
       } else {
         result.errors++;
-        result.warnings.push(`Ingredient ${index}: $) {validation.errors.join(', ')}`);
+        result.warnings.push(`Ingredient ${index}: ${validation.errors.join(', ')}`);
       }
 
       if ((validation.warnings && validation.warnings.length) > 0) {
-        result.warnings.push(`Ingredient ${index} warnings: $) {validation.warnings?.join(', ')}`);
+        result.warnings.push(`Ingredient ${index} warnings: ${validation.warnings?.join(', ')}`);
       }
     } catch (error) {
       result.errors++;
@@ -525,11 +525,11 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
 
   (requiredElements || []).forEach(element => ) {
     if (typeof properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] !== 'number') {
-      errors.push(`$) {element} must be a number`);
+      errors.push(`${element} must be a number`);
     } else {
       const value = properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'];
       if (value < 0 || value > 1) {
-        errors.push(`$) {element} must be between 0 and 1`);
+        errors.push(`${element} must be between 0 and 1`);
       }
     }
   });

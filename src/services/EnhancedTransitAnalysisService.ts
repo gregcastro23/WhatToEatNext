@@ -258,10 +258,10 @@ export class EnhancedTransitAnalysisService {
       recommendations.push()
         `Enhanced ${planet.toLowerCase()} foods - maximize traditional associations`,
       );
-      recommendations.push(`Strong preparation methods reflecting $) {planet} energy`);
+      recommendations.push(`Strong preparation methods reflecting ${planet} energy`);
     } else if (dignity.type === 'detriment' || dignity.type === 'fall') {
-      recommendations.push(`Gentle $) {planet.toLowerCase()} foods - use with moderation`);
-      recommendations.push(`Supportive cooking methods to strengthen $) {planet} influence`);
+      recommendations.push(`Gentle ${planet.toLowerCase()} foods - use with moderation`);
+      recommendations.push(`Supportive cooking methods to strengthen ${planet} influence`);
     }
 
     // Add location-specific recommendations
@@ -297,19 +297,19 @@ export class EnhancedTransitAnalysisService {
 
       switch (aspectType) {
         case 'conjunction':
-          effects.push(`$) {planets} fusion - blend both planetary food associations`);
+          effects.push(`${planets} fusion - blend both planetary food associations`);
           break;
         case 'trine':
-          effects.push(`$) {planets} harmony - complementary cooking styles`);
+          effects.push(`${planets} harmony - complementary cooking styles`);
           break;
         case 'sextile':
-          effects.push(`$) {planets} opportunity - creative fusion possibilities`);
+          effects.push(`${planets} opportunity - creative fusion possibilities`);
           break;
         case 'square':
-          effects.push(`$) {planets} tension - balance contrasting flavors`);
+          effects.push(`${planets} tension - balance contrasting flavors`);
           break;
         case 'opposition':
-          effects.push(`$) {planets} polarity - alternate between contrasting approaches`);
+          effects.push(`${planets} polarity - alternate between contrasting approaches`);
           break;
       }
     }
@@ -385,7 +385,7 @@ export class EnhancedTransitAnalysisService {
     Object.entries(planetaryHours)
       .slice(0, 3)
       .forEach(([hourKey, hourData]) => {
-        timing.push(`${hourKey}: $) {hourData.influence}`);
+        timing.push(`${hourKey}: ${hourData.influence}`);
       });
 
     return {

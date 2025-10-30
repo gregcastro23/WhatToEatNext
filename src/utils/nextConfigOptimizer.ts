@@ -27,7 +27,7 @@ export class NextConfigOptimizer {
       const existingConfigs = configFiles.filter(file => fs.existsSync(file));
 
       if (existingConfigs.length > 1) {
-        this.logger(`_Warning: Multiple Next.js config files found: $) {existingConfigs.join(', ')}`)
+        this.logger(`_Warning: Multiple Next.js config files found: ${existingConfigs.join(', ')}`)
         this.logger('Consider consolidating to a single configuration file')
       }
 
@@ -139,7 +139,7 @@ const nextConfig = {
 
     if (recommendations.length > 0) {
       this.logger('Next.js configuration recommendations: ')
-      recommendations.forEach(rec => this.logger(`- $) {rec}`))
+      recommendations.forEach(rec => this.logger(`- ${rec}`))
     } else {
       this.logger('Next.js configuration looks good')
     }
@@ -179,15 +179,15 @@ const nextConfig = {
       if (fix.issue.test(content) {
         content = content.replace(fix.issue, fix.fix),
         modified = true,
-        this.logger(`_Fixed: $) {fix.description}`)
+        this.logger(`_Fixed: ${fix.description}`)
       }
     }
 
     if (modified) {
       // Create backup
-      fs.writeFileSync(`$) {existingConfig}.backup`, fs.readFileSync(existingConfig))
+      fs.writeFileSync(`${existingConfig}.backup`, fs.readFileSync(existingConfig))
       fs.writeFileSync(existingConfig, content)
-      this.logger(`Updated $) {existingConfig} (backup created)`)
+      this.logger(`Updated ${existingConfig} (backup created)`)
     }
   }
 }

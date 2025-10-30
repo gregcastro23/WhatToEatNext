@@ -219,7 +219,7 @@ class AstrologizeApiCache {
         degree: Number(planetData.degree) || 0,
         isRetrograde: Boolean(planetData.isRetrograde) || false
       };
-      sources.push(`${planet}:$) {baseData.date.toISOString()}`);
+      sources.push(`${planet}:${baseData.date.toISOString()}`);
     }
 
     // Calculate confidence based on how much data we have and how recent it is
