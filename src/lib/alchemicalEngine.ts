@@ -1,5 +1,5 @@
-import { _logger } from '@/lib/logger';
 import { proteins } from '@/data/ingredients';
+import { _logger } from '@/lib/logger';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import type {
   AstrologicalState,

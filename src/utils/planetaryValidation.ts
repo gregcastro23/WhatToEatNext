@@ -888,5 +888,5 @@ export {
   runAstronomicalTests,
   validateElementalProperties,
   validatePositionConsistency,
-  validateTransitDates,
+  validateTransitDates
 };

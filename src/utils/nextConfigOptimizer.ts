@@ -1,6 +1,5 @@
 import { _logger } from '@/lib/logger';
 import fs from 'fs';
-import path from 'path';
 
 /**
  * Next.js Configuration Optimizer
