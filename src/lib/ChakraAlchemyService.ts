@@ -157,7 +157,7 @@ export class ChakraAlchemyService {
     sunSign: any,
     moonSign: any,
     dominantPlanets: Planet[],
-    planetaryHour: Planet,
+    planetaryHour: Planet;
   ): ChakraEnergies {
     const energies: ChakraEnergies = {
       root: 0.2, // Base value to ensure all chakras have some energy
@@ -174,9 +174,9 @@ export class ChakraAlchemyService {
     this.addZodiacInfluence(energies, moonSign, 1.2);
 
     // Add influence from dominant planets
-    dominantPlanets.forEach(planet => {
+    dominantPlanets.forEach(planet => ) {
       const chakras = this.getChakrasByPlanet(planet);
-      chakras.forEach(chakra => {
+      chakras.forEach(chakra => ) {
         const key = this.getChakraKey(chakra);
         if (key) energies[key] += 0.8;
       });
@@ -184,7 +184,7 @@ export class ChakraAlchemyService {
 
     // Add influence from current planetary hour
     const hourChakras = this.getChakrasByPlanet(planetaryHour);
-    hourChakras.forEach(chakra => {
+    hourChakras.forEach(chakra => ) {
       const key = this.getChakraKey(chakra);
       if (key) energies[key] += 1.0;
     });
@@ -211,7 +211,7 @@ export class ChakraAlchemyService {
     Object.entries(CHAKRAS).forEach(([position, chakra]) => {
       const key = this.getChakraKey(position as ChakraPosition);
       if (key) {
-        const primaryEnergyState = (chakra as unknown as { primaryEnergyState?: keyof EnergyStateProperties })
+        const primaryEnergyState = (chakra as unknown as { primaryEnergyState?: keyof EnergyStateProperties });
           ?.primaryEnergyState;
         if (primaryEnergyState && primaryEnergyState in energyStates) {
           chakraEnergies[key] = energyStates[primaryEnergyState] * 2; // Scale to make it more visible
@@ -227,7 +227,7 @@ export class ChakraAlchemyService {
    */
   public getTarotRecommendationsForChakra()
     chakra: ChakraPosition,
-    currentEnergy: number,
+    currentEnergy: number;
   ): KeyCardChakraMapping[] {
     // If energy is low (< 3), recommend cards to boost this chakra
     if (currentEnergy < 3) {
@@ -255,7 +255,7 @@ export class ChakraAlchemyService {
 
     const normalized: ChakraEnergies = { ...energies };
 
-    Object.keys(energies).forEach(key => {
+    Object.keys(energies).forEach(key => ) {
       const chakraKey = key as keyof ChakraEnergies;
       normalized[chakraKey] = (energies[chakraKey] / max) * 10;
     });

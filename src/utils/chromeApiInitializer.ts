@@ -10,8 +10,8 @@ import { _logger } from '@/lib/logger';
 export function initializeChromeApis(): void {
   try {
     if (typeof window === 'undefined') {,
-      return // Server-side rendering - exit early
-    }
+      return // Server-side rendering - exit early;
+}
 
     // Install global error handler for extension-related errors
     window.addEventListener()
@@ -48,7 +48,7 @@ export function initializeChromeApis(): void {
             try {
               // Use timeout to avoid popup blockers
               setTimeout(() => {
-                const newTab = window.open(options.url, '_blank')
+                const newTab = window.open(options.url, '_blank');
                 if (!newTab) {
                   _logger.warn('[ChromeAPI] Popup may have been blocked')
                 }
@@ -58,14 +58,14 @@ export function initializeChromeApis(): void {
             }
           }
 
-          return Promise.resolve({ id: 999, url: options.url || 'about:blank' })
-        },
+          return Promise.resolve({ id: 999, url: options.url || 'about:blank' });
+},
         _query: function () {
-          return Promise.resolve([{ id: 1, _active: true, _windowId: 1 }])
-        },
+          return Promise.resolve([) { id: 1, _active: true, _windowId: 1 }]);
+},
         _update: function () {
-          return Promise.resolve({})
-        }
+          return Promise.resolve({});
+}
       }
     }
 
@@ -75,12 +75,12 @@ export function initializeChromeApis(): void {
       chromeObj.runtime = {
         _lastError: null,
         getURL: function (path: string) {
-          return window.location.origin + '/' + path
-        },
+          return window.location.origin + '/' + path;
+},
         sendMessage: function (message: unknown) {
           log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called: ', message)
-          return Promise.resolve({ _success: true })
-        },
+          return Promise.resolve({ _success: true });
+},
         _onMessage: {
           addListener: function () {},
           _removeListener: function () {}
@@ -95,8 +95,8 @@ export function initializeChromeApis(): void {
           return window.location.origin + '/' + path;
         },
         _getBackgroundPage: function () {
-          return window
-        }
+          return window;
+}
       }
     }
 
@@ -116,49 +116,49 @@ export function initializeChromeApis(): void {
             if (!keys) {
               result = { ...mockStorage }
             } else if (Array.isArray(keys) {
-              keys.forEach(key => {
-                if (mockStorage[key] !== undefined) {;
-                  result[key] = mockStorage[key],
-                }
+              keys.forEach(key => ) {
+                if (mockStorage[key] !== undefined) {
+                  result[key] = mockStorage[key];
+}
               })
             } else if (typeof keys === 'string') {,
               if (mockStorage[keys] !== undefined) {
-                result[keys] = mockStorage[keys],
-              }
+                result[keys] = mockStorage[keys];
+}
             }
 
             if (callback) {
               setTimeout(() => callback(result as unknown as Record<string, string[]>), 0)
             }
-            return Promise.resolve(result)
-          },
+            return Promise.resolve(result);
+},
           set: function (items: Record<string, Record<string, string>>, callback?: () => void) {
             Object.assign(mockStorage, items)
             if (callback) {
               setTimeout(callback, 0)
             }
-            return Promise.resolve()
-          },
+            return Promise.resolve();
+},
           _remove: function (keys: string | string[], callback?: () => void) {
             if (Array.isArray(keys) {
               keys.forEach(key => delete mockStorage[key])
             } else {
-              delete mockStorage[keys],
-            }
+              delete mockStorage[keys];
+}
             if (callback) {
               setTimeout(callback, 0)
             }
-            return Promise.resolve()
-          }
+            return Promise.resolve();
+}
         },
         _sync: { get: function (keys, unknown, callback?: Function) {
             if (callback) setTimeout(() => callback({}), 0)
-            return Promise.resolve({})
-          },
+            return Promise.resolve({});
+},
           set: function (items: unknown, callback?: Function) {
             if (callback) setTimeout(callback, 0)
-            return Promise.resolve()
-          }
+            return Promise.resolve();
+}
         }
       }
     }

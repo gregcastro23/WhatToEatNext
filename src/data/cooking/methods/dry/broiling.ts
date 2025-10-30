@@ -19,7 +19,7 @@ export const broiling: CookingMethodData = {
     min: 3,
     max: 15
 },
-  suitable_for [
+  suitable_for: [
     'steaks',
     'chops',
     'fish',
@@ -45,8 +45,8 @@ export const broiling: CookingMethodData = {
     unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as any[],
     dominantPlanets: ['Mars', 'Sun', 'Mercury'],
     lunarPhaseEffect: {
-      full_moon: 1.25, // Enhanced browning effects,
-      new_moon: 0.75, // Reduced intensity,
+      full_moon: 1.25, // Enhanced browning effects
+      new_moon: 0.75, // Reduced intensity
       waxing_crescent: 0.9,
       waning_gibbous: 1.1
 }
@@ -120,10 +120,10 @@ export const broiling: CookingMethodData = {
   ],
 
   thermodynamicProperties: {
-    heat: 0.95, // Very high localized heat,
-    entropy: 0.7, // Significant surface transformation,
-    reactivity: 0.8, // High chemical reactivity on food surface,
-    gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
+    heat: 0.95, // Very high localized heat
+    entropy: 0.7, // Significant surface transformation
+    reactivity: 0.8, // High chemical reactivity on food surface
+    gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata
@@ -149,9 +149,9 @@ export const broiling: CookingMethodData = {
     'Combination convection-broil methods'
   ],
 
-  sustainabilityRating: 0.7, // Generally energy efficient due to short cooking times,
+  sustainabilityRating: 0.7, // Generally energy efficient due to short cooking times
 
-  equipmentComplexity: 0.3, // Very simple, uses existing oven equipment,
+  equipmentComplexity: 0.3, // Very simple, uses existing oven equipment
 
   healthConsiderations: [
     'Minimal added fat required',
@@ -211,12 +211,12 @@ export const broiling: CookingMethodData = {
       'electric broilers': 'More intense heat, may have hot spots that require repositioning food.',
       'salamander broilers':
         'Professional equipment allowing precise control and higher temperatures.',
-      'drawer broilers': 'Located below oven in some models, typically smaller capacity but good heat.',
-    },
+      'drawer broilers': 'Located below oven in some models, typically smaller capacity but good heat.';
+},
     'distance effects': {
       'close positioning': 'Faster cooking, more external browning, less interior cooking.',
       'distant positioning': 'Slower cooking, more even heating throughout the food.',
-      'variable positioning': 'Moving food closer or further during cooking allows for controlled browning.',
+      'variable positioning': 'Moving food closer or further during cooking allows for controlled browning.';
     },
     'surface treatments': {
       'oil application': 'Thin layer conducts heat better and prevents sticking.',

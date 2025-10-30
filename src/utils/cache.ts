@@ -16,7 +16,7 @@ export class Cache {
    */
   set(key: string, value: unknown, ttl?: number): void {
     const expiry = ttl ? Date.now() + ttl : null;
-    this.cache.set(key, { data: value, expiry });
+    this.cache.set(key, ) { data: value, expiry });
   }
 
   /**
@@ -69,7 +69,7 @@ const DEFAULT_CACHE_TIMEOUT = 3600000;
 export const recipeCache = new Cache(DEFAULT_CACHE_TIMEOUT);
 
 // Create a simplified interface to the cache
-export const cache = { get: (key, string) => recipeCache.get(key),
+export const cache = { get: (key, string) => recipeCache.get(key),;
   set: (key: string, value: unknown, ttl?: number) => recipeCache.set(key, value, ttl),
   delete: (key: string) => recipeCache.delete(key),
   clear: () => recipeCache.clear()

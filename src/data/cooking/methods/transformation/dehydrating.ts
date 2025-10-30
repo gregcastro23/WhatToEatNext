@@ -15,10 +15,10 @@ export const _dehydrating: CookingMethodData = {
     Air: 0.9
 },
   duration: {
-    min: 120, // 2 hours,
+    min: 120, // 2 hours
     max: 2880, // 48 hours
   },
-  suitable_for ['Fruits', 'Vegetables', 'Herbs', 'Meats', 'Mushrooms', 'Flowers', 'Seeds'],
+  suitable_for: ['Fruits', 'Vegetables', 'Herbs', 'Meats', 'Mushrooms', 'Flowers', 'Seeds'],
   benefits: [
     'Preserves most nutrients',
     'Creates lightweight, portable food',
@@ -35,7 +35,7 @@ export const _dehydrating: CookingMethodData = {
     'Freeze-drying (removing water through sublimation)'
   ],
   optimalTemperatures: {
-    low: 35, // °C (95°F),
+    low: 35, // °C (95°F)
     high: 70, // °C (158°F)
   },
   toolsRequired: [

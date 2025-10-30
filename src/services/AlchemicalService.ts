@@ -85,7 +85,7 @@ export class AlchemicalService {
       const { getCurrentPlanetaryPositions } = await import('./astrologizeApi');
 
       const defaultLocation = { latitude: 40.7498, longitude: -73.7976 }; // NYC
-      const planetaryPositions = await getCurrentPlanetaryPositions()
+      const planetaryPositions = await getCurrentPlanetaryPositions();
         location || defaultLocation,
         zodiacSystem
       );
@@ -112,7 +112,7 @@ export class AlchemicalService {
       const { getPlanetaryPositionsForDateTime } = await import('./astrologizeApi');
 
       const defaultLocation = { latitude: 40.7498, longitude: -73.7976 }; // NYC
-      const planetaryPositions = await getPlanetaryPositionsForDateTime()
+      const planetaryPositions = await getPlanetaryPositionsForDateTime();
         date,
         location || defaultLocation,
         zodiacSystem
@@ -255,7 +255,7 @@ export class AlchemicalService {
 
     const lowElements = elements.filter(el => averageProperties[el] < 0.2);
     if (lowElements.length > 0) {
-      recommendations.push(`Add ingredients with ${lowElements.join(' or ')} properties`);
+      recommendations.push(`Add ingredients with $) {lowElements.join(' or ')} properties`);
     }
 
     return {
@@ -354,7 +354,7 @@ export class AlchemicalService {
 
       // Determine dominant elements
       const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
-      const dominantElements = elements
+      const dominantElements = elements;
         .filter(el => (elementalProperties[el] || 0) > 0.3)
         .sort((a, b) => (elementalProperties[b] || 0) - (elementalProperties[a] || 0));
 

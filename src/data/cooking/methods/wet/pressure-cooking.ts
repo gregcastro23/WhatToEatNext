@@ -15,10 +15,10 @@ export const _pressureCooking: CookingMethodData = {
     Air: 0.1
 },
   duration: {
-    min: 5, // minutes,
+    min: 5, // minutes
     max: 120, // minutes
   },
-  suitable_for [
+  suitable_for: [
     'Tough cuts of meat',
     'Dried beans and legumes',
     'Whole grains',
@@ -43,7 +43,7 @@ export const _pressureCooking: CookingMethodData = {
     'Low-pressure cooking (gentler, slightly longer process)'
   ],
   optimalTemperatures: {
-    lowPressure: 107, // °C (at 5 psi),
+    lowPressure: 107, // °C (at 5 psi)
     highPressure: 121, // °C (at 15 psi)
   },
   toolsRequired: [

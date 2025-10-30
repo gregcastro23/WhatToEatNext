@@ -136,8 +136,8 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Bacon Style',
             marinade: ['liquid smoke', 'maple', 'soy'],
             method: 'thin slice and pan-fry',
-            use: 'breakfast protein, sandwiches',
-          },
+            use: 'breakfast protein, sandwiches';)
+},
           cutlet: {
             name: 'Cutlet',
             preparation: 'steam, marinate, bread',
@@ -201,7 +201,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         marinades: ['lighter citrus', 'herb-based'],
         accompaniments: ['fresh slaws', 'grilled vegetables']
       },
-      winter: {
+      winter: ) {
         name: 'Winter',
         preparations: ['baked', 'braised'],
         marinades: ['richer soy', 'spice-based'],
@@ -251,8 +251,8 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Braise',
           liquid: 'flavorful broth',
           timing: '1-2 hours',
-          result: 'tender, flavor-infused',
-        },
+          result: 'tender, flavor-infused';)
+},
         grill: {
           name: 'Grill',
           preparation: 'slice thick',
@@ -344,7 +344,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         sauces: ['lighter barbecue', 'herb marinades'],
         accompaniments: ['grilled vegetables', 'fresh salads']
       },
-      winter: {
+      winter: ) {
         name: 'Winter',
         preparations: ['roasts', 'stews'],
         sauces: ['rich gravies', 'thick glazes'],
@@ -389,8 +389,8 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         applications: {
           raw: ['smoothies', 'desserts', 'sauces'],
           cooked: ['soups', 'delicate braised dishes'],
-          handling: 'very gentle, breaks easily',
-        }
+          handling: 'very gentle, breaks easily';)
+}
       },
       firm: {
         name: 'Firm',
@@ -520,7 +520,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         sauces: ['light dipping', 'citrus-based'],
         accompaniments: ['cold noodles', 'fresh herbs']
       },
-      winter: {
+      winter: ) {
         name: 'Winter',
         preparations: ['braised', 'stewed'],
         sauces: ['rich spicy', 'warming'],
@@ -564,8 +564,8 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Dried',
             soaking: '8-24 hours',
             cooking: '1-2 hours',
-            notes: 'firmer texture, better for falafel',
-          },
+            notes: 'firmer texture, better for falafel';
+},
           quick: {
             name: 'Quick',
             method: 'pressure cook',
@@ -578,8 +578,8 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Falafel',
             ingredients: ['herbs', 'spices', 'garlic'],
             method: 'ground and fried',
-            notes: 'use dried, not canned',
-          },
+            notes: 'use dried, not canned';)
+},
           hummus: {
             name: 'Hummus',
             ingredients: ['tahini', 'lemon', 'garlic'],
@@ -637,7 +637,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             herbs: ['parsley', 'cilantro'],
             spices: ['cumin', 'coriander', 'cardamom']
           },
-          method: {
+          method: ) {
             preparation: 'ground raw chickpeas',
             resting: '30 minutes minimum',
             shaping: 'small balls or patties',
@@ -792,8 +792,8 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Sprouting',
           method: 'rinse 2-3 times daily',
           duration: '2-5 days',
-          safety: 'use clean water, watch for mold',
-        },
+          safety: 'use clean water, watch for mold';
+},
         cooking: {
           name: 'Cooking',
           minimum: 'until tender',
@@ -891,7 +891,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         seasonings: ['fresh herbs', 'grilling spices'],
         accompaniments: ['fresh salads', 'grilled vegetables']
       },
-      winter: {
+      winter: ) {
         name: 'Winter',
         preparations: ['stews', 'casseroles'],
         seasonings: ['warming spices', 'herbs'],
@@ -997,7 +997,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         name: 'Western',
         modern: {
           name: 'Modern',
-          pulled_bbq: {
+          pulled_bbq: ) {
             name: 'Pulled Bbq',
             sauce: ['smoky barbecue', 'liquid smoke'],
             method: 'slow cook',
@@ -1129,7 +1129,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         seasonings: ['fresh herbs', 'citrus'],
         accompaniments: ['grilled vegetables', 'light dressings']
       },
-      winter: {
+      winter: ) {
         name: 'Winter',
         preparations: ['warm bowls', 'soups'],
         seasonings: ['warming spices', 'roasted garlic'],
@@ -1224,7 +1224,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         combinations: ['fresh fruits', 'herbs'],
         notes: 'lighter applications'
 },
-      winter: {
+      winter: ) {
         name: 'Winter',
         preparations: ['hot cereals', 'baking'],
         combinations: ['warming spices', 'dried fruits'],
@@ -1314,7 +1314,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         combinations: ['fresh fruits', 'mint'],
         notes: 'lighter preparations'
 },
-      winter: {
+      winter: ) {
         name: 'Winter',
         preparations: ['baked goods', 'hot drinks'],
         combinations: ['cocoa', 'warming spices'],
@@ -1366,7 +1366,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         name: 'Flour',
         appearance: 'fine yellow powder',
         texture: 'smooth when cooked',
-        applications: {
+        applications: ) {
           flatbreads: 'socca / (farinata || 1)',
           batters: 'binding agent',
           protein_boost: 'baking enhancement'
@@ -1497,7 +1497,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         combinations: ['fresh fruits', 'seeds'],
         notes: 'light applications'
 },
-      winter: {
+      winter: ) {
         name: 'Winter',
         preparations: ['baked goods', 'warm cereals'],
         combinations: ['nuts', 'dried fruits'],
@@ -1585,7 +1585,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         method: 'airtight container'
 },
       cooked: {
-        temperature: { fahrenheit: 40, celsius: 4 },
+        temperature: ) { fahrenheit: 40, celsius: 4 },
         duration: '3-4 days',
         method: 'refrigerated in liquid'
 }
@@ -1601,12 +1601,11 @@ export const plantBased: Record<string, IngredientMapping> = mappedPlantBased;
 Object.entries(plantBased).forEach(([_id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
-  const sum = Object.values(ingredient.elementalProperties).reduce()
-    (a, b) => Number(a) + Number(b),
+  const sum = Object.values(ingredient.elementalProperties).reduce(a, b) => Number(a) + Number(b),;
     0,
   );
   if (Math.abs(Number(sum) - 1) > 0.0001) {
-    // console.error(`Elemental sum error in ${ingredient.name || id}: ${sum}`);
+    // console.error(`Elemental sum error in ${ingredient.name || id}: $) {sum}`);
 
     // Optionally auto-normalize the values
     const factor = 1 / (Number(sum) || 1);

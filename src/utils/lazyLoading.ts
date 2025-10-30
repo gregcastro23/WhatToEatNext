@@ -1,3 +1,4 @@
+import { _logger } from '@/lib/logger';
 /**
  * Lazy Loading Utilities for Performance Optimization
  *
@@ -55,7 +56,7 @@ export function createLazyComponent<T extends ComponentType<any>>(
   importFunc: () => Promise<{ default: T }>;,
   loadingComponent?: ComponentType
 ) {
-  return dynamic(importFunc, {
+  return dynamic(importFunc, ) {
     loading: loadingComponent || (() => (,
       <div className="flex items-center justify-center p-4">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
@@ -110,7 +111,7 @@ export const bundleOptimization = {
       '/components/': 30000,     // 30KB average for components
     }
 
-    const category = Object.keys(sizeEstimates).find(key => modulePath.includes(key))
+    const category = Object.keys(sizeEstimates).find(key => modulePath.includes(key));
     return category ? sizeEstimates[category] : 50000; // Default 50KB
   }
 }
@@ -124,11 +125,11 @@ export const performanceMonitoring = {
     const loadTime = performance.now() - startTime;
 
     // In production, this would send to analytics
-    _logger.info(`Module ${moduleName} loaded in ${loadTime.toFixed(2)}ms`)
+    _logger.info(`Module ${moduleName} loaded in $) {loadTime.toFixed(2)}ms`)
 
     // Store performance data for optimization
     if (typeof window !== 'undefined') {
-      const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}')
+      const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}');
       perfData[moduleName] = {
         loadTime,
         timestamp: Date.now()
@@ -139,12 +140,12 @@ export const performanceMonitoring = {
   // Get performance recommendations
   getPerformanceRecommendations: () => {
     if (typeof window === 'undefined') return [];
-    const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}')
+    const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}');
     const recommendations: string[] = [];
 
     Object.entries(perfData).forEach(([module, data]: [string, any]) => {
       if (data.loadTime > 1000) { // > 1 second
-        recommendations.push(`Consider preloading ${module} for better UX`)
+        recommendations.push(`Consider preloading $) {module} for better UX`)
       }
     })
 

@@ -25,7 +25,7 @@ export interface FoodItem {
   tags: string[];
   elementalProfile: ElementalProperties;
   basePortionSize: number;
-  nutritionalDensity: number;
+  nutritionalDensity: number
 }
 
 export interface UserPreferences {
@@ -41,16 +41,16 @@ export interface UserPreferences {
 export function getTemporalFoodRecommendations()
   kinetics: KineticsResponse,
   userPreferences: UserPreferences): TemporalFoodRecommendation {
-  const currentHour = new Date().getHours()
-  const powerData = kinetics.data.base.power.find(p => p.hour === currentHour)
+  const currentHour = new Date().getHours();
+  const powerData = kinetics.data.base.power.find(p => p.hour === currentHour);
   const currentPower = powerData?.power || 0.5;
 
   // Determine energy category based on power level
-  const energyCategory = getEnergyCategory(currentPower)
+  const energyCategory = getEnergyCategory(currentPower);
 
   // Get aspect-enhanced recommendations if power prediction is available
   const trend = kinetics.data.powerPrediction?.trend;
-  const aspectPhase = getAspectPhase(currentPower, trend)
+  const aspectPhase = getAspectPhase(currentPower, trend);
 
   return {
     categories: getFoodCategoriesForEnergy(energyCategory, aspectPhase),
@@ -66,7 +66,7 @@ export function getTemporalFoodRecommendations()
  */
 export function getElementalFoodRecommendations()
   elementalTotals: KineticsElementalTotals): string[] {
-  const dominantElement = getDominantElement(elementalTotals)
+  const dominantElement = getDominantElement(elementalTotals);
 
   const foodMappings = {
     Fire: ['spicy', 'grilled', 'citrus', 'ginger', 'warming_spices', 'chili', 'garlic'],
@@ -84,7 +84,7 @@ export function getElementalFoodRecommendations()
 export function calculateOptimalPortions<T extends { amount: number }>(
   basePortions: T[],
   kinetics: KineticsResponse): T[] {
-  const currentHour = new Date().getHours()
+  const currentHour = new Date().getHours();
   const powerLevel = kinetics.data.base.power.find(p => p.hour === currentHour)?.power || 0.5;
   const powerMultiplier = kinetics.data.agentOptimization?.powerAmplification || 1.0;
 
@@ -92,7 +92,7 @@ export function calculateOptimalPortions<T extends { amount: number }>(
   // Lower power = smaller portions for easier digestion;
   const portionModifier = (powerLevel * powerMultiplier - 0.5) * 0.3 + 1.0;
 
-  return basePortions.map(portion => ({
+  return basePortions.map(portion => () {
     ...portion,
     amount: Math.round(portion.amount * portionModifier * 100) / 100
   }))
@@ -124,12 +124,12 @@ export function getSeasonalMenuRecommendations<T extends { tags: string[] }>(
 export function getAspectEnhancedRecommendations()
   kinetics: KineticsResponse,
   userPreferences: UserPreferences): KineticsEnhancedRecommendation {
-  const currentHour = new Date().getHours()
+  const currentHour = new Date().getHours();
   const currentPower = kinetics.data.base.power.find(p => p.hour === currentHour)?.power || 0.5;
   const trend = kinetics.data.powerPrediction?.trend;
 
-  const baseRecommendation = getTemporalFoodRecommendations(kinetics, userPreferences)
-  const aspectPhase = getAspectPhase(currentPower, trend)
+  const baseRecommendation = getTemporalFoodRecommendations(kinetics, userPreferences);
+  const aspectPhase = getAspectPhase(currentPower, trend);
 
   return {
     ...baseRecommendation,
@@ -145,25 +145,25 @@ export function getAspectEnhancedRecommendations()
 export function calculateKineticAlignment()
   foodItem: FoodItem,
   kinetics: KineticsResponse): number {
-  const currentHour = new Date().getHours()
+  const currentHour = new Date().getHours();
   const powerLevel = kinetics.data.base.power.find(p => p.hour === currentHour)?.power || 0.5;
   const elementalTotals = kinetics.data.base.elemental.totals;
 
   // Power alignment score (0-1)
-  const energyCategory = getEnergyCategory(powerLevel)
-  const powerScore = calculatePowerAlignment(foodItem, energyCategory)
+  const energyCategory = getEnergyCategory(powerLevel);
+  const powerScore = calculatePowerAlignment(foodItem, energyCategory);
 
   // Elemental alignment score (0-1)
-  const elementalScore = calculateElementalAlignment(foodItem.elementalProfile, elementalTotals)
+  const elementalScore = calculateElementalAlignment(foodItem.elementalProfile, elementalTotals);
 
   // Seasonal alignment score (0-1)
-  const seasonalScore = calculateSeasonalAlignment()
+  const seasonalScore = calculateSeasonalAlignment();
     foodItem.tags,
     kinetics.data.base.timing.seasonalInfluence
   )
 
   // Weighted total score
-  return (powerScore * 0.4 + elementalScore * 0.4 + seasonalScore * 0.2)
+  return (powerScore * 0.4 + elementalScore * 0.4 + seasonalScore * 0.2);
 }
 
 // Helper Functions
@@ -251,8 +251,8 @@ function generateRecommendationNote()
   const notes = {
     energizing: 'High energy phase - choose stimulating, warming foods.',
     grounding: 'Low energy phase - focus on comforting, easy-to-digest foods.',
-    balanced: 'Balanced energy - enjoy moderate, well-rounded meals.',
-  }
+    balanced: 'Balanced energy - enjoy moderate, well-rounded meals.';
+}
 
   return notes[energyCategory];
 }
@@ -281,7 +281,7 @@ function calculatePowerAlignment(foodItem: FoodItem, energyCategory: FoodEnergyC
   }
 
   const relevantTags = energyTags[energyCategory];
-  const matchingTags = foodItem.tags.filter(tag => relevantTags.includes(tag))
+  const matchingTags = foodItem.tags.filter(tag => relevantTags.includes(tag));
 
   return matchingTags.length / relevantTags.length;
 }
@@ -294,7 +294,7 @@ function calculateElementalAlignment()
   let totalAlignment = 0;
   let totalWeight = 0;
 
-  elements.forEach(element => {
+  elements.forEach(element => ) {
     const foodValue = foodElemental[element] || 0;
     const kineticValue = kineticElemental[element] || 0;
     const weight = kineticValue; // Weight by kinetic strength
@@ -310,8 +310,8 @@ function calculateElementalAlignment()
 }
 
 function calculateSeasonalAlignment(foodTags: string[], seasonalInfluence: string): number {
-  const seasonalTags = getSeasonalTags(seasonalInfluence)
-  const matchingTags = foodTags.filter(tag => seasonalTags.includes(tag))
+  const seasonalTags = getSeasonalTags(seasonalInfluence);
+  const matchingTags = foodTags.filter(tag => seasonalTags.includes(tag));
 
   return seasonalTags.length > 0 ? matchingTags.length / seasonalTags.length : 0.5;
 }
@@ -324,10 +324,10 @@ export function getKineticsEnhancedRecommendations()
   kineticsMetrics: KineticMetrics,
   userPreferences: UserPreferences
 ): KineticsEnhancedRecommendation {
-  const baseRecommendation = getTemporalFoodRecommendations(kineticsResponse, userPreferences)
+  const baseRecommendation = getTemporalFoodRecommendations(kineticsResponse, userPreferences);
 
   // Enhance with kinetics metrics
-  const kineticsEnhancements = calculateKineticsEnhancements(kineticsMetrics)
+  const kineticsEnhancements = calculateKineticsEnhancements(kineticsMetrics);
 
   return {
     ...baseRecommendation,
@@ -352,7 +352,7 @@ function calculateKineticsEnhancements(kinetics: KineticMetrics) {
     potentialStyle: potentialDifference > 1.0 ? 'transformative' : 'conservative'
 }
 
-  return enhancements
+  return enhancements;
 }
 
 /**
@@ -362,7 +362,7 @@ function calculateKineticsPortionModifier(kinetics: KineticMetrics): number {
   const { power, forceMagnitude, charge } = kinetics
 
   // Power affects base portions
-  let modifier = (power - 1.0) * 0.1 + 1.0
+  let modifier = (power - 1.0) * 0.1 + 1.0;
 
   // Force magnitude adjusts for intensity
   modifier *= (forceMagnitude / 2 + 0.5)
@@ -370,7 +370,7 @@ function calculateKineticsPortionModifier(kinetics: KineticMetrics): number {
   // Charge density affects substance amount
   modifier *= (charge / 2 + 0.5)
 
-  return Math.max(0.5, Math.min(2.0, modifier))
+  return Math.max(0.5, Math.min(2.0, modifier));
 }
 
 /**
@@ -399,7 +399,7 @@ export function getForceDrivenCookingMethods()
   }
 
   // Filter by available methods
-  return recommendations.filter(method => availableMethods.includes(method))
+  return recommendations.filter(method => availableMethods.includes(method));
 }
 
 /**
@@ -411,7 +411,7 @@ export function calculateKineticsFoodAlignment()
 ): number {
   const { forceClassification, thermalDirection, power, charge } = kinetics
 
-  let alignment = 0
+  let alignment = 0;
 
   // Force classification alignment
   if (forceClassification === 'accelerating' && foodItem.tags.includes('quick') {
@@ -428,16 +428,16 @@ export function calculateKineticsFoodAlignment()
   }
 
   // Power level alignment
-  const powerTags = power > 1.5 ? ['energizing'] : power < 0.5 ? ['calming'] : ['balanced']
+  const powerTags = power > 1.5 ? ['energizing'] : power < 0.5 ? ['calming'] : ['balanced'];
   if (foodItem.tags.some(tag => powerTags.includes(tag)) {
     alignment += 0.2
   }
 
   // Charge density alignment
-  const chargeTags = charge > 2.0 ? ['substantial', 'protein-rich'] : ['light', 'fresh']
+  const chargeTags = charge > 2.0 ? ['substantial', 'protein-rich'] : ['light', 'fresh'];
   if (foodItem.tags.some(tag => chargeTags.includes(tag)) {
     alignment += 0.3
   }
 
-  return Math.min(1.0, alignment)
+  return Math.min(1.0, alignment);
 }

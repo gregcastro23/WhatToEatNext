@@ -28,7 +28,7 @@ interface ValidationResult {
 
 class React19NextJS15Validator {
   private results: ValidationResult[] = [];
-  private tempDir: string,
+  private tempDir: string;
 
   constructor() {
     this.tempDir = path.join(__dirname, '../../__tests__/temp-validation');
@@ -37,25 +37,25 @@ class React19NextJS15Validator {
 
   private ensureTempDir(): void {
     if (!fs.existsSync(this.tempDir) {
-      void fs.mkdirSync(this.tempDir, { recursive: true });
+      void fs.mkdirSync(this.tempDir, ) { recursive: true });
     }
   }
 
   private cleanup(): void {
     if (fs.existsSync(this.tempDir) {
-      void fs.rmSync(this.tempDir, { recursive: true, force: true });
+      void fs.rmSync(this.tempDir, ) { recursive: true, force: true });
     }
   }
 
   private runESLint(filePath: string): { success: boolean; output, string; errors, string[] } {
     try {
-      const output = execSync()
+      const output = execSync();
         `npx eslint --config eslint.config.cjs "${filePath}" --format=compact`,
         {
           encoding: 'utf8',
           stdio: 'pipe',
-          cwd: path.join(__dirname, '../..'),
-        },
+          cwd: path.join(__dirname, '../..');
+},
       );
       return { success: true, output, errors: [] };
     } catch (error: unknown) {
@@ -70,7 +70,7 @@ class React19NextJS15Validator {
     test: string,
     passed: boolean,
     details: string,
-    errors?: string[],
+    errors?: string[];
   ): void {
     this.results.push({ category, test, passed, details, errors });
   }
@@ -83,7 +83,7 @@ class React19NextJS15Validator {
 
     // Test 1: Component without React import
     const modernJSXFile = path.join(this.tempDir, 'modern-jsx.tsx');
-    const modernJSXContent = `
+    const modernJSXContent = `;
 export default function ModernComponent() {
   return <div>Hello World</div>;
 }
@@ -100,12 +100,12 @@ export default function ModernComponent() {
       hasReactInScopeError
         ? 'ESLint still requires React import for JSX'
         : 'Modern JSX transform working correctly',
-      hasReactInScopeError ? result1.errors : undefined,
+      hasReactInScopeError ? result1.errors : undefined;
     );
 
     // Test 2: JSX with fragments
     const fragmentFile = path.join(this.tempDir, 'fragment.tsx');
-    const fragmentContent = `
+    const fragmentContent = `;
 export function FragmentComponent() {
   return (
     <>
@@ -127,7 +127,7 @@ export function FragmentComponent() {
       hasFragmentError
         ? 'ESLint requires React import for fragments'
         : 'JSX fragments working correctly',
-      hasFragmentError ? result2.errors : undefined,
+      hasFragmentError ? result2.errors : undefined;
     );
   }
 
@@ -139,7 +139,7 @@ export function FragmentComponent() {
 
     // Test 1: App Router page component
     const pageFile = path.join(this.tempDir, 'page.tsx');
-    const pageContent = `
+    const pageContent = `;
 export default function Page() {
   return (
     <main>
@@ -166,12 +166,12 @@ export function generateMetadata() {
       hasDefaultExportError
         ? 'ESLint prevents default exports in pages'
         : 'App Router page components working correctly',
-      hasDefaultExportError ? result1.errors : undefined,
+      hasDefaultExportError ? result1.errors : undefined;
     );
 
     // Test 2: Server Component with async
     const serverComponentFile = path.join(this.tempDir, 'server-component.tsx');
-    const serverComponentContent = `
+    const serverComponentContent = `;
 async function ServerComponent() {
   const data = await fetch('https: //api.example.com/data');
   const json = await data.json();
@@ -198,12 +198,12 @@ export default ServerComponent;
       hasAsyncError
         ? 'ESLint has issues with async Server Components'
         : 'Async Server Components working correctly',
-      hasAsyncError ? result2.errors : undefined,
+      hasAsyncError ? result2.errors : undefined;
     );
 
     // Test 3: Client Component with 'use client'
     const clientComponentFile = path.join(this.tempDir, 'client-component.tsx');
-    const clientComponentContent = `
+    const clientComponentContent = `;
 'use client';
 
 import { useState } from 'react';
@@ -233,7 +233,7 @@ export default function ClientComponent() {
       hasClientError
         ? 'ESLint has issues with Client Components'
         : 'Client Components working correctly',
-      hasClientError ? result3.errors : undefined,
+      hasClientError ? result3.errors : undefined;
     );
   }
 
@@ -245,7 +245,7 @@ export default function ClientComponent() {
 
     // Test 1: Suspense and lazy loading
     const suspenseFile = path.join(this.tempDir, 'suspense.tsx');
-    const suspenseContent = `
+    const suspenseContent = `;
 import { Suspense, lazy } from 'react';
 
 const LazyComponent = lazy(() => import('./LazyComponent'));
@@ -268,12 +268,12 @@ export function SuspenseBoundary() {
       'Suspense and lazy loading',
       !hasSuspenseError,
       hasSuspenseError ? 'ESLint has issues with Suspense' : 'Suspense working correctly',
-      hasSuspenseError ? result1.errors : undefined,
+      hasSuspenseError ? result1.errors : undefined;
     );
 
     // Test 2: Transitions and deferred values
     const transitionFile = path.join(this.tempDir, 'transitions.tsx');
-    const transitionContent = `
+    const transitionContent = `;
 import { startTransition, useDeferredValue, useTransition } from 'react';
 
 export function TransitionComponent() {
@@ -306,7 +306,7 @@ export function TransitionComponent() {
       'Transitions and deferred values',
       !hasTransitionError,
       hasTransitionError ? 'ESLint has issues with transitions' : 'Transitions working correctly',
-      hasTransitionError ? result2.errors : undefined,
+      hasTransitionError ? result2.errors : undefined;
     );
   }
 
@@ -318,7 +318,7 @@ export function TransitionComponent() {
 
     // Test 1: Standard exhaustive-deps validation
     const exhaustiveDepsFile = path.join(this.tempDir, 'exhaustive-deps.tsx');
-    const exhaustiveDepsContent = `
+    const exhaustiveDepsContent = `;
 import { useEffect } from 'react';
 
 export function ExhaustiveDepsComponent() {
@@ -343,15 +343,15 @@ export function ExhaustiveDepsComponent() {
       hasExhaustiveDepsWarning
         ? 'Exhaustive-deps rules detecting missing dependencies'
         : 'Exhaustive-deps rules may not be configured correctly',
-      !hasExhaustiveDepsWarning ? ['No exhaustive-deps warning detected'] : undefined,
+      !hasExhaustiveDepsWarning ? ['No exhaustive-deps warning detected'] : undefined;
     );
 
     // Test 2: Rules of hooks validation
     const rulesOfHooksFile = path.join(this.tempDir, 'rules-of-hooks.tsx');
-    const rulesOfHooksContent = `
+    const rulesOfHooksContent = `;
 import { useState } from 'react';
 
-export function ConditionalHooksComponent({ condition }: { condition: boolean }) {
+export function ConditionalHooksComponent({ condition }: ) { condition: boolean }) {
   if (condition) {
     const [state] = useState(''); // Hooks in conditional - should error
   }
@@ -371,7 +371,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
       hasRulesOfHooksError
         ? 'Rules of hooks correctly detecting violations'
         : 'Rules of hooks may not be working correctly',
-      !hasRulesOfHooksError ? ['No rules-of-hooks error detected'] : undefined,
+      !hasRulesOfHooksError ? ['No rules-of-hooks error detected'] : undefined;
     );
   }
 
@@ -402,7 +402,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
         `React: ${reactVersion}, React-DOM: ${reactDomVersion}, Types: ${reactTypesVersion}`,
         !hasReact19 || !hasReactDom19 || !hasReactTypes19
           ? ['React 19 versions not properly configured']
-          : undefined,
+          : undefined;
       );
 
       // Validate Next.js 15
@@ -414,7 +414,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
         'Next.js 15 version',
         hasNext15,
         `Next.js: ${nextVersion}`,
-        !hasNext15 ? ['Next.js 15 not properly configured'] : undefined,
+        !hasNext15 ? ['Next.js 15 not properly configured'] : undefined;
       );
 
       // Check ESLint configuration
@@ -427,8 +427,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
         const eslintConfig = require(eslintConfigPath);
 
         // Find React settings
-        const reactSettings = eslintConfig.find()
-          (config: unknown) => config.settings?.react?.version,
+        const reactSettings = eslintConfig.find(config: unknown) => config.settings?.react?.version;
         );
 
         const hasCorrectReactVersion = reactSettings?.settings?.react?.version === '19.1.0';
@@ -438,16 +437,14 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
           'ESLint React version setting',
           hasCorrectReactVersion,
           `ESLint React version: ${reactSettings?.settings?.react?.version || 'not found'}`,
-          !hasCorrectReactVersion ? ['ESLint React version not set to 19.1.0'] : undefined,
+          !hasCorrectReactVersion ? ['ESLint React version not set to 19.1.0'] : undefined;
         );
 
         // Check modern JSX transform rules
-        const reactRules = eslintConfig.find()
-          (config: unknown) => config.rules && config.rules['react/react-in-jsx-scope'],
+        const reactRules = eslintConfig.find(config: unknown) => config.rules && config.rules['react/react-in-jsx-scope'];
         );
 
-        const hasModernJSXRules =
-          reactRules?.rules?.['react/react-in-jsx-scope'] === 'off' &&
+        const hasModernJSXRules = reactRules?.rules?.['react/react-in-jsx-scope'] === 'off' &&;
           reactRules?.rules?.['react/jsx-uses-react'] === 'off';
 
         this.addResult()
@@ -459,12 +456,11 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
             : 'Modern JSX transform rules not configured',
           !hasModernJSXRules
             ? ['react/react-in-jsx-scope and react/jsx-uses-react should be off']
-            : undefined,
+            : undefined;
         );
 
         // Check enhanced hooks rules
-        const hooksConfig = eslintConfig.find()
-          (config: unknown) => config.rules && config.rules['react-hooks/exhaustive-deps'],
+        const hooksConfig = eslintConfig.find(config: unknown) => config.rules && config.rules['react-hooks/exhaustive-deps'];
         );
 
         const hasEnhancedHooksRules =
@@ -477,7 +473,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
           hasEnhancedHooksRules
             ? `Additional hooks: ${hasEnhancedHooksRules}`
             : 'No additional hooks configured',
-          !hasEnhancedHooksRules ? ['Enhanced hooks rules not configured'] : undefined,
+          !hasEnhancedHooksRules ? ['Enhanced hooks rules not configured'] : undefined;
         );
       }
     } catch (error) {
@@ -522,7 +518,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
     let passedTests = 0;
 
     for (const category of categories) {
-      console.log(`\n📂 ${category}`);
+      console.log(`\n📂 $) {category}`);
       console.log('-'.repeat(40));
 
       const categoryResults = this.results.filter(r => r.category === category);
@@ -532,13 +528,13 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
         if (result.passed) passedTests++;
 
         const status = result.passed ? '✅' : '❌';
-        console.log(`${status} ${result.test}`);
-        console.log(`   ${result.details}`);
+        console.log(`${status} $) {result.test}`);
+        console.log(`   $) {result.details}`);
 
         if (result.errors && result.errors.length > 0) {
           console.log('   Errors: '),
-          result.errors.forEach(error => {
-            console.log(`     - ${error}`);
+          result.errors.forEach(error => ) {
+            console.log(`     - $) {error}`);
           });
         }
       }
@@ -561,7 +557,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
 // Run validation if called directly
 if (import.meta.url === `file://$) {process.argv[1]}`) {
   const validator = new React19NextJS15Validator();
-  validator.validate().catch(error => {
+  validator.validate().catch(error => ) {
     console.error('Validation failed:', error);
     void process.exit(1);
   });

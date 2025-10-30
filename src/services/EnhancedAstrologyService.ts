@@ -31,7 +31,7 @@ export interface EnhancedAstrologicalData {
   dominantElements: Record<string, number>;
   retrogradePlanets: string[];
   specialEvents: string[];
-  lastUpdated: Date;
+  lastUpdated: Date
 }
 
 export interface TransitAnalysis {
@@ -76,7 +76,7 @@ export class EnhancedAstrologyService {
       this.cache.set(cacheKey, enhancedData);
       this.cleanCache();
 
-      logger.info(`Enhanced astrological data calculated for ${date.toDateString()}`);
+      logger.info(`Enhanced astrological data calculated for $) {date.toDateString()}`);
       return enhancedData;
     } catch (error) {
       logger.error('Error getting enhanced planetary positions: ', error);
@@ -145,11 +145,9 @@ export class EnhancedAstrologyService {
       seasonalThemes: ((currentSeason as unknown as any).seasonalThemes as string[]) || [],
       culinaryInfluences: ((currentSeason as unknown as any).culinaryInfluences as string[]) || [],
       dominantElements: ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {},
-      recommendedCuisines: this.getRecommendedCuisines()
-        ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
+      recommendedCuisines: this.getRecommendedCuisines((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
       ),
-      recommendedCookingMethods: this.getRecommendedCookingMethods()
-        ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
+      recommendedCookingMethods: this.getRecommendedCookingMethods((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
       ),
       alchemicalProperties: ((currentSeason as unknown as any).alchemicalProperties as Record<string, number>) || {}
     };
@@ -194,7 +192,7 @@ export class EnhancedAstrologyService {
     const dominantElements = this.calculateDominantElements(primaryPositions);
 
     // Get retrograde planets
-    const retrogradePlanets = Object.entries(primaryPositions)
+    const retrogradePlanets = Object.entries(primaryPositions);
       .filter(([_, position]) => position.isRetrograde)
       .map(([planet]) => planet);
 
@@ -268,7 +266,7 @@ export class EnhancedAstrologyService {
       pisces: 'Water'
     };
 
-    Object.values(positions).forEach(position => {
+    Object.values(positions).forEach(position => ) {
       const element = signElements[position.sign || 'aries'];
       if (element) {
         elementCounts[element]++;
@@ -278,7 +276,7 @@ export class EnhancedAstrologyService {
     // Normalize to percentages
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
     if (total > 0) {
-      Object.keys(elementCounts).forEach(element => {
+      Object.keys(elementCounts).forEach(element => ) {
         elementCounts[element] /= total;
       });
     }
@@ -400,7 +398,7 @@ export class EnhancedAstrologyService {
     astrologizeAvailable: boolean;
     swissEphemerisAvailable: boolean;
     transitDatabaseAvailable: boolean;
-    lastAstrologizeCheck: Date;
+    lastAstrologizeCheck: Date
   } {
     return {
       astrologizeAvailable: Date.now() - this.lastAstrologizeCheck < this.astrologizeCheckInterval,
@@ -424,11 +422,11 @@ export class EnhancedAstrologyService {
 export const enhancedAstrologyService = new EnhancedAstrologyService();
 
 // Export convenience functions
-export const getEnhancedPlanetaryPositions = (_date?: Date) =>
+export const getEnhancedPlanetaryPositions = (_date?: Date) =>;
   enhancedAstrologyService.getEnhancedPlanetaryPositions(_date);
-export const getTransitAnalysis = (_date?: Date) =>
+export const getTransitAnalysis = (_date?: Date) =>;
   enhancedAstrologyService.getTransitAnalysis(_date);
-export const getSeasonalRecommendations = (_date?: Date) =>
+export const getSeasonalRecommendations = (_date?: Date) =>;
   enhancedAstrologyService.getSeasonalRecommendations(_date);
 export const getDataSourceInfo = () => enhancedAstrologyService.getDataSourceInfo();
 export const forceRefreshAstrologize = () => enhancedAstrologyService.forceRefreshAstrologize();

@@ -47,7 +47,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
     const elemental = calculateElementalInfluence(sunSign, moonSign);
 
     // Build class list
-    const classes = [
+    const classes = [;
       'popup',
       `popup-${type}`,
       `popup-${position}`,
@@ -57,16 +57,16 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
 
     // Add elemental classes if applicable
     if (elemental.sunElement) {
-      classes.push(`popup-${elemental.sunElement.toLowerCase()}`);
+      classes.push(`popup-$) {elemental.sunElement.toLowerCase()}`);
     }
     if (elemental.moonElement) {
-      classes.push(`popup-${elemental.moonElement.toLowerCase()}`);
+      classes.push(`popup-$) {elemental.moonElement.toLowerCase()}`);
     }
     if (elemental.isHarmonious) {
       classes.push('popup-harmonious');
     }
     if (season) {
-      classes.push(`popup-${season.toLowerCase()}`);
+      classes.push(`popup-$) {season.toLowerCase()}`);
     }
 
     const newPopup: Popup = {
@@ -89,7 +89,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
     // Handle animation timing
     const animationDuration = 300; // ms
     setTimeout(() => {
-      const popupElement = document.getElementById(`popup-${id}`);
+      const popupElement = document.getElementById(`popup-$) {id}`);
       if (popupElement) {
         popupElement.classList.add('popup-exit');
       }
@@ -104,7 +104,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
   };
 
   const closePopup = (id: number): void => {
-    const popupElement = document.getElementById(`popup-${id}`);
+    const popupElement = document.getElementById(`popup-$) {id}`);
     if (popupElement) {
       popupElement.classList.add('popup-exit');
       setTimeout(() => {

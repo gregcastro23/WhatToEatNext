@@ -9,28 +9,28 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  */
 
 export const _methodName: CookingMethodData = {
-  name: 'method_name', // Use snake_case for the name property,
+  name: 'method_name', // Use snake_case for the name property
   description: 'Description of the cooking method and how it works, including key characteristics and effects on food',
   elementalEffect: {
     Fire: 0.0, // Fire element (0.0-1.0)
-    Water: 0.0, // Water element (0.0-1.0),
+    Water: 0.0, // Water element (0.0-1.0)
     Earth: 0.0, // Earth element (0.0-1.0)
     Air: 0.0, // Air element (0.0-1.0)
   },
   duration: {
-    min: 0, // Minimum cooking time in minutes,
+    min: 0, // Minimum cooking time in minutes
     max: 0, // Maximum cooking time in minutes
   },
-  suitable_for ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4', 'ingredient5'], // Types of ingredients this method works well with,
-  benefits: ['benefit1', 'benefit2', 'benefit3', 'benefit4', 'benefit5'], // Advantages of this cooking method,
+  suitable_for: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4', 'ingredient5'], // Types of ingredients this method works well with
+  benefits: ['benefit1', 'benefit2', 'benefit3', 'benefit4', 'benefit5'], // Advantages of this cooking method
 
   astrologicalInfluences: {
-    favorableZodiac: ['zodiac1', 'zodiac2', 'zodiac3'] as unknown as any[], // Zodiac signs that enhance this method,
-    unfavorableZodiac: ['zodiac4', 'zodiac5', 'zodiac6'] as unknown as any[], // Zodiac signs that diminish this method,
+    favorableZodiac: ['zodiac1', 'zodiac2', 'zodiac3'] as unknown as any[], // Zodiac signs that enhance this method
+    unfavorableZodiac: ['zodiac4', 'zodiac5', 'zodiac6'] as unknown as any[], // Zodiac signs that diminish this method
     dominantPlanets: ['Planet1', 'Planet2', 'Planet3'],
     lunarPhaseEffect: {
-      full_moon: 0.0, // Effect during full moon (multiplier),
-      new_moon: 0.0, // Effect during new moon (multiplier),
+      full_moon: 0.0, // Effect during full moon (multiplier)
+      new_moon: 0.0, // Effect during new moon (multiplier)
       waxing_crescent: 0.0,
       waning_gibbous: 0.0,
       // Other lunar phases can be added
@@ -71,7 +71,7 @@ export const _methodName: CookingMethodData = {
   ],
 
   nutrientRetention: {
-    nutrient1: 0.0, // Retention ratio (0.0-1.0or >1.0 for increase),
+    nutrient1: 0.0, // Retention ratio (0.0-1.0or >1.0 for increase)
     nutrient2: 0.0,
     nutrient3: 0.0,
     nutrient4: 0.0,
@@ -79,7 +79,7 @@ export const _methodName: CookingMethodData = {
     nutrient6: 0.0
 },
   optimalTemperatures: {
-    application1: 0, // Temperature in Fahrenheit,
+    application1: 0, // Temperature in Fahrenheit
     application2: 0,
     application3: 0,
     application4: 0,
@@ -108,9 +108,9 @@ export const _methodName: CookingMethodData = {
   safetyFeatures: ['safety1', 'safety2', 'safety3', 'safety4', 'safety5', 'safety6', 'safety7'],
 
   thermodynamicProperties: {
-    heat: 0.0, // Heat level (0.0-1.0),
-    entropy: 0.0, // Entropy/chaos/transformation level (0.0-1.0),
-    reactivity: 0.0, // Chemical reactivity level (0.0-1.0),
+    heat: 0.0, // Heat level (0.0-1.0)
+    entropy: 0.0, // Entropy/chaos/transformation level (0.0-1.0)
+    reactivity: 0.0, // Chemical reactivity level (0.0-1.0)
     gregsEnergy: 0.0, // Greg's Energy (heat - entropy * reactivity)
   } as ThermodynamicProperties,
 
@@ -142,9 +142,9 @@ export const _methodName: CookingMethodData = {
     'variation9'
   ],
 
-  sustainabilityRating: 0.0, // 0.0-1.0 rating of environmental sustainability,
+  sustainabilityRating: 0.0, // 0.0-1.0 rating of environmental sustainability
 
-  equipmentComplexity: 0.0, // 0.0-1.0 rating of equipment complexity,
+  equipmentComplexity: 0.0, // 0.0-1.0 rating of equipment complexity
 
   healthConsiderations: [
     'consideration1',
@@ -239,7 +239,7 @@ export const _methodName: CookingMethodData = {
         'Detailed technical information about subcategory1, including specific parameters, scientific principles, and practical applications.',
       subcategory2: 'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
       subcategory3: 'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
-      subcategory4: 'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.',
-    }
+      subcategory4: 'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.';
+}
   }
 }

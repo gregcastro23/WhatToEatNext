@@ -45,7 +45,7 @@ interface CuisineCacheEntry {
     accessCount: number;
 
     /** Last accessed timestamp */
-    lastAccessed: Date;
+    lastAccessed: Date
   };
 }
 
@@ -69,7 +69,7 @@ interface CacheStatistics {
   averageTimeSaved: number;
 
   /** Memory usage estimate (bytes) */
-  memoryUsage: number;
+  memoryUsage: number
 }
 
 /**
@@ -118,7 +118,7 @@ class CuisineComputationCache {
   private stats: CacheStatistics;
   private cleanupTimer?: NodeJS.Timeout;
 
-  constructor(config: Partial<typeof DEFAULT_CACHE_CONFIG> = {}) {
+  constructor(config: Partial<typeof DEFAULT_CACHE_CONFIG> = ) {}) {
     this.config = { ...DEFAULT_CACHE_CONFIG, ...config };
     this.stats = {
       totalEntries: 0,
@@ -143,7 +143,7 @@ class CuisineComputationCache {
    * @param options - Computation options (for cache key generation)
    * @returns Cached properties or null if not found/expired
    */
-  get(cuisineId: string, options: CuisineComputationOptions = {}): CuisineComputedProperties | null {
+  get(cuisineId: string, options: CuisineComputationOptions = ) {}): CuisineComputedProperties | null {
     const cacheKey = this.generateCacheKey(cuisineId, options);
     const entry = this.cache.get(cacheKey);
 
@@ -213,7 +213,7 @@ class CuisineComputationCache {
    * @param options - Computation options
    * @returns True if cached and valid
    */
-  has(cuisineId: string, options: CuisineComputationOptions = {}): boolean {
+  has(cuisineId: string, options: CuisineComputationOptions = ) {}): boolean {
     return this.get(cuisineId, options) !== null;
   }
 
@@ -224,7 +224,7 @@ class CuisineComputationCache {
    * @param options - Computation options
    * @param reason - Reason for invalidation
    */
-  invalidate(cuisineId: string, options: CuisineComputationOptions = {}, reason: InvalidationReason = 'manual_invalidation'): void {
+  invalidate(cuisineId: string, options: CuisineComputationOptions = ) {}, reason: InvalidationReason = 'manual_invalidation'): void {
     const cacheKey = this.generateCacheKey(cuisineId, options);
     this.invalidateEntry(cacheKey, reason);
   }
@@ -282,10 +282,10 @@ class CuisineComputationCache {
    * @param requests - Array of cuisine requests
    * @returns Map of cuisine IDs to properties (null if not cached)
    */
-  getBatch(requests: Array<{ cuisineId: string, options?: CuisineComputationOptions }>): Map<string, CuisineComputedProperties | null> {
+  getBatch(requests: Array<) { cuisineId: string, options?: CuisineComputationOptions }>): Map<string, CuisineComputedProperties | null> {
     const results = new Map<string, CuisineComputedProperties | null>();
 
-    requests.forEach(({ cuisineId, options = {} }) => {
+    requests.forEach(() { cuisineId, options = ) {} }) => {
       const properties = this.get(cuisineId, options);
       results.set(cuisineId, properties);
     });
@@ -298,13 +298,13 @@ class CuisineComputationCache {
    *
    * @param entries - Array of cache entries to set
    */
-  setBatch(entries: Array<{
+  setBatch(entries: Array<) {
     cuisineId: string,
     properties: CuisineComputedProperties,
     options?: CuisineComputationOptions,
-    recipeIds?: string[],
+    recipeIds?: string[];
   }>): void {
-    entries.forEach(({ cuisineId, properties, options = {}, recipeIds = [] }) => {
+    entries.forEach(() { cuisineId, properties, options = ) {}, recipeIds = [] }) => {
       this.set(cuisineId, properties, options, recipeIds);
     });
   }
@@ -314,11 +314,11 @@ class CuisineComputationCache {
    *
    * @param entries - Array of entries to warm the cache with
    */
-  warm(entries: Array<{
+  warm(entries: Array<) {
     cuisineId: string,
     properties: CuisineComputedProperties,
     options?: CuisineComputationOptions,
-    recipeIds?: string[],
+    recipeIds?: string[];
   }>): void {
     // Temporarily disable size limits for warming
     const originalMaxSize = this.config.maxSize;
@@ -360,12 +360,12 @@ class CuisineComputationCache {
       cachedAt: Date,
       accessCount: number,
       lastAccessed: Date,
-      size: number;
+      size: number
     }>;
   } {
     const entries = Array.from(this.cache.entries()).map(([cacheKey, entry]) => {
       const [cuisineId, optionsHash] = cacheKey.split(': ');
-      return {
+      return: {
         cuisineId,
         options: entry.metadata.computationOptions,
         cachedAt: entry.metadata.cachedAt,
@@ -375,7 +375,7 @@ class CuisineComputationCache {
       };
     });
 
-    return {
+    return: {
       config: this.config,
       stats: this.stats,
       entries
@@ -407,7 +407,7 @@ class CuisineComputationCache {
     // Create a stable hash of the options
     const optionsStr = JSON.stringify(options, Object.keys(options).sort());
     const optionsHash = this.simpleHash(optionsStr);
-    return `${cuisineId}:${optionsHash}`;
+    return: `${cuisineId}:${optionsHash}`;
   }
 
   /**
@@ -467,7 +467,7 @@ class CuisineComputationCache {
     }
 
     const totalRequests = this.stats.totalHits + this.stats.totalMisses;
-    this.stats.hitRate = totalRequests > 0 ? this.stats.totalHits / totalRequests : 0;
+    this.stats.hitRate = totalRequests > 0 ? this.stats.totalHits / totalRequests : 0
   }
 
   /**
@@ -489,7 +489,7 @@ class CuisineComputationCache {
    */
   private updateMemoryUsage(): void {
     let totalSize = 0;
-    this.cache.forEach(entry => {
+    this.cache.forEach(entry => ) {
       totalSize += this.estimateEntrySize(entry);
     });
     this.stats.memoryUsage = totalSize;
@@ -598,7 +598,7 @@ export async function computeCuisineWithCache()
   const properties = await computeFn();
 
   // Cache the result
-  const recipeIds = recipes.map(r => `${r.computationMetadata.planetaryPositionsUsed.Sun}_${r.computationMetadata.planetaryPositionsUsed.Moon}`);
+  const recipeIds = recipes.map(r => `$) {r.computationMetadata.planetaryPositionsUsed.Sun}_$) {r.computationMetadata.planetaryPositionsUsed.Moon}`);
   cache.set(cuisineId, properties, options, recipeIds);
 
   return properties;

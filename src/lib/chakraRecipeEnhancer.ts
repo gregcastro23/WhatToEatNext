@@ -124,7 +124,7 @@ export class ChakraRecipeEnhancer {
             'Venus',
             'Saturn'
           ];
-          return validPlanets.includes(name) ? (name as unknown as Planet) : null;
+          return validPlanets.includes(name) ? (name as unknown as Planet) : null
         };
 
         const validatedPlanet = planetValidator(capitalizedName);
@@ -137,7 +137,7 @@ export class ChakraRecipeEnhancer {
     }
 
     // Calculate current chakra energies
-    const chakraEnergies = this.chakraService.calculateChakraEnergies()
+    const chakraEnergies = this.chakraService.calculateChakraEnergies();
       sunSign,
       moonSign,
       dominantPlanets,
@@ -146,7 +146,7 @@ export class ChakraRecipeEnhancer {
 
     // Enhance each recipe
     return recipes
-      .map(recipe => {
+      .map(recipe => ) {
         if (!recipe.elementalProperties) {
           recipe.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
         }
@@ -165,7 +165,7 @@ export class ChakraRecipeEnhancer {
             planetaryAlignment = 1.0;
           } else {
             const hourChakras = this.chakraService.getChakrasByPlanet(planetaryHour);
-            const recipeChakras = (planets as Planet[]).flatMap((planet: Planet) =>
+            const recipeChakras = (planets as Planet[]).flatMap((planet: Planet) =>;
               this.chakraService.getChakrasByPlanet(planet)
             );
 
@@ -187,7 +187,7 @@ export class ChakraRecipeEnhancer {
         }
 
         // Get tarot recommendations for the dominant chakra
-        const recommendations = this.chakraService.getTarotRecommendationsForChakra()
+        const recommendations = this.chakraService.getTarotRecommendationsForChakra();
           dominantChakra === 'solarPlexus' ? ('solarPlexus' as any) : (dominantChakra as any),
           chakraEnergies[dominantChakra]
         );

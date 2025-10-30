@@ -17,8 +17,8 @@ export function getCuisinePAirings(ingredientName: string, category: IngredientC
     case 'culinary_herb':
       return herbCuisineMatrix[ingredientName] || []
     // Additional categories can be added as their matrix files are created
-    return []
-  }
+    return [];
+}
 }
 
 /**
@@ -43,7 +43,7 @@ export function getIngredientsForCuisine()
 
   // Process each matrix to find ingredients that pAir with this cuisine
   if (categories.includes('grain') {
-    Object.entries(grainCuisineMatrix || {}).forEach(([grain, data]) => {
+    Object.entries(grainCuisineMatrix || ) {}).forEach(([grain, data]) => {
       const grainDataEntry = data;
       if (grainDataEntry?.cuisines && (grainDataEntry as any)?.cuisines.includes(cuisineName) {
         result.grain.push(grain)
@@ -52,7 +52,7 @@ export function getIngredientsForCuisine()
   }
 
   if (categories.includes('culinary_herb') {
-    Object.entries(herbCuisineMatrix || {}).forEach(([herb, cuisines]) => {
+    Object.entries(herbCuisineMatrix || ) {}).forEach(([herb, cuisines]) => {
       if (Array.isArray(cuisines) && cuisines.includes(cuisineName) {
         result.culinary_herb.push(herb)
       }
@@ -61,7 +61,7 @@ export function getIngredientsForCuisine()
 
   // Additional matrices can be processed here
 
-  return result
+  return result;
 }
 
 /**
@@ -70,9 +70,9 @@ export function getIngredientsForCuisine()
 export function isCuisineCompatibleWithIngredient()
   cuisineName: string,
   ingredientName: string,
-  category: IngredientCategory,
+  category: IngredientCategory;
 ): boolean {
-  const compatibleCuisines = getCuisinePAirings(ingredientName, category)
+  const compatibleCuisines = getCuisinePAirings(ingredientName, category);
   return Array.isArray(compatibleCuisines)
     ? compatibleCuisines.includes(cuisineName)
     : compatibleCuisines === cuisineName;
@@ -86,8 +86,8 @@ export function getSharedIngredients()
   cuisine2: string,
   categories: IngredientCategory[] = ['grain', 'culinary_herb'],
 ): string[] {
-  const cuisine1Ingredients = getIngredientsForCuisine(cuisine1, categories)
-  const cuisine2Ingredients = getIngredientsForCuisine(cuisine2, categories)
+  const cuisine1Ingredients = getIngredientsForCuisine(cuisine1, categories);
+  const cuisine2Ingredients = getIngredientsForCuisine(cuisine2, categories);
 
   const shared: string[] = [];
 

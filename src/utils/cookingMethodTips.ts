@@ -429,7 +429,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'For plant-based alternatives, agar sets more firmly than gelatin but can break when frozen',
       )
       tips.push()
-        'Calculate gelatin strength precisely: 1 sheet (silver) equals about 1g powdered gelatin',
+        'Calculate gelatin strength precisely: 1 sheet (silver) equals about 1g powdered gelatin';
       )
       tips.push()
         'Be aware that acidic ingredients and some fresh fruits (pineapple, kiwi, papaya) contain enzymes that break down gelatin',
@@ -452,7 +452,7 @@ export function getTechnicalTips(methodName: string): string[] {
       )
       tips.push('Ensure even distribution of cure mixture by massaging thoroughly into protein')
       tips.push()
-        'Maintain consistent temperature and humidity: 50-60°F (10-15°C) and 65-75% humidity for most cures',
+        'Maintain consistent temperature and humidity: 50-60°F (10-15°C) and 65-75% humidity for most cures';
       )
       tips.push()
         'Weigh items regularly during curing—most whole muscle cures are complete at 30-35% weight loss',
@@ -578,7 +578,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'For frozen reverse spherification, freeze liquid into half-sphere molds before dipping in alginate',
       )
       tips.push()
-        'Control bath time precisely: 1-3 minutes creates flexible spheres with liquid centers',
+        'Control bath time precisely: 1-3 minutes creates flexible spheres with liquid centers';
       )
       tips.push()
         'Rinse completed spheres in clean water to stop the reaction and remove residual sodium alginate',
@@ -605,32 +605,32 @@ export function getTechnicalTips(methodName: string): string[] {
     default:
       // Get expert tips from the cooking method data
       try {
-        const allMethods = getAllCookingMethodNames()
-        const methodData = allMethods.find()
+        const allMethods = getAllCookingMethodNames();
+        const methodData = allMethods.find();
           method =>
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase())
         ),
 
-        const methodObj = methodData as { expertTips?: string[] }
+        const methodObj = methodData as { expertTips?: string[] };
         if (methodObj?.expertTips && Array.isArray(methodObj.expertTips) {
           // Use the method's actual expert tips
           methodObj.expertTips.forEach((tip: string) => tips.push(tip))
         } else {
           // Fallback to a more specific default message if no method-specific tips found
-          tips.push(`Maintain appropriate temperature control for ${methodName}`)
-          tips.push(`Properly prepare ingredients before ${methodName}`)
-          tips.push(`Monitor the ${methodName} process consistently for best results`)
-          tips.push(`Allow for appropriate resting time after ${methodName}`)
-          tips.push(`Adjust timing based on ingredient size and density when ${methodName}`)
+          tips.push(`Maintain appropriate temperature control for $) {methodName}`)
+          tips.push(`Properly prepare ingredients before $) {methodName}`)
+          tips.push(`Monitor the $) {methodName} process consistently for best results`)
+          tips.push(`Allow for appropriate resting time after $) {methodName}`)
+          tips.push(`Adjust timing based on ingredient size and density when $) {methodName}`)
         }
       } catch (error) {
         // Fallback if import fails
-        tips.push(`Maintain appropriate temperature control for ${methodName}`)
-        tips.push(`Properly prepare ingredients before ${methodName}`)
-        tips.push(`Monitor the ${methodName} process consistently for best results`)
-        tips.push(`Allow for appropriate resting time after ${methodName}`)
-        tips.push(`Adjust timing based on ingredient size and density when ${methodName}`)
+        tips.push(`Maintain appropriate temperature control for $) {methodName}`)
+        tips.push(`Properly prepare ingredients before $) {methodName}`)
+        tips.push(`Monitor the $) {methodName} process consistently for best results`)
+        tips.push(`Allow for appropriate resting time after $) {methodName}`)
+        tips.push(`Adjust timing based on ingredient size and density when $) {methodName}`)
       }
   }
 
@@ -675,17 +675,16 @@ export function getMethodDetails(methodName: string): string {
     case 'fire cooking':
       return 'Open fire cooking connects with our most primal cooking techniques, utilizing direct flame, radiant heat, and smoke to transform ingredients. This versatile method adapts to various cooking styles from direct searing to low-and-slow roasting. The unpredictable nature of fire requires constant attention and adjustment, rewarding skill with uniquely complex flavors impossible to replicate with modern appliances.';
 
-    default:
-      try {
+    default: try = {
         // Get cooking method data from imported methods
-        const allMethods = getAllCookingMethodNames()
-        const methodData = allMethods.find()
+        const allMethods = getAllCookingMethodNames();
+        const methodData = allMethods.find();
           method =>
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase())
         );
 
-        const methodObj = methodData as { expertTips?: string[], category?: string }
+        const methodObj = methodData as { expertTips?: string[], category?: string };
         if (methodObj?.description) {
           return methodObj.description;
         } else {
@@ -703,7 +702,7 @@ export function getMethodDetails(methodName: string): string {
  * @returns An array of strings with suggested ingredients that work well with the method
  */
 export function getIdealIngredients(methodName: string): string[] {
-  const methodLower = methodName.toLowerCase()
+  const methodLower = methodName.toLowerCase();
   const ingredients: string[] = []
 
   // Switch case with ideal ingredients for different cooking methods
@@ -1032,14 +1031,14 @@ export function getIdealIngredients(methodName: string): string[] {
     default:
       // Get method-specific ingredients from the cooking method data
       try {
-        const allMethods = getAllCookingMethodNames()
-        const methodData = allMethods.find()
+        const allMethods = getAllCookingMethodNames();
+        const methodData = allMethods.find();
           method =>
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase())
         );
 
-        const methodObj = methodData as { expertTips?: string[], category?: string }
+        const methodObj = methodData as { expertTips?: string[], category?: string };
         if (methodObj?.suitable_for && Array.isArray(methodObj.suitable_for) {
           // Use the actual suitable ingredients from the method data
           methodObj.suitable_for.forEach((ingredient: string) => ingredients.push(ingredient))

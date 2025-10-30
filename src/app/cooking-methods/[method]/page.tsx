@@ -41,19 +41,20 @@ const MethodImage = ({ method }: { method: string }) => (
       alignItems: 'center',
       justifyContent: 'center',
       background: '#f5f5f5'
-}}
+    }}
   >
     <span style={{ color: '#999' }}>Image for {method}</span>
-  </div>)
+  </div>
+);
 
-const ZodiacSign = ({sign,
+const ZodiacSign = ({ sign,
   size = 'medium'}: {
   sign: string,
   size?: 'small' | 'medium' | 'large'
 }) => <span>{sign}</span>
 
 export default function CookingMethodPage() {
-  const params = useParams()
+  const params = useParams();
   const theme = useTheme();
   const [method, setMethod] = useState<CookingMethodInfo | null>(null)
   const [methodKey, setMethodKey] = useState<string>('')
@@ -123,7 +124,7 @@ export default function CookingMethodPage() {
           p: 4,
           mb: 4,
           borderRadius: 2,
-          backgroundImage: `radial-gradient(circle at 50% 0%, ${theme.palette.background.paper}, ${theme.palette.background.default})`
+          backgroundImage: `radial-gradient(circle at 50% 0%, ${theme.palette.background.paper}, $) {theme.palette.background.default})`
         }}
       >
         <Grid container spacing={4} alignItems='center'>
@@ -134,7 +135,7 @@ export default function CookingMethodPage() {
 
             <Typography variant='h6' color='text.secondary' paragraph>
               {method && typeof method === 'object' && 'description' in method
-                ? String((method as unknown as { description?: string }).description)
+                ? String((method as unknown as ) { description?: string }).description)
                 : 'No description available'}
             </Typography>
 
@@ -142,7 +143,7 @@ export default function CookingMethodPage() {
               <AccessTime />
               <Typography variant='body1'>
                 {method && typeof method === 'object' && 'duration' in method
-                  ? String((method as unknown as { duration?: string }).duration)
+                  ? String((method as unknown as ) { duration?: string }).duration)
                   : 'Duration not specified'}
               </Typography>
             </Box>
@@ -176,16 +177,15 @@ export default function CookingMethodPage() {
               <List>
                 {method && typeof method === 'object' && 'benefits' in method ? (
                   Array.isArray((method as unknown as ) { benefits?: string[] }).benefits) ? (
-                    (method as unknown as { benefits: string[] }).benefits.map()
-                      (benefit: string, index: number) => (
+                    (method as unknown as { benefits: string[] }).benefits.map(benefit: string, index: number) => (
                         <ListItem key={index}>
-                          <ListItemText primary={benefit} />
+                          <ListItemText primary=) => {benefit} />
                         </ListItem>
                       )
                     )
                   ) : (
                     <Typography variant='body1' paragraph>
-                      {String((method as unknown as { benefits?: string | string[] }).benefits)}
+                      {String((method as unknown as ) { benefits?: string | string[] }).benefits)}
                     </Typography>
                   )
                 ) : (
@@ -205,10 +205,9 @@ export default function CookingMethodPage() {
                   typeof method === 'object' &&
                   'suitable_for' in method &&
                   Array.isArray((method as unknown as ) { suitable_for?: string[] }).suitable_for) &&
-                  (method as unknown as { suitable_for string[] }).suitable_for.map()
-                    (food: string, index: number) => (
+                  (method as unknown as { suitable_for string[] }).suitable_for.map(food: string, index: number) => (
                       <Grid item key={index}>
-                        <Chip label={food} variant='outlined' color='primary' />
+                        <Chip label=) => {food} variant='outlined' color='primary' />
                       </Grid>
                     )
                   )}
@@ -225,10 +224,9 @@ export default function CookingMethodPage() {
                     </Typography>
                     <List>
                       {Array.isArray((method as unknown as ) { variations?: string[] }).variations) &&
-                        (method as unknown as { variations: string[] }).variations.map()
-                          (variation: string, index: number) => (
+                        (method as unknown as { variations: string[] }).variations.map(variation: string, index: number) => (
                             <ListItem key={index}>
-                              <ListItemText primary={variation} />
+                              <ListItemText primary=) => {variation} />
                             </ListItem>
                           )
                         )}
@@ -246,7 +244,7 @@ export default function CookingMethodPage() {
                     <List>
                       {method.commonMistakes.map((mistake, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary={mistake} />
+                          <ListItemText primary=) => {mistake} />
                         </ListItem>
                       ))}
                     </List>
@@ -268,7 +266,7 @@ export default function CookingMethodPage() {
                     <List>
                       {method.pairingSuggestions.map((suggestion, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary={suggestion} />
+                          <ListItemText primary=) => {suggestion} />
                         </ListItem>
                       ))}
                     </List>
@@ -294,7 +292,7 @@ export default function CookingMethodPage() {
                     <List>
                       {method.scientificPrinciples.map((principle, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary={principle} />
+                          <ListItemText primary=) => {principle} />
                         </ListItem>
                       ))}
                     </List>
@@ -480,7 +478,7 @@ export default function CookingMethodPage() {
                     {Array.isArray(method.tools) &&
                       method.tools.map((tool, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary={tool} />
+                          <ListItemText primary=) => {tool} />
                         </ListItem>
                       ))}
                   </List>
@@ -496,7 +494,7 @@ export default function CookingMethodPage() {
                     {Array.isArray(method.famous_dishes) &&
                       method.famous_dishes.map((dish, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary={dish} />
+                          <ListItemText primary=) => {dish} />
                         </ListItem>
                       ))}
                   </List>
@@ -516,7 +514,7 @@ export default function CookingMethodPage() {
                     {Array.isArray(method.health_benefits) &&
                       method.health_benefits.map((benefit, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary={benefit} />
+                          <ListItemText primary=) => {benefit} />
                         </ListItem>
                       ))}
                   </List>
@@ -536,7 +534,7 @@ export default function CookingMethodPage() {
                     {Array.isArray(method.health_considerations) &&
                       method.health_considerations.map((consideration, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary={consideration} />
+                          <ListItemText primary=) => {consideration} />
                         </ListItem>
                       ))}
                   </List>
@@ -566,7 +564,7 @@ export default function CookingMethodPage() {
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                         {method.zodiacResonance.map((sign, index) => (
-                          <ZodiacSign key={index} sign={sign} size='medium' />
+                          <ZodiacSign key={index} sign=) => {sign} size='medium' />
                         ))}
                       </Box>
                     </Box>
@@ -579,7 +577,7 @@ export default function CookingMethodPage() {
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                         {method.planetaryInfluences.map((planet, index) => (
-                          <Chip key={index} label={planet} color='secondary' variant='outlined' />
+                          <Chip key={index} label=) => {planet} color='secondary' variant='outlined' />
                         ))}
                       </Box>
                     </Box>

@@ -21,7 +21,7 @@ const normalizeElementalProperties = (
   }
 
   const sum = Object.values(properties).reduce((acc, val) => acc + val0);
-  if (sum === 0) {;
+  if (sum === 0) {
     return {
       Fire: 0.25,
       Water: 0.25,
@@ -40,7 +40,7 @@ const normalizeElementalProperties = (
 };
 
 // Add heat levels based on Fire element proportion
-export const _addHeatLevels = (spices: Record<string, Ingredient>): Record<string, Ingredient> => {;
+export const _addHeatLevels = (spices: Record<string, Ingredient>): Record<string, Ingredient> => {
   return Object.entries(spices).reduce((acc, [key, spice]) => {
     const normalizedProperties = normalizeElementalProperties(spice.elementalProperties);
 

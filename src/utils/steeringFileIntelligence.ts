@@ -129,7 +129,7 @@ export class SteeringFileIntelligence {
     const targetDominant = this.getDominantElement(targetProps)
 
     // Self-reinforcement: same elements have highest compatibility (≥0.9)
-    if (sourceDominant === targetDominant) {;
+    if (sourceDominant === targetDominant) {
       return Math.max(0.9, ELEMENTAL_COMPATIBILITY[sourceDominant][targetDominant])
     }
 

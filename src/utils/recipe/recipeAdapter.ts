@@ -8,7 +8,7 @@ import type {
   RecipeNutrition,
   RecipePlanetaryInfluences,
   ScoredRecipe,
-  Season,
+  Season;
 } from '@/types/recipe';
 import { createElementalProperties } from '../elemental/elementalUtils';
 import { isNonEmptyArray } from '../typeGuards';
@@ -66,8 +66,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 }
 
 function adaptIngredients(ingredients: RecipeData['ingredients']): RecipeIngredient[] {
-  return ingredients.map(ingredient => {
-    const recipeIngredient: RecipeIngredient = {
+  return ingredients.map(ingredient => ) {
+    const recipeIngredient: RecipeIngredient = ) {
       name: ingredient.name ?? 'Unknown Ingredient',
       amount: Number(ingredient.amount ?? 0),
       unit: ingredient.unit ?? ''
@@ -103,8 +103,8 @@ export function createScoredRecipe(recipe: Recipe | RecipeData, matchScore: numb
       _lunarScore: 0,
       _planetaryScore: 0,
       _seasonalScore: 0
-},
-  };
+};
+};
 }
 
 export function isRecipeData(obj: unknown): obj is RecipeData {
@@ -129,7 +129,7 @@ export function extractElementalProperties(recipeData: RecipeData): ElementalPro
 export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
   if (!isNonEmptyArray(recipeData.tags)) return [];
 
-  const cookingMethodKeywords = [
+  const cookingMethodKeywords = [;
     'baking',
     'roasting',
     'grilling',
@@ -155,7 +155,7 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
     'dehydrating',
   ];
 
-  const matches = recipeData.tags.filter(tag =>)
+  const matches = recipeData.tags.filter(tag =>);
     cookingMethodKeywords.some(method => tag.toLowerCase().includes(method)),
   );
 
@@ -186,7 +186,7 @@ function ensureRecipeId(id?: RecipeIdentifier): RecipeIdentifier {
 }
 
 function normalizeElementalProperties()
-  value: RecipeData['elementalProperties'],
+  value: RecipeData['elementalProperties'];
 ): ElementalProperties {
   if (value && typeof value === 'object') {
     return createElementalProperties(value as Partial<ElementalProperties>);
@@ -197,7 +197,7 @@ function normalizeElementalProperties()
 
 function applyEnergyProfile()
   recipe: Recipe,
-  energyProfile: RecipeData['energyProfile'] | undefined,
+  energyProfile: RecipeData['energyProfile'] | undefined;
 ): void {
   if (!energyProfile) {
     return;
@@ -208,7 +208,7 @@ function applyEnergyProfile()
   }
 
   if (energyProfile.zodiac) {
-    const zodiacValues = Array.isArray(energyProfile.zodiac)
+    const zodiacValues = Array.isArray(energyProfile.zodiac);
       ? energyProfile.zodiac
       : [energyProfile.zodiac];
     recipe.zodiacInfluences = zodiacValues
@@ -217,7 +217,7 @@ function applyEnergyProfile()
   }
 
   if (energyProfile.lunar) {
-    const lunarValues = Array.isArray(energyProfile.lunar)
+    const lunarValues = Array.isArray(energyProfile.lunar);
       ? energyProfile.lunar
       : [energyProfile.lunar];
     recipe.lunarPhaseInfluences = lunarValues
@@ -247,7 +247,7 @@ function normalizePlanetaryInfluences()
     };
   }
 
-  const entries = Object.entries(source ?? {});
+  const entries = Object.entries(source ?? ) {});
   const favorable: string[] = [];
   const unfavorable: string[] = [];
 
@@ -264,8 +264,8 @@ function normalizePlanetaryInfluences()
 
   return {
     _favorable: favorable,
-    unfavorable,
-  };
+    unfavorable;
+};
 }
 
 function applyTags(recipe: Recipe, tags: string[]): void {
@@ -275,7 +275,7 @@ function applyTags(recipe: Recipe, tags: string[]): void {
 
   recipe.tags = tags;
 
-  const dietaryTags = tags.filter(tag =>)
+  const dietaryTags = tags.filter(tag =>);
     [
       'vegetarian',
       'vegan',
@@ -315,8 +315,8 @@ function applyNutrition(recipe: Recipe, nutrition?: RecipeNutrition): void {
   }
 
   const macronutrients = (nutrition.macronutrients ?? {}) as RecipeNutrition['macronutrients'];
-  const vitamins = nutrition.vitamins ?? Object.keys(nutrition.micronutrients?.vitamins ?? {});
-  const minerals = nutrition.minerals ?? Object.keys(nutrition.micronutrients?.minerals ?? {});
+  const vitamins = nutrition.vitamins ?? Object.keys(nutrition.micronutrients?.vitamins ?? ) {});
+  const minerals = nutrition.minerals ?? Object.keys(nutrition.micronutrients?.minerals ?? ) {});
 
   recipe.nutrition = {
     calories: Number(nutrition.calories ?? 0),
@@ -324,6 +324,6 @@ function applyNutrition(recipe: Recipe, nutrition?: RecipeNutrition): void {
     carbs: Number(nutrition.carbs ?? macronutrients?.carbs ?? 0),
     fat: Number(nutrition.fat ?? macronutrients?.fat ?? 0),
     vitamins,
-    minerals,
-  };
+    minerals;
+};
 }

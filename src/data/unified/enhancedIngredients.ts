@@ -107,7 +107,7 @@ export interface EnhancedIngredient {
   }
 
   // Allow additional properties from UnifiedIngredient
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Storage recommendation interface
@@ -115,7 +115,7 @@ interface StorageRecommendation {
   temperature: string;
   humidity: string;
   duration: string;
-  method: string;
+  method: string
 }
 
 // Ingredient search criteria
@@ -152,7 +152,7 @@ export interface IngredientSystemConditions {
   cookingMethod?: string;
   cuisineStyle?: string;
   nutritionalGoals?: string[];
-  currentSeason?: string;
+  currentSeason?: string
 }
 
 /**
@@ -225,13 +225,13 @@ export class EnhancedIngredientsSystem {
    * Get all enhanced ingredients
    */
   getAllIngredients(): EnhancedIngredient[] {
-    return Object.values(this.ingredients)
-  }
+    return Object.values(this.ingredients);
+}
 
   /**
    * Get ingredient count by data quality
    */
-  getIngredientStats(): { total: number; high: number; medium, number; low, number } {
+  getIngredientStats(): { total: number; high, number; medium, number; low, number } {
     const ingredients = Object.values(this.ingredients);
     return {
       total: (ingredients || []).length,
@@ -245,7 +245,7 @@ export class EnhancedIngredientsSystem {
    * Search ingredients by criteria
    */
   searchIngredients(criteria: IngredientSearchCriteria): EnhancedIngredient[] {
-    let results = Object.values(this.ingredients)
+    let results = Object.values(this.ingredients);
 
     // Filter by category
     if (criteria.category) {
@@ -261,7 +261,7 @@ export class EnhancedIngredientsSystem {
 
     // Filter by elemental focus
     if (criteria.elementalFocus) {
-      results = (results || []).filter(ingredient => {
+      results = (results || []).filter(ingredient => ) {
         const elementKey = criteria.elementalFocus;
         const elementValue = elementKey ? ingredient.elementalProperties[elementKey] || 0 : 0;
         return elementValue > 0.3; // Must have significant presence
@@ -270,7 +270,7 @@ export class EnhancedIngredientsSystem {
 
     // Filter by Kalchm range
     if (criteria.kalchmRange) {
-      results = (results || []).filter(ingredient => {
+      results = (results || []).filter(ingredient => ) {
         const kalchmRange = criteria.kalchmRange;
         if (!kalchmRange) return true;
         const ingredientKalchm = ingredient.kalchm || 0;
@@ -328,11 +328,11 @@ export class EnhancedIngredientsSystem {
     const flavorProfile = this.flavorProfileSystem.getFlavorProfile(flavorProfileId);
     if (!flavorProfile) return [];
     // Get ingredients with connected flavor profiles
-    return Object.values(this.ingredients).filter(ingredient => {
+    return Object.values(this.ingredients).filter(ingredient => ) {
       if (!ingredient.unifiedFlavorProfile) return false;
 
       // Calculate compatibility between the target flavor profile and this ingredient's profile
-      const compatibility = this.flavorProfileSystem.calculateFlavorCompatibility()
+      const compatibility = this.flavorProfileSystem.calculateFlavorCompatibility();
         flavorProfile,
         ingredient.unifiedFlavorProfile
       );
@@ -365,13 +365,13 @@ export class EnhancedIngredientsSystem {
 
     // Find compatible ingredients
     return Object.values(this.ingredients)
-      .filter(ingredient => {
+      .filter(ingredient => ) {
         // Skip the same ingredient
         if (ingredient.name === targetIngredient.name) return false;
         // Check if ingredient has a flavor profile
         if (!ingredient.unifiedFlavorProfile) return false;
         // Calculate compatibility
-        const compatibility = this.flavorProfileSystem.calculateFlavorCompatibility()
+        const compatibility = this.flavorProfileSystem.calculateFlavorCompatibility();
           targetProfile || {
             sweet: 0,
             sour: 0,
@@ -386,7 +386,7 @@ export class EnhancedIngredientsSystem {
         return compatibility.compatibility >= tolerance;
       })
       .sort((a, b) => {
-        const compatA = this.flavorProfileSystem.calculateFlavorCompatibility()
+        const compatA = this.flavorProfileSystem.calculateFlavorCompatibility();
           targetProfile || {
             sweet: 0,
             sour: 0,
@@ -405,7 +405,7 @@ export class EnhancedIngredientsSystem {
           } as UnifiedFlavorProfile
         ).compatibility;
 
-        const compatB = this.flavorProfileSystem.calculateFlavorCompatibility()
+        const compatB = this.flavorProfileSystem.calculateFlavorCompatibility();
           targetProfile || {
             sweet: 0,
             sour: 0,
@@ -436,11 +436,11 @@ export class EnhancedIngredientsSystem {
     tolerance = 0.7
   ): EnhancedIngredient[] {
     return Object.values(this.ingredients)
-      .filter(ingredient => {
+      .filter(ingredient => ) {
         // Skip the same ingredient
         if (ingredient.name === targetIngredient.name) return false;
         // Calculate elemental compatibility
-        const compatibility = calculateElementalCompatibility()
+        const compatibility = calculateElementalCompatibility();
           targetIngredient.elementalProperties,
           ingredient.elementalProperties
         );
@@ -448,12 +448,12 @@ export class EnhancedIngredientsSystem {
         return compatibility >= tolerance;
       })
       .sort((a, b) => {
-        const compatA = calculateElementalCompatibility()
+        const compatA = calculateElementalCompatibility();
           targetIngredient.elementalProperties,
           a.elementalProperties
         );
 
-        const compatB = calculateElementalCompatibility()
+        const compatB = calculateElementalCompatibility();
           targetIngredient.elementalProperties,
           b.elementalProperties
         );
@@ -468,17 +468,17 @@ export class EnhancedIngredientsSystem {
    * Find ingredients with similar Kalchm values
    */
   findKalchmCompatibleIngredients(targetKalchm: number, tolerance = 0.2): EnhancedIngredient[] {
-    const min = targetKalchm * (1 - tolerance)
+    const min = targetKalchm * (1 - tolerance);
     const max = targetKalchm * (1 + tolerance);
-    return this.getIngredientsByKalchmRange(min, max)
-  }
+    return this.getIngredientsByKalchmRange(min, max);
+}
 
   /**
    * Get ingredients within a specific Kalchm range
    */
   getIngredientsByKalchmRange(min: number, max: number): EnhancedIngredient[] {
-    return Object.values(this.ingredients).filter(ingredient => {
-      const kalchm = ingredient.kalchm || 0
+    return Object.values(this.ingredients).filter(ingredient => ) {
+      const kalchm = ingredient.kalchm || 0;
       return kalchm >= min && kalchm <= max;
     })
   }
@@ -535,10 +535,10 @@ export class EnhancedIngredientsSystem {
    */
   adaptIngredientsForSeason()
     ingredients: EnhancedIngredient[],
-    season: string,
+    season: string;
   ): EnhancedIngredient[] {
     // Filter to keep only seasonally appropriate ingredients
-    const seasonal = (ingredients || []).filter()
+    const seasonal = (ingredients || []).filter();
       ingredient =>
         ingredient.culinaryProperties.seasonality.peak.includes(season as Season) ||
         ingredient.culinaryProperties.seasonality.optimal.includes(season as Season) ||
@@ -566,7 +566,7 @@ export class EnhancedIngredientsSystem {
     const fromSeasonIngredients = this.getSeasonalIngredients(fromSeason);
     const toSeasonIngredients = this.getSeasonalIngredients(toSeason);
     // Find ingredients available in both seasons
-    const transitionIngredients = (fromSeasonIngredients || []).filter(ingredient =>)
+    const transitionIngredients = (fromSeasonIngredients || []).filter(ingredient =>);
       (toSeasonIngredients || []).some(i => i.name === ingredient.name)
     );
 
@@ -594,13 +594,13 @@ export class EnhancedIngredientsSystem {
    */
   generateIngredientRecommendations()
     criteria: IngredientSearchCriteria,
-    conditions?: IngredientSystemConditions,
+    conditions?: IngredientSystemConditions;
   ): IngredientRecommendations {
     // Get base ingredients matching the criteria
     const baseIngredients = this.searchIngredients(criteria);
 
     // Apply seasonal adaptations if conditions specified
-    const seasonallyAdjusted = conditions?.season
+    const seasonallyAdjusted = conditions?.season;
       ? this.adaptIngredientsForSeason(baseIngredients || [], conditions.currentSeason || '')
       : baseIngredients;
 
@@ -608,9 +608,9 @@ export class EnhancedIngredientsSystem {
     const complementary = this.findComplementaryIngredients(seasonallyAdjusted);
 
     // Find seasonal ingredients that might not be in the base set
-    const seasonal = conditions?.season
+    const seasonal = conditions?.season;
       ? this.getSeasonalIngredients(conditions.currentSeason || '')
-          .filter(i => {
+          .filter(i => ) {
             const baseIngredientsArray = Array.isArray(baseIngredients) ? baseIngredients : [];
             return !baseIngredientsArray.some(bi => bi.name === i.name);
           })
@@ -624,17 +624,17 @@ export class EnhancedIngredientsSystem {
     const kalchmValues = (seasonallyAdjusted || []).map(i => i.kalchm || 0);
     const avgKalchm =
       kalchmValues.reduce((sum, v) => sum + v, 0) / ((kalchmValues || []).length || 1);
-    const kalchmBalanced = this.findKalchmCompatibleIngredients(avgKalchm, 0.2)
-      .filter(i => {
+    const kalchmBalanced = this.findKalchmCompatibleIngredients(avgKalchm, 0.2);
+      .filter(i => ) {
         const baseIngredientsArray = Array.isArray(baseIngredients) ? baseIngredients : [];
         return !baseIngredientsArray.some(bi => bi.name === i.name);
       })
       .slice(10);
 
     // Find flavor-compatible ingredients if we have at least one base ingredient
-    const flavorCompatible = (seasonallyAdjusted || []).length > 0
+    const flavorCompatible = (seasonallyAdjusted || []).length > 0;
       ? this.findFlavorCompatibleIngredients(seasonallyAdjusted[0])
-          .filter(i => {
+          .filter(i => ) {
             const baseIngredientsArray = Array.isArray(baseIngredients) ? baseIngredients : [];
             return !baseIngredientsArray.some(bi => bi.name === i.name);
           })
@@ -679,7 +679,7 @@ export class EnhancedIngredientsSystem {
     const enhanced: { [key: string]: EnhancedIngredient } = {}
 
     // Enhance each ingredient from the unified ingredients system
-    Object.values(unifiedIngredients || {}).forEach(ingredient => {
+    Object.values(unifiedIngredients || ) {}).forEach(ingredient => ) {
       const enhancedIngredient = this.enhanceIngredient(ingredient);
       enhanced[enhancedIngredient.name] = enhancedIngredient;
     });
@@ -723,7 +723,7 @@ export class EnhancedIngredientsSystem {
    * Generate culinary properties for an ingredient
    */
   private generateCulinaryProperties()
-    ingredient: UnifiedIngredient,
+    ingredient: UnifiedIngredient;
   ): EnhancedIngredient['culinaryProperties'] {
     const category = ingredient.category;
     const elementalProps = ingredient.elementalProperties;
@@ -745,12 +745,11 @@ export class EnhancedIngredientsSystem {
    * Generate astrological profile for an ingredient
    */
   private generateAstrologicalProfile()
-    ingredient: UnifiedIngredient,
+    ingredient: UnifiedIngredient;
   ): EnhancedIngredient['astrologicalProfile'] {
     // Get the dominant element
     const elementalProps = ingredient.elementalProperties;
-    const dominantElement = Object.entries(elementalProps).reduce()
-      (max, [element, value]) => (value > max.value ? { element, value } : max),
+    const dominantElement = Object.entries(elementalProps).reduce(max, [element, value]) => (value > max.value ? ) => { element, value } : max),;
       { element: 'Fire', value: 0 }).element as Element;
 
     return {
@@ -771,7 +770,7 @@ export class EnhancedIngredientsSystem {
    * Generate nutritional profile for an ingredient
    */
   private generateNutritionalProfile()
-    ingredient: UnifiedIngredient,
+    ingredient: UnifiedIngredient;
   ): EnhancedIngredient['nutritionalProfile'] {
     // Use existing nutritional profile if available
     if (ingredient.nutritionalProfile) {
@@ -811,14 +810,14 @@ export class EnhancedIngredientsSystem {
 
     // Check for essential properties
     if (ingredient.elementalProperties &&
-      Object.values(ingredient.elementalProperties || {}).some(v => v > 0)
+      Object.values(ingredient.elementalProperties || ) {}).some(v => v > 0)
     ) {
       qualityPoints += 1;
     }
 
     if (
       ingredient.alchemicalProperties &&
-      Object.values(ingredient.alchemicalProperties || {}).some(v => Number(v) > 0)
+      Object.values(ingredient.alchemicalProperties || ) {}).some(v => Number(v) > 0)
     ) {
       qualityPoints += 1;
     }
@@ -849,7 +848,7 @@ export class EnhancedIngredientsSystem {
     this.seasonalIndex = new Map<string, string[]>();
     this.planetaryIndex = new Map<string, string[]>();
 
-    Object.values(this.ingredients || {}).forEach(ingredient => {
+    Object.values(this.ingredients || ) {}).forEach(ingredient => ) {
       // Index by category
       const category = ingredient.category;
       if (category) {
@@ -861,8 +860,7 @@ export class EnhancedIngredientsSystem {
       // Index by dominant element
       const elementalProps = ingredient.elementalProperties;
       if (elementalProps) {
-        const dominantElement = Object.entries(elementalProps).reduce()
-          (max, [element, value]) => (Number(value) > Number(max.value) ? { element, value } : max),
+        const dominantElement = Object.entries(elementalProps).reduce(max, [element, value]) => (Number(value) > Number(max.value) ? { element, value } : max),;
           { element: 'Fire', value: 0 }).element;
 
         const elementIngredients = this.elementalIndex.get(dominantElement) || [];
@@ -884,7 +882,7 @@ export class EnhancedIngredientsSystem {
       if (seasonality) {
         const allSeasons = [...(seasonality.peak || []), ...(seasonality.optimal || [])];
 
-        (allSeasons || []).forEach(season => {
+        (allSeasons || []).forEach(season => ) {
           const seasonalIngredients = this.seasonalIndex.get(season) || [];
           if (!seasonalIngredients.includes(ingredient.name) {
             seasonalIngredients.push(ingredient.name);
@@ -910,8 +908,7 @@ export class EnhancedIngredientsSystem {
     if (!ingredients || (ingredients || []).length === 0) return [];
 
     // Get average elemental properties
-    const avgElementalProperties = ingredients.reduce()
-      (acc, ingredient) => {
+    const avgElementalProperties = ingredients.reduce(acc, ingredient) => {
         acc.Fire += ingredient.elementalProperties.Fire / (ingredients || []).length;
         acc.Water += ingredient.elementalProperties.Water / (ingredients || []).length;
         acc.Earth += ingredient.elementalProperties.Earth / (ingredients || []).length;
@@ -925,12 +922,12 @@ export class EnhancedIngredientsSystem {
     return (
       Object.values(this.ingredients)
         // Exclude ingredients already in the set
-        .filter(ingredient => {
+        .filter(ingredient => ) {
           const ingredientsArray = Array.isArray(ingredients) ? ingredients : [];
           return !ingredientsArray.some(i => i.name === ingredient.name);
         })
         // Score by compatibility
-        .map(ingredient => ({
+        .map(ingredient => () {
           ingredient,
           score: calculateElementalCompatibility()
             avgElementalProperties,
@@ -941,7 +938,7 @@ export class EnhancedIngredientsSystem {
         .sort((a, b) => b.score - a.score)
         // Take top matches
         .slice(8)
-        .map(({ ingredient }) => ingredient)
+        .map(() { ingredient }) => ingredient)
     )
   }
 
@@ -952,15 +949,15 @@ export class EnhancedIngredientsSystem {
     const substitutions: EnhancedIngredient[] = [];
 
     // For each ingredient, try to find possible substitutions
-    (ingredients || []).forEach(ingredient => {
+    (ingredients || []).forEach(ingredient => ) {
       // Skip if we already have substitutions for this category
       const category = ingredient.category;
       if ((substitutions || []).some(sub => sub.category === category)) return;
 
       // Find other ingredients in the same category with similar elemental properties
-      const sameCategory = this.getIngredientsByCategory(category)
+      const sameCategory = this.getIngredientsByCategory(category);
         .filter(other => other.name !== ingredient.name)
-        .map(other => ({
+        .map(other => () {
           ingredient: other,
           score: calculateElementalCompatibility()
             ingredient.elementalProperties,
@@ -969,7 +966,7 @@ export class EnhancedIngredientsSystem {
         }))
         .sort((a, b) => b.score - a.score)
         .slice(2)
-        .map(({ ingredient }) => ingredient);
+        .map(() { ingredient }) => ingredient);
 
       substitutions.push(...sameCategory);
     });
@@ -1003,7 +1000,7 @@ export class EnhancedIngredientsSystem {
     const compatibility = 0.75; // Minimum compatibility threshold
 
     // Find ingredients from different categories with compatible elemental properties
-    const fromDifferentCategories = Object.values(this.ingredients)
+    const fromDifferentCategories = Object.values(this.ingredients);
       .filter(other =>)
           other.name !== ingredient.name &&
           other.category !== ingredient.category &&
@@ -1015,7 +1012,7 @@ export class EnhancedIngredientsSystem {
       .slice(8);
     // If we don't have enough, add some based on Kalchm values
     if ((fromDifferentCategories || []).length < 5 && ingredient.kalchm) {
-      const kalchmMatches = this.findKalchmCompatibleIngredients(ingredient.kalchm, 0.2)
+      const kalchmMatches = this.findKalchmCompatibleIngredients(ingredient.kalchm, 0.2);
         .filter(other =>)
             other.name !== ingredient.name &&
             !(fromDifferentCategories || []).some(i => i.name === other.name)
@@ -1035,7 +1032,7 @@ export class EnhancedIngredientsSystem {
     // Get all seasons this ingredient is associated with
     const seasons = ingredient.culinaryProperties.seasonality.peak || [];
     // For each season, find other ingredients in that season
-    const seasonalMatches = seasons.flatMap(season =>)
+    const seasonalMatches = seasons.flatMap(season =>);
       this.getSeasonalIngredients(season)
         .filter(other => other.name !== ingredient.name)
         .slice(3)
@@ -1050,7 +1047,7 @@ export class EnhancedIngredientsSystem {
    */
   private getCookingMethodsForCategory()
     category: string,
-    elementalProps: ElementalProperties,
+    elementalProps: ElementalProperties;
   ): string[] {
     // Default cooking methods by category
     const defaultMethods: Record<string, string[]> = {
@@ -1065,7 +1062,7 @@ export class EnhancedIngredientsSystem {
     }
 
     // Get base methods for this category
-    const baseMethods = defaultMethods[category] || ['raw', 'cooking'],
+    const baseMethods = defaultMethods[category] || ['raw', 'cooking'],;
 
     // Add methods based on elemental properties
     const methodsByElement: Record<keyof ElementalProperties, string[]> = {
@@ -1076,15 +1073,14 @@ export class EnhancedIngredientsSystem {
     }
 
     // Find dominant element
-    const dominantElement = Object.entries(elementalProps).reduce()
-      (max, [element, value]) => (value > max.value ? { element, value } : max),
+    const dominantElement = Object.entries(elementalProps).reduce(max, [element, value]) => (value > max.value ? ) => { element, value } : max),;
       { element: 'Fire', value: 0 }).element as 'Fire' | 'Water' | 'Earth' | 'Air'
     // Add methods for dominant element
     const elementMethods = methodsByElement[dominantElement] || [];
 
     // Combine and return unique methods
-    return Array.from(new Set([...baseMethods, ...elementMethods]))
-  }
+    return Array.from(new Set([...baseMethods, ...elementMethods]));
+}
 
   /**
    * Get storage recommendations for a category
@@ -1183,8 +1179,7 @@ export class EnhancedIngredientsSystem {
 
     // Find dominant element
     const elementalProps = ingredient.elementalProperties;
-    const dominantElement = Object.entries(elementalProps).reduce()
-      (max, [element, value]) => (value > max.value ? { element, value } : max),
+    const dominantElement = Object.entries(elementalProps).reduce(max, [element, value]) => (value > max.value ? ) => { element, value } : max),;
       { element: 'Fire', value: 0 }).element,
 
     return (
@@ -1224,8 +1219,8 @@ export class EnhancedIngredientsSystem {
       Water: 'Moon',
       Earth: 'Saturn',
       Air: 'Mercury' },
-        return planetaryRulers[element] || 'Sun'
-  }
+        return planetaryRulers[element] || 'Sun';
+}
 
   /**
    * Get zodiac ruler for an element
@@ -1236,8 +1231,8 @@ export class EnhancedIngredientsSystem {
       Water: 'cancer',
       Earth: 'taurus',
       Air: 'libra' },
-        return zodiacRulers[element] || 'aries'
-  }
+        return zodiacRulers[element] || 'aries';
+}
 
   /**
    * Get energy type for an element
@@ -1248,8 +1243,8 @@ export class EnhancedIngredientsSystem {
       Water: 'receptive',
       Earth: 'stabilizing',
       Air: 'communicative' },
-        return energyTypes[element] || 'neutral'
-  }
+        return energyTypes[element] || 'neutral';
+}
 
   /**
    * Get seasonal peak for an element
@@ -1306,8 +1301,8 @@ export class EnhancedIngredientsSystem {
     if (kalchm <= 1.0) return 'low';
     if (kalchm <= 1.5) return 'moderate';
     if (kalchm <= 2.0) return 'high'
-    return 'very_high'
-  }
+    return 'very_high';
+}
 }
 
 // ===== INITIALIZE SYSTEM =====
@@ -1318,60 +1313,60 @@ const enhancedIngredientsSystem = new EnhancedIngredientsSystem();
 /**
  * Get an enhanced ingredient by name
  */
-export const _getEnhancedIngredient = (name: string): EnhancedIngredient | undefined =>
+export const _getEnhancedIngredient = (name: string): EnhancedIngredient | undefined =>;
   enhancedIngredientsSystem.getIngredient(name)
 
 /**
  * Get enhanced ingredients by category
  */
-export const getIngredientsByCategory = (category: string): EnhancedIngredient[] =>
+export const getIngredientsByCategory = (category: string): EnhancedIngredient[] =>;
   enhancedIngredientsSystem.getIngredientsByCategory(category)
 
 /**
  * Search for enhanced ingredients based on criteria
  */
-export const searchIngredients = (criteria: IngredientSearchCriteria): EnhancedIngredient[] =>
+export const searchIngredients = (criteria: IngredientSearchCriteria): EnhancedIngredient[] =>;
   enhancedIngredientsSystem.searchIngredients(criteria)
 
 /**
  * Get seasonal ingredients
  */
-export const getSeasonalIngredients = (season: string): EnhancedIngredient[] =>
+export const getSeasonalIngredients = (season: string): EnhancedIngredient[] =>;
   enhancedIngredientsSystem.getSeasonalIngredients(season)
 /**
  * Find ingredients with compatible Kalchm values
  */
-export const findKalchmCompatibleIngredients = (
+export const findKalchmCompatibleIngredients = (;
   kalchm: number,
-  tolerance?: number,
+  tolerance?: number;
 ): EnhancedIngredient[] =>
   enhancedIngredientsSystem.findKalchmCompatibleIngredients(kalchm, tolerance)
 
 /**
  * Generate comprehensive ingredient recommendations
  */
-export const generateIngredientRecommendations = (
+export const generateIngredientRecommendations = (;
   criteria: IngredientSearchCriteria,
-  conditions?: IngredientSystemConditions,
+  conditions?: IngredientSystemConditions;
 ): IngredientRecommendations =>
   enhancedIngredientsSystem.generateIngredientRecommendations(criteria, conditions)
 
 /**
  * Generate ingredient pAirings for a specific ingredient
  */
-export const generateIngredientPAirings = (ingredient: EnhancedIngredient) =>
+export const generateIngredientPAirings = (ingredient: EnhancedIngredient) =>;
   enhancedIngredientsSystem.generateIngredientPAirings(ingredient)
 
 /**
  * Get all enhanced ingredients
  */
-export const _getAllEnhancedIngredients = (): EnhancedIngredient[] =>
+export const _getAllEnhancedIngredients = (): EnhancedIngredient[] =>;
   enhancedIngredientsSystem.getAllIngredients()
 
 /**
  * Get ingredient statistics
  */
-export const getIngredientStats = () => enhancedIngredientsSystem.getIngredientStats()
+export const getIngredientStats = () => enhancedIngredientsSystem.getIngredientStats();
 
 export default enhancedIngredientsSystem
 ;

@@ -6,8 +6,8 @@ import type { PlanetaryPosition } from '@/types/celestial';
  */
 export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | null {
   if (!position || typeof position !== 'object') {
-    return null
-  }
+    return null;
+}
 
   const pos = position as any;
   
@@ -16,8 +16,8 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
   const degree = typeof pos.degree === 'number' ? pos.degree : ;
                  typeof pos.degree === 'string' ? parseFloat(pos.degree) : 0;
   if (!sign) {
-    return null
-  }
+    return null;
+}
 
   // Build the adapted position object
   const adapted: PlanetaryPosition = {
@@ -27,23 +27,23 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
   }
 
   // Add optional fields if present
-  if (typeof pos.house === 'number') {;
+  if (typeof pos.house === 'number') {
     adapted.house = pos.house;
   }
   
-  if (typeof pos.speed === 'number') {;
+  if (typeof pos.speed === 'number') {
     adapted.speed = pos.speed;
   }
 
-  if (typeof pos.longitude === 'number') {;
+  if (typeof pos.longitude === 'number') {
     adapted.longitude = pos.longitude;
   }
 
-  if (typeof pos.latitude === 'number') {;
+  if (typeof pos.latitude === 'number') {
     adapted.latitude = pos.latitude;
   }
 
-  if (typeof pos.distance === 'number') {;
+  if (typeof pos.distance === 'number') {
     adapted.distance = pos.distance;
   }
 
@@ -56,21 +56,21 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
 export function adaptPlanetaryPositions()
   positions: unknown): Record<string, PlanetaryPosition> | null {
   if (!positions || typeof positions !== 'object') {
-    return null
-  }
+    return null;
+}
 
   const adapted: Record<string, PlanetaryPosition> = {}
   let hasValidData = false;
 
   for (const [planet, position] of Object.entries(positions) {
-    const adaptedPosition = adaptPlanetaryPosition(position)
-    if (adaptedPosition) {;
+    const adaptedPosition = adaptPlanetaryPosition(position);
+    if (adaptedPosition) {
       adapted[planet] = adaptedPosition;
       hasValidData = true;
     }
   }
 
-  return hasValidData ? adapted : null 
+  return hasValidData ? adapted : null ;
 }
 
 /**
@@ -78,8 +78,8 @@ export function adaptPlanetaryPositions()
  */
 export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
   if (!obj || typeof obj !== 'object') {
-    return false
-  }
+    return false;
+}
 
   const pos = obj as any;
   return (
@@ -95,11 +95,11 @@ export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
 export function isPlanetaryPositionsMap()
   obj: unknown): obj is Record<string, PlanetaryPosition> {
   if (!obj || typeof obj !== 'object') {
-    return false
-  }
+    return false;
+}
 
   const positions = obj as any;
-  return Object.values(positions).some(isPlanetaryPosition)
+  return Object.values(positions).some(isPlanetaryPosition);
 }
 
 /**
@@ -107,15 +107,15 @@ export function isPlanetaryPositionsMap()
  */
 export function getSignFromPosition(_position: unknown): string | null {
   if (!position || typeof position !== 'object') {
-    return null
-  }
+    return null;
+}
 
   const pos = position as any;
   const sign = pos.sign;
 
-  if (typeof sign === 'string' && sign.length > 0) {;
-    return sign.toLowerCase()
-  }
+  if (typeof sign === 'string' && sign.length > 0) {
+    return sign.toLowerCase();
+}
 
   return null;
 }
@@ -125,19 +125,19 @@ export function getSignFromPosition(_position: unknown): string | null {
  */
 export function getDegreeFromPosition(_position: unknown): number {
   if (!position || typeof position !== 'object') {
-    return 0
-  }
+    return 0;
+}
 
   const pos = position as any;
   const degree = pos.degree;
 
-  if (typeof degree === 'number') {;
-    return Number.isFinite(degree) ? degree : 0;
+  if (typeof degree === 'number') {
+    return Number.isFinite(degree) ? degree : 0
   }
 
-  if (typeof degree === 'string') {;
-    const parsed = parseFloat(degree)
-    return Number.isFinite(parsed) ? parsed : 0;
+  if (typeof degree === 'string') {
+    const parsed = parseFloat(degree);
+    return Number.isFinite(parsed) ? parsed : 0
   }
 
   return 0;

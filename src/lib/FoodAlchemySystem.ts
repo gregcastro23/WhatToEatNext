@@ -257,7 +257,7 @@ export interface SystemState {
   elements: Record<Element, number>,
   metrics: ThermodynamicMetrics;
   planetaryPositions?: Record<string, { sign: string, degree: number }>,
-  aspects?: Array<{ type: string, planets: [string, string] }>,
+  aspects?: Array<{ type: string, planets: [string, string] }>;
 }
 
 export interface ThermodynamicMetrics {
@@ -395,16 +395,16 @@ export class FoodAlchemySystem {
   calculateFoodCompatibility()
     food: FoodCorrespondence,
     state: SystemState,
-    time: Date,
+    time: Date;
   ): FoodCompatibility {
     const planetaryCalculator = new PlanetaryHourCalculator();
     const rawPlanetaryHour = planetaryCalculator.calculatePlanetaryHour(time);
     const rawPlanetaryDay = planetaryCalculator.calculatePlanetaryHour(time);
 
     // Convert the planet names to the uppercase format used in this module
-    const planetaryHour = (rawPlanetaryHour.charAt(0).toUpperCase() +
+    const planetaryHour = (rawPlanetaryHour.charAt(0).toUpperCase() +;
       rawPlanetaryHour.slice(1)) as Planet;
-    const planetaryDay = (rawPlanetaryDay.charAt(0).toUpperCase() +
+    const planetaryDay = (rawPlanetaryDay.charAt(0).toUpperCase() +;
       rawPlanetaryDay.slice(1)) as Planet;
     const isDaytimeNow = planetaryCalculator.isDaytime(time);
     // Calculate base elemental compatibility (45% weight)
@@ -425,8 +425,7 @@ export class FoodAlchemySystem {
     } = this.calculatePlanetaryHourInfluence(food, planetaryHour, isDaytimeNow, state)
 
     // Apply standardized weighting
-    const compatibilityScore =
-      elementalMatch * 0.45 + planetaryDayMatch * 0.35 + planetaryHourMatch * 0.2,
+    const compatibilityScore = elementalMatch * 0.45 + planetaryDayMatch * 0.35 + planetaryHourMatch * 0.2,;
 
     return {
       score: compatibilityScore,
@@ -470,7 +469,7 @@ export class FoodAlchemySystem {
     const { Fire, Water, Air, Earth } = state.elements;
 
     // Calculate the dominant and weakest elements
-    const elementValues = [
+    const elementValues = [;
       { element: 'Fire', value: Fire },
       { element: 'Water', value: Water },
       { element: 'Air', value: Air },
@@ -529,7 +528,7 @@ export class FoodAlchemySystem {
     // Apply dignity effects if we have planet positions
     if (planetaryPositions?.[planetaryDay]) {
       const planetSign = planetaryPositions[planetaryDay].sign;
-      const planetDegree = planetaryPositions[planetaryDay].degree
+      const planetDegree = planetaryPositions[planetaryDay].degree;
 
       // Dignity effect bonus/penalty
       if (dayElements.dignityEffect && dayElements.dignityEffect[planetSign]) {
@@ -571,8 +570,8 @@ export class FoodAlchemySystem {
       elementalScore = Math.min(1.0, elementalScore + 0.3);
     }
 
-    return { score: elementalScore, dignityBonus, decanBonus }
-  }
+    return { score: elementalScore, dignityBonus, decanBonus };
+}
 
   /**
    * Calculates the planetary hour influence with enhanced dignity and aspect effects
@@ -582,7 +581,7 @@ export class FoodAlchemySystem {
     food: FoodCorrespondence,
     planetaryHour: Planet,
     isDaytime: boolean,
-    state: SystemState,
+    state: SystemState;
   ): { score: number, dignityBonus?: number, aspectBonus?: number } {
     // Get the elements associated with the current planetary hour
     const hourElements = planetaryElements[planetaryHour];
@@ -654,8 +653,8 @@ export class FoodAlchemySystem {
       elementalScore = Math.min(1.0, elementalScore + 0.3);
     }
 
-    return { score: elementalScore, dignityBonus, aspectBonus }
-  }
+    return { score: elementalScore, dignityBonus, aspectBonus };
+}
 
   /**
    * Generates enhanced recommendations based on planetary influences
@@ -666,13 +665,13 @@ export class FoodAlchemySystem {
     time: Date,
     planetaryDay: Planet,
     planetaryHour: Planet,
-    isDaytime: boolean,
+    isDaytime: boolean;
   ): string[] {
     const recommendations: string[] = [];
 
     // Get elements for current planetary influences
     const dayElements = planetaryElements[planetaryDay];
-    const hourElements = planetaryElements[planetaryHour]
+    const hourElements = planetaryElements[planetaryHour];
 
     if (dayElements && hourElements) {
       // Generate suggestions based on the day's elements
@@ -695,7 +694,7 @@ export class FoodAlchemySystem {
       }
 
       // Add time-specific recommendation based on the hour's element
-      const hourElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal
+      const hourElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
       if (hourElement === 'Fire') {
         recommendations.push()
           `${food.food} is best utilized in the current ${isDaytime ? 'day' : 'night' },
@@ -777,15 +776,14 @@ export class FoodAlchemySystem {
 
       // Add aspect-based recommendations
       if (state.aspects && state.aspects.length > 0) {
-        const relevantAspects = state.aspects.filter()
+        const relevantAspects = state.aspects.filter();
           aspect => aspect.planets.includes(planetaryDay) || aspect.planets.includes(planetaryHour),
         ),
 
         for (const aspect of relevantAspects) {
           if (aspect.type === 'Conjunction') {
             if (aspect.planets.includes(food.planet) {
-              const otherPlanet =
-                aspect.planets[0] === food.planet ? aspect.planets[1] : aspect.planets[0]
+              const otherPlanet = aspect.planets[0] === food.planet ? aspect.planets[1] : aspect.planets[0];
               recommendations.push()
                 `The conjunction between ${aspect.planets[0]} and ${aspect.planets[1]} powerfully enhances ${food.food}'s qualities.`,
               )
@@ -819,8 +817,8 @@ export class FoodAlchemySystem {
 
   private generateWarnings(food: FoodCorrespondence, state: SystemState): string[] {
     if (!food || !state) {
-      return []
-    }
+      return [];
+}
 
     const warnings: string[] = []
 
@@ -917,37 +915,34 @@ export class FoodAlchemySystem {
     method: PreparationMethod,
     food: FoodCorrespondence,
     planetaryHour: Planet,
-    isDaytimeNow: boolean,
+    isDaytimeNow: boolean;
   ): boolean {
     if (!method || !food) {
-      return false
-    }
+      return false;
+}
 
     // Check elemental compatibility
     // Methods that share or complement the food's element are preferred
-    const elementalMatch =
-      method.element === food.element ||
+    const elementalMatch = method.element === food.element ||;
       (food.element === 'Fire' && method.element === 'Air') ||
       (food.element === 'Air' && method.element === 'Fire') ||
       (food.element === 'Water' && method.element === 'Earth') ||
       (food.element === 'Earth' && method.element === 'Water')
 
     // Check planetary compatibility
-    const planetaryMatch =
-      method.timing.optimal.includes(planetaryHour) ||
+    const planetaryMatch = method.timing.optimal.includes(planetaryHour) ||;
       (method.timing.acceptable.includes(planetaryHour) &&
         !method.timing.avoid.includes(planetaryHour))
 
     // Check if method is appropriate for time of day
     // Some methods are better for day (solar) and others for night (lunar)
-    const timeAppropriate =
-      (isDaytimeNow && (method.element === 'Fire' || method.element === 'Air')) ||
+    const timeAppropriate = (isDaytimeNow && (method.element === 'Fire' || method.element === 'Air')) ||;
       (!isDaytimeNow && (method.element === 'Water' || method.element === 'Earth')) ||
       (method.planetaryRuler === 'Sun' && isDaytimeNow) ||
       (method.planetaryRuler === 'Moon' && !isDaytimeNow)
 
     // Method is compatible if at least two of the three conditions are true;
-    const compatibilityFactors = [elementalMatch, planetaryMatch, timeAppropriate],
+    const compatibilityFactors = [elementalMatch, planetaryMatch, timeAppropriate],;
     const trueFactors = compatibilityFactors.filter(Boolean).length;
 
     return trueFactors >= 2;

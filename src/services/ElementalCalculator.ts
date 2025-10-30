@@ -160,7 +160,7 @@ export class ElementalCalculator {
     Fire: number;
     Water: number;
     Earth: number;
-    Air: number;
+    Air: number
   } {
     if (this.debugMode) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -221,7 +221,7 @@ export class ElementalCalculator {
       // Normalize values
       const total = Object.values(elementalValues).reduce((sum, val) => sum + val, 0);
       if (total > 0) {
-        Object.keys(elementalValues).forEach(element => {
+        Object.keys(elementalValues).forEach(element => ) {
           const elementKey = element as unknown;
           elementalValues[elementKey] = elementalValues[elementKey] / total;
         });
@@ -251,7 +251,7 @@ export class ElementalCalculator {
 
     // Handle both array and object formats of planets
     if (Array.isArray(planets) {
-      planets.forEach(planet => {
+      planets.forEach(planet => ) {
         if (planet) this.processPlanetData(planet, elementalValues);
       });
     } else if (typeof planets === 'object') {
@@ -277,7 +277,7 @@ export class ElementalCalculator {
       });
     } else {
       // Handle individual planet objects
-      const planetNames = [
+      const planetNames = [;
         'sun',
         'moon',
         'mercury',
@@ -290,7 +290,7 @@ export class ElementalCalculator {
         'pluto'
       ];
 
-      planetNames.forEach(planetName => {
+      planetNames.forEach(planetName => ) {
         if (bodiesData[planetName]) {
           const planet = bodiesData[planetName];
           // Add name and label if not present
@@ -314,12 +314,12 @@ export class ElementalCalculator {
 
   private processPlanetKeys()
     data: Record<string, unknown>,
-    elementalValues: ElementalProperties,
+    elementalValues: ElementalProperties;
   ): void {
     if (!data) return;
 
     // Try to find planets in a generic object structure
-    const planetNames = [
+    const planetNames = [;
       'Sun',
       'Moon',
       'Mercury',
@@ -397,7 +397,7 @@ export class ElementalCalculator {
     try {
       // Extract planet info
       const planetRecord = planet as unknown as any;
-      const planetName = String()
+      const planetName = String();
         planetRecord.name || planetRecord.label || planetRecord.planet || ''
       );
       const signData = planetRecord.Sign;
@@ -435,10 +435,9 @@ export class ElementalCalculator {
   private processAscendantData(ascendant: unknown, elementalValues: ElementalProperties): void {
     try {
       const ascendantData = ascendant as any;
-      const ascendantSign =
-        typeof ascendant === 'string'
+      const ascendantSign = typeof ascendant === 'string';
           ? ascendant
-          : String((ascendantData.Sign || {}).label || ascendantData.sign || '');
+          : String((ascendantData.Sign || ) {}).label || ascendantData.sign || '');
 
       if (ascendantSign) {
         const ascendantElement = this.getSignElement(ascendantSign);
@@ -507,7 +506,7 @@ export class ElementalCalculator {
       return 'Air';
     }
 
-    logger.warn(`Unknown sign: ${sign}`);
+    logger.warn(`Unknown sign: $) {sign}`);
     return null;
   }
 
@@ -553,7 +552,7 @@ export class ElementalCalculator {
     if (!properties) return false;
 
     const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
-    const hasAllElements = requiredElements.every()
+    const hasAllElements = requiredElements.every();
       element => typeof properties[element as unknown] === 'number'
     );
 
@@ -586,7 +585,7 @@ export class ElementalCalculator {
       });
 
       // Normalize score to 0-100 range
-      return totalWeight > 0 ? (matchScore / totalWeight) * 100 : 50;
+      return totalWeight > 0 ? (matchScore / totalWeight) * 100 : 50
     }
 
     // Default score if no elemental properties
@@ -630,7 +629,7 @@ export class ElementalCalculator {
       Water: water / total,
       Earth: earth / total,
       Air: air / total
-    } : DEFAULT_ELEMENTAL_PROPERTIES;
+    } : DEFAULT_ELEMENTAL_PROPERTIES
   }
 
   public static calculateElementalBalance(elementalProperties: ElementalProperties): number {
@@ -642,7 +641,7 @@ export class ElementalCalculator {
     let count = 0;
 
     // Use all four elements for calculation
-    ['Fire', 'Water', 'Earth', 'Air'].forEach(element => {
+    ['Fire', 'Water', 'Earth', 'Air'].forEach(element => ) {
       const elementKey = element as unknown;
       const currentValue = currentState[elementKey] || 0;
       const ingredientValue = elementalProperties[elementKey] || 0;
@@ -654,7 +653,7 @@ export class ElementalCalculator {
     });
 
     // Return average similarity as percentage
-    return count > 0 ? (totalSimilarity / count) * 100 : 50;
+    return count > 0 ? (totalSimilarity / count) * 100 : 50
   }
 
   private calculateElementalTotals(properties: ElementalProperties): ElementalSummary {
@@ -743,7 +742,7 @@ export class ElementalCalculator {
     }
 
     // Sum up all properties
-    properties.forEach(prop => {
+    properties.forEach(prop => ) {
       Object.entries(prop).forEach(([element, value]) => {
         // Use nullish coalescing to handle undefined values
         const elementKey = element as unknown;
@@ -754,13 +753,13 @@ export class ElementalCalculator {
     // Normalize to ensure they sum to 1
     const total = Object.values(result).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
-      Object.keys(result).forEach(element => {
+      Object.keys(result).forEach(element => ) {
         const elementKey = element as unknown;
         result[elementKey] = result[elementKey] / total;
       });
     } else {
       // Default to equal distribution if total is 0
-      Object.keys(result).forEach(element => {
+      Object.keys(result).forEach(element => ) {
         const elementKey = element as unknown;
         result[elementKey] = 0.25;
       });
@@ -858,7 +857,7 @@ export class ElementalCalculator {
     const elementalEffect: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
     // Extract all planet keys
-    const planetKeys = Object.keys(planets).filter()
+    const planetKeys = Object.keys(planets).filter();
       key =>
         typeof planets[key] === 'object' && planets[key] !== null && (planetInfo?.[key] || false)
     );

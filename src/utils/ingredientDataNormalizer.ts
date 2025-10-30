@@ -10,7 +10,7 @@ export function normalizeVitamins()
   if (!vitamins) return [];
   // If it's already an array of strings
   if (Array.isArray(vitamins) {
-    return vitamins.map(vitamin => ({
+    return vitamins.map(vitamin => () {
       name: formatVitaminName(vitamin),
       value: undefined,
       unit: undefined
@@ -38,7 +38,7 @@ export function normalizeMinerals()
   if (!minerals) return [];
   // If it's already an array of strings
   if (Array.isArray(minerals) {
-    return minerals.map(mineral => ({
+    return minerals.map(mineral => () {
       name: formatMineralName(mineral),
       value: undefined,
       unit: undefined
@@ -231,7 +231,7 @@ function normalizeVarietyData(data: Record<string, unknown>): {
   notes: unknown;
   origin: unknown;
   storage: unknown;
-  ripening: unknown;
+  ripening: unknown
 } {
   if (!data || typeof data !== 'object') {
     return {
@@ -321,8 +321,7 @@ export function normalizeIngredientData()
   if (!ingredient) return null;
 
   // Safe type casting for nutritional profile
-  const nutritionalProfile =
-    typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null
+  const nutritionalProfile = typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null;
       ? (ingredient.nutritionalProfile as Record<string, unknown>)
       : {};
 
@@ -380,7 +379,7 @@ export function safeGetNutritionalData()
     const profile = ingredient.nutritionalProfile as any;
     return profile[field] || null;
   } catch (error) {
-    // logger.warn(`Error accessing nutritional field ${field}:`, error)
+    // logger.warn(`Error accessing nutritional field $) {field}:`, error)
     return null;
   }
 }
@@ -398,8 +397,7 @@ export function hasRichNutritionalData(ingredient: Record<string, unknown>): boo
   const hasMinerals =
     minerals && (Array.isArray(minerals) ? minerals.length > 0 : Object.keys(minerals).length > 0);
   const antioxidants = profile.antioxidants as Record<string, unknown> | unknown[];
-  const hasAntioxidants =
-    antioxidants &&
+  const hasAntioxidants = antioxidants &&;
     (Array.isArray(antioxidants) ? antioxidants.length > 0 : Object.keys(antioxidants).length > 0);
   return hasVitamins || hasMinerals || hasAntioxidants;
 }

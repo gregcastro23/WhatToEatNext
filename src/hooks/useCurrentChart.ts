@@ -89,7 +89,7 @@ export function useCurrentChart() {
     }
   }, [planetaryPositions])
 
-  const createChartSvg = () => {;
+  const createChartSvg = () => {
     // Map of planet names to their astronomical symbols
     const planetSymbols: Record<string, string> = {
       Sun: '☉',
@@ -155,7 +155,7 @@ export function useCurrentChart() {
 }
 
     // Calculate actual positions based on exact longitude
-    const planetPositions = Object.entries(chartData.planets).map(([planet, data]) => {;
+    const planetPositions = Object.entries(chartData.planets).map(([planet, data]) => {
       const exactLong = data.exactLongitude || 0;
       const angle = (exactLong * Math.PI) / 180, // Convert to radians,
       return {

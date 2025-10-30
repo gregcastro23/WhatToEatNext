@@ -14,7 +14,7 @@ declare global {
       user?: TokenPayload;
       authTokens?: {
         accessToken: string;
-        refreshToken?: string;
+        refreshToken?: string
       }
     }
   }
@@ -24,7 +24,7 @@ export interface AuthMiddlewareOptions {
   required?: boolean;
   roles?: UserRole[];
   permissions?: string[];
-  allowGuest?: boolean;
+  allowGuest?: boolean
 }
 
 /**
@@ -53,7 +53,7 @@ function extractTokenFromRequest(req: Request): string | null {
 /**
  * Main authentication middleware factory
  */
-export function authenticate(options: AuthMiddlewareOptions = {}) {
+export function authenticate(options: AuthMiddlewareOptions = ) {}) {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { required = true,
@@ -68,16 +68,16 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
       if (!token) {
         if (!required || allowGuest) {
           // Allow anonymous access for optional authentication;
-          logger.debug('Anonymous access granted', {
+          logger.debug('Anonymous access granted', ) {
             path: req.path,
             method: req.method,
             required,
             allowGuest
           })
-          return next()
-        }
+          return next();
+}
 
-        logger.warn('Authentication required but no token provided', {
+        logger.warn('Authentication required but no token provided', ) {
           path: req.path,
           method: req.method,
           ip: req.ip
@@ -95,7 +95,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
       const payload = await authService.validateToken(token);
 
       if (!payload) {
-        logger.warn('Invalid or expired token', {
+        logger.warn('Invalid or expired token', ) {
           path: req.path,
           method: req.method,
           ip: req.ip
@@ -114,7 +114,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
         const hasRequiredRole = roles.some(role => payload.roles.includes(role));
 
         if (!hasRequiredRole) {
-          logger.warn('Insufficient role permissions', {
+          logger.warn('Insufficient role permissions', ) {
             userId: payload.userId,
             userRoles: payload.roles,
             requiredRoles: roles,
@@ -135,12 +135,12 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
 
       // Check specific permission requirements
       if (permissions.length > 0) {
-        const hasPermission = permissions.every(permission =>)
+        const hasPermission = permissions.every(permission =>);
           authService.hasPermission(payload.roles, permission)
         );
 
         if (!hasPermission) {
-          logger.warn('Insufficient permissions', {
+          logger.warn('Insufficient permissions', ) {
             userId: payload.userId,
             userRoles: payload.roles,
             requiredPermissions: permissions,
@@ -162,7 +162,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
       // Attach user information to request
       req.user = payload;
 
-      logger.debug('Authentication successful', {
+      logger.debug('Authentication successful', ) {
         userId: payload.userId,
         email: payload.email,
         roles: payload.roles,
@@ -172,7 +172,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
 
       next()
     } catch (error) {
-      logger.error('Authentication middleware error', {
+      logger.error('Authentication middleware error', ) {
         error: error instanceof Error ? error.message : 'Unknown error',
         path: req.path,
         method: req.method,
@@ -191,7 +191,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
 /**
  * Require admin role
  */
-export const requireAdmin = authenticate({
+export const requireAdmin = authenticate({)
   required: true,
   roles: [UserRole.ADMIN]
 });
@@ -199,7 +199,7 @@ export const requireAdmin = authenticate({
 /**
  * Require authenticated user (any role except guest)
  */
-export const requireAuth = authenticate({
+export const requireAuth = authenticate({)
   required: true,
   roles: [UserRole.ADMIN, UserRole.USER, UserRole.SERVICE]
 });
@@ -207,7 +207,7 @@ export const requireAuth = authenticate({
 /**
  * Allow guest access with optional authentication
  */
-export const optionalAuth = authenticate({
+export const optionalAuth = authenticate({)
   required: false,
   allowGuest: true
 });
@@ -225,7 +225,7 @@ export function requirePermissions(...permissions: string[]) {
 /**
  * Service-to-service authentication
  */
-export const requireService = authenticate({
+export const requireService = authenticate({)
   required: true,
   roles: [UserRole.SERVICE, UserRole.ADMIN]
 });
@@ -278,7 +278,7 @@ export const authStatus = (req: Request, res: Response): void => {
       roles: req.user.roles,
       scopes: req.user.scopes
     },
-    token: {
+    token: ) {
       issuer: req.user.iss,
       issuedAt: new Date(req.user.iat * 1000),
       expiresAt: new Date(req.user.exp * 1000)

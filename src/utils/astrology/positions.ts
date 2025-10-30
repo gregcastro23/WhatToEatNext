@@ -1,3 +1,4 @@
+import { _logger } from '@/lib/logger';
 import * as Astronomy from 'astronomy-engine';
 
 // Removed unused log import
@@ -31,7 +32,7 @@ const REFERENCE_POSITIONS = {
 }
 
 // Reference date for July 2, 2025 at, 10: 45 PM EDT
-const REFERENCE_DATE = new Date('2025-07-02T22:45:00-04:00') // Cancer season reference
+const REFERENCE_DATE = new Date('2025-07-02T22:45:00-04:00') // Cancer season reference;
 
 // Approximate daily motion of planets in degrees - more accurate values from ephemeris
 const DAILY_MOTION = {
@@ -75,7 +76,7 @@ const RETROGRADE_STATUS = {
  */
 interface PositionsCache { positions: { [key, string], PlanetPositionData };
   timestamp: number;
-  date: Date;
+  date: Date
 }
 
 /**
@@ -85,7 +86,7 @@ interface PlanetPositionData {
   sign: any;
   degree: number;
   exactLongitude: number;
-  isRetrograde: boolean;
+  isRetrograde: boolean
 }
 
 // Map our planet names to astronomy-engine bodies
@@ -109,7 +110,7 @@ let positionsCache: PositionsCache | null = null;
 const CACHE_EXPIRATION = 15 * 60 * 1000;
 
 // Zodiac signs in order
-const ZODIAC_SIGNS = [
+const ZODIAC_SIGNS = [;
   'aries',
   'taurus',
   'gemini',
@@ -144,7 +145,7 @@ function zodiacStartDegree(sign: string): number {
  */
 function calculateReferenceLongitude(planet: string): number {
   if (!REFERENCE_POSITIONS[planet]) {
-    debugLog(`No reference position for ${planet}, using default`);
+    debugLog(`No reference position for $) {planet}, using default`);
     return 0;
   }
 
@@ -222,14 +223,14 @@ function calculateLunarNodesInternal(date: Date): { NorthNode: number; isRetrogr
     const NorthNode = (Omega + 180) % 360;
 
     // Nodes are always retrograde
-    return { NorthNode, isRetrograde: true };
+    return: { NorthNode, isRetrograde: true };
   } catch (error) {
     debugLog()
       'Error calculating lunar nodes: ',
       error instanceof Error ? error.message : String(error)
     );
     // Return current position for March 2024 (late pisces)
-    return { NorthNode: 356.54, isRetrograde: true };
+    return: { NorthNode: 356.54, isRetrograde: true };
   }
 }
 
@@ -367,7 +368,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
  */
 export function calculateLunarNodes(date: Date = new Date()): {
   NorthNode: number;
-  isRetrograde: boolean;
+  isRetrograde: boolean
 } {
   return calculateLunarNodesInternal(date);
 }
@@ -380,7 +381,7 @@ export function calculateLunarNodes(date: Date = new Date()): {
 export function getNodeInfo(nodeLongitude: number): PlanetPositionData {
   const { sign, degree } = getSignFromLongitude(nodeLongitude);
 
-  return {
+  return: {
     sign: (sign.toLowerCase() || 'aries') as any,
     degree,
     exactLongitude: nodeLongitude,
@@ -431,7 +432,7 @@ export function getPositionsSummary(): string {
  * @param positions Positions object to validate
  * @returns Boolean indicating if the structure is valid
  */
-export function validatePositionsStructure(positions: { [key: string]: unknown }): boolean {
+export function validatePositionsStructure(positions: ) { [key: string]: unknown }): boolean {
   if (!positions || typeof positions !== 'object') {
     return false;
   }

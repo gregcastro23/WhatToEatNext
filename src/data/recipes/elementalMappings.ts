@@ -17,7 +17,7 @@ const defaultAstrologicalInfluence: AstrologicalInfluence = {
 }
 
 // Helper function to safely access astrologicalInfluences
-const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[] => {;
+const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[] => {
   if (!method) return [defaultAstrologicalInfluence];
   const methodData = method as {
     astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[];
@@ -117,7 +117,7 @@ export function getRecipeEnhancedRecommendations(recipeId: string) {
   if (!recipe) return null;
 
   // Get base recommendations from the ElementalRecommendationService
-  const baseRecommendation = ElementalRecommendationService.generateRecommendation()
+  const baseRecommendation = ElementalRecommendationService.generateRecommendation();
     recipe.elementalProperties
   );
 

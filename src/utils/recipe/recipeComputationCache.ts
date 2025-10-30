@@ -16,7 +16,7 @@ interface CacheConfig {
   ttlMs: number;
 
   /** Cache key prefix */
-  prefix: string;
+  prefix: string
 }
 
 class RecipeComputationCacheManager {
@@ -24,7 +24,7 @@ class RecipeComputationCacheManager {
   private config: CacheConfig;
   private accessOrder: string[] = [];
 
-  constructor(config: Partial<CacheConfig> = {}) {
+  constructor(config: Partial<CacheConfig> = ) {}) {
     this.config = {
       maxSize: 1000,
       ttlMs: 30 * 60 * 1000, // 30 minutes
@@ -39,9 +39,9 @@ class RecipeComputationCacheManager {
   /**
    * Generate cache key from recipe ID and planetary positions
    */
-  generateCacheKey(recipeId: string, planetaryPositions: { [planet: string]: string }): string {
+  generateCacheKey(recipeId: string, planetaryPositions: ) { [planet: string]: string }): string {
     // Create a deterministic hash of planetary positions
-    const positionsString = Object.entries(planetaryPositions)
+    const positionsString = Object.entries(planetaryPositions);
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([planet, sign]) => `${planet}:${sign}`)
       .join('|');
@@ -211,8 +211,8 @@ class RecipeComputationCacheManager {
     return Math.abs(hash).toString(36);
   }
 
-  private generatePlanetaryPositionsHash(planetaryPositions: { [planet: string]: string }): string {
-    const positionsString = Object.entries(planetaryPositions)
+  private generatePlanetaryPositionsHash(planetaryPositions: ) { [planet: string]: string }): string {
+    const positionsString = Object.entries(planetaryPositions);
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([planet, sign]) => `${planet}:${sign}`)
       .join('|');
@@ -286,7 +286,7 @@ export function withComputationCaching<T extends any[], R>(
   computationFn: (...args: T) => R,
   options: { getCacheKey: (args, T) => string;
     getPlanetaryPositions: (args: T) => { [planet: string]: string };
-    cache?: RecipeComputationCacheManager;
+    cache?: RecipeComputationCacheManager
   }
 ) {
   const cache = options.cache || getRecipeComputationCache();
@@ -323,8 +323,8 @@ export function withComputationCaching<T extends any[], R>(
 export function batchCacheOperations(operations: Array<{
     cacheKey: string;
     operation: 'get' | 'set' | 'delete';
-    data?: RecipeComputedProperties;
-    planetaryPositions?: { [planet: string]: string };
+    data?: RecipeComputedProperties;)
+    planetaryPositions?: ) { [planet: string]: string };
   }>,
   cache?: RecipeComputationCacheManager
 ): Array<RecipeComputedProperties | null> {
@@ -361,7 +361,7 @@ export interface CachePerformanceMetrics {
   hitRate: number;
   averageHitTime: number;
   averageMissTime: number;
-  totalRequests: number;
+  totalRequests: number
 }
 
 export function getCachePerformanceMetrics()

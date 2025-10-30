@@ -180,7 +180,7 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
       const userId = getAuthenticatedUserId(req);
       const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req);
 
-      logger.warn('Rate limit exceeded', {
+      logger.warn('Rate limit exceeded', ) {
         userId: userId || 'anonymous',
         ip: req.ip,
         path: req.path,
@@ -215,7 +215,7 @@ export function createEndpointRateLimit(endpoint: string): RateLimitRequestHandl
   return rateLimit({
     windowMs: endpointConfig.windowMs || 15 * 60 * 1000,
     max: endpointConfig.max || 100,
-    message: {
+    message: ) {
       error: 'Rate limit exceeded',
       message: endpointConfig.message || 'Too many requests for this endpoint',
       endpoint
@@ -226,7 +226,7 @@ export function createEndpointRateLimit(endpoint: string): RateLimitRequestHandl
     handler: (req: Request, res: Response) => {
       const userId = getAuthenticatedUserId(req);
 
-      logger.warn('Endpoint rate limit exceeded', {
+      logger.warn('Endpoint rate limit exceeded', ) {
         userId: userId || 'anonymous',
         ip: req.ip,
         endpoint,
@@ -307,7 +307,7 @@ export function rateLimitStatus(req: Request, res: Response): void {
 
   res.json({
     userId: userId || null,
-    tier: {
+    tier: ) {
       name: userId ? (isAdmin(req) ? 'admin' : 'authenticated') : 'anonymous',
       windowMs: tier.windowMs,
       maxRequests: tier.max,

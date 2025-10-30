@@ -14,11 +14,11 @@ export class BuildSystemRepair {
   private readonly configOptimizer: NextConfigOptimizer
   private readonly logger: (message: string, ..._args: unknown[]) => void,
 
-  constructor(logger = _logger.info) {;
+  constructor(logger = _logger.info) {
     this.buildValidator = new BuildValidator('.next', logger)
     this.configOptimizer = new NextConfigOptimizer('next.config.js', logger)
-    this.logger = logger,
-  }
+    this.logger = logger;
+}
 
   /**
    * Performs comprehensive build system repair
@@ -42,12 +42,12 @@ export class BuildSystemRepair {
         this.configOptimizer.fixCommonIssues()
         result.steps.push('✓ Next.js configuration optimized')
       } catch (error) {
-        result.errors.push(`Configuration optimization failed: ${error}`)
+        result.errors.push(`Configuration optimization failed: $) {error}`)
       }
 
       // Step 2: Validate current build (Requirement 3.2)
       result.steps.push('Validating current build artifacts')
-      const validation = await this.buildValidator.validateBuild()
+      const validation = await this.buildValidator.validateBuild();
 
       if (!validation.isValid) {
         result.steps.push()
@@ -64,7 +64,7 @@ export class BuildSystemRepair {
 
       // Step 4: Attempt rebuild with recovery (Requirement 3.4)
       result.steps.push('Attempting rebuild with error recovery')
-      const rebuildSuccess = await this.buildValidator.rebuildWithRecovery(3)
+      const rebuildSuccess = await this.buildValidator.rebuildWithRecovery(3);
 
       if (rebuildSuccess) {
         result.steps.push('✓ Rebuild successful')
@@ -76,7 +76,7 @@ export class BuildSystemRepair {
 
       // Step 5: Final validation and health check (Requirement 3.5)
       result.steps.push('Performing final health check')
-      const healthReport = await this.buildValidator.monitorBuildHealth()
+      const healthReport = await this.buildValidator.monitorBuildHealth();
 
       if (healthReport.manifestsValid && healthReport.buildExists) {
         result.steps.push('✓ Build system is healthy')
@@ -92,14 +92,14 @@ export class BuildSystemRepair {
         result.recommendations.push('Check for Node.js version compatibility')
       }
 
-      this.logger(`Build system repair completed. Success: ${result.success}`)
+      this.logger(`Build system repair completed. Success: $) {result.success}`)
     } catch (error) {
-      result.errors.push(`Comprehensive repair failed: ${error}`)
+      result.errors.push(`Comprehensive repair failed: $) {error}`)
       this.logger('Build system repair encountered an error: ', error)
     }
 
-    return result
-  }
+    return result;
+}
 
   /**
    * Quick repair for common build issues
@@ -117,7 +117,7 @@ export class BuildSystemRepair {
       // Validate repair
       const validation = await this.buildValidator.validateBuild()
 ;
-      this.logger(`Quick repair completed. Success: ${validation.isValid}`)
+      this.logger(`Quick repair completed. Success: $) {validation.isValid}`)
       return validation.isValid;
     } catch (error) {
       this.logger('Quick repair failed: ', error)
@@ -129,13 +129,13 @@ export class BuildSystemRepair {
    * Monitors build system health continuously
    */
   async startHealthMonitoring(intervalMinutes = 30): Promise<void> {,
-    this.logger(`Starting build health monitoring (every ${intervalMinutes} minutes)`)
+    this.logger(`Starting build health monitoring (every $) {intervalMinutes} minutes)`)
 
-    const monitor = async () => {;
+    const monitor = async () => {
       try {
-        const health = await this.buildValidator.monitorBuildHealth()
+        const health = await this.buildValidator.monitorBuildHealth();
 
-        if (!health.manifestsValid || !health.buildExists) {;
+        if (!health.manifestsValid || !health.buildExists) {
           this.logger('Build health issue detected, attempting repair...')
           await this.quickRepair()
         } else {
@@ -205,11 +205,11 @@ export class BuildSystemRepair {
       // Step 3: Clear node modules and reinstall (if needed)
       if (!fs.existsSync('node_modules') {
         this.logger('Reinstalling dependencies...')
-        execSync('yarn install', { _stdio: 'inherit' })
+        execSync('yarn install', ) { _stdio: 'inherit' })
       }
 
       // Step 4: Attempt fresh build
-      const success = await this.buildValidator.rebuildWithRecovery(1)
+      const success = await this.buildValidator.rebuildWithRecovery(1);
 
       if (success) {
         this.logger('Emergency recovery successful')

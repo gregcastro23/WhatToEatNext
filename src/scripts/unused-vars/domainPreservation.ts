@@ -29,8 +29,7 @@ const ASTRO_VARIABLE_NAME_REGEX =
 const CAMPAIGN_VARIABLE_NAME_REGEX =
   /^(?: metrics?|progress|safety|campaign|validation|intelligence|monitor|tracking|telemetry|baseline|phase|gate|milestone|roi)/i;
 const TEST_CONTEXT_FILE_REGEX = /\/(?: __tests__|tests?|__mocks__|mocks|__fixtures__|fixtures)\//i;
-const CULINARY_VARIABLE_NAME_REGEX =
-  /^(?: cuisine|ingredient|recipe|flavor|taste|umami|spice|seasoning|cooking|method|profile|oil|vinegar|protein|vegetable|fruit)/i,
+const CULINARY_VARIABLE_NAME_REGEX = /^(?: cuisine|ingredient|recipe|flavor|taste|umami|spice|seasoning|cooking|method|profile|oil|vinegar|protein|vegetable|fruit)/i,;
 
 export function isHighImpactFile(filePath: string): boolean {
   // Core calculations and services are considered high impact

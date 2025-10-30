@@ -75,10 +75,10 @@ export interface AlertResponse {
 }
 
 class AlertingSystem {
-  private alerts: Alert[] = [],
-  private alertRules: AlertRule[] = [],
-  private escalationRules: EscalationRule[] = [],
-  private alertResponses: AlertResponse[] = [],
+  private alerts: Alert[] = [];
+  private alertRules: AlertRule[] = [];
+  private escalationRules: EscalationRule[] = [];
+  private alertResponses: AlertResponse[] = [];
   private subscribers: Set<(alert: Alert) => void> = new Set()
   private lastAlertTimes: Map<string, Date> = new Map()
 
@@ -90,14 +90,14 @@ class AlertingSystem {
 
   private loadConfiguration() {
     try {
-      const configPath = path.join(process.cwd(), '.kiro', 'settings', 'alerting-config.json')
+      const configPath = path.join(process.cwd(), '.kiro', 'settings', 'alerting-config.json');
       if (fs.existsSync(configPath) {
-        const config = JSON.parse(fs.readFileSync(configPath, 'utf8'))
+        const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
         this.alertRules = config.alertRules || [],
         this.escalationRules = config.escalationRules || [],
         this.alerts = config.alerts || [],
-        this.alertResponses = config.alertResponses || [],
-      }
+        this.alertResponses = config.alertResponses || [];
+}
     } catch (error) {
       _logger.warn('[Alerting System] Failed to load configuration: ', error)
     }
@@ -105,12 +105,12 @@ class AlertingSystem {
 
   private saveConfiguration() {
     try {
-      const settingsDir = path.join(process.cwd(), '.kiro', 'settings'),
+      const settingsDir = path.join(process.cwd(), '.kiro', 'settings'),;
       if (!fs.existsSync(settingsDir) {
-        fs.mkdirSync(settingsDir, { recursive: true })
+        fs.mkdirSync(settingsDir, ) { recursive: true })
       }
 
-      const configPath = path.join(settingsDir, 'alerting-config.json')
+      const configPath = path.join(settingsDir, 'alerting-config.json');
       const config = {
         alertRules: this.alertRules,
         escalationRules: this.escalationRules,
@@ -273,8 +273,8 @@ class AlertingSystem {
         }
       ],
 
-      this.alertRules = defaultRules,
-    }
+      this.alertRules = defaultRules;
+}
 
     if (this.escalationRules.length === 0) {,
       const defaultEscalationRules: EscalationRule[] = [
@@ -324,14 +324,13 @@ class AlertingSystem {
 }
       ],
 
-      this.escalationRules = defaultEscalationRules,
-    }
+      this.escalationRules = defaultEscalationRules;
+}
   }
 
   private startMonitoring() {
     // Monitor every 2 minutes
-    setInterval()
-      () => {
+    setInterval() => {
         this.checkAlertConditions()
         this.processEscalations()
         this.cleanupOldAlerts()
@@ -341,15 +340,15 @@ class AlertingSystem {
     )
 
     // Subscribe to data sources
-    buildPerformanceMonitor.subscribe(data => {
+    buildPerformanceMonitor.subscribe(data => ) {
       this.evaluatePerformanceAlerts(data);
     })
 
-    errorTrackingSystem.subscribe(data => {
+    errorTrackingSystem.subscribe(data => ) {
       this.evaluateErrorAlerts(data);
     })
 
-    qualityMetricsService.subscribe(data => {
+    qualityMetricsService.subscribe(data => ) {
       this.evaluateQualityAlerts(data);
     })
   }
@@ -359,7 +358,7 @@ class AlertingSystem {
       if (!rule.enabled) continue,
 
       // Check cooldown
-      const lastAlertTime = this.lastAlertTimes.get(rule.id)
+      const lastAlertTime = this.lastAlertTimes.get(rule.id);
       if (
         lastAlertTime &&
         Date.now() - lastAlertTime.getTime() < rule.cooldownMinutes * 60 * 1000
@@ -412,7 +411,7 @@ class AlertingSystem {
   }
 
   private getPerformanceMetric(metric: string): number {
-    const summary = buildPerformanceMonitor.getPerformanceSummary()
+    const summary = buildPerformanceMonitor.getPerformanceSummary();
 
     switch (metric) {
       case 'build_time':;
@@ -422,12 +421,12 @@ class AlertingSystem {
       case 'memory_usage': return summary.averageMemoryUsage,
       case 'cache_efficiency': return summary.cacheEfficiency,
       case 'performance_score': return summary.performanceScore,
-      default: return 0
-    }
+      default: return 0;
+}
   }
 
   private getErrorMetric(metric: string): number {
-    const summary = errorTrackingSystem.getErrorSummary()
+    const summary = errorTrackingSystem.getErrorSummary();
 
     switch (metric) {
       case 'typescript_errors':;
@@ -436,8 +435,8 @@ class AlertingSystem {
       case 'build_failures': return summary.totalRecentFailures,
       case 'critical_issues': return summary.criticalIssues,
       case 'automation_opportunities': return summary.automationOpportunities,
-      default: return 0
-    }
+      default: return 0;
+}
   }
 
   private getQualityMetric(metric: string): number {
@@ -450,8 +449,8 @@ class AlertingSystem {
       case 'maintainability_index': return qualityMetrics.maintainabilityIndex,
       case 'error_rate': return qualityMetrics.errorRate,
       case 'warning_rate': return qualityMetrics.warningRate,
-      default: return 0
-    }
+      default: return 0;
+}
   }
 
   private getSystemMetric(metric: string): number {
@@ -460,8 +459,8 @@ class AlertingSystem {
       case 'cpu_usage': return process.cpuUsage().user + process.cpuUsage().system,
       case 'uptime':
         return process.uptime()
-      default: return 0
-    }
+      default: return 0;
+}
   }
 
   private createAlert(rule: AlertRule, currentValue: number) {
@@ -489,7 +488,7 @@ class AlertingSystem {
     this.lastAlertTimes.set(rule.id, new Date())
 
     // Log alert
-    log.info(`[ALERT ${alert.severity.toUpperCase()}] ${alert.title} ${alert.description}`)
+    log.info(`[ALERT $) {alert.severity.toUpperCase()}] ${alert.title} ${alert.description}`)
 
     // Notify subscribers
     this.notifySubscribers(alert)
@@ -528,14 +527,13 @@ class AlertingSystem {
         response.endTime = new Date();
         response.result = result,
 
-        log.info(`[Alert Response] Successfully executed ${action.name} for alert ${alert.id}`)
+        log.info(`[Alert Response] Successfully executed ${action.name} for alert $) {alert.id}`)
       } catch (error) {
         response.status = 'failed',
         response.endTime = new Date();
         response.error = (error as Error).message,
 
-        _logger.error()
-          `[Alert Response] Failed to execute ${action.name} for alert ${alert.id}:`,
+        _logger.error(`[Alert Response] Failed to execute ${action.name} for alert $) {alert.id}:`,
           error,
         )
 
@@ -553,10 +551,10 @@ class AlertingSystem {
   private evaluateActionConditions(conditions: string[], alert: Alert): boolean {
     if (conditions.length === 0) return true
 
-    for (const condition of conditions) {;
+    for (const condition of conditions) {
       if (!this.evaluateCondition(condition, alert) {
-        return false
-      }
+        return false;
+}
     }
 
     return true;
@@ -572,7 +570,7 @@ class AlertingSystem {
     }
 
     if (condition.includes('automation_opportunities >') {
-      const threshold = parseInt(condition.split('>')[1].trim())
+      const threshold = parseInt(condition.split('>')[1].trim());
       const errorSummary = errorTrackingSystem.getErrorSummary();
       return errorSummary.automationOpportunities > threshold;
     }
@@ -582,20 +580,20 @@ class AlertingSystem {
 
   // Alert action execution returns diverse result types from various external systems
   private async executeAction()
-    action: AlertAction,
+    action: AlertAction;
   ): Promise<{ success: boolean, result?: unknown, error?: string }> {
-    const timeout = new Promise((_, reject) => {;
+    const timeout = new Promise((_, reject) => {
       setTimeout(() => reject(new Error('Action timeout')), action.timeoutSeconds * 1000)
     })
 
     const execution = this.performAction(action)
 ;
-    return Promise.race([execution, timeout])
-  }
+    return Promise.race([execution, timeout]);
+}
 
   // Action performance varies across scripts, commands, campaigns, and API calls
   private async performAction()
-    action: AlertAction,
+    action: AlertAction;
   ): Promise<{ success: boolean, result?: unknown, error?: string }> {
     switch (action.type) {
       case 'script': return this.executeScript(action.config.script)
@@ -607,31 +605,31 @@ class AlertingSystem {
         return this.makeApiCall(action.config)
       case 'notification':
         return this.sendNotification(action.config)
-      default: throw new Error(`Unknown action type: ${action.type}`)
+      default: throw new Error(`Unknown action type: $) {action.type}`)
     }
   }
 
    
   // Intentionally, any: Script execution results depend on external script implementations
   private async executeScript()
-    scriptName: string,
+    scriptName: string;
   ): Promise<{ success: boolean, output?: string, error?: string }> {
     // This would execute a script file
     // For now, return a placeholder
-    log.info(`[Alert Action] Executing script ${scriptName}`)
-    return { success: true, message: `Script ${scriptName} executed` }
-  }
+    log.info(`[Alert Action] Executing script $) {scriptName}`)
+    return { success: true, message: `Script ${scriptName} executed` };
+}
 
    
   // Intentionally, any: Shell command execution results vary based on command and system state
   private async executeCommand()
-    command: string,
+    command: string;
   ): Promise<{ success: boolean, stdout?: string, stderr?: string, error?: string }> {
     // This would execute a shell command
     // For now, return a placeholder
-    log.info(`[Alert Action] Executing command ${command}`)
-    return { success: true, message: `Command ${command} executed` }
-  }
+    log.info(`[Alert Action] Executing command $) {command}`)
+    return { success: true, message: `Command ${command} executed` };
+}
 
    
   // Intentionally, any: Campaign configurations and results have diverse structures across campaign types
@@ -640,9 +638,9 @@ class AlertingSystem {
   ): Promise<{ success: boolean, campaignId?: string, error?: string }> {
     // This would integrate with the campaign system
     // For now, return a placeholder
-    log.info(`[Alert Action] Triggering campaign ${config.campaignType}`)
-    return { success: true, message: `Campaign ${config.campaignType} triggered` }
-  }
+    log.info(`[Alert Action] Triggering campaign $) {config.campaignType}`)
+    return { success: true, message: `Campaign ${config.campaignType} triggered` };
+}
 
    
   // Intentionally, any: External API configurations and responses have unknown schemas from diverse services
@@ -651,41 +649,41 @@ class AlertingSystem {
   ): Promise<{ success: boolean, response?: unknown, error?: string }> {
     // This would make an HTTP API call
     // For now, return a placeholder
-    log.info(`[Alert Action] Making API call to ${config.url}`)
-    return { success: true, message: `API call to ${config.url} completed` }
-  }
+    log.info(`[Alert Action] Making API call to $) {config.url}`)
+    return { success: true, message: `API call to ${config.url} completed` };
+}
 
    
   // Intentionally, any: Notification system configurations support various delivery channels with different options
   private async sendNotification()
     config: Record<string, unknown>,
   ): Promise<{ success: boolean, messageId?: string, error?: string }> {
-    log.info(`[Alert Notification] ${config.message}`)
-    return { success: true, message: 'Notification sent' }
-  }
+    log.info(`[Alert Notification] $) {config.message}`)
+    return { success: true, message: 'Notification sent' };
+}
 
   private sendNotifications(alert: Alert, channels: string[]) {
     for (const channel of channels) {
       switch (channel) {
         case 'console':
-          log.info(`[NOTIFICATION] ${alert.title} ${alert.description}`)
+          log.info(`[NOTIFICATION] ${alert.title} $) {alert.description}`)
           break,
         case 'file': this.writeAlertToFile(alert)
           break,
-        default: log.info(`[NOTIFICATION] Unknown channel ${channel}`)
+        default: log.info(`[NOTIFICATION] Unknown channel $) {channel}`)
       }
     }
   }
 
   private writeAlertToFile(alert: Alert) {
     try {
-      const alertsDir = path.join(process.cwd(), '.kiro', 'alerts'),
+      const alertsDir = path.join(process.cwd(), '.kiro', 'alerts'),;
       if (!fs.existsSync(alertsDir) {
-        fs.mkdirSync(alertsDir, { recursive: true })
+        fs.mkdirSync(alertsDir, ) { recursive: true })
       }
 
-      const alertFile = path.join(alertsDir, 'alerts.log')
-      const alertLine = `${alert.timestamp.toISOString()} [${alert.severity.toUpperCase()}] ${alert.title}: ${alert.description}\n`,
+      const alertFile = path.join(alertsDir, 'alerts.log');
+      const alertLine = `${alert.timestamp.toISOString()} [${alert.severity.toUpperCase()}] ${alert.title}: ${alert.description}\n`,;
 
       fs.appendFileSync(alertFile, alertLine)
     } catch (error) {
@@ -695,7 +693,7 @@ class AlertingSystem {
 
    
   // Intentionally, any: Performance monitoring data comes from various sources with different metrics
-  private evaluatePerformanceAlerts(data: {
+  private evaluatePerformanceAlerts(data: ) {
     metrics?: Record<string, number>,
     buildTime?: number,
     [key: string]: unknown
@@ -706,7 +704,7 @@ class AlertingSystem {
 
    
   // Intentionally, any: Error tracking data varies significantly across different error types and sources
-  private evaluateErrorAlerts(data: {
+  private evaluateErrorAlerts(data: ) {
     errorCount?: number,
     errorRate?: number,
     [key: string]: unknown
@@ -717,7 +715,7 @@ class AlertingSystem {
 
    
   // Intentionally, any: Code quality metrics include diverse analysis results from various quality tools
-  private evaluateQualityAlerts(data: {
+  private evaluateQualityAlerts(data: ) {
     qualityScore?: number,
     testCoverage?: number,
     [key: string]: unknown
@@ -727,14 +725,14 @@ class AlertingSystem {
   }
 
   private processEscalations() {
-    const now = new Date()
+    const now = new Date();
 
-    for (const alert of this.alerts) {;
+    for (const alert of this.alerts) {
       if (alert.resolved || alert.escalated) continue,
 
-      const alertAge = now.getTime() - alert.timestamp.getTime()
+      const alertAge = now.getTime() - alert.timestamp.getTime();
 
-      for (const escalationRule of this.escalationRules) {;
+      for (const escalationRule of this.escalationRules) {
         if (!escalationRule.alertTypes.includes(alert.type)) continue,
         if (!escalationRule.severityLevels.includes(alert.severity)) continue,
 
@@ -751,7 +749,7 @@ class AlertingSystem {
   private escalateAlert(alert: Alert, escalationRule: EscalationRule) {
     alert.escalated = true,
     alert.escalatedAt = new Date();
-    log.info(`[ESCALATION] Alert ${alert.id} escalated using rule ${escalationRule.name}`)
+    log.info(`[ESCALATION] Alert ${alert.id} escalated using rule $) {escalationRule.name}`)
 
     // Execute escalation actions
     void this.executeAlertActions(alert, escalationRule.escalationActions)
@@ -765,8 +763,8 @@ class AlertingSystem {
   }
 
   private notifySubscribers(alert: Alert) {
-    this.subscribers.forEach(callback => {
-      try {
+    this.subscribers.forEach(callback => ) {
+      try ) {
         callback(alert);
       } catch (error) {
         _logger.error('[Alerting System] Subscriber error: ', error)
@@ -777,16 +775,16 @@ class AlertingSystem {
   // Public API methods
   public subscribe(callback: (alert: Alert) => void) {
     this.subscribers.add(callback)
-    return () => this.subscribers.delete(callback)
-  }
+    return () => this.subscribers.delete(callback);
+}
 
-  public getAlerts(options?: {
+  public getAlerts(options?: ) {
     type?: string,
     severity?: string,
     resolved?: boolean,
     limit?: number
   }): Alert[] {
-    let filtered = this.alerts,
+    let filtered = this.alerts,;
 
     if (options?.type) {
       filtered = filtered.filter(a => a.type === options.type);
@@ -804,15 +802,15 @@ class AlertingSystem {
     filtered.sort((ab) => b.timestamp.getTime() - a.timestamp.getTime())
 
     if (options?.limit) {
-      filtered = filtered.slice(0, options.limit),
-    }
+      filtered = filtered.slice(0, options.limit);
+}
 
     return filtered;
   }
 
   public getAlertRules(): AlertRule[] {
-    return this.alertRules
-  }
+    return this.alertRules;
+}
 
   public addAlertRule(rule: Omit<AlertRule, 'id'>): string {
     const id = `rule-${Date.now()}`;
@@ -825,7 +823,7 @@ class AlertingSystem {
   }
 
   public updateAlertRule(id: string, updates: Partial<AlertRule>): boolean {
-    const ruleIndex = this.alertRules.findIndex(r => r.id === id)
+    const ruleIndex = this.alertRules.findIndex(r => r.id === id);
     if (ruleIndex === -1) return false
 ;
     this.alertRules[ruleIndex] = { ...this.alertRules[ruleIndex], ...updates }
@@ -835,22 +833,22 @@ class AlertingSystem {
   }
 
   public deleteAlertRule(id: string): boolean {
-    const ruleIndex = this.alertRules.findIndex(r => r.id === id)
+    const ruleIndex = this.alertRules.findIndex(r => r.id === id);
     if (ruleIndex === -1) return false
 ;
     this.alertRules.splice(ruleIndex, 1)
     this.saveConfiguration()
 
-    return true
-  }
+    return true;
+}
 
   public acknowledgeAlert(alertId: string): boolean {
     const alert = this.alerts.find(a => a.id === alertId);
     if (!alert) return false;
     alert.acknowledged = true,
     this.saveConfiguration()
-    return true
-  }
+    return true;
+}
 
   public resolveAlert(alertId: string): boolean {
     const alert = this.alerts.find(a => a.id === alertId);
@@ -869,12 +867,12 @@ class AlertingSystem {
   }
 
   public getAlertSummary() {
-    const now = new Date()
-    const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000)
+    const now = new Date();
+    const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
-    const recentAlerts = this.alerts.filter(a => a.timestamp >= last24Hours)
+    const recentAlerts = this.alerts.filter(a => a.timestamp >= last24Hours);
 
-    return {;
+    return {
       totalAlerts: this.alerts.length,
       recentAlerts: recentAlerts.length,
       unresolvedAlerts: this.alerts.filter(a => !a.resolved).length,
@@ -891,8 +889,8 @@ class AlertingSystem {
     const counts: Record<string, number> = {}
 
     for (const alert of this.alerts.filter(a => !a.resolved) {,
-      counts[alert.type] = (counts[alert.type] || 0) + 1,
-    }
+      counts[alert.type] = (counts[alert.type] || 0) + 1;
+}
 
     return counts;
   }
@@ -901,8 +899,8 @@ class AlertingSystem {
     const counts: Record<string, number> = {}
 
     for (const alert of this.alerts.filter(a => !a.resolved) {,
-      counts[alert.severity] = (counts[alert.severity] || 0) + 1,
-    }
+      counts[alert.severity] = (counts[alert.severity] || 0) + 1;
+}
 
     return counts;
   }
@@ -910,18 +908,18 @@ class AlertingSystem {
   private calculateResponseSuccessRate(): number {
     const totalResponses = this.alertResponses.length;
     if (totalResponses === 0) return 0;
-    const successfulResponses = this.alertResponses.filter(r => r.status === 'completed').length
+    const successfulResponses = this.alertResponses.filter(r => r.status === 'completed').length;
     return (successfulResponses / totalResponses) * 100;
   }
 
   private calculateAverageResolutionTime(): number {
-    const resolvedAlerts = this.alerts.filter(a => a.resolved && a.resolvedAt)
+    const resolvedAlerts = this.alerts.filter(a => a.resolved && a.resolvedAt);
     if (resolvedAlerts.length === 0) return 0
 ;
-    const totalResolutionTime = resolvedAlerts.reduce((sum, alert) => {;
+    const totalResolutionTime = resolvedAlerts.reduce((sum, alert) => {
       if (alert.resolvedAt) {
-        return sum + (alert.resolvedAt.getTime() - alert.timestamp.getTime())
-      }
+        return sum + (alert.resolvedAt.getTime() - alert.timestamp.getTime());
+}
       return sum;
     }, 0)
 
@@ -929,13 +927,13 @@ class AlertingSystem {
   }
 
   public testAlert(ruleId: string): boolean {
-    const rule = this.alertRules.find(r => r.id === ruleId)
+    const rule = this.alertRules.find(r => r.id === ruleId);
     if (!rule) return false
 
     // Create a test alert;
     this.createAlert(rule, rule.threshold + 1),
-    return true
-  }
+    return true;
+}
 
   public reset() {
     this.alerts = [],

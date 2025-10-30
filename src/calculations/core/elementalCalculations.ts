@@ -39,13 +39,13 @@ function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, 
 }
 
 function safeGetNumber(value: unknown): number {
-  return typeof value === 'number' && !isNaN(value) ? value : 0;
+  return typeof value === 'number' && !isNaN(value) ? value : 0
 }
 
 /**
  * Calculate base elemental properties from planetary positions
  */
-export function calculateBaseElementalProperties(planetaryPositions: { [key: string]: CelestialPosition }): ElementalProperties {
+export function calculateBaseElementalProperties(planetaryPositions: ) { [key: string]: CelestialPosition }): ElementalProperties {
   const elements: ElementalProperties = {
     Fire: 0,
     Water: 0,
@@ -152,7 +152,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     };
 
     const elementalMultipliers = contextElementalMultipliers[context] || contextElementalMultipliers.general;
-    const preferenceMultiplier = hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
+    const preferenceMultiplier = hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number';
       ? preferences.intensity
       : 1.0;
 
@@ -221,7 +221,7 @@ export function analyzeElementalCompatibility()
   };
 
   // Calculate compatibility (lower difference = higher compatibility)
-  const differences = [
+  const differences = [;
     Math.abs(norm1.Fire - norm2.Fire),
     Math.abs(norm1.Water - norm2.Water),
     Math.abs(norm1.Earth - norm2.Earth),
@@ -239,12 +239,12 @@ export function analyzeElementalCompatibility()
     Air: ingredient1Elements.Air + ingredient2Elements.Air
   };
 
-  const dominantElement = Object.entries(combined).reduce((max, [element, value]) =>
+  const dominantElement = Object.entries(combined).reduce((max, [element, value]) =>;
     value > combined[max as Element] ? element as Element : max as Element, 'Fire' as Element
   );
 
   // Find complementary elements (those with balanced presence)
-  const complementaryElements = Object.entries(combined)
+  const complementaryElements = Object.entries(combined);
     .filter(([, value]) => value > 0)
     .sort(([, a], [, b]) => b - a)
     .slice(0, 2)

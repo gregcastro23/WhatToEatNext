@@ -12,7 +12,7 @@ export interface PlanetaryPositionData {
   sign: string;
   degree: number;
   exactLongitude?: number;
-  isRetrograde?: boolean;
+  isRetrograde?: boolean
 }
 
 // Interface for aspect data
@@ -22,7 +22,7 @@ export interface AspectData {
   type: AspectType;
   orb: number;
   strength: number;
-  influence?: number;
+  influence?: number
 }
 
 /**
@@ -67,7 +67,7 @@ export function calculateComprehensiveAspects()
       return 0; // Return default value
     }
 
-    const signs = [
+    const signs = [;
       'aries',
       'taurus',
       'gemini',
@@ -167,7 +167,7 @@ export function calculateComprehensiveAspects()
  * @returns Object with sign and degree
  */
 export function getSignAndDegreeFromLongitude(_longitude: number): { sign: string, degree: number } {
-  const signs = [
+  const signs = [;
     'aries',
     'taurus',
     'gemini',

@@ -19,7 +19,7 @@ export const grilling: CookingMethodData = {
     min: 2,
     max: 30
 },
-  suitable_for ['meats', 'poultry', 'seafood', 'vegetables', 'fruit', 'bread', 'pizza', 'kebabs'],
+  suitable_for: ['meats', 'poultry', 'seafood', 'vegetables', 'fruit', 'bread', 'pizza', 'kebabs'],
   benefits: [
     'imparts smoky flavor',
     'creates appealing char marks',

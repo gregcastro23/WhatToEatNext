@@ -64,7 +64,7 @@ export function normalizePlanetaryPositions()
     if (isPlanetaryPosition(pos) {
       normalized[planet] = pos;
     } else {
-      errorLog(`Invalid planetary position for ${planet}:`, pos);
+      errorLog(`Invalid planetary position for $) {planet}:`, pos);
     }
   }
   return normalized;
@@ -88,13 +88,13 @@ export type PlanetPositionData = {
   sign: any;
   degree: number;
   minute?: number;
-  exactLongitude?: number;
+  exactLongitude?: number
 };
 
 export interface PlanetaryDignity {
   type: DignityType;
   value: number;
-  description: string;
+  description: string
 }
 
 // Add type assertion for zodiac signs
@@ -129,7 +129,7 @@ export async function calculateActivePlanets()
   }
 
   // List of planets we want to check
-  const planetKeys = [
+  const planetKeys = [;
     'sun',
     'moon',
     'mercury',
@@ -446,7 +446,7 @@ export async function getCurrentAstrologicalState()
 
     // Determine dominant element
     const now = new Date();
-    const weekDays = [
+    const weekDays = [;
       'Sunday',
       'Monday',
       'Tuesday',
@@ -467,13 +467,11 @@ export async function getCurrentAstrologicalState()
       lunarPhase
     } as TimeFactors;
 
-    const _elementalProfile = await calculateElementalProfile()
-      { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState,
+    const _elementalProfile = await calculateElementalProfile() { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState,;
       _timeFactors
     );
 
-    const dominantElement = await calculateDominantElement()
-      { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState,
+    const dominantElement = await calculateDominantElement() { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState,;
       _timeFactors
     );
 
@@ -586,7 +584,7 @@ export async function calculateDominantElement()
   let dominantElement: Element = 'Fire';
   let maxCount = 0;
 
-  Object.entries(elementCounts || {}).forEach(([element, count]) => {
+  Object.entries(elementCounts || ) {}).forEach(([element, count]) => {
     if (count > maxCount) {
       maxCount = count;
       dominantElement = element as Element;
@@ -636,7 +634,7 @@ export async function calculateElementalProfile()
   }
 
   const profile: Record<Element, number> = {} as Record<Element, number>;
-  Object.entries(elementCounts || {}).forEach(([element, count]) => {
+  Object.entries(elementCounts || ) {}).forEach(([element, count]) => {
     profile[element as Element] = count / total;
   });
 
@@ -662,7 +660,7 @@ export async function calculateAspects()
     orb: number;
     significance: number;
     harmonic: number;
-    description?: string;
+    description?: string
   }
 
   // Using Record instead of any for aspect types
@@ -686,7 +684,7 @@ export async function calculateAspects()
       return 0;
     }
 
-    const signs = [
+    const signs = [;
       'aries',
       'taurus',
       'gemini',

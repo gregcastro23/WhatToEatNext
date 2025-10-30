@@ -26,23 +26,23 @@ export const smoking = {
     'Enhances protein structure',
     'Provides antimicrobial properties'
   ],
-  suitable_for ['Meats', 'Fish', 'Cheese', 'Vegetables', 'Salt', 'Spices'],
+  suitable_for: ['Meats', 'Fish', 'Cheese', 'Vegetables', 'Salt', 'Spices'],
   modernVariations: [
     'Hot smoking (higher temperatures, cooks and flavors)',
     'Cold smoking (lower temperatures, primarily for flavor and preservation)',
     'Liquid smoke (concentrated smoke flavor for adding to dishes)'
   ],
   duration: {
-    min: 30, // minutes,
+    min: 30, // minutes
     max: 1440, // 24 hours
   },
   temperature_range: {
     cold_smoking: {
-      min: 20, // °C,
+      min: 20, // °C
       max: 30, // °C
     },
     hot_smoking: {
-      min: 65, // °C,
+      min: 65, // °C
       max: 120, // °C
     }
   },

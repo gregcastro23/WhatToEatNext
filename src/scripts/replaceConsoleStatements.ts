@@ -15,7 +15,7 @@ interface ConsoleReplacement {
   file: string;
   line: number;
   original: string;
-  replacement: string;
+  replacement: string
 }
 
 class ConsoleStatementReplacer {
@@ -30,7 +30,7 @@ class ConsoleStatementReplacer {
 
   private ensureBackupDirectory(): void {
     if (!fs.existsSync(this.backupDir) {
-      fs.mkdirSync(this.backupDir, { recursive: true });
+      fs.mkdirSync(this.backupDir, ) { recursive: true });
     }
   }
 
@@ -40,7 +40,7 @@ class ConsoleStatementReplacer {
     const backupDir = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDir) {
-      fs.mkdirSync(backupDir, { recursive: true });
+      fs.mkdirSync(backupDir, ) { recursive: true });
     }
 
     fs.copyFileSync(filePath, backupPath);
@@ -50,7 +50,7 @@ class ConsoleStatementReplacer {
     const files: string[] = [];
 
     const scanDirectory = (dir: string) => {
-      const entries = fs.readdirSync(dir, { withFileTypes: true }),
+      const entries = fs.readdirSync(dir, ) { withFileTypes: true }),;
 
       for (const entry of entries) {
         const fullPath = path.join(dir, entry.name);
@@ -135,8 +135,7 @@ class ConsoleStatementReplacer {
 
       if (hasChanges) {
         // Add logger import at the top if console.log was replaced
-        const hasLoggerImport =
-          content.includes("from '@/services/LoggingService'") ||
+        const hasLoggerImport = content.includes("from '@/services/LoggingService'") ||;
           content.includes('from "@/services/LoggingService"');
 
         if (!hasLoggerImport && this.replacements.some(r => r.file === filePath) {
@@ -152,7 +151,7 @@ class ConsoleStatementReplacer {
             }
           }
 
-          lines.splice(importInsertIndex, 0, "import { logger } from '@/services/LoggingService',");
+          lines.splice(importInsertIndex, 0, "import ) { logger } from '@/services/LoggingService',");
         }
 
         fs.writeFileSync(filePath, lines.join('\n'));
@@ -162,7 +161,7 @@ class ConsoleStatementReplacer {
 
       return false;
     } catch (error) {
-      console.warn(`⚠️ Failed to process ${filePath}:`, (error as Error).message);
+      console.warn(`⚠️ Failed to process $) {filePath}:`, (error as Error).message);
       return false;
     }
   }
@@ -171,7 +170,7 @@ class ConsoleStatementReplacer {
     const loggingServicePath = path.join(this.srcDir, 'services', 'LoggingService.ts');
 
     if (!fs.existsSync(loggingServicePath) {
-      const loggingServiceContent = `/**
+      const loggingServiceContent = `/**;
  * Centralized Logging Service
  * 
  * Provides structured logging capabilities to replace console.log statements
@@ -182,7 +181,7 @@ export interface Logger {
   info(message: string, ...args: unknown[]): void;
   warn(message: string, ...args: unknown[]): void;
   error(message: string, ...args: unknown[]): void;
-  debug(message: string, ...args: unknown[]): void;
+  debug(message: string, ...args: unknown[]): void
 }
 
 class LoggingService implements Logger {
@@ -190,21 +189,21 @@ class LoggingService implements Logger {
 
   info(message: string, ...args: unknown[]): void {
     if (this.isDevelopment) {
-      console.log(\`[INFO] \${message}\`, ...args);
+      console.log(\`[INFO] \$) {message}\`, ...args);
     }
   }
 
   warn(message: string, ...args: unknown[]): void {
-    console.warn(\`[WARN] \${message}\`, ...args);
+    console.warn(\`[WARN] \$) {message}\`, ...args);
   }
 
   error(message: string, ...args: unknown[]): void {
-    console.error(\`[ERROR] \${message}\`, ...args);
+    console.error(\`[ERROR] \$) {message}\`, ...args);
   }
 
   debug(message: string, ...args: unknown[]): void {
     if (this.isDevelopment) {
-      console.log(\`[DEBUG] \${message}\`, ...args);
+      console.log(\`[DEBUG] \$) {message}\`, ...args);
     }
   }
 }
@@ -219,7 +218,7 @@ export default logger;
   }
 
   private generateReport(): void {
-    const report = `
+    const report = `;
 # Console Statement Replacement Report
 
 ## Summary
@@ -256,7 +255,7 @@ Generated: ${new Date().toISOString()}
 
       // Step 2: Process all TypeScript files
       const files = this.getAllTypeScriptFiles();
-      console.log(`📁 Found ${files.length} TypeScript files`);
+      console.log(`📁 Found $) {files.length} TypeScript files`);
 
       for (const file of files) {
         this.replaceConsoleStatements(file);
@@ -267,9 +266,9 @@ Generated: ${new Date().toISOString()}
 
       console.log('='.repeat(60));
       console.log(`✅ Console statement replacement completed!`);
-      console.log(`   Files processed: ${this.processedFiles}`),
-      console.log(`   Statements replaced: ${this.replacements.length}`),
-      console.log(`   Backup location: ${this.backupDir}`);
+      console.log(`   Files processed: $) {this.processedFiles}`),
+      console.log(`   Statements replaced: $) {this.replacements.length}`),
+      console.log(`   Backup location: $) {this.backupDir}`);
     } catch (error) {
       console.error('❌ Console statement replacement failed:', error);
       process.exit(1);

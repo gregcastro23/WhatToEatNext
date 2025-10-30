@@ -125,7 +125,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       } else {
         try {
           const astroResponse = await getLatestAstrologicalState()
-          if (astroResponse.success && astroResponse.data) {;
+          if (astroResponse.success && astroResponse.data) {
             positions = astroResponse.data.planetaryPositions,
             log.info('Successfully calculated planetary positions')
           } else {

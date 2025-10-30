@@ -275,7 +275,7 @@ function _calculateAlchemicalScore(item: AlchemicalItem): number {
 ;
   // Add spirit, essence, matter, substance if they exist
   ['spirit', 'essence', 'matter', 'substance'].forEach(prop => {
-    if (prop in item && typeof item[prop as keyof AlchemicalItem] === 'number') {;
+    if (prop in item && typeof item[prop as keyof AlchemicalItem] === 'number') {
       score += item[prop as keyof AlchemicalItem] as number;
       count++
     }
@@ -283,7 +283,7 @@ function _calculateAlchemicalScore(item: AlchemicalItem): number {
 
   // Include thermodynamic properties if they exist
   ['heat', 'entropy', 'reactivity', 'gregsEnergy'].forEach(prop => {
-    if (prop in item && typeof item[prop as keyof AlchemicalItem] === 'number') {;
+    if (prop in item && typeof item[prop as keyof AlchemicalItem] === 'number') {
       score += item[prop as keyof AlchemicalItem] as number;
       count++
     }

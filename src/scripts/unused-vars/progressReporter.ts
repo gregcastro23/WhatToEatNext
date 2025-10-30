@@ -13,7 +13,7 @@ export interface ProgressMetrics {
   transformed: number;
   batchesCompleted: number;
   batchesTotal: number;
-  lastUpdated: string;
+  lastUpdated: string
 }
 
 export function createBaselineReport(targetFile = 'reports/unused-vars-baseline.json', baseline = 965): void {
@@ -53,5 +53,5 @@ export function updateProgress(metrics: Partial<ProgressMetrics>, targetFile = '
 }
 
 export function ensureDir(dirPath: string): void {
-  if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
+  if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, ) { recursive: true });
 }

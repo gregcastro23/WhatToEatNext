@@ -18,14 +18,14 @@ export interface CulinaryProfile {
   texture: {
     raw: string;
     cooked: string;
-    mouthfeel: string;
+    mouthfeel: string
   };
 
   /** Best cooking methods for this ingredient */
   cookingMethods: {
     primary: string[];
     secondary: string[];
-    bestResults: string;
+    bestResults: string
   };
 
   /** Cuisine affinities where this ingredient is commonly used */
@@ -48,21 +48,21 @@ export interface CulinaryProfile {
   culinaryUses: {
     primary: string[];
     secondary: string[];
-    presentation: string;
+    presentation: string
   };
 
   /** Seasonal availability */
   seasonality: {
     peak: string[];
     available: string[];
-    storage: string;
+    storage: string
   };
 
   /** Storage and shelf life information */
   shelfLife: {
     fresh: string;
     frozen: string;
-    preserved: string;
+    preserved: string
   };
 
   /** Possible substitutions */
@@ -87,7 +87,7 @@ export interface CulinaryProfile {
   preparationTips: string[];
 
   /** Umami score (0-1) */
-  umamiScore: number;
+  umamiScore: number
 }
 
 /**

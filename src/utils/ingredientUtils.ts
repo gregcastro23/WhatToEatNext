@@ -42,7 +42,7 @@ export function determineIngredientModality()
   // Create normalized arrays of qualities for easier matching
   const normalizedQualities = qualitiesArray.map(q => q.toLowerCase());
   // Look for explicit quality indicators in the ingredients
-  const cardinalKeywords = [
+  const cardinalKeywords = [;
     'initiating',
     'spicy',
     'pungent',
@@ -153,8 +153,8 @@ export function isFullIngredient(ingredient: unknown): ingredient is Ingredient 
  * Validates that an ingredient object has all required properties
  */
 export function validateIngredient(ingredient: Partial<Ingredient> & {
-    qualities?: string[];
-    storage?: { temperature?: string; humidity?: string };
+    qualities?: string[];)
+    storage?: ) { temperature?: string; humidity?: string };
   }): {
   isValid: boolean;
   errors: string[];
@@ -204,7 +204,7 @@ export function validateIngredient(ingredient: Partial<Ingredient> & {
 
     for (const element of elements) {
       if (typeof props[element] !== 'number') {
-        errors.push(`Elemental property ${element} must be a number`);
+        errors.push(`Elemental property $) {element} must be a number`);
       }
     }
   }

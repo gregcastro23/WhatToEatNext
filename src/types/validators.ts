@@ -11,8 +11,8 @@ const _VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'];
  * @param properties The elemental properties to normalize
  * @returns Normalized elemental properties
  */
-export const _normalizeElementalProperties = (
-  properties: ElementalProperties,
+export const _normalizeElementalProperties = (;
+  properties: ElementalProperties;
 ): ElementalProperties => {
   const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val);
 
@@ -42,7 +42,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
   if (!properties) return false;
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
-  const hasAllElements = requiredElements.every()
+  const hasAllElements = requiredElements.every();
     element => typeof properties[element as any] === 'number'
   );
   if (!hasAllElements) return false;

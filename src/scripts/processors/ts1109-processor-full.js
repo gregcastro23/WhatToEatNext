@@ -146,7 +146,7 @@ class TS1109Processor {
     }
 
     // Pattern 3: Statement with stray comma before proper terminator
-    // "if (x) {;"  (should be just "{")
+    // "if (x) {"  (should be just "{")
     if (/{\s*;\s*$/.test(line)) {
       return line.replace(/{\s*;\s*$/, '{');
     }

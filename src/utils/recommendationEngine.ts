@@ -59,7 +59,7 @@ function calculateElementalScore(recipeElement: Element, userElement: Element): 
 
 // Calculate planetary affinity score
 function calculatePlanetaryScore(recipe: Recipe, planetName: PlanetName): number {
-  const cuisineAffinity = PLANET_CUISINE_AFFINITIES[planetName]
+  const cuisineAffinity = PLANET_CUISINE_AFFINITIES[planetName];
   if (cuisineAffinity && recipe.cuisine && cuisineAffinity.includes(recipe.cuisine) {
     return 1;
   }
@@ -132,7 +132,7 @@ function calculateZodiacScore(recipe: Recipe, sunSign: any): number {
 export function calculateRecommendationScore()
   recipe: Recipe,
   astrologicalState: AstrologicalState,
-  timeFactors: TimeFactors,
+  timeFactors: TimeFactors;
 ): number {
   // Base score
   let score = 0;
@@ -188,7 +188,7 @@ export function getRecommendedRecipes()
   timeFactors: TimeFactors = getTimeFactors()
 ): Recipe[] {
   // Score all recipes
-  const scoredRecipes = recipes.map(recipe => ({
+  const scoredRecipes = recipes.map(recipe => () {
     recipe,
     score: calculateRecommendationScore(recipe, astrologicalState, timeFactors)
   }));
@@ -210,7 +210,7 @@ export function explainRecommendation()
 
   // Check elemental affinity
   if (astrologicalState.dominantElement && recipe.element) {
-    const elementalScore = calculateElementalScore()
+    const elementalScore = calculateElementalScore();
       recipe.element as Element,
       astrologicalState.dominantElement as Element
     );
@@ -236,29 +236,27 @@ export function explainRecommendation()
       // Apply surgical type casting with variable extraction
       const mealTypeData = timeFactors.mealType as unknown as any;
       const timeOfDayData = timeFactors.timeOfDay as unknown as any;
-      const mealTypeLower =
-        typeof mealTypeData.toLowerCase === 'function'
+      const mealTypeLower = typeof mealTypeData.toLowerCase === 'function';
           ? mealTypeData.toLowerCase()
           : String(timeFactors.mealType || '');
-      const timeOfDayLower =
-        typeof timeOfDayData.toLowerCase === 'function'
+      const timeOfDayLower = typeof timeOfDayData.toLowerCase === 'function';
           ? timeOfDayData.toLowerCase()
           : String(timeFactors.timeOfDay || '');
-      reasons.push(`This is an ideal choice for ${mealTypeLower} during the ${timeOfDayLower}.`);
+      reasons.push(`This is an ideal choice for ${mealTypeLower} during the $) {timeOfDayLower}.`);
     }
   }
 
   // Check seasonal harmony
   const seasonScore = calculateSeasonalScore(recipe, timeFactors.season);
   if (seasonScore > 0.6) {
-    reasons.push(`The ingredients and flavors are perfectly in tune with ${timeFactors.season}.`);
+    reasons.push(`The ingredients and flavors are perfectly in tune with $) {timeFactors.season}.`);
   }
 
   // Check zodiac connection
   if (astrologicalState.sunSign) {
     const zodiacScore = calculateZodiacScore(recipe, astrologicalState.sunSign);
     if (zodiacScore > 0.6) {
-      reasons.push(`This dish appeals to your ${astrologicalState.sunSign} nature.`);
+      reasons.push(`This dish appeals to your $) {astrologicalState.sunSign} nature.`);
     }
   }
 

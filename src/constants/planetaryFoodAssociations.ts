@@ -190,11 +190,11 @@ export interface PlanetaryCookingGuide {
 /**
  * Calculate planetary boost for an ingredient based on current astrological state
  */
-export const _calculatePlanetaryBoost = (
+export const _calculatePlanetaryBoost = (;
   item: unknown, // ElementalItem type,
   planetPositions: Record<string, unknown>,
   currentZodiac?: string | null,
-  lunarPhase?: LunarPhase | null,
+  lunarPhase?: LunarPhase | null;
 ) => {
   let boost = 0;
   const dominantPlanets: string[] = [];
@@ -335,7 +335,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   const totalBoost = elementBoost + zodiacBoost + modalityBoost + seasonalBoost;
 
   // Return normalized boost value (0-1 range)
-  return Math.min(0.7, Math.max(0.1, totalBoost))
+  return Math.min(0.7, Math.max(0.1, totalBoost));
 }
 
 // Helper function to calculate seasonal alignment
@@ -366,7 +366,7 @@ const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number 
 
   // Calculate alignment based on the cuisine's elemental properties
   // Higher value if the cuisine aligns with the season's element
-  const itemData = item as { elementalProperties?: Record<string, number> }
+  const itemData = item as { elementalProperties?: Record<string, number> };
   return itemData.elementalProperties?.[seasonalElement] || 0.1;
 }
 
@@ -417,10 +417,10 @@ export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number =
     planetaryRulers?: string[],
     elementalCharacter?: string
   }
-  const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {}
+  const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {};
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
-    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0)
-  }, 0)
+    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0);
+}, 0)
 }
 
 /**
@@ -428,14 +428,14 @@ export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number =
  */
 export const _getNutritionalSynergy = (_planet: Planet, _ingredient: unknown): string[] => {
   // Implementation depends on your nutritional data
-  return []
+  return [];
 }
 
 /**
  * Format elemental balance for display
  */
 export const _formatelementalState = (elements: Partial<Record<string, number>>): string => {
-  const validEntries = Object.entries(elements)
+  const validEntries = Object.entries(elements);
     .filter(([_, val]) => Number.isFinite(val as number))
     .map(([elem, val]) => `${elem} ${Math.round(((val as number) || 0) * 100)}%`)
     .join(' · ')

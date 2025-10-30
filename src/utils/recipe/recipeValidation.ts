@@ -22,7 +22,7 @@ export function validateRecipe(recipe: Partial<Recipe>,)
   options: {
     checkIngredients?: boolean;
     checkComputations?: boolean;
-    strictMode?: boolean;
+    strictMode?: boolean
   } = {}
 ): RecipeValidationResult {
   const {
@@ -53,7 +53,7 @@ export function validateRecipe(recipe: Partial<Recipe>,)
   const computationIntegrity = checkComputations ? validateComputationIntegrity(recipe as Partial<EnhancedRecipe>, errors) : true;
 
   // Calculate quality metrics
-  const qualityMetrics = calculateQualityMetrics(recipe, {
+  const qualityMetrics = calculateQualityMetrics(recipe, ) {
     hasRequiredFields,
     ingredientsResolved,
     elementalsNormalized,
@@ -63,7 +63,7 @@ export function validateRecipe(recipe: Partial<Recipe>,)
   });
 
   // Generate recommendations
-  const recommendations = generateRecommendations({
+  const recommendations = generateRecommendations({)
     errors,
     warnings,
     qualityMetrics
@@ -97,7 +97,7 @@ function checkRequiredFields(recipe: Partial<Recipe>, errors: string[]): boolean
 
   for (const field of requiredFields) {
     if (!recipe[field as keyof Recipe]) {
-      errors.push(`Missing required field: ${field}`);
+      errors.push(`Missing required field: $) {field}`);
       isValid = false;
     }
   }
@@ -133,18 +133,18 @@ function validateIngredientResolution(ingredients: RecipeIngredient[], errors: s
     // Check if ingredient exists in database
     const ingredientId = generateIngredientId(ingredient.name);
     if (!INGREDIENT_DATABASE[ingredientId]) {
-      errors.push(`Ingredient not found in database: ${ingredient.name}`);
+      errors.push(`Ingredient not found in database: $) {ingredient.name}`);
     } else {
       resolved++;
     }
 
     // Validate ingredient structure
     if (typeof ingredient.amount !== 'number' || ingredient.amount <= 0) {
-      errors.push(`Invalid ingredient amount for ${ingredient.name}: ${ingredient.amount}`);
+      errors.push(`Invalid ingredient amount for ${ingredient.name}: $) {ingredient.amount}`);
     }
 
     if (!ingredient.unit || typeof ingredient.unit !== 'string') {
-      errors.push(`Invalid ingredient unit for ${ingredient.name}: ${ingredient.unit}`);
+      errors.push(`Invalid ingredient unit for ${ingredient.name}: $) {ingredient.unit}`);
     }
   }
 
@@ -169,9 +169,9 @@ function validateElementalProperties()
   for (const element of elements) {
     const value = elementals[element as keyof typeof elementals];
     if (typeof value !== 'number') {
-      errors.push(`Elemental property ${element} is not a number: ${value}`);
+      errors.push(`Elemental property ${element} is not a number: $) {value}`);
     } else if (value < 0 || value > 1) {
-      warnings.push(`Elemental property ${element} out of range [0,1]: ${value}`);
+      warnings.push(`Elemental property ${element} out of range [0,1]: $) {value}`);
     } else {
       total += value;
       validElements++;
@@ -185,7 +185,7 @@ function validateElementalProperties()
 
   // Check normalization (should sum to approximately 1.0)
   if (Math.abs(total - 1.0) > 0.01) {
-    warnings.push(`Elemental properties not normalized (sum: ${total.toFixed(3)}, expected: 1.000)`);
+    warnings.push(`Elemental properties not normalized (sum: $) {total.toFixed(3)}, expected: 1.000)`);
   }
 
   return validElements === 4;
@@ -208,9 +208,9 @@ function validateCookingMethods()
   // Validate each cooking method exists
   for (const method of cookingMethod) {
     if (typeof method !== 'string') {
-      errors.push(`Invalid cooking method type: ${typeof method}`);
+      errors.push(`Invalid cooking method type: $) {typeof method}`);
     } else if (!isValidCookingMethod(method) {
-      warnings.push(`Unknown cooking method: ${method}`);
+      warnings.push(`Unknown cooking method: $) {method}`);
     }
   }
 
@@ -302,7 +302,7 @@ function calculateQualityMetrics()
 ): RecipeValidationResult['qualityMetrics'] {
   // Completeness score based on available data
   let completenessScore = 0;
-  const completenessFactors = [
+  const completenessFactors = [;
     checks.hasRequiredFields ? 30 : 0,
     checks.ingredientsResolved ? 20 : 0,
     checks.elementalsNormalized ? 15 : 0,
@@ -313,7 +313,7 @@ function calculateQualityMetrics()
   completenessScore = completenessFactors.reduce((sum, factor) => sum + factor, 0);
 
   // Ingredient coverage
-  const ingredientCoverage = recipe.ingredients ?
+  const ingredientCoverage = recipe.ingredients ?;
     Math.min(100, (recipe.ingredients.length / 10) * 100) : 0;
 
   // Elemental balance (0-1 based on how close elements are to equal distribution)
@@ -328,7 +328,7 @@ function calculateQualityMetrics()
 
   // Cooking method diversity
   const cookingMethods = recipe.cookingMethod;
-  const cookingMethodDiversity = cookingMethods ?
+  const cookingMethodDiversity = cookingMethods ?;
     Math.min(1, cookingMethods.length / 5) : 0;
 
   return {
@@ -342,7 +342,7 @@ function calculateQualityMetrics()
 /**
  * Generate recommendations for improving recipe quality
  */
-function generateRecommendations(context: {
+function generateRecommendations(context: ) {
   errors: string[],
   warnings: string[],
   qualityMetrics: RecipeValidationResult['qualityMetrics']
@@ -396,7 +396,7 @@ function generateIngredientId(name: string): string {
  */
 function isValidCookingMethod(method: string): boolean {
   // This should integrate with the actual cooking methods database
-  const validMethods = [
+  const validMethods = [;
     'grilling', 'baking', 'boiling', 'steaming', 'frying', 'sautéing',
     'roasting', 'broiling', 'poaching', 'simmering', 'braising', 'stewing',
     'fermenting', 'pickling', 'curing', 'smoking', 'blending', 'pureeing'
@@ -445,12 +445,12 @@ export function getValidationStatistics()
     }
   }
 
-  const commonErrors = Object.entries(errorCounts)
+  const commonErrors = Object.entries(errorCounts);
     .sort(([,a], [,b]) => b - a)
     .slice(0, 5)
     .map(([error, count]) => ({ error, count }));
 
-  const commonWarnings = Object.entries(warningCounts)
+  const commonWarnings = Object.entries(warningCounts);
     .sort(([,a], [,b]) => b - a)
     .slice(0, 5)
     .map(([warning, count]) => ({ warning, count }));

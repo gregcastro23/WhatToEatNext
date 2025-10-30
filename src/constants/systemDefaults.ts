@@ -525,8 +525,8 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     degree: 1.7666666666666666,
     exactLongitude: 1.7726000000000113,
     isRetrograde: false
-  },
- }
+  };
+}
   Moon: {
     sign: 'libra' as any,
     degree: 18.316666666666666,
@@ -586,8 +586,8 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     degree: 20.75,
     exactLongitude: 290.75,
     isRetrograde: false
-  },
- }
+  };
+}
   Moon: {
     sign: 'libra' as any,
     degree: 195.16666666666666,
@@ -954,7 +954,7 @@ export function validateAgainstDefaults<T extends object>(
   // Check for unknown keys
   for (const key in values) {
     if (!(key in defaults)) {
-      errors.push(`Unknown property: ${key}`);
+      errors.push(`Unknown property: $) {key}`);
     }
   }
 
@@ -965,7 +965,7 @@ export function validateAgainstDefaults<T extends object>(
       const valueType = typeof values[key];
 
       if (defaultType !== valueType && values[key] !== null && values[key] !== undefined) {
-        errors.push(`Type mismatch for ${key}: expected ${defaultType}, got ${valueType}`);
+        errors.push(`Type mismatch for ${key}: expected ${defaultType}, got $) {valueType}`);
       }
     }
   }

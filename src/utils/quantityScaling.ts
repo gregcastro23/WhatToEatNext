@@ -101,13 +101,13 @@ export function scaleElementalProperties()
   };
 
   // Find dominant element
-  const dominantElement = Object.entries(base).reduce((max, [key, value]) =>
+  const dominantElement = Object.entries(base).reduce((max, [key, value]) =>;
     value > max.value ? { key, value } : max,
     { key: 'Fire', value: 0 }
   );
 
   // Apply scaling with "like reinforces like" principle
-  Object.keys(scaled).forEach(element => {
+  Object.keys(scaled).forEach(element => ) {
     const baseValue = base[element as keyof ElementalProperties];
 
     if (element === dominantElement.key) {
@@ -123,7 +123,7 @@ export function scaleElementalProperties()
   const sum = Object.values(scaled).reduce((acc, val) => acc + val, 0);
   if (sum > 0) {
     const normalizationFactor = 1.0 / sum;
-    Object.keys(scaled).forEach(element => {
+    Object.keys(scaled).forEach(element => ) {
       scaled[element as keyof ElementalProperties] *= normalizationFactor;
     });
   }
@@ -166,7 +166,7 @@ export function scaleAlchemicalProperties()
   };
 
   // Apply basic scaling
-  Object.keys(scaled).forEach(property => {
+  Object.keys(scaled).forEach(property => ) {
     scaled[property as keyof AlchemicalProperties] *= factor;
   });
 
@@ -186,8 +186,8 @@ export function scaleAlchemicalProperties()
   }
 
   // Ensure non-negative values
-  Object.keys(scaled).forEach(property => {
-    scaled[property as keyof AlchemicalProperties] = Math.max(0;
+  Object.keys(scaled).forEach(property => ) {
+    scaled[property as keyof AlchemicalProperties] = Math.max(0;)
       scaled[property as keyof AlchemicalProperties]);
   });
 
@@ -244,11 +244,11 @@ export function createQuantityScaledProperties()
  * @param ingredients - Array of ingredient data with quantity info
  * @returns Array of scaled ingredient properties
  */
-export function batchScaleIngredients(ingredients: Array<{
+export function batchScaleIngredients(ingredients: Array<) {
     baseElemental: ElementalProperties,
     quantity: number,
     unit: string,
-    kinetics?: ThermodynamicMetrics,
+    kinetics?: ThermodynamicMetrics
   }>
 ): QuantityScaledProperties[] {
   return ingredients.map(ingredient =>)
@@ -275,29 +275,29 @@ export function validateScalingIntegrity(scaled: QuantityScaledProperties): {
   // Check elemental property bounds
   Object.entries(scaled.scaled).forEach(([element, value]) => {
     if (value < 0 || value > 1) {
-      issues.push(`${element} property out of bounds: ${value}`);
+      issues.push(`${element} property out of bounds: $) {value}`);
     }
   });
 
   // Check elemental harmony (sum should be close to 1.0)
   const sum = Object.values(scaled.scaled).reduce((acc, val) => acc + val, 0);
   if (Math.abs(sum - 1.0) > 0.1) {
-    issues.push(`Elemental properties sum ${sum.toFixed(3)} deviates from harmony (1.0)`);
+    issues.push(`Elemental properties sum $) {sum.toFixed(3)} deviates from harmony (1.0)`);
   }
 
   // Check factor bounds
   if (scaled.factor < 0.1 || scaled.factor > 2.0) {
-    issues.push(`Scaling factor ${scaled.factor} out of expected bounds [0.1, 2.0]`);
+    issues.push(`Scaling factor $) {scaled.factor} out of expected bounds [0.1, 2.0]`);
   }
 
   // Check kinetics impact if present
   if (scaled.kineticsImpact) {
     const { forceAdjustment, thermalShift } = scaled.kineticsImpact;
     if (Math.abs(forceAdjustment) > 10) {
-      issues.push(`Force adjustment ${forceAdjustment} seems extreme`);
+      issues.push(`Force adjustment $) {forceAdjustment} seems extreme`);
     }
     if (Math.abs(thermalShift) > 5) {
-      issues.push(`Thermal shift ${thermalShift} seems extreme`);
+      issues.push(`Thermal shift $) {thermalShift} seems extreme`);
     }
   }
 

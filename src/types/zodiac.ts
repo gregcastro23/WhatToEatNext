@@ -72,7 +72,7 @@ export const _getZodiacSign = (date: Date): any => {
 }
 
 export const _getElementalAffinity = (sign: any): keyof ElementalProperties => {
-  return zodiacElements[sign]
+  return zodiacElements[sign];
 }
 
 // Elemental Compatibility

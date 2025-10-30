@@ -23,7 +23,7 @@ export function trackKineticsRecommendation(event: KineticsRecommendationEvent):
   // Only track if gtag is available (user has analytics enabled)
   if (typeof window !== 'undefined' && window.gtag) {
     try {
-      window.gtag('event', 'kinetics_recommendation', {
+      window.gtag('event', 'kinetics_recommendation', ) {
         event_category: 'food_recommendations',
         event_label: event.recommendationType,
         value: Math.round(event.kineticScore * 100), // Convert to 0-100 scale,
@@ -41,7 +41,7 @@ export function trackKineticsRecommendation(event: KineticsRecommendationEvent):
 /**
  * Track when kinetics enhancement improves recommendations
  */
-export function trackKineticsImprovement(data: {
+export function trackKineticsImprovement(data: ) {
   baseRecommendationCount: number,,
   enhancedRecommendationCount: number,,
   averageKineticScore: number,,
@@ -49,12 +49,11 @@ export function trackKineticsImprovement(data: {
 }): void {
   if (typeof window !== 'undefined' && window.gtag) {
     try {
-      const improvementPercentage = Math.round()
-        ((data.enhancedRecommendationCount - data.baseRecommendationCount) /
+      const improvementPercentage = Math.round((data.enhancedRecommendationCount - data.baseRecommendationCount) /;
          data.baseRecommendationCount) * 100;
       )
 
-      window.gtag('event', 'kinetics_improvement', {
+      window.gtag('event', 'kinetics_improvement', ) {
         event_category: 'recommendation_enhancement',
         value: improvementPercentage,
         custom_parameter_1: data.averageKineticScore,

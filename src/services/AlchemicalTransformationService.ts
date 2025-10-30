@@ -30,7 +30,7 @@ export interface AlchemicalRecommendations {
   heat: number;
   entropy: number;
   reactivity: number;
-  gregsEnergy: number;
+  gregsEnergy: number
 }
 
 /**
@@ -46,7 +46,7 @@ export interface OptimizedRecipeResult {
   ingredientMatchScore: number;
   cookingMethodScore: number;
   lunarPhaseScore?: number;
-  zodiacScore?: number;
+  zodiacScore?: number
 }
 
 /**
@@ -241,7 +241,7 @@ export class AlchemicalTransformationService {
    */
   getOptimizedRecipes(recipes: Recipe[], count = 3): OptimizedRecipeResult[] {
     // Get alchemical recommendations to determine optimal elements and properties
-    const recommendations = this.getRecommendations()
+    const recommendations = this.getRecommendations();
 
     // Get the transformed data we need for calculations
     const transformedIngredients = this.getTransformedIngredients();
@@ -249,22 +249,22 @@ export class AlchemicalTransformationService {
     const transformedCuisines = this.getTransformedCuisines();
     // Create lookup maps for faster access
     const ingredientMap = new Map<string, AlchemicalItem>();
-    transformedIngredients.forEach(item => {
+    transformedIngredients.forEach(item => ) {
       ingredientMap.set(item.name.toLowerCase(), item);
     });
 
     const methodMap = new Map<string, AlchemicalItem>();
-    transformedMethods.forEach(item => {
+    transformedMethods.forEach(item => ) {
       methodMap.set(item.name.toLowerCase(), item);
     });
 
     const cuisineMap = new Map<string, AlchemicalItem>();
-    transformedCuisines.forEach(item => {
+    transformedCuisines.forEach(item => ) {
       cuisineMap.set(item.name.toLowerCase(), item);
     });
 
     // Score each recipe based on its compatibility with the current planetary conditions
-    const scoredRecipes = recipes.map(recipe => {
+    const scoredRecipes = recipes.map(recipe => ) {
       // Base compatibility score
       let compatibility = 0;
 
@@ -272,7 +272,7 @@ export class AlchemicalTransformationService {
       let ingredientMatch = 0;
       let ingredientCount = 0;
 
-      recipe.ingredients.forEach(ingredient => {
+      recipe.ingredients.forEach(ingredient => ) {
         const ingredientName = ingredient.name.toLowerCase();
         const alchemicalIngredient = ingredientMap.get(ingredientName);
 
@@ -367,19 +367,19 @@ export class AlchemicalTransformationService {
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
     const transformedCuisines = this.getTransformedCuisines();
-    const filteredIngredients = filterByAlchemicalCompatibility()
+    const filteredIngredients = filterByAlchemicalCompatibility();
       transformedIngredients,
       targetElement,
       targetAlchemicalProperty
     );
 
-    const filteredMethods = filterByAlchemicalCompatibility()
+    const filteredMethods = filterByAlchemicalCompatibility();
       transformedMethods,
       targetElement,
       targetAlchemicalProperty
     );
 
-    const filteredCuisines = filterByAlchemicalCompatibility()
+    const filteredCuisines = filterByAlchemicalCompatibility();
       transformedCuisines,
       targetElement,
       targetAlchemicalProperty
@@ -393,8 +393,7 @@ export class AlchemicalTransformationService {
     const dominantElement =
       targetElement || (topIngredients.length > 0 ? topIngredients[0].dominantElement : 'Fire');
 
-    const dominantAlchemicalProperty =
-      targetAlchemicalProperty ||
+    const dominantAlchemicalProperty = targetAlchemicalProperty ||;
       (topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit');
 
     // Calculate average energy values
@@ -495,7 +494,7 @@ export class AlchemicalTransformationService {
   private getDominantElement(recipe: Recipe): ElementalCharacter {
     if (!recipe.elementalProperties) return 'Fire';
     const elements = recipe.elementalProperties;
-    const dominantValue = Math.max()
+    const dominantValue = Math.max();
       elements.Fire || 0,
       elements.Water || 0,
       elements.Earth || 0,

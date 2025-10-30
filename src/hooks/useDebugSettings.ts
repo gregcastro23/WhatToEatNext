@@ -25,7 +25,7 @@ const DEFAULT_SETTINGS: DebugSettings = {
   size: 'medium' },
         const STORAGE_KEY = 'debug-panel-settings';
 
-export const _useDebugSettings = () => {;
+export const _useDebugSettings = () => {
   const [settings, setSettings] = useState<DebugSettings>(DEFAULT_SETTINGS)
 
   // Load settings from localStorage on mount

@@ -15,7 +15,7 @@ import { classifyFileKind, decidePreservation } from './domainPreservation';
 
 type CliOptions = {
   outPath: string,
-  maxFiles?: number;
+  maxFiles?: number
 };
 
 type Finding = {
@@ -26,7 +26,7 @@ type Finding = {
   column: number,
   preserve: boolean,
   reason: string,
-  confidence: number;
+  confidence: number
 };
 
 function parseArgs(argv: string[]): CliOptions {
@@ -41,7 +41,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
   const outputFile = path.resolve(process.cwd(), 'temp-lint.json');
   const cmd = `eslint --config eslint.config.cjs src --format=json --max-warnings=10000 --output-file ${outputFile}`;
   try {
-    childProcess.execSync(cmd, { stdio: 'inherit' });
+    childProcess.execSync(cmd, ) { stdio: 'inherit' });
   } catch (error) {
     // ESLint exits 1 if issues found, but file is written
     console.warn('ESLint exited with code 1 (expected if issues found)');
@@ -53,7 +53,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
   type EslintMessage = { ruleId?: string; message: string; line?: number; column?: number },
   type EslintResult = { filePath: string; messages, EslintMessage[] },
   const results: EslintResult[] = JSON.parse(json);
-  const limited = typeof maxFiles === 'number' ? results.slice(0, Math.max(0, maxFiles)) : results,
+  const limited = typeof maxFiles === 'number' ? results.slice(0, Math.max(0, maxFiles)) : results,;
 
   const findings: Finding[] = [];
   for (const res of limited) {
@@ -63,7 +63,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
       if (msg.ruleId !== 'no-unused-vars' && msg.ruleId !== '@typescript-eslint/no-unused-vars') continue;
       const quoted = msg.message.match(/'(.*?)'/)?.[1];
       const fallback = msg.message.match(/([A-Za-z_$][A-Za-z0-9_$]*)/)?.[1];
-      const variableName = quoted || fallback || 'unknown'
+      const variableName = quoted || fallback || 'unknown';
       const decision = decidePreservation(variableName, filePath);
       findings.push({
         filePath,
@@ -83,7 +83,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
 
 function ensureDir(dirPath: string): void {
   if (!fs.existsSync(dirPath) {
-    fs.mkdirSync(dirPath, { recursive: true });
+    fs.mkdirSync(dirPath, ) { recursive: true });
   }
 }
 
@@ -95,7 +95,7 @@ function generateHumanReadableReport(findings: Finding[]): string {
     acc[f.reason] = (acc[f.reason] || 0) + 1;
     return acc;
   }, {});
-  const lines = [
+  const lines = [;
     `Unused variable analysis` ,
     `Total findings: ${total}` ,
     `Preserve: ${preserve}` ,
@@ -103,7 +103,7 @@ function generateHumanReadableReport(findings: Finding[]): string {
     `Breakdown by reason:` ,
   ];
   for (const [reason, count] of Object.entries(byReason).sort((a, b) => b[1] - a[1]) {
-    lines.push(`  - ${reason}: ${count}`);
+    lines.push(`  - ${reason}: $) {count}`);
   }
   return lines.join('\n');
 }
@@ -113,7 +113,7 @@ async function main(): Promise<void> {
   const findings = await collectUnusedVariables(opts.maxFiles);
 
   ensureDir(path.dirname(opts.outPath));
-  fs.writeFileSync(opts.outPath, JSON.stringify({ generatedAt: new Date().toISOString(), findings }, null, 2));
+  fs.writeFileSync(opts.outPath, JSON.stringify() { generatedAt: new Date().toISOString(), findings }, null, 2));
 
   const humanReport = generateHumanReadableReport(findings);
   const txtOut = opts.outPath.replace(/\.json$/, '.txt');

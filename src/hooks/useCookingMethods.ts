@@ -40,8 +40,7 @@ export function useCookingMethods() {
   useEffect(() => {
     try {
       // Convert the cooking methods data to the format expected by CookingMethodsSection
-      const convertedMethods: CookingMethod[] = Object.entries(allCookingMethods).map()
-        ([key, methodData]) => {
+      const convertedMethods: CookingMethod[] = Object.entries(allCookingMethods).map([key, methodData]) => {
           const data = methodData as unknown;
 
           return {
@@ -71,8 +70,7 @@ export function useCookingMethods() {
         })
 
       // Also add methods from the cookingMethods object
-      const additionalMethods: CookingMethod[] = Object.entries(cookingMethods).map()
-        ([key, methodData]) => {
+      const additionalMethods: CookingMethod[] = Object.entries(cookingMethods).map([key, methodData]) => {
           const data = methodData as unknown;
 
           return {
@@ -103,8 +101,7 @@ export function useCookingMethods() {
 
       // Combine and deduplicate methods
       const allMethods = [...convertedMethods, ...additionalMethods];
-      const uniqueMethods = allMethods.filter()
-        (method, index, self) => index === self.findIndex(m => m.id === method.id)
+      const uniqueMethods = allMethods.filter(method, index, self) => index === self.findIndex(m => m.id === method.id);
       );
 
       setMethods(uniqueMethods)
@@ -117,7 +114,7 @@ export function useCookingMethods() {
 
   const selectMethod = (methodId: string) => {
     // This could be used to track selected methods or trigger other actions;
-    log.info('Selected cooking method: ', { methodId })
+    log.info('Selected cooking method: ', ) { methodId })
   }
 
   return {

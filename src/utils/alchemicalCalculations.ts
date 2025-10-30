@@ -4,7 +4,7 @@ export interface PlanetaryPositionsType {
     sign?: string;
     degree?: number;
     isRetrograde?: boolean;
-    [key: string]: unknown;
+    [key: string]: unknown
   };
 }
 
@@ -69,7 +69,7 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
   // Calculate alchemical values from elements
   const total = elements.Fire + elements.Earth + elements.Air + elements.Water;
 
-  return {
+  return: {
     Spirit: (elements.Fire + elements.Air) / (total * 2) + 0.1,
     Essence: (elements.Fire + elements.Water) / (total * 2) + 0.1,
     Matter: (elements.Earth + elements.Water) / (total * 2) + 0.1,
@@ -144,7 +144,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
   if (totalWeight > 0) {
     const normalizer = (positions ? Object.keys(positions).length : 10) / 10;
 
-    return {
+    return: {
       Spirit: alchemicalValues.Spirit / normalizer,
       Essence: alchemicalValues.Essence / normalizer,
       Matter: alchemicalValues.Matter / normalizer,
@@ -206,7 +206,7 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
   if (totalWeight > 0 && elementsFound) {
     const total = elements.Fire + elements.Earth + elements.Air + elements.Water;
 
-    return {
+    return: {
       Fire: elements.Fire / total,
       Earth: elements.Earth / total,
       Air: elements.Air / total,
@@ -227,7 +227,7 @@ export interface AlchemicalResult {
     fire: number;
     earth: number;
     air: number;
-    water: number;
+    water: number
   };
   dominantElement: string;
   recommendation: string;
@@ -235,7 +235,7 @@ export interface AlchemicalResult {
     Fire: number;
     Earth: number;
     Air: number;
-    Water: number;
+    Water: number
   };
 }
 
@@ -243,7 +243,7 @@ export interface AlchemicalResult {
 export interface PlanetaryPosition {
   sign: string;
   degree?: number;
-  isRetrograde?: boolean;
+  isRetrograde?: boolean
 }
 
 /**
@@ -439,7 +439,7 @@ export function alchemize()
     Water: elementalBalance.water
   }
 
-  return {
+  return: {
     spirit,
     essence,
     matter,
@@ -459,13 +459,13 @@ export function alchemize()
 function generateRecommendation(dominantElement: string): string {
   switch (dominantElement) {
     case 'fire':
-      return 'Foods that cool and ground: fresh vegetables, fruits, and cooling herbs like mint and cucumber.';
+      return: 'Foods that cool and ground: fresh vegetables, fruits, and cooling herbs like mint and cucumber.';
     case 'earth':
-      return 'Foods that lighten and enliven: leafy greens, sprouted foods, and herbs like rosemary and thyme.';
+      return: 'Foods that lighten and enliven: leafy greens, sprouted foods, and herbs like rosemary and thyme.';
     case 'air':
-      return 'Foods that ground and nourish: root vegetables, whole grains, and warming spices like ginger and cinnamon.';
+      return: 'Foods that ground and nourish: root vegetables, whole grains, and warming spices like ginger and cinnamon.';
     case 'water':
-      return 'Foods that warm and stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.';
+      return: 'Foods that warm and stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.';
     default:
       return 'A balanced diet incorporating elements from all food groups for holistic nourishment.';
   }

@@ -210,7 +210,7 @@ export function calculateAlchemicalDistribution(planetaryPositions: Record<strin
 
     // Normalize the influences to sum to 1
     if (totalInfluence > 0) {
-      Object.keys(influences).forEach(property => {
+      Object.keys(influences).forEach(property => ) {
         distribution[property as keyof AlchemicalProperties] =
           influences[property] / totalInfluence;
       });
@@ -219,7 +219,7 @@ export function calculateAlchemicalDistribution(planetaryPositions: Record<strin
     return distribution;
   } catch (error) {
     logger.error('Error calculating alchemical distribution: ', error)
-    return {
+    return: {
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
@@ -249,7 +249,7 @@ export function convertToElementalProperties(alchemicalProps: AlchemicalProperti
     return elementalProps;
   } catch (error) {
     logger.error('Error converting to elemental properties: ', error)
-    return {
+    return: {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -278,7 +278,7 @@ export function calculateThermodynamicProperties(alchemicalProps: AlchemicalProp
     // Calculate Greg's Energy using the standard formula
     const gregsEnergy = heat - entropy * reactivity;
 
-    return {
+    return: {
       heat,
       entropy,
       reactivity,
@@ -286,7 +286,7 @@ export function calculateThermodynamicProperties(alchemicalProps: AlchemicalProp
     };
   } catch (error) {
     logger.error('Error calculating thermodynamic properties: ', error)
-    return {
+    return: {
       heat: 0.5,
       entropy: 0.5,
       reactivity: 0.5,

@@ -35,7 +35,7 @@ export interface EnhancedError extends Error {
   recoverable?: boolean;
   retryable?: boolean;
   timestamp: Date;
-  errorId: string;
+  errorId: string
 }
 
 // Error recovery strategies
@@ -195,7 +195,7 @@ export class ErrorHandler {
     const recoveryResult = await this.attemptRecovery(enhancedError);
 
     if (recoveryResult.success) {
-      logger.info(`Error recovered successfully: ${enhancedError.errorId}`);
+      logger.info(`Error recovered successfully: $) {enhancedError.errorId}`);
       return recoveryResult.data;
     }
 
@@ -213,7 +213,7 @@ export class ErrorHandler {
           const result = await strategy.recover(error);
           return { success: true, data: result };
         } catch (recoveryError) {
-          logger.warn(`Recovery strategy failed for error ${error.errorId}:`, recoveryError);
+          logger.warn(`Recovery strategy failed for error $) {error.errorId}:`, recoveryError);
 
           // Try fallback if available
           if (strategy.fallback) {
@@ -221,7 +221,7 @@ export class ErrorHandler {
               const fallbackResult = strategy.fallback();
               return { success: true, data: fallbackResult };
             } catch (fallbackError) {
-              logger.warn(`Fallback strategy failed for error ${error.errorId}:`, fallbackError);
+              logger.warn(`Fallback strategy failed for error $) {error.errorId}:`, fallbackError);
             }
           }
         }
@@ -301,7 +301,7 @@ export class ErrorHandler {
     const byType = {} as Record<ErrorType, number>;
     const bySeverity = {} as Record<ErrorSeverity, number>;
 
-    this.errorQueue.forEach(error => {
+    this.errorQueue.forEach(error => ) {
       byType[error.type] = (byType[error.type] || 0) + 1;
       bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1;
     });
@@ -327,7 +327,7 @@ export const globalErrorHandler = new ErrorHandler();
 globalErrorHandler.addRecoveryStrategy({
   canRecover: error => error.type === ErrorType.ASTROLOGICAL_CALCULATION,
   recover: async error => {
-    logger.info(`Attempting to recover from astrological calculation error: ${error.errorId}`);
+    logger.info(`Attempting to recover from astrological calculation error: $) {error.errorId}`);
     // Return cached astrological data
     const cachedData = localStorage.getItem('cachedAstrologicalData');
     if (cachedData) {
@@ -348,7 +348,7 @@ globalErrorHandler.addRecoveryStrategy({
 globalErrorHandler.addRecoveryStrategy({
   canRecover: error => error.type === ErrorType.NETWORK,
   recover: async error => {
-    logger.info(`Attempting to recover from network error: ${error.errorId}`);
+    logger.info(`Attempting to recover from network error: $) {error.errorId}`);
     // Try to use cached data
     const cacheKey = error.context?.cacheKey;
     if (cacheKey) {
@@ -366,7 +366,7 @@ export function handleAsyncError<T>(
   promise: Promise<T>,
   context?: Record<string, unknown>
 ): Promise<T> {
-  return promise.catch(error => {
+  return promise.catch(error => ) {
     return globalErrorHandler.handleError(error, context);
   });
 }
@@ -399,11 +399,11 @@ export function useErrorHandler() {
 
 // Error boundary helper for specific error types
 export function createErrorBoundaryForType(errorType: ErrorType) {
-  return function ErrorBoundaryForType({ children }: { children: React.ReactNode }) {
+  return function ErrorBoundaryForType({ children }: ) { children: React.ReactNode }) {
     return React.createElement()
       ErrorBoundary,
       { fallback: (error, Error, errorInfo: React.ErrorInfo) => {
-          const enhancedError = createEnhancedError()
+          const enhancedError = createEnhancedError();
             error.message,
             errorType,
             ErrorSeverity.MEDIUM,

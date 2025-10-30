@@ -29,7 +29,7 @@ export interface CuisineRecommendation {
   cuisine: string;
   score: number;
   reasoning: string;
-  elementalMatch: number;
+  elementalMatch: number
 }
 
 /**
@@ -65,7 +65,7 @@ export interface EnhancedCuisineRecommendationParams extends CuisineRecommendati
   };
   useAdvancedAnalysis?: boolean;
   includePlanetaryData?: boolean;
-  includeSignatures?: boolean;
+  includeSignatures?: boolean
 }
 
 // ========== MAIN RECOMMENDATION FUNCTIONS ==========
@@ -124,7 +124,7 @@ export function generateEnhancedCuisineRecommendations()
     const mockCuisines = getMockCuisineData();
 
     // Generate recommendations using the comprehensive system
-    const recommendations = generateCuisineRecommendations()
+    const recommendations = generateCuisineRecommendations();
       userProfile,
       mockCuisines,
       {
@@ -135,7 +135,7 @@ export function generateEnhancedCuisineRecommendations()
     );
 
     // Convert to enhanced format
-    return recommendations.map(rec => ({
+    return recommendations.map(rec => () {
       cuisine: rec.cuisineId,
       score: rec.compatibilityScore,
       reasoning: rec.reasoning.join(', '),
@@ -166,7 +166,7 @@ export function generateCuisineRecommendation()
   // Use enhanced system but return legacy format
   const enhanced = generateEnhancedCuisineRecommendations(params);
 
-  return enhanced.map(rec => ({
+  return enhanced.map(rec => () {
     cuisine: rec.cuisine,
     score: rec.score,
     reasoning: rec.reasoning,
@@ -241,7 +241,7 @@ function generateBasicCuisineRecommendations()
   }
 
   // Boost scores for preferred cuisines
-  recommendations.forEach(rec => {
+  recommendations.forEach(rec => ) {
     if (preferences.includes(rec.cuisine) {
       rec.score = Math.min(rec.score * 1.2, 1.0);
       rec.reasoning += ' (preferred cuisine)';
@@ -257,7 +257,7 @@ function generateBasicCuisineRecommendations()
  * In production, this would load from computed cuisine properties
  */
 function getMockCuisineData() {
-  const mockCuisines = new Map([)
+  const mockCuisines = new Map([);
     ['Italian', {
       name: 'Italian',
       properties: {

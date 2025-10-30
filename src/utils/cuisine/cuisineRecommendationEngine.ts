@@ -50,7 +50,7 @@ export interface UserProfile {
   locationPreferences?: {
     currentSeason?: string,
     climatePreference?: string,
-    region?: string;
+    region?: string
   };
 }
 
@@ -73,7 +73,7 @@ export interface CuisineRecommendation {
     alchemicalCompatibility?: number;
     culturalAlignment: number;
     seasonalRelevance: number;
-    signatureMatch: number;
+    signatureMatch: number
   };
 
   /** Reasoning for the recommendation */
@@ -83,7 +83,7 @@ export interface CuisineRecommendation {
   recommendedRecipes?: string[];
 
   /** Confidence in recommendation */
-  confidence: number;
+  confidence: number
 }
 
 // ========== COMPATIBILITY SCORING FUNCTIONS ==========
@@ -103,7 +103,7 @@ export function calculateElementalCompatibility()
   const userVector = Object.values(userPreferences);
   const cuisineVector = Object.values(cuisineElementals);
 
-  const dotProduct = userVector.reduce((sum, userVal, i) =>
+  const dotProduct = userVector.reduce((sum, userVal, i) =>;
     sum + userVal * cuisineVector[i], 0
   );
 
@@ -133,7 +133,7 @@ export function calculateAlchemicalCompatibility()
   let totalScore = 0;
   let weightedCount = 0;
 
-  properties.forEach(property => {
+  properties.forEach(property => ) {
     const userPref = userPreferences[property];
     if (userPref === undefined) return; // Skip if user has no preference for this property
 
@@ -171,7 +171,7 @@ export function calculateCulturalAlignment()
 
   // Check if cuisine is in user's preferred list
   if (preferredCuisines && preferredCuisines.length > 0) {
-    const cuisineMatch = preferredCuisines.some(cuisine =>)
+    const cuisineMatch = preferredCuisines.some(cuisine =>);
       cuisine.toLowerCase() === cuisineId.toLowerCase() ||
       cuisine.toLowerCase() === cuisineName.toLowerCase()
     );
@@ -230,7 +230,7 @@ export function calculateSignatureMatch()
 
   let totalMatch = 0;
 
-  cuisineSignatures.forEach(signature => {
+  cuisineSignatures.forEach(signature => ) {
     const property = signature.property;
 
     // Check if signature property is elemental
@@ -239,7 +239,7 @@ export function calculateSignatureMatch()
       const signatureStrength = signature.zscore > 0 ? 1 : -1; // Positive or negative signature
 
       // Higher match if user prefers the signature direction
-      const match = signatureStrength > 0 ?
+      const match = signatureStrength > 0 ?;
         userPreference : // Positive signature matches high preference
         (1 - userPreference); // Negative signature matches low preference
 
@@ -269,7 +269,7 @@ export function generateCuisineRecommendations(userProfile: UserProfile,)
     maxRecommendations?: number,
     minCompatibilityThreshold?: number,
     includeReasoning?: boolean,
-    considerSeasonalFactors?: boolean,
+    considerSeasonalFactors?: boolean
   } = {}
 ): CuisineRecommendation[] {
   const {
@@ -285,12 +285,12 @@ export function generateCuisineRecommendations(userProfile: UserProfile,)
     const { name: cuisineName, properties: cuisineProperties } = cuisineData;
 
     // Calculate individual compatibility scores
-    const elementalCompatibility = calculateElementalCompatibility()
+    const elementalCompatibility = calculateElementalCompatibility();
       userProfile.elementalPreferences,
       cuisineProperties.averageElementals
     );
 
-    const alchemicalCompatibility = userProfile.alchemicalPreferences && cuisineProperties.averageAlchemical ?
+    const alchemicalCompatibility = userProfile.alchemicalPreferences && cuisineProperties.averageAlchemical ?;
       calculateAlchemicalCompatibility()
         userProfile.alchemicalPreferences,
         cuisineProperties.averageAlchemical
@@ -298,10 +298,10 @@ export function generateCuisineRecommendations(userProfile: UserProfile,)
 
     const culturalAlignment = calculateCulturalAlignment(userProfile, cuisineId, cuisineName);
 
-    const seasonalRelevance = considerSeasonalFactors ?
+    const seasonalRelevance = considerSeasonalFactors ?;
       calculateSeasonalRelevance(userProfile, cuisineProperties) : 0.5;
 
-    const signatureMatch = calculateSignatureMatch()
+    const signatureMatch = calculateSignatureMatch();
       cuisineProperties.signatures,
       userProfile.elementalPreferences
     );
@@ -317,7 +317,7 @@ export function generateCuisineRecommendations(userProfile: UserProfile,)
 
     const totalWeight = weights.elemental + weights.alchemical + weights.cultural + weights.seasonal + weights.signature;
 
-    const overallScore = (
+    const overallScore = (;
       elementalCompatibility * weights.elemental +
       (alchemicalCompatibility || 0) * weights.alchemical +
       culturalAlignment * weights.cultural +
@@ -366,7 +366,7 @@ export function generateCuisineRecommendations(userProfile: UserProfile,)
       cuisineId,
       cuisineName,
       compatibilityScore: overallScore,
-      scoringFactors: {
+      scoringFactors: ) {
         elementalCompatibility,
         alchemicalCompatibility,
         culturalAlignment,
@@ -444,12 +444,12 @@ function normalizeElementalPreferences(preferences: ElementalProperties): Elemen
 };
 
   if (sum > 0) {
-    (Object.keys(preferences) as (keyof ElementalProperties)[]).forEach(key => {
+    (Object.keys(preferences) as (keyof ElementalProperties)[]).forEach(key => ) {
       normalized[key] = preferences[key] / sum;
     });
   } else {
     // Fallback to equal distribution
-    (Object.keys(normalized) as (keyof ElementalProperties)[]).forEach(key => {
+    (Object.keys(normalized) as (keyof ElementalProperties)[]).forEach(key => ) {
       normalized[key] = 0.25;
     });
   }
@@ -472,17 +472,17 @@ export function validateUserProfile(profile: UserProfile): {
   const warnings: string[] = [];
 
   // Validate elemental preferences
-  const elementalSum = Object.values(profile.elementalPreferences)
+  const elementalSum = Object.values(profile.elementalPreferences);
     .reduce((sum, val) => sum + val, 0);
 
   if (Math.abs(elementalSum - 1.0) > 0.01) {
-    errors.push(`Elemental preferences must sum to 1.0 (current sum: ${elementalSum})`);
+    errors.push(`Elemental preferences must sum to 1.0 (current sum: $) {elementalSum})`);
   }
 
   // Check for negative values
   Object.entries(profile.elementalPreferences).forEach(([element, value]) => {
     if (value < 0) {
-      errors.push(`${element} preference cannot be negative`);
+      errors.push(`$) {element} preference cannot be negative`);
     }
   });
 
@@ -490,7 +490,7 @@ export function validateUserProfile(profile: UserProfile): {
   if (profile.alchemicalPreferences) {
     Object.entries(profile.alchemicalPreferences).forEach(([property, value]) => {
       if (value !== undefined && (value < 0 || value > 1) {
-        warnings.push(`${property} preference should be between 0 and 1`);
+        warnings.push(`$) {property} preference should be between 0 and 1`);
       }
     });
   }
@@ -532,7 +532,7 @@ export function getRecommendationSummary(recommendations: CuisineRecommendation[
   const averageCompatibility = totalCompatibility / recommendations.length;
 
   const distribution = { excellent: 0, good: 0, fair: 0, poor: 0 };
-  recommendations.forEach(rec => {
+  recommendations.forEach(rec => ) {
     if (rec.compatibilityScore > 0.8) distribution.excellent++;
     else if (rec.compatibilityScore > 0.6) distribution.good++;
     else if (rec.compatibilityScore > 0.4) distribution.fair++;

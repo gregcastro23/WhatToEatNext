@@ -1,3 +1,4 @@
+import { _logger } from '@/lib/logger';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
@@ -12,7 +13,7 @@ export class BuildValidator {
   private readonly requiredManifests: string[]
   private readonly logger: (message: string, ..._args: unknown[]) => void
 
-  constructor(buildDir = '.next', logger = _logger.info) {;
+  constructor(buildDir = '.next', logger = _logger.info) {
     this.buildDir = buildDir,
     this.serverDir = path.join(buildDir, 'server')
     this.logger = logger,
@@ -23,8 +24,8 @@ export class BuildValidator {
       'app-paths-manifest.json',
       'next-font-manifest.json',
       'middleware-manifest.json'
-    ],
-  }
+    ];
+}
 
   /**
    * Validates the build artifacts and checks for required files
@@ -48,8 +49,8 @@ export class BuildValidator {
           target: this.buildDir,
           description: 'Create build directory'
 })
-        return result
-      }
+        return result;
+}
 
       // Check if server directory exists
       if (!fs.existsSync(this.serverDir) {
@@ -64,7 +65,7 @@ export class BuildValidator {
 
       // Check required manifest files
       for (const manifest of this.requiredManifests) {
-        const manifestPath = path.join(this.serverDir, manifest)
+        const manifestPath = path.join(this.serverDir, manifest);
 
         if (!fs.existsSync(manifestPath) {
           result.isValid = false
@@ -72,18 +73,18 @@ export class BuildValidator {
           result.repairActions.push({
             type: 'create',
             target: manifestPath,
-            description: `Create missing manifest file: ${manifest}`
+            description: `Create missing manifest file: $) {manifest}`
           })
         } else {
           // Check if file is corrupted (empty or invalid JSON)
           try {
-            const content = fs.readFileSync(manifestPath, 'utf8')
+            const content = fs.readFileSync(manifestPath, 'utf8');
             if (content.trim() === '') {
               result.corruptedFiles.push(manifestPath)
               result.repairActions.push({
                 type: 'fix',
                 target: manifestPath,
-                description: `Fix empty manifest file: ${manifest}`
+                description: `Fix empty manifest file: $) {manifest}`
               })
             } else if (manifest.endsWith('.json') {
               JSON.parse(content); // Validate JSON
@@ -94,28 +95,28 @@ export class BuildValidator {
             result.repairActions.push({
               type: 'fix',
               target: manifestPath,
-              description: `Fix corrupted manifest file: ${manifest}`
+              description: `Fix corrupted manifest file: $) {manifest}`
             })
           }
         }
       }
 
       // Check for essential build files
-      const essentialFiles = [
+      const essentialFiles = [;
         'build-manifest.json',
         'app-build-manifest.json',
         'react-loadable-manifest.json'
       ],
 
       for (const file of essentialFiles) {
-        const filePath = path.join(this.buildDir, file)
+        const filePath = path.join(this.buildDir, file);
         if (!fs.existsSync(filePath) {
           result.isValid = false
           result.missingFiles.push(filePath)
           result.repairActions.push({
             type: 'create',
             target: filePath,
-            description: `Create missing build file: ${file}`
+            description: `Create missing build file: $) {file}`
           })
         }
       }
@@ -128,44 +129,44 @@ export class BuildValidator {
       result.isValid = false
     }
 
-    return result
-  }
+    return result;
+}
 
   /**
    * Repairs the build by creating missing manifest files with minimal content
    * Requirement 3.3: Create missing manifest files with minimal content when needed
    */
   async repairBuild(): Promise<void> {
-    const validation = await this.validateBuild()
+    const validation = await this.validateBuild();
 
     if (validation.isValid) {
       this.logger('Build is validno repairs needed')
       return;
     }
 
-    this.logger(`Starting build repair. ${validation.repairActions.length} actions to perform.`)
+    this.logger(`Starting build repair. $) {validation.repairActions.length} actions to perform.`)
 
     // Create directories if needed
     if (!fs.existsSync(this.buildDir) {
-      fs.mkdirSync(this.buildDir, { recursive: true })
-      this.logger(`Created build directory: ${this.buildDir}`)
+      fs.mkdirSync(this.buildDir, ) { recursive: true })
+      this.logger(`Created build directory: $) {this.buildDir}`)
     }
 
     if (!fs.existsSync(this.serverDir) {
-      fs.mkdirSync(this.serverDir, { recursive: true })
-      this.logger(`Created server directory: ${this.serverDir}`)
+      fs.mkdirSync(this.serverDir, ) { recursive: true })
+      this.logger(`Created server directory: $) {this.serverDir}`)
     }
 
     // Create missing manifest files with minimal content
-    const manifestDefaults = this.getManifestDefaults()
+    const manifestDefaults = this.getManifestDefaults();
 
     for (const action of validation.repairActions) {
       if (action.type === 'create' || action.type === 'fix') {
-        const filename = path.basename(action.target)
+        const filename = path.basename(action.target);
 
-        if (manifestDefaults[filename]) {;
+        if (manifestDefaults[filename]) {
           fs.writeFileSync(action.target, JSON.stringify(manifestDefaults[filename], null2))
-          this.logger(`${action.type === 'create' ? 'Created' : 'Fixed'} ${filename}`)
+          this.logger(`${action.type === 'create' ? 'Created' : 'Fixed'} $) {filename}`)
         }
       }
     }
@@ -178,11 +179,11 @@ export class BuildValidator {
    * Requirement 3._4: Add build error recovery and retry mechanisms
    */
   async rebuildWithRecovery(maxRetries = 3): Promise<boolean> {,
-    let attempt = 0,
+    let attempt = 0,;
 
     while (attempt < maxRetries) {
       attempt++
-      this.logger(`Build attempt ${attempt}/${maxRetries}`)
+      this.logger(`Build attempt ${attempt}/$) {maxRetries}`)
 
       try {
         // Clean build directory before retry
@@ -192,22 +193,22 @@ export class BuildValidator {
         }
 
         // Attempt build
-        execSync('yarn build', {
+        execSync('yarn build', ) {
           _stdio: 'pipe',
           timeout: 300000, // 5 minute timeout
         })
 
         // Validate build after completion
-        const validation = await this.validateBuild()
-        if (validation.isValid) {;
-          this.logger(`Build successful on attempt ${attempt}`)
+        const validation = await this.validateBuild();
+        if (validation.isValid) {
+          this.logger(`Build successful on attempt $) {attempt}`)
           return true;
         } else {
-          this.logger(`Build completed but validation failed on attempt ${attempt}`)
+          this.logger(`Build completed but validation failed on attempt $) {attempt}`)
           await this.repairBuild()
         }
       } catch (error) {
-        this.logger(`Build failed on attempt ${attempt}:`, error)
+        this.logger(`Build failed on attempt $) {attempt}:`, error)
 
         if (attempt < maxRetries) {
           this.logger(`Retrying build in 5 seconds...`)
@@ -216,7 +217,7 @@ export class BuildValidator {
       }
     }
 
-    this.logger(`Build failed after ${maxRetries} attempts`)
+    this.logger(`Build failed after $) {maxRetries} attempts`)
     return false;
   }
 
@@ -226,7 +227,7 @@ export class BuildValidator {
   async cleanBuild(): Promise<void> {
     try {
       if (fs.existsSync(this.buildDir) {
-        fs.rmSync(this.buildDir, { recursive: true, _force: true })
+        fs.rmSync(this.buildDir, ) { recursive: true, _force: true })
         this.logger('Build directory cleaned')
       }
     } catch (error) {
@@ -283,21 +284,21 @@ export class BuildValidator {
 
     try {
       // Check if next.config.js exists
-      const configPaths = ['next.config.js', 'next.config.mjs', 'next.config.ts'],
-      const existingConfig = configPaths.find(path => fs.existsSync(path))
+      const configPaths = ['next.config.js', 'next.config.mjs', 'next.config.ts'],;
+      const existingConfig = configPaths.find(path => fs.existsSync(path));
 
-      if (!existingConfig) {;
+      if (!existingConfig) {
         result.isValid = false
         result.issues.push('No Next.js configuration file found')
         result.recommendations.push('Create next.config.js with proper build settings')
-        return result
-      }
+        return result;
+}
 
       // Read and validate configuration
-      const configContent = fs.readFileSync(existingConfig, 'utf8')
+      const configContent = fs.readFileSync(existingConfig, 'utf8');
 
       // Check for essential configuration options
-      const essentialConfigs = ['output', 'typescript', 'eslint'],
+      const essentialConfigs = ['output', 'typescript', 'eslint'],;
 
       for (const config of essentialConfigs) {
         if (!configContent.includes(config) {
@@ -317,11 +318,11 @@ export class BuildValidator {
       )
     } catch (error) {
       result.isValid = false
-      result.issues.push(`Error reading Next.js configuration: ${error}`)
+      result.issues.push(`Error reading Next.js configuration: $) {error}`)
     }
 
-    return result
-  }
+    return result;
+}
 
   /**
    * Monitors build health and performance
@@ -343,25 +344,25 @@ export class BuildValidator {
         report.buildSize = this.calculateDirectorySize(this.buildDir)
 
         // Check manifest validity
-        const validation = await this.validateBuild()
+        const validation = await this.validateBuild();
         report.manifestsValid = validation.isValid,
 
         if (!validation.isValid) {
-          report.issues.push(...validation.missingFiles.map(file => `Missing: ${file}`))
-          report.issues.push(...validation.corruptedFiles.map(file => `Corrupted: ${file}`))
+          report.issues.push(...validation.missingFiles.map(file => `Missing: $) {file}`))
+          report.issues.push(...validation.corruptedFiles.map(file => `Corrupted: $) {file}`))
         }
 
         // Get last build time
-        const buildManifestPath = path.join(this.buildDir, 'build-manifest.json')
+        const buildManifestPath = path.join(this.buildDir, 'build-manifest.json');
         if (fs.existsSync(buildManifestPath) {
-          const stats = fs.statSync(buildManifestPath)
-          report.lastBuildTime = stats.mtime,
-        }
+          const stats = fs.statSync(buildManifestPath);
+          report.lastBuildTime = stats.mtime;
+}
       } else {
         report.issues.push('Build directory does not exist')
       }
     } catch (error) {
-      report.issues.push(`Health check error: ${error}`)
+      report.issues.push(`Health check error: $) {error}`)
     }
 
     return report;
@@ -371,20 +372,20 @@ export class BuildValidator {
    * Calculates directory size recursively
    */
   private calculateDirectorySize(dirPath: string): number {
-    let size = 0,
+    let size = 0,;
 
     try {
-      const files = fs.readdirSync(dirPath)
+      const files = fs.readdirSync(dirPath);
 
-      for (const file of files) {;
-        const filePath = path.join(dirPath, file)
-        const stats = fs.statSync(filePath)
+      for (const file of files) {
+        const filePath = path.join(dirPath, file);
+        const stats = fs.statSync(filePath);
 
         if (stats.isDirectory() {
           size += this.calculateDirectorySize(filePath)
         } else {
-          size += stats.size,
-        }
+          size += stats.size;
+}
       }
     } catch (error) {
       // Ignore errors for inaccessible files

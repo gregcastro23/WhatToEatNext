@@ -19,7 +19,7 @@ export const gelification: CookingMethodData = {
     min: 10,
     max: 60
 },
-  suitable_for [
+  suitable_for: [
     'fruit purees',
     'stock reductions',
     'dairy products',
@@ -63,9 +63,9 @@ export const gelification: CookingMethodData = {
     unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as any[],
     dominantPlanets: ['Mercury', 'Saturn', 'Neptune'],
     lunarPhaseEffect: {
-      full_moon: 1.2, // Enhanced gel firmness,
-      new_moon: 0.8, // Reduced setting power,
-      waning_crescent: 0.8, // Difficult gel formation,
+      full_moon: 1.2, // Enhanced gel firmness
+      new_moon: 0.8, // Reduced setting power
+      waning_crescent: 0.8, // Difficult gel formation
       waxing_gibbous: 1.1, // Good balance of elasticity
     }
   },
@@ -124,19 +124,19 @@ export const gelification: CookingMethodData = {
     'Plant ash or charcoal elements for visual drama'
   ],
   nutrientRetention: {
-    dietaryFiber: 1.25, // Increased due to added hydrocolloids,
+    dietaryFiber: 1.25, // Increased due to added hydrocolloids
     antioxidants: 0.9,
     vitamins: 0.85,
     minerals: 0.9,
-    enzymes: 0.95, // Well preserved in cold-set applications,
-    probiotics: 0.85, // Some survival in appropriate environments,
-    phenolic_compounds: 0.88, // Good retention of plant phenolics,
-    carotenoids: 0.8, // Some degradation during processing,
-    volatile_aromas: 0.75, // Some loss during heating phase,
+    enzymes: 0.95, // Well preserved in cold-set applications
+    probiotics: 0.85, // Some survival in appropriate environments
+    phenolic_compounds: 0.88, // Good retention of plant phenolics
+    carotenoids: 0.8, // Some degradation during processing
+    volatile_aromas: 0.75, // Some loss during heating phase
     protein_integrity: 0.92, // Generally well preserved
   },
   optimalTemperatures: {
-    agar_dissolution: 185, // In Fahrenheit,
+    agar_dissolution: 185, // In Fahrenheit
     gellan_gum_dissolution: 195,
     gelatin_dissolution: 140,
     setting_temperature: 45,
@@ -144,9 +144,9 @@ export const gelification: CookingMethodData = {
     kappa_carrageenan_hydration: 160,
     iota_carrageenan_hydration: 150,
     locust_bean_gum_hydration: 185,
-    methyl_cellulose_hydration: 32, // Cold hydration required,
-    pectin_activation: 220, // High methoxyl pectin,
-    xanthan_hydration: 75, // Cold hydration possible,
+    methyl_cellulose_hydration: 32, // Cold hydration required
+    pectin_activation: 220, // High methoxyl pectin
+    xanthan_hydration: 75, // Cold hydration possible
     konjac_hydration: 195,
     low_acyl_gellan_dissolution: 185,
     high_acyl_gellan_dissolution: 195,
@@ -169,14 +169,14 @@ export const gelification: CookingMethodData = {
     structural_alignment: true,
     syneresis: true,
     flavor_encapsulation: true,
-    ionic_cross_linking: true, // Especially with calcium-reactive gels,
-    protein_denaturation: true, // In gelatin and protein-rich media,
-    polysaccharide_configuration: true, // Helix formation in many hydrocolloids,
-    junction_zone_development: true, // Where polymer chains interact,
-    phase_separation: true, // When incompatible hydrocolloids mixed,
-    thixotropic_changes: true, // Time-dependent viscosity changes,
-    retrogradation: true, // Especially in starch-based systems,
-    moisture_migration: true, // Movement of water within gel structure,
+    ionic_cross_linking: true, // Especially with calcium-reactive gels
+    protein_denaturation: true, // In gelatin and protein-rich media
+    polysaccharide_configuration: true, // Helix formation in many hydrocolloids
+    junction_zone_development: true, // Where polymer chains interact
+    phase_separation: true, // When incompatible hydrocolloids mixed
+    thixotropic_changes: true, // Time-dependent viscosity changes
+    retrogradation: true, // Especially in starch-based systems
+    moisture_migration: true, // Movement of water within gel structure
     conformational_transitions: true, // Temperature-dependent structural changes
   },
   safetyFeatures: [
@@ -197,10 +197,10 @@ export const gelification: CookingMethodData = {
     'Maintain strict hygiene during extended processing times'
   ],
   thermodynamicProperties: {
-    heat: 0.35, // Low-moderate heat for hydration,
-    entropy: 0.55, // Significant transformation of structure,
-    reactivity: 0.6, // Moderate-high chemical reactions,
-    gregsEnergy: -10.35, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
+    heat: 0.35, // Low-moderate heat for hydration
+    entropy: 0.55, // Significant transformation of structure
+    reactivity: 0.6, // Moderate-high chemical reactions
+    gregsEnergy: -10.35, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata
@@ -246,9 +246,9 @@ export const gelification: CookingMethodData = {
     'Electrically conductive edible gels for interactive experiences'
   ],
 
-  sustainabilityRating: 0.65, // Moderate - depends on sourcing of hydrocolloids,
+  sustainabilityRating: 0.65, // Moderate - depends on sourcing of hydrocolloids
 
-  equipmentComplexity: 0.75, // Requires specific equipment and precision,
+  equipmentComplexity: 0.75, // Requires specific equipment and precision
 
   healthConsiderations: [
     'Most hydrocolloids are naturally-derived dietary fibers',
@@ -357,7 +357,7 @@ export const gelification: CookingMethodData = {
       measurement_precision: 'Scales accurate to 0.1g for hydrocolloids, 1g for major ingredients. Volume measurements inadequate for hydrocolloid work - weight-based formulation essential.',
       mixing_technology: 'High shear mixing (>5000 RPM) prevents clumping during hydration. Overhead mixers preferred over handheld for consistent dispersion. Vacuum mixing systems eliminate air incorporation.',
       filtration_systems: 'Multiple filtration stages recommended: coarse straining (1mm), fine mesh (100 micron), and optional centrifugation for complete clarity. Vacuum filtration accelerates process for viscous solutions.',
-      mold_materials: 'Silicone provides ideal release properties, stainless steel creates high-gloss surfaces, acetate sheets create clear edges. Mold temperature affects setting speed and surface characteristics.',
-    }
+      mold_materials: 'Silicone provides ideal release properties, stainless steel creates high-gloss surfaces, acetate sheets create clear edges. Mold temperature affects setting speed and surface characteristics.';
+}
   }
 }

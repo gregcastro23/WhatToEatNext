@@ -1,3 +1,4 @@
+import { _logger } from '@/lib/logger';
 import type {
   AspectType,
   AstrologicalState,
@@ -28,7 +29,7 @@ const errorLog = (_message: string, ..._args: unknown[]): void => {
 // Interface for state cache
 interface StateCache<T> {
   data: T;
-  timestamp: number;
+  timestamp: number
 }
 
 // Cache for reliable positions
@@ -38,7 +39,7 @@ const _CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 // Interface for transit date
 interface TransitDate {
   _Start: string;
-  _End: string;
+  _End: string
 }
 
 // Interface for planet data with transits
@@ -254,8 +255,8 @@ export function getZodiacPositionInDegrees(sign: ZodiacSign, degree: number): nu
  * @param positions Planetary positions
  * @returns Array of planetary aspects
  */
-export function calculatePlanetaryAspects(positions: {
-  [key: string]: CelestialPosition;
+export function calculatePlanetaryAspects(positions: ) {
+  [key: string]: CelestialPosition
 }): PlanetaryAspect[] {
   const aspects: PlanetaryAspect[] = [];
   const planets = Object.keys(positions);
@@ -333,7 +334,7 @@ export function identifyAspect(angleDiff: number): { type: AspectType; orb, numb
   };
 
   // Check each aspect type
-  for (const [type, { angle, maxOrb }] of Object.entries(aspectDefinitions) {
+  for (const [type, ) { angle, maxOrb }] of Object.entries(aspectDefinitions) {
     const orb = Math.abs(angleDiff - angle);
     if (orb <= maxOrb) {
       return { type: type as AspectType, orb };
@@ -406,7 +407,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     const dominantElement = getDominantElement(elementCounts) as Element;
 
     // Map planets to names
-    const activePlanets = Object.keys(positions || {}).filter()
+    const activePlanets = Object.keys(positions || ) {}).filter();
       p => !['northNode', 'southNode', 'Chiron', 'Ascendant', 'MC'].includes(p)
     ) as PlanetName[];
 
@@ -603,7 +604,7 @@ export function getBaseSignLongitude(sign: ZodiacSign): number {
   ];
 
   const index = signs.indexOf(sign);
-  return index >= 0 ? index * 30 : 0;
+  return index >= 0 ? index * 30 : 0
 }
 
 /**
@@ -696,7 +697,7 @@ function calculateApproximateMoonSign(dayOfYear: number): ZodiacSign {
  * @param positions Planetary positions
  * @returns Element count object
  */
-function countElements(positions: { [key: string]: CelestialPosition }): { [key: string]: number } {
+function countElements(positions: ) { [key: string]: CelestialPosition }): { [key: string]: number } {
   const elements: { [key: string]: number } = {
     Fire: 0,
     Earth: 0,
@@ -746,7 +747,7 @@ function countElements(positions: { [key: string]: CelestialPosition }): { [key:
  * @param elements Element count object
  * @returns Dominant element
  */
-function getDominantElement(elements: { [key: string]: number }): string {
+function getDominantElement(elements: ) { [key: string]: number }): string {
   let max = 0;
   let dominant = 'Fire';
 

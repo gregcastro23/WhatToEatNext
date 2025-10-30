@@ -28,8 +28,8 @@ export function enrichRecipeData(recipe: Partial<Recipe>): Recipe {
     timeToMake: enrichedRecipe.timeToMake || '30 minutes',
     numberOfServings: enrichedRecipe.numberOfServings || 4,
     // Copy over all other properties
-    ...enrichedRecipe,
-  };
+    ...enrichedRecipe;
+};
 
   // 1. Derive astrological influences from ingredients if not present
   if (!enriched.astrologicalInfluences || enriched.astrologicalInfluences.length === 0) {
@@ -109,12 +109,12 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
     thyme: ['Venus', 'Air'],
     sage: ['Jupiter', 'Air'],
     mint: ['Mercury', 'Air'],
-    parsley: ['Mercury', 'Air'],
-  };
+    parsley: ['Mercury', 'Air'];
+};
 
   // Extract ingredient names from recipe
   if (isNonEmptyArray(recipe.ingredients) {
-    recipe.ingredients.forEach(ingredient => {
+    recipe.ingredients.forEach(ingredient => ) {
       const ingredientName = ingredient.name.toLowerCase();
 
       // Check for matches in correspondences
@@ -248,7 +248,7 @@ function enrichAndNormalizeSeasons(seasons?: string | string[]): string[] {
 
   const normalizedSeasons: string[] = [];
 
-  seasonArray.forEach(season => {
+  seasonArray.forEach(season => ) {
     const s = season.toLowerCase().trim();
 
     // Normalize season names and zodiac correspondences
@@ -284,12 +284,12 @@ function enrichAndNormalizeSeasons(seasons?: string | string[]): string[] {
 function deriveCelestialTiming(recipe: Recipe): {
   optimalMoonPhase?: string,
   optimalPlanetaryHour?: string,
-  bestZodiacSeason?: string;
+  bestZodiacSeason?: string
 } {
   const timing: {
     optimalMoonPhase?: string,
     optimalPlanetaryHour?: string,
-    bestZodiacSeason?: string;
+    bestZodiacSeason?: string
   } = {};
 
   // Determine optimal Moon phase based on recipe characteristics
@@ -330,8 +330,7 @@ function deriveCelestialTiming(recipe: Recipe): {
 
   // Determine optimal planetary hour based on dominant element
   if (recipe.elementalProperties) {
-    const dominantElement = Object.entries(recipe.elementalProperties).reduce()
-      (max, [element, value]) => (value > max.value ? { element, value } : max),
+    const dominantElement = Object.entries(recipe.elementalProperties).reduce(max, [element, value]) => (value > max.value ? ) => { element, value } : max),;
       { element: 'Fire', value: 0 },
     ).element;
 
@@ -474,7 +473,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
 
   // Basic nutritional estimation based on ingredients
   if (isNonEmptyArray(recipe.ingredients) {
-    recipe.ingredients.forEach(ingredient => {
+    recipe.ingredients.forEach(ingredient => ) {
       const name = ingredient.name.toLowerCase();
 
       // Rough nutritional estimates per 100g of common ingredients
@@ -558,7 +557,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
   // Normalize per serving if multiple servings
   const servings = recipe.numberOfServings || 1;
   if (servings > 1) {
-    Object.keys(estimatedNutrition).forEach(key => {
+    Object.keys(estimatedNutrition).forEach(key => ) {
       estimatedNutrition[key] = Math.round(estimatedNutrition[key] / servings);
     });
   }

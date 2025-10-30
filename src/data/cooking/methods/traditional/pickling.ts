@@ -16,10 +16,10 @@ export const pickling: CookingMethodData = {
     Fire: 0.1
 },
   duration: {
-    min: 60, // 1 hour for quick pickles,
+    min: 60, // 1 hour for quick pickles
     max: 4320, // 3 days for some fermented pickles
   },
-  suitable_for [
+  suitable_for: [
     'vegetables',
     'fruits',
     'eggs',
@@ -64,9 +64,9 @@ export const pickling: CookingMethodData = {
     unfavorableZodiac: ['leo', 'aries'] as any[],
     dominantPlanets: ['Venus', 'Mercury', 'Saturn'],
     lunarPhaseEffect: {
-      full_moon: 1.2, // Enhanced preservation properties,
-      new_moon: 0.9, // Slightly reduced activity,
-      waxing_crescent: 1.1, // Good phase to begin pickling,
+      full_moon: 1.2, // Enhanced preservation properties
+      new_moon: 0.9, // Slightly reduced activity
+      waxing_crescent: 1.1, // Good phase to begin pickling
       waning_gibbous: 1.0, // Neutral effect
     }
   },
@@ -125,32 +125,32 @@ export const pickling: CookingMethodData = {
     'Legume dishes for flavor enhancement'
   ],
   nutrientRetention: {
-    vitamins: 0.85, // Good vitamin retention,
-    minerals: 0.9, // Excellent mineral retention,
-    antioxidants: 0.75, // Good retention,
-    fiber: 0.95, // Excellent fiber retention,
-    enzymes: 0.3, // Low in quick pickles, higher in fermented,
-    probiotics: 0.7, // Only in fermented pickles,
-    phytonutrients: 0.8, // Good retention,
-    vitamin_c: 0.65, // Moderate retention,
-    vitamin_a: 0.85, // Good retention,
-    b_vitamins: 0.75, // Moderate retention,
-    polyphenols: 0.8, // Good retention,
-    carotenoids: 0.7, // Moderate retention,
-    flavonoids: 0.75, // Moderate retention,
+    vitamins: 0.85, // Good vitamin retention
+    minerals: 0.9, // Excellent mineral retention
+    antioxidants: 0.75, // Good retention
+    fiber: 0.95, // Excellent fiber retention
+    enzymes: 0.3, // Low in quick pickles, higher in fermented
+    probiotics: 0.7, // Only in fermented pickles
+    phytonutrients: 0.8, // Good retention
+    vitamin_c: 0.65, // Moderate retention
+    vitamin_a: 0.85, // Good retention
+    b_vitamins: 0.75, // Moderate retention
+    polyphenols: 0.8, // Good retention
+    carotenoids: 0.7, // Moderate retention
+    flavonoids: 0.75, // Moderate retention
     organic_acids: 1.2, // Increased through pickling process
   },
   optimalTemperatures: {
-    quick_pickle_brine: 190, // Near boiling for vinegar brine (°F),
-    fermented_pickle_storage: 68, // Room temperature for fermentation (°F),
-    long_term_storage: 50, // Cool storage for shelf-stable pickles (°F),
-    refrigerator_pickles: 38, // Standard refrigeration (°F),
-    pasteurization: 180, // For canned pickles (°F),
-    cool_fermentation: 60, // For slow fermented pickles (°F),
-    warm_fermentation: 75, // For faster fermented pickles (°F),
-    vinegar_preparation: 170, // For infusing vinegar with spices (°F),
-    salt_brine: 70, // Room temperature for salt brine (°F),
-    vegetable_blanching: 190, // For certain pickles that require pre-cooking (°F),
+    quick_pickle_brine: 190, // Near boiling for vinegar brine (°F)
+    fermented_pickle_storage: 68, // Room temperature for fermentation (°F)
+    long_term_storage: 50, // Cool storage for shelf-stable pickles (°F)
+    refrigerator_pickles: 38, // Standard refrigeration (°F)
+    pasteurization: 180, // For canned pickles (°F)
+    cool_fermentation: 60, // For slow fermented pickles (°F)
+    warm_fermentation: 75, // For faster fermented pickles (°F)
+    vinegar_preparation: 170, // For infusing vinegar with spices (°F)
+    salt_brine: 70, // Room temperature for salt brine (°F)
+    vegetable_blanching: 190, // For certain pickles that require pre-cooking (°F)
     consumption: 45, // Chilled for serving (°F)
   },
   regionalVariations: {
@@ -175,13 +175,13 @@ export const pickling: CookingMethodData = {
     flavor_compound_development: true,
     texture_transformation: true,
     pathogen_inhibition: true,
-    lactic_acid_production: true, // In fermented pickles,
+    lactic_acid_production: true, // In fermented pickles
     vitamin_preservation: true,
     pectin_modification: true,
     antioxidant_release: true,
     flavor_compound_infusion: true,
     vegetable_dehydration: true,
-    protein_denaturation: true, // In pickled proteins,
+    protein_denaturation: true, // In pickled proteins
     pH_reduction: true
 },
   safetyFeatures: [
@@ -202,10 +202,10 @@ export const pickling: CookingMethodData = {
     'Clear visual indicators when pickle is unsafe to consume'
   ],
   thermodynamicProperties: {
-    heat: 0.25, // Low heat, often ambient temperature,
-    entropy: 0.6, // Moderate transformation through chemical or biological activity,
-    reactivity: 0.7, // Significant acid-base reactions and biochemical changes,
-    gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity);
+    heat: 0.25, // Low heat, often ambient temperature
+    entropy: 0.6, // Moderate transformation through chemical or biological activity
+    reactivity: 0.7, // Significant acid-base reactions and biochemical changes
+    gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity) // gregsEnergy = heat - (entropy * reactivity);
   } as ThermodynamicProperties,
 
   // Additional metadata
@@ -268,7 +268,7 @@ export const pickling: CookingMethodData = {
     'Some compounds formed during fermentation have potential anti-cancer properties'
   ],
 
-  sustainabilityRating: 0.9, // Very high - preserves seasonal abundance, low energy use,
+  sustainabilityRating: 0.9, // Very high - preserves seasonal abundance, low energy use
 
   equipmentComplexity: 0.35, // Low-moderate - basic equipment with some specialized items
 }

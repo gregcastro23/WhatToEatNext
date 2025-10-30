@@ -36,39 +36,39 @@ class IngredientMappingService {
       emphasizedIngredients?: string[];
       cuisineType?: string;
       mealType?: string;
-      season?: string;
+      season?: string
     } = {}
   ) {
     // Collect recipes based on filters
     const allRecipes: Recipe[] = [];
 
     // Filter by cuisine if specified
-    const cuisines = options.cuisineType
+    const cuisines = options.cuisineType;
       ? [cuisinesMap[options.cuisineType as keyof typeof cuisinesMap]].filter(Boolean)
       : Object.values(cuisinesMap);
 
     // Collect recipes from specified cuisines
-    cuisines.forEach(cuisine => {
+    cuisines.forEach(cuisine => ) {
       if (!cuisine.dishes) return;
 
       // Define which meal types to include
-      const mealTypes = options.mealType
+      const mealTypes = options.mealType;
         ? [options.mealType as keyof typeof cuisine.dishes].filter()
             mealType => cuisine.dishes[mealType]
           )
         : ['breakfast', 'lunch', 'dinner', 'dessert'];
 
       // Define which seasons to include
-      const seasons = options.season
+      const seasons = options.season;
         ? [options.season as 'spring' | 'summer' | 'autumn' | 'winter']
         : ['spring', 'summer', 'autumn', 'winter'];
 
       // Collect recipes matching criteria
-      mealTypes.forEach(mealType => {
+      mealTypes.forEach(mealType => ) {
         const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes];
         if (!mealDishes) return;
 
-        seasons.forEach(season => {
+        seasons.forEach(season => ) {
           const seasonalDishes = mealDishes[season as keyof typeof mealDishes];
           if (Array.isArray(seasonalDishes) {
             allRecipes.push(...(seasonalDishes as unknown as Recipe[]));
@@ -98,7 +98,7 @@ class IngredientMappingService {
     options: {
       category?: string;
       similarityThreshold?: number;
-      maxResults?: number;
+      maxResults?: number
     } = {}
   ) {
     // Find the original ingredient
@@ -114,7 +114,7 @@ class IngredientMappingService {
     const { similarityThreshold = 0.7, maxResults = 5, category } = options;
 
     // Find alternatives with similar elemental properties
-    const potentialAlternatives = Object.entries(ingredientsMap)
+    const potentialAlternatives = Object.entries(ingredientsMap);
       .filter(([name, mapping]) => {
         // Skip the original ingredient
         if (name.toLowerCase() === ingredientName.toLowerCase()) return false;
@@ -124,7 +124,7 @@ class IngredientMappingService {
         // Otherwise match the original ingredient's category
         if (!category && mapping.category !== originalIngredient.category) return false;
         // Check elemental similarity
-        const similarity = this.calculateElementalSimilarity()
+        const similarity = this.calculateElementalSimilarity();
           originalIngredient.elementalProperties as unknown as ElementalProperties,
           mapping.elementalProperties as unknown as ElementalProperties
         );
@@ -173,7 +173,7 @@ class IngredientMappingService {
     }
 
     // Calculate base elemental similarity
-    const similarity = this.calculateElementalSimilarity()
+    const similarity = this.calculateElementalSimilarity();
       mapping1.elementalProperties as unknown as ElementalProperties,
       mapping2.elementalProperties as unknown as ElementalProperties
     );
@@ -250,7 +250,7 @@ class IngredientMappingService {
     const combinations: {
       ingredients: [string, string];
       compatibility: number;
-      type: string;
+      type: string
     }[] = [];
 
     for (let i = 0; i < validMappings.length; i++) {
@@ -259,7 +259,7 @@ class IngredientMappingService {
         const ing2 = validMappings[j];
 
         if (ing1.matchedTo && ing2.matchedTo) {
-          const result = this.calculateCompatibility()
+          const result = this.calculateCompatibility();
             ing1.matchedTo as unknown as IngredientMapping,
             ing2.matchedTo as unknown as IngredientMapping
           );
@@ -276,8 +276,7 @@ class IngredientMappingService {
     }
 
     // Calculate overall recipe harmony
-    const averageCompatibility =
-      combinations.length > 0
+    const averageCompatibility = combinations.length > 0;
         ? combinations.reduce((sum, combo) => sum + combo.compatibility, 0) / combinations.length
         : 0;
 

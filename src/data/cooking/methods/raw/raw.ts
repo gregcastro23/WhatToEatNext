@@ -19,7 +19,7 @@ export const raw: CookingMethodData = {
     min: 1, // 1 minute for simple preparation
     max: 1440 // 24 hours for dehydration or marination
   },
-  suitable_for [
+  suitable_for: [
     'vegetables',
     'fruits',
     'nuts',
@@ -259,7 +259,7 @@ export const raw: CookingMethodData = {
     'Consideration needed for individual digestive sensitivities'
   ],
 
-  sustainabilityRating: 0.95, // Extremely high - minimal energy use, maximum food integrity
+  sustainabilityRating: 0.95, // Extremely high - minimal energy use maximum food integrity
 
   equipmentComplexity: 0.4 // Moderate - from simple to specialized equipment
 };

@@ -73,7 +73,7 @@ export const _useAlchemicalRecommendations = ({
     useState<AlchemicalRecommendationResults['energeticProfile']>()
 
   useEffect(() => {
-    const fetchRecommendations = async () => {;
+    const fetchRecommendations = async () => {
       try {
         setLoading(true)
 

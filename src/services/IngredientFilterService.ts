@@ -1,3 +1,4 @@
+import { _logger } from '@/lib/logger';
 import { fruits } from '../data/ingredients/fruits';
 import { grains } from '../data/ingredients/grains';
 import { herbs } from '../data/ingredients/herbs';
@@ -21,7 +22,7 @@ export interface DietaryFilter {
   isDairyFree?: boolean;
   isNutFree?: boolean;
   isLowSodium?: boolean;
-  isLowSugar?: boolean;
+  isLowSugar?: boolean
 }
 
 // Combined filter interface
@@ -46,7 +47,7 @@ export interface RecipeRecommendation {
     nutrients: Array<{
       name: string;
       amount: number;
-      unit: string;
+      unit: string
     }>;
   };
   usedIngredients: string[];
@@ -91,22 +92,20 @@ export class IngredientFilterService {
   }
 
   // Main filtering method that combines all filter types
-  public filterIngredients(filter: IngredientFilter = {}): Record<string, IngredientMapping[]> {
+  public filterIngredients(filter: IngredientFilter = ) {}): Record<string, IngredientMapping[]> {
     // Start with all ingredients, grouped by category
     const filteredResults: Record<string, IngredientMapping[]> = {};
 
     // Determine which categories to include
-    const categoriesToInclude =
-      filter.categories && filter.categories.length > 0
+    const categoriesToInclude = filter.categories && filter.categories.length > 0;
         ? filter.categories
         : Object.keys(this.allIngredients);
     // Process each category
-    categoriesToInclude.forEach(category => {
+    categoriesToInclude.forEach(category => ) {
       if (!this.allIngredients[category]) return;
 
       // Convert object to array of ingredients with names
-      const categoryIngredients = Object.entries(this.allIngredients[category]).map()
-        ([name, data]) => ({ name, ...data }) as unknown as IngredientMapping,
+      const categoryIngredients = Object.entries(this.allIngredients[category]).map([name, data]) => ({ name, ...data }) as unknown as IngredientMapping,;
       )
 
       // Apply all filters sequentially
@@ -154,10 +153,10 @@ export class IngredientFilterService {
   // Apply nutritional filtering criteria
   private applyNutritionalFilter()
     ingredients: IngredientMapping[],
-    filter: NutritionalFilter,
+    filter: NutritionalFilter;
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {
-      const nutrition = (ingredient.nutritionalProfile || {}) as NutritionData;
+    return ingredients.filter(ingredient => ) {
+      const nutrition = (ingredient.nutritionalProfile || ) {}) as NutritionData;
 
       // Check protein requirements
       if (
@@ -209,7 +208,7 @@ export class IngredientFilterService {
 
       // Check for required vitamins
       if (filter.vitamins && filter.vitamins.length > 0 && nutrition.vitamins) {
-        const hasAllVitamins = filter.vitamins.every()
+        const hasAllVitamins = filter.vitamins.every();
           vitamin => nutrition.vitamins && nutrition.vitamins.includes(vitamin),
         );
         if (!hasAllVitamins) return false;
@@ -217,7 +216,7 @@ export class IngredientFilterService {
 
       // Check for required minerals
       if (filter.minerals && filter.minerals.length > 0 && nutrition.minerals) {
-        const hasAllMinerals = filter.minerals.every()
+        const hasAllMinerals = filter.minerals.every();
           mineral => nutrition.minerals && nutrition.minerals.includes(mineral),
         );
         if (!hasAllMinerals) return false;
@@ -245,10 +244,10 @@ export class IngredientFilterService {
   // Apply elemental filtering criteria
   private applyElementalFilter()
     ingredients: IngredientMapping[],
-    filter: ElementalFilter,
+    filter: ElementalFilter;
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {
-      const elementalProps = ingredient.elementalProperties as unknown as ElementalProperties
+    return ingredients.filter(ingredient => ) {
+      const elementalProps = ingredient.elementalProperties as unknown as ElementalProperties;
 
       // Check Fire element range
       if ()
@@ -313,7 +312,7 @@ export class IngredientFilterService {
       // Check for dominant element if specified
       if (filter.dominantElement) {
         if (!elementalProps) return false;
-        const dominantElement = Object.entries(elementalProps)
+        const dominantElement = Object.entries(elementalProps);
           .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
           .sort(([, a], [, b]) => b - a)[0]?.[0];
 
@@ -327,9 +326,9 @@ export class IngredientFilterService {
   // Apply dietary filtering criteria
   private applyDietaryFilter()
     ingredients: IngredientMapping[],
-    filter: DietaryFilter,
+    filter: DietaryFilter;
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {
+    return ingredients.filter(ingredient => ) {
       // Check for vegetarian
       if (filter.isVegetarian && !(ingredient as any).isVegetarian) {
         return false;
@@ -372,9 +371,9 @@ export class IngredientFilterService {
   // Apply seasonal filtering criteria
   private applySeasonalFilter()
     ingredients: IngredientMapping[],
-    seasons: string[],
+    seasons: string[];
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {
+    return ingredients.filter(ingredient => ) {
       // Safe access to seasonality property with type assertion
       const seasonality = (ingredient as any).seasonality || [];
 
@@ -395,9 +394,9 @@ export class IngredientFilterService {
     if (!query || typeof query !== 'string') return ingredients;
     const lowerCaseQuery = query.toLowerCase();
 
-    return ingredients.filter(ingredient => {
+    return ingredients.filter(ingredient => ) {
       // Safe access to ingredient name with type assertion
-      const ingredientName = (ingredient as any).name || ingredient.id || ''
+      const ingredientName = (ingredient as any).name || ingredient.id || '';
 
       // Check if ingredient name matches query
       if (
@@ -418,8 +417,7 @@ export class IngredientFilterService {
       // Check if any affinities match (if available)
       const affinities = (ingredient as any).affinities || [];
       if (Array.isArray(affinities) && affinities.length > 0) {
-        return affinities.some()
-          (affinity: unknown) =>
+        return affinities.some(affinity: unknown) =>
             typeof affinity === 'string' && affinity.toLowerCase().includes(lowerCaseQuery),
         );
       }
@@ -431,10 +429,10 @@ export class IngredientFilterService {
   // Apply exclusion filtering
   private applyExclusionFilter()
     ingredients: IngredientMapping[],
-    excludedIngredients: string[],
+    excludedIngredients: string[];
   ): IngredientMapping[] {
     if (!excludedIngredients || excludedIngredients.length === 0) return ingredients;
-    return ingredients.filter(ingredient => {
+    return ingredients.filter(ingredient => ) {
       // Safe access to ingredient name with type assertion
       const ingredientName = (ingredient as any).name || ingredient.id || '';
 
@@ -544,7 +542,7 @@ export class IngredientFilterService {
       // Use local nutritional profiles instead of Spoonacular API
       const ingredient = this.findIngredientByName(ingredientName);
       if (ingredient && ingredient.nutritionalProfile) {
-        return {
+        return: {
           name: ingredientName,
           nutrition: ingredient.nutritionalProfile,
           source: 'local'
@@ -561,7 +559,7 @@ export class IngredientFilterService {
   // Get recipe recommendations using ingredients from local data
   public async getRecipeRecommendations()
     ingredients: string[],
-    dietaryFilter?: DietaryFilter,
+    dietaryFilter?: DietaryFilter;
   ): Promise<RecipeRecommendation[]> {
     try {
       // Generate simple recipe recommendations based on available ingredients

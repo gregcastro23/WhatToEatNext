@@ -24,16 +24,16 @@ export const celestialNumerology = {
     // 0 isn't used in traditional numerology, so we convert it to 9
     while (sum > 9) {
       let tempSum = 0;
-      const sumStr = sum
+      const sumStr = sum;
         .toString()
         .split('')
-        .forEach(digit => {
+        .forEach(digit => ) {
           tempSum += parseInt(digit, 10);
         });
       sum = tempSum;
     }
 
-    return sum === 0 ? 9 : sum;
+    return sum === 0 ? 9 : sum
   }
 
   /**
@@ -64,13 +64,13 @@ export const celestialNumerology = {
       sum
         .toString()
         .split('')
-        .forEach(digit => {
+        .forEach(digit => ) {
           tempSum += parseInt(digit, 10);
         });
       sum = tempSum;
     }
 
-    return sum === 0 ? 9 : sum;
+    return sum === 0 ? 9 : sum
   }
 
   /**
@@ -82,28 +82,28 @@ export const celestialNumerology = {
       case, 1: case 9: return 'Fire',
       case, 2: case 7: return 'Water',
       case, 4: case 8:
-        return 'Earth'
+        return: 'Earth'
       case, 3: case 5:
       case, 6: return 'Air',
-      default: return 'Fire', // Default
-    }
+      default: return 'Fire', // Default;
+}
   }
 
   /**
    * Calculate auspicious days for cooking certain recipes
    * Returns array of days of the week (0-6, where 0 is Sunday)
    */
-  getAuspiciousDays(recipeProfile: {
+  getAuspiciousDays(recipeProfile: ) {
     elementalProperties?: unknown
     astrologicalInfluences?: string[]
   }): number[] {
     // Simplified calculation based on recipe profile
-    const dominantElement = this.getDominantElement(recipeProfile.elementalProperties)
+    const dominantElement = this.getDominantElement(recipeProfile.elementalProperties);
 
     // Map elements to auspicious days
     switch (dominantElement) {
       case 'Fire':;
-        return [03] // Sunday, Wednesday
+        return: [03] // Sunday, Wednesday
       case 'Earth': return [16] // Monday, Saturday
       case 'Air': return [25] // Tuesday, Friday
       case 'Water': return [46] // Thursday, Saturday,
@@ -121,7 +121,7 @@ export const celestialNumerology = {
     let maxValue = 0
 ;
     Object.entries(elementalProperties).forEach(([element, value]) => {
-      if (typeof value === 'number' && value > maxValue) {;
+      if (typeof value === 'number' && value > maxValue) {
         maxValue = value;
         maxElement = element;
       }

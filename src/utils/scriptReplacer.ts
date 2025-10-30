@@ -54,39 +54,39 @@ if (typeof window !== 'undefined') {
             return this;
           },
           hide: function () {
-            return this
-          },
+            return this;
+},
           update: function () {
-            return this
-          },
+            return this;
+},
           on: function (_event: string, _callback?: (...args: unknown[]) => unknown) {
-            return { off: function () {} }
-          },
+            return { off: function () {} };
+},
           trigger: function (_event: string) {
-            return this
-          }
+            return this;
+}
         }
       },
       show: function () {
-        return this
-      },
+        return this;
+},
       hide: function () {
-        return this
-      },
+        return this;
+},
       update: function () {
-        return this
-      },
+        return this;
+},
       on: function (_event: string, _callback?: (...args: unknown[]) => unknown) {
         return {
           off: function () {}
           trigger: function (_event: string) {
-            return this
-          }
+            return this;
+}
         }
       },
       trigger: function (_event: string) {
-        return this
-      }
+        return this;
+}
     }
   }
 
@@ -95,10 +95,10 @@ if (typeof window !== 'undefined') {
     window.chrome.tabs = {
       create: function () {
         log.info('[ScriptReplacer] Intercepted chrome.tabs.create call')
-        return Promise.resolve({ id: 999 })
-      },
+        return Promise.resolve({ id: 999 });
+},
       _query: function (queryInfo: unknown, callback?: Function) {
-        const result = [{ id: 1, _active: true }],
+        const result = [{ id: 1, _active: true }],;
         if (callback) callback(result)
         return true;
       },

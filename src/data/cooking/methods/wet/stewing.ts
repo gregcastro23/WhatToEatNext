@@ -19,7 +19,7 @@ export const stewing: CookingMethodData = {
     min: 45, // 45 minutes
     max: 480 // 8 hours
   },
-  suitable_for [
+  suitable_for: [
     'tough meat cuts',
     'root vegetables',
     'legumes',
@@ -194,7 +194,7 @@ export const stewing: CookingMethodData = {
     'Stewing with recirculating liquid for enhanced extraction'
   ],
 
-  sustainabilityRating: 0.9, // Very high - efficient, utilizes tough cuts, one-pot cooking
+  sustainabilityRating: 0.9, // Very high - efficient, utilizes tough cuts one-pot cooking
 
   equipmentComplexity: 0.25, // Low - basic equipment with some specialized items optional
 
@@ -238,8 +238,8 @@ export const stewing: CookingMethodData = {
     aromatics: 'For mirepoix (onion, carrot, celery), dice finely for full flavor integration or larger for distinct pieces. Sauté aromatics after browning meat in the same pot to capture fond. Garlic should be added after other aromatics to prevent burning. Create two aromatic stages: foundational (mirepoix, garlic, bay leaves) at beginning, and fresh (parsley, thyme, chives) at end. For Indian stews, bloom whole spices in hot oil before adding liquid. For Mediterranean stews, consider sofrito base (slowly cooked aromatics) for deeper flavor development.',
     liquids: 'Use stock rather than water when possible for enhanced flavor depth. Combine different liquids for complexity: stock + wine, beer + stock, cider + stock. Add enough liquid to just cover ingredients—excessive liquid dilutes flavor. For wine, use same quality you would drink, and reduce by half before adding other liquids for alcohol evaporation and concentration. For tomato-based stews, add paste and brown briefly before adding liquid. For dairy-based stews, add towards end of cooking and maintain temperature below simmering to prevent curdling.',
     legumes: 'Most dried legumes should be soaked 8-12 hours before stewing. Discard soaking water to reduce indigestible compounds. Add salt only after legumes have softened. Avoid acidic ingredients until legumes are partially softened as acid toughens skins and extends cooking time. Cook times vary significantly: lentils (25-45 minutes), beans (1-3 hours), chickpeas (2-4 hours). For mixed bean stews, either cook varieties separately before combining or select varieties with similar cooking times. Consider adding 1/4 teaspoon baking soda to soaking water to soften very hard water.',
-    thickening_agents: 'For flour thickening, either dredge meat before browning or make beurre manié (equal parts butter and flour kneaded together) added 30 minutes before completion. For cornstarch, create slurry with cold water and add during final 10 minutes, then maintain gentle simmer. For reduction thickening, remove lid during final 30-45 minutes. For vegetable thickening, purée a portion of the cooked vegetables and return to pot. For traditional thickening, use bread crumbs, crushed crackers, or grated potato. For gluten-free options, consider arrowroot (add at end) or reduction methods.'
-  },
+    thickening_agents: 'For flour thickening, either dredge meat before browning or make beurre manié (equal parts butter and flour kneaded together) added 30 minutes before completion. For cornstarch, create slurry with cold water and add during final 10 minutes, then maintain gentle simmer. For reduction thickening, remove lid during final 30-45 minutes. For vegetable thickening, purée a portion of the cooked vegetables and return to pot. For traditional thickening, use bread crumbs, crushed crackers, or grated potato. For gluten-free options, consider arrowroot (add at end) or reduction methods.';
+},
   timingConsiderations: {
     meat_cooking:
       'Beef, chuck: 2.5-3 hours at 180°F; Oxtail: 3-4 hours Lamb, shoulder: 2-3 hours Pork, shoulder: 2.5-3 hours, Chicken thighs (bone-in): 1-1.5 hours, Game meats: 2-4 hours depending on type and age. Maximum collagen conversion occurs between 160-180°F maintained for extended periods. Meat is done when fork-tender but still maintaining structure. Extended cooking past optimal point can result in dry, stringy texture as moisture is expelled from protein structures. Large cuts require longer cooking times but often yield more succulent results than small cubes.',
@@ -290,7 +290,7 @@ export const stewing: CookingMethodData = {
       texture_development: 'Optimal tenderness achieved when sufficient collagen converts while maintaining muscle fiber integrity. Overcooked collagen can dissolve structure completely, creating mushy texture. Collagen-rich cuts (shoulder, shank, oxtail) develop superior texture compared to lean cuts. Temperature control critical—excessive heat toughens proteins before collagen can convert. Different tissues within same cut convert at different rates, creating texture gradient. Connective tissue membranes soften but may remain identifiable in properly stewed meats.',
       visual_indicators: 'Successful collagen conversion creates distinctive glossy sheen in liquid. Meat fibers separate easily but maintain structural identity. Connective tissue transforms from white/silvery to translucent. Bubbling behavior changes as gelatin concentration increases—bubbles become smaller and more persistent. Liquid developing body that coats spoon indicates proper gelatin development. Color deepens as conversion progresses.'
     },
-    flavor_chemistry: {
+    flavor_chemistry {
       compound_creation:
         'Maillard reactions during initial browning create hundreds of new flavor compounds not present in raw ingredients. Slow hydrolysis of proteins creates free amino acids that enhance flavor complexity and umami. Caramelization of sugars produces furans, maltols, and other compounds contributing depth. Lipid oxidation creates desirable flavor compounds in controlled amounts. Extended cooking allows enzymatic activity to create flavor precursors before heat deactivation. Reactions continue throughout cooking as new compounds form and interact.',
       precursor_interactions: 'Initial flavor compounds serve as precursors for secondary and tertiary reactions. Thiols, furans, pyrazines from browning interact with aromatics creating multi-layered flavor. Amino acid-sugar interactions continue at low rates even during slow cooking. Fat-soluble flavor compounds concentrate as moisture reduces. Volatile compound retention varies by molecular weight and polarity. Temperature control critical for optimal reaction pathways—too high creates bitter compounds, too low limits beneficial reactions.',

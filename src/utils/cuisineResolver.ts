@@ -25,13 +25,13 @@ export function standardizeCuisine(cuisineName: string): PrimaryCuisineType {
   const resolved = resolveCuisineType(cuisineName)
 ;
   // If the resolved type is a primary cuisine, return it
-  if (typeof resolved === 'string' && !isRegionalCuisine(resolved) {;
+  if (typeof resolved === 'string' && !isRegionalCuisine(resolved) {
     return resolved as PrimaryCuisineType;
   }
 
   // If it's a regional cuisine, get its primary cuisine
-  const primary = getPrimaryCuisine(cuisineName)
-  if (primary) {;
+  const primary = getPrimaryCuisine(cuisineName);
+  if (primary) {
     return primary;
   }
 
@@ -45,7 +45,7 @@ export function standardizeCuisine(cuisineName: string): PrimaryCuisineType {
  * @returns Array of regional cuisine names
  */
 export function getCuisineVariants(primaryCuisine: PrimaryCuisineType): string[] {
-  return getRegionalCuisines(primaryCuisine)
+  return getRegionalCuisines(primaryCuisine);
 }
 
 /**
@@ -55,8 +55,8 @@ export function getCuisineVariants(primaryCuisine: PrimaryCuisineType): string[]
  * @returns True if both cuisines belong to the same primary type
  */
 export function areCuisinesRelated(cuisine1: string, cuisine2: string): boolean {
-  const primary1 = standardizeCuisine(cuisine1)
-  const primary2 = standardizeCuisine(cuisine2)
+  const primary1 = standardizeCuisine(cuisine1);
+  const primary2 = standardizeCuisine(cuisine2);
   return primary1 === primary2;
 }
 
@@ -68,8 +68,8 @@ export function areCuisinesRelated(cuisine1: string, cuisine2: string): boolean 
 export function groupCuisinesByType(cuisineNames: string[]): Record<PrimaryCuisineType, string[]> {
   const groups: Record<PrimaryCuisineType, string[]> = {} as Record<PrimaryCuisineType, string[]>;
 
-  cuisineNames.forEach(cuisineName => {
-    const primary = standardizeCuisine(cuisineName)
+  cuisineNames.forEach(cuisineName => ) {
+    const primary = standardizeCuisine(cuisineName);
     if (!groups[primary]) {
       groups[primary] = [];
     }
@@ -98,15 +98,15 @@ export function filterPrimaryCuisines(cuisineNames: string[]): PrimaryCuisineTyp
 export function getCuisineDisplayName(cuisineName: string): string {
   // Check if it's a regional cuisine first
   if (isRegionalCuisine(cuisineName) {
-    const primary = getPrimaryCuisine(cuisineName)
+    const primary = getPrimaryCuisine(cuisineName);
     if (primary) {
-      const normalized = normalizeCuisineName(cuisineName)
+      const normalized = normalizeCuisineName(cuisineName);
       return `${normalized} (${primary})`;
     }
   }
 
   // For primary cuisines or unknown cuisines, just normalize
-  return normalizeCuisineName(cuisineName)
+  return normalizeCuisineName(cuisineName);
 }
 
 /**
@@ -117,8 +117,8 @@ export function getCuisineDisplayName(cuisineName: string): string {
 export function isSupportedCuisine(cuisineName: string): boolean {
   // Check if it's a known regional cuisine
   if (isRegionalCuisine(cuisineName) {
-    return true
-  }
+    return true;
+}
 
   // Check if it's a primary cuisine type
   const primaryCuisines: PrimaryCuisineType[] = [
@@ -141,7 +141,7 @@ export function isSupportedCuisine(cuisineName: string): boolean {
     'Fusion'
   ],
 
-  return primaryCuisines.includes(cuisineName as PrimaryCuisineType)
+  return primaryCuisines.includes(cuisineName as PrimaryCuisineType);
 }
 
 /**
@@ -150,8 +150,8 @@ export function isSupportedCuisine(cuisineName: string): boolean {
  * @returns Array of matching cuisine names
  */
 export function getCuisineSuggestions(partialName: string): string[] {
-  const normalized = partialName.toLowerCase()
-  const allCuisines = Object.keys(CUISINE_ALIASES)
+  const normalized = partialName.toLowerCase();
+  const allCuisines = Object.keys(CUISINE_ALIASES);
   const primaryCuisines: PrimaryCuisineType[] = [
     'Chinese',
     'Japanese',
@@ -172,7 +172,7 @@ export function getCuisineSuggestions(partialName: string): string[] {
     'Fusion'
   ],
 
-  const suggestions = [
+  const suggestions = [;
     ...allCuisines.filter(cuisine => cuisine.includes(normalized)),
     ...primaryCuisines.filter(cuisine => cuisine.toLowerCase().includes(normalized)),
   ],

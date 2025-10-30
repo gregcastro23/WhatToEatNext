@@ -12,16 +12,16 @@ export const poaching: CookingMethodData = {
   name: 'poaching',
   description: 'Gentle cooking method where food is submerged in liquid heated to just below simmering point (160°F-180°F/71°C-82°C), characterized by small bubbles forming on the bottom of the pan without breaking the surface. This technique delicately cooks food while preserving moisture, texture, and shape, ideal for proteins that might toughen at higher temperatures and delicate ingredients that require subtle flavor infusion.',
   elementalEffect: {
-    Water: 0.8, // Primary element - gentle, submersive cooking medium,
+    Water: 0.8, // Primary element - gentle, submersive cooking medium
     Air: 0.1, // Minor element - subtle convection currents
-    Fire: 0.1, // Minor element - very gentle heat application,
+    Fire: 0.1, // Minor element - very gentle heat application
     Earth: 0.0, // Minimal earth element
   },
   duration: {
     min: 3,
     max: 45
 },
-  suitable_for [
+  suitable_for: [
     'fish fillets',
     'shellfish',
     'poultry',
@@ -61,18 +61,18 @@ export const poaching: CookingMethodData = {
     'prevents food from drying out'
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['pisces', 'cancer', 'scorpio', 'libra'] as any[], // Water signs and balanced Libra,
-    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as any[], // Fire signs prefer more dynamic cooking methods,
-    dominantPlanets: ['Venus', 'Neptune', 'Moon'], // Venus (harmony), Neptune (subtlety), Moon (fluidity),
-    rulingPlanets: ['Venus', 'Neptune'], // Primary rulers - gentleness and subtlety,
+    favorableZodiac: ['pisces', 'cancer', 'scorpio', 'libra'] as any[], // Water signs and balanced Libra
+    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as any[], // Fire signs prefer more dynamic cooking methods
+    dominantPlanets: ['Venus', 'Neptune', 'Moon'], // Venus (harmony), Neptune (subtlety), Moon (fluidity)
+    rulingPlanets: ['Venus', 'Neptune'], // Primary rulers - gentleness and subtlety
     lunarPhaseEffect: {
-      full_moon: 1.2, // Enhanced subtlety and moisture retention,
-      new_moon: 0.9, // Slightly diminished effects,
-      waxing_gibbous: 1.15, // Good balance and flavor infusion,
-      waning_crescent: 0.95, // Slightly reduced effectiveness,
-      first_quarter: 1.05, // Moderate enhancement,
-      third_quarter: 0.98, // Slight reduction,
-      waxing_crescent: 1.0, // Neutral,
+      full_moon: 1.2, // Enhanced subtlety and moisture retention
+      new_moon: 0.9, // Slightly diminished effects
+      waxing_gibbous: 1.15, // Good balance and flavor infusion
+      waning_crescent: 0.95, // Slightly reduced effectiveness
+      first_quarter: 1.05, // Moderate enhancement
+      third_quarter: 0.98, // Slight reduction
+      waxing_crescent: 1.0, // Neutral
       waning_gibbous: 1.05, // Moderate enhancement
     }
   },
@@ -125,31 +125,31 @@ export const poaching: CookingMethodData = {
     'Minimally dressed greens (contrasting bitterness)'
   ],
   nutrientRetention: {
-    vitamins: 0.85, // Excellent preservation of heat-sensitive vitamins,
-    minerals: 0.75, // Some migration to poaching liquid,
-    proteins: 0.95, // Very minimal protein loss,
-    fats: 0.8, // Some fat rendered into liquid but majority retained,
-    antioxidants: 0.9, // Well preserved due to low temperature,
-    water_soluble_vitamins: 0.75, // Some B and C vitamins migrate to liquid,
-    fat_soluble_vitamins: 0.9, // Excellent AD, EK retention,
-    phytonutrients: 0.85, // Good preservation of beneficial plant compounds,
+    vitamins: 0.85, // Excellent preservation of heat-sensitive vitamins
+    minerals: 0.75, // Some migration to poaching liquid
+    proteins: 0.95, // Very minimal protein loss
+    fats: 0.8, // Some fat rendered into liquid but majority retained
+    antioxidants: 0.9, // Well preserved due to low temperature
+    water_soluble_vitamins: 0.75, // Some B and C vitamins migrate to liquid
+    fat_soluble_vitamins: 0.9, // Excellent AD, EK retention
+    phytonutrients: 0.85, // Good preservation of beneficial plant compounds
     flavor_compounds: 0.75, // Some transfer to poaching liquid
   },
   optimalTemperatures: {
-    delicate_fish: 170, // °F - Perfect for sole, flounder, snapper,
-    fatty_fish: 175, // °F - Salmon, trout,
-    shellfish: 165, // °F - Shrimp, scallops,
-    chicken_breast: 175, // °F - Poultry white meat,
-    eggs: 165, // °F - Poached eggs,
-    fruits: 160, // °F - Pears, apples, stone fruits,
-    vegetables: 180, // °F - Asparagus, artichokes,
-    whole_fish: 170, // °F - Small whole fish or fillets with skin,
-    custards: 170, // °F - Savory or sweet custards,
-    average_temperature: 170, // °F - General poaching temperature,
-    maximum_safe: 180, // °F - Upper limit before simmering begins,
-    minimum_safe: 160, // °F - Lower limit for food safety,
-    milk_poaching: 165, // °F - For milk-based poaching (fish, chicken),
-    wine_poaching: 175, // °F - Wine-based poaching liquids,
+    delicate_fish: 170, // °F - Perfect for sole, flounder, snapper
+    fatty_fish: 175, // °F - Salmon, trout
+    shellfish: 165, // °F - Shrimp, scallops
+    chicken_breast: 175, // °F - Poultry white meat
+    eggs: 165, // °F - Poached eggs
+    fruits: 160, // °F - Pears, apples, stone fruits
+    vegetables: 180, // °F - Asparagus, artichokes
+    whole_fish: 170, // °F - Small whole fish or fillets with skin
+    custards: 170, // °F - Savory or sweet custards
+    average_temperature: 170, // °F - General poaching temperature
+    maximum_safe: 180, // °F - Upper limit before simmering begins
+    minimum_safe: 160, // °F - Lower limit for food safety
+    milk_poaching: 165, // °F - For milk-based poaching (fish, chicken)
+    wine_poaching: 175, // °F - Wine-based poaching liquids
     court_bouillon: 175, // °F - Classic aromatic poaching liquid
   },
   regionalVariations: {
@@ -207,19 +207,19 @@ export const poaching: CookingMethodData = {
     ]
   },
   chemicalChanges: {
-    gentle_protein_denaturation: true, // Proteins unfold without toughening,
-    collagen_hydration: true, // Collagen absorbs water and softens,
-    flavor_infusion: true, // Bidirectional flavor exchange,
-    pectin_softening: true, // Fruits and vegetables soften,
-    starch_hydration: true, // Starches absorb water and swell,
-    minimal_maillard_reaction: false, // Temperature too low for browning,
-    enzyme_inactivation: true, // Cooking halts enzymatic activity,
-    fat_preservation: true, // Low temperature prevents excessive fat rendering,
-    nutrient_migration: true, // Water-soluble compounds move into poaching liquid,
-    albumin_coagulation: true, // Egg white proteins set around 145°F,
-    vitamin_preservation: true, // Low temperature preserves heat-sensitive vitamins,
-    aromatic_compound_extraction: true, // Flavors extracted from herbs and spices,
-    mineral_transfer: true, // Bidirectional movement of minerals,
+    gentle_protein_denaturation: true, // Proteins unfold without toughening
+    collagen_hydration: true, // Collagen absorbs water and softens
+    flavor_infusion: true, // Bidirectional flavor exchange
+    pectin_softening: true, // Fruits and vegetables soften
+    starch_hydration: true, // Starches absorb water and swell
+    minimal_maillard_reaction: false, // Temperature too low for browning
+    enzyme_inactivation: true, // Cooking halts enzymatic activity
+    fat_preservation: true, // Low temperature prevents excessive fat rendering
+    nutrient_migration: true, // Water-soluble compounds move into poaching liquid
+    albumin_coagulation: true, // Egg white proteins set around 145°F
+    vitamin_preservation: true, // Low temperature preserves heat-sensitive vitamins
+    aromatic_compound_extraction: true, // Flavors extracted from herbs and spices
+    mineral_transfer: true, // Bidirectional movement of minerals
     anthocyanin_preservation: true, // Color compounds in fruits maintained
   },
   safetyFeatures: [
@@ -240,10 +240,10 @@ export const poaching: CookingMethodData = {
     'Be aware of allergens in aromatic poaching liquids'
   ],
   thermodynamicProperties: {
-    heat: 0.4, // Gentle, low heat,
-    entropy: 0.3, // Minimal structural disruption,
-    reactivity: 0.25, // Limited chemical reactions due to low temperature,
-    gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
+    heat: 0.4, // Gentle, low heat
+    entropy: 0.3, // Minimal structural disruption
+    reactivity: 0.25, // Limited chemical reactions due to low temperature
+    gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity) // Calculated gregsEnergy: heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata
@@ -285,9 +285,9 @@ export const poaching: CookingMethodData = {
     'Ultrasonic-assisted flavor infusion during poaching'
   ],
 
-  sustainabilityRating: 0.8, // Highly efficient cooking method with liquid reuse potential,
+  sustainabilityRating: 0.8, // Highly efficient cooking method with liquid reuse potential
 
-  equipmentComplexity: 0.25, // Simple equipment needs with some technique requirements,
+  equipmentComplexity: 0.25, // Simple equipment needs with some technique requirements
 
   healthConsiderations: [
     'No added fat required for cooking method',
@@ -323,15 +323,15 @@ export const poaching: CookingMethodData = {
     pillarNumber: 5,
     alchemicalProcess: 'Gentle transformation of substances through submersion in nurturing liquid',
     effects: {
-      spirit: 1, // Increases spiritual refinement,
-      essence: 1, // Enhances essential qualities,
-      matter: 0, // Neutral effect on material properties,
+      spirit: 1, // Increases spiritual refinement
+      essence: 1, // Enhances essential qualities
+      matter: 0, // Neutral effect on material properties
       substance: 0, // Neutral effect on substantive qualities
     },
     symbolicMeaning: 'Represents the nurturing transformation of ingredients through gentle care and patience, preserving their essential nature while refining their form',
     associatedElements: {
-      primary: 'Water', // Fluidity, emotion, nourishment,
-      secondary: 'Air', // Subtlety, refinement, delicacy
+      primary: 'Water', // Fluidity, emotion, nourishment
+      secondary: 'Air', // Subtlety, refinement delicacy
     }
   },
 

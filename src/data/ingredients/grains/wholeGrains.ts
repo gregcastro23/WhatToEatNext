@@ -114,8 +114,8 @@ const rawWholeGrains = {
         flavor: 'nutty, slightly sweet',
         cooking_ratio: '1:2 rice to water',
         cooking_time: '45-50 minutes',
-        best_for 'sushi, risotto, puddings, sticky preparations',
-      },
+        best_for: 'sushi, risotto, puddings, sticky preparations';
+},
       long_grain: {
         name: 'Long Grain Brown Rice',
         characteristics: 'fluffy, separate grains, drier texture',
@@ -123,8 +123,8 @@ const rawWholeGrains = {
         flavor: 'mild nutty taste',
         cooking_ratio: '1:2.25 rice to water',
         cooking_time: '45-50 minutes',
-        best_for 'pilafs, salads, stuffings, everyday use',
-      },
+        best_for: 'pilafs, salads, stuffings, everyday use';
+},
       basmati: {
         name: 'Brown Basmati Rice',
         characteristics: 'aromatic, slender, distinctive fragrance',
@@ -132,8 +132,8 @@ const rawWholeGrains = {
         flavor: 'nutty with distinctive aroma',
         cooking_ratio: '1:2 rice to water',
         cooking_time: '40-45 minutes',
-        best_for 'Indian dishes, pilafs, biryanis',
-      },
+        best_for: 'Indian dishes, pilafs, biryanis';
+},
       jasmine: {
         name: 'Brown Jasmine Rice',
         characteristics: 'aromatic, slightly clinging, soft',
@@ -141,8 +141,8 @@ const rawWholeGrains = {
         flavor: 'floral aroma, subtle sweetness',
         cooking_ratio: '1:1.75 rice to water',
         cooking_time: '40-45 minutes',
-        best_for 'Southeast Asian cuisine, coconut-based dishes',
-      },
+        best_for: 'Southeast Asian cuisine, coconut-based dishes';
+},
       himalayan_red: {
         name: 'Himalayan Red Rice',
         characteristics: 'distinctive color, hearty texture',
@@ -150,8 +150,8 @@ const rawWholeGrains = {
         flavor: 'robust, earthy, nutty',
         cooking_ratio: '1:2.5 rice to water',
         cooking_time: '45-50 minutes',
-        best_for 'substantial side dishes, grain bowls, salads',
-      }
+        best_for: 'substantial side dishes, grain bowls, salads';
+}
     },
     affinities: [
       'onions',
@@ -232,8 +232,8 @@ const rawWholeGrains = {
         variations: {
           stovetop: 'traditional method as described above',
           rice_cooker: 'same ratio, select brown rice setting',
-          pressure_cooker: '1:1.25 rice to water, high pressure 20-22 minutes, natural release',
-        }
+          pressure_cooker: '1:1.25 rice to water, high pressure 20-22 minutes, natural release';
+}
       },
       pilaf_method: {
         name: 'Pilaf Method',
@@ -266,8 +266,8 @@ const rawWholeGrains = {
         variations: {
           asian_inspired: 'edamame, pickled vegetables, sesame, tamari-based sauce',
           mediterranean: 'chickpeas, cucumber, tomato, feta, herb-lemon dressing',
-          mexican: 'black beans, corn, avocado, lime-cilantro dressing',
-        },
+          mexican: 'black beans, corn, avocado, lime-cilantro dressing';
+},
         notes: 'Infinitely customizable to dietary preferences and what\'s on hand'
       },
       fried_rice: {
@@ -278,8 +278,8 @@ const rawWholeGrains = {
         variations: {
           classic: 'with peas, carrots, scrambled egg, green onion',
           kimchi: 'incorporate kimchi, sesame oil, gochujang',
-          pineapple: 'with pineapple chunks, cashews, curry powder',
-        },
+          pineapple: 'with pineapple chunks, cashews, curry powder';
+},
         notes: 'Pre-cook and cool rice for best texture never use freshly cooked rice'
 },
       rice_pudding: {
@@ -289,8 +289,8 @@ const rawWholeGrains = {
         variations: {
           classic: 'cinnamon, raisins, vanilla',
           coconut: 'coconut milk, cardamom, pistachios',
-          chocolate: 'cocoa powder, almond milk, cherries',
-        },
+          chocolate: 'cocoa powder, almond milk, cherries';
+},
         notes: 'Takes longer than white rice pudding but has nuttier flavor'
 }
     },
@@ -581,8 +581,8 @@ const rawWholeGrains = {
       overnight_method: {
         soaking: '8-12 hours',
         cooking_time: '30-40 minutes',
-        benefits: 'quicker cooking, better absorption',
-      }
+        benefits: 'quicker cooking, better absorption';
+}
     },
     preparations: {
       breakfast_cereal: {
@@ -1024,7 +1024,7 @@ const rawWholeGrains = {
       favorableZodiac: ['Capricorn', 'Virgo', 'Taurus'],
       seasonalAffinity: ['fall']
     }
-  },
+  };
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

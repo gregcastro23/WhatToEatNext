@@ -29,7 +29,7 @@ function _createCelestialPosition()
   options?: { planetName?: string }
 ): CelestialPosition {
   // Calculate a reasonable longitude based on the zodiac sign
-  const signIndex = [
+  const signIndex = [;
     'aries',
     'taurus',
     'gemini',
@@ -109,17 +109,16 @@ export function useAstrologicalState(): AstrologyHookData {
   })
 
   // Calculate active planets based on their positions and dignities
-  const getActivePlanets = useCallback()
-    ()
+  const getActivePlanets = useCallback();
       positions: Record<string, { sign?: string, degree?: number, exactLongitude?: number }>
     ): string[] => {
       if (!positions || typeof positions !== 'object') {
         logger.warn('Invalid planetary positions for calculating active planets')
-        return []
-      }
+        return [];
+}
 
       // List of planets we want to check
-      const planetKeys = [
+      const planetKeys = [;
         'sun',
         'moon',
         'mercury',
@@ -135,7 +134,7 @@ export function useAstrologicalState(): AstrologyHookData {
 
       try {
         // Add ruling planet of current sun sign
-        const sunSign = positions.sun.sign?.toLowerCase()
+        const sunSign = positions.sun.sign?.toLowerCase();
         if (sunSign) {
           // Map signs to their ruling planets
           const signRulers: Record<string, string> = {
@@ -164,8 +163,8 @@ export function useAstrologicalState(): AstrologyHookData {
             return
           }
 
-          const planetLower = planet.toLowerCase()
-          const signLower = position.sign.toLowerCase()
+          const planetLower = planet.toLowerCase();
+          const signLower = position.sign.toLowerCase();
 
           // Simple planet-sign dignity mapping
           const dignities: Record<string, string[]> = {
@@ -206,7 +205,7 @@ export function useAstrologicalState(): AstrologyHookData {
   );
 
   // Extract stringified positions to avoid complex expression in dependency array
-  const planetaryPositionsString = JSON.stringify(planetaryPositions)
+  const planetaryPositionsString = JSON.stringify(planetaryPositions);
 
   // Memoize key values to prevent unnecessary updates
   const memoizedPlanetaryPositions = useMemo(() => {
@@ -217,12 +216,12 @@ export function useAstrologicalState(): AstrologyHookData {
   useEffect(() => {
     try {
       if (Object.keys(memoizedPlanetaryPositions).length > 0) {
-        const activePlanets = getActivePlanets(memoizedPlanetaryPositions as unknown)
-        const currentZodiac = (
+        const activePlanets = getActivePlanets(memoizedPlanetaryPositions as unknown);
+        const currentZodiac = (;
           (memoizedPlanetaryPositions.sun )?.sign || ''
         ).toLowerCase();
 
-        logger.debug('Updating astrological state: ', {
+        logger.debug('Updating astrological state: ', ) {
           currentZodiac,
           activePlanets,
           time: new Date().toISOString()
@@ -256,7 +255,7 @@ export function useAstrologicalState(): AstrologyHookData {
   }, [memoizedPlanetaryPositions, getActivePlanets])
 
   // Memoize the current planetary alignment to prevent unnecessary recalculations
-  const currentPlanetaryAlignment = useMemo(() => {;
+  const currentPlanetaryAlignment = useMemo(() => {
     return astroState.currentPlanetaryAlignment;
   }, [astroState.currentPlanetaryAlignment])
 
@@ -264,18 +263,18 @@ export function useAstrologicalState(): AstrologyHookData {
 
   useEffect(() => {
     try {
-      const calculator = new PlanetaryHourCalculator()
-      const hourInfo = calculator.getCurrentPlanetaryHour()
+      const calculator = new PlanetaryHourCalculator();
+      const hourInfo = calculator.getCurrentPlanetaryHour();
       setCurrentPlanetaryHour(hourInfo.planet)
 
       // Add a refresh interval if needed
       const intervalId = setInterval(() => {
-        const hourInfo = calculator.getCurrentPlanetaryHour()
+        const hourInfo = calculator.getCurrentPlanetaryHour();
         setCurrentPlanetaryHour(hourInfo.planet);
       }, 60000); // Update every minute
 
-      return () => clearInterval(intervalId)
-    } catch (error) {
+      return () => clearInterval(intervalId);
+} catch (error) {
       logger.error('Failed to calculate planetary hour', error);
       setCurrentPlanetaryHour(null)
       return () => {

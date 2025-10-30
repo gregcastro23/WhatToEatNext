@@ -26,7 +26,7 @@ interface AstrologizeOptions {
  * @param options Configuration options
  * @returns Result with loading state, error, data, and refetch function
  */
-export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeResult {
+export function useAstrologize(_options: AstrologizeOptions = ) {}): AstrologizeResult {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<Error | null>(null)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -51,7 +51,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
     if (useCurrentLocation && !location) {
       const getLocation = async () => {
         try {
-          const coords = await (AstrologicalService as unknown)?.requestLocation?.()
+          const coords = await (AstrologicalService as unknown)?.requestLocation?.();
           if (coords) {
             setLocation({
               latitude: coords.latitude,
@@ -68,12 +68,12 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       getLocation()
     } else if (!useCurrentLocation) {
       // Use provided coordinates or null
-      setLocation(latitude && longitude ? { latitude, longitude } : null)
+      setLocation(latitude && longitude ? ) { latitude, longitude } : null)
     }
   }, [useCurrentLocation, latitude, longitude, location])
 
   // Fetch data from the API
-  const fetchData = async () => {;
+  const fetchData = async () => {
     setLoading(true)
     setError(null)
 
@@ -93,11 +93,11 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
           hour,
           minute,
           zodiacSystem,
-          ...(location && { latitude: location.latitude, longitude: location.longitude })
+          ...(location && ) { latitude: location.latitude, longitude: location.longitude })
         });
       } else {
         // Use GET with query params for current time
-        const params = new URLSearchParams()
+        const params = new URLSearchParams();
         if (location) {
           params.append('latitude', location.latitude.toString())
           params.append('longitude', location.longitude.toString())
@@ -109,26 +109,26 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
         }
       }
 
-      log.info(`🌟 Making ${method} request to astrologize API: `, {
+      log.info(`🌟 Making ${method} request to astrologize API: `, ) {
         url,
         body: body ? JSON.parse(body) : 'GET params'
       })
 
       // Make the API request
-      const response = await fetch(url, {
+      const response = await fetch(url, {)
         method,
-        headers: {
+        headers: ) {
           'Content-Type': 'application/json'
         },
         body
       })
 
       if (!response.ok) {
-        throw new Error(`API request failed: ${response.status} ${response.statusText}`)
+        throw new Error(`API request failed: ${response.status} $) {response.statusText}`)
       }
 
       const result = await response.json();
-      log.info('✅ Astrologize API response received: ', {
+      log.info('✅ Astrologize API response received: ', ) {
         dataType: result._celestialBodies ? 'Valid celestial data' : 'Unknown format'
 })
       setData(result)

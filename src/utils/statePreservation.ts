@@ -101,8 +101,8 @@ export function getNavigationState(): NavigationState {
   const stored = safeGetItem(STATE_KEYS.NAVIGATION_STATE)
   if (!stored) return defaultState;
   try {
-    const parsed: ComponentState = JSON.parse(stored)
-    if (!isStateValid(parsed.timestamp) {
+    const parsed: ComponentState = JSON.parse(stored);
+    if (!isStateValid(parsed.timestamp)) {
       return defaultState;
     }
     const data = (parsed.data || {}) as Partial<NavigationState>;
@@ -130,11 +130,11 @@ export function saveComponentState(componentId: string, state: unknown): void {
  * Get component-specific state
  */
 export function getComponentState(componentId: string): unknown {
-  const allStates = getComponentStates()
+  const allStates = getComponentStates();
   const componentState = allStates[componentId];
 
-  if (!componentState || !isStateValid(componentState.timestamp) {
-    return null
+  if (!componentState || !isStateValid(componentState.timestamp)) {
+    return null;
   }
 
   return componentState.data;
@@ -172,11 +172,11 @@ export function saveScrollPosition(sectionId: string, position: number): void {
  * Get scroll position for a specific section
  */
 export function getScrollPosition(sectionId: string): number {
-  const positions = getScrollPositions()
+  const positions = getScrollPositions();
   const position = positions[sectionId];
 
-  if (!position || !isStateValid(position.timestamp) {
-    return 0
+  if (!position || !isStateValid(position.timestamp)) {
+    return 0;
   }
 
   return Number(position.data) || 0;
@@ -203,11 +203,11 @@ function getScrollPositions(): Record<string, ComponentState> {
 export function clearAllState(): void {
   Object.values(STATE_KEYS).forEach(key => {
     try {
-      sessionStorage.removeItem(key)
+      sessionStorage.removeItem(key);
     } catch (error) {
-      _logger.warn(`Failed to remove item from sessionStorage: ${key}`, error)
+      _logger.warn(`Failed to remove item from sessionStorage: ${key}`, error);
     }
-  })
+  });
 }
 
 /**
@@ -219,7 +219,7 @@ export function clearExpiredState(): void {
   if (navState) {
     try {
       const parsed: ComponentState = JSON.parse(navState);
-      if (!isStateValid(parsed.timestamp) {
+      if (!isStateValid(parsed.timestamp)) {
         sessionStorage.removeItem(STATE_KEYS.NAVIGATION_STATE);
       }
     } catch (error) {
@@ -233,7 +233,7 @@ export function clearExpiredState(): void {
   let hasChanges = false;
 
   Object.entries(componentStates).forEach(([key, state]) => {
-    if (isStateValid(state.timestamp) {
+    if (isStateValid(state.timestamp)) {
       validStates[key] = state;
     } else {
       hasChanges = true;
@@ -250,7 +250,7 @@ export function clearExpiredState(): void {
   hasChanges = false;
 
   Object.entries(scrollPositions).forEach(([key, position]) => {
-    if (isStateValid(position.timestamp) {
+    if (isStateValid(position.timestamp)) {
       validPositions[key] = position;
     } else {
       hasChanges = true;
@@ -289,12 +289,13 @@ export function useStateCleanup(): (() => void) | void {
  * Create a state preservation hook for components
  */
 export function createStatePreservationHook(componentId: string) {
-  return { _saveState: (state, unknown) => saveComponentState(componentId, state),
+  return {
+    _saveState: (state: unknown) => saveComponentState(componentId, state),
     _getState: () => getComponentState(componentId),
     _clearState: () => {
-      const allStates = getComponentStates()
+      const allStates = getComponentStates();
       delete allStates[componentId];
-      safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates))
+      safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates));
     }
-  }
+  };
 }

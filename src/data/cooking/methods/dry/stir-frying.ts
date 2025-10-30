@@ -19,7 +19,7 @@ export const _stirFrying: CookingMethodData = {
     min: 3,
     max: 10
 },
-  suitable_for [
+  suitable_for: [
     'vegetables',
     'thin meats',
     'tofu',
@@ -41,9 +41,9 @@ export const _stirFrying: CookingMethodData = {
     unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as any[],
     dominantPlanets: ['Mercury', 'Mars', 'Sun'],
     lunarPhaseEffect: {
-      full_moon: 1.3, // Enhanced wok hei flavor,
-      new_moon: 0.9, // Slightly diminished effect,
-      first_quarter: 1.1, // Good balance,
+      full_moon: 1.3, // Enhanced wok hei flavor
+      new_moon: 0.9, // Slightly diminished effect
+      first_quarter: 1.1, // Good balance
       third_quarter: 0.95, // Slight reduction
     }
   },
@@ -102,10 +102,10 @@ export const _stirFrying: CookingMethodData = {
     'Proper wok handling techniques'
   ],
   thermodynamicProperties: {
-    heat: 0.9, // Very high heat application,
-    entropy: 0.55, // Moderate structural breakdown,
-    reactivity: 0.85, // High reactivity (Maillard, caramelization),
-    gregsEnergy: -10.35, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
+    heat: 0.9, // Very high heat application
+    entropy: 0.55, // Moderate structural breakdown
+    reactivity: 0.85, // High reactivity (Maillard, caramelization)
+    gregsEnergy: -10.35, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata
@@ -128,9 +128,9 @@ export const _stirFrying: CookingMethodData = {
     'Smoke-point engineered oils for higher temperatures'
   ],
 
-  sustainabilityRating: 0.8, // Efficient quick cooking with minimal energy usage,
+  sustainabilityRating: 0.8, // Efficient quick cooking with minimal energy usage
 
-  equipmentComplexity: 0.5, // Requires specific equipment but relatively simple technique,
+  equipmentComplexity: 0.5, // Requires specific equipment but relatively simple technique
 
   healthConsiderations: [
     'Minimal oil compared to deep frying',

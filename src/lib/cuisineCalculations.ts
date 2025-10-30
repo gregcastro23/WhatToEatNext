@@ -15,23 +15,22 @@ interface ElementalProperties {
   Fire: number;
   Water: number;
   Earth: number;
-  Air: number;
+  Air: number
 }
 
 export async function getCuisineRecommendations(): Promise<CuisineRecommendation[]> {
   try {
     // Convert culinary traditions to CuisineRecommendation format
-    const recommendations: CuisineRecommendation[] = Object.entries(culinaryTraditions).map()
-      ([id, tradition]) => {
+    const recommendations: CuisineRecommendation[] = Object.entries(culinaryTraditions).map([id, tradition]) => {
         const traditionData = tradition as unknown as {
           description?: string;
-          elementalAlignment?: { Fire: number; Water: number; Earth, number; Air, number };
+          elementalAlignment?: { Fire: number; Water, number; Earth, number; Air, number };
           authenticity?: number;
           regions?: unknown[];
           seasonality?: unknown;
           astrologicalProfile?: unknown;
           regionalCuisines?: unknown;
-          [key: string]: unknown;
+          [key: string]: unknown
         };
 
         return {
@@ -72,11 +71,11 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
 function deriveAstrologicalInfluences(tradition: unknown): string[] {
   const traditionData = tradition as {
     description?: string;
-    elementalAlignment?: { Fire: number; Water: number; Earth, number; Air, number };
+    elementalAlignment?: { Fire: number; Water, number; Earth, number; Air, number };
     regions?: unknown[];
     astrologicalProfile?: any;
     regionalCuisines?: any;
-    [key: string]: unknown;
+    [key: string]: unknown
   };
 
   // If the tradition explicitly has astrological influences, use those
@@ -105,7 +104,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
         characteristics?: string[];
         seasonality?: unknown;
         astrologicalInfluences?: string[];
-        [key: string]: unknown;
+        [key: string]: unknown
       };
       const regionInfluences = regionData?.astrologicalInfluences;
 

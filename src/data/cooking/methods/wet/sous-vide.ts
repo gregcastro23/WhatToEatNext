@@ -13,7 +13,7 @@ export const _sousVide: CookingMethodData = {
   description: 'Precision cooking method where food is vacuum-sealed and immersed in a temperature-controlled water bath for perfect doneness. The method ensures exact temperature control, allowing proteins to be cooked to precise levels of doneness while preserving moisture and enhancing texture.',
   elementalEffect: {
     Water: 0.5, // Primary element - the cooking medium
-    Earth: 0.3, // Secondary element - reflects stability and structure,
+    Earth: 0.3, // Secondary element - reflects stability and structure
     Fire: 0.1, // Minimal fire element - low heat application
     Air: 0.1, // Minimal air element - vacuum removes air
   },
@@ -21,7 +21,7 @@ export const _sousVide: CookingMethodData = {
     min: 30,
     max: 4320, // Up to 72 hours for certain tough cuts of meat
   },
-  suitable_for [
+  suitable_for: [
     'meat',
     'fish',
     'eggs',
@@ -49,13 +49,13 @@ export const _sousVide: CookingMethodData = {
     'eliminates risk of overcooking'
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['aquarius', 'virgo', 'capricorn'] as any[], // Earth signs and technological Aquarius,
-    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as any[], // Fire signs prefer more spontaneous cooking methods,
-    dominantPlanets: ['Mercury', 'Saturn', 'Uranus'], // Precision (Mercury), stability (Saturn), innovation (Uranus),
+    favorableZodiac: ['aquarius', 'virgo', 'capricorn'] as any[], // Earth signs and technological Aquarius
+    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as any[], // Fire signs prefer more spontaneous cooking methods
+    dominantPlanets: ['Mercury', 'Saturn', 'Uranus'], // Precision (Mercury), stability (Saturn), innovation (Uranus)
     lunarPhaseEffect: {
-      full_moon: 0.8, // Less effective - water energies are more chaotic,
-      new_moon: 1.3, // Enhanced precision - stability in vacuum environment,
-      first_quarter: 1.1, // Good balance,
+      full_moon: 0.8, // Less effective - water energies are more chaotic
+      new_moon: 1.3, // Enhanced precision - stability in vacuum environment
+      first_quarter: 1.1, // Good balance
       third_quarter: 0.9, // Slightly diminished effects
     }
   },
@@ -96,24 +96,24 @@ export const _sousVide: CookingMethodData = {
     'Bright acidic components to balance richness'
   ],
   nutrientRetention: {
-    proteins: 0.95, // Excellent preservation of protein structure,
-    vitamins: 0.9, // Very good retention of water-soluble vitamins,
-    minerals: 0.95, // Excellent mineral retention,
-    fats: 0.98, // Nearly perfect fat preservation,
+    proteins: 0.95, // Excellent preservation of protein structure
+    vitamins: 0.9, // Very good retention of water-soluble vitamins
+    minerals: 0.95, // Excellent mineral retention
+    fats: 0.98, // Nearly perfect fat preservation
     flavor_compounds: 0.96, // Excellent flavor compound retention
   },
   optimalTemperatures: {
-    rare_beef: 129, // °F - Juicy, tender, rare beef,
-    medium_beef: 135, // °F - Perfect medium doneness,
-    chicken_breast: 145, // °F - Safe, juicy chicken breast,
-    salmon: 122, // °F - Silky, buttery texture,
-    egg: 145, // °F - Perfect soft-cooked egg,
-    vegetables: 183, // °F - Tender-crisp vegetables,
-    tough_cuts: 165, // °F - For collagen breakdown (24-72 hours),
-    pork: 145, // °F - Safe, juicy pork,
-    lobster: 140, // °F - Tender, never rubbery,
-    duck_breast: 135, // °F - Medium-rare duck,
-    game_meats: 131, // °F - Tender wild game,
+    rare_beef: 129, // °F - Juicy, tender, rare beef
+    medium_beef: 135, // °F - Perfect medium doneness
+    chicken_breast: 145, // °F - Safe, juicy chicken breast
+    salmon: 122, // °F - Silky, buttery texture
+    egg: 145, // °F - Perfect soft-cooked egg
+    vegetables: 183, // °F - Tender-crisp vegetables
+    tough_cuts: 165, // °F - For collagen breakdown (24-72 hours)
+    pork: 145, // °F - Safe, juicy pork
+    lobster: 140, // °F - Tender, never rubbery
+    duck_breast: 135, // °F - Medium-rare duck
+    game_meats: 131, // °F - Tender wild game
     custards: 176, // °F - Perfect set without curdling
   },
   regionalVariations: {
@@ -125,14 +125,14 @@ export const _sousVide: CookingMethodData = {
     spanish: ['avant-garde cuisine applications', 'textural transformations']
   },
   chemicalChanges: {
-    protein_denaturation: true, // Precise unfolding of protein structures,
-    enzymatic_breakdown: true, // Controlled enzymatic tenderization,
-    vacuum_infusion: true, // Enhanced flavor penetration in vacuum,
-    cell_membrane_integrity: true, // Preservation of cellular structure,
-    fat_rendering: true, // Controlled melting of fats,
-    collagen_conversion: true, // Slow conversion to gelatin in long cooks,
-    flavor_compound_preservation: true, // Retention of volatile compounds,
-    starch_gelatinization: true, // In vegetables and starches,
+    protein_denaturation: true, // Precise unfolding of protein structures
+    enzymatic_breakdown: true, // Controlled enzymatic tenderization
+    vacuum_infusion: true, // Enhanced flavor penetration in vacuum
+    cell_membrane_integrity: true, // Preservation of cellular structure
+    fat_rendering: true, // Controlled melting of fats
+    collagen_conversion: true, // Slow conversion to gelatin in long cooks
+    flavor_compound_preservation: true, // Retention of volatile compounds
+    starch_gelatinization: true, // In vegetables and starches
     limited_maillard_reaction: false, // Temperature too low for browning
   },
   safetyFeatures: [
@@ -148,9 +148,9 @@ export const _sousVide: CookingMethodData = {
     'Follow manufacturer guidelines for equipment usage'
   ],
   thermodynamicProperties: {
-    heat: 0.3, // Low, precise heat - controlled application,
-    entropy: 0.35, // Slow, controlled breakdown of structures,
-    reactivity: 0.2, // Minimal reactivity (no Maillard),
+    heat: 0.3, // Low, precise heat - controlled application
+    entropy: 0.35, // Slow, controlled breakdown of structures
+    reactivity: 0.2, // Minimal reactivity (no Maillard)
     gregsEnergy: -6.35, // Calculated using heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
@@ -184,9 +184,9 @@ export const _sousVide: CookingMethodData = {
     'Jar-based sous vide for custards and desserts'
   ],
 
-  sustainabilityRating: 0.85, // Highly efficient energy usage,
+  sustainabilityRating: 0.85, // Highly efficient energy usage
 
-  equipmentComplexity: 0.7, // Requires specialized equipment but simple operation,
+  equipmentComplexity: 0.7, // Requires specialized equipment but simple operation
 
   healthConsiderations: [
     'Minimal oxidation of nutrients due to vacuum environment',
@@ -217,15 +217,15 @@ export const _sousVide: CookingMethodData = {
     pillarNumber: 12,
     alchemicalProcess: 'Stabilization of volatile substances through precise temperature control',
     effects: {
-      spirit: -1, // Decreases spiritual volatility,
-      essence: -1, // Reduces essence through containment,
-      matter: 1, // Increases material stability and structure,
+      spirit: -1, // Decreases spiritual volatility
+      essence: -1, // Reduces essence through containment
+      matter: 1, // Increases material stability and structure
       substance: 1, // Enhances substantive qualities and preservation
     },
     symbolicMeaning: 'Represents the perfect balance between technical precision and natural processes, bringing stability to the chaotic elements of cooking',
     associatedElements: {
-      primary: 'Earth', // Stability, structure, material reality,
-      secondary: 'Air', // Intellectual precision, technological approach
+      primary: 'Earth', // Stability, structure, material reality
+      secondary: 'Air', // Intellectual precision technological approach
     }
   },
 

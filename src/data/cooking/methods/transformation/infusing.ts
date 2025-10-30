@@ -15,10 +15,10 @@ export const infusing: CookingMethodData = {
     Air: 0.5
 },
   duration: {
-    min: 15, // 15 minutes,
+    min: 15, // 15 minutes
     max: 10080, // 7 days
   },
-  suitable_for ['Oils', 'Alcohols', 'Water', 'Vinegars', 'Honey', 'Milk', 'Cream'],
+  suitable_for: ['Oils', 'Alcohols', 'Water', 'Vinegars', 'Honey', 'Milk', 'Cream'],
   benefits: [
     'Extracts beneficial compounds from herbs and spices',
     'Creates flavorful alternatives to salt and sugar',
@@ -34,7 +34,7 @@ export const infusing: CookingMethodData = {
     'Fat infusion (infusing solid fats like butter)'
   ],
   optimalTemperatures: {
-    cold: 2, // °C,
+    cold: 2, // °C
     hot: 80, // °C
   },
   toolsRequired: [

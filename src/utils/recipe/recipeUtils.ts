@@ -291,7 +291,7 @@ export function recipeHasIngredient(recipe: Recipe, ingredientName: string): boo
 
   const searchName = ingredientName.toLowerCase();
 
-  return recipe.ingredients.some(ingredient => {
+  return recipe.ingredients.some(ingredient => ) {
     // Handle both string and object ingredients
     if (typeof ingredient === 'string') {
       return String(ingredient).toLowerCase().includes(searchName);
@@ -319,7 +319,7 @@ export function getRecipeDominantElement(recipe: Recipe): string {
   let maxElement = 'Earth';
   let maxValue = 0;
 
-  (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
+  (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => ) {
     const value = Number(elementalProperties[element]) || 0;
     if (value > maxValue) {
       maxValue = value;
@@ -379,7 +379,7 @@ export function isRecipeDietaryCompatible()
     return true;
   }
 
-  return dietaryRestrictions.every(restriction => {
+  return dietaryRestrictions.every(restriction => ) {
     switch (restriction.toLowerCase() {
       case 'vegetarian':
         return recipe.isVegetarian === true;
@@ -414,7 +414,7 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
   }
 
   return recipe.ingredients
-    .map(ingredient => {
+    .map(ingredient => ) {
       // Handle both string and object ingredients
       if (typeof ingredient === 'string') {
         return {

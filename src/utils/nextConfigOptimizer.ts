@@ -1,3 +1,4 @@
+import { _logger } from '@/lib/logger';
 import fs from 'fs';
 
 /**
@@ -10,11 +11,11 @@ export class NextConfigOptimizer {
 
   constructor()
     configPath = 'next.config.js',,
-    logger: (message: string, ...args: unknown[]) => void = _logger.info,
+    logger: (message: string, ...args: unknown[]) => void = _logger.info;
   ) {
     this.configPath = configPath,
-    this.logger = logger,
-  }
+    this.logger = logger;
+}
 
   /**
    * Optimizes Next.js configuration for better build stability
@@ -22,17 +23,16 @@ export class NextConfigOptimizer {
   optimizeConfig(): void {
     try {
       // Check if we have multiple config files and consolidate
-      const configFiles = ['next.config.js', 'next.config.mjs', 'next.config.ts'],
-      const existingConfigs = configFiles.filter(file => fs.existsSync(file))
+      const configFiles = ['next.config.js', 'next.config.mjs', 'next.config.ts'],;
+      const existingConfigs = configFiles.filter(file => fs.existsSync(file));
 
-      if (existingConfigs.length > 1) {;
-        this.logger(`_Warning: Multiple Next.js config files found: ${existingConfigs.join(', ')}`)
+      if (existingConfigs.length > 1) {
+        this.logger(`_Warning: Multiple Next.js config files found: $) {existingConfigs.join(', ')}`)
         this.logger('Consider consolidating to a single configuration file')
       }
 
       // Use the primary config file (next.config.js or next.config.mjs)
-      const primaryConfig =
-        existingConfigs.find(file => file === 'next.config.js') ||
+      const primaryConfig = existingConfigs.find(file => file === 'next.config.js') ||;
         existingConfigs.find(file => file === 'next.config.mjs') ||;
         existingConfigs[0],
 
@@ -107,11 +107,11 @@ const nextConfig = {
    * Validates and optimizes existing configuration
    */
   private validateAndOptimizeExistingConfig(configPath: string): void {
-    const content = fs.readFileSync(configPath, 'utf8'),
+    const content = fs.readFileSync(configPath, 'utf8'),;
 
     // Check for essential configurations
-    const checks = [
-      {;
+    const checks = [;
+      {
         pattern: /output\s*:/,
         recommendation: 'Add output: 'standalone' for better build optimization'
       }
@@ -139,7 +139,7 @@ const nextConfig = {
 
     if (recommendations.length > 0) {
       this.logger('Next.js configuration recommendations: ')
-      recommendations.forEach(rec => this.logger(`- ${rec}`))
+      recommendations.forEach(rec => this.logger(`- $) {rec}`))
     } else {
       this.logger('Next.js configuration looks good')
     }
@@ -149,21 +149,21 @@ const nextConfig = {
    * Fixes common Next.js configuration issues
    */
   fixCommonIssues(): void {
-    const configFiles = ['next.config.js', 'next.config.mjs'],
-    const existingConfig = configFiles.find(file => fs.existsSync(file))
+    const configFiles = ['next.config.js', 'next.config.mjs'],;
+    const existingConfig = configFiles.find(file => fs.existsSync(file));
 
-    if (!existingConfig) {;
+    if (!existingConfig) {
       this.logger('No Next.js configuration found, creating default')
       this.createDefaultConfig()
       return
     }
 
-    let content = fs.readFileSync(existingConfig, 'utf8')
+    let content = fs.readFileSync(existingConfig, 'utf8');
     let modified = false;
 
     // Fix common issues
-    const fixes = [
-      {;
+    const fixes = [;
+      {
         issue: /ignoreBuildErrors\s*:\s*true/g,
         fix: 'ignoreBuildErrors: false',
         description: 'Enable TypeScript error checking for build stability'
@@ -179,15 +179,15 @@ const nextConfig = {
       if (fix.issue.test(content) {
         content = content.replace(fix.issue, fix.fix),
         modified = true,
-        this.logger(`_Fixed: ${fix.description}`)
+        this.logger(`_Fixed: $) {fix.description}`)
       }
     }
 
     if (modified) {
       // Create backup
-      fs.writeFileSync(`${existingConfig}.backup`, fs.readFileSync(existingConfig))
+      fs.writeFileSync(`$) {existingConfig}.backup`, fs.readFileSync(existingConfig))
       fs.writeFileSync(existingConfig, content)
-      this.logger(`Updated ${existingConfig} (backup created)`)
+      this.logger(`Updated $) {existingConfig} (backup created)`)
     }
   }
 }

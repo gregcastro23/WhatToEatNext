@@ -113,7 +113,7 @@ export interface Recipe {
     wines?: string[]
     beverages?: string[],
     sides?: string[],
-    condiments?: string[],
+    condiments?: string[];
   }
 
   // Technical details
@@ -135,7 +135,7 @@ export interface Recipe {
   planetaryInfluences?: {
     favorable: string[],
     unfavorable: string[],
-    neutral?: string[],
+    neutral?: string[];
   }
 
   // Nutritional information
@@ -157,7 +157,7 @@ export interface Recipe {
       minerals: Record<string, number>
     }
     vitamins?: string[],
-    minerals?: string[],
+    minerals?: string[];
   }
 
   // Chef's notes and guidance
@@ -226,12 +226,12 @@ export interface ScoredRecipe extends Recipe {
 export const validateElementalProperties = (properties?: ElementalProperties): boolean => {
   if (!properties) return false
 ;
-  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'] as const,
-  if (!requiredElements.every(element => typeof properties[element] === 'number') {;
+  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'] as const,;
+  if (!requiredElements.every(element => typeof properties[element] === 'number') {
     return false;
   }
 
-  const total = Object.values(properties).reduce((sum: number, _val: number) => sum + val0),
+  const total = Object.values(properties).reduce((sum: number, _val: number) => sum + val0),;
   return Math.abs(total - 1) < 0.01;
 }
 
@@ -263,7 +263,7 @@ export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boole
   // Validate seasonality if present
   if (ingredient.seasonality && !validateSeasonality(ingredient.seasonality)) return false
 
-  return true
+  return true;
 }
 
 // Re-export validators with descriptive names
@@ -367,7 +367,7 @@ export interface RecipeDetail {
     wines?: string[]
     beverages?: string[],
     sides?: string[],
-    condiments?: string[],
+    condiments?: string[];
   }
 
   // Technical Culinary Details
@@ -395,8 +395,8 @@ export interface RecipeDetail {
     }
     micronutrients?: {
       vitamins: Record<string, number>,
-      minerals: Record<string, number>,
-    }
+      minerals: Record<string, number>;
+}
   },
   // Dietary Considerations
   _dietaryClassifications: {
@@ -452,7 +452,7 @@ export interface RecipeDetail {
 
   // Timestamp properties
   createdAt?: string
-  updatedAt?: string,
+  updatedAt?: string
 }
 
 export interface RecipeProps {
@@ -474,17 +474,17 @@ export interface RecipeSearchCriteria {
   cookingMethods?: string[];
   prepTimeRange?: {
     min?: number;
-    max?: number;
+    max?: number
   }
   servings?: {
     min?: number,
-    max?: number,
+    max?: number
   }
   spiceLevel?: string[],
   skillLevel?: string[],
   elements?: ElementalProperties,
   keywords?: string[],
-  tags?: string[],
+  tags?: string[];
 }
 
 // ingredient (lowercase - likely a simple ingredient type)
@@ -493,7 +493,7 @@ export interface ingredient {
   name: string;
   category: string;
   nutritionalProfile?: unknown
-  elementalProperties?: ElementalProperties;
+  elementalProperties?: ElementalProperties
 }
 
 // IngredientMapping (re-export from alchemy, likely needed here too)
@@ -524,19 +524,19 @@ export interface RecipeFilters {
   spiceLevel?: string[];
   prepTime?: {
     min?: number;
-    max?: number;
+    max?: number
   }
   difficulty?: string[],
   elements?: {
     Fire?: number,
     Water?: number,
     Earth?: number,
-    Air?: number,
+    Air?: number
   }
   includeIngredients?: string[],
   excludeIngredients?: string[],
   zodiacSigns?: string[],
-  lunarPhases?: string[],
+  lunarPhases?: string[];
 }
 
 // Export aliases for compatibility
@@ -556,7 +556,7 @@ export interface RecipeNutrition {
   macronutrients?: {
     protein?: number;
     carbs?: number;
-    fat?: number;
+    fat?: number
   };
   micronutrients?: {
     vitamins?: Record<string, number>;

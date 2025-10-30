@@ -22,7 +22,7 @@ export interface CulturalCookingMethod {
     Fire: number;
     _Water: number;
     _Earth: number;
-    _Air: number;
+    _Air: number
   };
   culturalOrigin: string;
   toolsRequired?: string[];
@@ -142,7 +142,7 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
  * into a standardized structure
  */
 export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
-  const cuisines = [
+  const cuisines = [;
     { data: thai, name: 'Thai' },
     { data: vietnamese, name: 'Vietnamese' },
     { data: italian, name: 'Italian' },
@@ -168,10 +168,10 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   const methodsByMainCategory: Record<string, CulturalCookingMethod[]> = {};
 
   // Extract cooking techniques from each cuisine
-  cuisines.forEach(cuisine => {
+  cuisines.forEach(cuisine => ) {
     if (!cuisine.data.cookingTechniques) return;
 
-    cuisine.data.cookingTechniques.forEach(technique => {
+    cuisine.data.cookingTechniques.forEach(technique => ) {
       // Generate a unique ID for each cooking method
       const methodName = technique.name.toLowerCase();
       const methodId = `${cuisine.name.toLowerCase()}_${methodName.replace(/\s+/g, '_')}`;
@@ -185,8 +185,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
 
       // Check if this method is a variation of a standard cooking method
       // Use case-insensitive matching for technique mapping
-      const relatedMainMethod = Object.entries(TECHNIQUE_MAPPING).find()
-        ([key]) => methodName.toLowerCase() === key.toLowerCase()
+      const relatedMainMethod = Object.entries(TECHNIQUE_MAPPING).find([key]) => methodName.toLowerCase() === key.toLowerCase();
       )?.[1];
 
       // If this is a variation and we've already added a variation from this culture
@@ -233,7 +232,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   });
 
   // Add basic astrological influences for methods that don't have them
-  methods.forEach(method => {
+  methods.forEach(method => ) {
     if (method.relatedToMainMethod && cookingMethods[method.relatedToMainMethod]) {
       // Inherit some properties from the main method
       const mainMethod = cookingMethods[method.relatedToMainMethod];

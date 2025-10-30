@@ -13,15 +13,15 @@ export const braising: CookingMethodData = {
   description: 'Slow cooking method where food is first seared at high temperature, then finished in a covered pot with liquid at lower temperature. This dual-stage process transforms tough, collagen-rich ingredients into tender, flavorful dishes through the gradual breakdown of connective tissues and the concentration of flavors. The enclosed environment creates a cycle of evaporation and condensation that continuously bastes the food, while the liquid medium facilitates the exchange of flavors between ingredients.',
   elementalEffect: {
     Water: 0.4, // Primary element - dissolving and transformative
-    Fire: 0.3, // Secondary element - initial sear and sustained heat,
+    Fire: 0.3, // Secondary element - initial sear and sustained heat
     Earth: 0.2, // Tertiary element - grounding and substantive
     Air: 0.1, // Minimal element - small amount of trapped steam
   },
   duration: {
     min: 60,
-    max: 480, // Extended maximum time for large, tough cuts
+    max: 480, // Extended maximum time for large tough cuts
   },
-  suitable_for [
+  suitable_for: [
     'tough meats',
     'root vegetables',
     'legumes',
@@ -62,16 +62,16 @@ export const braising: CookingMethodData = {
     'intensifies aromatics through prolonged contact'
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['taurus', 'cancer', 'scorpio', 'capricorn'] as any[], // Earth and water signs enhance patience and depth,
-    unfavorableZodiac: ['gemini', 'aquarius', 'libra'] as any[], // Air signs lack patience and grounding,
-    dominantPlanets: ['Saturn', 'Moon', 'Pluto', 'Jupiter'], // Saturn (time), Moon (fluctuation), Pluto (transformation), Jupiter (expansion),
+    favorableZodiac: ['taurus', 'cancer', 'scorpio', 'capricorn'] as any[], // Earth and water signs enhance patience and depth
+    unfavorableZodiac: ['gemini', 'aquarius', 'libra'] as any[], // Air signs lack patience and grounding
+    dominantPlanets: ['Saturn', 'Moon', 'Pluto', 'Jupiter'], // Saturn (time), Moon (fluctuation), Pluto (transformation), Jupiter (expansion)
     lunarPhaseEffect: {
-      full_moon: 0.9, // Reduced effectiveness - too much energy,
-      new_moon: 1.2, // Enhanced flavor integration - concentrated energy,
-      waning_moon: 1.3, // Best phase for deep flavor development - inward energy,
-      waxing_gibbous: 1.0, // Neutral effect,
-      first_quarter: 1.1, // Good for initial stages of braising,
-      last_quarter: 1.2, // Ideal for finishing and reduction,
+      full_moon: 0.9, // Reduced effectiveness - too much energy
+      new_moon: 1.2, // Enhanced flavor integration - concentrated energy
+      waning_moon: 1.3, // Best phase for deep flavor development - inward energy
+      waxing_gibbous: 1.0, // Neutral effect
+      first_quarter: 1.1, // Good for initial stages of braising
+      last_quarter: 1.2, // Ideal for finishing and reduction
       waning_crescent: 1.15, // Excellent for slow transformation
     }
   },
@@ -120,27 +120,27 @@ export const braising: CookingMethodData = {
     'Aged cheese rinds (flavor deepening agent)'
   ],
   nutrientRetention: {
-    collagen: 0.95, // Converted to gelatin,
-    minerals: 0.85, // Excellent retention in liquid medium,
-    vitamins: 0.6, // Some loss of water-soluble vitamins but retained in sauce,
-    proteins: 0.9, // Very good protein preservation,
-    fat_soluble_nutrients: 0.85, // Good retention in fat emulsion,
-    water_soluble_vitamins: 0.75, // Preserved in cooking liquid,
-    antioxidants: 0.8, // Many extracted and preserved in liquid,
-    amino_acids: 0.92, // Excellent preservation with enhanced bioavailability,
+    collagen: 0.95, // Converted to gelatin
+    minerals: 0.85, // Excellent retention in liquid medium
+    vitamins: 0.6, // Some loss of water-soluble vitamins but retained in sauce
+    proteins: 0.9, // Very good protein preservation
+    fat_soluble_nutrients: 0.85, // Good retention in fat emulsion
+    water_soluble_vitamins: 0.75, // Preserved in cooking liquid
+    antioxidants: 0.8, // Many extracted and preserved in liquid
+    amino_acids: 0.92, // Excellent preservation with enhanced bioavailability
     phenolics: 0.7, // Moderate retention of plant compounds
   },
   optimalTemperatures: {
-    initial_sear: 450, // °F, for Maillard reaction development,
-    braising_phase: 325, // °F, general braising temperature,
-    final_reduction: 350, // °F, for sauce concentration,
-    vegetables_only: 300, // °F, gentler for plant matter,
-    meat_with_bone: 275, // °F, lower and slower for bone-in cuts,
-    legume_braise: 225, // °F, very gentle for beans and pulses,
-    poultry_braise: 325, // °F, standard for poultry items,
-    collagen_conversion: 320, // °F, optimal for collagen to gelatin,
-    fish_braise: 300, // °F, gentle for delicate proteins,
-    liquid_simmer: 205, // °F, ideal braising liquid temperature (just below boiling)
+    initial_sear: 450, // °F, for Maillard reaction development
+    braising_phase: 325, // °F, general braising temperature
+    final_reduction: 350, // °F, for sauce concentration
+    vegetables_only: 300, // °F, gentler for plant matter
+    meat_with_bone: 275, // °F, lower and slower for bone-in cuts
+    legume_braise: 225, // °F, very gentle for beans and pulses
+    poultry_braise: 325, // °F, standard for poultry items
+    collagen_conversion: 320, // °F, optimal for collagen to gelatin
+    fish_braise: 300, // °F, gentle for delicate proteins
+    liquid_simmer: 205, // °F ideal braising liquid temperature (just below boiling)
   },
   regionalVariations: {
     french: [
@@ -174,17 +174,17 @@ export const braising: CookingMethodData = {
     american: ['pot roast', 'yankee pot roast', 'mississippi pot roast']
   },
   chemicalChanges: {
-    collagen_breakdown: true, // Conversion of collagen to gelatin via hydrolysis,
-    maillard_reaction: true, // Complex browning from amino acids and reducing sugars,
-    fat_emulsification: true, // Dispersion of fat particles in liquid medium,
-    flavor_concentration: true, // Reduction of water content concentrating soluble compounds,
-    starch_thickening: true, // Gelatinization of starch granules for sauce body,
-    caramelization: true, // High-temperature sugar transformation,
-    protein_denaturation: true, // Restructuring of protein molecules,
-    osmosis: true, // Bidirectional flavor exchange between food and liquid,
-    aromatic_infusion: true, // Transfer of volatile compounds from herbs and spices,
-    acid_tenderization: true, // Breakdown of protein structures through acid action,
-    lipid_oxidation: false, // Minimized by liquid environment,
+    collagen_breakdown: true, // Conversion of collagen to gelatin via hydrolysis
+    maillard_reaction: true, // Complex browning from amino acids and reducing sugars
+    fat_emulsification: true, // Dispersion of fat particles in liquid medium
+    flavor_concentration: true, // Reduction of water content concentrating soluble compounds
+    starch_thickening: true, // Gelatinization of starch granules for sauce body
+    caramelization: true, // High-temperature sugar transformation
+    protein_denaturation: true, // Restructuring of protein molecules
+    osmosis: true, // Bidirectional flavor exchange between food and liquid
+    aromatic_infusion: true, // Transfer of volatile compounds from herbs and spices
+    acid_tenderization: true, // Breakdown of protein structures through acid action
+    lipid_oxidation: false, // Minimized by liquid environment
     mineral_transfer: true, // Migration of minerals from bones to liquid
   },
   safetyFeatures: [
@@ -202,10 +202,10 @@ export const braising: CookingMethodData = {
     'Keep pot handles turned inward on stovetop (prevents accidents)'
   ],
   thermodynamicProperties: {
-    heat: 0.55, // Moderate heat with liquid limiting max temperature,
-    entropy: 0.75, // High breakdown of collagen and tough structures,
-    reactivity: 0.6, // Good flavor development and Maillard from initial sear,
-    gregsEnergy: -14.35, // Calculated using heat - (entropy * reactivity), // Calculated gregsEnergy: heat - (entropy * reactivity)
+    heat: 0.55, // Moderate heat with liquid limiting max temperature
+    entropy: 0.75, // High breakdown of collagen and tough structures
+    reactivity: 0.6, // Good flavor development and Maillard from initial sear
+    gregsEnergy: -14.35, // Calculated using heat - (entropy * reactivity) // Calculated gregsEnergy: heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
   // Additional metadata
@@ -244,9 +244,9 @@ export const braising: CookingMethodData = {
     'Cryoconcentration of braising liquids (intensified flavors)'
   ],
 
-  sustainabilityRating: 0.75, // Energy-efficient slow cooking, typically uses less desirable cuts,
+  sustainabilityRating: 0.75, // Energy-efficient slow cooking, typically uses less desirable cuts
 
-  equipmentComplexity: 0.45, // Basic equipment but requires understanding of technique,
+  equipmentComplexity: 0.45, // Basic equipment but requires understanding of technique
 
   healthConsiderations: [
     'Renders and emulsifies fats into sauce (can be skimmed if desired)',
@@ -280,9 +280,9 @@ export const braising: CookingMethodData = {
     pillarNumber: 3,
     alchemicalProcess: 'The breaking down of rigid structures into fluid, interconnected elements through immersion and gentle transformation',
     effects: {
-      spirit: 1, // Increases spiritual essence through gentle transformation,
-      essence: 1, // Increases essential qualities and concentrates flavors,
-      matter: -1, // Decreases rigid material structure through softening,
+      spirit: 1, // Increases spiritual essence through gentle transformation
+      essence: 1, // Increases essential qualities and concentrates flavors
+      matter: -1, // Decreases rigid material structure through softening
       substance: -1, // Decreases original substance as it transforms
     },
     symbolicMeaning: 'Represents the alchemical principle of solving et coagula (dissolve and recombine) where elements must be broken down before being reconstructed in more harmonious forms. In braising, tough ingredients are slowly dissolved and transformed into tender, flavorful substances with new properties.',

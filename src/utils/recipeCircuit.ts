@@ -14,7 +14,7 @@ export interface CircuitValidationResult {
   outputPower: number;
   losses: number;
   efficiency: number;
-  error?: string;
+  error?: string
 }
 
 export interface RecipeCircuitRecommendation {
@@ -22,7 +22,7 @@ export interface RecipeCircuitRecommendation {
   circuitEfficiency: number;
   kineticsCompatibility: number;
   recommendedCookingMethod?: CookingMethod;
-  powerFlowDescription: string;
+  powerFlowDescription: string
 }
 
 /**
@@ -69,7 +69,7 @@ export function getCircuitBasedRecommendations()
   recipes: Recipe[],
   cookingMethods: CookingMethod[]
 ): RecipeCircuitRecommendation[] {
-  return recipes.map(recipe => {
+  return recipes.map(recipe => ) {
     const validation = validateRecipeCircuit(kinetics, recipe);
 
     // Calculate kinetics compatibility

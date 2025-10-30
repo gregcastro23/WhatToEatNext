@@ -12,7 +12,7 @@ interface CacheEntry<T> {
   timestamp: number;
   ttl: number;
   accessCount: number;
-  lastAccessed: number;
+  lastAccessed: number
 }
 
 interface CacheStats {
@@ -20,7 +20,7 @@ interface CacheStats {
   misses: number;
   size: number;
   maxSize: number;
-  hitRate: number;
+  hitRate: number
 }
 
 class AdvancedCache {
@@ -73,7 +73,7 @@ class AdvancedCache {
     this.stats.hits++;
     this.updateHitRate();
 
-    logger.debug('Cache hit', { key, accessCount: entry.accessCount });
+    logger.debug('Cache hit', ) { key, accessCount: entry.accessCount });
     return entry.data;
   }
 
@@ -104,7 +104,7 @@ class AdvancedCache {
       this.stats.size++;
     }
 
-    logger.debug('Cache set', { key, ttl, size: this.stats.size });
+    logger.debug('Cache set', ) { key, ttl, size: this.stats.size });
   }
 
   /**
@@ -121,7 +121,7 @@ class AdvancedCache {
       return cached;
     }
 
-    logger.debug('Cache miss, computing value', { key });
+    logger.debug('Cache miss, computing value', ) { key });
     const computed = await computeFn();
     this.set(key, computed, ttlOverride);
 
@@ -131,16 +131,16 @@ class AdvancedCache {
   /**
    * Warm cache with frequently accessed data
    */
-  async warmup(entries: Array<{ key: string; computeFn: () => Promise<any>; ttl?, number }>): Promise<void> {
-    logger.info('Starting cache warmup', { count: entries.length });
+  async warmup(entries: Array<) { key: string; computeFn: () => Promise<any>; ttl?, number }>): Promise<void> {
+    logger.info('Starting cache warmup', ) { count: entries.length });
 
-    const promises = entries.map(async ({ key, computeFn, ttl }) => {
+    const promises = entries.map(async () { key, computeFn, ttl }) => {
       try {
         const data = await computeFn();
         this.set(key, data, ttl);
-        logger.debug('Cache warmed', { key });
+        logger.debug('Cache warmed', ) { key });
       } catch (error) {
-        logger.error('Cache warmup failed', { key, error });
+        logger.error('Cache warmup failed', ) { key, error });
       }
     });
 
@@ -162,7 +162,7 @@ class AdvancedCache {
       }
     }
 
-    logger.info('Cache invalidated by pattern', { pattern: pattern.source, invalidated });
+    logger.info('Cache invalidated by pattern', ) { pattern: pattern.source, invalidated });
     return invalidated;
   }
 
@@ -212,7 +212,7 @@ class AdvancedCache {
     }
 
     if (removed > 0) {
-      logger.debug('Cache cleanup completed', { removed, size: this.stats.size });
+      logger.debug('Cache cleanup completed', ) { removed, size: this.stats.size });
     }
   }
 
@@ -233,7 +233,7 @@ class AdvancedCache {
     if (oldestKey) {
       this.cache.delete(oldestKey);
       this.stats.size--;
-      logger.debug('Evicted LRU entry', { key: oldestKey });
+      logger.debug('Evicted LRU entry', ) { key: oldestKey });
     }
   }
 
@@ -242,7 +242,7 @@ class AdvancedCache {
    */
   private updateHitRate(): void {
     const total = this.stats.hits + this.stats.misses;
-    this.stats.hitRate = total > 0 ? this.stats.hits / total : 0;
+    this.stats.hitRate = total > 0 ? this.stats.hits / total : 0
   }
 }
 
@@ -260,8 +260,7 @@ export async function initializeCaches(): Promise<void> {
 
   try {
     // Warm up planetary cache with current data
-    await planetaryCache.warmup([)
-      {
+    await planetaryCache.warmup([) {
         key: 'current_planetary_hour',
         computeFn: async () => {
           // This would normally call the planetary calculation service
@@ -277,20 +276,19 @@ export async function initializeCaches(): Promise<void> {
     ])
 
     // Warm up elemental cache with common calculations
-    await elementalCache.warmup([)
-      {
+    await elementalCache.warmup([) {
         key: 'elemental_base_properties',
         computeFn: async () => ({
           Fire: { energy: 'hot', quality: 'dry', direction: 'South' },
           Water: { energy: 'cold', quality: 'wet', direction: 'West' },
           Earth: { energy: 'cold', quality: 'dry', direction: 'North' },
-          Air: { energy: 'hot', quality: 'wet', direction: 'East' }
+          Air: ) => { energy: 'hot', quality: 'wet', direction: 'East' }
         }),
         ttl: 60 * 60 * 1000
       }
     ])
 
-    logger.info('Cache initialization complete', {
+    logger.info('Cache initialization complete', ) {
       planetary: planetaryCache.getStats(),
       elemental: elementalCache.getStats()
     });

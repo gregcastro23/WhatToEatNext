@@ -3,9 +3,9 @@ import type { Recipe, ElementalProperties } from '@/types/recipe';
 import {elementalUtils, _getCurrentElementalState} from '@/utils/elementalUtils';
 
 // Calculate elemental harmony between two sets of elemental properties
-const calculateElementalHarmony = (
+const calculateElementalHarmony = (;
   _recipeProperties: ElementalProperties,
-  _targetProperties: ElementalProperties,
+  _targetProperties: ElementalProperties;
 ): { elementalHarmony: number } => {
   // Simple implementation - can be replaced with the actual alchemical engine later
   return {
@@ -24,7 +24,7 @@ export const _recipeFilter = {
       maxPrepTime?: number;
       spiciness?: number;
       complexity?: number;
-      elementalState?: ElementalProperties;
+      elementalState?: ElementalProperties
     },
     sortOptions: { by: string, direction: 'asc' | 'desc' }): Promise<Recipe[]> {
     let filteredRecipes = [...recipes];
@@ -50,7 +50,7 @@ export const _recipeFilter = {
 
     // Apply meal type filter
     if (filters.mealType && filters.mealType.length > 0) {
-      filteredRecipes = filteredRecipes.filter(recipe => {
+      filteredRecipes = filteredRecipes.filter(recipe => ) {
         if (Array.isArray(recipe.mealType) {
           return recipe.mealType.some(type => filters.mealType?.includes(type));
         }
@@ -60,7 +60,7 @@ export const _recipeFilter = {
 
     // Apply dietary restrictions filter
     if (filters.dietaryRestrictions && filters.dietaryRestrictions.length > 0) {
-      filteredRecipes = filteredRecipes.filter(recipe => {
+      filteredRecipes = filteredRecipes.filter(recipe => ) {
         const recipeDietaryRestrictions = recipe.dietaryRestrictions;
         // Safe array access with type checking
         if (Array.isArray(recipeDietaryRestrictions) {
@@ -95,14 +95,14 @@ export const _recipeFilter = {
 
     // Apply elemental balance filter
     if (filters.elementalState) {
-      const recipesWithScores = await Promise.all(filteredRecipes.map(async recipe => {
-          const recipeElementalProps = recipe.elementalProperties || {
+      const recipesWithScores = await Promise.all(filteredRecipes.map(async recipe => {)
+          const recipeElementalProps = recipe.elementalProperties || ) {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25
           };
-          return {
+          return ) {
             ...recipe,
             matchScore: calculateElementalHarmony()
               recipeElementalProps,

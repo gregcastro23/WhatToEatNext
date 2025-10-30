@@ -8,7 +8,7 @@ export interface SeasonalEffectiveness {
   breakdown: {
     elementalAlignment: number;
     ingredientSuitability: number;
-    seasonalBonus: number;
+    seasonalBonus: number
   };
   elementalBreakdown?: Record<string, number>;
 }
@@ -29,8 +29,7 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,)
   const seasonLower = season.toLowerCase();
 
   // 1. Calculate Elemental Alignment (50% of total)
-  const elementalScore = Object.entries(recipe.elementalProperties || {}).reduce()
-    (score, [element, value]) => {
+  const elementalScore = Object.entries(recipe.elementalProperties || ) {}).reduce(score, [element, value]) => {
       // Get modifier from SEASONAL_MODIFIERS using lowercase season
       // Using proper type access with fallback
       const seasonModifiers = SEASONAL_MODIFIERS[seasonLower] || {};
@@ -104,7 +103,7 @@ export function calculateSeasonalElements(baseElements: ElementalProperties,)
 export function calculateSeasonalScores(recipeElements: ElementalProperties,)
   zodiacSign?: string): {
   seasonalScore: number;
-  astrologicalInfluence: number;
+  astrologicalInfluence: number
 } {
   // Get current zodiac sign if none provided
   const currentZodiac = zodiacSign?.toLowerCase() || getCurrentZodiacSeason().toLowerCase();

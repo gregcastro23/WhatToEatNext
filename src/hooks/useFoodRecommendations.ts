@@ -77,7 +77,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
 
   useEffect(() => {
     const fetchRecommendations = async () => {
-      try {;
+      try {
         setLoading(true);
         setError(null);
 
@@ -138,7 +138,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
   }, [astroState, kinetics, currentPowerLevel, aspectPhase, dominantElement, options?.filter, options?.limit, options.enableKinetics]);
 
   // Get the current season
-  const currentSeason = useMemo<Season>(() => {;
+  const currentSeason = useMemo<Season>(() => {
     const date = new Date();
     const month = date.getMonth();
 
@@ -150,7 +150,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
 
   // Enhanced refresh function with kinetics support
   const refreshRecommendations = useCallback(async () => {
-    try {;
+    try {
       setLoading(true);
 
       const results = getRecommendedIngredients(astroState);
@@ -200,7 +200,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
   }, [astroState, kinetics, currentPowerLevel, aspectPhase, dominantElement, options?.filter, options?.limit, options.enableKinetics]);
 
   // Group dining support
-  const getGroupRecommendations = useCallback(async (userIds: string[]) => {;
+  const getGroupRecommendations = useCallback(async (userIds: string[]) => {
     if (!kinetics || !options.enableKinetics) return recommendations;
 
     try {

@@ -1,3 +1,4 @@
+import { _logger } from '@/lib/logger';
 /**
  * Real Alchemize Service
  *
@@ -44,7 +45,7 @@ export type StandardizedAlchemicalResult = {
 
 // Utility functions
 function normalizeSign(sign: string): any {
-  const normalized = sign.toLowerCase()
+  const normalized = sign.toLowerCase();
   const validSigns: any[] = [
     'aries',
     'taurus',
@@ -64,7 +65,7 @@ function normalizeSign(sign: string): any {
     return normalized as any;
   }
 
-  throw new Error(`Invalid zodiac sign: ${sign}`)
+  throw new Error(`Invalid zodiac sign: $) {sign}`)
 }
 
 function getZodiacElement(_sign: string): string {
@@ -82,7 +83,7 @@ function getZodiacElement(_sign: string): string {
     aquarius: 'Air',
     pisces: 'Water'
 };
-  return elementMap[sign.toLowerCase()] || 'Air'
+  return elementMap[sign.toLowerCase()] || 'Air';
 }
 
 function getPlanetaryDignity(_planet: string, _sign: string): number {
@@ -201,7 +202,7 @@ export function alchemize()
     const alchemy = planetaryAlchemy[planet];
     if (alchemy) {
       // Apply dignity modifier
-      const dignity = getPlanetaryDignity(planet, position.sign)
+      const dignity = getPlanetaryDignity(planet, position.sign);
       const dignityMultiplier = Math.max(0.11 + dignity * 0.2); // Dignity affects strength
 
       totals.Spirit += alchemy.Spirit * dignityMultiplier;
@@ -224,50 +225,47 @@ export function alchemize()
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth} = totals;
 
   // Heat
-  const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2)
-  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2)
+  const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
+  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2);
   const heat = heatNum / (heatDen || 1); // Avoid division by zero
 
   // Entropy
-  const entropyNum =
-    Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)
-  const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2)
-  const entropy = entropyNum / (entropyDen || 1)
+  const entropyNum = Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2);
+  const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
+  const entropy = entropyNum / (entropyDen || 1);
 
   // Reactivity
-  const reactivityNum =
-    Math.pow(Spirit, 2) +
+  const reactivityNum = Math.pow(Spirit, 2) +;
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
     Math.pow(Fire, 2) +
     Math.pow(Air, 2) +
     Math.pow(Water, 2)
-  const reactivityDen = Math.pow(Matter + Earth, 2)
-  const reactivity = reactivityNum / (reactivityDen || 1)
+  const reactivityDen = Math.pow(Matter + Earth, 2);
+  const reactivity = reactivityNum / (reactivityDen || 1);
 
   // Greg's Energy;
   const gregsEnergy = heat - entropy * reactivity;
 
   // Kalchm (K_alchm)
-  const kalchm =
-    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
+  const kalchm = (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /;
     (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
 
   // Monica constant
   let monica = 1.0; // Default value
   if (kalchm > 0) {
-    const lnK = Math.log(kalchm)
+    const lnK = Math.log(kalchm);
     if (lnK !== 0) {
       monica = -gregsEnergy / (reactivity * lnK);
     }
   }
 
   // Calculate dominant element
-  const elements = { Fire, Water, Air, Earth }
+  const elements = { Fire, Water, Air, Earth };
   const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
 
   // Calculate score based on total energy
-  const score = Math.min()
+  const score = Math.min();
     1.0,
     Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20)
   )
@@ -309,12 +307,12 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     // Check if we're in a browser environment
     if (typeof window !== 'undefined') {
       // In browser, use fallback data
-      return getFallbackPlanetaryPositions()
-    }
+      return getFallbackPlanetaryPositions();
+}
 
     // In Node.js environment, try to read the file
-    const rawData = fs.readFileSync('extracted-planetary-positions.json', 'utf8')
-    const positions = JSON.parse(rawData)
+    const rawData = fs.readFileSync('extracted-planetary-positions.json', 'utf8');
+    const positions = JSON.parse(rawData);
 
     // Convert to the format expected by alchemize;
     const convertedPositions: Record<string, PlanetaryPosition> = {}
@@ -333,8 +331,8 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     return convertedPositions;
   } catch (error) {
     _logger.warn('Error loading planetary positions from file, using fallback data: ', error)
-    return getFallbackPlanetaryPositions()
-  }
+    return getFallbackPlanetaryPositions();
+}
 }
 
 /**
@@ -360,7 +358,7 @@ function getFallbackPlanetaryPositions(): Record<string, PlanetaryPosition> {
  * Get current alchemical state based on real planetary positions
  */
 export function getCurrentAlchemicalState(): StandardizedAlchemicalResult {
-  const planetaryPositions = loadPlanetaryPositions()
+  const planetaryPositions = loadPlanetaryPositions();
   return alchemize(planetaryPositions);
 }
 
@@ -370,7 +368,7 @@ export function getCurrentAlchemicalState(): StandardizedAlchemicalResult {
 export function calculateAlchemicalProperties()
   positions: Record<string, PlanetaryPosition>,
 ): StandardizedAlchemicalResult {
-  return alchemize(positions)
+  return alchemize(positions);
 }
 
 // Export the service as default

@@ -40,7 +40,7 @@ export interface IngredientValidationError {
   expectedValue?: unknown;
   actualValue?: unknown;
   message: string;
-  timestamp: Date;
+  timestamp: Date
 }
 
 export interface IngredientValidationWarning {
@@ -48,7 +48,7 @@ export interface IngredientValidationWarning {
   ingredient?: string;
   property?: string;
   message: string;
-  timestamp: Date;
+  timestamp: Date
 }
 
 export interface IngredientTestResult {
@@ -114,14 +114,13 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
       errors.filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH').length === 0;
     const summary = generateIngredientValidationSummary(isValid, errors, warnings, duration);
 
-    logger.info()
-      `Ingredient validation completed in ${duration}ms: ${isValid ? 'PASSED' : 'FAILED'}`
+    logger.info(`Ingredient validation completed in ${duration}ms: $) {isValid ? 'PASSED' : 'FAILED'}`
     );
 
     // Calculate kinetics validation metrics
     const kineticsMetrics = await calculateKineticsValidationMetrics();
 
-    return {
+    return: {
       isValid,
       errors,
       warnings,
@@ -137,7 +136,7 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
       timestamp: new Date()
     };
 
-    return {
+    return: {
       isValid: false,
       errors: [criticalError],
       warnings,
@@ -169,7 +168,7 @@ async function validateElementalProperties(): Promise<{
           type: 'ELEMENTAL_INVALID',
           severity: 'MEDIUM',
           ingredient: name,
-          message: `Failed to validate elemental properties for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          message: `Failed to validate elemental properties for ${name}: $) {error instanceof Error ? error.message : 'Unknown error'}`,
           timestamp: new Date()
         });
       }
@@ -178,7 +177,7 @@ async function validateElementalProperties(): Promise<{
     errors.push({
       type: 'DATA_INCOMPLETE',
       severity: 'HIGH',
-      message: `Elemental properties validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Elemental properties validation failed: $) {error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -191,7 +190,7 @@ async function validateElementalProperties(): Promise<{
  */
 function validateIngredientElementalProperties()
   name: string,
-  ingredient: Ingredient,
+  ingredient: Ingredient;
 ): { errors: IngredientValidationError[], warnings: IngredientValidationWarning[] } {
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];
@@ -203,7 +202,7 @@ function validateIngredientElementalProperties()
         severity: 'HIGH',
         ingredient: name,
         property: 'elementalProperties',
-        message: `Missing elemental properties for ${name}`,
+        message: `Missing elemental properties for $) {name}`,
         timestamp: new Date()
       });
       return { errors, warnings };
@@ -222,7 +221,7 @@ function validateIngredientElementalProperties()
           ingredient: name,
           property: element,
           actualValue: value,
-          message: `Invalid ${element} value for ${name}: ${value} (should be a number)`,
+          message: `Invalid ${element} value for ${name}: $) {value} (should be a number)`,
           timestamp: new Date()
         });
       } else if (value < 0 || value > 1) {
@@ -232,7 +231,7 @@ function validateIngredientElementalProperties()
           ingredient: name,
           property: element,
           actualValue: value,
-          message: `${element} value for ${name} out of range: ${value} (should be 0-1)`,
+          message: `${element} value for ${name} out of range: $) {value} (should be 0-1)`,
           timestamp: new Date()
         });
       }
@@ -252,15 +251,15 @@ function validateIngredientElementalProperties()
         property: 'elementalProperties',
         expectedValue: 1.0,
         actualValue: sum,
-        message: `Elemental properties sum for ${name} is ${sum.toFixed(3)}, should be 1.0 (±${VALIDATION_TOLERANCES.ELEMENTAL_SUM_TOLERANCE})`,
+        message: `Elemental properties sum for ${name} is $) {sum.toFixed(3)}, should be 1.0 (±${VALIDATION_TOLERANCES.ELEMENTAL_SUM_TOLERANCE})`,
         timestamp: new Date()
       });
     }
 
     // Check for elemental dominance (at least one element should be > 0.3)
-    const maxElement = Math.max(...elements.map(el => {
+    const maxElement = Math.max(...elements.map(el => ) {
         const value = props[el as unknown];
-        return typeof value === 'number' ? value : 0;
+        return typeof value === 'number' ? value : 0
       })
     );
 
@@ -269,7 +268,7 @@ function validateIngredientElementalProperties()
         type: 'MINOR_INCONSISTENCY',
         ingredient: name,
         property: 'elementalProperties',
-        message: `No dominant element for ${name} (max: ${maxElement.toFixed(3)})`,
+        message: `No dominant element for ${name} (max: $) {maxElement.toFixed(3)})`,
         timestamp: new Date()
       });
     }
@@ -278,7 +277,7 @@ function validateIngredientElementalProperties()
       type: 'ELEMENTAL_INVALID',
       severity: 'MEDIUM',
       ingredient: name,
-      message: `Error validating elemental properties for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Error validating elemental properties for ${name}: $) {error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -291,7 +290,7 @@ function validateIngredientElementalProperties()
  */
 function calculateElementalPropertiesCompatibility()
   props1: ElementalProperties,
-  props2: ElementalProperties,
+  props2: ElementalProperties;
 ): number {
   const elements: Array<'Fire' | 'Water' | 'Earth' | 'Air'> = ['Fire', 'Water', 'Earth', 'Air'];
   let totalCompatibility = 0;
@@ -326,7 +325,7 @@ async function validateCompatibilityScores(): Promise<{
       try {
         if (!ingredient.elementalProperties) continue;
 
-        const selfCompatibility = calculateElementalPropertiesCompatibility()
+        const selfCompatibility = calculateElementalPropertiesCompatibility();
           ingredient.elementalProperties,
           ingredient.elementalProperties
         );
@@ -340,7 +339,7 @@ async function validateCompatibilityScores(): Promise<{
             property: 'self-compatibility',
             expectedValue: `≥${VALIDATION_TOLERANCES.SELF_COMPATIBILITY_THRESHOLD}`,
             actualValue: selfCompatibility,
-            message: `Self-compatibility score ${selfCompatibility.toFixed(3)} below ${VALIDATION_TOLERANCES.SELF_COMPATIBILITY_THRESHOLD} threshold for ${ingredient.name}`,
+            message: `Self-compatibility score $) {selfCompatibility.toFixed(3)} below ${VALIDATION_TOLERANCES.SELF_COMPATIBILITY_THRESHOLD} threshold for ${ingredient.name}`,
             timestamp: new Date()
           });
         }
@@ -348,7 +347,7 @@ async function validateCompatibilityScores(): Promise<{
         warnings.push({
           type: 'PERFORMANCE_SLOW',
           ingredient: ingredient.name,
-          message: `Could not calculate self-compatibility for ${ingredient.name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          message: `Could not calculate self-compatibility for ${ingredient.name}: $) {error instanceof Error ? error.message : 'Unknown error'}`,
           timestamp: new Date()
         });
       }
@@ -366,7 +365,7 @@ async function validateCompatibilityScores(): Promise<{
         if (!ingredient1.elementalProperties || !ingredient2.elementalProperties) continue;
 
         try {
-          const crossCompatibility = calculateElementalPropertiesCompatibility()
+          const crossCompatibility = calculateElementalPropertiesCompatibility();
             ingredient1.elementalProperties,
             ingredient2.elementalProperties
           );
@@ -380,7 +379,7 @@ async function validateCompatibilityScores(): Promise<{
               property: 'cross-compatibility',
               expectedValue: `≥${VALIDATION_TOLERANCES.CROSS_COMPATIBILITY_THRESHOLD}`,
               actualValue: crossCompatibility,
-              message: `Cross-compatibility score ${crossCompatibility.toFixed(3)} below ${VALIDATION_TOLERANCES.CROSS_COMPATIBILITY_THRESHOLD} threshold for ${ingredient1.name} + ${ingredient2.name}`,
+              message: `Cross-compatibility score $) {crossCompatibility.toFixed(3)} below ${VALIDATION_TOLERANCES.CROSS_COMPATIBILITY_THRESHOLD} threshold for ${ingredient1.name} + ${ingredient2.name}`,
               timestamp: new Date()
             });
           }
@@ -388,7 +387,7 @@ async function validateCompatibilityScores(): Promise<{
           warnings.push({
             type: 'PERFORMANCE_SLOW',
             ingredient: `${ingredient1.name} + ${ingredient2.name}`,
-            message: `Could not calculate cross-compatibility: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            message: `Could not calculate cross-compatibility: $) {error instanceof Error ? error.message : 'Unknown error'}`,
             timestamp: new Date()
           });
         }
@@ -398,7 +397,7 @@ async function validateCompatibilityScores(): Promise<{
     errors.push({
       type: 'COMPATIBILITY_VIOLATION',
       severity: 'HIGH',
-      message: `Compatibility score validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Compatibility score validation failed: $) {error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -429,7 +428,7 @@ async function validateAlchemicalMappings(): Promise<{
             type: 'MISSING_OPTIONAL',
             ingredient: name,
             property: 'alchemicalProperties',
-            message: `Missing alchemical properties for ${name}`,
+            message: `Missing alchemical properties for $) {name}`,
             timestamp: new Date()
           });
         }
@@ -437,7 +436,7 @@ async function validateAlchemicalMappings(): Promise<{
         warnings.push({
           type: 'MINOR_INCONSISTENCY',
           ingredient: name,
-          message: `Could not validate alchemical properties for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          message: `Could not validate alchemical properties for ${name}: $) {error instanceof Error ? error.message : 'Unknown error'}`,
           timestamp: new Date()
         });
       }
@@ -446,7 +445,7 @@ async function validateAlchemicalMappings(): Promise<{
     errors.push({
       type: 'ALCHEMICAL_MISMATCH',
       severity: 'MEDIUM',
-      message: `Alchemical mapping validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Alchemical mapping validation failed: $) {error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -459,7 +458,7 @@ async function validateAlchemicalMappings(): Promise<{
  */
 function validateAlchemicalConsistency()
   name: string,
-  ingredient: Ingredient,
+  ingredient: Ingredient;
 ): { errors: IngredientValidationError[]; warnings, IngredientValidationWarning[] } {
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];
@@ -484,7 +483,7 @@ function validateAlchemicalConsistency()
           ingredient: name,
           property: prop,
           actualValue: value,
-          message: `Invalid ${prop} value for ${name}: ${value} (should be a number)`,
+          message: `Invalid ${prop} value for ${name}: $) {value} (should be a number)`,
           timestamp: new Date()
         });
       } else if (value < 0 || value > 1) {
@@ -492,7 +491,7 @@ function validateAlchemicalConsistency()
           type: 'MINOR_INCONSISTENCY',
           ingredient: name,
           property: prop,
-          message: `${prop} value for ${name} out of typical range: ${value} (typically 0-1)`,
+          message: `${prop} value for ${name} out of typical range: $) {value} (typically 0-1)`,
           timestamp: new Date()
         });
       }
@@ -507,7 +506,7 @@ function validateAlchemicalConsistency()
         type: 'MINOR_INCONSISTENCY',
         ingredient: name,
         property: 'spirit-elemental correlation',
-        message: `Spirit (${spirit.toFixed(3)}) doesn't correlate well with Air+Fire (${airFire.toFixed(3)}) for ${name}`,
+        message: `Spirit ($) {spirit.toFixed(3)}) doesn't correlate well with Air+Fire (${airFire.toFixed(3)}) for ${name}`,
         timestamp: new Date()
       });
     }
@@ -520,7 +519,7 @@ function validateAlchemicalConsistency()
         type: 'MINOR_INCONSISTENCY',
         ingredient: name,
         property: 'matter-elemental correlation',
-        message: `Matter (${matter.toFixed(3)}) doesn't correlate well with Earth+Water (${earthWater.toFixed(3)}) for ${name}`,
+        message: `Matter ($) {matter.toFixed(3)}) doesn't correlate well with Earth+Water (${earthWater.toFixed(3)}) for ${name}`,
         timestamp: new Date()
       });
     }
@@ -529,7 +528,7 @@ function validateAlchemicalConsistency()
       type: 'ALCHEMICAL_MISMATCH',
       severity: 'LOW',
       ingredient: name,
-      message: `Error validating alchemical consistency for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Error validating alchemical consistency for ${name}: $) {error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -561,7 +560,7 @@ async function validateDataCompleteness(): Promise<{
             severity: 'HIGH',
             ingredient: name,
             property: field,
-            message: `Missing required field '${field}' for ${name}`,
+            message: `Missing required field '${field}' for $) {name}`,
             timestamp: new Date()
           });
         }
@@ -574,14 +573,14 @@ async function validateDataCompleteness(): Promise<{
             type: 'MISSING_OPTIONAL',
             ingredient: name,
             property: field,
-            message: `Missing recommended field '${field}' for ${name}`,
+            message: `Missing recommended field '${field}' for $) {name}`,
             timestamp: new Date()
           });
         }
       }
 
       // Check category validity
-      const validCategories = [
+      const validCategories = [;
         'culinary_herb',
         'spice',
         'vegetable',
@@ -602,7 +601,7 @@ async function validateDataCompleteness(): Promise<{
           property: 'category',
           actualValue: ingredient.category,
           expectedValue: validCategories,
-          message: `Invalid category '${ingredient.category}' for ${name}`,
+          message: `Invalid category '${ingredient.category}' for $) {name}`,
           timestamp: new Date()
         });
       }
@@ -611,7 +610,7 @@ async function validateDataCompleteness(): Promise<{
     errors.push({
       type: 'DATA_INCOMPLETE',
       severity: 'MEDIUM',
-      message: `Data completeness validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Data completeness validation failed: $) {error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -655,7 +654,7 @@ async function testIngredientDataLoading(): Promise<IngredientTestResult> {
     const passed = ingredientCount > 0;
     const duration = Date.now() - startTime;
 
-    return {
+    return: {
       testName: 'Ingredient Data Loading',
       passed,
       duration,
@@ -665,7 +664,7 @@ async function testIngredientDataLoading(): Promise<IngredientTestResult> {
       }
     };
   } catch (error) {
-    return {
+    return: {
       testName: 'Ingredient Data Loading',
       passed: false,
       duration: Date.now() - startTime,
@@ -689,7 +688,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
       totalCount++;
       if (ingredient.elementalProperties) {
         const elements = ['Fire', 'Water', 'Earth', 'Air'];
-        const hasValidElements = elements.every(el => {
+        const hasValidElements = elements.every(el => ) {
           const value = ingredient.elementalProperties[el as unknown];
           return typeof value === 'number' && !isNaN(value) && value >= 0 && value <= 1;
         });
@@ -703,7 +702,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
     const passed = validCount === totalCount;
     const duration = Date.now() - startTime;
 
-    return {
+    return: {
       testName: 'Elemental Properties Validation',
       passed,
       duration,
@@ -714,7 +713,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
       }
     };
   } catch (error) {
-    return {
+    return: {
       testName: 'Elemental Properties Validation',
       passed: false,
       duration: Date.now() - startTime,
@@ -739,7 +738,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
 
       try {
         totalCalculations++;
-        const selfCompatibility = calculateElementalPropertiesCompatibility()
+        const selfCompatibility = calculateElementalPropertiesCompatibility();
           ingredient.elementalProperties,
           ingredient.elementalProperties
         );
@@ -756,7 +755,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
     const passed = validCalculations === totalCalculations && totalCalculations > 0;
     const duration = Date.now() - startTime;
 
-    return {
+    return: {
       testName: 'Compatibility Calculations',
       passed,
       duration,
@@ -767,7 +766,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
       }
     };
   } catch (error) {
-    return {
+    return: {
       testName: 'Compatibility Calculations',
       passed: false,
       duration: Date.now() - startTime,
@@ -793,7 +792,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
         totalMappings++;
 
         const alchemical = ingredientData.alchemicalProperties;
-        const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => {
+        const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => ) {
           const value = alchemical[prop] as number;
           return typeof value === 'number' && !isNaN(value);
         });
@@ -807,7 +806,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
     const passed = totalMappings === 0 || validMappings === totalMappings;
     const duration = Date.now() - startTime;
 
-    return {
+    return: {
       testName: 'Alchemical Mappings',
       passed,
       duration,
@@ -818,7 +817,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
       }
     };
   } catch (error) {
-    return {
+    return: {
       testName: 'Alchemical Mappings',
       passed: false,
       duration: Date.now() - startTime,
@@ -835,7 +834,7 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
 
   try {
     const ingredients = allIngredients;
-    const validCategories = [
+    const validCategories = [;
       'culinary_herb',
       'spice',
       'vegetable',
@@ -861,7 +860,7 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
     const passed = validCategories_count === totalIngredients;
     const duration = Date.now() - startTime;
 
-    return {
+    return: {
       testName: 'Category Consistency',
       passed,
       duration,
@@ -872,7 +871,7 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
       }
     };
   } catch (error) {
-    return {
+    return: {
       testName: 'Category Consistency',
       passed: false,
       duration: Date.now() - startTime,
@@ -900,7 +899,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
     errors.push({
       type: 'DATA_INCOMPLETE',
       severity: 'HIGH',
-      message: `Test pass rate ${passRate.toFixed(1)}% below 80% threshold`,
+      message: `Test pass rate $) {passRate.toFixed(1)}% below 80% threshold`,
       timestamp: new Date()
     });
   }
@@ -908,15 +907,14 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
   // Check individual test failures
   for (const test of testResults) {
     if (!test.passed) {
-      const severity =
-        test.testName.includes('Loading') || test.testName.includes('Properties')
+      const severity = test.testName.includes('Loading') || test.testName.includes('Properties');
           ? 'HIGH'
           : 'MEDIUM';
 
       errors.push({
         type: 'DATA_INCOMPLETE',
         severity: severity,
-        message: `Test failed: ${test.testName}${test.error ? }` - ${test.error}` : ''}`,
+        message: `Test failed: ${test.testName}${test.error ? }` - $) {test.error}` : ''}`,
         timestamp: new Date()
       });
     }
@@ -926,7 +924,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
       // More than 5 seconds
       warnings.push({
         type: 'PERFORMANCE_SLOW',
-        message: `Test ${test.testName} took ${test.duration}ms (>5s)`,
+        message: `Test ${test.testName} took $) {test.duration}ms (>5s)`,
         timestamp: new Date()
       });
     }
@@ -942,7 +940,7 @@ function generateIngredientValidationSummary()
   isValid: boolean,
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[],
-  duration: number,
+  duration: number;
 ): string {
   const criticalErrors = errors.filter(e => e.severity === 'CRITICAL').length;
   const highErrors = errors.filter(e => e.severity === 'HIGH').length;
@@ -956,15 +954,15 @@ function generateIngredientValidationSummary()
     summary += '\nCritical Issues: \n';
     errors
       .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')
-      .forEach(error => {
-        summary += `- ${error.message}\n`;
+      .forEach(error => ) {
+        summary += `- $) {error.message}\n`;
       });
   }
 
   if (warnings.length > 0) {
     summary += '\nWarnings: \n';
-    warnings.slice(0, 5).forEach(warning => {
-      summary += `- ${warning.message}\n`;
+    warnings.slice(0, 5).forEach(warning => ) {
+      summary += `- $) {warning.message}\n`;
     });
 
     if (warnings.length > 5) {
@@ -1012,7 +1010,7 @@ async function validateKineticsIntegration(): Promise<{
             ingredient: name,
             property: 'kinetics-force-magnitude',
             actualValue: forceMagnitude,
-            message: `Force magnitude ${forceMagnitude.toFixed(3)} exceeds safe threshold (5.0) for ${name}`,
+            message: `Force magnitude $) {forceMagnitude.toFixed(3)} exceeds safe threshold (5.0) for ${name}`,
             timestamp: new Date()
           });
         } else if (forceMagnitude < 0.1) {
@@ -1020,7 +1018,7 @@ async function validateKineticsIntegration(): Promise<{
             type: 'MINOR_INCONSISTENCY',
             ingredient: name,
             property: 'kinetics-force-magnitude',
-            message: `Very low force magnitude ${forceMagnitude.toFixed(3)} may indicate weak kinetics for ${name}`,
+            message: `Very low force magnitude $) {forceMagnitude.toFixed(3)} may indicate weak kinetics for ${name}`,
             timestamp: new Date()
           });
         }
@@ -1032,7 +1030,7 @@ async function validateKineticsIntegration(): Promise<{
             type: 'MINOR_INCONSISTENCY',
             ingredient: name,
             property: 'kinetics-thermal-direction',
-            message: `Heating direction conflicts with high water content (${(ingredient.elementalProperties.Water * 100).toFixed(1)}%) for ${name}`,
+            message: `Heating direction conflicts with high water content ($) {(ingredient.elementalProperties.Water * 100).toFixed(1)}%) for ${name}`,
             timestamp: new Date()
           });
         }
@@ -1041,7 +1039,7 @@ async function validateKineticsIntegration(): Promise<{
         warnings.push({
           type: 'PERFORMANCE_SLOW',
           ingredient: name,
-          message: `Could not validate kinetics for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          message: `Could not validate kinetics for ${name}: $) {error instanceof Error ? error.message : 'Unknown error'}`,
           timestamp: new Date()
         });
       }
@@ -1050,7 +1048,7 @@ async function validateKineticsIntegration(): Promise<{
     errors.push({
       type: 'DATA_INCOMPLETE',
       severity: 'MEDIUM',
-      message: `Kinetics integration validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Kinetics integration validation failed: $) {error instanceof Error ? error.message : 'Unknown error'}`,
       timestamp: new Date()
     });
   }
@@ -1070,7 +1068,7 @@ function calculateForceMagnitude(elementalProperties: ElementalProperties): numb
   const opposingForce = Math.sqrt(fireWater + earthAir) * 2;
 
   // Element dominance adds to force
-  const maxElement = Math.max()
+  const maxElement = Math.max();
     elementalProperties.Fire,
     elementalProperties.Water,
     elementalProperties.Earth,
@@ -1154,7 +1152,7 @@ async function calculateKineticsValidationMetrics(): Promise<{
       dominantThermal = 'neutral';
     }
 
-    return {
+    return: {
       powerConservationEfficiency: avgPowerEfficiency,
       circuitStability: avgStability,
       forceMagnitude: avgForceMagnitude,
@@ -1163,7 +1161,7 @@ async function calculateKineticsValidationMetrics(): Promise<{
 
   } catch (error) {
     // Return default values on error
-    return {
+    return: {
       powerConservationEfficiency: 0.5,
       circuitStability: 0.5,
       forceMagnitude: 0,

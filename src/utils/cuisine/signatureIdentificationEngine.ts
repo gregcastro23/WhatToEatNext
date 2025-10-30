@@ -36,7 +36,7 @@ export function calculateZScore()
 ): number {
   if (globalStdDev === 0) {
     // If no variation in global data, any deviation is significant
-    return value !== globalMean ? (value > globalMean ? 2.0 : -2.0) : 0;
+    return value !== globalMean ? (value > globalMean ? 2.0 : -2.0) : 0
   }
 
   return (value - globalMean) / globalStdDev;
@@ -104,7 +104,7 @@ export interface GlobalBaseline {
 
   // Metadata
   cuisineCount: number; // Number of cuisines used to calculate baseline
-  lastUpdated: Date;
+  lastUpdated: Date
 }
 
 /**
@@ -177,7 +177,7 @@ export function identifyElementalSignatures()
   const signatures: CuisineSignature[] = [];
   const elements = Object.keys(cuisineElementals) as (keyof ElementalProperties)[];
 
-  elements.forEach(element => {
+  elements.forEach(element => ) {
     const value = cuisineElementals[element];
     const globalMean = globalBaseline.elementals[element];
     const globalStdDev = globalBaseline.elementalStdDevs[element];
@@ -220,7 +220,7 @@ export function identifyAlchemicalSignatures()
   const signatures: CuisineSignature[] = [];
   const properties = Object.keys(cuisineAlchemical) as (keyof AlchemicalProperties)[];
 
-  properties.forEach(property => {
+  properties.forEach(property => ) {
     const value = cuisineAlchemical[property];
     const globalMean = globalBaseline.alchemical[property];
     const globalStdDev = globalBaseline.alchemicalStdDevs[property];
@@ -268,7 +268,7 @@ export function identifyThermodynamicSignatures()
   const signatures: CuisineSignature[] = [];
   const properties = Object.keys(cuisineThermodynamics) as (keyof ThermodynamicProperties)[];
 
-  properties.forEach(property => {
+  properties.forEach(property => ) {
     const value = cuisineThermodynamics[property];
     const globalMean = globalBaseline.thermodynamics[property];
     const globalStdDev = globalBaseline.thermodynamicStdDevs[property];
@@ -307,15 +307,15 @@ function generateElementalSignatureDescription()
   strength: string
 ): string {
   const direction = zScore > 0 ? 'high' : 'low';
-  const strengthText = strength === 'very_high' ? 'exceptionally' :
+  const strengthText = strength === 'very_high' ? 'exceptionally' :;
                       strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat';
 
   const elementDescriptions = {
     Fire: 'cooking techniques and spicy ingredients',
     Water: 'sauces, moisture, and hydrating ingredients',
     Earth: 'hearty, grounding, and substantial ingredients',
-    Air: 'light, aromatic, and fresh ingredients',
-  };
+    Air: 'light, aromatic, and fresh ingredients';
+};
 
   return `${strengthText} ${direction} emphasis on ${elementDescriptions[element]} compared to other cuisines`;
 }
@@ -329,7 +329,7 @@ function generateAlchemicalSignatureDescription()
   strength: string
 ): string {
   const direction = zScore > 0 ? 'high' : 'low';
-  const strengthText = strength === 'very_high' ? 'exceptionally' :
+  const strengthText = strength === 'very_high' ? 'exceptionally' :;
                       strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat';
 
   const propertyDescriptions = {
@@ -351,7 +351,7 @@ function generateThermodynamicSignatureDescription()
   strength: string
 ): string {
   const direction = zScore > 0 ? 'high' : 'low';
-  const strengthText = strength === 'very_high' ? 'exceptionally' :
+  const strengthText = strength === 'very_high' ? 'exceptionally' :;
                       strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat';
 
   const propertyDescriptions = {
@@ -397,7 +397,7 @@ export function identifyCuisineSignatures()
   const allSignatures: CuisineSignature[] = [];
 
   // Identify elemental signatures
-  const elementalSignatures = identifyElementalSignatures()
+  const elementalSignatures = identifyElementalSignatures();
     cuisineProperties.averageElementals,
     globalBaseline,
     threshold
@@ -406,7 +406,7 @@ export function identifyCuisineSignatures()
 
   // Identify alchemical signatures
   if (cuisineProperties.averageAlchemical) {
-    const alchemicalSignatures = identifyAlchemicalSignatures()
+    const alchemicalSignatures = identifyAlchemicalSignatures();
       cuisineProperties.averageAlchemical,
       globalBaseline,
       threshold
@@ -416,7 +416,7 @@ export function identifyCuisineSignatures()
 
   // Identify thermodynamic signatures
   if (cuisineProperties.averageThermodynamics) {
-    const thermodynamicSignatures = identifyThermodynamicSignatures()
+    const thermodynamicSignatures = identifyThermodynamicSignatures();
       cuisineProperties.averageThermodynamics,
       globalBaseline,
       threshold
@@ -426,8 +426,8 @@ export function identifyCuisineSignatures()
 
   // Add confidence scores if requested
   if (includeConfidence) {
-    allSignatures.forEach(signature => {
-      const confidence = calculateSignatureConfidence()
+    allSignatures.forEach(signature => ) {
+      const confidence = calculateSignatureConfidence();
         signature.zscore,
         sampleSize,
         globalBaseline.cuisineCount
@@ -469,14 +469,14 @@ export function getSignatureSummary(signatures: CuisineSignature[]): {
   total: number;
   byStrength: Record<string, number>;
   byPropertyType: Record<string, number>;
-  averageZScore: number;
+  averageZScore: number
 } {
   const byStrength: Record<string, number> = { low: 0, moderate: 0, high: 0, very_high: 0 };
   const byPropertyType: Record<string, number> = { elemental: 0, alchemical: 0, thermodynamic: 0 };
 
   let totalZScore = 0;
 
-  signatures.forEach(sig => {
+  signatures.forEach(sig => ) {
     byStrength[sig.strength]++;
 
     // Classify property type

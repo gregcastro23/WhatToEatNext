@@ -21,7 +21,7 @@ const logger = createLogger('AlchemicalEngine');
 interface Decan {
   ruler: RulingPlanet;
   element: keyof ElementalProperties;
-  degree: number;
+  degree: number
 }
 
 // Interface for horoscope data
@@ -30,9 +30,9 @@ interface HoroscopeData {
     CelestialBodies: Record<string, unknown>;
     Ascendant: Record<string, unknown>;
     Aspects: Record<string, unknown>;
-    [key: string]: unknown;
+    [key: string]: unknown
   },
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Use StandardizedAlchemicalResult
@@ -58,7 +58,7 @@ function safeGetElementValue(props: Partial<ElementalProperties> | null | undefi
 
     return Math.max(0, Math.min(1, value));
   } catch (error) {
-    logger.error('Error in safeGetElementValue:', {
+    logger.error('Error in safeGetElementValue:', ) {
       element,
       error: error instanceof Error ? error.message : String(error)
 });
@@ -175,8 +175,8 @@ export class AlchemicalEngineAdvanced {
       { ruler: 'Neptune', element: 'Water', degree: 0 },
       { ruler: 'Moon', element: 'Water', degree: 10 },
       { ruler: 'Pluto', element: 'Water', degree: 20 },
-    ],
-  };
+    ];
+};
 
   /**
    * Calculate the astrological match between a recipe and the current astrological state
@@ -187,8 +187,7 @@ export class AlchemicalEngineAdvanced {
     cuisine?: string): AlchemicalCalculationResult {
     try {
       // Get dominant element
-      const dominantElement = Object.entries(recipeElements || DEFAULT_ELEMENTAL_PROPERTIES).sort()
-        ([, a], [, b]) => b - a,
+      const dominantElement = Object.entries(recipeElements || DEFAULT_ELEMENTAL_PROPERTIES).sort([, a], [, b]) => b - a,;
       )[0][0];
 
       // Validate season
@@ -200,14 +199,14 @@ export class AlchemicalEngineAdvanced {
       };
 
       // Calculate astronomical score
-      const astronomicalScore = astrologicalState?.activePlanets
+      const astronomicalScore = astrologicalState?.activePlanets;
         ? astrologicalState.activePlanets.filter()
             p => isRulingPlanet(p) && PLANETARY_MODIFIERS[p] > 0,
           ).length * 10
         : 0;
 
       // Cuisine compatibility score
-      const cuisineScore = cuisine
+      const cuisineScore = cuisine;
         ? this.getCuisineCompatibility(cuisine, astrologicalState, season)
         : 0;
 
@@ -231,7 +230,7 @@ export class AlchemicalEngineAdvanced {
         season: validSeason
 };
     } catch (error) {
-      logger.error('Error in calculateAstroCuisineMatch:', { error: error instanceof Error ? error.message , String(error)
+      logger.error('Error in calculateAstroCuisineMatch:', ) { error: error instanceof Error ? error.message , String(error)
 });
       return {
         result: {
@@ -261,7 +260,7 @@ export class AlchemicalEngineAdvanced {
       normalizedSeason === 'winter' ||
       normalizedSeason === 'fall'
     ) {
-      return normalizedSeason === 'fall' ? 'autumn' : normalizedSeason;
+      return normalizedSeason === 'fall' ? 'autumn' : normalizedSeason
     }
     return 'winter';
   }
@@ -311,10 +310,10 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
         name: 'Alchemical Chart',
         description: 'Generated alchemical chart',
         attributes: []
-},
-    };
+};
+};
   } catch (error) {
-    logger.error('Error in alchemize:', { error: error instanceof Error ? error.message , String(error)
+    logger.error('Error in alchemize:', ) { error: error instanceof Error ? error.message , String(error)
 });
     throw error;
   }
@@ -358,7 +357,7 @@ export function safeAlchemize(birthInfo: BirthInfo,)
   try {
     return alchemize(birthInfo, horoscopeDict);
   } catch (error) {
-    logger.error('Safe alchemize failed:', { error: error instanceof Error ? error.message , String(error)
+    logger.error('Safe alchemize failed:', ) { error: error instanceof Error ? error.message , String(error)
 });
     // Return default result
     return {
@@ -376,8 +375,8 @@ export function safeAlchemize(birthInfo: BirthInfo,)
         name: 'Default Chart',
         description: 'Fallback alchemical chart',
         attributes: []
-},
-    };
+};
+};
   }
 }
 

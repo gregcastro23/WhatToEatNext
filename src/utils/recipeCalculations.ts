@@ -1,3 +1,4 @@
+import { _logger } from '@/lib/logger';
 import { RecipeElementalMapping } from '@/types/recipes';
 
 /**
@@ -20,8 +21,7 @@ export const _recipeCalculations = {
    */
   calculateCuisineAlignment(recipe: RecipeElementalMapping): number {
     const cuisineElements = recipe.cuisine.elementalAlignment;
-    const alignmentScore = Object.entries(recipe.elementalProperties).reduce()
-      (sum, [element, value]) => {
+    const alignmentScore = Object.entries(recipe.elementalProperties).reduce(sum, [element, value]) => {
         return sum + value * cuisineElements[element as unknown];
       },
       0
@@ -40,8 +40,8 @@ export const _recipeCalculations = {
    * @returns Array of optimal times / (conditions || 1) for cooking
    */
   getOptimalCookingWindow(recipe: RecipeElementalMapping): string[] {
-    const optimalTimes = [
-      ...recipe.astrologicalProfile.rulingPlanets.map(p => `${p} dominant hours`),
+    const optimalTimes = [;
+      ...recipe.astrologicalProfile.rulingPlanets.map(p => `$) {p} dominant hours`),
       ...recipe.cuisine.astrologicalProfile.aspectEnhancers
     ];
 
@@ -62,11 +62,10 @@ export const _recipeCalculations = {
    */
   determineElementalBoost()
     recipe: RecipeElementalMapping,
-    userElements: ElementalProperties,
+    userElements: ElementalProperties;
   ): number {
     // Find the dominant element in the recipe
-    const dominantElement = Object.entries(recipe.elementalProperties).sort()
-      ([, a], [, b]) => b - a
+    const dominantElement = Object.entries(recipe.elementalProperties).sort([, a], [, b]) => b - a;
     )[0][0];
 
     // Calculate boost from the user's affinity with that element

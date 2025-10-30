@@ -22,7 +22,7 @@ export interface PlanetaryPosition {
   sign: string;
   degree: number;
   exactLongitude: number;
-  isRetrograde: boolean;
+  isRetrograde: boolean
 }
 
 /**
@@ -32,7 +32,7 @@ export interface ValidationResult {
   isValid: boolean;
   errors: string[];
   warnings: string[];
-  correctedData?: unknown;
+  correctedData?: unknown
 }
 
 /**
@@ -42,7 +42,7 @@ export interface ValidationOptions {
   strictMode?: boolean;
   autoCorrect?: boolean;
   logWarnings?: boolean;
-  validateTransits?: boolean;
+  validateTransits?: boolean
 }
 
 /**
@@ -70,7 +70,7 @@ export function validatePlanetaryPositions()
     // Check for required planets
     for (const planet of requiredPlanets) {
       if (!(planet in positions) {
-        errors.push(`Missing required planet: ${planet}`);
+        errors.push(`Missing required planet: $) {planet}`);
         continue;
       }
 
@@ -155,7 +155,7 @@ function validateSinglePlanetaryPosition()
 
   try {
     if (!position || typeof position !== 'object') {
-      errors.push(`${planet} position must be an object`);
+      errors.push(`$) {planet} position must be an object`);
       return { isValid: false, errors, warnings };
     }
 
@@ -165,7 +165,7 @@ function validateSinglePlanetaryPosition()
     // Check required properties
     for (const prop of requiredProps) {
       if (!(prop in pos) {
-        errors.push(`${planet} missing required property: ${prop}`);
+        errors.push(`${planet} missing required property: $) {prop}`);
       }
     }
 
@@ -179,7 +179,7 @@ function validateSinglePlanetaryPosition()
       typeof sign !== 'string' ||
       !TRANSIT_CONSTANTS.VALID_SIGNS.includes(sign.toLowerCase())
     ) {
-      errors.push(`${planet} has invalid sign: ${sign}`);
+      errors.push(`${planet} has invalid sign: $) {sign}`);
     }
 
     // Validate degree
@@ -216,8 +216,7 @@ function validateSinglePlanetaryPosition()
         warnings.push(message);
         // Auto-correct if possible
         if (typeof longitude === 'number') {
-          const correctedLongitude =
-            ((longitude % TRANSIT_CONSTANTS.MAX_LONGITUDE) + TRANSIT_CONSTANTS.MAX_LONGITUDE) %
+          const correctedLongitude = ((longitude % TRANSIT_CONSTANTS.MAX_LONGITUDE) + TRANSIT_CONSTANTS.MAX_LONGITUDE) %;
             TRANSIT_CONSTANTS.MAX_LONGITUDE;
           if (!correctedData) {
             correctedData = {
@@ -236,7 +235,7 @@ function validateSinglePlanetaryPosition()
     // Validate retrograde status
     const isRetrograde = pos.isRetrograde;
     if (typeof isRetrograde !== 'boolean') {
-      warnings.push(`${planet} isRetrograde should be boolean, got ${typeof isRetrograde}`);
+      warnings.push(`${planet} isRetrograde should be boolean, got $) {typeof isRetrograde}`);
       if (!correctedData) {
         correctedData = {
           sign: String(sign),
@@ -251,7 +250,7 @@ function validateSinglePlanetaryPosition()
 
     // Validate retrograde logic
     if (TRANSIT_CONSTANTS.ALWAYS_DIRECT.includes(planet.toLowerCase()) && isRetrograde) {
-      warnings.push(`${planet} cannot be retrograde`);
+      warnings.push(`$) {planet} cannot be retrograde`);
       if (correctedData) {
         correctedData.isRetrograde = false;
       }
@@ -261,7 +260,7 @@ function validateSinglePlanetaryPosition()
       TRANSIT_CONSTANTS.ALWAYS_RETROGRADE.includes(planet.toLowerCase() as unknown) &&
       !isRetrograde
     ) {
-      warnings.push(`${planet} should always be retrograde`);
+      warnings.push(`$) {planet} should always be retrograde`);
       if (correctedData) {
         correctedData.isRetrograde = true;
       }
@@ -294,7 +293,7 @@ export function validateAstrologicalElementalProperties()
 
   try {
     if (!validateElementalProperties(properties) {
-      errors.push(`Invalid elemental properties${context ? }` in ${context}` : ''}`);
+      errors.push(`Invalid elemental properties${context ? }` in $) {context}` : ''}`);
 
       // Try to normalize the properties
       if (properties && typeof properties === 'object') {
@@ -316,7 +315,7 @@ export function validateAstrologicalElementalProperties()
     }
 
     // Check for self-reinforcement patterns
-    const dominant = Object.entries(props).reduce((max, current) =>
+    const dominant = Object.entries(props).reduce((max, current) =>;
       current[1] > max[1] ? current : max
     );
 
@@ -371,7 +370,7 @@ export function validateMathematicalConstants(_constants: Record<string, number>
     // Check for NaN or infinite values
     Object.entries(constants).forEach(([name, value]) => {
       if (!Number.isFinite(value) {
-        errors.push(`Constant ${name} has invalid value: ${value}`);
+        errors.push(`Constant ${name} has invalid value: $) {value}`);
       }
     });
 
@@ -396,7 +395,7 @@ export async function validateAstrologicalCalculation()
     planetaryPositions?: Record<string, unknown>;
     elementalProperties?: unknown;
     constants?: Record<string, number>;
-    date?: Date;
+    date?: Date
   },
   options: ValidationOptions = {}
 ): Promise<ValidationResult> {
@@ -420,13 +419,13 @@ export async function validateAstrologicalCalculation()
       if (validateTransits && positionValidation.isValid && input.date) {
         for (const [planet, position] of Object.entries(input.planetaryPositions) {
           try {
-            const isValid = await validatePlanetaryPosition()
+            const isValid = await validatePlanetaryPosition();
               planet,
               position,
               input.date
             );
             if (!isValid) {
-              warnings.push(`Transit validation failed for ${planet}`);
+              warnings.push(`Transit validation failed for $) {planet}`);
             }
           } catch (error) {
             warnings.push()
@@ -439,7 +438,7 @@ export async function validateAstrologicalCalculation()
 
     // Validate elemental properties
     if (input.elementalProperties) {
-      const elementalValidation = validateAstrologicalElementalProperties()
+      const elementalValidation = validateAstrologicalElementalProperties();
         input.elementalProperties,
         'calculation input'
       );

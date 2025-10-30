@@ -44,7 +44,7 @@ export interface StandardizedNutritionalProfile {
     polyunsaturated_fat_g?: number;
     omega_3_g?: number;
     omega_6_g?: number;
-    cholesterol?: number;
+    cholesterol?: number
   };
 
   // Detailed vitamin/mineral data with amounts
@@ -53,7 +53,7 @@ export interface StandardizedNutritionalProfile {
     {
       amount: number;
       unit: string;
-      dailyValue?: number;
+      dailyValue?: number
     }
   >;
 
@@ -62,7 +62,7 @@ export interface StandardizedNutritionalProfile {
     {
       amount: number;
       unit: string;
-      dailyValue?: number;
+      dailyValue?: number
     }
   >;
 
@@ -75,7 +75,7 @@ export interface StandardizedNutritionalProfile {
   source?: string;
   fdcId?: number;
   verified?: boolean;
-  lastUpdated?: Date;
+  lastUpdated?: Date
 }
 
 // Standardized culinary applications structure
@@ -185,7 +185,7 @@ export interface StandardizedCulinaryApplications {
       preparation: string;
       pairings?: string[];
       cultural_notes?: string;
-      medicinal_use?: string;
+      medicinal_use?: string
     }
   >;
 
@@ -196,7 +196,7 @@ export interface StandardizedCulinaryApplications {
         notes: string[];
         techniques?: string[];
         dishes?: string[];
-        [key: string]: unknown;
+        [key: string]: unknown
       }
     | undefined;
 }
@@ -237,7 +237,7 @@ export interface StandardizedAstrologicalProfile {
         heat?: number;
         entropy?: number;
         reactivity?: number;
-        energy?: number;
+        energy?: number
       };
     };
   };
@@ -250,25 +250,25 @@ export interface StandardizedStorage {
     humidity?: string;
     duration: string;
     notes?: string;
-    container?: string;
+    container?: string
   };
   frozen?: {
     preparation?: string;
     duration: string;
     uses?: string;
-    qualityNotes?: string;
+    qualityNotes?: string
   };
   dried?: {
     method?: string[];
     duration: string;
     storage?: string;
-    rehydration?: string;
+    rehydration?: string
   };
   pickled?: {
     method?: string;
     duration: string;
     storage?: string;
-    notes?: string;
+    notes?: string
   };
   container?: string;
   environment?: string;
@@ -285,7 +285,7 @@ export interface StandardizedHealthProperties {
   dosage?: {
     culinary?: string;
     therapeutic?: string;
-    maximum?: string;
+    maximum?: string
   };
   activeCompounds?: string[];
   researchStatus?: 'traditional' | 'preliminary' | 'established' | 'clinical';
@@ -295,7 +295,7 @@ export interface StandardizedHealthProperties {
 export interface OilSpecificProperties {
   smokePoint?: {
     celsius: number;
-    _fahrenheit: number;
+    _fahrenheit: number
   };
   extractionMethod?: string;
   refinementLevel?: 'crude' | 'refined' | 'extra-virgin' | 'cold-pressed';
@@ -305,7 +305,7 @@ export interface OilSpecificProperties {
     _polyunsaturated: number;
     _omega3: number;
     _omega6: number;
-    _omega9: number;
+    _omega9: number
   };
   stability?: {
     heat: 'low' | 'medium' | 'high';
@@ -340,7 +340,7 @@ export interface FruitSpecificProperties {
     _ethylene_producer: boolean;
     _ethylene_sensitive: boolean;
     optimal_temperature?: string;
-    duration?: string;
+    duration?: string
   };
   peak_season?: {
     _start: string;
@@ -419,7 +419,7 @@ export interface StandardizedIngredient {
   };
 
   // Flexible extension for future properties
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Type guards for safe data access
@@ -467,7 +467,7 @@ export function safeGetMinerals(profile?: StandardizedNutritionalProfile): strin
 }
 
 export function safeGetVitaminValues()
-  profile?: StandardizedNutritionalProfile,
+  profile?: StandardizedNutritionalProfile;
 ): Record<string, number> {
   if (!profile?.vitamins) return {};
 
@@ -477,8 +477,7 @@ export function safeGetVitaminValues()
 
   if (isVitaminArray(profile.vitamins) {
     // Convert array to object with default values
-    return profile.vitamins.reduce()
-      (acc, vitamin) => {
+    return profile.vitamins.reduce(acc, vitamin) => {
         acc[vitamin] = 1; // Default presence indicator
         return acc;
       },
@@ -490,7 +489,7 @@ export function safeGetVitaminValues()
 }
 
 export function safeGetMineralValues()
-  profile?: StandardizedNutritionalProfile,
+  profile?: StandardizedNutritionalProfile;
 ): Record<string, number> {
   if (!profile?.minerals) return {};
 
@@ -500,8 +499,7 @@ export function safeGetMineralValues()
 
   if (isMineralArray(profile.minerals) {
     // Convert array to object with default values
-    return profile.minerals.reduce()
-      (acc, mineral) => {
+    return profile.minerals.reduce(acc, mineral) => {
         acc[mineral] = 1; // Default presence indicator
         return acc;
       },
@@ -611,8 +609,8 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
     storage: ingredient.storage ? 90 : 0,
     missingFields,
     strengths,
-    recommendations: generateRecommendations(missingFields, overallScore),
-  };
+    recommendations: generateRecommendations(missingFields, overallScore);
+};
 }
 
 function generateRecommendations(missingFields: string[], score: number): string[] {

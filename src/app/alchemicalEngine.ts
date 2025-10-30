@@ -39,17 +39,17 @@ const alchemicalEngine = { alchemize: (birthInfo, BirthInfo, horoscopeDict: Horo
           Aspects: tropical?.Aspects || (horoscopeDict as any).Aspects || {}
         }
       }
-      return alchemize(birthInfo, extendedHoroscope)
-    } catch (error) {
+      return alchemize(birthInfo, extendedHoroscope);
+} catch (error) {
       _logger.error('Error in alchemize: ', error)
 
       // Special handling for 'Assignment to constant variable' error
-      if (error instanceof TypeError && error.message.includes('Assignment to constant') {
+      if (error instanceof TypeError && error.message.includes('Assignment to constant')) {
         _logger.error('Assignment to constant variable detected!')
         _logger.error('Error stack: ', error.stack)
 
         // Try to extract the variable name from the error message
-        const match = error.message.match(/Assignment to constant variable: (.+)/)
+        const match = error.message.match(/Assignment to constant variable: (.+)/);
         if (match?.[1]) {
           _logger.error(`Attempted to reassign constant variable: ${match[1]}`)
         }
@@ -87,10 +87,10 @@ const alchemicalEngine = { alchemize: (birthInfo, BirthInfo, horoscopeDict: Horo
   calculateCurrentPlanetaryPositions: async (): Promise<Record<string, unknown>> => {
     try {
       // Import and call the function from the source module
-      const { calculateCurrentPlanetaryPositions } = await import()
+      const { calculateCurrentPlanetaryPositions } = await import(
         '@/calculations/alchemicalEngine'
       )
-      return calculateCurrentPlanetaryPositions()
+      return calculateCurrentPlanetaryPositions();
     } catch (error) {
       _logger.error('Error calculating planetary positions: ', error)
       // Return a safe fallback
@@ -104,7 +104,7 @@ const alchemicalEngine = { alchemize: (birthInfo, BirthInfo, horoscopeDict: Horo
   calculateZodiacEnergies: (positions: Record<string, unknown>): Record<string, number> => {
     try {
       // Use ESM import binding
-      return _calculateZodiacEnergies(positions)
+      return _calculateZodiacEnergies(positions);
     } catch (error) {
       _logger.error('Error calculating zodiac energies: ', error)
       // Return a safe fallback with equal distribution
@@ -207,7 +207,7 @@ const alchemicalEngine = { alchemize: (birthInfo, BirthInfo, horoscopeDict: Horo
 };
 
 // Create and export the alchemical engine instance
-export const _alchemicalEngineInstance = new AlchemicalEngineBase()
+export const _alchemicalEngineInstance = new AlchemicalEngineBase();
 
 // Export the alchemicalEngine object as well
 export { alchemicalEngine };

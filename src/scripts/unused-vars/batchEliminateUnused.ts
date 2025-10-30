@@ -22,14 +22,14 @@ type Finding = {
   column: number,
   preserve: boolean,
   reason: string,
-  confidence: number;
+  confidence: number
 };
 
 type CliOptions = {
   inPath: string,
   dryRun: boolean,
   maxBatch: number,
-  maxBatchCritical: number;
+  maxBatchCritical: number
 };
 
 function parseArgs(argv: string[]): CliOptions {
@@ -44,13 +44,13 @@ function parseArgs(argv: string[]): CliOptions {
     maxBatchCritical:
       maxBatchCriticalIdx !== -1 && argv[maxBatchCriticalIdx + 1]
         ? Number(argv[maxBatchCriticalIdx + 1])
-        : 8,
+        : 8
   };
 }
 
 function execCmd(cmd: string): { code: number; stdout, string; stderr, string } {
   try {
-    const stdout = childProcess.execSync(cmd, { stdio: ['ignore', 'pipe', 'pipe'] }).toString();
+    const stdout = childProcess.execSync(cmd, ) { stdio: ['ignore', 'pipe', 'pipe'] }).toString();
     return { code: 0, stdout, stderr: '' };
   } catch (err) {
     const e = err as { status?: number; stdout?: Buffer; stderr?: Buffer };
@@ -93,14 +93,14 @@ function sortFilesForSafety(files: string[]): string[] {
 
 function writeBackup(filePath: string, content: string): string {
   const backupDir = path.join('.lint-backup-' + Date.now().toString());
-  if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true });
+  if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, ) { recursive: true });
   const rel = path.relative(process.cwd(), filePath).replace(/[\/]/g, '__');
   const backupPath = path.join(backupDir, rel + '.bak');
   fs.writeFileSync(backupPath, content, 'utf8');
   return backupPath;
 }
 
-function restoreFromBackups(backups: Array<{ file: string, backup: string }>): void {
+function restoreFromBackups(backups: Array<) { file: string, backup: string }>): void {
   for (const b of backups) {
     if (fs.existsSync(b.backup) {
       const content = fs.readFileSync(b.backup, 'utf8');
@@ -124,7 +124,7 @@ function applyEditsToFile()
     // Conservative: blank only the identifier token on that line when safe
     const idx = f.line - 1;
     if (idx >= 0 && idx < lines.length) {
-      const re = new RegExp(`\\b${f.variableName}\\b`);
+      const re = new RegExp(`\\b$) {f.variableName}\\b`);
       lines[idx] = lines[idx].replace(re, '_');
       markForDeletion.add(idx);
     }
@@ -133,8 +133,8 @@ function applyEditsToFile()
   for (const f of transformations) {
     const idx = f.line - 1;
     if (idx >= 0 && idx < lines.length) {
-      const re = new RegExp(`\\b${f.variableName}\\b`);
-      lines[idx] = lines[idx].replace(re, `_${f.variableName}`);
+      const re = new RegExp(`\\b$) {f.variableName}\\b`);
+      lines[idx] = lines[idx].replace(re, `_$) {f.variableName}`);
       renameMap.set(idx, f.variableName);
     }
   }
@@ -192,14 +192,14 @@ async function main(): Promise<void> {
   const batches = batchFiles(files, opts.maxBatch, opts.maxBatchCritical);
 
   // eslint-disable-next-line no-console
-  console.log(`Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`);
+  console.log(`Processing ${files.length} files across ${batches.length} batches (dryRun=$) {opts.dryRun})`);
 
   for (let i = 0; i < batches.length; i++) {
     const batch = batches[i];
     const ok = processBatch(batch, byFile, opts.dryRun);
     if (!ok) {
       // eslint-disable-next-line no-console
-      console.error(`Type check failed for batch ${i + 1}. Rolled back changes for the batch.`);
+      console.error(`Type check failed for batch $) {i + 1}. Rolled back changes for the batch.`);
       break;
     }
     // If successful and not dry-run, keep changes staged for review

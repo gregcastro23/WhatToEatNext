@@ -13,7 +13,7 @@ interface IngredientRecommenderProps {
 }
 
 // Category definitions
-const CATEGORIES = [
+const CATEGORIES = [;
   { id: 'spices', name: 'Spices & Herbs', icon: '🌿' },
   { id: 'vegetables', name: 'Vegetables', icon: '🥬' },
   { id: 'proteins', name: 'Proteins', icon: '🥩' },
@@ -79,10 +79,10 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
     }> = [];
 
     recommendations.recommendations.forEach((rec, index) => {
-      rec.recipe.tags.forEach(tag => {
+      rec.recipe.tags.forEach(tag => ) {
         if (!ingredients.find(i => i.name === tag) {
           ingredients.push({
-            id: `ing-${index}-${tag}`,
+            id: `ing-${index}-$) {tag}`,
             name: tag.charAt(0).toUpperCase() + tag.slice(1),
             category: selectedCategory || 'general',
             description: `${tag} ingredient aligned with current energies`,
@@ -98,10 +98,10 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
 
   // Filter ingredients
   const filteredIngredients = useMemo(() => {
-    return mockIngredients.filter(item => {
-      const matchesSearch = !searchQuery ||
+    return mockIngredients.filter(item => ) {
+      const matchesSearch = !searchQuery ||;
         item.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = !selectedCategory ||
+      const matchesCategory = !selectedCategory ||;
         item.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
@@ -189,7 +189,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
                 key={idx}
                 className="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-600"
               >
-                {tag}
+                ) => {tag}
               </span>
             ))}
           </div>

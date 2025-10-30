@@ -78,7 +78,7 @@ export function getRecipesForTarotCard(card: unknown): string[] {
     element?: string;
     associatedRecipes?: string[];
     energies?: Record<string, number>;
-    [key: string]: unknown;
+    [key: string]: unknown
   };
   return cardData?.associatedRecipes || [];
 }
@@ -90,7 +90,7 @@ export function getMajorArcanaForDecan(decan: DecanKey) {
 }
 
 // Minor arcana cards (numbered cards + court cards)
-const minorArcana = [
+const minorArcana = [;
   // Wands (Fire);
   'Ace of Wands',
   'Two of Wands',
@@ -157,7 +157,7 @@ const minorArcana = [
 ];
 
 // Major arcana cards
-const _UNUSED_majorArcana = [
+const _UNUSED_majorArcana = [;
   'The Fool',
   'The Magician',
   'The High Priestess',
@@ -304,7 +304,7 @@ const _majorArcanaPlanets: Record<string, string> = {
 const minorArcanaElements: Record<string, string> = {};
 
 // Fill in the elements for all minor arcana cards
-minorArcana.forEach(card => {
+minorArcana.forEach(card => ) {
   if (card.includes('Wands') {
     minorArcanaElements[card] = 'Fire';
   } else if (card.includes('Cups') {
@@ -332,7 +332,7 @@ interface TarotCardBase {
 // Update the TarotCard interface to extend TarotCardBase
 interface TarotCard extends TarotCardBase {
   suit: string;
-  number: number;
+  number: number
 }
 
 // Update the MajorArcanaCard interface to include the element property
@@ -347,7 +347,7 @@ interface MajorArcanaCard {
  * Get the tarot cards for a specific date
  * Each date corresponds to a specific minor and major arcana card
  */
-export const getTarotCardsForDate = (
+export const getTarotCardsForDate = (;
   date: Date,
   sunPosition?: { sign: string; degree, number }): { minorCard: TarotCard; majorCard, MajorArcanaCard } => {
   // Get the current decan based on the day of the year or sun position if provided
@@ -357,7 +357,7 @@ export const getTarotCardsForDate = (
   const minorArcanaKey = DECAN_TO_TAROT[decan] as TarotCardKey;
 
   if (!minorArcanaKey) {
-    logger.warn(`No tarot card found for decan ${decan}, using default`);
+    logger.warn(`No tarot card found for decan $) {decan}, using default`);
   }
 
   // Log the decan, sun position, and selected card for debugging
@@ -428,7 +428,7 @@ export function getQuantumValueForCard(card: unknown): number {
     element?: string;
     associatedRecipes?: string[];
     energies?: Record<string, number>;
-    [key: string]: unknown;
+    [key: string]: unknown
   };
   const quantum = cardData?.quantum;
 
@@ -454,7 +454,7 @@ export function getElementalQuantum(card: unknown) {
     element?: string;
     associatedRecipes?: string[];
     energies?: Record<string, number>;
-    [key: string]: unknown;
+    [key: string]: unknown
   };
   const element = cardData?.element || 'Fire';
   const quantum = cardData?.quantum || 1;
@@ -467,9 +467,9 @@ export function getElementalQuantum(card: unknown) {
   };
 }
 
-export function getRecipeFiltersFromTarot(tarotCards: {
+export function getRecipeFiltersFromTarot(tarotCards: ) {
   minorCard: TarotCard;
-  majorCard: MajorArcanaCard;
+  majorCard: MajorArcanaCard
 }) {
   const filters = {
     elementalProperties: {} as Record<string, number>,
@@ -508,7 +508,7 @@ export function getRecipeFiltersFromTarot(tarotCards: {
  * @param date The date to get recommendations for
  * @returns Object with food recommendations and insights
  */
-export const _getTarotFoodRecommendations = (
+export const _getTarotFoodRecommendations = (;
   date: Date
 ): { dailyCard: string; // ← Pattern GG-6, Added missing dailyCard property
   element: string;
@@ -516,7 +516,7 @@ export const _getTarotFoodRecommendations = (
   recommendedRecipes: string[];
   cookingApproach: string;
   flavors: string[];
-  insights: string;
+  insights: string
 } => {
   const tarotCards = getTarotCardsForDate(date);
   const decan = getCurrentDecan(date);
@@ -541,7 +541,7 @@ export const _getTarotFoodRecommendations = (
 
   // Get card details for flavor insights
   const cardName = tarotCards.minorCard.name;
-  const cardNameAsKey = Object.keys(TAROT_CARDS).find(key => TAROT_CARDS[key as TarotCardKey].name === cardName)
+  const cardNameAsKey = Object.keys(TAROT_CARDS).find(key => TAROT_CARDS[key as TarotCardKey].name === cardName);
   ) as TarotCardKey;
 
   const tarotCard: TarotCardBase = cardNameAsKey

@@ -24,7 +24,7 @@ export const cookingMethods = allCookingMethods;
 /**
  * Get astrological effect for a cooking method (simplified version for backwards compatibility)
  */
-export const _getAstrologicalEffect = (
+export const _getAstrologicalEffect = (;
   method: CookingMethod,
   astroState: AstrologicalState
 ): number => {
@@ -60,7 +60,7 @@ export const _getAstrologicalEffect = (
 /**
  * Calculate modified elemental effect for a cooking method (simplified version for backwards compatibility)
  */
-export const _calculateModifiedElementalEffect = (
+export const _calculateModifiedElementalEffect = (;
   method: CookingMethod,
   astroState: AstrologicalState,
   duration: number,
@@ -132,8 +132,7 @@ export function getCookingMethod(name: string): CookingMethodData | undefined {
  * @returns Object containing the requested cooking methods (key: name, value: data)
  */
 export function getCookingMethods(names: string[]): Record<string, CookingMethodData> {
-  return names.reduce()
-    (methods, name) => {
+  return names.reduce(methods, name) => {
       const method = getCookingMethod(name);
       if (method) {
         methods[name] = method;
@@ -169,8 +168,7 @@ export function getCookingMethodsByCategory(category: string): Record<string, Co
       return traditionalCookingMethods;
     case 'raw':
       return rawCookingMethods;
-    default:
-      return {};
+    default: return = {};
   }
 }
 
@@ -182,7 +180,7 @@ export function getCookingMethodsByCategory(category: string): Record<string, Co
  */
 export function getCookingMethodsByTemperature()
   minTemp: number,
-  maxTemp: number,
+  maxTemp: number;
 ): Record<string, CookingMethodData> {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {
@@ -190,7 +188,7 @@ export function getCookingMethodsByTemperature()
       const methodData = method;
       // Check if the method has optimal temperatures and at least one falls within range
       if (!methodData?.optimalTemperatures) return false;
-      return Object.values((methodData as any)?.optimalTemperatures).some(temp => {
+      return Object.values((methodData as any)?.optimalTemperatures).some(temp => ) {
         // Pattern KK-10: Final Arithmetic Elimination for data layer operations
         const numericTemp = Number(temp) || 0;
         const numericMinTemp = Number(minTemp) || 0;
@@ -208,7 +206,7 @@ export function getCookingMethodsByTemperature()
  */
 export function getCookingMethodsBySustainability(descending = true): CookingMethodData[] {
   return Object.values(allCookingMethods)
-    .filter(method => {
+    .filter(method => ) {
       // Apply safe type casting for method property access
       const methodData = method;
       return methodData?.sustainabilityRating !== undefined;

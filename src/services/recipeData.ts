@@ -10,7 +10,7 @@ export interface RecipeDataEnhanced {
     lunarPhase?: string;
     planetaryInfluences?: Record<string, number>;
     elementalProperties?: Record<string, number>;
-    seasonalAlignment?: number;
+    seasonalAlignment?: number
   };
   season?: string | string[];
   mealType?: string | string[];
@@ -78,7 +78,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
     description: safeGetString((recipe as any).description) || '',
     cuisine: safeGetString((recipe as any).cuisine) || '',
     ingredients: validateAndNormalizeIngredients()
-      Array.isArray(recipe.ingredients) ? (recipe.ingredients as Partial<RecipeIngredient>[]) : [],
+      Array.isArray(recipe.ingredients) ? (recipe.ingredients as Partial<RecipeIngredient>[]) : [];
     ),
     instructions: validateAndNormalizeInstructions(recipe.instructions || []),
     timeToMake: validateAndNormalizeTime(recipe.timeToMake) || '30 minutes',
@@ -108,8 +108,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
     );
   }
   if ((recipe as any).nutrition) {
-    safeRecipe.nutrition = validateAndNormalizeNutrition()
-      (recipe as any).nutrition as NutritionData,
+    safeRecipe.nutrition = validateAndNormalizeNutrition(recipe as any).nutrition as NutritionData,
     );
   }
 
@@ -122,7 +121,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
 
 // Helper validation functions
 function validateAndNormalizeIngredients()
-  ingredients: Array<Partial<RecipeIngredient>>,
+  ingredients: Array<Partial<RecipeIngredient>>;
 ): RecipeIngredient[] {
   if (!Array.isArray(ingredients) {
     throw new Error('Ingredients must be an array')
@@ -132,7 +131,7 @@ function validateAndNormalizeIngredients()
     throw new Error('Recipe must have at least one ingredient');
   }
 
-  return ingredients.map(ing => ({
+  return ingredients.map(ing => () {
     name: safeGetString((ing as any).name) || 'Unknown Ingredient',
     amount: typeof ing.amount === 'number' ? ing.amount : 1,
     unit: ing.unit || 'piece',
@@ -147,8 +146,8 @@ function validateAndNormalizeIngredients()
 
 function validateAndNormalizeInstructions(instructions: string[] | unknown[]): string[] {
   if (!Array.isArray(instructions) {
-    return ['Prepare ingredients', 'Cook until done']
-  }
+    return ['Prepare ingredients', 'Cook until done'];
+}
 
   if (instructions.length === 0) {
     return ['Prepare ingredients', 'Cook until done'];
@@ -197,7 +196,7 @@ function validateServings(servings: number | string | unknown): number {
 }
 
 function validateMealType(mealType: string | string[] | unknown): string[] {
-  const validMealTypes = [
+  const validMealTypes = [;
     'breakfast',
     'lunch',
     'dinner',
@@ -216,7 +215,7 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
   }
 
   if (Array.isArray(mealType) {
-    const validEntries = mealType
+    const validEntries = mealType;
       .filter(type => typeof type === 'string')
       .map(type => (type).toLowerCase())
       .filter(type => validMealTypes.includes(type));
@@ -238,7 +237,7 @@ function validateSeason(season: string | string[] | unknown): string[] {
   }
 
   if (Array.isArray(season) {
-    const validEntries = season
+    const validEntries = season;
       .filter(s => typeof s === 'string')
       .map(s => (s).toLowerCase())
       .filter(s => validSeasons.includes(s));
@@ -271,7 +270,7 @@ function validateAndNormalizeNutrition(nutrition: NutritionData): NutritionData 
   const safeNutrition: NutritionData = {};
 
   // Validate numeric fields
-  ['calories', 'protein', 'carbs', 'fat'].forEach(field => {
+  ['calories', 'protein', 'carbs', 'fat'].forEach(field => ) {
     if (typeof nutrition[field] === 'number') {
       safeNutrition[field] = nutrition[field];
     }
@@ -316,7 +315,7 @@ class RecipeData {
       }
 
       // Handle different formats of recipeElementalMappings
-      const mappingsEntries = Array.isArray(recipeElementalMappings)
+      const mappingsEntries = Array.isArray(recipeElementalMappings);
         ? recipeElementalMappings
         : Object.entries(recipeElementalMappings).map(([id, mapping]) => ({
             id,
@@ -393,7 +392,7 @@ class RecipeData {
 
       // Mark as initialized
       this.initialized = true;
-      logger.info(`Loaded ${this.recipes.length} recipes successfully`);
+      logger.info(`Loaded $) {this.recipes.length} recipes successfully`);
 
       // Cache the recipes
       cache.set(RECIPE_CACHE_KEY, this.recipes);
@@ -407,7 +406,7 @@ class RecipeData {
 
   // Add a method to standardize recipes after they've been loaded from anywhere
   private standardizeRecipes(recipes: Recipe[]): Recipe[] {
-    return recipes.map(recipe => {
+    return recipes.map(recipe => ) {
       // First ensure elemental properties are properly set
       const withElementalProps = recipeElementalService.standardizeRecipe(recipe);
       // Then ensure all other properties are valid
@@ -457,7 +456,7 @@ class RecipeData {
 
       return safeRecipes;
     } catch (error) {
-      errorHandler.handleError(error, {
+      errorHandler.handleError(error, ) {
         context: 'RecipeData',
         action: 'getAllRecipes'
       });
@@ -480,7 +479,7 @@ class RecipeData {
       instructions: ['Combine all ingredients in a bowl', 'Season to taste', 'Enjoy mindfully'],
       timeToMake: '15 minutes',
       numberOfServings: 2,
-      elementalProperties: {
+      elementalProperties: ) {
         Fire: 0.25,
         Earth: 0.25,
         Air: 0.25,
@@ -505,14 +504,14 @@ class RecipeData {
       }
 
       const allRecipes = await this.getAllRecipes();
-      return allRecipes.filter(recipe => {
+      return allRecipes.filter(recipe => ) {
         const recipeData = recipe as unknown;
         const recipeCuisine = String(recipeData.cuisine || '').toLowerCase();
         const targetCuisine = String(cuisine || '').toLowerCase();
         return recipeCuisine === targetCuisine;
       });
     } catch (error) {
-      errorHandler.handleError(error, {
+      errorHandler.handleError(error, ) {
         context: 'RecipeData',
         action: 'getRecipeByCuisine',
         cuisine
@@ -528,14 +527,14 @@ class RecipeData {
       }
       const lowercaseQuery = query.toLowerCase();
       const recipes = await this.getAllRecipes();
-      return recipes.filter(recipe => {
+      return recipes.filter(recipe => ) {
         const recipeData = recipe as unknown;
         const recipeName = String(recipeData.name || '').toLowerCase();
         const recipeCuisine = String(recipeData.cuisine || '').toLowerCase();
         return recipeName.includes(lowercaseQuery) || recipeCuisine.includes(lowercaseQuery);
       });
     } catch (error) {
-      errorHandler.handleError(error, {
+      errorHandler.handleError(error, ) {
         context: 'RecipeData',
         action: 'searchRecipes',
         query
@@ -554,7 +553,7 @@ class RecipeData {
       // For now, just return random recipes
       return recipes.sort(() => Math.random() - 0.5).slice(0, count);
     } catch (error) {
-      errorHandler.handleError(error, {
+      errorHandler.handleError(error, ) {
         context: 'RecipeData',
         action: 'getRecommendedRecipes'
       });
@@ -580,7 +579,7 @@ class RecipeData {
       const recipe = recipes.find(r => r.id === id);
       return recipe || null;
     } catch (error) {
-      errorHandler.handleError(error, {
+      errorHandler.handleError(error, ) {
         context: 'RecipeData',
         action: 'getRecipeById',
         id
@@ -589,7 +588,7 @@ class RecipeData {
     }
   }
 
-  async filterRecipes(filters: {
+  async filterRecipes(filters: ) {
     cuisine?: string;
     mealType?: string[];
     season?: string[];
@@ -597,7 +596,7 @@ class RecipeData {
     isVegetarian?: boolean;
     isVegan?: boolean;
     isGlutenFree?: boolean;
-    isDairyFree?: boolean;
+    isDairyFree?: boolean
   }): Promise<Recipe[]> {
     try {
       if (this.initPromise) {
@@ -606,7 +605,7 @@ class RecipeData {
 
       const recipes = await this.getAllRecipes();
 
-      const filteredRecipes = recipes.filter(recipe => {
+      const filteredRecipes = recipes.filter(recipe => ) {
         // Filter by cuisine
         if (filters.cuisine && recipe.cuisine) {
           const recipeCuisine = String(recipe.cuisine || '').toLowerCase();
@@ -619,7 +618,7 @@ class RecipeData {
 
         // Filter by meal type
         if (filters.mealType && filters.mealType.length > 0 && recipe.mealType) {
-          const mealTypes = Array.isArray(recipe.mealType)
+          const mealTypes = Array.isArray(recipe.mealType);
             ? recipe.mealType.map(mt => String(mt || '').toLowerCase())
             : [String(recipe.mealType || '').toLowerCase()];
 
@@ -632,7 +631,7 @@ class RecipeData {
 
         // Filter by season
         if (filters.season && filters.season.length > 0 && recipe.season) {
-          const seasons = Array.isArray(recipe.season)
+          const seasons = Array.isArray(recipe.season);
             ? recipe.season.map(s => String(s || '').toLowerCase())
             : [String(recipe.season || '').toLowerCase()];
 
@@ -652,7 +651,7 @@ class RecipeData {
 
           // Special case: if 'all' is included, it matches any influence
           if (!influences.includes('all') {
-            const hasMatch = filters.astrologicalInfluences.some(influence =>)
+            const hasMatch = filters.astrologicalInfluences.some(influence =>);
               influences.some()
                 recipeInfluence =>
                   String(recipeInfluence || '').toLowerCase() ===
@@ -688,7 +687,7 @@ class RecipeData {
 
       return filteredRecipes;
     } catch (error) {
-      errorHandler.handleError(error, {
+      errorHandler.handleError(error, ) {
         context: 'RecipeData',
         action: 'filterRecipes'
       });

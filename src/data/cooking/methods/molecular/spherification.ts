@@ -20,7 +20,7 @@ export const spherification: CookingMethodData = {
     min: 1,
     max: 10
 },
-  suitable_for [
+  suitable_for: [
     'fruit juices',
     'purees',
     'liqueurs',
@@ -48,9 +48,9 @@ export const spherification: CookingMethodData = {
     unfavorableZodiac: ['taurus', 'virgo', 'capricorn'] as any[],
     dominantPlanets: ['Neptune', 'Uranus', 'Mercury'],
     lunarPhaseEffect: {
-      full_moon: 1.4, // Enhanced spherification,
-      new_moon: 0.7, // Difficult to form spheres,
-      waxing_gibbous: 1.2, // Good membrane formation,
+      full_moon: 1.4, // Enhanced spherification
+      new_moon: 0.7, // Difficult to form spheres
+      waxing_gibbous: 1.2, // Good membrane formation
       waning_crescent: 0.8, // Unstable membranes
     }
   },
@@ -105,12 +105,12 @@ export const spherification: CookingMethodData = {
     color_pigments: 0.85
 },
   optimalTemperatures: {
-    alginate_hydration: 70, // 70°F/21°C - room temperature,
-    alginate_solution: 40, // 40°F/4°C - refrigerated for removing air bubbles,
-    calcium_bath: 39, // 39°F/4°C - cold for best spherification,
-    setting_bath: 39, // 39°F/4°C - cold inhibits continued gelation,
-    service_cold: 39, // 39°F/4°C - for cold presentations,
-    service_room: 68, // 68°F/20°C - for immediate consumption,
+    alginate_hydration: 70, // 70°F/21°C - room temperature
+    alginate_solution: 40, // 40°F/4°C - refrigerated for removing air bubbles
+    calcium_bath: 39, // 39°F/4°C - cold for best spherification
+    setting_bath: 39, // 39°F/4°C - cold inhibits continued gelation
+    service_cold: 39, // 39°F/4°C - for cold presentations
+    service_room: 68, // 68°F/20°C - for immediate consumption
     working_environment: 68, // 68°F/20°C - ideal room temperature
   },
   regionalVariations: {
@@ -139,13 +139,13 @@ export const spherification: CookingMethodData = {
     middle_eastern: ['aromatic tea spheres', 'rosewater pearls', 'tahini-based applications']
   },
   chemicalChanges: {
-    ionic_gelation: true, // Cross-linking of alginate polymers with calcium ions,
-    membrane_formation: true, // Development of semi-permeable membrane,
-    osmotic_pressure: true, // Liquid exchange across membrane,
-    selective_permeability: true, // Controlled diffusion of molecules,
-    polymer_chain_reorganization: true, // Structural changes in alginate,
-    diffusion_limitation: true, // Limited ion movement after initial shell formation,
-    sol_gel_transition: true, // Change from liquid solution to semi-solid state,
+    ionic_gelation: true, // Cross-linking of alginate polymers with calcium ions
+    membrane_formation: true, // Development of semi-permeable membrane
+    osmotic_pressure: true, // Liquid exchange across membrane
+    selective_permeability: true, // Controlled diffusion of molecules
+    polymer_chain_reorganization: true, // Structural changes in alginate
+    diffusion_limitation: true, // Limited ion movement after initial shell formation
+    sol_gel_transition: true, // Change from liquid solution to semi-solid state
     hydrocolloid_hydration: true, // Water binding to polysaccharide chains
   },
   safetyFeatures: [
@@ -159,10 +159,10 @@ export const spherification: CookingMethodData = {
     'Avoid cross-contamination between calcium and alginate solutions'
   ],
   thermodynamicProperties: {
-    heat: 0.15, // Minimal heat involvement,
-    entropy: 0.4, // Moderate structural transformation,
-    reactivity: 0.65, // High chemical reactivity (ionic gelation),
-    gregsEnergy: -0.15, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
+    heat: 0.15, // Minimal heat involvement
+    entropy: 0.4, // Moderate structural transformation
+    reactivity: 0.65, // High chemical reactivity (ionic gelation)
+    gregsEnergy: -0.15, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata
@@ -194,9 +194,9 @@ export const spherification: CookingMethodData = {
     'Color-changing spheres (using pH-sensitive natural colors)'
   ],
 
-  sustainabilityRating: 0.4, // Chemicals and precise measurements create waste,
+  sustainabilityRating: 0.4, // Chemicals and precise measurements create waste
 
-  equipmentComplexity: 0.85, // Requires specialized ingredients and precise measurements,
+  equipmentComplexity: 0.85, // Requires specialized ingredients and precise measurements
 
   healthConsiderations: [
     'Uses approved food additives in small quantities (sodium alginate is derived from seaweed)',
@@ -289,6 +289,6 @@ export const spherification: CookingMethodData = {
     proteins_and_calcium: 'Some proteins compete with alginate for calcium binding, may require increased calcium concentration.',
     salts_and_gelation: 'High salt content slows gelation process, may require longer bath times.',
     sugar_and_alginate: 'High sugar concentration competes with alginate hydration, may need adjustment of percentages.',
-    natural_calcium_content: 'Ingredients like dairy naturally high in calcium will begin to gel immediately with alginate, use reverse method.',
-  }
+    natural_calcium_content: 'Ingredients like dairy naturally high in calcium will begin to gel immediately with alginate, use reverse method.';
+}
 }

@@ -76,7 +76,7 @@ export const elementalFunctions = {
       }
     }
 
-    return count > 0 ? affinity / count : 0;
+    return count > 0 ? affinity / count : 0
   },
 
   /**
@@ -107,7 +107,7 @@ export const elementalFunctions = {
    * Suggest complementary elements
    */
   _suggestComplementaryElements: (props: ElementalProperties): Element[] => {
-    const dominant = elementalFunctions.getDominantElement(props)
+    const dominant = elementalFunctions.getDominantElement(props);
     return Object.keys(elementalInteractions).filter()
       element => elementalInteractions[element as Element][dominant] > 0.5 && !(element in props)
     ) as Element[];

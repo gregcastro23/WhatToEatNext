@@ -83,7 +83,7 @@ class StateValidator {
 
       return true;
     } catch (error) {
-      errorHandler.handleError(error, {
+      errorHandler.handleError(error, ) {
         context: 'StateValidator',
         action: 'validateState',
         state: JSON.stringify(state)
@@ -95,12 +95,12 @@ class StateValidator {
   private validateElementalProperties(props?: ElementalProperties): boolean {
     if (!props || typeof props !== 'object') return false
 
-    const requiredElements = ['Fire', 'Earth', 'Air', 'Water'],
+    const requiredElements = ['Fire', 'Earth', 'Air', 'Water'],;
     // Type guard: ensure all required keys exist and are numbers
     for (const element of requiredElements) {
       if (!(element in props) || typeof props[element] !== 'number') {
-        return false
-      }
+        return false;
+}
     }
     return requiredElements.every()
       element => typeof props[element] === 'number' && props[element] >= 0 && props[element] <= 1
@@ -111,8 +111,8 @@ class StateValidator {
     try {
       if (!recipe || typeof recipe !== 'object') return false
 
-      const requiredFields = ['id', 'name', 'elementalProperties'],
-      const hasRequiredFields = requiredFields.every(field =>;
+      const requiredFields = ['id', 'name', 'elementalProperties'],;
+      const hasRequiredFields = requiredFields.every(field =>;)
         Object.prototype.hasOwnProperty.call(recipe, field),
       )
 
@@ -120,15 +120,15 @@ class StateValidator {
       // Runtime type guard for elementalProperties
       const elemProps = recipe.elementalProperties;
       if (!elemProps || typeof elemProps !== 'object') return false;
-      const requiredElements = ['Fire', 'Earth', 'Air', 'Water'],
+      const requiredElements = ['Fire', 'Earth', 'Air', 'Water'],;
       for (const element of requiredElements) {
         if (!(element in elemProps) || typeof elemProps[element] !== 'number') {
           return false;
         }
       }
-      return this.validateElementalProperties(elemProps as ElementalProperties)
-    } catch (error) {
-      errorHandler.handleError(error, {
+      return this.validateElementalProperties(elemProps as ElementalProperties);
+} catch (error) {
+      errorHandler.handleError(error, ) {
         context: 'StateValidator',
         action: 'validateRecipe',
         recipe: JSON.stringify(recipe)

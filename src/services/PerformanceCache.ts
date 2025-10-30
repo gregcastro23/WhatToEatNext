@@ -6,7 +6,7 @@ export interface CacheEntry<T> {
   timestamp: number;
   ttl: number; // Time to live in milliseconds
   accessCount: number;
-  lastAccessed: number;
+  lastAccessed: number
 }
 
 export interface CacheStats {
@@ -16,7 +16,7 @@ export interface CacheStats {
   hitRate: number;
   memoryUsage: number; // Estimated in bytes
   oldestEntry: number;
-  newestEntry: number;
+  newestEntry: number
 }
 
 export interface PerformanceMetrics {
@@ -25,7 +25,7 @@ export interface PerformanceMetrics {
   memoryUsage: number;
   recommendationCount: number;
   averageResponseTime: number;
-  peakMemoryUsage: number;
+  peakMemoryUsage: number
 }
 
 /**

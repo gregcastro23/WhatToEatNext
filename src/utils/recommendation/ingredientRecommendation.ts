@@ -15,7 +15,7 @@ import type {
 interface _CalculationData {
   value: number;
   weight?: number;
-  score?: number;
+  score?: number
 }
 
 
@@ -28,7 +28,7 @@ interface _CuisineData {
   elementalProperties?: ElementalData;
   modality?: string;
   gregsEnergy?: number;
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 interface _NutrientData {
@@ -37,14 +37,14 @@ interface _NutrientData {
   name?: string;
   vitaminCount?: number;
   data?: unknown;
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 interface _MatchingResult {
   score: number;
   elements: ElementalData;
   recipe?: unknown;
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Phase, 8: Lazy loading imports for performance optimization
@@ -236,7 +236,7 @@ export interface IngredientRecommendation {
   flavorProfile?: { [key: string]: number };
   season?: string[];
   subCategory?: string;
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 export interface GroupedIngredientRecommendations {
@@ -275,7 +275,7 @@ export interface EnhancedIngredient {
     rulingPlanets?: string[];
     favorableZodiac?: string[];
     signAffinities?: string[];
-    elementalAffinity?: ElementalAffinity;
+    elementalAffinity?: ElementalAffinity
   };
   flavorProfile?: { [key: string]: number };
   season?: string[];
@@ -299,7 +299,7 @@ export interface EnhancedIngredient {
   sensoryProfile?: SensoryProfile;
   recommendedCookingMethods?: CookingMethod[];
   culturalOrigins?: string[];
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 export interface EnhancedIngredientRecommendation extends IngredientRecommendation {
@@ -312,7 +312,7 @@ export interface EnhancedIngredientRecommendation extends IngredientRecommendati
     tarotInfluence?: {
       card: string;
       element: Element;
-      _recommendation: string;
+      _recommendation: string
     };
     wiccanProperties?: {
       magicalAttributes: string[];
@@ -344,8 +344,8 @@ export interface EnhancedIngredientRecommendation extends IngredientRecommendati
 
 // ===== PERFORMANCE-OPTIMIZED DATA LOADING =====
 
-export const loadIngredientCategories = async (
-  categories: string[],
+export const loadIngredientCategories = async (;
+  categories: string[];
 ): Promise<Record<string, Ingredient>> => {
   const result: Record<string, Ingredient> = {};
   try {
@@ -382,9 +382,9 @@ export const loadIngredientCategories = async (
   return result;
 }
 
-export const _getIngredientsFromCategories = async (
+export const _getIngredientsFromCategories = async (;
   categories: string[],
-  limit?: number,
+  limit?: number;
 ): Promise<EnhancedIngredient[]> => {
   const loadedData = await loadIngredientCategories(categories);
   const ingredients: EnhancedIngredient[] = [];
@@ -392,8 +392,7 @@ export const _getIngredientsFromCategories = async (
   for (const [categoryName, categoryData] of Object.entries(loadedData) {
     if (!categoryData) continue;
 
-    const categoryIngredients = Object.entries(categoryData).map()
-      ([name, data]) =>
+    const categoryIngredients = Object.entries(categoryData).map([name, data]) =>;
         ({
           name,
           category: categoryName,
@@ -430,15 +429,15 @@ export const _getAllIngredientsData = async (): Promise<unknown[]> => {
     const oilData = await loadOils();
     const vinegarData = await loadVinegars();
     // Add each category's data to the result array
-    Object.values(vegData || {}).forEach(data => allData.push(data as Ingredient));
-    Object.values(fruitData || {}).forEach(data => allData.push(data as Ingredient));
-    Object.values(herbData || {}).forEach(data => allData.push(data as Ingredient));
-    Object.values(spiceData || {}).forEach(data => allData.push(data as Ingredient));
-    Object.values(proteinData || {}).forEach(data => allData.push(data as Ingredient));
-    Object.values(grainData || {}).forEach(data => allData.push(data as Ingredient));
-    Object.values(seasoningData || {}).forEach(data => allData.push(data as Ingredient));
-    Object.values(oilData || {}).forEach(data => allData.push(data as Ingredient));
-    Object.values(vinegarData || {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(vegData || ) {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(fruitData || ) {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(herbData || ) {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(spiceData || ) {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(proteinData || ) {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(grainData || ) {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(seasoningData || ) {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(oilData || ) {}).forEach(data => allData.push(data as Ingredient));
+    Object.values(vinegarData || ) {}).forEach(data => allData.push(data as Ingredient));
 
     return allData;
   } catch (error) {
@@ -476,16 +475,16 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   ]);
 
   // Create eggs and dairy from proteins by filtering category
-  const eggs = Object.entries(proteinsData || {})
+  const eggs = Object.entries(proteinsData || ) {});
     .filter(([_, value]) => (value as any).category === 'egg')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-  const dairy = Object.entries(proteinsData || {})
+  const dairy = Object.entries(proteinsData || ) {});
     .filter(([_, value]) => (value as any).category === 'dairy')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
   // Define all categories with loaded data
-  const categories = [
+  const categories = [;
     { name: 'Spices', data: spicesData },
     { name: 'Herbs', data: herbsData },
     { name: 'Fruits', data: fruitsData },
@@ -499,9 +498,9 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   ];
 
   // Process each category
-  categories.forEach(category => {
+  categories.forEach(category => ) {
     if (!category.data) {
-      _logger.warn(`No data for category: ${category.name}`);
+      _logger.warn(`No data for category: $) {category.name}`);
       return;
     }
 
@@ -548,7 +547,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   });
 
   // Filter out ingredients without proper astrological profiles
-  const validIngredients = allIngredients.filter()
+  const validIngredients = allIngredients.filter();
     ing =>
       ing.astrologicalProfile &&
       (ing.astrologicalProfile.elementalAffinity as unknown as any).base &&
@@ -594,12 +593,11 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
 // ===== RECOMMENDATION FUNCTIONS =====
 
 export async function getRecommendedIngredients()
-  astroState: AstrologicalState,
+  astroState: AstrologicalState;
 ): Promise<Ingredient[]> {
   const activePlanets = astroState.activePlanets || [];
   // If we don't have any active planets, use all planets by default
-  const planetsToUse =
-    activePlanets.length > 0
+  const planetsToUse = activePlanets.length > 0;
       ? activePlanets
       : [
           'Sun',
@@ -618,7 +616,7 @@ export async function getRecommendedIngredients()
   const allIngredientsData = await getAllIngredients();
 
   // Filter ingredients based on matching planetary rulers
-  let filteredIngredients = allIngredientsData.filter(ingredient => {
+  let filteredIngredients = allIngredientsData.filter(ingredient => ) {
     const astroProfile = ingredient.astrologicalProfile;
     return astroProfile?.rulingPlanets?.some(planet => planetsToUse.includes(planet));
   });
@@ -650,7 +648,7 @@ export async function getIngredientRecommendations()
     lunarPhase: string;
     aspects: Array<{ aspectType: string; planet1, string; planet2, string }>;
   },
-  _options: RecommendationOptions,
+  _options: RecommendationOptions;
 ): Promise<GroupedIngredientRecommendations> {
   const allIngredients = await getAllIngredients();
   const recommendations: GroupedIngredientRecommendations = {};
@@ -678,18 +676,18 @@ export async function getIngredientRecommendations()
   }
 
   // Enhanced scoring with unified flavor system
-  const scoredIngredients = await Promise.all(filteredIngredients.map(async ingredient => {
-      try {
+  const scoredIngredients = await Promise.all(filteredIngredients.map(async ingredient => ) {
+      try ) {
         // Traditional scoring factors
-        const elementalScore = calculateElementalScore()
+        const elementalScore = calculateElementalScore();
           ingredient.elementalProperties,
           _elementalProps,
         );
-        const seasonalScore = await calculateSeasonalScore()
+        const seasonalScore = await calculateSeasonalScore();
           ingredient as unknown as Ingredient,
           _elementalProps.timestamp
         );
-        const modalityScore = await calculateModalityScore()
+        const modalityScore = await calculateModalityScore();
           ingredient.qualities || [],
           _options.modalityPreference
         );
@@ -707,8 +705,7 @@ export async function getIngredientRecommendations()
         const culturalScore = calculateCulturalContextScore(ingredient, _options);
 
         // Enhanced weighted calculation
-        const totalScore =
-          elementalScore * 0.2 +
+        const totalScore = elementalScore * 0.2 +;
           seasonalScore * 0.15 +
           modalityScore * 0.1 +
           flavorScore * 0.25 +
@@ -752,7 +749,7 @@ export async function getIngredientRecommendations()
 
   // Group by category with improved distribution
   const limit = _options.limit || 10;
-  scoredIngredients.slice(0, limit * 2).forEach(ingredient => {
+  scoredIngredients.slice(0, limit * 2).forEach(ingredient => ) {
     const category = ingredient.category || 'other';
     if (!recommendations[category]) {
       recommendations[category] = [];
@@ -765,13 +762,13 @@ export async function getIngredientRecommendations()
   return recommendations;
 }
 
-export const _getTopIngredientMatches = async (
+export const _getTopIngredientMatches = async (;
   astroState: AstrologicalState,
   limit = 5
 ): Promise<EnhancedIngredient[]> => {
   const allIngredients = await getAllIngredients();
   // Score ingredients based on astrological state
-  const scoredIngredients = allIngredients.map(ingredient => {
+  const scoredIngredients = allIngredients.map(ingredient => ) {
     let score = 0.5; // Base score
 
     // Elemental compatibility
@@ -782,7 +779,7 @@ export const _getTopIngredientMatches = async (
 
     // Planetary compatibility
     if (astroState.activePlanets && ingredient.astrologicalProfile?.rulingPlanets) {
-      const planetMatch = ingredient.astrologicalProfile.rulingPlanets.some(planet =>)
+      const planetMatch = ingredient.astrologicalProfile.rulingPlanets.some(planet =>);
         astroState.activePlanets?.includes(planet)
       );
       if (planetMatch) score += 0.2;
@@ -819,7 +816,7 @@ export const _getTopIngredientMatches = async (
 
 function calculateElementalScore()
   ingredientProps?: ElementalProperties,
-  systemProps?: ElementalProperties,
+  systemProps?: ElementalProperties;
 ): number {
   if (!ingredientProps || !systemProps) return 0.5;
   let score = 0;
@@ -839,8 +836,7 @@ function calculateElementalScore()
 async function calculateSeasonalScore(ingredient: Ingredient, date: Date): Promise<number> {
   // Simple seasonal scoring - could be enhanced
   const month = date.getMonth();
-  const season =
-    month >= 2 && month <= 4
+  const season = month >= 2 && month <= 4;
       ? 'spring'
       : month >= 5 && month <= 7
         ? 'summer'
@@ -858,7 +854,7 @@ async function calculateSeasonalScore(ingredient: Ingredient, date: Date): Promi
 
 async function calculateModalityScore()
   qualities: string[],
-  preferredModality?: Modality,
+  preferredModality?: Modality;
 ): Promise<number> {
   if (!preferredModality) return 0.5; // Neutral score without preference
 
@@ -885,7 +881,7 @@ async function calculateModalityScore()
 function calculateUnifiedFlavorScore()
   ingredient: Partial<EnhancedIngredient> | Ingredient,
   _elementalProps: ElementalProperties,
-  _options: RecommendationOptions,
+  _options: RecommendationOptions;
 ): number {
   // Simple flavor scoring implementation
   try {
@@ -907,7 +903,7 @@ function calculateUnifiedFlavorScore()
 
 function calculateKalchmResonance()
   ingredient: Partial<EnhancedIngredient> | Ingredient,
-  elementalProps: ElementalProperties,
+  elementalProps: ElementalProperties;
 ): number {
   // Simple kalchm resonance implementation
   try {
@@ -926,7 +922,7 @@ function calculateKalchmResonance()
 
 function calculateMonicaOptimization()
   ingredient: Partial<EnhancedIngredient> | Ingredient,
-  elementalProps: ElementalProperties,
+  elementalProps: ElementalProperties;
 ): number {
   // Simple monica optimization implementation
   try {
@@ -948,7 +944,7 @@ function calculateMonicaOptimization()
 
 function calculateCulturalContextScore()
   ingredient: Partial<EnhancedIngredient> | Ingredient,
-  options: RecommendationOptions,
+  options: RecommendationOptions;
 ): number {
   // Simple cultural context scoring
   try {
@@ -1008,7 +1004,7 @@ export async function recommendIngredients()
     aspects: []
   };
 
-  const grouped = await getIngredientRecommendations()
+  const grouped = await getIngredientRecommendations();
     elementalProps as unknown as ElementalProperties & {
       timestamp: Date;
       currentStability: number;
@@ -1023,7 +1019,7 @@ export async function recommendIngredients()
 
   // Flatten grouped recommendations into a single array
   const allRecommendations: IngredientRecommendation[] = [];
-  Object.values(grouped).forEach(categoryItems => {
+  Object.values(grouped).forEach(categoryItems => ) {
     if (categoryItems) {
       allRecommendations.push(...categoryItems);
     }
@@ -1051,7 +1047,7 @@ export function calculateElementalInfluences()
   // Normalize to sum to 1
   const total = Object.values(elements).reduce((sum, val) => sum + val, 0);
   if (total > 0) {
-    Object.keys(elements).forEach(key => {
+    Object.keys(elements).forEach(key => ) {
       elements[key as unknown] /= total;
     });
   }

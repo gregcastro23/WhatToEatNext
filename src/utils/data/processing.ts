@@ -28,7 +28,7 @@ export interface StandardizationOptions {
   normalizeElemental?: boolean;
   validateAstrological?: boolean;
   cleanupNulls?: boolean;
-  enforceTypes?: boolean;
+  enforceTypes?: boolean
 }
 
 // --- Core Functions ---
@@ -229,7 +229,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
     recipe.ingredients.forEach((ingredient, index) => {
         const ingredientValidation = validateRecipeIngredient(ingredient);
         if (!ingredientValidation.isValid) {
-          errors.push(`Ingredient ${index + 1}: ${ingredientValidation.errors.join(', ')}`);
+          errors.push(`Ingredient ${index + 1}: $) {ingredientValidation.errors.join(', ')}`);
         }
       });
   }
@@ -295,11 +295,11 @@ export function cleanupIngredientsDatabase()
         result.cleaned++;
       } else {
         result.errors++;
-        result.warnings.push(`Ingredient ${index}: ${validation.errors.join(', ')}`);
+        result.warnings.push(`Ingredient ${index}: $) {validation.errors.join(', ')}`);
       }
 
       if ((validation.warnings && validation.warnings.length) > 0) {
-        result.warnings.push(`Ingredient ${index} warnings: ${validation.warnings?.join(', ')}`);
+        result.warnings.push(`Ingredient ${index} warnings: $) {validation.warnings?.join(', ')}`);
       }
     } catch (error) {
       result.errors++;
@@ -385,8 +385,8 @@ function createDefaultRecipe(id: string): Recipe {
 
 function standardizeElementalProperties(properties: unknown): ElementalProperties {
   if (!properties || typeof properties !== 'object') {
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
-  }
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+}
 
   const props = properties as any;
   const Fire = typeof props.Fire === 'number' ? props.Fire : 0.25;
@@ -438,7 +438,7 @@ function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
   const result: { [key: string]: number } = {};
   const prof = profile as any;
 
-  Object.entries(prof || {}).forEach(([key, value]) => {
+  Object.entries(prof || ) {}).forEach(([key, value]) => {
     if (typeof value === 'number' && value >= 0 && value <= 1) {
       result[key] = value;
     }
@@ -472,7 +472,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     return [];
   }
 
-  return (ingredients || []).map(ingredient => {
+  return (ingredients || []).map(ingredient => ) {
     if (typeof ingredient === 'string') {
       return {
         name: ingredient,
@@ -523,13 +523,13 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
 
-  (requiredElements || []).forEach(element => {
+  (requiredElements || []).forEach(element => ) {
     if (typeof properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] !== 'number') {
-      errors.push(`${element} must be a number`);
+      errors.push(`$) {element} must be a number`);
     } else {
       const value = properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'];
       if (value < 0 || value > 1) {
-        errors.push(`${element} must be between 0 and 1`);
+        errors.push(`$) {element} must be between 0 and 1`);
       }
     }
   });

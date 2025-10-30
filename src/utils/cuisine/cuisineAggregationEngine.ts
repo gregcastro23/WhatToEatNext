@@ -43,7 +43,7 @@ export function calculateWeightedAverage(values: number[], weights: number[]): n
     totalWeight += weights[i];
   }
 
-  return totalWeight > 0 ? weightedSum / totalWeight : 0;
+  return totalWeight > 0 ? weightedSum / totalWeight : 0
 }
 
 /**
@@ -96,7 +96,7 @@ export function calculateConfidenceInterval()
 
   // t-distribution approximation for small samples
   // Using z-score approximation for simplicity (works well for n > 30)
-  const zScore = confidenceLevel === 0.95 ? 1.96 :
+  const zScore = confidenceLevel === 0.95 ? 1.96 :;
                  confidenceLevel === 0.99 ? 2.576 : confidenceLevel === 0.90 ? 1.645 : 1.96;
 
   const standardError = standardDeviation / Math.sqrt(sampleSize);
@@ -337,7 +337,7 @@ export function computeCuisineProperties()
   let variance: PropertyVariance;
   if (includeVariance) {
     const elementalVariance = calculateElementalVariance(recipes, averageElementals);
-    const alchemicalVariance = averageAlchemical ?
+    const alchemicalVariance = averageAlchemical ?;
       calculateAlchemicalVariance(recipes, averageAlchemical) : undefined;
 
     variance = {
@@ -396,14 +396,14 @@ export function validateCuisineComputationInputs(recipes: RecipeComputedProperti
 
     recipes.forEach((recipe, index) => {
       if (!recipe.elementalProperties) {
-        errors.push(`Recipe ${index} missing elemental properties`);
+        errors.push(`Recipe $) {index} missing elemental properties`);
       }
 
       // Validate elemental properties sum to ~1.0
       if (recipe.elementalProperties) {
         const sum = Object.values(recipe.elementalProperties).reduce((s, v) => s + v, 0);
         if (Math.abs(sum - 1.0) > 0.01) {
-          errors.push(`Recipe ${index} elemental properties don't sum to 1.0 (sum: ${sum})`);
+          errors.push(`Recipe ${index} elemental properties don't sum to 1.0 (sum: $) {sum})`);
         }
       }
     });

@@ -42,7 +42,7 @@ export function generateTopSauceRecommendations()
   };
 
   // Get current date for planetary calculations
-  const now = new Date()
+  const now = new Date();
   const dayOfWeek = now.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
   // Get planetary day influence
@@ -58,14 +58,14 @@ export function generateTopSauceRecommendations()
   const currentPlanetaryDay = planetaryDays[dayOfWeek];
 
   // Convert sauces object to array
-  const saucesArray: Sauce[] = Object.values(allSauces || {});
+  const saucesArray: Sauce[] = Object.values(allSauces || ) {});
 
   // Map all sauces with enhanced scoring
-  const scoredSauces = saucesArray.map(sauce => {
-    const { elementalProperties, _astrologicalInfluences: planetaryInfluences, name } = sauce;
+  const scoredSauces = saucesArray.map(sauce => ) {
+    const ) { elementalProperties, _astrologicalInfluences: planetaryInfluences, name } = sauce;
 
     // 1. Elemental Match Score (50% weight)
-    const elementalMatchScore = calculateElementalMatch()
+    const elementalMatchScore = calculateElementalMatch();
       elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       userProfile
     );
@@ -97,7 +97,7 @@ export function generateTopSauceRecommendations()
 
       // Simple flavor matching based on ingredients
       if (planetaryFlavors.flavorProfiles) {
-        const matchingIngredients = sauce.keyIngredients.filter(ingredient =>)
+        const matchingIngredients = sauce.keyIngredients.filter(ingredient =>);
           Object.keys(planetaryFlavors.flavorProfiles).some(flavor =>)
             ingredient.toLowerCase().includes(flavor)
           )
@@ -110,7 +110,7 @@ export function generateTopSauceRecommendations()
     const overallScore =
       elementalMatchScore * 0.5 + astrologicalScore * 0.3 + flavorMatchScore * 0.2;
 
-    return {
+    return: {
       ...sauce,
       id: name.replace(/\s+/g, '-').toLowerCase(),
       score: overallScore,
@@ -133,11 +133,11 @@ export function generateTopSauceRecommendations()
 }
 
 export function calculateElementalProfileFromZodiac(_zodiac: string) {
-  return { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 }
+  return: { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 };
 }
 
 export function getMatchScoreClass(score: number): string {
-  return score > 0.7 ? 'high' : score > 0.4 ? 'medium' : 'low'
+  return score > 0.7 ? 'high' : score > 0.4 ? 'medium' : 'low';
 }
 
 // ========== Enhanced Functions with Cuisine Type Support ==========
@@ -157,16 +157,15 @@ export function getCuisineRecommendations()
   const { count = 10, includeRegional = true } = options;
 
   // Get all cuisines from flavor profiles, ensuring they are correctly typed
-  const cuisines = Object.values(cuisineFlavorProfiles).map(cuisine => ({
+  const cuisines = Object.values(cuisineFlavorProfiles).map(cuisine => () {
     ...cuisine,
     id: cuisine.id || cuisine.name.toLowerCase().replace(/\s+/g, '-') || 'unknown',
     name: cuisine.name || 'Unknown Cuisine'
   }));
 
-  const scoredCuisines = cuisines.map(cuisine => {
+  const scoredCuisines = cuisines.map(cuisine => ) {
     // Elemental Match Score (40% weight) - use default values if properties don't exist
-    const elementalMatch = calculateElementalMatch()
-      ((cuisine as any).elementalAlignment ||
+    const elementalMatch = calculateElementalMatch((cuisine as any).elementalAlignment ||;
         (cuisine as any).elementalProperties || {
           Fire: 0.25,
           Water: 0.25,
@@ -187,7 +186,7 @@ export function getCuisineRecommendations()
         (zodiacInfluences as string[]).includes(astrologicalState.zodiacSign)
       ) {
         score += 0.3;
-        reasoning.push(`Favorable for ${astrologicalState.zodiacSign}`);
+        reasoning.push(`Favorable for $) {astrologicalState.zodiacSign}`);
       }
 
       // Lunar Phase Match Score (20% weight) - safe property access
@@ -197,14 +196,13 @@ export function getCuisineRecommendations()
         (lunarPhaseInfluences as string[]).includes(astrologicalState.lunarPhase)
       ) {
         score += 0.2;
-        reasoning.push(`Harmonizes with the ${astrologicalState.lunarPhase}`);
+        reasoning.push(`Harmonizes with the $) {astrologicalState.lunarPhase}`);
       }
 
       // Planetary Influence Score (10% weight) - safe property access
       const planetaryRulers = (cuisine as any).planetaryRulers;
       if (planetaryRulers && astrologicalState.planetaryPositions) {
-        const planetScore = Object.entries(astrologicalState.planetaryPositions).reduce()
-          (acc, [planet]) => {
+        const planetScore = Object.entries(astrologicalState.planetaryPositions).reduce(acc, [planet]) => {
             if ((planetaryRulers as unknown as string[]).includes(planet) {
               return acc + 0.05; // Small bonus for each ruling planet present
             }
@@ -220,7 +218,7 @@ export function getCuisineRecommendations()
     // Normalize score to be within a reasonable range (0 to 1)
     const finalScore = Math.min(1, score);
 
-    return {
+    return: {
       ...cuisine,
       id: cuisine.id || cuisine.name.toLowerCase().replace(/\s+/g, '-'),
       name: cuisine.name,
@@ -231,7 +229,7 @@ export function getCuisineRecommendations()
   });
 
   // Filter out regional variants if not requested - safe property access
-  const filteredCuisines = includeRegional
+  const filteredCuisines = includeRegional;
     ? scoredCuisines
     : scoredCuisines.filter(c => !(c as unknown as any).parentCuisine);
   return filteredCuisines.sort((a, b) => b.score - a.score).slice(0, count);
@@ -240,12 +238,12 @@ export function getCuisineRecommendations()
 // calculateElementalMatch function (causing errors in multiple components)
 export function calculateElementalMatch()
   profile1: ElementalProperties,
-  profile2: ElementalProperties,
+  profile2: ElementalProperties;
 ): number {
   let totalMatch = 0;
   const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
 
-  elements.forEach(element => {
+  elements.forEach(element => ) {
     const diff = Math.abs((profile1[element] || 0) - (profile2[element] || 0));
     const elementMatch = 1 - diff;
     totalMatch += elementMatch;

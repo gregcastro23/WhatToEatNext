@@ -5,7 +5,7 @@ export type ElementalColor = {
   secondary: string;
   text: string;
   border: string;
-  bg: string;
+  bg: string
 };
 
 // Define the color mappings
@@ -40,8 +40,8 @@ export const elementalColors: Record<keyof ElementalProperties, ElementalColor> 
   }
 };
 
-export const _calculateDominantElement = (
-  elementalState: ElementalProperties,
+export const _calculateDominantElement = (;
+  elementalState: ElementalProperties;
 ): keyof ElementalProperties => {
   // Find the element with the highest value using a type-safe approach
   let dominantElement: keyof ElementalProperties = 'Fire'; // Default
@@ -66,7 +66,7 @@ export const _calculateDominantElement = (
   return dominantElement;
 };
 
-export const _getElementalColor = (
+export const _getElementalColor = (;
   element: keyof ElementalProperties | undefined,
   type: keyof ElementalColor = 'text'
 ): string => {
@@ -105,7 +105,7 @@ export const _getElementalDescription = (element: keyof ElementalProperties): st
   return descriptions[element] || 'Balanced properties';
 };
 
-export const _calculateelementalState = (
+export const _calculateelementalState = (;
   ingredients: Array<{ category: string, amount: number }>,
 ): ElementalProperties => {
   const balance: ElementalProperties = {
@@ -122,7 +122,7 @@ export const _calculateelementalState = (
     _liquid: 'Water'
   };
 
-  ingredients.forEach(ingredient => {
+  ingredients.forEach(ingredient => ) {
     const element = categoryElements[ingredient.category];
     if (element) {
       balance[element] += ingredient.amount;
@@ -132,7 +132,7 @@ export const _calculateelementalState = (
   // Normalize values
   const total = Object.values(balance).reduce((sum, value) => sum + value, 0);
   if (total > 0) {
-    Object.keys(balance).forEach(element => {
+    Object.keys(balance).forEach(element => ) {
       balance[element as keyof ElementalProperties] /= total;
     });
   }
@@ -140,9 +140,9 @@ export const _calculateelementalState = (
   return balance;
 };
 
-export const _getElementalCompatibility = (
+export const _getElementalCompatibility = (;
   element1: keyof ElementalProperties,
-  element2: keyof ElementalProperties,
+  element2: keyof ElementalProperties;
 ): 'highly-compatible' | 'compatible' | 'neutral' => {
   if (element1 === element2) {
     return 'highly-compatible'; // Same element has highest compatibility

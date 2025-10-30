@@ -2,7 +2,7 @@
 
 interface ScoredItem {
   score: number;
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Removed unused interface: ElementalData
@@ -24,14 +24,14 @@ import type {
   ElementalProperties,
   ThermodynamicMetrics,
   PlanetName,
-  BasicThermodynamicProperties,
+  BasicThermodynamicProperties;
 } from '@/types/alchemy';
 import type { Season } from '@/types/seasons';
 import { Ingredient } from '@/types/unified';
 
 // Define ErrorWithMessage for error handling
 interface ErrorWithMessage {
-  message: string;
+  message: string
 }
 import type { UnifiedIngredient } from '../data/unified/unifiedTypes';
 import type { Recipe } from '../types/unified';
@@ -40,7 +40,7 @@ import type { ZodiacSign } from '../types/zodiac';
 import { isNonEmptyArray, safeSome } from '../utils/common/arrayUtils';
 import {
   createElementalProperties,
-  calculateElementalCompatibility,
+  calculateElementalCompatibility;
 } from '../utils/elemental/elementalUtils';
 // Replaced unused logger with enterprise logging service
 
@@ -48,26 +48,26 @@ import type {
   IngredientServiceInterface,
   IngredientFilter,
   IngredientRecommendationOptions,
-  ElementalFilter,
+  ElementalFilter;
 } from './interfaces/IngredientServiceInterface';
 
 // Define placeholder types and classes for missing dependencies
 enum ErrorType {
   DATA = 'DATA',
   VALIDATION = 'VALIDATION',
-  NETWORK = 'NETWORK',
+  NETWORK = 'NETWORK';
 }
 
 enum ErrorSeverity {
   ERROR = 'ERROR',
   WARNING = 'WARNING',
-  INFO = 'INFO',
+  INFO = 'INFO';
 }
 
 // Placeholder error handler
 const errorHandler = { logError: (error, Error | ErrorWithMessage, context: unknown) => {
     console.error('Error:', error, 'Context:', context);
-  },
+  };
 };
 
 // Placeholder services that need to be properly implemented
@@ -123,7 +123,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       const result: Record<string, UnifiedIngredient[]> = {};
 
       // Group ingredients by category
-      Object.values(unifiedIngredients || {}).forEach(ingredient => {
+      Object.values(unifiedIngredients || ) {}).forEach(ingredient => ) {
         const category = ingredient.category;
 
         // Initialize category array if not exists
@@ -141,8 +141,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'getAllIngredients' },
-      });
+        data: ) { action: 'getAllIngredients' };
+});
       return {};
     }
   }
@@ -158,8 +158,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'getAllIngredientsFlat' },
-      });
+        data: ) { action: 'getAllIngredientsFlat' };
+});
       return [];
     }
   }
@@ -184,8 +184,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'getIngredientByName', name },
-      });
+        data: ) { action: 'getIngredientByName', name };
+});
       return undefined;
     }
   }
@@ -195,7 +195,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   getIngredientsByCategory(category: string): UnifiedIngredient[] {
     try {
-      return Object.values(unifiedIngredients || {}).filter()
+      return Object.values(unifiedIngredients || ) {}).filter()
         ingredient => ingredient.category.toLowerCase() === category.toLowerCase(),
       );
     } catch (error) {
@@ -203,8 +203,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'getIngredientsByCategory', category },
-      });
+        data: ) { action: 'getIngredientsByCategory', category };
+});
       return [];
     }
   }
@@ -214,7 +214,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
     try {
-      return Object.values(unifiedIngredients || {}).filter()
+      return Object.values(unifiedIngredients || ) {}).filter()
         ingredient => ingredient.subCategory?.toLowerCase() === subcategory.toLowerCase(),
       );
     } catch (error) {
@@ -222,8 +222,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'getIngredientsBySubcategory', subcategory },
-      });
+        data: ) { action: 'getIngredientsBySubcategory', subcategory };
+});
       return [];
     }
   }
@@ -238,13 +238,12 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       const filteredResults: Record<string, UnifiedIngredient[]> = {};
 
       // Determine which categories to include
-      const categoriesToInclude =
-        filter.categories && (filter.categories || []).length > 0
+      const categoriesToInclude = filter.categories && (filter.categories || []).length > 0;
           ? filter.categories
           : Object.keys(allIngredients);
 
       // Process each category
-      (categoriesToInclude || []).forEach(category => {
+      (categoriesToInclude || []).forEach(category => ) {
         if (!allIngredients[category]) return;
 
         // Start with all ingredients in this category
@@ -304,8 +303,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'filterIngredients', filter },
-      });
+        data: ) { action: 'filterIngredients', filter };
+});
       return {};
     }
   }
@@ -321,8 +320,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'getIngredientsByElement', elementalFilter },
-      });
+        data: ) { action: 'getIngredientsByElement', elementalFilter };
+});
       return [];
     }
   }
@@ -340,8 +339,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'getHighKalchmIngredients', threshold },
-      });
+        data: ) { action: 'getHighKalchmIngredients', threshold };
+});
       return [];
     }
   }
@@ -351,7 +350,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   findComplementaryIngredients()
     ingredient: UnifiedIngredient | string,
-    maxResults: number = 10,
+    maxResults: number = 10;
   ): UnifiedIngredient[] {
     try {
       // Get the target ingredient if string was provided
@@ -368,13 +367,13 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       return Object.values(unifiedIngredients)
         .filter(other => other.name !== targetIngredient.name)
-        .map(other => ({
+        .map(other => () {
           ingredient: other,
           complementarityScore:
             (1 - Math.abs((other.kalchm || 1) - targetKalchmRatio)) * 0.5 +
             (1 - Math.abs((targetIngredient.monica || 0) + (other.monica || 0) - targetMonicaSum)) *
-              0.5,
-        }))
+              0.5;
+}))
         .sort((a, b) => b.complementarityScore - a.complementarityScore)
         .slice(0, maxResults)
         .map(result => result.ingredient);
@@ -383,8 +382,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'findComplementaryIngredients', ingredient, maxResults },
-      });
+        data: ) { action: 'findComplementaryIngredients', ingredient, maxResults };
+});
       return [];
     }
   }
@@ -418,11 +417,11 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: {
+        data: ) {
           action: 'calculateElementalProperties',
-          ingredient: typeof ingredient === 'string' ? ingredient : ingredient.name,
-        },
-      });
+          ingredient: typeof ingredient === 'string' ? ingredient : ingredient.name;
+        };
+});
       return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
     }
   }
@@ -439,14 +438,14 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   getIngredientsByFlavor()
     flavorProfile: { [key: string]: number },
-    minMatchScore: number = 0.7,
+    minMatchScore: number = 0.7;
   ): UnifiedIngredient[] {
     try {
       const ingredients = this.getAllIngredientsFlat();
       const results: Array<{ ingredient: UnifiedIngredient; score, number }> = [];
 
       // Process each ingredient
-      (ingredients || []).forEach(ingredient => {
+      (ingredients || []).forEach(ingredient => ) {
         // If ingredient has no flavor profile, skip it
         if (!ingredient.flavorProfile) return;
 
@@ -468,8 +467,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'getIngredientsByFlavor', flavorProfile },
-      });
+        data: ) { action: 'getIngredientsByFlavor', flavorProfile };
+});
       return [];
     }
   }
@@ -489,7 +488,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     let magnitude2 = 0;
 
     // Calculate cosine similarity
-    (allKeys || []).forEach(key => {
+    (allKeys || []).forEach(key => ) {
       const value1 = profile1[key] || 0;
       const value2 = profile2[key] || 0;
 
@@ -529,9 +528,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       if (ingredientsArray.length === 0) return [];
 
       // Calculate compatibility scores
-      const scoredIngredients = (ingredientsArray || []).map(ingredient => {
+      const scoredIngredients = (ingredientsArray || []).map(ingredient => ) {
         // Calculate elemental compatibility
-        const elementalCompatibility = calculateElementalCompatibility()
+        const elementalCompatibility = calculateElementalCompatibility();
           elementalState,
           ingredient.elementalProperties || this.calculateElementalProperties(ingredient),
         );
@@ -540,7 +539,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         let seasonalBonus = 0;
         if (optimizeForSeason && ingredient.currentSeason) {
           const currentSeason = this.getCurrentSeason();
-          const seasonArray = Array.isArray(ingredient.currentSeason)
+          const seasonArray = Array.isArray(ingredient.currentSeason);
             ? ingredient.currentSeason
             : [ingredient.currentSeason];
           if (seasonArray.includes(currentSeason) {
@@ -560,14 +559,14 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       });
 
       // Filter out zero-scored ingredients and sort
-      const filtered = scoredIngredients
+      const filtered = scoredIngredients;
         .filter(item => item.score > 0)
         .sort((a, b) => (sortByScore ? b.score - a.score : 0));
 
       // Return top results
-      const results = filtered.slice(0, (maxResults as number) || 10).map(item => ({
+      const results = filtered.slice(0, (maxResults as number) || 10).map(item => () {
         ...item.ingredient,
-        score: item.score,
+        score: item.score;
       }));
 
       return results;
@@ -576,8 +575,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'getRecommendedIngredients' },
-      });
+        data: ) { action: 'getRecommendedIngredients' };
+});
       return [];
     }
   }
@@ -605,8 +604,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         // Convert energyValues to ThermodynamicMetrics format with safe property access
         const energyData = ingredient.energyValues as BasicThermodynamicProperties;
         const { heat, entropy, reactivity } = energyData;
-        const gregsEnergy =
-          (energyData as unknown as Record<string, unknown>).gregsEnergy ||
+        const gregsEnergy = (energyData as unknown as Record<string, unknown>).gregsEnergy ||;
           (energyData as unknown as Record<string, unknown>).energy ||
           0;
 
@@ -628,22 +626,22 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         reactivity: 0.5,
         gregsEnergy: 0.5,
         kalchm: 1.0,
-        monica: 0.5,
+        monica: 0.5;
       };
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'calculateThermodynamicMetrics', ingredient: ingredient.name },
-      });
+        data: ) { action: 'calculateThermodynamicMetrics', ingredient: ingredient.name };
+});
       return {
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,
         gregsEnergy: 0.5,
         kalchm: 1.0,
-        monica: 0.5,
+        monica: 0.5;
       };
     }
   }
@@ -655,11 +653,11 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private applyNutritionalFilter()
     ingredients: UnifiedIngredient[],
-    filter: IngredientFilter['nutritional'],
+    filter: IngredientFilter['nutritional'];
   ): UnifiedIngredient[] {
     if (!filter) return ingredients;
 
-    return (ingredients || []).filter(ingredient => {
+    return (ingredients || []).filter(ingredient => ) {
       // If no nutritional profile, exclude ingredient based on filter requirements
       if (!ingredient.nutritionalPropertiesProfile) {
         // If any nutritional filter is set, exclude this ingredient
@@ -722,8 +720,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         const vitamins = nutritional.vitamins || {};
         const vitaminKeys = Object.keys(vitamins);
 
-        const hasAllVitamins = filter.vitamins.every(vitamin =>)
-          Array.isArray(vitaminKeys) ? vitaminKeys.includes(vitamin) : vitaminKeys === vitamin,
+        const hasAllVitamins = filter.vitamins.every(vitamin =>);
+          Array.isArray(vitaminKeys) ? vitaminKeys.includes(vitamin) : vitaminKeys === vitamin;
         );
 
         if (!hasAllVitamins) return false;
@@ -734,8 +732,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         const minerals = nutritional.minerals || {};
         const mineralKeys = Object.keys(minerals);
 
-        const hasAllMinerals = filter.minerals.every(mineral =>)
-          Array.isArray(mineralKeys) ? mineralKeys.includes(mineral) : mineralKeys === mineral,
+        const hasAllMinerals = filter.minerals.every(mineral =>);
+          Array.isArray(mineralKeys) ? mineralKeys.includes(mineral) : mineralKeys === mineral;
         );
 
         if (!hasAllMinerals) return false;
@@ -768,12 +766,11 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private applyElementalFilter()
     ingredients: UnifiedIngredient[],
-    filter: ElementalFilter,
+    filter: ElementalFilter;
   ): UnifiedIngredient[] {
-    return (ingredients || []).filter(ingredient => {
-      const elemental =
-        ingredient.elementalProperties ||
-        createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+    return (ingredients || []).filter(ingredient => ) {
+      const elemental = ingredient.elementalProperties ||;
+        createElementalProperties() { Fire: 0, Water: 0, Earth: 0, Air: 0 });
 
       // Check Fire element
       if (filter.minfire !== undefined && elemental.Fire < filter.minfire) {
@@ -813,7 +810,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       // Check dominant element if specified
       if (filter.dominantElement) {
-        const elementKey = (filter.dominantElement.charAt(0).toUpperCase() +
+        const elementKey = (filter.dominantElement.charAt(0).toUpperCase() +;
           filter.dominantElement.slice(1).toLowerCase()) as keyof ElementalProperties;
 
         // Get the dominant element of this ingredient
@@ -833,8 +830,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    * Get the dominant element of an ingredient
    */
   private getDominantElement(ingredient: UnifiedIngredient): keyof ElementalProperties {
-    const elemental =
-      ingredient.elementalProperties ||
+    const elemental = ingredient.elementalProperties ||;
       createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
 
     // Find the highest element value
@@ -864,11 +860,11 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private applyDietaryFilter()
     ingredients: UnifiedIngredient[],
-    filter: IngredientFilter['dietary'],
+    filter: IngredientFilter['dietary'];
   ): UnifiedIngredient[] {
     if (!filter) return ingredients;
 
-    return (ingredients || []).filter(ingredient => {
+    return (ingredients || []).filter(ingredient => ) {
       // Check vegetarian constraint
       if (filter.isVegetarian && ingredient.category === 'proteins') {
         if (!this.isVegetarianProtein(ingredient)) return false;
@@ -905,8 +901,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       if (filter.isLowSugar) {
         if (!ingredient.nutritionalPropertiesProfile?.macros) return false;
         // Sugar might be a direct property or included in macros
-        const sugar =
-          ingredient.nutritionalPropertiesProfile?.macros?.sugar ||
+        const sugar = ingredient.nutritionalPropertiesProfile?.macros?.sugar ||;
           ingredient.nutritionalPropertiesProfile.sugar ||
           0;
         if (sugar > 5) return false; // 5g is a common threshold for "low sugar"
@@ -945,7 +940,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     if (dietaryData.isGlutenFree === true) return true;
     if (dietaryData.isGlutenFree === false) return false;
     // Check if ingredient has gluten content (unsafe method check)
-    const hasGlutenArray = Array.isArray(ingredient.glutenContent)
+    const hasGlutenArray = Array.isArray(ingredient.glutenContent);
       ? ingredient.glutenContent
       : [ingredient.glutenContent];
     if (hasGlutenArray.some(item => item === true)) return false;
@@ -957,7 +952,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private applySeasonalFilter()
     ingredients: UnifiedIngredient[],
-    seasons: IngredientFilter['season'],
+    seasons: IngredientFilter['season'];
   ): UnifiedIngredient[] {
     if (!seasons || (Array.isArray(seasons) && (seasons || []).length === 0) {
       return ingredients;
@@ -965,7 +960,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
     const seasonArray = Array.isArray(seasons) ? seasons : [seasons];
 
-    return (ingredients || []).filter(ingredient => {
+    return (ingredients || []).filter(ingredient => ) {
       // Check if the ingredient has seasonality info
       if (!ingredient.seasonality && !ingredient.currentSeason) {
         return true; // Include ingredients without seasonal info
@@ -975,7 +970,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       const ingredientSeasons = ingredient.seasonality || ingredient.currentSeason || [];
 
       // Convert to array if it's not already
-      const ingredientSeasonArray = Array.isArray(ingredientSeasons)
+      const ingredientSeasonArray = Array.isArray(ingredientSeasons);
         ? ingredientSeasons
         : [ingredientSeasons];
 
@@ -998,7 +993,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
     const normalizedQuery = query.toLowerCase();
 
-    return (ingredients || []).filter(ingredient => {
+    return (ingredients || []).filter(ingredient => ) {
       // Check name
       if (ingredient.name.toLowerCase().includes(normalizedQuery) {
         return true;
@@ -1045,7 +1040,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private applyExclusionFilter()
     ingredients: UnifiedIngredient[],
-    excludedIngredients: string[],
+    excludedIngredients: string[];
   ): UnifiedIngredient[] {
     if (!excludedIngredients || (excludedIngredients || []).length === 0) {
       return ingredients;
@@ -1063,12 +1058,11 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private applyZodiacFilter()
     ingredients: UnifiedIngredient[],
-    currentZodiacSign: ZodiacSign,
+    currentZodiacSign: ZodiacSign;
   ): UnifiedIngredient[] {
-    return (ingredients || []).filter(ingredient => {
+    return (ingredients || []).filter(ingredient => ) {
       // Check if the ingredient has zodiac affinity info
-      const zodiacAffinity =
-        ingredient.astrologicalPropertiesProfile?.zodiacAffinity ||
+      const zodiacAffinity = ingredient.astrologicalPropertiesProfile?.zodiacAffinity ||;
         ingredient.astrologicalPropertiesProfile?.favorableZodiac;
 
       if (!zodiacAffinity) {
@@ -1090,9 +1084,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private applyPlanetaryFilter()
     ingredients: UnifiedIngredient[],
-    planet: PlanetName,
+    planet: PlanetName;
   ): UnifiedIngredient[] {
-    return (ingredients || []).filter(ingredient => {
+    return (ingredients || []).filter(ingredient => ) {
       // Check if the ingredient has planetary ruler info
       const planetaryRuler =
         ingredient.planetaryRuler || ingredient.astrologicalPropertiesProfile?.rulingPlanets;
@@ -1129,12 +1123,12 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       const allIngredients = this.getAllIngredientsFlat();
 
       // Filter by season
-      return (allIngredients || []).filter(ingredient => {
+      return (allIngredients || []).filter(ingredient => ) {
         // Get ingredient seasons
         const ingredientSeasons = ingredient.seasonality || ingredient.currentSeason || [];
 
         // Convert to array if it's not already
-        const ingredientSeasonArray = Array.isArray(ingredientSeasons)
+        const ingredientSeasonArray = Array.isArray(ingredientSeasons);
           ? ingredientSeasons
           : [ingredientSeasons];
 
@@ -1150,8 +1144,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'getIngredientsBySeason', season },
-      });
+        data: ) { action: 'getIngredientsBySeason', season };
+});
       return [];
     }
   }
@@ -1165,7 +1159,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       const allIngredients = this.getAllIngredientsFlat();
 
       // Filter by planetary ruler
-      return (allIngredients || []).filter(ingredient => {
+      return (allIngredients || []).filter(ingredient => ) {
         // Get planetary ruler
         const ruler =
           ingredient.planetaryRuler || ingredient.astrologicalPropertiesProfile?.rulingPlanets;
@@ -1191,8 +1185,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'getIngredientsByPlanet', planet },
-      });
+        data: ) { action: 'getIngredientsByPlanet', planet };
+});
       return [];
     }
   }
@@ -1206,10 +1200,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       const allIngredients = this.getAllIngredientsFlat();
 
       // Filter by zodiac sign
-      return (allIngredients || []).filter(ingredient => {
+      return (allIngredients || []).filter(ingredient => ) {
         // Get zodiac affinity
-        const zodiac =
-          ingredient.astrologicalPropertiesProfile?.zodiacAffinity ||
+        const zodiac = ingredient.astrologicalPropertiesProfile?.zodiacAffinity ||;
           ingredient.astrologicalPropertiesProfile?.favorableZodiac;
 
         if (!zodiac) return false;
@@ -1233,8 +1226,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'getIngredientsByZodiacSign', sign },
-      });
+        data: ) { action: 'getIngredientsByZodiacSign', sign };
+});
       return [];
     }
   }
@@ -1244,13 +1237,13 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   calculateIngredientCompatibility()
     ingredient1: string | UnifiedIngredient,
-    ingredient2: string | UnifiedIngredient,
+    ingredient2: string | UnifiedIngredient;
   ): {
     score: number;
     elementalCompatibility: number;
     flavorCompatibility: number;
     seasonalCompatibility: number;
-    energeticCompatibility: number;
+    energeticCompatibility: number
   } {
     try {
       // Get ingredient objects if names were provided
@@ -1267,19 +1260,18 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
           elementalCompatibility: 0.1,
           flavorCompatibility: 0.1,
           seasonalCompatibility: 0.1,
-          energeticCompatibility: 0.1,
+          energeticCompatibility: 0.1;
         };
       }
 
       // Calculate elemental compatibility
-      const elementalCompatibility = this.calculateElementalCompatibility()
+      const elementalCompatibility = this.calculateElementalCompatibility();
         ing1.elementalProperties,
         ing2.elementalProperties,
       );
 
       // Calculate flavor compatibility
-      const flavorCompatibility =
-        ing1.flavorProfile && ing2.flavorProfile
+      const flavorCompatibility = ing1.flavorProfile && ing2.flavorProfile;
           ? this.calculateFlavorSimilarity(ing1.flavorProfile, ing2.flavorProfile)
           : 0.5; // Default if flavor profiles are missing
 
@@ -1290,8 +1282,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       const energeticCompatibility = this.calculateEnergeticCompatibility(ing1, ing2);
 
       // Calculate overall score (weighted average)
-      const score =
-        elementalCompatibility * 0.4 +
+      const score = elementalCompatibility * 0.4 +;
         flavorCompatibility * 0.3 +
         seasonalCompatibility * 0.1 +
         energeticCompatibility * 0.2;
@@ -1301,19 +1292,19 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         elementalCompatibility,
         flavorCompatibility,
         seasonalCompatibility,
-        energeticCompatibility,
-      };
+        energeticCompatibility;
+};
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: {
+        data: ) {
           action: 'calculateIngredientCompatibility',
           ingredient1: typeof ingredient1 === 'string' ? ingredient1 : ingredient1.name,
-          ingredient2: typeof ingredient2 === 'string' ? ingredient2 : ingredient2.name,
-        },
-      });
+          ingredient2: typeof ingredient2 === 'string' ? ingredient2 : ingredient2.name;
+        };
+});
 
       // Return default low compatibility on error
       return {
@@ -1321,7 +1312,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         elementalCompatibility: 0.1,
         flavorCompatibility: 0.1,
         seasonalCompatibility: 0.1,
-        energeticCompatibility: 0.1,
+        energeticCompatibility: 0.1;
       };
     }
   }
@@ -1345,7 +1336,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
     // Count matching seasons
     let matchCount = 0;
-    seasonsArray1.forEach(s1 => {
+    seasonsArray1.forEach(s1 => ) {
       if (typeof s1 !== 'string') return;
 
       const s1Lower = s1.toLowerCase();
@@ -1367,7 +1358,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private calculateEnergeticCompatibility()
     ing1: UnifiedIngredient,
-    ing2: UnifiedIngredient,
+    ing2: UnifiedIngredient;
   ): number {
     // If Kalchm values are available, use them
     if (ing1.kalchm && ing2.kalchm) {
@@ -1414,7 +1405,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    * Enhance an ingredient with elemental properties
    */
   enhanceIngredientWithElementalProperties()
-    ingredient: Partial<UnifiedIngredient>,
+    ingredient: Partial<UnifiedIngredient>;
   ): UnifiedIngredient {
     try {
       // Start with the existing ingredient or create a new one
@@ -1436,7 +1427,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25,
+          Substance: 0.25;
         };
       }
 
@@ -1466,11 +1457,11 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: {
+        data: ) {
           action: 'enhanceIngredientWithElementalProperties',
-          ingredient: ingredient.name || 'unknown',
-        },
-      });
+          ingredient: ingredient.name || 'unknown';
+        };
+});
 
       // Return a minimal valid ingredient on error
       return {
@@ -1481,9 +1472,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25,
-        },
-      };
+          Substance: 0.25;
+        };
+};
     }
   }
 
@@ -1498,12 +1489,12 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   } {
     try {
       // Extract ingredient names from the recipe
-      const ingredientNames = (recipe.ingredients || []).map(ing =>)
-        typeof ing === 'string' ? ing : ing.name,
+      const ingredientNames = (recipe.ingredients || []).map(ing =>);
+        typeof ing === 'string' ? ing : ing.name;
       );
 
       // Get ingredient objects
-      const ingredients = ingredientNames
+      const ingredients = ingredientNames;
         .map(name => this.getIngredientByName(name))
         .filter((ing): ing is UnifiedIngredient => ing !== undefined);
 
@@ -1523,7 +1514,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
           pairings.push({
             pair: [ing1.name, ing2.name],
-            score: compatibility.score,
+            score: compatibility.score;)
           });
         }
       }
@@ -1532,15 +1523,15 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       pairings.sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score);
 
       // Get strong and weak pairings
-      const strongPairings = pairings
+      const strongPairings = pairings;
         .filter(p => p.score >= 0.7)
         .slice(0, 5)
-        .map(p => ({ ingredients: p.pair, score: p.score }));
+        .map(p => () { ingredients: p.pair, score: p.score }));
 
-      const weakPairings = pairings
+      const weakPairings = pairings;
         .filter(p => p.score < 0.4)
         .slice(0, 5)
-        .map(p => ({ ingredients: p.pair, score: p.score }));
+        .map(p => () { ingredients: p.pair, score: p.score }));
 
       // Calculate overall harmony
       // Average of all pairing scores, weighted by elemental balance
@@ -1555,25 +1546,25 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         overallHarmony,
         flavorProfile,
         strongPairings,
-        weakPairings,
-      };
+        weakPairings;
+};
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: {
+        data: ) {
           action: 'analyzeRecipeIngredients',
-          recipe: recipe.name || recipe.id,
-        },
-      });
+          recipe: recipe.name || recipe.id;
+        };
+});
 
       // Return default analysis on error
       return {
         overallHarmony: 0.5,
         flavorProfile: { sweet: 0.5, savory: 0.5 },
         strongPairings: [],
-        weakPairings: [],
+        weakPairings: [];
       };
     }
   }
@@ -1588,7 +1579,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     if ((ingredients || []).length === 0) return balance;
 
     // Sum all elemental properties
-    (ingredients || []).forEach(ingredient => {
+    (ingredients || []).forEach(ingredient => ) {
       const elemental = ingredient.elementalProperties;
 
       balance.Fire += elemental.Fire;
@@ -1620,7 +1611,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    * Calculate the flavor profile of a recipe
    */
   private calculateRecipeFlavorProfile(ingredients: UnifiedIngredient[]): {
-    [key: string]: number;
+    [key: string]: number
   } {
     // Initialize empty profile
     const profile: { [key: string]: number } = {};
@@ -1628,7 +1619,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     // Collect all possible flavor dimensions
     const allDimensions = new Set<string>();
 
-    (ingredients || []).forEach(ingredient => {
+    (ingredients || []).forEach(ingredient => ) {
       if (ingredient.flavorProfile) {
         Object.keys(ingredient.flavorProfile).forEach(key => allDimensions.add(key));
       }
@@ -1642,17 +1633,17 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         spicy: 0.2,
         bitter: 0.2,
         sour: 0.2,
-        salty: 0.3,
+        salty: 0.3;
       };
     }
 
     // Initialize all dimensions to 0
-    (allDimensions || []).forEach(dim => {
+    (allDimensions || []).forEach(dim => ) {
       profile[dim] = 0;
     });
 
     // Sum up all flavor values
-    (ingredients || []).forEach(ingredient => {
+    (ingredients || []).forEach(ingredient => ) {
       if (ingredient.flavorProfile) {
         Object.entries(ingredient.flavorProfile).forEach(([flavor, value]) => {
           profile[flavor] = (profile[flavor] || 0) + value;
@@ -1661,7 +1652,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     });
 
     // Normalize values to be between 0 and 1
-    Object.keys(profile || {}).forEach(flavor => {
+    Object.keys(profile || ) {}).forEach(flavor => ) {
       profile[flavor] = Math.min(1, profile[flavor] / (ingredients || []).length);
     });
 
@@ -1680,13 +1671,11 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     const DOMINANT_THRESHOLD = 0.5; // Threshold for an element being considered dominant
 
     // Check for elements with meaningful presence
-    const elementsWithPresence = Object.entries(elemental).filter()
-      ([_, value]) => value >= MINIMUM_PRESENCE,
+    const elementsWithPresence = Object.entries(elemental).filter([_, value]) => value >= MINIMUM_PRESENCE,;
     ).length;
 
     // Calculate how many elements have dominant presence
-    const dominantElements = Object.entries(elemental).filter()
-      ([_, value]) => value >= DOMINANT_THRESHOLD,
+    const dominantElements = Object.entries(elemental).filter([_, value]) => value >= DOMINANT_THRESHOLD,;
     ).length;
 
     // We want at least 2-3 elements with meaningful presence
@@ -1708,7 +1697,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     options: {
       category?: string;
       similarityThreshold?: number;
-      maxResults?: number;
+      maxResults?: number
     } = {},
   ): Array<{ ingredient: UnifiedIngredient; similarityScore, number }> {
     try {
@@ -1722,19 +1711,19 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
 
       // Get candidate ingredients (either from same category or all)
-      const candidates = category
+      const candidates = category;
         ? this.getIngredientsByCategory(category)
         : this.getIngredientsByCategory(baseIngredient.category);
 
       // Filter out the original ingredient
-      const potentialAlternatives = (candidates || []).filter()
+      const potentialAlternatives = (candidates || []).filter();
         ing => ing.name.toLowerCase() !== ingredientName.toLowerCase(),
       );
 
       // Calculate similarity scores
-      const scoredAlternatives = (potentialAlternatives || []).map(ingredient => {
+      const scoredAlternatives = (potentialAlternatives || []).map(ingredient => ) {
         // Calculate elemental compatibility
-        const elementalScore = calculateElementalCompatibility()
+        const elementalScore = calculateElementalCompatibility();
           baseIngredient.elementalProperties || this.calculateElementalProperties(baseIngredient),
           ingredient.elementalProperties || this.calculateElementalProperties(ingredient),
         );
@@ -1771,8 +1760,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: { action: 'suggestAlternativeIngredients', ingredientName },
-      });
+        data: ) { action: 'suggestAlternativeIngredients', ingredientName };
+});
       return [];
     }
   }
@@ -1784,15 +1773,15 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private calculateElementalCompatibility()
     properties1: ElementalProperties,
-    properties2: ElementalProperties,
+    properties2: ElementalProperties;
   ): number {
     // Define element compatibility scores (same elements have highest compatibility)
     const compatibilityScores = {
       Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
       Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
       Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-      Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 },
-    };
+      Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 };
+};
 
     // Calculate weighted compatibility across all elements
     let weightedSum = 0;

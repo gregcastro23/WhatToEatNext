@@ -14,7 +14,7 @@ import type {
 // Extended cuisine interface for internal use
 interface ExtendedCuisine extends Cuisine {
   dishes?: Record<string, unknown>[];
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Recipe search criteria interface
@@ -79,7 +79,7 @@ export class RecipeService implements RecipeServiceInterface {
         }
       }
 
-      logger.debug(`Loaded ${recipes.length} total recipes`);
+      logger.debug(`Loaded $) {recipes.length} total recipes`);
 
       // Cache the recipes for future use
       RecipeService._allRecipes = recipes;
@@ -136,7 +136,7 @@ export class RecipeService implements RecipeServiceInterface {
 
       // Filter by max prep time
       if (criteria.maxPrepTime) {
-        filteredRecipes = filteredRecipes.filter(recipe => {
+        filteredRecipes = filteredRecipes.filter(recipe => ) {
           const prepTime = this.parseTimeToMinutes(recipe.timeToMake);
           return prepTime <= criteria.maxPrepTime!;
         });
@@ -144,8 +144,8 @@ export class RecipeService implements RecipeServiceInterface {
 
       // Filter by dietary restrictions
       if (criteria.dietaryRestrictions && criteria.dietaryRestrictions.length > 0) {
-        filteredRecipes = filteredRecipes.filter(recipe => {
-          return criteria.dietaryRestrictions!.every(restriction => {
+        filteredRecipes = filteredRecipes.filter(recipe => ) {
+          return criteria.dietaryRestrictions!.every(restriction => ) {
             switch (restriction.toLowerCase() {
               case 'vegetarian':
                 return recipe.isVegetarian === true;
@@ -167,7 +167,7 @@ export class RecipeService implements RecipeServiceInterface {
         filteredRecipes = filteredRecipes.slice(0, criteria.limit);
       }
 
-      logger.debug(`Found ${filteredRecipes.length} recipes matching criteria`);
+      logger.debug(`Found $) {filteredRecipes.length} recipes matching criteria`);
       return filteredRecipes;
     } catch (error) {
       logger.error('Error searching recipes:', error);
@@ -185,7 +185,7 @@ export class RecipeService implements RecipeServiceInterface {
     }
 
     try {
-      logger.debug(`Getting recipes for cuisine: ${cuisineName}`);
+      logger.debug(`Getting recipes for cuisine: $) {cuisineName}`);
 
       // Normalize cuisine name for comparison
       const normalizedName = cuisineName.toLowerCase().trim();
@@ -196,19 +196,19 @@ export class RecipeService implements RecipeServiceInterface {
       }
 
       // Find matching cuisine
-      const cuisine = Object.values(cuisinesMap).find((c: any) =>
+      const cuisine = Object.values(cuisinesMap).find((c: any) =>;
         c?.name?.toLowerCase().includes(normalizedName) ||
         c?.key?.toLowerCase().includes(normalizedName)
       ) as ExtendedCuisine;
 
       if (!cuisine) {
-        logger.debug(`No cuisine found for ${cuisineName}`);
+        logger.debug(`No cuisine found for $) {cuisineName}`);
         return [];
       }
 
       return await this.getRecipesFromCuisine(cuisine);
     } catch (error) {
-      logger.error(`Error getting recipes for cuisine ${cuisineName}:`, error);
+      logger.error(`Error getting recipes for cuisine $) {cuisineName}:`, error);
       return [];
     }
   }
@@ -218,18 +218,18 @@ export class RecipeService implements RecipeServiceInterface {
    */
   async getRecipesByZodiac(zodiacSign: ZodiacSign): Promise<Recipe[]> {
     try {
-      logger.debug(`Getting recipes for zodiac sign: ${zodiacSign}`);
+      logger.debug(`Getting recipes for zodiac sign: $) {zodiacSign}`);
 
       const allRecipes = await this.getAllRecipes();
 
-      return allRecipes.filter(recipe => {
+      return allRecipes.filter(recipe => ) {
         const influences = recipe.astrologicalInfluences || [];
         return influences.some((influence: string) =>
           influence.toLowerCase().includes(zodiacSign.toLowerCase())
         );
       });
     } catch (error) {
-      logger.error(`Error getting recipes for zodiac ${zodiacSign}:`, error);
+      logger.error(`Error getting recipes for zodiac $) {zodiacSign}:`, error);
       return [];
     }
   }
@@ -239,18 +239,18 @@ export class RecipeService implements RecipeServiceInterface {
    */
   async getRecipesByLunarPhase(lunarPhase: LunarPhase): Promise<Recipe[]> {
     try {
-      logger.debug(`Getting recipes for lunar phase: ${lunarPhase}`);
+      logger.debug(`Getting recipes for lunar phase: $) {lunarPhase}`);
 
       const allRecipes = await this.getAllRecipes();
 
-      return allRecipes.filter(recipe => {
+      return allRecipes.filter(recipe => ) {
         const influences = recipe.astrologicalInfluences || [];
         return influences.some((influence: string) =>
           influence.toLowerCase().includes(lunarPhase.toLowerCase())
         );
       });
     } catch (error) {
-      logger.error(`Error getting recipes for lunar phase ${lunarPhase}:`, error);
+      logger.error(`Error getting recipes for lunar phase $) {lunarPhase}:`, error);
       return [];
     }
   }
@@ -260,18 +260,18 @@ export class RecipeService implements RecipeServiceInterface {
    */
   async getRecipesBySeason(season: string): Promise<Recipe[]> {
     try {
-      logger.debug(`Getting recipes for season: ${season}`);
+      logger.debug(`Getting recipes for season: $) {season}`);
 
       const allRecipes = await this.getAllRecipes();
 
-      return allRecipes.filter(recipe => {
+      return allRecipes.filter(recipe => ) {
         const recipeSeasons = recipe.season || [];
         return recipeSeasons.some((recipeSeason: string) =>
           recipeSeason.toLowerCase().includes(season.toLowerCase())
         );
       });
     } catch (error) {
-      logger.error(`Error getting recipes for season ${season}:`, error);
+      logger.error(`Error getting recipes for season $) {season}:`, error);
       return [];
     }
   }
@@ -327,7 +327,7 @@ export class RecipeService implements RecipeServiceInterface {
       // For now, assign equal scores - full scoring would require
       // elemental compatibility calculations
       // TODO: Implement proper recipe scoring
-      return recipes.map(recipe => ({
+      return recipes.map(recipe => () {
         recipe,
         score: 0.8,
         matchReasons: ['Basic match']
@@ -374,7 +374,7 @@ export class RecipeService implements RecipeServiceInterface {
       const id = `${cuisineName.toLowerCase().replace(/\s+/g, '-')}-${dishName.toLowerCase().replace(/\s+/g, '-')}`;
 
       // Convert ingredients
-      const ingredients = Array.isArray(dish.ingredients)
+      const ingredients = Array.isArray(dish.ingredients);
         ? dish.ingredients.map((ing: any) => ({
             name: String(ing.name || ''),
             amount: typeof ing.amount === 'number' ? ing.amount : 1,
@@ -386,7 +386,7 @@ export class RecipeService implements RecipeServiceInterface {
         : [];
 
       // Convert instructions
-      const instructions = Array.isArray(dish.instructions)
+      const instructions = Array.isArray(dish.instructions);
         ? dish.instructions.map((inst: any) => String(inst))
         : Array.isArray(dish.preparationSteps)
         ? dish.preparationSteps.map((step: any) => String(step))
@@ -397,7 +397,7 @@ export class RecipeService implements RecipeServiceInterface {
       const cookTime = this.parseTime(String(dish.cookTime || '0 minutes'));
 
       // Parse servings
-      const numberOfServings = typeof dish.numberOfServings === 'number'
+      const numberOfServings = typeof dish.numberOfServings === 'number';
         ? dish.numberOfServings
         : typeof dish.servings === 'number'
         ? dish.servings
@@ -406,7 +406,7 @@ export class RecipeService implements RecipeServiceInterface {
         : 2;
 
       // Elemental properties
-      const elementalProperties = dish.elementalProperties as ElementalProperties ||
+      const elementalProperties = dish.elementalProperties as ElementalProperties ||;
         dish.elementalState as ElementalProperties || {
           Fire: 0.25,
           Water: 0.25,

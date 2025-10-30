@@ -13,7 +13,7 @@ export const frying: CookingMethodData = {
   description: 'Cooking food in hot oil or fat, creating a crispy exterior while keeping the interior moist and tender. The high-temperature process rapidly dehydrates the food surface through the expulsion of moisture, creating a protective barrier that seals in flavors while developing complex browning reactions that enhance taste and texture.',
   elementalEffect: {
     Fire: 0.6, // Primary element - intense heat is essential
-    Air: 0.2, // Secondary element - creates space between molecules,
+    Air: 0.2, // Secondary element - creates space between molecules
     Earth: 0.1, // Minimal earth element - provides structure
     Water: 0.1, // Minimal water element - actively removed in process
   },
@@ -21,7 +21,7 @@ export const frying: CookingMethodData = {
     min: 2,
     max: 15
 },
-  suitable_for [
+  suitable_for: [
     'vegetables',
     'meats',
     'seafood',
@@ -75,15 +75,15 @@ export const frying: CookingMethodData = {
     'scalability for quantity cooking'
   ],
   astrologicalInfluences: {
-    favorableZodiac: ['leo', 'aries', 'sagittarius'] as any[], // Fire signs amplify the transformative heat,
-    unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as any[], // Water signs prefer gentler cooking methods,
-    dominantPlanets: ['Mars', 'Sun', 'Saturn'], // Mars (heat), Sun (transformation), Saturn (structure),
+    favorableZodiac: ['leo', 'aries', 'sagittarius'] as any[], // Fire signs amplify the transformative heat
+    unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as any[], // Water signs prefer gentler cooking methods
+    dominantPlanets: ['Mars', 'Sun', 'Saturn'], // Mars (heat), Sun (transformation), Saturn (structure)
     lunarPhaseEffect: {
-      full_moon: 1.2, // Enhanced crispiness, intensifies fire element,
-      new_moon: 0.8, // Reduced oil absorption, calmer energy,
-      waxing_gibbous: 1.1, // Good balance of texture and flavor,
-      waning_crescent: 0.9, // Slightly reduced effectiveness,
-      first_quarter: 1.0, // Neutral effect,
+      full_moon: 1.2, // Enhanced crispiness, intensifies fire element
+      new_moon: 0.8, // Reduced oil absorption, calmer energy
+      waxing_gibbous: 1.1, // Good balance of texture and flavor
+      waning_crescent: 0.9, // Slightly reduced effectiveness
+      first_quarter: 1.0, // Neutral effect
       last_quarter: 0.9, // Slightly diminished results
     }
   },
@@ -158,45 +158,45 @@ export const frying: CookingMethodData = {
     'Citrus zest for aromatic brightness'
   ],
   nutrientRetention: {
-    proteins: 0.85, // Good protein retention but some denaturation,
-    vitamins: 0.7, // Moderate loss of water-soluble vitamins,
-    minerals: 0.8, // Good mineral retention,
-    fats: 1.5, // Increased due to oil absorption,
-    antioxidants: 0.65, // Some loss of delicate compounds,
-    flavor_compounds: 0.9, // Enhanced through Maillard reaction,
-    carotenoids: 1.2, // Enhanced bioavailability through fat incorporation,
-    vitamin_e: 1.3, // Increased from oil absorption,
-    vitamin_a: 1.1, // Better retained in oil medium,
-    vitamin_c: 0.55, // Significant loss due to heat sensitivity,
-    b_vitamins: 0.65, // Moderate losses of water-soluble B vitamins,
-    polyphenols: 0.7, // Partial retention depending on compound,
+    proteins: 0.85, // Good protein retention but some denaturation
+    vitamins: 0.7, // Moderate loss of water-soluble vitamins
+    minerals: 0.8, // Good mineral retention
+    fats: 1.5, // Increased due to oil absorption
+    antioxidants: 0.65, // Some loss of delicate compounds
+    flavor_compounds: 0.9, // Enhanced through Maillard reaction
+    carotenoids: 1.2, // Enhanced bioavailability through fat incorporation
+    vitamin_e: 1.3, // Increased from oil absorption
+    vitamin_a: 1.1, // Better retained in oil medium
+    vitamin_c: 0.55, // Significant loss due to heat sensitivity
+    b_vitamins: 0.65, // Moderate losses of water-soluble B vitamins
+    polyphenols: 0.7, // Partial retention depending on compound
     fiber: 0.9, // Minimal impact on fiber content
   },
   optimalTemperatures: {
-    french_fries_first_fry: 325, // °F, blanching stage,
-    french_fries_second_fry: 375, // °F, crisping stage,
-    breaded_chicken: 350, // °F, cooks thoroughly without burning coating,
-    fish: 375, // °F, quick cooking to prevent dryness,
-    vegetables: 375, // °F, quick cooking to maintain nutrients,
-    doughnuts: 350, // °F, allows even cooking without burning,
-    tempura: 340, // °F, light and crispy batter,
-    fritters: 360, // °F, even cooking of batter and filling,
-    potato_chips: 350, // °F, even browning,
-    calamari: 365, // °F, prevents toughening,
-    falafel: 350, // °F, browns exterior while cooking interior,
-    churros: 360, // °F, creates crisp exterior with soft interior,
-    shrimp: 375, // °F, quick cooking for delicate protein,
-    chicken_wings: 375, // °F, renders fat while crisping skin,
-    onion_rings: 360, // °F, allows sweetness to develop,
-    corn_dogs: 360, // °F, cooks batter while heating interior,
-    spring_rolls: 350, // °F, crisps wrapper without burning,
-    samosas: 355, // °F, even cooking of pastry and filling,
-    chicken_tenders: 350, // °F, cooks meat through without burning coating,
-    whole_turkey: 325, // °F, for deep-fried turkey, lower temperature for even cooking,
-    candy_bars: 375, // °F, quick sealing of coating before melting center,
-    ice_cream: 390, // °F, ultra-fast frying to create crust before melting,
-    pickle_chips: 365, // °F, quick cooking to maintain crunch,
-    mozzarella_sticks: 350, // °F, melts cheese while browning coating
+    french_fries_first_fry: 325, // °F, blanching stage
+    french_fries_second_fry: 375, // °F, crisping stage
+    breaded_chicken: 350, // °F, cooks thoroughly without burning coating
+    fish: 375, // °F, quick cooking to prevent dryness
+    vegetables: 375, // °F, quick cooking to maintain nutrients
+    doughnuts: 350, // °F, allows even cooking without burning
+    tempura: 340, // °F, light and crispy batter
+    fritters: 360, // °F, even cooking of batter and filling
+    potato_chips: 350, // °F, even browning
+    calamari: 365, // °F, prevents toughening
+    falafel: 350, // °F, browns exterior while cooking interior
+    churros: 360, // °F, creates crisp exterior with soft interior
+    shrimp: 375, // °F, quick cooking for delicate protein
+    chicken_wings: 375, // °F, renders fat while crisping skin
+    onion_rings: 360, // °F, allows sweetness to develop
+    corn_dogs: 360, // °F, cooks batter while heating interior
+    spring_rolls: 350, // °F, crisps wrapper without burning
+    samosas: 355, // °F, even cooking of pastry and filling
+    chicken_tenders: 350, // °F, cooks meat through without burning coating
+    whole_turkey: 325, // °F, for deep-fried turkey, lower temperature for even cooking
+    candy_bars: 375, // °F, quick sealing of coating before melting center
+    ice_cream: 390, // °F, ultra-fast frying to create crust before melting
+    pickle_chips: 365, // °F, quick cooking to maintain crunch
+    mozzarella_sticks: 350, // °F melts cheese while browning coating
   },
   regionalVariations: {
     japanese: [
@@ -251,23 +251,23 @@ export const frying: CookingMethodData = {
     ]
   },
   chemicalChanges: {
-    maillard_reaction: true, // Non-enzymatic browning between amino acids and sugars,
-    caramelization: true, // Direct heating of sugars creating complex flavor compounds,
-    protein_denaturation: true, // Restructuring of proteins affecting texture,
-    starch_gelatinization: true, // Transformation of starch molecules with heat and moisture,
-    oil_absorption: true, // Replacement of water with oil in surface layers,
-    water_evaporation: true, // Rapid release of moisture creating steam barrier,
-    fat_rendering: true, // Melting of solid fats in the food,
-    flavor_compound_development: true, // Creation of new aromatic molecules,
-    crust_formation: true, // Development of protective dehydrated layer,
-    vitamin_degradation: true, // Loss of heat-sensitive vitamins,
-    emulsion_breakdown: true, // Separation of water and oil phases in batters,
-    protein_coagulation: true, // Setting of proteins into gel networks,
-    gluten_network_formation: true, // Development of structural proteins in flour-based batters,
-    lipid_oxidation: true, // Oxidative changes in fats during heating,
-    moisture_barrier_formation: true, // Creation of dehydrated surface preventing further oil absorption,
-    air_pocket_creation: true, // Formation of steam pockets that create texture,
-    pyrolysis: true, // Decomposition of compounds under extreme heat,
+    maillard_reaction: true, // Non-enzymatic browning between amino acids and sugars
+    caramelization: true, // Direct heating of sugars creating complex flavor compounds
+    protein_denaturation: true, // Restructuring of proteins affecting texture
+    starch_gelatinization: true, // Transformation of starch molecules with heat and moisture
+    oil_absorption: true, // Replacement of water with oil in surface layers
+    water_evaporation: true, // Rapid release of moisture creating steam barrier
+    fat_rendering: true, // Melting of solid fats in the food
+    flavor_compound_development: true, // Creation of new aromatic molecules
+    crust_formation: true, // Development of protective dehydrated layer
+    vitamin_degradation: true, // Loss of heat-sensitive vitamins
+    emulsion_breakdown: true, // Separation of water and oil phases in batters
+    protein_coagulation: true, // Setting of proteins into gel networks
+    gluten_network_formation: true, // Development of structural proteins in flour-based batters
+    lipid_oxidation: true, // Oxidative changes in fats during heating
+    moisture_barrier_formation: true, // Creation of dehydrated surface preventing further oil absorption
+    air_pocket_creation: true, // Formation of steam pockets that create texture
+    pyrolysis: true, // Decomposition of compounds under extreme heat
     hydrolysis: true, // Breakdown of structures through water interaction
   },
   safetyFeatures: [
@@ -296,10 +296,10 @@ export const frying: CookingMethodData = {
     'Never attempt to move hot oil containers'
   ],
   thermodynamicProperties: {
-    heat: 0.85, // Very high heat transfer through oil conduction,
-    entropy: 0.7, // Rapid breakdown of structures and reorganization,
-    reactivity: 0.8, // High reactivity with numerous chemical changes,
-    gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
+    heat: 0.85, // Very high heat transfer through oil conduction
+    entropy: 0.7, // Rapid breakdown of structures and reorganization
+    reactivity: 0.8, // High reactivity with numerous chemical changes
+    gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata
@@ -353,9 +353,9 @@ export const frying: CookingMethodData = {
     'Nanoemulsion technologies (reduced oil uptake with modified interfaces)'
   ],
 
-  sustainabilityRating: 0.4, // Higher energy usage, oil disposal issues,
+  sustainabilityRating: 0.4, // Higher energy usage, oil disposal issues
 
-  equipmentComplexity: 0.6, // Moderate complexity with temperature control needs,
+  equipmentComplexity: 0.6, // Moderate complexity with temperature control needs
 
   healthConsiderations: [
     'Higher fat content due to oil absorption (5-40% by weight)',
@@ -396,9 +396,9 @@ export const frying: CookingMethodData = {
     pillarNumber: '7',
     alchemicalProcess: 'Transformation through intense heat that breaks down original structures and builds new ones',
     effects: {
-      spirit: '-1', // Decreases spiritual essence through intense transformation,
-      essence: '1', // Increases essential qualities and concentrated flavors,
-      matter: '1', // Increases material substance and structural stability,
+      spirit: '-1', // Decreases spiritual essence through intense transformation
+      essence: '1', // Increases essential qualities and concentrated flavors
+      matter: '1', // Increases material substance and structural stability
       substance: '-1', // Decreases raw substance through dehydration and breakdown
     },
     symbolicMeaning: 'Represents the purifying fire that burns away impurities and transforms raw materials into more refined substances, paralleling how frying transforms raw ingredients into more flavorful and texturally complex foods',
@@ -499,7 +499,7 @@ export const frying: CookingMethodData = {
       crust_formation: 'Progressive dehydration and protein coagulation creates semi-permeable barrier with specific textural properties. Rate of formation affects final structure.',
       bubble_mechanics: 'Smaller, more numerous bubbles create more uniform heat transfer. Bubble size affected by oil viscosity, temperature, surface tension, and impurity content.',
       cooling_dynamics: 'Rapid cooling after removal from oil creates increased oil absorption as vacuum effect draws oil into microstructure. Draining at higher temperature reduces final oil content.',
-      structural_expansion: 'Thermal expansion combined with steam pressure creates substantial volume increase in many fried items. Expansion rate influences final texture, too rapid causes structural failure.',
-    }
+      structural_expansion: 'Thermal expansion combined with steam pressure creates substantial volume increase in many fried items. Expansion rate influences final texture, too rapid causes structural failure.';
+}
   }
 }

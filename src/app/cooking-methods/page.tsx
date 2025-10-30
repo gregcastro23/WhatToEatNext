@@ -107,7 +107,7 @@ export default function CookingMethodsPage() {
               ? ((method as any).variations as string[]).map((v: string, i: number) => ({
                   id: `${key}_var_${i}`,
                   name: v,
-                  description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
+                  description: `Variation of $) => {capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
                   elementalEffect: (method as any).elementalEffect || (method as any).elementalProperties,
                   score: Math.random() * 0.3 + 0.6
                 }))
@@ -126,11 +126,11 @@ export default function CookingMethodsPage() {
 
   const handleSelectMethod = (method: unknown) => {
     const methodObj = method as any;
-    const methodId = String(methodObj.id || '')
+    const methodId = String(methodObj.id || '');
     setSelectedMethodId(methodId);
     // If it's a main method (not a variation), navigate to it
     if (!methodId.includes('_var_') {
-      router.push(`/cooking-methods/${methodId}`)
+      router.push(`/cooking-methods/$) {methodId}`)
     }
   }
 
@@ -158,7 +158,7 @@ export default function CookingMethodsPage() {
               key={category.name}
               label={`${category.icon} ${category.name}`}
               id={`method-tab-${index}`}
-              aria-controls={`method-tabpanel-${index}`}
+              aria-controls={`method-tabpanel-$) => {index}`}
             />
           ))}
         </Tabs>
@@ -188,7 +188,7 @@ export default function CookingMethodsPage() {
                 methods={formattedMethods}
                 onSelectMethod={handleSelectMethod}
                 selectedMethodId={selectedMethodId}
-                initiallyExpanded={true}
+                initiallyExpanded=) => {true}
               />
             </>)}
         </div>

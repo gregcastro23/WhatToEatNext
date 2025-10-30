@@ -190,7 +190,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ['all']
     }
   },
-  puff_pastry: {
+  puff_pastry {
     name: 'puff pastry',
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     qualities: ['versatile', 'culinary'],
@@ -674,7 +674,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ['all']
     }
   },
-  shortcrust_pastry: {
+  shortcrust_pastry {
     name: 'shortcrust pastry',
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     qualities: ['versatile', 'culinary'],
@@ -685,7 +685,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ['all']
     }
   },
-  choux_pastry: {
+  choux_pastry {
     name: 'choux pastry',
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     qualities: ['versatile', 'culinary'],

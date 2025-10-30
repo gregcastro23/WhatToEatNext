@@ -14,12 +14,12 @@ export interface CelestialData {
   sun?: {
     sign?: string;
     degree?: number;
-    exactLongitude?: number;
+    exactLongitude?: number
   };
   moon?: {
     sign?: string;
     degree?: number;
-    exactLongitude?: number;
+    exactLongitude?: number
   };
   // Include elemental values
   Fire?: number;
@@ -34,9 +34,9 @@ interface InitializationResult {
   data?: {
     recipes: ScoredRecipe[];
     favorites: string[];
-    celestialData: CelestialData;
+    celestialData: CelestialData
   };
-  error?: string;
+  error?: string
 }
 
 class InitializationService {
@@ -48,8 +48,8 @@ class InitializationService {
 
   async initialize(): Promise<InitializationResult> {
     if (this.isInitializing) {
-      return this.initPromise ?? Promise.reject(new Error('Initialization promise not found'))
-    }
+      return this.initPromise ?? Promise.reject(new Error('Initialization promise not found'));
+}
 
     this.isInitializing = true;
     this.initPromise = this.performInitialization();
@@ -58,7 +58,7 @@ class InitializationService {
 
   private async performInitialization(): Promise<InitializationResult> {
     try {
-      logger.info('Starting application initialization', {
+      logger.info('Starting application initialization', ) {
         attempt: this.retryCount + 1
       })
 
@@ -66,18 +66,18 @@ class InitializationService {
       await new Promise(resolve => setTimeout(resolve, 100))
 
       // Initialize services in sequence
-      const recipes = await this.initializeRecipes()
-      const userState = await this.initializeUserState()
-      const celestialData = await this.initializeCelestialData()
+      const recipes = await this.initializeRecipes();
+      const userState = await this.initializeUserState();
+      const celestialData = await this.initializeCelestialData();
 
       // Process and validate recipes
-      const processedRecipes = this.processRecipes(recipes, celestialData)
+      const processedRecipes = this.processRecipes(recipes, celestialData);
 
       // Get the actual stateManager instance
       const manager = await stateManager;
 
       // Convert celestial data to elemental properties format
-      const elementalPreference = this.convertToElementalProperties(celestialData)
+      const elementalPreference = this.convertToElementalProperties(celestialData);
 
       // Update the state with the elemental preference - safe method access
       const managerObj = manager as any;
@@ -94,7 +94,7 @@ class InitializationService {
       }
 
       // Validate final state - only using properties that exist in AlchemicalState
-      const isValid = stateValidator.validateState({
+      const isValid = stateValidator.validateState({)
         celestialPositions: this.formatCelestialData(celestialData),
         elementalPreference,
         currentSeason: this.getCurrentSeason(),
@@ -137,7 +137,7 @@ class InitializationService {
         }
       }
     } catch (error) {
-      errorHandler.handleError(error, {
+      errorHandler.handleError(error, ) {
         context: 'InitializationService',
         action: 'initialize',
         attempt: this.retryCount + 1
@@ -145,10 +145,10 @@ class InitializationService {
 
       if (this.retryCount < this.MAX_RETRIES) {
         this.retryCount++;
-        logger.info(`Retrying initialization (${this.retryCount}/${this.MAX_RETRIES})`)
+        logger.info(`Retrying initialization (${this.retryCount}/$) {this.MAX_RETRIES})`)
         await new Promise(resolve => setTimeout(resolve, this.RETRY_DELAY * this.retryCount))
-        return this.performInitialization()
-      }
+        return this.performInitialization();
+}
 
       return {
         success: false,
@@ -176,19 +176,19 @@ class InitializationService {
     try {
       // Get the actual stateManager instance first
       const manager = await stateManager;
-      return await manager.getState()
-    } catch (error) {
+      return await manager.getState();
+} catch (error) {
       logger.warn('Failed to load user state, using defaults: ', error)
-      return { recipes: { favorites: [] } }
-    }
+      return { recipes: { favorites: [] } };
+}
   }
 
   private async initializeCelestialData(): Promise<CelestialData> {
     try {
-      const alignment = celestialCalculator.calculateCurrentInfluences()
+      const alignment = celestialCalculator.calculateCurrentInfluences();
 
       // Convert CelestialAlignment to CelestialData format with safe property access
-      const alignmentData = alignment as any
+      const alignmentData = alignment as any;
       return {
         sun: alignmentData?.sun || { sign: '', degree: 0, exactLongitude: 0 },
         moon: alignmentData?.moon || { sign: '', degree: 0, exactLongitude: 0 },
@@ -204,7 +204,7 @@ class InitializationService {
   }
 
   private processRecipes(recipes: Recipe[], celestialData: CelestialData): ScoredRecipe[] {
-    return recipes.map(recipe => ({
+    return recipes.map(recipe => () {
       ...recipe,
       score: this.calculateRecipeScore(recipe, celestialData)
     }))

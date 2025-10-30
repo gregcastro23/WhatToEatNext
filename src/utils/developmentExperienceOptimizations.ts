@@ -72,7 +72,7 @@ export class DevelopmentExperienceOptimizer {
     typescript: TypeScriptOptimizationConfig;
     intelliSense: IntelliSenseConfig;
     importOrganization: ImportOrganizationConfig;
-    performanceMonitoring: PerformanceMonitoringConfig;
+    performanceMonitoring: PerformanceMonitoringConfig
   };
 
   private constructor() {
@@ -92,7 +92,7 @@ export class DevelopmentExperienceOptimizer {
    * Generate optimized TypeScript configuration
    */
   public generateOptimizedTypeScriptConfig(): unknown {
-    const config = this.optimizationConfig.typescript
+    const config = this.optimizationConfig.typescript;
 
     return {
       _compilerOptions: {
@@ -273,7 +273,7 @@ declare global {
     const remainingErrors: string[] = [];
 
     // Fix common TypeScript errors
-    const commonFixes = [
+    const commonFixes = [;
       {
         pattern: /React\.FC<([^>]+)>/g,
         replacement: 'React.FC<1>',
@@ -296,7 +296,7 @@ declare global {
       }
     ];
 
-    commonFixes.forEach(fix => {
+    commonFixes.forEach(fix => ) {
       if (fix.pattern.test(fixedCode) {
         fixedCode = fixedCode.replace(fix.pattern, fix.replacement);
         fixes.push(fix.description);
@@ -304,21 +304,21 @@ declare global {
     });
 
     // Detect remaining errors (simplified detection)
-    const errorPatterns = [
+    const errorPatterns = [;
       /Property '([^']+)' does not exist on type/g,
       /Type '([^']+)' is not assignable to type/g,
       /Cannot find name '([^']+)'/g
     ];
 
-    errorPatterns.forEach(pattern => {
+    errorPatterns.forEach(pattern => ) {
       const matches = fixedCode.match(pattern);
       if (matches) {
         matches.forEach(match => remainingErrors.push(match));
       }
     });
 
-    return { fixedCode, fixes, remainingErrors }
-  }
+    return { fixedCode, fixes, remainingErrors };
+}
 
   /**
    * Monitor performance metrics in real-time
@@ -335,8 +335,8 @@ declare global {
    * Get current development metrics
    */
   public getDevelopmentMetrics(): DevelopmentMetrics {
-    return { ...this.metrics }
-  }
+    return { ...this.metrics };
+}
 
   /**
    * Generate performance optimization recommendations
@@ -403,11 +403,11 @@ declare global {
 
     try {
       // Generate optimized TypeScript config
-      const _tsConfig = this.generateOptimizedTypeScriptConfig()
+      const _tsConfig = this.generateOptimizedTypeScriptConfig();
       applied.push('Generated optimized TypeScript configuration')
 
       // Generate enhanced type definitions
-      const _typeDefinitions = this.generateAstrologicalTypeDefinitions()
+      const _typeDefinitions = this.generateAstrologicalTypeDefinitions();
       applied.push('Generated enhanced astrological type definitions')
 
       // Update performance monitoring
@@ -423,8 +423,8 @@ declare global {
       logger.error('Error applying automatic optimizations: ', error)
     }
 
-    return { applied, skipped, errors }
-  }
+    return { applied, skipped, errors };
+}
 
   // Private helper methods
 
@@ -485,7 +485,7 @@ declare global {
 
     // Monitor memory usage
     setInterval(() => {
-      const perfWithMemory = performance as { memory?: { usedJSHeapSize: number } }
+      const perfWithMemory = performance as { memory?: { usedJSHeapSize: number } };
       if (perfWithMemory.memory) {
         const memoryUsage = perfWithMemory.memory.usedJSHeapSize / 1024 / 1024;
         this.updatePerformanceMetrics({ memoryUsage })
@@ -504,7 +504,7 @@ declare global {
     Object.entries(thresholds).forEach(([metric, threshold]) => {
       const currentValue = this.metrics[metric as keyof DevelopmentMetrics];
       if (typeof currentValue === 'number' && currentValue > threshold) {
-        logger.warn(`Performance threshold exceeded for ${metric}:`, {
+        logger.warn(`Performance threshold exceeded for ${metric}:`, ) {
           current: currentValue,
           threshold
         });
@@ -513,18 +513,18 @@ declare global {
   }
 
   private removeUnusedImports(imports: string[], codeBody: string): string[] {
-    return imports.filter(importLine => {
+    return imports.filter(importLine => ) {
       // Extract imported names from the import statement,
-      const importMatch = importLine.match(/import\s+(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))/)
+      const importMatch = importLine.match(/import\s+(?:\) {([^}]+)\}|\*\s+as\s+(\w+)|(\w+))/);
       if (!importMatch) return true;
 
-      const importedNames = importMatch[1]
+      const importedNames = importMatch[1];
         ? importMatch[1].split(',').map(name => name.trim().split(' as ')[0])
         : [importMatch[2] || importMatch[3]];
 
       // Check if any imported name is used in the code
-      return importedNames.some(name => {
-        const regex = new RegExp(`\\b${name}\\b`, 'g');
+      return importedNames.some(name => ) {
+        const regex = new RegExp(`\\b$) {name}\\b`, 'g');
         return regex.test(codeBody);
       });
     });
@@ -534,7 +534,7 @@ declare global {
     const externalImports: string[] = [];
     const internalImports: string[] = [];
 
-    imports.forEach(importLine => {
+    imports.forEach(importLine => ) {
       if (importLine.includes('@/') || importLine.includes('./') || importLine.includes('../') {
         internalImports.push(importLine);
       } else if (importLine.trim().startsWith('import ') {
@@ -554,7 +554,7 @@ declare global {
     // For nowwe'll simulate real-time error detection
     setInterval(() => {
       // Simulate error detection
-      const errorCount = Math.floor(Math.random() * 5)
+      const errorCount = Math.floor(Math.random() * 5);
       this.updatePerformanceMetrics({ errorCount })
     }, 30000); // Every 30 seconds
   }
@@ -564,14 +564,14 @@ declare global {
  * Convenience function to get development experience optimizer instance
  */
 export function getDevelopmentExperienceOptimizer(): DevelopmentExperienceOptimizer {
-  return DevelopmentExperienceOptimizer.getInstance()
+  return DevelopmentExperienceOptimizer.getInstance();
 }
 
 /**
  * Hook for components to use development experience optimizations
  */
 export function useDevelopmentExperienceOptimizations() {
-  const optimizer = getDevelopmentExperienceOptimizer()
+  const optimizer = getDevelopmentExperienceOptimizer();
 
   return {
     generateOptimizedTypeScriptConfig: () => optimizer.generateOptimizedTypeScriptConfig(),

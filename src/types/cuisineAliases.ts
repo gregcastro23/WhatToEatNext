@@ -163,7 +163,7 @@ export const CUISINE_ALIASES: Record<string, PrimaryCuisineType> = {
   stpetersburg: 'Russian',
   siberian: 'Russian',
   caucasian: 'Russian',
-  centralasian: 'Russian',
+  centralasian: 'Russian';
 };
 
 // ========== ALIAS RESOLUTION FUNCTIONS ==========
@@ -174,7 +174,7 @@ export const CUISINE_ALIASES: Record<string, PrimaryCuisineType> = {
  * @returns The primary cuisine type or the original name if no alias exists
  */
 export function resolveCuisineType(cuisineName: string): PrimaryCuisineType | string {
-  const normalizedName = cuisineName.toLowerCase().replace(/[^a-z]/g, '')
+  const normalizedName = cuisineName.toLowerCase().replace(/[^a-z]/g, '');
   return CUISINE_ALIASES[normalizedName] || cuisineName;
 }
 
@@ -195,7 +195,7 @@ export function getRegionalCuisines(primaryCuisine: PrimaryCuisineType): string[
  * @returns True if the cuisine is a regional variant, false if it's a primary cuisine
  */
 export function isRegionalCuisine(cuisineName: string): boolean {
-  const normalizedName = cuisineName.toLowerCase().replace(/[^a-z]/g, '')
+  const normalizedName = cuisineName.toLowerCase().replace(/[^a-z]/g, '');
   return normalizedName in CUISINE_ALIASES;
 }
 
@@ -205,7 +205,7 @@ export function isRegionalCuisine(cuisineName: string): boolean {
  * @returns The primary cuisine type or undefined if not found
  */
 export function getPrimaryCuisine(regionalCuisine: string): PrimaryCuisineType | undefined {
-  const normalizedName = regionalCuisine.toLowerCase().replace(/[^a-z]/g, '')
+  const normalizedName = regionalCuisine.toLowerCase().replace(/[^a-z]/g, '');
   return CUISINE_ALIASES[normalizedName];
 }
 
@@ -247,8 +247,8 @@ export function isValidPrimaryCuisine(cuisineName: string): cuisineName is Prima
 export function normalizeCuisineName(cuisineName: string): string {
   // For regional cuisines, just normalize the casing without resolving
   if (isRegionalCuisine(cuisineName) {
-    return cuisineName.charAt(0).toUpperCase() + cuisineName.slice(1).toLowerCase()
-  }
+    return cuisineName.charAt(0).toUpperCase() + cuisineName.slice(1).toLowerCase();
+}
 
   // For primary cuisines, return with proper casing
   if (isValidPrimaryCuisine(cuisineName) {

@@ -1,3 +1,4 @@
+import { _logger } from '@/lib/logger';
 'use client';
 
 export interface ComponentMetrics {
@@ -32,8 +33,8 @@ export interface PerformanceAlert {
 
 class PerformanceMonitoringService {
   private componentMetrics: Map<string, ComponentMetrics> = new Map()
-  private systemMetrics: SystemMetrics,
-  private alerts: PerformanceAlert[] = [],
+  private systemMetrics: SystemMetrics;
+  private alerts: PerformanceAlert[] = [];
   private startTime: number = Date.now()
   private subscribers: Set<(data: unknown) => void> = new Set()
 
@@ -67,14 +68,14 @@ class PerformanceMonitoringService {
   }
 
   private updateSystemMetrics() {
-    const now = Date.now()
+    const now = Date.now();
 
     // Calculate memory usage;
-    let totalMemory = 0,
+    let totalMemory = 0,;
     if ('memory' in performance) {
       const memInfo = (performance as unknown).memory;
-      totalMemory = memInfo.usedJSHeapSize / 1024 / 1024, // Convert to MB,
-    }
+      totalMemory = memInfo.usedJSHeapSize / 1024 / 1024, // Convert to MB;
+}
 
     // Update system metrics
     this.systemMetrics = {
@@ -95,7 +96,7 @@ class PerformanceMonitoringService {
         this.addAlert({
           type: 'error',
           component: componentName,
-          message: `Component ${componentName} has slow render time`,
+          message: `Component $) {componentName} has slow render time`,
           timestamp: new Date(),
           metric: 'renderTime',
           value: metrics.averageRenderTime,
@@ -105,7 +106,7 @@ class PerformanceMonitoringService {
         this.addAlert({
           type: 'warning',
           component: componentName,
-          message: `Component ${componentName} render time approaching threshold`,
+          message: `Component $) {componentName} render time approaching threshold`,
           timestamp: new Date(),
           metric: 'renderTime',
           value: metrics.averageRenderTime,
@@ -114,12 +115,12 @@ class PerformanceMonitoringService {
       }
 
       // Check error rate
-      const errorRate = metrics.errorCount / Math.max(metrics.renderCount, 1)
+      const errorRate = metrics.errorCount / Math.max(metrics.renderCount, 1);
       if (errorRate > this.ERROR_RATE_WARNING) {
         this.addAlert({
           type: 'warning',
           component: componentName,
-          message: `Component ${componentName} has high error rate`,
+          message: `Component $) {componentName} has high error rate`,
           timestamp: new Date(),
           metric: 'errorRate',
           value: errorRate,
@@ -174,8 +175,8 @@ class PerformanceMonitoringService {
       summary: this.getPerformanceSummary()
     }
 
-    this.subscribers.forEach(callback => {
-      try {
+    this.subscribers.forEach(callback => ) {
+      try ) {
         callback(data);
       } catch (error) {
         _logger.error('[Performance Monitor] Subscriber error: ', error)
@@ -185,13 +186,13 @@ class PerformanceMonitoringService {
 
   // Public methods
   public trackComponentRender(componentName: string, renderTime: number) {
-    const existing = this.componentMetrics.get(componentName)
+    const existing = this.componentMetrics.get(componentName);
 
-    if (existing) {;
+    if (existing) {
       const newRenderCount = existing.renderCount + 1;
       const newTotalTime = existing.totalRenderTime + renderTime
 ;
-      this.componentMetrics.set(componentName, {
+      this.componentMetrics.set(componentName, ) {
         ...existing,
         renderCount: newRenderCount,
         totalRenderTime: newTotalTime,
@@ -200,7 +201,7 @@ class PerformanceMonitoringService {
         lastUpdated: new Date()
       })
     } else {
-      this.componentMetrics.set(componentName, {
+      this.componentMetrics.set(componentName, ) {
         name: componentName,
         renderCount: 1,
         totalRenderTime: renderTime,
@@ -214,15 +215,15 @@ class PerformanceMonitoringService {
   }
 
   public trackComponentError(componentName: string, error: Error | string) {
-    const existing = this.componentMetrics.get(componentName)
-    if (existing) {;
-      this.componentMetrics.set(componentName, {
+    const existing = this.componentMetrics.get(componentName);
+    if (existing) {
+      this.componentMetrics.set(componentName, ) {
         ...existing,
         errorCount: existing.errorCount + 1,
         lastUpdated: new Date()
       })
     } else {
-      this.componentMetrics.set(componentName, {
+      this.componentMetrics.set(componentName, ) {
         name: componentName,
         renderCount: 0,
         totalRenderTime: 0,
@@ -234,8 +235,8 @@ class PerformanceMonitoringService {
       })
     }
 
-    this.systemMetrics.totalErrors += 1,
-  }
+    this.systemMetrics.totalErrors += 1;
+}
 
   public subscribe(callback: (data: unknown) => void) {
     this.subscribers.add(callback)
@@ -248,10 +249,10 @@ class PerformanceMonitoringService {
 
   public getComponentMetrics(componentName?: string) {
     if (componentName) {
-      return this.componentMetrics.get(componentName)
-    }
-    return Array.from(this.componentMetrics.entries())
-  }
+      return this.componentMetrics.get(componentName);
+}
+    return Array.from(this.componentMetrics.entries());
+}
 
   public getSystemMetrics() {
     return this.systemMetrics;
@@ -265,13 +266,13 @@ class PerformanceMonitoringService {
   }
 
   public clearAlerts() {
-    this.alerts = [],
-  }
+    this.alerts = [];
+}
 
   public getPerformanceSummary() {
-    const components = Array.from(this.componentMetrics.values())
-    const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING)
-    const errorProneComponents = components.filter()
+    const components = Array.from(this.componentMetrics.values());
+    const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING);
+    const errorProneComponents = components.filter();
       c => c.errorCount / Math.max(c.renderCount, 1) > this.ERROR_RATE_WARNING,,
     ),
 
@@ -289,25 +290,25 @@ class PerformanceMonitoringService {
   }
 
   private calculateHealthScore(): number {
-    let score = 100,
+    let score = 100,;
 
     // Deduct for slow components
-    const components = Array.from(this.componentMetrics.values())
-    const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING)
+    const components = Array.from(this.componentMetrics.values());
+    const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING);
     score -= (slowComponents.length / Math.max(components.length1)) * 30
 
     // Deduct for errors;
-    const totalRenders = components.reduce((sumc) => sum + c.renderCount, 0)
-    const errorRate = this.systemMetrics.totalErrors / Math.max(totalRenders, 1)
+    const totalRenders = components.reduce((sumc) => sum + c.renderCount, 0);
+    const errorRate = this.systemMetrics.totalErrors / Math.max(totalRenders, 1);
     score -= errorRate * 40,
 
     // Deduct for memory usage
     if (this.systemMetrics.totalMemoryUsage > this.MEMORY_WARNING) {
-      score -= 20,
-    }
+      score -= 20;
+}
 
-    return Math.max(0, Math.min(100, score))
-  }
+    return Math.max(0, Math.min(100, score));
+}
 
   public reset() {
     this.componentMetrics.clear()

@@ -260,7 +260,7 @@ export interface CompatibilityScore {
     affinityBonus?: number;
     dignityBonus?: number;
     decanBonus?: number;
-    aspectBonus?: number;
+    aspectBonus?: number
   };
 }
 
@@ -278,13 +278,13 @@ export interface SystemState {
   cacheStatus: {
     size: number;
     lastCleared: Date;
-    hitRate: number;
+    hitRate: number
   };
   processingQueue: {
     pending: number;
     processing: number;
     completed: number;
-    failed: number;
+    failed: number
   };
 }
 
@@ -326,7 +326,7 @@ export class FoodAlchemySystem {
     aspects?: Array<{ type: string; planets: [string, string] }>,
   ): CompatibilityScore {
     // Normalize planetary positions for robust, type-safe access
-    const normalizedPositions = normalizePlanetaryPositions(planetaryPositions || {});
+    const normalizedPositions = normalizePlanetaryPositions(planetaryPositions || ) {});
     // Use normalizedPositions in all downstream logic
     // Calculate elemental match (45% weight)
     const elementalMatch = this.calculateElementalMatch(chart, food);
@@ -405,7 +405,7 @@ export class FoodAlchemySystem {
     planetaryDay: string,
     planetaryPositions?: Record<string, { sign: string; degree, number }>,
   ): { score: number; dignityBonus?, number; decanBonus?, number } {
-    const normalizedPositions = normalizePlanetaryPositions(planetaryPositions || {});
+    const normalizedPositions = normalizePlanetaryPositions(planetaryPositions || ) {});
     // Get the elements associated with the current planetary day
     const dayElements = planetaryElements[planetaryDay];
     if (!dayElements) return { score: 0.5 }; // Unknown planet
@@ -518,7 +518,7 @@ export class FoodAlchemySystem {
     // Apply aspect effects if available
     if (aspects?.length > 0) {
       // Find aspects involving the planetary hour ruler
-      const hourAspects = aspects.filter(a => a.planets.includes(planetaryHour))
+      const hourAspects = aspects.filter(a => a.planets.includes(planetaryHour));
 
       for (const aspect of hourAspects) {
         const otherPlanet =

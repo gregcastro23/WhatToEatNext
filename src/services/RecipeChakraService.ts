@@ -19,10 +19,10 @@ export class RecipeChakraService {
    */
   public enhanceRecipeWithChakraBalance()
     recipe: Recipe,
-    chakraEnergyStates: ChakraEnergyState[],
+    chakraEnergyStates: ChakraEnergyState[];
   ): Recipe {
     // Get underactive chakras that need support
-    const underactiveChakras = chakraEnergyStates
+    const underactiveChakras = chakraEnergyStates;
       .filter(state => state.balanceState === 'underactive')
       .map(state => state.chakra);
 
@@ -50,7 +50,7 @@ export class RecipeChakraService {
    */
   public evaluateRecipeChakraBalance()
     recipe: Recipe,
-    chakraEnergyStates: ChakraEnergyState[],
+    chakraEnergyStates: ChakraEnergyState[];
   ): {
     score: number;
     balancedChakras: Chakra[];
@@ -72,7 +72,7 @@ export class RecipeChakraService {
     };
 
     // Analyze ingredient colors and map to chakra influences
-    ingredientColors.forEach(color => {
+    ingredientColors.forEach(color => ) {
       if (color === 'red' || color === 'brown') chakraInfluences['Root'] += 1;
       if (color === 'orange') chakraInfluences['Sacral'] += 1;
       if (color === 'yellow') chakraInfluences['Solar Plexus'] += 1;
@@ -83,17 +83,17 @@ export class RecipeChakraService {
     });
 
     // Find balanced and imbalanced chakras
-    const balancedChakras = Object.entries(chakraInfluences)
+    const balancedChakras = Object.entries(chakraInfluences);
       .filter(([_, value]) => value >= 1)
       .map(([chakra]) => chakra as Chakra);
 
-    const imbalancedChakras = Object.entries(chakraInfluences)
+    const imbalancedChakras = Object.entries(chakraInfluences);
       .filter(([_, value]) => value === 0)
       .map(([chakra]) => chakra as Chakra);
 
     // Generate suggestions based on imbalanced chakras
-    const suggestions = imbalancedChakras
-      .map(chakra => {
+    const suggestions = imbalancedChakras;
+      .map(chakra => ) {
         switch (chakra) {
           case 'Root': return 'Add red foods like beets or root vegetables';
           case 'Sacral': return 'Include orange foods like carrots or oranges';

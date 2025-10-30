@@ -31,7 +31,7 @@ export function normalizeIngredientName(name: string): string {
  * @returns Nutritional profile or null if not found
  */
 export async function getNutritionalData()
-  ingredientName: string,
+  ingredientName: string;
 ): Promise<NutritionalProfile | null> {
   // Use the fetchNutritionalData function from nutritional.ts
   const profile = await fetchNutritionalData(ingredientName)
@@ -58,7 +58,7 @@ export async function getNutritionalData()
  * @returns Array of ingredient category names
  */
 export function getAvailableNutritionalIngredients(): string[] {
-  return Object.keys(baseNutritionalProfiles)
+  return Object.keys(baseNutritionalProfiles);
 }
 
 /**
@@ -70,14 +70,14 @@ export function getAvailableNutritionalIngredients(): string[] {
  */
 export async function compareNutritionalValues()
   ingredient1: string,
-  ingredient2: string,
+  ingredient2: string;
 ): Promise<{
   ingredient1: NutritionalProfile | null,
   ingredient2: NutritionalProfile | null,
-  differences: Record<string, number>,
+  differences: Record<string, number>;
 }> {
-  const profile1 = await getNutritionalData(ingredient1)
-  const profile2 = await getNutritionalData(ingredient2)
+  const profile1 = await getNutritionalData(ingredient1);
+  const profile2 = await getNutritionalData(ingredient2);
 
   // Return early if either ingredient not found
   if (!profile1 || !profile2) {
@@ -89,10 +89,10 @@ export async function compareNutritionalValues()
   }
 
   // Calculate differences in key metrics (percentage difference) - safe property access
-  const profile1Data = profile1 as { macros?: Record<string, number> }
-  const profile2Data = profile2 as { macros?: Record<string, number> }
-  const profile1Macros = profile1Data?.macros || {}
-  const profile2Macros = profile2Data?.macros || {}
+  const profile1Data = profile1 as { macros?: Record<string, number> };
+  const profile2Data = profile2 as { macros?: Record<string, number> };
+  const profile1Macros = profile1Data?.macros || {};
+  const profile2Macros = profile2Data?.macros || {};
 
   const differences: Record<string, number> = {
     calories: (((profile2.calories || 0) - (profile1.calories || 0)) / (profile1.calories || 1)) * 100;
@@ -107,7 +107,7 @@ export async function compareNutritionalValues()
       : 0,
     fiber: profile1Macros.fiber
       ? ((profile2Macros.fiber - profile1Macros.fiber) / profile1Macros.fiber) * 100
-      : 0,
+      : 0
   };
 
   return {

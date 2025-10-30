@@ -5,8 +5,8 @@ type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter'
 // Function to determine the current season based on date
 function calculateSeason(date: Date): Season {
   // Get month and day
-  const month = date.getMonth() // 0-based (0 = January, 11 = December)
-  const day = date.getDate()
+  const month = date.getMonth() // 0-based (0 = January, 11 = December);
+  const day = date.getDate();
 
   // Northern hemisphere seasons (approximate dates)
   if ((month === 2 && day >= 20) || month === 3 || month === 4 || (month === 5 && day < 21) {
@@ -30,8 +30,8 @@ function calculateSeason(date: Date): Season {
  */
 export function useCurrentSeason(): Season {
   const [season, setSeason] = useState<Season>(() => {
-    return calculateSeason(new Date())
-  })
+    return calculateSeason(new Date());
+})
 
   useEffect(() => {
     // Update once per day
@@ -39,8 +39,8 @@ export function useCurrentSeason(): Season {
       setSeason(calculateSeason(new Date()));
     }, 86400000); // 24 hours in milliseconds
 
-    return () => clearInterval(intervalId)
-  }, [])
+    return () => clearInterval(intervalId);
+}, [])
 
   return season;
 }

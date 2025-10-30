@@ -15,10 +15,10 @@ export const curing: CookingMethodData = {
     Air: 0.3
 },
   duration: {
-    min: 180, // 3 hours,
+    min: 180, // 3 hours
     max: 8640, // 6 months (in minutes)
   },
-  suitable_for ['Meats', 'Fish', 'Vegetables', 'Eggs', 'Citrus peels'],
+  suitable_for: ['Meats', 'Fish', 'Vegetables', 'Eggs', 'Citrus peels'],
   benefits: [
     'Preservation without artificial additives',
     'Enhanced flavor development',
@@ -33,7 +33,7 @@ export const curing: CookingMethodData = {
     'Nitrate/nitrite curing (using pink salt)'
   ],
   optimalTemperatures: {
-    refrigeration: 1, // °C (refrigeration temperature),
+    refrigeration: 1, // °C (refrigeration temperature)
     cool: 18, // °C (cool room temperature)
   },
   toolsRequired: [

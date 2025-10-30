@@ -873,12 +873,12 @@ export function calculateRecipeZodiacCompatibility(
 
   // Calculate compatibility scores
   let modalityScore = 0;
-  if (ingredientModality === preparationModality) {;
+  if (ingredientModality === preparationModality) {
     modalityScore = 0.8; // Strong match
   } else if (
     (ingredientModality === 'cardinal' && preparationModality === 'mutable') ||
     (ingredientModality === 'mutable' && preparationModality === 'cardinal')
-  ) {;
+  ) {
     modalityScore = 0.6; // Good match
   } else {
     modalityScore = 0.3; // Fair match
@@ -886,14 +886,14 @@ export function calculateRecipeZodiacCompatibility(
 
   // Element compatibility
   let elementScore = 0;
-  if (ingredientElement === preparationElement) {;
+  if (ingredientElement === preparationElement) {
     elementScore = 0.9; // Strong match
   } else if (
     (ingredientElement === 'fire' && preparationElement === 'air') ||
     (ingredientElement === 'air' && preparationElement === 'fire') ||
     (ingredientElement === 'earth' && preparationElement === 'water') ||
     (ingredientElement === 'water' && preparationElement === 'earth')
-  ) {;
+  ) {
     elementScore = 0.7; // Good match
   } else {
     elementScore = 0.4; // Fair match

@@ -22,7 +22,7 @@ export interface RecipeCompatibilityResult {
   absoluteElementalMatch: number;
   relativeElementalMatch: number;
   dominantElementMatch: number;
-  energeticResonance: number;
+  energeticResonance: number
 }
 
 /**
@@ -35,35 +35,35 @@ export function calculateRecipeCompatibility()
   // Convert ElementalValues to ElementalProperties for compatibility
   const currentMomentElementalProperties = toElementalProperties(currentMomentKalchmResult);
   // Calculate comprehensive elemental alignments
-  const absoluteElementalMatch = calculateAbsoluteElementalAlignment(recipeElementalProperties,)
+  const absoluteElementalMatch = calculateAbsoluteElementalAlignment(recipeElementalProperties,);
     currentMomentElementalProperties);
 
-  const relativeElementalMatch = calculateRelativeElementalAlignment(recipeElementalProperties,)
+  const relativeElementalMatch = calculateRelativeElementalAlignment(recipeElementalProperties,);
     currentMomentElementalProperties);
 
-  const dominantElementMatch = calculateDominantElementAlignment(recipeElementalProperties,)
+  const dominantElementMatch = calculateDominantElementAlignment(recipeElementalProperties,);
     currentMomentElementalProperties);
 
   // Calculate alchemical alignment using kalchm
-  const kalchmAlignment = calculateKalchmAlignment(recipeElementalProperties,)
+  const kalchmAlignment = calculateKalchmAlignment(recipeElementalProperties,);
     currentMomentKalchmResult);
 
   // Calculate monica constant alignment for cooking method compatibility
-  const monicaAlignment = calculateMonicaAlignment(recipeElementalProperties,)
+  const monicaAlignment = calculateMonicaAlignment(recipeElementalProperties,);
     currentMomentKalchmResult);
 
   // Calculate thermodynamic alignment
-  const thermodynamicAlignment = calculateEnhancedThermodynamicAlignment()
+  const thermodynamicAlignment = calculateEnhancedThermodynamicAlignment();
     recipeElementalProperties,
     currentMomentKalchmResult.thermodynamics
   );
 
   // Calculate energetic resonance (how well the energies harmonize)
-  const energeticResonance = calculateEnergeticResonance(recipeElementalProperties,)
+  const energeticResonance = calculateEnergeticResonance(recipeElementalProperties,);
     currentMomentKalchmResult);
 
   // Enhanced weighted compatibility score
-  const compatibilityScore = calculateWeightedCompatibilityScore({
+  const compatibilityScore = calculateWeightedCompatibilityScore({)
     absoluteElementalMatch,
     relativeElementalMatch,
     dominantElementMatch,
@@ -78,7 +78,7 @@ export function calculateRecipeCompatibility()
     absoluteElementalMatch * 0.4 + relativeElementalMatch * 0.35 + dominantElementMatch * 0.25;
 
   // Generate enhanced recommendations
-  const recommendations = generateEnhancedRecipeRecommendations(compatibilityScore, {
+  const recommendations = generateEnhancedRecipeRecommendations(compatibilityScore, ) {
     absoluteElementalMatch,
     relativeElementalMatch,
     dominantElementMatch,
@@ -142,8 +142,7 @@ function calculateRelativeElementalAlignment(recipeElements: ElementalProperties
     // Calculate relative values for both recipe and current moment
     const otherElements = elements.filter(e => e !== element);
     const recipeTotal = otherElements.reduce((sum, e) => sum + (recipeElements[e] || 0), 0);
-    const currentMomentTotal = otherElements.reduce()
-      (sum, e) => sum + (currentMomentElements[e] || 0),
+    const currentMomentTotal = otherElements.reduce(sum, e) => sum + (currentMomentElements[e] || 0),;
       0
     );
 
@@ -243,7 +242,7 @@ function calculateEnhancedThermodynamicAlignment(recipeElements: ElementalProper
   const entropyAlignment = 1 - Math.abs(recipeThermodynamics.entropy - userThermodynamics.entropy);
   const reactivityAlignment =
     1 - Math.abs(recipeThermodynamics.reactivity - userThermodynamics.reactivity);
-  const energyAlignment = calculateEnergyAlignment(recipeThermodynamics.gregsEnergy,)
+  const energyAlignment = calculateEnergyAlignment(recipeThermodynamics.gregsEnergy,);
     userThermodynamics.gregsEnergy);
 
   // Weighted average (heat and reactivity are most important for cooking)
@@ -266,7 +265,7 @@ function calculateEnergeticResonance(recipeElements: ElementalProperties,)
 
   // Resonance occurs at simple ratios (1:1, 2:1, 1:2, 3:2, etc.)
   const simpleRatios = [1, 0.5, 2, 0.67, 1.5, 0.75, 1.33];
-  const resonanceScore = Math.max()
+  const resonanceScore = Math.max();
     ...simpleRatios.map(ratio => 1 - Math.abs(energyRatio - ratio) / ratio)
   );
 
@@ -276,14 +275,14 @@ function calculateEnergeticResonance(recipeElements: ElementalProperties,)
 /**
  * Calculate weighted compatibility score using all factors
  */
-function calculateWeightedCompatibilityScore(scores: {
+function calculateWeightedCompatibilityScore(scores: ) {
   absoluteElementalMatch: number;
   relativeElementalMatch: number;
   dominantElementMatch: number;
   kalchmAlignment: number;
   monicaAlignment: number;
   thermodynamicAlignment: number;
-  energeticResonance: number;
+  energeticResonance: number
 }): number {
   // Enhanced weighting system
   const weights = {
@@ -315,8 +314,7 @@ function calculateWeightedCompatibilityScore(scores: {
  */
 function getDominantElement(elements: ElementalProperties): keyof ElementalProperties {
   const entries = Object.entries(elements) as [keyof ElementalProperties, number][];
-  return entries.reduce()
-    (dominant, [element, value]) => (value > elements[dominant] ? element : dominant),
+  return entries.reduce(dominant, [element, value]) => (value > elements[dominant] ? element : dominant),
     'Fire'
   );
 }
@@ -330,8 +328,7 @@ function calculateRecipeKalchm(elements: ElementalProperties): number {
   const Matter = Earth || 0.001;
   const Substance = Air || 0.001;
 
-  const kalchm =
-    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
+  const kalchm = (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /;
     (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
 
   return isFinite(kalchm) ? kalchm : 1.0;
@@ -376,7 +373,7 @@ function generateEnhancedRecipeRecommendations()
     kalchmAlignment: number;
     monicaAlignment: number;
     thermodynamicAlignment: number;
-    energeticResonance: number;
+    energeticResonance: number
   }): string[] {
   const recommendations: string[] = [];
 

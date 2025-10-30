@@ -31,7 +31,7 @@ export class RecipeElementalService {
    * @returns Recipe with guaranteed elemental properties
    */
   public standardizeRecipe<T extends Partial<Recipe>>(
-    recipe: T,
+    recipe: T;
   ): T & { elementalProperties: ElementalProperties } {
     try {
       return elementalUtils.standardizeRecipeElements(recipe);
@@ -51,7 +51,7 @@ export class RecipeElementalService {
    * @returns Array of recipes with guaranteed elemental properties
    */
   public standardizeRecipes<T extends Partial<Recipe>>(
-    recipes: T[],
+    recipes: T[];
   ): Array<T & { elementalProperties: ElementalProperties }> {
     return recipes.map(recipe => this.standardizeRecipe(recipe));
   }
@@ -119,7 +119,7 @@ export class RecipeElementalService {
     try {
       // Adjust based on cooking method - safe property access for string/string[]
       if (recipe.cookingMethod) {
-        const methodValue = Array.isArray(recipe.cookingMethod)
+        const methodValue = Array.isArray(recipe.cookingMethod);
           ? recipe.cookingMethod[0]
           : recipe.cookingMethod;
         const method = (methodValue || '').toString().toLowerCase();
@@ -193,7 +193,7 @@ export class RecipeElementalService {
 
         // Process ingredients with elemental properties
         let ingredientCount = 0;
-        recipe.ingredients.forEach(ingredient => {
+        recipe.ingredients.forEach(ingredient => ) {
           if (ingredient.elementalProperties) {
             // Get values from each element, guarding against undefined values
             ingredientProps.Fire += ingredient.elementalProperties.Fire || 0;

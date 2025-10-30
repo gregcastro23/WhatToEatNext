@@ -139,7 +139,7 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
   const positions: Record<string, PlanetPosition> = {};
 
   // Current planetary positions (May 16, 2024) from user input
-  const hardcodedPositions: Record<string, { sign: ZodiacSign; degree: number; minute, number }> = {
+  const hardcodedPositions: Record<string, { sign: ZodiacSign; degree: number; minute: number }> = {
     Sun: { sign: 'taurus', degree: 27, minute: 12 },
     Moon: { sign: 'capricorn', degree: 25, minute: 36 },
     Mercury: { sign: 'taurus', degree: 13, minute: 17 },

@@ -19,7 +19,7 @@ export const roasting: CookingMethodData = {
     min: 15,
     max: 240
 },
-  suitable_for [
+  suitable_for: [
     'meat',
     'poultry',
     'fish',
@@ -42,9 +42,9 @@ export const roasting: CookingMethodData = {
     unfavorableZodiac: ['pisces', 'cancer', 'scorpio'] as any[],
     dominantPlanets: ['Sun', 'Mars', 'Jupiter'],
     lunarPhaseEffect: {
-      full_moon: 1.1, // Slight enhancement,
-      new_moon: 0.9, // Slight reduction,
-      waning_gibbous: 1.2, // Enhanced browning,
+      full_moon: 1.1, // Slight enhancement
+      new_moon: 0.9, // Slight reduction
+      waning_gibbous: 1.2, // Enhanced browning
       waxing_crescent: 0.8, // Reduced flavor development
     },
     rulingPlanets: ['Mars', 'Sun']
@@ -100,43 +100,43 @@ export const roasting: CookingMethodData = {
   ],
   nutrientRetention: {
     proteins: 0.85,
-    fats: 0.7, // Some lost through rendering,
+    fats: 0.7, // Some lost through rendering
     minerals: 0.9,
     vitamins: 0.7,
     antioxidants: 0.75,
     'water-soluble': 0.65,
     'fat-soluble': 0.8,
-    polyphenols: 0.65, // Plant antioxidants,
-    carotenoids: 0.85, // Enhanced bioavailability in some cases,
-    thiamin: 0.6, // Heat-sensitive B vitamin,
-    riboflavin: 0.75, // More stable B vitamin,
-    folate: 0.55, // Heat-sensitive B vitamin,
-    vitamin_c: 0.5, // Heat and oxidation sensitive,
+    polyphenols: 0.65, // Plant antioxidants
+    carotenoids: 0.85, // Enhanced bioavailability in some cases
+    thiamin: 0.6, // Heat-sensitive B vitamin
+    riboflavin: 0.75, // More stable B vitamin
+    folate: 0.55, // Heat-sensitive B vitamin
+    vitamin_c: 0.5, // Heat and oxidation sensitive
     iron: 0.95, // Highly stable mineral
   },
   optimalTemperatures: {
-    whole_chicken: 375, // °F, cook to internal temp of 165°F,
-    turkey: 325, // °F, cook to internal temp of 165°F,
-    beef_prime_rib: 225, // °F for first phase, then 500°F for final sear,
-    beef_tenderloin: 425, // °F, cook to internal temp of 125°F for medium-rare,
-    pork_loin: 350, // °F, cook to internal temp of 145°F,
-    lamb_leg: 325, // °F, cook to internal temp of 135°F for medium-rare,
-    root_vegetables: 425, // °F, until fork-tender and caramelized edges,
-    fish_whole: 400, // °F, cook to internal temp of 135°F,
-    nuts_seeds: 325, // °F, until fragrant and golden,
-    coffee_beans: 350, // °F, varies by desired roast level,
-    duck: 300, // °F for rendering, then 425°F for crisping,
-    vegetables_leafy: 400, // °F, until crisp-tender,
-    vegetables_cruciferous: 425, // °F, until edges brown and interior softens,
-    fruits_stone: 375, // °F, until caramelized and tender,
-    game_meats: 275, // °F, lower temperature for wild game to prevent toughening,
-    goat: 325, // °F, similar to lamb but benefits from slightly lower temp,
-    venison: 325, // °F, lean meat requires careful temperature monitoring,
-    veal: 325, // °F, more delicate than beef, requiring gentler heat,
-    pork_belly: 300, // °F, for proper fat rendering without drying meat,
-    bison: 250, // °F, extremely lean, requiring lower temp than beef,
-    quail: 450, // °F, small birds need high heat for short duration,
-    pheasant: 375, // °F, game bird with moderate fat requiring medium-high heat
+    whole_chicken: 375, // °F, cook to internal temp of 165°F
+    turkey: 325, // °F, cook to internal temp of 165°F
+    beef_prime_rib: 225, // °F for first phase, then 500°F for final sear
+    beef_tenderloin: 425, // °F, cook to internal temp of 125°F for medium-rare
+    pork_loin: 350, // °F, cook to internal temp of 145°F
+    lamb_leg: 325, // °F, cook to internal temp of 135°F for medium-rare
+    root_vegetables: 425, // °F, until fork-tender and caramelized edges
+    fish_whole: 400, // °F, cook to internal temp of 135°F
+    nuts_seeds: 325, // °F, until fragrant and golden
+    coffee_beans: 350, // °F, varies by desired roast level
+    duck: 300, // °F for rendering, then 425°F for crisping
+    vegetables_leafy: 400, // °F, until crisp-tender
+    vegetables_cruciferous: 425, // °F, until edges brown and interior softens
+    fruits_stone: 375, // °F, until caramelized and tender
+    game_meats: 275, // °F, lower temperature for wild game to prevent toughening
+    goat: 325, // °F, similar to lamb but benefits from slightly lower temp
+    venison: 325, // °F, lean meat requires careful temperature monitoring
+    veal: 325, // °F, more delicate than beef, requiring gentler heat
+    pork_belly: 300, // °F, for proper fat rendering without drying meat
+    bison: 250, // °F, extremely lean, requiring lower temp than beef
+    quail: 450, // °F, small birds need high heat for short duration
+    pheasant: 375, // °F game bird with moderate fat requiring medium-high heat
   },
   regionalVariations: {
     mediterranean: [
@@ -201,18 +201,18 @@ export const roasting: CookingMethodData = {
     ]
   },
   chemicalChanges: {
-    maillard_reaction: true, // Non-enzymatic browning between amino acids and reducing sugars,
-    caramelization: true, // Direct heating of sugars creating complex flavor compounds,
-    fat_rendering: true, // Conversion of solid fats to liquid, carrying flavors,
-    protein_denaturation: true, // Reconfiguration of protein structures affecting texture,
-    pyrolysis: true, // Decomposition of compounds through intense heat,
-    moisture_migration: true, // Movement of water from interior to surface,
-    collagen_hydrolysis: true, // Conversion of tough collagen to gelatin in long roasts,
-    lipid_oxidation: true, // Development of flavor compounds from fat transformation,
-    aromatic_volatilization: true, // Release of volatile flavor compounds,
-    starch_gelatinization: true, // In vegetables and fruits containing starch,
-    mineral_concentration: true, // Concentration of minerals as moisture is lost,
-    enzyme_inactivation: true, // Heat deactivation of enzymes that cause deterioration,
+    maillard_reaction: true, // Non-enzymatic browning between amino acids and reducing sugars
+    caramelization: true, // Direct heating of sugars creating complex flavor compounds
+    fat_rendering: true, // Conversion of solid fats to liquid, carrying flavors
+    protein_denaturation: true, // Reconfiguration of protein structures affecting texture
+    pyrolysis: true, // Decomposition of compounds through intense heat
+    moisture_migration: true, // Movement of water from interior to surface
+    collagen_hydrolysis: true, // Conversion of tough collagen to gelatin in long roasts
+    lipid_oxidation: true, // Development of flavor compounds from fat transformation
+    aromatic_volatilization: true, // Release of volatile flavor compounds
+    starch_gelatinization: true, // In vegetables and fruits containing starch
+    mineral_concentration: true, // Concentration of minerals as moisture is lost
+    enzyme_inactivation: true, // Heat deactivation of enzymes that cause deterioration
     vitamin_degradation: true, // Reduction of heat-sensitive vitamins
   },
   safetyFeatures: [
@@ -231,10 +231,10 @@ export const roasting: CookingMethodData = {
     'Ensuring sufficient clearance around heating equipment'
   ],
   thermodynamicProperties: {
-    heat: 0.75, // High heat application,
-    entropy: 0.6, // Moderate-high structural transformations,
-    reactivity: 0.8, // High chemical reactivity (significant Maillard),
-    gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
+    heat: 0.75, // High heat application
+    entropy: 0.6, // Moderate-high structural transformations
+    reactivity: 0.8, // High chemical reactivity (significant Maillard)
+    gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata
@@ -275,9 +275,9 @@ export const roasting: CookingMethodData = {
     'Liquid nitrogen pre-treatment for crisp exterior development'
   ],
 
-  sustainabilityRating: 0.6, // Moderate energy usage over extended periods,
+  sustainabilityRating: 0.6, // Moderate energy usage over extended periods
 
-  equipmentComplexity: 0.4, // Basic to moderate equipment needs,
+  equipmentComplexity: 0.4, // Basic to moderate equipment needs
 
   healthConsiderations: [
     'Fat rendering can reduce total fat content compared to raw ingredients',
@@ -402,7 +402,7 @@ export const roasting: CookingMethodData = {
       probe_thermometers: 'Continuous monitoring prevents door opening, select models with heat-resistant cables to 700°F.',
       pan_materials: 'Stainless steel with aluminum core provides durability and heat distribution, avoid non-stick for high-temperature roasting.',
       specialized_equipment: 'Vertical roasters for poultry maximize skin exposure, rotisseries provide continuous basting action.',
-      spit_roasting: 'Continuous rotation creates self-basting effect, proximity to heat source creates unique flavor development.',
-    }
+      spit_roasting: 'Continuous rotation creates self-basting effect, proximity to heat source creates unique flavor development.';
+}
   }
 }

@@ -15,10 +15,10 @@ export const emulsification: CookingMethodData = {
     Air: 0.4
 },
   duration: {
-    min: 5, // minutes,
+    min: 5, // minutes
     max: 30, // minutes
   },
-  suitable_for ['Oils', 'Vinegars', 'Fats', 'Juices', 'Dairy', 'Purees', 'Stocks'],
+  suitable_for: ['Oils', 'Vinegars', 'Fats', 'Juices', 'Dairy', 'Purees', 'Stocks'],
   benefits: [
     'Can reduce the amount of fat needed in a dish while preserving flavor',
     'Creates light, airy textures with concentrated flavors',
@@ -34,7 +34,7 @@ export const emulsification: CookingMethodData = {
     'Fluid gels (emulsions stabilized with hydrocolloids)'
   ],
   optimalTemperatures: {
-    cold: 12, // °C (average for cold emulsions),
+    cold: 12, // °C (average for cold emulsions)
     hot: 70, // °C (average for hot emulsions)
   },
   toolsRequired: [

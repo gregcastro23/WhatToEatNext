@@ -1,3 +1,4 @@
+import { _logger } from '@/lib/logger';
 import { celestialCalculator } from '@/services/celestialCalculations';
 import type { ElementalProperties } from '@/types/alchemy';
 import type { Recipe } from '@/types/recipe';
@@ -12,7 +13,7 @@ interface ScoredRecipe extends Recipe {
   _matches: {
     elemental: number,
     _seasonal: number,
-    _astrological: number;
+    _astrological: number
   };
 }
 
@@ -41,7 +42,7 @@ interface UserPreferences {
     mode: 'light' | 'dark' | 'system'
     colorScheme: string;
     fontSize: number;
-    animations: boolean;
+    animations: boolean
   };
   dietary: {
     restrictions: DietaryRestriction[],
@@ -74,7 +75,7 @@ interface AppState {
     elementalState: ElementalProperties,
     season: string,
     moonPhase: string,
-    lastUpdated: number;
+    lastUpdated: number
   };
   user: {
     preferences: UserPreferences,
@@ -94,7 +95,7 @@ interface AppState {
       id: string,
       type: 'success' | 'error' | 'info'
       message: string,
-      timestamp: number;
+      timestamp: number
     }>;
   };
 }
@@ -105,7 +106,7 @@ interface AppState {
  */
 class StateManager {
   private static instance: StateManager,
-  private state: AppState,
+  private state: AppState;
   private listeners: Map<string, Set<(state: AppState) => void>>,
   private readonly STORAGE_KEY = 'app_state';
   private readonly UPDATE_INTERVAL = 1000 * 60 * 5; // 5 minutes
@@ -127,11 +128,11 @@ class StateManager {
   private loadInitialState(): AppState {
     try {
       // Fix: Remove type parameter since cache.get doesn't accept it
-      const cached = cache.get(this.STORAGE_KEY)
+      const cached = cache.get(this.STORAGE_KEY);
       // Add type guard to ensure cached data has the right shape
       if (cached && this.isValidAppState(cached) {
         // Ensure activeFilters is a Set after deserialization
-        if (cached.ui) {;
+        if (cached.ui) {
           const ui = cached.ui as any;
           if (Array.isArray(ui.activeFilters) {
             cached.ui.activeFilters = new Set(ui.activeFilters as string[])
@@ -143,28 +144,28 @@ class StateManager {
       const stored = typeof window !== 'undefined' ? localStorage.getItem(this.STORAGE_KEY) : null;
 
       if (stored) {
-        const parsed = JSON.parse(stored)
+        const parsed = JSON.parse(stored);
         // Ensure activeFilters is a Set after deserialization
         if (parsed.ui && Array.isArray(parsed.ui.activeFilters) {
           parsed.ui.activeFilters = new Set(parsed.ui.activeFilters)
         }
         if (this.isValidAppState(parsed) {
-          return parsed
-        }
+          return parsed;
+}
       }
-      return this.getDefaultState()
-    } catch (error) {
+      return this.getDefaultState();
+} catch (error) {
       logger.error('Error loading state: ', error)
-      return this.getDefaultState()
-    }
+      return this.getDefaultState();
+}
   }
 
   // Add helper to validate the state structure
   private isValidAppState(obj: unknown): obj is AppState {
     if (!obj || typeof obj !== 'object') return false;
     const data = obj as any;
-    return !!(data.recipes && data.celestial && data.user && data.ui)
-  }
+    return !!(data.recipes && data.celestial && data.user && data.ui);
+}
 
   private getDefaultState(): AppState {
     return {
@@ -254,7 +255,7 @@ class StateManager {
 
   private async updateCelestialData(): Promise<void> {
     try {
-      const influences = celestialCalculator.calculateCurrentInfluences()
+      const influences = celestialCalculator.calculateCurrentInfluences();
       // Convert influences to proper ElementalProperties
       const elementalState: ElementalProperties = {
         Fire: influences.elementalBalance?.Fire || 0,
@@ -264,7 +265,7 @@ class StateManager {
       }
 
       this.setState({
-        celestial: {
+        celestial: ) {
           ...this.state.celestial,
           elementalState,
           lastUpdated: Date.now()
@@ -295,8 +296,8 @@ class StateManager {
 
   // Public API
   getState(): AppState {
-    return { ...this.state }
-  }
+    return { ...this.state };
+}
 
   setState(updates: Partial<AppState>): void {
     this.state = { ...this.state, ...updates }
@@ -326,7 +327,7 @@ class StateManager {
   }
 
   private notifyListeners(): void {
-    this.listeners.forEach(listeners => {
+    this.listeners.forEach(listeners => ) {
       listeners.forEach(listener => listener(this.state));
     });
   }
@@ -345,7 +346,7 @@ class StateManager {
     this.setState({
       user: {
         ...this.state.user,
-        history: {
+        history: ) {
           ...this.state.user.history,
           [type]: history
         }
@@ -359,7 +360,7 @@ class StateManager {
         ...this.state.user,
         history: {
           ...this.state.user.history,
-          rated: {
+          rated: ) {
             ...this.state.user.history.rated,
             [recipeId]: rating
           }
@@ -378,7 +379,7 @@ class StateManager {
     }
 
     this.setState({
-      recipes: {
+      recipes: ) {
         ...this.state.recipes,
         favorites
       }
@@ -396,7 +397,7 @@ class StateManager {
     const notifications = [notification, ...this.state.ui.notifications].slice(0, 5);
 
     this.setState({
-      ui: {
+      ui: ) {
         ...this.state.ui,
         notifications
       }
@@ -405,7 +406,7 @@ class StateManager {
     // Auto-remove after 5 seconds
     setTimeout(() => {
       this.setState({
-        ui: {
+        ui: ) {
           ...this.state.ui,
           notifications: this.state.ui.notifications.filter(n => n.id !== notification.id)
         }

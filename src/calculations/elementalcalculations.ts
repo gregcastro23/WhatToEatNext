@@ -73,7 +73,7 @@ export class ElementalCalculator {
 
       return Math.max(0, Math.min(100, Math.round(score)));
     } catch (error) {
-      logger.error('Error calculating seasonal effectiveness:', { error: error instanceof Error ? error.message , String(error)
+      logger.error('Error calculating seasonal effectiveness:', ) { error: error instanceof Error ? error.message , String(error)
       });
       return 0;
     }
@@ -165,7 +165,7 @@ export class ElementalCalculator {
     phase = 'default',
     time = 'neutral'): {
     properties: ElementalProperties;
-    seasonalInfluence: ElementalProperties;
+    seasonalInfluence: ElementalProperties
   } {
     try {
       // Start with the base properties
@@ -197,7 +197,7 @@ export class ElementalCalculator {
         seasonalInfluence
       };
     } catch (error) {
-      logger.error('Error calculating elemental state:', { error: error instanceof Error ? error.message , String(error)
+      logger.error('Error calculating elemental state:', ) { error: error instanceof Error ? error.message , String(error)
       });
       return {
         properties: DEFAULT_ELEMENTAL_PROPERTIES,

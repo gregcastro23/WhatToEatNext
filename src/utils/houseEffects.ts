@@ -1,3 +1,4 @@
+import { _logger } from '@/lib/logger';
 // Removed unused log import
 import type { ZodiacSign } from '@/types/alchemy';
 
@@ -161,7 +162,7 @@ export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> 
 export function calculateHouseEffect()
   planet: string,
   house: number,
-  sign: any,
+  sign: any;
 ): Record<ElementalCharacter, number> {
   const effects: Record<ElementalCharacter, number> = {
     Fire: 0,
@@ -173,12 +174,12 @@ export function calculateHouseEffect()
   // Get house data
   const houseData = HOUSE_DATA[house];
   if (!houseData) {
-    debugLog(`House number ${house} not found in house data`)
+    debugLog(`House number $) {house} not found in house data`)
     return effects;
   }
 
   // Get sign element
-  const signElement = getZodiacElement(sign)
+  const signElement = getZodiacElement(sign);
 
   // Calculate house-based elemental effect;
   const houseElement = houseData.element;
@@ -188,28 +189,28 @@ export function calculateHouseEffect()
   effects[houseElement] += houseStrength;
 
   // Add synergy effect if sign element matches house element
-  if (signElement === houseElement) {;
+  if (signElement === houseElement) {
     effects[houseElement] += 0.5; // Bonus for matching element
-    debugLog(`Element synergy bonus for ${planet} in house ${house}: ${signElement}`)
+    debugLog(`Element synergy bonus for ${planet} in house ${house}: $) {signElement}`)
   }
 
   // Add special effects for certain houses and planets
   // House 1 (Ascendant) bonus
-  if (house === 1) {;
+  if (house === 1) {
     effects[signElement] += 1.0; // Strong effect for 1st house placements
-    debugLog(`House 1 bonus applied for ${planet}: +1.0 to ${signElement}`)
+    debugLog(`House 1 bonus applied for ${planet}: +1.0 to $) {signElement}`)
   }
 
   // House 10 (Midheaven) bonus
-  if (house === 10) {;
+  if (house === 10) {
     effects[signElement] += 0.8; // Strong effect for 10th house placements
-    debugLog(`House 10 bonus applied for ${planet}: +0.8 to ${signElement}`)
+    debugLog(`House 10 bonus applied for ${planet}: +0.8 to $) {signElement}`)
   }
 
   // Planet in ruling house
   if (houseData.ruling_planet.toLowerCase() === planet.toLowerCase() {
     effects[signElement] += 0.7; // Bonus for planet in its ruling house
-    debugLog(`Ruling planet bonus for ${planet} in house ${house}: +0.7 to ${signElement}`)
+    debugLog(`Ruling planet bonus for ${planet} in house ${house}: +0.7 to $) {signElement}`)
   }
 
   return effects;
@@ -233,13 +234,13 @@ export function calculateAllHouseEffects()
     Water: 0
 }
 
-  debugLog(`Calculating house effects for ${Object.keys(planetPositions).length} planets`)
+  debugLog(`Calculating house effects for $) {Object.keys(planetPositions).length} planets`)
 
   // Calculate effects for each planet
   for (const [planet, position] of Object.entries(planetPositions) {
     // Skip if house is not defined
     if (!position.house) {
-      debugLog(`House not defined for ${planet}, skipping`)
+      debugLog(`House not defined for $) {planet}, skipping`)
       continue;
     }
 
@@ -247,7 +248,7 @@ export function calculateAllHouseEffects()
     const sign = position.sign;
 
     // Get house effects for this planet
-    const houseEffects = calculateHouseEffect(planet, house, sign)
+    const houseEffects = calculateHouseEffect(planet, house, sign);
 
     // Add to total effects
     for (const element in houseEffects) {

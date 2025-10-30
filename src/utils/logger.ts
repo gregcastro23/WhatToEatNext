@@ -35,38 +35,38 @@ class Logger {
     this.componentLoggers.add(component);
     return { debug: (message, string, ...args: unknown[]): void => {
         try {
-          this.debug(message, { component, args });
+          this.debug(message, ) { component, args });
         } catch (e) {
           // Silent failure - logging errors should not break application
-          console.warn(`[LOGGER-ERROR] Failed to log debug message for ${component}:`, e);
+          console.warn(`[LOGGER-ERROR] Failed to log debug message for $) {component}:`, e);
         }
       },
       log: (message: string, ...args: unknown[]): void => {
         try {
-          this.info(message, { component, args });
+          this.info(message, ) { component, args });
         } catch (e) {
-          console.warn(`[LOGGER-ERROR] Failed to log message for ${component}:`, e);
+          console.warn(`[LOGGER-ERROR] Failed to log message for $) {component}:`, e);
         }
       },
       info: (message: string, ...args: unknown[]): void => {
         try {
-          this.info(message, { component, args });
+          this.info(message, ) { component, args });
         } catch (e) {
-          console.warn(`[LOGGER-ERROR] Failed to log info message for ${component}:`, e);
+          console.warn(`[LOGGER-ERROR] Failed to log info message for $) {component}:`, e);
         }
       },
       warn: (message: string, ...args: unknown[]): void => {
         try {
-          this.warn(message, { component, args });
+          this.warn(message, ) { component, args });
         } catch (e) {
-          console.warn(`[LOGGER-ERROR] Failed to log warning for ${component}:`, e);
+          console.warn(`[LOGGER-ERROR] Failed to log warning for $) {component}:`, e);
         }
       },
       error: (message: string, ...args: unknown[]): void => {
         try {
-          this.error(message, { component, args });
+          this.error(message, ) { component, args });
         } catch (e) {
-          console.error(`[LOGGER-ERROR] Failed to log error for ${component}:`, e);
+          console.error(`[LOGGER-ERROR] Failed to log error for $) {component}:`, e);
         }
       }
     }
@@ -79,7 +79,7 @@ class Logger {
     if (this.shouldLog('debug') {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
-      console.log(`[DEBUG]${component} ${message}`, ...options.rest);
+      console.log(`[DEBUG]${component} $) {message}`, ...options.rest);
     }
   }
 
@@ -90,7 +90,7 @@ class Logger {
     if (this.shouldLog('info') {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
-      console.info(`[INFO]${component} ${message}`, ...options.rest);
+      console.info(`[INFO]${component} $) {message}`, ...options.rest);
     }
   }
 
@@ -101,7 +101,7 @@ class Logger {
     if (this.shouldLog('warn') {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
-      console.warn(`[WARN]${component} ${message}`, ...options.rest);
+      console.warn(`[WARN]${component} $) {message}`, ...options.rest);
     }
   }
 
@@ -112,7 +112,7 @@ class Logger {
     if (this.shouldLog('error') {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
-      console.error(`[ERROR]${component} ${message}`, ...options.rest);
+      console.error(`[ERROR]${component} $) {message}`, ...options.rest);
 
       // Store error for summary
       this.storeError(message, options.component);
@@ -157,7 +157,7 @@ class Logger {
       return 'No recent errors';
     }
     return this.recentErrors
-      .map(err => {
+      .map(err => ) {
         const date = new Date(err.timestamp).toLocaleTimeString();
         const component = err.component ? `[${err.component}]` : '';
         return `[${date}]${component} ${err.message}`;
@@ -202,9 +202,9 @@ export const logger = (() => {
 // Helper functions for creating component-specific loggers
 export const createLogger = (component: string) => logger.createLogger(component);
 // Utility functions for direct use (for backwards compatibility)
-export const _debugLog = (message: string, ...args: unknown[]): void =>
+export const _debugLog = (message: string, ...args: unknown[]): void =>;
   logger.debug(message, ...args);
 export const _infoLog = (message: string, ...args: unknown[]): void => logger.info(message, ...args);
 export const _warnLog = (message: string, ...args: unknown[]): void => logger.warn(message, ...args);
-export const _errorLog = (message: string, ...args: unknown[]): void =>
+export const _errorLog = (message: string, ...args: unknown[]): void =>;
   logger.error(message, ...args);

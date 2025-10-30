@@ -486,49 +486,49 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
     if (
       normalizedName.includes('fruit') ||
       ['apple', 'orange', 'banana', 'berry', 'grape'].some(f => normalizedName.includes(f))
-    ) {;
+    ) {
       return baseNutritionalProfiles.fruits;
     }
 
     if (
       normalizedName.includes('grain') ||
       ['rice', 'wheat', 'oat', 'quinoa', 'barley'].some(g => normalizedName.includes(g))
-    ) {;
+    ) {
       return baseNutritionalProfiles.grains;
     }
 
     if (
       normalizedName.includes('legume') ||
       ['bean', 'lentil', 'pea', 'chickpea'].some(l => normalizedName.includes(l))
-    ) {;
+    ) {
       return baseNutritionalProfiles.legumes;
     }
 
     if (
       normalizedName.includes('nut') ||
       ['almond', 'walnut', 'peanut', 'cashew'].some(n => normalizedName.includes(n))
-    ) {;
+    ) {
       return baseNutritionalProfiles.nuts;
     }
 
     if (
       normalizedName.includes('dairy') ||
       ['milk', 'cheese', 'yogurt', 'butter'].some(d => normalizedName.includes(d))
-    ) {;
+    ) {
       return baseNutritionalProfiles.dairy;
     }
 
     if (
       normalizedName.includes('meat') ||
       ['beef', 'pork', 'chicken', 'turkey'].some(m => normalizedName.includes(m))
-    ) {;
+    ) {
       return baseNutritionalProfiles.meat;
     }
 
     if (
       normalizedName.includes('fish') ||
       ['salmon', 'tuna', 'cod', 'sardine'].some(f => normalizedName.includes(f))
-    ) {;
+    ) {
       return baseNutritionalProfiles.fish;
     }
 
@@ -569,7 +569,7 @@ export function calculateNutritionalBalance(
     phytonutrients: {}
   };
 
-  if (!ingredients || ingredients.length === 0) {;
+  if (!ingredients || ingredients.length === 0) {
     return defaultProfile
   }
 
@@ -581,7 +581,7 @@ export function calculateNutritionalBalance(
 
     // Add macros
     if (profile.macros) {
-      if (!acc.macros) {;
+      if (!acc.macros) {
         acc.macros = { protein: 0, carbs: 0, fat: 0, fiber: 0 }
       }
       acc.macros.protein = (acc.macros.protein || 0) + (profile.macros.protein || 0)
@@ -712,7 +712,7 @@ const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> 
 /**
  * Helper function to determine if it's currently daytime (6am-6pm)
  */
-function isDaytime(date: Date = new Date()): boolean {;
+function isDaytime(date: Date = new Date()): boolean {
   const hour = date.getHours()
   return hour >= 6 && hour < 18;
 }

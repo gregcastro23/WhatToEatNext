@@ -277,7 +277,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {
         month > startMonth ||
         month < endMonth ||
         (month === endMonth && day <= endDay)
-      ) {;
+      ) {
         return season as Season;
       }
     } else {
@@ -286,7 +286,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {
         (month === startMonth && day >= startDay) ||
         (month > startMonth && month < endMonth) ||
         (month === endMonth && day <= endDay)
-      ) {;
+      ) {
         return season as Season;
       }
     }
@@ -299,7 +299,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {
  * Get seasonal elemental modifier for a given season
  */
 export function getSeasonalModifier(season: Season): ElementalProperties {
-  return SEASONAL_MODIFIERS[season] || BALANCED_ELEMENTS
+  return SEASONAL_MODIFIERS[season] || BALANCED_ELEMENTS;
 }
 
 /**
@@ -315,20 +315,20 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
   const index2 = seasonOrder.indexOf(season2);
 
   if (index1 !== -1 && index2 !== -1) {
-    const distance = Math.min()
+    const distance = Math.min();
       Math.abs(index1 - index2),
       4 - Math.abs(index1 - index2), // Circular distance
     )
 
     switch (distance) {
-      case 0: return 1.0; // Same season
-      case 1:
+      case: 0: return 1.0; // Same season
+      case: 1:
         return 0.7; // Adjacent seasons
-      case 2:
+      case: 2:
         return 0.4; // Opposite seasons
       default:
-        return 0.5 // Fallback
-    }
+        return 0.5 // Fallback;
+}
   }
 
   return 0.5; // Default compatibility
@@ -338,7 +338,7 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
  * Get zodiac signs for a season
  */
 export function getZodiacSignsForSeason(season: Season): any[] {
-  return ZODIAC_SEASONS[season] || []
+  return ZODIAC_SEASONS[season] || [];
 }
 
 /**
@@ -361,9 +361,9 @@ export function applySeasonalModifier()
   season: Season,
   strength: number = 0.5
 ): ElementalProperties {
-  const modifier = getSeasonalModifier(season)
+  const modifier = getSeasonalModifier(season);
 
-  return {
+  return: {
     Fire: baseProperties.Fire * (1 - strength) + modifier.Fire * strength,
     Water: baseProperties.Water * (1 - strength) + modifier.Water * strength,
     Earth: baseProperties.Earth * (1 - strength) + modifier.Earth * strength,

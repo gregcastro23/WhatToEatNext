@@ -9,9 +9,9 @@ const Loading = ({
   variant,
   text
 }: {
-  fullScreen?: boolean,
-  variant?: string,
-  text?: string
+  fullScreen?: boolean;
+  variant?: string;
+  text?: string;
 }) => (
   <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>
     <div className='text-center text-gray-600'>
@@ -26,8 +26,8 @@ interface TemplateProps {
 }
 
 export default function Template({ children }: TemplateProps) {
-  const [isHydrated, setIsHydrated] = useState(false)
-  const [hasError, setHasError] = useState(false)
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     try {
@@ -44,7 +44,7 @@ export default function Template({ children }: TemplateProps) {
       }
 
       // Ensure minimum styling is applied
-      if (!document.getElementById('base-styles') {
+      if (!document.getElementById('base-styles')) {
         const style = document.createElement('style');
         style.id = 'base-styles'
         style.textContent = `
@@ -60,7 +60,7 @@ export default function Template({ children }: TemplateProps) {
         document.head.appendChild(style)
       }
     } catch (error) {
-      console.error('Template hydration error:', error, {
+      console.error('Template hydration error:', error, ) {
         context: 'Template',
         action: 'hydration'
       })
