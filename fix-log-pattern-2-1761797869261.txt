@@ -1,0 +1,4 @@
+[2025-10-30T04:17:49.261Z] ===== PATTERN 2: MALFORMED TEMPLATE LITERALS =====
+[2025-10-30T04:17:49.263Z] Mode: DRY RUN (no changes will be made)
+[2025-10-30T04:17:49.263Z] Log file: /Users/GregCastro/Desktop/WhatToEatNext/fix-log-pattern-2-1761797869261.txt
+[2025-10-30T04:17:49.264Z] Scanning codebase for files with parsing errors...

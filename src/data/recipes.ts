@@ -94,7 +94,7 @@ export interface RecipeData {
 
   // Standardized fields
   servingSize?: number; // Number of servings
-  substitutions?: { original: string; alternatives, string[] }[];
+  substitutions?: { original: string; alternatives: string[] }[];
   tools?: string[]; // Required cooking tools/equipment
   spiceLevel?: number | 'mild' | 'medium' | 'hot' | 'very hot'; // Indicator of spiciness
   nutrition?: Nutrition; // Nutritional information

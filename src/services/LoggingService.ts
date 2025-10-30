@@ -88,19 +88,19 @@ class LoggingService {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public error(message: string, context?: LogContext, error?: Error, data?: any): void {
-    this.log(LogLevel.ERROR, message, context, error, data)
+    this.log(LogLevel.ERROR, message, context, error, data);
   }
 
 
-  private log()
+  private log(
     level: LogLevel,
     message: string,
     context?: LogContext,
     error?: Error,
-    data?: unknown;
+    data?: unknown
   ): void {
     if (level < this.logLevel) {
-      return
+      return;
     }
 
     const logEntry: LogEntry = {

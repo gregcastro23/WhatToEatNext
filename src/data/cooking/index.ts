@@ -24,7 +24,7 @@ export const cookingMethods = allCookingMethods;
 /**
  * Get astrological effect for a cooking method (simplified version for backwards compatibility)
  */
-export const _getAstrologicalEffect = (;
+export const _getAstrologicalEffect = (
   method: CookingMethod,
   astroState: AstrologicalState
 ): number => {

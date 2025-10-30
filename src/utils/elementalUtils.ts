@@ -47,7 +47,7 @@ const ELEMENTAL_CHARACTERISTICS = {
     timeOfDay: ['morning', 'midday'],
     qualities: ['light', 'airy', 'quick'],
     temperature: 'variable'
-};
+  }
 };
 
 // AlchemicalProperty type imported from @/constants/planetaryElements

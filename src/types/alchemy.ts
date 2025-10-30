@@ -340,9 +340,9 @@ export interface EnhancedCookingMethod {
     min: number;
     max: number
   };
-  suitable_for string[];
+  suitable_for: string[];
   benefits: string[];
-  [key: string]: unknown
+  [key: string]: unknown;
 }
 
 export interface CustomRecipe {

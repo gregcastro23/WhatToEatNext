@@ -1,0 +1,21 @@
+[2025-10-30T04:14:10.425Z] ===== PATTERN 2: MALFORMED TEMPLATE LITERALS =====
+[2025-10-30T04:14:10.428Z] Mode: DRY RUN (no changes will be made)
+[2025-10-30T04:14:10.428Z] Log file: /Users/GregCastro/Desktop/WhatToEatNext/fix-log-pattern-2-1761797650425.txt
+[2025-10-30T04:14:10.428Z] Processing single file: /tmp/parsing-fix-test/test.ts
+[2025-10-30T04:14:10.428Z] Found 1 files to scan
+[2025-10-30T04:14:10.428Z] 
+--- Processing: /tmp/parsing-fix-test/test.ts ---
+[2025-10-30T04:14:17.709Z]   Parsing errors before: 245
+[2025-10-30T04:14:17.719Z]   Found 2 instances of malformed template literals
+[2025-10-30T04:14:17.719Z]     Line 7: console.log(`Test message: $) {param1}`);
+[2025-10-30T04:14:17.719Z]   [DRY RUN] Would make 2 changes
+[2025-10-30T04:14:17.719Z] 
+===== SUMMARY =====
+[2025-10-30T04:14:17.719Z] Successful fixes: 1
+[2025-10-30T04:14:17.720Z] Failed fixes: 0
+[2025-10-30T04:14:17.720Z] Skipped (no changes): 0
+[2025-10-30T04:14:17.720Z] Total files processed: 1
+[2025-10-30T04:14:17.720Z] Mode: DRY RUN (no changes made)
+[2025-10-30T04:14:17.720Z] 
+💡 To apply changes, run with --apply flag
+[2025-10-30T04:14:17.720Z] 💡 To test on single file, use --file=/path/to/file.ts

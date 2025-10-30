@@ -43,7 +43,7 @@ export class AlchemicalService {
   /**
    * Calculate alchemical properties for planetary positions
    */
-  async calculateAlchemicalProperties()
+  async calculateAlchemicalProperties(
     planetaryPositions: Record<string, PlanetaryPosition>
   ): Promise<StandardizedAlchemicalResult> {
     try {
@@ -52,7 +52,7 @@ export class AlchemicalService {
       // Convert PlanetaryPosition format to RealAlchemizeService format
       const convertedPositions: Record<string, RealAlchemizePlanetaryPosition> = {};
 
-      for (const [planet, position] of Object.entries(planetaryPositions) {
+      for (const [planet, position] of Object.entries(planetaryPositions)) {
         convertedPositions[planet] = {
           sign: position.sign,
           degree: position.degree,

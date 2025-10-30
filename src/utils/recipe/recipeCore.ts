@@ -3,7 +3,7 @@ import type {
   ElementalProperties,
   Recipe,
   RecipePlanetaryInfluences,
-  RecipeSeason;
+  RecipeSeason
 } from '@/types/recipe';
 import type {
   PlanetaryDay,

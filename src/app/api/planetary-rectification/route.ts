@@ -129,9 +129,9 @@ export async function GET(request: NextRequest) {
               status: '?action=status - Get rectification status',
               health: '?action=health - Get system health check',
               current: '?action=current - Get current rectification state'
-}
+            }
           },
-          ) { status: 400 }
+          { status: 400 }
         );
     }
   } catch (error) {
@@ -139,8 +139,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
         error: 'Status request failed',
         message: error instanceof Error ? error.message : 'Unknown error'
-},
-      ) { status: 500 }
+      },
+      { status: 500 }
     );
   }
 }
@@ -153,7 +153,7 @@ function handleStatusRequest() {
 
   return NextResponse.json({
     ...status,
-    metadata: ) {
+    metadata: {
       service: 'Enhanced Planetary Position Synchronization',
       sync_interval_minutes: 5,
       authoritative_source: 'Planetary Agents ↔ VSOP87',
@@ -171,12 +171,12 @@ async function handleHealthRequest() {
 
   return NextResponse.json({
     ...health,
-    metadata: ) {
+    metadata: {
       service: 'Enhanced Planetary Position Health Check',
       check_timestamp: new Date().toISOString(),
       systems_monitored: ['VSOP87', 'WhatToEatNext', 'Planetary Agents'],
       planetary_agents_integration: 'enabled'
-}
+    }
   });
 }
 

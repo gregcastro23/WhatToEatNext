@@ -44,7 +44,7 @@ const DEFAULT_ELEMENT_VALUE = 0.25;
 /**
  * Safely gets an element value from elemental properties
  */
-function safeGetElementValue(props: Partial<ElementalProperties> | null | undefined,)
+function safeGetElementValue(props: Partial<ElementalProperties> | null | undefined,
   element: keyof ElementalProperties): number {
   try {
     if (!props || typeof props !== 'object') {
@@ -52,16 +52,16 @@ function safeGetElementValue(props: Partial<ElementalProperties> | null | undefi
     }
 
     const value = props[element];
-    if (typeof value !== 'number' || isNaN(value) {
+    if (typeof value !== 'number' || isNaN(value)) {
       return DEFAULT_ELEMENT_VALUE;
     }
 
     return Math.max(0, Math.min(1, value));
   } catch (error) {
-    logger.error('Error in safeGetElementValue:', ) {
+    logger.error('Error in safeGetElementValue:', {
       element,
       error: error instanceof Error ? error.message : String(error)
-});
+    });
     return DEFAULT_ELEMENT_VALUE;
   }
 }

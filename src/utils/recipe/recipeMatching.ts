@@ -17,7 +17,7 @@ import {
     getRecipeMealTypes,
     getRecipeSeasons,
     isRecipeDietaryCompatible,
-    recipeHasIngredient;
+    recipeHasIngredient
 } from './recipeUtils';
 
 // ===== INTERFACES =====

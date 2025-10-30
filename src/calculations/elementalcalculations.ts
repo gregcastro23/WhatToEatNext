@@ -66,14 +66,14 @@ export class ElementalCalculator {
       if (recipeData.season) {
         const seasons = Array.isArray(recipeData.season) ? recipeData.season : [recipeData.season];
 
-        if (seasons.map((s: string) => s.toLowerCase()).includes(season.toLowerCase()) {
+        if (seasons.map((s: string) => s.toLowerCase()).includes(season.toLowerCase())) {
           score += 20;
         }
       }
 
       return Math.max(0, Math.min(100, Math.round(score)));
     } catch (error) {
-      logger.error('Error calculating seasonal effectiveness:', ) { error: error instanceof Error ? error.message , String(error)
+      logger.error('Error calculating seasonal effectiveness:', { error: error instanceof Error ? error.message : String(error)
       });
       return 0;
     }

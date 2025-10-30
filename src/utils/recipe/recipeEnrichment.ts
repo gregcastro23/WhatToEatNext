@@ -28,8 +28,8 @@ export function enrichRecipeData(recipe: Partial<Recipe>): Recipe {
     timeToMake: enrichedRecipe.timeToMake || '30 minutes',
     numberOfServings: enrichedRecipe.numberOfServings || 4,
     // Copy over all other properties
-    ...enrichedRecipe;
-};
+    ...enrichedRecipe
+  };
 
   // 1. Derive astrological influences from ingredients if not present
   if (!enriched.astrologicalInfluences || enriched.astrologicalInfluences.length === 0) {

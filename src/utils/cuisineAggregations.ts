@@ -99,7 +99,7 @@ export type WeightingStrategy = 'equal' | 'popularity' | 'representativeness';
  * @param allRecipes - All recipes in cuisine (for representativeness calculation)
  * @returns Weight value (higher = more influence)
  */
-export function calculateRecipeWeight()
+export function calculateRecipeWeight(
   recipe: any, // Would be Recipe type with metadata
   strategy: WeightingStrategy,
   allRecipes: any[] = []

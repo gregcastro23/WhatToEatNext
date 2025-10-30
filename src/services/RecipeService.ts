@@ -72,14 +72,14 @@ export class RecipeService implements RecipeServiceInterface {
       const recipes: Recipe[] = [];
 
       // Get recipes from all available cuisines
-      for (const cuisine of Object.values(cuisinesMap) {
+      for (const cuisine of Object.values(cuisinesMap)) {
         if (cuisine) {
           const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as ExtendedCuisine);
           recipes.push(...cuisineRecipes);
         }
       }
 
-      logger.debug(`Loaded $) {recipes.length} total recipes`);
+      logger.debug(`Loaded ${recipes.length} total recipes`);
 
       // Cache the recipes for future use
       RecipeService._allRecipes = recipes;

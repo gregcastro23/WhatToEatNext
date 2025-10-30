@@ -48,8 +48,8 @@ export const proteins = {
 };
 
 // Calculate elemental properties from astrological data
-const calculateElementalProperties = (;
-  ingredientData: Ingredient | UnifiedIngredient;
+const calculateElementalProperties = (
+  ingredientData: Ingredient | UnifiedIngredient
 ): Record<string, number> => {
   // Use actual elemental properties if they exist
   if (
@@ -57,7 +57,7 @@ const calculateElementalProperties = (;
     Object.keys(ingredientData.elementalProperties).length > 0
   ) {
     const props = ingredientData.elementalProperties;
-    const sum = Object.values(props).reduce(acc: number, val: unknown) => acc + (Number(val) || 0),;
+    const sum = Object.values(props).reduce((acc: number, val: unknown) => acc + (Number(val) || 0),
       0
     );
 

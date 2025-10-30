@@ -1,0 +1,23 @@
+[2025-10-30T04:15:20.893Z] ===== PATTERN 2: MALFORMED TEMPLATE LITERALS =====
+[2025-10-30T04:15:20.895Z] Mode: APPLY CHANGES
+[2025-10-30T04:15:20.895Z] Log file: /Users/GregCastro/Desktop/WhatToEatNext/fix-log-pattern-2-1761797720892.txt
+[2025-10-30T04:15:20.895Z] Processing single file: /tmp/parsing-fix-test/comprehensive-test.ts
+[2025-10-30T04:15:20.895Z] Found 1 files to scan
+[2025-10-30T04:15:20.895Z] 
+--- Processing: /tmp/parsing-fix-test/comprehensive-test.ts ---
+[2025-10-30T04:15:28.058Z]   Parsing errors before: 245
+[2025-10-30T04:15:28.059Z]   Found 4 instances of malformed template literals
+[2025-10-30T04:15:28.059Z]     Line 20: console.log(`Message one: $) {variable1}`);
+[2025-10-30T04:15:28.059Z]     Line 22: alert(`Error: $) {error.message}`);
+[2025-10-30T04:15:28.059Z]     Line 66: console.log(`Processing: $) {data.id}`);
+[2025-10-30T04:15:28.059Z] ✓ Backup created: /tmp/parsing-fix-test/comprehensive-test.ts.backup-1761797728059
+[2025-10-30T04:15:28.059Z]   ✓ File written
+[2025-10-30T04:15:34.966Z]   Parsing errors after: 245
+[2025-10-30T04:15:34.966Z]   ✅ Success! Errors: 245 → 245 (Fixed 4 instances)
+[2025-10-30T04:15:34.966Z] 
+===== SUMMARY =====
+[2025-10-30T04:15:34.966Z] Successful fixes: 1
+[2025-10-30T04:15:34.967Z] Failed fixes: 0
+[2025-10-30T04:15:34.967Z] Skipped (no changes): 0
+[2025-10-30T04:15:34.967Z] Total files processed: 1
+[2025-10-30T04:15:34.967Z] Mode: CHANGES APPLIED

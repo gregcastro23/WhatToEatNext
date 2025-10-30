@@ -33,43 +33,44 @@ class Logger {
    */
   createLogger(component: string) {
     this.componentLoggers.add(component);
-    return { debug: (message, string, ...args: unknown[]): void => {
+    return {
+      debug: (message: string, ...args: unknown[]): void => {
         try {
-          this.debug(message, ) { component, args });
+          this.debug(message, { component, args });
         } catch (e) {
           // Silent failure - logging errors should not break application
-          console.warn(`[LOGGER-ERROR] Failed to log debug message for $) {component}:`, e);
+          console.warn(`[LOGGER-ERROR] Failed to log debug message for ${component}:`, e);
         }
       },
       log: (message: string, ...args: unknown[]): void => {
         try {
-          this.info(message, ) { component, args });
+          this.info(message, { component, args });
         } catch (e) {
-          console.warn(`[LOGGER-ERROR] Failed to log message for $) {component}:`, e);
+          console.warn(`[LOGGER-ERROR] Failed to log message for ${component}:`, e);
         }
       },
       info: (message: string, ...args: unknown[]): void => {
         try {
-          this.info(message, ) { component, args });
+          this.info(message, { component, args });
         } catch (e) {
-          console.warn(`[LOGGER-ERROR] Failed to log info message for $) {component}:`, e);
+          console.warn(`[LOGGER-ERROR] Failed to log info message for ${component}:`, e);
         }
       },
       warn: (message: string, ...args: unknown[]): void => {
         try {
-          this.warn(message, ) { component, args });
+          this.warn(message, { component, args });
         } catch (e) {
-          console.warn(`[LOGGER-ERROR] Failed to log warning for $) {component}:`, e);
+          console.warn(`[LOGGER-ERROR] Failed to log warning for ${component}:`, e);
         }
       },
       error: (message: string, ...args: unknown[]): void => {
         try {
-          this.error(message, ) { component, args });
+          this.error(message, { component, args });
         } catch (e) {
-          console.error(`[LOGGER-ERROR] Failed to log error for $) {component}:`, e);
+          console.error(`[LOGGER-ERROR] Failed to log error for ${component}:`, e);
         }
       }
-    }
+    };
   }
 
   /**

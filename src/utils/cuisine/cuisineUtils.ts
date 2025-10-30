@@ -24,9 +24,9 @@ export function getCuisinePAirings(ingredientName: string, category: IngredientC
 /**
  * Get ingredient recommendations for a specific cuisine
  */
-export function getIngredientsForCuisine()
+export function getIngredientsForCuisine(
   cuisineName: string,
-  categories: IngredientCategory[] = ['grain', 'culinary_herb'],
+  categories: IngredientCategory[] = ['grain', 'culinary_herb']
 ): Record<IngredientCategory, string[]> {
   const result: Record<IngredientCategory, string[]> = {
     grain: [],

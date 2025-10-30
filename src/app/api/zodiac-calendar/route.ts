@@ -109,7 +109,7 @@ function handleDegreeForDate(searchParams: URLSearchParams) {
     }
 
     const date = new Date(dateString);
-    if (isNaN(date.getTime()) {
+    if (isNaN(date.getTime())) {
       throw new Error('Invalid date format');
     }
 
@@ -127,8 +127,8 @@ function handleDegreeForDate(searchParams: URLSearchParams) {
       }
     });
   } catch (error) {
-    return NextResponse.json({ error: 'Invalid date format. Use YYYY-MM-DD or YYYY-MM-DDTHH, mm, ss' },
-      ) { status: 400 }
+    return NextResponse.json({ error: 'Invalid date format. Use YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss' },
+      { status: 400 }
     );
   }
 }

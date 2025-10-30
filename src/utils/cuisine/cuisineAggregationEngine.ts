@@ -84,19 +84,19 @@ export function calculateStandardDeviation(variance: number): number {
  * @param confidenceLevel - Confidence level (default: 0.95 for 95% CI)
  * @returns Object with lower and upper bounds
  */
-export function calculateConfidenceInterval()
+export function calculateConfidenceInterval(
   mean: number,
   standardDeviation: number,
   sampleSize: number,
   confidenceLevel: number = 0.95
-): { lower: number; upper, number; marginOfError, number } {
+): { lower: number; upper: number; marginOfError: number } {
   if (sampleSize <= 1) {
     return { lower: mean, upper: mean, marginOfError: 0 };
   }
 
   // t-distribution approximation for small samples
   // Using z-score approximation for simplicity (works well for n > 30)
-  const zScore = confidenceLevel === 0.95 ? 1.96 :;
+  const zScore = confidenceLevel === 0.95 ? 1.96 :
                  confidenceLevel === 0.99 ? 2.576 : confidenceLevel === 0.90 ? 1.645 : 1.96;
 
   const standardError = standardDeviation / Math.sqrt(sampleSize);

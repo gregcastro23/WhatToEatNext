@@ -97,17 +97,18 @@ export class CulinaryAstrologer {
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water' },
-        return zodiacElementMap[astroState.zodiacSign?.toLowerCase() || ''] || 'Fire';
-}
+      pisces: 'Water'
+    };
+    return zodiacElementMap[astroState.zodiacSign?.toLowerCase() || ''] || 'Fire';
+  }
 
   private getOptimalTechnique(astroState: AstrologicalState) {
-    const viableMethods = Object.values(cookingMethods).filter(method => ) {
+    const viableMethods = Object.values(cookingMethods).filter(method => {
       const element = this.getDominantElementFromAstro(astroState);
       return method.elementalEffect[element] > 0.3;
-    })
+    });
 
-    const bestMethod = viableMethods.sort(a, b) =>;
+    const bestMethod = viableMethods.sort((a, b) =>
         this.getAstrologicalAffinity(b, astroState) - this.getAstrologicalAffinity(a, astroState)
     )[0];
 
@@ -176,13 +177,13 @@ export class CulinaryAstrologer {
     return complements[element] || 'Earth';
   }
 
-  private getCuisineRecommendation(astroState: AstrologicalState,)
+  private getCuisineRecommendation(astroState: AstrologicalState,
     _season: Season): CuisineRecommendation {
     const dominantElement = this.getDominantElementFromAstro(astroState);
-    const viableCuisines = Object.entries(culinaryTraditions).filter([_, profile]) => profile.elementalAlignment[dominantElement] > 0.3;
+    const viableCuisines = Object.entries(culinaryTraditions).filter(([_, profile]) => profile.elementalAlignment[dominantElement] > 0.3
     );
 
-    const bestCuisine = viableCuisines.sort(a, b) => b[1].elementalAlignment[dominantElement] - a[1].elementalAlignment[dominantElement];
+    const bestCuisine = viableCuisines.sort((a, b) => b[1].elementalAlignment[dominantElement] - a[1].elementalAlignment[dominantElement]
     )[0];
 
     return {

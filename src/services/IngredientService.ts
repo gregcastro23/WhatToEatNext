@@ -8,7 +8,8 @@ import type {
 import { Recipe } from '@/types/recipe';
 import { logger } from '@/utils/logger';
 
-// Import the ingredient service interface import {
+// Import the ingredient service interface
+import {
     ElementalFilter,
     IngredientFilter,
     IngredientRecommendationOptions,

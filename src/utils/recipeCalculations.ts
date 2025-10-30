@@ -21,15 +21,15 @@ export const _recipeCalculations = {
    */
   calculateCuisineAlignment(recipe: RecipeElementalMapping): number {
     const cuisineElements = recipe.cuisine.elementalAlignment;
-    const alignmentScore = Object.entries(recipe.elementalProperties).reduce(sum, [element, value]) => {
-        return sum + value * cuisineElements[element as unknown];
+    const alignmentScore = Object.entries(recipe.elementalProperties).reduce((sum, [element, value]) => {
+        return sum + value * cuisineElements[element as unknown as keyof typeof cuisineElements];
       },
       0
     );
 
-    const recipeData = recipe as unknown;
-    debugLog()
-      `Cuisine alignment score for ${recipeData?.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`,
+    const recipeData = recipe as unknown as { name?: string };
+    debugLog(
+      `Cuisine alignment score for ${recipeData?.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`
     );
     return alignmentScore;
   }

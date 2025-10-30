@@ -114,13 +114,13 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
       errors.filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH').length === 0;
     const summary = generateIngredientValidationSummary(isValid, errors, warnings, duration);
 
-    logger.info(`Ingredient validation completed in ${duration}ms: $) {isValid ? 'PASSED' : 'FAILED'}`
+    logger.info(`Ingredient validation completed in ${duration}ms: ${isValid ? 'PASSED' : 'FAILED'}`
     );
 
     // Calculate kinetics validation metrics
     const kineticsMetrics = await calculateKineticsValidationMetrics();
 
-    return: {
+    return {
       isValid,
       errors,
       warnings,

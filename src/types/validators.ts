@@ -11,10 +11,10 @@ const _VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'];
  * @param properties The elemental properties to normalize
  * @returns Normalized elemental properties
  */
-export const _normalizeElementalProperties = (;
-  properties: ElementalProperties;
+export const _normalizeElementalProperties = (
+  properties: ElementalProperties
 ): ElementalProperties => {
-  const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val);
+  const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val, 0);
 
   if (sum === 0) {
     // If sum is 0, distribute equally

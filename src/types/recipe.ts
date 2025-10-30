@@ -224,14 +224,13 @@ export interface ScoredRecipe extends Recipe {
 
 // Validation utilities
 export const validateElementalProperties = (properties?: ElementalProperties): boolean => {
-  if (!properties) return false
-;
-  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'] as const,;
-  if (!requiredElements.every(element => typeof properties[element] === 'number') {
+  if (!properties) return false;
+  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'] as const;
+  if (!requiredElements.every(element => typeof properties[element] === 'number')) {
     return false;
   }
 
-  const total = Object.values(properties).reduce((sum: number, _val: number) => sum + val0),;
+  const total = Object.values(properties).reduce((sum: number, val: number) => sum + val, 0);
   return Math.abs(total - 1) < 0.01;
 }
 

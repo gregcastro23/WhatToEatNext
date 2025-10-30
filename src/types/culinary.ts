@@ -526,14 +526,14 @@ export type GrainSubCategory = 'Whole' | 'Refined' | 'Ancient' | 'Pseudo' | 'Oth
 export type DairySubCategory = 'Milk' | 'Cheese' | 'Yogurt' | 'Butter' | 'Cream' | 'Other'
 export type SpiceSubCategory = 'Warm' | 'Hot' | 'Sweet' | 'Aromatic' | 'Ground' | 'Whole' | 'Other'
 export type HerbSubCategory = 'Fresh' | 'Dried' | 'Medicinal' | 'Culinary' | 'Other'
-export type SeasoningSubCategory = 'Salt' | 'Pepper' | 'Aromatic' | 'Blend' | 'Other'
-export type OilSubCategory = 'Cooking' | 'Finishing' | 'Infused' | 'Essential' | 'Other'
-export type VinegarSubCategory = 'Wine' | 'Fruit' | 'Grain' | 'Specialty' | 'Other'
+export type SeasoningSubCategory = 'Salt' | 'Pepper' | 'Aromatic' | 'Blend' | 'Other';
+export type OilSubCategory = 'Cooking' | 'Finishing' | 'Infused' | 'Essential' | 'Other';
+export type VinegarSubCategory = 'Wine' | 'Fruit' | 'Grain' | 'Specialty' | 'Other';
 /**
  * Union type for all subcategories
  */
 export type IngredientSubCategory =
-  | FruitSubCategory,
+  | FruitSubCategory
   | VegetableSubCategory
   | ProteinSubCategory
   | GrainSubCategory

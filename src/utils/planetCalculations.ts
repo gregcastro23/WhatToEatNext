@@ -3,15 +3,15 @@ import * as accurateAstronomy from '@/utils/accurateAstronomy';
 import * as astrologyUtils from '@/utils/astrologyUtils';
 
 // Sun calculation
-export function calculateSunPosition(date: Date = new Date() {
-  const t = (date.getTime() - new Date('2000-01-01T12: 00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 365.25);
+export function calculateSunPosition(date: Date = new Date()) {
+  const t = (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 365.25);
   const longitude = 280.46061837 + 360.98564736629 * t;
   return {
     sign: getSignFromLongitude(longitude),
     degree: longitude % 30,
-    minutes: (longitude % 1) * 60;
-    isRetrograde: false, // Sun never retrograde
-  }
+    minutes: (longitude % 1) * 60,
+    isRetrograde: false // Sun never retrograde
+  };
 }
 
 // Moon calculation
