@@ -9,9 +9,9 @@ import { ELEMENT_COMBINATIONS } from '@/utils/constants/elements';
 import { ingredientMappings } from '@/utils/elementalMappings/ingredients';
 import { logger } from '@/utils/logger';
 
-type CookingMethod = 'simmered' | 'infused' | 'raw' | 'baked' | 'fried' | 'grilled'
-type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all'
-type Temperature = 'hot' | 'cold' | 'neutral'
+type CookingMethod = 'simmered' | 'infused' | 'raw' | 'baked' | 'fried' | 'grilled';
+type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all';
+type Temperature = 'hot' | 'cold' | 'neutral';
 interface CombinationRule {
   ingredients: string[];
   effect: EffectType;
@@ -20,9 +20,9 @@ interface CombinationRule {
   conditions?: {
     cookingMethod?: CookingMethod[];
     season?: Season[];
-    temperature?: Temperature
-  }
-  notes?: string
+    temperature?: Temperature;
+  };
+  notes?: string;
 }
 
 interface CalculateEffectsParams {
@@ -31,7 +31,7 @@ interface CalculateEffectsParams {
   cookingMethod?: CookingMethod;
   season?: Season;
   temperature?: Temperature;
-  lunarPhase?: LunarPhase
+  lunarPhase?: LunarPhase;
 }
 
 // Classic flavor combinations and their effects
@@ -42,22 +42,22 @@ const COMBINATION_RULES: CombinationRule[] = [
     modifier: 1.3,
     elements: { Fire: 0.2 },
     notes: 'Classic warming combination'
-},
+  },
   {
     ingredients: ['cinnamon', 'cardamom', 'clove'],
     effect: 'amplify' as EffectType,
     modifier: 1.4,
     elements: { Fire: 0.3, Air: 0.1 },
     notes: 'Warming spice blend'
-}
+  }
   // ... other rules remain the same
-],
+];
 
 // Create a normalization function at the top of the file
 const normalizeLunarPhase = (phase: LunarPhase): string => {
   // Convert spaces to underscores for consistent lookup
   return phase.replace(/\s+/g, '_');
-}
+};
 
 export function calculateCombinationEffects({
   ingredients,
@@ -67,7 +67,7 @@ export function calculateCombinationEffects({
   temperature,
   lunarPhase
 }: CalculateEffectsParams): CombinationEffect[] {
-  const effects: CombinationEffect[] = []
+  const effects: CombinationEffect[] = [];
 
   try {
     // Apply lunar phase influences
@@ -79,11 +79,11 @@ export function calculateCombinationEffects({
     }
 
     // Check for known combinations
-    COMBINATION_RULES.forEach(rule => ) {
-      if (hasIngredientCombination(ingredients, rule.ingredients) {
+    COMBINATION_RULES.forEach(rule => {
+      if (hasIngredientCombination(ingredients, rule.ingredients)) {
         // Verify conditions if they exist
         if (rule.conditions) {
-          const meetsConditions = (!rule.conditions.cookingMethod ||;
+          const meetsConditions = (!rule.conditions.cookingMethod ||
               !cookingMethod ||
               rule.conditions.cookingMethod.includes(cookingMethod)) &&
             (!rule.conditions.season || !season || rule.conditions.season.includes(season)) &&

@@ -2,16 +2,16 @@
 import type { AlchemicalCalculationResult, BirthInfo } from '@/types/alchemy';
 import type { ChakraEnergies } from '@/types/chakra';
 import type {
-    AstrologicalState,
-    ElementalProperties,
-    PlanetPosition,
-    StandardizedAlchemicalResult,
-    ZodiacSign
+  AstrologicalState,
+  ElementalProperties,
+  PlanetPosition,
+  StandardizedAlchemicalResult,
+  ZodiacSign,
 } from '@/types/unified';
 
 // Internal imports
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
-import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
+import { PLANETARY_MODIFIERS, type RulingPlanet } from '@/constants/planets';
 import { createLogger } from '@/utils/logger';
 
 // Logger
@@ -21,18 +21,13 @@ const logger = createLogger('AlchemicalEngine');
 interface Decan {
   ruler: RulingPlanet;
   element: keyof ElementalProperties;
-  degree: number
+  degree: number;
 }
 
 // Interface for horoscope data
 interface HoroscopeData {
-  tropical: {
-    CelestialBodies: Record<string, unknown>;
-    Ascendant: Record<string, unknown>;
-    Aspects: Record<string, unknown>;
-    [key: string]: unknown
-  },
-  [key: string]: unknown
+  tropical: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 // Use StandardizedAlchemicalResult
@@ -44,8 +39,10 @@ const DEFAULT_ELEMENT_VALUE = 0.25;
 /**
  * Safely gets an element value from elemental properties
  */
-function safeGetElementValue(props: Partial<ElementalProperties> | null | undefined,
-  element: keyof ElementalProperties): number {
+function safeGetElementValue(
+  props: Partial<ElementalProperties> | null | undefined,
+  element: keyof ElementalProperties
+): number {
   try {
     if (!props || typeof props !== 'object') {
       return DEFAULT_ELEMENT_VALUE;
@@ -58,9 +55,9 @@ function safeGetElementValue(props: Partial<ElementalProperties> | null | undefi
 
     return Math.max(0, Math.min(1, value));
   } catch (error) {
-    logger.error('Error in safeGetElementValue:', {
+    logger.error('Error in safeGetElementValue', {
       element,
-      error: error instanceof Error ? error.message : String(error)
+      error: error instanceof Error ? error.message : String(error),
     });
     return DEFAULT_ELEMENT_VALUE;
   }
@@ -71,19 +68,15 @@ function safeGetElementValue(props: Partial<ElementalProperties> | null | undefi
  * astrological and elemental influences.
  */
 export class AlchemicalEngineAdvanced {
-  private readonly elementalAffinities: Record<string, string[]> = {
-    Fire: ['Air'],
-    Air: ['Water'],
-    Water: ['Earth'],
-    Earth: ['Fire']
-};
-
-  private readonly elementalStrengths: Record<string, number> = {Fire: 1,
+  private readonly elementalStrengths: Record<string, number> = {
+    Fire: 1,
     Air: 1,
     Water: 1,
-    Earth: 1};
+    Earth: 1,
+  };
 
-  private readonly zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {aries: 'Fire',
+  private readonly zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
+    aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
     taurus: 'Earth',
@@ -94,7 +87,8 @@ export class AlchemicalEngineAdvanced {
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water'};
+    pisces: 'Water',
+  };
 
   private readonly lunarPhaseModifiers: Record<string, ElementalProperties> = {
     'new moon': { Fire: 0.1, Water: 0.4, Air: 0.3, Earth: 0.2 },
@@ -104,16 +98,16 @@ export class AlchemicalEngineAdvanced {
     'full moon': { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 },
     'waning gibbous': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
     'last quarter': { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
-    'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
-};
+    'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
+  };
 
   private readonly seasonalModifiers: Record<string, ElementalProperties> = {
     spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
     summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
     autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
     fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
-    winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
-};
+    winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
+  };
 
   private readonly decans: Record<ZodiacSign, Decan[]> = {
     aries: [
@@ -175,63 +169,65 @@ export class AlchemicalEngineAdvanced {
       { ruler: 'Neptune', element: 'Water', degree: 0 },
       { ruler: 'Moon', element: 'Water', degree: 10 },
       { ruler: 'Pluto', element: 'Water', degree: 20 },
-    ];
-};
+    ],
+  };
 
   /**
    * Calculate the astrological match between a recipe and the current astrological state
    */
-  calculateAstroCuisineMatch(recipeElements?: ElementalProperties,)
-    astrologicalState?: AstrologicalState,
-    season?: string,
-    cuisine?: string): AlchemicalCalculationResult {
+  calculateAstroCuisineMatch(
+    recipeElements: ElementalProperties | undefined,
+    astrologicalState: AstrologicalState | undefined,
+    season: string | undefined,
+    cuisine: string | undefined
+  ): AlchemicalCalculationResult {
     try {
       // Get dominant element
-      const dominantElement = Object.entries(recipeElements || DEFAULT_ELEMENTAL_PROPERTIES).sort([, a], [, b]) => b - a,;
-      )[0][0];
+      const baseElements = recipeElements || DEFAULT_ELEMENTAL_PROPERTIES;
+      const entries = Object.entries(baseElements) as Array<[keyof ElementalProperties, number]>.
+        filter(([, v]) => typeof v === 'number');
+      const dominantElement = (entries.reduce((max, current) => (current[1] > max[1] ? current : max)) || [
+        'Fire',
+        DEFAULT_ELEMENT_VALUE,
+      ])[0];
 
       // Validate season
       const validSeason = this.getValidSeason(season);
 
       // Function to check if string is a valid RulingPlanet
       const isRulingPlanet = (planet: string): planet is RulingPlanet => {
-        return Object.keys(PLANETARY_MODIFIERS).includes(planet);
+        return Object.prototype.hasOwnProperty.call(PLANETARY_MODIFIERS, planet);
       };
 
       // Calculate astronomical score
-      const astronomicalScore = astrologicalState?.activePlanets;
-        ? astrologicalState.activePlanets.filter()
-            p => isRulingPlanet(p) && PLANETARY_MODIFIERS[p] > 0,
-          ).length * 10
+      const astronomicalScore = astrologicalState?.activePlanets
+        ? astrologicalState.activePlanets.filter(p => isRulingPlanet(p) && PLANETARY_MODIFIERS[p] > 0).length * 10
         : 0;
 
-      // Cuisine compatibility score
-      const cuisineScore = cuisine;
-        ? this.getCuisineCompatibility(cuisine, astrologicalState, season)
-        : 0;
+      // Cuisine compatibility score (placeholder)
+      const cuisineScore = cuisine ? this.getCuisineCompatibility(cuisine, astrologicalState, validSeason) : 0;
 
       // Calculate total score
       const totalScore = astronomicalScore + cuisineScore;
 
       return {
         result: {
-          elementalProperties: recipeElements || {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.25,
-            Air: 0.25},
-          thermodynamicProperties: {heat: 0,
+          elementalProperties: baseElements,
+          thermodynamicProperties: {
+            heat: 0,
             entropy: 0,
             reactivity: 0,
-            energy: 0},
-          score: totalScore
-},
-        dominantElement,
-        season: validSeason
-};
+            energy: 0,
+          },
+          score: totalScore,
+        },
+        dominantElement: dominantElement as keyof ElementalProperties,
+        season: validSeason,
+      };
     } catch (error) {
-      logger.error('Error in calculateAstroCuisineMatch:', ) { error: error instanceof Error ? error.message , String(error)
-});
+      logger.error('Error in calculateAstroCuisineMatch', {
+        error: error instanceof Error ? error.message : String(error),
+      });
       return {
         result: {
           elementalProperties: DEFAULT_ELEMENTAL_PROPERTIES,
@@ -239,12 +235,13 @@ export class AlchemicalEngineAdvanced {
             heat: 0,
             entropy: 0,
             reactivity: 0,
-            energy: 0},
-          score: 0
-},
+            energy: 0,
+          },
+          score: 0,
+        },
         dominantElement: 'Fire',
-        season: 'winter'
-};
+        season: 'winter',
+      };
     }
   }
 
@@ -260,18 +257,19 @@ export class AlchemicalEngineAdvanced {
       normalizedSeason === 'winter' ||
       normalizedSeason === 'fall'
     ) {
-      return normalizedSeason === 'fall' ? 'autumn' : normalizedSeason
+      return normalizedSeason === 'fall' ? 'autumn' : normalizedSeason;
     }
     return 'winter';
   }
 
   /**
-   * Get cuisine compatibility score
+   * Get cuisine compatibility score (placeholder)
    */
-  private getCuisineCompatibility(cuisine: string,)
-    astrologicalState?: AstrologicalState,
-    season?: string): number {
-    // Simple implementation - can be expanded
+  private getCuisineCompatibility(
+    _cuisine: string,
+    _astrologicalState: AstrologicalState | undefined,
+    _season: string | undefined
+  ): number {
     return 50; // Default compatibility score
   }
 }
@@ -297,11 +295,14 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25},
-      thermodynamicProperties: {heat: 0,
+        Air: 0.25,
+      },
+      thermodynamicProperties: {
+        heat: 0,
         entropy: 0,
         reactivity: 0,
-        energy: 0},
+        energy: 0,
+      },
       zodiacSign: 'aries',
       planetaryPositions: {},
       aspects: [],
@@ -309,12 +310,13 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
       metadata: {
         name: 'Alchemical Chart',
         description: 'Generated alchemical chart',
-        attributes: []
-};
-};
+        attributes: [],
+      },
+    };
   } catch (error) {
-    logger.error('Error in alchemize:', ) { error: error instanceof Error ? error.message , String(error)
-});
+    logger.error('Error in alchemize', {
+      error: error instanceof Error ? error.message : String(error),
+    });
     throw error;
   }
 }
@@ -345,20 +347,20 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, number>)
     heart: { energy: 0, element: 'Air' },
     throat: { energy: 0, element: 'Air' },
     thirdEye: { energy: 0, element: 'Air' },
-    crown: { energy: 0, element: 'Fire' }
-};
+    crown: { energy: 0, element: 'Fire' },
+  };
 }
 
 /**
  * Safe alchemize wrapper
  */
-export function safeAlchemize(birthInfo: BirthInfo,)
-  horoscopeDict: HoroscopeData): AlchemicalResult {
+export function safeAlchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): AlchemicalResult {
   try {
     return alchemize(birthInfo, horoscopeDict);
   } catch (error) {
-    logger.error('Safe alchemize failed:', ) { error: error instanceof Error ? error.message , String(error)
-});
+    logger.error('Safe alchemize failed', {
+      error: error instanceof Error ? error.message : String(error),
+    });
     // Return default result
     return {
       elementalProperties: DEFAULT_ELEMENTAL_PROPERTIES,
@@ -366,7 +368,8 @@ export function safeAlchemize(birthInfo: BirthInfo,)
         heat: 0,
         entropy: 0,
         reactivity: 0,
-        energy: 0},
+        energy: 0,
+      },
       zodiacSign: 'aries',
       planetaryPositions: {},
       aspects: [],
@@ -374,16 +377,15 @@ export function safeAlchemize(birthInfo: BirthInfo,)
       metadata: {
         name: 'Default Chart',
         description: 'Fallback alchemical chart',
-        attributes: []
-};
-};
+        attributes: [],
+      },
+    };
   }
 }
 
 /**
  * Alchemize with safety wrapper
  */
-export function alchemizeWithSafety(birthInfo: BirthInfo,)
-  horoscopeDict: HoroscopeData): AlchemicalResult {
+export function alchemizeWithSafety(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): AlchemicalResult {
   return safeAlchemize(birthInfo, horoscopeDict);
 }

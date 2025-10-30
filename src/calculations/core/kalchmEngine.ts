@@ -56,7 +56,7 @@ export interface KalchmResult {
 /**
  * Calculate Heat using the exact formula: * Heat = (Spirit^2 + Fire^2) / (Substance + Essence + Matter + Water + (Air || 0) + (Earth || 0))^2
  */
-export function calculateHeat(Spirit: number,)
+export function calculateHeat(Spirit: number,
   Fire: number,
   Substance: number,
   Essence: number,
@@ -75,7 +75,7 @@ export function calculateHeat(Spirit: number,)
 /**
  * Calculate Entropy using the exact formula: * Entropy = (Spirit^2 + Substance^2 + Fire^2 + Air^2) / (Essence + Matter + Earth + Water)^2
  */
-export function calculateEntropy(Spirit: number,)
+export function calculateEntropy(Spirit: number,
   Substance: number,
   Fire: number,
   Air: number,
@@ -94,7 +94,7 @@ export function calculateEntropy(Spirit: number,)
 /**
  * Calculate Reactivity using the exact formula: * Reactivity = (Spirit^2 + Substance^2 + Essence^2 + Fire^2 + Air^2 + Water^2) / (Matter + Earth)^2
  */
-export function calculateReactivity(Spirit: number,)
+export function calculateReactivity(Spirit: number,
   Substance: number,
   Essence: number,
   Fire: number,
@@ -102,7 +102,7 @@ export function calculateReactivity(Spirit: number,)
   Water: number,
   Matter: number,
   Earth: number): number {
-  const numerator = Math.pow(Spirit, 2) +;
+  const numerator = Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
     Math.pow(Fire, 2) +
@@ -125,7 +125,7 @@ export function calculateGregsEnergy(heat: number, entropy: number, reactivity: 
 /**
  * Calculate Kalchm (K_alchm) using the exact formula: * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  */
-export function calculateKAlchm(Spirit: number,)
+export function calculateKAlchm(Spirit: number,
   Essence: number,
   Matter: number,
   Substance: number): number {
@@ -146,7 +146,7 @@ export function calculateKAlchm(Spirit: number,)
 /**
  * Calculate Monica Constant using the exact formula: * M = -Greg's Energy / (Reactivity × ln(K_alchm))
  */
-export function calculateMonicaConstant(gregsEnergy: number,)
+export function calculateMonicaConstant(gregsEnergy: number,
   reactivity: number,
   K_alchm: number): number {
   // Check for valid K_alchm
@@ -154,7 +154,7 @@ export function calculateMonicaConstant(gregsEnergy: number,)
   const ln_K = Math.log(K_alchm);
 
   // Check for valid natural log
-  if (ln_K === 0) return NaN
+  if (ln_K === 0) return NaN;
 
   return -gregsEnergy / (reactivity * ln_K);
 }
@@ -163,7 +163,7 @@ export function calculateMonicaConstant(gregsEnergy: number,)
  * Map planetary positions to alchemical properties
  * Based on traditional planetary correspondences
  */
-export function calculateAlchemicalProperties(planetaryPositions: ) {
+export function calculateAlchemicalProperties(planetaryPositions: {
   [key: string]: PlanetaryPosition
 }): AlchemicalProperties {
   const properties: AlchemicalProperties = {
@@ -188,7 +188,7 @@ export function calculateAlchemicalProperties(planetaryPositions: ) {
   }
 
   // Process each planet
-  Object.entries(planetaryPositions || ) {}).forEach(([planet, position]) => {
+  Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
     const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
     const mapping = planetaryMappings[planetKey as keyof typeof planetaryMappings];
 
@@ -198,7 +198,7 @@ export function calculateAlchemicalProperties(planetaryPositions: ) {
 
       // Apply dignity modifiers if available
       if (position.sign) {
-        strength *= getDignityModifier(planet, position.sign)
+        strength *= getDignityModifier(planet, position.sign);
       }
 
       // Add to properties
@@ -207,16 +207,16 @@ export function calculateAlchemicalProperties(planetaryPositions: ) {
       properties.Matter += (mapping.Matter || 0) * strength;
       properties.Substance += (mapping.Substance || 0) * strength;
     }
-  })
+  });
 
   // Normalize to reasonable ranges (1-10 scale as in the example)
   const total = properties.Spirit + properties.Essence + properties.Matter + properties.Substance;
   if (total > 0) {
     const scale = 20 / total; // Scale to approximately match example values
-    properties.Spirit = Math.max(1, properties.Spirit * scale)
-    properties.Essence = Math.max(1, properties.Essence * scale)
-    properties.Matter = Math.max(1, properties.Matter * scale)
-    properties.Substance = Math.max(1, properties.Substance * scale)
+    properties.Spirit = Math.max(1, properties.Spirit * scale);
+    properties.Essence = Math.max(1, properties.Essence * scale);
+    properties.Matter = Math.max(1, properties.Matter * scale);
+    properties.Substance = Math.max(1, properties.Substance * scale);
   }
 
   return properties;
@@ -225,10 +225,10 @@ export function calculateAlchemicalProperties(planetaryPositions: ) {
 /**
  * Calculate elemental values from zodiac signs and planetary influences
  */
-export function calculateElementalValues(planetaryPositions: ) {
+export function calculateElementalValues(planetaryPositions: {
   [key: string]: PlanetaryPosition
 }): ElementalValues {
-  const elements: ElementalValues = { Fire: 0, Water: 0, Air: 0, Earth: 0 }
+  const elements: ElementalValues = { Fire: 0, Water: 0, Air: 0, Earth: 0 };
 
   // Sign to element mapping
   const signElements: Record<string, keyof ElementalValues> = {
@@ -247,7 +247,7 @@ export function calculateElementalValues(planetaryPositions: ) {
 }
 
   // Process each planet's sign
-  Object.entries(planetaryPositions || ) {}).forEach(([planet, position]) => {
+  Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
     if (position.sign) {
       const element = signElements[position.sign.toLowerCase()];
       if (element) {
@@ -256,7 +256,7 @@ export function calculateElementalValues(planetaryPositions: ) {
         const planetName = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
         if (planetName === 'Sun' || planetName === 'Moon') {
           weight = 2.0;
-        } else if (['Mercury', 'Venus', 'Mars'].includes(planetName) {
+        } else if (['Mercury', 'Venus', 'Mars'].includes(planetName)) {
           weight = 1.5;
         }
 
@@ -269,10 +269,10 @@ export function calculateElementalValues(planetaryPositions: ) {
   const total = elements.Fire + elements.Water + elements.Air + elements.Earth;
   if (total > 0) {
     const scale = 2.9 / total; // Scale to match example range
-    elements.Fire = Math.max(0.1, Math.min(1.0, elements.Fire * scale))
-    elements.Water = Math.max(0.1, Math.min(1.0, elements.Water * scale))
-    elements.Air = Math.max(0.1, Math.min(1.0, elements.Air * scale))
-    elements.Earth = Math.max(0.1, Math.min(1.0, elements.Earth * scale))
+    elements.Fire = Math.max(0.1, Math.min(1.0, elements.Fire * scale));
+    elements.Water = Math.max(0.1, Math.min(1.0, elements.Water * scale));
+    elements.Air = Math.max(0.1, Math.min(1.0, elements.Air * scale));
+    elements.Earth = Math.max(0.1, Math.min(1.0, elements.Earth * scale));
   }
 
   return elements;
@@ -301,12 +301,12 @@ function getDignityModifier(planet: string, sign: string): number {
  * Main Kalchm calculation function
  * Integrates all calculations and returns complete results
  */
-export function calculateKalchmResults(planetaryPositions: ) {
+export function calculateKalchmResults(planetaryPositions: {
   [key: string]: PlanetaryPosition
 }): KalchmResult {
   const cacheKey = `kalchm_${JSON.stringify(planetaryPositions)}`;
 
-  return getCachedCalculation()
+  return getCachedCalculation(
     cacheKey,
     { positions: planetaryPositions },
     () => {
@@ -317,7 +317,7 @@ export function calculateKalchmResults(planetaryPositions: ) {
       const elementalValues = calculateElementalValues(planetaryPositions);
 
       // Calculate thermodynamic properties
-      const heat = calculateHeat();
+      const heat = calculateHeat(
         alchemicalProperties.Spirit,
         elementalValues.Fire,
         alchemicalProperties.Substance,
@@ -328,7 +328,7 @@ export function calculateKalchmResults(planetaryPositions: ) {
         elementalValues.Earth
       );
 
-      const entropy = calculateEntropy();
+      const entropy = calculateEntropy(
         alchemicalProperties.Spirit,
         alchemicalProperties.Substance,
         elementalValues.Fire,
@@ -339,7 +339,7 @@ export function calculateKalchmResults(planetaryPositions: ) {
         elementalValues.Water
       );
 
-      const reactivity = calculateReactivity();
+      const reactivity = calculateReactivity(
         alchemicalProperties.Spirit,
         alchemicalProperties.Substance,
         alchemicalProperties.Essence,
@@ -352,7 +352,7 @@ export function calculateKalchmResults(planetaryPositions: ) {
 
       const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
 
-      const kalchm = calculateKAlchm();
+      const kalchm = calculateKAlchm(
         alchemicalProperties.Spirit,
         alchemicalProperties.Essence,
         alchemicalProperties.Matter,
@@ -362,14 +362,14 @@ export function calculateKalchmResults(planetaryPositions: ) {
       const monicaConstant = calculateMonicaConstant(gregsEnergy, reactivity, kalchm);
 
       // Determine dominant element and property
-      const dominantElement = Object.entries(elementalValues).reduce((a, b) =>;
+      const dominantElement = Object.entries(elementalValues).reduce((a, b) =>
         elementalValues[a[0] as keyof ElementalValues] >
         elementalValues[b[0] as keyof ElementalValues]
           ? a
           : b
       )[0] as keyof ElementalValues;
 
-      const dominantProperty = Object.entries(alchemicalProperties).reduce((a, b) =>;
+      const dominantProperty = Object.entries(alchemicalProperties).reduce((a, b) =>
         alchemicalProperties[a[0] as keyof AlchemicalProperties] >
         alchemicalProperties[b[0] as keyof AlchemicalProperties]
           ? a
@@ -393,7 +393,7 @@ export function calculateKalchmResults(planetaryPositions: ) {
       };
     },
     300000 // 5 minute cache
-  ) as KalchmResult;
+  );
 }
 
 /**
@@ -412,9 +412,9 @@ export function toElementalProperties(result: KalchmResult): ElementalProperties
  * Get dominant property from alchemical properties
  */
 function getDominantProperty(properties: AlchemicalProperties): keyof AlchemicalProperties {
-  return Object.entries(properties).reduce(max, [key, value]) =>
+  return Object.entries(properties).reduce((max, [key, value]) =>
       value > max.value ? { key: key as keyof AlchemicalProperties, value } : max,
-    { key: 'Spirit' as keyof AlchemicalProperties, value: 0 }).key
+    { key: 'Spirit' as keyof AlchemicalProperties, value: 0 }).key;
 }
 
 /**

@@ -15,51 +15,51 @@ interface AstrologicalCulinaryGuidance {
   technique: {
     name: string;
     rationale: string;
-    optimalTiming: string
+    optimalTiming: string;
   },
   ingredientFocus: {
-    element: string,
-    examples: string[],
-    pairingTip: string
+    element: string;
+    examples: string[];
+    pairingTip: string;
   },
-  cuisineRecommendation: CuisineRecommendation
+  cuisineRecommendation: CuisineRecommendation;
 }
 
 interface CuisineRecommendation {
   style: string;
   modification: string;
-  astrologicalBoost: number
+  astrologicalBoost: number;
 }
 
 // Need to define this as it's referenced in the code
 interface CookingMethodData {
   name: string;
-  elementalEffect: Record<string, number>,
+  elementalEffect: Record<string, number>;
   benefits: string[];
   astrologicalInfluences?: {
     dominantPlanets?: string[];
-    lunarPhaseEffect?: Record<string, number>
+    lunarPhaseEffect?: Record<string, number>;
   }
 }
 
 // Need to define this as it's referenced in the code
 interface CuisineProfile {
-  elementalAlignment: Record<string, number>,
-  signatureModifications: Record<string, string>,
+  elementalAlignment: Record<string, number>;
+  signatureModifications: Record<string, string>;
   astrologicalProfile: {
     rulingPlanets: string[];
     aspectEnhancers: string[];
-    seasonalPreference?: string[]
-  }
-  seasonalPreferences?: string[]
+    seasonalPreference?: string[];
+  };
+  seasonalPreferences?: string[];
 }
 
 // Need to define this as it's referenced in the code
 interface RecipeRecommendation {
   name: string;
   alignmentScore: number;
-  elementDistribution: Record<string, number>,
-  planetaryActivators: string[]
+  elementDistribution: Record<string, number>;
+  planetaryActivators: string[];
 }
 
 export class CulinaryAstrologer {
@@ -71,8 +71,7 @@ export class CulinaryAstrologer {
 }
 
   // Add currentSeason field that's used in calculateCuisineBoost
-  private currentSeason: Season = 'spring'
-;
+  private currentSeason: Season = 'spring';
   getGuidance(astroState: AstrologicalState, season: Season): AstrologicalCulinaryGuidance {
     // Base recommendations directly on astrological state without elemental balance
     return {
@@ -80,7 +79,7 @@ export class CulinaryAstrologer {
       technique: this.getOptimalTechnique(astroState),
       ingredientFocus: this.getIngredientFocus(astroState),
       cuisineRecommendation: this.getCuisineRecommendation(astroState, season)
-    }
+    };
   }
 
   private getDominantElementFromAstro(astroState: AstrologicalState): string {
@@ -102,7 +101,11 @@ export class CulinaryAstrologer {
     return zodiacElementMap[astroState.zodiacSign?.toLowerCase() || ''] || 'Fire';
   }
 
-  private getOptimalTechnique(astroState: AstrologicalState) {
+  private getOptimalTechnique(astroState: AstrologicalState): {
+    name: string;
+    rationale: string;
+    optimalTiming: string;
+  } {
     const viableMethods = Object.values(cookingMethods).filter(method => {
       const element = this.getDominantElementFromAstro(astroState);
       return method.elementalEffect[element] > 0.3;
@@ -116,24 +119,24 @@ export class CulinaryAstrologer {
       name: bestMethod.name,
       rationale: `Aligns with ${this.getDominantElementFromAstro(astroState)} dominance through ${bestMethod.benefits.join(' and ')}`,
       optimalTiming: this.calculateOptimalTiming(bestMethod, astroState)
-    }
+    };
   }
 
-  private getAstrologicalAffinity(method: CookingMethodData,)
+  private getAstrologicalAffinity(method: CookingMethodData,
     astroState: AstrologicalState): number {
     // Use Type Harmony approach for safe property access
     const bridge = createAstrologicalBridge();
-    const activePlanets = bridge.safeAccess<string[]>(astroState, 'activePlanets') || [],;
+    const activePlanets = bridge.safeAccess<string[]>(astroState, 'activePlanets') || [];
 
-    const planetScore = method.astrologicalInfluences?.dominantPlanets?.reduce(sum, planet) => sum + (activePlanets.includes(planet) ? 0.2 : 0),;
+    const planetScore = method.astrologicalInfluences?.dominantPlanets?.reduce((sum, planet) => sum + (activePlanets.includes(planet) ? 0.2 : 0),
         0,
-      ) || 0,
+      ) || 0;
 
     return planetScore;
 }
 
   private calculateOptimalTiming(method: CookingMethodData, astroState: AstrologicalState): string {
-    const idealMoonPhase = Object.entries();
+    const idealMoonPhase = Object.entries(
       method.astrologicalInfluences?.lunarPhaseEffect || {}
     ).sort(([, a], [, b]) => b - a)[0][0];
 
@@ -144,9 +147,9 @@ export class CulinaryAstrologer {
   }
 
   private getIngredientFocus(astroState: AstrologicalState): {
-    element: string,
-    examples: string[],
-    pairingTip: string
+    element: string;
+    examples: string[];
+    pairingTip: string;
   } {
     const dominantElement = this.getDominantElementFromAstro(astroState);
     const matchingIngredients = Object.entries(meats).filter(([_, data]) => {
@@ -180,17 +183,15 @@ export class CulinaryAstrologer {
   private getCuisineRecommendation(astroState: AstrologicalState,
     _season: Season): CuisineRecommendation {
     const dominantElement = this.getDominantElementFromAstro(astroState);
-    const viableCuisines = Object.entries(culinaryTraditions).filter(([_, profile]) => profile.elementalAlignment[dominantElement] > 0.3
-    );
+    const viableCuisines = Object.entries(culinaryTraditions).filter(([_, profile]) => profile.elementalAlignment[dominantElement] > 0.3);
 
-    const bestCuisine = viableCuisines.sort((a, b) => b[1].elementalAlignment[dominantElement] - a[1].elementalAlignment[dominantElement]
-    )[0];
+    const bestCuisine = viableCuisines.sort((a, b) => b[1].elementalAlignment[dominantElement] - a[1].elementalAlignment[dominantElement])[0];
 
     return {
       style: bestCuisine[0],
       modification: bestCuisine[1].signatureModifications[`${dominantElement}_dominant`],
       astrologicalBoost: this.calculateCuisineBoost(bestCuisine[1])
-    }
+    };
   }
 
   private calculateCuisineBoost(cuisine: CuisineProfile): number {
@@ -198,7 +199,7 @@ export class CulinaryAstrologer {
     const seasonalBoost = cuisine.seasonalPreferences?.includes(this.currentSeason) ? 0.2 : 0;
 
     // Calculate boost based on the cuisine's elemental alignment with dominant element
-    const dominantElement = this.getDominantElementFromAstro({)
+    const dominantElement = this.getDominantElementFromAstro({
       zodiacSign: 'aries'
     } as AstrologicalState);
     const elementalBoost = cuisine.elementalAlignment[dominantElement] || 0;
@@ -217,17 +218,16 @@ export class CulinaryAstrologer {
     return Math.max(0.8, Math.min(1.5, totalBoost));
   }
 
-  getRecipeRecommendations(astroState: AstrologicalState,)
+  getRecipeRecommendations(astroState: AstrologicalState,
     cuisineFilter?: string): RecipeRecommendation[] {
     return Object.entries(recipeElementalMappings)
-      .filter([_, recipe]) => !cuisineFilter || recipe.cuisine === culinaryTraditions[cuisineFilter]
-      )
+      .filter(([_, recipe]) => !cuisineFilter || recipe.cuisine === culinaryTraditions[cuisineFilter])
       .map(([name, recipe]) => {
         // Ensure Sun is always included in the planetary activators for consistent testing
         const bridge = createAstrologicalBridge();
         const activePlanets = bridge.safeAccess<string[]>(astroState, 'activePlanets') || [];
         const planetaryActivators = [...recipe.astrologicalProfile.rulingPlanets];
-        if (!planetaryActivators.includes('Sun') && activePlanets.includes('Sun') {
+        if (!planetaryActivators.includes('Sun') && activePlanets.includes('Sun')) {
           planetaryActivators.push('Sun');
         }
 
@@ -241,7 +241,7 @@ export class CulinaryAstrologer {
       .sort((a, b) => b.alignmentScore - a.alignmentScore);
   }
 
-  private calculateRecipeAlignment(recipe: RecipeElementalMapping,)
+  private calculateRecipeAlignment(recipe: RecipeElementalMapping,
     astroState: AstrologicalState): number {
     // Create separate scores for different types of planetary influences
     const traditionalPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'];
@@ -251,7 +251,7 @@ export class CulinaryAstrologer {
     // Calculate match for traditional planets using Type Harmony approach
     const bridge = createAstrologicalBridge();
     const activePlanets = bridge.safeAccess<string[]>(astroState, 'activePlanets') || [];
-    const traditionalMatch = recipe.astrologicalProfile.rulingPlanets.filter();
+    const traditionalMatch = recipe.astrologicalProfile.rulingPlanets.filter(
       p => traditionalPlanets.includes(p) && activePlanets.includes(p)
     ).length;
 
@@ -266,7 +266,7 @@ export class CulinaryAstrologer {
       activePlanets2.includes('jupiter')
     ) {
       // Check for Jupiter's effect in dominant planets
-      const jupiterPlanet = astroState.dominantPlanets?.find(p => ) {
+      const jupiterPlanet = astroState.dominantPlanets?.find(p => {
         // Apply safe type casting for planet access
         const planetData = p as unknown;
         return planetData?.name === 'Jupiter';
@@ -291,11 +291,12 @@ export class CulinaryAstrologer {
           const recipeTags = recipeData?.tags;
           if (
             Array.isArray(recipeTags) &&
-            recipeTags.some(tag =>)
-              ['abundant', 'rich', 'festive', 'celebratory', 'generous'].includes()
+            recipeTags.some(tag =>
+              ['abundant', 'rich', 'festive', 'celebratory', 'generous'].includes(
                 tag.toLowerCase()
               )
             )
+          )
           ) {
             jupiterBoost = 1.3;
           }
@@ -319,7 +320,7 @@ export class CulinaryAstrologer {
       activePlanets3.includes('saturn')
     ) {
       // Check for Saturn's effect in dominant planets
-      const saturnPlanet = astroState.dominantPlanets?.find(p => ) {
+      const saturnPlanet = astroState.dominantPlanets?.find(p => {
         // Apply safe type casting for planet access
         const planetData = p as unknown;
         return planetData?.name === 'Saturn';
@@ -344,8 +345,8 @@ export class CulinaryAstrologer {
           const recipeTags = recipeData?.tags;
           if (
             Array.isArray(recipeTags) &&
-            recipeTags.some(tag =>)
-              ['structured', 'traditional', 'preserved', 'aged', 'fermented'].includes()
+            recipeTags.some(tag =>
+              ['structured', 'traditional', 'preserved', 'aged', 'fermented'].includes(
                 tag.toLowerCase()
               )
             )
@@ -367,7 +368,7 @@ export class CulinaryAstrologer {
     // Calculate match for outer planets - give them more weight since they change less frequently using Type Harmony
     const bridge4 = createAstrologicalBridge();
     const activePlanets4 = bridge4.safeAccess<string[]>(astroState, 'activePlanets') || [];
-    const outerPlanetMatch = recipe.astrologicalProfile.rulingPlanets.filter();
+    const outerPlanetMatch = recipe.astrologicalProfile.rulingPlanets.filter(
       p => outerPlanets.includes(p) && activePlanets4.includes(p)
     ).length;
 

@@ -19,10 +19,10 @@ const Loading = ({
       <div>{text || 'Loading...'}</div>
     </div>
   </div>
-)
+);
 
 interface TemplateProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export default function Template({ children }: TemplateProps) {
@@ -32,41 +32,41 @@ export default function Template({ children }: TemplateProps) {
   useEffect(() => {
     try {
       // Mark as hydrated
-      setIsHydrated(true)
-      logger.info('Template hydrated successfully')
+      setIsHydrated(true);
+      logger.info('Template hydrated successfully');
 
       // Check for critical elements
       const body = document.body;
       const head = document.head;
 
       if (!body || !head) {
-        throw new Error('Critical DOM elements missing')
+        throw new Error('Critical DOM elements missing');
       }
 
       // Ensure minimum styling is applied
       if (!document.getElementById('base-styles')) {
         const style = document.createElement('style');
-        style.id = 'base-styles'
+        style.id = 'base-styles';
         style.textContent = `
           body {
-            margin: 0,
-            padding: 0,
-            min-height: 100vh,
-            background: #ffffff,
-            color: #000000,
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: #ffffff;
+            color: #000000;
             font-family: system-ui, -apple-system, sans-serif;
           }
-        `
-        document.head.appendChild(style)
+        `;
+        document.head.appendChild(style);
       }
     } catch (error) {
-      console.error('Template hydration error:', error, ) {
+      console.error('Template hydration error:', error, {
         context: 'Template',
         action: 'hydration'
-      })
-      setHasError(true)
+      });
+      setHasError(true);
     }
-  }, [])
+  }, []);
 
   if (hasError) {
     return (
@@ -82,7 +82,7 @@ export default function Template({ children }: TemplateProps) {
           </button>
         </div>
       </div>
-    )
+    );
   }
 
   if (!isHydrated) {
@@ -93,5 +93,5 @@ export default function Template({ children }: TemplateProps) {
     <div id='app-root' className='min-h-screen'>
       {children}
     </div>
-  )
+  );
 }
