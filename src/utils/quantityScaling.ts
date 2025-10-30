@@ -65,7 +65,7 @@ const UNIT_CONVERSIONS: Record<string, number> = {
  * @param baseUnit - Base unit for normalization (default: 'g')
  * @returns Normalized scaling factor between 0.1 and 2.0
  */
-export function calculateQuantityFactor()
+export function calculateQuantityFactor(
   amount: number,
   unit: string,
   baseUnit = 'g'
@@ -89,7 +89,7 @@ export function calculateQuantityFactor()
  * @param factor - Scaling factor from calculateQuantityFactor
  * @returns Scaled elemental properties
  */
-export function scaleElementalProperties()
+export function scaleElementalProperties(
   base: ElementalProperties,
   factor: number
 ): ElementalProperties {
@@ -153,7 +153,7 @@ export function deriveESMSFromElemental(elemental: ElementalProperties): Alchemi
  * @param kinetics - Optional thermodynamic metrics for kinetics modulation
  * @returns Scaled alchemical properties
  */
-export function scaleAlchemicalProperties()
+export function scaleAlchemicalProperties(
   base: AlchemicalProperties,
   factor: number,
   kinetics?: ThermodynamicMetrics
@@ -202,7 +202,7 @@ export function scaleAlchemicalProperties()
  * @param kinetics - Optional kinetics metrics for advanced modulation
  * @returns Complete QuantityScaledProperties object
  */
-export function createQuantityScaledProperties()
+export function createQuantityScaledProperties(
   baseElemental: ElementalProperties,
   quantity: number,
   unit: string,

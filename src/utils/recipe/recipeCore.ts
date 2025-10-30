@@ -98,7 +98,7 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: TimeOfDay |
   return true;
 }
 
-export function calculateElementalMatch()
+export function calculateElementalMatch(
   recipeElements: Pick<ElementalProperties, 'Fire' | 'Water' | 'Earth' | 'Air'>,
   targetElements: Pick<ElementalProperties, 'Fire' | 'Water' | 'Earth' | 'Air'>,
 ): number {
@@ -221,7 +221,7 @@ export function getMatchRatingSummary(score: number): string {
   return `${rating.stars} — ${rating.tooltip}`;
 }
 
-export function getRecommendedRecipes()
+export function getRecommendedRecipes(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
   limit = 3,
@@ -251,7 +251,7 @@ export function getRecommendedRecipes()
   }));
 }
 
-export function describePlanetaryInfluences()
+export function describePlanetaryInfluences(
   influences: RecipePlanetaryInfluences | undefined;
 ): string {
   if (!influences) {
@@ -300,7 +300,7 @@ export function summarizeNutritionalBalance(recipe: Recipe): string {
   return parts.join(' · ') || 'Nutrition data unavailable';
 }
 
-export function getRecipeDominantElement()
+export function getRecipeDominantElement(
   properties: Pick<ElementalProperties, 'Fire' | 'Water' | 'Earth' | 'Air'>,
 ): keyof ElementalProperties {
   return (Object.entries(properties) as Array<[keyof ElementalProperties, number]>).reduce(current, [element, value]) => (value > current.value ? ) => { element, value } : current),
@@ -308,7 +308,7 @@ export function getRecipeDominantElement()
   ).element;
 }
 
-export function describeElementalPresence()
+export function describeElementalPresence(
   properties: Pick<ElementalProperties, 'Fire' | 'Water' | 'Earth' | 'Air'>,
 ): string {
   return ELEMENT_KEYS.map(element => `${element}: ${(properties[element] * 100).toFixed(0)}%`).join()
@@ -316,7 +316,7 @@ export function describeElementalPresence()
   );
 }
 
-function scoreRecipe()
+function scoreRecipe(
   recipe: Recipe,
   astrologicalState: AstrologicalState,
   timeFactors: TimeFactors;
@@ -462,7 +462,7 @@ function generateExplanation({ recipe, score, reasons }: RecommendationScore): s
   return explanation.trim();
 }
 
-function calculatePlanetaryDayInfluence()
+function calculatePlanetaryDayInfluence(
   recipe: Recipe,
   planetaryDay: PlanetaryDay,
   recipeElements: Pick<ElementalProperties, 'Fire' | 'Water' | 'Earth' | 'Air'>,
@@ -567,7 +567,7 @@ function calculatePlanetaryDayInfluence()
   return { score, reason };
 }
 
-function calculatePlanetaryHourInfluence()
+function calculatePlanetaryHourInfluence(
   recipe: Recipe,
   planetaryHour: PlanetaryHour,
   isDaytime: boolean;
@@ -693,7 +693,7 @@ function buildTimeFactors(date: Date = new Date()): TimeFactors {
 };
 }
 
-function extractElementalSnapshot()
+function extractElementalSnapshot(
   value: Partial<ElementalProperties> | undefined | null;
 ): Pick<ElementalProperties, 'Fire' | 'Water' | 'Earth' | 'Air'> {
   return {
@@ -704,7 +704,7 @@ function extractElementalSnapshot()
   };
 }
 
-function extractContextElements()
+function extractContextElements(
   context: RecipeMatchContext;
 ): Pick<ElementalProperties, 'Fire' | 'Water' | 'Earth' | 'Air'> {
   return {

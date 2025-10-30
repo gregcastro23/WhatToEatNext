@@ -3,11 +3,11 @@ import { RulingPlanet } from './planets';
 /**
  * The four elemental characters used in alchemical calculations
  */
-export type ElementalCharacter = 'Fire' | 'Water' | 'Earth' | 'Air'
+export type ElementalCharacter = 'Fire' | 'Water' | 'Earth' | 'Air';
 /**
  * The four alchemical properties derived from elemental interactions
  */
-export type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance'
+export type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance';
 /**
  * Maps planets to their elemental character
  */
@@ -172,9 +172,9 @@ export const _getPlanetaryAlchemicalProperty = (planet: RulingPlanet): Alchemica
  * @returns The associated elemental character or null if not found
  */
 export const _getTarotCardElement = (cardName: string): ElementalCharacter | null => {
-  // Check if it's a minor arcana card;
-  for (const [suit, element] of Object.entries(tarotSuitElementMap) {
-    if (cardName.includes(suit) {
+  // Check if it's a minor arcana card
+  for (const [suit, element] of Object.entries(tarotSuitElementMap)) {
+    if (cardName.includes(suit)) {
       return element;
     }
   }

@@ -154,7 +154,7 @@ function validateIngredientResolution(ingredients: RecipeIngredient[], errors: s
 /**
  * Validate elemental properties normalization
  */
-function validateElementalProperties()
+function validateElementalProperties(
   recipe: Partial<Recipe>,
   errors: string[],
   warnings: string[]
@@ -194,7 +194,7 @@ function validateElementalProperties()
 /**
  * Validate cooking methods
  */
-function validateCookingMethods()
+function validateCookingMethods(
   recipe: Partial<Recipe>,
   errors: string[],
   warnings: string[]
@@ -220,7 +220,7 @@ function validateCookingMethods()
 /**
  * Validate astrological timing for enhanced recipes
  */
-function validateAstrologicalTiming()
+function validateAstrologicalTiming(
   recipe: Partial<EnhancedRecipe>,
   warnings: string[]
 ): boolean {
@@ -243,7 +243,7 @@ function validateAstrologicalTiming()
 /**
  * Validate computational integrity of recipe properties
  */
-function validateComputationIntegrity()
+function validateComputationIntegrity(
   recipe: Partial<EnhancedRecipe>,
   errors: string[]
 ): boolean {
@@ -296,7 +296,7 @@ function validateComputationIntegrity()
 /**
  * Calculate quality metrics for the recipe
  */
-function calculateQualityMetrics()
+function calculateQualityMetrics(
   recipe: Partial<Recipe>,
   checks: Record<string, boolean>
 ): RecipeValidationResult['qualityMetrics'] {
@@ -407,7 +407,7 @@ function isValidCookingMethod(method: string): boolean {
 /**
  * Batch validate multiple recipes
  */
-export function validateRecipes()
+export function validateRecipes(
   recipes: Partial<Recipe>[],
   options?: Parameters<typeof validateRecipe>[1]
 ): RecipeValidationResult[] {
@@ -417,7 +417,7 @@ export function validateRecipes()
 /**
  * Get overall validation statistics for a recipe collection
  */
-export function getValidationStatistics()
+export function getValidationStatistics(
   validationResults: RecipeValidationResult[]
 ): {
   totalRecipes: number;

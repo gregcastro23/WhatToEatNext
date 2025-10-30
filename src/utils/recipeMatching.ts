@@ -614,7 +614,7 @@ function hasLowFat(recipe: Recipe): boolean {
 }
 
 // Helper function to calculate modality score
-function calculateModalityScore()
+function calculateModalityScore(
   qualities: string[],
   preferredModality?: 'cardinal' | 'fixed' | 'mutable'
 ): number {
@@ -745,7 +745,7 @@ export const astrologyUtils = {
 /**
  * Generate a unique cache key based on function inputs
  */
-function getCacheKey()
+function getCacheKey(
   recipes: Recipe[] | undefined,
   filters: MatchFilters,
   energy: ElementalProperties | null,
@@ -1037,7 +1037,7 @@ export const connectIngredientsToMappings = (;
 /**
  * Calculate how well a recipe's nutritional profile matches the user's goals
  */
-function _calculateNutritionalMatch()
+function _calculateNutritionalMatch(
   recipeProfile: Record<string, number | string>,
   userGoals: Record<string, number | string>,
 ): number {
@@ -1116,7 +1116,7 @@ interface AstrologicalInfluence {
   lunarInfluence?: Record<string, number>
 }
 
-function _calculateAstrologicalMatch()
+function _calculateAstrologicalMatch(
   recipeInfluence: AstrologicalInfluence,
   userSign: string;
 ): number {
@@ -1390,7 +1390,7 @@ function _calculateAstrologicalMatch()
 /**
  * Calculate how well a recipe's complexity matches user's preferences
  */
-function _calculateComplexityMatch()
+function _calculateComplexityMatch(
   recipeComplexity: number | string | undefined,
   userPreference: number | string | undefined;
 ): number {

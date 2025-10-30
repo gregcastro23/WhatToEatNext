@@ -2075,7 +2075,7 @@ export const unifiedCuisineIntegrationSystem = new UnifiedCuisineIntegrationSyst
 // Export functions that match the original cuisineMatrix.ts interface export { getCuisinePAirings, getIngredientsForCuisine };
 
 // Export helper functions
-export function getCuisineCompatibility()
+export function getCuisineCompatibility(
   cuisine1: string,
   cuisine2: string;
 ): CuisineCompatibilityProfile {

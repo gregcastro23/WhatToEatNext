@@ -96,7 +96,7 @@ export function calculateNutritionalBalance(entries: FoodEntry[]): { [key: strin
 }
 
 // Helper to analyze food properties balance
-export function analyzePropertyBalance()
+export function analyzePropertyBalance(
   entries: FoodEntry[]
 ): { property: FoodProperty; count, number }[] {
   const propertyCount = entries.reduce(acc, entry) => {
@@ -115,7 +115,7 @@ export function analyzePropertyBalance()
 }
 
 // Helper to find complementary foods
-export function findComplementaryDishes()
+export function findComplementaryDishes(
   currentEntries: FoodEntry[],
   availableDishes: Record<string, Cuisine>,
   targetProperties: FoodProperty[]

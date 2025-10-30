@@ -120,7 +120,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
 }
 
 // Helper validation functions
-function validateAndNormalizeIngredients()
+function validateAndNormalizeIngredients(
   ingredients: Array<Partial<RecipeIngredient>>;
 ): RecipeIngredient[] {
   if (!Array.isArray(ingredients) {

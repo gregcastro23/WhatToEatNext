@@ -74,7 +74,7 @@ export function calculateCookingMethodCompatibility(methodA: string, methodB: st
  * @param pillarB Second alchemical pillar
  * @returns Compatibility score from 0-1
  */
-function calculatePillarCompatibility()
+function calculatePillarCompatibility(
   pillarA: AlchemicalPillar,
   pillarB: AlchemicalPillar;
 ): number {
@@ -116,7 +116,7 @@ function calculatePillarCompatibility()
  * @param cookingMethod The cooking method to apply
  * @returns Transformed alchemical item with updated properties
  */
-export function applyPillarTransformation()
+export function applyPillarTransformation(
   item: AlchemicalItem,
   cookingMethod: string;
 ): AlchemicalItem {
@@ -288,7 +288,7 @@ export function applyPillarTransformation()
  * @param isDaytime Whether it is day (true) or night (false)
  * @returns Transformed alchemical item with planetary influences applied
  */
-export function applyPlanetaryInfluence()
+export function applyPlanetaryInfluence(
   item: AlchemicalItem,
   planet: string,
   isDaytime = true
@@ -419,7 +419,7 @@ export function applyTarotInfluence(item: AlchemicalItem, _cardName: string): Al
  * @param isDaytime Whether it is day (true) or night (false)
  * @returns Transformed alchemical item with influences applied
  */
-export function transformIngredient()
+export function transformIngredient(
   item: AlchemicalItem,
   planet?: string,
   tarotCard?: string,
@@ -838,7 +838,7 @@ function calculateAlchemicalScore(item: AlchemicalItem): number {
  * @param options Additional options for recommendation filtering
  * @returns Array of recommended cooking methods with compatibility scores and detailed reasoning
  */
-export function getEnhancedCookingRecommendations()
+export function getEnhancedCookingRecommendations(
   item: AlchemicalItem,
   availableMethods: string[] | CookingMethod[],
   count = 5,
@@ -1010,7 +1010,7 @@ function generateHealthBenefits(methodName: string, _item: AlchemicalItem): stri
 }
 
 // Helper function to generate recommendation reason
-function generateRecommendationReason()
+function generateRecommendationReason(
   methodName: string,
   item: AlchemicalItem,
   options: Record<string, unknown>,

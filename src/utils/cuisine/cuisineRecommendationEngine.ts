@@ -95,7 +95,7 @@ export interface CuisineRecommendation {
  * @param cuisineElementals - Cuisine's elemental properties
  * @returns Compatibility score (0-1)
  */
-export function calculateElementalCompatibility()
+export function calculateElementalCompatibility(
   userPreferences: ElementalProperties,
   cuisineElementals: ElementalProperties
 ): number {
@@ -125,7 +125,7 @@ export function calculateElementalCompatibility()
  * @param cuisineAlchemical - Cuisine's alchemical properties
  * @returns Compatibility score (0-1)
  */
-export function calculateAlchemicalCompatibility()
+export function calculateAlchemicalCompatibility(
   userPreferences: Partial<AlchemicalProperties>,
   cuisineAlchemical: AlchemicalProperties
 ): number {
@@ -156,7 +156,7 @@ export function calculateAlchemicalCompatibility()
  * @param cuisineName - Cuisine name
  * @returns Cultural alignment score (0-1)
  */
-export function calculateCulturalAlignment()
+export function calculateCulturalAlignment(
   userProfile: UserProfile,
   cuisineId: string,
   cuisineName: string
@@ -198,7 +198,7 @@ export function calculateCulturalAlignment()
  * @param cuisineProperties - Cuisine computed properties
  * @returns Seasonal relevance score (0-1)
  */
-export function calculateSeasonalRelevance()
+export function calculateSeasonalRelevance(
   userProfile: UserProfile,
   cuisineProperties: CuisineComputedProperties
 ): number {
@@ -220,7 +220,7 @@ export function calculateSeasonalRelevance()
  * @param userPreferences - User's elemental preferences
  * @returns Signature match score (0-1)
  */
-export function calculateSignatureMatch()
+export function calculateSignatureMatch(
   cuisineSignatures: CuisineComputedProperties['signatures'],
   userPreferences: ElementalProperties
 ): number {
@@ -408,7 +408,7 @@ export function createBasicUserProfile(elementalPreferences: ElementalProperties
  * @param locationPreferences - Location and seasonal preferences
  * @returns Complete user profile
  */
-export function createAdvancedUserProfile()
+export function createAdvancedUserProfile(
   elementalPreferences: ElementalProperties,
   culturalBackground?: UserProfile['culturalBackground'],
   astrologicalProfile?: UserProfile['astrologicalProfile'],

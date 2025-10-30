@@ -106,7 +106,7 @@ const ZODIAC_ELEMENTS: { [key: string]: ElementalCharacter } = {
  * @param context Transformation context
  * @returns Array of transformed alchemical items
  */
-export function transformIngredients()
+export function transformIngredients(
   ingredients: ElementalItem[],
   context: TransformationContext;
 ): AlchemicalItem[] {
@@ -119,7 +119,7 @@ export function transformIngredients()
  * @param context Transformation context
  * @returns Array of transformed alchemical methods
  */
-export function transformCookingMethods()
+export function transformCookingMethods(
   methods: ElementalItem[],
   context: TransformationContext;
 ): AlchemicalItem[] {
@@ -132,7 +132,7 @@ export function transformCookingMethods()
  * @param context Transformation context
  * @returns Array of transformed alchemical cuisines
  */
-export function transformCuisines()
+export function transformCuisines(
   cuisines: ElementalItem[],
   context: TransformationContext;
 ): AlchemicalItem[] {
@@ -145,7 +145,7 @@ export function transformCuisines()
  * @param context Transformation context
  * @returns Transformed alchemical item
  */
-export function transformSingleItem()
+export function transformSingleItem(
   item: ElementalItem,
   context: TransformationContext;
 ): AlchemicalItem {
@@ -197,7 +197,7 @@ export function transformSingleItem()
  * @param isDaytime Whether it's daytime
  * @returns Transformed item
  */
-export function applyPlanetaryInfluence()
+export function applyPlanetaryInfluence(
   item: AlchemicalItem,
   planet: string,
   isDaytime = true
@@ -269,7 +269,7 @@ export function applyPlanetaryInfluence()
  * @param targetElementalProperties Target elemental properties for comparison
  * @returns Sorted array of items
  */
-export function sortByAlchemicalCompatibility()
+export function sortByAlchemicalCompatibility(
   items: AlchemicalItem[],
   targetElementalProperties?: { [key: string]: number }
 ): AlchemicalItem[] {
@@ -297,7 +297,7 @@ export function sortByAlchemicalCompatibility()
  * @param targetProperty Target alchemical property
  * @returns Filtered array of items
  */
-export function filterByAlchemicalCompatibility()
+export function filterByAlchemicalCompatibility(
   items: AlchemicalItem[],
   targetElement?: string,
   targetProperty?: string;
@@ -421,7 +421,7 @@ function getZodiacElement(zodiac?: string | null): ElementalCharacter | null {
   return ZODIAC_ELEMENTS[String(zodiac || '').toLowerCase()] || null;
 }
 
-function applyElementalTransformations()
+function applyElementalTransformations(
   baseElemental: ElementalProperties,
   planetaryInfluences: { [key: string]: PlanetaryInfluence },
   lunarModifiers: Record<ElementalCharacter, number>,
@@ -463,7 +463,7 @@ function applyElementalTransformations()
   return normalizeProperties(transformed);
 }
 
-function calculateAlchemicalProperties()
+function calculateAlchemicalProperties(
   elementalProperties: ElementalProperties,
   planetaryInfluences: { [key: string]: PlanetaryInfluence },
   tarotPlanetaryBoosts?: { [key: string]: number }
@@ -515,7 +515,7 @@ function calculateAlchemicalProperties()
   return alchemicalProps;
 }
 
-function calculateUniquenessScore()
+function calculateUniquenessScore(
   item: ElementalItem,
   transformedElemental: ElementalProperties,
   planetaryInfluences: { [key: string]: PlanetaryInfluence }
@@ -539,7 +539,7 @@ function calculateVariance(values: number[]): number {
   return squaredDiffs.reduce((sum, diff) => sum + diff, 0) / (values || []).length;
 }
 
-function calculateTransformationScore()
+function calculateTransformationScore(
   alchemicalProperties: { [key: string]: number },
   uniqueness: number
 ): number {
@@ -549,7 +549,7 @@ function calculateTransformationScore()
   return alchemicalScore * 0.7 + uniqueness * 0.3;
 }
 
-function calculateCompatibilityScore()
+function calculateCompatibilityScore(
   item: AlchemicalItem,
   targetProperties: { [key: string]: number }
 ): number {

@@ -60,7 +60,7 @@ const USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
 };
 
 // Create enhanced error
-export function createEnhancedError()
+export function createEnhancedError(
   message: string,
   type: ErrorType = ErrorType.UNKNOWN,
   severity: ErrorSeverity = ErrorSeverity.MEDIUM,

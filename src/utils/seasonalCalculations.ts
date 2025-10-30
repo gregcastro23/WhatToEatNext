@@ -344,7 +344,7 @@ function _getElementalBreakdown(_season: Season): Record<Season, ElementalProper
   }
 }
 
-function _calculateSeasonalScores()
+function _calculateSeasonalScores(
   recipe: Recipe,
   currentZodiac?: any | null,
   lunarPhase?: LunarPhase | null;
@@ -505,7 +505,7 @@ export const _calculateSeasonalModifiers = (recipe: Recipe, season: Season): Ele
 }
 
 // Add seasonal influence to elemental properties
-export function applySeasonalInfluence()
+export function applySeasonalInfluence(
   elements: ElementalProperties,
   season: Season;
 ): ElementalProperties {
@@ -536,7 +536,7 @@ function normalizeElementalValues(elements: ElementalProperties): ElementalPrope
 }
 
 // New function to calculate recipe compatibility with lunar phase
-export function calculateLunarPhaseCompatibility()
+export function calculateLunarPhaseCompatibility(
   recipe: Recipe,
   lunarPhase: LunarPhase;
 ): {

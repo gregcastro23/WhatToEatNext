@@ -47,7 +47,7 @@ interface RecommendationExplanation {
 /**
  * Calculate recommendation score for a recipe based on astrological state and time factors
  */
-export function calculateRecommendationScore()
+export function calculateRecommendationScore(
   recipe: Recipe,
   astrologicalState: AstrologicalState,
   timeFactors: TimeFactors;
@@ -94,7 +94,7 @@ export function calculateRecommendationScore()
 /**
  * Get recommended recipes based on astrological state
  */
-export function getRecommendedRecipes()
+export function getRecommendedRecipes(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
   timeFactors: TimeFactors = getTimeFactors(),
@@ -114,7 +114,7 @@ export function getRecommendedRecipes()
 /**
  * Explain why a recipe was recommended
  */
-export function explainRecommendation()
+export function explainRecommendation(
   recipe: Recipe,
   astrologicalState: AstrologicalState,
   timeFactors: TimeFactors = getTimeFactors()
@@ -321,7 +321,7 @@ function getTimeFactors(): TimeFactors {
 /**
  * Get detailed recipe recommendations with explanations
  */
-export function getDetailedRecipeRecommendations()
+export function getDetailedRecipeRecommendations(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
   limit = 3
@@ -386,7 +386,7 @@ function generateExplanation(scoredRecipe: RecommendationScore): string {
 /**
  * Calculate elemental match between recipe and user preferences
  */
-export function calculateElementalMatch()
+export function calculateElementalMatch(
   recipeElements: ElementalProperties,
   userElements: ElementalProperties
 ): number {
@@ -457,7 +457,7 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
 /**
  * Calculate recipe match score based on elemental state
  */
-export function calculateRecipeMatchScore()
+export function calculateRecipeMatchScore(
   recipe: Recipe,
   elementalState: {
     Fire: number;

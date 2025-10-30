@@ -115,7 +115,7 @@ export function getLunarPhaseFromDate(date: Date): LunarPhase {
 /**
  * Generates default lunar phase modifiers based on an ingredient's elemental properties
  */
-export function generateDefaultLunarPhaseModifiers()
+export function generateDefaultLunarPhaseModifiers(
   elementalProps: ElementalProperties,
   ingredientName: string,
   category: string;
@@ -472,7 +472,7 @@ export function convertToLunarPhase(input: string | Date | number): LunarPhase {
 /**
  * Get lunar phase with kinetics enhancement (aspect phase boosts)
  */
-export function getLunarPhaseWithKinetics()
+export function getLunarPhaseWithKinetics(
   phase: LunarPhase,
   planetaryPositions: { [planet: string]: string }
 ): LunarPhase {
@@ -513,7 +513,7 @@ function applyVelocityBoost(phase: LunarPhase, velocityBoost: number): LunarPhas
 /**
  * Get kinetics-enhanced elemental modifiers for lunar phases
  */
-export function getKineticsEnhancedLunarModifiers()
+export function getKineticsEnhancedLunarModifiers(
   phase: LunarPhase,
   planetaryPositions: { [planet: string]: string }
 ): Record<string, number> {
@@ -572,7 +572,7 @@ function getDominantElementFromModifiers(modifiers: Record<string, number>): str
 /**
  * Calculate lunar phase kinetics metrics
  */
-export function calculateLunarKineticsMetrics()
+export function calculateLunarKineticsMetrics(
   phase: LunarPhase,
   planetaryPositions: { [planet: string]: string }
 ): {

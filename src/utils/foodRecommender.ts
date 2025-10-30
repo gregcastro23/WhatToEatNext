@@ -1358,7 +1358,7 @@ const planetaryElements: Record<string, { diurnal: string; nocturnal, string }> 
  * @param modality The modality to check against
  * @returns Affinity score between 0 and 1
  */
-export function getModalityElementalAffinity()
+export function getModalityElementalAffinity(
   element: keyof ElementalProperties,
   modality: Modality;
 ): number {

@@ -185,7 +185,7 @@ export function getCurrentElementalProperties(context: string = 'general'): Elem
 /**
  * Analyze elemental compatibility between ingredients
  */
-export function analyzeElementalCompatibility()
+export function analyzeElementalCompatibility(
   ingredient1Elements: ElementalProperties,
   ingredient2Elements: ElementalProperties
 ): {

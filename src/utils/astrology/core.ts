@@ -49,7 +49,7 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
 }
 
 // Utility to normalize planetary position keys (e.g., Sun/sun)
-export function normalizePlanetaryPositions()
+export function normalizePlanetaryPositions(
   positions: Record<string, unknown>,
 ): Record<string, PlanetaryPosition> {
   const normalized: Record<string, PlanetaryPosition> = {}

@@ -184,7 +184,7 @@ export const validateElementalRequirements = (;
  * @param properties The elemental properties to check
  * @returns Array of elements that are missing or low
  */
-export function getMissingElements()
+export function getMissingElements(
   properties: Partial<ElementalProperties> | null | undefined;
 ): Element[] {
   if (!properties) {
@@ -476,7 +476,7 @@ const _ELEMENT_WEIGHTS = {
 }
 
 // Add this function if uniqueness score is needed
-function _calculateUniqueness()
+function _calculateUniqueness(
   elements: Record<ElementalCharacter, number>,
   planetaryInfluence: number;
 ): number {
@@ -490,7 +490,7 @@ function _calculateUniqueness()
 }
 
 // Or modify the transformation to remove uniqueness score if not needed
-export function transformItemsWithPlanetaryPositions()
+export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
   planetaryPositions: Record<string, unknown>,
   _isDaytime = true,
@@ -671,7 +671,7 @@ const _calculateUniquenessScore = (item: ElementalItem): number => {
 };
 
 // Add or update the normalizeElementalValues function
-export function normalizeElementalValues()
+export function normalizeElementalValues(
   values: Record<ElementalCharacter, number>,
 ): Record<ElementalCharacter, number> {
   const total = Object.values(values).reduce((sum, val) => sum + val, 0);
@@ -736,7 +736,7 @@ export function getBalancingElement(element) {
  * WARNING: getElementalRelationship is legacy and may not comply with current elemental logic principles.
  * All element combinations are harmonious avoid using 'opposing' or 'controlling' logic.
  */
-export function getElementalRelationship()
+export function getElementalRelationship(
   element1: Element,
   element2: Element;
 ): ElementalRelationship {
@@ -793,7 +793,7 @@ export function getStrengtheningElement(element: Element): Element {
  * @param vegetables The collection of vegetables to enhance
  * @returns Enhanced vegetables with complete transformation properties
  */
-export function enhanceVegetableTransformations()
+export function enhanceVegetableTransformations(
   vegetables: Record<string, Record<string, unknown>>,
 ): Record<string, Record<string, unknown>> {
   return Object.entries(vegetables).reduce((acc, [key, vegetable]) => {
@@ -1132,7 +1132,7 @@ export function enhanceVegetableTransformations()
  * @param oils Record of oil ingredients
  * @returns Enhanced oil ingredients with complete properties
  */
-export function enhanceOilProperties()
+export function enhanceOilProperties(
   oils: Record<string, Record<string, string>>,
 ): Record<string, Record<string, string>> {
   return Object.entries(oils).reduce((acc, [key, oil]) => {
@@ -1452,7 +1452,7 @@ export const fixIngredientMappings = _fixIngredientMappings;
  * @param ingredients Raw ingredient mappings
  * @returns Fixed ingredient mappings
  */
-export function fixRawIngredientMappings()
+export function fixRawIngredientMappings(
   ingredients: Record<string, unknown>,
 ): Record<string, unknown> {
   return Object.entries(ingredients).reduce((acc, [key, value]) => {

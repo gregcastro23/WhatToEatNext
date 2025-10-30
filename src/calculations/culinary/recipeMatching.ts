@@ -28,7 +28,7 @@ export interface RecipeCompatibilityResult {
 /**
  * Calculate recipe compatibility with current moment's alchemical profile
  */
-export function calculateRecipeCompatibility()
+export function calculateRecipeCompatibility(
   recipeElementalProperties: ElementalProperties,
   currentMomentKalchmResult: KalchmResult
 ): RecipeCompatibilityResult {
@@ -211,7 +211,7 @@ function calculateKalchmAlignment(recipeElements: ElementalProperties,)
 /**
  * Calculate monica constant alignment for cooking method compatibility
  */
-function calculateMonicaAlignment()
+function calculateMonicaAlignment(
   recipeElements: ElementalProperties,
   currentMomentKalchmResult: KalchmResult
 ): number {
@@ -364,7 +364,7 @@ function calculateEnergyAlignment(recipeEnergy: number, userEnergy: number): num
 /**
  * Generate enhanced recommendations based on all scoring factors
  */
-function generateEnhancedRecipeRecommendations()
+function generateEnhancedRecipeRecommendations(
   overallScore: number,
   scores: {
     absoluteElementalMatch: number;

@@ -101,7 +101,7 @@ export function getZodiacElement(_sign: any): ElementalCharacter {
 }
 
 // Define a replacement getPlanetaryDignity function
-export function getPlanetaryDignity()
+export function getPlanetaryDignity(
   planet: string,
   sign: any | undefined;
 ): { type: DignityType; strength, number } {
@@ -524,7 +524,7 @@ function _validatePlanetaryPositions(positions: Record<string, _number>): boolea
   return validation;
 }
 
-function _calculatePlanetPosition()
+function _calculatePlanetPosition(
   jd: number,
   planet: string;
 ): { sign: string, degree: number, minute: number } {
@@ -885,7 +885,7 @@ export function getTraditionalRuler(_sign: string): string {
  * @param risingDegree Optional rising degree for house calculations
  * @returns Object with stellium effects by element and modality
  */
-export function calculateEnhancedStelliumEffects()
+export function calculateEnhancedStelliumEffects(
   planetPositions: Record<string, { sign: string, degree: number }>,
   risingDegree?: number;
 ): LowercaseElementalProperties {
@@ -1095,7 +1095,7 @@ function getLongitudeFromSignAndDegree(sign: string, degree: number): number {
  * @param risingDegree The rising degree for house calculations
  * @returns Object with elemental properties enhanced by joy effects
  */
-export function calculateJoyEffects()
+export function calculateJoyEffects(
   planetPositions: Record<string, { sign: string, degree: number }>,
   risingDegree: number;
 ): LowercaseElementalProperties {
@@ -1178,7 +1178,7 @@ export function combineElementalProperties()
  * @param risingDegree Rising degree for house calculations
  * @returns Complete astrological effects
  */
-export function calculateCompleteAstrologicalEffects()
+export function calculateCompleteAstrologicalEffects(
   planetPositions: Record<string, { sign: string, degree: number, house?: number }>,
   risingDegree: number;
 ): AstrologicalEffects {
@@ -1292,7 +1292,7 @@ export function longitudeToZodiacPosition(_longitude: number): { sign: string, d
  * @param sign Zodiac sign
  * @returns Dignity information
  */
-export function getPlanetaryDignityInfo()
+export function getPlanetaryDignityInfo(
   planet: string,
   sign: any | undefined;
 ): { type: DignityType, strength: number } {
@@ -1404,7 +1404,7 @@ export function getPlanetaryDignityInfo()
  * @param risingDegree Optional rising degree for house calculations
  * @returns Object with aspects array and elemental effects
  */
-export function calculateAspects()
+export function calculateAspects(
   positions: Record<string, { sign: string, degree: number }>,
   _risingDegree?: number;
 ): { aspects: PlanetaryAspect[], elementalEffects: LowercaseElementalProperties } {
@@ -2300,7 +2300,7 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
  * @param timeFactors Current time factors
  * @returns The dominant element
  */
-export function calculateDominantElement()
+export function calculateDominantElement(
   astroState: AstrologicalState,
   timeFactors: TimeFactors;
 ): Element {
@@ -2350,7 +2350,7 @@ export function calculateDominantElement()
  * @param timeFactors Current time factors
  * @returns Record of elements to their percentage influence (0-1)
  */
-export function calculateElementalProfile()
+export function calculateElementalProfile(
   astroState: AstrologicalState,
   timeFactors: TimeFactors;
 ): Record<Element, number> {
@@ -2400,7 +2400,7 @@ export function calculateElementalProfile()
  * @param currentZodiac Current zodiac sign (optional)
  * @returns Array of alchemical items with compatibility scores
  */
-export function transformItemsWithPlanetaryPositions()
+export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
   planetaryPositions: { [key: string]: unknown },
   isDaytime: boolean = true,
@@ -2524,7 +2524,7 @@ export function transformItemsWithPlanetaryPositions()
 /**
  * Calculate current elemental influence from planetary positions
  */
-function calculateCurrentElementalInfluence()
+function calculateCurrentElementalInfluence(
   planetaryPositions: { [key: string]: unknown },
   isDaytime: boolean,
   currentZodiac?: string;
@@ -2593,7 +2593,7 @@ function calculateCurrentElementalInfluence()
 /**
  * Calculate item compatibility score based on elemental alignment
  */
-function calculateItemCompatibilityScore()
+function calculateItemCompatibilityScore(
   itemProperties: ElementalProperties,
   currentInfluence: ElementalProperties,
   planetaryPositions: { [key: string]: unknown },
@@ -2664,7 +2664,7 @@ function getDominantElementFromProperties(properties: ElementalProperties): Elem
 /**
  * Calculate alchemical properties from elemental properties and planetary influence
  */
-function calculateAlchemicalProperties()
+function calculateAlchemicalProperties(
   itemProperties: ElementalProperties,
   planetaryPositions: { [key: string]: unknown },
   currentInfluence: ElementalProperties;
@@ -2745,7 +2745,7 @@ function calculateAlchemicalProperties()
 /**
  * Calculate basic thermodynamic properties
  */
-function calculateThermodynamicProperties()
+function calculateThermodynamicProperties(
   itemProperties: ElementalProperties,
   compatibilityScore: number;
 ): ThermodynamicProperties {
@@ -2767,7 +2767,7 @@ function calculateThermodynamicProperties()
 /**
  * Calculate elemental transformations
  */
-function calculateElementalTransformations()
+function calculateElementalTransformations(
   itemProperties: ElementalProperties,
   currentInfluence: ElementalProperties;
 ): ElementalInteraction[] {
@@ -2853,7 +2853,7 @@ function calculatePlanetaryStrength(_planetaryPositions: ) { [key: string]: unkn
 /**
  * Calculate overall alchemical score
  */
-function calculateOverallAlchemicalScore()
+function calculateOverallAlchemicalScore(
   thermodynamicProperties: ThermodynamicProperties,
   currentInfluence: ElementalProperties;
 ): number {

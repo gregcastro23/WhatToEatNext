@@ -109,7 +109,7 @@ function restoreFromBackups(backups: Array<) { file: string, backup: string }>):
   }
 }
 
-function applyEditsToFile()
+function applyEditsToFile(
   filePath: string,
   eliminations: Finding[],
   transformations: Finding[],

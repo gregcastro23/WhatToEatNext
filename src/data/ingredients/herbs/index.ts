@@ -65,7 +65,7 @@ function generateHerbValues(elementalProps: Record<string, _number>): Record<str
 }
 
 // Helper function to standardize ingredient mappings with enhanced values
-function createIngredientMapping()
+function createIngredientMapping(
   id: string,
   properties: Partial<IngredientMapping>;
 ): IngredientMapping {

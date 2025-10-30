@@ -158,7 +158,7 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
  * @param elementalState Elemental properties
  * @returns Dominant element key
  */
-export function calculateDominantElement()
+export function calculateDominantElement(
   elementalState: ElementalProperties;
 ): keyof ElementalProperties {
   let dominantElement: keyof ElementalProperties = 'Fire';
@@ -179,7 +179,7 @@ export function calculateDominantElement()
  * @param type Color type to retrieve
  * @returns Color string
  */
-export function getElementalColor()
+export function getElementalColor(
   element: keyof ElementalProperties | undefined,
   type: keyof ElementalColor = 'text'): string {
   if (!element || !ELEMENTAL_COLORS[element]) {
@@ -212,7 +212,7 @@ export function getElementalDescription(element: keyof ElementalProperties): str
  * @param element2 Second element
  * @returns Compatibility description
  */
-export function getElementalCompatibility()
+export function getElementalCompatibility(
   element1: keyof ElementalProperties,
   element2: keyof ElementalProperties;
 ): 'highly-compatible' | 'compatible' | 'neutral' {
@@ -291,7 +291,7 @@ export async function calculateDetailalCompatibility()
  * @param element Element to find complement for
  * @returns Complementary element (same element)
  */
-export function getComplementaryElement()
+export function getComplementaryElement(
   element: keyof ElementalProperties;
 ): keyof ElementalProperties {
   // Each element complements itself most strongly
@@ -315,7 +315,7 @@ export function getStrengtheningElement(element: Element): Element {
  * @param bWeight Weight for second properties (0-1)
  * @returns Combined elemental properties
  */
-export function combineElementalProperties()
+export function combineElementalProperties(
   a: ElementalProperties,
   b: ElementalProperties,
   bWeight = 0.5
@@ -359,7 +359,7 @@ export function calculateElementalState(recipe: Recipe | null | undefined): Elem
  * @param ingredients Array of ingredients
  * @returns Elemental properties
  */
-function calculateElementalStateFromIngredients()
+function calculateElementalStateFromIngredients(
   ingredients: Array<{ category?: string; amount?: number }>,
 ): ElementalProperties {
   const elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -462,7 +462,7 @@ export function getElementalCharacteristics(_element: Element): ElementalCharact
 
 // --- Helper Functions ---
 
-function calculateComplementaryScore()
+function calculateComplementaryScore(
   element1: keyof ElementalProperties,
   element2: keyof ElementalProperties;
 ): number {
@@ -475,7 +475,7 @@ function calculateComplementaryScore()
   return 0.7;
 }
 
-function calculateBalanceScore()
+function calculateBalanceScore(
   recipeProps: ElementalProperties,
   userProps: ElementalProperties;
 ): number {
@@ -493,7 +493,7 @@ function calculateBalanceScore()
   return Math.max(0, 1 - averageDifference);
 }
 
-function generateCompatibilityRecommendation()
+function generateCompatibilityRecommendation(
   score: number,
   recipeDominant: keyof ElementalProperties,
   userDominant: keyof ElementalProperties;

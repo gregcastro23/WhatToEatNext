@@ -878,7 +878,7 @@ async function calculateModalityScore()
   return Math.min(1, 0.5 + ((matches as any)?.length || 0) * 0.2);
 }
 
-function calculateUnifiedFlavorScore()
+function calculateUnifiedFlavorScore(
   ingredient: Partial<EnhancedIngredient> | Ingredient,
   _elementalProps: ElementalProperties,
   _options: RecommendationOptions;
@@ -901,7 +901,7 @@ function calculateUnifiedFlavorScore()
   }
 }
 
-function calculateKalchmResonance()
+function calculateKalchmResonance(
   ingredient: Partial<EnhancedIngredient> | Ingredient,
   elementalProps: ElementalProperties;
 ): number {
@@ -920,7 +920,7 @@ function calculateKalchmResonance()
   }
 }
 
-function calculateMonicaOptimization()
+function calculateMonicaOptimization(
   ingredient: Partial<EnhancedIngredient> | Ingredient,
   elementalProps: ElementalProperties;
 ): number {
@@ -942,7 +942,7 @@ function calculateMonicaOptimization()
   }
 }
 
-function calculateCulturalContextScore()
+function calculateCulturalContextScore(
   ingredient: Partial<EnhancedIngredient> | Ingredient,
   options: RecommendationOptions;
 ): number {
@@ -1032,7 +1032,7 @@ export const _formatFactorName = (factor: string): string => {
   return factor.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
 };
 
-export function calculateElementalInfluences()
+export function calculateElementalInfluences(
   planetaryAlignment: Record<string, { sign: string; degree, number }>,
 ): ElementalProperties {
   const elements = { Fire: 0, Water: 0, Earth: 0, Air: 0 };

@@ -62,7 +62,7 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
 /**
  * Generate cache key for recipe matching
  */
-function getCacheKey()
+function getCacheKey(
   recipes: Recipe[] | undefined,
   filters: MatchFilters,
   energy: ElementalProperties | null,
@@ -464,7 +464,7 @@ async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Prom
 /**
  * Calculate recipe energy match
  */
-export function calculateRecipeEnergyMatch()
+export function calculateRecipeEnergyMatch(
   recipe: Recipe,
   currentEnergy: AstrologicalState;
 ): number {
@@ -487,7 +487,7 @@ export function calculateRecipeEnergyMatch()
 /**
  * Calculate elemental alignment
  */
-export function calculateElementalAlignment()
+export function calculateElementalAlignment(
   recipe: Recipe,
   currentEnergy: AstrologicalState;
 ): number {
@@ -521,7 +521,7 @@ export function calculateElementalAlignment()
 /**
  * Calculate nutritional match
  */
-export function calculateNutritionalMatch()
+export function calculateNutritionalMatch(
   recipeProfile: Record<string, unknown>,
   userGoals: Record<string, unknown>,
 ): number {
@@ -600,7 +600,7 @@ export function calculateAstrologicalMatch(recipeInfluence: unknown, userSign: s
 /**
  * Calculate complexity match
  */
-export function calculateComplexityMatch()
+export function calculateComplexityMatch(
   recipeComplexity: number | string | undefined,
   currentMomentPreference: number | string | undefined;
 ): number {

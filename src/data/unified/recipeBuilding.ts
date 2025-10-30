@@ -1886,20 +1886,20 @@ export const unifiedRecipeBuildingSystem = new UnifiedRecipeBuildingSystem();
 
 // ===== CONVENIENCE EXPORTS =====
 
-export function generateMonicaOptimizedRecipe()
+export function generateMonicaOptimizedRecipe(
   _criteria: RecipeBuildingCriteria;
 ): RecipeGenerationResult {
   return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe(_criteria);
 }
 
-export function adaptRecipeForSeason()
+export function adaptRecipeForSeason(
   _recipe: EnhancedRecipe,
   _season: Season;
 ): SeasonalRecipeAdaptation {
   return unifiedRecipeBuildingSystem.adaptRecipeForSeason(_recipe, _season);
 }
 
-export function generateFusionRecipe()
+export function generateFusionRecipe(
   _cuisines: string[],
   _criteria: RecipeBuildingCriteria;
 ): MonicaOptimizedRecipe {
@@ -1909,7 +1909,7 @@ export function generateFusionRecipe()
   ) as unknown as MonicaOptimizedRecipe
 }
 
-export function generatePlanetaryRecipeRecommendation()
+export function generatePlanetaryRecipeRecommendation(
   _criteria: RecipeBuildingCriteria & {
     currentPlanetaryHour: PlanetName,
     lunarPhase: LunarPhase,

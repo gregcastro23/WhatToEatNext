@@ -150,7 +150,7 @@ export function calculateRecipeWeight(
  * @param props2 - Second elemental properties
  * @returns Similarity score (0-1, higher = more similar)
  */
-function calculateElementalSimilarity()
+function calculateElementalSimilarity(
   props1: ElementalProperties,
   props2: ElementalProperties
 ): number {
@@ -342,7 +342,7 @@ function calculateZScore(value: number, globalMean: number, globalStdDev: number
  * @param zscore - Z-score value
  * @returns Strength classification
  */
-function classifySignatureStrength()
+function classifySignatureStrength(
   zscore: number
 ): 'low' | 'moderate' | 'high' | 'very_high' {
   const absZscore = Math.abs(zscore);

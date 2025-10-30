@@ -185,7 +185,7 @@ function ensureRecipeId(id?: RecipeIdentifier): RecipeIdentifier {
   return `recipe-${crypto.randomUUID()}`;
 }
 
-function normalizeElementalProperties()
+function normalizeElementalProperties(
   value: RecipeData['elementalProperties'];
 ): ElementalProperties {
   if (value && typeof value === 'object') {
@@ -195,7 +195,7 @@ function normalizeElementalProperties()
   return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 }
 
-function applyEnergyProfile()
+function applyEnergyProfile(
   recipe: Recipe,
   energyProfile: RecipeData['energyProfile'] | undefined;
 ): void {
@@ -237,7 +237,7 @@ function extractSeason(value: Season | Season[] | string): Season | string {
   return String(value ?? '').toLowerCase();
 }
 
-function normalizePlanetaryInfluences()
+function normalizePlanetaryInfluences(
   source: string[] | Record<string, number>,
 ): RecipePlanetaryInfluences {
   if (Array.isArray(source) {

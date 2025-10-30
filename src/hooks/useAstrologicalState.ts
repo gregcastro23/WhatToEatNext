@@ -23,7 +23,7 @@ export interface AstrologyHookData {
 }
 
 // Helper function to create a celestial position with defaults
-function _createCelestialPosition()
+function _createCelestialPosition(
   sign: any,
   longOffset = 0,
   options?: { planetName?: string }

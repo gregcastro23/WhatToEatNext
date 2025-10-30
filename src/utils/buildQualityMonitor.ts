@@ -667,7 +667,7 @@ function calculateBuildTimePercentile(buildTime: number): number {
 /**
  * Analyze performance trend
  */
-function analyzePerformanceTrend()
+function analyzePerformanceTrend(
   currentTime: number,
   averageTime: number;
 ): 'improving' | 'stable' | 'degrading' {
@@ -949,7 +949,7 @@ async function getLintingWarningCount(): Promise<number> {
 /**
  * Calculate overall quality score
  */
-function calculateOverallQualityScore()
+function calculateOverallQualityScore(
   codeQuality: { typeScriptErrors: number, lintingWarnings: number },
   buildQuality: { successRate: number }
   performanceQuality: { cacheEfficiency: number },
@@ -1042,7 +1042,7 @@ async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertRes
 /**
  * Generate optimization recommendations
  */
-function generateOptimizationRecommendations()
+function generateOptimizationRecommendations(
   buildMetrics: BuildMetrics,
   _performanceAnalysis: BuildPerformanceAnalysis,
   _memoryAnalysis: MemoryUsageAnalysis;

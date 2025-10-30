@@ -128,7 +128,7 @@ function getGlobalState() {
   return { instance: _instance, initializing: _isInitializing, initialized: _isInitialized };
 }
 
-function setGlobalState()
+function setGlobalState(
   instance: UnifiedFlavorEngine | null,
   initializing: boolean,
   initialized: boolean;
@@ -1016,7 +1016,7 @@ export const unifiedFlavorEngine = new UnifiedFlavorEngine();
 /**
  * Calculate compatibility between two flavor profiles
  */
-export function calculateFlavorCompatibility()
+export function calculateFlavorCompatibility(
   _profile1: UnifiedFlavorProfile,
   _profile2: UnifiedFlavorProfile,
   _context?: { season?: Season, culturalPreference?: string, preparationMethod?: string }
@@ -1027,7 +1027,7 @@ export function calculateFlavorCompatibility()
 /**
  * Find compatible profiles for a target profile
  */
-export function findCompatibleProfiles()
+export function findCompatibleProfiles(
   targetProfile: UnifiedFlavorProfile,
   minCompatibility = 0.7,
   _context?: { season?: Season; culturalPreference?: string; preparationMethod?: string }

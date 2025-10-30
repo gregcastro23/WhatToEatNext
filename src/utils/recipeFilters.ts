@@ -559,7 +559,7 @@ export function getRecipesForCuisine(cuisine: string, recipes: Recipe[]): Recipe
  * @param ingredientRequirements Optional specific ingredients to include / (exclude || 1) / (emphasize || 1)
  * @returns Filtered and scored recipes sorted by match quality
  */
-export function filterRecipesByIngredientMappings()
+export function filterRecipesByIngredientMappings(
   recipes: Recipe[],
   elementalTarget?: ElementalProperties,
   ingredientRequirements?: {

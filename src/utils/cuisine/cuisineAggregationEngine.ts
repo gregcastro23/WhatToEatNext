@@ -118,7 +118,7 @@ export function calculateConfidenceInterval(
  * @param weights - Weights for each recipe (optional, defaults to equal weighting)
  * @returns Aggregated elemental properties
  */
-export function aggregateElementalProperties()
+export function aggregateElementalProperties(
   recipes: RecipeComputedProperties[],
   weights?: number[]
 ): ElementalProperties {
@@ -148,7 +148,7 @@ export function aggregateElementalProperties()
  * @param weights - Weights for each recipe (optional, defaults to equal weighting)
  * @returns Aggregated alchemical properties or undefined if no recipes have alchemical data
  */
-export function aggregateAlchemicalProperties()
+export function aggregateAlchemicalProperties(
   recipes: RecipeComputedProperties[],
   weights?: number[]
 ): AlchemicalProperties | undefined {
@@ -180,7 +180,7 @@ export function aggregateAlchemicalProperties()
  * @param weights - Weights for each recipe (optional, defaults to equal weighting)
  * @returns Aggregated thermodynamic properties or undefined if no recipes have thermodynamic data
  */
-export function aggregateThermodynamicProperties()
+export function aggregateThermodynamicProperties(
   recipes: RecipeComputedProperties[],
   weights?: number[]
 ): ThermodynamicProperties | undefined {
@@ -218,7 +218,7 @@ export function aggregateThermodynamicProperties()
  * @param averages - Pre-calculated averages
  * @returns Property variance for elementals
  */
-export function calculateElementalVariance()
+export function calculateElementalVariance(
   recipes: RecipeComputedProperties[],
   averages: ElementalProperties
 ): ElementalProperties {
@@ -246,7 +246,7 @@ export function calculateElementalVariance()
  * @param averages - Pre-calculated averages
  * @returns Property variance for alchemicals or undefined
  */
-export function calculateAlchemicalVariance()
+export function calculateAlchemicalVariance(
   recipes: RecipeComputedProperties[],
   averages: AlchemicalProperties
 ): Partial<AlchemicalProperties> | undefined {
@@ -303,7 +303,7 @@ export function calculateDiversityScore(variance: PropertyVariance): number {
  * @param options - Computation options
  * @returns Complete cuisine computed properties
  */
-export function computeCuisineProperties()
+export function computeCuisineProperties(
   recipes: RecipeComputedProperties[],
   options: CuisineComputationOptions = {}
 ): CuisineComputedProperties {

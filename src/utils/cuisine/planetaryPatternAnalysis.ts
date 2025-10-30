@@ -180,7 +180,7 @@ export function calculatePlanetaryStrength(planetFrequency: PlanetaryFrequency):
  * @param strength - Pattern strength score
  * @returns Cultural notes and significance
  */
-export function getCulturalSignificance()
+export function getCulturalSignificance(
   planet: string,
   dominantSign: string,
   strength: number
@@ -357,7 +357,7 @@ export function getPlanetaryPatternSummary(patterns: PlanetaryPattern[]): {
  * @param sign - Zodiac sign to match
  * @returns Array of matching recipes
  */
-export function findRecipesWithPlanetaryPattern()
+export function findRecipesWithPlanetaryPattern(
   recipes: RecipeComputedProperties[],
   planet: string,
   sign: string

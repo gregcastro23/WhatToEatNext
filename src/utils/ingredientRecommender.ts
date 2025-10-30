@@ -197,7 +197,7 @@ export interface RecommendationOptions {
 }
 
 // Enhanced calculation helper functions using imported utilities
-function calculateEnhancedPlanetaryInfluence()
+function calculateEnhancedPlanetaryInfluence(
   planetaryDay: string,
   planetaryData: { jupiterData: unknown, saturnData: unknown }): number {
   // Use Jupiter and Saturn data to enhance planetary calculations
@@ -765,7 +765,7 @@ function calculateSeasonalScore(ingredient: Ingredient, date: Date): number {
  * Enhanced planetary score calculation that considers decans and tarot associations,
  * with special weight for the ruling planet determined by sun position
  */
-function calculateEnhancedPlanetaryScore()
+function calculateEnhancedPlanetaryScore(
   ingredient: Ingredient,
   planetaryAlignment: Record<string, { sign: string, degree: number }>,
   planetDecans: Record<string, { decanNum: number, decanRuler: string, tarotCard: string }>,
@@ -830,7 +830,7 @@ function calculateEnhancedPlanetaryScore()
  * @param planetaryAlignment Current planetary positions
  * @returns Elemental influence values
  */
-export function calculateElementalInfluences()
+export function calculateElementalInfluences(
   planetaryAlignment: Record<string, { sign: string; degree, number }>
 ): ElementalProperties {
   // Define elemental affinities for each zodiac sign
@@ -900,7 +900,7 @@ export function calculateElementalInfluences()
  * @param limit Maximum number of recommendations per chakra
  * @returns Grouped ingredient recommendations based on chakra influences
  */
-export function getChakraBasedRecommendations()
+export function getChakraBasedRecommendations(
   chakraEnergies: ChakraEnergies,
   limit = 3
 ): GroupedIngredientRecommendations {
@@ -1129,7 +1129,7 @@ function isMarsAssociatedIngredient(ingredientName: string): boolean {
  * @param isVenusRetrograde Whether Venus is retrograde
  * @returns Score representing Venus influence (higher is stronger)
  */
-function calculateVenusInfluence()
+function calculateVenusInfluence(
   ingredient: Ingredient,
   zodiacSign?: string,
   isVenusRetrograde = false
@@ -1665,7 +1665,7 @@ function calculateVenusInfluence()
 }
 
 // Enhance ingredient scoring with Venus influence
-function _enhanceVenusIngredientScoring()
+function _enhanceVenusIngredientScoring(
   ingredient: Ingredient,
   astroState: AstrologicalState,
   score: number
@@ -1692,7 +1692,7 @@ function _enhanceVenusIngredientScoring()
 }
 
 // Enhanced function to boost Venus-ruled ingredients based on detailed Venus data
-function enhanceVenusIngredientBatch()
+function enhanceVenusIngredientBatch(
   ingredients: Ingredient[],
   astroState: AstrologicalState;
 ): void {
@@ -1734,7 +1734,7 @@ function enhanceVenusIngredientBatch()
 /**
  * Calculates a Mars influence score for an ingredient
  */
-function calculateMarsInfluence()
+function calculateMarsInfluence(
   ingredient: Ingredient,
   zodiacSign?: string,
   isMarsRetrograde = false
@@ -1859,7 +1859,7 @@ function calculateMarsInfluence()
 /**
  * Apply Mars-specific scoring to a collection of ingredients
  */
-function enhanceMarsIngredientScoring()
+function enhanceMarsIngredientScoring(
   ingredients: Ingredient[],
   astroState: AstrologicalState;
 ): void {
@@ -2010,7 +2010,7 @@ function isMercuryAssociatedIngredient(ingredientName: string): boolean {
 }
 
 // Add the function to calculate Mercury influence on ingredients
-function calculateMercuryInfluence()
+function calculateMercuryInfluence(
   ingredient: Ingredient,
   zodiacSign?: string,
   isMercuryRetrograde = false
@@ -2185,7 +2185,7 @@ function calculateMercuryInfluence()
 }
 
 // Add the function to enhance Mercury ingredient scoring
-function enhanceMercuryIngredientScoring()
+function enhanceMercuryIngredientScoring(
   ingredients: Ingredient[],
   astroState: AstrologicalState
 ): void {
@@ -2240,7 +2240,7 @@ function enhanceMercuryIngredientScoring()
  * @param elementalProperties Optional elemental properties for more accurate determination
  * @returns The modality (Cardinal, Fixed, or Mutable)
  */
-function determineIngredientModality()
+function determineIngredientModality(
   qualities: string[] = [],
   elementalProperties?: ElementalProperties
 ): any {
@@ -2584,7 +2584,7 @@ const signInfo: Record<
  * Calculate the planetary day influence on food ingredients
  * Now enhanced with dignity effects, decan effects, and degree effects
  */
-function calculatePlanetaryDayInfluence()
+function calculatePlanetaryDayInfluence(
   ingredient: Ingredient,
   planetaryDay: string,
   planetaryPositions?: Record<string, { sign: string, degree: number }>,
@@ -2675,7 +2675,7 @@ function calculatePlanetaryDayInfluence()
  * Calculate the planetary hour influence on food
  * Now enhanced with dignity effects and aspect considerations
  */
-function calculatePlanetaryHourInfluence()
+function calculatePlanetaryHourInfluence(
   ingredient: Ingredient,
   planetaryHour: string,
   isDaytime: boolean,
@@ -3011,7 +3011,7 @@ export async function recommendIngredients()
 /**
  * Generate enhanced recommendations for an ingredient based on planetary influences
  */
-function generateRecommendationsForIngredient()
+function generateRecommendationsForIngredient(
   ingredient: Ingredient,
   planetaryDay: string,
   planetaryHour: string,

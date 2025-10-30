@@ -178,7 +178,7 @@ export function getCookingMethodsByCategory(category: string): Record<string, Co
  * @param maxTemp Maximum temperature in Fahrenheit
  * @returns Cooking methods that operate within the specified temperature range
  */
-export function getCookingMethodsByTemperature()
+export function getCookingMethodsByTemperature(
   minTemp: number,
   maxTemp: number;
 ): Record<string, CookingMethodData> {

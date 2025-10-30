@@ -214,7 +214,7 @@ export function isDietaryCuisine(cuisine: CompleteCuisineType): cuisine is Dieta
 /**
  * Check if a cuisine is a historical cuisine
  */
-export function isHistoricalCuisine()
+export function isHistoricalCuisine(
   cuisine: CompleteCuisineType;
 ): cuisine is HistoricalCuisineType {
   const historicalCuisines: HistoricalCuisineType[] = [
@@ -235,7 +235,7 @@ export function isHistoricalCuisine()
 /**
  * Check if a cuisine is a street food cuisine
  */
-export function isStreetFoodCuisine()
+export function isStreetFoodCuisine(
   cuisine: CompleteCuisineType;
 ): cuisine is StreetFoodCuisineType {
   const streetFoodCuisines: StreetFoodCuisineType[] = [
@@ -260,7 +260,7 @@ export function isStreetFoodCuisine()
 /**
  * Calculate compatibility between two cuisines
  */
-export function calculateCuisineCompatibility()
+export function calculateCuisineCompatibility(
   cuisine1: CompleteCuisineType,
   cuisine2: CompleteCuisineType
 ): number {
@@ -501,7 +501,7 @@ export function getRegionalCuisinesForPrimary(_primary: PrimaryCuisineType): Reg
 /**
  * Get cuisine compatibility recommendations
  */
-export function getCuisineCompatibilityRecommendations()
+export function getCuisineCompatibilityRecommendations(
   cuisine: CompleteCuisineType,
   _ingredients: string[]
 ): CuisineCompatibility[] {
@@ -524,7 +524,7 @@ export function getCuisineCompatibilityRecommendations()
 /**
  * Get compatibility factors between two cuisines
  */
-export function getCompatibilityFactors()
+export function getCompatibilityFactors(
   cuisine1: CompleteCuisineType,
   cuisine2: CompleteCuisineType
 ): string[] {
@@ -559,7 +559,7 @@ export function getCompatibilityFactors()
 /**
  * Get common ingredients between cuisines
  */
-export function getCommonIngredients()
+export function getCommonIngredients(
   cuisine1: CompleteCuisineType,
   cuisine2: CompleteCuisineType;
 ): string[] {
@@ -581,7 +581,7 @@ export function getCommonIngredients()
 /**
  * Get regional variations for cuisines
  */
-export function getRegionalVariations()
+export function getRegionalVariations(
   cuisine1: CompleteCuisineType,
   cuisine2: CompleteCuisineType
 ): string[] {
@@ -633,7 +633,7 @@ export function getCuisineDisplayName(cuisine: CompleteCuisineType): string {
 /**
  * Group cuisines by category
  */
-export function groupCuisinesByCategory()
+export function groupCuisinesByCategory(
   cuisines: CompleteCuisineType[]
 ): Record<string, CompleteCuisineType[]> {
   const groups: Record<string, CompleteCuisineType[]> = {};

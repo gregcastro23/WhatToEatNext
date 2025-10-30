@@ -918,7 +918,7 @@ export function getMigratedFlavorProfiles(): UnifiedFlavorProfile[] {
 /**
  * Get migrated profiles by category
  */
-export function getMigratedProfilesByCategory()
+export function getMigratedProfilesByCategory(
   category: UnifiedFlavorProfile['category'];
 ): UnifiedFlavorProfile[] {
   if (!_migrationInstance) {

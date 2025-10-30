@@ -165,7 +165,7 @@ export interface AstrologicalData {
 /**
  * Calculate transit effects on the item
  */
-export function calculateTransitEffect()
+export function calculateTransitEffect(
   astroData: AstrologicalData,
   _context: ScoringContext;
 ): number {
@@ -194,7 +194,7 @@ export function calculateTransitEffect()
 /**
  * Calculate planetary dignity effects
  */
-export function calculateDignityEffect()
+export function calculateDignityEffect(
   astroData: AstrologicalData,
   _context: ScoringContext;
 ): number {
@@ -213,7 +213,7 @@ export function calculateDignityEffect()
 /**
  * Calculate tarot effects (placeholder for future tarot integration)
  */
-export function calculateTarotEffect()
+export function calculateTarotEffect(
   _astroData: AstrologicalData,
   _context: ScoringContext;
 ): number {
@@ -235,7 +235,7 @@ export function calculateTarotEffect()
 /**
  * Calculate seasonal effects
  */
-export function calculateSeasonalEffect()
+export function calculateSeasonalEffect(
   _astroData: AstrologicalData,
   context: ScoringContext;
 ): number {
@@ -269,7 +269,7 @@ export function calculateSeasonalEffect()
 /**
  * Calculate location-based effects
  */
-export function calculateLocationEffect()
+export function calculateLocationEffect(
   _astroData: AstrologicalData,
   context: ScoringContext;
 ): number {
@@ -294,7 +294,7 @@ export function calculateLocationEffect()
 /**
  * Calculate lunar phase effects
  */
-export function calculateLunarPhaseEffect()
+export function calculateLunarPhaseEffect(
   astroData: AstrologicalData,
   _context: ScoringContext;
 ): number {
@@ -399,7 +399,7 @@ export function calculateLunarPhaseEffect()
 /**
  * Calculate aspect effects
  */
-export function calculateAspectEffect()
+export function calculateAspectEffect(
   astroData: AstrologicalData,
   context: ScoringContext;
 ): number {
@@ -439,7 +439,7 @@ export function calculateAspectEffect()
 /**
  * Calculate elemental compatibility
  */
-export function calculateElementalCompatibility()
+export function calculateElementalCompatibility(
   _astroData: AstrologicalData,
   context: ScoringContext;
 ): number {
@@ -465,7 +465,7 @@ export function calculateElementalCompatibility()
 /**
  * Calculate thermodynamic effects
  */
-export function calculateThermodynamicEffect()
+export function calculateThermodynamicEffect(
   _astroData: AstrologicalData,
   context: ScoringContext;
 ): number {
@@ -504,7 +504,7 @@ export function calculateThermodynamicEffect()
 /**
  * Calculate Kalchm resonance effects
  */
-export function calculateKalchmResonance()
+export function calculateKalchmResonance(
   _astroData: AstrologicalData,
   _context: ScoringContext;
 ): number {
@@ -524,7 +524,7 @@ export function calculateKalchmResonance()
 /**
  * Calculate Monica optimization effects
  */
-export function calculateMonicaOptimization()
+export function calculateMonicaOptimization(
   _astroData: AstrologicalData,
   _context: ScoringContext;
 ): number {
@@ -544,7 +544,7 @@ export function calculateMonicaOptimization()
 /**
  * Calculate retrograde effects
  */
-export function calculateRetrogradeEffect()
+export function calculateRetrogradeEffect(
   astroData: AstrologicalData,
   context: ScoringContext;
 ): number {

@@ -10,7 +10,7 @@ function getAstrologicalElementalProfile(astroState: unknown): ElementalProperti
   return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 }
 
-function createElementalProperties()
+function createElementalProperties(
   props: { Fire: number; Water, number; Earth, number; Air, number } = {
     Fire: 0,
     Water: 0,
@@ -195,7 +195,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
 /**
  * Get thermodynamic properties for a cooking method
  */
-export function getMethodThermodynamics()
+export function getMethodThermodynamics(
   method: CookingMethodProfile;
 ): BasicThermodynamicProperties {
   const methodNameLower = String((method as unknown as any).name).toLowerCase() || '';
@@ -281,7 +281,7 @@ export function getMethodThermodynamics()
 /**
  * Calculate thermodynamic base score for a method
  */
-export function calculateThermodynamicBaseScore()
+export function calculateThermodynamicBaseScore(
   thermodynamics: BasicThermodynamicProperties;
 ): number {
   const { heat, entropy, reactivity } = thermodynamics;
@@ -325,7 +325,7 @@ export function areSimilarMethods(method1: string, method2: string): boolean {
 /**
  * Calculate enhanced elemental compatibility between method and target properties
  */
-export function calculateEnhancedElementalCompatibility()
+export function calculateEnhancedElementalCompatibility(
   methodProps: ElementalProperties,
   targetProps: ElementalProperties;
 ): number {
@@ -351,7 +351,7 @@ export function calculateEnhancedElementalCompatibility()
 /**
  * Calculate planetary day influence on cooking method
  */
-export function calculatePlanetaryDayInfluence()
+export function calculatePlanetaryDayInfluence(
   method: CookingMethodProfile,
   planetaryDay: string;
 ): number {
@@ -379,7 +379,7 @@ export function calculatePlanetaryDayInfluence()
 /**
  * Calculate planetary hour influence on cooking method
  */
-export function calculatePlanetaryHourInfluence()
+export function calculatePlanetaryHourInfluence(
   method: CookingMethodProfile,
   planetaryHour: string,
   isDaytime: boolean;
@@ -415,7 +415,7 @@ export function isDaytime(date: Date = new Date()): boolean {
 /**
  * Get recommended cooking methods based on elemental composition and preferences
  */
-export function getRecommendedCookingMethods()
+export function getRecommendedCookingMethods(
   elementalComposition: ElementalProperties,
   currentZodiac?: any,
   planets?: string[],
@@ -549,7 +549,7 @@ export function calculateLunarMethodAffinity(_method: CookingMethodData, _phase:
   return hasAffinity ? 0.8 : 0.5;
 }
 
-function _calculateAspectMethodAffinity()
+function _calculateAspectMethodAffinity(
   aspects: PlanetaryAspect[],
   method: CookingMethodData;
 ): number {
@@ -593,7 +593,7 @@ function _calculateAspectMethodAffinity()
 
 // ===== ENHANCED SCORING FUNCTIONS =====
 
-export function calculateMethodScore()
+export function calculateMethodScore(
   method: CookingMethodProfile,
   astroState: AstrologicalState;
 ): number {
@@ -642,7 +642,7 @@ export function getMethodElementalProfile(method: CookingMethodProfile): Element
 /**
  * Create elemental profile from astrological state
  */
-export function createElementalProfileFromAstroState()
+export function createElementalProfileFromAstroState(
   astroState: AstrologicalState;
 ): ElementalProperties | null {
   if (!astroState.dominantElement) return null;
@@ -663,7 +663,7 @@ export function createElementalProfileFromAstroState()
 /**
  * Calculate compatibility between two elemental properties
  */
-export function calculateElementalCompatibility()
+export function calculateElementalCompatibility(
   elementalA: ElementalProperties,
   elementalB: ElementalProperties;
 ): number {
@@ -685,7 +685,7 @@ export function calculateElementalCompatibility()
 /**
  * Get cooking method recommendations based on astrological state
  */
-export function getCookingMethodRecommendations()
+export function getCookingMethodRecommendations(
   astroState: AstrologicalState,
   options: MethodRecommendationOptions = {}): MethodRecommendation[] {
   const methods = Object.values(allCookingMethodsCombined);
@@ -747,7 +747,7 @@ export { allCookingMethodsCombined as getAllCookingMethods };
  * Get holistic cooking recommendations based on ingredient properties
  * This function combines various factors for a more comprehensive recommendation
  */
-export function getHolisticCookingRecommendations()
+export function getHolisticCookingRecommendations(
   ingredient: Ingredient | UnifiedIngredient,
   astroState?: Record<string, unknown>,
   season?: string,
@@ -808,7 +808,7 @@ export function getHolisticCookingRecommendations()
  * Get recommended cooking methods specifically for an ingredient
  * This function focuses on elemental compatibility
  */
-export function getRecommendedCookingMethodsForIngredient()
+export function getRecommendedCookingMethodsForIngredient(
   ingredient: Ingredient | UnifiedIngredient,
   cookingMethods: Ingredient | UnifiedIngredient[],
   limit = 5

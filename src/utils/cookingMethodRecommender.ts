@@ -245,7 +245,7 @@ interface MethodWithThermodynamics {
   [key: string]: unknown
 }
 
-export function getMethodThermodynamics()
+export function getMethodThermodynamics(
   method: CookingMethodProfile
 ): BasicThermodynamicProperties {
   // ✅ Pattern MM-1: Safe type assertion for method with thermodynamics
@@ -410,7 +410,7 @@ function areSimilarMethods(method1: string, method2: string): boolean {
 /**
  * Enhanced elemental compatibility calculation
  */
-function calculateEnhancedElementalCompatibility()
+function calculateEnhancedElementalCompatibility(
   methodProps: ElementalProperties,
   targetProps: ElementalProperties
 ): number {
@@ -461,7 +461,7 @@ const planetaryElements: Record<string, { diurnal: string; nocturnal, string }> 
  * @param planetaryDay The planetary day
  * @returns A score between 0 and 1 indicating the influence
  */
-function calculatePlanetaryDayInfluence()
+function calculatePlanetaryDayInfluence(
   method: CookingMethodProfile,
   planetaryDay: string
 ): number {
@@ -503,7 +503,7 @@ function calculatePlanetaryDayInfluence()
  * @param isDaytime Whether it's currently daytime (6am-6pm)
  * @returns A score between 0 and 1 indicating the influence
  */
-function calculatePlanetaryHourInfluence()
+function calculatePlanetaryHourInfluence(
   method: CookingMethodProfile,
   planetaryHour: string,
   isDaytime: boolean
@@ -1427,7 +1427,7 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
   return aspectCount > 0 ? totalAffinity / aspectCount : 0.5;
 }
 
-export function calculateMethodScore()
+export function calculateMethodScore(
   method: CookingMethodProfile,
   astroState: AstrologicalState
 ): number {
@@ -1488,7 +1488,7 @@ function getMethodElementalProfile(method: CookingMethodProfile): ElementalPrope
 
 // Helper function to get astrological elemental profile
 // Now prioritizes a pre-calculated full elemental profile if available in astroState
-function getAstrologicalElementalProfile()
+function getAstrologicalElementalProfile(
   astroState: AstrologicalState;
 ): ElementalProperties | null {
   // 1. Check if a comprehensive elemental profile is provided directly in astroState
@@ -1520,7 +1520,7 @@ function getAstrologicalElementalProfile()
 }
 
 // Helper function to calculate elemental compatibility
-function calculateElementalCompatibility()
+function calculateElementalCompatibility(
   elementalA: ElementalProperties | null,
   elementalB: ElementalProperties | null
 ): number {
@@ -1550,7 +1550,7 @@ function calculateElementalCompatibility()
   return totalWeight > 0 ? compatibilityScore / totalWeight : 0
 }
 
-export function getCookingMethodRecommendations()
+export function getCookingMethodRecommendations(
   astroState: AstrologicalState,
   options: MethodRecommendationOptions = {}
 ): MethodRecommendation[] {

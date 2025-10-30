@@ -113,7 +113,7 @@ export const PROBLEMATIC_PATTERNS = [;
 /**
  * Validate import statement against problematic patterns
  */
-export function validateImportStatement()
+export function validateImportStatement(
   importStatement: string,
   filePath: string
 ): {
@@ -297,7 +297,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
 /**
  * Auto-fix common dependency issues
  */
-export function autoFixDependencyIssues()
+export function autoFixDependencyIssues(
   fileContent: string,
   _filePath: string
 ): {

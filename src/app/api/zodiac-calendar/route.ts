@@ -142,8 +142,7 @@ function handleDatesForDegree(searchParams: URLSearchParams) {
   const yearParam = searchParams.get('year');
 
   if (!degreeParam || !yearParam) {
-    return NextResponse.json({ error: 'Missing required parameters, degree (0-360) and year (YYYY)';
-},
+    return NextResponse.json({ error: 'Missing required parameters: degree (0-360) and year (YYYY)' },
       { status: 400 }
     );
   }
@@ -165,7 +164,7 @@ function handleDatesForDegree(searchParams: URLSearchParams) {
     return NextResponse.json({
       degree,
       year,
-      date_ranges: dateRanges.map(range => () {
+      date_ranges: dateRanges.map(range => ({
         start: range.start.toISOString(),
         end: range.end.toISOString(),
         duration_hours: range.duration_hours
@@ -174,11 +173,11 @@ function handleDatesForDegree(searchParams: URLSearchParams) {
         total_ranges: dateRanges.length,
         accuracy: '±0.01° tolerance',
         method: 'VSOP87 reverse lookup'
-}
+      }
     });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Invalid parameters' },
-      ) { status: 400 }
+      { status: 400 }
     );
   }
 }
@@ -215,7 +214,7 @@ function handleYearMap(searchParams: URLSearchParams) {
     });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Invalid year parameter' },
-      ) { status: 400 }
+      { status: 400 }
     );
   }
 }
@@ -229,11 +228,11 @@ function handleCurrentPeriod() {
 
   return NextResponse.json({
     ...currentPeriod,
-    metadata: ) {
+    metadata: {
       accuracy: '±0.01°',
       calculation_method: 'VSOP87 with aberration correction',
       cache_strategy: 'Real-time calculation'
-}
+    }
   });
 }
 
@@ -246,8 +245,7 @@ function handleMonthlyCalendar(searchParams: URLSearchParams) {
   const monthParam = searchParams.get('month');
 
   if (!yearParam || !monthParam) {
-    return NextResponse.json({ error: 'Missing required parameters, year (YYYY) and month (0-11)';
-},
+    return NextResponse.json({ error: 'Missing required parameters: year (YYYY) and month (0-11)' },
       { status: 400 }
     );
   }
@@ -268,15 +266,15 @@ function handleMonthlyCalendar(searchParams: URLSearchParams) {
 
     return NextResponse.json({
       ...monthlyCalendar,
-      metadata: ) {
+      metadata: {
         accuracy: '±0.01°',
         calculation_method: 'VSOP87 with Kepler\'s laws',
         ingress_detection: 'Automated sign boundary detection'
-}
+      }
     });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Invalid parameters' },
-      ) { status: 400 }
+      { status: 400 }
     );
   }
 }
@@ -296,7 +294,7 @@ function handleCompareAccuracy(searchParams: URLSearchParams) {
 
   try {
     const date = new Date(dateParam);
-    if (isNaN(date.getTime()) {
+    if (isNaN(date.getTime())) {
       throw new Error('Invalid date format');
     }
 
@@ -310,11 +308,11 @@ function handleCompareAccuracy(searchParams: URLSearchParams) {
         new_system_accuracy: '±0.01°',
         old_system_accuracy: '±2-5°',
         astronomical_method: 'VSOP87 with aberration correction'
-}
+      }
     });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Invalid date parameter' },
-      ) { status: 400 }
+      { status: 400 }
     );
   }
 }
@@ -324,18 +322,18 @@ function handleCompareAccuracy(searchParams: URLSearchParams) {
  */
 export async function POST() {
   return NextResponse.json({ error: 'POST method not supported. Use GET with action parameter.' },
-    ) { status: 405 }
+    { status: 405 }
   );
 }
 
 export async function PUT() {
   return NextResponse.json({ error: 'PUT method not supported. Use GET with action parameter.' },
-    ) { status: 405 }
+    { status: 405 }
   );
 }
 
 export async function DELETE() {
   return NextResponse.json({ error: 'DELETE method not supported. Use GET with action parameter.' },
-    ) { status: 405 }
+    { status: 405 }
   );
 }

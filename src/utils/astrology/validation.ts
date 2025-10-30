@@ -492,7 +492,7 @@ export const normalizeZodiacSign = (sign: string): ZodiacSign => {
  * @param date Date to check
  * @returns Current zodiac sign
  */
-export function getCurrentTransitSign()
+export function getCurrentTransitSign(
   planet: string,
   date: Date = new Date()
 ): ZodiacSign | null {
@@ -532,7 +532,7 @@ export function getCurrentTransitSign()
  * @param date Date for reference
  * @returns Validated positions
  */
-export function validatePlanetaryPositions()
+export function validatePlanetaryPositions(
   positions: { [key: string]: unknown },
   _date: Date = new Date()
 ): { [key: string]: CelestialPosition } {

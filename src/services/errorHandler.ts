@@ -286,7 +286,7 @@ export function warnNullValue(variableName: string, _context: string, value?: un
 /**
  * Detect issues with runtime type mismatches
  */
-export function validateType()
+export function validateType(
   value: unknown,
   expectedType: string,
   context: string,
@@ -320,7 +320,7 @@ export function validateType()
  * Handle property access errors with detailed reporting
  * Use this when accessing potentially undefined nested properties
  */
-export function handlePropertyAccessError()
+export function handlePropertyAccessError(
   error: unknown,
   propertyPath: string,
   context: string;

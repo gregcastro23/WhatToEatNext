@@ -68,15 +68,15 @@ export default function CookingMethodPage() {
       let foundMethod: CookingMethodInfo | null = null;
       let foundKey = '';
       Object.entries(allCookingMethods).forEach(([key, data]) => {
-        if (key.toLowerCase() === methodId.toLowerCase() {
+        if (key.toLowerCase() === methodId.toLowerCase()) {
           foundMethod = data as CookingMethodInfo;
           foundKey = key;
         }
       })
 
-      setMethod(foundMethod)
-      setMethodKey(foundKey)
-      setLoading(false)
+      setMethod(foundMethod);
+      setMethodKey(foundKey);
+      setLoading(false);
     }
   }, [params])
 

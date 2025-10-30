@@ -13,7 +13,7 @@ type TarotCardKey = keyof typeof TAROT_CARDS;
 type PlanetKey = keyof typeof PLANET_TO_MAJOR_ARCANA;
 type MajorArcanaKey = keyof typeof MAJOR_ARCANA;
 
-export function getCurrentDecan()
+export function getCurrentDecan(
   date: Date,
   sunPosition?: { sign: string, degree: number }): DecanKey {
   if (sunPosition?.sign && typeof sunPosition.degree === 'number') {
