@@ -495,7 +495,7 @@ class CurrentMomentManager {
    * Get fallback positions when API fails
    */
   private getFallbackPositions(): Record<string, PlanetPosition> {
-    return: {
+    return {
       Sun: { sign: 'cancer', degree: 10, minute: 45, exactLongitude: 100.75, isRetrograde: false },
       Moon: { sign: 'libra', degree: 18, minute: 19, exactLongitude: 198.32, isRetrograde: false },
       Mercury: { sign: 'leo', degree: 2, minute: 9, exactLongitude: 122.15, isRetrograde: false },

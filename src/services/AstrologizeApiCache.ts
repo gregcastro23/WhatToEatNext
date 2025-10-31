@@ -223,13 +223,14 @@ class AstrologizeApiCache {
     }
 
     // Calculate confidence based on how much data we have and how recent it is
-    const confidence = Math.min(1, nearbyData.length / 5) *;
-      Math.max()
+    const confidence =
+      Math.min(1, nearbyData.length / 5) *
+      Math.max(
         0.3,
         1 - Math.abs(targetDate.getTime() - baseData.date.getTime()) / (30 * 24 * 60 * 60 * 1000)
       );
 
-    return: {
+    return {
       date: targetDate,
       predictedPositions,
       confidence,
@@ -240,12 +241,13 @@ class AstrologizeApiCache {
   /**
    * Get comprehensive matching data for current moment
    */
-  public getMatchingData()
+  public getMatchingData(
     lat: number,
     lng: number,
     date: Date
-  ): { elementalAbsolutes: { fire: number; water, number; earth, number; air, number };
-    elementalRelatives: { fire: number; water, number; earth, number; air, number };
+  ): {
+    elementalAbsolutes: { fire: number; water: number; earth: number; air: number };
+    elementalRelatives: { fire: number; water: number; earth: number; air: number };
     thermodynamics: {
       heat: number;
       entropy: number;
@@ -258,7 +260,7 @@ class AstrologizeApiCache {
   } | null {
     const cached = this.get(lat, lng, date);
     if (cached) {
-      return: {
+      return {
         elementalAbsolutes: cached.elementalAbsolutes,
         elementalRelatives: cached.elementalRelatives,
         thermodynamics: cached.thermodynamics,
@@ -270,7 +272,7 @@ class AstrologizeApiCache {
     const nearby = this.findNearby(lat, lng, date, 25, 1); // Closer search for current matching
     if (nearby.length > 0) {
       const best = nearby[0];
-      return: {
+      return {
         elementalAbsolutes: best.elementalAbsolutes,
         elementalRelatives: best.elementalRelatives,
         thermodynamics: best.thermodynamics,
@@ -297,18 +299,18 @@ class AstrologizeApiCache {
     };
     const resultData = result as WithAlchemical;
     // Assess based on completeness and reasonableness of data
-    const hasAllElements = resultData.elementalBalance &&;
+    const hasAllElements = resultData.elementalBalance &&
       Object.values(resultData.elementalBalance).every(v => typeof v === 'number' && v >= 0);
-    const hasThermodynamics = typeof resultData.heat === 'number' &&;
+    const hasThermodynamics = typeof resultData.heat === 'number' &&
       typeof resultData.entropy === 'number' &&
       typeof resultData.reactivity === 'number';
-    const hasAlchemical = typeof resultData.Spirit === 'number' &&;
+    const hasAlchemical = typeof resultData.Spirit === 'number' &&
       typeof resultData.Essence === 'number' &&
       typeof resultData.Matter === 'number' &&
       typeof resultData.Substance === 'number';
     if (hasAllElements && hasThermodynamics && hasAlchemical) {
       return 'high';
-    } else if (hasAllElements && (hasThermodynamics || hasAlchemical) {
+    } else if (hasAllElements && (hasThermodynamics || hasAlchemical)) {
       return 'medium';
     } else {
       return 'low';
@@ -319,7 +321,7 @@ class AstrologizeApiCache {
     const R = 6371; // Earth's radius in km
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
     const dLng = ((lng2 - lng1) * Math.PI) / 180;
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos((lat1 * Math.PI) / 180) *
         Math.cos((lat2 * Math.PI) / 180) *
         Math.sin(dLng / 2) *
@@ -329,7 +331,7 @@ class AstrologizeApiCache {
   }
 
   private degreeToSign(degree: number): string {
-    const signs = [;
+    const signs = [
       'aries',
       'taurus',
       'gemini',
@@ -382,7 +384,7 @@ class AstrologizeApiCache {
    * Public methods for cache management
    */
   public getCacheStats() {
-    return: {
+    return {
       size: this.cache.size,
       maxSize: this.maxCacheSize,
       oldestEntry: Math.min(...Array.from(this.cache.values()).map(v => v.timestamp)),

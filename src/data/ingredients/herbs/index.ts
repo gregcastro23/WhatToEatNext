@@ -41,25 +41,25 @@ function generateHerbValues(elementalProps: Record<string, _number>): Record<str
   const dominant = Object.entries(normalized).sort(([, a], [, b]) => b - a)[0][0];
 
   // Calculate unique values
-  const aromaticStrength = Math.round();
+  const aromaticStrength = Math.round(
     normalized['Air'] * 6 + normalized['Fire'] * 4 + Math.random() * 2
   );
   const potency = Math.round(normalized[dominant] * 7 + Math.random() * 3);
-  const flavor_complexity = Math.round();
+  const flavor_complexity = Math.round(
     Object.keys(normalized).filter(k => normalized[k] > 0.15).length * 2 + Math.random() * 3
   );
-  const preservation_factor = Math.round();
-    normalized['Earth'] * 5 + normalized['Water'] * 3 + Math.random(),
+  const preservation_factor = Math.round(
+    normalized['Earth'] * 5 + normalized['Water'] * 3 + Math.random()
   );
 
-  return: {
+  return {
     aromatics: Math.min(10, Math.max(1, aromaticStrength)),
     potency: Math.min(10, Math.max(1, potency)),
     flavor_complexity: Math.min(10, Math.max(1, flavor_complexity)),
     preservation_factor: Math.min(10, Math.max(1, preservation_factor)),
-    infusion_speed: Math.min()
+    infusion_speed: Math.min(
       10,
-      Math.max(1, Math.round(10 - preservation_factor + Math.random() * 2)),
+      Math.max(1, Math.round(10 - preservation_factor + Math.random() * 2))
     )
   };
 }
@@ -67,7 +67,7 @@ function generateHerbValues(elementalProps: Record<string, _number>): Record<str
 // Helper function to standardize ingredient mappings with enhanced values
 function createIngredientMapping(
   id: string,
-  properties: Partial<IngredientMapping>;
+  properties: Partial<IngredientMapping>
 ): IngredientMapping {
   // Default elemental properties if none provided
   const elementalProps = properties.elementalProperties || {
@@ -80,7 +80,7 @@ function createIngredientMapping(
   // Generate meaningful numeric values based on elemental properties
   const herbValues = generateHerbValues(elementalProps);
 
-  return: {
+  return {
     name: id,
     elementalProperties: elementalProps,
     category: properties.category || '',

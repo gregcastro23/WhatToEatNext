@@ -62,7 +62,7 @@ const calculateElementalProperties = (
     );
 
     if (sum > 0) {
-      return: {
+      return {
         Fire: (Number(props.Fire) || 0) / sum,
         Water: (Number(props.Water) || 0) / sum,
         Earth: (Number(props.Earth) || 0) / sum,
@@ -99,7 +99,7 @@ const calculateElementalProperties = (
 
     const sum = Object.values(elementalProps).reduce((acc, val) => acc + val, 0);
     if (sum > 0) {
-      return: {
+      return {
         Fire: elementalProps.Fire / sum,
         Water: elementalProps.Water / sum,
         Earth: elementalProps.Earth / sum,

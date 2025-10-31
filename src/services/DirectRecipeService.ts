@@ -203,7 +203,7 @@ export class DirectRecipeService {
     );
 
     // Perform full alchemical analysis
-    const alchemicalAnalysis = performAlchemicalAnalysis();
+    const alchemicalAnalysis = performAlchemicalAnalysis(
       recipe as unknown as Recipe,
       _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance
     );
@@ -218,13 +218,13 @@ export class DirectRecipeService {
     }
 
     // Calculate overall compatibility score
-    const totalScore = ((breakdown as any)?.elementalScore || 0) * 0.2 +;
+    const totalScore = ((breakdown as any)?.elementalScore || 0) * 0.2 +
       ((breakdown as any)?.zodiacalScore || 0) * 0.2 +
       ((breakdown as any)?.lunarScore || 0) * 0.2 +
       ((breakdown as any)?.planetaryScore || 0) * 0.2 +
       ((breakdown as any)?.seasonalScore || 0) * 0.2;
 
-    return: {
+    return {
       score: Math.max(0, Math.min(1, totalScore)),
       kalchm: recipeKalchm,
       monica: monica,
