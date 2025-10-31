@@ -100,8 +100,12 @@ export function useChakraBridge() {
       const fetchChakraData = async () => {
         try {
           const allChakras = await chakraService.getAllChakras();
-          // ✅ Pattern MM-1: Ensure object type for setChakras state setter,
-          setChakras(typeof allChakras === 'object' && allChakras !== null ? allChakras : ) {})
+          // ✅ Pattern MM-1: Ensure object type for setChakras state setter
+          setChakras(
+            typeof allChakras === 'object' && allChakras !== null
+              ? (allChakras as Record<string, unknown>)
+              : {}
+          )
 
           const active = await chakraService.getActiveChakra();
           setActiveChakra(active);
@@ -114,7 +118,7 @@ export function useChakraBridge() {
     }
   }, [isLoading, error, chakraService])
 
-  return: {
+  return {
     isLoading,
     error,
     chakras,
@@ -142,23 +146,26 @@ export function usePlanetaryHoursBridge() {
         try {
           const hourInfo = await astrologyService.getCurrentPlanetaryHour();
           // ✅ Pattern MM-1: Ensure object type for setCurrentHour state setter
-          setCurrentHour()
-            typeof hourInfo === 'object' && hourInfo !== null ? hourInfo : { value: hourInfo })
+          setCurrentHour(
+            typeof hourInfo === 'object' && hourInfo !== null
+              ? (hourInfo as Record<string, unknown>)
+              : { value: hourInfo }
+          )
 
           const dayPlanet = await astrologyService.getCurrentPlanetaryDay();
           // ✅ Pattern MM-1: Ensure string type for setCurrentDay
           setCurrentDay(typeof dayPlanet === 'string' ? dayPlanet : String(dayPlanet))
 
           const hours = await astrologyService.getDailyPlanetaryHours(new Date());
-          // ✅ Pattern MM-1: Convert Planet[] to Map<number, string> for setDailyHours
-          if (Array.isArray(hours) {
+          // ✅ Pattern MM-1: Convert to Map<number, string> for setDailyHours
+          if (Array.isArray(hours)) {
             const hoursMap = new Map<number, string>();
-            hours.forEach((planet, index) => {
+            (hours as unknown[]).forEach((planet, index) => {
               hoursMap.set(index, typeof planet === 'string' ? planet : String(planet));
             })
             setDailyHours(hoursMap)
-          } else if (Array.isArray(hours) {
-            setDailyHours(hours)
+          } else if (hours instanceof Map) {
+            setDailyHours(hours as Map<number, string>)
           } else {
             setDailyHours(new Map())
           }
@@ -175,7 +182,7 @@ export function usePlanetaryHoursBridge() {
 }
   }, [isLoading, error, astrologyService])
 
-  return: {
+  return {
     isLoading,
     error,
     currentHour,
@@ -193,13 +200,14 @@ export function usePlanetaryHoursBridge() {
  * @param fetchFunction The function to fetch data when the service is ready
  * @returns A hook with status, data, and service reference
  */
-export function createServiceBridge<TS>(
+export function createServiceBridge<T, S>(
   serviceName: string,
-  fetchFunction: (service: S) => Promise<T>;
+  fetchFunction: (service: S) => Promise<T>
 ) {
   return function useCustomBridge() {
-    const { isLoading, error, ...services } = useServices();
-    const service = services[serviceName as keyof typeof services] as S;
+    const { isLoading, error, ...rest } = useServices();
+    const services = rest as unknown as Record<string, unknown>;
+    const service = services[serviceName] as S;
 
     const [data, setData] = useState<T | null>(null)
     const [fetchError, setFetchError] = useState<Error | null>(null)
@@ -220,7 +228,7 @@ export function createServiceBridge<TS>(
       }
     }, [isLoading, error, service])
 
-    return: {
+    return {
       isLoading: isLoading || (!data && !fetchError && !error),
       error: error || fetchError,
       data,
