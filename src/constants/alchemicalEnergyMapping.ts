@@ -193,11 +193,11 @@ export function calculateAlchemicalDistribution(planetaryPositions: Record<strin
       let influence = 1.0;
 
       // Adjust based on planet importance
-      if (['sun', 'moon'].includes(planetLower) {
+      if (['sun', 'moon'].includes(planetLower)) {
         influence = 2.0; // Luminaries have more influence
-      } else if (['jupiter', 'saturn'].includes(planetLower) {
+      } else if (['jupiter', 'saturn'].includes(planetLower)) {
         influence = 1.5; // Major planets
-      } else if (['uranus', 'neptune', 'pluto'].includes(planetLower) {
+      } else if (['uranus', 'neptune', 'pluto'].includes(planetLower)) {
         influence = 0.8; // Outer planets less influence
       }
 
@@ -210,16 +210,15 @@ export function calculateAlchemicalDistribution(planetaryPositions: Record<strin
 
     // Normalize the influences to sum to 1
     if (totalInfluence > 0) {
-      Object.keys(influences).forEach(property => ) {
-        distribution[property as keyof AlchemicalProperties] =
-          influences[property] / totalInfluence;
+      Object.keys(influences).forEach(property => {
+        distribution[property as keyof AlchemicalProperties] = influences[property] / totalInfluence;
       });
     }
 
     return distribution;
   } catch (error) {
-    logger.error('Error calculating alchemical distribution: ', error)
-    return: {
+    logger.error('Error calculating alchemical distribution: ', error);
+    return {
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
@@ -248,8 +247,8 @@ export function convertToElementalProperties(alchemicalProps: AlchemicalProperti
 
     return elementalProps;
   } catch (error) {
-    logger.error('Error converting to elemental properties: ', error)
-    return: {
+    logger.error('Error converting to elemental properties: ', error);
+    return {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -278,15 +277,15 @@ export function calculateThermodynamicProperties(alchemicalProps: AlchemicalProp
     // Calculate Greg's Energy using the standard formula
     const gregsEnergy = heat - entropy * reactivity;
 
-    return: {
+    return {
       heat,
       entropy,
       reactivity,
       gregsEnergy
     };
   } catch (error) {
-    logger.error('Error calculating thermodynamic properties: ', error)
-    return: {
+    logger.error('Error calculating thermodynamic properties: ', error);
+    return {
       heat: 0.5,
       entropy: 0.5,
       reactivity: 0.5,
