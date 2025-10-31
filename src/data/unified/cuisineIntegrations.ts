@@ -5,11 +5,11 @@
 
 import type { UnifiedIngredient } from '@/types';
 import type {
-    CookingMethod,
-    Element,
-    ElementalProperties,
-    LunarPhase,
-    PlanetName
+  CookingMethod,
+  Element,
+  ElementalProperties,
+  LunarPhase,
+  PlanetName
 } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { EnhancedCookingMethod } from '@/types/cooking';
@@ -22,9 +22,7 @@ import type { Season } from '@/types/seasons';
 
 // Fixed import path
 import {
-    getCuisinePAirings,
-    getIngredientsForCuisine,
-    getSharedIngredients
+  getSharedIngredients
 } from '../../utils/cuisine/cuisineUtils';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
 // Cache import removed - not available
