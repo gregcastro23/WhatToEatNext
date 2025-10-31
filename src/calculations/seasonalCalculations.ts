@@ -16,7 +16,7 @@ export interface SeasonalEffectiveness {
 /**
  * Calculates how effective a recipe is for a given season or zodiac sign
  */
-export function calculateSeasonalEffectiveness(recipe: Recipe,)
+export function calculateSeasonalEffectiveness(recipe: Recipe,
   season: string): SeasonalEffectiveness {
   let totalScore = 0;
   const breakdown = {

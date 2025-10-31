@@ -239,7 +239,7 @@ export const _methodName: CookingMethodData = {
         'Detailed technical information about subcategory1, including specific parameters, scientific principles, and practical applications.',
       subcategory2: 'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
       subcategory3: 'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
-      subcategory4: 'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.';
-}
+      subcategory4: 'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.',
+    }
   }
 }

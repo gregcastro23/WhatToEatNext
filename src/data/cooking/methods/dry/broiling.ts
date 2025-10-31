@@ -211,8 +211,8 @@ export const broiling: CookingMethodData = {
       'electric broilers': 'More intense heat, may have hot spots that require repositioning food.',
       'salamander broilers':
         'Professional equipment allowing precise control and higher temperatures.',
-      'drawer broilers': 'Located below oven in some models, typically smaller capacity but good heat.';
-},
+      'drawer broilers': 'Located below oven in some models, typically smaller capacity but good heat.',
+    },
     'distance effects': {
       'close positioning': 'Faster cooking, more external browning, less interior cooking.',
       'distant positioning': 'Slower cooking, more even heating throughout the food.',

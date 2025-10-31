@@ -46,7 +46,7 @@ export function useIngredientSearch() {
     const loadIngredients = async () => {
       setIsLoading(true);
       try {
-        const ingredients = [;
+        const ingredients = [
           ...(getAllVegetables() as unknown as Ingredient[]),
           ...(getAllProteins() as unknown as Ingredient[]),
           ...(getAllHerbs() as unknown as Ingredient[]),

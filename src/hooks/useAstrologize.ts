@@ -26,7 +26,7 @@ interface AstrologizeOptions {
  * @param options Configuration options
  * @returns Result with loading state, error, data, and refetch function
  */
-export function useAstrologize(_options: AstrologizeOptions = ) {}): AstrologizeResult {
+export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeResult {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<Error | null>(null)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility

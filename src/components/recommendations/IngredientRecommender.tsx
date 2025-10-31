@@ -13,7 +13,7 @@ interface IngredientRecommenderProps {
 }
 
 // Category definitions
-const CATEGORIES = [;
+const CATEGORIES = [
   { id: 'spices', name: 'Spices & Herbs', icon: '🌿' },
   { id: 'vegetables', name: 'Vegetables', icon: '🥬' },
   { id: 'proteins', name: 'Proteins', icon: '🥩' },

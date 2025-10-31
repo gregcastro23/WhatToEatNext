@@ -190,11 +190,11 @@ export interface PlanetaryCookingGuide {
 /**
  * Calculate planetary boost for an ingredient based on current astrological state
  */
-export const _calculatePlanetaryBoost = (;
+export const _calculatePlanetaryBoost = (
   item: unknown, // ElementalItem type,
   planetPositions: Record<string, unknown>,
   currentZodiac?: string | null,
-  lunarPhase?: LunarPhase | null;
+  lunarPhase?: LunarPhase | null,
 ) => {
   let boost = 0;
   const dominantPlanets: string[] = [];

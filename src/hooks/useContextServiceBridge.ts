@@ -54,7 +54,7 @@ export function useAlchemicalBridge() {
     ...servicePositions
   }
 
-  return: {
+  return {
     // Basic status flags from services
     isLoading,
     error,

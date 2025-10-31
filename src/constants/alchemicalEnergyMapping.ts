@@ -146,7 +146,7 @@ const _: Record<string, string> = {
 /**
  * Calculate the distribution of alchemical properties based on planetary positions
  */
-export function calculateAlchemicalDistribution(planetaryPositions: Record<string, CelestialPosition>,)
+export function calculateAlchemicalDistribution(planetaryPositions: Record<string, CelestialPosition>,
   isDaytime: boolean): AlchemicalProperties {
   try {
     // Initialize with balanced values

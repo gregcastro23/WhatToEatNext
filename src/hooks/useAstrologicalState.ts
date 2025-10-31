@@ -29,7 +29,7 @@ function _createCelestialPosition(
   options?: { planetName?: string }
 ): CelestialPosition {
   // Calculate a reasonable longitude based on the zodiac sign
-  const signIndex = [;
+  const signIndex = [
     'aries',
     'taurus',
     'gemini',

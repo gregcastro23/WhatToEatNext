@@ -132,7 +132,7 @@ function calculateAbsoluteElementalAlignment(recipeElements: ElementalProperties
  * Calculate relative elemental alignment using ratios
  * Example: Fire/(Water+Earth+Air) vs Fire/(Water+Earth+Air)
  */
-function calculateRelativeElementalAlignment(recipeElements: ElementalProperties,)
+function calculateRelativeElementalAlignment(recipeElements: ElementalProperties,
   currentMomentElements: ElementalProperties): number {
   const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
   let totalSimilarity = 0;

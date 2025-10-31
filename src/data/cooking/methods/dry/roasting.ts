@@ -402,7 +402,7 @@ export const roasting: CookingMethodData = {
       probe_thermometers: 'Continuous monitoring prevents door opening, select models with heat-resistant cables to 700°F.',
       pan_materials: 'Stainless steel with aluminum core provides durability and heat distribution, avoid non-stick for high-temperature roasting.',
       specialized_equipment: 'Vertical roasters for poultry maximize skin exposure, rotisseries provide continuous basting action.',
-      spit_roasting: 'Continuous rotation creates self-basting effect, proximity to heat source creates unique flavor development.';
-}
+      spit_roasting: 'Continuous rotation creates self-basting effect, proximity to heat source creates unique flavor development.',
+    }
   }
 }

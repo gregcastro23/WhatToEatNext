@@ -289,6 +289,6 @@ export const spherification: CookingMethodData = {
     proteins_and_calcium: 'Some proteins compete with alginate for calcium binding, may require increased calcium concentration.',
     salts_and_gelation: 'High salt content slows gelation process, may require longer bath times.',
     sugar_and_alginate: 'High sugar concentration competes with alginate hydration, may need adjustment of percentages.',
-    natural_calcium_content: 'Ingredients like dairy naturally high in calcium will begin to gel immediately with alginate, use reverse method.';
-}
+    natural_calcium_content: 'Ingredients like dairy naturally high in calcium will begin to gel immediately with alginate, use reverse method.',
+  }
 }

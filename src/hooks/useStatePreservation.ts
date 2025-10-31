@@ -52,7 +52,7 @@ export function useComponentState<T = unknown>(componentId: string, initialState
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Debounced save to prevent excessive storage writes
-  const saveState = useCallback(state: T) => {
+  const saveState = useCallback((state: T) => {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
       }

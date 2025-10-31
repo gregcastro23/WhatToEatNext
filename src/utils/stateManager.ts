@@ -9,56 +9,37 @@ import { themeManager } from './theme';
 
 // Add the missing type definitions
 interface ScoredRecipe extends Recipe {
-  _score: number,
+  _score: number;
   _matches: {
-    elemental: number,
-    _seasonal: number,
-    _astrological: number
+    elemental: number;
+    _seasonal?: number;
+    _astrological?: number;
   };
 }
 
-type DietaryRestriction =
-  | 'vegetarian'
-  | 'vegan'
-  | 'gluten-free'
-  | 'dairy-free'
-  | 'nut-free'
-  | 'low-carb'
-  | 'keto'
-  | 'paleo'
-export type CuisineType =
-  | 'italian'
-  | 'chinese'
-  | 'mexican'
-  | 'indian'
-  | 'japanese'
-  | 'thai'
-  | 'french'
-  | 'mediterranean'
-  | 'american'
-  | 'middle-eastern'
+// Keep preferences flexible but well-typed
 interface UserPreferences {
   theme: {
-    mode: 'light' | 'dark' | 'system'
+    mode: 'light' | 'dark' | 'system';
     colorScheme: string;
     fontSize: number;
-    animations: boolean
+    animations: boolean;
   };
   dietary: {
-    restrictions: DietaryRestriction[],
-    favorites: string[],
-    excluded: string[],
-    spiciness: 'mild' | 'medium' | 'hot'
+    restrictions: string[];
+    favorites: string[];
+    excluded: string[];
+    spiciness: 'mild' | 'medium' | 'hot';
   };
   cooking: {
-    preferredMethods: string[],
-    maxPrepTime: number,
-    servingSize: number,
-    complexity: 'simple' | 'moderate' | 'complex'
+    preferredMethods: string[];
+    maxPrepTime: number;
+    servingSize: number;
+    complexity: 'simple' | 'moderate' | 'complex';
   };
   cuisines: {
-    preferred: CuisineType[],
-    excluded: CuisineType[];
+    preferred: string[];
+    excluded: string[];
   };
 }
 
@@ -72,30 +53,30 @@ interface AppState {
     error: string | null;
   };
   celestial: {
-    elementalState: ElementalProperties,
-    season: string,
-    moonPhase: string,
-    lastUpdated: number
+    elementalState: ElementalProperties;
+    season: string;
+    moonPhase: string;
+    lastUpdated: number;
   };
   user: {
-    preferences: UserPreferences,
+    preferences: UserPreferences;
     history: {
-      viewed: string[],
-      cooked: string[],
+      viewed: string[];
+      cooked: string[];
       rated: Record<string, number>;
     };
   };
   ui: {
-    activeFilters: Set<string>,
-    searchQuery: string,
-    selectedRecipe: string | null,
-    modalOpen: boolean,
-    sidebarOpen: boolean,
+    activeFilters: Set<string>;
+    searchQuery: string;
+    selectedRecipe: string | null;
+    modalOpen: boolean;
+    sidebarOpen: boolean;
     notifications: Array<{
-      id: string,
-      type: 'success' | 'error' | 'info'
-      message: string,
-      timestamp: number
+      id: string;
+      type: 'success' | 'error' | 'info';
+      message: string;
+      timestamp: number;
     }>;
   };
 }
@@ -105,16 +86,16 @@ interface AppState {
  * The exported 'stateManager' is a Promise<StateManager>.
  */
 class StateManager {
-  private static instance: StateManager,
+  private static instance: StateManager;
   private state: AppState;
-  private listeners: Map<string, Set<(state: AppState) => void>>,
+  private listeners: Map<string, Set<(state: AppState) => void>>;
   private readonly STORAGE_KEY = 'app_state';
   private readonly UPDATE_INTERVAL = 1000 * 60 * 5; // 5 minutes
 
   private constructor() {
     this.listeners = new Map();
     this.state = this.loadInitialState();
-    this.initializeState();
+    void this.initializeState();
   }
 
   public static async getInstance(): Promise<StateManager> {
@@ -127,16 +108,13 @@ class StateManager {
 
   private loadInitialState(): AppState {
     try {
-      // Fix: Remove type parameter since cache.get doesn't accept it
-      const cached = cache.get(this.STORAGE_KEY);
-      // Add type guard to ensure cached data has the right shape
-      if (cached && this.isValidAppState(cached) {
+      const cached = cache.get(this.STORAGE_KEY) as unknown;
+      if (cached && this.isValidAppState(cached)) {
         // Ensure activeFilters is a Set after deserialization
-        if (cached.ui) {
-          const ui = cached.ui as any;
-          if (Array.isArray(ui.activeFilters) {
-            cached.ui.activeFilters = new Set(ui.activeFilters as string[])
-          }
+        if (cached.ui && Array.isArray((cached.ui as unknown as { activeFilters?: unknown }).activeFilters)) {
+          (cached.ui as { activeFilters: Set<string> }).activeFilters = new Set(
+            (cached.ui as unknown as { activeFilters: string[] }).activeFilters
+          );
         }
         return cached;
       }
@@ -144,28 +122,27 @@ class StateManager {
       const stored = typeof window !== 'undefined' ? localStorage.getItem(this.STORAGE_KEY) : null;
 
       if (stored) {
-        const parsed = JSON.parse(stored);
-        // Ensure activeFilters is a Set after deserialization
-        if (parsed.ui && Array.isArray(parsed.ui.activeFilters) {
-          parsed.ui.activeFilters = new Set(parsed.ui.activeFilters)
-        }
-        if (this.isValidAppState(parsed) {
+        const parsed = JSON.parse(stored) as unknown;
+        if (this.isValidAppState(parsed)) {
+          if (Array.isArray(parsed.ui.activeFilters)) {
+            parsed.ui.activeFilters = new Set(parsed.ui.activeFilters);
+          }
           return parsed;
-}
+        }
       }
       return this.getDefaultState();
-} catch (error) {
-      logger.error('Error loading state: ', error)
+    } catch (error) {
+      logger.error('Error loading state: ', error);
       return this.getDefaultState();
-}
+    }
   }
 
   // Add helper to validate the state structure
   private isValidAppState(obj: unknown): obj is AppState {
     if (!obj || typeof obj !== 'object') return false;
-    const data = obj as any;
+    const data = obj as Record<string, unknown>;
     return !!(data.recipes && data.celestial && data.user && data.ui);
-}
+  }
 
   private getDefaultState(): AppState {
     return {
@@ -175,18 +152,18 @@ class StateManager {
         favorites: [],
         recent: [],
         loading: false,
-        error: null
+        error: null,
       },
       celestial: {
         elementalState: {
           Fire: 0.25,
           Earth: 0.25,
           Air: 0.25,
-          Water: 0.25
-},
+          Water: 0.25,
+        },
         season: 'spring',
         moonPhase: 'new',
-        lastUpdated: Date.now()
+        lastUpdated: Date.now(),
       },
       user: {
         preferences: {
@@ -194,63 +171,65 @@ class StateManager {
             mode: 'system',
             colorScheme: 'default',
             fontSize: 16,
-            animations: true
-},
+            animations: true,
+          },
           dietary: {
             restrictions: [],
             favorites: [],
             excluded: [],
-            spiciness: 'medium' },
-        cooking: {
+            spiciness: 'medium',
+          },
+          cooking: {
             preferredMethods: [],
             maxPrepTime: 60,
             servingSize: 2,
-            complexity: 'moderate' },
-        cuisines: {
+            complexity: 'moderate',
+          },
+          cuisines: {
             preferred: [],
-            excluded: []
-          }
+            excluded: [],
+          },
         },
         history: {
           viewed: [],
           cooked: [],
-          rated: {}
-        }
+          rated: {},
+        },
       },
       ui: {
-        activeFilters: new Set(),
+        activeFilters: new Set<string>(),
         searchQuery: '',
         selectedRecipe: null,
         modalOpen: false,
         sidebarOpen: false,
-        notifications: []
-      }
-    }
+        notifications: [],
+      },
+    };
   }
 
-  private async initializeState() {
+  private async initializeState(): Promise<void> {
     try {
       // Fix: Extract theme mode instead of passing the whole object
       if (this.state.user.preferences.theme) {
-        themeManager.updateTheme(this.state.user.preferences.theme.mode)
+        themeManager.updateTheme(this.state.user.preferences.theme.mode);
       } else {
-        themeManager.updateTheme('light')
+        themeManager.updateTheme('light');
       }
 
-      this.startUpdateCycle()
+      this.startUpdateCycle();
 
-      await this.updateCelestialData()
+      await this.updateCelestialData();
 
-      this.saveState()
+      this.saveState();
     } catch (error) {
-      _logger.error('Error initializing state: ', error)
+      _logger.error('Error initializing state: ', error);
     }
   }
 
   private startUpdateCycle(): void {
     setInterval(() => {
-      this.updateCelestialData()
-    }, this.UPDATE_INTERVAL)
+      void this.updateCelestialData();
+    }, this.UPDATE_INTERVAL);
   }
 
   private async updateCelestialData(): Promise<void> {
@@ -261,18 +240,18 @@ class StateManager {
         Fire: influences.elementalBalance?.Fire || 0,
         Water: influences.elementalBalance?.Water || 0,
         Earth: influences.elementalBalance?.Earth || 0,
-        Air: influences.elementalBalance?.Air || 0
-      }
+        Air: influences.elementalBalance?.Air || 0,
+      };
 
       this.setState({
-        celestial: ) {
+        celestial: {
           ...this.state.celestial,
           elementalState,
-          lastUpdated: Date.now()
-        }
+          lastUpdated: Date.now(),
+        },
       });
     } catch (error) {
-      logger.error('Error updating celestial data: ', error)
+      logger.error('Error updating celestial data: ', error);
     }
   }
 
@@ -283,30 +262,30 @@ class StateManager {
         ui: {
           ...this.state.ui,
           // Convert Set to array for serialization
-          activeFilters: Array.from(this.state.ui.activeFilters)
-        }
+          activeFilters: Array.from(this.state.ui.activeFilters),
+        },
       };
 
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(serializable))
-      cache.set(this.STORAGE_KEY, this.state)
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(serializable));
+      cache.set(this.STORAGE_KEY, this.state);
     } catch (error) {
-      logger.error('Error saving state: ', error)
+      logger.error('Error saving state: ', error);
     }
   }
 
   // Public API
   getState(): AppState {
     return { ...this.state };
-}
+  }
 
   setState(updates: Partial<AppState>): void {
-    this.state = { ...this.state, ...updates }
-    this.notifyListeners()
-    this.saveState()
+    this.state = { ...this.state, ...updates };
+    this.notifyListeners();
+    this.saveState();
   }
 
   subscribe(key: string, listener: (state: AppState) => void): () => void {
-    if (!this.listeners.has(key) {
+    if (!this.listeners.has(key)) {
       this.listeners.set(key, new Set());
     }
 
@@ -327,7 +306,7 @@ class StateManager {
   }
 
   private notifyListeners(): void {
-    this.listeners.forEach(listeners => ) {
+    this.listeners.forEach(listeners => {
       listeners.forEach(listener => listener(this.state));
     });
   }
@@ -346,11 +325,11 @@ class StateManager {
     this.setState({
       user: {
         ...this.state.user,
-        history: ) {
+        history: {
           ...this.state.user.history,
-          [type]: history
-        }
-      }
+          [type]: history,
+        },
+      },
     });
   }
 
@@ -360,12 +339,12 @@ class StateManager {
         ...this.state.user,
         history: {
           ...this.state.user.history,
-          rated: ) {
+          rated: {
             ...this.state.user.history.rated,
-            [recipeId]: rating
-          }
-        }
-      }
+            [recipeId]: rating,
+          },
+        },
+      },
     });
   }
 
@@ -379,10 +358,10 @@ class StateManager {
     }
 
     this.setState({
-      recipes: ) {
+      recipes: {
         ...this.state.recipes,
-        favorites
-      }
+        favorites,
+      },
     });
   }
 
@@ -391,25 +370,25 @@ class StateManager {
       id: Date.now().toString(),
       type,
       message,
-      timestamp: Date.now()
-    };
+      timestamp: Date.now(),
+    } as const;
 
     const notifications = [notification, ...this.state.ui.notifications].slice(0, 5);
 
     this.setState({
-      ui: ) {
+      ui: {
         ...this.state.ui,
-        notifications
-      }
+        notifications,
+      },
     });
 
     // Auto-remove after 5 seconds
     setTimeout(() => {
       this.setState({
-        ui: ) {
+        ui: {
           ...this.state.ui,
-          notifications: this.state.ui.notifications.filter(n => n.id !== notification.id)
-        }
+          notifications: this.state.ui.notifications.filter(n => n.id !== notification.id),
+        },
       });
     }, 5000);
   }

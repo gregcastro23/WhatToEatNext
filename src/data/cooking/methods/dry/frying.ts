@@ -499,7 +499,7 @@ export const frying: CookingMethodData = {
       crust_formation: 'Progressive dehydration and protein coagulation creates semi-permeable barrier with specific textural properties. Rate of formation affects final structure.',
       bubble_mechanics: 'Smaller, more numerous bubbles create more uniform heat transfer. Bubble size affected by oil viscosity, temperature, surface tension, and impurity content.',
       cooling_dynamics: 'Rapid cooling after removal from oil creates increased oil absorption as vacuum effect draws oil into microstructure. Draining at higher temperature reduces final oil content.',
-      structural_expansion: 'Thermal expansion combined with steam pressure creates substantial volume increase in many fried items. Expansion rate influences final texture, too rapid causes structural failure.';
-}
+      structural_expansion: 'Thermal expansion combined with steam pressure creates substantial volume increase in many fried items. Expansion rate influences final texture, too rapid causes structural failure.',
+    }
   }
 }

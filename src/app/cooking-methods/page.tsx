@@ -188,7 +188,7 @@ export default function CookingMethodsPage() {
                 methods={formattedMethods}
                 onSelectMethod={handleSelectMethod}
                 selectedMethodId={selectedMethodId}
-                initiallyExpanded=) => {true}
+                initiallyExpanded={true}
               />
             </>)}
         </div>

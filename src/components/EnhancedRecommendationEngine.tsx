@@ -39,7 +39,7 @@ interface EnhancedRecommendationEngineProps {
   className?: string
 }
 
-const DIETARY_OPTIONS = [;
+const DIETARY_OPTIONS = [
   'vegetarian',
   'vegan',
   'gluten-free',

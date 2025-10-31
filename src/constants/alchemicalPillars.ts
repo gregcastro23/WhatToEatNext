@@ -49,7 +49,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: -1,
       Essence: 1,
       Matter: 1,
-      Substance: -1;
+      Substance: -1,
     },
     planetaryAssociations: ['Moon', 'Neptune'],
     tarotAssociations: ['2 of Cups', 'Queen of Cups'],

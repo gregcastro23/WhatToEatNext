@@ -40,7 +40,7 @@ export function useCookingMethods() {
   useEffect(() => {
     try {
       // Convert the cooking methods data to the format expected by CookingMethodsSection
-      const convertedMethods: CookingMethod[] = Object.entries(allCookingMethods).map([key, methodData]) => {
+      const convertedMethods: CookingMethod[] = Object.entries(allCookingMethods).map(([key, methodData]) => {
           const data = methodData as unknown;
 
           return {

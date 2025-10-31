@@ -60,7 +60,7 @@ export const _getAstrologicalEffect = (
 /**
  * Calculate modified elemental effect for a cooking method (simplified version for backwards compatibility)
  */
-export const _calculateModifiedElementalEffect = (;
+export const _calculateModifiedElementalEffect = (
   method: CookingMethod,
   astroState: AstrologicalState,
   duration: number,

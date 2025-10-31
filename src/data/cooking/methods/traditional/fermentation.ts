@@ -337,8 +337,8 @@ export const fermentation: CookingMethodData = {
     pH_levels: 'Vegetable ferments: below 4.0 for safety, typically 3.4-3.8 for flavor balance; dairy ferments: yogurt 4.0-4.5, cheese varies by type, sourdough: 3.8-4.5, kombucha: 2.5-3.5.',
     aroma_development: 'Complex, often fruity, dairy, floral or umami notes replacing raw material smells, absence of putrid, overly alcoholic, or cleaning chemical smells. Specific desirable aromatic compounds for each ferment.',
     acidity_balance: 'Lactic acid provides roundness and depth, acetic acid provides sharpness and higher notes, butyric acid (when appropriate) provides richness. Balance depends on ferment type and regional preferences.',
-    microbial_succession: 'Progression through expected phases of fermentation: initial rapid growth phase, followed by slowing activity, and finally maturation phase with minimal visible activity but continued enzymatic processes.';
-},
+    microbial_succession: 'Progression through expected phases of fermentation: initial rapid growth phase, followed by slowing activity, and finally maturation phase with minimal visible activity but continued enzymatic processes.',
+  },
   ingredientInteractions: { salt_effects: 'Creates selective pressure favoring salt-tolerant microbes like Lactobacillus while inhibiting pathogens. Above 10% primarily favors yeast activity. Traditional ranges, vegetables (1.5-3%), cheese (1-5%), bread (1.8-2.2% of flour weight), meat ferments (2.5-3.5%).',
     sugar_concentration: 'Provides food for microbes, influencing rate of fermentation and final product. Higher concentrations (above 55%) become preservative, inhibiting most microbial activity. In vegetable ferments, natural sugars are converted to acidsin beverages, determines potential alcohol content.',
      protein_breakdown: 'Proteolysis during fermentation breaks proteins into peptides and amino acids, enhancing digestibility and flavor (especially umami). Particularly important in soy, dairy, and meat ferments. Different microbial strains produce distinct proteolytic enzyme profiles.',

@@ -525,8 +525,7 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     degree: 1.7666666666666666,
     exactLongitude: 1.7726000000000113,
     isRetrograde: false
-  };
-}
+  },
   Moon: {
     sign: 'libra' as any,
     degree: 18.316666666666666,

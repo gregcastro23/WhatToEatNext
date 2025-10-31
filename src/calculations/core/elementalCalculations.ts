@@ -152,7 +152,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     };
 
     const elementalMultipliers = contextElementalMultipliers[context] || contextElementalMultipliers.general;
-    const preferenceMultiplier = hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number';
+    const preferenceMultiplier = hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
       ? preferences.intensity
       : 1.0;
 

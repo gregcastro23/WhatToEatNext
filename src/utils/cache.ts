@@ -2,7 +2,7 @@
  * Simple in-memory cache implementation
  */
 export class Cache {
-  private cache: Map<string, { data: unknown; expiry, number | null }>;
+  private cache: Map<string, { data: unknown; expiry: number | null }>;
 
   constructor(private ttl: number) {
     this.cache = new Map();
@@ -16,7 +16,7 @@ export class Cache {
    */
   set(key: string, value: unknown, ttl?: number): void {
     const expiry = ttl ? Date.now() + ttl : null;
-    this.cache.set(key, ) { data: value, expiry });
+    this.cache.set(key, { data: value, expiry });
   }
 
   /**
@@ -30,7 +30,7 @@ export class Cache {
     // Return undefined if item doesn't exist
     if (!item) return undefined;
     // Check if item has expired
-    if (item.expiry && item.expiry < Date.now() {
+    if (item.expiry && item.expiry < Date.now()) {
       this.delete(key);
       return undefined;
     }
@@ -69,8 +69,9 @@ const DEFAULT_CACHE_TIMEOUT = 3600000;
 export const recipeCache = new Cache(DEFAULT_CACHE_TIMEOUT);
 
 // Create a simplified interface to the cache
-export const cache = { get: (key, string) => recipeCache.get(key),;
+export const cache = {
+  get: <T>(key: string) => recipeCache.get<T>(key),
   set: (key: string, value: unknown, ttl?: number) => recipeCache.set(key, value, ttl),
   delete: (key: string) => recipeCache.delete(key),
-  clear: () => recipeCache.clear()
+  clear: () => recipeCache.clear(),
 };

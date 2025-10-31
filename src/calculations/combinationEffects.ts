@@ -109,10 +109,10 @@ export function calculateCombinationEffects({
     effects.push(...calculateElementalInteractions(ingredients));
 
     return effects.sort((a, b) => {
-      const aValue = (a as { modifier?: number, strength?: number })?.modifier ||;
+      const aValue = (a as { modifier?: number, strength?: number })?.modifier ||
         (a as { strength?: number })?.strength ||
         0;
-      const bValue = (b as { modifier?: number, strength?: number })?.modifier ||;
+      const bValue = (b as { modifier?: number, strength?: number })?.modifier ||
         (b as { strength?: number })?.strength ||
         0;
       return bValue - aValue;

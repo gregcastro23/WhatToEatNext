@@ -47,7 +47,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
     const elemental = calculateElementalInfluence(sunSign, moonSign);
 
     // Build class list
-    const classes = [;
+    const classes = [
       'popup',
       `popup-${type}`,
       `popup-${position}`,

@@ -305,6 +305,6 @@ export const steaming: CookingMethodData = {
     acid_effects: 'Acidic marinades partially cook proteins before steaming, reduce steaming time accordingly',
     sugar_interactions: 'Sugar in marinades accelerates browning in post-steam finishing techniques, enhances caramelization',
     oil_applications: 'Light oil on food surface prevents sticking and carries fat-soluble flavors, apply before steaming',
-    alcohol_evaporation: 'Alcohol in steaming liquid (wine, sake) imparts flavor but alcohol largely evaporates, use in well-ventilated area';
-}
+    alcohol_evaporation: 'Alcohol in steaming liquid (wine, sake) imparts flavor but alcohol largely evaporates, use in well-ventilated area',
+  }
 }

@@ -206,10 +206,10 @@ export default function CookingMethodPage() {
                 {method &&
                   typeof method === 'object' &&
                   'suitable_for' in method &&
-                  Array.isArray((method as unknown as ) { suitable_for?: string[] }).suitable_for) &&
-                  (method as unknown as { suitable_for string[] }).suitable_for.map(food: string, index: number) => (
+                  Array.isArray((method as unknown as { suitable_for?: string[] }).suitable_for) &&
+                  (method as unknown as { suitable_for: string[] }).suitable_for.map((food: string, index: number) => (
                       <Grid item key={index}>
-                        <Chip label=) => {food} variant='outlined' color='primary' />
+                        <Chip label={food} variant='outlined' color='primary' />
                       </Grid>
                     )
                   )}

@@ -357,7 +357,7 @@ export const gelification: CookingMethodData = {
       measurement_precision: 'Scales accurate to 0.1g for hydrocolloids, 1g for major ingredients. Volume measurements inadequate for hydrocolloid work - weight-based formulation essential.',
       mixing_technology: 'High shear mixing (>5000 RPM) prevents clumping during hydration. Overhead mixers preferred over handheld for consistent dispersion. Vacuum mixing systems eliminate air incorporation.',
       filtration_systems: 'Multiple filtration stages recommended: coarse straining (1mm), fine mesh (100 micron), and optional centrifugation for complete clarity. Vacuum filtration accelerates process for viscous solutions.',
-      mold_materials: 'Silicone provides ideal release properties, stainless steel creates high-gloss surfaces, acetate sheets create clear edges. Mold temperature affects setting speed and surface characteristics.';
-}
+      mold_materials: 'Silicone provides ideal release properties, stainless steel creates high-gloss surfaces, acetate sheets create clear edges. Mold temperature affects setting speed and surface characteristics.',
+    }
   }
 }
