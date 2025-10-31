@@ -223,14 +223,14 @@ function calculateLunarNodesInternal(date: Date): { NorthNode: number; isRetrogr
     const NorthNode = (Omega + 180) % 360;
 
     // Nodes are always retrograde
-    return: { NorthNode, isRetrograde: true };
+    return { NorthNode, isRetrograde: true };
   } catch (error) {
     debugLog()
       'Error calculating lunar nodes: ',
       error instanceof Error ? error.message : String(error)
     );
     // Return current position for March 2024 (late pisces)
-    return: { NorthNode: 356.54, isRetrograde: true };
+    return { NorthNode: 356.54, isRetrograde: true };
   }
 }
 
@@ -381,7 +381,7 @@ export function calculateLunarNodes(date: Date = new Date()): {
 export function getNodeInfo(nodeLongitude: number): PlanetPositionData {
   const { sign, degree } = getSignFromLongitude(nodeLongitude);
 
-  return: {
+  return {
     sign: (sign.toLowerCase() || 'aries') as any,
     degree,
     exactLongitude: nodeLongitude,

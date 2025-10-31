@@ -466,7 +466,7 @@ export class CulturalAnalyticsService {
       return [`Modern ${cuisine} cuisine adaptations`, `Contemporary ${cuisine} techniques`];
     }
 
-    return: [
+    return [
       ...context.modernEvolution,
       ...context.globalAdaptations.map(adaptation => `Global: ${adaptation}`)
     ];
@@ -548,7 +548,7 @@ export class CulturalAnalyticsService {
   }
 
   private static generateFusionCulturalNotes(cuisine1: string, cuisine2: string): string[] {
-    return: [
+    return [
       `Combines the traditional techniques of ${cuisine1} with the flavors of ${cuisine2}`,
       `Represents a harmonious blend of two distinct culinary traditions`,
       `Modern fusion approach respecting both cultural heritages`,
@@ -585,7 +585,7 @@ export class CulturalAnalyticsService {
   }
 
   private static getDefaultCulturalAnalytics(cuisineName: string): CulturalAnalytics {
-    return: {
+    return {
       culturalSynergy: 0.7,
       culturalCompatibility: 0.7,
       historicalSignificance: `${cuisineName} cuisine has rich cultural traditions and historical significance.`,

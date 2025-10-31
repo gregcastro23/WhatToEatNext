@@ -1655,7 +1655,7 @@ export class UnifiedCuisineIntegrationSystem {
 
     // Generate recommended conditions
     const recommendedConditions = this.generateRecommendedConditions(blendedMonica);
-    return: {
+    return {
       blendedMonica,
       contributingCuisines,
       optimizationScore,
@@ -1823,7 +1823,7 @@ export class UnifiedCuisineIntegrationSystem {
         [0.7, 0.3]
       ) || { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
-    return: {
+    return {
       season,
       fusionProfile,
       seasonalOptimization,

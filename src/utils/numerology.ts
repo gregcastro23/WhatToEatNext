@@ -102,12 +102,16 @@ export const celestialNumerology = {
 
     // Map elements to auspicious days
     switch (dominantElement) {
-      case 'Fire':;
-        return: [03] // Sunday, Wednesday
-      case 'Earth': return [16] // Monday, Saturday
-      case 'Air': return [25] // Tuesday, Friday
-      case 'Water': return [46] // Thursday, Saturday,
-      default: return [01, 23, 45, 6]; // All days are fine
+      case 'Fire':
+        return [0, 3]; // Sunday, Wednesday
+      case 'Earth':
+        return [1, 6]; // Monday, Saturday
+      case 'Air':
+        return [2, 5]; // Tuesday, Friday
+      case 'Water':
+        return [4, 6]; // Thursday, Saturday
+      default:
+        return [0, 1, 2, 3, 4, 5, 6]; // All days are fine
     }
   }
 

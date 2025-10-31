@@ -136,7 +136,7 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
       timestamp: new Date()
     };
 
-    return: {
+    return {
       isValid: false,
       errors: [criticalError],
       warnings,

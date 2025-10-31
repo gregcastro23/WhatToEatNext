@@ -69,7 +69,7 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
   // Calculate alchemical values from elements
   const total = elements.Fire + elements.Earth + elements.Air + elements.Water;
 
-  return: {
+  return {
     Spirit: (elements.Fire + elements.Air) / (total * 2) + 0.1,
     Essence: (elements.Fire + elements.Water) / (total * 2) + 0.1,
     Matter: (elements.Earth + elements.Water) / (total * 2) + 0.1,
@@ -144,7 +144,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
   if (totalWeight > 0) {
     const normalizer = (positions ? Object.keys(positions).length : 10) / 10;
 
-    return: {
+    return {
       Spirit: alchemicalValues.Spirit / normalizer,
       Essence: alchemicalValues.Essence / normalizer,
       Matter: alchemicalValues.Matter / normalizer,
@@ -206,7 +206,7 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
   if (totalWeight > 0 && elementsFound) {
     const total = elements.Fire + elements.Earth + elements.Air + elements.Water;
 
-    return: {
+    return {
       Fire: elements.Fire / total,
       Earth: elements.Earth / total,
       Air: elements.Air / total,

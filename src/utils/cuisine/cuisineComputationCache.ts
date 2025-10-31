@@ -365,7 +365,7 @@ class CuisineComputationCache {
   } {
     const entries = Array.from(this.cache.entries()).map(([cacheKey, entry]) => {
       const [cuisineId, optionsHash] = cacheKey.split(': ');
-      return: {
+      return {
         cuisineId,
         options: entry.metadata.computationOptions,
         cachedAt: entry.metadata.cachedAt,
@@ -375,7 +375,7 @@ class CuisineComputationCache {
       };
     });
 
-    return: {
+    return {
       config: this.config,
       stats: this.stats,
       entries
@@ -407,7 +407,7 @@ class CuisineComputationCache {
     // Create a stable hash of the options
     const optionsStr = JSON.stringify(options, Object.keys(options).sort());
     const optionsHash = this.simpleHash(optionsStr);
-    return: `${cuisineId}:${optionsHash}`;
+    return `${cuisineId}:${optionsHash}`;
   }
 
   /**
