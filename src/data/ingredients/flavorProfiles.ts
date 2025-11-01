@@ -11,12 +11,12 @@ export interface IngredientFlavorProfile {
 
 // Helper function to add flavor profiles to ingredients
 export function enrichIngredientsWithFlavorProfiles(ingredients: Ingredient[]): Ingredient[] {
-  return ingredients.map(ingredient => ) {
+  return ingredients.map(ingredient => {
     if (!(ingredient as unknown)?.flavorProfile) {
       (ingredient as unknown).flavorProfile = getFlavorProfileForIngredient(ingredient.name);
     }
     return ingredient;
-  })
+  });
 }
 
 // Mapping of common ingredient names to their flavor profiles
@@ -364,28 +364,30 @@ export function getFlavorProfileForIngredient(_ingredientName: string): Ingredie
   // Check for exact match
   if (ingredientFlavorMap[ingredientName.toLowerCase()]) {
     const fullIngredient = ingredientFlavorMap[ingredientName.toLowerCase()];
-    // Extract only the flavor profile properties to match IngredientFlavorProfile interface return {
-      spicy: fullIngredient.spicy;
-      sweet: fullIngredient.sweet;
-      sour: fullIngredient.sour;
-      bitter: fullIngredient.bitter;
-      salty: fullIngredient.salty;
+    // Extract only the flavor profile properties to match IngredientFlavorProfile interface
+    return {
+      spicy: fullIngredient.spicy,
+      sweet: fullIngredient.sweet,
+      sour: fullIngredient.sour,
+      bitter: fullIngredient.bitter,
+      salty: fullIngredient.salty,
       umami: fullIngredient.umami
-    }
+    };
   }
 
   // Try to find partial matches
   const nameLower = ingredientName.toLowerCase();
-  for (const [key, profile] of Object.entries(ingredientFlavorMap) {
-    if (nameLower.includes(key.toLowerCase()) || key.toLowerCase().includes(nameLower) {
-      // Extract only the flavor profile properties to match IngredientFlavorProfile interface return {
-        spicy: profile.spicy;
-        sweet: profile.sweet;
-        sour: profile.sour;
-        bitter: profile.bitter;
-        salty: profile.salty;
+  for (const [key, profile] of Object.entries(ingredientFlavorMap)) {
+    if (nameLower.includes(key.toLowerCase()) || key.toLowerCase().includes(nameLower)) {
+      // Extract only the flavor profile properties to match IngredientFlavorProfile interface
+      return {
+        spicy: profile.spicy,
+        sweet: profile.sweet,
+        sour: profile.sour,
+        bitter: profile.bitter,
+        salty: profile.salty,
         umami: profile.umami
-      }
+      };
     }
   }
 

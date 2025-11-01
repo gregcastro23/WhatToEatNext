@@ -348,23 +348,23 @@ export const fermentation: CookingMethodData = {
     vegetable_enzyme_activity: 'Natural plant enzymes remain active in early fermentation, contributing to texture and flavor before microbial activity dominates. Some vegetables (cabbage, garlic) contain more naturally beneficial compounds for fermentation.',
     mineral_availability: 'Minerals act as cofactors for microbial enzymes. Calcium strengthens cell walls in vegetable ferments maintaining crispness. Traditional use of mineral-rich water sources (spring water) can affect fermentation outcomes.',
     oxygen_exposure: 'Determines whether aerobic or anaerobic processes dominate. Surface yeasts and molds require oxygen, lactic acid bacteria are facultative anaerobes, acetobacter requires oxygen for converting alcohol to acetic acid.',
-    phenolic_compounds: 'Present in many plant materials, can be transformed during fermentation into more bioavailable forms with enhanced health benefits. Some inhibit certain microbes while encouraging others, acting as natural selectors.';
-},
+    phenolic_compounds: 'Present in many plant materials, can be transformed during fermentation into more bioavailable forms with enhanced health benefits. Some inhibit certain microbes while encouraging others, acting as natural selectors.'
+  },
   technicalNotes: {
     microbial_communities: {
       lactic_acid_bacteria: 'Lactobacillus, Leuconostoc, Pediococcus, and others convert sugars primarily to lactic acid. Key in vegetable ferments, dairy, sourdough, and many traditional fermentations. Homofermentative species produce primarily lactic acid, heterofermentative produce lactic acid plus carbon dioxide and acetic acid/ethanol.',
       yeasts: 'Saccharomyces, Brettanomyces, Candida, and others convert sugars to alcohol and carbon dioxide. Important in bread, beer, wine, kefir, kombucha. Different strains contribute distinct flavor profiles and alcohol tolerance levels.',
       acetic_acid_bacteria: 'Acetobacter and Gluconobacter convert alcohol to acetic acid. Essential for vinegar production, contribute to kombucha, natural wine complexity, and some traditional foods. Require oxygen for metabolism.',
       molds: 'Aspergillus, Penicillium, Rhizopus, and others grow on surfaces providing enzymatic activity. Critical for koji, cheese (blue, Camembert), tempeh, traditional meat curing. Some produce mycotoxins, so specific food-safe strains are essential.',
-      bacillus: 'Alkaline-tolerant bacteria important in foods like natto, traditional fish ferments, and some African alkaline grain ferments. Produce sticky biofilms and distinctive strong flavors.';
-},
+      bacillus: 'Alkaline-tolerant bacteria important in foods like natto, traditional fish ferments, and some African alkaline grain ferments. Produce sticky biofilms and distinctive strong flavors.'
+    },
     equipment_considerations: {
       vessel_materials: 'Glass and food-grade ceramics are non-reactive and preferred for most ferments. Wood adds microbial complexity through porous surface harboring cultures. Avoid reactive metals (aluminum, copper) which can be corroded by acids and affect flavor.',
       airlock_systems: 'Water-sealed crocks, one-way valve systems, or simple weighted lids maintain anaerobic environment while allowing gas escape. Critical for vegetable fermentation and some alcoholic ferments.',
       temperature_control: 'Dedicated fermentation chambers with heating/cooling capability, water bath systems; insulated containers, traditional root cellars or spring houses. Temperature stability often more important than exact value.',
       humidity_regulation: 'Critical for surface-ripened cheeses, mold-based ferments, and dry-cured meats. Traditional solutions include limestone caves, modern approaches use humidity-controlled chambers.',
-      measuring_tools: 'pH meters, acid titration kits, hydrometers for sugar/alcohol content, thermometers, salinity refractometers. Improve consistency and safety across batches.';
-},
+      measuring_tools: 'pH meters, acid titration kits, hydrometers for sugar/alcohol content, thermometers, salinity refractometers. Improve consistency and safety across batches.'
+    },
     fermentation_phases: {
       initiation: 'First 24-72 hours when preferred microbes establish dominance. Often characterized by pH shift, carbon dioxide production, and visible activity. Critical period for success or failure of the ferment.',
       primary_fermentation: 'Main active phase when bulk of sugar-to-acid or sugar-to-alcohol conversion occurs. Typically 3-14 days for many ferments. Most dramatic flavor and texture changes occur here.',

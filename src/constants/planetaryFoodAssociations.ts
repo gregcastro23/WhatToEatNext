@@ -317,10 +317,10 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   const cardinalSigns = ['aries', 'cancer', 'libra', 'capricorn'];
   const fixedSigns = ['taurus', 'leo', 'scorpio', 'aquarius'];
   // If not cardinal or fixed it's mutable (gemini, virgo, sagittarius, pisces)
-  if (cardinalSigns.includes(normalizedSign) {
+  if (cardinalSigns.includes(normalizedSign)) {
     // Cardinal signs prefer bold, distinctive cuisines
     modalityBoost = (itemData.elementalProperties['Fire'] || 0) * 0.2;
-  } else if (fixedSigns.includes(normalizedSign) {
+  } else if (fixedSigns.includes(normalizedSign)) {
     // Fixed signs prefer substantial, traditional cuisines
     modalityBoost = (itemData.elementalProperties['Earth'] || 0) * 0.2;
   } else {
@@ -435,10 +435,10 @@ export const _getNutritionalSynergy = (_planet: Planet, _ingredient: unknown): s
  * Format elemental balance for display
  */
 export const _formatelementalState = (elements: Partial<Record<string, number>>): string => {
-  const validEntries = Object.entries(elements);
+  const validEntries = Object.entries(elements)
     .filter(([_, val]) => Number.isFinite(val as number))
     .map(([elem, val]) => `${elem} ${Math.round(((val as number) || 0) * 100)}%`)
-    .join(' · ')
+    .join(' · ');
 
   return validEntries;
 }
