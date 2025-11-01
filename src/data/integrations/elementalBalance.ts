@@ -11,7 +11,7 @@ import { validateElementalProperties, normalizeElementalProperties } from '@/typ
 export const elementalBalance = {
   calculateBalance(properties: ElementalProperties): number {
     const normalized = this.normalizeProperties(properties);
-    const deviations = ELEMENTS.map();
+    const deviations = ELEMENTS.map(
       element => Math.abs(normalized[element] - 0.25) // Ideal balance point
     );
 
@@ -27,7 +27,7 @@ export const elementalBalance = {
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
 
-    return ELEMENTS.reduce(acc, element) => ({
+    return ELEMENTS.reduce((acc, element) => ({
         ...acc,
         [element]: (properties[element] || 0) / total
       }),

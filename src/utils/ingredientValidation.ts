@@ -158,7 +158,7 @@ async function validateElementalProperties(): Promise<{
 
   try {
     const ingredients = allIngredients;
-    for (const [name, ingredient] of Object.entries(ingredients) {
+    for (const [name, ingredient] of Object.entries(ingredients)) {
       try {
         const validation = validateIngredientElementalProperties(name, ingredient);
         errors.push(...validation.errors);
@@ -654,7 +654,7 @@ async function testIngredientDataLoading(): Promise<IngredientTestResult> {
     const passed = ingredientCount > 0;
     const duration = Date.now() - startTime;
 
-    return: {
+    return {
       testName: 'Ingredient Data Loading',
       passed,
       duration,
@@ -664,7 +664,7 @@ async function testIngredientDataLoading(): Promise<IngredientTestResult> {
       }
     };
   } catch (error) {
-    return: {
+    return {
       testName: 'Ingredient Data Loading',
       passed: false,
       duration: Date.now() - startTime,
@@ -702,7 +702,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
     const passed = validCount === totalCount;
     const duration = Date.now() - startTime;
 
-    return: {
+    return {
       testName: 'Elemental Properties Validation',
       passed,
       duration,
@@ -713,7 +713,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
       }
     };
   } catch (error) {
-    return: {
+    return {
       testName: 'Elemental Properties Validation',
       passed: false,
       duration: Date.now() - startTime,
@@ -755,7 +755,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
     const passed = validCalculations === totalCalculations && totalCalculations > 0;
     const duration = Date.now() - startTime;
 
-    return: {
+    return {
       testName: 'Compatibility Calculations',
       passed,
       duration,
@@ -766,7 +766,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
       }
     };
   } catch (error) {
-    return: {
+    return {
       testName: 'Compatibility Calculations',
       passed: false,
       duration: Date.now() - startTime,
@@ -806,7 +806,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
     const passed = totalMappings === 0 || validMappings === totalMappings;
     const duration = Date.now() - startTime;
 
-    return: {
+    return {
       testName: 'Alchemical Mappings',
       passed,
       duration,
@@ -817,7 +817,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
       }
     };
   } catch (error) {
-    return: {
+    return {
       testName: 'Alchemical Mappings',
       passed: false,
       duration: Date.now() - startTime,
@@ -860,7 +860,7 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
     const passed = validCategories_count === totalIngredients;
     const duration = Date.now() - startTime;
 
-    return: {
+    return {
       testName: 'Category Consistency',
       passed,
       duration,
@@ -871,7 +871,7 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
       }
     };
   } catch (error) {
-    return: {
+    return {
       testName: 'Category Consistency',
       passed: false,
       duration: Date.now() - startTime,
@@ -1152,7 +1152,7 @@ async function calculateKineticsValidationMetrics(): Promise<{
       dominantThermal = 'neutral';
     }
 
-    return: {
+    return {
       powerConservationEfficiency: avgPowerEfficiency,
       circuitStability: avgStability,
       forceMagnitude: avgForceMagnitude,
@@ -1161,7 +1161,7 @@ async function calculateKineticsValidationMetrics(): Promise<{
 
   } catch (error) {
     // Return default values on error
-    return: {
+    return {
       powerConservationEfficiency: 0.5,
       circuitStability: 0.5,
       forceMagnitude: 0,

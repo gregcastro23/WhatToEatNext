@@ -73,8 +73,7 @@ export class ElementalCalculator {
 
       return Math.max(0, Math.min(100, Math.round(score)));
     } catch (error) {
-      logger.error('Error calculating seasonal effectiveness:', { error: error instanceof Error ? error.message : String(error)
-      });
+      logger.error('Error calculating seasonal effectiveness:', { error: error instanceof Error ? error.message : String(error) });
       return 0;
     }
   }
@@ -161,11 +160,13 @@ export class ElementalCalculator {
    * @param time Optional time factor
    * @returns Enhanced elemental properties with additional information
    */
-  calculateElementalState(baseProperties: ElementalProperties,)
+  calculateElementalState(
+    baseProperties: ElementalProperties,
     phase = 'default',
-    time = 'neutral'): {
+    time = 'neutral'
+  ): {
     properties: ElementalProperties;
-    seasonalInfluence: ElementalProperties
+    seasonalInfluence: ElementalProperties;
   } {
     try {
       // Start with the base properties
@@ -197,8 +198,7 @@ export class ElementalCalculator {
         seasonalInfluence
       };
     } catch (error) {
-      logger.error('Error calculating elemental state:', ) { error: error instanceof Error ? error.message , String(error)
-      });
+      logger.error('Error calculating elemental state:', { error: error instanceof Error ? error.message : String(error) });
       return {
         properties: DEFAULT_ELEMENTAL_PROPERTIES,
         seasonalInfluence: DEFAULT_ELEMENTAL_PROPERTIES
@@ -229,9 +229,11 @@ export class ElementalCalculator {
 /**
  * Combine two elemental property sets
  */
-export function combineElementalProperties(primary: ElementalProperties,)
+export function combineElementalProperties(
+  primary: ElementalProperties,
   secondary: ElementalProperties,
-  weight = 0.5): ElementalProperties {
+  weight = 0.5
+): ElementalProperties {
   return {
     Fire: primary.Fire * weight + secondary.Fire * (1 - weight),
     Water: primary.Water * weight + secondary.Water * (1 - weight),

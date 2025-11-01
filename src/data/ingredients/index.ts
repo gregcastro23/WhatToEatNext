@@ -187,10 +187,10 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
 
   // Apply uniform standardization to the ingredient
   const ingredientData = ingredient as unknown as any;
-  const standardized = standardizeIngredient({)
+  const standardized = standardizeIngredient({
     name: name,
     category: ingredientData.category || 'culinary_herb',
-    elementalProperties: calculateElementalProperties()
+    elementalProperties: calculateElementalProperties(
       ingredientData as unknown as Ingredient | UnifiedIngredient
     ),
     qualities: Array.isArray(ingredientData.qualities) ? ingredientData.qualities : [],
@@ -206,10 +206,10 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
 }
 
 // Process a collection of ingredients with the new properties
-const processIngredientCollection = (;
+const processIngredientCollection = (
   collection: Record<string, unknown>,
 ): Record<string, Ingredient> => {
-  return Object.entries(collection).reduce(acc, [key, value]) => {
+  return Object.entries(collection).reduce((acc, [key, value]) => {
       try {
         const processedIngredient = processIngredient(value as any, key);
 

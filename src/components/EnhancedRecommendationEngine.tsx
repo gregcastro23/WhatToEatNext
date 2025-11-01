@@ -51,7 +51,7 @@ const DIETARY_OPTIONS = [
   'low-sodium'
 ] as const;
 
-const CUISINE_OPTIONS = [;
+const CUISINE_OPTIONS = [
   'italian',
   'chinese',
   'indian',
@@ -119,7 +119,7 @@ const MOCK_RECIPES: Recipe[] = [
 ];
 
 export function EnhancedRecommendationEngine({
-  filters = ) { dietaryRestrictions: [], cuisinePreferences: [] },
+  filters = { dietaryRestrictions: [], cuisinePreferences: [] },
   maxRecommendations = 5,
   showScoring = true,
   className = ''
@@ -150,8 +150,8 @@ export function EnhancedRecommendationEngine({
 
     // Apply dietary restrictions
     if (currentFilters.dietaryRestrictions.length > 0) {
-      filteredRecipes = filteredRecipes.filter(recipe =>)
-        currentFilters.dietaryRestrictions.some(restriction =>)
+      filteredRecipes = filteredRecipes.filter(recipe =>
+        currentFilters.dietaryRestrictions.some(restriction =>
           recipe.tags.includes(restriction)
         )
       );

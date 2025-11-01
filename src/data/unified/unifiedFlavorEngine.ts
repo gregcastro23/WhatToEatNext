@@ -131,7 +131,7 @@ function getGlobalState() {
 function setGlobalState(
   instance: UnifiedFlavorEngine | null,
   initializing: boolean,
-  initialized: boolean;
+  initialized: boolean
 ) {
   if (typeof window !== 'undefined') {
     window.__FLAVOR_ENGINE_INSTANCE__ = {

@@ -60,7 +60,7 @@ export default function Template({ children }: TemplateProps) {
         document.head.appendChild(style)
       }
     } catch (error) {
-      console.error('Template hydration error:', error, ) {
+      console.error('Template hydration error:', error, {
         context: 'Template',
         action: 'hydration'
       })

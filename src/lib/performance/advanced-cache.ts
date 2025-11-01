@@ -73,7 +73,7 @@ class AdvancedCache {
     this.stats.hits++;
     this.updateHitRate();
 
-    logger.debug('Cache hit', ) { key, accessCount: entry.accessCount });
+    logger.debug('Cache hit', { key, accessCount: entry.accessCount });
     return entry.data;
   }
 
@@ -85,7 +85,7 @@ class AdvancedCache {
     const ttl = ttlOverride || this.defaultTTL;
 
     // If cache is full, remove least recently used item
-    if (this.cache.size >= this.maxSize && !this.cache.has(key) {
+    if (this.cache.size >= this.maxSize && !this.cache.has(key)) {
       this.evictLRU();
     }
 
@@ -104,7 +104,7 @@ class AdvancedCache {
       this.stats.size++;
     }
 
-    logger.debug('Cache set', ) { key, ttl, size: this.stats.size });
+    logger.debug('Cache set', { key, ttl, size: this.stats.size });
   }
 
   /**
@@ -121,7 +121,7 @@ class AdvancedCache {
       return cached;
     }
 
-    logger.debug('Cache miss, computing value', ) { key });
+    logger.debug('Cache miss, computing value', { key });
     const computed = await computeFn();
     this.set(key, computed, ttlOverride);
 
@@ -131,16 +131,16 @@ class AdvancedCache {
   /**
    * Warm cache with frequently accessed data
    */
-  async warmup(entries: Array<) { key: string; computeFn: () => Promise<any>; ttl?, number }>): Promise<void> {
-    logger.info('Starting cache warmup', ) { count: entries.length });
+  async warmup(entries: Array<{ key: string; computeFn: () => Promise<any>; ttl?: number }>): Promise<void> {
+    logger.info('Starting cache warmup', { count: entries.length });
 
-    const promises = entries.map(async () { key, computeFn, ttl }) => {
+    const promises = entries.map(async ({ key, computeFn, ttl }) => {
       try {
         const data = await computeFn();
         this.set(key, data, ttl);
-        logger.debug('Cache warmed', ) { key });
+        logger.debug('Cache warmed', { key });
       } catch (error) {
-        logger.error('Cache warmup failed', ) { key, error });
+        logger.error('Cache warmup failed', { key, error });
       }
     });
 
@@ -154,15 +154,15 @@ class AdvancedCache {
   invalidatePattern(pattern: RegExp): number {
     let invalidated = 0;
 
-    for (const key of this.cache.keys() {
-      if (pattern.test(key) {
+    for (const key of this.cache.keys()) {
+      if (pattern.test(key)) {
         this.cache.delete(key);
         invalidated++;
         this.stats.size--;
       }
     }
 
-    logger.info('Cache invalidated by pattern', ) { pattern: pattern.source, invalidated });
+    logger.info('Cache invalidated by pattern', { pattern: pattern.source, invalidated });
     return invalidated;
   }
 
@@ -203,7 +203,7 @@ class AdvancedCache {
     const now = Date.now();
     let removed = 0;
 
-    for (const [key, entry] of this.cache.entries() {
+    for (const [key, entry] of this.cache.entries()) {
       if (now - entry.timestamp > entry.ttl) {
         this.cache.delete(key);
         removed++;
@@ -212,7 +212,7 @@ class AdvancedCache {
     }
 
     if (removed > 0) {
-      logger.debug('Cache cleanup completed', ) { removed, size: this.stats.size });
+      logger.debug('Cache cleanup completed', { removed, size: this.stats.size });
     }
   }
 
@@ -223,7 +223,7 @@ class AdvancedCache {
     let oldestKey: string | null = null;
     let oldestTime = Date.now();
 
-    for (const [key, entry] of this.cache.entries() {
+    for (const [key, entry] of this.cache.entries()) {
       if (entry.lastAccessed < oldestTime) {
         oldestTime = entry.lastAccessed;
         oldestKey = key;
@@ -233,7 +233,7 @@ class AdvancedCache {
     if (oldestKey) {
       this.cache.delete(oldestKey);
       this.stats.size--;
-      logger.debug('Evicted LRU entry', ) { key: oldestKey });
+      logger.debug('Evicted LRU entry', { key: oldestKey });
     }
   }
 
@@ -242,7 +242,7 @@ class AdvancedCache {
    */
   private updateHitRate(): void {
     const total = this.stats.hits + this.stats.misses;
-    this.stats.hitRate = total > 0 ? this.stats.hits / total : 0
+    this.stats.hitRate = total > 0 ? this.stats.hits / total : 0;
   }
 }
 
@@ -256,11 +256,11 @@ export const userCache = new AdvancedCache(100, 24 * 60 * 60 * 1000); // 24 hour
  * Cache warmup for application startup
  */
 export async function initializeCaches(): Promise<void> {
-  logger.info('Initializing advanced caching system')
+  logger.info('Initializing advanced caching system');
 
   try {
     // Warm up planetary cache with current data
-    await planetaryCache.warmup([) {
+    await planetaryCache.warmup([{
         key: 'current_planetary_hour',
         computeFn: async () => {
           // This would normally call the planetary calculation service
@@ -273,22 +273,22 @@ export async function initializeCaches(): Promise<void> {
         },
         ttl: 15 * 60 * 1000
       }
-    ])
+    ]);
 
     // Warm up elemental cache with common calculations
-    await elementalCache.warmup([) {
+    await elementalCache.warmup([{
         key: 'elemental_base_properties',
         computeFn: async () => ({
           Fire: { energy: 'hot', quality: 'dry', direction: 'South' },
           Water: { energy: 'cold', quality: 'wet', direction: 'West' },
           Earth: { energy: 'cold', quality: 'dry', direction: 'North' },
-          Air: ) => { energy: 'hot', quality: 'wet', direction: 'East' }
+          Air: { energy: 'hot', quality: 'wet', direction: 'East' }
         }),
         ttl: 60 * 60 * 1000
       }
-    ])
+    ]);
 
-    logger.info('Cache initialization complete', ) {
+    logger.info('Cache initialization complete', {
       planetary: planetaryCache.getStats(),
       elemental: elementalCache.getStats()
     });

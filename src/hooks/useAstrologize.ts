@@ -68,7 +68,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       getLocation()
     } else if (!useCurrentLocation) {
       // Use provided coordinates or null
-      setLocation(latitude && longitude ? ) { latitude, longitude } : null)
+      setLocation(latitude && longitude ? { latitude, longitude } : null)
     }
   }, [useCurrentLocation, latitude, longitude, location])
 

@@ -32,7 +32,7 @@ import { ElementalProperties } from '@/types/alchemy';
  * @param elementalProperties Optional elemental properties for more accurate determination
  * @returns The modality (Cardinal, Fixed, or Mutable)
  */
-export function determineIngredientModality()
+export function determineIngredientModality(
   qualities: string[] = [],
   elementalProperties?: ElementalProperties
 ): any {
@@ -42,7 +42,7 @@ export function determineIngredientModality()
   // Create normalized arrays of qualities for easier matching
   const normalizedQualities = qualitiesArray.map(q => q.toLowerCase());
   // Look for explicit quality indicators in the ingredients
-  const cardinalKeywords = [;
+  const cardinalKeywords = [
     'initiating',
     'spicy',
     'pungent',

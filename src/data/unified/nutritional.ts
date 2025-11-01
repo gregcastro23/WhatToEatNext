@@ -22,57 +22,58 @@ import { createElementalProperties } from '../../utils/elemental/elementalUtils'
 
 import { calculateKalchm, _, _ } from './alchemicalCalculations';
 
-// ===== ENHANCED NUTRITIONAL INTERFACES =====;
+// ===== ENHANCED NUTRITIONAL INTERFACES =====
 
 export interface AlchemicalNutritionalProfile extends NutritionalProfile {
-  // Enhanced Alchemical Properties,
-  alchemicalProperties: AlchemicalProperties,
-  kalchm: number, // Nutritional Kalchm value,
+  // Enhanced Alchemical Properties
+  alchemicalProperties: AlchemicalProperties;
+  kalchm: number; // Nutritional Kalchm value
 
   // Elemental Nutritional Mapping
   elementalNutrients: {
-    Fire: NutrientGroup, // Energizing, warming nutrients,
-    Water: NutrientGroup, // Cooling, flowing, cleansing nutrients,
-    Earth: NutrientGroup, // Grounding, nourishing, stable nutrients,
-    Air: NutrientGroup, // Light, uplifting, dispersing nutrients
-  },
+    Fire: NutrientGroup; // Energizing, warming nutrients
+    Water: NutrientGroup; // Cooling, flowing, cleansing nutrients
+    Earth: NutrientGroup; // Grounding, nourishing, stable nutrients
+    Air: NutrientGroup; // Light, uplifting, dispersing nutrients
+  };
   // Monica-Enhanced Nutritional Optimization
   monicaOptimization: {
-    baselineScore: number // Base nutritional score,
-    seasonalModifier: number, // Seasonal adjustment,
-    planetaryModifier: number, // Planetary influence,
-    cookingMethodModifier: number, // Cooking method enhancement,
-    finalOptimizedScore: number, // Monica-optimized final score
-  },
+    baselineScore: number; // Base nutritional score
+    seasonalModifier: number; // Seasonal adjustment
+    planetaryModifier: number; // Planetary influence
+    cookingMethodModifier: number; // Cooking method enhancement
+    finalOptimizedScore: number; // Monica-optimized final score
+  };
   // Astrological Nutritional Correlations
   astrologicalProfile: {
-    rulingPlanets: PlanetName[], // Planets that rule these nutrients,
-    favorableZodiac: any[], // Zodiac signs that benefit most,
-    seasonalPeak: Season[], // Seasons when these nutrients are most beneficial,
-    elementalAffinity: ElementalProperties, // Elemental nutritional affinity
-  },
+    rulingPlanets: PlanetName[]; // Planets that rule these nutrients
+    favorableZodiac: any[]; // Zodiac signs that benefit most
+    seasonalPeak: Season[]; // Seasons when these nutrients are most beneficial
+    elementalAffinity: ElementalProperties; // Elemental nutritional affinity
+  };
   // Enhanced Metadata
   metadata: {
-    kalchmCalculated: boolean,
-    monicaOptimized: boolean,
-    lastUpdated: Date,
-    sourceData: string[]
-  }
+    kalchmCalculated: boolean;
+    monicaOptimized: boolean;
+    lastUpdated: Date;
+    sourceData: string[];
+  };
 }
 
-export interface NutrientGroup { macronutrients: { [key, string], number }; // Protein, carbs, fats, fiber
+export interface NutrientGroup {
+  macronutrients: { [key: string]: number }; // Protein, carbs, fats, fiber
   micronutrients: { [key: string]: number }; // Vitamins and minerals
   phytonutrients: { [key: string]: number }; // Antioxidants, flavonoids, etc.
-  bioactiveCompounds: { [key: string]: number }; // Specialized compounds,
-  totalElementalValue: number // Combined elemental nutritional value
+  bioactiveCompounds: { [key: string]: number }; // Specialized compounds
+  totalElementalValue: number; // Combined elemental nutritional value
 }
 
 export interface NutritionalMonicaModifiers {
-  temperatureOptimization: number // Temperature-based nutritional optimization;
-  timingOptimization: number, // Timing-based absorption optimization,
-  combinationSynergy: number, // Nutrient combination synergy,
-  bioavailabilityBonus: number, // Enhanced bioavailability,
-  digestiveHarmony: number, // Digestive system harmony
+  temperatureOptimization: number; // Temperature-based nutritional optimization
+  timingOptimization: number; // Timing-based absorption optimization
+  combinationSynergy: number; // Nutrient combination synergy
+  bioavailabilityBonus: number; // Enhanced bioavailability
+  digestiveHarmony: number; // Digestive system harmony
 }
 
 export interface SeasonalNutritionalProfile {

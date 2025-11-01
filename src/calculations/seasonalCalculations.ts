@@ -1,6 +1,6 @@
 import { SEASONAL_MODIFIERS } from '@/constants/seasonalModifiers';
 import { getZodiacSignForDate } from '@/data/zodiacSeasons';
-import type { ElementalProperties, Recipe, Season, ZodiacSign } from '@/types/alchemy';
+import type { ElementalProperties, Recipe, Season } from '@/types/alchemy';
 
 export interface SeasonalEffectiveness {
   score: number;
@@ -29,7 +29,7 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,
   const seasonLower = season.toLowerCase();
 
   // 1. Calculate Elemental Alignment (50% of total)
-  const elementalScore = Object.entries(recipe.elementalProperties || ) {}).reduce(score, [element, value]) => {
+  const elementalScore = Object.entries(recipe.elementalProperties || {}).reduce((score, [element, value]) => {
       // Get modifier from SEASONAL_MODIFIERS using lowercase season
       // Using proper type access with fallback
       const seasonModifiers = SEASONAL_MODIFIERS[seasonLower] || {};
@@ -46,9 +46,9 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,
     // Count ingredients that have this season in their seasonality array
     let seasonalCount = 0;
     for (const ingredient of recipe.ingredients) {
-      if (Array.isArray(ingredient.seasonality) {
+      if (Array.isArray(ingredient.seasonality)) {
         const lowerSeasons = ingredient.seasonality.map((s: string) => s.toLowerCase());
-        if (lowerSeasons.includes(seasonLower) || lowerSeasons.includes('all') {
+        if (lowerSeasons.includes(seasonLower) || lowerSeasons.includes('all')) {
           seasonalCount++;
         }
       }
@@ -64,7 +64,7 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,
     const recipeSeasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
     const recipeSeasonLower = recipeSeasons.map((s: string) => s.toLowerCase());
 
-    if (recipeSeasonLower.includes(seasonLower) {
+    if (recipeSeasonLower.includes(seasonLower)) {
       breakdown.seasonalBonus = 20;
       totalScore += 20;
     }
@@ -87,12 +87,12 @@ export function calculateSeasonalEffectiveness(recipe: Recipe,
   };
 }
 
-export function calculateSeasonalElements(baseElements: ElementalProperties,)
+export function calculateSeasonalElements(baseElements: ElementalProperties,
   season: string): ElementalProperties {
   const normalizedSeason = season.toLowerCase();
   const modifier = SEASONAL_MODIFIERS[normalizedSeason] || {};
 
-  return Object.fromEntries()
+  return Object.fromEntries(
     Object.entries(baseElements).map(([element, value]) => {
       const adjusted = value + (modifier[element as any] || 0);
       return [element, Math.max(0, Math.min(1, adjusted))];

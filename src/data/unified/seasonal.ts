@@ -21,21 +21,21 @@ import {
 
 import { unifiedIngredients } from './ingredients';
 
-// ===== ENHANCED SEASONAL INTERFACES =====;
+// ===== ENHANCED SEASONAL INTERFACES =====
 
 export interface SeasonalMonicaModifiers {
-  temperatureAdjustment: number // Temperature adjustment for seasonal cooking;
-  timingAdjustment: number, // Timing adjustment percentage,
-  intensityModifier: string, // 'increase' | 'decrease' | 'maintain'
-  planetaryAlignment: number, // Seasonal planetary alignment bonus,
-  lunarPhaseBonus: number, // Seasonal lunar phase sensitivity
+  temperatureAdjustment: number; // Temperature adjustment for seasonal cooking
+  timingAdjustment: number; // Timing adjustment percentage
+  intensityModifier: string; // 'increase' | 'decrease' | 'maintain'
+  planetaryAlignment: number; // Seasonal planetary alignment bonus
+  lunarPhaseBonus: number; // Seasonal lunar phase sensitivity
 }
 
 export interface ElementalSeasonalProfile {
-  dominantElements: Element[], // Primary elements for the season,
-  elementalShifts: ElementalProperties, // Elemental transition values,
-  monicaInfluence: number, // Seasonal Monica modifier,
-  kalchmResonance: number, // Seasonal Kalchm resonance
+  dominantElements: Element[]; // Primary elements for the season
+  elementalShifts: ElementalProperties; // Elemental transition values
+  monicaInfluence: number; // Seasonal Monica modifier
+  kalchmResonance: number; // Seasonal Kalchm resonance
 }
 
 export interface TarotSeasonalInfluence {

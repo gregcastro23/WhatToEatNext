@@ -17,7 +17,7 @@ function safeGetString(value: unknown): string | undefined {
 }
 
 function safeGetStringArray(value: unknown): string[] {
-  if (Array.isArray(value) {
+  if (Array.isArray(value)) {
     return value.filter(item => typeof item === 'string');
   }
   return [];

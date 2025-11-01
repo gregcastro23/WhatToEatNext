@@ -78,7 +78,7 @@ export class AlchemicalTransformationService {
   /**
    * Initialize the service with data
    */
-  constructor()
+  constructor(
     ingredients: ElementalItem[] = [],
     cookingMethods: ElementalItem[] = [],
     cuisines: ElementalItem[] = []
@@ -162,7 +162,7 @@ export class AlchemicalTransformationService {
    * Get transformed ingredients based on current settings
    */
   getTransformedIngredients(): AlchemicalItem[] {
-    return transformIngredients()
+    return transformIngredients(
       this.ingredients,
       this.planetPositions,
       this.isDaytime,
@@ -175,7 +175,7 @@ export class AlchemicalTransformationService {
    * Get transformed cooking methods based on current settings
    */
   getTransformedCookingMethods(): AlchemicalItem[] {
-    return transformCookingMethods()
+    return transformCookingMethods(
       this.cookingMethods,
       this.planetPositions,
       this.isDaytime,
@@ -188,7 +188,7 @@ export class AlchemicalTransformationService {
    * Get transformed cuisines based on current settings
    */
   getTransformedCuisines(): AlchemicalItem[] {
-    return transformCuisines()
+    return transformCuisines(
       this.cuisines,
       this.planetPositions,
       this.isDaytime,

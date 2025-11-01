@@ -60,9 +60,11 @@ export interface QuickAction {
   description: string;
   icon: string;
   enabled: boolean;
-  estimatedDuration: number, // minutes,
-  safetyLevel: 'low' | 'medium' | 'high' | 'maximum' },
-        export interface CampaignResult {
+  estimatedDuration: number; // minutes
+  safetyLevel: 'low' | 'medium' | 'high' | 'maximum';
+}
+
+export interface CampaignResult {
   campaignId: string;
   phaseName: string;
   completedAt: Date;
@@ -70,16 +72,16 @@ export interface QuickAction {
   metricsImprovement: {
     errorsReduced: number;
     warningsReduced: number;
-    buildTimeImproved: number
-  },
-  duration: number // minutes
+    buildTimeImproved: number;
+  };
+  duration: number; // minutes
 }
 
 export interface HealthTrend {
   metric: string;
-  trend: 'improving' | 'stable' | 'declining'
+  trend: 'improving' | 'stable' | 'declining';
   changePercentage: number;
-  timeframe: string
+  timeframe: string;
 }
 
 export interface CampaignExecutionRequest {

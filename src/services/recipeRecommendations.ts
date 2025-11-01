@@ -31,9 +31,9 @@ export class RecipeRecommender {
     return RecipeRecommender.instance;
   }
 
-  async recommendRecipes()
+  async recommendRecipes(
     recipes: Recipe[],
-    criteria: RecommendationCriteria;
+    criteria: RecommendationCriteria
   ): Promise<ScoredRecipe[]> {
     try {
       if (!Array.isArray(recipes) || recipes.length === 0) {
@@ -45,8 +45,8 @@ export class RecipeRecommender {
       const celestialInfluence = criteria.celestialInfluence || celestialCalculator.calculateCurrentInfluences();
 
       // Score and sort recipes
-      const scoredRecipes = recipes;
-        .map(recipe => () {
+      const scoredRecipes = recipes
+        .map(recipe => ({
           ...recipe,
           score: this.calculateRecipeScore(recipe, criteria)
         }))

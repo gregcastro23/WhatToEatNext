@@ -225,13 +225,12 @@ export default function CookingMethodPage() {
                       Variations
                     </Typography>
                     <List>
-                      {Array.isArray((method as unknown as ) { variations?: string[] }).variations) &&
-                        (method as unknown as { variations: string[] }).variations.map(variation: string, index: number) => (
+                      {Array.isArray((method as unknown as { variations?: string[] }).variations) &&
+                        (method as unknown as { variations: string[] }).variations.map((variation: string, index: number) => (
                             <ListItem key={index}>
-                              <ListItemText primary=) => {variation} />
+                              <ListItemText primary={variation} />
                             </ListItem>
-                          )
-                        )}
+                          ))}
                     </List>
                   </>
                 )}
@@ -246,7 +245,7 @@ export default function CookingMethodPage() {
                     <List>
                       {method.commonMistakes.map((mistake, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary=) => {mistake} />
+                          <ListItemText primary={mistake} />
                         </ListItem>
                       ))}
                     </List>
@@ -268,7 +267,7 @@ export default function CookingMethodPage() {
                     <List>
                       {method.pairingSuggestions.map((suggestion, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary=) => {suggestion} />
+                          <ListItemText primary={suggestion} />
                         </ListItem>
                       ))}
                     </List>
@@ -294,7 +293,7 @@ export default function CookingMethodPage() {
                     <List>
                       {method.scientificPrinciples.map((principle, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary=) => {principle} />
+                          <ListItemText primary={principle} />
                         </ListItem>
                       ))}
                     </List>
@@ -480,7 +479,7 @@ export default function CookingMethodPage() {
                     {Array.isArray(method.tools) &&
                       method.tools.map((tool, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary=) => {tool} />
+                          <ListItemText primary={tool} />
                         </ListItem>
                       ))}
                   </List>
@@ -496,7 +495,7 @@ export default function CookingMethodPage() {
                     {Array.isArray(method.famous_dishes) &&
                       method.famous_dishes.map((dish, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary=) => {dish} />
+                          <ListItemText primary={dish} />
                         </ListItem>
                       ))}
                   </List>
@@ -516,7 +515,7 @@ export default function CookingMethodPage() {
                     {Array.isArray(method.health_benefits) &&
                       method.health_benefits.map((benefit, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary=) => {benefit} />
+                          <ListItemText primary={benefit} />
                         </ListItem>
                       ))}
                   </List>
@@ -536,7 +535,7 @@ export default function CookingMethodPage() {
                     {Array.isArray(method.health_considerations) &&
                       method.health_considerations.map((consideration, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary=) => {consideration} />
+                          <ListItemText primary={consideration} />
                         </ListItem>
                       ))}
                   </List>
@@ -566,7 +565,7 @@ export default function CookingMethodPage() {
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                         {method.zodiacResonance.map((sign, index) => (
-                          <ZodiacSign key={index} sign=) => {sign} size='medium' />
+                          <ZodiacSign key={index} sign={sign} size='medium' />
                         ))}
                       </Box>
                     </Box>
@@ -579,7 +578,7 @@ export default function CookingMethodPage() {
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                         {method.planetaryInfluences.map((planet, index) => (
-                          <Chip key={index} label=) => {planet} color='secondary' variant='outlined' />
+                          <Chip key={index} label={planet} color='secondary' variant='outlined' />
                         ))}
                       </Box>
                     </Box>

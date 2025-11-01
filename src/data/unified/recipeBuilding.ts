@@ -14,12 +14,12 @@ import type {
 
 import {
     getAllEnhancedCookingMethods,
-    type EnhancedCookingMethod;
+    type EnhancedCookingMethod
 } from '../../constants/alchemicalPillars';
 
 import {
     unifiedCuisineIntegrationSystem,
-    type CuisineIngredientAnalysis;
+    type CuisineIngredientAnalysis
 } from './cuisineIntegrations.js';
 import { RecipeEnhancer, type EnhancedRecipe } from './recipes';
 import { SeasonalRecommendations } from './seasonal';

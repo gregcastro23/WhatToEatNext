@@ -184,8 +184,8 @@ export class AlchemicalEngineAdvanced {
     try {
       // Get dominant element
       const baseElements = recipeElements || DEFAULT_ELEMENTAL_PROPERTIES;
-      const entries = Object.entries(baseElements) as Array<[keyof ElementalProperties, number]>.
-        filter(([, v]) => typeof v === 'number');
+      const entries = Object.entries(baseElements)
+        .filter(([, v]) => typeof v === 'number');
       const dominantElement = (entries.reduce((max, current) => (current[1] > max[1] ? current : max)) || [
         'Fire',
         DEFAULT_ELEMENT_VALUE,

@@ -263,7 +263,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: 1,
       Essence: 1,
       Matter: 1,
-      Substance: -1;
+      Substance: -1
     },
     planetaryAssociations: ['Jupiter', 'Sun', 'Uranus'],
     tarotAssociations: ['The Sun', '3 of Wands'],
@@ -559,7 +559,7 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
           effectiveness: Math.random() * 0.5 + 0.5, // 50-100% effectiveness
           factors: ['skill development', 'equipment upgrades', 'methodology evolution']
         }
-      };
+      }
     };
   },
 
@@ -666,7 +666,7 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
           success: Math.random() * 0.5 + 0.5, // 50-100% success
           factors: ['mastery development', 'system integration', 'evolutionary optimization']
         }
-      };
+      }
     };
   }
 };

@@ -1,14 +1,13 @@
 import {
-    ElementalProperties,
-    PlanetaryPosition,
-    ThermodynamicMetrics
+  ElementalProperties,
+  PlanetaryPosition
 } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 
 // Import the core alchemical functionality
 import type {
-    PlanetaryPosition as RealAlchemizePlanetaryPosition,
-    StandardizedAlchemicalResult
+  PlanetaryPosition as RealAlchemizePlanetaryPosition,
+  StandardizedAlchemicalResult
 } from './RealAlchemizeService';
 import { alchemize } from './RealAlchemizeService';
 
@@ -74,8 +73,8 @@ export class AlchemicalService {
   /**
    * Calculate alchemical properties for current moment
    */
-  async calculateCurrentAlchemicalProperties()
-    location?: { latitude: number; longitude, number },
+  async calculateCurrentAlchemicalProperties(
+    location?: { latitude: number; longitude: number },
     zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
   ): Promise<StandardizedAlchemicalResult> {
     try {
@@ -85,7 +84,7 @@ export class AlchemicalService {
       const { getCurrentPlanetaryPositions } = await import('./astrologizeApi');
 
       const defaultLocation = { latitude: 40.7498, longitude: -73.7976 }; // NYC
-      const planetaryPositions = await getCurrentPlanetaryPositions();
+      const planetaryPositions = await getCurrentPlanetaryPositions(
         location || defaultLocation,
         zodiacSystem
       );
@@ -100,9 +99,9 @@ export class AlchemicalService {
   /**
    * Calculate alchemical properties for specific date/time
    */
-  async calculateAlchemicalPropertiesForDateTime()
+  async calculateAlchemicalPropertiesForDateTime(
     date: Date,
-    location?: { latitude: number; longitude, number },
+    location?: { latitude: number; longitude: number },
     zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
   ): Promise<StandardizedAlchemicalResult> {
     try {

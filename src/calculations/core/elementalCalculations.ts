@@ -45,7 +45,7 @@ function safeGetNumber(value: unknown): number {
 /**
  * Calculate base elemental properties from planetary positions
  */
-export function calculateBaseElementalProperties(planetaryPositions: ) { [key: string]: CelestialPosition }): ElementalProperties {
+export function calculateBaseElementalProperties(planetaryPositions: { [key: string]: CelestialPosition }): ElementalProperties {
   const elements: ElementalProperties = {
     Fire: 0,
     Water: 0,
@@ -55,7 +55,7 @@ export function calculateBaseElementalProperties(planetaryPositions: ) { [key: s
 
   // Use the exported ZODIAC_ELEMENTS mapping
   // Calculate elemental influence from each planet
-  for (const [planetName, position] of Object.entries(planetaryPositions) {
+  for (const [planetName, position] of Object.entries(planetaryPositions)) {
     const signElement = ZODIAC_ELEMENTS[position.sign];
     if (signElement && elements[signElement] !== undefined) {
       // Base influence of 1.0 for each planet in its sign
@@ -221,7 +221,7 @@ export function analyzeElementalCompatibility(
   };
 
   // Calculate compatibility (lower difference = higher compatibility)
-  const differences = [;
+  const differences = [
     Math.abs(norm1.Fire - norm2.Fire),
     Math.abs(norm1.Water - norm2.Water),
     Math.abs(norm1.Earth - norm2.Earth),
@@ -239,12 +239,12 @@ export function analyzeElementalCompatibility(
     Air: ingredient1Elements.Air + ingredient2Elements.Air
   };
 
-  const dominantElement = Object.entries(combined).reduce((max, [element, value]) =>;
+  const dominantElement = Object.entries(combined).reduce((max, [element, value]) =>
     value > combined[max as Element] ? element as Element : max as Element, 'Fire' as Element
   );
 
   // Find complementary elements (those with balanced presence)
-  const complementaryElements = Object.entries(combined);
+  const complementaryElements = Object.entries(combined)
     .filter(([, value]) => value > 0)
     .sort(([, a], [, b]) => b - a)
     .slice(0, 2)

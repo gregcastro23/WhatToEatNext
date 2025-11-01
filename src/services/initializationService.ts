@@ -58,7 +58,7 @@ class InitializationService {
 
   private async performInitialization(): Promise<InitializationResult> {
     try {
-      logger.info('Starting application initialization', ) {
+      logger.info('Starting application initialization', {
         attempt: this.retryCount + 1
       })
 

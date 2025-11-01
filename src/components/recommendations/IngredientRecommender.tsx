@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useState, useMemo } from 'react';
-import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
+import React, { useEffect, useMemo, useState } from 'react';
 
 interface IngredientRecommenderProps {
   initialCategory?: string | null;
@@ -79,8 +79,8 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
     }> = [];
 
     recommendations.recommendations.forEach((rec, index) => {
-      rec.recipe.tags.forEach(tag => ) {
-        if (!ingredients.find(i => i.name === tag) {
+      rec.recipe.tags.forEach(tag => {
+        if (!ingredients.find(i => i.name === tag)) {
           ingredients.push({
             id: `ing-${index}-${tag}`,
             name: tag.charAt(0).toUpperCase() + tag.slice(1),
@@ -98,10 +98,10 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
 
   // Filter ingredients
   const filteredIngredients = useMemo(() => {
-    return mockIngredients.filter(item => ) {
-      const matchesSearch = !searchQuery ||;
+    return mockIngredients.filter(item => {
+      const matchesSearch = !searchQuery ||
         item.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = !selectedCategory ||;
+      const matchesCategory = !selectedCategory ||
         item.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
@@ -125,7 +125,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
       <div className="mb-6">
         <h3 className="mb-3 text-lg font-semibold text-gray-800">Browse by Category</h3>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {CATEGORIES.map(category => ())
+          {CATEGORIES.map(category => (
             <button
               key={category.id}
               onClick={() => handleCategorySelect(category.id)}

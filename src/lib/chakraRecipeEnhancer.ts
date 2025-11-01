@@ -98,11 +98,12 @@ export class ChakraRecipeEnhancer {
   /**
    * Enhance recipes with chakra information
    */
-  enhanceRecipes()
+  enhanceRecipes(
     recipes: Recipe[],
     sunSign: any,
     moonSign: any,
-    dominantPlanets: Planet[] = []): ChakraRecipeRecommendation[] {
+    dominantPlanets: Planet[] = []
+  ): ChakraRecipeRecommendation[] {
     // Get current planetary hour
     let planetaryHour: Planet = 'Sun' as unknown as Planet;
     try {
@@ -137,7 +138,7 @@ export class ChakraRecipeEnhancer {
     }
 
     // Calculate current chakra energies
-    const chakraEnergies = this.chakraService.calculateChakraEnergies();
+    const chakraEnergies = this.chakraService.calculateChakraEnergies(
       sunSign,
       moonSign,
       dominantPlanets,
@@ -146,7 +147,7 @@ export class ChakraRecipeEnhancer {
 
     // Enhance each recipe
     return recipes
-      .map(recipe => ) {
+      .map(recipe => {
         if (!recipe.elementalProperties) {
           recipe.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
         }
@@ -161,11 +162,11 @@ export class ChakraRecipeEnhancer {
         const planets = astrologicalAffinities?.planets;
 
         if (planets) {
-          if ((planets as Planet[]).includes(planetaryHour) {
+          if ((planets as Planet[]).includes(planetaryHour)) {
             planetaryAlignment = 1.0;
           } else {
             const hourChakras = this.chakraService.getChakrasByPlanet(planetaryHour);
-            const recipeChakras = (planets as Planet[]).flatMap((planet: Planet) =>;
+            const recipeChakras = (planets as Planet[]).flatMap((planet: Planet) =>
               this.chakraService.getChakrasByPlanet(planet)
             );
 
@@ -187,7 +188,7 @@ export class ChakraRecipeEnhancer {
         }
 
         // Get tarot recommendations for the dominant chakra
-        const recommendations = this.chakraService.getTarotRecommendationsForChakra();
+        const recommendations = this.chakraService.getTarotRecommendationsForChakra(
           dominantChakra === 'solarPlexus' ? ('solarPlexus' as any) : (dominantChakra as any),
           chakraEnergies[dominantChakra]
         );

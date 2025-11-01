@@ -1,6 +1,7 @@
 /**
  * Utility for numerological calculations used in celestial and astrological contexts
  */
+import type { ElementalProperties } from '@/types/elemental';
 export const celestialNumerology = {
   /**
    * Calculate a numerological value for the current day
@@ -8,10 +9,10 @@ export const celestialNumerology = {
    */
   calculateDailyNumber(): number {
     const today = new Date();
-  const day = today.getDate();
-  const month = today.getMonth() + 1; // JS months are 0-indexed
-  const year = today.getFullYear();
-  // Basic numerological reduction: Add all digits, then reduce to a single digit
+    const day = today.getDate();
+    const month = today.getMonth() + 1; // JS months are 0-indexed
+    const year = today.getFullYear();
+    // Basic numerological reduction: Add all digits, then reduce to a single digit
     const dateString = `${day}${month}${year}`;
     let sum = 0;
 
@@ -23,17 +24,13 @@ export const celestialNumerology = {
     // Keep reducing until we have a single digit (1-9)
     // 0 isn't used in traditional numerology, so we convert it to 9
     while (sum > 9) {
-      let tempSum = 0;
-      const sumStr = sum;
+      sum = sum
         .toString()
         .split('')
-        .forEach(digit => ) {
-          tempSum += parseInt(digit, 10);
-        });
-      sum = tempSum;
+        .reduce((acc, digit) => acc + parseInt(digit, 10), 0);
     }
 
-    return sum === 0 ? 9 : sum
+    return sum === 0 ? 9 : sum;
   }
 
   /**
@@ -60,14 +57,10 @@ export const celestialNumerology = {
 
     // Reduce to single digit
     while (sum > 9) {
-      let tempSum = 0;
-      sum
+      sum = sum
         .toString()
         .split('')
-        .forEach(digit => ) {
-          tempSum += parseInt(digit, 10);
-        });
-      sum = tempSum;
+        .reduce((acc, digit) => acc + parseInt(digit, 10), 0);
     }
 
     return sum === 0 ? 9 : sum
@@ -79,24 +72,29 @@ export const celestialNumerology = {
   getElementalAffinity(number: number): string {
     // Map each number to an element
     switch (number) {
-      case, 1: case 9: return 'Fire',
-      case, 2: case 7: return 'Water',
-      case, 4: case 8:
-        return: 'Earth'
-      case, 3: case 5:
-      case, 6: return 'Air',
-      default: return 'Fire', // Default;
-}
+      case 1:
+      case 9:
+        return 'Fire';
+      case 2:
+      case 7:
+        return 'Water';
+      case 4:
+      case 8:
+        return 'Earth';
+      case 3:
+      case 5:
+      case 6:
+        return 'Air';
+      default:
+        return 'Fire'; // Default
+    }
   }
 
   /**
    * Calculate auspicious days for cooking certain recipes
    * Returns array of days of the week (0-6, where 0 is Sunday)
    */
-  getAuspiciousDays(recipeProfile: ) {
-    elementalProperties?: unknown
-    astrologicalInfluences?: string[]
-  }): number[] {
+  getAuspiciousDays(recipeProfile: { elementalProperties?: ElementalProperties; astrologicalInfluences?: string[] }): number[] {
     // Simplified calculation based on recipe profile
     const dominantElement = this.getDominantElement(recipeProfile.elementalProperties);
 
@@ -118,18 +116,18 @@ export const celestialNumerology = {
   /**
    * Get the dominant element from elemental properties
    */
-  getDominantElement(elementalProperties: unknown): string {
+  getDominantElement(elementalProperties?: ElementalProperties): string {
     if (!elementalProperties) return 'Fire';
     // Find the element with the highest value
-    let maxElement = 'Fire';
-    let maxValue = 0
-;
-    Object.entries(elementalProperties).forEach(([element, value]) => {
-      if (typeof value === 'number' && value > maxValue) {
+    let maxElement: keyof ElementalProperties = 'Fire';
+    let maxValue = -Infinity;
+    (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
+      const value = elementalProperties[element] ?? 0;
+      if (value > maxValue) {
         maxValue = value;
         maxElement = element;
       }
-    })
+    });
 
     return maxElement;
   }

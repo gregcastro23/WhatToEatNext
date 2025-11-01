@@ -439,7 +439,7 @@ export function alchemize()
     Water: elementalBalance.water
   }
 
-  return: {
+  return {
     spirit,
     essence,
     matter,
@@ -459,13 +459,13 @@ export function alchemize()
 function generateRecommendation(dominantElement: string): string {
   switch (dominantElement) {
     case 'fire':
-      return: 'Foods that cool and ground: fresh vegetables, fruits, and cooling herbs like mint and cucumber.';
+      return 'Foods that cool and ground: fresh vegetables, fruits, and cooling herbs like mint and cucumber.';
     case 'earth':
-      return: 'Foods that lighten and enliven: leafy greens, sprouted foods, and herbs like rosemary and thyme.';
+      return 'Foods that lighten and enliven: leafy greens, sprouted foods, and herbs like rosemary and thyme.';
     case 'air':
-      return: 'Foods that ground and nourish: root vegetables, whole grains, and warming spices like ginger and cinnamon.';
+      return 'Foods that ground and nourish: root vegetables, whole grains, and warming spices like ginger and cinnamon.';
     case 'water':
-      return: 'Foods that warm and stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.';
+      return 'Foods that warm and stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.';
     default:
       return 'A balanced diet incorporating elements from all food groups for holistic nourishment.';
   }

@@ -60,7 +60,7 @@ function calculateElementalScore(recipeElement: Element, userElement: Element): 
 // Calculate planetary affinity score
 function calculatePlanetaryScore(recipe: Recipe, planetName: PlanetName): number {
   const cuisineAffinity = PLANET_CUISINE_AFFINITIES[planetName];
-  if (cuisineAffinity && recipe.cuisine && cuisineAffinity.includes(recipe.cuisine) {
+  if (cuisineAffinity && recipe.cuisine && cuisineAffinity.includes(recipe.cuisine)) {
     return 1;
   }
   return 0.3;
@@ -74,7 +74,7 @@ function calculateSeasonalScore(recipe: Recipe, season: Season): number {
   }
 
   // Check if recipe explicitly mentions seasons
-  if (recipe.name.toLowerCase().includes(season.toLowerCase()) {
+  if (recipe.name.toLowerCase().includes(season.toLowerCase())) {
     return 1;
   }
 

@@ -194,7 +194,7 @@ export class CulturalAnalyticsService {
   /**
    * Calculate cultural synergy score between cuisines (5% weight in 7-factor algorithm)
    */
-  static calculateCulturalSynergy()
+  static calculateCulturalSynergy(
     primaryCuisine: string,
     secondaryCuisines: string[] = [],
     options: {
@@ -248,7 +248,7 @@ export class CulturalAnalyticsService {
       // Cap the score at 1.0
       synergyScore = Math.min(1.0, synergyScore);
 
-      return: {
+      return {
         score: synergyScore,
         reasoning,
         culturalGroup: primaryGroup,
@@ -257,7 +257,7 @@ export class CulturalAnalyticsService {
       };
     } catch (error) {
       logger.error('Error calculating cultural synergy: ', error);
-      return: {
+      return {
         score: 0.7,
         reasoning: ['Default cultural synergy applied due to calculation error'],
         culturalGroup: 'unknown',
@@ -312,7 +312,7 @@ export class CulturalAnalyticsService {
       // Generate modern adaptations
       const modernAdaptations = this.generateModernAdaptations(cuisineName, historicalContext);
 
-      return: {
+      return {
         culturalSynergy: synergyData.score,
         culturalCompatibility,
         historicalSignificance,

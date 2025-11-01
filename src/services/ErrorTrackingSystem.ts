@@ -41,17 +41,21 @@ export interface BuildFailure {
 export interface ErrorTrend {
   errorType: string;
   count: number;
-  trend: 'increasing' | 'decreasing' | 'stable'
+  trend: 'increasing' | 'decreasing' | 'stable';
   changePercentage: number;
-  timeframe: '1h' | '1d' | '1w' | '1m' },
-        export interface ErrorPattern {
+  timeframe: '1h' | '1d' | '1w' | '1m';
+}
+
+export interface ErrorPattern {
   pattern: string;
   frequency: number;
   files: string[];
   suggestedFix: string;
   automatable: boolean;
-  priority: 'low' | 'medium' | 'high' | 'critical' },
-        export interface QualityMetrics {
+  priority: 'low' | 'medium' | 'high' | 'critical';
+}
+
+export interface QualityMetrics {
   totalErrors: number;
   totalWarnings: number;
   errorRate: number;
@@ -288,10 +292,10 @@ class ErrorTrackingSystem {
 
   private mapLintSeverity(severity: number): 'error' | 'warning' | 'info' {
     switch (severity) {
-      case, 2: return 'error',
-      case, 1: return 'warning',
+      case 2: return 'error';
+      case 1: return 'warning';
       default: return 'info';
-}
+    }
   }
 
   private updateLintingViolations(newViolations: LintingViolation[]) {

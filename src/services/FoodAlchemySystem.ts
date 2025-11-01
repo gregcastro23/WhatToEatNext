@@ -316,17 +316,17 @@ export class FoodAlchemySystem {
    * @param aspects Current planetary aspects
    * @returns Detailed compatibility score with recommendations
    */
-  calculateFoodCompatibility()
+  calculateFoodCompatibility(
     food: FoodCorrespondence,
     chart: BirthChart,
     planetaryDay: string,
     planetaryHour: string,
     isDaytime: boolean,
-    planetaryPositions?: Record<string, { sign: string; degree, number }>,
+    planetaryPositions?: Record<string, { sign: string; degree: number }>,
     aspects?: Array<{ type: string; planets: [string, string] }>,
   ): CompatibilityScore {
     // Normalize planetary positions for robust, type-safe access
-    const normalizedPositions = normalizePlanetaryPositions(planetaryPositions || ) {});
+    const normalizedPositions = normalizePlanetaryPositions(planetaryPositions || {});
     // Use normalizedPositions in all downstream logic
     // Calculate elemental match (45% weight)
     const elementalMatch = this.calculateElementalMatch(chart, food);

@@ -42,18 +42,18 @@ export function getIngredientsForCuisine(
   }
 
   // Process each matrix to find ingredients that pAir with this cuisine
-  if (categories.includes('grain') {
-    Object.entries(grainCuisineMatrix || ) {}).forEach(([grain, data]) => {
+  if (categories.includes('grain')) {
+    Object.entries(grainCuisineMatrix || {}).forEach(([grain, data]) => {
       const grainDataEntry = data;
-      if (grainDataEntry?.cuisines && (grainDataEntry as any)?.cuisines.includes(cuisineName) {
+      if (grainDataEntry?.cuisines && (grainDataEntry as any)?.cuisines.includes(cuisineName)) {
         result.grain.push(grain)
       }
     })
   }
 
-  if (categories.includes('culinary_herb') {
-    Object.entries(herbCuisineMatrix || ) {}).forEach(([herb, cuisines]) => {
-      if (Array.isArray(cuisines) && cuisines.includes(cuisineName) {
+  if (categories.includes('culinary_herb')) {
+    Object.entries(herbCuisineMatrix || {}).forEach(([herb, cuisines]) => {
+      if (Array.isArray(cuisines) && cuisines.includes(cuisineName)) {
         result.culinary_herb.push(herb)
       }
     })

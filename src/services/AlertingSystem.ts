@@ -79,23 +79,23 @@ class AlertingSystem {
   private alertRules: AlertRule[] = [];
   private escalationRules: EscalationRule[] = [];
   private alertResponses: AlertResponse[] = [];
-  private subscribers: Set<(alert: Alert) => void> = new Set()
-  private lastAlertTimes: Map<string, Date> = new Map()
+  private subscribers: Set<(alert: Alert) => void> = new Set();
+  private lastAlertTimes: Map<string, Date> = new Map();
 
   constructor() {
-    this.loadConfiguration()
-    this.initializeDefaultRules()
-    this.startMonitoring()
+    this.loadConfiguration();
+    this.initializeDefaultRules();
+    this.startMonitoring();
   }
 
   private loadConfiguration() {
     try {
       const configPath = path.join(process.cwd(), '.kiro', 'settings', 'alerting-config.json');
-      if (fs.existsSync(configPath) {
+      if (fs.existsSync(configPath)) {
         const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-        this.alertRules = config.alertRules || [],
-        this.escalationRules = config.escalationRules || [],
-        this.alerts = config.alerts || [],
+        this.alertRules = config.alertRules || [];
+        this.escalationRules = config.escalationRules || [];
+        this.alerts = config.alerts || [];
         this.alertResponses = config.alertResponses || [];
 }
     } catch (error) {

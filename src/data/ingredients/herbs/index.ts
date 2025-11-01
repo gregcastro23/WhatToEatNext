@@ -185,20 +185,20 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   }) as Partial<IngredientMapping>,
 
   rosemary: createIngredientMapping('rosemary', {
-    elementalProperties: ) { Fire: 0.4, Earth: 0.35, Air: 0.2, Water: 0.05 },
+    elementalProperties: { Fire: 0.4, Earth: 0.35, Air: 0.2, Water: 0.05 },
     qualities: ['piney', 'resinous', 'aromatic'],
     category: 'culinary_herb',
-    heat_resistance: 8, // Ability to withstand cooking heat,
-    extraction_efficiency: 6, // How easily flavors infuse into oils / (liquids || 1);
+    heat_resistance: 8, // Ability to withstand cooking heat
+    extraction_efficiency: 6, // How easily flavors infuse into oils/liquids
     varieties: {
       upright: {
         oil_content: 1.5,
-        growth_habit: 'tall, straight stems';
-},
+        growth_habit: 'tall, straight stems'
+      },
       creeping: {
         oil_content: 1.3,
-        growth_habit: 'low, spreading';
-}
+        growth_habit: 'low, spreading'
+      }
     }
   }) as Partial<IngredientMapping>,
 

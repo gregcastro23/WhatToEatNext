@@ -216,7 +216,7 @@ export const broiling: CookingMethodData = {
     'distance effects': {
       'close positioning': 'Faster cooking, more external browning, less interior cooking.',
       'distant positioning': 'Slower cooking, more even heating throughout the food.',
-      'variable positioning': 'Moving food closer or further during cooking allows for controlled browning.';
+      'variable positioning': 'Moving food closer or further during cooking allows for controlled browning.'
     },
     'surface treatments': {
       'oil application': 'Thin layer conducts heat better and prevents sticking.',

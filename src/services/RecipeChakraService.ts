@@ -17,9 +17,9 @@ export class RecipeChakraService {
    * @param chakraEnergyStates Current chakra energy states
    * @returns Enhanced recipe with chakra-balancing ingredients
    */
-  public enhanceRecipeWithChakraBalance()
+  public enhanceRecipeWithChakraBalance(
     recipe: Recipe,
-    chakraEnergyStates: ChakraEnergyState[];
+    chakraEnergyStates: ChakraEnergyState[]
   ): Recipe {
     // Get underactive chakras that need support
     const underactiveChakras = chakraEnergyStates;

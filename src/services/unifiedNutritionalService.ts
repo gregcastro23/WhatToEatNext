@@ -68,19 +68,19 @@ export class UnifiedNutritionalService {
   /**
    * Get enhanced nutritional profile with alchemical properties
    */
-  async getEnhancedNutritionalProfile()
+  async getEnhancedNutritionalProfile(
     ingredient: string | UnifiedIngredient,
     context?: {
       season?: Season;
       currentZodiacSign?: any;
       planetaryHour?: PlanetName;
-      cookingMethod?: CookingMethod
+      cookingMethod?: CookingMethod;
     }
   ): Promise<AlchemicalNutritionalProfile | null> {
     try {
       const cacheKey = `enhanced_${typeof ingredient === 'string' ? ingredient : ingredient.name}_${JSON.stringify(context)}`;
 
-      if (this.cache.has(cacheKey) {
+      if (this.cache.has(cacheKey)) {
         return this.cache.get(cacheKey);
       }
 

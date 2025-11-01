@@ -163,14 +163,14 @@ class LoggingService {
     if (context.function) parts.push(`function=${context.function}`);
     if (context.userId) parts.push(`user=${context.userId}`);
     if (context.sessionId) parts.push(`session=${context.sessionId}`);
-    if (context.requestId) parts.push(`request=${context.requestId}`)
+    if (context.requestId) parts.push(`request=${context.requestId}`);
 
     // Add other context properties
-    Object.keys(context).forEach(key => ) {
-      if (!['component', 'service', 'function', 'userId', 'sessionId', 'requestId'].includes(key) {
-        parts.push(`${key}=${context[key]}`)
+    Object.keys(context).forEach(key => {
+      if (!['component', 'service', 'function', 'userId', 'sessionId', 'requestId'].includes(key)) {
+        parts.push(`${key}=${context[key]}`);
       }
-    })
+    });
 
     return parts.length > 0 ? ` [${parts.join(', ')}]` : '';
   }

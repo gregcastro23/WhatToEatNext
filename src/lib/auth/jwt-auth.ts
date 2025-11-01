@@ -139,13 +139,13 @@ export class JWTAuthService {
       const user = this.users.get(email);
 
       if (!user || !user.isActive) {
-        logger.warn('Authentication failed: user not found or inactive', ) { email });
+        logger.warn('Authentication failed: user not found or inactive', { email });
         return null;
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
       if (!isPasswordValid) {
-        logger.warn('Authentication failed: invalid password', ) { email });
+        logger.warn('Authentication failed: invalid password', { email });
         return null;
       }
 
@@ -155,7 +155,7 @@ export class JWTAuthService {
       // Generate tokens
       const tokens = await this.generateTokens(user);
 
-      logger.info('User authenticated successfully', ) {
+      logger.info('User authenticated successfully', {
         userId: user.id,
         email: user.email,
         roles: user.roles
@@ -163,7 +163,7 @@ export class JWTAuthService {
 
       return tokens;
     } catch (error) {
-      logger.error('Authentication error', ) { email, error });
+      logger.error('Authentication error', { email, error });
       return null;
     }
   }

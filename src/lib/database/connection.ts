@@ -78,14 +78,14 @@ export function initializeDatabase(): Pool {
 
   // Connection event handlers
   pool.on('connect', (client: PoolClient) => {
-    logger.info('New database connection established', ) {
+    logger.info('New database connection established', {
       database: config.database,
       host: config.host
     });
   });
 
   pool.on('error', (err: Error, client: PoolClient) => {
-    logger.error('Unexpected database pool error', ) {
+    logger.error('Unexpected database pool error', {
       error: err.message,
       stack: err.stack,
       database: config.database
@@ -105,7 +105,7 @@ export function initializeDatabase(): Pool {
     process.exit(0);
   });
 
-  logger.info('Database connection pool initialized', ) {
+  logger.info('Database connection pool initialized', {
     database: config.database,
     host: config.host,
     port: config.port,
@@ -173,9 +173,9 @@ export async function withTransaction<T>(
     return result;
   } catch (error) {
     await client.query('ROLLBACK');
-    logger.error('Database transaction failed, rolled back', ) {
+    logger.error('Database transaction failed, rolled back', {
       error: error instanceof Error ? error.message : 'Unknown error'
-});
+    });
     throw error;
   } finally {
     client.release();
@@ -195,7 +195,7 @@ export async function executeQuery<T = any>(query: string,
 
   try {
     if (logQuery) {
-      logger.debug('Executing database query', ) {
+      logger.debug('Executing database query', {
         query: query.substring(0, 100) + (query.length > 100 ? '...' : ''),
         paramCount: params.length
       });
@@ -205,7 +205,7 @@ export async function executeQuery<T = any>(query: string,
 
     const executionTime = Date.now() - startTime;
     if (executionTime > 1000) { // Log slow queries (>1s)
-      logger.warn('Slow database query detected', ) {
+      logger.warn('Slow database query detected', {
         executionTime,
         query: query.substring(0, 100) + (query.length > 100 ? '...' : ''),
         rowCount: result.rowCount
@@ -215,7 +215,7 @@ export async function executeQuery<T = any>(query: string,
     return result;
   } catch (error) {
     const executionTime = Date.now() - startTime;
-    logger.error('Database query failed', ) {
+    logger.error('Database query failed', {
       error: error instanceof Error ? error.message : 'Unknown error',
       executionTime,
       query: query.substring(0, 100) + (query.length > 100 ? '...' : ''),
@@ -243,12 +243,12 @@ export async function executeQueryWithRetry<T = any>(
       // Don't retry on certain errors
       if (lastError.message.includes('syntax error') ||
           lastError.message.includes('does not exist') ||
-          lastError.message.includes('permission denied') {
+          lastError.message.includes('permission denied')) {
         throw lastError;
       }
 
       if (attempt < maxRetries) {
-        logger.warn(`Database query attempt ${attempt} failed, retrying...`, ) {
+        logger.warn(`Database query attempt ${attempt} failed, retrying...`, {
           error: lastError.message,
           attempt,
           maxRetries,

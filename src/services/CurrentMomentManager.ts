@@ -68,7 +68,7 @@ class CurrentMomentManager {
    * Get current moment data with automatic updates
    */
   async getCurrentMoment(forceRefresh = false): Promise<CurrentMomentData> {
-    if (!this.currentMoment || forceRefresh || this.needsUpdate() {
+    if (!this.currentMoment || forceRefresh || this.needsUpdate()) {
       await this.updateCurrentMoment();
     }
 
@@ -78,7 +78,7 @@ class CurrentMomentManager {
   /**
    * Update current moment from astrologize API and propagate to all storage locations
    */
-  async updateCurrentMoment()
+  async updateCurrentMoment(
     customDateTime?: Date,
     customLocation?: { latitude: number, longitude: number }): Promise<CurrentMomentData> {
     if (this.updateInProgress) {
