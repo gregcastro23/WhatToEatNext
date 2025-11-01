@@ -190,7 +190,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ['all']
     }
   },
-  puff_pastry {
+  puff_pastry: {
     name: 'puff pastry',
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     qualities: ['versatile', 'culinary'],

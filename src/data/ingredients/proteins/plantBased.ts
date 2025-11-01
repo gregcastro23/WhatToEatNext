@@ -2,9 +2,9 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function to standardize ingredient mappings
-function createIngredientMapping()
+function createIngredientMapping(
   _id: string,
-  properties: Partial<IngredientMapping> & Record<string, unknown>,
+  properties: Partial<IngredientMapping> & Record<string, unknown>
 ): Partial<IngredientMapping> {
   return {
     id: _id,

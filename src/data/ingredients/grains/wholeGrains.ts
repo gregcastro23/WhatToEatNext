@@ -114,8 +114,8 @@ const rawWholeGrains = {
         flavor: 'nutty, slightly sweet',
         cooking_ratio: '1:2 rice to water',
         cooking_time: '45-50 minutes',
-        best_for: 'sushi, risotto, puddings, sticky preparations';
-},
+        best_for: 'sushi, risotto, puddings, sticky preparations'
+      },
       long_grain: {
         name: 'Long Grain Brown Rice',
         characteristics: 'fluffy, separate grains, drier texture',

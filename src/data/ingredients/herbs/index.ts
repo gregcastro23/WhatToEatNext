@@ -29,12 +29,12 @@ const CUISINE_TYPES = {
 // Helper function to generate meaningful herb values
 function generateHerbValues(elementalProps: Record<string, _number>): Record<string, number> {
   // Normalize elements to ensure they sum to 1
-  const totalElements = Object.values(elementalProps).reduce((sum, val) => sum + val0);
-  const normalized = Object.entries(elementalProps).reduce(acc, [key, val]) => {
+  const totalElements = Object.values(elementalProps).reduce((sum, val) => sum + val, 0);
+  const normalized = Object.entries(elementalProps).reduce((acc, [key, val]) => {
       acc[key] = val / (totalElements || 1);
       return acc;
-},
-    {} as Record<string, number>,
+    },
+    {} as Record<string, number>
   );
 
   // Find dominant element
