@@ -115,7 +115,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
 
   const getElementalIcon = (element?: string): string => {
     if (!element) return '';
-    switch (element.toLowerCase() {
+    switch (element.toLowerCase()) {
       case 'fire':
         return '🔥';
       case 'water': return '💧';
@@ -129,7 +129,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
     <PopupContext.Provider value={{ showPopup, closePopup }}>
       {children}
       <div className='popup-container'>
-        {popups.map(popup => ())
+        {popups.map(popup => (
           <div
             key={popup.id}
             id={`popup-${popup.id}`}

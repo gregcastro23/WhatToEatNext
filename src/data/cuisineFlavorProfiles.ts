@@ -48,13 +48,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.4,
       salty: 0.6,
       umami: 0.5
-},
+    },
     elementalAlignment: {
       Fire: 0.3,
       Earth: 0.3,
       Water: 0.3,
       Air: 0.1
-},
+    },
     signatureTechniques: ['grilling', 'braising', 'marinating'],
     signatureIngredients: ['olive oil', 'tomatoes', 'lemons', 'herbs', 'garlic'],
     traditionalMealPatterns: ['small plates', 'family-style', 'late dining'],
@@ -73,13 +73,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.5,
       umami: 0.8
-},
+    },
     elementalAlignment: {
       Earth: 0.55,
       Water: 0.25,
       Fire: 0.1,
       Air: 0.1
-},
+    },
     signatureTechniques: ['sautéing', 'sous vide', 'flambéing', 'reduction'],
     signatureIngredients: ['butter', 'wine', 'cream', 'shallots', 'herbs de provence'],
     traditionalMealPatterns: ['course-based dining', 'wine pairings', 'sauces'],
@@ -99,13 +99,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.6,
       umami: 0.7
-},
+    },
     elementalAlignment: {
       Earth: 0.5,
       Fire: 0.3,
       Water: 0.1,
       Air: 0.1
-},
+    },
     signatureTechniques: ['al dente pasta cooking', 'slow simmering', 'grilling'],
     signatureIngredients: ['tomatoes', 'olive oil', 'basil', 'parmesan', 'garlic'],
     traditionalMealPatterns: ['antipasti', 'primi', 'secondi', 'family-style'],
@@ -126,13 +126,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.6,
       umami: 0.9
-},
+    },
     elementalAlignment: {
       Water: 0.65,
       Earth: 0.2,
       Air: 0.1,
       Fire: 0.05
-},
+    },
     signatureTechniques: ['raw preparation', 'steaming', 'quick grilling', 'fermentation'],
     signatureIngredients: ['dashi', 'soy sauce', 'mirin', 'rice', 'seaweed'],
     traditionalMealPatterns: ['seasonal focus', 'multiple small dishes', 'ichiju-sansai'],
@@ -152,13 +152,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.2,
       salty: 0.6,
       umami: 0.7
-},
+    },
     elementalAlignment: {
       Fire: 0.5,
       Earth: 0.3,
       Water: 0.1,
       Air: 0.1
-},
+    },
     signatureTechniques: ['fermentation', 'grilling', 'stewing'],
     signatureIngredients: ['gochujang', 'kimchi', 'sesame', 'garlic', 'soy sauce'],
     traditionalMealPatterns: ['banchan', 'communal dining', 'balanced meals'],
@@ -177,13 +177,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.6,
       umami: 0.7
-},
+    },
     elementalAlignment: {
       Fire: 0.3,
       Earth: 0.4,
       Water: 0.2,
       Air: 0.1
-},
+    },
     signatureTechniques: ['stir-frying', 'steaming', 'braising', 'double-frying'],
     signatureIngredients: ['soy sauce', 'rice', 'ginger', 'garlic', 'scallions'],
     traditionalMealPatterns: ['balance of flavors and textures', 'shared dishes', 'rice-based'],
@@ -203,13 +203,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.4,
       salty: 0.5,
       umami: 0.6
-},
+    },
     elementalAlignment: {
       Fire: 0.7,
       Earth: 0.1,
       Water: 0.1,
       Air: 0.1
-},
+    },
     signatureTechniques: ['dry-frying', 'double-frying', 'stir-frying', 'steaming'],
     signatureIngredients: [
       'Sichuan peppercorns',
@@ -235,13 +235,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.5,
       umami: 0.7
-},
+    },
     elementalAlignment: {
       Water: 0.4,
       Earth: 0.3,
       Fire: 0.2,
       Air: 0.1
-},
+    },
     signatureTechniques: ['steaming', 'stir-frying', 'roasting', 'double-boiling'],
     signatureIngredients: ['fresh seafood', 'soy sauce', 'ginger', 'scallions', 'rice wine'],
     traditionalMealPatterns: ['family-style', 'dim sum', 'fresh ingredients'],
@@ -262,13 +262,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.2,
       salty: 0.5,
       umami: 0.4
-},
+    },
     elementalAlignment: {
       Fire: 0.55,
       Earth: 0.25,
       Water: 0.1,
       Air: 0.1
-},
+    },
     signatureTechniques: ['nixtamalization', 'grilling', 'slow cooking', 'frying'],
     signatureIngredients: ['corn', 'chilies', 'tomatoes', 'avocado', 'lime'],
     traditionalMealPatterns: ['multiple elements combined', 'salsas and condiments'],
@@ -288,13 +288,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.6,
       umami: 0.5
-},
+    },
     elementalAlignment: {
       Fire: 0.4,
       Water: 0.3,
       Earth: 0.2,
       Air: 0.1
-},
+    },
     signatureTechniques: ['stir-frying', 'pounding', 'grilling', 'steaming'],
     signatureIngredients: ['lemongrass', 'fish sauce', 'chilies', 'coconut milk', 'thai basil'],
     traditionalMealPatterns: ['balance of flavors', 'shared dishes', 'rice-centric'],
@@ -314,13 +314,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.6,
       umami: 0.4
-},
+    },
     elementalAlignment: {
       Fire: 0.5,
       Earth: 0.3,
       Water: 0.1,
       Air: 0.1
-},
+    },
     signatureTechniques: ['tempering', 'slow cooking', 'tandoor', 'curry-making'],
     signatureIngredients: ['garam masala', 'ghee', 'chilies', 'turmeric', 'ginger-garlic'],
     traditionalMealPatterns: ['thali', 'variety of flavors', 'balanced nutrition'],
@@ -341,13 +341,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.2,
       salty: 0.7,
       umami: 0.5
-},
+    },
     elementalAlignment: {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.4,
       Air: 0.1
-},
+    },
     signatureTechniques: ['grilling', 'barbecuing', 'frying', 'baking'],
     signatureIngredients: ['beef', 'corn', 'potatoes', 'cheese'],
     traditionalMealPatterns: ['breakfast', 'lunch', 'dinner'],
@@ -367,13 +367,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.5,
       umami: 0.4
-},
+    },
     elementalAlignment: {
       Fire: 0.4,
       Water: 0.2,
       Earth: 0.3,
       Air: 0.1
-},
+    },
     signatureTechniques: ['roasting', 'grilling', 'stewing', 'stuffing'],
     signatureIngredients: ['lamb', 'rice', 'chickpeas', 'tahini', 'sumac'],
     traditionalMealPatterns: ['mezze', 'family-style', 'communal'],
@@ -393,13 +393,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.2,
       salty: 0.6,
       umami: 0.6
-},
+    },
     elementalAlignment: {
       Fire: 0.2,
       Water: 0.5,
       Earth: 0.2,
       Air: 0.1
-},
+    },
     signatureTechniques: ['steaming', 'stir-frying', 'grilling', 'fresh preparation'],
     signatureIngredients: ['rice', 'fish sauce', 'herbs', 'lime', 'chili'],
     traditionalMealPatterns: ['pho', 'family-style', 'fresh rolls'],
@@ -419,13 +419,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.5,
       umami: 0.4
-},
+    },
     elementalAlignment: {
       Fire: 0.5,
       Water: 0.2,
       Earth: 0.2,
       Air: 0.1
-},
+    },
     signatureTechniques: ['stewing', 'grilling', 'steaming', 'fermentation'],
     signatureIngredients: ['yams', 'plantains', 'millet', 'berbere', 'peanuts'],
     traditionalMealPatterns: ['communal', 'one-pot', 'grain-based'],
@@ -445,13 +445,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.7,
       umami: 0.5
-},
+    },
     elementalAlignment: {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.4,
       Air: 0.1
-},
+    },
     signatureTechniques: ['braising', 'pickling', 'smoking', 'slow-cooking'],
     signatureIngredients: ['beets', 'cabbage', 'potatoes', 'dill', 'sour cream'],
     traditionalMealPatterns: ['zakuski', 'hearty meals', 'tea culture'],
@@ -466,9 +466,9 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
 /**
  * Calculate match between recipe's flavor profile and cuisine's expected profile
  */
-export const calculateCuisineFlavorMatch = (;
+export const calculateCuisineFlavorMatch = (
   recipeFlavorProfile: Record<string, number>,
-  cuisineName: string;
+  cuisineName: string
 ): number => {
   // Validate inputs
   if (!recipeFlavorProfile || typeof recipeFlavorProfile !== 'object') {
@@ -484,8 +484,8 @@ export const calculateCuisineFlavorMatch = (;
 
   // Ensure all flavor values are valid numbers
   const validatedRecipeProfile: Record<string, number> = {};
-  for (const [flavor, value] of Object.entries(recipeFlavorProfile) {
-    if (typeof value === 'number' && !isNaN(value) {
+  for (const [flavor, value] of Object.entries(recipeFlavorProfile)) {
+    if (typeof value === 'number' && !isNaN(value)) {
       validatedRecipeProfile[flavor] = value;
     } else {
       // _logger.error(`Invalid ${flavor} value in recipe flavor profile: ${value}`)
@@ -497,7 +497,7 @@ export const calculateCuisineFlavorMatch = (;
   let totalWeight = 0;
 
   // Compare recipe flavors to cuisine's typical flavor profile - ensuring valid values
-  for (const [flavor, recipeValue] of Object.entries(validatedRecipeProfile) {
+  for (const [flavor, recipeValue] of Object.entries(validatedRecipeProfile)) {
     const cuisineValue =
       cuisineProfile.flavorProfiles[flavor as keyof typeof cuisineProfile.flavorProfiles] || 0;
 
@@ -551,10 +551,10 @@ export const calculateCuisineFlavorMatch = (;
  * Get recommended cuisines for a recipe based on flavor profile similarity,
  * including parent-child cuisine relationships
  */
-export const _getRecommendedCuisines = (;
-  recipeFlavorProfile: Record<string, number>,
+export const _getRecommendedCuisines = (
+  recipeFlavorProfile: Record<string, number>
 ): { cuisine: string, matchScore: number }[] => {
-  const results = Object.entries(cuisineFlavorProfiles);
+  const results = Object.entries(cuisineFlavorProfiles)
     .map(([cuisineName, _profile]) => {
       // Skip child cuisines that have a parent - will handle them separately
       if (_profile.parentCuisine) return null;
@@ -595,17 +595,17 @@ export const _getRecommendedCuisines = (;
 
   // Combine and sort by match score
   return [...results, ...regionalResults]
-    .sort((ab) => b.matchScore - a.matchScore)
-    .map(() { cuisine, matchScore }) => ({ cuisine, matchScore }))
+    .sort((a, b) => b.matchScore - a.matchScore)
+    .map(({ cuisine, matchScore }) => ({ cuisine, matchScore }))
 }
 
 /**
  * Get fusion suggestions based on compatible cuisine flavor profiles,
  * with improved handling of regional cuisine relationships
  */
-export const _getFusionSuggestions = (;
+export const _getFusionSuggestions = (
   cuisine1: string,
-  cuisine2: string;
+  cuisine2: string
 ): { compatibility: number, techniques: string[], ingredients: string[] } => {
   const profile1 = getCuisineProfile(cuisine1);
   const profile2 = getCuisineProfile(cuisine2);
@@ -624,25 +624,25 @@ export const _getFusionSuggestions = (;
   flavorSimilarity /= 6; // Normalize
 
   // Shared planetary resonance increases compatibility
-  const sharedPlanets = profile1.planetaryResonance.filter(planet =>);
+  const sharedPlanets = profile1.planetaryResonance.filter(planet =>
     profile2.planetaryResonance.includes(planet)
   );
-  const planetaryCompatibility = sharedPlanets.length /;
+  const planetaryCompatibility = sharedPlanets.length /
     Math.max(profile1.planetaryResonance.length, profile2.planetaryResonance.length);
 
   // Overall compatibility score
   const compatibility = flavorSimilarity * 0.6 + planetaryCompatibility * 0.4;
 
   // Fusion suggestions
-  const techniques = [;
-    ...new Set([)
+  const techniques = [
+    ...new Set([
       ...profile1.signatureTechniques.slice(2),
       ...profile2.signatureTechniques.slice(2)
     ])
   ];
 
-  const ingredients = [;
-    ...new Set([)
+  const ingredients = [
+    ...new Set([
       ...profile1.signatureIngredients.slice(3),
       ...profile2.signatureIngredients.slice(3)
     ])
@@ -683,13 +683,13 @@ export function getCuisineMatchScore(cuisine1: string, cuisine2: string): number
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
     let elementalSimilarity = 0;
 
-    elements.forEach(element => ) {
+    elements.forEach(element => {
       const val1 = profile1.elementalProperties?.[element] || 0;
       const val2 = profile2.elementalProperties?.[element] || 0;
 
       // Calculate similarity (1 minus the absolute difference)
       elementalSimilarity += 1 - Math.abs(val1 - val2);
-    })
+    });
 
     // Normalize and weight elemental similarity (60%)
     similarityScore += (elementalSimilarity / 4) * 0.6;
@@ -701,13 +701,13 @@ export function getCuisineMatchScore(cuisine1: string, cuisine2: string): number
     const flavors = ['sweet', 'salty', 'sour', 'bitter', 'umami', 'spicy'];
     let flavorSimilarity = 0;
 
-    flavors.forEach(flavor => ) {
+    flavors.forEach(flavor => {
       const val1 = profile1.flavorIntensities?.[flavor] || 0;
       const val2 = profile2.flavorIntensities?.[flavor] || 0;
 
       // Calculate similarity (1 minus the absolute difference)
       flavorSimilarity += 1 - Math.abs(val1 - val2);
-    })
+    });
 
     // Normalize and weight flavor similarity (20%)
     similarityScore += (flavorSimilarity / 6) * 0.2;
@@ -743,7 +743,7 @@ export function getCuisineProfile(cuisineName: string): CuisineFlavorProfile | u
 /**
  * Get recipes that match a particular cuisine based on flavor profiles
  */
-export function getRecipesForCuisineMatch()
+export function getRecipesForCuisineMatch(
   cuisineName: string,
   recipes: unknown[],
   limit = 8
@@ -766,7 +766,7 @@ export function getRecipesForCuisineMatch()
 
       // Check recipe tags
       const recipeTags = recipeData.tags as unknown[];
-      if (Array.isArray(recipeTags) {
+      if (Array.isArray(recipeTags)) {
         return recipeTags.some((tag: unknown) =>
           String(tag || '')
             .toLowerCase()
@@ -785,17 +785,17 @@ export function getRecipesForCuisineMatch()
         // Clear cache to ensure fresh data
         LocalRecipeService.clearCache();
         const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
-        log.info()
-          `LocalRecipeService returned ${localRecipes?.length || 0} recipes for ${cuisineName}`,
+        log.info(
+          `LocalRecipeService returned ${localRecipes?.length || 0} recipes for ${cuisineName}`
         );
 
         if (localRecipes?.length > 0) {
           // Apply high match scores to local recipes
           return localRecipes
-            .map(recipe => () {
+            .map(recipe => ({
               ...recipe,
               matchScore: 0.85 + Math.random() * 0.15, // 85-100% match
-              matchPercentage: Math.round((0.85 + Math.random() * 0.15) * 100), // For display
+              matchPercentage: Math.round((0.85 + Math.random() * 0.15) * 100) // For display
             }))
             .slice(0, limit);
         }
@@ -811,10 +811,10 @@ export function getRecipesForCuisineMatch()
           const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert'];
 
           for (const mealType of mealTypes) {
-            if (cuisine.dishes[mealType]?.all && Array.isArray(cuisine.dishes[mealType].all) {
-              log.info()
-                `Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes for ${cuisineName}`,
-              )
+            if (cuisine.dishes[mealType]?.all && Array.isArray(cuisine.dishes[mealType].all)) {
+              log.info(
+                `Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes for ${cuisineName}`
+              );
 
               const mealRecipes = cuisine.dishes[mealType].all.map((recipe: unknown) => ({
                 ...(recipe as object),
@@ -834,9 +834,9 @@ export function getRecipesForCuisineMatch()
                 cuisine.dishes[mealType]?.[season] &&
                 Array.isArray(cuisine.dishes[mealType][season])
               ) {
-                log.info()
-                  `Found ${cuisine.dishes[mealType][season].length} ${season} ${mealType} recipes for ${cuisineName}`,
-                )
+                log.info(
+                  `Found ${cuisine.dishes[mealType][season].length} ${season} ${mealType} recipes for ${cuisineName}`
+                );
 
                 const seasonalRecipes = cuisine.dishes[mealType][season].map((recipe: unknown) => ({
                   ...(recipe as object),
@@ -853,8 +853,9 @@ export function getRecipesForCuisineMatch()
           }
 
           // Remove duplicates by name
-          const uniqueRecipes = allRecipes.filter(recipe, index, self) => index === self.findIndex(r => r.name === recipe.name);
-          )
+          const uniqueRecipes = allRecipes.filter((recipe, index, self) =>
+            index === self.findIndex(r => (r as any).name === (recipe as any).name)
+          );
 
           if (uniqueRecipes.length > 0) {
             log.info(`Returning ${uniqueRecipes.length} unique recipes for ${cuisineName}`)
@@ -875,19 +876,19 @@ export function getRecipesForCuisineMatch()
         log.info(`No recipes array provided, trying LocalRecipeService for ${cuisineName}`)
         // Use ESM import at top
         const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
-        log.info()
-          `Fetched ${localRecipes?.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`,
-        )
+        log.info(
+          `Fetched ${localRecipes?.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`
+        );
 
         if (localRecipes?.length > 0) {
           // Apply high match scores to local recipes
           return localRecipes
-            .map(recipe => () {
+            .map(recipe => ({
               ...recipe,
-              matchScore: 0.8 + Math.random() * 0.2, // 80-100% match,
-              matchPercentage: Math.round((0.8 + Math.random() * 0.2) * 100), // For display
+              matchScore: 0.8 + Math.random() * 0.2, // 80-100% match
+              matchPercentage: Math.round((0.8 + Math.random() * 0.2) * 100) // For display
             }))
-            .slice(0, limit)
+            .slice(0, limit);
         } else {
           log.info(`LocalRecipeService returned no recipes for ${cuisineName}, using mock data`)
           return [];
@@ -908,7 +909,7 @@ export function getRecipesForCuisineMatch()
     // Different tiers of matches with varied scoring
 
     // Direct exact cuisine matches (highest priority)
-    const exactCuisineMatches = recipes.filter(recipe => ) {
+    const exactCuisineMatches = recipes.filter(recipe => {
       const recipeData = recipe;
       const cuisine = String(recipeData.cuisine || '');
       return (
@@ -916,12 +917,12 @@ export function getRecipesForCuisineMatch()
         cuisine.toLowerCase().includes(normalizedCuisineName) ||
         normalizedCuisineName.includes(cuisine.toLowerCase())
       );
-    })
+    });
 
     log.info(`Found ${exactCuisineMatches.length} exact cuisine matches for ${cuisineName}`)
 
     // Regional variant matches
-    const regionalMatches = recipes.filter(recipe => ) {
+    const regionalMatches = recipes.filter(recipe => {
       const recipeData = recipe;
       const regionalCuisine = String(recipeData.regionalCuisine || '');
       return (
@@ -935,29 +936,29 @@ export function getRecipesForCuisineMatch()
     log.info(`Found ${regionalMatches.length} regional matches for ${cuisineName}`)
 
     // Calculate match scores for all other recipes
-    const otherRecipes = recipes.filter();
-      recipe => !exactCuisineMatches.includes(recipe) && !regionalMatches.includes(recipe),
-    )
+    const otherRecipes = recipes.filter(
+      recipe => !exactCuisineMatches.includes(recipe) && !regionalMatches.includes(recipe)
+    );
 
     // Skip other recipe scoring if we already have enough direct matches
     let scoredOtherRecipes: Array<{ matchScore: number, matchPercentage: number }> = [];
     if (exactCuisineMatches.length + regionalMatches.length < limit && cuisineProfile) {
       // Score recipe matches using various factors
       scoredOtherRecipes = otherRecipes
-        .map(recipe => ) {
-          try ) {
+        .map(recipe => {
+          try {
             const recipeData = recipe;
             const scoreComponents: number[] = [];
             let totalWeight = 0;
 
             // Base flavor profile match (weight: 0.4)
             if (cuisineProfile && recipeData.flavorProfile) {
-              const flavorScore = calculateFlavorProfileMatch();
+              const flavorScore = calculateFlavorProfileMatch(
                 recipeData.flavorProfile,
                 cuisineProfile.flavorProfiles
               );
-              scoreComponents.push(flavorScore * 0.4)
-              totalWeight += 0.4
+              scoreComponents.push(flavorScore * 0.4);
+              totalWeight += 0.4;
             }
 
             // Ingredient similarity (weight: 0.3)
@@ -970,7 +971,7 @@ export function getRecipesForCuisineMatch()
                   : String(ingData.name || '').toLowerCase();
               });
 
-              const commonIngredients = cuisineProfile.signatureIngredients.filter(ing =>);
+              const commonIngredients = cuisineProfile.signatureIngredients.filter(ing =>
                 recipeIngredientNames.some(ri => ri.includes(ing.toLowerCase()))
               );
 
@@ -984,13 +985,13 @@ export function getRecipesForCuisineMatch()
             // Technique similarity (weight: 0.2)
             if (cuisineProfile.signatureTechniques && recipeData.cookingMethods) {
               const cookingMethods = recipeData.cookingMethods as unknown;
-              const recipeTechniques = Array.isArray(cookingMethods);
+              const recipeTechniques = Array.isArray(cookingMethods)
                 ? (cookingMethods as string[]).map((tech: string) =>
                     String(tech || '').toLowerCase()
                   )
                 : [String(cookingMethods || '').toLowerCase()];
 
-              const commonTechniques = cuisineProfile.signatureTechniques.filter(tech =>);
+              const commonTechniques = cuisineProfile.signatureTechniques.filter(tech =>
                 recipeTechniques.some(rt => rt.includes(tech.toLowerCase()))
               );
 
@@ -1002,7 +1003,7 @@ export function getRecipesForCuisineMatch()
 
             // Elemental alignment (weight: 0.1)
             if (cuisineProfile.elementalAlignment && recipeData.elementalProperties) {
-              const elementScore = calculateSimilarityScore();
+              const elementScore = calculateSimilarityScore(
                 cuisineProfile.elementalAlignment,
                 recipeData.elementalProperties as ElementalProperties
               );
@@ -1044,13 +1045,13 @@ export function getRecipesForCuisineMatch()
     log.info(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`)
 
     // Combine all matches, prioritizing direct matches, then regional, then others
-    const allMatches = [;
-      ...exactCuisineMatches.map(recipe => () {
+    const allMatches = [
+      ...exactCuisineMatches.map(recipe => ({
         ...recipe,
         matchScore: 0.9 + Math.random() * 0.1, // 90-100% match
         matchPercentage: Math.round((0.9 + Math.random() * 0.1) * 100)
       })),
-      ...regionalMatches.map(recipe => () {
+      ...regionalMatches.map(recipe => ({
         ...recipe,
         matchScore: 0.8 + Math.random() * 0.1, // 80-90% match
         matchPercentage: Math.round((0.8 + Math.random() * 0.1) * 100)
@@ -1065,15 +1066,16 @@ export function getRecipesForCuisineMatch()
     });
 
     // Sort by match score
-    const sortedMatches = uniqueMatches.sort(a, b) => Number((b as any).matchScore || 0) - Number((a as any).matchScore || 0);
+    const sortedMatches = uniqueMatches.sort((a, b) =>
+      Number((b as any).matchScore || 0) - Number((a as any).matchScore || 0)
     );
 
     log.info(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`)
 
     // Use empty array if we didn't find enough recipes
-    if (sortedMatches.length < Math.min(3, limit) {
+    if (sortedMatches.length < Math.min(3, limit)) {
       return sortedMatches.slice(0, limit);
-}
+    }
 
     return sortedMatches.slice(0, limit);
 } catch (error) {
@@ -1098,7 +1100,7 @@ function calculateFlavorProfileMatch(recipeProfile: unknown, cuisineProfile: unk
     const flavorKeys = ['spicy', 'sweet', 'sour', 'bitter', 'salty', 'umami'];
     let totalMatch = 0;
 
-    flavorKeys.forEach(key => ) {
+    flavorKeys.forEach(key => {
       const recipeValue = Number((recipeFlavors as any)[key] || 0);
       const cuisineValue = Number((cuisineFlavors as any)[key] || 0);
       const difference = Math.abs(recipeValue - cuisineValue);
@@ -1112,9 +1114,9 @@ function calculateFlavorProfileMatch(recipeProfile: unknown, cuisineProfile: unk
   }
 }
 
-export const _getCuisineElementalMatch = (;
+export const _getCuisineElementalMatch = (
   cuisineName: string,
-  elementalProps: ElementalProperties;
+  elementalProps: ElementalProperties
 ): number => {
   try {
     // Apply safe type conversion for string operations
@@ -1129,7 +1131,7 @@ export const _getCuisineElementalMatch = (;
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
     let totalMatch = 0;
 
-    elements.forEach(element => ) {
+    elements.forEach(element => {
       const cuisineValue = Number((cuisineElemental as any)[element] || 0);
       const recipeValue = Number((recipeElemental as any)[element] || 0);
       const difference = Math.abs(cuisineValue - recipeValue);
@@ -1158,7 +1160,7 @@ export const _calculateCuisineSimilarity = (cuisine1: string, cuisine2: string):
   let elementalSimilarity = 0;
   let elementCount = 0;
 
-  elements.forEach(element => ) {
+  elements.forEach(element => {
     const elementKey = element as keyof typeof profile1.elementalProperties;
     const val1 = profile1.elementalProperties?.[elementKey] || 0;
     const val2 = profile2.elementalProperties?.[elementKey] || 0;
@@ -1177,7 +1179,7 @@ export const _calculateCuisineSimilarity = (cuisine1: string, cuisine2: string):
   let flavorSimilarity = 0;
   let flavorCount = 0;
 
-  flavors.forEach(flavor => ) {
+  flavors.forEach(flavor => {
     const val1 = (profile1.flavorIntensities as any)?.[flavor] || 0;
     const val2 = (profile2.flavorIntensities as any)?.[flavor] || 0;
 
@@ -1194,10 +1196,10 @@ export const _calculateCuisineSimilarity = (cuisine1: string, cuisine2: string):
 }
 
 export const _findRelatedRecipes = (recipeName: string, recipes: Recipe[], count = 3): Recipe[] => {
-  const scoredRecipes = recipes;
-    .map(recipe => ) {
+  const scoredRecipes = recipes
+    .map(recipe => {
       // Simple name similarity scoring
-      const nameSimilarity = recipe.name && recipeName;
+      const nameSimilarity = recipe.name && recipeName
           ? recipe.name.toLowerCase().includes(recipeName.toLowerCase())
             ? 0.8
             : 0.2
@@ -1214,9 +1216,9 @@ export const _findRelatedRecipes = (recipeName: string, recipes: Recipe[], count
   return scoredRecipes;
 }
 
-export const calculateSimilarityScore = (;
+export const calculateSimilarityScore = (
   elementalProps1: ElementalProperties,
-  elementalProps2: ElementalProperties;
+  elementalProps2: ElementalProperties
 ): number => {
   let similarity = 0;
   let count = 0;
@@ -1224,7 +1226,7 @@ export const calculateSimilarityScore = (;
   // Compare elemental properties
   const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
 
-  elements.forEach(element => ) {
+  elements.forEach(element => {
     const val1 = elementalProps1[element] || 0;
     const val2 = elementalProps2[element] || 0;
     similarity += 1 - Math.abs(val1 - val2);
