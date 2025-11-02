@@ -735,7 +735,7 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
           effectiveness: Math.random() * 0.5 + 0.5, // 50-100% effectiveness
           factors: ['elemental mastery', 'system integration', 'evolutionary optimization']
         }
-      };
+      }
     };
   },
 
@@ -860,7 +860,7 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
           effectiveness: Math.random() * 0.5 + 0.5, // 50-100% effectiveness
           factors: ['planetary mastery', 'system integration', 'evolutionary optimization']
         }
-      };
+      }
     };
   },
 
@@ -998,7 +998,7 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
           effectiveness: Math.random() * 0.5 + 0.5, // 50-100% effectiveness
           factors: ['tarot mastery', 'system integration', 'evolutionary optimization']
         }
-      };
+      }
     };
   },
 
@@ -1145,15 +1145,15 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
     monicaCompatibility: {
       score: 0.85,
       factors: ['high heat', 'flavor concentration'],
-      enhancedProperties: ['caramelization', 'moisture reduction'];
-},
+      enhancedProperties: ['caramelization', 'moisture reduction']
+    },
     techniques: ['searing', 'browning', 'basting'],
     equipment: ['oven', 'roasting pan'],
     skillLevel: 'intermediate',
     timeRange: { min: 30, max: 180, unit: 'minutes' },
     planetaryAssociations: ['Mars', 'Sun'],
-    zodiacAffinity: ['Aries', 'Leo'];
-},
+    zodiacAffinity: ['Aries', 'Leo']
+  },
   {
     id: 'steaming',
     name: 'Steaming',
@@ -1165,15 +1165,15 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
     monicaCompatibility: {
       score: 0.92,
       factors: ['gentle heat', 'nutrient preservation'],
-      enhancedProperties: ['moisture retention', 'texture preservation'];
-},
+      enhancedProperties: ['moisture retention', 'texture preservation']
+    },
     techniques: ['indirect cooking', 'vapor cooking'],
     equipment: ['steamer', 'steam basket'],
     skillLevel: 'beginner',
     timeRange: { min: 5, max: 45, unit: 'minutes' },
     planetaryAssociations: ['Moon', 'Neptune'],
-    zodiacAffinity: ['Cancer', 'Pisces'];
-},
+    zodiacAffinity: ['Cancer', 'Pisces']
+  },
   {
     id: 'fermentation',
     name: 'Fermentation',
@@ -1185,15 +1185,15 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
     monicaCompatibility: {
       score: 0.95,
       factors: ['living transformation', 'probiotic benefits'],
-      enhancedProperties: ['bioavailability', 'flavor complexity'];
-},
+      enhancedProperties: ['bioavailability', 'flavor complexity']
+    },
     techniques: ['lacto-fermentation', 'alcoholic fermentation'],
     equipment: ['fermentation vessel', 'airlock'],
     skillLevel: 'advanced',
     timeRange: { min: 24, max: 720, unit: 'hours' },
     planetaryAssociations: ['Pluto', 'Jupiter'],
-    zodiacAffinity: ['Scorpio', 'Sagittarius'];
-},
+    zodiacAffinity: ['Scorpio', 'Sagittarius']
+  },
 ];
 
 // getAllEnhancedCookingMethods function (causing errors in recipeBuilding.ts and seasonal.ts)
@@ -1440,12 +1440,12 @@ export function enhanceAlchemicalPillar(pillar: AlchemicalPillar): AlchemicalPil
     kalchm: number;
     gregsEnergy: number;
     monicaConstant: number;
-    thermodynamicProfile: { heat: number; entropy, number; reactivity, number };
+    thermodynamicProfile: { heat: number; entropy: number; reactivity: number };
     monicaClassification: string;
     monicaModifiers: {
       temperatureAdjustment: number;
       timingAdjustment: number;
-      intensityModifier: string
+      intensityModifier: string;
     };
   };
 } {
@@ -1484,7 +1484,7 @@ export function enhanceAlchemicalPillar(pillar: AlchemicalPillar): AlchemicalPil
       thermodynamicProfile: thermodynamics,
       monicaClassification,
       monicaModifiers
-    },
+    }
   };
 }
 
@@ -1563,7 +1563,7 @@ export function findCookingMethodsByMonicaRange(minMonica: number, maxMonica: nu
 
     if (!isNaN(monica) && monica >= minMonica && monica <= maxMonica) {
       // Find cooking methods that use this pillar
-      for (const [method, pillarId] of Object.entries(COOKING_METHOD_PILLAR_MAPPING) {
+      for (const [method, pillarId] of Object.entries(COOKING_METHOD_PILLAR_MAPPING)) {
         if (pillarId === pillar.id) {
           methods.push(method);
         }
