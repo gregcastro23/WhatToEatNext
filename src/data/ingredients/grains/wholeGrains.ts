@@ -123,7 +123,7 @@ const rawWholeGrains = {
         flavor: 'mild nutty taste',
         cooking_ratio: '1:2.25 rice to water',
         cooking_time: '45-50 minutes',
-        best_for: 'pilafs, salads, stuffings, everyday use';
+        best_for: 'pilafs, salads, stuffings, everyday use'
 },
       basmati: {
         name: 'Brown Basmati Rice',
@@ -132,7 +132,7 @@ const rawWholeGrains = {
         flavor: 'nutty with distinctive aroma',
         cooking_ratio: '1:2 rice to water',
         cooking_time: '40-45 minutes',
-        best_for: 'Indian dishes, pilafs, biryanis';
+        best_for: 'Indian dishes, pilafs, biryanis'
 },
       jasmine: {
         name: 'Brown Jasmine Rice',
@@ -141,7 +141,7 @@ const rawWholeGrains = {
         flavor: 'floral aroma, subtle sweetness',
         cooking_ratio: '1:1.75 rice to water',
         cooking_time: '40-45 minutes',
-        best_for: 'Southeast Asian cuisine, coconut-based dishes';
+        best_for: 'Southeast Asian cuisine, coconut-based dishes'
 },
       himalayan_red: {
         name: 'Himalayan Red Rice',
@@ -150,7 +150,7 @@ const rawWholeGrains = {
         flavor: 'robust, earthy, nutty',
         cooking_ratio: '1:2.5 rice to water',
         cooking_time: '45-50 minutes',
-        best_for: 'substantial side dishes, grain bowls, salads';
+        best_for: 'substantial side dishes, grain bowls, salads'
 }
     },
     affinities: [
@@ -232,7 +232,7 @@ const rawWholeGrains = {
         variations: {
           stovetop: 'traditional method as described above',
           rice_cooker: 'same ratio, select brown rice setting',
-          pressure_cooker: '1:1.25 rice to water, high pressure 20-22 minutes, natural release';
+          pressure_cooker: '1:1.25 rice to water, high pressure 20-22 minutes, natural release'
 }
       },
       pilaf_method: {
@@ -500,19 +500,19 @@ const rawWholeGrains = {
         soaking: '8-12 hours',
         cooking_time: '45-60 minutes',
         benefits: 'improved texture and digestibility'
-}
+      }
     },
     preparations: {
       bread_making: {
         method: 'grind fresh',
         fermentation: 'longer rise time needed',
         notes: 'pairs well with sourdough'
-},
+      },
       hearty_salads: {
         method: 'cook until chewy',
         additions: ['root vegetables', 'hardy greens', 'vinaigrette'],
         service: 'room temperature'
-}
+      }
     },
     nutritionalProfile: {
       protein: 'moderate protein',
@@ -672,19 +672,19 @@ const rawWholeGrains = {
         soaking: '8-12 hours',
         cooking_time: '45-60 minutes',
         benefits: 'improved texture and digestibility'
-}
+      }
     },
     preparations: {
       bread_making: {
         method: 'grind fresh',
         fermentation: 'longer rise time needed',
         notes: 'pairs well with sourdough'
-},
+      },
       hearty_salads: {
         method: 'cook until chewy',
         additions: ['root vegetables', 'hardy greens', 'vinaigrette'],
         service: 'room temperature'
-}
+      }
     },
     nutritionalProfile: {
       protein: 'moderate protein',
