@@ -113,9 +113,9 @@ export function calculateComprehensiveAspects(
       }
 
       // Check each aspect type
-      let bestAspect: { type: string; orb, number; strength, number } | null = null;
+      let bestAspect: { type: string; orb: number; strength: number } | null = null;
 
-      for (const [type, definition] of Object.entries(aspectDefinitions) {
+      for (const [type, definition] of Object.entries(aspectDefinitions)) {
         const adjustedMaxOrb = definition.maxOrb * orbMultiplier;
         const orb = Math.abs(diff - definition.angle);
 
@@ -166,8 +166,8 @@ export function calculateComprehensiveAspects(
  * @param longitude Longitude in degrees (0-360)
  * @returns Object with sign and degree
  */
-export function getSignAndDegreeFromLongitude(_longitude: number): { sign: string, degree: number } {
-  const signs = [;
+export function getSignAndDegreeFromLongitude(_longitude: number): { sign: string; degree: number } {
+  const signs = [
     'aries',
     'taurus',
     'gemini',
