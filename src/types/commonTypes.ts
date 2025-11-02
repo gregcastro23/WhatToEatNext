@@ -86,7 +86,7 @@ export function toCookingMethod(value: string): CookingMethod {
  * Converts a string or array of strings to Season enum values
  */
 export function toSeason(value: string | string[]): Season | Season[] {
-  if (Array.isArray(value) {
+  if (Array.isArray(value)) {
     return value.map(v => v as Season);
   }
   return value as Season;

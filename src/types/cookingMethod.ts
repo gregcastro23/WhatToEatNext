@@ -15,9 +15,9 @@ export interface CookingMethodData {
   elementalProperties?: ElementalProperties; // Some methods use this property name instead
   duration: {
     min: number;
-    max: number
+    max: number;
   };
-  suitable_for string[];
+  suitable_for: string[];
   benefits: string[];
 
   // Optional properties
