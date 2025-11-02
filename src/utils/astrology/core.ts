@@ -45,23 +45,23 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
     typeof (obj as any).degree === 'number' &&
     (typeof (obj as any).exactLongitude === 'number' ||
       typeof (obj as any).exactLongitude === 'undefined')
-  )
+  );
 }
 
 // Utility to normalize planetary position keys (e.g., Sun/sun)
 export function normalizePlanetaryPositions(
   positions: Record<string, unknown>,
 ): Record<string, PlanetaryPosition> {
-  const normalized: Record<string, PlanetaryPosition> = {}
+  const normalized: Record<string, PlanetaryPosition> = {};
   if (!positions || typeof positions !== 'object') return normalized;
-  for (const key of Object.keys(positions) {
+  for (const key of Object.keys(positions)) {
     let planet = key;
     // Capitalize first letter, lowercase rest (e.g., Sun, Moon, Mercury...)
     if (planet.length > 1) {
       planet = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
     }
     const pos = positions[key];
-    if (isPlanetaryPosition(pos) {
+    if (isPlanetaryPosition(pos)) {
       normalized[planet] = pos;
     } else {
       errorLog(`Invalid planetary position for ${planet}:`, pos);
@@ -88,13 +88,13 @@ export type PlanetPositionData = {
   sign: any;
   degree: number;
   minute?: number;
-  exactLongitude?: number
+  exactLongitude?: number;
 };
 
 export interface PlanetaryDignity {
   type: DignityType;
   value: number;
-  description: string
+  description: string;
 }
 
 // Add type assertion for zodiac signs
@@ -121,7 +121,7 @@ export const calculatePlanetaryAspects = safeCalculatePlanetaryAspects;
  * @param positions Record of planetary positions
  * @returns Array of active planet names
  */
-export async function calculateActivePlanets()
+export async function calculateActivePlanets(
   positions: Record<string, unknown>
 ): Promise<string[]> {
   if (!positions || typeof positions !== 'object') {
@@ -129,7 +129,7 @@ export async function calculateActivePlanets()
   }
 
   // List of planets we want to check
-  const planetKeys = [;
+  const planetKeys = [
     'sun',
     'moon',
     'mercury',
@@ -164,7 +164,7 @@ export async function calculateActivePlanets()
       };
 
       // Add the ruler of the current sun sign
-      if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign]) {
+      if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign])) {
         activePlanets.push(signRulers[sunSign]);
       }
     }
@@ -192,7 +192,7 @@ export async function calculateActivePlanets()
       };
 
       // Check if planet is in a powerful sign position
-      if (dignities[planetLower].includes(signLower) {
+      if (dignities[planetLower].includes(signLower)) {
         activePlanets.push(planetLower);
       }
 
@@ -200,7 +200,7 @@ export async function calculateActivePlanets()
       const degree = (position as any)?.degree || 0;
       if (degree >= 0 && degree <= 15) {
         // Planets in early degrees are more powerful
-        if (!activePlanets.includes(planetLower) {
+        if (!activePlanets.includes(planetLower)) {
           activePlanets.push(planetLower);
         }
       }
@@ -280,7 +280,7 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
     // Convert to phase percentage (0 to 1)
     return angularDistance / 360;
   } catch (error) {
-    errorLog()
+    errorLog(
       'Error in calculateLunarPhase: ',
       error instanceof Error ? error.message : String(error)
     );
@@ -332,7 +332,7 @@ export async function getmoonIllumination(date: Date = new Date()): Promise<numb
       return 2 - phase * 2;
     }
   } catch (error) {
-    errorLog()
+    errorLog(
       'Error in getmoonIllumination: ',
       error instanceof Error ? error.message : String(error)
     );
@@ -378,7 +378,7 @@ export async function calculatemoonSign(date: Date = new Date()): Promise<Zodiac
     }
     throw new Error('Moon position not available');
   } catch (error) {
-    errorLog()
+    errorLog(
       'Error calculating Moon sign: ',
       error instanceof Error ? error.message : String(error)
     );
@@ -391,7 +391,7 @@ export async function calculatemoonSign(date: Date = new Date()): Promise<Zodiac
  * @param date Date to calculate for
  * @returns Object with planetary positions
  */
-export async function calculatePlanetaryPositions()
+export async function calculatePlanetaryPositions(
   date: Date = new Date()
 ): Promise<Record<string, PlanetaryPosition>> {
   try {
@@ -400,7 +400,7 @@ export async function calculatePlanetaryPositions()
     const positions = normalizePlanetaryPositions(rawPositions);
     return positions;
   } catch (error) {
-    errorLog()
+    errorLog(
       'Error calculating planetary positions: ',
       error instanceof Error ? error.message : String(error)
     );
@@ -415,7 +415,7 @@ export async function calculatePlanetaryPositions()
  * @param date Date to calculate for
  * @returns Promise for astrological state
  */
-export async function getCurrentAstrologicalState()
+export async function getCurrentAstrologicalState(
   date: Date = new Date()
 ): Promise<AstrologicalState> {
   try {
@@ -446,7 +446,7 @@ export async function getCurrentAstrologicalState()
 
     // Determine dominant element
     const now = new Date();
-    const weekDays = [;
+    const weekDays = [
       'Sunday',
       'Monday',
       'Tuesday',
@@ -467,11 +467,13 @@ export async function getCurrentAstrologicalState()
       lunarPhase
     } as TimeFactors;
 
-    const _elementalProfile = await calculateElementalProfile() { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState,;
+    const _elementalProfile = await calculateElementalProfile(
+      { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState,
       _timeFactors
     );
 
-    const dominantElement = await calculateDominantElement() { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState,;
+    const dominantElement = await calculateDominantElement(
+      { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState,
       _timeFactors
     );
 
@@ -493,7 +495,7 @@ export async function getCurrentAstrologicalState()
 
     return astrologicalState;
   } catch (error) {
-    errorLog()
+    errorLog(
       'Error in getCurrentAstrologicalState: ',
       error instanceof Error ? error.message : String(error)
     );
@@ -555,7 +557,7 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
  * @param _timeFactors Time factors
  * @returns Dominant element
  */
-export async function calculateDominantElement()
+export async function calculateDominantElement(
   astroState: AstrologicalState,
   _timeFactors: TimeFactors
 ): Promise<Element> {
@@ -584,7 +586,7 @@ export async function calculateDominantElement()
   let dominantElement: Element = 'Fire';
   let maxCount = 0;
 
-  Object.entries(elementCounts || ) {}).forEach(([element, count]) => {
+  Object.entries(elementCounts || {}).forEach(([element, count]) => {
     if (count > maxCount) {
       maxCount = count;
       dominantElement = element as Element;
@@ -600,7 +602,7 @@ export async function calculateDominantElement()
  * @param _timeFactors Time factors
  * @returns Elemental profile
  */
-export async function calculateElementalProfile()
+export async function calculateElementalProfile(
   astroState: AstrologicalState,
   _timeFactors: TimeFactors
 ): Promise<Record<Element, number>> {
@@ -634,7 +636,7 @@ export async function calculateElementalProfile()
   }
 
   const profile: Record<Element, number> = {} as Record<Element, number>;
-  Object.entries(elementCounts || ) {}).forEach(([element, count]) => {
+  Object.entries(elementCounts || {}).forEach(([element, count]) => {
     profile[element as Element] = count / total;
   });
 
@@ -647,10 +649,10 @@ export async function calculateElementalProfile()
  * @param _risingDegree Rising degree (optional)
  * @returns Aspects and elemental effects
  */
-export async function calculateAspects()
-  positions: Record<string, { sign: string; degree, number }>,
+export async function calculateAspects(
+  positions: Record<string, { sign: string; degree: number }>,
   _risingDegree?: number
-): Promise<{ aspects: PlanetaryAspect[]; elementalEffects, ElementalProperties }> {
+): Promise<{ aspects: PlanetaryAspect[]; elementalEffects: ElementalProperties }> {
   const aspects: PlanetaryAspect[] = [];
   const elementalEffects: ElementalProperties = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
 
@@ -660,7 +662,7 @@ export async function calculateAspects()
     orb: number;
     significance: number;
     harmonic: number;
-    description?: string
+    description?: string;
   }
 
   // Using Record instead of any for aspect types
@@ -678,13 +680,13 @@ export async function calculateAspects()
   };
 
   // Helper function to get longitude from sign and degree
-  const getLongitude = (position: { sign: string; degree, number }): number => {
+  const getLongitude = (position: { sign: string; degree: number }): number => {
     if (!position || !position.sign) {
       debugLog('Invalid position object encountered: ', position);
       return 0;
     }
 
-    const signs = [;
+    const signs = [
       'aries',
       'taurus',
       'gemini',
@@ -724,7 +726,7 @@ export async function calculateAspects()
       if (diff > 180) diff = 360 - diff;
 
       // Check each aspect type
-      for (const [type, definition] of Object.entries(aspectTypes) {
+      for (const [type, definition] of Object.entries(aspectTypes)) {
         const idealAngle = definition.angle;
         const orb = Math.abs(diff - idealAngle);
 
@@ -740,7 +742,7 @@ export async function calculateAspects()
           let multiplier = definition.significance;
 
           // Special case: Square aspect with Ascendant is positive
-          if (type === 'square' && (element1 === 'ascendant' || element2 === 'ascendant') {
+          if (type === 'square' && (element1 === 'ascendant' || element2 === 'ascendant')) {
             multiplier = 1;
           }
 
