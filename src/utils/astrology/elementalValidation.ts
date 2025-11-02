@@ -11,7 +11,7 @@ import { logger } from '@/utils/logger';
 /**
  * Validate elemental properties structure and values
  */
-export function validateElementalProperties()
+export function validateElementalProperties(
   properties: unknown
 ): properties is ElementalProperties {
   if (!properties || typeof properties !== 'object') {
@@ -24,19 +24,19 @@ export function validateElementalProperties()
 
   // Check for required elements
   for (const element of REQUIRED_ELEMENTS) {
-    if (!(element in props) {
-      logger.warn(`Missing required element: ${element}`)
+    if (!(element in props)) {
+      logger.warn(`Missing required element: ${element}`);
       return false;
     }
 
     const value = props[element];
     if (typeof value !== 'number') {
-      logger.warn(`Element ${element} must be a number, got ${typeof value}`)
+      logger.warn(`Element ${element} must be a number, got ${typeof value}`);
       return false;
     }
 
     if (value < 0 || value > 1) {
-      logger.warn(`Element ${element} value ${value} must be between 0 and 1`)
+      logger.warn(`Element ${element} value ${value} must be between 0 and 1`);
       return false;
     }
   }
@@ -47,7 +47,7 @@ export function validateElementalProperties()
 /**
  * Normalize elemental properties to ensure valid structure
  */
-export function normalizeElementalProperties()
+export function normalizeElementalProperties(
   properties: Partial<ElementalProperties>
 ): ElementalProperties {
   const normalized: ElementalProperties = {
@@ -72,12 +72,12 @@ export function normalizeElementalProperties()
 /**
  * Calculate elemental harmony score between two sets of properties
  */
-export function calculateElementalHarmony()
+export function calculateElementalHarmony(
   source: ElementalProperties,
-  target: ElementalProperties;
+  target: ElementalProperties
 ): number {
-  if (!validateElementalProperties(source) || !validateElementalProperties(target) {
-    logger.warn('Invalid elemental properties provided for harmony calculation')
+  if (!validateElementalProperties(source) || !validateElementalProperties(target)) {
+    logger.warn('Invalid elemental properties provided for harmony calculation');
     return 0.7; // Default good compatibility
   }
 
@@ -126,7 +126,7 @@ export function calculateElementalHarmony()
 /**
  * Get compatibility score between different elements
  */
-function getElementalCompatibility()
+function getElementalCompatibility(
   source: keyof ElementalProperties,
   target: keyof ElementalProperties
 ): number {
@@ -144,7 +144,7 @@ function getElementalCompatibility()
  * Get the dominant element from elemental properties
  */
 export function getDominantElement(properties: ElementalProperties): keyof ElementalProperties {
-  if (!validateElementalProperties(properties) {
+  if (!validateElementalProperties(properties)) {
     logger.warn('Invalid elemental properties, defaulting to Fire');
     return 'Fire';
   }
@@ -159,7 +159,7 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
  * Enhance elemental properties by boosting the dominant element
  */
 export function enhanceDominantElement(properties: ElementalProperties): ElementalProperties {
-  if (!validateElementalProperties(properties) {
+  if (!validateElementalProperties(properties)) {
     return normalizeElementalProperties(properties);
   }
 
@@ -175,7 +175,7 @@ export function enhanceDominantElement(properties: ElementalProperties): Element
 /**
  * Create elemental properties from a dominant element
  */
-export function createElementalProperties()
+export function createElementalProperties(
   dominantElement: keyof ElementalProperties,
   strength: number = 0.7
 ): ElementalProperties {
@@ -191,12 +191,12 @@ export function createElementalProperties()
 
   // Distribute remaining strength among other elements
   const remainingStrength = Math.max(0, 1.0 - properties[dominantElement]);
-  const otherElements = (['Fire', 'Water', 'Earth', 'Air'] as const).filter();
+  const otherElements = (['Fire', 'Water', 'Earth', 'Air'] as const).filter(
     e => e !== dominantElement
   );
   const perElement = remainingStrength / otherElements.length;
 
-  otherElements.forEach(element => ) {
+  otherElements.forEach(element => {
     properties[element] = Math.max(0.05, perElement);
   });
 
@@ -207,7 +207,7 @@ export function createElementalProperties()
  * Validate that elemental properties follow self-reinforcement principles
  */
 export function validateSelfReinforcement(properties: ElementalProperties): boolean {
-  if (!validateElementalProperties(properties) {
+  if (!validateElementalProperties(properties)) {
     return false;
   }
 
