@@ -135,7 +135,7 @@ export type ServiceResponseType<T> = {
   data?: T;
   error?: string;
   timestamp: string;
-}
+};
 
 /**
  * Alchemical Transformation Result

@@ -11,20 +11,21 @@ export type ZodiacSign =
   | 'sagittarius'
   | 'capricorn'
   | 'aquarius'
-  | 'pisces'
+  | 'pisces';
+
 // Elemental Properties
 export type ElementalProperties = {
-  Fire: number,
-  Earth: number,
-  Air: number,
-  Water: number
-}
+  Fire: number;
+  Earth: number;
+  Air: number;
+  Water: number;
+};
 
 // Zodiac Date Ranges
 export const zodiacDateRanges: Record<
   ZodiacSign,
-  { startMonth: number; startDay, number; endMonth, number, endDay: number }
->  = {
+  { startMonth: number; startDay: number; endMonth: number; endDay: number }
+> = {
   aries: { startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
   taurus: { startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },
   gemini: { startMonth: 5, startDay: 21, endMonth: 6, endDay: 20 },
@@ -40,7 +41,7 @@ export const zodiacDateRanges: Record<
 }
 
 // Zodiac Elements
-export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties>  = {
+export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -59,10 +60,10 @@ export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties>  = {
 export const _getZodiacSign = (date: Date): any => {
   const month = date.getMonth() + 1;
   const day = date.getDate();
-  for (const [sign, range] of Object.entries(zodiacDateRanges) {
+  for (const [sign, range] of Object.entries(zodiacDateRanges)) {
     const { startMonth, startDay, endMonth, endDay } = range;
 
-    if ((month === startMonth && day >= startDay) || (month === endMonth && day <= endDay) {
+    if ((month === startMonth && day >= startDay) || (month === endMonth && day <= endDay)) {
       return sign as unknown;
     }
   }
@@ -79,10 +80,10 @@ export const _getElementalAffinity = (sign: any): keyof ElementalProperties => {
 export const _elementalCompatibility: Record<
   keyof ElementalProperties,
   {
-    compatible: Array<keyof ElementalProperties>,
-    incompatible: Array<keyof ElementalProperties>
+    compatible: Array<keyof ElementalProperties>;
+    incompatible: Array<keyof ElementalProperties>;
   }
->  = {
+> = {
   Fire: {
     compatible: ['Fire'],
     incompatible: ['Air', 'Water', 'Earth']
@@ -105,19 +106,19 @@ export const _elementalCompatibility: Record<
 export const _elementalCharacteristics: Record<
   keyof ElementalProperties,
   {
-    qualities: string[],
-    keywords: string[],
-    foods: string[],
-    cookingTechniques: string[],
-    flavorProfiles: string[],
-    seasonalAssociations: string[],
-    healthBenefits: string[],
-    complementaryIngredients: string[],
-    moodEffects: string[],
-    culinaryHerbs: string[],
-    timeOfDay: string[]
+    qualities: string[];
+    keywords: string[];
+    foods: string[];
+    cookingTechniques: string[];
+    flavorProfiles: string[];
+    seasonalAssociations: string[];
+    healthBenefits: string[];
+    complementaryIngredients: string[];
+    moodEffects: string[];
+    culinaryHerbs: string[];
+    timeOfDay: string[];
   }
->  = {
+> = {
   Fire: {
     qualities: ['Warm', 'Dry', 'Active', 'Energetic', 'Expansive'],
     keywords: ['Energy', 'Passion', 'Transformation', 'Vitality', 'Action'],
@@ -183,17 +184,17 @@ export interface ElementalAffinity {
   Fire: number;
   Earth: number;
   Air: number;
-  Water: number
+  Water: number;
 }
 
 export interface CelestialPosition {
   sign: any;
   _degree: number;
-  _minutes: number
+  _minutes: number;
 }
 
 export interface CelestialData {
   sun: CelestialPosition;
   _moon: CelestialPosition;
-  timestamp: number
+  timestamp: number;
 }

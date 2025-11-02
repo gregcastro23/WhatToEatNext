@@ -3,7 +3,7 @@ import type { Recipe, RecipeIngredient } from '@/types/recipe';
 
 export function validateRecipe(recipe: Recipe): boolean {
   // Validate basic recipe properties
-  if (!recipe.name || !recipe.ingredients || !Array.isArray(recipe.ingredients) {
+  if (!recipe.name || !recipe.ingredients || !Array.isArray(recipe.ingredients)) {
     return false;
   }
 
@@ -41,8 +41,7 @@ export function validateIngredient(ingredient: RecipeIngredient): boolean {
 
   // Validate elemental properties if present
   if (ingredient.elementalProperties) {
-    const sum = Object.values(ingredient.elementalProperties).reduce(acc: number, _val: number) => acc + _val;
-    );
+    const sum = Object.values(ingredient.elementalProperties).reduce((acc: number, _val: number) => acc + _val, 0);
     if (Math.abs(sum - 1) > 0.000001) return false;
   }
 
