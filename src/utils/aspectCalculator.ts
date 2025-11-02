@@ -12,7 +12,7 @@ export interface PlanetaryPositionData {
   sign: string;
   degree: number;
   exactLongitude?: number;
-  isRetrograde?: boolean
+  isRetrograde?: boolean;
 }
 
 // Interface for aspect data
@@ -22,7 +22,7 @@ export interface AspectData {
   type: AspectType;
   orb: number;
   strength: number;
-  influence?: number
+  influence?: number;
 }
 
 /**
@@ -33,8 +33,8 @@ export interface AspectData {
  * @param positions Record of planetary positions
  * @returns Array of aspects between planets
  */
-export function calculateComprehensiveAspects()
-  positions: Record<string, PlanetaryPositionData>,
+export function calculateComprehensiveAspects(
+  positions: Record<string, PlanetaryPositionData>
 ): AspectData[] {
   const aspects: AspectData[] = [];
 
@@ -52,7 +52,7 @@ export function calculateComprehensiveAspects()
     _quintile: { angle: 72, maxOrb: 2 },
     _biquintile: { angle: 144, maxOrb: 2 },
     _septile: { angle: 51.428, maxOrb: 2 }
-  }
+  };
 
   // Helper function to get longitude from sign and degree
   const getLongitude = (position: PlanetaryPositionData): number => {
@@ -67,7 +67,7 @@ export function calculateComprehensiveAspects()
       return 0; // Return default value
     }
 
-    const signs = [;
+    const signs = [
       'aries',
       'taurus',
       'gemini',

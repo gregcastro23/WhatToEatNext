@@ -22,7 +22,7 @@ export interface PlanetaryPosition {
   sign: string;
   degree: number;
   exactLongitude: number;
-  isRetrograde: boolean
+  isRetrograde: boolean;
 }
 
 /**
@@ -32,7 +32,7 @@ export interface ValidationResult {
   isValid: boolean;
   errors: string[];
   warnings: string[];
-  correctedData?: unknown
+  correctedData?: unknown;
 }
 
 /**
@@ -42,13 +42,13 @@ export interface ValidationOptions {
   strictMode?: boolean;
   autoCorrect?: boolean;
   logWarnings?: boolean;
-  validateTransits?: boolean
+  validateTransits?: boolean;
 }
 
 /**
  * Validate a complete planetary positions object
  */
-export function validatePlanetaryPositions()
+export function validatePlanetaryPositions(
   positions: Record<string, unknown>,
   options: ValidationOptions = {}
 ): ValidationResult {
@@ -69,7 +69,7 @@ export function validatePlanetaryPositions()
 
     // Check for required planets
     for (const planet of requiredPlanets) {
-      if (!(planet in positions) {
+      if (!(planet in positions)) {
         errors.push(`Missing required planet: ${planet}`);
         continue;
       }

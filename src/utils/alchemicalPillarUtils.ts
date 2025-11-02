@@ -14,37 +14,37 @@ import { AlchemicalProperty } from '../types/celestial';
 // Enhanced interfaces for Phase 11 - Alchemical Pillar utilities
 interface AlchemicalPillarData {
   name?: string;
-  element?: string
+  element?: string;
   description?: string;
   astrologicalProfile?: {
-    planetaryInfluences?: Record<string, number>,
+    planetaryInfluences?: Record<string, number>;
     zodiacAffinities?: string[];
-    seasonalAlignment?: string
-  }
+    seasonalAlignment?: string;
+  };
   elementalProperties?: {
-    Fire?: number,
-    Water?: number,
-    Earth?: number,
-    Air?: number
-  }
-  pillarType?: string,
-  season?: string | string[]
+    Fire?: number;
+    Water?: number;
+    Earth?: number;
+    Air?: number;
+  };
+  pillarType?: string;
+  season?: string | string[];
 }
 
 interface PillarCalculationResult {
   id?: string;
-  name?: string
+  name?: string;
   element?: string;
   strength?: number;
   compatibility?: number;
-  seasonalAlignment?: number
+  seasonalAlignment?: number;
 }
 // CookingMethod type definition
 interface CookingMethod {
   name: string;
   category?: string;
   description?: string;
-  elementalProperties?: Record<string, number>
+  elementalProperties?: Record<string, number>;
 }
 
 // Re-export the getCookingMethodPillar function
@@ -76,7 +76,7 @@ export function calculateCookingMethodCompatibility(methodA: string, methodB: st
  */
 function calculatePillarCompatibility(
   pillarA: AlchemicalPillar,
-  pillarB: AlchemicalPillar;
+  pillarB: AlchemicalPillar
 ): number {
   // If they're the same pillar, they're perfectly compatible
   if (pillarA.id === (pillarB as unknown as any).id) return 1.0;

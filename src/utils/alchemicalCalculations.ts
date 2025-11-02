@@ -48,7 +48,7 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
   };
 
   // Count planets by element
-  Object.entries(positions).forEach(([planet, data]) => {
+  Object.entries(_positions).forEach(([planet, data]) => {
     if (!data.sign || planet === 'ascendant' || planet === 'northnode' || planet === 'southnode') {
       return;
     }
@@ -88,7 +88,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
 
   let totalWeight = 0;
 
-  Object.entries(positions).forEach(([planet, data]) => {
+  Object.entries(_positions).forEach(([planet, data]) => {
     if (!data || planet === 'ascendant' || planet === 'northnode' || planet === 'southnode') {
       return;
     }
@@ -142,7 +142,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
 
   // Normalize values
   if (totalWeight > 0) {
-    const normalizer = (positions ? Object.keys(positions).length : 10) / 10;
+    const normalizer = (_positions ? Object.keys(_positions).length : 10) / 10;
 
     return {
       Spirit: alchemicalValues.Spirit / normalizer,
