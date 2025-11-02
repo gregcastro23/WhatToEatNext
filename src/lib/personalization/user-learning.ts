@@ -83,7 +83,7 @@ class UserLearningSystem {
     this.interactions.set(userId, userInteractions)
     this.updateUserPreferences(userId)
 
-    logger.debug('User interaction tracked', ) { userId, type: interaction.type })
+    logger.debug('User interaction tracked', { userId, type: interaction.type })
   }
 
   /**

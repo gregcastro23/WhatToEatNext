@@ -82,8 +82,9 @@ export function useComponentState<T = unknown>(componentId: string, initialState
     }
   }, [])
 
-  return useMemo() => ({ saveState, getState, restoreState }),
-    [saveState, getState, restoreState],
+  return useMemo(
+    () => ({ saveState, getState, restoreState }),
+    [saveState, getState, restoreState]
   )
 }
 

@@ -21,10 +21,10 @@ interface ElementalProperties {
 export async function getCuisineRecommendations(): Promise<CuisineRecommendation[]> {
   try {
     // Convert culinary traditions to CuisineRecommendation format
-    const recommendations: CuisineRecommendation[] = Object.entries(culinaryTraditions).map([id, tradition]) => {
+    const recommendations: CuisineRecommendation[] = Object.entries(culinaryTraditions).map(([id, tradition]) => {
         const traditionData = tradition as unknown as {
           description?: string;
-          elementalAlignment?: { Fire: number; Water, number; Earth, number; Air, number };
+          elementalAlignment?: { Fire: number; Water: number; Earth: number; Air: number };
           authenticity?: number;
           regions?: unknown[];
           seasonality?: unknown;

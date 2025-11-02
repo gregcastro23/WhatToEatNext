@@ -58,7 +58,7 @@ export function useCookingMethods() {
               min: 10,
               max: 60
 },
-            suitable_for (data as any).suitable_for || ['various ingredients'],
+            suitable_for: (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
             alchemicalProperties: (data as any).alchemicalProperties || {
               Spirit: 0.5,
@@ -88,7 +88,7 @@ export function useCookingMethods() {
               min: 10,
               max: 60
 },
-            suitable_for (data as any).suitable_for || ['various ingredients'],
+            suitable_for: (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
             alchemicalProperties: (data as any).alchemicalProperties || {
               Spirit: 0.5,

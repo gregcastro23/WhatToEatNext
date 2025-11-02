@@ -90,8 +90,8 @@ export function getMajorArcanaForDecan(decan: DecanKey) {
 }
 
 // Minor arcana cards (numbered cards + court cards)
-const minorArcana = [;
-  // Wands (Fire);
+const minorArcana = [
+  // Wands (Fire)
   'Ace of Wands',
   'Two of Wands',
   'Three of Wands',

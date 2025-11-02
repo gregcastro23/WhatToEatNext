@@ -26,7 +26,7 @@ export class RecipeEngine {
   }
 
   getDominantElements(recipe: Recipe) {
-    if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties) {
+    if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties)) {
       return [];
     }
 

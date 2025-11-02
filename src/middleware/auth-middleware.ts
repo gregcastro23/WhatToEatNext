@@ -33,7 +33,7 @@ export interface AuthMiddlewareOptions {
 function extractTokenFromRequest(req: Request): string | null {
   const authHeader = req.headers.authorization;
 
-  if (authHeader && authHeader.startsWith('Bearer ') {
+  if (authHeader && authHeader.startsWith('Bearer ')) {
     return authHeader.slice(7); // Remove 'Bearer ' prefix
   }
 

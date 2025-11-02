@@ -135,12 +135,12 @@ function determineRateLimitTier(req: Request): RateLimitTier {
   }
 
   // Check for admin role
-  if (user.roles.includes(UserRole.ADMIN) {
+  if (user.roles.includes(UserRole.ADMIN)) {
     return rateLimitTiers.admin;
   }
 
   // Check for service role
-  if (user.roles.includes(UserRole.SERVICE) {
+  if (user.roles.includes(UserRole.SERVICE)) {
     return rateLimitTiers.service;
   }
 
