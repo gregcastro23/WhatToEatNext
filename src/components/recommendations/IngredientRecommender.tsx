@@ -189,7 +189,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
                 key={idx}
                 className="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-600"
               >
-                ) => {tag}
+                {tag}
               </span>
             ))}
           </div>

@@ -159,13 +159,13 @@ export function EnhancedRecommendationEngine({
 
     // Apply cuisine preferences
     if (currentFilters.cuisinePreferences.length > 0) {
-      filteredRecipes = filteredRecipes.filter(recipe =>)
+      filteredRecipes = filteredRecipes.filter(recipe =>
         currentFilters.cuisinePreferences.includes(recipe.cuisine)
       );
     }
 
     // Calculate scores and compatibility
-    const results: RecommendationResult[] = filteredRecipes.map(recipe => ) {
+    const results: RecommendationResult[] = filteredRecipes.map(recipe => {
       const alchemicalCompatibility = calculateAlchemicalCompatibility(recipe);
       const baseScore = recipe.rating / 5.0;
       const difficultyBonus = recipe.difficulty === 'Easy' ? 0.1 : 0;
@@ -173,11 +173,11 @@ export function EnhancedRecommendationEngine({
 
       const score = Math.min(baseScore + difficultyBonus + timeBonus + (alchemicalCompatibility * 0.2), 1.0);
 
-      const matchReasons: string[] = []
-      if (currentFilters.dietaryRestrictions.some(r => recipe.tags.includes(r)) {
+      const matchReasons: string[] = [];
+      if (currentFilters.dietaryRestrictions.some(r => recipe.tags.includes(r))) {
         matchReasons.push('Meets dietary requirements');
       }
-      if (currentFilters.cuisinePreferences.includes(recipe.cuisine) {
+      if (currentFilters.cuisinePreferences.includes(recipe.cuisine)) {
         matchReasons.push('Preferred cuisine');
       }
       if (recipe.rating >= 4.5) {
@@ -196,7 +196,7 @@ export function EnhancedRecommendationEngine({
     });
 
     // Sort by score and limit results
-    const sortedResults = results;
+    const sortedResults = results
       .sort((a, b) => b.score - a.score)
       .slice(0, maxRecommendations);
 
@@ -209,7 +209,7 @@ export function EnhancedRecommendationEngine({
   }, [generateRecommendations]);
 
   const handleDietaryChange = (restriction: string, checked: boolean) => {
-    setCurrentFilters(prev => () {
+    setCurrentFilters(prev => ({
       ...prev,
       dietaryRestrictions: checked
         ? [...prev.dietaryRestrictions, restriction]
@@ -218,7 +218,7 @@ export function EnhancedRecommendationEngine({
   };
 
   const handleCuisineChange = (cuisine: string, checked: boolean) => {
-    setCurrentFilters(prev => () {
+    setCurrentFilters(prev => ({
       ...prev,
       cuisinePreferences: checked
         ? [...prev.cuisinePreferences, cuisine]
@@ -281,7 +281,7 @@ export function EnhancedRecommendationEngine({
             flexWrap: 'wrap',
             gap: '8px'
 }}>
-            {DIETARY_OPTIONS.map(option => ())
+            {DIETARY_OPTIONS.map(option => (
               <label key={option} style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -319,7 +319,7 @@ export function EnhancedRecommendationEngine({
             flexWrap: 'wrap',
             gap: '8px'
 }}>
-            {CUISINE_OPTIONS.map(option => ())
+            {CUISINE_OPTIONS.map(option => (
               <label key={option} style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -441,7 +441,7 @@ export function EnhancedRecommendationEngine({
                         fontWeight: '600',
                         color: '#22c55e'
 }}>
-                        ) => {(result.score * 100).toFixed(0)}%
+                        {(result.score * 100).toFixed(0)}%
                       </div>
                       <div style={{
                         fontSize: '10px',

@@ -20,9 +20,9 @@ export function getCuisinePairings(ingredientName: string, category: IngredientC
 /**
  * Get ingredient recommendations for a specific cuisine
  */
-export function getIngredientsForCuisine()
+export function getIngredientsForCuisine(
   cuisineName: string,
-  categories: IngredientCategory[] = ['grain', 'herb'],
+  categories: IngredientCategory[] = ['grain', 'herb']
 ): Record<IngredientCategory, string[]> {
   const result: Record<IngredientCategory, string[]> = {
     grain: [],
@@ -33,17 +33,17 @@ export function getIngredientsForCuisine()
   };
 
   // Process each matrix to find ingredients that pair with this cuisine
-  if (categories.includes('grain') {
+  if (categories.includes('grain')) {
     Object.entries(grainCuisineMatrix).forEach(([grain, cuisines]) => {
-      if (cuisines.includes(cuisineName) {
+      if (cuisines.includes(cuisineName)) {
         result.grain.push(grain);
       }
     });
   }
 
-  if (categories.includes('herb') {
+  if (categories.includes('herb')) {
     Object.entries(herbCuisineMatrix).forEach(([herb, cuisines]) => {
-      if (cuisines.includes(cuisineName) {
+      if (cuisines.includes(cuisineName)) {
         result.herb.push(herb);
       }
     });

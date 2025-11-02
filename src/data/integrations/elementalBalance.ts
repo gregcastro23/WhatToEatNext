@@ -41,7 +41,7 @@ export const elementalBalance = {
     const hasAllElements = ELEMENTS.every(element => typeof properties[element] === 'number');
 
     // Check value ranges
-    const hasValidValues = Object.values(properties).every(value =>);
+    const hasValidValues = Object.values(properties).every(value =>
         value >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
         value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
     );
@@ -54,7 +54,7 @@ export const elementalBalance = {
   },
 
   calculateHarmonyBetween(first: ElementalProperties, second: ElementalProperties): number {
-    if (!validateElementalProperties(first) || !validateElementalProperties(second) {
+    if (!validateElementalProperties(first) || !validateElementalProperties(second)) {
       return 0;
     }
 
@@ -79,23 +79,23 @@ export const elementalBalance = {
 
   getDominantElement(properties: ElementalProperties): Element {
     const normalized = this.normalizeProperties(properties);
-    return ELEMENTS.reduce(dominant, element) => (normalized[element] > normalized[dominant] ? element : dominant),
-      ELEMENTS[0],
+    return ELEMENTS.reduce((dominant, element) => (normalized[element] > normalized[dominant] ? element : dominant),
+      ELEMENTS[0]
     );
   },
 
-  getElementalStatus()
-    properties: ElementalProperties;
+  getElementalStatus(
+    properties: ElementalProperties
   ): Record<Element, 'low' | 'balanced' | 'high'> {
     const normalized = this.normalizeProperties(properties);
-    return ELEMENTS.reduce(status, element) => ({
+    return ELEMENTS.reduce((status, element) => ({
         ...status,
         [element]:
           normalized[element] < MINIMUM_THRESHOLD
             ? 'low'
             : normalized[element] > MAXIMUM_THRESHOLD
               ? 'high'
-              : 'balanced';
+              : 'balanced'
       }),
       {} as Record<Element, 'low' | 'balanced' | 'high'>,
     );

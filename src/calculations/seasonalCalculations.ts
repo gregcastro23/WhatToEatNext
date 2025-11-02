@@ -100,7 +100,7 @@ export function calculateSeasonalElements(baseElements: ElementalProperties,
   ) as ElementalProperties;
 }
 
-export function calculateSeasonalScores(recipeElements: ElementalProperties,)
+export function calculateSeasonalScores(recipeElements: ElementalProperties,
   zodiacSign?: string): {
   seasonalScore: number;
   astrologicalInfluence: number
