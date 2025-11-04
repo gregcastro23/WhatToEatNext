@@ -210,7 +210,7 @@ export class RecipeRecommender {
     return Math.min(1, Math.max(0, finalAlignment)); // Cap between 0-1
   }
 
-  private aggregateIngredients(ingredients: ) { elementalProperties?: ElementalProperties }[]) {
+  private aggregateIngredients(ingredients: { elementalProperties?: ElementalProperties }[]) {
     return ingredients.reduce(acc, ingredient) => ({
         Fire: acc.Fire + (ingredient.elementalProperties?.Fire || 0),
         Water: acc.Water + (ingredient.elementalProperties?.Water || 0),

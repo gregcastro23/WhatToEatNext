@@ -273,7 +273,7 @@ export class UnifiedNutritionalSystem {
     if (!profiles || profiles.length === 0) return 0.5;
     const totalElementalValues = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
-    profiles.forEach(profile => ) {
+    profiles.forEach(profile => {
       const profileData = profile as unknown;
       const nutrients = profileData.elementalNutrients;
 
@@ -284,12 +284,12 @@ export class UnifiedNutritionalSystem {
         const earthNutrients = nutrientData.Earth as unknown;
         const airNutrients = nutrientData.Air as any;
 
-        totalElementalValues.Fire += Number(fireNutrients.totalElementalValue || 0)
-        totalElementalValues.Water += Number(waterNutrients.totalElementalValue || 0)
-        totalElementalValues.Earth += Number(earthNutrients.totalElementalValue || 0)
-        totalElementalValues.Air += Number(airNutrients.totalElementalValue || 0)
+        totalElementalValues.Fire += Number(fireNutrients.totalElementalValue || 0);
+        totalElementalValues.Water += Number(waterNutrients.totalElementalValue || 0);
+        totalElementalValues.Earth += Number(earthNutrients.totalElementalValue || 0);
+        totalElementalValues.Air += Number(airNutrients.totalElementalValue || 0);
       }
-    })
+    });
 
     // Calculate balance as inverse of standard deviation
     const values = Object.values(totalElementalValues);
@@ -385,7 +385,7 @@ export class UnifiedNutritionalSystem {
     return recommendations;
   }
 
-  getNutritionalRecommendations(_: ) {
+  getNutritionalRecommendations(_: {
     season?: Season;
     currentZodiacSign?: any;
     planetaryHour?: PlanetName;

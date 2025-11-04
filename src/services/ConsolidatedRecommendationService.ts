@@ -387,7 +387,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       const methodRecommendations = await getCookingMethodRecommendations({
         elementalPreference: elementalState,
         planetaryPositions: criteria.planetaryPositions,
-        limit: criteria.limit;)
+        limit: criteria.limit;
       } as unknown);
 
       // Transform to standardized result format - ensure CookingMethod type
@@ -464,22 +464,22 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       case 'recipe':
         return this.getRecommendedRecipes({
           elementalProperties,
-          limit;)
+          limit;
 });
       case 'ingredient':
         return this.getRecommendedIngredients({
           elementalProperties,
-          limit;)
+          limit;
 });
       case 'cuisine':
         return this.getRecommendedCuisines({
           elementalProperties,
-          limit;)
+          limit;
 });
       case 'cookingMethod':
         return this.getRecommendedCookingMethods({
           elementalProperties,
-          limit;)
+          limit;
 });
       default:
         throw new Error(`Invalid recommendation type: ${type}`);
@@ -498,23 +498,23 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       case 'recipe':
         return this.getRecommendedRecipes({
           planetaryPositions,
-          limit;)
+          limit;
 });
       case 'ingredient':
         // For ingredients, we don't directly use planetary positions
         // We could calculate elemental properties from planetary positions
         return this.getRecommendedIngredients({
-          limit;)
+          limit;
 });
       case 'cuisine':
         return this.getRecommendedCuisines({
           planetaryPositions,
-          limit;)
+          limit;
 });
       case 'cookingMethod':
         return this.getRecommendedCookingMethods({
           planetaryPositions,
-          limit;)
+          limit;
 });
       default:
         throw new Error(`Invalid recommendation type: ${type}`);

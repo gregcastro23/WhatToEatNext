@@ -392,19 +392,19 @@ export class FoodAlchemySystem {
    * Calculates food compatibility based on current state with enhanced
    * elemental dignity, decan effects, and aspect considerations
    */
-  calculateFoodCompatibility()
+  calculateFoodCompatibility(
     food: FoodCorrespondence,
     state: SystemState,
-    time: Date;
+    time: Date
   ): FoodCompatibility {
     const planetaryCalculator = new PlanetaryHourCalculator();
     const rawPlanetaryHour = planetaryCalculator.calculatePlanetaryHour(time);
     const rawPlanetaryDay = planetaryCalculator.calculatePlanetaryHour(time);
 
     // Convert the planet names to the uppercase format used in this module
-    const planetaryHour = (rawPlanetaryHour.charAt(0).toUpperCase() +;
+    const planetaryHour = (rawPlanetaryHour.charAt(0).toUpperCase() +
       rawPlanetaryHour.slice(1)) as Planet;
-    const planetaryDay = (rawPlanetaryDay.charAt(0).toUpperCase() +;
+    const planetaryDay = (rawPlanetaryDay.charAt(0).toUpperCase() +
       rawPlanetaryDay.slice(1)) as Planet;
     const isDaytimeNow = planetaryCalculator.isDaytime(time);
     // Calculate base elemental compatibility (45% weight)

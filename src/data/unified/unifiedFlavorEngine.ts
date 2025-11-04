@@ -199,23 +199,23 @@ export class UnifiedFlavorEngine {
       // Run the migration but don't wait for it - it will cache its results
       flavorProfileMigration
         .runFlavorProfileMigration()
-        ?.then((_stats: ) {}) => {
+        ?.then((_stats) => {
           const profiles = flavorProfileMigration.getMigratedFlavorProfiles();
 
           // Add profiles to our map
           for (const profile of profiles) {
-            this.profiles.set(profile.id, profile)
+            this.profiles.set(profile.id, profile);
           }
 
           // Log successful initialization
-          log.info()
+          log.info(
             '🚀 Unified Flavor Engine initialized with',
             (profiles || []).length,
-            'profiles',
-          )
+            'profiles'
+          );
 
           // Log category stats
-          const categoryStats = profiles.reduce(acc, profile: Record<string, unknown>) => {
+          const categoryStats = profiles.reduce((acc, profile: Record<string, unknown>) => {
               const category = (profile as { category?: string }).category ?? 'unknown';
               acc[category] = (acc[category] || 0) + 1;
               return acc;

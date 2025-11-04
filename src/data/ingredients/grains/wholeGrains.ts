@@ -266,8 +266,8 @@ const rawWholeGrains = {
         variations: {
           asian_inspired: 'edamame, pickled vegetables, sesame, tamari-based sauce',
           mediterranean: 'chickpeas, cucumber, tomato, feta, herb-lemon dressing',
-          mexican: 'black beans, corn, avocado, lime-cilantro dressing';
-},
+          mexican: 'black beans, corn, avocado, lime-cilantro dressing'
+        },
         notes: 'Infinitely customizable to dietary preferences and what\'s on hand'
       },
       fried_rice: {
@@ -278,8 +278,8 @@ const rawWholeGrains = {
         variations: {
           classic: 'with peas, carrots, scrambled egg, green onion',
           kimchi: 'incorporate kimchi, sesame oil, gochujang',
-          pineapple: 'with pineapple chunks, cashews, curry powder';
-},
+          pineapple: 'with pineapple chunks, cashews, curry powder'
+        },
         notes: 'Pre-cook and cool rice for best texture never use freshly cooked rice'
 },
       rice_pudding: {
@@ -289,7 +289,7 @@ const rawWholeGrains = {
         variations: {
           classic: 'cinnamon, raisins, vanilla',
           coconut: 'coconut milk, cardamom, pistachios',
-          chocolate: 'cocoa powder, almond milk, cherries';
+          chocolate: 'cocoa powder, almond milk, cherries'
 },
         notes: 'Takes longer than white rice pudding but has nuttier flavor'
 }
@@ -300,7 +300,7 @@ const rawWholeGrains = {
           room_temperature: 'up to 6 months in cool, dark place',
           refrigerator: 'up to 1 year',
           freezer: 'up to 2 years',
-          notes: 'Natural oils can go rancidso store properly'
+          notes: 'Natural oils can go rancid so store properly'
 }
       },
 
@@ -581,7 +581,7 @@ const rawWholeGrains = {
       overnight_method: {
         soaking: '8-12 hours',
         cooking_time: '30-40 minutes',
-        benefits: 'quicker cooking, better absorption';
+        benefits: 'quicker cooking, better absorption'
 }
     },
     preparations: {

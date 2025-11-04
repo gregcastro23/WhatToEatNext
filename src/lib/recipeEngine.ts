@@ -69,9 +69,9 @@ export class RecipeEngine {
 
   findComplementaryRecipes(recipe: Recipe, availableRecipes: Recipe[]) {
     return availableRecipes
-      .map(other => () {
+      .map(other => ({
         ...other,
-        harmonyScore: this.calculateHarmonyBetween()
+        harmonyScore: this.calculateHarmonyBetween(
           recipe.elementalProperties,
           other.elementalProperties
         )
@@ -81,7 +81,7 @@ export class RecipeEngine {
 
   rankBySeasonalEffectiveness(recipes: Recipe[], season: string) {
     return recipes
-      .map(recipe => () {
+      .map(recipe => ({
         ...recipe,
         seasonalScore: this.calculateSeasonalEffectivenessScore(recipe, season)
       }))
@@ -132,7 +132,7 @@ export class RecipeEngine {
     }
   }
 
-  getRecipesForTarotCard(card: ) { associatedRecipes?: Recipe[]; element?: string }) {
+  getRecipesForTarotCard(card: { associatedRecipes?: Recipe[]; element?: string }) {
     const associatedRecipes = card.associatedRecipes || [];
     const elementBasedRecipes = card.element ? this.getRecipesForElement(card.element) : [];
     return [...new Set([...associatedRecipes, ...elementBasedRecipes])];

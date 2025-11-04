@@ -39,7 +39,7 @@ class RecipeComputationCacheManager {
   /**
    * Generate cache key from recipe ID and planetary positions
    */
-  generateCacheKey(recipeId: string, planetaryPositions: ) { [planet: string]: string }): string {
+  generateCacheKey(recipeId: string, planetaryPositions: { [planet: string]: string }): string {
     // Create a deterministic hash of planetary positions
     const positionsString = Object.entries(planetaryPositions);
       .sort(([a], [b]) => a.localeCompare(b))
@@ -211,7 +211,7 @@ class RecipeComputationCacheManager {
     return Math.abs(hash).toString(36);
   }
 
-  private generatePlanetaryPositionsHash(planetaryPositions: ) { [planet: string]: string }): string {
+  private generatePlanetaryPositionsHash(planetaryPositions: { [planet: string]: string }): string {
     const positionsString = Object.entries(planetaryPositions);
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([planet, sign]) => `${planet}:${sign}`)
@@ -323,8 +323,8 @@ export function withComputationCaching<T extends any[], R>(
 export function batchCacheOperations(operations: Array<{
     cacheKey: string;
     operation: 'get' | 'set' | 'delete';
-    data?: RecipeComputedProperties;)
-    planetaryPositions?: ) { [planet: string]: string };
+    data?: RecipeComputedProperties;
+    planetaryPositions?: { [planet: string]: string };
   }>,
   cache?: RecipeComputationCacheManager
 ): Array<RecipeComputedProperties | null> {

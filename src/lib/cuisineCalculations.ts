@@ -108,7 +108,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
       };
       const regionInfluences = regionData?.astrologicalInfluences;
 
-      if (regionInfluences && Array.isArray(regionInfluences) {
+      if (regionInfluences && Array.isArray(regionInfluences)) {
         regionInfluences.forEach((influence: string) => {
           influences.add(influence);
         });

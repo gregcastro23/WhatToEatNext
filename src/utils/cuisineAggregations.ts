@@ -265,7 +265,7 @@ export function aggregateAlchemicalProperties(recipes: Array<) { _computed?: Rec
  * @returns Property variance metrics
  */
 export function calculatePropertyVariance(recipes: Array<{ _computed?: RecipeComputedProperties, [key: string]: any }>,
-  averages: ) {
+  averages: {
     elementals: ElementalProperties,
     alchemical?: AlchemicalProperties
   }
@@ -360,7 +360,7 @@ function classifySignatureStrength(
  * @param threshold - Minimum z-score for signature (default: 1.5)
  * @returns Array of identified signatures
  */
-export function identifyCuisineSignatures(averages: ) {
+export function identifyCuisineSignatures(averages: {
     elementals: ElementalProperties;
     alchemical?: AlchemicalProperties;
     thermodynamics?: Partial<ThermodynamicMetrics>;
@@ -505,7 +505,7 @@ export function computeCuisineProperties(recipes: Array<{ _computed?: RecipeComp
     weightingStrategy?: WeightingStrategy;
     globalAverages?: GlobalPropertyAverages;
     signatureThreshold?: number;
-    includeVariance?: boolean;)
+    includeVariance?: boolean;
     identifyPlanetaryPatterns?: boolean
   } = ) {}
 ): CuisineComputedProperties {

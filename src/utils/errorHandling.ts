@@ -399,7 +399,7 @@ export function useErrorHandler() {
 
 // Error boundary helper for specific error types
 export function createErrorBoundaryForType(errorType: ErrorType) {
-  return function ErrorBoundaryForType({ children }: ) { children: React.ReactNode }) {
+  return function ErrorBoundaryForType({ children }: { children: React.ReactNode }) {
     return React.createElement()
       ErrorBoundary,
       { fallback: (error, Error, errorInfo: React.ErrorInfo) => {

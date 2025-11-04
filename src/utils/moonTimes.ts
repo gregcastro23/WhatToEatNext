@@ -15,7 +15,7 @@ export function calculateMoonTimes()
 ): { rise?: Date, set?: Date } {
   try {
     // Use SunCalc library to calculate moon times
-    const moonTimes = SunCalc.getMoonTimes(// Use noon on the given date to get the full day's times;)
+    const moonTimes = SunCalc.getMoonTimes(// Use noon on the given date to get the full day's times;
       new Date(date.getFullYear(), date.getMonth(), date.getDate(), 120, 0),
       latitude,
       longitude,

@@ -479,7 +479,7 @@ class RecipeData {
       instructions: ['Combine all ingredients in a bowl', 'Season to taste', 'Enjoy mindfully'],
       timeToMake: '15 minutes',
       numberOfServings: 2,
-      elementalProperties: ) {
+      elementalProperties: {
         Fire: 0.25,
         Earth: 0.25,
         Air: 0.25,
@@ -588,7 +588,7 @@ class RecipeData {
     }
   }
 
-  async filterRecipes(filters: ) {
+  async filterRecipes(filters: {
     cuisine?: string;
     mealType?: string[];
     season?: string[];

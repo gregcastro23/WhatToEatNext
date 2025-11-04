@@ -200,7 +200,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
       whenCooked: { Fire: 0.1, Air: 0.05 }
     },
     ...ingredientData
-  })
+  });
 
   return standardized as Ingredient;
 }
@@ -218,22 +218,16 @@ const processIngredientCollection = (
         // ESMS and thermodynamics are computed at the recipe/cuisine level with planetary context.
 
         // Determine modality
-        const modality = determineIngredientModality((processedIngredient as unknown as any).qualities as string[]) || [],;
-          ((processedIngredient as unknown as any).elementalProperties as ElementalProperties) || {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.25,
-            Air: 0.25
-})
+        const modality = determineIngredientModality((processedIngredient as unknown as any).qualities as string[]) || [];
 
         // Create elementalSignature (dominant elements in order)
-        const elementalSignature = Object.entries(processedIngredient as unknown as any).elementalProperties || {
+        const elementalSignature = Object.entries((processedIngredient as unknown as any).elementalProperties || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25
 })
-          .sort((ab) => {
+          .sort((a, b) => {
             // Pattern KK-10: Final Arithmetic Elimination for data processing
             const numericA = Number(a[1]) || 0;
             const numericB = Number(b[1]) || 0;
@@ -268,11 +262,11 @@ export const vinegarsCollection = processIngredientCollection(allVinegars);
 export const grainsCollection = processIngredientCollection(allGrains);
 export const spicesCollection = processIngredientCollection({
   ...spices,
-  ...warmSpices;)
-})
+  ...warmSpices
+});
 export const _vegetablesCollection = processIngredientCollection(enhancedVegetables);
 
-export const VALID_CATEGORIES = [;
+export const VALID_CATEGORIES = [
   'culinary_herb',
   'spice',
   'protein',
@@ -302,8 +296,8 @@ export const allIngredients = (() => {
   const processedHerbs = processIngredientCollection(herbsCollection);
   const processedSpices = processIngredientCollection(spicesCollection);
 
-  // Create a map to deduplicate by normalized name;
-  const result: Record<string, Ingredient> = {}
+  // Create a map to deduplicate by normalized name
+  const result: Record<string, Ingredient> = {};
 
   // Helper function to normalize ingredient name for comparison
   const normalizeIngredientName = (name: string): string => {
@@ -312,10 +306,10 @@ export const allIngredients = (() => {
       .trim()
       .replace(/\s+/g, '_')
       .replace(/[^a-z0-9_]/g, '');
-  }
+  };
 
   // Build a list of collections in priority order (lowest to highest)
-  const collectionsList = [;
+  const collectionsList = [
     { source: processedSeasonings, priority: 1 },
     { source: processedVegetables, priority: 2 },
     { source: processedFruits, priority: 3 },
@@ -334,7 +328,7 @@ export const allIngredients = (() => {
   collectionsList.sort((a, b) => a.priority - b.priority);
 
   // Process collections in order
-  collectionsList.forEach(() { source }) => {
+  collectionsList.forEach(({ source }) => {
     // Process each ingredient in the collection
     Object.entries(source).forEach(([key, ingredient]) => {
       // Store both the original key and any potential name-based key
@@ -343,28 +337,28 @@ export const allIngredients = (() => {
 
       // Also index by normalized name if it differs from the key
       const normalizedKey = normalizeIngredientName(ingredient.name || key);
-      if (normalizedKey !== key.toLowerCase().replace(/\s+/g, '_') {
+      if (normalizedKey !== key.toLowerCase().replace(/\s+/g, '_')) {
         // Add 'name_' prefix to avoid collisions with original keys
         result[`name_${normalizedKey}`] = ingredient;
       }
-    })
-  })
+    });
+  });
 
   // Remove the name_ prefixed duplicates for final export
-  const finalResult: Record<string, Ingredient> = {}
+  const finalResult: Record<string, Ingredient> = {};
   Object.entries(result).forEach(([key, value]) => {
-    if (!key.startsWith('name_') {
+    if (!key.startsWith('name_')) {
       finalResult[key] = value;
     }
-  })
+  });
 
   return finalResult;
-})()
+})();
 
 // Get a complete list of all ingredient names
 export const allIngredientNames = Object.keys(allIngredients);
 
-// Create a map of ingredients for easy lookup by name - defining AFTER allIngredients is initialized;
+// Create a map of ingredients for easy lookup by name - defining AFTER allIngredients is initialized
 export const ingredientsMap = { ...allIngredients };
 
 // Function to get all ingredients of a specific category

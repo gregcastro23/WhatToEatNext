@@ -467,7 +467,7 @@ export function getElementalQuantum(card: unknown) {
   };
 }
 
-export function getRecipeFiltersFromTarot(tarotCards: ) {
+export function getRecipeFiltersFromTarot(tarotCards: {
   minorCard: TarotCard;
   majorCard: MajorArcanaCard
 }) {

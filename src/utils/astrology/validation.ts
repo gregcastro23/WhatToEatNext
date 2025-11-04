@@ -255,7 +255,7 @@ export function getZodiacPositionInDegrees(sign: ZodiacSign, degree: number): nu
  * @param positions Planetary positions
  * @returns Array of planetary aspects
  */
-export function calculatePlanetaryAspects(positions: ) {
+export function calculatePlanetaryAspects(positions: {
   [key: string]: CelestialPosition
 }): PlanetaryAspect[] {
   const aspects: PlanetaryAspect[] = [];
@@ -697,7 +697,7 @@ function calculateApproximateMoonSign(dayOfYear: number): ZodiacSign {
  * @param positions Planetary positions
  * @returns Element count object
  */
-function countElements(positions: ) { [key: string]: CelestialPosition }): { [key: string]: number } {
+function countElements(positions: { [key: string]: CelestialPosition }): { [key: string]: number } {
   const elements: { [key: string]: number } = {
     Fire: 0,
     Earth: 0,
@@ -747,7 +747,7 @@ function countElements(positions: ) { [key: string]: CelestialPosition }): { [ke
  * @param elements Element count object
  * @returns Dominant element
  */
-function getDominantElement(elements: ) { [key: string]: number }): string {
+function getDominantElement(elements: { [key: string]: number }): string {
   let max = 0;
   let dominant = 'Fire';
 

@@ -155,7 +155,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         tips: ['avoid cold', 'avoid cutting'],
         quality_retention: 0.8, // 80% of flavor retained
       },
-      dried: ) {
+      dried: {
         storage: 'airtight container',
         duration: '6 months',
         tips: ['crush just before use'],
@@ -175,7 +175,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         aromatic_compounds: ['menthol', 'menthone'],
         oil_content: 1.2
 },
-      spearmint: ) {
+      spearmint: {
         aroma: 'sweet, less intense than peppermint',
         cooling_factor: 6,
         aromatic_compounds: ['carvone', 'limonene'],
@@ -227,7 +227,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
       },
       fresh_herbs: {
         methods: {
-          refrigerator: ) {
+          refrigerator: {
             technique: 'wrap in damp paper',
             duration: '1-2 weeks'
 }
@@ -236,7 +236,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
     }
   }) as Partial<IngredientMapping>,
 
-  // Additional specialty herbs,
+  // Additional specialty herbs
   curry_leaves: createIngredientMapping('curry_leaves', {
     elementalProperties: { Earth: 0.2, Water: 0.2, Fire: 0.4, Air: 0.2 },
     qualities: ['aromatic', 'citrusy', 'nutty'],
@@ -262,7 +262,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
       complexity: 8,
       texture: { leafy: 0.7, firm: 0.4 }
     },
-    regional_importance: ) {
+    regional_importance: {
       south_indian: 9,
       sri_lankan: 8
 },
@@ -283,12 +283,12 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
       dried: {
         storage: 'airtight container',
         duration: '6 months',
-        notes: 'good for teas, less suitable for cooking';)
+        notes: 'good for teas, less suitable for cooking'
 }
     },
     culinaryUses: ['curries', 'soups', 'marinades', 'teas', 'stir-fries'],
     flavor: 'Bright citrus flavor with grassy undertones',
-    regional_importance: ) {
+    regional_importance: {
       thai: 9,
       vietnamese: 9,
       malaysian: 8
@@ -303,7 +303,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
     sustainabilityScore: 8,
     culinaryUses: ['sushi', 'tempura', 'salads', 'wrapping fish', 'noodle dishes'],
     flavor: 'Complex with notes of mint, basil, anise, and citrus',
-    regional_importance: ) {
+    regional_importance: {
       japanese: 9,
       korean: 8,
       vietnamese: 7
@@ -316,7 +316,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
 export { aromaticHerbs, driedHerbs, freshHerbs, medicinalHerbs };
 
 // Create a comprehensive herb collection that includes all herb variants
-export const allHerbs = fixIngredientMappings({)
+export const allHerbs = fixIngredientMappings({
   ...freshHerbs,
   ...driedHerbs,
   ...aromaticHerbs,

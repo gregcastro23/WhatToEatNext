@@ -65,12 +65,12 @@ export function useCookingMethods() {
               Essence: 0.5,
               Matter: 0.5,
               Substance: 0.5
-}
+            }
           }
-        })
+        });
 
       // Also add methods from the cookingMethods object
-      const additionalMethods: CookingMethod[] = Object.entries(cookingMethods).map([key, methodData]) => {
+      const additionalMethods: CookingMethod[] = Object.entries(cookingMethods).map(([key, methodData]) => {
           const data = methodData as unknown;
 
           return {

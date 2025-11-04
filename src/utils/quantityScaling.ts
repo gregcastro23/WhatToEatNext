@@ -187,7 +187,7 @@ export function scaleAlchemicalProperties(
 
   // Ensure non-negative values
   Object.keys(scaled).forEach(property => ) {
-    scaled[property as keyof AlchemicalProperties] = Math.max(0;)
+    scaled[property as keyof AlchemicalProperties] = Math.max(0;
       scaled[property as keyof AlchemicalProperties]);
   });
 

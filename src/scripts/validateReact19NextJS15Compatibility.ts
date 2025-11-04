@@ -351,7 +351,7 @@ export function ExhaustiveDepsComponent() {
     const rulesOfHooksContent = `;
 import { useState } from 'react';
 
-export function ConditionalHooksComponent({ condition }: ) { condition: boolean }) {
+export function ConditionalHooksComponent({ condition }: { condition: boolean }) {
   if (condition) {
     const [state] = useState(''); // Hooks in conditional - should error
   }

@@ -356,7 +356,7 @@ async function getErrorAndWarningCounts(): Promise<{ errors: number, warnings: n
 })
 
       const eslintResults = JSON.parse(eslintOutput);
-      warnings = eslintResults.reduce((total: number, result: ) { warningCount?: number }) => {,
+      warnings = eslintResults.reduce((total: number, result: { warningCount?: number }) => {,
         return total + (result.warningCount || 0);
 }, 0)
     } catch (error) {
@@ -938,7 +938,7 @@ async function getLintingWarningCount(): Promise<number> {
 })
 
     const results = JSON.parse(output);
-    return results.reduce((total: number, result: ) { warningCount?: number }) => {
+    return results.reduce((total: number, result: { warningCount?: number }) => {
       return total + (result.warningCount || 0);
 }, 0)
   } catch (error) {

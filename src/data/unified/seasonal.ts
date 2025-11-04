@@ -715,7 +715,7 @@ export class UnifiedSeasonalSystem {
   /**
    * Get complete seasonal data for an ingredient with Kalchm integration
    */
-  getSeasonalIngredientProfile()
+  getSeasonalIngredientProfile(
     ingredientName: string,
     season: Season = this.getCurrentSeason()
   ): SeasonalIngredientProfile {
@@ -725,14 +725,14 @@ export class UnifiedSeasonalSystem {
     // Get traditional use from seasonal usage data
     const traditionalUse: string[] = [];
     if (seasonProfile.growing && seasonProfile.growing.includes(ingredientName))
-      traditionalUse.push('growing')
+      traditionalUse.push('growing');
     if (seasonProfile.herbs && seasonProfile.herbs.includes(ingredientName))
-      traditionalUse.push('culinary herb')
+      traditionalUse.push('culinary herb');
     if (seasonProfile.vegetables && seasonProfile.vegetables.includes(ingredientName))
-      traditionalUse.push('seasonal vegetable')
+      traditionalUse.push('seasonal vegetable');
 
     // Get complementary flavors for the season (top scoring ingredients)
-    const complementaryFlavors = Object.entries(seasonProfile.ingredients);
+    const complementaryFlavors = Object.entries(seasonProfile.ingredients)
       .filter(([key, value]) => value > 0.7 && key !== ingredientName)
       .sort(([, a], [, b]) => b - a)
       .slice(5)

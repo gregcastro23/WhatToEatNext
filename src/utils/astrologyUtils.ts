@@ -2814,7 +2814,7 @@ function calculateSeasonalResonance(_dominantElement: ElementalCharacter): Seaso
 /**
  * Calculate planetary strength from positions
  */
-function calculatePlanetaryStrength(_planetaryPositions: ) { [key: string]: unknown }): number {
+function calculatePlanetaryStrength(_planetaryPositions: { [key: string]: unknown }): number {
   try {
     let totalStrength = 0;
     let planetCount = 0

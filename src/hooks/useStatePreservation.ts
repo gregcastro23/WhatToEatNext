@@ -94,22 +94,22 @@ export function useComponentState<T = unknown>(componentId: string, initialState
 export function useScrollPreservation(sectionId: string) {
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const saveScrollPositionInternal = useCallback(position?: number) => {
+  const saveScrollPositionInternal = useCallback((position?: number) => {
       const pos = position !== undefined ? position : window.scrollY;
       saveScrollPosition(sectionId, pos);
     },
     [sectionId]
-  )
+  );
 
   const restoreScrollPosition = useCallback(() => {
     const position = getScrollPosition(sectionId);
     if (position > 0) {
       // Use requestAnimationFrame to ensure DOM is ready
       requestAnimationFrame(() => {
-        window.scrollTo({ top: position, behavior: 'smooth' })
-      })
+        window.scrollTo({ top: position, behavior: 'smooth' });
+      });
     }
-  }, [sectionId])
+  }, [sectionId]);
 
   const handleScroll = useCallback(() => {
     // Debounce scroll saving to avoid excessive storage writes
@@ -207,7 +207,7 @@ export function useSelectionState<T = unknown>(selectionId: string, initialSelec
 export function useNavigationContext() {
   const { saveState, getState } = useNavigationState()
 
-  const preserveContext = useCallback(context: ) {
+  const preserveContext = useCallback(context: {
       fromPage?: string,
       selectedItems?: unknown[],
       activeSection?: string,
@@ -325,7 +325,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
 export function useCulturalSensitivityGuidance() {
   const intelligence = useSteeringFileIntelligence();
 
-  const validateCulturalContent = useCallback(content: ) {
+  const validateCulturalContent = useCallback(content: {
       ingredientNames?: string[],
       cuisineDescriptions?: string[],
       culturalReferences?: string[]
@@ -454,7 +454,7 @@ export function usePerformanceOptimizationGuidance() {
     [intelligence]
   )
 
-  const validatePerformanceMetrics = useCallback(metrics: ) {
+  const validatePerformanceMetrics = useCallback(metrics: {
       renderTime?: number,
       memoryUsage?: number,
       bundleSize?: number,

@@ -95,7 +95,7 @@ class ErrorHandlerService {
     }
 
     // Here you could add integrations with error monitoring services
-    // Example: Sentry.captureException(error, { extra: ) { type, severity, component, ...context } })
+    // Example: Sentry.captureException(error, { extra: { type, severity, component, ...context } })
 
     return {
       error,
@@ -340,7 +340,7 @@ export function handlePropertyAccessError(
 
   ErrorHandler.log(error, {
     context,
-    data: ) { propertyPath }
+    data: { propertyPath }
   });
 }
 
@@ -356,6 +356,6 @@ export function trackExecution(functionName: string, _step: string, _data?: unkn
  */
 export function logTypeError(error: unknown, context: string, _operation: string): void {
   ErrorHandler.log(error, { context: `TypeScript, ${context}`,
-    data: ) { operation }
+    data: { operation }
   });
 }

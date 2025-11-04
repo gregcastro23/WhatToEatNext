@@ -109,16 +109,16 @@ export function useAstrologicalState(): AstrologyHookData {
   })
 
   // Calculate active planets based on their positions and dignities
-  const getActivePlanets = useCallback();
+  const getActivePlanets = useCallback((
       positions: Record<string, { sign?: string, degree?: number, exactLongitude?: number }>
     ): string[] => {
       if (!positions || typeof positions !== 'object') {
-        logger.warn('Invalid planetary positions for calculating active planets')
+        logger.warn('Invalid planetary positions for calculating active planets');
         return [];
-}
+      }
 
       // List of planets we want to check
-      const planetKeys = [;
+      const planetKeys = [
         'sun',
         'moon',
         'mercury',

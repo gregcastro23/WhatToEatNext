@@ -215,7 +215,7 @@ export function createEndpointRateLimit(endpoint: string): RateLimitRequestHandl
   return rateLimit({
     windowMs: endpointConfig.windowMs || 15 * 60 * 1000,
     max: endpointConfig.max || 100,
-    message: ) {
+    message: {
       error: 'Rate limit exceeded',
       message: endpointConfig.message || 'Too many requests for this endpoint',
       endpoint
@@ -307,7 +307,7 @@ export function rateLimitStatus(req: Request, res: Response): void {
 
   res.json({
     userId: userId || null,
-    tier: ) {
+    tier: {
       name: userId ? (isAdmin(req) ? 'admin' : 'authenticated') : 'anonymous',
       windowMs: tier.windowMs,
       maxRequests: tier.max,

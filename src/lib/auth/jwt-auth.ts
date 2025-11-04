@@ -181,13 +181,13 @@ export class JWTAuthService {
       scopes
     };
 
-    const accessToken = jwt.sign(payload, this.config.jwtSecret, ) {
+    const accessToken = jwt.sign(payload, this.config.jwtSecret, {
       expiresIn: this.config.tokenExpiry,
       issuer: this.config.issuer,
       audience: 'alchm.kitchen'
     });
 
-    const refreshToken = jwt.sign() { userId: user.id, type: 'refresh' },;
+    const refreshToken = jwt.sign({ userId: user.id, type: 'refresh' },
       this.config.jwtSecret,
       {
         expiresIn: this.config.refreshTokenExpiry,

@@ -104,13 +104,13 @@ class UserLearningSystem {
   /**
    * Compute personalized recommendation scores
    */
-  async personalizeRecommendations(userId: string,)
+  async personalizeRecommendations(userId: string,
     baseRecommendations: any[],
     context?: { planetaryHour?: string, timeOfDay?: string }
   ): Promise<RecommendationScore[]> {
     const preferences = await this.getUserPreferences(userId);
 
-    return baseRecommendations.map(rec => ) {
+    return baseRecommendations.map(rec => {
       const score = this.calculatePersonalizedScore(rec, preferences, context);
       return {
         recipeId: rec.id,
@@ -125,7 +125,7 @@ class UserLearningSystem {
   /**
    * Learn from recipe interaction (view, save, cook)
    */
-  learnFromRecipe(userId: string, recipeData: ) {
+  learnFromRecipe(userId: string, recipeData: {
     id: string,
     ingredients: string[],
     cuisine: string,

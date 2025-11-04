@@ -396,7 +396,7 @@ class CurrentMomentManager {
     ];
 
     Object.entries(positions).forEach(([planet, position]) => {
-      void lines.push(`  ${planet}: ) {`);
+      void lines.push(`  ${planet}: {`);
       void lines.push(`    sign: '${position.sign}' as any,`);
       void lines.push(`    degree: ${position.degree + position.minute / 60},`);
       void lines.push(`    exactLongitude: ${position.exactLongitude},`);

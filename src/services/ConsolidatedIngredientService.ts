@@ -141,7 +141,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'getAllIngredients' };
+        data: { action: 'getAllIngredients' };
 });
       return {};
     }
@@ -158,7 +158,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'getAllIngredientsFlat' };
+        data: { action: 'getAllIngredientsFlat' };
 });
       return [];
     }
@@ -184,7 +184,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'getIngredientByName', name };
+        data: { action: 'getIngredientByName', name };
 });
       return undefined;
     }
@@ -203,7 +203,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'getIngredientsByCategory', category };
+        data: { action: 'getIngredientsByCategory', category };
 });
       return [];
     }
@@ -222,7 +222,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'getIngredientsBySubcategory', subcategory };
+        data: { action: 'getIngredientsBySubcategory', subcategory };
 });
       return [];
     }
@@ -303,7 +303,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'filterIngredients', filter };
+        data: { action: 'filterIngredients', filter };
 });
       return {};
     }
@@ -320,7 +320,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'getIngredientsByElement', elementalFilter };
+        data: { action: 'getIngredientsByElement', elementalFilter };
 });
       return [];
     }
@@ -339,7 +339,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'getHighKalchmIngredients', threshold };
+        data: { action: 'getHighKalchmIngredients', threshold };
 });
       return [];
     }
@@ -382,7 +382,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'findComplementaryIngredients', ingredient, maxResults };
+        data: { action: 'findComplementaryIngredients', ingredient, maxResults };
 });
       return [];
     }
@@ -417,7 +417,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) {
+        data: {
           action: 'calculateElementalProperties',
           ingredient: typeof ingredient === 'string' ? ingredient : ingredient.name;
         };
@@ -467,7 +467,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'getIngredientsByFlavor', flavorProfile };
+        data: { action: 'getIngredientsByFlavor', flavorProfile };
 });
       return [];
     }
@@ -575,7 +575,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'getRecommendedIngredients' };
+        data: { action: 'getRecommendedIngredients' };
 });
       return [];
     }
@@ -633,7 +633,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'calculateThermodynamicMetrics', ingredient: ingredient.name };
+        data: { action: 'calculateThermodynamicMetrics', ingredient: ingredient.name };
 });
       return {
         heat: 0.5,
@@ -1144,7 +1144,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'getIngredientsBySeason', season };
+        data: { action: 'getIngredientsBySeason', season };
 });
       return [];
     }
@@ -1185,7 +1185,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'getIngredientsByPlanet', planet };
+        data: { action: 'getIngredientsByPlanet', planet };
 });
       return [];
     }
@@ -1226,7 +1226,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'getIngredientsByZodiacSign', sign };
+        data: { action: 'getIngredientsByZodiacSign', sign };
 });
       return [];
     }
@@ -1299,7 +1299,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) {
+        data: {
           action: 'calculateIngredientCompatibility',
           ingredient1: typeof ingredient1 === 'string' ? ingredient1 : ingredient1.name,
           ingredient2: typeof ingredient2 === 'string' ? ingredient2 : ingredient2.name;
@@ -1457,7 +1457,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) {
+        data: {
           action: 'enhanceIngredientWithElementalProperties',
           ingredient: ingredient.name || 'unknown';
         };
@@ -1514,7 +1514,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
           pairings.push({
             pair: [ing1.name, ing2.name],
-            score: compatibility.score;)
+            score: compatibility.score;
           });
         }
       }
@@ -1553,7 +1553,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) {
+        data: {
           action: 'analyzeRecipeIngredients',
           recipe: recipe.name || recipe.id;
         };
@@ -1760,7 +1760,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         type: ErrorType.DATA,
         severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
-        data: ) { action: 'suggestAlternativeIngredients', ingredientName };
+        data: { action: 'suggestAlternativeIngredients', ingredientName };
 });
       return [];
     }

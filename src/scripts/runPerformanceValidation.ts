@@ -204,7 +204,7 @@ class PerformanceValidationCLI {
       console.log('🚨 Recent Alerts');
       console.log('===============');
       report.recentAlerts.slice(-5).forEach(alert => {
-        const icon = alert.type === 'critical' ? '🔴' : alert.type === 'error' ? '🟠' : '🟡';)
+        const icon = alert.type === 'critical' ? '🔴' : alert.type === 'error' ? '🟠' : '🟡';
         console.log(`${icon} ${alert.message}`);
       });
       console.log();

@@ -270,32 +270,32 @@ export class UnifiedRecipeBuildingSystem {
   /**
    * Calculate Monica optimization for a recipe
    */
-  private calculateMonicaOptimization()
+  private calculateMonicaOptimization(
     recipe: EnhancedRecipe,
-    criteria: RecipeBuildingCriteria;
+    criteria: RecipeBuildingCriteria
   ): MonicaOptimizedRecipe['monicaOptimization'] {
     const originalMonica = recipe.alchemicalProperties?.monicaConstant || null;
     const targetMonica = criteria.targetMonica || this.calculateOptimalMonica(recipe, criteria);
 
     // Calculate optimization adjustments
-    const temperatureAdjustments = this.calculateTemperatureAdjustments();
+    const temperatureAdjustments = this.calculateTemperatureAdjustments(
       originalMonica,
-      targetMonica,
-    )
+      targetMonica
+    );
     const timingAdjustments = this.calculateTimingAdjustments(originalMonica, targetMonica);
-    const intensityModifications = this.calculateIntensityModifications();
+    const intensityModifications = this.calculateIntensityModifications(
       originalMonica,
-      targetMonica,
-    )
-    const planetaryTimingRecommendations = this.calculatePlanetaryTiming(targetMonica, criteria),;
+      targetMonica
+    );
+    const planetaryTimingRecommendations = this.calculatePlanetaryTiming(targetMonica, criteria);
 
     // Calculate optimization score
-    const optimizationScore = this.calculateOptimizationScore();
+    const optimizationScore = this.calculateOptimizationScore(
       originalMonica,
       targetMonica,
       temperatureAdjustments,
-      timingAdjustments,
-    ),
+      timingAdjustments
+    );
 
     return {
       originalMonica,
@@ -1507,7 +1507,7 @@ export class UnifiedRecipeBuildingSystem {
     )
       criteriaMatched++;
     if (
-      (recipe as { culturalIntegration?: ) { authenticityScore?: number } }).culturalIntegration
+      (recipe as { culturalIntegration?: { authenticityScore?: number } }).culturalIntegration
         ?.authenticityScore !== undefined &&
       ((recipe as { culturalIntegration?: { authenticityScore?: number } }).culturalIntegration
         ?.authenticityScore) >= 0.6

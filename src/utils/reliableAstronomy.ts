@@ -377,7 +377,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
     try {
       const response = await fetch(url, {)
         method: 'GET',
-        headers: ) {
+        headers: {
           'Content-Type': 'application/json' },
         signal: controller.signal
       })

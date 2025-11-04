@@ -342,7 +342,7 @@ function calculateQualityMetrics(
 /**
  * Generate recommendations for improving recipe quality
  */
-function generateRecommendations(context: ) {
+function generateRecommendations(context: {
   errors: string[],
   warnings: string[],
   qualityMetrics: RecipeValidationResult['qualityMetrics']

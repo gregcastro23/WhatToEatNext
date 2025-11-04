@@ -263,7 +263,7 @@ class LintingPerformanceValidator {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 120000,
-        env: ) { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' }
+        env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' }
 });
 
       clearInterval(memoryMonitor);

@@ -131,11 +131,11 @@ function getCurrentZodiacSeason(): any {
 function _getCurrentSeason(): Season {
   const zodiacSign = getCurrentZodiacSeason();
   // Map zodiac sign to a season
-  if (['aries', 'taurus', 'gemini'].includes(zodiacSign) {
+  if (['aries', 'taurus', 'gemini'].includes(zodiacSign)) {
     return 'spring';
-  } else if (['cancer', 'leo', 'virgo'].includes(zodiacSign) {
+  } else if (['cancer', 'leo', 'virgo'].includes(zodiacSign)) {
     return 'summer';
-  } else if (['libra', 'scorpio', 'sagittarius'].includes(zodiacSign) {
+  } else if (['libra', 'scorpio', 'sagittarius'].includes(zodiacSign)) {
     return 'autumn';
   } else {
     return 'winter';

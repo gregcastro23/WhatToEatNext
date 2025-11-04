@@ -93,18 +93,18 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
           hour,
           minute,
           zodiacSystem,
-          ...(location && ) { latitude: location.latitude, longitude: location.longitude })
+          ...(location && { latitude: location.latitude, longitude: location.longitude })
         });
       } else {
         // Use GET with query params for current time
         const params = new URLSearchParams();
         if (location) {
-          params.append('latitude', location.latitude.toString())
-          params.append('longitude', location.longitude.toString())
+          params.append('latitude', location.latitude.toString());
+          params.append('longitude', location.longitude.toString());
         }
-        params.append('zodiacSystem', zodiacSystem)
+        params.append('zodiacSystem', zodiacSystem);
 
-        if (params.toString() {
+        if (params.toString()) {
           url = `/api/astrologize?${params.toString()}`;
         }
       }
@@ -117,7 +117,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       // Make the API request
       const response = await fetch(url, {)
         method,
-        headers: ) {
+        headers: {
           'Content-Type': 'application/json'
         },
         body

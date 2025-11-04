@@ -755,7 +755,7 @@ function getCacheKey(
   const recipeIds = recipes;
       ?.map(r => {
         // Apply Pattern GG-6: Enhanced property access with type guards
-        const recipeData = r as any;)
+        const recipeData = r as any;
         return r.id || `${recipeData.name || 'unknown'}-${r.cuisine || 'unknown'}`;
 })
       .join(',') || 'none'

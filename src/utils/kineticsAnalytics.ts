@@ -41,7 +41,7 @@ export function trackKineticsRecommendation(event: KineticsRecommendationEvent):
 /**
  * Track when kinetics enhancement improves recommendations
  */
-export function trackKineticsImprovement(data: ) {
+export function trackKineticsImprovement(data: {
   baseRecommendationCount: number,,
   enhancedRecommendationCount: number,,
   averageKineticScore: number,,

@@ -254,66 +254,66 @@ export class EnhancedIngredientsSystem {
 
     // Filter by subcategory
     if (criteria.subcategory) {
-      results = (results || []).filter()
+      results = (results || []).filter(
         ingredient => ingredient.subcategory === criteria.subcategory
       );
     }
 
     // Filter by elemental focus
     if (criteria.elementalFocus) {
-      results = (results || []).filter(ingredient => ) {
+      results = (results || []).filter(ingredient => {
         const elementKey = criteria.elementalFocus;
         const elementValue = elementKey ? ingredient.elementalProperties[elementKey] || 0 : 0;
         return elementValue > 0.3; // Must have significant presence
-      })
+      });
     }
 
     // Filter by Kalchm range
     if (criteria.kalchmRange) {
-      results = (results || []).filter(ingredient => ) {
+      results = (results || []).filter(ingredient => {
         const kalchmRange = criteria.kalchmRange;
         if (!kalchmRange) return true;
         const ingredientKalchm = ingredient.kalchm || 0;
         return ingredientKalchm >= kalchmRange.min && ingredientKalchm <= kalchmRange.max;
-      })
+      });
     }
 
     // Filter by seasonal alignment
     if (criteria.seasonalAlignment) {
-      results = (results || []).filter()
+      results = (results || []).filter(
         ingredient =>
-          ingredient.culinaryProperties.seasonality.peak.includes()
+          ingredient.culinaryProperties.seasonality.peak.includes(
             criteria.seasonalAlignment as Season
           ) ||
           ingredient.culinaryProperties.seasonality.optimal.includes(criteria.seasonalAlignment as Season)
-      )
+      );
     }
 
     // Filter by planetary ruler
     if (criteria.planetaryRuler) {
-      results = (results || []).filter()
+      results = (results || []).filter(
         ingredient => ingredient.astrologicalProfile.planetaryRuler === criteria.planetaryRuler
       );
     }
 
     // Filter by cooking methods
     if (criteria.cookingMethods && (criteria.cookingMethods || []).length > 0) {
-      results = (results || []).filter(ingredient =>)
-        (criteria.cookingMethods || []).some(method =>)
+      results = (results || []).filter(ingredient =>
+        (criteria.cookingMethods || []).some(method =>
           ingredient.culinaryProperties.cookingMethods.includes(method as unknown as CookingMethod)
         )
-      )
+      );
     }
 
     // Filter by qualities
     if (criteria.qualities && (criteria.qualities || []).length > 0) {
-      results = (results || []).filter(ingredient =>)
-        (criteria.qualities || []).some(quality =>)
+      results = (results || []).filter(ingredient =>
+        (criteria.qualities || []).some(quality =>
           Array.isArray(ingredient.qualities)
             ? ingredient.qualities.includes(quality)
             : ingredient.qualities === quality
         )
-      )
+      );
     }
 
     return results;

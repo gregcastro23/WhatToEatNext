@@ -334,7 +334,7 @@ ${report.results
 
     console.log('📊 SYSTEM READINESS SUMMARY: '),
     results.forEach(result => {
-      const status = result.passed ? '✅' : '❌';)
+      const status = result.passed ? '✅' : '❌';
       console.log(`  ${status} ${result.name}`);
       if (!result.passed && result.issues) {
         result.issues.forEach(issue => console.log(`     - ${issue}`));

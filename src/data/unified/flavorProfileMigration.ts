@@ -88,18 +88,18 @@ export class FlavorProfileMigration {
     // If migration already completed, return cached stats
     if (_isMigrationCompleted && _cachedMigrationStats) {
       return { ..._cachedMigrationStats };
-}
+    }
 
     // If migration is currently running, wait for it to complete
     if (_isMigrationRunning) {
-      return new Promise(resolve => ) {
+      return new Promise(resolve => {
         const checkInterval = setInterval(() => {
           if (!_isMigrationRunning && _cachedMigrationStats) {
             clearInterval(checkInterval);
-            resolve({ ..._cachedMigrationStats })
+            resolve({ ..._cachedMigrationStats });
           }
-        }, 100)
-      })
+        }, 100);
+      });
     }
 
     // Set flag to indicate migration is running
@@ -570,7 +570,7 @@ export class FlavorProfileMigration {
         bitter: cuisineData.flavorProfiles.bitter || 0,
         umami: cuisineData.flavorProfiles.umami || 0,
         spicy: cuisineData.flavorProfiles.spicy || 0
-      }
+      };
     }
 
     if (cuisineData.flavorIntensities) {
@@ -581,7 +581,7 @@ export class FlavorProfileMigration {
         bitter: cuisineData.flavorIntensities.bitter || 0,
         umami: cuisineData.flavorIntensities.umami || 0,
         spicy: cuisineData.flavorIntensities.spicy || 0
-      }
+      };
     }
 
     return this.getDefaultBaseNotes();
@@ -594,8 +594,8 @@ export class FlavorProfileMigration {
     // Calculate from flavor intensities
     if (cuisineData.flavorIntensities) {
       const values = Object.values(cuisineData.flavorIntensities);
-      return values.reduce((sum, val) => sum + val0) / (values || []).length;
-}
+      return values.reduce((sum, val) => sum + val, 0) / (values || []).length;
+    }
 
     return 0.5;
   }
@@ -719,7 +719,7 @@ export class FlavorProfileMigration {
           harmonicResonance: 0.5,
           temperatureOptimal: 20
 },
-        seasonalVariation: ) {
+        seasonalVariation: {
           spring: 1.0,
           summer: 1.0,
           autumn: 1.0,
@@ -728,7 +728,7 @@ export class FlavorProfileMigration {
           all: 1.0
 },
         monicaOptimization: 1.0,
-        optimalTiming: ) {
+        optimalTiming: {
           planetaryHour: false,
           dayOfWeek: 0,
           lunarPhases: []

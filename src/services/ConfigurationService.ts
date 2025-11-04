@@ -382,7 +382,7 @@ class ConfigurationServiceImpl {
           api: { ...config.api },
           astrology: { ...config.astrology },
           debug: config.debug
-        };)
+        };
 
         // Create reset record
         const update: ConfigurationUpdate = ) {

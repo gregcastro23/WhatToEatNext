@@ -2945,7 +2945,7 @@ export async function recommendIngredients()
           ingredient,
           astrological: astrologicalBridge,
           lunar: currentLunarPhaseData,
-          planetary: ) { day: planetaryDay, hour: planetaryHour }
+          planetary: { day: planetaryDay, hour: planetaryHour }
         });
         enterpriseEnhancement =
           enhancementResult && typeof enhancementResult === 'object' ? enhancementResult : null

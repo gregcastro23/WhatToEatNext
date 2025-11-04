@@ -366,7 +366,7 @@ export function generateCuisineRecommendations(userProfile: UserProfile,)
       cuisineId,
       cuisineName,
       compatibilityScore: overallScore,
-      scoringFactors: ) {
+      scoringFactors: {
         elementalCompatibility,
         alchemicalCompatibility,
         culturalAlignment,

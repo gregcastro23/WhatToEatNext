@@ -270,7 +270,7 @@ export class UnifiedNutritionalService {
   /**
    * Get personalized nutritional recommendations
    */
-  getNutritionalRecommendations(criteria: ) {
+  getNutritionalRecommendations(criteria: {
     season?: Season;
     currentZodiacSign?: any;
     planetaryHour?: PlanetName;
@@ -754,7 +754,7 @@ export class UnifiedNutritionalService {
   /**
    * Legacy nutritional score calculation (backward compatibility)
    */
-  async calculateLegacyNutritionalScore(nutrition: ) {}): Promise<number> {
+  async calculateLegacyNutritionalScore(nutrition: {}): Promise<number> {
     try {
       // Legacy service removed - using local nutritional scoring
       return this.calculateLocalNutritionalScore(nutrition);
