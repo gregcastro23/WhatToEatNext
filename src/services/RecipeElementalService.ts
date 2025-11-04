@@ -31,7 +31,7 @@ export class RecipeElementalService {
    * @returns Recipe with guaranteed elemental properties
    */
   public standardizeRecipe<T extends Partial<Recipe>>(
-    recipe: T;
+    recipe: T
   ): T & { elementalProperties: ElementalProperties } {
     try {
       return elementalUtils.standardizeRecipeElements(recipe);
@@ -61,7 +61,7 @@ export class RecipeElementalService {
    * @param recipe The recipe to analyze
    * @returns The dominant element and its value
    */
-  public getDominantElement(recipe: Recipe): { element: keyof ElementalProperties; value, number } {
+  public getDominantElement(recipe: Recipe): { element: keyof ElementalProperties; value: number } {
     const standardized = this.standardizeRecipe(recipe);
     let dominantElement: keyof ElementalProperties = 'Earth';
     let highestValue = 0;
@@ -124,7 +124,7 @@ export class RecipeElementalService {
           : recipe.cookingMethod;
         const method = (methodValue || '').toString().toLowerCase();
 
-        if (method.includes('roast') || method.includes('grill') || method.includes('bake') {
+        if (method.includes('roast') || method.includes('grill') || method.includes('bake')) {
           elementalProps.Fire += 0.2;
           elementalProps.Earth += 0.05;
           elementalProps.Water -= 0.15;
@@ -138,7 +138,7 @@ export class RecipeElementalService {
           elementalProps.Fire -= 0.15;
           elementalProps.Air += 0.05;
           elementalProps.Earth -= 0.1;
-        } else if (method.includes('fry') || method.includes('sauté') {
+        } else if (method.includes('fry') || method.includes('sauté')) {
           elementalProps.Fire += 0.15;
           elementalProps.Air += 0.1;
           elementalProps.Water -= 0.15;
@@ -154,7 +154,7 @@ export class RecipeElementalService {
       if (recipe.cuisine) {
         const cuisine = recipe.cuisine.toLowerCase();
 
-        if (['mexican', 'thai', 'indian', 'cajun', 'szechuan'].includes(cuisine) {
+        if (['mexican', 'thai', 'indian', 'cajun', 'szechuan'].includes(cuisine)) {
           // Spicy cuisines - more Fire
           elementalProps.Fire += 0.1;
           elementalProps.Air += 0.05;
@@ -193,7 +193,7 @@ export class RecipeElementalService {
 
         // Process ingredients with elemental properties
         let ingredientCount = 0;
-        recipe.ingredients.forEach(ingredient => ) {
+        recipe.ingredients.forEach(ingredient => {
           if (ingredient.elementalProperties) {
             // Get values from each element, guarding against undefined values
             ingredientProps.Fire += ingredient.elementalProperties.Fire || 0;

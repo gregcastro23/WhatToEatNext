@@ -132,7 +132,7 @@ export function calculateRecipeWeight(
       }
 
       // Average similarity to other recipes = representativeness
-      const avgSimilarity = similarities.length > 0;
+      const avgSimilarity = similarities.length > 0
         ? similarities.reduce((a, b) => a + b, 0) / similarities.length
         : 0.5;
 

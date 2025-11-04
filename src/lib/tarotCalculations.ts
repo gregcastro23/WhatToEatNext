@@ -157,7 +157,7 @@ const minorArcana = [
 ];
 
 // Major arcana cards
-const _UNUSED_majorArcana = [;
+const _UNUSED_majorArcana = [
   'The Fool',
   'The Magician',
   'The High Priestess',
@@ -304,14 +304,14 @@ const _majorArcanaPlanets: Record<string, string> = {
 const minorArcanaElements: Record<string, string> = {};
 
 // Fill in the elements for all minor arcana cards
-minorArcana.forEach(card => ) {
-  if (card.includes('Wands') {
+minorArcana.forEach(card => {
+  if (card.includes('Wands')) {
     minorArcanaElements[card] = 'Fire';
-  } else if (card.includes('Cups') {
+  } else if (card.includes('Cups')) {
     minorArcanaElements[card] = 'Water';
-  } else if (card.includes('Pentacles') {
+  } else if (card.includes('Pentacles')) {
     minorArcanaElements[card] = 'Earth';
-  } else if (card.includes('Swords') {
+  } else if (card.includes('Swords')) {
     minorArcanaElements[card] = 'Air';
   }
 });
@@ -347,9 +347,9 @@ interface MajorArcanaCard {
  * Get the tarot cards for a specific date
  * Each date corresponds to a specific minor and major arcana card
  */
-export const getTarotCardsForDate = (;
+export const getTarotCardsForDate = (
   date: Date,
-  sunPosition?: { sign: string; degree, number }): { minorCard: TarotCard; majorCard, MajorArcanaCard } => {
+  sunPosition?: { sign: string; degree: number }): { minorCard: TarotCard; majorCard: MajorArcanaCard } => {
   // Get the current decan based on the day of the year or sun position if provided
   const decan = getCurrentDecan(date, sunPosition);
 
@@ -361,7 +361,7 @@ export const getTarotCardsForDate = (;
   }
 
   // Log the decan, sun position, and selected card for debugging
-  log.info()
+  log.info(
     `Tarot Card Debug - Decan: ${decan}, Sun Position: `,
     sunPosition,
     `Selected Card: ${minorArcanaKey || '10_of_cups'}`
@@ -541,8 +541,7 @@ export const _getTarotFoodRecommendations = (;
 
   // Get card details for flavor insights
   const cardName = tarotCards.minorCard.name;
-  const cardNameAsKey = Object.keys(TAROT_CARDS).find(key => TAROT_CARDS[key as TarotCardKey].name === cardName);
-  ) as TarotCardKey;
+  const cardNameAsKey = Object.keys(TAROT_CARDS).find(key => TAROT_CARDS[key as TarotCardKey].name === cardName) as TarotCardKey;
 
   const tarotCard: TarotCardBase = cardNameAsKey
     ? TAROT_CARDS[cardNameAsKey]

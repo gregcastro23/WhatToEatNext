@@ -185,7 +185,7 @@ class LoggingService {
 
   public exportLogs(): string {
     return this.logBuffer
-      .map(entry => ) {
+      .map(entry => {
         const timestamp = entry.timestamp.toISOString();
         const level = LogLevel[entry.level];
         const context = entry.context ? this.formatContext(entry.context) : '';

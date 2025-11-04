@@ -97,7 +97,7 @@ export class UnifiedNutritionalService {
         ) {
           // Convert unified nutritionalProfile if needed
           const unifiedProfile = unifiedIngredient.nutritionalProfile;
-          if (isValidObject(unifiedProfile) {
+          if (isValidObject(unifiedProfile)) {
             nutritionalProfile = {
               ...unifiedProfile,
               // Convert phytonutrients from string[] to Record<string, number> if needed

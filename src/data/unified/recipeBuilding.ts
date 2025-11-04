@@ -311,14 +311,14 @@ export class UnifiedRecipeBuildingSystem {
   /**
    * Apply seasonal adaptation to a recipe
    */
-  private applySeasonalAdaptation()
+  private applySeasonalAdaptation(
     recipe: EnhancedRecipe,
-    season?: Season;
+    season?: Season
   ): MonicaOptimizedRecipe['seasonalAdaptation'] {
     const currentSeason = season || this.seasonalSystem.getCurrentSeason();
-    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations();
-      currentSeason,
-    ) as unknown as SeasonalRecommendations,
+    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(
+      currentSeason
+    ) as unknown as SeasonalRecommendations;
 
     // Calculate seasonal score
     const seasonalScore = this.calculateSeasonalScore(recipe, currentSeason);

@@ -22,7 +22,7 @@ const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours
 /**
  * Fetch accurate planetary positions from JPL Horizons API
  */
-export async function getReliablePlanetaryPositions()
+export async function getReliablePlanetaryPositions(
   date: Date = new Date()
 ): Promise<Record<string, unknown>> {
   try {

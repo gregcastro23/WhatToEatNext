@@ -126,7 +126,7 @@ class CurrentMomentManager {
       // Step 2: Create current moment data structure
       this.currentMoment = {
         timestamp: targetDate.toISOString(),
-        date: targetDate.toLocaleDateString('en-US', ) {
+        date: targetDate.toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
           day: 'numeric',

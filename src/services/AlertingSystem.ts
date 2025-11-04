@@ -105,9 +105,9 @@ class AlertingSystem {
 
   private saveConfiguration() {
     try {
-      const settingsDir = path.join(process.cwd(), '.kiro', 'settings'),;
-      if (!fs.existsSync(settingsDir) {
-        fs.mkdirSync(settingsDir, ) { recursive: true })
+      const settingsDir = path.join(process.cwd(), '.kiro', 'settings');
+      if (!fs.existsSync(settingsDir)) {
+        fs.mkdirSync(settingsDir, { recursive: true })
       }
 
       const configPath = path.join(settingsDir, 'alerting-config.json');

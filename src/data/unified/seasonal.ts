@@ -740,12 +740,12 @@ export class UnifiedSeasonalSystem {
 
     // Calculate Kalchm compatibility
     const unifiedIngredient = unifiedIngredients[ingredientName];
-    const kalchmCompatibility = unifiedIngredient;
+    const kalchmCompatibility = unifiedIngredient
       ? this.calculateKalchmSeasonalCompatibility(unifiedIngredient.kalchm ?? 0, season)
       : 0.5;
 
     // Calculate Monica resonance
-    const monicaResonance = this.calculateMonicaSeasonalResonance(season, availability),;
+    const monicaResonance = this.calculateMonicaSeasonalResonance(season, availability);
 
     return {
       availability,

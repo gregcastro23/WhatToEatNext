@@ -223,7 +223,7 @@ export class UnifiedFlavorEngine {
             {} as Record<string, number>
           );
 
-          log.info('📊 Categories: ', ) { categoryStats });
+          log.info('📊 Categories: ', { categoryStats });
 
           // Mark as initialized
           setGlobalState(this, false, true);

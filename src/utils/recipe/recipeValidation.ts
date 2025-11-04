@@ -53,7 +53,7 @@ export function validateRecipe(recipe: Partial<Recipe>,
   const computationIntegrity = checkComputations ? validateComputationIntegrity(recipe as Partial<EnhancedRecipe>, errors) : true;
 
   // Calculate quality metrics
-  const qualityMetrics = calculateQualityMetrics(recipe, ) {
+  const qualityMetrics = calculateQualityMetrics(recipe, {
     hasRequiredFields,
     ingredientsResolved,
     elementalsNormalized,
@@ -63,7 +63,7 @@ export function validateRecipe(recipe: Partial<Recipe>,
   });
 
   // Generate recommendations
-  const recommendations = generateRecommendations({)
+  const recommendations = generateRecommendations({
     errors,
     warnings,
     qualityMetrics

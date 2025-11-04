@@ -13,7 +13,7 @@ import {
   LunarPhase,
   Recipe,
   Season,
-  ZodiacSign;
+  ZodiacSign
 } from '@/types/alchemy';
 import { PlanetaryAlignment } from '@/types/celestial';
 import type { ScoredRecipe } from '@/types/recipe';
@@ -57,7 +57,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param limit Maximum number of results
    * @returns Promise resolving to an array of scored recipes
    */
-  async getRecommendedRecipes()
+  async getRecommendedRecipes(
     state: SystemState,
     criteria: {
       cuisine?: string;
@@ -71,7 +71,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     limit: number = 10;
   ): Promise<ScoredRecipe[]> {
     try {
-      logger.info('Getting recommended recipes', ) { state, criteria });
+      logger.info('Getting recommended recipes', { state, criteria });
 
       // Create a flavor profile from the current state
       const flavorProfile = this.createFlavorProfileFromState(state);
@@ -80,7 +80,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       const recipeCriteria = {
         ...criteria,
         flavorProfile,
-        elementalPreference: this.createElementalPreferenceFromState(state);
+        elementalPreference: this.createElementalPreferenceFromState(state)
       };
 
       // Get matching recipes from the consolidated service
@@ -99,9 +99,9 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param minMatchScore Minimum match score
    * @returns Promise resolving to an array of recipes
    */
-  async getRecipesForCurrentPlanetaryAlignment()
+  async getRecipesForCurrentPlanetaryAlignment(
     state: SystemState,
-    minMatchScore: number = 0.6;
+    minMatchScore: number = 0.6
   ): Promise<Recipe[]> {
     try {
       if (!state.planetaryPositions) {
@@ -111,7 +111,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       // Create a planetary influences object from the positions
       const planetaryInfluences: { [key: string]: number } = {};
 
-      for (const [planet, position] of Object.entries(state.planetaryPositions) {
+      for (const [planet, position] of Object.entries(state.planetaryPositions)) {
         // Apply surgical type casting with variable extraction
         const positionData = position as Record<string, unknown>;
         const sign = positionData.sign;
@@ -133,9 +133,9 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       }
 
       // Get matching recipes from the consolidated service
-      const recipes = await consolidatedRecipeService.getRecipesForPlanetaryAlignment();
+      const recipes = await consolidatedRecipeService.getRecipesForPlanetaryAlignment(
         planetaryInfluences,
-        minMatchScore,
+        minMatchScore
       );
       return recipes as unknown as Recipe[];
     } catch (error) {
@@ -151,7 +151,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param options Additional options
    * @returns Array of recommended ingredients
    */
-  getRecommendedIngredients()
+  getRecommendedIngredients(
     state: SystemState,
     options: {
       season?: Season;
@@ -189,7 +189,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param filter Additional filter options
    * @returns Record of filtered ingredients by category
    */
-  getSeasonalIngredients()
+  getSeasonalIngredients(
     season: Season,
     filter: {
       categories?: string[];
@@ -201,9 +201,9 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       };
     } = {},
   ): Record<string, UnifiedIngredient[]> {
-    return enhancedIngredientSystem.getSeasonalIngredients(season, ) {
+    return enhancedIngredientSystem.getSeasonalIngredients(season, {
       categories: filter.categories,
-      dietary: filter.dietary;
+      dietary: filter.dietary
     });
   }
 
@@ -224,8 +224,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       sour: Math.min(1, Air * 0.5 + Water * 0.2 + entropy * 0.3),
       bitter: Math.min(1, Fire * 0.2 + Air * 0.5 + reactivity * 0.3),
       salty: Math.min(1, Earth * 0.7 + Water * 0.3),
-      umami: Math.min(1, Earth * 0.4 + Fire * 0.3 + reactivity * 0.3);
-};
+      umami: Math.min(1, Earth * 0.4 + Fire * 0.3 + reactivity * 0.3)
+    };
   }
 
   /**
@@ -240,8 +240,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       metrics: state.metrics,
       planetaryPositions: state.planetaryPositions,
       // Add other relevant state properties
-      ...(state as any);
-};
+      ...(state as any)
+    };
   }
 
   /**
@@ -255,11 +255,11 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
 
     // Find the element that needs balancing the most
     // (the element that's furthest from 0.25, the ideal balance)
-    const elements = [;
+    const elements = [
       { name: 'Fire', value: Fire, diff: Math.abs(Fire - 0.25) },
       { name: 'Water', value: Water, diff: Math.abs(Water - 0.25) },
       { name: 'Earth', value: Earth, diff: Math.abs(Earth - 0.25) },
-      { name: 'Air', value: Air, diff: Math.abs(Air - 0.25) },
+      { name: 'Air', value: Air, diff: Math.abs(Air - 0.25) }
     ];
 
     // Sort by difference from ideal (descending)

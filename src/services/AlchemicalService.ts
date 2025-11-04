@@ -111,7 +111,7 @@ export class AlchemicalService {
       const { getPlanetaryPositionsForDateTime } = await import('./astrologizeApi');
 
       const defaultLocation = { latitude: 40.7498, longitude: -73.7976 }; // NYC
-      const planetaryPositions = await getPlanetaryPositionsForDateTime();
+      const planetaryPositions = await getPlanetaryPositionsForDateTime(
         date,
         location || defaultLocation,
         zodiacSystem
@@ -127,7 +127,7 @@ export class AlchemicalService {
   /**
    * Calculate elemental compatibility between two property sets
    */
-  calculateElementalCompatibility()
+  calculateElementalCompatibility(
     properties1: ElementalProperties,
     properties2: ElementalProperties
   ): number {
@@ -156,7 +156,7 @@ export class AlchemicalService {
   /**
    * Get complementary elemental properties
    */
-  getComplementaryElementalProperties()
+  getComplementaryElementalProperties(
     currentProperties: ElementalProperties
   ): ElementalProperties {
     // Elements complement themselves most strongly
@@ -167,7 +167,7 @@ export class AlchemicalService {
   /**
    * Calculate thermodynamic properties from elemental properties
    */
-  calculateThermodynamicProperties()
+  calculateThermodynamicProperties(
     elementalProperties: ElementalProperties
   ): ThermodynamicMetrics {
     const { Fire = 0, Water = 0, Earth = 0, Air = 0 } = elementalProperties;
@@ -197,7 +197,7 @@ export class AlchemicalService {
   /**
    * Analyze alchemical harmony of a recipe or ingredient combination
    */
-  analyzeAlchemicalHarmony()
+  analyzeAlchemicalHarmony(
     elementalProperties: ElementalProperties[]
   ): {
     overallHarmony: number;
@@ -268,7 +268,7 @@ export class AlchemicalService {
   /**
    * Transform elemental properties through cooking methods
    */
-  transformElementalProperties()
+  transformElementalProperties(
     baseProperties: ElementalProperties,
     cookingMethod: string,
     intensity: 'low' | 'medium' | 'high' = 'medium'
@@ -332,7 +332,7 @@ export class AlchemicalService {
   /**
    * Get alchemical insights for current astrological conditions
    */
-  async getAlchemicalInsights()
+  async getAlchemicalInsights(
     planetaryPositions?: Record<string, PlanetaryPosition>
   ): Promise<{
     dominantElements: string[];
@@ -353,7 +353,7 @@ export class AlchemicalService {
 
       // Determine dominant elements
       const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
-      const dominantElements = elements;
+      const dominantElements = elements
         .filter(el => (elementalProperties[el] || 0) > 0.3)
         .sort((a, b) => (elementalProperties[b] || 0) - (elementalProperties[a] || 0));
 
@@ -362,25 +362,25 @@ export class AlchemicalService {
       const energeticQualities: string[] = [];
       const transformativeOpportunities: string[] = [];
 
-      if (dominantElements.includes('Fire') {
+      if (dominantElements.includes('Fire')) {
         recommendedActions.push('Grill, roast, or bake ingredients');
         energeticQualities.push('Passionate, transformative energy');
         transformativeOpportunities.push('Focus on bold, decisive actions in cooking');
       }
 
-      if (dominantElements.includes('Water') {
+      if (dominantElements.includes('Water')) {
         recommendedActions.push('Steam, boil, or poach ingredients');
         energeticQualities.push('Fluid, adaptable energy');
         transformativeOpportunities.push('Embrace gentle, nurturing cooking techniques');
       }
 
-      if (dominantElements.includes('Earth') {
+      if (dominantElements.includes('Earth')) {
         recommendedActions.push('Slow-cook, stew, or ferment ingredients');
         energeticQualities.push('Grounded, stable energy');
         transformativeOpportunities.push('Build complex flavors through patient cooking');
       }
 
-      if (dominantElements.includes('Air') {
+      if (dominantElements.includes('Air')) {
         recommendedActions.push('Stir-fry, sauté, or use light cooking methods');
         energeticQualities.push('Light, communicative energy');
         transformativeOpportunities.push('Experiment with fresh, vibrant ingredient combinations');

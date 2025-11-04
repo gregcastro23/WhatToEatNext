@@ -82,9 +82,9 @@ export interface SeasonalNutritionalProfile {
   priorityNutrients: string[];
   optimalFoods: string[];
   avoidanceFoods: string[];
-  kalchmRange: { min: number, max: number },
-  monicaModifiers: NutritionalMonicaModifiers,
-  biorhythmAlignment: number
+  kalchmRange: { min: number; max: number };
+  monicaModifiers: NutritionalMonicaModifiers;
+  biorhythmAlignment: number;
 }
 
 export interface PlanetaryNutritionalProfile {

@@ -488,4 +488,3 @@ export function calculateLunarPhaseCompatibility(
   const score = elementalAlignment + recipeTypeAlignment;
   return { score, elementalAlignment, recipeTypeAlignment };
 }
-}

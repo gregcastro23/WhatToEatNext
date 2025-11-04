@@ -564,7 +564,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       seasonalAffinity: ['all']
     }
   },
-  b_chamel_sauce: {
+  bechamel_sauce: {
     name: 'béchamel sauce',
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     qualities: ['versatile', 'culinary'],

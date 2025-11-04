@@ -22,7 +22,7 @@ interface RecipeSearchCriteriaInternal extends RecipeSearchCriteria {
   elementalProperties?: ElementalProperties;
   zodiacSign?: ZodiacSign;
   lunarPhase?: LunarPhase;
-  planetaryAlignment?: Record<string, { sign: string; degree, number }>;
+  planetaryAlignment?: Record<string, { sign: string; degree: number }>;
 }
 
 /**
@@ -117,7 +117,7 @@ export class RecipeService implements RecipeServiceInterface {
   /**
    * Search recipes based on criteria
    */
-  async searchRecipes()
+  async searchRecipes(
     criteria: RecipeSearchCriteria,
     options: RecipeRecommendationOptions = {}
   ): Promise<Recipe[]> {
@@ -129,14 +129,14 @@ export class RecipeService implements RecipeServiceInterface {
 
       // Filter by cuisine
       if (criteria.cuisine) {
-        filteredRecipes = filteredRecipes.filter(recipe =>)
+        filteredRecipes = filteredRecipes.filter(recipe =>
           recipe.cuisine?.toLowerCase().includes(criteria.cuisine!.toLowerCase())
         );
       }
 
       // Filter by max prep time
       if (criteria.maxPrepTime) {
-        filteredRecipes = filteredRecipes.filter(recipe => ) {
+        filteredRecipes = filteredRecipes.filter(recipe => {
           const prepTime = this.parseTimeToMinutes(recipe.timeToMake);
           return prepTime <= criteria.maxPrepTime!;
         });
@@ -144,9 +144,9 @@ export class RecipeService implements RecipeServiceInterface {
 
       // Filter by dietary restrictions
       if (criteria.dietaryRestrictions && criteria.dietaryRestrictions.length > 0) {
-        filteredRecipes = filteredRecipes.filter(recipe => ) {
-          return criteria.dietaryRestrictions!.every(restriction => ) {
-            switch (restriction.toLowerCase() {
+        filteredRecipes = filteredRecipes.filter(recipe => {
+          return criteria.dietaryRestrictions!.every(restriction => {
+            switch (restriction.toLowerCase()) {
               case 'vegetarian':
                 return recipe.isVegetarian === true;
               case 'vegan':
@@ -196,7 +196,7 @@ export class RecipeService implements RecipeServiceInterface {
       }
 
       // Find matching cuisine
-      const cuisine = Object.values(cuisinesMap).find((c: any) =>;
+      const cuisine = Object.values(cuisinesMap).find((c: any) =>
         c?.name?.toLowerCase().includes(normalizedName) ||
         c?.key?.toLowerCase().includes(normalizedName)
       ) as ExtendedCuisine;
@@ -222,7 +222,7 @@ export class RecipeService implements RecipeServiceInterface {
 
       const allRecipes = await this.getAllRecipes();
 
-      return allRecipes.filter(recipe => ) {
+      return allRecipes.filter(recipe => {
         const influences = recipe.astrologicalInfluences || [];
         return influences.some((influence: string) =>
           influence.toLowerCase().includes(zodiacSign.toLowerCase())
@@ -243,7 +243,7 @@ export class RecipeService implements RecipeServiceInterface {
 
       const allRecipes = await this.getAllRecipes();
 
-      return allRecipes.filter(recipe => ) {
+      return allRecipes.filter(recipe => {
         const influences = recipe.astrologicalInfluences || [];
         return influences.some((influence: string) =>
           influence.toLowerCase().includes(lunarPhase.toLowerCase())
@@ -264,7 +264,7 @@ export class RecipeService implements RecipeServiceInterface {
 
       const allRecipes = await this.getAllRecipes();
 
-      return allRecipes.filter(recipe => ) {
+      return allRecipes.filter(recipe => {
         const recipeSeasons = recipe.season || [];
         return recipeSeasons.some((recipeSeason: string) =>
           recipeSeason.toLowerCase().includes(season.toLowerCase())
@@ -279,8 +279,8 @@ export class RecipeService implements RecipeServiceInterface {
   /**
    * Get recipes by planetary alignment
    */
-  async getRecipesByPlanetaryAlignment()
-    planetaryPositions: Record<string, { sign: string; degree, number }>
+  async getRecipesByPlanetaryAlignment(
+    planetaryPositions: Record<string, { sign: string; degree: number }>
   ): Promise<Recipe[]> {
     try {
       logger.debug('Getting recipes for planetary alignment:', planetaryPositions);
@@ -315,7 +315,7 @@ export class RecipeService implements RecipeServiceInterface {
   /**
    * Get best recipe matches based on criteria
    */
-  async getBestRecipeMatches()
+  async getBestRecipeMatches(
     criteria: RecipeSearchCriteriaInternal,
     options: RecipeRecommendationOptions = {}
   ): Promise<ScoredRecipe[]> {
@@ -327,7 +327,7 @@ export class RecipeService implements RecipeServiceInterface {
       // For now, assign equal scores - full scoring would require
       // elemental compatibility calculations
       // TODO: Implement proper recipe scoring
-      return recipes.map(recipe => () {
+      return recipes.map(recipe => ({
         recipe,
         score: 0.8,
         matchReasons: ['Basic match']
@@ -363,7 +363,7 @@ export class RecipeService implements RecipeServiceInterface {
   /**
    * Convert dish data to Recipe format
    */
-  private async convertDishToRecipe()
+  private async convertDishToRecipe(
     dish: Record<string, unknown>,
     cuisine: ExtendedCuisine
   ): Promise<Recipe | null> {
@@ -374,7 +374,7 @@ export class RecipeService implements RecipeServiceInterface {
       const id = `${cuisineName.toLowerCase().replace(/\s+/g, '-')}-${dishName.toLowerCase().replace(/\s+/g, '-')}`;
 
       // Convert ingredients
-      const ingredients = Array.isArray(dish.ingredients);
+      const ingredients = Array.isArray(dish.ingredients)
         ? dish.ingredients.map((ing: any) => ({
             name: String(ing.name || ''),
             amount: typeof ing.amount === 'number' ? ing.amount : 1,
@@ -386,7 +386,7 @@ export class RecipeService implements RecipeServiceInterface {
         : [];
 
       // Convert instructions
-      const instructions = Array.isArray(dish.instructions);
+      const instructions = Array.isArray(dish.instructions)
         ? dish.instructions.map((inst: any) => String(inst))
         : Array.isArray(dish.preparationSteps)
         ? dish.preparationSteps.map((step: any) => String(step))
@@ -397,7 +397,7 @@ export class RecipeService implements RecipeServiceInterface {
       const cookTime = this.parseTime(String(dish.cookTime || '0 minutes'));
 
       // Parse servings
-      const numberOfServings = typeof dish.numberOfServings === 'number';
+      const numberOfServings = typeof dish.numberOfServings === 'number'
         ? dish.numberOfServings
         : typeof dish.servings === 'number'
         ? dish.servings
@@ -406,7 +406,7 @@ export class RecipeService implements RecipeServiceInterface {
         : 2;
 
       // Elemental properties
-      const elementalProperties = dish.elementalProperties as ElementalProperties ||;
+      const elementalProperties = dish.elementalProperties as ElementalProperties ||
         dish.elementalState as ElementalProperties || {
           Fire: 0.25,
           Water: 0.25,

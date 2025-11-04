@@ -18,14 +18,14 @@ export interface ConfigurationState {
     celestialUpdateInterval: number;
     timeout: number;
     retryCount: number;
-    baseUrl: string
+    baseUrl: string;
   };
   astrology: {
     defaultTimezoneName: string;
     retrogradeThreshold: number;
     aspectOrbs: Record<string, number>;
   };
-  debug: boolean
+  debug: boolean;
 }
 
 export interface ConfigurationValidation {
@@ -93,7 +93,7 @@ class ConfigurationServiceImpl {
   private mergeWithDefaults(stored: Record<string, unknown>): ConfigurationState {
     const storedApi = (stored.api as any) || {};
     const storedAstrology = (stored.astrology as any) || {};
-    const celestialUpdateInterval = Number();
+    const celestialUpdateInterval = Number(
       storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval
     );
     const timeout = Number(storedApi.timeout ?? config.api.timeout);
@@ -101,10 +101,10 @@ class ConfigurationServiceImpl {
     const baseUrl =
       typeof storedApi.baseUrl === 'string' ? storedApi.baseUrl : config.api.baseUrl;
 
-    const defaultTimezoneName = typeof storedAstrology.defaultTimezoneName === 'string';
+    const defaultTimezoneName = typeof storedAstrology.defaultTimezoneName === 'string'
         ? storedAstrology.defaultTimezoneName
         : config.astrology.defaultTimezoneName;
-    const retrogradeThreshold = Number();
+    const retrogradeThreshold = Number(
       storedAstrology.retrogradeThreshold ?? config.astrology.retrogradeThreshold
     );
     const aspectOrbs = {
@@ -131,7 +131,7 @@ class ConfigurationServiceImpl {
 
         // Also save history
         if (this.configHistory.length > 0) {
-          localStorage.setItem()
+          localStorage.setItem(
             this.HISTORY_KEY,
             JSON.stringify(this.configHistory.slice(-this.MAX_HISTORY))
           );
@@ -180,15 +180,15 @@ class ConfigurationServiceImpl {
   /**
    * Update configuration
    */
-   
+ 
   // Intentionally, any: Configuration values have multiple valid types
-  public updateConfiguration()
+  public updateConfiguration(
     section: keyof ConfigurationState,
     key: string,
     value: unknown
   ): Promise<boolean> {
     return new Promise(resolve => {
-      try ) {
+      try {
         // Validate the update
         const validation = this.validateUpdate(section, key, value);
         if (!validation.isValid) {
@@ -241,9 +241,9 @@ class ConfigurationServiceImpl {
   /**
    * Validate configuration update
    */
-   
+ 
   // Intentionally, any: Validation must handle any incoming configuration value type
-  private validateUpdate()
+  private validateUpdate(
     section: keyof ConfigurationState,
     key: string,
     value: unknown
@@ -310,7 +310,7 @@ class ConfigurationServiceImpl {
           break;
         case 'defaultTimezoneName':
           // Basic timezone validation
-          const validTimezones = [;
+          const validTimezones = [
             'UTC',
             'America/New_York',
             'America/Chicago',
@@ -320,7 +320,7 @@ class ConfigurationServiceImpl {
             'Europe/Paris',
             'Asia/Tokyo'
           ];
-          if (!validTimezones.includes(value as string) {
+          if (!validTimezones.includes(value as string)) {
             errors.push({
               section: 'astrology',
               key,
@@ -341,14 +341,14 @@ class ConfigurationServiceImpl {
   /**
    * Bulk update configuration
    */
-   
-  public async updateBulk()
+ 
+  public async updateBulk(
     updates: Array<{
       section: keyof ConfigurationState;
       key: string;
       // Intentionally any: Bulk configuration values can be of any valid type
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      value: any
+      value: any;
     }>
   ): Promise<boolean> {
     // Validate all updates first
@@ -385,7 +385,7 @@ class ConfigurationServiceImpl {
         };
 
         // Create reset record
-        const update: ConfigurationUpdate = ) {
+        const update: ConfigurationUpdate = {
           section: 'debug',
           key: 'reset',
           value: 'defaults',
@@ -408,7 +408,7 @@ class ConfigurationServiceImpl {
    * Export configuration
    */
   public exportConfiguration(): string {
-    return JSON.stringify() {
+    return JSON.stringify({
         configuration: this.currentConfig,
         timestamp: Date.now(),
         version: '1.0.0'
@@ -501,8 +501,8 @@ class ConfigurationServiceImpl {
    * Notify all listeners of configuration changes
    */
   private notifyListeners(update: ConfigurationUpdate): void {
-    this.listeners.forEach(listener => ) {
-      if (!listener.sections || listener.sections.includes(update.section) {
+    this.listeners.forEach(listener => {
+      if (!listener.sections || listener.sections.includes(update.section)) {
         try {
           listener.callback(update);
         } catch (error) {
@@ -552,7 +552,7 @@ class ConfigurationServiceImpl {
     }
 
     // Check astrology configuration
-    const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce(sum, orb) => sum + orb,;
+    const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce((sum, orb) => sum + orb,
       0
     );
     if (totalOrbs > 50) {

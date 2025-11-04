@@ -162,17 +162,17 @@ export function authenticate(options: AuthMiddlewareOptions = ) {}) {
       // Attach user information to request
       req.user = payload;
 
-      logger.debug('Authentication successful', ) {
+      logger.debug('Authentication successful', {
         userId: payload.userId,
         email: payload.email,
         roles: payload.roles,
         path: req.path,
         method: req.method
-      })
+      });
 
-      next()
+      next();
     } catch (error) {
-      logger.error('Authentication middleware error', ) {
+      logger.error('Authentication middleware error', {
         error: error instanceof Error ? error.message : 'Unknown error',
         path: req.path,
         method: req.method,

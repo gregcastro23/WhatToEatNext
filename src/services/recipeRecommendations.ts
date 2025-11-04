@@ -56,7 +56,7 @@ export class RecipeRecommender {
       if (scoredRecipes.length === 0) {
         logger.warn('No recipes matched criteria, using fallback');
         return [this.getFallbackRecipe()];
-}
+      }
 
       return scoredRecipes;
     } catch (error) {
@@ -99,7 +99,7 @@ export class RecipeRecommender {
 
         // Give bonus for recipes that specifically mention the current season
         // (rather than just being 'all-season')
-        if (seasonalScore > 0 && recipeSeasons.includes(criteria.season) {
+        if (seasonalScore > 0 && recipeSeasons.includes(criteria.season)) {
           seasonalScore = Math.min(1.0, seasonalScore * 1.4); // Increased from 1.2
         }
 
@@ -170,7 +170,7 @@ export class RecipeRecommender {
     }
   }
 
-  private calculateElementalAlignment(recipe: Recipe, target: ElementalProperties) {
+  private calculateElementalAlignment(recipe: Recipe, target: ElementalProperties): number {
     const recipeElements = this.aggregateIngredients(recipe.ingredients);
 
     // Get current date and check if we're in Aries season (roughly March 21 - April 19)
@@ -187,7 +187,7 @@ export class RecipeRecommender {
 
     if (isAriesSeason && recipe.astrologicalInfluences) {
       // Mars energy gets a significant boost during Aries season
-      if (recipe.astrologicalInfluences.includes('Mars') {
+      if (recipe.astrologicalInfluences.includes('Mars')) {
         finalAlignment += 0.25; // Strong boost for Mars influence in Aries season
       }
 
@@ -198,12 +198,12 @@ export class RecipeRecommender {
     }
 
     // Enhanced Moon influence (always boosted)
-    if (recipe.astrologicalInfluences && recipe.astrologicalInfluences.includes('Moon') {
+    if (recipe.astrologicalInfluences && recipe.astrologicalInfluences.includes('Moon')) {
       finalAlignment += 0.15; // Boost for Moon-influenced recipes
     }
 
     // Enhanced Sun influence (always boosted)
-    if (recipe.astrologicalInfluences && recipe.astrologicalInfluences.includes('Sun') {
+    if (recipe.astrologicalInfluences && recipe.astrologicalInfluences.includes('Sun')) {
       finalAlignment += 0.15; // Boost for Sun-influenced recipes
     }
 
@@ -211,7 +211,7 @@ export class RecipeRecommender {
   }
 
   private aggregateIngredients(ingredients: { elementalProperties?: ElementalProperties }[]) {
-    return ingredients.reduce(acc, ingredient) => ({
+    return ingredients.reduce((acc, ingredient) => ({
         Fire: acc.Fire + (ingredient.elementalProperties?.Fire || 0),
         Water: acc.Water + (ingredient.elementalProperties?.Water || 0),
         Earth: acc.Earth + (ingredient.elementalProperties?.Earth || 0),
@@ -221,14 +221,14 @@ export class RecipeRecommender {
     )
   }
 
-  private calculateElementMatch()
+  private calculateElementMatch(
     recipeElements: ElementalProperties,
-    targetElements: ElementalProperties;
+    targetElements: ElementalProperties
   ): number {
     let alignment = 0;
     let total = 0;
 
-    Object.keys(targetElements).forEach(element => ) {
+    Object.keys(targetElements).forEach(element => {
       const key = element as any;
       const diff = Math.abs((recipeElements[key] || 0) - (targetElements[key] || 0));
       alignment += 1 - diff;
@@ -280,27 +280,27 @@ export class RecipeRecommender {
     }
   }
 
-  private async getSpoonacularRecommendations()
-    _criteria: RecommendationCriteria;
+  private async getSpoonacularRecommendations(
+    _criteria: RecommendationCriteria
   ): Promise<Recipe[]> {
     try {
       // SpoonacularService removed - returning empty array (local recipes used instead)
       logger.info('Spoonacular recommendations disabled - using local recipes')
       return [];
-} catch (error) {
+    } catch (error) {
       logger.error('Failed to fetch Spoonacular recommendations: ', error);
       return [];
-}
+    }
   }
 
   // NEW: Helper method for calculating ingredient preference matches
-  private calculateIngredientPreferenceMatch()
+  private calculateIngredientPreferenceMatch(
     recipeIngredients: { name: string }[],
-    preferredIngredients: string[];
+    preferredIngredients: string[]
   ): number {
     if (!preferredIngredients.length) return 0.5;
     const recipeIngredientNames = recipeIngredients.map(ing => ing.name.toLowerCase());
-    const matchCount = preferredIngredients.filter(prefIng =>);
+    const matchCount = preferredIngredients.filter(prefIng =>
       recipeIngredientNames.some(recIng => recIng.includes(prefIng.toLowerCase()))
     ).length;
 
@@ -311,16 +311,16 @@ export class RecipeRecommender {
   }
 
   // NEW: Helper method for calculating technique matches
-  private calculateTechniqueMatch()
+  private calculateTechniqueMatch(
     recipeTechniques: string | string[],
-    preferredTechniques: string[];
+    preferredTechniques: string[]
   ): number {
     if (!preferredTechniques.length) return 0.5;
-    const techniques = Array.isArray(recipeTechniques);
+    const techniques = Array.isArray(recipeTechniques)
       ? recipeTechniques.map(t => t.toLowerCase())
       : [recipeTechniques.toLowerCase()];
 
-    const matchCount = preferredTechniques.filter(prefTech =>);
+    const matchCount = preferredTechniques.filter(prefTech =>
       techniques.some(tech => tech.includes(prefTech.toLowerCase()))
     ).length;
 

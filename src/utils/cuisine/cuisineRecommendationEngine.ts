@@ -103,7 +103,7 @@ export function calculateElementalCompatibility(
   const userVector = Object.values(userPreferences);
   const cuisineVector = Object.values(cuisineElementals);
 
-  const dotProduct = userVector.reduce((sum, userVal, i) =>;
+  const dotProduct = userVector.reduce((sum, userVal, i) =>
     sum + userVal * cuisineVector[i], 0
   );
 

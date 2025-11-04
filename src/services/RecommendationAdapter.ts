@@ -68,7 +68,7 @@ export class RecommendationAdapter {
   private convertedPositions: Record<string, PlanetData> = {};
   private alchemicalResult: Record<string, number>;
 
-  constructor()
+  constructor(
     ingredients: ElementalItem[],
     methods: ElementalItem[] = [],
     cuisines: ElementalItem[] = []) {
@@ -90,7 +90,7 @@ export class RecommendationAdapter {
   /**
    * Initialize the adapter with planetary positions, daytime status, and other context
    */
-  initialize()
+  initialize(
     planetaryPositions: Record<string, PlanetData>,
     isDaytime = true,
     currentZodiac: string | null = null,
@@ -163,11 +163,11 @@ export class RecommendationAdapter {
       const currentZodiac = sunPosition.sign || null;
 
       // Initialize adapter with calculated values - safe type conversion
-      this.initialize()
+      this.initialize(
         positions,
         isDaytime,
         currentZodiac,
-        lunarPhaseFormatted as LunarPhaseWithSpaces,
+        lunarPhaseFormatted as LunarPhaseWithSpaces
       );
 
       logger.info('Initialized adapter with current planetary positions');
@@ -183,7 +183,7 @@ export class RecommendationAdapter {
   transformItemsWithCurrentPositions(): void {
     try {
       // Transform ingredients directly
-      this.transformedIngredients = transformItemsWithPlanetaryPositions()
+      this.transformedIngredients = transformItemsWithPlanetaryPositions(
         this.ingredients,
         this.planetaryPositions,
         this.isDaytime,
@@ -191,7 +191,7 @@ export class RecommendationAdapter {
       );
 
       // Transform cooking methods
-      this.transformedMethods = transformItemsWithPlanetaryPositions()
+      this.transformedMethods = transformItemsWithPlanetaryPositions(
         this.methods,
         this.planetaryPositions,
         this.isDaytime,
@@ -199,7 +199,7 @@ export class RecommendationAdapter {
       );
 
       // Transform cuisines
-      this.transformedCuisines = transformItemsWithPlanetaryPositions()
+      this.transformedCuisines = transformItemsWithPlanetaryPositions(
         this.cuisines,
         this.planetaryPositions,
         this.isDaytime,
@@ -261,7 +261,7 @@ export class RecommendationAdapter {
         // Find planet information in the planetary positions
         Object.entries(this.tarotPlanetaryBoosts).forEach(([planet, boost]) => {
           // Apply boost to corresponding alchemical property based on planet
-          switch (planet.toLowerCase() {
+          switch (planet.toLowerCase()) {
             case 'sun':
               alchemicalProperties.Spirit = alchemicalProperties.Spirit + boost;
               break;
@@ -304,7 +304,7 @@ export class RecommendationAdapter {
 
       // Apply aspect influences if available
       if (this.aspects && this.aspects.length > 0) {
-        this.aspects.forEach(aspect => ) {
+        this.aspects.forEach(aspect => {
           // Extract aspect data with safe property access
           const aspectData = aspect as unknown as any;
           const body1 = aspectData.body1;
@@ -363,7 +363,7 @@ export class RecommendationAdapter {
       }
 
       // Transform ingredients
-      this.transformedIngredients = transformIngredients()
+      this.transformedIngredients = transformIngredients(
         this.ingredients,
         elementalProperties,
         this.isDaytime,
@@ -372,7 +372,7 @@ export class RecommendationAdapter {
       );
 
       // Transform cooking methods
-      this.transformedMethods = transformCookingMethods()
+      this.transformedMethods = transformCookingMethods(
         this.methods,
         elementalProperties,
         this.isDaytime,
@@ -381,7 +381,7 @@ export class RecommendationAdapter {
       );
 
       // Transform cuisines
-      this.transformedCuisines = transformCuisines()
+      this.transformedCuisines = transformCuisines(
         this.cuisines,
         elementalProperties,
         this.isDaytime,
@@ -419,7 +419,7 @@ export class RecommendationAdapter {
    * Safe number extraction with fallback
    */
   private safeGetNumber(value: unknown): number {
-    if (typeof value === 'number' && !isNaN(value) {
+    if (typeof value === 'number' && !isNaN(value)) {
       return value;
     }
     return 0;
@@ -439,7 +439,7 @@ export class RecommendationAdapter {
   getRecommendedIngredients(limit = 10): RecommendationResult<AlchemicalItem> {
     const items = this.getSortedItems(this.transformedIngredients, limit);
     // Compatibility scores: use gregsEnergy or 1.0 as fallback
-    const scores = Object.fromEntries();
+    const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0])
     );
     return { items, scores, context: { source: 'RecommendationAdapter' } };
@@ -450,7 +450,7 @@ export class RecommendationAdapter {
    */
   getRecommendedCookingMethods(limit = 5): RecommendationResult<AlchemicalItem> {
     const items = this.getSortedItems(this.transformedMethods, limit);
-    const scores = Object.fromEntries();
+    const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0])
     );
     return { items, scores, context: { source: 'RecommendationAdapter' } };
@@ -461,7 +461,7 @@ export class RecommendationAdapter {
    */
   getRecommendedCuisines(limit = 5): RecommendationResult<AlchemicalItem> {
     const items = this.getSortedItems(this.transformedCuisines, limit);
-    const scores = Object.fromEntries();
+    const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0])
     );
     return { items, scores, context: { source: 'RecommendationAdapter' } };
@@ -502,7 +502,7 @@ export class RecommendationAdapter {
   }
 
   private calculateNutritionalBoosts(): Record<string, number> {
-    return this.ingredients.reduce(acc, ingredient) => {
+    return this.ingredients.reduce((acc, ingredient) => {
         const nutrition = ingredient.nutritionalProfile;
         if (nutrition) {
           // Extract nutrition data with safe property access
@@ -516,7 +516,7 @@ export class RecommendationAdapter {
             const vitaminsData = vitamins as unknown;
             const mineralsData = minerals;
 
-            acc[ingredient.id] = Math.sqrt()
+            acc[ingredient.id] = Math.sqrt(
               this.safeGetNumber(macrosData.protein) * 0.4 +
                 this.safeGetNumber(vitaminsData.vitaminC) * 0.3 +
                 this.safeGetNumber(mineralsData.iron) * 0.3
@@ -533,7 +533,7 @@ export class RecommendationAdapter {
     );
   }
 
-  private applyNutritionalBoost()
+  private applyNutritionalBoost(
     item: TransformedItem,
     boosts: Record<string, number>
   ): TransformedItem {
@@ -549,7 +549,7 @@ export class RecommendationAdapter {
     };
   }
 
-  applyTarotEnergyBoosts()
+  applyTarotEnergyBoosts(
     ingredient: AlchemicalItem,
     tarotEnergyBoosts: Record<string, number>
   ): AlchemicalItem {
@@ -568,29 +568,29 @@ export class RecommendationAdapter {
     // - Matter is related to Earth (stability)
     // - Substance is related to Air (connection)
     const ingredientData = ingredient as any;
-    const calculatedSpirit = this.safeGetNumber(ingredientData.spirit) ||;
+    const calculatedSpirit = this.safeGetNumber(ingredientData.spirit) ||
       ((elementalProps as any)?.Fire || 0) * 0.2 + ((elementalProps as any)?.Air || 0) * 0.2;
-    const calculatedEssence = this.safeGetNumber(ingredientData.essence) ||;
+    const calculatedEssence = this.safeGetNumber(ingredientData.essence) ||
       ((elementalProps as any)?.Water || 0) * 0.2 + ((elementalProps as any)?.Fire || 0) * 0.2;
-    const calculatedMatter = this.safeGetNumber(ingredientData.matter) ||;
+    const calculatedMatter = this.safeGetNumber(ingredientData.matter) ||
       ((elementalProps as any)?.Earth || 0) * 0.2 + ((elementalProps as any)?.Water || 0) * 0.2;
-    const calculatedSubstance = this.safeGetNumber(ingredientData.substance) ||;
+    const calculatedSubstance = this.safeGetNumber(ingredientData.substance) ||
       ((elementalProps as any)?.Air || 0) * 0.2 + ((elementalProps as any)?.Earth || 0) * 0.2;
 
     // Apply tarot boosts to calculated values
-    const boostedSpirit = Math.min();
+    const boostedSpirit = Math.min(
       Math.max(calculatedSpirit * (tarotEnergyBoosts.Spirit || 1.0), 0.1),
       1.0
     );
-    const boostedEssence = Math.min();
+    const boostedEssence = Math.min(
       Math.max(calculatedEssence * (tarotEnergyBoosts.Essence || 1.0), 0.1),
       1.0
     );
-    const boostedMatter = Math.min();
+    const boostedMatter = Math.min(
       Math.max(calculatedMatter * (tarotEnergyBoosts.Matter || 1.0), 0.1),
       1.0
     );
-    const boostedSubstance = Math.min();
+    const boostedSubstance = Math.min(
       Math.max(calculatedSubstance * (tarotEnergyBoosts.Substance || 1.0), 0.1),
       1.0
     );
@@ -603,7 +603,7 @@ export class RecommendationAdapter {
 
     // Heat formula: (spirit^2 + fire^2) / (substance + essence + matter + water + air + earth)^2
     // Add safety checks to prevent division by zero and ensure positive results
-    const denominatorHeat = Math.max();
+    const denominatorHeat = Math.max(
       boostedSubstance + boostedEssence + boostedMatter + water + air + earth,
       0.1
     );
@@ -611,7 +611,7 @@ export class RecommendationAdapter {
 
     // Entropy formula
     const denominatorEntropy = Math.max(boostedEssence + boostedMatter + earth + water, 0.1);
-    let entropy = (Math.pow(boostedSpirit, 2) +;
+    let entropy = (Math.pow(boostedSpirit, 2) +
         Math.pow(boostedSubstance, 2) +
         Math.pow(fire, 2) +
         Math.pow(air, 2)) /
@@ -619,7 +619,7 @@ export class RecommendationAdapter {
 
     // Reactivity formula
     const denominatorReactivity = Math.max(boostedMatter + earth, 0.1);
-    let reactivity = (Math.pow(boostedSpirit, 2) +;
+    let reactivity = (Math.pow(boostedSpirit, 2) +
         Math.pow(boostedSubstance, 2) +
         Math.pow(boostedEssence, 2) +
         Math.pow(fire, 2) +

@@ -43,7 +43,7 @@ export class EnhancedIngredientSystem {
    * @param options Additional options
    * @returns Array of recommended ingredients
    */
-  getRecommendedIngredients()
+  getRecommendedIngredients(
     state: SystemState,
     options: {
       season?: Season;

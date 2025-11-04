@@ -206,7 +206,7 @@ class UserLearningSystem {
       complexityPreference: this.calculateComplexityPreference(interactions),
       totalInteractions: interactions.length,
       lastActivity: Math.max(...interactions.map(i => i.timestamp)),
-      learningConfidence: Math.min(interactions.length / 100, 1), // Max confidence at 100 interactions,
+      learningConfidence: Math.min(interactions.length / 100, 1), // Max confidence at 100 interactions
       weights: this.calculatePersonalizationWeights(interactions)
     }
 

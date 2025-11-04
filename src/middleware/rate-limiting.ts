@@ -146,7 +146,7 @@ function determineRateLimitTier(req: Request): RateLimitTier {
 
   // Check for premium user (could be determined by subscription status)
   // For now, treat all authenticated users as premium
-  if (user.roles.includes(UserRole.USER) {
+  if (user.roles.includes(UserRole.USER)) {
     return rateLimitTiers.premium;
   }
 

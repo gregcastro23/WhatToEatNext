@@ -153,7 +153,7 @@ export function useAstrologicalState(): AstrologyHookData {
           }
 
           // Add the ruler of the current sun sign
-          if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign]) {
+          if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign])) {
             activePlanets.push(signRulers[sunSign])
           }
         }

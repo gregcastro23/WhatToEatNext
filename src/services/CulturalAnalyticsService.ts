@@ -214,7 +214,7 @@ export class CulturalAnalyticsService {
       const reasoning: string[] = [];
 
       // Calculate proximity bonus (same cultural group)
-      const sameGroupCuisines = secondaryCuisines.filter();
+      const sameGroupCuisines = secondaryCuisines.filter(
         cuisine => this.getCulturalGroup(cuisine) === primaryGroup
       );
 

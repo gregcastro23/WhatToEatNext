@@ -109,19 +109,19 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
         }
       }
 
-      log.info(`🌟 Making ${method} request to astrologize API: `, ) {
+      log.info(`🌟 Making ${method} request to astrologize API: `, {
         url,
         body: body ? JSON.parse(body) : 'GET params'
-      })
+      });
 
       // Make the API request
-      const response = await fetch(url, {)
+      const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json'
         },
         body
-      })
+      });
 
       if (!response.ok) {
         throw new Error(`API request failed: ${response.status} ${response.statusText}`)
