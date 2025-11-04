@@ -65,13 +65,13 @@ export interface RecommendationScore {
 
 export interface RecommendationExplanation {
   recipe: Recipe;
-  explanation: string
+  explanation: string;
 }
 
 export interface RecipeMatchContext
   extends Pick<ElementalProperties, 'Fire' | 'Water' | 'Earth' | 'Air'> {
-  timeOfDay: TimeOfDay | string,
-  season: Season | string,
+  timeOfDay: TimeOfDay | string;
+  season: Season | string;
   currentSeason?: RecipeSeason | string;
 }
 

@@ -52,8 +52,8 @@ interface MatchFilters {
 // ===== CACHING SYSTEM =====
 
 interface CacheEntry<T> {
-  data: T,
-  timestamp: number
+  data: T;
+  timestamp: number;
 }
 
 const matchCache = new Map<string, CacheEntry<MatchResult[]>>();
@@ -66,7 +66,7 @@ function getCacheKey(
   recipes: Recipe[] | undefined,
   filters: MatchFilters,
   energy: ElementalProperties | null,
-  limit: number;
+  limit: number
 ): string {
   return JSON.stringify({
     recipeCount: recipes?.length || 0,
@@ -86,7 +86,7 @@ export function clearMatchCache(all = false): void {
   } else {
     // Clear expired entries
     const now = Date.now();
-    for (const [key, cacheEntry] of matchCache.entries() {
+    for (const [key, cacheEntry] of matchCache.entries()) {
       if (now - cacheEntry.timestamp > CACHE_TTL) {
         matchCache.delete(key);
       }

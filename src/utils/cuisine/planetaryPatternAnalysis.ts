@@ -22,7 +22,7 @@ import type {
 /**
  * Standard planets used in astrological analysis
  */
-export const PLANETS = [;
+export const PLANETS = [
   'Sun', 'Moon', 'Mercury', 'Venus', 'Mars',
   'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'
 ] as const;
@@ -30,7 +30,7 @@ export const PLANETS = [;
 /**
  * Zodiac signs for planetary placement analysis
  */
-export const ZODIAC_SIGNS = [;
+export const ZODIAC_SIGNS = [
   'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
   'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
 ] as const;
@@ -81,17 +81,17 @@ export function countPlanetaryPositions(recipes: RecipeComputedProperties[]): Pl
 
   // Initialize planet data
   PLANETS.forEach(planet => {
-    planetData[planet] = ) {};
-    ZODIAC_SIGNS.forEach(sign => ) {
+    planetData[planet] = {};
+    ZODIAC_SIGNS.forEach(sign => {
       planetData[planet][sign] = 0;
     });
   });
 
   // Count positions across all recipes
-  recipes.forEach(recipe => ) {
+  recipes.forEach(recipe => {
     const positions = recipe.computationMetadata.planetaryPositionsUsed;
 
-    PLANETS.forEach(planet => ) {
+    PLANETS.forEach(planet => {
       const sign = positions[planet];
       if (sign && planetData[planet][sign] !== undefined) {
         planetData[planet][sign]++;
@@ -100,7 +100,7 @@ export function countPlanetaryPositions(recipes: RecipeComputedProperties[]): Pl
   });
 
   // Convert to PlanetaryFrequency array
-  return PLANETS.map(planet => ) {
+  return PLANETS.map(planet => {
     const signFrequencies = planetData[planet];
     const totalRecipes = recipes.length;
 
@@ -189,13 +189,13 @@ export function getCulturalSignificance(
     Sun: {
       leo: 'Bold, dramatic flavors with emphasis on presentation and pride in cooking traditions',
       sagittarius: 'Adventurous spice combinations and international fusion influences',
-      aries: 'Bold, direct flavors with emphasis on fresh, immediate ingredients';
-},
+      aries: 'Bold, direct flavors with emphasis on fresh, immediate ingredients'
+    },
     Moon: {
       cancer: 'Comforting, nurturing dishes with emphasis on family and emotional connection to food',
       taurus: 'Sensual, luxurious ingredients with focus on texture and mouthfeel',
-      pisces: 'Dreamy, ethereal presentations with delicate, subtle flavor combinations';
-},
+      pisces: 'Dreamy, ethereal presentations with delicate, subtle flavor combinations'
+    },
     Mercury: {
       gemini: 'Versatile, adaptable cooking techniques with emphasis on communication through food',
       virgo: 'Precise, methodical preparation with attention to ingredient quality and health benefits',
@@ -204,23 +204,23 @@ export function getCulturalSignificance(
     Venus: {
       libra: 'Beautifully balanced dishes with emphasis on elegance and social dining',
       taurus: 'Luxurious, indulgent ingredients with focus on sensual pleasure',
-      pisces: 'Romantic, poetic presentations with delicate, artistic touches';
-},
+      pisces: 'Romantic, poetic presentations with delicate, artistic touches'
+    },
     Mars: {
       aries: 'Bold, aggressive flavors with emphasis on heat and intensity',
       scorpio: 'Deep, intense, transformative cooking processes',
-      capricorn: 'Structured, disciplined approaches to complex culinary techniques';
-},
+      capricorn: 'Structured, disciplined approaches to complex culinary techniques'
+    },
     Jupiter: {
       sagittarius: 'Expansive, generous portions with international and exotic influences',
       pisces: 'Spiritual, transcendent dining experiences',
-      cancer: 'Nurturing, abundant family-style servings';
-},
+      cancer: 'Nurturing, abundant family-style servings'
+    },
     Saturn: {
       capricorn: 'Traditional, structured recipes with emphasis on technique and discipline',
       aquarius: 'Innovative, unconventional approaches with intellectual depth',
-      libra: 'Balanced, fair presentations with social consciousness';
-}
+      libra: 'Balanced, fair presentations with social consciousness'
+    }
   };
 
   const planetSignificance = significanceMap[planet]?.[dominantSign];
@@ -268,7 +268,7 @@ export function analyzePlanetaryPatterns(recipes: RecipeComputedProperties[],
   // Convert to PlanetaryPattern array
   const patterns: PlanetaryPattern[] = [];
 
-  planetFrequencies.forEach(planetFreq => ) {
+  planetFrequencies.forEach(planetFreq => {
     const strength = calculatePlanetaryStrength(planetFreq);
 
     // Skip weak patterns
@@ -283,7 +283,7 @@ export function analyzePlanetaryPatterns(recipes: RecipeComputedProperties[],
     let dominantElement: 'Fire' | 'Water' | 'Earth' | 'Air' = 'Fire';
     let maxCount = 0;
 
-    (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => ) {
+    (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
       if (elementalDist[element] > maxCount) {
         dominantElement = element;
         maxCount = elementalDist[element];
@@ -330,14 +330,14 @@ export function getPlanetaryPatternSummary(patterns: PlanetaryPattern[]): {
   dominantElements: Record<string, number>;
   planetDistribution: Record<string, number>;
 } {
-  const dominantElements: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+  const dominantElements: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   const planetDistribution: Record<string, number> = {};
 
   let totalStrength = 0;
 
-  patterns.forEach(pattern => ) {
+  patterns.forEach(pattern => {
     totalStrength += pattern.planetaryStrength;
-    dominantElements[pattern.dominantElement]++,
+    dominantElements[pattern.dominantElement]++;
     planetDistribution[pattern.planet] = pattern.planetaryStrength;
   });
 
@@ -362,7 +362,7 @@ export function findRecipesWithPlanetaryPattern(
   planet: string,
   sign: string
 ): RecipeComputedProperties[] {
-  return recipes.filter(recipe => ) {
+  return recipes.filter(recipe => {
     const positions = recipe.computationMetadata.planetaryPositionsUsed;
     return positions[planet] === sign;
   });
@@ -407,7 +407,7 @@ export function validatePlanetaryAnalysisInputs(recipes: RecipeComputedPropertie
   const errors: string[] = [];
   const warnings: string[] = [];
 
-  if (!Array.isArray(recipes) {
+  if (!Array.isArray(recipes)) {
     errors.push('Recipes must be an array');
     return { isValid: false, errors, warnings };
   }
@@ -426,9 +426,9 @@ export function validatePlanetaryAnalysisInputs(recipes: RecipeComputedPropertie
     } else {
       recipesWithPositions++;
       // Validate position format
-      PLANETS.forEach(planet => ) {
+      PLANETS.forEach(planet => {
         const sign = positions[planet];
-        if (sign && !ZODIAC_SIGNS.includes(sign as any) {
+        if (sign && !ZODIAC_SIGNS.includes(sign as any)) {
           errors.push(`Recipe ${index}: Invalid zodiac sign '${sign}' for ${planet}`);
         }
       });

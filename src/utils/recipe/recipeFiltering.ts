@@ -71,10 +71,10 @@ export class RecipeFilter {
   /**
    * Main filtering and sorting method
    */
-  filterAndSortRecipes()
+  filterAndSortRecipes(
     recipes: Recipe[],
     filterOptions: FilterOptions,
-    sortOptions: SortOptions;
+    sortOptions: SortOptions
   ): ScoredRecipe[] {
     try {
       const filtered = this.applyFilters(recipes, filterOptions);
@@ -90,12 +90,12 @@ export class RecipeFilter {
    * Apply basic filters to recipes
    */
   private applyFilters(recipes: Recipe[], options: FilterOptions): Recipe[] {
-    if (!isNonEmptyArray(recipes) {
+    if (!isNonEmptyArray(recipes)) {
       return [];
     }
 
-    return recipes.filter(recipe => ) {
-      try ) {
+    return recipes.filter(recipe => {
+      try {
         // Season filter
         if (options.currentSeason) {
           const recipeSeason = recipe.season;

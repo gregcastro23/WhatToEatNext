@@ -122,7 +122,7 @@ export function getFoodRecommendationsFromChakras(chakraEnergyStates: ChakraEner
   balancingMeals: string[];
 } {
   // Identify underactive chakras that need support
-  const underactiveChakras = chakraEnergyStates;
+  const underactiveChakras = chakraEnergyStates
     .filter(state => state.balanceState === 'underactive')
     .map(state => state.chakra);
   // If no underactive chakras, use the first few chakras to generate recommendations
@@ -130,12 +130,12 @@ export function getFoodRecommendationsFromChakras(chakraEnergyStates: ChakraEner
     underactiveChakras.length > 0 ? underactiveChakras : ['Root', 'Heart', 'Crown'];
 
   // Identify overactive chakras that need calming
-  const overactiveChakras = chakraEnergyStates;
+  const overactiveChakras = chakraEnergyStates
     .filter(state => state.balanceState === 'overactive')
     .map(state => state.chakra);
 
   // Get food groups that support target chakras
-  const supportingFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP);
+  const supportingFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
     .filter(([_, chakras]) => chakras.some(chakra => chakrasToUse.includes(chakra)))
     .map(([group]) => group);
 
@@ -156,16 +156,16 @@ export function getFoodRecommendationsFromChakras(chakraEnergyStates: ChakraEner
   }
 
   // Get secondary supporting food groups (for chakras that are neutral)
-  const neutralChakras = chakraEnergyStates;
+  const neutralChakras = chakraEnergyStates
     .filter(state => state.balanceState === 'balanced')
     .map(state => state.chakra);
 
-  const secondaryFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP);
+  const secondaryFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
     .filter(([_, chakras]) => chakras.some(chakra => neutralChakras.includes(chakra)))
     .map(([group]) => group);
 
   // Get secondary food items - ensure we have items
-  let secondaryFoods = secondaryFoodGroups;
+  let secondaryFoods = secondaryFoodGroups
     .flatMap(group => FOOD_ITEMS_BY_GROUP[group] || [])
     .filter(food => !primaryFoods.includes(food)); // Remove duplicates
 
@@ -184,12 +184,12 @@ export function getFoodRecommendationsFromChakras(chakraEnergyStates: ChakraEner
   }
 
   // Get food groups to avoid (those that might stimulate overactive chakras)
-  const avoidFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP);
+  const avoidFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
     .filter(([_, chakras]) => chakras.some(chakra => overactiveChakras.includes(chakra)))
     .map(([group]) => group);
 
   // Get foods to avoid - ensure we have items
-  let avoidFoods = avoidFoodGroups;
+  let avoidFoods = avoidFoodGroups
     .flatMap(group => FOOD_ITEMS_BY_GROUP[group] || [])
     .filter(food => !primaryFoods.includes(food)); // Don't avoid if it's needed for underactive chakras
 
@@ -223,78 +223,78 @@ export function getFoodRecommendationsFromChakras(chakraEnergyStates: ChakraEner
  * @param primaryFoods Array of recommended primary foods
  * @returns Array of meal suggestions
  */
-function generateBalancingMeals()
+function generateBalancingMeals(
   underactiveChakras: Chakra[],
   neutralChakras: Chakra[],
-  primaryFoods: string[];
+  primaryFoods: string[]
 ): string[] {
   const meals: string[] = [];
 
   // Default meals if no specific chakras are underactive
   if (underactiveChakras.length === 0) {
-    meals.push('Rainbow chakra bowl with foods of all colors')
-    meals.push('Balanced chakra plate with proteins, grains, and colorful vegetables')
-    meals.push('Nourishing soup with root vegetables and leafy greens')
-    meals.push('Energizing smoothie with berries, greens, and seeds')
+    meals.push('Rainbow chakra bowl with foods of all colors');
+    meals.push('Balanced chakra plate with proteins, grains, and colorful vegetables');
+    meals.push('Nourishing soup with root vegetables and leafy greens');
+    meals.push('Energizing smoothie with berries, greens, and seeds');
     meals.push('Grounding grain bowl with quinoa, vegetables, and healthy fats');
     return meals;
   }
 
   // Root chakra meals
-  if (underactiveChakras.includes('Root') {
-    meals.push('Hearty root vegetable soup with beans and grains')
-    meals.push('Protein-rich bowl with quinoa, lentils, and roasted sweet potatoes')
+  if (underactiveChakras.includes('Root')) {
+    meals.push('Hearty root vegetable soup with beans and grains');
+    meals.push('Protein-rich bowl with quinoa, lentils, and roasted sweet potatoes');
   }
 
   // Sacral chakra meals
-  if (underactiveChakras.includes('Sacral') {
-    meals.push('Orange vegetable curry with coconut milk and turmeric')
-    meals.push('Mango and papaya smoothie bowl with pumpkin seeds')
+  if (underactiveChakras.includes('Sacral')) {
+    meals.push('Orange vegetable curry with coconut milk and turmeric');
+    meals.push('Mango and papaya smoothie bowl with pumpkin seeds');
   }
 
   // Solar plexus meals
-  if (underactiveChakras.includes('Solar Plexus') {
-    meals.push('Corn and yellow pepper frittata with turmeric')
-    meals.push('Pineapple stir-fry with brown rice and yellow vegetables')
+  if (underactiveChakras.includes('Solar Plexus')) {
+    meals.push('Corn and yellow pepper frittata with turmeric');
+    meals.push('Pineapple stir-fry with brown rice and yellow vegetables');
   }
 
   // Heart chakra meals
-  if (underactiveChakras.includes('Heart') {
-    meals.push('Green power salad with avocado, kiwi, and leafy greens')
-    meals.push('Broccoli and spinach soup with herbs and olive oil')
+  if (underactiveChakras.includes('Heart')) {
+    meals.push('Green power salad with avocado, kiwi, and leafy greens');
+    meals.push('Broccoli and spinach soup with herbs and olive oil');
   }
 
   // Throat chakra meals
-  if (underactiveChakras.includes('Throat') {
-    meals.push('Blueberry smoothie with sea vegetables and citrus')
-    meals.push('Elderberry and blackberry compote with herbal tea')
+  if (underactiveChakras.includes('Throat')) {
+    meals.push('Blueberry smoothie with sea vegetables and citrus');
+    meals.push('Elderberry and blackberry compote with herbal tea');
   }
 
   // Third eye chakra meals
-  if (underactiveChakras.includes('Third Eye') {
-    meals.push('Purple vegetable Buddha bowl with eggplant and dark berries')
-    meals.push('Omega-rich fish with purple kale and walnuts')
+  if (underactiveChakras.includes('Third Eye')) {
+    meals.push('Purple vegetable Buddha bowl with eggplant and dark berries');
+    meals.push('Omega-rich fish with purple kale and walnuts');
   }
 
   // Crown chakra meals
-  if (underactiveChakras.includes('Crown') {
-    meals.push('Cleansing cauliflower and garlic soup with herbs')
-    meals.push('White bean and mushroom risotto with purified water')
+  if (underactiveChakras.includes('Crown')) {
+    meals.push('Cleansing cauliflower and garlic soup with herbs');
+    meals.push('White bean and mushroom risotto with purified water');
   }
 
   // Balance meals for multiple chakras
   if (underactiveChakras.length > 2) {
-    meals.push('Rainbow chakra bowl with foods of all colors')
-    meals.push('Seven-chakra smoothie with ingredients for each energy center')
+    meals.push('Rainbow chakra bowl with foods of all colors');
+    meals.push('Seven-chakra smoothie with ingredients for each energy center');
   }
 
   // Generate general meals from primary foods if none of the specific meals were generated
   if (meals.length === 0 && primaryFoods.length > 0) {
-    const proteins = primaryFoods.filter();
+    const proteins = primaryFoods.filter(
       food => FOOD_ITEMS_BY_GROUP['Proteins'].includes(food) || false
     );
 
-    const vegetables = primaryFoods.filter();
+    const vegetables = primaryFoods.filter(
       food => !FOOD_ITEMS_BY_GROUP['Proteins'].includes(food) || false
     );
 
@@ -305,7 +305,7 @@ function generateBalancingMeals()
 
   // Ensure we have at least some meals
   if (meals.length === 0) {
-    meals.push('Balanced chakra plate with proteins, grains, and colorful vegetables')
+    meals.push('Balanced chakra plate with proteins, grains, and colorful vegetables');
     meals.push('Nourishing soup with root vegetables and leafy greens');
   }
 
@@ -339,7 +339,7 @@ export function getZodiacSignFoodRecommendations(zodiacSign: any): string[] {
   const recommendations = CHAKRA_BALANCING_FOODS[primaryChakra] || [];
 
   // Convert general food categories to specific food items
-  const foodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP);
+  const foodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
     .filter(([_, chakras]) => chakras.includes(primaryChakra))
     .map(([group]) => group);
 

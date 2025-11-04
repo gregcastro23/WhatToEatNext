@@ -36,7 +36,7 @@ export function calculateZScore(
 ): number {
   if (globalStdDev === 0) {
     // If no variation in global data, any deviation is significant
-    return value !== globalMean ? (value > globalMean ? 2.0 : -2.0) : 0
+    return value !== globalMean ? (value > globalMean ? 2.0 : -2.0) : 0;
   }
 
   return (value - globalMean) / globalStdDev;
@@ -123,7 +123,7 @@ export const DEFAULT_GLOBAL_BASELINE: GlobalBaseline = {
     Essence: 3.5,
     Matter: 3.0,
     Substance: 1.0
-},
+  },
   thermodynamics: {
     heat: 0.15,
     entropy: 0.12,
@@ -139,13 +139,13 @@ export const DEFAULT_GLOBAL_BASELINE: GlobalBaseline = {
     Water: 0.07,
     Earth: 0.06,
     Air: 0.05
-},
+  },
   alchemicalStdDevs: {
     Spirit: 1.2,
     Essence: 1.5,
     Matter: 1.3,
     Substance: 0.8
-},
+  },
   thermodynamicStdDevs: {
     heat: 0.05,
     entropy: 0.04,
@@ -177,7 +177,7 @@ export function identifyElementalSignatures(
   const signatures: CuisineSignature[] = [];
   const elements = Object.keys(cuisineElementals) as (keyof ElementalProperties)[];
 
-  elements.forEach(element => ) {
+  elements.forEach(element => {
     const value = cuisineElementals[element];
     const globalMean = globalBaseline.elementals[element];
     const globalStdDev = globalBaseline.elementalStdDevs[element];
@@ -220,7 +220,7 @@ export function identifyAlchemicalSignatures(
   const signatures: CuisineSignature[] = [];
   const properties = Object.keys(cuisineAlchemical) as (keyof AlchemicalProperties)[];
 
-  properties.forEach(property => ) {
+  properties.forEach(property => {
     const value = cuisineAlchemical[property];
     const globalMean = globalBaseline.alchemical[property];
     const globalStdDev = globalBaseline.alchemicalStdDevs[property];
@@ -268,7 +268,7 @@ export function identifyThermodynamicSignatures(
   const signatures: CuisineSignature[] = [];
   const properties = Object.keys(cuisineThermodynamics) as (keyof ThermodynamicProperties)[];
 
-  properties.forEach(property => ) {
+  properties.forEach(property => {
     const value = cuisineThermodynamics[property];
     const globalMean = globalBaseline.thermodynamics[property];
     const globalStdDev = globalBaseline.thermodynamicStdDevs[property];
@@ -314,8 +314,8 @@ function generateElementalSignatureDescription(
     Fire: 'cooking techniques and spicy ingredients',
     Water: 'sauces, moisture, and hydrating ingredients',
     Earth: 'hearty, grounding, and substantial ingredients',
-    Air: 'light, aromatic, and fresh ingredients';
-};
+    Air: 'light, aromatic, and fresh ingredients'
+  };
 
   return `${strengthText} ${direction} emphasis on ${elementDescriptions[element]} compared to other cuisines`;
 }
@@ -329,7 +329,7 @@ function generateAlchemicalSignatureDescription(
   strength: string
 ): string {
   const direction = zScore > 0 ? 'high' : 'low';
-  const strengthText = strength === 'very_high' ? 'exceptionally' :;
+  const strengthText = strength === 'very_high' ? 'exceptionally' :
                       strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat';
 
   const propertyDescriptions = {
@@ -351,7 +351,7 @@ function generateThermodynamicSignatureDescription(
   strength: string
 ): string {
   const direction = zScore > 0 ? 'high' : 'low';
-  const strengthText = strength === 'very_high' ? 'exceptionally' :;
+  const strengthText = strength === 'very_high' ? 'exceptionally' :
                       strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat';
 
   const propertyDescriptions = {
@@ -361,7 +361,7 @@ function generateThermodynamicSignatureDescription(
     gregsEnergy: 'energetic balance and dish harmony',
     kalchm: 'alchemical transformation potential',
     monica: 'thermodynamic stability and consistency'
-};
+  };
 
   return `${strengthText} ${direction} ${propertyDescriptions[property]} in cooking processes`;
 }
@@ -397,7 +397,7 @@ export function identifyCuisineSignatures(
   const allSignatures: CuisineSignature[] = [];
 
   // Identify elemental signatures
-  const elementalSignatures = identifyElementalSignatures();
+  const elementalSignatures = identifyElementalSignatures(
     cuisineProperties.averageElementals,
     globalBaseline,
     threshold
@@ -406,7 +406,7 @@ export function identifyCuisineSignatures(
 
   // Identify alchemical signatures
   if (cuisineProperties.averageAlchemical) {
-    const alchemicalSignatures = identifyAlchemicalSignatures();
+    const alchemicalSignatures = identifyAlchemicalSignatures(
       cuisineProperties.averageAlchemical,
       globalBaseline,
       threshold
@@ -416,7 +416,7 @@ export function identifyCuisineSignatures(
 
   // Identify thermodynamic signatures
   if (cuisineProperties.averageThermodynamics) {
-    const thermodynamicSignatures = identifyThermodynamicSignatures();
+    const thermodynamicSignatures = identifyThermodynamicSignatures(
       cuisineProperties.averageThermodynamics,
       globalBaseline,
       threshold
@@ -426,8 +426,8 @@ export function identifyCuisineSignatures(
 
   // Add confidence scores if requested
   if (includeConfidence) {
-    allSignatures.forEach(signature => ) {
-      const confidence = calculateSignatureConfidence();
+    allSignatures.forEach(signature => {
+      const confidence = calculateSignatureConfidence(
         signature.zscore,
         sampleSize,
         globalBaseline.cuisineCount
@@ -476,13 +476,13 @@ export function getSignatureSummary(signatures: CuisineSignature[]): {
 
   let totalZScore = 0;
 
-  signatures.forEach(sig => ) {
+  signatures.forEach(sig => {
     byStrength[sig.strength]++;
 
     // Classify property type
-    if (['Fire', 'Water', 'Earth', 'Air'].includes(sig.property) {
+    if (['Fire', 'Water', 'Earth', 'Air'].includes(sig.property)) {
       byPropertyType.elemental++;
-    } else if (['Spirit', 'Essence', 'Matter', 'Substance'].includes(sig.property) {
+    } else if (['Spirit', 'Essence', 'Matter', 'Substance'].includes(sig.property)) {
       byPropertyType.alchemical++;
     } else {
       byPropertyType.thermodynamic++;

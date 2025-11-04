@@ -29,7 +29,7 @@ const errorLog = (_message: string, ..._args: unknown[]): void => {
 // Interface for state cache
 interface StateCache<T> {
   data: T;
-  timestamp: number
+  timestamp: number;
 }
 
 // Cache for reliable positions
@@ -39,7 +39,7 @@ const _CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 // Interface for transit date
 interface TransitDate {
   _Start: string;
-  _End: string
+  _End: string;
 }
 
 // Interface for planet data with transits
@@ -151,7 +151,7 @@ export function calculateLunarPhase(): number {
 
     return cyclePosition;
   } catch (error) {
-    errorLog()
+    errorLog(
       'Error in safe calculateLunarPhase: ',
       error instanceof Error ? error.message : String(error)
     );
@@ -192,7 +192,7 @@ export function getmoonIllumination(): number {
       return 2 - phase * 2; // Waning
     }
   } catch (error) {
-    errorLog()
+    errorLog(
       'Error in safe getmoonIllumination: ',
       error instanceof Error ? error.message : String(error)
     );
@@ -317,9 +317,9 @@ export function calculatePlanetaryAspects(positions: {
  * @param angleDiff Angle difference in degrees
  * @returns Aspect type and orb or null if not a recognized aspect
  */
-export function identifyAspect(angleDiff: number): { type: AspectType; orb, number } | null {
+export function identifyAspect(angleDiff: number): { type: AspectType; orb: number } | null {
   // Define aspect angles and allowed orbs
-  const aspectDefinitions: Record<AspectType, { angle: number; maxOrb, number }> = {
+  const aspectDefinitions: Record<AspectType, { angle: number; maxOrb: number }> = {
     conjunction: { angle: 0, maxOrb: 8 },
     opposition: { angle: 180, maxOrb: 8 },
     trine: { angle: 120, maxOrb: 7 },
@@ -334,7 +334,7 @@ export function identifyAspect(angleDiff: number): { type: AspectType; orb, numb
   };
 
   // Check each aspect type
-  for (const [type, ) { angle, maxOrb }] of Object.entries(aspectDefinitions) {
+  for (const [type, { angle, maxOrb }] of Object.entries(aspectDefinitions)) {
     const orb = Math.abs(angleDiff - angle);
     if (orb <= maxOrb) {
       return { type: type as AspectType, orb };
@@ -367,7 +367,7 @@ export function calculateAspectStrength(type: AspectType, orb: number): number {
   };
 
   // Get max orb for this aspect type
-  const aspectDefinitions: Record<AspectType, { angle: number; maxOrb, number }> = {
+  const aspectDefinitions: Record<AspectType, { angle: number; maxOrb: number }> = {
     conjunction: { angle: 0, maxOrb: 8 },
     opposition: { angle: 180, maxOrb: 8 },
     trine: { angle: 120, maxOrb: 7 },
@@ -407,7 +407,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     const dominantElement = getDominantElement(elementCounts) as Element;
 
     // Map planets to names
-    const activePlanets = Object.keys(positions || ) {}).filter();
+    const activePlanets = Object.keys(positions || {}).filter(
       p => !['northNode', 'southNode', 'Chiron', 'Ascendant', 'MC'].includes(p)
     ) as PlanetName[];
 
@@ -430,7 +430,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       _isDaytime: new Date().getHours() > 6 && new Date().getHours() < 18
     };
   } catch (error) {
-    errorLog()
+    errorLog(
       'Error in getCurrentAstrologicalState: ',
       error instanceof Error ? error.message : String(error)
     );
@@ -472,7 +472,7 @@ export const normalizeZodiacSign = (sign: string): ZodiacSign => {
     'pisces'
   ];
 
-  if (validSigns.includes(normalizedSign as ZodiacSign) {
+  if (validSigns.includes(normalizedSign as ZodiacSign)) {
     return normalizedSign as ZodiacSign;
   }
 
@@ -518,7 +518,7 @@ export function getCurrentTransitSign(
     // No data for this planet
     return null;
   } catch (error) {
-    errorLog()
+    errorLog(
       'Error in getCurrentTransitSign: ',
       error instanceof Error ? error.message : String(error)
     );
@@ -537,7 +537,7 @@ export function validatePlanetaryPositions(
   _date: Date = new Date()
 ): { [key: string]: CelestialPosition } {
   // If positions are missing or empty, use reliable positions
-  if (!positions || Object.keys(positions || ) {}).length === 0) {
+  if (!positions || Object.keys(positions || {}).length === 0) {
     return getReliablePlanetaryPositions();
   }
 
@@ -560,7 +560,7 @@ export function validatePlanetaryPositions(
   // Normalize sign names
   const result: { [key: string]: CelestialPosition } = {};
 
-  for (const [planet, data] of Object.entries(positions) {
+  for (const [planet, data] of Object.entries(positions)) {
     if (typeof data === 'object' && data !== null) {
       const src = data as Record<string, unknown>;
       const position: CelestialPosition = {
@@ -604,7 +604,7 @@ export function getBaseSignLongitude(sign: ZodiacSign): number {
   ];
 
   const index = signs.indexOf(sign);
-  return index >= 0 ? index * 30 : 0
+  return index >= 0 ? index * 30 : 0;
 }
 
 /**
@@ -612,16 +612,16 @@ export function getBaseSignLongitude(sign: ZodiacSign): number {
  * @returns Current planetary positions
  */
 export function getCurrentTransitPositions(): {
-  [key: string]: { sign: ZodiacSign; degree, number; isRetrograde, boolean };
+  [key: string]: { sign: ZodiacSign; degree: number; isRetrograde: boolean };
 } {
   // First try to get reliable positions
   const positions = getReliablePlanetaryPositions();
 
   // Convert to transit format
-  const result: { [key: string]: { sign: ZodiacSign; degree, number; isRetrograde, boolean } } =
+  const result: { [key: string]: { sign: ZodiacSign; degree: number; isRetrograde: boolean } } =
     {};
 
-  for (const [planet, data] of Object.entries(positions) {
+  for (const [planet, data] of Object.entries(positions)) {
     result[planet] = {
       sign: data.sign as ZodiacSign,
       degree: data.degree,
@@ -722,7 +722,7 @@ function countElements(positions: { [key: string]: CelestialPosition }): { [key:
   };
 
   // Count elements
-  for (const [planet, position] of Object.entries(positions) {
+  for (const [planet, position] of Object.entries(positions)) {
     if (!position.sign) continue;
 
     const element = signElements[position.sign.toLowerCase()];
@@ -732,7 +732,7 @@ function countElements(positions: { [key: string]: CelestialPosition }): { [key:
     let weight = 1;
     if (planet === 'Sun' || planet === 'Moon') {
       weight = 3;
-    } else if (['Mercury', 'Venus', 'Mars'].includes(planet) {
+    } else if (['Mercury', 'Venus', 'Mars'].includes(planet)) {
       weight = 2;
     }
 
@@ -751,7 +751,7 @@ function getDominantElement(elements: { [key: string]: number }): string {
   let max = 0;
   let dominant = 'Fire';
 
-  for (const [element, count] of Object.entries(elements) {
+  for (const [element, count] of Object.entries(elements)) {
     if (count > max) {
       max = count;
       dominant = element;

@@ -68,7 +68,7 @@ export function getLunarPhaseModifier(_phase: LunarPhase): number {
     'full moon': 1.0,
     'waning gibbous': 0.8,
     'last quarter': 0.6,
-    'waning crescent': 0.3;
+    'waning crescent': 0.3
   };
 
   return modifiers[_phase] || 0.5; // default to 0.5 if phase is not recognized
@@ -540,28 +540,28 @@ function _calculatePlanetPosition(
 
 function calculatePlanetLongitude(jd: number, planet: string): number {
   // More accurate calculations for each planet
-  switch (planet.toLowerCase() {
+  switch (planet.toLowerCase()) {
     case 'sun':
-      return calculateSunLongitude(jd)
+      return calculateSunLongitude(jd);
     case 'moon':
-      return calculateMoonLongitude(jd)
+      return calculateMoonLongitude(jd);
     case 'mercury':
-      return calculateInnerPlanetLongitude(jd, 'mercury')
+      return calculateInnerPlanetLongitude(jd, 'mercury');
     case 'venus':
-      return calculateInnerPlanetLongitude(jd, 'venus')
+      return calculateInnerPlanetLongitude(jd, 'venus');
     case 'mars':
-      return calculateOuterPlanetLongitude(jd, 'mars')
+      return calculateOuterPlanetLongitude(jd, 'mars');
     case 'jupiter':
-      return calculateOuterPlanetLongitude(jd, 'jupiter')
+      return calculateOuterPlanetLongitude(jd, 'jupiter');
     case 'saturn':
-      return calculateOuterPlanetLongitude(jd, 'saturn')
+      return calculateOuterPlanetLongitude(jd, 'saturn');
     case 'uranus':
-      return calculateOuterPlanetLongitude(jd, 'uranus')
+      return calculateOuterPlanetLongitude(jd, 'uranus');
     case 'neptune':
-      return calculateOuterPlanetLongitude(jd, 'neptune')
+      return calculateOuterPlanetLongitude(jd, 'neptune');
     case 'pluto':
-      return calculateOuterPlanetLongitude(jd, 'pluto')
-    default: throw new Error(`Unsupported planet: ${planet}`)
+      return calculateOuterPlanetLongitude(jd, 'pluto');
+    default: throw new Error(`Unsupported planet: ${planet}`);
   }
 }
 

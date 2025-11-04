@@ -43,10 +43,10 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   applyTags(recipe, recipeData.tags ?? []);
   applyNutrition(recipe, recipeData.nutrition);
 
-  if (isNonEmptyArray(recipeData.substitutions) {
+  if (isNonEmptyArray(recipeData.substitutions)) {
     recipe.substitutions = recipeData.substitutions;
   }
-  if (isNonEmptyArray(recipeData.tools) {
+  if (isNonEmptyArray(recipeData.tools)) {
     recipe.tools = recipeData.tools;
   }
   if (recipeData.spiceLevel !== undefined) {
@@ -55,7 +55,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   if (recipeData.preparationNotes) {
     recipe.preparationNotes = recipeData.preparationNotes;
   }
-  if (isNonEmptyArray(recipeData.technicalTips) {
+  if (isNonEmptyArray(recipeData.technicalTips)) {
     recipe.technicalTips = recipeData.technicalTips;
   }
   if (recipeData.flavorProfile) {
@@ -66,8 +66,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 }
 
 function adaptIngredients(ingredients: RecipeData['ingredients']): RecipeIngredient[] {
-  return ingredients.map(ingredient => ) {
-    const recipeIngredient: RecipeIngredient = ) {
+  return ingredients.map(ingredient => {
+    const recipeIngredient: RecipeIngredient = {
       name: ingredient.name ?? 'Unknown Ingredient',
       amount: Number(ingredient.amount ?? 0),
       unit: ingredient.unit ?? ''
@@ -155,8 +155,8 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
     'dehydrating',
   ];
 
-  const matches = recipeData.tags.filter(tag =>);
-    cookingMethodKeywords.some(method => tag.toLowerCase().includes(method)),
+  const matches = recipeData.tags.filter(tag =>
+    cookingMethodKeywords.some(method => tag.toLowerCase().includes(method))
   );
 
   return matches;
@@ -172,7 +172,7 @@ export function createMinimalRecipe(name: string): Recipe {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-}),
+    }),
     instructions: []
 };
 }
@@ -186,7 +186,7 @@ function ensureRecipeId(id?: RecipeIdentifier): RecipeIdentifier {
 }
 
 function normalizeElementalProperties(
-  value: RecipeData['elementalProperties'];
+  value: RecipeData['elementalProperties']
 ): ElementalProperties {
   if (value && typeof value === 'object') {
     return createElementalProperties(value as Partial<ElementalProperties>);
@@ -197,7 +197,7 @@ function normalizeElementalProperties(
 
 function applyEnergyProfile(
   recipe: Recipe,
-  energyProfile: RecipeData['energyProfile'] | undefined;
+  energyProfile: RecipeData['energyProfile'] | undefined
 ): void {
   if (!energyProfile) {
     return;
@@ -208,7 +208,7 @@ function applyEnergyProfile(
   }
 
   if (energyProfile.zodiac) {
-    const zodiacValues = Array.isArray(energyProfile.zodiac);
+    const zodiacValues = Array.isArray(energyProfile.zodiac)
       ? energyProfile.zodiac
       : [energyProfile.zodiac];
     recipe.zodiacInfluences = zodiacValues
@@ -217,7 +217,7 @@ function applyEnergyProfile(
   }
 
   if (energyProfile.lunar) {
-    const lunarValues = Array.isArray(energyProfile.lunar);
+    const lunarValues = Array.isArray(energyProfile.lunar)
       ? energyProfile.lunar
       : [energyProfile.lunar];
     recipe.lunarPhaseInfluences = lunarValues
@@ -231,23 +231,23 @@ function applyEnergyProfile(
 }
 
 function extractSeason(value: Season | Season[] | string): Season | string {
-  if (Array.isArray(value) {
+  if (Array.isArray(value)) {
     return String(value[0] ?? '').toLowerCase();
   }
   return String(value ?? '').toLowerCase();
 }
 
 function normalizePlanetaryInfluences(
-  source: string[] | Record<string, number>,
+  source: string[] | Record<string, number>
 ): RecipePlanetaryInfluences {
-  if (Array.isArray(source) {
+  if (Array.isArray(source)) {
     return {
       _favorable: source,
       unfavorable: []
     };
   }
 
-  const entries = Object.entries(source ?? ) {});
+  const entries = Object.entries(source ?? {});
   const favorable: string[] = [];
   const unfavorable: string[] = [];
 
@@ -264,18 +264,18 @@ function normalizePlanetaryInfluences(
 
   return {
     _favorable: favorable,
-    unfavorable;
-};
+    unfavorable
+  };
 }
 
 function applyTags(recipe: Recipe, tags: string[]): void {
-  if (!isNonEmptyArray(tags) {
+  if (!isNonEmptyArray(tags)) {
     return;
   }
 
   recipe.tags = tags;
 
-  const dietaryTags = tags.filter(tag =>);
+  const dietaryTags = tags.filter(tag =>
     [
       'vegetarian',
       'vegan',
@@ -284,20 +284,20 @@ function applyTags(recipe: Recipe, tags: string[]): void {
       'nut-free',
       'low-carb',
       'keto',
-      'paleo',
-    ].includes(tag.toLowerCase()),
+      'paleo'
+    ].includes(tag.toLowerCase())
   );
 
-  if (dietaryTags.includes('vegetarian') {
+  if (dietaryTags.includes('vegetarian')) {
     recipe.isVegetarian = true;
   }
-  if (dietaryTags.includes('vegan') {
+  if (dietaryTags.includes('vegan')) {
     recipe.isVegan = true;
   }
-  if (dietaryTags.includes('gluten-free') {
+  if (dietaryTags.includes('gluten-free')) {
     recipe.isGlutenFree = true;
   }
-  if (dietaryTags.includes('dairy-free') {
+  if (dietaryTags.includes('dairy-free')) {
     recipe.isDairyFree = true;
   }
 
@@ -315,8 +315,8 @@ function applyNutrition(recipe: Recipe, nutrition?: RecipeNutrition): void {
   }
 
   const macronutrients = (nutrition.macronutrients ?? {}) as RecipeNutrition['macronutrients'];
-  const vitamins = nutrition.vitamins ?? Object.keys(nutrition.micronutrients?.vitamins ?? ) {});
-  const minerals = nutrition.minerals ?? Object.keys(nutrition.micronutrients?.minerals ?? ) {});
+  const vitamins = nutrition.vitamins ?? Object.keys(nutrition.micronutrients?.vitamins ?? {});
+  const minerals = nutrition.minerals ?? Object.keys(nutrition.micronutrients?.minerals ?? {});
 
   recipe.nutrition = {
     calories: Number(nutrition.calories ?? 0),
@@ -324,6 +324,6 @@ function applyNutrition(recipe: Recipe, nutrition?: RecipeNutrition): void {
     carbs: Number(nutrition.carbs ?? macronutrients?.carbs ?? 0),
     fat: Number(nutrition.fat ?? macronutrients?.fat ?? 0),
     vitamins,
-    minerals;
-};
+    minerals
+  };
 }

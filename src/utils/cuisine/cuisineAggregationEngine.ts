@@ -337,7 +337,7 @@ export function computeCuisineProperties(
   let variance: PropertyVariance;
   if (includeVariance) {
     const elementalVariance = calculateElementalVariance(recipes, averageElementals);
-    const alchemicalVariance = averageAlchemical ?;
+    const alchemicalVariance = averageAlchemical ?
       calculateAlchemicalVariance(recipes, averageAlchemical) : undefined;
 
     variance = {
@@ -387,7 +387,7 @@ export function validateCuisineComputationInputs(recipes: RecipeComputedProperti
 } {
   const errors: string[] = [];
 
-  if (!Array.isArray(recipes) {
+  if (!Array.isArray(recipes)) {
     errors.push('Recipes must be an array');
   } else {
     if (recipes.length === 0) {

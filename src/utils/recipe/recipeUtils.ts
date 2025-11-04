@@ -74,7 +74,7 @@ export function getRecipeCookingMethods(recipe: Recipe): string[] {
 
   // Check cookingMethod first (string or string[])
   if (recipe.cookingMethod) {
-    if (Array.isArray(recipe.cookingMethod) {
+    if (Array.isArray(recipe.cookingMethod)) {
       return recipe.cookingMethod.filter(method => typeof method === 'string');
     } else if (typeof recipe.cookingMethod === 'string') {
       return [recipe.cookingMethod];
@@ -82,7 +82,7 @@ export function getRecipeCookingMethods(recipe: Recipe): string[] {
   }
 
   // Check cookingMethods if cookingMethod didn't work
-  if (recipe.cookingMethods && Array.isArray(recipe.cookingMethods) {
+  if (recipe.cookingMethods && Array.isArray(recipe.cookingMethods)) {
     return recipe.cookingMethods.filter(method => typeof method === 'string');
   }
 

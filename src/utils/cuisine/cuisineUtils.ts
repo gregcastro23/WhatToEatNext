@@ -12,13 +12,15 @@ import { herbCuisineMatrix } from '../../data/integrations/herbCuisineMatrix';
  */
 export function getCuisinePAirings(ingredientName: string, category: IngredientCategory): string[] {
   switch (category) {
-    case 'grain': const grainData = grainCuisineMatrix[ingredientName] as unknown;
+    case 'grain':
+      const grainData = grainCuisineMatrix[ingredientName] as unknown;
       return grainData?.cuisines || [];
     case 'culinary_herb':
-      return herbCuisineMatrix[ingredientName] || []
+      return herbCuisineMatrix[ingredientName] || [];
     // Additional categories can be added as their matrix files are created
-    return [];
-}
+    default:
+      return [];
+  }
 }
 
 /**
@@ -39,24 +41,24 @@ export function getIngredientsForCuisine(
     _vinegar: [],
     _seasoning: [],
     _dairy: []
-  }
+  };
 
   // Process each matrix to find ingredients that pAir with this cuisine
   if (categories.includes('grain')) {
     Object.entries(grainCuisineMatrix || {}).forEach(([grain, data]) => {
       const grainDataEntry = data;
       if (grainDataEntry?.cuisines && (grainDataEntry as any)?.cuisines.includes(cuisineName)) {
-        result.grain.push(grain)
+        result.grain.push(grain);
       }
-    })
+    });
   }
 
   if (categories.includes('culinary_herb')) {
     Object.entries(herbCuisineMatrix || {}).forEach(([herb, cuisines]) => {
       if (Array.isArray(cuisines) && cuisines.includes(cuisineName)) {
-        result.culinary_herb.push(herb)
+        result.culinary_herb.push(herb);
       }
-    })
+    });
   }
 
   // Additional matrices can be processed here
@@ -67,10 +69,10 @@ export function getIngredientsForCuisine(
 /**
  * Check if a cuisine is compatible with a specific ingredient
  */
-export function isCuisineCompatibleWithIngredient()
+export function isCuisineCompatibleWithIngredient(
   cuisineName: string,
   ingredientName: string,
-  category: IngredientCategory;
+  category: IngredientCategory
 ): boolean {
   const compatibleCuisines = getCuisinePAirings(ingredientName, category);
   return Array.isArray(compatibleCuisines)
@@ -81,10 +83,10 @@ export function isCuisineCompatibleWithIngredient()
 /**
  * Get the shared ingredients between two cuisines
  */
-export function getSharedIngredients()
+export function getSharedIngredients(
   cuisine1: string,
   cuisine2: string,
-  categories: IngredientCategory[] = ['grain', 'culinary_herb'],
+  categories: IngredientCategory[] = ['grain', 'culinary_herb']
 ): string[] {
   const cuisine1Ingredients = getIngredientsForCuisine(cuisine1, categories);
   const cuisine2Ingredients = getIngredientsForCuisine(cuisine2, categories);
@@ -97,8 +99,8 @@ export function getSharedIngredients()
     const c2Ingredients = cuisine2Ingredients[category] || [];
 
     for (const ingredient of c1Ingredients) {
-      if (c2Ingredients.includes(ingredient) {
-        shared.push(ingredient)
+      if (c2Ingredients.includes(ingredient)) {
+        shared.push(ingredient);
       }
     }
   }
