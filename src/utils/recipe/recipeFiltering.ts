@@ -780,7 +780,7 @@ export class RecipeFilter {
 
 // ===== EXPORTED UTILITY FUNCTIONS =====
 
-export function filterRecipesByIngredientMappings(recipes: Recipe[],)
+export function filterRecipesByIngredientMappings(recipes: Recipe[],
   elementalTarget?: ElementalProperties,
   ingredientRequirements?: {
     required?: string[],

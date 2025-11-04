@@ -263,7 +263,7 @@ export function calculateSignatureMatch(
  * @param options - Recommendation options
  * @returns Array of personalized cuisine recommendations
  */
-export function generateCuisineRecommendations(userProfile: UserProfile,)
+export function generateCuisineRecommendations(userProfile: UserProfile,
   availableCuisines: Map<string, { name: string, properties: CuisineComputedProperties }>,
   options: {
     maxRecommendations?: number,

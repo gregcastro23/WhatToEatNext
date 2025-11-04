@@ -963,7 +963,7 @@ export class UnifiedSeasonalSystem {
       if (!ingredient) continue;
 
       // Check Kalchm compatibility
-      const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(ingredient.kalchm ?? 0,);
+      const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(ingredient.kalchm ?? 0,
         season
       );
 

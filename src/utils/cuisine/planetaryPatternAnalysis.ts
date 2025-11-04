@@ -250,7 +250,7 @@ export function getCulturalSignificance(
  * @param options - Analysis options
  * @returns Array of planetary patterns for the cuisine
  */
-export function analyzePlanetaryPatterns(recipes: RecipeComputedProperties[],)
+export function analyzePlanetaryPatterns(recipes: RecipeComputedProperties[],
   options: {
     minStrength?: number, // Minimum strength threshold (0-1)
     includeCulturalNotes?: boolean

@@ -51,21 +51,21 @@ const rawWholeGrains = {
     category: 'whole_grain',
     subCategory: 'rice',
     nutritionalProfile: {
-      serving_size: '1 / (2 || 1) cup cooked',
+      serving_size: '1/2 cup cooked',
       calories: 108,
       macros: {
         protein: 2.5,
         carbs: 22.4,
         fat: 0.9,
         fiber: 1.8
-},
+      },
       vitamins: {
         B1: 0.11,
         B3: 0.13,
         B6: 0.14,
         E: 0.08,
         folate: 0.04
-},
+      },
       minerals: {
         manganese: 0.86,
         magnesium: 0.36,
@@ -74,37 +74,37 @@ const rawWholeGrains = {
         zinc: 0.18,
         copper: 0.11,
         iron: 0.1
-},
+      },
       glycemic_index: 68,
       source: 'USDA FoodData Central'
-},
+    },
     healthBenefits: {
       digestiveHealth: {
         benefit: 'Digestive Support',
         mechanism: 'Fiber content promotes healthy gut bacteria and regular bowel movements',
         evidence: 'Studies show whole grains increase beneficial gut microbiota diversity'
-},
+      },
       heartHealth: {
         benefit: 'Cardiovascular Support',
         mechanism: 'Fiber, antioxidants, and minerals help manage cholesterol and blood pressure',
         evidence: 'Regular whole grain consumption associated with reduced heart disease risk'
-},
+      },
       bloodSugarControl: {
         benefit: 'Blood Sugar Regulation',
         mechanism: 'Fiber and complex carbohydrates slow glucose absorption',
         evidence: 'Lower glycemic impact compared to refined white rice'
-},
+      },
       weightManagement: {
         benefit: 'Weight Management',
         mechanism: 'Higher fiber content increases satiety and reduces overall calorie intake',
         evidence: 'Associated with lower BMI in observational studies'
-},
+      },
       antioxidantEffects: {
         benefit: 'Antioxidant Activity',
         mechanism: 'Contains phenolic compounds that combat oxidative stress',
         compounds: ['ferulic acid', 'caffeic acid', 'sinapic acid'],
         notes: 'Most concentrated in the bran layer'
-}
+      }
     },
     varieties: {
       short_grain: {
@@ -124,7 +124,7 @@ const rawWholeGrains = {
         cooking_ratio: '1:2.25 rice to water',
         cooking_time: '45-50 minutes',
         best_for: 'pilafs, salads, stuffings, everyday use'
-},
+      },
       basmati: {
         name: 'Brown Basmati Rice',
         characteristics: 'aromatic, slender, distinctive fragrance',
@@ -133,7 +133,7 @@ const rawWholeGrains = {
         cooking_ratio: '1:2 rice to water',
         cooking_time: '40-45 minutes',
         best_for: 'Indian dishes, pilafs, biryanis'
-},
+      },
       jasmine: {
         name: 'Brown Jasmine Rice',
         characteristics: 'aromatic, slightly clinging, soft',
@@ -142,7 +142,7 @@ const rawWholeGrains = {
         cooking_ratio: '1:1.75 rice to water',
         cooking_time: '40-45 minutes',
         best_for: 'Southeast Asian cuisine, coconut-based dishes'
-},
+      },
       himalayan_red: {
         name: 'Himalayan Red Rice',
         characteristics: 'distinctive color, hearty texture',
@@ -151,7 +151,7 @@ const rawWholeGrains = {
         cooking_ratio: '1:2.5 rice to water',
         cooking_time: '45-50 minutes',
         best_for: 'substantial side dishes, grain bowls, salads'
-}
+      }
     },
     affinities: [
       'onions',
@@ -195,19 +195,19 @@ const rawWholeGrains = {
         ],
         method: 'room temperature water with optional splash of lemon juice or vinegar',
         notes: 'Discard soaking water and rinse before cooking'
-},
+      },
       rinsing: {
         method: 'rinse in cool water until water runs clear',
         purpose: 'removes dust and excess starch',
         technique: 'swirl in bowl of water or use strainer',
         notes: 'Some prefer to skip for maximum nutrition retention'
-},
+      },
       toasting: {
         method: 'dry toast in pan before cooking',
         benefits: 'enhances nutty flavor',
         timing: '3-5 minutes until fragrant',
         notes: 'Stir constantly to prevent burning'
-}
+      }
     },
     culinaryApplications: {
       basic_method: {
@@ -233,7 +233,7 @@ const rawWholeGrains = {
           stovetop: 'traditional method as described above',
           rice_cooker: 'same ratio, select brown rice setting',
           pressure_cooker: '1:1.25 rice to water, high pressure 20-22 minutes, natural release'
-}
+        }
       },
       pilaf_method: {
         name: 'Pilaf Method',
@@ -250,9 +250,9 @@ const rawWholeGrains = {
           mushroom: 'incorporate dried or fresh mushrooms, thyme',
           herb: 'use abundant fresh herbs, lemon zest',
           vegetable: 'add diced vegetables that hold up to long cooking'
-},
+        },
         notes: 'Excellent way to add depth of flavor'
-},
+      },
       grain_bowl: {
         name: 'Grain Bowl',
         components: {
@@ -280,8 +280,8 @@ const rawWholeGrains = {
           kimchi: 'incorporate kimchi, sesame oil, gochujang',
           pineapple: 'with pineapple chunks, cashews, curry powder'
         },
-        notes: 'Pre-cook and cool rice for best texture never use freshly cooked rice'
-},
+        notes: 'Pre-cook and cool rice for best texture - never use freshly cooked rice'
+      },
       rice_pudding: {
         name: 'Brown Rice Pudding',
         cooking_method: 'slow simmer with frequent stirring',
@@ -290,9 +290,9 @@ const rawWholeGrains = {
           classic: 'cinnamon, raisins, vanilla',
           coconut: 'coconut milk, cardamom, pistachios',
           chocolate: 'cocoa powder, almond milk, cherries'
-},
+        },
         notes: 'Takes longer than white rice pudding but has nuttier flavor'
-}
+      }
     },
     storage: {
       uncooked: {
@@ -301,7 +301,7 @@ const rawWholeGrains = {
           refrigerator: 'up to 1 year',
           freezer: 'up to 2 years',
           notes: 'Natural oils can go rancid so store properly'
-}
+        }
       },
 
       sprouted: {
@@ -309,7 +309,7 @@ const rawWholeGrains = {
           duration: '3-5 days',
           container: 'breathable container with paper towel',
           notes: 'Rinse daily if storing longer than 2 days'
-}
+        }
       }
     },
     seasonalAdjustments: {},
@@ -318,7 +318,7 @@ const rawWholeGrains = {
         preparations: 'grain bowls, alternative sushi, veggie burgers',
         emphasis: 'nutrient density, whole foods philosophy',
         notes: 'Often featured in contemporary health-focused cuisines'
-}
+      }
     }
   },
 
@@ -344,7 +344,7 @@ const rawWholeGrains = {
       rinsing: {
         duration: '1-2 minutes',
         purpose: 'remove saponins'
-}
+      }
     }
   },
 
@@ -363,24 +363,24 @@ const rawWholeGrains = {
         ratio: '1:3 kamut to water',
         cooking_time: '60-90 minutes',
         method: 'simmer until tender'
-},
+      },
       soaked_method: {
         soaking: '12-24 hours',
         cooking_time: '45-60 minutes',
         benefits: 'improved digestibility'
-}
+      }
     },
     preparations: {
       grain_bowl: {
         method: 'cook until chewy',
         additions: ['roasted vegetables', 'herbs', 'dressing'],
         service: 'warm or room temperature'
-},
+      },
       breakfast_porridge: {
         method: 'cook longer for softer texture',
         additions: ['dried fruit', 'nuts', 'honey'],
         service: 'hot'
-}
+      }
     },
     nutritionalProfile: {
       protein: 'high protein content',
@@ -389,7 +389,7 @@ const rawWholeGrains = {
       calories_per_100g: 337,
       protein_g: 14.7,
       fiber_g: 11.1
-}
+    }
   },
 
   spelt_berries: {
@@ -407,24 +407,24 @@ const rawWholeGrains = {
         ratio: '1:3 spelt to water',
         cooking_time: '45-60 minutes',
         method: 'simmer until tender'
-},
+      },
       pressure_cooker: {
         ratio: '1:2.5 spelt to water',
         cooking_time: '25-30 minutes',
         notes: 'natural release recommended'
-}
+      }
     },
     preparations: {
       salads: {
         method: 'cook until al dente',
         additions: ['fresh vegetables', 'vinaigrette', 'herbs'],
         service: 'room temperature'
-},
+      },
       soups: {
         method: 'add to broth',
         cooking_time: '30-40 minutes in soup',
         notes: 'adds hearty texture'
-}
+      }
     },
     nutritionalProfile: {
       protein: 'high quality',
@@ -433,7 +433,7 @@ const rawWholeGrains = {
       calories_per_100g: 338,
       protein_g: 14.6,
       fiber_g: 10.7
-}
+    }
   },
 
   einkorn: {
@@ -451,24 +451,24 @@ const rawWholeGrains = {
         ratio: '1:2 einkorn to water',
         cooking_time: '30-35 minutes',
         method: 'simmer gently'
-},
+      },
       risotto_style: {
         method: 'gradual broth addition',
         cooking_time: '25-30 minutes',
         notes: 'stir frequently'
-}
+      }
     },
     preparations: {
       pilaf: {
         method: 'toast then simmer',
         additions: ['mushrooms', 'onions', 'herbs'],
         service: 'hot'
-},
+      },
       breakfast: {
         method: 'cook until creamy',
         additions: ['milk', 'honey', 'fruit'],
         service: 'hot'
-}
+      }
     },
     nutritionalProfile: {
       protein: 'high protein',
@@ -477,7 +477,7 @@ const rawWholeGrains = {
       calories_per_100g: 340,
       protein_g: 15.3,
       fiber_g: 8.7
-}
+    }
   },
 
   rye_berries: {
@@ -495,7 +495,7 @@ const rawWholeGrains = {
         ratio: '1:3 rye to water',
         cooking_time: '60-75 minutes',
         method: 'simmer until tender'
-},
+      },
       soaked_method: {
         soaking: '8-12 hours',
         cooking_time: '45-60 minutes',
@@ -521,7 +521,7 @@ const rawWholeGrains = {
       calories_per_100g: 338,
       protein_g: 10.3,
       fiber_g: 15.1
-}
+    }
   },
 
   wild_rice: {
@@ -539,18 +539,18 @@ const rawWholeGrains = {
         ratio: '1:3 rice to water',
         cooking_time: '45-55 minutes',
         method: 'simmer until grains split'
-},
+      },
       pilaf_method: {
         steps: ['toast in oil', 'add aromatics', 'simmer in broth', 'steam finish'],
         notes: 'enhances nutty flavor'
-}
+      }
     },
     preparations: {
       grain_blends: {
         method: 'mix with other rices',
         ratio: '1:2 wild to other rice',
         notes: 'adds texture and nutrition'
-}
+      }
     },
     nutritionalProfile: {
       protein: 'high protein',
@@ -559,7 +559,7 @@ const rawWholeGrains = {
       calories_per_100g: 357,
       protein_g: 14.7,
       fiber_g: 6.2
-}
+    }
   },
 
   triticale: {
@@ -577,24 +577,24 @@ const rawWholeGrains = {
         ratio: '1:3 triticale to water',
         cooking_time: '45-60 minutes',
         method: 'simmer until tender'
-},
+      },
       overnight_method: {
         soaking: '8-12 hours',
         cooking_time: '30-40 minutes',
         benefits: 'quicker cooking, better absorption'
-}
+      }
     },
     preparations: {
       breakfast_cereal: {
         method: 'cook until soft',
         additions: ['dried fruits', 'seeds', 'milk'],
         service: 'hot'
-},
+      },
       grain_salad: {
         method: 'cook until chewy',
         additions: ['roasted vegetables', 'fresh herbs', 'citrus'],
         service: 'room temperature'
-}
+      }
     },
     nutritionalProfile: {
       protein: 'high protein',
@@ -603,7 +603,7 @@ const rawWholeGrains = {
       calories_per_100g: 336,
       protein_g: 13.1,
       fiber_g: 9.8
-}
+    }
   },
 
   oats: {
@@ -638,12 +638,12 @@ const rawWholeGrains = {
         characteristics: 'sticky, plump',
         cooking_ratio: '1:2 rice to water',
         cooking_time: '45-50 minutes'
-},
+      },
       long_grain: {
         characteristics: 'fluffy, separate grains',
         cooking_ratio: '1:2.25 rice to water',
         cooking_time: '45-50 minutes'
-}
+      }
     },
     preparation: {
       soaking: {
@@ -667,7 +667,7 @@ const rawWholeGrains = {
         ratio: '1:3 barley to water',
         cooking_time: '60-75 minutes',
         method: 'simmer until tender'
-},
+      },
       soaked_method: {
         soaking: '8-12 hours',
         cooking_time: '45-60 minutes',
@@ -693,7 +693,7 @@ const rawWholeGrains = {
       calories_per_100g: 338,
       protein_g: 10.3,
       fiber_g: 15.1
-}
+    }
   },
   flour: {
     name: 'flour',
@@ -1024,7 +1024,7 @@ const rawWholeGrains = {
       favorableZodiac: ['Capricorn', 'Virgo', 'Taurus'],
       seasonalAffinity: ['fall']
     }
-  };
+  }
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

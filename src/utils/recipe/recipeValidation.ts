@@ -18,7 +18,7 @@ const INGREDIENT_DATABASE: Record<string, any> = {};
  * @param options - Validation options
  * @returns Comprehensive validation result
  */
-export function validateRecipe(recipe: Partial<Recipe>,)
+export function validateRecipe(recipe: Partial<Recipe>,
   options: {
     checkIngredients?: boolean;
     checkComputations?: boolean;
