@@ -18,7 +18,7 @@ export function cleanupIngredientsDatabase() {
   try {
     // Process each category
     Object.entries(allIngredients).forEach(([category, ingredients]) => {
-      if (!ingredients || !Array.isArray(ingredients) {
+      if (!ingredients || !Array.isArray(ingredients)) {
         logger.warn(`Invalid ingredients structure in category ${category}`)
         return;
       }

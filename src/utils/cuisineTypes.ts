@@ -215,7 +215,7 @@ export function isDietaryCuisine(cuisine: CompleteCuisineType): cuisine is Dieta
  * Check if a cuisine is a historical cuisine
  */
 export function isHistoricalCuisine(
-  cuisine: CompleteCuisineType;
+  cuisine: CompleteCuisineType
 ): cuisine is HistoricalCuisineType {
   const historicalCuisines: HistoricalCuisineType[] = [
     'Ancient-Roman',

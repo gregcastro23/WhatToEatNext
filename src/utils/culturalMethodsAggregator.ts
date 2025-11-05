@@ -142,7 +142,7 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
  * into a standardized structure
  */
 export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
-  const cuisines = [;
+  const cuisines = [
     { data: thai, name: 'Thai' },
     { data: vietnamese, name: 'Vietnamese' },
     { data: italian, name: 'Italian' },

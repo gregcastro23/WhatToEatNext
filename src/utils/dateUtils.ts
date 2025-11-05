@@ -110,7 +110,7 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {
   let allDishes: Dish[] = [];
 
   // Safely iterate through all meal times with type checking
-  Object.keys(cuisine.dishes || ) {}).forEach(mealTime => ) {
+  Object.keys(cuisine.dishes || {}).forEach(mealTime => {
     const mealTimeDishes = cuisine.dishes?.[mealTime];
     if (!mealTimeDishes) return;
 

@@ -181,7 +181,7 @@ function calculateElementalSimilarity(
  * @param strategy - Weighting strategy
  * @returns Weighted average elemental properties
  */
-export function aggregateElementalProperties(recipes: Array<) { _computed?: RecipeComputedProperties, [key: string]: any }>,
+export function aggregateElementalProperties(recipes: Array<{ _computed?: RecipeComputedProperties, [key: string]: any }>,
   strategy: WeightingStrategy = 'equal'
 ): ElementalProperties {
   if (!recipes || recipes.length === 0) {

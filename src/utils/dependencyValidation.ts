@@ -32,7 +32,7 @@ export function detectCircularDependencies(_moduleGraph: Record<string, string[]
   const cycles: string[][] = [];
 
   function dfs(node: string, path: string[]): void {
-    if (recursionStack.has(node) {
+    if (recursionStack.has(node)) {
       // Found a cycle
       const cycleStart = path.indexOf(node);
       cycles.push(path.slice(cycleStart).concat(node));

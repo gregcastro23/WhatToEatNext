@@ -371,7 +371,7 @@ function areSimilarMethods(method1: string, method2: string): boolean {
   // If normalized names are identical, they're definitely similar
   if (normalized1 === normalized2) return true;
   // Check if one name is contained within the other
-  if (normalized1.includes(normalized2) || normalized2.includes(normalized1) {
+  if (normalized1.includes(normalized2) || normalized2.includes(normalized1)) {
     return true;
   }
 

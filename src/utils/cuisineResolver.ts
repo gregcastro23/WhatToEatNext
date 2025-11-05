@@ -22,10 +22,9 @@ import {
  * @returns The standardized primary cuisine type
  */
 export function standardizeCuisine(cuisineName: string): PrimaryCuisineType {
-  const resolved = resolveCuisineType(cuisineName)
-;
+  const resolved = resolveCuisineType(cuisineName);
   // If the resolved type is a primary cuisine, return it
-  if (typeof resolved === 'string' && !isRegionalCuisine(resolved) {
+  if (typeof resolved === 'string' && !isRegionalCuisine(resolved)) {
     return resolved as PrimaryCuisineType;
   }
 

@@ -366,7 +366,7 @@ async function getErrorAndWarningCounts(): Promise<{ errors: number, warnings: n
 
     return { errors, warnings };
 } catch (error) {
-    logger.error('Error getting error and warning counts: ', error),
+    logger.error('Error getting error and warning counts: ', error);
     return { errors: 0, warnings: 0 };
 }
 }

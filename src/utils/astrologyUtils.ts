@@ -1151,7 +1151,7 @@ export function calculateJoyEffects(
  * @param properties Array of LowercaseElementalProperties objects
  * @returns Combined LowercaseElementalProperties
  */
-export function combineElementalProperties()
+export function combineElementalProperties(
   ...properties: LowercaseElementalProperties[]): LowercaseElementalProperties {
   const result: LowercaseElementalProperties = {
     fire: 0,
