@@ -138,15 +138,15 @@ export enum AlertType {
   BUILD_PERFORMANCE = 'BUILD_PERFORMANCE',
   MEMORY_USAGE = 'MEMORY_USAGE',
   BUNDLE_SIZE = 'BUNDLE_SIZE',
-  ERROR_RATE = 'ERROR_RATE',,
-  QUALITY_GATE = 'QUALITY_GATE',,
+  ERROR_RATE = 'ERROR_RATE',
+  QUALITY_GATE = 'QUALITY_GATE'
 }
 
 export enum AlertSeverity {
   LOW = 'LOW',
   MEDIUM = 'MEDIUM',
-  HIGH = 'HIGH',,
-  CRITICAL = 'CRITICAL',,
+  HIGH = 'HIGH',
+  CRITICAL = 'CRITICAL'
 }
 
 // Configuration constants

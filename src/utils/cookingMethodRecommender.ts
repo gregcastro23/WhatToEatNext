@@ -107,7 +107,7 @@ interface CookingMethodData {
     min: number;
     max: number
   };
-  suitable_for string[];
+  suitable_for: string[];
   benefits: string[];
   astrologicalInfluences?: {
     favorableZodiac?: any[];

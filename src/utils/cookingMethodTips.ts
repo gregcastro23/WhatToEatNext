@@ -591,14 +591,14 @@ export function getTechnicalTips(methodName: string): string[] {
       // Get expert tips from the cooking method data
       try {
         const allMethods = getAllCookingMethodNames();
-        const methodData = allMethods.find();
+        const methodData = allMethods.find(
           method =>
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase())
-        ),
+        );
 
         const methodObj = methodData as { expertTips?: string[] };
-        if (methodObj?.expertTips && Array.isArray(methodObj.expertTips) {
+        if (methodObj?.expertTips && Array.isArray(methodObj.expertTips)) {
           // Use the method's actual expert tips
           methodObj.expertTips.forEach((tip: string) => tips.push(tip))
         } else {

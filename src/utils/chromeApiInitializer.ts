@@ -9,12 +9,12 @@ import { _logger } from '@/lib/logger';
 
 export function initializeChromeApis(): void {
   try {
-    if (typeof window === 'undefined') {,
-      return // Server-side rendering - exit early;
-}
+    if (typeof window === 'undefined') {
+      return; // Server-side rendering - exit early
+    }
 
     // Install global error handler for extension-related errors
-    window.addEventListener()
+    window.addEventListener(
       'error',
       function (e) {
         if (

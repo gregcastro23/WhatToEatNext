@@ -1072,7 +1072,7 @@ export const TYPE_INTELLIGENCE_DEMO = {
     sampleCriteria: IngredientSearchCriteria,
     sampleCelestialBody: CelestialBody,
     sampleChakraPosition: ChakraPosition,
-    sampleMethods: CookingMethod[];
+    sampleMethods: CookingMethod[]
   ): {
     astrologicalTypeResults: ReturnType<
       typeof ASTROLOGICAL_TYPE_INTELLIGENCE.analyzeLunarPhaseTypes

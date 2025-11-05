@@ -424,7 +424,7 @@ export async function calculatePlanetaryPositions(
     // Final fallback to default positions with error flag
     const defaults = getDefaultPlanetaryPositions();
     // Mark all positions as error states (all positions exist by design)
-    Object.values(defaults).forEach(p => ) {
+    Object.values(defaults).forEach(p => {
       p.error = true;
       // Add accuracy metadata even for fallbacks
       p.accuracy = 'Default fallback positions';
@@ -438,7 +438,7 @@ export async function calculatePlanetaryPositions(
 
     // Emergency fallback
     const defaults = getDefaultPlanetaryPositions();
-    Object.values(defaults).forEach(p => ) {
+    Object.values(defaults).forEach(p => {
       p.error = true;
       p.accuracy = 'Emergency fallback';
       p.calculation_method = 'Critical failure recovery';
@@ -475,7 +475,7 @@ function _standardizePlanetName(_planet: string): string {
  * @returns True if all positions are valid
  */
 function _validatePlanetaryPositions(positions: Record<string, _number>): boolean {
-  const REQUIRED_PLANETS = [;
+  const REQUIRED_PLANETS = [
     'Sun',
     'Moon',
     'Mercury',
@@ -498,9 +498,9 @@ function _validatePlanetaryPositions(positions: Record<string, _number>): boolea
   debugLog('Validating positions: ', positions)
 
   // Check that required planets exist with valid values
-  const validation = REQUIRED_PLANETS.every(requiredPlanet => ) {
+  const validation = REQUIRED_PLANETS.every(requiredPlanet => {
     // Check if the planet exists in the positions object (case insensitive)
-    const planetKey = Object.keys(positions).find();
+    const planetKey = Object.keys(positions).find(
       key => key.toLowerCase() === requiredPlanet.toLowerCase()
     )
 
