@@ -129,7 +129,7 @@ type CookingMethodDictionary = Record<string, CookingMethodData>;
 // Combine traditional and cultural cooking methods
 const allCookingMethodsCombined: CookingMethodDictionary = {
   // Convert allCookingMethods to our format
-  ...Object.entries(allCookingMethods || ) {}).reduce(acc: CookingMethodDictionary, [id, method]) => {
+  ...Object.entries(allCookingMethods || {}).reduce((acc: CookingMethodDictionary, [id, method]) => {
       // ✅ Pattern MM-1: Safe type assertion for base cooking method
       const baseMethod = method as unknown as BaseCookingMethod;
       acc[id] = {

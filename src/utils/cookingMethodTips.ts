@@ -660,10 +660,11 @@ export function getMethodDetails(methodName: string): string {
     case 'fire cooking':
       return 'Open fire cooking connects with our most primal cooking techniques, utilizing direct flame, radiant heat, and smoke to transform ingredients. This versatile method adapts to various cooking styles from direct searing to low-and-slow roasting. The unpredictable nature of fire requires constant attention and adjustment, rewarding skill with uniquely complex flavors impossible to replicate with modern appliances.';
 
-    default: try = {
+    default:
+      try {
         // Get cooking method data from imported methods
         const allMethods = getAllCookingMethodNames();
-        const methodData = allMethods.find();
+        const methodData = allMethods.find(
           method =>
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase())

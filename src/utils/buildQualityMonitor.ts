@@ -195,11 +195,11 @@ export async function monitorBuildQuality(): Promise<BuildQualityReport> {
     // 5. Process performance alerts
     const alerts = await processPerformanceAlerts(buildMetrics);
     // 6. Generate optimization recommendations
-    const recommendations = generateOptimizationRecommendations();
+    const recommendations = generateOptimizationRecommendations(
       buildMetrics,
       performanceAnalysis,
-      memoryAnalysis,
-    ),
+      memoryAnalysis
+    );
 
     const duration = Date.now() - startTime;
     logger.info(`Build quality monitoring completed in ${duration}ms`)

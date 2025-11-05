@@ -526,8 +526,8 @@ function _validatePlanetaryPositions(positions: Record<string, _number>): boolea
 
 function _calculatePlanetPosition(
   jd: number,
-  planet: string;
-): { sign: string, degree: number, minute: number } {
+  planet: string
+): { sign: string; degree: number; minute: number } {
   const longitude = calculatePlanetLongitude(jd, planet);
   const position = longitudeToZodiacPosition(longitude);
 
@@ -584,7 +584,7 @@ function calculateJulianDate(date: Date): number {
   const y = year + 4800 - a;
   const m = month + 12 * a - 3;
 
-  let jd = day +;
+  let jd = day +
     Math.floor((153 * m + 2) / 5) +
     365 * y +
     Math.floor(y / 4) -
