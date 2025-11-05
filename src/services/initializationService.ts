@@ -137,7 +137,7 @@ class InitializationService {
         }
       }
     } catch (error) {
-      errorHandler.handleError(error, ) {
+      errorHandler.handleError(error, {
         context: 'InitializationService',
         action: 'initialize',
         attempt: this.retryCount + 1
@@ -162,7 +162,7 @@ class InitializationService {
   private async initializeRecipes(): Promise<Recipe[]> {
     try {
       const recipes = await recipeData.getAllRecipes();
-      if (!recipes.every(recipe => stateValidator.validateRecipe(recipe)) {
+      if (!recipes.every(recipe => stateValidator.validateRecipe(recipe))) {
         throw new Error('Invalid recipe data received')
       }
       return recipes;
@@ -204,7 +204,7 @@ class InitializationService {
   }
 
   private processRecipes(recipes: Recipe[], celestialData: CelestialData): ScoredRecipe[] {
-    return recipes.map(recipe => () {
+    return recipes.map(recipe => ({
       ...recipe,
       score: this.calculateRecipeScore(recipe, celestialData)
     }))
