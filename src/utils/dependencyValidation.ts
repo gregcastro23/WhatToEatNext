@@ -39,7 +39,7 @@ export function detectCircularDependencies(_moduleGraph: Record<string, string[]
       return;
     }
 
-    if (visited.has(node) {
+    if (visited.has(node)) {
       return;
     }
 

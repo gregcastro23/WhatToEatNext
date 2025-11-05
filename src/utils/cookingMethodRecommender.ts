@@ -418,7 +418,7 @@ function calculateEnhancedElementalCompatibility(
   const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
 
   // Calculate weighted element-by-element compatibility
-  elements.forEach(element => ) {
+  elements.forEach(element => {
     // Get values (default to 0 if undefined)
     const methodValue = methodProps[element] || 0;
     const targetValue = targetProps[element] || 0;

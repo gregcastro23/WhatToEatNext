@@ -40,8 +40,8 @@ export const elementalColors: Record<keyof ElementalProperties, ElementalColor> 
   }
 };
 
-export const _calculateDominantElement = (;
-  elementalState: ElementalProperties;
+export const _calculateDominantElement = (
+  elementalState: ElementalProperties
 ): keyof ElementalProperties => {
   // Find the element with the highest value using a type-safe approach
   let dominantElement: keyof ElementalProperties = 'Fire'; // Default

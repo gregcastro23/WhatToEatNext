@@ -178,7 +178,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
 
       // Skip if this is a duplicate name/cuisine combination
       const caseInsensitiveKey = `${cuisine.name.toLowerCase()}: ${methodName.toLowerCase()}`;
-      if (addedMethods.has(caseInsensitiveKey) {
+      if (addedMethods.has(caseInsensitiveKey)) {
         return;
       }
       addedMethods.add(caseInsensitiveKey);

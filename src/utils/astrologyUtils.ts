@@ -1178,7 +1178,7 @@ export function combineElementalProperties(
  */
 export function calculateCompleteAstrologicalEffects(
   planetPositions: Record<string, { sign: string, degree: number, house?: number }>,
-  risingDegree: number;
+  risingDegree: number
 ): AstrologicalEffects {
   // Calculate dignity effects
   const dignityEffects: LowercaseElementalProperties = { fire: 0, earth: 0, air: 0, water: 0 }

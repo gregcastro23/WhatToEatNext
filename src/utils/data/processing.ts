@@ -303,7 +303,7 @@ export function cleanupIngredientsDatabase(
       }
     } catch (error) {
       result.errors++;
-      result.warnings.push()
+      result.warnings.push(
         `Ingredient ${index}: ${error instanceof Error ? error.message : 'Unknown error'}`
       );
     }

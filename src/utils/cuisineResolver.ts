@@ -96,7 +96,7 @@ export function filterPrimaryCuisines(cuisineNames: string[]): PrimaryCuisineTyp
  */
 export function getCuisineDisplayName(cuisineName: string): string {
   // Check if it's a regional cuisine first
-  if (isRegionalCuisine(cuisineName) {
+  if (isRegionalCuisine(cuisineName)) {
     const primary = getPrimaryCuisine(cuisineName);
     if (primary) {
       const normalized = normalizeCuisineName(cuisineName);

@@ -108,7 +108,7 @@ const ZODIAC_ELEMENTS: { [key: string]: ElementalCharacter } = {
  */
 export function transformIngredients(
   ingredients: ElementalItem[],
-  context: TransformationContext;
+  context: TransformationContext
 ): AlchemicalItem[] {
   return (ingredients || []).map(ingredient => transformSingleItem(ingredient, context));
 }

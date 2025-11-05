@@ -63,7 +63,7 @@ export function cleanupIngredientsDatabase() {
           // Normalize to ensure sum = 1,
           const currentElementalProps = data.elementalProperties;
           // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
-          const sum = Object.values(currentElementalProps ?? ) {}).reduce((acc, val) => {
+          const sum = Object.values(currentElementalProps ?? {}).reduce((acc, val) => {
             const accValue = Number(acc) || 0;
             const valValue = Number(val) || 0;
             return accValue + valValue;

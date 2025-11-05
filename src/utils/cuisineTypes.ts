@@ -271,7 +271,7 @@ export function calculateCuisineCompatibility(
   const continent2 = getCuisineContinent(cuisine2);
   if (continent1 === continent2) return 0.8;
   // Regional variations of same primary cuisine = very high compatibility
-  if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2) {
+  if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2)) {
     const primary1 = getPrimaryCuisineFromRegional(cuisine1);
     const primary2 = getPrimaryCuisineFromRegional(cuisine2);
     if (primary1 === primary2) return 0.9;

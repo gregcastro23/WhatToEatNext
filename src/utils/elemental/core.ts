@@ -159,7 +159,7 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
  * @returns Dominant element key
  */
 export function calculateDominantElement(
-  elementalState: ElementalProperties;
+  elementalState: ElementalProperties
 ): keyof ElementalProperties {
   let dominantElement: keyof ElementalProperties = 'Fire';
   let maxValue = 0;

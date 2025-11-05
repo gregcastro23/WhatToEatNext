@@ -423,7 +423,7 @@ async function getBundleSize(): Promise<{
     // Check if .next directory exists (Next.js build output)
     const nextDir = path.join(process.cwd(), '.next');
 
-    if (fs.existsSync(nextDir) {
+    if (fs.existsSync(nextDir)) {
       // Get bundle sizes from .next directory
       const bundleInfo = await analyzeBundleDirectory(nextDir);
       return bundleInfo;

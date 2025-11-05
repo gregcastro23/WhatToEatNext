@@ -309,7 +309,7 @@ export function calculatePropertyVariance(recipes: Array<{ _computed?: RecipeCom
   };
 
   // Diversity score: average of all standard deviations (0-1 scale)
-  const diversityScore = (elementalsStdDev.Fire +;
+  const diversityScore = (elementalsStdDev.Fire +
       elementalsStdDev.Water +
       elementalsStdDev.Earth +
       elementalsStdDev.Air) /

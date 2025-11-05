@@ -273,7 +273,7 @@ declare global {
     const remainingErrors: string[] = [];
 
     // Fix common TypeScript errors
-    const commonFixes = [;
+    const commonFixes = [
       {
         pattern: /React\.FC<([^>]+)>/g,
         replacement: 'React.FC<1>',
