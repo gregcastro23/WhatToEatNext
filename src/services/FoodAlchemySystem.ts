@@ -643,12 +643,12 @@ export class FoodAlchemySystem {
           const dayDignity = planetaryElements[planetaryDay].dignityEffect?.[daySign];
 
           if (dayDignity && dayDignity > 0 && food.planetaryRuler === planetaryDay) {
-            recommendations.push()
-              `${planetaryDay} is ${dayDignity > 1 ? 'exalted' : 'dignified'} in ${daySign}, strengthening ${food.name}'s properties.`,
+            recommendations.push(
+              `${planetaryDay} is ${dayDignity > 1 ? 'exalted' : 'dignified'} in ${daySign}, strengthening ${food.name}'s properties.`
             );
           } else if (dayDignity && dayDignity < 0 && food.planetaryRuler === planetaryDay) {
-            recommendations.push()
-              `${planetaryDay} is ${dayDignity < -1 ? 'in fall' : 'in detriment'} in ${daySign}, requiring careful preparation of ${food.name}.`,
+            recommendations.push(
+              `${planetaryDay} is ${dayDignity < -1 ? 'in fall' : 'in detriment'} in ${daySign}, requiring careful preparation of ${food.name}.`
             );
           }
         }
@@ -659,8 +659,8 @@ export class FoodAlchemySystem {
           const hourDignity = planetaryElements[planetaryHour].dignityEffect?.[hourSign];
 
           if (hourDignity && hourDignity > 0 && food.planetaryRuler === planetaryHour) {
-            recommendations.push()
-              `During this hour, ${planetaryHour}'s dignity in ${hourSign} enhances ${food.name}'s flavor profile.`,
+            recommendations.push(
+              `During this hour, ${planetaryHour}'s dignity in ${hourSign} enhances ${food.name}'s flavor profile.`
             );
           }
         }
@@ -675,12 +675,12 @@ export class FoodAlchemySystem {
             planetaryElements[food.planetaryRuler].dignityEffect?.[foodPlanetSign];
 
           if (foodPlanetDignity && foodPlanetDignity > 1) {
-            recommendations.push()
-              `${food.name}'s ruler ${food.planetaryRuler} is exalted in ${foodPlanetSign}, making it an excellent choice.`,
+            recommendations.push(
+              `${food.name}'s ruler ${food.planetaryRuler} is exalted in ${foodPlanetSign}, making it an excellent choice.`
             );
           } else if (foodPlanetDignity && foodPlanetDignity === 1) {
-            recommendations.push()
-              `${food.name}'s ruler ${food.planetaryRuler} is in its home sign of ${foodPlanetSign}, enhancing its qualities.`,
+            recommendations.push(
+              `${food.name}'s ruler ${food.planetaryRuler} is in its home sign of ${foodPlanetSign}, enhancing its qualities.`
             );
           }
         }
@@ -696,9 +696,9 @@ export class FoodAlchemySystem {
           else if (planetDegree > 20) decan = '3rd Decan';
 
           // If food's planet rules the decan
-          if (signInfo[planetSign].decanEffects[decan].includes(food.planetaryRuler) {
-            recommendations.push()
-              `${food.name} is especially potent today as it's ruled by ${food.planetaryRuler}, which rules the ${decan.toLowerCase()} of ${planetSign}.`,
+          if (signInfo[planetSign].decanEffects[decan].includes(food.planetaryRuler)) {
+            recommendations.push(
+              `${food.name} is especially potent today as it's ruled by ${food.planetaryRuler}, which rules the ${decan.toLowerCase()} of ${planetSign}.`
             );
           }
         }
@@ -714,19 +714,19 @@ export class FoodAlchemySystem {
             aspect.planets[0] === food.planetaryRuler ? aspect.planets[1] : aspect.planets[0];
 
           if (aspect.type === 'Conjunction') {
-            recommendations.push()
-              `The conjunction between ${food.planetaryRuler} and ${otherPlanet} strongly enhances ${food.name}'s qualities.`,
+            recommendations.push(
+              `The conjunction between ${food.planetaryRuler} and ${otherPlanet} strongly enhances ${food.name}'s qualities.`
             );
           } else if (aspect.type === 'Trine') {
-            recommendations.push()
-              `The harmonious trine between ${food.planetaryRuler} and ${otherPlanet} creates a flowing energy for ${food.name}.`,
+            recommendations.push(
+              `The harmonious trine between ${food.planetaryRuler} and ${otherPlanet} creates a flowing energy for ${food.name}.`
             );
           } else if (
             aspect.type === 'Opposition' &&
             (otherPlanet === planetaryDay || otherPlanet === planetaryHour)
           ) {
-            recommendations.push()
-              `The opposition between ${food.planetaryRuler} and ${otherPlanet} creates dynamic tension - balance ${food.name} with complementary ingredients.`,
+            recommendations.push(
+              `The opposition between ${food.planetaryRuler} and ${otherPlanet} creates dynamic tension - balance ${food.name} with complementary ingredients.`
             );
           }
         }
@@ -735,18 +735,18 @@ export class FoodAlchemySystem {
 
     // Element-based recommendations from birth chart
     if (chart.elementalState[food.element] > 0.7) {
-      recommendations.push()
-        `Boost ${food.element} elements with complementary ingredients like ${this.getSuggestions(food.element)}.`,
+      recommendations.push(
+        `Boost ${food.element} elements with complementary ingredients like ${this.getSuggestions(food.element)}.`
       );
     }
 
     return recommendations;
   }
 
-  private identifyConflicts()
+  private identifyConflicts(
     food: FoodCorrespondence,
     chart: BirthChart,
-    planetaryPositions?: Record<string, { sign: string; degree, number }>,
+    planetaryPositions?: Record<string, { sign: string; degree: number }>,
   ): string[] {
     const warnings: string[] = [];
 
@@ -756,8 +756,8 @@ export class FoodAlchemySystem {
     // Check for deficiencies in birth chart elements
     for (const element of complementaryElements) {
       if (chart.elementalState[element] < 0.3) {
-        warnings.push()
-          `Your chart lacks ${element} energy. Consider balancing ${food.name} with ${element} ingredients like ${this.getSuggestions(element)}.`,
+        warnings.push(
+          `Your chart lacks ${element} energy. Consider balancing ${food.name} with ${element} ingredients like ${this.getSuggestions(element)}.`
         );
       }
     }
@@ -769,12 +769,12 @@ export class FoodAlchemySystem {
         planetaryElements[food.planetaryRuler].dignityEffect?.[foodPlanetSign];
 
       if (foodPlanetDignity && foodPlanetDignity < -1) {
-        warnings.push()
-          `${food.name}'s ruling planet ${food.planetaryRuler} is in fall in ${foodPlanetSign}, requiring extra attention to preparation and seasoning.`,
+        warnings.push(
+          `${food.name}'s ruling planet ${food.planetaryRuler} is in fall in ${foodPlanetSign}, requiring extra attention to preparation and seasoning.`
         );
       } else if (foodPlanetDignity && foodPlanetDignity === -1) {
-        warnings.push()
-          `${food.name}'s ruling planet ${food.planetaryRuler} is in detriment in ${foodPlanetSign}, consider adjusting your cooking method for balance.`,
+        warnings.push(
+          `${food.name}'s ruling planet ${food.planetaryRuler} is in detriment in ${foodPlanetSign}, consider adjusting your cooking method for balance.`
         );
       }
     }

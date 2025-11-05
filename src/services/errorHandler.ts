@@ -60,7 +60,7 @@ class ErrorHandlerService {
   /**
    * Log an error with additional context
    */
-  log(error: unknown, options: ErrorOptions = ) {}) {
+  log(error: unknown, options: ErrorOptions = {}) {
     const {
       type = ErrorType.UNKNOWN,
       severity = ErrorSeverity.ERROR,
@@ -77,15 +77,15 @@ class ErrorHandlerService {
     if (!silent) {
       switch (severity) {
         case ErrorSeverity.INFO:
-          logInfo(`[${component}] ${errorDetails.message}`, ) { error, context, data });
+          logInfo(`[${component}] ${errorDetails.message}`, { error, context, data });
           break;
         case ErrorSeverity.WARNING:
-          logWarning(`[${component}] ${errorDetails.message}`, ) { error, context, data });
+          logWarning(`[${component}] ${errorDetails.message}`, { error, context, data });
           break;
         case ErrorSeverity.ERROR:
         case ErrorSeverity.CRITICAL:
         case ErrorSeverity.FATAL:
-          logError(`[${severity}][${type}][${component}] ${errorDetails.message}`, ) {
+          logError(`[${severity}][${type}][${component}] ${errorDetails.message}`, {
             error,
             context,
             data
@@ -109,13 +109,13 @@ class ErrorHandlerService {
   /**
    * Create a custom application error
    */
-  createError(message: string, options: ErrorOptions = ) {}): Error {
+  createError(message: string, options: ErrorOptions = {}): Error {
     const error = new Error(message);
     // Add custom properties to the error
     Object.assign(error, {
       type: options.type || ErrorType.UNKNOWN,
       severity: options.severity || ErrorSeverity.ERROR,
-      context: options.context || ) {}
+      context: options.context || {}
     });
     return error;
   }
@@ -127,7 +127,7 @@ class ErrorHandlerService {
     try {
       return await fn();
     } catch (error) {
-      this.log(error, ) { context });
+      this.log(error, { context });
       return defaultValue;
     }
   }
@@ -139,7 +139,7 @@ class ErrorHandlerService {
     try {
       return fn();
     } catch (error) {
-      this.log(error, ) { context });
+      this.log(error, { context });
       return defaultValue;
     }
   }
@@ -149,8 +149,8 @@ class ErrorHandlerService {
    */
   handleError(error: unknown, context?: unknown): void {
     // Delegate to the main log method with proper options
-    this.log(error, ) {
-      context: (context) || 'unknown',
+    this.log(error, {
+      context: context || 'unknown',
       type: ErrorType.UNKNOWN,
       severity: ErrorSeverity.ERROR
     });
@@ -211,7 +211,7 @@ export function safeValue<T>(
   value: T | null | undefined,
   fallback: T,
   context: string,
-  variableName: string;
+  variableName: string
 ): T {
   if (value === null || value === undefined) {
     // Use standalone warnNullValue function since it's not a method on ErrorHandler
@@ -232,7 +232,7 @@ export function safePropertyAccess<T>(
   obj: unknown,
   properties: string[],
   defaultValue: T,
-  context: string;
+  context: string
 ): T {
   if (obj === null || obj === undefined) {
     warnNullValue(properties.join('.'), context);
@@ -268,7 +268,7 @@ export function safeExecuteWithContext<T>(fn: () => T, defaultValue: T, context:
   try {
     return fn();
   } catch (error) {
-    ErrorHandler.log(error, ) { context });
+    ErrorHandler.log(error, { context });
     return defaultValue;
   }
 }
@@ -290,12 +290,12 @@ export function validateType(
   value: unknown,
   expectedType: string,
   context: string,
-  variableName: string;
+  variableName: string
 ): boolean {
   const actualType = value === null ? 'null' : typeof value;
 
   // Handle array type special case
-  if (expectedType === 'array' && Array.isArray(value) {
+  if (expectedType === 'array' && Array.isArray(value)) {
     return true;
   }
 
@@ -305,8 +305,8 @@ export function validateType(
   }
 
   // Basic type checking
-  if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value)) {
-    logWarning()
+  if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value))) {
+    logWarning(
       `Type mismatch in ${context}: ${variableName} should be ${expectedType}, but got ${actualType}`,
       { value }
     );
@@ -323,7 +323,7 @@ export function validateType(
 export function handlePropertyAccessError(
   error: unknown,
   propertyPath: string,
-  context: string;
+  context: string
 ): void {
   let message = 'Property access error';
   if (
