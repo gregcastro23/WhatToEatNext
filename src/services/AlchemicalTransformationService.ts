@@ -249,22 +249,22 @@ export class AlchemicalTransformationService {
     const transformedCuisines = this.getTransformedCuisines();
     // Create lookup maps for faster access
     const ingredientMap = new Map<string, AlchemicalItem>();
-    transformedIngredients.forEach(item => ) {
+    transformedIngredients.forEach(item => {
       ingredientMap.set(item.name.toLowerCase(), item);
     });
 
     const methodMap = new Map<string, AlchemicalItem>();
-    transformedMethods.forEach(item => ) {
+    transformedMethods.forEach(item => {
       methodMap.set(item.name.toLowerCase(), item);
     });
 
     const cuisineMap = new Map<string, AlchemicalItem>();
-    transformedCuisines.forEach(item => ) {
+    transformedCuisines.forEach(item => {
       cuisineMap.set(item.name.toLowerCase(), item);
     });
 
     // Score each recipe based on its compatibility with the current planetary conditions
-    const scoredRecipes = recipes.map(recipe => ) {
+    const scoredRecipes = recipes.map(recipe => {
       // Base compatibility score
       let compatibility = 0;
 
@@ -272,7 +272,7 @@ export class AlchemicalTransformationService {
       let ingredientMatch = 0;
       let ingredientCount = 0;
 
-      recipe.ingredients.forEach(ingredient => ) {
+      recipe.ingredients.forEach(ingredient => {
         const ingredientName = ingredient.name.toLowerCase();
         const alchemicalIngredient = ingredientMap.get(ingredientName);
 
@@ -359,7 +359,7 @@ export class AlchemicalTransformationService {
    * @param targetElement Target element to emphasize
    * @param targetProperty Target alchemical property to emphasize
    */
-  getTargetedRecommendations()
+  getTargetedRecommendations(
     targetElement?: ElementalCharacter,
     targetAlchemicalProperty?: AlchemicalProperty,
     count = 5
@@ -367,19 +367,19 @@ export class AlchemicalTransformationService {
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
     const transformedCuisines = this.getTransformedCuisines();
-    const filteredIngredients = filterByAlchemicalCompatibility();
+    const filteredIngredients = filterByAlchemicalCompatibility(
       transformedIngredients,
       targetElement,
       targetAlchemicalProperty
     );
 
-    const filteredMethods = filterByAlchemicalCompatibility();
+    const filteredMethods = filterByAlchemicalCompatibility(
       transformedMethods,
       targetElement,
       targetAlchemicalProperty
     );
 
-    const filteredCuisines = filterByAlchemicalCompatibility();
+    const filteredCuisines = filterByAlchemicalCompatibility(
       transformedCuisines,
       targetElement,
       targetAlchemicalProperty
@@ -393,7 +393,7 @@ export class AlchemicalTransformationService {
     const dominantElement =
       targetElement || (topIngredients.length > 0 ? topIngredients[0].dominantElement : 'Fire');
 
-    const dominantAlchemicalProperty = targetAlchemicalProperty ||;
+    const dominantAlchemicalProperty = targetAlchemicalProperty ||
       (topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit');
 
     // Calculate average energy values
@@ -439,7 +439,7 @@ export class AlchemicalTransformationService {
     };
 
     const currentSeason = monthToSeason[currentMonth];
-    if (seasons.includes(currentSeason) || seasons.includes('all') {
+    if (seasons.includes(currentSeason) || seasons.includes('all')) {
       return 0.8;
     }
 
@@ -461,7 +461,7 @@ export class AlchemicalTransformationService {
     // Check if the recipe's lunar phases include the current lunar phase
     const lunarPhasesLower = lunarPhases.map((phase: string) => phase.toLowerCase());
 
-    if (lunarPhasesLower.includes(lunarPhaseLower) {
+    if (lunarPhasesLower.includes(lunarPhaseLower)) {
       return 0.8;
     }
 
@@ -483,7 +483,7 @@ export class AlchemicalTransformationService {
     // Check if the recipe's zodiac signs include the current zodiac sign
     const zodiacSigns = signs.map((sign: string) => sign.toLowerCase());
 
-    if (zodiacSigns.includes(zodiacLower) {
+    if (zodiacSigns.includes(zodiacLower)) {
       return 0.8;
     }
 
@@ -494,7 +494,7 @@ export class AlchemicalTransformationService {
   private getDominantElement(recipe: Recipe): ElementalCharacter {
     if (!recipe.elementalProperties) return 'Fire';
     const elements = recipe.elementalProperties;
-    const dominantValue = Math.max();
+    const dominantValue = Math.max(
       elements.Fire || 0,
       elements.Water || 0,
       elements.Earth || 0,

@@ -103,8 +103,8 @@ export function getZodiacElement(_sign: any): ElementalCharacter {
 // Define a replacement getPlanetaryDignity function
 export function getPlanetaryDignity(
   planet: string,
-  sign: any | undefined;
-): { type: DignityType; strength, number } {
+  sign: any | undefined
+): { type: DignityType; strength: number } {
   return getPlanetaryDignityInfo(planet, sign);
 }
 
@@ -203,11 +203,11 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
     // Convert to phase percentage (0 to 1)
     return angularDistance / 360;
   } catch (error) {
-    errorLog()
+    errorLog(
       'Error in calculateLunarPhase: ',
       error instanceof Error ? error.message : String(error)
-    )
-    return 0 // Default to new moon;
+    );
+    return 0; // Default to new moon
 }
 }
 
@@ -270,13 +270,13 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
       correctedFraction = Math.max(correctedFraction, 0.98); // Minimum 98%
     }
 
-    debugLog('Moon illumination calculated: ', ) {
+    debugLog('Moon illumination calculated: ', {
       date: date.toISOString(),
       phase: moonIllumination.phase,
       phaseName,
       _originalFraction: moonIllumination.fraction,
       correctedFraction
-    })
+    });
 
     // Convert fraction to percentage (rounded to nearest integer)
     return Math.round(correctedFraction * 100);
@@ -353,7 +353,7 @@ export async function calculateMoonSign(date: Date = new Date()): Promise<Zodiac
 }
 
 // Add validation to planetary position calculations
-export async function calculatePlanetaryPositions()
+export async function calculatePlanetaryPositions(
   date: Date = new Date()
 ): Promise<Record<string, PlanetPosition>> {
   try {

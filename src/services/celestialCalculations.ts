@@ -289,7 +289,7 @@ class CelestialCalculator {
       // Each sign takes approximately 2.28 days (27.3 / 12)
       const signsPassed = Math.floor((daysSinceReference % lunarCycle) / 2.28);
       // Define zodiac signs in order
-      const signs = [;
+      const signs = [
         'aries',
         'taurus',
         'gemini',

@@ -47,14 +47,14 @@ class DomainSpecificRuleValidator {
   private async validateAstrologicalFiles(): Promise<void> {
     console.log('🌟 Validating Astrological Calculation Files...');
 
-    const astroFiles = [;
+    const astroFiles = [
       'src/calculations/culinary/culinaryAstrology.ts',
       'src/utils/reliableAstronomy.ts',
       'src/data/planets/mars.ts',
     ];
 
     for (const file of astroFiles) {
-      if (existsSync(join(this.projectRoot, file)) {
+      if (existsSync(join(this.projectRoot, file))) {
         console.log(`   ✅ Found ${file}`);
       }
     }
@@ -63,13 +63,13 @@ class DomainSpecificRuleValidator {
   private async validateCampaignSystemFiles(): Promise<void> {
     console.log('🚀 Validating Campaign System Files...');
 
-    const campaignFiles = [;
+    const campaignFiles = [
       'src/services/campaign/CampaignController.ts',
       'src/services/campaign/ProgressTracker.ts',
     ];
 
     for (const file of campaignFiles) {
-      if (existsSync(join(this.projectRoot, file)) {
+      if (existsSync(join(this.projectRoot, file))) {
         console.log(`   ✅ Found ${file}`);
       }
     }
@@ -79,10 +79,10 @@ class DomainSpecificRuleValidator {
     console.log('🧪 Validating Test Files...');
 
     try {
-      const testCount = execSync('find src -name "*.test.ts" -o -name "*.test.tsx" | wc -l', ) {
+      const testCount = execSync('find src -name "*.test.ts" -o -name "*.test.tsx" | wc -l', {
         encoding: 'utf8',
         cwd: this.projectRoot
-}).trim();
+      }).trim();
 
       console.log(`   ✅ Found ${testCount} test files`);
     } catch (error) {

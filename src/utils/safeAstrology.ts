@@ -153,8 +153,8 @@ export function getZodiacPositionInDegrees(sign: any, _degree: number): number {
  * @param positions Record of planetary positions
  * @returns Array of planetary aspects
  */
-export function calculatePlanetaryAspects()
-  positions: Record<string, CelestialPosition>,
+export function calculatePlanetaryAspects(
+  positions: Record<string, CelestialPosition>
 ): PlanetaryAspect[] {
   const aspects: PlanetaryAspect[] = [];
   const planets = Object.keys(positions);
@@ -204,7 +204,7 @@ export function calculatePlanetaryAspects()
  * @returns Aspect type and orb if aspect exists, null otherwise
  */
 export function identifyAspect(_angleDiff: number): { type: AspectType, orb: number } | null {
-  const aspects = [;
+  const aspects = [
     { type: 'conjunction' as AspectType, angle: 0, maxOrb: 10 },
     { type: 'opposition' as AspectType, angle: 180, maxOrb: 10 },
     { type: 'trine' as AspectType, angle: 120, maxOrb: 8 },
@@ -249,7 +249,7 @@ export function calculateAspectStrength(_type: AspectType, _orb: number): number
 
   // Diminish strength based on orb
   const baseStrength = baseStrengths[type] || 0;
-  const maxOrb = type === 'conjunction' || type === 'opposition';
+  const maxOrb = type === 'conjunction' || type === 'opposition'
       ? 10
       : type === 'trine' || type === 'square'
         ? 8
@@ -291,19 +291,19 @@ export function getCurrentAstrologicalState(): AstrologicalState {
 
   // Calculate active planets (sun, moon + any in major aspect)
   const activePlanets = ['Sun', 'Moon'];
-  aspects.forEach(aspect => ) {
+  aspects.forEach(aspect => {
     // Check influence rather than strength
     if (aspect.influence && aspect.influence > 5) {
       const planet1 = aspect.planet1.charAt(0).toUpperCase() + aspect.planet1.slice(1);
       const planet2 = aspect.planet2.charAt(0).toUpperCase() + aspect.planet2.slice(1);
 
-      if (!activePlanets.includes(planet1)) activePlanets.push(planet1)
-      if (!activePlanets.includes(planet2)) activePlanets.push(planet2)
+      if (!activePlanets.includes(planet1)) activePlanets.push(planet1);
+      if (!activePlanets.includes(planet2)) activePlanets.push(planet2);
     }
   })
 
   // Convert string element to proper casing for Element type
-  const dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +;
+  const dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +
     dominantElement.slice(1)) as 'Fire' | 'Water' | 'Earth' | 'Air';
   const state: AstrologicalState = {
     sunSign: toZodiacSign(String(positions.sun.sign)),
@@ -414,7 +414,7 @@ function toZodiacSign(sign: string): any {
   // Convert first letter to uppercase and rest to lowercase
   const formattedSign = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
   // Check if it's a valid ZodiacSign
-  if (ZODIAC_SIGNS.includes(formattedSign as any) {
+  if (ZODIAC_SIGNS.includes(formattedSign as any)) {
     return formattedSign as any;
   }
 

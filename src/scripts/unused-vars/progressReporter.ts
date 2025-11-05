@@ -34,7 +34,7 @@ export function createBaselineReport(targetFile = 'reports/unused-vars-baseline.
 export function updateProgress(metrics: Partial<ProgressMetrics>, targetFile = 'reports/unused-vars-baseline.json'): void {
   ensureDir(path.dirname(targetFile));
   let current: ProgressMetrics;
-  if (fs.existsSync(targetFile) {
+  if (fs.existsSync(targetFile)) {
     current = JSON.parse(fs.readFileSync(targetFile, 'utf8')) as ProgressMetrics;
   } else {
     current = {
@@ -53,5 +53,5 @@ export function updateProgress(metrics: Partial<ProgressMetrics>, targetFile = '
 }
 
 export function ensureDir(dirPath: string): void {
-  if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, ) { recursive: true });
+  if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
 }

@@ -102,7 +102,7 @@ export class RecipeEngine {
       winter: { Water: 0.8, Earth: 0.6, Fire: 0.4, Air: 0.3 }
     }
 
-    const seasonMultipliers = seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] ||;
+    const seasonMultipliers = seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] ||
       seasonalElements['spring'];
 
     // Calculate weighted score based on recipe's elemental properties and seasonal effectiveness
@@ -115,9 +115,9 @@ export class RecipeEngine {
     return Math.max(0, Math.min(1, score));
   }
 
-  private calculateHarmonyBetween()
+  private calculateHarmonyBetween(
     props1: ElementalProperties,
-    props2: ElementalProperties;
+    props2: ElementalProperties
   ): number {
     if (!props1 || !props2) return 0;
     try {

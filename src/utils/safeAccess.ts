@@ -32,9 +32,9 @@ export function safeGet<T>(obj: unknown, path: string[], defaultValue: T): T {
       current = (current as any)[key];
     }
 
-    return current !== undefined && current !== null ? (current as T) : defaultValue
-} catch (error) {
-    logger.warn('Error in safeGet', ) { path, error })
+    return current !== undefined && current !== null ? (current as T) : defaultValue;
+  } catch (error) {
+    logger.warn('Error in safeGet', { path, error })
     return defaultValue;
   }
 }
@@ -54,9 +54,9 @@ export function safeGet<T>(obj: unknown, path: string[], defaultValue: T): T {
 export function safeExecute<T>(fn: () => T, defaultValue: T, logError = true): T {
   try {
     return fn();
-} catch (error) {
+  } catch (error) {
     if (logError) {
-      logger.warn('Error in safeExecute', ) { error })
+      logger.warn('Error in safeExecute', { error })
     }
     return defaultValue;
   }
@@ -116,7 +116,7 @@ export function safeString(value: unknown, _defaultValue = ''): string {
 export function safeHasProperty(obj: unknown, prop: string): boolean {
   return (obj !== null &&
     obj !== undefined &&
-    typeof obj === 'object' &&;
+    typeof obj === 'object' &&
     Object.prototype.hasOwnProperty.call(obj, prop)
   )
 }
@@ -165,7 +165,7 @@ export function safeProperty<T>(
     return defaultValue;
   }
 
-  if (typeCheck && !typeCheck(value) {
+  if (typeCheck && !typeCheck(value)) {
     return defaultValue;
   }
 

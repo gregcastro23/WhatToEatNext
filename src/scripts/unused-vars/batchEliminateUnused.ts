@@ -48,9 +48,9 @@ function parseArgs(argv: string[]): CliOptions {
   };
 }
 
-function execCmd(cmd: string): { code: number; stdout, string; stderr, string } {
+function execCmd(cmd: string): { code: number; stdout: string; stderr: string } {
   try {
-    const stdout = childProcess.execSync(cmd, ) { stdio: ['ignore', 'pipe', 'pipe'] }).toString();
+    const stdout = childProcess.execSync(cmd, { stdio: ['ignore', 'pipe', 'pipe'] }).toString();
     return { code: 0, stdout, stderr: '' };
   } catch (err) {
     const e = err as { status?: number; stdout?: Buffer; stderr?: Buffer };
@@ -93,16 +93,16 @@ function sortFilesForSafety(files: string[]): string[] {
 
 function writeBackup(filePath: string, content: string): string {
   const backupDir = path.join('.lint-backup-' + Date.now().toString());
-  if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, ) { recursive: true });
+  if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true });
   const rel = path.relative(process.cwd(), filePath).replace(/[\/]/g, '__');
   const backupPath = path.join(backupDir, rel + '.bak');
   fs.writeFileSync(backupPath, content, 'utf8');
   return backupPath;
 }
 
-function restoreFromBackups(backups: Array<) { file: string, backup: string }>): void {
+function restoreFromBackups(backups: Array<{ file: string; backup: string }>): void {
   for (const b of backups) {
-    if (fs.existsSync(b.backup) {
+    if (fs.existsSync(b.backup)) {
       const content = fs.readFileSync(b.backup, 'utf8');
       fs.writeFileSync(b.file, content, 'utf8');
     }
@@ -149,7 +149,7 @@ function applyEditsToFile(
 }
 
 function processBatch(files: string[], fileFindings: Map<string, Finding[]>, dryRun: boolean): boolean {
-  const backups: Array<{ file: string; backup, string }> = [];
+  const backups: Array<{ file: string; backup: string }> = [];
   for (const file of files) {
     const findings = (fileFindings.get(file) || []).filter((f) => !f.preserve);
     if (findings.length === 0) continue;

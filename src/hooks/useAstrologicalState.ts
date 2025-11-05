@@ -181,7 +181,7 @@ export function useAstrologicalState(): AstrologyHookData {
           }
 
           // Check if planet is in a powerful sign position
-          if (dignities[planetLower].includes(signLower) {
+          if (dignities[planetLower].includes(signLower)) {
             activePlanets.push(planetLower)
           }
 
@@ -189,8 +189,8 @@ export function useAstrologicalState(): AstrologyHookData {
           const degree = position.degree || 0;
           if (degree >= 0 && degree <= 15) {
             // Planets in early degrees are more powerful
-            if (!activePlanets.includes(planetLower) {
-              activePlanets.push(planetLower)
+            if (!activePlanets.includes(planetLower)) {
+              activePlanets.push(planetLower);
             }
           }
         })
@@ -216,16 +216,16 @@ export function useAstrologicalState(): AstrologyHookData {
   useEffect(() => {
     try {
       if (Object.keys(memoizedPlanetaryPositions).length > 0) {
-        const activePlanets = getActivePlanets(memoizedPlanetaryPositions as unknown);
-        const currentZodiac = (;
-          (memoizedPlanetaryPositions.sun )?.sign || ''
+        const activePlanets = getActivePlanets(memoizedPlanetaryPositions as unknown as Record<string, CelestialPosition>);
+        const currentZodiac = (
+          (memoizedPlanetaryPositions.sun)?.sign || ''
         ).toLowerCase();
 
-        logger.debug('Updating astrological state: ', ) {
+        logger.debug('Updating astrological state: ', {
           currentZodiac,
           activePlanets,
           time: new Date().toISOString()
-        })
+        });
 
         setAstroState((prev: unknown) => {
           // Skip update if nothing changed to prevent unnecessary re-renders

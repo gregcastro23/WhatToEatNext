@@ -208,7 +208,7 @@ export class JWTAuthService {
    */
   async validateToken(token: string): Promise<TokenPayload | null> {
     try {
-      const decoded = jwt.verify(token, this.config.jwtSecret, ) {
+      const decoded = jwt.verify(token, this.config.jwtSecret, {
         issuer: this.config.issuer,
         audience: 'alchm.kitchen'
       }) as TokenPayload;
@@ -216,13 +216,13 @@ export class JWTAuthService {
       // Verify user still exists and is active
       const user = Array.from(this.users.values()).find(u => u.id === decoded.userId);
       if (!user || !user.isActive) {
-        logger.warn('Token validation failed: user inactive or deleted', ) { userId: decoded.userId });
+        logger.warn('Token validation failed: user inactive or deleted', { userId: decoded.userId });
         return null;
       }
 
       return decoded;
     } catch (error) {
-      logger.warn('Token validation failed', ) { error: error instanceof Error ? error.message : 'Unknown error' });
+      logger.warn('Token validation failed', { error: error instanceof Error ? error.message : 'Unknown error' });
       return null;
     }
   }
@@ -232,7 +232,7 @@ export class JWTAuthService {
    */
   async refreshToken(refreshToken: string): Promise<AuthTokens | null> {
     try {
-      const decoded = jwt.verify(refreshToken, this.config.jwtSecret, ) {
+      const decoded = jwt.verify(refreshToken, this.config.jwtSecret, {
         issuer: this.config.issuer,
         audience: 'alchm.kitchen'
       }) as any;
@@ -244,13 +244,13 @@ export class JWTAuthService {
 
       const user = Array.from(this.users.values()).find(u => u.id === decoded.userId);
       if (!user || !user.isActive) {
-        logger.warn('Refresh token validation failed: user inactive or deleted', ) { userId: decoded.userId });
+        logger.warn('Refresh token validation failed: user inactive or deleted', { userId: decoded.userId });
         return null;
       }
 
       return await this.generateTokens(user);
     } catch (error) {
-      logger.warn('Refresh token validation failed', ) { error: error instanceof Error ? error.message : 'Unknown error' });
+      logger.warn('Refresh token validation failed', { error: error instanceof Error ? error.message : 'Unknown error' });
       return null;
     }
   }
@@ -261,11 +261,11 @@ export class JWTAuthService {
   hasPermission(userRoles: UserRole[], requiredPermission: string): boolean {
     const userScopes = this.getRoleScopes(userRoles);
 
-    return userScopes.some(scope => ) {
+    return userScopes.some(scope => {
       // Exact match
       if (scope === requiredPermission) return true;
       // Wildcard match (e.g., 'alchemical:*' matches 'alchemical:calculate')
-      if (scope.endsWith(':*') {
+      if (scope.endsWith(':*')) {
         const prefix = scope.slice(0, -1); // Remove '*'
         return requiredPermission.startsWith(prefix);
       }
@@ -280,8 +280,8 @@ export class JWTAuthService {
   private getRoleScopes(roles: UserRole[]): string[] {
     const scopes = new Set<string>();
 
-    roles.forEach(role => ) {
-      ROLE_PERMISSIONS[role]?.forEach(permission => ) {
+    roles.forEach(role => {
+      ROLE_PERMISSIONS[role]?.forEach(permission => {
         scopes.add(permission);
       });
     });
@@ -313,8 +313,8 @@ export class JWTAuthService {
    */
   async createUser(email: string, password: string, roles: UserRole[]): Promise<User | null> {
     try {
-      if (this.users.has(email) {
-        logger.warn('User creation failed: email already exists', ) { email });
+      if (this.users.has(email)) {
+        logger.warn('User creation failed: email already exists', { email });
         return null;
       }
 
@@ -330,7 +330,7 @@ export class JWTAuthService {
 
       this.users.set(email, user);
 
-      logger.info('User created successfully', ) {
+      logger.info('User created successfully', {
         userId: user.id,
         email: user.email,
         roles: user.roles
@@ -338,7 +338,7 @@ export class JWTAuthService {
 
       return user;
     } catch (error) {
-      logger.error('User creation error', ) { email, error });
+      logger.error('User creation error', { email, error });
       return null;
     }
   }
@@ -350,16 +350,16 @@ export class JWTAuthService {
     try {
       const user = Array.from(this.users.values()).find(u => u.id === userId);
       if (!user) {
-        logger.warn('User deactivation failed: user not found', ) { userId });
+        logger.warn('User deactivation failed: user not found', { userId });
         return false;
       }
 
       user.isActive = false;
 
-      logger.info('User deactivated successfully', ) { userId, email: user.email });
+      logger.info('User deactivated successfully', { userId, email: user.email });
       return true;
     } catch (error) {
-      logger.error('User deactivation error', ) { userId, error });
+      logger.error('User deactivation error', { userId, error });
       return false;
     }
   }
@@ -380,7 +380,7 @@ export class JWTAuthService {
 }
 
 // Export singleton instance
-export const authService = new JWTAuthService({)
+export const authService = new JWTAuthService({
   jwtSecret: process.env.JWT_SECRET || 'alchm_kitchen_jwt_secret_key',
   tokenExpiry: '1h',
   refreshTokenExpiry: '7d',

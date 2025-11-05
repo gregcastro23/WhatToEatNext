@@ -41,19 +41,19 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
   const outputFile = path.resolve(process.cwd(), 'temp-lint.json');
   const cmd = `eslint --config eslint.config.cjs src --format=json --max-warnings=10000 --output-file ${outputFile}`;
   try {
-    childProcess.execSync(cmd, ) { stdio: 'inherit' });
+    childProcess.execSync(cmd, { stdio: 'inherit' });
   } catch (error) {
     // ESLint exits 1 if issues found, but file is written
     console.warn('ESLint exited with code 1 (expected if issues found)');
   }
-  if (!fs.existsSync(outputFile) {
+  if (!fs.existsSync(outputFile)) {
     throw new Error('Lint output file not created');
   }
   const json = fs.readFileSync(outputFile, 'utf8');
-  type EslintMessage = { ruleId?: string; message: string; line?: number; column?: number },
-  type EslintResult = { filePath: string; messages, EslintMessage[] },
+  type EslintMessage = { ruleId?: string; message: string; line?: number; column?: number };
+  type EslintResult = { filePath: string; messages: EslintMessage[] };
   const results: EslintResult[] = JSON.parse(json);
-  const limited = typeof maxFiles === 'number' ? results.slice(0, Math.max(0, maxFiles)) : results,;
+  const limited = typeof maxFiles === 'number' ? results.slice(0, Math.max(0, maxFiles)) : results;
 
   const findings: Finding[] = [];
   for (const res of limited) {
@@ -74,7 +74,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
         preserve: decision.preserve,
         reason: decision.reason,
         confidence: decision.confidence
-});
+      });
     }
   }
   fs.unlinkSync(outputFile); // Clean up temp file
@@ -82,8 +82,8 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
 }
 
 function ensureDir(dirPath: string): void {
-  if (!fs.existsSync(dirPath) {
-    fs.mkdirSync(dirPath, ) { recursive: true });
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
   }
 }
 
@@ -95,14 +95,14 @@ function generateHumanReadableReport(findings: Finding[]): string {
     acc[f.reason] = (acc[f.reason] || 0) + 1;
     return acc;
   }, {});
-  const lines = [;
-    `Unused variable analysis` ,
-    `Total findings: ${total}` ,
-    `Preserve: ${preserve}` ,
-    `Eliminate: ${eliminate}` ,
-    `Breakdown by reason:` ,
+  const lines = [
+    `Unused variable analysis`,
+    `Total findings: ${total}`,
+    `Preserve: ${preserve}`,
+    `Eliminate: ${eliminate}`,
+    `Breakdown by reason:`,
   ];
-  for (const [reason, count] of Object.entries(byReason).sort((a, b) => b[1] - a[1]) {
+  for (const [reason, count] of Object.entries(byReason).sort((a, b) => b[1] - a[1])) {
     lines.push(`  - ${reason}: ${count}`);
   }
   return lines.join('\n');
@@ -113,7 +113,7 @@ async function main(): Promise<void> {
   const findings = await collectUnusedVariables(opts.maxFiles);
 
   ensureDir(path.dirname(opts.outPath));
-  fs.writeFileSync(opts.outPath, JSON.stringify() { generatedAt: new Date().toISOString(), findings }, null, 2));
+  fs.writeFileSync(opts.outPath, JSON.stringify({ generatedAt: new Date().toISOString(), findings }, null, 2));
 
   const humanReport = generateHumanReadableReport(findings);
   const txtOut = opts.outPath.replace(/\.json$/, '.txt');

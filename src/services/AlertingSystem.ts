@@ -125,7 +125,7 @@ class AlertingSystem {
   }
 
   private initializeDefaultRules() {
-    if (this.alertRules.length === 0) {,
+    if (this.alertRules.length === 0) {
       const defaultRules: AlertRule[] = [
         {
           id: 'build-time-critical',
@@ -146,22 +146,22 @@ class AlertingSystem {
               name: 'Analyze Build Bottlenecks',
               type: 'script',
               config: { script: 'analyze-build-performance.js' },
-        conditions: [],
+              conditions: [],
               retryCount: 2,
               timeoutSeconds: 300
-}
+            },
             {
               id: 'clear-build-cache',
               name: 'Clear Build Cache',
               type: 'command',
               config: { command: 'yarn cache clean' },
-        conditions: [],
+              conditions: [],
               retryCount: 1,
               timeoutSeconds: 60
-}
+            }
           ],
           notificationChannels: ['console', 'file']
-        }
+        },
         {
           id: 'typescript-errors-high',
           name: 'High TypeScript Error Count',
@@ -184,13 +184,13 @@ class AlertingSystem {
                 campaignType: 'typescript-error-reduction',
                 maxFiles: 20,
                 safetyLevel: 'HIGH' },
-        conditions: ['error_count > 500'],
+              conditions: ['error_count > 500'],
               retryCount: 1,
               timeoutSeconds: 1800
-}
+            }
           ],
           notificationChannels: ['console', 'file']
-        }
+        },
         {
           id: 'code-quality-low',
           name: 'Low Code Quality Score',
@@ -210,13 +210,13 @@ class AlertingSystem {
               name: 'Generate Quality Report',
               type: 'script',
               config: { script: 'generate-quality-report.js' },
-        conditions: [],
+              conditions: [],
               retryCount: 1,
               timeoutSeconds: 120
-}
+            }
           ],
           notificationChannels: ['console', 'file']
-        }
+        },
         {
           id: 'memory-usage-high',
           name: 'High Memory Usage',
@@ -236,13 +236,13 @@ class AlertingSystem {
               name: 'Force Garbage Collection',
               type: 'script',
               config: { script: 'force-gc.js' },
-        conditions: [],
+              conditions: [],
               retryCount: 1,
               timeoutSeconds: 30
-}
+            }
           ],
           notificationChannels: ['console']
-        }
+        },
         {
           id: 'technical-debt-critical',
           name: 'Critical Technical Debt',
@@ -276,7 +276,7 @@ class AlertingSystem {
       this.alertRules = defaultRules;
 }
 
-    if (this.escalationRules.length === 0) {,
+    if (this.escalationRules.length === 0) {
       const defaultEscalationRules: EscalationRule[] = [
         {
           id: 'critical-escalation',
@@ -296,10 +296,10 @@ class AlertingSystem {
               conditions: [],
               retryCount: 1,
               timeoutSeconds: 30
-}
+            }
           ],
           maxEscalations: 3
-}
+        },
         {
           id: 'error-escalation',
           name: 'Error Alert Escalation',
@@ -330,32 +330,32 @@ class AlertingSystem {
 
   private startMonitoring() {
     // Monitor every 2 minutes
-    setInterval() => {
-        this.checkAlertConditions()
-        this.processEscalations()
-        this.cleanupOldAlerts()
-        this.saveConfiguration()
-      }
-      2 * 60 * 1000,
-    )
+    setInterval(() => {
+        this.checkAlertConditions();
+        this.processEscalations();
+        this.cleanupOldAlerts();
+        this.saveConfiguration();
+      },
+      2 * 60 * 1000
+    );
 
     // Subscribe to data sources
-    buildPerformanceMonitor.subscribe(data => ) {
+    buildPerformanceMonitor.subscribe(data => {
       this.evaluatePerformanceAlerts(data);
     })
 
-    errorTrackingSystem.subscribe(data => ) {
+    errorTrackingSystem.subscribe(data => {
       this.evaluateErrorAlerts(data);
     })
 
-    qualityMetricsService.subscribe(data => ) {
+    qualityMetricsService.subscribe(data => {
       this.evaluateQualityAlerts(data);
     })
   }
 
   private checkAlertConditions() {
     for (const rule of this.alertRules) {
-      if (!rule.enabled) continue,
+      if (!rule.enabled) continue;
 
       // Check cooldown
       const lastAlertTime = this.lastAlertTimes.get(rule.id);
@@ -366,47 +366,54 @@ class AlertingSystem {
         continue;
       }
 
-      this.evaluateRule(rule)
+      this.evaluateRule(rule);
     }
   }
 
   private evaluateRule(rule: AlertRule) {
-    let currentValue: number,
+    let currentValue: number;
     let shouldAlert = false;
 
     // Get current metric value based on rule type
     switch (rule.type) {
-      case 'performance': currentValue = this.getPerformanceMetric(rule.metric),
-        break,
-      case 'error': currentValue = this.getErrorMetric(rule.metric),
-        break,
-      case 'quality': currentValue = this.getQualityMetric(rule.metric),
-        break,
-      case 'system': currentValue = this.getSystemMetric(rule.metric),
-        break,
-      default: return
+      case 'performance':
+        currentValue = this.getPerformanceMetric(rule.metric);
+        break;
+      case 'error':
+        currentValue = this.getErrorMetric(rule.metric);
+        break;
+      case 'quality':
+        currentValue = this.getQualityMetric(rule.metric);
+        break;
+      case 'system':
+        currentValue = this.getSystemMetric(rule.metric);
+        break;
+      default:
+        return;
     }
 
     // Evaluate condition
     switch (rule.condition) {
-      case 'greater_than': shouldAlert = currentValue > rule.threshold,
-        break,
+      case 'greater_than':
+        shouldAlert = currentValue > rule.threshold;
+        break;
       case 'less_than':
-        shouldAlert = currentValue < rule.threshold,
-        break,
+        shouldAlert = currentValue < rule.threshold;
+        break;
       case 'equals':
-        shouldAlert = currentValue === rule.threshold,
-        break,
-      case 'not_equals': shouldAlert = currentValue !== rule.threshold,
-        break,
+        shouldAlert = currentValue === rule.threshold;
+        break;
+      case 'not_equals':
+        shouldAlert = currentValue !== rule.threshold;
+        break;
       case 'percentage_change':
         // This would require historical data comparison
-        shouldAlert = false; // Placeholder,
-        break
+        shouldAlert = false; // Placeholder
+        break;
     }
 
     if (shouldAlert) {
-      this.createAlert(rule, currentValue)
+      this.createAlert(rule, currentValue);
     }
   }
 
@@ -414,58 +421,77 @@ class AlertingSystem {
     const summary = buildPerformanceMonitor.getPerformanceSummary();
 
     switch (metric) {
-      case 'build_time':;
+      case 'build_time':
         return summary.averageBuildTime;
-      case 'compilation_time': return summary.averageCompilationTime,
-      case 'bundle_size': return summary.averageBundleSize,
-      case 'memory_usage': return summary.averageMemoryUsage,
-      case 'cache_efficiency': return summary.cacheEfficiency,
-      case 'performance_score': return summary.performanceScore,
-      default: return 0;
-}
+      case 'compilation_time':
+        return summary.averageCompilationTime;
+      case 'bundle_size':
+        return summary.averageBundleSize;
+      case 'memory_usage':
+        return summary.averageMemoryUsage;
+      case 'cache_efficiency':
+        return summary.cacheEfficiency;
+      case 'performance_score':
+        return summary.performanceScore;
+      default:
+        return 0;
+    }
   }
 
   private getErrorMetric(metric: string): number {
     const summary = errorTrackingSystem.getErrorSummary();
 
     switch (metric) {
-      case 'typescript_errors':;
+      case 'typescript_errors':
         return summary.totalActiveErrors;
-      case 'linting_violations': return summary.totalActiveLintViolations,
-      case 'build_failures': return summary.totalRecentFailures,
-      case 'critical_issues': return summary.criticalIssues,
-      case 'automation_opportunities': return summary.automationOpportunities,
-      default: return 0;
-}
+      case 'linting_violations':
+        return summary.totalActiveLintViolations;
+      case 'build_failures':
+        return summary.totalRecentFailures;
+      case 'critical_issues':
+        return summary.criticalIssues;
+      case 'automation_opportunities':
+        return summary.automationOpportunities;
+      default:
+        return 0;
+    }
   }
 
   private getQualityMetric(metric: string): number {
-    const qualityMetrics = errorTrackingSystem.getCurrentQualityMetrics()
-;
+    const qualityMetrics = errorTrackingSystem.getCurrentQualityMetrics();
     if (!qualityMetrics) return 0;
     switch (metric) {
-      case 'code_quality_score': return qualityMetrics.codeQualityScore,
-      case 'technical_debt_score': return qualityMetrics.technicalDebtScore,
-      case 'maintainability_index': return qualityMetrics.maintainabilityIndex,
-      case 'error_rate': return qualityMetrics.errorRate,
-      case 'warning_rate': return qualityMetrics.warningRate,
-      default: return 0;
-}
+      case 'code_quality_score':
+        return qualityMetrics.codeQualityScore;
+      case 'technical_debt_score':
+        return qualityMetrics.technicalDebtScore;
+      case 'maintainability_index':
+        return qualityMetrics.maintainabilityIndex;
+      case 'error_rate':
+        return qualityMetrics.errorRate;
+      case 'warning_rate':
+        return qualityMetrics.warningRate;
+      default:
+        return 0;
+    }
   }
 
   private getSystemMetric(metric: string): number {
     switch (metric) {
-      case 'memory_usage': return process.memoryUsage().heapUsed,
-      case 'cpu_usage': return process.cpuUsage().user + process.cpuUsage().system,
+      case 'memory_usage':
+        return process.memoryUsage().heapUsed;
+      case 'cpu_usage':
+        return process.cpuUsage().user + process.cpuUsage().system;
       case 'uptime':
-        return process.uptime()
-      default: return 0;
-}
+        return process.uptime();
+      default:
+        return 0;
+    }
   }
 
   private createAlert(rule: AlertRule, currentValue: number) {
     const alert: Alert = {
-      id: `alert-${Date.now()}-${Math.random().toString(36).substr(29)}`,
+      id: `alert-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type: rule.type,
       severity: rule.severity,
       title: rule.name,
@@ -482,31 +508,31 @@ class AlertingSystem {
         metric: rule.metric,
         condition: rule.condition
       }
-    }
+    };
 
-    this.alerts.push(alert)
-    this.lastAlertTimes.set(rule.id, new Date())
+    this.alerts.push(alert);
+    this.lastAlertTimes.set(rule.id, new Date());
 
     // Log alert
-    log.info(`[ALERT ${alert.severity.toUpperCase()}] ${alert.title} ${alert.description}`)
+    log.info(`[ALERT ${alert.severity.toUpperCase()}] ${alert.title} ${alert.description}`);
 
     // Notify subscribers
-    this.notifySubscribers(alert)
+    this.notifySubscribers(alert);
 
     // Execute auto-response if enabled
     if (rule.autoResponse) {
-      void this.executeAlertActions(alert, rule.responseActions)
+      void this.executeAlertActions(alert, rule.responseActions);
     }
 
     // Send notifications
-    this.sendNotifications(alert, rule.notificationChannels)
+    this.sendNotifications(alert, rule.notificationChannels);
   }
 
   private async executeAlertActions(alert: Alert, actions: AlertAction[]) {
     for (const action of actions) {
       // Check conditions
-      if (!this.evaluateActionConditions(action.conditions, alert) {
-        continue
+      if (!this.evaluateActionConditions(action.conditions, alert)) {
+        continue;
       }
 
       const response: AlertResponse = {
@@ -515,23 +541,22 @@ class AlertingSystem {
         status: 'pending',
         startTime: new Date(),
         retryCount: 0
-}
+      };
 
-      this.alertResponses.push(response)
+      this.alertResponses.push(response);
 
       try {
-        response.status = 'running',
-        const result = await this.executeAction(action)
-;
-        response.status = 'completed',
+        response.status = 'running';
+        const result = await this.executeAction(action);
+        response.status = 'completed';
         response.endTime = new Date();
-        response.result = result,
+        response.result = result;
 
-        log.info(`[Alert Response] Successfully executed ${action.name} for alert ${alert.id}`)
+        log.info(`[Alert Response] Successfully executed ${action.name} for alert ${alert.id}`);
       } catch (error) {
-        response.status = 'failed',
+        response.status = 'failed';
         response.endTime = new Date();
-        response.error = (error as Error).message,
+        response.error = (error as Error).message;
 
         _logger.error(`[Alert Response] Failed to execute ${action.name} for alert ${alert.id}:`,
           error,
@@ -539,9 +564,9 @@ class AlertingSystem {
 
         // Retry if configured
         if (response.retryCount < action.retryCount) {
-          response.retryCount++,
+          response.retryCount++;
           setTimeout(() => {
-            void this.executeAlertActions(alert, [action])
+            void this.executeAlertActions(alert, [action]);
           }, 30000); // Retry after 30 seconds
         }
       }
@@ -549,12 +574,12 @@ class AlertingSystem {
   }
 
   private evaluateActionConditions(conditions: string[], alert: Alert): boolean {
-    if (conditions.length === 0) return true
+    if (conditions.length === 0) return true;
 
     for (const condition of conditions) {
-      if (!this.evaluateCondition(condition, alert) {
+      if (!this.evaluateCondition(condition, alert)) {
         return false;
-}
+      }
     }
 
     return true;
@@ -564,12 +589,12 @@ class AlertingSystem {
     // Simple condition evaluation
     // In a real implementation, this would be more sophisticated
 
-    if (condition.includes('error_count >') {
+    if (condition.includes('error_count >')) {
       const threshold = parseInt(condition.split('>')[1].trim());
       return alert.currentValue > threshold;
     }
 
-    if (condition.includes('automation_opportunities >') {
+    if (condition.includes('automation_opportunities >')) {
       const threshold = parseInt(condition.split('>')[1].trim());
       const errorSummary = errorTrackingSystem.getErrorSummary();
       return errorSummary.automationOpportunities > threshold;
@@ -579,115 +604,118 @@ class AlertingSystem {
   }
 
   // Alert action execution returns diverse result types from various external systems
-  private async executeAction()
-    action: AlertAction;
+  private async executeAction(
+    action: AlertAction
   ): Promise<{ success: boolean, result?: unknown, error?: string }> {
     const timeout = new Promise((_, reject) => {
       setTimeout(() => reject(new Error('Action timeout')), action.timeoutSeconds * 1000)
     })
 
-    const execution = this.performAction(action)
-;
+    const execution = this.performAction(action);
     return Promise.race([execution, timeout]);
-}
+  }
 
   // Action performance varies across scripts, commands, campaigns, and API calls
-  private async performAction()
-    action: AlertAction;
+  private async performAction(
+    action: AlertAction
   ): Promise<{ success: boolean, result?: unknown, error?: string }> {
     switch (action.type) {
-      case 'script': return this.executeScript(action.config.script)
+      case 'script':
+        return this.executeScript(action.config.script);
       case 'command':
-        return this.executeCommand(action.config.command)
+        return this.executeCommand(action.config.command);
       case 'campaign':
-        return this.triggerCampaign(action.config)
+        return this.triggerCampaign(action.config);
       case 'api_call':
-        return this.makeApiCall(action.config)
+        return this.makeApiCall(action.config);
       case 'notification':
-        return this.sendNotification(action.config)
-      default: throw new Error(`Unknown action type: ${action.type}`)
+        return this.sendNotification(action.config);
+      default:
+        throw new Error(`Unknown action type: ${action.type}`);
     }
   }
 
-   
+
   // Intentionally, any: Script execution results depend on external script implementations
-  private async executeScript()
-    scriptName: string;
+  private async executeScript(
+    scriptName: string
   ): Promise<{ success: boolean, output?: string, error?: string }> {
     // This would execute a script file
     // For now, return a placeholder
-    log.info(`[Alert Action] Executing script ${scriptName}`)
-    return { success: true, message: `Script ${scriptName} executed` };
-}
+    log.info(`[Alert Action] Executing script ${scriptName}`);
+    return { success: true };
+  }
 
-   
+
   // Intentionally, any: Shell command execution results vary based on command and system state
-  private async executeCommand()
-    command: string;
+  private async executeCommand(
+    command: string
   ): Promise<{ success: boolean, stdout?: string, stderr?: string, error?: string }> {
     // This would execute a shell command
     // For now, return a placeholder
-    log.info(`[Alert Action] Executing command ${command}`)
-    return { success: true, message: `Command ${command} executed` };
-}
+    log.info(`[Alert Action] Executing command ${command}`);
+    return { success: true };
+  }
 
-   
+
   // Intentionally, any: Campaign configurations and results have diverse structures across campaign types
-  private async triggerCampaign()
-    config: Record<string, unknown>,
+  private async triggerCampaign(
+    config: Record<string, unknown>
   ): Promise<{ success: boolean, campaignId?: string, error?: string }> {
     // This would integrate with the campaign system
     // For now, return a placeholder
-    log.info(`[Alert Action] Triggering campaign ${config.campaignType}`)
-    return { success: true, message: `Campaign ${config.campaignType} triggered` };
-}
+    log.info(`[Alert Action] Triggering campaign ${config.campaignType}`);
+    return { success: true };
+  }
 
-   
+
   // Intentionally, any: External API configurations and responses have unknown schemas from diverse services
-  private async makeApiCall()
-    config: Record<string, unknown>,
+  private async makeApiCall(
+    config: Record<string, unknown>
   ): Promise<{ success: boolean, response?: unknown, error?: string }> {
     // This would make an HTTP API call
     // For now, return a placeholder
-    log.info(`[Alert Action] Making API call to ${config.url}`)
-    return { success: true, message: `API call to ${config.url} completed` };
-}
+    log.info(`[Alert Action] Making API call to ${config.url}`);
+    return { success: true };
+  }
 
-   
+
   // Intentionally, any: Notification system configurations support various delivery channels with different options
-  private async sendNotification()
-    config: Record<string, unknown>,
+  private async sendNotification(
+    config: Record<string, unknown>
   ): Promise<{ success: boolean, messageId?: string, error?: string }> {
-    log.info(`[Alert Notification] ${config.message}`)
-    return { success: true, message: 'Notification sent' };
-}
+    log.info(`[Alert Notification] ${config.message}`);
+    return { success: true };
+  }
 
   private sendNotifications(alert: Alert, channels: string[]) {
     for (const channel of channels) {
       switch (channel) {
         case 'console':
-          log.info(`[NOTIFICATION] ${alert.title} ${alert.description}`)
-          break,
-        case 'file': this.writeAlertToFile(alert)
-          break,
-        default: log.info(`[NOTIFICATION] Unknown channel ${channel}`)
+          log.info(`[NOTIFICATION] ${alert.title} ${alert.description}`);
+          break;
+        case 'file':
+          this.writeAlertToFile(alert);
+          break;
+        default:
+          log.info(`[NOTIFICATION] Unknown channel ${channel}`);
       }
     }
   }
 
   private writeAlertToFile(alert: Alert) {
     try {
-      const alertsDir = path.join(process.cwd(), '.kiro', 'alerts'),;
-      if (!fs.existsSync(alertsDir) {
-        fs.mkdirSync(alertsDir, ) { recursive: true })
+      const alertsDir = path.join(process.cwd(), '.kiro', 'alerts');
+      if (!fs.existsSync(alertsDir)) {
+        fs.mkdirSync(alertsDir, { recursive: true });
       }
 
       const alertFile = path.join(alertsDir, 'alerts.log');
-      const alertLine = `${alert.timestamp.toISOString()} [${alert.severity.toUpperCase()}] ${alert.title}: ${alert.description}\n`,;
+      const alertLine = `${alert.timestamp.toISOString()} [${alert.severity.toUpperCase()}] ${alert.title}: ${alert.description}\n`;
 
-      fs.appendFileSync(alertFile, alertLine)
+      fs.appendFileSync(alertFile, alertLine);
     } catch (error) {
-      _logger.error('[Alerting System] Failed to write alert to file: ', error)
+      _logger.error('[Alerting System] Failed to write alert to file: ', error);
     }
   }
 
@@ -728,55 +756,55 @@ class AlertingSystem {
     const now = new Date();
 
     for (const alert of this.alerts) {
-      if (alert.resolved || alert.escalated) continue,
+      if (alert.resolved || alert.escalated) continue;
 
       const alertAge = now.getTime() - alert.timestamp.getTime();
 
       for (const escalationRule of this.escalationRules) {
-        if (!escalationRule.alertTypes.includes(alert.type)) continue,
-        if (!escalationRule.severityLevels.includes(alert.severity)) continue,
+        if (!escalationRule.alertTypes.includes(alert.type)) continue;
+        if (!escalationRule.severityLevels.includes(alert.severity)) continue;
 
         const escalationDelay = escalationRule.escalationDelayMinutes * 60 * 1000;
 
         if (alertAge >= escalationDelay) {
-          this.escalateAlert(alert, escalationRule),
-          break
+          this.escalateAlert(alert, escalationRule);
+          break;
         }
       }
     }
   }
 
   private escalateAlert(alert: Alert, escalationRule: EscalationRule) {
-    alert.escalated = true,
+    alert.escalated = true;
     alert.escalatedAt = new Date();
-    log.info(`[ESCALATION] Alert ${alert.id} escalated using rule ${escalationRule.name}`)
+    log.info(`[ESCALATION] Alert ${alert.id} escalated using rule ${escalationRule.name}`);
 
     // Execute escalation actions
-    void this.executeAlertActions(alert, escalationRule.escalationActions)
+    void this.executeAlertActions(alert, escalationRule.escalationActions);
   }
 
   private cleanupOldAlerts() {
     const cutoffTime = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000); // 30 days
 
-    this.alerts = this.alerts.filter(alert => alert.timestamp >= cutoffTime)
+    this.alerts = this.alerts.filter(alert => alert.timestamp >= cutoffTime);
     this.alertResponses = this.alertResponses.filter(response => response.startTime >= cutoffTime);
   }
 
   private notifySubscribers(alert: Alert) {
-    this.subscribers.forEach(callback => ) {
-      try ) {
+    this.subscribers.forEach(callback => {
+      try {
         callback(alert);
       } catch (error) {
-        _logger.error('[Alerting System] Subscriber error: ', error)
+        _logger.error('[Alerting System] Subscriber error: ', error);
       }
-    })
+    });
   }
 
   // Public API methods
   public subscribe(callback: (alert: Alert) => void) {
-    this.subscribers.add(callback)
+    this.subscribers.add(callback);
     return () => this.subscribers.delete(callback);
-}
+  }
 
   public getAlerts(options?: {
     type?: string,
@@ -784,7 +812,7 @@ class AlertingSystem {
     resolved?: boolean,
     limit?: number
   }): Alert[] {
-    let filtered = this.alerts,;
+    let filtered = this.alerts;
 
     if (options?.type) {
       filtered = filtered.filter(a => a.type === options.type);
@@ -799,63 +827,61 @@ class AlertingSystem {
     }
 
     // Sort by timestamp (newest first)
-    filtered.sort((ab) => b.timestamp.getTime() - a.timestamp.getTime())
+    filtered.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
 
     if (options?.limit) {
       filtered = filtered.slice(0, options.limit);
-}
+    }
 
     return filtered;
   }
 
   public getAlertRules(): AlertRule[] {
     return this.alertRules;
-}
+  }
 
   public addAlertRule(rule: Omit<AlertRule, 'id'>): string {
     const id = `rule-${Date.now()}`;
-    const newRule: AlertRule = { ...ruleid }
+    const newRule: AlertRule = { ...rule, id };
 
-    this.alertRules.push(newRule)
-    this.saveConfiguration()
+    this.alertRules.push(newRule);
+    this.saveConfiguration();
 
     return id;
   }
 
   public updateAlertRule(id: string, updates: Partial<AlertRule>): boolean {
     const ruleIndex = this.alertRules.findIndex(r => r.id === id);
-    if (ruleIndex === -1) return false
-;
-    this.alertRules[ruleIndex] = { ...this.alertRules[ruleIndex], ...updates }
-    this.saveConfiguration()
+    if (ruleIndex === -1) return false;
+    this.alertRules[ruleIndex] = { ...this.alertRules[ruleIndex], ...updates };
+    this.saveConfiguration();
 
     return true;
   }
 
   public deleteAlertRule(id: string): boolean {
     const ruleIndex = this.alertRules.findIndex(r => r.id === id);
-    if (ruleIndex === -1) return false
-;
-    this.alertRules.splice(ruleIndex, 1)
-    this.saveConfiguration()
+    if (ruleIndex === -1) return false;
+    this.alertRules.splice(ruleIndex, 1);
+    this.saveConfiguration();
 
     return true;
-}
+  }
 
   public acknowledgeAlert(alertId: string): boolean {
     const alert = this.alerts.find(a => a.id === alertId);
     if (!alert) return false;
-    alert.acknowledged = true,
-    this.saveConfiguration()
+    alert.acknowledged = true;
+    this.saveConfiguration();
     return true;
-}
+  }
 
   public resolveAlert(alertId: string): boolean {
     const alert = this.alerts.find(a => a.id === alertId);
     if (!alert) return false;
-    alert.resolved = true,
-    alert.resolvedAt = new Date()
-    this.saveConfiguration()
+    alert.resolved = true;
+    alert.resolvedAt = new Date();
+    this.saveConfiguration();
     return true;
   }
 
@@ -876,31 +902,31 @@ class AlertingSystem {
       totalAlerts: this.alerts.length,
       recentAlerts: recentAlerts.length,
       unresolvedAlerts: this.alerts.filter(a => !a.resolved).length,
-      criticalAlerts: this.alerts.filter(a => a.severity === 'critical' && !a.resolved).length,,
-      escalatedAlerts: this.alerts.filter(a => a.escalated && !a.resolved).length,,
+      criticalAlerts: this.alerts.filter(a => a.severity === 'critical' && !a.resolved).length,
+      escalatedAlerts: this.alerts.filter(a => a.escalated && !a.resolved).length,
       alertsByType: this.getAlertCountsByType(),
       alertsBySeverity: this.getAlertCountsBySeverity(),
       responseSuccessRate: this.calculateResponseSuccessRate(),
       averageResolutionTime: this.calculateAverageResolutionTime()
-    }
+    };
   }
 
   private getAlertCountsByType(): Record<string, number> {
-    const counts: Record<string, number> = {}
+    const counts: Record<string, number> = {};
 
-    for (const alert of this.alerts.filter(a => !a.resolved) {,
+    for (const alert of this.alerts.filter(a => !a.resolved)) {
       counts[alert.type] = (counts[alert.type] || 0) + 1;
-}
+    }
 
     return counts;
   }
 
   private getAlertCountsBySeverity(): Record<string, number> {
-    const counts: Record<string, number> = {}
+    const counts: Record<string, number> = {};
 
-    for (const alert of this.alerts.filter(a => !a.resolved) {,
+    for (const alert of this.alerts.filter(a => !a.resolved)) {
       counts[alert.severity] = (counts[alert.severity] || 0) + 1;
-}
+    }
 
     return counts;
   }
@@ -914,34 +940,33 @@ class AlertingSystem {
 
   private calculateAverageResolutionTime(): number {
     const resolvedAlerts = this.alerts.filter(a => a.resolved && a.resolvedAt);
-    if (resolvedAlerts.length === 0) return 0
-;
+    if (resolvedAlerts.length === 0) return 0;
     const totalResolutionTime = resolvedAlerts.reduce((sum, alert) => {
       if (alert.resolvedAt) {
         return sum + (alert.resolvedAt.getTime() - alert.timestamp.getTime());
-}
+      }
       return sum;
-    }, 0)
+    }, 0);
 
     return totalResolutionTime / resolvedAlerts.length / (60 * 1000); // Return in minutes
   }
 
   public testAlert(ruleId: string): boolean {
     const rule = this.alertRules.find(r => r.id === ruleId);
-    if (!rule) return false
+    if (!rule) return false;
 
-    // Create a test alert;
-    this.createAlert(rule, rule.threshold + 1),
+    // Create a test alert
+    this.createAlert(rule, rule.threshold + 1);
     return true;
-}
+  }
 
   public reset() {
-    this.alerts = [],
-    this.alertResponses = [],
-    this.lastAlertTimes.clear()
-    this.saveConfiguration()
+    this.alerts = [];
+    this.alertResponses = [];
+    this.lastAlertTimes.clear();
+    this.saveConfiguration();
   }
 }
 
 export const _alertingSystem = new AlertingSystem();
-export default AlertingSystem,
+export default AlertingSystem;

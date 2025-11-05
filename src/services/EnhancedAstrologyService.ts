@@ -63,7 +63,7 @@ export class EnhancedAstrologyService {
   async getEnhancedPlanetaryPositions(date: Date = new Date()): Promise<EnhancedAstrologicalData> {
     const cacheKey = date.toISOString().split('T')[0];
 
-    if (this.cache.has(cacheKey) {
+    if (this.cache.has(cacheKey)) {
       const cached = this.cache.get(cacheKey);
       if (cached && Date.now() - cached.lastUpdated.getTime() < this.cacheExpiration) {
         logger.debug('Using cached enhanced astrological data');
@@ -145,10 +145,8 @@ export class EnhancedAstrologyService {
       seasonalThemes: ((currentSeason as unknown as any).seasonalThemes as string[]) || [],
       culinaryInfluences: ((currentSeason as unknown as any).culinaryInfluences as string[]) || [],
       dominantElements: ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {},
-      recommendedCuisines: this.getRecommendedCuisines((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
-      ),
-      recommendedCookingMethods: this.getRecommendedCookingMethods((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
-      ),
+      recommendedCuisines: this.getRecommendedCuisines((currentSeason as unknown as any).dominantElements as Record<string, number>) || {},
+      recommendedCookingMethods: this.getRecommendedCookingMethods((currentSeason as unknown as any).dominantElements as Record<string, number>) || {},
       alchemicalProperties: ((currentSeason as unknown as any).alchemicalProperties as Record<string, number>) || {}
     };
   }
@@ -192,7 +190,7 @@ export class EnhancedAstrologyService {
     const dominantElements = this.calculateDominantElements(primaryPositions);
 
     // Get retrograde planets
-    const retrogradePlanets = Object.entries(primaryPositions);
+    const retrogradePlanets = Object.entries(primaryPositions)
       .filter(([_, position]) => position.isRetrograde)
       .map(([planet]) => planet);
 
@@ -246,7 +244,7 @@ export class EnhancedAstrologyService {
   /**
    * Calculate dominant elements from planetary positions
    */
-  private calculateDominantElements()
+  private calculateDominantElements(
     positions: Record<string, CelestialPosition>
   ): Record<string, number> {
     const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
@@ -266,7 +264,7 @@ export class EnhancedAstrologyService {
       pisces: 'Water'
     };
 
-    Object.values(positions).forEach(position => ) {
+    Object.values(positions).forEach(position => {
       const element = signElements[position.sign || 'aries'];
       if (element) {
         elementCounts[element]++;
@@ -276,7 +274,7 @@ export class EnhancedAstrologyService {
     // Normalize to percentages
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
     if (total > 0) {
-      Object.keys(elementCounts).forEach(element => ) {
+      Object.keys(elementCounts).forEach(element => {
         elementCounts[element] /= total;
       });
     }
@@ -422,11 +420,11 @@ export class EnhancedAstrologyService {
 export const enhancedAstrologyService = new EnhancedAstrologyService();
 
 // Export convenience functions
-export const getEnhancedPlanetaryPositions = (_date?: Date) =>;
+export const getEnhancedPlanetaryPositions = (_date?: Date) =>
   enhancedAstrologyService.getEnhancedPlanetaryPositions(_date);
-export const getTransitAnalysis = (_date?: Date) =>;
+export const getTransitAnalysis = (_date?: Date) =>
   enhancedAstrologyService.getTransitAnalysis(_date);
-export const getSeasonalRecommendations = (_date?: Date) =>;
+export const getSeasonalRecommendations = (_date?: Date) =>
   enhancedAstrologyService.getSeasonalRecommendations(_date);
 export const getDataSourceInfo = () => enhancedAstrologyService.getDataSourceInfo();
 export const forceRefreshAstrologize = () => enhancedAstrologyService.forceRefreshAstrologize();

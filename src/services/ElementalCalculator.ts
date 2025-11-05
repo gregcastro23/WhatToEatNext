@@ -221,7 +221,7 @@ export class ElementalCalculator {
       // Normalize values
       const total = Object.values(elementalValues).reduce((sum, val) => sum + val, 0);
       if (total > 0) {
-        Object.keys(elementalValues).forEach(element => ) {
+        Object.keys(elementalValues).forEach(element => {
           const elementKey = element as unknown;
           elementalValues[elementKey] = elementalValues[elementKey] / total;
         });
@@ -397,7 +397,7 @@ export class ElementalCalculator {
     try {
       // Extract planet info
       const planetRecord = planet as unknown as any;
-      const planetName = String();
+      const planetName = String(
         planetRecord.name || planetRecord.label || planetRecord.planet || ''
       );
       const signData = planetRecord.Sign;
@@ -742,7 +742,7 @@ export class ElementalCalculator {
     }
 
     // Sum up all properties
-    properties.forEach(prop => ) {
+    properties.forEach(prop => {
       Object.entries(prop).forEach(([element, value]) => {
         // Use nullish coalescing to handle undefined values
         const elementKey = element as unknown;
@@ -753,13 +753,13 @@ export class ElementalCalculator {
     // Normalize to ensure they sum to 1
     const total = Object.values(result).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
-      Object.keys(result).forEach(element => ) {
+      Object.keys(result).forEach(element => {
         const elementKey = element as unknown;
         result[elementKey] = result[elementKey] / total;
       });
     } else {
       // Default to equal distribution if total is 0
-      Object.keys(result).forEach(element => ) {
+      Object.keys(result).forEach(element => {
         const elementKey = element as unknown;
         result[elementKey] = 0.25;
       });
@@ -827,7 +827,7 @@ export class ElementalCalculator {
     const totalElementalEffect: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
     // Process each planet
-    for (const planetKey of Object.keys(planetInfo) {
+    for (const planetKey of Object.keys(planetInfo)) {
       if (celestialData[planetKey.toLowerCase()]) {
         const planet = planetKey;
         const planetData = celestialData[planetKey.toLowerCase()] as Record<string, unknown>;
@@ -838,7 +838,7 @@ export class ElementalCalculator {
           const planetEffect = this.processPlanetElementalEffect(planet as unknown as Planet, sign);
 
           // Combine effects
-          for (const element of Object.keys(totalElementalEffect) {
+          for (const element of Object.keys(totalElementalEffect)) {
             totalElementalEffect[element] += planetEffect[element] || 0;
           }
         }
@@ -857,7 +857,7 @@ export class ElementalCalculator {
     const elementalEffect: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
     // Extract all planet keys
-    const planetKeys = Object.keys(planets).filter();
+    const planetKeys = Object.keys(planets).filter(
       key =>
         typeof planets[key] === 'object' && planets[key] !== null && (planetInfo?.[key] || false)
     );
@@ -869,7 +869,7 @@ export class ElementalCalculator {
         const planetEffect = this.processPlanetElementalEffect(planet as unknown as Planet, sign);
 
         // Combine effects
-        for (const element of Object.keys(elementalEffect) {
+        for (const element of Object.keys(elementalEffect)) {
           elementalEffect[element] += planetEffect[element] || 0;
         }
       }
@@ -886,7 +886,7 @@ export class ElementalCalculator {
     let dominantElement = 'Fire';
     let highestValue = -Infinity;
 
-    for (const [element, value] of Object.entries(elementalEffects) {
+    for (const [element, value] of Object.entries(elementalEffects)) {
       if (value > highestValue) {
         highestValue = value;
         dominantElement = element;
@@ -911,7 +911,7 @@ export class ElementalCalculator {
 
     const normalized: Record<string, number> = {};
 
-    for (const element of Object.keys(elementalEffects) {
+    for (const element of Object.keys(elementalEffects)) {
       normalized[element] = elementalEffects[element] / sum;
     }
 

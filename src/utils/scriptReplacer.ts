@@ -9,7 +9,7 @@ import { log } from '@/services/LoggingService';
 // Only run in browser context
 if (typeof window !== 'undefined') {
   // Global script error handler - must be first
-  window.addEventListener()
+  window.addEventListener(
     'error',
     function (_event) {
       if (
@@ -18,25 +18,25 @@ if (typeof window !== 'undefined') {
           _event.filename.includes('lockdown') ||
           _event.filename.includes('viewer.js'))
       ) {
-        _logger.warn('[ScriptReplacer] Blocked error from: ', _event.filename)
+        log.warn('[ScriptReplacer] Blocked error from: ', _event.filename)
         _event.preventDefault()
         return true;
       }
       return false;
-    }
-    true,
+    },
+    true
   )
 
   // Setup global properties for lockdown
   if (!(window as unknown as any).lockdown) {
-    (window as unknown as any).lockdown = function () {,
+    (window as unknown as any).lockdown = function () {
       log.info('[ScriptReplacer] Safely intercepted lockdown() call')
       return true;
     }
   }
 
   if (!(window as unknown as any).harden) {
-    (window as unknown as any).harden = function (obj) {,
+    (window as unknown as any).harden = function (obj) {
       return obj;
     }
   }
@@ -78,10 +78,10 @@ if (typeof window !== 'undefined') {
 },
       on: function (_event: string, _callback?: (...args: unknown[]) => unknown) {
         return {
-          off: function () {}
+          off: function () {},
           trigger: function (_event: string) {
             return this;
-}
+          }
         }
       },
       trigger: function (_event: string) {

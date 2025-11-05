@@ -67,7 +67,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   getAllIngredients(): Record<string, UnifiedIngredient[]> {
     const result: Record<string, UnifiedIngredient[]> = {};
-    for (const [category, ingredients] of this.ingredientCache.entries() {
+    for (const [category, ingredients] of this.ingredientCache.entries()) {
       result[category] = [...ingredients];
     }
     return result;

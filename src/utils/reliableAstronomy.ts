@@ -123,7 +123,7 @@ export async function getReliablePlanetaryPositions(
  */
 async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
   // Format the date for Horizons API (YYYY-MMM-DD)
-  const months = [;
+  const months = [
     'Jan',
     'Feb',
     'Mar',
@@ -140,10 +140,10 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
   const horizonsDate = `${date.getFullYear()}-${months[date.getMonth()]}-${date.getDate().toString().padStart(2, '0')}`;
 
   // Initialize positions object
-  const positions: Record<string, unknown> = {}
+  const positions: Record<string, unknown> = {};
 
   // List of major planets with their Horizons object IDs
-  const planets = [;
+  const planets = [
     { name: 'Sun', id: '10' },
     { name: 'Moon', id: '301' },
     { name: 'Mercury', id: '199' },
@@ -158,16 +158,16 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
 
   try {
     // Batch approach with Promise.all for parallel requests
-    const planetRequests = planets.map(async planet => {)
+    const planetRequests = planets.map(async planet => {
       try {
-        // Construct request URL for each planet,
-        const url = `https: //ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND='${planet.id}'&OBJ_DATA='YES'&MAKE_EPHEM='YES'&EPHEM_TYPE='OBSERVER'&CENTER='500@399'&START_TIME='${horizonsDate}'&STOP_TIME='${horizonsDate}'&STEP_SIZE='1d'&QUANTITIES='31'`;
+        // Construct request URL for each planet
+        const url = `https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND='${planet.id}'&OBJ_DATA='YES'&MAKE_EPHEM='YES'&EPHEM_TYPE='OBSERVER'&CENTER='500@399'&START_TIME='${horizonsDate}'&STOP_TIME='${horizonsDate}'&STEP_SIZE='1d'&QUANTITIES='31'`;
 
         // Add a timeout to the fetch
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-        const response = await fetch(url, ) { signal: controller.signal });
+        const response = await fetch(url, { signal: controller.signal });
         clearTimeout(timeoutId)
 
         if (!response.ok) {
@@ -262,7 +262,7 @@ function getLongitudeToZodiacSign(_longitude: number): { sign: string, degree: n
   const degree = normalized % 30;
 
   // Get sign name
-  const signs = [;
+  const signs = [
     'aries',
     'taurus',
     'gemini',
@@ -375,15 +375,16 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
 
     // Wrap the entire fetch operation in a try/catch
     try {
-      const response = await fetch(url, {)
+      const response = await fetch(url, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json' },
+          'Content-Type': 'application/json'
+        },
         signal: controller.signal
-      })
+      });
 
       // Clear the timeout
-      clearTimeout(timeoutId)
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`Public API error: ${response.status}`)
@@ -411,7 +412,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
       }
 
       // Process each planet
-      if (data && Array.isArray(data) {
+      if (data && Array.isArray(data)) {
         data.forEach((planet: unknown) => {
           const planetData = planet as any;
           if (
@@ -434,7 +435,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
       }
 
       // Ensure all planets are represented
-      const requiredPlanets = [;
+      const requiredPlanets = [
         'Sun',
         'Moon',
         'Mercury',
@@ -450,7 +451,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
       ];
       let missingCount = 0;
 
-      requiredPlanets.forEach(planet => ) {
+      requiredPlanets.forEach(planet => {
         if (!positions[planet]) {
           missingCount++;
           // For missing planets, add a placeholder with approximate positions from March 2025
@@ -459,7 +460,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
             positions[planet] = marchPositions[planet];
           }
         }
-      })
+      });
 
       // If too many planets are missing, the data might be unreliable
       if (missingCount > 3) {
@@ -512,18 +513,20 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
 
     try {
       // Make the request with authorization
-      const response = await fetch();
+      const response = await fetch(
         `${baseUrl}/positions?object=sun,moon,mercury,venus,mars,jupiter,saturn,uranus,neptune,pluto&date=${formattedDate}`,
         {
           method: 'GET',
           headers: {
             Authorization: `Basic ${auth}`,
-            'Content-Type': 'application/json' },
-        signal: controller.signal
-        })
+            'Content-Type': 'application/json'
+          },
+          signal: controller.signal
+        }
+      );
 
       // Clear the timeout
-      clearTimeout(timeoutId)
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`TimeAndDate API error: ${response.status}`)
@@ -531,10 +534,10 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
 
       const data = await response.json();
 
-      // Process the response;
-      const positions: Record<string, unknown> = {}
+      // Process the response
+      const positions: Record<string, unknown> = {};
 
-      if (data?.objects && Array.isArray(data.objects) {
+      if (data?.objects && Array.isArray(data.objects)) {
         data.objects.forEach((obj: unknown) => {
           const objData = obj as any;
           if (
@@ -556,7 +559,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       }
 
       // Check if we received sufficient data
-      const requiredPlanets = [;
+      const requiredPlanets = [
         'Sun',
         'Moon',
         'Mercury',
@@ -570,7 +573,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       ];
       let missingCount = 0;
 
-      requiredPlanets.forEach(planet => ) {
+      requiredPlanets.forEach(planet => {
         if (!positions[planet]) {
           missingCount++;
           // For missing planets, add a placeholder with approximate positions from March 2025
@@ -579,7 +582,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
             positions[planet] = marchPositions[planet];
           }
         }
-      })
+      });
 
       // If too many planets are missing, the data might be unreliable
       if (missingCount > 3) {

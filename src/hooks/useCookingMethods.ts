@@ -112,8 +112,8 @@ export function useCookingMethods() {
   }, [])
 
   const selectMethod = (methodId: string) => {
-    // This could be used to track selected methods or trigger other actions;
-    log.info('Selected cooking method: ', ) { methodId })
+    // This could be used to track selected methods or trigger other actions
+    log.info('Selected cooking method: ', { methodId });
   }
 
   return {

@@ -152,9 +152,6 @@ export function getTechnicalTips(methodName: string): string[] {
         'Cook in small batches to maintain wok temperature—overcrowding creates steam instead of sear'
       );
       tips.push(
-        'Master the \'
-      );
-      tips.push(
         'Add aromatics (garlic, ginger) briefly at the beginning for 10-15 seconds to flavor the oil'
       );
       tips.push(
@@ -218,9 +215,6 @@ export function getTechnicalTips(methodName: string): string[] {
       );
       tips.push(
         'Monitor smoke color: blue-gray smoke is ideal, thick white or black smoke creates bitter flavors'
-      );
-      tips.push(
-        'Use the Texas Crutch (wrapping in foil) to overcome the \'
       );
       break;
 
@@ -289,9 +283,6 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push('Weigh ingredients rather than measuring by volume for consistent results');
       tips.push('Rotate baking sheets halfway through cooking for even browning');
       tips.push('For bread and pastry, create steam in the oven by using a water pan or ice cubes');
-      tips.push(
-        'Understand your flour\'
-      );
       tips.push(
         'Always cool baked goods on a wire rack to prevent soggy bottoms from condensation'
       );
@@ -394,10 +385,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'For non-alcoholic distillation, use steam distillation to extract volatile compounds'
       );
-      tips.push(
-        'Discard the \'
-      );
-      tips.push('Collect the \'hearts\' (middle portion) of the distillation for purest flavor')
+      tips.push('Collect the \'hearts\' (middle portion) of the distillation for purest flavor');
       tips.push(
         'Allow distilled products to rest for 1-2 weeks before final use to develop flavor complexity'
       );
@@ -553,9 +541,6 @@ export function getTechnicalTips(methodName: string): string[] {
       );
       tips.push(
         'For vegetable preparations, ice water bath restores crispness before final assembly'
-      );
-      tips.push(
-        'Balance acidity carefully to \'
       );
       tips.push(
         'Apply heat-mimicking techniques selectively: salting, massaging kale/cabbage, acid marination'

@@ -508,7 +508,7 @@ export function getRecipeFiltersFromTarot(tarotCards: {
  * @param date The date to get recommendations for
  * @returns Object with food recommendations and insights
  */
-export const _getTarotFoodRecommendations = (;
+export const _getTarotFoodRecommendations = (
   date: Date
 ): { dailyCard: string; // ← Pattern GG-6, Added missing dailyCard property
   element: string;

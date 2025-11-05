@@ -64,12 +64,12 @@ async function collectMetrics(args: string[]) {
   console.log(`Memory Usage: ${metrics.performanceMetrics.memoryUsage.toFixed(2)}MB`);
   console.log(`Cache Hit Rate: ${(metrics.performanceMetrics.cacheHitRate * 100).toFixed(1)}%`);
 
-  if (args.includes('--json') {
+  if (args.includes('--json')) {
     console.log('\n📄 JSON Output: ');
     console.log(JSON.stringify(metrics, null, 2));
   }
 
-  if (args.includes('--categories') {
+  if (args.includes('--categories')) {
     console.log('\n🏷️  Error Categories: ');
     Object.entries(metrics.errorsByCategory).forEach(([rule, count]) => {
       console.log(`  ${rule}: ${count}`);
@@ -106,21 +106,15 @@ async function generateReport(args: string[]) {
 
   console.log('\n🎯 Quality Gates: ');
   console.log(`Zero Errors: ${report.qualityGates.zeroErrors ? '✅' : '❌'}`);
-  console.log()
-    `Warnings Under Threshold: ${report.qualityGates.warningsUnderThreshold ? '✅' : '❌'}`,
-  );
+  console.log(`Warnings Under Threshold: ${report.qualityGates.warningsUnderThreshold ? '✅' : '❌'}`);
   console.log(`Performance Acceptable: ${report.qualityGates.performanceAcceptable ? '✅' : '❌'}`);
 
   console.log('\n📈 Trends: ');
-  console.log()
-    `Last 24 Hours: ${report.trends.last24Hours > 0 ? '+' : ''}${report.trends.last24Hours}`,
-  );
+  console.log(`Last 24 Hours: ${report.trends.last24Hours > 0 ? '+' : ''}${report.trends.last24Hours}`);
   console.log(`Last 7 Days: ${report.trends.last7Days > 0 ? '+' : ''}${report.trends.last7Days}`);
-  console.log()
-    `Last 30 Days: ${report.trends.last30Days > 0 ? '+' : ''}${report.trends.last30Days}`,
-  );
+  console.log(`Last 30 Days: ${report.trends.last30Days > 0 ? '+' : ''}${report.trends.last30Days}`);
 
-  if (args.includes('--json') {
+  if (args.includes('--json')) {
     console.log('\n📄 JSON Output: ');
     console.log(JSON.stringify(report, null, 2));
   }
@@ -151,7 +145,7 @@ async function startCampaign(args: string[]) {
   console.log(`Phases: ${campaign.phases.length}`);
   console.log(`Target: ${campaign.targets.targetReduction}% reduction`);
 
-  if (args.includes('--dry-run') {
+  if (args.includes('--dry-run')) {
     console.log('\n🔍 Dry run - campaign would execute the following phases: ');
     campaign.phases.forEach((phase, index) => {
       console.log(`  ${index + 1}. ${phase.name}: ${phase.description}`);
@@ -161,7 +155,7 @@ async function startCampaign(args: string[]) {
     return;
   }
 
-  if (!args.includes('--confirm') {
+  if (!args.includes('--confirm')) {
     console.log('\n⚠️  Add --confirm to actually start the campaign');
     console.log('   Add --dry-run to see what would be executed');
     return;
@@ -189,7 +183,7 @@ async function evaluateQualityGates(args: string[]) {
   if (result.violations.length > 0) {
     console.log('\n⚠️  Violations: ');
     result.violations.forEach((violation, index) => {
-      const icon = violation.severity === 'critical';
+      const icon = violation.severity === 'critical'
           ? '🚨'
           : violation.severity === 'high'
             ? '⚠️'
@@ -198,7 +192,7 @@ async function evaluateQualityGates(args: string[]) {
               : 'ℹ️';
       console.log(`  ${index + 1}. ${icon} ${violation.message}`);
       if (violation.file) {
-        console.log(`     File: ${violation.file}${violation.line ? }`:${violation.line}` : ''}`);
+        console.log(`     File: ${violation.file}${violation.line ? `:${violation.line}` : ''}`);
       }
       console.log(`     Rule: ${violation.rule} (${violation.type})`);
       console.log(`     Auto-fixable: ${violation.autoFixable ? 'Yes' : 'No'}`);
@@ -218,7 +212,7 @@ async function evaluateQualityGates(args: string[]) {
   console.log(`Warnings: ${result.metrics.warnings}`);
   console.log(`Fixable: ${result.metrics.fixableIssues}`);
 
-  if (args.includes('--json') {
+  if (args.includes('--json')) {
     console.log('\n📄 JSON Output: ');
     console.log(JSON.stringify(result, null, 2));
   }
@@ -268,12 +262,12 @@ async function checkDeploymentReadiness(args: string[]) {
   }
 
   // Exit with appropriate code for CI/CD
-  if (args.includes('--exit-code') {
+  if (args.includes('--exit-code')) {
     process.exit(readiness.ready ? 0 : 1);
   }
 
-  if (args.includes('--json') {
-    console.log('\n📄 JSON Output: '),
+  if (args.includes('--json')) {
+    console.log('\n📄 JSON Output: ');
     console.log(JSON.stringify(readiness, null, 2));
   }
 }
@@ -287,28 +281,28 @@ async function monitorTrends(args: string[]) {
   const gates = new LintingQualityGates();
   const trends = await gates.monitorQualityTrends();
 
-  console.log('\n📈 Quality Trends: '),
-  console.log(`Overall Trend: ${trends.trend.toUpperCase()}`),
+  console.log('\n📈 Quality Trends: ');
+  console.log(`Overall Trend: ${trends.trend.toUpperCase()}`);
 
   if (trends.trends) {
-    console.log('\n📊 Individual Trends: '),
-    console.log(`Error Trend: ${trends.trends.errorTrend}`),
-    console.log(`Warning Trend: ${trends.trends.warningTrend}`),
-    console.log(`Performance Trend: ${trends.trends.performanceTrend}`),
+    console.log('\n📊 Individual Trends: ');
+    console.log(`Error Trend: ${trends.trends.errorTrend}`);
+    console.log(`Warning Trend: ${trends.trends.warningTrend}`);
+    console.log(`Performance Trend: ${trends.trends.performanceTrend}`);
     console.log(`Quality Trend: ${trends.trends.qualityTrend}`);
   }
 
   if (trends.recommendations && trends.recommendations.length > 0) {
-    console.log('\n💡 Recommendations: '),
+    console.log('\n💡 Recommendations: ');
     trends.recommendations.forEach((rec: string, index: number) => {
       console.log(`  ${index + 1}. ${rec}`);
     });
   }
 
-  console.log(`\n🚨 Alert Level: ${trends.alertLevel.toUpperCase()}`),
+  console.log(`\n🚨 Alert Level: ${trends.alertLevel.toUpperCase()}`);
 
-  if (args.includes('--json') {
-    console.log('\n📄 JSON Output: '),
+  if (args.includes('--json')) {
+    console.log('\n📄 JSON Output: ');
     console.log(JSON.stringify(trends, null, 2));
   }
 }
@@ -339,32 +333,32 @@ async function createCICDReport(args: string[]) {
   console.log(`Risk Level: ${report.qualityGates.riskLevel.toUpperCase()}`),
   console.log(`Violations: ${report.qualityGates.violationCount}`),
 
-  console.log('\n⚡ Performance: '),
-  console.log(`Execution Time: ${report.performance.executionTime}ms`),
-  console.log(`Memory Usage: ${report.performance.memoryUsage.toFixed(2)}MB`),
-  console.log(`Cache Hit Rate: ${(report.performance.cacheHitRate * 100).toFixed(1)}%`),
+  console.log('\n⚡ Performance: ');
+  console.log(`Execution Time: ${report.performance.executionTime}ms`);
+  console.log(`Memory Usage: ${report.performance.memoryUsage.toFixed(2)}MB`);
+  console.log(`Cache Hit Rate: ${(report.performance.cacheHitRate * 100).toFixed(1)}%`);
 
   if (report.blockers.length > 0) {
-    console.log('\n🚨 Blockers: '),
+    console.log('\n🚨 Blockers: ');
     report.blockers.forEach((blocker: string, index: number) => {
       console.log(`  ${index + 1}. ${blocker}`);
     });
   }
 
   if (report?.recommendations.length > 0) {
-    console.log('\n💡 Recommendations: '),
+    console.log('\n💡 Recommendations: ');
     report?.recommendations.forEach((rec: string, index: number) => {
       console.log(`  ${index + 1}. ${rec}`);
     });
   }
 
-  if (args.includes('--json') {
-    console.log('\n📄 JSON Output: '),
+  if (args.includes('--json')) {
+    console.log('\n📄 JSON Output: ');
     console.log(JSON.stringify(report, null, 2));
   }
 
   // Save report to file if requested
-  if (args.includes('--save') {
+  if (args.includes('--save')) {
     const { writeFileSync } = await import('fs');
     const filename = `cicd-report-${Date.now()}.json`;
     writeFileSync(filename, JSON.stringify(report, null, 2));
@@ -422,7 +416,7 @@ For more information, see the documentation in the linting services directory.
 
 // Run the CLI if this file is executed directly
 if (require.main === module) {
-  main().catch(error => ) {
+  main().catch(error => {
     console.error('Fatal error:', error);
     process.exit(1);
   });

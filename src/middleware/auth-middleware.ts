@@ -53,7 +53,7 @@ function extractTokenFromRequest(req: Request): string | null {
 /**
  * Main authentication middleware factory
  */
-export function authenticate(options: AuthMiddlewareOptions = ) {}) {
+export function authenticate(options: AuthMiddlewareOptions = {}) {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { required = true,
@@ -67,21 +67,21 @@ export function authenticate(options: AuthMiddlewareOptions = ) {}) {
       // Handle missing token
       if (!token) {
         if (!required || allowGuest) {
-          // Allow anonymous access for optional authentication;
-          logger.debug('Anonymous access granted', ) {
+          // Allow anonymous access for optional authentication
+          logger.debug('Anonymous access granted', {
             path: req.path,
             method: req.method,
             required,
             allowGuest
-          })
+          });
           return next();
-}
+        }
 
-        logger.warn('Authentication required but no token provided', ) {
+        logger.warn('Authentication required but no token provided', {
           path: req.path,
           method: req.method,
           ip: req.ip
-        })
+        });
 
         res.status(401).json({
           error: 'Authentication required',
@@ -95,11 +95,11 @@ export function authenticate(options: AuthMiddlewareOptions = ) {}) {
       const payload = await authService.validateToken(token);
 
       if (!payload) {
-        logger.warn('Invalid or expired token', ) {
+        logger.warn('Invalid or expired token', {
           path: req.path,
           method: req.method,
           ip: req.ip
-        })
+        });
 
         res.status(401).json({
           error: 'Invalid token',
@@ -114,13 +114,13 @@ export function authenticate(options: AuthMiddlewareOptions = ) {}) {
         const hasRequiredRole = roles.some(role => payload.roles.includes(role));
 
         if (!hasRequiredRole) {
-          logger.warn('Insufficient role permissions', ) {
+          logger.warn('Insufficient role permissions', {
             userId: payload.userId,
             userRoles: payload.roles,
             requiredRoles: roles,
             path: req.path,
             method: req.method
-          })
+          });
 
           res.status(403).json({
             error: 'Insufficient permissions',
@@ -135,18 +135,18 @@ export function authenticate(options: AuthMiddlewareOptions = ) {}) {
 
       // Check specific permission requirements
       if (permissions.length > 0) {
-        const hasPermission = permissions.every(permission =>);
+        const hasPermission = permissions.every(permission =>
           authService.hasPermission(payload.roles, permission)
         );
 
         if (!hasPermission) {
-          logger.warn('Insufficient permissions', ) {
+          logger.warn('Insufficient permissions', {
             userId: payload.userId,
             userRoles: payload.roles,
             requiredPermissions: permissions,
             path: req.path,
             method: req.method
-          })
+          });
 
           res.status(403).json({
             error: 'Insufficient permissions',
@@ -191,7 +191,7 @@ export function authenticate(options: AuthMiddlewareOptions = ) {}) {
 /**
  * Require admin role
  */
-export const requireAdmin = authenticate({)
+export const requireAdmin = authenticate({
   required: true,
   roles: [UserRole.ADMIN]
 });
@@ -199,7 +199,7 @@ export const requireAdmin = authenticate({)
 /**
  * Require authenticated user (any role except guest)
  */
-export const requireAuth = authenticate({)
+export const requireAuth = authenticate({
   required: true,
   roles: [UserRole.ADMIN, UserRole.USER, UserRole.SERVICE]
 });
@@ -207,7 +207,7 @@ export const requireAuth = authenticate({)
 /**
  * Allow guest access with optional authentication
  */
-export const optionalAuth = authenticate({)
+export const optionalAuth = authenticate({
   required: false,
   allowGuest: true
 });
@@ -225,7 +225,7 @@ export function requirePermissions(...permissions: string[]) {
 /**
  * Service-to-service authentication
  */
-export const requireService = authenticate({)
+export const requireService = authenticate({
   required: true,
   roles: [UserRole.SERVICE, UserRole.ADMIN]
 });

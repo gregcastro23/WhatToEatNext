@@ -115,7 +115,7 @@ export class KiroCampaignIntegration {
   constructor() {
     this.campaignController = new CampaignController(this.getDefaultConfig())
     this.progressTracker = new ProgressTracker();
-    this.intelligenceSystem = CampaignIntelligenceSystem as unknown as {,
+    this.intelligenceSystem = CampaignIntelligenceSystem as unknown as {
       initialize: (config: Record<string, unknown>) => Promise<void>
     }
   }

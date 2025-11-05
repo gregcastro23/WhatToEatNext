@@ -51,7 +51,7 @@ export class RecipeElementalService {
    * @returns Array of recipes with guaranteed elemental properties
    */
   public standardizeRecipes<T extends Partial<Recipe>>(
-    recipes: T[];
+    recipes: T[]
   ): Array<T & { elementalProperties: ElementalProperties }> {
     return recipes.map(recipe => this.standardizeRecipe(recipe));
   }

@@ -114,7 +114,7 @@ export class LocalRecipeService {
       const recipes: Recipe[] = [];
 
       // Get recipes from all available cuisines
-      for (const cuisine of Object.values(cuisinesMap) {
+      for (const cuisine of Object.values(cuisinesMap)) {
         if (cuisine) {
           const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as ExtendedCuisine);
           recipes.push(...cuisineRecipes);

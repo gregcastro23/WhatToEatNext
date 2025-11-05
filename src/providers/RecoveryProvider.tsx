@@ -19,13 +19,13 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
 
   // Monitor for unhandled errors globally
   useEffect(() => {
-    const handleGlobalError = (event: ErrorEvent) => {,;
-      logger.error('Global error caught: ', event.error),
-      setLastError(event.error)
+    const handleGlobalError = (event: ErrorEvent) => {
+      logger.error('Global error caught: ', event.error);
+      setLastError(event.error);
     }
 
-    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {,;
-      logger.error('Unhandled promise rejection: ', event.reason),
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      logger.error('Unhandled promise rejection: ', event.reason);
       if (event.reason instanceof Error) {
         setLastError(event.reason)
       }
@@ -62,9 +62,9 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
 
       // Reset IndexedDB
       const databases = await window.indexedDB.databases();
-      databases.forEach(db => ) {
+      databases.forEach(db => {
         if (db.name) window.indexedDB.deleteDatabase(db.name);
-      })
+      });
 
       // Clear storage
       localStorage.clear()
@@ -82,12 +82,12 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  return (<RecoveryContext.Provider value={{ resetApp, isRecovering }}>,
+  return (<RecoveryContext.Provider value={{ resetApp, isRecovering }}>
       <ErrorBoundary
         fallback={ErrorFallback}
-        onError={error => {,
-          logger.error('App error caught: ', error),
-          setLastError(error)
+        onError={error => {
+          logger.error('App error caught: ', error);
+          setLastError(error);
         }}
       >
         {children}

@@ -128,9 +128,9 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       }
 
       const result = await response.json();
-      log.info('✅ Astrologize API response received: ', ) {
+      log.info('✅ Astrologize API response received: ', {
         dataType: result._celestialBodies ? 'Valid celestial data' : 'Unknown format'
-})
+      });
       setData(result)
     } catch (fetchError) {
       _logger.error('Error fetching from Astrologize API: ', fetchError)

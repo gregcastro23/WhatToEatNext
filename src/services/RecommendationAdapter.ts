@@ -218,7 +218,7 @@ export class RecommendationAdapter {
   private transformItems(): void {
     try {
       // Get alchemical results from the positions
-      const result = alchemize();
+      const result = alchemize(
         this.convertedPositions as unknown as Record<string, PlanetaryPosition>,
         this.isDaytime,
         this.lunarPhase || undefined,

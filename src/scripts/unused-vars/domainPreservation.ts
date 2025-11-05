@@ -29,7 +29,7 @@ const ASTRO_VARIABLE_NAME_REGEX =
 const CAMPAIGN_VARIABLE_NAME_REGEX =
   /^(?: metrics?|progress|safety|campaign|validation|intelligence|monitor|tracking|telemetry|baseline|phase|gate|milestone|roi)/i;
 const TEST_CONTEXT_FILE_REGEX = /\/(?: __tests__|tests?|__mocks__|mocks|__fixtures__|fixtures)\//i;
-const CULINARY_VARIABLE_NAME_REGEX = /^(?: cuisine|ingredient|recipe|flavor|taste|umami|spice|seasoning|cooking|method|profile|oil|vinegar|protein|vegetable|fruit)/i,;
+const CULINARY_VARIABLE_NAME_REGEX = /^(?: cuisine|ingredient|recipe|flavor|taste|umami|spice|seasoning|cooking|method|profile|oil|vinegar|protein|vegetable|fruit)/i;
 
 export function isHighImpactFile(filePath: string): boolean {
   // Core calculations and services are considered high impact
@@ -69,39 +69,39 @@ export function classifyFileKind(filePath: string):
   return 'other';
 }
 
-export function decidePreservation()
+export function decidePreservation(
   variableName: string,
   filePath: string
 ): PreservationDecision {
   // Elemental properties must always be preserved per workspace rules
-  if (ELEMENT_NAMES.has(variableName) {
+  if (ELEMENT_NAMES.has(variableName)) {
     return { preserve: true, reason: 'elemental-property', confidence: 0.95 };
   }
 
   // Astrological variables used across calculations and services
-  if (ASTRO_VARIABLE_NAME_REGEX.test(variableName) {
+  if (ASTRO_VARIABLE_NAME_REGEX.test(variableName)) {
     return { preserve: true, reason: 'astrological-variable', confidence: 0.85 };
   }
 
   // Campaign/metrics/monitoring system variables
-  if (CAMPAIGN_VARIABLE_NAME_REGEX.test(variableName) {
+  if (CAMPAIGN_VARIABLE_NAME_REGEX.test(variableName)) {
     return { preserve: true, reason: 'campaign-system', confidence: 0.8 };
   }
 
   // Culinary/recipe domain variables in tests and components
-  if (CULINARY_VARIABLE_NAME_REGEX.test(variableName) {
+  if (CULINARY_VARIABLE_NAME_REGEX.test(variableName)) {
     return { preserve: true, reason: 'culinary-domain', confidence: 0.75 };
   }
 
-  if (isTestFile(filePath) {
+  if (isTestFile(filePath)) {
     return { preserve: true, reason: 'test-context', confidence: 0.9 };
   }
 
   // Elevate caution for high-impact files
-  if (isCoreCalculationFile(filePath) {
+  if (isCoreCalculationFile(filePath)) {
     return { preserve: true, reason: 'core-calculation', confidence: 0.7 };
   }
-  if (isServiceLayerFile(filePath) {
+  if (isServiceLayerFile(filePath)) {
     return { preserve: true, reason: 'service-layer', confidence: 0.65 };
   }
 

@@ -53,8 +53,8 @@ class LintingTestRunner {
   }
 
   private ensureDirectories(): void {
-    if (!existsSync(this.reportDirectory) {
-      mkdirSync(this.reportDirectory, ) { recursive: true });
+    if (!existsSync(this.reportDirectory)) {
+      mkdirSync(this.reportDirectory, { recursive: true });
     }
   }
 
@@ -100,10 +100,10 @@ class LintingTestRunner {
 
     try {
       // Run the specific test file
-      const output = execSync(`npx jest "${testPath}" --verbose --no-cache --testTimeout=30000`, ) {
+      const output = execSync(`npx jest "${testPath}" --verbose --no-cache --testTimeout=30000`, {
         encoding: 'utf8',
         stdio: 'pipe'
-});
+      });
 
       const duration = Date.now() - startTime;
 
@@ -128,32 +128,30 @@ class LintingTestRunner {
   }
 
   private extractErrors(output: string): string[] {
-    const errorLines = output;
+    const errorLines = output
       .split('\n')
-      .filter()
-        line =>
-          line.includes('FAIL') ||
-          line.includes('Error:') ||
-          line.includes('Expected:') ||
-          void line.includes('Received: ');
+      .filter(line =>
+        line.includes('FAIL') ||
+        line.includes('Error:') ||
+        line.includes('Expected:') ||
+        line.includes('Received:')
       );
 
     return errorLines.slice(0, 10); // Limit to first 10 errors
   }
 
   private extractWarnings(output: string): string[] {
-    const warningLines = output;
+    const warningLines = output
       .split('\n')
-      .filter()
-        line =>
-          line.includes('WARN') || line.includes('Warning: ') || void line.includes('deprecated');
+      .filter(line =>
+        line.includes('WARN') || line.includes('Warning: ') || line.includes('deprecated')
       );
 
     return warningLines.slice(0, 5); // Limit to first 5 warnings
   }
 
   private generateSummary(results: TestResult[]): TestSuiteReport['summary'] {
-    const getTestResult = (testFile: string) =>;
+    const getTestResult = (testFile: string) =>
       results.find(r => r.testFile.includes(testFile))?.passed || false;
 
     return {
@@ -232,15 +230,14 @@ class LintingTestRunner {
 ## Detailed Results
 
 ${report.results
-  .map()
-    result => }`
+  .map(result => `
 ### ${result.testFile}
 - **Status**: ${result.passed ? '✅ PASSED' : '❌ FAILED'}
 - **Duration**: ${result.duration}ms
-${result.errors.length > 0 ? }`- **Errors**: ${result.errors.length}\n${result.errors.map(e => }`  - ${e}`).join('\n')}` : ''}
+${result.errors.length > 0 ? `- **Errors**: ${result.errors.length}\n${result.errors.map(e => `  - ${e}`).join('\n')}` : ''}
 ${result.warnings.length > 0 ? `- **Warnings**: ${result.warnings.length}\n${result.warnings.map(w => `  - ${w}`).join('\n')}` : ''}
-`,
-  )
+`)
+
   .join('\n')}
 
 ## Quality Metrics
@@ -271,7 +268,7 @@ ${
 ### 🚨 Failed Tests Require Attention
 ${report.results
   .filter(r => !r.passed)
-  .map(r => }`- Fix issues in ${r.testFile}`)
+  .map(r => `- Fix issues in ${r.testFile}`)
   .join('\n')}
 `
     : '### ✅ All Tests Passing - System Ready for Production'
@@ -299,11 +296,11 @@ ${report.results
     console.log(`Total Duration: ${report.totalDuration}ms`),
     console.log('');
 
-    console.log('📋 TEST CATEGORIES: '),
+    console.log('📋 TEST CATEGORIES: ');
     Object.entries(report.summary).forEach(([category, passed]) => {
       const status = passed ? '✅ PASSED' : '❌ FAILED';
-      const categoryName = category;
-        .replace(/([A-Z])/g, ' 1')
+      const categoryName = category
+        .replace(/([A-Z])/g, ' $1')
         .replace(/^./, str => str.toUpperCase());
       console.log(`  ${categoryName}: ${status}`);
     });
@@ -322,11 +319,11 @@ ${report.results
   async validateSystemReadiness(): Promise<boolean> {
     console.log('🔍 Validating System Readiness...\n');
 
-    const checks = [;
+    const checks = [
       this.checkESLintConfiguration(),
       this.checkAstrologicalRules(),
       this.checkPerformanceSettings(),
-      void this.checkIntegrationPoints(),
+      this.checkIntegrationPoints()
     ];
 
     const results = await Promise.all(checks);
@@ -355,8 +352,8 @@ ${report.results
 
       const issues: string[] = [];
 
-      if (!Array.isArray(config) {
-        void issues.push('Configuration is not an array');
+      if (!Array.isArray(config)) {
+        issues.push('Configuration is not an array');
       }
 
       if (config.length < 5) {
@@ -365,9 +362,9 @@ ${report.results
 
       return {
         name: 'ESLint Configuration',
-        passed: issues.length === 0;
-        issues;
-};
+        passed: issues.length === 0,
+        issues
+      };
     } catch (error) {
       return {
         name: 'ESLint Configuration',
@@ -386,17 +383,17 @@ ${report.results
       const rulesPath = path.resolve(__dirname, '../eslint-plugins/astrological-rules.cjs');
       const rules = require(rulesPath);
 
-      const expectedRules = [;
+      const expectedRules = [
         'preserve-planetary-constants',
         'validate-planetary-position-structure',
         'validate-elemental-properties',
         'require-transit-date-validation',
-        'preserve-fallback-values',
+        'preserve-fallback-values'
       ];
 
       const issues: string[] = [];
 
-      expectedRules.forEach(ruleName => ) {
+      expectedRules.forEach(ruleName => {
         if (!rules.rules[ruleName]) {
           void issues.push(`Missing rule: ${ruleName}`);
         }
@@ -404,9 +401,9 @@ ${report.results
 
       return {
         name: 'Astrological Rules',
-        passed: issues.length === 0;
-        issues;
-};
+        passed: issues.length === 0,
+        issues
+      };
     } catch (error) {
       return {
         name: 'Astrological Rules',
@@ -441,9 +438,9 @@ ${report.results
 
       return {
         name: 'Performance Settings',
-        passed: issues.length === 0;
-        issues;
-};
+        passed: issues.length === 0,
+        issues
+      };
     } catch (error) {
       return {
         name: 'Performance Settings',
@@ -461,19 +458,19 @@ ${report.results
     const issues: string[] = [];
 
     // Check if test files exist
-    const testFiles = this.testFiles.map(file => void path.join(this.testDirectory, file));
+    const testFiles = this.testFiles.map(file => path.join(this.testDirectory, file));
 
-    testFiles.forEach(testFile => ) {
-      if (!existsSync(testFile) {
-        void issues.push(`Missing test file: ${path.basename(testFile)}`);
+    testFiles.forEach(testFile => {
+      if (!existsSync(testFile)) {
+        issues.push(`Missing test file: ${path.basename(testFile)}`);
       }
     });
 
     return {
       name: 'Integration Points',
-      passed: issues.length === 0;
-      issues;
-};
+      passed: issues.length === 0,
+      issues
+    };
   }
 }
 

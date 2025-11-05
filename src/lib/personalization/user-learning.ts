@@ -145,7 +145,7 @@ class UserLearningSystem {
     }
 
     this.trackInteraction(userId, interaction)
-    logger.info('Recipe interaction learned', ) { userId, recipeId: recipeData.id, type: interactionType })
+    logger.info('Recipe interaction learned', { userId, recipeId: recipeData.id, type: interactionType })
   }
 
   /**
@@ -162,8 +162,8 @@ class UserLearningSystem {
       context: this.getCurrentContext()
     }
 
-    this.trackInteraction(userId, interaction)
-    logger.debug('Ingredient preferences learned', ) { userId, selected: selectedIngredients.length, rejected: rejectedIngredients.length })
+    this.trackInteraction(userId, interaction);
+    logger.debug('Ingredient preferences learned', { userId, selected: selectedIngredients.length, rejected: rejectedIngredients.length });
   }
 
   /**
@@ -216,16 +216,16 @@ class UserLearningSystem {
   /**
    * Calculate personalized score for a recommendation
    */
-  private calculatePersonalizedScore()
+  private calculatePersonalizedScore(
     recommendation: any,
     preferences: UserPreferences,
     context?: any
-  ): { score: number; reasons, string[] } {
+  ): { score: number; reasons: string[] } {
     let score = recommendation.baseScore || 0.5;
     const reasons: string[] = [];
 
     // Cuisine preference boost
-    if (preferences.cuisinePreferences.includes(recommendation.cuisine) {
+    if (preferences.cuisinePreferences.includes(recommendation.cuisine)) {
       const boost = 0.2 * preferences.weights.cuisine;
       score += boost;
       reasons.push(`Matches your ${recommendation.cuisine} preference (+${(boost * 100).toFixed(0)}%)`)
@@ -233,7 +233,7 @@ class UserLearningSystem {
 
     // Elemental affinity boost
     if (recommendation.elementalBalance) {
-      const elementalScore = this.calculateElementalMatch();
+      const elementalScore = this.calculateElementalMatch(
         recommendation.elementalBalance,
         preferences.elementalAffinities
       );
@@ -254,11 +254,11 @@ class UserLearningSystem {
     }
 
     // Ingredient preferences
-    const favoriteIngredients = recommendation.ingredients?.filter((ing: string) =>;
+    const favoriteIngredients = recommendation.ingredients?.filter((ing: string) =>
       preferences.favoriteIngredients.includes(ing)
     ) || [];
 
-    const dislikedIngredients = recommendation.ingredients?.filter((ing: string) =>;
+    const dislikedIngredients = recommendation.ingredients?.filter((ing: string) =>
       preferences.dislikedIngredients.includes(ing)
     ) || [];
 
@@ -294,12 +294,12 @@ class UserLearningSystem {
   private extractCuisinePreferences(interactions: UserInteraction[]): string[] {
     const cuisineScores: Record<string, number> = {}
 
-    interactions.forEach(interaction => ) {
+    interactions.forEach(interaction => {
       if (interaction.type === 'recipe_view' && interaction.data.cuisine) {
         const weight = interaction.data.weight || 1;
         cuisineScores[interaction.data.cuisine] = (cuisineScores[interaction.data.cuisine] || 0) + weight;
       }
-    })
+    });
 
     return Object.entries(cuisineScores)
       .sort(([, a], [, b]) => b - a)
@@ -310,7 +310,7 @@ class UserLearningSystem {
   private extractIngredientPreferences(interactions: UserInteraction[], type: 'positive' | 'negative'): string[] {
     const ingredientScores: Record<string, number> = {}
 
-    interactions.forEach(interaction => ) {
+    interactions.forEach(interaction => {
       if (interaction.type === 'ingredient_select') {
         const ingredients = type === 'positive' ? interaction.data.selected : interaction.data.rejected;
         const weight = type === 'positive' ? 1 : -1;
@@ -339,12 +339,12 @@ class UserLearningSystem {
     const affinities = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     let totalWeight = 0;
 
-    interactions.forEach(interaction => ) {
+    interactions.forEach(interaction => {
       if (interaction.type === 'recipe_view' && interaction.data.elementalBalance) {
         const weight = interaction.data.weight || 1;
         const balance = interaction.data.elementalBalance;
 
-        Object.keys(affinities).forEach(element => ) {
+        Object.keys(affinities).forEach(element => {
           affinities[element as keyof ElementalProperties] += balance[element as keyof ElementalProperties] * weight;
         })
 
@@ -353,7 +353,7 @@ class UserLearningSystem {
     })
 
     if (totalWeight > 0) {
-      Object.keys(affinities).forEach(element => ) {
+      Object.keys(affinities).forEach(element => {
         affinities[element as keyof ElementalProperties] /= totalWeight;
       })
     }
@@ -364,7 +364,7 @@ class UserLearningSystem {
   private calculatePlanetaryPreferences(interactions: UserInteraction[]): Record<string, number> {
     const preferences: Record<string, number> = {}
 
-    interactions.forEach(interaction => ) {
+    interactions.forEach(interaction => {
       if (interaction.type === 'planetary_query' && interaction.data.planet) {
         const weight = interaction.data.engagement || 0.5;
         preferences[interaction.data.planet] = (preferences[interaction.data.planet] || 0) + weight;
@@ -374,7 +374,7 @@ class UserLearningSystem {
     // Normalize to 0-1 range
     const maxScore = Math.max(...Object.values(preferences));
     if (maxScore > 0) {
-      Object.keys(preferences).forEach(planet => ) {
+      Object.keys(preferences).forEach(planet => {
         preferences[planet] /= maxScore;
       })
     }
@@ -385,7 +385,7 @@ class UserLearningSystem {
   private extractCookingMethodPreferences(interactions: UserInteraction[]): string[] {
     const methodScores: Record<string, number> = {}
 
-    interactions.forEach(interaction => ) {
+    interactions.forEach(interaction => {
       if (interaction.type === 'recipe_view' && interaction.data.cookingMethod) {
         const weight = interaction.data.weight || 1;
         methodScores[interaction.data.cookingMethod] = (methodScores[interaction.data.cookingMethod] || 0) + weight;
@@ -401,7 +401,7 @@ class UserLearningSystem {
   private extractMealTimePatterns(interactions: UserInteraction[]): string[] {
     const timePatterns: Record<string, number> = {}
 
-    interactions.forEach(interaction => ) {
+    interactions.forEach(interaction => {
       const hour = new Date(interaction.timestamp).getHours();
       let mealTime: string;
 
@@ -423,14 +423,14 @@ class UserLearningSystem {
   private calculateComplexityPreference(interactions: UserInteraction[]): 'simple' | 'moderate' | 'complex' {
     const complexityScores = { simple: 0, moderate: 0, complex: 0 };
 
-    interactions.forEach(interaction => ) {
+    interactions.forEach(interaction => {
       if (interaction.type === 'recipe_view' && interaction.data.complexity) {
         const weight = interaction.data.weight || 1;
         complexityScores[interaction.data.complexity as keyof typeof complexityScores] += weight;
       }
     })
 
-    const maxComplexity = Object.entries(complexityScores);
+    const maxComplexity = Object.entries(complexityScores)
       .sort(([, a], [, b]) => b - a)[0];
 
     return maxComplexity ? maxComplexity[0] as 'simple' | 'moderate' | 'complex' : 'moderate';
@@ -460,7 +460,7 @@ class UserLearningSystem {
 
   private calculateElementalMatch(recipeBalance: ElementalProperties, userAffinities: ElementalProperties): number {
     let similarity = 0;
-    Object.keys(recipeBalance).forEach(element => ) {
+    Object.keys(recipeBalance).forEach(element => {
       const key = element as keyof ElementalProperties;
       similarity += Math.abs(recipeBalance[key] - userAffinities[key])
     })

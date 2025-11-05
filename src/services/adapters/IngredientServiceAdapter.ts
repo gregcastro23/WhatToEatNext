@@ -59,7 +59,7 @@ export class EnhancedIngredientSystem {
     } = {},
   ): UnifiedIngredient[] {
     try {
-      logger.info('Getting recommended ingredients', ) { state, options });
+      logger.info('Getting recommended ingredients', { state, options });
 
       // Create elemental properties from the state - safe property access
       const elements = this.extractElementalProperties(state);

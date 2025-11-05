@@ -27,7 +27,7 @@ class IngredientMappingService {
   /**
    * Find recipes that match specific elemental and ingredient requirements
    */
-  findMatchingRecipes()
+  findMatchingRecipes(
     options: {
       elementalTarget?: ElementalProperties;
       requiredIngredients?: string[];

@@ -81,7 +81,7 @@ export class RecommendationService implements RecommendationServiceInterface {
         filteredRecipes = filteredRecipes.filter(recipe => {
           if (!recipe.elementalProperties) return false;
 
-          const compatibility = this.calculateElementalCompatibility();
+          const compatibility = this.calculateElementalCompatibility(
             criteria.elementalProperties,
             recipe.elementalProperties
           );
@@ -213,7 +213,7 @@ export class RecommendationService implements RecommendationServiceInterface {
 
         // Calculate elemental compatibility if criteria includes elemental properties
         if (criteria.elementalProperties && ingredient.elementalProperties) {
-          const elementalScore = this.calculateElementalCompatibility();
+          const elementalScore = this.calculateElementalCompatibility(
             criteria.elementalProperties,
             ingredient.elementalProperties
           );

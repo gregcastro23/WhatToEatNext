@@ -12,7 +12,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration
-const REGRESSION_CONFIG = {;
+const REGRESSION_CONFIG = {
   baselines: {
     typescript: {
       excellent: 0,     // Target baseline
@@ -88,7 +88,7 @@ class RegressionAlertSystem {
   ensureDirectories() {
     const logsDir = 'logs';
     if (!fs.existsSync(logsDir)) {
-      fs.mkdirSync(logsDir, ) { recursive: true });
+      fs.mkdirSync(logsDir, { recursive: true });
     }
   }
 
@@ -169,14 +169,14 @@ class RegressionAlertSystem {
   async getCurrentMetrics() {
     try {
       // Get TypeScript errors
-      const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"', ) {;
+      const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
       const typeScriptErrors = parseInt(tsOutput.trim()) || 0;
 
       // Get ESLint counts
-      const lintOutput = execSync('yarn lint:ci 2>&1 || true', ) {;
+      const lintOutput = execSync('yarn lint:ci 2>&1 || true', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -188,7 +188,7 @@ class RegressionAlertSystem {
 
       // Measure performance
       const lintStart = Date.now();
-      execSync('yarn lint:quick > /dev/null 2>&1 || true', ) { stdio: 'pipe' });
+      execSync('yarn lint:quick > /dev/null 2>&1 || true', { stdio: 'pipe' });
       const lintDuration = (Date.now() - lintStart) / 1000;
 
       return {
@@ -251,7 +251,7 @@ class RegressionAlertSystem {
     const regressions = [];
 
     // Check TypeScript errors
-    const tsSeverity = this.calculateRegressionSeverity();
+    const tsSeverity = this.calculateRegressionSeverity(
       baseline.typeScriptErrors,
       currentMetrics.typeScriptErrors,
       'typescript'
@@ -259,7 +259,7 @@ class RegressionAlertSystem {
 
     if (tsSeverity) {
       regressions.push({
-        id: `ts-$) {Date.now()}`,
+        id: `ts-${Date.now()}`,
         type: 'typescript',
         severity: tsSeverity,
         baseline: baseline.typeScriptErrors,
@@ -273,7 +273,7 @@ class RegressionAlertSystem {
     }
 
     // Check ESLint errors
-    const eslintErrorsSeverity = this.calculateRegressionSeverity();
+    const eslintErrorsSeverity = this.calculateRegressionSeverity(
       baseline.eslintErrors,
       currentMetrics.eslintErrors,
       'eslintErrors'
@@ -281,7 +281,7 @@ class RegressionAlertSystem {
 
     if (eslintErrorsSeverity) {
       regressions.push({
-        id: `eslint-errors-$) {Date.now()}`,
+        id: `eslint-errors-${Date.now()}`,
         type: 'eslint-errors',
         severity: eslintErrorsSeverity,
         baseline: baseline.eslintErrors,
@@ -295,7 +295,7 @@ class RegressionAlertSystem {
     }
 
     // Check ESLint warnings
-    const eslintWarningsSeverity = this.calculateRegressionSeverity();
+    const eslintWarningsSeverity = this.calculateRegressionSeverity(
       baseline.eslintWarnings,
       currentMetrics.eslintWarnings,
       'eslintWarnings'
@@ -303,7 +303,7 @@ class RegressionAlertSystem {
 
     if (eslintWarningsSeverity) {
       regressions.push({
-        id: `eslint-warnings-$) {Date.now()}`,
+        id: `eslint-warnings-${Date.now()}`,
         type: 'eslint-warnings',
         severity: eslintWarningsSeverity,
         baseline: baseline.eslintWarnings,
@@ -382,7 +382,7 @@ class RegressionAlertSystem {
   }
 
   formatAlertMessage(regression) {
-    const severityEmoji = {;
+    const severityEmoji = {
       'MINOR': '⚠️',
       'MODERATE': '🔶',
       'MAJOR': '🔴',
@@ -446,7 +446,7 @@ ${this.getRecommendedActions(regression)}
 
     if (webhookUrl) {
       try {
-        const payload = { text: `Regression Alert, ${regression.severity} ${regression.type}`,;
+        const payload = { text: `Regression Alert, ${regression.severity} ${regression.type}`,
           attachments: [{
             color: this.getSeverityColor(regression.severity),
             fields: [
@@ -468,7 +468,7 @@ ${this.getRecommendedActions(regression)}
   }
 
   getSeverityColor(severity) {
-    const colors = {;
+    const colors = {
       'MINOR': '#ffcc00',
       'MODERATE': '#ff9900',
       'MAJOR': '#ff3300',
@@ -487,14 +487,14 @@ ${this.getRecommendedActions(regression)}
         try {
           if (fs.existsSync('src/scripts/linting-campaign-cli.cjs')) {
             this.log('Triggering emergency campaign due to critical regression');
-            execSync('yarn lint:campaign:start emergency --confirm', ) { stdio: 'inherit' });
+            execSync('yarn lint:campaign:start emergency --confirm', { stdio: 'inherit' });
           }
         } catch (error) {
           this.log('Error triggering emergency campaign:', error.message);
         }
       }
     } else if (regression.severity === 'MAJOR') {
-      this.log(`Executing major regression response for $) {regression.type}`);
+      this.log(`Executing major regression response for ${regression.type}`);
 
       // Schedule cleanup campaign
       try {
@@ -510,7 +510,7 @@ ${this.getRecommendedActions(regression)}
   }
 
   scheduleCleanupCampaign(regression) {
-    const scheduledTask = {;
+    const scheduledTask = {
       id: `cleanup-${regression.id}`,
       type: 'cleanup-campaign',
       trigger: 'regression',
@@ -547,13 +547,13 @@ ${this.getRecommendedActions(regression)}
 
     // Move old active regressions to resolved
     const oldRegressions = this.regressions.active.filter(r => r.timestamp < cutoffISO);
-    this.regressions.resolved.push(...oldRegressions.map(r => () { ...r, resolvedAt: new Date().toISOString(), status: 'auto-resolved' })));
+    this.regressions.resolved.push(...oldRegressions.map(r => ({ ...r, resolvedAt: new Date().toISOString(), status: 'auto-resolved' })));
     this.regressions.active = this.regressions.active.filter(r => r.timestamp >= cutoffISO);
 
     // Limit active regressions
     if (this.regressions.active.length > REGRESSION_CONFIG.alerts.maxActiveAlerts) {
       const excess = this.regressions.active.splice(0, this.regressions.active.length - REGRESSION_CONFIG.alerts.maxActiveAlerts);
-      this.regressions.resolved.push(...excess.map(r => () { ...r, resolvedAt: new Date().toISOString(), status: 'auto-resolved' })));
+      this.regressions.resolved.push(...excess.map(r => ({ ...r, resolvedAt: new Date().toISOString(), status: 'auto-resolved' })));
     }
 
     // Clean up history
@@ -628,11 +628,11 @@ ${this.getRecommendedActions(regression)}
     const majorCount = this.history.entries.filter(e => e.severity === 'MAJOR').length;
 
     console.log('📊 Statistics:');
-    console.log(`  Total Regressions Detected: $) {totalRegressions}`);
-    console.log(`  Critical: $) {criticalCount}`);
-    console.log(`  Major: $) {majorCount}`);
-    console.log(`  Active Alerts: $) {this.regressions.active.length}`);
-    console.log(`  Resolved Alerts: $) {this.regressions.resolved.length}`);
+    console.log(`  Total Regressions Detected: ${totalRegressions}`);
+    console.log(`  Critical: ${criticalCount}`);
+    console.log(`  Major: ${majorCount}`);
+    console.log(`  Active Alerts: ${this.regressions.active.length}`);
+    console.log(`  Resolved Alerts: ${this.regressions.resolved.length}`);
   }
 }
 
@@ -646,7 +646,7 @@ async function main() {
       await alertSystem.checkForRegressions();
       break;
 
-    case 'establish-baseline':
+    case 'establish-baseline': {
       const metrics = await alertSystem.getCurrentMetrics();
       if (metrics) {
         alertSystem.establishBaseline(metrics, 'cli');
@@ -655,20 +655,22 @@ async function main() {
         console.error('❌ Failed to get current metrics for baseline');
         process.exit(1);
       }
+    }
       break;
 
     case 'report':
       alertSystem.generateRegressionReport();
       break;
 
-    case 'status':
+    case 'status': {
       const { regressions, metrics } = await alertSystem.checkForRegressions();
-      console.log(JSON.stringify() {
+      console.log(JSON.stringify({
         regressions,
         metrics,
         baseline: alertSystem.baselines,
         activeAlerts: alertSystem.regressions.active.length
       }, null, 2));
+    }
       break;
 
     case 'clear-alerts':
@@ -700,7 +702,7 @@ Environment Variables:
 }
 
 if (require.main === module) {
-  main().catch(error => ) {
+  main().catch(error => {
     console.error('Error:', error.message);
     process.exit(1);
   });

@@ -82,10 +82,10 @@ export class RecipeRecommender {
 
       // Elemental alignment - enhanced with improved calculation
       if (criteria.celestialInfluence && recipe.elementalProperties) {
-        const elementalScore = this.calculateElementalAlignment();
+        const elementalScore = this.calculateElementalAlignment(
           recipe,
           criteria.celestialInfluence
-        )
+        );
         score += weights.elemental * elementalScore;
         totalWeight += weights.elemental;
       }

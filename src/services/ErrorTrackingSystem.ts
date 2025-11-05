@@ -86,8 +86,9 @@ class ErrorTrackingSystem {
     TS2362: 'Assignment Error',
     TS2440: 'Import Error',
     TS7053: 'Index Signature',
-    TS2571: 'Union Type' },
-        private readonly PRIORITY_MAPPING = {
+    TS2571: 'Union Type'
+  };
+  private readonly PRIORITY_MAPPING = {
     TS2304: 'high',
     TS2352: 'high',
     TS2345: 'medium',
@@ -97,8 +98,10 @@ class ErrorTrackingSystem {
     TS2362: 'medium',
     TS2440: 'critical',
     TS7053: 'low',
-    TS2571: 'medium' },
-        constructor() {
+    TS2571: 'medium'
+  };
+
+  constructor() {
     this.loadHistoricalData()
     this.startPeriodicAnalysis()
   }
@@ -106,14 +109,14 @@ class ErrorTrackingSystem {
   private loadHistoricalData() {
     try {
       const dataPath = path.join(process.cwd(), '.kiro', 'metrics', 'error-tracking.json');
-      if (fs.existsSync(dataPath) {
+      if (fs.existsSync(dataPath)) {
         const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-        this.typeScriptErrors = data.typeScriptErrors || [],
-        this.lintingViolations = data.lintingViolations || [],
-        this.buildFailures = data.buildFailures || [],
-        this.errorPatterns = data.errorPatterns || [],
+        this.typeScriptErrors = data.typeScriptErrors || [];
+        this.lintingViolations = data.lintingViolations || [];
+        this.buildFailures = data.buildFailures || [];
+        this.errorPatterns = data.errorPatterns || [];
         this.qualityHistory = data.qualityHistory || [];
-}
+      }
     } catch (error) {
       _logger.warn('[Error Tracking System] Failed to load historical data: ', error)
     }

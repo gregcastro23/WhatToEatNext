@@ -152,17 +152,17 @@ export function useAutoStateCleanup() {
  */
 export function useFormStatePreservation<T extends Record<string, unknown>>(
   formId: string,
-  initialValues: T;
+  initialValues: T
 ) {
   const { saveState, getState } = useComponentState(formId, initialValues)
 
-  const saveFormState = useCallback(values: Partial<T>) => {
+  const saveFormState = useCallback((values: Partial<T>) => {
       const currentState = getState() || initialValues;
       const updatedState = { ...currentState, ...values };
       saveState(updatedState);
     },
     [saveState, getState, initialValues]
-  )
+  );
 
   const restoreFormState = useCallback((): T => {
     const stored = getState();
@@ -182,11 +182,11 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
 export function useSelectionState<T = unknown>(selectionId: string, initialSelection?: T) {
   const { saveState, getState } = useComponentState(selectionId, initialSelection)
 
-  const saveSelection = useCallback(selection: T) => {
+  const saveSelection = useCallback((selection: T) => {
       saveState(selection);
     },
     [saveState]
-  )
+  );
 
   const restoreSelection = useCallback((): T | null => {
     return getState();
@@ -207,7 +207,7 @@ export function useSelectionState<T = unknown>(selectionId: string, initialSelec
 export function useNavigationContext() {
   const { saveState, getState } = useNavigationState()
 
-  const preserveContext = useCallback(context: {
+  const preserveContext = useCallback((context: {
       fromPage?: string,
       selectedItems?: unknown[],
       activeSection?: string,
@@ -243,10 +243,10 @@ export function useNavigationContext() {
 /**
  * Enhanced hook that leverages steering file intelligence for astrological component development
  */
-export function useAstrologicalStatePreservation(_componentId: string) {
+export function useAstrologicalStatePreservation(componentId: string) {
   const { saveState, getState} = useComponentState(componentId)
 
-  const saveAstrologicalState = useCallback();
+  const saveAstrologicalState = useCallback(
     async (state: {
       elementalProperties?: ElementalProperties,
       selectedIngredients?: string[],
@@ -269,7 +269,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
       }
     },
     [componentId, saveState]
-  )
+  );
 
   const restoreAstrologicalState = useCallback(() => {
     const stored = getState();
@@ -279,7 +279,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
     return stored;
   }, [componentId, getState])
 
-  const validateElementalCompatibility = useCallback(sourceProps: ElementalProperties, targetProps: ElementalProperties) => {
+  const validateElementalCompatibility = useCallback((sourceProps: ElementalProperties, targetProps: ElementalProperties) => {
       // Simple validation for now
       const compatibility = 0.8; // Default good compatibility
 
@@ -325,7 +325,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
 export function useCulturalSensitivityGuidance() {
   const intelligence = useSteeringFileIntelligence();
 
-  const validateCulturalContent = useCallback(content: {
+  const validateCulturalContent = useCallback((content: {
       ingredientNames?: string[],
       cuisineDescriptions?: string[],
       culturalReferences?: string[]
@@ -343,23 +343,23 @@ export function useCulturalSensitivityGuidance() {
 
       // Check ingredient names for cultural sensitivity
       if (content.ingredientNames) {
-        content.ingredientNames.forEach(name => ) {
-          if (name.includes('exotic') || name.includes('ethnic') {
-            issues.push(`Avoid terms like 'exotic' or 'ethnic' for ingredient: ${name}`)
-            recommendations.push(`Use specific cultural origin or descriptive terms instead`)
+        content.ingredientNames.forEach(name => {
+          if (name.includes('exotic') || name.includes('ethnic')) {
+            issues.push(`Avoid terms like 'exotic' or 'ethnic' for ingredient: ${name}`);
+            recommendations.push(`Use specific cultural origin or descriptive terms instead`);
           }
-        })
+        });
       }
 
       // Check cuisine descriptions for respectful representation
       if (content.cuisineDescriptions) {
-        content.cuisineDescriptions.forEach(desc => ) {
-          if (desc.toLowerCase().includes('authentic') && !desc.includes('traditional') {
-            recommendations.push()
-              `Consider using 'traditional' instead of 'authentic' to be more inclusive`,
-            )
+        content.cuisineDescriptions.forEach(desc => {
+          if (desc.toLowerCase().includes('authentic') && !desc.includes('traditional')) {
+            recommendations.push(
+              `Consider using 'traditional' instead of 'authentic' to be more inclusive`
+            );
           }
-        })
+        });
       }
 
       return {
@@ -407,14 +407,14 @@ export function useCulturalSensitivityGuidance() {
 export function usePerformanceOptimizationGuidance() {
   const intelligence = useSteeringFileIntelligence();
 
-  const getOptimizationRecommendations = useCallback(componentType: string) => {
+  const getOptimizationRecommendations = useCallback((componentType: string) => {
       const techGuidance = intelligence.getTechnologyStackGuidance();
       const archGuidance = intelligence.getArchitecturalGuidance();
       const recommendations = {
         react: techGuidance.react,
         performance: archGuidance.performance,
         specific: [] as string[]
-      }
+      };
 
       // Component-specific recommendations
       switch (componentType) {
@@ -454,7 +454,7 @@ export function usePerformanceOptimizationGuidance() {
     [intelligence]
   )
 
-  const validatePerformanceMetrics = useCallback(metrics: {
+  const validatePerformanceMetrics = useCallback((metrics: {
       renderTime?: number,
       memoryUsage?: number,
       bundleSize?: number,

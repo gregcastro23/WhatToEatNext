@@ -180,7 +180,7 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
       const userId = getAuthenticatedUserId(req);
       const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req);
 
-      logger.warn('Rate limit exceeded', ) {
+      logger.warn('Rate limit exceeded', {
         userId: userId || 'anonymous',
         ip: req.ip,
         path: req.path,
@@ -226,7 +226,7 @@ export function createEndpointRateLimit(endpoint: string): RateLimitRequestHandl
     handler: (req: Request, res: Response) => {
       const userId = getAuthenticatedUserId(req);
 
-      logger.warn('Endpoint rate limit exceeded', ) {
+      logger.warn('Endpoint rate limit exceeded', {
         userId: userId || 'anonymous',
         ip: req.ip,
         endpoint,
@@ -313,7 +313,7 @@ export function rateLimitStatus(req: Request, res: Response): void {
       maxRequests: tier.max,
       message: tier.message
     },
-    recommendations: { authenticate: !userId ? 'Authenticate for higher rate limits' , null,
+    recommendations: { authenticate: !userId ? 'Authenticate for higher rate limits' : null,
       upgrade: userId && !isAdmin(req) ? 'Upgrade to premium for higher limits' : null
     }
   });

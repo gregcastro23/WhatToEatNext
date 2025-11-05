@@ -4,24 +4,24 @@ import type { PlanetaryPosition } from '@/types/celestial';
  * Type adapter to safely convert planetary position service responses
  * to the expected PlanetaryPosition interface
  */
-export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | null {
+export function adaptPlanetaryPosition(position: unknown): PlanetaryPosition | null {
   if (!position || typeof position !== 'object') {
     return null;
-}
+  }
 
   const pos = position as any;
-  
+
   // Extract and validate required fields
-  const sign = typeof pos.sign === 'string' ? pos.sign: null;
-  const degree = typeof pos.degree === 'number' ? pos.degree : ;
+  const sign = typeof pos.sign === 'string' ? pos.sign : null;
+  const degree = typeof pos.degree === 'number' ? pos.degree :
                  typeof pos.degree === 'string' ? parseFloat(pos.degree) : 0;
   if (!sign) {
     return null;
-}
+  }
 
   // Build the adapted position object
   const adapted: PlanetaryPosition = {
-  sign: sign as 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces'
+    sign: sign as 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces',
     degree: Number.isFinite(degree) ? degree : 0,
     isRetrograde: Boolean(pos.isRetrograde)
   }
@@ -53,16 +53,17 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
 /**
  * Adapt a full planetary positions response from the service
  */
-export function adaptPlanetaryPositions()
-  positions: unknown): Record<string, PlanetaryPosition> | null {
+export function adaptPlanetaryPositions(
+  positions: unknown
+): Record<string, PlanetaryPosition> | null {
   if (!positions || typeof positions !== 'object') {
     return null;
-}
+  }
 
-  const adapted: Record<string, PlanetaryPosition> = {}
+  const adapted: Record<string, PlanetaryPosition> = {};
   let hasValidData = false;
 
-  for (const [planet, position] of Object.entries(positions) {
+  for (const [planet, position] of Object.entries(positions)) {
     const adaptedPosition = adaptPlanetaryPosition(position);
     if (adaptedPosition) {
       adapted[planet] = adaptedPosition;
@@ -92,11 +93,12 @@ export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
 /**
  * Type guard to check if an object is a valid planetary positions map
  */
-export function isPlanetaryPositionsMap()
-  obj: unknown): obj is Record<string, PlanetaryPosition> {
+export function isPlanetaryPositionsMap(
+  obj: unknown
+): obj is Record<string, PlanetaryPosition> {
   if (!obj || typeof obj !== 'object') {
     return false;
-}
+  }
 
   const positions = obj as any;
   return Object.values(positions).some(isPlanetaryPosition);

@@ -40,17 +40,17 @@ class StateValidator {
       }
 
       // Validate recipes array if it exists
-      if (state.recipes !== undefined && !Array.isArray(state.recipes) {
+      if (state.recipes !== undefined && !Array.isArray(state.recipes)) {
         throw new Error('Recipes must be an array')
       }
 
       // Validate filtered recipes if it exists
-      if (state.filteredRecipes !== undefined && !Array.isArray(state.filteredRecipes) {
+      if (state.filteredRecipes !== undefined && !Array.isArray(state.filteredRecipes)) {
         throw new Error('Filtered recipes must be an array')
       }
 
       // Validate favorites if it exists
-      if (state.favorites !== undefined && !Array.isArray(state.favorites) {
+      if (state.favorites !== undefined && !Array.isArray(state.favorites)) {
         throw new Error('Favorites must be an array')
       }
 
@@ -64,7 +64,7 @@ class StateValidator {
       }
 
       // Validate elemental balance
-      if (!this.validateElementalProperties(state.elementalState) {
+      if (!this.validateElementalProperties(state.elementalState)) {
         throw new Error('Invalid elemental balance')
       }
 
@@ -83,7 +83,7 @@ class StateValidator {
 
       return true;
     } catch (error) {
-      errorHandler.handleError(error, ) {
+      errorHandler.handleError(error, {
         context: 'StateValidator',
         action: 'validateState',
         state: JSON.stringify(state)
@@ -102,33 +102,33 @@ class StateValidator {
         return false;
 }
     }
-    return requiredElements.every()
+    return requiredElements.every(
       element => typeof props[element] === 'number' && props[element] >= 0 && props[element] <= 1
-    )
+    );
   }
 
   validateRecipe(recipe: Record<string, unknown>): boolean {
     try {
       if (!recipe || typeof recipe !== 'object') return false
 
-      const requiredFields = ['id', 'name', 'elementalProperties'],;
-      const hasRequiredFields = requiredFields.every(field =>;
-        Object.prototype.hasOwnProperty.call(recipe, field),
-      )
+      const requiredFields = ['id', 'name', 'elementalProperties'];
+      const hasRequiredFields = requiredFields.every(field =>
+        Object.prototype.hasOwnProperty.call(recipe, field)
+      );
 
       if (!hasRequiredFields) return false;
       // Runtime type guard for elementalProperties
       const elemProps = recipe.elementalProperties;
       if (!elemProps || typeof elemProps !== 'object') return false;
-      const requiredElements = ['Fire', 'Earth', 'Air', 'Water'],;
+      const requiredElements = ['Fire', 'Earth', 'Air', 'Water'];
       for (const element of requiredElements) {
         if (!(element in elemProps) || typeof elemProps[element] !== 'number') {
           return false;
         }
       }
       return this.validateElementalProperties(elemProps as ElementalProperties);
-} catch (error) {
-      errorHandler.handleError(error, ) {
+    } catch (error) {
+      errorHandler.handleError(error, {
         context: 'StateValidator',
         action: 'validateRecipe',
         recipe: JSON.stringify(recipe)

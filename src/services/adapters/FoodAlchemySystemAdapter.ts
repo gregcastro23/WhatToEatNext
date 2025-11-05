@@ -68,7 +68,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       dietaryPreferences?: string[];
       ingredients?: string[];
     } = {},
-    limit: number = 10;
+    limit: number = 10
   ): Promise<ScoredRecipe[]> {
     try {
       logger.info('Getting recommended recipes', { state, criteria });

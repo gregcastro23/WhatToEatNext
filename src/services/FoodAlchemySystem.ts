@@ -343,12 +343,12 @@ export class FoodAlchemySystem {
       score: planetaryHourMatch,
       dignityBonus: hourDignityBonus,
       aspectBonus
-    } = this.calculatePlanetaryHourInfluence()
+    } = this.calculatePlanetaryHourInfluence(
       food,
       planetaryHour,
       isDaytime,
       normalizedPositions,
-      aspects,
+      aspects
     );
 
     // Apply standardized weighting
