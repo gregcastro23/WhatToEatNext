@@ -169,12 +169,12 @@ export function getCuisineSuggestions(partialName: string): string[] {
     'Mediterranean',
     'Russian',
     'Fusion'
-  ],
+  ];
 
-  const suggestions = [;
+  const suggestions = [
     ...allCuisines.filter(cuisine => cuisine.includes(normalized)),
     ...primaryCuisines.filter(cuisine => cuisine.toLowerCase().includes(normalized)),
-  ],
+  ];
 
   return [...new Set(suggestions)]; // Remove duplicates
 }

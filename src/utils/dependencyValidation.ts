@@ -55,7 +55,7 @@ export function detectCircularDependencies(_moduleGraph: Record<string, string[]
   }
 
   for (const node of Object.keys(_moduleGraph)) {
-    if (!visited.has(node) {
+    if (!visited.has(node)) {
       dfs(node, []);
     }
   }

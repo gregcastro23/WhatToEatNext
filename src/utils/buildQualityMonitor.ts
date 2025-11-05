@@ -448,7 +448,7 @@ async function getBundleSize(): Promise<{
       assets: 0
 }
   } catch (error) {
-    logger.error('Error getting bundle size: ', error),
+    logger.error('Error getting bundle size: ', error);
     return {
       total: 0,
       javascript: 0,

@@ -283,7 +283,7 @@ export function calculateCuisineCompatibility(
   }
 
   // Dietary cuisines can work with most others = moderate compatibility
-  if (isDietaryCuisine(cuisine1) || isDietaryCuisine(cuisine2) {
+  if (isDietaryCuisine(cuisine1) || isDietaryCuisine(cuisine2)) {
     return 0.7;
   }
 

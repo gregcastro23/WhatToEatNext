@@ -105,8 +105,8 @@ export const _getElementalDescription = (element: keyof ElementalProperties): st
   return descriptions[element] || 'Balanced properties';
 };
 
-export const _calculateelementalState = (;
-  ingredients: Array<{ category: string, amount: number }>,
+export const _calculateelementalState = (
+  ingredients: Array<{ category: string, amount: number }>
 ): ElementalProperties => {
   const balance: ElementalProperties = {
     Fire: 0,

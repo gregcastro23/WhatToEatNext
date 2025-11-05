@@ -1199,7 +1199,7 @@ export function calculateCompleteAstrologicalEffects(
   const stelliumEffects = calculateEnhancedStelliumEffects(planetPositions, risingDegree);
 
   // Calculate house effects
-  const houseEffects = calculateAllHouseEffects();
+  const houseEffects = calculateAllHouseEffects(
     planetPositions as Record<string, { sign: any, house?: number }>,
     {}
   ); // Use type assertion

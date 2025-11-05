@@ -283,7 +283,7 @@ export class EphemerisParser {
   calculateDominantElements(positions: Record<string, ParsedPosition>): Record<string, number> {
     const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
 
-    Object.values(positions).forEach(position => ) {
+    Object.values(positions).forEach(position => {
       const element = this.getElementForSign(position.signName);
       if (element in elementCounts) {
         elementCounts[element]++;

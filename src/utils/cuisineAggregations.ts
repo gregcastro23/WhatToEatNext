@@ -399,7 +399,7 @@ export function identifyCuisineSignatures(averages: {
       keyof AlchemicalProperties,
       number
     ][]) {
-      const zscore = calculateZScore();
+      const zscore = calculateZScore(
         value,
         globalAverages.alchemical[property],
         globalAverages.alchemicalStdDev[property]

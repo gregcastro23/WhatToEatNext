@@ -528,7 +528,7 @@ function calculatePlanetaryHourInfluence(
   // If the method has a direct planetary affinity, give bonus points
   // ✅ Pattern MM-1: Safe type assertion for method hour data access
   const methodHourData = method as unknown as MethodWithElementalProperties;
-  if (methodHourData.astrologicalInfluences?.dominantPlanets?.includes(planetaryHour) {
+  if (methodHourData.astrologicalInfluences?.dominantPlanets?.includes(planetaryHour)) {
     elementalScore = Math.min(1.0, elementalScore + 0.3);
   }
 

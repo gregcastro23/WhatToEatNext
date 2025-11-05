@@ -214,7 +214,7 @@ export function getElementalDescription(element: keyof ElementalProperties): str
  */
 export function getElementalCompatibility(
   element1: keyof ElementalProperties,
-  element2: keyof ElementalProperties;
+  element2: keyof ElementalProperties
 ): 'highly-compatible' | 'compatible' | 'neutral' {
   // Same element has highest compatibility
   if (element1 === element2) {

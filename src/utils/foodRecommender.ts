@@ -73,15 +73,15 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
   const allIngredients: EnhancedIngredient[] = [];
 
   // Debug logs
-  log.info('Vegetables data:', ) { count: Object.keys(vegetables).length, items: 'items' });
-  log.info('Vegetable names: ', ) { names: Object.keys(vegetables) });
-  log.info('Grains data: ', ) { count: Object.keys(grains).length, items: 'items' });
-  log.info('Grain names: ', ) { names: Object.keys(grains) });
-  log.info('Herbs data: ', ) { count: Object.keys(herbs).length, items: 'items' });
+  log.info('Vegetables data:', { count: Object.keys(vegetables).length, items: 'items' });
+  log.info('Vegetable names: ', { names: Object.keys(vegetables) });
+  log.info('Grains data: ', { count: Object.keys(grains).length, items: 'items' });
+  log.info('Grain names: ', { names: Object.keys(grains) });
+  log.info('Herbs data: ', { count: Object.keys(herbs).length, items: 'items' });
   log.info('Herbs names: ', Object.keys(herbs));
 
   // Define all categories
-  const categories = [;
+  const categories = [
     { name: 'Spices', data: spices },
     { name: 'Plant-Based Proteins', data: plantBased },
     { name: 'Meats', data: meats },

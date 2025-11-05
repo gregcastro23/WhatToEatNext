@@ -413,7 +413,7 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
   }
   const prof = profile as any;
   return {
-    elementalAffinity: standardizeElementalAffinity()
+    elementalAffinity: standardizeElementalAffinity(
       String((prof.elementalAffinity as any)?.base || '')
     ),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],

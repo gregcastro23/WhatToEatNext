@@ -124,7 +124,7 @@ export function classifyError(error: Error | string): ErrorType {
     return ErrorType.VALIDATION;
   }
 
-  if (lowerMessage.includes('unauthorized') || lowerMessage.includes('authentication') {
+  if (lowerMessage.includes('unauthorized') || lowerMessage.includes('authentication')) {
     return ErrorType.AUTHENTICATION;
   }
 

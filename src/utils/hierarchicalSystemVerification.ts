@@ -262,7 +262,7 @@ export function verifyLevel2Recipes(): {
       const thermoValues = { heat, entropy, reactivity, gregsEnergy, kalchm, monica };
 
       Object.entries(thermoValues).forEach(([prop, value]) => {
-        if (typeof value !== 'number' || isNaN(value) {
+        if (typeof value !== 'number' || isNaN(value)) {
           errors.push(`Thermodynamic property ${prop}: Invalid value ${value}`);
         } else {
           results.push(`✅ Thermodynamic property ${prop}: Valid value ${value.toFixed(3)}`);

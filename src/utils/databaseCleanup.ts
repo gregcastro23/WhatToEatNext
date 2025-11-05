@@ -90,8 +90,8 @@ export function cleanupIngredientsDatabase() {
         // Ensure astrologicalProfile exists
         if (!ingredientWithAstrology.astrologicalProfile) {
           const currentElementalProps = data.elementalProperties;
-          const dominantElement = currentElementalProps;
-            ? Object.entries(currentElementalProps).reduce(ab) => (a[1] > b[1] ? a : b),
+          const dominantElement = currentElementalProps
+            ? Object.entries(currentElementalProps).reduce((a, b) => (a[1] > b[1] ? a : b),
                 ['Fire', 0],
               )[0]
             : 'Fire',

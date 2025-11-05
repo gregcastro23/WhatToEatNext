@@ -196,7 +196,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
         }
 
         const culturalMethodKey = `${cuisine.name.toLowerCase()}: ${relatedMainMethod}`;
-        if (methodVariationsMap[relatedMainMethod].has(culturalMethodKey) {
+        if (methodVariationsMap[relatedMainMethod].has(culturalMethodKey)) {
           return;
         }
         methodVariationsMap[relatedMainMethod].add(culturalMethodKey);

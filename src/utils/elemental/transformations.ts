@@ -134,7 +134,7 @@ export function transformCookingMethods(
  */
 export function transformCuisines(
   cuisines: ElementalItem[],
-  context: TransformationContext;
+  context: TransformationContext
 ): AlchemicalItem[] {
   return (cuisines || []).map(cuisine => transformSingleItem(cuisine, context));
 }
