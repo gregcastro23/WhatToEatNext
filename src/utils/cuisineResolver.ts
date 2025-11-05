@@ -115,9 +115,9 @@ export function getCuisineDisplayName(cuisineName: string): string {
  */
 export function isSupportedCuisine(cuisineName: string): boolean {
   // Check if it's a known regional cuisine
-  if (isRegionalCuisine(cuisineName) {
+  if (isRegionalCuisine(cuisineName)) {
     return true;
-}
+  }
 
   // Check if it's a primary cuisine type
   const primaryCuisines: PrimaryCuisineType[] = [

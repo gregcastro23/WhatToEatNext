@@ -278,7 +278,7 @@ export function calculateCuisineCompatibility(
   }
 
   // Fusion cuisines with shared elements = moderate compatibility
-  if (isFusionCuisine(cuisine1) || isFusionCuisine(cuisine2) {
+  if (isFusionCuisine(cuisine1) || isFusionCuisine(cuisine2)) {
     return 0.6;
   }
 

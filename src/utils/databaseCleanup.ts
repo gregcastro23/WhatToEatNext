@@ -69,7 +69,7 @@ export function cleanupIngredientsDatabase() {
             return accValue + valValue;
           }, 0)
           if (Math.abs(Number(sum) - 1) > 0.01) {
-            elements.forEach(element => ) {
+            elements.forEach(element => {
               const props = data.elementalProperties;
               if (props) {
                 const currentValue = Number(props[element]) || 0;

@@ -1184,7 +1184,7 @@ export function calculateCompleteAstrologicalEffects(
   const dignityEffects: LowercaseElementalProperties = { fire: 0, earth: 0, air: 0, water: 0 }
 
   // Process each planet for dignity
-  for (const [planet, position] of Object.entries(planetPositions) {
+  for (const [planet, position] of Object.entries(planetPositions)) {
     const dignity = getPlanetaryDignity(planet, position.sign as unknown); // Cast to ZodiacSign
     const element = getZodiacElement(position.sign as unknown).toLowerCase();
 

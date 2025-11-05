@@ -375,7 +375,7 @@ export function identifyCuisineSignatures(averages: {
     keyof ElementalProperties,
     number
   ][]) {
-    const zscore = calculateZScore();
+    const zscore = calculateZScore(
       value,
       globalAverages.elementals[element],
       globalAverages.elementalsStdDev[element]

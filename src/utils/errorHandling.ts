@@ -120,7 +120,7 @@ export function classifyError(error: Error | string): ErrorType {
     return ErrorType.NETWORK;
   }
 
-  if (lowerMessage.includes('validation') || lowerMessage.includes('invalid') {
+  if (lowerMessage.includes('validation') || lowerMessage.includes('invalid')) {
     return ErrorType.VALIDATION;
   }
 

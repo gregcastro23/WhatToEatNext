@@ -319,7 +319,7 @@ export function cleanupIngredientsDatabase(
  * @param weight Weight for addition (0-1)
  * @returns Merged elemental properties
  */
-export function mergeElementalProperties()
+export function mergeElementalProperties(
   base: ElementalProperties,
   addition: ElementalProperties,
   weight = 0.5

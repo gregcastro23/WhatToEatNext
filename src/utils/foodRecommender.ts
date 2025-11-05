@@ -25,11 +25,11 @@ import type {
 import type { Modality, Planet } from '@/types/celestial';
 
 // Create eggs and dairy from proteins by filtering category
-const eggs = Object.entries(proteins);
+const eggs = Object.entries(proteins)
   .filter(([_, value]) => value.category === 'egg')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-const dairy = Object.entries(proteins);
+const dairy = Object.entries(proteins)
   .filter(([_, value]) => value.category === 'dairy')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 

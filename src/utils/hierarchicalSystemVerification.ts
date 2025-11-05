@@ -204,7 +204,7 @@ export function verifyLevel2Recipes(): {
       category: ing.category
     }));
 
-    computedRecipe = computeRecipeProperties()
+    computedRecipe = computeRecipeProperties(
       mockRecipeIngredients,
       TEST_COOKING_METHODS,
       {

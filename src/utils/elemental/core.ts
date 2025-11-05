@@ -163,7 +163,7 @@ export function calculateDominantElement(
 ): keyof ElementalProperties {
   let dominantElement: keyof ElementalProperties = 'Fire';
   let maxValue = 0;
-  Object.entries(elementalState || ) {}).forEach(([element, value]) => {
+  Object.entries(elementalState || {}).forEach(([element, value]) => {
     if (value > maxValue) {
       maxValue = value;
       dominantElement = element as 'Fire' | 'Water' | 'Earth' | 'Air';

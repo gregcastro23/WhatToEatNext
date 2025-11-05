@@ -431,7 +431,7 @@ async function getBundleSize(): Promise<{
 
     // _Fallback: estimate based on src directory
     const srcDir = path.join(process.cwd(), 'src');
-    if (fs.existsSync(srcDir) {
+    if (fs.existsSync(srcDir)) {
       const srcSize = await getDirectorySize(srcDir);
       return {
         total: srcSize,

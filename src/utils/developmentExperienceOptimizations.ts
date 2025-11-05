@@ -296,7 +296,7 @@ declare global {
       }
     ];
 
-    commonFixes.forEach(fix => ) {
+    commonFixes.forEach(fix => {
       if (fix.pattern.test(fixedCode) {
         fixedCode = fixedCode.replace(fix.pattern, fix.replacement);
         fixes.push(fix.description);

@@ -54,7 +54,7 @@ export function detectCircularDependencies(_moduleGraph: Record<string, string[]
     recursionStack.delete(node);
   }
 
-  for (const node of Object.keys(_moduleGraph) {
+  for (const node of Object.keys(_moduleGraph)) {
     if (!visited.has(node) {
       dfs(node, []);
     }

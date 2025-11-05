@@ -185,7 +185,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
 
       // Check if this method is a variation of a standard cooking method
       // Use case-insensitive matching for technique mapping
-      const relatedMainMethod = Object.entries(TECHNIQUE_MAPPING).find([key]) => methodName.toLowerCase() === key.toLowerCase();
+      const relatedMainMethod = Object.entries(TECHNIQUE_MAPPING).find(([key]) => methodName.toLowerCase() === key.toLowerCase()
       )?.[1];
 
       // If this is a variation and we've already added a variation from this culture

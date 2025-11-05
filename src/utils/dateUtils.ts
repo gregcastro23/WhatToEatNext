@@ -119,7 +119,7 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {
       // Get dishes from all seasons including 'all' season
       Object.keys(mealTimeDishes).forEach(season => {
         const seasonDishes = mealTimeDishes[season];
-        if (Array.isArray(seasonDishes) {
+        if (Array.isArray(seasonDishes)) {
           allDishes = [...allDishes, ...(seasonDishes as unknown as Dish[])];
         }
       });

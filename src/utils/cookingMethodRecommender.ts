@@ -487,7 +487,7 @@ function calculatePlanetaryDayInfluence(
   // If the method has a direct planetary affinity, give bonus points
   // ✅ Pattern MM-1: Safe type assertion for method data access
   const methodData = method as unknown as MethodWithElementalProperties;
-  if (methodData.astrologicalInfluences?.dominantPlanets?.includes(planetaryDay) {
+  if (methodData.astrologicalInfluences?.dominantPlanets?.includes(planetaryDay)) {
     elementalScore = Math.min(1.0, elementalScore + 0.3);
   }
 

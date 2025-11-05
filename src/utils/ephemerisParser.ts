@@ -222,7 +222,7 @@ export class EphemerisParser {
   /**
    * Calculate aspect between two planets
    */
-  calculateAspect()
+  calculateAspect(
     longitude1: number,
     longitude2: number
   ): {
