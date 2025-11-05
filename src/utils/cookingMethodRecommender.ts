@@ -544,7 +544,7 @@ function isDaytime(date: Date = new Date()): boolean {
 }
 
 // Improved scoring algorithm for cooking method recommendations
-export async function getRecommendedCookingMethods()
+export async function getRecommendedCookingMethods(
   elementalComposition: ElementalProperties,
   currentZodiac?: any,
   planets?: string[],

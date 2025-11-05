@@ -432,7 +432,7 @@ export function identifyCuisineSignatures(averages: {
  * @param recipes - Recipes with planetary position data
  * @returns Array of planetary patterns
  */
-export function identifyPlanetaryPatterns(recipes: Array<) { _computed?: RecipeComputedProperties, [key: string]: any }>
+export function identifyPlanetaryPatterns(recipes: Array<{ _computed?: RecipeComputedProperties, [key: string]: any }>
 ): PlanetaryPattern[] {
   const planetaryCounts: Record<string, Record<string, number>> = {};
 

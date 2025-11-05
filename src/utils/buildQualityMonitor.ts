@@ -479,7 +479,7 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
         const filePath = path.join(dir, file);
         const stat = fs.statSync(filePath);
 
-        if (stat.isDirectory() {
+        if (stat.isDirectory()) {
           analyzeDirectory(filePath)
         } else {
           const size = stat.size;

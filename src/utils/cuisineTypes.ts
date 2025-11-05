@@ -288,7 +288,7 @@ export function calculateCuisineCompatibility(
   }
 
   // Historical cuisines = lower compatibility with modern cuisines
-  if (isHistoricalCuisine(cuisine1) || isHistoricalCuisine(cuisine2) {
+  if (isHistoricalCuisine(cuisine1) || isHistoricalCuisine(cuisine2)) {
     return 0.4;
   }
 

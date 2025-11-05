@@ -1232,9 +1232,9 @@ export function longitudeToZodiacPosition(_longitude: number): { sign: string, d
     if (typeof longitude !== 'number') {
       errorLog(`longitudeToZodiacPosition: Expected number, got ${typeof longitude}:`, longitude)
       return { sign: 'aries', degree: 0 };
-}
+    }
 
-    if (isNaN(longitude) {
+    if (isNaN(longitude)) {
       errorLog('longitudeToZodiacPosition: Longitude is NaN')
       return { sign: 'aries', degree: 0 };
 }
