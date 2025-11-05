@@ -307,7 +307,7 @@ async function getBuildTiming(): Promise<{
 }
     }
   } catch (error) {
-    logger.error('Error getting build timing: ', error),
+    logger.error('Error getting build timing: ', error);
 
     // Return default values
     const now = new Date();
@@ -326,23 +326,23 @@ async function getBuildTiming(): Promise<{
 async function getErrorAndWarningCounts(): Promise<{ errors: number, warnings: number }> {
   try {
     let errors = 0;
-    let warnings = 0,;
+    let warnings = 0;
 
     // Get TypeScript errors
     try {
-      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', ) {
+      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
         encoding: 'utf8',
         stdio: 'pipe'
-})
+      })
 
       // Count errors in output
       const errorMatches = tscOutput.match(/error TS\d+: /g);
       errors = errorMatches ? errorMatches.length : 0
     } catch (error) {
       // tsc returns non-zero exit code when there are errors
-      if ((error as NodeJS.ErrnoException & ) { stdout?: string }).stdout) {
-        const errorMatches = (error as NodeJS.ErrnoException & { stdout?: string }).stdout?.match();
-          /error TS\d+: /g;
+      if ((error as NodeJS.ErrnoException & { stdout?: string }).stdout) {
+        const errorMatches = (error as NodeJS.ErrnoException & { stdout?: string }).stdout?.match(
+          /error TS\d+: /g
         )
         errors = errorMatches ? errorMatches.length : 0
       }

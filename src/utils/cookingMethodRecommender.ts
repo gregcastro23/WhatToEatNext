@@ -219,7 +219,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           dominantPlanets: culturalMethod.astrologicalInfluences?.dominantPlanets || []
         },
         duration: { min: 10, max: 30 },
-        suitable_for culturalMethod.bestFor || [],
+        suitable_for: culturalMethod.bestFor || [],
         benefits: [],
         variations: [] // Initialize empty variations array
       } as CookingMethodData;
@@ -264,7 +264,7 @@ export function getMethodThermodynamics(
       heat: Number(thermoProps.heat) || 0.5,
       entropy: Number(thermoProps.entropy) || 0.5,
       reactivity: Number(thermoProps.reactivity) || 0.5,
-      gregsEnergy: Number((thermoProps as ) { gregsEnergy?: number }).gregsEnergy) || 0.5
+      gregsEnergy: Number((thermoProps as { gregsEnergy?: number }).gregsEnergy) || 0.5
     };
   }
 
@@ -299,7 +299,7 @@ export function getMethodThermodynamics(
     nameStr.includes('char')
   ) {
     return { heat: 0.8, entropy: 0.6, reactivity: 0.7, gregsEnergy: 0.6 }; // High heat methods
-  } else if (nameStr.includes('bake') {
+  } else if (nameStr.includes('bake')) {
     return { heat: 0.7, entropy: 0.5, reactivity: 0.6, gregsEnergy: 0.55 }; // Medium-high heat, dry
   } else if (
     nameStr.includes('steam') ||

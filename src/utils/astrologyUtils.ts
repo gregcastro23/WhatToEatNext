@@ -912,8 +912,7 @@ export function calculateEnhancedStelliumEffects(
   Object.entries(planetsBySign).forEach(([sign, planets]) => {
     if (planets.length >= 3) {
       // Get the element of the sign
-      const element = getZodiacElement(sign as unknown);
-      ).toLowerCase() as keyof LowercaseElementalProperties;
+      const element = getZodiacElement(sign as unknown).toLowerCase() as keyof LowercaseElementalProperties;
 
       // 1. Add bonus of +n of the sign element (n = number of planets)
       result[element] += planets.length;
@@ -925,11 +924,11 @@ export function calculateEnhancedStelliumEffects(
       const elementsByPlanet: Record<string, string> = {}
 
       // Get element for each planet
-      planets.forEach(planet => ) {
+      planets.forEach(planet => {
         let planetElement = '';
 
         // Handle both traditional and modern planets
-        switch (planet.toLowerCase() {
+        switch (planet.toLowerCase()) {
           case 'sun': planetElement = 'fire';
             break;
           case 'moon':
@@ -989,7 +988,7 @@ export function calculateEnhancedStelliumEffects(
 }
 
       // Count non-matching elements
-      Object.values(elementsByPlanet).forEach(planetElement => ) {
+      Object.values(elementsByPlanet).forEach(planetElement => {
         if (planetElement !== element) {
           nonMatchingElements[planetElement as keyof LowercaseElementalProperties]++;
         }
@@ -1069,7 +1068,7 @@ function getHouseElement(_house: number): string {
  * Get longitude from sign and degree
  */
 function getLongitudeFromSignAndDegree(sign: string, degree: number): number {
-  const signs = [;
+  const signs = [
     'aries',
     'taurus',
     'gemini',
@@ -1096,7 +1095,7 @@ function getLongitudeFromSignAndDegree(sign: string, degree: number): number {
  */
 export function calculateJoyEffects(
   planetPositions: Record<string, { sign: string, degree: number }>,
-  risingDegree: number;
+  risingDegree: number
 ): LowercaseElementalProperties {
   const result: LowercaseElementalProperties = {
     fire: 0,
