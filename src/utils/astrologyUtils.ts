@@ -1160,7 +1160,7 @@ export function combineElementalProperties(
     water: 0
 }
 
-  properties.forEach(prop => ) {
+  properties.forEach(prop => {
     result.fire += prop.fire || 0;
     result.earth += prop.earth || 0;
     result.air += prop.air || 0;

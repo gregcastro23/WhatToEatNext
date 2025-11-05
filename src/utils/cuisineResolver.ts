@@ -67,7 +67,7 @@ export function areCuisinesRelated(cuisine1: string, cuisine2: string): boolean 
 export function groupCuisinesByType(cuisineNames: string[]): Record<PrimaryCuisineType, string[]> {
   const groups: Record<PrimaryCuisineType, string[]> = {} as Record<PrimaryCuisineType, string[]>;
 
-  cuisineNames.forEach(cuisineName => ) {
+  cuisineNames.forEach(cuisineName => {
     const primary = standardizeCuisine(cuisineName);
     if (!groups[primary]) {
       groups[primary] = [];

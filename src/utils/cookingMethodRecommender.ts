@@ -376,12 +376,12 @@ function areSimilarMethods(method1: string, method2: string): boolean {
   }
 
   // Simple fuzzy matching - check if they share a significant number of characters
-  const commonWords = normalized1;
+  const commonWords = normalized1
     .split(' ')
     .filter(word => word.length > 3 && normalized2.includes(word));
   if (commonWords.length > 0) return true;
   // Check for common method variations
-  const methodPairs = [;
+  const methodPairs = [
     ['grill', 'grilling', 'bbq', 'barbecue', 'barbequing'],
     ['fry', 'frying', 'pan fry', 'deep fry', 'stir fry', 'shallow fry'],
     ['boil', 'boiling', 'parboil', 'blanch'],

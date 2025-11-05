@@ -270,8 +270,8 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
  * @param options Cleanup options
  * @returns Cleanup result
  */
-export function cleanupIngredientsDatabase()
-  ingredients: Ingredient | UnifiedIngredient[],
+export function cleanupIngredientsDatabase(
+  ingredients: (Ingredient | UnifiedIngredient)[],
   _options: StandardizationOptions = {}
 ): DataCleanupResult {
   const result: DataCleanupResult = {

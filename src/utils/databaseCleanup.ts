@@ -42,15 +42,15 @@ export function cleanupIngredientsDatabase() {
         const elementalProps = data.elementalProperties;
         if (!elementalProps) {
           data.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
-          fixedEntries++,
-          logger.warn(`Added default elemental properties to ${data.name || name || 'unknown ingredient'}`,
+          fixedEntries++;
+          logger.warn(`Added default elemental properties to ${data.name || name || 'unknown ingredient'}`
           )
         } else {
-          const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
+          const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
           let modified = false;
 
           // Ensure all elemental properties are present and normalized
-          elements.forEach(element => ) {
+          elements.forEach(element => {
             const elementalProperties = data.elementalProperties;
             if (typeof elementalProperties?.[element] !== 'number') {
               if (elementalProperties) {

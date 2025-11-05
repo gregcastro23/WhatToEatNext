@@ -224,7 +224,7 @@ export function aggregateElementalProperties(recipes: Array<{ _computed?: Recipe
  * @param strategy - Weighting strategy
  * @returns Weighted average alchemical properties
  */
-export function aggregateAlchemicalProperties(recipes: Array<) { _computed?: RecipeComputedProperties, [key: string]: any }>,
+export function aggregateAlchemicalProperties(recipes: Array<{ _computed?: RecipeComputedProperties, [key: string]: any }>,
   strategy: WeightingStrategy = 'equal'
 ): AlchemicalProperties | undefined {
   const validRecipes = recipes.filter(r => r._computed?.alchemicalProperties);

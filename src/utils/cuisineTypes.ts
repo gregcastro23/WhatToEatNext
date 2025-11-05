@@ -236,7 +236,7 @@ export function isHistoricalCuisine(
  * Check if a cuisine is a street food cuisine
  */
 export function isStreetFoodCuisine(
-  cuisine: CompleteCuisineType;
+  cuisine: CompleteCuisineType
 ): cuisine is StreetFoodCuisineType {
   const streetFoodCuisines: StreetFoodCuisineType[] = [
     'Street-Food-Asian',

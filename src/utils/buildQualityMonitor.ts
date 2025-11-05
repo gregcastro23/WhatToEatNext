@@ -400,7 +400,7 @@ async function getMemoryUsage(): Promise<{
       gcTime
     }
   } catch (error) {
-    logger.error('Error getting memory usage: ', error),
+    logger.error('Error getting memory usage: ', error);
     return {
       peak: 0,
       average: 0,

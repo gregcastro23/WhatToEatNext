@@ -472,7 +472,7 @@ export function validateUserProfile(profile: UserProfile): {
   const warnings: string[] = [];
 
   // Validate elemental preferences
-  const elementalSum = Object.values(profile.elementalPreferences);
+  const elementalSum = Object.values(profile.elementalPreferences)
     .reduce((sum, val) => sum + val, 0);
 
   if (Math.abs(elementalSum - 1.0) > 0.01) {
