@@ -109,7 +109,7 @@ export class RecipeRecommender {
 
       // Time of day appropriateness - enhanced with better scoring
       if (criteria.timeOfDay && recipe.mealType) {
-        const recipeMealTypes = Array.isArray(recipe.mealType);
+        const recipeMealTypes = Array.isArray(recipe.mealType)
           ? recipe.mealType
           : [recipe.mealType];
 
@@ -130,10 +130,10 @@ export class RecipeRecommender {
 
       // NEW: Ingredient preferences
       if (recipe.ingredients && criteria.preferredIngredients) {
-        const ingredientScore = this.calculateIngredientPreferenceMatch();
+        const ingredientScore = this.calculateIngredientPreferenceMatch(
           recipe.ingredients,
           criteria.preferredIngredients
-        )
+        );
 
         score += weights.ingredients * ingredientScore;
         totalWeight += weights.ingredients;
@@ -141,10 +141,10 @@ export class RecipeRecommender {
 
       // NEW: Cooking techniques
       if (recipe.cookingMethod && criteria.preferredTechniques) {
-        const techniqueScore = this.calculateTechniqueMatch();
+        const techniqueScore = this.calculateTechniqueMatch(
           recipe.cookingMethod,
           criteria.preferredTechniques
-        )
+        );
 
         score += weights.techniques * techniqueScore;
         totalWeight += weights.techniques;

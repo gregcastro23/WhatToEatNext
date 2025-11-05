@@ -103,13 +103,12 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
 
   // Optional complex properties
   if (recipe.astrologicalInfluences) {
-    safeRecipe.astrologicalInfluences = validateAstrologicalInfluences()
+    safeRecipe.astrologicalInfluences = validateAstrologicalInfluences(
       recipe.astrologicalInfluences
     );
   }
   if ((recipe as any).nutrition) {
-    safeRecipe.nutrition = validateAndNormalizeNutrition(recipe as any).nutrition as NutritionData,
-    );
+    safeRecipe.nutrition = validateAndNormalizeNutrition((recipe as any).nutrition) as NutritionData;
   }
 
   // Timestamp handling
@@ -315,7 +314,7 @@ class RecipeData {
       }
 
       // Handle different formats of recipeElementalMappings
-      const mappingsEntries = Array.isArray(recipeElementalMappings);
+      const mappingsEntries = Array.isArray(recipeElementalMappings)
         ? recipeElementalMappings
         : Object.entries(recipeElementalMappings).map(([id, mapping]) => ({
             id,
@@ -618,7 +617,7 @@ class RecipeData {
 
         // Filter by meal type
         if (filters.mealType && filters.mealType.length > 0 && recipe.mealType) {
-          const mealTypes = Array.isArray(recipe.mealType);
+          const mealTypes = Array.isArray(recipe.mealType)
             ? recipe.mealType.map(mt => String(mt || '').toLowerCase())
             : [String(recipe.mealType || '').toLowerCase()];
 
@@ -631,7 +630,7 @@ class RecipeData {
 
         // Filter by season
         if (filters.season && filters.season.length > 0 && recipe.season) {
-          const seasons = Array.isArray(recipe.season);
+          const seasons = Array.isArray(recipe.season)
             ? recipe.season.map(s => String(s || '').toLowerCase())
             : [String(recipe.season || '').toLowerCase()];
 

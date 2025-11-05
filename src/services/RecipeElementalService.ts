@@ -119,7 +119,7 @@ export class RecipeElementalService {
     try {
       // Adjust based on cooking method - safe property access for string/string[]
       if (recipe.cookingMethod) {
-        const methodValue = Array.isArray(recipe.cookingMethod);
+        const methodValue = Array.isArray(recipe.cookingMethod)
           ? recipe.cookingMethod[0]
           : recipe.cookingMethod;
         const method = (methodValue || '').toString().toLowerCase();
@@ -143,7 +143,7 @@ export class RecipeElementalService {
           elementalProps.Air += 0.1;
           elementalProps.Water -= 0.15;
           elementalProps.Earth -= 0.1;
-        } else if (method.includes('raw') || method.includes('fresh') {
+        } else if (method.includes('raw') || method.includes('fresh')) {
           elementalProps.Water += 0.1;
           elementalProps.Earth += 0.1;
           elementalProps.Fire -= 0.2;
@@ -160,19 +160,19 @@ export class RecipeElementalService {
           elementalProps.Air += 0.05;
           elementalProps.Water -= 0.1;
           elementalProps.Earth -= 0.05;
-        } else if (['japanese', 'korean', 'cantonese'].includes(cuisine) {
+        } else if (['japanese', 'korean', 'cantonese'].includes(cuisine)) {
           // Balanced cuisines
           elementalProps.Water += 0.1;
           elementalProps.Air += 0.05;
           elementalProps.Fire -= 0.1;
           elementalProps.Earth -= 0.05;
-        } else if (['french', 'italian', 'spanish'].includes(cuisine) {
+        } else if (['french', 'italian', 'spanish'].includes(cuisine)) {
           // Mediterranean cuisines
           elementalProps.Earth += 0.1;
           elementalProps.Fire += 0.05;
           elementalProps.Water -= 0.05;
           elementalProps.Air -= 0.1;
-        } else if (['german', 'russian', 'english', 'scandinavian'].includes(cuisine) {
+        } else if (['german', 'russian', 'english', 'scandinavian'].includes(cuisine)) {
           // Northern cuisines
           elementalProps.Earth += 0.15;
           elementalProps.Water += 0.05;
