@@ -61,8 +61,8 @@ export function initializeChromeApis(): void {
           return Promise.resolve({ id: 999, url: options.url || 'about:blank' });
 },
         _query: function () {
-          return Promise.resolve([) { id: 1, _active: true, _windowId: 1 }]);
-},
+          return Promise.resolve([{ id: 1, _active: true, _windowId: 1 }]);
+        },
         _update: function () {
           return Promise.resolve({});
 }
@@ -107,21 +107,21 @@ export function initializeChromeApis(): void {
 
       chromeObj.storage = {
         _local: {
-          get: function (,
+          get: function (
             keys: string | string[] | null,
-            callback?: (items: Record<string, string[]>) => void,
+            callback?: (items: Record<string, string[]>) => void
           ) {
             let result: Record<string, Record<string, string>> = {}
 
             if (!keys) {
               result = { ...mockStorage }
-            } else if (Array.isArray(keys) {
-              keys.forEach(key => ) {
+            } else if (Array.isArray(keys)) {
+              keys.forEach(key => {
                 if (mockStorage[key] !== undefined) {
                   result[key] = mockStorage[key];
-}
+                }
               })
-            } else if (typeof keys === 'string') {,
+            } else if (typeof keys === 'string') {
               if (mockStorage[keys] !== undefined) {
                 result[keys] = mockStorage[keys];
 }

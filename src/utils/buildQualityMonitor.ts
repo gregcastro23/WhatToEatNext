@@ -214,8 +214,8 @@ export async function monitorBuildQuality(): Promise<BuildQualityReport> {
       timestamp: new Date()
     }
   } catch (error) {
-    logger.error('Build quality monitoring _failed: ', error),
-    throw error
+    logger.error('Build quality monitoring _failed: ', error);
+    throw error;
   }
 }
 
@@ -259,8 +259,8 @@ async function collectBuildMetrics(): Promise<BuildMetrics> {
       parallelization
     }
   } catch (error) {
-    logger.error('Error collecting build metrics: ', error),
-    throw error
+    logger.error('Error collecting build metrics: ', error);
+    throw error;
   }
 }
 
@@ -280,10 +280,10 @@ async function getBuildTiming(): Promise<{
     const buildStart = Date.now();
 
     try {
-      // Check if build is successful by running type check;
-      execSync('yarn tsc --noEmit --skipLibCheck', ) {
+      // Check if build is successful by running type check
+      execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        timeout: 30000, // 30 second timeout
+        timeout: 30000 // 30 second timeout
       })
 
       const buildEnd = Date.now();

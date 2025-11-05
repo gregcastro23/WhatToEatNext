@@ -1018,14 +1018,14 @@ export function getIdealIngredients(methodName: string): string[] {
       // Get method-specific ingredients from the cooking method data
       try {
         const allMethods = getAllCookingMethodNames();
-        const methodData = allMethods.find();
+        const methodData = allMethods.find(
           method =>
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase())
         );
 
         const methodObj = methodData as { expertTips?: string[], category?: string };
-        if (methodObj?.suitable_for && Array.isArray(methodObj.suitable_for) {
+        if (methodObj?.suitable_for && Array.isArray(methodObj.suitable_for)) {
           // Use the actual suitable ingredients from the method data
           methodObj.suitable_for.forEach((ingredient: string) => ingredients.push(ingredient))
         } else {

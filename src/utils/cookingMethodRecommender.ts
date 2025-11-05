@@ -143,7 +143,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           Air: 0
         },
         duration: { min: 10, max: 30 }, // Default duration
-        suitable_for baseMethod.suitable_for || [],
+        suitable_for: baseMethod.suitable_for || [],
         benefits: baseMethod.benefits || [],
         variations: [] // Initialize empty variations array
       };
@@ -164,7 +164,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
       if (methods[culturalMethod.relatedToMainMethod]) {
         // Add to variations if it doesn't exist yet
         const existingVariations = methods[culturalMethod.relatedToMainMethod].variations || [];
-        if (!existingVariations.some(v => v.id === culturalMethod.id) {
+        if (!existingVariations.some(v => v.id === culturalMethod.id)) {
           methods[culturalMethod.relatedToMainMethod].variations = [
             ...existingVariations,
             {
@@ -187,7 +187,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                 dominantPlanets: culturalMethod.astrologicalInfluences?.dominantPlanets || []
               },
               duration: { min: 10, max: 30 },
-              suitable_for culturalMethod.bestFor || [],
+              suitable_for: culturalMethod.bestFor || [],
               benefits: [],
               relatedToMainMethod: culturalMethod.relatedToMainMethod
             } as CookingMethodData

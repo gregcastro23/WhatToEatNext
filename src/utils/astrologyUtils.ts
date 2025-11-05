@@ -767,8 +767,7 @@ function calculateOuterPlanetLongitude(_jd: number, _planet: string): number {
 function _calculateFallbackPositions(_date: Date): Record<string, number> {
   debugLog('Using fallback planetary position calculation')
   const positions: Record<string, number> = {}
-  const dayOfYear = Math.floor(date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24);
-  )
+  const dayOfYear = Math.floor(_date.getTime() - new Date(_date.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24);
   const yearFraction = dayOfYear / 365.25;
 
   // Planetary periods and offsets for simple approximation
@@ -786,7 +785,7 @@ function _calculateFallbackPositions(_date: Date): Record<string, number> {
   };
 
   // Calculate all planet positions
-  for (const [planet, data] of Object.entries(planetaryData) {
+  for (const [planet, data] of Object.entries(planetaryData)) {
     positions[planet] = ((yearFraction * 360) / data.period + data.offset) % 360;
   }
 
@@ -887,7 +886,7 @@ export function getTraditionalRuler(_sign: string): string {
  */
 export function calculateEnhancedStelliumEffects(
   planetPositions: Record<string, { sign: string, degree: number }>,
-  risingDegree?: number;
+  risingDegree?: number
 ): LowercaseElementalProperties {
   const result: LowercaseElementalProperties = {
     fire: 0,
