@@ -307,7 +307,7 @@ function generateElementalSignatureDescription(
   strength: string
 ): string {
   const direction = zScore > 0 ? 'high' : 'low';
-  const strengthText = strength === 'very_high' ? 'exceptionally' :;
+  const strengthText = strength === 'very_high' ? 'exceptionally' :
                       strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat';
 
   const elementDescriptions = {

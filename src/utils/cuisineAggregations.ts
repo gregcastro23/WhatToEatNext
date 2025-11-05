@@ -155,15 +155,15 @@ function calculateElementalSimilarity(
   props2: ElementalProperties
 ): number {
   // Cosine similarity
-  const dotProduct = props1.Fire * props2.Fire +;
+  const dotProduct = props1.Fire * props2.Fire +
     props1.Water * props2.Water +
     props1.Earth * props2.Earth +
     props1.Air * props2.Air;
 
-  const magnitude1 = Math.sqrt();
+  const magnitude1 = Math.sqrt(
     props1.Fire ** 2 + props1.Water ** 2 + props1.Earth ** 2 + props1.Air ** 2
   );
-  const magnitude2 = Math.sqrt();
+  const magnitude2 = Math.sqrt(
     props2.Fire ** 2 + props2.Water ** 2 + props2.Earth ** 2 + props2.Air ** 2
   );
 

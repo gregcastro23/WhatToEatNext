@@ -1105,9 +1105,9 @@ export function calculateJoyEffects(
 }
 
   // Process each planet
-  for (const [planet, position] of Object.entries(planetPositions) {
+  for (const [planet, position] of Object.entries(planetPositions)) {
     // Calculate absolute degree (0-359)
-    const zodiacSigns = [;
+    const zodiacSigns = [
       'aries',
       'taurus',
       'gemini',
@@ -1128,7 +1128,7 @@ export function calculateJoyEffects(
     const house = calculateHousePosition(risingDegree, absoluteDegree);
 
     // Check if planet is in its joy house
-    if (isPlanetInJoy(planet, house) {
+    if (isPlanetInJoy(planet, house)) {
       // Get house data
       const houseData = HOUSE_AFFINITIES[house];
 

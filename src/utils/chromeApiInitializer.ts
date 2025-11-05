@@ -140,11 +140,11 @@ export function initializeChromeApis(): void {
             return Promise.resolve();
 },
           _remove: function (keys: string | string[], callback?: () => void) {
-            if (Array.isArray(keys) {
+            if (Array.isArray(keys)) {
               keys.forEach(key => delete mockStorage[key])
             } else {
               delete mockStorage[keys];
-}
+            }
             if (callback) {
               setTimeout(callback, 0)
             }

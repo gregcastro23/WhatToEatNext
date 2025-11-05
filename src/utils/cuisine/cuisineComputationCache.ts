@@ -176,7 +176,7 @@ class CuisineComputationCache {
    * @param options - Computation options used
    * @param recipeIds - Recipe IDs used in computation
    */
-  set()
+  set(
     cuisineId: string,
     properties: CuisineComputedProperties,
     options: CuisineComputationOptions = {},
@@ -580,7 +580,7 @@ export function resetGlobalCache(): void {
  * @param computeFn - Function to compute properties if not cached
  * @returns Computed properties (from cache or fresh computation)
  */
-export async function computeCuisineWithCache()
+export async function computeCuisineWithCache(
   cuisineId: string,
   recipes: RecipeComputedProperties[],
   options: CuisineComputationOptions,

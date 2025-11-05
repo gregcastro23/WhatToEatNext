@@ -291,7 +291,7 @@ export function analyzePlanetaryPatterns(recipes: RecipeComputedProperties[],
     });
 
     // Build common signs array (sorted by frequency)
-    const commonSigns = Object.entries(planetFreq.signFrequencies);
+    const commonSigns = Object.entries(planetFreq.signFrequencies)
       .filter(([, frequency]) => frequency > 0)
       .sort(([, a], [, b]) => b - a)
       .slice(0, 3) // Top 3 most common

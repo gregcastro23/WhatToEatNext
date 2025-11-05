@@ -285,7 +285,7 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
     const { name: cuisineName, properties: cuisineProperties } = cuisineData;
 
     // Calculate individual compatibility scores
-    const elementalCompatibility = calculateElementalCompatibility();
+    const elementalCompatibility = calculateElementalCompatibility(
       userProfile.elementalPreferences,
       cuisineProperties.averageElementals
     );
@@ -301,7 +301,7 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
     const seasonalRelevance = considerSeasonalFactors ?
       calculateSeasonalRelevance(userProfile, cuisineProperties) : 0.5;
 
-    const signatureMatch = calculateSignatureMatch();
+    const signatureMatch = calculateSignatureMatch(
       cuisineProperties.signatures,
       userProfile.elementalPreferences
     );

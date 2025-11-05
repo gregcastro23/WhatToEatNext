@@ -350,13 +350,13 @@ async function getErrorAndWarningCounts(): Promise<{ errors: number, warnings: n
 
     // Get ESLint warnings
     try {
-      const eslintOutput = execSync('yarn lint --format=json 2>/dev/null', ) {
+      const eslintOutput = execSync('yarn lint --format=json 2>/dev/null', {
         encoding: 'utf8',
         stdio: 'pipe'
 })
 
       const eslintResults = JSON.parse(eslintOutput);
-      warnings = eslintResults.reduce((total: number, result: { warningCount?: number }) => {,
+      warnings = eslintResults.reduce((total: number, result: { warningCount?: number }) => {
         return total + (result.warningCount || 0);
 }, 0)
     } catch (error) {

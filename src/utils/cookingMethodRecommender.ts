@@ -308,7 +308,7 @@ export function getMethodThermodynamics(
     nameStr.includes('boil')
   ) {
     return { heat: 0.4, entropy: 0.3, reactivity: 0.5, gregsEnergy: 0.4 }; // Medium heat, lower entropy methods
-  } else if (nameStr.includes('sous vide') || nameStr.includes('sous_vide') {
+  } else if (nameStr.includes('sous vide') || nameStr.includes('sous_vide')) {
     return { heat: 0.3, entropy: 0.35, reactivity: 0.2, gregsEnergy: 0.25 }; // Low heat, low reactivity
   } else if (
     nameStr.includes('raw') ||
@@ -319,17 +319,17 @@ export function getMethodThermodynamics(
     nameStr.includes('marinate')
   ) {
     return { heat: 0.1, entropy: 0.5, reactivity: 0.4, gregsEnergy: 0.3 }; // No/low heat methods
-  } else if (nameStr.includes('braise') || nameStr.includes('stew') {
+  } else if (nameStr.includes('braise') || nameStr.includes('stew')) {
     return { heat: 0.55, entropy: 0.75, reactivity: 0.6, gregsEnergy: 0.5 }; // Moderate heat, high entropy
-  } else if (nameStr.includes('pressure') {
+  } else if (nameStr.includes('pressure')) {
     return { heat: 0.7, entropy: 0.8, reactivity: 0.65, gregsEnergy: 0.6 }; // High heat/pressure, rapid breakdown
-  } else if (nameStr.includes('smoke') || nameStr.includes('smok') {
+  } else if (nameStr.includes('smoke') || nameStr.includes('smok')) {
     return { heat: 0.6, entropy: 0.4, reactivity: 0.75, gregsEnergy: 0.65 }; // Moderate heat, high reactivity
-  } else if (nameStr.includes('confit') || nameStr.includes('slow cook') {
+  } else if (nameStr.includes('confit') || nameStr.includes('slow cook')) {
     return { heat: 0.4, entropy: 0.6, reactivity: 0.45, gregsEnergy: 0.4 }; // Low heat, gradual cooking
-  } else if (nameStr.includes('dehydrat') || nameStr.includes('dry') {
+  } else if (nameStr.includes('dehydrat') || nameStr.includes('dry')) {
     return { heat: 0.3, entropy: 0.2, reactivity: 0.3, gregsEnergy: 0.25 }; // Low heat, preservation
-  } else if (nameStr.includes('toast') || nameStr.includes('brulee') {
+  } else if (nameStr.includes('toast') || nameStr.includes('brulee')) {
     return { heat: 0.75, entropy: 0.5, reactivity: 0.8, gregsEnergy: 0.7 }; // High reactivity surface treatments
   }
 
