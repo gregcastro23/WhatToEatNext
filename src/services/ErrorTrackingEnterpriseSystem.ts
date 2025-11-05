@@ -298,7 +298,7 @@ export class ErrorTrackingEnterpriseSystem {
         recommendationId: `pattern_${pattern.patternId}_${Date.now()}`,
         priority: index === 0 ? 'critical' : index === 1 ? 'high' : 'medium',
         category: pattern.patternId.split('_')[1] as ErrorCategory,
-        description: `Address ${pattern.frequency} ${pattern.errorCode} errors with ${(pattern.successRate * 100).toFixed(1)}% success rate`;
+        description: `Address ${pattern.frequency} ${pattern.errorCode} errors with ${(pattern.successRate * 100).toFixed(1)}% success rate`,
         estimatedImpact: Math.round(pattern.frequency * pattern.successRate),
         automationPossible: pattern.automationPotential > 0.8,
         timeEstimate: Math.round(pattern.averageFixTime * pattern.frequency),

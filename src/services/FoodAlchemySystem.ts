@@ -364,7 +364,7 @@ export class FoodAlchemySystem {
 
     return {
       compatibility,
-      recommendations: this.generateRecommendations()
+      recommendations: this.generateRecommendations(
         food,
         chart,
         planetaryDay,
@@ -400,12 +400,12 @@ export class FoodAlchemySystem {
    * @param planetaryPositions Current planetary positions
    * @returns A score object with influence score and bonus details
    */
-  private calculatePlanetaryDayInfluence()
+  private calculatePlanetaryDayInfluence(
     food: FoodCorrespondence,
     planetaryDay: string,
-    planetaryPositions?: Record<string, { sign: string; degree, number }>,
-  ): { score: number; dignityBonus?, number; decanBonus?, number } {
-    const normalizedPositions = normalizePlanetaryPositions(planetaryPositions || ) {});
+    planetaryPositions?: Record<string, { sign: string; degree: number }>,
+  ): { score: number; dignityBonus?: number; decanBonus?: number } {
+    const normalizedPositions = normalizePlanetaryPositions(planetaryPositions || {});
     // Get the elements associated with the current planetary day
     const dayElements = planetaryElements[planetaryDay];
     if (!dayElements) return { score: 0.5 }; // Unknown planet
@@ -482,13 +482,13 @@ export class FoodAlchemySystem {
    * @param aspects Current planetary aspects
    * @returns A score object with influence score and bonus details
    */
-  private calculatePlanetaryHourInfluence()
+  private calculatePlanetaryHourInfluence(
     food: FoodCorrespondence,
     planetaryHour: string,
     isDaytime: boolean,
-    planetaryPositions?: Record<string, { sign: string; degree, number }>,
+    planetaryPositions?: Record<string, { sign: string; degree: number }>,
     aspects?: Array<{ type: string; planets: [string, string] }>,
-  ): { score: number; dignityBonus?, number; aspectBonus?, number } {
+  ): { score: number; dignityBonus?: number; aspectBonus?: number } {
     // Get the elements associated with the current planetary hour
     const hourElements = planetaryElements[planetaryHour];
     if (!hourElements) return { score: 0.5 }; // Unknown planet
@@ -567,13 +567,13 @@ export class FoodAlchemySystem {
    * Generate enhanced recommendations based on planetary influences
    * including dignity, decan, and aspect considerations
    */
-  private generateRecommendations()
+  private generateRecommendations(
     food: FoodCorrespondence,
     chart: BirthChart,
     planetaryDay: string,
     planetaryHour: string,
     isDaytime: boolean,
-    planetaryPositions?: Record<string, { sign: string; degree, number }>,
+    planetaryPositions?: Record<string, { sign: string; degree: number }>,
     aspects?: Array<{ type: string; planets: [string, string] }>,
   ): string[] {
     const recommendations: string[] = [];
@@ -585,53 +585,53 @@ export class FoodAlchemySystem {
     if (dayElements && hourElements) {
       // Generate suggestions based on the day's elements
       if (dayElements.diurnal === 'Fire' || dayElements.nocturnal === 'Fire') {
-        recommendations.push()
-          `${food.name} is best prepared with high-heat cooking methods like grilling or roasting today.`,
+        recommendations.push(
+          `${food.name} is best prepared with high-heat cooking methods like grilling or roasting today.`
         );
       } else if (dayElements.diurnal === 'Water' || dayElements.nocturnal === 'Water') {
-        recommendations.push()
-          `Consider moist cooking methods like steaming or braising for ${food.name} today.`,
+        recommendations.push(
+          `Consider moist cooking methods like steaming or braising for ${food.name} today.`
         );
       } else if (dayElements.diurnal === 'Air' || dayElements.nocturnal === 'Air') {
-        recommendations.push()
-          `${food.name} performs well with light cooking methods or raw preparations today.`,
+        recommendations.push(
+          `${food.name} performs well with light cooking methods or raw preparations today.`
         );
       } else if (dayElements.diurnal === 'Earth' || dayElements.nocturnal === 'Earth') {
-        recommendations.push()
-          `Slow, methodical cooking methods like baking are ideal for ${food.name} today.`,
+        recommendations.push(
+          `Slow, methodical cooking methods like baking are ideal for ${food.name} today.`
         );
       }
 
       // Add time-specific recommendation based on the hour's element
       const hourElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
       if (hourElement === 'Fire') {
-        recommendations.push()
-          `${food.name} is best utilized in the current ${isDaytime ? 'day' : 'night'} hours with quick, energetic preparation.`,
+        recommendations.push(
+          `${food.name} is best utilized in the current ${isDaytime ? 'day' : 'night'} hours with quick, energetic preparation.`
         );
       } else if (hourElement === 'Water') {
-        recommendations.push()
-          `During these ${isDaytime ? 'day' : 'night'} hours, focus on bringing out ${food.name}'s aromatic qualities.`,
+        recommendations.push(
+          `During these ${isDaytime ? 'day' : 'night'} hours, focus on bringing out ${food.name}'s aromatic qualities.`
         );
       } else if (hourElement === 'Air') {
-        recommendations.push()
-          `The current ${isDaytime ? 'day' : 'night'} hours favor highlighting ${food.name}'s delicate flavors.`,
+        recommendations.push(
+          `The current ${isDaytime ? 'day' : 'night'} hours favor highlighting ${food.name}'s delicate flavors.`
         );
       } else if (hourElement === 'Earth') {
-        recommendations.push()
-          `These ${isDaytime ? 'day' : 'night'} hours are perfect for enhancing ${food.name}'s grounding properties.`,
+        recommendations.push(
+          `These ${isDaytime ? 'day' : 'night'} hours are perfect for enhancing ${food.name}'s grounding properties.`
         );
       }
 
       // Add planetary affinity recommendations
       if (food.planetaryRuler === planetaryDay) {
-        recommendations.push()
-          `Today is especially favorable for ${food.name} as it's ruled by ${planetaryDay}.`,
+        recommendations.push(
+          `Today is especially favorable for ${food.name} as it's ruled by ${planetaryDay}.`
         );
       }
 
       if (food.planetaryRuler === planetaryHour) {
-        recommendations.push()
-          `The current hour enhances ${food.name}'s ${hourElement.toLowerCase()} qualities.`,
+        recommendations.push(
+          `The current hour enhances ${food.name}'s ${hourElement.toLowerCase()} qualities.`
         );
       }
 

@@ -124,9 +124,9 @@ class ErrorTrackingSystem {
 
   private saveHistoricalData() {
     try {
-      const metricsDir = path.join(process.cwd(), '.kiro', 'metrics'),;
-      if (!fs.existsSync(metricsDir) {
-        fs.mkdirSync(metricsDir, ) { recursive: true })
+      const metricsDir = path.join(process.cwd(), '.kiro', 'metrics');
+      if (!fs.existsSync(metricsDir)) {
+        fs.mkdirSync(metricsDir, { recursive: true })
       }
 
       const dataPath = path.join(metricsDir, 'error-tracking.json');
@@ -146,20 +146,20 @@ class ErrorTrackingSystem {
 
   private startPeriodicAnalysis() {
     // Analyze errors every 10 minutes
-    setInterval() => {
+    setInterval(() => {
         this.analyzeCurrentErrors()
         this.detectErrorPatterns()
         this.updateQualityMetrics()
         this.saveHistoricalData()
         this.notifySubscribers()
-      }
-      10 * 60 * 1000,
+      },
+      10 * 60 * 1000
     )
   }
 
   public async analyzeTypeScriptErrors(): Promise<TypeScriptError[]> {
     try {
-      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', ) {
+      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
         encoding: 'utf8',
         stdio: 'pipe'
 })
@@ -168,9 +168,9 @@ class ErrorTrackingSystem {
       this.markErrorsAsResolved('typescript')
       return [];
     } catch (error) {
-      const output = (error as { stdout?: string, stderr?: string }).stdout ||;
+      const output = (error as { stdout?: string, stderr?: string }).stdout ||
         (error as { stderr?: string }).stderr ||
-        '',
+        '';
       const errors = this.parseTypeScriptErrors(output);
 
       // Mark existing errors as resolved if they're not in the new set
@@ -194,8 +194,8 @@ class ErrorTrackingSystem {
           file: file.trim(),
           line: parseInt(lineStr),
           column: parseInt(columnStr),
-          severity: severity as 'error' | 'warning'
-          category: this.ERROR_CATEGORIES[code] || 'Other'
+          severity: severity as 'error' | 'warning',
+          category: this.ERROR_CATEGORIES[code] || 'Other',
           timestamp: new Date(),
           resolved: false
 })
@@ -218,8 +218,8 @@ class ErrorTrackingSystem {
 
     // Add new errors
     for (const newError of newErrors) {
-      const key = `${newError.file}: ${newError.line}:${newError.column}:${newError.code}`,;
-      const existingIndex = this.typeScriptErrors.findIndex();
+      const key = `${newError.file}: ${newError.line}:${newError.column}:${newError.code}`;
+      const existingIndex = this.typeScriptErrors.findIndex(
         e => `${e.file}:${e.line}:${e.column}:${e.code}` === key && !e.resolved
       )
 
@@ -231,7 +231,7 @@ class ErrorTrackingSystem {
 
   public async analyzeLintingViolations(): Promise<LintingViolation[]> {
     try {
-      const result = execSync('yarn lint --format json', ) {
+      const result = execSync('yarn lint --format json', {
         encoding: 'utf8',
         stdio: 'pipe'
 })
@@ -251,13 +251,13 @@ class ErrorTrackingSystem {
         this.updateLintingViolations(violations)
         return violations;
       } catch (parseError) {
-        _logger.error('[Error Tracking] Failed to parse linting results: ', parseError),
+        _logger.error('[Error Tracking] Failed to parse linting results: ', parseError);
         return [];
 }
     }
   }
 
-  private parseLintingResults()
+  private parseLintingResults(
     lintResults: Array<{
       filePath?: string,
       messages?: Array<{
@@ -268,16 +268,16 @@ class ErrorTrackingSystem {
         severity?: number,
         fix?: unknown
       }>
-    }>,
+    }>
   ): LintingViolation[] {
-    const violations: LintingViolation[] = [],
+    const violations: LintingViolation[] = [];
 
     for (const fileResult of lintResults) {
       const filePath = fileResult.filePath;
 
       for (const message of fileResult?.messages) {
-        violations.push({,
-          rule: message.ruleId || 'unknown'
+        violations.push({
+          rule: message.ruleId || 'unknown',
           message: message.message,
           file: filePath,
           line: message.line || 0,
@@ -303,12 +303,12 @@ class ErrorTrackingSystem {
 
   private updateLintingViolations(newViolations: LintingViolation[]) {
     // Mark existing violations as resolved if they're not in the new set
-    const newViolationKeys = new Set();
-      newViolations.map(v => `${v.file}:${v.line}:${v.column}:${v.rule}`),
+    const newViolationKeys = new Set(
+      newViolations.map(v => `${v.file}:${v.line}:${v.column}:${v.rule}`)
     )
 
     for (const existingViolation of this.lintingViolations) {
-      const key = `${existingViolation.file}: ${existingViolation.line}:${existingViolation.column}:${existingViolation.rule}`,;
+      const key = `${existingViolation.file}: ${existingViolation.line}:${existingViolation.column}:${existingViolation.rule}`;
       if (!newViolationKeys.has(key) && !existingViolation.resolved) {
         existingViolation.resolved = true;
 }
@@ -316,8 +316,8 @@ class ErrorTrackingSystem {
 
     // Add new violations
     for (const newViolation of newViolations) {
-      const key = `${newViolation.file}: ${newViolation.line}:${newViolation.column}:${newViolation.rule}`,;
-      const existingIndex = this.lintingViolations.findIndex();
+      const key = `${newViolation.file}: ${newViolation.line}:${newViolation.column}:${newViolation.rule}`;
+      const existingIndex = this.lintingViolations.findIndex(
         v => `${v.file}:${v.line}:${v.column}:${v.rule}` === key && !v.resolved
       )
 
@@ -345,29 +345,35 @@ class ErrorTrackingSystem {
     const message = failure.message.toLowerCase();
     const stack = (failure.stack || '').toLowerCase();
     // Common root cause patterns
-    if (message.includes('cannot find module') || message.includes('module not found') {
-      return 'Missing dependency or incorrect import path' };
-        if (message.includes('typescript') && message.includes('error') {
-      return 'TypeScript compilation errors' };
-        if (message.includes('syntax error') || message.includes('unexpected token') {
-      return 'JavaScript/TypeScript syntax error' };
-        if (message.includes('memory') || message.includes('heap') {
-      return 'Memory allocation issue' };
-        if (message.includes('timeout') || message.includes('timed out') {
-      return 'Build process timeout' };
-        if (stack.includes('eslint') || message.includes('linting') {
-      return 'ESLint configuration or rule violation' };
-        return 'Unknown build issue - requires manual investigation';
+    if (message.includes('cannot find module') || message.includes('module not found')) {
+      return 'Missing dependency or incorrect import path';
+    }
+    if (message.includes('typescript') && message.includes('error')) {
+      return 'TypeScript compilation errors';
+    }
+    if (message.includes('syntax error') || message.includes('unexpected token')) {
+      return 'JavaScript/TypeScript syntax error';
+    }
+    if (message.includes('memory') || message.includes('heap')) {
+      return 'Memory allocation issue';
+    }
+    if (message.includes('timeout') || message.includes('timed out')) {
+      return 'Build process timeout';
+    }
+    if (stack.includes('eslint') || message.includes('linting')) {
+      return 'ESLint configuration or rule violation';
+    }
+    return 'Unknown build issue - requires manual investigation';
   }
 
   private analyzeCurrentErrors() {
     // Analyze TypeScript errors
-    this.analyzeTypeScriptErrors().catch(error => ) {,
+    this.analyzeTypeScriptErrors().catch(error => {
       _logger.error('[Error Tracking] Failed to analyze TypeScript errors: ', error)
     })
 
     // Analyze linting violations
-    this.analyzeLintingViolations().catch(error => ) {,
+    this.analyzeLintingViolations().catch(error => {
       _logger.error('[Error Tracking] Failed to analyze linting violations: ', error)
     })
   }
@@ -378,13 +384,13 @@ class ErrorTrackingSystem {
     // Analyze TypeScript error patterns
     const activeTypeScriptErrors = this.typeScriptErrors.filter(e => !e.resolved);
     for (const error of activeTypeScriptErrors) {
-      const patternKey = `TS: ${error.code}`,;
+      const patternKey = `TS: ${error.code}`;
 
-      if (patterns.has(patternKey) {
+      if (patterns.has(patternKey)) {
         const pattern = patterns.get(patternKey);
         if (pattern) {
-          pattern.frequency++,
-          if (!pattern.files.includes(error.file) {
+          pattern.frequency++;
+          if (!pattern.files.includes(error.file)) {
             pattern.files.push(error.file)
           }
         }
@@ -403,13 +409,13 @@ class ErrorTrackingSystem {
     // Analyze linting violation patterns
     const activeLintingViolations = this.lintingViolations.filter(v => !v.resolved);
     for (const violation of activeLintingViolations) {
-      const patternKey = `LINT: ${violation.rule}`,;
+      const patternKey = `LINT: ${violation.rule}`;
 
-      if (patterns.has(patternKey) {
+      if (patterns.has(patternKey)) {
         const pattern = patterns.get(patternKey);
         if (pattern) {
-          pattern.frequency++,
-          if (!pattern.files.includes(violation.file) {
+          pattern.frequency++;
+          if (!pattern.files.includes(violation.file)) {
             pattern.files.push(violation.file)
           }
         }
@@ -436,17 +442,18 @@ class ErrorTrackingSystem {
 
   private getSuggestedFix(errorCode: string): string {
     const fixes = {
-      TS2304: 'Add missing import statement or install required dependency';,
-      TS2352: 'Add missing import statement or check variable declaration';,
-      TS2345: 'Check argument types and function signature compatibility',
-      TS2322: 'Verify type compatibility or add type assertion',
-      TS2339: 'Check property name spelling or add property to type definition',
-      TS2698: 'Fix spread syntax usage or add proper type annotations',
-      TS2362: 'Check assignment target and ensure it's not readonly',
-      TS2440: 'Fix import statement syntax or check module resolution';,
-      TS7053: 'Add index signature to type or use bracket notation',
-      TS2571: 'Narrow union type or add type guards' },
-        return fixes[errorCode] || 'Review error message and TypeScript documentation';
+      'TS2304': 'Add missing import statement or install required dependency',
+      'TS2352': 'Add missing import statement or check variable declaration',
+      'TS2345': 'Check argument types and function signature compatibility',
+      'TS2322': 'Verify type compatibility or add type assertion',
+      'TS2339': 'Check property name spelling or add property to type definition',
+      'TS2698': 'Fix spread syntax usage or add proper type annotations',
+      'TS2362': 'Check assignment target and ensure it's not readonly',
+      'TS2440': 'Fix import statement syntax or check module resolution',
+      'TS7053': 'Add index signature to type or use bracket notation',
+      'TS2571': 'Narrow union type or add type guards'
+    };
+    return fixes[errorCode] || 'Review error message and TypeScript documentation';
 }
 
   private getLintingSuggestedFix(rule: string): string {
