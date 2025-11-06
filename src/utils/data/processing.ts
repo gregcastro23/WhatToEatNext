@@ -555,7 +555,7 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   }
 
   const rulingPlanets = (profile as unknown).rulingPlanets;
-  if (!Array.isArray(rulingPlanets) {
+  if (!Array.isArray(rulingPlanets)) {
     errors.push('Ruling planets must be an array');
   }
 
