@@ -790,7 +790,7 @@ export async function getRecommendedCookingMethods(
 
     // Enhanced Elemental compatibility calculation (40% of score)
     if (methodWithProps.elementalEffect || methodWithProps.elementalProperties) {
-      const elementalProps = methodWithProps.elementalEffect ||;
+      const elementalProps = methodWithProps.elementalEffect ||
         methodWithProps.elementalProperties || {
           Fire: 0,
           Water: 0,
@@ -799,7 +799,7 @@ export async function getRecommendedCookingMethods(
         };
 
       // Use enhanced calculation that considers element combinations
-      elementalScore = calculateEnhancedElementalCompatibility()
+      elementalScore = calculateEnhancedElementalCompatibility(
         elementalProps,
         elementalComposition
       );
@@ -809,9 +809,9 @@ export async function getRecommendedCookingMethods(
     if (method.astrologicalInfluences) {
       // Zodiac compatibility
       if (currentZodiac) {
-        if (method.astrologicalInfluences.favorableZodiac?.includes(currentZodiac) {
+        if (method.astrologicalInfluences.favorableZodiac?.includes(currentZodiac)) {
           astrologicalScore += 0.25;
-        } else if (method.astrologicalInfluences.unfavorableZodiac?.includes(currentZodiac) {
+        } else if (method.astrologicalInfluences.unfavorableZodiac?.includes(currentZodiac)) {
           astrologicalScore -= 0.2;
         }
       }
@@ -823,7 +823,7 @@ export async function getRecommendedCookingMethods(
       if (planets && planets.length > 0) {
         // Get the current day of the week
         const dayOfWeek = new Date().getDay();
-        const weekDays = [;
+        const weekDays = [
           'Sunday',
           'Monday',
           'Tuesday',
