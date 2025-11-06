@@ -621,42 +621,42 @@ export async function getRecommendedCookingMethods(
   const _isPlutoRetrograde = planets?.includes('Pluto-R') || false;
 
   // Get Venus transit data for current zodiac sign if applicable
-  const venusZodiacTransit = isVenusActive && currentZodiac;
+  const venusZodiacTransit = isVenusActive && currentZodiac
       ? venusData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Mars transit data for current zodiac sign if applicable
-  const _marsZodiacTransit = isMarsActive && currentZodiac;
+  const _marsZodiacTransit = isMarsActive && currentZodiac
       ? marsData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Mercury transit data for current zodiac sign if applicable
-  const _mercuryZodiacTransit = isMercuryActive && currentZodiac;
+  const _mercuryZodiacTransit = isMercuryActive && currentZodiac
       ? mercuryData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Jupiter transit data for current zodiac sign if applicable
-  const _jupiterZodiacTransit = isJupiterActive && currentZodiac;
+  const _jupiterZodiacTransit = isJupiterActive && currentZodiac
       ? jupiterData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Saturn transit data for current zodiac sign if applicable
-  const _saturnZodiacTransit = isSaturnActive && currentZodiac;
+  const _saturnZodiacTransit = isSaturnActive && currentZodiac
       ? saturnData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Uranus transit data for current zodiac sign if applicable
-  const _uranusZodiacTransit = isUranusActive && currentZodiac;
+  const _uranusZodiacTransit = isUranusActive && currentZodiac
       ? uranusData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Neptune transit data for current zodiac sign if applicable
-  const _neptuneZodiacTransit = isNeptuneActive && currentZodiac;
+  const _neptuneZodiacTransit = isNeptuneActive && currentZodiac
       ? neptuneData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Pluto transit data for current zodiac sign if applicable
-  const _plutoZodiacTransit = isPlutoActive && currentZodiac;
+  const _plutoZodiacTransit = isPlutoActive && currentZodiac
       ? plutoData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
