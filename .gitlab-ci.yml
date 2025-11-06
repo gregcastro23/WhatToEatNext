@@ -212,20 +212,25 @@ test:docker:images:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     - echo "🧪 Testing Docker images..."
+
     # Pull images
     - echo "Pulling frontend image: $FRONTEND_IMAGE:$CI_COMMIT_REF_SLUG"
     - docker pull "$FRONTEND_IMAGE:$CI_COMMIT_REF_SLUG"
     - echo "Pulling backend image: $BACKEND_IMAGE:$CI_COMMIT_REF_SLUG"
     - docker pull "$BACKEND_IMAGE:$CI_COMMIT_REF_SLUG"
+
     # Test frontend image
     - echo "Testing frontend image..."
     - docker run --rm "$FRONTEND_IMAGE:$CI_COMMIT_REF_SLUG" node --version
+
     # Test backend image
     - echo "Testing backend image..."
     - docker run --rm "$BACKEND_IMAGE:$CI_COMMIT_REF_SLUG" python --version
+
     # Display image sizes
     - echo "📊 Image sizes:"
     - docker images | grep "$CI_COMMIT_REF_SLUG"
+
     - echo "✅ Docker images validated successfully"
   allow_failure: true
   rules:
