@@ -121,7 +121,7 @@ function calculateZodiacScore(recipe: Recipe, sunSign: any): number {
   const signAffinity = zodiacAffinities[sunSign];
   if (signAffinity && recipe.name) {
     const recipeName = recipe.name.toLowerCase();
-    if (signAffinity.some(affinity => recipeName.includes(affinity.toLowerCase())) {
+    if (signAffinity.some(affinity => recipeName.includes(affinity.toLowerCase()))) {
       return 1;
     }
   }
@@ -129,10 +129,10 @@ function calculateZodiacScore(recipe: Recipe, sunSign: any): number {
 }
 
 // Calculate total recommendation score
-export function calculateRecommendationScore()
+export function calculateRecommendationScore(
   recipe: Recipe,
   astrologicalState: AstrologicalState,
-  timeFactors: TimeFactors;
+  timeFactors: TimeFactors
 ): number {
   // Base score
   let score = 0;
@@ -141,7 +141,7 @@ export function calculateRecommendationScore()
   // Elemental scores
   if (astrologicalState.dominantElement && recipe.element) {
     score +=
-      calculateElementalScore()
+      calculateElementalScore(
         recipe.element as Element,
         astrologicalState.dominantElement as Element
       ) * 2;
@@ -181,14 +181,14 @@ export function calculateRecommendationScore()
 }
 
 // Get top recommended recipes
-export function getRecommendedRecipes()
+export function getRecommendedRecipes(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
   count = 3,
   timeFactors: TimeFactors = getTimeFactors()
 ): Recipe[] {
   // Score all recipes
-  const scoredRecipes = recipes.map(recipe => () {
+  const scoredRecipes = recipes.map(recipe => ({
     recipe,
     score: calculateRecommendationScore(recipe, astrologicalState, timeFactors)
   }));
@@ -201,7 +201,7 @@ export function getRecommendedRecipes()
 }
 
 // Explain why a recipe was recommended
-export function explainRecommendation()
+export function explainRecommendation(
   recipe: Recipe,
   astrologicalState: AstrologicalState,
   timeFactors: TimeFactors = getTimeFactors()
@@ -210,12 +210,12 @@ export function explainRecommendation()
 
   // Check elemental affinity
   if (astrologicalState.dominantElement && recipe.element) {
-    const elementalScore = calculateElementalScore();
+    const elementalScore = calculateElementalScore(
       recipe.element as Element,
       astrologicalState.dominantElement as Element
     );
     if (elementalScore > 0.6) {
-      reasons.push()
+      reasons.push(
         `The ${recipe.element} energy of this dish harmonizes with your ${astrologicalState.dominantElement} elemental influence.`
       );
     }
@@ -224,7 +224,7 @@ export function explainRecommendation()
   // Check planetary day connection
   const dayPlanetScore = calculatePlanetaryScore(recipe, timeFactors.planetaryDay.planet);
   if (dayPlanetScore > 0.6) {
-    reasons.push()
+    reasons.push(
       `This recipe resonates with ${timeFactors.planetaryDay.planet}, the ruling planet of ${timeFactors.planetaryDay.day}.`
     );
   }
@@ -236,10 +236,10 @@ export function explainRecommendation()
       // Apply surgical type casting with variable extraction
       const mealTypeData = timeFactors.mealType as unknown as any;
       const timeOfDayData = timeFactors.timeOfDay as unknown as any;
-      const mealTypeLower = typeof mealTypeData.toLowerCase === 'function';
+      const mealTypeLower = typeof mealTypeData.toLowerCase === 'function'
           ? mealTypeData.toLowerCase()
           : String(timeFactors.mealType || '');
-      const timeOfDayLower = typeof timeOfDayData.toLowerCase === 'function';
+      const timeOfDayLower = typeof timeOfDayData.toLowerCase === 'function'
           ? timeOfDayData.toLowerCase()
           : String(timeFactors.timeOfDay || '');
       reasons.push(`This is an ideal choice for ${mealTypeLower} during the ${timeOfDayLower}.`);
@@ -266,7 +266,7 @@ export function explainRecommendation()
       const planetName = String((dominantPlanet as unknown as any).name || dominantPlanet);
       const planetScore = calculatePlanetaryScore(recipe, planetName as any);
       if (planetScore > 0.6) {
-        reasons.push()
+        reasons.push(
           `The influence of ${planetName} in your chart is complemented by this recipe.`
         );
         break; // Just mention one planet to avoid repetition
