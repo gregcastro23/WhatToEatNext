@@ -534,10 +534,10 @@ declare global {
     const externalImports: string[] = [];
     const internalImports: string[] = [];
 
-    imports.forEach(importLine => ) {
-      if (importLine.includes('@/') || importLine.includes('./') || importLine.includes('../') {
+    imports.forEach(importLine => {
+      if (importLine.includes('@/') || importLine.includes('./') || importLine.includes('../')) {
         internalImports.push(importLine);
-      } else if (importLine.trim().startsWith('import ') {
+      } else if (importLine.trim().startsWith('import ')) {
         externalImports.push(importLine);
       }
     });
