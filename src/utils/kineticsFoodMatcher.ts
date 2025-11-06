@@ -157,10 +157,10 @@ export function calculateKineticAlignment(
   const elementalScore = calculateElementalAlignment(foodItem.elementalProfile, elementalTotals);
 
   // Seasonal alignment score (0-1)
-  const seasonalScore = calculateSeasonalAlignment();
+  const seasonalScore = calculateSeasonalAlignment(
     foodItem.tags,
     kinetics.data.base.timing.seasonalInfluence
-  )
+  );
 
   // Weighted total score
   return (powerScore * 0.4 + elementalScore * 0.4 + seasonalScore * 0.2);
