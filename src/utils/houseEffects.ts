@@ -223,9 +223,9 @@ export function calculateHouseEffect(
  * @param houses Map of house numbers to their signs
  * @returns Combined elemental effects from all house placements
  */
-export function calculateAllHouseEffects()
-  planetPositions: Record<string, { sign: any, house?: number }>,
-  _houses: Record<number, ZodiacSign>,
+export function calculateAllHouseEffects(
+  planetPositions: Record<string, { sign: any; house?: number }>,
+  _houses: Record<number, ZodiacSign>
 ): Record<ElementalCharacter, number> {
   const totalEffects: Record<ElementalCharacter, number> = {
     Fire: 0,
@@ -237,7 +237,7 @@ export function calculateAllHouseEffects()
   debugLog(`Calculating house effects for ${Object.keys(planetPositions).length} planets`)
 
   // Calculate effects for each planet
-  for (const [planet, position] of Object.entries(planetPositions) {
+  for (const [planet, position] of Object.entries(planetPositions)) {
     // Skip if house is not defined
     if (!position.house) {
       debugLog(`House not defined for ${planet}, skipping`)
