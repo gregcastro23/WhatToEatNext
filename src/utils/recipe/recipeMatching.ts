@@ -99,9 +99,9 @@ export function clearMatchCache(all = false): void {
 /**
  * Enhanced energy matching using both absolute and relative elemental values
  */
-const calculateEnergyMatch = async (;
+const calculateEnergyMatch = async (
   recipeEnergy: ElementalProperties,
-  currentEnergy: ElementalProperties;
+  currentEnergy: ElementalProperties
 ): Promise<number> => {
   if (!recipeEnergy || !currentEnergy) {
     return 0.5; // Default match if no energy values provided

@@ -103,7 +103,7 @@ function checkRequiredFields(recipe: Partial<Recipe>, errors: string[]): boolean
   }
 
   // Validate ingredients array
-  if (recipe.ingredients && !Array.isArray(recipe.ingredients) {
+  if (recipe.ingredients && !Array.isArray(recipe.ingredients)) {
     errors.push('Ingredients must be an array');
     isValid = false;
   }

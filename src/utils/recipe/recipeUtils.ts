@@ -98,7 +98,7 @@ export function getRecipeMealTypes(recipe: Recipe): string[] {
   }
 
   if (recipe.mealType) {
-    if (Array.isArray(recipe.mealType) {
+    if (Array.isArray(recipe.mealType)) {
       return recipe.mealType.filter(type => typeof type === 'string');
     } else if (typeof recipe.mealType === 'string') {
       return [recipe.mealType];

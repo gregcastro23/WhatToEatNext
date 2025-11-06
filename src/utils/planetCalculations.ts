@@ -27,15 +27,15 @@ export function calculateMoonPosition(date: Date = new Date() {
 }
 
 // Mercury calculation
-export function calculateMercuryPosition(date: Date = new Date() {
-  const t = (date.getTime() - new Date('2000-01-01T12: 00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 87.969);
+export function calculateMercuryPosition(date: Date = new Date()) {
+  const t = (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 87.969);
   const longitude = 252.25084 + 538101.03 * t;
   return {
     sign: getSignFromLongitude(longitude),
     degree: longitude % 30,
-    minutes: (longitude % 1) * 60;
-    isRetrograde: Math.random() < 0.2, // Mercury is retrograde ~20% of the time
-  }
+    minutes: (longitude % 1) * 60,
+    isRetrograde: Math.random() < 0.2 // Mercury is retrograde ~20% of the time
+  };
 }
 
 // Add similar functions for other planets...

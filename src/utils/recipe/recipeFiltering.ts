@@ -108,10 +108,10 @@ export class RecipeFilter {
         }
 
         // Meal type filter
-        if (isNonEmptyArray(options.mealType) {
+        if (isNonEmptyArray(options.mealType)) {
           const recipeMealType = recipe.mealType;
           if (recipeMealType) {
-            const mealTypeMatches = Array.isArray(recipeMealType);
+            const mealTypeMatches = Array.isArray(recipeMealType)
               ? options.mealType.some(type => recipeMealType.includes(type))
               : options.mealType.includes(String(recipeMealType));
             if (!mealTypeMatches) return false;

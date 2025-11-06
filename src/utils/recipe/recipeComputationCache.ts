@@ -16,7 +16,7 @@ interface CacheConfig {
   ttlMs: number;
 
   /** Cache key prefix */
-  prefix: string
+  prefix: string;
 }
 
 class RecipeComputationCacheManager {

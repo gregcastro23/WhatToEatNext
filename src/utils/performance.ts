@@ -31,17 +31,17 @@ export function optimizePerformance(): { success: boolean, optimizations: string
     if (typeof window !== 'undefined') {
       // Optimize image loading with lazy loading
       const lazyLoadImages = () => {
-        const images = document.querySelectorAll('img: not([loading])');
-        images.forEach(img => ) {,
-          img.setAttribute('loading', 'lazy')
-        })
-        appliedOptimizations.push('image-lazy-loading')
-      }
+        const images = document.querySelectorAll('img:not([loading])');
+        images.forEach(img => {
+          img.setAttribute('loading', 'lazy');
+        });
+        appliedOptimizations.push('image-lazy-loading');
+      };
 
       // Debounce expensive event handlers
       const setupDebounce = () => {
-        const debounce = (func: (...args: unknown[]) => void, wait: number) => {,;
-          let timeout: ReturnType<typeof setTimeout>,
+        const debounce = (func: (...args: unknown[]) => void, wait: number) => {
+          let timeout: ReturnType<typeof setTimeout>;
           return function executedFunction(...args: unknown[]) {
             const later = () => {
               clearTimeout(timeout)
