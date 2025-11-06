@@ -440,7 +440,7 @@ function calculateEnhancedElementalCompatibility(
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
  */
-const planetaryElements: Record<string, { diurnal: string; nocturnal, string }> = {
+const planetaryElements: Record<string, { diurnal: string; nocturnal: string }> = {
   Sun: { diurnal: 'Fire', nocturnal: 'Fire' },
   Moon: { diurnal: 'Water', nocturnal: 'Water' },
   Mercury: { diurnal: 'Air', nocturnal: 'Earth' },
@@ -843,7 +843,7 @@ export async function getRecommendedCookingMethods(
         };
         const planetaryDay = dayRulers[weekDays[dayOfWeek]];
         if (planetaryDay) {
-          planetaryDayScore = calculatePlanetaryDayInfluence()
+          planetaryDayScore = calculatePlanetaryDayInfluence(
             method as unknown as CookingMethodProfile,
             planetaryDay
           );
@@ -878,7 +878,7 @@ export async function getRecommendedCookingMethods(
         const planetaryHour = planetaryOrder[hourPosition7];
 
         if (planetaryHour) {
-          planetaryHourScore = calculatePlanetaryHourInfluence()
+          planetaryHourScore = calculatePlanetaryHourInfluence(
             method as unknown as CookingMethodProfile,
             planetaryHour,
             daytime
@@ -949,7 +949,7 @@ export async function getRecommendedCookingMethods(
     // Tools availability (10% of score)
     if (availableTools && method.toolsRequired) {
       const requiredTools = method.toolsRequired;
-      const availableRequiredTools = requiredTools.filter(tool =>);
+      const availableRequiredTools = requiredTools.filter(tool =>
         availableTools.some(available => available.toLowerCase().includes(tool.toLowerCase()))
       );
 
@@ -957,9 +957,9 @@ export async function getRecommendedCookingMethods(
     } else {
       // Enhanced assumptions about basic tools availability
       const methodName = methodWithProps.name?.toLowerCase() || '';
-      if (methodName.includes('sous_vide') || methodName.includes('sous vide') {
+      if (methodName.includes('sous_vide') || methodName.includes('sous vide')) {
         toolScore = 0.01; // Specialized equipment
-      } else if (methodName.includes('pressure') || methodName.includes('instant pot') {
+      } else if (methodName.includes('pressure') || methodName.includes('instant pot')) {
         toolScore = 0.03; // Somewhat specialized
       } else if (
         methodName.includes('smoker') ||
@@ -970,7 +970,7 @@ export async function getRecommendedCookingMethods(
         methodName.includes('liquid nitrogen')
       ) {
         toolScore = 0.02; // Quite specialized
-      } else if (methodName.includes('grill') && !methodName.includes('stove top') {
+      } else if (methodName.includes('grill') && !methodName.includes('stove top')) {
         toolScore = 0.05; // Common but not universal
       } else {
         toolScore = 0.08; // Most common methods
@@ -995,7 +995,7 @@ export async function getRecommendedCookingMethods(
         const prefStr = typeof pref === 'string' ? pref.toLowerCase() : '';
         const methodName = typeof method.name === 'string' ? method.name.toLowerCase() : '';
 
-        if (prefStr === 'vegetarian' && methodName.includes('veget') {
+        if (prefStr === 'vegetarian' && methodName.includes('veget')) {
           matchStrength += 0.8;
         } else if (
           prefStr === 'vegan' &&
@@ -1153,7 +1153,7 @@ export async function getRecommendedCookingMethods(
 
         // Check keyword matches between Venus temperament food focus and method description
         const keywords = foodFocus.split(/[\s,,]+/).filter(k => k.length > 3);
-        const matchCount = keywords.filter();
+        const matchCount = keywords.filter(
           keyword => methodName.includes(keyword) || methodDesc.includes(keyword)
         ).length;
 
@@ -1187,7 +1187,7 @@ export async function getRecommendedCookingMethods(
 
           // Check for keyword matches
           const focusKeywords = transitFocus.split(/[\s,,]+/).filter(k => k.length > 3);
-          const focusMatchCount = focusKeywords.filter();
+          const focusMatchCount = focusKeywords.filter(
             keyword => methodName.includes(keyword) || methodDesc.includes(keyword)
           ).length;
 
@@ -1279,13 +1279,13 @@ export async function getRecommendedCookingMethods(
         _candy: 1.5 // Sweet preservation
       };
 
-      for (const [methodName, boost] of Object.entries(venusMethodBoosts) {
+      for (const [methodName, boost] of Object.entries(venusMethodBoosts)) {
         const methodData = method as unknown;
         const methodNameStr =
           typeof methodData.name === 'string' ? methodData.name.toLowerCase() : '';
         const methodDescStr =
           typeof methodData.description === 'string' ? methodData.description.toLowerCase() : '';
-        if (methodNameStr.includes(methodName) || methodDescStr.includes(methodName) {
+        if (methodNameStr.includes(methodName) || methodDescStr.includes(methodName)) {
           venusScore *= boost;
           break; // Apply only one boost
         }
@@ -1460,7 +1460,7 @@ export function calculateMethodScore(
     if (planetaryAlignment && astroState.currentPlanetaryAlignment) {
       const currentPlanets = astroState.currentPlanetaryAlignment;
       // ✅ Pattern KK-1: Safe number conversion for planet scores
-      const planetScores = Object.entries(currentPlanets).map([planet, _]) => Number(planetaryAlignment[planet]) || 0.5;
+      const planetScores = Object.entries(currentPlanets).map(([planet, _]) => Number(planetaryAlignment[planet]) || 0.5
       );
       const avgPlanetScore =
         planetScores.reduce((sum, score) => sum + score, 0) / planetScores.length;
@@ -1489,7 +1489,7 @@ function getMethodElementalProfile(method: CookingMethodProfile): ElementalPrope
 // Helper function to get astrological elemental profile
 // Now prioritizes a pre-calculated full elemental profile if available in astroState
 function getAstrologicalElementalProfile(
-  astroState: AstrologicalState;
+  astroState: AstrologicalState
 ): ElementalProperties | null {
   // 1. Check if a comprehensive elemental profile is provided directly in astroState
   //    (Names might be 'elementalProfile' or 'elementalState' based on usage elsewhere)
@@ -1567,7 +1567,7 @@ export function getCookingMethodRecommendations(
   const allMethods = Object.values(allCookingMethodsCombined);
 
   // Calculate scores for each method
-  const scoredMethods = allMethods.map(method => ) {
+  const scoredMethods = allMethods.map(method => {
     const score = calculateMethodScore(method as unknown as CookingMethodProfile, astroState);
     return {
       method: method as unknown as CookingMethod,
@@ -1583,7 +1583,7 @@ export function getCookingMethodRecommendations(
   return scoredMethods
     .sort((a, b) => b.score - a.score)
     .slice(0, maxRecs)
-    .map(() { method, score, reasoning }) => ({
+    .map(({ method, score, reasoning }) => ({
       method,
       score,
       reasoning
