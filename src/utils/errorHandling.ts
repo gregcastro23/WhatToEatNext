@@ -171,7 +171,7 @@ export class ErrorHandler {
   }
 
   // Handle error with recovery attempts
-  async handleError()
+  async handleError(
     error: Error | EnhancedError,
     context?: Record<string, unknown>
   ): Promise<unknown> {
