@@ -272,7 +272,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
   const activePlanets = astroState.activePlanets || [];
 
   // If we don't have any active planets, use all planets by default
-  const planetsToUse = activePlanets.length > 0;
+  const planetsToUse = activePlanets.length > 0
       ? activePlanets
       : [
           'Sun',
@@ -289,21 +289,21 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
 
   // Filter ingredients based on matching planetary rulers
   // Apply Pattern, K: Safe unknown-first casting for mixed ingredient array
-  let filteredIngredients = (allIngredients as unknown as EnhancedIngredient[]).filter(ingredient => ) {
+  let filteredIngredients = (allIngredients as unknown as EnhancedIngredient[]).filter(ingredient => {
       // Check if any of the ingredient's ruling planets are active
       const baseIngredient = ingredient as unknown as BaseIngredient;
-      return baseIngredient.astrologicalProfile?.rulingPlanets?.some(planet =>)
+      return baseIngredient.astrologicalProfile?.rulingPlanets?.some(planet =>
         planetsToUse.includes(planet)
       );
     });
 
   // If no matching ingredients, return a sample of all ingredients
   if (filteredIngredients.length === 0) {
-    filteredIngredients = (allIngredients as unknown as EnhancedIngredient[]).slice(20);
+    filteredIngredients = (allIngredients as unknown as EnhancedIngredient[]).slice(0, 20);
   }
 
   // Special handling for Venus influence when present
-  if (planetsToUse.includes('Venus') {
+  if (planetsToUse.includes('Venus')) {
     // Apply Pattern, K: Safe array type casting for function parameter compatibility
     // Prioritize Venus-ruled ingredients with improved scoring based on detailed Venus data
     enhanceVenusIngredientBatch(filteredIngredients as unknown as Ingredient[], astroState);
