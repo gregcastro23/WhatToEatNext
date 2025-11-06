@@ -143,6 +143,16 @@ test:unit:
     - setup:dependencies
   variables:
     POSTGRES_HOST_AUTH_METHOD: trust
+  before_script:
+    - echo "Setting up Node.js ${NODE_VERSION} environment..."
+    - node --version
+    - corepack enable
+    - corepack prepare yarn@stable --activate
+    - yarn --version
+    - echo "Installing dependencies..."
+    - yarn install --frozen-lockfile --network-timeout 300000
+    - echo "Installing PostgreSQL client tools..."
+    - apt-get update && apt-get install -y postgresql-client
   script:
     - echo "Setting up test environment..."
     - echo "Waiting for PostgreSQL 17 to be ready..."
@@ -180,11 +190,20 @@ test:database:
     - setup:dependencies
   variables:
     POSTGRES_HOST_AUTH_METHOD: trust
+  before_script:
+    - echo "Setting up Node.js ${NODE_VERSION} environment..."
+    - node --version
+    - corepack enable
+    - corepack prepare yarn@stable --activate
+    - yarn --version
+    - echo "Installing dependencies..."
+    - yarn install --frozen-lockfile --network-timeout 300000
+    - echo "Installing PostgreSQL client tools..."
+    - apt-get update && apt-get install -y postgresql-client
   script:
     - echo "Setting up PostgreSQL 17 for integration tests..."
     - until pg_isready -h postgres -p 5432 -U ${POSTGRES_USER}; do sleep 2; done
     - echo "Creating test databases..."
-    - apt-get update && apt-get install -y postgresql-client
     - psql -h postgres -U ${POSTGRES_USER} -d postgres -c "CREATE DATABASE whattoeatnext;"
     - psql -h postgres -U ${POSTGRES_USER} -d postgres -c "CREATE DATABASE alchm_kitchen;"
     - echo "Databases created successfully"
@@ -352,6 +371,16 @@ quality-gate:comprehensive:
     - build:production
   variables:
     POSTGRES_HOST_AUTH_METHOD: trust
+  before_script:
+    - echo "Setting up Node.js ${NODE_VERSION} environment..."
+    - node --version
+    - corepack enable
+    - corepack prepare yarn@stable --activate
+    - yarn --version
+    - echo "Installing dependencies..."
+    - yarn install --frozen-lockfile --network-timeout 300000
+    - echo "Installing PostgreSQL client tools..."
+    - apt-get update && apt-get install -y postgresql-client
   script:
     - echo "=== Quality Gate Validation ==="
     - echo "1. Checking TypeScript errors..."
