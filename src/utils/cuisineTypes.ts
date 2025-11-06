@@ -537,7 +537,7 @@ export function getCompatibilityFactors(
     factors.push(`Both ${continent1} cuisines`);
   }
 
-  if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2) {
+  if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2)) {
     const primary1 = getPrimaryCuisineFromRegional(cuisine1);
     const primary2 = getPrimaryCuisineFromRegional(cuisine2);
     if (primary1 === primary2) {
@@ -545,11 +545,11 @@ export function getCompatibilityFactors(
     }
   }
 
-  if (isFusionCuisine(cuisine1) || isFusionCuisine(cuisine2) {
+  if (isFusionCuisine(cuisine1) || isFusionCuisine(cuisine2)) {
     factors.push('Fusion cuisine compatibility');
   }
 
-  if (isDietaryCuisine(cuisine1) || isDietaryCuisine(cuisine2) {
+  if (isDietaryCuisine(cuisine1) || isDietaryCuisine(cuisine2)) {
     factors.push('Dietary preference alignment');
   }
 
@@ -561,7 +561,7 @@ export function getCompatibilityFactors(
  */
 export function getCommonIngredients(
   cuisine1: CompleteCuisineType,
-  cuisine2: CompleteCuisineType;
+  cuisine2: CompleteCuisineType
 ): string[] {
   // This would be populated with actual ingredient data
   // For now, returning placeholder data
@@ -587,11 +587,11 @@ export function getRegionalVariations(
 ): string[] {
   const variations: string[] = [];
 
-  if (isRegionalCuisine(cuisine1) {
+  if (isRegionalCuisine(cuisine1)) {
     variations.push(`${cuisine1} (regional)`);
   }
 
-  if (isRegionalCuisine(cuisine2) {
+  if (isRegionalCuisine(cuisine2)) {
     variations.push(`${cuisine2} (regional)`);
   }
 
@@ -612,13 +612,13 @@ export function isValidCuisineType(cuisine: string): cuisine is CompleteCuisineT
  */
 export function normalizeCuisineName(cuisine: string): CompleteCuisineType | string {
   // Convert to title case and replace spaces with hyphens
-  const normalized = cuisine;
+  const normalized = cuisine
     .toLowerCase()
     .split(/[\s-]+/)
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join('-');
 
-  return isValidCuisineType(normalized) ? normalized : cuisine
+  return isValidCuisineType(normalized) ? normalized : cuisine;
 }
 
 /**
