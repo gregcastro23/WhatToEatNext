@@ -33,17 +33,17 @@ export const lazyCalculations = {
  * Lazy load unified data modules with optimized loading
  */
 export const lazyUnifiedData = {
-  // Enhanced ingredients system - loaded on demand;
-  enhancedIngredients: () => import('@/data/unified/enhancedIngredients');,
+  // Enhanced ingredients system - loaded on demand
+  enhancedIngredients: () => import('@/data/unified/enhancedIngredients'),
 
   // Cuisine integrations - loaded on demand
-  cuisineIntegrations: () => import('@/data/unified/cuisineIntegrations');,
+  cuisineIntegrations: () => import('@/data/unified/cuisineIntegrations'),
 
   // Flavor engine - loaded on demand
-  flavorEngine: () => import('@/data/unified/unifiedFlavorEngine');,
+  flavorEngine: () => import('@/data/unified/unifiedFlavorEngine'),
 
   // Recipe building system - loaded on demand
-  recipeBuilding: () => import('@/data/unified/recipeBuilding');,
+  recipeBuilding: () => import('@/data/unified/recipeBuilding'),
 
   // Alchemical calculations data - loaded on demand
   alchemicalCalculations: () => import('@/data/unified/alchemicalCalculations')
@@ -57,12 +57,7 @@ export function createLazyComponent<T extends ComponentType<any>>(
   loadingComponent?: ComponentType
 ) {
   return dynamic(importFunc, {
-    loading: loadingComponent || (() => (
-      <div className="flex items-center justify-center p-4">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-        <span className="ml-2 text-gray-600">Loading calculation engine...</span>
-      </div>
-    )),
+    loading: loadingComponent,
     ssr: false, // Disable server-side rendering for heavy components
   })
 }
