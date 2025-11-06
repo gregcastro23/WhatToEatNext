@@ -101,13 +101,13 @@ export function scaleElementalProperties(
   };
 
   // Find dominant element
-  const dominantElement = Object.entries(base).reduce((max, [key, value]) =>;
+  const dominantElement = Object.entries(base).reduce((max, [key, value]) =>
     value > max.value ? { key, value } : max,
     { key: 'Fire', value: 0 }
   );
 
   // Apply scaling with "like reinforces like" principle
-  Object.keys(scaled).forEach(element => ) {
+  Object.keys(scaled).forEach(element => {
     const baseValue = base[element as keyof ElementalProperties];
 
     if (element === dominantElement.key) {
@@ -123,7 +123,7 @@ export function scaleElementalProperties(
   const sum = Object.values(scaled).reduce((acc, val) => acc + val, 0);
   if (sum > 0) {
     const normalizationFactor = 1.0 / sum;
-    Object.keys(scaled).forEach(element => ) {
+    Object.keys(scaled).forEach(element => {
       scaled[element as keyof ElementalProperties] *= normalizationFactor;
     });
   }
@@ -166,7 +166,7 @@ export function scaleAlchemicalProperties(
   };
 
   // Apply basic scaling
-  Object.keys(scaled).forEach(property => ) {
+  Object.keys(scaled).forEach(property => {
     scaled[property as keyof AlchemicalProperties] *= factor;
   });
 
@@ -186,8 +186,8 @@ export function scaleAlchemicalProperties(
   }
 
   // Ensure non-negative values
-  Object.keys(scaled).forEach(property => ) {
-    scaled[property as keyof AlchemicalProperties] = Math.max(0;
+  Object.keys(scaled).forEach(property => {
+    scaled[property as keyof AlchemicalProperties] = Math.max(0,
       scaled[property as keyof AlchemicalProperties]);
   });
 
@@ -244,15 +244,15 @@ export function createQuantityScaledProperties(
  * @param ingredients - Array of ingredient data with quantity info
  * @returns Array of scaled ingredient properties
  */
-export function batchScaleIngredients(ingredients: Array<) {
-    baseElemental: ElementalProperties,
-    quantity: number,
-    unit: string,
-    kinetics?: ThermodynamicMetrics
+export function batchScaleIngredients(ingredients: Array<{
+    baseElemental: ElementalProperties;
+    quantity: number;
+    unit: string;
+    kinetics?: ThermodynamicMetrics;
   }>
 ): QuantityScaledProperties[] {
-  return ingredients.map(ingredient =>)
-    createQuantityScaledProperties()
+  return ingredients.map(ingredient =>
+    createQuantityScaledProperties(
       ingredient.baseElemental,
       ingredient.quantity,
       ingredient.unit,
@@ -302,7 +302,7 @@ export function validateScalingIntegrity(scaled: QuantityScaledProperties): {
   }
 
   return {
-    isValid: issues.length === 0;
+    isValid: issues.length === 0,
     issues
   };
 }
