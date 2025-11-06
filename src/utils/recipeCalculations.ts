@@ -32,7 +32,7 @@ export const _recipeCalculations = {
       `Cuisine alignment score for ${recipeData?.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`
     );
     return alignmentScore;
-  }
+  },
 
   /**
    * Get the optimal astrological windows for cooking a particular recipe
@@ -40,18 +40,18 @@ export const _recipeCalculations = {
    * @returns Array of optimal times / (conditions || 1) for cooking
    */
   getOptimalCookingWindow(recipe: RecipeElementalMapping): string[] {
-    const optimalTimes = [;
+    const optimalTimes = [
       ...recipe.astrologicalProfile.rulingPlanets.map(p => `${p} dominant hours`),
       ...recipe.cuisine.astrologicalProfile.aspectEnhancers
     ];
 
     const recipeWindowData = recipe as unknown;
-    debugLog()
+    debugLog(
       `Optimal cooking windows for ${recipeWindowData?.name || 'Unknown Recipe'}:`,
-      optimalTimes,
+      optimalTimes
     );
     return optimalTimes;
-  }
+  },
 
   /**
    * Determine how much an elemental boost a user would get from a recipe
@@ -60,20 +60,19 @@ export const _recipeCalculations = {
    * @param userElements User's elemental properties / (affinities || 1)
    * @returns Boost value (higher means more boost)
    */
-  determineElementalBoost()
+  determineElementalBoost(
     recipe: RecipeElementalMapping,
-    userElements: ElementalProperties;
+    userElements: ElementalProperties
   ): number {
     // Find the dominant element in the recipe
-    const dominantElement = Object.entries(recipe.elementalProperties).sort([, a], [, b]) => b - a;
-    )[0][0];
+    const dominantElement = Object.entries(recipe.elementalProperties).sort(([, a], [, b]) => b - a)[0][0];
 
     // Calculate boost from the user's affinity with that element
     const boost = userElements[dominantElement] * 1.5;
 
     const recipeBoostData = recipe as unknown;
-    debugLog()
-      `Elemental boost for ${recipeBoostData?.name || 'Unknown Recipe'}: ${boost.toFixed(2)} (dominant: ${dominantElement})`,
+    debugLog(
+      `Elemental boost for ${recipeBoostData?.name || 'Unknown Recipe'}: ${boost.toFixed(2)} (dominant: ${dominantElement})`
     );
     return boost;
   }
