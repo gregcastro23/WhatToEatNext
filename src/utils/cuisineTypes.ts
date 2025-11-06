@@ -293,7 +293,7 @@ export function calculateCuisineCompatibility(
   }
 
   // Street food cuisines = moderate compatibility
-  if (isStreetFoodCuisine(cuisine1) || isStreetFoodCuisine(cuisine2) {
+  if (isStreetFoodCuisine(cuisine1) || isStreetFoodCuisine(cuisine2)) {
     return 0.6;
   }
 

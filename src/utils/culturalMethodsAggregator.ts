@@ -232,7 +232,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   });
 
   // Add basic astrological influences for methods that don't have them
-  methods.forEach(method => ) {
+  methods.forEach(method => {
     if (method.relatedToMainMethod && cookingMethods[method.relatedToMainMethod]) {
       // Inherit some properties from the main method
       const mainMethod = cookingMethods[method.relatedToMainMethod];

@@ -89,13 +89,13 @@ export function calculateOptimalPortions<T extends { amount: number }>(
   const powerMultiplier = kinetics.data.agentOptimization?.powerAmplification || 1.0;
 
   // Higher power = larger portions for energy utilization
-  // Lower power = smaller portions for easier digestion;
+  // Lower power = smaller portions for easier digestion
   const portionModifier = (powerLevel * powerMultiplier - 0.5) * 0.3 + 1.0;
 
-  return basePortions.map(portion => () {
+  return basePortions.map(portion => ({
     ...portion,
     amount: Math.round(portion.amount * portionModifier * 100) / 100
-  }))
+  }));
 }
 
 /**

@@ -147,7 +147,7 @@ export function transformCuisines(
  */
 export function transformSingleItem(
   item: ElementalItem,
-  context: TransformationContext;
+  context: TransformationContext
 ): AlchemicalItem {
   // Calculate planetary influences
   const planetaryInfluences = calculatePlanetaryInfluences(context);

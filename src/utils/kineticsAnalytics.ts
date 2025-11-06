@@ -10,10 +10,10 @@ declare global {
 }
 
 export interface KineticsRecommendationEvent {
-  recommendationType: 'temporal' | 'elemental' | 'aspect'
-  kineticScore: number;,
-  powerLevel: number;,
-  userAction: 'view' | 'select' | 'prepare'
+  recommendationType: 'temporal' | 'elemental' | 'aspect';
+  kineticScore: number;
+  powerLevel: number;
+  userAction: 'view' | 'select' | 'prepare';
 }
 
 /**

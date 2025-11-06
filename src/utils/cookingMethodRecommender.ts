@@ -554,7 +554,7 @@ export async function getRecommendedCookingMethods(
   availableTools?: string[]
 ): Promise<CookingMethodData[]> {
   // Convert cooking methods to array for easier processing
-  const methodsArray = Object.entries(allCookingMethodsCombined);
+  const methodsArray = Object.entries(allCookingMethodsCombined)
     .map(([_id, method]) => ({
       ...method,
       score: 0

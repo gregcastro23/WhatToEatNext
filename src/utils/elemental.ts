@@ -122,7 +122,7 @@ export const _calculateelementalState = (
     _liquid: 'Water'
   };
 
-  ingredients.forEach(ingredient => ) {
+  ingredients.forEach(ingredient => {
     const element = categoryElements[ingredient.category];
     if (element) {
       balance[element] += ingredient.amount;

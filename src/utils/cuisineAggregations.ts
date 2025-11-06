@@ -441,7 +441,7 @@ export function identifyPlanetaryPatterns(recipes: Array<{ _computed?: RecipeCom
     const positions = recipe._computed?.planetaryPositionsUsed;
     if (!positions) continue;
 
-    for (const [planet, sign] of Object.entries(positions) {
+    for (const [planet, sign] of Object.entries(positions)) {
       if (!planetaryCounts[planet]) {
         planetaryCounts[planet] = {};
       }

@@ -107,7 +107,7 @@ export const elementalFunctions = {
    */
   _suggestComplementaryElements: (props: ElementalProperties): Element[] => {
     const dominant = elementalFunctions.getDominantElement(props);
-    return Object.keys(elementalInteractions).filter()
+    return Object.keys(elementalInteractions).filter(
       element => elementalInteractions[element as Element][dominant] > 0.5 && !(element in props)
     ) as Element[];
   }

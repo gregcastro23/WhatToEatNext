@@ -94,14 +94,13 @@ export function cleanupIngredientsDatabase() {
             ? Object.entries(currentElementalProps).reduce((a, b) => (a[1] > b[1] ? a : b),
                 ['Fire', 0],
               )[0]
-            : 'Fire',
+            : 'Fire';
 
-          ingredientWithAstrology.astrologicalProfile = { elementalAffinity: { base, dominantElement },
+          ingredientWithAstrology.astrologicalProfile = { elementalAffinity: { base: dominantElement, dominantElement },
             _rulingPlanets: []
-          } as AstrologicalProfile,
-          fixedEntries++,
-          logger.warn(`Added default astrological profile to ${data.name || name || 'unknown ingredient'}`,
-          )
+          } as AstrologicalProfile;
+          fixedEntries++;
+          logger.warn(`Added default astrological profile to ${data.name || name || 'unknown ingredient'}`);
         } else if (!(ingredientWithAstrology.astrologicalProfile as any).elementalAffinity) {
           // Ensure elementalAffinity exists within the profile - safe property access
           const currentElementalProps = data.elementalProperties;

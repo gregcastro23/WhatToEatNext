@@ -159,17 +159,17 @@ export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> 
  * @param sign Zodiac sign the planet is in
  * @returns Record of elemental effects for each element
  */
-export function calculateHouseEffect()
+export function calculateHouseEffect(
   planet: string,
   house: number,
-  sign: any;
+  sign: any
 ): Record<ElementalCharacter, number> {
   const effects: Record<ElementalCharacter, number> = {
     Fire: 0,
     Earth: 0,
     Air: 0,
     Water: 0
-}
+  };
 
   // Get house data
   const houseData = HOUSE_DATA[house];

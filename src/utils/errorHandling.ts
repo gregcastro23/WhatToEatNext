@@ -128,7 +128,7 @@ export function classifyError(error: Error | string): ErrorType {
     return ErrorType.AUTHENTICATION;
   }
 
-  if (lowerMessage.includes('forbidden') || lowerMessage.includes('permission') {
+  if (lowerMessage.includes('forbidden') || lowerMessage.includes('permission')) {
     return ErrorType.AUTHORIZATION;
   }
 

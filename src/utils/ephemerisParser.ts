@@ -293,7 +293,7 @@ export class EphemerisParser {
     // Normalize to percentages
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
     if (total > 0) {
-      Object.keys(elementCounts).forEach(element => ) {
+      Object.keys(elementCounts).forEach(element => {
         elementCounts[element] /= total;
       });
     }

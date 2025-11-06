@@ -53,15 +53,15 @@ export const lazyUnifiedData = {
  * Create a lazy-loaded component with loading fallback
  */
 export function createLazyComponent<T extends ComponentType<any>>(
-  importFunc: () => Promise<{ default: T }>;,
+  importFunc: () => Promise<{ default: T }>,
   loadingComponent?: ComponentType
 ) {
-  return dynamic(importFunc, ) {
-    loading: loadingComponent || (() => (,
+  return dynamic(importFunc, {
+    loading: loadingComponent || (() => (
       <div className="flex items-center justify-center p-4">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
         <span className="ml-2 text-gray-600">Loading calculation engine...</span>
-      </div>,
+      </div>
     )),
     ssr: false, // Disable server-side rendering for heavy components
   })

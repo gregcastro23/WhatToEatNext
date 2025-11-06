@@ -188,9 +188,9 @@ async function validateElementalProperties(): Promise<{
 /**
  * Validate individual ingredient elemental properties
  */
-function validateIngredientElementalProperties()
+function validateIngredientElementalProperties(
   name: string,
-  ingredient: Ingredient;
+  ingredient: Ingredient
 ): { errors: IngredientValidationError[], warnings: IngredientValidationWarning[] } {
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];

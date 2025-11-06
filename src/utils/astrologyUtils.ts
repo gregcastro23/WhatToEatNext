@@ -1249,7 +1249,7 @@ export function longitudeToZodiacPosition(_longitude: number): { sign: string, d
     const degree = normalizedLongitude % 30;
 
     // Get sign name
-    const signs = [;
+    const signs = [
       'aries',
       'taurus',
       'gemini',

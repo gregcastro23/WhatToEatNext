@@ -247,9 +247,9 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
  * @param userElemental User elemental properties
  * @returns Detailed compatibility analysis
  */
-export async function calculateDetailalCompatibility()
+export async function calculateDetailalCompatibility(
   recipeElemental: ElementalProperties,
-  userElemental?: ElementalProperties;
+  userElemental?: ElementalProperties
 ): Promise<ElementalCompatibility> {
   const userProps = userElemental || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   const recipeDominant = calculateDominantElement(recipeElemental);

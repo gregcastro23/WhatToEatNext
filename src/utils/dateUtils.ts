@@ -157,7 +157,7 @@ export const _getRecommendations = (
     }
 
     // If mealTimeDishes is an array, return it directly
-    if (Array.isArray(mealTimeDishes) {
+    if (Array.isArray(mealTimeDishes)) {
       return mealTimeDishes;
     }
 

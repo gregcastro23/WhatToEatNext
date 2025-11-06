@@ -66,10 +66,10 @@ export function detectCircularDependencies(_moduleGraph: Record<string, string[]
 /**
  * Validate barrel exports to ensure all exported items exist
  */
-export async function validateBarrelExports()
+export async function validateBarrelExports(
   barrelPath: string,
   exports: string[]
-): Promise<{ valid: string[]; invalid, string[] }> {
+): Promise<{ valid: string[]; invalid: string[] }> {
   const valid: string[] = [];
   const invalid: string[] = [];
 

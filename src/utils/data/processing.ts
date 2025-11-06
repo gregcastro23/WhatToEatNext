@@ -438,7 +438,7 @@ function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
   const result: { [key: string]: number } = {};
   const prof = profile as any;
 
-  Object.entries(prof || ) {}).forEach(([key, value]) => {
+  Object.entries(prof || {}).forEach(([key, value]) => {
     if (typeof value === 'number' && value >= 0 && value <= 1) {
       result[key] = value;
     }

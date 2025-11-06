@@ -4,13 +4,13 @@
  * Normalize vitamin data to a consistent format
  * Handles both array format ['c', 'k'] and object format {B12: 0.85, niacin: 0.43}
  */
-export function normalizeVitamins()
+export function normalizeVitamins(
   vitamins: Record<string, unknown>
-): Array<{ name: string; value?, number; unit?, string }> {
+): Array<{ name: string; value?: number; unit?: string }> {
   if (!vitamins) return [];
   // If it's already an array of strings
-  if (Array.isArray(vitamins) {
-    return vitamins.map(vitamin => () {
+  if (Array.isArray(vitamins)) {
+    return vitamins.map(vitamin => ({
       name: formatVitaminName(vitamin),
       value: undefined,
       unit: undefined

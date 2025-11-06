@@ -483,14 +483,14 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
           analyzeDirectory(filePath)
         } else {
           const size = stat.size;
-          total += size,
+          total += size;
 
           const ext = path.extname(file).toLowerCase();
-          if (ext === '.js' || ext === '.jsx' || ext === '.ts' || ext === '.tsx') {,
+          if (ext === '.js' || ext === '.jsx' || ext === '.ts' || ext === '.tsx') {
             javascript += size;
-} else if (ext === '.css' || ext === '.scss' || ext === '.sass') {,
+          } else if (ext === '.css' || ext === '.scss' || ext === '.sass') {
             css += size;
-} else {
+          } else {
             assets += size;
 }
         }

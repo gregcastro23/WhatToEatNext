@@ -104,7 +104,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
   let grainCount = 0;
 
   // Process each category
-  categories.forEach(category => ) {
+  categories.forEach(category => {
     // All categories guaranteed to have data by design
     if (Object.keys(category.data).length === 0) {
       log.warn(`Empty data for category ${category.name}`);

@@ -224,7 +224,7 @@ function calculateAstrologicalBridgeModifier(astrologicalBridge: unknown): numbe
 }
 
 // Combine all real ingredients data
-const allIngredients = [;
+const allIngredients = [
   ...Object.values(vegetables),
   ...Object.values(fruits),
   ...Object.values(herbs),

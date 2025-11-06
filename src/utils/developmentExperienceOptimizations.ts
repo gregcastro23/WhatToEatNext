@@ -304,13 +304,13 @@ declare global {
     });
 
     // Detect remaining errors (simplified detection)
-    const errorPatterns = [;
+    const errorPatterns = [
       /Property '([^']+)' does not exist on type/g,
       /Type '([^']+)' is not assignable to type/g,
       /Cannot find name '([^']+)'/g
     ];
 
-    errorPatterns.forEach(pattern => ) {
+    errorPatterns.forEach(pattern => {
       const matches = fixedCode.match(pattern);
       if (matches) {
         matches.forEach(match => remainingErrors.push(match));
