@@ -1808,8 +1808,8 @@ function _getAspectOrb(planet1: string, planet2: string): number {
 function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[] {
   try {
     // Validate inputs
-    if (isNaN(jd) || isNaN(lat) || isNaN(lon) {
-      throw new Error('Invalid inputs for Placidus house calculation')
+    if (isNaN(jd) || isNaN(lat) || isNaN(lon)) {
+      throw new Error('Invalid inputs for Placidus house calculation');
     }
 
     // Convert latitude to radians
@@ -1824,9 +1824,9 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
     const jdCentury = (jd - 2451545.0) / 36525; // centuries since J2000.0
 
     // Greenwich Mean Sidereal Time in degrees
-    let gmst = 280.46061837 +;
+    let gmst = 280.46061837 +
       360.98564736629 * (jd - 2451545.0) +
-      jdCentury * jdCentury * (0.000387933 - jdCentury / 38710000)
+      jdCentury * jdCentury * (0.000387933 - jdCentury / 38710000);
 
     // Normalize to 0-360 range
     gmst = ((gmst % 360) + 360) % 360;
@@ -1845,7 +1845,7 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
     // IC (Imum Coeli, 4th house cusp) - opposite to MC
     houseCusps[3] = (mcDegrees + 180) % 360;
 
-    // For Placidus systemwe need to calculate intermediate cusps
+    // For Placidus system, we need to calculate intermediate cusps
     // This is a simplified implementation of the Placidus algorithm
 
     // Ascendant (1st house cusp)
@@ -1854,7 +1854,7 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
 
     // Calculate Ascendant, formula: atan2(sin(lst), cos(lst) * cos(obl) + tan(lat) * sin(obl))
     const lstRad = (lst * Math.PI) / 180;
-    const ascRad = Math.atan2();
+    const ascRad = Math.atan2(
       Math.sin(lstRad),
       Math.cos(lstRad) * Math.cos(obliquityRad) + tanLat * Math.sin(obliquityRad)
     );
@@ -1894,17 +1894,17 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
     errorLog('Error calculating Placidus houses: ', error);
 
     // Return equally-spaced houses as fallback (30° per house)
-    return [30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
+    return [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
   }
 }
 
-const TEST_DATES = [;
+const TEST_DATES = [
   { date: '2024-01-01', expected: { Sun: 'capricorn', Moon: 'taurus' } },
   { date: '2024-06-21', expected: { Sun: 'gemini', Moon: 'aquarius' } }
 ];
 
 export async function runAstroTests() {
-  for (const ) { date, expected } of TEST_DATES) {
+  for (const { date, expected } of TEST_DATES) {
     const testDate = new Date(date);
     const positions = await calculatePlanetaryPositions(testDate);
 
@@ -2020,19 +2020,19 @@ export function getNodeInfo(_nodeLongitude: number): {
 }
 
 // Enhanced getSignFromLongitude with validation
-export function getSignFromLongitude(_longitude: number): { sign: string, degree: number } {
+export function getSignFromLongitude(longitude: number): { sign: string, degree: number } {
   // Validate input
-  if (typeof longitude !== 'number' || isNaN(longitude) {
-    errorLog('Invalid longitude: ', longitude)
+  if (typeof longitude !== 'number' || isNaN(longitude)) {
+    errorLog('Invalid longitude: ', longitude);
     return { sign: 'aries', degree: 0 };
-}
+  }
 
   // Normalize to 0-360 range
   const normalized = ((longitude % 360) + 360) % 360;
   const signIndex = Math.floor(normalized / 30);
   const degree = normalized % 30;
 
-  const signs = [;
+  const signs = [
     'aries',
     'taurus',
     'gemini',
@@ -2140,14 +2140,14 @@ export const _parseAstroChartData = (astroChartData: unknown): Record<string, nu
  * @param astroChartData Raw data from AstroCharts.com
  * @returns Formatted aspects array in our internal format
  */
-export const _parseAstroChartAspects = (;
-  astroChartData: unknown;
+export const _parseAstroChartAspects = (
+  astroChartData: unknown
 ): Array<{
-  type: string,
-  planet1: string,
-  planet2: string,
-  orb: number,
-  applying: boolean
+  type: string;
+  planet1: string;
+  planet2: string;
+  orb: number;
+  applying: boolean;
 }> => {
   try {
     const aspects: Array<{
@@ -2160,7 +2160,7 @@ export const _parseAstroChartAspects = (;
 
     const data = astroChartData as any;
 
-    if (data.aspects && Array.isArray(data.aspects) {
+    if (data.aspects && Array.isArray(data.aspects)) {
       // Map aspect types to internal format
       const aspectTypeMapping: Record<string, string> = {
         conjunction: 'conjunction',
@@ -2174,7 +2174,7 @@ export const _parseAstroChartAspects = (;
         sesquiquadrate: 'sesquiquadrate',
         quintile: 'quintile',
         biquintile: 'biquintile'
-}
+      };
 
       // Process each aspect
       data.aspects.forEach((aspect: unknown) => {
@@ -2300,7 +2300,7 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
  */
 export function calculateDominantElement(
   astroState: AstrologicalState,
-  timeFactors: TimeFactors;
+  timeFactors: TimeFactors
 ): Element {
   // Count influences of each element
   const elementalCounts: Record<Element, number> = {
@@ -2308,7 +2308,7 @@ export function calculateDominantElement(
     Earth: 0,
     Air: 0,
     Water: 0
-}
+  };
 
   // Sun sign (strongest influence)
   if (astroState.sunSign) {
@@ -2350,7 +2350,7 @@ export function calculateDominantElement(
  */
 export function calculateElementalProfile(
   astroState: AstrologicalState,
-  timeFactors: TimeFactors;
+  timeFactors: TimeFactors
 ): Record<Element, number> {
   // Count influences of each element
   const elementalCounts: Record<Element, number> = {
@@ -2358,7 +2358,7 @@ export function calculateElementalProfile(
     Earth: 0,
     Air: 0,
     Water: 0
-}
+  };
 
   // Sun sign (strongest influence)
   if (astroState.sunSign) {
@@ -2410,37 +2410,37 @@ export function transformItemsWithPlanetaryPositions(
 
   try {
     // Calculate current elemental influence from planetary positions
-    const currentElementalInfluence = calculateCurrentElementalInfluence();
+    const currentElementalInfluence = calculateCurrentElementalInfluence(
       planetaryPositions,
       isDaytime,
-      currentZodiac,
-    )
+      currentZodiac
+    );
 
     // Transform each item
-    return items.map(item => ) {
+    return items.map(item => {
       // Calculate compatibility score based on elemental alignment
-      const compatibilityScore = calculateItemCompatibilityScore();
+      const compatibilityScore = calculateItemCompatibilityScore(
         item.elementalProperties,
         currentElementalInfluence,
         planetaryPositions,
-        isDaytime,
-      )
+        isDaytime
+      );
 
       // Determine dominant element
       const dominantElement = getDominantElementFromProperties(item.elementalProperties);
 
       // Calculate alchemical properties based on planetary influence
-      const alchemicalProperties = calculateAlchemicalProperties();
+      const alchemicalProperties = calculateAlchemicalProperties(
         item.elementalProperties,
         planetaryPositions,
-        currentElementalInfluence,
-      )
+        currentElementalInfluence
+      );
 
       // Calculate thermodynamic properties
-      const thermodynamicProperties = calculateThermodynamicProperties();
+      const thermodynamicProperties = calculateThermodynamicProperties(
         item.elementalProperties,
-        compatibilityScore,
-      )
+        compatibilityScore
+      );
 
       // Create alchemical item with interface compliance
       const alchemicalItem = {
@@ -2463,23 +2463,23 @@ export function transformItemsWithPlanetaryPositions(
         dominantPlanets: [] as string[],
         planetaryDignities: {} as Record<string, unknown>,
         // Optional legacy properties
-        transformations: calculateElementalTransformations()
+        transformations: calculateElementalTransformations(
           item.elementalProperties,
-          currentElementalInfluence,
-        ) as Array<{ from: Element, to: Element, _intensity: number }>,
+          currentElementalInfluence
+        ) as Array<{ from: Element; to: Element; _intensity: number }>,
         seasonalResonance: calculateSeasonalResonance(dominantElement)
       } as unknown as AlchemicalItem;
 
       return alchemicalItem;
     })
   } catch (error) {
-      errorLog()
+      errorLog(
         'Error in transformItemsWithPlanetaryPositions: ',
         error instanceof Error ? error.message : String(error)
-      )
+      );
 
     // Return items with basic transformation if error occurs
-    return items.map(item => ) {
+    return items.map(item => {
       const dominantElement = getDominantElementFromProperties(item.elementalProperties);
       // Create AlchemicalItem-compliant object with all required properties
       return {
@@ -2525,9 +2525,9 @@ export function transformItemsWithPlanetaryPositions(
 function calculateCurrentElementalInfluence(
   planetaryPositions: { [key: string]: unknown },
   isDaytime: boolean,
-  currentZodiac?: string;
+  currentZodiac?: string
 ): ElementalProperties {
-  const influence: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+  const influence: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
   try {
     // Weight planets by their influence
@@ -2542,7 +2542,7 @@ function calculateCurrentElementalInfluence(
       Uranus: 0.4,
       Neptune: 0.4,
       Pluto: 0.3
-}
+    };
 
     // Add influence from each planet
     Object.entries(planetaryPositions).forEach(([planet, data]) => {
@@ -2550,10 +2550,10 @@ function calculateCurrentElementalInfluence(
       const sign = typeof data === 'object' && data?.sign ? data.sign : '';
 
       if (sign) {
-        const element = getZodiacElement(sign.toLowerCase() );
+        const element = getZodiacElement(sign.toLowerCase());
         influence[element] += weight;
       }
-    })
+    });
 
     // Adjust for day/night cycle
     if (isDaytime) {
@@ -2573,19 +2573,19 @@ function calculateCurrentElementalInfluence(
     // Normalize to 0-1 range
     const total = Object.values(influence).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
-      Object.keys(influence).forEach(key => ) {
-        influence[key as unknown] /= total;
+      Object.keys(influence).forEach(key => {
+        influence[key as keyof ElementalProperties] /= total;
       });
     }
 
     return influence;
   } catch (error) {
-      errorLog()
+      errorLog(
         'Error calculating elemental influence: ',
         error instanceof Error ? error.message : String(error)
-      )
+      );
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-}
+  }
 }
 
 /**
@@ -2595,14 +2595,14 @@ function calculateItemCompatibilityScore(
   itemProperties: ElementalProperties,
   currentInfluence: ElementalProperties,
   planetaryPositions: { [key: string]: unknown },
-  isDaytime: boolean;
+  isDaytime: boolean
 ): number {
   try {
     // Base compatibility from elemental alignment
     let compatibility = 0;
 
     // Calculate weighted alignment for each element
-    Object.keys(itemProperties).forEach(element => ) {
+    Object.keys(itemProperties).forEach(element => {
       if (element in currentInfluence) {
         const itemStrength = itemProperties[element] || 0;
         const currentStrength = currentInfluence[element as unknown] || 0;
@@ -2627,21 +2627,21 @@ function calculateItemCompatibilityScore(
     compatibility *= 0.8 + planetaryStrength * 0.4;
 
     // Time of day adjustment
-    const timeBonus = isDaytime;
+    const timeBonus = isDaytime
       ? (itemProperties.Fire + itemProperties.Air) * 0.1
       : (itemProperties.Water + itemProperties.Earth) * 0.1;
 
-    compatibility += timeBonus
+    compatibility += timeBonus;
 
     // Ensure score is in 0-1 range
     return Math.max(0, Math.min(1, compatibility));
-} catch (error) {
-      errorLog()
+  } catch (error) {
+      errorLog(
         'Error calculating compatibility score: ',
         error instanceof Error ? error.message : String(error)
-      )
+      );
     return 0.5;
-}
+  }
 }
 
 /**
@@ -2650,13 +2650,13 @@ function calculateItemCompatibilityScore(
 function getDominantElementFromProperties(properties: ElementalProperties): ElementalCharacter {
   try {
     const elements = Object.entries(properties) as [ElementalCharacter, number][];
-    const dominant = elements.reduce(max, [element, value]) => (value > max.value ? ) => { element, value } : max),;
-      { element: 'Fire' as ElementalCharacter, value: 0 })
+    const dominant = elements.reduce((max, [element, value]) => (value > max.value ? { element, value } : max),
+      { element: 'Fire' as ElementalCharacter, value: 0 });
 
     return dominant.element;
   } catch (error) {
     return 'Fire';
-}
+  }
 }
 
 /**
@@ -2665,7 +2665,7 @@ function getDominantElementFromProperties(properties: ElementalProperties): Elem
 function calculateAlchemicalProperties(
   itemProperties: ElementalProperties,
   planetaryPositions: { [key: string]: unknown },
-  currentInfluence: ElementalProperties;
+  currentInfluence: ElementalProperties
 ): AlchemicalResult {
   try {
     // Calculate thermodynamic properties using the alchemical formulas
@@ -2678,24 +2678,24 @@ function calculateAlchemicalProperties(
     const Substance = Fire + Air;
 
     // Calculate thermodynamic metrics
-    const heat = (Math.pow(Spirit, 2) + Math.pow(Fire, 2)) /;
-      Math.max(1, Math.pow(Essence + Matter + Water + Air, 2))
+    const heat = (Math.pow(Spirit, 2) + Math.pow(Fire, 2)) /
+      Math.max(1, Math.pow(Essence + Matter + Water + Air, 2));
 
-    const entropy = (Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)) /;
-      Math.max(1, Math.pow(Essence + Matter + Earth + Water, 2))
+    const entropy = (Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)) /
+      Math.max(1, Math.pow(Essence + Matter + Earth + Water, 2));
 
-    const reactivity = (Math.pow(Spirit, 2) +;
+    const reactivity = (Math.pow(Spirit, 2) +
         Math.pow(Substance, 2) +
         Math.pow(Essence, 2) +
         Math.pow(Fire, 2) +
         Math.pow(Air, 2) +
         Math.pow(Water, 2)) /
-      Math.max(1, Math.pow(Matter + Earth, 2))
+      Math.max(1, Math.pow(Matter + Earth, 2));
 
     const gregsEnergy = heat - entropy * reactivity;
 
     // Calculate Kalchm
-    const kalchm = Spirit > 0 && Essence > 0 && Matter > 0 && Substance > 0;
+    const kalchm = Spirit > 0 && Essence > 0 && Matter > 0 && Substance > 0
         ? (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
           (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
         : 1;
@@ -2705,7 +2705,7 @@ function calculateAlchemicalProperties(
     if (kalchm > 0) {
       const lnK = Math.log(kalchm);
       if (lnK !== 0 && reactivity !== 0) {
-        monica = -gregsEnergy / (reactivity * lnK)
+        monica = -gregsEnergy / (reactivity * lnK);
       }
     }
 
@@ -2726,17 +2726,17 @@ function calculateAlchemicalProperties(
       score
     }
   } catch (error) {
-      errorLog()
+      errorLog(
         'Error calculating alchemical properties: ',
         error instanceof Error ? error.message : String(error)
-      )
+      );
     return {
       elementalProperties: itemProperties,
       thermodynamicProperties: { heat: 0, entropy: 0, reactivity: 0, gregsEnergy: 0 },
       kalchm: 1,
       monica: 0,
       score: 0.5
-}
+    };
   }
 }
 
@@ -2745,9 +2745,9 @@ function calculateAlchemicalProperties(
  */
 function calculateThermodynamicProperties(
   itemProperties: ElementalProperties,
-  compatibilityScore: number;
+  compatibilityScore: number
 ): ThermodynamicProperties {
-  const { Fire, Water, Earth, Air} = itemProperties;
+  const { Fire, Water, Earth, Air } = itemProperties;
 
   const heat = (Fire + Air) * compatibilityScore;
   const entropy = (Water + Earth) * (1 - compatibilityScore);
@@ -2759,7 +2759,7 @@ function calculateThermodynamicProperties(
     entropy,
     reactivity,
     gregsEnergy
-  }
+  };
 }
 
 /**
@@ -2767,9 +2767,9 @@ function calculateThermodynamicProperties(
  */
 function calculateElementalTransformations(
   itemProperties: ElementalProperties,
-  currentInfluence: ElementalProperties;
+  currentInfluence: ElementalProperties
 ): ElementalInteraction[] {
-  const transformations: ElementalInteraction[] = []
+  const transformations: ElementalInteraction[] = [];
 
   try {
     // Find strongest interactions
@@ -2853,15 +2853,15 @@ function calculatePlanetaryStrength(_planetaryPositions: { [key: string]: unknow
  */
 function calculateOverallAlchemicalScore(
   thermodynamicProperties: ThermodynamicProperties,
-  currentInfluence: ElementalProperties;
+  currentInfluence: ElementalProperties
 ): number {
   try {
-    const { heat, entropy, reactivity, gregsEnergy} = thermodynamicProperties;
+    const { heat, entropy, reactivity, gregsEnergy } = thermodynamicProperties;
 
     // Balance of thermodynamic properties
     const balance = 1 - Math.abs(heat - entropy) - Math.abs(reactivity - gregsEnergy / 2);
 
-    // Current influence alignment;
+    // Current influence alignment
     const influenceSum = Object.values(currentInfluence).reduce((sum, val) => sum + val, 0);
     const influenceBalance = influenceSum > 0 ? Math.min(1, influenceSum) : 0.5;
 
