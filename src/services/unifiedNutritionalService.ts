@@ -16,7 +16,7 @@ import type {
 import {_createAstrologicalBridge} from '@/types/bridges/astrologicalBridge';
 import {allIngredients} from '../data/ingredients';
 import {
-  unifiedNutritionalSystem,
+  UnifiedNutritionalSystem,
   type AlchemicalNutritionalProfile,
   type NutritionalCompatibilityAnalysis,
   type NutritionalRecommendations,
@@ -165,7 +165,7 @@ export class UnifiedNutritionalService {
       }
 
       // Apply surgical type casting with variable extraction
-      const systemData = unifiedNutritionalSystem as unknown as any;
+      const systemData = UnifiedNutritionalSystem as unknown as any;
       const enhanceMethod = systemData.enhanceNutritionalProfile as (
         profile: NutritionalProfile,
         context?: unknown
@@ -213,7 +213,7 @@ export class UnifiedNutritionalService {
    */
   calculateNutritionalKalchm(profile: NutritionalProfile): number {
     // Apply surgical type casting with variable extraction
-    const systemData = unifiedNutritionalSystem as unknown as any;
+    const systemData = UnifiedNutritionalSystem as unknown as any;
     const calculateKalchmMethod = systemData.calculateNutritionalKalchm as (
       profile: NutritionalProfile
     ) => number;
@@ -251,7 +251,7 @@ export class UnifiedNutritionalService {
           }
         : undefined;
 
-      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, safeContext as any);
+      return UnifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, safeContext as any);
     } catch (error) {
       logger.error('Error analyzing nutritional compatibility: ', error);
       return {
@@ -279,7 +279,7 @@ export class UnifiedNutritionalService {
     nutritionalFilter?: NutritionalFilter
   }): NutritionalRecommendations {
     try {
-      const baseRecommendations = unifiedNutritionalSystem.getNutritionalRecommendations(criteria);
+      const baseRecommendations = UnifiedNutritionalSystem.getNutritionalRecommendations(criteria);
       // Apply nutritional filters if provided
       if (criteria.nutritionalFilter) {
         baseRecommendations.ingredients = this.applyNutritionalFilter(
@@ -602,21 +602,21 @@ export class UnifiedNutritionalService {
    * Get seasonal nutritional profile
    */
   getSeasonalNutritionalProfile(season: Season): SeasonalNutritionalProfile {
-    return unifiedNutritionalSystem['seasonalProfiles'][season];
+    return UnifiedNutritionalSystem['seasonalProfiles'][season];
   }
 
   /**
    * Get planetary nutritional profile
    */
   getPlanetaryNutritionalProfile(planet: PlanetName): PlanetaryNutritionalProfile {
-    return unifiedNutritionalSystem['planetaryProfiles'][planet];
+    return UnifiedNutritionalSystem['planetaryProfiles'][planet];
   }
 
   /**
    * Get zodiac nutritional profile
    */
   getZodiacNutritionalProfile(sign: any): ZodiacNutritionalProfile {
-    return unifiedNutritionalSystem['zodiacProfiles'][sign];
+    return UnifiedNutritionalSystem['zodiacProfiles'][sign];
   }
 
   // ===== BATCH OPERATIONS =====

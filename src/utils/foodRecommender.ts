@@ -738,7 +738,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       // Check for specific aspect enhancers in the ingredient data
       const profileData = profile as any;
       if (profileData.aspectEnhancers && (profileData.aspectEnhancers as unknown[]).length > 0) {
-        const relevantAspects = astroState.aspects.filter(aspect => 
+        const relevantAspects = astroState.aspects.filter(aspect =>
           // Check if this aspect type is specifically listed as an enhancer
            aspect.type && (profileData.aspectEnhancers as string[]).includes(aspect.type)
         );
@@ -1254,7 +1254,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 export const _getTopIngredientMatches = (
   astroState: AstrologicalState,
   limit = 5
-): EnhancedIngredient[] => 
+): EnhancedIngredient[] =>
   // Simply use our main recommendation function but with the requested limit
    getRecommendedIngredients(astroState).slice(0, limit)
 ;

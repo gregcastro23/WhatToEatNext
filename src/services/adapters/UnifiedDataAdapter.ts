@@ -16,7 +16,7 @@ import {
   Season,
 } from '@/types/alchemy';
 import {
-  getEnhancedIngredient,
+  _getEnhancedIngredient,
   searchIngredients,
   getIngredientsByCategory,
   generateIngredientRecommendations,
@@ -70,7 +70,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
    */
   getIngredient(name: string): EnhancedIngredient | undefined {
     try {
-      return getEnhancedIngredient(name);
+      return _getEnhancedIngredient(name);
     } catch (error) {
       console.error(`Error getting ingredient ${name}:`, error);
       return undefined;

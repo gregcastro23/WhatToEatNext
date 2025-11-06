@@ -8,11 +8,11 @@
 import type { ElementalProperties } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 import {
-  ELEMENTAL_CONSTANTS,
+  _ELEMENTAL_CONSTANTS,
   normalizeElementalProperties,
   validateElementalProperties
 } from './elementalValidation';
-import { TRANSIT_CONSTANTS, validatePlanetaryPosition } from './transitValidation';
+import { _TRANSIT_CONSTANTS, validatePlanetaryPosition } from './transitValidation';
 
 /**
  * Planetary position structure
@@ -176,15 +176,15 @@ function validateSinglePlanetaryPosition(
     const {sign} = pos;
     if (
       typeof sign !== 'string' ||
-      !TRANSIT_CONSTANTS.VALID_SIGNS.includes(sign.toLowerCase())
+      !_TRANSIT_CONSTANTS.VALID_SIGNS.includes(sign.toLowerCase())
     ) {
       errors.push(`${planet} has invalid sign: ${sign}`);
     }
 
     // Validate degree
     const {degree} = pos;
-    if (typeof degree !== 'number' || degree < 0 || degree >= TRANSIT_CONSTANTS.DEGREES_PER_SIGN) {
-      const message = `${planet} degree ${degree} must be between 0 and ${TRANSIT_CONSTANTS.DEGREES_PER_SIGN}`;
+    if (typeof degree !== 'number' || degree < 0 || degree >= _TRANSIT_CONSTANTS.DEGREES_PER_SIGN) {
+      const message = `${planet} degree ${degree} must be between 0 and ${_TRANSIT_CONSTANTS.DEGREES_PER_SIGN}`;
       if (strictMode) {
         errors.push(message);
       } else {
@@ -193,7 +193,7 @@ function validateSinglePlanetaryPosition(
         if (typeof degree === 'number') {
           correctedData = {
             sign: String(sign),
-            degree: Math.max(0, Math.min(TRANSIT_CONSTANTS.DEGREES_PER_SIGN - 0.01, degree)),
+            degree: Math.max(0, Math.min(_TRANSIT_CONSTANTS.DEGREES_PER_SIGN - 0.01, degree)),
             exactLongitude: Number(pos.exactLongitude),
             isRetrograde: Boolean(pos.isRetrograde)
           };
@@ -206,17 +206,17 @@ function validateSinglePlanetaryPosition(
     if (
       typeof longitude !== 'number' ||
       longitude < 0 ||
-      longitude >= TRANSIT_CONSTANTS.MAX_LONGITUDE
+      longitude >= _TRANSIT_CONSTANTS.MAX_LONGITUDE
     ) {
-      const message = `${planet} longitude ${longitude} must be between 0 and ${TRANSIT_CONSTANTS.MAX_LONGITUDE}`;
+      const message = `${planet} longitude ${longitude} must be between 0 and ${_TRANSIT_CONSTANTS.MAX_LONGITUDE}`;
       if (strictMode) {
         errors.push(message);
       } else {
         warnings.push(message);
         // Auto-correct if possible
         if (typeof longitude === 'number') {
-          const correctedLongitude = ((longitude % TRANSIT_CONSTANTS.MAX_LONGITUDE) + TRANSIT_CONSTANTS.MAX_LONGITUDE) %
-            TRANSIT_CONSTANTS.MAX_LONGITUDE;
+          const correctedLongitude = ((longitude % _TRANSIT_CONSTANTS.MAX_LONGITUDE) + _TRANSIT_CONSTANTS.MAX_LONGITUDE) %
+            _TRANSIT_CONSTANTS.MAX_LONGITUDE;
           if (!correctedData) {
             correctedData = {
               sign: String(sign),
@@ -248,7 +248,7 @@ function validateSinglePlanetaryPosition(
     }
 
     // Validate retrograde logic
-    if (TRANSIT_CONSTANTS.ALWAYS_DIRECT.includes(planet.toLowerCase()) && isRetrograde) {
+    if (_TRANSIT_CONSTANTS.ALWAYS_DIRECT.includes(planet.toLowerCase()) && isRetrograde) {
       warnings.push(`${planet} cannot be retrograde`);
       if (correctedData) {
         correctedData.isRetrograde = false;
@@ -256,7 +256,7 @@ function validateSinglePlanetaryPosition(
     }
 
     if (
-      TRANSIT_CONSTANTS.ALWAYS_RETROGRADE.includes(planet.toLowerCase() as unknown) &&
+      _TRANSIT_CONSTANTS.ALWAYS_RETROGRADE.includes(planet.toLowerCase() as unknown) &&
       !isRetrograde
     ) {
       warnings.push(`${planet} should always be retrograde`);
@@ -318,7 +318,7 @@ export function validateAstrologicalElementalProperties(
       current[1] > max[1] ? current : max
     );
 
-    if (dominant[1] < ELEMENTAL_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD) {
+    if (dominant[1] < _ELEMENTAL_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD) {
       warnings.push(
         `No dominant element found (highest: ${dominant[0]} at ${dominant[1].toFixed(2)}). Consider strengthening elemental focus.`
       );
@@ -497,8 +497,8 @@ export function quickValidate(
  * Export all validation constants
  */
 export const VALIDATION_CONSTANTS = {
-  ...ELEMENTAL_CONSTANTS,
-  ...TRANSIT_CONSTANTS,
+  ..._ELEMENTAL_CONSTANTS,
+  ..._TRANSIT_CONSTANTS,
   VALIDATION_TIMEOUT: 5000,
   MAX_VALIDATION_ERRORS: 50,
   AUTO_CORRECT_THRESHOLD: 0.1

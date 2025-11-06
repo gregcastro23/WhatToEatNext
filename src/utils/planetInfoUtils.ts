@@ -1,4 +1,4 @@
-import { __MAJOR_ARCANA, __PLANET_TO_MAJOR_ARCANA } from '@/constants/tarotCards';
+import { _MAJOR_ARCANA, _PLANET_TO_MAJOR_ARCANA } from '@/constants/tarotCards';
 import { log } from '@/services/LoggingService';
 import {
   calculateAspects,

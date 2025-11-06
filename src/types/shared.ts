@@ -7,7 +7,7 @@
 
 import type { Element, Planet, ZodiacSign } from '@/types/celestial';
 import {
-    DEFAULT_ELEMENTAL_PROPERTIES,
+    _DEFAULT_ELEMENTAL_PROPERTIES,
     isElementalProperties
 } from './elemental';
 import type {
@@ -23,7 +23,7 @@ import type {
 // Re-export the elemental properties types
 export type { ElementalProperties };
 // Re-export utility functions and constants
-    export { DEFAULT_ELEMENTAL_PROPERTIES, isElementalProperties };
+    export { _DEFAULT_ELEMENTAL_PROPERTIES, isElementalProperties };
 
 // Re-export celestial types that are commonly needed
     export type { Element, Planet, ZodiacSign };

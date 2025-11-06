@@ -1,5 +1,5 @@
 import type { ElementalProperties} from '@/types/alchemy';
-import {_Element, _ZodiacSign, _LunarPhase} from '@/types/alchemy';
+import {_Element, ZodiacSign, _LunarPhase} from '@/types/alchemy';
 
 /**
  * 🚀 Phase, 10: ExtendedRecipe Interface - Complete Property Access Support

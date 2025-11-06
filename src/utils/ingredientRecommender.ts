@@ -54,7 +54,7 @@ function safeGetIngredientName(ingredient: unknown): string | undefined {
 
 // Constants
 import { CHAKRA_HERBS, CHAKRA_NUTRITIONAL_CORRELATIONS } from '@/constants/chakraSymbols';
-import { __LUNAR_PHASES } from '@/constants/lunar';
+import { _LUNAR_PHASES } from '@/constants/lunar';
 // Data
 import { ingredientCategories } from '@/data/ingredientCategories';
 import { fruits } from '@/data/ingredients/fruits';
@@ -75,7 +75,7 @@ import type {
   LunarPhase,
   Season
 } from '@/types/alchemy';
-import { __createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import { _createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { ElementalState } from '@/types/elemental';
 
 // AstrologicalInfluences interface

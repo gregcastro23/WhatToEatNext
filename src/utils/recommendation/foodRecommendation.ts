@@ -11,11 +11,11 @@ export type {
 
 export {
   calculateElementalInfluences,
-  formatFactorName,
+  _formatFactorName,
   getAllIngredients,
   getIngredientRecommendations,
   getRecommendedIngredients,
-  getTopIngredientMatches,
+  _getTopIngredientMatches,
   recommendIngredients
 } from './ingredientRecommendation';
 

@@ -1,11 +1,11 @@
 import { log } from '@/services/LoggingService';
 import type { CelestialPosition } from '@/types/celestial';
 import {
-    transformItemsWithPlanetaryPositions
+    transformItemWithPlanetaryPositions
 } from '../calculations/alchemicalTransformation';
 import {
     applyPillarTransformation,
-    getHolisticCookingRecommendations
+    _getHolisticCookingRecommendations
 } from './alchemicalPillarUtils';
 import type {
     AlchemicalItem,
@@ -28,7 +28,7 @@ export const _transformIngredients = (
   isDaytime: boolean,
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
-): AlchemicalItem[] => transformItemsWithPlanetaryPositions(
+): AlchemicalItem[] => transformItemWithPlanetaryPositions(
     ingredients,
     planetPositions as unknown as Record<string, CelestialPosition>, // Pattern, TTT: Record Type Conversion
     isDaytime,
@@ -55,7 +55,7 @@ export const _transformCookingMethods = (
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem[] => {
   // First, apply the standard transformations - Pattern, TTT: Record Type Conversion
-  const transformedItems = transformItemsWithPlanetaryPositions(
+  const transformedItems = transformItemWithPlanetaryPositions(
     methods,
     planetPositions as unknown as Record<string, CelestialPosition>,
     isDaytime,
@@ -87,7 +87,7 @@ export const _transformCuisines = (
   isDaytime: boolean,
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
-): AlchemicalItem[] => transformItemsWithPlanetaryPositions(
+): AlchemicalItem[] => transformItemWithPlanetaryPositions(
     cuisines,
     planetPositions as unknown as Record<string, CelestialPosition>, // Pattern, TTT: Record Type Conversion
     isDaytime,
@@ -231,7 +231,7 @@ export const _getRecommendedCookingMethodsForIngredient = async (
 
   // Use our enhanced holistic recommendations that include elemental character
   log.info('\nEvaluating methods with holistic cooking recommendations algorithm...')
-  const holisticRecommendations = await getHolisticCookingRecommendations(
+  const holisticRecommendations = await _getHolisticCookingRecommendations(
     ingredient,
     undefined, // No specific planet influence
     undefined, // No specific tarot card influence

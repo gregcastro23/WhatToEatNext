@@ -33,7 +33,7 @@ import {
 } from './cuisine/cuisineComputationCache';
 import {
     createBasicUserProfile,
-    generateEnhancedCuisineRecommendations
+    generateCuisineRecommendations
 } from './cuisine/cuisineRecommendationEngine';
 import {
     analyzePlanetaryPatterns
@@ -400,7 +400,7 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
       Air: 0.1
     });
 
-    const recommendations = generateEnhancedCuisineRecommendations({
+    const recommendations = generateCuisineRecommendations({
       elementalProperties: userProfile.elementalPreferences,
       useAdvancedAnalysis: true
     });

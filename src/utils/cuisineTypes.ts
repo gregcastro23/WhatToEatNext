@@ -9,7 +9,7 @@ import type {
   RegionalCuisineType,
   StreetFoodCuisineType
 } from '@/types/culinary';
-import { __CUISINE_CATEGORY_MAP } from '@/types/culinary';
+import { _CUISINE_CATEGORY_MAP } from '@/types/culinary';
 
 /**
  * Cuisine Type Utilities

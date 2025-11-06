@@ -12,9 +12,9 @@ import type {
 // Type alias for backward compatibility
 type AlchemicalProperty = keyof AlchemicalProperties;
 import {
-  transformIngredients,
-  transformCookingMethods,
-  transformCuisines
+  __transformIngredients,
+  __transformCookingMethods,
+  __transformCuisines
 } from '../utils/alchemicalTransformationUtils';
 import { calculatePlanetaryPositions, calculateLunarPhase } from '../utils/astrologyUtils';
 import { transformItemsWithPlanetaryPositions } from '../utils/elementalUtils';
@@ -360,7 +360,7 @@ export class RecommendationAdapter {
       }
 
       // Transform ingredients
-      this.transformedIngredients = transformIngredients(
+      this.transformedIngredients = _transformIngredients(
         this.ingredients,
         elementalProperties,
         this.isDaytime,
@@ -369,7 +369,7 @@ export class RecommendationAdapter {
       );
 
       // Transform cooking methods
-      this.transformedMethods = transformCookingMethods(
+      this.transformedMethods = _transformCookingMethods(
         this.methods,
         elementalProperties,
         this.isDaytime,
@@ -378,7 +378,7 @@ export class RecommendationAdapter {
       );
 
       // Transform cuisines
-      this.transformedCuisines = transformCuisines(
+      this.transformedCuisines = _transformCuisines(
         this.cuisines,
         elementalProperties,
         this.isDaytime,

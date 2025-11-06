@@ -1,7 +1,7 @@
 import {
     validateElementalProperties as validateAlchemyElementalProps,
     validateIngredient as validateAlchemyIngredient,
-    validateRecipe as validateAlchemyRecipe
+    _validateRecipe as validateAlchemyRecipe
 } from './validators';
 import type { LunarPhase } from './alchemy';
 
@@ -234,7 +234,7 @@ export const validateElementalProperties = (properties?: ElementalProperties): b
   return Math.abs(total - 1) < 0.01;
 }
 
-export const validateRecipe = (recipe: Partial<Recipe>): boolean => {
+export const _validateRecipe = (recipe: Partial<Recipe>): boolean => {
   if (!recipe) return false;
   if (!recipe.name || !recipe.id) return false;
   return true;
@@ -268,7 +268,7 @@ export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boole
 // Re-export validators with descriptive names
 export const _validateElementalPropertiesExt = validateAlchemyElementalProps;
 export const _validateIngredientExt = validateAlchemyIngredient;
-export const _validateRecipeExt = validateAlchemyRecipe;
+export const __validateRecipeExt = validateAlchemyRecipe;
 
 // Legacy interfaces for backward compatibility - all now extend unified Recipe
 export interface RecipeExtended extends Recipe {
