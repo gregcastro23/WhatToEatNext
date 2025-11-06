@@ -1756,7 +1756,7 @@ export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
  * @returns Zodiac sign
  */
 export function getZodiacSign(longitude: number): string {
-  const signs = [;
+  const signs = [
     'aries',
     'taurus',
     'gemini',
