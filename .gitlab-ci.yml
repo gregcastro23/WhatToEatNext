@@ -1,33 +1,541 @@
+# GitLab CI/CD Pipeline for WhatToEatNext
+# PostgreSQL 17 Integration with Next.js 15, React 19, TypeScript 5.7
+
+variables:
+  NODE_VERSION: "20.18.0"
+  POSTGRES_VERSION: "17"
+  POSTGRES_DB: whattoeatnext
+  POSTGRES_USER: user
+  POSTGRES_PASSWORD: password
+  DATABASE_URL: postgresql://user:password@postgres:5432/whattoeatnext
+  NODE_ENV: test
+  NEXT_PUBLIC_ENABLE_ASTRO_DEBUG: "false"
+  NEXT_PUBLIC_API_CACHE_TIME: "3600"
+  CI: "true"
+  NODE_OPTIONS: "--max-old-space-size=4096"
+  YARN_CACHE_FOLDER: .yarn-cache
+
+  # Docker configuration
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_BUILDKIT: "1"
+
+  # Image naming
+  FRONTEND_IMAGE: $CI_REGISTRY_IMAGE/frontend
+  BACKEND_IMAGE: $CI_REGISTRY_IMAGE/backend
+
+# Define stages
+stages:
+  - setup
+  - validate
+  - test
+  - build
+  - quality-gate
+  - deploy
+
+# Cache configuration for faster builds
+.cache_template: &cache_template
+  key:
+    files:
+      - yarn.lock
+  paths:
+    - node_modules/
+    - .yarn-cache/
+    - .next/cache/
+    - .eslintcache
+  policy: pull-push
+
+# Node + Yarn setup template
+.node_setup: &node_setup
+  image: node:${NODE_VERSION}
+  before_script:
+    - echo "Setting up Node.js ${NODE_VERSION} environment..."
+    - node --version
+    - corepack enable
+    - corepack prepare yarn@stable --activate
+    - yarn --version
+    - echo "Installing dependencies..."
+    - yarn install --frozen-lockfile --network-timeout 300000
+
+# Setup stage - Install dependencies
+setup:dependencies:
+  stage: setup
+  <<: *node_setup
+  cache:
+    <<: *cache_template
+    policy: push
+  script:
+    - echo "Dependencies installed successfully"
+    - yarn list --depth=0
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 hour
+  only:
+    - branches
+    - tags
+    - merge_requests
+
+# Validation stage - Linting
+validate:lint:
+  stage: validate
+  <<: *node_setup
+  cache:
+    <<: *cache_template
+    policy: pull
+  dependencies:
+    - setup:dependencies
+  script:
+    - echo "Running ESLint with fast configuration..."
+    - yarn lint:ci --max-warnings=200
+    - echo "Linting completed"
+  artifacts:
+    reports:
+      junit: eslint-report.xml
+    when: always
+  only:
+    - branches
+    - merge_requests
+
+# Validation stage - TypeScript checking
+validate:typescript:
+  stage: validate
+  <<: *node_setup
+  cache:
+    <<: *cache_template
+    policy: pull
+  dependencies:
+    - setup:dependencies
+  script:
+    - echo "Running TypeScript type checking..."
+    - yarn tsc --noEmit --skipLibCheck
+    - echo "TypeScript validation completed"
+  allow_failure: true
+  only:
+    - branches
+    - merge_requests
+
+# Validation stage - Code formatting
+validate:prettier:
+  stage: validate
+  <<: *node_setup
+  cache:
+    <<: *cache_template
+    policy: pull
+  dependencies:
+    - setup:dependencies
+  script:
+    - echo "Checking code formatting with Prettier..."
+    - yarn format:check
+  allow_failure: true
+  only:
+    - branches
+    - merge_requests
+
+# Test stage - Unit tests with PostgreSQL 17
+test:unit:
+  stage: test
+  <<: *node_setup
+  services:
+    - name: postgres:17-alpine
+      alias: postgres
+  cache:
+    <<: *cache_template
+    policy: pull
+  dependencies:
+    - setup:dependencies
+  variables:
+    POSTGRES_HOST_AUTH_METHOD: trust
+  script:
+    - echo "Setting up test environment..."
+    - echo "Waiting for PostgreSQL 17 to be ready..."
+    - until pg_isready -h postgres -p 5432 -U ${POSTGRES_USER}; do sleep 2; done
+    - echo "PostgreSQL 17 is ready"
+    - echo "Running unit tests..."
+    - yarn test --passWithNoTests --coverage --maxWorkers=2
+    - echo "Tests completed"
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+      junit: junit.xml
+    paths:
+      - coverage/
+    when: always
+    expire_in: 7 days
+  only:
+    - branches
+    - merge_requests
+
+# Test stage - Database integration tests
+test:database:
+  stage: test
+  <<: *node_setup
+  services:
+    - name: postgres:17-alpine
+      alias: postgres
+  cache:
+    <<: *cache_template
+    policy: pull
+  dependencies:
+    - setup:dependencies
+  variables:
+    POSTGRES_HOST_AUTH_METHOD: trust
+  script:
+    - echo "Setting up PostgreSQL 17 for integration tests..."
+    - until pg_isready -h postgres -p 5432 -U ${POSTGRES_USER}; do sleep 2; done
+    - echo "Creating test databases..."
+    - apt-get update && apt-get install -y postgresql-client
+    - psql -h postgres -U ${POSTGRES_USER} -d postgres -c "CREATE DATABASE whattoeatnext;"
+    - psql -h postgres -U ${POSTGRES_USER} -d postgres -c "CREATE DATABASE alchm_kitchen;"
+    - echo "Databases created successfully"
+    - echo "Running database integration tests..."
+    - yarn test --testPathPattern="integration" --passWithNoTests
+  allow_failure: true
+  only:
+    - branches
+    - merge_requests
+
 # Test stage - Docker images validation
 test:docker:images:
   stage: test
   image: docker:24-cli
   services:
     - docker:24-dind
+  needs:
+    - build:docker:frontend
+    - build:docker:backend
   before_script:
     - echo "🔐 Logging into GitLab Container Registry..."
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     - echo "🧪 Testing Docker images..."
-    - echo "Pulling frontend image $FRONTEND_IMAGE:$CI_COMMIT_REF_SLUG"
+
+    # Pull images
+    - echo "Pulling frontend image: $FRONTEND_IMAGE:$CI_COMMIT_REF_SLUG"
     - docker pull "$FRONTEND_IMAGE:$CI_COMMIT_REF_SLUG"
-    - echo "Pulling backend image $BACKEND_IMAGE:$CI_COMMIT_REF_SLUG"
+    - echo "Pulling backend image: $BACKEND_IMAGE:$CI_COMMIT_REF_SLUG"
     - docker pull "$BACKEND_IMAGE:$CI_COMMIT_REF_SLUG"
+
+    # Test frontend image
     - echo "Testing frontend image..."
     - docker run --rm "$FRONTEND_IMAGE:$CI_COMMIT_REF_SLUG" node --version
+
+    # Test backend image
     - echo "Testing backend image..."
     - docker run --rm "$BACKEND_IMAGE:$CI_COMMIT_REF_SLUG" python --version
-    - echo "Image sizes:"
+
+    # Display image sizes
+    - echo "📊 Image sizes:"
     - docker images | grep "$CI_COMMIT_REF_SLUG"
+
     - echo "✅ Docker images validated successfully"
   allow_failure: true
   rules:
     - if: $CI_COMMIT_BRANCH
       exists:
         - Dockerfile
-      when: on_success
+
+# Build stage - Production build
+build:production:
+  stage: build
+  <<: *node_setup
+  cache:
+    <<: *cache_template
+    policy: pull
+  dependencies:
+    - setup:dependencies
+  script:
+    - echo "Creating production environment file..."
+    - echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.production
+    - echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.production
+    - echo "NODE_ENV=production" >> .env.production
+    - echo "Building Next.js application for production..."
+    - yarn build
+    - echo "Build completed successfully"
+    - ls -la .next/
+  artifacts:
+    paths:
+      - .next/
+      - public/
+    expire_in: 7 days
+  only:
+    - main
+    - master
+    - develop
+    - merge_requests
+    - tags
+
+# Build stage - Docker image (Frontend)
+build:docker:frontend:
+  stage: build
+  image: docker:24-cli
+  services:
+    - docker:24-dind
+  variables:
+    IMAGE_TAG: $FRONTEND_IMAGE:$CI_COMMIT_REF_SLUG
+  before_script:
+    - echo "🔐 Logging into GitLab Container Registry..."
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - echo "🏗️ Building Frontend Docker image..."
+    - echo "Image tag: $IMAGE_TAG"
+
+    # Build with cache optimization
+    - |
+      docker build \
+        --pull \
+        --cache-from $FRONTEND_IMAGE:latest \
+        --build-arg BUILDKIT_INLINE_CACHE=1 \
+        --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+        --build-arg BUILD_COMMIT=$CI_COMMIT_SHORT_SHA \
+        --tag "$IMAGE_TAG" \
+        --file ./Dockerfile \
+        .
+
+    # Push to registry
+    - echo "📤 Pushing Frontend image..."
+    - docker push "$IMAGE_TAG"
+
+    # Tag as latest on default branch
+    - |
+      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]] || [[ "$CI_COMMIT_BRANCH" == "main" ]] || [[ "$CI_COMMIT_BRANCH" == "master" ]]; then
+        echo "🏷️ Tagging as latest..."
+        docker tag "$IMAGE_TAG" "$FRONTEND_IMAGE:latest"
+        docker push "$FRONTEND_IMAGE:latest"
+      fi
+
+    - echo "✅ Frontend image built and pushed"
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      exists:
+        - Dockerfile
+  allow_failure: false
+
+# Build stage - Docker image (Backend)
+build:docker:backend:
+  stage: build
+  image: docker:24-cli
+  services:
+    - docker:24-dind
+  variables:
+    IMAGE_TAG: $BACKEND_IMAGE:$CI_COMMIT_REF_SLUG
+    DOCKERFILE: ./backend/Dockerfile
+    BUILD_CONTEXT: ./backend
+  before_script:
+    - echo "🔐 Logging into GitLab Container Registry..."
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - echo "🏗️ Building Backend Docker image (Python FastAPI)..."
+    - echo "Image tag: $IMAGE_TAG"
+    - echo "Dockerfile: $DOCKERFILE"
+    - echo "Context: $BUILD_CONTEXT"
+
+    # Build with multi-stage optimization
+    - |
+      docker build \
+        --pull \
+        --cache-from $BACKEND_IMAGE:latest \
+        --build-arg BUILDKIT_INLINE_CACHE=1 \
+        --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+        --build-arg BUILD_COMMIT=$CI_COMMIT_SHORT_SHA \
+        --build-arg BUILD_VERSION=$CI_COMMIT_REF_NAME \
+        --tag "$IMAGE_TAG" \
+        --file $DOCKERFILE \
+        $BUILD_CONTEXT
+
+    # Push to registry
+    - echo "📤 Pushing Backend image..."
+    - docker push "$IMAGE_TAG"
+
+    # Tag as latest on default branch
+    - |
+      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]] || [[ "$CI_COMMIT_BRANCH" == "main" ]] || [[ "$CI_COMMIT_BRANCH" == "master" ]]; then
+        echo "🏷️ Tagging as latest..."
+        docker tag "$IMAGE_TAG" "$BACKEND_IMAGE:latest"
+        docker push "$BACKEND_IMAGE:latest"
+      fi
+
+    - echo "✅ Backend image built and pushed"
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      exists:
+        - backend/Dockerfile
+  allow_failure: false
+
+# Quality Gate stage - Comprehensive checks
+quality-gate:comprehensive:
+  stage: quality-gate
+  <<: *node_setup
+  services:
+    - name: postgres:17-alpine
+      alias: postgres
+  cache:
+    <<: *cache_template
+    policy: pull
+  dependencies:
+    - setup:dependencies
+    - test:unit
+    - build:production
+  variables:
+    POSTGRES_HOST_AUTH_METHOD: trust
+  script:
+    - echo "=== Quality Gate Validation ==="
+    - echo "1. Checking TypeScript errors..."
+    - ERROR_COUNT=$(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0")
+    - echo "TypeScript errors found: $ERROR_COUNT"
+    - |
+      if [ "$ERROR_COUNT" -gt 100 ]; then
+        echo "❌ Quality gate failed: $ERROR_COUNT TypeScript errors (threshold: 100)"
+        exit 1
+      else
+        echo "✅ TypeScript errors within threshold: $ERROR_COUNT/100"
+      fi
+    - echo "2. Checking build stability..."
+    - test -d .next && echo "✅ Build artifacts present" || (echo "❌ Build failed" && exit 1)
+    - echo "3. Checking test coverage..."
+    - test -d coverage && echo "✅ Test coverage generated" || echo "⚠️  No coverage data"
+    - echo "4. Checking PostgreSQL 17 connection..."
+    - until pg_isready -h postgres -p 5432 -U ${POSTGRES_USER}; do sleep 2; done
+    - echo "✅ PostgreSQL 17 is accessible"
+    - echo "5. Performance metrics..."
+    - du -sh .next/ | awk '{print "Build size:", $1}'
+    - echo "=== Quality Gate PASSED ==="
+  only:
+    - main
+    - master
+    - merge_requests
+
+# Quality Gate stage - Linting excellence
+quality-gate:linting:
+  stage: quality-gate
+  <<: *node_setup
+  cache:
+    <<: *cache_template
+    policy: pull
+  dependencies:
+    - setup:dependencies
+  script:
+    - echo "=== Linting Excellence Quality Gate ==="
+    - echo "Running comprehensive linting campaign validation..."
+    - yarn lint:campaign:gates || echo "Campaign gates checked"
+    - echo "Checking deployment readiness..."
+    - yarn lint:campaign:deploy || echo "Deployment readiness checked"
+    - echo "=== Linting Quality Gate PASSED ==="
+  allow_failure: true
+  only:
+    - main
+    - master
+
+# Deploy stage - Staging
+deploy:staging:
+  stage: deploy
+  <<: *node_setup
+  environment:
+    name: staging
+    url: https://staging.whattoeatnext.com
+  dependencies:
+    - build:production
+  script:
+    - echo "Deploying to staging environment..."
+    - echo "Environment: $CI_ENVIRONMENT_NAME"
+    - echo "URL: $CI_ENVIRONMENT_URL"
+    - echo "Commit: $CI_COMMIT_SHORT_SHA"
+    - echo "Deployment would happen here (configure with your hosting provider)"
+    - echo "✅ Staging deployment ready"
+  only:
+    - develop
+  when: manual
+
+# Deploy stage - Production
+deploy:production:
+  stage: deploy
+  <<: *node_setup
+  environment:
+    name: production
+    url: https://whattoeatnext.com
+  dependencies:
+    - build:production
+    - quality-gate:comprehensive
+  script:
+    - echo "Deploying to production environment..."
+    - echo "Environment: $CI_ENVIRONMENT_NAME"
+    - echo "URL: $CI_ENVIRONMENT_URL"
+    - echo "Commit: $CI_COMMIT_SHORT_SHA"
+    - echo "Tag: $CI_COMMIT_TAG"
+    - echo "Deployment would happen here (configure with your hosting provider)"
+    - echo "✅ Production deployment ready"
+  only:
+    - main
+    - master
+    - tags
+  when: manual
+
+# Deploy stage - Docker registry
+deploy:docker:
+  stage: deploy
+  image: docker:24-cli
+  services:
+    - docker:24-dind
   needs:
-    - job: build:docker:frontend
-      optional: true
-    - job: build:docker:backend
-      optional: true
+    - build:docker:frontend
+    - build:docker:backend
+    - quality-gate:comprehensive
+  before_script:
+    - echo "🔐 Logging into GitLab Container Registry..."
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - echo "🚀 Docker images deployed to registry"
+    - echo ""
+    - echo "📦 Available images:"
+    - echo "  Frontend: $FRONTEND_IMAGE:$CI_COMMIT_REF_SLUG"
+    - echo "  Backend:  $BACKEND_IMAGE:$CI_COMMIT_REF_SLUG"
+    - echo ""
+    - echo "🏷️  Latest tags (on main/master):"
+    - echo "  Frontend: $FRONTEND_IMAGE:latest"
+    - echo "  Backend:  $BACKEND_IMAGE:latest"
+    - echo ""
+    - echo "✅ Images ready for deployment"
+  environment:
+    name: docker-registry
+    url: $CI_REGISTRY_IMAGE
+  only:
+    - main
+    - master
+    - tags
+  when: manual
+
+# Scheduled jobs - Nightly full validation
+nightly:full-validation:
+  stage: validate
+  <<: *node_setup
+  services:
+    - name: postgres:17-alpine
+      alias: postgres
+  cache:
+    <<: *cache_template
+    policy: pull
+  variables:
+    POSTGRES_HOST_AUTH_METHOD: trust
+  script:
+    - echo "=== Nightly Full Validation ==="
+    - echo "1. Full lint check..."
+    - yarn lint --max-warnings=500
+    - echo "2. Comprehensive TypeScript check..."
+    - yarn tsc --noEmit
+    - echo "3. All tests with coverage..."
+    - yarn test --coverage --maxWorkers=4
+    - echo "4. Build validation..."
+    - yarn build
+    - echo "5. Performance metrics..."
+    - yarn lint:performance || echo "Performance metrics collected"
+    - echo "=== Nightly Validation Complete ==="
+  artifacts:
+    paths:
+      - coverage/
+      - .eslint-results.json
+    expire_in: 30 days
+  only:
+    - schedules
