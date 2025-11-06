@@ -351,7 +351,7 @@ export class EphemerisParser {
       // Validate position values
       Object.entries(entry.positions).forEach(([planet, position]) => {
         if (position.absoluteLongitude < 0 || position.absoluteLongitude > 360) {
-          errors.push()
+          errors.push(
             `Entry ${index + 1}: Invalid longitude for ${planet}: ${position.absoluteLongitude}`
           );
         }
