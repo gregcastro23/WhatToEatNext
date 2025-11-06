@@ -7,7 +7,7 @@ import { _logger } from '@/lib/logger';
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import { log } from '@/services/LoggingService';
 import { calculateAspects } from '@/utils/astrologyUtils';
-import { ChartContext } from './context';
+import { _ChartContext } from './context';
 import type { CurrentChart } from './types';
 
 // Phase 5: Type-safe interfaces for planetary data access
@@ -210,8 +210,8 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, [alchemicalPositions]);
 
   return (
-    <ChartContext.Provider value={{ chart, loading, error, refreshChart, createChartSvg }}>
+    <_ChartContext.Provider value={{ chart, loading, error, refreshChart, createChartSvg }}>
       {children}
-    </ChartContext.Provider>
+    </_ChartContext.Provider>
   );
 }

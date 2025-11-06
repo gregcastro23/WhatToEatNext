@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { TarotContext } from './context';
+import { _TarotContext } from './context';
 import type { TarotCard, TarotElementalInfluences } from './types';
 import type { ReactNode} from 'react';
 
@@ -16,7 +16,7 @@ export const _TarotProvider = ({ children }: { children: ReactNode }) => {
     });
 
   return (
-    <TarotContext.Provider
+    <_TarotContext.Provider
       value={{
         tarotCard,
         tarotElementalInfluences,
@@ -25,6 +25,6 @@ export const _TarotProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-    </TarotContext.Provider>
+    </_TarotContext.Provider>
   );
 };

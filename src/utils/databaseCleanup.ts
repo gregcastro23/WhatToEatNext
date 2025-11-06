@@ -1,5 +1,5 @@
 import { allIngredients } from '@/data/ingredients';
-import type { ElementalProperties, Ingredient, AstrologicalProfile } from '@/types/alchemy';
+import type { AstrologicalProfile, ElementalProperties, Ingredient } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 
 // Extended ingredient type for our cleanup function

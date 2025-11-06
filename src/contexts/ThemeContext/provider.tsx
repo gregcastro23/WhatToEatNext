@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { themeManager } from '@/utils/theme';
-import { ThemeContext } from './context';
+import { _ThemeContext } from './context';
 import type { Theme } from './types';
 import type { ReactNode} from 'react';
 
@@ -24,8 +24,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme: handleThemeChange }}>,
+    <_ThemeContext.Provider value={{ theme, setTheme: handleThemeChange }}>,
       {children}
-    </ThemeContext.Provider>
+    </_ThemeContext.Provider>
   )
 }

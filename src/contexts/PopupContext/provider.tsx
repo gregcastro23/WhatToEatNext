@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ELEMENT_AFFINITIES, ZODIAC_ELEMENTS } from '@/constants/elementalConstants';
 
 import '@/styles/popup.css';
-import { PopupContext } from './context';
+import { _PopupContext } from './context';
 import type { ElementalInfluence, Popup, PopupOptions, PopupProviderProps } from './types';
 
 export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactElement => {
@@ -125,7 +125,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
   };
 
   return (
-    <PopupContext.Provider value={{ showPopup, closePopup }}>
+    <_PopupContext.Provider value={{ showPopup, closePopup }}>
       {children}
       <div className='popup-container'>
         {popups.map(popup => (
@@ -155,6 +155,6 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
           </div>
         ))}
       </div>
-    </PopupContext.Provider>
+    </_PopupContext.Provider>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useContext } from 'react';
-import { ChartContext } from './context';
+import { _ChartContext } from './context';
 import type { ChartContextType } from './types';
 
 /**
@@ -10,7 +10,7 @@ import type { ChartContextType } from './types';
  * @throws Error if used outside of ChartProvider
  */
 export const useChart = (): ChartContextType => {
-  const context = useContext(ChartContext)
+  const context = useContext(_ChartContext)
 
   if (!context) {
     throw new Error('useChart must be used within a ChartProvider');
