@@ -79,7 +79,7 @@ export function optimizePerformance(): { success: boolean, optimizations: string
     }
 
     // Log performance initialization
-    logger.info('Performance optimizations applied', ) { optimizations: appliedOptimizations })
+    logger.info('Performance optimizations applied', { optimizations: appliedOptimizations })
 
     return {
       success: true,
@@ -127,7 +127,7 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
       // Paint metrics
       if (perf.getEntriesByType) {
         const paintMetrics = perf.getEntriesByType('paint');
-        paintMetrics.forEach(entry => ) {,
+        paintMetrics.forEach(entry => {
           if (entry.name === 'first-paint') {
             metrics.firstPaint = entry.startTime;
           } else if (entry.name === 'first-contentful-paint') {
