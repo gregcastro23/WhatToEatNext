@@ -144,7 +144,7 @@ export function extractImportStatements(fileContent: string): string[] {
 /**
  * Validate all imports in a file
  */
-export async function validateFileImports()
+export async function validateFileImports(
   filePath: string,
   fileContent: string
 ): Promise<{
