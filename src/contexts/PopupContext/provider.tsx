@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ELEMENT_AFFINITIES, ZODIAC_ELEMENTS } from '@/constants/elementalConstants';
+import { _ELEMENT_AFFINITIES, _ZODIAC_ELEMENTS } from '@/constants/elementalConstants';
 
 import '@/styles/popup.css';
 import { _PopupContext } from './context';
@@ -13,11 +13,11 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
   const calculateElementalInfluence = (sunSign?: string, moonSign?: string): ElementalInfluence => {
     if (!sunSign || !moonSign) return {};
 
-    const sunElement = ZODIAC_ELEMENTS[sunSign.toLowerCase() as keyof typeof ZODIAC_ELEMENTS];
-    const moonElement = ZODIAC_ELEMENTS[moonSign.toLowerCase() as keyof typeof ZODIAC_ELEMENTS];
+    const sunElement = _ZODIAC_ELEMENTS[sunSign.toLowerCase() as keyof typeof _ZODIAC_ELEMENTS];
+    const moonElement = _ZODIAC_ELEMENTS[moonSign.toLowerCase() as keyof typeof _ZODIAC_ELEMENTS];
 
     const isHarmonious =
-      sunElement && moonElement ? ELEMENT_AFFINITIES[sunElement].includes(moonElement) : false;
+      sunElement && moonElement ? _ELEMENT_AFFINITIES[sunElement].includes(moonElement) : false;
 
     return {
       sunElement,

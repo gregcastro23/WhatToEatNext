@@ -16,8 +16,8 @@ import {
 import { fruits } from './fruits';
 import { allGrains } from './grains';
 import { allHerbs } from './herbs';
-import { allOils } from './oils';
-import { meats as meatsData } from './proteins/meat';
+import { _allOils } from './oils';
+import { _meats as meatsData } from './proteins/meat';
 import { plantBased as plantBasedData } from './proteins/plantBased';
 import { poultry as poultryData } from './proteins/poultry';
 import { seafood as seafoodData } from './proteins/seafood';
@@ -28,17 +28,17 @@ import { spices } from './spices';
 export { fruits } from './fruits';
 export { allGrains as grains } from './grains';
 export { herbs } from './herbs';
-export { allOils as oils } from './oils';
+export { _allOils as oils } from './oils';
 export { meats, plantBased, poultry, seafood } from './proteins/index';
 export { seasonings } from './seasonings';
 export { spices } from './spices';
-export { enhancedVegetables as vegetables } from './vegetables';
+export { _enhancedVegetables as vegetables } from './vegetables';
 export { vinegars } from './vinegars/vinegars';
 
 // Create a combined proteins object for easier imports
 import { warmSpices } from './spices/warmSpices';
-import { enhancedVegetables } from './vegetables';
-import { allVinegars } from './vinegars/vinegars';
+import { _enhancedVegetables } from './vegetables';
+import { _allVinegars } from './vinegars/vinegars';
 
 export const proteins = {
   ...meatsData,
@@ -255,14 +255,14 @@ const processIngredientCollection = (
 
 // Create comprehensive collections that combine all available sources
 export const herbsCollection = processIngredientCollection(allHerbs);
-export const oilsCollection = processIngredientCollection(allOils);
-export const vinegarsCollection = processIngredientCollection(allVinegars);
+export const oilsCollection = processIngredientCollection(_allOils);
+export const vinegarsCollection = processIngredientCollection(_allVinegars);
 export const grainsCollection = processIngredientCollection(allGrains);
 export const spicesCollection = processIngredientCollection({
   ...spices,
   ...warmSpices
 });
-export const _vegetablesCollection = processIngredientCollection(enhancedVegetables);
+export const _vegetablesCollection = processIngredientCollection(_enhancedVegetables);
 
 export const VALID_CATEGORIES = [
   'culinary_herb',
@@ -282,7 +282,7 @@ export const VALID_CATEGORIES = [
 export const allIngredients = (() => {
   // First process all collections separately
   const processedSeasonings = processIngredientCollection(seasonings);
-  const processedVegetables = processIngredientCollection(enhancedVegetables);
+  const processedVegetables = processIngredientCollection(_enhancedVegetables);
   const processedFruits = processIngredientCollection(fruits);
   const processedGrains = processIngredientCollection(grainsCollection);
   const processedVinegars = processIngredientCollection(vinegarsCollection);
