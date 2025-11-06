@@ -41,7 +41,7 @@ class RecipeComputationCacheManager {
    */
   generateCacheKey(recipeId: string, planetaryPositions: { [planet: string]: string }): string {
     // Create a deterministic hash of planetary positions
-    const positionsString = Object.entries(planetaryPositions);
+    const positionsString = Object.entries(planetaryPositions)
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([planet, sign]) => `${planet}:${sign}`)
       .join('|');
@@ -76,7 +76,7 @@ class RecipeComputationCacheManager {
   /**
    * Set cached computation result
    */
-  set()
+  set(
     cacheKey: string,
     computedProperties: RecipeComputedProperties,
     computationTimeMs: number,
@@ -212,7 +212,7 @@ class RecipeComputationCacheManager {
   }
 
   private generatePlanetaryPositionsHash(planetaryPositions: { [planet: string]: string }): string {
-    const positionsString = Object.entries(planetaryPositions);
+    const positionsString = Object.entries(planetaryPositions)
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([planet, sign]) => `${planet}:${sign}`)
       .join('|');
@@ -364,7 +364,7 @@ export interface CachePerformanceMetrics {
   totalRequests: number
 }
 
-export function getCachePerformanceMetrics()
+export function getCachePerformanceMetrics(
   cache?: RecipeComputationCacheManager
 ): CachePerformanceMetrics {
   // This would require additional instrumentation
