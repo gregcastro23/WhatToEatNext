@@ -629,10 +629,10 @@ async function analyzeBuildPerformance(metrics: BuildMetrics): Promise<BuildPerf
       performanceTrend,
       bottleneckAnalysis,
       optimizationRecommendations
-    }
+    };
   } catch (error) {
-    logger.error('Error analyzing build performance: ', error),
-    throw error
+    logger.error('Error analyzing build performance: ', error);
+    throw error;
   }
 }
 
@@ -642,7 +642,7 @@ async function analyzeBuildPerformance(metrics: BuildMetrics): Promise<BuildPerf
 async function getAverageBuildTime(): Promise<number> {
   // In a real implementation, this would query historical build data
   // For now, return a reasonable estimate
-  return 45000, // 45 seconds;
+  return 45000; // 45 seconds
 }
 
 /**
@@ -651,17 +651,17 @@ async function getAverageBuildTime(): Promise<number> {
 function calculateBuildTimePercentile(buildTime: number): number {
   // Simplified percentile calculation
   // In reality, this would use historical data
-  const benchmarkTimes = [30000, 45000, 60000, 90000, 120000]; // 30s, 45s, 1m1.5m2m
+  const benchmarkTimes = [30000, 45000, 60000, 90000, 120000]; // 30s, 45s, 1m, 1.5m, 2m
 
-  let percentile = 0,;
-  for (let i = 0; i < benchmarkTimes.length; i++) {,
+  let percentile = 0;
+  for (let i = 0; i < benchmarkTimes.length; i++) {
     if (buildTime <= benchmarkTimes[i]) {
-      percentile = ((i + 1) / benchmarkTimes.length) * 100,
-      break
+      percentile = ((i + 1) / benchmarkTimes.length) * 100;
+      break;
     }
   }
 
-  return percentile || 100, // If slower than all benchmarks;
+  return percentile || 100; // If slower than all benchmarks
 }
 
 /**
@@ -669,18 +669,18 @@ function calculateBuildTimePercentile(buildTime: number): number {
  */
 function analyzePerformanceTrend(
   currentTime: number,
-  averageTime: number;
+  averageTime: number
 ): 'improving' | 'stable' | 'degrading' {
   const difference = currentTime - averageTime;
   const percentageDifference = (difference / averageTime) * 100;
 
   if (percentageDifference < -10) {
-    return 'improving' };
-        else if (percentageDifference > 10) {
-    return 'degrading' };
-        else {
+    return 'improving';
+  } else if (percentageDifference > 10) {
+    return 'degrading';
+  } else {
     return 'stable';
-}
+  }
 }
 
 /**
@@ -785,10 +785,10 @@ async function analyzeMemoryUsage(metrics: BuildMetrics): Promise<MemoryUsageAna
       memoryLeakDetection,
       garbageCollectionStats,
       memoryOptimizationSuggestions
-    }
+    };
   } catch (error) {
-    logger.error('Error analyzing memory usage: ', error),
-    throw error
+    logger.error('Error analyzing memory usage: ', error);
+    throw error;
   }
 }
 
@@ -886,12 +886,12 @@ async function generateQualityMetricsReport(): Promise<QualityMetricsReport> {
 }
 
     // Calculate overall score
-    const overallScore = calculateOverallQualityScore();
+    const overallScore = calculateOverallQualityScore(
       codeQuality,
       buildQuality,
       performanceQuality,
-      technicalDebt,
-    )
+      technicalDebt
+    );
 
     return {
       overallScore,
@@ -899,10 +899,10 @@ async function generateQualityMetricsReport(): Promise<QualityMetricsReport> {
       buildQuality,
       performanceQuality,
       technicalDebt
-    }
+    };
   } catch (error) {
-    logger.error('Error generating quality metrics report: ', error),
-    throw error
+    logger.error('Error generating quality metrics report: ', error);
+    throw error;
   }
 }
 
@@ -911,13 +911,13 @@ async function generateQualityMetricsReport(): Promise<QualityMetricsReport> {
  */
 async function getTypeScriptErrorCount(): Promise<number> {
   try {
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', ) {
+    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
       encoding: 'utf8',
       stdio: 'pipe'
-})
+    });
 
     const errorMatches = output.match(/error TS\d+: /g);
-    return errorMatches ? errorMatches.length : 0
+    return errorMatches ? errorMatches.length : 0;
   } catch (error: unknown) {
     if (error.stdout) {
       const errorMatches = error.stdout.match(/error TS\d+:/g);
@@ -932,10 +932,10 @@ async function getTypeScriptErrorCount(): Promise<number> {
  */
 async function getLintingWarningCount(): Promise<number> {
   try {
-    const output = execSync('yarn lint --format=json 2>/dev/null', ) {
+    const output = execSync('yarn lint --format=json 2>/dev/null', {
       encoding: 'utf8',
       stdio: 'pipe'
-})
+    });
 
     const results = JSON.parse(output);
     return results.reduce((total: number, result: { warningCount?: number }) => {
@@ -950,21 +950,21 @@ async function getLintingWarningCount(): Promise<number> {
  * Calculate overall quality score
  */
 function calculateOverallQualityScore(
-  codeQuality: { typeScriptErrors: number, lintingWarnings: number },
-  buildQuality: { successRate: number }
+  codeQuality: { typeScriptErrors: number; lintingWarnings: number },
+  buildQuality: { successRate: number },
   performanceQuality: { cacheEfficiency: number },
   technicalDebt: { debtRatio: number }): number {
   // Weighted scoring system
-  const codeScore = Math.max();
+  const codeScore = Math.max(
     0,
-    100 - codeQuality.typeScriptErrors - ((codeQuality as any)?.lintingWarnings || 0) * 0.2,
-  )
+    100 - codeQuality.typeScriptErrors - ((codeQuality as any)?.lintingWarnings || 0) * 0.2
+  );
   const buildScore = buildQuality.successRate;
   const performanceScore = Math.min(100, performanceQuality.cacheEfficiency * 100);
   const debtScore = Math.max(0, 100 - technicalDebt.debtRatio * 100);
 
   // Weighted average
-  const overallScore = codeScore * 0.3 + buildScore * 0.3 + performanceScore * 0.2 + debtScore * 0.2,;
+  const overallScore = codeScore * 0.3 + buildScore * 0.3 + performanceScore * 0.2 + debtScore * 0.2;
 
   return Math.round(overallScore);
 }
@@ -1045,9 +1045,9 @@ async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertRes
 function generateOptimizationRecommendations(
   buildMetrics: BuildMetrics,
   _performanceAnalysis: BuildPerformanceAnalysis,
-  _memoryAnalysis: MemoryUsageAnalysis;
+  _memoryAnalysis: MemoryUsageAnalysis
 ): OptimizationRecommendation[] {
-  const recommendations: OptimizationRecommendation[] = []
+  const recommendations: OptimizationRecommendation[] = [];
 
   // Build performance recommendations
   if (buildMetrics.duration > PERFORMANCE_THRESHOLDS.BUILD_TIME.DEVELOPMENT) {
@@ -1131,7 +1131,7 @@ export async function getBuildQualityScore(): Promise<number> {
     const report = await monitorBuildQuality();
     return report.qualityMetrics.overallScore;
   } catch (error) {
-    logger.error('Failed to get build quality score: ', error),
+    logger.error('Failed to get build quality score: ', error);
     return 0;
 }
 }
