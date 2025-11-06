@@ -12,9 +12,9 @@ import type {
 // Type alias for backward compatibility
 type AlchemicalProperty = keyof AlchemicalProperties;
 import {
-  __transformIngredients,
-  __transformCookingMethods,
-  __transformCuisines
+  _transformIngredients,
+  _transformCookingMethods,
+  _transformCuisines
 } from '../utils/alchemicalTransformationUtils';
 import { calculatePlanetaryPositions, calculateLunarPhase } from '../utils/astrologyUtils';
 import { transformItemsWithPlanetaryPositions } from '../utils/elementalUtils';
@@ -707,7 +707,7 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as any;
-       
+
       const elementalBalance = (alchemicalData.elementalBalance ) || {};
       const fire = Number(elementalBalance?.Fire) || 0;
       const spirit = alchemicalData.spirit || 0;
@@ -732,7 +732,7 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as any;
-       
+
       const elementalBalance = (alchemicalData.elementalBalance ) || {};
       const air = Number(elementalBalance?.Air) || 0;
       const substance = alchemicalData.substance || 0;
@@ -757,7 +757,7 @@ export class RecommendationAdapter {
     if (this.alchemicalResult) {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as any;
-       
+
       const elementalBalance = (alchemicalData.elementalBalance ) || {};
       const essence = Number(alchemicalData.essence) || 0;
       const water = Number(elementalBalance?.Water) || 0;

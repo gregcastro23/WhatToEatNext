@@ -18,7 +18,7 @@ export {
   ELEMENTAL_COLORS,
   ELEMENTAL_DESCRIPTIONS,
   ELEMENTAL_SYMBOLS,
-  calculateDetailedElementalCompatibility,
+  calculateElementalCompatibility,
   calculateDominantElement,
   calculateElementalCompatibility,
   calculateElementalState,

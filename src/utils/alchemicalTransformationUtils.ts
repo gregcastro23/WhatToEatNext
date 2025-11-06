@@ -190,7 +190,7 @@ export const _filterByAlchemicalCompatibility = (
  * @param count The number of items to return
  * @returns Top compatible items
  */
-export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): AlchemicalItem[] => 
+export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): AlchemicalItem[] =>
   // Sort by gregsEnergy for basic compatibility;
    [...items].sort((ab) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0)).slice(0, count)
 
