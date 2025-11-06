@@ -113,9 +113,9 @@ export function getSeasonalMenuRecommendations<T extends { tags: string[] }>(
 
   const seasonalTags = seasonalPreferences[seasonalInfluence as keyof typeof seasonalPreferences] || [];
 
-  return baseMenu.filter(item =>)
+  return baseMenu.filter(item =>
     item.tags.some(tag => seasonalTags.includes(tag))
-  )
+  );
 }
 
 /**
