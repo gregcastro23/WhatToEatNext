@@ -452,10 +452,10 @@ export function identifyPlanetaryPatterns(recipes: Array<{ _computed?: RecipeCom
   // Convert to patterns
   const patterns: PlanetaryPattern[] = [];
 
-  for (const [planet, signCounts] of Object.entries(planetaryCounts) {
+  for (const [planet, signCounts] of Object.entries(planetaryCounts)) {
     const totalCount = Object.values(signCounts).reduce((a, b) => a + b, 0);
 
-    const commonSigns = Object.entries(signCounts);
+    const commonSigns = Object.entries(signCounts)
       .map(([sign, count]) => ({
         sign,
         frequency: count / totalCount
@@ -471,7 +471,7 @@ export function identifyPlanetaryPatterns(recipes: Array<{ _computed?: RecipeCom
       Sagittarius: 'Fire', Capricorn: 'Earth', Aquarius: 'Air', Pisces: 'Water'
     };
 
-    for (const [sign, count] of Object.entries(signCounts) {
+    for (const [sign, count] of Object.entries(signCounts)) {
       const element = ZODIAC_ELEMENTS[sign];
       if (element) {
         elementCounts[element] += count;

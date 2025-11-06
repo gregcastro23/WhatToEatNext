@@ -456,7 +456,7 @@ function standardizeNutritionalProfile(profile: unknown): { [key: string]: unkno
 }
 
 function standardizeSeasons(seasons: unknown): string[] {
-  if (Array.isArray(seasons) {
+  if (Array.isArray(seasons)) {
     return (seasons || []).map(String);
   }
 
@@ -468,7 +468,7 @@ function standardizeSeasons(seasons: unknown): string[] {
 }
 
 function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] {
-  if (!Array.isArray(ingredients) {
+  if (!Array.isArray(ingredients)) {
     return [];
   }
 

@@ -1265,14 +1265,14 @@ export function longitudeToZodiacPosition(_longitude: number): { sign: string, d
     ];
 
     if (signIndex < 0 || signIndex >= signs.length) {
-      errorLog()
-        `Invalid sign index: ${signIndex} from longitude: ${longitude} (normalized: ${normalizedLongitude})`,
-      )
+      errorLog(
+        `Invalid sign index: ${signIndex} from longitude: ${longitude} (normalized: ${normalizedLongitude})`
+      );
       return { sign: 'aries', degree: 0 };
-}
+    }
 
     const sign = signs[signIndex];
-    debugLog(`Converted longitude ${longitude} to ${sign} at ${Math.floor(degree)}°`)
+    debugLog(`Converted longitude ${longitude} to ${sign} at ${Math.floor(degree)}°`);
 
     return {
       sign,

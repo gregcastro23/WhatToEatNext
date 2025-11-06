@@ -324,10 +324,10 @@ declare global {
    * Monitor performance metrics in real-time
    */
   public updatePerformanceMetrics(newMetrics: Partial<DevelopmentMetrics>): void {
-    this.metrics = { ...this.metrics, ...newMetrics, lastOptimization: Date.now() }
+    this.metrics = { ...this.metrics, ...newMetrics, lastOptimization: Date.now() };
 
     if (this.optimizationConfig.performanceMonitoring.enableRealTimeErrorDetection) {
-      this.checkPerformanceThresholds()
+      this.checkPerformanceThresholds();
     }
   }
 
@@ -336,7 +336,7 @@ declare global {
    */
   public getDevelopmentMetrics(): DevelopmentMetrics {
     return { ...this.metrics };
-}
+  }
 
   /**
    * Generate performance optimization recommendations

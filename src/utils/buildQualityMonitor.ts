@@ -507,13 +507,13 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
       assets: Math.round(assets / 1024)
     }
   } catch (error) {
-    logger.error('Error analyzing bundle directory: ', error),
+    logger.error('Error analyzing bundle directory: ', error);
     return {
       total: 0,
       javascript: 0,
       css: 0,
       assets: 0
-}
+    };
   }
 }
 

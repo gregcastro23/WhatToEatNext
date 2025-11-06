@@ -255,7 +255,7 @@ export const culturalCookingMethods = extractCulturalCookingMethods();
 
 // Helper to get methods by cultural origin
 export function getMethodsByCulture(culture: string): CulturalCookingMethod[] {
-  return culturalCookingMethods.filter()
+  return culturalCookingMethods.filter(
     method => method.culturalOrigin.toLowerCase() === culture.toLowerCase()
   );
 }

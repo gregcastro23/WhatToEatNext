@@ -563,11 +563,11 @@ export async function getRecommendedCookingMethods(
     .filter(method => !method.relatedToMainMethod);
 
   // Apply cultural preference filter if specified
-  const filteredMethods = culturalPreference;
-    ? methodsArray.filter(method =>)
+  const filteredMethods = culturalPreference
+    ? methodsArray.filter(method =>
           // Include methods that match the culture OR have variations that match
           method.culturalOrigin === culturalPreference ||
-          (method.variations &&)
+          (method.variations &&
             method.variations.some(v => v.culturalOrigin === culturalPreference))
       )
     : methodsArray;

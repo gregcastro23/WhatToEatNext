@@ -95,7 +95,7 @@ export async function validateBarrelExports(
 /**
  * Common problematic import patterns to avoid
  */
-export const PROBLEMATIC_PATTERNS = [;
+export const PROBLEMATIC_PATTERNS = [
   {
     pattern: /import.*from.*['"]\.\/.*index['"]/,
     message: 'Avoid importing from index files in the same directory - import directly from source files'
