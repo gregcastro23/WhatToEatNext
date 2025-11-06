@@ -507,7 +507,7 @@ export function computeCuisineProperties(recipes: Array<{ _computed?: RecipeComp
     signatureThreshold?: number;
     includeVariance?: boolean;
     identifyPlanetaryPatterns?: boolean
-  } = ) {}
+  } = {}
 ): CuisineComputedProperties {
   const {
     weightingStrategy = 'equal',
@@ -522,8 +522,8 @@ export function computeCuisineProperties(recipes: Array<{ _computed?: RecipeComp
   const averageAlchemical = aggregateAlchemicalProperties(recipes, weightingStrategy);
 
   // Calculate variance if requested
-  const variance = includeVariance;
-    ? calculatePropertyVariance(recipes, ) {
+  const variance = includeVariance
+    ? calculatePropertyVariance(recipes, {
         elementals: averageElementals,
         alchemical: averageAlchemical
       })
@@ -533,7 +533,7 @@ export function computeCuisineProperties(recipes: Array<{ _computed?: RecipeComp
       };
 
   // Identify signatures
-  const signatures = identifyCuisineSignatures() {
+  const signatures = identifyCuisineSignatures({
       elementals: averageElementals,
       alchemical: averageAlchemical
     },
@@ -542,7 +542,7 @@ export function computeCuisineProperties(recipes: Array<{ _computed?: RecipeComp
   );
 
   // Identify planetary patterns if requested
-  const planetaryPatterns = identifyPatterns;
+  const planetaryPatterns = identifyPatterns
     ? identifyPlanetaryPatterns(recipes)
     : undefined;
 
