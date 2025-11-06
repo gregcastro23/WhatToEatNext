@@ -23,17 +23,17 @@ export function trackKineticsRecommendation(event: KineticsRecommendationEvent):
   // Only track if gtag is available (user has analytics enabled)
   if (typeof window !== 'undefined' && window.gtag) {
     try {
-      window.gtag('event', 'kinetics_recommendation', ) {
+      window.gtag('event', 'kinetics_recommendation', {
         event_category: 'food_recommendations',
         event_label: event.recommendationType,
-        value: Math.round(event.kineticScore * 100), // Convert to 0-100 scale,
+        value: Math.round(event.kineticScore * 100), // Convert to 0-100 scale
         custom_parameter_1: event.powerLevel,
         custom_parameter_2: event.userAction
-      })
+      });
     } catch (error) {
       // Silently fail - analytics shouldn't break the app
       // eslint-disable-next-line no-console
-      console.debug('Analytics tracking failed: ', error)
+      console.debug('Analytics tracking failed: ', error);
     }
   }
 }
