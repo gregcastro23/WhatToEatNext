@@ -13,17 +13,17 @@ import dynamic from 'next/dynamic';
  * Lazy load calculation modules with optimized loading
  */
 export const lazyCalculations = {
-  // Alchemical calculations - loaded on demand;
-  alchemical: () => import('@/calculations/alchemical');,
+  // Alchemical calculations - loaded on demand
+  alchemical: () => import('@/calculations/alchemical'),
 
   // Astrological calculations - loaded on demand
-  astrological: () => import('@/calculations/astrological');,
+  astrological: () => import('@/calculations/astrological'),
 
   // Elemental calculations - loaded on demand
-  elemental: () => import('@/calculations/elemental');,
+  elemental: () => import('@/calculations/elemental'),
 
   // Thermodynamics calculations - loaded on demand
-  thermodynamics: () => import('@/calculations/thermodynamics');,
+  thermodynamics: () => import('@/calculations/thermodynamics'),
 
   // Complex recommendation algorithms - loaded on demand
   recommendations: () => import('@/calculations/recommendations')
