@@ -25,7 +25,7 @@ export default function DemoOptimizedPage() {
 
   const handleRecipeSelect = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
-    logger.info('DemoOptimizedPage recipe selected', recipe)
+    logger.debug('DemoOptimizedPage recipe selected', recipe)
   }
 
   const toggleSection = (section: keyof typeof visibleSections) => {

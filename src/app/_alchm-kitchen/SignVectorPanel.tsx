@@ -136,7 +136,7 @@ export default function SignVectorPanel({planetaryPositions: propPositions,
       )}
       <div>Sign: {selected.sign}</div>
       <div>Direction: {selected.direction}</div>
-      <div>Magnitude: {(selected.magnitude * 100).toFixed(1)}%</div>
+      <div>Magnitude: {(selected._magnitude * 100).toFixed(1)}%</div>
       <div style={{ marginTop: 8, fontWeight: 600 }}>Vector-Adjusted ESMS</div>
       <div>Spirit: {blendedAlchemical.Spirit.toFixed(3)}</div>
       <div>Essence: {blendedAlchemical.Essence.toFixed(3)}</div>

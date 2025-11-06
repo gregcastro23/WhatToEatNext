@@ -24,11 +24,8 @@ import type {
 
 // Core calculation modules
 import {
-  calculateComprehensiveElementalProperties,
-  getDominantElement,
-  getElementalRecommendations,
-  calculateElementalCompatibility,
-  combineElementalProperties,
+  calculateBaseElementalProperties,
+  analyzeElementalCompatibility,
   ELEMENTAL_ANALYSIS_INTELLIGENCE
 } from './core/elementalCalculations';
 
@@ -196,7 +193,7 @@ export class UnifiedCalculationEngine {
       const kalchmResult = calculateKalchmResults(planetaryPositions);
 
       // Calculate elemental properties
-      const elementalProperties = calculateComprehensiveElementalProperties(planetaryPositions);
+      const elementalProperties = calculateBaseElementalProperties(planetaryPositions);
 
       // Calculate planetary influences
       const planetaryInfluence = calculatePlanetaryInfluences(planetaryPositions);
@@ -389,28 +386,7 @@ export class UnifiedCalculationEngine {
    * 🧪 Get elemental compatibility between two profiles
    */
   getElementalCompatibility(profile1: ElementalProperties, profile2: ElementalProperties): number {
-    return calculateElementalCompatibility(profile1, profile2);
-  }
-
-  /**
-   * 🔄 Combine multiple elemental profiles
-   */
-  combineElementalProfiles(profiles: ElementalProperties[]): ElementalProperties {
-    return combineElementalProperties(profiles);
-  }
-
-  /**
-   * 🧲 Get dominant element from profile
-   */
-  getDominantElement(profile: ElementalProperties): Element {
-    return getDominantElement(profile);
-  }
-
-  /**
-   * 💡 Get intelligent elemental recommendations
-   */
-  getElementalRecommendations(profile: ElementalProperties) {
-    return getElementalRecommendations(profile);
+    return analyzeElementalCompatibility(profile1, profile2);
   }
 
   private generateCacheKey(type: string, input: UnifiedCalculationInput): string {

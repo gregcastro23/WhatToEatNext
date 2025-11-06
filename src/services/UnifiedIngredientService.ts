@@ -383,7 +383,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Score ingredients based on elemental compatibility
     const scoredIngredients = (candidates || []).map(_ingredient => {
       // Apply Pattern PP-1: Safe service method access
-      const alchemicalEngineData = alchemicalEngine as unknown;
+      const alchemicalEngineData = alchemicalEngine as any;
       const compatibilityMethod =
         alchemicalEngineData.calculateElementalCompatibility || this.fallbackElementalCompatibility;
       const compatibility = typeof compatibilityMethod === 'function'
@@ -392,7 +392,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
                 source: ElementalProperties,
                 target: ElementalProperties
               ) => number
-            )(elementalState, _ingredient.elementalPropertiesState)
+            )(elementalState, _ingredient.elementalPropertiesState as ElementalProperties)
           : 0.5; // fallback value
 
       return {
@@ -447,7 +447,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
               source: ElementalProperties,
               target: ElementalProperties
             ) => number
-          )(ing1.elementalState, ing2.elementalState)
+          )(ing1.elementalState as ElementalProperties, ing2.elementalState as ElementalProperties)
         : 0.5; // fallback value
 
     // Calculate flavor compatibility if flavor profiles exist
@@ -483,8 +483,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   analyzeRecipeIngredients(recipe: Recipe): {
     overallHarmony: number;
     flavorProfile: { [key: string]: number };
-    strongPairings: Array<{ ingredients: string[]; score, number }>;
-    weakPairings: Array<{ ingredients: string[]; score, number }>;
+    strongPairings: Array<{ ingredients: string[]; score: number }>;
+    weakPairings: Array<{ ingredients: string[]; score: number }>;
   } {
     // Get ingredient objects from recipe
     const ingredientObjects: UnifiedIngredient[] = recipe.ingredients
@@ -541,7 +541,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   ): UnifiedIngredient {
     const enhancedIngredient: UnifiedIngredient = {
       ...(ingredient as UnifiedIngredient),
-      elementalProperties: ingredient.elementalPropertiesState || this.calculateElementalProperties(ingredient)
+      elementalProperties: (ingredient.elementalPropertiesState || this.calculateElementalProperties(ingredient)) as ElementalProperties
     };
 
     return enhancedIngredient;
@@ -785,7 +785,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (!dietary) return true; // Skip if no dietary data
 
       // Extract filter data with safe property access for dietary properties
-      const filterData = filter as unknown;
+      const filterData = filter as any;
       const isVegetarian = filterData.isVegetarian;
       const isVegan = filterData.isVegan;
       const isGlutenFree = filterData.isGlutenFree;

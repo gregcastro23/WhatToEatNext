@@ -6,7 +6,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql://user:pass@postgres:5432/alchm_kitchen
+      - DATABASE_URL=postgresql://user:password@postgres:5432/alchm_kitchen
       - REDIS_URL=redis://redis:6379
     depends_on:
       - postgres
@@ -18,7 +18,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql://user:pass@postgres:5432/alchm_kitchen
+      - DATABASE_URL=postgresql://user:password@postgres:5432/alchm_kitchen
       - REDIS_URL=redis://redis:6379
       - ALCHEMIZE_API_URL=https://alchmize.onrender.com/api/alchemize
       - PLANETARY_AGENTS_URL=http://localhost:8000
@@ -27,13 +27,13 @@ services:
       - redis
 
   postgres:
-    image: postgres:15
+    image: postgres:17
     ports:
       - "5434:5432"
     environment:
       POSTGRES_DB: alchm_kitchen
       POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
+      POSTGRES_PASSWORD: password
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

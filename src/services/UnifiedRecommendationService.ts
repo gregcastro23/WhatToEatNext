@@ -12,8 +12,7 @@ import {
 // Removed unused, import: PlanetaryAlignment
 
 import { CookingMethod } from '../types/cooking';
-import { Ingredient } from '../types/ingredient';
-// Removed unused, import: UnifiedIngredient
+import { Ingredient, UnifiedIngredient } from '../types/ingredient';
 import { Recipe } from '../types/recipe';
 import { IngredientService } from './IngredientService';
 
@@ -216,14 +215,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       }
 
       // Check for planetary ruler match
-      if (criteria.planetaryRuler && ingredient.astrologicalProperties?.planets) {
-        const planets = (ingredient.astrologicalProperties as any)?.planets;
-        const planetMatch = Array.isArray(planets)
-          ? planets.includes(
-              criteria.planetaryRuler as unknown as Record<string, Record<string, string>>
-            )
-          : planets ===
-            (criteria.planetaryRuler as unknown as Record<string, Record<string, string>>);
+      if (criteria.planetaryRuler && ingredient.astrologicalProfile?.rulingPlanets) {
+        const rulingPlanets = ingredient.astrologicalProfile.rulingPlanets;
+        const planetMatch = Array.isArray(rulingPlanets)
+          ? rulingPlanets.includes(criteria.planetaryRuler as any)
+          : false;
         score += planetMatch ? 0.1 : 0;
       }
 
@@ -762,29 +758,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       const criteriaData = criteria as any;
       const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;
 
-      // Calculate quantity-aware elemental compatibility
-      if (elementalState && criteria.useQuantityScaling && criteria.targetQuantity && criteria.targetUnit) {
-        const scaledProperties = ingredientService.getScaledIngredientProperties(
-          ingredient.name,
-          criteria.targetQuantity,
-          criteria.targetUnit
-        );
-
-        if (scaledProperties) {
-          const elementalScore = this.calculateElementalCompatibility(
-            elementalState as ElementalProperties,
-            scaledProperties.scaled
-          );
-          score += elementalScore * 0.7;
-        } else {
-          // Fall back to standard compatibility
-          const elementalScore = this.calculateElementalCompatibility(
-            elementalState as ElementalProperties,
-            ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
-          );
-          score += elementalScore * 0.7;
-        }
-      } else if (elementalState && ingredient.elementalProperties) {
+      // Calculate elemental compatibility
+      if (elementalState && ingredient.elementalProperties) {
         // Standard elemental compatibility
         const elementalScore = this.calculateElementalCompatibility(
           elementalState as ElementalProperties,
@@ -825,7 +800,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     });
 
     return {
-      items: (limitedIngredients || []).map(item => item.ingredient),
+      items: (limitedIngredients || []).map(item => item.ingredient as unknown as Ingredient),
       scores,
       context: {
         criteriaUsed: Object.keys(criteria || {}).filter(key => criteria[key] !== undefined),
@@ -861,14 +836,10 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       );
 
       if (quantityInfo) {
-        const scaledProps = ingredientService.getScaledIngredientProperties(
-          ingredientName,
-          quantityInfo.quantity,
-          quantityInfo.unit
-        );
-
-        if (scaledProps) {
-          scaledElementals.push(scaledProps.scaled);
+        // Get the ingredient from the database
+        const ingredient = (recipeIngredient as UnifiedIngredient).elementalProperties;
+        if (ingredient) {
+          scaledElementals.push(ingredient);
           // Use quantity as weight (could be enhanced with more sophisticated weighting)
           totalWeight += quantityInfo.quantity;
         }
@@ -878,7 +849,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     if (scaledElementals.length === 0 || totalWeight === 0) {
       // Fall back to recipe's static elemental properties
       return recipe.elementalState
-        ? this.calculateElementalCompatibility(targetElemental, recipe.elementalState)
+        ? this.calculateElementalCompatibility(targetElemental, recipe.elementalState as ElementalProperties)
         : 0.5;
     }
 
@@ -914,27 +885,10 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     let totalBonus = 0;
     let ingredientCount = 0;
 
-    ingredientQuantities.forEach(({ ingredient, quantity, unit }) => {
-      const scaledProps = ingredientService.getScaledIngredientProperties(ingredient, quantity, unit);
-      if (scaledProps?.kineticsImpact) {
-        const { forceAdjustment, thermalShift } = scaledProps.kineticsImpact;
-
-        // Apply cooking method specific kinetics logic
-        const method = cookingMethod.toLowerCase();
-        if (method.includes('bake') || method.includes('roast')) {
-          // Baking benefits from thermal stability
-          totalBonus += Math.max(0, thermalShift * 0.1);
-        } else if (method.includes('fry') || method.includes('sauté')) {
-          // Frying benefits from force/energy
-          totalBonus += Math.max(0, forceAdjustment * 0.1);
-        } else if (method.includes('slow') || method.includes('braise')) {
-          // Slow cooking benefits from controlled thermal changes
-          totalBonus += Math.max(0, Math.abs(thermalShift) * -0.05); // Penalty for extreme shifts
-        }
-
-        ingredientCount++;
-      }
-    });
+    // Kinetics-based scoring disabled until getScaledIngredientProperties is implemented
+    // ingredientQuantities.forEach(({ ingredient, quantity, unit }) => {
+    //   ingredientCount++;
+    // });
 
     return ingredientCount > 0 ? totalBonus / ingredientCount : 0
   }

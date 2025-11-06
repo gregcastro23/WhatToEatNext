@@ -3,7 +3,7 @@
  * Provides a unified interface for recipe operations
  */
 
-import { errorHandler } from '@/services/errorHandler';
+import { ErrorHandler } from '@/services/errorHandler';
 import type { RecipeSearchCriteria } from '@/services/interfaces/RecipeServiceInterface';
 import type { Recipe } from '@/types/alchemy';
 // Add missing imports for TS2304 fixes
@@ -30,7 +30,7 @@ export class UnifiedRecipeService {
       // TODO: Implement recipe fetching logic
       return [];
     } catch (error) {
-      errorHandler.log(error, { context: 'UnifiedRecipeService.getAllRecipes' });
+      ErrorHandler.log(error, { context: 'UnifiedRecipeService.getAllRecipes' });
       return [];
     }
   }
@@ -43,7 +43,7 @@ export class UnifiedRecipeService {
       // TODO: Implement recipe fetching by ID
       return null;
     } catch (error) {
-      errorHandler.log(error, { context: 'UnifiedRecipeService.getRecipeById' });
+      ErrorHandler.log(error, { context: 'UnifiedRecipeService.getRecipeById' });
       return null;
     }
   }
@@ -56,7 +56,7 @@ export class UnifiedRecipeService {
       // TODO: Implement recipe search logic
       return [];
     } catch (error) {
-      errorHandler.log(error, { context: 'UnifiedRecipeService.searchRecipes' });
+      ErrorHandler.log(error, { context: 'UnifiedRecipeService.searchRecipes' });
       return [];
     }
   }
@@ -77,7 +77,7 @@ export class UnifiedRecipeService {
       });
       return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
-      errorHandler.log(error, { context: 'UnifiedRecipeService.getRecipesForCuisine' });
+      ErrorHandler.log(error, { context: 'UnifiedRecipeService.getRecipesForCuisine' });
       return [];
     }
   }
@@ -99,7 +99,7 @@ export class UnifiedRecipeService {
       const matches = allRecipes.slice(0, 10);
       return matches as unknown as ExtendedRecipe[];
     } catch (error) {
-      errorHandler.log(error, { context: 'UnifiedRecipeService.getBestRecipeMatches' });
+      ErrorHandler.log(error, { context: 'UnifiedRecipeService.getBestRecipeMatches' });
       return [];
     }
   }

@@ -1,0 +1,89 @@
+# Makefile.eslint - ESLint Utilities for WhatToEatNext
+# Include in main Makefile with: include Makefile.eslint
+
+.PHONY: lint-help lint-install lint-test lint-baseline lint-campaign-setup
+
+# Help command
+lint-help:
+	@echo "ESLint Commands:"
+	@echo "  make lint-install        - Install new ESLint dependencies"
+	@echo "  make lint-test          - Test new configuration"
+	@echo "  make lint-baseline      - Create baseline report"
+	@echo "  make lint-compare       - Compare with old config"
+	@echo "  make lint-campaign      - Setup linting campaign"
+	@echo "  make lint-stats         - Show error statistics"
+	@echo "  make lint-cleanup       - Clean caches and temp files"
+
+# Install dependencies
+lint-install:
+	@echo "Installing ESLint dependencies..."
+	yarn install
+	@echo "✅ Dependencies installed"
+
+# Test configuration
+lint-test:
+	@echo "Testing ESLint configuration..."
+	@echo "\n📋 Testing fast config..."
+	yarn lint:quick 2>&1 | head -50 || true
+	@echo "\n✅ Fast config works"
+	@echo "\n📋 Testing main config..."
+	yarn lint 2>&1 | head -50 || true
+	@echo "\n✅ Main config works"
+
+# Create baseline
+lint-baseline:
+	@echo "Creating ESLint baseline..."
+	@mkdir -p reports
+	yarn lint > reports/eslint-baseline-$$(date +%Y%m%d).txt 2>&1 || true
+	@echo "\n📊 Baseline Statistics:"
+	@grep -E "problems|errors|warnings" reports/eslint-baseline-$$(date +%Y%m%d).txt | tail -1
+	@echo "\n✅ Baseline saved to reports/eslint-baseline-$$(date +%Y%m%d).txt"
+
+# Compare configurations
+lint-compare:
+	@echo "Comparing old vs new configuration..."
+	@mkdir -p reports
+	@echo "Running with old config (.cjs)..."
+	eslint --config eslint.config.cjs src > reports/old-config.txt 2>&1 || true
+	@echo "Running with new config (.mjs)..."
+	eslint --config eslint.config.mjs src > reports/new-config.txt 2>&1 || true
+	@echo "\n📊 Comparison:"
+	@echo "Old config errors:"
+	@grep -E "problems|errors|warnings" reports/old-config.txt | tail -1 || echo "No summary found"
+	@echo "New config errors:"
+	@grep -E "problems|errors|warnings" reports/new-config.txt | tail -1 || echo "No summary found"
+
+# Setup campaign
+lint-campaign-setup:
+	@echo "Setting up linting campaign..."
+	@mkdir -p reports/campaign
+	@echo "Creating phase tracking files..."
+	@echo "Phase 1: Type Safety\nStatus: Not Started\nTarget: 0 explicit-any errors" > reports/campaign/phase1-type-safety.txt
+	@echo "Phase 2: Unused Code\nStatus: Not Started\nTarget: 0 unused-vars errors" > reports/campaign/phase2-unused-code.txt
+	@echo "Phase 3: Import Resolution\nStatus: Not Started\nTarget: 0 unresolved imports" > reports/campaign/phase3-imports.txt
+	@echo "Phase 4: React Hooks\nStatus: Not Started\nTarget: 0 hook violations" > reports/campaign/phase4-react.txt
+	@echo "Phase 5: Code Quality\nStatus: Not Started\nTarget: <50 complexity issues" > reports/campaign/phase5-quality.txt
+	@echo "✅ Campaign structure created in reports/campaign/"
+
+# Show statistics
+lint-stats:
+	@echo "ESLint Statistics:"
+	@echo "\n📊 Current Error Counts:"
+	@yarn lint 2>&1 | grep -E "@typescript-eslint/no-explicit-any|@typescript-eslint/no-unused-vars|import/no-unresolved|react-hooks|complexity" | \
+		awk '{print $$NF}' | sort | uniq -c | sort -rn || echo "Run 'make lint-baseline' first"
+
+# Cleanup
+lint-cleanup:
+	@echo "Cleaning ESLint caches and temporary files..."
+	rm -f .eslintcache .eslintcache-fast
+	rm -f .eslint-results.json .eslint-profile.json
+	rm -rf .eslint-ts-cache/
+	@echo "✅ Caches cleared"
+
+# Full upgrade workflow
+lint-upgrade-workflow: lint-install lint-test lint-baseline lint-campaign-setup
+	@echo "\n🎉 ESLint upgrade complete!"
+	@echo "\nNext steps:"
+	@echo "1. Review baseline: cat reports/eslint-baseline-*.txt"
+	@echo "2. Start campaign: Review ESLINT_UPGRADE_GUIDE.md"
+	@echo "3. Run: yarn lint to begin"

@@ -10,6 +10,7 @@ import type {
 import type { Planet } from '@/types/celestial';
 import type { UnifiedIngredient } from '@/types/ingredient';
 import { getCurrentSeason } from '@/types/seasons';
+import type { ScoringContext } from './UnifiedScoringService';
 
 /**
  * AlchemicalRecommendation interface for providing structured recommendations
@@ -113,16 +114,19 @@ export class AlchemicalRecommendationService {
     const scoredIngredients = await Promise.all(
       ingredients.map(async ingredient => {
         try {
-          const context = {
+          const context: ScoringContext = {
             dateTime: new Date(),
             item: {
               name: ingredient.name,
               type: 'ingredient' as const,
               elementalProperties: ingredient.elementalProperties,
-              seasonality: ingredient.season || [],
+              seasonality: (ingredient.seasonality || []).filter(
+                (s): s is 'spring' | 'summer' | 'fall' | 'winter' =>
+                  s === 'spring' || s === 'summer' || s === 'fall' || s === 'winter'
+              ),
               planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
-              flavorProfile: ingredient.culinaryProfile?.flavorProfile || {},
-              culturalOrigins: ingredient.origin || []
+              flavorProfile: (ingredient.flavorProfile || {}) as Record<string, number>,
+              culturalOrigins: (ingredient.regionalOrigins || []) as string[]
             }
           };
 

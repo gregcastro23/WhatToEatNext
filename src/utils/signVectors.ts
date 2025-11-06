@@ -36,13 +36,13 @@ const ZODIAC_SIGNS: any[] = [
 ];
 
 function normalize(value: number, _min = 0, _max = 1): number {
-  if (Number.isNaN(value)) return 0
-  const clamped = Math.max(min, Math.min(max, value));
+  if (Number.isNaN(value)) return 0;
+  const clamped = Math.max(_min, Math.min(_max, value));
   return clamped;
 }
 
 function unitNormalizeVector(values: number[]): number[] {
-  const magnitude = Math.sqrt(values.reduce((sumv) => sum + v * v0));
+  const magnitude = Math.sqrt(values.reduce((sum, v) => sum + v * v, 0));
   if (magnitude === 0) return values.map(() => 0);
   return values.map(v => v / magnitude);
 }
@@ -85,7 +85,7 @@ function computePlanetaryWeightForSign(
   planetaryPositions: Record<string, PlanetaryPosition>,
   aspects?: PlanetaryAspect[],
 ): number {
-  const weight = 0
+  let weight = 0
   Object.entries(planetaryPositions || {}).forEach(([planet, pos]) => {
     const sign = String(pos?.sign || '').toLowerCase();
     if (!sign) return;
@@ -133,7 +133,7 @@ function computePlanetaryWeightForSign(
 }
 
 export function calculateSignVectors(_input: SignVectorCalculationInput): SignVectorMap {
-  const { planetaryPositions, aspects, season} = input;
+  const { planetaryPositions, aspects, season } = _input;
   const result: Partial<SignVectorMap> = {};
 
   // First, pass: build raw components and magnitudes
@@ -175,12 +175,12 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
       { key: 'fixed', value: components.fixed },
       { key: 'mutable', value: components.mutable }
     ];
-    modalityTriplet.sort((ab) => b.value - a.value);
+    modalityTriplet.sort((a, b) => b.value - a.value);
     const direction = modalityTriplet[0].key;
 
     result[sign] = {
       sign,
-      magnitude,
+      _magnitude: magnitude,
       direction,
       components
     };
@@ -191,7 +191,7 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
 
 export function cosineSimilarity(a: number[], b: number[]): number {
   const minLen = Math.min(a.length, b.length);
-  const dot = 0;
+  let dot = 0;
   let magA = 0;
   let magB = 0;
   for (let i = 0; i < minLen; i += 1) {
@@ -274,7 +274,7 @@ export const VECTOR_CONFIG = {
 };
 
 export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
-  const { components, magnitude, direction} = v;
+  const { components, _magnitude, direction } = _v;
 
   const elemental: ElementalProperties = {
     Fire: components.Fire,
@@ -289,19 +289,19 @@ export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
   const Spirit =
     (elemental.Fire * (e2.Spirit.Fire || 0) + elemental.Air * (e2.Spirit.Air || 0)) *
     modality.Spirit *
-    magnitude;
+    _magnitude;
   const Essence =
     (elemental.Water * (e2.Essence.Water || 0) + elemental.Fire * (e2.Essence.Fire || 0)) *
     modality.Essence *
-    magnitude;
+    _magnitude;
   const Matter =
     (elemental.Earth * (e2.Matter.Earth || 0) + elemental.Water * (e2.Matter.Water || 0)) *
     modality.Matter *
-    magnitude;
+    _magnitude;
   const Substance =
     (elemental.Earth * (e2.Substance.Earth || 0) + elemental.Air * (e2.Substance.Air || 0)) *
     modality.Substance *
-    magnitude;
+    _magnitude;
 
   const raw: AlchemicalProperties = { Spirit, Essence, Matter, Substance };
   const sum = Spirit + Essence + Matter + Substance || 1;
@@ -351,7 +351,7 @@ export function getAlchemicalStateWithVectors(input: {
   };
   config: typeof VECTOR_CONFIG
 } {
-  const { planetaryPositions, aspects, season, _governing = 'dominant'} = input;
+  const { planetaryPositions, aspects, season, governing = 'dominant' } = input;
 
   const baseAlchemical = calcESMSFromPositions(planetaryPositions);
   const baseElemental = calculateElementalValues(planetaryPositions) as ElementalProperties;
@@ -361,10 +361,10 @@ export function getAlchemicalStateWithVectors(input: {
   let selected: SignVector | null = null;
   if (governing === 'sun') {
     const sunSign = String(planetaryPositions?.Sun?.sign || '').toLowerCase() as any;
-    selected = sunSign ? signVectors[sunSign] : null
+    selected = sunSign ? signVectors[sunSign] : null;
   } else if (governing === 'moon') {
     const moonSign = String(planetaryPositions?.Moon?.sign || '').toLowerCase() as any;
-    selected = moonSign ? signVectors[moonSign] : null
+    selected = moonSign ? signVectors[moonSign] : null;
   } else if (governing === 'ensemble') {
     // Sun/Moon/Ascendant ensemble (if available) with heuristic weights
     const sunSign = String(planetaryPositions?.Sun?.sign || '').toLowerCase() as any;
@@ -379,7 +379,7 @@ export function getAlchemicalStateWithVectors(input: {
     if (parts.length > 0) {
       // Weighted average on components and magnitude; direction from strongest magnitude
       const ref = parts.reduce(
-        (accv, i) => {
+        (acc, v, i) => {
           const w = weights[i] || 0;
           acc.components.cardinal += v.components.cardinal * w;
           acc.components.fixed += v.components.fixed * w;
@@ -389,7 +389,7 @@ export function getAlchemicalStateWithVectors(input: {
           acc.components.Earth += v.components.Earth * w;
           acc.components.Air += v.components.Air * w;
           acc.components.seasonal += v.components.seasonal * w;
-          acc.magnitude += v.magnitude * w;
+          acc.magnitude += v._magnitude * w;
           return acc;
         },
         {
@@ -402,21 +402,21 @@ export function getAlchemicalStateWithVectors(input: {
             Earth: 0,
             Air: 0,
             seasonal: 0
-},
+          },
           magnitude: 0
-} as unknown as SignVector,
+        } as unknown as SignVector
       );
-      const strongest = parts.sort((ab) => b.magnitude - a.magnitude)[0];
+      const strongest = parts.sort((a, b) => b._magnitude - a._magnitude)[0];
       selected = {
         sign: strongest.sign,
         direction: strongest.direction,
-        magnitude: ref.magnitude,
+        _magnitude: ref.magnitude,
         components: ref.components
       } as SignVector;
     }
   }
   if (!selected) {
-    selected = Object.values(signVectors).sort((ab) => b.magnitude - a.magnitude)[0];
+    selected = Object.values(signVectors).sort((a, b) => b._magnitude - a._magnitude)[0];
   }
 
   const esmsFromVector = signVectorToESMS(selected);

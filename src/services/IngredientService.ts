@@ -5,7 +5,7 @@ import type {
     Season,
     ThermodynamicMetrics
 } from '@/types/alchemy';
-import { Recipe } from '@/types/recipe';
+import { Recipe } from '@/types/unified';
 import { logger } from '@/utils/logger';
 
 // Import the ingredient service interface
@@ -53,8 +53,8 @@ export class IngredientService implements IngredientServiceInterface {
    */
   private loadIngredients(): void {
     try {
-      // Use the unified ingredients data
-      this.ingredientCache = new Map(Object.entries(unifiedIngredients));
+      // Use the unified ingredients data - wrap each ingredient in an array
+      this.ingredientCache = new Map(Object.entries(unifiedIngredients).map(([k, v]) => [k, [v]]));
       this.flatIngredientCache = null; // Reset flat cache
       logger.debug(`Loaded ingredients from ${this.ingredientCache.size} categories`);
     } catch (error) {
@@ -273,7 +273,7 @@ export class IngredientService implements IngredientServiceInterface {
   getIngredientsByZodiacSign(sign: string): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
     return allIngredients.filter(ingredient => {
-      const influences = ingredient.astrologicalInfluences || [];
+      const influences = (ingredient.astrologicalInfluences || []) as any[];
       return influences.some((influence: string) =>
         influence.toLowerCase().includes(sign.toLowerCase())
       );
@@ -443,8 +443,8 @@ export class IngredientService implements IngredientServiceInterface {
   analyzeRecipeIngredients(recipe: Recipe): {
     overallHarmony: number;
     flavorProfile: { [key: string]: number };
-    strongPairings: Array<{ ingredients: string[]; score, number }>;
-    weakPairings: Array<{ ingredients: string[]; score, number }>;
+    strongPairings: Array<{ ingredients: string[]; score: number }>;
+    weakPairings: Array<{ ingredients: string[]; score: number }>;
   } {
     // Simplified analysis - in a full implementation this would be more sophisticated
     const ingredients = recipe.ingredients || [];
@@ -480,7 +480,7 @@ export class IngredientService implements IngredientServiceInterface {
   enhanceIngredientWithElementalProperties(
     ingredient: Partial<UnifiedIngredient>
   ): UnifiedIngredient {
-    const enhanced: UnifiedIngredient = {
+    const enhanced = {
       id: ingredient.id || `ingredient_${Date.now()}`,
       name: ingredient.name || 'Unknown Ingredient',
       category: ingredient.category || 'uncategorized',
@@ -491,7 +491,7 @@ export class IngredientService implements IngredientServiceInterface {
         Air: 0.25
       },
       ...ingredient
-    };
+    } as UnifiedIngredient;
 
     return enhanced;
   }

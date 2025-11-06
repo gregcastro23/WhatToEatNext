@@ -34,6 +34,21 @@ export async function GET(request: NextRequest) {
         // Calculate thermodynamic metrics using the alchemizer engine
         const thermodynamicMetrics = alchemize(planetaryPositions);
 
+        // Derive elemental properties from thermodynamics
+        type WithMonicaKalchm = typeof thermodynamicMetrics & { monica?: number; kalchm?: number };
+        const t = thermodynamicMetrics as WithMonicaKalchm;
+        const Fire = ((t as any)?.heat || 0) * 0.2 + ((t as any)?.reactivity || 0) * 0.2;
+        const Water = (t.monica || 0) * 0.6 + (1 - thermodynamicMetrics.heat) * 0.4;
+        const Earth = (t.kalchm || 0) * 0.5 + (1 - thermodynamicMetrics.entropy) * 0.5;
+        const Air = ((t as any)?.entropy || 0) * 0.2 + ((t as any)?.reactivity || 0) * 0.2;
+        const total = Fire + Water + Earth + Air;
+        const elementalBalance = {
+          Fire: Fire / total,
+          Water: Water / total,
+          Earth: Earth / total,
+          Air: Air / total
+        };
+
         response.alchemicalProperties = alchemicalProperties;
         response.thermodynamicMetrics = thermodynamicMetrics;
 
@@ -42,12 +57,7 @@ export async function GET(request: NextRequest) {
           spiritualEssence: alchemicalProperties.Spirit,
           materialManifestation: alchemicalProperties.Matter,
           transformativePower: alchemicalProperties.Substance,
-          elementalBalance: {
-            Fire: alchemicalProperties.Fire,
-            Water: alchemicalProperties.Water,
-            Earth: alchemicalProperties.Earth,
-            Air: alchemicalProperties.Air
-          },
+          elementalBalance,
           thermodynamicState: {
             heat: thermodynamicMetrics.heat,
             entropy: thermodynamicMetrics.entropy,
@@ -124,6 +134,21 @@ export async function POST(request: NextRequest) {
         const alchemicalProperties = calculateAlchemicalFromPlanets(planetaryPositions);
         const thermodynamicMetrics = alchemize(planetaryPositions);
 
+        // Derive elemental properties from thermodynamics
+        type WithMonicaKalchm2 = typeof thermodynamicMetrics & { monica?: number; kalchm?: number };
+        const t2 = thermodynamicMetrics as WithMonicaKalchm2;
+        const Fire2 = ((t2 as any)?.heat || 0) * 0.2 + ((t2 as any)?.reactivity || 0) * 0.2;
+        const Water2 = (t2.monica || 0) * 0.6 + (1 - thermodynamicMetrics.heat) * 0.4;
+        const Earth2 = (t2.kalchm || 0) * 0.5 + (1 - thermodynamicMetrics.entropy) * 0.5;
+        const Air2 = ((t2 as any)?.entropy || 0) * 0.2 + ((t2 as any)?.reactivity || 0) * 0.2;
+        const total2 = Fire2 + Water2 + Earth2 + Air2;
+        const elementalBalance2 = {
+          Fire: Fire2 / total2,
+          Water: Water2 / total2,
+          Earth: Earth2 / total2,
+          Air: Air2 / total2
+        };
+
         response.alchemicalProperties = alchemicalProperties;
         response.thermodynamicMetrics = thermodynamicMetrics;
 
@@ -134,11 +159,13 @@ export async function POST(request: NextRequest) {
             matter: alchemicalProperties.Matter > 0.5 ? 'purified' : 'impure',
             substance: alchemicalProperties.Substance > 0.5 ? 'transmuted' : 'base'
           },
-          elementalHarmony: {
-            balanced: Math.abs(alchemicalProperties.Fire - alchemicalProperties.Water) < 0.3 &&
-                     Math.abs(alchemicalProperties.Earth - alchemicalProperties.Air) < 0.3,
-            dominantElement: getDominantElement(alchemicalProperties),
-            complementaryElements: getComplementaryElements(alchemicalProperties)
+          elementalProfile: {
+            // Elements reinforce themselves - no opposing forces
+            Fire: elementalBalance2.Fire,
+            Water: elementalBalance2.Water,
+            Earth: elementalBalance2.Earth,
+            Air: elementalBalance2.Air,
+            dominantElement: getDominantElement(elementalBalance2)
           },
           alchemicalPotential: {
             transformationReadiness: thermodynamicMetrics.reactivity,

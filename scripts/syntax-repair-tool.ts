@@ -217,7 +217,8 @@ if (require.main === module) {
 
   tool.printSummary(results);
 
+  const failed = results.filter(r => !r.success);
   process.exit(failed.length > 0 ? 1 : 0);
 }
 
-export { SyntaxRepairTool, RepairPattern, RepairResult };
+export type { SyntaxRepairTool, RepairPattern, RepairResult };

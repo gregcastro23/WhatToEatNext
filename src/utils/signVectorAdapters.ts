@@ -126,15 +126,15 @@ export function getSignFromPosition(_position: unknown): string | null {
  * Safely extract degree from a planetary position
  */
 export function getDegreeFromPosition(_position: unknown): number {
-  if (!position || typeof position !== 'object') {
+  if (!_position || typeof _position !== 'object') {
     return 0;
-}
+  }
 
-  const pos = position as any;
+  const pos = _position as any;
   const degree = pos.degree;
 
   if (typeof degree === 'number') {
-    return Number.isFinite(degree) ? degree : 0
+    return Number.isFinite(degree) ? degree : 0;
   }
 
   if (typeof degree === 'string') {

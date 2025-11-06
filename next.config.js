@@ -113,7 +113,7 @@ validateDependencies();
 const nextConfig = {
   reactStrictMode: true,
   // Enable standalone output for Docker builds
-  output: 'standalone',
+  // output: 'standalone', // Temporarily disabled for development
   images: {
     domains: [], // Add image domains you need
     remotePatterns: [

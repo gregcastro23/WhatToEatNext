@@ -570,7 +570,7 @@ export function getCommonIngredients(
     'French-Italian': ['olive oil', 'garlic', 'herbs', 'wine'],
     'Mexican-American': ['corn', 'beans', 'tomatoes', 'chili'],
     'Indian-Thai': ['coconut', 'curry', 'rice', 'spices']
-  }
+  };
 
   const key = `${cuisine1}-${cuisine2}`;
   const reverseKey = `${cuisine2}-${cuisine1}`;
