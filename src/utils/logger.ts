@@ -77,7 +77,7 @@ class Logger {
    * Log debug information (only in development)
    */
   debug(message: string, ...args: unknown[]): void {
-    if (this.shouldLog('debug') {
+    if (this.shouldLog('debug')) {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
       console.log(`[DEBUG]${component} ${message}`, ...options.rest);
@@ -88,7 +88,7 @@ class Logger {
    * Log general information
    */
   info(message: string, ...args: unknown[]): void {
-    if (this.shouldLog('info') {
+    if (this.shouldLog('info')) {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
       console.info(`[INFO]${component} ${message}`, ...options.rest);
