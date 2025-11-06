@@ -278,7 +278,7 @@ export async function calculateDetailalCompatibility(
     },
     complementaryScore,
     balanceScore,
-    recommendation: generateCompatibilityRecommendation()
+    recommendation: generateCompatibilityRecommendation(
       compatibility,
       recipeDominant,
       userDominant
@@ -292,7 +292,7 @@ export async function calculateDetailalCompatibility(
  * @returns Complementary element (same element)
  */
 export function getComplementaryElement(
-  element: keyof ElementalProperties;
+  element: keyof ElementalProperties
 ): keyof ElementalProperties {
   // Each element complements itself most strongly
   return element;

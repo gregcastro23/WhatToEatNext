@@ -369,7 +369,7 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
     }
 
     // Test 3: Signature identification
-    const signatures = identifyCuisineSignatures(computedCuisine, DEFAULT_GLOBAL_BASELINE, ) {
+    const signatures = identifyCuisineSignatures(computedCuisine, DEFAULT_GLOBAL_BASELINE, {
       threshold: 1.5,
       includeConfidence: true
     });

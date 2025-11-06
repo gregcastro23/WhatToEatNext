@@ -342,8 +342,8 @@ export class EphemerisParser {
       const expectedPlanets = Object.values(this.planetCodes);
       const actualPlanets = Object.keys(entry.positions);
 
-      expectedPlanets.forEach(planet => ) {
-        if (!actualPlanets.includes(planet) {
+      expectedPlanets.forEach(planet => {
+        if (!actualPlanets.includes(planet)) {
           warnings.push(`Entry ${index + 1}: Missing position for ${planet}`);
         }
       });
