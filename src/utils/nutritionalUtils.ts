@@ -9,7 +9,7 @@ import { NutritionalProfile } from '@/types/alchemy';
  * @returns Normalized name for data lookup
  */
 export function normalizeIngredientName(name: string): string {
-  if (!name) return ''
+  if (!name) return '';
 
   // Convert to lowercase, trim whitespace
   return (
@@ -20,7 +20,7 @@ export function normalizeIngredientName(name: string): string {
       .replace(/[\s-/]+/g, '_')
       // Remove any remaining special characters
       .replace(/[^\w_]/g, '')
-  )
+  );
 }
 
 /**
@@ -30,12 +30,11 @@ export function normalizeIngredientName(name: string): string {
  * @param ingredientName The name of the ingredient
  * @returns Nutritional profile or null if not found
  */
-export async function getNutritionalData()
-  ingredientName: string;
+export async function getNutritionalData(
+  ingredientName: string
 ): Promise<NutritionalProfile | null> {
   // Use the fetchNutritionalData function from nutritional.ts
-  const profile = await fetchNutritionalData(ingredientName)
-;
+  const profile = await fetchNutritionalData(ingredientName);
   if (!profile) return null;
 
   // Convert profile to match alchemy types
@@ -68,12 +67,12 @@ export function getAvailableNutritionalIngredients(): string[] {
  * @param ingredient2 Second ingredient name
  * @returns Comparison result with percentage differences
  */
-export async function compareNutritionalValues()
+export async function compareNutritionalValues(
   ingredient1: string,
-  ingredient2: string;
+  ingredient2: string
 ): Promise<{
-  ingredient1: NutritionalProfile | null,
-  ingredient2: NutritionalProfile | null,
+  ingredient1: NutritionalProfile | null;
+  ingredient2: NutritionalProfile | null;
   differences: Record<string, number>;
 }> {
   const profile1 = await getNutritionalData(ingredient1);
@@ -85,7 +84,7 @@ export async function compareNutritionalValues()
       ingredient1: profile1,
       ingredient2: profile2,
       differences: {}
-    }
+    };
   }
 
   // Calculate differences in key metrics (percentage difference) - safe property access
@@ -95,7 +94,7 @@ export async function compareNutritionalValues()
   const profile2Macros = profile2Data?.macros || {};
 
   const differences: Record<string, number> = {
-    calories: (((profile2.calories || 0) - (profile1.calories || 0)) / (profile1.calories || 1)) * 100;
+    calories: (((profile2.calories || 0) - (profile1.calories || 0)) / (profile1.calories || 1)) * 100,
     protein: profile1Macros.protein
       ? ((profile2Macros.protein - profile1Macros.protein) / profile1Macros.protein) * 100
       : 0,
