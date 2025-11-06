@@ -109,7 +109,7 @@ function checkRequiredFields(recipe: Partial<Recipe>, errors: string[]): boolean
   }
 
   // Validate instructions array
-  if (recipe.instructions && !Array.isArray(recipe.instructions) {
+  if (recipe.instructions && !Array.isArray(recipe.instructions)) {
     errors.push('Instructions must be an array');
     isValid = false;
   }
@@ -209,7 +209,7 @@ function validateCookingMethods(
   for (const method of cookingMethod) {
     if (typeof method !== 'string') {
       errors.push(`Invalid cooking method type: ${typeof method}`);
-    } else if (!isValidCookingMethod(method) {
+    } else if (!isValidCookingMethod(method)) {
       warnings.push(`Unknown cooking method: ${method}`);
     }
   }
@@ -302,7 +302,7 @@ function calculateQualityMetrics(
 ): RecipeValidationResult['qualityMetrics'] {
   // Completeness score based on available data
   let completenessScore = 0;
-  const completenessFactors = [;
+  const completenessFactors = [
     checks.hasRequiredFields ? 30 : 0,
     checks.ingredientsResolved ? 20 : 0,
     checks.elementalsNormalized ? 15 : 0,
@@ -313,8 +313,8 @@ function calculateQualityMetrics(
   completenessScore = completenessFactors.reduce((sum, factor) => sum + factor, 0);
 
   // Ingredient coverage
-  const ingredientCoverage = recipe.ingredients ?;
-    Math.min(100, (recipe.ingredients.length / 10) * 100) : 0;
+  const ingredientCoverage = recipe.ingredients
+    ? Math.min(100, (recipe.ingredients.length / 10) * 100) : 0;
 
   // Elemental balance (0-1 based on how close elements are to equal distribution)
   const elementals = recipe.elementalProperties;
@@ -328,8 +328,8 @@ function calculateQualityMetrics(
 
   // Cooking method diversity
   const cookingMethods = recipe.cookingMethod;
-  const cookingMethodDiversity = cookingMethods ?;
-    Math.min(1, cookingMethods.length / 5) : 0;
+  const cookingMethodDiversity = cookingMethods
+    ? Math.min(1, cookingMethods.length / 5) : 0;
 
   return {
     completenessScore,
@@ -352,15 +352,15 @@ function generateRecommendations(context: {
   const { errors, warnings, qualityMetrics } = context;
 
   // Critical errors first
-  if (errors.some(e => e.includes('required field')) {
+  if (errors.some(e => e.includes('required field'))) {
     recommendations.push('Add missing required fields (id, name, ingredients, instructions, elementalProperties)');
   }
 
-  if (errors.some(e => e.includes('not found in database')) {
+  if (errors.some(e => e.includes('not found in database'))) {
     recommendations.push('Resolve missing ingredients by adding them to the ingredient database');
   }
 
-  if (errors.some(e => e.includes('elemental properties')) {
+  if (errors.some(e => e.includes('elemental properties'))) {
     recommendations.push('Normalize elemental properties to sum to 1.0');
   }
 
@@ -377,7 +377,7 @@ function generateRecommendations(context: {
     recommendations.push('Add diverse cooking methods for richer transformations');
   }
 
-  if (warnings.some(w => w.includes('astrological timing')) {
+  if (warnings.some(w => w.includes('astrological timing'))) {
     recommendations.push('Add astrological timing for optimal preparation windows');
   }
 
@@ -396,7 +396,7 @@ function generateIngredientId(name: string): string {
  */
 function isValidCookingMethod(method: string): boolean {
   // This should integrate with the actual cooking methods database
-  const validMethods = [;
+  const validMethods = [
     'grilling', 'baking', 'boiling', 'steaming', 'frying', 'sautéing',
     'roasting', 'broiling', 'poaching', 'simmering', 'braising', 'stewing',
     'fermenting', 'pickling', 'curing', 'smoking', 'blending', 'pureeing'
@@ -445,12 +445,12 @@ export function getValidationStatistics(
     }
   }
 
-  const commonErrors = Object.entries(errorCounts);
+  const commonErrors = Object.entries(errorCounts)
     .sort(([,a], [,b]) => b - a)
     .slice(0, 5)
     .map(([error, count]) => ({ error, count }));
 
-  const commonWarnings = Object.entries(warningCounts);
+  const commonWarnings = Object.entries(warningCounts)
     .sort(([,a], [,b]) => b - a)
     .slice(0, 5)
     .map(([warning, count]) => ({ warning, count }));
