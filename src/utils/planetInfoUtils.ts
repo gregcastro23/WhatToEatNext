@@ -1,4 +1,4 @@
-import { MAJOR_ARCANA, PLANET_TO_MAJOR_ARCANA } from '@/constants/tarotCards';
+import { __MAJOR_ARCANA, __PLANET_TO_MAJOR_ARCANA } from '@/constants/tarotCards';
 import { log } from '@/services/LoggingService';
 import {
   calculateAspects,
@@ -101,13 +101,13 @@ export async function getPlanetInfo(
       const cardName = signToCard[planetSign] || 'The Fool';
       tarotCard = {
         name: cardName,
-        element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
+        element: _MAJOR_ARCANA[cardName]?.element || 'Unknown'
       };
-    } else if (PLANET_TO_MAJOR_ARCANA[normalizedPlanetName]) {
-      const cardName = PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
+    } else if (_PLANET_TO_MAJOR_ARCANA[normalizedPlanetName]) {
+      const cardName = _PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
       tarotCard = {
         name: cardName,
-        element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
+        element: _MAJOR_ARCANA[cardName]?.element || 'Unknown'
       };
     }
 

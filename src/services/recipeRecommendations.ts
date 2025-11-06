@@ -1,6 +1,6 @@
 import { createEnhancedError } from '../utils/errorHandling';
 import { logger } from '../utils/logger';
-import { celestialCalculator } from './celestialCalculations';
+import { _celestialCalculator } from './celestialCalculations';
 import type { ElementalProperties } from '../types/alchemy';
 import type { Recipe, ScoredRecipe } from '../types/recipe';
 // SpoonacularService removed with cleanup

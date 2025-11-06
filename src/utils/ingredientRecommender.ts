@@ -54,14 +54,14 @@ function safeGetIngredientName(ingredient: unknown): string | undefined {
 
 // Constants
 import { CHAKRA_HERBS, CHAKRA_NUTRITIONAL_CORRELATIONS } from '@/constants/chakraSymbols';
-import { LUNAR_PHASES } from '@/constants/lunar';
+import { __LUNAR_PHASES } from '@/constants/lunar';
 // Data
 import { ingredientCategories } from '@/data/ingredientCategories';
 import { fruits } from '@/data/ingredients/fruits';
 import { grains } from '@/data/ingredients/grains';
 import { herbs } from '@/data/ingredients/herbs';
 import { oils } from '@/data/ingredients/oils';
-import { proteins } from '@/data/ingredients/proteins';
+import { __proteins } from '@/data/ingredients/_proteins';
 import { seasonings } from '@/data/ingredients/seasonings';
 import { spices } from '@/data/ingredients/spices';
 
@@ -75,7 +75,7 @@ import type {
   LunarPhase,
   Season
 } from '@/types/alchemy';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import { __createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { ElementalState } from '@/types/elemental';
 
 // AstrologicalInfluences interface
@@ -178,7 +178,7 @@ export interface IngredientRecommendation {
 export interface GroupedIngredientRecommendations {
   vegetables?: IngredientRecommendation[];
   fruits?: IngredientRecommendation[];
-  proteins?: IngredientRecommendation[];
+  _proteins?: IngredientRecommendation[];
   grains?: IngredientRecommendation[];
   spices?: IngredientRecommendation[];
   herbs?: IngredientRecommendation[];
@@ -229,7 +229,7 @@ const allIngredients = [
   ...Object.values(fruits),
   ...Object.values(herbs),
   ...Object.values(spices),
-  ...Object.values(proteins),
+  ...Object.values(_proteins),
   ...Object.values(grains),
   ...Object.values(seasonings),
   ...Object.values(oils)
@@ -2843,12 +2843,12 @@ export async function recommendIngredients(
   // Calculate planetary positions using imported utility
   const _calculatedPositions = calculatePlanetaryPositions(date);
 
-  // Use LUNAR_PHASES data for phase-based filtering (await lunarPhase since it's a Promise)
+  // Use _LUNAR_PHASES data for phase-based filtering (await lunarPhase since it's a Promise)
   const lunarPhaseValue = await lunarPhase;
-  const currentLunarPhaseData = LUNAR_PHASES[lunarPhaseValue] || LUNAR_PHASES['new moon'];
+  const currentLunarPhaseData = _LUNAR_PHASES[lunarPhaseValue] || _LUNAR_PHASES['new moon'];
 
   // Create astrological bridge for enhanced compatibility
-  const astrologicalBridge = createAstrologicalBridge();
+  const astrologicalBridge = _createAstrologicalBridge();
   // Note: Bridge configuration moved to separate initialization if needed
   const planetaryCalculator = { calculatePlanetaryDay: (date, Date) => {
       const days = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];

@@ -3,8 +3,8 @@
  * This file contains utility functions shared between the cuisine modules to prevent circular dependencies
  */
 
-import { grainCuisineMatrix } from '../../data/integrations/grainCuisineMatrix';
-import { herbCuisineMatrix } from '../../data/integrations/herbCuisineMatrix';
+import { __grainCuisineMatrix } from '../../data/integrations/_grainCuisineMatrix';
+import { __herbCuisineMatrix } from '../../data/integrations/_herbCuisineMatrix';
 import type { IngredientCategory } from '../../data/ingredients/types';
 
 /**
@@ -13,10 +13,10 @@ import type { IngredientCategory } from '../../data/ingredients/types';
 export function getCuisinePAirings(ingredientName: string, category: IngredientCategory): string[] {
   switch (category) {
     case 'grain':
-      const grainData = grainCuisineMatrix[ingredientName] as unknown;
+      const grainData = _grainCuisineMatrix[ingredientName] as unknown;
       return grainData?.cuisines || [];
     case 'culinary_herb':
-      return herbCuisineMatrix[ingredientName] || [];
+      return _herbCuisineMatrix[ingredientName] || [];
     // Additional categories can be added as their matrix files are created
     default:
       return [];
@@ -45,7 +45,7 @@ export function getIngredientsForCuisine(
 
   // Process each matrix to find ingredients that pAir with this cuisine
   if (categories.includes('grain')) {
-    Object.entries(grainCuisineMatrix || {}).forEach(([grain, data]) => {
+    Object.entries(_grainCuisineMatrix || {}).forEach(([grain, data]) => {
       const grainDataEntry = data;
       if (grainDataEntry?.cuisines && (grainDataEntry as any)?.cuisines.includes(cuisineName)) {
         result.grain.push(grain);
@@ -54,7 +54,7 @@ export function getIngredientsForCuisine(
   }
 
   if (categories.includes('culinary_herb')) {
-    Object.entries(herbCuisineMatrix || {}).forEach(([herb, cuisines]) => {
+    Object.entries(_herbCuisineMatrix || {}).forEach(([herb, cuisines]) => {
       if (Array.isArray(cuisines) && cuisines.includes(cuisineName)) {
         result.culinary_herb.push(herb);
       }

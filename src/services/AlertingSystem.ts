@@ -2,8 +2,8 @@ import { log } from '@/services/LoggingService';
 import fs from 'fs';
 import path from 'path';
 import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
-import { __errorTrackingSystem } from './ErrorTrackingSystem';
-import { __qualityMetricsService } from './QualityMetricsService';
+import { _errorTrackingSystem } from './ErrorTrackingSystem';
+import { _qualityMetricsService } from './QualityMetricsService';
 
 export interface Alert {
   id: string;

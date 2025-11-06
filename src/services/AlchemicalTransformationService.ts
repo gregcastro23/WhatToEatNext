@@ -3,12 +3,12 @@ import {
   CookingMethod
 } from '../types/alchemy';
 import {
-  __transformIngredients,
-  __transformCookingMethods,
-  __transformCuisines,
-  __sortByAlchemicalCompatibility,
-  __filterByAlchemicalCompatibility,
-  __getTopCompatibleItems
+  _transformIngredients,
+  _transformCookingMethods,
+  _transformCuisines,
+  _sortByAlchemicalCompatibility,
+  _filterByAlchemicalCompatibility,
+  _getTopCompatibleItems
 } from '../utils/alchemicalTransformationUtils';
 import type { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
 import type { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';

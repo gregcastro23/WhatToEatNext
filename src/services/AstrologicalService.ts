@@ -3,10 +3,10 @@ import * as path from 'path';
 
 // ========== PHASE, 3: UPDATED IMPORTS TO USE TYPE ALIASES ==========
 import {
-  __DefaultAstrologicalState,
+  _DefaultAstrologicalState,
   DefaultPlanetaryPositions,
-  __createSuccessResponse,
-  __createErrorResponse
+  _createSuccessResponse,
+  _createErrorResponse
 } from '@/constants/typeDefaults';
 import type { ElementalPropertiesType, ServiceResponseType } from '@/types/alchemy';
 import type { PlanetaryInfluenceResponse } from '@/types/apiResponses';

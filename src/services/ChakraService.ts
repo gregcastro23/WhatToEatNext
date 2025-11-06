@@ -2,7 +2,7 @@ import {
   CHAKRAS,
   calculateChakraEnergies,
   recommendFoodsForChakraBalance,
-  CHAKRA_PROPERTIES
+  _CHAKRA_PROPERTIES
 } from '../constants/chakraMappings';
 import type {
   Chakra} from '../constants/chakraMappings';
@@ -72,7 +72,7 @@ export class ChakraService {
       }
 
       // Get properties
-      const properties = CHAKRA_PROPERTIES[chakra];
+      const properties = _CHAKRA_PROPERTIES[chakra];
 
       // Find related signs (signs that influence this chakra)
       const relatedSigns = signEnergyStates

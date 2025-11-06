@@ -35,7 +35,7 @@ import type {
     PlanetaryAspect
 } from '@/types/alchemy';
 import {
-    COOKING_METHOD_THERMODYNAMICS
+    _COOKING_METHOD_THERMODYNAMICS
 } from '@/types/alchemy';
 import type { AstrologicalState } from '@/types/celestial';
 import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
@@ -226,7 +226,7 @@ export function getMethodThermodynamics(
 
   // 3. Check the explicitly defined mapping constant
   const constantThermoData =
-    COOKING_METHOD_THERMODYNAMICS[methodNameLower as keyof typeof COOKING_METHOD_THERMODYNAMICS];
+    _COOKING_METHOD_THERMODYNAMICS[methodNameLower as keyof typeof _COOKING_METHOD_THERMODYNAMICS];
   if (constantThermoData) {
     return constantThermoData;
   }

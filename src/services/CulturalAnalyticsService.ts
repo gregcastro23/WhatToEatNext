@@ -2,10 +2,10 @@
 // Implements cross-cultural compatibility analysis, cultural synergy scoring,
 // and fusion cuisine recommendations for the CuisineRecommender component
 
-import {culinaryTraditions, _CuisineProfile} from '@/data/cuisines/culinaryTraditions';
-import {culturalRules, _getCulturalRecommendations} from '@/data/culturalrules';
+import {culinaryTraditions, CuisineProfile} from '@/data/cuisines/culinaryTraditions';
+import {culturalRules, getCulturalRecommendations} from '@/data/culturalrules';
 import type {ElementalProperties, LunarPhase} from '@/types/alchemy';
-import { _ZodiacSign} from '@/types/alchemy';
+import { ZodiacSign} from '@/types/alchemy';
 import {logger} from '@/utils/logger';
 
 // ===== INTERFACES =====

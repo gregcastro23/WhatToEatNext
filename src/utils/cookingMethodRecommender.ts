@@ -57,7 +57,7 @@ import type {
     PlanetaryAspect
 } from '@/types/alchemy';
 import {
-    COOKING_METHOD_THERMODYNAMICS
+    _COOKING_METHOD_THERMODYNAMICS
 } from '@/types/alchemy'
 // Removed unused, import: CookingMethodEnum
 import type { CookingMethod } from '@/types/cooking'
@@ -234,7 +234,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
 
 // Function to get thermodynamic properties for a method
 // PRIORITIZES detailedCookingMethods from src/data/cooking/cookingMethods.ts
-// FALLS BACK to COOKING_METHOD_THERMODYNAMICS constant from src/data/cooking/thermodynamics.ts
+// FALLS BACK to _COOKING_METHOD_THERMODYNAMICS constant from src/data/cooking/thermodynamics.ts
 // FURTHER FALLS BACK to keyword-based logic
 interface MethodWithThermodynamics {
   name?: string;
@@ -281,10 +281,10 @@ export function getMethodThermodynamics(
     };
   }
 
-  // 3. Check the explicitly defined mapping constant (COOKING_METHOD_THERMODYNAMICS)
+  // 3. Check the explicitly defined mapping constant (_COOKING_METHOD_THERMODYNAMICS)
   // ✅ Pattern KK-1: Safe type conversion for thermodynamics lookup
   const constantThermoData =
-    COOKING_METHOD_THERMODYNAMICS[methodNameLower as keyof typeof COOKING_METHOD_THERMODYNAMICS];
+    _COOKING_METHOD_THERMODYNAMICS[methodNameLower as keyof typeof _COOKING_METHOD_THERMODYNAMICS];
   if (constantThermoData) {
     return constantThermoData;
   }

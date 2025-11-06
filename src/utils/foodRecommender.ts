@@ -7,9 +7,9 @@ import {
     meats,
     plantBased,
     poultry,
-    proteins,
+    _proteins,
     seafood
-} from '@/data/ingredients/proteins';
+} from '@/data/ingredients/_proteins';
 import { seasonings } from '@/data/ingredients/seasonings';
 import { spices } from '@/data/ingredients/spices';
 // Removed unused, import: IngredientMapping
@@ -24,12 +24,12 @@ import type {
 // Removed unused, _imports: LunarPhase, Season, Element
 import type { Modality, Planet } from '@/types/celestial';
 
-// Create eggs and dairy from proteins by filtering category
-const eggs = Object.entries(proteins)
+// Create eggs and dairy from _proteins by filtering category
+const eggs = Object.entries(_proteins)
   .filter(([_, value]) => value.category === 'egg')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-const dairy = Object.entries(proteins)
+const dairy = Object.entries(_proteins)
   .filter(([_, value]) => value.category === 'dairy')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
@@ -1014,7 +1014,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
   // Define the categories we want to ensure have enough items
   const targetCategories = [
-    'proteins',
+    '_proteins',
     'vegetables',
     'grains',
     'fruits',
@@ -1049,7 +1049,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       category.includes('dairy') ||
       category.includes('egg')
     ) {
-      targetCategory = 'proteins';
+      targetCategory = '_proteins';
     } else if (
       category.includes('vegetable') ||
       category.includes('leafy') ||
@@ -1213,8 +1213,8 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
             return true;
           }
 
-          // For proteins: check for high protein content
-          if (category === 'proteins' && (ingredient.nutritionalProfile?.macros.protein ?? 0) > 5) {
+          // For _proteins: check for high protein content
+          if (category === '_proteins' && (ingredient.nutritionalProfile?.macros.protein ?? 0) > 5) {
             return true;
           }
 

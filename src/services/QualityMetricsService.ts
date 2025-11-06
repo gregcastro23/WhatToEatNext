@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { _logger } from '@/lib/logger';
 import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
-import { __errorTrackingSystem } from './ErrorTrackingSystem';
+import { _errorTrackingSystem } from './ErrorTrackingSystem';
 
 export interface QualityInsight {
   type: 'trend' | 'prediction' | 'recommendation' | 'alert';

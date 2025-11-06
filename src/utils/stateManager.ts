@@ -1,5 +1,5 @@
 import { _logger } from '@/lib/logger';
-import { celestialCalculator } from '@/services/celestialCalculations';
+import { _celestialCalculator } from '@/services/celestialCalculations';
 import type { ElementalProperties } from '@/types/alchemy';
 import type { Recipe } from '@/types/recipe';
 import { cache } from './cache';

@@ -1,4 +1,4 @@
-import { VALID_SEASONS } from '@/constants/seasonalConstants';
+import { _VALID_SEASONS } from '@/constants/seasonalConstants';
 import type { Recipe, RecipeIngredient } from '@/types/recipe';
 
 export function validateRecipe(recipe: Recipe): boolean {

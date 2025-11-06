@@ -9,7 +9,7 @@ import type {
   RegionalCuisineType,
   StreetFoodCuisineType
 } from '@/types/culinary';
-import { CUISINE_CATEGORY_MAP } from '@/types/culinary';
+import { __CUISINE_CATEGORY_MAP } from '@/types/culinary';
 
 /**
  * Cuisine Type Utilities
@@ -22,7 +22,7 @@ import { CUISINE_CATEGORY_MAP } from '@/types/culinary';
  * Get the continental category for a cuisine type
  */
 export function getCuisineContinent(cuisine: CompleteCuisineType): ContinentalCuisineType | string {
-  return CUISINE_CATEGORY_MAP[cuisine] || 'Other';
+  return _CUISINE_CATEGORY_MAP[cuisine] || 'Other';
 }
 
 /**
@@ -506,7 +506,7 @@ export function getCuisineCompatibilityRecommendations(
   _ingredients: string[]
 ): CuisineCompatibility[] {
   const allCuisines: CompleteCuisineType[] = Object.keys(
-    CUISINE_CATEGORY_MAP
+    _CUISINE_CATEGORY_MAP
   ) as CompleteCuisineType[];
 
   return allCuisines
@@ -604,7 +604,7 @@ export function getRegionalVariations(
  * Validate if a string is a valid cuisine type
  */
 export function isValidCuisineType(cuisine: string): cuisine is CompleteCuisineType {
-  return cuisine in CUISINE_CATEGORY_MAP;
+  return cuisine in _CUISINE_CATEGORY_MAP;
 }
 
 /**
@@ -653,11 +653,11 @@ export function groupCuisinesByCategory(
  * Get all cuisines in a category
  */
 export function getCuisinesInCategory(category: string): CompleteCuisineType[] {
-  return Object.entries(CUISINE_CATEGORY_MAP)
+  return Object.entries(_CUISINE_CATEGORY_MAP)
     .filter(([_, cat]) => cat === category)
     .map(([cuisine, _]) => cuisine as CompleteCuisineType);
 }
 
 // ========== EXPORT ALL UTILITIES ==========
 
-export { CUISINE_CATEGORY_MAP };
+export { _CUISINE_CATEGORY_MAP };

@@ -1,8 +1,8 @@
 import type { ElementalState } from '@/types/elemental';
 import {
   type ElementalProperties,
-  LUNAR_PHASE_MAPPING,
-  LUNAR_PHASE_REVERSE_MAPPING,
+  _LUNAR_PHASE_MAPPING,
+  _LUNAR_PHASE_REVERSE_MAPPING,
   type LunarPhase,
   type LunarPhaseWithSpaces,
   type LunarPhaseWithUnderscores,
@@ -251,14 +251,14 @@ export const LUNAR_PHASE_ELEMENTS: Record<LunarPhaseWithUnderscores, ElementalPr
  * Converts a lunar phase with spaces to one with underscores
  */
 export function convertToUnderscoreFormat(phase: LunarPhaseWithSpaces): LunarPhaseWithUnderscores {
-  return LUNAR_PHASE_MAPPING[phase];
+  return _LUNAR_PHASE_MAPPING[phase];
 }
 
 /**
  * Converts a lunar phase with underscores to one with spaces
  */
 export function convertToSpacesFormat(phase: LunarPhaseWithUnderscores): LunarPhaseWithSpaces {
-  return LUNAR_PHASE_REVERSE_MAPPING[phase];
+  return _LUNAR_PHASE_REVERSE_MAPPING[phase];
 }
 
 /**
@@ -266,7 +266,7 @@ export function convertToSpacesFormat(phase: LunarPhaseWithUnderscores): LunarPh
  */
 export function getLunarPhaseElements(phase: LunarPhase): ElementalProperties {
   const key: LunarPhaseWithUnderscores = phase.includes(' ')
-    ? LUNAR_PHASE_MAPPING[phase as LunarPhaseWithSpaces]
+    ? _LUNAR_PHASE_MAPPING[phase as LunarPhaseWithSpaces]
     : (phase as unknown as LunarPhaseWithUnderscores);
   return LUNAR_PHASE_ELEMENTS[key];
 }

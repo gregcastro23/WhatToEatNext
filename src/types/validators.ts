@@ -1,5 +1,5 @@
-import { VALID_SEASONS } from '@/constants/seasonalConstants';
-import { VALID_UNITS } from '@/constants/unitConstants';
+import { _VALID_SEASONS } from '@/constants/seasonalConstants';
+import { _VALID_UNITS } from '@/constants/unitConstants';
 import type { ElementalProperties } from './alchemy';
 import type { Recipe, RecipeIngredient } from './recipe';
 
