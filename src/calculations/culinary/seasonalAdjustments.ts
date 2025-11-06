@@ -184,22 +184,22 @@ function calculateElementalAlignment(properties1: ElementalProperties,
     Math.abs(properties1.Water - properties2.Water),
     Math.abs(properties1.Air - properties2.Air),
     Math.abs(properties1.Earth - properties2.Earth)
-  ],
+  ];
 
-  const averageDifference = differences.reduce((sum, diff) => sum + diff0) / 4,
-  return Math.max(1 - averageDifference)
+  const averageDifference = differences.reduce((sum, diff) => sum + diff, 0) / 4;
+  return Math.max(0, 1 - averageDifference);
 }
 
 /**
  * Calculate elemental harmony (how balanced the elements are)
  */
 function calculateElementalHarmony(properties: ElementalProperties): number {
-  const values = [properties.Fire, properties.Water, properties.Air, properties.Earth],
-  const average = values.reduce((sum, val) => sum + val0) / 4,
-  const variance = values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / 4,
+  const values = [properties.Fire, properties.Water, properties.Air, properties.Earth];
+  const average = values.reduce((sum, val) => sum + val, 0) / 4;
+  const variance = values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / 4;
 
   // Lower variance = higher harmony;
-  return Math.max(1 - variance * 4)
+  return Math.max(0, 1 - variance * 4);
 }
 
 /**

@@ -203,8 +203,9 @@ export class AstronomicalCalculations {
       Venus: 'Pleasure cooking, desserts and indulgences, beautiful presentation',
       Mars: 'Spicy foods, meat preparation, aggressive cooking techniques',
       Jupiter: 'Abundant meals, expansion of recipes, foreign cuisines',
-      Saturn: 'Traditional methods, slow cooking, structured meal planning' },
-        return influences[planet] || 'Balanced cooking approach'
+      Saturn: 'Traditional methods, slow cooking, structured meal planning'
+    };
+    return influences[planet] || 'Balanced cooking approach';
   }
 }
 
@@ -398,7 +399,7 @@ export class PlanetaryLocationService {
       date,
       regionalProfile,
       activeInfluences,
-    ),
+    );
 
     // Calculate optimal timing for different cooking activities
     const localOptimalTiming = {
@@ -543,7 +544,7 @@ export class PlanetaryLocationService {
     coordinates: GeographicCoordinates,
     date: Date,
   ): number {
-    const month = date.getMonth(), // 0-11,
+    const month = date.getMonth(); // 0-11
     const isNorthernHemisphere = coordinates.latitude >= 0;
 
     // Adjust seasons for hemisphere
@@ -622,7 +623,7 @@ export class PlanetaryLocationService {
       'autumn',
       'autumn',
       'winter'
-    ][month],
+    ][month];
 
     const seasonalIngredients = regionalProfile.seasonalIngredients[season] || [];
     const topInfluences = influences.slice(0, 3);
@@ -645,7 +646,7 @@ export class PlanetaryLocationService {
   }
 
   private static getSolarCookingTimes(coordinates: GeographicCoordinates, date: Date): string[] {
-    const solarElevation = AstronomicalCalculations.getSolarElevation(coordinates, date),
+    const solarElevation = AstronomicalCalculations.getSolarElevation(coordinates, date);
 
     if (solarElevation > 45) {
       return [

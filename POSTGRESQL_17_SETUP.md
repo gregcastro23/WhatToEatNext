@@ -6,33 +6,53 @@ Successfully upgraded WhatToEatNext project to PostgreSQL 17.6.
 
 ## Configuration Details
 
-### PostgreSQL 17 Instance
+### PostgreSQL 17 Instances
+
+#### Local (Native Installation)
 - **Version**: PostgreSQL 17.6
 - **Host**: localhost
 - **Port**: 5432
 - **Installation Path**: /Library/PostgreSQL/17
+- **Databases**: whattoeatnext, alchm_kitchen
+- **Users**: postgres (superuser), user (application)
+
+#### Docker (Containerized)
+- **Version**: PostgreSQL 17.6 Alpine
+- **Container**: whattoeatnext-postgres-17
+- **Host**: localhost (external) / postgres (internal)
+- **Port**: 5434 (external) / 5432 (internal)
+- **Databases**: whattoeatnext, alchm_kitchen
+- **User**: user (application)
+- **Image**: postgres:17-alpine
 
 ### Databases Created
 1. **whattoeatnext** (main application database)
 2. **alchm_kitchen** (backend service database)
 
+**Note**: Both databases exist in both local and Docker installations
+
 ### Users
-- **postgres** (superuser)
+- **postgres** (superuser) - Local only
   - Password: `password`
-- **user** (application user)
+- **user** (application user) - Both local and Docker
   - Password: `password`
   - Has full privileges on both databases
 
 ### Updated Files
 1. **~/.pgpass** - Passwordless authentication for psql
 2. **backend/.env** - Already configured correctly for PostgreSQL 17
-3. **backend/docker-compose.yml** - Updated to use postgres:17 image
+3. **backend/docker-compose.yml** - Updated to postgres:17-alpine with health checks
+4. **backend/init-databases.sh** - Automatic database initialization script
 
 ### Docker Containers
-- Stopped old PostgreSQL 15 containers:
-  - `backend-postgres-1` (was on port 5434)
-  - `planetary-postgres-dev` (was on port 5433)
-- Docker Compose now uses PostgreSQL 17 image
+- Removed old PostgreSQL 15 containers and volumes
+- New PostgreSQL 17 container:
+  - `whattoeatnext-postgres-17` (port 5434)
+  - Health checks enabled
+  - Automatic database initialization
+  - Fresh PostgreSQL 17 data
+- Other container still running:
+  - `planetary-postgres-dev` (PostgreSQL 15, port 5433)
 
 ## Connection Strings
 

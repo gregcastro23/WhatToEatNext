@@ -5,8 +5,7 @@
  * and ensure type safety throughout the application.
  */
 
-import type { CookingMethod } from '@/types/alchemy';
-import type { PlanetaryPosition as PlanetPosition } from '@/types/alchemy';
+import type { CookingMethod, PlanetaryPosition as PlanetPosition } from '@/types/alchemy';
 import type { ElementalProperties } from '@/types/unified';
 
 // Validation result interface

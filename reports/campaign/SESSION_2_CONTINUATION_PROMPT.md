@@ -1,7 +1,7 @@
 # ESLint Campaign - Session 2 Continuation Prompt
 
-**Campaign:** WhatToEatNext ESLint Systematic Error Elimination  
-**Date:** Session 2 Start (Post-November 6, 2025)  
+**Campaign:** WhatToEatNext ESLint Systematic Error Elimination
+**Date:** Session 2 Start (Post-November 6, 2025)
 **Previous Session:** Session 1 - 80.7% reduction achieved
 
 ---
@@ -10,7 +10,7 @@
 
 ### Metrics
 - **Total Issues:** 2,869 (using quick lint) / 12,901 (full lint with type-aware)
-- **Errors:** 1,157 / 432  
+- **Errors:** 1,157 / 432
 - **Warnings:** 1,712 / 12,469
 - **TypeScript Build Errors:** 7 (down from 9)
 - **Progress:** 80.7% reduction from baseline (14,919 → 2,869 quick)
@@ -40,7 +40,7 @@
 1. **Fix Remaining 7 TS Build Errors** (15-20 minutes)
    - steeringFileIntelligence.ts: 2 errors
    - streamlinedPlanetaryPositions.ts: 3 errors
-   - testIngredientMapping.ts: 1 error  
+   - testIngredientMapping.ts: 1 error
    - testRecommendations.ts: 1 error
 
 2. **Continue Type Safety in Top 3 Files** (45-60 minutes)
@@ -52,7 +52,7 @@
 
 ### Success Criteria
 - [ ] Zero TypeScript compilation errors
-- [ ] <2,000 total lint issues  
+- [ ] <2,000 total lint issues
 - [ ] 100% build stability maintained
 - [ ] Phase 1 declared COMPLETE
 
@@ -63,7 +63,7 @@
 ### Step 1: Fix Build Errors (Priority 1)
 
 **File:** `src/utils/steeringFileIntelligence.ts`
-**Errors:** Lines 293, 327 - Property 'sign' does not exist on type '{}'  
+**Errors:** Lines 293, 327 - Property 'sign' does not exist on type '{}'
 **Pattern:** Add proper type guards or type assertions
 ```typescript
 // Expected fix pattern
@@ -73,7 +73,7 @@ if (position && typeof position === 'object' && 'sign' in position) {
 ```
 
 **File:** `src/utils/streamlinedPlanetaryPositions.ts`
-**Errors:** Lines 46-48 - Property access on validated object  
+**Errors:** Lines 46-48 - Property access on validated object
 **Pattern:** Proper Record type usage
 ```typescript
 const obj = value as Record<string, unknown>;
@@ -81,27 +81,27 @@ const degree = typeof obj.degree === 'number' ? obj.degree : 0;
 ```
 
 **File:** `src/utils/testIngredientMapping.ts`
-**Error:** Line 20 - Property 'Italian' not found  
+**Error:** Line 20 - Property 'Italian' not found
 **Pattern:** Check casing (Italian vs italian) in cuisine definitions
 
 **File:** `src/utils/testRecommendations.ts`
-**Error:** Line 16 - Missing AlchemicalItem properties  
+**Error:** Line 16 - Missing AlchemicalItem properties
 **Pattern:** Complete interface with all required properties
 
 ### Step 2: Type Safety in Priority Files
 
 **UnifiedIngredientService.ts (273 issues)**
 - Search for all `as any` usages
-- Replace with `Record<string, unknown>` pattern  
+- Replace with `Record<string, unknown>` pattern
 - Add proper type guards for dynamic properties
 - Expected reduction: 50-100 issues
 
 **cookingMethodRecommender.ts (267 issues)**
-- Similar patterns to ingredientRecommender.ts  
+- Similar patterns to ingredientRecommender.ts
 - Use proven fix patterns from Session 1
 - Expected reduction: 50-100 issues
 
-**prometheus-metrics.ts (267 issues)**  
+**prometheus-metrics.ts (267 issues)**
 - Likely monitoring/metrics code
 - May have many intentional `any` types
 - Focus on critical paths only
@@ -179,7 +179,7 @@ catch (error: unknown) {
 - `/reports/campaign/ESLINT_CONFIG_FINAL_RECOMMENDATION.md` - Config strategy
 
 ### Configuration
-- `/eslint.config.mjs` - Current production config  
+- `/eslint.config.mjs` - Current production config
 - `/eslint.config.mjs.backup` - Backup of original
 - `/eslint.config.optimized.mjs` - Aggressive optimization (tested, not recommended yet)
 
@@ -226,14 +226,14 @@ git commit -m "Phase 1: [description]"
 ### Session 2 Breakdown
 - **Build Errors:** 15-20 minutes (4 files, 7 errors)
 - **UnifiedIngredientService:** 20-25 minutes
-- **cookingMethodRecommender:** 20-25 minutes  
+- **cookingMethodRecommender:** 20-25 minutes
 - **prometheus-metrics:** 15-20 minutes
 - **Validation & Commit:** 10-15 minutes
 - **Total:** 80-105 minutes
 
 ### Milestones
 - **30 min:** All build errors fixed ✅
-- **60 min:** 2 of 3 priority files complete  
+- **60 min:** 2 of 3 priority files complete
 - **90 min:** All 3 priority files improved
 - **End:** <2,000 issues, Phase 1 COMPLETE
 
@@ -260,7 +260,7 @@ git commit -m "Phase 1: [description]"
 - ✅ Document new patterns discovered
 - ✅ Maintain 100% build stability
 
-### Don'ts  
+### Don'ts
 - ❌ Skip build validation
 - ❌ Fix too many files before testing
 - ❌ Use `as any` as quick fix
@@ -296,7 +296,7 @@ Phase 1 is complete when:
 - Approach: Prefix with `_` or remove completely
 - Expected: ~300 issue reduction
 
-### Phase 3: Import Resolution  
+### Phase 3: Import Resolution
 - Target: import/* warnings
 - Approach: Fix path aliases, remove duplicates
 - Expected: ~200 issue reduction
@@ -344,4 +344,3 @@ cd /Users/GregCastro/Desktop/WhatToEatNext && make build 2>&1 | grep "error TS"
 This will show you exactly which 7 errors to fix first.
 
 **Good luck! The campaign is 80.7% complete - let's finish Phase 1!** 💪
-

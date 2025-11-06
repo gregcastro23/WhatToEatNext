@@ -461,7 +461,7 @@ export class FlavorProfileMigration {
     ingredientName: string,
     flavorData: Record<string, unknown>,
   ): UnifiedFlavorProfile {
-    const id = `ingredient-${ingredientName.toLowerCase().replace(/\s+/g, '-')}`,;
+    const id = `ingredient-${ingredientName.toLowerCase().replace(/\s+/g, '-')}`;
 
     return {
       id,
@@ -657,8 +657,9 @@ export class FlavorProfileMigration {
       salty: 'salty',
       bitter: 'bitter',
       umami: 'umami',
-      spicy: 'spicy' },
-        const mappedFlavor = flavorMap[flavorName.toLowerCase()];
+      spicy: 'spicy'
+    };
+    const mappedFlavor = flavorMap[flavorName.toLowerCase()];
     if (mappedFlavor) {
       baseNotes[mappedFlavor] = Number(flavorData.intensity) || 0.8;
     }
@@ -684,8 +685,8 @@ export class FlavorProfileMigration {
     const values = Object.values(baseNotes);
     // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
     const numericValues = values.map(val => Number(val) || 0);
-    const sum = numericValues.reduce((acc: number, val: number) => acc + val0),;
-    return sum / Math.max(numericValues.length1);
+    const sum = numericValues.reduce((acc: number, val: number) => acc + val, 0);
+    return sum / Math.max(numericValues.length, 1);
 }
 
   private calculateIngredientComplexity(flavorData: Record<string, unknown>): number {
@@ -793,8 +794,9 @@ export class FlavorProfileMigration {
       planetary: 'planetary',
       elemental: 'elemental',
       ingredient: 'ingredient',
-      'cooking-method': 'fusion' },
-        return categoryMap[category] || 'elemental';
+      'cooking-method': 'fusion'
+    };
+    return categoryMap[category] || 'elemental';
 }
 
   private mergeCuisineData(profileId: string, cuisineData: CuisineFlavorProfile): void {
@@ -852,7 +854,7 @@ export class FlavorProfileMigration {
     const complexityFactor = profile.complexity; // Higher complexity is better
     // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
     const elementalValues = Object.values(profile.elementalFlavors).map(val => Number(val) || 0);
-    const elementalBalance = elementalValues.reduce((acc: number, val: number) => acc + val0) / 4,;
+    const elementalBalance = elementalValues.reduce((acc: number, val: number) => acc + val, 0) / 4;
     return (intensityFactor + complexityFactor + elementalBalance) / 3;
 }
 

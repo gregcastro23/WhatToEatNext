@@ -70,10 +70,10 @@ import type { Ingredient, Modality } from '@/data/ingredients/types';
 import { vegetables } from '@/data/ingredients/vegetables';
 import type { AstrologicalState } from '@/types';
 import type {
-    ChakraEnergies,
-    ElementalProperties,
-    LunarPhase,
-    Season
+  ChakraEnergies,
+  ElementalProperties,
+  LunarPhase,
+  Season
 } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { ElementalState } from '@/types/elemental';

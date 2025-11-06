@@ -149,8 +149,8 @@ export const _CHAKRAS: ChakraProperties  = {
     balanceIndicators: ['Clear insight', 'Strong intuition', 'Wisdom'],
     imbalanceIndicators: ['Confusion', 'Poor intuition', 'Lack of focus'],
     planet: 'Moon'
-},
-},
+}
+};
 
 // Major Arcana to Chakra mappings
 export interface MajorArcanaChakra {
@@ -225,8 +225,8 @@ export const _MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[]  = [
     chakraPosition: 'crown',
     planet: 'Pluto',
     description: 'Symbolizes rebirth, spiritual awakening, and transcendence, connecting to the Crown Chakra\'s theme of spiritual enlightenment.'
-},
-],
+}
+];
 
 // Minor Arcana suit to Chakra mappings
 export interface SuitChakraMapping {
@@ -270,8 +270,8 @@ export const _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[]  = [
     element: 'Earth',
     energyState: 'Matter',
     description: 'Pentacles, influenced by Saturn, Venus, and Mercury, deal with the material world, practicality, and security.',
-},
-],
+}
+];
 
 // Key card to chakra mappings (tarot cards and their planetary/chakra associations)
 export const _KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[]  = [
@@ -406,8 +406,8 @@ export const _KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[]  = [
     chakraPosition: 'crown',
     planet: 'Saturn',
     description: 'Symbolizes completion, fulfillment, and integration of all elements, connecting to the Crown Chakra\'s wholeness.'
-},
-],
+}
+];
 
 // Summary mapping table for quick reference
 export interface ChakraMappingSummary {
@@ -453,8 +453,9 @@ export const _CHAKRA_MAPPING_SUMMARY: ChakraMappingSummary[]  = [
     chakra: 'crown',
     majorArcana: ['The World', 'Judgement'],
     secondarySuit: 'swords'
-},
-],
+}
+];
+
 export interface ChakraEnergies {
   root: number,
   sacral: number,

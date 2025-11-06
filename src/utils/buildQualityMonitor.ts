@@ -466,9 +466,9 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
 }> {
   try {
     let total = 0;
-    let javascript = 0,;
+    let javascript = 0;
     let css = 0;
-    let assets = 0,;
+    let assets = 0;
 
     const analyzeDirectory = (dir: string) => {
       const files = fs.readdirSync(dir);
@@ -584,10 +584,10 @@ async function getParallelizationInfo(): Promise<{
     const cpuCount = os.cpus().length;
 
     // Estimate workers based on CPU count and build system
-    const workers = Math.max(1, Math.floor(cpuCount * 0.75)),;
+    const workers = Math.max(1, Math.floor(cpuCount * 0.75));
 
     // Estimate efficiency based on workers vs CPU count
-    const efficiency = Math.min(1.0, workers / cpuCount),;
+    const efficiency = Math.min(1.0, workers / cpuCount);
 
     return {
       workers,
@@ -735,7 +735,7 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
  * Generate build optimization recommendations
  */
 function generateBuildOptimizationRecommendations(metrics: BuildMetrics): string[] {
-  const recommendations: string[] = [],
+  const recommendations: string[] = [];
 
   if (metrics.duration > PERFORMANCE_THRESHOLDS.BUILD_TIME.DEVELOPMENT) {
     recommendations.push('Consider enabling incremental builds to reduce compilation time')
@@ -830,7 +830,7 @@ function analyzeGCStats(metrics: BuildMetrics): GCStats {
  * Generate memory optimization suggestions
  */
 function generateMemoryOptimizationSuggestions(metrics: BuildMetrics): string[] {
-  const suggestions: string[] = [],
+  const suggestions: string[] = [];
 
   if (metrics.memoryUsage.peak > PERFORMANCE_THRESHOLDS.MEMORY_USAGE.WARNING) {
     suggestions.push('Consider increasing Node.js heap size for large builds')

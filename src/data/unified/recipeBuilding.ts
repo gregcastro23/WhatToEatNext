@@ -234,7 +234,7 @@ export class UnifiedRecipeBuildingSystem {
     const seasonalAdaptation = this.applySeasonalAdaptation(enhancedRecipe, seasonCriteria);
 
     // Step, 5: Apply cuisine integration
-    const cuisineIntegration = this.applyCuisineIntegration(enhancedRecipe, criteria.cuisine),;
+    const cuisineIntegration = this.applyCuisineIntegration(enhancedRecipe, criteria.cuisine);
 
     // Step 6: Apply nutritional optimization
     const nutritionalOptimization = this.applyNutritionalOptimization(enhancedRecipe);
@@ -456,8 +456,8 @@ export class UnifiedRecipeBuildingSystem {
 
     // Calculate improvement scores
     const seasonalScore = this.calculateSeasonalScore(adaptedRecipe, targetSeason);
-    const kalchmImprovement = this.calculateKalchmImprovement(originalRecipe, adaptedRecipe),;
-    const monicaImprovement = this.calculateMonicaImprovement(originalRecipe, adaptedRecipe),;
+    const kalchmImprovement = this.calculateKalchmImprovement(originalRecipe, adaptedRecipe);
+    const monicaImprovement = this.calculateMonicaImprovement(originalRecipe, adaptedRecipe);
 
     return {
       originalRecipe,
@@ -608,7 +608,7 @@ export class UnifiedRecipeBuildingSystem {
   private createBaseRecipe(criteria: RecipeBuildingCriteria): Partial<EnhancedRecipe> {
     const baseIngredients = this.selectIngredientsFromCriteria(criteria);
     const baseCookingMethods = this.selectCookingMethodsFromCriteria(criteria);
-    const baseInstructions = this.generateBaseInstructions(baseIngredients, baseCookingMethods),;
+    const baseInstructions = this.generateBaseInstructions(baseIngredients, baseCookingMethods);
 
     return {
       name: this.generateRecipeName(criteria),
@@ -1807,8 +1807,8 @@ export class UnifiedRecipeBuildingSystem {
     // Calculate planetary alignment with complete interface
     const currentPlanetaryHour = hour || 'Sun';
     const planetaryCompatibility = 0.8; // Default high compatibility
-    const lunarPhaseAlignment = phase ? 0.9 : 0.5, // Higher alignment if phase provided,;
-    const zodiacHarmony = sign ? 0.85 : 0.7, // Higher harmony if sign provided,;
+    const lunarPhaseAlignment = phase ? 0.9 : 0.5; // Higher alignment if phase provided
+    const zodiacHarmony = sign ? 0.85 : 0.7; // Higher harmony if sign provided
     const astrologicalScore = (planetaryCompatibility + lunarPhaseAlignment + zodiacHarmony) / 3;
 
     return {
@@ -1864,8 +1864,8 @@ export class UnifiedRecipeBuildingSystem {
     const baseEnergy = alignment.astrologicalScore || 0.7;
     const spiritualEnergy = baseEnergy * 0.9; // Spiritual energy from astrological alignment
     const emotionalResonance = baseEnergy * 0.85; // Emotional resonance from harmony
-    const physicalVitality = baseEnergy * 0.8, // Physical vitality from planetary influence,;
-    const mentalClarity = baseEnergy * 0.75, // Mental clarity from cosmic alignment,;
+    const physicalVitality = baseEnergy * 0.8; // Physical vitality from planetary influence
+    const mentalClarity = baseEnergy * 0.75; // Mental clarity from cosmic alignment
 
     return {
       spiritualEnergy,

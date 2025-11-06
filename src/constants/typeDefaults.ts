@@ -30,7 +30,7 @@ export const _EmptyAlchemicalProperties: AlchemicalPropertiesType = {
   Essence: 0,
   Matter: 0,
   Substance: 0
-} as const,
+} as const;
 
 /**
  * Default Alchemical Properties (alias for compatibility)
@@ -41,7 +41,7 @@ export const _DefaultAlchemicalProperties: AlchemicalPropertiesType = {
   Essence: 0.25,
   Matter: 0.25,
   Substance: 0.25
-} as const,
+} as const;
 
 /**
  * Balanced Alchemical Properties
@@ -52,7 +52,7 @@ export const BalancedAlchemicalProperties: AlchemicalPropertiesType = {
   Essence: 0.25,
   Matter: 0.25,
   Substance: 0.25
-} as const,
+} as const;
 
 /**
  * Empty Elemental Properties
@@ -63,7 +63,7 @@ export const _EmptyElementalProperties: ElementalPropertiesType = {
   Water: 0,
   Earth: 0,
   Air: 0
-} as const,
+} as const;
 
 /**
  * Default Elemental Properties (alias for compatibility)
@@ -74,7 +74,7 @@ export const _DefaultElementalProperties: ElementalPropertiesType = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-} as const,
+} as const;
 
 /**
  * Balanced Elemental Properties
@@ -85,7 +85,7 @@ export const BalancedElementalProperties: ElementalPropertiesType = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-} as const,
+} as const;
 
 /**
  * Default Thermodynamic Metrics
@@ -98,7 +98,7 @@ export const DefaultThermodynamicMetrics: ThermodynamicMetricsType = {
   gregsEnergy: 0.5,
   kalchm: 1.0,
   monica: 1.0
-} as const,
+} as const;
 
 /**
  * Default Alchemical State
@@ -194,7 +194,7 @@ export const _DefaultAstrologicalState: AstrologicalStateType = {
   currentZodiac: DefaultZodiacSign,
   lunarPhase: DefaultLunarPhase,
   elementalInfluence: BalancedElementalProperties
-} as const,
+} as const;
 
 /**
  * Error Service Response Factory
