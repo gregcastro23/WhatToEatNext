@@ -376,19 +376,19 @@ export class EphemerisParser {
 export const ephemerisParser = new EphemerisParser();
 
 // Export convenience functions
-export const parseAstronomicalPosition = (posStr: string) =>;
+export const parseAstronomicalPosition = (posStr: string) =>
   ephemerisParser.parseAstronomicalPosition(posStr);
 export const parseEphemerisData = (data: string) => ephemerisParser.parseEphemerisData(data);
-export const longitudeToSignAndDegree = (longitude: number) =>;
+export const longitudeToSignAndDegree = (longitude: number) =>
   ephemerisParser.longitudeToSignAndDegree(longitude);
-export const calculateAspect = (longitude1: number, longitude2: number) =>;
+export const calculateAspect = (longitude1: number, longitude2: number) =>
   ephemerisParser.calculateAspect(longitude1, longitude2);
 export const getElementForSign = (signName: string) => ephemerisParser.getElementForSign(signName);
-export const _calculateDominantElements = (positions: Record<string, ParsedPosition>) =>;
+export const _calculateDominantElements = (positions: Record<string, ParsedPosition>) =>
   ephemerisParser.calculateDominantElements(positions);
-export const getRetrogradePlanets = (positions: Record<string, ParsedPosition>) =>;
+export const getRetrogradePlanets = (positions: Record<string, ParsedPosition>) =>
   ephemerisParser.getRetrogradePlanets(positions);
-export const formatPosition = (position: ParsedPosition) =>;
+export const formatPosition = (position: ParsedPosition) =>
   ephemerisParser.formatPosition(position);
-export const validateEphemerisData = (entries: EphemerisEntry[]) =>;
+export const validateEphemerisData = (entries: EphemerisEntry[]) =>
   ephemerisParser.validateEphemerisData(entries);
