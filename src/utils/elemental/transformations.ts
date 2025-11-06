@@ -225,7 +225,7 @@ export function applyPlanetaryInfluence(
   };
 
   // ✅ Pattern KK-9: Safe arithmetic operations for elemental transformation
-  const transformedElemental = normalizeProperties({)
+  const transformedElemental = normalizeProperties({
     Fire: Number(item.elementalProperties.Fire || 0) + Number(elementalBoost.Fire || 0),
     Water: Number(item.elementalProperties.Water || 0) + Number(elementalBoost.Water || 0),
     Earth: Number(item.elementalProperties.Earth || 0) + Number(elementalBoost.Earth || 0),
