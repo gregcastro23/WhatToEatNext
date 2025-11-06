@@ -365,23 +365,23 @@ function calculateElementalStateFromIngredients(
   const elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   let totalWeight = 0;
 
-  (ingredients || []).forEach(ingredient => ) {
+  (ingredients || []).forEach(ingredient => {
     const category = ingredient.category?.toLowerCase() || '';
     const amount = ingredient.amount || 1;
 
     // Map categories to elements
     let elementContribution = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
-    if (category.includes('spice') || category.includes('pepper') {
+    if (category.includes('spice') || category.includes('pepper')) {
       elementContribution.Fire = 0.7;
       elementContribution.Air = 0.3;
-    } else if (category.includes('vegetable') || category.includes('root') {
+    } else if (category.includes('vegetable') || category.includes('root')) {
       elementContribution.Earth = 0.6;
       elementContribution.Water = 0.4;
-    } else if (category.includes('fruit') || category.includes('liquid') {
+    } else if (category.includes('fruit') || category.includes('liquid')) {
       elementContribution.Water = 0.7;
       elementContribution.Air = 0.3;
-    } else if (category.includes('herb') || category.includes('leaf') {
+    } else if (category.includes('herb') || category.includes('leaf')) {
       elementContribution.Air = 0.6;
       elementContribution.Earth = 0.4;
     } else {
@@ -390,7 +390,7 @@ function calculateElementalStateFromIngredients(
     }
 
     // Add weighted contribution
-    Object.keys(elementContribution || ) {}).forEach(element => ) {
+    Object.keys(elementContribution || {}).forEach(element => {
       elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] +=
         elementContribution[element as 'Fire' | 'Water' | 'Earth' | 'Air'] * amount;
     });
@@ -400,7 +400,7 @@ function calculateElementalStateFromIngredients(
 
   // Normalize
   if (totalWeight > 0) {
-    Object.keys(elementalState || ) {}).forEach(element => ) {
+    Object.keys(elementalState || {}).forEach(element => {
       elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] /= totalWeight;
     });
   }
@@ -464,7 +464,7 @@ export function getElementalCharacteristics(_element: Element): ElementalCharact
 
 function calculateComplementaryScore(
   element1: keyof ElementalProperties,
-  element2: keyof ElementalProperties;
+  element2: keyof ElementalProperties
 ): number {
   // Same element has highest complementary score
   if (element1 === element2) {
@@ -477,13 +477,13 @@ function calculateComplementaryScore(
 
 function calculateBalanceScore(
   recipeProps: ElementalProperties,
-  userProps: ElementalProperties;
+  userProps: ElementalProperties
 ): number {
   // Calculate how well the recipe balances with user's elemental state
   let totalDifference = 0;
   const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
 
-  (elements || []).forEach(element => ) {
+  (elements || []).forEach(element => {
     const difference = Math.abs(recipeProps[element] - userProps[element]);
     totalDifference += difference;
   });
@@ -496,7 +496,7 @@ function calculateBalanceScore(
 function generateCompatibilityRecommendation(
   score: number,
   recipeDominant: keyof ElementalProperties,
-  userDominant: keyof ElementalProperties;
+  userDominant: keyof ElementalProperties
 ): string {
   // Use safe type casting for string operations
   const recipeDominantStr = (recipeDominant).toLowerCase();
@@ -526,7 +526,7 @@ export async function getDefaultElementalProperties(): Promise<ElementalProperti
  * @returns Recipe with standardized elemental properties
  */
 export async function standardizeRecipeElements<T>(
-  recipe: T | null | undefined;
+  recipe: T | null | undefined
 ): Promise<T & { elementalProperties: ElementalProperties }> {
   if (!recipe) {
     return {
@@ -536,7 +536,7 @@ export async function standardizeRecipeElements<T>(
 
   // Use safe type casting for property access
   const recipeData = recipe as any;
-  const elementalProperties = recipeData.elementalState;
+  const elementalProperties = recipeData.elementalState
     ? normalizeProperties(recipeData.elementalState)
     : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
