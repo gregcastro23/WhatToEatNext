@@ -288,9 +288,9 @@ function validateIngredientElementalProperties(
 /**
  * Calculate compatibility between two ElementalProperties objects
  */
-function calculateElementalPropertiesCompatibility()
+function calculateElementalPropertiesCompatibility(
   props1: ElementalProperties,
-  props2: ElementalProperties;
+  props2: ElementalProperties
 ): number {
   const elements: Array<'Fire' | 'Water' | 'Earth' | 'Air'> = ['Fire', 'Water', 'Earth', 'Air'];
   let totalCompatibility = 0;
@@ -325,7 +325,7 @@ async function validateCompatibilityScores(): Promise<{
       try {
         if (!ingredient.elementalProperties) continue;
 
-        const selfCompatibility = calculateElementalPropertiesCompatibility();
+        const selfCompatibility = calculateElementalPropertiesCompatibility(
           ingredient.elementalProperties,
           ingredient.elementalProperties
         );
@@ -365,7 +365,7 @@ async function validateCompatibilityScores(): Promise<{
         if (!ingredient1.elementalProperties || !ingredient2.elementalProperties) continue;
 
         try {
-          const crossCompatibility = calculateElementalPropertiesCompatibility();
+          const crossCompatibility = calculateElementalPropertiesCompatibility(
             ingredient1.elementalProperties,
             ingredient2.elementalProperties
           );
@@ -417,7 +417,7 @@ async function validateAlchemicalMappings(): Promise<{
 
   try {
     const ingredients = allIngredients;
-    for (const [name, ingredient] of Object.entries(ingredients) {
+    for (const [name, ingredient] of Object.entries(ingredients)) {
       try {
         if ((ingredient as unknown as any).alchemicalProperties) {
           const validation = validateAlchemicalConsistency(name, ingredient);
@@ -456,10 +456,10 @@ async function validateAlchemicalMappings(): Promise<{
 /**
  * Validate alchemical consistency for a single ingredient
  */
-function validateAlchemicalConsistency()
+function validateAlchemicalConsistency(
   name: string,
-  ingredient: Ingredient;
-): { errors: IngredientValidationError[]; warnings, IngredientValidationWarning[] } {
+  ingredient: Ingredient
+): { errors: IngredientValidationError[]; warnings: IngredientValidationWarning[] } {
   const errors: IngredientValidationError[] = [];
   const warnings: IngredientValidationWarning[] = [];
 
@@ -476,7 +476,7 @@ function validateAlchemicalConsistency()
     const alchemicalProps = ['spirit', 'essence', 'matter', 'substance'];
     for (const prop of alchemicalProps) {
       const value = alchemical[prop] as number;
-      if (typeof value !== 'number' || isNaN(value) {
+      if (typeof value !== 'number' || isNaN(value)) {
         errors.push({
           type: 'ALCHEMICAL_MISMATCH',
           severity: 'MEDIUM',
@@ -551,7 +551,7 @@ async function validateDataCompleteness(): Promise<{
     const requiredFields = ['name', 'category', 'elementalProperties'];
     const recommendedFields = ['qualities', 'storage'];
 
-    for (const [name, ingredient] of Object.entries(ingredients) {
+    for (const [name, ingredient] of Object.entries(ingredients)) {
       // Check required fields
       for (const field of requiredFields) {
         if (!ingredient[field as keyof Ingredient]) {
@@ -580,7 +580,7 @@ async function validateDataCompleteness(): Promise<{
       }
 
       // Check category validity
-      const validCategories = [;
+      const validCategories = [
         'culinary_herb',
         'spice',
         'vegetable',
@@ -593,7 +593,7 @@ async function validateDataCompleteness(): Promise<{
         'seasoning'
       ];
 
-      if (ingredient.category && !validCategories.includes(ingredient.category) {
+      if (ingredient.category && !validCategories.includes(ingredient.category)) {
         errors.push({
           type: 'CATEGORY_MISMATCH',
           severity: 'MEDIUM',
@@ -684,11 +684,11 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
     let validCount = 0;
     let totalCount = 0;
 
-    for (const ingredient of Object.values(ingredients) {
+    for (const ingredient of Object.values(ingredients)) {
       totalCount++;
       if (ingredient.elementalProperties) {
         const elements = ['Fire', 'Water', 'Earth', 'Air'];
-        const hasValidElements = elements.every(el => ) {
+        const hasValidElements = elements.every(el => {
           const value = ingredient.elementalProperties[el as unknown];
           return typeof value === 'number' && !isNaN(value) && value >= 0 && value <= 1;
         });
@@ -738,7 +738,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
 
       try {
         totalCalculations++;
-        const selfCompatibility = calculateElementalPropertiesCompatibility();
+        const selfCompatibility = calculateElementalPropertiesCompatibility(
           ingredient.elementalProperties,
           ingredient.elementalProperties
         );
@@ -786,13 +786,13 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
     let validMappings = 0;
     let totalMappings = 0;
 
-    for (const ingredient of Object.values(ingredients) {
+    for (const ingredient of Object.values(ingredients)) {
       const ingredientData = ingredient as unknown as any;
       if (ingredientData.alchemicalProperties) {
         totalMappings++;
 
         const alchemical = ingredientData.alchemicalProperties;
-        const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => ) {
+        const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => {
           const value = alchemical[prop] as number;
           return typeof value === 'number' && !isNaN(value);
         });
@@ -834,7 +834,7 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
 
   try {
     const ingredients = allIngredients;
-    const validCategories = [;
+    const validCategories = [
       'culinary_herb',
       'spice',
       'vegetable',
@@ -850,9 +850,9 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
     let validCategories_count = 0;
     let totalIngredients = 0;
 
-    for (const ingredient of Object.values(ingredients) {
+    for (const ingredient of Object.values(ingredients)) {
       totalIngredients++;
-      if (ingredient.category && validCategories.includes(ingredient.category) {
+      if (ingredient.category && validCategories.includes(ingredient.category)) {
         validCategories_count++;
       }
     }
@@ -907,14 +907,14 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
   // Check individual test failures
   for (const test of testResults) {
     if (!test.passed) {
-      const severity = test.testName.includes('Loading') || test.testName.includes('Properties');
+      const severity = test.testName.includes('Loading') || test.testName.includes('Properties')
           ? 'HIGH'
           : 'MEDIUM';
 
       errors.push({
         type: 'DATA_INCOMPLETE',
         severity: severity,
-        message: `Test failed: ${test.testName}${test.error ? }` - ${test.error}` : ''}`,
+        message: `Test failed: ${test.testName}${test.error ? ` - ${test.error}` : ''}`,
         timestamp: new Date()
       });
     }
@@ -936,11 +936,11 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
 /**
  * Generate validation summary
  */
-function generateIngredientValidationSummary()
+function generateIngredientValidationSummary(
   isValid: boolean,
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[],
-  duration: number;
+  duration: number
 ): string {
   const criticalErrors = errors.filter(e => e.severity === 'CRITICAL').length;
   const highErrors = errors.filter(e => e.severity === 'HIGH').length;
@@ -954,14 +954,14 @@ function generateIngredientValidationSummary()
     summary += '\nCritical Issues: \n';
     errors
       .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')
-      .forEach(error => ) {
+      .forEach(error => {
         summary += `- ${error.message}\n`;
       });
   }
 
   if (warnings.length > 0) {
     summary += '\nWarnings: \n';
-    warnings.slice(0, 5).forEach(warning => ) {
+    warnings.slice(0, 5).forEach(warning => {
       summary += `- ${warning.message}\n`;
     });
 
@@ -997,7 +997,7 @@ async function validateKineticsIntegration(): Promise<{
   try {
     const ingredients = allIngredients;
 
-    for (const [name, ingredient] of Object.entries(ingredients) {
+    for (const [name, ingredient] of Object.entries(ingredients)) {
       try {
         if (!ingredient.elementalProperties) continue;
 
@@ -1068,7 +1068,7 @@ function calculateForceMagnitude(elementalProperties: ElementalProperties): numb
   const opposingForce = Math.sqrt(fireWater + earthAir) * 2;
 
   // Element dominance adds to force
-  const maxElement = Math.max();
+  const maxElement = Math.max(
     elementalProperties.Fire,
     elementalProperties.Water,
     elementalProperties.Earth,
