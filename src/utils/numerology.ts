@@ -31,7 +31,7 @@ export const celestialNumerology = {
     }
 
     return sum === 0 ? 9 : sum;
-  }
+  },
 
   /**
    * Calculate a personal number based on a name
@@ -63,8 +63,8 @@ export const celestialNumerology = {
         .reduce((acc, digit) => acc + parseInt(digit, 10), 0);
     }
 
-    return sum === 0 ? 9 : sum
-  }
+    return sum === 0 ? 9 : sum;
+  },
 
   /**
    * Get the elemental affinity for a numerological number
@@ -88,7 +88,7 @@ export const celestialNumerology = {
       default:
         return 'Fire'; // Default
     }
-  }
+  },
 
   /**
    * Calculate auspicious days for cooking certain recipes
@@ -111,7 +111,7 @@ export const celestialNumerology = {
       default:
         return [0, 1, 2, 3, 4, 5, 6]; // All days are fine
     }
-  }
+  },
 
   /**
    * Get the dominant element from elemental properties
