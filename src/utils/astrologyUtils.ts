@@ -1585,10 +1585,10 @@ export async function getCurrentAstrologicalState(
     })
 
     // Calculate active planets based on which have special status
-    const activePlanets = Object.entries(planetaryPositions);
+    const activePlanets = Object.entries(planetaryPositions)
       .filter(([planet, position]) => {
         // Always include outer planets in activePlanets array
-        if (['Uranus', 'Neptune', 'Pluto'].includes(planet) {
+        if (['Uranus', 'Neptune', 'Pluto'].includes(planet)) {
           return true;
         }
 
@@ -1596,17 +1596,17 @@ export async function getCurrentAstrologicalState(
         const dignity = getPlanetaryDignityInfo(planet, position.sign);
         return dignity.type === 'Domicile' || dignity.type === 'Exaltation';
       })
-      .map(([planet]) => planet.toLowerCase())
+      .map(([planet]) => planet.toLowerCase());
 
     // Calculate aspects
-    const { aspects} = calculateAspects()
-      Object.entries(planetaryPositions).reduce(acc, [planet, pos]) => {
-          acc[planet] = { sign: pos.sign, degree: pos.degree }
+    const { aspects } = calculateAspects(
+      Object.entries(planetaryPositions).reduce((acc, [planet, pos]) => {
+          acc[planet] = { sign: pos.sign, degree: pos.degree };
           return acc;
         },
         {} as Record<string, { sign: string, degree: number }>
-      ),
-    )
+      )
+    );
 
     // Create the return value with type assertion for aspects
     return {
