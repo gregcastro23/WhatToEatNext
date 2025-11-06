@@ -125,7 +125,31 @@ export default [
   // Scripts - Minimal Rules
   // ============================================================================
   {
-    files: ["src/scripts/**/*.{ts,js}", "scripts/**/*.{ts,js}", "**/*.cjs"],
+    files: ["src/scripts/**/*.{ts,js}", "scripts/**/*.{ts,js}"],
+
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+
+    rules: {
+      "no-console": "off",
+    },
+  },
+
+  // ============================================================================
+  // CommonJS Files - Node.js Environment
+  // ============================================================================
+  {
+    files: ["**/*.cjs"],
+
+    languageOptions: {
+      sourceType: "commonjs",
+      globals: {
+        ...globals.node,
+      },
+    },
 
     rules: {
       "no-console": "off",

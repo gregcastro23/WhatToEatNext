@@ -357,6 +357,12 @@ export default [
   {
     files: ["src/scripts/**/*.{ts,js}", "scripts/**/*.{ts,js}"],
 
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+
     rules: {
       "no-console": "off",
       "@typescript-eslint/no-explicit-any": "warn",
