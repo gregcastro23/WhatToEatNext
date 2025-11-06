@@ -227,7 +227,7 @@ function validatePlanetTransitDates(
           warnings.push({
             type: 'DATA_OUTDATED',
             planet: planetName,
-            message: `Transit data for ${planetName} in ${sign} is ${Math.round(daysDiff)} days old`;
+            message: `Transit data for ${planetName} in ${sign} is ${Math.round(daysDiff)} days old`,
             timestamp: new Date(),
           });
         }
