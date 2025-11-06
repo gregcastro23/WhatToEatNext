@@ -94,7 +94,7 @@ async function main() {
 
 // Run the main function
 // Execute only when run directly
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+ 
 // @ts-expect-error Node.js runtime check
 if (typeof require !== "undefined" && require.main === module) {
   void main().catch(() => process.exit(1));

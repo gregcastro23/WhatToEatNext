@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
+ 
 /**
  * Type definitions for @testing-library/jest-dom
  * _Project: https://github.com/testing-library/jest-dom

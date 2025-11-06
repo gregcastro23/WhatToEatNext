@@ -636,7 +636,7 @@ export class IngredientFilterService {
   }
 
   // Get enhanced nutrition data for an ingredient from local database
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+   
   public async getEnhancedNutritionData(
     ingredientName: string,
   ): Promise<any | null> {

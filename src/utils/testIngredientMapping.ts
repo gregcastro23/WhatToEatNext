@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
+ 
 /**
  * Test utility for ingredient mapping functionality
  * Shows how to use the mapping between ingredient data and recipe ingredients

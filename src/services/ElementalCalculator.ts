@@ -176,7 +176,7 @@ export class ElementalCalculator {
     Air: number;
   } {
     if (this.debugMode) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
+       
       log.info(
         "[ElementalCalculator] Calculating elemental state from: ",
         positions as any,

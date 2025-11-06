@@ -12,7 +12,7 @@ export default function WhatToEatNextPage() {
     });
 
   // Fetch enhanced cuisines on mount
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+   
   (function init() {
     void getCuisineRecommendations();
   })();

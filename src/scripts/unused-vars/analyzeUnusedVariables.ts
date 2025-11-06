@@ -147,9 +147,9 @@ async function main(): Promise<void> {
   fs.writeFileSync(txtOut, humanReport, "utf8");
 
   // Console summary
-  // eslint-disable-next-line no-console
+   
   console.log(humanReport);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
+ 
 main();

@@ -555,7 +555,7 @@ export class AlchemicalEngineBase {
   }
 
   // Placeholder for future implementation
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+   
   calculateRecipeEffect(_recipe: Recipe): void {}
 
   /**

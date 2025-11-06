@@ -86,7 +86,7 @@ class LoggingService {
     this.log(LogLevel.WARN, message, context, undefined, data);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   public error(
     message: string,
     context?: LogContext,

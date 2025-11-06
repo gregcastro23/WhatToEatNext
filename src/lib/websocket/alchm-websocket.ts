@@ -57,11 +57,11 @@ export class AlchmWebSocket {
   }
 
   // Placeholder handlers; wire to stores/contexts as needed
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   private updatePlanetaryHour(_data: PlanetaryHourUpdate): void {}
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   private updateEnergy(_data: EnergyUpdate): void {}
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   private updateCelestial(_data: CelestialEvent): void {}
 }
 

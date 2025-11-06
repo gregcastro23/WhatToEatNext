@@ -19,7 +19,7 @@ function tryCompiled(
 ): string | null {
   // When running compiled (CJS), __dirname should point at dist-scripts
   // Try sibling compiled files first
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+   
   // @ts-ignore
   const here = typeof __dirname !== "undefined" ? __dirname : null;
   if (!here) return null;
@@ -88,7 +88,7 @@ function main(): void {
       break;
     }
     default: {
-      // eslint-disable-next-line no-console
+       
       console.log(
         "Usage: yarn unused-vars <baseline|analyze|batch|progress> [options]",
       );
