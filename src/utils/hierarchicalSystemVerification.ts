@@ -383,7 +383,7 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
     });
 
     // Test 4: Planetary pattern analysis
-    const planetaryPatterns = analyzePlanetaryPatterns(mockRecipes, ) {
+    const planetaryPatterns = analyzePlanetaryPatterns(mockRecipes, {
       minStrength: 0.3,
       includeCulturalNotes: true
     });
