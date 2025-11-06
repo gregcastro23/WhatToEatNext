@@ -504,7 +504,7 @@ declare global {
     Object.entries(thresholds).forEach(([metric, threshold]) => {
       const currentValue = this.metrics[metric as keyof DevelopmentMetrics];
       if (typeof currentValue === 'number' && currentValue > threshold) {
-        logger.warn(`Performance threshold exceeded for ${metric}:`, ) {
+        logger.warn(`Performance threshold exceeded for ${metric}:`, {
           current: currentValue,
           threshold
         });
@@ -513,17 +513,17 @@ declare global {
   }
 
   private removeUnusedImports(imports: string[], codeBody: string): string[] {
-    return imports.filter(importLine => ) {
+    return imports.filter(importLine => {
       // Extract imported names from the import statement,
-      const importMatch = importLine.match(/import\s+(?:\) {([^}]+)\}|\*\s+as\s+(\w+)|(\w+))/);
+      const importMatch = importLine.match(/import\s+(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))/);
       if (!importMatch) return true;
 
-      const importedNames = importMatch[1];
+      const importedNames = importMatch[1]
         ? importMatch[1].split(',').map(name => name.trim().split(' as ')[0])
         : [importMatch[2] || importMatch[3]];
 
       // Check if any imported name is used in the code
-      return importedNames.some(name => ) {
+      return importedNames.some(name => {
         const regex = new RegExp(`\\b${name}\\b`, 'g');
         return regex.test(codeBody);
       });
