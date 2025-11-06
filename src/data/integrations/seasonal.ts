@@ -1,6 +1,5 @@
 // Keep this file focused on seasonal data only, removing any elemental balance references
 import type { Season } from '@/types/alchemy';
-
 import { seasonalPatterns } from './seasonalPatterns';
 import { seasonalUsage } from './seasonalUsage';
 
@@ -55,10 +54,10 @@ export function getSeasonalData(
   // Add type assertion to handle the unknown type
   const seasonalData = seasonalPatterns[season] || {};
   const complementaryFlavors = Object.entries(seasonalData)
-    .filter(([_key, value]) => {
+    .filter(([_key, value]) => 
       // Only include ingredient entries (skip metadata like elementalInfluence)
-      return typeof value === 'number' && value > 0.7 && _key !== 'elementalInfluence';
-    })
+       typeof value === 'number' && value > 0.7 && _key !== 'elementalInfluence'
+    )
     .map(([name_]) => name)
     .slice(0, 5); // Top 5
 

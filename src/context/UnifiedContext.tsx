@@ -1,19 +1,22 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import cookingMethods from '@/data/cooking/cookingMethods';
 import ingredients from '@/data/ingredients';
-import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-import {
-  AlchemicalRecommendationService,
+import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import type {
   AlchemicalRecommendation
 } from '@/services/AlchemicalRecommendationService';
+import {
+  AlchemicalRecommendationService
+} from '@/services/AlchemicalRecommendationService';
 import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
-import { alchemize, StandardizedAlchemicalResult } from '@/services/RealAlchemizeService';
-import { CookingMethod } from '@/types/alchemy';
-import { PlanetPosition } from '@/utils/astrologyUtils';
+import type { StandardizedAlchemicalResult } from '@/services/RealAlchemizeService';
+import { alchemize } from '@/services/RealAlchemizeService';
+import type { CookingMethod } from '@/types/alchemy';
+import type { PlanetPosition } from '@/utils/astrologyUtils';
 import { logger } from '@/utils/logger';
+import type { ReactNode } from 'react';
 
 // Define the shape of our unified state
 interface UnifiedState {

@@ -1,6 +1,6 @@
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import { log } from '@/services/LoggingService';
-import {
+import type {
   AstrologicalState,
   CelestialPosition,
   LunarPhase,

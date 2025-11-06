@@ -257,7 +257,7 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
         </div>
         <div style={{
           padding: '4px 8px',
-          backgroundColor: nextPlanet.color + '20',
+          backgroundColor: `${nextPlanet.color  }20`,
           borderRadius: '4px',
           fontSize: '10px',
           color: nextPlanet.color,

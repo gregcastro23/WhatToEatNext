@@ -1,6 +1,6 @@
 'use client';
 
-import { AlchemicalState, AstrologicalState } from './types';
+import type { AlchemicalState, AstrologicalState } from './types';
 
 // Define action types
 export type AlchemicalAction =

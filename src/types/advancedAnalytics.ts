@@ -2,7 +2,8 @@
  * Type definitions for Advanced Analytics Intelligence Service
  */
 
-import {Recipe, Ingredient, _ZodiacSign, ElementalProperties} from './unified';
+import { _ZodiacSign} from './unified';
+import type {Recipe, Ingredient, ElementalProperties} from './unified';
 
 export interface AstrologicalContext {
   zodiacSign: any,

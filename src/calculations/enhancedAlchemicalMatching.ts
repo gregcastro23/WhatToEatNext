@@ -1,9 +1,9 @@
 // Type imports
+import { signs } from '@/data/astrology';
 import type { ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
 import type { ZodiacSign } from '@/types/unified';
 
 // Internal imports
-import { signs } from '@/data/astrology';
 import { createLogger } from '@/utils/logger';
 
 // Logger

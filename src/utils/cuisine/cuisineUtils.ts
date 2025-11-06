@@ -3,9 +3,9 @@
  * This file contains utility functions shared between the cuisine modules to prevent circular dependencies
  */
 
-import type { IngredientCategory } from '../../data/ingredients/types';
 import { grainCuisineMatrix } from '../../data/integrations/grainCuisineMatrix';
 import { herbCuisineMatrix } from '../../data/integrations/herbCuisineMatrix';
+import type { IngredientCategory } from '../../data/ingredients/types';
 
 /**
  * Get cuisine pairings for a specific ingredient

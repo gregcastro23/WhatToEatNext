@@ -1,8 +1,7 @@
 // src/data/foodTypes.ts
 
-import { ElementalProperties } from '@/types/alchemy';
-
-import { Cuisine } from './cuisines';
+import type { ElementalProperties } from '@/types/alchemy';
+import type { Cuisine } from './cuisines';
 
 // Properties that describe food characteristics
 export type FoodProperty =
@@ -71,14 +70,14 @@ export const nutritionTargets = {
 export interface CulturalBalance {
   cuisineId: string;
   principles: string[];
-  preferredCombinations: {
+  preferredCombinations: Array<{
     foods: string[];
     reason: string
-  }[];
-  avoidCombinations: {
+  }>;
+  avoidCombinations: Array<{
     foods: string[];
     reason: string
-  }[];
+  }>;
 }
 
 // Helper to calculate nutritional balance
@@ -98,7 +97,7 @@ export function calculateNutritionalBalance(entries: FoodEntry[]): { [key: strin
 // Helper to analyze food properties balance
 export function analyzePropertyBalance(
   entries: FoodEntry[]
-): { property: FoodProperty; count: number }[] {
+): Array<{ property: FoodProperty; count: number }> {
   const propertyCount = entries.reduce((acc, entry) => {
       entry.properties.forEach(prop => {
         acc[prop] = (acc[prop] || 0) + 1;
@@ -127,7 +126,7 @@ export function findComplementaryDishes(
   const recommendations: Dish[] = [];
 
   Object.values(availableDishes).forEach(cuisine => {
-    if (cuisine?.dishes) {
+    if (cuisine.dishes) {
       Object.values(cuisine.dishes).forEach(mealTypes => {
         if (mealTypes) {
           Object.values(mealTypes).forEach(seasonalDishes => {

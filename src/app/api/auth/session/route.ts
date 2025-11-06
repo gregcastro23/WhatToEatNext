@@ -1,6 +1,7 @@
-import { logger } from '@/utils/logger';
 import jwt from 'jsonwebtoken';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
+import { logger } from '@/utils/logger';
+import type { NextRequest} from 'next/server';
 
 // JWT Secret - in production this should be from environment variables
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';

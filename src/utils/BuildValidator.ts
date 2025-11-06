@@ -1,7 +1,7 @@
-import { _logger } from '@/lib/logger';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { _logger } from '@/lib/logger';
 
 /**
  * BuildValidator class for checking and repairing build artifacts
@@ -13,7 +13,7 @@ export class BuildValidator {
   private readonly requiredManifests: string[];
   private readonly logger: (message: string, ..._args: unknown[]) => void;
 
-  constructor(buildDir: string = '.next', logger: (message: string, ..._args: unknown[]) => void = _logger.info) {
+  constructor(buildDir = '.next', logger: (message: string, ..._args: unknown[]) => void = _logger.info) {
     this.buildDir = buildDir;
     this.serverDir = path.join(buildDir, 'server');
     this.logger = logger;

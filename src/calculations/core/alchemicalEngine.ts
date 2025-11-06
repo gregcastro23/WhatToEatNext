@@ -1,6 +1,4 @@
-import type { LunarPhaseWithSpaces } from '@/types/alchemy';
-import { AstrologicalState, Element, ElementalProperties } from '@/types/alchemy';
-
+import type { LunarPhaseWithSpaces , AstrologicalState, Element, ElementalProperties } from '@/types/alchemy';
 import { AlchemicalEngineAdvanced } from '../alchemicalEngine';
 // Import types for NaturalInfluenceParams interface
 
@@ -148,7 +146,7 @@ const signInfo: Record<string, SignInfo> = {
 };
 
 // --- Types ---
-type AlchemyTotals = {
+interface AlchemyTotals {
   Spirit: number,
   Essence: number,
   Matter: number,
@@ -157,16 +155,16 @@ type AlchemyTotals = {
   Water: number,
   Air: number,
   Earth: number;
-};
+}
 
-type ThermodynamicMetrics = {
+interface ThermodynamicMetrics {
   heat: number,
   entropy: number,
   reactivity: number,
   gregsEnergy: number,
   kalchm: number,
   monica: number;
-};
+}
 
 // --- Core Calculation Function ---
 function alchemize(planetaryPositions: { [planet: string]: string }): ThermodynamicMetrics {
@@ -193,7 +191,7 @@ function alchemize(planetaryPositions: { [planet: string]: string }): Thermodyna
     }
 
     // Sum elemental properties (use signInfo for sign's element)
-    const signElement = signInfo[sign]?.Element;
+    const signElement = signInfo[sign].Element;
     if (signElement && totals[signElement] !== undefined) {
       totals[signElement] += 1;
     }
@@ -249,7 +247,7 @@ export { alchemize, planetInfo, signInfo, signs };
 
 // Pattern OO-4: Integration Import Resolution - AlchemicalEngine class for service compatibility
 export class AlchemicalEngine {
-  private advanced: AlchemicalEngineAdvanced;
+  private readonly advanced: AlchemicalEngineAdvanced;
 
   constructor() {
     this.advanced = new AlchemicalEngineAdvanced();

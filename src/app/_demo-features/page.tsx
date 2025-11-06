@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
 import dynamic from 'next/dynamic';
+import React from 'react';
 import type { Recipe } from '@/lib/api/alchm-client';
 import { logger } from '@/lib/logger';
 
@@ -58,8 +58,8 @@ export default function DemoFeaturesPage() {
           gap: '20px',
           marginBottom: '30px'
 }}>
-          <PlanetaryHourDisplay showDetails={true} />
-          <EnergyVisualization showDetails={true} showHistory={true} />
+          <PlanetaryHourDisplay showDetails />
+          <EnergyVisualization showDetails showHistory />
         </div>
 
         {/* Middle Row - Notifications */}
@@ -70,7 +70,7 @@ export default function DemoFeaturesPage() {
 }}>
           <CelestialEventNotifications
             maxNotifications={3}
-            autoHide={true}
+            autoHide
             autoHideDelay={15000}
           />
         </div>

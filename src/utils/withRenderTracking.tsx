@@ -1,4 +1,5 @@
-import React, { useState, useEffect, FunctionComponent, ComponentType } from 'react';
+import React, { useState, useEffect } from 'react';
+import type { FunctionComponent, ComponentType } from 'react';
 
 /**
  * Information about a component property for debugging

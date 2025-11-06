@@ -2,9 +2,9 @@
  * Simple in-memory cache implementation
  */
 export class Cache {
-  private cache: Map<string, { data: unknown; expiry: number | null }>;
+  private readonly cache: Map<string, { data: unknown; expiry: number | null }>;
 
-  constructor(private ttl: number) {
+  constructor(private readonly ttl: number) {
     this.cache = new Map();
   }
 

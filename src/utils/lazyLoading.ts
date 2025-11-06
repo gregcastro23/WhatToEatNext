@@ -1,4 +1,7 @@
+import dynamic from 'next/dynamic';
+import { lazy } from 'react';
 import { _logger } from '@/lib/logger';
+import type { ComponentType } from 'react';
 /**
  * Lazy Loading Utilities for Performance Optimization
  *
@@ -6,8 +9,6 @@ import { _logger } from '@/lib/logger';
  * and components to improve initial page load performance.
  */
 
-import { lazy, ComponentType } from 'react';
-import dynamic from 'next/dynamic';
 
 /**
  * Lazy load calculation modules with optimized loading

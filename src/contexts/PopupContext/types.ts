@@ -1,10 +1,9 @@
 'use client';
 
-import { ReactNode } from 'react';
-
 import type { _ } from '@/types/alchemy';
+import type { ReactNode } from 'react';
 
-export type ElementalInfluence = {
+export interface ElementalInfluence {
   sunElement?: string,
   moonElement?: string,
   isHarmonious?: boolean,
@@ -12,13 +11,13 @@ export type ElementalInfluence = {
   secondaryElement?: string
 }
 
-export type PopupMetadata = {
+export interface PopupMetadata {
   sunSign?: string,
   moonSign?: string,
   season?: string
 }
 
-export type PopupOptions = {
+export interface PopupOptions {
   duration?: number,
   type?: string,
   position?: string,
@@ -30,7 +29,7 @@ export type PopupOptions = {
   elemental?: ElementalInfluence
 }
 
-export type Popup = {
+export interface Popup {
   id: number,
   message: string,
   type: string,
@@ -41,11 +40,11 @@ export type Popup = {
   metadata?: PopupMetadata
 }
 
-export type PopupContextType = {
+export interface PopupContextType {
   showPopup: (message: string, options?: PopupOptions) => number,
   closePopup: (id: number) => void
 }
 
-export type PopupProviderProps = {
+export interface PopupProviderProps {
   children: ReactNode;
 }

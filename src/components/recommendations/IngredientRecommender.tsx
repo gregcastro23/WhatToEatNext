@@ -1,8 +1,8 @@
 'use client';
 
+import React, { useEffect, useMemo, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
-import React, { useEffect, useMemo, useState } from 'react';
 
 interface IngredientRecommenderProps {
   initialCategory?: string | null;
@@ -97,15 +97,13 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
   }, [recommendations, selectedCategory]);
 
   // Filter ingredients
-  const filteredIngredients = useMemo(() => {
-    return mockIngredients.filter(item => {
+  const filteredIngredients = useMemo(() => mockIngredients.filter(item => {
       const matchesSearch = !searchQuery ||
         item.name.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesCategory = !selectedCategory ||
         item.category === selectedCategory;
       return matchesSearch && matchesCategory;
-    });
-  }, [mockIngredients, searchQuery, selectedCategory]);
+    }), [mockIngredients, searchQuery, selectedCategory]);
 
   // Handlers
   const handleCategorySelect = (categoryId: string) => {
@@ -120,8 +118,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
   };
 
   // Render category grid
-  const renderCategoryGrid = () => {
-    return (
+  const renderCategoryGrid = () => (
       <div className="mb-6">
         <h3 className="mb-3 text-lg font-semibold text-gray-800">Browse by Category</h3>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -142,11 +139,9 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
         </div>
       </div>
     );
-  };
 
   // Render search bar
-  const renderSearchBar = () => {
-    return (
+  const renderSearchBar = () => (
       <div className="mb-6">
         <input
           type="text"
@@ -157,7 +152,6 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
         />
       </div>
     );
-  };
 
   // Render ingredient card
   const renderIngredientCard = (ingredient: typeof filteredIngredients[0]) => {
@@ -209,7 +203,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
     return (
       <div className="flex items-center justify-center p-12">
         <div className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-4 border-indigo-600"></div>
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-4 border-indigo-600" />
           <p className="text-gray-600">Loading ingredients...</p>
         </div>
       </div>

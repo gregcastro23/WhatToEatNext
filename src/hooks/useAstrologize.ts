@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import { AstrologicalService } from '@/services/AstrologicalService';
 import { log } from '@/services/LoggingService';
 
@@ -13,7 +12,7 @@ interface AstrologizeOptions {
   minute?: number;
   latitude?: number;
   longitude?: number;
-  zodiacSystem?: 'tropical' | 'sidereal' };
+  zodiacSystem?: 'tropical' | 'sidereal' }
         interface AstrologizeResult {
   loading: boolean;
   error: Error | null;

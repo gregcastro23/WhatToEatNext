@@ -36,14 +36,14 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
         return {
           id,
           name: id.charAt(0).toUpperCase() + id.slice(1),
-          description: traditionData?.description || 'A unique culinary tradition',
-          alchemicalProperties: traditionData?.elementalAlignment || {
+          description: traditionData.description || 'A unique culinary tradition',
+          alchemicalProperties: traditionData.elementalAlignment || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25
           },
-          elementalProperties: traditionData?.elementalAlignment || {
+          elementalProperties: traditionData.elementalAlignment || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
@@ -51,7 +51,7 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
           },
           astrologicalInfluences: deriveAstrologicalInfluences(tradition),
           compatibilityScore: 0.8, // Default compatibility score
-          elementalAlignment: traditionData?.elementalAlignment || {
+          elementalAlignment: traditionData.elementalAlignment || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
@@ -79,24 +79,24 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
   };
 
   // If the tradition explicitly has astrological influences, use those
-  const astroProfile = traditionData?.astrologicalProfile;
+  const astroProfile = traditionData.astrologicalProfile;
   if (
     astroProfile?.influences &&
-    (astroProfile as any)?.influences.length > 0 &&
-    !(astroProfile as any)?.influences.includes('Universal')
+    (astroProfile )?.influences.length > 0 &&
+    !(astroProfile )?.influences.includes('Universal')
   ) {
-    return (astroProfile as any)?.influences;
+    return (astroProfile )?.influences;
   }
 
   // Otherwise, use ruling planets from astrologicalProfile if available
-  if (astroProfile?.rulingPlanets && (astroProfile as any)?.rulingPlanets.length > 0) {
-    return (astroProfile as any)?.rulingPlanets;
+  if (astroProfile?.rulingPlanets && (astroProfile )?.rulingPlanets.length > 0) {
+    return (astroProfile )?.rulingPlanets;
   }
 
   // Collect influences from regional cuisines if available
   const influences = new Set<string>();
 
-  const regionalCuisines = traditionData?.regionalCuisines;
+  const {regionalCuisines} = traditionData;
   if (regionalCuisines) {
     Object.values(regionalCuisines).forEach((region: unknown) => {
       const regionData = region as {
@@ -106,7 +106,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
         astrologicalInfluences?: string[];
         [key: string]: unknown
       };
-      const regionInfluences = regionData?.astrologicalInfluences;
+      const regionInfluences = regionData.astrologicalInfluences;
 
       if (regionInfluences && Array.isArray(regionInfluences)) {
         regionInfluences.forEach((influence: string) => {

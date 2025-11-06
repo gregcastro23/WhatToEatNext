@@ -1,7 +1,7 @@
 'use client';
 
-import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics';
 import { useEffect, useState } from 'react';
+import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics';
 
 interface PlanetaryPowerWidgetProps {
   location?: { lat: number; lon: number },
@@ -31,14 +31,14 @@ export default function PlanetaryPowerWidget({
   const [planetaryHour, setPlanetaryHour] = useState<string>('');
 
   useEffect(() => {
-    if (kinetics?.data?.base?.power) {
+    if (kinetics?.data.base.power) {
       const currentHour = new Date().getHours();
       const currentHourData = kinetics.data.base.power.find(p => p.hour === currentHour);
       if (currentHourData) {
         setCurrentPlanet(currentHourData.planetary);
       }
     }
-    if (kinetics?.data?.base?.timing?.planetaryHours) {
+    if (kinetics?.data.base.timing.planetaryHours) {
       setPlanetaryHour(kinetics.data.base.timing.planetaryHours[0] || 'Sun');
     }
   }, [kinetics]);
@@ -104,8 +104,8 @@ export default function PlanetaryPowerWidget({
 
       {isLoading && !kinetics ? (
         <div className="animate-pulse">
-          <div className="h-20 bg-gray-200 rounded mb-2"></div>
-          <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+          <div className="h-20 bg-gray-200 rounded mb-2" />
+          <div className="h-4 bg-gray-200 rounded w-3/4" />
         </div>
       ) : (
         <>
@@ -149,7 +149,7 @@ export default function PlanetaryPowerWidget({
           </div>
 
           {/* Elemental Balance Mini Chart */}
-          {kinetics?.data?.base?.elemental?.totals && (
+          {kinetics?.data.base.elemental.totals && (
             <div className="grid grid-cols-4 gap-1 mb-3">
               {Object.entries(kinetics.data.base.elemental.totals).map(([element, value]) => (
                 <div key={element} className="text-center">
@@ -173,7 +173,7 @@ export default function PlanetaryPowerWidget({
           </div>
 
           {/* Next Planetary Hours */}
-          {kinetics?.data?.base?.timing?.planetaryHours && (
+          {kinetics?.data.base.timing.planetaryHours && (
             <div className="mt-2 flex justify-center gap-2">
               {kinetics.data.base.timing.planetaryHours.slice(0, 3).map((planet, idx) => (
                 <span

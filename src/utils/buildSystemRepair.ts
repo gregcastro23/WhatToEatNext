@@ -1,7 +1,6 @@
-import { _logger } from '@/lib/logger';
 import { execSync } from 'child_process';
 import fs from 'fs';
-
+import { _logger } from '@/lib/logger';
 import { BuildValidator, type BuildHealthReport, type BuildValidationResult, type NextConfigValidationResult } from './BuildValidator';
 import { NextConfigOptimizer } from './nextConfigOptimizer';
 

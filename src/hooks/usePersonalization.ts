@@ -8,10 +8,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { userLearning } from '@/lib/personalization/user-learning';
-import { usePerformanceMonitoring } from './usePerformanceMonitoring';
 import { logger } from '@/lib/logger';
-import { ElementalProperties } from '@/types/alchemy';
+import { userLearning } from '@/lib/personalization/user-learning';
+import type { ElementalProperties } from '@/types/alchemy';
+import { usePerformanceMonitoring } from './usePerformanceMonitoring';
 
 interface PersonalizationData {
   userId: string;

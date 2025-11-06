@@ -8,10 +8,10 @@ import {
   createSuccessResponse,
   createErrorResponse
 } from '@/constants/typeDefaults';
-import { ElementalPropertiesType, ServiceResponseType } from '@/types/alchemy';
-import { PlanetaryInfluenceResponse } from '@/types/apiResponses';
+import type { ElementalPropertiesType, ServiceResponseType } from '@/types/alchemy';
+import type { PlanetaryInfluenceResponse } from '@/types/apiResponses';
 import type { AstrologicalTestData } from '@/types/astrologicalTestData';
-import {
+import type {
   PlanetaryPositions,
   StandardZodiacSign,
   StandardLunarPhase,
@@ -19,15 +19,15 @@ import {
   PlanetaryPositionDetails,
   PlanetaryAspectDetails
 } from '@/types/astrology';
-import {
+import type {
   CelestialPosition,
   PlanetaryAlignment,
   ZodiacSign,
   Planet,
-  LunarPhase,
+  LunarPhase} from '@/types/celestial';
+import {
   AstrologicalState as CentralizedAstrologicalState
 } from '@/types/celestial';
-
 import { createLogger } from '../utils/logger';
 
 // Create a component-specific logger

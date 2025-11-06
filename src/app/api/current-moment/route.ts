@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-
 import {
     currentMomentManager,
     getCurrentMoment,
@@ -34,12 +33,12 @@ export async function GET(request: Request) {
         performance: {
           totalUpdates: performanceMetrics.totalUpdates,
           successRate: performanceMetrics.totalUpdates > 0
-              ? (
+              ? `${(
                   (performanceMetrics.successfulUpdates / performanceMetrics.totalUpdates) *
                   100
-                ).toFixed(1) + '%'
+                ).toFixed(1)  }%`
               : '0%',
-          averageResponseTime: Math.round(performanceMetrics.averageResponseTime) + 'ms',
+          averageResponseTime: `${Math.round(performanceMetrics.averageResponseTime)  }ms`,
           lastError: performanceMetrics.lastError,
           currentMinuteUpdates: performanceMetrics.updateFrequency[new Date().toISOString().slice(0, 16)] || 0
         }

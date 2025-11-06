@@ -1,9 +1,9 @@
 import { alchmAPI, type PlanetaryHourRequest, type PlanetaryHourResult as APIPlanetaryHourResult } from '@/lib/api/alchm-client';
-import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { logger } from '@/lib/logger';
+import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import type { Planet } from '@/types/celestial';
 
-type Coordinates = { latitude: number; longitude: number };
+interface Coordinates { latitude: number; longitude: number }
 
 export interface PlanetaryHourResult {
   planet: Planet;
@@ -25,8 +25,8 @@ function parseBackendResult(data: unknown): PlanetaryHourResult | null {
   if (!data || typeof data !== 'object') return null;
   const obj = data as Record<string, unknown>;
 
-  const planet = obj.planet;
-  const isDaytime = obj.isDaytime;
+  const {planet} = obj;
+  const {isDaytime} = obj;
 
   if (typeof planet !== 'string' || typeof isDaytime !== 'boolean') return null;
 
@@ -57,7 +57,7 @@ export class PlanetaryHoursClient {
     location?: Coordinates
   } = {}): Promise<PlanetaryHourResult> {
     const targetDate = params.datetime || new Date();
-    const location = params.location;
+    const {location} = params;
 
     if (this.useBackend && this.backendUrl) {
       try {

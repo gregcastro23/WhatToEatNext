@@ -1,4 +1,4 @@
-import { BasicThermodynamicProperties } from '@/types/alchemy';
+import type { BasicThermodynamicProperties } from '@/types/alchemy';
 
 /**
  * Molecular gastronomy cooking methods and their details

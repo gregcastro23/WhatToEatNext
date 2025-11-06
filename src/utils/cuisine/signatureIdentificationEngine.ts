@@ -172,10 +172,10 @@ export const DEFAULT_GLOBAL_BASELINE: GlobalBaseline = {
 export function identifyElementalSignatures(
   cuisineElementals: ElementalProperties,
   globalBaseline: GlobalBaseline,
-  threshold: number = 1.5
+  threshold = 1.5
 ): CuisineSignature[] {
   const signatures: CuisineSignature[] = [];
-  const elements = Object.keys(cuisineElementals) as (keyof ElementalProperties)[];
+  const elements = Object.keys(cuisineElementals) as Array<keyof ElementalProperties>;
 
   elements.forEach(element => {
     const value = cuisineElementals[element];
@@ -211,14 +211,14 @@ export function identifyElementalSignatures(
 export function identifyAlchemicalSignatures(
   cuisineAlchemical: AlchemicalProperties,
   globalBaseline: GlobalBaseline,
-  threshold: number = 1.5
+  threshold = 1.5
 ): CuisineSignature[] {
   if (!globalBaseline.alchemical || !globalBaseline.alchemicalStdDevs) {
     return [];
   }
 
   const signatures: CuisineSignature[] = [];
-  const properties = Object.keys(cuisineAlchemical) as (keyof AlchemicalProperties)[];
+  const properties = Object.keys(cuisineAlchemical) as Array<keyof AlchemicalProperties>;
 
   properties.forEach(property => {
     const value = cuisineAlchemical[property];
@@ -235,7 +235,7 @@ export function identifyAlchemicalSignatures(
       const strength = classifySignatureStrength(zScore);
 
       signatures.push({
-        property: property,
+        property,
         zscore: zScore,
         strength,
         averageValue: value,
@@ -259,14 +259,14 @@ export function identifyAlchemicalSignatures(
 export function identifyThermodynamicSignatures(
   cuisineThermodynamics: ThermodynamicProperties,
   globalBaseline: GlobalBaseline,
-  threshold: number = 1.5
+  threshold = 1.5
 ): CuisineSignature[] {
   if (!globalBaseline.thermodynamics || !globalBaseline.thermodynamicStdDevs) {
     return [];
   }
 
   const signatures: CuisineSignature[] = [];
-  const properties = Object.keys(cuisineThermodynamics) as (keyof ThermodynamicProperties)[];
+  const properties = Object.keys(cuisineThermodynamics) as Array<keyof ThermodynamicProperties>;
 
   properties.forEach(property => {
     const value = cuisineThermodynamics[property];
@@ -283,7 +283,7 @@ export function identifyThermodynamicSignatures(
       const strength = classifySignatureStrength(zScore);
 
       signatures.push({
-        property: property,
+        property,
         zscore: zScore,
         strength,
         averageValue: value,

@@ -1,4 +1,4 @@
-import { ElementalProperties, Season, ZodiacSign } from '@/types/alchemy';
+import type { ElementalProperties, Season, ZodiacSign } from '@/types/alchemy';
 
 /**
  * Core seasonal constants - consolidated from multiple files
@@ -359,7 +359,7 @@ export function getSeasonForZodiacSign(sign: any): Season {
 export function applySeasonalModifier(
   baseProperties: ElementalProperties,
   season: Season,
-  strength: number = 0.5
+  strength = 0.5
 ): ElementalProperties {
   const modifier = getSeasonalModifier(season);
 

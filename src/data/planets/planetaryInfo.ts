@@ -15,4 +15,5 @@ export * from './index';
 
 // Re-export the main index file as default
 import * as planetaryData from './index';
+
 export default planetaryData;

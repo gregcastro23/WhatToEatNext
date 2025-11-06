@@ -112,7 +112,7 @@ export interface AlertConfig {
   name: string,
   description: string,
   enabled: boolean,
-  _channels: ('email' | 'slack' | 'webhook' | 'console')[],
+  _channels: Array<'email' | 'slack' | 'webhook' | 'console'>,
   _conditions: AlertCondition[],
   throttleMs?: number
   priority: 'low' | 'medium' | 'high' | 'critical';

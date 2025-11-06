@@ -47,15 +47,17 @@ import saturnData from '@/data/planets/saturn'
 import uranusData from '@/data/planets/uranus'
 import venusData from '@/data/planets/venus'
 import type { ElementalProperties } from '@/types'
-import {
+import type {
     AstrologicalState,
     BasicThermodynamicProperties,
-    COOKING_METHOD_THERMODYNAMICS,
     /* CookingMethod as CookingMethodEnum, */ CookingMethodProfile,
     LunarPhase,
     MethodRecommendation,
     MethodRecommendationOptions,
     PlanetaryAspect
+} from '@/types/alchemy';
+import {
+    COOKING_METHOD_THERMODYNAMICS
 } from '@/types/alchemy'
 // Removed unused, import: CookingMethodEnum
 import type { CookingMethod } from '@/types/cooking'
@@ -258,7 +260,7 @@ export function getMethodThermodynamics(
   // ✅ Pattern KK-1: Safe type conversion for cooking method lookup
   const detailedMethodData =
     detailedCookingMethods[methodNameLower as keyof typeof detailedCookingMethods];
-  if (detailedMethodData?.thermodynamicProperties) {
+  if (detailedMethodData.thermodynamicProperties) {
     const thermoProps = detailedMethodData.thermodynamicProperties;
     return {
       heat: Number(thermoProps.heat) || 0.5,
@@ -415,7 +417,7 @@ function calculateEnhancedElementalCompatibility(
   targetProps: ElementalProperties
 ): number {
   let compatibilityScore = 0;
-  const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
+  const elements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'];
 
   // Calculate weighted element-by-element compatibility
   elements.forEach(element => {
@@ -661,7 +663,7 @@ export async function getRecommendedCookingMethods(
       : undefined;
 
   // Get Venus sign-based temperament for current zodiac
-  type VenusTemperament = { FoodFocus?: string; Elements?: Record<string, number> };
+  interface VenusTemperament { FoodFocus?: string; Elements?: Record<string, number> }
   let venusTemperament: VenusTemperament | null = null;
   if (currentZodiac && isVenusActive) {
     const lowerSign = currentZodiac.toLowerCase();
@@ -1341,8 +1343,8 @@ export async function getRecommendedCookingMethods(
 function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase): number {
   // Convert method to proper type with safe property access
   const methodData = method as unknown as any;
-  const properties = methodData.properties;
-  const element = properties.element;
+  const {properties} = methodData;
+  const {element} = properties;
 
   if (!element) return 0.5;
 
@@ -1386,7 +1388,7 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
     // Convert method to proper type with safe property access
     const methodData = method as unknown as any;
     const _sensoryProfile = methodData.sensoryProfile as unknown;
-    const properties = methodData.properties;
+    const {properties} = methodData;
 
     if (!properties) continue;
 
@@ -1434,7 +1436,7 @@ export function calculateMethodScore(
   // Convert method to proper type with safe property access
   // ✅ Pattern MM-1: Safe type assertion for method data access
   const methodData = method as unknown as any;
-  const astrologicalInfluence = methodData.astrologicalInfluence;
+  const {astrologicalInfluence} = methodData;
 
   let score = 0.5; // Base score
 
@@ -1451,7 +1453,7 @@ export function calculateMethodScore(
     const planetaryAlignment = (astrologicalInfluence.planetaryAlignment) || {};
 
     if (zodiacCompatibility && astroState.currentZodiac) {
-      const currentZodiac = astroState.currentZodiac;
+      const {currentZodiac} = astroState;
       // ✅ Pattern KK-1: Safe number conversion for zodiac score
       const zodiacScore = Number(zodiacCompatibility[currentZodiac]) || 0.5;
       score += zodiacScore * 0.3; // 30% weight

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 import { _logger } from '@/lib/logger';
-import { AspectType } from '@/types/alchemy';
+import type { AspectType } from '@/types/alchemy';
 
 /**
  * Utility for calculating comprehensive aspects between planets
@@ -138,7 +138,7 @@ export function calculateComprehensiveAspects(
       if (bestAspect) {
         // Determine influence: positive for harmonious aspects, negative for challenging ones
         let influence = 0;
-        const type = bestAspect.type;
+        const {type} = bestAspect;
         if (type === 'conjunction' || type === 'trine' || type === 'sextile') {
           influence = bestAspect.strength;
         } else if (type === 'opposition' || type === 'square') {

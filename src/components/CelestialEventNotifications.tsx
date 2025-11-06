@@ -134,19 +134,13 @@ export function CelestialEventNotifications({
     }
   };
 
-  const getEventIcon = (type: string) => {
-    return EVENT_ICONS[type as keyof typeof EVENT_ICONS] || EVENT_ICONS.default;
-  };
+  const getEventIcon = (type: string) => EVENT_ICONS[type as keyof typeof EVENT_ICONS] || EVENT_ICONS.default;
 
-  const getEventColor = (type: string) => {
-    return EVENT_COLORS[type as keyof typeof EVENT_COLORS] || EVENT_COLORS.default;
-  };
+  const getEventColor = (type: string) => EVENT_COLORS[type as keyof typeof EVENT_COLORS] || EVENT_COLORS.default;
 
-  const formatEventType = (type: string) => {
-    return type.split('_').map(word =>
+  const formatEventType = (type: string) => type.split('_').map(word =>
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');
-  };
 
   if (events.length === 0) {
     return (

@@ -1,5 +1,5 @@
-import { _logger } from '@/lib/logger';
 import fs from 'fs';
+import { _logger } from '@/lib/logger';
 
 /**
  * Next.js Configuration Optimizer
@@ -10,7 +10,7 @@ export class NextConfigOptimizer {
   private readonly logger: (message: string, ...args: unknown[]) => void;
 
   constructor(
-    configPath: string = 'next.config.js',
+    configPath = 'next.config.js',
     logger: (message: string, ...args: unknown[]) => void = _logger.info
   ) {
     this.configPath = configPath;

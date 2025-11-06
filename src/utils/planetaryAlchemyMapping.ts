@@ -185,7 +185,7 @@ export function aggregateZodiacElementals(
 export function getDominantAlchemicalProperty(
   alchemical: AlchemicalProperties
 ): keyof AlchemicalProperties {
-  const entries = Object.entries(alchemical) as [keyof AlchemicalProperties, number][];
+  const entries = Object.entries(alchemical) as Array<[keyof AlchemicalProperties, number]>;
   entries.sort((a, b) => b[1] - a[1]);
   return entries[0][0];
 }
@@ -199,7 +199,7 @@ export function getDominantAlchemicalProperty(
 export function getDominantElement(
   elemental: ElementalProperties
 ): keyof ElementalProperties {
-  const entries = Object.entries(elemental) as [keyof ElementalProperties, number][];
+  const entries = Object.entries(elemental) as Array<[keyof ElementalProperties, number]>;
   entries.sort((a, b) => b[1] - a[1]);
   return entries[0][0];
 }

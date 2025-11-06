@@ -80,7 +80,7 @@ export function getRecipesForTarotCard(card: unknown): string[] {
     energies?: Record<string, number>;
     [key: string]: unknown
   };
-  return cardData?.associatedRecipes || [];
+  return cardData.associatedRecipes || [];
 }
 
 export function getMajorArcanaForDecan(decan: DecanKey) {
@@ -430,7 +430,7 @@ export function getQuantumValueForCard(card: unknown): number {
     energies?: Record<string, number>;
     [key: string]: unknown
   };
-  const quantum = cardData?.quantum;
+  const {quantum} = cardData;
 
   if (typeof quantum === 'number') {
     return quantum;
@@ -456,8 +456,8 @@ export function getElementalQuantum(card: unknown) {
     energies?: Record<string, number>;
     [key: string]: unknown
   };
-  const element = cardData?.element || 'Fire';
-  const quantum = cardData?.quantum || 1;
+  const element = cardData.element || 'Fire';
+  const quantum = cardData.quantum || 1;
 
   return {
     Fire: element === 'Fire' ? quantum : 0,
@@ -523,7 +523,7 @@ export const _getTarotFoodRecommendations = (
   const decanRuler = DECAN_RULERS[decan] as PlanetKey;
 
   // Extract element from tarot cards
-  const element = tarotCards.minorCard.element;
+  const {element} = tarotCards.minorCard;
   const planetaryInfluence = tarotCards.majorCard.planet;
 
   // Generate cooking approach based on planetary influence

@@ -109,7 +109,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const _alliums: Record<string, IngredientMapping> = fixIngredientMappings(
-  rawAlliums as Record<string, Partial<IngredientMapping>>
+  rawAlliums 
 );
 
 // Export without underscore for compatibility

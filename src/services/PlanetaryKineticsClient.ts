@@ -46,7 +46,7 @@ export interface KineticsLocation {
 
 export class PlanetaryKineticsClient {
   private static instance: PlanetaryKineticsClient;
-  private cache: Map<string, { data: any; timestamp: number }> = new Map();
+  private readonly cache: Map<string, { data: any; timestamp: number }> = new Map();
 
   private constructor() {}
 

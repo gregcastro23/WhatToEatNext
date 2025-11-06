@@ -113,8 +113,8 @@ const DEFAULT_CACHE_CONFIG = {
  * In-memory cache storage
  */
 class CuisineComputationCache {
-  private cache = new Map<string, CuisineCacheEntry>();
-  private config: typeof DEFAULT_CACHE_CONFIG;
+  private readonly cache = new Map<string, CuisineCacheEntry>();
+  private readonly config: typeof DEFAULT_CACHE_CONFIG;
   private stats: CacheStatistics;
   private cleanupTimer?: NodeJS.Timeout;
 

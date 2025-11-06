@@ -445,7 +445,7 @@ export const _calculatePlanetaryFlavorMatch = (
     // Calculate weighted elemental influence from planets
     Object.entries(planetaryInfluences).forEach(([planet, strength]) => {
       const planetData = planetaryFlavorProfiles[planet];
-      if (planetData?.elementalInfluence) {
+      if (planetData.elementalInfluence) {
         Object.entries(planetData.elementalInfluence).forEach(([element, value]) => {
           elementalProfile[element as keyof typeof elementalProfile] += value * strength;
         })

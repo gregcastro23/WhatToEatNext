@@ -1,7 +1,7 @@
 import { getCurrentSeason } from '@/data/integrations/seasonal';
-import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { IngredientRecommendationOptions } from '@/services/interfaces/IngredientServiceInterface';
-import {
+import type {
   Element,
   ElementalProperties,
   Planet,
@@ -9,8 +9,7 @@ import {
   ThermodynamicProperties
 } from '@/types/alchemy';
 import { alchemicalEngine } from '@/utils/alchemyInitializer';
-
-import { Recipe } from '../types/recipe';
+import type { Recipe } from '../types/recipe';
 
 // Fix import - getCurrentSeason is likely in a different location
 
@@ -65,7 +64,7 @@ interface DietaryFilter {
 
 export class UnifiedIngredientService implements IngredientServiceInterface {
   private static instance: UnifiedIngredientService;
-  private ingredientCache: Map<string, UnifiedIngredient[]> = new Map();
+  private readonly ingredientCache: Map<string, UnifiedIngredient[]> = new Map();
 
   private constructor() {
     // Initialize the ingredient cache
@@ -240,7 +239,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   /**
    * Get high kalchm ingredients
    */
-  getHighKalchmIngredients(threshold: number = 1.5): UnifiedIngredient[] {
+  getHighKalchmIngredients(threshold = 1.5): UnifiedIngredient[] {
     return this.getAllIngredientsFlat().filter(ing => (ing.kalchm ?? 0) >= threshold);
   }
 
@@ -249,7 +248,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   findComplementaryIngredients(
     ingredient: UnifiedIngredient | string,
-    maxResults: number = 10
+    maxResults = 10
   ): UnifiedIngredient[] {
     // Resolve ingredient if string provided
     const targetIngredient =
@@ -288,7 +287,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   getIngredientsByFlavor(
     flavorProfile: { [key: string]: number },
-    minMatchScore: number = 0.7
+    minMatchScore = 0.7
   ): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
 
@@ -313,7 +312,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       return (seasons || []).some(s =>
         Array.isArray(_ingredient.seasonality)
-          ? _ingredient?.seasonality.includes(s)
+          ? _ingredient.seasonality.includes(s)
           : _ingredient.seasonality === (s as unknown)
       );
     });
@@ -567,7 +566,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   /**
    * Fallback elemental compatibility calculation
    */
-  private fallbackElementalCompatibility = (
+  private readonly fallbackElementalCompatibility = (
     elem1: ElementalProperties,
     elem2: ElementalProperties
   ): number => {
@@ -589,7 +588,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     filter: NutritionalFilter
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(_ingredient => {
-      const nutrition = _ingredient.nutrition;
+      const {nutrition} = _ingredient;
       if (!nutrition) return true; // Skip if no nutrition data
 
       // Check protein
@@ -614,7 +613,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       // Extract filter data with safe property access for maxFiber
       const filterData = filter as any;
-      const maxFiber = filterData.maxFiber;
+      const {maxFiber} = filterData;
 
       if (
         maxFiber !== undefined &&
@@ -681,9 +680,9 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       // Check high protein flag
       // Extract additional filter flags with safe property access
-      const highProtein = filterData.highProtein;
-      const lowCarb = filterData.lowCarb;
-      const lowFat = filterData.lowFat;
+      const {highProtein} = filterData;
+      const {lowCarb} = filterData;
+      const {lowFat} = filterData;
 
       if (highProtein && ((nutrition as any)?.protein || 0) < 15) {
         return false;
@@ -716,14 +715,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       // Extract filter data with safe property access for elemental properties
       const filterData = filter as any;
-      const minfire = filterData.minfire;
-      const maxfire = filterData.maxfire;
-      const minwater = filterData.minwater;
-      const maxwater = filterData.maxwater;
-      const minearth = filterData.minearth;
-      const maxearth = filterData.maxearth;
-      const minAir = filterData.minAir;
-      const maxAir = filterData.maxAir;
+      const {minfire} = filterData;
+      const {maxfire} = filterData;
+      const {minwater} = filterData;
+      const {maxwater} = filterData;
+      const {minearth} = filterData;
+      const {maxearth} = filterData;
+      const {minAir} = filterData;
+      const {maxAir} = filterData;
 
       // Check Fire
       if (minfire !== undefined && minfire !== null && (elemental as any)?.Fire < minfire) {
@@ -786,13 +785,13 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       // Extract filter data with safe property access for dietary properties
       const filterData = filter as any;
-      const isVegetarian = filterData.isVegetarian;
-      const isVegan = filterData.isVegan;
-      const isGlutenFree = filterData.isGlutenFree;
-      const isDAiryFree = filterData.isDAiryFree;
-      const isNutFree = filterData.isNutFree;
-      const isLowSodium = filterData.isLowSodium;
-      const isLowSugar = filterData.isLowSugar;
+      const {isVegetarian} = filterData;
+      const {isVegan} = filterData;
+      const {isGlutenFree} = filterData;
+      const {isDAiryFree} = filterData;
+      const {isNutFree} = filterData;
+      const {isLowSodium} = filterData;
+      const {isLowSugar} = filterData;
 
       // Check vegetarian
       if (isVegetarian && !(dietary as any)?.isVegetarian) {
@@ -847,7 +846,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       return (seasons || []).some(season =>
         Array.isArray(_ingredient.seasonality)
-          ? _ingredient?.seasonality.includes(season as any)
+          ? _ingredient.seasonality.includes(season as any)
           : _ingredient.seasonality === (season as unknown)
       );
     });

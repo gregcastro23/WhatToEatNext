@@ -162,7 +162,7 @@ export default function CookingMethodPreview() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <h4 className="text-xl font-bold text-gray-900">{method.name}</h4>
-                    <div className="inline-block w-2 h-2 bg-orange-500 rounded-full animate-pulse" title="Available"></div>
+                    <div className="inline-block w-2 h-2 bg-orange-500 rounded-full animate-pulse" title="Available" />
                   </div>
                   <p className="text-sm text-gray-700 mb-2">{method.description}</p>
                   <div className="flex flex-wrap gap-2 text-xs">

@@ -5,7 +5,7 @@
  * and ensure type safety throughout the application.
  */
 
-import type { CookingMethod } from '@/data/ingredients/types';
+import type { CookingMethod } from '@/types/alchemy';
 import type { PlanetaryPosition as PlanetPosition } from '@/types/alchemy';
 import type { ElementalProperties } from '@/types/unified';
 
@@ -221,7 +221,7 @@ export const validatePlanetPosition = (value: unknown): ValidationResult => {
 export const validateCookingMethod = (value: unknown): ValidationResult => {
   const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
 
-  const objectResult = validateObject(value, 'CookingMethod', ['id', 'name']);
+  const objectResult = validateObject(value, 'CookingMethod', ['name', 'category', 'element', 'intensity']);
   if (!objectResult.isValid) {
     return objectResult;
   }
@@ -287,13 +287,11 @@ export const validateIngredient = (value: unknown): ValidationResult => {
 };
 
 // Validation utility functions
-export const combineValidationResults = (results: ValidationResult[]): ValidationResult => {
-  return {
+export const combineValidationResults = (results: ValidationResult[]): ValidationResult => ({
     isValid: results.every(r => r.isValid),
     errors: results.flatMap(r => r.errors),
     warnings: results.flatMap(r => r.warnings)
-  };
-};
+  });
 
 export const validateWithFallback = <T>(
   value: unknown,
@@ -320,40 +318,33 @@ export const validateWithFallback = <T>(
 export const safeConvertToElementalProperties = (
   value: unknown,
   fallback: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
-): ElementalProperties => {
-  return validateWithFallback(
+): ElementalProperties => validateWithFallback(
     value,
     validateElementalProperties,
     fallback,
     'ElementalProperties conversion'
   );
-};
 
 export const safeConvertToPlanetPosition = (
   value: unknown,
   fallback: PlanetPosition = {
     sign: 'aries' as never,
     degree: 0,
-    exactLongitude: 0,
-    isRetrograde: false
+    minute: 0
   }
-): PlanetPosition => {
-  return validateWithFallback(value, validatePlanetPosition, fallback, 'PlanetPosition conversion');
-};
+): PlanetPosition => validateWithFallback(value, validatePlanetPosition, fallback, 'PlanetPosition conversion');
 
 export const safeConvertToCookingMethod = (
   value: unknown,
   fallback: CookingMethod = {
     id: 'unknown',
     name: 'Unknown Method',
-    _category: 'unknown',
+    category: 'unknown',
     element: 'Earth',
-    _intensity: 1,
+    intensity: 1,
     description: 'Unknown cooking method'
   }
-): CookingMethod => {
-  return validateWithFallback(value, validateCookingMethod, fallback, 'CookingMethod conversion');
-};
+): CookingMethod => validateWithFallback(value, validateCookingMethod, fallback, 'CookingMethod conversion');
 
 // Batch validation functions
 export const validatePlanetaryPositions = (positions: unknown): ValidationResult => {
@@ -383,13 +374,9 @@ export const validatePlanetaryPositions = (positions: unknown): ValidationResult
   return result;
 };
 
-export const validateIngredientList = (ingredients: unknown): ValidationResult => {
-  return validateArray(ingredients, 'ingredients', (item, _index) => validateIngredient(item));
-};
+export const validateIngredientList = (ingredients: unknown): ValidationResult => validateArray(ingredients, 'ingredients', (item, _index) => validateIngredient(item));
 
-export const validateCookingMethodList = (methods: unknown): ValidationResult => {
-  return validateArray(methods, 'cookingMethods', (item, _index) => validateCookingMethod(item));
-};
+export const validateCookingMethodList = (methods: unknown): ValidationResult => validateArray(methods, 'cookingMethods', (item, _index) => validateCookingMethod(item));
 
 // Export all validation functions
 export default {

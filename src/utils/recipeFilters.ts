@@ -1,8 +1,7 @@
 import { cuisines } from '@/data/cuisines';
 import type { DietaryRestriction, ElementalProperties, IngredientMapping } from '@/types/alchemy';
-import { Cuisine, CuisineType } from '@/types/cuisine';
-import { Recipe, ScoredRecipe } from '@/types/recipe';
-
+import type { Cuisine, CuisineType } from '@/types/cuisine';
+import type { Recipe, ScoredRecipe } from '@/types/recipe';
 import { logger } from './logger';
 import { connectIngredientsToMappings } from './recipeMatching';
 
@@ -542,7 +541,7 @@ export const _recipeFilter = RecipeFilter.getInstance();
  * @param cuisine The cuisine name to filter by
  * @param recipes The array of recipes to filter
  * @returns Filtered array of recipes matching the cuisine
- */;
+ */
 export function getRecipesForCuisine(cuisine: string, recipes: Recipe[]): Recipe[] {
   if (!cuisine || cuisine === 'all') {
     return recipes;
@@ -568,16 +567,16 @@ export function filterRecipesByIngredientMappings(
     emphasized?: string[], // Ingredients that should be emphasized (boost score)
     dietaryRestrictions?: string[], // Dietary restrictions to respect
   }
-): {
+): Array<{
   recipe: Recipe,
   score: number,
   matchQuality: string,
-  matchedIngredients: {
+  matchedIngredients: Array<{
     name: string,
     matchedTo?: IngredientMapping,
     confidence: number
-  }[];
-}[] {
+  }>;
+}> {
   // Default elemental target if none provided
   const targetElements = elementalTarget || {
     Fire: 0.25,
@@ -627,11 +626,11 @@ export function filterRecipesByIngredientMappings(
         recipe: Recipe,
         score: number,
         matchQuality: string,
-        matchedIngredients: {
+        matchedIngredients: Array<{
           name: string,
           matchedTo?: IngredientMapping,
           confidence: number
-        }[]
+        }>
       }
     }
 
@@ -657,11 +656,11 @@ export function filterRecipesByIngredientMappings(
           recipe: Recipe,
           score: number,
           matchQuality: string,
-          matchedIngredients: {
+          matchedIngredients: Array<{
             name: string,
             matchedTo?: IngredientMapping,
             confidence: number
-          }[];
+          }>;
 }
       }
     }
@@ -685,11 +684,11 @@ export function filterRecipesByIngredientMappings(
           recipe: Recipe,
           score: number,
           matchQuality: string,
-          matchedIngredients: {
+          matchedIngredients: Array<{
             name: string,
             matchedTo?: IngredientMapping,
             confidence: number
-          }[];
+          }>;
 }
       }
 
@@ -754,11 +753,11 @@ export function filterRecipesByIngredientMappings(
       recipe: Recipe,
       score: number,
       matchQuality: string,
-      matchedIngredients: {
+      matchedIngredients: Array<{
         name: string,
         matchedTo?: IngredientMapping,
         confidence: number
-      }[];
+      }>;
 }
   })
 

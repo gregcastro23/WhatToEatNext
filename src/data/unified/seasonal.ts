@@ -12,13 +12,11 @@ import type {
     PlanetName,
     Season
 } from '@/types/alchemy';
-
 import {
     getAllEnhancedCookingMethods,
     getMonicaCompatibleCookingMethods,
     type EnhancedCookingMethod
 } from '../../constants/alchemicalPillars';
-
 import { unifiedIngredients } from './ingredients';
 
 // ===== ENHANCED SEASONAL INTERFACES =====
@@ -670,7 +668,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
 // ===== UNIFIED SEASONAL SYSTEM CLASS =====;
 
 export class UnifiedSeasonalSystem {
-  private enhancedCookingMethods: { [key: string]: EnhancedCookingMethod };
+  private readonly enhancedCookingMethods: { [key: string]: EnhancedCookingMethod };
 
   constructor() {
     this.enhancedCookingMethods = getAllEnhancedCookingMethods() as unknown as {

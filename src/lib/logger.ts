@@ -24,6 +24,7 @@ export class Logger {
 
 export const logger = new Logger()
 import { log } from '@/services/LoggingService'
+
 export const _logger = {
   info: (message: string, data?: unknown) => {
     if (process.env.NODE_ENV !== 'production') {

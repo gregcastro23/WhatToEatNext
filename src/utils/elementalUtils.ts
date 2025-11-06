@@ -106,13 +106,13 @@ export function standardizeRecipeElements<
 
   if (!recipe.elementalProperties) {
     return {
-      ...(recipe as T),
+      ...(recipe ),
       elementalProperties: { ...DEFAULT_ELEMENTAL_PROPERTIES }
     };
   }
 
   return {
-    ...(recipe as T),
+    ...(recipe ),
     elementalProperties: normalizeProperties(recipe.elementalProperties)
   };
 }
@@ -122,9 +122,7 @@ export function standardizeRecipeElements<
  */
 export const validateElementalRequirements = (
   properties: unknown
-): properties is ElementalProperties => {
-  return isElementalProperties(properties);
-};
+): properties is ElementalProperties => isElementalProperties(properties);
 
 /**
  * Get elements below a threshold (defaults aligned with project standards).
@@ -190,7 +188,7 @@ export const elementalUtils = {
   getMissingElements,
 
   calculateElementalState(recipe: Recipe | null | undefined): ElementalProperties {
-    if (!recipe?.ingredients?.length) {
+    if (!recipe?.ingredients.length) {
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
     return calculateElementalStateFromIngredients(recipe);
@@ -231,7 +229,7 @@ export const elementalUtils = {
   },
 
   getElementalProfile(properties: ElementalProperties): Partial<ElementalProfile> {
-    const entries = Object.entries(properties) as [Element, number][];
+    const entries = Object.entries(properties) as Array<[Element, number]>;
     const dominant = entries.sort((a, b) => b[1] - a[1])[0][0];
     return {
       dominant,
@@ -320,14 +318,12 @@ export function getElementStrength(elementalAffinity: ElementalAffinity): number
 
 export const ensureCompleteElementalProperties = (
   properties: Partial<ElementalProperties>
-): ElementalProperties => {
-  return {
+): ElementalProperties => ({
     Fire: properties.Fire ?? 0.25,
     Water: properties.Water ?? 0.25,
     Earth: properties.Earth ?? 0.25,
     Air: properties.Air ?? 0.25
-  };
-};
+  });
 
 // Legacy-safe helpers (aligned with current elemental principles)
 export function getBalancingElement(element: Element): Element {
@@ -403,9 +399,9 @@ export function fixRawIngredientMappings(
     const astroProfile = (v.astrologicalProfile as Record<string, unknown> | undefined) ?? {};
     if (!('elementalAffinity' in astroProfile)) {
       // Determine dominant element for affinity base
-      const entries = Object.entries(elementalProperties) as [Element, number][];
+      const entries = Object.entries(elementalProperties) as Array<[Element, number]>;
       const dominant = entries.sort((a, b) => b[1] - a[1])[0][0];
-      (astroProfile as Record<string, unknown>).elementalAffinity = { base: dominant };
+      (astroProfile ).elementalAffinity = { base: dominant };
     }
 
     acc[key] = {

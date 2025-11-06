@@ -24,10 +24,10 @@ interface CacheStats {
 }
 
 class AdvancedCache {
-  private cache = new Map<string, CacheEntry<any>>();
-  private maxSize: number;
-  private defaultTTL: number;
-  private stats: CacheStats;
+  private readonly cache = new Map<string, CacheEntry<any>>();
+  private readonly maxSize: number;
+  private readonly defaultTTL: number;
+  private readonly stats: CacheStats;
 
   constructor(maxSize = 1000, defaultTTL = 30 * 60 * 1000) { // 30 minutes default
     this.maxSize = maxSize;
@@ -262,15 +262,15 @@ export async function initializeCaches(): Promise<void> {
     // Warm up planetary cache with current data
     await planetaryCache.warmup([{
         key: 'current_planetary_hour',
-        computeFn: async () => {
+        computeFn: async () => 
           // This would normally call the planetary calculation service
-          return {
+           ({
             planet: 'Sun',
             influence: 0.7,
             timeRemaining: '45:30',
             energyType: 'Vitality & Leadership'
-          };
-        },
+          })
+        ,
         ttl: 15 * 60 * 1000
       }
     ]);

@@ -1,4 +1,4 @@
-import { PlanetData } from './types';
+import type { PlanetData } from './types';
 
 const uranusData: PlanetData = {
   'Dignity Effect': {

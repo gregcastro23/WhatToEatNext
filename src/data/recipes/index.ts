@@ -1,5 +1,4 @@
-import { Recipe } from '@/types/recipe';
-
+import type { Recipe } from '@/types/recipe';
 import Recipes from '../cuisines';
 import { getBestRecipeMatches as getBestRecipeMatchesFromMain } from '../recipes';
 

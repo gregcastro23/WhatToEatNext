@@ -4,7 +4,7 @@
  */
 
 import type { KineticMetrics } from '@/types/kinetics';
-import { SearchFilters } from '@/types/unified';
+import type { SearchFilters } from '@/types/unified';
 import { calculateKinetics } from './kinetics';
 
 // ========== TYPE GUARDS ==========
@@ -753,7 +753,7 @@ export function filterItemsWithKinetics(
     }
 
     // Apply kinetics-aware filtering
-    const kineticsFilters = filters.kineticsFilters;
+    const {kineticsFilters} = filters;
 
     // Check force type compatibility
     if (kineticsFilters.preferredForceType) {

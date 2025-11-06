@@ -1,6 +1,5 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
-
 import { aromaticHerbs } from './aromatic';
 import { driedHerbs } from './driedHerbs';
 import { freshHerbs } from './freshHerbs';

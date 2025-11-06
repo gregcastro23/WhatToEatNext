@@ -1,6 +1,6 @@
+import { useCallback, useMemo, useState } from 'react';
 import type { AgentRecommendation, RuneAgentInput, RuneAgentResult, RuneResult } from '@/services/RuneAgentClient';
 import { runeAgentClient } from '@/services/RuneAgentClient';
-import { useCallback, useMemo, useState } from 'react';
 
 export function useRuneAgent(initial?: RuneAgentInput) {
   const [result, setResult] = useState<RuneAgentResult | null>(null);

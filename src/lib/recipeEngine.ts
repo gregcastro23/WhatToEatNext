@@ -2,7 +2,7 @@ import { ElementalCalculator } from '@/services/ElementalCalculator';
 import type { ElementalProperties, Recipe } from '@/types/alchemy';
 
 export class RecipeEngine {
-  private calculator: ElementalCalculator;
+  private readonly calculator: ElementalCalculator;
 
   constructor() {
     this.calculator = ElementalCalculator.getInstance();
@@ -123,9 +123,7 @@ export class RecipeEngine {
     try {
       return (
         1 -
-        Object.entries(props1).reduce((diff, [_element, value]) => {
-          return diff + Math.abs(value - (props2[_element] || 0)) / 2;
-        }, 0)
+        Object.entries(props1).reduce((diff, [_element, value]) => diff + Math.abs(value - (props2[_element] || 0)) / 2, 0)
       );
     } catch (error) {
       return 0;

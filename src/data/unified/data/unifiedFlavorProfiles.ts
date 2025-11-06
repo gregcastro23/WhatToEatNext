@@ -1,4 +1,4 @@
-import { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 
 export interface UnifiedFlavorProfile {
   id: string,

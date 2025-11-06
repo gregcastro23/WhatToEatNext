@@ -1,4 +1,5 @@
-import { ZODIAC_SIGNS, ZodiacSign } from './signEnergyStates';
+import { ZODIAC_SIGNS } from './signEnergyStates';
+import type { ZodiacSign } from './signEnergyStates';
 
 export const CHAKRAS = [
   'Root', // Muladhara

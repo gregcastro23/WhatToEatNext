@@ -5,7 +5,7 @@
  * to ensure consistency across astrological calculations.
  */
 
-import { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 
 /**
@@ -149,7 +149,7 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
     return 'Fire';
   }
 
-  const elements = Object.entries(properties) as [keyof ElementalProperties, number][];
+  const elements = Object.entries(properties) as Array<[keyof ElementalProperties, number]>;
   const dominant = elements.reduce((max, current) => (current[1] > max[1] ? current : max));
 
   return dominant[0];
@@ -177,7 +177,7 @@ export function enhanceDominantElement(properties: ElementalProperties): Element
  */
 export function createElementalProperties(
   dominantElement: keyof ElementalProperties,
-  strength: number = 0.7
+  strength = 0.7
 ): ElementalProperties {
   const properties: ElementalProperties = {
     Fire: 0.1,

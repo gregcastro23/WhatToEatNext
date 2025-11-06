@@ -100,7 +100,7 @@ export function calculateThermodynamics(
 /**
  * Calculate Monica constant (M) - Dynamic scaling factor
  * Formula: M = -Greg's Energy / (Reactivity * ln(Kalchm))
- */;
+ */
 export function calculateMonica(gregsEnergy: number, reactivity: number, kalchm: number): number {
   if (kalchm <= 0) return NaN;
   const lnKalchm = Math.log(kalchm);
@@ -178,7 +178,7 @@ export function enhanceIngredientWithAlchemy(ingredient: {
 /**
  * Calculate compatibility between two ingredients based on their Kalchm values
  * Uses self-reinforcement, principles: similar Kalchm = higher compatibility
- */;
+ */
 export function calculateKalchmCompatibility(kalchm1: number, kalchm2: number): number {
   // Calculate the ratio between the two Kalchm values
   const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2)

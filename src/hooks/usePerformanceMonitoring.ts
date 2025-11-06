@@ -8,8 +8,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { getCacheMetrics } from '@/lib/performance/advanced-cache';
 import { logger } from '@/lib/logger';
+import { getCacheMetrics } from '@/lib/performance/advanced-cache';
 
 interface PerformanceMetrics {
   // Cache performance

@@ -1,15 +1,15 @@
 import { logger } from '@/utils/logger';
-
-import type { AlchemicalItem } from '../calculations/alchemicalTransformation';
 import {
-    AlchemicalPillar,
     getCookingMethodPillar as _getCookingMethodPillar,
     getCookingMethodAlchemicalEffect,
     getCookingMethodThermodynamics,
     getPlanetaryAlchemicalEffect,
     getTarotCardAlchemicalEffect
 } from '../constants/alchemicalPillars';
-import { AlchemicalProperty } from '../types/celestial';
+import type { AlchemicalItem } from '../calculations/alchemicalTransformation';
+import type {
+    AlchemicalPillar} from '../constants/alchemicalPillars';
+import type { AlchemicalProperty } from '../types/celestial';
 
 // Enhanced interfaces for Phase 11 - Alchemical Pillar utilities
 interface AlchemicalPillarData {
@@ -617,7 +617,7 @@ export const _getHolisticCookingRecommendations = async (
   count = 5
 ): Promise<Array<{ method: string; compatibility: number; reason: string }>> => {
   logger.debug('\n--- HOLISTIC COOKING RECOMMENDATIONS ---')
-  logger.debug(`Ingredient: ${(item as any).name}`)
+  logger.debug(`Ingredient: ${(item ).name}`)
   logger.debug(`Planet influence: ${planet || 'None'}`)
   logger.debug(`Tarot influence: ${tarotCard || 'None'}`)
   logger.debug(`Time of day: ${isDaytime ? 'Daytime' : 'Nighttime'}`)
@@ -630,7 +630,7 @@ export const _getHolisticCookingRecommendations = async (
 
   if (planet || tarotCard) {
     logger.debug('Original item: ', {
-      element: (item as any).element,
+      element: (item ).element,
       spirit: item.spirit || 0,
       essence: item.essence || 0,
       matter: item.matter || 0,
@@ -656,7 +656,7 @@ export const _getHolisticCookingRecommendations = async (
   const methods = (availableMethods as unknown as CookingMethod[]).length > 0
       ? availableMethods
       : Object.keys(cookingMethods);
-  logger.debug(`Evaluating ${(methods as CookingMethod[]).length} cooking methods: ${(methods as CookingMethod[]).length <= 10 ? methods.join(', ') : (methods as unknown as CookingMethod[]).length + ' methods (too many to display)'}`
+  logger.debug(`Evaluating ${(methods as CookingMethod[]).length} cooking methods: ${(methods as CookingMethod[]).length <= 10 ? methods.join(', ') : `${(methods as unknown as CookingMethod[]).length  } methods (too many to display)`}`
   );
 
   // Calculate compatibility for each method

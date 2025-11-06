@@ -196,15 +196,13 @@ export const _usePerformanceMetrics = (componentName?: string) => {
   }, []);
 
   // Get performance summary
-  const getPerformanceSummary = useCallback(() => {
-    return {
+  const getPerformanceSummary = useCallback(() => ({
       componentName: componentName || 'Unknown',
       isPerformant: metrics.averageRenderTime < 16, // 60fps threshold
       hasMemoryLeaks: metrics.memoryUsage > ((metrics as any)?.peakMemoryUsage || 0) * 0.2,
       errorRate: metrics.totalErrors / Math.max(metrics.componentRenderCount, 1),
       recommendations: []
-    };
-  }, [componentName, metrics]);
+    }), [componentName, metrics]);
 
   return {
     metrics,

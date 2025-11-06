@@ -5,13 +5,13 @@
  * to prevent duplication and ensure consistency.
  */
 
-import { Element, Planet, ZodiacSign } from '@/types/celestial';
-
+import type { Element, Planet, ZodiacSign } from '@/types/celestial';
 import {
     DEFAULT_ELEMENTAL_PROPERTIES,
-    ElementalProperties,
     isElementalProperties
 } from './elemental';
+import type {
+    ElementalProperties} from './elemental';
 
 // ========== ELEMENTAL TYPES ==========;
 

@@ -1,6 +1,6 @@
 import { logger } from '../utils/logger';
 
-type LoadingState = {
+interface LoadingState {
   isLoading: boolean;
   message: string;
   progress?: number;
@@ -8,7 +8,7 @@ type LoadingState = {
 }
 
 class LoadingStateManager {
-  private subscribers: Set<(state: LoadingState) => void> = new Set();
+  private readonly subscribers: Set<(state: LoadingState) => void> = new Set();
   private currentState: LoadingState = {
     isLoading: true,
     message: 'Initializing...',

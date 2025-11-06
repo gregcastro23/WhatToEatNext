@@ -366,15 +366,15 @@ export function identifyCuisineSignatures(averages: {
     thermodynamics?: Partial<ThermodynamicMetrics>;
   },
   globalAverages: GlobalPropertyAverages = DEFAULT_GLOBAL_AVERAGES,
-  threshold: number = 1.5
+  threshold = 1.5
 ): CuisineSignature[] {
   const signatures: CuisineSignature[] = [];
 
   // Check elemental signatures
-  for (const [element, value] of Object.entries(averages.elementals) as [
+  for (const [element, value] of Object.entries(averages.elementals) as Array<[
     keyof ElementalProperties,
     number
-  ][]) {
+  ]>) {
     const zscore = calculateZScore(
       value,
       globalAverages.elementals[element],
@@ -395,10 +395,10 @@ export function identifyCuisineSignatures(averages: {
 
   // Check alchemical signatures
   if (averages.alchemical && globalAverages.alchemical && globalAverages.alchemicalStdDev) {
-    for (const [property, value] of Object.entries(averages.alchemical) as [
+    for (const [property, value] of Object.entries(averages.alchemical) as Array<[
       keyof AlchemicalProperties,
       number
-    ][]) {
+    ]>) {
       const zscore = calculateZScore(
         value,
         globalAverages.alchemical[property],

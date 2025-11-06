@@ -1,10 +1,8 @@
 import { _logger } from '@/lib/logger';
 // Removed unused log import
 import type { ZodiacSign } from '@/types/alchemy';
-
-import type { ElementalCharacter } from '../constants/planetaryElements';
-
 import { getZodiacElement } from './astrologyUtils';
+import type { ElementalCharacter } from '../constants/planetaryElements';
 
 /**
  * A utility function for logging debug information
@@ -244,8 +242,8 @@ export function calculateAllHouseEffects(
       continue;
     }
 
-    const house = position.house;
-    const sign = position.sign;
+    const {house} = position;
+    const {sign} = position;
 
     // Get house effects for this planet
     const houseEffects = calculateHouseEffect(planet, house, sign);

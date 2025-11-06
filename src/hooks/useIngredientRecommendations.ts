@@ -1,7 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-
 import type { ElementalProperties } from '@/types/alchemy';
-
 import {useAlchemical} from './useAlchemical';
 
 export interface Ingredient {

@@ -1,6 +1,7 @@
-import { AstrologicalState, Element, PlanetName, ZodiacSign } from '../types/alchemy';
-import { Recipe } from '../types/recipe';
-import { Season, TimeFactors, WeekDay, getTimeFactors } from '../types/time';
+import { getTimeFactors } from '../types/time';
+import type { AstrologicalState, Element, PlanetName, ZodiacSign } from '../types/alchemy';
+import type { Recipe } from '../types/recipe';
+import type { Season, TimeFactors, WeekDay} from '../types/time';
 
 // Define MealType since it's not exported from time.ts
 type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime';

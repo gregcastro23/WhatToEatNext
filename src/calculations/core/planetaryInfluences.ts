@@ -5,8 +5,7 @@
  * and calculates planetary influences on culinary recommendations.
  */
 
-import { Element, ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
-
+import type { Element, ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
 import { getCachedCalculation } from '../../utils/calculationCache';
 
 /**
@@ -224,7 +223,7 @@ export function calculatePlanetaryStrength(planet: string,
  */
 export function getPlanetaryElementalInfluence(
   planet: string,
-  isDaytime: boolean = true): keyof ElementalProperties {
+  isDaytime = true): keyof ElementalProperties {
   const planetKey = planet.toLowerCase()
   const timeKey = isDaytime ? 'diurnal' : 'nocturnal'
 
@@ -292,7 +291,7 @@ export function calculatePlanetaryHoursInfluence(date: Date): {
  * Calculate comprehensive planetary influences
  */
 export function calculatePlanetaryInfluences(planetaryPositions: { [key: string]: PlanetaryPosition },
-  isDaytime: boolean = true,
+  isDaytime = true,
   currentDate?: Date): {
   alchemicalInfluences: { [key: string]: number },
   elementalInfluences: { [key: string]: number },

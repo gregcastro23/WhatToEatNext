@@ -1,12 +1,12 @@
-import { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 
-export type ElementalColor = {
+export interface ElementalColor {
   primary: string;
   secondary: string;
   text: string;
   border: string;
   bg: string
-};
+}
 
 // Define the color mappings
 export const elementalColors: Record<keyof ElementalProperties, ElementalColor> = {

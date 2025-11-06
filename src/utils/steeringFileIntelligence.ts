@@ -61,7 +61,7 @@ export interface PerformanceGuidance {
 export class SteeringFileIntelligence {
   private static instance: SteeringFileIntelligence;
   private cachedGuidance: AstrologicalGuidance | null = null;
-  private lastUpdate: number = 0;
+  private lastUpdate = 0;
   private readonly CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
 
   private constructor() {}

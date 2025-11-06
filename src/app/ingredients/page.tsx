@@ -1,12 +1,11 @@
 'use client';
 
-import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 import { ArrowLeft, Home } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-import { useNavigationContext, useScrollPreservation } from '@/hooks/useStatePreservation';
 import { IngredientRecommender } from '@/components/recommendations/IngredientRecommender';
+import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
+import { useNavigationContext, useScrollPreservation } from '@/hooks/useStatePreservation';
 
 export default function IngredientsPage() {
   const searchParams = useSearchParams()
@@ -21,8 +20,8 @@ export default function IngredientsPage() {
   // Restore context from URL parameters or enhanced state preservation
   useEffect(() => {
     // Check URL parameters first
-    const categoryParam = searchParams?.get('category')
-    const ingredientParam = searchParams?.get('ingredient')
+    const categoryParam = searchParams.get('category')
+    const ingredientParam = searchParams.get('ingredient')
 
     if (categoryParam) {
       setSelectedCategory(categoryParam);
@@ -148,7 +147,7 @@ export default function IngredientsPage() {
             <IngredientRecommender
               initialCategory={selectedCategory}
               initialSelectedIngredient={selectedIngredient}
-              isFullPageVersion={true}
+              isFullPageVersion
             />
           </div>
         </main>

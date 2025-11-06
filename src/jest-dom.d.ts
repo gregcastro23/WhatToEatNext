@@ -26,7 +26,7 @@ declare global {
       toHaveValue(value?: string | string[] | number): R,
       toBeChecked(): R,
       toBePartiallyChecked(): R,
-      toHaveDisplayValue(value: string | RegExp | (string | RegExp)[]): R,
+      toHaveDisplayValue(value: string | RegExp | Array<string | RegExp>): R,
       toBeInTheDOM(): R
     }
   }

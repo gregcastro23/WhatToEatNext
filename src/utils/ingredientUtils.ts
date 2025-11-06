@@ -20,7 +20,7 @@
 
 import type { IngredientCategory } from '@/data/ingredients/types';
 import type { Ingredient, IngredientMapping, RecipeIngredient } from '@/types';
-import { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 
 /**
  * Determines the modality of an ingredient based on its qualities and elemental properties

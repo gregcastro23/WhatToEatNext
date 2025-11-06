@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { alchmWs, type PlanetaryHourUpdate, type EnergyUpdate, type CelestialEvent } from '@/lib/websocket/alchm-websocket';
 import { logger } from '@/lib/logger';
+import { alchmWs, type PlanetaryHourUpdate, type EnergyUpdate, type CelestialEvent } from '@/lib/websocket/alchm-websocket';
 
 export interface WebSocketState {
   isConnected: boolean,

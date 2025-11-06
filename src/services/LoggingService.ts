@@ -43,9 +43,9 @@ export interface LogEntry {
 class LoggingService {
   private static instance: LoggingService;
   private logLevel: LogLevel = LogLevel.INFO;
-  private isDevelopment: boolean;
+  private readonly isDevelopment: boolean;
   private logBuffer: LogEntry[] = [];
-  private maxBufferSize = 1000;
+  private readonly maxBufferSize = 1000;
 
   private constructor() {
     this.isDevelopment = process.env.NODE_ENV === 'development';

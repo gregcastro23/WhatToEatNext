@@ -1,9 +1,9 @@
 // Type imports
+import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
 import type { Season } from '@/types/alchemy';
 import type { ElementalProperties } from '@/types/unified';
 
 // Internal imports
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
 import { createLogger } from '@/utils/logger';
 
 // Logger

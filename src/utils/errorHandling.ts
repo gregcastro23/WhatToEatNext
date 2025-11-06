@@ -1,5 +1,4 @@
 import React from 'react';
-
 import ErrorBoundary from '@/components/error-boundaries/ErrorBoundary';
 import { logger } from '@/utils/logger';
 
@@ -161,9 +160,9 @@ export function classifyError(error: Error | string): ErrorType {
 
 // Error handler class
 export class ErrorHandler {
-  private recoveryStrategies: ErrorRecoveryStrategy[] = [];
+  private readonly recoveryStrategies: ErrorRecoveryStrategy[] = [];
   private errorQueue: EnhancedError[] = [];
-  private maxQueueSize = 50;
+  private readonly maxQueueSize = 50;
 
   // Add recovery strategy
   addRecoveryStrategy(strategy: ErrorRecoveryStrategy) {
@@ -335,14 +334,14 @@ globalErrorHandler.addRecoveryStrategy({
     }
     throw new Error('No cached astrological data available');
   },
-  fallback: () => {
+  fallback: () => 
     // Return default astrological state
-    return {
+     ({
       _zodiacSign: 'aries',
       _lunarPhase: 'new moon',
       _elementalState: { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 }
-    };
-  }
+    })
+  
 });
 
 globalErrorHandler.addRecoveryStrategy({
@@ -366,9 +365,7 @@ export function handleAsyncError<T>(
   promise: Promise<T>,
   context?: Record<string, unknown>
 ): Promise<T> {
-  return promise.catch(error => {
-    return globalErrorHandler.handleError(error, context);
-  });
+  return promise.catch(error => globalErrorHandler.handleError(error, context));
 }
 
 export function handleSyncError<T>(fn: () => T, context?: Record<string, unknown>): T {
@@ -390,9 +387,7 @@ export function useErrorHandler() {
     }
   }, []);
 
-  const getErrorStats = React.useCallback(() => {
-    return globalErrorHandler.getErrorStats();
-  }, []);
+  const getErrorStats = React.useCallback(() => globalErrorHandler.getErrorStats(), []);
 
   return { handleError, getErrorStats };
 }

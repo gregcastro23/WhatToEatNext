@@ -4,7 +4,7 @@
  * Generates cuisine recommendations based on alchemical and planetary influences
  */
 
-import { Element, ElementalProperties } from '@/types/alchemy';
+import type { Element, ElementalProperties } from '@/types/alchemy';
 
 /**
  * Cuisine recommendation result
@@ -125,7 +125,7 @@ export function generateCuisineRecommendations(dominantPlanets: Array<{ planet: 
 function calculateCuisineCompatibility(
   cuisine: string,
   userElementals: ElementalProperties,
-  planetaryStrength: number = 1.0): number {
+  planetaryStrength = 1.0): number {
   const cuisineElementals = calculateCuisineElementalAlignment(cuisine);
 
   // Calculate elemental similarity

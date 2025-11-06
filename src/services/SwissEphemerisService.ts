@@ -5,7 +5,7 @@
  * Includes comprehensive transit information for multiple years with detailed seasonal mappings
  */
 
-import { CelestialPosition, PlanetaryPosition, ZodiacSign } from '@/types/celestial';
+import type { CelestialPosition, PlanetaryPosition, ZodiacSign } from '@/types/celestial';
 import { createLogger } from '@/utils/logger';
 
 const logger = createLogger('SwissEphemerisService');
@@ -571,10 +571,10 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
  * Swiss Ephemeris Service Class
  */
 export class SwissEphemerisService {
-  private ephemerisData: Record<string, SwissEphemerisData[]> = COMPREHENSIVE_EPHEMERIS_DATA;
-  private seasonalTransits: Record<string, SeasonalTransit[]> = SEASONAL_TRANSITS;
-  private cache: Map<string, Record<string, CelestialPosition>> = new Map();
-  private cacheExpiration = 5 * 60 * 1000; // 5 minutes
+  private readonly ephemerisData: Record<string, SwissEphemerisData[]> = COMPREHENSIVE_EPHEMERIS_DATA;
+  private readonly seasonalTransits: Record<string, SeasonalTransit[]> = SEASONAL_TRANSITS;
+  private readonly cache: Map<string, Record<string, CelestialPosition>> = new Map();
+  private readonly cacheExpiration = 5 * 60 * 1000; // 5 minutes
 
   constructor() {
     logger.info('Swiss Ephemeris Service initialized with comprehensive transit data')
@@ -708,9 +708,9 @@ export class SwissEphemerisService {
 
         positions[planetName] = {
           sign: (signName.toLowerCase() as any) || sign,
-          degree: degree,
+          degree,
           exactLongitude: longitude,
-          isRetrograde: isRetrograde,
+          isRetrograde,
           minutes: Math.round((degree % 1) * 60)
         };
       }
@@ -814,7 +814,7 @@ export class SwissEphemerisService {
 
     return {
       sign: ZODIAC_SIGNS[signIndex],
-      degree: degree
+      degree
     };
   }
 

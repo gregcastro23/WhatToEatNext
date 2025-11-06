@@ -4,7 +4,8 @@
 
 import {culinaryTraditions, _CuisineProfile} from '@/data/cuisines/culinaryTraditions';
 import {culturalRules, _getCulturalRecommendations} from '@/data/culturalrules';
-import {ElementalProperties, _ZodiacSign, LunarPhase} from '@/types/alchemy';
+import type {ElementalProperties, LunarPhase} from '@/types/alchemy';
+import { _ZodiacSign} from '@/types/alchemy';
 import {logger} from '@/utils/logger';
 
 // ===== INTERFACES =====
@@ -335,7 +336,7 @@ export class CulturalAnalyticsService {
   static generateFusionRecommendations(
     primaryCuisine: string,
     availableCuisines: string[],
-    maxRecommendations: number = 3
+    maxRecommendations = 3
   ): FusionCuisineRecommendation[] {
     try {
       const fusionRecommendations: FusionCuisineRecommendation[] = [];

@@ -1,4 +1,7 @@
 // import { celestialBodies } from '../data/celestial/bodies';
+import { cache } from '../utils/cache';
+import { logger } from '../utils/logger';
+import { celestialNumerology } from '../utils/numerology';
 import type { TarotCard } from '../contexts/TarotContext/types';
 import type {
   CelestialAlignment,
@@ -12,9 +15,6 @@ import type {
 } from '../types/alchemy';
 import type { LunarPhase } from '../types/shared';
 // astronomia calculator removed - using direct calculations
-import { cache } from '../utils/cache';
-import { logger } from '../utils/logger';
-import { celestialNumerology } from '../utils/numerology';
 
 // Tarot elemental correspondences
 const TAROT_ELEMENTAL_MAPPING: Record<
@@ -166,7 +166,7 @@ class CelestialCalculator {
   calculateCurrentInfluences(): CelestialAlignment {
     try {
       // Try to get from cache first
-      const cached = cache.get(this.CACHE_KEY) as Partial<CelestialAlignment> | undefined;
+      const cached = cache.get(this.CACHE_KEY) ;
       if (cached) {
         // Ensure cached data has astrologicalInfluences
         if (
@@ -548,7 +548,7 @@ class CelestialCalculator {
 
     // Calculate base influences based on dignities
     let jupiterDignityName = '';
-    if (jupiterPos?.sign) {
+    if (jupiterPos.sign) {
       const jupiterSign = jupiterPos.sign.toLowerCase();
       const dignity = jupiterDignities[jupiterSign];
       if (dignity) {
@@ -565,7 +565,7 @@ class CelestialCalculator {
     }
 
     let saturnDignityName = '';
-    if (saturnPos?.sign) {
+    if (saturnPos.sign) {
       const saturnSign = saturnPos.sign.toLowerCase();
       const dignity = saturnDignities[saturnSign];
       if (dignity) {
@@ -716,7 +716,7 @@ class CelestialCalculator {
 
     // Add Sun sign placement if it exists in planetary positions
     const sunPos = planetaryPositions['sun'] || planetaryPositions['Sun'];
-    if (sunPos?.sign) {
+    if (sunPos.sign) {
       // Add the Sun with its sign placement if not already included
       if (!dominantPlanets.some(p => p.name === 'Sun')) {
         dominantPlanets.push({
@@ -1054,7 +1054,7 @@ class CelestialCalculator {
     }
 
     // Get from cache
-    const cached = cache.get(this.CACHE_KEY) as CelestialAlignment | undefined;
+    const cached = cache.get(this.CACHE_KEY) ;
 
     // Return cached value with safeguards or calculate new
     return cached ? this.ensureCompleteAlignment(cached) : this.calculateCurrentInfluences();
@@ -1064,7 +1064,7 @@ class CelestialCalculator {
    * Get tarot influences from cache or calculate new ones
    */
   private getTarotInfluences(): TarotCard[] {
-    let tarotCards = cache.get(this.TAROT_CACHE_KEY) as TarotCard[] | undefined;
+    let tarotCards = cache.get(this.TAROT_CACHE_KEY) ;
 
     if (!tarotCards || !Array.isArray(tarotCards) || tarotCards.length === 0) {
       const alignment = this.getCurrentAlignment();

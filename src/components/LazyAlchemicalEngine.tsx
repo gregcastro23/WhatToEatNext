@@ -11,24 +11,24 @@ import { createLazyComponent } from '@/utils/lazyLoading';
 // Lazy load the alchemical calculation engine
 const AlchemicalCalculator = createLazyComponent(
   () => import('@/calculations/alchemicalEngine').then(module => ({
-    default: React.memo((props: any) => {
+    default: React.memo((props: any) => 
       // This would wrap the actual calculation logic
-      return (<div className="alchemical-calculator">
+       (<div className="alchemical-calculator">
           <h3>Alchemical Calculation Engine</h3>
           <p>Performing complex elemental calculations...</p>
           {/* Calculation results would be rendered here */}
         </div>
       )
-    })
+    )
   })),
   // Custom loading component
   () => (
     <div className="flex items-center justify-center p-6 bg-gradient-to-r from-purple-100 to-blue-100 rounded-lg">
       <div className="animate-pulse flex space-x-4">
-        <div className="rounded-full bg-purple-400 h-12 w-12"></div>
+        <div className="rounded-full bg-purple-400 h-12 w-12" />
         <div className="flex-1 space-y-2 py-1">
-          <div className="h-4 bg-purple-400 rounded w-3/4"></div>
-          <div className="h-4 bg-purple-300 rounded w-1/2"></div>
+          <div className="h-4 bg-purple-400 rounded w-3/4" />
+          <div className="h-4 bg-purple-300 rounded w-1/2" />
         </div>
       </div>
       <span className="ml-4 text-purple-700 font-medium">
@@ -80,9 +80,9 @@ export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
         <div className="mt-4 border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
           <Suspense fallback={
             <div className="animate-pulse">
-              <div className="h-32 bg-gray-200 rounded mb-4"></div>
-              <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-              <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+              <div className="h-32 bg-gray-200 rounded mb-4" />
+              <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
+              <div className="h-4 bg-gray-200 rounded w-1/2" />
             </div>
           }>
             <AlchemicalCalculator

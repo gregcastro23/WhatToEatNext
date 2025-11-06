@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-
 import { VECTOR_CONFIG } from '@/utils/signVectors';
 
 export default function DevSettings() {

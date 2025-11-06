@@ -5,7 +5,6 @@ import { _logger } from '@/lib/logger';
 'use client'
 
 import { useState, useEffect, useMemo } from 'react';
-
 import {
   ingredientsMap,
   getAllIngredientsByCategory,
@@ -218,9 +217,7 @@ export function useIngredientSearch() {
   };
 
   // Get ingredients by category
-  const getIngredientsByCategory = (category: string): Ingredient[] => {
-    return allIngredients.filter(ingredient => ingredient.category === category);
-  };
+  const getIngredientsByCategory = (category: string): Ingredient[] => allIngredients.filter(ingredient => ingredient.category === category);
 
   // Get available categories
   const availableCategories = useMemo(() => {

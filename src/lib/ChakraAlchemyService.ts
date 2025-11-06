@@ -1,22 +1,26 @@
-import {
+import type {
   Planet,
   ZodiacSign,
-  Element,
   TarotSuit,
   ChakraPosition,
   ChakraEnergies,
   EnergyStateProperties
 } from '@/types/alchemy';
 import {
-  CHAKRAS,
-  MAJOR_ARCANA_CHAKRAS,
-  SUIT_CHAKRA_MAPPINGS,
-  KEY_CARD_CHAKRA_MAPPINGS,
-  CHAKRA_MAPPING_SUMMARY,
+  Element
+} from '@/types/alchemy';
+import type {
   Chakra,
   MajorArcanaChakra,
   SuitChakraMapping,
   KeyCardChakraMapping
+} from '@/types/chakra';
+import {
+  CHAKRAS,
+  MAJOR_ARCANA_CHAKRAS,
+  SUIT_CHAKRA_MAPPINGS,
+  KEY_CARD_CHAKRA_MAPPINGS,
+  CHAKRA_MAPPING_SUMMARY
 } from '@/types/chakra';
 
 /**
@@ -27,7 +31,7 @@ export class ChakraAlchemyService {
   /**
    * Map chakras to their alchemical energy states
    */
-  private chakraEnergyStateMappings: Record<
+  private readonly chakraEnergyStateMappings: Record<
     ChakraPosition,
     {
       energyState: string;
@@ -211,8 +215,7 @@ export class ChakraAlchemyService {
     Object.entries(CHAKRAS).forEach(([position, chakra]) => {
       const key = this.getChakraKey(position as ChakraPosition);
       if (key) {
-        const primaryEnergyState = (chakra as unknown as { primaryEnergyState?: keyof EnergyStateProperties })
-          ?.primaryEnergyState;
+        const {primaryEnergyState} = (chakra  as { primaryEnergyState?: keyof EnergyStateProperties });
         if (primaryEnergyState && primaryEnergyState in energyStates) {
           chakraEnergies[key] = energyStates[primaryEnergyState] * 2; // Scale to make it more visible
         }

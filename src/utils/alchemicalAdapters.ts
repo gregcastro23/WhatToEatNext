@@ -1,4 +1,4 @@
-import { ElementalAffinity } from '@/types/alchemy';
+import type { ElementalAffinity } from '@/types/alchemy';
 
 // Convert alchemicalEngine format to standardized format
 export function toStandardElementalAffinity(engineAffinity: unknown): ElementalAffinity {

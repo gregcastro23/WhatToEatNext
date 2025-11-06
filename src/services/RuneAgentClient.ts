@@ -82,7 +82,7 @@ function generateLocalRune(): RuneResult {
   };
 }
 
-function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
+function generateLocalAgent(context = 'cuisine'): AgentRecommendation {
   const agents = {
     cuisine: {
       name: 'Culinary Sage',

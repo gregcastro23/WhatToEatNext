@@ -1,4 +1,4 @@
-import { ZodiacSign } from './zodiac';
+import type { ZodiacSign } from './zodiac';
 
 /**
  * ZodiacAffinity represents how well something harmonizes with different zodiac signs

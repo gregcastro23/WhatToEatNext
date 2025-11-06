@@ -3,7 +3,6 @@
  */
 
 import { useState, useCallback } from 'react';
-
 import ingredientMappingService from '@/services/ingredientMappingService';
 import type { ElementalProperties } from '@/types/alchemy';
 import type { Recipe } from '@/types/recipe';

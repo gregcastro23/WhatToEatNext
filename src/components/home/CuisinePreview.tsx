@@ -71,7 +71,7 @@ export default function CuisinePreview() {
   if (loading) {
     return (
       <div className="flex flex-col justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mb-4"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mb-4" />
         <p className="text-lg font-medium text-gray-700">Analyzing cosmic culinary influences...</p>
         <p className="text-sm text-gray-500 mt-2">Calculating astrological cuisine compatibility</p>
       </div>
@@ -109,7 +109,7 @@ export default function CuisinePreview() {
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="text-xl font-bold text-gray-900">{cuisine.name}</h3>
-                  <div className="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse" title="Active recommendation"></div>
+                  <div className="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse" title="Active recommendation" />
                 </div>
                 <p className="text-sm text-gray-700 mb-2">{cuisine.description}</p>
                 {cuisine.seasonal_context && (

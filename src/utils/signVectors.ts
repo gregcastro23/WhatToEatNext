@@ -87,12 +87,12 @@ function computePlanetaryWeightForSign(
 ): number {
   let weight = 0
   Object.entries(planetaryPositions || {}).forEach(([planet, pos]) => {
-    const sign = String(pos?.sign || '').toLowerCase();
+    const sign = String(pos.sign || '').toLowerCase();
     if (!sign) return;
     const base = sign === targetSign ? 1.0 : 0.2; // strongest when the planet is in the target sign
 
     // Degree proximity boost within the same, sign: earlier degrees slightly stronger
-    const degree = typeof pos?.degree === 'number' ? pos.degree : undefined
+    const degree = typeof pos.degree === 'number' ? pos.degree : undefined
     const degreeFactor =
       typeof degree === 'number' ? 1 - Math.min(30, Math.max(0, degree)) / 30 : 0.5
 
@@ -110,7 +110,7 @@ function computePlanetaryWeightForSign(
     }, 1);
 
     // Retrograde slightly diffuses expression
-    const retrogradeFactor = pos?.isRetrograde ? 0.9 : 1.0
+    const retrogradeFactor = pos.isRetrograde ? 0.9 : 1.0
 
     // Planetary weighting (Sun/Moon stronger, personal > outer);
     const planetWeightMap: Record<string, number> = {
@@ -360,16 +360,16 @@ export function getAlchemicalStateWithVectors(input: {
 
   let selected: SignVector | null = null;
   if (governing === 'sun') {
-    const sunSign = String(planetaryPositions?.Sun?.sign || '').toLowerCase() as any;
+    const sunSign = String(planetaryPositions.Sun.sign || '').toLowerCase() as any;
     selected = sunSign ? signVectors[sunSign] : null;
   } else if (governing === 'moon') {
-    const moonSign = String(planetaryPositions?.Moon?.sign || '').toLowerCase() as any;
+    const moonSign = String(planetaryPositions.Moon.sign || '').toLowerCase() as any;
     selected = moonSign ? signVectors[moonSign] : null;
   } else if (governing === 'ensemble') {
     // Sun/Moon/Ascendant ensemble (if available) with heuristic weights
-    const sunSign = String(planetaryPositions?.Sun?.sign || '').toLowerCase() as any;
-    const moonSign = String(planetaryPositions?.Moon?.sign || '').toLowerCase() as any;
-    const ascSign = String(planetaryPositions?.Ascendant?.sign || '').toLowerCase() as any;
+    const sunSign = String(planetaryPositions.Sun.sign || '').toLowerCase() as any;
+    const moonSign = String(planetaryPositions.Moon.sign || '').toLowerCase() as any;
+    const ascSign = String(planetaryPositions.Ascendant.sign || '').toLowerCase() as any;
     const parts: SignVector[] = [
       sunSign && signVectors[sunSign],
       moonSign && signVectors[moonSign],

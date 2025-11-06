@@ -2,7 +2,6 @@ import { _logger } from '@/lib/logger';
 import { celestialCalculator } from '@/services/celestialCalculations';
 import type { ElementalProperties } from '@/types/alchemy';
 import type { Recipe } from '@/types/recipe';
-
 import { cache } from './cache';
 import { logger } from './logger';
 import { themeManager } from './theme';
@@ -88,7 +87,7 @@ interface AppState {
 class StateManager {
   private static instance: StateManager;
   private state: AppState;
-  private listeners: Map<string, Set<(state: AppState) => void>>;
+  private readonly listeners: Map<string, Set<(state: AppState) => void>>;
   private readonly STORAGE_KEY = 'app_state';
   private readonly UPDATE_INTERVAL = 1000 * 60 * 5; // 5 minutes
 
@@ -108,7 +107,7 @@ class StateManager {
 
   private loadInitialState(): AppState {
     try {
-      const cached = cache.get(this.STORAGE_KEY) as unknown;
+      const cached = cache.get(this.STORAGE_KEY) ;
       if (cached && this.isValidAppState(cached)) {
         // Ensure activeFilters is a Set after deserialization
         if (cached.ui && Array.isArray((cached.ui as unknown as { activeFilters?: unknown }).activeFilters)) {

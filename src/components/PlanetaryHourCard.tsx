@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 
-type Props = {
+interface Props {
   latitude?: number;
   longitude?: number;
   className?: string;
-};
+}
 
 export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
   const calculator = useMemo(

@@ -1,7 +1,7 @@
 'use client';
 
-import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics';
 import { useMemo } from 'react';
+import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics';
 
 interface PlanetaryFoodRecommendationsProps {
   location?: { lat: number; lon: number },
@@ -88,7 +88,7 @@ export default function PlanetaryFoodRecommendations({
 });
 
   const currentPlanetaryRecommendations = useMemo(() => {
-    if (!kinetics?.data?.base?.power) return null;
+    if (!kinetics?.data.base.power) return null;
 
     const currentHour = new Date().getHours();
     const currentHourData = kinetics.data.base.power.find(p => p.hour === currentHour);

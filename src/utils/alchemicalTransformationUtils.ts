@@ -1,17 +1,16 @@
 import { log } from '@/services/LoggingService';
 import type { CelestialPosition } from '@/types/celestial';
-
 import {
-    AlchemicalItem,
-    ElementalItem,
     transformItemsWithPlanetaryPositions
 } from '../calculations/alchemicalTransformation';
-import { LunarPhaseWithSpaces } from '../types/alchemy';
-
 import {
     applyPillarTransformation,
     getHolisticCookingRecommendations
 } from './alchemicalPillarUtils';
+import type {
+    AlchemicalItem,
+    ElementalItem} from '../calculations/alchemicalTransformation';
+import type { LunarPhaseWithSpaces } from '../types/alchemy';
 
 /**
  * Transforms a set of ingredients based on current planetary positions
@@ -29,15 +28,13 @@ export const _transformIngredients = (
   isDaytime: boolean,
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
-): AlchemicalItem[] => {
-  return transformItemsWithPlanetaryPositions(
+): AlchemicalItem[] => transformItemsWithPlanetaryPositions(
     ingredients,
     planetPositions as unknown as Record<string, CelestialPosition>, // Pattern, TTT: Record Type Conversion
     isDaytime,
     currentZodiac,
     lunarPhase,
   )
-}
 
 /**
  * Transforms a set of cooking methods based on current planetary positions
@@ -90,15 +87,13 @@ export const _transformCuisines = (
   isDaytime: boolean,
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
-): AlchemicalItem[] => {
-  return transformItemsWithPlanetaryPositions(
+): AlchemicalItem[] => transformItemsWithPlanetaryPositions(
     cuisines,
     planetPositions as unknown as Record<string, CelestialPosition>, // Pattern, TTT: Record Type Conversion
     isDaytime,
     currentZodiac,
     lunarPhase,
   )
-}
 
 /**
  * Sort items by their alchemical compatibility with target elemental properties
@@ -195,10 +190,10 @@ export const _filterByAlchemicalCompatibility = (
  * @param count The number of items to return
  * @returns Top compatible items
  */
-export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): AlchemicalItem[] => {
+export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): AlchemicalItem[] => 
   // Sort by gregsEnergy for basic compatibility;
-  return [...items].sort((ab) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0)).slice(0, count)
-}
+   [...items].sort((ab) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0)).slice(0, count)
+
 
 /**
  * Get recommended cooking methods for an ingredient

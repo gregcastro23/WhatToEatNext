@@ -1,5 +1,5 @@
 import { _logger } from '@/lib/logger';
-import { RecipeElementalMapping } from '@/types/recipes';
+import type { RecipeElementalMapping } from '@/types/recipes';
 
 /**
  * A utility function for logging debug information
@@ -21,15 +21,13 @@ export const _recipeCalculations = {
    */
   calculateCuisineAlignment(recipe: RecipeElementalMapping): number {
     const cuisineElements = recipe.cuisine.elementalAlignment;
-    const alignmentScore = Object.entries(recipe.elementalProperties).reduce((sum, [element, value]) => {
-        return sum + value * cuisineElements[element as unknown as keyof typeof cuisineElements];
-      },
+    const alignmentScore = Object.entries(recipe.elementalProperties).reduce((sum, [element, value]) => sum + value * cuisineElements[element as unknown as keyof typeof cuisineElements],
       0
     );
 
     const recipeData = recipe as unknown as { name?: string };
     debugLog(
-      `Cuisine alignment score for ${recipeData?.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`
+      `Cuisine alignment score for ${recipeData.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`
     );
     return alignmentScore;
   },

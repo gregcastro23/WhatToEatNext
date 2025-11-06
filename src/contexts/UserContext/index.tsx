@@ -1,6 +1,7 @@
 'use client';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { _logger } from '@/lib/logger';
-import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import type { ReactNode} from 'react';
 
 // Import { UserProfile } from '../../services/userService';
 // Import * as userService from '../../services/userService',
@@ -15,12 +16,8 @@ interface UserProfile {
 
 // Mock userService for build compatibility
 const userService = {
-  getUserProfile: async (userId: string): Promise<UserProfile> => {
-    return { userId, name: 'Mock User', email: 'mock@example.com' };
-  },
-  saveUserProfile: async (profile: Partial<UserProfile>): Promise<UserProfile> => {
-    return { userId: profile.userId || 'mock', ...profile } as UserProfile;
-  }
+  getUserProfile: async (userId: string): Promise<UserProfile> => ({ userId, name: 'Mock User', email: 'mock@example.com' }),
+  saveUserProfile: async (profile: Partial<UserProfile>): Promise<UserProfile> => ({ userId: profile.userId || 'mock', ...profile } as UserProfile)
 };
 
 interface UserContextType {

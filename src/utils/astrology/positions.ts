@@ -1,5 +1,5 @@
-import { _logger } from '@/lib/logger';
 import * as Astronomy from 'astronomy-engine';
+import { _logger } from '@/lib/logger';
 
 // Removed unused log import
 

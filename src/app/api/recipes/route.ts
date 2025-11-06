@@ -1,6 +1,5 @@
-import { _logger } from '@/lib/logger';
 import { NextResponse } from 'next/server';
-
+import { _logger } from '@/lib/logger';
 import type { Recipe } from '@/types/recipe';
 
 // Basic fallback recipe that will work without dependencies

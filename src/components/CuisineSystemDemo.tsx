@@ -7,15 +7,16 @@
 
 'use client';
 
+import React, { useEffect, useState } from 'react';
 import {
     configureGlobalCache,
     getGlobalCache
 } from '@/utils/cuisine/cuisineComputationCache';
+import type {
+    ElementalProperties} from '@/utils/cuisine/cuisineRecommendationEngine';
 import {
-    ElementalProperties,
     generateEnhancedCuisineRecommendations
 } from '@/utils/cuisine/cuisineRecommendationEngine';
-import React, { useEffect, useState } from 'react';
 
 interface UserProfile {
   elementalPreferences: ElementalProperties,

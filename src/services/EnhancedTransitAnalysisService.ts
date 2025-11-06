@@ -49,11 +49,11 @@ export interface EnhancedTransitInfluence {
   season: TransitSeason;
   location: GeographicCoordinates;
   enhancedPlanetaryPositions: EnhancedPlanetaryPosition[];
-  aspectInfluences: {
+  aspectInfluences: Array<{
     aspect: PlanetaryAspect;
     dignityModifiedInfluence: number;
     culinaryEffects: string[];
-  }[];
+  }>;
   locationSpecificRecommendations: {
     ingredients: string[];
     cookingMethods: string[];
@@ -193,7 +193,7 @@ export class EnhancedTransitAnalysisService {
     aspects: PlanetaryAspect[],
     enhancedPositions: EnhancedPlanetaryPosition[],
     location: GeographicCoordinates
-  ): { aspect: PlanetaryAspect, dignityModifiedInfluence: number, culinaryEffects: string[] }[] {
+  ): Array<{ aspect: PlanetaryAspect, dignityModifiedInfluence: number, culinaryEffects: string[] }> {
     return aspects.map(aspect => {
       // Get enhanced positions for the aspecting planets
       const planet1Data = enhancedPositions.find(
@@ -292,7 +292,7 @@ export class EnhancedTransitAnalysisService {
 
     // Combine planetary influences
     if (planet1Data && planet2Data) {
-      const aspectType = aspect.aspectType;
+      const {aspectType} = aspect;
       const planets = `${planet1Data.planet}-${planet2Data.planet}`;
 
       switch (aspectType) {

@@ -23,35 +23,31 @@ import type {
 } from '@/types/hierarchy';
 
 // Re-export all the core functions for comprehensive testing
+
+import {
+    computeCuisineProperties
+} from './cuisine/cuisineAggregationEngine';
+import {
+    configureGlobalCache,
+    getGlobalCache
+} from './cuisine/cuisineComputationCache';
+import {
+    createBasicUserProfile,
+    generateEnhancedCuisineRecommendations
+} from './cuisine/cuisineRecommendationEngine';
+import {
+    analyzePlanetaryPatterns
+} from './cuisine/planetaryPatternAnalysis';
+import {
+    DEFAULT_GLOBAL_BASELINE,
+    identifyCuisineSignatures
+} from './cuisine/signatureIdentificationEngine';
 import {
     COOKING_METHOD_MODIFIERS,
     aggregateIngredientElementals,
     applyCookingMethodTransforms,
     computeRecipeProperties
 } from './hierarchicalRecipeCalculations';
-
-import {
-    computeCuisineProperties
-} from './cuisine/cuisineAggregationEngine';
-
-import {
-    DEFAULT_GLOBAL_BASELINE,
-    identifyCuisineSignatures
-} from './cuisine/signatureIdentificationEngine';
-
-import {
-    analyzePlanetaryPatterns
-} from './cuisine/planetaryPatternAnalysis';
-
-import {
-    createBasicUserProfile,
-    generateEnhancedCuisineRecommendations
-} from './cuisine/cuisineRecommendationEngine';
-
-import {
-    configureGlobalCache,
-    getGlobalCache
-} from './cuisine/cuisineComputationCache';
 
 // ========== VERIFICATION DATA ==========
 
@@ -98,7 +94,7 @@ export const TEST_PLANETARY_POSITIONS: { [planet: string]: string } = {
 /**
  * Test cooking methods for Level 2 verification
  */
-export const TEST_COOKING_METHODS: (string | CookingMethod)[] = [
+export const TEST_COOKING_METHODS: Array<string | CookingMethod> = [
   'grilling',
   'steaming',
   'baking'
@@ -505,7 +501,7 @@ export async function verifyHierarchicalSystem(): Promise<{
   const overallValid = level1.isValid && level2.isValid && level3.isValid;
 
   // Final report
-  console.log('\n' + '='.repeat(60));
+  console.log(`\n${  '='.repeat(60)}`);
   console.log('📊 HIERARCHICAL SYSTEM VERIFICATION RESULTS');
   console.log('='.repeat(60));
 

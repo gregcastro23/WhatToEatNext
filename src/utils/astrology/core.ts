@@ -21,10 +21,9 @@ import type { Season, TimeFactors, TimeOfDay } from '@/types/time';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { getPlanetaryPositions } from '@/utils/astrologyDataProvider';
 import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/utils/safeAstrology';
-
-import { ElementalCharacter } from '../../constants/planetaryElements';
 import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
 import { getCurrentSeason, getTimeOfDay } from '../dateUtils';
+import type { ElementalCharacter } from '../../constants/planetaryElements';
 
 // Robust debug, logger: logs in development, silent in production
 const debugLog = (_message: string, ..._args: unknown[]): void => {
@@ -84,12 +83,12 @@ export interface PlanetaryAspect extends ImportedPlanetaryAspect {
   elementalInfluence?: LowercaseElementalProperties; // How this aspect affects elemental properties
 }
 
-export type PlanetPositionData = {
+export interface PlanetPositionData {
   sign: any;
   degree: number;
   minute?: number;
   exactLongitude?: number;
-};
+}
 
 export interface PlanetaryDignity {
   type: DignityType;

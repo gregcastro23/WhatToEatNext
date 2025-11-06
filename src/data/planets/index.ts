@@ -7,9 +7,9 @@ import neptuneData from './neptune';
 import plutoData from './pluto';
 import saturnData from './saturn';
 import sunData from './sun';
-import { PlanetData } from './types';
 import uranusData from './uranus';
 import venusData from './venus';
+import type { PlanetData } from './types';
 
 export const planetInfo: Record<string, PlanetData> = {
   Sun: sunData,

@@ -47,8 +47,7 @@ export interface RecipeComponents {
 
 export function useRecipeValidation() {
   // Analyze recipe components
-  const analyzeComponents = (ingredients: Ingredient[]): RecipeComponents => {
-    return {
+  const analyzeComponents = (ingredients: Ingredient[]): RecipeComponents => ({
       hasProtein: ingredients.some(
         ing =>
           ing.category === 'protein' ||
@@ -75,8 +74,7 @@ export function useRecipeValidation() {
           (((ing as unknown as { qualities?: string[] }).qualities as string[]) || []).includes('fat') ||
           ing.name.toLowerCase().includes('butter')
       )
-    };
-  };
+    });
 
   // Calculate elemental balance
   const calculateElementalBalance = (ingredients: Ingredient[]): ElementalProperties => {

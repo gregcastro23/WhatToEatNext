@@ -1,4 +1,4 @@
-import { ElementalCharacter } from './planetaryElements';
+import type { ElementalCharacter } from './planetaryElements';
 
 /**
  * Zodiac sign types
@@ -82,15 +82,11 @@ export const _TRIPLICITY_RULERS: Record<ElementalCharacter, string[]> = {
 /**
  * Converts a zodiac sign to its corresponding element
  */
-export const _getElementFromZodiac = (sign: any): ElementalCharacter => {
-  return zodiacElementMap[sign]
-}
+export const _getElementFromZodiac = (sign: any): ElementalCharacter => zodiacElementMap[sign]
 
 /**
  * Gets all zodiac signs associated with a specific element
  */
-export const _getZodiacSignsByElement = (element: ElementalCharacter): any[] => {
-  return Object.entries(zodiacElementMap)
+export const _getZodiacSignsByElement = (element: ElementalCharacter): any[] => Object.entries(zodiacElementMap)
     .filter(([_, signElement]) => signElement === element)
     .map(([sign_]) => sign as unknown)
-}

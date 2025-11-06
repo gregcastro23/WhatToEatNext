@@ -6,7 +6,6 @@
  */
 
 import { execSync } from 'child_process';
-
 import { logger } from './logger';
 
 // Campaign trigger interfaces
@@ -266,8 +265,9 @@ async function getTypeScriptErrors(): Promise<string> {
     return output;
   } catch (error: unknown) {
     // tsc returns non-zero exit code when there are errors, which is expected
-    if (error.stdout) {
-      return error.stdout;
+    const err = error as { stdout?: string; stderr?: string };
+    if (err.stdout) {
+      return err.stdout;
     }
 
     // If there's no stdout, this might be a real failure
@@ -378,7 +378,7 @@ function categorizeErrors(errors: TypeScriptError[]): Record<string, TypeScriptE
   const categorized: Record<string, TypeScriptError[]> = {};
 
   for (const error of errors) {
-    const category = error.category;
+    const {category} = error;
     if (!categorized[category]) {
       categorized[category] = [];
     }
@@ -395,7 +395,7 @@ function groupErrorsByFile(errors: TypeScriptError[]): Record<string, TypeScript
   const grouped: Record<string, TypeScriptError[]> = {};
 
   for (const error of errors) {
-    const filePath = error.filePath;
+    const {filePath} = error;
     if (!grouped[filePath]) {
       grouped[filePath] = [];
     }

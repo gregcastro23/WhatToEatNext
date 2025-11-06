@@ -133,7 +133,7 @@ async function validateTransitDates(): Promise<{
         const planetModule = await import(`../data/planets/${planetName}`);
         const planetData = planetModule.default as { PlanetSpecific?: { TransitDates?: Record<string, unknown> } };
 
-        if (planetData?.PlanetSpecific?.TransitDates) {
+        if (planetData.PlanetSpecific?.TransitDates) {
           const transitDates = planetData.PlanetSpecific.TransitDates;
           const validation = validatePlanetTransitDates(planetName, transitDates, currentDate);
 
@@ -515,7 +515,7 @@ async function testTransitDateValidation(): Promise<TestResult> {
       try {
         const planetModule = await import(`../data/planets/${planet}`);
         const planetSpecific = planetModule.default.PlanetSpecific as { TransitDates?: Record<string, unknown> };
-        const transitDates = planetSpecific?.TransitDates;
+        const transitDates = planetSpecific.TransitDates;
 
         if (transitDates && Object.keys(transitDates).length > 0) {
           validTransits++;
@@ -725,7 +725,7 @@ async function validateElementalProperties(): Promise<{
         };
 
         // Check elemental properties
-        if (planetData?.Elements && Array.isArray(planetData.Elements)) {
+        if (planetData.Elements && Array.isArray(planetData.Elements)) {
           const validElements = ['Fire', 'Water', 'Earth', 'Air'];
           const invalidElements = planetData.Elements
             .filter((el): el is string => typeof el === 'string')
@@ -743,7 +743,7 @@ async function validateElementalProperties(): Promise<{
         }
 
         // Check alchemical properties
-        if (planetData?.Alchemy) {
+        if (planetData.Alchemy) {
           const requiredAlchemical = ['Spirit', 'Essence', 'Matter', 'Substance'] as const;
           const missingAlchemical = requiredAlchemical.filter(
             prop => typeof (planetData.Alchemy as Record<string, unknown>)[prop] !== 'number'
@@ -810,7 +810,7 @@ function analyzeTestResults(testResults: TestResult[]): {
 
       errors.push({
         type: 'TEST_FAILURE',
-        severity: severity,
+        severity,
         message: `Test failed: ${test.testName}${test.error ? ` - ${test.error}` : ''}`,
         timestamp: new Date(),
       });

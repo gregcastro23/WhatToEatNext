@@ -9,9 +9,7 @@ export { useElementalState } from './useElementalState';
 // useAstroTarotElementalState (causing error in CuisineRecommender.tsx)
 // Combined astrological and tarot elemental state hook
 import { useState, useEffect } from 'react';
-
-import { ElementalProperties } from '@/types/alchemy';
-
+import type { ElementalProperties } from '@/types/alchemy';
 import { useElementalState } from './useElementalState';
 
 export function useAstroTarotElementalState() {

@@ -27,9 +27,8 @@ import {
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
 import { allCookingMethods } from '@/data/cooking/methods';
-import { CookingMethodInfo } from '@/types/cooking';
+import type { CookingMethodInfo } from '@/types/cooking';
 
 // Fallback placeholders for missing components to keep page functional
 const MethodImage = ({ method }: { method: string }) => (
@@ -61,7 +60,7 @@ export default function CookingMethodPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (params?.method) {
+    if (params.method) {
       const methodId = Array.isArray(params.method) ? params.method[0] : params.method;
 
       // Find the method in allCookingMethods

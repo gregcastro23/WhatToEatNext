@@ -73,8 +73,8 @@ export interface RecipeImportResult {
 }
 
 export class RecipeCuisineConnector {
-  private cuisineDatabase: Record<string, Cuisine>;
-  private recipeCache: Map<string, CuisineRecipe>;
+  private readonly cuisineDatabase: Record<string, Cuisine>;
+  private readonly recipeCache: Map<string, CuisineRecipe>;
 
   constructor() {
     this.cuisineDatabase = cuisinesMap as unknown as Record<string, Cuisine>;
@@ -91,7 +91,7 @@ export class RecipeCuisineConnector {
           id: recipeId,
           cuisine: cuisine.name,
           elementalProperties: (cuisine as unknown as { elementalProperties?: ElementalProperties })
-            ?.elementalProperties
+            .elementalProperties
         });
       });
     });
@@ -157,7 +157,7 @@ export class RecipeCuisineConnector {
       const i = (ingredient || {}) as Record<string, unknown>;
       return {
         name: String(i.name || ''),
-        amount: (typeof i.amount === 'number' || typeof i.amount === 'string') ? (i.amount as number | string) : 1,
+        amount: (typeof i.amount === 'number' || typeof i.amount === 'string') ? (i.amount ) : 1,
         unit: String(i.unit || ''),
         category: typeof i.category === 'string' ? i.category : undefined,
         swaps: Array.isArray(i.swaps) ? (i.swaps as string[]) : []
@@ -241,7 +241,7 @@ export class RecipeCuisineConnector {
     return this.recipeCache.get(id);
   }
 
-  getRandomRecipes(count: number = 5, filters: RecipeSearchFilters = {}): CuisineRecipe[] {
+  getRandomRecipes(count = 5, filters: RecipeSearchFilters = {}): CuisineRecipe[] {
     const filtered = this.searchRecipes(filters);
     const shuffled = [...filtered].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, count);
@@ -357,7 +357,7 @@ export const _searchCuisineRecipes = (filters: RecipeSearchFilters = {}) =>
 export const _importCuisineRecipe = (recipeId: string) =>
   recipeCuisineConnector.importRecipeForBuilder(recipeId);
 
-export const _getRandomCuisineRecipes = (count: number = 5, filters: RecipeSearchFilters = {}) =>
+export const _getRandomCuisineRecipes = (count = 5, filters: RecipeSearchFilters = {}) =>
   recipeCuisineConnector.getRandomRecipes(count, filters);
 
 export const _getCuisineRecipeStats = () => recipeCuisineConnector.getRecipeStatistics();

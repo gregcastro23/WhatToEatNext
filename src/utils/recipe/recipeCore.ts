@@ -13,7 +13,6 @@ import type {
   TimeOfDay,
   WeekDay
 } from '@/types/time';
-
 import { calculateDominantElement, calculateElementalProfile } from '../astrologyUtils';
 import { isNonEmptyArray, toArray } from '../common/arrayUtils';
 import { getElementalCompatibility } from '../elemental/elementCompatibility';
@@ -47,7 +46,7 @@ const DAY_RULERS: Record<WeekDay, PlanetaryDay['planet']> = {
   Friday: 'Venus',
   Saturday: 'Saturn'
 };
-const HOURLY_SEQUENCE: PlanetaryHour['planet'][] = [
+const HOURLY_SEQUENCE: Array<PlanetaryHour['planet']> = [
   'Saturn',
   'Jupiter',
   'Mars',
@@ -366,7 +365,7 @@ function scoreRecipe(
     reasons.push('Good elemental compatibility with current influences');
   }
 
-  const dominantElement = astrologicalState.dominantElement;
+  const {dominantElement} = astrologicalState;
   if (dominantElement) {
     const presence = recipeElements[dominantElement] ?? 0;
     if (presence > 0.4) {
@@ -473,7 +472,7 @@ function calculatePlanetaryDayInfluence(
       styles: string[],
       ingredients: string[],
       flavor: string,
-      elements: (keyof ElementalProperties)[];
+      elements: Array<keyof ElementalProperties>;
     }
   > = {
     Sun: {

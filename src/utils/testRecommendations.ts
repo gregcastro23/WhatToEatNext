@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 // Test utility for cooking method recommendations
 
-import { AlchemicalItem } from '../calculations/alchemicalTransformation';
+import type { AlchemicalItem } from '../calculations/alchemicalTransformation';
 
 // NOTE: These imports are commented out as the functions don't exist in the codebase
 // import { getHolisticCookingRecommendations } from './alchemicalPillarUtils';

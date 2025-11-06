@@ -12,10 +12,10 @@
  */
 
 import type { ElementalProperties, Season } from '@/types/alchemy';
-import { LunarPhase, PlanetName, PlanetaryAlignment, ZodiacSign } from '@/types/celestial';
+import type { LunarPhase, PlanetName, ZodiacSign } from '@/types/celestial';
+import { PlanetaryAlignment } from '@/types/celestial';
 import type { Recipe, ScoredRecipe } from '@/types/recipe';
-
-import {
+import type {
   ApiResponse,
   GetRecipeByIdParams,
   GetRecipesByCuisineParams,

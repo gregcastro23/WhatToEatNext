@@ -1,6 +1,7 @@
-import { Chakra, CHAKRA_BALANCING_FOODS } from '../constants/chakraMappings';
-import { ZodiacSign } from '../constants/signEnergyStates';
-import { ChakraEnergyState } from '../services/ChakraService';
+import { CHAKRA_BALANCING_FOODS } from '../constants/chakraMappings';
+import type { Chakra} from '../constants/chakraMappings';
+import type { ZodiacSign } from '../constants/signEnergyStates';
+import type { ChakraEnergyState } from '../services/ChakraService';
 
 // Mapping food groups to chakras
 const FOOD_GROUP_CHAKRA_MAP: Record<string, Chakra[]> = {

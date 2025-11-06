@@ -4,11 +4,11 @@
  */
 
 import client from 'prom-client';
-import { Request, Response, NextFunction } from 'express';
 import { logger } from '@/utils/logger';
+import type { Request, Response, NextFunction } from 'express';
 
 // Initialize Prometheus metrics collection
-const collectDefaultMetrics = client.collectDefaultMetrics;
+const {collectDefaultMetrics} = client;
 collectDefaultMetrics({
   timeout: 10000,
   prefix: 'alchm_'
@@ -344,14 +344,14 @@ export function collectHttpMetrics(serviceName: string) {
  */
 export function trackAlchemicalCalculation(
   calculationType: string,
-  complexity: string = 'medium') {
+  complexity = 'medium') {
   const timer = alchemicalCalculationDuration.startTimer({
     calculation_type: calculationType,
     complexity
   });
 
   return {
-    end: (success: boolean, cacheHit: boolean = false) => {
+    end: (success: boolean, cacheHit = false) => {
       timer();
       alchemicalCalculationsTotal
         .labels(calculationType, success.toString(), cacheHit.toString())
@@ -366,7 +366,7 @@ export function trackAlchemicalCalculation(
 export function trackRecipeRecommendation(
   cuisine: string,
   dietaryRestrictions: string[] = [],
-  algorithmVersion: string = '1.0') {
+  algorithmVersion = '1.0') {
   const timer = recipeRecommendationDuration.startTimer({
     algorithm_version: algorithmVersion,
     result_count: '0'
@@ -431,7 +431,7 @@ export function trackDatabaseOperation(operation: string, table: string) {
 export function trackCacheOperation(
   operation: string,
   result: 'hit' | 'miss' | 'set' | 'delete',
-  cacheType: string = 'redis') {
+  cacheType = 'redis') {
   cacheOperations
     .labels(operation, result, cacheType)
     .inc();
@@ -440,7 +440,7 @@ export function trackCacheOperation(
 /**
  * Update cache hit ratio
  */
-export function updateCacheHitRatio(hitRatio: number, cacheType: string = 'redis') {
+export function updateCacheHitRatio(hitRatio: number, cacheType = 'redis') {
   cacheHitRatio
     .labels(cacheType)
     .set(hitRatio);

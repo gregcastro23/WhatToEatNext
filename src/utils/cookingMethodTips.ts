@@ -598,7 +598,7 @@ export function getTechnicalTips(methodName: string): string[] {
         );
 
         const methodObj = methodData as { expertTips?: string[] };
-        if (methodObj?.expertTips && Array.isArray(methodObj.expertTips)) {
+        if (methodObj.expertTips && Array.isArray(methodObj.expertTips)) {
           // Use the method's actual expert tips
           methodObj.expertTips.forEach((tip: string) => tips.push(tip))
         } else {
@@ -671,7 +671,7 @@ export function getMethodDetails(methodName: string): string {
         );
 
         const methodObj = methodData as { expertTips?: string[], category?: string };
-        if (methodObj?.description) {
+        if (methodObj.description) {
           return methodObj.description;
         } else {
           return `${methodName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It affects texture, flavor, and nutritional properties in unique ways.`;
@@ -1025,7 +1025,7 @@ export function getIdealIngredients(methodName: string): string[] {
         );
 
         const methodObj = methodData as { expertTips?: string[], category?: string };
-        if (methodObj?.suitable_for && Array.isArray(methodObj.suitable_for)) {
+        if (methodObj.suitable_for && Array.isArray(methodObj.suitable_for)) {
           // Use the actual suitable ingredients from the method data
           methodObj.suitable_for.forEach((ingredient: string) => ingredients.push(ingredient))
         } else {

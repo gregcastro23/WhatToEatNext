@@ -1,22 +1,23 @@
 import alchemicalEngine from '@/calculations/core/alchemicalEngine';
 import { recipeDataService } from '@/services/recipeData';
-import {
+import type {
   // Element, // unused - removed for performance
   ElementalProperties,
   // Planet, // unused - removed for performance
   // ZodiacSign, // unused - removed for performance
   // ThermodynamicProperties, // unused - removed for performance
-  ThermodynamicMetrics,
+  ThermodynamicMetrics} from '@/types/alchemy';
+import {
   QuantityScaledProperties
 } from '@/types/alchemy';
 // Removed unused, import: PlanetaryAlignment
 
-import { CookingMethod } from '../types/cooking';
-import { Ingredient, UnifiedIngredient } from '../types/ingredient';
-import { Recipe } from '../types/recipe';
 import { IngredientService } from './IngredientService';
-
-import {
+import { unifiedIngredientService } from './UnifiedIngredientService';
+import type { CookingMethod } from '../types/cooking';
+import type { Ingredient, UnifiedIngredient } from '../types/ingredient';
+import type { Recipe } from '../types/recipe';
+import type {
   CookingMethodRecommendationCriteria,
   CuisineRecommendationCriteria,
   IngredientRecommendationCriteria,
@@ -24,7 +25,6 @@ import {
   RecommendationResult,
   RecommendationServiceInterface
 } from './interfaces/RecommendationServiceInterface';
-import { unifiedIngredientService } from './UnifiedIngredientService';
 
 /**
  * Quantity-aware recommendation criteria interfaces
@@ -216,7 +216,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for planetary ruler match
       if (criteria.planetaryRuler && ingredient.astrologicalProfile?.rulingPlanets) {
-        const rulingPlanets = ingredient.astrologicalProfile.rulingPlanets;
+        const {rulingPlanets} = ingredient.astrologicalProfile;
         const planetMatch = Array.isArray(rulingPlanets)
           ? rulingPlanets.includes(criteria.planetaryRuler as any)
           : false;
@@ -827,7 +827,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
     // Process each recipe ingredient that has quantity information
     (recipe.ingredients || []).forEach(recipeIngredient => {
-      const ingredientName = recipeIngredient.name?.toLowerCase();
+      const ingredientName = recipeIngredient.name.toLowerCase();
       if (!ingredientName) return;
 
       // Find matching quantity information
@@ -882,8 +882,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     cookingMethod: string
   ): number {
     const ingredientService = IngredientService.getInstance();
-    let totalBonus = 0;
-    let ingredientCount = 0;
+    const totalBonus = 0;
+    const ingredientCount = 0;
 
     // Kinetics-based scoring disabled until getScaledIngredientProperties is implemented
     // ingredientQuantities.forEach(({ ingredient, quantity, unit }) => {
@@ -911,7 +911,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (quantityInfo) {
         // Check if recipe ingredient quantity matches preferred quantity (simplified)
         const recipeIngredient = (recipe.ingredients || []).find(ing =>
-          ing.name?.toLowerCase() === ingredientName.toLowerCase()
+          ing.name.toLowerCase() === ingredientName.toLowerCase()
         );
 
         if (recipeIngredient && recipeIngredient.amount) {

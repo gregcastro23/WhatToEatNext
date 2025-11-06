@@ -1,4 +1,4 @@
-import { ElementalProperties, Season, ZodiacSign } from '@/types/alchemy';
+import type { ElementalProperties, Season, ZodiacSign } from '@/types/alchemy';
 
 export const _SCORE_THRESHOLDS = {
   EXCELLENT: 80,

@@ -1,9 +1,10 @@
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 import { planetaryFlavorProfiles } from '@/data/planetaryFlavorProfiles';
-import { allSauces, Sauce } from '@/data/sauces';
+import type { Sauce } from '@/data/sauces';
+import { allSauces } from '@/data/sauces';
 // Import the planet data
-import { ElementalProperties, PlanetName } from '@/types/alchemy';
-import { AstrologicalState } from '@/types/celestial';
+import type { ElementalProperties, PlanetName } from '@/types/alchemy';
+import type { AstrologicalState } from '@/types/celestial';
 // Removed unused culinary type-only imports
 
 // Mock planetary data for calculations
@@ -74,7 +75,7 @@ export function generateTopSauceRecommendations(
 
     // 2. Astrological Match Score (30% weight)
     let astrologicalScore = 0.5; // Base score
-    if (planetaryInfluences?.includes(currentPlanetaryDay)) {
+    if (planetaryInfluences.includes(currentPlanetaryDay)) {
       astrologicalScore = 0.9; // Bonus for matching the planetary day
     }
     if (
@@ -184,33 +185,31 @@ export function getCuisineRecommendations(
 
     if (astrologicalState) {
       // Zodiac Match Score (30% weight) - safe property access
-      const zodiacInfluences = base.zodiacInfluences;
+      const {zodiacInfluences} = base;
       if (
         astrologicalState.zodiacSign &&
-        (zodiacInfluences as string[] | undefined)?.includes(astrologicalState.zodiacSign)
+        (zodiacInfluences )?.includes(astrologicalState.zodiacSign)
       ) {
         score += 0.3;
         reasoning.push(`Favorable for ${astrologicalState.zodiacSign}`);
       }
 
       // Lunar Phase Match Score (20% weight) - safe property access
-      const lunarPhaseInfluences = base.lunarPhaseInfluences;
+      const {lunarPhaseInfluences} = base;
       if (
         astrologicalState.lunarPhase &&
-        (lunarPhaseInfluences as string[] | undefined)?.includes(astrologicalState.lunarPhase)
+        (lunarPhaseInfluences )?.includes(astrologicalState.lunarPhase)
       ) {
         score += 0.2;
         reasoning.push(`Harmonizes with the ${astrologicalState.lunarPhase}`);
       }
 
       // Planetary Influence Score (10% weight) - safe property access
-      const planetaryRulers = base.planetaryRulers;
+      const {planetaryRulers} = base;
       if (planetaryRulers && astrologicalState.planetaryPositions) {
-        const planetScore = Object.keys(astrologicalState.planetaryPositions).reduce((acc, planet) => {
-          return Array.isArray(planetaryRulers) && planetaryRulers.includes(planet)
+        const planetScore = Object.keys(astrologicalState.planetaryPositions).reduce((acc, planet) => Array.isArray(planetaryRulers) && planetaryRulers.includes(planet)
             ? acc + 0.05
-            : acc;
-        }, 0);
+            : acc, 0);
         score += Math.min(0.1, planetScore);
         if (planetScore > 0) reasoning.push(`Aligned with ruling planets`);
       }
@@ -326,5 +325,5 @@ function getSignElementalContribution(_sign: string): ElementalProperties {
     _Pisces: { Fire: 0, Water: 1, Earth: 0, Air: 0 }
   };
 
-  return signElements[_sign as keyof typeof signElements] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  return signElements[_sign ] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 }

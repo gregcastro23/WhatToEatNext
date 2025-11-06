@@ -1,5 +1,5 @@
 import type { Element, ElementalProperties } from '@/types/alchemy';
-import { Recipe } from '@/types/recipe';
+import type { Recipe } from '@/types/recipe';
 
 /**
  * Elemental Core Module
@@ -10,13 +10,13 @@ import { Recipe } from '@/types/recipe';
 
 // --- Core Types ---
 
-export type ElementalColor = {
+export interface ElementalColor {
   primary: string;
   secondary: string;
   text: string;
   border: string;
   bg: string
-};
+}
 
 export interface ElementalCompatibility {
   compatibility: number; // 0-1 score
@@ -111,7 +111,7 @@ export function validateElementalProperties(properties: ElementalProperties): bo
     return false;
   }
 
-  const requiredElements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
+  const requiredElements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'];
 
   for (const element of requiredElements) {
     if (
@@ -481,7 +481,7 @@ function calculateBalanceScore(
 ): number {
   // Calculate how well the recipe balances with user's elemental state
   let totalDifference = 0;
-  const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
+  const elements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'];
 
   (elements || []).forEach(element => {
     const difference = Math.abs(recipeProps[element] - userProps[element]);

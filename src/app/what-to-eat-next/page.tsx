@@ -1,8 +1,8 @@
 'use client';
 
+import { KalchmRecommender } from '@/components/recommendations/KalchmRecommender';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext';
 import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
-import { KalchmRecommender } from '@/components/recommendations/KalchmRecommender';
 
 export default function WhatToEatNextPage() {
   const { cuisines, loading, error, getCuisineRecommendations } = useEnhancedRecommendations({

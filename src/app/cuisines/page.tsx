@@ -15,7 +15,7 @@ const CurrentMomentCuisineRecommendations = dynamic(
     loading: () => (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mx-auto mb-4" />
           <p className="text-lg font-medium text-gray-700">Analyzing cosmic culinary influences...</p>
           <p className="text-sm text-gray-500 mt-2">Calculating astrological cuisine compatibility</p>
         </div>

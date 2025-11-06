@@ -7,9 +7,7 @@
 
 import type { Ingredient } from '@/types';
 import type { ElementalProperties } from '@/types/elemental';
-
 import { allIngredients } from '../data/ingredients';
-
 import { calculateElementalAffinity } from './elementalUtils';
 import { logger } from './logger';
 
@@ -913,7 +911,7 @@ function analyzeIngredientTestResults(testResults: IngredientTestResult[]): {
 
       errors.push({
         type: 'DATA_INCOMPLETE',
-        severity: severity,
+        severity,
         message: `Test failed: ${test.testName}${test.error ? ` - ${test.error}` : ''}`,
         timestamp: new Date()
       });

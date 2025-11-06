@@ -37,7 +37,7 @@ export interface ServiceInitializationResult {
  */
 export class ServicesManager {
   private static instance: ServicesManager;
-  private _isInitialized: boolean = false;
+  private _isInitialized = false;
   private _initializationError: Error | null = null;
   private _initializationStatus: InitializationStatus = InitializationStatus.NOT_STARTED;
   private _serviceResults: ServiceInitializationResult[] = [];

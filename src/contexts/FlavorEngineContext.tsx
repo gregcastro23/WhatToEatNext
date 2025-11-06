@@ -2,15 +2,16 @@
 
 import {
     createContext,
-    ReactNode,
     useContext,
     useEffect,
     useMemo,
     useRef,
     useState
 } from 'react';
-
-import { unifiedFlavorEngine, UnifiedFlavorProfile } from '../data/unified/unifiedFlavorEngine';
+import { unifiedFlavorEngine } from '../data/unified/unifiedFlavorEngine';
+import type { UnifiedFlavorProfile } from '../data/unified/unifiedFlavorEngine';
+import type {
+    ReactNode} from 'react';
 
 // Define the context type
 interface FlavorEngineContextType {

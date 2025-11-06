@@ -1,6 +1,5 @@
 import { log } from '@/services/LoggingService';
 import type { AlchemicalProperties, ElementalProperties, Season } from '@/types/alchemy';
-
 import * as flavorProfileMigration from './flavorProfileMigration';
 
 // ===== UNIFIED INTERFACES =====;
@@ -135,9 +134,9 @@ function setGlobalState(
 ) {
   if (typeof window !== 'undefined') {
     window.__FLAVOR_ENGINE_INSTANCE__ = {
-      instance: instance,
-      initializing: initializing,
-      initialized: initialized
+      instance,
+      initializing,
+      initialized
     }
   }
   _instance = instance;
@@ -146,15 +145,15 @@ function setGlobalState(
 }
 
 export class UnifiedFlavorEngine {
-  private profiles: Map<string, UnifiedFlavorProfile> = new Map();
-  private compatibilityCache: Map<string, UnifiedFlavorCompatibility> = new Map();
-  private searchCache: Map<string, UnifiedFlavorProfile[]> = new Map();
+  private readonly profiles: Map<string, UnifiedFlavorProfile> = new Map();
+  private readonly compatibilityCache: Map<string, UnifiedFlavorCompatibility> = new Map();
+  private readonly searchCache: Map<string, UnifiedFlavorProfile[]> = new Map();
 
   // Phase 8: Enhanced caching and performance monitoring
-  private profileCache: Map<string, UnifiedFlavorProfile> = new Map();
+  private readonly profileCache: Map<string, UnifiedFlavorProfile> = new Map();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  private memoizedCalculations: Map<string, any> = new Map()
-  private performanceMetrics: {
+  private readonly memoizedCalculations: Map<string, any> = new Map()
+  private readonly performanceMetrics: {
     totalCalculations: number,
     totalCacheHits: number,
     averageCalculationTime: number,
@@ -199,7 +198,7 @@ export class UnifiedFlavorEngine {
       // Run the migration but don't wait for it - it will cache its results
       flavorProfileMigration
         .runFlavorProfileMigration()
-        ?.then((_stats) => {
+        .then((_stats) => {
           const profiles = flavorProfileMigration.getMigratedFlavorProfiles();
 
           // Add profiles to our map
@@ -388,7 +387,7 @@ export class UnifiedFlavorEngine {
     elements1: ElementalProperties,
     elements2: ElementalProperties
   ): number {
-    const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
+    const elements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'];
     let totalCompatibility = 0;
     let weightSum = 0;
 
@@ -570,7 +569,7 @@ export class UnifiedFlavorEngine {
   // ===== FLAVOR HARMONY =====;
 
   private calculateFlavorHarmony(notes1: BaseFlavorNotes, notes2: BaseFlavorNotes): number {
-    const flavors: (keyof BaseFlavorNotes)[] = [
+    const flavors: Array<keyof BaseFlavorNotes> = [
       'sweet',
       'sour',
       'salty',
@@ -599,7 +598,7 @@ export class UnifiedFlavorEngine {
     elements1: ElementalProperties,
     elements2: ElementalProperties
   ): Record<keyof ElementalProperties, number> {
-    const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
+    const elements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'];
     const breakdown: Record<keyof ElementalProperties, number> = {
       Fire: 0,
       Water: 0,
@@ -629,7 +628,7 @@ export class UnifiedFlavorEngine {
     notes1: BaseFlavorNotes,
     notes2: BaseFlavorNotes
   ): Record<keyof BaseFlavorNotes, number> {
-    const flavors: (keyof BaseFlavorNotes)[] = [
+    const flavors: Array<keyof BaseFlavorNotes> = [
       'sweet',
       'sour',
       'salty',
@@ -766,28 +765,28 @@ export class UnifiedFlavorEngine {
     }
 
     if (criteria.elementalFocus) {
-      const elementalFocus = criteria.elementalFocus;
+      const {elementalFocus} = criteria;
       if (elementalFocus) {
         results = (results || []).filter(p => (p.elementalFlavors[elementalFocus] || 0) > 0.3);
       }
     }
 
     if (criteria.intensityRange) {
-      const intensityRange = criteria.intensityRange;
+      const {intensityRange} = criteria;
       results = (results || []).filter(
         p => p.intensity >= intensityRange.min && p.intensity <= intensityRange.max
       );
     }
 
     if (criteria.complexityRange) {
-      const complexityRange = criteria.complexityRange;
+      const {complexityRange} = criteria;
       results = (results || []).filter(
         p => p.complexity >= complexityRange.min && p.complexity <= complexityRange.max
       );
     }
 
     if (criteria.seasonalAlignment) {
-      const seasonalAlignment = criteria.seasonalAlignment;
+      const {seasonalAlignment} = criteria;
       if (seasonalAlignment) {
         results = results.filter(p => p.seasonalPeak.includes(seasonalAlignment));
       }
@@ -937,7 +936,7 @@ export class UnifiedFlavorEngine {
     const memoKey = `elemental-${JSON.stringify(elements1)}-${JSON.stringify(elements2)}`;
 
     return this.memoize(memoKey, () => {
-      const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
+      const elements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'];
       let totalCompatibility = 0;
       let weightSum = 0;
 

@@ -1,5 +1,4 @@
 import type { ElementalState } from '@/types/elemental';
-
 import {
   type ElementalProperties,
   LUNAR_PHASE_MAPPING,
@@ -8,9 +7,9 @@ import {
   type LunarPhaseWithSpaces,
   type LunarPhaseWithUnderscores,
 } from '../types/alchemy';
+import { calculateKinetics } from './kinetics';
 import type { KineticMetrics } from '../types/kinetics';
 import type { LunarPhaseModifier } from '../types/lunar';
-import { calculateKinetics } from './kinetics';
 
 // Define missing types
 export type FoodAssociationsLunarPhase =
@@ -77,7 +76,7 @@ export function applyLunarInfluence(baseBalance: ElementalState, date: Date): El
  */
 export function getLunarElementalModifiers(phase: LunarPhase): Record<string, number> {
   const phaseKey = getLunarPhaseKey(phase);
-  return SIMPLE_LUNAR_INFLUENCES[phaseKey]?.elements || { Fire: 0, Water: 0, Air: 0, Earth: 0 };
+  return SIMPLE_LUNAR_INFLUENCES[phaseKey].elements || { Fire: 0, Water: 0, Air: 0, Earth: 0 };
 }
 
 /**
@@ -287,7 +286,7 @@ export function normalizeLunarPhase(phase: string | null | undefined): LunarPhas
   const match = phases.find(
     p => p.includes(cleanPhase) || cleanPhase.includes(p.replace(' ', '')) || cleanPhase.includes(p.replace(' ', '_'))
   );
-  return match as LunarPhase | undefined;
+  return match ;
 }
 
 // convertToLunarPhase function

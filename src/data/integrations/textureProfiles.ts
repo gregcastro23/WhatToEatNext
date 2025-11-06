@@ -44,6 +44,4 @@ export const textureProfiles: Record<
   }
 }
 
-export const _getTextureProfile = (textureName: string) => {
-  return textureProfiles[textureName] || null;
-}
+export const _getTextureProfile = (textureName: string) => textureProfiles[textureName] || null

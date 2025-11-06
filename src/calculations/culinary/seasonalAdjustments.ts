@@ -5,7 +5,7 @@
  * Repurposed from existing seasonalCalculations.ts
  */
 
-import { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 
 /**
  * Seasonal modifiers for elemental properties
@@ -35,7 +35,7 @@ const LUNAR_PHASE_MODIFIERS: { [key: string]: ElementalProperties } = {
  * Apply seasonal adjustments to elemental properties
  */
 export function applySeasonalAdjustments(baseProperties: ElementalProperties,
-  season: string = 'spring'): ElementalProperties {
+  season = 'spring'): ElementalProperties {
   const seasonKey = season.toLowerCase()
   const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring
 
@@ -51,7 +51,7 @@ export function applySeasonalAdjustments(baseProperties: ElementalProperties,
  * Apply lunar phase adjustments to elemental properties
  */
 export function applyLunarPhaseAdjustments(baseProperties: ElementalProperties,
-  lunarPhase: string = 'full moon'): ElementalProperties {
+  lunarPhase = 'full moon'): ElementalProperties {
   const phaseKey = lunarPhase.toLowerCase()
   const modifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon']
 
@@ -67,7 +67,7 @@ export function applyLunarPhaseAdjustments(baseProperties: ElementalProperties,
  * Calculate time-of-day adjustments
  */
 export function applyTimeOfDayAdjustments(baseProperties: ElementalProperties,
-  isDaytime: boolean = true): ElementalProperties {
+  isDaytime = true): ElementalProperties {
   if (isDaytime) {
     return {
       Fire: baseProperties.Fire * 1.2,

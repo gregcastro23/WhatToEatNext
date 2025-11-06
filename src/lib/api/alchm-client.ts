@@ -3,12 +3,12 @@
   Note: Replace placeholder types with generated backend types when available.
 */
 
-export type ElementalProperties = {
+export interface ElementalProperties {
   Fire: number;
   Water: number;
   Air: number;
   Earth: number;
-};
+}
 
 export interface ThermodynamicsResult {
   heat: number;

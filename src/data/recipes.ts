@@ -1,4 +1,3 @@
-import { _logger } from '@/lib/logger';
 import {
     calculateCuisineFlavorMatch,
     cuisineFlavorProfiles,
@@ -13,6 +12,7 @@ import {
     getResonantCuisines,
     planetaryFlavorProfiles
 } from '@/data/planetaryFlavorProfiles';
+import { _logger } from '@/lib/logger';
 import type { LunarPhase, Season } from '@/types/alchemy';
 import type { Recipe } from '@/types/recipe';
 import { logger } from '@/utils/logger';
@@ -94,7 +94,7 @@ export interface RecipeData {
 
   // Standardized fields
   servingSize?: number; // Number of servings
-  substitutions?: { original: string; alternatives: string[] }[];
+  substitutions?: Array<{ original: string; alternatives: string[] }>;
   tools?: string[]; // Required cooking tools/equipment
   spiceLevel?: number | 'mild' | 'medium' | 'hot' | 'very hot'; // Indicator of spiciness
   nutrition?: Nutrition; // Nutritional information
@@ -271,12 +271,12 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                       timeToMake: dishData.timeToMake || dishData.cookTime || 30,
                       flavorProfile: flavorProfile
                         ? {
-                            spicy: Number((flavorProfile as any).spicy) || 0,
-                            sweet: Number((flavorProfile as any).sweet) || 0,
-                            sour: Number((flavorProfile as any).sour) || 0,
-                            bitter: Number((flavorProfile as any).bitter) || 0,
-                            salty: Number((flavorProfile as any).salty) || 0,
-                            umami: Number((flavorProfile as any).umami) || 0
+                            spicy: Number((flavorProfile ).spicy) || 0,
+                            sweet: Number((flavorProfile ).sweet) || 0,
+                            sour: Number((flavorProfile ).sour) || 0,
+                            bitter: Number((flavorProfile ).bitter) || 0,
+                            salty: Number((flavorProfile ).salty) || 0,
+                            umami: Number((flavorProfile ).umami) || 0
                           }
                         : undefined,
                       planetaryInfluences: dishPlanetaryInfluences,
@@ -301,7 +301,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                       // Additional properties for compatibility
                       elementalProperties: undefined, // To be calculated later if needed
                       season: season !== 'all' ? (season as Season) : undefined,
-                      mealType: mealType,
+                      mealType,
                       cookingMethod: undefined, // Could be derived from instructions
                       cookingMethods: undefined,
                       matchPercentage: 0
@@ -560,7 +560,7 @@ export const getBestRecipeMatches = async (
 
       logger.debug(`getRecipesForCuisineMatch returned ${matchedCuisineRecipes.length} recipes`);
 
-      if (matchedCuisineRecipes?.length > 0) {
+      if (matchedCuisineRecipes.length > 0) {
         // Convert the recipes to ensure they match RecipeData format
         const formattedRecipes = matchedCuisineRecipes.map(recipe => {
           const recipeData = recipe as any;
@@ -573,7 +573,7 @@ export const getBestRecipeMatches = async (
               ? [recipeData.instructions]
               : [];
           const cuisine = recipeData.cuisine || criteria.cuisine;
-          const regionalCuisine = recipeData.regionalCuisine;
+          const {regionalCuisine} = recipeData;
           const cookingMethod = recipeData.cookingMethod || recipeData.cookingMethods?.[0];
           const flavorProfile = recipeData.flavorProfile || {
             spicy: 0.5,
@@ -669,9 +669,9 @@ export const getBestRecipeMatches = async (
               ? recipeData.instructions
               : [];
             const cuisine = recipeData.cuisine || '';
-            const season = recipeData.season;
-            const mealType = recipeData.mealType;
-            const timeToMake = recipeData.timeToMake;
+            const {season} = recipeData;
+            const {mealType} = recipeData;
+            const {timeToMake} = recipeData;
 
             return {
               id: recipeData.id || `${String(name).toLowerCase().replace(/\s+/g, '-')}`,
@@ -1001,11 +1001,11 @@ export const _getRecommendedCuisines = (profile: CuisineRecommendationProfile) =
       };
     })
     .filter(result => result !== null && result.score > 0.6)
-    .sort((a, b) => (b?.score || 0) - (a?.score || 0)) as {
+    .sort((a, b) => (b?.score || 0) - (a?.score || 0)) as Array<{
     id: string;
     name: string;
     score: number;
-  }[];
+  }>;
 };
 
 export const _getFusionSuggestions = (cuisine1: string, cuisine2: string) => {

@@ -1,16 +1,14 @@
 'use client';
-import { _logger } from '@/lib/logger';
 
 import React, { useEffect, useState } from 'react';
-
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
+import { _logger } from '@/lib/logger';
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import { log } from '@/services/LoggingService';
 import { calculateAspects } from '@/utils/astrologyUtils';
-
 import { ChartContext } from './context';
-import { CurrentChart } from './types';
+import type { CurrentChart } from './types';
 
 // Phase 5: Type-safe interfaces for planetary data access
 interface SafePlanetaryData {
@@ -55,7 +53,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const planetData = getSafePlanetaryData(data);
       if (!planetData.sign) return;
 
-      const sign = planetData.sign;
+      const {sign} = planetData;
       if (!signGroups[sign]) {
         signGroups[sign] = [];
       }
@@ -87,7 +85,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const planetData = getSafePlanetaryData(data);
       if (!planetData.sign) return;
 
-      const sign = planetData.sign;
+      const {sign} = planetData;
       const element = _getElementFromSign(sign);
       if (element) {
         houseEffects[element] += 1;

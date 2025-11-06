@@ -6,11 +6,10 @@
  * current accurate positions with fallback mechanisms.
  */
 
-import { CelestialPosition } from '../types/celestial';
-
 import { getCurrentTransitSign } from './astrology/validation';
 // Removed unused cache import
 import { createLogger } from './logger';
+import type { CelestialPosition } from '../types/celestial';
 
 const logger = createLogger('StreamlinedPlanetaryPositions');
 

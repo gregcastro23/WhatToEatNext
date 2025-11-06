@@ -5,7 +5,6 @@ import type {
     ElementalProperties,
     Recipe
 } from '@/types/alchemy';
-
 import { american } from './cuisines/american';
 import { CUISINES, cuisinesMap as importedCuisinesMap } from './cuisines/index';
 

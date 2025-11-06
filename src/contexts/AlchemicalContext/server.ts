@@ -1,7 +1,7 @@
 // This file contains exports that are safe to use in server components
 // Do NOT include any hooks or client-side only code
 
-import { AlchemicalState, PlanetaryPositionsType } from './types';
+import type { AlchemicalState, PlanetaryPositionsType } from './types';
 
 // Helper functions that are safe to use on the server
 export const _getCurrentSeason = (): string => {

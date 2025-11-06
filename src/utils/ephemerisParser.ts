@@ -22,7 +22,7 @@ export interface EphemerisEntry {
 }
 
 export class EphemerisParser {
-  private planetCodes: Record<string, string> = {
+  private readonly planetCodes: Record<string, string> = {
     A: 'Sun',
     _B: 'Moon',
     _C: 'Mercury',
@@ -39,7 +39,7 @@ export class EphemerisParser {
     _N: 'Lilith'
   };
 
-  private zodiacSigns: string[] = [
+  private readonly zodiacSigns: string[] = [
     'Aries',
     'Taurus',
     'Gemini',
@@ -54,7 +54,7 @@ export class EphemerisParser {
     'Pisces',
   ];
 
-  private signSymbols: Record<string, number> = {
+  private readonly signSymbols: Record<string, number> = {
     a: 0, b: 1, c: 2, d: 3, e: 4, f: 5, g: 6, h: 7, i: 8, j: 9, k: 10, l: 11
   };
 
@@ -215,7 +215,7 @@ export class EphemerisParser {
 
     return {
       sign: this.zodiacSigns[signIndex],
-      degree: degree
+      degree
     };
   }
 

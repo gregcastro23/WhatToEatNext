@@ -7,7 +7,7 @@ declare global {
 
 import alchemicalEngine from '@/app/alchemicalEngine';
 import { log } from '@/services/LoggingService';
-import { StandardizedAlchemicalResult } from '@/types/alchemy';
+import type { StandardizedAlchemicalResult } from '@/types/alchemy';
 
 // Use the standardized interface we created
 export type AlchemicalResult = StandardizedAlchemicalResult;
@@ -31,9 +31,7 @@ export function initializeAlchemicalEngine() {
  * A static version of the alchemize function that can be used directly
  * This wraps the core engine's implementation
  */
-export const _staticAlchemize = (birthInfo: any, horoscopeDict: any) => {
-  return alchemicalEngine.alchemize(birthInfo, horoscopeDict);
-}
+export const _staticAlchemize = (birthInfo: any, horoscopeDict: any) => alchemicalEngine.alchemize(birthInfo, horoscopeDict)
 
 // Re-export the core functionality
 export { alchemicalEngine };

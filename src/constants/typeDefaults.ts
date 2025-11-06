@@ -5,7 +5,7 @@
  * These defaults ensure type safety throughout the application and provide consistent fallback values.
  */
 
-import {
+import type {
   AlchemicalPropertiesType,
   ElementalPropertiesType,
   ThermodynamicMetricsType,
@@ -272,8 +272,7 @@ export const _createSafeAlchemicalProperties = (
  */
 export const _createSafeThermodynamicMetrics = (
   metrics: Partial<ThermodynamicMetricsType>
-): ThermodynamicMetricsType => {
-  return {
+): ThermodynamicMetricsType => ({
     heat: Number.isFinite(metrics.heat) ? Math.max(0.1, Math.min(1.0, metrics.heat ?? 0.5)) : 0.5,
     entropy: Number.isFinite(metrics.entropy)
       ? Math.max(0.1, Math.min(1.0, metrics.entropy ?? 0.5))
@@ -286,8 +285,7 @@ export const _createSafeThermodynamicMetrics = (
       : 0.5,
     kalchm: Number.isFinite(metrics.kalchm) ? Math.max(0.1, metrics.kalchm ?? 1.0) : 1.0,
     monica: Number.isFinite(metrics.monica) ? Math.max(0.1, metrics.monica ?? 1.0) : 1.0
-  };
-};
+  });
 
 /**
  * Validate Zodiac Sign

@@ -738,25 +738,23 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       // Check for specific aspect enhancers in the ingredient data
       const profileData = profile as any;
       if (profileData.aspectEnhancers && (profileData.aspectEnhancers as unknown[]).length > 0) {
-        const relevantAspects = astroState.aspects.filter(aspect => {
+        const relevantAspects = astroState.aspects.filter(aspect => 
           // Check if this aspect type is specifically listed as an enhancer
-          return aspect.type && (profileData.aspectEnhancers as string[]).includes(aspect.type);
-        });
+           aspect.type && (profileData.aspectEnhancers as string[]).includes(aspect.type)
+        );
 
         if (relevantAspects.length > 0) {
           aspectScore = 0.9; // Strong boost for specifically favorable aspects
         }
       } else if (profile.rulingPlanets && profile.rulingPlanets.length > 0) {
         // Use enhanced aspect logic - find aspects involving the ingredient's ruling planets
-        const relevantAspects = astroState.aspects.filter(aspect => {
-          return profile.rulingPlanets.some(planet => {
+        const relevantAspects = astroState.aspects.filter(aspect => profile.rulingPlanets.some(planet => {
             const planetLower = planet.toLowerCase();
             return (
               aspect.planet1.toLowerCase() === planetLower ||
               aspect.planet2.toLowerCase() === planetLower
             );
-          });
-        });
+          }));
 
         if (relevantAspects.length > 0) {
           // Calculate average aspect strength considering aspect type
@@ -1256,20 +1254,18 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 export const _getTopIngredientMatches = (
   astroState: AstrologicalState,
   limit = 5
-): EnhancedIngredient[] => {
+): EnhancedIngredient[] => 
   // Simply use our main recommendation function but with the requested limit
-  return getRecommendedIngredients(astroState).slice(0, limit);
-};
+   getRecommendedIngredients(astroState).slice(0, limit)
+;
 
 /**
  * Helper function to format factor names for display
  */
-export const _formatFactorName = (factor: string): string => {
-  return factor
+export const _formatFactorName = (factor: string): string => factor
     .replace('Score', '')
     .replace(/([A-Z])/g, ' $1')
     .replace(/^./, str => str.toUpperCase());
-};
 
 // Ensure you don't need to check the type anymore when using elementalAffinity
 function _getElementalAffinity(ingredient: EnhancedIngredient): string {

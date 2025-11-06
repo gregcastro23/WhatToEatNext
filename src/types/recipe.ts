@@ -1,9 +1,9 @@
-import { LunarPhase } from './alchemy';
 import {
     validateElementalProperties as validateAlchemyElementalProps,
     validateIngredient as validateAlchemyIngredient,
     validateRecipe as validateAlchemyRecipe
 } from './validators';
+import type { LunarPhase } from './alchemy';
 
 // Primary elemental properties interface - used throughout the application
 export interface ElementalProperties {
@@ -117,11 +117,11 @@ export interface Recipe {
   }
 
   // Technical details
-  cookingTemperature?: {
+  cookingTemperature?: Array<{
     value: number,
     unit: 'C' | 'F'
     technique: string
-  }[]
+  }>
   internalTemperature?: {
     value: number,
     unit: 'C' | 'F'
@@ -186,14 +186,14 @@ export interface Recipe {
   idealTimeOfDay?: string
 
   // Multi-component recipes
-  componentParts?: {
+  componentParts?: Array<{
     name: string,
     ingredients: RecipeIngredient[],
     instructions: string[]
-  }[]
+  }>
 
   // Substitutions and alternatives
-  substitutions?: { original: string, alternatives: string[] }[],
+  substitutions?: Array<{ original: string, alternatives: string[] }>,
   tools?: string[],
 
   // Seasonal considerations
@@ -309,7 +309,7 @@ export interface RecipeDetail {
   skillsRequired: string[] // e.g., 'knife skills', 'sauce making',
 
   // Ingredients (enhanced)
-  ingredients: {
+  ingredients: Array<{
     name: string;
     amount: string;
     unit: string;
@@ -320,22 +320,22 @@ export interface RecipeDetail {
     category: string // e.g., 'protein', 'vegetable', 'spice',
     function?: string // Culinary function: 'base', 'seasoning', 'garnish'
     cookingPoint?: string // When to add this ingredient
-  }[]
+  }>
 
   // Recipe Structure
-  componentParts?: {
+  componentParts?: Array<{
     // For complex recipes with multiple elements
     name: string // e.g., 'sauce', 'filling', 'dough',
     ingredients: unknown[]; // Ingredients specific to this component,
     instructions: string[] // Instructions specific to this component
-  }[]
+  }>
 
   instructions: string[] // Main instructions,
-  instructionSections?: {
+  instructionSections?: Array<{
     // For recipes with distinct preparation phases
     title: string,
     _steps: string[]
-  }[]
+  }>
 
   // Flavor Profile & Culinary Theory
   flavorProfile: {
@@ -370,11 +370,11 @@ export interface RecipeDetail {
   }
 
   // Technical Culinary Details
-  cookingTemperature?: {
+  cookingTemperature?: Array<{
     value: number,
     unit: 'C' | 'F'
     technique: string, // e.g., 'roast', 'simmer'
-  }[]
+  }>
 
   internalTemperature?: {
     // For proteins
@@ -459,7 +459,7 @@ export interface RecipeProps {
   // Add these props to the interface if they're needed
   score?: number
   elements?: ElementalProperties;
-  dominantElements?: [string, number][]
+  dominantElements?: Array<[string, number]>
 }
 
 // ========== MISSING TYPES FOR TS2305 FIXES ==========

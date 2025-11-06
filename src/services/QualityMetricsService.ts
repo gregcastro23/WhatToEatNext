@@ -1,7 +1,6 @@
-import { _logger } from '@/lib/logger';
 import fs from 'fs';
 import path from 'path';
-
+import { _logger } from '@/lib/logger';
 import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
 import { errorTrackingSystem } from './ErrorTrackingSystem';
 
@@ -84,32 +83,32 @@ export interface QualityReport {
 }
 
 // Narrow types for external collaborators
-type ErrorSummary = {
+interface ErrorSummary {
   totalActiveErrors: number;
   criticalIssues?: number;
   automationOpportunities?: number;
-};
+}
 
-type QualityHistoryItem = {
+interface QualityHistoryItem {
   codeQualityScore?: number;
   technicalDebtScore?: number;
   totalErrors?: number;
   maintainabilityIndex?: number;
-};
+}
 
-type ErrorPattern = {
+interface ErrorPattern {
   pattern: string;
   frequency: number;
   priority: 'low' | 'medium' | 'high' | 'critical' | string;
   automatable?: boolean;
   files: string[];
-};
+}
 
-type BuildBottleneck = {
+interface BuildBottleneck {
   file: string;
   errorCount: number;
   complexity: number;
-};
+}
 
 type PerformanceSummary = ReturnType<typeof buildPerformanceMonitor.getPerformanceSummary>;
 
@@ -119,7 +118,7 @@ class QualityMetricsService {
   private predictions: QualityPrediction[] = [];
   private goals: QualityGoal[] = [];
   private reports: QualityReport[] = [];
-  private subscribers: Set<(data: QualityInsight | QualityReport | TechnicalDebtItem) => void> = new Set();
+  private readonly subscribers: Set<(data: QualityInsight | QualityReport | TechnicalDebtItem) => void> = new Set();
 
   constructor() {
     this.loadHistoricalData();

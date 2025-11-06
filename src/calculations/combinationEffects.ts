@@ -54,10 +54,10 @@ const COMBINATION_RULES: CombinationRule[] = [
 ];
 
 // Create a normalization function at the top of the file
-const normalizeLunarPhase = (phase: LunarPhase): string => {
+const normalizeLunarPhase = (phase: LunarPhase): string => 
   // Convert spaces to underscores for consistent lookup
-  return phase.replace(/\s+/g, '_');
-};
+   phase.replace(/\s+/g, '_')
+;
 
 export function calculateCombinationEffects({
   ingredients,
@@ -109,11 +109,11 @@ export function calculateCombinationEffects({
     effects.push(...calculateElementalInteractions(ingredients));
 
     return effects.sort((a, b) => {
-      const aValue = (a as { modifier?: number, strength?: number })?.modifier ||
-        (a as { strength?: number })?.strength ||
+      const aValue = (a as { modifier?: number, strength?: number }).modifier ||
+        (a as { strength?: number }).strength ||
         0;
-      const bValue = (b as { modifier?: number, strength?: number })?.modifier ||
-        (b as { strength?: number })?.strength ||
+      const bValue = (b as { modifier?: number, strength?: number }).modifier ||
+        (b as { strength?: number }).strength ||
         0;
       return bValue - aValue;
     });
@@ -126,11 +126,9 @@ export function calculateCombinationEffects({
 const hasIngredientCombination = (
   recipeIngredients: string[],
   combinationIngredients: string[]
-): boolean => {
-  return combinationIngredients.every(ingredient =>
+): boolean => combinationIngredients.every(ingredient =>
     recipeIngredients.some(recipeIng => recipeIng.toLowerCase().includes(ingredient.toLowerCase()))
   );
-};
 
 const calculateElementalInteractions = (ingredients: string[]): CombinationEffect[] => {
   const effects: CombinationEffect[] = [];
@@ -164,8 +162,8 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
   return effects;
 };
 
-const getPairs = <T>(array: T[]): [T, T][] => {
-  const pairs: [T, T][] = [];
+const getPairs = <T>(array: T[]): Array<[T, T]> => {
+  const pairs: Array<[T, T]> = [];
   for (let i = 0; i < array.length; i++) {
     for (let j = i + 1; j < array.length; j++) {
       pairs.push([array[i], array[j]]);
@@ -177,28 +175,24 @@ const getPairs = <T>(array: T[]): [T, T][] => {
 const isHarmoniousCombination = (
   elem1: ElementalProperties,
   elem2: ElementalProperties
-): boolean => {
-  return ELEMENT_COMBINATIONS.harmonious.some(([e1, e2]) =>
+): boolean => ELEMENT_COMBINATIONS.harmonious.some(([e1, e2]) =>
       (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
       (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1)
   );
-};
 
 const isAntagonisticCombination = (
   elem1: ElementalProperties,
   elem2: ElementalProperties
 ): boolean => {
   const antagonistic =
-    (ELEMENT_COMBINATIONS as { antagonistic?: Array<[string, string]> })?.antagonistic || [];
+    (ELEMENT_COMBINATIONS as { antagonistic?: Array<[string, string]> }).antagonistic || [];
   return antagonistic.some(([e1, e2]: [string, string]) =>
       (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
       (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1)
   );
 };
 
-const getDominantElement = (elements: ElementalProperties): Element => {
-  return Object.entries(elements).sort(([, a], [, b]) => b - a)[0][0] as Element;
-};
+const getDominantElement = (elements: ElementalProperties): Element => Object.entries(elements).sort(([, a], [, b]) => b - a)[0][0] as Element;
 
 export const _suggestComplementaryIngredients = (
   currentIngredients: string[],
@@ -254,10 +248,8 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
   return combined;
 };
 
-const isHarmoniousWith = (element1: Element, element2: Element): boolean => {
-  return ELEMENT_COMBINATIONS.harmonious.some(([e1, e2]) => (element1 === e1 && element2 === e2) || (element1 === e2 && element2 === e1)
+const isHarmoniousWith = (element1: Element, element2: Element): boolean => ELEMENT_COMBINATIONS.harmonious.some(([e1, e2]) => (element1 === e1 && element2 === e2) || (element1 === e2 && element2 === e1)
   );
-};
 
 const calculateLunarEffect = (
   ingredients: string[],

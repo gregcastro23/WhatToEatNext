@@ -25,9 +25,9 @@ export class ThermodynamicCalculator {
         name?: string;
         [key: string]: unknown;
       };
-      const spiciness = ingredientData?.spiciness;
-      const elementalProperties = ingredientData?.elementalProperties;
-      const cookingTemperature = ingredientData?.cookingTemperature;
+      const {spiciness} = ingredientData;
+      const {elementalProperties} = ingredientData;
+      const {cookingTemperature} = ingredientData;
 
       // Adjust heat value based on ingredient properties
       if (spiciness) {
@@ -80,10 +80,10 @@ export class ThermodynamicCalculator {
         proteinContent?: number;
         [key: string]: unknown;
       };
-      const category = ingredientData?.category;
-      const fermented = ingredientData?.fermented;
-      const complexity = ingredientData?.complexity;
-      const elementalProperties = ingredientData?.elementalProperties;
+      const {category} = ingredientData;
+      const {fermented} = ingredientData;
+      const {complexity} = ingredientData;
+      const {elementalProperties} = ingredientData;
 
       if (category) {
         categories.add(category);
@@ -141,10 +141,10 @@ export class ThermodynamicCalculator {
         enzymeActivity?: number;
         [key: string]: unknown;
       };
-      const pH = ingredientData?.pH;
-      const alcoholContent = ingredientData?.alcoholContent;
-      const enzymeActivity = ingredientData?.enzymeActivity;
-      const elementalProperties = ingredientData?.elementalProperties;
+      const {pH} = ingredientData;
+      const {alcoholContent} = ingredientData;
+      const {enzymeActivity} = ingredientData;
+      const {elementalProperties} = ingredientData;
 
       // pH value affects reactivity (further from neutral = more reactive)
       if (pH) {

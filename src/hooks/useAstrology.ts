@@ -1,9 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-
 import type { ZodiacSign, LunarPhase, PlanetaryPosition } from '@/types/astrology';
 import { createLogger } from '@/utils/logger';
 import * as safeAstrology from '@/utils/safeAstrology';
-
 import { useClientEffect } from './useClientEffect';
 
 const logger = createLogger('useAstrology');
@@ -79,9 +77,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
   /**
    * Create a cache key for requests to prevent duplicate calls
    */
-  const createCacheKey = useCallback((lat: number, lng: number, date: Date): string => {
-    return `${lat}_${lng}_${date.getTime()}`;
-  }, []);
+  const createCacheKey = useCallback((lat: number, lng: number, date: Date): string => `${lat}_${lng}_${date.getTime()}`, []);
 
   /**
    * Fetch astrological data from the API
@@ -157,7 +153,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
           }
 
           if (!response || !response.ok) {
-            const errorData = (await response?.json?.()) || {
+            const errorData = (await response?.json()) || {
               error: `API error: ${response?.status || 'Network error'}`
             };
             throw new Error(errorData.error || `API error: ${response?.status || 'Unknown'}`);
@@ -479,7 +475,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
       // Normalize
       if (totalWeight > 0) {
         Object.keys(elementalBalance).forEach(element => {
-          elementalBalance[element as keyof typeof elementalBalance] /= totalWeight;
+          elementalBalance[element ] /= totalWeight;
         });
       }
 
@@ -509,7 +505,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
    * Get dominant zodiac element based on current positions
    */
   const getDominantElement = useCallback((): string => {
-    const elementalBalance = state.data.elementalBalance;
+    const {elementalBalance} = state.data;
 
     if (!elementalBalance) {
       return 'Fire'; // Default

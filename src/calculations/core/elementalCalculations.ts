@@ -9,7 +9,6 @@ import type {
     Element,
     ElementalProperties
 } from '@/types/alchemy';
-
 import type { CelestialPosition } from '@/types/celestial';
 import { getCurrentPlanetaryPositions } from '../../utils/streamlinedPlanetaryPositions';
 
@@ -88,7 +87,7 @@ function calculatePlanetaryDignity(planetName: string, sign: string): number {
     Pluto: { scorpio: 0.5, leo: 0.3 }
   };
 
-  return dignityMap[planetName]?.[sign] || 0;
+  return dignityMap[planetName][sign] || 0;
 }
 
 /**
@@ -105,7 +104,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
    */
   performElementalAnalysis: (
     planetaryPositions: { [key: string]: CelestialPosition },
-    context: string = 'general',
+    context = 'general',
     preferences: Record<string, unknown> = {}
   ) => {
     // Calculate base elemental properties
@@ -169,7 +168,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       adjustedProperties,
       context,
       multipliers: elementalMultipliers,
-      preferences: preferences
+      preferences
     };
   }
 };
@@ -177,7 +176,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
 /**
  * Get current elemental properties using streamlined planetary positions
  */
-export function getCurrentElementalProperties(context: string = 'general'): ElementalProperties {
+export function getCurrentElementalProperties(context = 'general'): ElementalProperties {
   const planetaryPositions = getCurrentPlanetaryPositions();
   return calculateBaseElementalProperties(planetaryPositions);
 }
@@ -240,7 +239,7 @@ export function analyzeElementalCompatibility(
   };
 
   const dominantElement = Object.entries(combined).reduce((max, [element, value]) =>
-    value > combined[max as Element] ? element as Element : max as Element, 'Fire' as Element
+    value > combined[max ] ? element as Element : max , 'Fire' as Element
   );
 
   // Find complementary elements (those with balanced presence)

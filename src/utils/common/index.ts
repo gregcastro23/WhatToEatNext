@@ -1,5 +1,4 @@
 import { z } from 'zod';
-
 import { logger } from '../logger';
 // ===== THEME MANAGEMENT =====
 
@@ -128,7 +127,7 @@ export async function collectFeedback(
  * Utility to get feedback categories for UI display
  * @returns Array of feedback categories
  */
-export function getFeedbackCategories(): { id: string, label: string }[] {
+export function getFeedbackCategories(): Array<{ id: string, label: string }> {
   return [
     { id: 'bug', label: 'Report a Bug' },
     { id: 'feature', label: 'Request a Feature' },

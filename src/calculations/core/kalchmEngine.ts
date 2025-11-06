@@ -6,7 +6,6 @@
  */
 
 import type { ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
-
 import { getCachedCalculation } from '../../utils/calculationCache';
 
 /**
@@ -294,7 +293,7 @@ function getDignityModifier(planet: string, sign: string): number {
 
   const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
   const signKey = sign.toLowerCase();
-  return dignities[planetKey]?.[signKey] || 1.0;
+  return dignities[planetKey][signKey] || 1.0;
 }
 
 /**

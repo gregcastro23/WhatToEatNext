@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-
-import { LunarPhase } from '@/constants/planetaryFoodAssociations';
+import type { LunarPhase } from '@/constants/planetaryFoodAssociations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
-import { CelestialPosition } from '@/types/celestial';
-import {_ZodiacSign, PlanetaryAlignment} from '@/types/common';
+import type { CelestialPosition } from '@/types/celestial';
+import type { PlanetaryAlignment} from '@/types/common';
+import {_ZodiacSign} from '@/types/common';
 import {_longitudeToZodiacPosition} from '@/utils/astrologyUtils';
 import {logger} from '@/utils/logger';
 
@@ -208,9 +208,7 @@ export function useAstrologicalState(): AstrologyHookData {
   const planetaryPositionsString = JSON.stringify(planetaryPositions);
 
   // Memoize key values to prevent unnecessary updates
-  const memoizedPlanetaryPositions = useMemo(() => {
-    return planetaryPositions;
-  }, [planetaryPositionsString])
+  const memoizedPlanetaryPositions = useMemo(() => planetaryPositions, [planetaryPositionsString])
 
   // Track changes to planetary positions and update state
   useEffect(() => {
@@ -255,9 +253,7 @@ export function useAstrologicalState(): AstrologyHookData {
   }, [memoizedPlanetaryPositions, getActivePlanets])
 
   // Memoize the current planetary alignment to prevent unnecessary recalculations
-  const currentPlanetaryAlignment = useMemo(() => {
-    return astroState.currentPlanetaryAlignment;
-  }, [astroState.currentPlanetaryAlignment])
+  const currentPlanetaryAlignment = useMemo(() => astroState.currentPlanetaryAlignment, [astroState.currentPlanetaryAlignment])
 
   const [currentPlanetaryHour, setCurrentPlanetaryHour] = useState<string | null>(null)
 
@@ -287,7 +283,7 @@ export function useAstrologicalState(): AstrologyHookData {
   return {
     ...astroState,
     isReady,
-    isDaytime: isDaytime,
+    isDaytime,
     renderCount,
     currentPlanetaryHour: currentPlanetaryHour || 'sun',
     currentZodiac: (astroState.currentZodiac || 'aries') as any,

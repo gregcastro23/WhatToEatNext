@@ -69,8 +69,8 @@ export interface IngredientRecommendation {
  * Ingredient Search Criteria Type
  * Comprehensive search parameters for ingredient filtering
  */
-export type IngredientSearchCriteria = {
-  elements?: ('Fire' | 'Water' | 'Earth' | 'Air')[];
+export interface IngredientSearchCriteria {
+  elements?: Array<'Fire' | 'Water' | 'Earth' | 'Air'>;
   seasons?: Season[];
   categories?: string[];
   nutritionalRequirements?: {
@@ -82,26 +82,26 @@ export type IngredientSearchCriteria = {
   cookingMethods?: string[];
   sustainabilityThreshold?: number;
   regionalOrigins?: string[];
-};
+}
 
 /**
  * Ingredient Compatibility Result
  * Result of ingredient compatibility analysis
  */
-export type IngredientCompatibilityResult = {
+export interface IngredientCompatibilityResult {
   primaryIngredient: string;
   compatibleIngredients: string[];
   incompatibleIngredients: string[];
   neutralIngredients: string[];
   compatibilityScores: Record<string, number>;
   reasoning: Record<string, string>;
-};
+}
 
 /**
  * Ingredient Substitution Recommendation
  * Suggested ingredient substitutions with ratios and notes
  */
-export type IngredientSubstitution = {
+export interface IngredientSubstitution {
   originalIngredient: string;
   substitute: string;
   substitutionRatio: number; // e.g., 1.5 means use 1.5x the amount
@@ -109,7 +109,7 @@ export type IngredientSubstitution = {
   nutritionalDifference: Partial<NutritionalContent>;
   flavorNotes: string[];
   cookingAdjustments?: string[];
-};
+}
 
 /**
  * Ingredient Recommendation Response

@@ -11,7 +11,6 @@ import type {
   Season,
   ThermodynamicProperties
 } from '@/types/alchemy';
-
 import {
   calculateElementalCompatibility,
   createElementalProperties,
@@ -23,12 +22,13 @@ import {
 // TODO: Fix import - add what to import from './nutritional.ts'
 
 import { unifiedCuisineIntegrationSystem } from './cuisineIntegrations';
-import { UnifiedFlavorProfile, unifiedFlavorProfileSystem } from './flavorProfiles';
+import { unifiedFlavorProfileSystem } from './flavorProfiles';
 
 // Import unified systems
 import { unifiedIngredients } from './ingredients';
 import { unifiedNutritionalSystem } from './nutritional';
 import { unifiedSeasonalSystem } from './seasonal';
+import type { UnifiedFlavorProfile} from './flavorProfiles';
 
 // Import unified ingredients
 import type { UnifiedIngredient } from './unifiedTypes';
@@ -178,11 +178,11 @@ export function isEnhancedIngredient(obj: unknown): obj is EnhancedIngredient {
 }
 
 export class EnhancedIngredientsSystem {
-  private ingredients: { [key: string]: EnhancedIngredient };
-  private flavorProfileSystem: typeof unifiedFlavorProfileSystem;
-  private seasonalSystem: typeof unifiedSeasonalSystem;
-  private cuisineSystem: typeof unifiedCuisineIntegrationSystem;
-  private nutritionalSystem: typeof unifiedNutritionalSystem;
+  private readonly ingredients: { [key: string]: EnhancedIngredient };
+  private readonly flavorProfileSystem: typeof unifiedFlavorProfileSystem;
+  private readonly seasonalSystem: typeof unifiedSeasonalSystem;
+  private readonly cuisineSystem: typeof unifiedCuisineIntegrationSystem;
+  private readonly nutritionalSystem: typeof unifiedNutritionalSystem;
 
   // Indexed lookups for performance
   private categoryIndex: Map<string, string[]> = new Map()
@@ -271,7 +271,7 @@ export class EnhancedIngredientsSystem {
     // Filter by Kalchm range
     if (criteria.kalchmRange) {
       results = (results || []).filter(ingredient => {
-        const kalchmRange = criteria.kalchmRange;
+        const {kalchmRange} = criteria;
         if (!kalchmRange) return true;
         const ingredientKalchm = ingredient.kalchm || 0;
         return ingredientKalchm >= kalchmRange.min && ingredientKalchm <= kalchmRange.max;
@@ -723,7 +723,7 @@ export class EnhancedIngredientsSystem {
   private generateCulinaryProperties(
     ingredient: UnifiedIngredient
   ): EnhancedIngredient['culinaryProperties'] {
-    const category = ingredient.category;
+    const {category} = ingredient;
     const elementalProps = ingredient.elementalProperties;
 
     return {
@@ -847,7 +847,7 @@ export class EnhancedIngredientsSystem {
 
     Object.values(this.ingredients || {}).forEach(ingredient => {
       // Index by category
-      const category = ingredient.category;
+      const {category} = ingredient;
       if (category) {
         const categoryIngredients = this.categoryIndex.get(category) || [];
         categoryIngredients.push(ingredient.name);
@@ -865,7 +865,7 @@ export class EnhancedIngredientsSystem {
       }
 
       // Index by Kalchm range
-      const kalchm = ingredient.kalchm;
+      const {kalchm} = ingredient;
       if (kalchm !== undefined) {
         const kalchmRange = this.getKalchmRange(kalchm);
         const kalchmIngredients = this.kalchmIndex.get(kalchmRange) || [];
@@ -874,7 +874,7 @@ export class EnhancedIngredientsSystem {
       }
 
       // Index by seasonality
-      const seasonality = ingredient.culinaryProperties.seasonality;
+      const {seasonality} = ingredient.culinaryProperties;
       if (seasonality) {
         const allSeasons = [...(seasonality.peak || []), ...(seasonality.optimal || [])];
 
@@ -947,7 +947,7 @@ export class EnhancedIngredientsSystem {
     // For each ingredient, try to find possible substitutions
     (ingredients || []).forEach(ingredient => {
       // Skip if we already have substitutions for this category
-      const category = ingredient.category;
+      const {category} = ingredient;
       if ((substitutions || []).some(sub => sub.category === category)) return;
 
       // Find other ingredients in the same category with similar elemental properties

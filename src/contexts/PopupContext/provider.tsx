@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-
 import { ELEMENT_AFFINITIES, ZODIAC_ELEMENTS } from '@/constants/elementalConstants';
 
 import '@/styles/popup.css';
 import { PopupContext } from './context';
-import { ElementalInfluence, Popup, PopupOptions, PopupProviderProps } from './types';
+import type { ElementalInfluence, Popup, PopupOptions, PopupProviderProps } from './types';
 
 export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactElement => {
   const [popups, setPopups] = useState<Popup[]>([]);

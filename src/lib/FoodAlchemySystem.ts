@@ -1,5 +1,4 @@
 import type { Element, Planet } from '@/types/celestial';
-
 import { PlanetaryHourCalculator } from './PlanetaryHourCalculator';
 import { ThermodynamicCalculator } from './ThermodynamicCalculator';
 

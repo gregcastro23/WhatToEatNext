@@ -113,5 +113,5 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const cruciferous: Record<string, IngredientMapping> = fixIngredientMappings(
-  rawCruciferous as Record<string, Partial<IngredientMapping>>
+  rawCruciferous 
 );

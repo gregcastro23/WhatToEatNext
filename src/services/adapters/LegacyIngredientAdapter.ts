@@ -11,16 +11,16 @@
 import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { ThermodynamicMetrics } from '@/types/alchemical';
 import type { ElementalProperties, Season, ZodiacSign, PlanetName } from '@/types/ingredient';
-import { Recipe, RecipeIngredient } from '@/types/recipe';
+import type { Recipe} from '@/types/recipe';
+import { RecipeIngredient } from '@/types/recipe';
 import { Ingredient } from '@/types/unified';
-
 import { createLogger } from '../../utils/logger';
 import { IngredientService } from '../IngredientService';
+import { unifiedIngredientService } from '../UnifiedIngredientService';
 import type {
   IngredientFilter,
   IngredientRecommendationOptions,
 } from '../interfaces/IngredientServiceInterface';
-import { unifiedIngredientService } from '../UnifiedIngredientService';
 
 // Initialize logger
 const logger = createLogger('LegacyIngredientAdapter');
@@ -33,7 +33,7 @@ const logger = createLogger('LegacyIngredientAdapter');
  */
 export class LegacyIngredientAdapter {
   private static _instance: LegacyIngredientAdapter;
-  private legacyService = IngredientService.getInstance();
+  private readonly legacyService = IngredientService.getInstance();
 
   /**
    * Private constructor to enforce singleton pattern
@@ -114,7 +114,7 @@ export class LegacyIngredientAdapter {
   public filterIngredients(filter: IngredientFilter = {}): Record<string, UnifiedIngredient[]> {
     try {
       const result: unknown = unifiedIngredientService.filterIngredients(
-        filter as IngredientFilter,
+        filter ,
       ); // Pattern UUU: Import Path Interface Resolution
       return result as Record<string, UnifiedIngredient[]>;
     } catch (error) {
@@ -147,7 +147,7 @@ export class LegacyIngredientAdapter {
    */
   public findComplementaryIngredients(
     ingredient: UnifiedIngredient | string,
-    maxResults: number = 5,
+    maxResults = 5,
   ): UnifiedIngredient[] {
     try {
       const result: unknown = unifiedIngredientService.findComplementaryIngredients(

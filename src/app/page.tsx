@@ -5,11 +5,11 @@
  * Main landing page with preview components for cuisine, ingredient, and cooking method recommendations
  */
 
-import React, { useState } from 'react';
 import Link from 'next/link';
+import React, { useState } from 'react';
+import CookingMethodPreview from '@/components/home/CookingMethodPreview';
 import CuisinePreview from '@/components/home/CuisinePreview';
 import IngredientPreview from '@/components/home/IngredientPreview';
-import CookingMethodPreview from '@/components/home/CookingMethodPreview';
 
 export default function HomePage() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);

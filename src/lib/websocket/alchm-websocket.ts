@@ -1,21 +1,21 @@
-export type PlanetaryHourUpdate = {
+export interface PlanetaryHourUpdate {
   planet: 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn';
   start: string;
   end: string;
-};
+}
 
-export type EnergyUpdate = {
+export interface EnergyUpdate {
   Fire: number;
   Water: number;
   Air: number;
   Earth: number;
-};
+}
 
-export type CelestialEvent = {
+export interface CelestialEvent {
   type: string;
   timestamp: string;
   detail?: string;
-};
+}
 
 export type WSMessage =
   | { channel: 'planetary_hours'; data: PlanetaryHourUpdate }

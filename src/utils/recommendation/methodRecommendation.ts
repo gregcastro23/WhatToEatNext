@@ -24,9 +24,8 @@ function createElementalProperties(
     Air: props.Air || 0
   };
 }
-import {
+import type {
     BasicThermodynamicProperties,
-    COOKING_METHOD_THERMODYNAMICS,
     CookingMethodProfile,
     Element,
     ElementalProperties,
@@ -35,9 +34,11 @@ import {
     MethodRecommendationOptions,
     PlanetaryAspect
 } from '@/types/alchemy';
+import {
+    COOKING_METHOD_THERMODYNAMICS
+} from '@/types/alchemy';
 import type { AstrologicalState } from '@/types/celestial';
 import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
-
 import { allCookingMethods, cookingMethods as detailedCookingMethods } from '../../data/cooking';
 import { getCurrentSeason } from '../../data/integrations/seasonal';
 import { culturalCookingMethods } from '../culturalMethodsAggregator';
@@ -202,7 +203,7 @@ export function getMethodThermodynamics(
 
   // 1. Check the detailed data source first
   const detailedMethodData = detailedCookingMethods[methodNameLower as keyof typeof detailedCookingMethods];
-  if (detailedMethodData?.thermodynamicProperties) {
+  if (detailedMethodData.thermodynamicProperties) {
     return {
       heat: detailedMethodData.thermodynamicProperties.heat ?? 0.5,
       entropy: detailedMethodData.thermodynamicProperties.entropy ?? 0.5,
@@ -213,7 +214,7 @@ export function getMethodThermodynamics(
 
   // 2. Check if the method object itself has thermodynamic properties
   const methodData = method as unknown as any;
-  const thermodynamicProperties = methodData.thermodynamicProperties;
+  const {thermodynamicProperties} = methodData;
   if (thermodynamicProperties) {
     return {
       heat: Number(thermodynamicProperties.heat) || 0.5,
@@ -705,10 +706,10 @@ export function getCookingMethodRecommendations(
       method: {
         id: methodId,
         name: methodName,
-        elementalEffect: elementalEffect,
-        astrologicalInfluences: astrologicalInfluences
+        elementalEffect,
+        astrologicalInfluences
       },
-      score: score,
+      score,
       reasons: [description]
     } as unknown as MethodRecommendation;
   });
@@ -754,7 +755,7 @@ export function getHolisticCookingRecommendations(
   includeReasons = false,
   availableMethods: string[] = [],
   limit = 5
-): { method: string; compatibility, number; reason?, string }[] {
+): Array<{ method: string; compatibility, number; reason?, string }> {
   try {
     // Default to empty elementalProperties if not provided
     const elementalProperties = ingredient.transformedElementalProperties || {
@@ -786,7 +787,7 @@ export function getHolisticCookingRecommendations(
 
     // Format the results with safe property access
     return filteredRecs.slice(0, limit || 5).map(rec => ({
-      method: String((rec as any).method)?.name ||
+      method: String((rec as any).method).name ||
           ((rec as any).method)?.id ||
           (rec as any).name ||
           (rec as any).id ||
@@ -811,7 +812,7 @@ export function getRecommendedCookingMethodsForIngredient(
   ingredient: Ingredient | UnifiedIngredient,
   cookingMethods: Ingredient | UnifiedIngredient[],
   limit = 5
-): { method: string; compatibility, number }[] {
+): Array<{ method: string; compatibility, number }> {
   try {
     // Extract elemental properties from ingredient
     const elementalProps = {

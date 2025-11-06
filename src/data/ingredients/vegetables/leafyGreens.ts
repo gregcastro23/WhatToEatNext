@@ -7,8 +7,7 @@ const generateVegetableAttributes = (vegData: {
   fiber: number; // fiber content (0-10 scale)
   bitterness: number; // bitterness level (0-10 scale)
   cooking_time: number; // typical cooking time in minutes
-}) => {
-  return {
+}) => ({
     water_content: vegData.water,
     fiber_density: vegData.fiber,
     bitterness: vegData.bitterness,
@@ -21,8 +20,7 @@ const generateVegetableAttributes = (vegData: {
         (100 - vegData.water) * 0.05 +
         Math.min(7, vegData.bitterness) * 0.3
     )
-  };
-};
+  });
 
 const rawLeafyGreens = {
   kale: {

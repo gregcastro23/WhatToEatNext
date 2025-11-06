@@ -12,7 +12,7 @@
  */
 
 // Removed unused Element import
-import {CelestialPosition} from '@/types/celestial';
+import type {CelestialPosition} from '@/types/celestial';
 import {createLogger} from '@/utils/logger';
 import * as safeAstrology from '@/utils/safeAstrology';
 

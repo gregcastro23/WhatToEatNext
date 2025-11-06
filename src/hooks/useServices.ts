@@ -6,7 +6,6 @@
  */
 
 import { useEffect, useState } from 'react';
-
 import { InitializationStatus, servicesManager } from '../services';
 import { createLogger } from '../utils/logger';
 

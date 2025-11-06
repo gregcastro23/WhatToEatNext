@@ -88,11 +88,11 @@ declare global {
     __foodRecommenderFixApplied?: boolean
 
     // Storage for Chrome message listeners
-    _chromeMessageListeners?: ((
+    _chromeMessageListeners?: Array<(
       message: unknown,
       sender: chrome.runtime.MessageSender,
       sendResponse: (response?: unknown) => void,
-    ) => void)[],
+    ) => void>,
 
     // Alchemical functions used by FoodRecommender
     getElementRanking?: (element_object: Element, rank?: number) => Record<number, string>,

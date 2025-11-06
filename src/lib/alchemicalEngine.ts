@@ -174,7 +174,7 @@ export class AlchemicalEngineBase {
     winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
   };
 
-  private calculator: ElementalCalculator;
+  private readonly calculator: ElementalCalculator;
   private availableRecipes: Recipe[] = [];
 
   constructor() {
@@ -227,7 +227,7 @@ export class AlchemicalEngineBase {
     let power = 0.2;
 
     const recipeElement = this.zodiacElements[recipeSunSign].baseElement;
-    const moonSignElement = (astrologicalState as unknown as { moonSignElement?: keyof ElementalProperties }).moonSignElement;
+    const {moonSignElement} = (astrologicalState as unknown as { moonSignElement?: keyof ElementalProperties });
     if (recipeElement === moonSignElement) power += 0.3;
 
     if (astrologicalState.activePlanets?.includes(decanRuler)) power += 0.25;
@@ -321,14 +321,14 @@ export class AlchemicalEngineBase {
   }
 
   calculateIngredientInteractions(ingredients: Ingredient[]) {
-    const synergies: { ingredients: Ingredient[]; score: number }[] = [];
-    const conflicts: { ingredients: Ingredient[]; score: number }[] = [];
+    const synergies: Array<{ ingredients: Ingredient[]; score: number }> = [];
+    const conflicts: Array<{ ingredients: Ingredient[]; score: number }> = [];
 
     for (let i = 0; i < ingredients.length; i++) {
       for (let j = i + 1; j < ingredients.length; j++) {
         const ingA = ingredients[i] as unknown as { elementalProperties?: ElementalProperties };
         const ingB = ingredients[j] as unknown as { elementalProperties?: ElementalProperties };
-        const harmony = this.calculateHarmonyBetween(ingA?.elementalProperties || ({} as ElementalProperties), ingB?.elementalProperties || ({} as ElementalProperties));
+        const harmony = this.calculateHarmonyBetween(ingA.elementalProperties || ({} as ElementalProperties), ingB.elementalProperties || ({} as ElementalProperties));
 
         if (harmony > 0.7) {
           synergies.push({
@@ -372,12 +372,12 @@ export class AlchemicalEngineBase {
         ..._recipe,
         seasonalScore: (() => {
           const calculatorData = ElementalCalculator as unknown as { calculateSeasonalEffectiveness?: (r: Recipe, s: string) => number };
-          if (calculatorData?.calculateSeasonalEffectiveness) {
+          if (calculatorData.calculateSeasonalEffectiveness) {
             return calculatorData.calculateSeasonalEffectiveness(_recipe, season);
           }
           // Fallback calculation using recipe's elemental properties
           const seasonalBonus = this.getSeasonalInfluence(season, 'Fire');
-          return (_recipe.elementalProperties?.Fire || 0.25) * seasonalBonus;
+          return (_recipe.elementalProperties.Fire || 0.25) * seasonalBonus;
         })(),
       }))
       .sort((a, b) => (b as unknown as { seasonalScore: number }).seasonalScore - (a as unknown as { seasonalScore: number }).seasonalScore);
@@ -459,7 +459,7 @@ export class AlchemicalEngineBase {
    * @param recipes Array of recipes to consider
    * @returns Array of recipes with scores and elemental properties
    */
-  findOptimalRecipes(recipes: unknown[]): { recipe: unknown; score: number; elements: ElementalProperties }[] {
+  findOptimalRecipes(recipes: unknown[]): Array<{ recipe: unknown; score: number; elements: ElementalProperties }> {
     if (!recipes || recipes.length === 0) {
       return [];
     }
@@ -469,10 +469,10 @@ export class AlchemicalEngineBase {
       recipe: _recipe,
       score: 80, // Default score
       elements: {
-        Fire: _recipe.elementalProperties?.Fire ?? 0.25,
-        Water: _recipe.elementalProperties?.Water ?? 0.25,
-        Air: _recipe.elementalProperties?.Air ?? 0.25,
-        Earth: _recipe.elementalProperties?.Earth ?? 0.25,
+        Fire: _recipe.elementalProperties.Fire ?? 0.25,
+        Water: _recipe.elementalProperties.Water ?? 0.25,
+        Air: _recipe.elementalProperties.Air ?? 0.25,
+        Earth: _recipe.elementalProperties.Earth ?? 0.25,
       },
     }));
   }

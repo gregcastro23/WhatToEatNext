@@ -1,15 +1,13 @@
 import type { ElementalProperties, CookingMethod } from '@/types/alchemy';
-
 import {
   calculatePlanetaryPositions,
   calculateSunSign,
   calculateLunarPhase
 } from '../utils/astrologyUtils';
 import {elementalUtils, _getCurrentElementalState} from '../utils/elementalUtils';
-
 import {AstrologicalService, _getLatestAstrologicalState} from './AstrologicalService';
 
-type CelestialPosition = {
+interface CelestialPosition {
   sunSign: string;
   moonPhase: string;
   planetaryPositions: {
@@ -68,7 +66,7 @@ export const _getCelestialPositionsForDate = async (date: Date): Promise<Celesti
     });
 
     return {
-      sunSign: sunSign,
+      sunSign,
       moonPhase: lunarPhase.toString(),
       planetaryPositions: planetaryPositions as CelestialPosition['planetaryPositions'],
       time: {
@@ -97,7 +95,7 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
     const astroService = AstrologicalService as unknown as {
       getStateForDate?: (date: Date) => Promise<unknown>;
     };
-    const astroState = await (astroService?.getStateForDate
+    const astroState = await (astroService.getStateForDate
       ? astroService.getStateForDate(currentDate)
       : astroService.getCurrentState?.(currentDate));
     // Map the data to our format
@@ -127,7 +125,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
     const astroService = AstrologicalService as unknown as {
       getStateForDate?: (date: Date) => Promise<unknown>;
     };
-    const _fallbackStatePromise = astroService?.getStateForDate
+    const _fallbackStatePromise = astroService.getStateForDate
       ? astroService.getStateForDate(date)
       : astroService.getCurrentState?.(date);
     // Since we can't await here (not an async function), we'll use a static fallback
@@ -139,7 +137,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
         hours: date.getHours(),
         minutes: date.getMinutes()
       },
-      timestamp: timestamp
+      timestamp
     };
   } catch (error) {
     _logger.error('Error getting fallback positions: ', error);
@@ -153,7 +151,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
         hours: date.getHours(),
         minutes: date.getMinutes()
       },
-      timestamp: timestamp
+      timestamp
     };
   }
 }

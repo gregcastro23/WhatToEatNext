@@ -77,19 +77,19 @@ export default function LivePlanetaryDemoPage() {
               <h3 className="text-lg font-semibold text-gray-900 mb-4">WebSocket Infrastructure</h3>
               <ul className="space-y-2 text-gray-600">
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                  <span className="w-2 h-2 bg-green-500 rounded-full mr-3" />
                   Production WebSocket server on port 8001
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                  <span className="w-2 h-2 bg-green-500 rounded-full mr-3" />
                   Automatic reconnection and fallback handling
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                  <span className="w-2 h-2 bg-green-500 rounded-full mr-3" />
                   Structured logging and error monitoring
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                  <span className="w-2 h-2 bg-green-500 rounded-full mr-3" />
                   Type-safe message handling
                 </li>
               </ul>
@@ -99,19 +99,19 @@ export default function LivePlanetaryDemoPage() {
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Real-Time Data Flow</h3>
               <ul className="space-y-2 text-gray-600">
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3" />
                   Planetary hour calculations every minute
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3" />
                   Energy influence updates via WebSocket
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3" />
                   Celestial event notifications
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3" />
                   Graceful offline mode with cached data
                 </li>
               </ul>

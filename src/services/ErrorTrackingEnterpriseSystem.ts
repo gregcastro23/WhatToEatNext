@@ -4,14 +4,13 @@
 
 import { execSync } from 'child_process';
 import fs from 'fs';
-
 import { log } from '@/services/LoggingService';
-
 import {
   ErrorCategory,
-  TypeScriptError,
   TypeScriptErrorAnalyzer
 } from './campaign/TypeScriptErrorAnalyzer';
+import type {
+  TypeScriptError} from './campaign/TypeScriptErrorAnalyzer';
 
 // ========== ENTERPRISE ERROR TRACKING INTERFACES ==========
 
@@ -68,15 +67,15 @@ export interface ErrorTrackingSnapshot {
   systemHealth: 'excellent' | 'good' | 'fair' | 'poor';
 }
 
-type UnknownAnalysis = {
+interface UnknownAnalysis {
   errors?: TypeScriptError[];
   distribution?: { priorityRanking?: TypeScriptError[] };
-};
+}
 
 // ========== ENTERPRISE ERROR TRACKING SYSTEM ==========
 
 export class ErrorTrackingEnterpriseSystem {
-  private analyzer: TypeScriptErrorAnalyzer;
+  private readonly analyzer: TypeScriptErrorAnalyzer;
   private metricsHistory: ErrorTrackingSnapshot[] = [];
   private patterns: Map<string, ErrorPattern> = new Map();
   private isMonitoring = false;
@@ -91,7 +90,7 @@ export class ErrorTrackingEnterpriseSystem {
 
   // ========== REAL-TIME ERROR MONITORING ==========
 
-  startRealTimeMonitoring(intervalMinutes: number = 5): void {
+  startRealTimeMonitoring(intervalMinutes = 5): void {
     if (this.isMonitoring) {
       log.info('Error monitoring already active');
       return;
@@ -135,7 +134,7 @@ export class ErrorTrackingEnterpriseSystem {
     const analysisResult = (await this.analyzer.analyzeErrors()) as unknown as UnknownAnalysis;
     const currentErrorCount = await this.analyzer.getCurrentErrorCount();
 
-    const rankedErrors = analysisResult?.distribution?.priorityRanking || analysisResult?.errors || [];
+    const rankedErrors = analysisResult.distribution?.priorityRanking || analysisResult.errors || [];
     this.updateErrorPatterns(rankedErrors);
 
     const metrics = this.calculateMetrics(analysisResult, currentErrorCount);
@@ -260,7 +259,7 @@ export class ErrorTrackingEnterpriseSystem {
     const currentSnapshot = this.metricsHistory[this.metricsHistory.length - 1];
     const previousSnapshot = this.metricsHistory[this.metricsHistory.length - 2];
 
-    const categories = Object.values(ErrorCategory) as ErrorCategory[];
+    const categories = Object.values(ErrorCategory) ;
     const trends: ErrorTrend[] = [];
     for (const category of categories) {
       const currentCount = this.getErrorCountByCategory(currentSnapshot, category);
@@ -370,7 +369,7 @@ export class ErrorTrackingEnterpriseSystem {
     const previousSnapshot = this.metricsHistory[this.metricsHistory.length - 1];
     const minutesElapsed = previousSnapshot ? (Date.now() - previousSnapshot.timestamp.getTime()) / (1000 * 60) : 1;
 
-    const prevTotal = previousSnapshot?.metrics.totalErrors ?? currentErrorCount;
+    const prevTotal = previousSnapshot.metrics.totalErrors ?? currentErrorCount;
     const errorVelocity = Math.abs(prevTotal - currentErrorCount) / Math.max(minutesElapsed, 1);
 
     const initialCount = this.metricsHistory.length > 0 ? this.metricsHistory[0].metrics.totalErrors : currentErrorCount;
@@ -409,7 +408,7 @@ export class ErrorTrackingEnterpriseSystem {
       return 0.95;
     } catch {
       const last = this.metricsHistory[this.metricsHistory.length - 1];
-      const count = last?.metrics.totalErrors ?? 1000;
+      const count = last.metrics.totalErrors ?? 1000;
       return Math.max(0.3, 1 - count / 5000);
     }
   }
@@ -489,7 +488,7 @@ export class ErrorTrackingEnterpriseSystem {
   private loadPersistedData(): void {
     try {
       if (fs.existsSync(this.METRICS_FILE)) {
-        const metricsData = JSON.parse(fs.readFileSync(this.METRICS_FILE, 'utf8')) as Array<ErrorTrackingSnapshot>;
+        const metricsData = JSON.parse(fs.readFileSync(this.METRICS_FILE, 'utf8')) as ErrorTrackingSnapshot[];
         this.metricsHistory = metricsData.map(item => ({ ...item, timestamp: new Date(item.timestamp) }));
       }
       if (fs.existsSync(this.PATTERNS_FILE)) {

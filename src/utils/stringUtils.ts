@@ -39,7 +39,7 @@ export function formatToTitleCase(str: string): string {
 export function truncateString(str: string, length: number): string {
   if (!str) return '';
   if (str.length <= length) return str;
-  return str.substring(0, length) + '...';
+  return `${str.substring(0, length)  }...`;
 }
 
 /**

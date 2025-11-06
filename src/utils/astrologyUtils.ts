@@ -1,8 +1,8 @@
-import { _logger } from '@/lib/logger';
 import SunCalc from 'suncalc';
 
 // Removed unused, import: AlchemicalDignityType
-import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
+import type { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
+import { _logger } from '@/lib/logger';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { log } from '@/services/LoggingService';
 import type {
@@ -164,7 +164,7 @@ export function isValidZodiacSign(sign: string): sign is ZodiacSign {
   return zodiacSigns.includes(sign as unknown);
 }
 
-export type PlanetPositionData = {
+export interface PlanetPositionData {
   sign: any,
   degree: number,
   minute?: number,
@@ -253,7 +253,7 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
     }
 
     // Get lunar phase (0-1)
-    const phase = moonIllumination.phase;
+    const {phase} = moonIllumination;
 
     // Determine phase name
     const phaseName = getLunarPhaseName(phase);
@@ -899,7 +899,7 @@ export function calculateEnhancedStelliumEffects(
   const planetsBySign: Record<string, string[]> = {}
 
   Object.entries(planetPositions).forEach(([planet, position]) => {
-    if (position?.sign) {
+    if (position.sign) {
       const sign = position.sign.toLowerCase();
       if (!planetsBySign[sign]) {
         planetsBySign[sign] = [];
@@ -1504,7 +1504,7 @@ export function calculateAspects(
           const element2 = getZodiacElement(pos2.sign as unknown).toLowerCase();
 
           // Base multiplier from definition;
-          let multiplier = definition.multiplier;
+          let {multiplier} = definition;
 
           // Special, case: Square aspect with Ascendant is positive (+1) instead of negative
           if (
@@ -1617,8 +1617,8 @@ export async function getCurrentAstrologicalState(
       currentPlanetaryAlignment,
       planetaryPositions,
       activePlanets,
-      planetaryHour: planetaryHour,
-      aspects: aspects as import('@/types/celestial').PlanetaryAspect[],
+      planetaryHour,
+      aspects: aspects as Array<import('@/types/celestial').PlanetaryAspect>,
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
     }
@@ -2123,7 +2123,7 @@ export const _parseAstroChartData = (astroChartData: unknown): Record<string, nu
 
     // Process houses and angles if available
     if (data.houses) {
-      const houses = data.houses;
+      const {houses} = data;
       result['Ascendant'] = houses[1]?.longitude || 0;
       result['MC'] = houses[10]?.longitude || 0;
     }
@@ -2330,7 +2330,7 @@ export function calculateDominantElement(
   let dominantElement: Element = 'Earth';
   let highestCount = 0;
 
-  for (const [element, count] of Object.entries(elementalCounts) as [Element, number][]) {
+  for (const [element, count] of Object.entries(elementalCounts) as Array<[Element, number]>) {
     if (count > highestCount) {
       dominantElement = element;
       highestCount = count;
@@ -2401,7 +2401,7 @@ export function calculateElementalProfile(
 export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
   planetaryPositions: { [key: string]: unknown },
-  isDaytime: boolean = true,
+  isDaytime = true,
   currentZodiac?: string
 ): AlchemicalItem[] {
   if (!items || items.length === 0) {
@@ -2649,7 +2649,7 @@ function calculateItemCompatibilityScore(
  */
 function getDominantElementFromProperties(properties: ElementalProperties): ElementalCharacter {
   try {
-    const elements = Object.entries(properties) as [ElementalCharacter, number][];
+    const elements = Object.entries(properties) as Array<[ElementalCharacter, number]>;
     const dominant = elements.reduce((max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: 'Fire' as ElementalCharacter, value: 0 });
 

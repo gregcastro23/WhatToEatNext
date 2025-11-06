@@ -1,15 +1,15 @@
-import {
+import type {
   ElementalProperties,
   PlanetaryPosition
 } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 
 // Import the core alchemical functionality
+import { alchemize } from './RealAlchemizeService';
 import type {
   PlanetaryPosition as RealAlchemizePlanetaryPosition,
   StandardizedAlchemicalResult
 } from './RealAlchemizeService';
-import { alchemize } from './RealAlchemizeService';
 
 /**
  * Consolidated Alchemical Service
@@ -314,7 +314,7 @@ export class AlchemicalService {
 
     for (const element of ['Fire', 'Water', 'Earth', 'Air'] as const) {
       const baseValue = baseProperties[element] || 0;
-      result[element] = transform[element]?.(baseValue) ?? baseValue;
+      result[element] = transform[element](baseValue) ?? baseValue;
     }
 
     // Apply intensity modifier

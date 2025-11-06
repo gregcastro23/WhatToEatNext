@@ -1,4 +1,6 @@
 // Type imports
+import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
+import { PLANETARY_MODIFIERS, type RulingPlanet } from '@/constants/planets';
 import type { AlchemicalCalculationResult, BirthInfo } from '@/types/alchemy';
 import type { ChakraEnergies } from '@/types/chakra';
 import type {
@@ -10,8 +12,6 @@ import type {
 } from '@/types/unified';
 
 // Internal imports
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
-import { PLANETARY_MODIFIERS, type RulingPlanet } from '@/constants/planets';
 import { createLogger } from '@/utils/logger';
 
 // Logger
@@ -195,9 +195,7 @@ export class AlchemicalEngineAdvanced {
       const validSeason = this.getValidSeason(season);
 
       // Function to check if string is a valid RulingPlanet
-      const isRulingPlanet = (planet: string): planet is RulingPlanet => {
-        return Object.prototype.hasOwnProperty.call(PLANETARY_MODIFIERS, planet);
-      };
+      const isRulingPlanet = (planet: string): planet is RulingPlanet => Object.prototype.hasOwnProperty.call(PLANETARY_MODIFIERS, planet);
 
       // Calculate astronomical score
       const astronomicalScore = astrologicalState?.activePlanets

@@ -1,6 +1,6 @@
 import { alchmAPI } from '@/lib/api/alchm-client';
-import { ThermodynamicCalculator } from '@/lib/ThermodynamicCalculator';
 import { logger } from '@/lib/logger';
+import { ThermodynamicCalculator } from '@/lib/ThermodynamicCalculator';
 import { calculateAlchemicalProperties, getCurrentAlchemicalState } from '@/services/RealAlchemizeService';
 import type { ElementalProperties } from '@/types/celestial';
 

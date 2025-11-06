@@ -1,5 +1,5 @@
-import { IngredientMapping } from '@/data/ingredients/types';
-import { ElementalProperties } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
+import type { ElementalProperties } from '@/types/alchemy';
 import { calculateElementalCompatibility } from '@/utils/elemental/core';
 
 // Helper function to standardize ingredient mappings
@@ -381,22 +381,18 @@ export const ingredientMappings = {
 } as const;
 
 // Helper function to get ingredients by dominant element
-export const _getIngredientsByElement = (element: keyof ElementalProperties) => {
-  return Object.entries(ingredientMappings)
+export const _getIngredientsByElement = (element: keyof ElementalProperties) => Object.entries(ingredientMappings)
     .filter(([_, mapping]) => {
       const elements = Object.entries(mapping.elementalProperties);
       const dominantElement = elements.reduce((max, curr) => (curr[1] > max[1] ? curr : max));
       return dominantElement[0] === element;
     })
     .map(([name]) => name);
-};
 
 // Helper function to get seasonal ingredients
-export const _getSeasonalIngredients = (season: string) => {
-  return Object.entries(ingredientMappings)
+export const _getSeasonalIngredients = (season: string) => Object.entries(ingredientMappings)
     .filter(([_, mapping]) => (mapping.season as string[]).includes(season))
     .map(([name]) => name);
-};
 
 // Helper function to get complementary ingredients
 export const _getComplementaryIngredients = (ingredient: keyof typeof ingredientMappings) => {

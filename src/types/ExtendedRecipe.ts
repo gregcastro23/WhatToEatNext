@@ -1,4 +1,5 @@
-import {_Element, ElementalProperties, _ZodiacSign, _LunarPhase} from '@/types/alchemy';
+import type { ElementalProperties} from '@/types/alchemy';
+import {_Element, _ZodiacSign, _LunarPhase} from '@/types/alchemy';
 
 /**
  * 🚀 Phase, 10: ExtendedRecipe Interface - Complete Property Access Support
@@ -8,10 +9,11 @@ import {_Element, ElementalProperties, _ZodiacSign, _LunarPhase} from '@/types/a
  */
 
 import {
-  Recipe,
-  RecipeIngredient,
   ElementalProperties as RecipeElementalProperties,
 } from './recipe';
+import type {
+  Recipe,
+  RecipeIngredient} from './recipe';
 
 /**
  * Extended Recipe Ingredient with all accessed properties
@@ -152,7 +154,7 @@ export function isExtendedRecipe(recipe: unknown): recipe is ExtendedRecipe {
 export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
   return {
     ...recipe,
-    id: recipe.id || 'recipe-' + Date.now(),
+    id: recipe.id || `recipe-${  Date.now()}`,
     tags: recipe.tags || [],
     notes: recipe.notes || '',
     preparation: recipe.preparation || '',
@@ -163,7 +165,7 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
         ...ingredient,
         id: typeof extendedIngredient.id === 'string'
             ? extendedIngredient.id
-            : 'ingredient-' + Date.now(),
+            : `ingredient-${  Date.now()}`,
         preparation: typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',
         optional: typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,
         notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',

@@ -1,4 +1,4 @@
-import { Element } from '@/types/celestial';
+import type { Element } from '@/types/celestial';
 
 export interface ElementalProperties {
   [_key: string]: number, // Element: strength (0-1)
@@ -81,16 +81,12 @@ export const elementalFunctions = {
   /**
    * Get dominant element from properties
    */
-  getDominantElement: (props: ElementalProperties): Element => {
-    return Object.entries(props).reduce((a, b) => (b[1] > a[1] ? b : a))[0] as Element;
-  },
+  getDominantElement: (props: ElementalProperties): Element => Object.entries(props).reduce((a, b) => (b[1] > a[1] ? b : a))[0] as Element,
 
   /**
    * Check if elements are complementary
    */
-  _areComplementary: (element1: Element, element2: Element): boolean => {
-    return elementalInteractions[element1][element2] > 0.5;
-  },
+  _areComplementary: (element1: Element, element2: Element): boolean => elementalInteractions[element1][element2] > 0.5,
 
   /**
    * Get element balance score

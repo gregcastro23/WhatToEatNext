@@ -12,7 +12,7 @@
  */
 
 import { alchemicalApi } from '@/services/AlchemicalApiClient';
-import { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 
 // Cache for frequently used calculations
 const calculationCache = new Map<string, { data: any; timestamp: number }>();
@@ -126,11 +126,9 @@ export const getElementalProperties = (ingredient: string): ElementalProperties 
 export const calculateGregsEnergy = (
   heat: number,
   entropy: number,
-  reactivity: number): number => {
-  return Math.max(0, Math.min(200,
+  reactivity: number): number => Math.max(0, Math.min(200,
     (heat * 0.4 + reactivity * 0.4 - entropy * 0.2) * 100
   ));
-};
 
 /**
  * SEASONAL MODIFIERS
@@ -182,8 +180,7 @@ export const getPersonalizedRecommendations = async (
 export const connectToRealtimeUpdates = (
   onPlanetaryUpdate?: (data: any) => void,
   onEnergyUpdate?: (energy: number) => void
-) => {
-  return alchemicalApi.createRealtimeConnection((planetaryData) => {
+) => alchemicalApi.createRealtimeConnection((planetaryData) => {
     if (onPlanetaryUpdate) {
       onPlanetaryUpdate(planetaryData);
     }
@@ -192,14 +189,11 @@ export const connectToRealtimeUpdates = (
       onEnergyUpdate(planetaryData.gregsEnergy);
     }
   });
-};
 
 /**
  * HEALTH CHECK FOR BACKEND SERVICES
  */
-export const checkBackendHealth = async () => {
-  return alchemicalApi.checkHealth();
-};
+export const checkBackendHealth = async () => alchemicalApi.checkHealth();
 
 /**
  * CACHE MANAGEMENT
@@ -208,12 +202,10 @@ export const clearCalculationCache = () => {
   calculationCache.clear();
 };
 
-export const getCacheStats = () => {
-  return {
+export const getCacheStats = () => ({
     size: calculationCache.size,
     entries: Array.from(calculationCache.keys())
-  };
-};
+  });
 
 // Export commonly used combinations
 export const backendCalculations = {

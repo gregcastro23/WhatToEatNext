@@ -6,7 +6,6 @@
  */
 
 import * as nodePath from 'path';
-
 import { logger } from './logger';
 
 /**
@@ -206,15 +205,15 @@ export const DEPENDENCY_FIXES = {
   /**
    * Convert barrel import to direct import
    */
-  _convertBarrelImport: (importStatement: string): string => {
+  _convertBarrelImport: (importStatement: string): string => 
     // Convert 'import { X } from './index'' to 'import { X } from './X''
-    return importStatement.replace(/from\s+['"](.*)\/index['"]/, 'from "$1"');
-  },
+     importStatement.replace(/from\s+['"](.*)\/index['"]/, 'from "$1"')
+  ,
 
   /**
    * Add missing file extension
    */
-  _addFileExtension: (importPath: string, extension: string = '.ts'): string => {
+  _addFileExtension: (importPath: string, extension = '.ts'): string => {
     if (
       !importPath.endsWith('.ts') &&
       !importPath.endsWith('.tsx') &&

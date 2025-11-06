@@ -3,7 +3,7 @@
 // Import needed from ./flavorProfiles.ts
 import { log } from '@/services/LoggingService';
 import type { UnifiedFlavorProfile, BaseFlavorNotes } from '@/types';
-import {
+import type {
   AlchemicalProperties,
   AlchemicalValues,
   ElementalProperties,
@@ -12,7 +12,6 @@ import {
 } from '@/types/alchemy';
 import type { CookingMethod } from '@/types/constants';
 import {_getCurrentElementalState} from '@/utils/elementalUtils';
-
 import {cuisineFlavorProfiles, type CuisineFlavorProfile} from '../cuisineFlavorProfiles';
 import {flavorProfiles as integrationFlavorProfiles} from '../integrations/flavorProfiles';
 import {planetaryFlavorProfiles, type PlanetaryFlavorProfile} from '../planetaryFlavorProfiles';
@@ -27,7 +26,6 @@ type CuisineFlavorCompatibility = unknown;
 
 // Missing unified data imports
 import {unifiedFlavorProfiles} from './data/unifiedFlavorProfiles';
-
 import {_processAstrologicalData as processData} from '@/services/AstrologicalService';
 
 // ===== FLAVOR PROFILE MIGRATION UTILITY - PHASE 4 =====
@@ -62,9 +60,9 @@ let _isMigrationCompleted = false;
 // ===== MIGRATION CLASS =====
 
 export class FlavorProfileMigration {
-  private migratedProfiles: Map<string, UnifiedFlavorProfile> = new Map()
-  private migrationErrors: string[] = [];
-  private migrationWarnings: string[] = []
+  private readonly migratedProfiles: Map<string, UnifiedFlavorProfile> = new Map()
+  private readonly migrationErrors: string[] = [];
+  private readonly migrationWarnings: string[] = []
 
   constructor() {
     // Return existing instance if available
@@ -503,7 +501,7 @@ export class FlavorProfileMigration {
     const profileData = profile as any;
     if (profileData.baseNotes) return profileData.baseNotes as BaseFlavorNotes;
     // Try to extract from various formats
-    const flavorProfiles = profileData.flavorProfiles ;
+    const {flavorProfiles} = profileData ;
     const baseNotes: BaseFlavorNotes = {
       sweet: Number(profileData.sweet) || Number(flavorProfiles.sweet) || 0,
       sour: Number(profileData.sour) || Number(flavorProfiles.sour) || 0,
@@ -589,7 +587,7 @@ export class FlavorProfileMigration {
 
   private calculateCuisineIntensity(cuisineData: CuisineFlavorProfile): number {
     const cuisineRecord = cuisineData as unknown as any;
-    const intensity = cuisineRecord.intensity;
+    const {intensity} = cuisineRecord;
     if (intensity) return intensity;
     // Calculate from flavor intensities
     if (cuisineData.flavorIntensities) {
@@ -602,7 +600,7 @@ export class FlavorProfileMigration {
 
   private calculateCuisineComplexity(cuisineData: CuisineFlavorProfile): number {
     const cuisineRecord = cuisineData as unknown as any;
-    const complexity = cuisineRecord.complexity;
+    const {complexity} = cuisineRecord;
     if (complexity) return complexity;
     // Estimate based on number of signature ingredients and techniques
     const ingredientCount = (cuisineData.signatureIngredients || []).length || 0;
@@ -623,7 +621,7 @@ export class FlavorProfileMigration {
 
   private extractPlanetaryBaseNotes(planetData: Planet): BaseFlavorNotes {
     const planetRecord = planetData as unknown as any;
-    const flavorProfiles = planetRecord.flavorProfiles;
+    const {flavorProfiles} = planetRecord;
     if (flavorProfiles) {
       return {
         sweet: Number(flavorProfiles.sweet) || 0,
@@ -669,7 +667,7 @@ export class FlavorProfileMigration {
   }
 
   // ===== INGREDIENT-SPECIFIC HELPERS =====
-;
+
   private extractIngredientBaseNotes(flavorData: Record<string, unknown>): BaseFlavorNotes {
     return {
       sweet: Number(flavorData.sweet) || 0,
@@ -869,7 +867,7 @@ export class FlavorProfileMigration {
   }
 
   // ===== PUBLIC ACCESS METHODS =====
-;
+
   public getMigratedProfiles(): Map<string, UnifiedFlavorProfile> {
     return new Map(this.migratedProfiles);
 }

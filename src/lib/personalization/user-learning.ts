@@ -5,9 +5,9 @@
  * dietary restrictions, and cooking patterns for tailored recommendations.
  */
 
-import { userCache } from '@/lib/performance/advanced-cache';
 import { logger } from '@/lib/logger';
-import { ElementalProperties } from '@/types/alchemy';
+import { userCache } from '@/lib/performance/advanced-cache';
+import type { ElementalProperties } from '@/types/alchemy';
 
 interface UserInteraction {
   type: 'recipe_view' | 'recipe_save' | 'ingredient_select' | 'cooking_method' | 'planetary_query'
@@ -62,7 +62,7 @@ interface RecommendationScore {
 }
 
 class UserLearningSystem {
-  private interactions: Map<string, UserInteraction[]> = new Map()
+  private readonly interactions: Map<string, UserInteraction[]> = new Map()
 
   constructor() {
     this.loadFromCache()

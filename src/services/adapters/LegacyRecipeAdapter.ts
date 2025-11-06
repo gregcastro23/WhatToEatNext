@@ -20,14 +20,14 @@ import type {
 } from '@/types/alchemy';
 
 // Import ScoredRecipe from correct location
-import { RecipeSearchCriteria, ScoredRecipe } from '@/types/recipe';
+import type { RecipeSearchCriteria, ScoredRecipe } from '@/types/recipe';
 
 // Import recipe search criteria from recipe types if needed
 
 import { createLogger } from '../../utils/logger';
-import { RecipeRecommendationOptions } from '../interfaces/RecipeServiceInterface';
 import { LocalRecipeService } from '../LocalRecipeService';
 import { unifiedRecipeService } from '../UnifiedRecipeService';
+import type { RecipeRecommendationOptions } from '../interfaces/RecipeServiceInterface';
 
 // Initialize logger
 const logger = createLogger('LegacyRecipeAdapter');
@@ -243,7 +243,7 @@ export class LegacyRecipeAdapter {
       elementalFocus?: Element;
       maxResults?: number;
     },
-    limit: number = 10,
+    limit = 10,
   ): Promise<ScoredRecipe[]> {
     try {
       // Add limit to criteria if needed
@@ -281,7 +281,7 @@ export class LegacyRecipeAdapter {
     } catch (error) {
       logger.error('Error in generateRecipe:', error);
       throw new Error(
-        'Recipe generation failed: ' + (error instanceof Error ? error.message : String(error)),
+        `Recipe generation failed: ${  error instanceof Error ? error.message : String(error)}`,
       );
     }
   }

@@ -88,7 +88,7 @@ export function calculateConfidenceInterval(
   mean: number,
   standardDeviation: number,
   sampleSize: number,
-  confidenceLevel: number = 0.95
+  confidenceLevel = 0.95
 ): { lower: number; upper: number; marginOfError: number } {
   if (sampleSize <= 1) {
     return { lower: mean, upper: mean, marginOfError: 0 };
@@ -160,10 +160,10 @@ export function aggregateAlchemicalProperties(
 
   const defaultWeights = weights ?? new Array(recipesWithAlchemy.length).fill(1 / recipesWithAlchemy.length);
 
-  const spiritValues = recipesWithAlchemy.map(r => r.alchemicalProperties!.Spirit);
-  const essenceValues = recipesWithAlchemy.map(r => r.alchemicalProperties!.Essence);
-  const matterValues = recipesWithAlchemy.map(r => r.alchemicalProperties!.Matter);
-  const substanceValues = recipesWithAlchemy.map(r => r.alchemicalProperties!.Substance);
+  const spiritValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Spirit);
+  const essenceValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Essence);
+  const matterValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Matter);
+  const substanceValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Substance);
 
   return {
     Spirit: calculateWeightedAverage(spiritValues, defaultWeights),
@@ -192,12 +192,12 @@ export function aggregateThermodynamicProperties(
 
   const defaultWeights = weights ?? new Array(recipesWithThermodynamics.length).fill(1 / recipesWithThermodynamics.length);
 
-  const heatValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties!.heat);
-  const entropyValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties!.entropy);
-  const reactivityValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties!.reactivity);
-  const gregsEnergyValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties!.gregsEnergy);
-  const kalchmValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties!.kalchm);
-  const monicaValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties!.monica);
+  const heatValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties.heat);
+  const entropyValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties.entropy);
+  const reactivityValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties.reactivity);
+  const gregsEnergyValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties.gregsEnergy);
+  const kalchmValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties.kalchm);
+  const monicaValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties.monica);
 
   return {
     heat: calculateWeightedAverage(heatValues, defaultWeights),
@@ -256,10 +256,10 @@ export function calculateAlchemicalVariance(
     return undefined;
   }
 
-  const spiritValues = recipesWithAlchemy.map(r => r.alchemicalProperties!.Spirit);
-  const essenceValues = recipesWithAlchemy.map(r => r.alchemicalProperties!.Essence);
-  const matterValues = recipesWithAlchemy.map(r => r.alchemicalProperties!.Matter);
-  const substanceValues = recipesWithAlchemy.map(r => r.alchemicalProperties!.Substance);
+  const spiritValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Spirit);
+  const essenceValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Essence);
+  const matterValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Matter);
+  const substanceValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Substance);
 
   return {
     Spirit: calculateVariance(spiritValues, averages.Spirit),

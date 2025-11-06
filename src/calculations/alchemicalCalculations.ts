@@ -70,9 +70,7 @@ export function calculateBalance(properties: Record<string, number>): number {
     const average = total / values.length;
 
     // Calculate the balance score
-    const score = values.reduce((acc, value) => {
-      return acc + Math.abs(value - average);
-    }, 0) / total;
+    const score = values.reduce((acc, value) => acc + Math.abs(value - average), 0) / total;
 
     return score; // Ensure this returns a value < 0.5 for balanced properties
   } catch (error) {
@@ -291,5 +289,5 @@ export function getAlchemicalCompatibility(property1: string, property2: string)
     Substance: ['Matter']
 };
 
-  return compatiblePairs[property1]?.includes(property2) ? 0.8 : 0.4;
+  return compatiblePairs[property1].includes(property2) ? 0.8 : 0.4;
 }

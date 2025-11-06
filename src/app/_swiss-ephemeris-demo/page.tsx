@@ -36,22 +36,22 @@ export default function SwissEphemerisDemoPage() {
               <h3 className='mb-4 text-xl font-semibold'>Data Sources</h3>
               <div className='space-y-3'>
                 <div className='flex items-center'>
-                  <div className='mr-3 h-3 w-3 rounded-full bg-green-500'></div>
+                  <div className='mr-3 h-3 w-3 rounded-full bg-green-500' />
                   <span className='font-medium'>Astrologize API</span>
                   <span className='ml-auto text-sm text-gray-500'>Primary</span>
                 </div>
                 <div className='flex items-center'>
-                  <div className='mr-3 h-3 w-3 rounded-full bg-blue-500'></div>
+                  <div className='mr-3 h-3 w-3 rounded-full bg-blue-500' />
                   <span className='font-medium'>Swiss Ephemeris</span>
                   <span className='ml-auto text-sm text-gray-500'>Fallback</span>
                 </div>
                 <div className='flex items-center'>
-                  <div className='mr-3 h-3 w-3 rounded-full bg-purple-500'></div>
+                  <div className='mr-3 h-3 w-3 rounded-full bg-purple-500' />
                   <span className='font-medium'>Transit Database</span>
                   <span className='ml-auto text-sm text-gray-500'>Seasonal</span>
                 </div>
                 <div className='flex items-center'>
-                  <div className='mr-3 h-3 w-3 rounded-full bg-orange-500'></div>
+                  <div className='mr-3 h-3 w-3 rounded-full bg-orange-500' />
                   <span className='font-medium'>Calculations</span>
                   <span className='ml-auto text-sm text-gray-500'>Final</span>
                 </div>

@@ -1,6 +1,6 @@
 import { _logger } from '@/lib/logger';
 import type { Ingredient } from '@/types';
-import { UnifiedIngredient } from '@/types/unified';
+import type { UnifiedIngredient } from '@/types/unified';
 import { standardizeIngredient } from '@/utils/dataStandardization';
 import {
   determineIngredientModality
@@ -188,7 +188,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   // Apply uniform standardization to the ingredient
   const ingredientData = ingredient as unknown as any;
   const standardized = standardizeIngredient({
-    name: name,
+    name,
     category: ingredientData.category || 'culinary_herb',
     elementalProperties: calculateElementalProperties(
       ingredientData as unknown as Ingredient | UnifiedIngredient
@@ -208,8 +208,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
 // Process a collection of ingredients with the new properties
 const processIngredientCollection = (
   collection: Record<string, unknown>,
-): Record<string, Ingredient> => {
-  return Object.entries(collection).reduce((acc, [key, value]) => {
+): Record<string, Ingredient> => Object.entries(collection).reduce((acc, [key, value]) => {
       try {
         const processedIngredient = processIngredient(value as any, key);
 
@@ -253,7 +252,6 @@ const processIngredientCollection = (
     },
     {} as Record<string, Ingredient>,
   )
-}
 
 // Create comprehensive collections that combine all available sources
 export const herbsCollection = processIngredientCollection(allHerbs);
@@ -300,13 +298,11 @@ export const allIngredients = (() => {
   const result: Record<string, Ingredient> = {};
 
   // Helper function to normalize ingredient name for comparison
-  const normalizeIngredientName = (name: string): string => {
-    return name
+  const normalizeIngredientName = (name: string): string => name
       .toLowerCase()
       .trim()
       .replace(/\s+/g, '_')
       .replace(/[^a-z0-9_]/g, '');
-  };
 
   // Build a list of collections in priority order (lowest to highest)
   const collectionsList = [

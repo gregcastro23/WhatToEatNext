@@ -2,7 +2,7 @@
  * Type definitions for Enterprise Intelligence Integration Service
  */
 
-import { ElementalProperties, Ingredient, Recipe, ZodiacSign } from './unified';
+import type { ElementalProperties, Ingredient, Recipe, ZodiacSign } from './unified';
 
 export interface EnterpriseIntelligenceConfig {
   enableRecipeIntelligence: boolean;

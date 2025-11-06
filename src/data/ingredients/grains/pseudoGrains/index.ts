@@ -1,5 +1,4 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
-
 import { amaranth } from './amaranth';
 import { buckwheat } from './buckwheat';
 import { chia } from './chia';

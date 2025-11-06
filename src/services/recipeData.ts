@@ -21,13 +21,13 @@ import { seasonings } from '../data/ingredients/seasonings';
 import { spices } from '../data/ingredients/spices';
 import { vegetables } from '../data/ingredients/vegetables';
 import { recipeElementalMappings } from '../data/recipes/elementalMappings';
-import {Recipe, _validateElementalProperties} from '../types/recipe';
-import {RecipeIngredient} from '../types/recipeIngredient';
+import { _validateElementalProperties} from '../types/recipe';
 import {cache} from '../utils/cache';
 import {logger} from '../utils/logger';
-
 import {errorHandler} from './errorHandler';
 import {recipeElementalService} from './RecipeElementalService';
+import type {Recipe} from '../types/recipe';
+import type {RecipeIngredient} from '../types/recipeIngredient';
 
 // Define interface for nutrition data
 export interface NutritionData {
@@ -78,7 +78,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
     description: safeGetString((recipe as any).description) || '',
     cuisine: safeGetString((recipe as any).cuisine) || '',
     ingredients: validateAndNormalizeIngredients(
-      Array.isArray(recipe.ingredients) ? (recipe.ingredients as Partial<RecipeIngredient>[]) : []
+      Array.isArray(recipe.ingredients) ? (recipe.ingredients as Array<Partial<RecipeIngredient>>) : []
     ),
     instructions: validateAndNormalizeInstructions(recipe.instructions || []),
     timeToMake: validateAndNormalizeTime(recipe.timeToMake) || '30 minutes',
@@ -108,7 +108,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
     );
   }
   if ((recipe as any).nutrition) {
-    safeRecipe.nutrition = validateAndNormalizeNutrition((recipe as any).nutrition) as NutritionData;
+    safeRecipe.nutrition = validateAndNormalizeNutrition((recipe as any).nutrition) ;
   }
 
   // Timestamp handling
@@ -294,7 +294,7 @@ function validateAndNormalizeNutrition(nutrition: NutritionData): NutritionData 
 class RecipeData {
   private recipes: Recipe[] = [];
   private initialized = false;
-  private initPromise: Promise<void> | null = null;
+  private readonly initPromise: Promise<void> | null = null;
 
   constructor() {
     // Start loading data immediately
@@ -425,7 +425,7 @@ class RecipeData {
   async getAllRecipes(): Promise<Recipe[]> {
     try {
       // Check cache first
-      const cachedRecipes = cache.get(RECIPE_CACHE_KEY) as Recipe[] | undefined;
+      const cachedRecipes = cache.get(RECIPE_CACHE_KEY) ;
       if (cachedRecipes) {
         // Standardize all cached recipes
         return this.standardizeRecipes(cachedRecipes);

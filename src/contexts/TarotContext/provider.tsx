@@ -1,9 +1,9 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
-
+import { useState } from 'react';
 import { TarotContext } from './context';
-import { TarotCard, TarotElementalInfluences } from './types';
+import type { TarotCard, TarotElementalInfluences } from './types';
+import type { ReactNode} from 'react';
 
 export const _TarotProvider = ({ children }: { children: ReactNode }) => {
   const [tarotCard, setTarotCard] = useState<TarotCard | null>(null);

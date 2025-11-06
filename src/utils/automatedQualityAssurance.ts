@@ -7,10 +7,10 @@
  * - Build quality monitoring for performance tracking
  */
 
+import type { ElementalProperties } from '@/types/alchemy';
 import { calculateElementalAffinity } from '@/utils/elementalUtils';
 import { logger } from '@/utils/logger';
 import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
-import type { ElementalProperties } from '@/types/alchemy';
 import { getSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
 
 // Quality assurance thresholds from campaign-integration.md
@@ -91,10 +91,10 @@ export interface CampaignTrigger {
 export class AutomatedQualityAssurance {
   private static instance: AutomatedQualityAssurance | undefined;
   private config: QualityAssuranceConfig;
-  private metrics: QualityMetrics;
-  private _lastValidation: number = 0;
+  private readonly metrics: QualityMetrics;
+  private readonly _lastValidation = 0;
   private validationInterval: ReturnType<typeof setInterval> | null = null;
-  private campaignTriggers: CampaignTrigger[] = [];
+  private readonly campaignTriggers: CampaignTrigger[] = [];
 
   private constructor(config?: Partial<QualityAssuranceConfig>) {
     this.config = {
@@ -145,7 +145,7 @@ export class AutomatedQualityAssurance {
       // Validate data completeness
       const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'];
       const missingPlanets = requiredPlanets.filter(
-        planet => !(positions as Record<string, unknown>)[planet]
+        planet => !(positions )[planet]
       );
 
       if (missingPlanets.length > 0) {
@@ -155,9 +155,9 @@ export class AutomatedQualityAssurance {
       }
 
       // Validate position accuracy (check for reasonable longitude values)
-      Object.entries(positions as Record<string, unknown>).forEach(([planet, data]) => {
+      Object.entries(positions ).forEach(([planet, data]) => {
         const p = data as { exactLongitude?: number };
-        if (typeof p?.exactLongitude === 'number') {
+        if (typeof p.exactLongitude === 'number') {
           if (p.exactLongitude < 0 || p.exactLongitude >= 360) {
             issues.push(`Invalid longitude for ${planet}: ${String(p.exactLongitude)}`);
             score -= 0.1;
@@ -168,7 +168,7 @@ export class AutomatedQualityAssurance {
       // Update metrics
       this.metrics.planetaryDataQuality = {
         accuracy: Math.max(0, score),
-        freshness: this.calculateDataFreshness(positions as Record<string, unknown>),
+        freshness: this.calculateDataFreshness(positions ),
         reliability: issues.length === 0 ? 1.0 : Math.max(0, 1.0 - issues.length * 0.2)
       };
 
@@ -208,10 +208,8 @@ export class AutomatedQualityAssurance {
     let totalScore = 0;
     let validatedCount = 0;
 
-    const getDominantElement = (props: ElementalProperties): keyof ElementalProperties => {
-      return (Object.entries(props) as [keyof ElementalProperties, number][])
+    const getDominantElement = (props: ElementalProperties): keyof ElementalProperties => (Object.entries(props) as Array<[keyof ElementalProperties, number]>)
         .sort((a, b) => b[1] - a[1])[0][0];
-    };
 
     ingredients.forEach((ingredient, index) => {
       // Validate elemental properties structure

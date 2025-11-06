@@ -86,7 +86,7 @@ export function EnergyVisualization({
   }, [lastEnergyUpdate]);
 
   const getMaxElement = () => {
-    const entries = Object.entries(currentLevels) as [keyof ElementalLevels, number][];
+    const entries = Object.entries(currentLevels) as Array<[keyof ElementalLevels, number]>;
     return entries.reduce((max, [element, level]) =>
       level > max.level ? { element, level } : max,
       { element: 'Fire' as keyof ElementalLevels, level: 0 }

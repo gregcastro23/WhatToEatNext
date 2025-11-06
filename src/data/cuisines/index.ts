@@ -90,7 +90,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
 
   // Ensure the cuisine has at least a valid ID and name
   const name = cuisine.name || '';
-  const id = cuisine.id || 'cuisine-' + name.toLowerCase().replace(/\s+/g, '-');
+  const id = cuisine.id || `cuisine-${  name.toLowerCase().replace(/\s+/g, '-')}`;
 
   return {
     id,
@@ -275,7 +275,7 @@ export const CUISINES = {
 } as const;
 
 // Type for cuisine data
-export type CuisineData = {
+export interface CuisineData {
   name: string,
   elementalProperties: {
     Fire: number,
@@ -283,7 +283,7 @@ export type CuisineData = {
     Earth: number,
     Air: number
   };
-};
+}
 
 // Ensure type safety
 export type Cuisines = typeof CUISINES;

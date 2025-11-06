@@ -3,7 +3,6 @@
 import { Box, Container, Tab, Tabs, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
 import {
     dryCookingMethods,
     molecularCookingMethods,
@@ -29,12 +28,12 @@ function CookingMethodsSection({ methods, _onSelectMethod }: { methods: any[], _
   );
 }
 
-type MethodCategory = {
+interface MethodCategory {
   name: string;
   description: string;
   methods: Record<string, unknown>;
   icon?: string;
-};
+}
 
 const methodCategories: MethodCategory[] = [
   {
@@ -85,8 +84,7 @@ export default function CookingMethodsPage() {
   useEffect(() => {
     if (methodCategories[tabValue]) {
       const categoryMethods = methodCategories[tabValue].methods;
-      const transformed = Object.entries(categoryMethods).map(([key, method]) => {
-        return {
+      const transformed = Object.entries(categoryMethods).map(([key, method]) => ({
           id: key,
           name: capitalizeFirstLetter(key.replace(/_/g, ' ')),
           description: (method as any).description || '',
@@ -113,8 +111,7 @@ export default function CookingMethodsPage() {
                 }))
               : []
             : []
-        };
-      });
+        }));
 
       setFormattedMethods(transformed);
     }
@@ -158,7 +155,7 @@ export default function CookingMethodsPage() {
               key={category.name}
               label={`${category.icon} ${category.name}`}
               id={`method-tab-${index}`}
-              aria-controls={`method-tabpanel-$) => {index}`}
+              aria-controls="method-tabpanel-$) => {index}"
             />
           ))}
         </Tabs>
@@ -188,7 +185,7 @@ export default function CookingMethodsPage() {
                 methods={formattedMethods}
                 onSelectMethod={handleSelectMethod}
                 selectedMethodId={selectedMethodId}
-                initiallyExpanded={true}
+                initiallyExpanded
               />
             </>)}
         </div>

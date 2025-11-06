@@ -56,12 +56,12 @@ interface RecipeRecommendation {
   planetaryActivators: string[];
 }
 
-type MaybePlanets = {
+interface MaybePlanets {
   activePlanets?: string[];
   dominantPlanets?: Array<{ name?: string; effect?: string; influence?: number }>;
   planetaryHour?: string;
   zodiacSign?: string;
-};
+}
 
 export class CulinaryAstrologer {
   private readonly ELEMENTAL_HARMONY_FACTORS = {
@@ -99,10 +99,10 @@ export class CulinaryAstrologer {
 
   private getOptimalTechnique(astroState: AstrologicalState, dominant: string) {
     const methods = Object.values((cookingMethods || {}) as Record<string, CookingMethodData>);
-    const viable = methods.filter(m => (m.elementalEffect?.[dominant] ?? 0) > 0.3);
+    const viable = methods.filter(m => (m.elementalEffect[dominant] ?? 0) > 0.3);
     const picked = (viable[0] || methods[0]) as CookingMethodData | undefined;
     const name = picked?.name || 'balanced-preparation';
-    const benefits = picked?.benefits?.slice(0, 2).join(' and ') || 'balanced expression';
+    const benefits = picked?.benefits.slice(0, 2).join(' and ') || 'balanced expression';
     return {
       name,
       rationale: `Aligns with ${dominant} through ${benefits}`,
@@ -152,15 +152,15 @@ export class CulinaryAstrologer {
     dominant: string
   ): CuisineRecommendation {
     const traditions = (culinaryTraditions || {}) as Record<string, CuisineProfile>;
-    const viable = Object.entries(traditions).filter(([, profile]) => (profile.elementalAlignment?.[dominant] ?? 0) > 0.3);
-    const best = viable.sort((a, b) => (b[1].elementalAlignment?.[dominant] ?? 0) - (a[1].elementalAlignment?.[dominant] ?? 0))[0];
-    const style = best?.[0] || 'Fusion';
+    const viable = Object.entries(traditions).filter(([, profile]) => (profile.elementalAlignment[dominant] ?? 0) > 0.3);
+    const best = viable.sort((a, b) => (b[1].elementalAlignment[dominant] ?? 0) - (a[1].elementalAlignment[dominant] ?? 0))[0];
+    const style = best[0] || 'Fusion';
     const modKey = `${dominant}_dominant`;
-    const modification = best?.[1].signatureModifications?.[modKey] || 'Emphasize dominant element techniques';
+    const modification = best[1].signatureModifications[modKey] || 'Emphasize dominant element techniques';
     return {
       style,
       modification,
-      astrologicalBoost: this.calculateCuisineBoost((best?.[1] || ({
+      astrologicalBoost: this.calculateCuisineBoost((best[1] || ({
         elementalAlignment: {},
         signatureModifications: {},
         astrologicalProfile: { rulingPlanets: [], aspectEnhancers: [] }
@@ -171,8 +171,8 @@ export class CulinaryAstrologer {
   private calculateCuisineBoost(cuisine: CuisineProfile): number {
     const seasonalBoost = cuisine.seasonalPreferences?.includes(this.currentSeason) ? 0.2 : 0;
     const dominant = 'Fire'; // default reference
-    const elementalBoost = cuisine.elementalAlignment?.[dominant] ?? 0;
-    const rulingCount = cuisine.astrologicalProfile?.rulingPlanets?.length ?? 0;
+    const elementalBoost = cuisine.elementalAlignment[dominant] ?? 0;
+    const rulingCount = cuisine.astrologicalProfile.rulingPlanets.length ?? 0;
     const planetaryBoost = Math.min(0.1 * rulingCount, 0.3);
     const total = 1.0 + seasonalBoost * 0.5 + elementalBoost * 0.3 + planetaryBoost * 0.2;
     return Math.max(0.8, Math.min(1.5, total));
@@ -187,7 +187,7 @@ export class CulinaryAstrologer {
 
     return filtered
       .map(([name, recipe]) => {
-        const planetaryActivators = [...(recipe.astrologicalProfile?.rulingPlanets || [])];
+        const planetaryActivators = [...(recipe.astrologicalProfile.rulingPlanets || [])];
         if (!planetaryActivators.includes('Sun') && actives.includes('Sun')) {
           planetaryActivators.push('Sun');
         }
@@ -208,9 +208,9 @@ export class CulinaryAstrologer {
   ): number {
     const { activePlanets } = (astroState as unknown as MaybePlanets);
     const actives = Array.isArray(activePlanets) ? activePlanets : [];
-    const ruling = recipe.astrologicalProfile?.rulingPlanets || [];
+    const ruling = recipe.astrologicalProfile.rulingPlanets || [];
     const planetScore = ruling.reduce((sum, p) => sum + (actives.includes(p) ? 0.2 : 0), 0);
-    const elementMatch = (recipe.elementalProperties as unknown as Record<string, number>)?.[dominant] ?? 0;
+    const elementMatch = (recipe.elementalProperties as unknown as Record<string, number>)[dominant] ?? 0;
     const base = elementMatch * this.ELEMENTAL_HARMONY_FACTORS.zodiac + planetScore * this.ELEMENTAL_HARMONY_FACTORS.planetary;
     return Math.max(0, Math.min(1, base));
   }

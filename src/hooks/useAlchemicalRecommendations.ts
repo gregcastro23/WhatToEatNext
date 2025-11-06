@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
-
-import { ElementalItem } from '../calculations/alchemicalTransformation';
-import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
-import { RulingPlanet } from '../constants/planets';
-import { AlchemicalRecommendations } from '../services/AlchemicalTransformationService';
 import { RecommendationAdapter } from '../services/RecommendationAdapter';
 import {
+  ZodiacSign
+} from '../types/alchemy';
+import type { ElementalItem } from '../calculations/alchemicalTransformation';
+import type { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
+import type { RulingPlanet } from '../constants/planets';
+import type { AlchemicalRecommendations } from '../services/AlchemicalTransformationService';
+import type {
   AlchemicalItem,
   LunarPhaseWithSpaces,
-  ZodiacSign,
   PlanetaryAspect
 } from '../types/alchemy';
 
@@ -110,8 +111,7 @@ export const _useAlchemicalRecommendations = ({
         setRecommendations(recs)
 
         // Apply deep type conversion to resolve cross-import conflicts
-        const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {
-          return items.map(item => {
+        const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => items.map(item => {
             // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
             const convertedItem = {
               ...item,
@@ -153,7 +153,6 @@ export const _useAlchemicalRecommendations = ({
             }
             return convertedItem as AlchemicalItem;
           })
-        }
 
         setTransformedIngredients(adapter.getAllTransformedIngredients() as AlchemicalItem[])
         setTransformedMethods(adapter.getAllTransformedMethods() as AlchemicalItem[])

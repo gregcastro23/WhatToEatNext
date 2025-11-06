@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { _logger } from '@/lib/logger';
 /**
  * Real Alchemize Service
@@ -6,26 +7,25 @@ import { _logger } from '@/lib/logger';
  * It uses the proven standalone alchemize function that produces meaningful, nonzero results.
  */
 
-import fs from 'fs';
 
-import { ElementalProperties } from '@/types/celestial';
+import type { ElementalProperties } from '@/types/celestial';
 
 // Types
-export type PlanetaryPosition = {
+export interface PlanetaryPosition {
   sign: any,
   degree: number,
   minute: number,
   isRetrograde: boolean
 }
 
-export type ThermodynamicProperties = {
+export interface ThermodynamicProperties {
   heat: number,
   entropy: number,
   reactivity: number,
   gregsEnergy: number
 }
 
-export type StandardizedAlchemicalResult = {
+export interface StandardizedAlchemicalResult {
   elementalProperties: ElementalProperties,
   thermodynamicProperties: ThermodynamicProperties,
   esms: { Spirit: number, Essence: number, Matter: number, Substance: number },

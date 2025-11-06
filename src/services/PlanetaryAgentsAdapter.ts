@@ -64,9 +64,9 @@ interface PlanetaryForecastResponse {
 }
 
 export class PlanetaryAgentsAdapter {
-  private baseUrl: string;
+  private readonly baseUrl: string;
 
-  constructor(baseUrl: string = 'http://localhost:8000') {
+  constructor(baseUrl = 'http://localhost:8000') {
     this.baseUrl = baseUrl;
   }
 
@@ -253,7 +253,7 @@ export class PlanetaryAgentsAdapter {
     const predictions: Array<{ hour: number; power: number; planetary: string }> = [];
 
     // Use forecast data if available
-    if (forecast.data?.hours?.length > 0) {
+    if (forecast.data.hours.length > 0) {
       forecast.data.hours.slice(0, 24).forEach((hourData, index) => {
         const hour = (currentHour + index) % 24;
         const power = this.calculatePlanetaryPower(
@@ -283,7 +283,7 @@ export class PlanetaryAgentsAdapter {
    * Extract planetary sequence from forecast
    */
   private extractPlanetarySequence(forecast: PlanetaryForecastResponse): string[] {
-    if (forecast.data?.hours?.length > 0) {
+    if (forecast.data.hours.length > 0) {
       return [...new Set(forecast.data.hours.map(h => h.planet))].slice(0, 3);
     }
     return ['Sun', 'Venus', 'Mercury']; // Default sequence

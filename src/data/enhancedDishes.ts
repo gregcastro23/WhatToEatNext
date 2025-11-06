@@ -1,7 +1,7 @@
 // src/data/enhancedDishes.ts
 
 import { cuisines } from './cuisines';
-import { FoodProperty } from './foodTypes';
+import type { FoodProperty } from './foodTypes';
 
 export const dishProperties: Record<string, FoodProperty[]> = {
   // Japanese dishes

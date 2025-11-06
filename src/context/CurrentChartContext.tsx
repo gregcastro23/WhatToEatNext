@@ -1,10 +1,9 @@
 'use client';
-import { _logger } from '@/lib/logger';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
+import { _logger } from '@/lib/logger';
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import { log } from '@/services/LoggingService';
 import { calculateAspects } from '@/utils/astrologyUtils';
@@ -79,9 +78,9 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
       const planetData = data as { sign?: string; degree?: number };
-      if (planet === 'ascendant' || !data || !planetData?.sign) return;
+      if (planet === 'ascendant' || !data || !planetData.sign) return;
 
-      const sign = planetData.sign;
+      const {sign} = planetData;
       if (!signGroups[sign]) {
         signGroups[sign] = [];
       }
@@ -108,9 +107,9 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     Object.entries(positions).forEach(([planet, data]) => {
       const planetData = data as { sign?: string; degree?: number };
-      if (planet === 'ascendant' || !data || !planetData?.sign) return;
+      if (planet === 'ascendant' || !data || !planetData.sign) return;
 
-      const sign = planetData.sign;
+      const {sign} = planetData;
       const element = _getElementFromSign(sign);
       if (element) {
         houseEffects[element] += 1;
@@ -230,10 +229,10 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const planetData = data as { sign?: string; degree?: number };
       const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
-        sign: planetData?.sign || 'Unknown',
-        degree: planetData?.degree || 0,
-        isRetrograde: planetData?.isRetrograde || false,
-        exactLongitude: planetData?.exactLongitude || 0
+        sign: planetData.sign || 'Unknown',
+        degree: planetData.degree || 0,
+        isRetrograde: planetData.isRetrograde || false,
+        exactLongitude: planetData.exactLongitude || 0
       };
     });
 
@@ -244,7 +243,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     };
     return {
       planetPositions: formattedPlanets,
-      ascendantSign: ascendantData?.sign || 'Libra',
+      ascendantSign: ascendantData.sign || 'Libra',
       svgContent: `<svg width='300' height='300' viewBox='0 0 300 300'>
         <circle cx='150' cy='150' r='140' fill='none' stroke='#333' stroke-width='1'/>
         <text x='150' y='20' text-anchor='middle'>Current Chart</text>
@@ -254,7 +253,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
             const angle = (index * 30) % 360;
             const x = 150 + 120 * Math.cos((angle * Math.PI) / 180);
             const y = 150 + 120 * Math.sin((angle * Math.PI) / 180);
-            return `<text x='${x}' y='${y}' text-anchor='middle'>${planet}: ${planetInfo?.sign}</text>`;
+            return `<text x='${x}' y='${y}' text-anchor='middle'>${planet}: ${planetInfo.sign}</text>`;
           })
           .join('')}
       </svg>`
@@ -291,16 +290,16 @@ export const useCurrentChart = () => {
           const planetData = data as { sign?: string; degree?: number };
           const planetName = key.charAt(0).toUpperCase() + key.slice(1);
           acc[planetName] = {
-            sign: planetData?.sign || 'Unknown',
-            degree: planetData?.degree || 0,
-            isRetrograde: planetData?.isRetrograde || false,
-            exactLongitude: planetData?.exactLongitude || 0
+            sign: planetData.sign || 'Unknown',
+            degree: planetData.degree || 0,
+            isRetrograde: planetData.isRetrograde || false,
+            exactLongitude: planetData.exactLongitude || 0
           };
           return acc;
         },
         {} as Record<string, unknown>
       ),
-      ascendant: ascendantData?.sign
+      ascendant: ascendantData.sign
     },
     createChartSvg: context.createChartSvg,
     isLoading: context.loading,

@@ -1,6 +1,6 @@
 // src/data/culturalRules.ts
 
-import { CulturalBalance } from './foodTypes';
+import type { CulturalBalance } from './foodTypes';
 
 export const culturalRules: Record<string, CulturalBalance> = {
   japanese: {

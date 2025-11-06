@@ -4,14 +4,14 @@
  * This file contains standardized type definitions for external API responses.
  */
 
-import {
+import type {
     AlchemicalTransformationResultType,
     ElementalPropertiesType,
     PlanetaryInfluenceResultType,
     ServiceResponseType,
     ThermodynamicMetricsType
 } from './alchemy';
-import { IngredientAnalysisResponse, IngredientRecommendationResponse } from './ingredients';
+import type { IngredientAnalysisResponse, IngredientRecommendationResponse } from './ingredients';
 
 // ========== PHASE 1: API RESPONSE TYPE ALIASES ==========
 

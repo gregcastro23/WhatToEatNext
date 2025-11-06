@@ -5,9 +5,8 @@
  * planetary positions, elemental properties, and transit dates.
  */
 
-import { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
-
 import {
   ELEMENTAL_CONSTANTS,
   normalizeElementalProperties,
@@ -147,7 +146,7 @@ export function validatePlanetaryPositions(
 function validateSinglePlanetaryPosition(
   planet: string,
   position: unknown,
-  strictMode: boolean = false
+  strictMode = false
 ): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -174,7 +173,7 @@ function validateSinglePlanetaryPosition(
     }
 
     // Validate sign
-    const sign = pos.sign;
+    const {sign} = pos;
     if (
       typeof sign !== 'string' ||
       !TRANSIT_CONSTANTS.VALID_SIGNS.includes(sign.toLowerCase())
@@ -183,7 +182,7 @@ function validateSinglePlanetaryPosition(
     }
 
     // Validate degree
-    const degree = pos.degree;
+    const {degree} = pos;
     if (typeof degree !== 'number' || degree < 0 || degree >= TRANSIT_CONSTANTS.DEGREES_PER_SIGN) {
       const message = `${planet} degree ${degree} must be between 0 and ${TRANSIT_CONSTANTS.DEGREES_PER_SIGN}`;
       if (strictMode) {
@@ -233,7 +232,7 @@ function validateSinglePlanetaryPosition(
     }
 
     // Validate retrograde status
-    const isRetrograde = pos.isRetrograde;
+    const {isRetrograde} = pos;
     if (typeof isRetrograde !== 'boolean') {
       warnings.push(`${planet} isRetrograde should be boolean, got ${typeof isRetrograde}`);
       if (!correctedData) {

@@ -247,11 +247,11 @@ class IngredientMappingService {
     }
 
     // Analyze all ingredient pairs
-    const combinations: {
+    const combinations: Array<{
       ingredients: [string, string];
       compatibility: number;
       type: string
-    }[] = [];
+    }> = [];
 
     for (let i = 0; i < validMappings.length; i++) {
       for (let j = i + 1; j < validMappings.length; j++) {

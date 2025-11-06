@@ -5,9 +5,8 @@
  * and location-specific planetary recommendations for food and cooking
  */
 
-import { PlanetData } from './types';
-
 import { planetInfo } from './index';
+import type { PlanetData } from './types';
 
 /**
  * Geographic coordinates interface

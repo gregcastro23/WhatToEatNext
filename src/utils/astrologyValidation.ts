@@ -1,5 +1,5 @@
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import { _logger } from '@/lib/logger';
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
 // Removed unused PlanetPosition import
 
@@ -173,8 +173,8 @@ export async function getValidationSummary(): Promise<string> {
       return;
     }
 
-    const calculated = planetData.calculated;
-    const reference = planetData.reference;
+    const {calculated} = planetData;
+    const {reference} = planetData;
     const planetAccurate = planetData.accurate;
 
     summary += `${planet.padEnd(10)}: ${planetAccurate ? '✓' : '✗'} `;

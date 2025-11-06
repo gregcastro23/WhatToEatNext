@@ -3,8 +3,8 @@
  * Implements secure token-based authentication with role-based access control
  */
 
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { logger } from '@/utils/logger';
 
 export interface AuthConfig {
@@ -84,8 +84,8 @@ export const ROLE_PERMISSIONS: RolePermissions = {
 };
 
 export class JWTAuthService {
-  private config: AuthConfig;
-  private users: Map<string, User> = new Map();
+  private readonly config: AuthConfig;
+  private readonly users: Map<string, User> = new Map();
 
   constructor(config: AuthConfig) {
     this.config = config;
@@ -96,7 +96,7 @@ export class JWTAuthService {
    * Initialize default users for development and testing
    */
   private initializeDefaultUsers(): void {
-    const defaultUsers: Omit<User, 'id'>[] = [
+    const defaultUsers: Array<Omit<User, 'id'>> = [
       {
         email: 'admin@alchm.kitchen',
         passwordHash: bcrypt.hashSync('admin123', 10),
@@ -281,7 +281,7 @@ export class JWTAuthService {
     const scopes = new Set<string>();
 
     roles.forEach(role => {
-      ROLE_PERMISSIONS[role]?.forEach(permission => {
+      ROLE_PERMISSIONS[role].forEach(permission => {
         scopes.add(permission);
       });
     });

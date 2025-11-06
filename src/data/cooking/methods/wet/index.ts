@@ -15,9 +15,9 @@ import { steaming } from './steaming';
  */
 export const _wetCookingMethods = {
   sous_vide: sousVide,
-  boiling: boiling,
-  steaming: steaming,
-  braising: braising,
+  boiling,
+  steaming,
+  braising,
   // Add other cooking methods as they are implemented
   poaching,
   simmering,

@@ -1,8 +1,9 @@
+import { NextResponse } from 'next/server';
 import { alchemize } from '@/constants/alchemicalPillars';
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import { logger } from '@/utils/logger';
 import { calculateAlchemicalFromPlanets } from '@/utils/planetaryAlchemyMapping';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest} from 'next/server';
 
 /**
  * GET /api/philosophers-stone/positions - Get planetary positions with alchemical calculations

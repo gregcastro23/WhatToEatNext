@@ -12,10 +12,9 @@ import {
     getSeasonalAnalysis,
     getTransitForDate
 } from '@/data/transits/comprehensiveTransitDatabase';
-import { CelestialPosition, Planet, ZodiacSign } from '@/types/celestial';
+import type { CelestialPosition, Planet, ZodiacSign } from '@/types/celestial';
 import { getFallbackPlanetaryPositions } from '@/utils/accurateAstronomy';
 import { createLogger } from '@/utils/logger';
-
 import { getCurrentPlanetaryPositions } from './astrologizeApi';
 import { swissEphemerisService } from './SwissEphemerisService';
 
@@ -48,10 +47,10 @@ export interface TransitAnalysis {
  * Enhanced Astrology Service Class
  */
 export class EnhancedAstrologyService {
-  private cache: Map<string, EnhancedAstrologicalData> = new Map();
-  private cacheExpiration = 10 * 60 * 1000; // 10 minutes
+  private readonly cache: Map<string, EnhancedAstrologicalData> = new Map();
+  private readonly cacheExpiration = 10 * 60 * 1000; // 10 minutes
   private lastAstrologizeCheck = 0;
-  private astrologizeCheckInterval = 5 * 60 * 1000; // 5 minutes
+  private readonly astrologizeCheckInterval = 5 * 60 * 1000; // 5 minutes
 
   constructor() {
     logger.info('Enhanced Astrology Service initialized with multi-source data integration');
@@ -104,10 +103,10 @@ export class EnhancedAstrologyService {
 
     return {
       currentSeason: currentSeason as unknown as Season,
-      upcomingTransits: (upcomingAnalysis?.seasons as unknown as Element[]) || [],
-      dominantElements: seasonalAnalysis?.dominantElements || {},
-      keyAspects: (seasonalAnalysis?.keyAspects as unknown as Planet[]) || [],
-      retrogradePlanets: seasonalAnalysis?.retrogradePlanets || [],
+      upcomingTransits: (upcomingAnalysis.seasons as unknown as Element[]) || [],
+      dominantElements: seasonalAnalysis.dominantElements || {},
+      keyAspects: (seasonalAnalysis.keyAspects as unknown as Planet[]) || [],
+      retrogradePlanets: seasonalAnalysis.retrogradePlanets || [],
       eclipseSeasons: [], // TODO: Implement eclipse season calculation
       majorTransits: [] // TODO: Implement major transit calculation
     };
@@ -125,7 +124,7 @@ export class EnhancedAstrologyService {
     alchemicalProperties: Record<string, number>;
   }> {
     const transitAnalysis = await this.getTransitAnalysis(date);
-    const currentSeason = transitAnalysis.currentSeason;
+    const {currentSeason} = transitAnalysis;
 
     if (!currentSeason) {
       // Fallback to basic seasonal analysis

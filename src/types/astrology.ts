@@ -3,7 +3,7 @@
  */
 
 // Import standardized types from alchemy
-import { LunarPhase } from '@/types/alchemy';
+import type { LunarPhase } from '@/types/alchemy';
 
 // Enhanced PlanetaryPositions interface with nodes
 export interface PlanetaryPositions {
@@ -24,15 +24,14 @@ export interface PlanetaryPositions {
   };
 }
 
-import { ElementalCharacter } from '../constants/planetaryElements';
-
-import {
+import type {
     AstrologicalStateType,
     ElementalPropertiesType,
     LunarPhaseType,
     PlanetaryPositionsType,
     ZodiacSignType
 } from './alchemy';
+import type { ElementalCharacter } from '../constants/planetaryElements';
 
 // ========== PHASE 1: ASTROLOGICAL TYPE ALIASES ==========
 
@@ -64,7 +63,7 @@ export type CompleteAstrologicalState = AstrologicalStateType;
  * Planetary Position Details
  * Enhanced planetary position with detailed information
  */
-export type PlanetaryPositionDetails = {
+export interface PlanetaryPositionDetails {
   planet: string;
   sign: string;
   degree: number;
@@ -72,7 +71,7 @@ export type PlanetaryPositionDetails = {
   isRetrograde?: boolean;
   element?: string;
   dignity?: string;
-};
+}
 
 /**
  * Astrological Aspect Types
@@ -90,38 +89,38 @@ export type AspectType =
  * Planetary Aspect Details
  * Complete information about planetary aspects
  */
-export type PlanetaryAspectDetails = {
+export interface PlanetaryAspectDetails {
   planetA: string;
   planetB: string;
   aspect: AspectType;
   orb: number;
   influence: 'harmonious' | 'challenging' | 'neutral';
   strength: number;
-};
+}
 
 /**
  * Birth Chart Data
  * Standardized birth chart information
  */
-export type BirthChartData = {
+export interface BirthChartData {
   elementalState: Record<ElementalCharacter, number>;
   planetaryPositions: Record<string, number>;
   ascendant: string;
   lunarPhase: string;
   aspects: PlanetaryAspectDetails[];
-};
+}
 
 /**
  * Astrological Profile Type
  * Complete astrological profile for ingredients or individuals
  */
-export type AstrologicalProfileType = {
+export interface AstrologicalProfileType {
   zodiac?: StandardZodiacSign[];
   lunar?: StandardLunarPhase[];
   planetary?: PlanetaryPositionDetails[];
   aspects?: PlanetaryAspectDetails[];
   elementalInfluence?: ElementalPropertiesType;
-};
+}
 
 // ========== EXISTING TYPES (Updated to use new aliases) ==========
 

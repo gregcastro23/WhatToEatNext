@@ -1,6 +1,5 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
-
 import { berries } from './berries';
 import { citrus } from './citrus';
 import { melons } from './melons';
@@ -22,37 +21,37 @@ export const fruits: Record<string, IngredientMapping> = fixIngredientMappings({
 export { berries, citrus, melons, pome, stoneFruit, tropical };
 
 // Helper functions
-export const getFruitsBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {
+export const getFruitsBySubCategory = (subCategory: string): Record<string, IngredientMapping> => 
   // ✅ Pattern MM-1: Safe type assertion for subcategory filtering
-  return Object.entries(fruits)
+   Object.entries(fruits)
     .filter(([_, value]) => {
       const fruitData = value as unknown as any;
       return String(fruitData.subCategory || '') === String(subCategory || '');
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
-};
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+;
 
-export const getSeasonalFruits = (season: string): Record<string, IngredientMapping> => {
+export const getSeasonalFruits = (season: string): Record<string, IngredientMapping> => 
   // ✅ Pattern MM-1: Safe type assertion for seasonal filtering
-  return Object.entries(fruits)
+   Object.entries(fruits)
     .filter(([_, value]) => {
       const fruitData = value as unknown as any;
       const seasonData = fruitData.season;
       return Array.isArray(seasonData) && seasonData.includes(String(season || ''));
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
-};
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+;
 
-export const getFruitsByPreparation = (method: string): Record<string, IngredientMapping> => {
+export const getFruitsByPreparation = (method: string): Record<string, IngredientMapping> => 
   // ✅ Pattern MM-1: Safe type assertion for preparation filtering
-  return Object.entries(fruits)
+   Object.entries(fruits)
     .filter(([_, value]) => {
       const fruitData = value as unknown as any;
       const preparationData = fruitData.preparation as unknown;
       return preparationData && preparationData[String(method || '')]
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
-};
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+;
 
 export const findCompatibleFruits = (ingredientName: string): string[] => {
   // ✅ Pattern MM-1: Safe type assertion for fruit data access
@@ -68,7 +67,7 @@ export type FruitSubCategory = 'citrus' | 'berry' | 'tropical' | 'stone fruit' |
 export type FruitRipeness = 'unripe' | 'ripe' | 'very ripe'
 export type FruitTexture = 'firm' | 'soft' | 'juicy' | 'crisp' | 'creamy'
 // Update type definitions
-export type FruitAstrologicalProfile = {
+export interface FruitAstrologicalProfile {
   rulingPlanets: string[],
   favorableZodiac: string[],
   elementalAffinity: {
@@ -79,26 +78,26 @@ export type FruitAstrologicalProfile = {
       third: { element: string, planet: string };
     };
   };
-};
+}
 
 // Add new helper functions
-export const getFruitsByRulingPlanet = (planet: string): Record<string, IngredientMapping> => {
+export const getFruitsByRulingPlanet = (planet: string): Record<string, IngredientMapping> => 
   // ✅ Pattern MM-1: Safe type assertion for astrological filtering
-  return Object.entries(fruits)
+   Object.entries(fruits)
     .filter(([_, value]) => {
       const fruitData = value as unknown as any;
       const astroProfile = fruitData.astrologicalProfile as unknown;
-      const rulingPlanets = astroProfile.rulingPlanets;
+      const {rulingPlanets} = astroProfile;
       return Array.isArray(rulingPlanets) && rulingPlanets.includes(String(planet || ''));
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
-};
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+;
 
 export const getFruitsByElementalAffinity = (
   element: string,
-): Record<string, IngredientMapping> => {
+): Record<string, IngredientMapping> => 
   // ✅ Pattern MM-1: Safe type assertion for elemental affinity filtering
-  return Object.entries(fruits)
+   Object.entries(fruits)
     .filter(([_, value]) => {
       const fruitData = value as unknown as any;
       const astroProfile = fruitData.astrologicalProfile as unknown;
@@ -111,8 +110,8 @@ export const getFruitsByElementalAffinity = (
         return String(affinityData.base || '') === String(element || '');
       }
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
-};
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+;
 
 // Add new validation function
 export const isValidFruitAstrologicalProfile = (
@@ -578,7 +577,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
           method,
           itemCount: methodCount,
           percentage: integrity,
-          integrity: integrity
+          integrity
         };
       }),
       functionalMetrics: {
@@ -835,7 +834,7 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
         ).length / sampleFruits.length,
       poorlyConnected: compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount < 2).length /
         sampleFruits.length,
-      isolatedFruits: isolatedFruits,
+      isolatedFruits,
       networkCohesion: compatibilityMetrics.networkConnectivity * compatibilityMetrics.reciprocityScore,
       connectivityDistribution:
         compatibilityMetrics.networkDensity * compatibilityMetrics.compatibilityBalance,

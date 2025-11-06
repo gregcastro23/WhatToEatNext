@@ -1,8 +1,8 @@
 'use client';
-import React, { useState, useCallback, useEffect } from 'react';
-
+import { useState, useCallback, useEffect } from 'react';
 import handleError, { ErrorType, ErrorSeverity } from '../utils/errorHandler';
 import { createLogger } from '../utils/logger';
+import type React from 'react';
 // Logger instance
 const logger = createLogger('useErrorHandler')
 // Component props

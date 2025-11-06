@@ -223,7 +223,7 @@ export function getCulturalSignificance(
     }
   };
 
-  const planetSignificance = significanceMap[planet]?.[dominantSign];
+  const planetSignificance = significanceMap[planet][dominantSign];
   if (!planetSignificance) return undefined;
 
   // Adjust significance based on strength
@@ -420,7 +420,7 @@ export function validatePlanetaryAnalysisInputs(recipes: RecipeComputedPropertie
   // Check for planetary position data
   let recipesWithPositions = 0;
   recipes.forEach((recipe, index) => {
-    const positions = recipe.computationMetadata?.planetaryPositionsUsed;
+    const positions = recipe.computationMetadata.planetaryPositionsUsed;
     if (!positions) {
       errors.push(`Recipe ${index} missing planetary position data`);
     } else {

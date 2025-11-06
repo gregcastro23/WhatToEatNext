@@ -18,9 +18,10 @@
 //     getDatesForZodiacDegree,
 //     getZodiacPositionForDate
 // } from '@/services/vsop87EphemerisService';
+import { NextResponse } from 'next/server';
 import { compareSolarAccuracy } from '@/utils/accurateAstronomy';
 import { createLogger } from '@/utils/logger';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest} from 'next/server';
 
 const logger = createLogger('ZodiacCalendarAPI');
 

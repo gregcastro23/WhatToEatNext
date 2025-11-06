@@ -19,7 +19,6 @@ import type { ZodiacSign } from '@/types/zodiac';
 // TODO: Fix import - add what to import from './ingredients.ts'
 // TODO: Fix import - add what to import from './seasonal.ts'
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
-
 import { calculateKalchm, _, _ } from './alchemicalCalculations';
 
 // ===== ENHANCED NUTRITIONAL INTERFACES =====
@@ -357,7 +356,7 @@ export class UnifiedNutritionalSystem {
     kalchmHarmony: number,
     seasonalAlignment: number,
     planetaryResonance: number,
-    elementalBalance: number = 0.5
+    elementalBalance = 0.5
   ): string[] {
     const recommendations: string[] = [];
 
@@ -619,13 +618,11 @@ export const _getPlanetaryNutritionalRecommendations = (
   focusNutrients: string[];
   healthAreas: string[];
   recommendedFoods: string[];
-} => {
-  return {
+} => ({
     focusNutrients: ['elemental_balance'],
     healthAreas: ['overall_vitality'],
     recommendedFoods: ['planetary_foods']
-  }
-}
+  })
 
 export const _getEnhancedPlanetaryNutritionalRecommendations = (
   planetaryDay: string,
@@ -636,14 +633,12 @@ export const _getEnhancedPlanetaryNutritionalRecommendations = (
   focusNutrients: string[];
   healthAreas: string[];
   recommendedFoods: string[];
-} => {
-  return {
+} => ({
     elements: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
     focusNutrients: ['planetary_alignment'],
     healthAreas: ['temporal_health'],
     recommendedFoods: ['time_aligned_foods']
-  }
-}
+  })
 
 export const _getSeasonalNutritionalRecommendations = (
   season: string

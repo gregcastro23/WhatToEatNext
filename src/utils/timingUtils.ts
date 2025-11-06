@@ -1,6 +1,5 @@
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import type { ElementalProperties } from '@/types/alchemy';
-
 import { elementalUtils } from './elementalUtils';
 
 // Define TimingResult interface
@@ -50,11 +49,12 @@ export const timingUtils = {
   calculateBaseTiming(ingredients: ElementalProperties[], cookingMethod: string): TimingResult {
     const baseProperties = ingredients.reduce(
       (acc, curr) => elementalUtils.combineProperties(acc, curr),
-      elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES
+      elementalUtils.getDefaultElementalProperties()
     );
 
     // Implement getDominantElement directly
-    const dominantElement = Object.entries(baseProperties).reduce((a, b) =>
+    const entries = Object.entries(baseProperties) as [string, number][];
+    const dominantElement = entries.reduce((a, b) =>
       a[1] > b[1] ? a : b
     )[0];
 

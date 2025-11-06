@@ -1,4 +1,4 @@
-import { RulingPlanet, ElementalCharacter, Season } from '../types/wiccan';
+import type { RulingPlanet, ElementalCharacter, Season } from '../types/wiccan';
 
 interface WiccanProperties {
   magicalAttributes: string[],

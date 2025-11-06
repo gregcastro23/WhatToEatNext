@@ -21,8 +21,8 @@ export function getSunPosition(
 
     // Convert to our format and add some additional calculations
     // SunCalc gives azimuth (direction) and altitude (height)
-    const azimuth = sunPosition.azimuth;
-    const altitude = sunPosition.altitude;
+    const {azimuth} = sunPosition;
+    const {altitude} = sunPosition;
 
     // Calculate declination (position north/south of celestial equator)
     const declination = Math.asin(

@@ -6,7 +6,8 @@
  * error handling, and environment configuration for alchm.kitchen
  */
 
-import { Pool, PoolClient, QueryResult, types } from 'pg';
+import type { PoolClient, QueryResult} from 'pg';
+import { Pool, types } from 'pg';
 import { logger } from '../logger';
 
 // Configure PostgreSQL type parsers for better type safety
@@ -229,8 +230,8 @@ export async function executeQuery<T = any>(query: string,
 export async function executeQueryWithRetry<T = any>(
   query: string,
   params: any[] = [],
-  maxRetries: number = 3,
-  retryDelay: number = 1000
+  maxRetries = 3,
+  retryDelay = 1000
 ): Promise<QueryResult<T>> {
   let lastError: Error;
 

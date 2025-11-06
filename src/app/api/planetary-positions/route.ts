@@ -1,6 +1,5 @@
-import { _logger } from '@/lib/logger';
 import { NextResponse } from 'next/server';
-
+import { _logger } from '@/lib/logger';
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import { calculateAspects, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
 import { cache } from '@/utils/cache';

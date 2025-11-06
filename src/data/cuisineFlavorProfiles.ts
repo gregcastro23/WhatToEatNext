@@ -3,7 +3,7 @@ import { american } from '@/data/cuisines/american';
 import { LocalRecipeService } from '@/services/LocalRecipeService';
 import { log } from '@/services/LoggingService';
 import type { ElementalProperties } from '@/types/alchemy';
-import { Recipe } from '@/types/unified';
+import type { Recipe } from '@/types/unified';
 
 export interface CuisineFlavorProfile {
   id: string;
@@ -553,7 +553,7 @@ export const calculateCuisineFlavorMatch = (
  */
 export const _getRecommendedCuisines = (
   recipeFlavorProfile: Record<string, number>
-): { cuisine: string, matchScore: number }[] => {
+): Array<{ cuisine: string, matchScore: number }> => {
   const results = Object.entries(cuisineFlavorProfiles)
     .map(([cuisineName, _profile]) => {
       // Skip child cuisines that have a parent - will handle them separately
@@ -566,18 +566,18 @@ export const _getRecommendedCuisines = (
         isParent: !!_profile.regionalVariants?.length
       }
     })
-    .filter(result => result !== null && result.matchScore > 0.6) as {
+    .filter(result => result !== null && result.matchScore > 0.6) as Array<{
     cuisine: string,
     matchScore: number,
     isParent: boolean
-  }[],
+  }>,
 
   // Add regional variants with good matches
-  const regionalResults: {
+  const regionalResults: Array<{
     cuisine: string,
     matchScore: number,
     isParent: boolean
-  }[] = [];
+  }> = [];
 
   Object.entries(cuisineFlavorProfiles)
     .filter(([_, _profile]) => _profile.parentCuisine)
@@ -649,7 +649,7 @@ export const _getFusionSuggestions = (
   ];
 
   return {
-    compatibility: compatibility,
+    compatibility,
     techniques,
     ingredients
   }
@@ -786,10 +786,10 @@ export function getRecipesForCuisineMatch(
         LocalRecipeService.clearCache();
         const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
         log.info(
-          `LocalRecipeService returned ${localRecipes?.length || 0} recipes for ${cuisineName}`
+          `LocalRecipeService returned ${localRecipes.length || 0} recipes for ${cuisineName}`
         );
 
-        if (localRecipes?.length > 0) {
+        if (localRecipes.length > 0) {
           // Apply high match scores to local recipes
           return localRecipes
             .map(recipe => ({
@@ -803,7 +803,7 @@ export function getRecipesForCuisineMatch(
         // If LocalRecipeService didn't work, try direct import
         const cuisine = normalizedCuisineName === 'american' ? american : african;
 
-        if (cuisine?.dishes) {
+        if (cuisine.dishes) {
           log.info(`Direct import successful for ${cuisineName}, extracting recipes from dishes`);
 
           // Extract recipes from all meal types
@@ -877,10 +877,10 @@ export function getRecipesForCuisineMatch(
         // Use ESM import at top
         const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
         log.info(
-          `Fetched ${localRecipes?.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`
+          `Fetched ${localRecipes.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`
         );
 
-        if (localRecipes?.length > 0) {
+        if (localRecipes.length > 0) {
           // Apply high match scores to local recipes
           return localRecipes
             .map(recipe => ({
@@ -1062,12 +1062,12 @@ export function getRecipesForCuisineMatch(
     // Remove duplicates by name
     const uniqueMatches = allMatches.filter((recipe, index, self) => {
       const recipeData = recipe as unknown;
-      return index === self.findIndex(r => (r as any).name === (recipeData as any).name);
+      return index === self.findIndex(r => (r ).name === (recipeData as any).name);
     });
 
     // Sort by match score
     const sortedMatches = uniqueMatches.sort((a, b) =>
-      Number((b as any).matchScore || 0) - Number((a as any).matchScore || 0)
+      Number((b ).matchScore || 0) - Number((a ).matchScore || 0)
     );
 
     log.info(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`)
@@ -1224,7 +1224,7 @@ export const calculateSimilarityScore = (
   let count = 0;
 
   // Compare elemental properties
-  const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
+  const elements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'];
 
   elements.forEach(element => {
     const val1 = elementalProps1[element] || 0;

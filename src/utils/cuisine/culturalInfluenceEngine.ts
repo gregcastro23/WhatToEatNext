@@ -299,12 +299,12 @@ function normalizeElementalProperties(properties: ElementalProperties): Elementa
 
   // Scale to sum to 1.0
   if (sum > 0) {
-    (Object.keys(properties) as (keyof ElementalProperties)[]).forEach(key => {
+    (Object.keys(properties) as Array<keyof ElementalProperties>).forEach(key => {
       normalized[key] = properties[key] / sum;
     });
   } else {
     // Fallback to equal distribution
-    (Object.keys(normalized) as (keyof ElementalProperties)[]).forEach(key => {
+    (Object.keys(normalized) as Array<keyof ElementalProperties>).forEach(key => {
       normalized[key] = 0.25;
     });
   }

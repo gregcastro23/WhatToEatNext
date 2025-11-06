@@ -38,4 +38,5 @@ export * from './elementalProperties';
 
 // Re-export the main index as default
 import * as ingredientData from './index';
+
 export default ingredientData;

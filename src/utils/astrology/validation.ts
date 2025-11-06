@@ -8,7 +8,7 @@ import type {
   PlanetaryAspect,
   ZodiacSign
 } from '@/types/alchemy';
-import { CelestialPosition } from '@/types/celestial';
+import type { CelestialPosition } from '@/types/celestial';
 
 /**
  * A utility function for logging debug information
@@ -381,7 +381,7 @@ export function calculateAspectStrength(type: AspectType, orb: number): number {
     biquintile: { angle: 144, maxOrb: 3 }
   };
 
-  const maxOrb = aspectDefinitions[type].maxOrb;
+  const {maxOrb} = aspectDefinitions[type];
 
   // Calculate strength based on orb (linear falloff)
   // The closer to exact aspect (smaller orb), the stronger the aspect

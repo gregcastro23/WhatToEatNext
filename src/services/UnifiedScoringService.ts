@@ -11,8 +11,9 @@
  */
 
 import { log } from '@/services/LoggingService';
-
-import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
+import { PlanetaryLocationService } from '../data/planets/locationService';
+import { getCurrentAlchemicalState } from './RealAlchemizeService';
+import type { GeographicCoordinates} from '../data/planets/locationService';
 import type { ElementalProperties } from '../types/alchemy';
 import type {
   AspectType,
@@ -23,7 +24,6 @@ import type {
 } from '../types/celestial';
 import type { CuisineType, DietaryRestriction, Season } from '../types/constants';
 
-import { getCurrentAlchemicalState } from './RealAlchemizeService';
 
 // Add missing ScoringWeights type
 interface ScoringWeights {
@@ -298,7 +298,7 @@ export function calculateLunarPhaseEffect(
   astroData: AstrologicalData,
   _context: ScoringContext
 ): number {
-  const lunarPhase = astroData.lunarPhase;
+  const {lunarPhase} = astroData;
   const itemType = _context.item.type;
 
   // Lunar phase modifiers (using standard lowercase format)
@@ -509,7 +509,7 @@ export function calculateKalchmResonance(
   _context: ScoringContext
 ): number {
   const currentState = getCurrentAlchemicalState();
-  const kalchm = currentState.kalchm;
+  const {kalchm} = currentState;
 
   // Higher Kalchm values favor transformation and fermentation
   if (kalchm > 2.0) {
@@ -529,7 +529,7 @@ export function calculateMonicaOptimization(
   _context: ScoringContext
 ): number {
   const currentState = getCurrentAlchemicalState();
-  const monica = currentState.monica;
+  const {monica} = currentState;
 
   // Monica constant affects optimization and efficiency
   if (monica > 1.5) {
@@ -820,7 +820,7 @@ export class UnifiedScoringService {
    * Calculate confidence in the result
    */
   private calculateConfidence(astroData: AstrologicalData, context: ScoringContext): number {
-    let confidence = astroData.confidence;
+    let {confidence} = astroData;
 
     // Reduce confidence if missing key data
     if (!context.location) confidence -= 0.1;
@@ -901,6 +901,4 @@ export class UnifiedScoringService {
 }
 
 // Export convenience function
-export const scoreRecommendation = (context: ScoringContext): Promise<ScoringResult> => {
-  return UnifiedScoringService.getInstance().scoreRecommendation(context);
-}
+export const scoreRecommendation = (context: ScoringContext): Promise<ScoringResult> => UnifiedScoringService.getInstance().scoreRecommendation(context)

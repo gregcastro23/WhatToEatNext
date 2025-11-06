@@ -1,13 +1,14 @@
-import {
-  _,
+import type {
   ElementalProperties,
   AlchemicalValues,
   ChakraEnergies,
-  LunarPhase,
+  LunarPhase} from '@/types/alchemy';
+import {
+  _,
   _,
   _
 } from '@/types/alchemy';
-import {
+import type {
   PlanetaryAlignment,
   AstrologicalState,
   CelestialPosition,

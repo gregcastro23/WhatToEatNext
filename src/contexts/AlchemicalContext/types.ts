@@ -1,10 +1,10 @@
 'use client';
 
-import {
+import type {
     AlchemicalState as BaseAlchemicalState,
     AstrologicalState as BaseAstrologicalState
 } from '@/types/alchemical';
-import {
+import type {
     CelestialPosition
 } from '@/types/celestial';
 

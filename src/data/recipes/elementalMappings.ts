@@ -2,7 +2,8 @@ import { ELEMENTAL_CHARACTERISTICS } from '@/constants/elementalConstants';
 import { cookingMethods } from '@/data/cooking';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import { ElementalRecommendationService } from '@/services/ElementalRecommendationService';
-import { AstrologicalInfluence, _ZodiacSign, _ } from '@/types/alchemy';
+import type { AstrologicalInfluence} from '@/types/alchemy';
+import { _ZodiacSign, _ } from '@/types/alchemy';
 import type { RecipeElementalMapping } from '@/types/recipes';
 
 export { ELEMENTAL_CHARACTERISTICS };

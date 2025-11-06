@@ -14,12 +14,12 @@ export type ZodiacSign =
   | 'pisces';
 
 // Elemental Properties
-export type ElementalProperties = {
+export interface ElementalProperties {
   Fire: number;
   Earth: number;
   Air: number;
   Water: number;
-};
+}
 
 // Zodiac Date Ranges
 export const zodiacDateRanges: Record<
@@ -72,9 +72,7 @@ export const _getZodiacSign = (date: Date): any => {
   return 'capricorn';
 }
 
-export const _getElementalAffinity = (sign: any): keyof ElementalProperties => {
-  return zodiacElements[sign];
-}
+export const _getElementalAffinity = (sign: any): keyof ElementalProperties => zodiacElements[sign]
 
 // Elemental Compatibility
 export const _elementalCompatibility: Record<

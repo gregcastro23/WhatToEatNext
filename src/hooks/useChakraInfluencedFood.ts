@@ -15,7 +15,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-
 import type { Ingredient, ElementalProperties } from '@/types/alchemy';
 import { calculateAlchemicalFromPlanets } from '@/utils/planetaryAlchemyMapping';
 
@@ -314,8 +313,7 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
    * Get recommendations for a specific chakra
    */
   const getRecommendationsForChakra = useCallback(
-    (chakra: ChakraType): Ingredient[] => {
-      return availableIngredients
+    (chakra: ChakraType): Ingredient[] => availableIngredients
         .map(ingredient => ({
           ingredient,
           affinity: calculateChakraAffinity(ingredient, chakra)
@@ -323,8 +321,7 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
         .filter(item => item.affinity > 0.3)
         .sort((a, b) => b.affinity - a.affinity)
         .slice(0, 5)
-        .map(item => item.ingredient);
-    },
+        .map(item => item.ingredient),
     [availableIngredients, calculateChakraAffinity]
   );
 

@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 
 interface KalchmRecommenderProps {
   maxRecommendations?: number;
@@ -179,7 +179,7 @@ export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
     return (
       <div className="flex items-center justify-center p-12">
         <div className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-4 border-indigo-600"></div>
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-4 border-indigo-600" />
           <p className="text-gray-600">Calculating alchemical recommendations...</p>
         </div>
       </div>

@@ -32,11 +32,11 @@ export interface PerformanceAlert {
 }
 
 class PerformanceMonitoringService {
-  private componentMetrics: Map<string, ComponentMetrics> = new Map()
+  private readonly componentMetrics: Map<string, ComponentMetrics> = new Map()
   private systemMetrics: SystemMetrics;
   private alerts: PerformanceAlert[] = [];
   private startTime: number = Date.now()
-  private subscribers: Set<(data: unknown) => void> = new Set()
+  private readonly subscribers: Set<(data: unknown) => void> = new Set()
 
   // Performance thresholds;
   private readonly RENDER_TIME_WARNING = 16; // 60fps threshold

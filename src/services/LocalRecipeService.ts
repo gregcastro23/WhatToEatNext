@@ -190,48 +190,48 @@ export class LocalRecipeService {
                 : 'none',
               breakfast: (() => {
                 const dishes = directCuisine.dishes as any;
-                const breakfast = dishes.breakfast as any;
+                const {breakfast} = dishes ;
                 const breakfastAll = breakfast.all;
                 if (Array.isArray(breakfastAll)) return breakfastAll.length;
-                const dishesBreakfast = dishes.dishes as any;
+                const dishesBreakfast = dishes.dishes ;
                 // Apply Pattern GG-6: Enhanced property access with type guards
-                const breakfastData = dishesBreakfast.breakfast as any;
+                const breakfastData = dishesBreakfast.breakfast ;
                 const dishesBreakfastAll = breakfastData.all;
                 if (Array.isArray(dishesBreakfastAll)) return dishesBreakfastAll.length;
                 return 0;
               })(),
               lunch: (() => {
                 const dishes = directCuisine.dishes as any;
-                const lunch = dishes.lunch as any;
+                const {lunch} = dishes ;
                 const lunchAll = lunch.all;
                 if (Array.isArray(lunchAll)) return lunchAll.length;
-                const dishesLunch = dishes.dishes as any;
+                const dishesLunch = dishes.dishes ;
                 // Apply Pattern GG-6: Enhanced property access with type guards
-                const lunchData = dishesLunch.lunch as any;
+                const lunchData = dishesLunch.lunch ;
                 const dishesLunchAll = lunchData.all;
                 if (Array.isArray(dishesLunchAll)) return dishesLunchAll.length;
                 return 0;
               })(),
               dinner: (() => {
                 const dishes = directCuisine.dishes as any;
-                const dinner = dishes.dinner as any;
+                const {dinner} = dishes ;
                 const dinnerAll = dinner.all;
                 if (Array.isArray(dinnerAll)) return dinnerAll.length;
-                const dishesDinner = dishes.dishes as any;
+                const dishesDinner = dishes.dishes ;
                 // Apply Pattern GG-6: Enhanced property access with type guards
-                const dinnerData = dishesDinner.dinner as any;
+                const dinnerData = dishesDinner.dinner ;
                 const dishesDinnerAll = dinnerData.all;
                 if (Array.isArray(dishesDinnerAll)) return dishesDinnerAll.length;
                 return 0;
               })(),
               dessert: (() => {
                 const dishes = directCuisine.dishes as any;
-                const dessert = dishes.dessert as any;
+                const {dessert} = dishes ;
                 const dessertAll = dessert.all;
                 if (Array.isArray(dessertAll)) return dessertAll.length;
-                const dishesDessert = dishes.dishes as any;
+                const dishesDessert = dishes.dishes ;
                 // Apply Pattern GG-6: Enhanced property access with type guards
-                const dessertData = dishesDessert.dessert as any;
+                const dessertData = dishesDessert.dessert ;
                 const dishesDessertAll = dessertData.all;
                 if (Array.isArray(dishesDessertAll)) return dishesDessertAll.length;
                 return 0;
@@ -301,48 +301,48 @@ export class LocalRecipeService {
             dishesKeys: Object.keys(cuisine.dishes || {}),
             breakfastAllLength: (() => {
               const dishes = cuisine.dishes as any;
-              const breakfast = dishes.breakfast as any;
+              const {breakfast} = dishes ;
               const breakfastAll = breakfast.all;
               if (Array.isArray(breakfastAll)) return breakfastAll.length;
-              const dishesBreakfast = dishes.dishes as any;
+              const dishesBreakfast = dishes.dishes ;
               // Apply Pattern GG-6: Enhanced property access with type guards
-              const breakfastData = dishesBreakfast.breakfast as any;
+              const breakfastData = dishesBreakfast.breakfast ;
               const dishesBreakfastAll = breakfastData.all;
               if (Array.isArray(dishesBreakfastAll)) return dishesBreakfastAll.length;
               return 0;
             })(),
             lunchAllLength: (() => {
               const dishes = cuisine.dishes as any;
-              const lunch = dishes.lunch as any;
+              const {lunch} = dishes ;
               const lunchAll = lunch.all;
               if (Array.isArray(lunchAll)) return lunchAll.length;
-              const dishesLunch = dishes.dishes as any;
+              const dishesLunch = dishes.dishes ;
               // Apply Pattern GG-6: Enhanced property access with type guards
-              const lunchData = dishesLunch.lunch as any;
+              const lunchData = dishesLunch.lunch ;
               const dishesLunchAll = lunchData.all;
               if (Array.isArray(dishesLunchAll)) return dishesLunchAll.length;
               return 0;
             })(),
             dinnerAllLength: (() => {
               const dishes = cuisine.dishes as any;
-              const dinner = dishes.dinner as any;
+              const {dinner} = dishes ;
               const dinnerAll = dinner.all;
               if (Array.isArray(dinnerAll)) return dinnerAll.length;
-              const dishesDinner = dishes.dishes as any;
+              const dishesDinner = dishes.dishes ;
               // Apply Pattern GG-6: Enhanced property access with type guards
-              const dinnerData = dishesDinner.dinner as any;
+              const dinnerData = dishesDinner.dinner ;
               const dishesDinnerAll = dinnerData.all;
               if (Array.isArray(dishesDinnerAll)) return dishesDinnerAll.length;
               return 0;
             })(),
             dessertAllLength: (() => {
               const dishes = cuisine.dishes as any;
-              const dessert = dishes.dessert as any;
+              const {dessert} = dishes ;
               const dessertAll = dessert.all;
               if (Array.isArray(dessertAll)) return dessertAll.length;
-              const dishesDessert = dishes.dishes as any;
+              const dishesDessert = dishes.dishes ;
               // Apply Pattern GG-6: Enhanced property access with type guards
-              const dessertData = dishesDessert.dessert as any;
+              const dessertData = dishesDessert.dessert ;
               const dishesDessertAll = dessertData.all;
               if (Array.isArray(dishesDessertAll)) return dishesDessertAll.length;
               return 0;
@@ -353,9 +353,9 @@ export class LocalRecipeService {
         // Check if 'all' arrays actually contain recipes with safe type casting
         const dishesData = cuisine.dishes as any;
         // Apply Pattern GG-6: Enhanced property access with type guards
-        const breakfastData = dishesData.breakfast as any;
-        const dishesNested = dishesData.dishes as any;
-        const breakfastNestedData = dishesNested.breakfast as any;
+        const breakfastData = dishesData.breakfast ;
+        const dishesNested = dishesData.dishes ;
+        const breakfastNestedData = dishesNested.breakfast ;
         const breakfastAll = breakfastData.all || breakfastNestedData.all;
         if (Array.isArray(breakfastAll) && breakfastAll.length > 0) {
           logger.debug('Sample breakfast recipe: ', JSON.stringify((breakfastAll as unknown[])[0]));
@@ -425,7 +425,7 @@ export class LocalRecipeService {
             logger.debug(`Found ${seasonRecipes.length} dishes for ${season} in ${mealType}`);
             // Add only unique recipes based on name to avoid duplicates from 'all' merging
             seasonRecipes.forEach(dish => {
-              if (dish?.name && !recipes.some(r => r.name === dish.name)) {
+              if (dish.name && !recipes.some(r => r.name === dish.name)) {
                 recipes.push(this.standardizeRecipe(dish, cuisine.name, [season], [mealType]));
               }
             });
@@ -602,7 +602,7 @@ export class LocalRecipeService {
         : undefined;
 
       // Process substitutions
-      let substitutions: { original: string; alternatives: string[] }[] = [];
+      let substitutions: Array<{ original: string; alternatives: string[] }> = [];
       if (dish.substitutions && typeof dish.substitutions === 'object') {
         // Convert from {ingredient: [alternatives]} format
         substitutions = Object.entries(dish.substitutions).map(([original, alternatives]) => ({
@@ -620,18 +620,18 @@ export class LocalRecipeService {
         name: dish.name,
         description: dish.description || '',
         cuisine: cuisineName,
-        ingredients: ingredients,
-        instructions: instructions,
-        timeToMake: timeToMake,
+        ingredients,
+        instructions,
+        timeToMake,
         numberOfServings: typeof servingSize === 'number' ? servingSize : parseInt(servingSize) || 4,
-        elementalProperties: elementalProperties,
+        elementalProperties,
         season: Array.isArray(dish.season) ? dish.season : seasons,
         mealType: Array.isArray(dish.mealType) ? dish.mealType : mealTypes,
         isVegetarian: dish.isVegetarian || dish.dietaryInfo?.includes('vegetarian') || false,
         isVegan: dish.isVegan || dish.dietaryInfo?.includes('vegan') || false,
         isGlutenFree: dish.isGlutenFree || dish.dietaryInfo?.includes('gluten-free') || false,
         isDairyFree: dish.isDairyFree || dish.dietaryInfo?.includes('dairy-free') || false,
-        nutrition: nutrition,
+        nutrition,
         astrologicalInfluences: Array.isArray(dish.astrologicalInfluences)
           ? dish.astrologicalInfluences
           : [],
@@ -647,7 +647,7 @@ export class LocalRecipeService {
         },
         cookingMethods: Array.isArray(dish.cookingMethods) ? dish.cookingMethods : [],
         // New fields
-        substitutions: substitutions,
+        substitutions,
         tools: Array.isArray(dish.tools) ? dish.tools : [],
         servingSize: typeof servingSize === 'number' ? servingSize : parseInt(servingSize) || 4,
         spiceLevel: dish.spiceLevel === 'hot' ||
@@ -706,7 +706,7 @@ export class LocalRecipeService {
           for (const ingredient of recipe.ingredients) {
             const ingredientName = typeof ingredient === 'string' ? ingredient : ingredient.name;
 
-            if (ingredientName?.toLowerCase().includes(normalizedQuery)) {
+            if (ingredientName.toLowerCase().includes(normalizedQuery)) {
               return true;
             }
           }

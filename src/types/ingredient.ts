@@ -6,7 +6,6 @@ import type {
   ThermodynamicProperties,
   Modality
 } from '@/data/ingredients/types';
-
 import type { ElementalProperties } from './alchemy';
 import type { ZodiacSign, LunarPhase, PlanetaryAlignment } from './astrology';
 

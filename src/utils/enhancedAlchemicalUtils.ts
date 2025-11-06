@@ -1,11 +1,9 @@
-import { AlchemicalResult, ElementalProperties, ZodiacSign } from '@/types/alchemy';
-
+import type { AlchemicalResult, ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import {
   calculateAlchemicalCompatibility,
   calculateAstrologicalAffinity,
   validateAlgorithms
 } from '../calculations/enhancedAlchemicalMatching';
-
 import { getZodiacElementalInfluence } from './zodiacUtils';
 
 /**
@@ -129,7 +127,7 @@ export function generatePersonalizedMealPlan(
   // Return a simple placeholder instead
   return {
     _message: 'Recipe generation is deactivated. Using existing recipes instead.',
-    dominant: dominant
+    dominant
   }
 
   /* Original implementation commented out

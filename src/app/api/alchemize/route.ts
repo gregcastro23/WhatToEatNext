@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server';
-
 import {
   getCurrentPlanetaryPositions,
   getPlanetaryPositionsForDateTime
 } from '@/services/astrologizeApi';
 import { onAlchemizeApiCall, updateCurrentMoment } from '@/services/CurrentMomentManager';
 import { alchemize } from '@/services/RealAlchemizeService';
-import { PlanetPosition } from '@/utils/astrologyUtils';
+import type { PlanetPosition } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
 
 const logger = createLogger('AlchemizeAPI');

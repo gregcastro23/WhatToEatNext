@@ -2,7 +2,7 @@
  * Type definitions for Predictive Intelligence Service
  */
 
-import { ElementalProperties, Ingredient, Recipe } from './unified';
+import type { ElementalProperties, Ingredient, Recipe } from './unified';
 
 export interface PredictiveContext {
   _zodiacSign: any,

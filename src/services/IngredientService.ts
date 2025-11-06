@@ -1,15 +1,16 @@
-import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import { unifiedIngredients } from '@/data/unified/ingredients';
+import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type {
     ElementalProperties,
     PlanetName,
     Season,
     ThermodynamicMetrics
 } from '@/types/alchemy';
-import { Recipe } from '@/types/unified';
+import type { Recipe } from '@/types/unified';
 import { logger } from '@/utils/logger';
 
 // Import the ingredient service interface
-import {
+import type {
     ElementalFilter,
     IngredientFilter,
     IngredientRecommendationOptions,
@@ -17,7 +18,6 @@ import {
 } from './interfaces/IngredientServiceInterface';
 
 // Import unified ingredient data
-import { unifiedIngredients } from '@/data/unified/ingredients';
 
 /**
  * Consolidated Ingredient Service
@@ -133,7 +133,7 @@ export class IngredientService implements IngredientServiceInterface {
       const query = filter.searchQuery.toLowerCase();
       filteredIngredients = filteredIngredients.filter(ingredient =>
         ingredient.name.toLowerCase().includes(query) ||
-        ingredient.category?.toLowerCase().includes(query) ||
+        ingredient.category.toLowerCase().includes(query) ||
         ingredient.subcategory?.toLowerCase().includes(query)
       );
     }
@@ -142,7 +142,7 @@ export class IngredientService implements IngredientServiceInterface {
     if (filter.categories && filter.categories.length > 0) {
       filteredIngredients = filteredIngredients.filter(ingredient =>
         filter.categories!.some(cat =>
-          ingredient.category?.toLowerCase().includes(cat.toLowerCase())
+          ingredient.category.toLowerCase().includes(cat.toLowerCase())
         )
       );
     }
@@ -234,7 +234,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   getIngredientsByFlavor(
     flavorProfile: { [key: string]: number },
-    minMatchScore: number = 0.5
+    minMatchScore = 0.5
   ): UnifiedIngredient[] {
     // For now, return all ingredients - full flavor matching would require
     // more complex flavor analysis
@@ -304,7 +304,7 @@ export class IngredientService implements IngredientServiceInterface {
     if (options.categories && options.categories.length > 0) {
       candidates = candidates.filter(ingredient =>
         options.categories!.some(cat =>
-          ingredient.category?.toLowerCase().includes(cat.toLowerCase())
+          ingredient.category.toLowerCase().includes(cat.toLowerCase())
         )
       );
     }
@@ -321,11 +321,11 @@ export class IngredientService implements IngredientServiceInterface {
     candidates.sort((a, b) => {
       const compatA = this.calculateElementalCompatibility(
         elementalState,
-        a.elementalProperties!
+        a.elementalProperties
       );
       const compatB = this.calculateElementalCompatibility(
         elementalState,
-        b.elementalProperties!
+        b.elementalProperties
       );
       return compatB - compatA;
     });
@@ -412,7 +412,7 @@ export class IngredientService implements IngredientServiceInterface {
     // Filter by category if specified
     if (options.category) {
       candidates = candidates.filter(ing =>
-        ing.category?.toLowerCase().includes(options.category!.toLowerCase())
+        ing.category.toLowerCase().includes(options.category!.toLowerCase())
       );
     }
 
@@ -499,7 +499,7 @@ export class IngredientService implements IngredientServiceInterface {
   /**
    * Get ingredients with high Kalchm values
    */
-  getHighKalchmIngredients(threshold: number = 0.5): UnifiedIngredient[] {
+  getHighKalchmIngredients(threshold = 0.5): UnifiedIngredient[] {
     return this.getAllIngredientsFlat().filter(ingredient =>
       ingredient.kalchm !== undefined && ingredient.kalchm >= threshold
     );
@@ -510,7 +510,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   findComplementaryIngredients(
     ingredient: UnifiedIngredient | string,
-    maxResults: number = 5
+    maxResults = 5
   ): UnifiedIngredient[] {
     const baseIngredient = typeof ingredient === 'string'
       ? this.getIngredientByName(ingredient)

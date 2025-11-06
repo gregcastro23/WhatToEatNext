@@ -3,9 +3,10 @@
  * Implements JWT token validation and role-based access control
  */
 
-import { Request, Response, NextFunction } from 'express';
-import { authService, UserRole, TokenPayload } from '@/lib/auth/jwt-auth';
+import type { TokenPayload } from '@/lib/auth/jwt-auth';
+import { authService, UserRole } from '@/lib/auth/jwt-auth';
 import { logger } from '@/utils/logger';
+import type { Request, Response, NextFunction } from 'express';
 
 // Extend Express Request interface to include user information
 declare global {

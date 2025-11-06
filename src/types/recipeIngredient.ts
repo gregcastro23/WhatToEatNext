@@ -1,4 +1,4 @@
-import { ElementalProperties, QuantityScaledProperties } from './index';
+import type { ElementalProperties, QuantityScaledProperties } from './index';
 
 /**
  * Recipe ingredient interface that extends the base Ingredient

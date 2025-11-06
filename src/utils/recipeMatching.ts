@@ -1,5 +1,5 @@
-import { _logger } from '@/lib/logger';
 import { ingredientsMap } from '@/data/ingredients';
+import { _logger } from '@/lib/logger';
 import { LocalRecipeService } from '@/services/LocalRecipeService';
 import type { AstrologicalState, ElementalProperties, Recipe, Season } from '@/types/alchemy';
 
@@ -28,12 +28,12 @@ interface MatchResult {
   recipe: Recipe;
   score: number;
   elements: ElementalProperties;
-  dominantElements: [string, number][];
-  matchedIngredients?: {
+  dominantElements: Array<[string, number]>;
+  matchedIngredients?: Array<{
     name: string;
     matchedTo?: IngredientMapping;
     confidence: number
-  }[];
+  }>;
   // Add commonly missing properties
   matchScore?: number;
   timing?: string | number | Record<string, unknown>;
@@ -118,7 +118,7 @@ export async function findBestMatches(
     filteredRecipes = filteredRecipes.filter(recipe => {
       // Extract recipe data with safe property access
       const recipeData = recipe as any;
-      const dietaryTags = recipeData.dietaryTags;
+      const {dietaryTags} = recipeData;
       if (!dietaryTags) return true; // Keep recipes without tags
 
       // Check if any of the restrictions are in the recipe's dietary tags
@@ -172,7 +172,7 @@ export async function findBestMatches(
           } else {
             // Extract ingredient data with safe property access
             const ingredientData = ingredient as any;
-            const name = ingredientData.name;
+            const {name} = ingredientData;
             return typeof name === 'string' && name.toLowerCase().includes(lowerExcluded);
           }
         });
@@ -414,14 +414,14 @@ const calculateEnergyMatch = (recipeEnergy: EnergyData, currentEnergy: EnergyDat
   return Math.min(1.0, score); // Cap at 1.0
 }
 
-const _calculateDominantElements = (elements: ElementalProperties): [string, number][] => {
+const _calculateDominantElements = (elements: ElementalProperties): Array<[string, number]> => 
   // Filter out any invalid entries to prevent NaN issues
-  return Object.entries(elements)
+   Object.entries(elements)
     .filter(([, value]) => !isNaN(value) && value !== undefined)
     .sort(([, a], [, b]) => (b || 0) - (a || 0))
     .slice(0, 2)
     .map(([element, value]) => [element, value || 0])
-}
+
 
 async function _calculateRecipeEnergyMatch(
   recipe: Recipe,
@@ -458,7 +458,7 @@ async function _calculateRecipeEnergyMatch(
   const qualities = recipe.qualities || [];
   // Extract currentEnergy data with safe property access for preferredModality
   const energyData = currentEnergy as any;
-  const preferredModality = energyData.preferredModality;
+  const {preferredModality} = energyData;
 
   // Check if preferredModality exists in currentEnergy, if not skip this boost
   if (preferredModality) {
@@ -531,7 +531,7 @@ function calculateElementalAlignment(_recipe: Recipe, currentEnergy: Astrologica
 function calculateNutritionalAlignment(_recipe: Recipe, currentEnergy: AstrologicalState): number {
   // Extract nutritional goals with safe property access
   const currentData = currentEnergy as any;
-  const nutritionalGoals = currentData.nutritionalGoals;
+  const {nutritionalGoals} = currentData;
 
   if (!nutritionalGoals) {
     return 0.5; // Default score if no nutritional goals
@@ -546,25 +546,25 @@ function calculateNutritionalAlignment(_recipe: Recipe, currentEnergy: Astrologi
   }
 
   // Check for high protein preference
-  const highProtein = nutritionalGoals.highProtein;
+  const {highProtein} = nutritionalGoals;
   if (highProtein && hasHighProtein(_recipe)) {
     return 0.9;
   }
 
   // Check for low carb preference
-  const lowCarb = nutritionalGoals.lowCarb;
+  const {lowCarb} = nutritionalGoals;
   if (lowCarb && hasLowCarb(_recipe)) {
     return 0.9;
   }
 
   // Check for high fiber preference
-  const highFiber = nutritionalGoals.highFiber;
+  const {highFiber} = nutritionalGoals;
   if (highFiber && hasHighFiber(_recipe)) {
     return 0.9;
   }
 
   // Check for low fat preference
-  const lowFat = nutritionalGoals.lowFat;
+  const {lowFat} = nutritionalGoals;
   if (lowFat && hasLowFat(_recipe)) {
     return 0.9;
   }
@@ -579,7 +579,7 @@ function hasHighProtein(recipe: Recipe): boolean {
   const profile = recipeData.nutritionalProfile;
 
   if (!profile) return false;
-  const protein = profile.protein;
+  const {protein} = profile;
   return typeof protein === 'number' && protein >= 20;
 }
 
@@ -599,7 +599,7 @@ function hasHighFiber(recipe: Recipe): boolean {
   const profile = recipeData.nutritionalProfile;
 
   if (!profile) return false;
-  const fiber = profile.fiber;
+  const {fiber} = profile;
   return typeof fiber === 'number' && fiber >= 8;
 }
 
@@ -609,7 +609,7 @@ function hasLowFat(recipe: Recipe): boolean {
   const profile = recipeData.nutritionalProfile;
 
   if (!profile) return false;
-  const fat = profile.fat;
+  const {fat} = profile;
   return typeof fat === 'number' && fat <= 10;
 }
 
@@ -696,7 +696,7 @@ function determineIngredientModality(qualities: string[]): 'cardinal' | 'fixed' 
   });
 
   // Find the dominant modality
-  const entries = Object.entries(counts) as ['cardinal' | 'fixed' | 'mutable', number][];
+  const entries = Object.entries(counts) as Array<['cardinal' | 'fixed' | 'mutable', number]>;
 
   // Sort by count in descending order
   const sorted = entries.sort((a, b) => b[1] - a[1]);
@@ -887,11 +887,11 @@ function levenshteinDistance(str1: string, str2: string): number {
  */
 export const connectIngredientsToMappings = (
   recipe: Recipe
-): {
+): Array<{
   name: string,
   matchedTo?: IngredientMapping,
   confidence: number
-}[] => {
+}> => {
   if (!recipe.ingredients || recipe.ingredients.length === 0) {
     return [];
   }
@@ -1000,7 +1000,7 @@ export const connectIngredientsToMappings = (
 
     // 4. Try matching with swaps if provided
     const ingredientSwapData = recipeIngredient as any;
-    const swaps = ingredientSwapData.swaps;
+    const {swaps} = ingredientSwapData;
     if (swaps && Array.isArray(swaps) && swaps.length > 0) {
       for (const swap of swaps) {
         const swapMatch = ingredientsMap[swap.toLowerCase()];

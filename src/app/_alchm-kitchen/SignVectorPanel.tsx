@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import type { Season } from '@/types/alchemy';
 import type { PlanetaryPosition } from '@/types/celestial';
@@ -8,7 +7,7 @@ import { calculateAspects } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
 import { VECTOR_CONFIG, getAlchemicalStateWithVectors } from '@/utils/signVectors';
 
-type Props = {
+interface Props {
   planetaryPositions?: Record<string, PlanetaryPosition>
   aspects?: Array<{
     planet1: string,

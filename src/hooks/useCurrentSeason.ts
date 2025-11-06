@@ -30,9 +30,7 @@ function calculateSeason(date: Date): Season {
  * @returns The current season (Spring, Summer, Fall, Winter)
  */
 export function useCurrentSeason(): Season {
-  const [season, setSeason] = useState<Season>(() => {
-    return calculateSeason(new Date());
-  });
+  const [season, setSeason] = useState<Season>(() => calculateSeason(new Date()));
 
   useEffect(() => {
     // Update once per day

@@ -68,7 +68,7 @@ export class IngredientService {
     };
   }
 
-  static async searchByName(searchTerm: string, limit: number = 20): Promise<Ingredient[]> {
+  static async searchByName(searchTerm: string, limit = 20): Promise<Ingredient[]> {
     const result = await executeQuery<Ingredient>(
       `SELECT * FROM ingredients
        WHERE is_active = true AND name ILIKE $1
@@ -98,7 +98,7 @@ export class IngredientService {
     return result.rows;
   }
 
-  static async getCompatibleIngredients(ingredientId: string, minScore: number = 0.7): Promise<Array<{
+  static async getCompatibleIngredients(ingredientId: string, minScore = 0.7): Promise<Array<{
     ingredient: Ingredient;
     compatibility_score: number;
     interaction_type: string;
@@ -331,7 +331,7 @@ export class CacheService {
     return null;
   }
 
-  static async set(key: string, data: any, ttlSeconds: number = 3600): Promise<void> {
+  static async set(key: string, data: any, ttlSeconds = 3600): Promise<void> {
     try {
       const expiresAt = new Date(Date.now() + ttlSeconds * 1000);
 

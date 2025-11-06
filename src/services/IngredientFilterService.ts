@@ -66,7 +66,7 @@ export const INGREDIENT_GROUPS = {
 // Helper class to provide ingredient filtering services
 export class IngredientFilterService {
   private static instance: IngredientFilterService;
-  private allIngredients: Record<string, Record<string, IngredientMapping>>;
+  private readonly allIngredients: Record<string, Record<string, IngredientMapping>>;
   // spoonacularCache removed with cleanup
 
   private constructor() {
@@ -76,7 +76,7 @@ export class IngredientFilterService {
       [INGREDIENT_GROUPS.VEGETABLES]: vegetables as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.FRUITS]: fruits as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.HERBS]: herbs as Record<string, IngredientMapping>,
-      [INGREDIENT_GROUPS.SPICES]: spices as Record<string, IngredientMapping>,
+      [INGREDIENT_GROUPS.SPICES]: spices ,
       [INGREDIENT_GROUPS.GRAINS]: grains as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.OILS]: oils as Record<string, IngredientMapping>,
     };
@@ -320,7 +320,7 @@ export class IngredientFilterService {
           .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
           .sort(([, a], [, b]) => b - a)[0];
 
-        const dominantElement = dominantEntry?.[0];
+        const dominantElement = dominantEntry[0];
         if (dominantElement !== filter.dominantElement) return false;
       }
 

@@ -1,5 +1,4 @@
 import type { Recipe } from '@/types/recipe';
-
 import type { AstrologicalState, ElementalProperties } from '../../types';
 
 // Re-export types and functions from ingredient recommendation
@@ -174,7 +173,7 @@ function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): numbe
       const influenceLower = String(influenceData).toLowerCase();
       const planetNameLower = planetName.toLowerCase();
 
-      return influenceLower?.includes(planetNameLower);
+      return influenceLower.includes(planetNameLower);
     }
   );
   return planetaryMatch ? 0.8 : 0.4;
@@ -235,7 +234,7 @@ function _calculateZodiacScore(recipe: Recipe, sunSign: any): number {
     const influenceLowerZodiac = String(influenceDataZodiac).toLowerCase();
     const sunSignLower = sunSign.toLowerCase();
 
-    return influenceLowerZodiac?.includes(sunSignLower);
+    return influenceLowerZodiac.includes(sunSignLower);
   });
 
   if (zodiacMatch) return 0.8;

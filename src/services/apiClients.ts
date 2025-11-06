@@ -17,8 +17,8 @@ interface FoodData {
  * API Client for Food Data Central
  */
 export class FoodDataCentral {
-  private static apiKey = process.env.NEXT_PUBLIC_FOOD_DATA_CENTRAL_API_KEY || '';
-  private static baseUrl = 'https://api.nal.usda.gov/fdc/v1';
+  private static readonly apiKey = process.env.NEXT_PUBLIC_FOOD_DATA_CENTRAL_API_KEY || '';
+  private static readonly baseUrl = 'https://api.nal.usda.gov/fdc/v1';
 
   /**
    * Get detailed food information by FDC ID

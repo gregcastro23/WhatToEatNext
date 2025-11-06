@@ -1,10 +1,9 @@
 'use client';
-import { _logger } from '@/lib/logger';
 
 import React, { useEffect, useState } from 'react';
-
 import { AstrologicalProvider } from '@/context/AstrologicalContext';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
+import { _logger } from '@/lib/logger';
 import { log } from '@/services/LoggingService';
 
 // Fallback, stubs: real debug components are not available in this build

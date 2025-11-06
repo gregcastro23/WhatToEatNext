@@ -7,9 +7,9 @@
  * Based, on: docs/notebooks/Kalchm_Monica_Constant_Calculations.ipynb
  */
 
-import { ElementalProperties } from '@/types/alchemy';
-import type { KineticMetrics } from '@/types/kinetics';
 import { calculateKinetics } from '@/calculations/kinetics';
+import type { ElementalProperties } from '@/types/alchemy';
+import type { KineticMetrics } from '@/types/kinetics';
 
 // ========== INTERFACES ==========
 

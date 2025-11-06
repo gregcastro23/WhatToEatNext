@@ -1,6 +1,6 @@
 import { createLogger } from '@/utils/logger';
 
-type MetricDelta = {
+interface MetricDelta {
   Spirit: number,
   Essence: number,
   Matter: number,

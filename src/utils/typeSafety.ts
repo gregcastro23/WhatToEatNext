@@ -6,25 +6,15 @@
  */
 
 // Type guard utilities
-export const isObject = (value: unknown): value is Record<string, unknown> => {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
-}
+export const isObject = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value)
 
-export const isString = (value: unknown): value is string => {
-  return typeof value === 'string'
-}
+export const isString = (value: unknown): value is string => typeof value === 'string'
 
-export const isNumber = (value: unknown): value is number => {
-  return typeof value === 'number' && !isNaN(value)
-}
+export const isNumber = (value: unknown): value is number => typeof value === 'number' && !isNaN(value)
 
-export const isArray = (value: unknown): value is unknown[] => {
-  return Array.isArray(value)
-}
+export const isArray = (value: unknown): value is unknown[] => Array.isArray(value)
 
-export const isBoolean = (value: unknown): value is boolean => {
-  return typeof value === 'boolean'
-}
+export const isBoolean = (value: unknown): value is boolean => typeof value === 'boolean'
 
 // Safe property access utilities
 export const safeGet = <T = unknown>(
@@ -38,12 +28,12 @@ export const safeGet = <T = unknown>(
   return defaultValue
 }
 
-export const safeGetString = (obj: unknown, key: string, defaultValue: string = ''): string => {
+export const safeGetString = (obj: unknown, key: string, defaultValue = ''): string => {
   const value = safeGet(obj, key)
   return isString(value) ? value : defaultValue
 }
 
-export const safeGetNumber = (obj: unknown, key: string, defaultValue: number = 0): number => {
+export const safeGetNumber = (obj: unknown, key: string, defaultValue = 0): number => {
   const value = safeGet(obj, key)
   return isNumber(value) ? value : defaultValue
 }
@@ -51,7 +41,7 @@ export const safeGetNumber = (obj: unknown, key: string, defaultValue: number = 
 export const safeGetBoolean = (
   obj: unknown,
   key: string,
-  defaultValue: boolean = false
+  defaultValue = false
 ): boolean => {
   const value = safeGet(obj, key)
   return isBoolean(value) ? value : defaultValue
@@ -209,9 +199,7 @@ export const safeCast = <T>(
   value: unknown,
   validator: (val: unknown) => val is T,
   defaultValue: T
-): T => {
-  return validator(value) ? value : defaultValue
-}
+): T => validator(value) ? value : defaultValue
 
 export const safeCastWithWarning = <T>(
   value: unknown,

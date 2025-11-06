@@ -8,7 +8,6 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-
 import { logger } from './logger';
 
 // Build monitoring interfaces
@@ -356,9 +355,7 @@ async function getErrorAndWarningCounts(): Promise<{ errors: number, warnings: n
 })
 
       const eslintResults = JSON.parse(eslintOutput);
-      warnings = eslintResults.reduce((total: number, result: { warningCount?: number }) => {
-        return total + (result.warningCount || 0);
-}, 0)
+      warnings = eslintResults.reduce((total: number, result: { warningCount?: number }) => total + (result.warningCount || 0), 0)
     } catch (error) {
       // ESLint might not be configured or might fail
       warnings = 0;
@@ -482,7 +479,7 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
         if (stat.isDirectory()) {
           analyzeDirectory(filePath)
         } else {
-          const size = stat.size;
+          const {size} = stat;
           total += size;
 
           const ext = path.extname(file).toLowerCase();
@@ -938,9 +935,7 @@ async function getLintingWarningCount(): Promise<number> {
     });
 
     const results = JSON.parse(output);
-    return results.reduce((total: number, result: { warningCount?: number }) => {
-      return total + (result.warningCount || 0);
-}, 0)
+    return results.reduce((total: number, result: { warningCount?: number }) => total + (result.warningCount || 0), 0)
   } catch (error) {
     return 0;
 }

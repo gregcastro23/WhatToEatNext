@@ -113,7 +113,7 @@ export function getSignFromPosition(_position: unknown): string | null {
 }
 
   const pos = position as any;
-  const sign = pos.sign;
+  const {sign} = pos;
 
   if (typeof sign === 'string' && sign.length > 0) {
     return sign.toLowerCase();
@@ -131,7 +131,7 @@ export function getDegreeFromPosition(_position: unknown): number {
   }
 
   const pos = _position as any;
-  const degree = pos.degree;
+  const {degree} = pos;
 
   if (typeof degree === 'number') {
     return Number.isFinite(degree) ? degree : 0;

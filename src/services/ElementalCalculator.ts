@@ -1,10 +1,9 @@
 import { log } from '@/services/LoggingService';
 import { createLogger } from '@/utils/logger';
-
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
 import { planetInfo, signInfo } from '../data/astrology';
-import { ElementalProperties, Recipe, Season, ZodiacSign } from '../types/alchemy';
 import { backendCalculations, getElementalProperties, getSeasonalModifier } from '../utils/backendAdapter';
+import type { ElementalProperties, Recipe, Season, ZodiacSign } from '../types/alchemy';
 
 interface ElementalSummary {
   totalFire: number;
@@ -20,7 +19,7 @@ export class ElementalCalculator {
   private static instance: ElementalCalculator;
   private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
   private initialized = false;
-  private debugMode: boolean;
+  private readonly debugMode: boolean;
 
   public constructor(debugMode = false) {
     this.debugMode = debugMode;
@@ -564,7 +563,7 @@ export class ElementalCalculator {
   public static calculateIngredientMatch(ingredient: unknown): number {
     // Apply surgical type casting with variable extraction
     const ingredientData = ingredient as any;
-    const elementalProperties = ingredientData.elementalProperties;
+    const {elementalProperties} = ingredientData;
 
     // If the ingredient has elementalProperties, use those
     if (elementalProperties) {
@@ -859,7 +858,7 @@ export class ElementalCalculator {
     // Extract all planet keys
     const planetKeys = Object.keys(planets).filter(
       key =>
-        typeof planets[key] === 'object' && planets[key] !== null && (planetInfo?.[key] || false)
+        typeof planets[key] === 'object' && planets[key] !== null && (planetInfo[key] || false)
     );
 
     // Process each planet

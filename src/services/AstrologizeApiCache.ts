@@ -1,4 +1,4 @@
-import {
+import type {
   AstrologicalState,
   PlanetaryPosition,
   StandardizedAlchemicalResult
@@ -53,7 +53,7 @@ interface TransitPrediction {
 
 class AstrologizeApiCache {
   private cache: Map<string, CachedAstrologicalData> = new Map();
-  private maxCacheSize = 1000; // Store up to 1000 calculations
+  private readonly maxCacheSize = 1000; // Store up to 1000 calculations
   private readonly STORAGE_KEY = 'astrologize_cache';
 
   constructor() {
@@ -164,8 +164,8 @@ class AstrologizeApiCache {
     lat: number,
     lng: number,
     date: Date,
-    maxDistanceKm: number = 50,
-    maxDaysDiff: number = 7
+    maxDistanceKm = 50,
+    maxDaysDiff = 7
   ): CachedAstrologicalData[] {
     const results: CachedAstrologicalData[] = [];
     const targetTime = date.getTime();
@@ -288,7 +288,7 @@ class AstrologizeApiCache {
    * Private helper methods
    */
   private assessDataQuality(result: StandardizedAlchemicalResult): 'high' | 'medium' | 'low' {
-    type WithAlchemical = {
+    interface WithAlchemical {
       elementalBalance?: Record<string, number>;
       heat?: number;
       entropy?: number;
@@ -297,7 +297,7 @@ class AstrologizeApiCache {
       Essence?: number;
       Matter?: number;
       Substance?: number
-    };
+    }
     const resultData = result as WithAlchemical;
     // Assess based on completeness and reasonableness of data
     const hasAllElements = resultData.elementalBalance &&

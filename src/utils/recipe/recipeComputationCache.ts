@@ -20,8 +20,8 @@ interface CacheConfig {
 }
 
 class RecipeComputationCacheManager {
-  private cache = new Map<string, RecipeComputationCache>();
-  private config: CacheConfig;
+  private readonly cache = new Map<string, RecipeComputationCache>();
+  private readonly config: CacheConfig;
   private accessOrder: string[] = [];
 
   constructor(config: Partial<CacheConfig> = {}) {

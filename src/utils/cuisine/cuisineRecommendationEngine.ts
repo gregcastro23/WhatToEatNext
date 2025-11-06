@@ -129,7 +129,7 @@ export function calculateAlchemicalCompatibility(
   userPreferences: Partial<AlchemicalProperties>,
   cuisineAlchemical: AlchemicalProperties
 ): number {
-  const properties: (keyof AlchemicalProperties)[] = ['Spirit', 'Essence', 'Matter', 'Substance'];
+  const properties: Array<keyof AlchemicalProperties> = ['Spirit', 'Essence', 'Matter', 'Substance'];
   let totalScore = 0;
   let weightedCount = 0;
 
@@ -231,7 +231,7 @@ export function calculateSignatureMatch(
   let totalMatch = 0;
 
   cuisineSignatures.forEach(signature => {
-    const property = signature.property;
+    const {property} = signature;
 
     // Check if signature property is elemental
     if (['Fire', 'Water', 'Earth', 'Air'].includes(property)) {
@@ -444,12 +444,12 @@ function normalizeElementalPreferences(preferences: ElementalProperties): Elemen
 };
 
   if (sum > 0) {
-    (Object.keys(preferences) as (keyof ElementalProperties)[]).forEach(key => {
+    (Object.keys(preferences) as Array<keyof ElementalProperties>).forEach(key => {
       normalized[key] = preferences[key] / sum;
     });
   } else {
     // Fallback to equal distribution
-    (Object.keys(normalized) as (keyof ElementalProperties)[]).forEach(key => {
+    (Object.keys(normalized) as Array<keyof ElementalProperties>).forEach(key => {
       normalized[key] = 0.25;
     });
   }

@@ -7,12 +7,11 @@
  * campaign.
  */
 
-import { PlanetaryPosition } from './alchemy';
-import { AstrologicalProfile } from './astrology';
-import { CookingMethod } from './cooking';
-import { Ingredient } from './ingredient';
-
-import { Nutrition } from './index';
+import type { PlanetaryPosition } from './alchemy';
+import type { AstrologicalProfile } from './astrology';
+import type { CookingMethod } from './cooking';
+import type { Nutrition } from './index';
+import type { Ingredient } from './ingredient';
 
 /** Narrow unknown object to `Nutrition` (aka NutritionalProfile). */
 export function isNutritionalProfile(obj: unknown): obj is Nutrition {

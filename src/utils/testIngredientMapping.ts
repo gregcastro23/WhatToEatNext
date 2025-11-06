@@ -7,7 +7,6 @@
 import { cuisinesMap } from '@/data/cuisines';
 import type { ElementalProperties } from '@/types/alchemy';
 import type { Recipe } from '@/types/recipe';
-
 import { filterRecipesByIngredientMappings } from './recipeFilters';
 import { connectIngredientsToMappings } from './recipeMatching';
 
@@ -99,7 +98,7 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
     {
       _required: requiredIngredients,
       _excluded: excludedIngredients,
-      dietaryRestrictions: dietaryRestrictions,
+      dietaryRestrictions,
       emphasized: []
     } as unknown as never
   );
@@ -118,7 +117,7 @@ export function suggestIngredientSubstitutions(
 ) {
   // Map all ingredients
   const mappedIngredients = connectIngredientsToMappings(
-    recipe as unknown as import('@/types/alchemy').Recipe
+    recipe  as import('@/types/alchemy').Recipe
   );
 
   // Find the ingredient to replace
@@ -140,7 +139,7 @@ export function suggestIngredientSubstitutions(
     alchemicalProperties?: unknown;
     category?: string;
   };
-  const elementalProperties = matchedToData.elementalProperties;
+  const {elementalProperties} = matchedToData;
   const _alchemicalProperties = matchedToData.alchemicalProperties;
 
   // Find other ingredients with similar elemental properties

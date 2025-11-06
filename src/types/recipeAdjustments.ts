@@ -29,11 +29,11 @@ export interface SeasonalAdjustments {
 }
 
 export interface RecipeOptimizationResult {
-  methodChanges: {
+  methodChanges: Array<{
     original: string;
     _adjusted: string;
     reason: string;
-  }[];
+  }>;
   timingChanges: {
     prepTimeChange: number;
     _cookTimeChange: number;

@@ -108,7 +108,7 @@ export default function DemoOptimizedPage() {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <LazyComponentErrorBoundary>
                 <Suspense fallback={<ComponentLoader message="Loading planetary hour display..." />}>
-                  <LazyPlanetaryHourDisplay showDetails={true} />
+                  <LazyPlanetaryHourDisplay showDetails />
                 </Suspense>
               </LazyComponentErrorBoundary>
             </div>
@@ -129,7 +129,7 @@ export default function DemoOptimizedPage() {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <LazyComponentErrorBoundary>
                 <Suspense fallback={<ComponentLoader message="Loading energy visualization..." />}>
-                  <LazyEnergyVisualization showDetails={true} showHistory={true} />
+                  <LazyEnergyVisualization showDetails showHistory />
                 </Suspense>
               </LazyComponentErrorBoundary>
             </div>
@@ -152,7 +152,7 @@ export default function DemoOptimizedPage() {
                 <Suspense fallback={<ComponentLoader message="Loading notifications system..." />}>
                   <LazyCelestialEventNotifications
                     maxNotifications={5}
-                    autoHide={true}
+                    autoHide
                     autoHideDelay={12000}
                   />
                 </Suspense>

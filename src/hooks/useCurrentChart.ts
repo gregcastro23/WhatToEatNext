@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 // Don't import from context to avoid potential circular dependency

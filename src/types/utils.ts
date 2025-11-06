@@ -1,7 +1,7 @@
 /**
  * A type that allows any string-keyed object
  */
-export type StringIndexed<T = unknown> = {
+export interface StringIndexed<T = unknown> {
   [key: string]: T;
 }
 
@@ -21,29 +21,29 @@ export type DeepStringIndexed<T> = {
  * A utility type for objects that have element properties (Fire, Water, Earth, Air)
  * but may also have other string keys
  */
-export type ElementalRecord = {
+export interface ElementalRecord {
   Fire: number;
   Water: number;
   Earth: number;
   Air: number;
   [key: string]: number;
-};
+}
 
 /**
  * A type for objects that have case-insensitive season values
  */
-export type SeasonalRecord<T> = {
+export interface SeasonalRecord<T> {
   spring: T;
   _summer: T;
   _autumn: T;
   _winter: T;
   [key: string]: T; // For case-insensitive lookup
-};
+}
 
 /**
  * A type for objects with planet names as keys
  */
-export type PlanetaryRecord<T> = {
+export interface PlanetaryRecord<T> {
   sun: T;
   _moon: T;
   _mercury: T;
@@ -55,15 +55,15 @@ export type PlanetaryRecord<T> = {
   _neptune: T;
   _pluto: T;
   [key: string]: T; // For case-insensitive or additional planets
-};
+}
 
 /**
  * A type for time-of-day records
  */
-export type TimeOfDayRecord<T> = {
+export interface TimeOfDayRecord<T> {
   morning: T;
   _noon: T;
   _evening: T;
   _night: T;
   [key: string]: T; // For additional time periods
-};
+}

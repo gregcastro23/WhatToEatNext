@@ -1,8 +1,7 @@
 import { _logger } from '@/lib/logger';
-import { AstrologicalState, ElementalProperties } from '@/types/alchemy';
+import type { AstrologicalState, ElementalProperties } from '@/types/alchemy';
 import type { ElementalData, ScoredItem } from '@/types/common';
 import type { Element } from '@/types/unified';
-
 import type {
     CookingMethod,
     ElementalAffinity,
@@ -219,7 +218,7 @@ export interface IngredientRecommendation {
   monicaScore?: number;
   culturalScore?: number;
   sensoryProfile?: SensoryProfile;
-  recommendedCookingMethods?: Array<CookingMethod>;
+  recommendedCookingMethods?: CookingMethod[];
   pairingRecommendations?: {
     _complementary: string[];
     _contrasting: string[];
@@ -412,7 +411,7 @@ export const _getIngredientsFromCategories = async (
 
 // Phase, 8: Cached ingredient data for performance
 const _cachedAllIngredientsData: Ingredient[] | null = null;
-const _cacheTimestamp: number = 0;
+const _cacheTimestamp = 0;
 const _CACHE_TTL = 300000; // 5 minutes
 
 export const _getAllIngredientsData = async (): Promise<unknown[]> => {
@@ -509,7 +508,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
       const ingredientData = {
         name,
         category: category.name.toLowerCase(),
-        ...(data as unknown)
+        ...(data )
       } as EnhancedIngredient;
 
       // Special categorization for grains and herbs
@@ -1029,9 +1028,7 @@ export async function recommendIngredients(
   return allRecommendations.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
 }
 
-export const _formatFactorName = (factor: string): string => {
-  return factor.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-};
+export const _formatFactorName = (factor: string): string => factor.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
 
 export function calculateElementalInfluences(
   planetaryAlignment: Record<string, { sign: string; degree: number }>

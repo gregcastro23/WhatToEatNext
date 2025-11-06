@@ -30,7 +30,7 @@ export interface AlchemicalRecommendation {
  */
 export class AlchemicalRecommendationService {
   private static instance: AlchemicalRecommendationService;
-  private engine: AlchemicalEngine;
+  private readonly engine: AlchemicalEngine;
 
   private constructor() {
     this.engine = new AlchemicalEngine();

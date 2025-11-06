@@ -1,9 +1,8 @@
-import type { ElementalProperties } from '../types/alchemy';
-import type { Recipe, ScoredRecipe } from '../types/recipe';
 import { createEnhancedError } from '../utils/errorHandling';
 import { logger } from '../utils/logger';
-
 import { celestialCalculator } from './celestialCalculations';
+import type { ElementalProperties } from '../types/alchemy';
+import type { Recipe, ScoredRecipe } from '../types/recipe';
 // SpoonacularService removed with cleanup
 
 interface RecommendationCriteria {
@@ -210,7 +209,7 @@ export class RecipeRecommender {
     return Math.min(1, Math.max(0, finalAlignment)); // Cap between 0-1
   }
 
-  private aggregateIngredients(ingredients: { elementalProperties?: ElementalProperties }[]) {
+  private aggregateIngredients(ingredients: Array<{ elementalProperties?: ElementalProperties }>) {
     return ingredients.reduce((acc, ingredient) => ({
         Fire: acc.Fire + (ingredient.elementalProperties?.Fire || 0),
         Water: acc.Water + (ingredient.elementalProperties?.Water || 0),
@@ -295,7 +294,7 @@ export class RecipeRecommender {
 
   // NEW: Helper method for calculating ingredient preference matches
   private calculateIngredientPreferenceMatch(
-    recipeIngredients: { name: string }[],
+    recipeIngredients: Array<{ name: string }>,
     preferredIngredients: string[]
   ): number {
     if (!preferredIngredients.length) return 0.5;

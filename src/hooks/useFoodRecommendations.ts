@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics';
 import { _logger } from '@/lib/logger';
@@ -7,7 +6,8 @@ import type { ZodiacSign, LunarPhase, Planet } from '@/types/alchemy';
 import type { AstrologicalState, CelestialPosition, PlanetaryAspect } from '@/types/celestial';
 import type { Season } from '@/types/common';
 import type { KineticsEnhancedRecommendation } from '@/types/kinetics';
-import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecommender';
+import type { EnhancedIngredient } from '@/utils/foodRecommender';
+import { getRecommendedIngredients } from '@/utils/foodRecommender';
 import { calculateKineticAlignment } from '@/utils/kineticsFoodMatcher';
 
 /**
@@ -47,9 +47,9 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
   });
 
   // Memoize the astrological state to prevent unnecessary re-renders
-  const astroState = useMemo<AstrologicalState>(() => {
+  const astroState = useMemo<AstrologicalState>(() => 
     // Provide fallback values to ensure the object is always complete
-    return {
+     ({
       // Required fields from the type definition
       currentZodiac: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries',
       moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon',
@@ -62,8 +62,8 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
       aspects: (state.astrologicalState.aspects || []) as PlanetaryAspect[],
       tarotElementBoosts: (state.astrologicalState.tarotElementBoosts || {}) as Record<string, number>,
       tarotPlanetaryBoosts: (state.astrologicalState.tarotPlanetaryBoosts || {}) as Record<string, number>,
-    };
-  }, [
+    })
+  , [
     state.astrologicalState.zodiacSign,
     state.astrologicalState.lunarPhase,
     state.astrologicalState.currentPlanetaryAlignment,
@@ -116,10 +116,10 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
         }
 
         // Apply any additional filtering if provided
-        const filteredResults = options?.filter ? enhancedResults.filter(options.filter) : enhancedResults;
+        const filteredResults = options.filter ? enhancedResults.filter(options.filter) : enhancedResults;
 
         // Apply limit if specified
-        const limitedResults = options?.limit
+        const limitedResults = options.limit
           ? filteredResults.slice(0, options.limit)
           : filteredResults;
 
@@ -135,7 +135,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
 
     // Always try to fetch recommendations, even with fallback data
     void fetchRecommendations();
-  }, [astroState, kinetics, currentPowerLevel, aspectPhase, dominantElement, options?.filter, options?.limit, options.enableKinetics]);
+  }, [astroState, kinetics, currentPowerLevel, aspectPhase, dominantElement, options.filter, options.limit, options.enableKinetics]);
 
   // Get the current season
   const currentSeason = useMemo<Season>(() => {
@@ -184,8 +184,8 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
         enhancedResults.sort((a, b) => ((b.kineticScore as number) || 0) - ((a.kineticScore as number) || 0));
       }
 
-      const filteredResults = options?.filter ? enhancedResults.filter(options.filter) : enhancedResults;
-      const limitedResults = options?.limit
+      const filteredResults = options.filter ? enhancedResults.filter(options.filter) : enhancedResults;
+      const limitedResults = options.limit
         ? filteredResults.slice(0, options.limit)
         : filteredResults;
 
@@ -197,7 +197,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
     } finally {
       setLoading(false);
     }
-  }, [astroState, kinetics, currentPowerLevel, aspectPhase, dominantElement, options?.filter, options?.limit, options.enableKinetics]);
+  }, [astroState, kinetics, currentPowerLevel, aspectPhase, dominantElement, options.filter, options.limit, options.enableKinetics]);
 
   // Group dining support
   const getGroupRecommendations = useCallback(async (userIds: string[]) => {

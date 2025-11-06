@@ -1,7 +1,7 @@
-import { _logger } from '@/lib/logger';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { _logger } from '@/lib/logger';
 
 export interface TypeScriptError {
   code: string;
@@ -72,7 +72,7 @@ class ErrorTrackingSystem {
   private buildFailures: BuildFailure[] = [];
   private errorPatterns: ErrorPattern[] = [];
   private qualityHistory: QualityMetrics[] = [];
-  private subscribers: Set<
+  private readonly subscribers: Set<
     (data: TypeScriptError | LintingViolation | BuildFailure | QualityMetrics) => void
   > = new Set()
   // Error categorization mappings
@@ -273,9 +273,9 @@ class ErrorTrackingSystem {
     const violations: LintingViolation[] = [];
 
     for (const fileResult of lintResults) {
-      const filePath = fileResult.filePath;
+      const {filePath} = fileResult;
 
-      for (const message of fileResult?.messages) {
+      for (const message of fileResult.messages) {
         violations.push({
           rule: message.ruleId || 'unknown',
           message: message.message,

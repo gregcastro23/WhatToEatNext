@@ -1,5 +1,5 @@
 // Utility functions for lunar phase conversion
-import { LunarPhase, LunarPhaseWithSpaces } from '../types/alchemy';
+import type { LunarPhase, LunarPhaseWithSpaces } from '../types/alchemy';
 
 // Map each LunarPhaseWithSpaces value to its corresponding LunarPhase value
 // This is a more explicit approach for TypeScript to understand the conversion

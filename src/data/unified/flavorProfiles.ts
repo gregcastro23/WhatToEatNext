@@ -12,9 +12,7 @@ import type {
   AlchemicalValues,
   _
 } from '@/types/alchemy';
-
 import { _, calculateElementalCompatibility } from '../../utils/elemental/elementalUtils';
-
 import { unifiedCuisineIntegrationSystem } from './cuisineIntegrations';
 import { unifiedSeasonalSystem } from './seasonal';
 
@@ -200,9 +198,9 @@ export function createBaseFlavorNotes(props?: Partial<BaseFlavorNotes>): BaseFla
 // ===== UNIFIED FLAVOR PROFILE SYSTEM =====;
 
 export class UnifiedFlavorProfileSystem {
-  private flavorProfiles: { [key: string]: UnifiedFlavorProfile } = {};
-  private seasonalSystem: typeof unifiedSeasonalSystem;
-  private cuisineSystem: typeof unifiedCuisineIntegrationSystem;
+  private readonly flavorProfiles: { [key: string]: UnifiedFlavorProfile } = {};
+  private readonly seasonalSystem: typeof unifiedSeasonalSystem;
+  private readonly cuisineSystem: typeof unifiedCuisineIntegrationSystem;
 
   constructor() {
     this.flavorProfiles = this.initializeFlavorProfiles();

@@ -1,4 +1,4 @@
-import { LunarPhase } from '@/types/alchemy';
+import type { LunarPhase } from '@/types/alchemy';
 
 /**
  * Returns a multiplier based on lunar phase strength

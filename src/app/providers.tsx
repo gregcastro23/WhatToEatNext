@@ -1,9 +1,9 @@
 'use client';
 
-import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { ThemeProvider } from '@/contexts/ThemeContext';
-import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (

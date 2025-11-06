@@ -4,7 +4,7 @@
 // Integrates with all unified systems and provides backward compatibility
 
 import { unifiedIngredients } from '@/data/unified/ingredients';
-import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type {
   Element,
   ElementalProperties,
@@ -14,7 +14,6 @@ import type {
   CookingMethod
 } from '@/types/alchemy';
 import {_createAstrologicalBridge} from '@/types/bridges/astrologicalBridge';
-
 import {allIngredients} from '../data/ingredients';
 import {
   unifiedNutritionalSystem,
@@ -26,8 +25,8 @@ import {
   type ZodiacNutritionalProfile
 } from '../data/unified/nutritional';
 import {unifiedSeasonalSystem} from '../data/unified/seasonal.js';
-import type { NutritionalProfile, NutritionalFilter } from '../types/nutrition';
 import {logger} from '../utils/logger';
+import type { NutritionalProfile, NutritionalFilter } from '../types/nutrition';
 
 // Type guards for safe property access
 function isValidObject(value: unknown): value is Record<string, unknown> {
@@ -46,7 +45,7 @@ export class UnifiedNutritionalService {
   private static instance: UnifiedNutritionalService;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  private cache: Map<string, any> = new Map();
+  private readonly cache: Map<string, any> = new Map();
 
   private constructor() {
     // Legacy nutrition service removed - using unified local data only
@@ -226,7 +225,7 @@ export class UnifiedNutritionalService {
    * Analyze nutritional compatibility between multiple ingredients
    */
   async analyzeNutritionalCompatibility(
-    ingredients: (string | UnifiedIngredient)[],
+    ingredients: Array<string | UnifiedIngredient>,
     context?: {
       season?: Season;
       currentZodiacSign?: any;
@@ -461,7 +460,7 @@ export class UnifiedNutritionalService {
   filterIngredientsByKalchm(
     ingredients: UnifiedIngredient[],
     targetKalchm: number,
-    tolerance: number = 0.2
+    tolerance = 0.2
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(
       ingredient => Math.abs((ingredient.kalchm ?? 0) - targetKalchm) <= tolerance
@@ -474,7 +473,7 @@ export class UnifiedNutritionalService {
   filterIngredientsByElement(
     ingredients: UnifiedIngredient[],
     element: Element,
-    minValue: number = 0.5
+    minValue = 0.5
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(
       ingredient => ingredient.elementalProperties[element] >= minValue
@@ -626,7 +625,7 @@ export class UnifiedNutritionalService {
    * Enhance multiple nutritional profiles in batch
    */
   async enhanceNutritionalProfilesBatch(
-    ingredients: (string | UnifiedIngredient)[],
+    ingredients: Array<string | UnifiedIngredient>,
     context?: {
       season?: Season;
       currentZodiacSign?: any;
@@ -656,7 +655,7 @@ export class UnifiedNutritionalService {
    * Calculate nutritional scores for multiple ingredients
    */
   async calculateNutritionalScoresBatch(
-    ingredients: (string | UnifiedIngredient)[],
+    ingredients: Array<string | UnifiedIngredient>,
     context?: {
       season?: Season;
       currentZodiacSign?: any;
@@ -717,7 +716,7 @@ export class UnifiedNutritionalService {
 
       // Get enhanced profiles for all ingredients
       const enhancedProfiles = await this.enhanceNutritionalProfilesBatch(
-        ingredients as (string | UnifiedIngredient)[]
+        ingredients as Array<string | UnifiedIngredient>
       );
 
       // Aggregate nutritional values
@@ -823,7 +822,7 @@ export const getEnhancedNutritionalProfile = (
 ) => unifiedNutritionalService.getEnhancedNutritionalProfile(ingredient, context);
 
 export const analyzeNutritionalCompatibility = (
-  ingredients: (string | UnifiedIngredient)[],
+  ingredients: Array<string | UnifiedIngredient>,
   context?: {
     season?: Season;
     currentZodiacSign?: any;

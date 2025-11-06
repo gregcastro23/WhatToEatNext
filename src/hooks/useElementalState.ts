@@ -1,7 +1,5 @@
 import {_useState, _useEffect, useMemo} from 'react';
-
-import {ElementalProperties} from '@/types/alchemy';
-
+import type {ElementalProperties} from '@/types/alchemy';
 import {useAlchemical} from './useAlchemical';
 
 export interface ElementalState {

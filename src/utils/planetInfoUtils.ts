@@ -20,11 +20,11 @@ export interface PlanetInfo {
     name: string,
     element: string
   };
-  aspects: {
+  aspects: Array<{
     planet: string,
     type: string,
     orb: number
-  }[];
+  }>;
   elementalInfluence: {
     fire: number,
     water: number,
@@ -113,7 +113,7 @@ export async function getPlanetInfo(
 
     let planetAspects: Array<{ planet: string; type: string; orb: number }> = [];
     try {
-      const { aspects } = calculateAspects(positions as Record<string, unknown>, 0);
+      const { aspects } = calculateAspects(positions , 0);
       planetAspects = aspects
         .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey)
         .map(aspect => ({

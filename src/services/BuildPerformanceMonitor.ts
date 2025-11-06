@@ -1,9 +1,8 @@
-import { _logger } from '@/lib/logger';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { performance } from 'perf_hooks';
-
+import { _logger } from '@/lib/logger';
 import type { PerformanceReport } from './PerformanceMetricsAnalytics';
 
 export interface BuildMetrics {
@@ -52,7 +51,7 @@ class BuildPerformanceMonitor {
   private bottlenecks: CompilationBottleneck[] = [];
   private regressions: PerformanceRegression[] = [];
   private astrologicalMetrics: AstrologicalCalculationMetrics[] = [];
-  private subscribers: Set<(data: BuildMetrics | PerformanceReport) => void> = new Set();
+  private readonly subscribers: Set<(data: BuildMetrics | PerformanceReport) => void> = new Set();
 
   // Performance thresholds
   private readonly THRESHOLDS = {
@@ -357,7 +356,7 @@ class BuildPerformanceMonitor {
     }
 
     if (alerts.length > 0) {
-      _logger.warn('[Build Performance Alert] ' + alerts.join(', '));
+      _logger.warn(`[Build Performance Alert] ${  alerts.join(', ')}`);
     }
   }
 

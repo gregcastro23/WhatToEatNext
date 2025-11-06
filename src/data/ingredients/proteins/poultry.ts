@@ -76,7 +76,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const poultry: Record<string, IngredientMapping> = fixIngredientMappings(
-  rawPoultry as Record<string, Partial<IngredientMapping>>,
+  rawPoultry ,
 );
 
 // Create a collection of all poultry items

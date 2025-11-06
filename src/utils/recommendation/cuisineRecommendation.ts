@@ -6,19 +6,19 @@
  */
 
 // Import the new comprehensive cuisine system
-import type {
-    UserProfile
-} from '../cuisine/cuisineRecommendationEngine';
+import type { ElementalProperties } from '@/types/alchemy';
+import { getGlobalCache } from '../cuisine/cuisineComputationCache';
 import {
     generateCuisineRecommendations,
     validateUserProfile
 } from '../cuisine/cuisineRecommendationEngine';
+import type {
+    UserProfile
+} from '../cuisine/cuisineRecommendationEngine';
 
 // Import caching system
-import { getGlobalCache } from '../cuisine/cuisineComputationCache';
 
 // Import legacy types for backward compatibility
-import { ElementalProperties } from '@/types/alchemy';
 
 // ========== BACKWARD COMPATIBILITY INTERFACES ==========
 

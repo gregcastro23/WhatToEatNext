@@ -7,9 +7,10 @@
 
 'use client';
 
-import React, { useReducer, useEffect, ReactNode } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { _AlchemicalContext, defaultState } from './context';
-import { AlchemicalState, AlchemicalAction, AlchemicalContextType } from './types';
+import type { AlchemicalState, AlchemicalAction, AlchemicalContextType } from './types';
+import type { ReactNode } from 'react';
 
 // Simple logger fallback
 const logger = {
@@ -90,7 +91,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({ children
   // Helper function to get dominant element
   const getDominantElement = (): string => {
     const elementalProps = state.astrologicalState.elementalProperties;
-    const entries = Object.entries(elementalProps) as [string, number][];
+    const entries = Object.entries(elementalProps) ;
     return entries.reduce((max, [element, value]) =>
       value > max.value ? { element, value } : max,
       { element: 'Fire', value: 0 }
@@ -98,9 +99,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({ children
   };
 
   // Helper function to get current elemental balance
-  const getCurrentElementalBalance = () => {
-    return state.astrologicalState.elementalProperties;
-  };
+  const getCurrentElementalBalance = () => state.astrologicalState.elementalProperties;
 
   // Helper function to calculate alchemical harmony
   const getAlchemicalHarmony = (): number => {
@@ -131,9 +130,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({ children
   };
 
   // Helper function to get thermodynamic state
-  const getThermodynamicState = () => {
-    return state.astrologicalState.thermodynamicProperties;
-  };
+  const getThermodynamicState = () => state.astrologicalState.thermodynamicProperties;
 
   // Update time-based values periodically
   useEffect(() => {

@@ -7,23 +7,21 @@
  */
 
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import type {
+  ElementalProperties,
+  IngredientSearchCriteria} from '@/types/alchemy';
 import {
   Element,
-  ElementalProperties,
-  IngredientSearchCriteria,
   PlanetName,
   Season,
 } from '@/types/alchemy';
-
 import {
-  EnhancedIngredient,
   getEnhancedIngredient,
   searchIngredients,
   getIngredientsByCategory,
   generateIngredientRecommendations,
 } from '../../data/unified/enhancedIngredients';
 import {
-  UnifiedFlavorProfile,
   unifiedFlavorProfileSystem,
   getFlavorProfile,
 } from '../../data/unified/flavorProfiles';
@@ -31,6 +29,10 @@ import {
   createElementalProperties,
   calculateElementalCompatibility,
 } from '../../utils/elemental/elementalUtils';
+import type {
+  EnhancedIngredient} from '../../data/unified/enhancedIngredients';
+import type {
+  UnifiedFlavorProfile} from '../../data/unified/flavorProfiles';
 
 /**
  * Interface for the UnifiedDataAdapter

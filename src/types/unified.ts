@@ -478,18 +478,15 @@ export const DEFAULT_TEMPERATURE_RANGE: TemperatureRange = {
 };
 
 // Type guards
-export const isIngredient = (value: unknown): value is Ingredient => {
-  return (
+export const isIngredient = (value: unknown): value is Ingredient => (
     typeof value === 'object' &&
     value !== null &&
     'id' in value &&
     'name' in value &&
     'elementalProperties' in value
   );
-};
 
-export const isRecipe = (value: unknown): value is Recipe => {
-  return (
+export const isRecipe = (value: unknown): value is Recipe => (
     typeof value === 'object' &&
     value !== null &&
     'id' in value &&
@@ -497,17 +494,14 @@ export const isRecipe = (value: unknown): value is Recipe => {
     'ingredients' in value &&
     'instructions' in value
   );
-};
 
-export const isCookingMethodExtended = (value: unknown): value is CookingMethodExtended => {
-  return (
+export const isCookingMethodExtended = (value: unknown): value is CookingMethodExtended => (
     typeof value === 'object' &&
     value !== null &&
     'id' in value &&
     'name' in value &&
     'elementalEffect' in value
   );
-};
 
 export default {
   DEFAULT_ELEMENTAL_PROPERTIES,

@@ -62,7 +62,7 @@ export function formatDuration(milliseconds: number): string {
 /**
  * Check if a timestamp is recent (within specified minutes)
  */
-export function isRecent(timestamp: string, minutes: number = 5): boolean {
+export function isRecent(timestamp: string, minutes = 5): boolean {
   const timestampDate = new Date(timestamp);
   const now = new Date();
   const diffMinutes = (now.getTime() - timestampDate.getTime()) / (1000 * 60);
@@ -72,7 +72,7 @@ export function isRecent(timestamp: string, minutes: number = 5): boolean {
 /**
  * Get time-based cache key
  */
-export function getTimeBasedCacheKey(prefix: string, intervalMinutes: number = 5): string {
+export function getTimeBasedCacheKey(prefix: string, intervalMinutes = 5): string {
   const now = new Date();
   const intervalMs = intervalMinutes * 60 * 1000;
   const timeSlot = Math.floor(now.getTime() / intervalMs);

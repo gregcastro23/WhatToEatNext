@@ -9,6 +9,7 @@
  * - Error handling and fallback states
  */
 
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { calculateKinetics, type KineticsCalculationInput } from '@/calculations/kinetics';
 import { _logger } from '@/lib/logger';
 import { planetaryKineticsClient } from '@/services/PlanetaryKineticsClient';
@@ -27,7 +28,6 @@ import {
     getElementalFoodRecommendations,
     getTemporalFoodRecommendations
 } from '@/utils/kineticsFoodMatcher';
-import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export interface UsePlanetaryKineticsOptions {
   location?: KineticsLocation,
@@ -198,7 +198,7 @@ export function usePlanetaryKinetics(
   const dominantElement = useMemo(() => {
     if (!kinetics) return 'Earth';
 
-    const totals = kinetics.data.base.elemental.totals;
+    const {totals} = kinetics.data.base.elemental;
     return Object.entries(totals)
       .sort(([,a], [,b]) => b - a)[0][0];
   }, [kinetics]);
@@ -217,9 +217,7 @@ export function usePlanetaryKinetics(
     }
   }, [kinetics, currentPowerLevel]);
 
-  const seasonalInfluence = useMemo(() => {
-    return kinetics?.data.base.timing.seasonalInfluence || 'Spring'
-  }, [kinetics]);
+  const seasonalInfluence = useMemo(() => kinetics?.data.base.timing.seasonalInfluence || 'Spring', [kinetics]);
 
   // Enhanced food recommendations
   const temporalRecommendations = useMemo((): TemporalFoodRecommendation | null => {

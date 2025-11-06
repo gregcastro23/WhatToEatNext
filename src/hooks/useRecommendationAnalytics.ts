@@ -6,12 +6,13 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-
-import {
-  recommendationAnalytics,
+import type {
   RecommendationMetrics,
   RecommendationConfidence,
   AnalyticsSnapshot
+} from '@/services/RecommendationAnalyticsService';
+import {
+  recommendationAnalytics
 } from '@/services/RecommendationAnalyticsService';
 import { logger } from '@/utils/logger';
 
@@ -197,9 +198,7 @@ export function useRecommendationAnalytics(
     [enableCaching]
   );
 
-  const calculateConfidence = useCallback((factors: unknown): RecommendationConfidence => {
-    return recommendationAnalytics.calculateConfidenceScore(factors);
-  }, []);
+  const calculateConfidence = useCallback((factors: unknown): RecommendationConfidence => recommendationAnalytics.calculateConfidenceScore(factors), []);
 
   const trackInteraction = useCallback(
     (type: string, target: string, metadata?: Record<string, unknown>) => {
@@ -214,9 +213,7 @@ export function useRecommendationAnalytics(
     [enableInteractionTracking]
   );
 
-  const getAnalyticsSnapshot = useCallback((): AnalyticsSnapshot => {
-    return recommendationAnalytics.getAnalyticsSnapshot();
-  }, []);
+  const getAnalyticsSnapshot = useCallback((): AnalyticsSnapshot => recommendationAnalytics.getAnalyticsSnapshot(), []);
 
   const clearAnalytics = useCallback(() => {
     recommendationAnalytics.clearAnalytics();
@@ -252,14 +249,10 @@ export function usePerformanceTracking(_componentName: string) {
     enableInteractionTracking: false
   });
 
-  const trackRender = useCallback(() => {
-    return startTiming(`${componentName}_render`);
-  }, [componentName, startTiming]);
+  const trackRender = useCallback(() => startTiming(`${componentName}_render`), [componentName, startTiming]);
 
   const trackOperation = useCallback(
-    (operationName: string) => {
-      return startTiming(`${componentName}_${operationName}`);
-    },
+    (operationName: string) => startTiming(`${componentName}_${operationName}`),
     [componentName, startTiming]
   );
 
@@ -281,9 +274,7 @@ export function useRecommendationCache<T>() {
   });
 
   const getCached = useCallback(
-    (key: string): T | null => {
-      return getCachedRecommendation<T>(key);
-    },
+    (key: string): T | null => getCachedRecommendation<T>(key),
     [getCachedRecommendation]
   );
 

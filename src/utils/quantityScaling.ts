@@ -2,7 +2,7 @@
 // Quantity-to-Property Scaling Engine for Enhanced Ingredient-to-Quantity Mapping
 // Created: 2025-01-24
 
-import {
+import type {
     AlchemicalProperties,
     ElementalProperties,
     QuantityScaledProperties,

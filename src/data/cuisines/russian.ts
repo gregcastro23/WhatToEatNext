@@ -1,5 +1,5 @@
 // src/data/cuisines/russian.ts
-import { Cuisine } from '@/types/cuisine';
+import type { Cuisine } from '@/types/cuisine';
 
 export const russian: Cuisine = {
   id: 'russian',

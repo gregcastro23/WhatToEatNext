@@ -8,8 +8,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAlchmWebSocket } from '@/hooks/useAlchmWebSocket';
 import { getPlanetaryInfluencers } from '@/calculations/elementalcalculations';
+import { useAlchmWebSocket } from '@/hooks/useAlchmWebSocket';
 import { logger } from '@/lib/logger';
 
 interface PlanetaryDisplayData {
@@ -110,9 +110,9 @@ export const LivePlanetaryTracker: React.FC = () => {
       <div className="max-w-2xl mx-auto p-6">
         <div className="bg-white rounded-2xl shadow-lg p-8">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
-            <div className="h-32 bg-gray-200 rounded mb-4"></div>
-            <div className="h-6 bg-gray-200 rounded w-1/2"></div>
+            <div className="h-8 bg-gray-200 rounded w-3/4 mb-4" />
+            <div className="h-32 bg-gray-200 rounded mb-4" />
+            <div className="h-6 bg-gray-200 rounded w-1/2" />
           </div>
         </div>
       </div>
@@ -138,7 +138,7 @@ export const LivePlanetaryTracker: React.FC = () => {
         }`}>
           <div className={`w-2 h-2 rounded-full mr-2 ${
             isConnected ? 'bg-green-500' : 'bg-red-500'
-          }`}></div>
+          }`} />
           {isConnected ? 'Live Updates Active' : 'Offline Mode'}
         </div>
       </div>
@@ -174,7 +174,7 @@ export const LivePlanetaryTracker: React.FC = () => {
                   <div
                     className={`bg-gradient-to-r ${planetaryData.color} h-4 rounded-full transition-all duration-1000`}
                     style={{ width: `${planetaryData.influence * 100}%` }}
-                  ></div>
+                   />
                 </div>
                 <div className="text-center mt-2 text-2xl font-bold text-gray-800">
                   {(planetaryData.influence * 100).toFixed(0)}%

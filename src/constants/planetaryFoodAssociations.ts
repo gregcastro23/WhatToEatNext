@@ -1,6 +1,5 @@
-import { LunarPhaseWithSpaces } from '../types/alchemy';
-
-import { ElementalCharacter } from './planetaryElements';
+import type { ElementalCharacter } from './planetaryElements';
+import type { LunarPhaseWithSpaces } from '../types/alchemy';
 
 /**
  * Enhanced planet type incorporating multiple astrological traditions
@@ -243,15 +242,15 @@ export const _calculatePlanetaryBoost = (
 export const calculatePlanetaryBoost = _calculatePlanetaryBoost;
 
 // Helper functions for calculations
-const _getTriplicityRulers = (_zodiacSign?: string | null): Planet[] => {
+const _getTriplicityRulers = (_zodiacSign?: string | null): Planet[] => 
   // Implementation depends on your zodiac mappings
-  return ['Sun', 'Mars', 'Jupiter'] as Planet[];
-}
+   ['Sun', 'Mars', 'Jupiter'] as Planet[]
 
-const _getSeasonalMultiplier = (): number => {
+
+const _getSeasonalMultiplier = (): number => 
   // Implementation depends on your seasonal logic
-  return 1.0;
-}
+   1.0
+
 
 /**
  * Get dignity multiplier for calculations
@@ -418,18 +417,16 @@ export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number =
     elementalCharacter?: string
   }
   const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {};
-  return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
-    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0);
-}, 0)
+  return Object.entries(elementBoost).reduce((acc, [element, boost]) => acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0), 0)
 }
 
 /**
  * Get nutritional synergy between ingredient and planet
  */
-export const _getNutritionalSynergy = (_planet: Planet, _ingredient: unknown): string[] => {
+export const _getNutritionalSynergy = (_planet: Planet, _ingredient: unknown): string[] => 
   // Implementation depends on your nutritional data
-  return [];
-}
+   []
+
 
 /**
  * Format elemental balance for display

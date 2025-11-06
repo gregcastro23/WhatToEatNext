@@ -8,7 +8,6 @@
  */
 
 import { logger } from '@/utils/logger';
-
 import { PerformanceCache, PerformanceMonitor } from './PerformanceCache';
 
 // ========== INTERFACES ==========
@@ -61,14 +60,14 @@ export interface AnalyticsSnapshot {
 // ========== RECOMMENDATION ANALYTICS SERVICE ==========
 
 class RecommendationAnalyticsService {
-  private performanceMonitor: PerformanceMonitor;
-  private recommendationCache: PerformanceCache<unknown>;
-  private confidenceCache: PerformanceCache<RecommendationConfidence>;
+  private readonly performanceMonitor: PerformanceMonitor;
+  private readonly recommendationCache: PerformanceCache<unknown>;
+  private readonly confidenceCache: PerformanceCache<RecommendationConfidence>;
   private metricsHistory: RecommendationMetrics[] = [];
   private userInteractions: UserInteraction[] = [];
   private sessionId: string;
-  private maxHistorySize: number = 100;
-  private maxInteractionHistory: number = 500;
+  private readonly maxHistorySize = 100;
+  private readonly maxInteractionHistory = 500;
 
   constructor() {
     this.performanceMonitor = new PerformanceMonitor();

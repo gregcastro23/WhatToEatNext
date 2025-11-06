@@ -1,8 +1,7 @@
 import { normalizePlanetaryPositions } from '@/utils/astrology/core';
-
 import type { ThermodynamicMetrics } from '../calculations/gregsEnergy';
-import { ElementalCharacter } from '../constants/planetaryElements';
-import { RulingPlanet } from '../constants/planets';
+import type { ElementalCharacter } from '../constants/planetaryElements';
+import type { RulingPlanet } from '../constants/planets';
 import type { BirthChart } from '../types/astrology';
 
 /**
@@ -424,7 +423,7 @@ export class FoodAlchemySystem {
     let decanBonus = 0;
 
     // Apply dignity effects if we have planet positions
-    if (normalizedPositions?.[planetaryDay]) {
+    if (normalizedPositions[planetaryDay]) {
       const planetSign = normalizedPositions[planetaryDay].sign;
       const planetDegree = normalizedPositions[planetaryDay].degree;
 

@@ -2,6 +2,7 @@
  * Utility for numerological calculations used in celestial and astrological contexts
  */
 import type { ElementalProperties } from '@/types/elemental';
+
 export const celestialNumerology = {
   /**
    * Calculate a numerological value for the current day

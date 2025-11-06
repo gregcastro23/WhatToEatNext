@@ -1,17 +1,17 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-
-import { ElementalCharacter } from '@/constants/planetaryElements';
-import {_LunarPhase as FoodAssociationsLunarPhase} from '@/constants/planetaryFoodAssociations';
-import {calculateSignEnergyStates, SignEnergyState} from '@/constants/signEnergyStates';
+import type { ElementalCharacter } from '@/constants/planetaryElements';
+import type {_LunarPhase as FoodAssociationsLunarPhase} from '@/constants/planetaryFoodAssociations';
+import type { SignEnergyState} from '@/constants/signEnergyStates';
+import {calculateSignEnergyStates} from '@/constants/signEnergyStates';
 import {PLANET_TO_MAJOR_ARCANA} from '@/constants/tarotCards';
 import {getTarotCardsForDate} from '@/lib/tarotCalculations';
-import {_PlanetaryAspect, LunarPhaseWithSpaces} from '@/types/alchemy';
+import type { LunarPhaseWithSpaces} from '@/types/alchemy';
+import {_PlanetaryAspect} from '@/types/alchemy';
 // Import all lunar phase utilities from the centralized utility file
 
 // Import the logger utility
 import {createLogger} from '@/utils/logger';
 import {REVERSE_LUNAR_PHASE_MAP} from '@/utils/lunarPhaseUtils';
-
 import {useAstrologicalState} from './useAstrologicalState';
 
 // Create a component-specific logger
@@ -271,7 +271,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
         // Calculate based on minor card
         if (tarotCards.minorCard?.suit) {
-          const suit = tarotCards.minorCard.suit;
+          const {suit} = tarotCards.minorCard;
           const element = suitMap[suit];
           if (element) {
             boosts[element] += (tarotCards.minorCard.number || 0) * 0.1;

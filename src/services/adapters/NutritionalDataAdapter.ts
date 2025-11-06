@@ -5,15 +5,13 @@
  * in the WhatToEatNext system with proper error handling and type safety.
  */
 
-import { Element } from '@/types/alchemy';
-import type {
+import type { Element ,
   NutritionalProfile,
   ElementalProperties,
   ZodiacSign,
   PlanetName,
   Season,
 } from '@/types/alchemy';
-
 import {
   fetchNutritionalData,
   calculateNutritionalBalance,

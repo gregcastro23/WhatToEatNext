@@ -1,10 +1,9 @@
 import SunCalc from 'suncalc';
-
-import { Planet } from '@/types/celestial';
+import type { Planet } from '@/types/celestial';
 
 export class PlanetaryHourCalculator {
   // Planetary hour configuration according to traditional planetary rulers
-  private static planetaryHours: Record<string, Planet[]> = {
+  private static readonly planetaryHours: Record<string, Planet[]> = {
     Sunday: ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
     Monday: ['Moon', 'Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury'],
     Tuesday: ['Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter'],
@@ -14,7 +13,7 @@ export class PlanetaryHourCalculator {
     Saturday: ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon']
   }
 
-  private static dayNames: string[] = [
+  private static readonly dayNames: string[] = [
     'Sunday',
     'Monday',
     'Tuesday',
@@ -25,7 +24,7 @@ export class PlanetaryHourCalculator {
   ];
 
   // Planetary rulers for each day of the week (0 = Sunday)
-  private static dayRulers: Planet[] = [
+  private static readonly dayRulers: Planet[] = [
     'Sun',
     'Moon',
     'Mars',
@@ -36,7 +35,7 @@ export class PlanetaryHourCalculator {
   ];
 
   // Minute rulers - each planet rules approximately 8.57 minutes in sequence
-  private static minuteRulers: Planet[] = [
+  private static readonly minuteRulers: Planet[] = [
     'Sun',
     'Venus',
     'Mercury',
@@ -162,8 +161,8 @@ export class PlanetaryHourCalculator {
       this.coordinates.longitude
     )
 
-    const sunrise = times.sunrise;
-    const sunset = times.sunset;
+    const {sunrise} = times;
+    const {sunset} = times;
 
     if (!sunrise || !sunset) {
       _logger.warn('Could not calculate sunrise or sunset times')

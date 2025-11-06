@@ -1,11 +1,11 @@
-import { Chakra } from '../constants/chakraMappings';
-import type { Recipe } from '../types/recipe';
 import { getFoodRecommendationsFromChakras } from '../utils/chakraFoodUtils';
-
-import { ChakraService, ChakraEnergyState } from './ChakraService';
+import { ChakraService } from './ChakraService';
+import type { ChakraEnergyState } from './ChakraService';
+import type { Chakra } from '../constants/chakraMappings';
+import type { Recipe } from '../types/recipe';
 
 export class RecipeChakraService {
-  private chakraService: ChakraService;
+  private readonly chakraService: ChakraService;
 
   constructor() {
     this.chakraService = new ChakraService();

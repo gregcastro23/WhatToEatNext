@@ -9,9 +9,8 @@ import sunData from '@/data/planets/sun';
 import uranusData from '@/data/planets/uranus';
 import venusData from '@/data/planets/venus';
 import { log } from '@/services/LoggingService';
-import { ZodiacSign } from '@/types';
-
-import { PlanetPosition } from './astrologyUtils';
+import type { ZodiacSign } from '@/types';
+import type { PlanetPosition } from './astrologyUtils';
 
 interface TransitDate {
   Start: string;
@@ -42,9 +41,7 @@ const planetDataMap: Record<string, PlanetDataWithTransits> = {
 /**
  * Converts a string like 'Taurus' to lowercase 'taurus' to match ZodiacSign type
  */
-const normalizeZodiacSign = (sign: string): ZodiacSign => {
-  return sign.toLowerCase() as ZodiacSign;
-};
+const normalizeZodiacSign = (sign: string): ZodiacSign => sign.toLowerCase() as ZodiacSign;
 
 /**
  * Gets current zodiac sign for a planet based on transit dates
@@ -165,7 +162,7 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
       degree,
       minute,
       exactLongitude,
-      _isRetrograde: planet === 'Pluto' // Only Pluto is retrograde currently
+      isRetrograde: planet === 'Pluto' // Only Pluto is retrograde currently
     };
   }
 

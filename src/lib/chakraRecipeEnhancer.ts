@@ -1,7 +1,7 @@
-import {ChakraEnergies, ElementalProperties, Planet, _ZodiacSign} from '@/types/alchemy';
-import {KeyCardChakraMapping} from '@/types/chakra';
-import {Recipe} from '@/types/recipe';
-
+import type {ChakraEnergies, ElementalProperties, Planet} from '@/types/alchemy';
+import { _ZodiacSign} from '@/types/alchemy';
+import type {KeyCardChakraMapping} from '@/types/chakra';
+import type {Recipe} from '@/types/recipe';
 import {ChakraAlchemyService} from './ChakraAlchemyService';
 import {PlanetaryHourCalculator} from './PlanetaryHourCalculator';
 
@@ -43,8 +43,8 @@ function getElementalChakraMap(): Record<keyof ElementalProperties, Array<keyof 
  * ChakraRecipeEnhancer enhances recipes with chakra information
  */
 export class ChakraRecipeEnhancer {
-  private chakraService: ChakraAlchemyService;
-  private planetaryCalculator: PlanetaryHourCalculator;
+  private readonly chakraService: ChakraAlchemyService;
+  private readonly planetaryCalculator: PlanetaryHourCalculator;
 
   constructor() {
     this.chakraService = new ChakraAlchemyService();
@@ -158,7 +158,7 @@ export class ChakraRecipeEnhancer {
         // Calculate planetary alignment
         let planetaryAlignment = 0;
         // Apply surgical type casting with variable extraction
-        const astrologicalAffinities = recipe.astrologicalAffinities;
+        const {astrologicalAffinities} = recipe;
         const planets = astrologicalAffinities?.planets;
 
         if (planets) {

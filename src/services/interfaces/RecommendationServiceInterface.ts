@@ -1,14 +1,15 @@
-import { ThermodynamicMetrics } from '@/types/alchemical';
-import {
+import type { ThermodynamicMetrics } from '@/types/alchemical';
+import type {
   ElementalProperties,
-  Planet,
+  Planet} from '@/types/alchemy';
+import {
   ZodiacSign,
   PlanetaryAlignment,
   Element,
 } from '@/types/alchemy';
-import { CookingMethod } from '@/types/cooking';
-import { Ingredient } from '@/types/ingredient';
-import { Recipe } from '@/types/recipe';
+import type { CookingMethod } from '@/types/cooking';
+import type { Ingredient } from '@/types/ingredient';
+import type { Recipe } from '@/types/recipe';
 
 /**
  * Filter criteria for recipe recommendations

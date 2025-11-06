@@ -32,9 +32,9 @@ export default function NutritionalDataPage() {
         <div>
           <h2 className='mb-4 text-xl font-semibold'>Popular Ingredients</h2>
           <div className='grid grid-cols-1 gap-4'>
-            <NutritionalDisplay ingredientName='spinach' compact={true} showSearch={false} />
-            <NutritionalDisplay ingredientName='chicken breast' compact={true} showSearch={false} />
-            <NutritionalDisplay ingredientName='banana' compact={true} showSearch={false} />
+            <NutritionalDisplay ingredientName='spinach' compact showSearch={false} />
+            <NutritionalDisplay ingredientName='chicken breast' compact showSearch={false} />
+            <NutritionalDisplay ingredientName='banana' compact showSearch={false} />
           </div>
         </div>
       </div>

@@ -1,8 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-
 import {_AstrologicalState} from '@/types/celestial';
 import {getCurrentAstrologicalState} from '@/utils/astrologyUtils';
-
 import {useAlchemical} from './useAlchemical';
 
 export interface AstrologicalInfluence {

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 
 export interface PlanetaryHoursData {

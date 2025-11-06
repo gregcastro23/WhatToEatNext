@@ -13,7 +13,6 @@ export type {
 } from './types';
 
 import { calculateSeasonalScores } from '@/calculations/seasonalCalculations';
-
 import { getMedicinalProperties } from './medicinalCrossReference';
 import { getTemperatureEffect } from './temperatureEffects';
 import { getTextureProfile } from './textureProfiles';

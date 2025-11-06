@@ -33,11 +33,11 @@ function normalizeFromEngine(raw: Record<string, { sign: any; degree: number; ex
   const out: PositionRecord = {};
   Object.entries(raw || {}).forEach(([planet, p]) => {
     out[planet] = {
-      sign: (String(p?.sign || 'aries').toLowerCase() as any),
-      degree: Number(p?.degree || 0),
+      sign: (String(p.sign || 'aries').toLowerCase() as any),
+      degree: Number(p.degree || 0),
       minute: 0,
-      exactLongitude: Number(p?.exactLongitude || 0),
-      isRetrograde: !!p?.isRetrograde
+      exactLongitude: Number(p.exactLongitude || 0),
+      isRetrograde: !!p.isRetrograde
     };
   });
   return out;

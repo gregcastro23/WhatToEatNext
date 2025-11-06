@@ -5,13 +5,14 @@
  * Following Phase 4 API standardization guidelines
  */
 
-import {
-  Element,
+import type {
   Season,
   ZodiacSign,
   LunarPhase,
   PlanetName,
-  ElementalProperties,
+  ElementalProperties} from '@/types/alchemy';
+import {
+  Element
 } from '@/types/alchemy';
 import { PlanetaryAlignment } from '@/types/celestial';
 import { Recipe } from '@/types/recipe';

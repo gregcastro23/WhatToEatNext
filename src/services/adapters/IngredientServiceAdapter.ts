@@ -6,13 +6,13 @@
  * modern service architecture.
  */
 
-import { Element, ElementalProperties, PlanetName, Season, ZodiacSign } from '@/types/alchemy';
-
-import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
+import type { ElementalProperties, PlanetName, Season, ZodiacSign } from '@/types/alchemy';
+import { Element } from '@/types/alchemy';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
 import { logger } from '../../utils/logger';
 import { consolidatedIngredientService } from '../ConsolidatedIngredientService';
 import { FoodAlchemySystem, type SystemState } from '../FoodAlchemySystem';
+import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
 import type { IngredientFilter } from '../interfaces/IngredientServiceInterface';
 
 /**
@@ -76,7 +76,7 @@ export class EnhancedIngredientSystem {
 
       // Filter by season if specified - apply surgical type casting
       const optionsData = options as Record<string, unknown>;
-      const currentSeason = optionsData.currentSeason;
+      const {currentSeason} = optionsData;
       if (currentSeason) {
         filtered = filtered.filter(ingredient => {
           const seasons = ingredient.seasonality || ingredient.currentSeason || [];
@@ -217,7 +217,7 @@ export class EnhancedIngredientSystem {
    * @param maxResults Maximum number of results
    * @returns Array of complementary ingredients
    */
-  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {
+  findComplementaryIngredients(ingredients: string[], maxResults = 5): UnifiedIngredient[] {
     try {
       // Get complementary ingredients for each base ingredient
       const allComplementary: UnifiedIngredient[] = [];

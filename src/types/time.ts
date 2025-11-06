@@ -1,4 +1,4 @@
-import { PlanetName } from './alchemy';
+import type { PlanetName } from './alchemy';
 
 export type WeekDay =
   | 'Sunday'

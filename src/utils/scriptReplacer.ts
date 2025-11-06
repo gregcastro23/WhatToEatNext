@@ -11,7 +11,7 @@ if (typeof window !== 'undefined') {
   // Global script error handler - must be first
   window.addEventListener(
     'error',
-    function (_event) {
+    (_event) => {
       if (
         _event.filename &&
         (_event.filename.includes('popup.js') ||
@@ -48,43 +48,43 @@ if (typeof window !== 'undefined') {
 
   // Ensure popup object exists
   if (!window.popup) {
-    window.popup = { create: function (_options?, unknown) {
+    window.popup = { create (_options?, unknown) {
         return {
-          show: function () {
+          show () {
             return this;
           },
-          hide: function () {
+          hide () {
             return this;
 },
-          update: function () {
+          update () {
             return this;
 },
-          on: function (_event: string, _callback?: (...args: unknown[]) => unknown) {
-            return { off: function () {} };
+          on (_event: string, _callback?: (...args: unknown[]) => unknown) {
+            return { off () {} };
 },
-          trigger: function (_event: string) {
+          trigger (_event: string) {
             return this;
 }
         }
       },
-      show: function () {
+      show () {
         return this;
 },
-      hide: function () {
+      hide () {
         return this;
 },
-      update: function () {
+      update () {
         return this;
 },
-      on: function (_event: string, _callback?: (...args: unknown[]) => unknown) {
+      on (_event: string, _callback?: (...args: unknown[]) => unknown) {
         return {
-          off: function () {},
-          trigger: function (_event: string) {
+          off () {},
+          trigger (_event: string) {
             return this;
           }
         }
       },
-      trigger: function (_event: string) {
+      trigger (_event: string) {
         return this;
 }
     }
@@ -93,16 +93,16 @@ if (typeof window !== 'undefined') {
   // Safe chrome.tabs implementation
   if (!window.chrome.tabs) {
     window.chrome.tabs = {
-      create: function () {
+      create () {
         log.info('[ScriptReplacer] Intercepted chrome.tabs.create call')
         return Promise.resolve({ id: 999 });
 },
-      _query: function (queryInfo: unknown, callback?: Function) {
+      _query (queryInfo: unknown, callback?: Function) {
         const result = [{ id: 1, _active: true }],;
         if (callback) callback(result)
         return true;
       },
-      update: function (tabId: number, properties: unknown, callback?: Function) {
+      update (tabId: number, properties: unknown, callback?: Function) {
         if (callback) callback({})
         return true;
       }

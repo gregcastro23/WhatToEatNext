@@ -1,4 +1,4 @@
-import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { ElementalProperties, Element, Season } from '@/types/alchemy';
 import { Recipe } from '@/types/recipe';
 
@@ -171,7 +171,7 @@ export class RecipeEnhancer {
       const unifiedIngredient = ingredientName ? this.findUnifiedIngredient(ingredientName) : null;
       if (unifiedIngredient) {
         kalchm = unifiedIngredient.kalchm ?? 1.0;
-        const elementalState = unifiedIngredient.elementalState;
+        const {elementalState} = unifiedIngredient;
         if (elementalState && typeof elementalState === 'object') {
           elementalContribution = elementalState as ElementalProperties;
         }
@@ -481,7 +481,7 @@ export class RecipeEnhancer {
       recipeData?.astrologicalAffinities?.planets &&
       recipeData.astrologicalAffinities.planets.length > 0
     ) {
-      return recipeData.astrologicalAffinities.planets[0] + ' hour';
+      return `${recipeData.astrologicalAffinities.planets[0]  } hour`;
     }
     if (recipeData?.zodiacInfluences && recipeData.zodiacInfluences.length > 0) {
       // Map zodiac to planetary rulers
@@ -500,7 +500,7 @@ export class RecipeEnhancer {
         pisces: 'Jupiter'
       };
       const planet = zodiacPlanets[recipeData?.zodiacInfluences?.[0].toLowerCase()];
-      return planet ? planet + ' hour' : null;
+      return planet ? `${planet  } hour` : null;
     }
 
     return null;
@@ -509,7 +509,7 @@ export class RecipeEnhancer {
   /**
    * Enhance a recipe with alchemical properties (ADDITIVE - preserves all existing data)
    */
-  static enhanceRecipe(recipe: unknown, sourceFile: string = 'unknown'): EnhancedRecipe {
+  static enhanceRecipe(recipe: unknown, sourceFile = 'unknown'): EnhancedRecipe {
     // Calculate recipe Kalchm from ingredients
     const kalchmResult = this.calculateRecipeKalchm(recipe.ingredients || []);
 
@@ -595,7 +595,7 @@ export class RecipeAnalyzer {
   static findKalchmSimilarRecipes(
     targetRecipe: EnhancedRecipe,
     recipePool: EnhancedRecipe[],
-    tolerance: number = 0.2
+    tolerance = 0.2
   ): EnhancedRecipe[] {
     const targetKalchm = targetRecipe.alchemicalProperties?.totalKalchm || 1.0;
 
@@ -611,7 +611,7 @@ export class RecipeAnalyzer {
   static getRecipesByElementalDominance(
     recipes: EnhancedRecipe[],
     element: keyof ElementalProperties,
-    threshold: number = 0.4
+    threshold = 0.4
   ): EnhancedRecipe[] {
     return recipes.filter(recipe => {
       // Use safe type casting for alchemical properties access

@@ -1,4 +1,5 @@
-import { PlanetData, MercurySpecificData } from './types';
+import type { PlanetData, MercurySpecificData } from './types';
+
 export type { MercurySpecificData }
 
 const mercuryData: PlanetData = {

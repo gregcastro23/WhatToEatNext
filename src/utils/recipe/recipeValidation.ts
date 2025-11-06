@@ -199,7 +199,7 @@ function validateCookingMethods(
   errors: string[],
   warnings: string[]
 ): boolean {
-  const cookingMethod = recipe.cookingMethod;
+  const {cookingMethod} = recipe;
   if (!cookingMethod || !Array.isArray(cookingMethod) || cookingMethod.length === 0) {
     warnings.push('No cooking methods specified');
     return true; // Not required for basic validity
@@ -408,7 +408,7 @@ function isValidCookingMethod(method: string): boolean {
  * Batch validate multiple recipes
  */
 export function validateRecipes(
-  recipes: Partial<Recipe>[],
+  recipes: Array<Partial<Recipe>>,
   options?: Parameters<typeof validateRecipe>[1]
 ): RecipeValidationResult[] {
   return recipes.map(recipe => validateRecipe(recipe, options));

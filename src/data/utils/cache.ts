@@ -6,9 +6,9 @@ export interface CacheEntry<T> {
 }
 
 export class SimpleCache<T> {
-  private cache = new Map<string, CacheEntry<T>>()
+  private readonly cache = new Map<string, CacheEntry<T>>()
 
-  set(key: string, data: T, ttl: number = 300000): void {
+  set(key: string, data: T, ttl = 300000): void {
     // 5 minutes default TTL;
     this.cache.set(key, {
       data,

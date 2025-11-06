@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-
 import { logger } from '@/utils/logger';
+import type {
+    NavigationState} from '@/utils/statePreservation';
 import {
-    NavigationState,
     getComponentState,
     getNavigationState,
     getScrollPosition,
@@ -10,7 +10,8 @@ import {
     saveNavigationState,
     useStateCleanup
 } from '@/utils/statePreservation';
-import { ElementalProperties, useSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
+import type { ElementalProperties} from '@/utils/steeringFileIntelligence';
+import { useSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
 
 /**
  * Hook for preserving and restoring navigation state with performance optimizations
@@ -29,18 +30,14 @@ export function useNavigationState() {
     }, 50); // 50ms debounce
   }, [])
 
-  const getState = useCallback(() => {
-    return getNavigationState();
-  }, [])
+  const getState = useCallback(() => getNavigationState(), [])
 
   // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
+  useEffect(() => () => {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current)
       }
-    }
-  }, [])
+    }, [])
 
   return useMemo(() => ({ saveState, getState }), [saveState, getState]);
 }
@@ -69,18 +66,14 @@ export function useComponentState<T = unknown>(componentId: string, initialState
     return stored || initialState || null;
   }, [componentId, initialState])
 
-  const restoreState = useCallback((): T | null => {
-    return getState();
-  }, [getState])
+  const restoreState = useCallback((): T | null => getState(), [getState])
 
   // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
+  useEffect(() => () => {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current)
       }
-    }
-  }, [])
+    }, [])
 
   return useMemo(
     () => ({ saveState, getState, restoreState }),
@@ -188,9 +181,7 @@ export function useSelectionState<T = unknown>(selectionId: string, initialSelec
     [saveState]
   );
 
-  const restoreSelection = useCallback((): T | null => {
-    return getState();
-  }, [getState])
+  const restoreSelection = useCallback((): T | null => getState(), [getState])
 
   const clearSelection = useCallback(() => {
     if (initialSelection !== undefined) {
@@ -227,9 +218,7 @@ export function useNavigationContext() {
     [saveState, getState]
   )
 
-  const restoreContext = useCallback(() => {
-    return getState();
-  }, [getState])
+  const restoreContext = useCallback(() => getState(), [getState])
 
   const getLastPage = useCallback(() => {
     const state = getState();
@@ -293,22 +282,18 @@ export function useAstrologicalStatePreservation(componentId: string) {
     []
   )
 
-  const getArchitecturalGuidance = useCallback(() => {
-    return {
+  const getArchitecturalGuidance = useCallback(() => ({
       patterns: ['component-isolation', 'error-boundaries', 'performance-optimization'],
       recommendations: [
         'Use React.memo for expensive components',
         'Implement proper error handling'
       ]
-    }
-  }, [])
+    }), [])
 
-  const getTechnologyStackGuidance = useCallback(() => {
-    return {
+  const getTechnologyStackGuidance = useCallback(() => ({
       react: { version: '19.1.0', features: ['concurrent', 'suspense'] },
       typescript: { version: '5.1.6', strictMode: true }
-    }
-  }, [])
+    }), [])
 
   return {
     saveAstrologicalState,
@@ -372,8 +357,7 @@ export function useCulturalSensitivityGuidance() {
     [intelligence]
   )
 
-  const getInclusiveLanguageGuidelines = useCallback(() => {
-    return {
+  const getInclusiveLanguageGuidelines = useCallback(() => ({
       ingredientNaming: [
         "Use specific cultural origins (e.g., 'Mediterranean herbs' instead of 'exotic herbs')",
         'Respect traditional names while providing context',
@@ -392,8 +376,7 @@ export function useCulturalSensitivityGuidance() {
         'Support keyboard navigation',
         'Include screen reader compatible content'
       ]
-    }
-  }, [])
+    }), [])
 
   return {
     validateCulturalContent,

@@ -1,7 +1,7 @@
-import { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
-import { ElementalCharacter } from '../constants/planetaryElements';
 import { planetInfo } from '../data/planets/planetaryInfo';
-import {
+import type { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
+import type { ElementalCharacter } from '../constants/planetaryElements';
+import type {
   LunarPhaseWithSpaces,
   PlanetaryAspect,
   AlchemicalProperties,
@@ -19,11 +19,8 @@ import {
 import { calculatePlanetaryPositions, calculateLunarPhase } from '../utils/astrologyUtils';
 import { transformItemsWithPlanetaryPositions } from '../utils/elementalUtils';
 import { convertToLunarPhase } from '../utils/lunarUtils';
-
 import { logger } from '@/utils/logger';
-
 import { alchemize } from '../calculations/core/alchemicalCalculations';
-
 import type { RecommendationResult } from './interfaces/RecommendationServiceInterface';
 
 // Define PlanetData interface to replace all 'any' types
@@ -51,9 +48,9 @@ interface TransformedItem extends AlchemicalItem {
  * based on current planetary alignments and user preferences
  */
 export class RecommendationAdapter {
-  private ingredients: ElementalItem[];
-  private methods: ElementalItem[];
-  private cuisines: ElementalItem[];
+  private readonly ingredients: ElementalItem[];
+  private readonly methods: ElementalItem[];
+  private readonly cuisines: ElementalItem[];
   private planetaryPositions: Record<string, PlanetData>;
   private isDaytime: boolean;
   private currentZodiac: string | null;
@@ -307,9 +304,9 @@ export class RecommendationAdapter {
         this.aspects.forEach(aspect => {
           // Extract aspect data with safe property access
           const aspectData = aspect as unknown as any;
-          const body1 = aspectData.body1;
-          const body2 = aspectData.body2;
-          const aspectType = aspectData.aspectType;
+          const {body1} = aspectData;
+          const {body2} = aspectData;
+          const {aspectType} = aspectData;
 
           // Lookup planet data for both bodies with safe string conversion
           const planet1 = typeof body1 === 'string' ? body1.toLowerCase() : undefined;
@@ -507,9 +504,9 @@ export class RecommendationAdapter {
         if (nutrition) {
           // Extract nutrition data with safe property access
           const nutritionData = nutrition as any;
-          const macros = nutritionData.macros;
-          const vitamins = nutritionData.vitamins;
-          const minerals = nutritionData.minerals;
+          const {macros} = nutritionData;
+          const {vitamins} = nutritionData;
+          const {minerals} = nutritionData;
 
           if (macros && vitamins && minerals) {
             const macrosData = macros as unknown;

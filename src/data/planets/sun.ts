@@ -1,4 +1,5 @@
-import { PlanetData, SunSpecificData } from './types';
+import type { PlanetData, SunSpecificData } from './types';
+
 export type { SunSpecificData }
 
 const sunData: PlanetData = {

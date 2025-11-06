@@ -1,8 +1,8 @@
 import type { Element } from '@/types/alchemy';
 
 interface ElementCombinations {
-  harmonious: [Element, Element][],
-  compatible: [Element, Element][],
+  harmonious: Array<[Element, Element]>,
+  compatible: Array<[Element, Element]>,
 }
 
 export const _ELEMENT_COMBINATIONS: ElementCombinations = {

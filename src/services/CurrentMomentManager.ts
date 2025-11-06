@@ -7,13 +7,12 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-
 import {
     getCurrentPlanetaryPositions,
     getPlanetaryPositionsForDateTime
 } from '@/services/astrologizeApi';
-import { ZodiacSign } from '@/types/alchemy';
-import { PlanetPosition } from '@/utils/astrologyUtils';
+import type { ZodiacSign } from '@/types/alchemy';
+import type { PlanetPosition } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
 
 const logger = createLogger('CurrentMomentManager');
@@ -225,9 +224,9 @@ class CurrentMomentManager {
         // Update the source with new data
         const newSource = [
           timestampComment,
-          '# **Generated:** Live Current Moment Analysis - ' +
-            new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) +
-            ' (Nocturnal Chart)  \n',
+          `# **Generated:** Live Current Moment Analysis - ${ 
+            new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) 
+            } (Nocturnal Chart)  \n`,
           '# *Enhanced Integration with WhatToEatNext Debug Pane*  \n',
           `# **Location: ** New York Area (${momentData.location.latitude}°N, ${momentData.location.longitude}°W) | **Timezone: ** ${momentData.location.timezone}\n`,
           '\n',

@@ -1,8 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-
 import { log } from '@/services/LoggingService';
-
 import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
 import { errorTrackingSystem } from './ErrorTrackingSystem';
 import { qualityMetricsService } from './QualityMetricsService';
@@ -79,8 +77,8 @@ class AlertingSystem {
   private alertRules: AlertRule[] = [];
   private escalationRules: EscalationRule[] = [];
   private alertResponses: AlertResponse[] = [];
-  private subscribers: Set<(alert: Alert) => void> = new Set();
-  private lastAlertTimes: Map<string, Date> = new Map();
+  private readonly subscribers: Set<(alert: Alert) => void> = new Set();
+  private readonly lastAlertTimes: Map<string, Date> = new Map();
 
   constructor() {
     this.loadConfiguration();

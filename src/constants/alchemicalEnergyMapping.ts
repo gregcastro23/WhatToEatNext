@@ -1,5 +1,5 @@
 import type { ElementalProperties } from '@/types/alchemy';
-import {
+import type {
   CelestialPosition,
   AlchemicalProperties,
   ThermodynamicProperties

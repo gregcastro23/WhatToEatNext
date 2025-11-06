@@ -1,5 +1,5 @@
-import type { Planet } from '@/types/celestial';
 import { useEffect, useRef, useState } from 'react';
+import type { Planet } from '@/types/celestial';
 
 interface PlanetaryHourUpdate {
   planet: Planet,
@@ -43,7 +43,7 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
           const data = message.data as PlanetaryHourUpdate;
           if (data && typeof data.planet === 'string' && typeof data.isDaytime === 'boolean') {
             setPlanetaryHour({
-              planet: data.planet as Planet,
+              planet: data.planet ,
               isDaytime: data.isDaytime,
               start: data.start ? new Date(data.start) : undefined,
               end: data.end ? new Date(data.end) : undefined

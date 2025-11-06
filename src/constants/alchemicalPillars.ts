@@ -1,4 +1,4 @@
-import { AlchemicalProperty, Element } from '@/types/celestial';
+import type { AlchemicalProperty, Element } from '@/types/celestial';
 
 /**
  * Interface representing an Alchemical Pillar
@@ -459,9 +459,9 @@ export function getCookingMethodThermodynamics(cookingMethod: string): {
   // If secondary element exists, blend properties (70% primary, 30% secondary)
   const secondaryProps = ELEMENTAL_THERMODYNAMIC_PROPERTIES[secondaryElement];
   return {
-    heat: (primaryProps?.heat || 0) * 0.7 + (secondaryProps?.heat || 0) * 0.3,
-    entropy: (primaryProps?.entropy || 0) * 0.7 + (secondaryProps?.entropy || 0) * 0.3,
-    reactivity: (primaryProps?.reactivity || 0) * 0.7 + (secondaryProps?.reactivity || 0) * 0.3
+    heat: (primaryProps.heat || 0) * 0.7 + (secondaryProps.heat || 0) * 0.3,
+    entropy: (primaryProps.entropy || 0) * 0.7 + (secondaryProps.entropy || 0) * 0.3,
+    reactivity: (primaryProps.reactivity || 0) * 0.7 + (secondaryProps.reactivity || 0) * 0.3
   };
 }
 
@@ -1202,7 +1202,7 @@ export function getAllEnhancedCookingMethods(): EnhancedCookingMethod[] {
 }
 
 // getMonicaCompatibleCookingMethods function (causing errors in recipeBuilding.ts and seasonal.ts)
-export function getMonicaCompatibleCookingMethods(minScore: number = 0.8): EnhancedCookingMethod[] {
+export function getMonicaCompatibleCookingMethods(minScore = 0.8): EnhancedCookingMethod[] {
   return ENHANCED_COOKING_METHODS.filter((method) => method.monicaCompatibility.score >= minScore);
 }
 
@@ -1398,7 +1398,7 @@ export function calculatePlanetaryAlignment(
   }
 
   // Base alignment from number of planetary associations
-  const baseAlignment = (enhancedPillar.planetaryAssociations?.length || 0) * 0.2;
+  const baseAlignment = (enhancedPillar.planetaryAssociations.length || 0) * 0.2;
 
   // Monica modifier
   const mc = enhancedPillar.monicaProperties.monicaConstant;

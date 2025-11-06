@@ -1,5 +1,4 @@
 'use client';
-import { _logger } from '@/lib/logger';
 
 // This file serves as a facade/proxy to the real implementation
 // in src/calculations/alchemicalEngine.ts
@@ -12,6 +11,7 @@ import {
   alchemize
 } from '@/calculations/alchemicalEngine';
 import { AlchemicalEngineBase } from '@/lib/alchemicalEngine';
+import { _logger } from '@/lib/logger';
 import type {
   AstrologicalState,
   BirthInfo,
@@ -145,7 +145,7 @@ const alchemicalEngine = { alchemize: (birthInfo, BirthInfo, horoscopeDict: Horo
   },
 
   // Add a convenient factory method to create engine instances with error handling
-  createEngine: (advanced: boolean = false) => {
+  createEngine: (advanced = false) => {
     try {
       return advanced ? new AlchemicalEngineAdvanced() : new AlchemicalEngineBase();
     } catch (error) {

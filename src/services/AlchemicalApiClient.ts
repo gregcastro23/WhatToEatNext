@@ -8,7 +8,7 @@
  * - Caching and optimization
  */
 
-import { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 
 // Backend service configuration
 const API_CONFIG = {
@@ -46,7 +46,7 @@ export interface PlanetaryInfluenceResponse {
 }
 
 export class AlchemicalApiClient {
-  private baseUrls = API_CONFIG;
+  private readonly baseUrls = API_CONFIG;
 
   /**
    * Calculate elemental balance using backend service
@@ -247,7 +247,7 @@ export class AlchemicalApiClient {
   /**
    * Health check for backend services
    */
-  async checkHealth(): Promise<{ service: string; status: string; }[]> {
+  async checkHealth(): Promise<Array<{ service: string; status: string; }>> {
     const services = [
       { name: 'Alchemical Core', url: `${this.baseUrls.alchemical}/health` },
       { name: 'Kitchen Intelligence', url: `${this.baseUrls.kitchen}/health` },
@@ -283,14 +283,12 @@ export class AlchemicalApiClient {
 export const alchemicalApi = new AlchemicalApiClient()
 
 // Utility function for easy integration
-export const useBackendCalculations = () => {
-  return {
+export const useBackendCalculations = () => ({
     calculateElements: alchemicalApi.calculateElementalBalance.bind(alchemicalApi),
     calculateThermodynamics: alchemicalApi.calculateThermodynamics.bind(alchemicalApi),
     getPlanetaryData: alchemicalApi.getCurrentPlanetaryHour.bind(alchemicalApi),
     getRecommendations: alchemicalApi.getRecipeRecommendations.bind(alchemicalApi),
     createRealtimeConnection: alchemicalApi.createRealtimeConnection.bind(alchemicalApi)
-  };
-};
+  });
 
 export default AlchemicalApiClient;

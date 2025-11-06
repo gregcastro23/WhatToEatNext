@@ -68,7 +68,7 @@ export interface DevelopmentMetrics {
 export class DevelopmentExperienceOptimizer {
   private static instance: DevelopmentExperienceOptimizer;
   private metrics: DevelopmentMetrics;
-  private optimizationConfig: {
+  private readonly optimizationConfig: {
     typescript: TypeScriptOptimizationConfig;
     intelliSense: IntelliSenseConfig;
     importOrganization: ImportOrganizationConfig;

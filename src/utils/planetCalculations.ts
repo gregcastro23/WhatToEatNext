@@ -106,14 +106,14 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
       sign: northNodeSign,
       degree: northNodeDegree,
       exactLongitude: northNodeValue,
-      isRetrograde: isRetrograde
+      isRetrograde
     }
 
     southNode = {
       sign: southNodeSign,
       degree: southNodeDegree,
       exactLongitude: southNodeLongitude,
-      isRetrograde: isRetrograde
+      isRetrograde
     }
   } catch (error) {
     // If that fails, fall back to the simplified calculation

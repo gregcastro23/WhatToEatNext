@@ -6,8 +6,8 @@
  * complex API calls and calculations that might fail.
  */
 
-import { AstrologicalState } from '@/types/alchemy';
-import { AspectType, CelestialPosition, PlanetaryAspect, ZodiacSign } from '@/types/celestial';
+import type { AstrologicalState } from '@/types/alchemy';
+import type { AspectType, CelestialPosition, PlanetaryAspect, ZodiacSign } from '@/types/celestial';
 import { createLogger } from '@/utils/logger';
 
 // Create a component-specific logger

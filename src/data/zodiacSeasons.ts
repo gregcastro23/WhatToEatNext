@@ -1,4 +1,4 @@
-import { ZodiacSign, Element } from '@/types/alchemy';
+import type { ZodiacSign, Element } from '@/types/alchemy';
 
 // Define the interface for zodiac season data
 interface ZodiacSeasonData {

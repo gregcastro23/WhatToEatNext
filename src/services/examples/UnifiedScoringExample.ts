@@ -9,13 +9,13 @@
 import { log } from '@/services/LoggingService';
 import type { Season, ElementalProperties } from '@/types/alchemy';
 import type { Planet } from '@/types/celestial';
-
 import {
   UnifiedScoringService,
-  scoreRecommendation,
-  ScoringContext,
-  ScoringResult,
+  scoreRecommendation
 } from '../UnifiedScoringService';
+import type {
+  ScoringContext,
+  ScoringResult} from '../UnifiedScoringService';
 
 // Example usage scenarios
 export class UnifiedScoringExample {

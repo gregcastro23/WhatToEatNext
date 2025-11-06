@@ -3,11 +3,12 @@
  * Implements authentication-aware rate limiting with different tiers
  */
 
-import rateLimit, { RateLimitRequestHandler } from 'express-rate-limit';
-import { Request, Response } from 'express';
-import { getAuthenticatedUserId, isAdmin } from './auth-middleware';
+import rateLimit from 'express-rate-limit';
 import { UserRole } from '@/lib/auth/jwt-auth';
 import { logger } from '@/utils/logger';
+import { getAuthenticatedUserId, isAdmin } from './auth-middleware';
+import type { Request, Response } from 'express';
+import type { RateLimitRequestHandler } from 'express-rate-limit';
 
 export interface RateLimitTier {
   windowMs: number;
@@ -128,7 +129,7 @@ function createKeyGenerator() {
  * Determine rate limit tier based on user authentication and roles
  */
 function determineRateLimitTier(req: Request): RateLimitTier {
-  const user = req.user;
+  const {user} = req;
 
   if (!user) {
     return rateLimitTiers.anonymous;

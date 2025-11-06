@@ -3,7 +3,7 @@
  * This file contains all elemental-related type definitions
  */
 
-import { Element } from '@/types/celestial';
+import type { Element } from '@/types/celestial';
 
 // Re-export Element for convenience
 export type { Element };

@@ -33,14 +33,14 @@ export interface PerformanceMetrics {
  * Designed for Phase 8 performance optimization
  */
 export class PerformanceCache<T> {
-  private cache: Map<string, CacheEntry<T>> = new Map();
-  private maxSize: number;
-  private defaultTTL: number;
-  private hitCount: number = 0;
-  private missCount: number = 0;
+  private readonly cache: Map<string, CacheEntry<T>> = new Map();
+  private readonly maxSize: number;
+  private readonly defaultTTL: number;
+  private hitCount = 0;
+  private missCount = 0;
   private cleanupInterval: NodeJS.Timeout | null = null;
 
-  constructor(maxSize: number = 1000, defaultTTL: number = 300000) {
+  constructor(maxSize = 1000, defaultTTL = 300000) {
     // 5 minutes default TTL
     this.maxSize = maxSize;
     this.defaultTTL = defaultTTL;
@@ -240,7 +240,7 @@ export class PerformanceCache<T> {
 export class PerformanceMonitor {
   private metrics: PerformanceMetrics[] = [];
   private currentMetrics: Partial<PerformanceMetrics> = {};
-  private maxHistorySize: number = 100;
+  private readonly maxHistorySize = 100;
 
   /**
    * Start timing an operation

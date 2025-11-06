@@ -1,5 +1,5 @@
-import { _, ElementalProperties, _ } from '@/types/alchemy';
-
+import type { ElementalProperties} from '@/types/alchemy';
+import { _, _ } from '@/types/alchemy';
 import {
   // ===== BACKWARD COMPATIBILITY LAYER - PHASE 4 =====;
   // Provides the same API as old fragmented systems while using unified engine

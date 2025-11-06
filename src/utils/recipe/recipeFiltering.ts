@@ -1,8 +1,6 @@
 import { _logger } from '@/lib/logger';
-import { CuisineType } from '@/types/cuisine';
-import type { DietaryRestriction, ElementalProperties } from '@/types/recipe';
-import { Recipe } from '@/types/recipe';
-
+import type { CuisineType } from '@/types/cuisine';
+import type { DietaryRestriction, ElementalProperties , Recipe } from '@/types/recipe';
 import { createLogger } from '../logger';
 
 const _logger = createLogger('RecipeFiltering');
@@ -197,7 +195,7 @@ export class RecipeFilter {
 
         // Complexity filter (based on ingredient count and techniques)
         if (options.complexity) {
-          const ingredientCount = recipe.ingredients?.length || 0;
+          const ingredientCount = recipe.ingredients.length || 0;
           const techniqueCount = recipe.cookingTechniques?.length || 0;
           const isSimple = ingredientCount <= 5 && techniqueCount <= 2;
           const isModerate = ingredientCount <= 10 && techniqueCount <= 4;
@@ -493,7 +491,7 @@ export class RecipeFilter {
     if (!recipeElements || !targetElements) return 0.5;
 
     try {
-      const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
+      const elements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'];
       let totalScore = 0;
 
       elements.forEach(element => {
@@ -578,7 +576,7 @@ export class RecipeFilter {
    */
   private getSeasonalScore(recipe: Recipe): number {
     try {
-      const season = recipe.season;
+      const {season} = recipe;
       // Simple heuristic: recipes with season data get higher score
       return season ? 1.0 : 0.5;
     } catch (error) {

@@ -1,5 +1,5 @@
-import { AstrologicalProfile, ElementalAffinity, ElementalProperties } from '@/types/alchemy';
-import { Ingredient, Recipe, RecipeIngredient } from '@/types/recipe';
+import type { AstrologicalProfile, ElementalAffinity, ElementalProperties } from '@/types/alchemy';
+import type { Ingredient, Recipe, RecipeIngredient } from '@/types/recipe';
 import type { UnifiedIngredient } from '@/types/unified';
 
 /**
@@ -271,7 +271,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
  * @returns Cleanup result
  */
 export function cleanupIngredientsDatabase(
-  ingredients: (Ingredient | UnifiedIngredient)[],
+  ingredients: Array<Ingredient | UnifiedIngredient>,
   _options: StandardizationOptions = {}
 ): DataCleanupResult {
   const result: DataCleanupResult = {
@@ -414,7 +414,7 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
   const prof = profile as any;
   return {
     elementalAffinity: standardizeElementalAffinity(
-      String((prof.elementalAffinity as any)?.base || '')
+      String((prof.elementalAffinity )?.base || '')
     ),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
     favorableZodiac: Array.isArray(prof.favorableZodiac)
@@ -482,7 +482,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     }
 
     if (ingredient && typeof ingredient === 'object') {
-      const ing = ingredient as any;
+      const ing = ingredient ;
       return {
         name: String(ing.name || 'Unknown'),
         amount: typeof ing.amount === 'number' ? ing.amount : 1,
@@ -549,12 +549,12 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   }
 
   // Safe property access for AstrologicalProfile properties
-  const elementalAffinity = (profile as unknown).elementalAffinity;
+  const {elementalAffinity} = (profile as unknown);
   if (!(elementalAffinity as any).base) {
     errors.push('Elemental affinity is required');
   }
 
-  const rulingPlanets = (profile as unknown).rulingPlanets;
+  const {rulingPlanets} = (profile as unknown);
   if (!Array.isArray(rulingPlanets)) {
     errors.push('Ruling planets must be an array');
   }

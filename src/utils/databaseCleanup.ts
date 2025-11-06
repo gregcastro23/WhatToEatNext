@@ -29,7 +29,7 @@ export function cleanupIngredientsDatabase() {
 
         // Safe property access using type assertion
         const data = ingredientWithAstrology as unknown as any;
-        const name = data.name;
+        const {name} = data;
 
         // Ensure ingredient has a name
         if (!name) {
@@ -46,12 +46,12 @@ export function cleanupIngredientsDatabase() {
           logger.warn(`Added default elemental properties to ${data.name || name || 'unknown ingredient'}`
           )
         } else {
-          const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
+          const elements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'];
           let modified = false;
 
           // Ensure all elemental properties are present and normalized
           elements.forEach(element => {
-            const elementalProperties = data.elementalProperties;
+            const {elementalProperties} = data;
             if (typeof elementalProperties?.[element] !== 'number') {
               if (elementalProperties) {
                 elementalProperties[element] = 0.25;

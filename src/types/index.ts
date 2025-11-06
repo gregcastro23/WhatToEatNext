@@ -3,8 +3,8 @@ export const MEAL_TIMES = ['breakfast', 'lunch', 'snack', 'dinner'] as const;
 export type MealTime = (typeof MEAL_TIMES)[number];
 
 // Import fundamental types
-import { ElementalProperties, Season } from './alchemy';
-import { Recipe } from './unified';
+import type { ElementalProperties, Season } from './alchemy';
+import type { Recipe } from './unified';
 
 // Define zodiac signs as seasons
 export const _ZODIAC_SEASONS: any[] = [
@@ -93,7 +93,7 @@ export type TimeData = {
   [season in Season]?: Dish[];
 };
 
-export type CuisineData = {
+export interface CuisineData {
   name: string;
   recipes: Recipe[];
   score?: number;
@@ -115,19 +115,19 @@ export type CuisineData = {
   traditionalTechniques?: string[];
   seasonalFocus?: Season[];
   astrologicalAffinities?: string[];
-};
+}
 
-export type Cuisines = {
+export interface Cuisines {
   [id: string]: CuisineData;
-};
+}
 
 // Helper type for time-based context
-export type TimeOfDay = {
+export interface TimeOfDay {
   hour: number;
   minute: number;
   period: MealTime;
   season: Season;
-};
+}
 
 // Use as type instead of enum to avoid merging issues
 export type CuisineTypeEnum = 'ITALIAN' | 'FRENCH' | 'CHINESE' | 'INDIAN' | 'MEXICAN';

@@ -7,22 +7,23 @@
  */
 
 import { enhancedIngredientSystem } from '@/services/adapters/IngredientServiceAdapter';
-import {
-  Element,
+import type {
   ElementalProperties,
   LunarPhase,
   Recipe,
   Season,
   ZodiacSign
 } from '@/types/alchemy';
+import {
+  Element
+} from '@/types/alchemy';
 import { PlanetaryAlignment } from '@/types/celestial';
 import type { ScoredRecipe } from '@/types/recipe';
-
-import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
-import type { FoodCompatibility, SystemState } from '../../lib/FoodAlchemySystem';
 import { logger } from '../../utils/logger';
 import { consolidatedRecipeService } from '../ConsolidatedRecipeService';
 import { FoodAlchemySystem } from '../FoodAlchemySystem';
+import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
+import type { FoodCompatibility, SystemState } from '../../lib/FoodAlchemySystem';
 
 // Add missing imports for TS2304 fixes
 
@@ -68,7 +69,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       dietaryPreferences?: string[];
       ingredients?: string[];
     } = {},
-    limit: number = 10
+    limit = 10
   ): Promise<ScoredRecipe[]> {
     try {
       logger.info('Getting recommended recipes', { state, criteria });
@@ -101,7 +102,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    */
   async getRecipesForCurrentPlanetaryAlignment(
     state: SystemState,
-    minMatchScore: number = 0.6
+    minMatchScore = 0.6
   ): Promise<Recipe[]> {
     try {
       if (!state.planetaryPositions) {
@@ -114,7 +115,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       for (const [planet, position] of Object.entries(state.planetaryPositions)) {
         // Apply surgical type casting with variable extraction
         const positionData = position as Record<string, unknown>;
-        const sign = positionData.sign;
+        const {sign} = positionData;
 
         // Skip non-standard planets or positions
         if (!position || !sign) continue;
@@ -178,7 +179,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param maxResults Maximum number of results
    * @returns Array of complementary ingredients
    */
-  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {
+  findComplementaryIngredients(ingredients: string[], maxResults = 5): UnifiedIngredient[] {
     return enhancedIngredientSystem.findComplementaryIngredients(ingredients, maxResults);
   }
 

@@ -1,6 +1,5 @@
 import { _logger } from '@/lib/logger';
-import type { RecipeIngredient } from '@/types/recipe';
-import type { Recipe } from '@/types/recipe';
+import type { RecipeIngredient , Recipe } from '@/types/recipe';
 
 export function validateIngredientData(recipes: Recipe[]): boolean {
   const missingElementals: RecipeIngredient[] = [];

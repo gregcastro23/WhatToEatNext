@@ -292,8 +292,8 @@ export function getHighKalchmIngredients(_threshold = 1.5): UnifiedIngredient[] 
  * Get ingredients by Kalchm range (alias for backward compatibility)
  */
 export function getIngredientsByKalchmRange(
-  min: number = 1.5,
-  max: number = Infinity): UnifiedIngredient[] {
+  min = 1.5,
+  max = Infinity): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe number conversion for kalchm range comparison,
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {
@@ -341,7 +341,7 @@ export function getIngredientsByElement(
  */
 export function findComplementaryIngredients(
   ingredient: UnifiedIngredient | string,
-  maxResults: number = 10): UnifiedIngredient[] {
+  maxResults = 10): UnifiedIngredient[] {
   // If string is provided, convert to ingredient
   const targetIngredient =
     typeof ingredient === 'string' ? getUnifiedIngredient(ingredient) : ingredient

@@ -97,7 +97,7 @@ export const COOKING_METHOD_MODIFIERS: Record<string, Partial<ElementalPropertie
  */
 export function calculateQuantityScalingFactor(
   quantity: number,
-  referenceAmount: number = 100
+  referenceAmount = 100
 ): number {
   if (quantity <= 0) return 0;
   if (referenceAmount <= 0) return 1;
@@ -216,7 +216,7 @@ export function aggregateIngredientElementals(
  */
 export function applyCookingMethodTransforms(
   baseElementals: ElementalProperties,
-  methods: (string | CookingMethod)[]
+  methods: Array<string | CookingMethod>
 ): ElementalProperties {
   let current = { ...baseElementals };
 
@@ -261,7 +261,7 @@ export function applyCookingMethodTransforms(
  */
 export function computeRecipeProperties(
   ingredients: RecipeIngredient[],
-  cookingMethods: (string | CookingMethod)[],
+  cookingMethods: Array<string | CookingMethod>,
   options: RecipeComputationOptions
 ): RecipeComputedProperties {
   // Validate required options
@@ -469,7 +469,7 @@ function getDominantPlanet(planetaryPositions: { [planet: string]: string }): st
  */
 export function computeRecipePropertiesSimple(
   ingredients: RecipeIngredient[],
-  cookingMethods: (string | CookingMethod)[],
+  cookingMethods: Array<string | CookingMethod>,
   planetaryPositions: { [planet: string]: string }
 ): RecipeComputedProperties {
   return computeRecipeProperties(ingredients, cookingMethods, {

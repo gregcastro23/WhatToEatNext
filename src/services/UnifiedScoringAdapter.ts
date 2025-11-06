@@ -6,13 +6,14 @@
  * data structures to the format expected by the UnifiedScoringService.
  */
 
+import { scoreRecommendation } from './UnifiedScoringService';
+import type { ScoringContext } from './UnifiedScoringService';
 import type { ElementalProperties, Season } from '../types/alchemy';
 import type { Planet } from '../types/celestial';
 import type { CookingMethod } from '../types/cooking';
 import type { UnifiedIngredient } from '../types/ingredient';
 import type { Recipe } from '../types/recipe';
 
-import { scoreRecommendation, ScoringContext } from './UnifiedScoringService';
 
 // ==================== INTERFACES ====================
 
@@ -98,7 +99,7 @@ export class UnifiedScoringAdapter {
    */
   async scoreIngredients(
     ingredients: UnifiedIngredient[],
-    options: ScoringAdapterOptions = {}): Promise<ScoredItem<UnifiedIngredient>[]> {
+    options: ScoringAdapterOptions = {}): Promise<Array<ScoredItem<UnifiedIngredient>>> {
     const scoredIngredients = await Promise.all(
       ingredients.map(ingredient => this.scoreIngredient(ingredient, options))
     );
@@ -252,9 +253,9 @@ export class UnifiedScoringAdapter {
    */
   async getRecommendedIngredients(
     ingredients: UnifiedIngredient[],
-    minScore: number = 0.5,
-    limit: number = 10,
-    options: ScoringAdapterOptions = {}): Promise<ScoredItem<UnifiedIngredient>[]> {
+    minScore = 0.5,
+    limit = 10,
+    options: ScoringAdapterOptions = {}): Promise<Array<ScoredItem<UnifiedIngredient>>> {
     const scoredIngredients = await this.scoreIngredients(ingredients, options);
 
     return scoredIngredients.filter(item => item.score >= minScore).slice(0, limit);
@@ -265,9 +266,9 @@ export class UnifiedScoringAdapter {
    */
   async getRecommendedRecipes(
     recipes: Recipe[],
-    minScore: number = 0.5,
-    limit: number = 10,
-    options: ScoringAdapterOptions = {}): Promise<ScoredItem<Recipe>[]> {
+    minScore = 0.5,
+    limit = 10,
+    options: ScoringAdapterOptions = {}): Promise<Array<ScoredItem<Recipe>>> {
     const scoredRecipes = await Promise.all(
       recipes.map(recipe => this.scoreRecipe(recipe, options))
     );

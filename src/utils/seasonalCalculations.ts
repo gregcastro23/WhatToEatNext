@@ -171,7 +171,7 @@ export const _getSeasonalEffectiveness = async (
 };
 
 export const calculateRecipeSeasonalAlignment = async (recipe: Recipe, season: Season): Promise<number> => {
-  if (!recipe?.elementalProperties || !season) return 0;
+  if (!recipe.elementalProperties || !season) return 0;
   let alignmentScore = 0;
   const seasonalModifier = getSeasonalElementalInfluenceInternal(season);
 
@@ -189,7 +189,7 @@ const _calculateIngredientSuitability = async (recipe: Recipe, _season: Season):
   if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
     let seasonalIngredientCount = 0;
     recipe.ingredients.forEach(ingredient => {
-      const seasonality = (ingredient as unknown as { seasonality?: Season[] }).seasonality;
+      const {seasonality} = (ingredient as unknown as { seasonality?: Season[] });
       if (seasonality && Array.isArray(seasonality) && seasonality.includes(_season)) {
         seasonalIngredientCount++;
       }
@@ -227,7 +227,7 @@ const _calculateZodiacAlignment = async (recipe: Recipe, currentZodiac: ZodiacSi
       alignmentScore += 15; // Bonus for matching element
     }
   }
-  const zodiacInfluences = (recipe as unknown as { zodiacInfluences?: ZodiacSign[] }).zodiacInfluences;
+  const {zodiacInfluences} = (recipe as unknown as { zodiacInfluences?: ZodiacSign[] });
   if (zodiacInfluences && Array.isArray(zodiacInfluences) && zodiacInfluences.includes(currentZodiac)) {
     alignmentScore += 10; // Bonus for explicit zodiac match
   }
@@ -324,15 +324,15 @@ function _calculateSeasonalScores(
     return Array.isArray(value) ? value : [value];
   })();
   recipeSeason.forEach(season => {
-    if (season in scores) scores[season as Season] += 20;
+    if (season in scores) scores[season ] += 20;
   });
 
   // Ingredient seasonality (20% of total)
   (recipe.ingredients || []).forEach(ingredient => {
-    const seasonality = (ingredient as unknown as { seasonality?: Season[] }).seasonality;
+    const {seasonality} = (ingredient as unknown as { seasonality?: Season[] });
     if (seasonality && Array.isArray(seasonality)) {
       seasonality.forEach(season => {
-        if (season in scores) scores[season as Season] += 20 / ((recipe.ingredients?.length || 1));
+        if (season in scores) scores[season ] += 20 / ((recipe.ingredients.length || 1));
       });
     }
   });
@@ -390,7 +390,7 @@ function _calculateSeasonalScores(
 }
 
 function _isComplementaryElement(element1: Element, element2: Element): boolean {
-  const complementaryPairs: [Element, Element][] = [
+  const complementaryPairs: Array<[Element, Element]> = [
     ['Fire', 'Air'],
     ['Water', 'Earth'],
   ];

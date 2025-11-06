@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import PlanetaryPowerWidget from '@/components/PlanetaryPowerWidget';
 import PlanetaryFoodRecommendations from '@/components/PlanetaryFoodRecommendations';
+import PlanetaryPowerWidget from '@/components/PlanetaryPowerWidget';
 
 export default function PlanetaryDemoPage() {
   return (<div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-8">
@@ -21,7 +21,7 @@ export default function PlanetaryDemoPage() {
         <div className="bg-white rounded-lg shadow-md p-4 mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
               <span className="text-sm font-medium text-gray-700">
                 Connected to Planetary Agents Backend
               </span>

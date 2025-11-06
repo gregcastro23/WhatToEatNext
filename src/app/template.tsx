@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import { logger } from '@/utils/logger';
 
 const Loading = ({
@@ -36,8 +35,8 @@ export default function Template({ children }: TemplateProps) {
       logger.info('Template hydrated successfully')
 
       // Check for critical elements
-      const body = document.body;
-      const head = document.head;
+      const {body} = document;
+      const {head} = document;
 
       if (!body || !head) {
         throw new Error('Critical DOM elements missing')

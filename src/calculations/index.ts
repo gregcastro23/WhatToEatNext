@@ -13,14 +13,14 @@
 import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
 import { onAlchemizeApiCall, updateCurrentMoment } from '@/services/CurrentMomentManager';
 import { alchemize } from '@/services/RealAlchemizeService';
-import { Cache } from '@/utils/cache';
-import { createLogger } from '@/utils/logger';
 import type {
   ElementalProperties,
   PlanetaryPosition,
   ZodiacSign,
   Element
 } from '@/types/alchemy';
+import { Cache } from '@/utils/cache';
+import { createLogger } from '@/utils/logger';
 
 // Core calculation modules
 import {
@@ -28,14 +28,12 @@ import {
   analyzeElementalCompatibility,
   ELEMENTAL_ANALYSIS_INTELLIGENCE
 } from './core/elementalCalculations';
-
 import {
   calculateKalchmResults,
   type AlchemicalProperties,
   type KalchmResult,
   type ThermodynamicResults
 } from './core/kalchmEngine';
-
 import {
   calculatePlanetaryInfluences,
   getPlanetaryCulinaryRecommendations
@@ -46,13 +44,11 @@ import {
   generateCuisineRecommendations,
   calculateCuisineCompatibility
 } from './culinary/cuisineRecommendations';
-
 import {
   calculateRecipeCompatibility
 } from './culinary/recipeMatching';
-
-import { calculateKinetics } from './kinetics';
 import { calculateGregsEnergy } from './gregsEnergy';
+import { calculateKinetics } from './kinetics';
 
 // Logger and cache setup
 const logger = createLogger('UnifiedCalculationEngine');
@@ -157,8 +153,8 @@ export interface RecipeOptimizationResult {
  * - Recipe and cuisine optimization
  */
 export class UnifiedCalculationEngine {
-  private cache: Cache;
-  private logger: ReturnType<typeof createLogger>;
+  private readonly cache: Cache;
+  private readonly logger: ReturnType<typeof createLogger>;
 
   constructor() {
     this.cache = calculationCache;

@@ -13,7 +13,6 @@ import type {
   ElementalProperties,
   LunarPhaseWithSpaces
 } from '@/types/alchemy';
-
 import { calculateDominantElement, normalizeProperties } from './core';
 
 // Import elemental and alchemical item types from correct location

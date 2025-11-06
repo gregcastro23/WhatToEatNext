@@ -1,4 +1,5 @@
 import { _logger } from '@/lib/logger';
+
 'use client';
 
 import { config } from '@/config';
@@ -46,7 +47,7 @@ export interface ConfigurationListener {
 
 class ConfigurationServiceImpl {
   private static instance: ConfigurationServiceImpl;
-  private listeners: Map<string, ConfigurationListener> = new Map();
+  private readonly listeners: Map<string, ConfigurationListener> = new Map();
   private currentConfig: ConfigurationState;
   private configHistory: ConfigurationUpdate[] = [];
   private readonly STORAGE_KEY = 'app-configuration';

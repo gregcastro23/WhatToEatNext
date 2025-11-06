@@ -1,5 +1,5 @@
-import { TarotCard } from '@/contexts/TarotContext/types';
-import {
+import type { TarotCard } from '@/contexts/TarotContext/types';
+import type {
     LunarPhase,
     Modality,
     PlanetName
@@ -13,7 +13,7 @@ import {
  * Core Alchemical Properties (ESMS System)
  * These are the four fundamental alchemical energy states
  */
-export type AlchemicalPropertiesType = {
+export interface AlchemicalPropertiesType {
   Spirit: number;
   Essence: number;
   Matter: number;
@@ -24,7 +24,7 @@ export type AlchemicalPropertiesType = {
  * Core Elemental Properties (Classical Elements)
  * These are the four classical elements used throughout the system
  */
-export type ElementalPropertiesType = {
+export interface ElementalPropertiesType {
   Fire: number;
   Water: number;
   Earth: number;
@@ -35,7 +35,7 @@ export type ElementalPropertiesType = {
  * Thermodynamic Metrics for alchemical calculations
  * Core metrics used in Greg's Energy and other thermodynamic calculations
  */
-export type ThermodynamicMetricsType = {
+export interface ThermodynamicMetricsType {
   heat: number;
   entropy: number;
   reactivity: number;
@@ -98,7 +98,7 @@ export type LunarPhaseType =
  * Nutritional Content Type
  * Standard nutritional information structure
  */
-export type NutritionalContentType = {
+export interface NutritionalContentType {
   calories: number;
   protein: number;
   fat: number;
@@ -112,7 +112,7 @@ export type NutritionalContentType = {
  * Ingredient Mapping Type
  * Standard structure for ingredient data
  */
-export type IngredientMappingType = {
+export interface IngredientMappingType {
   name: string;
   category: string;
   season: string[];
@@ -130,18 +130,18 @@ export type IngredientMappingType = {
  * Service Response Type
  * Generic standardized response type for services
  */
-export type ServiceResponseType<T> = {
+export interface ServiceResponseType<T> {
   success: boolean;
   data?: T;
   error?: string;
   timestamp: string;
-};
+}
 
 /**
  * Alchemical Transformation Result
  * Result of alchemical transformation operations
  */
-export type AlchemicalTransformationResultType = {
+export interface AlchemicalTransformationResultType {
   originalProperties: AlchemicalPropertiesType;
   transformedProperties: AlchemicalPropertiesType;
   elementalShift: ElementalPropertiesType;
@@ -154,7 +154,7 @@ export type AlchemicalTransformationResultType = {
  * Planetary Influence Result
  * Result of planetary influence calculations
  */
-export type PlanetaryInfluenceResultType = {
+export interface PlanetaryInfluenceResultType {
   planetaryPositions: PlanetaryPositionsType;
   elementalBoost: ElementalPropertiesType;
   alchemicalModifier: AlchemicalPropertiesType;
@@ -165,7 +165,7 @@ export type PlanetaryInfluenceResultType = {
  * Astrological State Type
  * Complete astrological state including planetary positions and influences
  */
-export type AstrologicalStateType = {
+export interface AstrologicalStateType {
   planetaryPositions: PlanetaryPositionsType;
   currentZodiac: ZodiacSign;
   lunarPhase: LunarPhaseType;
@@ -616,7 +616,7 @@ export interface FilterOptions {
   seasons?: Season[];
   mealTypes?: string[];
   cookingMethods?: string[];
-  difficulty?: ('easy' | 'medium' | 'hard')[];
+  difficulty?: Array<'easy' | 'medium' | 'hard'>;
   prepTime?: {
     min?: number;
     max?: number;

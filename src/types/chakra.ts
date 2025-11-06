@@ -1,5 +1,5 @@
-import { TarotSuit } from './alchemy';
-import { Element, Planet } from './celestial';
+import type { TarotSuit } from './alchemy';
+import type { Element, Planet } from './celestial';
 
 // Define chakra positions
 export type ChakraPosition =

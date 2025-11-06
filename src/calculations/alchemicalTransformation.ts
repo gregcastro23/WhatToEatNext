@@ -1,13 +1,14 @@
-import { ElementalCharacter, LunarPhaseWithSpaces, ZodiacSign } from '@/types/alchemy';
-import { AlchemicalProperty, CelestialPosition } from '@/types/celestial';
+import type { ElementalCharacter, LunarPhaseWithSpaces, ZodiacSign } from '@/types/alchemy';
+import type { AlchemicalProperty, CelestialPosition } from '@/types/celestial';
 import { createLogger } from '@/utils/logger';
-
 import {
-    calculatePlanetaryBoost,
+    calculatePlanetaryBoost
+} from '../constants/planetaryFoodAssociations';
+import { calculateAlchemicalProperties } from './alchemicalCalculations';
+import type { AlchemicalResults} from './alchemicalCalculations';
+import type {
     PlanetaryDignityDetails
 } from '../constants/planetaryFoodAssociations';
-
-import { AlchemicalResults, calculateAlchemicalProperties } from './alchemicalCalculations';
 
 // Create a component-specific logger
 const logger = createLogger('AlchemicalTransformation');
@@ -301,7 +302,7 @@ export const _transformItemsWithPlanetaryPositions = (
 const transformElementalProperties = (
   originalProperties: Record<ElementalCharacter, number>,
   alchemicalResults: AlchemicalResults,
-  planetaryBoost: number = 1.0,
+  planetaryBoost = 1.0,
   zodiacSign?: ZodiacSign
 ): Record<ElementalCharacter, number> => {
   try {
@@ -411,7 +412,7 @@ const applyElementalInfluences = (
   transformedProperties: Record<ElementalCharacter, number>,
   elementalCounts: Record<ElementalCharacter, number>,
   originalProperties: Record<ElementalCharacter, number>,
-  planetaryBoost: number = 1.0
+  planetaryBoost = 1.0
 ): void => {
   try {
     // Calculate influence factors based on elemental counts
@@ -462,7 +463,7 @@ const getDominantElement = (
     let maxValue = -Infinity;
     let dominantElement: ElementalCharacter = 'Fire'; // Default
 
-    (Object.entries(transformedProperties) as [ElementalCharacter, number][]).forEach(
+    (Object.entries(transformedProperties) as Array<[ElementalCharacter, number]>).forEach(
       ([element, value]) => {
         // Pattern KK-8: Advanced calculation safety for comparison operations
         const numericValue = Number(value) || 0;
@@ -491,7 +492,7 @@ const getDominantAlchemicalProperty = (
     let maxValue = -Infinity;
     let dominantProperty: AlchemicalProperty = 'Spirit'; // Default
 
-    (Object.entries(alchemicalCounts) as [AlchemicalProperty, number][]).forEach(
+    (Object.entries(alchemicalCounts) as Array<[AlchemicalProperty, number]>).forEach(
       ([property, value]) => {
         // Pattern KK-8: Advanced calculation safety for comparison operations
         const numericValue = Number(value) || 0;

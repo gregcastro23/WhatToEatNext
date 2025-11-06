@@ -6,12 +6,12 @@ import {elementalUtils, _getCurrentElementalState} from '@/utils/elementalUtils'
 const calculateElementalHarmony = (
   _recipeProperties: ElementalProperties,
   _targetProperties: ElementalProperties
-): { elementalHarmony: number } => {
+): { elementalHarmony: number } => 
   // Simple implementation - can be replaced with the actual alchemical engine later
-  return {
+   ({
     elementalHarmony: 0.5, // Default value
-  }
-}
+  })
+
 
 export const _recipeFilter = {
   async filterAndSortRecipes(

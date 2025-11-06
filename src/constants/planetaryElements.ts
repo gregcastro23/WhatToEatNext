@@ -1,4 +1,4 @@
-import { RulingPlanet } from './planets';
+import type { RulingPlanet } from './planets';
 
 /**
  * The four elemental characters used in alchemical calculations
@@ -153,18 +153,14 @@ export const planetaryAlchemicalMap: Record<RulingPlanet, AlchemicalProperty> = 
  * @param planet Ruling planet
  * @returns The associated elemental character
  */
-export const _getPlanetaryElement = (planet: RulingPlanet): ElementalCharacter => {
-  return planetaryElementMap[planet];
-}
+export const _getPlanetaryElement = (planet: RulingPlanet): ElementalCharacter => planetaryElementMap[planet]
 
 /**
  * Gets the alchemical property associated with a planet
  * @param planet Ruling planet
  * @returns The associated alchemical property
  */
-export const _getPlanetaryAlchemicalProperty = (planet: RulingPlanet): AlchemicalProperty => {
-  return planetaryAlchemicalMap[planet];
-}
+export const _getPlanetaryAlchemicalProperty = (planet: RulingPlanet): AlchemicalProperty => planetaryAlchemicalMap[planet]
 
 /**
  * Gets the elemental character from a tarot card name
@@ -193,15 +189,11 @@ export const _getTarotCardElement = (cardName: string): ElementalCharacter | nul
  * @param cardName Tarot card name
  * @returns The quantum value or 0 if not found
  */
-export const _getTarotCardQuantum = (cardName: string): number => {
-  return tarotCardQuantumValues[cardName] || 0;
-}
+export const _getTarotCardQuantum = (cardName: string): number => tarotCardQuantumValues[cardName] || 0
 
 /**
  * Gets the ruling planet for a major arcana card
  * @param cardName Major arcana card name
  * @returns The ruling planet or null if not found
  */
-export const _getTarotCardPlanet = (cardName: string): RulingPlanet | null => {
-  return majorArcanaPlanetMap[cardName] || null;
-}
+export const _getTarotCardPlanet = (cardName: string): RulingPlanet | null => majorArcanaPlanetMap[cardName] || null

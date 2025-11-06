@@ -25,8 +25,8 @@ export const _THRESHOLD: {
 
 // Export common constants that might be needed across multiple files
 // with explicit type declarations
-export const _DEFAULT_MATCH_THRESHOLD: number = 0.6;
-export const _DEFAULT_COMPATIBILITY_THRESHOLD: number = 0.7;
-export const _DEFAULT_LIMIT: number = 10;
-export const _DEFAULT_PRECISION: number = 2
+export const _DEFAULT_MATCH_THRESHOLD = 0.6;
+export const _DEFAULT_COMPATIBILITY_THRESHOLD = 0.7;
+export const _DEFAULT_LIMIT = 10;
+export const _DEFAULT_PRECISION = 2
 ;
