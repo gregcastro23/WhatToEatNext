@@ -251,7 +251,7 @@ function generateRecommendationNote(
   const notes = {
     energizing: 'High energy phase - choose stimulating, warming foods.',
     grounding: 'Low energy phase - focus on comforting, easy-to-digest foods.',
-    balanced: 'Balanced energy - enjoy moderate, well-rounded meals.';
+    balanced: 'Balanced energy - enjoy moderate, well-rounded meals.'
 }
 
   return notes[energyCategory];
@@ -294,7 +294,7 @@ function calculateElementalAlignment(
   let totalAlignment = 0;
   let totalWeight = 0;
 
-  elements.forEach(element => ) {
+  elements.forEach(element => {
     const foodValue = foodElemental[element] || 0;
     const kineticValue = kineticElemental[element] || 0;
     const weight = kineticValue; // Weight by kinetic strength
@@ -304,7 +304,7 @@ function calculateElementalAlignment(
 
     totalAlignment += alignment * weight;
     totalWeight += weight;
-  })
+  });
 
   return totalWeight > 0 ? totalAlignment / totalWeight : 0.5;
 }
@@ -414,28 +414,28 @@ export function calculateKineticsFoodAlignment(
   let alignment = 0;
 
   // Force classification alignment
-  if (forceClassification === 'accelerating' && foodItem.tags.includes('quick') {
+  if (forceClassification === 'accelerating' && foodItem.tags.includes('quick')) {
     alignment += 0.3
-  } else if (forceClassification === 'decelerating' && foodItem.tags.includes('slow-cooked') {
+  } else if (forceClassification === 'decelerating' && foodItem.tags.includes('slow-cooked')) {
     alignment += 0.3
   }
 
   // Thermal direction alignment
-  if (thermalDirection === 'heating' && foodItem.tags.includes('warming') {
+  if (thermalDirection === 'heating' && foodItem.tags.includes('warming')) {
     alignment += 0.2
-  } else if (thermalDirection === 'cooling' && foodItem.tags.includes('cooling') {
+  } else if (thermalDirection === 'cooling' && foodItem.tags.includes('cooling')) {
     alignment += 0.2
   }
 
   // Power level alignment
   const powerTags = power > 1.5 ? ['energizing'] : power < 0.5 ? ['calming'] : ['balanced'];
-  if (foodItem.tags.some(tag => powerTags.includes(tag)) {
+  if (foodItem.tags.some(tag => powerTags.includes(tag))) {
     alignment += 0.2
   }
 
   // Charge density alignment
   const chargeTags = charge > 2.0 ? ['substantial', 'protein-rich'] : ['light', 'fresh'];
-  if (foodItem.tags.some(tag => chargeTags.includes(tag)) {
+  if (foodItem.tags.some(tag => chargeTags.includes(tag))) {
     alignment += 0.3
   }
 
