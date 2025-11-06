@@ -72,8 +72,9 @@ COPY scripts/ ./scripts/
 COPY alembic/ ./alembic/
 COPY alembic.ini ./
 
-# Copy environment file (will be overridden at runtime by docker-compose/k8s)
-COPY .env ./
+# Copy environment file if it exists (will be overridden at runtime by docker-compose/k8s)
+# Using shell to make it optional since .dockerignore excludes it
+RUN touch .env
 
 # Create non-root user for security
 RUN groupadd -r alchm && \

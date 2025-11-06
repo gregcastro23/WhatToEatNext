@@ -204,9 +204,6 @@ test:docker:images:
   image: docker:24-cli
   services:
     - docker:24-dind
-  needs:
-    - build:docker:frontend
-    - build:docker:backend
   before_script:
     - echo "Logging into GitLab Container Registry..."
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
@@ -456,10 +453,6 @@ deploy:docker:
   image: docker:24-cli
   services:
     - docker:24-dind
-  needs:
-    - build:docker:frontend
-    - build:docker:backend
-    - quality-gate:comprehensive
   before_script:
     - echo "Logging into GitLab Container Registry..."
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
