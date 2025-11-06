@@ -204,11 +204,11 @@ export class ErrorHandler {
   }
 
   // Attempt error recovery
-  private async attemptRecovery()
+  private async attemptRecovery(
     error: EnhancedError
-  ): Promise<{ success: boolean; data?, unknown }> {
+  ): Promise<{ success: boolean; data?: unknown }> {
     for (const strategy of this.recoveryStrategies) {
-      if (strategy.canRecover(error) {
+      if (strategy.canRecover(error)) {
         try {
           const result = await strategy.recover(error);
           return { success: true, data: result };
@@ -301,7 +301,7 @@ export class ErrorHandler {
     const byType = {} as Record<ErrorType, number>;
     const bySeverity = {} as Record<ErrorSeverity, number>;
 
-    this.errorQueue.forEach(error => ) {
+    this.errorQueue.forEach(error => {
       byType[error.type] = (byType[error.type] || 0) + 1;
       bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1;
     });
@@ -366,7 +366,7 @@ export function handleAsyncError<T>(
   promise: Promise<T>,
   context?: Record<string, unknown>
 ): Promise<T> {
-  return promise.catch(error => ) {
+  return promise.catch(error => {
     return globalErrorHandler.handleError(error, context);
   });
 }
@@ -400,23 +400,23 @@ export function useErrorHandler() {
 // Error boundary helper for specific error types
 export function createErrorBoundaryForType(errorType: ErrorType) {
   return function ErrorBoundaryForType({ children }: { children: React.ReactNode }) {
-    return React.createElement()
+    return React.createElement(
       ErrorBoundary,
       { fallback: (error, Error, errorInfo: React.ErrorInfo) => {
-          const enhancedError = createEnhancedError();
+          const enhancedError = createEnhancedError(
             error.message,
             errorType,
             ErrorSeverity.MEDIUM,
             { componentStack: errorInfo.componentStack }
           );
 
-          return React.createElement()
+          return React.createElement(
             'div',
             {
               className: 'bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2'
             },
             [
-              React.createElement()
+              React.createElement(
                 'h4',
                 {
                   key: 'title',
@@ -424,7 +424,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
                 },
                 `${errorType} Error`
               ),
-              React.createElement()
+              React.createElement(
                 'p',
                 {
                   key: 'message',
@@ -432,7 +432,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
                 },
                 enhancedError.userMessage
               ),
-              React.createElement()
+              React.createElement(
                 'button',
                 {
                   key: 'button',
