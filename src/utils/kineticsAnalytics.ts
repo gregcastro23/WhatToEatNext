@@ -69,7 +69,7 @@ export function trackKineticsImprovement(data: {
  * Simple helper to track recommendation selections inline
  */
 export function withKineticsTracking<T>(
-  recommendation: T & { kineticScore?: number }
+  recommendation: T & { kineticScore?: number },
   powerLevel: number,
   action: 'view' | 'select' | 'prepare' = 'select') {
   if (recommendation.kineticScore) {
