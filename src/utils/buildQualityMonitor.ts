@@ -551,25 +551,25 @@ async function getCacheHitRate(): Promise<number> {
     // For now, return estimated value based on .next cache
     const nextCacheDir = path.join(process.cwd(), '.next', 'cache');
 
-    if (fs.existsSync(nextCacheDir) {
+    if (fs.existsSync(nextCacheDir)) {
       // Estimate cache efficiency based on cache directory size
-      const cacheSize = await getDirectorySize(nextCacheDir)
-;
-      // Simple, heuristic: larger cache = better hit rate
+      const cacheSize = await getDirectorySize(nextCacheDir);
+
+      // Simple heuristic: larger cache = better hit rate
       if (cacheSize > 1000) {
-        // > 1MB cache;
-        return 0.8, // 80% hit rate;
-} else if (cacheSize > 100) {
+        // > 1MB cache
+        return 0.8; // 80% hit rate
+      } else if (cacheSize > 100) {
         // > 100KB cache
-        return 0.6, // 60% hit rate;
-} else {
-        return 0.3, // 30% hit rate;
-}
+        return 0.6; // 60% hit rate
+      } else {
+        return 0.3; // 30% hit rate
+      }
     }
 
     return 0.5; // Default 50% hit rate
   } catch (error) {
-    logger.error('Error getting cache hit rate: ', error),
+    logger.error('Error getting cache hit rate: ', error);
     return 0.5;
   }
 }

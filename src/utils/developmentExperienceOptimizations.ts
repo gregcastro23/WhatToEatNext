@@ -367,23 +367,23 @@ declare global {
       // 500KB
       recommendations.bundling.push('Implement code splitting');
       recommendations.bundling.push('Enable tree shaking');
-      recommendations.bundling.push('Use dynamic imports for large components')
+      recommendations.bundling.push('Use dynamic imports for large components');
     }
 
     // Runtime performance recommendations
     if (this.metrics.memoryUsage > 100) {
       // 100MB
-      recommendations.runtime.push('Optimize React component re-renders')
-      recommendations.runtime.push('Use React.memo for expensive components')
-      recommendations.runtime.push('Implement proper cleanup in useEffect')
+      recommendations.runtime.push('Optimize React component re-renders');
+      recommendations.runtime.push('Use React.memo for expensive components');
+      recommendations.runtime.push('Implement proper cleanup in useEffect');
     }
 
     // Development experience recommendations
     if (this.metrics.hotReloadTime > 5000) {
       // 5 seconds
-      recommendations.development.push('Optimize webpack configuration')
-      recommendations.development.push('Reduce the number of watched files')
-      recommendations.development.push('Use faster development server')
+      recommendations.development.push('Optimize webpack configuration');
+      recommendations.development.push('Reduce the number of watched files');
+      recommendations.development.push('Use faster development server');
     }
 
     return recommendations;

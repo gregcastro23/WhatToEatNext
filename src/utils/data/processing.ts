@@ -523,7 +523,7 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
 
-  (requiredElements || []).forEach(element => ) {
+  (requiredElements || []).forEach(element => {
     if (typeof properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] !== 'number') {
       errors.push(`${element} must be a number`);
     } else {
