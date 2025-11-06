@@ -42,18 +42,17 @@ export function trackKineticsRecommendation(event: KineticsRecommendationEvent):
  * Track when kinetics enhancement improves recommendations
  */
 export function trackKineticsImprovement(data: {
-  baseRecommendationCount: number,,
-  enhancedRecommendationCount: number,,
-  averageKineticScore: number,,
+  baseRecommendationCount: number,
+  enhancedRecommendationCount: number,
+  averageKineticScore: number,
   powerLevel: number
 }): void {
   if (typeof window !== 'undefined' && window.gtag) {
     try {
-      const improvementPercentage = Math.round((data.enhancedRecommendationCount - data.baseRecommendationCount) /;
-         data.baseRecommendationCount) * 100;
-      )
+      const improvementPercentage = Math.round((data.enhancedRecommendationCount - data.baseRecommendationCount) /
+         data.baseRecommendationCount * 100);
 
-      window.gtag('event', 'kinetics_improvement', ) {
+      window.gtag('event', 'kinetics_improvement', {
         event_category: 'recommendation_enhancement',
         value: improvementPercentage,
         custom_parameter_1: data.averageKineticScore,
