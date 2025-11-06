@@ -3,7 +3,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 import { dairy } from './dairy';
 import { eggs } from './eggs';
 import { legumes } from './legumes';
-import { meats } from './meat';
+import { _meats } from './meat';
 import { plantBased } from './plantBased';
 import { poultry } from './poultry';
 import { seafood } from './seafood';
@@ -13,14 +13,14 @@ export const _proteins: Record<string, IngredientMapping> = fixIngredientMapping
   ...seafood,
   ...poultry,
   ...plantBased,
-  ...meats,
+  ..._meats,
   ...legumes,
   ...eggs,
   ...dairy
 });
 
 // Export individual categories
-export { seafood, poultry, plantBased, meats, legumes, eggs, dairy };
+export { seafood, poultry, plantBased, _meats as meats, legumes, eggs, dairy };
 
 // Types
 export type ProteinCategory =

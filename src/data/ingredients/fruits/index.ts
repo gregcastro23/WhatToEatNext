@@ -4,7 +4,7 @@ import { berries } from './berries';
 import { citrus } from './citrus';
 import { melons } from './melons';
 import { pome } from './pome';
-import { stoneFruit } from './stoneFruit';
+import { _stoneFruit } from './stoneFruit';
 import { tropical } from './tropical';
 
 // Combine all fruit categories
