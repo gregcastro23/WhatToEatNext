@@ -2,7 +2,7 @@
 
 import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
-import { meats } from '@/data/ingredients/proteins/meat';
+import { _meats } from '@/data/ingredients/proteins/meat';
 import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
 import type { AstrologicalState, Season } from '@/types/alchemy';
 import type { RecipeElementalMapping } from '@/types/recipes';

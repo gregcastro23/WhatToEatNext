@@ -1,17 +1,17 @@
 import {
-  ELEMENTS,
-  MINIMUM_THRESHOLD,
-  MAXIMUM_THRESHOLD,
+  __ELEMENTS,
+  __MINIMUM_THRESHOLD,
+  __MAXIMUM_THRESHOLD,
   DEFAULT_ELEMENTAL_PROPERTIES,
-  VALIDATION_THRESHOLDS
+  __VALIDATION_THRESHOLDS
 } from '@/constants/elementalConstants';
 import type { ElementalProperties, Element, Recipe } from '@/types/alchemy';
-import { validateElementalProperties, normalizeElementalProperties } from '@/types/validators';
+import { validateElementalProperties, _normalizeElementalProperties } from '@/types/validators';
 
 export const elementalBalance = {
   calculateBalance(properties: ElementalProperties): number {
     const normalized = this.normalizeProperties(properties);
-    const deviations = ELEMENTS.map(
+    const deviations = _ELEMENTS.map(
       element => Math.abs(normalized[element] - 0.25) // Ideal balance point
     );
 
@@ -27,7 +27,7 @@ export const elementalBalance = {
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
 
-    return ELEMENTS.reduce((acc, element) => ({
+    return _ELEMENTS.reduce((acc, element) => ({
         ...acc,
         [element]: (properties[element] || 0) / total
       }),
@@ -38,17 +38,17 @@ export const elementalBalance = {
   validateProperties(properties: ElementalProperties): boolean {
     if (!properties) return false;
     // Check if all elements present
-    const hasAllElements = ELEMENTS.every(element => typeof properties[element] === 'number');
+    const hasAllElements = _ELEMENTS.every(element => typeof properties[element] === 'number');
 
     // Check value ranges
     const hasValidValues = Object.values(properties).every(value =>
-        value >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
-        value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
+        value >= _VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
+        value <= _VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
     );
 
     // Check total is approximately 1
     const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
-    const hasValidTotal = Math.abs(total - 1) < VALIDATION_THRESHOLDS.BALANCE_PRECISION;
+    const hasValidTotal = Math.abs(total - 1) < _VALIDATION_THRESHOLDS.BALANCE_PRECISION;
 
     return hasAllElements && hasValidValues && hasValidTotal;
   },
@@ -61,7 +61,7 @@ export const elementalBalance = {
     const norm1 = normalizeElementalProperties(first);
     const norm2 = normalizeElementalProperties(second);
 
-    const differences = ELEMENTS.map(element => Math.abs(norm1[element] - norm2[element]));
+    const differences = _ELEMENTS.map(element => Math.abs(norm1[element] - norm2[element]));
     const totalDifference = differences.reduce((sum, diff) => sum + diff, 0);
     const harmony = 1 - totalDifference / 2;
 
@@ -79,8 +79,8 @@ export const elementalBalance = {
 
   getDominantElement(properties: ElementalProperties): Element {
     const normalized = this.normalizeProperties(properties);
-    return ELEMENTS.reduce((dominant, element) => (normalized[element] > normalized[dominant] ? element : dominant),
-      ELEMENTS[0]
+    return _ELEMENTS.reduce((dominant, element) => (normalized[element] > normalized[dominant] ? element : dominant),
+      _ELEMENTS[0]
     );
   },
 
@@ -88,12 +88,12 @@ export const elementalBalance = {
     properties: ElementalProperties
   ): Record<Element, 'low' | 'balanced' | 'high'> {
     const normalized = this.normalizeProperties(properties);
-    return ELEMENTS.reduce((status, element) => ({
+    return _ELEMENTS.reduce((status, element) => ({
         ...status,
         [element]:
-          normalized[element] < MINIMUM_THRESHOLD
+          normalized[element] < _MINIMUM_THRESHOLD
             ? 'low'
-            : normalized[element] > MAXIMUM_THRESHOLD
+            : normalized[element] > _MAXIMUM_THRESHOLD
               ? 'high'
               : 'balanced'
       }),

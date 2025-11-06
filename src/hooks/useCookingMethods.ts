@@ -1,4 +1,4 @@
-import {useState, useEffect, _useMemo} from 'react';
+import {useState, useEffect, useMemo} from 'react';
 import {cookingMethods} from '@/data/cooking/cookingMethods';
 import {allCookingMethods} from '@/data/cooking/methods';
 import {log} from '@/services/LoggingService';

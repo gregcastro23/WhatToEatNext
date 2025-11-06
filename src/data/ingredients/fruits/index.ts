@@ -21,7 +21,7 @@ export const fruits: Record<string, IngredientMapping> = fixIngredientMappings({
 export { berries, citrus, melons, pome, stoneFruit, tropical };
 
 // Helper functions
-export const getFruitsBySubCategory = (subCategory: string): Record<string, IngredientMapping> => 
+export const getFruitsBySubCategory = (subCategory: string): Record<string, IngredientMapping> =>
   // ✅ Pattern MM-1: Safe type assertion for subcategory filtering
    Object.entries(fruits)
     .filter(([_, value]) => {
@@ -31,7 +31,7 @@ export const getFruitsBySubCategory = (subCategory: string): Record<string, Ingr
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 ;
 
-export const getSeasonalFruits = (season: string): Record<string, IngredientMapping> => 
+export const getSeasonalFruits = (season: string): Record<string, IngredientMapping> =>
   // ✅ Pattern MM-1: Safe type assertion for seasonal filtering
    Object.entries(fruits)
     .filter(([_, value]) => {
@@ -42,7 +42,7 @@ export const getSeasonalFruits = (season: string): Record<string, IngredientMapp
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 ;
 
-export const getFruitsByPreparation = (method: string): Record<string, IngredientMapping> => 
+export const getFruitsByPreparation = (method: string): Record<string, IngredientMapping> =>
   // ✅ Pattern MM-1: Safe type assertion for preparation filtering
    Object.entries(fruits)
     .filter(([_, value]) => {
@@ -81,7 +81,7 @@ export interface FruitAstrologicalProfile {
 }
 
 // Add new helper functions
-export const getFruitsByRulingPlanet = (planet: string): Record<string, IngredientMapping> => 
+export const getFruitsByRulingPlanet = (planet: string): Record<string, IngredientMapping> =>
   // ✅ Pattern MM-1: Safe type assertion for astrological filtering
    Object.entries(fruits)
     .filter(([_, value]) => {
@@ -95,7 +95,7 @@ export const getFruitsByRulingPlanet = (planet: string): Record<string, Ingredie
 
 export const getFruitsByElementalAffinity = (
   element: string,
-): Record<string, IngredientMapping> => 
+): Record<string, IngredientMapping> =>
   // ✅ Pattern MM-1: Safe type assertion for elemental affinity filtering
    Object.entries(fruits)
     .filter(([_, value]) => {

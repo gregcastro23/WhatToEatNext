@@ -4,8 +4,8 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import type { CelestialPosition } from '@/types/celestial';
 import type { PlanetaryAlignment} from '@/types/common';
-import {_ZodiacSign} from '@/types/common';
-import {_longitudeToZodiacPosition} from '@/utils/astrologyUtils';
+import {ZodiacSign} from '@/types/common';
+import {longitudeToZodiacPosition} from '@/utils/astrologyUtils';
 import {logger} from '@/utils/logger';
 
 // Interface for hook return value

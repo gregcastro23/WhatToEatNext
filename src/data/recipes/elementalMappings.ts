@@ -1,4 +1,4 @@
-import { ELEMENTAL_CHARACTERISTICS } from '@/constants/elementalConstants';
+import { _ELEMENTAL_CHARACTERISTICS } from '@/constants/elementalConstants';
 import { cookingMethods } from '@/data/cooking';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import { ElementalRecommendationService } from '@/services/ElementalRecommendationService';

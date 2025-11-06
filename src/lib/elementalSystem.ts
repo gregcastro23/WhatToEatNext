@@ -1,12 +1,12 @@
 // src/lib/elementalSystem.ts
 
 import {
-  ELEMENTS,
-  IDEAL_PROPORTION,
-  MINIMUM_THRESHOLD,
-  MAXIMUM_THRESHOLD,
-  ELEMENT_AFFINITIES,
-  ZODIAC_ELEMENTS
+  __ELEMENTS,
+  __IDEAL_PROPORTION,
+  __MINIMUM_THRESHOLD,
+  __MAXIMUM_THRESHOLD,
+  _ELEMENT_AFFINITIES,
+  _ZODIAC__ELEMENTS
 } from '@/constants/elementalConstants';
 import {_getLatestAstrologicalState} from '@/services/AstrologicalService';
 import type {
@@ -19,11 +19,11 @@ import type {
 
 class ElementalSystem {
   calculateBalance(properties: ElementalProperties): number {
-    const values = ELEMENTS.map(element => properties[element] || 0);
+    const values = _ELEMENTS.map(element => properties[element] || 0);
     const total = values.reduce((sum, val) => sum + val, 0);
 
     if (total === 0) return 0;
-    const deviations = values.map(val => Math.abs(val / total - IDEAL_PROPORTION));
+    const deviations = values.map(val => Math.abs(val / total - _IDEAL_PROPORTION));
     return 1 - deviations.reduce((sum, dev) => sum + dev, 0) / 2;
   }
 
@@ -32,13 +32,13 @@ class ElementalSystem {
     const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
 
     if (total === 0) return ['No elemental properties found'];
-    ELEMENTS.forEach(element => {
+    _ELEMENTS.forEach(element => {
       const value = properties[element] || 0;
       const proportion = value / total;
 
-      if (proportion < MINIMUM_THRESHOLD) {
+      if (proportion < _MINIMUM_THRESHOLD) {
         adjustments.push(`Increase ${element} influence`);
-      } else if (proportion > MAXIMUM_THRESHOLD) {
+      } else if (proportion > _MAXIMUM_THRESHOLD) {
         adjustments.push(`Reduce ${element} influence`);
       }
     });
@@ -50,16 +50,16 @@ class ElementalSystem {
     const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0);
 
     if (total === 0) {
-      return ELEMENTS.reduce(
+      return _ELEMENTS.reduce(
         (acc, element) => ({
           ...acc,
-          [element]: IDEAL_PROPORTION
+          [element]: _IDEAL_PROPORTION
         }),
         {} as ElementalProperties
       );
     }
 
-    return ELEMENTS.reduce(
+    return _ELEMENTS.reduce(
       (acc, element) => ({
         ...acc,
         [element]: (properties[element] || 0) / (total || 1)
@@ -72,7 +72,7 @@ class ElementalSystem {
     let dominantElement: Element = 'Fire';
     let maxValue = -Infinity;
 
-    ELEMENTS.forEach(element => {
+    _ELEMENTS.forEach(element => {
       const value = properties[element] || 0;
       if (value > maxValue) {
         maxValue = value;
@@ -84,10 +84,10 @@ class ElementalSystem {
   }
 
   calculateAstrologicalInfluence(state: AstrologicalState): ElementalProperties {
-    const zodiacElement = ZODIAC_ELEMENTS[state.currentZodiac?.toLowerCase() || 'aries'];
+    const zodiacElement = ZODIAC__ELEMENTS[state.currentZodiac?.toLowerCase() || 'aries'];
     const moonSignValue = state.currentPlanetaryAlignment?.Moon?.sign || '';
     const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
-    const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
+    const moonElement = moonSign ? ZODIAC__ELEMENTS[moonSign] : 'Water';
 
     const baseProperties: ElementalProperties = {
       Fire: 0.25,
@@ -118,10 +118,10 @@ class ElementalSystem {
     }
 
     const elements = seasonalElements[season];
-    const baseValue = 1 / ELEMENTS.length;
+    const baseValue = 1 / _ELEMENTS.length;
     const boost = 0.1;
 
-    const properties = ELEMENTS.reduce(
+    const properties = _ELEMENTS.reduce(
       (acc, element) => ({
         ...acc,
         [element]: elements.includes(element) ? baseValue + boost : baseValue
@@ -139,7 +139,7 @@ class ElementalSystem {
     }
 
     // Check that all values are between 0 and 1
-    for (const element of ELEMENTS) {
+    for (const element of _ELEMENTS) {
       if (properties[element] < 0 || properties[element] > 1) {
         return false;
       }
@@ -156,7 +156,7 @@ class ElementalSystem {
     const firstNormalized = this.normalizeProperties(first);
     const secondNormalized = this.normalizeProperties(second);
     return (1 -
-      ELEMENTS.reduce((diff, element) => {
+      _ELEMENTS.reduce((diff, element) => {
         const delta = Math.abs((firstNormalized[element] || 0) - (secondNormalized[element] || 0));
         return diff + delta;
       }, 0) /
