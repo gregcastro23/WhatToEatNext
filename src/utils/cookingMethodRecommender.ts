@@ -761,13 +761,13 @@ export async function getRecommendedCookingMethods(
   const recommendations: CookingMethodData[] = [];
 
   // Score each method based on multiple criteria
-  filteredMethods.forEach(method => ) {
+  filteredMethods.forEach(method => {
     // Skip if we already have a similar method
     // ✅ Pattern MM-1: Safe type assertion for method with elemental properties
     const methodWithProps = method as unknown as MethodWithElementalProperties;
     const methodNameNorm = normalizeMethodName(methodWithProps.name || '');
     if (
-      Object.keys(recommendationsMap).some(existingMethod =>)
+      Object.keys(recommendationsMap).some(existingMethod =>
         areSimilarMethods(existingMethod, methodNameNorm)
       )
     ) {

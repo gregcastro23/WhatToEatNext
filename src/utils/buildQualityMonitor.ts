@@ -597,11 +597,11 @@ async function getParallelizationInfo(): Promise<{
       efficiency
     }
   } catch (error) {
-    logger.error('Error getting parallelization info: ', error),
+    logger.error('Error getting parallelization info: ', error);
     return {
       workers: 1,
       efficiency: 0.5
-}
+    };
   }
 }
 
