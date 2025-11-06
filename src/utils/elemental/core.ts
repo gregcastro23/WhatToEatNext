@@ -341,12 +341,12 @@ export function calculateElementalState(recipe: Recipe | null | undefined): Elem
   }
 
   // Use existing elemental properties if available
-  if (recipe.elementalState && validateElementalProperties(recipe.elementalState as ElementalProperties) {
+  if (recipe.elementalState && validateElementalProperties(recipe.elementalState as ElementalProperties)) {
     return recipe.elementalState as ElementalProperties;
   }
 
   // Calculate from ingredients if available
-  if (recipe.ingredients && Array.isArray(recipe.ingredients) {
+  if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
     return calculateElementalStateFromIngredients(recipe.ingredients);
   }
 
