@@ -76,7 +76,7 @@ export interface EnhancedCuisineRecommendationParams extends CuisineRecommendati
  * @param params - Enhanced recommendation parameters
  * @returns Array of cuisine recommendations with detailed analysis
  */
-export function generateEnhancedCuisineRecommendations()
+export function generateEnhancedCuisineRecommendations(
   params: EnhancedCuisineRecommendationParams
 ): EnhancedCuisineRecommendation[] {
   const {
@@ -124,7 +124,7 @@ export function generateEnhancedCuisineRecommendations()
     const mockCuisines = getMockCuisineData();
 
     // Generate recommendations using the comprehensive system
-    const recommendations = generateCuisineRecommendations();
+    const recommendations = generateCuisineRecommendations(
       userProfile,
       mockCuisines,
       {
@@ -135,7 +135,7 @@ export function generateEnhancedCuisineRecommendations()
     );
 
     // Convert to enhanced format
-    return recommendations.map(rec => () {
+    return recommendations.map(rec => ({
       cuisine: rec.cuisineId,
       score: rec.compatibilityScore,
       reasoning: rec.reasoning.join(', '),
@@ -160,13 +160,13 @@ export function generateEnhancedCuisineRecommendations()
  * @param params - Basic recommendation parameters
  * @returns Array of basic cuisine recommendations
  */
-export function generateCuisineRecommendation()
+export function generateCuisineRecommendation(
   params: CuisineRecommendationParams
 ): CuisineRecommendation[] {
   // Use enhanced system but return legacy format
   const enhanced = generateEnhancedCuisineRecommendations(params);
 
-  return enhanced.map(rec => () {
+  return enhanced.map(rec => ({
     cuisine: rec.cuisine,
     score: rec.score,
     reasoning: rec.reasoning,
@@ -177,7 +177,7 @@ export function generateCuisineRecommendation()
 /**
  * Fallback basic cuisine recommendations (legacy implementation)
  */
-function generateBasicCuisineRecommendations()
+function generateBasicCuisineRecommendations(
   params: EnhancedCuisineRecommendationParams
 ): EnhancedCuisineRecommendation[] {
   const { elementalProperties, preferences = [] } = params;
@@ -241,8 +241,8 @@ function generateBasicCuisineRecommendations()
   }
 
   // Boost scores for preferred cuisines
-  recommendations.forEach(rec => ) {
-    if (preferences.includes(rec.cuisine) {
+  recommendations.forEach(rec => {
+    if (preferences.includes(rec.cuisine)) {
       rec.score = Math.min(rec.score * 1.2, 1.0);
       rec.reasoning += ' (preferred cuisine)';
       rec.detailedReasoning.push('This is one of your preferred cuisines');
@@ -257,7 +257,7 @@ function generateBasicCuisineRecommendations()
  * In production, this would load from computed cuisine properties
  */
 function getMockCuisineData() {
-  const mockCuisines = new Map([);
+  const mockCuisines = new Map([
     ['Italian', {
       name: 'Italian',
       properties: {
@@ -456,7 +456,7 @@ export function calculateElementalProfileFromZodiac(zodiacSign: string): Element
 /**
  * Calculate elemental contributions from planets (legacy function)
  */
-export function calculateElementalContributionsFromPlanets()
+export function calculateElementalContributionsFromPlanets(
   planetaryPositions: Record<string, unknown>
 ): ElementalProperties {
   const contributions: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
