@@ -272,7 +272,7 @@ build:docker:frontend:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     - echo "🏗️ Building Frontend Docker image..."
-    - echo "Image tag: $IMAGE_TAG"
+    - echo "Image tag - $IMAGE_TAG"
 
     # Build with cache optimization
     - |
@@ -320,9 +320,9 @@ build:docker:backend:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     - echo "🏗️ Building Backend Docker image (Python FastAPI)..."
-    - echo "Image tag: $IMAGE_TAG"
-    - echo "Dockerfile: $DOCKERFILE"
-    - echo "Context: $BUILD_CONTEXT"
+    - echo "Image tag - $IMAGE_TAG"
+    - echo "Dockerfile - $DOCKERFILE"
+    - echo "Context - $BUILD_CONTEXT"
 
     # Build with multi-stage optimization
     - |
@@ -376,7 +376,7 @@ quality-gate:comprehensive:
     - echo "=== Quality Gate Validation ==="
     - echo "1. Checking TypeScript errors..."
     - ERROR_COUNT=$(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0")
-    - echo "TypeScript errors found: $ERROR_COUNT"
+    - echo "TypeScript errors found - $ERROR_COUNT"
     - |
       if [ "$ERROR_COUNT" -gt 100 ]; then
         echo "❌ Quality gate failed: $ERROR_COUNT TypeScript errors (threshold: 100)"
@@ -431,9 +431,9 @@ deploy:staging:
     - build:production
   script:
     - echo "Deploying to staging environment..."
-    - echo "Environment: $CI_ENVIRONMENT_NAME"
-    - echo "URL: $CI_ENVIRONMENT_URL"
-    - echo "Commit: $CI_COMMIT_SHORT_SHA"
+    - echo "Environment - $CI_ENVIRONMENT_NAME"
+    - echo "URL - $CI_ENVIRONMENT_URL"
+    - echo "Commit - $CI_COMMIT_SHORT_SHA"
     - echo "Deployment would happen here (configure with your hosting provider)"
     - echo "✅ Staging deployment ready"
   only:
@@ -452,10 +452,10 @@ deploy:production:
     - quality-gate:comprehensive
   script:
     - echo "Deploying to production environment..."
-    - echo "Environment: $CI_ENVIRONMENT_NAME"
-    - echo "URL: $CI_ENVIRONMENT_URL"
-    - echo "Commit: $CI_COMMIT_SHORT_SHA"
-    - echo "Tag: $CI_COMMIT_TAG"
+    - echo "Environment - $CI_ENVIRONMENT_NAME"
+    - echo "URL - $CI_ENVIRONMENT_URL"
+    - echo "Commit - $CI_COMMIT_SHORT_SHA"
+    - echo "Tag - $CI_COMMIT_TAG"
     - echo "Deployment would happen here (configure with your hosting provider)"
     - echo "✅ Production deployment ready"
   only:
@@ -481,12 +481,12 @@ deploy:docker:
     - echo "🚀 Docker images deployed to registry"
     - echo ""
     - echo "📦 Available images:"
-    - echo "  Frontend: $FRONTEND_IMAGE:$CI_COMMIT_REF_SLUG"
-    - echo "  Backend:  $BACKEND_IMAGE:$CI_COMMIT_REF_SLUG"
+    - echo "  Frontend - $FRONTEND_IMAGE:$CI_COMMIT_REF_SLUG"
+    - echo "  Backend -  $BACKEND_IMAGE:$CI_COMMIT_REF_SLUG"
     - echo ""
     - echo "🏷️  Latest tags (on main/master):"
-    - echo "  Frontend: $FRONTEND_IMAGE:latest"
-    - echo "  Backend:  $BACKEND_IMAGE:latest"
+    - echo "  Frontend - $FRONTEND_IMAGE:latest"
+    - echo "  Backend -  $BACKEND_IMAGE:latest"
     - echo ""
     - echo "✅ Images ready for deployment"
   environment:
