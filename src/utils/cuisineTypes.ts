@@ -505,13 +505,13 @@ export function getCuisineCompatibilityRecommendations(
   cuisine: CompleteCuisineType,
   _ingredients: string[]
 ): CuisineCompatibility[] {
-  const allCuisines: CompleteCuisineType[] = Object.keys()
+  const allCuisines: CompleteCuisineType[] = Object.keys(
     CUISINE_CATEGORY_MAP
   ) as CompleteCuisineType[];
 
   return allCuisines
     .filter(c => c !== cuisine)
-    .map(targetCuisine => () {
+    .map(targetCuisine => ({
       cuisine: targetCuisine,
       score: calculateCuisineCompatibility(cuisine, targetCuisine),
       factors: getCompatibilityFactors(cuisine, targetCuisine),
@@ -638,7 +638,7 @@ export function groupCuisinesByCategory(
 ): Record<string, CompleteCuisineType[]> {
   const groups: Record<string, CompleteCuisineType[]> = {};
 
-  cuisines.forEach(cuisine => ) {
+  cuisines.forEach(cuisine => {
     const category = getCuisineContinent(cuisine);
     if (!groups[category]) {
       groups[category] = [];
