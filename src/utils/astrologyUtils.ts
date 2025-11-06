@@ -1363,7 +1363,7 @@ export function getPlanetaryDignityInfo(
       pisces: 5
 }
 
-    const signs = [;
+    const signs = [
       'aries',
       'taurus',
       'gemini',
@@ -1383,11 +1383,11 @@ export function getPlanetaryDignityInfo(
 }
 
   // Check each dignity type - Updated values to match the original algorithm
-  if (rulerships[planetLower] && rulerships[planetLower].includes(signLower) {
+  if (rulerships[planetLower] && rulerships[planetLower].includes(signLower)) {
     return { type: 'Domicile', strength: 1.0 }; // Original, value: 1
 } else if (exaltations[planetLower] === signLower) {
     return { type: 'Exaltation', strength: 2.0 }; // Original, value: 2
-} else if (getDetriments(planetLower).includes(signLower) {
+} else if (getDetriments(planetLower).includes(signLower)) {
     return { type: 'Detriment', strength: -1.0 }; // Original value: -1
   } else if (falls[planetLower] === signLower) {
     return { type: 'Fall', strength: -2.0 }; // Original value: -2
@@ -1404,9 +1404,9 @@ export function getPlanetaryDignityInfo(
  */
 export function calculateAspects(
   positions: Record<string, { sign: string, degree: number }>,
-  _risingDegree?: number;
+  _risingDegree?: number
 ): { aspects: PlanetaryAspect[], elementalEffects: LowercaseElementalProperties } {
-  const _aspects: PlanetaryAspect[] = []
+  const _aspects: PlanetaryAspect[] = [];
   const elementalEffects: LowercaseElementalProperties = { fire: 0, earth: 0, air: 0, water: 0 }
 
   // Aspect, definitions: type, orb, and elemental multiplier based on original algorithm
@@ -1436,7 +1436,7 @@ export function calculateAspects(
       return 0; // Return default value
     }
 
-    const signs = [;
+    const signs = [
       'aries',
       'taurus',
       'gemini',
@@ -1476,7 +1476,7 @@ export function calculateAspects(
       if (diff > 180) diff = 360 - diff;
 
       // Check each aspect type
-      for (const [type, definition] of Object.entries(aspectDefinitions) {
+      for (const [type, definition] of Object.entries(aspectDefinitions)) {
         // Define the ideal angle for each aspect type
         const aspectAngles: Record<AspectType, number> = {
           conjunction: 0,
@@ -1550,16 +1550,16 @@ export function calculateAspects(
  * @param date Date to calculate the state for (defaults to current date)
  * @returns Complete astrological state object
  */
-export async function getCurrentAstrologicalState()
+export async function getCurrentAstrologicalState(
   date: Date = new Date()
 ): Promise<AstrologicalState> {
   try {
     // Calculate all the astrological factors;
-    const [lunarPhaseValue, moonSignValue, planetaryPositionsValue] = await Promise.all([)
+    const [lunarPhaseValue, moonSignValue, planetaryPositionsValue] = await Promise.all([
       calculateLunarPhase(date),
       calculateMoonSign(date),
       calculatePlanetaryPositions(date)
-    ])
+    ]);
 
     const lunarPhase = getLunarPhaseName(lunarPhaseValue);
     const sunSign = calculateSunSign(date);
