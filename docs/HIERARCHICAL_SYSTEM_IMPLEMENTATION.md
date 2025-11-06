@@ -31,11 +31,11 @@ ESMS values MUST be calculated from **planetary positions only**:
 ```typescript
 // CORRECT - From planetaryAlchemyMapping.ts
 const PLANETARY_ALCHEMY = {
-  Sun:     { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 },
-  Moon:    { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+  Sun: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 },
+  Moon: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
   Mercury: { Spirit: 1, Essence: 0, Matter: 0, Substance: 1 },
   // ... etc
-}
+};
 
 // Sum planetary contributions
 function calculateAlchemicalFromPlanets(positions) {
@@ -54,11 +54,13 @@ function calculateAlchemicalFromPlanets(positions) {
 ### Tier 1: Ingredients (Simple - Elemental Only)
 
 **Stored Properties:**
+
 - Elemental properties ONLY: Fire, Water, Earth, Air (normalized to sum = 1.0)
 - Astrological affinities (optional metadata)
 - Physical/culinary metadata
 
 **What Ingredients DON'T Have:**
+
 - ❌ Alchemical properties (Spirit/Essence/Matter/Substance)
 - ❌ Thermodynamic metrics (Heat/Entropy/Reactivity/GregsEnergy)
 - ❌ Monica/Kalchm constants
@@ -68,12 +70,14 @@ function calculateAlchemicalFromPlanets(positions) {
 ### Tier 2: Recipes (Computed - Full Alchemical)
 
 **Computed Properties:**
+
 - ✅ Alchemical properties from planetary positions
 - ✅ Elemental properties from ingredients + zodiac signs
 - ✅ Thermodynamic metrics from ESMS + elementals
 - ✅ Kinetic properties (P=IV circuit model)
 
 **Computation Pipeline:**
+
 1. Aggregate ingredient elementals (logarithmic quantity scaling)
 2. Calculate ESMS from planetary positions
 3. Aggregate zodiac elementals from planetary signs
@@ -84,6 +88,7 @@ function calculateAlchemicalFromPlanets(positions) {
 ### Tier 3: Cuisines (Aggregated - Statistical Signatures)
 
 **Computed Properties:**
+
 - ✅ Weighted average properties across recipes
 - ✅ Statistical variance (diversity metrics)
 - ✅ Cultural signatures (z-score > 1.5 outliers)
@@ -91,6 +96,7 @@ function calculateAlchemicalFromPlanets(positions) {
 - ✅ Elemental/alchemical ranges
 
 **Example Signatures:**
+
 - Italian: Essence = +1.8 σ (olive oil & tomato extraction)
 - Italian: Spirit = +2.1 σ (butter & wine volatiles)
 - Japanese: Entropy = -1.6 σ (pristine ingredients, minimal transformation)
@@ -102,12 +108,14 @@ function calculateAlchemicalFromPlanets(positions) {
 **Purpose:** Authoritative source for ESMS calculation
 
 **Key Functions:**
+
 - `calculateAlchemicalFromPlanets()` - The ONLY correct ESMS calculation
 - `aggregateZodiacElementals()` - Sum elemental contributions from zodiac signs
 - `getDominantAlchemicalProperty()` - Identify dominant ESMS property
 - `getDominantElement()` - Identify dominant elemental property
 
 **Exports:**
+
 - `PLANETARY_ALCHEMY` - Authoritative planetary alchemy values
 - `ZODIAC_ELEMENTS` - Zodiac sign to element mapping
 
@@ -116,6 +124,7 @@ function calculateAlchemicalFromPlanets(positions) {
 **Purpose:** Type definitions for three-tier architecture
 
 **Key Types:**
+
 - `IngredientData` - Tier 1: Elemental properties only
 - `RecipeComputedProperties` - Tier 2: Full computed properties
 - `RecipeData` - Recipe with optional astrological timing
@@ -127,17 +136,20 @@ function calculateAlchemicalFromPlanets(positions) {
 **Purpose:** Recipe property computation pipeline
 
 **Key Functions:**
+
 - `computeRecipeProperties()` - Main computation entry point
 - `aggregateIngredientElementals()` - Sum ingredient contributions with quantity scaling
 - `applyCookingMethodTransforms()` - Apply cooking method modifiers
 - `calculateQuantityScalingFactor()` - Logarithmic quantity scaling
 
 **Exports:**
+
 - `COOKING_METHOD_MODIFIERS` - Elemental transformation matrices for 30+ methods
 
 ### 4. `src/utils/monicaKalchmCalculations.ts` (Updated) ✅
 
 **Changes:**
+
 - ✅ Added import of `calculateAlchemicalFromPlanets`
 - ✅ Renamed `elementalToAlchemical()` → `elementalToAlchemicalApproximation()`
 - ✅ Added deprecation warnings and documentation
@@ -146,6 +158,7 @@ function calculateAlchemicalFromPlanets(positions) {
 ### 5. `src/utils/ingredientUtils.ts` (Cleaned) ✅
 
 **Changes:**
+
 - ❌ Removed `calculateAlchemicalProperties()` - INCORRECT formulas
 - ❌ Removed `calculateThermodynamicProperties()` - Duplicates monicaKalchmCalculations
 - ✅ Kept all elemental utility functions (normalization, merging, etc.)
@@ -195,6 +208,7 @@ where:
 ```
 
 **Behavior:**
+
 - 5g → ~0.22 scaling (22% of base intensity)
 - 10g → ~0.29 scaling (29% of base intensity)
 - 100g → ~0.50 scaling (50% of base intensity - reference point)
@@ -218,6 +232,7 @@ steaming: { Fire: 0.6, Water: 1.4, Earth: 0.9, Air: 1.1 }
 ```
 
 **Method Categories:**
+
 - **Dry Heat (Fire dominant):** grilling, roasting, baking, broiling, searing
 - **Moist Heat (Water dominant):** boiling, steaming, poaching, simmering, braising
 - **Fermentation (Earth/Water balance):** fermenting, pickling, curing, smoking
@@ -265,6 +280,7 @@ steaming: { Fire: 0.6, Water: 1.4, Earth: 0.9, Air: 1.1 }
 ```
 
 **Migration Strategy:**
+
 1. Search for `calculateAlchemicalProperties(` calls
 2. Replace with `calculateAlchemicalFromPlanets(planetaryPositions)`
 3. Ensure planetary positions are available in context
@@ -299,9 +315,9 @@ steaming: { Fire: 0.6, Water: 1.4, Earth: 0.9, Air: 1.1 }
 
 ```typescript
 // Test planetary ESMS calculation
-describe('calculateAlchemicalFromPlanets', () => {
-  it('sums planetary alchemy values correctly', () => {
-    const positions = { Sun: 'Gemini', Moon: 'Leo', Mercury: 'Taurus' };
+describe("calculateAlchemicalFromPlanets", () => {
+  it("sums planetary alchemy values correctly", () => {
+    const positions = { Sun: "Gemini", Moon: "Leo", Mercury: "Taurus" };
     const result = calculateAlchemicalFromPlanets(positions);
     expect(result.Spirit).toBe(2); // Sun(1) + Mercury(1)
     expect(result.Essence).toBe(1); // Moon(1)
@@ -311,8 +327,8 @@ describe('calculateAlchemicalFromPlanets', () => {
 });
 
 // Test thermodynamic formulas
-describe('calculateThermodynamicMetrics', () => {
-  it('calculates Heat with exact formula', () => {
+describe("calculateThermodynamicMetrics", () => {
+  it("calculates Heat with exact formula", () => {
     const alchemical = { Spirit: 3, Essence: 5, Matter: 4, Substance: 2 };
     const elemental = { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 };
     const result = calculateThermodynamicMetrics(alchemical, elemental);
@@ -406,6 +422,7 @@ Phase 1 establishes the correct architectural foundation for alchemical property
 The hierarchical system (Ingredients → Recipes → Cuisines) provides clean separation of concerns, efficient computation, and accurate representation of the true alchemical principles underlying the WhatToEatNext recommendation engine.
 
 **Key Achievement:** The system now correctly distinguishes between:
+
 - **Elemental properties** (Fire/Water/Earth/Air) - from ingredients and zodiac signs
 - **Alchemical properties** (Spirit/Essence/Matter/Substance) - from planetary positions ONLY
 - **Thermodynamic metrics** - derived from both alchemical and elemental properties

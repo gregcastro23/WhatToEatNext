@@ -1,4 +1,4 @@
-import type { ZodiacSign } from './zodiac';
+import type { ZodiacSign } from "./zodiac";
 
 /**
  * ZodiacAffinity represents how well something harmonizes with different zodiac signs
@@ -9,23 +9,23 @@ export type ZodiacAffinity = Record<ZodiacSign, number>;
 /**
  * Modalities in astrology
  */
-export type Modality = 'cardinal' | 'fixed' | 'mutable';
+export type Modality = "cardinal" | "fixed" | "mutable";
 /**
  * Mapping of zodiac signs to their modalities
  */
 export const ZODIAC_MODALITIES: Record<ZodiacSign, Modality> = {
-  aries: 'cardinal',
-  cancer: 'cardinal',
-  libra: 'cardinal',
-  capricorn: 'cardinal',
-  taurus: 'fixed',
-  leo: 'fixed',
-  scorpio: 'fixed',
-  aquarius: 'fixed',
-  gemini: 'mutable',
-  virgo: 'mutable',
-  sagittarius: 'mutable',
-  pisces: 'mutable',
+  aries: "cardinal",
+  cancer: "cardinal",
+  libra: "cardinal",
+  capricorn: "cardinal",
+  taurus: "fixed",
+  leo: "fixed",
+  scorpio: "fixed",
+  aquarius: "fixed",
+  gemini: "mutable",
+  virgo: "mutable",
+  sagittarius: "mutable",
+  pisces: "mutable",
 };
 
 /**
@@ -50,10 +50,12 @@ export const DEFAULT_ZODIAC_AFFINITY: ZodiacAffinity = {
  * Helper function to create zodiac affinity with default values
  * Only specified signs will have non-zero values
  */
-export function createZodiacAffinity(affinities: Partial<ZodiacAffinity>): ZodiacAffinity {
+export function createZodiacAffinity(
+  affinities: Partial<ZodiacAffinity>,
+): ZodiacAffinity {
   return {
     ...DEFAULT_ZODIAC_AFFINITY,
-    ...affinities
+    ...affinities,
   };
 }
 
@@ -70,7 +72,10 @@ export function getModalityCompatibility(sign1: any, sign2: any): number {
   }
 
   // Different modalities have lower compatibility
-  const modalityCompatibilityChart: Record<Modality, Record<Modality, number>> = {
+  const modalityCompatibilityChart: Record<
+    Modality,
+    Record<Modality, number>
+  > = {
     cardinal: { cardinal: 0.8, fixed: 0.4, mutable: 0.5 },
     fixed: { cardinal: 0.4, fixed: 0.8, mutable: 0.3 },
     mutable: { cardinal: 0.5, fixed: 0.3, mutable: 0.8 },
@@ -83,19 +88,19 @@ export function getModalityCompatibility(sign1: any, sign2: any): number {
  * Calculates affinity between two zodiac signs based on both element and modality compatibility
  */
 export function getZodiacCompatibility(_sign1: any, _sign2: any): number {
-  const elementMap: Record<ZodiacSign, 'fire' | 'earth' | 'air' | 'water'> = {
-    aries: 'fire',
-    leo: 'fire',
-    sagittarius: 'fire',
-    taurus: 'earth',
-    virgo: 'earth',
-    capricorn: 'earth',
-    gemini: 'air',
-    libra: 'air',
-    aquarius: 'air',
-    cancer: 'water',
-    scorpio: 'water',
-    pisces: 'water',
+  const elementMap: Record<ZodiacSign, "fire" | "earth" | "air" | "water"> = {
+    aries: "fire",
+    leo: "fire",
+    sagittarius: "fire",
+    taurus: "earth",
+    virgo: "earth",
+    capricorn: "earth",
+    gemini: "air",
+    libra: "air",
+    aquarius: "air",
+    cancer: "water",
+    scorpio: "water",
+    pisces: "water",
   };
 
   const elementCompatibilityChart: Record<string, Record<string, number>> = {

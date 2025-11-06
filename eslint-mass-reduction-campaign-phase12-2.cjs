@@ -8,9 +8,9 @@
  * Target: 93%+ issue reduction while preserving functionality
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class ESLintMassReductionCampaign {
   constructor() {
@@ -27,8 +27,8 @@ class ESLintMassReductionCampaign {
       fs.mkdirSync(this.backupDir, { recursive: true });
     }
 
-    this.log('ESLint Mass Reduction Campaign - Phase 12.2 Started');
-    this.log('Target: Reduce 7,089 violations to <500 (93%+ reduction)');
+    this.log("ESLint Mass Reduction Campaign - Phase 12.2 Started");
+    this.log("Target: Reduce 7,089 violations to <500 (93%+ reduction)");
   }
 
   log(message) {
@@ -39,7 +39,7 @@ class ESLintMassReductionCampaign {
   }
 
   createBackup(filePath) {
-    const backupPath = path.join(this.backupDir, filePath.replace(/\//g, '_'));
+    const backupPath = path.join(this.backupDir, filePath.replace(/\//g, "_"));
     const backupDirPath = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDirPath)) {
@@ -53,12 +53,12 @@ class ESLintMassReductionCampaign {
 
   validateBuild() {
     try {
-      this.log('Validating build stability...');
-      execSync('yarn build', { stdio: 'pipe', timeout: 60000 });
-      this.log('✅ Build validation passed');
+      this.log("Validating build stability...");
+      execSync("yarn build", { stdio: "pipe", timeout: 60000 });
+      this.log("✅ Build validation passed");
       return true;
     } catch (error) {
-      this.log('❌ Build validation failed');
+      this.log("❌ Build validation failed");
       this.log(`Build error: ${error.message}`);
       return false;
     }
@@ -66,19 +66,19 @@ class ESLintMassReductionCampaign {
 
   // Phase 1: Fix Critical Parsing Errors
   fixCriticalParsingErrors() {
-    this.log('\n=== Phase 1: Fixing Critical Parsing Errors ===');
+    this.log("\n=== Phase 1: Fixing Critical Parsing Errors ===");
 
     const criticalFiles = [
-      'src/utils/astrologyUtils.ts',
-      'src/utils/elementalUtils.ts',
-      'src/utils/accurateAstronomy.ts',
-      'src/lib/alchemicalEngine.ts',
-      'src/calculations/gregsEnergy.ts',
-      'src/data/integrations/seasonal.ts',
-      'src/contexts/AlchemicalContext/server.ts',
-      'src/data/unified/unifiedFlavorEngine.ts',
-      'src/data/ingredients/fruits/index.ts',
-      'src/services/AlchemicalRecommendationService.ts'
+      "src/utils/astrologyUtils.ts",
+      "src/utils/elementalUtils.ts",
+      "src/utils/accurateAstronomy.ts",
+      "src/lib/alchemicalEngine.ts",
+      "src/calculations/gregsEnergy.ts",
+      "src/data/integrations/seasonal.ts",
+      "src/contexts/AlchemicalContext/server.ts",
+      "src/data/unified/unifiedFlavorEngine.ts",
+      "src/data/ingredients/fruits/index.ts",
+      "src/services/AlchemicalRecommendationService.ts",
     ];
 
     let fixedFiles = 0;
@@ -98,26 +98,28 @@ class ESLintMassReductionCampaign {
       }
     }
 
-    this.log(`✅ Phase 1 Complete: Fixed parsing errors in ${fixedFiles} files`);
+    this.log(
+      `✅ Phase 1 Complete: Fixed parsing errors in ${fixedFiles} files`,
+    );
     return this.validateBuild();
   }
 
   fixOctalLiterals(filePath) {
     try {
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       let modified = false;
 
       // Fix octal literals - convert 0X to 0oX format
       const octalPatterns = [
-        { pattern: /\b00\b/g, replacement: '0o0' },
-        { pattern: /\b01\b/g, replacement: '0o1' },
-        { pattern: /\b02\b/g, replacement: '0o2' },
-        { pattern: /\b03\b/g, replacement: '0o3' },
-        { pattern: /\b04\b/g, replacement: '0o4' },
-        { pattern: /\b05\b/g, replacement: '0o5' },
-        { pattern: /\b06\b/g, replacement: '0o6' },
-        { pattern: /\b07\b/g, replacement: '0o7' },
-        { pattern: /\b010\b/g, replacement: '0o10' }
+        { pattern: /\b00\b/g, replacement: "0o0" },
+        { pattern: /\b01\b/g, replacement: "0o1" },
+        { pattern: /\b02\b/g, replacement: "0o2" },
+        { pattern: /\b03\b/g, replacement: "0o3" },
+        { pattern: /\b04\b/g, replacement: "0o4" },
+        { pattern: /\b05\b/g, replacement: "0o5" },
+        { pattern: /\b06\b/g, replacement: "0o6" },
+        { pattern: /\b07\b/g, replacement: "0o7" },
+        { pattern: /\b010\b/g, replacement: "0o10" },
       ];
 
       for (const { pattern, replacement } of octalPatterns) {
@@ -135,24 +137,29 @@ class ESLintMassReductionCampaign {
 
       return false;
     } catch (error) {
-      this.log(`  ❌ Error fixing octal literals in ${filePath}: ${error.message}`);
+      this.log(
+        `  ❌ Error fixing octal literals in ${filePath}: ${error.message}`,
+      );
       return false;
     }
   }
 
   fixSyntaxErrors(filePath) {
     try {
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       let modified = false;
 
       // Fix common syntax errors
       const syntaxFixes = [
         // Fix missing commas in object literals
-        { pattern: /(\w+):\s*([^,\n}]+)\s*\n\s*(\w+):/g, replacement: '$1: $2,\n  $3:' },
+        {
+          pattern: /(\w+):\s*([^,\n}]+)\s*\n\s*(\w+):/g,
+          replacement: "$1: $2,\n  $3:",
+        },
         // Fix invalid numeric literals followed by identifiers
-        { pattern: /(\d+)([a-zA-Z_]\w*)/g, replacement: '$1_$2' },
+        { pattern: /(\d+)([a-zA-Z_]\w*)/g, replacement: "$1_$2" },
         // Fix trailing commas in function calls
-        { pattern: /,(\s*\))/g, replacement: '$1' }
+        { pattern: /,(\s*\))/g, replacement: "$1" },
       ];
 
       for (const { pattern, replacement } of syntaxFixes) {
@@ -170,31 +177,33 @@ class ESLintMassReductionCampaign {
 
       return false;
     } catch (error) {
-      this.log(`  ❌ Error fixing syntax errors in ${filePath}: ${error.message}`);
+      this.log(
+        `  ❌ Error fixing syntax errors in ${filePath}: ${error.message}`,
+      );
       return false;
     }
   }
 
   // Phase 2: Automated ESLint Fixes
   runAutomatedESLintFixes() {
-    this.log('\n=== Phase 2: Running Automated ESLint Fixes ===');
+    this.log("\n=== Phase 2: Running Automated ESLint Fixes ===");
 
     try {
       // Run ESLint with --fix for auto-fixable issues
-      this.log('Running ESLint auto-fix...');
-      execSync('yarn lint --fix', { stdio: 'pipe', timeout: 120000 });
-      this.log('✅ ESLint auto-fix completed');
+      this.log("Running ESLint auto-fix...");
+      execSync("yarn lint --fix", { stdio: "pipe", timeout: 120000 });
+      this.log("✅ ESLint auto-fix completed");
 
       return this.validateBuild();
     } catch (error) {
-      this.log('⚠️ ESLint auto-fix completed with remaining issues');
+      this.log("⚠️ ESLint auto-fix completed with remaining issues");
       return this.validateBuild();
     }
   }
 
   // Phase 3: Target Specific Issue Categories
   fixSpecificIssueCategories() {
-    this.log('\n=== Phase 3: Fixing Specific Issue Categories ===');
+    this.log("\n=== Phase 3: Fixing Specific Issue Categories ===");
 
     // Get current ESLint issues for analysis
     const issues = this.getESLintIssues();
@@ -206,10 +215,14 @@ class ESLintMassReductionCampaign {
     totalFixed += this.fixUnusedVariables(categorizedIssues.unusedVars || []);
 
     // Fix console statements (preserving intentional ones)
-    totalFixed += this.fixConsoleStatements(categorizedIssues.consoleStatements || []);
+    totalFixed += this.fixConsoleStatements(
+      categorizedIssues.consoleStatements || [],
+    );
 
     // Fix import violations
-    totalFixed += this.fixImportViolations(categorizedIssues.importIssues || []);
+    totalFixed += this.fixImportViolations(
+      categorizedIssues.importIssues || [],
+    );
 
     // Fix style issues
     totalFixed += this.fixStyleIssues(categorizedIssues.styleIssues || []);
@@ -220,10 +233,10 @@ class ESLintMassReductionCampaign {
 
   getESLintIssues() {
     try {
-      const output = execSync('yarn lint --format=json', {
-        encoding: 'utf8',
-        stdio: 'pipe',
-        timeout: 60000
+      const output = execSync("yarn lint --format=json", {
+        encoding: "utf8",
+        stdio: "pipe",
+        timeout: 60000,
       });
       return JSON.parse(output);
     } catch (error) {
@@ -232,7 +245,7 @@ class ESLintMassReductionCampaign {
         try {
           return JSON.parse(error.stdout);
         } catch (parseError) {
-          this.log('Warning: Could not parse ESLint output');
+          this.log("Warning: Could not parse ESLint output");
           return [];
         }
       }
@@ -246,20 +259,28 @@ class ESLintMassReductionCampaign {
       consoleStatements: [],
       importIssues: [],
       styleIssues: [],
-      other: []
+      other: [],
     };
 
     for (const file of issues) {
       for (const message of file.messages || []) {
         const ruleId = message.ruleId;
 
-        if (ruleId && ruleId.includes('unused-vars')) {
+        if (ruleId && ruleId.includes("unused-vars")) {
           categories.unusedVars.push({ file: file.filePath, message });
-        } else if (ruleId && ruleId.includes('console')) {
+        } else if (ruleId && ruleId.includes("console")) {
           categories.consoleStatements.push({ file: file.filePath, message });
-        } else if (ruleId && (ruleId.includes('import') || ruleId.includes('sort'))) {
+        } else if (
+          ruleId &&
+          (ruleId.includes("import") || ruleId.includes("sort"))
+        ) {
           categories.importIssues.push({ file: file.filePath, message });
-        } else if (ruleId && (ruleId.includes('indent') || ruleId.includes('spacing') || ruleId.includes('quotes'))) {
+        } else if (
+          ruleId &&
+          (ruleId.includes("indent") ||
+            ruleId.includes("spacing") ||
+            ruleId.includes("quotes"))
+        ) {
           categories.styleIssues.push({ file: file.filePath, message });
         } else {
           categories.other.push({ file: file.filePath, message });
@@ -271,15 +292,27 @@ class ESLintMassReductionCampaign {
   }
 
   fixUnusedVariables(unusedVarIssues) {
-    this.log('Fixing unused variables (preserving domain patterns)...');
+    this.log("Fixing unused variables (preserving domain patterns)...");
     let fixed = 0;
 
     // Domain-specific patterns to preserve
     const preservePatterns = [
-      /planet/i, /degree/i, /sign/i, /longitude/i, /position/i, // Astrological
-      /metrics/i, /progress/i, /safety/i, /campaign/i, // Campaign system
-      /fire/i, /water/i, /earth/i, /air/i, // Elemental
-      /mock/i, /stub/i, /test/i // Testing
+      /planet/i,
+      /degree/i,
+      /sign/i,
+      /longitude/i,
+      /position/i, // Astrological
+      /metrics/i,
+      /progress/i,
+      /safety/i,
+      /campaign/i, // Campaign system
+      /fire/i,
+      /water/i,
+      /earth/i,
+      /air/i, // Elemental
+      /mock/i,
+      /stub/i,
+      /test/i, // Testing
     ];
 
     const fileGroups = this.groupFilesByPath(unusedVarIssues);
@@ -288,18 +321,20 @@ class ESLintMassReductionCampaign {
       if (issues.length === 0) continue;
 
       this.createBackup(filePath);
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       let modified = false;
 
       for (const issue of issues) {
         const varName = this.extractVariableName(issue.message.message);
 
         // Check if variable should be preserved
-        const shouldPreserve = preservePatterns.some(pattern => pattern.test(varName));
+        const shouldPreserve = preservePatterns.some((pattern) =>
+          pattern.test(varName),
+        );
 
         if (!shouldPreserve) {
           // Prefix with underscore to indicate intentionally unused
-          const prefixPattern = new RegExp(`\\b${varName}\\b`, 'g');
+          const prefixPattern = new RegExp(`\\b${varName}\\b`, "g");
           content = content.replace(prefixPattern, `_${varName}`);
           modified = true;
           fixed++;
@@ -317,7 +352,7 @@ class ESLintMassReductionCampaign {
   }
 
   fixConsoleStatements(consoleIssues) {
-    this.log('Fixing console statements (preserving intentional ones)...');
+    this.log("Fixing console statements (preserving intentional ones)...");
     let fixed = 0;
 
     const fileGroups = this.groupFilesByPath(consoleIssues);
@@ -326,19 +361,23 @@ class ESLintMassReductionCampaign {
       if (issues.length === 0) continue;
 
       // Skip files that likely need console statements
-      if (filePath.includes('debug') || filePath.includes('test') || filePath.includes('script')) {
+      if (
+        filePath.includes("debug") ||
+        filePath.includes("test") ||
+        filePath.includes("script")
+      ) {
         continue;
       }
 
       this.createBackup(filePath);
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       let modified = false;
 
       // Replace console.log with comments, preserve console.error/warn
-      content = content.replace(/console\.log\(/g, '// console.log(');
-      content = content.replace(/console\.debug\(/g, '// console.debug(');
+      content = content.replace(/console\.log\(/g, "// console.log(");
+      content = content.replace(/console\.debug\(/g, "// console.debug(");
 
-      if (content !== fs.readFileSync(filePath, 'utf8')) {
+      if (content !== fs.readFileSync(filePath, "utf8")) {
         fs.writeFileSync(filePath, content);
         modified = true;
         fixed += issues.length;
@@ -354,7 +393,7 @@ class ESLintMassReductionCampaign {
   }
 
   fixImportViolations(importIssues) {
-    this.log('Fixing import violations...');
+    this.log("Fixing import violations...");
     let fixed = 0;
 
     const fileGroups = this.groupFilesByPath(importIssues);
@@ -366,15 +405,20 @@ class ESLintMassReductionCampaign {
 
       try {
         // Use ESLint auto-fix specifically for import issues
-        execSync(`yarn eslint "${filePath}" --fix --rule "import/order: error"`, {
-          stdio: 'pipe',
-          timeout: 10000
-        });
+        execSync(
+          `yarn eslint "${filePath}" --fix --rule "import/order: error"`,
+          {
+            stdio: "pipe",
+            timeout: 10000,
+          },
+        );
         fixed += issues.length;
         this.log(`  ✅ Fixed imports in ${path.basename(filePath)}`);
       } catch (error) {
         // Continue with other files if one fails
-        this.log(`  ⚠️ Could not auto-fix imports in ${path.basename(filePath)}`);
+        this.log(
+          `  ⚠️ Could not auto-fix imports in ${path.basename(filePath)}`,
+        );
       }
     }
 
@@ -383,19 +427,19 @@ class ESLintMassReductionCampaign {
   }
 
   fixStyleIssues(styleIssues) {
-    this.log('Fixing style issues...');
+    this.log("Fixing style issues...");
     let fixed = 0;
 
     try {
       // Run Prettier to fix formatting issues
       execSync('yarn prettier --write "src/**/*.{ts,tsx,js,jsx}"', {
-        stdio: 'pipe',
-        timeout: 60000
+        stdio: "pipe",
+        timeout: 60000,
       });
       fixed = styleIssues.length;
       this.log(`✅ Fixed ${fixed} style issues with Prettier`);
     } catch (error) {
-      this.log('⚠️ Prettier formatting completed with some issues');
+      this.log("⚠️ Prettier formatting completed with some issues");
     }
 
     return fixed;
@@ -415,17 +459,20 @@ class ESLintMassReductionCampaign {
 
   extractVariableName(message) {
     const match = message.match(/'([^']+)' is defined but never used/);
-    return match ? match[1] : '';
+    return match ? match[1] : "";
   }
 
   // Final validation and reporting
   generateFinalReport() {
-    this.log('\n=== Final Campaign Report ===');
+    this.log("\n=== Final Campaign Report ===");
 
     try {
       // Get final ESLint issue count
       const finalIssues = this.getESLintIssues();
-      const totalIssues = finalIssues.reduce((sum, file) => sum + (file.messages?.length || 0), 0);
+      const totalIssues = finalIssues.reduce(
+        (sum, file) => sum + (file.messages?.length || 0),
+        0,
+      );
 
       const initialCount = 7089; // From task description
       const reduction = initialCount - totalIssues;
@@ -436,17 +483,22 @@ class ESLintMassReductionCampaign {
       this.log(`Issues Reduced: ${reduction}`);
       this.log(`Reduction Percentage: ${reductionPercentage}%`);
 
-      const targetMet = totalIssues < 500 && parseFloat(reductionPercentage) >= 93;
-      this.log(`Target Met (< 500 issues, 93%+ reduction): ${targetMet ? '✅ YES' : '❌ NO'}`);
+      const targetMet =
+        totalIssues < 500 && parseFloat(reductionPercentage) >= 93;
+      this.log(
+        `Target Met (< 500 issues, 93%+ reduction): ${targetMet ? "✅ YES" : "❌ NO"}`,
+      );
 
       // Build validation
       const buildValid = this.validateBuild();
-      this.log(`Build Stability: ${buildValid ? '✅ MAINTAINED' : '❌ COMPROMISED'}`);
+      this.log(
+        `Build Stability: ${buildValid ? "✅ MAINTAINED" : "❌ COMPROMISED"}`,
+      );
 
       // Save detailed report
       const reportPath = `eslint-mass-reduction-report-${Date.now()}.json`;
       const report = {
-        campaign: 'ESLint Mass Reduction Campaign - Phase 12.2',
+        campaign: "ESLint Mass Reduction Campaign - Phase 12.2",
         timestamp: new Date().toISOString(),
         initialIssues: initialCount,
         finalIssues: totalIssues,
@@ -456,14 +508,13 @@ class ESLintMassReductionCampaign {
         buildStable: buildValid,
         processedFiles: this.processedFiles,
         backupDirectory: this.backupDir,
-        logFile: this.logFile
+        logFile: this.logFile,
       };
 
       fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
       this.log(`Detailed report saved: ${reportPath}`);
 
       return targetMet && buildValid;
-
     } catch (error) {
       this.log(`Error generating final report: ${error.message}`);
       return false;
@@ -471,40 +522,43 @@ class ESLintMassReductionCampaign {
   }
 
   async execute() {
-    this.log('Starting ESLint Mass Reduction Campaign - Phase 12.2');
-    this.log('Target: Reduce 7,089 violations to <500 (93%+ reduction)');
+    this.log("Starting ESLint Mass Reduction Campaign - Phase 12.2");
+    this.log("Target: Reduce 7,089 violations to <500 (93%+ reduction)");
 
     try {
       // Phase 1: Fix critical parsing errors that prevent ESLint from running
       if (!this.fixCriticalParsingErrors()) {
-        throw new Error('Phase 1 failed: Could not fix critical parsing errors');
+        throw new Error(
+          "Phase 1 failed: Could not fix critical parsing errors",
+        );
       }
 
       // Phase 2: Run automated ESLint fixes
       if (!this.runAutomatedESLintFixes()) {
-        throw new Error('Phase 2 failed: Automated fixes caused build issues');
+        throw new Error("Phase 2 failed: Automated fixes caused build issues");
       }
 
       // Phase 3: Target specific issue categories
       if (!this.fixSpecificIssueCategories()) {
-        throw new Error('Phase 3 failed: Specific fixes caused build issues');
+        throw new Error("Phase 3 failed: Specific fixes caused build issues");
       }
 
       // Final validation and reporting
       const success = this.generateFinalReport();
 
       if (success) {
-        this.log('\n🎉 ESLint Mass Reduction Campaign - Phase 12.2 COMPLETED SUCCESSFULLY!');
-        this.log('✅ Target achieved: <500 issues with 93%+ reduction');
-        this.log('✅ Build stability maintained');
-        this.log('✅ Domain functionality preserved');
+        this.log(
+          "\n🎉 ESLint Mass Reduction Campaign - Phase 12.2 COMPLETED SUCCESSFULLY!",
+        );
+        this.log("✅ Target achieved: <500 issues with 93%+ reduction");
+        this.log("✅ Build stability maintained");
+        this.log("✅ Domain functionality preserved");
       } else {
-        this.log('\n⚠️ Campaign completed with partial success');
-        this.log('Some targets may not have been fully met');
+        this.log("\n⚠️ Campaign completed with partial success");
+        this.log("Some targets may not have been fully met");
       }
 
       return success;
-
     } catch (error) {
       this.log(`\n❌ Campaign failed: ${error.message}`);
       this.log(`Backup available at: ${this.backupDir}`);
@@ -516,12 +570,15 @@ class ESLintMassReductionCampaign {
 // Execute the campaign
 if (require.main === module) {
   const campaign = new ESLintMassReductionCampaign();
-  campaign.execute().then(success => {
-    process.exit(success ? 0 : 1);
-  }).catch(error => {
-    console.error('Campaign execution failed:', error);
-    process.exit(1);
-  });
+  campaign
+    .execute()
+    .then((success) => {
+      process.exit(success ? 0 : 1);
+    })
+    .catch((error) => {
+      console.error("Campaign execution failed:", error);
+      process.exit(1);
+    });
 }
 
 module.exports = ESLintMassReductionCampaign;

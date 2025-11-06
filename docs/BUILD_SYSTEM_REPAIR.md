@@ -290,7 +290,7 @@ The system automatically optimizes Next.js configuration for:
 ```javascript
 // next.config.js
 module.exports = {
-  output: 'standalone',
+  output: "standalone",
   typescript: {
     ignoreBuildErrors: false, // Enable for stability
   },

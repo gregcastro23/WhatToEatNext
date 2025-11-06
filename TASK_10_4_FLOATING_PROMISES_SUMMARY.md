@@ -31,7 +31,7 @@ this.monitoringInterval = setInterval(async () => {
   try {
     await this.capturePerformanceSnapshot();
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
   }
 }, intervalMs);
 ```
@@ -44,7 +44,7 @@ this.monitoringInterval = setInterval(() => {
     try {
       await this.capturePerformanceSnapshot();
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   })();
 }, intervalMs);

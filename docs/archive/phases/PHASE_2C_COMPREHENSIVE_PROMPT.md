@@ -234,7 +234,9 @@ git add . && git commit -m "Phase 2F - Pre-session checkpoint (~220 errors)"
 ```typescript
 // BEFORE: Inconsistent service patterns
 class LegacyAdapter extends BaseAdapter {
-  process(data: any): any { /* ... */ }
+  process(data: any): any {
+    /* ... */
+  }
 }
 
 // AFTER: Composition-based approach
@@ -250,23 +252,29 @@ class LegacyAdapter {
 
 ```typescript
 // BEFORE: Duplicate exports
-export { ElementalProperties } from './alchemy';
-export { ElementalProperties } from './types';
-export { ElementalProperties } from './unified';
+export { ElementalProperties } from "./alchemy";
+export { ElementalProperties } from "./types";
+export { ElementalProperties } from "./unified";
 
 // AFTER: Single canonical export
-export { ElementalProperties } from './alchemy'; // Canonical source only
+export { ElementalProperties } from "./alchemy"; // Canonical source only
 ```
 
 ### **Pattern C: Interface Property Alignment**
 
 ```typescript
 // BEFORE: Mismatched interfaces
-interface RecipeProps { recipe: Recipe; }
-interface ScoredRecipeProps { recipe: ScoredRecipe; }
+interface RecipeProps {
+  recipe: Recipe;
+}
+interface ScoredRecipeProps {
+  recipe: ScoredRecipe;
+}
 
 // AFTER: Union type acceptance
-interface RecipeProps { recipe: Recipe | ScoredRecipe; }
+interface RecipeProps {
+  recipe: Recipe | ScoredRecipe;
+}
 ```
 
 ### **Pattern D: Safe Type Conversion**

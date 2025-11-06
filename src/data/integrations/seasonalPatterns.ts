@@ -1,20 +1,20 @@
-import type { _, Season } from '@/types/alchemy';
+import type { _, Season } from "@/types/alchemy";
 
 export interface SeasonalPattern {
-  [key: string]: number | TarotInfluences
+  [key: string]: number | TarotInfluences;
 }
 
 export interface TarotCardInfluence {
-  element: string,
-  effect: number,
-  ingredients: string[],
-  cookingMethod: string
+  element: string;
+  effect: number;
+  ingredients: string[];
+  cookingMethod: string;
 }
 
 export interface TarotInfluences {
-  [cardKey: string]: TarotCardInfluence | string,
-  dominant_element: string,
-  secondary_element: string
+  [cardKey: string]: TarotCardInfluence | string;
+  dominant_element: string;
+  secondary_element: string;
 }
 
 export const seasonalPatterns: Record<Season, SeasonalPattern> = {
@@ -31,32 +31,33 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
     new_potatoes: 0.76,
     elementalInfluence: 0.8,
     tarotInfluences: {
-      '2_of_wands': {
-        element: 'Fire',
+      "2_of_wands": {
+        element: "Fire",
         effect: 0.85,
-        ingredients: ['radishes', 'spring_greens'],
-        cookingMethod: 'grilling'
-},
-      '3_of_wands': {
-        element: 'Fire',
+        ingredients: ["radishes", "spring_greens"],
+        cookingMethod: "grilling",
+      },
+      "3_of_wands": {
+        element: "Fire",
         effect: 0.8,
-        ingredients: ['asparagus', 'morels'],
-        cookingMethod: 'roasting'
-},
-      '4_of_wands': {
-        element: 'Fire',
+        ingredients: ["asparagus", "morels"],
+        cookingMethod: "roasting",
+      },
+      "4_of_wands": {
+        element: "Fire",
         effect: 0.75,
-        ingredients: ['strawberries', 'new_potatoes'],
-        cookingMethod: 'baking'
-},
-      '5_of_pentacles': {
-        element: 'Earth',
+        ingredients: ["strawberries", "new_potatoes"],
+        cookingMethod: "baking",
+      },
+      "5_of_pentacles": {
+        element: "Earth",
         effect: 0.7,
-        ingredients: ['rhubarb', 'fava_beans'],
-        cookingMethod: 'slow_cooking' },
-        dominant_element: 'Fire',
-      secondary_element: 'Air'
-}
+        ingredients: ["rhubarb", "fava_beans"],
+        cookingMethod: "slow_cooking",
+      },
+      dominant_element: "Fire",
+      secondary_element: "Air",
+    },
   },
   summer: {
     tomatoes: 0.9,
@@ -71,32 +72,33 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
     cherries: 0.88,
     elementalInfluence: 0.9,
     tarotInfluences: {
-      '2_of_cups': {
-        element: 'Water',
+      "2_of_cups": {
+        element: "Water",
         effect: 0.85,
-        ingredients: ['watermelon', 'cucumbers'],
-        cookingMethod: 'raw'
-},
-      '3_of_cups': {
-        element: 'Water',
+        ingredients: ["watermelon", "cucumbers"],
+        cookingMethod: "raw",
+      },
+      "3_of_cups": {
+        element: "Water",
         effect: 0.9,
-        ingredients: ['berries', 'peaches'],
-        cookingMethod: 'preserving'
-},
-      '5_of_wands': {
-        element: 'Fire',
+        ingredients: ["berries", "peaches"],
+        cookingMethod: "preserving",
+      },
+      "5_of_wands": {
+        element: "Fire",
         effect: 0.85,
-        ingredients: ['tomatoes', 'bell_peppers'],
-        cookingMethod: 'grilling'
-},
-      '6_of_wands': {
-        element: 'Fire',
+        ingredients: ["tomatoes", "bell_peppers"],
+        cookingMethod: "grilling",
+      },
+      "6_of_wands": {
+        element: "Fire",
         effect: 0.8,
-        ingredients: ['corn', 'summer_squash'],
-        cookingMethod: 'roasting' },
-        dominant_element: 'Fire',
-      secondary_element: 'Water'
-}
+        ingredients: ["corn", "summer_squash"],
+        cookingMethod: "roasting",
+      },
+      dominant_element: "Fire",
+      secondary_element: "Water",
+    },
   },
   autumn: {
     apples: 0.9,
@@ -111,32 +113,33 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
     pears: 0.88,
     elementalInfluence: 0.7,
     tarotInfluences: {
-      '2_of_swords': {
-        element: 'Air',
+      "2_of_swords": {
+        element: "Air",
         effect: 0.7,
-        ingredients: ['apples', 'pears'],
-        cookingMethod: 'baking'
-},
-      '5_of_cups': {
-        element: 'Water',
+        ingredients: ["apples", "pears"],
+        cookingMethod: "baking",
+      },
+      "5_of_cups": {
+        element: "Water",
         effect: 0.75,
-        ingredients: ['cranberries', 'figs'],
-        cookingMethod: 'poaching'
-},
-      '6_of_cups': {
-        element: 'Water',
+        ingredients: ["cranberries", "figs"],
+        cookingMethod: "poaching",
+      },
+      "6_of_cups": {
+        element: "Water",
         effect: 0.8,
-        ingredients: ['pumpkin', 'sweet_potatoes'],
-        cookingMethod: 'roasting'
-},
-      '8_of_wands': {
-        element: 'Fire',
+        ingredients: ["pumpkin", "sweet_potatoes"],
+        cookingMethod: "roasting",
+      },
+      "8_of_wands": {
+        element: "Fire",
         effect: 0.65,
-        ingredients: ['grapes', 'mushrooms'],
-        cookingMethod: 'quick_cooking' },
-        dominant_element: 'Earth',
-      secondary_element: 'Water'
-}
+        ingredients: ["grapes", "mushrooms"],
+        cookingMethod: "quick_cooking",
+      },
+      dominant_element: "Earth",
+      secondary_element: "Water",
+    },
   },
   fall: {
     apples: 0.9,
@@ -151,32 +154,33 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
     pears: 0.88,
     elementalInfluence: 0.7,
     tarotInfluences: {
-      '2_of_swords': {
-        element: 'Air',
+      "2_of_swords": {
+        element: "Air",
         effect: 0.7,
-        ingredients: ['apples', 'pears'],
-        cookingMethod: 'baking'
-},
-      '5_of_cups': {
-        element: 'Water',
+        ingredients: ["apples", "pears"],
+        cookingMethod: "baking",
+      },
+      "5_of_cups": {
+        element: "Water",
         effect: 0.75,
-        ingredients: ['cranberries', 'figs'],
-        cookingMethod: 'poaching'
-},
-      '6_of_cups': {
-        element: 'Water',
+        ingredients: ["cranberries", "figs"],
+        cookingMethod: "poaching",
+      },
+      "6_of_cups": {
+        element: "Water",
         effect: 0.8,
-        ingredients: ['pumpkin', 'sweet_potatoes'],
-        cookingMethod: 'roasting'
-},
-      '8_of_wands': {
-        element: 'Fire',
+        ingredients: ["pumpkin", "sweet_potatoes"],
+        cookingMethod: "roasting",
+      },
+      "8_of_wands": {
+        element: "Fire",
         effect: 0.65,
-        ingredients: ['grapes', 'mushrooms'],
-        cookingMethod: 'quick_cooking' },
-        dominant_element: 'Earth',
-      secondary_element: 'Water'
-}
+        ingredients: ["grapes", "mushrooms"],
+        cookingMethod: "quick_cooking",
+      },
+      dominant_element: "Earth",
+      secondary_element: "Water",
+    },
   },
   winter: {
     citrus: 0.85,
@@ -191,32 +195,33 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
     cranberries: 0.72,
     elementalInfluence: 0.6,
     tarotInfluences: {
-      '2_of_pentacles': {
-        element: 'Earth',
+      "2_of_pentacles": {
+        element: "Earth",
         effect: 0.75,
-        ingredients: ['root_vegetables', 'winter_squash'],
-        cookingMethod: 'slow_cooking'
-},
-      '3_of_pentacles': {
-        element: 'Earth',
+        ingredients: ["root_vegetables", "winter_squash"],
+        cookingMethod: "slow_cooking",
+      },
+      "3_of_pentacles": {
+        element: "Earth",
         effect: 0.8,
-        ingredients: ['kale', 'leeks'],
-        cookingMethod: 'braising'
-},
-      '8_of_cups': {
-        element: 'Water',
+        ingredients: ["kale", "leeks"],
+        cookingMethod: "braising",
+      },
+      "8_of_cups": {
+        element: "Water",
         effect: 0.7,
-        ingredients: ['citrus', 'pomegranates'],
-        cookingMethod: 'poaching'
-},
-      '9_of_cups': {
-        element: 'Water',
+        ingredients: ["citrus", "pomegranates"],
+        cookingMethod: "poaching",
+      },
+      "9_of_cups": {
+        element: "Water",
         effect: 0.85,
-        ingredients: ['persimmons', 'cranberries'],
-        cookingMethod: 'baking' },
-        dominant_element: 'Water',
-      secondary_element: 'Earth'
-}
+        ingredients: ["persimmons", "cranberries"],
+        cookingMethod: "baking",
+      },
+      dominant_element: "Water",
+      secondary_element: "Earth",
+    },
   },
   all: {
     onions: 0.9,
@@ -235,30 +240,34 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
     herbs: 0.8,
     tarotInfluences: {
       ace_of_wands: {
-        element: 'Fire',
+        element: "Fire",
         effect: 0.9,
-        ingredients: ['garlic', 'pepper'],
-        cookingMethod: 'high_heat' },
-        ace_of_cups: {
-        element: 'Water',
+        ingredients: ["garlic", "pepper"],
+        cookingMethod: "high_heat",
+      },
+      ace_of_cups: {
+        element: "Water",
         effect: 0.9,
-        ingredients: ['eggs', 'rice'],
-        cookingMethod: 'simmering' },
-        ace_of_swords: {
-        element: 'Air',
+        ingredients: ["eggs", "rice"],
+        cookingMethod: "simmering",
+      },
+      ace_of_swords: {
+        element: "Air",
         effect: 0.9,
-        ingredients: ['herbs', 'olive_oil'],
-        cookingMethod: 'infusing' },
-        ace_of_pentacles: {
-        element: 'Earth',
+        ingredients: ["herbs", "olive_oil"],
+        cookingMethod: "infusing",
+      },
+      ace_of_pentacles: {
+        element: "Earth",
         effect: 0.9,
-        ingredients: ['potatoes', 'beans'],
-        cookingMethod: 'roasting' },
-        dominant_element: 'balanced',
-      secondary_element: 'balanced'
-}
-  }
-}
+        ingredients: ["potatoes", "beans"],
+        cookingMethod: "roasting",
+      },
+      dominant_element: "balanced",
+      secondary_element: "balanced",
+    },
+  },
+};
 
 export function getTarotInfluenceForSeason(
   season: Season,
@@ -267,18 +276,24 @@ export function getTarotInfluenceForSeason(
   return (influences as TarotInfluences) || {};
 }
 
-export function getSeasonalIngredientsByTarotCard(season: Season, cardKey: string): string[] {
-  const influence = (seasonalPatterns[season].tarotInfluences as TarotInfluences)[
-    cardKey
-  ] as TarotCardInfluence;
+export function getSeasonalIngredientsByTarotCard(
+  season: Season,
+  cardKey: string,
+): string[] {
+  const influence = (
+    seasonalPatterns[season].tarotInfluences as TarotInfluences
+  )[cardKey] as TarotCardInfluence;
   return influence.ingredients || [];
 }
 
-export function getRecommendedCookingMethodByTarotCard(season: Season, cardKey: string): string {
-  const influence = (seasonalPatterns[season].tarotInfluences as TarotInfluences)[
-    cardKey
-  ] as TarotCardInfluence;
-  return influence.cookingMethod || '';
+export function getRecommendedCookingMethodByTarotCard(
+  season: Season,
+  cardKey: string,
+): string {
+  const influence = (
+    seasonalPatterns[season].tarotInfluences as TarotInfluences
+  )[cardKey] as TarotCardInfluence;
+  return influence.cookingMethod || "";
 }
 
 export default seasonalPatterns;

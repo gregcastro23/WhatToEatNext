@@ -100,15 +100,15 @@ npm run type-check
 ```typescript
 // Check API connectivity
 const positions = await getReliablePlanetaryPositions();
-console.log('Positions:', positions);
+console.log("Positions:", positions);
 
 // Verify fallback mechanism
 const fallback = getMarch2025Positions();
-console.log('Fallback available:', fallback);
+console.log("Fallback available:", fallback);
 
 // Check validation function
 const isValid = validatePlanetaryPositions(positions);
-console.log('Validation result:', isValid);
+console.log("Validation result:", isValid);
 ```
 
 **Common Causes**:
@@ -127,14 +127,17 @@ console.log('Validation result:', isValid);
 ```typescript
 // Verify elemental properties structure
 interface ElementalProperties {
-  fire: number;    // Should be 0-1
-  water: number;   // Should be 0-1
-  earth: number;   // Should be 0-1
-  air: number;     // Should be 0-1
+  fire: number; // Should be 0-1
+  water: number; // Should be 0-1
+  earth: number; // Should be 0-1
+  air: number; // Should be 0-1
 }
 
 // Check calculation logic
-function calculateCompatibility(source: ElementalProperties, target: ElementalProperties): number {
+function calculateCompatibility(
+  source: ElementalProperties,
+  target: ElementalProperties,
+): number {
   const sourceDominant = getDominantElement(source);
   const targetDominant = getDominantElement(target);
 
@@ -177,7 +180,7 @@ node -e "console.log(require('./src/data/planets/mars.js'))"
 interface TransitDates {
   [sign: string]: {
     Start: string; // ISO date format YYYY-MM-DD
-    End: string;   // ISO date format YYYY-MM-DD
+    End: string; // ISO date format YYYY-MM-DD
   };
   RetrogradePhases?: {
     [phase: string]: {
@@ -402,14 +405,14 @@ npm run test:a11y
 
 ```typescript
 // Profile calculation performance
-console.time('astrological-calculation');
+console.time("astrological-calculation");
 const result = await calculateAstrologicalFeature();
-console.timeEnd('astrological-calculation');
+console.timeEnd("astrological-calculation");
 
 // Check caching
 const cache = new AstronomicalCache();
 const stats = await cache.getStatistics();
-console.log('Cache hit rate:', stats.hitRate);
+console.log("Cache hit rate:", stats.hitRate);
 
 // Optimize expensive operations
 const memoizedCalculation = useMemo(() => {
@@ -457,7 +460,7 @@ useEffect(() => {
 }, []);
 
 // Monitor memory usage
-console.log('Memory usage:', process.memoryUsage());
+console.log("Memory usage:", process.memoryUsage());
 ```
 
 ## 🔌 API and Integration Issues
@@ -472,20 +475,20 @@ console.log('Memory usage:', process.memoryUsage());
 // Check API status
 const testConnection = async () => {
   try {
-    const response = await fetch('https://api.example.com/status');
-    console.log('API Status:', response.status);
+    const response = await fetch("https://api.example.com/status");
+    console.log("API Status:", response.status);
   } catch (error) {
-    console.error('API Connection failed:', error);
+    console.error("API Connection failed:", error);
   }
 };
 
 // Verify fallback mechanisms
 const positions = await getReliablePlanetaryPositions();
-console.log('Using fallback:', positions.source === 'fallback');
+console.log("Using fallback:", positions.source === "fallback");
 
 // Check cache validity
 const cacheAge = Date.now() - positions.timestamp;
-console.log('Cache age (hours):', cacheAge / (1000 * 60 * 60));
+console.log("Cache age (hours):", cacheAge / (1000 * 60 * 60));
 ```
 
 ### Q: Rate limiting issues
@@ -502,8 +505,8 @@ const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours for astronomical data
 const throttledRequest = throttle(apiRequest, 1000); // 1 request per second
 
 // Monitor API usage
-console.log('API calls today:', getApiCallCount());
-console.log('Rate limit remaining:', getRateLimitRemaining());
+console.log("API calls today:", getApiCallCount());
+console.log("Rate limit remaining:", getRateLimitRemaining());
 ```
 
 ## 🎯 Common Error Messages
@@ -516,7 +519,7 @@ console.log('Rate limit remaining:', getRateLimitRemaining());
 
 ```typescript
 // Add proper import
-import { ElementalProperties } from '@/types/elemental';
+import { ElementalProperties } from "@/types/elemental";
 
 // Or check if type is exported
 export interface ElementalProperties {
@@ -554,11 +557,11 @@ const properties = ingredient.elementalProperties as ElementalProperties;
 
 ```typescript
 // Use proper type definitions
-type Element = 'fire' | 'water' | 'earth' | 'air';
+type Element = "fire" | "water" | "earth" | "air";
 
 // Type guard for validation
 function isElement(value: string): value is Element {
-  return ['fire', 'water', 'earth', 'air'].includes(value);
+  return ["fire", "water", "earth", "air"].includes(value);
 }
 
 // Usage

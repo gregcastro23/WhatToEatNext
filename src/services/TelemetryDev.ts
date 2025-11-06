@@ -1,13 +1,13 @@
-import { createLogger } from '@/utils/logger';
+import { createLogger } from "@/utils/logger";
 
 interface MetricDelta {
-  Spirit: number,
-  Essence: number,
-  Matter: number,
-  Substance: number
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
 }
 
-const logger = createLogger('TelemetryDev')
+const logger = createLogger("TelemetryDev");
 
 export const TelemetryDev = {
   recordVectorBlend(
@@ -16,7 +16,12 @@ export const TelemetryDev = {
     deltas: MetricDelta,
     thermodynamics: Record<string, number>,
   ): void {
-    if (process.env.NODE_ENV === 'production') return;
-    logger.debug('Telemetry: vector blend', { sign, alpha, deltas, thermodynamics })
-  }
-}
+    if (process.env.NODE_ENV === "production") return;
+    logger.debug("Telemetry: vector blend", {
+      sign,
+      alpha,
+      deltas,
+      thermodynamics,
+    });
+  },
+};

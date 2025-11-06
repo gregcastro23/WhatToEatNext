@@ -5,20 +5,29 @@
  * Fixes object literal property syntax errors (TS1136, TS1109 errors)
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 class ObjectLiteralProcessor {
   constructor() {
-    this.projectRoot = path.resolve(import.meta.dirname || path.dirname(import.meta.url.replace('file://', '')), '../..');
+    this.projectRoot = path.resolve(
+      import.meta.dirname ||
+        path.dirname(import.meta.url.replace("file://", "")),
+      "../..",
+    );
     this.filesProcessed = 0;
     this.propertiesFixed = 0;
     this.bracesFixed = 0;
-    this.backupDir = path.join(this.projectRoot, 'backups', 'phase3', 'objects');
+    this.backupDir = path.join(
+      this.projectRoot,
+      "backups",
+      "phase3",
+      "objects",
+    );
   }
 
   async process() {
-    console.log('🔧 Processing object literal syntax errors...');
+    console.log("🔧 Processing object literal syntax errors...");
 
     // Create backup directory
     if (!fs.existsSync(this.backupDir)) {
@@ -28,7 +37,9 @@ class ObjectLiteralProcessor {
     // Get files with object literal errors
     const filesWithErrors = await this.getFilesWithObjectErrors();
 
-    console.log(`Found ${filesWithErrors.length} files with object literal errors`);
+    console.log(
+      `Found ${filesWithErrors.length} files with object literal errors`,
+    );
 
     for (const file of filesWithErrors) {
       await this.processFile(file);
@@ -38,24 +49,24 @@ class ObjectLiteralProcessor {
       filesProcessed: this.filesProcessed,
       propertiesFixed: this.propertiesFixed,
       bracesFixed: this.bracesFixed,
-      success: true
+      success: true,
     };
   }
 
   async getFilesWithObjectErrors() {
     // Files with TS1136 Property assignment expected and related errors
     const errorFiles = [
-      'src/utils/testUtils.ts',
-      'src/utils/timingUtils.ts',
-      'src/utils/withRenderTracking.tsx',
-      'src/utils/typeValidation.ts',
-      'src/utils/validatePlanetaryPositions.ts',
-      'src/utils/zodiacUtils.ts',
-      'src/utils/strictNullChecksHelper.ts',
+      "src/utils/testUtils.ts",
+      "src/utils/timingUtils.ts",
+      "src/utils/withRenderTracking.tsx",
+      "src/utils/typeValidation.ts",
+      "src/utils/validatePlanetaryPositions.ts",
+      "src/utils/zodiacUtils.ts",
+      "src/utils/strictNullChecksHelper.ts",
       // Add more from error analysis
     ];
 
-    return errorFiles.filter(file => {
+    return errorFiles.filter((file) => {
       const fullPath = path.join(this.projectRoot, file);
       return fs.existsSync(fullPath);
     });
@@ -66,10 +77,13 @@ class ObjectLiteralProcessor {
     console.log(`Processing ${filePath}...`);
 
     // Backup original
-    const backupPath = path.join(this.backupDir, path.basename(filePath) + '.backup');
+    const backupPath = path.join(
+      this.backupDir,
+      path.basename(filePath) + ".backup",
+    );
     fs.copyFileSync(fullPath, backupPath);
 
-    let content = fs.readFileSync(fullPath, 'utf8');
+    let content = fs.readFileSync(fullPath, "utf8");
     let localFixes = 0;
     let braceFixes = 0;
 
@@ -101,14 +115,17 @@ class ObjectLiteralProcessor {
     let fixes = 0;
 
     // Pattern: prop value, -> prop: value,
-    content = content.replace(/(\w+)\s+([^,\n}]+)([,}])/g, (match, prop, value, separator) => {
-      // Only fix if it looks like a property assignment
-      if (!this.isFunctionCall(value) && !this.isOperatorExpression(value)) {
-        fixes++;
-        return `${prop}: ${value}${separator}`;
-      }
-      return match;
-    });
+    content = content.replace(
+      /(\w+)\s+([^,\n}]+)([,}])/g,
+      (match, prop, value, separator) => {
+        // Only fix if it looks like a property assignment
+        if (!this.isFunctionCall(value) && !this.isOperatorExpression(value)) {
+          fixes++;
+          return `${prop}: ${value}${separator}`;
+        }
+        return match;
+      },
+    );
 
     return { content, fixes };
   }
@@ -119,13 +136,19 @@ class ObjectLiteralProcessor {
     // Fix object literals in function parameters (common pattern)
     // Pattern: func({prop value}) -> func({prop: value})
     content = content.replace(/\{([^}]*)\}/g, (match, inside) => {
-      const fixed = inside.replace(/(\w+)\s+([^,\n}]+)([,}])/g, (m, prop, value, sep) => {
-        if (!this.isFunctionCall(value) && !this.isOperatorExpression(value)) {
-          fixes++;
-          return `${prop}: ${value}${sep}`;
-        }
-        return m;
-      });
+      const fixed = inside.replace(
+        /(\w+)\s+([^,\n}]+)([,}])/g,
+        (m, prop, value, sep) => {
+          if (
+            !this.isFunctionCall(value) &&
+            !this.isOperatorExpression(value)
+          ) {
+            fixes++;
+            return `${prop}: ${value}${sep}`;
+          }
+          return m;
+        },
+      );
       return `{${fixed}}`;
     });
 
@@ -134,7 +157,7 @@ class ObjectLiteralProcessor {
 
   fixBraceBalance(content) {
     let fixes = 0;
-    const lines = content.split('\n');
+    const lines = content.split("\n");
     let openBraces = 0;
     let closeBraces = 0;
 
@@ -149,16 +172,16 @@ class ObjectLiteralProcessor {
       // Look for orphaned opening braces that need closing
       for (let i = lines.length - 1; i >= 0; i--) {
         const line = lines[i];
-        if (line.trim() === '{' && i < lines.length - 1) {
+        if (line.trim() === "{" && i < lines.length - 1) {
           const nextLine = lines[i + 1];
-          if (nextLine && !nextLine.includes('}')) {
+          if (nextLine && !nextLine.includes("}")) {
             // Insert closing brace after next significant line
             let insertIndex = i + 1;
             while (insertIndex < lines.length && !lines[insertIndex].trim()) {
               insertIndex++;
             }
             if (insertIndex < lines.length) {
-              lines.splice(insertIndex + 1, 0, '  }');
+              lines.splice(insertIndex + 1, 0, "  }");
               fixes++;
               break;
             }
@@ -167,7 +190,7 @@ class ObjectLiteralProcessor {
       }
     }
 
-    return { content: lines.join('\n'), fixes };
+    return { content: lines.join("\n"), fixes };
   }
 
   isFunctionCall(value) {
@@ -186,10 +209,13 @@ export default ObjectLiteralProcessor;
 // CLI usage
 if (import.meta.url === `file://${process.argv[1]}`) {
   const processor = new ObjectLiteralProcessor();
-  processor.process().then(result => {
-    console.log('\n✅ Object literal processing complete:');
-    console.log(`Files processed: ${result.filesProcessed}`);
-    console.log(`Properties fixed: ${result.propertiesFixed}`);
-    console.log(`Braces fixed: ${result.bracesFixed}`);
-  }).catch(console.error);
+  processor
+    .process()
+    .then((result) => {
+      console.log("\n✅ Object literal processing complete:");
+      console.log(`Files processed: ${result.filesProcessed}`);
+      console.log(`Properties fixed: ${result.propertiesFixed}`);
+      console.log(`Braces fixed: ${result.bracesFixed}`);
+    })
+    .catch(console.error);
 }

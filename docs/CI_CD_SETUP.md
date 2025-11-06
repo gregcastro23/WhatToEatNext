@@ -295,7 +295,7 @@ yarn ci:lint && yarn ci:type-check && yarn ci:test && yarn ci:build
 # Yarn cache
 - uses: actions/setup-node@v4
   with:
-    cache: 'yarn'
+    cache: "yarn"
 
 # Build cache
 - uses: actions/cache@v3

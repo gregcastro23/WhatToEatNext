@@ -7,24 +7,30 @@ declare global {
     // Chrome extension API mock
     chrome?: {
       tabs?: {
-        create?: (options: Partial<unknown>) => Promise<{ id: number }>,
-        query?: (queryInfo: unknown, callback?: (tabs: chrome.tabs.Tab[]) => void) => void
+        create?: (options: Partial<unknown>) => Promise<{ id: number }>;
+        query?: (
+          queryInfo: unknown,
+          callback?: (tabs: chrome.tabs.Tab[]) => void,
+        ) => void;
         update?: (
           tabId: number,
           properties: chrome.tabs.UpdateProperties,
           callback?: () => void,
-        ) => void,
+        ) => void;
         sendMessage?: (
           tabId: number,
           message: unknown,
           options?: chrome.tabs.SendMessageOptions,
           callback?: (response: unknown) => void,
-        ) => void,
-      }
+        ) => void;
+      };
       runtime?: {
-        lastError?: chrome.runtime.LastError | null,
-        getURL?: (path: string) => string
-        sendMessage?: (message: unknown, responseCallback?: (response: unknown) => void) => void
+        lastError?: chrome.runtime.LastError | null;
+        getURL?: (path: string) => string;
+        sendMessage?: (
+          message: unknown,
+          responseCallback?: (response: unknown) => void,
+        ) => void;
         onMessage?: {
           addListener: (
             callback: (
@@ -32,39 +38,42 @@ declare global {
               sender: chrome.runtime.MessageSender,
               sendResponse: (response?: unknown) => void,
             ) => boolean | void | Promise<unknown>,
-          ) => void,
+          ) => void;
           removeListener: (
             callback: (
               message: unknown,
               sender: chrome.runtime.MessageSender,
               sendResponse: (response?: unknown) => void,
             ) => boolean | void | Promise<unknown>,
-          ) => void
-        }
-      }
+          ) => void;
+        };
+      };
       storage?: {
         local?: {
           get?: (
             keys: string | string[] | Record<string, unknown> | null,
             callback: (items: Record<string, unknown>) => void,
-          ) => void,
-          set?: (items: Record<string, unknown>, callback?: () => void) => void
-        }
+          ) => void;
+          set?: (items: Record<string, unknown>, callback?: () => void) => void;
+        };
         sync?: {
           get?: (
             keys: string | string[] | Record<string, unknown> | null,
             callback: (items: Record<string, unknown>) => void,
-          ) => void,
-          set?: (items: Record<string, unknown>, callback?: () => void) => void
-        }
-      }
+          ) => void;
+          set?: (items: Record<string, unknown>, callback?: () => void) => void;
+        };
+      };
       i18n?: {
-        getMessage?: (messageName: string, substitutions?: string | string[]) => string
-      }
+        getMessage?: (
+          messageName: string,
+          substitutions?: string | string[],
+        ) => string;
+      };
       extension?: {
-        getURL?: (path: string) => string
-      }
-    }
+        getURL?: (path: string) => string;
+      };
+    };
 
     // Popup.js mock replacement
     popup?: {
@@ -72,56 +81,71 @@ declare global {
         show: () => void;
         hide: () => void;
         update: () => void;
-        on: (event: string, callback: (...args: unknown[]) => void) => { off: () => void };
+        on: (
+          event: string,
+          callback: (...args: unknown[]) => void,
+        ) => { off: () => void };
         trigger: (event: string) => void;
-      },
+      };
       show: () => void;
       hide: () => void;
       update: () => void;
-      on: (event: string, callback: (...args: unknown[]) => void) => { off: () => void };
+      on: (
+        event: string,
+        callback: (...args: unknown[]) => void,
+      ) => { off: () => void };
       trigger: (event: string) => void;
-    }
+    };
 
     // Tracking flags for our script replacer
-    __scriptReplacerInitialized?: boolean,
-    __reloadedDummyPopup?: boolean,
-    __foodRecommenderFixApplied?: boolean
+    __scriptReplacerInitialized?: boolean;
+    __reloadedDummyPopup?: boolean;
+    __foodRecommenderFixApplied?: boolean;
 
     // Storage for Chrome message listeners
-    _chromeMessageListeners?: Array<(
-      message: unknown,
-      sender: chrome.runtime.MessageSender,
-      sendResponse: (response?: unknown) => void,
-    ) => void>,
+    _chromeMessageListeners?: Array<
+      (
+        message: unknown,
+        sender: chrome.runtime.MessageSender,
+        sendResponse: (response?: unknown) => void,
+      ) => void
+    >;
 
     // Alchemical functions used by FoodRecommender
-    getElementRanking?: (element_object: Element, rank?: number) => Record<number, string>,
-    createElementObject?: () => ElementalProperties
+    getElementRanking?: (
+      element_object: Element,
+      rank?: number,
+    ) => Record<number, string>;
+    createElementObject?: () => ElementalProperties;
     combineElementObjects?: (
       obj1: ElementalProperties,
       obj2: ElementalProperties,
-    ) => ElementalProperties,
-    getAbsoluteElementValue?: (obj: ElementalProperties) => number,
-    calculateElementalScore?: (obj: ElementalProperties) => number,
-    getDominantElement?: (obj: ElementalProperties) => Element
+    ) => ElementalProperties;
+    getAbsoluteElementValue?: (obj: ElementalProperties) => number;
+    calculateElementalScore?: (obj: ElementalProperties) => number;
+    getDominantElement?: (obj: ElementalProperties) => Element;
     alchemize?: (
       birth_info: Record<string, unknown>,
       horoscope_dict: Record<string, unknown>,
-    ) => ThermodynamicMetrics,
-    capitalize?: (str: string) => string
+    ) => ThermodynamicMetrics;
+    capitalize?: (str: string) => string;
 
     // Service objects
-    ingredientFilterService?: Record<string, unknown>,
-    ElementalCalculator?: Record<string, unknown>,
+    ingredientFilterService?: Record<string, unknown>;
+    ElementalCalculator?: Record<string, unknown>;
 
     // Utility functions
-    fixAssignmentErrors?: <T>(obj: T) => T
-    safelyAccess?: <T = unknown>(obj: unknown, path: string, defaultValue?: T) => T,
+    fixAssignmentErrors?: <T>(obj: T) => T;
+    safelyAccess?: <T = unknown>(
+      obj: unknown,
+      path: string,
+      defaultValue?: T,
+    ) => T;
 
     // Initialization flags
-    __popupInitialized?: boolean,
-    __chromeInitialized?: boolean
+    __popupInitialized?: boolean;
+    __chromeInitialized?: boolean;
   }
 }
 
-export { }
+export {};

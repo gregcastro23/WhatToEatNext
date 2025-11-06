@@ -10,9 +10,9 @@
  * 4. Malformed destructuring patterns
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class TS1128DeclarationErrorFixer {
   constructor() {
@@ -22,7 +22,7 @@ class TS1128DeclarationErrorFixer {
   }
 
   async run() {
-    console.log('🎯 Starting TS1128 Declaration Error Fixes...\n');
+    console.log("🎯 Starting TS1128 Declaration Error Fixes...\n");
 
     try {
       // Create backup directory
@@ -33,7 +33,7 @@ class TS1128DeclarationErrorFixer {
       console.log(`📊 Initial TS1128 errors: ${initialErrors}`);
 
       if (initialErrors === 0) {
-        console.log('✅ No TS1128 errors found!');
+        console.log("✅ No TS1128 errors found!");
         return;
       }
 
@@ -46,9 +46,8 @@ class TS1128DeclarationErrorFixer {
 
       // Final results
       await this.showFinalResults(initialErrors);
-
     } catch (error) {
-      console.error('❌ Fix failed:', error.message);
+      console.error("❌ Fix failed:", error.message);
       console.log(`📁 Backup available at: ${this.backupDir}`);
     }
   }
@@ -62,10 +61,13 @@ class TS1128DeclarationErrorFixer {
 
   async getTS1128ErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1128"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1128"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -74,13 +76,19 @@ class TS1128DeclarationErrorFixer {
 
   async getFilesWithTS1128Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1128"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1128"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const files = new Set();
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^(.+?)\(/);
@@ -106,7 +114,9 @@ class TS1128DeclarationErrorFixer {
       const batch = errorFiles.slice(i, i + batchSize);
       const batchNumber = Math.floor(i / batchSize) + 1;
 
-      console.log(`\n📦 Processing Batch ${batchNumber}/${totalBatches} (${batch.length} files)`);
+      console.log(
+        `\n📦 Processing Batch ${batchNumber}/${totalBatches} (${batch.length} files)`,
+      );
 
       for (const filePath of batch) {
         await this.processFile(filePath);
@@ -115,11 +125,15 @@ class TS1128DeclarationErrorFixer {
         // Validation checkpoint every 4 files
         if (processedCount % 4 === 0) {
           const currentErrors = await this.getTS1128ErrorCount();
-          console.log(`   📊 Progress: ${currentErrors} TS1128 errors remaining`);
+          console.log(
+            `   📊 Progress: ${currentErrors} TS1128 errors remaining`,
+          );
 
           // Safety check - if errors increased significantly, stop
           if (currentErrors > initialErrorCount * 1.2) {
-            console.log('⚠️ Error count increased significantly, stopping for safety');
+            console.log(
+              "⚠️ Error count increased significantly, stopping for safety",
+            );
             return;
           }
         }
@@ -138,44 +152,49 @@ class TS1128DeclarationErrorFixer {
       // Create backup
       await this.backupFile(filePath);
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
       let fixesApplied = 0;
 
       // Fix 1: Malformed function parameters (: any : any { prop }) -> ({ prop }: any)
-      const malformedParamPattern = /\(\s*:\s*any\s*:\s*any\s*\{\s*([^}]+)\s*\}\s*\)/g;
+      const malformedParamPattern =
+        /\(\s*:\s*any\s*:\s*any\s*\{\s*([^}]+)\s*\}\s*\)/g;
       const matches1 = content.match(malformedParamPattern) || [];
-      content = content.replace(malformedParamPattern, '({ $1 }: any)');
+      content = content.replace(malformedParamPattern, "({ $1 }: any)");
       fixesApplied += matches1.length;
 
       // Fix 2: Double closing braces/parentheses at end of blocks
       const doubleClosingPattern = /\}\s*\}\s*;?\s*$/gm;
       const matches2 = content.match(doubleClosingPattern) || [];
-      content = content.replace(doubleClosingPattern, '};');
+      content = content.replace(doubleClosingPattern, "};");
       fixesApplied += matches2.length;
 
       // Fix 3: Incomplete export statements
       const incompleteExportPattern = /export\s*\{\s*$/gm;
       const matches3 = content.match(incompleteExportPattern) || [];
-      content = content.replace(incompleteExportPattern, 'export {};');
+      content = content.replace(incompleteExportPattern, "export {};");
       fixesApplied += matches3.length;
 
       // Fix 4: Missing semicolons after variable declarations
       const missingSemicolonPattern = /^(\s*const\s+\w+\s*=\s*[^;]+)$/gm;
       const matches4 = content.match(missingSemicolonPattern) || [];
-      content = content.replace(missingSemicolonPattern, '$1;');
+      content = content.replace(missingSemicolonPattern, "$1;");
       fixesApplied += matches4.length;
 
       // Fix 5: Malformed destructuring in function parameters
-      const malformedDestructuringPattern = /\(\s*\{\s*(\w+)\s*=\s*([^}]+)\s*\}\s*:\s*\{\s*\w+\?\s*:\s*\w+\s*\}\s*\)/g;
+      const malformedDestructuringPattern =
+        /\(\s*\{\s*(\w+)\s*=\s*([^}]+)\s*\}\s*:\s*\{\s*\w+\?\s*:\s*\w+\s*\}\s*\)/g;
       const matches5 = content.match(malformedDestructuringPattern) || [];
-      content = content.replace(malformedDestructuringPattern, '({ $1 = $2 }: { $1?: any })');
+      content = content.replace(
+        malformedDestructuringPattern,
+        "({ $1 = $2 }: { $1?: any })",
+      );
       fixesApplied += matches5.length;
 
       // Fix 6: Extra closing brackets/braces
       const extraClosingPattern = /\}\s*\)\s*;?\s*\}\s*;?\s*$/gm;
       const matches6 = content.match(extraClosingPattern) || [];
-      content = content.replace(extraClosingPattern, '});');
+      content = content.replace(extraClosingPattern, "});");
       fixesApplied += matches6.length;
 
       if (fixesApplied > 0 && content !== originalContent) {
@@ -186,7 +205,6 @@ class TS1128DeclarationErrorFixer {
       } else {
         console.log(`     - No declaration fixes needed`);
       }
-
     } catch (error) {
       console.log(`     ❌ Error processing file: ${error.message}`);
     }
@@ -194,7 +212,7 @@ class TS1128DeclarationErrorFixer {
 
   async backupFile(filePath) {
     try {
-      const relativePath = path.relative('.', filePath);
+      const relativePath = path.relative(".", filePath);
       const backupPath = path.join(this.backupDir, relativePath);
       const backupDirPath = path.dirname(backupPath);
 
@@ -202,7 +220,7 @@ class TS1128DeclarationErrorFixer {
         fs.mkdirSync(backupDirPath, { recursive: true });
       }
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       fs.writeFileSync(backupPath, content);
     } catch (error) {
       console.log(`     ⚠️ Backup failed for ${filePath}: ${error.message}`);
@@ -210,11 +228,14 @@ class TS1128DeclarationErrorFixer {
   }
 
   async showFinalResults(initialErrors) {
-    console.log('\n📈 TS1128 Declaration Fix Results:');
+    console.log("\n📈 TS1128 Declaration Fix Results:");
 
     const finalErrors = await this.getTS1128ErrorCount();
     const totalReduction = initialErrors - finalErrors;
-    const reductionPercentage = ((totalReduction / initialErrors) * 100).toFixed(1);
+    const reductionPercentage = (
+      (totalReduction / initialErrors) *
+      100
+    ).toFixed(1);
 
     console.log(`   Initial TS1128 errors: ${initialErrors}`);
     console.log(`   Final TS1128 errors: ${finalErrors}`);
@@ -224,13 +245,13 @@ class TS1128DeclarationErrorFixer {
     console.log(`   Total fixes applied: ${this.totalFixes}`);
 
     if (finalErrors <= 50) {
-      console.log('\n🎉 EXCELLENT! TS1128 errors reduced to very low level');
+      console.log("\n🎉 EXCELLENT! TS1128 errors reduced to very low level");
     } else if (reductionPercentage >= 70) {
-      console.log('\n🎯 GREAT! 70%+ error reduction achieved');
+      console.log("\n🎯 GREAT! 70%+ error reduction achieved");
     } else if (reductionPercentage >= 40) {
-      console.log('\n✅ GOOD! 40%+ error reduction achieved');
+      console.log("\n✅ GOOD! 40%+ error reduction achieved");
     } else {
-      console.log('\n⚠️ Partial success - may need additional targeted fixes');
+      console.log("\n⚠️ Partial success - may need additional targeted fixes");
     }
 
     console.log(`\n📁 Backup available at: ${this.backupDir}`);
@@ -242,10 +263,13 @@ class TS1128DeclarationErrorFixer {
 
   async getTotalErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;

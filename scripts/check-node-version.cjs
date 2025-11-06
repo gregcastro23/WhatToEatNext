@@ -2,7 +2,7 @@
 
 // Node.js version compatibility check for WhatToEatNext
 const currentVersion = process.version;
-const majorVersion = parseInt(currentVersion.slice(1).split('.')[0], 10);
+const majorVersion = parseInt(currentVersion.slice(1).split(".")[0], 10);
 
 console.log(`🔍 Checking Node.js version compatibility...`);
 console.log(`   Current: ${currentVersion}`);

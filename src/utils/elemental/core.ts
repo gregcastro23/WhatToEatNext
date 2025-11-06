@@ -1,5 +1,5 @@
-import type { Element, ElementalProperties } from '@/types/alchemy';
-import type { Recipe } from '@/types/recipe';
+import type { Element, ElementalProperties } from "@/types/alchemy";
+import type { Recipe } from "@/types/recipe";
 
 /**
  * Elemental Core Module
@@ -15,7 +15,7 @@ export interface ElementalColor {
   secondary: string;
   text: string;
   border: string;
-  bg: string
+  bg: string;
 }
 
 export interface ElementalCompatibility {
@@ -54,50 +54,54 @@ export interface ElementalProfile {
 
 // --- Constants ---
 
-export const ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor> = {
+export const ELEMENTAL_COLORS: Record<
+  keyof ElementalProperties,
+  ElementalColor
+> = {
   Fire: {
-    primary: '#FF6B35',
-    secondary: '#FF8E53',
-    text: '#D63031',
-    border: '#FF7675',
-    bg: '#FFF5F5'
+    primary: "#FF6B35",
+    secondary: "#FF8E53",
+    text: "#D63031",
+    border: "#FF7675",
+    bg: "#FFF5F5",
   },
   Water: {
-    primary: '#0984E3',
-    secondary: '#74B9FF',
-    text: '#2D3436',
-    border: '#81ECEC',
-    bg: '#F0F8FF'
+    primary: "#0984E3",
+    secondary: "#74B9FF",
+    text: "#2D3436",
+    border: "#81ECEC",
+    bg: "#F0F8FF",
   },
   Earth: {
-    primary: '#6C5CE7',
-    secondary: '#A29BFE',
-    text: '#2D3436',
-    border: '#FDCB6E',
-    bg: '#FFFBF0'
+    primary: "#6C5CE7",
+    secondary: "#A29BFE",
+    text: "#2D3436",
+    border: "#FDCB6E",
+    bg: "#FFFBF0",
   },
   Air: {
-    primary: '#00B894',
-    secondary: '#55EFC4',
-    text: '#2D3436',
-    border: '#00CEC9',
-    bg: '#F0FFF4'
-  }
+    primary: "#00B894",
+    secondary: "#55EFC4",
+    text: "#2D3436",
+    border: "#00CEC9",
+    bg: "#F0FFF4",
+  },
 };
 
 export const ELEMENTAL_SYMBOLS: Record<keyof ElementalProperties, string> = {
-  Fire: '🔥',
-  Water: '💧',
-  Earth: '🌍',
-  Air: '💨'
+  Fire: "🔥",
+  Water: "💧",
+  Earth: "🌍",
+  Air: "💨",
 };
 
-export const ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> = {
-  Fire: 'Energizing, warming, transformative',
-  Water: 'Cooling, flowing, adaptive',
-  Earth: 'Grounding, nourishing, stable',
-  Air: 'Light, fresh, inspiring'
-};
+export const ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> =
+  {
+    Fire: "Energizing, warming, transformative",
+    Water: "Cooling, flowing, adaptive",
+    Earth: "Grounding, nourishing, stable",
+    Air: "Light, fresh, inspiring",
+  };
 
 // --- Core Functions ---
 
@@ -106,16 +110,23 @@ export const ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> =
  * @param properties Properties to validate
  * @returns Boolean indicating if properties are valid
  */
-export function validateElementalProperties(properties: ElementalProperties): boolean {
-  if (!properties || typeof properties !== 'object') {
+export function validateElementalProperties(
+  properties: ElementalProperties,
+): boolean {
+  if (!properties || typeof properties !== "object") {
     return false;
   }
 
-  const requiredElements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'];
+  const requiredElements: Array<keyof ElementalProperties> = [
+    "Fire",
+    "Water",
+    "Earth",
+    "Air",
+  ];
 
   for (const element of requiredElements) {
     if (
-      typeof properties[element] !== 'number' ||
+      typeof properties[element] !== "number" ||
       properties[element] < 0 ||
       properties[element] > 1
     ) {
@@ -131,15 +142,18 @@ export function validateElementalProperties(properties: ElementalProperties): bo
  * @param properties Partial elemental properties
  * @returns Normalized elemental properties
  */
-export function normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
+export function normalizeProperties(
+  properties: Partial<ElementalProperties>,
+): ElementalProperties {
   const normalized: ElementalProperties = {
     Fire: properties.Fire || 0,
     Water: properties.Water || 0,
     Earth: properties.Earth || 0,
-    Air: properties.Air || 0
+    Air: properties.Air || 0,
   };
 
-  const total = normalized.Fire + normalized.Water + normalized.Earth + normalized.Air;
+  const total =
+    normalized.Fire + normalized.Water + normalized.Earth + normalized.Air;
 
   if (total === 0) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }; // Default balanced state
@@ -149,7 +163,7 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
     Fire: normalized.Fire / total,
     Water: normalized.Water / total,
     Earth: normalized.Earth / total,
-    Air: normalized.Air / total
+    Air: normalized.Air / total,
   };
 }
 
@@ -159,14 +173,14 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
  * @returns Dominant element key
  */
 export function calculateDominantElement(
-  elementalState: ElementalProperties
+  elementalState: ElementalProperties,
 ): keyof ElementalProperties {
-  let dominantElement: keyof ElementalProperties = 'Fire';
+  let dominantElement: keyof ElementalProperties = "Fire";
   let maxValue = 0;
   Object.entries(elementalState || {}).forEach(([element, value]) => {
     if (value > maxValue) {
       maxValue = value;
-      dominantElement = element as 'Fire' | 'Water' | 'Earth' | 'Air';
+      dominantElement = element as "Fire" | "Water" | "Earth" | "Air";
     }
   });
 
@@ -181,7 +195,8 @@ export function calculateDominantElement(
  */
 export function getElementalColor(
   element: keyof ElementalProperties | undefined,
-  type: keyof ElementalColor = 'text'): string {
+  type: keyof ElementalColor = "text",
+): string {
   if (!element || !ELEMENTAL_COLORS[element]) {
     return ELEMENTAL_COLORS.Fire[type]; // Default to Fire
   }
@@ -194,7 +209,7 @@ export function getElementalColor(
  * @returns Symbol string
  */
 export function getElementalSymbol(element: keyof ElementalProperties): string {
-  return ELEMENTAL_SYMBOLS[element] || '🔥';
+  return ELEMENTAL_SYMBOLS[element] || "🔥";
 }
 
 /**
@@ -202,8 +217,10 @@ export function getElementalSymbol(element: keyof ElementalProperties): string {
  * @param element Element
  * @returns Description string
  */
-export function getElementalDescription(element: keyof ElementalProperties): string {
-  return ELEMENTAL_DESCRIPTIONS[element] || 'Energizing and transformative';
+export function getElementalDescription(
+  element: keyof ElementalProperties,
+): string {
+  return ELEMENTAL_DESCRIPTIONS[element] || "Energizing and transformative";
 }
 
 /**
@@ -214,15 +231,15 @@ export function getElementalDescription(element: keyof ElementalProperties): str
  */
 export function getElementalCompatibility(
   element1: keyof ElementalProperties,
-  element2: keyof ElementalProperties
-): 'highly-compatible' | 'compatible' | 'neutral' {
+  element2: keyof ElementalProperties,
+): "highly-compatible" | "compatible" | "neutral" {
   // Same element has highest compatibility
   if (element1 === element2) {
-    return 'highly-compatible';
+    return "highly-compatible";
   }
 
   // All different element combinations have good compatibility
-  return 'compatible';
+  return "compatible";
 }
 
 /**
@@ -231,7 +248,10 @@ export function getElementalCompatibility(
  * @param element2 Second element
  * @returns Compatibility score (0-1)
  */
-export function calculateElementalCompatibility(element1: Element, element2: Element): number {
+export function calculateElementalCompatibility(
+  element1: Element,
+  element2: Element,
+): number {
   // Following the elemental principles: all elements work well together
   if (element1 === element2) {
     return 0.9; // Same element has highest compatibility
@@ -249,40 +269,49 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
  */
 export async function calculateDetailalCompatibility(
   recipeElemental: ElementalProperties,
-  userElemental?: ElementalProperties
+  userElemental?: ElementalProperties,
 ): Promise<ElementalCompatibility> {
-  const userProps = userElemental || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  const userProps = userElemental || {
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
+  };
   const recipeDominant = calculateDominantElement(recipeElemental);
   const userDominant = calculateDominantElement(userProps);
 
   // Calculate base compatibility
   const baseCompatibility = calculateElementalCompatibility(
     recipeDominant as Element,
-    userDominant as Element
+    userDominant as Element,
   );
 
   // Calculate complementary score (how well elements work together)
-  const complementaryScore = calculateComplementaryScore(recipeDominant, userDominant);
+  const complementaryScore = calculateComplementaryScore(
+    recipeDominant,
+    userDominant,
+  );
 
   // Calculate balance score (overall harmony)
   const balanceScore = calculateBalanceScore(recipeElemental, userProps);
 
   // Overall compatibility is weighted average
-  const compatibility = baseCompatibility * 0.4 + complementaryScore * 0.3 + balanceScore * 0.3;
+  const compatibility =
+    baseCompatibility * 0.4 + complementaryScore * 0.3 + balanceScore * 0.3;
 
   return {
     compatibility,
     dominantPair: {
       recipe: recipeDominant,
-      user: userDominant
+      user: userDominant,
     },
     complementaryScore,
     balanceScore,
     recommendation: generateCompatibilityRecommendation(
       compatibility,
       recipeDominant,
-      userDominant
-    )
+      userDominant,
+    ),
   };
 }
 
@@ -292,7 +321,7 @@ export async function calculateDetailalCompatibility(
  * @returns Complementary element (same element)
  */
 export function getComplementaryElement(
-  element: keyof ElementalProperties
+  element: keyof ElementalProperties,
 ): keyof ElementalProperties {
   // Each element complements itself most strongly
   return element;
@@ -318,7 +347,7 @@ export function getStrengtheningElement(element: Element): Element {
 export function combineElementalProperties(
   a: ElementalProperties,
   b: ElementalProperties,
-  bWeight = 0.5
+  bWeight = 0.5,
 ): ElementalProperties {
   const aWeight = 1 - bWeight;
 
@@ -326,7 +355,7 @@ export function combineElementalProperties(
     Fire: a.Fire * aWeight + b.Fire * bWeight,
     Water: a.Water * aWeight + b.Water * bWeight,
     Earth: a.Earth * aWeight + b.Earth * bWeight,
-    Air: a.Air * aWeight + b.Air * bWeight
+    Air: a.Air * aWeight + b.Air * bWeight,
   });
 }
 
@@ -335,13 +364,18 @@ export function combineElementalProperties(
  * @param recipe Recipe to analyze
  * @returns Elemental properties
  */
-export function calculateElementalState(recipe: Recipe | null | undefined): ElementalProperties {
+export function calculateElementalState(
+  recipe: Recipe | null | undefined,
+): ElementalProperties {
   if (!recipe) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
 
   // Use existing elemental properties if available
-  if (recipe.elementalState && validateElementalProperties(recipe.elementalState as ElementalProperties)) {
+  if (
+    recipe.elementalState &&
+    validateElementalProperties(recipe.elementalState as ElementalProperties)
+  ) {
     return recipe.elementalState as ElementalProperties;
   }
 
@@ -365,23 +399,23 @@ function calculateElementalStateFromIngredients(
   const elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   let totalWeight = 0;
 
-  (ingredients || []).forEach(ingredient => {
-    const category = ingredient.category?.toLowerCase() || '';
+  (ingredients || []).forEach((ingredient) => {
+    const category = ingredient.category?.toLowerCase() || "";
     const amount = ingredient.amount || 1;
 
     // Map categories to elements
     let elementContribution = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
-    if (category.includes('spice') || category.includes('pepper')) {
+    if (category.includes("spice") || category.includes("pepper")) {
       elementContribution.Fire = 0.7;
       elementContribution.Air = 0.3;
-    } else if (category.includes('vegetable') || category.includes('root')) {
+    } else if (category.includes("vegetable") || category.includes("root")) {
       elementContribution.Earth = 0.6;
       elementContribution.Water = 0.4;
-    } else if (category.includes('fruit') || category.includes('liquid')) {
+    } else if (category.includes("fruit") || category.includes("liquid")) {
       elementContribution.Water = 0.7;
       elementContribution.Air = 0.3;
-    } else if (category.includes('herb') || category.includes('leaf')) {
+    } else if (category.includes("herb") || category.includes("leaf")) {
       elementContribution.Air = 0.6;
       elementContribution.Earth = 0.4;
     } else {
@@ -390,9 +424,10 @@ function calculateElementalStateFromIngredients(
     }
 
     // Add weighted contribution
-    Object.keys(elementContribution || {}).forEach(element => {
-      elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] +=
-        elementContribution[element as 'Fire' | 'Water' | 'Earth' | 'Air'] * amount;
+    Object.keys(elementContribution || {}).forEach((element) => {
+      elementalState[element as "Fire" | "Water" | "Earth" | "Air"] +=
+        elementContribution[element as "Fire" | "Water" | "Earth" | "Air"] *
+        amount;
     });
 
     totalWeight += amount;
@@ -400,8 +435,9 @@ function calculateElementalStateFromIngredients(
 
   // Normalize
   if (totalWeight > 0) {
-    Object.keys(elementalState || {}).forEach(element => {
-      elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] /= totalWeight;
+    Object.keys(elementalState || {}).forEach((element) => {
+      elementalState[element as "Fire" | "Water" | "Earth" | "Air"] /=
+        totalWeight;
     });
   }
 
@@ -413,48 +449,54 @@ function calculateElementalStateFromIngredients(
  * @param element Element
  * @returns Elemental characteristics
  */
-export function getElementalCharacteristics(_element: Element): ElementalCharacteristics {
+export function getElementalCharacteristics(
+  _element: Element,
+): ElementalCharacteristics {
   const characteristics: Record<Element, ElementalCharacteristics> = {
     Fire: {
-      name: 'Fire',
-      description: 'Energizing, warming, transformative energy that brings vitality and passion',
-      qualities: ['Hot', 'Dry', 'Active', 'Transformative', 'Energizing'],
-      season: 'Summer',
-      timeOfDay: ['Morning', 'Noon'],
-      cookingMethods: ['Grilling', 'Roasting', 'Searing', 'Flambéing'],
-      flavors: ['Spicy', 'Pungent', 'Warming'],
-      colors: ['Red', 'Orange', 'Yellow']
+      name: "Fire",
+      description:
+        "Energizing, warming, transformative energy that brings vitality and passion",
+      qualities: ["Hot", "Dry", "Active", "Transformative", "Energizing"],
+      season: "Summer",
+      timeOfDay: ["Morning", "Noon"],
+      cookingMethods: ["Grilling", "Roasting", "Searing", "Flambéing"],
+      flavors: ["Spicy", "Pungent", "Warming"],
+      colors: ["Red", "Orange", "Yellow"],
     },
     Water: {
-      name: 'Water',
-      description: 'Cooling, flowing, adaptive energy that brings calm and flexibility',
-      qualities: ['Cold', 'Wet', 'Passive', 'Flowing', 'Cooling'],
-      season: 'Winter',
-      timeOfDay: ['Evening', 'Night'],
-      cookingMethods: ['Steaming', 'Boiling', 'Poaching', 'Braising'],
-      flavors: ['Sweet', 'Salty', 'Cooling'],
-      colors: ['Blue', 'Indigo', 'Deep Purple']
+      name: "Water",
+      description:
+        "Cooling, flowing, adaptive energy that brings calm and flexibility",
+      qualities: ["Cold", "Wet", "Passive", "Flowing", "Cooling"],
+      season: "Winter",
+      timeOfDay: ["Evening", "Night"],
+      cookingMethods: ["Steaming", "Boiling", "Poaching", "Braising"],
+      flavors: ["Sweet", "Salty", "Cooling"],
+      colors: ["Blue", "Indigo", "Deep Purple"],
     },
     Earth: {
-      name: 'Earth',
-      description: 'Grounding, nourishing, stable energy that brings strength and endurance',
-      qualities: ['Cold', 'Dry', 'Stable', 'Grounding', 'Nourishing'],
-      season: 'Autumn',
-      timeOfDay: ['Late Afternoon', 'Early Evening'],
-      cookingMethods: ['Baking', 'Slow Cooking', 'Stewing', 'Fermenting'],
-      flavors: ['Sweet', 'earthy', 'Rich'],
-      colors: ['Brown', 'Green', 'Yellow']
+      name: "Earth",
+      description:
+        "Grounding, nourishing, stable energy that brings strength and endurance",
+      qualities: ["Cold", "Dry", "Stable", "Grounding", "Nourishing"],
+      season: "Autumn",
+      timeOfDay: ["Late Afternoon", "Early Evening"],
+      cookingMethods: ["Baking", "Slow Cooking", "Stewing", "Fermenting"],
+      flavors: ["Sweet", "earthy", "Rich"],
+      colors: ["Brown", "Green", "Yellow"],
     },
     Air: {
-      name: 'Air',
-      description: 'Light, fresh, inspiring energy that brings clarity and movement',
-      qualities: ['Hot', 'Wet', 'Active', 'Light', 'Inspiring'],
-      season: 'Spring',
-      timeOfDay: ['Early Morning', 'Late Morning'],
-      cookingMethods: ['Raw', 'Light Sautéing', 'Quick Stir-fry', 'Blanching'],
-      flavors: ['Bitter', 'Sour', 'Fresh'],
-      colors: ['Light Blue', 'White', 'Light Green']
-    }
+      name: "Air",
+      description:
+        "Light, fresh, inspiring energy that brings clarity and movement",
+      qualities: ["Hot", "Wet", "Active", "Light", "Inspiring"],
+      season: "Spring",
+      timeOfDay: ["Early Morning", "Late Morning"],
+      cookingMethods: ["Raw", "Light Sautéing", "Quick Stir-fry", "Blanching"],
+      flavors: ["Bitter", "Sour", "Fresh"],
+      colors: ["Light Blue", "White", "Light Green"],
+    },
   };
 
   return characteristics[_element];
@@ -464,7 +506,7 @@ export function getElementalCharacteristics(_element: Element): ElementalCharact
 
 function calculateComplementaryScore(
   element1: keyof ElementalProperties,
-  element2: keyof ElementalProperties
+  element2: keyof ElementalProperties,
 ): number {
   // Same element has highest complementary score
   if (element1 === element2) {
@@ -477,13 +519,18 @@ function calculateComplementaryScore(
 
 function calculateBalanceScore(
   recipeProps: ElementalProperties,
-  userProps: ElementalProperties
+  userProps: ElementalProperties,
 ): number {
   // Calculate how well the recipe balances with user's elemental state
   let totalDifference = 0;
-  const elements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'];
+  const elements: Array<keyof ElementalProperties> = [
+    "Fire",
+    "Water",
+    "Earth",
+    "Air",
+  ];
 
-  (elements || []).forEach(element => {
+  (elements || []).forEach((element) => {
     const difference = Math.abs(recipeProps[element] - userProps[element]);
     totalDifference += difference;
   });
@@ -496,11 +543,11 @@ function calculateBalanceScore(
 function generateCompatibilityRecommendation(
   score: number,
   recipeDominant: keyof ElementalProperties,
-  userDominant: keyof ElementalProperties
+  userDominant: keyof ElementalProperties,
 ): string {
   // Use safe type casting for string operations
-  const recipeDominantStr = (recipeDominant).toLowerCase();
-  const userDominantStr = (userDominant).toLowerCase();
+  const recipeDominantStr = recipeDominant.toLowerCase();
+  const userDominantStr = userDominant.toLowerCase();
   if (score >= 0.8) {
     return `Excellent match! This ${recipeDominantStr}-dominant recipe aligns perfectly with your ${userDominantStr} energy.`;
   } else if (score >= 0.6) {
@@ -526,11 +573,11 @@ export async function getDefaultElementalProperties(): Promise<ElementalProperti
  * @returns Recipe with standardized elemental properties
  */
 export async function standardizeRecipeElements<T>(
-  recipe: T | null | undefined
+  recipe: T | null | undefined,
 ): Promise<T & { elementalProperties: ElementalProperties }> {
   if (!recipe) {
     return {
-      elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     } as T & { elementalProperties: ElementalProperties };
   }
 
@@ -542,7 +589,7 @@ export async function standardizeRecipeElements<T>(
 
   return {
     ...recipe,
-    elementalProperties
+    elementalProperties,
   };
 }
 
@@ -565,5 +612,5 @@ export default {
   standardizeRecipeElements,
   ELEMENTAL_COLORS,
   ELEMENTAL_SYMBOLS,
-  ELEMENTAL_DESCRIPTIONS
+  ELEMENTAL_DESCRIPTIONS,
 };

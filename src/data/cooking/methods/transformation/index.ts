@@ -1,9 +1,9 @@
-import { curing } from './curing';
-import { dehydrating } from './dehydrating';
-import { distilling } from './distilling';
-import { infusing } from './infusing';
-import { marinating } from './marinating';
-import { smoking } from './smoking';
+import { curing } from "./curing";
+import { dehydrating } from "./dehydrating";
+import { distilling } from "./distilling";
+import { infusing } from "./infusing";
+import { marinating } from "./marinating";
+import { smoking } from "./smoking";
 
 /**
  * Collection of transformation cooking methods
@@ -19,6 +19,6 @@ export const _transformationMethods = {
   distilling,
   marinating,
   // Add other transformation methods as they are implemented
-}
+};
 
 export const transformationMethods = _transformationMethods;

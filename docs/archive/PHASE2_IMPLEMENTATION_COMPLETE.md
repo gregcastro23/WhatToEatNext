@@ -84,17 +84,17 @@ export interface UnifiedIngredient {
 
   // Elemental Properties (Self-Reinforcement Compliant)
   elementalProperties: {
-    Fire: number;    // 0-1 scale
-    water: number;   // 0-1 scale
-    earth: number;   // 0-1 scale
-    Air: number;     // 0-1 scale
+    Fire: number; // 0-1 scale
+    water: number; // 0-1 scale
+    earth: number; // 0-1 scale
+    Air: number; // 0-1 scale
   };
 
   // Alchemical Properties (Core Metrics)
   alchemicalProperties: {
-    spirit: number;    // Volatile, transformative essence
-    essence: number;   // Active principles and qualities
-    matter: number;    // Physical substance and structure
+    spirit: number; // Volatile, transformative essence
+    essence: number; // Active principles and qualities
+    matter: number; // Physical substance and structure
     substance: number; // Stable, enduring components
   };
 
@@ -122,8 +122,10 @@ function calculateKalchm(alchemicalProps) {
   const safematter = Math.max(matter, 0.01);
   const safesubstance = Math.max(substance, 0.01);
 
-  const numerator = Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence);
-  const denominator = Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance);
+  const numerator =
+    Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence);
+  const denominator =
+    Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance);
 
   return numerator / denominator;
 }
@@ -134,7 +136,7 @@ function calculateKalchm(alchemicalProps) {
 ```typescript
 function calculateIngredientCompatibility(ingredient1, ingredient2) {
   const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2);
-  return 0.7 + (ratio * 0.3); // Self-reinforcement: 0.7 minimum compatibility
+  return 0.7 + ratio * 0.3; // Self-reinforcement: 0.7 minimum compatibility
 }
 ```
 
@@ -143,10 +145,13 @@ function calculateIngredientCompatibility(ingredient1, ingredient2) {
 ### Basic Usage
 
 ```typescript
-import { unifiedIngredients, findKalchmCompatibleIngredients } from '@/data/unified';
+import {
+  unifiedIngredients,
+  findKalchmCompatibleIngredients,
+} from "@/data/unified";
 
 // Get a specific ingredient
-const cinnamon = unifiedIngredients['cinnamon'];
+const cinnamon = unifiedIngredients["cinnamon"];
 console.log(`Cinnamon Kalchm: ${cinnamon.kalchm}`);
 
 // Find compatible ingredients
@@ -156,7 +161,7 @@ const compatible = findKalchmCompatibleIngredients(cinnamon.kalchm, 0.1);
 ### Category-Based Access
 
 ```typescript
-import { SpiceIngredients, HerbIngredients } from '@/data/unified';
+import { SpiceIngredients, HerbIngredients } from "@/data/unified";
 
 // Access spice collection
 const allSpices = Object.values(SpiceIngredients);
@@ -168,9 +173,9 @@ const allHerbs = Object.values(HerbIngredients);
 ### Compatibility Analysis
 
 ```typescript
-import { calculateIngredientCompatibility } from '@/data/unified';
+import { calculateIngredientCompatibility } from "@/data/unified";
 
-const compatibility = calculateIngredientCompatibility('cinnamon', 'cardamom');
+const compatibility = calculateIngredientCompatibility("cinnamon", "cardamom");
 console.log(`Compatibility: ${(compatibility * 100).toFixed(1)}%`);
 ```
 
@@ -252,10 +257,10 @@ function deriveAlchemicalFromElemental(elementalProps) {
   const { Fire, water, earth, Air } = elementalProps;
 
   return {
-    spirit: (Fire * 0.6 + Air * 0.4),      // Volatile, transformative
-    essence: (water * 0.5 + Fire * 0.3 + Air * 0.2), // Active principles
-    matter: (earth * 0.7 + water * 0.3),    // Physical structure
-    substance: (earth * 0.5 + water * 0.4 + Fire * 0.1) // Stable components
+    spirit: Fire * 0.6 + Air * 0.4, // Volatile, transformative
+    essence: water * 0.5 + Fire * 0.3 + Air * 0.2, // Active principles
+    matter: earth * 0.7 + water * 0.3, // Physical structure
+    substance: earth * 0.5 + water * 0.4 + Fire * 0.1, // Stable components
   };
 }
 ```

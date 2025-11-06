@@ -10,9 +10,9 @@
  * 3. export: {, -> export: {
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class PreciseTS1128Fixer {
   constructor() {
@@ -22,7 +22,7 @@ class PreciseTS1128Fixer {
   }
 
   async run() {
-    console.log('🎯 Precise TS1128 Declaration Error Fixes...\n');
+    console.log("🎯 Precise TS1128 Declaration Error Fixes...\n");
 
     try {
       // Create backup directory
@@ -33,7 +33,7 @@ class PreciseTS1128Fixer {
       console.log(`📊 Initial TS1128 errors: ${initialErrors}`);
 
       if (initialErrors === 0) {
-        console.log('✅ No TS1128 errors found!');
+        console.log("✅ No TS1128 errors found!");
         return;
       }
 
@@ -43,27 +43,30 @@ class PreciseTS1128Fixer {
 
       // Test on small batch first (5 files as per requirements)
       const testFiles = errorFiles.slice(0, 5);
-      console.log(`\n🧪 Testing fixes on small batch (${testFiles.length} files)...`);
+      console.log(
+        `\n🧪 Testing fixes on small batch (${testFiles.length} files)...`,
+      );
 
       const testSuccess = await this.testOnSmallBatch(testFiles);
 
       if (!testSuccess) {
-        console.log('❌ Test batch failed validation - stopping');
+        console.log("❌ Test batch failed validation - stopping");
         return;
       }
 
       // Process remaining files if test successful
       const remainingFiles = errorFiles.slice(5);
       if (remainingFiles.length > 0) {
-        console.log(`\n🚀 Test successful, processing remaining ${remainingFiles.length} files...`);
+        console.log(
+          `\n🚀 Test successful, processing remaining ${remainingFiles.length} files...`,
+        );
         await this.processBatches(remainingFiles, initialErrors);
       }
 
       // Final results
       await this.showFinalResults(initialErrors);
-
     } catch (error) {
-      console.error('❌ Fix failed:', error.message);
+      console.error("❌ Fix failed:", error.message);
       console.log(`📁 Backup available at: ${this.backupDir}`);
     }
   }
@@ -77,10 +80,13 @@ class PreciseTS1128Fixer {
 
   async getTS1128ErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1128"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1128"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -89,13 +95,19 @@ class PreciseTS1128Fixer {
 
   async getFilesWithTS1128Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1128"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1128"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const files = new Set();
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^(.+?)\(/);
@@ -127,15 +139,19 @@ class PreciseTS1128Fixer {
     console.log(`   📊 Test Results:`);
     console.log(`   - Fixes applied: ${testFixes}`);
     console.log(`   - Errors reduced: ${testReduction}`);
-    console.log(`   - Build valid: ${buildValid ? '✅' : '❌'}`);
-    console.log(`   - Success: ${testReduction >= 0 && buildValid ? '✅' : '❌'}`);
+    console.log(`   - Build valid: ${buildValid ? "✅" : "❌"}`);
+    console.log(
+      `   - Success: ${testReduction >= 0 && buildValid ? "✅" : "❌"}`,
+    );
 
     return testReduction >= 0 && buildValid;
   }
 
   async validateBuild() {
     try {
-      execSync('yarn tsc --noEmit --skipLibCheck 2>/dev/null', { stdio: 'pipe' });
+      execSync("yarn tsc --noEmit --skipLibCheck 2>/dev/null", {
+        stdio: "pipe",
+      });
       return true;
     } catch (error) {
       return false;
@@ -152,7 +168,9 @@ class PreciseTS1128Fixer {
       const batch = errorFiles.slice(i, i + batchSize);
       const batchNumber = Math.floor(i / batchSize) + 1;
 
-      console.log(`\n📦 Processing Batch ${batchNumber}/${totalBatches} (${batch.length} files)`);
+      console.log(
+        `\n📦 Processing Batch ${batchNumber}/${totalBatches} (${batch.length} files)`,
+      );
 
       for (const filePath of batch) {
         await this.processFile(filePath);
@@ -163,7 +181,7 @@ class PreciseTS1128Fixer {
       const buildValid = await this.validateBuild();
 
       if (!buildValid) {
-        console.log('⚠️ Build validation failed, stopping for safety');
+        console.log("⚠️ Build validation failed, stopping for safety");
         break;
       }
 
@@ -183,41 +201,43 @@ class PreciseTS1128Fixer {
       // Create backup
       await this.backupFile(filePath);
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
       let fixesApplied = 0;
 
       // Fix 1: Precise malformed function parameters
       // Pattern: (: any : any { prop = value }: Type) -> ({ prop = value }: Type)
-      const preciseParamPattern = /\(\s*:\s*any\s*:\s*any\s*(\{[^}]+\})\s*:\s*(\{[^}]+\})\s*\)/g;
+      const preciseParamPattern =
+        /\(\s*:\s*any\s*:\s*any\s*(\{[^}]+\})\s*:\s*(\{[^}]+\})\s*\)/g;
       const matches1 = content.match(preciseParamPattern) || [];
-      content = content.replace(preciseParamPattern, '($1: $2)');
+      content = content.replace(preciseParamPattern, "($1: $2)");
       fixesApplied += matches1.length;
 
       // Fix 2: Malformed object literals with leading comma
       // Pattern: {, property: value} -> { property: value }
       const malformedObjectPattern = /\{\s*,\s*([^}]+)\}/g;
       const matches2 = content.match(malformedObjectPattern) || [];
-      content = content.replace(malformedObjectPattern, '{ $1 }');
+      content = content.replace(malformedObjectPattern, "{ $1 }");
       fixesApplied += matches2.length;
 
       // Fix 3: Malformed export objects
       // Pattern: export: {, -> export: {
       const malformedExportPattern = /export:\s*\{\s*,\s*/g;
       const matches3 = content.match(malformedExportPattern) || [];
-      content = content.replace(malformedExportPattern, 'export: { ');
+      content = content.replace(malformedExportPattern, "export: { ");
       fixesApplied += matches3.length;
 
       // Fix 4: Incomplete export statements
       const incompleteExportPattern = /export\s*\{\s*$/gm;
       const matches4 = content.match(incompleteExportPattern) || [];
-      content = content.replace(incompleteExportPattern, 'export {};');
+      content = content.replace(incompleteExportPattern, "export {};");
       fixesApplied += matches4.length;
 
       // Fix 5: Missing semicolons after variable declarations
-      const missingSemicolonPattern = /^(\s*const\s+\w+\s*:\s*[^=]+=\s*[^;]+)$/gm;
+      const missingSemicolonPattern =
+        /^(\s*const\s+\w+\s*:\s*[^=]+=\s*[^;]+)$/gm;
       const matches5 = content.match(missingSemicolonPattern) || [];
-      content = content.replace(missingSemicolonPattern, '$1;');
+      content = content.replace(missingSemicolonPattern, "$1;");
       fixesApplied += matches5.length;
 
       if (fixesApplied > 0 && content !== originalContent) {
@@ -230,7 +250,6 @@ class PreciseTS1128Fixer {
       }
 
       return fixesApplied;
-
     } catch (error) {
       console.log(`     ❌ Error processing file: ${error.message}`);
       return 0;
@@ -239,7 +258,7 @@ class PreciseTS1128Fixer {
 
   async backupFile(filePath) {
     try {
-      const relativePath = path.relative('.', filePath);
+      const relativePath = path.relative(".", filePath);
       const backupPath = path.join(this.backupDir, relativePath);
       const backupDirPath = path.dirname(backupPath);
 
@@ -247,7 +266,7 @@ class PreciseTS1128Fixer {
         fs.mkdirSync(backupDirPath, { recursive: true });
       }
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       fs.writeFileSync(backupPath, content);
     } catch (error) {
       console.log(`     ⚠️ Backup failed for ${filePath}: ${error.message}`);
@@ -255,11 +274,14 @@ class PreciseTS1128Fixer {
   }
 
   async showFinalResults(initialErrors) {
-    console.log('\n📈 Precise TS1128 Declaration Fix Results:');
+    console.log("\n📈 Precise TS1128 Declaration Fix Results:");
 
     const finalErrors = await this.getTS1128ErrorCount();
     const totalReduction = initialErrors - finalErrors;
-    const reductionPercentage = initialErrors > 0 ? ((totalReduction / initialErrors) * 100).toFixed(1) : '0.0';
+    const reductionPercentage =
+      initialErrors > 0
+        ? ((totalReduction / initialErrors) * 100).toFixed(1)
+        : "0.0";
 
     console.log(`   Initial TS1128 errors: ${initialErrors}`);
     console.log(`   Final TS1128 errors: ${finalErrors}`);
@@ -269,13 +291,13 @@ class PreciseTS1128Fixer {
     console.log(`   Total fixes applied: ${this.totalFixes}`);
 
     if (finalErrors <= 50) {
-      console.log('\n🎉 EXCELLENT! TS1128 errors reduced to very low level');
+      console.log("\n🎉 EXCELLENT! TS1128 errors reduced to very low level");
     } else if (parseFloat(reductionPercentage) >= 70) {
-      console.log('\n🎯 GREAT! 70%+ error reduction achieved');
+      console.log("\n🎯 GREAT! 70%+ error reduction achieved");
     } else if (parseFloat(reductionPercentage) >= 40) {
-      console.log('\n✅ GOOD! 40%+ error reduction achieved');
+      console.log("\n✅ GOOD! 40%+ error reduction achieved");
     } else {
-      console.log('\n⚠️ Partial success - may need additional targeted fixes');
+      console.log("\n⚠️ Partial success - may need additional targeted fixes");
     }
 
     console.log(`\n📁 Backup available at: ${this.backupDir}`);
@@ -285,17 +307,22 @@ class PreciseTS1128Fixer {
     console.log(`\n📊 Total TypeScript errors now: ${totalErrors}`);
 
     // Preserve astrological calculation accuracy check
-    console.log('\n🔮 Verifying astrological calculation accuracy...');
+    console.log("\n🔮 Verifying astrological calculation accuracy...");
     const astroAccuracy = await this.verifyAstrologicalAccuracy();
-    console.log(`   Astrological calculations: ${astroAccuracy ? '✅ PRESERVED' : '⚠️ NEEDS_REVIEW'}`);
+    console.log(
+      `   Astrological calculations: ${astroAccuracy ? "✅ PRESERVED" : "⚠️ NEEDS_REVIEW"}`,
+    );
   }
 
   async getTotalErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -306,14 +333,16 @@ class PreciseTS1128Fixer {
     try {
       // Check if key astrological files still compile
       const astroFiles = [
-        'src/calculations/culinary/culinaryAstrology.ts',
-        'src/calculations/alchemicalEngine.ts',
-        'src/utils/reliableAstronomy.ts'
+        "src/calculations/culinary/culinaryAstrology.ts",
+        "src/calculations/alchemicalEngine.ts",
+        "src/utils/reliableAstronomy.ts",
       ];
 
       for (const file of astroFiles) {
         if (fs.existsSync(file)) {
-          execSync(`yarn tsc --noEmit --skipLibCheck ${file} 2>/dev/null`, { stdio: 'pipe' });
+          execSync(`yarn tsc --noEmit --skipLibCheck ${file} 2>/dev/null`, {
+            stdio: "pipe",
+          });
         }
       }
       return true;

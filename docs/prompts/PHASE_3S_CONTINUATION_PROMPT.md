@@ -147,7 +147,11 @@ Based on our proven methodology:
 ### **Key Dependencies**
 
 ```typescript
-import type { Ingredient, ElementalProperties, FlavorProfile } from '@/types/alchemy';
+import type {
+  Ingredient,
+  ElementalProperties,
+  FlavorProfile,
+} from "@/types/alchemy";
 ```
 
 ### **Integration Points**

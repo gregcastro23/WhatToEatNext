@@ -15,21 +15,27 @@
  * Used for planetary influences in astrological calculations
  */
 export type Planet =
-  | 'Sun'
-  | 'Moon'
-  | 'Mercury'
-  | 'Venus'
-  | 'Mars'
-  | 'Jupiter'
-  | 'Saturn'
-  | 'Uranus'
-  | 'Neptune'
-  | 'Pluto'
-  | 'Ascendant';
+  | "Sun"
+  | "Moon"
+  | "Mercury"
+  | "Venus"
+  | "Mars"
+  | "Jupiter"
+  | "Saturn"
+  | "Uranus"
+  | "Neptune"
+  | "Pluto"
+  | "Ascendant";
 /**
  * Extended Planet type including traditional Vedic nodes
  */
-export type ExtendedPlanet = Planet | 'Rahu' | 'Ketu' | 'Chiron' | 'northNode' | 'southNode';
+export type ExtendedPlanet =
+  | Planet
+  | "Rahu"
+  | "Ketu"
+  | "Chiron"
+  | "northNode"
+  | "southNode";
 /**
  * Planet Name alias for backward compatibility
  */
@@ -40,26 +46,31 @@ export type PlanetName = Planet;
  * Standard ZodiacSign type - lowercase format for consistency
  */
 export type ZodiacSign =
-  | 'aries'
-  | 'taurus'
-  | 'gemini'
-  | 'cancer'
-  | 'leo'
-  | 'virgo'
-  | 'libra'
-  | 'scorpio'
-  | 'sagittarius'
-  | 'capricorn'
-  | 'aquarius'
-  | 'pisces';
+  | "aries"
+  | "taurus"
+  | "gemini"
+  | "cancer"
+  | "leo"
+  | "virgo"
+  | "libra"
+  | "scorpio"
+  | "sagittarius"
+  | "capricorn"
+  | "aquarius"
+  | "pisces";
 // Element types
-export type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
+export type Element = "Fire" | "Water" | "Earth" | "Air";
 // Modality types
-export type Modality = 'Cardinal' | 'Fixed' | 'Mutable';
+export type Modality = "Cardinal" | "Fixed" | "Mutable";
 // Aspect types
-export type AspectType = 'conjunction' | 'sextile' | 'square' | 'trine' | 'opposition';
+export type AspectType =
+  | "conjunction"
+  | "sextile"
+  | "square"
+  | "trine"
+  | "opposition";
 // Alchemical property types
-export type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance';
+export type AlchemicalProperty = "Spirit" | "Essence" | "Matter" | "Substance";
 // Position of a celestial body
 export interface CelestialPosition {
   sign?: string;
@@ -153,18 +164,23 @@ export interface ThermodynamicProperties {
  * Standard LunarPhase type - spaces format for display
  */
 export type LunarPhase =
-  | 'new moon'
-  | 'waxing crescent'
-  | 'first quarter'
-  | 'waxing gibbous'
-  | 'full moon'
-  | 'waning gibbous'
-  | 'last quarter'
-  | 'waning crescent';
+  | "new moon"
+  | "waxing crescent"
+  | "first quarter"
+  | "waxing gibbous"
+  | "full moon"
+  | "waning gibbous"
+  | "last quarter"
+  | "waning crescent";
 /**
  * Planetary dignity types
  */
-export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Neutral';
+export type DignityType =
+  | "Domicile"
+  | "Exaltation"
+  | "Detriment"
+  | "Fall"
+  | "Neutral";
 /**
  * Complete astrological state information
  */

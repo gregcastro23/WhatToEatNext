@@ -4,26 +4,26 @@
  * Run with: yarn node src/scripts/updateIngredientFiles.js
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Path to the source file with improvements
-const SOURCE_FILE = path.resolve(process.cwd(), 'src/scripts/updateHerbs.ts');
+const SOURCE_FILE = path.resolve(process.cwd(), "src/scripts/updateHerbs.ts");
 
 // Files to update
 const TARGET_FILES = [
-  'updateVegetables.ts',
-  'updateFruits.ts',
-  'updateGrains.ts',
-  'updateProteins.ts',
-  'updateSpices.ts',
-  'updateOils.ts',
-  'updateVinegars.ts',
+  "updateVegetables.ts",
+  "updateFruits.ts",
+  "updateGrains.ts",
+  "updateProteins.ts",
+  "updateSpices.ts",
+  "updateOils.ts",
+  "updateVinegars.ts",
 ];
 
 // Read the source file
-const sourceContent = fs.readFileSync(SOURCE_FILE, 'utf8');
+const sourceContent = fs.readFileSync(SOURCE_FILE, "utf8");
 
 // Key improvements to apply to each file:
 // 1. Update node-fetch import/require to nodeFetch for consistency
@@ -35,8 +35,8 @@ const sourceContent = fs.readFileSync(SOURCE_FILE, 'utf8');
 // console.log('Starting to update ingredient category scripts...');
 
 // Process each target file
-TARGET_FILES.forEach(filename => {
-  const filePath = path.resolve(process.cwd(), 'src/scripts', filename);
+TARGET_FILES.forEach((filename) => {
+  const filePath = path.resolve(process.cwd(), "src/scripts", filename);
 
   if (!fs.existsSync(filePath)) {
     // console.log(`File not found: ${filePath}`);
@@ -46,13 +46,13 @@ TARGET_FILES.forEach(filename => {
   // console.log(`\nProcessing ${filename}...`);
 
   // Read the target file
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
 
   // Extract the category name from the file
   const categoryMatch = content.match(/const CATEGORY = ['"]([^'"]+)['"]/);
   const category = categoryMatch
     ? categoryMatch[1]
-    : filename.replace('update', '').replace('.ts', '').toLowerCase();
+    : filename.replace("update", "").replace(".ts", "").toLowerCase();
 
   // console.log(`Identified category: ${category}`);
 
@@ -123,7 +123,7 @@ TARGET_FILES.forEach(filename => {
   // 6. Update any logging mentions of herbs to the current category
   content = content.replace(
     /console\.log\(`Completed enhancing herbs\.`\)/g,
-    'console.log(`Completed enhancing ${category}.`)',
+    "console.log(`Completed enhancing ${category}.`)",
   );
 
   // 7. Update function name in exports
@@ -156,7 +156,7 @@ TARGET_FILES.forEach(filename => {
   );
 
   // Save the updated file
-  fs.writeFileSync(filePath, content, 'utf8');
+  fs.writeFileSync(filePath, content, "utf8");
   // console.log(`Updated ${filename}`);
 
   // Format the file with Prettier if available
@@ -175,5 +175,5 @@ TARGET_FILES.forEach(filename => {
 // console.log('3. Updated ingredient search function to use POST method');
 // console.log('4. Ensured category-specific progress tracking and logging');
 console.log(
-  '\nNote: You should still manually verify each file to ensure everything works correctly.',
+  "\nNote: You should still manually verify each file to ensure everything works correctly.",
 );

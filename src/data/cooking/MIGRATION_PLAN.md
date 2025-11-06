@@ -67,10 +67,10 @@ All imports now use:
 
 ```javascript
 // Before
-import { cookingMethods } from '@/data/cooking/cookingMethods';
+import { cookingMethods } from "@/data/cooking/cookingMethods";
 
 // After
-import { allCookingMethods } from '@/data/cooking';
+import { allCookingMethods } from "@/data/cooking";
 ```
 
 ## Cleanup Completed

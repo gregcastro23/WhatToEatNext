@@ -1,16 +1,19 @@
 # PostgreSQL 17 Password Reset Instructions
 
 ## Current Situation
+
 You're currently in a sudo bash shell (bash-3.2#). You need to exit and run the script properly.
 
 ## Steps to Execute:
 
 ### 1. Exit the current sudo shell:
+
 ```bash
 exit
 ```
 
 ### 2. Run the reset script with the correct command:
+
 ```bash
 sudo bash /Users/GregCastro/Desktop/WhatToEatNext/reset_postgres_password.sh
 ```
@@ -20,6 +23,7 @@ sudo bash /Users/GregCastro/Desktop/WhatToEatNext/reset_postgres_password.sh
 ### 3. Enter your Mac password when prompted
 
 The script will then automatically:
+
 - Backup pg_hba.conf
 - Temporarily enable trust authentication
 - Reset postgres password to 'password'

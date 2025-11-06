@@ -1,5 +1,9 @@
-import type { Season } from '@/types/alchemy';
-import type { PlanetaryAspect, PlanetaryPosition, ZodiacSign } from '@/types/celestial';
+import type { Season } from "@/types/alchemy";
+import type {
+  PlanetaryAspect,
+  PlanetaryPosition,
+  ZodiacSign,
+} from "@/types/celestial";
 
 /**
  * Sign vector components capture multi-dimensional expression of a sign
@@ -23,7 +27,7 @@ export interface SignVectorComponents {
   seasonal: number;
 }
 
-export type SignDirection = 'cardinal' | 'fixed' | 'mutable';
+export type SignDirection = "cardinal" | "fixed" | "mutable";
 export interface SignVector {
   sign: any;
   _magnitude: number; // 0-1: intensity of sign expression at the moment
@@ -41,10 +45,12 @@ export type SignVectorMap = Record<ZodiacSign, SignVector>;
 
 export interface SignVectorCompatibilityResult {
   similarity: number; // 0-1 cosine similarity across components
-  dominantSharedAxis: 'modality' | 'elemental' | 'seasonal' | 'none';
+  dominantSharedAxis: "modality" | "elemental" | "seasonal" | "none";
 }
 
-export function signVectorComponentsToArray(components: SignVectorComponents): number[] {
+export function signVectorComponentsToArray(
+  components: SignVectorComponents,
+): number[] {
   return [
     components.cardinal,
     components.fixed,
@@ -53,6 +59,6 @@ export function signVectorComponentsToArray(components: SignVectorComponents): n
     components.Water,
     components.Earth,
     components.Air,
-    components.seasonal
+    components.seasonal,
   ];
 }

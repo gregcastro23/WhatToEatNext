@@ -1,10 +1,10 @@
 export default {
-  root: ['./src'],
+  root: ["./src"],
   alias: {
-    '@components': './src/components',
-    '@styles': './src/styles',
-    '@utils': './src/utils',
-    '@types': './src/types',
-    '@providers': './src/providers',
+    "@components": "./src/components",
+    "@styles": "./src/styles",
+    "@utils": "./src/utils",
+    "@types": "./src/types",
+    "@providers": "./src/providers",
   },
 };

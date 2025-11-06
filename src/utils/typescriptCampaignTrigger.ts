@@ -5,8 +5,8 @@
  * system integration for automated error reduction and code quality improvement.
  */
 
-import { execSync } from 'child_process';
-import { logger } from './logger';
+import { execSync } from "child_process";
+import { logger } from "./logger";
 
 // Campaign trigger interfaces
 export interface CampaignTriggerResult {
@@ -88,31 +88,31 @@ export interface SafetyProtocol {
 }
 
 export enum CampaignMode {
-  EMERGENCY = 'EMERGENCY',
-  AGGRESSIVE = 'AGGRESSIVE',
-  STANDARD = 'STANDARD',
-  MONITORING = 'MONITORING',
+  EMERGENCY = "EMERGENCY",
+  AGGRESSIVE = "AGGRESSIVE",
+  STANDARD = "STANDARD",
+  MONITORING = "MONITORING",
 }
 
 export enum ErrorCategory {
-  TS2352 = 'TS2352', // Type conversion errors
-  TS2304 = 'TS2304', // Cannot find name errors
-  TS2345 = 'TS2345', // Argument type mismatch
-  TS2698 = 'TS2698', // Spread syntax errors
-  TS2362 = 'TS2362', // Arithmetic operation errors
-  OTHER = 'OTHER',
+  TS2352 = "TS2352", // Type conversion errors
+  TS2304 = "TS2304", // Cannot find name errors
+  TS2345 = "TS2345", // Argument type mismatch
+  TS2698 = "TS2698", // Spread syntax errors
+  TS2362 = "TS2362", // Arithmetic operation errors
+  OTHER = "OTHER",
 }
 
 export enum ErrorSeverity {
-  HIGH = 'HIGH',
-  MEDIUM = 'MEDIUM',
-  LOW = 'LOW',
+  HIGH = "HIGH",
+  MEDIUM = "MEDIUM",
+  LOW = "LOW",
 }
 
 export enum SafetyLevel {
-  MAXIMUM = 'MAXIMUM',
-  HIGH = 'HIGH',
-  MEDIUM = 'MEDIUM',
+  MAXIMUM = "MAXIMUM",
+  HIGH = "HIGH",
+  MEDIUM = "MEDIUM",
 }
 
 // Configuration constants
@@ -148,7 +148,9 @@ export async function analyzeTypeScriptErrors(): Promise<CampaignTriggerResult> 
   const startTime = Date.now();
 
   try {
-    logger.info('Starting TypeScript error analysis for campaign trigger evaluation');
+    logger.info(
+      "Starting TypeScript error analysis for campaign trigger evaluation",
+    );
 
     // 1. Get current TypeScript error count and details
     const errorAnalysis = await getTypeScriptErrorAnalysis();
@@ -186,7 +188,7 @@ export async function analyzeTypeScriptErrors(): Promise<CampaignTriggerResult> 
       safetyLevel,
     };
   } catch (error) {
-    logger.error('TypeScript error analysis failed:', error);
+    logger.error("TypeScript error analysis failed:", error);
 
     // Return safe defaults
     return {
@@ -201,7 +203,11 @@ export async function analyzeTypeScriptErrors(): Promise<CampaignTriggerResult> 
         campaignRecommendations: [],
       },
       recommendations: [],
-      batchSchedule: { batches: [], totalEstimatedTime: 0, safetyProtocols: [] },
+      batchSchedule: {
+        batches: [],
+        totalEstimatedTime: 0,
+        safetyProtocols: [],
+      },
       estimatedDuration: 0,
       safetyLevel: SafetyLevel.MAXIMUM,
     };
@@ -246,7 +252,7 @@ async function getTypeScriptErrorAnalysis(): Promise<ErrorAnalysisResult> {
       campaignRecommendations,
     };
   } catch (error) {
-    logger.error('Error getting TypeScript error analysis:', error);
+    logger.error("Error getting TypeScript error analysis:", error);
     throw error;
   }
 }
@@ -257,9 +263,9 @@ async function getTypeScriptErrorAnalysis(): Promise<ErrorAnalysisResult> {
 async function getTypeScriptErrors(): Promise<string> {
   try {
     // Run TypeScript compiler to get errors
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-      encoding: 'utf8',
-      stdio: 'pipe',
+    const output = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+      encoding: "utf8",
+      stdio: "pipe",
     });
 
     return output;
@@ -278,7 +284,7 @@ async function getTypeScriptErrors(): Promise<string> {
     }
 
     // If there's no stdout or stderr, assume no errors
-    return '';
+    return "";
   }
 }
 
@@ -292,11 +298,13 @@ function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
     return errors;
   }
 
-  const lines = errorOutput.split('\n');
+  const lines = errorOutput.split("\n");
 
   for (const line of lines) {
     // Match TypeScript error format: file(line,col): error TSxxxx: message
-    const match = line.match(/^(.+?)\((\d+),(\d+)\):\s*error\s+(TS\d+):\s*(.+)$/);
+    const match = line.match(
+      /^(.+?)\((\d+),(\d+)\):\s*error\s+(TS\d+):\s*(.+)$/,
+    );
 
     if (match) {
       const [, filePath, lineStr, colStr, code, message] = match;
@@ -328,15 +336,15 @@ function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
  */
 function categorizeErrorCode(code: string): ErrorCategory {
   switch (code) {
-    case 'TS2352':
+    case "TS2352":
       return ErrorCategory.TS2352;
-    case 'TS2304':
+    case "TS2304":
       return ErrorCategory.TS2304;
-    case 'TS2345':
+    case "TS2345":
       return ErrorCategory.TS2345;
-    case 'TS2698':
+    case "TS2698":
       return ErrorCategory.TS2698;
-    case 'TS2362':
+    case "TS2362":
       return ErrorCategory.TS2362;
     default:
       return ErrorCategory.OTHER;
@@ -363,10 +371,17 @@ function determineSeverity(category: ErrorCategory): ErrorSeverity {
 /**
  * Calculate priority score for error
  */
-function calculatePriority(category: ErrorCategory, severity: ErrorSeverity): number {
+function calculatePriority(
+  category: ErrorCategory,
+  severity: ErrorSeverity,
+): number {
   const categoryWeight = CATEGORY_PRIORITY_WEIGHTS[category] || 0.5;
   const severityWeight =
-    severity === ErrorSeverity.HIGH ? 1.0 : severity === ErrorSeverity.MEDIUM ? 0.7 : 0.4;
+    severity === ErrorSeverity.HIGH
+      ? 1.0
+      : severity === ErrorSeverity.MEDIUM
+        ? 0.7
+        : 0.4;
 
   return categoryWeight * severityWeight;
 }
@@ -374,11 +389,13 @@ function calculatePriority(category: ErrorCategory, severity: ErrorSeverity): nu
 /**
  * Categorize errors by type
  */
-function categorizeErrors(errors: TypeScriptError[]): Record<string, TypeScriptError[]> {
+function categorizeErrors(
+  errors: TypeScriptError[],
+): Record<string, TypeScriptError[]> {
   const categorized: Record<string, TypeScriptError[]> = {};
 
   for (const error of errors) {
-    const {category} = error;
+    const { category } = error;
     if (!categorized[category]) {
       categorized[category] = [];
     }
@@ -391,11 +408,13 @@ function categorizeErrors(errors: TypeScriptError[]): Record<string, TypeScriptE
 /**
  * Group errors by file path
  */
-function groupErrorsByFile(errors: TypeScriptError[]): Record<string, TypeScriptError[]> {
+function groupErrorsByFile(
+  errors: TypeScriptError[],
+): Record<string, TypeScriptError[]> {
   const grouped: Record<string, TypeScriptError[]> = {};
 
   for (const error of errors) {
-    const {filePath} = error;
+    const { filePath } = error;
     if (!grouped[filePath]) {
       grouped[filePath] = [];
     }
@@ -416,8 +435,9 @@ function identifyHighImpactFiles(
   for (const [filePath, errors] of Object.entries(errorsByFile)) {
     if (errors.length >= 5) {
       // Files with 5+ errors are high impact
-      const categories = [...new Set(errors.map(e => e.category))];
-      const averagePriority = errors.reduce((sum, e) => sum + e.priority, 0) / errors.length;
+      const categories = [...new Set(errors.map((e) => e.category))];
+      const averagePriority =
+        errors.reduce((sum, e) => sum + e.priority, 0) / errors.length;
 
       highImpactFiles.push({
         filePath,
@@ -451,7 +471,11 @@ function generateCampaignRecommendations(
   if (totalErrors >= ERROR_THRESHOLDS.CRITICAL) {
     recommendations.push({
       mode: CampaignMode.EMERGENCY,
-      phases: ['typescript-error-elimination', 'build-stabilization', 'safety-validation'],
+      phases: [
+        "typescript-error-elimination",
+        "build-stabilization",
+        "safety-validation",
+      ],
       estimatedDuration: Math.ceil(totalErrors * 0.5), // 30 seconds per error
       safetyLevel: SafetyLevel.MAXIMUM,
       description: `Emergency campaign for ${totalErrors} critical errors`,
@@ -459,7 +483,7 @@ function generateCampaignRecommendations(
   } else if (totalErrors >= ERROR_THRESHOLDS.HIGH) {
     recommendations.push({
       mode: CampaignMode.AGGRESSIVE,
-      phases: ['typescript-error-elimination', 'targeted-fixes'],
+      phases: ["typescript-error-elimination", "targeted-fixes"],
       estimatedDuration: Math.ceil(totalErrors * 0.3), // 18 seconds per error
       safetyLevel: SafetyLevel.HIGH,
       description: `Aggressive campaign for ${totalErrors} high-priority errors`,
@@ -467,7 +491,7 @@ function generateCampaignRecommendations(
   } else if (totalErrors >= ERROR_THRESHOLDS.MEDIUM) {
     recommendations.push({
       mode: CampaignMode.STANDARD,
-      phases: ['targeted-error-reduction'],
+      phases: ["targeted-error-reduction"],
       estimatedDuration: Math.ceil(totalErrors * 0.2), // 12 seconds per error
       safetyLevel: SafetyLevel.MEDIUM,
       description: `Standard campaign for ${totalErrors} errors`,
@@ -502,7 +526,9 @@ function determineCampaignMode(errorCount: number): CampaignMode {
 /**
  * Generate fix recommendations for each error category
  */
-function generateFixRecommendations(analysis: ErrorAnalysisResult): FixRecommendation[] {
+function generateFixRecommendations(
+  analysis: ErrorAnalysisResult,
+): FixRecommendation[] {
   const recommendations: FixRecommendation[] = [];
 
   for (const [category, errors] of Object.entries(analysis.errorsByCategory)) {
@@ -566,7 +592,10 @@ function calculateEstimatedEffort(errors: TypeScriptError[]): number {
 /**
  * Determine optimal batch size for error category
  */
-function determineBatchSize(errorCount: number, category: ErrorCategory): number {
+function determineBatchSize(
+  errorCount: number,
+  category: ErrorCategory,
+): number {
   // Base batch sizes by category
   const baseBatchSizes = {
     [ErrorCategory.TS2352]: 25,
@@ -592,7 +621,10 @@ function determineBatchSize(errorCount: number, category: ErrorCategory): number
 /**
  * Calculate priority for error category
  */
-function calculateCategoryPriority(category: ErrorCategory, errorCount: number): number {
+function calculateCategoryPriority(
+  category: ErrorCategory,
+  errorCount: number,
+): number {
   const categoryWeight = CATEGORY_PRIORITY_WEIGHTS[category] || 0.5;
   const countWeight = Math.min(1.0, errorCount / 50); // Normalize count impact
 
@@ -604,15 +636,15 @@ function calculateCategoryPriority(category: ErrorCategory, errorCount: number):
  */
 function getFixStrategy(category: ErrorCategory): string {
   const strategies = {
-    [ErrorCategory.TS2352]: 'Enhanced Error Fixer patterns for type conversion',
-    [ErrorCategory.TS2304]: 'Import resolution and declaration fixes',
-    [ErrorCategory.TS2345]: 'Parameter type alignment and interface updates',
-    [ErrorCategory.TS2698]: 'Object and array spread syntax corrections',
-    [ErrorCategory.TS2362]: 'Type assertion and arithmetic operation fixes',
-    [ErrorCategory.OTHER]: 'Manual review and custom solution development',
+    [ErrorCategory.TS2352]: "Enhanced Error Fixer patterns for type conversion",
+    [ErrorCategory.TS2304]: "Import resolution and declaration fixes",
+    [ErrorCategory.TS2345]: "Parameter type alignment and interface updates",
+    [ErrorCategory.TS2698]: "Object and array spread syntax corrections",
+    [ErrorCategory.TS2362]: "Type assertion and arithmetic operation fixes",
+    [ErrorCategory.OTHER]: "Manual review and custom solution development",
   };
 
-  return strategies[category] || 'Custom fix strategy required';
+  return strategies[category] || "Custom fix strategy required";
 }
 
 /**
@@ -646,7 +678,9 @@ function createBatchSchedule(
 
     // Schedule next batch with buffer time
     currentTime = new Date(
-      currentTime.getTime() + batch.estimatedDuration * 60 * 1000 + 2 * 60 * 1000,
+      currentTime.getTime() +
+        batch.estimatedDuration * 60 * 1000 +
+        2 * 60 * 1000,
     ); // Add 2 minute buffer
   }
 
@@ -666,28 +700,28 @@ function getSafetyProtocols(mode: CampaignMode): SafetyProtocol[] {
   switch (mode) {
     case CampaignMode.EMERGENCY:
       protocols.push({
-        name: 'Emergency Safety Protocol',
-        description: 'Maximum safety with validation after every file',
-        triggers: ['BUILD_FAILURE', 'ERROR_INCREASE', 'CORRUPTION_DETECTED'],
-        actions: ['IMMEDIATE_ROLLBACK', 'ALERT_TEAM', 'PAUSE_CAMPAIGN'],
+        name: "Emergency Safety Protocol",
+        description: "Maximum safety with validation after every file",
+        triggers: ["BUILD_FAILURE", "ERROR_INCREASE", "CORRUPTION_DETECTED"],
+        actions: ["IMMEDIATE_ROLLBACK", "ALERT_TEAM", "PAUSE_CAMPAIGN"],
       });
       break;
 
     case CampaignMode.AGGRESSIVE:
       protocols.push({
-        name: 'Aggressive Safety Protocol',
-        description: 'High safety with frequent validation checkpoints',
-        triggers: ['BUILD_FAILURE', 'MAJOR_ERROR_INCREASE'],
-        actions: ['AUTOMATIC_ROLLBACK', 'REDUCE_BATCH_SIZE'],
+        name: "Aggressive Safety Protocol",
+        description: "High safety with frequent validation checkpoints",
+        triggers: ["BUILD_FAILURE", "MAJOR_ERROR_INCREASE"],
+        actions: ["AUTOMATIC_ROLLBACK", "REDUCE_BATCH_SIZE"],
       });
       break;
 
     case CampaignMode.STANDARD:
       protocols.push({
-        name: 'Standard Safety Protocol',
-        description: 'Standard safety with build validation',
-        triggers: ['BUILD_FAILURE'],
-        actions: ['ROLLBACK_BATCH', 'NOTIFY_DEVELOPER'],
+        name: "Standard Safety Protocol",
+        description: "Standard safety with build validation",
+        triggers: ["BUILD_FAILURE"],
+        actions: ["ROLLBACK_BATCH", "NOTIFY_DEVELOPER"],
       });
       break;
   }
@@ -732,7 +766,7 @@ export async function getCurrentTypeScriptErrorCount(): Promise<number> {
     const errors = parseTypeScriptErrors(errorOutput);
     return errors.length;
   } catch (error) {
-    logger.error('Failed to get TypeScript error count:', error);
+    logger.error("Failed to get TypeScript error count:", error);
     return -1;
   }
 }
@@ -745,7 +779,7 @@ export async function checkCampaignTriggerConditions(): Promise<boolean> {
     const errorCount = await getCurrentTypeScriptErrorCount();
     return shouldTriggerCampaign(errorCount);
   } catch (error) {
-    logger.error('Failed to check campaign trigger conditions:', error);
+    logger.error("Failed to check campaign trigger conditions:", error);
     return false;
   }
 }

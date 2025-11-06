@@ -7,7 +7,7 @@
  * to optional chaining.
  */
 
-const fs = require('fs');
+const fs = require("fs");
 
 class LogicalOrChainFixer {
   constructor() {
@@ -25,7 +25,7 @@ class LogicalOrChainFixer {
     const pattern1 = /\((\w+)\s*\|\|\s*\{\}\)\[([^\]]+)\]/g;
     const matches1 = [...modifiedContent.matchAll(pattern1)];
     if (matches1.length > 0) {
-      modifiedContent = modifiedContent.replace(pattern1, '$1?.[$2]');
+      modifiedContent = modifiedContent.replace(pattern1, "$1?.[$2]");
       fixes += matches1.length;
       console.log(`  📝 Fixed ${matches1.length} (obj || {})[key] patterns`);
     }
@@ -34,7 +34,7 @@ class LogicalOrChainFixer {
     const pattern2 = /\((\w+)\s*\|\|\s*\{\}\)\.(\w+)/g;
     const matches2 = [...modifiedContent.matchAll(pattern2)];
     if (matches2.length > 0) {
-      modifiedContent = modifiedContent.replace(pattern2, '$1?.$2');
+      modifiedContent = modifiedContent.replace(pattern2, "$1?.$2");
       fixes += matches2.length;
       console.log(`  📝 Fixed ${matches2.length} (obj || {}).prop patterns`);
     }
@@ -43,7 +43,10 @@ class LogicalOrChainFixer {
     const pattern3 = /(\w+)\s+in\s+\((\w+)\s*\|\|\s*\{\}\)/g;
     const matches3 = [...modifiedContent.matchAll(pattern3)];
     if (matches3.length > 0) {
-      modifiedContent = modifiedContent.replace(pattern3, '$2?.[$1] !== undefined');
+      modifiedContent = modifiedContent.replace(
+        pattern3,
+        "$2?.[$1] !== undefined",
+      );
       fixes += matches3.length;
       console.log(`  📝 Fixed ${matches3.length} key in (obj || {}) patterns`);
     }
@@ -58,11 +61,12 @@ class LogicalOrChainFixer {
     try {
       console.log(`\n📁 Processing: ${filePath}`);
 
-      const content = fs.readFileSync(filePath, 'utf8');
-      const { content: modifiedContent, fixes } = this.fixLogicalOrChains(content);
+      const content = fs.readFileSync(filePath, "utf8");
+      const { content: modifiedContent, fixes } =
+        this.fixLogicalOrChains(content);
 
       if (fixes > 0) {
-        fs.writeFileSync(filePath, modifiedContent, 'utf8');
+        fs.writeFileSync(filePath, modifiedContent, "utf8");
         console.log(`  ✅ Applied ${fixes} total fixes`);
         this.totalFixes += fixes;
       } else {
@@ -77,10 +81,10 @@ class LogicalOrChainFixer {
    * Run the fixing process
    */
   run() {
-    console.log('🚀 Starting Logical OR Chain Fixing Process');
+    console.log("🚀 Starting Logical OR Chain Fixing Process");
 
     // Target the specific file we know has issues
-    const targetFiles = ['src/components/ChakraDisplay.migrated.tsx'];
+    const targetFiles = ["src/components/ChakraDisplay.migrated.tsx"];
 
     for (const file of targetFiles) {
       if (fs.existsSync(file)) {
@@ -90,12 +94,12 @@ class LogicalOrChainFixer {
       }
     }
 
-    console.log('\n📊 Summary:');
+    console.log("\n📊 Summary:");
     console.log(`   Total fixes applied: ${this.totalFixes}`);
 
     if (this.totalFixes > 0) {
-      console.log('\n✅ Logical OR chain fixes completed!');
-      console.log('💡 Run yarn lint to verify the improvements');
+      console.log("\n✅ Logical OR chain fixes completed!");
+      console.log("💡 Run yarn lint to verify the improvements");
     }
   }
 }

@@ -1,13 +1,13 @@
 // Type imports
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
-import type { Season } from '@/types/alchemy';
-import type { ElementalProperties } from '@/types/unified';
+import { DEFAULT_ELEMENTAL_PROPERTIES } from "@/constants/elementalConstants";
+import type { Season } from "@/types/alchemy";
+import type { ElementalProperties } from "@/types/unified";
 
 // Internal imports
-import { createLogger } from '@/utils/logger';
+import { createLogger } from "@/utils/logger";
 
 // Logger
-const logger = createLogger('ElementalCalculator');
+const logger = createLogger("ElementalCalculator");
 
 /**
  * ElementalCalculator class for managing and calculating elemental state
@@ -46,7 +46,10 @@ export class ElementalCalculator {
    * @param season The current season
    * @returns A score from 0-100 representing the effectiveness
    */
-  static calculateSeasonalEffectiveness(recipe: unknown, season: string): number {
+  static calculateSeasonalEffectiveness(
+    recipe: unknown,
+    season: string,
+  ): number {
     try {
       const recipeData = recipe as any;
       if (!recipeData?.elementalProperties) {
@@ -57,23 +60,34 @@ export class ElementalCalculator {
       let score = 0;
 
       // Calculate base seasonal alignment
-      Object.entries(recipeData.elementalProperties).forEach(([element, value]) => {
-        const modifier = seasonalModifiers[element as keyof ElementalProperties] || 0;
-        score += (value as number) * modifier * 100;
-      });
+      Object.entries(recipeData.elementalProperties).forEach(
+        ([element, value]) => {
+          const modifier =
+            seasonalModifiers[element as keyof ElementalProperties] || 0;
+          score += (value as number) * modifier * 100;
+        },
+      );
 
       // Apply seasonal bonuses/penalties
       if (recipeData.season) {
-        const seasons = Array.isArray(recipeData.season) ? recipeData.season : [recipeData.season];
+        const seasons = Array.isArray(recipeData.season)
+          ? recipeData.season
+          : [recipeData.season];
 
-        if (seasons.map((s: string) => s.toLowerCase()).includes(season.toLowerCase())) {
+        if (
+          seasons
+            .map((s: string) => s.toLowerCase())
+            .includes(season.toLowerCase())
+        ) {
           score += 20;
         }
       }
 
       return Math.max(0, Math.min(100, Math.round(score)));
     } catch (error) {
-      logger.error('Error calculating seasonal effectiveness:', { error: error instanceof Error ? error.message : String(error) });
+      logger.error("Error calculating seasonal effectiveness:", {
+        error: error instanceof Error ? error.message : String(error),
+      });
       return 0;
     }
   }
@@ -88,32 +102,32 @@ export class ElementalCalculator {
     const seasonLower = season.toLowerCase() as Season;
 
     switch (seasonLower) {
-      case 'spring':
+      case "spring":
         baseModifiers.Air = 0.4;
         baseModifiers.Fire = 0.3;
         baseModifiers.Water = 0.2;
         baseModifiers.Earth = 0.1;
         break;
-      case 'summer':
+      case "summer":
         baseModifiers.Fire = 0.4;
         baseModifiers.Air = 0.3;
         baseModifiers.Earth = 0.2;
         baseModifiers.Water = 0.1;
         break;
-      case 'autumn':
-      case 'fall':
+      case "autumn":
+      case "fall":
         baseModifiers.Earth = 0.4;
         baseModifiers.Air = 0.3;
         baseModifiers.Water = 0.2;
         baseModifiers.Fire = 0.1;
         break;
-      case 'winter':
+      case "winter":
         baseModifiers.Water = 0.4;
         baseModifiers.Earth = 0.3;
         baseModifiers.Fire = 0.2;
         baseModifiers.Air = 0.1;
         break;
-      case 'all':
+      case "all":
         // Balanced for 'all' season
         baseModifiers.Fire = 0.25;
         baseModifiers.Water = 0.25;
@@ -147,7 +161,8 @@ export class ElementalCalculator {
 
     // Calculate variance from the ideal (perfect balance would be 0 variance)
     const variance =
-      values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / values.length;
+      values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) /
+      values.length;
 
     // Convert variance to harmony score (0-1)
     return Math.max(0, Math.min(1, 1 - Math.sqrt(variance)));
@@ -162,8 +177,8 @@ export class ElementalCalculator {
    */
   calculateElementalState(
     baseProperties: ElementalProperties,
-    phase = 'default',
-    time = 'neutral'
+    phase = "default",
+    time = "neutral",
   ): {
     properties: ElementalProperties;
     seasonalInfluence: ElementalProperties;
@@ -177,16 +192,16 @@ export class ElementalCalculator {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       };
 
       // Apply time-based modifiers
-      if (time === 'day') {
+      if (time === "day") {
         properties.Fire = Math.min(1, properties.Fire * 1.1);
         properties.Air = Math.min(1, properties.Air * 1.05);
         properties.Water = Math.max(0, properties.Water * 0.95);
         properties.Earth = Math.max(0, properties.Earth * 0.95);
-      } else if (time === 'night') {
+      } else if (time === "night") {
         properties.Water = Math.min(1, properties.Water * 1.1);
         properties.Earth = Math.min(1, properties.Earth * 1.05);
         properties.Fire = Math.max(0, properties.Fire * 0.95);
@@ -195,13 +210,15 @@ export class ElementalCalculator {
 
       return {
         properties,
-        seasonalInfluence
+        seasonalInfluence,
       };
     } catch (error) {
-      logger.error('Error calculating elemental state:', { error: error instanceof Error ? error.message : String(error) });
+      logger.error("Error calculating elemental state:", {
+        error: error instanceof Error ? error.message : String(error),
+      });
       return {
         properties: DEFAULT_ELEMENTAL_PROPERTIES,
-        seasonalInfluence: DEFAULT_ELEMENTAL_PROPERTIES
+        seasonalInfluence: DEFAULT_ELEMENTAL_PROPERTIES,
       };
     }
   }
@@ -232,20 +249,22 @@ export class ElementalCalculator {
 export function combineElementalProperties(
   primary: ElementalProperties,
   secondary: ElementalProperties,
-  weight = 0.5
+  weight = 0.5,
 ): ElementalProperties {
   return {
     Fire: primary.Fire * weight + secondary.Fire * (1 - weight),
     Water: primary.Water * weight + secondary.Water * (1 - weight),
     Earth: primary.Earth * weight + secondary.Earth * (1 - weight),
-    Air: primary.Air * weight + secondary.Air * (1 - weight)
+    Air: primary.Air * weight + secondary.Air * (1 - weight),
   };
 }
 
 /**
  * Get elemental ranking from properties
  */
-export function getElementRanking(properties: Record<string, number>): Record<number, string> {
+export function getElementRanking(
+  properties: Record<string, number>,
+): Record<number, string> {
   const entries = Object.entries(properties).sort(([, a], [, b]) => b - a);
   const ranking: Record<number, string> = {};
 
@@ -259,6 +278,8 @@ export function getElementRanking(properties: Record<string, number>): Record<nu
 /**
  * Get absolute elemental value
  */
-export function getAbsoluteElementValue(properties: Record<string, number>): number {
+export function getAbsoluteElementValue(
+  properties: Record<string, number>,
+): number {
   return Object.values(properties).reduce((sum, val) => sum + Math.abs(val), 0);
 }

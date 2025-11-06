@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { _useFlavorEngine } from '../contexts/FlavorEngineContext';
-import type { UnifiedFlavorProfile } from '../data/unified/unifiedFlavorEngine';
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { _useFlavorEngine } from "../contexts/FlavorEngineContext";
+import type { UnifiedFlavorProfile } from "../data/unified/unifiedFlavorEngine";
 
 // Keep track of global init state across hook instances
 const globalInitState = {
   initialized: false,
   attempted: false,
   checkCount: 0,
-  lastCheckTime: Date.now()
-}
+  lastCheckTime: Date.now(),
+};
 
 /**
  * A safer hook for accessing the flavor engine with error handling
@@ -43,7 +43,7 @@ export function useSafeFlavorEngine() {
         searchProfiles: () => [],
         calculateCompatibility: () => null,
         profileCount: 0,
-        categories: {}
+        categories: {},
       };
     }
   }
@@ -74,7 +74,11 @@ export function useSafeFlavorEngine() {
     // Limit check attempts to prevent infinite loops
     if (globalInitState.checkCount >= 3) {
       if (isMountedRef.current) {
-        setError(new Error('Failed to initialize flavor engine after multiple attempts'));
+        setError(
+          new Error(
+            "Failed to initialize flavor engine after multiple attempts",
+          ),
+        );
       }
       return;
     }
@@ -112,7 +116,7 @@ export function useSafeFlavorEngine() {
         return undefined;
       }
     },
-    [isReady, flavorEngine]
+    [isReady, flavorEngine],
   );
 
   // Safe search profiles function with error handling
@@ -126,7 +130,7 @@ export function useSafeFlavorEngine() {
         return [];
       }
     },
-    [isReady, flavorEngine]
+    [isReady, flavorEngine],
   );
 
   // Safe compatibility calculation with error handling
@@ -141,12 +145,14 @@ export function useSafeFlavorEngine() {
         return null;
       }
     },
-    [isReady, flavorEngine]
+    [isReady, flavorEngine],
   );
 
   // Extract values to avoid complex expressions in dependency array
   const profileCount = isReady ? flavorEngine.profileCount : 0;
-  const categoriesString = isReady ? JSON.stringify(flavorEngine.categories) : '{}';
+  const categoriesString = isReady
+    ? JSON.stringify(flavorEngine.categories)
+    : "{}";
 
   // Memoize the complete API to prevent unnecessary re-renders
   return useMemo(
@@ -157,7 +163,7 @@ export function useSafeFlavorEngine() {
       searchProfiles,
       calculateCompatibility,
       profileCount,
-      categories: isReady ? flavorEngine.categories : {}
+      categories: isReady ? flavorEngine.categories : {},
     }),
     [
       isReady,
@@ -166,8 +172,8 @@ export function useSafeFlavorEngine() {
       searchProfiles,
       calculateCompatibility,
       profileCount,
-      categoriesString
-    ]
+      categoriesString,
+    ],
   );
 }
 

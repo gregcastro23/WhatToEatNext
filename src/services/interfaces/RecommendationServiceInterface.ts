@@ -1,15 +1,9 @@
-import type { ThermodynamicMetrics } from '@/types/alchemical';
-import type {
-  ElementalProperties,
-  Planet} from '@/types/alchemy';
-import {
-  ZodiacSign,
-  PlanetaryAlignment,
-  Element,
-} from '@/types/alchemy';
-import type { CookingMethod } from '@/types/cooking';
-import type { Ingredient } from '@/types/ingredient';
-import type { Recipe } from '@/types/recipe';
+import type { ThermodynamicMetrics } from "@/types/alchemical";
+import type { ElementalProperties, Planet } from "@/types/alchemy";
+import { ZodiacSign, PlanetaryAlignment, Element } from "@/types/alchemy";
+import type { CookingMethod } from "@/types/cooking";
+import type { Ingredient } from "@/types/ingredient";
+import type { Recipe } from "@/types/recipe";
 
 /**
  * Filter criteria for recipe recommendations
@@ -132,14 +126,17 @@ export interface RecommendationServiceInterface {
   /**
    * Calculate compatibility score between elemental properties
    */
-  calculateElementalCompatibility(source: ElementalProperties, target: ElementalProperties): number;
+  calculateElementalCompatibility(
+    source: ElementalProperties,
+    target: ElementalProperties,
+  ): number;
 
   /**
    * Get recommendations based on elemental properties
    */
   getRecommendationsForElements(
     elementalProperties: ElementalProperties,
-    type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
+    type: "recipe" | "ingredient" | "cuisine" | "cookingMethod",
     limit?: number,
   ): Promise<RecommendationResult<unknown>>;
 
@@ -148,12 +145,14 @@ export interface RecommendationServiceInterface {
    */
   getRecommendationsForPlanetaryAlignment(
     planetaryPositions: Record<string, { sign: string; degree: number }>,
-    type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
+    type: "recipe" | "ingredient" | "cuisine" | "cookingMethod",
     limit?: number,
   ): Promise<RecommendationResult<unknown>>;
 
   /**
    * Calculate thermodynamic metrics based on elemental properties
    */
-  calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicMetrics;
+  calculateThermodynamics(
+    elementalProperties: ElementalProperties,
+  ): ThermodynamicMetrics;
 }

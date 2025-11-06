@@ -6,13 +6,17 @@
  * error handling, and environment configuration for alchm.kitchen
  */
 
-import type { PoolClient, QueryResult} from 'pg';
-import { Pool, types } from 'pg';
-import { logger } from '../logger';
+import type { PoolClient, QueryResult } from "pg";
+import { Pool, types } from "pg";
+import { logger } from "../logger";
 
 // Configure PostgreSQL type parsers for better type safety
-types.setTypeParser(types.builtins.NUMERIC, (value: string) => parseFloat(value));
-types.setTypeParser(types.builtins.INT8, (value: string) => parseInt(value, 10));
+types.setTypeParser(types.builtins.NUMERIC, (value: string) =>
+  parseFloat(value),
+);
+types.setTypeParser(types.builtins.INT8, (value: string) =>
+  parseInt(value, 10),
+);
 
 // Database configuration interface
 export interface DatabaseConfig {
@@ -24,15 +28,26 @@ export interface DatabaseConfig {
   ssl: boolean | object;
   max: number;
   idleTimeoutMillis: number;
-  connectionTimeoutMillis: number
+  connectionTimeoutMillis: number;
 }
 
 // Configuration import
-import { databaseConfig } from './config';
+import { databaseConfig } from "./config";
 
 // Environment-based configuration
 function getDatabaseConfig(): DatabaseConfig {
-  const { databaseUrl, host, port, database, user, password, ssl, maxConnections, idleTimeout, connectionTimeout } = databaseConfig;
+  const {
+    databaseUrl,
+    host,
+    port,
+    database,
+    user,
+    password,
+    ssl,
+    maxConnections,
+    idleTimeout,
+    connectionTimeout,
+  } = databaseConfig;
 
   if (databaseUrl) {
     // Parse DATABASE_URL for cloud deployments (e.g., Railway, Heroku)
@@ -43,10 +58,10 @@ function getDatabaseConfig(): DatabaseConfig {
       database: url.pathname.slice(1), // Remove leading slash
       user: url.username,
       password: url.password,
-      ssl: databaseConfig.environment === 'production',
+      ssl: databaseConfig.environment === "production",
       max: maxConnections,
       idleTimeoutMillis: idleTimeout,
-      connectionTimeoutMillis: connectionTimeout
+      connectionTimeoutMillis: connectionTimeout,
     };
   }
 
@@ -60,7 +75,7 @@ function getDatabaseConfig(): DatabaseConfig {
     ssl: ssl ? { rejectUnauthorized: false } : false,
     max: maxConnections,
     idleTimeoutMillis: idleTimeout,
-    connectionTimeoutMillis: connectionTimeout
+    connectionTimeoutMillis: connectionTimeout,
   };
 }
 
@@ -78,39 +93,39 @@ export function initializeDatabase(): Pool {
   pool = new Pool(config);
 
   // Connection event handlers
-  pool.on('connect', (client: PoolClient) => {
-    logger.info('New database connection established', {
+  pool.on("connect", (client: PoolClient) => {
+    logger.info("New database connection established", {
       database: config.database,
-      host: config.host
+      host: config.host,
     });
   });
 
-  pool.on('error', (err: Error, client: PoolClient) => {
-    logger.error('Unexpected database pool error', {
+  pool.on("error", (err: Error, client: PoolClient) => {
+    logger.error("Unexpected database pool error", {
       error: err.message,
       stack: err.stack,
-      database: config.database
+      database: config.database,
     });
   });
 
   // Graceful shutdown handling
-  process.on('SIGINT', async () => {
-    logger.info('Received SIGINT, closing database pool...');
+  process.on("SIGINT", async () => {
+    logger.info("Received SIGINT, closing database pool...");
     await closeDatabase();
     process.exit(0);
   });
 
-  process.on('SIGTERM', async () => {
-    logger.info('Received SIGTERM, closing database pool...');
+  process.on("SIGTERM", async () => {
+    logger.info("Received SIGTERM, closing database pool...");
     await closeDatabase();
     process.exit(0);
   });
 
-  logger.info('Database connection pool initialized', {
+  logger.info("Database connection pool initialized", {
     database: config.database,
     host: config.host,
     port: config.port,
-    maxConnections: config.max
+    maxConnections: config.max,
   });
 
   return pool;
@@ -127,24 +142,24 @@ export function getDatabasePool(): Pool {
 // Close database connection pool
 export async function closeDatabase(): Promise<void> {
   if (pool) {
-    logger.info('Closing database connection pool...');
+    logger.info("Closing database connection pool...");
     await pool.end();
     pool = null;
-    logger.info('Database connection pool closed');
+    logger.info("Database connection pool closed");
   }
 }
 
 // Health check function
 export async function checkDatabaseHealth(): Promise<{
-  healthy: boolean,
-  latency?: number,
-  error?: string
+  healthy: boolean;
+  latency?: number;
+  error?: string;
 }> {
   const startTime = Date.now();
 
   try {
     const client = await getDatabasePool().connect();
-    const result = await client.query('SELECT 1 as health_check');
+    const result = await client.query("SELECT 1 as health_check");
     client.release();
 
     const latency = Date.now() - startTime;
@@ -156,26 +171,26 @@ export async function checkDatabaseHealth(): Promise<{
     return {
       healthy: false,
       latency,
-      error: error instanceof Error ? error.message : 'Unknown database error'
-};
+      error: error instanceof Error ? error.message : "Unknown database error",
+    };
   }
 }
 
 // Transaction wrapper for database operations
 export async function withTransaction<T>(
-  operation: (client: PoolClient) => Promise<T>
+  operation: (client: PoolClient) => Promise<T>,
 ): Promise<T> {
   const client = await getDatabasePool().connect();
 
   try {
-    await client.query('BEGIN');
+    await client.query("BEGIN");
     const result = await operation(client);
-    await client.query('COMMIT');
+    await client.query("COMMIT");
     return result;
   } catch (error) {
-    await client.query('ROLLBACK');
-    logger.error('Database transaction failed, rolled back', {
-      error: error instanceof Error ? error.message : 'Unknown error'
+    await client.query("ROLLBACK");
+    logger.error("Database transaction failed, rolled back", {
+      error: error instanceof Error ? error.message : "Unknown error",
     });
     throw error;
   } finally {
@@ -184,43 +199,45 @@ export async function withTransaction<T>(
 }
 
 // Query execution with error handling and logging
-export async function executeQuery<T = any>(query: string,
+export async function executeQuery<T = any>(
+  query: string,
   params: any[] = [],
   options: {
-    logQuery?: boolean,
-    timeout?: number
-  } = {}
+    logQuery?: boolean;
+    timeout?: number;
+  } = {},
 ): Promise<QueryResult<T>> {
   const { logQuery = databaseConfig.logQueries, timeout = 30000 } = options;
   const startTime = Date.now();
 
   try {
     if (logQuery) {
-      logger.debug('Executing database query', {
-        query: query.substring(0, 100) + (query.length > 100 ? '...' : ''),
-        paramCount: params.length
+      logger.debug("Executing database query", {
+        query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
+        paramCount: params.length,
       });
     }
 
     const result = await getDatabasePool().query(query, params);
 
     const executionTime = Date.now() - startTime;
-    if (executionTime > 1000) { // Log slow queries (>1s)
-      logger.warn('Slow database query detected', {
+    if (executionTime > 1000) {
+      // Log slow queries (>1s)
+      logger.warn("Slow database query detected", {
         executionTime,
-        query: query.substring(0, 100) + (query.length > 100 ? '...' : ''),
-        rowCount: result.rowCount
+        query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
+        rowCount: result.rowCount,
       });
     }
 
     return result;
   } catch (error) {
     const executionTime = Date.now() - startTime;
-    logger.error('Database query failed', {
-      error: error instanceof Error ? error.message : 'Unknown error',
+    logger.error("Database query failed", {
+      error: error instanceof Error ? error.message : "Unknown error",
       executionTime,
-      query: query.substring(0, 100) + (query.length > 100 ? '...' : ''),
-      paramCount: params.length
+      query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
+      paramCount: params.length,
     });
     throw error;
   }
@@ -231,7 +248,7 @@ export async function executeQueryWithRetry<T = any>(
   query: string,
   params: any[] = [],
   maxRetries = 3,
-  retryDelay = 1000
+  retryDelay = 1000,
 ): Promise<QueryResult<T>> {
   let lastError: Error;
 
@@ -239,12 +256,15 @@ export async function executeQueryWithRetry<T = any>(
     try {
       return await executeQuery<T>(query, params);
     } catch (error) {
-      lastError = error instanceof Error ? error : new Error('Unknown database error');
+      lastError =
+        error instanceof Error ? error : new Error("Unknown database error");
 
       // Don't retry on certain errors
-      if (lastError.message.includes('syntax error') ||
-          lastError.message.includes('does not exist') ||
-          lastError.message.includes('permission denied')) {
+      if (
+        lastError.message.includes("syntax error") ||
+        lastError.message.includes("does not exist") ||
+        lastError.message.includes("permission denied")
+      ) {
         throw lastError;
       }
 
@@ -253,9 +273,9 @@ export async function executeQueryWithRetry<T = any>(
           error: lastError.message,
           attempt,
           maxRetries,
-          delay: retryDelay
+          delay: retryDelay,
         });
-        await new Promise(resolve => setTimeout(resolve, retryDelay));
+        await new Promise((resolve) => setTimeout(resolve, retryDelay));
         retryDelay *= 2; // Exponential backoff
       }
     }

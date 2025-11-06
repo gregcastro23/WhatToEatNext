@@ -6,9 +6,9 @@
  * Pattern: } catch (error: any): any { -> } catch (error: any) {
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class MalformedCatchBlockFixer {
   constructor() {
@@ -17,7 +17,7 @@ class MalformedCatchBlockFixer {
   }
 
   async run() {
-    console.log('🔧 Fixing malformed catch blocks...');
+    console.log("🔧 Fixing malformed catch blocks...");
 
     // Get all TypeScript files with TS1005 errors
     const errorFiles = await this.getFilesWithTS1005Errors();
@@ -48,7 +48,7 @@ class MalformedCatchBlockFixer {
   async fixCatchBlocksInFile(filePath) {
     if (!fs.existsSync(filePath)) return 0;
 
-    const content = fs.readFileSync(filePath, 'utf8');
+    const content = fs.readFileSync(filePath, "utf8");
     let fixed = content;
     let fixCount = 0;
 
@@ -56,7 +56,7 @@ class MalformedCatchBlockFixer {
     const pattern1 = /} catch \(([^)]+)\): any \{/g;
     const matches1 = fixed.match(pattern1);
     if (matches1) {
-      fixed = fixed.replace(pattern1, '} catch ($1) {');
+      fixed = fixed.replace(pattern1, "} catch ($1) {");
       fixCount += matches1.length;
     }
 
@@ -64,7 +64,7 @@ class MalformedCatchBlockFixer {
     const pattern2 = /} catch \(([^)]+): any\): any \{/g;
     const matches2 = fixed.match(pattern2);
     if (matches2) {
-      fixed = fixed.replace(pattern2, '} catch ($1: any) {');
+      fixed = fixed.replace(pattern2, "} catch ($1: any) {");
       fixCount += matches2.length;
     }
 
@@ -72,7 +72,7 @@ class MalformedCatchBlockFixer {
     const pattern3 = /catch \(([^)]+)\): any \{/g;
     const matches3 = fixed.match(pattern3);
     if (matches3) {
-      fixed = fixed.replace(pattern3, 'catch ($1) {');
+      fixed = fixed.replace(pattern3, "catch ($1) {");
       fixCount += matches3.length;
     }
 
@@ -80,7 +80,7 @@ class MalformedCatchBlockFixer {
     const pattern4 = /catch \(([^)]+): any\): any \{/g;
     const matches4 = fixed.match(pattern4);
     if (matches4) {
-      fixed = fixed.replace(pattern4, 'catch ($1: any) {');
+      fixed = fixed.replace(pattern4, "catch ($1: any) {");
       fixCount += matches4.length;
     }
 
@@ -93,11 +93,17 @@ class MalformedCatchBlockFixer {
 
   async getFilesWithTS1005Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | cut -d"(" -f1 | sort -u', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
-      return output.trim().split('\n').filter(line => line.trim());
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | cut -d"(" -f1 | sort -u',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
+      return output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
     } catch (error) {
       return [];
     }
@@ -105,10 +111,13 @@ class MalformedCatchBlockFixer {
 
   async getTS1005ErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1005" || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1005" || echo "0"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;

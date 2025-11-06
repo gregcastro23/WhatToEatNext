@@ -1,48 +1,48 @@
 // src/data/foodTypes.ts
 
-import type { ElementalProperties } from '@/types/alchemy';
-import type { Cuisine } from './cuisines';
+import type { ElementalProperties } from "@/types/alchemy";
+import type { Cuisine } from "./cuisines";
 
 // Properties that describe food characteristics
 export type FoodProperty =
-  | 'hot'
-  | 'cold'
-  | 'wet'
-  | 'dry'
-  | 'light'
-  | 'heavy'
-  | 'spicy'
-  | 'mild'
-  | 'fresh'
-  | 'preserved'
-  | 'sweet'
-  | 'sour'
-  | 'bitter'
-  | 'umami'
-  | 'balanced'
-  | 'creamy'
-  | 'neutral'
-  | 'aromatic'
-  | 'crispy'
-  | 'grilled'
-  | 'layered'
-  | 'comforting'
-  | 'savory'
-  | 'numbing'
-  | 'refreshing'
-  | 'hearty'
-  | 'tangy'
-  | 'rich'
-  | 'complex'
-  | 'mild-spicy'
-  | 'earthy';
+  | "hot"
+  | "cold"
+  | "wet"
+  | "dry"
+  | "light"
+  | "heavy"
+  | "spicy"
+  | "mild"
+  | "fresh"
+  | "preserved"
+  | "sweet"
+  | "sour"
+  | "bitter"
+  | "umami"
+  | "balanced"
+  | "creamy"
+  | "neutral"
+  | "aromatic"
+  | "crispy"
+  | "grilled"
+  | "layered"
+  | "comforting"
+  | "savory"
+  | "numbing"
+  | "refreshing"
+  | "hearty"
+  | "tangy"
+  | "rich"
+  | "complex"
+  | "mild-spicy"
+  | "earthy";
 
 // Track daily food intake
 export interface FoodEntry {
   id: string;
   name: string;
   timeAdded: Date;
-  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack';
+  mealType: "breakfast" | "lunch" | "dinner" | "snack";
   nutrition: {
     calories: number;
     protein: number;
@@ -54,17 +54,17 @@ export interface FoodEntry {
   elementalProperties: ElementalProperties;
   category: string;
   properties: FoodProperty[];
-  portion: number
+  portion: number;
 }
 
 // Daily nutrition targets
 export const nutritionTargets = {
-  calories: { min: 1800, max: 2400, unit: 'kcal' },
-        protein: { min: 50, max: 100, unit: 'g' },
-        carbs: { min: 225, max: 325, unit: 'g' },
-        fats: { min: 44, max: 78, unit: 'g' },
-        fiber: { min: 25, max: 35, unit: 'g' }
-}
+  calories: { min: 1800, max: 2400, unit: "kcal" },
+  protein: { min: 50, max: 100, unit: "g" },
+  carbs: { min: 225, max: 325, unit: "g" },
+  fats: { min: 44, max: 78, unit: "g" },
+  fiber: { min: 25, max: 35, unit: "g" },
+};
 
 // Cultural balance rules that extend existing cuisine data
 export interface CulturalBalance {
@@ -72,44 +72,48 @@ export interface CulturalBalance {
   principles: string[];
   preferredCombinations: Array<{
     foods: string[];
-    reason: string
+    reason: string;
   }>;
   avoidCombinations: Array<{
     foods: string[];
-    reason: string
+    reason: string;
   }>;
 }
 
 // Helper to calculate nutritional balance
-export function calculateNutritionalBalance(entries: FoodEntry[]): { [key: string]: number } {
-  return entries.reduce((acc, entry) => {
+export function calculateNutritionalBalance(entries: FoodEntry[]): {
+  [key: string]: number;
+} {
+  return entries.reduce(
+    (acc, entry) => {
       Object.entries(entry.nutrition).forEach(([nutrient, value]) => {
-        if (typeof value === 'number') {
+        if (typeof value === "number") {
           acc[nutrient] = (acc[nutrient] || 0) + value * entry.portion;
         }
       });
       return acc;
     },
-    {} as { [key: string]: number }
+    {} as { [key: string]: number },
   );
 }
 
 // Helper to analyze food properties balance
 export function analyzePropertyBalance(
-  entries: FoodEntry[]
+  entries: FoodEntry[],
 ): Array<{ property: FoodProperty; count: number }> {
-  const propertyCount = entries.reduce((acc, entry) => {
-      entry.properties.forEach(prop => {
+  const propertyCount = entries.reduce(
+    (acc, entry) => {
+      entry.properties.forEach((prop) => {
         acc[prop] = (acc[prop] || 0) + 1;
       });
       return acc;
     },
-    {} as Record<FoodProperty, number>
+    {} as Record<FoodProperty, number>,
   );
 
   return Object.entries(propertyCount).map(([property, count]) => ({
     property: property as FoodProperty,
-    count
+    count,
   }));
 }
 
@@ -117,7 +121,7 @@ export function analyzePropertyBalance(
 export function findComplementaryDishes(
   currentEntries: FoodEntry[],
   availableDishes: Record<string, Cuisine>,
-  targetProperties: FoodProperty[]
+  targetProperties: FoodProperty[],
 ): Dish[] {
   // Get current nutritional totals
   const currentNutrition = calculateNutritionalBalance(currentEntries);
@@ -125,26 +129,31 @@ export function findComplementaryDishes(
   // Find dishes that help balance nutrition and properties
   const recommendations: Dish[] = [];
 
-  Object.values(availableDishes).forEach(cuisine => {
+  Object.values(availableDishes).forEach((cuisine) => {
     if (cuisine.dishes) {
-      Object.values(cuisine.dishes).forEach(mealTypes => {
+      Object.values(cuisine.dishes).forEach((mealTypes) => {
         if (mealTypes) {
-          Object.values(mealTypes).forEach(seasonalDishes => {
+          Object.values(mealTypes).forEach((seasonalDishes) => {
             if (seasonalDishes && Array.isArray(seasonalDishes)) {
-              seasonalDishes.forEach(dish => {
+              seasonalDishes.forEach((dish) => {
                 let score = 0;
 
                 // Score based on needed nutrients
-                Object.entries(nutritionTargets).forEach(([nutrient, target]) => {
-                  const current = currentNutrition[nutrient] || 0;
-                  if (current < target.min) {
-                    score += 1;
-                  }
-                });
+                Object.entries(nutritionTargets).forEach(
+                  ([nutrient, target]) => {
+                    const current = currentNutrition[nutrient] || 0;
+                    if (current < target.min) {
+                      score += 1;
+                    }
+                  },
+                );
 
                 // Score based on desired properties
-                targetProperties.forEach(prop => {
-                  if (Array.isArray(dish.properties) && dish.properties.includes(prop)) {
+                targetProperties.forEach((prop) => {
+                  if (
+                    Array.isArray(dish.properties) &&
+                    dish.properties.includes(prop)
+                  ) {
                     score += 1;
                   }
                 });
@@ -178,65 +187,73 @@ export interface MealRecommendation {
 // Export the main foodTypes object that components expect
 export const foodTypes = {
   properties: [
-    'hot',
-    'cold',
-    'wet',
-    'dry',
-    'light',
-    'heavy',
-    'spicy',
-    'mild',
-    'fresh',
-    'preserved',
-    'sweet',
-    'sour',
-    'bitter',
-    'umami',
-    'balanced',
-    'creamy',
-    'neutral',
-    'aromatic',
-    'crispy',
-    'grilled',
-    'layered',
-    'comforting',
-    'savory',
-    'numbing',
-    'refreshing',
-    'hearty',
-    'tangy',
-    'rich',
-    'complex',
-    'mild-spicy',
-    'earthy'
+    "hot",
+    "cold",
+    "wet",
+    "dry",
+    "light",
+    "heavy",
+    "spicy",
+    "mild",
+    "fresh",
+    "preserved",
+    "sweet",
+    "sour",
+    "bitter",
+    "umami",
+    "balanced",
+    "creamy",
+    "neutral",
+    "aromatic",
+    "crispy",
+    "grilled",
+    "layered",
+    "comforting",
+    "savory",
+    "numbing",
+    "refreshing",
+    "hearty",
+    "tangy",
+    "rich",
+    "complex",
+    "mild-spicy",
+    "earthy",
   ] as FoodProperty[],
 
-  mealTypes: ['breakfast', 'lunch', 'dinner', 'snack', 'dessert', 'appetizer', 'brunch'],
+  mealTypes: [
+    "breakfast",
+    "lunch",
+    "dinner",
+    "snack",
+    "dessert",
+    "appetizer",
+    "brunch",
+  ],
 
   dietaryRestrictions: [
-    'vegetarian',
-    'vegan',
-    'gluten-free',
-    'dairy-free',
-    'nut-free',
-    'shellfish-free',
-    'soy-free',
-    'egg-free',
-    'low-carb',
-    'keto',
-    'paleo',
-    'whole30',
-    'low-sodium',
-    'sugar-free',
-    'raw',
-    'halal',
-    'kosher',
-    'pescatarian',
-    'flexitarian'
+    "vegetarian",
+    "vegan",
+    "gluten-free",
+    "dairy-free",
+    "nut-free",
+    "shellfish-free",
+    "soy-free",
+    "egg-free",
+    "low-carb",
+    "keto",
+    "paleo",
+    "whole30",
+    "low-sodium",
+    "sugar-free",
+    "raw",
+    "halal",
+    "kosher",
+    "pescatarian",
+    "flexitarian",
   ],
 
   nutritionTargets,
   calculateNutritionalBalance,
   analyzePropertyBalance,
-  findComplementaryDishes
+  findComplementaryDishes,
 };

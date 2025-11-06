@@ -1,6 +1,7 @@
 # 🔧 Comprehensive Manual Fix Prompt - Top Error Files
 
 ## 📊 **Current Status**
+
 - **Total Errors**: 6,532
 - **Files Requiring Manual Fixes**: 30 files with 50+ errors each
 - **Top 3 Files**: recipeBuilding.ts (136), alchemicalEngine.ts (125), recipeFilters.ts (95)
@@ -13,12 +14,14 @@
 For files with **50+ errors**, it's faster to **REGENERATE** problematic sections than fix line-by-line.
 
 ### **When to Regenerate:**
+
 - Section has 10+ consecutive errors
 - Entire function/object has structural issues
 - Malformed data structures (arrays, objects)
 - Pattern applies to entire block (e.g., all properties missing commas)
 
 ### **When to Fix:**
+
 - Isolated 1-3 line issues
 - Simple pattern replacements
 - Already working logic with minor syntax errors
@@ -28,6 +31,7 @@ For files with **50+ errors**, it's faster to **REGENERATE** problematic section
 ## 🔥 **FILE 1: src/lib/alchemicalEngine.ts (125 errors)**
 
 ### **Error Pattern Analysis:**
+
 ```typescript
 // ❌ PROBLEM: Invalid "private readonly," syntax (TS1434, TS1068)
 Lines 50, 57, 64, 173: private readonly, propertyName
@@ -40,22 +44,23 @@ Pattern: .slice(010) instead of .slice(0, 10)
 ### **🔄 REGENERATION APPROACH:**
 
 **Section 1: Class Properties (Lines 50-170)**
+
 ```typescript
 // REGENERATE THIS ENTIRE SECTION - Replace with:
 
 export class AlchemicalEngineBase {
   private readonly elementalAffinities: Record<string, string[]> = {
-    Fire: ['Air'],
-    Air: ['Water'],
-    Water: ['Earth'],
-    Earth: ['Fire']
+    Fire: ["Air"],
+    Air: ["Water"],
+    Water: ["Earth"],
+    Earth: ["Fire"],
   };
 
   private readonly elementalStrengths: Record<string, number> = {
     Fire: 1,
     Air: 1,
     Water: 1,
-    Earth: 1
+    Earth: 1,
   };
 
   private readonly zodiacElements: Record<
@@ -70,101 +75,101 @@ export class AlchemicalEngineBase {
     }
   > = {
     aries: {
-      baseElement: 'Fire',
+      baseElement: "Fire",
       decans: [
-        { degrees: [0, 10], element: 'Fire', ruler: 'Mars' },
-        { degrees: [10, 20], element: 'Fire', ruler: 'Sun' },
-        { degrees: [20, 30], element: 'Fire', ruler: 'Jupiter' }
-      ]
+        { degrees: [0, 10], element: "Fire", ruler: "Mars" },
+        { degrees: [10, 20], element: "Fire", ruler: "Sun" },
+        { degrees: [20, 30], element: "Fire", ruler: "Jupiter" },
+      ],
     },
     taurus: {
-      baseElement: 'Earth',
+      baseElement: "Earth",
       decans: [
-        { degrees: [0, 10], element: 'Earth', ruler: 'Venus' },
-        { degrees: [10, 20], element: 'Earth', ruler: 'Mercury' },
-        { degrees: [20, 30], element: 'Earth', ruler: 'Saturn' }
-      ]
+        { degrees: [0, 10], element: "Earth", ruler: "Venus" },
+        { degrees: [10, 20], element: "Earth", ruler: "Mercury" },
+        { degrees: [20, 30], element: "Earth", ruler: "Saturn" },
+      ],
     },
     gemini: {
-      baseElement: 'Air',
+      baseElement: "Air",
       decans: [
-        { degrees: [0, 10], element: 'Air', ruler: 'Mercury' },
-        { degrees: [10, 20], element: 'Air', ruler: 'Venus' },
-        { degrees: [20, 30], element: 'Air', ruler: 'Uranus' }
-      ]
+        { degrees: [0, 10], element: "Air", ruler: "Mercury" },
+        { degrees: [10, 20], element: "Air", ruler: "Venus" },
+        { degrees: [20, 30], element: "Air", ruler: "Uranus" },
+      ],
     },
     cancer: {
-      baseElement: 'Water',
+      baseElement: "Water",
       decans: [
-        { degrees: [0, 10], element: 'Water', ruler: 'Moon' },
-        { degrees: [10, 20], element: 'Water', ruler: 'Pluto' },
-        { degrees: [20, 30], element: 'Water', ruler: 'Neptune' }
-      ]
+        { degrees: [0, 10], element: "Water", ruler: "Moon" },
+        { degrees: [10, 20], element: "Water", ruler: "Pluto" },
+        { degrees: [20, 30], element: "Water", ruler: "Neptune" },
+      ],
     },
     leo: {
-      baseElement: 'Fire',
+      baseElement: "Fire",
       decans: [
-        { degrees: [0, 10], element: 'Fire', ruler: 'Sun' },
-        { degrees: [10, 20], element: 'Fire', ruler: 'Jupiter' },
-        { degrees: [20, 30], element: 'Fire', ruler: 'Mars' }
-      ]
+        { degrees: [0, 10], element: "Fire", ruler: "Sun" },
+        { degrees: [10, 20], element: "Fire", ruler: "Jupiter" },
+        { degrees: [20, 30], element: "Fire", ruler: "Mars" },
+      ],
     },
     virgo: {
-      baseElement: 'Earth',
+      baseElement: "Earth",
       decans: [
-        { degrees: [0, 10], element: 'Earth', ruler: 'Mercury' },
-        { degrees: [10, 20], element: 'Earth', ruler: 'Saturn' },
-        { degrees: [20, 30], element: 'Earth', ruler: 'Venus' }
-      ]
+        { degrees: [0, 10], element: "Earth", ruler: "Mercury" },
+        { degrees: [10, 20], element: "Earth", ruler: "Saturn" },
+        { degrees: [20, 30], element: "Earth", ruler: "Venus" },
+      ],
     },
     libra: {
-      baseElement: 'Air',
+      baseElement: "Air",
       decans: [
-        { degrees: [0, 10], element: 'Air', ruler: 'Venus' },
-        { degrees: [10, 20], element: 'Air', ruler: 'Uranus' },
-        { degrees: [20, 30], element: 'Air', ruler: 'Mercury' }
-      ]
+        { degrees: [0, 10], element: "Air", ruler: "Venus" },
+        { degrees: [10, 20], element: "Air", ruler: "Uranus" },
+        { degrees: [20, 30], element: "Air", ruler: "Mercury" },
+      ],
     },
     scorpio: {
-      baseElement: 'Water',
+      baseElement: "Water",
       decans: [
-        { degrees: [0, 10], element: 'Water', ruler: 'Pluto' },
-        { degrees: [10, 20], element: 'Water', ruler: 'Neptune' },
-        { degrees: [20, 30], element: 'Water', ruler: 'Moon' }
-      ]
+        { degrees: [0, 10], element: "Water", ruler: "Pluto" },
+        { degrees: [10, 20], element: "Water", ruler: "Neptune" },
+        { degrees: [20, 30], element: "Water", ruler: "Moon" },
+      ],
     },
     sagittarius: {
-      baseElement: 'Fire',
+      baseElement: "Fire",
       decans: [
-        { degrees: [0, 10], element: 'Fire', ruler: 'Jupiter' },
-        { degrees: [10, 20], element: 'Fire', ruler: 'Mars' },
-        { degrees: [20, 30], element: 'Fire', ruler: 'Sun' }
-      ]
+        { degrees: [0, 10], element: "Fire", ruler: "Jupiter" },
+        { degrees: [10, 20], element: "Fire", ruler: "Mars" },
+        { degrees: [20, 30], element: "Fire", ruler: "Sun" },
+      ],
     },
     capricorn: {
-      baseElement: 'Earth',
+      baseElement: "Earth",
       decans: [
-        { degrees: [0, 10], element: 'Earth', ruler: 'Saturn' },
-        { degrees: [10, 20], element: 'Earth', ruler: 'Venus' },
-        { degrees: [20, 30], element: 'Earth', ruler: 'Mercury' }
-      ]
+        { degrees: [0, 10], element: "Earth", ruler: "Saturn" },
+        { degrees: [10, 20], element: "Earth", ruler: "Venus" },
+        { degrees: [20, 30], element: "Earth", ruler: "Mercury" },
+      ],
     },
     aquarius: {
-      baseElement: 'Air',
+      baseElement: "Air",
       decans: [
-        { degrees: [0, 10], element: 'Air', ruler: 'Uranus' },
-        { degrees: [10, 20], element: 'Air', ruler: 'Mercury' },
-        { degrees: [20, 30], element: 'Air', ruler: 'Venus' }
-      ]
+        { degrees: [0, 10], element: "Air", ruler: "Uranus" },
+        { degrees: [10, 20], element: "Air", ruler: "Mercury" },
+        { degrees: [20, 30], element: "Air", ruler: "Venus" },
+      ],
     },
     pisces: {
-      baseElement: 'Water',
+      baseElement: "Water",
       decans: [
-        { degrees: [0, 10], element: 'Water', ruler: 'Neptune' },
-        { degrees: [10, 20], element: 'Water', ruler: 'Moon' },
-        { degrees: [20, 30], element: 'Water', ruler: 'Pluto' }
-      ]
-    }
+        { degrees: [0, 10], element: "Water", ruler: "Neptune" },
+        { degrees: [10, 20], element: "Water", ruler: "Moon" },
+        { degrees: [20, 30], element: "Water", ruler: "Pluto" },
+      ],
+    },
   };
 }
 ```
@@ -176,6 +181,7 @@ export class AlchemicalEngineBase {
 ## 🔥 **FILE 2: src/data/unified/recipeBuilding.ts (136 errors)**
 
 ### **Error Pattern Analysis:**
+
 ```typescript
 // ❌ PROBLEM: Octal literals in number ranges (TS1109, TS1005)
 Lines 688-700: adjustments.push(2550) should be adjustments.push(25, 50)
@@ -190,6 +196,7 @@ Line 823: Invalid variable declaration
 ### **🔄 REGENERATION APPROACH:**
 
 **Section 1: Temperature Adjustment Function (Lines 679-703)**
+
 ```typescript
 // REGENERATE THIS FUNCTION - Replace with:
 
@@ -227,6 +234,7 @@ private calculateTemperatureAdjustments(
 ```
 
 **Section 2: Timing Adjustment Function (Lines 705-740)**
+
 ```typescript
 // REGENERATE THIS FUNCTION - Replace with:
 
@@ -264,6 +272,7 @@ private calculateTimingAdjustments(
 ## 🔥 **FILE 3: src/utils/recipeFilters.ts (95 errors)**
 
 ### **Quick Fix Patterns:**
+
 ```bash
 # Run these sed commands for batch fixes:
 
@@ -337,6 +346,7 @@ echo "📦 Backups in: $BACKUP_DIR"
 ## 🎯 **SYSTEMATIC FIX WORKFLOW**
 
 ### **Phase 1: Automated Batch Fixes (30 minutes)**
+
 ```bash
 # 1. Create backup
 git add -A && git commit -m "Checkpoint before manual fixes"
@@ -362,6 +372,7 @@ For each file in order:
 6. **Commit** when file is clean or errors < 10
 
 **Priority Order:**
+
 1. ✅ alchemicalEngine.ts (regenerate class properties)
 2. ✅ recipeBuilding.ts (regenerate adjustment functions)
 3. ✅ recipeFilters.ts (batch sed fixes)
@@ -369,6 +380,7 @@ For each file in order:
 5. Continue through top 30...
 
 ### **Phase 3: Validation & Cleanup (30 minutes)**
+
 ```bash
 # 1. Run full error check
 yarn track-errors
@@ -387,11 +399,13 @@ git add -A && git commit -m "Manual fixes: Eliminated 2,000+ errors from top 30 
 ## 🏆 **SUCCESS METRICS**
 
 ### **Immediate Goals (Today)**
+
 - ✅ Top 3 files reduced to < 20 errors each
 - ✅ Top 10 files all < 30 errors each
 - ✅ Total errors < 5,500 (15% reduction)
 
 ### **Extended Goals (Week)**
+
 - ✅ All files < 50 errors
 - ✅ Total errors < 4,000 (38% reduction)
 - ✅ Enable `tsc --noEmit` in CI/CD pipeline

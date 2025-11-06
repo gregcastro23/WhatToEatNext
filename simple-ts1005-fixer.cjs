@@ -5,9 +5,9 @@
  * Focus: Only fix TS1005 errors, simple validation
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class SimpleTS1005Fixer {
   constructor() {
@@ -23,19 +23,32 @@ class SimpleTS1005Fixer {
 
   getTS1005ErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1005"', {
-        encoding: 'utf8', stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1005"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
-    } catch (error) { return 0; }
+    } catch (error) {
+      return 0;
+    }
   }
 
   getFilesWithTS1005Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | cut -d"(" -f1 | sort -u', {
-        encoding: 'utf8', stdio: 'pipe'
-      });
-      return output.trim().split('\n').filter(line => line.trim() && fs.existsSync(line.trim()));
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | cut -d"(" -f1 | sort -u',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
+      return output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim() && fs.existsSync(line.trim()));
     } catch (error) {
       return [];
     }
@@ -43,9 +56,13 @@ class SimpleTS1005Fixer {
 
   getFileTS1005ErrorCount(filePath) {
     try {
-      const result = execSync(`yarn tsc --noEmit --skipLibCheck ${filePath} 2>&1`, {
-        encoding: 'utf8', maxBuffer: 10 * 1024 * 1024
-      });
+      const result = execSync(
+        `yarn tsc --noEmit --skipLibCheck ${filePath} 2>&1`,
+        {
+          encoding: "utf8",
+          maxBuffer: 10 * 1024 * 1024,
+        },
+      );
       return (result.match(/error TS1005/g) || []).length;
     } catch (error) {
       if (error.stdout) {
@@ -56,9 +73,12 @@ class SimpleTS1005Fixer {
   }
 
   createBackup(filePath) {
-    const backupPath = path.join(this.backupDir, filePath.replace(/[\/\\]/g, '_'));
-    const content = fs.readFileSync(filePath, 'utf8');
-    fs.writeFileSync(backupPath, content, 'utf8');
+    const backupPath = path.join(
+      this.backupDir,
+      filePath.replace(/[\/\\]/g, "_"),
+    );
+    const content = fs.readFileSync(filePath, "utf8");
+    fs.writeFileSync(backupPath, content, "utf8");
   }
 
   applyProvenPatterns(content) {
@@ -66,10 +86,11 @@ class SimpleTS1005Fixer {
     let fixes = 0;
 
     // Pattern 1: test('description': any, async () => {
-    const testColonAnyPattern = /(\b(?:test|it|describe|beforeEach|afterEach|beforeAll|afterAll)\s*\(\s*'[^']+'):\s*any\s*,/g;
+    const testColonAnyPattern =
+      /(\b(?:test|it|describe|beforeEach|afterEach|beforeAll|afterAll)\s*\(\s*'[^']+'):\s*any\s*,/g;
     const matches1 = [...fixedContent.matchAll(testColonAnyPattern)];
     if (matches1.length > 0) {
-      fixedContent = fixedContent.replace(testColonAnyPattern, '$1,');
+      fixedContent = fixedContent.replace(testColonAnyPattern, "$1,");
       fixes += matches1.length;
     }
 
@@ -77,7 +98,7 @@ class SimpleTS1005Fixer {
     const catchColonAnyPattern = /(\}\s*catch\s*\([^)]+\)):\s*any\s*\{/g;
     const matches2 = [...fixedContent.matchAll(catchColonAnyPattern)];
     if (matches2.length > 0) {
-      fixedContent = fixedContent.replace(catchColonAnyPattern, '$1 {');
+      fixedContent = fixedContent.replace(catchColonAnyPattern, "$1 {");
       fixes += matches2.length;
     }
 
@@ -85,7 +106,7 @@ class SimpleTS1005Fixer {
     const destructuringColonAnyPattern = /(\[\s*[^,\]]+):\s*any\s*,/g;
     const matches3 = [...fixedContent.matchAll(destructuringColonAnyPattern)];
     if (matches3.length > 0) {
-      fixedContent = fixedContent.replace(destructuringColonAnyPattern, '$1,');
+      fixedContent = fixedContent.replace(destructuringColonAnyPattern, "$1,");
       fixes += matches3.length;
     }
 
@@ -105,11 +126,12 @@ class SimpleTS1005Fixer {
       }
 
       this.createBackup(filePath);
-      const originalContent = fs.readFileSync(filePath, 'utf8');
-      const { content: fixedContent, fixes } = this.applyProvenPatterns(originalContent);
+      const originalContent = fs.readFileSync(filePath, "utf8");
+      const { content: fixedContent, fixes } =
+        this.applyProvenPatterns(originalContent);
 
       if (fixes > 0) {
-        fs.writeFileSync(filePath, fixedContent, 'utf8');
+        fs.writeFileSync(filePath, fixedContent, "utf8");
         console.log(`   Applied ${fixes} proven pattern fixes`);
       }
 
@@ -127,7 +149,7 @@ class SimpleTS1005Fixer {
           initialErrors: initialTS1005Errors,
           finalErrors: finalTS1005Errors,
           fixes,
-          errorReduction
+          errorReduction,
         });
         return { success: true, fixes, errorReduction };
       } else {
@@ -135,7 +157,6 @@ class SimpleTS1005Fixer {
         fs.writeFileSync(filePath, originalContent);
         return { success: false, fixes: 0, errorReduction: 0 };
       }
-
     } catch (error) {
       console.error(`   ❌ Error processing file: ${error.message}`);
       return { success: false, fixes: 0, errorReduction: 0 };
@@ -143,9 +164,9 @@ class SimpleTS1005Fixer {
   }
 
   async repair() {
-    console.log('🎯 SIMPLE TS1005 FIXER');
-    console.log('=' .repeat(50));
-    console.log('Strategy: Focus ONLY on TS1005 errors');
+    console.log("🎯 SIMPLE TS1005 FIXER");
+    console.log("=".repeat(50));
+    console.log("Strategy: Focus ONLY on TS1005 errors");
 
     const startTime = Date.now();
     const initialTS1005 = this.getTS1005ErrorCount();
@@ -156,7 +177,7 @@ class SimpleTS1005Fixer {
     console.log(`📁 Found ${files.length} files with TS1005 errors`);
 
     if (files.length === 0) {
-      console.log('🎉 No files with TS1005 errors found!');
+      console.log("🎉 No files with TS1005 errors found!");
       return { initialTS1005, finalTS1005: initialTS1005, ts1005Reduction: 0 };
     }
 
@@ -183,21 +204,29 @@ class SimpleTS1005Fixer {
     const ts1005Reduction = initialTS1005 - finalTS1005;
     const duration = ((endTime - startTime) / 1000).toFixed(2);
 
-    console.log('\n' + '='.repeat(50));
-    console.log('🏁 SIMPLE TS1005 FIXING COMPLETED');
-    console.log('=' .repeat(50));
+    console.log("\n" + "=".repeat(50));
+    console.log("🏁 SIMPLE TS1005 FIXING COMPLETED");
+    console.log("=".repeat(50));
     console.log(`⏱️  Duration: ${duration} seconds`);
-    console.log(`📝 Files processed: ${this.processedFiles}/${Math.min(files.length, 20)}`);
+    console.log(
+      `📝 Files processed: ${this.processedFiles}/${Math.min(files.length, 20)}`,
+    );
     console.log(`🎯 Total fixes applied: ${this.totalFixes}`);
     console.log(`📊 TS1005 errors: ${initialTS1005} → ${finalTS1005}`);
-    console.log(`📉 TS1005 reduction: ${ts1005Reduction} (${((ts1005Reduction / initialTS1005) * 100).toFixed(1)}%)`);
+    console.log(
+      `📉 TS1005 reduction: ${ts1005Reduction} (${((ts1005Reduction / initialTS1005) * 100).toFixed(1)}%)`,
+    );
 
     if (this.successfulFiles.length > 0) {
       console.log(`\n✅ Successful files (${this.successfulFiles.length}):`);
-      this.successfulFiles.slice(0, 10).forEach(file => {
-        const percentage = file.initialErrors > 0 ?
-          ((file.errorReduction / file.initialErrors) * 100).toFixed(1) : '0.0';
-        console.log(`   ${path.basename(file.file)}: ${file.initialErrors} → ${file.finalErrors} TS1005 (${percentage}%)`);
+      this.successfulFiles.slice(0, 10).forEach((file) => {
+        const percentage =
+          file.initialErrors > 0
+            ? ((file.errorReduction / file.initialErrors) * 100).toFixed(1)
+            : "0.0";
+        console.log(
+          `   ${path.basename(file.file)}: ${file.initialErrors} → ${file.finalErrors} TS1005 (${percentage}%)`,
+        );
       });
     }
 
@@ -209,25 +238,31 @@ class SimpleTS1005Fixer {
 
     console.log(`💾 Backups saved in: ${this.backupDir}`);
 
-    return { initialTS1005, finalTS1005, ts1005Reduction, filesProcessed: this.processedFiles };
+    return {
+      initialTS1005,
+      finalTS1005,
+      ts1005Reduction,
+      filesProcessed: this.processedFiles,
+    };
   }
 }
 
 if (require.main === module) {
   const fixer = new SimpleTS1005Fixer();
-  fixer.repair()
-    .then(results => {
-      console.log('\n📋 Simple TS1005 fixing completed');
+  fixer
+    .repair()
+    .then((results) => {
+      console.log("\n📋 Simple TS1005 fixing completed");
       if (results.ts1005Reduction > 0) {
-        console.log('✅ Progress made on TS1005 errors');
+        console.log("✅ Progress made on TS1005 errors");
         process.exit(0);
       } else {
-        console.log('⚠️ No TS1005 progress made');
+        console.log("⚠️ No TS1005 progress made");
         process.exit(1);
       }
     })
-    .catch(error => {
-      console.error('\n❌ Simple TS1005 fixing failed:', error);
+    .catch((error) => {
+      console.error("\n❌ Simple TS1005 fixing failed:", error);
       process.exit(1);
     });
 }

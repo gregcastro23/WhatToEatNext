@@ -7,9 +7,9 @@
  * without relying on ESLint output to avoid buffer issues.
  */
 
-const fs = require('fs');
-const path = require('path');
-const glob = require('glob');
+const fs = require("fs");
+const path = require("path");
+const glob = require("glob");
 
 class DirectJSXEntityFixer {
   constructor() {
@@ -23,11 +23,11 @@ class DirectJSXEntityFixer {
    */
   findTSXFiles() {
     try {
-      return glob.sync('src/**/*.tsx', {
-        ignore: ['**/node_modules/**', '**/*.test.tsx', '**/*.spec.tsx'],
+      return glob.sync("src/**/*.tsx", {
+        ignore: ["**/node_modules/**", "**/*.test.tsx", "**/*.spec.tsx"],
       });
     } catch (error) {
-      console.error('Error finding TSX files:', error.message);
+      console.error("Error finding TSX files:", error.message);
       return [];
     }
   }
@@ -42,7 +42,7 @@ class DirectJSXEntityFixer {
       /\$\{[^}]*\}/, // Template interpolation
     ];
 
-    return templatePatterns.some(pattern => pattern.test(line));
+    return templatePatterns.some((pattern) => pattern.test(line));
   }
 
   /**
@@ -52,7 +52,7 @@ class DirectJSXEntityFixer {
     const line = lines[lineIndex].trim();
 
     // Single-line comment
-    if (line.startsWith('//')) {
+    if (line.startsWith("//")) {
       return true;
     }
 
@@ -60,8 +60,8 @@ class DirectJSXEntityFixer {
     let inComment = false;
     for (let i = 0; i <= lineIndex; i++) {
       const currentLine = lines[i];
-      const commentStart = currentLine.indexOf('/*');
-      const commentEnd = currentLine.indexOf('*/');
+      const commentStart = currentLine.indexOf("/*");
+      const commentEnd = currentLine.indexOf("*/");
 
       if (commentStart !== -1) {
         inComment = true;
@@ -91,9 +91,9 @@ class DirectJSXEntityFixer {
     }
 
     // Check if we're between JSX tags (> ... <)
-    const lastOpenTag = beforePos.lastIndexOf('>');
-    const lastCloseTag = beforePos.lastIndexOf('<');
-    const nextOpenTag = afterPos.indexOf('<');
+    const lastOpenTag = beforePos.lastIndexOf(">");
+    const lastCloseTag = beforePos.lastIndexOf("<");
+    const nextOpenTag = afterPos.indexOf("<");
 
     // We're in JSX text if we're after a > and before a <
     return lastOpenTag > lastCloseTag && nextOpenTag !== -1;
@@ -104,8 +104,8 @@ class DirectJSXEntityFixer {
    */
   fixEntitiesInFile(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
-      const lines = content.split('\n');
+      const content = fs.readFileSync(filePath, "utf8");
+      const lines = content.split("\n");
       let modified = false;
       let fileFixCount = 0;
 
@@ -133,26 +133,26 @@ class DirectJSXEntityFixer {
 
           // Check if this is in JSX text content
           if (this.isJSXTextContent(line, position)) {
-            let replacement = '';
+            let replacement = "";
 
             switch (char) {
               case "'":
-                replacement = '&apos;';
+                replacement = "&apos;";
                 break;
               case '"':
-                replacement = '&quot;';
+                replacement = "&quot;";
                 break;
-              case '&':
+              case "&":
                 // Only replace if not already an entity
                 if (!line.substring(position).match(/^&[a-zA-Z0-9#]+;/)) {
-                  replacement = '&amp;';
+                  replacement = "&amp;";
                 }
                 break;
-              case '<':
-                replacement = '&lt;';
+              case "<":
+                replacement = "&lt;";
                 break;
-              case '>':
-                replacement = '&gt;';
+              case ">":
+                replacement = "&gt;";
                 break;
             }
 
@@ -165,7 +165,7 @@ class DirectJSXEntityFixer {
         // Apply fixes in reverse order to maintain positions
         if (fixes.length > 0) {
           let newLine = line;
-          fixes.reverse().forEach(fix => {
+          fixes.reverse().forEach((fix) => {
             newLine =
               newLine.substring(0, fix.position) +
               fix.replacement +
@@ -183,7 +183,7 @@ class DirectJSXEntityFixer {
       }
 
       if (modified) {
-        fs.writeFileSync(filePath, lines.join('\n'));
+        fs.writeFileSync(filePath, lines.join("\n"));
         this.fixedFiles.push(filePath);
         this.totalFixes += fileFixCount;
         console.log(`✅ Fixed ${fileFixCount} JSX entities in ${filePath}`);
@@ -198,7 +198,7 @@ class DirectJSXEntityFixer {
    * Run the fixing process
    */
   async run() {
-    console.log('🔍 Finding TSX files...');
+    console.log("🔍 Finding TSX files...");
 
     const tsxFiles = this.findTSXFiles();
     console.log(`📝 Found ${tsxFiles.length} TSX files to check`);
@@ -214,22 +214,22 @@ class DirectJSXEntityFixer {
    * Generate summary report
    */
   generateReport() {
-    console.log('\n' + '='.repeat(60));
-    console.log('DIRECT JSX ENTITY FIXING SUMMARY');
-    console.log('='.repeat(60));
+    console.log("\n" + "=".repeat(60));
+    console.log("DIRECT JSX ENTITY FIXING SUMMARY");
+    console.log("=".repeat(60));
     console.log(`Files processed: ${this.fixedFiles.length}`);
     console.log(`Total fixes applied: ${this.totalFixes}`);
     console.log(`Errors encountered: ${this.errors.length}`);
 
     if (this.fixedFiles.length > 0) {
-      console.log('\n✅ Fixed files:');
-      this.fixedFiles.forEach(file => {
+      console.log("\n✅ Fixed files:");
+      this.fixedFiles.forEach((file) => {
         console.log(`  - ${file}`);
       });
     }
 
     if (this.errors.length > 0) {
-      console.log('\n❌ Errors:');
+      console.log("\n❌ Errors:");
       this.errors.forEach(({ file, error }) => {
         console.log(`  - ${file}: ${error}`);
       });
@@ -247,8 +247,13 @@ class DirectJSXEntityFixer {
       errors: this.errors,
     };
 
-    fs.writeFileSync('jsx-entity-fixes-direct-report.json', JSON.stringify(report, null, 2));
-    console.log('\n📊 Detailed report saved to jsx-entity-fixes-direct-report.json');
+    fs.writeFileSync(
+      "jsx-entity-fixes-direct-report.json",
+      JSON.stringify(report, null, 2),
+    );
+    console.log(
+      "\n📊 Detailed report saved to jsx-entity-fixes-direct-report.json",
+    );
   }
 }
 

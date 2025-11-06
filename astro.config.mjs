@@ -1,18 +1,18 @@
-import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
-import node from '@astrojs/node';
-import vercel from '@astrojs/vercel/serverless';
+import { defineConfig } from "astro/config";
+import react from "@astrojs/react";
+import node from "@astrojs/node";
+import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
   // Specify the source directory for Astro
-  srcDir: './src/astro',
+  srcDir: "./src/astro",
   // Specify where to put the built files
-  outDir: './dist/astro',
+  outDir: "./dist/astro",
   // Use static output for now to simplify setup
-  output: 'static',
+  output: "static",
   // Add base path for Astro
-  base: '/astro',
+  base: "/astro",
   integrations: [
     react(), // Enable React components
   ],

@@ -1,4 +1,5 @@
 # Phase 25: Fresh Session Action Plan
+
 ## Warning Reduction Campaign Continuation
 
 ### 🎯 **IMMEDIATE ACTIONS FOR NEW CLAUDE SESSION**
@@ -20,6 +21,7 @@ git status --porcelain | head -20
 ```
 
 ### 📊 **CURRENT STATE SNAPSHOT**
+
 - **Build Status**: Failing due to arithmetic operator syntax errors
 - **Progress**: 95%+ syntax recovery complete
 - **Blocker Count**: ~10-15 files with `+;` patterns
@@ -29,6 +31,7 @@ git status --porcelain | head -20
 ### 🚨 **PHASE A: CRITICAL SYNTAX BLOCKERS (30 mins)**
 
 #### **Step 1: Fix Arithmetic Operators**
+
 ```bash
 # Find and fix +; patterns
 find src -name "*.ts" -o -name "*.tsx" | xargs grep -l " +;" | head -5
@@ -36,6 +39,7 @@ find src -name "*.ts" -o -name "*.tsx" | xargs grep -l " +;" | head -5
 ```
 
 #### **Step 2: Fix String Concatenation**
+
 ```bash
 # Target specific files mentioned in build errors
 grep -n "charAt.*+;" src/calculations/alchemicalCalculations.ts
@@ -43,6 +47,7 @@ grep -n "charAt.*+;" src/calculations/alchemicalCalculations.ts
 ```
 
 #### **Step 3: Build Validation Loop**
+
 ```bash
 # After each batch of fixes
 yarn build 2>&1 | head -20
@@ -52,6 +57,7 @@ yarn build 2>&1 | head -20
 ### 📝 **PHASE B: CONSOLE STATEMENT MIGRATION (45 mins)**
 
 #### **Step 1: Set Up Structured Logging**
+
 ```bash
 # Check if logger utility exists
 ls src/utils/*log*
@@ -59,6 +65,7 @@ ls src/utils/*log*
 ```
 
 #### **Step 2: Batch Console Replacement**
+
 ```bash
 # Process in batches of 20-30 files
 find src -name "*.ts" -o -name "*.tsx" | xargs grep -l "console\." | head -20
@@ -66,6 +73,7 @@ find src -name "*.ts" -o -name "*.tsx" | xargs grep -l "console\." | head -20
 ```
 
 #### **Step 3: Verification**
+
 ```bash
 # Test critical paths still work
 yarn build 2>&1 | grep -i warning | wc -l
@@ -74,18 +82,21 @@ yarn build 2>&1 | grep -i warning | wc -l
 ### 🔧 **PHASE C: IMPORT CLEANUP & TYPE SAFETY (30 mins)**
 
 #### **Step 1: Unused Import Detection**
+
 ```bash
 # Use TypeScript compiler to find unused imports
 npx tsc --noEmit --strict 2>&1 | grep "is declared but" | head -10
 ```
 
 #### **Step 2: Automated Cleanup**
+
 ```bash
 # Remove unused imports (if safe tooling available)
 # Otherwise manual cleanup of high-impact files
 ```
 
 #### **Step 3: Type Safety Pass**
+
 ```bash
 # Address any/unknown types
 grep -r "any\|unknown" src --include="*.ts" | head -10
@@ -94,6 +105,7 @@ grep -r "any\|unknown" src --include="*.ts" | head -10
 ### ✅ **PHASE D: FINAL VERIFICATION (15 mins)**
 
 #### **Step 1: Production Build**
+
 ```bash
 yarn build
 # Document final warning count
@@ -101,6 +113,7 @@ yarn build 2>&1 | grep -i warning | wc -l
 ```
 
 #### **Step 2: Commit Strategy**
+
 ```bash
 git add .
 git commit -m "feat: Phase 25 Complete - Critical syntax recovery and warning reduction

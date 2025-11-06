@@ -5,8 +5,8 @@
  * and reduce redundant computations in the hierarchical culinary system.
  */
 
-import type { RecipeComputedProperties } from '@/types/hierarchy';
-import type { RecipeComputationCache } from '@/types/recipe/enhancedRecipe';
+import type { RecipeComputedProperties } from "@/types/hierarchy";
+import type { RecipeComputationCache } from "@/types/recipe/enhancedRecipe";
 
 interface CacheConfig {
   /** Maximum cache size */
@@ -28,8 +28,8 @@ class RecipeComputationCacheManager {
     this.config = {
       maxSize: 1000,
       ttlMs: 30 * 60 * 1000, // 30 minutes
-      prefix: 'recipe_computation',
-      ...config
+      prefix: "recipe_computation",
+      ...config,
     };
 
     // Start cleanup interval
@@ -39,12 +39,15 @@ class RecipeComputationCacheManager {
   /**
    * Generate cache key from recipe ID and planetary positions
    */
-  generateCacheKey(recipeId: string, planetaryPositions: { [planet: string]: string }): string {
+  generateCacheKey(
+    recipeId: string,
+    planetaryPositions: { [planet: string]: string },
+  ): string {
     // Create a deterministic hash of planetary positions
     const positionsString = Object.entries(planetaryPositions)
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([planet, sign]) => `${planet}:${sign}`)
-      .join('|');
+      .join("|");
 
     const positionsHash = this.hashString(positionsString);
     return `${this.config.prefix}:${recipeId}:${positionsHash}`;
@@ -80,7 +83,7 @@ class RecipeComputationCacheManager {
     cacheKey: string,
     computedProperties: RecipeComputedProperties,
     computationTimeMs: number,
-    planetaryPositions: { [planet: string]: string }
+    planetaryPositions: { [planet: string]: string },
   ): void {
     // Create cache entry
     const entry: RecipeComputationCache = {
@@ -89,7 +92,8 @@ class RecipeComputationCacheManager {
       createdAt: new Date(),
       expiresAt: new Date(Date.now() + this.config.ttlMs),
       computationTimeMs,
-      planetaryPositionsHash: this.generatePlanetaryPositionsHash(planetaryPositions)
+      planetaryPositionsHash:
+        this.generatePlanetaryPositionsHash(planetaryPositions),
     };
 
     // Check if we need to evict entries
@@ -147,14 +151,17 @@ class RecipeComputationCacheManager {
         hitRate: 0,
         averageComputationTime: 0,
         oldestEntry: null,
-        newestEntry: null
+        newestEntry: null,
       };
     }
 
-    const totalComputationTime = entries.reduce((sum, entry) => sum + entry.computationTimeMs, 0);
+    const totalComputationTime = entries.reduce(
+      (sum, entry) => sum + entry.computationTimeMs,
+      0,
+    );
     const averageComputationTime = totalComputationTime / entries.length;
 
-    const timestamps = entries.map(entry => entry.createdAt.getTime());
+    const timestamps = entries.map((entry) => entry.createdAt.getTime());
     const oldestEntry = new Date(Math.min(...timestamps));
     const newestEntry = new Date(Math.max(...timestamps));
 
@@ -164,7 +171,7 @@ class RecipeComputationCacheManager {
       hitRate: 0, // Would need hit/miss tracking to calculate
       averageComputationTime,
       oldestEntry,
-      newestEntry
+      newestEntry,
     };
   }
 
@@ -205,17 +212,19 @@ class RecipeComputationCacheManager {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32-bit integer
     }
     return Math.abs(hash).toString(36);
   }
 
-  private generatePlanetaryPositionsHash(planetaryPositions: { [planet: string]: string }): string {
+  private generatePlanetaryPositionsHash(planetaryPositions: {
+    [planet: string]: string;
+  }): string {
     const positionsString = Object.entries(planetaryPositions)
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([planet, sign]) => `${planet}:${sign}`)
-      .join('|');
+      .join("|");
     return this.hashString(positionsString);
   }
 
@@ -273,7 +282,9 @@ export function getRecipeComputationCache(): RecipeComputationCacheManager {
 /**
  * Create a new cache instance with custom configuration
  */
-export function createRecipeComputationCache(config?: Partial<CacheConfig>): RecipeComputationCacheManager {
+export function createRecipeComputationCache(
+  config?: Partial<CacheConfig>,
+): RecipeComputationCacheManager {
   return new RecipeComputationCacheManager(config);
 }
 
@@ -284,10 +295,11 @@ export function createRecipeComputationCache(config?: Partial<CacheConfig>): Rec
  */
 export function withComputationCaching<T extends any[], R>(
   computationFn: (...args: T) => R,
-  options: { getCacheKey: (args: T) => string;
+  options: {
+    getCacheKey: (args: T) => string;
     getPlanetaryPositions: (args: T) => { [planet: string]: string };
-    cache?: RecipeComputationCacheManager
-  }
+    cache?: RecipeComputationCacheManager;
+  },
 ) {
   const cache = options.cache || getRecipeComputationCache();
 
@@ -308,9 +320,18 @@ export function withComputationCaching<T extends any[], R>(
     const computationTimeMs = Date.now() - startTime;
 
     // Cache the result
-    if (result && typeof result === 'object' && 'computationMetadata' in result) {
+    if (
+      result &&
+      typeof result === "object" &&
+      "computationMetadata" in result
+    ) {
       const planetaryPositions = options.getPlanetaryPositions(args);
-      cache.set(cacheKey, result as RecipeComputedProperties, computationTimeMs, planetaryPositions);
+      cache.set(
+        cacheKey,
+        result as RecipeComputedProperties,
+        computationTimeMs,
+        planetaryPositions,
+      );
     }
 
     return result;
@@ -320,29 +341,30 @@ export function withComputationCaching<T extends any[], R>(
 /**
  * Batch cache operations for multiple recipes
  */
-export function batchCacheOperations(operations: Array<{
+export function batchCacheOperations(
+  operations: Array<{
     cacheKey: string;
-    operation: 'get' | 'set' | 'delete';
+    operation: "get" | "set" | "delete";
     data?: RecipeComputedProperties;
     planetaryPositions?: { [planet: string]: string };
   }>,
-  cache?: RecipeComputationCacheManager
+  cache?: RecipeComputationCacheManager,
 ): Array<RecipeComputedProperties | null> {
   const cacheManager = cache || getRecipeComputationCache();
   const results: Array<RecipeComputedProperties | null> = [];
 
   for (const op of operations) {
     switch (op.operation) {
-      case 'get':
+      case "get":
         results.push(cacheManager.get(op.cacheKey));
         break;
-      case 'set':
+      case "set":
         if (op.data && op.planetaryPositions) {
           cacheManager.set(op.cacheKey, op.data, 0, op.planetaryPositions);
         }
         results.push(null);
         break;
-      case 'delete':
+      case "delete":
         // Note: CacheManager doesn't have a delete method, so we skip
         results.push(null);
         break;
@@ -361,11 +383,11 @@ export interface CachePerformanceMetrics {
   hitRate: number;
   averageHitTime: number;
   averageMissTime: number;
-  totalRequests: number
+  totalRequests: number;
 }
 
 export function getCachePerformanceMetrics(
-  cache?: RecipeComputationCacheManager
+  cache?: RecipeComputationCacheManager,
 ): CachePerformanceMetrics {
   // This would require additional instrumentation
   // For now, return basic stats
@@ -378,14 +400,16 @@ export function getCachePerformanceMetrics(
     hitRate: 0,
     averageHitTime: 0,
     averageMissTime: 0,
-    totalRequests: stats.size
+    totalRequests: stats.size,
   };
 }
 
 /**
  * Export cache data for persistence
  */
-export function exportCacheData(cache?: RecipeComputationCacheManager): RecipeComputationCache[] {
+export function exportCacheData(
+  cache?: RecipeComputationCacheManager,
+): RecipeComputationCache[] {
   const cacheManager = cache || getRecipeComputationCache();
   return cacheManager.export();
 }
@@ -393,7 +417,10 @@ export function exportCacheData(cache?: RecipeComputationCacheManager): RecipeCo
 /**
  * Import cache data from persistence
  */
-export function importCacheData(data: RecipeComputationCache[], cache?: RecipeComputationCacheManager): void {
+export function importCacheData(
+  data: RecipeComputationCache[],
+  cache?: RecipeComputationCacheManager,
+): void {
   const cacheManager = cache || getRecipeComputationCache();
   cacheManager.import(data);
 }

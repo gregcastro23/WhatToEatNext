@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export function ExhaustiveDepsComponent() {
-  const value = 'test';
+  const value = "test";
 
   useEffect(() => {
     console.log(value);

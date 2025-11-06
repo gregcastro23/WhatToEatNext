@@ -4,11 +4,11 @@
  * Monitors TypeScript compilation errors during cleanup campaign
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
-const TRACKING_FILE = path.join(__dirname, '../.parsing-errors-log.json');
+const TRACKING_FILE = path.join(__dirname, "../.parsing-errors-log.json");
 const BASELINE_ERRORS = 6601;
 
 function getTimestamp() {
@@ -17,13 +17,18 @@ function getTimestamp() {
 
 function getCurrentErrors() {
   try {
-    const output = execSync('tsc --noEmit 2>&1', { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 });
-    const errorLines = output.split('\n').filter(line => line.includes('error TS'));
+    const output = execSync("tsc --noEmit 2>&1", {
+      encoding: "utf8",
+      maxBuffer: 10 * 1024 * 1024,
+    });
+    const errorLines = output
+      .split("\n")
+      .filter((line) => line.includes("error TS"));
 
     const errorsByType = {};
     const errorsByFile = {};
 
-    errorLines.forEach(line => {
+    errorLines.forEach((line) => {
       const typeMatch = line.match(/error (TS\d+):/);
       const fileMatch = line.match(/^([^(]+)\(/);
 
@@ -42,17 +47,19 @@ function getCurrentErrors() {
       total: errorLines.length,
       byType: errorsByType,
       byFile: errorsByFile,
-      timestamp: getTimestamp()
+      timestamp: getTimestamp(),
     };
   } catch (error) {
     // TypeScript errors cause non-zero exit, but we still get output
-    const output = error.stdout || '';
-    const errorLines = output.split('\n').filter(line => line.includes('error TS'));
+    const output = error.stdout || "";
+    const errorLines = output
+      .split("\n")
+      .filter((line) => line.includes("error TS"));
 
     const errorsByType = {};
     const errorsByFile = {};
 
-    errorLines.forEach(line => {
+    errorLines.forEach((line) => {
       const typeMatch = line.match(/error (TS\d+):/);
       const fileMatch = line.match(/^([^(]+)\(/);
 
@@ -71,14 +78,14 @@ function getCurrentErrors() {
       total: errorLines.length,
       byType: errorsByType,
       byFile: errorsByFile,
-      timestamp: getTimestamp()
+      timestamp: getTimestamp(),
     };
   }
 }
 
 function loadHistory() {
   if (fs.existsSync(TRACKING_FILE)) {
-    return JSON.parse(fs.readFileSync(TRACKING_FILE, 'utf8'));
+    return JSON.parse(fs.readFileSync(TRACKING_FILE, "utf8"));
   }
   return { baseline: BASELINE_ERRORS, history: [] };
 }
@@ -88,9 +95,13 @@ function saveHistory(data) {
 }
 
 function displayDashboard(current, history) {
-  console.log('\n╔════════════════════════════════════════════════════════════╗');
-  console.log('║         PARSING ERROR TRACKING DASHBOARD                  ║');
-  console.log('╚════════════════════════════════════════════════════════════╝\n');
+  console.log(
+    "\n╔════════════════════════════════════════════════════════════╗",
+  );
+  console.log("║         PARSING ERROR TRACKING DASHBOARD                  ║");
+  console.log(
+    "╚════════════════════════════════════════════════════════════╝\n",
+  );
 
   const baseline = history.baseline || BASELINE_ERRORS;
   const reduction = baseline - current.total;
@@ -101,7 +112,7 @@ function displayDashboard(current, history) {
   console.log(`✅ Errors Eliminated: ${reduction} (${percentReduction}%)`);
   console.log(`🎯 Remaining: ${current.total}\n`);
 
-  console.log('📋 Top Error Types:');
+  console.log("📋 Top Error Types:");
   const sortedTypes = Object.entries(current.byType)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 10);
@@ -109,19 +120,19 @@ function displayDashboard(current, history) {
     console.log(`   ${type}: ${count}`);
   });
 
-  console.log('\n📁 Top Problem Files:');
+  console.log("\n📁 Top Problem Files:");
   const sortedFiles = Object.entries(current.byFile)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 10);
   sortedFiles.forEach(([file, count]) => {
-    const shortFile = file.replace(/^src\//, '');
+    const shortFile = file.replace(/^src\//, "");
     console.log(`   ${shortFile}: ${count}`);
   });
 
   if (history.history.length > 0) {
     const lastEntry = history.history[history.history.length - 1];
     const change = current.total - lastEntry.total;
-    const changeSymbol = change > 0 ? '⚠️ +' : '✅ ';
+    const changeSymbol = change > 0 ? "⚠️ +" : "✅ ";
     console.log(`\n📈 Change since last check: ${changeSymbol}${change}`);
   }
 
@@ -129,7 +140,7 @@ function displayDashboard(current, history) {
 }
 
 function main() {
-  console.log('🔍 Analyzing TypeScript errors...\n');
+  console.log("🔍 Analyzing TypeScript errors...\n");
 
   const current = getCurrentErrors();
   const history = loadHistory();
@@ -138,7 +149,9 @@ function main() {
   history.history.push({
     total: current.total,
     timestamp: current.timestamp,
-    topTypes: Object.entries(current.byType).sort((a, b) => b[1] - a[1]).slice(0, 5)
+    topTypes: Object.entries(current.byType)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5),
   });
 
   // Keep only last 50 entries
@@ -153,7 +166,9 @@ function main() {
   if (history.history.length > 1) {
     const lastEntry = history.history[history.history.length - 2];
     if (current.total > lastEntry.total) {
-      console.error('❌ ERROR COUNT INCREASED! Consider rolling back recent changes.\n');
+      console.error(
+        "❌ ERROR COUNT INCREASED! Consider rolling back recent changes.\n",
+      );
       process.exit(1);
     }
   }

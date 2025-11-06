@@ -20,27 +20,37 @@ systems, and testing approaches used throughout the codebase.
 #### **Supported Planets (12 Total)**
 
 ```typescript
-type Planet = 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' |
-              'Jupiter' | 'Saturn' | 'Uranus' | 'Neptune' |
-              'Pluto' | 'northNode' | 'southNode';
+type Planet =
+  | "Sun"
+  | "Moon"
+  | "Mercury"
+  | "Venus"
+  | "Mars"
+  | "Jupiter"
+  | "Saturn"
+  | "Uranus"
+  | "Neptune"
+  | "Pluto"
+  | "northNode"
+  | "southNode";
 ```
 
 #### **Planetary Weights & Influences**
 
 ```typescript
 const PLANETARY_WEIGHTS = {
-  sun: 2.5,      // Most important - represents core identity
-  moon: 2.5,     // Most important - represents emotional state
-  mercury: 1.5,  // Inner planet - communication & thinking
-  venus: 1.5,    // Inner planet - love & beauty
-  mars: 1.5,     // Inner planet - action & energy
-  jupiter: 1.2,  // Outer planet - expansion & wisdom
-  saturn: 1.2,   // Outer planet - structure & discipline
-  uranus: 1.0,   // Distant planet - innovation & change
-  neptune: 1.0,  // Distant planet - spirituality & dreams
-  pluto: 1.0,    // Distant planet - transformation & power
+  sun: 2.5, // Most important - represents core identity
+  moon: 2.5, // Most important - represents emotional state
+  mercury: 1.5, // Inner planet - communication & thinking
+  venus: 1.5, // Inner planet - love & beauty
+  mars: 1.5, // Inner planet - action & energy
+  jupiter: 1.2, // Outer planet - expansion & wisdom
+  saturn: 1.2, // Outer planet - structure & discipline
+  uranus: 1.0, // Distant planet - innovation & change
+  neptune: 1.0, // Distant planet - spirituality & dreams
+  pluto: 1.0, // Distant planet - transformation & power
   northNode: 1.0, // Lunar nodes - karmic direction
-  southNode: 1.0  // Lunar nodes - past patterns
+  southNode: 1.0, // Lunar nodes - past patterns
 };
 ```
 
@@ -49,9 +59,19 @@ const PLANETARY_WEIGHTS = {
 #### **Zodiac Signs (12 Total)**
 
 ```typescript
-type ZodiacSign = 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' |
-                  'virgo' | 'libra' | 'scorpio' | 'sagittarius' |
-                  'capricorn' | 'aquarius' | 'pisces';
+type ZodiacSign =
+  | "aries"
+  | "taurus"
+  | "gemini"
+  | "cancer"
+  | "leo"
+  | "virgo"
+  | "libra"
+  | "scorpio"
+  | "sagittarius"
+  | "capricorn"
+  | "aquarius"
+  | "pisces";
 ```
 
 #### **Elemental Associations**
@@ -59,24 +79,24 @@ type ZodiacSign = 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' |
 ```typescript
 const ZODIAC_ELEMENTS: Record<ZodiacSign, ElementType> = {
   // Fire Signs (Cardinal, Fixed, Mutable)
-  aries: 'Fire',       // Cardinal Fire
-  leo: 'Fire',         // Fixed Fire
-  sagittarius: 'Fire', // Mutable Fire
+  aries: "Fire", // Cardinal Fire
+  leo: "Fire", // Fixed Fire
+  sagittarius: "Fire", // Mutable Fire
 
   // Earth Signs (Cardinal, Fixed, Mutable)
-  taurus: 'Earth',     // Fixed Earth
-  virgo: 'Earth',      // Mutable Earth
-  capricorn: 'Earth',  // Cardinal Earth
+  taurus: "Earth", // Fixed Earth
+  virgo: "Earth", // Mutable Earth
+  capricorn: "Earth", // Cardinal Earth
 
   // Air Signs (Cardinal, Fixed, Mutable)
-  gemini: 'Air',       // Mutable Air
-  libra: 'Air',        // Cardinal Air
-  aquarius: 'Air',     // Fixed Air
+  gemini: "Air", // Mutable Air
+  libra: "Air", // Cardinal Air
+  aquarius: "Air", // Fixed Air
 
   // Water Signs (Cardinal, Fixed, Mutable)
-  cancer: 'Water',     // Cardinal Water
-  scorpio: 'Water',    // Fixed Water
-  pisces: 'Water'      // Mutable Water
+  cancer: "Water", // Cardinal Water
+  scorpio: "Water", // Fixed Water
+  pisces: "Water", // Mutable Water
 };
 ```
 
@@ -85,7 +105,7 @@ const ZODIAC_ELEMENTS: Record<ZodiacSign, ElementType> = {
 #### **Core Elements (4 Total)**
 
 ```typescript
-type ElementType = 'Fire' | 'Water' | 'Earth' | 'Air';
+type ElementType = "Fire" | "Water" | "Earth" | "Air";
 ```
 
 #### **Elemental Properties**
@@ -103,7 +123,7 @@ const elementCompatibility = {
   Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
   Water: { Fire: 0.7, Water: 0.9, Earth: 0.8, Air: 0.7 },
   Earth: { Fire: 0.7, Water: 0.8, Earth: 0.9, Air: 0.7 },
-  Air: { Fire: 0.8, Water: 0.7, Earth: 0.7, Air: 0.9 }
+  Air: { Fire: 0.8, Water: 0.7, Earth: 0.7, Air: 0.9 },
 };
 
 // ❌ FORBIDDEN: Elements do NOT oppose each other
@@ -115,7 +135,7 @@ const elementCompatibility = {
 #### **Core Alchemical Properties (4 Total)**
 
 ```typescript
-type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance';
+type AlchemicalProperty = "Spirit" | "Essence" | "Matter" | "Substance";
 ```
 
 #### **Planetary Alchemical Mappings**
@@ -131,7 +151,7 @@ const PLANETARY_ALCHEMICAL_MAPPINGS = {
   Saturn: { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 },
   Uranus: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
   Neptune: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 },
-  Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
+  Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
 };
 ```
 
@@ -144,10 +164,10 @@ const PLANETARY_ALCHEMICAL_MAPPINGS = {
 ```typescript
 // Priority order for planetary position calculations
 const DATA_SOURCE_HIERARCHY = {
-  1: 'NASA JPL Horizons API',      // Primary: Highest accuracy
-  2: 'Public Astronomy APIs',      // Secondary: Swiss Ephemeris data
-  3: 'TimeAndDate.com API',        // Tertiary: With authentication
-  4: 'Fallback Cached Data'        // Last resort: Cached positions from March 2025
+  1: "NASA JPL Horizons API", // Primary: Highest accuracy
+  2: "Public Astronomy APIs", // Secondary: Swiss Ephemeris data
+  3: "TimeAndDate.com API", // Tertiary: With authentication
+  4: "Fallback Cached Data", // Last resort: Cached positions from March 2025
 };
 ```
 
@@ -155,11 +175,11 @@ const DATA_SOURCE_HIERARCHY = {
 
 ```typescript
 interface PlanetaryPosition {
-  sign: string;           // Zodiac sign (lowercase)
-  degree: number;         // Degree within sign (0-29.99)
+  sign: string; // Zodiac sign (lowercase)
+  degree: number; // Degree within sign (0-29.99)
   exactLongitude: number; // Absolute longitude (0-359.99)
   isRetrograde?: boolean; // Retrograde status
-  phase?: string;         // Lunar phase (for Moon only)
+  phase?: string; // Lunar phase (for Moon only)
 }
 
 interface PlanetaryPositions {
@@ -199,7 +219,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<PlanetaryPositions>
     // 3. Use fallback cached data
     return getFallbackPlanetaryPositions();
   } catch (error) {
-    logger.error('All planetary position sources failed', error);
+    logger.error("All planetary position sources failed", error);
     return getFallbackPlanetaryPositions();
   }
 }
@@ -212,9 +232,15 @@ async function calculateCurrentPlanetaryPositions(): Promise<PlanetaryPositions>
 ### **1. Lunar Phase Types**
 
 ```typescript
-type LunarPhase = 'new moon' | 'waxing crescent' | 'first quarter' |
-                  'waxing gibbous' | 'full moon' | 'waning gibbous' |
-                  'last quarter' | 'waning crescent';
+type LunarPhase =
+  | "new moon"
+  | "waxing crescent"
+  | "first quarter"
+  | "waxing gibbous"
+  | "full moon"
+  | "waning gibbous"
+  | "last quarter"
+  | "waning crescent";
 ```
 
 ### **2. Calculation Methods**
@@ -226,11 +252,12 @@ async function calculateLunarPhase(date: Date = new Date()): Promise<number> {
   try {
     const positions = await getAccuratePlanetaryPositions(date);
     if (!positions.Sun || !positions.Moon) {
-      throw new Error('Sun or Moon position missing');
+      throw new Error("Sun or Moon position missing");
     }
 
     // Calculate angular distance between Sun and Moon
-    let angularDistance = positions.Moon.exactLongitude - positions.Sun.exactLongitude;
+    let angularDistance =
+      positions.Moon.exactLongitude - positions.Sun.exactLongitude;
 
     // Normalize to 0-360 range
     angularDistance = ((angularDistance % 360) + 360) % 360;
@@ -248,19 +275,20 @@ async function calculateLunarPhase(date: Date = new Date()): Promise<number> {
 ```typescript
 function calculateLunarPhaseFallback(date: Date): string {
   const synodicPeriod = 29.53588853; // days
-  const knownNewMoon = new Date('2023-01-21T20:53:00Z');
-  const daysSinceNewMoon = (date.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24);
+  const knownNewMoon = new Date("2023-01-21T20:53:00Z");
+  const daysSinceNewMoon =
+    (date.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24);
   const normalizedPhase = (daysSinceNewMoon % synodicPeriod) / synodicPeriod;
 
   // Phase boundaries
-  if (normalizedPhase < 0.025 || normalizedPhase > 0.975) return 'new moon';
-  if (normalizedPhase < 0.235) return 'waxing crescent';
-  if (normalizedPhase < 0.265) return 'first quarter';
-  if (normalizedPhase < 0.485) return 'waxing gibbous';
-  if (normalizedPhase < 0.515) return 'full moon';
-  if (normalizedPhase < 0.735) return 'waning gibbous';
-  if (normalizedPhase < 0.765) return 'last quarter';
-  return 'waning crescent';
+  if (normalizedPhase < 0.025 || normalizedPhase > 0.975) return "new moon";
+  if (normalizedPhase < 0.235) return "waxing crescent";
+  if (normalizedPhase < 0.265) return "first quarter";
+  if (normalizedPhase < 0.485) return "waxing gibbous";
+  if (normalizedPhase < 0.515) return "full moon";
+  if (normalizedPhase < 0.735) return "waning gibbous";
+  if (normalizedPhase < 0.765) return "last quarter";
+  return "waning crescent";
 }
 ```
 
@@ -268,14 +296,14 @@ function calculateLunarPhaseFallback(date: Date): string {
 
 ```typescript
 const LUNAR_PHASE_MODIFIERS: Record<LunarPhase, ElementalProperties> = {
-  'new moon': { Fire: 0.1, Water: 0.4, Air: 0.3, Earth: 0.2 },
-  'waxing crescent': { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 },
-  'first quarter': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
-  'waxing gibbous': { Fire: 0.4, Water: 0.1, Air: 0.3, Earth: 0.2 },
-  'full moon': { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 },
-  'waning gibbous': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
-  'last quarter': { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
-  'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
+  "new moon": { Fire: 0.1, Water: 0.4, Air: 0.3, Earth: 0.2 },
+  "waxing crescent": { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 },
+  "first quarter": { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
+  "waxing gibbous": { Fire: 0.4, Water: 0.1, Air: 0.3, Earth: 0.2 },
+  "full moon": { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 },
+  "waning gibbous": { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
+  "last quarter": { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
+  "waning crescent": { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
 };
 ```
 
@@ -287,12 +315,12 @@ const LUNAR_PHASE_MODIFIERS: Record<LunarPhase, ElementalProperties> = {
 
 ```typescript
 interface ThermodynamicMetrics {
-  heat: number;           // Based on Spirit + Fire elements
-  entropy: number;        // Based on Spirit + Substance + Fire + Air
-  reactivity: number;     // Based on all elements and properties
-  gregsEnergy: number;    // heat - (entropy * reactivity)
-  kalchm: number;         // (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
-  monica: number;         // -gregsEnergy / (reactivity * ln(kalchm))
+  heat: number; // Based on Spirit + Fire elements
+  entropy: number; // Based on Spirit + Substance + Fire + Air
+  reactivity: number; // Based on all elements and properties
+  gregsEnergy: number; // heat - (entropy * reactivity)
+  kalchm: number; // (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
+  monica: number; // -gregsEnergy / (reactivity * ln(kalchm))
 }
 ```
 
@@ -301,35 +329,46 @@ interface ThermodynamicMetrics {
 ```typescript
 function calculateThermodynamicMetrics(
   alchemicalCounts: Record<AlchemicalProperty, number>,
-  elementalCounts: Record<ElementType, number>
+  elementalCounts: Record<ElementType, number>,
 ): ThermodynamicMetrics {
   const { Spirit, Essence, Matter, Substance } = alchemicalCounts;
   const { Fire, Water, Air, Earth } = elementalCounts;
 
   // Heat calculation
   const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
-  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2);
+  const heatDen = Math.pow(
+    Substance + Essence + Matter + Water + Air + Earth,
+    2,
+  );
   const heat = heatNum / heatDen;
 
   // Entropy calculation
-  const entropyNum = Math.pow(Spirit, 2) + Math.pow(Substance, 2) +
-                     Math.pow(Fire, 2) + Math.pow(Air, 2);
+  const entropyNum =
+    Math.pow(Spirit, 2) +
+    Math.pow(Substance, 2) +
+    Math.pow(Fire, 2) +
+    Math.pow(Air, 2);
   const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
   const entropy = entropyNum / entropyDen;
 
   // Reactivity calculation
-  const reactivityNum = Math.pow(Spirit, 2) + Math.pow(Substance, 2) +
-                        Math.pow(Essence, 2) + Math.pow(Fire, 2) +
-                        Math.pow(Air, 2) + Math.pow(Water, 2);
+  const reactivityNum =
+    Math.pow(Spirit, 2) +
+    Math.pow(Substance, 2) +
+    Math.pow(Essence, 2) +
+    Math.pow(Fire, 2) +
+    Math.pow(Air, 2) +
+    Math.pow(Water, 2);
   const reactivityDen = Math.pow(Matter + Earth, 2);
   const reactivity = reactivityNum / reactivityDen;
 
   // Greg's Energy
-  const gregsEnergy = heat - (entropy * reactivity);
+  const gregsEnergy = heat - entropy * reactivity;
 
   // Kalchm constant
-  const kalchm = (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
-                 (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
+  const kalchm =
+    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
+    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
 
   // Monica constant
   let monica = NaN;
@@ -351,7 +390,9 @@ function calculateThermodynamicMetrics(
 ### **1. Elemental Balance Calculation**
 
 ```typescript
-function calculateElementalBalance(planetaryPositions: PlanetaryPositions): ElementalProperties {
+function calculateElementalBalance(
+  planetaryPositions: PlanetaryPositions,
+): ElementalProperties {
   const elements: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
   // Process each planet's contribution
@@ -365,11 +406,11 @@ function calculateElementalBalance(planetaryPositions: PlanetaryPositions): Elem
     let weight = 1.0;
     const planetLower = planet.toLowerCase();
 
-    if (planetLower === 'sun' || planetLower === 'moon') {
+    if (planetLower === "sun" || planetLower === "moon") {
       weight = 2.5;
-    } else if (['mercury', 'venus', 'mars'].includes(planetLower)) {
+    } else if (["mercury", "venus", "mars"].includes(planetLower)) {
       weight = 1.5;
-    } else if (['jupiter', 'saturn'].includes(planetLower)) {
+    } else if (["jupiter", "saturn"].includes(planetLower)) {
       weight = 1.2;
     }
 
@@ -390,22 +431,23 @@ function calculateElementalBalance(planetaryPositions: PlanetaryPositions): Elem
 ```typescript
 const PLANETARY_DIGNITIES = {
   Sun: {
-    rulership: ['leo'],
-    exaltation: ['aries'],
-    detriment: ['aquarius'],
-    fall: ['libra']
+    rulership: ["leo"],
+    exaltation: ["aries"],
+    detriment: ["aquarius"],
+    fall: ["libra"],
   },
   Moon: {
-    rulership: ['cancer'],
-    exaltation: ['taurus'],
-    detriment: ['capricorn'],
-    fall: ['scorpio']
+    rulership: ["cancer"],
+    exaltation: ["taurus"],
+    detriment: ["capricorn"],
+    fall: ["scorpio"],
   },
   // ... other planets
 };
 
 function getDignityModifier(planet: string, sign: string): number {
-  const planetData = PLANETARY_DIGNITIES[planet as keyof typeof PLANETARY_DIGNITIES];
+  const planetData =
+    PLANETARY_DIGNITIES[planet as keyof typeof PLANETARY_DIGNITIES];
   if (!planetData) return 1.0;
 
   const signKey = sign.toLowerCase();
@@ -426,22 +468,24 @@ function getDignityModifier(planet: string, sign: string): number {
 ### **1. Planetary Position Testing**
 
 ```typescript
-describe('Planetary Position Calculations', () => {
-  test('should calculate accurate Sun position', async () => {
+describe("Planetary Position Calculations", () => {
+  test("should calculate accurate Sun position", async () => {
     const positions = await calculateCurrentPlanetaryPositions();
 
     // Validate Sun position
     expect(positions.sun).toBeDefined();
-    expect(positions.sun.sign).toMatch(/^(aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces)$/);
+    expect(positions.sun.sign).toMatch(
+      /^(aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces)$/,
+    );
     expect(positions.sun.degree).toBeGreaterThanOrEqual(0);
     expect(positions.sun.degree).toBeLessThan(30);
     expect(positions.sun.exactLongitude).toBeGreaterThanOrEqual(0);
     expect(positions.sun.exactLongitude).toBeLessThan(360);
   });
 
-  test('should handle API failures gracefully', async () => {
+  test("should handle API failures gracefully", async () => {
     // Mock API failure
-    jest.spyOn(global, 'fetch').mockRejectedValue(new Error('API Error'));
+    jest.spyOn(global, "fetch").mockRejectedValue(new Error("API Error"));
 
     const positions = await calculateCurrentPlanetaryPositions();
 
@@ -455,24 +499,24 @@ describe('Planetary Position Calculations', () => {
 ### **2. Lunar Phase Testing**
 
 ```typescript
-describe('Lunar Phase Calculations', () => {
-  test('should calculate correct lunar phase for known dates', () => {
+describe("Lunar Phase Calculations", () => {
+  test("should calculate correct lunar phase for known dates", () => {
     // Known new moon date
-    const newMoonDate = new Date('2023-01-21T20:53:00Z');
+    const newMoonDate = new Date("2023-01-21T20:53:00Z");
     const phase = calculateLunarPhase(newMoonDate);
     expect(phase).toBeCloseTo(0, 1); // Should be close to 0 (new moon)
   });
 
-  test('should handle phase boundaries correctly', () => {
+  test("should handle phase boundaries correctly", () => {
     const testCases = [
-      { phase: 0, expected: 'new moon' },
-      { phase: 0.125, expected: 'waxing crescent' },
-      { phase: 0.25, expected: 'first quarter' },
-      { phase: 0.375, expected: 'waxing gibbous' },
-      { phase: 0.5, expected: 'full moon' },
-      { phase: 0.625, expected: 'waning gibbous' },
-      { phase: 0.75, expected: 'last quarter' },
-      { phase: 0.875, expected: 'waning crescent' }
+      { phase: 0, expected: "new moon" },
+      { phase: 0.125, expected: "waxing crescent" },
+      { phase: 0.25, expected: "first quarter" },
+      { phase: 0.375, expected: "waxing gibbous" },
+      { phase: 0.5, expected: "full moon" },
+      { phase: 0.625, expected: "waning gibbous" },
+      { phase: 0.75, expected: "last quarter" },
+      { phase: 0.875, expected: "waning crescent" },
     ];
 
     testCases.forEach(({ phase, expected }) => {
@@ -486,8 +530,8 @@ describe('Lunar Phase Calculations', () => {
 ### **3. Elemental Calculation Testing**
 
 ```typescript
-describe('Elemental Calculations', () => {
-  test('should normalize elemental properties correctly', () => {
+describe("Elemental Calculations", () => {
+  test("should normalize elemental properties correctly", () => {
     const unbalanced = { Fire: 2, Water: 1, Earth: 1, Air: 0 };
     const normalized = normalizeElementalProperties(unbalanced);
 
@@ -496,14 +540,14 @@ describe('Elemental Calculations', () => {
     expect(normalized.Fire).toBeGreaterThan(normalized.Water);
   });
 
-  test('should respect elemental logic principles', () => {
+  test("should respect elemental logic principles", () => {
     // Test that elements don't oppose each other
-    const compatibility = getElementalCompatibility('Fire', 'Water');
+    const compatibility = getElementalCompatibility("Fire", "Water");
     expect(compatibility).toBeGreaterThan(0.6); // Should be harmonious
 
     // Test that same elements have highest compatibility
-    const sameElement = getElementalCompatibility('Fire', 'Fire');
-    const differentElement = getElementalCompatibility('Fire', 'Earth');
+    const sameElement = getElementalCompatibility("Fire", "Fire");
+    const differentElement = getElementalCompatibility("Fire", "Earth");
     expect(sameElement).toBeGreaterThan(differentElement);
   });
 });
@@ -512,21 +556,24 @@ describe('Elemental Calculations', () => {
 ### **4. Alchemical Calculation Testing**
 
 ```typescript
-describe('Alchemical Calculations', () => {
-  test('should calculate thermodynamic metrics correctly', () => {
+describe("Alchemical Calculations", () => {
+  test("should calculate thermodynamic metrics correctly", () => {
     const alchemicalCounts = { Spirit: 2, Essence: 1, Matter: 1, Substance: 0 };
     const elementalCounts = { Fire: 2, Water: 1, Earth: 1, Air: 0 };
 
-    const metrics = calculateThermodynamicMetrics(alchemicalCounts, elementalCounts);
+    const metrics = calculateThermodynamicMetrics(
+      alchemicalCounts,
+      elementalCounts,
+    );
 
     expect(metrics.heat).toBeGreaterThan(0);
     expect(metrics.entropy).toBeGreaterThan(0);
     expect(metrics.reactivity).toBeGreaterThan(0);
     expect(metrics.kalchm).toBeGreaterThan(0);
-    expect(typeof metrics.monica).toBe('number');
+    expect(typeof metrics.monica).toBe("number");
   });
 
-  test('should handle edge cases gracefully', () => {
+  test("should handle edge cases gracefully", () => {
     const zeroCounts = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
     const zeroElements = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
@@ -549,19 +596,20 @@ describe('Alchemical Calculations', () => {
 ```typescript
 // ✅ CORRECT: Safe property access with type guards
 function processPlanetaryData(data: unknown): PlanetaryPosition | null {
-  if (!data || typeof data !== 'object') return null;
+  if (!data || typeof data !== "object") return null;
 
   const position = data as Record<string, unknown>;
 
-  if (!position.sign || typeof position.sign !== 'string') return null;
-  if (!position.degree || typeof position.degree !== 'number') return null;
-  if (!position.exactLongitude || typeof position.exactLongitude !== 'number') return null;
+  if (!position.sign || typeof position.sign !== "string") return null;
+  if (!position.degree || typeof position.degree !== "number") return null;
+  if (!position.exactLongitude || typeof position.exactLongitude !== "number")
+    return null;
 
   return {
     sign: position.sign.toLowerCase(),
     degree: position.degree,
     exactLongitude: position.exactLongitude,
-    isRetrograde: Boolean(position.isRetrograde)
+    isRetrograde: Boolean(position.isRetrograde),
   };
 }
 ```
@@ -576,22 +624,22 @@ async function getAstrologicalState(): Promise<AstrologicalState> {
     const lunarPhase = await calculateLunarPhase();
 
     return {
-      sunSign: positions.sun?.sign || 'aries',
-      moonSign: positions.moon?.sign || 'cancer',
-      lunarPhase: getLunarPhaseName(lunarPhase) || 'new moon',
+      sunSign: positions.sun?.sign || "aries",
+      moonSign: positions.moon?.sign || "cancer",
+      lunarPhase: getLunarPhaseName(lunarPhase) || "new moon",
       planetaryPositions: positions,
-      dominantElement: calculateDominantElement(positions) || 'Fire'
+      dominantElement: calculateDominantElement(positions) || "Fire",
     };
   } catch (error) {
-    logger.error('Astrological calculation failed', error);
+    logger.error("Astrological calculation failed", error);
 
     // Return default state
     return {
-      sunSign: 'aries',
-      moonSign: 'cancer',
-      lunarPhase: 'new moon',
+      sunSign: "aries",
+      moonSign: "cancer",
+      lunarPhase: "new moon",
       planetaryPositions: getFallbackPositions(),
-      dominantElement: 'Fire'
+      dominantElement: "Fire",
     };
   }
 }
@@ -601,18 +649,23 @@ async function getAstrologicalState(): Promise<AstrologicalState> {
 
 ```typescript
 // ✅ CORRECT: Validate all inputs and outputs
-function validateElementalProperties(properties: unknown): properties is ElementalProperties {
-  if (!properties || typeof properties !== 'object') return false;
+function validateElementalProperties(
+  properties: unknown,
+): properties is ElementalProperties {
+  if (!properties || typeof properties !== "object") return false;
 
   const props = properties as Record<string, unknown>;
-  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
+  const requiredElements = ["Fire", "Water", "Earth", "Air"];
 
   for (const element of requiredElements) {
-    if (typeof props[element] !== 'number') return false;
+    if (typeof props[element] !== "number") return false;
     if (props[element] < 0 || props[element] > 1) return false;
   }
 
-  const sum = requiredElements.reduce((total, element) => total + (props[element] as number), 0);
+  const sum = requiredElements.reduce(
+    (total, element) => total + (props[element] as number),
+    0,
+  );
   return Math.abs(sum - 1) < 0.001; // Allow for floating point error
 }
 ```
@@ -626,8 +679,8 @@ function validateElementalProperties(properties: unknown): properties is Element
 ```typescript
 // ❌ FORBIDDEN: Opposing elements
 const opposingElements = {
-  Fire: 'Water',  // WRONG - elements don't oppose each other
-  Earth: 'Air'    // WRONG - elements don't oppose each other
+  Fire: "Water", // WRONG - elements don't oppose each other
+  Earth: "Air", // WRONG - elements don't oppose each other
 };
 
 // ❌ FORBIDDEN: Elemental balancing
@@ -655,12 +708,12 @@ function processData(data: unknown) {
 ```typescript
 // ❌ FORBIDDEN: Hardcoded values
 function getLunarPhase() {
-  return 'full moon'; // WRONG - should calculate dynamically
+  return "full moon"; // WRONG - should calculate dynamically
 }
 
 // ❌ FORBIDDEN: Missing error handling
 async function getPlanetaryPositions() {
-  const response = await fetch('/api/astrologize');
+  const response = await fetch("/api/astrologize");
   return response.json(); // No error handling!
 }
 ```

@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
-  sourceDir: './src',
-  extensions: ['.ts', '.tsx', '.js', '.jsx'],
+  sourceDir: "./src",
+  extensions: [".ts", ".tsx", ".js", ".jsx"],
   excludePatterns: [
-    'node_modules',
-    '.next',
-    'dist',
-    'build',
-    '__tests__',
-    '*.test.ts',
-    '*.test.tsx',
+    "node_modules",
+    ".next",
+    "dist",
+    "build",
+    "__tests__",
+    "*.test.ts",
+    "*.test.tsx",
   ],
   preservePatterns: {
     // Astrological and astronomical patterns to preserve
@@ -78,48 +78,52 @@ const metrics = {
 const CONDITION_PATTERNS = [
   // Pattern 1: Double checking same value (value && value) - CONSERVATIVE
   {
-    name: 'doubleCheck',
+    name: "doubleCheck",
     pattern: /\b(\w+)\s*&&\s*\1\b/g,
     replacement: (match, variable) => {
       // Only fix simple variable names, avoid complex expressions
-      if (variable.length > 20 || variable.includes('[') || variable.includes('(')) {
+      if (
+        variable.length > 20 ||
+        variable.includes("[") ||
+        variable.includes("(")
+      ) {
         return match; // Don't fix complex expressions
       }
       return variable;
     },
-    description: 'Remove redundant double checks (conservative)',
+    description: "Remove redundant double checks (conservative)",
   },
 
   // Pattern 2: Array length check that can use optional chaining
   {
-    name: 'arrayLength',
+    name: "arrayLength",
     pattern: /\b(\w+(?:\.\w+)*)\s*&&\s*\1\.length\s*>\s*0/g,
     replacement: (match, variable) => `${variable}?.length`,
-    description: 'Convert array length checks to optional chaining',
+    description: "Convert array length checks to optional chaining",
   },
 
   // Pattern 3: Property chain checks (obj && obj.prop && obj.prop.subprop)
   {
-    name: 'propertyChain',
+    name: "propertyChain",
     pattern: /\b(\w+)\s*&&\s*\1\.(\w+)\s*&&\s*\1\.\2\.(\w+)/g,
     replacement: (match, obj, prop1, prop2) => `${obj}?.${prop1}?.${prop2}`,
-    description: 'Convert property chains to optional chaining',
+    description: "Convert property chains to optional chaining",
   },
 
   // Pattern 4: Simple property checks (obj && obj.prop)
   {
-    name: 'simpleProperty',
+    name: "simpleProperty",
     pattern: /\b(\w+)\s*&&\s*\1\.(\w+)(?!\s*&&|\s*\()/g,
     replacement: (match, obj, prop) => `${obj}?.${prop}`,
-    description: 'Convert simple property checks to optional chaining',
+    description: "Convert simple property checks to optional chaining",
   },
 
   // Pattern 5: Nullish coalescing opportunities (value || defaultValue where value is always defined)
   {
-    name: 'nullishCoalescing',
+    name: "nullishCoalescing",
     pattern: /\b(true|false|0|1|"[^"]+"|'[^']+')\s*\|\|\s*\w+/g,
     replacement: (match, value) => value,
-    description: 'Remove unnecessary fallback for always-defined values',
+    description: "Remove unnecessary fallback for always-defined values",
   },
 ];
 
@@ -164,44 +168,51 @@ function shouldPreserveCondition(line, condition) {
  */
 function processFile(filePath) {
   try {
-    const content = fs.readFileSync(filePath, 'utf8');
-    const lines = content.split('\n');
+    const content = fs.readFileSync(filePath, "utf8");
+    const lines = content.split("\n");
     let modified = false;
     let modifiedContent = content;
 
     // Apply each pattern
-    [...CONDITION_PATTERNS, ...TS_CONDITION_PATTERNS].forEach(patternConfig => {
-      const pattern = new RegExp(patternConfig.pattern.source, 'gm');
-      let match;
+    [...CONDITION_PATTERNS, ...TS_CONDITION_PATTERNS].forEach(
+      (patternConfig) => {
+        const pattern = new RegExp(patternConfig.pattern.source, "gm");
+        let match;
 
-      while ((match = pattern.exec(content)) !== null) {
-        const matchedText = match[0];
-        const lineIndex = content.substring(0, match.index).split('\n').length - 1;
-        const line = lines[lineIndex];
+        while ((match = pattern.exec(content)) !== null) {
+          const matchedText = match[0];
+          const lineIndex =
+            content.substring(0, match.index).split("\n").length - 1;
+          const line = lines[lineIndex];
 
-        // Check if this condition should be preserved
-        if (shouldPreserveCondition(line, matchedText)) {
-          continue;
+          // Check if this condition should be preserved
+          if (shouldPreserveCondition(line, matchedText)) {
+            continue;
+          }
+
+          // Apply the replacement
+          const replacement = patternConfig.replacement(...match);
+          modifiedContent = modifiedContent.replace(matchedText, replacement);
+          metrics.patterns[patternConfig.name]++;
+          metrics.conditionsFixed++;
+          modified = true;
+
+          if (!CONFIG.dryRun) {
+            console.log(
+              `  Fixed ${patternConfig.name}: ${matchedText} → ${replacement}`,
+            );
+          }
         }
-
-        // Apply the replacement
-        const replacement = patternConfig.replacement(...match);
-        modifiedContent = modifiedContent.replace(matchedText, replacement);
-        metrics.patterns[patternConfig.name]++;
-        metrics.conditionsFixed++;
-        modified = true;
-
-        if (!CONFIG.dryRun) {
-          console.log(`  Fixed ${patternConfig.name}: ${matchedText} → ${replacement}`);
-        }
-      }
-    });
+      },
+    );
 
     // Write the modified content if changes were made
     if (modified && !CONFIG.dryRun) {
-      fs.writeFileSync(filePath, modifiedContent, 'utf8');
+      fs.writeFileSync(filePath, modifiedContent, "utf8");
       metrics.filesModified++;
-      console.log(`✅ Fixed ${metrics.conditionsFixed} conditions in ${filePath}`);
+      console.log(
+        `✅ Fixed ${metrics.conditionsFixed} conditions in ${filePath}`,
+      );
     } else if (modified && CONFIG.dryRun) {
       console.log(`Would fix conditions in ${filePath}`);
     }
@@ -215,13 +226,13 @@ function processFile(filePath) {
  * Validate TypeScript compilation after fixes
  */
 function validateBuildAfterFix() {
-  console.log('\n📋 Validating TypeScript compilation...');
+  console.log("\n📋 Validating TypeScript compilation...");
   try {
-    execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-    console.log('✅ TypeScript compilation successful');
+    execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
+    console.log("✅ TypeScript compilation successful");
     return true;
   } catch (error) {
-    console.error('❌ Build failed after fixes - consider rolling back');
+    console.error("❌ Build failed after fixes - consider rolling back");
     console.error(error.toString());
     return false;
   }
@@ -232,12 +243,14 @@ function validateBuildAfterFix() {
  */
 function createSafetyStash() {
   try {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    execSync(`git stash push -m "unnecessary-conditions-fix-${timestamp}"`, { stdio: 'pipe' });
-    console.log('✅ Created safety stash');
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    execSync(`git stash push -m "unnecessary-conditions-fix-${timestamp}"`, {
+      stdio: "pipe",
+    });
+    console.log("✅ Created safety stash");
     return timestamp;
   } catch (error) {
-    console.error('⚠️  Could not create git stash:', error.message);
+    console.error("⚠️  Could not create git stash:", error.message);
     return null;
   }
 }
@@ -256,13 +269,15 @@ function getFilesToProcess() {
       const stat = fs.statSync(fullPath);
 
       if (stat.isDirectory()) {
-        if (!CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
+        if (
+          !CONFIG.excludePatterns.some((pattern) => fullPath.includes(pattern))
+        ) {
           scanDirectory(fullPath);
         }
       } else if (stat.isFile()) {
         if (
-          CONFIG.extensions.some(ext => fullPath.endsWith(ext)) &&
-          !CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))
+          CONFIG.extensions.some((ext) => fullPath.endsWith(ext)) &&
+          !CONFIG.excludePatterns.some((pattern) => fullPath.includes(pattern))
         ) {
           files.push(fullPath);
         }
@@ -278,19 +293,20 @@ function getFilesToProcess() {
  * Main execution
  */
 function main() {
-  console.log('🚀 WhatToEatNext - Unnecessary Conditions Fixer');
-  console.log('================================================');
+  console.log("🚀 WhatToEatNext - Unnecessary Conditions Fixer");
+  console.log("================================================");
 
   // Parse command line arguments
   const args = process.argv.slice(2);
-  if (args.includes('--dry-run')) {
+  if (args.includes("--dry-run")) {
     CONFIG.dryRun = true;
-    console.log('🔍 Running in DRY RUN mode - no files will be modified');
+    console.log("🔍 Running in DRY RUN mode - no files will be modified");
   }
 
-  if (args.includes('--max-files')) {
-    const maxIndex = args.indexOf('--max-files');
-    CONFIG.maxFilesPerRun = parseInt(args[maxIndex + 1]) || CONFIG.maxFilesPerRun;
+  if (args.includes("--max-files")) {
+    const maxIndex = args.indexOf("--max-files");
+    CONFIG.maxFilesPerRun =
+      parseInt(args[maxIndex + 1]) || CONFIG.maxFilesPerRun;
   }
 
   // Create safety stash if not in dry run
@@ -307,19 +323,19 @@ function main() {
   const filesToProcess = files.slice(0, CONFIG.maxFilesPerRun);
   console.log(`\n🔧 Processing ${filesToProcess.length} files...\n`);
 
-  filesToProcess.forEach(file => {
+  filesToProcess.forEach((file) => {
     metrics.filesScanned++;
     processFile(file);
   });
 
   // Report results
-  console.log('\n📊 Fix Summary:');
-  console.log('================');
+  console.log("\n📊 Fix Summary:");
+  console.log("================");
   console.log(`Files scanned: ${metrics.filesScanned}`);
   console.log(`Files modified: ${metrics.filesModified}`);
   console.log(`Conditions fixed: ${metrics.conditionsFixed}`);
   console.log(`Conditions preserved: ${metrics.conditionsPreserved}`);
-  console.log('\nPattern breakdown:');
+  console.log("\nPattern breakdown:");
   Object.entries(metrics.patterns).forEach(([pattern, count]) => {
     if (count > 0) {
       console.log(`  ${pattern}: ${count}`);
@@ -328,7 +344,7 @@ function main() {
 
   if (metrics.errors.length > 0) {
     console.log(`\n⚠️  Errors encountered: ${metrics.errors.length}`);
-    metrics.errors.forEach(err => {
+    metrics.errors.forEach((err) => {
       console.log(`  - ${err.file}: ${err.error}`);
     });
   }
@@ -337,21 +353,23 @@ function main() {
   if (metrics.filesModified > 0 && !CONFIG.dryRun) {
     const buildValid = validateBuildAfterFix();
     if (!buildValid && stashTimestamp) {
-      console.log('\n⚠️  Build failed - you can restore with:');
-      console.log(`git stash apply stash^{/unnecessary-conditions-fix-${stashTimestamp}}`);
+      console.log("\n⚠️  Build failed - you can restore with:");
+      console.log(
+        `git stash apply stash^{/unnecessary-conditions-fix-${stashTimestamp}}`,
+      );
     }
   }
 
   // Suggest next steps
-  console.log('\n📌 Next Steps:');
+  console.log("\n📌 Next Steps:");
   if (CONFIG.dryRun) {
-    console.log('1. Review the changes that would be made');
-    console.log('2. Run without --dry-run to apply fixes');
+    console.log("1. Review the changes that would be made");
+    console.log("2. Run without --dry-run to apply fixes");
   } else if (metrics.filesModified > 0) {
-    console.log('1. Run yarn lint to see updated issue count');
-    console.log('2. Review changes with git diff');
-    console.log('3. Run tests to ensure functionality preserved');
-    console.log('4. Commit changes if all tests pass');
+    console.log("1. Run yarn lint to see updated issue count");
+    console.log("2. Review changes with git diff");
+    console.log("3. Run tests to ensure functionality preserved");
+    console.log("4. Commit changes if all tests pass");
   }
 
   if (files.length > filesToProcess.length) {

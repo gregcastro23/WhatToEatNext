@@ -82,11 +82,11 @@ npm run campaign:lint                  # Run linting improvements
 ```typescript
 // Step 1: Define the astrological concept
 interface AstrologicalFeature {
-  concept: string;                     // e.g., "Mercury retrograde cooking"
+  concept: string; // e.g., "Mercury retrograde cooking"
   elementalAspects: ElementalProperties; // Fire/Water/Earth/Air involvement
-  planetaryCorrespondences: Planet[];   // Relevant planets
-  culturalConsiderations: string[];     // Cultural sensitivity factors
-  timingFactors: TimingRequirement[];   // When feature is most relevant
+  planetaryCorrespondences: Planet[]; // Relevant planets
+  culturalConsiderations: string[]; // Cultural sensitivity factors
+  timingFactors: TimingRequirement[]; // When feature is most relevant
 }
 
 // Step 2: Plan the implementation
@@ -105,7 +105,7 @@ interface ImplementationPlan {
 // Template for astrological calculations
 async function calculateAstrologicalFeature(
   date: Date = new Date(),
-  userProfile?: UserProfile
+  userProfile?: UserProfile,
 ): Promise<AstrologicalResult> {
   try {
     // Step 1: Get reliable planetary positions
@@ -113,7 +113,7 @@ async function calculateAstrologicalFeature(
 
     // Step 2: Validate astronomical data
     if (!validatePlanetaryPositions(positions)) {
-      throw new Error('Invalid planetary positions');
+      throw new Error("Invalid planetary positions");
     }
 
     // Step 3: Apply astrological logic
@@ -130,11 +130,10 @@ async function calculateAstrologicalFeature(
       harmony: elementalHarmony,
       recommendations,
       timing: calculateOptimalTiming(positions),
-      confidence: calculateConfidence(positions)
+      confidence: calculateConfidence(positions),
     };
-
   } catch (error) {
-    logger.error('Astrological calculation failed', error);
+    logger.error("Astrological calculation failed", error);
 
     // Fallback to cached or default values
     return getFallbackAstrologicalResult(date, userProfile);
@@ -146,9 +145,9 @@ async function calculateAstrologicalFeature(
 
 ```typescript
 // Test template for astrological features
-describe('Astrological Feature', () => {
-  test('calculates correctly with valid planetary positions', async () => {
-    const testDate = new Date('2024-05-16T12:00:00Z');
+describe("Astrological Feature", () => {
+  test("calculates correctly with valid planetary positions", async () => {
+    const testDate = new Date("2024-05-16T12:00:00Z");
     const result = await calculateAstrologicalFeature(testDate);
 
     expect(result).toBeDefined();
@@ -156,9 +155,9 @@ describe('Astrological Feature', () => {
     expect(result.harmony).toMatchElementalPrinciples();
   });
 
-  test('handles API failures gracefully', async () => {
+  test("handles API failures gracefully", async () => {
     // Mock API failure
-    jest.spyOn(global, 'fetch').mockRejectedValue(new Error('API Error'));
+    jest.spyOn(global, "fetch").mockRejectedValue(new Error("API Error"));
 
     const result = await calculateAstrologicalFeature();
 
@@ -166,7 +165,7 @@ describe('Astrological Feature', () => {
     expect(result.recommendations).toHaveLength(expect.any(Number));
   });
 
-  test('respects elemental self-reinforcement', () => {
+  test("respects elemental self-reinforcement", () => {
     const fireProps = { fire: 0.8, water: 0.1, earth: 0.1, air: 0.0 };
     const compatibility = calculateElementalCompatibility(fireProps, fireProps);
 
@@ -224,27 +223,27 @@ npm run campaign:emergency-stop     # Stop all running campaigns
 // Pre-commit quality checks
 interface QualityGates {
   typescript: {
-    errorCount: number;              // Must be < 100
-    warningCount: number;            // Must be < 1000
-    strictMode: boolean;             // Must be true
+    errorCount: number; // Must be < 100
+    warningCount: number; // Must be < 1000
+    strictMode: boolean; // Must be true
   };
 
   testing: {
-    coverage: number;                // Must be > 80%
-    passingTests: number;            // Must be 100%
+    coverage: number; // Must be > 80%
+    passingTests: number; // Must be 100%
     astrologicalValidation: boolean; // Must pass
   };
 
   linting: {
-    errorCount: number;              // Must be 0
-    warningCount: number;            // Must be < 10000 (development)
+    errorCount: number; // Must be 0
+    warningCount: number; // Must be < 10000 (development)
     elementalPrincipleCompliance: boolean; // Must be true
   };
 
   performance: {
-    buildTime: number;               // Must be < 60 seconds
-    bundleSize: number;              // Must be < 5MB
-    calculationSpeed: number;        // Must be < 2 seconds
+    buildTime: number; // Must be < 60 seconds
+    bundleSize: number; // Must be < 5MB
+    calculationSpeed: number; // Must be < 2 seconds
   };
 }
 ```
@@ -353,7 +352,7 @@ class AstronomicalCache {
   async get<T>(
     key: string,
     fetcher: () => Promise<T>,
-    validator?: (data: T) => boolean
+    validator?: (data: T) => boolean,
   ): Promise<T> {
     // Check cache first
     const cached = this.cache.get(key);
@@ -366,14 +365,14 @@ class AstronomicalCache {
 
     // Validate if validator provided
     if (validator && !validator(data)) {
-      throw new Error('Data validation failed');
+      throw new Error("Data validation failed");
     }
 
     // Cache the result
     this.cache.set(key, {
       data,
       timestamp: Date.now(),
-      key
+      key,
     });
 
     return data;
@@ -389,8 +388,8 @@ class AstronomicalCache {
 
 ```typescript
 // Performance test template
-describe('Performance Tests', () => {
-  test('astrological calculations complete within 2 seconds', async () => {
+describe("Performance Tests", () => {
+  test("astrological calculations complete within 2 seconds", async () => {
     const startTime = performance.now();
 
     await calculateAstrologicalRecommendations();
@@ -399,14 +398,14 @@ describe('Performance Tests', () => {
     expect(duration).toBeLessThan(2000);
   });
 
-  test('cache hit rate exceeds 80%', async () => {
+  test("cache hit rate exceeds 80%", async () => {
     const cache = new AstronomicalCache();
     const cacheStats = await cache.getStatistics();
 
     expect(cacheStats.hitRate).toBeGreaterThan(0.8);
   });
 
-  test('bundle size remains under 5MB', () => {
+  test("bundle size remains under 5MB", () => {
     const bundleSize = getBundleSize();
     expect(bundleSize).toBeLessThan(5 * 1024 * 1024);
   });
@@ -441,7 +440,7 @@ interface CustomCampaign {
   name: string;
   description: string;
   targetMetrics: QualityMetric[];
-  safetyLevel: 'MAXIMUM' | 'HIGH' | 'MEDIUM';
+  safetyLevel: "MAXIMUM" | "HIGH" | "MEDIUM";
   phases: CampaignPhase[];
   rollbackStrategy: RollbackStrategy;
 }

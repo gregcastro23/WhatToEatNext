@@ -7,12 +7,12 @@
  * due to previous processing errors.
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 class BrokenImportFixer {
   constructor() {
-    this.srcDir = path.join(process.cwd(), 'src');
+    this.srcDir = path.join(process.cwd(), "src");
     this.fixedFiles = 0;
     this.fixedImports = 0;
   }
@@ -20,14 +20,18 @@ class BrokenImportFixer {
   getAllTypeScriptFiles() {
     const files = [];
 
-    const scanDirectory = dir => {
+    const scanDirectory = (dir) => {
       try {
         const entries = fs.readdirSync(dir, { withFileTypes: true });
 
         for (const entry of entries) {
           const fullPath = path.join(dir, entry.name);
 
-          if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
+          if (
+            entry.isDirectory() &&
+            !entry.name.startsWith(".") &&
+            entry.name !== "node_modules"
+          ) {
             scanDirectory(fullPath);
           } else if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name)) {
             files.push(fullPath);
@@ -44,8 +48,8 @@ class BrokenImportFixer {
 
   fixBrokenImports(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
-      const lines = content.split('\n');
+      const content = fs.readFileSync(filePath, "utf8");
+      const lines = content.split("\n");
       let hasChanges = false;
 
       for (let i = 0; i < lines.length; i++) {
@@ -58,13 +62,15 @@ class BrokenImportFixer {
           /^(\s*)([\w\s,{}]+)\s+from\s+['"`]([^'"`]+)['"`];?\s*$/,
         );
 
-        if (brokenImportMatch && !trimmedLine.startsWith('import')) {
+        if (brokenImportMatch && !trimmedLine.startsWith("import")) {
           const [, leadingSpace, importPart, source] = brokenImportMatch;
 
           // Check if this looks like a valid import part (contains { } or valid identifiers)
           if (
-            importPart.includes('{') ||
-            /^[a-zA-Z_$][a-zA-Z0-9_$]*(\s*,\s*[a-zA-Z_$][a-zA-Z0-9_$]*)*$/.test(importPart.trim())
+            importPart.includes("{") ||
+            /^[a-zA-Z_$][a-zA-Z0-9_$]*(\s*,\s*[a-zA-Z_$][a-zA-Z0-9_$]*)*$/.test(
+              importPart.trim(),
+            )
           ) {
             // Fix the import by adding the 'import' keyword
             const fixedLine = `${leadingSpace}import ${importPart} from '${source}';`;
@@ -82,43 +88,46 @@ class BrokenImportFixer {
       }
 
       if (hasChanges) {
-        fs.writeFileSync(filePath, lines.join('\n'));
+        fs.writeFileSync(filePath, lines.join("\n"));
         this.fixedFiles++;
         return true;
       }
 
       return false;
     } catch (error) {
-      console.warn(`⚠️ Failed to fix broken imports in ${filePath}:`, error.message);
+      console.warn(
+        `⚠️ Failed to fix broken imports in ${filePath}:`,
+        error.message,
+      );
       return false;
     }
   }
 
   async run() {
-    console.log('🚀 Starting Broken Import Fixer');
-    console.log('='.repeat(50));
+    console.log("🚀 Starting Broken Import Fixer");
+    console.log("=".repeat(50));
 
     try {
       const files = this.getAllTypeScriptFiles();
       console.log(`📁 Found ${files.length} TypeScript files`);
 
       if (files.length === 0) {
-        console.log('✅ No TypeScript files to process');
+        console.log("✅ No TypeScript files to process");
         return;
       }
 
-      console.log('🔧 Processing files...');
+      console.log("🔧 Processing files...");
 
       for (const file of files) {
         this.fixBrokenImports(file);
       }
 
-      console.log('='.repeat(50));
+      console.log("=".repeat(50));
       console.log(`✅ Broken import fixing completed!`);
       console.log(`   Files fixed: ${this.fixedFiles}`);
       console.log(`   Imports fixed: ${this.fixedImports}`);
     } catch (error) {
-      console.error('❌ Broken import fixing failed:', error);
+      console.error("❌ Broken import fixing failed:", error);
       process.exit(1);
     }
   }

@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import type { PlanetPosition } from '@/utils/astrologyUtils';
+import { useState, useEffect, useCallback } from "react";
+import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 export interface AlchemicalState {
   planetaryPositions: { [key: string]: PlanetPosition };
@@ -13,16 +13,18 @@ export function useAlchemical() {
     planetaryPositions: {},
     isDaytime: true,
     isLoading: true,
-    error: null
+    error: null,
   });
 
   const fetchPlanetaryPositions = useCallback(async () => {
     try {
-      setState(prev => ({ ...prev, isLoading: true, error: null }));
+      setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
-      const response = await fetch('/api/planetary-positions');
+      const response = await fetch("/api/planetary-positions");
       if (!response.ok) {
-        throw new Error(`Failed to fetch planetary positions: ${response.statusText}`);
+        throw new Error(
+          `Failed to fetch planetary positions: ${response.statusText}`,
+        );
       }
 
       const data = await response.json();
@@ -36,13 +38,13 @@ export function useAlchemical() {
         planetaryPositions: data.positions || {},
         isDaytime,
         isLoading: false,
-        error: null
+        error: null,
       });
     } catch (error) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : "Unknown error",
       }));
     }
   }, []);
@@ -53,6 +55,6 @@ export function useAlchemical() {
 
   return {
     ...state,
-    refresh: fetchPlanetaryPositions
+    refresh: fetchPlanetaryPositions,
   };
 }

@@ -36,7 +36,7 @@ The system uses multiple sources to ensure reliable astrological data:
 
 ```typescript
 // Example usage
-import astrologyService from '../services/AstrologyService';
+import astrologyService from "../services/AstrologyService";
 
 // Get current planetary positions
 const positions = await astrologyService.getPlanetaryPositions();
@@ -53,7 +53,7 @@ const lunarPhase = astrologyService.getLunarPhase();
 
 ```typescript
 // Example usage
-import { getCurrentCelestialPositions } from '../services/astrologyApi';
+import { getCurrentCelestialPositions } from "../services/astrologyApi";
 
 // Get current positions
 const positions = await getCurrentCelestialPositions();
@@ -68,13 +68,15 @@ const positions = await getCurrentCelestialPositions();
 
 ```typescript
 // Example usage
-import astrologicalFoodService from '../services/AstrologicalFoodRecommendationService';
+import astrologicalFoodService from "../services/AstrologicalFoodRecommendationService";
 
 // Get astrological explanation
-const explanation = await astrologicalFoodService.getAstrologicalExplanation(elementalProfile);
+const explanation =
+  await astrologicalFoodService.getAstrologicalExplanation(elementalProfile);
 
 // Get ingredient recommendations
-const ingredients = await astrologicalFoodService.getAstrologicalIngredientRecommendations();
+const ingredients =
+  await astrologicalFoodService.getAstrologicalIngredientRecommendations();
 ```
 
 ### 3. Data Flow
@@ -166,15 +168,15 @@ To add astrological explanations to a recipe recommendation:
 ```typescript
 // 1. Get recipe details
 const recipe = {
-  name: 'Spicy Tomato Pasta',
+  name: "Spicy Tomato Pasta",
   elements: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
-  ingredients: ['tomato', 'garlic', 'chili', 'olive oil', 'pasta', 'basil']
+  ingredients: ["tomato", "garlic", "chili", "olive oil", "pasta", "basil"],
 };
 
 // 2. Get astrological explanation
 const alignment = await astrologicalFoodService.getRecipeAstrologicalAlignment(
   recipe.name,
-  recipe.elements
+  recipe.elements,
 );
 
 // 3. Get planetary messages
@@ -184,7 +186,7 @@ const messages = await astrologicalFoodService.getPlanetaryMessages(recipe);
 const recommendation = {
   recipe,
   astrologicalAlignment: alignment,
-  planetaryMessages: messages
+  planetaryMessages: messages,
 };
 ```
 

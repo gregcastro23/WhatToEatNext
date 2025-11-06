@@ -10,9 +10,9 @@
  * 3. Incomplete export statements
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class ConservativeTS1128Fixer {
   constructor() {
@@ -22,7 +22,7 @@ class ConservativeTS1128Fixer {
   }
 
   async run() {
-    console.log('🎯 Conservative TS1128 Declaration Error Fixes...\n');
+    console.log("🎯 Conservative TS1128 Declaration Error Fixes...\n");
 
     try {
       // Create backup directory
@@ -33,7 +33,7 @@ class ConservativeTS1128Fixer {
       console.log(`📊 Initial TS1128 errors: ${initialErrors}`);
 
       if (initialErrors === 0) {
-        console.log('✅ No TS1128 errors found!');
+        console.log("✅ No TS1128 errors found!");
         return;
       }
 
@@ -46,9 +46,8 @@ class ConservativeTS1128Fixer {
 
       // Final results
       await this.showFinalResults(initialErrors);
-
     } catch (error) {
-      console.error('❌ Fix failed:', error.message);
+      console.error("❌ Fix failed:", error.message);
       console.log(`📁 Backup available at: ${this.backupDir}`);
     }
   }
@@ -62,10 +61,13 @@ class ConservativeTS1128Fixer {
 
   async getTS1128ErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1128"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1128"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -74,13 +76,19 @@ class ConservativeTS1128Fixer {
 
   async getFilesWithTS1128Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1128"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1128"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const files = new Set();
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^(.+?)\(/);
@@ -106,7 +114,9 @@ class ConservativeTS1128Fixer {
       const batch = errorFiles.slice(i, i + batchSize);
       const batchNumber = Math.floor(i / batchSize) + 1;
 
-      console.log(`\n📦 Processing Batch ${batchNumber}/${totalBatches} (${batch.length} files)`);
+      console.log(
+        `\n📦 Processing Batch ${batchNumber}/${totalBatches} (${batch.length} files)`,
+      );
 
       let batchFixes = 0;
       for (const filePath of batch) {
@@ -120,18 +130,22 @@ class ConservativeTS1128Fixer {
       const buildValid = await this.validateBuild();
 
       if (!buildValid) {
-        console.log('⚠️ Build validation failed, stopping for safety');
+        console.log("⚠️ Build validation failed, stopping for safety");
         break;
       }
 
       const currentErrors = await this.getTS1128ErrorCount();
       const reduction = initialErrorCount - currentErrors;
-      console.log(`   📊 Progress: ${currentErrors} TS1128 errors remaining (${reduction >= 0 ? '-' + reduction : '+' + Math.abs(reduction)})`);
+      console.log(
+        `   📊 Progress: ${currentErrors} TS1128 errors remaining (${reduction >= 0 ? "-" + reduction : "+" + Math.abs(reduction)})`,
+      );
       console.log(`   🔧 Batch fixes applied: ${batchFixes}`);
 
       // Safety check - if errors increased significantly, stop
       if (currentErrors > initialErrorCount * 1.1) {
-        console.log('⚠️ Error count increased significantly, stopping for safety');
+        console.log(
+          "⚠️ Error count increased significantly, stopping for safety",
+        );
         break;
       }
     }
@@ -139,7 +153,9 @@ class ConservativeTS1128Fixer {
 
   async validateBuild() {
     try {
-      execSync('yarn tsc --noEmit --skipLibCheck 2>/dev/null', { stdio: 'pipe' });
+      execSync("yarn tsc --noEmit --skipLibCheck 2>/dev/null", {
+        stdio: "pipe",
+      });
       return true;
     } catch (error) {
       return false;
@@ -157,35 +173,41 @@ class ConservativeTS1128Fixer {
       // Create backup
       await this.backupFile(filePath);
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
       let fixesApplied = 0;
 
       // Fix 1: Malformed function parameters (VALIDATED SAFE)
       // Pattern: (: any : any { prop = value }: Type) -> ({ prop = value }: Type)
-      const malformedParamPattern = /\(\s*:\s*any\s*:\s*any\s*(\{[^}]+\})\s*:\s*(\{[^}]+\})\s*\)/g;
+      const malformedParamPattern =
+        /\(\s*:\s*any\s*:\s*any\s*(\{[^}]+\})\s*:\s*(\{[^}]+\})\s*\)/g;
       const matches1 = content.match(malformedParamPattern) || [];
       if (matches1.length > 0) {
-        content = content.replace(malformedParamPattern, '($1: $2)');
+        content = content.replace(malformedParamPattern, "($1: $2)");
         fixesApplied += matches1.length;
-        console.log(`     🔧 Fixed ${matches1.length} malformed function parameter(s)`);
+        console.log(
+          `     🔧 Fixed ${matches1.length} malformed function parameter(s)`,
+        );
       }
 
       // Fix 2: Malformed object literals (CONSERVATIVE)
       // Pattern: {, property: value} -> { property: value }
-      const malformedObjectPattern = /\{\s*,\s*([a-zA-Z_$][a-zA-Z0-9_$]*\s*:\s*[^,}]+)/g;
+      const malformedObjectPattern =
+        /\{\s*,\s*([a-zA-Z_$][a-zA-Z0-9_$]*\s*:\s*[^,}]+)/g;
       const matches2 = content.match(malformedObjectPattern) || [];
       if (matches2.length > 0) {
-        content = content.replace(malformedObjectPattern, '{ $1');
+        content = content.replace(malformedObjectPattern, "{ $1");
         fixesApplied += matches2.length;
-        console.log(`     🔧 Fixed ${matches2.length} malformed object literal(s)`);
+        console.log(
+          `     🔧 Fixed ${matches2.length} malformed object literal(s)`,
+        );
       }
 
       // Fix 3: Incomplete export statements (SAFE)
       const incompleteExportPattern = /^(\s*)export\s*\{\s*$/gm;
       const matches3 = content.match(incompleteExportPattern) || [];
       if (matches3.length > 0) {
-        content = content.replace(incompleteExportPattern, '$1export {};');
+        content = content.replace(incompleteExportPattern, "$1export {};");
         fixesApplied += matches3.length;
         console.log(`     🔧 Fixed ${matches3.length} incomplete export(s)`);
       }
@@ -200,7 +222,6 @@ class ConservativeTS1128Fixer {
       }
 
       return fixesApplied;
-
     } catch (error) {
       console.log(`     ❌ Error processing file: ${error.message}`);
       return 0;
@@ -209,7 +230,7 @@ class ConservativeTS1128Fixer {
 
   async backupFile(filePath) {
     try {
-      const relativePath = path.relative('.', filePath);
+      const relativePath = path.relative(".", filePath);
       const backupPath = path.join(this.backupDir, relativePath);
       const backupDirPath = path.dirname(backupPath);
 
@@ -217,7 +238,7 @@ class ConservativeTS1128Fixer {
         fs.mkdirSync(backupDirPath, { recursive: true });
       }
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       fs.writeFileSync(backupPath, content);
     } catch (error) {
       console.log(`     ⚠️ Backup failed for ${filePath}: ${error.message}`);
@@ -225,11 +246,14 @@ class ConservativeTS1128Fixer {
   }
 
   async showFinalResults(initialErrors) {
-    console.log('\n📈 Conservative TS1128 Declaration Fix Results:');
+    console.log("\n📈 Conservative TS1128 Declaration Fix Results:");
 
     const finalErrors = await this.getTS1128ErrorCount();
     const totalReduction = initialErrors - finalErrors;
-    const reductionPercentage = initialErrors > 0 ? ((totalReduction / initialErrors) * 100).toFixed(1) : '0.0';
+    const reductionPercentage =
+      initialErrors > 0
+        ? ((totalReduction / initialErrors) * 100).toFixed(1)
+        : "0.0";
 
     console.log(`   Initial TS1128 errors: ${initialErrors}`);
     console.log(`   Final TS1128 errors: ${finalErrors}`);
@@ -239,15 +263,19 @@ class ConservativeTS1128Fixer {
     console.log(`   Total fixes applied: ${this.totalFixes}`);
 
     if (finalErrors <= 50) {
-      console.log('\n🎉 EXCELLENT! TS1128 errors reduced to very low level');
+      console.log("\n🎉 EXCELLENT! TS1128 errors reduced to very low level");
     } else if (parseFloat(reductionPercentage) >= 70) {
-      console.log('\n🎯 GREAT! 70%+ error reduction achieved');
+      console.log("\n🎯 GREAT! 70%+ error reduction achieved");
     } else if (parseFloat(reductionPercentage) >= 40) {
-      console.log('\n✅ GOOD! 40%+ error reduction achieved');
+      console.log("\n✅ GOOD! 40%+ error reduction achieved");
     } else if (totalReduction > 0) {
-      console.log('\n📈 PROGRESS! Some errors eliminated with conservative approach');
+      console.log(
+        "\n📈 PROGRESS! Some errors eliminated with conservative approach",
+      );
     } else {
-      console.log('\n⚠️ No errors eliminated - patterns may need manual review');
+      console.log(
+        "\n⚠️ No errors eliminated - patterns may need manual review",
+      );
     }
 
     console.log(`\n📁 Backup available at: ${this.backupDir}`);
@@ -257,23 +285,28 @@ class ConservativeTS1128Fixer {
     console.log(`\n📊 Total TypeScript errors now: ${totalErrors}`);
 
     // Preserve astrological calculation accuracy check
-    console.log('\n🔮 Verifying astrological calculation accuracy...');
+    console.log("\n🔮 Verifying astrological calculation accuracy...");
     const astroAccuracy = await this.verifyAstrologicalAccuracy();
-    console.log(`   Astrological calculations: ${astroAccuracy ? '✅ PRESERVED' : '⚠️ NEEDS_REVIEW'}`);
+    console.log(
+      `   Astrological calculations: ${astroAccuracy ? "✅ PRESERVED" : "⚠️ NEEDS_REVIEW"}`,
+    );
 
     // Focus on incomplete function declarations and malformed exports
-    console.log('\n🎯 Focus Areas for Manual Review:');
-    console.log('   - Incomplete function declarations in test files');
-    console.log('   - Malformed exports in campaign system files');
-    console.log('   - JSX context issues requiring individual assessment');
+    console.log("\n🎯 Focus Areas for Manual Review:");
+    console.log("   - Incomplete function declarations in test files");
+    console.log("   - Malformed exports in campaign system files");
+    console.log("   - JSX context issues requiring individual assessment");
   }
 
   async getTotalErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -284,14 +317,16 @@ class ConservativeTS1128Fixer {
     try {
       // Check if key astrological files still compile
       const astroFiles = [
-        'src/calculations/culinary/culinaryAstrology.ts',
-        'src/calculations/alchemicalEngine.ts',
-        'src/utils/reliableAstronomy.ts'
+        "src/calculations/culinary/culinaryAstrology.ts",
+        "src/calculations/alchemicalEngine.ts",
+        "src/utils/reliableAstronomy.ts",
       ];
 
       for (const file of astroFiles) {
         if (fs.existsSync(file)) {
-          execSync(`yarn tsc --noEmit --skipLibCheck ${file} 2>/dev/null`, { stdio: 'pipe' });
+          execSync(`yarn tsc --noEmit --skipLibCheck ${file} 2>/dev/null`, {
+            stdio: "pipe",
+          });
         }
       }
       return true;

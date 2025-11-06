@@ -10,10 +10,10 @@ WhatToEatNext project. The codebase contains several common error patterns:
 
    ```typescript
    // INCORRECT
-   Record<string; number>
-
-   // CORRECT
-   Record<string, number>
+   Record < string;
+   number >
+     // CORRECT
+     Record<string, number>;
    ```
 
 2. **Missing Parentheses**: Missing closing parentheses in conditional

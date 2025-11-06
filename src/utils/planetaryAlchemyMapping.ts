@@ -10,12 +10,12 @@
  * Based on the core alchemizer engine specification.
  */
 
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from "@/types/alchemy";
 
 export interface AlchemicalProperties {
-  Spirit: number,
-  Essence: number,
-  Matter: number,
+  Spirit: number;
+  Essence: number;
+  Matter: number;
   Substance: number;
 }
 
@@ -44,7 +44,7 @@ export const PLANETARY_ALCHEMY = {
   Saturn: { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 },
   Uranus: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
   Neptune: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 },
-  Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
+  Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
 } as const;
 
 /**
@@ -54,18 +54,18 @@ export const PLANETARY_ALCHEMY = {
  * Each planet's sign contributes its element to the total.
  */
 export const ZODIAC_ELEMENTS = {
-  Aries: 'Fire',
-  Taurus: 'Earth',
-  Gemini: 'Air',
-  Cancer: 'Water',
-  Leo: 'Fire',
-  Virgo: 'Earth',
-  Libra: 'Air',
-  Scorpio: 'Water',
-  Sagittarius: 'Fire',
-  Capricorn: 'Earth',
-  Aquarius: 'Air',
-  Pisces: 'Water'
+  Aries: "Fire",
+  Taurus: "Earth",
+  Gemini: "Air",
+  Cancer: "Water",
+  Leo: "Fire",
+  Virgo: "Earth",
+  Libra: "Air",
+  Scorpio: "Water",
+  Sagittarius: "Fire",
+  Capricorn: "Earth",
+  Aquarius: "Air",
+  Pisces: "Water",
 } as const;
 
 export type ZodiacSign = keyof typeof ZODIAC_ELEMENTS;
@@ -95,15 +95,15 @@ export type PlanetName = keyof typeof PLANETARY_ALCHEMY;
  * const alchemical = calculateAlchemicalFromPlanets(positions);
  * // Result: { Spirit: 4, Essence: 6, Matter: 6, Substance: 2 }
  */
-export function calculateAlchemicalFromPlanets(
-  planetaryPositions: { [planet: string]: string }
-): AlchemicalProperties {
+export function calculateAlchemicalFromPlanets(planetaryPositions: {
+  [planet: string]: string;
+}): AlchemicalProperties {
   const totals: AlchemicalProperties = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0
-};
+    Substance: 0,
+  };
 
   for (const planet in planetaryPositions) {
     const planetData = PLANETARY_ALCHEMY[planet as PlanetName];
@@ -136,15 +136,15 @@ export function calculateAlchemicalFromPlanets(
  * const elementals = aggregateZodiacElementals(positions);
  * // Result: { Fire: 0.33, Water: 0, Earth: 0.33, Air: 0.33 }
  */
-export function aggregateZodiacElementals(
-  planetaryPositions: { [planet: string]: string }
-): ElementalProperties {
+export function aggregateZodiacElementals(planetaryPositions: {
+  [planet: string]: string;
+}): ElementalProperties {
   const totals = {
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0
-};
+    Air: 0,
+  };
 
   let count = 0;
 
@@ -172,7 +172,7 @@ export function aggregateZodiacElementals(
     Fire: totals.Fire / count,
     Water: totals.Water / count,
     Earth: totals.Earth / count,
-    Air: totals.Air / count
+    Air: totals.Air / count,
   };
 }
 
@@ -183,9 +183,11 @@ export function aggregateZodiacElementals(
  * @returns The name of the dominant property
  */
 export function getDominantAlchemicalProperty(
-  alchemical: AlchemicalProperties
+  alchemical: AlchemicalProperties,
 ): keyof AlchemicalProperties {
-  const entries = Object.entries(alchemical) as Array<[keyof AlchemicalProperties, number]>;
+  const entries = Object.entries(alchemical) as Array<
+    [keyof AlchemicalProperties, number]
+  >;
   entries.sort((a, b) => b[1] - a[1]);
   return entries[0][0];
 }
@@ -197,9 +199,11 @@ export function getDominantAlchemicalProperty(
  * @returns The name of the dominant element
  */
 export function getDominantElement(
-  elemental: ElementalProperties
+  elemental: ElementalProperties,
 ): keyof ElementalProperties {
-  const entries = Object.entries(elemental) as Array<[keyof ElementalProperties, number]>;
+  const entries = Object.entries(elemental) as Array<
+    [keyof ElementalProperties, number]
+  >;
   entries.sort((a, b) => b[1] - a[1]);
   return entries[0][0];
 }
@@ -211,9 +215,9 @@ export function getDominantElement(
  * @returns True if valid, false otherwise
  */
 export function validatePlanetaryPositions(
-  positions: unknown
+  positions: unknown,
 ): positions is { [planet: string]: string } {
-  if (typeof positions !== 'object' || positions === null) {
+  if (typeof positions !== "object" || positions === null) {
     return false;
   }
 
@@ -221,7 +225,7 @@ export function validatePlanetaryPositions(
 
   // Check that all values are strings
   for (const key in posObj) {
-    if (typeof posObj[key] !== 'string') {
+    if (typeof posObj[key] !== "string") {
       return false;
     }
   }

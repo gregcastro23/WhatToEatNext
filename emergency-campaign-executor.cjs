@@ -8,9 +8,9 @@
  * Safety Level: MAXIMUM
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 class EmergencyTypeScriptCampaign {
   constructor() {
@@ -23,16 +23,16 @@ class EmergencyTypeScriptCampaign {
   }
 
   async execute() {
-    console.log('🚨 EMERGENCY CAMPAIGN ACTIVATION');
-    console.log('================================');
+    console.log("🚨 EMERGENCY CAMPAIGN ACTIVATION");
+    console.log("================================");
     console.log(`Campaign ID: ${this.campaignId}`);
-    console.log('Target: Reduce TypeScript errors from 1,110+ to <100');
-    console.log('Safety Level: MAXIMUM');
-    console.log('');
+    console.log("Target: Reduce TypeScript errors from 1,110+ to <100");
+    console.log("Safety Level: MAXIMUM");
+    console.log("");
 
     try {
       // Create initial safety checkpoint
-      await this.createSafetyCheckpoint('Campaign Start');
+      await this.createSafetyCheckpoint("Campaign Start");
 
       // Phase 1: Error Assessment and High-Priority Fixes
       await this.executePhase1();
@@ -46,17 +46,17 @@ class EmergencyTypeScriptCampaign {
       // Generate final report
       await this.generateFinalReport();
 
-      console.log('🎉 EMERGENCY CAMPAIGN COMPLETED');
+      console.log("🎉 EMERGENCY CAMPAIGN COMPLETED");
     } catch (error) {
-      console.error('❌ EMERGENCY CAMPAIGN FAILED:', error.message);
+      console.error("❌ EMERGENCY CAMPAIGN FAILED:", error.message);
       await this.emergencyRollback();
       throw error;
     }
   }
 
   async executePhase1() {
-    console.log('\n📊 PHASE 1: Error Assessment and High-Priority Fixes');
-    console.log('===================================================');
+    console.log("\n📊 PHASE 1: Error Assessment and High-Priority Fixes");
+    console.log("===================================================");
 
     const phaseStart = Date.now();
     const initialErrors = await this.getCurrentErrorCount();
@@ -64,7 +64,7 @@ class EmergencyTypeScriptCampaign {
 
     // Get error breakdown
     const errorBreakdown = await this.getErrorBreakdown();
-    console.log('Error breakdown:');
+    console.log("Error breakdown:");
     Object.entries(errorBreakdown)
       .slice(0, 10)
       .forEach(([type, count]) => {
@@ -96,17 +96,17 @@ class EmergencyTypeScriptCampaign {
 
     // Build validation
     const buildValid = await this.validateBuild();
-    console.log(`  Build validation: ${buildValid ? '✅ PASS' : '❌ FAIL'}`);
+    console.log(`  Build validation: ${buildValid ? "✅ PASS" : "❌ FAIL"}`);
 
     if (!buildValid) {
-      throw new Error('Phase 1 build validation failed');
+      throw new Error("Phase 1 build validation failed");
     }
 
-    await this.createSafetyCheckpoint('Phase 1 Complete');
+    await this.createSafetyCheckpoint("Phase 1 Complete");
 
     this.phases.push({
       phase: 1,
-      name: 'Error Assessment and High-Priority Fixes',
+      name: "Error Assessment and High-Priority Fixes",
       duration: Date.now() - phaseStart,
       initialErrors,
       finalErrors: phase1Errors,
@@ -117,14 +117,14 @@ class EmergencyTypeScriptCampaign {
   }
 
   async executePhase2() {
-    console.log('\n🔄 PHASE 2: Systematic Error Reduction');
-    console.log('=====================================');
+    console.log("\n🔄 PHASE 2: Systematic Error Reduction");
+    console.log("=====================================");
 
     const phaseStart = Date.now();
     const initialErrors = await this.getCurrentErrorCount();
 
     if (initialErrors <= 100) {
-      console.log('🎉 Target already achieved! Skipping Phase 2.');
+      console.log("🎉 Target already achieved! Skipping Phase 2.");
       return;
     }
 
@@ -151,17 +151,21 @@ class EmergencyTypeScriptCampaign {
       // Build validation every 3 iterations
       if (iteration % 3 === 0) {
         const buildValid = await this.validateBuild();
-        console.log(`  Build validation: ${buildValid ? '✅ PASS' : '❌ FAIL'}`);
+        console.log(
+          `  Build validation: ${buildValid ? "✅ PASS" : "❌ FAIL"}`,
+        );
 
         if (!buildValid) {
-          console.log('🛑 Build validation failed, stopping systematic reduction');
+          console.log(
+            "🛑 Build validation failed, stopping systematic reduction",
+          );
           break;
         }
       }
 
       // Stop if no progress
       if (iterationReduction === 0 && iterationFixes === 0) {
-        console.log('⏸️  No progress made, stopping systematic reduction');
+        console.log("⏸️  No progress made, stopping systematic reduction");
         break;
       }
 
@@ -180,11 +184,11 @@ class EmergencyTypeScriptCampaign {
     );
     console.log(`  Remaining errors: ${phase2Errors}`);
 
-    await this.createSafetyCheckpoint('Phase 2 Complete');
+    await this.createSafetyCheckpoint("Phase 2 Complete");
 
     this.phases.push({
       phase: 2,
-      name: 'Systematic Error Reduction',
+      name: "Systematic Error Reduction",
       duration: Date.now() - phaseStart,
       initialErrors,
       finalErrors: phase2Errors,
@@ -195,8 +199,8 @@ class EmergencyTypeScriptCampaign {
   }
 
   async executePhase3() {
-    console.log('\n✅ PHASE 3: Final Validation and Cleanup');
-    console.log('=======================================');
+    console.log("\n✅ PHASE 3: Final Validation and Cleanup");
+    console.log("=======================================");
 
     const phaseStart = Date.now();
     const finalErrors = await this.getCurrentErrorCount();
@@ -205,23 +209,29 @@ class EmergencyTypeScriptCampaign {
 
     // Final build validation
     const buildValid = await this.validateBuild();
-    console.log(`Final build validation: ${buildValid ? '✅ PASS' : '❌ FAIL'}`);
+    console.log(
+      `Final build validation: ${buildValid ? "✅ PASS" : "❌ FAIL"}`,
+    );
 
     // Campaign success assessment
     const campaignSuccess = finalErrors < 100 && buildValid;
-    console.log(`Campaign success: ${campaignSuccess ? '✅ SUCCESS' : '⚠️ PARTIAL SUCCESS'}`);
+    console.log(
+      `Campaign success: ${campaignSuccess ? "✅ SUCCESS" : "⚠️ PARTIAL SUCCESS"}`,
+    );
 
     if (campaignSuccess) {
-      console.log('🎉 EMERGENCY CAMPAIGN TARGET ACHIEVED');
+      console.log("🎉 EMERGENCY CAMPAIGN TARGET ACHIEVED");
     } else {
-      console.log('⚠️  Campaign target not fully achieved but significant progress made');
+      console.log(
+        "⚠️  Campaign target not fully achieved but significant progress made",
+      );
     }
 
-    await this.createSafetyCheckpoint('Campaign Complete');
+    await this.createSafetyCheckpoint("Campaign Complete");
 
     this.phases.push({
       phase: 3,
-      name: 'Final Validation and Cleanup',
+      name: "Final Validation and Cleanup",
       duration: Date.now() - phaseStart,
       finalErrors,
       buildValid,
@@ -230,7 +240,7 @@ class EmergencyTypeScriptCampaign {
   }
 
   async fixMissingTypeAnnotations() {
-    console.log('🔧 Fixing missing type annotations...');
+    console.log("🔧 Fixing missing type annotations...");
 
     let fixesApplied = 0;
     const filesToCheck = await this.getFilesWithTypeErrors();
@@ -240,7 +250,7 @@ class EmergencyTypeScriptCampaign {
       try {
         if (!fs.existsSync(filePath)) continue;
 
-        let content = fs.readFileSync(filePath, 'utf8');
+        let content = fs.readFileSync(filePath, "utf8");
         let modified = false;
 
         // Fix: Add return type annotations for functions
@@ -248,9 +258,9 @@ class EmergencyTypeScriptCampaign {
         const matches = content.match(functionPattern);
         if (matches) {
           // This is a simplified fix - in practice, would need more sophisticated analysis
-          content = content.replace(functionPattern, match => {
-            if (!match.includes(': ')) {
-              return match.replace('{', ': any {');
+          content = content.replace(functionPattern, (match) => {
+            if (!match.includes(": ")) {
+              return match.replace("{", ": any {");
             }
             return match;
           });
@@ -271,7 +281,7 @@ class EmergencyTypeScriptCampaign {
   }
 
   async fixUndefinedAccess() {
-    console.log('🔧 Fixing undefined access patterns...');
+    console.log("🔧 Fixing undefined access patterns...");
 
     let fixesApplied = 0;
     const commonPatterns = [
@@ -296,7 +306,7 @@ class EmergencyTypeScriptCampaign {
       try {
         if (!fs.existsSync(filePath)) continue;
 
-        let content = fs.readFileSync(filePath, 'utf8');
+        let content = fs.readFileSync(filePath, "utf8");
         let modified = false;
 
         for (const { pattern, replacement } of commonPatterns) {
@@ -320,7 +330,7 @@ class EmergencyTypeScriptCampaign {
   }
 
   async fixArgumentTypes() {
-    console.log('🔧 Fixing argument type mismatches...');
+    console.log("🔧 Fixing argument type mismatches...");
 
     let fixesApplied = 0;
 
@@ -342,10 +352,13 @@ class EmergencyTypeScriptCampaign {
 
   async getCurrentErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: 'pipe',
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return error.status === 1 ? 0 : -1;
@@ -356,14 +369,14 @@ class EmergencyTypeScriptCampaign {
     try {
       const output = execSync(
         "yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E \"error TS\" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr",
-        { encoding: 'utf8', stdio: 'pipe' },
+        { encoding: "utf8", stdio: "pipe" },
       );
 
       const breakdown = {};
       const lines = output
         .trim()
-        .split('\\n')
-        .filter(line => line.trim());
+        .split("\\n")
+        .filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.trim().match(/^\\s*(\\d+)\\s+(.+)$/);
@@ -381,14 +394,17 @@ class EmergencyTypeScriptCampaign {
   async getFilesWithTypeErrors() {
     try {
       const output = execSync(
-        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | cut -d\'(\' -f1 | sort | uniq',
-        { encoding: 'utf8', stdio: 'pipe' },
+        "yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E \"error TS\" | cut -d'(' -f1 | sort | uniq",
+        { encoding: "utf8", stdio: "pipe" },
       );
 
       return output
         .trim()
-        .split('\\n')
-        .filter(line => (line.trim() && line.endsWith('.ts')) || line.endsWith('.tsx'));
+        .split("\\n")
+        .filter(
+          (line) =>
+            (line.trim() && line.endsWith(".ts")) || line.endsWith(".tsx"),
+        );
     } catch (error) {
       return [];
     }
@@ -396,8 +412,8 @@ class EmergencyTypeScriptCampaign {
 
   async validateBuild() {
     try {
-      execSync('yarn build', {
-        stdio: 'pipe',
+      execSync("yarn build", {
+        stdio: "pipe",
         timeout: 120000,
       });
       return true;
@@ -409,7 +425,7 @@ class EmergencyTypeScriptCampaign {
   async createSafetyCheckpoint(description) {
     try {
       const stashMessage = `Emergency Campaign ${this.campaignId}: ${description}`;
-      execSync(`git stash push -m "${stashMessage}"`, { stdio: 'pipe' });
+      execSync(`git stash push -m "${stashMessage}"`, { stdio: "pipe" });
 
       const checkpoint = {
         id: `checkpoint-${Date.now()}`,
@@ -427,11 +443,11 @@ class EmergencyTypeScriptCampaign {
 
   async emergencyRollback() {
     try {
-      console.log('🚨 EMERGENCY ROLLBACK INITIATED');
-      execSync('git stash pop', { stdio: 'pipe' });
-      console.log('✅ Rollback completed - restored to pre-campaign state');
+      console.log("🚨 EMERGENCY ROLLBACK INITIATED");
+      execSync("git stash pop", { stdio: "pipe" });
+      console.log("✅ Rollback completed - restored to pre-campaign state");
     } catch (error) {
-      console.error('❌ Emergency rollback failed:', error.message);
+      console.error("❌ Emergency rollback failed:", error.message);
     }
   }
 
@@ -450,7 +466,9 @@ class EmergencyTypeScriptCampaign {
       finalErrors,
       totalReduction,
       reductionPercentage:
-        initialErrors > 0 ? ((totalReduction / initialErrors) * 100).toFixed(1) : 0,
+        initialErrors > 0
+          ? ((totalReduction / initialErrors) * 100).toFixed(1)
+          : 0,
       targetAchieved: finalErrors < 100,
       phases: this.phases,
       safetyCheckpoints: this.safetyCheckpoints,
@@ -468,14 +486,18 @@ class EmergencyTypeScriptCampaign {
 
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
 
-    console.log('\\n📊 FINAL CAMPAIGN REPORT');
-    console.log('========================');
+    console.log("\\n📊 FINAL CAMPAIGN REPORT");
+    console.log("========================");
     console.log(`Campaign ID: ${this.campaignId}`);
     console.log(`Duration: ${report.totalDuration}`);
     console.log(`Initial errors: ${initialErrors}`);
     console.log(`Final errors: ${finalErrors}`);
-    console.log(`Total reduction: ${totalReduction} (${report.reductionPercentage}%)`);
-    console.log(`Target achieved: ${report.targetAchieved ? '✅ YES' : '❌ NO'}`);
+    console.log(
+      `Total reduction: ${totalReduction} (${report.reductionPercentage}%)`,
+    );
+    console.log(
+      `Target achieved: ${report.targetAchieved ? "✅ YES" : "❌ NO"}`,
+    );
     console.log(`Files processed: ${this.totalFilesProcessed}`);
     console.log(`Safety checkpoints: ${this.safetyCheckpoints.length}`);
     console.log(`Report saved: ${reportPath}`);

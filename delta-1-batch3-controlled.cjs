@@ -5,8 +5,8 @@
  * Focuses on high-confidence, low-risk patterns only
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
+const { execSync } = require("child_process");
+const fs = require("fs");
 
 class Delta1Batch3ControlledFixer {
   constructor() {
@@ -25,7 +25,7 @@ class Delta1Batch3ControlledFixer {
   }
 
   async run() {
-    console.log('🎯 DELTA-1 BATCH 3: CONTROLLED TS2345 FIXES');
+    console.log("🎯 DELTA-1 BATCH 3: CONTROLLED TS2345 FIXES");
 
     const initialErrors = this.getErrorCount();
     console.log(`Initial error count: ${initialErrors}`);
@@ -35,8 +35,8 @@ class Delta1Batch3ControlledFixer {
 
     // Target specific files with safest patterns only
     const targetFiles = [
-      'src/components/Header/FoodRecommender/components/Cuisinegroup.tsx',
-      'src/components/CuisineRecommender.tsx',
+      "src/components/Header/FoodRecommender/components/Cuisinegroup.tsx",
+      "src/components/CuisineRecommender.tsx",
     ];
 
     for (const file of targetFiles) {
@@ -48,7 +48,7 @@ class Delta1Batch3ControlledFixer {
     const finalErrors = this.getErrorCount();
     const finalTS2345 = this.getTS2345Count();
 
-    console.log('\\n📊 RESULTS:');
+    console.log("\\n📊 RESULTS:");
     console.log(`Files modified: ${this.filesModified.size}`);
     console.log(`Fixes applied: ${this.fixedCount}`);
     console.log(
@@ -61,10 +61,13 @@ class Delta1Batch3ControlledFixer {
 
   getErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: ['pipe', 'pipe', 'pipe'],
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: ["pipe", "pipe", "pipe"],
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -73,10 +76,13 @@ class Delta1Batch3ControlledFixer {
 
   getTS2345Count() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "TS2345" | wc -l', {
-        encoding: 'utf8',
-        stdio: ['pipe', 'pipe', 'pipe'],
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "TS2345" | wc -l',
+        {
+          encoding: "utf8",
+          stdio: ["pipe", "pipe", "pipe"],
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -87,13 +93,13 @@ class Delta1Batch3ControlledFixer {
     console.log(`\\n🔧 Processing ${filePath}...`);
 
     try {
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
 
       // Apply only safe, targeted fixes
-      if (filePath.includes('Cuisinegroup.tsx')) {
+      if (filePath.includes("Cuisinegroup.tsx")) {
         content = this.fixCuisinegroup(content);
-      } else if (filePath.includes('CuisineRecommender.tsx')) {
+      } else if (filePath.includes("CuisineRecommender.tsx")) {
         content = this.fixCuisineRecommender(content);
       }
 
@@ -114,13 +120,16 @@ class Delta1Batch3ControlledFixer {
     return (
       content
         // Fix parseInt string | undefined issue (safe pattern)
-        .replace(/parseInt\(recipe\.timeToMake\)/g, 'parseInt(recipe.timeToMake || "0")')
+        .replace(
+          /parseInt\(recipe\.timeToMake\)/g,
+          'parseInt(recipe.timeToMake || "0")',
+        )
         // Fix string | undefined parameters in function calls (safe pattern)
         .replace(/type\?\.toLowerCase\(\)/g, 'type?.toLowerCase() || ""')
         .replace(/recipe\.timeToMake/g, 'recipe.timeToMake || ""')
         // Fix parseTime calls with proper fallback
         .replace(/parseTime\(([^)]+)\)/g, (match, param) => {
-          if (param.includes('||')) return match; // Already fixed
+          if (param.includes("||")) return match; // Already fixed
           return `parseTime(${param} || "")`;
         })
     );
@@ -130,14 +139,14 @@ class Delta1Batch3ControlledFixer {
     return (
       content
         // Fix setState with undefined array (safe pattern)
-        .replace(/setState\(([^)]*)\s*\|\s*undefined\)/g, 'setState($1 || [])')
+        .replace(/setState\(([^)]*)\s*\|\s*undefined\)/g, "setState($1 || [])")
         // Fix AstrologicalState type issues (safe pattern)
         .replace(
           /planetaryPositions:\s*Record<string,\s*unknown>/g,
-          'planetaryPositions: Record<string, PlanetPosition>',
+          "planetaryPositions: Record<string, PlanetPosition>",
         )
         // Fix RecipeData array assignment (safe pattern)
-        .replace(/:\s*RecipeData\[\]\s*\|\s*undefined/g, ': RecipeData[]')
+        .replace(/:\s*RecipeData\[\]\s*\|\s*undefined/g, ": RecipeData[]")
     );
   }
 }

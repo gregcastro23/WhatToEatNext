@@ -104,22 +104,27 @@ if (mealTypeDishes?.[currentSeason]) {
 
 ```typescript
 // Before
-{recommendations[categoryFilter]?.map(item => renderItem(item))}
+{
+  recommendations[categoryFilter]?.map((item) => renderItem(item));
+}
 
 // After
-{recommendations[categoryFilter]!.map(item => renderItem(item))}
+{
+  recommendations[categoryFilter]!.map((item) => renderItem(item));
+}
 ```
 
 ### 4. **Safe Array Operations Pattern**
 
 ```typescript
 // Before
-const kalchmValues = (ingredients || []).map(ing => ing.kalchm);
-const average = kalchmValues.reduce((a, b) => a + b, 0) / (kalchmValues || []).length;
+const kalchmValues = (ingredients || []).map((ing) => ing.kalchm);
+const average =
+  kalchmValues.reduce((a, b) => a + b, 0) / (kalchmValues || []).length;
 
 // After
 const safeIngredients = ingredients || [];
-const kalchmValues = safeIngredients.map(ing => ing.kalchm);
+const kalchmValues = safeIngredients.map((ing) => ing.kalchm);
 const average = kalchmValues.reduce((a, b) => a + b, 0) / kalchmValues.length;
 ```
 

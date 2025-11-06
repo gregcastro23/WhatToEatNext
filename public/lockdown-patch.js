@@ -14,7 +14,7 @@
     window.lockdown =
       window.lockdown ||
       function () {
-        console.log('[LockdownPatch] Safely intercepted lockdown() call');
+        console.log("[LockdownPatch] Safely intercepted lockdown() call");
         return true;
       };
 
@@ -22,7 +22,7 @@
     window.harden =
       window.harden ||
       function (obj) {
-        console.log('[LockdownPatch] Safely intercepted harden() call');
+        console.log("[LockdownPatch] Safely intercepted harden() call");
         return obj; // Just return the original object
       };
 
@@ -31,16 +31,19 @@
 
     // Add a special handler for lockdown error messages
     window.addEventListener(
-      'error',
+      "error",
       function (event) {
         if (
           event.message &&
-          (event.message.includes('lockdown') ||
-            event.message.includes('Removing unpermitted intrinsics') ||
-            event.message.includes('harden') ||
-            event.filename?.includes('lockdown'))
+          (event.message.includes("lockdown") ||
+            event.message.includes("Removing unpermitted intrinsics") ||
+            event.message.includes("harden") ||
+            event.filename?.includes("lockdown"))
         ) {
-          console.warn('[LockdownPatch] Suppressed lockdown error:', event.message);
+          console.warn(
+            "[LockdownPatch] Suppressed lockdown error:",
+            event.message,
+          );
           event.preventDefault();
           return true;
         }
@@ -49,8 +52,11 @@
       true,
     );
 
-    console.log('[LockdownPatch] Successfully applied lockdown patches');
+    console.log("[LockdownPatch] Successfully applied lockdown patches");
   } catch (error) {
-    console.warn('[LockdownPatch] Error during patching (safely handled):', error);
+    console.warn(
+      "[LockdownPatch] Error during patching (safely handled):",
+      error,
+    );
   }
 })();

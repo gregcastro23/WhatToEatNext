@@ -1,15 +1,19 @@
-import { herbs } from '../data/ingredients/herbs';
+import { herbs } from "../data/ingredients/herbs";
 
 // Define seasonalHerbGuide - a simple placeholder implementation
-const seasonalHerbGuide: Record<string, { cuisines: Record<string, string[]> }> = {
+const seasonalHerbGuide: Record<
+  string,
+  { cuisines: Record<string, string[]> }
+> = {
   _spring: { cuisines: {} },
   _summer: { cuisines: {} },
   _fall: { cuisines: {} },
-  _winter: { cuisines: {} }
+  _winter: { cuisines: {} },
 };
 
 export const _herbUtils = {
-  findByCuisine: (cuisine: string) => Object.entries(herbs)
+  findByCuisine: (cuisine: string) =>
+    Object.entries(herbs)
       .filter(([_, herb]) => herb.culinary_traditions?.[cuisine])
       .map(([name]) => name),
   _findComplementary: (herbName: string, cuisine: string) => {
@@ -17,5 +21,6 @@ export const _herbUtils = {
     if (!herb.culinary_traditions?.[cuisine]) return [];
     return herb.culinary_traditions[cuisine].pairings;
   },
-  _getSeasonalRecommendations: (season: string, cuisine: string) => seasonalHerbGuide[season].cuisines[cuisine] || []
+  _getSeasonalRecommendations: (season: string, cuisine: string) =>
+    seasonalHerbGuide[season].cuisines[cuisine] || [],
 };

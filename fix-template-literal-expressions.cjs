@@ -12,83 +12,83 @@
  * Part of Phase 9.3: Source File Syntax Validation
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
-  sourceDirectories: ['src', 'lib'],
-  fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
+  sourceDirectories: ["src", "lib"],
+  fileExtensions: [".ts", ".tsx", ".js", ".jsx"],
   excludePatterns: [
-    'node_modules',
-    '.next',
-    'dist',
-    'build',
-    '.git',
-    '__tests__',
-    '.test.',
-    '.spec.',
-    'coverage'
+    "node_modules",
+    ".next",
+    "dist",
+    "build",
+    ".git",
+    "__tests__",
+    ".test.",
+    ".spec.",
+    "coverage",
   ],
   maxFilesToProcess: 1000,
-  backupDirectory: '.template-literal-backups',
-  dryRun: false
+  backupDirectory: ".template-literal-backups",
+  dryRun: false,
 };
 
 // Template literal fixes - more conservative patterns
 const TEMPLATE_LITERAL_FIXES = [
   {
-    name: 'Escaped Template Expressions',
+    name: "Escaped Template Expressions",
     pattern: /\\(\$\{[^}]+\})/g,
-    replacement: '$1',
-    description: 'Fix escaped template expressions that should be unescaped',
+    replacement: "$1",
+    description: "Fix escaped template expressions that should be unescaped",
     validate: (match, content, index) => {
       // Only fix if it's clearly an escaped template expression in a template literal
       const beforeMatch = content.substring(Math.max(0, index - 50), index);
-      return beforeMatch.includes('`') && !beforeMatch.includes('\\\\');
-    }
+      return beforeMatch.includes("`") && !beforeMatch.includes("\\\\");
+    },
   },
   {
-    name: 'Malformed Template Closing',
+    name: "Malformed Template Closing",
     pattern: /(\$\{[^}]*)\$\{([^}]*\})/g,
-    replacement: '$1$2',
-    description: 'Fix malformed template expression closing',
+    replacement: "$1$2",
+    description: "Fix malformed template expression closing",
     validate: (match, content, index) => {
       // Only fix if it looks like a genuine malformed closing
-      return !match[0].includes('${${') && match[0].includes('${');
-    }
+      return !match[0].includes("${${") && match[0].includes("${");
+    },
   },
   {
-    name: 'Double Template Start',
+    name: "Double Template Start",
     pattern: /\$\{\$\{([^}]+)\}/g,
-    replacement: '${$1}',
-    description: 'Fix double template expression start',
+    replacement: "${$1}",
+    description: "Fix double template expression start",
     validate: (match, content, index) => {
       // Only fix obvious double starts
       return true;
-    }
+    },
   },
   {
-    name: 'Unclosed Template Expression',
+    name: "Unclosed Template Expression",
     pattern: /(\$\{[^}]{1,100})(\n|$)/g,
     replacement: (match, p1, p2) => {
       // Only close if it looks like it should be closed
-      if (p1.includes('(') && !p1.includes(')')) {
+      if (p1.includes("(") && !p1.includes(")")) {
         return match; // Don't fix if parentheses are unclosed
       }
-      if (p1.includes('[') && !p1.includes(']')) {
+      if (p1.includes("[") && !p1.includes("]")) {
         return match; // Don't fix if brackets are unclosed
       }
-      return p1 + '}' + p2;
+      return p1 + "}" + p2;
     },
-    description: 'Close unclosed template expressions',
+    description: "Close unclosed template expressions",
     validate: (match, content, index) => {
       // Only fix simple cases
-      const expression = match.match(/\$\{([^}]+)/)?.[1] || '';
-      return expression.length < 50 && !expression.includes('${');
-    }
-  }
+      const expression = match.match(/\$\{([^}]+)/)?.[1] || "";
+      return expression.length < 50 && !expression.includes("${");
+    },
+  },
 ];
 
 class TemplateLiteralFixer {
@@ -100,7 +100,7 @@ class TemplateLiteralFixer {
       fixesByFile: {},
       errors: [],
       skippedFixes: [],
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     // Initialize fix counters
@@ -135,7 +135,9 @@ class TemplateLiteralFixer {
         const fullPath = path.join(dir, entry.name);
 
         // Skip excluded patterns
-        if (CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
+        if (
+          CONFIG.excludePatterns.some((pattern) => fullPath.includes(pattern))
+        ) {
           continue;
         }
 
@@ -162,11 +164,17 @@ class TemplateLiteralFixer {
         fs.mkdirSync(CONFIG.backupDirectory, { recursive: true });
       }
 
-      const backupPath = path.join(CONFIG.backupDirectory, path.basename(filePath) + '.backup');
+      const backupPath = path.join(
+        CONFIG.backupDirectory,
+        path.basename(filePath) + ".backup",
+      );
       fs.copyFileSync(filePath, backupPath);
       return backupPath;
     } catch (error) {
-      console.warn(`Warning: Could not create backup for ${filePath}:`, error.message);
+      console.warn(
+        `Warning: Could not create backup for ${filePath}:`,
+        error.message,
+      );
       return null;
     }
   }
@@ -175,7 +183,7 @@ class TemplateLiteralFixer {
    * Check if a file contains template literals
    */
   hasTemplateLiterals(content) {
-    return content.includes('`') && content.includes('${');
+    return content.includes("`") && content.includes("${");
   }
 
   /**
@@ -198,7 +206,7 @@ class TemplateLiteralFixer {
    */
   fixFile(filePath) {
     try {
-      const originalContent = fs.readFileSync(filePath, 'utf8');
+      const originalContent = fs.readFileSync(filePath, "utf8");
 
       // Skip files without template literals
       if (!this.hasTemplateLiterals(originalContent)) {
@@ -216,10 +224,16 @@ class TemplateLiteralFixer {
 
         for (const match of matches) {
           if (this.shouldApplyFix(fix, match, originalContent, match.index)) {
-            if (typeof fix.replacement === 'function') {
-              modifiedContent = modifiedContent.replace(match[0], fix.replacement(match[0], ...match.slice(1)));
+            if (typeof fix.replacement === "function") {
+              modifiedContent = modifiedContent.replace(
+                match[0],
+                fix.replacement(match[0], ...match.slice(1)),
+              );
             } else {
-              modifiedContent = modifiedContent.replace(match[0], fix.replacement);
+              modifiedContent = modifiedContent.replace(
+                match[0],
+                fix.replacement,
+              );
             }
             appliedFixes++;
           } else {
@@ -227,7 +241,7 @@ class TemplateLiteralFixer {
               file: filePath,
               fixName: fix.name,
               match: match[0],
-              reason: 'Failed validation'
+              reason: "Failed validation",
             });
           }
         }
@@ -239,7 +253,7 @@ class TemplateLiteralFixer {
             fixName: fix.name,
             count: appliedFixes,
             description: fix.description,
-            skipped: matches.length - appliedFixes
+            skipped: matches.length - appliedFixes,
           });
         }
       }
@@ -253,7 +267,7 @@ class TemplateLiteralFixer {
             this.createBackup(filePath);
 
             // Write modified content
-            fs.writeFileSync(filePath, modifiedContent, 'utf8');
+            fs.writeFileSync(filePath, modifiedContent, "utf8");
           }
 
           this.results.filesModified++;
@@ -261,14 +275,15 @@ class TemplateLiteralFixer {
 
           return { modified: true, fixes: fileFixes };
         } else {
-          console.warn(`⚠️  Skipping ${filePath}: fixes would introduce syntax errors`);
+          console.warn(
+            `⚠️  Skipping ${filePath}: fixes would introduce syntax errors`,
+          );
           return { modified: false, fixes: [], skipped: true };
         }
       }
 
       this.results.totalFilesProcessed++;
       return { modified: false, fixes: [] };
-
     } catch (error) {
       const errorMsg = `Error processing file ${filePath}: ${error.message}`;
       console.warn(errorMsg);
@@ -283,7 +298,7 @@ class TemplateLiteralFixer {
   validateSyntax(content, filePath) {
     try {
       // Basic checks for common syntax issues
-      const lines = content.split('\n');
+      const lines = content.split("\n");
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -306,19 +321,21 @@ class TemplateLiteralFixer {
         }
 
         // Check for malformed template expressions
-        if (line.includes('${') && !line.includes('}')) {
+        if (line.includes("${") && !line.includes("}")) {
           // Check if it continues on next line
           let j = i + 1;
           let found = false;
           while (j < lines.length && j - i < 5) {
-            if (lines[j].includes('}')) {
+            if (lines[j].includes("}")) {
               found = true;
               break;
             }
             j++;
           }
           if (!found) {
-            console.warn(`Unclosed template expression in ${filePath} at line ${i + 1}`);
+            console.warn(
+              `Unclosed template expression in ${filePath} at line ${i + 1}`,
+            );
             return false;
           }
         }
@@ -336,10 +353,10 @@ class TemplateLiteralFixer {
    */
   async validateTypeScript() {
     try {
-      console.log('\n🔧 Validating TypeScript compilation...');
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      console.log("\n🔧 Validating TypeScript compilation...");
+      const output = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
 
       const errorCount = (output.match(/error TS/g) || []).length;
@@ -350,7 +367,7 @@ class TemplateLiteralFixer {
       const errorCount = (error.stdout?.match(/error TS/g) || []).length;
       console.log(`📊 TypeScript errors after fixes: ${errorCount}`);
 
-      return { success: false, errorCount, output: error.stdout || '' };
+      return { success: false, errorCount, output: error.stdout || "" };
     }
   }
 
@@ -358,16 +375,18 @@ class TemplateLiteralFixer {
    * Run the complete template literal fixing process
    */
   async runFixes() {
-    console.log('🔧 Starting Template Literal Expression Fixes...');
-    console.log(`📁 Processing directories: ${CONFIG.sourceDirectories.join(', ')}`);
-    console.log(`📄 File extensions: ${CONFIG.fileExtensions.join(', ')}`);
-    console.log(`🔄 Dry run mode: ${CONFIG.dryRun ? 'ENABLED' : 'DISABLED'}`);
+    console.log("🔧 Starting Template Literal Expression Fixes...");
+    console.log(
+      `📁 Processing directories: ${CONFIG.sourceDirectories.join(", ")}`,
+    );
+    console.log(`📄 File extensions: ${CONFIG.fileExtensions.join(", ")}`);
+    console.log(`🔄 Dry run mode: ${CONFIG.dryRun ? "ENABLED" : "DISABLED"}`);
 
     const files = this.getSourceFiles();
     console.log(`📊 Found ${files.length} files to process`);
 
     if (files.length === 0) {
-      console.log('⚠️  No source files found to process');
+      console.log("⚠️  No source files found to process");
       return this.results;
     }
 
@@ -378,13 +397,17 @@ class TemplateLiteralFixer {
       processedCount++;
 
       if (result.modified) {
-        console.log(`✅ Fixed: ${file} (${result.fixes.length} fix types applied)`);
+        console.log(
+          `✅ Fixed: ${file} (${result.fixes.length} fix types applied)`,
+        );
       } else if (result.skipped) {
         console.log(`⚠️  Skipped: ${file} (would introduce syntax errors)`);
       }
 
       if (processedCount % 100 === 0) {
-        console.log(`📈 Progress: ${processedCount}/${files.length} files processed`);
+        console.log(
+          `📈 Progress: ${processedCount}/${files.length} files processed`,
+        );
       }
     }
 
@@ -405,11 +428,15 @@ class TemplateLiteralFixer {
    * Generate summary report
    */
   generateSummary() {
-    console.log('\n📋 TEMPLATE LITERAL FIX SUMMARY');
-    console.log('=' .repeat(50));
-    console.log(`📊 Total files processed: ${this.results.totalFilesProcessed}`);
+    console.log("\n📋 TEMPLATE LITERAL FIX SUMMARY");
+    console.log("=".repeat(50));
+    console.log(
+      `📊 Total files processed: ${this.results.totalFilesProcessed}`,
+    );
     console.log(`🔧 Files modified: ${this.results.filesModified}`);
-    console.log(`✅ Files unchanged: ${this.results.totalFilesProcessed - this.results.filesModified}`);
+    console.log(
+      `✅ Files unchanged: ${this.results.totalFilesProcessed - this.results.filesModified}`,
+    );
 
     if (this.results.errors.length > 0) {
       console.log(`❌ Errors encountered: ${this.results.errors.length}`);
@@ -419,7 +446,7 @@ class TemplateLiteralFixer {
       console.log(`⚠️  Fixes skipped: ${this.results.skippedFixes.length}`);
     }
 
-    console.log('\n🔍 Fixes Applied by Type:');
+    console.log("\n🔍 Fixes Applied by Type:");
     let totalFixes = 0;
     for (const [fixType, count] of Object.entries(this.results.fixesByType)) {
       if (count > 0) {
@@ -429,11 +456,11 @@ class TemplateLiteralFixer {
     }
 
     if (this.results.filesModified > 0) {
-      console.log('\n🚨 Top Files Modified:');
+      console.log("\n🚨 Top Files Modified:");
       const fileFixCount = Object.entries(this.results.fixesByFile)
         .map(([file, fixes]) => ({
           file,
-          count: fixes.reduce((sum, fix) => sum + fix.count, 0)
+          count: fixes.reduce((sum, fix) => sum + fix.count, 0),
         }))
         .sort((a, b) => b.count - a.count)
         .slice(0, 10);
@@ -446,7 +473,7 @@ class TemplateLiteralFixer {
     console.log(`\n📈 Total template literal fixes applied: ${totalFixes}`);
 
     if (CONFIG.dryRun) {
-      console.log('\n⚠️  DRY RUN MODE: No files were actually modified');
+      console.log("\n⚠️  DRY RUN MODE: No files were actually modified");
     } else if (this.results.filesModified > 0) {
       console.log(`\n💾 Backups created in: ${CONFIG.backupDirectory}`);
     }
@@ -457,11 +484,11 @@ class TemplateLiteralFixer {
    */
   saveResults() {
     try {
-      const outputFile = 'template-literal-fix-report.json';
+      const outputFile = "template-literal-fix-report.json";
       fs.writeFileSync(outputFile, JSON.stringify(this.results, null, 2));
       console.log(`\n💾 Results saved to: ${outputFile}`);
     } catch (error) {
-      console.error('❌ Failed to save results:', error.message);
+      console.error("❌ Failed to save results:", error.message);
     }
   }
 }
@@ -470,7 +497,7 @@ class TemplateLiteralFixer {
 async function main() {
   const args = process.argv.slice(2);
 
-  if (args.includes('--dry-run')) {
+  if (args.includes("--dry-run")) {
     CONFIG.dryRun = true;
   }
 
@@ -479,24 +506,28 @@ async function main() {
     const results = await fixer.runFixes();
 
     // Exit with appropriate code
-    const totalFixes = Object.values(results.fixesByType).reduce((sum, count) => sum + count, 0);
+    const totalFixes = Object.values(results.fixesByType).reduce(
+      (sum, count) => sum + count,
+      0,
+    );
 
     if (totalFixes === 0) {
-      console.log('\n✅ SUCCESS: No template literal issues found that need fixing!');
+      console.log(
+        "\n✅ SUCCESS: No template literal issues found that need fixing!",
+      );
       process.exit(0);
     } else {
       console.log(`\n✅ SUCCESS: Applied ${totalFixes} template literal fixes`);
 
       if (results.validation && !results.validation.success) {
-        console.log('⚠️  WARNING: TypeScript compilation still has errors');
+        console.log("⚠️  WARNING: TypeScript compilation still has errors");
         process.exit(1);
       } else {
         process.exit(0);
       }
     }
-
   } catch (error) {
-    console.error('❌ FATAL ERROR:', error.message);
+    console.error("❌ FATAL ERROR:", error.message);
     console.error(error.stack);
     process.exit(1);
   }

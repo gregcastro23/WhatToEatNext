@@ -9,16 +9,16 @@
 (function () {
   try {
     // Stop lockdown-related errors
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       // Suppress lockdown warnings and errors
       if (!window.__lockdownHandled) {
         window.__lockdownHandled = true;
-        console.warn('[EmptyJS] Suppressing lockdown errors');
+        console.warn("[EmptyJS] Suppressing lockdown errors");
       }
     }
 
     // Ensure chrome object exists
-    if (typeof window.chrome === 'undefined') {
+    if (typeof window.chrome === "undefined") {
       window.chrome = {};
     }
 
@@ -26,11 +26,13 @@
     if (!window.chrome.tabs) {
       window.chrome.tabs = {
         create: function (options) {
-          console.log('[EmptyJS] Mocked chrome.tabs.create called');
+          console.log("[EmptyJS] Mocked chrome.tabs.create called");
           return Promise.resolve({ id: 999 });
         },
         query: function () {
-          return Promise.resolve([{ id: 999, active: true, currentWindow: true }]);
+          return Promise.resolve([
+            { id: 999, active: true, currentWindow: true },
+          ]);
         },
         update: function () {
           return Promise.resolve({});
@@ -39,14 +41,14 @@
     }
 
     // Ensure popup object exists
-    if (typeof window.popup === 'undefined') {
+    if (typeof window.popup === "undefined") {
       window.popup = {};
     }
 
     // Ensure popup.create exists
     if (!window.popup.create) {
       window.popup.create = function () {
-        console.log('[EmptyJS] Mocked popup.create called');
+        console.log("[EmptyJS] Mocked popup.create called");
         return {
           show: function () {
             return this;
@@ -98,17 +100,17 @@
     if (!window.__extensionErrorHandlerInstalled) {
       window.__extensionErrorHandlerInstalled = true;
       window.addEventListener(
-        'error',
+        "error",
         function (e) {
           if (
             e.message &&
-            (e.message.includes('chrome') ||
-              e.message.includes('extension') ||
-              e.message.includes('popup') ||
-              e.message.includes('lockdown') ||
-              e.message.includes('Cannot read properties of undefined'))
+            (e.message.includes("chrome") ||
+              e.message.includes("extension") ||
+              e.message.includes("popup") ||
+              e.message.includes("lockdown") ||
+              e.message.includes("Cannot read properties of undefined"))
           ) {
-            console.warn('[EmptyJS] Suppressed error:', e.message);
+            console.warn("[EmptyJS] Suppressed error:", e.message);
             e.preventDefault();
             return true; // Prevent default error handling
           }
@@ -119,9 +121,12 @@
     }
 
     // Log that this is a safe replacement
-    console.log('[EmptyJS] Safely replaced problematic script');
+    console.log("[EmptyJS] Safely replaced problematic script");
   } catch (error) {
-    console.warn('[EmptyJS] Error during initialization, but safely handled:', error);
+    console.warn(
+      "[EmptyJS] Error during initialization, but safely handled:",
+      error,
+    );
   }
 })();
 

@@ -35,7 +35,10 @@ elemental logic and provides implementation guidelines.
 
 ```typescript
 // Element compatibility function
-function getElementalCompatibility(element1: Element, element2: Element): number {
+function getElementalCompatibility(
+  element1: Element,
+  element2: Element,
+): number {
   // Same element has highest compatibility
   if (element1 === element2) {
     return 0.9; // Same element has highest compatibility

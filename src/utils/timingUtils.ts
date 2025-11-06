@@ -1,6 +1,6 @@
-import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
-import type { ElementalProperties } from '@/types/alchemy';
-import { elementalUtils } from './elementalUtils';
+import { culinaryTraditions } from "@/data/cuisines/culinaryTraditions";
+import type { ElementalProperties } from "@/types/alchemy";
+import { elementalUtils } from "./elementalUtils";
 
 // Define TimingResult interface
 interface TimingResult {
@@ -12,15 +12,15 @@ export const timingUtils = {
   calculateOptimalTiming(
     ingredients: ElementalProperties[],
     cookingMethod: string,
-    cuisine?: string
+    cuisine?: string,
   ): TimingResult {
     const baseTiming = this.calculateBaseTiming(ingredients, cookingMethod);
 
     if (cuisine) {
       const cuisineProfile = culinaryTraditions[cuisine];
-      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment).sort(
-        ([, a], [, b]) => b - a
-      )[0][0];
+      const cuisineElement = Object.entries(
+        cuisineProfile.elementalAlignment,
+      ).sort(([, a], [, b]) => b - a)[0][0];
 
       return this.applyCuisineModifiers(baseTiming, cuisineElement);
     }
@@ -32,38 +32,41 @@ export const timingUtils = {
       Fire: { duration: 0.8, mainPhase: 0.7 },
       Water: { duration: 1.2, mainPhase: 0.5 },
       Earth: { duration: 1.1, mainPhase: 0.6 },
-      Air: { duration: 0.9, mainPhase: 0.8 }
+      Air: { duration: 0.9, mainPhase: 0.8 },
     };
 
     return {
-      duration: base.duration * modifiers[element as keyof typeof modifiers].duration,
-      phases: base.phases.map(p => ({
+      duration:
+        base.duration * modifiers[element as keyof typeof modifiers].duration,
+      phases: base.phases.map((p) => ({
         name: p.name,
-        time: p.name === 'main_cooking'
-          ? p.time * modifiers[element as keyof typeof modifiers].mainPhase
-          : p.time
-      }))
+        time:
+          p.name === "main_cooking"
+            ? p.time * modifiers[element as keyof typeof modifiers].mainPhase
+            : p.time,
+      })),
     };
   },
 
-  calculateBaseTiming(ingredients: ElementalProperties[], cookingMethod: string): TimingResult {
+  calculateBaseTiming(
+    ingredients: ElementalProperties[],
+    cookingMethod: string,
+  ): TimingResult {
     const baseProperties = ingredients.reduce(
       (acc, curr) => elementalUtils.combineProperties(acc, curr),
-      elementalUtils.getDefaultElementalProperties()
+      elementalUtils.getDefaultElementalProperties(),
     );
 
     // Implement getDominantElement directly
     const entries = Object.entries(baseProperties) as [string, number][];
-    const dominantElement = entries.reduce((a, b) =>
-      a[1] > b[1] ? a : b
-    )[0];
+    const dominantElement = entries.reduce((a, b) => (a[1] > b[1] ? a : b))[0];
 
     // Base timing by dominant element (in minutes)
     const elementalTiming: Record<string, number> = {
       Fire: 15, // Quick cooking
       Air: 20, // Medium-quick cooking
       Water: 30, // Medium cooking
-      Earth: 45 // Slow cooking
+      Earth: 45, // Slow cooking
     };
 
     // Cooking method modifiers
@@ -72,7 +75,7 @@ export const timingUtils = {
       _steaming: 1.2,
       _baking: 1.5,
       _slow_cooking: 2.5,
-      _raw: 0
+      _raw: 0,
     };
 
     const baseTime = elementalTiming[dominantElement] || 30;
@@ -84,18 +87,18 @@ export const timingUtils = {
       duration: totalTime,
       phases: [
         {
-          name: 'preparation',
-          time: totalTime * 0.2
+          name: "preparation",
+          time: totalTime * 0.2,
         },
         {
-          name: 'main_cooking',
-          time: totalTime * 0.6
+          name: "main_cooking",
+          time: totalTime * 0.6,
         },
         {
-          name: 'finishing',
-          time: totalTime * 0.2
-        }
-      ]
+          name: "finishing",
+          time: totalTime * 0.2,
+        },
+      ],
     };
   },
 
@@ -104,11 +107,11 @@ export const timingUtils = {
       summer: 0.8, // Faster cooking in summer
       winter: 1.2, // Slower cooking in winter
       _spring: 1.0, // Standard timing
-      _autumn: 1.0 // Standard timing
+      _autumn: 1.0, // Standard timing
     };
 
     return baseTime * (seasonalModifiers[season.toLowerCase()] || 1.0);
-  }
+  },
 };
 
 export default timingUtils;

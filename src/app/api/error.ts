@@ -1,9 +1,9 @@
 // 'use client';
-import { NextResponse } from 'next/server';
-import { _logger } from '@/lib/logger';
-import type { ApiError} from '@/types/errors';
-import { NotFoundError, ValidationError } from '@/types/errors';
-import { logger } from '@/utils/logger';
+import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
+import type { ApiError } from "@/types/errors";
+import { NotFoundError, ValidationError } from "@/types/errors";
+import { logger } from "@/utils/logger";
 
 /**
  * Handle API errors with appropriate responses
@@ -13,7 +13,7 @@ import { logger } from '@/utils/logger';
 export function handleApiError(error: unknown): NextResponse {
   // Default to 500 Internal Server Error
   let statusCode = 500;
-  let message = 'Internal server error';
+  let message = "Internal server error";
   let details: unknown = undefined;
 
   // If this is one of our custom API errors, use its status code
@@ -38,9 +38,9 @@ export function handleApiError(error: unknown): NextResponse {
   return NextResponse.json(
     {
       error: message,
-      ...(details ? { details } : {})
+      ...(details ? { details } : {}),
     },
-    { status: statusCode }
+    { status: statusCode },
   );
 }
 
@@ -50,7 +50,10 @@ export function handleApiError(error: unknown): NextResponse {
  * @param details Validation details
  * @returns NextResponse with 400 status
  */
-export function validationError(message: string, details?: unknown): NextResponse {
+export function validationError(
+  message: string,
+  details?: unknown,
+): NextResponse {
   return handleApiError(new ValidationError(message, details));
 }
 
@@ -64,17 +67,18 @@ export function notFoundError(message: string): NextResponse {
 }
 
 export function handleServerError(error: unknown) {
-  _logger.error('Server error: ', error);
+  _logger.error("Server error: ", error);
   return new NextResponse(
     JSON.stringify({
-      error: 'Internal Server Error',
-      message: error instanceof Error ? error.message : 'Unknown error occurred'
-}),
+      error: "Internal Server Error",
+      message:
+        error instanceof Error ? error.message : "Unknown error occurred",
+    }),
     {
       status: 500,
       headers: {
-        'Content-Type': 'application/json',
-      }
-    }
+        "Content-Type": "application/json",
+      },
+    },
   );
 }

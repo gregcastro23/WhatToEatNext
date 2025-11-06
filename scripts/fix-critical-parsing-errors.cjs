@@ -12,48 +12,51 @@
  * Phase 9.1 of Linting Excellence Campaign
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class CriticalParsingErrorFixer {
   constructor() {
     this.fixedFiles = [];
     this.errors = [];
-    this.dryRun = process.argv.includes('--dry-run');
-    this.verbose = process.argv.includes('--verbose');
+    this.dryRun = process.argv.includes("--dry-run");
+    this.verbose = process.argv.includes("--verbose");
   }
 
-  log(message, level = 'info') {
+  log(message, level = "info") {
     const timestamp = new Date().toISOString();
-    const prefix = level === 'error' ? '❌' : level === 'warn' ? '⚠️' : '✅';
+    const prefix = level === "error" ? "❌" : level === "warn" ? "⚠️" : "✅";
     console.log(`${prefix} [${timestamp}] ${message}`);
   }
 
   async findFilesWithParsingErrors() {
-    this.log('🔍 Identifying files with critical parsing errors...');
+    this.log("🔍 Identifying files with critical parsing errors...");
 
     try {
       // Get TypeScript compilation errors
-      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-        encoding: 'utf8',
-        stdio: 'pipe',
-      });
+      const tscOutput = execSync(
+        "yarn tsc --noEmit --skipLibCheck 2>&1 || true",
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const errorLines = tscOutput
-        .split('\n')
+        .split("\n")
         .filter(
-          line =>
-            line.includes('error TS') &&
-            (line.includes('JSX element') ||
-              line.includes('Unexpected token') ||
-              line.includes('Expected') ||
-              line.includes('Identifier expected') ||
-              line.includes('Expression expected')),
+          (line) =>
+            line.includes("error TS") &&
+            (line.includes("JSX element") ||
+              line.includes("Unexpected token") ||
+              line.includes("Expected") ||
+              line.includes("Identifier expected") ||
+              line.includes("Expression expected")),
         );
 
       const filesWithErrors = new Set();
-      errorLines.forEach(line => {
+      errorLines.forEach((line) => {
         const match = line.match(/^([^(]+)\(/);
         if (match) {
           const filePath = match[1].trim();
@@ -63,10 +66,15 @@ class CriticalParsingErrorFixer {
         }
       });
 
-      this.log(`Found ${filesWithErrors.size} files with critical parsing errors`);
+      this.log(
+        `Found ${filesWithErrors.size} files with critical parsing errors`,
+      );
       return Array.from(filesWithErrors);
     } catch (error) {
-      this.log(`Error finding files with parsing errors: ${error.message}`, 'error');
+      this.log(
+        `Error finding files with parsing errors: ${error.message}`,
+        "error",
+      );
       return [];
     }
   }
@@ -77,15 +85,15 @@ class CriticalParsingErrorFixer {
 
     // Fix common JSX HTML entity issues
     const entityFixes = [
-      { from: /&lt;/g, to: '<', description: 'HTML entity &lt; to <' },
-      { from: /&gt;/g, to: '>', description: 'HTML entity &gt; to >' },
-      { from: /&amp;/g, to: '&', description: 'HTML entity &amp; to &' },
+      { from: /&lt;/g, to: "<", description: "HTML entity &lt; to <" },
+      { from: /&gt;/g, to: ">", description: "HTML entity &gt; to >" },
+      { from: /&amp;/g, to: "&", description: "HTML entity &amp; to &" },
       { from: /&quot;/g, to: '"', description: 'HTML entity &quot; to "' },
       { from: /&#x27;/g, to: "'", description: "HTML entity &#x27; to '" },
-      { from: /&nbsp;/g, to: ' ', description: 'HTML entity &nbsp; to space' },
+      { from: /&nbsp;/g, to: " ", description: "HTML entity &nbsp; to space" },
     ];
 
-    entityFixes.forEach(fix => {
+    entityFixes.forEach((fix) => {
       if (fix.from.test(newContent)) {
         newContent = newContent.replace(fix.from, fix.to);
         fixed = true;
@@ -107,18 +115,18 @@ class CriticalParsingErrorFixer {
       // Fix unclosed self-closing tags
       {
         from: /<(input|img|br|hr|meta|link|area|base|col|embed|source|track|wbr)([^>]*[^/])>/g,
-        to: '<$1$2 />',
-        description: 'Self-closing tags',
+        to: "<$1$2 />",
+        description: "Self-closing tags",
       },
       // Fix missing closing tags for common elements (basic pattern)
       {
         from: /<(div|span|p|h1|h2|h3|h4|h5|h6|nav|main|section|article|aside|header|footer)([^>]*)>([^<]*)<\/(?!\1)/g,
-        to: '<$1$2>$3</$1>',
-        description: 'Missing closing tags',
+        to: "<$1$2>$3</$1>",
+        description: "Missing closing tags",
       },
     ];
 
-    tagFixes.forEach(fix => {
+    tagFixes.forEach((fix) => {
       const matches = newContent.match(fix.from);
       if (matches) {
         newContent = newContent.replace(fix.from, fix.to);
@@ -141,25 +149,31 @@ class CriticalParsingErrorFixer {
       // Fix missing await keyword
       {
         from: /(\s+)(Promise\.resolve|Promise\.reject|fetch|axios\.|api\.)\(/g,
-        to: '$1await $2(',
-        description: 'Missing await keywords',
+        to: "$1await $2(",
+        description: "Missing await keywords",
       },
       // Fix async function declarations
       {
         from: /function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\([^)]*\)\s*:\s*Promise</g,
-        to: 'async function $1($2): Promise',
-        description: 'Missing async keyword',
+        to: "async function $1($2): Promise",
+        description: "Missing async keyword",
       },
     ];
 
     // Only apply to files that likely contain async code
-    if (content.includes('Promise') || content.includes('await') || content.includes('async')) {
-      asyncFixes.forEach(fix => {
+    if (
+      content.includes("Promise") ||
+      content.includes("await") ||
+      content.includes("async")
+    ) {
+      asyncFixes.forEach((fix) => {
         if (fix.from.test(newContent)) {
           newContent = newContent.replace(fix.from, fix.to);
           fixed = true;
           if (this.verbose) {
-            this.log(`  Fixed ${fix.description} in ${path.basename(filePath)}`);
+            this.log(
+              `  Fixed ${fix.description} in ${path.basename(filePath)}`,
+            );
           }
         }
       });
@@ -173,28 +187,30 @@ class CriticalParsingErrorFixer {
     let newContent = content;
 
     // Fix common method call syntax issues in test files
-    if (filePath.includes('test') || filePath.includes('spec')) {
+    if (filePath.includes("test") || filePath.includes("spec")) {
       const methodFixes = [
         // Fix missing parentheses in method calls
         {
           from: /(expect\([^)]+\)\.to[A-Z][a-zA-Z]*)\s*$/gm,
-          to: '$1()',
-          description: 'Missing parentheses in expect calls',
+          to: "$1()",
+          description: "Missing parentheses in expect calls",
         },
         // Fix incorrect jest matcher syntax
         {
           from: /\.toBe\s*\(/g,
-          to: '.toBe(',
-          description: 'Jest matcher syntax',
+          to: ".toBe(",
+          description: "Jest matcher syntax",
         },
       ];
 
-      methodFixes.forEach(fix => {
+      methodFixes.forEach((fix) => {
         if (fix.from.test(newContent)) {
           newContent = newContent.replace(fix.from, fix.to);
           fixed = true;
           if (this.verbose) {
-            this.log(`  Fixed ${fix.description} in ${path.basename(filePath)}`);
+            this.log(
+              `  Fixed ${fix.description} in ${path.basename(filePath)}`,
+            );
           }
         }
       });
@@ -205,7 +221,7 @@ class CriticalParsingErrorFixer {
 
   async fixFile(filePath) {
     try {
-      const originalContent = fs.readFileSync(filePath, 'utf8');
+      const originalContent = fs.readFileSync(filePath, "utf8");
       let currentContent = originalContent;
       let totalFixed = false;
 
@@ -227,40 +243,44 @@ class CriticalParsingErrorFixer {
 
       if (totalFixed) {
         if (!this.dryRun) {
-          fs.writeFileSync(filePath, currentContent, 'utf8');
+          fs.writeFileSync(filePath, currentContent, "utf8");
         }
 
         this.fixedFiles.push({
           path: filePath,
-          changes: fixes.filter(f => f.fixed).length,
+          changes: fixes.filter((f) => f.fixed).length,
         });
 
         this.log(
-          `${this.dryRun ? '[DRY RUN] ' : ''}Fixed parsing errors in ${path.basename(filePath)}`,
+          `${this.dryRun ? "[DRY RUN] " : ""}Fixed parsing errors in ${path.basename(filePath)}`,
         );
         return true;
       }
 
       return false;
     } catch (error) {
-      this.log(`Error fixing ${filePath}: ${error.message}`, 'error');
+      this.log(`Error fixing ${filePath}: ${error.message}`, "error");
       this.errors.push({ file: filePath, error: error.message });
       return false;
     }
   }
 
   async validateFixes() {
-    this.log('🔍 Validating fixes with TypeScript compiler...');
+    this.log("🔍 Validating fixes with TypeScript compiler...");
 
     try {
-      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-        encoding: 'utf8',
-        stdio: 'pipe',
-      });
+      const tscOutput = execSync(
+        "yarn tsc --noEmit --skipLibCheck 2>&1 || true",
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const errorCount = (tscOutput.match(/error TS/g) || []).length;
-      const parsingErrorCount = (tscOutput.match(/error TS(17008|1382|17002|1005|1003)/g) || [])
-        .length;
+      const parsingErrorCount = (
+        tscOutput.match(/error TS(17008|1382|17002|1005|1003)/g) || []
+      ).length;
 
       this.log(
         `TypeScript validation: ${errorCount} total errors, ${parsingErrorCount} parsing errors`,
@@ -268,7 +288,7 @@ class CriticalParsingErrorFixer {
 
       return { totalErrors: errorCount, parsingErrors: parsingErrorCount };
     } catch (error) {
-      this.log(`Validation error: ${error.message}`, 'error');
+      this.log(`Validation error: ${error.message}`, "error");
       return { totalErrors: -1, parsingErrors: -1 };
     }
   }
@@ -332,25 +352,27 @@ if (require.main === module) {
 module.exports = { validateSyntax };
 `;
 
-    const scriptPath = 'scripts/validate-syntax.cjs';
+    const scriptPath = "scripts/validate-syntax.cjs";
     if (!this.dryRun) {
-      fs.writeFileSync(scriptPath, scriptContent, 'utf8');
+      fs.writeFileSync(scriptPath, scriptContent, "utf8");
       execSync(`chmod +x ${scriptPath}`);
     }
 
-    this.log(`${this.dryRun ? '[DRY RUN] ' : ''}Created syntax validation script: ${scriptPath}`);
+    this.log(
+      `${this.dryRun ? "[DRY RUN] " : ""}Created syntax validation script: ${scriptPath}`,
+    );
     return scriptPath;
   }
 
   async run() {
-    this.log('🚀 Starting Critical Parsing Error Fix (Phase 9.1)');
-    this.log(`Mode: ${this.dryRun ? 'DRY RUN' : 'LIVE EXECUTION'}`);
+    this.log("🚀 Starting Critical Parsing Error Fix (Phase 9.1)");
+    this.log(`Mode: ${this.dryRun ? "DRY RUN" : "LIVE EXECUTION"}`);
 
     // Find files with parsing errors
     const filesWithErrors = await this.findFilesWithParsingErrors();
 
     if (filesWithErrors.length === 0) {
-      this.log('✅ No files with critical parsing errors found!');
+      this.log("✅ No files with critical parsing errors found!");
       return;
     }
 
@@ -370,7 +392,7 @@ module.exports = { validateSyntax };
     const validation = await this.validateFixes();
 
     // Report results
-    this.log('\\n📊 Fix Summary:');
+    this.log("\\n📊 Fix Summary:");
     this.log(`   Files processed: ${filesWithErrors.length}`);
     this.log(`   Files fixed: ${fixedCount}`);
     this.log(`   Errors encountered: ${this.errors.length}`);
@@ -380,25 +402,25 @@ module.exports = { validateSyntax };
     }
 
     if (this.fixedFiles.length > 0) {
-      this.log('\\n✅ Fixed files:');
-      this.fixedFiles.forEach(file => {
+      this.log("\\n✅ Fixed files:");
+      this.fixedFiles.forEach((file) => {
         this.log(`   ${file.path} (${file.changes} fixes)`);
       });
     }
 
     if (this.errors.length > 0) {
-      this.log('\\n❌ Errors encountered:');
-      this.errors.forEach(error => {
+      this.log("\\n❌ Errors encountered:");
+      this.errors.forEach((error) => {
         this.log(`   ${error.file}: ${error.error}`);
       });
     }
 
     this.log(
-      `\\n${this.dryRun ? '🔍 DRY RUN COMPLETE' : '✅ CRITICAL PARSING ERROR FIX COMPLETE'}`,
+      `\\n${this.dryRun ? "🔍 DRY RUN COMPLETE" : "✅ CRITICAL PARSING ERROR FIX COMPLETE"}`,
     );
 
     if (!this.dryRun && validation.parsingErrors === 0) {
-      this.log('🎉 All critical parsing errors have been resolved!');
+      this.log("🎉 All critical parsing errors have been resolved!");
     }
   }
 }
@@ -406,8 +428,8 @@ module.exports = { validateSyntax };
 // Run the fixer
 if (require.main === module) {
   const fixer = new CriticalParsingErrorFixer();
-  fixer.run().catch(error => {
-    console.error('❌ Critical error:', error);
+  fixer.run().catch((error) => {
+    console.error("❌ Critical error:", error);
     process.exit(1);
   });
 }

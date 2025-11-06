@@ -1,20 +1,21 @@
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from "react";
 
 /**
  * Client-side effect hook that uses useLayoutEffect on the client and useEffect on the server
  * This prevents hydration mismatches in Next.js applications
  */
-export const _useClientEffect = typeof window !== 'undefined' ? useLayoutEffect: useEffect;
+export const _useClientEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
  * Check if we're running on the client side
  */
-export const isClient = typeof window !== 'undefined';
+export const isClient = typeof window !== "undefined";
 
 /**
  * Check if we're running on the server side
  */
-export const isServer = typeof window === 'undefined';
+export const isServer = typeof window === "undefined";
 
 /**
  * Safe client-only execution wrapper
@@ -22,9 +23,9 @@ export const isServer = typeof window === 'undefined';
  */
 export const _clientOnly = (callback: () => void) => {
   if (isClient) {
-    callback()
+    callback();
   }
-}
+};
 
 /**
  * Safe server-only execution wrapper
@@ -32,6 +33,6 @@ export const _clientOnly = (callback: () => void) => {
  */
 export const _serverOnly = (callback: () => void) => {
   if (isServer) {
-    callback()
+    callback();
   }
-}
+};

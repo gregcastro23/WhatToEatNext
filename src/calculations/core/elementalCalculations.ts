@@ -5,52 +5,54 @@
  * into a single, efficient, and accurate system using streamlined planetary positions.
  */
 
-import type {
-    Element,
-    ElementalProperties
-} from '@/types/alchemy';
-import type { CelestialPosition } from '@/types/celestial';
-import { getCurrentPlanetaryPositions } from '../../utils/streamlinedPlanetaryPositions';
+import type { Element, ElementalProperties } from "@/types/alchemy";
+import type { CelestialPosition } from "@/types/celestial";
+import { getCurrentPlanetaryPositions } from "../../utils/streamlinedPlanetaryPositions";
 
 // Zodiac to Element mapping (exported for reuse)
 export const ZODIAC_ELEMENTS: Record<string, Element> = {
-  aries: 'Fire',
-  taurus: 'Earth',
-  gemini: 'Air',
-  cancer: 'Water',
-  leo: 'Fire',
-  virgo: 'Earth',
-  libra: 'Air',
-  scorpio: 'Water',
-  sagittarius: 'Fire',
-  capricorn: 'Earth',
-  aquarius: 'Air',
-  pisces: 'Water'
+  aries: "Fire",
+  taurus: "Earth",
+  gemini: "Air",
+  cancer: "Water",
+  leo: "Fire",
+  virgo: "Earth",
+  libra: "Air",
+  scorpio: "Water",
+  sagittarius: "Fire",
+  capricorn: "Earth",
+  aquarius: "Air",
+  pisces: "Water",
 };
 
 // Type guards for safe property access
 function isValidObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
+  return typeof value === "object" && value !== null;
 }
 
-function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
+function hasProperty<T extends string>(
+  obj: unknown,
+  prop: T,
+): obj is Record<T, unknown> {
   return isValidObject(obj) && prop in obj;
 }
 
 function safeGetNumber(value: unknown): number {
-  return typeof value === 'number' && !isNaN(value) ? value : 0
+  return typeof value === "number" && !isNaN(value) ? value : 0;
 }
 
 /**
  * Calculate base elemental properties from planetary positions
  */
-export function calculateBaseElementalProperties(planetaryPositions: { [key: string]: CelestialPosition }): ElementalProperties {
+export function calculateBaseElementalProperties(planetaryPositions: {
+  [key: string]: CelestialPosition;
+}): ElementalProperties {
   const elements: ElementalProperties = {
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0
-};
+    Air: 0,
+  };
 
   // Use the exported ZODIAC_ELEMENTS mapping
   // Calculate elemental influence from each planet
@@ -84,7 +86,7 @@ function calculatePlanetaryDignity(planetName: string, sign: string): number {
     Saturn: { aquarius: 0.5, capricorn: 0.4, libra: 0.3 },
     Uranus: { aquarius: 0.5, scorpio: 0.3 },
     Neptune: { pisces: 0.5, cancer: 0.3 },
-    Pluto: { scorpio: 0.5, leo: 0.3 }
+    Pluto: { scorpio: 0.5, leo: 0.3 },
   };
 
   return dignityMap[planetName][sign] || 0;
@@ -104,8 +106,8 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
    */
   performElementalAnalysis: (
     planetaryPositions: { [key: string]: CelestialPosition },
-    context = 'general',
-    preferences: Record<string, unknown> = {}
+    context = "general",
+    preferences: Record<string, unknown> = {},
   ) => {
     // Calculate base elemental properties
     const baseProperties = calculateBaseElementalProperties(planetaryPositions);
@@ -116,51 +118,71 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         Fire: 1.1,
         Water: 1.05,
         Earth: 1.0,
-        Air: 1.1
-},
+        Air: 1.1,
+      },
       recipe: {
         Fire: 1.15,
         Water: 1.1,
         Earth: 1.05,
-        Air: 1.15
-},
+        Air: 1.15,
+      },
       cuisine: {
         Fire: 1.2,
         Water: 1.15,
         Earth: 1.1,
-        Air: 1.2
-},
+        Air: 1.2,
+      },
       cooking: {
         Fire: 1.05,
         Water: 1.0,
         Earth: 1.0,
-        Air: 1.05
-},
+        Air: 1.05,
+      },
       preparation: {
         Fire: 1.0,
         Water: 1.0,
         Earth: 1.0,
-        Air: 1.0
-},
+        Air: 1.0,
+      },
       general: {
         Fire: 1.0,
         Water: 1.0,
         Earth: 1.0,
-        Air: 1.0
-}
+        Air: 1.0,
+      },
     };
 
-    const elementalMultipliers = contextElementalMultipliers[context] || contextElementalMultipliers.general;
-    const preferenceMultiplier = hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
-      ? preferences.intensity
-      : 1.0;
+    const elementalMultipliers =
+      contextElementalMultipliers[context] ||
+      contextElementalMultipliers.general;
+    const preferenceMultiplier =
+      hasProperty(preferences, "intensity") &&
+      typeof preferences.intensity === "number"
+        ? preferences.intensity
+        : 1.0;
 
     // Apply context-specific adjustments
     const adjustedProperties: ElementalProperties = {
-      Fire: Math.min(1.0, baseProperties.Fire * elementalMultipliers.Fire * preferenceMultiplier),
-      Water: Math.min(1.0, baseProperties.Water * elementalMultipliers.Water * preferenceMultiplier),
-      Earth: Math.min(1.0, baseProperties.Earth * elementalMultipliers.Earth * preferenceMultiplier),
-      Air: Math.min(1.0, baseProperties.Air * elementalMultipliers.Air * preferenceMultiplier)
+      Fire: Math.min(
+        1.0,
+        baseProperties.Fire * elementalMultipliers.Fire * preferenceMultiplier,
+      ),
+      Water: Math.min(
+        1.0,
+        baseProperties.Water *
+          elementalMultipliers.Water *
+          preferenceMultiplier,
+      ),
+      Earth: Math.min(
+        1.0,
+        baseProperties.Earth *
+          elementalMultipliers.Earth *
+          preferenceMultiplier,
+      ),
+      Air: Math.min(
+        1.0,
+        baseProperties.Air * elementalMultipliers.Air * preferenceMultiplier,
+      ),
     };
 
     return {
@@ -168,15 +190,17 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       adjustedProperties,
       context,
       multipliers: elementalMultipliers,
-      preferences
+      preferences,
     };
-  }
+  },
 };
 
 /**
  * Get current elemental properties using streamlined planetary positions
  */
-export function getCurrentElementalProperties(context = 'general'): ElementalProperties {
+export function getCurrentElementalProperties(
+  context = "general",
+): ElementalProperties {
   const planetaryPositions = getCurrentPlanetaryPositions();
   return calculateBaseElementalProperties(planetaryPositions);
 }
@@ -186,21 +210,29 @@ export function getCurrentElementalProperties(context = 'general'): ElementalPro
  */
 export function analyzeElementalCompatibility(
   ingredient1Elements: ElementalProperties,
-  ingredient2Elements: ElementalProperties
+  ingredient2Elements: ElementalProperties,
 ): {
-  compatibility: number,
-  dominantElement: Element,
+  compatibility: number;
+  dominantElement: Element;
   complementaryElements: Element[];
 } {
   // Calculate compatibility based on elemental balance
-  const total1 = ingredient1Elements.Fire + ingredient1Elements.Water + ingredient1Elements.Earth + ingredient1Elements.Air;
-  const total2 = ingredient2Elements.Fire + ingredient2Elements.Water + ingredient2Elements.Earth + ingredient2Elements.Air;
+  const total1 =
+    ingredient1Elements.Fire +
+    ingredient1Elements.Water +
+    ingredient1Elements.Earth +
+    ingredient1Elements.Air;
+  const total2 =
+    ingredient2Elements.Fire +
+    ingredient2Elements.Water +
+    ingredient2Elements.Earth +
+    ingredient2Elements.Air;
 
   if (total1 === 0 || total2 === 0) {
     return {
       compatibility: 0.5,
-      dominantElement: 'Fire',
-      complementaryElements: []
+      dominantElement: "Fire",
+      complementaryElements: [],
     };
   }
 
@@ -209,14 +241,14 @@ export function analyzeElementalCompatibility(
     Fire: ingredient1Elements.Fire / total1,
     Water: ingredient1Elements.Water / total1,
     Earth: ingredient1Elements.Earth / total1,
-    Air: ingredient1Elements.Air / total1
+    Air: ingredient1Elements.Air / total1,
   };
 
   const norm2 = {
     Fire: ingredient2Elements.Fire / total2,
     Water: ingredient2Elements.Water / total2,
     Earth: ingredient2Elements.Earth / total2,
-    Air: ingredient2Elements.Air / total2
+    Air: ingredient2Elements.Air / total2,
   };
 
   // Calculate compatibility (lower difference = higher compatibility)
@@ -224,10 +256,11 @@ export function analyzeElementalCompatibility(
     Math.abs(norm1.Fire - norm2.Fire),
     Math.abs(norm1.Water - norm2.Water),
     Math.abs(norm1.Earth - norm2.Earth),
-    Math.abs(norm1.Air - norm2.Air)
+    Math.abs(norm1.Air - norm2.Air),
   ];
 
-  const avgDifference = differences.reduce((sum, diff) => sum + diff, 0) / differences.length;
+  const avgDifference =
+    differences.reduce((sum, diff) => sum + diff, 0) / differences.length;
   const compatibility = Math.max(0, 1 - avgDifference);
 
   // Find dominant element
@@ -235,11 +268,13 @@ export function analyzeElementalCompatibility(
     Fire: ingredient1Elements.Fire + ingredient2Elements.Fire,
     Water: ingredient1Elements.Water + ingredient2Elements.Water,
     Earth: ingredient1Elements.Earth + ingredient2Elements.Earth,
-    Air: ingredient1Elements.Air + ingredient2Elements.Air
+    Air: ingredient1Elements.Air + ingredient2Elements.Air,
   };
 
-  const dominantElement = Object.entries(combined).reduce((max, [element, value]) =>
-    value > combined[max ] ? element as Element : max , 'Fire' as Element
+  const dominantElement = Object.entries(combined).reduce(
+    (max, [element, value]) =>
+      value > combined[max] ? (element as Element) : max,
+    "Fire" as Element,
   );
 
   // Find complementary elements (those with balanced presence)
@@ -252,6 +287,6 @@ export function analyzeElementalCompatibility(
   return {
     compatibility,
     dominantElement,
-    complementaryElements
+    complementaryElements,
   };
 }

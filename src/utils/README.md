@@ -11,16 +11,16 @@ component-specific prefixing, log levels, and environment-aware logging.
 For quick logging needs, import the utility functions:
 
 ```typescript
-import { debugLog, infoLog, warnLog, errorLog } from '@/utils/logger';
+import { debugLog, infoLog, warnLog, errorLog } from "@/utils/logger";
 
 // Basic usage
-debugLog('This is a debug message');
-infoLog('This is an info message');
-warnLog('This is a warning message');
-errorLog('This is an error message');
+debugLog("This is a debug message");
+infoLog("This is an info message");
+warnLog("This is a warning message");
+errorLog("This is an error message");
 
 // With additional data
-debugLog('Processing data:', { id: 123, name: 'Example' });
+debugLog("Processing data:", { id: 123, name: "Example" });
 ```
 
 ### Component-Specific Logging
@@ -28,16 +28,16 @@ debugLog('Processing data:', { id: 123, name: 'Example' });
 For component-specific logging with automatic prefixing:
 
 ```typescript
-import { createLogger } from '@/utils/logger';
+import { createLogger } from "@/utils/logger";
 
 // Create a logger for your component
-const logger = createLogger('MyComponent');
+const logger = createLogger("MyComponent");
 
 // Use the component logger
-logger.debug('Component initialized');
-logger.info('Processing data', { count: 5 });
-logger.warn('Something might be wrong');
-logger.error('Operation failed', new Error('Detailed error'));
+logger.debug("Component initialized");
+logger.info("Processing data", { count: 5 });
+logger.warn("Something might be wrong");
+logger.error("Operation failed", new Error("Detailed error"));
 ```
 
 ## Benefits
@@ -70,10 +70,10 @@ logger.error('Operation failed', new Error('Detailed error'));
 
 ```typescript
 // In a React component
-import { createLogger } from '@/utils/logger';
-import { useState, useEffect } from 'react';
+import { createLogger } from "@/utils/logger";
+import { useState, useEffect } from "react";
 
-const logger = createLogger('UserProfile');
+const logger = createLogger("UserProfile");
 
 const UserProfile = ({ userId }) => {
   const [user, setUser] = useState(null);
@@ -83,10 +83,10 @@ const UserProfile = ({ userId }) => {
       try {
         logger.debug(`Fetching user data for ID: ${userId}`);
         const response = await api.getUser(userId);
-        logger.info('User data retrieved successfully');
+        logger.info("User data retrieved successfully");
         setUser(response.data);
       } catch (error) {
-        logger.error('Failed to load user data', error);
+        logger.error("Failed to load user data", error);
       }
     }
 

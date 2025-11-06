@@ -12,12 +12,12 @@
  */
 
 import type {
-    AlchemicalProperties,
-    CuisineComputedProperties,
-    CuisineSignature,
-    ElementalProperties,
-    ThermodynamicProperties
-} from '@/types/hierarchy';
+  AlchemicalProperties,
+  CuisineComputedProperties,
+  CuisineSignature,
+  ElementalProperties,
+  ThermodynamicProperties,
+} from "@/types/hierarchy";
 
 // ========== Z-SCORE CALCULATION ==========
 
@@ -32,7 +32,7 @@ import type {
 export function calculateZScore(
   value: number,
   globalMean: number,
-  globalStdDev: number
+  globalStdDev: number,
 ): number {
   if (globalStdDev === 0) {
     // If no variation in global data, any deviation is significant
@@ -48,15 +48,17 @@ export function calculateZScore(
  * @param zScore - Absolute z-score value
  * @returns Strength classification
  */
-export function classifySignatureStrength(zScore: number): 'low' | 'moderate' | 'high' | 'very_high' {
+export function classifySignatureStrength(
+  zScore: number,
+): "low" | "moderate" | "high" | "very_high" {
   const absZScore = Math.abs(zScore);
 
-  if (absZScore >= 3.0) return 'very_high';
-  if (absZScore >= 2.0) return 'high';
-  if (absZScore >= 1.5) return 'moderate';
-  if (absZScore >= 1.0) return 'low';
+  if (absZScore >= 3.0) return "very_high";
+  if (absZScore >= 2.0) return "high";
+  if (absZScore >= 1.5) return "moderate";
+  if (absZScore >= 1.0) return "low";
 
-  return 'low'; // Below 1.0σ is not considered a signature
+  return "low"; // Below 1.0σ is not considered a signature
 }
 
 /**
@@ -70,7 +72,7 @@ export function classifySignatureStrength(zScore: number): 'low' | 'moderate' | 
 export function calculateSignatureConfidence(
   zScore: number,
   sampleSize: number,
-  globalSampleSize: number
+  globalSampleSize: number,
 ): number {
   const absZScore = Math.abs(zScore);
 
@@ -104,7 +106,7 @@ export interface GlobalBaseline {
 
   // Metadata
   cuisineCount: number; // Number of cuisines used to calculate baseline
-  lastUpdated: Date
+  lastUpdated: Date;
 }
 
 /**
@@ -116,13 +118,13 @@ export const DEFAULT_GLOBAL_BASELINE: GlobalBaseline = {
     Fire: 0.25, // Balanced across cuisines
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25
+    Air: 0.25,
   },
   alchemical: {
     Spirit: 2.5, // Balanced alchemical profile
     Essence: 3.5,
     Matter: 3.0,
-    Substance: 1.0
+    Substance: 1.0,
   },
   thermodynamics: {
     heat: 0.15,
@@ -130,21 +132,21 @@ export const DEFAULT_GLOBAL_BASELINE: GlobalBaseline = {
     reactivity: 0.18,
     gregsEnergy: 0.08,
     kalchm: 1.2,
-    monica: 0.7
-},
+    monica: 0.7,
+  },
 
   // Conservative standard deviations (will be refined with real data)
   elementalStdDevs: {
     Fire: 0.08,
     Water: 0.07,
     Earth: 0.06,
-    Air: 0.05
+    Air: 0.05,
   },
   alchemicalStdDevs: {
     Spirit: 1.2,
     Essence: 1.5,
     Matter: 1.3,
-    Substance: 0.8
+    Substance: 0.8,
   },
   thermodynamicStdDevs: {
     heat: 0.05,
@@ -152,11 +154,11 @@ export const DEFAULT_GLOBAL_BASELINE: GlobalBaseline = {
     reactivity: 0.06,
     gregsEnergy: 0.03,
     kalchm: 0.4,
-    monica: 0.2
-},
+    monica: 0.2,
+  },
 
   cuisineCount: 10, // Estimated baseline
-  lastUpdated: new Date('2024-01-01')
+  lastUpdated: new Date("2024-01-01"),
 };
 
 // ========== SIGNATURE IDENTIFICATION ==========
@@ -172,12 +174,14 @@ export const DEFAULT_GLOBAL_BASELINE: GlobalBaseline = {
 export function identifyElementalSignatures(
   cuisineElementals: ElementalProperties,
   globalBaseline: GlobalBaseline,
-  threshold = 1.5
+  threshold = 1.5,
 ): CuisineSignature[] {
   const signatures: CuisineSignature[] = [];
-  const elements = Object.keys(cuisineElementals) as Array<keyof ElementalProperties>;
+  const elements = Object.keys(cuisineElementals) as Array<
+    keyof ElementalProperties
+  >;
 
-  elements.forEach(element => {
+  elements.forEach((element) => {
     const value = cuisineElementals[element];
     const globalMean = globalBaseline.elementals[element];
     const globalStdDev = globalBaseline.elementalStdDevs[element];
@@ -192,7 +196,11 @@ export function identifyElementalSignatures(
         strength,
         averageValue: value,
         globalAverage: globalMean,
-        description: generateElementalSignatureDescription(element, zScore, strength)
+        description: generateElementalSignatureDescription(
+          element,
+          zScore,
+          strength,
+        ),
       });
     }
   });
@@ -211,16 +219,18 @@ export function identifyElementalSignatures(
 export function identifyAlchemicalSignatures(
   cuisineAlchemical: AlchemicalProperties,
   globalBaseline: GlobalBaseline,
-  threshold = 1.5
+  threshold = 1.5,
 ): CuisineSignature[] {
   if (!globalBaseline.alchemical || !globalBaseline.alchemicalStdDevs) {
     return [];
   }
 
   const signatures: CuisineSignature[] = [];
-  const properties = Object.keys(cuisineAlchemical) as Array<keyof AlchemicalProperties>;
+  const properties = Object.keys(cuisineAlchemical) as Array<
+    keyof AlchemicalProperties
+  >;
 
-  properties.forEach(property => {
+  properties.forEach((property) => {
     const value = cuisineAlchemical[property];
     const globalMean = globalBaseline.alchemical[property];
     const globalStdDev = globalBaseline.alchemicalStdDevs[property];
@@ -240,7 +250,11 @@ export function identifyAlchemicalSignatures(
         strength,
         averageValue: value,
         globalAverage: globalMean,
-        description: generateAlchemicalSignatureDescription(property, zScore, strength)
+        description: generateAlchemicalSignatureDescription(
+          property,
+          zScore,
+          strength,
+        ),
       });
     }
   });
@@ -259,16 +273,18 @@ export function identifyAlchemicalSignatures(
 export function identifyThermodynamicSignatures(
   cuisineThermodynamics: ThermodynamicProperties,
   globalBaseline: GlobalBaseline,
-  threshold = 1.5
+  threshold = 1.5,
 ): CuisineSignature[] {
   if (!globalBaseline.thermodynamics || !globalBaseline.thermodynamicStdDevs) {
     return [];
   }
 
   const signatures: CuisineSignature[] = [];
-  const properties = Object.keys(cuisineThermodynamics) as Array<keyof ThermodynamicProperties>;
+  const properties = Object.keys(cuisineThermodynamics) as Array<
+    keyof ThermodynamicProperties
+  >;
 
-  properties.forEach(property => {
+  properties.forEach((property) => {
     const value = cuisineThermodynamics[property];
     const globalMean = globalBaseline.thermodynamics[property];
     const globalStdDev = globalBaseline.thermodynamicStdDevs[property];
@@ -288,7 +304,11 @@ export function identifyThermodynamicSignatures(
         strength,
         averageValue: value,
         globalAverage: globalMean,
-        description: generateThermodynamicSignatureDescription(property, zScore, strength)
+        description: generateThermodynamicSignatureDescription(
+          property,
+          zScore,
+          strength,
+        ),
       });
     }
   });
@@ -304,17 +324,23 @@ export function identifyThermodynamicSignatures(
 function generateElementalSignatureDescription(
   element: keyof ElementalProperties,
   zScore: number,
-  strength: string
+  strength: string,
 ): string {
-  const direction = zScore > 0 ? 'high' : 'low';
-  const strengthText = strength === 'very_high' ? 'exceptionally' :
-                      strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat';
+  const direction = zScore > 0 ? "high" : "low";
+  const strengthText =
+    strength === "very_high"
+      ? "exceptionally"
+      : strength === "high"
+        ? "significantly"
+        : strength === "moderate"
+          ? "moderately"
+          : "somewhat";
 
   const elementDescriptions = {
-    Fire: 'cooking techniques and spicy ingredients',
-    Water: 'sauces, moisture, and hydrating ingredients',
-    Earth: 'hearty, grounding, and substantial ingredients',
-    Air: 'light, aromatic, and fresh ingredients'
+    Fire: "cooking techniques and spicy ingredients",
+    Water: "sauces, moisture, and hydrating ingredients",
+    Earth: "hearty, grounding, and substantial ingredients",
+    Air: "light, aromatic, and fresh ingredients",
   };
 
   return `${strengthText} ${direction} emphasis on ${elementDescriptions[element]} compared to other cuisines`;
@@ -326,17 +352,23 @@ function generateElementalSignatureDescription(
 function generateAlchemicalSignatureDescription(
   property: keyof AlchemicalProperties,
   zScore: number,
-  strength: string
+  strength: string,
 ): string {
-  const direction = zScore > 0 ? 'high' : 'low';
-  const strengthText = strength === 'very_high' ? 'exceptionally' :
-                      strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat';
+  const direction = zScore > 0 ? "high" : "low";
+  const strengthText =
+    strength === "very_high"
+      ? "exceptionally"
+      : strength === "high"
+        ? "significantly"
+        : strength === "moderate"
+          ? "moderately"
+          : "somewhat";
 
   const propertyDescriptions = {
-    Spirit: 'innovative and transformative cooking approaches',
-    Essence: 'flavor depth and sensory richness',
-    Matter: 'substantial, hearty, and grounding dishes',
-    Substance: 'structured techniques and preserved ingredients'
+    Spirit: "innovative and transformative cooking approaches",
+    Essence: "flavor depth and sensory richness",
+    Matter: "substantial, hearty, and grounding dishes",
+    Substance: "structured techniques and preserved ingredients",
   };
 
   return `${strengthText} ${direction} levels of ${propertyDescriptions[property]} in dish composition`;
@@ -348,19 +380,25 @@ function generateAlchemicalSignatureDescription(
 function generateThermodynamicSignatureDescription(
   property: keyof ThermodynamicProperties,
   zScore: number,
-  strength: string
+  strength: string,
 ): string {
-  const direction = zScore > 0 ? 'high' : 'low';
-  const strengthText = strength === 'very_high' ? 'exceptionally' :
-                      strength === 'high' ? 'significantly' : strength === 'moderate' ? 'moderately' : 'somewhat';
+  const direction = zScore > 0 ? "high" : "low";
+  const strengthText =
+    strength === "very_high"
+      ? "exceptionally"
+      : strength === "high"
+        ? "significantly"
+        : strength === "moderate"
+          ? "moderately"
+          : "somewhat";
 
   const propertyDescriptions = {
-    heat: 'thermal energy and cooking intensity',
-    entropy: 'ingredient complexity and dish variety',
-    reactivity: 'chemical transformation and flavor development',
-    gregsEnergy: 'energetic balance and dish harmony',
-    kalchm: 'alchemical transformation potential',
-    monica: 'thermodynamic stability and consistency'
+    heat: "thermal energy and cooking intensity",
+    entropy: "ingredient complexity and dish variety",
+    reactivity: "chemical transformation and flavor development",
+    gregsEnergy: "energetic balance and dish harmony",
+    kalchm: "alchemical transformation potential",
+    monica: "thermodynamic stability and consistency",
   };
 
   return `${strengthText} ${direction} ${propertyDescriptions[property]} in cooking processes`;
@@ -383,15 +421,15 @@ export function identifyCuisineSignatures(
   cuisineProperties: CuisineComputedProperties,
   globalBaseline: GlobalBaseline = DEFAULT_GLOBAL_BASELINE,
   options: {
-    threshold?: number,
-    includeConfidence?: boolean,
-    sampleSize?: number
-  } = {}
+    threshold?: number;
+    includeConfidence?: boolean;
+    sampleSize?: number;
+  } = {},
 ): CuisineSignature[] {
   const {
     threshold = 1.5,
     includeConfidence = true,
-    sampleSize = cuisineProperties.sampleSize
+    sampleSize = cuisineProperties.sampleSize,
   } = options;
 
   const allSignatures: CuisineSignature[] = [];
@@ -400,7 +438,7 @@ export function identifyCuisineSignatures(
   const elementalSignatures = identifyElementalSignatures(
     cuisineProperties.averageElementals,
     globalBaseline,
-    threshold
+    threshold,
   );
   allSignatures.push(...elementalSignatures);
 
@@ -409,7 +447,7 @@ export function identifyCuisineSignatures(
     const alchemicalSignatures = identifyAlchemicalSignatures(
       cuisineProperties.averageAlchemical,
       globalBaseline,
-      threshold
+      threshold,
     );
     allSignatures.push(...alchemicalSignatures);
   }
@@ -419,18 +457,18 @@ export function identifyCuisineSignatures(
     const thermodynamicSignatures = identifyThermodynamicSignatures(
       cuisineProperties.averageThermodynamics,
       globalBaseline,
-      threshold
+      threshold,
     );
     allSignatures.push(...thermodynamicSignatures);
   }
 
   // Add confidence scores if requested
   if (includeConfidence) {
-    allSignatures.forEach(signature => {
+    allSignatures.forEach((signature) => {
       const confidence = calculateSignatureConfidence(
         signature.zscore,
         sampleSize,
-        globalBaseline.cuisineCount
+        globalBaseline.cuisineCount,
       );
       (signature as any).confidence = confidence;
     });
@@ -451,12 +489,12 @@ export function identifyCuisineSignatures(
  */
 export function filterSignaturesByStrength(
   signatures: CuisineSignature[],
-  minStrength: 'low' | 'moderate' | 'high' | 'very_high'
+  minStrength: "low" | "moderate" | "high" | "very_high",
 ): CuisineSignature[] {
   const strengthOrder = { low: 0, moderate: 1, high: 2, very_high: 3 };
   const minOrder = strengthOrder[minStrength];
 
-  return signatures.filter(sig => strengthOrder[sig.strength] >= minOrder);
+  return signatures.filter((sig) => strengthOrder[sig.strength] >= minOrder);
 }
 
 /**
@@ -469,20 +507,31 @@ export function getSignatureSummary(signatures: CuisineSignature[]): {
   total: number;
   byStrength: Record<string, number>;
   byPropertyType: Record<string, number>;
-  averageZScore: number
+  averageZScore: number;
 } {
-  const byStrength: Record<string, number> = { low: 0, moderate: 0, high: 0, very_high: 0 };
-  const byPropertyType: Record<string, number> = { elemental: 0, alchemical: 0, thermodynamic: 0 };
+  const byStrength: Record<string, number> = {
+    low: 0,
+    moderate: 0,
+    high: 0,
+    very_high: 0,
+  };
+  const byPropertyType: Record<string, number> = {
+    elemental: 0,
+    alchemical: 0,
+    thermodynamic: 0,
+  };
 
   let totalZScore = 0;
 
-  signatures.forEach(sig => {
+  signatures.forEach((sig) => {
     byStrength[sig.strength]++;
 
     // Classify property type
-    if (['Fire', 'Water', 'Earth', 'Air'].includes(sig.property)) {
+    if (["Fire", "Water", "Earth", "Air"].includes(sig.property)) {
       byPropertyType.elemental++;
-    } else if (['Spirit', 'Essence', 'Matter', 'Substance'].includes(sig.property)) {
+    } else if (
+      ["Spirit", "Essence", "Matter", "Substance"].includes(sig.property)
+    ) {
       byPropertyType.alchemical++;
     } else {
       byPropertyType.thermodynamic++;
@@ -495,12 +544,10 @@ export function getSignatureSummary(signatures: CuisineSignature[]): {
     total: signatures.length,
     byStrength,
     byPropertyType,
-    averageZScore: signatures.length > 0 ? totalZScore / signatures.length : 0
-};
+    averageZScore: signatures.length > 0 ? totalZScore / signatures.length : 0,
+  };
 }
 
 // ========== EXPORTS ==========
 
-export type {
-    GlobalBaseline
-};
+export type { GlobalBaseline };

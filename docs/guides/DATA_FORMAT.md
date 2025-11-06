@@ -30,17 +30,17 @@ caching, validation, transformation, and error handling.
 ### Basic Usage
 
 ```typescript
-import { createDataLoader } from '../utils/dataLoader';
-import type { Recipe } from '../types/recipe';
+import { createDataLoader } from "../utils/dataLoader";
+import type { Recipe } from "../types/recipe";
 
 // Create a loader for recipe data
 const recipeLoader = createDataLoader<Recipe[]>({
-  cacheKey: 'recipes',
+  cacheKey: "recipes",
   cacheTtl: 3600000, // 1 hour
   validator: (data) => Array.isArray(data) && data.length > 0,
   transformer: (data) => {
     // Transform the data as needed
-    return (data as any[]).map(item => ({
+    return (data as any[]).map((item) => ({
       ...item,
       // Apply any additional transformations
     }));
@@ -48,14 +48,14 @@ const recipeLoader = createDataLoader<Recipe[]>({
   fallback: [], // Fallback value if loading fails
   retry: {
     attempts: 3,
-    delay: 1000
-  }
+    delay: 1000,
+  },
 });
 
 // Load data
 async function loadRecipes() {
   const result = await recipeLoader.loadData(async () => {
-    const response = await fetch('/api/recipes');
+    const response = await fetch("/api/recipes");
     if (!response.ok) {
       throw new Error(`Failed to load recipes: ${response.statusText}`);
     }
@@ -84,27 +84,27 @@ Recipes must follow this structure:
 
 ```typescript
 interface Recipe {
-  id: string;                     // Unique identifier
-  name: string;                   // Recipe name (3-100 chars)
-  description: string;            // Description
-  cuisine: string;                // Cuisine type
+  id: string; // Unique identifier
+  name: string; // Recipe name (3-100 chars)
+  description: string; // Description
+  cuisine: string; // Cuisine type
   ingredients: RecipeIngredient[]; // List of ingredients
-  instructions: string[];         // Step-by-step instructions
-  timeToMake: string;             // Time to prepare and cook
-  numberOfServings: number;       // Number of servings (1-12)
+  instructions: string[]; // Step-by-step instructions
+  timeToMake: string; // Time to prepare and cook
+  numberOfServings: number; // Number of servings (1-12)
   elementalProperties: ElementalProperties; // Elemental properties
 
   // Optional properties
-  mealType?: string | string[];   // Type of meal
-  season?: string | string[];     // Season(s) the recipe is for
-  isVegetarian?: boolean;         // Whether it's vegetarian
-  isVegan?: boolean;              // Whether it's vegan
-  isGlutenFree?: boolean;         // Whether it's gluten-free
-  isDairyFree?: boolean;          // Whether it's dairy-free
+  mealType?: string | string[]; // Type of meal
+  season?: string | string[]; // Season(s) the recipe is for
+  isVegetarian?: boolean; // Whether it's vegetarian
+  isVegan?: boolean; // Whether it's vegan
+  isGlutenFree?: boolean; // Whether it's gluten-free
+  isDairyFree?: boolean; // Whether it's dairy-free
   astrologicalInfluences?: string[]; // Astrological influences
-  nutrition?: NutritionData;      // Nutritional information
-  createdAt?: string;             // Creation timestamp
-  updatedAt?: string;             // Last update timestamp
+  nutrition?: NutritionData; // Nutritional information
+  createdAt?: string; // Creation timestamp
+  updatedAt?: string; // Last update timestamp
 }
 ```
 
@@ -112,13 +112,13 @@ interface Recipe {
 
 ```typescript
 interface RecipeIngredient {
-  name: string;              // Ingredient name
-  amount: number;            // Quantity
-  unit: string;              // Unit of measurement
-  category?: string;         // Category (e.g., "vegetable", "spice")
-  optional?: boolean;        // Whether it's optional
-  preparation?: string;      // Preparation instructions
-  notes?: string;            // Additional notes
+  name: string; // Ingredient name
+  amount: number; // Quantity
+  unit: string; // Unit of measurement
+  category?: string; // Category (e.g., "vegetable", "spice")
+  optional?: boolean; // Whether it's optional
+  preparation?: string; // Preparation instructions
+  notes?: string; // Additional notes
   elementalProperties?: ElementalProperties; // Elemental properties
 }
 ```
@@ -129,25 +129,25 @@ Astrological data follows this structure:
 
 ```typescript
 interface AstrologicalProfile {
-  zodiac?: ZodiacSign[];          // Zodiac influences
-  lunar?: LunarPhase[];           // Lunar phase influences
+  zodiac?: ZodiacSign[]; // Zodiac influences
+  lunar?: LunarPhase[]; // Lunar phase influences
   planetary?: PlanetaryPosition[]; // Planetary positions
-  aspects?: PlanetaryAspect[];    // Planetary aspects
+  aspects?: PlanetaryAspect[]; // Planetary aspects
 }
 
 interface PlanetaryPosition {
-  planet: string;            // Planet name
-  sign: ZodiacSign;          // Zodiac sign
-  degree: number;            // Degree in sign (0-29)
-  isRetrograde?: boolean;    // Whether the planet is retrograde
+  planet: string; // Planet name
+  sign: ZodiacSign; // Zodiac sign
+  degree: number; // Degree in sign (0-29)
+  isRetrograde?: boolean; // Whether the planet is retrograde
 }
 
 interface PlanetaryAspect {
-  planetA: string;           // First planet
-  planetB: string;           // Second planet
-  aspect: string;            // Aspect type
-  orb: number;               // Orb (deviation from exact aspect)
-  influence: 'harmonious' | 'challenging' | 'neutral'; // Type of influence
+  planetA: string; // First planet
+  planetB: string; // Second planet
+  aspect: string; // Aspect type
+  orb: number; // Orb (deviation from exact aspect)
+  influence: "harmonious" | "challenging" | "neutral"; // Type of influence
 }
 ```
 
@@ -157,10 +157,10 @@ Elemental properties must always include all four elements:
 
 ```typescript
 interface ElementalProperties {
-  Fire: number;  // Fire element (0-1)
+  Fire: number; // Fire element (0-1)
   Water: number; // Water element (0-1)
   Earth: number; // Earth element (0-1)
-  Air: number;   // Air element (0-1)
+  Air: number; // Air element (0-1)
 }
 ```
 
@@ -170,16 +170,16 @@ All data should be validated before use. The application provides type guards
 for this purpose:
 
 ```typescript
-import { isRecipe, isRecipeIngredient } from '../services/recipeData';
+import { isRecipe, isRecipeIngredient } from "../services/recipeData";
 import {
   isAstrologicalProfile,
-  isElementalProperties
-} from '../utils/enhancedTypeGuards';
+  isElementalProperties,
+} from "../utils/enhancedTypeGuards";
 
 // Example validation
 function processRecipe(data: unknown) {
   if (!isRecipe(data)) {
-    throw new Error('Invalid recipe data');
+    throw new Error("Invalid recipe data");
   }
 
   // Now it's safe to use as Recipe
@@ -197,7 +197,7 @@ format:
 ```typescript
 // Bad - assumes data structure is correct
 function processBad(data: any) {
-  return data.ingredients.map(i => i.name);
+  return data.ingredients.map((i) => i.name);
 }
 
 // Good - validates data before use
@@ -206,7 +206,7 @@ function processGood(data: unknown) {
     return [];
   }
 
-  return data.ingredients.map(i => i.name);
+  return data.ingredients.map((i) => i.name);
 }
 ```
 
@@ -215,7 +215,7 @@ function processGood(data: unknown) {
 Use the provided error handling utilities for consistent error management:
 
 ```typescript
-import { AppError, errorCodes } from '../utils/errorHandling';
+import { AppError, errorCodes } from "../utils/errorHandling";
 
 try {
   // Attempt to process data
@@ -223,10 +223,10 @@ try {
   // Convert to AppError for consistent handling
   if (!(error instanceof AppError)) {
     throw new AppError(
-      'Failed to process data',
-      'DATA_ERROR',
+      "Failed to process data",
+      "DATA_ERROR",
       errorCodes.DATA_ERROR,
-      { originalError: error instanceof Error ? error.message : String(error) }
+      { originalError: error instanceof Error ? error.message : String(error) },
     );
   }
   throw error;

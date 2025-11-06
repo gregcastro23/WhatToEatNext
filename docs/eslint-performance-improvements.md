@@ -1,11 +1,13 @@
 # ESLint Performance Improvements
 
 ## Overview
+
 Implemented a dual-configuration ESLint setup to dramatically improve linting performance while maintaining code quality standards.
 
 ## Configurations
 
 ### 1. Fast Configuration (`eslint.config.fast.cjs`)
+
 - **Purpose**: Quick feedback during development
 - **Performance**: ~3 seconds for all component files
 - **Features**:
@@ -15,6 +17,7 @@ Implemented a dual-configuration ESLint setup to dramatically improve linting pe
   - Minimal import resolution
 
 ### 2. Type-Aware Configuration (`eslint.config.type-aware.cjs`)
+
 - **Purpose**: Comprehensive validation for CI/CD
 - **Performance**: Slower but thorough
 - **Features**:
@@ -24,6 +27,7 @@ Implemented a dual-configuration ESLint setup to dramatically improve linting pe
   - Complete astrological rules validation
 
 ### 3. Original Configuration (`eslint.config.cjs`)
+
 - Kept as baseline with all existing rules
 - Can be optimized further if needed
 
@@ -49,10 +53,10 @@ yarn lint:profile
 ## Performance Benchmarks
 
 | Configuration | Single File | All Components (~40 files) | Full Codebase |
-|--------------|-------------|---------------------------|---------------|
-| Fast Config  | 1.7s        | 3.3s                      | ~10s (est)    |
-| Original     | >10s        | >30s                      | >60s          |
-| Type-Aware   | ~5s         | ~20s                      | ~45s (est)    |
+| ------------- | ----------- | -------------------------- | ------------- |
+| Fast Config   | 1.7s        | 3.3s                       | ~10s (est)    |
+| Original      | >10s        | >30s                       | >60s          |
+| Type-Aware    | ~5s         | ~20s                       | ~45s (est)    |
 
 ## Optimization Techniques Applied
 
@@ -79,6 +83,7 @@ yarn lint:profile
 ## Recommended Workflow
 
 ### During Development
+
 ```bash
 # Use fast linting for quick feedback
 yarn lint:quick
@@ -88,6 +93,7 @@ yarn lint:incremental
 ```
 
 ### Before Committing
+
 ```bash
 # Run type-aware linting
 yarn lint:type-aware
@@ -97,6 +103,7 @@ yarn lint:fix
 ```
 
 ### CI/CD Pipeline
+
 ```bash
 # Use CI-optimized config
 yarn lint:ci
@@ -105,6 +112,7 @@ yarn lint:ci
 ## Fixed Issues
 
 ### CuisineRecommender.tsx
+
 - Fixed React unescaped entities (`Greg's` → `Greg&apos;s`)
 - Replaced `as any` with `as Record<string, any>`
 - Removed unnecessary type assertion
@@ -126,12 +134,14 @@ yarn lint:ci
 ## Migration Guide
 
 ### For Developers
+
 1. Update to latest code
 2. Clear existing cache: `yarn lint:cache-clear`
 3. Use `yarn lint:quick` for daily development
 4. Run `yarn lint:type-aware` before pushing
 
 ### For CI/CD
+
 1. Update pipeline to use `yarn lint:ci`
 2. Keep `yarn lint:type-aware` for final validation
 3. Consider running both in parallel for faster feedback
@@ -139,11 +149,13 @@ yarn lint:ci
 ## Troubleshooting
 
 ### If linting is still slow
+
 1. Clear cache: `rm -rf .eslintcache*`
 2. Check for TypeScript compilation errors: `yarn tsc --noEmit`
 3. Use `yarn lint:profile` to identify bottlenecks
 
 ### If getting different results between configs
+
 - This is expected! Fast config skips type-aware checks
 - Always run `yarn lint:type-aware` before committing
 

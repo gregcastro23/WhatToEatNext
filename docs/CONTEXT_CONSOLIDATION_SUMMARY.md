@@ -37,7 +37,7 @@ const ELEMENT_COMPATIBILITY = {
   Fire: { Fire: 0.9, water: 0.7, earth: 0.7, Air: 0.7 },
   water: { Fire: 0.7, water: 0.9, earth: 0.7, Air: 0.7 },
   earth: { Fire: 0.7, water: 0.7, earth: 0.9, Air: 0.7 },
-  Air: { Fire: 0.7, water: 0.7, earth: 0.7, Air: 0.9 }
+  Air: { Fire: 0.7, water: 0.7, earth: 0.7, Air: 0.9 },
 };
 ```
 
@@ -66,13 +66,13 @@ const ELEMENT_COMPATIBILITY = {
 ```typescript
 // Chakra-element alignment following alchemical energy states
 const CHAKRA_ELEMENT_MAPPING = {
-  crown: { Fire: 0.6, Air: 0.4, water: 0.0, earth: 0.0 },      // spirit
-  throat: { Air: 0.6, earth: 0.4, Fire: 0.0, water: 0.0 },     // substance
-  heart: { Fire: 0.4, Air: 0.4, water: 0.1, earth: 0.1 },      // Transition
+  crown: { Fire: 0.6, Air: 0.4, water: 0.0, earth: 0.0 }, // spirit
+  throat: { Air: 0.6, earth: 0.4, Fire: 0.0, water: 0.0 }, // substance
+  heart: { Fire: 0.4, Air: 0.4, water: 0.1, earth: 0.1 }, // Transition
   solarPlexus: { Fire: 0.5, water: 0.3, Air: 0.1, earth: 0.1 }, // essence
-  sacral: { water: 0.5, Fire: 0.3, Air: 0.1, earth: 0.1 },     // essence
-  brow: { water: 0.4, Air: 0.3, Fire: 0.2, earth: 0.1 },       // essence
-  root: { water: 0.5, earth: 0.5, Fire: 0.0, Air: 0.0 }        // matter
+  sacral: { water: 0.5, Fire: 0.3, Air: 0.1, earth: 0.1 }, // essence
+  brow: { water: 0.4, Air: 0.3, Fire: 0.2, earth: 0.1 }, // essence
+  root: { water: 0.5, earth: 0.5, Fire: 0.0, Air: 0.0 }, // matter
 };
 ```
 
@@ -227,8 +227,8 @@ interface AlchemicalContextType {
 
 ```typescript
 // Update import paths only
-import { AstrologicalProvider, useAstrologicalState } from '@/contexts';
-import { CurrentChartProvider, useCurrentChart } from '@/contexts';
+import { AstrologicalProvider, useAstrologicalState } from "@/contexts";
+import { CurrentChartProvider, useCurrentChart } from "@/contexts";
 ```
 
 ### Phase 2: Provider Consolidation
@@ -244,7 +244,11 @@ import { CurrentChartProvider, useCurrentChart } from '@/contexts';
 
 ```typescript
 // Leverage new enhanced functionality
-import { useAlchemical, useEnhancedChart, useEnhancedAstrological } from '@/contexts';
+import {
+  useAlchemical,
+  useEnhancedChart,
+  useEnhancedAstrological,
+} from "@/contexts";
 ```
 
 ## 🔍 Testing & Validation

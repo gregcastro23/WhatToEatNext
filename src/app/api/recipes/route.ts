@@ -1,48 +1,52 @@
-import { NextResponse } from 'next/server';
-import { _logger } from '@/lib/logger';
-import type { Recipe } from '@/types/recipe';
+import { NextResponse } from "next/server";
+import { _logger } from "@/lib/logger";
+import type { Recipe } from "@/types/recipe";
 
 // Basic fallback recipe that will work without dependencies
 const fallbackRecipe: Recipe = {
-  id: 'universal-balance',
-  name: 'Universal Balance Bowl',
-  description: 'A harmonious blend for any occasion',
+  id: "universal-balance",
+  name: "Universal Balance Bowl",
+  description: "A harmonious blend for any occasion",
   ingredients: [
-    { name: 'Mixed Greens', amount: 2, unit: 'cups', category: 'vegetables' },
-    { name: 'Mixed Seeds', amount: 0.25, unit: 'cup', category: 'garnish' },
-    { name: 'Quinoa', amount: 1, unit: 'cup', category: 'grains' }
+    { name: "Mixed Greens", amount: 2, unit: "cups", category: "vegetables" },
+    { name: "Mixed Seeds", amount: 0.25, unit: "cup", category: "garnish" },
+    { name: "Quinoa", amount: 1, unit: "cup", category: "grains" },
   ],
-  instructions: ['Combine all ingredients in a bowl', 'Season to taste', 'Enjoy mindfully'],
-  timeToMake: '15 minutes',
+  instructions: [
+    "Combine all ingredients in a bowl",
+    "Season to taste",
+    "Enjoy mindfully",
+  ],
+  timeToMake: "15 minutes",
   numberOfServings: 2,
   elementalProperties: {
     Fire: 0.25,
     Earth: 0.25,
     Air: 0.25,
-    Water: 0.25
-},
-  season: ['all'],
-  mealType: ['lunch', 'dinner'],
-  cuisine: 'international',
+    Water: 0.25,
+  },
+  season: ["all"],
+  mealType: ["lunch", "dinner"],
+  cuisine: "international",
   isVegetarian: true,
   isVegan: true,
   isGlutenFree: true,
   isDairyFree: true,
-  astrologicalInfluences: ['all']
+  astrologicalInfluences: ["all"],
 };
 
 // Basic celestial influence data
 const basicCelestialInfluence = {
   date: new Date().toISOString(),
-  zodiacSign: 'libra',
+  zodiacSign: "libra",
   dominantPlanets: [
-    { name: 'Sun', influence: 0.5 },
-    { name: 'Moon', influence: 0.5 }
+    { name: "Sun", influence: 0.5 },
+    { name: "Moon", influence: 0.5 },
   ],
-  lunarPhase: 'full',
+  lunarPhase: "full",
   elementalBalance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   aspectInfluences: [],
-  astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all']
+  astrologicalInfluences: ["Sun", "Moon", "libra", "all"],
 };
 
 // Simplified GET endpoint that returns basic recipe data
@@ -56,12 +60,15 @@ export async function GET() {
       meta: {
         total: recipes.length,
         celestialInfluence: basicCelestialInfluence,
-        timestamp: Date.now()
-      }
+        timestamp: Date.now(),
+      },
     });
   } catch (error) {
-    _logger.error('Recipe API Error: ', error);
-    return NextResponse.json({ error: 'Failed to fetch recipes' }, { status: 400 });
+    _logger.error("Recipe API Error: ", error);
+    return NextResponse.json(
+      { error: "Failed to fetch recipes" },
+      { status: 400 },
+    );
   }
 }
 
@@ -70,36 +77,47 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     // Basic validation
-    if (!body || typeof body !== 'object' || !body.name || !Array.isArray(body.ingredients)) {
-      return NextResponse.json({ error: 'Invalid recipe data' }, { status: 400 });
+    if (
+      !body ||
+      typeof body !== "object" ||
+      !body.name ||
+      !Array.isArray(body.ingredients)
+    ) {
+      return NextResponse.json(
+        { error: "Invalid recipe data" },
+        { status: 400 },
+      );
     }
 
     // Create a simple recipe object from the submitted data
     const newRecipe = {
-      id: `${body.name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
+      id: `${body.name.toLowerCase().replace(/\s+/g, "-")}-${Date.now()}`,
       name: body.name,
-      description: body.description || '',
+      description: body.description || "",
       ingredients: body.ingredients || [],
       instructions: body.instructions || [],
-      timeToMake: body.timeToMake || '30 minutes',
+      timeToMake: body.timeToMake || "30 minutes",
       numberOfServings: body.numberOfServings || 2,
       elementalProperties: body.elementalProperties || {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
-      cuisine: body.cuisine || 'international',
+      cuisine: body.cuisine || "international",
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     } as const;
 
     return NextResponse.json({
       recipe: newRecipe,
-      message: 'Recipe added successfully'
-});
+      message: "Recipe added successfully",
+    });
   } catch (error) {
-    _logger.error('Recipe submission error: ', error);
-    return NextResponse.json({ error: 'Failed to process recipe' }, { status: 500 });
+    _logger.error("Recipe submission error: ", error);
+    return NextResponse.json(
+      { error: "Failed to process recipe" },
+      { status: 500 },
+    );
   }
 }

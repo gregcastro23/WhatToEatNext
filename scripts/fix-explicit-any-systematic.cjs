@@ -13,35 +13,35 @@
  * Phase 9.3 of Linting Excellence Campaign
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class ExplicitAnyEliminator {
   constructor() {
     this.fixedFiles = [];
     this.errors = [];
-    this.dryRun = process.argv.includes('--dry-run');
-    this.verbose = process.argv.includes('--verbose');
+    this.dryRun = process.argv.includes("--dry-run");
+    this.verbose = process.argv.includes("--verbose");
     this.preserveAstronomical = true; // Always preserve astronomical integrations
     this.targetReduction = 0.5; // 50% reduction target
   }
 
-  log(message, level = 'info') {
+  log(message, level = "info") {
     const timestamp = new Date().toISOString();
-    const prefix = level === 'error' ? '❌' : level === 'warn' ? '⚠️' : '✅';
+    const prefix = level === "error" ? "❌" : level === "warn" ? "⚠️" : "✅";
     console.log(`${prefix} [${timestamp}] ${message}`);
   }
 
   async analyzeExplicitAnyUsage() {
-    this.log('🔍 Analyzing explicit-any usage patterns...');
+    this.log("🔍 Analyzing explicit-any usage patterns...");
 
     try {
       const eslintOutput = execSync(
         'npx eslint src --format=json --rule "@typescript-eslint/no-explicit-any: error" 2>/dev/null || echo "[]"',
         {
-          encoding: 'utf8',
-          stdio: 'pipe',
+          encoding: "utf8",
+          stdio: "pipe",
         },
       );
 
@@ -53,14 +53,16 @@ class ExplicitAnyEliminator {
         const textOutput = execSync(
           'npx eslint src --format=compact 2>/dev/null | grep "no-explicit-any" || true',
           {
-            encoding: 'utf8',
-            stdio: 'pipe',
+            encoding: "utf8",
+            stdio: "pipe",
           },
         );
 
-        const lines = textOutput.split('\n').filter(line => line.includes('no-explicit-any'));
+        const lines = textOutput
+          .split("\n")
+          .filter((line) => line.includes("no-explicit-any"));
         results = lines
-          .map(line => {
+          .map((line) => {
             const match = line.match(/^([^:]+):(\d+):(\d+):/);
             return match
               ? {
@@ -88,13 +90,14 @@ class ExplicitAnyEliminator {
       };
 
       if (Array.isArray(results)) {
-        results.forEach(result => {
+        results.forEach((result) => {
           if (result.messages) {
-            result.messages.forEach(message => {
-              if (message.ruleId === '@typescript-eslint/no-explicit-any') {
+            result.messages.forEach((message) => {
+              if (message.ruleId === "@typescript-eslint/no-explicit-any") {
                 analysis.totalIssues++;
                 const filePath = result.filePath;
-                analysis.fileBreakdown[filePath] = (analysis.fileBreakdown[filePath] || 0) + 1;
+                analysis.fileBreakdown[filePath] =
+                  (analysis.fileBreakdown[filePath] || 0) + 1;
               }
             });
           } else if (result.message) {
@@ -110,7 +113,7 @@ class ExplicitAnyEliminator {
       );
       return analysis;
     } catch (error) {
-      this.log(`Error analyzing explicit-any usage: ${error.message}`, 'error');
+      this.log(`Error analyzing explicit-any usage: ${error.message}`, "error");
       return { totalIssues: 0, fileBreakdown: {}, patterns: {} };
     }
   }
@@ -118,20 +121,20 @@ class ExplicitAnyEliminator {
   shouldPreserveAnyInFile(filePath) {
     // Preserve any types in astronomical integrations
     const astronomicalPatterns = [
-      'astronomy',
-      'ephemeris',
-      'planetary',
-      'celestial',
-      'astrological',
-      'swiss-ephemeris',
-      'astronomia',
+      "astronomy",
+      "ephemeris",
+      "planetary",
+      "celestial",
+      "astrological",
+      "swiss-ephemeris",
+      "astronomia",
     ];
 
     const fileName = path.basename(filePath).toLowerCase();
     const dirPath = path.dirname(filePath).toLowerCase();
 
     return astronomicalPatterns.some(
-      pattern => fileName.includes(pattern) || dirPath.includes(pattern),
+      (pattern) => fileName.includes(pattern) || dirPath.includes(pattern),
     );
   }
 
@@ -140,7 +143,7 @@ class ExplicitAnyEliminator {
     const addedTypes = [];
 
     // Service layer types
-    if (filePath.includes('services/')) {
+    if (filePath.includes("services/")) {
       const serviceTypes = `
 // Domain-specific service types
 interface ServiceResponse<T = unknown> {
@@ -166,18 +169,24 @@ interface ServiceContext {
 `;
 
       // Add types at the top of the file if not already present
-      if (!newContent.includes('ServiceResponse') && newContent.includes(': any')) {
-        const importIndex = newContent.lastIndexOf('import ');
-        const insertIndex = importIndex > -1 ? newContent.indexOf('\n', importIndex) + 1 : 0;
+      if (
+        !newContent.includes("ServiceResponse") &&
+        newContent.includes(": any")
+      ) {
+        const importIndex = newContent.lastIndexOf("import ");
+        const insertIndex =
+          importIndex > -1 ? newContent.indexOf("\n", importIndex) + 1 : 0;
 
         newContent =
-          newContent.slice(0, insertIndex) + serviceTypes + newContent.slice(insertIndex);
-        addedTypes.push('ServiceResponse', 'ServiceConfig', 'ServiceContext');
+          newContent.slice(0, insertIndex) +
+          serviceTypes +
+          newContent.slice(insertIndex);
+        addedTypes.push("ServiceResponse", "ServiceConfig", "ServiceContext");
       }
     }
 
     // Component types
-    if (filePath.includes('components/') && filePath.includes('.tsx')) {
+    if (filePath.includes("components/") && filePath.includes(".tsx")) {
       const componentTypes = `
 // Domain-specific component types
 interface ComponentProps {
@@ -194,13 +203,19 @@ interface EventHandlerProps {
 }
 `;
 
-      if (!newContent.includes('ComponentProps') && newContent.includes(': any')) {
-        const importIndex = newContent.lastIndexOf('import ');
-        const insertIndex = importIndex > -1 ? newContent.indexOf('\n', importIndex) + 1 : 0;
+      if (
+        !newContent.includes("ComponentProps") &&
+        newContent.includes(": any")
+      ) {
+        const importIndex = newContent.lastIndexOf("import ");
+        const insertIndex =
+          importIndex > -1 ? newContent.indexOf("\n", importIndex) + 1 : 0;
 
         newContent =
-          newContent.slice(0, insertIndex) + componentTypes + newContent.slice(insertIndex);
-        addedTypes.push('ComponentProps', 'EventHandlerProps');
+          newContent.slice(0, insertIndex) +
+          componentTypes +
+          newContent.slice(insertIndex);
+        addedTypes.push("ComponentProps", "EventHandlerProps");
       }
     }
 
@@ -215,7 +230,9 @@ interface EventHandlerProps {
     // Skip if this file should preserve astronomical any types
     if (this.shouldPreserveAnyInFile(filePath)) {
       if (this.verbose) {
-        this.log(`  Preserving astronomical any types in ${path.basename(filePath)}`);
+        this.log(
+          `  Preserving astronomical any types in ${path.basename(filePath)}`,
+        );
       }
       return { content: newContent, fixed: false, appliedFixes: [] };
     }
@@ -225,94 +242,97 @@ interface EventHandlerProps {
       // Function parameters
       {
         from: /\(([^)]*): any\)/g,
-        to: '($1: unknown)',
-        description: 'Function parameters any → unknown',
-        validate: match => !match[0].includes('astronomia') && !match[0].includes('ephemeris'),
+        to: "($1: unknown)",
+        description: "Function parameters any → unknown",
+        validate: (match) =>
+          !match[0].includes("astronomia") && !match[0].includes("ephemeris"),
       },
 
       // Variable declarations
       {
         from: /: any(\s*=)/g,
-        to: ': unknown$1',
-        description: 'Variable declarations any → unknown',
+        to: ": unknown$1",
+        description: "Variable declarations any → unknown",
       },
 
       // Array types
       {
         from: /: any\[\]/g,
-        to: ': unknown[]',
-        description: 'Array types any[] → unknown[]',
+        to: ": unknown[]",
+        description: "Array types any[] → unknown[]",
       },
 
       // Object property types
       {
         from: /:\s*any;/g,
-        to: ': unknown;',
-        description: 'Object properties any → unknown',
+        to: ": unknown;",
+        description: "Object properties any → unknown",
       },
 
       // Generic constraints
       {
         from: /<([^>]*): any>/g,
-        to: '<$1: unknown>',
-        description: 'Generic constraints any → unknown',
+        to: "<$1: unknown>",
+        description: "Generic constraints any → unknown",
       },
 
       // Return types
       {
         from: /\):\s*any\s*{/g,
-        to: '): unknown {',
-        description: 'Return types any → unknown',
+        to: "): unknown {",
+        description: "Return types any → unknown",
       },
 
       // Promise types
       {
         from: /Promise<any>/g,
-        to: 'Promise<unknown>',
-        description: 'Promise<any> → Promise<unknown>',
+        to: "Promise<unknown>",
+        description: "Promise<any> → Promise<unknown>",
       },
 
       // Record types
       {
         from: /Record<string,\s*any>/g,
-        to: 'Record<string, unknown>',
-        description: 'Record<string, any> → Record<string, unknown>',
+        to: "Record<string, unknown>",
+        description: "Record<string, any> → Record<string, unknown>",
       },
     ];
 
     // Apply replacements
-    anyReplacements.forEach(replacement => {
+    anyReplacements.forEach((replacement) => {
       const matches = [...newContent.matchAll(replacement.from)];
       if (matches.length > 0) {
         const validMatches = replacement.validate
-          ? matches.filter(match => replacement.validate(match))
+          ? matches.filter((match) => replacement.validate(match))
           : matches;
 
         if (validMatches.length > 0) {
           newContent = newContent.replace(replacement.from, replacement.to);
           fixed = true;
-          appliedFixes.push(`${replacement.description} (${validMatches.length} occurrences)`);
+          appliedFixes.push(
+            `${replacement.description} (${validMatches.length} occurrences)`,
+          );
         }
       }
     });
 
     // Context-specific replacements
-    if (filePath.includes('test') || filePath.includes('spec')) {
+    if (filePath.includes("test") || filePath.includes("spec")) {
       // Test-specific any replacements
       const testReplacements = [
         {
           from: /jest\.fn\(\):\s*any/g,
-          to: 'jest.fn(): jest.MockedFunction<any>',
-          description: 'Jest mock function types',
+          to: "jest.fn(): jest.MockedFunction<any>",
+          description: "Jest mock function types",
         },
         {
           from: /expect\(([^)]+)\)\.toEqual\(([^)]+): any\)/g,
-          to: 'expect($1).toEqual($2 as unknown)',
-          description: 'Test assertion types',
+          to: "expect($1).toEqual($2 as unknown)",
+          description: "Test assertion types",
         },
       ];
 
-      testReplacements.forEach(replacement => {
+      testReplacements.forEach((replacement) => {
         if (replacement.from.test(newContent)) {
           newContent = newContent.replace(replacement.from, replacement.to);
           fixed = true;
@@ -322,7 +342,9 @@ interface EventHandlerProps {
     }
 
     if (this.verbose && appliedFixes.length > 0) {
-      this.log(`  Fixed in ${path.basename(filePath)}: ${appliedFixes.join(', ')}`);
+      this.log(
+        `  Fixed in ${path.basename(filePath)}: ${appliedFixes.join(", ")}`,
+      );
     }
 
     return { content: newContent, fixed, appliedFixes };
@@ -337,18 +359,18 @@ interface EventHandlerProps {
     const apiPatterns = [
       {
         from: /response\.data:\s*any/g,
-        to: 'response.data: unknown',
-        description: 'API response data types',
+        to: "response.data: unknown",
+        description: "API response data types",
       },
       {
         from: /axios\.get<any>/g,
-        to: 'axios.get<unknown>',
-        description: 'Axios generic types',
+        to: "axios.get<unknown>",
+        description: "Axios generic types",
       },
       {
         from: /fetch\([^)]+\)\.then\(([^)]+): any\)/g,
-        to: 'fetch($1).then($1: Response)',
-        description: 'Fetch response types',
+        to: "fetch($1).then($1: Response)",
+        description: "Fetch response types",
       },
     ];
 
@@ -356,13 +378,13 @@ interface EventHandlerProps {
     const eventPatterns = [
       {
         from: /event:\s*any/g,
-        to: 'event: Event',
-        description: 'Event handler types',
+        to: "event: Event",
+        description: "Event handler types",
       },
       {
         from: /onChange=\{([^}]+): any\}/g,
-        to: 'onChange={$1: React.ChangeEvent<HTMLInputElement>}',
-        description: 'React event handler types',
+        to: "onChange={$1: React.ChangeEvent<HTMLInputElement>}",
+        description: "React event handler types",
       },
     ];
 
@@ -370,19 +392,19 @@ interface EventHandlerProps {
     const configPatterns = [
       {
         from: /config:\s*any/g,
-        to: 'config: Record<string, unknown>',
-        description: 'Configuration object types',
+        to: "config: Record<string, unknown>",
+        description: "Configuration object types",
       },
       {
         from: /options:\s*any/g,
-        to: 'options: Record<string, unknown>',
-        description: 'Options object types',
+        to: "options: Record<string, unknown>",
+        description: "Options object types",
       },
     ];
 
     const allPatterns = [...apiPatterns, ...eventPatterns, ...configPatterns];
 
-    allPatterns.forEach(pattern => {
+    allPatterns.forEach((pattern) => {
       if (pattern.from.test(newContent)) {
         newContent = newContent.replace(pattern.from, pattern.to);
         fixed = true;
@@ -391,7 +413,9 @@ interface EventHandlerProps {
     });
 
     if (this.verbose && appliedFixes.length > 0) {
-      this.log(`  Fixed patterns in ${path.basename(filePath)}: ${appliedFixes.join(', ')}`);
+      this.log(
+        `  Fixed patterns in ${path.basename(filePath)}: ${appliedFixes.join(", ")}`,
+      );
     }
 
     return { content: newContent, fixed, appliedFixes };
@@ -399,17 +423,22 @@ interface EventHandlerProps {
 
   async fixFile(filePath) {
     try {
-      const originalContent = fs.readFileSync(filePath, 'utf8');
+      const originalContent = fs.readFileSync(filePath, "utf8");
       let currentContent = originalContent;
       let totalFixed = false;
       const allFixes = [];
 
       // Create domain-specific types first
-      const typeResult = this.createDomainSpecificTypes(currentContent, filePath);
+      const typeResult = this.createDomainSpecificTypes(
+        currentContent,
+        filePath,
+      );
       if (typeResult.addedTypes.length > 0) {
         currentContent = typeResult.content;
         totalFixed = true;
-        allFixes.push(`Added domain types: ${typeResult.addedTypes.join(', ')}`);
+        allFixes.push(
+          `Added domain types: ${typeResult.addedTypes.join(", ")}`,
+        );
       }
 
       // Apply all fixes
@@ -429,7 +458,7 @@ interface EventHandlerProps {
 
       if (totalFixed) {
         if (!this.dryRun) {
-          fs.writeFileSync(filePath, currentContent, 'utf8');
+          fs.writeFileSync(filePath, currentContent, "utf8");
         }
 
         this.fixedFiles.push({
@@ -438,44 +467,46 @@ interface EventHandlerProps {
         });
 
         this.log(
-          `${this.dryRun ? '[DRY RUN] ' : ''}Fixed explicit-any types in ${path.basename(filePath)}`,
+          `${this.dryRun ? "[DRY RUN] " : ""}Fixed explicit-any types in ${path.basename(filePath)}`,
         );
         return true;
       }
 
       return false;
     } catch (error) {
-      this.log(`Error fixing ${filePath}: ${error.message}`, 'error');
+      this.log(`Error fixing ${filePath}: ${error.message}`, "error");
       this.errors.push({ file: filePath, error: error.message });
       return false;
     }
   }
 
   async validateFixes() {
-    this.log('🔍 Validating fixes with ESLint...');
+    this.log("🔍 Validating fixes with ESLint...");
 
     try {
       const eslintOutput = execSync(
         'npx eslint src --format=compact 2>/dev/null | grep "no-explicit-any" | wc -l || echo "0"',
         {
-          encoding: 'utf8',
-          stdio: 'pipe',
+          encoding: "utf8",
+          stdio: "pipe",
         },
       );
 
       const remainingAnyIssues = parseInt(eslintOutput.trim()) || 0;
 
-      this.log(`Validation: ${remainingAnyIssues} explicit-any issues remaining`);
+      this.log(
+        `Validation: ${remainingAnyIssues} explicit-any issues remaining`,
+      );
 
       return { remainingAnyIssues };
     } catch (error) {
-      this.log(`Validation error: ${error.message}`, 'error');
+      this.log(`Validation error: ${error.message}`, "error");
       return { remainingAnyIssues: -1 };
     }
   }
 
   async createTypeDefinitionFiles() {
-    this.log('📝 Creating domain-specific type definition files...');
+    this.log("📝 Creating domain-specific type definition files...");
 
     // Service layer types
     const serviceTypes = `/**
@@ -608,9 +639,9 @@ export interface CulinaryRecommendation {
 `;
 
     const typeFiles = [
-      { path: 'src/types/serviceTypes.ts', content: serviceTypes },
-      { path: 'src/types/componentTypes.ts', content: componentTypes },
-      { path: 'src/types/astrologicalTypes.ts', content: astrologicalTypes },
+      { path: "src/types/serviceTypes.ts", content: serviceTypes },
+      { path: "src/types/componentTypes.ts", content: componentTypes },
+      { path: "src/types/astrologicalTypes.ts", content: astrologicalTypes },
     ];
 
     const createdFiles = [];
@@ -624,7 +655,7 @@ export interface CulinaryRecommendation {
 
         // Only create if file doesn't exist
         if (!fs.existsSync(typeFile.path)) {
-          fs.writeFileSync(typeFile.path, typeFile.content, 'utf8');
+          fs.writeFileSync(typeFile.path, typeFile.content, "utf8");
           createdFiles.push(typeFile.path);
         }
       } else {
@@ -634,7 +665,7 @@ export interface CulinaryRecommendation {
 
     if (createdFiles.length > 0) {
       this.log(
-        `${this.dryRun ? '[DRY RUN] ' : ''}Created type definition files: ${createdFiles.join(', ')}`,
+        `${this.dryRun ? "[DRY RUN] " : ""}Created type definition files: ${createdFiles.join(", ")}`,
       );
     }
 
@@ -642,16 +673,20 @@ export interface CulinaryRecommendation {
   }
 
   async run() {
-    this.log('🚀 Starting Systematic Explicit-Any Type Elimination (Phase 9.3)');
-    this.log(`Mode: ${this.dryRun ? 'DRY RUN' : 'LIVE EXECUTION'}`);
-    this.log(`Target: ${this.targetReduction * 100}% reduction in explicit-any usage`);
+    this.log(
+      "🚀 Starting Systematic Explicit-Any Type Elimination (Phase 9.3)",
+    );
+    this.log(`Mode: ${this.dryRun ? "DRY RUN" : "LIVE EXECUTION"}`);
+    this.log(
+      `Target: ${this.targetReduction * 100}% reduction in explicit-any usage`,
+    );
 
     // Analyze current usage
     const analysis = await this.analyzeExplicitAnyUsage();
     const initialCount = analysis.totalIssues;
 
     if (initialCount === 0) {
-      this.log('✅ No explicit-any issues found!');
+      this.log("✅ No explicit-any issues found!");
       return;
     }
 
@@ -660,7 +695,9 @@ export interface CulinaryRecommendation {
       .sort((a, b) => analysis.fileBreakdown[b] - analysis.fileBreakdown[a])
       .slice(0, Math.ceil(Object.keys(analysis.fileBreakdown).length * 0.7)); // Process top 70% of files
 
-    this.log(`🔧 Processing ${filesToProcess.length} files with highest any usage...`);
+    this.log(
+      `🔧 Processing ${filesToProcess.length} files with highest any usage...`,
+    );
     let fixedCount = 0;
 
     for (const filePath of filesToProcess) {
@@ -676,11 +713,14 @@ export interface CulinaryRecommendation {
     // Validate fixes
     const validation = await this.validateFixes();
     const finalCount =
-      validation.remainingAnyIssues >= 0 ? validation.remainingAnyIssues : initialCount;
-    const reduction = initialCount > 0 ? (initialCount - finalCount) / initialCount : 0;
+      validation.remainingAnyIssues >= 0
+        ? validation.remainingAnyIssues
+        : initialCount;
+    const reduction =
+      initialCount > 0 ? (initialCount - finalCount) / initialCount : 0;
 
     // Report results
-    this.log('\\n📊 Fix Summary:');
+    this.log("\\n📊 Fix Summary:");
     this.log(`   Initial explicit-any issues: ${initialCount}`);
     this.log(`   Files processed: ${filesToProcess.length}`);
     this.log(`   Files fixed: ${fixedCount}`);
@@ -692,7 +732,7 @@ export interface CulinaryRecommendation {
       this.log(`   Target reduction: ${this.targetReduction * 100}%`);
 
       if (reduction >= this.targetReduction) {
-        this.log('🎯 Target reduction achieved!');
+        this.log("🎯 Target reduction achieved!");
       } else {
         this.log(
           `⚠️  Target not yet reached (${((this.targetReduction - reduction) * 100).toFixed(1)}% remaining)`,
@@ -701,11 +741,11 @@ export interface CulinaryRecommendation {
     }
 
     if (this.fixedFiles.length > 0) {
-      this.log('\\n✅ Fixed files:');
-      this.fixedFiles.slice(0, 10).forEach(file => {
+      this.log("\\n✅ Fixed files:");
+      this.fixedFiles.slice(0, 10).forEach((file) => {
         this.log(`   ${file.path}`);
         if (this.verbose && file.fixes.length > 0) {
-          file.fixes.forEach(fix => this.log(`     - ${fix}`));
+          file.fixes.forEach((fix) => this.log(`     - ${fix}`));
         }
       });
 
@@ -715,18 +755,18 @@ export interface CulinaryRecommendation {
     }
 
     if (this.errors.length > 0) {
-      this.log('\\n❌ Errors encountered:');
-      this.errors.forEach(error => {
+      this.log("\\n❌ Errors encountered:");
+      this.errors.forEach((error) => {
         this.log(`   ${error.file}: ${error.error}`);
       });
     }
 
     this.log(
-      `\\n${this.dryRun ? '🔍 DRY RUN COMPLETE' : '✅ EXPLICIT-ANY TYPE ELIMINATION COMPLETE'}`,
+      `\\n${this.dryRun ? "🔍 DRY RUN COMPLETE" : "✅ EXPLICIT-ANY TYPE ELIMINATION COMPLETE"}`,
     );
 
     if (!this.dryRun && reduction >= this.targetReduction) {
-      this.log('🎉 Target explicit-any reduction achieved!');
+      this.log("🎉 Target explicit-any reduction achieved!");
     }
   }
 }
@@ -734,8 +774,8 @@ export interface CulinaryRecommendation {
 // Run the eliminator
 if (require.main === module) {
   const eliminator = new ExplicitAnyEliminator();
-  eliminator.run().catch(error => {
-    console.error('❌ Critical error:', error);
+  eliminator.run().catch((error) => {
+    console.error("❌ Critical error:", error);
     process.exit(1);
   });
 }

@@ -66,7 +66,7 @@ const elementalProperties: ElementalProperties = {
   Fire: number,
   Water: number, // ← REQUIRED PROPERTY ADDED
   Earth: number,
-  Air: number
+  Air: number,
 };
 ```
 
@@ -182,7 +182,7 @@ const elementalProperties: ElementalProperties = {
   Fire: number,
   Water: number, // ← MISSING PROPERTY ADDED
   Earth: number,
-  Air: number
+  Air: number,
 };
 ```
 

@@ -115,10 +115,10 @@ domain-specific code:
 // Example: Conservative pattern matching
 const SAFE_REMOVAL_PATTERNS = [
   {
-    name: 'simpleDebugLog',
+    name: "simpleDebugLog",
     pattern: /^\s*console\.log\(['"`][^'"`]*['"`]\);\s*$/gm,
-    description: 'Simple string-only console.log statements'
-  }
+    description: "Simple string-only console.log statements",
+  },
 ];
 ```
 

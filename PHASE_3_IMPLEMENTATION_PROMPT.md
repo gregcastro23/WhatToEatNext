@@ -13,6 +13,7 @@
 Implement the two critical missing UI components (KalchmRecommender and IngredientRecommender) that are currently showing placeholder messages on the main feature pages. These components are the primary user-facing features of the application and have all necessary backend infrastructure already in place.
 
 **Current State:**
+
 - ✅ Backend services complete and functional
 - ✅ API routes working with fallback modes
 - ✅ Data layer complete
@@ -20,6 +21,7 @@ Implement the two critical missing UI components (KalchmRecommender and Ingredie
 - ❌ Main recommendation UI components are placeholders
 
 **Goal State:**
+
 - ✅ Functional KalchmRecommender on `/what-to-eat-next`
 - ✅ Functional IngredientRecommender on `/ingredients`
 - ✅ Fixed cooking method data exports
@@ -32,6 +34,7 @@ Implement the two critical missing UI components (KalchmRecommender and Ingredie
 ### Background Context
 
 **Current Situation:**
+
 - Location: `src/app/what-to-eat-next/page.tsx`
 - Current Implementation: Placeholder div showing "KalchmRecommender unavailable."
 - Page Status: ✅ Building and loading successfully
@@ -39,6 +42,7 @@ Implement the two critical missing UI components (KalchmRecommender and Ingredie
 
 **What KalchmRecommender Should Do:**
 Display personalized ingredient/recipe recommendations based on:
+
 1. Current astrological moment (planetary positions)
 2. Elemental harmony calculations
 3. Alchemical properties (Spirit, Essence, Matter, Substance - ESMS)
@@ -54,19 +58,21 @@ Display personalized ingredient/recipe recommendations based on:
 **Steps:**
 
 1. **Analyze EnhancedRecommendationEngine Component**
+
    ```bash
    # Read the component to understand its interface
    cat src/components/EnhancedRecommendationEngine.tsx
    ```
 
 2. **Create KalchmRecommender Wrapper Component**
+
    ```typescript
    // src/components/recommendations/KalchmRecommender.tsx
-   'use client';
+   "use client";
 
-   import React, { useEffect, useState } from 'react';
-   import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
-   import { useAlchemicalContext } from '@/contexts/AlchemicalContext';
+   import React, { useEffect, useState } from "react";
+   import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
+   import { useAlchemicalContext } from "@/contexts/AlchemicalContext";
 
    interface KalchmRecommenderProps {
      maxRecommendations?: number;
@@ -77,7 +83,7 @@ Display personalized ingredient/recipe recommendations based on:
    export const KalchmRecommender: React.FC<KalchmRecommenderProps> = ({
      maxRecommendations = 18,
      showFilters = true,
-     showScoring = true
+     showScoring = true,
    }) => {
      // Use existing hook to get recommendations
      const {
@@ -86,10 +92,10 @@ Display personalized ingredient/recipe recommendations based on:
        loading,
        error,
        getIngredientRecommendations,
-       getRecipeRecommendations
+       getRecipeRecommendations,
      } = useEnhancedRecommendations({
        datetime: new Date(),
-       useBackendInfluence: true
+       useBackendInfluence: true,
      });
 
      // Get current alchemical state
@@ -108,6 +114,7 @@ Display personalized ingredient/recipe recommendations based on:
 3. **Design the UI Layout**
 
    **Layout Structure:**
+
    ```
    ┌─────────────────────────────────────────────────────┐
    │  Current Moment Summary                              │
@@ -160,6 +167,7 @@ Display personalized ingredient/recipe recommendations based on:
    - Print/export recommendations
 
 5. **Update the Page to Use New Component**
+
    ```typescript
    // src/app/what-to-eat-next/page.tsx
    'use client';
@@ -218,6 +226,7 @@ Display personalized ingredient/recipe recommendations based on:
 **Steps:**
 
 1. **Create Component Structure**
+
    ```typescript
    // src/components/recommendations/KalchmRecommender.tsx
    'use client';
@@ -432,10 +441,11 @@ Display personalized ingredient/recipe recommendations based on:
    ```
 
 2. **Add TypeScript Types**
+
    ```typescript
    // src/types/recommendations.ts
 
-   import type { Element } from './celestial';
+   import type { Element } from "./celestial";
 
    export interface ElementalProperties {
      Fire: number;
@@ -484,7 +494,7 @@ Display personalized ingredient/recipe recommendations based on:
      ingredients: string[];
      cookingMethod: string;
      cookingTime: number;
-     difficulty: 'Easy' | 'Medium' | 'Hard';
+     difficulty: "Easy" | "Medium" | "Hard";
      elementalProperties: ElementalProperties;
      alchemicalProperties: AlchemicalProperties;
      thermodynamicProperties: ThermodynamicProperties;
@@ -556,6 +566,7 @@ yarn dev
 ```
 
 **Expected Output:**
+
 - ✅ Page shows "KalchmRecommender" instead of "unavailable"
 - ✅ Displays 1-18 recommendations with scores
 - ✅ Shows current alchemical moment info
@@ -569,6 +580,7 @@ yarn dev
 ### Background Context
 
 **Current Situation:**
+
 - Location: `src/app/ingredients/page.tsx`
 - Current Implementation: Placeholder div showing "Ingredient recommender component unavailable in this build."
 - Page Status: ✅ Building and loading successfully
@@ -577,6 +589,7 @@ yarn dev
 
 **What IngredientRecommender Should Do:**
 Display categorized ingredient recommendations with:
+
 1. Category browser (Spices, Vegetables, Proteins, Grains, etc.)
 2. Ingredient cards with scores and properties
 3. Detail view for selected ingredients
@@ -588,6 +601,7 @@ Display categorized ingredient recommendations with:
 #### Step-by-Step Implementation
 
 1. **Create IngredientRecommender Component**
+
    ```typescript
    // src/components/recommendations/IngredientRecommender.tsx
    'use client';
@@ -878,6 +892,7 @@ Display categorized ingredient recommendations with:
    ```
 
 2. **Update the Ingredients Page**
+
    ```typescript
    // src/app/ingredients/page.tsx
    'use client';
@@ -1088,6 +1103,7 @@ yarn build
 ```
 
 **Expected Output:**
+
 - ✅ Page shows "IngredientRecommender" with categories
 - ✅ Category filtering works
 - ✅ Search filtering works
@@ -1102,6 +1118,7 @@ yarn build
 ### Background Context
 
 **Issue:** Build warnings about missing exports:
+
 ```
 Attempted import error: 'pressureCooking' is not exported from './pressure-cooking'
 export 'sousVide' (reexported as 'sousVide') was not found in './sous-vide' (possible exports: _sousVide)
@@ -1116,17 +1133,20 @@ export 'sousVide' (reexported as 'sousVide') was not found in './sous-vide' (pos
 **Steps:**
 
 1. **Find the Affected Files**
+
    ```bash
    find src/data/cooking/methods -name "*pressure-cooking*" -o -name "*sous-vide*"
    ```
 
 2. **Check Current Exports**
+
    ```bash
    grep "export" src/data/cooking/methods/wet/pressure-cooking.ts
    grep "export" src/data/cooking/methods/wet/sous-vide.ts
    ```
 
 3. **Add Non-Underscore Exports**
+
    ```typescript
    // src/data/cooking/methods/wet/pressure-cooking.ts
 
@@ -1152,6 +1172,7 @@ export 'sousVide' (reexported as 'sousVide') was not found in './sous-vide' (pos
    ```
 
 4. **Verify Imports**
+
    ```bash
    grep -r "import.*pressureCooking\|import.*sousVide" src/data/cooking/methods/
    ```
@@ -1166,22 +1187,24 @@ export 'sousVide' (reexported as 'sousVide') was not found in './sous-vide' (pos
 **Alternative if you want to keep underscore convention:**
 
 1. **Find Import Statements**
+
    ```bash
    grep -r "import.*pressureCooking" src/
    grep -r "import.*sousVide" src/
    ```
 
 2. **Update to Use Underscore Imports**
+
    ```typescript
    // src/data/cooking/methods/wet/index.ts
 
    // OLD:
-   import { pressureCooking } from './pressure-cooking';
-   import { sousVide } from './sous-vide';
+   import { pressureCooking } from "./pressure-cooking";
+   import { sousVide } from "./sous-vide";
 
    // NEW:
-   import { _pressureCooking as pressureCooking } from './pressure-cooking';
-   import { _sousVide as sousVide } from './sous-vide';
+   import { _pressureCooking as pressureCooking } from "./pressure-cooking";
+   import { _sousVide as sousVide } from "./sous-vide";
    ```
 
 ### Testing
@@ -1286,6 +1309,7 @@ yarn build 2>&1 | grep -i "pressure\|sous"
 ### Issue: "Cannot find module '@/components/recommendations/...'"
 
 **Solution:**
+
 ```bash
 # Verify directory exists
 ls -la src/components/recommendations/
@@ -1300,6 +1324,7 @@ grep "paths" tsconfig.json
 ### Issue: "Type errors in new component"
 
 **Solution:**
+
 ```bash
 # Check if types exist
 ls -la src/types/recommendations.ts
@@ -1314,6 +1339,7 @@ yarn tsc --noEmit src/components/recommendations/KalchmRecommender.tsx
 ### Issue: "useEnhancedRecommendations returns undefined"
 
 **Solution:**
+
 ```typescript
 // Check hook is exported
 grep "export.*useEnhancedRecommendations" src/hooks/useEnhancedRecommendations.ts
@@ -1330,6 +1356,7 @@ if (!ingredients?.items) {
 ### Issue: "AlchemicalContext is undefined"
 
 **Solution:**
+
 ```typescript
 // Wrap component in provider if not already
 <AlchemicalProvider>
@@ -1347,6 +1374,7 @@ if (!alchemicalContext) {
 ### Issue: "Build succeeds but page shows errors in browser"
 
 **Solution:**
+
 ```bash
 # Check browser console (F12) for specific error
 # Common issues:
@@ -1414,19 +1442,19 @@ useEffect(() => {
 
 ```typescript
 // Elements - Capitalized
-type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
+type Element = "Fire" | "Water" | "Earth" | "Air";
 
 // Planets - Capitalized
-type Planet = 'Sun' | 'Moon' | 'Mercury' | 'Venus';
+type Planet = "Sun" | "Moon" | "Mercury" | "Venus";
 
 // Zodiac Signs - Lowercase
-type ZodiacSign = 'aries' | 'taurus' | 'gemini';
+type ZodiacSign = "aries" | "taurus" | "gemini";
 
 // Alchemical Properties - Capitalized
-type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance';
+type AlchemicalProperty = "Spirit" | "Essence" | "Matter" | "Substance";
 
 // Cuisine Types - Capitalized with hyphens
-type CuisineType = 'Italian' | 'Mexican' | 'Middle-Eastern';
+type CuisineType = "Italian" | "Mexican" | "Middle-Eastern";
 ```
 
 ### Key Principles
@@ -1440,13 +1468,14 @@ type CuisineType = 'Italian' | 'Mexican' | 'Middle-Eastern';
 ### ESMS Calculations
 
 **The ONLY Correct Way:**
+
 ```typescript
-import { calculateAlchemicalFromPlanets } from '@/utils/planetaryAlchemyMapping';
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 
 const alchemical = calculateAlchemicalFromPlanets({
-  Sun: 'Gemini',
-  Moon: 'Leo',
-  Mercury: 'Taurus',
+  Sun: "Gemini",
+  Moon: "Leo",
+  Mercury: "Taurus",
   // ... other planets
 });
 ```
@@ -1465,26 +1494,32 @@ const alchemical = calculateAlchemicalFromPlanets({
 ### Key Files to Reference
 
 **Services:**
+
 - `src/services/index.ts` - Service manager
 - `src/services/UnifiedScoringService.ts` - Scoring logic
 
 **Utilities:**
+
 - `src/utils/planetaryAlchemyMapping.ts` - ESMS calculations
 - `src/utils/hierarchicalRecipeCalculations.ts` - Recipe computation
 - `src/utils/cuisineAggregations.ts` - Statistical signatures
 
 **Hooks:**
+
 - `src/hooks/useEnhancedRecommendations.ts` - Main recommendation hook
 - `src/hooks/useStatePreservation.ts` - Navigation state preservation
 
 **Types:**
+
 - `src/types/celestial.ts` - Core types (Planet, Element, ESMS)
 - `src/types/unified.ts` - Unified data types
 
 **Contexts:**
+
 - `src/contexts/AlchemicalContext/` - Alchemical state management
 
 **Templates:**
+
 - `src/components/EnhancedRecommendationEngine.tsx` - Recommendation UI template
 - `src/components/cuisines/CurrentMomentCuisineRecommendations.tsx` - Working example
 
@@ -1516,12 +1551,14 @@ grep -r "useEnhancedRecommendations" src/
 ### External Dependencies
 
 **Backend API:**
+
 - URL: `https://alchm-backend.onrender.com`
 - Status: Currently unavailable (timeouts)
 - Fallback: Application uses fallback modes
 - Note: Will need to wake up backend (cold start on Render.com)
 
 **Frontend Libraries:**
+
 - React 19
 - Next.js 15.3.4
 - TypeScript 5.7.3
@@ -1617,6 +1654,7 @@ Once Phase 3 is complete, consider:
 ## ✅ FINAL CHECKLIST
 
 Before starting:
+
 - [ ] Read entire prompt thoroughly
 - [ ] Review [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEMENTATIONS.md)
 - [ ] Review [INVESTIGATION_SUMMARY.md](INVESTIGATION_SUMMARY.md)
@@ -1626,6 +1664,7 @@ Before starting:
 - [ ] Have dev server running for testing
 
 During implementation:
+
 - [ ] Follow coding standards strictly
 - [ ] Test frequently during development
 - [ ] Commit after each completed objective
@@ -1633,6 +1672,7 @@ During implementation:
 - [ ] Ask questions if anything is unclear
 
 After completion:
+
 - [ ] All three objectives completed
 - [ ] All tests pass
 - [ ] Build succeeds without warnings
@@ -1645,4 +1685,4 @@ After completion:
 
 **End of Phase 3 Implementation Prompt**
 
-*This prompt provides everything needed to implement the core missing features of WhatToEatNext. Follow the steps systematically, test frequently, and maintain code quality. Good luck!* 🚀
+_This prompt provides everything needed to implement the core missing features of WhatToEatNext. Follow the steps systematically, test frequently, and maintain code quality. Good luck!_ 🚀

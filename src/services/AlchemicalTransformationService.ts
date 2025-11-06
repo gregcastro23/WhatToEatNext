@@ -1,23 +1,27 @@
-import {
-  ZodiacSign,
-  CookingMethod
-} from '../types/alchemy';
+import { ZodiacSign, CookingMethod } from "../types/alchemy";
 import {
   _transformIngredients,
   _transformCookingMethods,
   _transformCuisines,
   _sortByAlchemicalCompatibility,
   _filterByAlchemicalCompatibility,
-  _getTopCompatibleItems
-} from '../utils/alchemicalTransformationUtils';
-import type { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
-import type { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
-import type { RulingPlanet } from '../constants/planets';
+  _getTopCompatibleItems,
+} from "../utils/alchemicalTransformationUtils";
+import type {
+  ElementalItem,
+  AlchemicalItem,
+} from "../calculations/alchemicalTransformation";
+import type {
+  ElementalCharacter,
+  AlchemicalProperty,
+} from "../constants/planetaryElements";
+import type { RulingPlanet } from "../constants/planets";
 import type {
   LunarPhase,
   PlanetaryAspect,
-  LunarPhaseWithSpaces} from '../types/alchemy';
-import type { Recipe } from '../types/recipe';
+  LunarPhaseWithSpaces,
+} from "../types/alchemy";
+import type { Recipe } from "../types/recipe";
 
 /**
  * Interface for alchemical recommendations
@@ -31,7 +35,7 @@ export interface AlchemicalRecommendations {
   heat: number;
   entropy: number;
   reactivity: number;
-  gregsEnergy: number
+  gregsEnergy: number;
 }
 
 /**
@@ -47,7 +51,7 @@ export interface OptimizedRecipeResult {
   ingredientMatchScore: number;
   cookingMethodScore: number;
   lunarPhaseScore?: number;
-  zodiacScore?: number
+  zodiacScore?: number;
 }
 
 /**
@@ -67,7 +71,7 @@ export class AlchemicalTransformationService {
     Mars: 0,
     Uranus: 0,
     Neptune: 0,
-    Pluto: 0
+    Pluto: 0,
   };
   private isDaytime = true;
   private currentZodiac: any | null = null;
@@ -82,7 +86,7 @@ export class AlchemicalTransformationService {
   constructor(
     ingredients: ElementalItem[] = [],
     cookingMethods: ElementalItem[] = [],
-    cuisines: ElementalItem[] = []
+    cuisines: ElementalItem[] = [],
   ) {
     this.ingredients = ingredients;
     this.cookingMethods = cookingMethods;
@@ -120,7 +124,9 @@ export class AlchemicalTransformationService {
   /**
    * Set tarot element boosts
    */
-  setTarotElementBoosts(boosts: Record<ElementalCharacter, number> | undefined): void {
+  setTarotElementBoosts(
+    boosts: Record<ElementalCharacter, number> | undefined,
+  ): void {
     this.tarotElementBoosts = boosts;
   }
 
@@ -168,7 +174,7 @@ export class AlchemicalTransformationService {
       this.planetPositions,
       this.isDaytime,
       this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces
+      this.lunarPhase as unknown as LunarPhaseWithSpaces,
     );
   }
 
@@ -181,7 +187,7 @@ export class AlchemicalTransformationService {
       this.planetPositions,
       this.isDaytime,
       this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces
+      this.lunarPhase as unknown as LunarPhaseWithSpaces,
     );
   }
 
@@ -194,7 +200,7 @@ export class AlchemicalTransformationService {
       this.planetPositions,
       this.isDaytime,
       this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces
+      this.lunarPhase as unknown as LunarPhaseWithSpaces,
     );
   }
 
@@ -205,20 +211,32 @@ export class AlchemicalTransformationService {
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
     const transformedCuisines = this.getTransformedCuisines();
-    const topIngredients = _getTopCompatibleItems(transformedIngredients, count);
+    const topIngredients = _getTopCompatibleItems(
+      transformedIngredients,
+      count,
+    );
     const topMethods = _getTopCompatibleItems(transformedMethods, count);
     const topCuisines = _getTopCompatibleItems(transformedCuisines, count);
 
     // Determine overall dominant element and alchemical property
     // This is based on the first ingredients as they typically have the strongest influence
-    const dominantElement = topIngredients.length > 0 ? topIngredients[0].dominantElement : 'Fire';
+    const dominantElement =
+      topIngredients.length > 0 ? topIngredients[0].dominantElement : "Fire";
     const dominantAlchemicalProperty =
-      topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit';
+      topIngredients.length > 0
+        ? topIngredients[0].dominantAlchemicalProperty
+        : "Spirit";
 
     // Calculate average energy values across top ingredients
-    const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {
+    const calculateAverage = (
+      items: AlchemicalItem[],
+      property: keyof AlchemicalItem,
+    ): number => {
       if (items.length === 0) return 0;
-      const sum = items.reduce((acc, item) => acc + (item[property] as number), 0);
+      const sum = items.reduce(
+        (acc, item) => acc + (item[property] as number),
+        0,
+      );
       return parseFloat((sum / items.length).toFixed(2));
     };
 
@@ -228,10 +246,10 @@ export class AlchemicalTransformationService {
       topCuisines,
       dominantElement,
       dominantAlchemicalProperty,
-      heat: calculateAverage(topIngredients, 'heat'),
-      entropy: calculateAverage(topIngredients, 'entropy'),
-      reactivity: calculateAverage(topIngredients, 'reactivity'),
-      gregsEnergy: calculateAverage(topIngredients, 'gregsEnergy')
+      heat: calculateAverage(topIngredients, "heat"),
+      entropy: calculateAverage(topIngredients, "entropy"),
+      reactivity: calculateAverage(topIngredients, "reactivity"),
+      gregsEnergy: calculateAverage(topIngredients, "gregsEnergy"),
     };
   }
 
@@ -250,22 +268,22 @@ export class AlchemicalTransformationService {
     const transformedCuisines = this.getTransformedCuisines();
     // Create lookup maps for faster access
     const ingredientMap = new Map<string, AlchemicalItem>();
-    transformedIngredients.forEach(item => {
+    transformedIngredients.forEach((item) => {
       ingredientMap.set(item.name.toLowerCase(), item);
     });
 
     const methodMap = new Map<string, AlchemicalItem>();
-    transformedMethods.forEach(item => {
+    transformedMethods.forEach((item) => {
       methodMap.set(item.name.toLowerCase(), item);
     });
 
     const cuisineMap = new Map<string, AlchemicalItem>();
-    transformedCuisines.forEach(item => {
+    transformedCuisines.forEach((item) => {
       cuisineMap.set(item.name.toLowerCase(), item);
     });
 
     // Score each recipe based on its compatibility with the current planetary conditions
-    const scoredRecipes = recipes.map(recipe => {
+    const scoredRecipes = recipes.map((recipe) => {
       // Base compatibility score
       let compatibility = 0;
 
@@ -273,7 +291,7 @@ export class AlchemicalTransformationService {
       let ingredientMatch = 0;
       let ingredientCount = 0;
 
-      recipe.ingredients.forEach(ingredient => {
+      recipe.ingredients.forEach((ingredient) => {
         const ingredientName = ingredient.name.toLowerCase();
         const alchemicalIngredient = ingredientMap.get(ingredientName);
 
@@ -283,7 +301,8 @@ export class AlchemicalTransformationService {
         }
       });
 
-      const ingredientMatchScore = ingredientCount > 0 ? ingredientMatch / ingredientCount : 0;
+      const ingredientMatchScore =
+        ingredientCount > 0 ? ingredientMatch / ingredientCount : 0;
 
       // Cooking method compatibility
       let methodMatch = 0;
@@ -300,7 +319,8 @@ export class AlchemicalTransformationService {
         }
       });
 
-      const cookingMethodScore = methodCount > 0 ? methodMatch / methodCount : 0;
+      const cookingMethodScore =
+        methodCount > 0 ? methodMatch / methodCount : 0;
 
       // Cuisine compatibility
       let cuisineMatch = 0;
@@ -317,22 +337,32 @@ export class AlchemicalTransformationService {
       const seasonalScore = this.calculateSeasonalScore(recipe);
 
       // Calculate lunar phase score if available
-      const lunarPhaseScore = this.lunarPhase ? this.calculateLunarPhaseScore(recipe) : 0;
+      const lunarPhaseScore = this.lunarPhase
+        ? this.calculateLunarPhaseScore(recipe)
+        : 0;
 
       // Calculate zodiac score if available
-      const zodiacScore = this.currentZodiac ? this.calculateZodiacScore(recipe) : 0;
+      const zodiacScore = this.currentZodiac
+        ? this.calculateZodiacScore(recipe)
+        : 0;
 
       // Overall alchemical score is a weighted average of ingredient, method, and cuisine scores
       const alchemicalScore =
-        ingredientMatchScore * 0.6 + cookingMethodScore * 0.3 + cuisineMatch * 0.1;
+        ingredientMatchScore * 0.6 +
+        cookingMethodScore * 0.3 +
+        cuisineMatch * 0.1;
 
       // Combine all scores for overall compatibility
       compatibility =
-        alchemicalScore * 0.5 + seasonalScore * 0.3 + lunarPhaseScore * 0.1 + zodiacScore * 0.1;
+        alchemicalScore * 0.5 +
+        seasonalScore * 0.3 +
+        lunarPhaseScore * 0.1 +
+        zodiacScore * 0.1;
 
       // Determine dominant element and alchemical property for this recipe
       const dominantElement = this.getDominantElement(recipe);
-      const dominantAlchemicalProperty = this.getDominantAlchemicalProperty(recipe);
+      const dominantAlchemicalProperty =
+        this.getDominantAlchemicalProperty(recipe);
 
       return {
         recipe,
@@ -344,12 +374,14 @@ export class AlchemicalTransformationService {
         ingredientMatchScore: parseFloat(ingredientMatchScore.toFixed(2)),
         cookingMethodScore: parseFloat(cookingMethodScore.toFixed(2)),
         lunarPhaseScore: parseFloat(lunarPhaseScore.toFixed(2)),
-        zodiacScore: parseFloat(zodiacScore.toFixed(2))
+        zodiacScore: parseFloat(zodiacScore.toFixed(2)),
       };
     });
 
     // Sort by compatibility score
-    const sortedRecipes = scoredRecipes.sort((a, b) => b.compatibility - a.compatibility);
+    const sortedRecipes = scoredRecipes.sort(
+      (a, b) => b.compatibility - a.compatibility,
+    );
 
     // Return top N recipes
     return sortedRecipes.slice(0, count);
@@ -363,7 +395,7 @@ export class AlchemicalTransformationService {
   getTargetedRecommendations(
     targetElement?: ElementalCharacter,
     targetAlchemicalProperty?: AlchemicalProperty,
-    count = 5
+    count = 5,
   ): AlchemicalRecommendations {
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
@@ -371,19 +403,19 @@ export class AlchemicalTransformationService {
     const filteredIngredients = _filterByAlchemicalCompatibility(
       transformedIngredients,
       targetElement,
-      targetAlchemicalProperty
+      targetAlchemicalProperty,
     );
 
     const filteredMethods = _filterByAlchemicalCompatibility(
       transformedMethods,
       targetElement,
-      targetAlchemicalProperty
+      targetAlchemicalProperty,
     );
 
     const filteredCuisines = _filterByAlchemicalCompatibility(
       transformedCuisines,
       targetElement,
-      targetAlchemicalProperty
+      targetAlchemicalProperty,
     );
 
     const topIngredients = _getTopCompatibleItems(filteredIngredients, count);
@@ -392,15 +424,25 @@ export class AlchemicalTransformationService {
 
     // Use provided targets or default to first ingredient
     const dominantElement =
-      targetElement || (topIngredients.length > 0 ? topIngredients[0].dominantElement : 'Fire');
+      targetElement ||
+      (topIngredients.length > 0 ? topIngredients[0].dominantElement : "Fire");
 
-    const dominantAlchemicalProperty = targetAlchemicalProperty ||
-      (topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit');
+    const dominantAlchemicalProperty =
+      targetAlchemicalProperty ||
+      (topIngredients.length > 0
+        ? topIngredients[0].dominantAlchemicalProperty
+        : "Spirit");
 
     // Calculate average energy values
-    const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {
+    const calculateAverage = (
+      items: AlchemicalItem[],
+      property: keyof AlchemicalItem,
+    ): number => {
       if (items.length === 0) return 0;
-      const sum = items.reduce((acc, item) => acc + (item[property] as number), 0);
+      const sum = items.reduce(
+        (acc, item) => acc + (item[property] as number),
+        0,
+      );
       return parseFloat((sum / items.length).toFixed(2));
     };
 
@@ -410,37 +452,39 @@ export class AlchemicalTransformationService {
       topCuisines,
       dominantElement,
       dominantAlchemicalProperty,
-      heat: calculateAverage(topIngredients, 'heat'),
-      entropy: calculateAverage(topIngredients, 'entropy'),
-      reactivity: calculateAverage(topIngredients, 'reactivity'),
-      gregsEnergy: calculateAverage(topIngredients, 'gregsEnergy')
-    }
+      heat: calculateAverage(topIngredients, "heat"),
+      entropy: calculateAverage(topIngredients, "entropy"),
+      reactivity: calculateAverage(topIngredients, "reactivity"),
+      gregsEnergy: calculateAverage(topIngredients, "gregsEnergy"),
+    };
   }
 
   // Helper method to calculate seasonal score for a recipe
   private calculateSeasonalScore(recipe: Recipe): number {
     if (!recipe.season || recipe.season.length === 0) return 0.5;
     const currentMonth = new Date().getMonth();
-    const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
+    const seasons = Array.isArray(recipe.season)
+      ? recipe.season
+      : [recipe.season];
 
     // Map months to seasons
     const monthToSeason: Record<number, string> = {
-      0: 'winter',
-      1: 'winter', // Jan, Feb
-      2: 'spring',
-      3: 'spring',
-      4: 'spring', // Mar, Apr, May
-      5: 'summer',
-      6: 'summer',
-      7: 'summer', // Jun, Jul, Aug
-      8: 'fall',
-      9: 'fall',
-      10: 'fall', // Sep, Oct, Nov
-      11: 'winter' // Dec
+      0: "winter",
+      1: "winter", // Jan, Feb
+      2: "spring",
+      3: "spring",
+      4: "spring", // Mar, Apr, May
+      5: "summer",
+      6: "summer",
+      7: "summer", // Jun, Jul, Aug
+      8: "fall",
+      9: "fall",
+      10: "fall", // Sep, Oct, Nov
+      11: "winter", // Dec
     };
 
     const currentSeason = monthToSeason[currentMonth];
-    if (seasons.includes(currentSeason) || seasons.includes('all')) {
+    if (seasons.includes(currentSeason) || seasons.includes("all")) {
       return 0.8;
     }
 
@@ -460,7 +504,9 @@ export class AlchemicalTransformationService {
     const lunarPhaseLower = this.lunarPhase.toLowerCase();
 
     // Check if the recipe's lunar phases include the current lunar phase
-    const lunarPhasesLower = lunarPhases.map((phase: string) => phase.toLowerCase());
+    const lunarPhasesLower = lunarPhases.map((phase: string) =>
+      phase.toLowerCase(),
+    );
 
     if (lunarPhasesLower.includes(lunarPhaseLower)) {
       return 0.8;
@@ -493,21 +539,21 @@ export class AlchemicalTransformationService {
 
   // Helper method to determine the dominant element for a recipe
   private getDominantElement(recipe: Recipe): ElementalCharacter {
-    if (!recipe.elementalProperties) return 'Fire';
+    if (!recipe.elementalProperties) return "Fire";
     const elements = recipe.elementalProperties;
     const dominantValue = Math.max(
       elements.Fire || 0,
       elements.Water || 0,
       elements.Earth || 0,
-      elements.Air || 0
+      elements.Air || 0,
     );
 
-    if (dominantValue === elements.Fire) return 'Fire';
-    if (dominantValue === elements.Water) return 'Water';
-    if (dominantValue === elements.Earth) return 'Earth';
-    if (dominantValue === elements.Air) return 'Air';
+    if (dominantValue === elements.Fire) return "Fire";
+    if (dominantValue === elements.Water) return "Water";
+    if (dominantValue === elements.Earth) return "Earth";
+    if (dominantValue === elements.Air) return "Air";
 
-    return 'Fire'; // Default
+    return "Fire"; // Default
   }
 
   // Helper method to determine the dominant alchemical property for a recipe
@@ -519,16 +565,16 @@ export class AlchemicalTransformationService {
     const dominantElement = this.getDominantElement(recipe);
 
     switch (dominantElement) {
-      case 'Fire':
-        return 'Spirit';
-      case 'Water':
-        return 'Essence';
-      case 'Earth':
-        return 'Matter';
-      case 'Air':
-        return 'Substance';
+      case "Fire":
+        return "Spirit";
+      case "Water":
+        return "Essence";
+      case "Earth":
+        return "Matter";
+      case "Air":
+        return "Substance";
       default:
-        return 'Spirit';
+        return "Spirit";
     }
   }
 }

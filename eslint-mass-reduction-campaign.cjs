@@ -19,9 +19,9 @@
  * - Progress tracking and reporting
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class ESLintMassReductionCampaign {
   constructor() {
@@ -32,17 +32,44 @@ class ESLintMassReductionCampaign {
     this.safetyCheckpoints = [];
     this.domainPatterns = {
       astrological: [
-        'planet', 'degree', 'sign', 'longitude', 'position', 'transit',
-        'zodiac', 'elemental', 'astro', 'lunar', 'solar', 'celestial'
+        "planet",
+        "degree",
+        "sign",
+        "longitude",
+        "position",
+        "transit",
+        "zodiac",
+        "elemental",
+        "astro",
+        "lunar",
+        "solar",
+        "celestial",
       ],
       campaign: [
-        'metrics', 'progress', 'safety', 'campaign', 'validation',
-        'checkpoint', 'rollback', 'batch', 'orchestrator'
+        "metrics",
+        "progress",
+        "safety",
+        "campaign",
+        "validation",
+        "checkpoint",
+        "rollback",
+        "batch",
+        "orchestrator",
       ],
       alchemical: [
-        'fire', 'water', 'earth', 'air', 'spirit', 'essence', 'matter',
-        'substance', 'kalchm', 'monica', 'alchemical', 'elemental'
-      ]
+        "fire",
+        "water",
+        "earth",
+        "air",
+        "spirit",
+        "essence",
+        "matter",
+        "substance",
+        "kalchm",
+        "monica",
+        "alchemical",
+        "elemental",
+      ],
     };
 
     this.report = {
@@ -56,8 +83,8 @@ class ESLintMassReductionCampaign {
       performance: {
         startTime: this.startTime,
         endTime: null,
-        duration: null
-      }
+        duration: null,
+      },
     };
   }
 
@@ -65,16 +92,16 @@ class ESLintMassReductionCampaign {
    * Execute the mass reduction campaign
    */
   async execute() {
-    console.log('🚀 Starting ESLint Mass Reduction Campaign');
-    console.log('Target: Reduce 3,749 issues to <500 (93%+ reduction)');
-    console.log('');
+    console.log("🚀 Starting ESLint Mass Reduction Campaign");
+    console.log("Target: Reduce 3,749 issues to <500 (93%+ reduction)");
+    console.log("");
 
     try {
       // Phase 1: Initial assessment
       await this.initialAssessment();
 
       // Phase 2: Create safety checkpoint
-      await this.createSafetyCheckpoint('pre-campaign');
+      await this.createSafetyCheckpoint("pre-campaign");
 
       // Phase 3: Execute targeted fixes
       await this.executeTargetedFixes();
@@ -82,10 +109,9 @@ class ESLintMassReductionCampaign {
       // Phase 4: Final validation and reporting
       await this.finalValidation();
 
-      console.log('✅ ESLint Mass Reduction Campaign completed successfully!');
-
+      console.log("✅ ESLint Mass Reduction Campaign completed successfully!");
     } catch (error) {
-      console.error('❌ Campaign failed:', error.message);
+      console.error("❌ Campaign failed:", error.message);
       await this.emergencyRollback();
       throw error;
     }
@@ -95,23 +121,25 @@ class ESLintMassReductionCampaign {
    * Initial assessment of ESLint issues
    */
   async initialAssessment() {
-    console.log('📊 Phase 1: Initial Assessment');
+    console.log("📊 Phase 1: Initial Assessment");
 
     const issueCount = this.getESLintIssueCount();
     this.report.startingIssues = issueCount;
     this.report.currentIssues = issueCount;
 
     console.log(`   Current ESLint issues: ${issueCount}`);
-    console.log(`   Target: <500 issues (${Math.round((1 - 500/issueCount) * 100)}% reduction)`);
+    console.log(
+      `   Target: <500 issues (${Math.round((1 - 500 / issueCount) * 100)}% reduction)`,
+    );
 
     // Analyze issue categories
     const categories = await this.analyzeIssueCategories();
-    console.log('   Issue breakdown:');
+    console.log("   Issue breakdown:");
     Object.entries(categories).forEach(([category, count]) => {
       console.log(`     ${category}: ${count}`);
     });
 
-    console.log('');
+    console.log("");
   }
 
   /**
@@ -119,15 +147,18 @@ class ESLintMassReductionCampaign {
    */
   getESLintIssueCount() {
     try {
-      const output = execSync('yarn lint 2>&1 | grep -E "✖.*problems" | tail -1', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn lint 2>&1 | grep -E "✖.*problems" | tail -1',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const match = output.match(/✖ (\d+) problems/);
       return match ? parseInt(match[1]) : 0;
     } catch (error) {
-      console.warn('Could not get ESLint count, using fallback');
+      console.warn("Could not get ESLint count, using fallback");
       return 3749; // Fallback to known count
     }
   }
@@ -137,31 +168,31 @@ class ESLintMassReductionCampaign {
    */
   async analyzeIssueCategories() {
     try {
-      const output = execSync('yarn lint --format=json 2>/dev/null', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      const output = execSync("yarn lint --format=json 2>/dev/null", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
 
       const results = JSON.parse(output);
       const categories = {};
 
-      results.forEach(result => {
-        result.messages.forEach(message => {
-          const rule = message.ruleId || 'parsing-error';
+      results.forEach((result) => {
+        result.messages.forEach((message) => {
+          const rule = message.ruleId || "parsing-error";
           categories[rule] = (categories[rule] || 0) + 1;
         });
       });
 
       return categories;
     } catch (error) {
-      console.warn('Could not analyze categories, using estimated breakdown');
+      console.warn("Could not analyze categories, using estimated breakdown");
       return {
-        '@typescript-eslint/no-unused-vars': 800,
-        'no-console': 600,
-        'import/order': 400,
-        '@typescript-eslint/no-explicit-any': 300,
-        'unused-imports/no-unused-imports': 250,
-        'other': 1399
+        "@typescript-eslint/no-unused-vars": 800,
+        "no-console": 600,
+        "import/order": 400,
+        "@typescript-eslint/no-explicit-any": 300,
+        "unused-imports/no-unused-imports": 250,
+        other: 1399,
       };
     }
   }
@@ -174,67 +205,71 @@ class ESLintMassReductionCampaign {
 
     try {
       const checkpointId = `eslint-campaign-${Date.now()}`;
-      execSync(`git stash push -m "${checkpointId}: ${description}"`, { stdio: 'pipe' });
+      execSync(`git stash push -m "${checkpointId}: ${description}"`, {
+        stdio: "pipe",
+      });
 
       this.safetyCheckpoints.push({
         id: checkpointId,
         description,
         timestamp: new Date(),
-        issueCount: this.report.currentIssues
+        issueCount: this.report.currentIssues,
       });
 
       this.report.safetyEvents.push({
-        type: 'checkpoint_created',
+        type: "checkpoint_created",
         description,
-        timestamp: new Date()
+        timestamp: new Date(),
       });
 
       console.log(`   Checkpoint created: ${checkpointId}`);
     } catch (error) {
-      console.warn('   Could not create git stash, continuing without checkpoint');
+      console.warn(
+        "   Could not create git stash, continuing without checkpoint",
+      );
     }
 
-    console.log('');
+    console.log("");
   }
 
   /**
    * Execute targeted fixes in batches
    */
   async executeTargetedFixes() {
-    console.log('🔧 Phase 3: Executing Targeted Fixes');
+    console.log("🔧 Phase 3: Executing Targeted Fixes");
 
     const fixStrategies = [
       {
-        name: 'Unused Variables Cleanup',
+        name: "Unused Variables Cleanup",
         command: 'yarn lint --fix --rule "@typescript-eslint/no-unused-vars"',
         priority: 1,
-        estimatedFixes: 800
+        estimatedFixes: 800,
       },
       {
-        name: 'Console Statements Cleanup',
+        name: "Console Statements Cleanup",
         command: 'yarn lint --fix --rule "no-console"',
         priority: 2,
         estimatedFixes: 600,
-        domainAware: true
+        domainAware: true,
       },
       {
-        name: 'Import Organization',
+        name: "Import Organization",
         command: 'yarn lint --fix --rule "import/order"',
         priority: 3,
-        estimatedFixes: 400
+        estimatedFixes: 400,
       },
       {
-        name: 'Unused Imports Cleanup',
+        name: "Unused Imports Cleanup",
         command: 'yarn lint --fix --rule "unused-imports/no-unused-imports"',
         priority: 4,
-        estimatedFixes: 250
+        estimatedFixes: 250,
       },
       {
-        name: 'Formatting and Style',
+        name: "Formatting and Style",
         command: 'yarn lint --fix --rule "prettier/prettier"',
         priority: 5,
-        estimatedFixes: 300
-      }
+        estimatedFixes: 300,
+      },
     ];
 
     for (const strategy of fixStrategies) {
@@ -249,8 +284,10 @@ class ESLintMassReductionCampaign {
       this.report.currentIssues = currentIssues;
       this.report.fixedIssues += reduction;
 
-      console.log(`   Progress: ${currentIssues} issues remaining (${reduction} fixed)`);
-      console.log('');
+      console.log(
+        `   Progress: ${currentIssues} issues remaining (${reduction} fixed)`,
+      );
+      console.log("");
     }
   }
 
@@ -271,17 +308,18 @@ class ESLintMassReductionCampaign {
       this.report.categoriesFixed[strategy.name] = {
         attempted: true,
         success: true,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
-
     } catch (error) {
-      console.warn(`   Warning: ${strategy.name} encountered issues: ${error.message}`);
+      console.warn(
+        `   Warning: ${strategy.name} encountered issues: ${error.message}`,
+      );
 
       this.report.categoriesFixed[strategy.name] = {
         attempted: true,
         success: false,
         error: error.message,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
     }
   }
@@ -292,8 +330,8 @@ class ESLintMassReductionCampaign {
   async executeStandardFixes(strategy) {
     try {
       execSync(strategy.command, {
-        stdio: 'pipe',
-        timeout: 60000 // 1 minute timeout
+        stdio: "pipe",
+        timeout: 60000, // 1 minute timeout
       });
     } catch (error) {
       // ESLint returns non-zero exit code when there are unfixable issues
@@ -308,10 +346,10 @@ class ESLintMassReductionCampaign {
    * Execute domain-aware fixes (preserving astrological/campaign patterns)
    */
   async executeDomainAwareFixes(strategy) {
-    console.log('     Using domain-aware patterns...');
+    console.log("     Using domain-aware patterns...");
 
     // For console statements, we need to preserve intentional logging
-    if (strategy.name.includes('Console')) {
+    if (strategy.name.includes("Console")) {
       await this.executeConsoleCleanupWithDomainAwareness();
     } else {
       await this.executeStandardFixes(strategy);
@@ -380,19 +418,18 @@ class ESLintMassReductionCampaign {
    */
   async validateBuildStability() {
     try {
-      console.log('     Validating build stability...');
+      console.log("     Validating build stability...");
 
       // Quick TypeScript check
-      execSync('yarn tsc --noEmit --skipLibCheck', {
-        stdio: 'pipe',
-        timeout: 30000
+      execSync("yarn tsc --noEmit --skipLibCheck", {
+        stdio: "pipe",
+        timeout: 30000,
       });
 
-      console.log('     ✅ Build stability confirmed');
-
+      console.log("     ✅ Build stability confirmed");
     } catch (error) {
-      console.error('     ❌ Build stability check failed');
-      throw new Error('Build stability validation failed - rolling back');
+      console.error("     ❌ Build stability check failed");
+      throw new Error("Build stability validation failed - rolling back");
     }
   }
 
@@ -400,58 +437,69 @@ class ESLintMassReductionCampaign {
    * Final validation and reporting
    */
   async finalValidation() {
-    console.log('📋 Phase 4: Final Validation and Reporting');
+    console.log("📋 Phase 4: Final Validation and Reporting");
 
     const finalIssueCount = this.getESLintIssueCount();
     this.report.currentIssues = finalIssueCount;
     this.report.reductionPercentage = Math.round(
-      ((this.report.startingIssues - finalIssueCount) / this.report.startingIssues) * 100
+      ((this.report.startingIssues - finalIssueCount) /
+        this.report.startingIssues) *
+        100,
     );
 
     this.report.performance.endTime = Date.now();
-    this.report.performance.duration = this.report.performance.endTime - this.report.performance.startTime;
+    this.report.performance.duration =
+      this.report.performance.endTime - this.report.performance.startTime;
 
-    console.log('');
-    console.log('📊 Campaign Results:');
+    console.log("");
+    console.log("📊 Campaign Results:");
     console.log(`   Starting issues: ${this.report.startingIssues}`);
     console.log(`   Final issues: ${finalIssueCount}`);
-    console.log(`   Issues fixed: ${this.report.startingIssues - finalIssueCount}`);
+    console.log(
+      `   Issues fixed: ${this.report.startingIssues - finalIssueCount}`,
+    );
     console.log(`   Reduction: ${this.report.reductionPercentage}%`);
-    console.log(`   Target achieved: ${finalIssueCount < 500 ? '✅ YES' : '❌ NO'}`);
-    console.log(`   Duration: ${Math.round(this.report.performance.duration / 1000)}s`);
+    console.log(
+      `   Target achieved: ${finalIssueCount < 500 ? "✅ YES" : "❌ NO"}`,
+    );
+    console.log(
+      `   Duration: ${Math.round(this.report.performance.duration / 1000)}s`,
+    );
 
     // Save detailed report
     await this.saveDetailedReport();
 
     if (finalIssueCount >= 500) {
-      console.log('');
-      console.log('⚠️  Target not fully achieved. Consider running additional cleanup phases.');
+      console.log("");
+      console.log(
+        "⚠️  Target not fully achieved. Consider running additional cleanup phases.",
+      );
     }
 
-    console.log('');
+    console.log("");
   }
 
   /**
    * Save detailed campaign report
    */
   async saveDetailedReport() {
-    const reportPath = 'eslint-mass-reduction-campaign-report.json';
+    const reportPath = "eslint-mass-reduction-campaign-report.json";
 
     const detailedReport = {
       ...this.report,
       campaign: {
-        name: 'ESLint Mass Reduction Campaign',
-        version: '1.0.0',
-        target: 'Reduce 3,749 issues to <500 (93%+ reduction)',
-        strategy: 'Batch processing with domain-aware patterns'
+        name: "ESLint Mass Reduction Campaign",
+        version: "1.0.0",
+        target: "Reduce 3,749 issues to <500 (93%+ reduction)",
+        strategy: "Batch processing with domain-aware patterns",
       },
       domainPreservation: {
         astrologicalPatterns: this.domainPatterns.astrological,
         campaignPatterns: this.domainPatterns.campaign,
-        alchemicalPatterns: this.domainPatterns.alchemical
+        alchemicalPatterns: this.domainPatterns.alchemical,
       },
       safetyCheckpoints: this.safetyCheckpoints,
-      recommendations: this.generateRecommendations()
+      recommendations: this.generateRecommendations(),
     };
 
     fs.writeFileSync(reportPath, JSON.stringify(detailedReport, null, 2));
@@ -465,17 +513,25 @@ class ESLintMassReductionCampaign {
     const recommendations = [];
 
     if (this.report.currentIssues > 500) {
-      recommendations.push('Consider running additional targeted cleanup phases');
-      recommendations.push('Review remaining issues manually for complex cases');
+      recommendations.push(
+        "Consider running additional targeted cleanup phases",
+      );
+      recommendations.push(
+        "Review remaining issues manually for complex cases",
+      );
     }
 
     if (this.report.reductionPercentage < 90) {
-      recommendations.push('Investigate remaining high-frequency rule violations');
-      recommendations.push('Consider updating ESLint configuration for better auto-fixing');
+      recommendations.push(
+        "Investigate remaining high-frequency rule violations",
+      );
+      recommendations.push(
+        "Consider updating ESLint configuration for better auto-fixing",
+      );
     }
 
-    recommendations.push('Set up pre-commit hooks to prevent regression');
-    recommendations.push('Schedule regular maintenance campaigns');
+    recommendations.push("Set up pre-commit hooks to prevent regression");
+    recommendations.push("Schedule regular maintenance campaigns");
 
     return recommendations;
   }
@@ -484,19 +540,20 @@ class ESLintMassReductionCampaign {
    * Emergency rollback in case of critical failure
    */
   async emergencyRollback() {
-    console.log('🚨 Executing emergency rollback...');
+    console.log("🚨 Executing emergency rollback...");
 
     if (this.safetyCheckpoints.length > 0) {
-      const lastCheckpoint = this.safetyCheckpoints[this.safetyCheckpoints.length - 1];
+      const lastCheckpoint =
+        this.safetyCheckpoints[this.safetyCheckpoints.length - 1];
 
       try {
-        execSync(`git stash pop`, { stdio: 'pipe' });
+        execSync(`git stash pop`, { stdio: "pipe" });
         console.log(`   Rolled back to checkpoint: ${lastCheckpoint.id}`);
       } catch (error) {
-        console.error('   Rollback failed:', error.message);
+        console.error("   Rollback failed:", error.message);
       }
     } else {
-      console.log('   No checkpoints available for rollback');
+      console.log("   No checkpoints available for rollback");
     }
   }
 }
@@ -505,13 +562,14 @@ class ESLintMassReductionCampaign {
 if (require.main === module) {
   const campaign = new ESLintMassReductionCampaign();
 
-  campaign.execute()
+  campaign
+    .execute()
     .then(() => {
-      console.log('🎉 ESLint Mass Reduction Campaign completed successfully!');
+      console.log("🎉 ESLint Mass Reduction Campaign completed successfully!");
       process.exit(0);
     })
     .catch((error) => {
-      console.error('💥 Campaign failed:', error.message);
+      console.error("💥 Campaign failed:", error.message);
       process.exit(1);
     });
 }

@@ -7,8 +7,8 @@
  * - Intelligent caching for recommendations
  */
 
-import { logger } from '@/utils/logger';
-import { PerformanceCache, PerformanceMonitor } from './PerformanceCache';
+import { logger } from "@/utils/logger";
+import { PerformanceCache, PerformanceMonitor } from "./PerformanceCache";
 
 // ========== INTERFACES ==========
 
@@ -35,11 +35,11 @@ export interface RecommendationConfidence {
   overallScore: number;
   factors: ConfidenceFactors;
   reasoning: string[];
-  reliability: 'high' | 'medium' | 'low';
+  reliability: "high" | "medium" | "low";
 }
 
 export interface UserInteraction {
-  type: 'view' | 'select' | 'expand' | 'filter' | 'search' | 'retry';
+  type: "view" | "select" | "expand" | "filter" | "search" | "retry";
   target: string;
   timestamp: number;
   metadata?: Record<string, unknown>;
@@ -72,7 +72,10 @@ class RecommendationAnalyticsService {
   constructor() {
     this.performanceMonitor = new PerformanceMonitor();
     this.recommendationCache = new PerformanceCache<unknown>(1000, 600000); // 10 minutes TTL
-    this.confidenceCache = new PerformanceCache<RecommendationConfidence>(500, 300000); // 5 minutes TTL
+    this.confidenceCache = new PerformanceCache<RecommendationConfidence>(
+      500,
+      300000,
+    ); // 5 minutes TTL
     this.sessionId = this.generateSessionId();
   }
 
@@ -88,7 +91,7 @@ class RecommendationAnalyticsService {
       const endTime = performance.now();
       const duration = endTime - startTime;
 
-      this.performanceMonitor.recordMetric('calculationTime', duration);
+      this.performanceMonitor.recordMetric("calculationTime", duration);
 
       return duration;
     };
@@ -98,14 +101,14 @@ class RecommendationAnalyticsService {
    * Record API response time
    */
   recordApiResponseTime(duration: number): void {
-    this.performanceMonitor.recordMetric('averageResponseTime', duration);
+    this.performanceMonitor.recordMetric("averageResponseTime", duration);
   }
 
   /**
    * Record recommendation load time
    */
   recordLoadTime(duration: number): void {
-    this.performanceMonitor.recordMetric('calculationTime', duration);
+    this.performanceMonitor.recordMetric("calculationTime", duration);
   }
 
   // ========== INTELLIGENT CACHING ==========
@@ -120,9 +123,11 @@ class RecommendationAnalyticsService {
 
     // Update cache hit rate
     const stats = this.recommendationCache.getStats();
-    this.performanceMonitor.recordMetric('cacheHitRate', stats.hitRate);
+    this.performanceMonitor.recordMetric("cacheHitRate", stats.hitRate);
 
-    logger.debug(`Cache ${result ? 'hit' : 'miss'} for key: ${key} (${duration.toFixed(2)}ms)`);
+    logger.debug(
+      `Cache ${result ? "hit" : "miss"} for key: ${key} (${duration.toFixed(2)}ms)`,
+    );
 
     return result;
   }
@@ -147,7 +152,7 @@ class RecommendationAnalyticsService {
     this.recommendationCache.set(key, data, ttl);
 
     logger.debug(
-      `Cached recommendation with key: ${key} (TTL: ${ttl}ms, confidence: ${confidenceScore})`
+      `Cached recommendation with key: ${key} (TTL: ${ttl}ms, confidence: ${confidenceScore})`,
     );
   }
 
@@ -156,7 +161,9 @@ class RecommendationAnalyticsService {
   /**
    * Calculate recommendation confidence score
    */
-  calculateConfidenceScore(factors: Partial<ConfidenceFactors>): RecommendationConfidence {
+  calculateConfidenceScore(
+    factors: Partial<ConfidenceFactors>,
+  ): RecommendationConfidence {
     const cacheKey = `confidence_${JSON.stringify(factors)}`;
     const cached = this.confidenceCache.get(cacheKey);
 
@@ -171,7 +178,7 @@ class RecommendationAnalyticsService {
       culturalRelevance: factors.culturalRelevance ?? 0.7,
       seasonalOptimization: factors.seasonalOptimization ?? 0.8,
       userPreferenceMatch: factors.userPreferenceMatch ?? 0.7,
-      dataQuality: factors.dataQuality ?? 0.9
+      dataQuality: factors.dataQuality ?? 0.9,
     };
 
     // Weighted confidence calculation
@@ -181,52 +188,59 @@ class RecommendationAnalyticsService {
       culturalRelevance: 0.15,
       seasonalOptimization: 0.15,
       userPreferenceMatch: 0.15,
-      dataQuality: 0.1
+      dataQuality: 0.1,
     };
 
-    const overallScore = Object.entries(completedFactors).reduce((sum, [key, value]) => {
-      const weight = weights[key as keyof ConfidenceFactors];
-      return sum + value * weight;
-    }, 0);
+    const overallScore = Object.entries(completedFactors).reduce(
+      (sum, [key, value]) => {
+        const weight = weights[key as keyof ConfidenceFactors];
+        return sum + value * weight;
+      },
+      0,
+    );
 
     // Generate reasoning based on factors
     const reasoning: string[] = [];
 
     if (completedFactors.astrologicalAlignment >= 0.9) {
-      reasoning.push('Strong astrological alignment with current planetary positions');
+      reasoning.push(
+        "Strong astrological alignment with current planetary positions",
+      );
     } else if (completedFactors.astrologicalAlignment < 0.6) {
-      reasoning.push('Limited astrological alignment - consider alternative timing');
+      reasoning.push(
+        "Limited astrological alignment - consider alternative timing",
+      );
     }
 
     if (completedFactors.elementalHarmony >= 0.9) {
-      reasoning.push('Excellent elemental harmony with user profile');
+      reasoning.push("Excellent elemental harmony with user profile");
     } else if (completedFactors.elementalHarmony < 0.6) {
-      reasoning.push('Moderate elemental compatibility');
+      reasoning.push("Moderate elemental compatibility");
     }
 
     if (completedFactors.culturalRelevance >= 0.8) {
-      reasoning.push('High cultural relevance and authenticity');
+      reasoning.push("High cultural relevance and authenticity");
     }
 
     if (completedFactors.seasonalOptimization >= 0.8) {
-      reasoning.push('Well-optimized for current season');
+      reasoning.push("Well-optimized for current season");
     }
 
     // Determine reliability level
-    let reliability: 'high' | 'medium' | 'low';
+    let reliability: "high" | "medium" | "low";
     if (overallScore >= 0.85) {
-      reliability = 'high';
+      reliability = "high";
     } else if (overallScore >= 0.65) {
-      reliability = 'medium';
+      reliability = "medium";
     } else {
-      reliability = 'low';
+      reliability = "low";
     }
 
     const confidence: RecommendationConfidence = {
       overallScore,
       factors: completedFactors,
       reasoning,
-      reliability
+      reliability,
     };
 
     // Cache the confidence calculation
@@ -240,20 +254,24 @@ class RecommendationAnalyticsService {
   /**
    * Track user interaction
    */
-  trackInteraction(interaction: Omit<UserInteraction, 'timestamp'>): void {
+  trackInteraction(interaction: Omit<UserInteraction, "timestamp">): void {
     const fullInteraction: UserInteraction = {
       ...interaction,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     this.userInteractions.push(fullInteraction);
 
     // Keep only recent interactions
     if (this.userInteractions.length > this.maxInteractionHistory) {
-      this.userInteractions = this.userInteractions.slice(-this.maxInteractionHistory);
+      this.userInteractions = this.userInteractions.slice(
+        -this.maxInteractionHistory,
+      );
     }
 
-    logger.debug(`Tracked interaction: ${interaction.type} on ${interaction.target}`);
+    logger.debug(
+      `Tracked interaction: ${interaction.type} on ${interaction.target}`,
+    );
   }
 
   /**
@@ -269,16 +287,18 @@ class RecommendationAnalyticsService {
     const now = Date.now();
     const windowStart = timeWindow ? now - timeWindow : 0;
     const relevantInteractions = this.userInteractions.filter(
-      interaction => interaction.timestamp >= windowStart
+      (interaction) => interaction.timestamp >= windowStart,
     );
 
     // Count interactions by type
     const interactionsByType: Record<string, number> = {};
     const targetCounts: Record<string, number> = {};
 
-    relevantInteractions.forEach(interaction => {
-      interactionsByType[interaction.type] = (interactionsByType[interaction.type] || 0) + 1;
-      targetCounts[interaction.target] = (targetCounts[interaction.target] || 0) + 1;
+    relevantInteractions.forEach((interaction) => {
+      interactionsByType[interaction.type] =
+        (interactionsByType[interaction.type] || 0) + 1;
+      targetCounts[interaction.target] =
+        (targetCounts[interaction.target] || 0) + 1;
     });
 
     // Get most interacted targets
@@ -288,7 +308,8 @@ class RecommendationAnalyticsService {
       .slice(0, 5);
 
     // Calculate interaction rate (interactions per minute)
-    const timeSpan = timeWindow || now - (this.userInteractions[0]?.timestamp || now);
+    const timeSpan =
+      timeWindow || now - (this.userInteractions[0]?.timestamp || now);
     const interactionRate = relevantInteractions.length / (timeSpan / 60000);
 
     // Calculate average session duration
@@ -300,7 +321,7 @@ class RecommendationAnalyticsService {
       interactionsByType,
       interactionRate,
       mostInteractedTargets,
-      averageSessionDuration
+      averageSessionDuration,
     };
   }
 
@@ -321,7 +342,7 @@ class RecommendationAnalyticsService {
       recommendationCount: performanceStats.current.recommendationCount,
       averageConfidenceScore: 0.8, // This would be calculated from actual confidence scores
       userInteractionRate: interactionAnalytics.interactionRate,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     this.metricsHistory.push(metrics);
@@ -350,8 +371,8 @@ class RecommendationAnalyticsService {
       cacheStats: {
         hitRate: cacheStats.hitRate,
         totalEntries: cacheStats.totalEntries,
-        memoryUsage: cacheStats.memoryUsage
-      }
+        memoryUsage: cacheStats.memoryUsage,
+      },
     };
   }
 
@@ -368,7 +389,9 @@ class RecommendationAnalyticsService {
   } {
     const now = Date.now();
     const windowStart = timeWindow ? now - timeWindow : 0;
-    const relevantMetrics = this.metricsHistory.filter(metric => metric.timestamp >= windowStart);
+    const relevantMetrics = this.metricsHistory.filter(
+      (metric) => metric.timestamp >= windowStart,
+    );
 
     if (relevantMetrics.length === 0) {
       return {
@@ -377,17 +400,21 @@ class RecommendationAnalyticsService {
         interactionRateTrend: [],
         averageLoadTime: 0,
         averageCacheHitRate: 0,
-        performanceScore: 0
+        performanceScore: 0,
       };
     }
 
-    const loadTimeTrend = relevantMetrics.map(m => m.loadTime);
-    const cacheHitRateTrend = relevantMetrics.map(m => m.cacheHitRate);
-    const interactionRateTrend = relevantMetrics.map(m => m.userInteractionRate);
+    const loadTimeTrend = relevantMetrics.map((m) => m.loadTime);
+    const cacheHitRateTrend = relevantMetrics.map((m) => m.cacheHitRate);
+    const interactionRateTrend = relevantMetrics.map(
+      (m) => m.userInteractionRate,
+    );
 
-    const averageLoadTime = loadTimeTrend.reduce((sum, val) => sum + val, 0) / loadTimeTrend.length;
+    const averageLoadTime =
+      loadTimeTrend.reduce((sum, val) => sum + val, 0) / loadTimeTrend.length;
     const averageCacheHitRate =
-      cacheHitRateTrend.reduce((sum, val) => sum + val, 0) / cacheHitRateTrend.length;
+      cacheHitRateTrend.reduce((sum, val) => sum + val, 0) /
+      cacheHitRateTrend.length;
 
     // Calculate performance score (0-100)
     const loadTimeScore = Math.max(0, 100 - averageLoadTime / 10); // Penalize load times > 1000ms
@@ -400,7 +427,7 @@ class RecommendationAnalyticsService {
       interactionRateTrend,
       averageLoadTime,
       averageCacheHitRate,
-      performanceScore
+      performanceScore,
     };
   }
 
@@ -424,7 +451,7 @@ class RecommendationAnalyticsService {
     this.performanceMonitor.clear();
     this.sessionId = this.generateSessionId();
 
-    logger.info('Analytics data cleared');
+    logger.info("Analytics data cleared");
   }
 
   /**
@@ -433,7 +460,7 @@ class RecommendationAnalyticsService {
   getCacheStats() {
     return {
       recommendation: this.recommendationCache.getStats(),
-      confidence: this.confidenceCache.getStats()
+      confidence: this.confidenceCache.getStats(),
     };
   }
 

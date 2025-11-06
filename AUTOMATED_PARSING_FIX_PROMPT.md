@@ -17,6 +17,7 @@ This prompt is for creating SAFE, TESTED, and TARGETED scripts to fix the remain
 Based on 31 files successfully fixed manually, these are the **CONFIRMED** patterns:
 
 ### Pattern 1: Missing Opening Parenthesis in Function Definitions
+
 **Frequency**: 15+ instances
 **Error Message**: "Parsing error: Expression expected" or "Type expected"
 
@@ -35,11 +36,13 @@ export function calculateSomething(
 ```
 
 **Detection Regex**:
+
 ```javascript
-/export (function|const) (\w+)\(\)\s*\n\s*(\w+):/gm
+/export (function|const) (\w+)\(\)\s*\n\s*(\w+):/gm;
 ```
 
 **Safe Fix Strategy**:
+
 - Only fix if line ends with `()` followed by newline with parameter
 - Preserve all whitespace and indentation
 - Replace `()` with `(`
@@ -47,6 +50,7 @@ export function calculateSomething(
 ---
 
 ### Pattern 2: Malformed Template Literal Syntax
+
 **Frequency**: 18+ instances
 **Error Message**: "Parsing error: Expression expected"
 
@@ -61,17 +65,20 @@ logger.info(`Count: ${items.length}`);
 ```
 
 **Detection Regex**:
+
 ```javascript
-/\$\)\s*\{/g
+/\$\)\s*\{/g;
 ```
 
 **Safe Fix Strategy**:
+
 - Simple string replacement: `$) {` → `${`
 - Very low risk - this is an obvious typo
 
 ---
 
 ### Pattern 3: Malformed Object Syntax (Parenthesis Before Brace)
+
 **Frequency**: 12+ instances
 **Error Message**: "Parsing error: Expression expected"
 
@@ -86,11 +93,13 @@ metadata: { key: 'value' }
 ```
 
 **Detection Regex**:
+
 ```javascript
-/\)\s*\{/g
+/\)\s*\{/g;
 ```
 
 **Safe Fix Strategy**:
+
 - Replace `) {` with `{`
 - **EXCEPTION**: Do NOT replace in function definitions like `): ReturnType {`
 - Check that it's not preceded by `)` or `]`
@@ -98,6 +107,7 @@ metadata: { key: 'value' }
 ---
 
 ### Pattern 4: Semicolon Instead of Comma in Type Definitions
+
 **Frequency**: 14+ instances
 **Error Message**: "Parsing error: ',' expected" or "';' expected"
 
@@ -128,6 +138,7 @@ import {
 ```
 
 **Detection Regex**:
+
 ```javascript
 // In imports - last item before closing brace
 /(\w+);(\s*\n\s*\})/gm
@@ -137,6 +148,7 @@ import {
 ```
 
 **Safe Fix Strategy**:
+
 - Only fix semicolons immediately before `}` in imports/types
 - Check context is import or interface/type definition
 - Replace `;` with nothing (remove it)
@@ -144,35 +156,41 @@ import {
 ---
 
 ### Pattern 5: Comma Instead of Colon in Type Properties
+
 **Frequency**: 8+ instances
 **Error Message**: "Parsing error: Property or signature expected"
 
 ```typescript
 // ❌ BROKEN
 type Config = {
-  upper, number;
-  marginOfError, number;
-}
+  upper;
+  number;
+  marginOfError;
+  number;
+};
 
 // ✅ FIXED
 type Config = {
   upper: number;
   marginOfError: number;
-}
+};
 ```
 
 **Detection Regex**:
+
 ```javascript
-/(\w+),\s*(number|string|boolean|\w+\[\])/g
+/(\w+),\s*(number|string|boolean|\w+\[\])/g;
 ```
 
 **Safe Fix Strategy**:
+
 - Only in type/interface definitions
 - Replace `, type` with `: type`
 
 ---
 
 ### Pattern 6: Missing Closing Parenthesis
+
 **Frequency**: 9+ instances
 **Error Message**: "Parsing error: ')' expected"
 
@@ -189,11 +207,13 @@ Object.entries(data).reduce((acc, val) => {...}, 0)
 ```
 
 **Detection Regex**:
+
 ```javascript
 // This is CONTEXT-SENSITIVE - harder to automate safely
 ```
 
 **Safe Fix Strategy**:
+
 - **DO NOT AUTOMATE THIS ONE** - too risky
 - Requires AST parsing or manual review
 
@@ -202,6 +222,7 @@ Object.entries(data).reduce((acc, val) => {...}, 0)
 ## Task Requirements
 
 ### Primary Goal
+
 Create **THREE SEPARATE, SAFE, TESTED SCRIPTS** that:
 
 1. **Script 1**: Fix Pattern 1 (Missing opening paren in functions)
@@ -213,6 +234,7 @@ Create **THREE SEPARATE, SAFE, TESTED SCRIPTS** that:
 Each script MUST:
 
 1. ✅ **Create backup before any changes**
+
    ```bash
    cp file.ts file.ts.backup-$(date +%s)
    ```
@@ -247,13 +269,13 @@ Each script MUST:
 ```javascript
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // ===== CONFIGURATION =====
-const DRY_RUN = !process.argv.includes('--apply');
-const BACKUP_DIR = path.join(__dirname, '../.backups');
+const DRY_RUN = !process.argv.includes("--apply");
+const BACKUP_DIR = path.join(__dirname, "../.backups");
 const LOG_FILE = path.join(__dirname, `../fix-log-${Date.now()}.txt`);
 
 // ===== SAFETY FUNCTIONS =====
@@ -269,12 +291,12 @@ function log(message) {
   const timestamp = new Date().toISOString();
   const logMessage = `[${timestamp}] ${message}`;
   console.log(logMessage);
-  fs.appendFileSync(LOG_FILE, logMessage + '\n');
+  fs.appendFileSync(LOG_FILE, logMessage + "\n");
 }
 
 function getParsingErrorCount(filePath) {
   try {
-    const output = execSync(`yarn lint ${filePath} 2>&1`, { encoding: 'utf8' });
+    const output = execSync(`yarn lint ${filePath} 2>&1`, { encoding: "utf8" });
     const matches = output.match(/Parsing error/g);
     return matches ? matches.length : 0;
   } catch (e) {
@@ -299,7 +321,7 @@ function fixPattern(content, filePath) {
 
   if (matches) {
     log(`  Found ${matches.length} instances of pattern in ${filePath}`);
-    modified = content.replace(pattern, '${');
+    modified = content.replace(pattern, "${");
     changeCount = matches.length;
   }
 
@@ -308,11 +330,11 @@ function fixPattern(content, filePath) {
 
 // ===== MAIN EXECUTION =====
 function main() {
-  log('===== STARTING AUTOMATED FIX =====');
-  log(`Mode: ${DRY_RUN ? 'DRY RUN' : 'APPLY CHANGES'}`);
+  log("===== STARTING AUTOMATED FIX =====");
+  log(`Mode: ${DRY_RUN ? "DRY RUN" : "APPLY CHANGES"}`);
 
   // Get list of files with parsing errors
-  const output = execSync('yarn lint 2>&1', { encoding: 'utf8' });
+  const output = execSync("yarn lint 2>&1", { encoding: "utf8" });
   const fileMatches = output.match(/\/Users\/.*?\.ts/g);
   const uniqueFiles = [...new Set(fileMatches)];
 
@@ -327,7 +349,7 @@ function main() {
     const errorsBefore = getParsingErrorCount(filePath);
     log(`  Parsing errors before: ${errorsBefore}`);
 
-    const content = fs.readFileSync(filePath, 'utf8');
+    const content = fs.readFileSync(filePath, "utf8");
     const { modified, changeCount } = fixPattern(content, filePath);
 
     if (changeCount === 0) {
@@ -342,7 +364,7 @@ function main() {
 
     // Apply changes with safety
     const backup = createBackup(filePath);
-    fs.writeFileSync(filePath, modified, 'utf8');
+    fs.writeFileSync(filePath, modified, "utf8");
 
     const errorsAfter = getParsingErrorCount(filePath);
     log(`  Parsing errors after: ${errorsAfter}`);
@@ -357,10 +379,10 @@ function main() {
     }
   }
 
-  log('\n===== SUMMARY =====');
+  log("\n===== SUMMARY =====");
   log(`Successful fixes: ${successCount}`);
   log(`Failed fixes: ${failCount}`);
-  log(`Mode: ${DRY_RUN ? 'DRY RUN (no changes made)' : 'CHANGES APPLIED'}`);
+  log(`Mode: ${DRY_RUN ? "DRY RUN (no changes made)" : "CHANGES APPLIED"}`);
 }
 
 main();
@@ -371,6 +393,7 @@ main();
 Before running on ANY files:
 
 1. **Create test file**:
+
    ```bash
    mkdir -p /tmp/parsing-fix-test
    cat > /tmp/parsing-fix-test/test.ts << 'EOF'
@@ -383,6 +406,7 @@ Before running on ANY files:
    ```
 
 2. **Run script in dry-run**:
+
    ```bash
    node fix-script.js --dry-run
    ```
@@ -398,6 +422,7 @@ Before running on ANY files:
 ### File List for Scripts
 
 Get current list of files with parsing errors:
+
 ```bash
 yarn lint 2>&1 | grep -B 1 "Parsing error" | grep "^/" | sed "s/:$//" | sort -u > /tmp/parsing-error-files.txt
 ```
@@ -405,6 +430,7 @@ yarn lint 2>&1 | grep -B 1 "Parsing error" | grep "^/" | sed "s/:$//" | sort -u 
 ### Success Criteria
 
 Each script should:
+
 - ✅ Fix at least 20 files without increasing errors
 - ✅ Have ZERO cases where errors increase
 - ✅ Complete dry-run showing exactly what will change
@@ -442,6 +468,7 @@ yarn lint 2>&1 | grep "Parsing error" | wc -l
 ### Important Constraints
 
 **DO NOT**:
+
 - Fix multiple patterns in one script (separation of concerns)
 - Modify files without backup
 - Apply changes without dry-run verification
@@ -449,6 +476,7 @@ yarn lint 2>&1 | grep "Parsing error" | wc -l
 - Use complex regex that might have false positives
 
 **DO**:
+
 - Test extensively on sample files first
 - Log everything
 - Verify before and after
@@ -464,6 +492,7 @@ yarn lint 2>&1 | grep "Parsing error" | wc -l
 ## Expected Outcome
 
 After running all three scripts successfully:
+
 - Pattern 1 fixes: ~15 files (missing function parens)
 - Pattern 2 fixes: ~18 files (template literals)
 - Pattern 3-5 fixes: ~25 files (type syntax)

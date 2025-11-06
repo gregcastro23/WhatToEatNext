@@ -7,6 +7,7 @@ This guide provides solutions for common linting issues encountered in the WhatT
 ## Quick Reference
 
 ### Most Common Issues
+
 1. **TypeScript Compilation Errors** - Syntax and type issues preventing build
 2. **ESLint Parsing Errors** - Malformed code preventing linting analysis
 3. **Build Performance Issues** - Slow compilation and analysis times
@@ -14,6 +15,7 @@ This guide provides solutions for common linting issues encountered in the WhatT
 5. **Import Resolution Failures** - Module path and dependency issues
 
 ### Emergency Commands
+
 ```bash
 # Quick health check
 yarn tsc --noEmit --skipLibCheck && echo "TS: OK" || echo "TS: ERRORS"
@@ -31,11 +33,13 @@ rm -rf .next .eslintcache node_modules/.cache
 ### Pattern 1: TS2571 - Object is of type 'unknown'
 
 **Symptoms:**
+
 ```
 error TS2571: Object is of type 'unknown'.
 ```
 
 **Common Locations:**
+
 - API response handling
 - Dynamic property access
 - External library integrations
@@ -46,6 +50,7 @@ TypeScript strict mode treating untyped objects as `unknown` instead of `any`.
 **Solutions:**
 
 **Solution A: Type Assertion (Quick Fix)**
+
 ```typescript
 // Before (Error)
 const value = data.someProperty;
@@ -55,6 +60,7 @@ const value = (data as Record<string, unknown>).someProperty;
 ```
 
 **Solution B: Type Guards (Robust Fix)**
+
 ```typescript
 // Before (Error)
 function processData(data: unknown) {
@@ -63,7 +69,7 @@ function processData(data: unknown) {
 
 // After (Fixed)
 function processData(data: unknown) {
-  if (typeof data === 'object' && data !== null && 'value' in data) {
+  if (typeof data === "object" && data !== null && "value" in data) {
     return (data as { value: unknown }).value;
   }
   return undefined;
@@ -71,6 +77,7 @@ function processData(data: unknown) {
 ```
 
 **Solution C: Interface Definition (Best Practice)**
+
 ```typescript
 // Define proper interface
 interface ApiResponse {
@@ -84,6 +91,7 @@ const value = response.value;
 ```
 
 **Automated Fix:**
+
 ```bash
 # Use the proven TS2571 fixer
 node fix-ts2571-errors.cjs
@@ -92,11 +100,13 @@ node fix-ts2571-errors.cjs
 ### Pattern 2: TS2339 - Property does not exist on type
 
 **Symptoms:**
+
 ```
 error TS2339: Property 'someProperty' does not exist on type 'SomeType'.
 ```
 
 **Common Locations:**
+
 - Astrological calculation objects
 - Dynamic API responses
 - Optional properties
@@ -107,6 +117,7 @@ Accessing properties that aren't defined in the type definition.
 **Solutions:**
 
 **Solution A: Optional Chaining**
+
 ```typescript
 // Before (Error)
 const value = object.property.subProperty;
@@ -116,6 +127,7 @@ const value = object.property?.subProperty;
 ```
 
 **Solution B: Type Extension**
+
 ```typescript
 // Before (Error)
 interface PlanetaryData {
@@ -131,6 +143,7 @@ interface PlanetaryData {
 ```
 
 **Solution C: Index Signature**
+
 ```typescript
 // For dynamic properties
 interface FlexibleObject {
@@ -139,6 +152,7 @@ interface FlexibleObject {
 ```
 
 **Automated Fix:**
+
 ```bash
 # Use the TS2339 fixer
 node fix-ts2339-errors.cjs
@@ -147,12 +161,14 @@ node fix-ts2339-errors.cjs
 ### Pattern 3: TS1005 - Syntax Errors
 
 **Symptoms:**
+
 ```
 error TS1005: ';' expected.
 error TS1005: ',' expected.
 ```
 
 **Common Locations:**
+
 - Malformed type casting
 - Incomplete expressions
 - Template literal issues
@@ -163,6 +179,7 @@ Syntax corruption from automated fixes or manual editing errors.
 **Solutions:**
 
 **Solution A: Fix Malformed Type Casting**
+
 ```typescript
 // Before (Error)
 const result = data as unknown as SomeType;
@@ -172,6 +189,7 @@ const result = data as SomeType;
 ```
 
 **Solution B: Fix Template Literals**
+
 ```typescript
 // Before (Error)
 const message = `Hello ${name;
@@ -181,6 +199,7 @@ const message = `Hello ${name}`;
 ```
 
 **Solution C: Fix Object Destructuring**
+
 ```typescript
 // Before (Error)
 const { prop1, prop2 } = object;
@@ -195,11 +214,13 @@ These errors typically require manual inspection and correction.
 ### Pattern 4: TS2322 - Type Assignment Errors
 
 **Symptoms:**
+
 ```
 error TS2322: Type 'X' is not assignable to type 'Y'.
 ```
 
 **Common Locations:**
+
 - Function return types
 - Variable assignments
 - Component props
@@ -210,6 +231,7 @@ Type mismatches between expected and actual types.
 **Solutions:**
 
 **Solution A: Correct Type Annotation**
+
 ```typescript
 // Before (Error)
 const result: string = calculateNumber();
@@ -221,6 +243,7 @@ const result: string = calculateNumber().toString();
 ```
 
 **Solution B: Union Types**
+
 ```typescript
 // Before (Error)
 let value: string = getValue(); // getValue() returns string | number
@@ -230,6 +253,7 @@ let value: string | number = getValue();
 ```
 
 **Solution C: Type Conversion**
+
 ```typescript
 // Before (Error)
 const id: number = userId; // userId is string
@@ -243,11 +267,13 @@ const id: number = parseInt(userId, 10);
 ### Pattern 1: Parsing Errors
 
 **Symptoms:**
+
 ```
 Parsing error: Unexpected token
 ```
 
 **Common Locations:**
+
 - Files with syntax errors
 - Malformed JSX
 - Invalid TypeScript syntax
@@ -258,6 +284,7 @@ ESLint cannot parse the file due to syntax issues.
 **Solutions:**
 
 **Solution A: Fix Syntax First**
+
 ```bash
 # Check TypeScript compilation first
 yarn tsc --noEmit --skipLibCheck
@@ -266,12 +293,14 @@ yarn tsc --noEmit --skipLibCheck
 ```
 
 **Solution B: Check File Encoding**
+
 ```bash
 # Ensure files are UTF-8 encoded
 file -I src/path/to/file.tsx
 ```
 
 **Solution C: Validate JSX**
+
 ```typescript
 // Before (Error)
 return <div>Hello {name</div>;
@@ -283,11 +312,13 @@ return <div>Hello {name}</div>;
 ### Pattern 2: @typescript-eslint/no-explicit-any
 
 **Symptoms:**
+
 ```
 Unexpected any. Specify a different type.
 ```
 
 **Common Locations:**
+
 - API response types
 - Generic function parameters
 - External library integrations
@@ -298,6 +329,7 @@ Using `any` type which bypasses TypeScript's type checking.
 **Solutions:**
 
 **Solution A: Use `unknown` Instead**
+
 ```typescript
 // Before (Warning)
 function processData(data: any) {
@@ -306,7 +338,7 @@ function processData(data: any) {
 
 // After (Fixed)
 function processData(data: unknown) {
-  if (typeof data === 'object' && data !== null && 'value' in data) {
+  if (typeof data === "object" && data !== null && "value" in data) {
     return (data as { value: unknown }).value;
   }
   return undefined;
@@ -314,19 +346,21 @@ function processData(data: unknown) {
 ```
 
 **Solution B: Define Proper Types**
+
 ```typescript
 // Before (Warning)
-const apiResponse: any = await fetch('/api/data');
+const apiResponse: any = await fetch("/api/data");
 
 // After (Fixed)
 interface ApiResponse {
   data: unknown;
   status: number;
 }
-const apiResponse: ApiResponse = await fetch('/api/data');
+const apiResponse: ApiResponse = await fetch("/api/data");
 ```
 
 **Solution C: Use Generic Types**
+
 ```typescript
 // Before (Warning)
 function identity(arg: any): any {
@@ -340,6 +374,7 @@ function identity<T>(arg: T): T {
 ```
 
 **Automated Fix:**
+
 ```bash
 # Use the explicit-any fixer
 node fix-explicit-any-targeted.cjs
@@ -348,11 +383,13 @@ node fix-explicit-any-targeted.cjs
 ### Pattern 3: @typescript-eslint/no-unused-vars
 
 **Symptoms:**
+
 ```
 'variableName' is defined but never used.
 ```
 
 **Common Locations:**
+
 - Import statements
 - Function parameters
 - Variable declarations
@@ -363,17 +400,19 @@ Variables declared but not referenced in the code.
 **Solutions:**
 
 **Solution A: Remove Unused Variables**
+
 ```typescript
 // Before (Warning)
-import { usedFunction, unusedFunction } from './utils';
+import { usedFunction, unusedFunction } from "./utils";
 const result = usedFunction();
 
 // After (Fixed)
-import { usedFunction } from './utils';
+import { usedFunction } from "./utils";
 const result = usedFunction();
 ```
 
 **Solution B: Prefix with Underscore (Intentional)**
+
 ```typescript
 // Before (Warning)
 function handleClick(event, data) {
@@ -387,6 +426,7 @@ function handleClick(_event, data) {
 ```
 
 **Solution C: Use ESLint Disable (Domain-Specific)**
+
 ```typescript
 // For astrological variables that must be preserved
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -394,6 +434,7 @@ const planetaryPosition = calculatePosition(); // Used in calculations
 ```
 
 **Automated Fix:**
+
 ```bash
 # Use the unused variables cleaner
 node cleanup-unused-variables.cjs
@@ -402,11 +443,13 @@ node cleanup-unused-variables.cjs
 ### Pattern 4: react-hooks/exhaustive-deps
 
 **Symptoms:**
+
 ```
 React Hook useEffect has missing dependencies
 ```
 
 **Common Locations:**
+
 - useEffect hooks
 - useCallback hooks
 - useMemo hooks
@@ -417,6 +460,7 @@ Dependencies not properly declared in dependency arrays.
 **Solutions:**
 
 **Solution A: Add Missing Dependencies**
+
 ```typescript
 // Before (Warning)
 useEffect(() => {
@@ -430,6 +474,7 @@ useEffect(() => {
 ```
 
 **Solution B: Use useCallback for Functions**
+
 ```typescript
 // Before (Warning)
 const fetchData = () => {
@@ -449,6 +494,7 @@ useEffect(() => {
 ```
 
 **Solution C: Disable for Intentional Cases**
+
 ```typescript
 // For astrological calculations that should only run once
 useEffect(() => {
@@ -457,6 +503,7 @@ useEffect(() => {
 ```
 
 **Automated Fix:**
+
 ```bash
 # Use the exhaustive deps fixer
 node fix-exhaustive-deps.cjs
@@ -467,11 +514,13 @@ node fix-exhaustive-deps.cjs
 ### Pattern 1: Slow TypeScript Compilation
 
 **Symptoms:**
+
 - TypeScript compilation takes > 30 seconds
 - High memory usage during compilation
 - Frequent out-of-memory errors
 
 **Root Cause:**
+
 - Large number of files
 - Complex type checking
 - Inefficient TypeScript configuration
@@ -479,6 +528,7 @@ node fix-exhaustive-deps.cjs
 **Solutions:**
 
 **Solution A: Use Incremental Compilation**
+
 ```json
 // tsconfig.json
 {
@@ -490,38 +540,34 @@ node fix-exhaustive-deps.cjs
 ```
 
 **Solution B: Optimize Include/Exclude**
+
 ```json
 // tsconfig.json
 {
   "include": ["src/**/*"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }
 ```
 
 **Solution C: Use Project References**
+
 ```json
 // tsconfig.json
 {
-  "references": [
-    { "path": "./src/types" },
-    { "path": "./src/utils" }
-  ]
+  "references": [{ "path": "./src/types" }, { "path": "./src/utils" }]
 }
 ```
 
 ### Pattern 2: Slow ESLint Analysis
 
 **Symptoms:**
+
 - ESLint takes > 60 seconds
 - High CPU usage during linting
 - Memory leaks during analysis
 
 **Root Cause:**
+
 - Too many files being analyzed
 - Expensive rules enabled
 - Inefficient caching
@@ -529,12 +575,14 @@ node fix-exhaustive-deps.cjs
 **Solutions:**
 
 **Solution A: Use Fast Configuration**
+
 ```bash
 # Use the optimized fast config
 yarn lint:quick
 ```
 
 **Solution B: Enable Caching**
+
 ```json
 // .eslintrc.js
 module.exports = {
@@ -544,6 +592,7 @@ module.exports = {
 ```
 
 **Solution C: Optimize File Patterns**
+
 ```json
 // package.json
 {
@@ -556,11 +605,13 @@ module.exports = {
 ### Pattern 3: Build Memory Issues
 
 **Symptoms:**
+
 - Out of memory errors during build
 - Build process killed by system
 - Inconsistent build failures
 
 **Root Cause:**
+
 - Insufficient memory allocation
 - Memory leaks in build process
 - Large bundle sizes
@@ -568,6 +619,7 @@ module.exports = {
 **Solutions:**
 
 **Solution A: Increase Memory Limit**
+
 ```json
 // package.json
 {
@@ -578,6 +630,7 @@ module.exports = {
 ```
 
 **Solution B: Clear Caches**
+
 ```bash
 # Clear all caches
 rm -rf .next .eslintcache node_modules/.cache
@@ -585,17 +638,18 @@ yarn install
 ```
 
 **Solution C: Optimize Bundle**
+
 ```javascript
 // next.config.js
 module.exports = {
   webpack: (config) => {
     config.optimization.splitChunks = {
-      chunks: 'all',
+      chunks: "all",
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
+          name: "vendors",
+          chunks: "all",
         },
       },
     };
@@ -609,6 +663,7 @@ module.exports = {
 ### Pattern 1: Astrological Calculation Conflicts
 
 **Symptoms:**
+
 - ESLint complaining about "unused" astrological variables
 - Type errors in planetary position calculations
 - Warnings about "magic numbers" in astronomical constants
@@ -619,6 +674,7 @@ Standard linting rules don't understand astrological domain patterns.
 **Solutions:**
 
 **Solution A: Use Domain-Specific ESLint Config**
+
 ```javascript
 // eslint.config.cjs - Astrological file overrides
 {
@@ -633,6 +689,7 @@ Standard linting rules don't understand astrological domain patterns.
 ```
 
 **Solution B: Preserve Astrological Variables**
+
 ```typescript
 // Use descriptive names that won't be flagged
 const planetaryLongitude = calculateLongitude(); // Instead of 'longitude'
@@ -640,6 +697,7 @@ const currentPlanetaryPosition = getPosition(); // Instead of 'position'
 ```
 
 **Solution C: Add ESLint Disable Comments**
+
 ```typescript
 // For legitimate astrological constants
 const TROPICAL_YEAR = 365.25636; // eslint-disable-line @typescript-eslint/no-magic-numbers
@@ -649,6 +707,7 @@ const LUNAR_MONTH = 29.530588853; // eslint-disable-line @typescript-eslint/no-m
 ### Pattern 2: Campaign System Variable Conflicts
 
 **Symptoms:**
+
 - Warnings about "unused" campaign variables
 - Type errors in metrics collection
 - Conflicts with progress tracking patterns
@@ -659,6 +718,7 @@ Campaign system uses specific variable patterns that conflict with standard rule
 **Solutions:**
 
 **Solution A: Campaign-Specific Rules**
+
 ```javascript
 // eslint.config.cjs - Campaign file overrides
 {
@@ -673,6 +733,7 @@ Campaign system uses specific variable patterns that conflict with standard rule
 ```
 
 **Solution B: Preserve Campaign Patterns**
+
 ```typescript
 // Use campaign-specific prefixes
 const campaignMetrics = collectMetrics();
@@ -683,6 +744,7 @@ const campaignSafety = validateSafety();
 ### Pattern 3: Test File Exceptions
 
 **Symptoms:**
+
 - ESLint errors in test files
 - Type errors with mock objects
 - Warnings about test-specific patterns
@@ -693,6 +755,7 @@ Test files have different requirements than production code.
 **Solutions:**
 
 **Solution A: Test-Specific Rules**
+
 ```javascript
 // eslint.config.cjs - Test file overrides
 {
@@ -708,6 +771,7 @@ Test files have different requirements than production code.
 ```
 
 **Solution B: Use Test-Specific Types**
+
 ```typescript
 // Define test-specific interfaces
 interface MockPlanetaryData {
@@ -715,7 +779,7 @@ interface MockPlanetaryData {
 }
 
 const mockData: MockPlanetaryData = {
-  sun: { sign: 'aries', degree: 15 }
+  sun: { sign: "aries", degree: 15 },
 };
 ```
 
@@ -724,11 +788,13 @@ const mockData: MockPlanetaryData = {
 ### Pattern 1: Module Not Found Errors
 
 **Symptoms:**
+
 ```
 Cannot resolve module '@/utils/someModule'
 ```
 
 **Common Locations:**
+
 - Path alias imports
 - Relative imports
 - External library imports
@@ -739,6 +805,7 @@ TypeScript/ESLint cannot resolve import paths.
 **Solutions:**
 
 **Solution A: Check tsconfig.json Paths**
+
 ```json
 // tsconfig.json
 {
@@ -754,37 +821,41 @@ TypeScript/ESLint cannot resolve import paths.
 ```
 
 **Solution B: Update ESLint Import Resolver**
+
 ```javascript
 // eslint.config.cjs
 module.exports = {
   settings: {
-    'import/resolver': {
+    "import/resolver": {
       typescript: {
         alwaysTryTypes: true,
-        project: './tsconfig.json'
-      }
-    }
-  }
+        project: "./tsconfig.json",
+      },
+    },
+  },
 };
 ```
 
 **Solution C: Use Relative Imports**
+
 ```typescript
 // Instead of problematic alias
-import { someUtil } from '@/utils/someUtil';
+import { someUtil } from "@/utils/someUtil";
 
 // Use relative import
-import { someUtil } from '../utils/someUtil';
+import { someUtil } from "../utils/someUtil";
 ```
 
 ### Pattern 2: Circular Dependency Warnings
 
 **Symptoms:**
+
 ```
 Dependency cycle detected
 ```
 
 **Common Locations:**
+
 - Service layer imports
 - Utility function imports
 - Type definition imports
@@ -795,6 +866,7 @@ Files importing each other creating circular dependencies.
 **Solutions:**
 
 **Solution A: Extract Common Dependencies**
+
 ```typescript
 // Create shared types file
 // types/shared.ts
@@ -803,16 +875,17 @@ export interface CommonType {
 }
 
 // service1.ts
-import { CommonType } from '../types/shared';
+import { CommonType } from "../types/shared";
 
 // service2.ts
-import { CommonType } from '../types/shared';
+import { CommonType } from "../types/shared";
 ```
 
 **Solution B: Use Dependency Injection**
+
 ```typescript
 // Instead of direct import
-import { serviceB } from './serviceB';
+import { serviceB } from "./serviceB";
 
 // Use dependency injection
 interface ServiceADeps {
@@ -825,6 +898,7 @@ class ServiceA {
 ```
 
 **Solution C: Reorganize File Structure**
+
 ```
 src/
   services/
@@ -836,6 +910,7 @@ src/
 ## Diagnostic Commands
 
 ### Health Check Commands
+
 ```bash
 # Quick health check
 yarn tsc --noEmit --skipLibCheck 2>&1 | head -20
@@ -849,6 +924,7 @@ node -e "const data=JSON.parse(require('fs').readFileSync('lint-report.json','ut
 ```
 
 ### Performance Analysis
+
 ```bash
 # TypeScript compilation time
 time yarn tsc --noEmit --skipLibCheck
@@ -864,6 +940,7 @@ time yarn build
 ```
 
 ### Error Pattern Analysis
+
 ```bash
 # TypeScript error breakdown
 yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr
@@ -878,6 +955,7 @@ yarn lint:quick --format=json 2>/dev/null | node -e "const data=JSON.parse(requi
 ## Recovery Scripts Reference
 
 ### Available Automated Fixes
+
 ```bash
 # TypeScript error fixes
 node fix-systematic-typescript-errors.cjs    # Comprehensive TS error fixer
@@ -901,6 +979,7 @@ node clear-all-caches.cjs                    # Cache cleanup
 ```
 
 ### Script Usage Patterns
+
 ```bash
 # Safe execution pattern
 git stash push -m "Pre-fix stash $(date)"
@@ -919,6 +998,7 @@ done
 ## Prevention Strategies
 
 ### Pre-commit Hooks
+
 ```bash
 # .husky/pre-commit
 #!/bin/sh
@@ -930,6 +1010,7 @@ yarn lint:quick --max-warnings=100 || exit 1
 ```
 
 ### CI/CD Integration
+
 ```yaml
 # .github/workflows/quality-gates.yml
 - name: TypeScript Check
@@ -943,6 +1024,7 @@ yarn lint:quick --max-warnings=100 || exit 1
 ```
 
 ### Monitoring Setup
+
 ```bash
 # Daily error count monitoring
 echo "0 9 * * * cd /path/to/project && yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' > daily-error-count.log" | crontab -

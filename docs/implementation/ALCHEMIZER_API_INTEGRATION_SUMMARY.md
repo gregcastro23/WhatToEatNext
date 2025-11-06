@@ -23,15 +23,55 @@ July 1, 2025, 8:15 AM EST (NYC).
 ```json
 {
   "Sun": { "sign": "cancer", "degree": 9, "minute": 55, "isRetrograde": false },
-  "Moon": { "sign": "virgo", "degree": 25, "minute": 24, "isRetrograde": false },
-  "Mercury": { "sign": "leo", "degree": 5, "minute": 40, "isRetrograde": false },
-  "Venus": { "sign": "taurus", "degree": 26, "minute": 33, "isRetrograde": false },
+  "Moon": {
+    "sign": "virgo",
+    "degree": 25,
+    "minute": 24,
+    "isRetrograde": false
+  },
+  "Mercury": {
+    "sign": "leo",
+    "degree": 5,
+    "minute": 40,
+    "isRetrograde": false
+  },
+  "Venus": {
+    "sign": "taurus",
+    "degree": 26,
+    "minute": 33,
+    "isRetrograde": false
+  },
   "Mars": { "sign": "virgo", "degree": 8, "minute": 4, "isRetrograde": false },
-  "Jupiter": { "sign": "cancer", "degree": 4, "minute": 56, "isRetrograde": false },
-  "Saturn": { "sign": "aries", "degree": 1, "minute": 49, "isRetrograde": false },
-  "Uranus": { "sign": "taurus", "degree": 29, "minute": 44, "isRetrograde": false },
-  "Neptune": { "sign": "aries", "degree": 2, "minute": 10, "isRetrograde": false },
-  "Pluto": { "sign": "aquarius", "degree": 3, "minute": 8, "isRetrograde": false }
+  "Jupiter": {
+    "sign": "cancer",
+    "degree": 4,
+    "minute": 56,
+    "isRetrograde": false
+  },
+  "Saturn": {
+    "sign": "aries",
+    "degree": 1,
+    "minute": 49,
+    "isRetrograde": false
+  },
+  "Uranus": {
+    "sign": "taurus",
+    "degree": 29,
+    "minute": 44,
+    "isRetrograde": false
+  },
+  "Neptune": {
+    "sign": "aries",
+    "degree": 2,
+    "minute": 10,
+    "isRetrograde": false
+  },
+  "Pluto": {
+    "sign": "aquarius",
+    "degree": 3,
+    "minute": 8,
+    "isRetrograde": false
+  }
 }
 ```
 
@@ -63,8 +103,20 @@ July 1, 2025, 8:15 AM EST (NYC).
 - **Implementation**:
   ```javascript
   function convertLongitudeToSignAndDegree(longitude) {
-    const signs = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
-                   'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'];
+    const signs = [
+      "aries",
+      "taurus",
+      "gemini",
+      "cancer",
+      "leo",
+      "virgo",
+      "libra",
+      "scorpio",
+      "sagittarius",
+      "capricorn",
+      "aquarius",
+      "pisces",
+    ];
     const normalizedLong = ((longitude % 360) + 360) % 360;
     const signIndex = Math.floor(normalizedLong / 30);
     const degree = normalizedLong % 30;

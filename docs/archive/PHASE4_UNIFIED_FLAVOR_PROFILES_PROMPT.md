@@ -67,33 +67,39 @@ interface UnifiedFlavorProfile {
 
   // Elemental Flavor Mapping (Self-Reinforcement Compliant)
   elementalFlavors: {
-    Fire: number;    // Spicy, warming, energizing
-    water: number;   // Cooling, flowing, cleansing
-    earth: number;   // Grounding, nourishing, stable
-    Air: number;     // Light, uplifting, dispersing
+    Fire: number; // Spicy, warming, energizing
+    water: number; // Cooling, flowing, cleansing
+    earth: number; // Grounding, nourishing, stable
+    Air: number; // Light, uplifting, dispersing
   };
 
   // Planetary Flavor Influences (from Phase 3 integration)
-  planetaryResonance: Record<Planet, {
-    influence: number;        // 0-1 scale
-    flavorModification: FlavorModification;
-    seasonalVariation: Record<Season, number>;
-    monicaOptimization: number; // Monica constant for this planetary influence
-  }>;
+  planetaryResonance: Record<
+    Planet,
+    {
+      influence: number; // 0-1 scale
+      flavorModification: FlavorModification;
+      seasonalVariation: Record<Season, number>;
+      monicaOptimization: number; // Monica constant for this planetary influence
+    }
+  >;
 
   // Cuisine Integration (Self-Reinforcement: same=0.9, different=0.7+)
-  cuisineCompatibility: Record<CuisineType, {
-    compatibility: number;
-    traditionalUse: boolean;
-    modernAdaptations: string[];
-    kalchmHarmony: number; // Kalchm harmony with this cuisine
-  }>;
+  cuisineCompatibility: Record<
+    CuisineType,
+    {
+      compatibility: number;
+      traditionalUse: boolean;
+      modernAdaptations: string[];
+      kalchmHarmony: number; // Kalchm harmony with this cuisine
+    }
+  >;
 
   // Alchemical Flavor Properties (from Phase 3 integration)
   alchemicalProperties: {
-    spirit: number;    // Volatile, transformative essence
-    essence: number;   // Active principles and qualities
-    matter: number;    // Physical substance and structure
+    spirit: number; // Volatile, transformative essence
+    essence: number; // Active principles and qualities
+    matter: number; // Physical substance and structure
     substance: number; // Stable, enduring components
   };
 
@@ -101,11 +107,11 @@ interface UnifiedFlavorProfile {
   kalchm: number; // Calculated from alchemical properties
 
   // Enhanced Metadata
-  intensity: number;           // Overall flavor intensity
-  complexity: number;          // Flavor complexity score
-  seasonalPeak: Season[];      // When this flavor profile peaks
-  culturalOrigins: string[];   // Cultural origins of this profile
-  nutritionalSynergy: number;  // Synergy with nutritional profiles
+  intensity: number; // Overall flavor intensity
+  complexity: number; // Flavor complexity score
+  seasonalPeak: Season[]; // When this flavor profile peaks
+  culturalOrigins: string[]; // Cultural origins of this profile
+  nutritionalSynergy: number; // Synergy with nutritional profiles
 }
 ```
 
@@ -114,24 +120,44 @@ interface UnifiedFlavorProfile {
 ```typescript
 export class UnifiedFlavorProfileSystem {
   // Core flavor profile management
-  getFlavorProfile(identifier: string, type: 'cuisine' | 'planetary' | 'ingredient' | 'elemental'): UnifiedFlavorProfile;
-  calculateFlavorCompatibility(profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile): number;
+  getFlavorProfile(
+    identifier: string,
+    type: "cuisine" | "planetary" | "ingredient" | "elemental",
+  ): UnifiedFlavorProfile;
+  calculateFlavorCompatibility(
+    profile1: UnifiedFlavorProfile,
+    profile2: UnifiedFlavorProfile,
+  ): number;
 
   // Monica/Kalchm integration
-  optimizeFlavorForMonica(profile: UnifiedFlavorProfile, conditions: SystemConditions): UnifiedFlavorProfile;
+  optimizeFlavorForMonica(
+    profile: UnifiedFlavorProfile,
+    conditions: SystemConditions,
+  ): UnifiedFlavorProfile;
   calculateFlavorKalchm(profile: UnifiedFlavorProfile): number;
 
   // Seasonal integration
   getSeasonalFlavorRecommendations(season: Season): UnifiedFlavorProfile[];
-  adaptFlavorForSeason(profile: UnifiedFlavorProfile, season: Season): UnifiedFlavorProfile;
+  adaptFlavorForSeason(
+    profile: UnifiedFlavorProfile,
+    season: Season,
+  ): UnifiedFlavorProfile;
 
   // Cuisine integration
   getCuisineFlavorProfile(cuisine: string): UnifiedFlavorProfile;
-  generateFlavorFusion(cuisine1: string, cuisine2: string): UnifiedFlavorProfile;
+  generateFlavorFusion(
+    cuisine1: string,
+    cuisine2: string,
+  ): UnifiedFlavorProfile;
 
   // Advanced features
-  findCompatibleFlavors(targetProfile: UnifiedFlavorProfile, tolerance?: number): UnifiedFlavorProfile[];
-  generateFlavorRecommendations(criteria: FlavorCriteria): FlavorRecommendations;
+  findCompatibleFlavors(
+    targetProfile: UnifiedFlavorProfile,
+    tolerance?: number,
+  ): UnifiedFlavorProfile[];
+  generateFlavorRecommendations(
+    criteria: FlavorCriteria,
+  ): FlavorRecommendations;
 }
 ```
 

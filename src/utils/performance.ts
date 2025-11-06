@@ -1,5 +1,5 @@
 // Performance optimization utilities
-import { logger } from './logger';
+import { logger } from "./logger";
 
 /**
  * Interface for performance metrics collection
@@ -13,29 +13,32 @@ export interface PerformanceMetrics {
   firstContentfulPaint?: number;
   memoryUsage?: {
     jsHeapSizeLimit?: number;
-    totalJSHeapSize?: number
-    usedJSHeapSize?: number
-  }
-  networkLatency?: number
+    totalJSHeapSize?: number;
+    usedJSHeapSize?: number;
+  };
+  networkLatency?: number;
 }
 
 /**
  * Apply performance optimizations and monitoring
  * @returns Object with optimization status
  */
-export function optimizePerformance(): { success: boolean, optimizations: string[] } {
+export function optimizePerformance(): {
+  success: boolean;
+  optimizations: string[];
+} {
   const appliedOptimizations: string[] = [];
 
   try {
     // Only run browser-specific optimizations if in browser environment
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       // Optimize image loading with lazy loading
       const lazyLoadImages = () => {
-        const images = document.querySelectorAll('img:not([loading])');
-        images.forEach(img => {
-          img.setAttribute('loading', 'lazy');
+        const images = document.querySelectorAll("img:not([loading])");
+        images.forEach((img) => {
+          img.setAttribute("loading", "lazy");
         });
-        appliedOptimizations.push('image-lazy-loading');
+        appliedOptimizations.push("image-lazy-loading");
       };
 
       // Debounce expensive event handlers
@@ -44,53 +47,55 @@ export function optimizePerformance(): { success: boolean, optimizations: string
           let timeout: ReturnType<typeof setTimeout>;
           return function executedFunction(...args: unknown[]) {
             const later = () => {
-              clearTimeout(timeout)
-              func(...args)
-            }
-            clearTimeout(timeout)
-            timeout = setTimeout(later, wait)
-          }
-        }
+              clearTimeout(timeout);
+              func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+          };
+        };
 
         // Apply debounce to scroll and resize events
-        if (typeof window.onscroll === 'function') {
+        if (typeof window.onscroll === "function") {
           const originalScroll = window.onscroll;
-          window.onscroll = debounce(originalScroll, 100)
+          window.onscroll = debounce(originalScroll, 100);
         }
 
-        if (typeof window.onresize === 'function') {
+        if (typeof window.onresize === "function") {
           const originalResize = window.onresize;
-          window.onresize = debounce(originalResize, 150)
+          window.onresize = debounce(originalResize, 150);
         }
 
-        appliedOptimizations.push('event-debouncing')
-      }
+        appliedOptimizations.push("event-debouncing");
+      };
 
       // Run optimizations
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-          lazyLoadImages()
-          setupDebounce()
-        })
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
+          lazyLoadImages();
+          setupDebounce();
+        });
       } else {
-        lazyLoadImages()
-        setupDebounce()
+        lazyLoadImages();
+        setupDebounce();
       }
     }
 
     // Log performance initialization
-    logger.info('Performance optimizations applied', { optimizations: appliedOptimizations })
+    logger.info("Performance optimizations applied", {
+      optimizations: appliedOptimizations,
+    });
 
     return {
       success: true,
-      optimizations: appliedOptimizations
-    }
+      optimizations: appliedOptimizations,
+    };
   } catch (error) {
-    logger.error('Failed to apply performance optimizations', error)
+    logger.error("Failed to apply performance optimizations", error);
     return {
       success: false,
-      optimizations: appliedOptimizations
-    }
+      optimizations: appliedOptimizations,
+    };
   }
 }
 
@@ -99,47 +104,49 @@ export function optimizePerformance(): { success: boolean, optimizations: string
  * @returns Performance metrics object
  */
 export function collectPerformanceMetrics(): PerformanceMetrics {
-  const metrics: PerformanceMetrics = {}
+  const metrics: PerformanceMetrics = {};
 
   try {
-    if (typeof window !== 'undefined' && window.performance) {
+    if (typeof window !== "undefined" && window.performance) {
       const perf = window.performance;
 
       // Basic timing metrics
       if (perf.timing) {
         metrics.navigationStart = perf.timing.navigationStart;
-        metrics.loadTime = perf.timing.loadEventEnd - perf.timing.navigationStart;
-        metrics.domInteractive = perf.timing.domInteractive - perf.timing.navigationStart;
+        metrics.loadTime =
+          perf.timing.loadEventEnd - perf.timing.navigationStart;
+        metrics.domInteractive =
+          perf.timing.domInteractive - perf.timing.navigationStart;
         metrics.domContentLoaded =
           perf.timing.domContentLoadedEventEnd - perf.timing.navigationStart;
-}
+      }
 
       // Memory metrics (Chrome only)
-      const {memory} = (perf as { memory?: Record<string, unknown> });
+      const { memory } = perf as { memory?: Record<string, unknown> };
       if (memory) {
         metrics.memoryUsage = {
           jsHeapSizeLimit: Number(memory.jsHeapSizeLimit) || undefined,
           totalJSHeapSize: Number(memory.totalJSHeapSize) || undefined,
-          usedJSHeapSize: Number(memory.usedJSHeapSize) || undefined
-        }
+          usedJSHeapSize: Number(memory.usedJSHeapSize) || undefined,
+        };
       }
 
       // Paint metrics
       if (perf.getEntriesByType) {
-        const paintMetrics = perf.getEntriesByType('paint');
-        paintMetrics.forEach(entry => {
-          if (entry.name === 'first-paint') {
+        const paintMetrics = perf.getEntriesByType("paint");
+        paintMetrics.forEach((entry) => {
+          if (entry.name === "first-paint") {
             metrics.firstPaint = entry.startTime;
-          } else if (entry.name === 'first-contentful-paint') {
+          } else if (entry.name === "first-contentful-paint") {
             metrics.firstContentfulPaint = entry.startTime;
           }
-        })
+        });
       }
     }
 
     return metrics;
   } catch (error) {
-    logger.error('Error collecting performance metrics', error)
+    logger.error("Error collecting performance metrics", error);
     return metrics;
   }
 }

@@ -1,169 +1,175 @@
-import type { IngredientMapping } from '@/data/ingredients/types';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from "@/data/ingredients/types";
+import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawRootVegetables = {
-  'sweet potato': {
-    name: 'Sweet potato',
+  "sweet potato": {
+    name: "Sweet potato",
 
     // Base elemental properties (unscaled)
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
 
     // Phase 2: Quantity scaling metadata
-    quantityBase: { amount: 114, unit: 'g' }, // Standard serving: 1 medium sweet potato
-    scaledElemental: { Earth: 0.50, Fire: 0.30, Water: 0.10, Air: 0.10 }, // Scaled for harmony (already balanced)
-    alchemicalProperties: { Spirit: 0.200, Essence: 0.100, Matter: 0.300, Substance: 0.400 }, // Derived from scaled elemental
+    quantityBase: { amount: 114, unit: "g" }, // Standard serving: 1 medium sweet potato
+    scaledElemental: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 }, // Scaled for harmony (already balanced)
+    alchemicalProperties: {
+      Spirit: 0.2,
+      Essence: 0.1,
+      Matter: 0.3,
+      Substance: 0.4,
+    }, // Derived from scaled elemental
     kineticsImpact: { thermalDirection: 0.15, forceMagnitude: 1.08 }, // Warming effect, moderate force
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
-      favorableZodiac: ['taurus', 'cancer', 'virgo'],
+      rulingPlanets: ["Venus", "Moon"],
+      favorableZodiac: ["taurus", "cancer", "virgo"],
       elementalAffinity: {
-        base: 'Earth',
+        base: "Earth",
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
-          second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      }
+          first: { element: "Earth", planet: "Venus" },
+          second: { element: "Water", planet: "Moon" },
+          third: { element: "Air", planet: "Mercury" },
+        },
+      },
     },
-    qualities: ['grounding', 'warming', 'nourishing'],
-    season: ['fall', 'winter'],
-    category: 'vegetable',
-    subCategory: 'root',
-    affinities: ['cinnamon', 'butter', 'maple', 'pecans', 'coconut'],
-    cookingMethods: ['roasted', 'steamed', 'mashed', 'grilled'],
+    qualities: ["grounding", "warming", "nourishing"],
+    season: ["fall", "winter"],
+    category: "vegetable",
+    subCategory: "root",
+    affinities: ["cinnamon", "butter", "maple", "pecans", "coconut"],
+    cookingMethods: ["roasted", "steamed", "mashed", "grilled"],
     nutritionalProfile: {
-      fiber: 'high',
-      vitamins: ['a', 'c', 'b6'],
-      minerals: ['potassium', 'manganese'],
+      fiber: "high",
+      vitamins: ["a", "c", "b6"],
+      minerals: ["potassium", "manganese"],
       calories: 103,
       carbs_g: 24,
-      fiber_g: 4
-},
+      fiber_g: 4,
+    },
     preparation: {
       washing: true,
-      peeling: 'optional',
-      cutting: 'uniform size for even cooking',
-      notes: 'Can be pre-cooked and reheated'
-},
+      peeling: "optional",
+      cutting: "uniform size for even cooking",
+      notes: "Can be pre-cooked and reheated",
+    },
     storage: {
-      temperature: 'cool dark place',
-      duration: '3-5 weeks',
-      notes: 'Do not refrigerate raw'
-}
+      temperature: "cool dark place",
+      duration: "3-5 weeks",
+      notes: "Do not refrigerate raw",
+    },
   },
 
   parsnip: {
-    name: 'Parsnip',
+    name: "Parsnip",
     elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Saturn'],
-      favorableZodiac: ['Virgo', 'Gemini', 'Taurus'],
-      seasonalAffinity: ['all']
+      rulingPlanets: ["Mercury", "Saturn"],
+      favorableZodiac: ["Virgo", "Gemini", "Taurus"],
+      seasonalAffinity: ["all"],
     },
-    qualities: ['grounding', 'warming', 'nourishing'],
-    season: ['fall', 'winter'],
-    category: 'vegetable',
-    subCategory: 'root',
-    affinities: ['nutmeg', 'cream', 'maple', 'thyme', 'apple'],
-    cookingMethods: ['roasted', 'mashed', 'soup', 'fried'],
+    qualities: ["grounding", "warming", "nourishing"],
+    season: ["fall", "winter"],
+    category: "vegetable",
+    subCategory: "root",
+    affinities: ["nutmeg", "cream", "maple", "thyme", "apple"],
+    cookingMethods: ["roasted", "mashed", "soup", "fried"],
     nutritionalProfile: {
-      fiber: 'high',
-      vitamins: ['c', 'e', 'k'],
-      minerals: ['folate', 'potassium', 'manganese'],
+      fiber: "high",
+      vitamins: ["c", "e", "k"],
+      minerals: ["folate", "potassium", "manganese"],
       calories: 75,
       carbs_g: 18,
-      fiber_g: 5
-},
+      fiber_g: 5,
+    },
     preparation: {
       washing: true,
-      peeling: 'recommended',
-      cutting: 'uniform pieces',
-      notes: 'Smaller ones are more tender'
-},
+      peeling: "recommended",
+      cutting: "uniform pieces",
+      notes: "Smaller ones are more tender",
+    },
     storage: {
-      temperature: 'refrigerated',
-      duration: '2-3 weeks',
-      humidity: 'high',
-      notes: 'Store in plastic bag with holes'
-}
+      temperature: "refrigerated",
+      duration: "2-3 weeks",
+      humidity: "high",
+      notes: "Store in plastic bag with holes",
+    },
   },
 
   beet: {
-    name: 'Beet',
+    name: "Beet",
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Saturn', 'Mars'],
-      favorableZodiac: ['Capricorn', 'Aries', 'Scorpio'],
-      seasonalAffinity: ['autumn', 'winter']
+      rulingPlanets: ["Saturn", "Mars"],
+      favorableZodiac: ["Capricorn", "Aries", "Scorpio"],
+      seasonalAffinity: ["autumn", "winter"],
     },
-    qualities: ['grounding', 'building', 'cleansing'],
-    season: ['fall', 'winter'],
-    category: 'vegetable',
-    subCategory: 'root',
-    affinities: ['goat cheese', 'walnuts', 'orange', 'dill', 'balsamic'],
-    cookingMethods: ['roasted', 'raw', 'steamed', 'pickled'],
+    qualities: ["grounding", "building", "cleansing"],
+    season: ["fall", "winter"],
+    category: "vegetable",
+    subCategory: "root",
+    affinities: ["goat cheese", "walnuts", "orange", "dill", "balsamic"],
+    cookingMethods: ["roasted", "raw", "steamed", "pickled"],
     nutritionalProfile: {
-      fiber: 'high',
-      vitamins: ['c', 'b9', 'b6'],
-      minerals: ['iron', 'manganese', 'potassium'],
+      fiber: "high",
+      vitamins: ["c", "b9", "b6"],
+      minerals: ["iron", "manganese", "potassium"],
       calories: 43,
       carbs_g: 10,
       fiber_g: 2.8,
-      antioxidants: ['betalains', 'nitrates']
+      antioxidants: ["betalains", "nitrates"],
     },
     preparation: {
       washing: true,
-      peeling: 'after cooking',
-      roasting: 'wrap in foil with olive oil',
-      notes: 'Wear gloves to prevent staining'
-},
+      peeling: "after cooking",
+      roasting: "wrap in foil with olive oil",
+      notes: "Wear gloves to prevent staining",
+    },
     storage: {
-      temperature: 'refrigerated',
-      duration: '2-3 weeks',
-      humidity: 'high',
-      notes: 'Remove greens, store separately',
-    }
+      temperature: "refrigerated",
+      duration: "2-3 weeks",
+      humidity: "high",
+      notes: "Remove greens, store separately",
+    },
   },
 
   turnip: {
-    name: 'Turnip',
+    name: "Turnip",
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Saturn', 'Moon'],
-      favorableZodiac: ['Capricorn', 'Cancer', 'Taurus'],
-      seasonalAffinity: ['autumn', 'winter']
+      rulingPlanets: ["Saturn", "Moon"],
+      favorableZodiac: ["Capricorn", "Cancer", "Taurus"],
+      seasonalAffinity: ["autumn", "winter"],
     },
-    qualities: ['cooling', 'cleansing'],
-    season: ['fall', 'winter', 'spring'],
-    category: 'vegetable',
-    subCategory: 'root',
-    affinities: ['butter', 'cream', 'mustard', 'thyme', 'bacon'],
-    cookingMethods: ['roasted', 'mashed', 'braised', 'raw'],
+    qualities: ["cooling", "cleansing"],
+    season: ["fall", "winter", "spring"],
+    category: "vegetable",
+    subCategory: "root",
+    affinities: ["butter", "cream", "mustard", "thyme", "bacon"],
+    cookingMethods: ["roasted", "mashed", "braised", "raw"],
     nutritionalProfile: {
-      fiber: 'moderate',
-      vitamins: ['c', 'k', 'a'],
-      minerals: ['calcium', 'potassium'],
+      fiber: "moderate",
+      vitamins: ["c", "k", "a"],
+      minerals: ["calcium", "potassium"],
       calories: 28,
       carbs_g: 6,
-      fiber_g: 2
-},
+      fiber_g: 2,
+    },
     preparation: {
       washing: true,
-      peeling: 'recommended for larger ones',
-      cutting: 'uniform pieces',
-      notes: 'Smaller ones are sweeter'
-},
+      peeling: "recommended for larger ones",
+      cutting: "uniform pieces",
+      notes: "Smaller ones are sweeter",
+    },
     storage: {
-      temperature: 'refrigerated',
-      duration: '2-3 weeks',
-      humidity: 'high',
-      notes: 'Store in plastic bag with holes'
-}
-  }
+      temperature: "refrigerated",
+      duration: "2-3 weeks",
+      humidity: "high",
+      notes: "Store in plastic bag with holes",
+    },
+  },
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const _rootVegetables: Record<string, IngredientMapping> = fixIngredientMappings(
-  rawRootVegetables as Record<string, Partial<IngredientMapping>>,
-);
+export const _rootVegetables: Record<string, IngredientMapping> =
+  fixIngredientMappings(
+    rawRootVegetables as Record<string, Partial<IngredientMapping>>,
+  );

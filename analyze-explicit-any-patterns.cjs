@@ -6,19 +6,19 @@
  * Analyzes all explicit-any usage to understand patterns and identify safe fixes
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 function analyzeExplicitAnyPatterns() {
   try {
     const output = execSync(
       'yarn lint --format=unix 2>/dev/null | grep "@typescript-eslint/no-explicit-any"',
-      { encoding: 'utf8' },
+      { encoding: "utf8" },
     );
     const lines = output
       .trim()
-      .split('\n')
-      .filter(line => line);
+      .split("\n")
+      .filter((line) => line);
 
     const analysis = {
       totalIssues: lines.length,
@@ -36,13 +36,15 @@ function analyzeExplicitAnyPatterns() {
       },
     };
 
-    lines.forEach(line => {
+    lines.forEach((line) => {
       const match = line.match(/^([^:]+):(\d+):(\d+):\s*(.+)$/);
       if (match) {
         const [, filePath, lineNum, colNum, message] = match;
-        const fileName = filePath.split('/').pop();
+        const fileName = filePath.split("/").pop();
         const isTestFile =
-          fileName.includes('test') || fileName.includes('Test') || filePath.includes('__tests__');
+          fileName.includes("test") ||
+          fileName.includes("Test") ||
+          filePath.includes("__tests__");
 
         // File statistics
         analysis.fileStats[fileName] = (analysis.fileStats[fileName] || 0) + 1;
@@ -50,55 +52,63 @@ function analyzeExplicitAnyPatterns() {
         // Context analysis
         if (isTestFile) {
           analysis.safetyAnalysis.testFiles++;
-          analysis.contextStats['Test Files'] = (analysis.contextStats['Test Files'] || 0) + 1;
-        } else if (filePath.includes('types/')) {
-          analysis.contextStats['Type Definitions'] =
-            (analysis.contextStats['Type Definitions'] || 0) + 1;
-        } else if (filePath.includes('services/')) {
-          analysis.contextStats['Services'] = (analysis.contextStats['Services'] || 0) + 1;
-        } else if (filePath.includes('components/')) {
-          analysis.contextStats['Components'] = (analysis.contextStats['Components'] || 0) + 1;
-        } else if (filePath.includes('hooks/')) {
-          analysis.contextStats['Hooks'] = (analysis.contextStats['Hooks'] || 0) + 1;
+          analysis.contextStats["Test Files"] =
+            (analysis.contextStats["Test Files"] || 0) + 1;
+        } else if (filePath.includes("types/")) {
+          analysis.contextStats["Type Definitions"] =
+            (analysis.contextStats["Type Definitions"] || 0) + 1;
+        } else if (filePath.includes("services/")) {
+          analysis.contextStats["Services"] =
+            (analysis.contextStats["Services"] || 0) + 1;
+        } else if (filePath.includes("components/")) {
+          analysis.contextStats["Components"] =
+            (analysis.contextStats["Components"] || 0) + 1;
+        } else if (filePath.includes("hooks/")) {
+          analysis.contextStats["Hooks"] =
+            (analysis.contextStats["Hooks"] || 0) + 1;
         } else {
-          analysis.contextStats['Other'] = (analysis.contextStats['Other'] || 0) + 1;
+          analysis.contextStats["Other"] =
+            (analysis.contextStats["Other"] || 0) + 1;
         }
 
         // Try to read the actual line to understand the pattern
         try {
-          const fileContent = fs.readFileSync(filePath, 'utf8');
-          const fileLines = fileContent.split('\n');
+          const fileContent = fs.readFileSync(filePath, "utf8");
+          const fileLines = fileContent.split("\n");
           const actualLine = fileLines[parseInt(lineNum) - 1];
 
           if (actualLine) {
             // Pattern analysis
-            if (actualLine.includes('jest.MockedFunction<any>')) {
+            if (actualLine.includes("jest.MockedFunction<any>")) {
               analysis.safetyAnalysis.mockFunctions++;
-              analysis.patternStats['Jest Mock Functions'] =
-                (analysis.patternStats['Jest Mock Functions'] || 0) + 1;
-            } else if (actualLine.includes('Record<string, any>')) {
+              analysis.patternStats["Jest Mock Functions"] =
+                (analysis.patternStats["Jest Mock Functions"] || 0) + 1;
+            } else if (actualLine.includes("Record<string, any>")) {
               analysis.safetyAnalysis.recordTypes++;
-              analysis.patternStats['Record<string, any>'] =
-                (analysis.patternStats['Record<string, any>'] || 0) + 1;
+              analysis.patternStats["Record<string, any>"] =
+                (analysis.patternStats["Record<string, any>"] || 0) + 1;
             } else if (actualLine.match(/\([^)]*:\s*any\s*\)/)) {
               analysis.safetyAnalysis.functionParams++;
-              analysis.patternStats['Function Parameters'] =
-                (analysis.patternStats['Function Parameters'] || 0) + 1;
+              analysis.patternStats["Function Parameters"] =
+                (analysis.patternStats["Function Parameters"] || 0) + 1;
             } else if (actualLine.match(/:\s*any\s*=/)) {
               analysis.safetyAnalysis.variableAssignments++;
-              analysis.patternStats['Variable Assignments'] =
-                (analysis.patternStats['Variable Assignments'] || 0) + 1;
+              analysis.patternStats["Variable Assignments"] =
+                (analysis.patternStats["Variable Assignments"] || 0) + 1;
             } else if (actualLine.match(/\):\s*any/)) {
               analysis.safetyAnalysis.returnTypes++;
-              analysis.patternStats['Return Types'] =
-                (analysis.patternStats['Return Types'] || 0) + 1;
-            } else if (actualLine.includes('any[]') || actualLine.includes('Array<any>')) {
+              analysis.patternStats["Return Types"] =
+                (analysis.patternStats["Return Types"] || 0) + 1;
+            } else if (
+              actualLine.includes("any[]") ||
+              actualLine.includes("Array<any>")
+            ) {
               analysis.safetyAnalysis.arrayTypes++;
-              analysis.patternStats['Array Types'] =
-                (analysis.patternStats['Array Types'] || 0) + 1;
+              analysis.patternStats["Array Types"] =
+                (analysis.patternStats["Array Types"] || 0) + 1;
             } else {
-              analysis.patternStats['Other Patterns'] =
-                (analysis.patternStats['Other Patterns'] || 0) + 1;
+              analysis.patternStats["Other Patterns"] =
+                (analysis.patternStats["Other Patterns"] || 0) + 1;
             }
           }
         } catch (error) {
@@ -109,7 +119,7 @@ function analyzeExplicitAnyPatterns() {
 
     return analysis;
   } catch (error) {
-    console.log('Error analyzing patterns:', error.message);
+    console.log("Error analyzing patterns:", error.message);
     return null;
   }
 }
@@ -152,16 +162,19 @@ function generateRecommendations(analysis) {
   }
 
   // Strategic recommendations
-  const nonTestIssues = analysis.totalIssues - analysis.safetyAnalysis.testFiles;
+  const nonTestIssues =
+    analysis.totalIssues - analysis.safetyAnalysis.testFiles;
   if (nonTestIssues < analysis.totalIssues * 0.5) {
-    recommendations.push(`🎯 Focus on non-test files (${nonTestIssues} issues) for maximum impact`);
+    recommendations.push(
+      `🎯 Focus on non-test files (${nonTestIssues} issues) for maximum impact`,
+    );
   }
 
   return recommendations;
 }
 
-console.log('🔍 Comprehensive Explicit-Any Pattern Analysis');
-console.log('===============================================');
+console.log("🔍 Comprehensive Explicit-Any Pattern Analysis");
+console.log("===============================================");
 
 const analysis = analyzeExplicitAnyPatterns();
 
@@ -199,16 +212,22 @@ if (analysis) {
   console.log(
     `   Test files: ${analysis.safetyAnalysis.testFiles} issues (${((analysis.safetyAnalysis.testFiles / analysis.totalIssues) * 100).toFixed(1)}%)`,
   );
-  console.log(`   Mock functions: ${analysis.safetyAnalysis.mockFunctions} issues`);
+  console.log(
+    `   Mock functions: ${analysis.safetyAnalysis.mockFunctions} issues`,
+  );
   console.log(`   Record types: ${analysis.safetyAnalysis.recordTypes} issues`);
-  console.log(`   Function parameters: ${analysis.safetyAnalysis.functionParams} issues`);
-  console.log(`   Variable assignments: ${analysis.safetyAnalysis.variableAssignments} issues`);
+  console.log(
+    `   Function parameters: ${analysis.safetyAnalysis.functionParams} issues`,
+  );
+  console.log(
+    `   Variable assignments: ${analysis.safetyAnalysis.variableAssignments} issues`,
+  );
   console.log(`   Return types: ${analysis.safetyAnalysis.returnTypes} issues`);
   console.log(`   Array types: ${analysis.safetyAnalysis.arrayTypes} issues`);
 
   const recommendations = generateRecommendations(analysis);
   console.log(`\n💡 Strategic Recommendations:`);
-  recommendations.forEach(rec => console.log(`   ${rec}`));
+  recommendations.forEach((rec) => console.log(`   ${rec}`));
 
   // Calculate realistic reduction target
   const potentialReduction =

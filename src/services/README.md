@@ -118,7 +118,7 @@ Services include comprehensive error handling:
 try {
   // Service logic
 } catch (error) {
-  logger.error('Error in service operation:', error);
+  logger.error("Error in service operation:", error);
   // Error recovery or rethrow
 }
 ```
@@ -130,7 +130,7 @@ try {
 Services should be initialized through the ServicesManager:
 
 ```typescript
-import { servicesManager } from '../services';
+import { servicesManager } from "../services";
 
 // Initialize all services
 await servicesManager.initialize();
@@ -141,7 +141,7 @@ const {
   astrologyService,
   ingredientService,
   recipeService,
-  recommendationService
+  recommendationService,
 } = servicesManager.getServices();
 ```
 
@@ -150,7 +150,7 @@ const {
 For simpler cases, services can be accessed directly:
 
 ```typescript
-import { unifiedIngredientService } from '../services';
+import { unifiedIngredientService } from "../services";
 
 // Use the service
 const ingredients = unifiedIngredientService.getAllIngredients();
@@ -195,7 +195,7 @@ interface but delegate to the new services.
 ### Example of using a legacy adapter:
 
 ```typescript
-import { legacyIngredientAdapter } from '../services';
+import { legacyIngredientAdapter } from "../services";
 
 // Use the adapter as if it were the legacy service
 const ingredients = legacyIngredientAdapter.getAllIngredients();
@@ -229,16 +229,16 @@ export interface NewServiceInterface {
 }
 
 // src/services/NewService.ts
-import { NewServiceInterface } from './interfaces/NewServiceInterface';
-import { createLogger } from '../utils/logger';
+import { NewServiceInterface } from "./interfaces/NewServiceInterface";
+import { createLogger } from "../utils/logger";
 
-const logger = createLogger('NewService');
+const logger = createLogger("NewService");
 
 export class NewService implements NewServiceInterface {
   private static instance: NewService;
 
   private constructor() {
-    logger.info('NewService initialized');
+    logger.info("NewService initialized");
   }
 
   public static getInstance(): NewService {
@@ -252,7 +252,7 @@ export class NewService implements NewServiceInterface {
     try {
       // Implementation
     } catch (error) {
-      logger.error('Error in performOperation:', error);
+      logger.error("Error in performOperation:", error);
     }
   }
 
@@ -261,7 +261,7 @@ export class NewService implements NewServiceInterface {
       // Implementation
       return result;
     } catch (error) {
-      logger.error('Error in getData:', error);
+      logger.error("Error in getData:", error);
       return null;
     }
   }

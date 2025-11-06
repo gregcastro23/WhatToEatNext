@@ -170,8 +170,12 @@ const score = calculateCompatibility(ingredient1, ingredient2);
 
 // After
 const score = calculateQuantityAwareCompatibility(
-  ingredient1, quantity1, unit1,
-  ingredient2, quantity2, unit2
+  ingredient1,
+  quantity1,
+  unit1,
+  ingredient2,
+  quantity2,
+  unit2,
 );
 ```
 

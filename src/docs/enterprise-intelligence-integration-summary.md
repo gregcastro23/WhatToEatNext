@@ -251,13 +251,13 @@ validation, safety intelligence, and optimization recommendations.
 
 ```typescript
 interface EnterpriseIntelligenceConfig {
-  enableRecipeIntelligence: boolean;        // Default: true
-  enableIngredientIntelligence: boolean;    // Default: true
-  enableValidationIntelligence: boolean;    // Default: true
-  enableSafetyIntelligence: boolean;        // Default: true
+  enableRecipeIntelligence: boolean; // Default: true
+  enableIngredientIntelligence: boolean; // Default: true
+  enableValidationIntelligence: boolean; // Default: true
+  enableSafetyIntelligence: boolean; // Default: true
   enableOptimizationRecommendations: boolean; // Default: true
-  cacheResults: boolean;                    // Default: true
-  logLevel: 'debug' | 'info' | 'warn' | 'error'; // Default: 'info'
+  cacheResults: boolean; // Default: true
+  logLevel: "debug" | "info" | "warn" | "error"; // Default: 'info'
 }
 ```
 
@@ -265,9 +265,9 @@ interface EnterpriseIntelligenceConfig {
 
 ```typescript
 interface UseEnterpriseIntelligenceConfig {
-  autoAnalyze?: boolean;                    // Default: false
-  analysisInterval?: number;                // Default: 30000ms
-  enableRealTimeUpdates?: boolean;          // Default: false
+  autoAnalyze?: boolean; // Default: false
+  analysisInterval?: number; // Default: 30000ms
+  enableRealTimeUpdates?: boolean; // Default: false
 }
 ```
 
@@ -297,15 +297,20 @@ const [showEnterpriseIntelligence, setShowEnterpriseIntelligence] = useState(fal
 
 ```typescript
 // Custom hook usage
-const { state, actions, recommendations, systemHealth } = useEnterpriseIntelligence({
-  enableRecipeIntelligence: true,
-  enableIngredientIntelligence: true,
-  autoAnalyze: true,
-  analysisInterval: 60000
-});
+const { state, actions, recommendations, systemHealth } =
+  useEnterpriseIntelligence({
+    enableRecipeIntelligence: true,
+    enableIngredientIntelligence: true,
+    autoAnalyze: true,
+    analysisInterval: 60000,
+  });
 
 // Perform manual analysis
-const analysis = await actions.performAnalysis(recipeData, ingredientData, astrologicalContext);
+const analysis = await actions.performAnalysis(
+  recipeData,
+  ingredientData,
+  astrologicalContext,
+);
 ```
 
 ## Future Enhancements

@@ -1,491 +1,491 @@
-import type { IngredientMapping } from '@/data/ingredients/types';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from "@/data/ingredients/types";
+import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 // Proteins ingredients extracted from cuisine files
 const rawProteins: Record<string, Partial<IngredientMapping>> = {
   eggs: {
-    name: 'eggs',
+    name: "eggs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   ground_beef: {
-    name: 'ground beef',
+    name: "ground beef",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   grilled_chicken: {
-    name: 'grilled chicken',
+    name: "grilled chicken",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   hard_boiled_eggs: {
-    name: 'hard-boiled eggs',
+    name: "hard-boiled eggs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   pork_ribs: {
-    name: 'pork ribs',
+    name: "pork ribs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   chicken_pieces: {
-    name: 'chicken pieces',
+    name: "chicken pieces",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   salmon_fillet: {
-    name: 'salmon fillet',
+    name: "salmon fillet",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   beef_chuck_roast: {
-    name: 'beef chuck roast',
+    name: "beef chuck roast",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   soybeans: {
-    name: 'soybeans',
+    name: "soybeans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   soft_tofu: {
-    name: 'soft tofu',
+    name: "soft tofu",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   har_gow__shrimp_dumplings_: {
-    name: 'har gow (shrimp dumplings)',
+    name: "har gow (shrimp dumplings)",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   siu_mai__pork_dumplings_: {
-    name: 'siu mai (pork dumplings)',
+    name: "siu mai (pork dumplings)",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   fresh_eggs: {
-    name: 'fresh eggs',
+    name: "fresh eggs",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   vanilla_bean: {
-    name: 'vanilla bean',
+    name: "vanilla bean",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   oil_packed_tuna: {
-    name: 'oil-packed tuna',
+    name: "oil-packed tuna",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   beef_stock: {
-    name: 'beef stock',
+    name: "beef stock",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   chicken: {
-    name: 'chicken',
+    name: "chicken",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   beef_chuck: {
-    name: 'beef chuck',
+    name: "beef chuck",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   egg_yolks: {
-    name: 'egg yolks',
+    name: "egg yolks",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   pork: {
-    name: 'pork',
+    name: "pork",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   white_beans: {
-    name: 'white beans',
+    name: "white beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   yellow_lentils: {
-    name: 'yellow lentils',
+    name: "yellow lentils",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   black_lentils: {
-    name: 'black lentils',
+    name: "black lentils",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   kidney_beans: {
-    name: 'kidney beans',
+    name: "kidney beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   egg: {
-    name: 'egg',
+    name: "egg",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   parmigiano_reggiano: {
-    name: 'Parmigiano-Reggiano',
+    name: "Parmigiano-Reggiano",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   chicken_thigh: {
-    name: 'chicken thigh',
+    name: "chicken thigh",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   pork_belly: {
-    name: 'pork belly',
+    name: "pork belly",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   beef_sirloin: {
-    name: 'beef sirloin',
+    name: "beef sirloin",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   pork_spine: {
-    name: 'pork spine',
+    name: "pork spine",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   bean_sprouts: {
-    name: 'bean sprouts',
+    name: "bean sprouts",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   fava_beans: {
-    name: 'fava beans',
+    name: "fava beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   brown_lentils: {
-    name: 'brown lentils',
+    name: "brown lentils",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   buckwheat_groats: {
-    name: 'buckwheat groats',
+    name: "buckwheat groats",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   white_fish: {
-    name: 'white fish',
+    name: "white fish",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   long_beans: {
-    name: 'long beans',
+    name: "long beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   red_beans: {
-    name: 'red beans',
+    name: "red beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   beef_bones: {
-    name: 'beef bones',
+    name: "beef bones",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   ground_pork: {
-    name: 'ground pork',
+    name: "ground pork",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   fish_sauce: {
-    name: 'fish sauce',
+    name: "fish sauce",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   beef_shank: {
-    name: 'beef shank',
+    name: "beef shank",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   pork_knuckles: {
-    name: 'pork knuckles',
+    name: "pork knuckles",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   pork_chops: {
-    name: 'pork chops',
+    name: "pork chops",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
   mung_beans: {
-    name: 'mung beans',
+    name: "mung beans",
     elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
-    qualities: ['protein-rich', 'sustaining', 'nutritious'],
-    category: 'proteins',
+    qualities: ["protein-rich", "sustaining", "nutritious"],
+    category: "proteins",
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['fall', 'winter']
-    }
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["Aries", "Taurus", "Capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
   },
 };
 

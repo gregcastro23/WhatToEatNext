@@ -10,12 +10,11 @@ import type {
   ZodiacSign,
   LunarPhase,
   PlanetName,
-  ElementalProperties} from '@/types/alchemy';
-import {
-  Element
-} from '@/types/alchemy';
-import { PlanetaryAlignment } from '@/types/celestial';
-import { Recipe } from '@/types/recipe';
+  ElementalProperties,
+} from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
+import { PlanetaryAlignment } from "@/types/celestial";
+import { Recipe } from "@/types/recipe";
 
 /**
  * Standard API Response interface for all recipe endpoints
@@ -46,11 +45,11 @@ export interface ApiResponse<T> {
  * Recipe-specific error codes
  */
 export enum RecipeErrorCode {
-  NOT_FOUND = 'RECIPE_NOT_FOUND',
-  INVALID_PARAMETERS = 'INVALID_PARAMETERS',
-  PROCESSING_ERROR = 'PROCESSING_ERROR',
-  DATA_SOURCE_ERROR = 'DATA_SOURCE_ERROR',
-  VALIDATION_ERROR = 'VALIDATION_ERROR',
+  NOT_FOUND = "RECIPE_NOT_FOUND",
+  INVALID_PARAMETERS = "INVALID_PARAMETERS",
+  PROCESSING_ERROR = "PROCESSING_ERROR",
+  DATA_SOURCE_ERROR = "DATA_SOURCE_ERROR",
+  VALIDATION_ERROR = "VALIDATION_ERROR",
 }
 
 /**
@@ -195,7 +194,7 @@ export interface GenerateRecipeParams {
  */
 export interface GenerateFusionRecipeParams {
   cuisines: string[];
-  criteria: GenerateRecipeParams['criteria'];
+  criteria: GenerateRecipeParams["criteria"];
 }
 
 /**

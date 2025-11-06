@@ -14,7 +14,9 @@ export type WithStringIndex<T> = T & StringIndexed;
  * A utility type to convert nested records to accept string indexes
  */
 export type DeepStringIndexed<T> = {
-  [K in keyof T]: T[K] extends object ? DeepStringIndexed<T[K]> & StringIndexed : T[K];
+  [K in keyof T]: T[K] extends object
+    ? DeepStringIndexed<T[K]> & StringIndexed
+    : T[K];
 } & StringIndexed;
 
 /**

@@ -3,11 +3,11 @@
  * Provides a unified interface for recipe operations
  */
 
-import { ErrorHandler } from '@/services/errorHandler';
-import type { RecipeSearchCriteria } from '@/services/interfaces/RecipeServiceInterface';
-import type { Recipe } from '@/types/alchemy';
+import { ErrorHandler } from "@/services/errorHandler";
+import type { RecipeSearchCriteria } from "@/services/interfaces/RecipeServiceInterface";
+import type { Recipe } from "@/types/alchemy";
 // Add missing imports for TS2304 fixes
-import type { ExtendedRecipe } from '@/types/ExtendedRecipe';
+import type { ExtendedRecipe } from "@/types/ExtendedRecipe";
 // Using local error handler implementation
 
 export class UnifiedRecipeService {
@@ -30,7 +30,9 @@ export class UnifiedRecipeService {
       // TODO: Implement recipe fetching logic
       return [];
     } catch (error) {
-      ErrorHandler.log(error, { context: 'UnifiedRecipeService.getAllRecipes' });
+      ErrorHandler.log(error, {
+        context: "UnifiedRecipeService.getAllRecipes",
+      });
       return [];
     }
   }
@@ -43,7 +45,9 @@ export class UnifiedRecipeService {
       // TODO: Implement recipe fetching by ID
       return null;
     } catch (error) {
-      ErrorHandler.log(error, { context: 'UnifiedRecipeService.getRecipeById' });
+      ErrorHandler.log(error, {
+        context: "UnifiedRecipeService.getRecipeById",
+      });
       return null;
     }
   }
@@ -56,7 +60,9 @@ export class UnifiedRecipeService {
       // TODO: Implement recipe search logic
       return [];
     } catch (error) {
-      ErrorHandler.log(error, { context: 'UnifiedRecipeService.searchRecipes' });
+      ErrorHandler.log(error, {
+        context: "UnifiedRecipeService.searchRecipes",
+      });
       return [];
     }
   }
@@ -66,18 +72,22 @@ export class UnifiedRecipeService {
   async getRecipesForCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();
-      const filtered = (allRecipes || []).filter(recipe => {
+      const filtered = (allRecipes || []).filter((recipe) => {
         const recipeCuisine =
-          recipe.cuisine && typeof recipe.cuisine === 'string'
+          recipe.cuisine && typeof recipe.cuisine === "string"
             ? recipe.cuisine.toLowerCase()
             : recipe.cuisine;
         const targetCuisine =
-          cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine;
+          cuisine && typeof cuisine === "string"
+            ? cuisine.toLowerCase()
+            : cuisine;
         return recipeCuisine === targetCuisine;
       });
       return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
-      ErrorHandler.log(error, { context: 'UnifiedRecipeService.getRecipesForCuisine' });
+      ErrorHandler.log(error, {
+        context: "UnifiedRecipeService.getRecipesForCuisine",
+      });
       return [];
     }
   }
@@ -92,14 +102,18 @@ export class UnifiedRecipeService {
   /**
    * Get best recipe matches (Phase 11 addition)
    */
-  async getBestRecipeMatches(criteria: RecipeSearchCriteria): Promise<ExtendedRecipe[]> {
+  async getBestRecipeMatches(
+    criteria: RecipeSearchCriteria,
+  ): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();
       // Simple implementation for now
       const matches = allRecipes.slice(0, 10);
       return matches as unknown as ExtendedRecipe[];
     } catch (error) {
-      ErrorHandler.log(error, { context: 'UnifiedRecipeService.getBestRecipeMatches' });
+      ErrorHandler.log(error, {
+        context: "UnifiedRecipeService.getBestRecipeMatches",
+      });
       return [];
     }
   }

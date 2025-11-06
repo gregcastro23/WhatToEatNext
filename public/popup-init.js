@@ -9,7 +9,7 @@
 (function () {
   try {
     // Set defaults for Chrome API
-    if (typeof window.chrome === 'undefined') {
+    if (typeof window.chrome === "undefined") {
       window.chrome = {};
     }
 
@@ -20,7 +20,7 @@
           try {
             if (options && options.url) {
               setTimeout(function () {
-                window.open(options.url, '_blank');
+                window.open(options.url, "_blank");
               }, 0);
             }
           } catch (e) {}
@@ -30,7 +30,7 @@
     }
 
     // Initialize popup API
-    if (typeof window.popup === 'undefined') {
+    if (typeof window.popup === "undefined") {
       window.popup = {};
     }
 

@@ -8,22 +8,22 @@
  * REFINED with validation and conservative fixing
  */
 
-import fs from 'fs';
-import path from 'path';
-import BaseProcessor from './base-processor.js';
+import fs from "fs";
+import path from "path";
+import BaseProcessor from "./base-processor.js";
 
 class TS1005ProcessorRefined extends BaseProcessor {
   constructor() {
-    super('TS1005', 'Semicolon/Comma Expected');
+    super("TS1005", "Semicolon/Comma Expected");
   }
 
   async process(dryRun = true) {
-    console.log(`\n${'='.repeat(60)}`);
+    console.log(`\n${"=".repeat(60)}`);
     console.log(`🔧 TS1005 Refined Processor - Semicolon/Comma Expected`);
-    console.log(`Mode: ${dryRun ? 'DRY RUN' : 'LIVE'}`);
-    console.log('='.repeat(60));
+    console.log(`Mode: ${dryRun ? "DRY RUN" : "LIVE"}`);
+    console.log("=".repeat(60));
 
-    console.log('\n📊 Capturing baseline...');
+    console.log("\n📊 Capturing baseline...");
     const beforeCount = await this.getErrorCount();
     const beforeTotal = await this.getTotalErrorCount();
     console.log(`   Target errors (TS1005): ${beforeCount}`);
@@ -31,7 +31,7 @@ class TS1005ProcessorRefined extends BaseProcessor {
 
     const errors = await this.getErrors();
     if (errors.length === 0) {
-      console.log('\n✅ No TS1005 errors found!');
+      console.log("\n✅ No TS1005 errors found!");
       return { filesProcessed: 0, errorsFixed: 0 };
     }
 
@@ -44,7 +44,9 @@ class TS1005ProcessorRefined extends BaseProcessor {
     let filesSkipped = 0;
 
     for (const [filePath, fileErrors] of Object.entries(errorsByFile)) {
-      console.log(`\n📄 Processing: ${path.relative(this.projectRoot, filePath)}`);
+      console.log(
+        `\n📄 Processing: ${path.relative(this.projectRoot, filePath)}`,
+      );
       console.log(`   Errors: ${fileErrors.length}`);
 
       try {
@@ -64,7 +66,7 @@ class TS1005ProcessorRefined extends BaseProcessor {
       }
     }
 
-    console.log(`\n${'='.repeat(60)}`);
+    console.log(`\n${"=".repeat(60)}`);
     console.log(`📊 Summary:`);
     console.log(`   Files processed: ${filesProcessed}`);
     console.log(`   Files skipped: ${filesSkipped}`);
@@ -74,24 +76,28 @@ class TS1005ProcessorRefined extends BaseProcessor {
       console.log(`\n🔍 Validating changes...`);
       const validation = await this.validateChanges(beforeCount, beforeTotal);
 
-      console.log(`   Target errors: ${validation.beforeCount} → ${validation.afterCount} (${validation.targetReduction} reduced)`);
-      console.log(`   Total errors: ${validation.beforeTotal} → ${validation.afterTotal} (${validation.totalChange >= 0 ? '+' : ''}${validation.totalChange})`);
+      console.log(
+        `   Target errors: ${validation.beforeCount} → ${validation.afterCount} (${validation.targetReduction} reduced)`,
+      );
+      console.log(
+        `   Total errors: ${validation.beforeTotal} → ${validation.afterTotal} (${validation.totalChange >= 0 ? "+" : ""}${validation.totalChange})`,
+      );
       console.log(`   Net improvement: ${validation.netImprovement} errors`);
 
       if (!validation.success) {
         console.log(`\n⚠️  VALIDATION FAILED:`);
-        validation.errors.forEach(err => console.log(`   - ${err}`));
+        validation.errors.forEach((err) => console.log(`   - ${err}`));
       }
     }
 
-    console.log('='.repeat(60));
+    console.log("=".repeat(60));
 
     return { filesProcessed, errorsFixed, filesSkipped };
   }
 
   async fixFileErrors(filePath, errors, dryRun) {
     return this.safeFileModify(filePath, (originalContent) => {
-      const lines = originalContent.split('\n');
+      const lines = originalContent.split("\n");
       let fixedCount = 0;
 
       errors.sort((a, b) => b.line - a.line);
@@ -101,8 +107,8 @@ class TS1005ProcessorRefined extends BaseProcessor {
         if (lineIdx < 0 || lineIdx >= lines.length) continue;
 
         const currentLine = lines[lineIdx];
-        const prevLine = lineIdx > 0 ? lines[lineIdx - 1] : '';
-        const nextLine = lineIdx < lines.length - 1 ? lines[lineIdx + 1] : '';
+        const prevLine = lineIdx > 0 ? lines[lineIdx - 1] : "";
+        const nextLine = lineIdx < lines.length - 1 ? lines[lineIdx + 1] : "";
 
         const fixed = this.fixLine(currentLine, prevLine, nextLine, error);
 
@@ -112,7 +118,7 @@ class TS1005ProcessorRefined extends BaseProcessor {
         }
       }
 
-      const modifiedContent = lines.join('\n');
+      const modifiedContent = lines.join("\n");
 
       if (!dryRun && fixedCount > 0) {
         fs.writeFileSync(filePath, modifiedContent);
@@ -131,17 +137,21 @@ class TS1005ProcessorRefined extends BaseProcessor {
       // Object property without comma: "propName: value"
       // Next line starts with property name
       if (/^\s+\w+:\s+.+[^,{}\[\]]$/.test(line) && /^\s+\w+:/.test(nextLine)) {
-        return line + ',';
+        return line + ",";
       }
 
       // Array element without comma
       if (/^\s+['"`].*['"`]\s*$/.test(line) && /^\s+['"`]/.test(nextLine)) {
-        return line + ',';
+        return line + ",";
       }
 
       // Simple value in array/object
-      if (/^\s+\w+\s*$/.test(line) && /^\s+\w+/.test(nextLine) && prevLine.includes('[')) {
-        return line + ',';
+      if (
+        /^\s+\w+\s*$/.test(line) &&
+        /^\s+\w+/.test(nextLine) &&
+        prevLine.includes("[")
+      ) {
+        return line + ",";
       }
     }
 
@@ -149,21 +159,27 @@ class TS1005ProcessorRefined extends BaseProcessor {
     // Only add if it's clearly a statement that should end
     if (msg.includes("';' expected")) {
       // Variable declarations
-      if (/^\s*(const|let|var)\s+\w+\s*=\s*[^{[\n]+$/.test(line) && !line.trim().endsWith(',')) {
+      if (
+        /^\s*(const|let|var)\s+\w+\s*=\s*[^{[\n]+$/.test(line) &&
+        !line.trim().endsWith(",")
+      ) {
         // Check next line doesn't continue the expression
-        if (!nextLine.trim().startsWith('.') && !nextLine.trim().startsWith('[')) {
-          return line + ';';
+        if (
+          !nextLine.trim().startsWith(".") &&
+          !nextLine.trim().startsWith("[")
+        ) {
+          return line + ";";
         }
       }
 
       // Return statements
       if (/^\s*return\s+[^;{}\n]+$/.test(line)) {
-        return line + ';';
+        return line + ";";
       }
 
       // Function calls
       if (/^\s+\w+\.\w+\([^)]*\)\s*$/.test(line)) {
-        return line + ';';
+        return line + ";";
       }
     }
 
@@ -181,7 +197,7 @@ class TS1005ProcessorRefined extends BaseProcessor {
       const openParens = (line.match(/\(/g) || []).length;
       const closeParens = (line.match(/\)/g) || []).length;
       if (openParens === closeParens + 1) {
-        return line + ')';
+        return line + ")";
       }
     }
 
@@ -189,7 +205,7 @@ class TS1005ProcessorRefined extends BaseProcessor {
       const openBraces = (line.match(/\{/g) || []).length;
       const closeBraces = (line.match(/\}/g) || []).length;
       if (openBraces === closeBraces + 1) {
-        return line + '}';
+        return line + "}";
       }
     }
 
@@ -201,5 +217,5 @@ export default TS1005ProcessorRefined;
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const processor = new TS1005ProcessorRefined();
-  await processor.process(!process.argv.includes('--confirm'));
+  await processor.process(!process.argv.includes("--confirm"));
 }

@@ -92,25 +92,25 @@ interface EnhancedCookingMethod {
   alchemicalPillar: EnhancedAlchemicalPillar;
   monicaConstant: number;
   monicaModifiers: {
-    temperatureAdjustment: number;      // ±15°F per Monica unit
-    timingAdjustment: number;           // ±10% timing per Monica unit
-    intensityModifier: string;          // 'increase', 'decrease', 'maintain'
-    planetaryAlignment?: number;        // 0-1 alignment strength
-    lunarPhaseBonus?: number;          // 0-1 lunar sensitivity
+    temperatureAdjustment: number; // ±15°F per Monica unit
+    timingAdjustment: number; // ±10% timing per Monica unit
+    intensityModifier: string; // 'increase', 'decrease', 'maintain'
+    planetaryAlignment?: number; // 0-1 alignment strength
+    lunarPhaseBonus?: number; // 0-1 lunar sensitivity
   };
-  kalchm: number;                      // ⭐ COOKING METHOD KALCHM
+  kalchm: number; // ⭐ COOKING METHOD KALCHM
   thermodynamicProfile: {
     heat: number;
     entropy: number;
     reactivity: number;
-    gregsEnergy: number;               // ⭐ GREG'S ENERGY
+    gregsEnergy: number; // ⭐ GREG'S ENERGY
   };
-  monicaClassification: string;        // Classification based on Monica
+  monicaClassification: string; // Classification based on Monica
   optimalConditions: {
-    temperature: number;               // Optimized temperature
-    timing: string;                    // 'quick', 'medium', 'slow', 'steady'
-    planetaryHours: string[];          // Optimal planetary hours
-    lunarPhases: string[];             // Optimal lunar phases
+    temperature: number; // Optimized temperature
+    timing: string; // 'quick', 'medium', 'slow', 'steady'
+    planetaryHours: string[]; // Optimal planetary hours
+    lunarPhases: string[]; // Optimal lunar phases
   };
 }
 ```
@@ -186,10 +186,10 @@ interface EnhancedCookingMethod {
 ### **Enhance a Cooking Method**
 
 ```typescript
-import { createEnhancedCookingMethod } from '@/constants/alchemicalPillars';
+import { createEnhancedCookingMethod } from "@/constants/alchemicalPillars";
 
 // Enhance grilling method
-const enhancedGrilling = createEnhancedCookingMethod('grilling');
+const enhancedGrilling = createEnhancedCookingMethod("grilling");
 
 // Access Monica properties
 const monica = enhancedGrilling?.monicaConstant; // 0.0000
@@ -200,7 +200,7 @@ const temperature = enhancedGrilling?.optimalConditions.temperature; // 350°F
 ### **Find Compatible Methods**
 
 ```typescript
-import { getMonicaCompatibleCookingMethods } from '@/constants/alchemicalPillars';
+import { getMonicaCompatibleCookingMethods } from "@/constants/alchemicalPillars";
 
 // Find methods compatible with a target Monica value
 const compatibleMethods = getMonicaCompatibleCookingMethods(-0.15, 0.1);
@@ -210,7 +210,7 @@ const compatibleMethods = getMonicaCompatibleCookingMethods(-0.15, 0.1);
 ### **Get All Enhanced Methods**
 
 ```typescript
-import { getAllEnhancedCookingMethods } from '@/constants/alchemicalPillars';
+import { getAllEnhancedCookingMethods } from "@/constants/alchemicalPillars";
 
 const allMethods = getAllEnhancedCookingMethods();
 console.log(`Enhanced ${Object.keys(allMethods).length} cooking methods`);

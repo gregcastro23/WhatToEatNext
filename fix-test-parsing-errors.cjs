@@ -1,24 +1,24 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
-console.log('🔧 Fixing test file parsing errors systematically...');
+console.log("🔧 Fixing test file parsing errors systematically...");
 
 // Get all files with parsing errors
 let lintOutput;
 try {
-  execSync('yarn lint 2>&1', { stdio: 'pipe' });
+  execSync("yarn lint 2>&1", { stdio: "pipe" });
 } catch (error) {
   lintOutput = error.stdout.toString();
 }
 
 const parsingErrorFiles = [];
-const lines = lintOutput.split('\n');
+const lines = lintOutput.split("\n");
 
 for (const line of lines) {
-  if (line.includes('error  Parsing error:')) {
+  if (line.includes("error  Parsing error:")) {
     const match = line.match(/^(.+?):\d+:\d+\s+error\s+Parsing error:/);
     if (match) {
       const filePath = match[1].trim();
@@ -36,26 +36,26 @@ const commonFixes = [
   // Invalid function signatures in tests
   {
     pattern: /test\('([^']+)'\s*:\s*any,\s*async\s*\(\)\s*=>\s*{/g,
-    replacement: "test('$1', async () => {"
+    replacement: "test('$1', async () => {",
   },
   {
     pattern: /it\('([^']+)'\s*:\s*any,\s*async\s*\(\)\s*=>\s*{/g,
-    replacement: "it('$1', async () => {"
+    replacement: "it('$1', async () => {",
   },
   // Invalid jest.mock calls
   {
     pattern: /jest\.mock\('([^']+)'\(\s*{/g,
-    replacement: "jest.mock('$1', () => {"
+    replacement: "jest.mock('$1', () => {",
   },
   // Invalid catch clauses
   {
     pattern: /}\s*catch\s*\(\s*([^)]+)\s*\)\s*:\s*any\s*{/g,
-    replacement: "} catch ($1: any) {"
+    replacement: "} catch ($1: any) {",
   },
   // Invalid function return type annotations
   {
     pattern: /function\s+([^(]+)\(\s*\)\s*:\s*any\s*{/g,
-    replacement: "function $1(): any {"
+    replacement: "function $1(): any {",
   },
   // Malformed template literals with code
   {
@@ -63,8 +63,8 @@ const commonFixes = [
     replacement: (match, prefix) => {
       // This is a complex case, we'll handle it separately
       return match;
-    }
-  }
+    },
+  },
 ];
 
 let totalFixed = 0;
@@ -72,7 +72,7 @@ let totalFixed = 0;
 for (const filePath of parsingErrorFiles) {
   try {
     if (fs.existsSync(filePath)) {
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       let fileFixed = false;
 
       for (const fix of commonFixes) {
@@ -85,7 +85,9 @@ for (const filePath of parsingErrorFiles) {
 
       if (fileFixed) {
         fs.writeFileSync(filePath, content);
-        console.log(`✅ Fixed parsing errors in ${path.relative(process.cwd(), filePath)}`);
+        console.log(
+          `✅ Fixed parsing errors in ${path.relative(process.cwd(), filePath)}`,
+        );
         totalFixed++;
       }
     }
@@ -97,10 +99,10 @@ for (const filePath of parsingErrorFiles) {
 console.log(`\n🎯 Fixed parsing errors in ${totalFixed} files`);
 
 // Run a quick lint check to see remaining issues
-console.log('\n📊 Checking remaining parsing errors...');
+console.log("\n📊 Checking remaining parsing errors...");
 try {
-  execSync('yarn lint 2>&1 | grep -c "Parsing error"', { stdio: 'pipe' });
+  execSync('yarn lint 2>&1 | grep -c "Parsing error"', { stdio: "pipe" });
 } catch (error) {
   const count = error.stdout.toString().trim();
-  console.log(`Remaining parsing errors: ${count || '0'}`);
+  console.log(`Remaining parsing errors: ${count || "0"}`);
 }

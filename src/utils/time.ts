@@ -2,16 +2,24 @@
  * Returns the current planetary day and hour information
  */
 export function getTimeFactors() {
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
   const planetaryDayMap = {
-    Sunday: 'Sun',
-    Monday: 'Moon',
-    Tuesday: 'Mars',
-    Wednesday: 'Mercury',
-    Thursday: 'Jupiter',
-    Friday: 'Venus',
-    Saturday: 'Saturn'
-};
+    Sunday: "Sun",
+    Monday: "Moon",
+    Tuesday: "Mars",
+    Wednesday: "Mercury",
+    Thursday: "Jupiter",
+    Friday: "Venus",
+    Saturday: "Saturn",
+  };
 
   // Get current date information
   const now = new Date();
@@ -20,59 +28,59 @@ export function getTimeFactors() {
 
   // Calculate planetary hour (simplified, implementation)
   const dayHours = [
-    'Sun',
-    'Venus',
-    'Mercury',
-    'Moon',
-    'Saturn',
-    'Jupiter',
-    'Mars',
-    'Sun',
-    'Venus',
-    'Mercury',
-    'Moon',
-    'Saturn',
-    'Jupiter',
-    'Mars',
-    'Sun',
-    'Venus',
-    'Mercury',
-    'Moon',
-    'Saturn',
-    'Jupiter',
-    'Mars',
-    'Sun',
-    'Venus',
-    'Mercury',
-    'Moon'
+    "Sun",
+    "Venus",
+    "Mercury",
+    "Moon",
+    "Saturn",
+    "Jupiter",
+    "Mars",
+    "Sun",
+    "Venus",
+    "Mercury",
+    "Moon",
+    "Saturn",
+    "Jupiter",
+    "Mars",
+    "Sun",
+    "Venus",
+    "Mercury",
+    "Moon",
+    "Saturn",
+    "Jupiter",
+    "Mars",
+    "Sun",
+    "Venus",
+    "Mercury",
+    "Moon",
   ];
 
   const nightHours = [
-    'Jupiter',
-    'Mars',
-    'Sun',
-    'Venus',
-    'Mercury',
-    'Moon',
-    'Saturn',
-    'Jupiter',
-    'Mars',
-    'Sun',
-    'Venus',
-    'Mercury',
-    'Moon',
-    'Saturn',
-    'Jupiter',
-    'Mars',
-    'Sun',
-    'Venus',
-    'Mercury',
-    'Moon',
-    'Saturn',
-    'Jupiter',
-    'Mars',
-    'Sun',
-    'Venus'
+    "Jupiter",
+    "Mars",
+    "Sun",
+    "Venus",
+    "Mercury",
+    "Moon",
+    "Saturn",
+    "Jupiter",
+    "Mars",
+    "Sun",
+    "Venus",
+    "Mercury",
+    "Moon",
+    "Saturn",
+    "Jupiter",
+    "Mars",
+    "Sun",
+    "Venus",
+    "Mercury",
+    "Moon",
+    "Saturn",
+    "Jupiter",
+    "Mars",
+    "Sun",
+    "Venus",
   ];
 
   // Determine if it's day or night (simplified)
@@ -83,13 +91,13 @@ export function getTimeFactors() {
   return {
     _planetaryDay: {
       day: dayOfWeek,
-      planet: planetaryDayMap[dayOfWeek]
+      planet: planetaryDayMap[dayOfWeek],
     },
     planetaryHour: {
       hourOfDay: hour,
-      planet: planetaryHour
+      planet: planetaryHour,
     },
-    isDaytime
+    isDaytime,
   };
 }
 

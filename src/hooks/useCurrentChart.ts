@@ -1,180 +1,191 @@
-import { useState, useEffect } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useState, useEffect } from "react";
+import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 
 // Don't import from context to avoid potential circular dependency
 // import { useCurrentChart as useContextCurrentChart } from '@/context/CurrentChartContext';
 
 export interface ChartData {
-  ascendant?: string,
-  midheaven?: string,
+  ascendant?: string;
+  midheaven?: string;
   planets: Record<
     string,
     {
-      sign: string,
-      degree: number,
-      isRetrograde?: boolean,
-      exactLongitude?: number
+      sign: string;
+      degree: number;
+      isRetrograde?: boolean;
+      exactLongitude?: number;
     }
-  >,
+  >;
   houses?: Record<
     number,
     {
-      sign: string,
-      degree: number
+      sign: string;
+      degree: number;
     }
-  >,
+  >;
 }
 
 /**
  * Standalone hook to access current astrological chart data
  */
 export function useCurrentChart() {
-  const { planetaryPositions } = useAlchemical()
+  const { planetaryPositions } = useAlchemical();
   const [chartData, setChartData] = useState<ChartData>({
-    planets: {}
-  })
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+    planets: {},
+  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (Object.keys(planetaryPositions).length > 0) {
       try {
         // Convert planetary positions to chart format
-        const planets: Record<string, unknown> = {}
+        const planets: Record<string, unknown> = {};
 
         Object.entries(planetaryPositions).forEach(([key, data]) => {
           // Skip non-planetary keys like ascendant
-          if (key === 'ascendant') {
+          if (key === "ascendant") {
             return;
           }
 
           // Format each planet entry with proper capitalization
-          let planetName = key.charAt(0).toUpperCase() + key.slice(1)
+          let planetName = key.charAt(0).toUpperCase() + key.slice(1);
 
           // Special handling for nodes to ensure consistent casing
-          if (key === 'northnode') {
-            planetName = 'NorthNode';
-          } else if (key === 'southnode') {
-            planetName = 'SouthNode';
+          if (key === "northnode") {
+            planetName = "NorthNode";
+          } else if (key === "southnode") {
+            planetName = "SouthNode";
           }
 
           planets[planetName] = {
-            sign: (data)?.sign || 'Aries',
-            degree: (data)?.degree || 0,
-            isRetrograde: (data)?.isRetrograde || false,
-            exactLongitude: (data)?.exactLongitude || 0
-          }
-        })
+            sign: data?.sign || "Aries",
+            degree: data?.degree || 0,
+            isRetrograde: data?.isRetrograde || false,
+            exactLongitude: data?.exactLongitude || 0,
+          };
+        });
 
         // Set ascendant if available
         const newChartData: ChartData = {
           planets: planets as Record<
             string,
-            { sign: string, degree: number, isRetrograde?: boolean, exactLongitude?: number }
-          >
-        }
+            {
+              sign: string;
+              degree: number;
+              isRetrograde?: boolean;
+              exactLongitude?: number;
+            }
+          >,
+        };
 
         if (planetaryPositions.ascendant) {
-          newChartData.ascendant = (planetaryPositions.ascendant as unknown)?.sign;
+          newChartData.ascendant = (
+            planetaryPositions.ascendant as unknown
+          )?.sign;
         }
 
-        setChartData(newChartData)
+        setChartData(newChartData);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error processing chart data')
-        _logger.error('Chart processing error: ', err)
+        setError(
+          err instanceof Error ? err.message : "Error processing chart data",
+        );
+        _logger.error("Chart processing error: ", err);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     }
-  }, [planetaryPositions])
+  }, [planetaryPositions]);
 
   const createChartSvg = () => {
     // Map of planet names to their astronomical symbols
     const planetSymbols: Record<string, string> = {
-      Sun: '☉',
-      Moon: '☽',
-      Mercury: '☿',
-      Venus: '♀',
-      Mars: '♂',
-      Jupiter: '♃',
-      Saturn: '♄',
-      Uranus: '♅',
-      Neptune: '♆',
-      Pluto: '♇',
-      Northnode: '☊',
-      NorthNode: '☊',
-      Southnode: '☋',
-      SouthNode: '☋'
-}
+      Sun: "☉",
+      Moon: "☽",
+      Mercury: "☿",
+      Venus: "♀",
+      Mars: "♂",
+      Jupiter: "♃",
+      Saturn: "♄",
+      Uranus: "♅",
+      Neptune: "♆",
+      Pluto: "♇",
+      Northnode: "☊",
+      NorthNode: "☊",
+      Southnode: "☋",
+      SouthNode: "☋",
+    };
 
     // Map of zodiac signs to their symbols
     const zodiacSymbols: Record<string, string> = {
-      aries: '♈',
-      taurus: '♉',
-      gemini: '♊',
-      cancer: '♋',
-      leo: '♌',
-      virgo: '♍',
-      libra: '♎',
-      scorpio: '♏',
-      sagittarius: '♐',
-      capricorn: '♑',
-      aquarius: '♒',
-      pisces: '♓'
-}
+      aries: "♈",
+      taurus: "♉",
+      gemini: "♊",
+      cancer: "♋",
+      leo: "♌",
+      virgo: "♍",
+      libra: "♎",
+      scorpio: "♏",
+      sagittarius: "♐",
+      capricorn: "♑",
+      aquarius: "♒",
+      pisces: "♓",
+    };
 
     // Map colors for each sign based on their element
     const signColors: Record<string, string> = {
-      aries: '#ff5757', // Fire,
-      leo: '#ff8c33', // Fire,
-      sagittarius: '#ffb84d', // Fire,
-      taurus: '#70a35e', // Earth,
-      virgo: '#8bc34a', // Earth,
-      capricorn: '#5d9c59', // Earth,
-      gemini: '#7ac7ff', // Air,
-      libra: '#a8d1f7', // Air,
-      aquarius: '#64b5f6', // Air,
-      cancer: '#64b5f6', // Water,
-      scorpio: '#0d6efd', // Water,
-      pisces: '#00bcd4', // Water
-    }
+      aries: "#ff5757", // Fire,
+      leo: "#ff8c33", // Fire,
+      sagittarius: "#ffb84d", // Fire,
+      taurus: "#70a35e", // Earth,
+      virgo: "#8bc34a", // Earth,
+      capricorn: "#5d9c59", // Earth,
+      gemini: "#7ac7ff", // Air,
+      libra: "#a8d1f7", // Air,
+      aquarius: "#64b5f6", // Air,
+      cancer: "#64b5f6", // Water,
+      scorpio: "#0d6efd", // Water,
+      pisces: "#00bcd4", // Water
+    };
 
     // Map planet colors
     const planetColors: Record<string, string> = {
-      Sun: '#ff9500',
-      Moon: '#b8b8b8',
-      Mercury: '#a6a6a6',
-      Venus: '#ff84bb',
-      Mars: '#ff4747',
-      Jupiter: '#8860d0',
-      Saturn: '#5d5d5d',
-      Uranus: '#5c94bd',
-      Neptune: '#438bca',
-      Pluto: '#7d2e68'
-}
+      Sun: "#ff9500",
+      Moon: "#b8b8b8",
+      Mercury: "#a6a6a6",
+      Venus: "#ff84bb",
+      Mars: "#ff4747",
+      Jupiter: "#8860d0",
+      Saturn: "#5d5d5d",
+      Uranus: "#5c94bd",
+      Neptune: "#438bca",
+      Pluto: "#7d2e68",
+    };
 
     // Calculate actual positions based on exact longitude
-    const planetPositions = Object.entries(chartData.planets).map(([planet, data]) => {
-      const exactLong = data.exactLongitude || 0;
-      const angle = (exactLong * Math.PI) / 180; // Convert to radians
-      return {
-        planet,
-        symbol: planetSymbols[planet] || planet,
-        sign: data.sign,
-        signSymbol: zodiacSymbols[data.sign] || data.sign,
-        degree: data.degree,
-        isRetrograde: data.isRetrograde,
-        angle,
-        x: 150 + 100 * Math.sin(angle), // Use sine for x,
-        y: 150 - 100 * Math.cos(angle), // Use negative cosine for y,
-        color: planetColors[planet] || '#555555'
-      }
-    })
+    const planetPositions = Object.entries(chartData.planets).map(
+      ([planet, data]) => {
+        const exactLong = data.exactLongitude || 0;
+        const angle = (exactLong * Math.PI) / 180; // Convert to radians
+        return {
+          planet,
+          symbol: planetSymbols[planet] || planet,
+          sign: data.sign,
+          signSymbol: zodiacSymbols[data.sign] || data.sign,
+          degree: data.degree,
+          isRetrograde: data.isRetrograde,
+          angle,
+          x: 150 + 100 * Math.sin(angle), // Use sine for x,
+          y: 150 - 100 * Math.cos(angle), // Use negative cosine for y,
+          color: planetColors[planet] || "#555555",
+        };
+      },
+    );
 
     // Create a more attractive circular chart with signs in the outer ring
     return {
       planetPositions: chartData.planets,
-      ascendantSign: chartData.ascendant || 'Libra',
+      ascendantSign: chartData.ascendant || "Libra",
       svgContent: `
       <svg width='320' height='320' viewBox='0 0 320 320'>
         <defs>
@@ -201,14 +212,14 @@ export function useCurrentChart() {
             .map((_i) => {
               const angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg)
               const sign = Object.keys(zodiacSymbols)[i];
-              const color = signColors[sign] || '#999'
+              const color = signColors[sign] || "#999";
               const startAngle = ((i * 30 - 90) * Math.PI) / 180;
               const endAngle = (((i + 1) * 30 - 90) * Math.PI) / 180;
 
-              const startX = 160 + 145 * Math.cos(startAngle)
-              const startY = 160 + 145 * Math.sin(startAngle)
-              const endX = 160 + 145 * Math.cos(endAngle)
-              const endY = 160 + 145 * Math.sin(endAngle)
+              const startX = 160 + 145 * Math.cos(startAngle);
+              const startY = 160 + 145 * Math.sin(startAngle);
+              const endX = 160 + 145 * Math.cos(endAngle);
+              const endY = 160 + 145 * Math.sin(endAngle);
 
               // Use arc paths for the zodiac segments;
               const largeArcFlag = 0; // 0 for arcs less than 180 degrees
@@ -222,9 +233,9 @@ export function useCurrentChart() {
                     fill='${color}' font-size='14' font-weight='bold'>
                 ${zodiacSymbols[sign]}
               </text>
-            `
+            `;
             })
-            .join('')}
+            .join("")}
         </g>
 
         <!-- Degree circles -->
@@ -238,11 +249,11 @@ export function useCurrentChart() {
             ? (() => {
                 // Get the sign index
                 const signIndex = Object.keys(zodiacSymbols).findIndex(
-                  sign => sign === chartData.ascendant
+                  (sign) => sign === chartData.ascendant,
                 );
                 const ascAngle = ((signIndex * 30 - 90) * Math.PI) / 180; // Start from top
-                const ascX = 160 + 155 * Math.cos(ascAngle)
-                const ascY = 160 + 155 * Math.sin(ascAngle)
+                const ascX = 160 + 155 * Math.cos(ascAngle);
+                const ascY = 160 + 155 * Math.sin(ascAngle);
 
                 return `
             <line x1='160' y1='160' x2='${ascX}' y2='${ascY}'
@@ -253,9 +264,9 @@ export function useCurrentChart() {
                   fill='#ff4d4d' font-weight='bold' font-size='12'>
               ASC
             </text>
-          `
+          `;
               })()
-            : ''
+            : ""
         }
 
         <!-- North Node (outside the circle at the top) -->
@@ -283,9 +294,10 @@ export function useCurrentChart() {
         <!-- Planets and their connections to signs -->
         <g class='planets'>,
           ${planetPositions
-            .map(p => {
+            .map((p) => {
               // Skip the North and South Nodes as they're now drawn separately,
-              if (p.planet === 'NorthNode' || p.planet === 'SouthNode') return '';
+              if (p.planet === "NorthNode" || p.planet === "SouthNode")
+                return "";
               return `
               <g class='planet' filter='url(#glow)'>
                 <circle cx='${p.x}' cy='${p.y}' r='15'
@@ -296,12 +308,12 @@ export function useCurrentChart() {
                 </text>
                 <text x='${p.x}' y='${p.y + 22}' text-anchor='middle' dominant-baseline='middle'
                       fill='${p.color}' font-size='8'>
-                  ${p.degree.toFixed(0)}° ${p.isRetrograde ? '℞' : ''}
+                  ${p.degree.toFixed(0)}° ${p.isRetrograde ? "℞" : ""}
                 </text>
               </g>
-            `
+            `;
             })
-            .join('')}
+            .join("")}
         </g>
 
         <!-- Chart title and info -->
@@ -309,25 +321,25 @@ export function useCurrentChart() {
           Current Astrological Chart
         </text>
       </svg>
-      `
-    }
-  }
+      `,
+    };
+  };
 
   // Create chart object compatible with what CookingMethods.tsx expects
   const chartObj = {
     planetaryPositions: Object.entries(chartData.planets).reduce(
       (acc, [key, value]) => {
         acc[key.toLowerCase()] = value;
-        return acc
+        return acc;
       },
-      {} as Record<string, unknown>
+      {} as Record<string, unknown>,
     ),
     aspects: [],
-    currentSeason: '',
+    currentSeason: "",
     lastUpdated: new Date(),
     stelliums: {},
-    houseEffects: {}
-  }
+    houseEffects: {},
+  };
 
   return {
     chartData,
@@ -335,12 +347,12 @@ export function useCurrentChart() {
     isLoading,
     error,
     refreshChart: async () => {
-      setIsLoading(true)
-      setTimeout(() => setIsLoading(false), 500)
+      setIsLoading(true);
+      setTimeout(() => setIsLoading(false), 500);
     },
     // Add the chart property for CookingMethods.tsx,
-    chart: chartObj
-  }
+    chart: chartObj,
+  };
 }
 
 // For backward compatibility with both named and default imports

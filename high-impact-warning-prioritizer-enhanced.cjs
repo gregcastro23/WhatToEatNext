@@ -7,7 +7,7 @@
  * based on business impact, technical risk, and resolution feasibility.
  */
 
-const fs = require('fs');
+const fs = require("fs");
 
 class HighImpactWarningPrioritizer {
   constructor() {
@@ -22,12 +22,12 @@ class HighImpactWarningPrioritizer {
    * Generate high-impact warning prioritization
    */
   async generateHighImpactPrioritization() {
-    console.log('🎯 Generating high-impact warning prioritization...');
+    console.log("🎯 Generating high-impact warning prioritization...");
 
     try {
       // Load the enhanced report and severity categorization
-      const reportPath = 'enhanced-eslint-warning-report.json';
-      const severityPath = 'eslint-severity-categorization-detailed.json';
+      const reportPath = "enhanced-eslint-warning-report.json";
+      const severityPath = "eslint-severity-categorization-detailed.json";
 
       if (!fs.existsSync(reportPath)) {
         throw new Error(`Enhanced report not found: ${reportPath}`);
@@ -37,53 +37,64 @@ class HighImpactWarningPrioritizer {
         throw new Error(`Severity categorization not found: ${severityPath}`);
       }
 
-      const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
-      const severityReport = JSON.parse(fs.readFileSync(severityPath, 'utf8'));
+      const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+      const severityReport = JSON.parse(fs.readFileSync(severityPath, "utf8"));
 
       // Identify high-impact warnings
-      console.log('🔍 Identifying high-impact warnings...');
+      console.log("🔍 Identifying high-impact warnings...");
       this.identifyHighImpactWarnings(report, severityReport);
 
       // Create priority queue
-      console.log('📊 Creating priority queue...');
+      console.log("📊 Creating priority queue...");
       this.createPriorityQueue(report, severityReport);
 
       // Generate immediate action items
-      console.log('⚡ Generating immediate action items...');
+      console.log("⚡ Generating immediate action items...");
       this.generateImmediateActions();
 
       // Identify quick wins
-      console.log('🚀 Identifying quick wins...');
+      console.log("🚀 Identifying quick wins...");
       this.identifyQuickWins();
 
       // Plan strategic fixes
-      console.log('🎯 Planning strategic fixes...');
+      console.log("🎯 Planning strategic fixes...");
       this.planStrategicFixes();
 
       // Create comprehensive prioritization report
-      const prioritizationReport = this.generatePrioritizationReport(report, severityReport);
+      const prioritizationReport = this.generatePrioritizationReport(
+        report,
+        severityReport,
+      );
 
       // Save detailed report
-      const detailedReportPath = 'high-impact-warning-prioritization.json';
-      fs.writeFileSync(detailedReportPath, JSON.stringify(prioritizationReport, null, 2));
+      const detailedReportPath = "high-impact-warning-prioritization.json";
+      fs.writeFileSync(
+        detailedReportPath,
+        JSON.stringify(prioritizationReport, null, 2),
+      );
 
       // Generate markdown summary
-      const summaryPath = 'high-impact-warning-prioritization-summary.md';
-      const markdownSummary = this.generatePrioritizationMarkdown(prioritizationReport);
+      const summaryPath = "high-impact-warning-prioritization-summary.md";
+      const markdownSummary =
+        this.generatePrioritizationMarkdown(prioritizationReport);
       fs.writeFileSync(summaryPath, markdownSummary);
 
       console.log(`✅ High-impact warning prioritization generated:`);
       console.log(`   📊 JSON Report: ${detailedReportPath}`);
       console.log(`   📝 Summary: ${summaryPath}`);
-      console.log(`   🎯 High-Impact Warnings: ${this.highImpactWarnings.length}`);
+      console.log(
+        `   🎯 High-Impact Warnings: ${this.highImpactWarnings.length}`,
+      );
       console.log(`   ⚡ Immediate Actions: ${this.immediateActions.length}`);
       console.log(`   🚀 Quick Wins: ${this.quickWins.length}`);
       console.log(`   🎯 Strategic Fixes: ${this.strategicFixes.length}`);
 
       return prioritizationReport;
-
     } catch (error) {
-      console.error('❌ Error generating high-impact prioritization:', error.message);
+      console.error(
+        "❌ Error generating high-impact prioritization:",
+        error.message,
+      );
       throw error;
     }
   }
@@ -95,16 +106,24 @@ class HighImpactWarningPrioritizer {
     // Define high-impact criteria
     const highImpactCriteria = {
       // Critical business impact
-      criticalRules: ['no-undef', 'no-redeclare', 'no-const-assign', 'no-case-declarations'],
+      criticalRules: [
+        "no-undef",
+        "no-redeclare",
+        "no-const-assign",
+        "no-case-declarations",
+      ],
 
       // High-volume issues that affect many files
       highVolumeThreshold: 100,
 
       // Rules that affect core functionality
-      coreRules: ['@typescript-eslint/no-unused-vars', 'react-hooks/rules-of-hooks'],
+      coreRules: [
+        "@typescript-eslint/no-unused-vars",
+        "react-hooks/rules-of-hooks",
+      ],
 
       // Files with concentrated issues
-      fileIssueThreshold: 20
+      fileIssueThreshold: 20,
     };
 
     // Identify high-impact warnings by rule criticality
@@ -116,13 +135,13 @@ class HighImpactWarningPrioritizer {
         // Critical rule impact
         if (highImpactCriteria.criticalRules.includes(issue.rule)) {
           impactScore += 10;
-          impactReasons.push('Critical rule - prevents compilation');
+          impactReasons.push("Critical rule - prevents compilation");
         }
 
         // Core functionality impact
         if (highImpactCriteria.coreRules.includes(issue.rule)) {
           impactScore += 8;
-          impactReasons.push('Core functionality rule');
+          impactReasons.push("Core functionality rule");
         }
 
         // High-volume rule impact
@@ -142,13 +161,13 @@ class HighImpactWarningPrioritizer {
         // Domain-specific impact (astrological calculations)
         if (this.isAstrologicalFile(issue.file)) {
           impactScore += 3;
-          impactReasons.push('Astrological calculation file');
+          impactReasons.push("Astrological calculation file");
         }
 
         // Campaign system impact
         if (this.isCampaignFile(issue.file)) {
           impactScore += 2;
-          impactReasons.push('Campaign system file');
+          impactReasons.push("Campaign system file");
         }
 
         // Add to high-impact list if score is significant
@@ -159,7 +178,7 @@ class HighImpactWarningPrioritizer {
             impactReasons,
             category,
             ruleCount,
-            fileIssueCount
+            fileIssueCount,
           });
         }
       }
@@ -175,12 +194,20 @@ class HighImpactWarningPrioritizer {
   createPriorityQueue(report, severityReport) {
     // Define feasibility factors
     const feasibilityFactors = {
-      'no-console': { effort: 1, risk: 1, automation: 10 },
-      'no-undef': { effort: 8, risk: 9, automation: 2 },
-      'no-redeclare': { effort: 7, risk: 8, automation: 3 },
-      '@typescript-eslint/no-unused-vars': { effort: 5, risk: 4, automation: 6 },
-      '@typescript-eslint/no-explicit-any': { effort: 9, risk: 6, automation: 4 },
-      'react-hooks/exhaustive-deps': { effort: 8, risk: 7, automation: 2 }
+      "no-console": { effort: 1, risk: 1, automation: 10 },
+      "no-undef": { effort: 8, risk: 9, automation: 2 },
+      "no-redeclare": { effort: 7, risk: 8, automation: 3 },
+      "@typescript-eslint/no-unused-vars": {
+        effort: 5,
+        risk: 4,
+        automation: 6,
+      },
+      "@typescript-eslint/no-explicit-any": {
+        effort: 9,
+        risk: 6,
+        automation: 4,
+      },
+      "react-hooks/exhaustive-deps": { effort: 8, risk: 7, automation: 2 },
     };
 
     // Create priority items
@@ -193,7 +220,7 @@ class HighImpactWarningPrioritizer {
           warnings: [],
           totalImpactScore: 0,
           affectedFiles: new Set(),
-          categories: new Set()
+          categories: new Set(),
         };
       }
 
@@ -205,7 +232,11 @@ class HighImpactWarningPrioritizer {
 
     // Calculate priority scores
     for (const [rule, group] of Object.entries(ruleGroups)) {
-      const feasibility = feasibilityFactors[rule] || { effort: 5, risk: 5, automation: 3 };
+      const feasibility = feasibilityFactors[rule] || {
+        effort: 5,
+        risk: 5,
+        automation: 3,
+      };
 
       // Priority score calculation
       const impactWeight = 0.4;
@@ -213,16 +244,20 @@ class HighImpactWarningPrioritizer {
       const automationWeight = 0.2;
       const volumeWeight = 0.1;
 
-      const normalizedImpact = Math.min(10, group.totalImpactScore / group.warnings.length);
-      const normalizedFeasibility = (11 - feasibility.effort) + (11 - feasibility.risk);
+      const normalizedImpact = Math.min(
+        10,
+        group.totalImpactScore / group.warnings.length,
+      );
+      const normalizedFeasibility =
+        11 - feasibility.effort + (11 - feasibility.risk);
       const normalizedAutomation = feasibility.automation;
       const normalizedVolume = Math.min(10, group.warnings.length / 100);
 
       const priorityScore =
-        (normalizedImpact * impactWeight) +
-        (normalizedFeasibility * feasibilityWeight) +
-        (normalizedAutomation * automationWeight) +
-        (normalizedVolume * volumeWeight);
+        normalizedImpact * impactWeight +
+        normalizedFeasibility * feasibilityWeight +
+        normalizedAutomation * automationWeight +
+        normalizedVolume * volumeWeight;
 
       this.priorityQueue.push({
         rule,
@@ -234,9 +269,12 @@ class HighImpactWarningPrioritizer {
         warningCount: group.warnings.length,
         affectedFiles: Array.from(group.affectedFiles),
         categories: Array.from(group.categories),
-        estimatedEffort: this.calculateEstimatedEffort(group.warnings, feasibility),
+        estimatedEffort: this.calculateEstimatedEffort(
+          group.warnings,
+          feasibility,
+        ),
         businessImpact: this.getBusinessImpact(rule, group.warnings.length),
-        recommendedApproach: this.getRecommendedApproach(rule, feasibility)
+        recommendedApproach: this.getRecommendedApproach(rule, feasibility),
       });
     }
 
@@ -249,17 +287,22 @@ class HighImpactWarningPrioritizer {
    */
   generateImmediateActions() {
     // Immediate actions are critical issues that must be fixed now
-    const immediateRules = ['no-undef', 'no-redeclare', 'no-const-assign', 'no-case-declarations'];
+    const immediateRules = [
+      "no-undef",
+      "no-redeclare",
+      "no-const-assign",
+      "no-case-declarations",
+    ];
 
     for (const item of this.priorityQueue) {
       if (immediateRules.includes(item.rule)) {
         this.immediateActions.push({
           ...item,
-          urgency: 'Critical',
-          timeline: 'Within 24 hours',
-          reason: 'Prevents compilation and breaks builds',
-          assignee: 'Senior Developer',
-          blocksDeployment: true
+          urgency: "Critical",
+          timeline: "Within 24 hours",
+          reason: "Prevents compilation and breaks builds",
+          assignee: "Senior Developer",
+          blocksDeployment: true,
         });
       }
     }
@@ -274,10 +317,11 @@ class HighImpactWarningPrioritizer {
       if (item.automationScore >= 8 && item.feasibilityScore >= 7) {
         this.quickWins.push({
           ...item,
-          timeline: 'Within 1 week',
-          reason: 'High automation potential with low risk',
-          automationLevel: 'High',
-          manualReviewRequired: item.rule === 'no-console' ? 'Minimal' : 'Moderate'
+          timeline: "Within 1 week",
+          reason: "High automation potential with low risk",
+          automationLevel: "High",
+          manualReviewRequired:
+            item.rule === "no-console" ? "Minimal" : "Moderate",
         });
       }
     }
@@ -288,17 +332,21 @@ class HighImpactWarningPrioritizer {
    */
   planStrategicFixes() {
     // Strategic fixes are high-impact but require careful planning
-    const strategicRules = ['@typescript-eslint/no-explicit-any', 'react-hooks/exhaustive-deps'];
+    const strategicRules = [
+      "@typescript-eslint/no-explicit-any",
+      "react-hooks/exhaustive-deps",
+    ];
 
     for (const item of this.priorityQueue) {
       if (strategicRules.includes(item.rule) || item.warningCount >= 500) {
         this.strategicFixes.push({
           ...item,
-          timeline: '2-6 weeks',
-          reason: 'High impact but requires careful analysis and domain expertise',
-          phaseApproach: 'Incremental',
+          timeline: "2-6 weeks",
+          reason:
+            "High impact but requires careful analysis and domain expertise",
+          phaseApproach: "Incremental",
           riskMitigation: this.getRiskMitigation(item.rule),
-          successMetrics: this.getSuccessMetrics(item.rule)
+          successMetrics: this.getSuccessMetrics(item.rule),
         });
       }
     }
@@ -309,23 +357,23 @@ class HighImpactWarningPrioritizer {
    */
   isAstrologicalFile(filePath) {
     const astrologicalPatterns = [
-      '/calculations/',
-      '/astrology',
-      '/planetary',
-      '/zodiac',
-      '/elemental',
-      'astrological',
-      'alchemical'
+      "/calculations/",
+      "/astrology",
+      "/planetary",
+      "/zodiac",
+      "/elemental",
+      "astrological",
+      "alchemical",
     ];
 
-    return astrologicalPatterns.some(pattern => filePath.includes(pattern));
+    return astrologicalPatterns.some((pattern) => filePath.includes(pattern));
   }
 
   /**
    * Check if file is campaign system related
    */
   isCampaignFile(filePath) {
-    return filePath.includes('/campaign/') || filePath.includes('campaign');
+    return filePath.includes("/campaign/") || filePath.includes("campaign");
   }
 
   /**
@@ -333,21 +381,22 @@ class HighImpactWarningPrioritizer {
    */
   calculateEstimatedEffort(warnings, feasibility) {
     const baseEffortPerWarning = {
-      'no-console': 0.5,
-      'no-undef': 5,
-      'no-redeclare': 5,
-      '@typescript-eslint/no-unused-vars': 3,
-      '@typescript-eslint/no-explicit-any': 15,
-      'react-hooks/exhaustive-deps': 10
+      "no-console": 0.5,
+      "no-undef": 5,
+      "no-redeclare": 5,
+      "@typescript-eslint/no-unused-vars": 3,
+      "@typescript-eslint/no-explicit-any": 15,
+      "react-hooks/exhaustive-deps": 10,
     };
 
     const baseEffort = baseEffortPerWarning[warnings[0]?.rule] || 5;
-    const totalMinutes = warnings.length * baseEffort * (feasibility.effort / 5);
+    const totalMinutes =
+      warnings.length * baseEffort * (feasibility.effort / 5);
 
     return {
       minutes: totalMinutes,
       hours: Math.ceil(totalMinutes / 60),
-      days: Math.ceil(totalMinutes / (60 * 8))
+      days: Math.ceil(totalMinutes / (60 * 8)),
     };
   }
 
@@ -356,16 +405,19 @@ class HighImpactWarningPrioritizer {
    */
   getBusinessImpact(rule, count) {
     const impacts = {
-      'no-undef': 'Critical - Application cannot compile or run',
-      'no-redeclare': 'Critical - Compilation errors and runtime conflicts',
-      'no-console': 'Low - Performance impact and information leakage',
-      '@typescript-eslint/no-unused-vars': 'Medium - Code bloat and maintenance overhead',
-      '@typescript-eslint/no-explicit-any': 'High - Type safety compromised, runtime errors possible',
-      'react-hooks/exhaustive-deps': 'High - Performance issues and infinite re-renders'
+      "no-undef": "Critical - Application cannot compile or run",
+      "no-redeclare": "Critical - Compilation errors and runtime conflicts",
+      "no-console": "Low - Performance impact and information leakage",
+      "@typescript-eslint/no-unused-vars":
+        "Medium - Code bloat and maintenance overhead",
+      "@typescript-eslint/no-explicit-any":
+        "High - Type safety compromised, runtime errors possible",
+      "react-hooks/exhaustive-deps":
+        "High - Performance issues and infinite re-renders",
     };
 
-    const baseImpact = impacts[rule] || 'Medium - General code quality impact';
-    const volumeImpact = count > 500 ? ' (High volume amplifies impact)' : '';
+    const baseImpact = impacts[rule] || "Medium - General code quality impact";
+    const volumeImpact = count > 500 ? " (High volume amplifies impact)" : "";
 
     return baseImpact + volumeImpact;
   }
@@ -375,15 +427,19 @@ class HighImpactWarningPrioritizer {
    */
   getRecommendedApproach(rule, feasibility) {
     const approaches = {
-      'no-console': 'Automated removal with preservation rules for intentional debug interfaces',
-      'no-undef': 'Manual fixes with careful import and declaration analysis',
-      'no-redeclare': 'Manual resolution of naming conflicts and scope issues',
-      '@typescript-eslint/no-unused-vars': 'Semi-automated with domain expert review for astrological variables',
-      '@typescript-eslint/no-explicit-any': 'Gradual type enhancement with careful analysis of each case',
-      'react-hooks/exhaustive-deps': 'Manual analysis of each hook with performance testing'
+      "no-console":
+        "Automated removal with preservation rules for intentional debug interfaces",
+      "no-undef": "Manual fixes with careful import and declaration analysis",
+      "no-redeclare": "Manual resolution of naming conflicts and scope issues",
+      "@typescript-eslint/no-unused-vars":
+        "Semi-automated with domain expert review for astrological variables",
+      "@typescript-eslint/no-explicit-any":
+        "Gradual type enhancement with careful analysis of each case",
+      "react-hooks/exhaustive-deps":
+        "Manual analysis of each hook with performance testing",
     };
 
-    return approaches[rule] || 'Manual review and case-by-case resolution';
+    return approaches[rule] || "Manual review and case-by-case resolution";
   }
 
   /**
@@ -391,21 +447,27 @@ class HighImpactWarningPrioritizer {
    */
   getRiskMitigation(rule) {
     const mitigations = {
-      '@typescript-eslint/no-explicit-any': [
-        'Preserve intentional any types with ESLint disable comments',
-        'Test astrological calculations after each batch of changes',
-        'Use incremental approach with small batches',
-        'Maintain rollback capability'
+      "@typescript-eslint/no-explicit-any": [
+        "Preserve intentional any types with ESLint disable comments",
+        "Test astrological calculations after each batch of changes",
+        "Use incremental approach with small batches",
+        "Maintain rollback capability",
       ],
-      'react-hooks/exhaustive-deps': [
-        'Performance testing after each change',
-        'Monitor for infinite re-renders',
-        'Use React DevTools for analysis',
-        'Test user interactions thoroughly'
-      ]
+      "react-hooks/exhaustive-deps": [
+        "Performance testing after each change",
+        "Monitor for infinite re-renders",
+        "Use React DevTools for analysis",
+        "Test user interactions thoroughly",
+      ],
     };
 
-    return mitigations[rule] || ['Thorough testing', 'Incremental changes', 'Rollback capability'];
+    return (
+      mitigations[rule] || [
+        "Thorough testing",
+        "Incremental changes",
+        "Rollback capability",
+      ]
+    );
   }
 
   /**
@@ -413,21 +475,27 @@ class HighImpactWarningPrioritizer {
    */
   getSuccessMetrics(rule) {
     const metrics = {
-      '@typescript-eslint/no-explicit-any': [
-        'Reduced any type count by 70%',
-        'No new TypeScript compilation errors',
-        'Astrological calculations maintain accuracy',
-        'Build time remains under 30 seconds'
+      "@typescript-eslint/no-explicit-any": [
+        "Reduced any type count by 70%",
+        "No new TypeScript compilation errors",
+        "Astrological calculations maintain accuracy",
+        "Build time remains under 30 seconds",
       ],
-      'react-hooks/exhaustive-deps': [
-        'No infinite re-render issues',
-        'Improved component performance',
-        'Reduced unnecessary re-renders',
-        'User experience remains smooth'
-      ]
+      "react-hooks/exhaustive-deps": [
+        "No infinite re-render issues",
+        "Improved component performance",
+        "Reduced unnecessary re-renders",
+        "User experience remains smooth",
+      ],
     };
 
-    return metrics[rule] || ['Issue count reduced', 'No functionality broken', 'Build stability maintained'];
+    return (
+      metrics[rule] || [
+        "Issue count reduced",
+        "No functionality broken",
+        "Build stability maintained",
+      ]
+    );
   }
 
   /**
@@ -437,9 +505,12 @@ class HighImpactWarningPrioritizer {
     return {
       metadata: {
         generatedAt: new Date().toISOString(),
-        basedOnReports: ['enhanced-eslint-warning-report.json', 'eslint-severity-categorization-detailed.json'],
+        basedOnReports: [
+          "enhanced-eslint-warning-report.json",
+          "eslint-severity-categorization-detailed.json",
+        ],
         totalWarningsAnalyzed: originalReport.metadata.totalIssues,
-        highImpactWarningsIdentified: this.highImpactWarnings.length
+        highImpactWarningsIdentified: this.highImpactWarnings.length,
       },
       executiveSummary: {
         totalHighImpactWarnings: this.highImpactWarnings.length,
@@ -448,14 +519,14 @@ class HighImpactWarningPrioritizer {
         strategicFixesNeeded: this.strategicFixes.length,
         estimatedTotalEffort: this.calculateTotalEffort(),
         businessRisk: this.assessBusinessRisk(),
-        recommendedStartDate: new Date().toISOString().split('T')[0]
+        recommendedStartDate: new Date().toISOString().split("T")[0],
       },
       priorityQueue: this.priorityQueue,
       immediateActions: this.immediateActions,
       quickWins: this.quickWins,
       strategicFixes: this.strategicFixes,
       implementationPlan: this.generateImplementationPlan(),
-      resourceRequirements: this.calculateResourceRequirements()
+      resourceRequirements: this.calculateResourceRequirements(),
     };
   }
 
@@ -463,12 +534,15 @@ class HighImpactWarningPrioritizer {
    * Calculate total effort across all priorities
    */
   calculateTotalEffort() {
-    const totalHours = this.priorityQueue.reduce((sum, item) => sum + item.estimatedEffort.hours, 0);
+    const totalHours = this.priorityQueue.reduce(
+      (sum, item) => sum + item.estimatedEffort.hours,
+      0,
+    );
 
     return {
       hours: totalHours,
       days: Math.ceil(totalHours / 8),
-      weeks: Math.ceil(totalHours / 40)
+      weeks: Math.ceil(totalHours / 40),
     };
   }
 
@@ -479,10 +553,10 @@ class HighImpactWarningPrioritizer {
     const criticalCount = this.immediateActions.length;
     const highImpactCount = this.highImpactWarnings.length;
 
-    if (criticalCount > 0) return 'Critical';
-    if (highImpactCount > 100) return 'High';
-    if (highImpactCount > 50) return 'Medium';
-    return 'Low';
+    if (criticalCount > 0) return "Critical";
+    if (highImpactCount > 100) return "High";
+    if (highImpactCount > 50) return "Medium";
+    return "Low";
   }
 
   /**
@@ -495,12 +569,15 @@ class HighImpactWarningPrioritizer {
     if (this.immediateActions.length > 0) {
       plan.push({
         phase: 1,
-        name: 'Critical Issue Resolution',
-        duration: '1-3 days',
+        name: "Critical Issue Resolution",
+        duration: "1-3 days",
         items: this.immediateActions.length,
-        description: 'Fix all build-blocking and critical issues',
-        resources: 'Senior Developer (full-time)',
-        deliverables: ['Application compiles successfully', 'No critical errors remain']
+        description: "Fix all build-blocking and critical issues",
+        resources: "Senior Developer (full-time)",
+        deliverables: [
+          "Application compiles successfully",
+          "No critical errors remain",
+        ],
       });
     }
 
@@ -508,12 +585,16 @@ class HighImpactWarningPrioritizer {
     if (this.quickWins.length > 0) {
       plan.push({
         phase: plan.length + 1,
-        name: 'Quick Wins Implementation',
-        duration: '1-2 weeks',
+        name: "Quick Wins Implementation",
+        duration: "1-2 weeks",
         items: this.quickWins.length,
-        description: 'Implement high-automation, low-risk fixes',
-        resources: 'Mid-level Developer (part-time)',
-        deliverables: ['Automated fixes applied', 'Code quality improved', 'No regressions introduced']
+        description: "Implement high-automation, low-risk fixes",
+        resources: "Mid-level Developer (part-time)",
+        deliverables: [
+          "Automated fixes applied",
+          "Code quality improved",
+          "No regressions introduced",
+        ],
       });
     }
 
@@ -521,12 +602,16 @@ class HighImpactWarningPrioritizer {
     if (this.strategicFixes.length > 0) {
       plan.push({
         phase: plan.length + 1,
-        name: 'Strategic Improvements',
-        duration: '3-6 weeks',
+        name: "Strategic Improvements",
+        duration: "3-6 weeks",
         items: this.strategicFixes.length,
-        description: 'Implement high-impact fixes requiring careful analysis',
-        resources: 'Senior Developer + Domain Expert',
-        deliverables: ['Type safety improved', 'Performance optimized', 'Technical debt reduced']
+        description: "Implement high-impact fixes requiring careful analysis",
+        resources: "Senior Developer + Domain Expert",
+        deliverables: [
+          "Type safety improved",
+          "Performance optimized",
+          "Technical debt reduced",
+        ],
       });
     }
 
@@ -543,21 +628,22 @@ class HighImpactWarningPrioritizer {
       seniorDeveloper: {
         hours: Math.ceil(totalEffort.hours * 0.6), // 60% senior work
         weeks: Math.ceil(totalEffort.weeks * 0.6),
-        cost: Math.ceil(totalEffort.hours * 0.6) * 100 // $100/hour
+        cost: Math.ceil(totalEffort.hours * 0.6) * 100, // $100/hour
       },
       midLevelDeveloper: {
         hours: Math.ceil(totalEffort.hours * 0.3), // 30% mid-level work
         weeks: Math.ceil(totalEffort.weeks * 0.3),
-        cost: Math.ceil(totalEffort.hours * 0.3) * 75 // $75/hour
+        cost: Math.ceil(totalEffort.hours * 0.3) * 75, // $75/hour
       },
       domainExpert: {
         hours: Math.ceil(totalEffort.hours * 0.1), // 10% domain expert review
         weeks: Math.ceil(totalEffort.weeks * 0.1),
-        cost: Math.ceil(totalEffort.hours * 0.1) * 120 // $120/hour
+        cost: Math.ceil(totalEffort.hours * 0.1) * 120, // $120/hour
       },
-      totalCost: Math.ceil(totalEffort.hours * 0.6) * 100 +
-                 Math.ceil(totalEffort.hours * 0.3) * 75 +
-                 Math.ceil(totalEffort.hours * 0.1) * 120
+      totalCost:
+        Math.ceil(totalEffort.hours * 0.6) * 100 +
+        Math.ceil(totalEffort.hours * 0.3) * 75 +
+        Math.ceil(totalEffort.hours * 0.1) * 120,
     };
   }
 
@@ -565,7 +651,16 @@ class HighImpactWarningPrioritizer {
    * Generate prioritization markdown summary
    */
   generatePrioritizationMarkdown(report) {
-    const { metadata, executiveSummary, priorityQueue, immediateActions, quickWins, strategicFixes, implementationPlan, resourceRequirements } = report;
+    const {
+      metadata,
+      executiveSummary,
+      priorityQueue,
+      immediateActions,
+      quickWins,
+      strategicFixes,
+      implementationPlan,
+      resourceRequirements,
+    } = report;
 
     return `# High-Impact ESLint Warning Prioritization
 
@@ -584,7 +679,13 @@ class HighImpactWarningPrioritizer {
 
 ## Priority Queue (Top 10)
 
-${priorityQueue.slice(0, 10).map((item, index) => `### ${index + 1}. ${item.rule} (Priority Score: ${item.priorityScore.toFixed(2)})
+${priorityQueue
+  .slice(0, 10)
+  .map(
+    (
+      item,
+      index,
+    ) => `### ${index + 1}. ${item.rule} (Priority Score: ${item.priorityScore.toFixed(2)})
 
 **Warning Count:** ${item.warningCount}
 **Affected Files:** ${item.affectedFiles.length}
@@ -596,34 +697,56 @@ ${priorityQueue.slice(0, 10).map((item, index) => `### ${index + 1}. ${item.rule
 - Impact: ${item.impactScore.toFixed(1)}/10
 - Feasibility: ${item.feasibilityScore.toFixed(1)}/10
 - Automation: ${item.automationScore.toFixed(1)}/10
-- Volume: ${item.volumeScore.toFixed(1)}/10`).join('\n\n')}
+- Volume: ${item.volumeScore.toFixed(1)}/10`,
+  )
+  .join("\n\n")}
 
 ## Immediate Actions (Critical - Within 24 Hours)
 
-${immediateActions.length > 0 ? immediateActions.map((action, index) => `### ${index + 1}. ${action.rule}
+${
+  immediateActions.length > 0
+    ? immediateActions
+        .map(
+          (action, index) => `### ${index + 1}. ${action.rule}
 
 **Urgency:** ${action.urgency}
 **Timeline:** ${action.timeline}
 **Warning Count:** ${action.warningCount}
 **Reason:** ${action.reason}
 **Assignee:** ${action.assignee}
-**Blocks Deployment:** ${action.blocksDeployment ? 'Yes' : 'No'}
-**Estimated Effort:** ${action.estimatedEffort.hours} hours`).join('\n\n') : 'No immediate critical actions required.'}
+**Blocks Deployment:** ${action.blocksDeployment ? "Yes" : "No"}
+**Estimated Effort:** ${action.estimatedEffort.hours} hours`,
+        )
+        .join("\n\n")
+    : "No immediate critical actions required."
+}
 
 ## Quick Wins (High ROI - Within 1 Week)
 
-${quickWins.length > 0 ? quickWins.map((win, index) => `### ${index + 1}. ${win.rule}
+${
+  quickWins.length > 0
+    ? quickWins
+        .map(
+          (win, index) => `### ${index + 1}. ${win.rule}
 
 **Timeline:** ${win.timeline}
 **Warning Count:** ${win.warningCount}
 **Automation Level:** ${win.automationLevel}
 **Manual Review Required:** ${win.manualReviewRequired}
 **Estimated Effort:** ${win.estimatedEffort.hours} hours
-**Reason:** ${win.reason}`).join('\n\n') : 'No quick wins identified.'}
+**Reason:** ${win.reason}`,
+        )
+        .join("\n\n")
+    : "No quick wins identified."
+}
 
 ## Strategic Fixes (High Impact - 2-6 Weeks)
 
-${strategicFixes.length > 0 ? strategicFixes.map((fix, index) => `### ${index + 1}. ${fix.rule}
+${
+  strategicFixes.length > 0
+    ? strategicFixes
+        .map(
+          (fix, index) => `### ${index + 1}. ${fix.rule}
 
 **Timeline:** ${fix.timeline}
 **Warning Count:** ${fix.warningCount}
@@ -631,14 +754,20 @@ ${strategicFixes.length > 0 ? strategicFixes.map((fix, index) => `### ${index + 
 **Estimated Effort:** ${fix.estimatedEffort.hours} hours
 
 **Risk Mitigation:**
-${fix.riskMitigation.map(risk => `- ${risk}`).join('\n')}
+${fix.riskMitigation.map((risk) => `- ${risk}`).join("\n")}
 
 **Success Metrics:**
-${fix.successMetrics.map(metric => `- ${metric}`).join('\n')}`).join('\n\n') : 'No strategic fixes identified.'}
+${fix.successMetrics.map((metric) => `- ${metric}`).join("\n")}`,
+        )
+        .join("\n\n")
+    : "No strategic fixes identified."
+}
 
 ## Implementation Plan
 
-${implementationPlan.map(phase => `### Phase ${phase.phase}: ${phase.name}
+${implementationPlan
+  .map(
+    (phase) => `### Phase ${phase.phase}: ${phase.name}
 
 **Duration:** ${phase.duration}
 **Items to Address:** ${phase.items}
@@ -646,7 +775,9 @@ ${implementationPlan.map(phase => `### Phase ${phase.phase}: ${phase.name}
 **Resources:** ${phase.resources}
 
 **Deliverables:**
-${phase.deliverables.map(deliverable => `- ${deliverable}`).join('\n')}`).join('\n\n')}
+${phase.deliverables.map((deliverable) => `- ${deliverable}`).join("\n")}`,
+  )
+  .join("\n\n")}
 
 ## Resource Requirements
 
@@ -679,11 +810,12 @@ ${phase.deliverables.map(deliverable => `- ${deliverable}`).join('\n')}`).join('
 
 **Current Risk Level:** ${executiveSummary.businessRisk}
 
-${executiveSummary.businessRisk === 'Critical' ?
-  '⚠️ **CRITICAL**: Immediate action required to prevent deployment blocks and production issues.' :
-  executiveSummary.businessRisk === 'High' ?
-  '⚠️ **HIGH**: Significant technical debt and potential stability issues.' :
-  '✅ **MANAGEABLE**: Issues can be addressed through systematic improvement plan.'
+${
+  executiveSummary.businessRisk === "Critical"
+    ? "⚠️ **CRITICAL**: Immediate action required to prevent deployment blocks and production issues."
+    : executiveSummary.businessRisk === "High"
+      ? "⚠️ **HIGH**: Significant technical debt and potential stability issues."
+      : "✅ **MANAGEABLE**: Issues can be addressed through systematic improvement plan."
 }
 
 ---
@@ -701,18 +833,26 @@ async function main() {
   try {
     const report = await prioritizer.generateHighImpactPrioritization();
 
-    console.log('\n🎯 High-Impact Warning Prioritization Complete!');
-    console.log('\n📊 Summary:');
+    console.log("\n🎯 High-Impact Warning Prioritization Complete!");
+    console.log("\n📊 Summary:");
     console.log(`   Business Risk: ${report.executiveSummary.businessRisk}`);
-    console.log(`   Immediate Actions: ${report.executiveSummary.immediateActionsRequired}`);
+    console.log(
+      `   Immediate Actions: ${report.executiveSummary.immediateActionsRequired}`,
+    );
     console.log(`   Quick Wins: ${report.executiveSummary.quickWinsAvailable}`);
-    console.log(`   Strategic Fixes: ${report.executiveSummary.strategicFixesNeeded}`);
-    console.log(`   Total Effort: ${report.executiveSummary.estimatedTotalEffort.hours} hours`);
-    console.log(`   Implementation Phases: ${report.implementationPlan.length}`);
+    console.log(
+      `   Strategic Fixes: ${report.executiveSummary.strategicFixesNeeded}`,
+    );
+    console.log(
+      `   Total Effort: ${report.executiveSummary.estimatedTotalEffort.hours} hours`,
+    );
+    console.log(
+      `   Implementation Phases: ${report.implementationPlan.length}`,
+    );
 
     process.exit(0);
   } catch (error) {
-    console.error('\n❌ Prioritization failed:', error.message);
+    console.error("\n❌ Prioritization failed:", error.message);
     process.exit(1);
   }
 }

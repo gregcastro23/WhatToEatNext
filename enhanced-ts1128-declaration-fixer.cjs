@@ -12,9 +12,9 @@
  * 5. Missing semicolons and malformed exports
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class EnhancedTS1128Fixer {
   constructor() {
@@ -25,7 +25,7 @@ class EnhancedTS1128Fixer {
   }
 
   async run() {
-    console.log('🎯 Enhanced TS1128 Declaration Error Analysis & Fixes...\n');
+    console.log("🎯 Enhanced TS1128 Declaration Error Analysis & Fixes...\n");
 
     try {
       // Create backup directory
@@ -36,7 +36,7 @@ class EnhancedTS1128Fixer {
       console.log(`📊 Initial TS1128 errors: ${initialErrors}`);
 
       if (initialErrors === 0) {
-        console.log('✅ No TS1128 errors found!');
+        console.log("✅ No TS1128 errors found!");
         return;
       }
 
@@ -53,29 +53,36 @@ class EnhancedTS1128Fixer {
       // If test successful, process remaining files
       const remainingFiles = errorFiles.slice(5);
       if (remainingFiles.length > 0) {
-        console.log(`\n🚀 Test successful, processing remaining ${remainingFiles.length} files...`);
+        console.log(
+          `\n🚀 Test successful, processing remaining ${remainingFiles.length} files...`,
+        );
         await this.processBatches(remainingFiles, initialErrors);
       }
 
       // Final results
       await this.showFinalResults(initialErrors);
-
     } catch (error) {
-      console.error('❌ Fix failed:', error.message);
+      console.error("❌ Fix failed:", error.message);
       console.log(`📁 Backup available at: ${this.backupDir}`);
     }
   }
 
   async analyzeErrorPatterns() {
-    console.log('\n🔍 Analyzing TS1128 error patterns...');
+    console.log("\n🔍 Analyzing TS1128 error patterns...");
 
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1128" | head -20', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1128" | head -20',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
       const patternCounts = {};
 
       for (const line of lines) {
@@ -85,8 +92,8 @@ class EnhancedTS1128Fixer {
 
           try {
             if (fs.existsSync(filePath)) {
-              const content = fs.readFileSync(filePath, 'utf8');
-              const lines = content.split('\n');
+              const content = fs.readFileSync(filePath, "utf8");
+              const lines = content.split("\n");
               const errorLine = lines[parseInt(lineNum) - 1];
 
               if (errorLine) {
@@ -101,25 +108,32 @@ class EnhancedTS1128Fixer {
         }
       }
 
-      console.log('\n📈 Pattern Analysis Results:');
+      console.log("\n📈 Pattern Analysis Results:");
       Object.entries(patternCounts)
-        .sort(([,a], [,b]) => b - a)
+        .sort(([, a], [, b]) => b - a)
         .forEach(([pattern, count]) => {
           console.log(`   ${pattern}: ${count} occurrences`);
         });
-
     } catch (error) {
-      console.log('   ⚠️ Pattern analysis failed, proceeding with known patterns');
+      console.log(
+        "   ⚠️ Pattern analysis failed, proceeding with known patterns",
+      );
     }
   }
 
   identifyPattern(line) {
-    if (line.includes(': any : any {')) return 'Malformed function parameters';
-    if (line.includes('{,')) return 'Malformed object literal (leading comma)';
-    if (line.includes('export: {,')) return 'Malformed export object';
-    if (line.includes('function') && line.includes(': any') && line.includes(': any')) return 'Double any in function';
-    if (line.includes('});') && line.includes('};')) return 'Double closing braces';
-    return 'Other pattern';
+    if (line.includes(": any : any {")) return "Malformed function parameters";
+    if (line.includes("{,")) return "Malformed object literal (leading comma)";
+    if (line.includes("export: {,")) return "Malformed export object";
+    if (
+      line.includes("function") &&
+      line.includes(": any") &&
+      line.includes(": any")
+    )
+      return "Double any in function";
+    if (line.includes("});") && line.includes("};"))
+      return "Double closing braces";
+    return "Other pattern";
   }
 
   createBackupDir() {
@@ -131,10 +145,13 @@ class EnhancedTS1128Fixer {
 
   async getTS1128ErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1128"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1128"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -143,13 +160,19 @@ class EnhancedTS1128Fixer {
 
   async getFilesWithTS1128Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1128"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1128"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const files = new Set();
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^(.+?)\(/);
@@ -165,7 +188,9 @@ class EnhancedTS1128Fixer {
   }
 
   async testOnSmallBatch(testFiles) {
-    console.log(`\n🧪 Testing fixes on small batch (${testFiles.length} files)...`);
+    console.log(
+      `\n🧪 Testing fixes on small batch (${testFiles.length} files)...`,
+    );
 
     const initialErrors = await this.getTS1128ErrorCount();
     let testFixes = 0;
@@ -181,10 +206,12 @@ class EnhancedTS1128Fixer {
     console.log(`   📊 Test Results:`);
     console.log(`   - Fixes applied: ${testFixes}`);
     console.log(`   - Errors reduced: ${testReduction}`);
-    console.log(`   - Success rate: ${testReduction > 0 ? 'GOOD' : 'NEEDS_REVIEW'}`);
+    console.log(
+      `   - Success rate: ${testReduction > 0 ? "GOOD" : "NEEDS_REVIEW"}`,
+    );
 
     if (testReduction < 0) {
-      throw new Error('Test batch increased errors - stopping for safety');
+      throw new Error("Test batch increased errors - stopping for safety");
     }
 
     return testReduction > 0;
@@ -201,7 +228,9 @@ class EnhancedTS1128Fixer {
       const batch = errorFiles.slice(i, i + batchSize);
       const batchNumber = Math.floor(i / batchSize) + 1;
 
-      console.log(`\n📦 Processing Batch ${batchNumber}/${totalBatches} (${batch.length} files)`);
+      console.log(
+        `\n📦 Processing Batch ${batchNumber}/${totalBatches} (${batch.length} files)`,
+      );
 
       for (const filePath of batch) {
         await this.processFile(filePath);
@@ -213,7 +242,7 @@ class EnhancedTS1128Fixer {
       const buildValid = await this.validateBuild();
 
       if (!buildValid) {
-        console.log('⚠️ Build validation failed, stopping for safety');
+        console.log("⚠️ Build validation failed, stopping for safety");
         break;
       }
 
@@ -224,7 +253,7 @@ class EnhancedTS1128Fixer {
 
   async validateBuild() {
     try {
-      execSync('yarn build --dry-run 2>/dev/null', { stdio: 'pipe' });
+      execSync("yarn build --dry-run 2>/dev/null", { stdio: "pipe" });
       return true;
     } catch (error) {
       return false;
@@ -242,56 +271,62 @@ class EnhancedTS1128Fixer {
       // Create backup
       await this.backupFile(filePath);
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
       let fixesApplied = 0;
 
       // Fix 1: Malformed function parameters (: any : any { prop }) -> ({ prop }: any)
-      const malformedParamPattern = /\(\s*:\s*any\s*:\s*any\s*\{\s*([^}]+)\s*\}\s*\)/g;
+      const malformedParamPattern =
+        /\(\s*:\s*any\s*:\s*any\s*\{\s*([^}]+)\s*\}\s*\)/g;
       const matches1 = content.match(malformedParamPattern) || [];
-      content = content.replace(malformedParamPattern, '({ $1 }: any)');
+      content = content.replace(malformedParamPattern, "({ $1 }: any)");
       fixesApplied += matches1.length;
 
       // Fix 2: Malformed object literals with leading comma {, property: value} -> { property: value }
       const malformedObjectPattern = /\{\s*,\s*([^}]+)\}/g;
       const matches2 = content.match(malformedObjectPattern) || [];
-      content = content.replace(malformedObjectPattern, '{ $1 }');
+      content = content.replace(malformedObjectPattern, "{ $1 }");
       fixesApplied += matches2.length;
 
       // Fix 3: Malformed export objects export: {, -> export: {
       const malformedExportPattern = /export:\s*\{\s*,\s*/g;
       const matches3 = content.match(malformedExportPattern) || [];
-      content = content.replace(malformedExportPattern, 'export: { ');
+      content = content.replace(malformedExportPattern, "export: { ");
       fixesApplied += matches3.length;
 
       // Fix 4: Double any in function declarations function name(param: any): any -> function name(param: any): any
-      const doubleAnyPattern = /function\s+(\w+)\s*\(\s*([^)]*)\s*:\s*any\s*:\s*any\s*\{/g;
+      const doubleAnyPattern =
+        /function\s+(\w+)\s*\(\s*([^)]*)\s*:\s*any\s*:\s*any\s*\{/g;
       const matches4 = content.match(doubleAnyPattern) || [];
-      content = content.replace(doubleAnyPattern, 'function $1($2: any) {');
+      content = content.replace(doubleAnyPattern, "function $1($2: any) {");
       fixesApplied += matches4.length;
 
       // Fix 5: Incomplete export statements
       const incompleteExportPattern = /export\s*\{\s*$/gm;
       const matches5 = content.match(incompleteExportPattern) || [];
-      content = content.replace(incompleteExportPattern, 'export {};');
+      content = content.replace(incompleteExportPattern, "export {};");
       fixesApplied += matches5.length;
 
       // Fix 6: Missing semicolons after variable declarations
       const missingSemicolonPattern = /^(\s*const\s+\w+\s*=\s*[^;]+)$/gm;
       const matches6 = content.match(missingSemicolonPattern) || [];
-      content = content.replace(missingSemicolonPattern, '$1;');
+      content = content.replace(missingSemicolonPattern, "$1;");
       fixesApplied += matches6.length;
 
       // Fix 7: Double closing braces/parentheses
       const doubleClosingPattern = /\}\s*\}\s*;?\s*$/gm;
       const matches7 = content.match(doubleClosingPattern) || [];
-      content = content.replace(doubleClosingPattern, '};');
+      content = content.replace(doubleClosingPattern, "};");
       fixesApplied += matches7.length;
 
       // Fix 8: Malformed destructuring in function parameters with extra colons
-      const malformedDestructuringPattern = /\(\s*\{\s*(\w+)\s*=\s*([^}]+)\s*\}\s*:\s*\{\s*\w+\?\s*:\s*\w+\s*\}\s*\)/g;
+      const malformedDestructuringPattern =
+        /\(\s*\{\s*(\w+)\s*=\s*([^}]+)\s*\}\s*:\s*\{\s*\w+\?\s*:\s*\w+\s*\}\s*\)/g;
       const matches8 = content.match(malformedDestructuringPattern) || [];
-      content = content.replace(malformedDestructuringPattern, '({ $1 = $2 }: { $1?: any })');
+      content = content.replace(
+        malformedDestructuringPattern,
+        "({ $1 = $2 }: { $1?: any })",
+      );
       fixesApplied += matches8.length;
 
       if (fixesApplied > 0 && content !== originalContent) {
@@ -304,7 +339,6 @@ class EnhancedTS1128Fixer {
       }
 
       return fixesApplied;
-
     } catch (error) {
       console.log(`     ❌ Error processing file: ${error.message}`);
       return 0;
@@ -313,7 +347,7 @@ class EnhancedTS1128Fixer {
 
   async backupFile(filePath) {
     try {
-      const relativePath = path.relative('.', filePath);
+      const relativePath = path.relative(".", filePath);
       const backupPath = path.join(this.backupDir, relativePath);
       const backupDirPath = path.dirname(backupPath);
 
@@ -321,7 +355,7 @@ class EnhancedTS1128Fixer {
         fs.mkdirSync(backupDirPath, { recursive: true });
       }
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       fs.writeFileSync(backupPath, content);
     } catch (error) {
       console.log(`     ⚠️ Backup failed for ${filePath}: ${error.message}`);
@@ -329,11 +363,14 @@ class EnhancedTS1128Fixer {
   }
 
   async showFinalResults(initialErrors) {
-    console.log('\n📈 Enhanced TS1128 Declaration Fix Results:');
+    console.log("\n📈 Enhanced TS1128 Declaration Fix Results:");
 
     const finalErrors = await this.getTS1128ErrorCount();
     const totalReduction = initialErrors - finalErrors;
-    const reductionPercentage = ((totalReduction / initialErrors) * 100).toFixed(1);
+    const reductionPercentage = (
+      (totalReduction / initialErrors) *
+      100
+    ).toFixed(1);
 
     console.log(`   Initial TS1128 errors: ${initialErrors}`);
     console.log(`   Final TS1128 errors: ${finalErrors}`);
@@ -343,13 +380,13 @@ class EnhancedTS1128Fixer {
     console.log(`   Total fixes applied: ${this.totalFixes}`);
 
     if (finalErrors <= 50) {
-      console.log('\n🎉 EXCELLENT! TS1128 errors reduced to very low level');
+      console.log("\n🎉 EXCELLENT! TS1128 errors reduced to very low level");
     } else if (reductionPercentage >= 70) {
-      console.log('\n🎯 GREAT! 70%+ error reduction achieved');
+      console.log("\n🎯 GREAT! 70%+ error reduction achieved");
     } else if (reductionPercentage >= 40) {
-      console.log('\n✅ GOOD! 40%+ error reduction achieved');
+      console.log("\n✅ GOOD! 40%+ error reduction achieved");
     } else {
-      console.log('\n⚠️ Partial success - may need additional targeted fixes');
+      console.log("\n⚠️ Partial success - may need additional targeted fixes");
     }
 
     console.log(`\n📁 Backup available at: ${this.backupDir}`);
@@ -359,17 +396,22 @@ class EnhancedTS1128Fixer {
     console.log(`\n📊 Total TypeScript errors now: ${totalErrors}`);
 
     // Preserve astrological calculation accuracy check
-    console.log('\n🔮 Verifying astrological calculation accuracy...');
+    console.log("\n🔮 Verifying astrological calculation accuracy...");
     const astroAccuracy = await this.verifyAstrologicalAccuracy();
-    console.log(`   Astrological calculations: ${astroAccuracy ? '✅ PRESERVED' : '⚠️ NEEDS_REVIEW'}`);
+    console.log(
+      `   Astrological calculations: ${astroAccuracy ? "✅ PRESERVED" : "⚠️ NEEDS_REVIEW"}`,
+    );
   }
 
   async getTotalErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -380,14 +422,16 @@ class EnhancedTS1128Fixer {
     try {
       // Check if key astrological files still compile
       const astroFiles = [
-        'src/calculations/culinary/culinaryAstrology.ts',
-        'src/calculations/alchemicalEngine.ts',
-        'src/utils/reliableAstronomy.ts'
+        "src/calculations/culinary/culinaryAstrology.ts",
+        "src/calculations/alchemicalEngine.ts",
+        "src/utils/reliableAstronomy.ts",
       ];
 
       for (const file of astroFiles) {
         if (fs.existsSync(file)) {
-          execSync(`yarn tsc --noEmit --skipLibCheck ${file} 2>/dev/null`, { stdio: 'pipe' });
+          execSync(`yarn tsc --noEmit --skipLibCheck ${file} 2>/dev/null`, {
+            stdio: "pipe",
+          });
         }
       }
       return true;

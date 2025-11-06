@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
-  sourceDir: './src',
-  extensions: ['.ts', '.tsx'],
+  sourceDir: "./src",
+  extensions: [".ts", ".tsx"],
   excludePatterns: [
-    'node_modules',
-    '.next',
-    'dist',
-    'build',
-    '*.test.ts',
-    '*.test.tsx',
-    '*.spec.ts',
+    "node_modules",
+    ".next",
+    "dist",
+    "build",
+    "*.test.ts",
+    "*.test.tsx",
+    "*.spec.ts",
   ],
   preservePatterns: {
     // Astronomical library integrations
@@ -48,7 +48,7 @@ const CONFIG = {
       /infer\s+\w+/,
     ],
   },
-  typeDefinitionFile: './src/types/enterprise-intelligence.d.ts',
+  typeDefinitionFile: "./src/types/enterprise-intelligence.d.ts",
   maxFilesPerRun: 30,
   dryRun: false,
 };
@@ -84,99 +84,102 @@ const collectedTypes = {
 const ANY_PATTERNS = [
   // Pattern 1: API Response handling
   {
-    name: 'apiResponse',
+    name: "apiResponse",
     pattern: /(\w+)\s*:\s*any(\s*=\s*await\s+fetch|\s*=\s*.*api\.)/g,
     replacement: (match, variable) => {
       collectedTypes.apiResponses.add(variable);
       return `${variable}: unknown`;
     },
-    description: 'Replace any with unknown for API responses',
+    description: "Replace any with unknown for API responses",
   },
 
   // Pattern 2: Function parameters
   {
-    name: 'functionParam',
+    name: "functionParam",
     pattern: /\(([^)]*?)(\w+)\s*:\s*any([,)])/g,
     replacement: (match, prefix, param, suffix) => {
       // Check context for better type inference
-      if (param.toLowerCase().includes('data')) {
+      if (param.toLowerCase().includes("data")) {
         return `${prefix}${param}: Record<string, unknown>${suffix}`;
-      } else if (param.toLowerCase().includes('error')) {
+      } else if (param.toLowerCase().includes("error")) {
         return `${prefix}${param}: Error | unknown${suffix}`;
-      } else if (param.toLowerCase().includes('config')) {
+      } else if (param.toLowerCase().includes("config")) {
         return `${prefix}${param}: Record<string, unknown>${suffix}`;
       }
       return `${prefix}${param}: unknown${suffix}`;
     },
-    description: 'Replace function parameter any types',
+    description: "Replace function parameter any types",
   },
 
   // Pattern 3: Array types
   {
-    name: 'arrayType',
+    name: "arrayType",
     pattern: /:\s*any\[\]/g,
-    replacement: ': unknown[]',
-    description: 'Replace any[] with unknown[]',
+    replacement: ": unknown[]",
+    description: "Replace any[] with unknown[]",
   },
 
   // Pattern 4: Record types
   {
-    name: 'recordType',
+    name: "recordType",
     pattern: /Record<(\w+),\s*any>/g,
-    replacement: 'Record<$1, unknown>',
-    description: 'Replace Record<string, any> with Record<string, unknown>',
+    replacement: "Record<$1, unknown>",
+    description: "Replace Record<string, any> with Record<string, unknown>",
   },
 
   // Pattern 5: Return types
   {
-    name: 'returnType',
+    name: "returnType",
     pattern: /\)\s*:\s*any\s*{/g,
-    replacement: '): unknown {',
-    description: 'Replace function return type any',
+    replacement: "): unknown {",
+    description: "Replace function return type any",
   },
 
   // Pattern 6: Property types in interfaces/types
   {
-    name: 'propertyType',
+    name: "propertyType",
     pattern: /(\w+)\s*:\s*any;/g,
     replacement: (match, property) => {
       // Infer better types based on property names
-      if (property.toLowerCase().includes('id')) {
+      if (property.toLowerCase().includes("id")) {
         return `${property}: string | number;`;
       } else if (
-        property.toLowerCase().includes('name') ||
-        property.toLowerCase().includes('title')
+        property.toLowerCase().includes("name") ||
+        property.toLowerCase().includes("title")
       ) {
         return `${property}: string;`;
       } else if (
-        property.toLowerCase().includes('count') ||
-        property.toLowerCase().includes('amount')
+        property.toLowerCase().includes("count") ||
+        property.toLowerCase().includes("amount")
       ) {
         return `${property}: number;`;
-      } else if (property.toLowerCase().includes('is') || property.toLowerCase().includes('has')) {
+      } else if (
+        property.toLowerCase().includes("is") ||
+        property.toLowerCase().includes("has")
+      ) {
         return `${property}: boolean;`;
       } else if (
-        property.toLowerCase().includes('date') ||
-        property.toLowerCase().includes('time')
+        property.toLowerCase().includes("date") ||
+        property.toLowerCase().includes("time")
       ) {
         return `${property}: Date | string;`;
       } else if (
-        property.toLowerCase().includes('data') ||
-        property.toLowerCase().includes('config')
+        property.toLowerCase().includes("data") ||
+        property.toLowerCase().includes("config")
       ) {
         return `${property}: Record<string, unknown>;`;
       }
       return `${property}: unknown;`;
     },
-    description: 'Replace property type any with inferred types',
+    description: "Replace property type any with inferred types",
   },
 
   // Pattern 7: Generic type constraints
   {
-    name: 'genericType',
+    name: "genericType",
     pattern: /<T\s+extends\s+any>/g,
-    replacement: '<T extends unknown>',
-    description: 'Replace generic constraint any',
+    replacement: "<T extends unknown>",
+    description: "Replace generic constraint any",
   },
 ];
 
@@ -184,15 +187,15 @@ const ANY_PATTERNS = [
 const ENTERPRISE_PATTERNS = [
   {
     pattern: /interface\s+(\w*Intelligence\w*)\s*{[^}]*}/g,
-    category: 'enterprisePatterns',
+    category: "enterprisePatterns",
   },
   {
     pattern: /type\s+(\w*Service\w*)\s*=\s*{[^}]*}/g,
-    category: 'serviceInterfaces',
+    category: "serviceInterfaces",
   },
   {
     pattern: /interface\s+(\w*Data\w*)\s*{[^}]*}/g,
-    category: 'dataModels',
+    category: "dataModels",
   },
 ];
 
@@ -230,7 +233,7 @@ function collectTypeDefinitions(content, filePath) {
  */
 function processFile(filePath) {
   try {
-    const content = fs.readFileSync(filePath, 'utf8');
+    const content = fs.readFileSync(filePath, "utf8");
     let modifiedContent = content;
     let modified = false;
 
@@ -238,16 +241,19 @@ function processFile(filePath) {
     collectTypeDefinitions(content, filePath);
 
     // Apply each any replacement pattern
-    ANY_PATTERNS.forEach(patternConfig => {
-      const pattern = new RegExp(patternConfig.pattern.source, 'gm');
+    ANY_PATTERNS.forEach((patternConfig) => {
+      const pattern = new RegExp(patternConfig.pattern.source, "gm");
       let match;
       const replacements = [];
 
       while ((match = pattern.exec(content)) !== null) {
         const matchedText = match[0];
-        const lineStart = content.lastIndexOf('\n', match.index) + 1;
-        const lineEnd = content.indexOf('\n', match.index);
-        const line = content.substring(lineStart, lineEnd === -1 ? content.length : lineEnd);
+        const lineStart = content.lastIndexOf("\n", match.index) + 1;
+        const lineEnd = content.indexOf("\n", match.index);
+        const line = content.substring(
+          lineStart,
+          lineEnd === -1 ? content.length : lineEnd,
+        );
 
         // Check if this any should be preserved
         if (shouldPreserveAny(line, matchedText)) {
@@ -256,9 +262,12 @@ function processFile(filePath) {
 
         // Store replacement for later application
         const replacement =
-          typeof patternConfig.replacement === 'function'
+          typeof patternConfig.replacement === "function"
             ? patternConfig.replacement(...match)
-            : matchedText.replace(patternConfig.pattern, patternConfig.replacement);
+            : matchedText.replace(
+                patternConfig.pattern,
+                patternConfig.replacement,
+              );
 
         replacements.push({ matchedText, replacement, index: match.index });
         metrics.patterns[patternConfig.name]++;
@@ -274,16 +283,20 @@ function processFile(filePath) {
           modifiedContent.substring(index + matchedText.length);
 
         if (!CONFIG.dryRun) {
-          console.log(`  Fixed ${patternConfig.name}: ${matchedText} → ${replacement}`);
+          console.log(
+            `  Fixed ${patternConfig.name}: ${matchedText} → ${replacement}`,
+          );
         }
       });
     });
 
     // Write the modified content if changes were made
     if (modified && !CONFIG.dryRun) {
-      fs.writeFileSync(filePath, modifiedContent, 'utf8');
+      fs.writeFileSync(filePath, modifiedContent, "utf8");
       metrics.filesModified++;
-      console.log(`✅ Fixed ${metrics.anyFixed} explicit any usages in ${filePath}`);
+      console.log(
+        `✅ Fixed ${metrics.anyFixed} explicit any usages in ${filePath}`,
+      );
     } else if (modified && CONFIG.dryRun) {
       console.log(`Would fix explicit any in ${filePath}`);
     }
@@ -306,7 +319,7 @@ function generateTypeDefinitions() {
     return;
   }
 
-  console.log('\n📝 Generating type definitions...');
+  console.log("\n📝 Generating type definitions...");
 
   let typeContent = `// Auto-generated enterprise intelligence type definitions
 // Generated by fix-remaining-explicit-any.cjs
@@ -316,9 +329,10 @@ function generateTypeDefinitions() {
 
   // API Response types
   if (collectedTypes.apiResponses.size > 0) {
-    typeContent += '// API Response Types\n';
-    collectedTypes.apiResponses.forEach(name => {
-      const interfaceName = name.charAt(0).toUpperCase() + name.slice(1) + 'Response';
+    typeContent += "// API Response Types\n";
+    collectedTypes.apiResponses.forEach((name) => {
+      const interfaceName =
+        name.charAt(0).toUpperCase() + name.slice(1) + "Response";
       typeContent += `export interface ${interfaceName} {
   success: boolean;
   data?: unknown;
@@ -331,20 +345,22 @@ function generateTypeDefinitions() {
 
   // Enterprise patterns
   if (collectedTypes.enterprisePatterns.size > 0) {
-    typeContent += '// Enterprise Intelligence Patterns\n';
-    typeContent += Array.from(collectedTypes.enterprisePatterns).join('\n\n') + '\n\n';
+    typeContent += "// Enterprise Intelligence Patterns\n";
+    typeContent +=
+      Array.from(collectedTypes.enterprisePatterns).join("\n\n") + "\n\n";
   }
 
   // Service interfaces
   if (collectedTypes.serviceInterfaces.size > 0) {
-    typeContent += '// Service Layer Interfaces\n';
-    typeContent += Array.from(collectedTypes.serviceInterfaces).join('\n\n') + '\n\n';
+    typeContent += "// Service Layer Interfaces\n";
+    typeContent +=
+      Array.from(collectedTypes.serviceInterfaces).join("\n\n") + "\n\n";
   }
 
   // Data models
   if (collectedTypes.dataModels.size > 0) {
-    typeContent += '// Data Model Types\n';
-    typeContent += Array.from(collectedTypes.dataModels).join('\n\n') + '\n\n';
+    typeContent += "// Data Model Types\n";
+    typeContent += Array.from(collectedTypes.dataModels).join("\n\n") + "\n\n";
   }
 
   // Common utility types
@@ -373,13 +389,19 @@ export type ApiResponse<T = unknown> = SuccessResponse<T> | ErrorResponse;
       fs.mkdirSync(dir, { recursive: true });
     }
 
-    fs.writeFileSync(CONFIG.typeDefinitionFile, typeContent, 'utf8');
-    console.log(`✅ Generated type definitions at ${CONFIG.typeDefinitionFile}`);
+    fs.writeFileSync(CONFIG.typeDefinitionFile, typeContent, "utf8");
+    console.log(
+      `✅ Generated type definitions at ${CONFIG.typeDefinitionFile}`,
+    );
   } else {
-    console.log('Would generate type definitions with:');
+    console.log("Would generate type definitions with:");
     console.log(`  API Response types: ${collectedTypes.apiResponses.size}`);
-    console.log(`  Enterprise patterns: ${collectedTypes.enterprisePatterns.size}`);
-    console.log(`  Service interfaces: ${collectedTypes.serviceInterfaces.size}`);
+    console.log(
+      `  Enterprise patterns: ${collectedTypes.enterprisePatterns.size}`,
+    );
+    console.log(
+      `  Service interfaces: ${collectedTypes.serviceInterfaces.size}`,
+    );
     console.log(`  Data models: ${collectedTypes.dataModels.size}`);
   }
 }
@@ -388,13 +410,13 @@ export type ApiResponse<T = unknown> = SuccessResponse<T> | ErrorResponse;
  * Validate TypeScript compilation after fixes
  */
 function validateBuildAfterFix() {
-  console.log('\n📋 Validating TypeScript compilation...');
+  console.log("\n📋 Validating TypeScript compilation...");
   try {
-    execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-    console.log('✅ TypeScript compilation successful');
+    execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
+    console.log("✅ TypeScript compilation successful");
     return true;
   } catch (error) {
-    console.error('❌ Build failed after fixes - consider rolling back');
+    console.error("❌ Build failed after fixes - consider rolling back");
     console.error(error.toString());
     return false;
   }
@@ -405,12 +427,14 @@ function validateBuildAfterFix() {
  */
 function createSafetyStash() {
   try {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    execSync(`git stash push -m "explicit-any-fix-${timestamp}"`, { stdio: 'pipe' });
-    console.log('✅ Created safety stash');
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    execSync(`git stash push -m "explicit-any-fix-${timestamp}"`, {
+      stdio: "pipe",
+    });
+    console.log("✅ Created safety stash");
     return timestamp;
   } catch (error) {
-    console.error('⚠️  Could not create git stash:', error.message);
+    console.error("⚠️  Could not create git stash:", error.message);
     return null;
   }
 }
@@ -429,13 +453,15 @@ function getFilesToProcess() {
       const stat = fs.statSync(fullPath);
 
       if (stat.isDirectory()) {
-        if (!CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
+        if (
+          !CONFIG.excludePatterns.some((pattern) => fullPath.includes(pattern))
+        ) {
           scanDirectory(fullPath);
         }
       } else if (stat.isFile()) {
         if (
-          CONFIG.extensions.some(ext => fullPath.endsWith(ext)) &&
-          !CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))
+          CONFIG.extensions.some((ext) => fullPath.endsWith(ext)) &&
+          !CONFIG.excludePatterns.some((pattern) => fullPath.includes(pattern))
         ) {
           files.push(fullPath);
         }
@@ -451,19 +477,20 @@ function getFilesToProcess() {
  * Main execution
  */
 function main() {
-  console.log('🚀 WhatToEatNext - Explicit Any Elimination');
-  console.log('===========================================');
+  console.log("🚀 WhatToEatNext - Explicit Any Elimination");
+  console.log("===========================================");
 
   // Parse command line arguments
   const args = process.argv.slice(2);
-  if (args.includes('--dry-run')) {
+  if (args.includes("--dry-run")) {
     CONFIG.dryRun = true;
-    console.log('🔍 Running in DRY RUN mode - no files will be modified');
+    console.log("🔍 Running in DRY RUN mode - no files will be modified");
   }
 
-  if (args.includes('--max-files')) {
-    const maxIndex = args.indexOf('--max-files');
-    CONFIG.maxFilesPerRun = parseInt(args[maxIndex + 1]) || CONFIG.maxFilesPerRun;
+  if (args.includes("--max-files")) {
+    const maxIndex = args.indexOf("--max-files");
+    CONFIG.maxFilesPerRun =
+      parseInt(args[maxIndex + 1]) || CONFIG.maxFilesPerRun;
   }
 
   // Create safety stash if not in dry run
@@ -480,7 +507,7 @@ function main() {
   const filesToProcess = files.slice(0, CONFIG.maxFilesPerRun);
   console.log(`\n🔧 Processing ${filesToProcess.length} files...\n`);
 
-  filesToProcess.forEach(file => {
+  filesToProcess.forEach((file) => {
     metrics.filesScanned++;
     processFile(file);
   });
@@ -489,14 +516,14 @@ function main() {
   generateTypeDefinitions();
 
   // Report results
-  console.log('\n📊 Fix Summary:');
-  console.log('================');
+  console.log("\n📊 Fix Summary:");
+  console.log("================");
   console.log(`Files scanned: ${metrics.filesScanned}`);
   console.log(`Files modified: ${metrics.filesModified}`);
   console.log(`Explicit any fixed: ${metrics.anyFixed}`);
   console.log(`Explicit any preserved: ${metrics.anyPreserved}`);
   console.log(`Type definitions generated: ${metrics.typesGenerated}`);
-  console.log('\nPattern breakdown:');
+  console.log("\nPattern breakdown:");
   Object.entries(metrics.patterns).forEach(([pattern, count]) => {
     if (count > 0) {
       console.log(`  ${pattern}: ${count}`);
@@ -505,7 +532,7 @@ function main() {
 
   if (metrics.errors.length > 0) {
     console.log(`\n⚠️  Errors encountered: ${metrics.errors.length}`);
-    metrics.errors.forEach(err => {
+    metrics.errors.forEach((err) => {
       console.log(`  - ${err.file}: ${err.error}`);
     });
   }
@@ -514,22 +541,24 @@ function main() {
   if (metrics.filesModified > 0 && !CONFIG.dryRun) {
     const buildValid = validateBuildAfterFix();
     if (!buildValid && stashTimestamp) {
-      console.log('\n⚠️  Build failed - you can restore with:');
-      console.log(`git stash apply stash^{/explicit-any-fix-${stashTimestamp}}`);
+      console.log("\n⚠️  Build failed - you can restore with:");
+      console.log(
+        `git stash apply stash^{/explicit-any-fix-${stashTimestamp}}`,
+      );
     }
   }
 
   // Suggest next steps
-  console.log('\n📌 Next Steps:');
+  console.log("\n📌 Next Steps:");
   if (CONFIG.dryRun) {
-    console.log('1. Review the changes that would be made');
-    console.log('2. Run without --dry-run to apply fixes');
+    console.log("1. Review the changes that would be made");
+    console.log("2. Run without --dry-run to apply fixes");
   } else if (metrics.filesModified > 0) {
-    console.log('1. Review generated type definitions');
-    console.log('2. Run yarn lint to see updated issue count');
-    console.log('3. Review changes with git diff');
-    console.log('4. Run tests to ensure functionality preserved');
-    console.log('5. Commit changes if all tests pass');
+    console.log("1. Review generated type definitions");
+    console.log("2. Run yarn lint to see updated issue count");
+    console.log("3. Review changes with git diff");
+    console.log("4. Run tests to ensure functionality preserved");
+    console.log("5. Commit changes if all tests pass");
   }
 
   if (files.length > filesToProcess.length) {

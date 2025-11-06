@@ -5,17 +5,17 @@
  * planetary positions, and elemental properties.
  */
 
-'use client';
+"use client";
 
-import React, { createContext } from 'react';
-import type { AlchemicalState, AlchemicalContextType } from './types';
+import React, { createContext } from "react";
+import type { AlchemicalState, AlchemicalContextType } from "./types";
 
 // Define default state
 export const defaultState: AlchemicalState = {
-  currentSeason: 'spring',
-  timeOfDay: 'morning',
+  currentSeason: "spring",
+  timeOfDay: "morning",
   astrologicalState: {
-    currentZodiac: 'aries',
+    currentZodiac: "aries",
     planetaryInfluences: {
       Sun: 0.7,
       Moon: 0.5,
@@ -23,36 +23,36 @@ export const defaultState: AlchemicalState = {
       Venus: 0.6,
       Mars: 0.4,
       Jupiter: 0.8,
-      Saturn: 0.2
-},
+      Saturn: 0.2,
+    },
     elementalProperties: {
       Fire: 0.4,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.2
-},
+      Air: 0.2,
+    },
     alchemicalProperties: {
       Spirit: 0.3,
       Essence: 0.3,
       Matter: 0.2,
-      Substance: 0.2
-},
+      Substance: 0.2,
+    },
     thermodynamicProperties: {
       temperature: 20,
       pressure: 1,
       entropy: 0.5,
-      enthalpy: 0.5
-},
-    timestamp: Date.now()
+      enthalpy: 0.5,
+    },
+    timestamp: Date.now(),
   },
-  lunarPhase: 'new moon',
+  lunarPhase: "new moon",
   currentTime: new Date(),
   lastUpdated: new Date(),
   planetaryPositions: {},
   normalizedPositions: {},
-  dominantElement: 'Fire',
-  planetaryHour: 'Sun',
-  svgRepresentation: null
+  dominantElement: "Fire",
+  planetaryHour: "Sun",
+  svgRepresentation: null,
 };
 
 // Create the context with default values
@@ -61,13 +61,13 @@ export const _AlchemicalContext = createContext<AlchemicalContextType>({
   dispatch: () => {},
   planetaryPositions: {},
   normalizedPositions: {},
-  getDominantElement: () => 'Fire',
+  getDominantElement: () => "Fire",
   getCurrentElementalBalance: () => ({
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25
-}),
+    Air: 0.25,
+  }),
   getAlchemicalHarmony: () => 0.5,
   updateAstrologicalState: () => {},
   calculateSeasonalInfluence: () => 0.5,
@@ -75,8 +75,8 @@ export const _AlchemicalContext = createContext<AlchemicalContextType>({
     temperature: 20,
     pressure: 1,
     entropy: 0.5,
-    enthalpy: 0.5
-})
+    enthalpy: 0.5,
+  }),
 });
 
 // Export without underscore for compatibility

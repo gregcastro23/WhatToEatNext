@@ -10,9 +10,9 @@
  * - @typescript-eslint/await-thenable
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class ESLintBatch2Fixer {
   constructor() {
@@ -21,7 +21,7 @@ class ESLintBatch2Fixer {
   }
 
   async run() {
-    console.log('🎯 ESLint Batch 2 Fixer Starting...');
+    console.log("🎯 ESLint Batch 2 Fixer Starting...");
 
     try {
       // Get list of files with errors
@@ -32,7 +32,9 @@ class ESLintBatch2Fixer {
       const batchSize = 10;
       for (let i = 0; i < Math.min(errorFiles.length, 50); i += batchSize) {
         const batch = errorFiles.slice(i, i + batchSize);
-        console.log(`\n📦 Processing batch ${Math.floor(i/batchSize) + 1} (${batch.length} files)...`);
+        console.log(
+          `\n📦 Processing batch ${Math.floor(i / batchSize) + 1} (${batch.length} files)...`,
+        );
 
         for (const file of batch) {
           try {
@@ -48,9 +50,8 @@ class ESLintBatch2Fixer {
       console.log(`Errors fixed: ${this.fixedErrors}`);
 
       return { success: true };
-
     } catch (error) {
-      console.error('❌ Batch 2 fixer failed:', error.message);
+      console.error("❌ Batch 2 fixer failed:", error.message);
       return { success: false, error: error.message };
     }
   }
@@ -58,14 +59,20 @@ class ESLintBatch2Fixer {
   getErrorFiles() {
     try {
       // Get unique file paths with errors
-      const output = execSync('yarn lint 2>&1 | grep "error" | cut -d: -f1 | sort -u | head -50', {
-        encoding: 'utf8',
-        timeout: 30000
-      });
+      const output = execSync(
+        'yarn lint 2>&1 | grep "error" | cut -d: -f1 | sort -u | head -50',
+        {
+          encoding: "utf8",
+          timeout: 30000,
+        },
+      );
 
-      return output.trim().split('\n').filter(f => f && fs.existsSync(f));
+      return output
+        .trim()
+        .split("\n")
+        .filter((f) => f && fs.existsSync(f));
     } catch (error) {
-      console.warn('Could not get error files, using fallback');
+      console.warn("Could not get error files, using fallback");
       return [];
     }
   }
@@ -75,28 +82,36 @@ class ESLintBatch2Fixer {
 
     console.log(`  🔧 Fixing ${path.basename(filePath)}...`);
 
-    let content = fs.readFileSync(filePath, 'utf8');
+    let content = fs.readFileSync(filePath, "utf8");
     let modified = content;
     let fileFixCount = 0;
 
     // Fix 1: Unused variables - prefix with underscore
-    const unusedVarMatches = content.match(/'([^']+)' is defined but never used/g);
+    const unusedVarMatches = content.match(
+      /'([^']+)' is defined but never used/g,
+    );
     if (unusedVarMatches) {
       for (const match of unusedVarMatches) {
         const varName = match.match(/'([^']+)'/)[1];
         if (this.shouldPrefixVariable(varName, content)) {
           // Prefix variable declarations
           const patterns = [
-            new RegExp(`\\b(const|let|var)\\s+(${varName})\\b`, 'g'),
-            new RegExp(`\\b(${varName})\\s*:`, 'g'), // Interface properties
-            new RegExp(`\\{\\s*(${varName})\\s*\\}`, 'g'), // Destructuring
-            new RegExp(`\\(([^)]*)\\b(${varName})\\b([^)]*)\\)`, 'g') // Function parameters
+            new RegExp(`\\b(const|let|var)\\s+(${varName})\\b`, "g"),
+            new RegExp(`\\b(${varName})\\s*:`, "g"), // Interface properties
+            new RegExp(`\\{\\s*(${varName})\\s*\\}`, "g"), // Destructuring
+            new RegExp(`\\(([^)]*)\\b(${varName})\\b([^)]*)\\)`, "g"), // Function parameters
           ];
 
           for (const pattern of patterns) {
-            const newModified = modified.replace(pattern, (match, ...groups) => {
-              return match.replace(new RegExp(`\\b${varName}\\b`), `_${varName}`);
-            });
+            const newModified = modified.replace(
+              pattern,
+              (match, ...groups) => {
+                return match.replace(
+                  new RegExp(`\\b${varName}\\b`),
+                  `_${varName}`,
+                );
+              },
+            );
             if (newModified !== modified) {
               modified = newModified;
               fileFixCount++;
@@ -109,9 +124,12 @@ class ESLintBatch2Fixer {
 
     // Fix 2: Unescaped entities - replace with HTML entities
     const entityFixes = [
-      { from: /'/g, to: '&apos;' },
-      { from: /"/g, to: '&quot;' },
-      { from: /&(?!(?:apos|quot|amp|lt|gt|#\d+|#x[0-9a-fA-F]+);)/g, to: '&amp;' }
+      { from: /'/g, to: "&apos;" },
+      { from: /"/g, to: "&quot;" },
+      {
+        from: /&(?!(?:apos|quot|amp|lt|gt|#\d+|#x[0-9a-fA-F]+);)/g,
+        to: "&amp;",
+      },
     ];
 
     // Only apply to JSX content (between > and <)
@@ -128,33 +146,49 @@ class ESLintBatch2Fixer {
     });
 
     // Fix 3: Case declarations - wrap in blocks
-    const caseDeclarationRegex = /(case\s+[^:]+:\s*)((?:const|let|var)\s+[^;]+;)/g;
-    modified = modified.replace(caseDeclarationRegex, (match, caseLabel, declaration) => {
-      fileFixCount++;
-      return `${caseLabel}{\n      ${declaration}\n      break;\n    }`;
-    });
+    const caseDeclarationRegex =
+      /(case\s+[^:]+:\s*)((?:const|let|var)\s+[^;]+;)/g;
+    modified = modified.replace(
+      caseDeclarationRegex,
+      (match, caseLabel, declaration) => {
+        fileFixCount++;
+        return `${caseLabel}{\n      ${declaration}\n      break;\n    }`;
+      },
+    );
 
     // Fix 4: Await thenable - add disable comment for complex cases
-    if (content.includes('@typescript-eslint/await-thenable')) {
+    if (content.includes("@typescript-eslint/await-thenable")) {
       // Add disable comment at top of file for await-thenable errors
-      if (!content.includes('eslint-disable @typescript-eslint/await-thenable')) {
+      if (
+        !content.includes("eslint-disable @typescript-eslint/await-thenable")
+      ) {
         modified = `/* eslint-disable @typescript-eslint/await-thenable -- Preserving async patterns during error resolution */\n${modified}`;
         fileFixCount++;
       }
     }
 
     // Fix 5: Import order - simple fix for next/react order
-    if (content.includes('`next` import should occur before import of `react`')) {
-      const lines = modified.split('\n');
-      const reactImportIndex = lines.findIndex(line => line.includes("import React from 'react'"));
-      const nextImportIndex = lines.findIndex(line => line.includes("import") && line.includes("next"));
+    if (
+      content.includes("`next` import should occur before import of `react`")
+    ) {
+      const lines = modified.split("\n");
+      const reactImportIndex = lines.findIndex((line) =>
+        line.includes("import React from 'react'"),
+      );
+      const nextImportIndex = lines.findIndex(
+        (line) => line.includes("import") && line.includes("next"),
+      );
 
-      if (reactImportIndex !== -1 && nextImportIndex !== -1 && nextImportIndex > reactImportIndex) {
+      if (
+        reactImportIndex !== -1 &&
+        nextImportIndex !== -1 &&
+        nextImportIndex > reactImportIndex
+      ) {
         // Swap the imports
         const nextImport = lines[nextImportIndex];
         lines.splice(nextImportIndex, 1);
         lines.splice(reactImportIndex, 0, nextImport);
-        modified = lines.join('\n');
+        modified = lines.join("\n");
         fileFixCount++;
       }
     }
@@ -172,20 +206,28 @@ class ESLintBatch2Fixer {
 
   shouldPrefixVariable(varName, content) {
     // Don't prefix if already prefixed
-    if (varName.startsWith('_')) return false;
+    if (varName.startsWith("_")) return false;
 
     // Don't prefix certain patterns
     const skipPatterns = [
-      'React', 'Component', 'Props', 'State',
-      'default', 'module', 'exports', 'require'
+      "React",
+      "Component",
+      "Props",
+      "State",
+      "default",
+      "module",
+      "exports",
+      "require",
     ];
 
-    if (skipPatterns.some(pattern => varName.includes(pattern))) {
+    if (skipPatterns.some((pattern) => varName.includes(pattern))) {
       return false;
     }
 
     // Don't prefix if it appears to be used (simple heuristic)
-    const usageCount = (content.match(new RegExp(`\\b${varName}\\b`, 'g')) || []).length;
+    const usageCount = (
+      content.match(new RegExp(`\\b${varName}\\b`, "g")) || []
+    ).length;
     if (usageCount > 2) return false; // Likely used if appears more than twice
 
     return true;
@@ -195,12 +237,12 @@ class ESLintBatch2Fixer {
 // Execute the batch 2 fixer
 if (require.main === module) {
   const fixer = new ESLintBatch2Fixer();
-  fixer.run().then(result => {
+  fixer.run().then((result) => {
     if (result.success) {
-      console.log('\n🎉 ESLint Batch 2 fixes completed successfully!');
+      console.log("\n🎉 ESLint Batch 2 fixes completed successfully!");
       process.exit(0);
     } else {
-      console.error('\n❌ ESLint Batch 2 fixes failed!');
+      console.error("\n❌ ESLint Batch 2 fixes failed!");
       process.exit(1);
     }
   });

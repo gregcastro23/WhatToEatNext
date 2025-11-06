@@ -7,9 +7,9 @@
  * specifically designed for CI/CD environments.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class CIMemoryMonitor {
   constructor() {
@@ -17,7 +17,7 @@ class CIMemoryMonitor {
     this.initialMemory = process.memoryUsage();
     this.memorySnapshots = [];
     this.alerts = [];
-    this.isCI = process.env.CI === 'true';
+    this.isCI = process.env.CI === "true";
 
     // CI-specific thresholds (more conservative)
     this.thresholds = {
@@ -30,8 +30,8 @@ class CIMemoryMonitor {
   }
 
   ensureLogsDirectory() {
-    const logsDir = path.join(process.cwd(), 'logs');
-    const reportsDir = path.join(logsDir, 'memory-reports');
+    const logsDir = path.join(process.cwd(), "logs");
+    const reportsDir = path.join(logsDir, "memory-reports");
 
     if (!fs.existsSync(logsDir)) {
       fs.mkdirSync(logsDir, { recursive: true });
@@ -42,7 +42,7 @@ class CIMemoryMonitor {
     }
   }
 
-  takeSnapshot(label = 'snapshot') {
+  takeSnapshot(label = "snapshot") {
     const memory = process.memoryUsage();
     const snapshot = {
       timestamp: Date.now(),
@@ -72,22 +72,31 @@ class CIMemoryMonitor {
     const heapUsedMB = parseFloat(snapshot.memoryMB.heapUsed);
     const rssMB = parseFloat(snapshot.memoryMB.rss);
 
-    if (rssMB > this.thresholds.emergency || heapUsedMB > this.thresholds.emergency) {
+    if (
+      rssMB > this.thresholds.emergency ||
+      heapUsedMB > this.thresholds.emergency
+    ) {
       this.addAlert(
-        'EMERGENCY',
+        "EMERGENCY",
         `Memory usage critical: RSS=${rssMB}MB, Heap=${heapUsedMB}MB`,
         snapshot,
       );
       this.triggerEmergencyCleanup();
-    } else if (rssMB > this.thresholds.critical || heapUsedMB > this.thresholds.critical) {
+    } else if (
+      rssMB > this.thresholds.critical ||
+      heapUsedMB > this.thresholds.critical
+    ) {
       this.addAlert(
-        'CRITICAL',
+        "CRITICAL",
         `Memory usage high: RSS=${rssMB}MB, Heap=${heapUsedMB}MB`,
         snapshot,
       );
-    } else if (rssMB > this.thresholds.warning || heapUsedMB > this.thresholds.warning) {
+    } else if (
+      rssMB > this.thresholds.warning ||
+      heapUsedMB > this.thresholds.warning
+    ) {
       this.addAlert(
-        'WARNING',
+        "WARNING",
         `Memory usage elevated: RSS=${rssMB}MB, Heap=${heapUsedMB}MB`,
         snapshot,
       );
@@ -106,7 +115,8 @@ class CIMemoryMonitor {
     this.alerts.push(alert);
 
     // Log to console for CI visibility
-    const emoji = level === 'EMERGENCY' ? '🚨' : level === 'CRITICAL' ? '⚠️' : '💡';
+    const emoji =
+      level === "EMERGENCY" ? "🚨" : level === "CRITICAL" ? "⚠️" : "💡";
     console.log(`${emoji} [${level}] ${message}`);
 
     // Write to alerts log
@@ -114,31 +124,33 @@ class CIMemoryMonitor {
   }
 
   writeAlertToLog(alert) {
-    const alertsLogPath = path.join(process.cwd(), 'logs', 'memory-alerts.log');
+    const alertsLogPath = path.join(process.cwd(), "logs", "memory-alerts.log");
     const logEntry = `[${new Date(alert.timestamp).toISOString()}] ${alert.level}: ${alert.message}\n`;
 
     try {
       fs.appendFileSync(alertsLogPath, logEntry);
     } catch (error) {
-      console.warn('Failed to write to alerts log:', error.message);
+      console.warn("Failed to write to alerts log:", error.message);
     }
   }
 
   triggerEmergencyCleanup() {
-    console.log('🚨 Triggering emergency memory cleanup...');
+    console.log("🚨 Triggering emergency memory cleanup...");
 
     try {
       // Force garbage collection if available
       if (global.gc) {
         global.gc();
-        console.log('✅ Emergency garbage collection completed');
+        console.log("✅ Emergency garbage collection completed");
       }
 
       // Run emergency cleanup script
-      const { MemoryOptimizer } = require('../src/__tests__/utils/memoryOptimization.cjs');
+      const {
+        MemoryOptimizer,
+      } = require("../src/__tests__/utils/memoryOptimization.cjs");
       MemoryOptimizer.emergencyCleanup();
     } catch (error) {
-      console.error('❌ Emergency cleanup failed:', error.message);
+      console.error("❌ Emergency cleanup failed:", error.message);
     }
   }
 
@@ -156,7 +168,7 @@ class CIMemoryMonitor {
           nodeVersion: process.version,
           platform: process.platform,
           arch: process.arch,
-          nodeOptions: process.env.NODE_OPTIONS || 'not set',
+          nodeOptions: process.env.NODE_OPTIONS || "not set",
         },
       },
       memoryAnalysis: {
@@ -189,52 +201,57 @@ class CIMemoryMonitor {
     const recommendations = [];
 
     // Analyze alerts
-    const emergencyAlerts = this.alerts.filter(a => a.level === 'EMERGENCY');
-    const criticalAlerts = this.alerts.filter(a => a.level === 'CRITICAL');
-    const warningAlerts = this.alerts.filter(a => a.level === 'WARNING');
+    const emergencyAlerts = this.alerts.filter((a) => a.level === "EMERGENCY");
+    const criticalAlerts = this.alerts.filter((a) => a.level === "CRITICAL");
+    const warningAlerts = this.alerts.filter((a) => a.level === "WARNING");
 
     if (emergencyAlerts.length > 0) {
       recommendations.push({
-        priority: 'HIGH',
-        category: 'Memory Management',
+        priority: "HIGH",
+        category: "Memory Management",
         recommendation:
-          'Emergency memory usage detected. Consider increasing CI runner memory or reducing test parallelism.',
-        action: 'Increase NODE_OPTIONS --max-old-space-size or reduce Jest maxWorkers',
+          "Emergency memory usage detected. Consider increasing CI runner memory or reducing test parallelism.",
+        action:
+          "Increase NODE_OPTIONS --max-old-space-size or reduce Jest maxWorkers",
       });
     }
 
     if (criticalAlerts.length > 2) {
       recommendations.push({
-        priority: 'MEDIUM',
-        category: 'Test Optimization',
+        priority: "MEDIUM",
+        category: "Test Optimization",
         recommendation:
-          'Multiple critical memory alerts. Review test suite for memory-intensive operations.',
-        action: 'Implement more aggressive cleanup in test teardown',
+          "Multiple critical memory alerts. Review test suite for memory-intensive operations.",
+        action: "Implement more aggressive cleanup in test teardown",
       });
     }
 
     if (warningAlerts.length > 5) {
       recommendations.push({
-        priority: 'LOW',
-        category: 'Performance',
-        recommendation: 'Frequent memory warnings detected. Consider optimizing test execution.',
-        action: 'Use memory-safe test commands and implement periodic cleanup',
+        priority: "LOW",
+        category: "Performance",
+        recommendation:
+          "Frequent memory warnings detected. Consider optimizing test execution.",
+        action: "Use memory-safe test commands and implement periodic cleanup",
       });
     }
 
     // Analyze memory growth
     if (this.memorySnapshots.length > 1) {
       const firstSnapshot = this.memorySnapshots[0];
-      const lastSnapshot = this.memorySnapshots[this.memorySnapshots.length - 1];
+      const lastSnapshot =
+        this.memorySnapshots[this.memorySnapshots.length - 1];
       const growthMB =
-        parseFloat(lastSnapshot.memoryMB.heapUsed) - parseFloat(firstSnapshot.memoryMB.heapUsed);
+        parseFloat(lastSnapshot.memoryMB.heapUsed) -
+        parseFloat(firstSnapshot.memoryMB.heapUsed);
 
       if (growthMB > 50) {
         recommendations.push({
-          priority: 'MEDIUM',
-          category: 'Memory Leaks',
+          priority: "MEDIUM",
+          category: "Memory Leaks",
           recommendation: `Significant memory growth detected (${growthMB.toFixed(2)}MB). Potential memory leak.`,
-          action: 'Run memory leak detection and implement stricter cleanup procedures',
+          action:
+            "Run memory leak detection and implement stricter cleanup procedures",
         });
       }
     }
@@ -242,10 +259,11 @@ class CIMemoryMonitor {
     // CI-specific recommendations
     if (this.isCI) {
       recommendations.push({
-        priority: 'INFO',
-        category: 'CI Optimization',
-        recommendation: 'Running in CI environment with optimized memory settings.',
-        action: 'Monitor memory reports and adjust thresholds as needed',
+        priority: "INFO",
+        category: "CI Optimization",
+        recommendation:
+          "Running in CI environment with optimized memory settings.",
+        action: "Monitor memory reports and adjust thresholds as needed",
       });
     }
 
@@ -256,8 +274,8 @@ class CIMemoryMonitor {
     const report = this.generateCIReport();
     const reportPath = path.join(
       process.cwd(),
-      'logs',
-      'memory-reports',
+      "logs",
+      "memory-reports",
       `ci-memory-${Date.now()}.json`,
     );
 
@@ -266,7 +284,7 @@ class CIMemoryMonitor {
       console.log(`📊 CI memory report written to: ${reportPath}`);
       return reportPath;
     } catch (error) {
-      console.error('❌ Failed to write CI memory report:', error.message);
+      console.error("❌ Failed to write CI memory report:", error.message);
       return null;
     }
   }
@@ -277,7 +295,7 @@ class CIMemoryMonitor {
     let markdown = `# CI/CD Memory Monitoring Report\n\n`;
     markdown += `**Generated:** ${report.metadata.timestamp}\n`;
     markdown += `**Duration:** ${report.metadata.duration}\n`;
-    markdown += `**Environment:** ${report.metadata.environment.isCI ? 'CI' : 'Local'}\n`;
+    markdown += `**Environment:** ${report.metadata.environment.isCI ? "CI" : "Local"}\n`;
     markdown += `**Node Version:** ${report.metadata.environment.nodeVersion}\n`;
     markdown += `**Node Options:** ${report.metadata.environment.nodeOptions}\n\n`;
 
@@ -294,7 +312,7 @@ class CIMemoryMonitor {
       markdown += `## Memory Alerts\n\n`;
       markdown += `| Time | Level | Message |\n`;
       markdown += `|------|-------|----------|\n`;
-      report.alerts.forEach(alert => {
+      report.alerts.forEach((alert) => {
         const time = new Date(alert.timestamp).toLocaleTimeString();
         markdown += `| ${time} | ${alert.level} | ${alert.message} |\n`;
       });
@@ -328,8 +346,8 @@ class CIMemoryMonitor {
     const markdown = this.generateMarkdownReport();
     const reportPath = path.join(
       process.cwd(),
-      'logs',
-      'memory-reports',
+      "logs",
+      "memory-reports",
       `ci-memory-report-${Date.now()}.md`,
     );
 
@@ -338,13 +356,13 @@ class CIMemoryMonitor {
       console.log(`📄 CI memory markdown report written to: ${reportPath}`);
       return reportPath;
     } catch (error) {
-      console.error('❌ Failed to write markdown report:', error.message);
+      console.error("❌ Failed to write markdown report:", error.message);
       return null;
     }
   }
 
   // Static method for quick CI monitoring
-  static async monitorCIExecution(command, label = 'ci-execution') {
+  static async monitorCIExecution(command, label = "ci-execution") {
     const monitor = new CIMemoryMonitor();
 
     console.log(`🚀 Starting CI memory monitoring for: ${label}`);
@@ -354,7 +372,7 @@ class CIMemoryMonitor {
       // Execute the command if provided
       if (command) {
         console.log(`📋 Executing: ${command}`);
-        execSync(command, { stdio: 'inherit' });
+        execSync(command, { stdio: "inherit" });
       }
 
       monitor.takeSnapshot(`${label}-end`);
@@ -375,7 +393,7 @@ class CIMemoryMonitor {
     } catch (error) {
       monitor.takeSnapshot(`${label}-error`);
       monitor.addAlert(
-        'ERROR',
+        "ERROR",
         `Command execution failed: ${error.message}`,
         monitor.memorySnapshots[monitor.memorySnapshots.length - 1],
       );
@@ -384,7 +402,10 @@ class CIMemoryMonitor {
       monitor.writeCIReport();
       monitor.writeMarkdownReport();
 
-      console.error(`❌ CI memory monitoring failed for: ${label}`, error.message);
+      console.error(
+        `❌ CI memory monitoring failed for: ${label}`,
+        error.message,
+      );
 
       return {
         success: false,
@@ -399,24 +420,24 @@ class CIMemoryMonitor {
 // CLI interface
 if (require.main === module) {
   const args = process.argv.slice(2);
-  const command = args.join(' ');
+  const command = args.join(" ");
 
   if (command) {
-    CIMemoryMonitor.monitorCIExecution(command, 'cli-command')
-      .then(result => {
+    CIMemoryMonitor.monitorCIExecution(command, "cli-command")
+      .then((result) => {
         process.exit(result.success ? 0 : 1);
       })
-      .catch(error => {
-        console.error('Monitoring failed:', error);
+      .catch((error) => {
+        console.error("Monitoring failed:", error);
         process.exit(1);
       });
   } else {
     // Just run monitoring without command
     const monitor = new CIMemoryMonitor();
-    monitor.takeSnapshot('manual-snapshot');
+    monitor.takeSnapshot("manual-snapshot");
     monitor.writeCIReport();
     monitor.writeMarkdownReport();
-    console.log('📊 Memory monitoring completed');
+    console.log("📊 Memory monitoring completed");
   }
 }
 

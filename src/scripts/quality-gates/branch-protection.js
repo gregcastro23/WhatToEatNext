@@ -7,77 +7,83 @@
  * Automated branch protection configuration for quality gate enforcement
  */
 
-import { execSync } from 'child_process';
-import fs from 'fs';
-import path from 'path';
+import { execSync } from "child_process";
+import fs from "fs";
+import path from "path";
 
 class BranchProtectionSetup {
   constructor() {
-    this.projectRoot = path.resolve(import.meta.dirname || path.dirname(import.meta.url.replace('file://', '')), '../../../');
-    this.configPath = path.join(this.projectRoot, '.quality-gates', 'branch-protection.json');
+    this.projectRoot = path.resolve(
+      import.meta.dirname ||
+        path.dirname(import.meta.url.replace("file://", "")),
+      "../../../",
+    );
+    this.configPath = path.join(
+      this.projectRoot,
+      ".quality-gates",
+      "branch-protection.json",
+    );
     this.defaultConfig = {
       branches: {
         master: {
           required_status_checks: {
             strict: true,
             contexts: [
-              'Quality Gate',
-              'performance-monitoring',
-              'trend-analysis'
-            ]
+              "Quality Gate",
+              "performance-monitoring",
+              "trend-analysis",
+            ],
           },
           enforce_admins: false,
           required_pull_request_reviews: {
             required_approving_review_count: 1,
             dismiss_stale_reviews: true,
             require_code_owner_reviews: false,
-            dismissal_restrictions: {}
+            dismissal_restrictions: {},
           },
           restrictions: null,
           allow_force_pushes: false,
           allow_deletions: false,
-          block_creations: false
+          block_creations: false,
         },
         main: {
           required_status_checks: {
             strict: true,
             contexts: [
-              'Quality Gate',
-              'performance-monitoring',
-              'trend-analysis'
-            ]
+              "Quality Gate",
+              "performance-monitoring",
+              "trend-analysis",
+            ],
           },
           enforce_admins: false,
           required_pull_request_reviews: {
             required_approving_review_count: 1,
             dismiss_stale_reviews: true,
             require_code_owner_reviews: false,
-            dismissal_restrictions: {}
+            dismissal_restrictions: {},
           },
           restrictions: null,
           allow_force_pushes: false,
           allow_deletions: false,
-          block_creations: false
+          block_creations: false,
         },
         develop: {
           required_status_checks: {
             strict: false,
-            contexts: [
-              'Quality Gate'
-            ]
+            contexts: ["Quality Gate"],
           },
           enforce_admins: false,
           required_pull_request_reviews: {
             required_approving_review_count: 1,
             dismiss_stale_reviews: true,
             require_code_owner_reviews: false,
-            dismissal_restrictions: {}
+            dismissal_restrictions: {},
           },
           restrictions: null,
           allow_force_pushes: false,
           allow_deletions: false,
-          block_creations: false
-        }
+          block_creations: false,
+        },
       },
       qualityThresholds: {
         maxTotalErrors: 1000,
@@ -85,14 +91,14 @@ class BranchProtectionSetup {
         maxHighPriorityErrors: 200,
         requiredTestCoverage: 80,
         maxBuildTime: 300, // seconds
-        maxLintTime: 60    // seconds
+        maxLintTime: 60, // seconds
       },
       automatedActions: {
         enableAutoFix: true,
-        autoFixBranches: ['master', 'main'],
+        autoFixBranches: ["master", "main"],
         createFixPRs: true,
-        notifyOnFailure: true
-      }
+        notifyOnFailure: true,
+      },
     };
   }
 
@@ -100,27 +106,45 @@ class BranchProtectionSetup {
    * Generate GitHub branch protection configuration
    */
   generateProtectionConfig() {
-    console.log('🛡️ Generating Branch Protection Configuration...');
+    console.log("🛡️ Generating Branch Protection Configuration...");
 
     const config = this.loadOrCreateConfig();
 
-    console.log('\n📋 Branch Protection Rules:');
-    console.log('='.repeat(50));
+    console.log("\n📋 Branch Protection Rules:");
+    console.log("=".repeat(50));
 
     Object.entries(config.branches).forEach(([branch, rules]) => {
       console.log(`\n🌿 Branch: ${branch}`);
-      console.log(`  • Status Checks Required: ${rules.required_status_checks.contexts.join(', ')}`);
-      console.log(`  • Strict Status Checks: ${rules.required_status_checks.strict ? 'Yes' : 'No'}`);
-      console.log(`  • PR Reviews Required: ${rules.required_pull_request_reviews.required_approving_review_count}`);
-      console.log(`  • Force Pushes: ${rules.allow_force_pushes ? 'Allowed' : 'Blocked'}`);
-      console.log(`  • Deletions: ${rules.allow_deletions ? 'Allowed' : 'Blocked'}`);
+      console.log(
+        `  • Status Checks Required: ${rules.required_status_checks.contexts.join(", ")}`,
+      );
+      console.log(
+        `  • Strict Status Checks: ${rules.required_status_checks.strict ? "Yes" : "No"}`,
+      );
+      console.log(
+        `  • PR Reviews Required: ${rules.required_pull_request_reviews.required_approving_review_count}`,
+      );
+      console.log(
+        `  • Force Pushes: ${rules.allow_force_pushes ? "Allowed" : "Blocked"}`,
+      );
+      console.log(
+        `  • Deletions: ${rules.allow_deletions ? "Allowed" : "Blocked"}`,
+      );
     });
 
-    console.log('\n📊 Quality Thresholds:');
-    console.log(`  • Max Total Errors: ${config.qualityThresholds.maxTotalErrors}`);
-    console.log(`  • Max Critical Errors: ${config.qualityThresholds.maxCriticalErrors}`);
-    console.log(`  • Max Build Time: ${config.qualityThresholds.maxBuildTime}s`);
-    console.log(`  • Min Test Coverage: ${config.qualityThresholds.requiredTestCoverage}%`);
+    console.log("\n📊 Quality Thresholds:");
+    console.log(
+      `  • Max Total Errors: ${config.qualityThresholds.maxTotalErrors}`,
+    );
+    console.log(
+      `  • Max Critical Errors: ${config.qualityThresholds.maxCriticalErrors}`,
+    );
+    console.log(
+      `  • Max Build Time: ${config.qualityThresholds.maxBuildTime}s`,
+    );
+    console.log(
+      `  • Min Test Coverage: ${config.qualityThresholds.requiredTestCoverage}%`,
+    );
 
     return config;
   }
@@ -129,11 +153,13 @@ class BranchProtectionSetup {
    * Apply branch protection rules via GitHub CLI
    */
   async applyProtectionRules(token) {
-    console.log('🔧 Applying Branch Protection Rules...');
+    console.log("🔧 Applying Branch Protection Rules...");
 
     if (!token) {
-      console.log('❌ GitHub token required for applying protection rules');
-      console.log('Usage: node branch-protection.js apply --token <github-token>');
+      console.log("❌ GitHub token required for applying protection rules");
+      console.log(
+        "Usage: node branch-protection.js apply --token <github-token>",
+      );
       return false;
     }
 
@@ -141,7 +167,7 @@ class BranchProtectionSetup {
 
     try {
       // Check if GitHub CLI is available
-      execSync('gh --version', { stdio: 'pipe' });
+      execSync("gh --version", { stdio: "pipe" });
 
       for (const [branch, rules] of Object.entries(config.branches)) {
         console.log(`\n🔒 Setting up protection for branch: ${branch}`);
@@ -156,26 +182,25 @@ class BranchProtectionSetup {
           restrictions: rules.restrictions,
           allow_force_pushes: rules.allow_force_pushes,
           allow_deletions: rules.allow_deletions,
-          block_creations: rules.block_creations
+          block_creations: rules.block_creations,
         };
 
         // Use GitHub CLI to set branch protection
         const ghCmd = `gh api repos/{owner}/{repo}/branches/${branch}/protection -X PUT -H "Authorization: token ${token}" -f '${JSON.stringify(protectionData)}'`;
 
         try {
-          execSync(ghCmd, { stdio: 'pipe' });
+          execSync(ghCmd, { stdio: "pipe" });
           console.log(`✅ Protection applied to ${branch}`);
         } catch (error) {
           console.log(`❌ Failed to protect ${branch}:`, error.message);
         }
       }
 
-      console.log('\n✅ Branch protection setup complete');
+      console.log("\n✅ Branch protection setup complete");
       return true;
-
     } catch (error) {
-      console.log('❌ GitHub CLI not available or authentication failed');
-      console.log('Manual setup instructions:');
+      console.log("❌ GitHub CLI not available or authentication failed");
+      console.log("Manual setup instructions:");
       this.generateManualInstructions(config);
       return false;
     }
@@ -185,9 +210,9 @@ class BranchProtectionSetup {
    * Generate manual setup instructions
    */
   generateManualInstructions(config) {
-    console.log('\n📖 Manual Branch Protection Setup:');
-    console.log('='.repeat(50));
-    console.log('Navigate to your GitHub repository settings and configure:');
+    console.log("\n📖 Manual Branch Protection Setup:");
+    console.log("=".repeat(50));
+    console.log("Navigate to your GitHub repository settings and configure:");
 
     Object.entries(config.branches).forEach(([branch, rules]) => {
       console.log(`\n🌿 ${branch} Branch:`);
@@ -197,13 +222,17 @@ class BranchProtectionSetup {
       console.log(`  4. ✅ Require branches to be up to date before merging`);
       console.log(`  5. Status checks:`);
 
-      rules.required_status_checks.contexts.forEach(check => {
+      rules.required_status_checks.contexts.forEach((check) => {
         console.log(`     • ${check}`);
       });
 
       console.log(`  6. ✅ Require pull request reviews before merging`);
-      console.log(`  7. Required approving reviews: ${rules.required_pull_request_reviews.required_approving_review_count}`);
-      console.log(`  8. ✅ Dismiss stale pull request approvals when new commits are pushed`);
+      console.log(
+        `  7. Required approving reviews: ${rules.required_pull_request_reviews.required_approving_review_count}`,
+      );
+      console.log(
+        `  8. ✅ Dismiss stale pull request approvals when new commits are pushed`,
+      );
       console.log(`  9. ✅ Restrict who can push to matching branches`);
       console.log(`  10. ✅ Allow deletions: No`);
       console.log(`  11. ✅ Allow force pushes: No`);
@@ -214,10 +243,10 @@ class BranchProtectionSetup {
    * Validate current branch protection status
    */
   async validateProtectionStatus(token) {
-    console.log('🔍 Validating Branch Protection Status...');
+    console.log("🔍 Validating Branch Protection Status...");
 
     if (!token) {
-      console.log('❌ GitHub token required for validation');
+      console.log("❌ GitHub token required for validation");
       return false;
     }
 
@@ -228,7 +257,7 @@ class BranchProtectionSetup {
         console.log(`\n🔍 Checking ${branch}...`);
 
         const cmd = `gh api repos/{owner}/{repo}/branches/${branch}/protection -H "Authorization: token ${token}"`;
-        const result = execSync(cmd, { encoding: 'utf8' });
+        const result = execSync(cmd, { encoding: "utf8" });
 
         const protection = JSON.parse(result);
 
@@ -236,31 +265,37 @@ class BranchProtectionSetup {
           console.log(`✅ ${branch} is protected`);
 
           // Check required status checks
-          const requiredChecks = protection.required_status_checks?.contexts || [];
-          const expectedChecks = config.branches[branch].required_status_checks.contexts;
+          const requiredChecks =
+            protection.required_status_checks?.contexts || [];
+          const expectedChecks =
+            config.branches[branch].required_status_checks.contexts;
 
-          const missingChecks = expectedChecks.filter(check => !requiredChecks.includes(check));
+          const missingChecks = expectedChecks.filter(
+            (check) => !requiredChecks.includes(check),
+          );
           if (missingChecks.length > 0) {
-            console.log(`⚠️ Missing status checks: ${missingChecks.join(', ')}`);
+            console.log(
+              `⚠️ Missing status checks: ${missingChecks.join(", ")}`,
+            );
           }
 
           // Check PR reviews
           const prReviews = protection.required_pull_request_reviews;
           if (prReviews?.required_approving_review_count >= 1) {
-            console.log(`✅ PR reviews required (${prReviews.required_approving_review_count})`);
+            console.log(
+              `✅ PR reviews required (${prReviews.required_approving_review_count})`,
+            );
           } else {
             console.log(`⚠️ PR reviews not properly configured`);
           }
-
         } else {
           console.log(`❌ ${branch} is not protected`);
         }
       }
 
       return true;
-
     } catch (error) {
-      console.log('❌ Failed to validate protection status:', error.message);
+      console.log("❌ Failed to validate protection status:", error.message);
       return false;
     }
   }
@@ -269,27 +304,30 @@ class BranchProtectionSetup {
    * Generate quality gate status badge configuration
    */
   generateStatusBadges() {
-    console.log('🏷️ Generating Status Badge Configuration...');
+    console.log("🏷️ Generating Status Badge Configuration...");
 
     const badges = {
       qualityGate: {
-        label: 'Quality Gate',
-        message: 'passing',
-        color: 'brightgreen',
-        targetUrl: 'https://github.com/{owner}/{repo}/actions/workflows/quality-gate.yml'
+        label: "Quality Gate",
+        message: "passing",
+        color: "brightgreen",
+        targetUrl:
+          "https://github.com/{owner}/{repo}/actions/workflows/quality-gate.yml",
       },
       buildStatus: {
-        label: 'Build',
-        message: 'passing',
-        color: 'brightgreen',
-        targetUrl: 'https://github.com/{owner}/{repo}/actions/workflows/quality-gate.yml'
+        label: "Build",
+        message: "passing",
+        color: "brightgreen",
+        targetUrl:
+          "https://github.com/{owner}/{repo}/actions/workflows/quality-gate.yml",
       },
       errorCount: {
-        label: 'Errors',
-        message: '<1000',
-        color: 'green',
-        targetUrl: 'https://github.com/{owner}/{repo}/actions/workflows/quality-gate.yml'
-      }
+        label: "Errors",
+        message: "<1000",
+        color: "green",
+        targetUrl:
+          "https://github.com/{owner}/{repo}/actions/workflows/quality-gate.yml",
+      },
     };
 
     const readmeBadge = `
@@ -299,10 +337,14 @@ class BranchProtectionSetup {
 ![Error Count](https://img.shields.io/badge/Errors-%3C1000-green)
 `;
 
-    console.log('\n📋 README Badge Markdown:');
+    console.log("\n📋 README Badge Markdown:");
     console.log(readmeBadge);
 
-    const badgePath = path.join(this.projectRoot, '.quality-gates', 'badges.json');
+    const badgePath = path.join(
+      this.projectRoot,
+      ".quality-gates",
+      "badges.json",
+    );
     fs.writeFileSync(badgePath, JSON.stringify(badges, null, 2));
     console.log(`\n💾 Badge configuration saved to: ${badgePath}`);
 
@@ -313,39 +355,45 @@ class BranchProtectionSetup {
    * Setup automated quality monitoring
    */
   setupAutomatedMonitoring() {
-    console.log('📊 Setting up Automated Quality Monitoring...');
+    console.log("📊 Setting up Automated Quality Monitoring...");
 
     const monitoringConfig = {
-      schedule: '0 */4 * * *', // Every 4 hours
+      schedule: "0 */4 * * *", // Every 4 hours
       checks: [
-        'error-count-monitoring',
-        'build-status-monitoring',
-        'quality-gate-validation',
-        'dependency-security-scan'
+        "error-count-monitoring",
+        "build-status-monitoring",
+        "quality-gate-validation",
+        "dependency-security-scan",
       ],
       alerts: {
         errorThresholdExceeded: true,
         buildFailureStreak: true,
         qualityDegradation: true,
-        securityVulnerabilities: true
+        securityVulnerabilities: true,
       },
       notifications: {
         slack: false,
         email: false,
-        githubIssues: true
-      }
+        githubIssues: true,
+      },
     };
 
-    const monitoringPath = path.join(this.projectRoot, '.quality-gates', 'monitoring.json');
+    const monitoringPath = path.join(
+      this.projectRoot,
+      ".quality-gates",
+      "monitoring.json",
+    );
     fs.writeFileSync(monitoringPath, JSON.stringify(monitoringConfig, null, 2));
 
-    console.log('✅ Automated monitoring configuration created');
+    console.log("✅ Automated monitoring configuration created");
     console.log(`📁 Configuration: ${monitoringPath}`);
 
     // Generate cron job instructions
-    console.log('\n⏰ Cron Job Setup:');
-    console.log('Add to your CI/CD schedule:');
-    console.log(`  ${monitoringConfig.schedule} node src/scripts/quality-gates/ci-cd-orchestrator.js status`);
+    console.log("\n⏰ Cron Job Setup:");
+    console.log("Add to your CI/CD schedule:");
+    console.log(
+      `  ${monitoringConfig.schedule} node src/scripts/quality-gates/ci-cd-orchestrator.js status`,
+    );
 
     return monitoringConfig;
   }
@@ -356,10 +404,15 @@ class BranchProtectionSetup {
   loadOrCreateConfig() {
     if (fs.existsSync(this.configPath)) {
       try {
-        const customConfig = JSON.parse(fs.readFileSync(this.configPath, 'utf8'));
+        const customConfig = JSON.parse(
+          fs.readFileSync(this.configPath, "utf8"),
+        );
         return { ...this.defaultConfig, ...customConfig };
       } catch (error) {
-        console.warn('⚠️ Failed to load custom config, using defaults:', error.message);
+        console.warn(
+          "⚠️ Failed to load custom config, using defaults:",
+          error.message,
+        );
       }
     }
 
@@ -370,7 +423,10 @@ class BranchProtectionSetup {
     }
 
     // Save default config
-    fs.writeFileSync(this.configPath, JSON.stringify(this.defaultConfig, null, 2));
+    fs.writeFileSync(
+      this.configPath,
+      JSON.stringify(this.defaultConfig, null, 2),
+    );
     console.log(`📝 Created default configuration: ${this.configPath}`);
 
     return this.defaultConfig;
@@ -544,7 +600,11 @@ For issues with quality gates:
 *Generated by Phase 4 Branch Protection Setup - ${new Date().toISOString()}*
 `;
 
-    const guidePath = path.join(this.projectRoot, 'docs', 'branch-protection-setup.md');
+    const guidePath = path.join(
+      this.projectRoot,
+      "docs",
+      "branch-protection-setup.md",
+    );
     fs.writeFileSync(guidePath, guide);
     console.log(`📖 Setup guide generated: ${guidePath}`);
 
@@ -555,39 +615,41 @@ For issues with quality gates:
 // CLI Interface
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
-  const command = args[0] || 'help';
+  const command = args[0] || "help";
 
   const setup = new BranchProtectionSetup();
 
   switch (command) {
-    case 'generate':
+    case "generate":
       setup.generateProtectionConfig();
       setup.generateStatusBadges();
       setup.setupAutomatedMonitoring();
       setup.generateSetupGuide();
       break;
 
-    case 'apply':
-      const token = args.find(arg => arg.startsWith('--token='))?.split('=')[1] ||
-                   process.env.GITHUB_TOKEN;
+    case "apply":
+      const token =
+        args.find((arg) => arg.startsWith("--token="))?.split("=")[1] ||
+        process.env.GITHUB_TOKEN;
       setup.applyProtectionRules(token);
       break;
 
-    case 'validate':
-      const valToken = args.find(arg => arg.startsWith('--token='))?.split('=')[1] ||
-                      process.env.GITHUB_TOKEN;
+    case "validate":
+      const valToken =
+        args.find((arg) => arg.startsWith("--token="))?.split("=")[1] ||
+        process.env.GITHUB_TOKEN;
       setup.validateProtectionStatus(valToken);
       break;
 
-    case 'badges':
+    case "badges":
       setup.generateStatusBadges();
       break;
 
-    case 'monitoring':
+    case "monitoring":
       setup.setupAutomatedMonitoring();
       break;
 
-    case 'guide':
+    case "guide":
       setup.generateSetupGuide();
       break;
 

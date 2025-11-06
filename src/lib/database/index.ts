@@ -8,18 +8,55 @@
 
 // Connection and low-level utilities
 export {
-    checkDatabaseHealth, closeDatabase, executeQuery,
-    executeQueryWithRetry, getDatabasePool, initializeDatabase, withTransaction
-} from './connection';
+  checkDatabaseHealth,
+  closeDatabase,
+  executeQuery,
+  executeQueryWithRetry,
+  getDatabasePool,
+  initializeDatabase,
+  withTransaction,
+} from "./connection";
 
 // Type definitions
 export type {
-    ActiveUser, ApiKey, CalculationCache, CuisineType, DatabaseTable, DietaryRestriction, ElementalProperties, Ingredient, IngredientCompatibility, IngredientCuisine, Insertable, LunarPhase, PaginationResult, PlanetType, PlanetaryInfluence, QueryOptions, Recipe, RecipeContext, RecipeIngredient, RecipeSearch, Recommendation, Season, SeasonalAssociation, SystemMetric, Updatable, User, UserCalculation, UserRole, ZodiacAffinity, ZodiacSign
-} from './types';
+  ActiveUser,
+  ApiKey,
+  CalculationCache,
+  CuisineType,
+  DatabaseTable,
+  DietaryRestriction,
+  ElementalProperties,
+  Ingredient,
+  IngredientCompatibility,
+  IngredientCuisine,
+  Insertable,
+  LunarPhase,
+  PaginationResult,
+  PlanetType,
+  PlanetaryInfluence,
+  QueryOptions,
+  Recipe,
+  RecipeContext,
+  RecipeIngredient,
+  RecipeSearch,
+  Recommendation,
+  Season,
+  SeasonalAssociation,
+  SystemMetric,
+  Updatable,
+  User,
+  UserCalculation,
+  UserRole,
+  ZodiacAffinity,
+  ZodiacSign,
+} from "./types";
 
 // High-level service classes
 export {
-    CacheService,
-    DatabaseHealthService, ElementalService, IngredientService,
-    RecipeService, initializeDatabaseData
-} from './client';
+  CacheService,
+  DatabaseHealthService,
+  ElementalService,
+  IngredientService,
+  RecipeService,
+  initializeDatabaseData,
+} from "./client";

@@ -10,11 +10,11 @@ systematic codebase optimization.
 
 ```typescript
 interface CampaignSystemComponents {
-  controller: 'CampaignController.ts';           // Main orchestration
-  progressTracker: 'ProgressTracker.ts';        // Metrics and progress
-  safetyProtocol: 'SafetyProtocol.ts';         // Safety and rollback
-  intelligenceSystem: 'CampaignIntelligenceSystem.ts'; // Analytics
-  validationFramework: 'ValidationFramework.ts'; // Success validation
+  controller: "CampaignController.ts"; // Main orchestration
+  progressTracker: "ProgressTracker.ts"; // Metrics and progress
+  safetyProtocol: "SafetyProtocol.ts"; // Safety and rollback
+  intelligenceSystem: "CampaignIntelligenceSystem.ts"; // Analytics
+  validationFramework: "ValidationFramework.ts"; // Success validation
 }
 ```
 
@@ -112,15 +112,15 @@ Configuration validation errors
 ```typescript
 // Validate campaign configuration
 function validateCampaignConfig() {
-  const config = require('./src/services/campaign/config.json');
+  const config = require("./src/services/campaign/config.json");
 
   // Required fields
   const requiredFields = [
-    'errorThresholds',
-    'safetyProtocols',
-    'batchSizes',
-    'timeouts',
-    'rollbackStrategies'
+    "errorThresholds",
+    "safetyProtocols",
+    "batchSizes",
+    "timeouts",
+    "rollbackStrategies",
   ];
 
   for (const field of requiredFields) {
@@ -132,17 +132,17 @@ function validateCampaignConfig() {
 
   // Validate error thresholds
   if (config.errorThresholds.typescript < 0) {
-    console.error('❌ Invalid TypeScript error threshold');
+    console.error("❌ Invalid TypeScript error threshold");
     return false;
   }
 
   // Validate batch sizes
   if (config.batchSizes.default < 1 || config.batchSizes.default > 50) {
-    console.error('❌ Invalid batch size (should be 1-50)');
+    console.error("❌ Invalid batch size (should be 1-50)");
     return false;
   }
 
-  console.log('✅ Campaign configuration is valid');
+  console.log("✅ Campaign configuration is valid");
   return true;
 }
 ```
@@ -221,7 +221,9 @@ class CampaignDeadlockDetector {
     const timeSinceProgress = Date.now() - this.lastProgressTime;
 
     if (timeSinceProgress > this.progressThreshold) {
-      console.warn(`⚠️ Potential deadlock detected: No progress for ${timeSinceProgress / 1000}s`);
+      console.warn(
+        `⚠️ Potential deadlock detected: No progress for ${timeSinceProgress / 1000}s`,
+      );
       return true;
     }
 
@@ -233,7 +235,7 @@ class CampaignDeadlockDetector {
   }
 
   async resolveDeadlock() {
-    console.log('🔧 Attempting to resolve campaign deadlock...');
+    console.log("🔧 Attempting to resolve campaign deadlock...");
 
     // 1. Try gentle intervention
     await this.sendProgressSignal();
@@ -270,57 +272,57 @@ class SafetyProtocolDebugger {
     console.log(`🔍 Debugging safety violation: ${violationType}`);
 
     switch (violationType) {
-      case 'BUILD_FAILURE':
+      case "BUILD_FAILURE":
         await this.debugBuildFailure();
         break;
-      case 'CORRUPTION_DETECTED':
+      case "CORRUPTION_DETECTED":
         await this.debugCorruption();
         break;
-      case 'PERFORMANCE_DEGRADATION':
+      case "PERFORMANCE_DEGRADATION":
         await this.debugPerformanceDegradation();
         break;
-      case 'ERROR_INCREASE':
+      case "ERROR_INCREASE":
         await this.debugErrorIncrease();
         break;
     }
   }
 
   async debugBuildFailure() {
-    console.log('Debugging build failure...');
+    console.log("Debugging build failure...");
 
     // Check build logs
     const buildLogs = await this.getBuildLogs();
-    console.log('Build logs:', buildLogs);
+    console.log("Build logs:", buildLogs);
 
     // Check for syntax errors
     const syntaxErrors = await this.checkSyntaxErrors();
     if (syntaxErrors.length > 0) {
-      console.log('Syntax errors found:', syntaxErrors);
+      console.log("Syntax errors found:", syntaxErrors);
     }
 
     // Check for missing dependencies
     const missingDeps = await this.checkMissingDependencies();
     if (missingDeps.length > 0) {
-      console.log('Missing dependencies:', missingDeps);
+      console.log("Missing dependencies:", missingDeps);
     }
   }
 
   async debugCorruption() {
-    console.log('Debugging data corruption...');
+    console.log("Debugging data corruption...");
 
     // Check file integrity
     const corruptedFiles = await this.checkFileIntegrity();
     if (corruptedFiles.length > 0) {
-      console.log('Corrupted files detected:', corruptedFiles);
+      console.log("Corrupted files detected:", corruptedFiles);
     }
 
     // Check git status
     const gitStatus = await this.checkGitStatus();
-    console.log('Git status:', gitStatus);
+    console.log("Git status:", gitStatus);
 
     // Validate critical data files
     const dataValidation = await this.validateCriticalData();
-    console.log('Data validation:', dataValidation);
+    console.log("Data validation:", dataValidation);
   }
 }
 ```
@@ -348,23 +350,23 @@ class CampaignPerformanceMonitor {
       this.recordMetrics(metrics);
 
       // Check for performance issues
-      if (metrics.memoryUsage > 500 * 1024 * 1024) { // 500MB
-        console.warn('⚠️ High memory usage detected');
+      if (metrics.memoryUsage > 500 * 1024 * 1024) {
+        // 500MB
+        console.warn("⚠️ High memory usage detected");
         await this.optimizeMemoryUsage();
       }
 
       if (metrics.cpuUsage > 80) {
-        console.warn('⚠️ High CPU usage detected');
+        console.warn("⚠️ High CPU usage detected");
         await this.reduceCampaignIntensity();
       }
-
     }, 10000); // Check every 10 seconds
 
     return interval;
   }
 
   async optimizeMemoryUsage() {
-    console.log('🔧 Optimizing memory usage...');
+    console.log("🔧 Optimizing memory usage...");
 
     // Reduce batch size
     await this.reduceBatchSize();
@@ -379,7 +381,7 @@ class CampaignPerformanceMonitor {
   }
 
   async reduceCampaignIntensity() {
-    console.log('🔧 Reducing campaign intensity...');
+    console.log("🔧 Reducing campaign intensity...");
 
     // Increase delays between operations
     await this.increaseOperationDelays();
@@ -430,23 +432,25 @@ async function validateCampaignResults(campaignId: string) {
 
   // Get campaign report
   const report = await getCampaignReport(campaignId);
-  console.log('Campaign report:', report);
+  console.log("Campaign report:", report);
 
   // Get actual current error count
   const actualErrors = await getCurrentErrorCount();
-  console.log('Actual error count:', actualErrors);
+  console.log("Actual error count:", actualErrors);
 
   // Compare with expected
   const expectedErrors = report.targetMetrics.typeScriptErrors;
   const discrepancy = Math.abs(actualErrors - expectedErrors);
 
   if (discrepancy > 10) {
-    console.warn(`⚠️ Error count discrepancy: Expected ${expectedErrors}, Actual ${actualErrors}`);
+    console.warn(
+      `⚠️ Error count discrepancy: Expected ${expectedErrors}, Actual ${actualErrors}`,
+    );
 
     // Investigate discrepancy
     await investigateErrorDiscrepancy(expectedErrors, actualErrors);
   } else {
-    console.log('✅ Error count matches expected results');
+    console.log("✅ Error count matches expected results");
   }
 
   // Check for regression
@@ -455,20 +459,22 @@ async function validateCampaignResults(campaignId: string) {
   const expectedImprovement = initialErrors - expectedErrors;
 
   if (improvement < expectedImprovement * 0.8) {
-    console.warn(`⚠️ Campaign underperformed: Expected ${expectedImprovement} reduction, got ${improvement}`);
+    console.warn(
+      `⚠️ Campaign underperformed: Expected ${expectedImprovement} reduction, got ${improvement}`,
+    );
   }
 }
 
 async function investigateErrorDiscrepancy(expected: number, actual: number) {
-  console.log('🔍 Investigating error count discrepancy...');
+  console.log("🔍 Investigating error count discrepancy...");
 
   // Check for new errors introduced
   const errorBreakdown = await getErrorBreakdown();
-  console.log('Current error breakdown:', errorBreakdown);
+  console.log("Current error breakdown:", errorBreakdown);
 
   // Check campaign coverage
   const coverage = await getCampaignCoverage();
-  console.log('Campaign coverage:', coverage);
+  console.log("Campaign coverage:", coverage);
 
   // Check for files that weren't processed
   const unprocessedFiles = coverage.totalFiles - coverage.processedFiles;
@@ -519,10 +525,10 @@ async function validateRollback(rollbackId: string) {
   console.log(`🔍 Validating rollback ${rollbackId}...`);
 
   // Check git status
-  const gitStatus = await execAsync('git status --porcelain');
+  const gitStatus = await execAsync("git status --porcelain");
   if (gitStatus.trim()) {
-    console.warn('⚠️ Working directory not clean after rollback');
-    console.log('Uncommitted changes:', gitStatus);
+    console.warn("⚠️ Working directory not clean after rollback");
+    console.log("Uncommitted changes:", gitStatus);
   }
 
   // Check error count restoration
@@ -530,25 +536,27 @@ async function validateRollback(rollbackId: string) {
   const preRollbackErrors = await getPreRollbackErrorCount(rollbackId);
 
   if (Math.abs(currentErrors - preRollbackErrors) > 5) {
-    console.warn(`⚠️ Error count not properly restored: Expected ${preRollbackErrors}, got ${currentErrors}`);
+    console.warn(
+      `⚠️ Error count not properly restored: Expected ${preRollbackErrors}, got ${currentErrors}`,
+    );
   } else {
-    console.log('✅ Error count properly restored');
+    console.log("✅ Error count properly restored");
   }
 
   // Check file integrity
   const integrityCheck = await checkFileIntegrity();
   if (!integrityCheck.passed) {
-    console.warn('⚠️ File integrity check failed after rollback');
-    console.log('Integrity issues:', integrityCheck.issues);
+    console.warn("⚠️ File integrity check failed after rollback");
+    console.log("Integrity issues:", integrityCheck.issues);
   }
 
   // Check build status
   const buildResult = await testBuild();
   if (!buildResult.success) {
-    console.warn('⚠️ Build fails after rollback');
-    console.log('Build errors:', buildResult.errors);
+    console.warn("⚠️ Build fails after rollback");
+    console.log("Build errors:", buildResult.errors);
   } else {
-    console.log('✅ Build successful after rollback');
+    console.log("✅ Build successful after rollback");
   }
 }
 ```
@@ -573,15 +581,15 @@ Build succeeds manually but fails in campaign
 // Debug build validation issues
 class BuildValidationDebugger {
   async debugBuildValidation() {
-    console.log('🔍 Debugging build validation...');
+    console.log("🔍 Debugging build validation...");
 
     // Test manual build
     const manualBuild = await this.testManualBuild();
-    console.log('Manual build result:', manualBuild);
+    console.log("Manual build result:", manualBuild);
 
     // Test campaign build environment
     const campaignBuild = await this.testCampaignBuild();
-    console.log('Campaign build result:', campaignBuild);
+    console.log("Campaign build result:", campaignBuild);
 
     // Compare environments
     await this.compareEnvironments();
@@ -592,7 +600,7 @@ class BuildValidationDebugger {
 
   async testManualBuild() {
     try {
-      const result = await execAsync('npm run build');
+      const result = await execAsync("npm run build");
       return { success: true, output: result };
     } catch (error) {
       return { success: false, error: error.message };
@@ -603,12 +611,12 @@ class BuildValidationDebugger {
     // Simulate campaign build environment
     const env = {
       ...process.env,
-      NODE_ENV: 'campaign',
-      CAMPAIGN_MODE: 'true'
+      NODE_ENV: "campaign",
+      CAMPAIGN_MODE: "true",
     };
 
     try {
-      const result = await execAsync('npm run build', { env });
+      const result = await execAsync("npm run build", { env });
       return { success: true, output: result };
     } catch (error) {
       return { success: false, error: error.message };
@@ -616,30 +624,25 @@ class BuildValidationDebugger {
   }
 
   async compareEnvironments() {
-    console.log('Comparing build environments...');
+    console.log("Comparing build environments...");
 
     // Check Node.js version
     const nodeVersion = process.version;
-    console.log('Node.js version:', nodeVersion);
+    console.log("Node.js version:", nodeVersion);
 
     // Check npm version
-    const npmVersion = await execAsync('npm --version');
-    console.log('npm version:', npmVersion.trim());
+    const npmVersion = await execAsync("npm --version");
+    console.log("npm version:", npmVersion.trim());
 
     // Check TypeScript version
-    const tsVersion = await execAsync('npx tsc --version');
-    console.log('TypeScript version:', tsVersion.trim());
+    const tsVersion = await execAsync("npx tsc --version");
+    console.log("TypeScript version:", tsVersion.trim());
 
     // Check environment variables
-    const relevantEnvVars = [
-      'NODE_ENV',
-      'CAMPAIGN_MODE',
-      'CI',
-      'BUILD_MODE'
-    ];
+    const relevantEnvVars = ["NODE_ENV", "CAMPAIGN_MODE", "CI", "BUILD_MODE"];
 
     for (const envVar of relevantEnvVars) {
-      console.log(`${envVar}:`, process.env[envVar] || 'undefined');
+      console.log(`${envVar}:`, process.env[envVar] || "undefined");
     }
   }
 }
@@ -661,7 +664,7 @@ Frequent false positive corruption alerts
 // Debug corruption detection
 class CorruptionDetectionDebugger {
   async debugCorruptionDetection() {
-    console.log('🔍 Debugging corruption detection...');
+    console.log("🔍 Debugging corruption detection...");
 
     // Check file checksums
     await this.checkFileChecksums();
@@ -677,22 +680,22 @@ class CorruptionDetectionDebugger {
   }
 
   async checkFileChecksums() {
-    console.log('Checking file checksums...');
+    console.log("Checking file checksums...");
 
     const criticalFiles = [
-      'src/utils/reliableAstronomy.ts',
-      'src/constants/elementalProperties.ts',
-      'src/data/planets/mars.ts'
+      "src/utils/reliableAstronomy.ts",
+      "src/constants/elementalProperties.ts",
+      "src/data/planets/mars.ts",
     ];
 
     for (const file of criticalFiles) {
       if (fs.existsSync(file)) {
-        const content = fs.readFileSync(file, 'utf8');
-        const checksum = crypto.createHash('md5').update(content).digest('hex');
+        const content = fs.readFileSync(file, "utf8");
+        const checksum = crypto.createHash("md5").update(content).digest("hex");
         console.log(`${file}: ${checksum}`);
 
         // Check for suspicious patterns
-        if (content.includes('\0') || content.includes('\uFFFD')) {
+        if (content.includes("\0") || content.includes("\uFFFD")) {
           console.warn(`⚠️ Suspicious characters in ${file}`);
         }
       } else {
@@ -702,24 +705,28 @@ class CorruptionDetectionDebugger {
   }
 
   async validateFileSyntax() {
-    console.log('Validating file syntax...');
+    console.log("Validating file syntax...");
 
     // Check TypeScript files
     try {
-      const result = await execAsync('npx tsc --noEmit --skipLibCheck');
-      console.log('✅ TypeScript syntax validation passed');
+      const result = await execAsync("npx tsc --noEmit --skipLibCheck");
+      console.log("✅ TypeScript syntax validation passed");
     } catch (error) {
-      console.warn('⚠️ TypeScript syntax errors found');
+      console.warn("⚠️ TypeScript syntax errors found");
       console.log(error.message);
     }
 
     // Check JSON files
-    const jsonFiles = ['package.json', 'tsconfig.json', '.kiro/settings/mcp.json'];
+    const jsonFiles = [
+      "package.json",
+      "tsconfig.json",
+      ".kiro/settings/mcp.json",
+    ];
 
     for (const file of jsonFiles) {
       if (fs.existsSync(file)) {
         try {
-          JSON.parse(fs.readFileSync(file, 'utf8'));
+          JSON.parse(fs.readFileSync(file, "utf8"));
           console.log(`✅ ${file} is valid JSON`);
         } catch (error) {
           console.warn(`⚠️ ${file} has invalid JSON:`, error.message);
@@ -750,7 +757,7 @@ Progress reports empty or incorrect
 // Debug progress tracking
 class ProgressTrackingDebugger {
   async debugProgressTracking() {
-    console.log('🔍 Debugging progress tracking...');
+    console.log("🔍 Debugging progress tracking...");
 
     // Test metrics collection
     await this.testMetricsCollection();
@@ -766,41 +773,45 @@ class ProgressTrackingDebugger {
   }
 
   async testMetricsCollection() {
-    console.log('Testing metrics collection...');
+    console.log("Testing metrics collection...");
 
     const progressTracker = new ProgressTracker();
 
     // Test error count collection
     const errorCount = await progressTracker.getTypeScriptErrorCount();
-    console.log('Current error count:', errorCount);
+    console.log("Current error count:", errorCount);
 
     if (errorCount === -1) {
-      console.warn('⚠️ Error count collection failed');
+      console.warn("⚠️ Error count collection failed");
       await this.debugErrorCountCollection();
     }
 
     // Test other metrics
     const metrics = await progressTracker.getAllMetrics();
-    console.log('All metrics:', metrics);
+    console.log("All metrics:", metrics);
   }
 
   async debugErrorCountCollection() {
-    console.log('Debugging error count collection...');
+    console.log("Debugging error count collection...");
 
     // Test TypeScript command directly
     try {
-      const result = await execAsync('npx tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"');
-      console.log('Direct error count:', result.trim());
+      const result = await execAsync(
+        'npx tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+      );
+      console.log("Direct error count:", result.trim());
     } catch (error) {
-      console.log('Error count command failed:', error.message);
+      console.log("Error count command failed:", error.message);
 
       // Try alternative method
       try {
-        const result = await execAsync('npx tsc --noEmit --skipLibCheck');
-        console.log('No TypeScript errors found');
+        const result = await execAsync("npx tsc --noEmit --skipLibCheck");
+        console.log("No TypeScript errors found");
       } catch (tsError) {
-        const errorLines = tsError.message.split('\n').filter(line => line.includes('error TS'));
-        console.log('Error count (alternative method):', errorLines.length);
+        const errorLines = tsError.message
+          .split("\n")
+          .filter((line) => line.includes("error TS"));
+        console.log("Error count (alternative method):", errorLines.length);
       }
     }
   }
@@ -825,7 +836,7 @@ Intelligence system errors in logs
 // Debug campaign intelligence system
 class CampaignIntelligenceDebugger {
   async debugIntelligenceSystem() {
-    console.log('🔍 Debugging campaign intelligence system...');
+    console.log("🔍 Debugging campaign intelligence system...");
 
     // Test data collection
     await this.testDataCollection();
@@ -841,40 +852,41 @@ class CampaignIntelligenceDebugger {
   }
 
   async testDataCollection() {
-    console.log('Testing intelligence data collection...');
+    console.log("Testing intelligence data collection...");
 
     const intelligence = new CampaignIntelligenceSystem();
 
     // Test historical data collection
     const historicalData = await intelligence.collectHistoricalData();
-    console.log('Historical data points:', historicalData.length);
+    console.log("Historical data points:", historicalData.length);
 
     if (historicalData.length === 0) {
-      console.warn('⚠️ No historical data available');
+      console.warn("⚠️ No historical data available");
       await this.initializeHistoricalData();
     }
 
     // Test real-time data collection
     const realtimeData = await intelligence.collectRealtimeData();
-    console.log('Real-time data:', realtimeData);
+    console.log("Real-time data:", realtimeData);
   }
 
   async testPatternRecognition() {
-    console.log('Testing pattern recognition...');
+    console.log("Testing pattern recognition...");
 
     const intelligence = new CampaignIntelligenceSystem();
 
     // Test error pattern recognition
     const errorPatterns = await intelligence.recognizeErrorPatterns();
-    console.log('Recognized error patterns:', errorPatterns);
+    console.log("Recognized error patterns:", errorPatterns);
 
     // Test performance patterns
-    const performancePatterns = await intelligence.recognizePerformancePatterns();
-    console.log('Performance patterns:', performancePatterns);
+    const performancePatterns =
+      await intelligence.recognizePerformancePatterns();
+    console.log("Performance patterns:", performancePatterns);
 
     // Test success patterns
     const successPatterns = await intelligence.recognizeSuccessPatterns();
-    console.log('Success patterns:', successPatterns);
+    console.log("Success patterns:", successPatterns);
   }
 }
 ```

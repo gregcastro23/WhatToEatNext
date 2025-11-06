@@ -14,8 +14,8 @@ import type {
   ThermodynamicMetrics,
   ThermodynamicProperties,
   FlavorProfile,
-  CookingMethod
-} from '@/types/alchemy';
+  CookingMethod,
+} from "@/types/alchemy";
 
 /**
  * UnifiedIngredient interface combines properties from multiple Ingredient interfaces
@@ -23,80 +23,83 @@ import type {
  */
 export interface UnifiedIngredient {
   // Core Properties required by multiple interfaces
-  name: string,
-  category: string,
-  subcategory?: string,
-  amount?: number,
-  unit?: string,
-  element?: Element,
+  name: string;
+  category: string;
+  subcategory?: string;
+  amount?: number;
+  unit?: string;
+  element?: Element;
 
   // Elemental Properties (Self-Reinforcement Compliant)
-  elementalProperties: ElementalProperties,
+  elementalProperties: ElementalProperties;
 
   // Alchemical Properties (Core Metrics)
-  alchemicalProperties: AlchemicalProperties,
+  alchemicalProperties: AlchemicalProperties;
 
   // Kalchm Value (Intrinsic Alchemical Equilibrium)
   kalchm?: number; // K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
-  monica?: number
+  monica?: number;
 
   // Enhanced Properties;
-  flavorProfile?: { [key: string]: number }
-  nutritionalProfile?: NutritionalProfile,
+  flavorProfile?: { [key: string]: number };
+  nutritionalProfile?: NutritionalProfile;
   astrologicalProfile?: {
     elementalAffinity?: {
-      base: string,
-      secondary?: string
-    }
-    rulingPlanets?: PlanetName[] | string[],
-    favorableZodiac?: any[] | string[],
-    zodiacAffinity?: any[] | string[]
-  }
+      base: string;
+      secondary?: string;
+    };
+    rulingPlanets?: PlanetName[] | string[];
+    favorableZodiac?: any[] | string[];
+    zodiacAffinity?: any[] | string[];
+  };
 
   // Energy properties
-  energyProfile?: ThermodynamicMetrics,
-  energyValues?: ThermodynamicProperties,
+  energyProfile?: ThermodynamicMetrics;
+  energyValues?: ThermodynamicProperties;
 
   // Additional properties for compatibility
-  culinaryProperties?: unknown,
-  storage?: unknown,
-  preparation?: unknown,
-  qualities?: string[],
-  origin?: string[],
-  affinities?: string[],
-  healthBenefits?: string[],
-  seasonality?: Season[],
-  season?: Season[],
-  score?: number,
-  intensity?: number,
-  complexity?: number,
-  swaps?: string[],
-  culturalOrigins?: string[] | unknown,
+  culinaryProperties?: unknown;
+  storage?: unknown;
+  preparation?: unknown;
+  qualities?: string[];
+  origin?: string[];
+  affinities?: string[];
+  healthBenefits?: string[];
+  seasonality?: Season[];
+  season?: Season[];
+  score?: number;
+  intensity?: number;
+  complexity?: number;
+  swaps?: string[];
+  culturalOrigins?: string[] | unknown;
   elementalAffinity?: {
-    base: string,
-    secondary?: string
-  }
-  tags?: string[],
-  pairingRecommendations?: string[],
-  preparationMethods?: string[],
-  description?: string,
-  planetaryRuler?: PlanetName
+    base: string;
+    secondary?: string;
+  };
+  tags?: string[];
+  pairingRecommendations?: string[];
+  preparationMethods?: string[];
+  description?: string;
+  planetaryRuler?: PlanetName;
 
   // Metadata
   metadata?: {
-    sourceFile: string,
-    enhancedAt: string,
-    kalchmCalculated: boolean
-  }
+    sourceFile: string;
+    enhancedAt: string;
+    kalchmCalculated: boolean;
+  };
 
   // Allow additional properties
-  [key: string]: unknown
+  [key: string]: unknown;
 }
 
 /**
  * Helper function to create a basic valid UnifiedIngredient with default values
  */
-export function createUnifiedIngredient(name: string, category: string): UnifiedIngredient {
+export function createUnifiedIngredient(
+  name: string,
+  category: string,
+): UnifiedIngredient {
   return {
     name,
     category,
@@ -105,23 +108,23 @@ export function createUnifiedIngredient(name: string, category: string): Unified
       Spirit: 0,
       Essence: 0,
       Matter: 0,
-      Substance: 0
-}
-  }
+      Substance: 0,
+    },
+  };
 }
 
 /**
  * Type guard to check if an object is a valid UnifiedIngredient
  */
 export function isUnifiedIngredient(obj: unknown): obj is UnifiedIngredient {
-  if (!obj || typeof obj !== 'object') return false;
+  if (!obj || typeof obj !== "object") return false;
   const ingredient = obj as Partial<UnifiedIngredient>;
   return (
-    typeof ingredient.name === 'string' &&
-    typeof ingredient.category === 'string' &&
+    typeof ingredient.name === "string" &&
+    typeof ingredient.category === "string" &&
     ingredient.elementalPropertiesState !== undefined &&
-    typeof ingredient.elementalPropertiesState === 'object' &&
+    typeof ingredient.elementalPropertiesState === "object" &&
     ingredient.alchemicalProperties !== undefined &&
-    typeof ingredient.alchemicalProperties === 'object'
+    typeof ingredient.alchemicalProperties === "object"
   );
 }

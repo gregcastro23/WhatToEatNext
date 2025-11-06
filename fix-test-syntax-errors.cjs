@@ -7,9 +7,9 @@
  * that were introduced during previous cleanup attempts
  */
 
-const fs = require('fs');
-const path = require('path');
-const glob = require('glob');
+const fs = require("fs");
+const path = require("path");
+const glob = require("glob");
 
 class TestSyntaxFixer {
   constructor() {
@@ -18,22 +18,24 @@ class TestSyntaxFixer {
   }
 
   async execute() {
-    console.log('🔧 Fixing test syntax errors...');
+    console.log("🔧 Fixing test syntax errors...");
 
-    const testFiles = glob.sync('src/**/*.test.{ts,tsx}', {
-      ignore: ['node_modules/**']
+    const testFiles = glob.sync("src/**/*.test.{ts,tsx}", {
+      ignore: ["node_modules/**"],
     });
 
     for (const file of testFiles) {
       await this.fixFile(file);
     }
 
-    console.log(`✅ Fixed ${this.fixedIssues} syntax issues in ${this.fixedFiles} files`);
+    console.log(
+      `✅ Fixed ${this.fixedIssues} syntax issues in ${this.fixedFiles} files`,
+    );
   }
 
   async fixFile(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       let modified = content;
       let fileFixCount = 0;
 
@@ -42,8 +44,8 @@ class TestSyntaxFixer {
         /(\s+)(it|test)\s*\(\s*'([^']+)'\s*:\s*any\s*,\s*(async\s*)?\(\s*\)\s*=>\s*{/g,
         (match, indent, testType, testName, asyncKeyword) => {
           fileFixCount++;
-          return `${indent}${testType}('${testName}', ${asyncKeyword || ''}() => {`;
-        }
+          return `${indent}${testType}('${testName}', ${asyncKeyword || ""}() => {`;
+        },
       );
 
       // Fix malformed catch blocks
@@ -52,7 +54,7 @@ class TestSyntaxFixer {
         (match, errorParam) => {
           fileFixCount++;
           return `} catch (${errorParam}: any) {`;
-        }
+        },
       );
 
       // Fix malformed Object.entries forEach calls
@@ -61,7 +63,7 @@ class TestSyntaxFixer {
         (match, key, value) => {
           fileFixCount++;
           return `Object.entries($1 || {}).forEach(([${key}, ${value}]: [string, any]) =>`;
-        }
+        },
       );
 
       // Fix malformed date strings
@@ -69,8 +71,8 @@ class TestSyntaxFixer {
         /'(\d{4}-\d{2}-\d{2}T\d{2}):\s*(\d+)\s*,\s*(\d+):(\d{2}Z)'/g,
         (match, datePart, hour, minute, endPart) => {
           fileFixCount++;
-          return `'${datePart}:${hour.padStart(2, '0')}:${minute.padStart(2, '0')}${endPart}'`;
-        }
+          return `'${datePart}:${hour.padStart(2, "0")}:${minute.padStart(2, "0")}${endPart}'`;
+        },
       );
 
       if (fileFixCount > 0) {
@@ -79,9 +81,10 @@ class TestSyntaxFixer {
         this.fixedIssues += fileFixCount;
         console.log(`  Fixed ${fileFixCount} issues in ${filePath}`);
       }
-
     } catch (error) {
-      console.warn(`  Warning: Could not process ${filePath}: ${error.message}`);
+      console.warn(
+        `  Warning: Could not process ${filePath}: ${error.message}`,
+      );
     }
   }
 }
@@ -90,13 +93,14 @@ class TestSyntaxFixer {
 if (require.main === module) {
   const fixer = new TestSyntaxFixer();
 
-  fixer.execute()
+  fixer
+    .execute()
     .then(() => {
-      console.log('🎉 Test syntax fixing completed!');
+      console.log("🎉 Test syntax fixing completed!");
       process.exit(0);
     })
     .catch((error) => {
-      console.error('💥 Syntax fixing failed:', error.message);
+      console.error("💥 Syntax fixing failed:", error.message);
       process.exit(1);
     });
 }

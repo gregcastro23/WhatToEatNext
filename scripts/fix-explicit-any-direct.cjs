@@ -7,40 +7,43 @@
  * with more appropriate TypeScript types.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class DirectAnyEliminator {
   constructor() {
     this.fixedFiles = [];
-    this.dryRun = process.argv.includes('--dry-run');
-    this.verbose = process.argv.includes('--verbose');
+    this.dryRun = process.argv.includes("--dry-run");
+    this.verbose = process.argv.includes("--verbose");
   }
 
-  log(message, level = 'info') {
+  log(message, level = "info") {
     const timestamp = new Date().toISOString();
-    const prefix = level === 'error' ? '❌' : level === 'warn' ? '⚠️' : '✅';
+    const prefix = level === "error" ? "❌" : level === "warn" ? "⚠️" : "✅";
     console.log(`${prefix} [${timestamp}] ${message}`);
   }
 
   findFilesWithAnyTypes() {
-    this.log('🔍 Finding files with explicit any types...');
+    this.log("🔍 Finding files with explicit any types...");
 
     try {
-      const grepOutput = execSync('grep -r ": any" src --include="*.ts" --include="*.tsx" -l', {
-        encoding: 'utf8',
-        stdio: 'pipe',
-      });
+      const grepOutput = execSync(
+        'grep -r ": any" src --include="*.ts" --include="*.tsx" -l',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const files = grepOutput
         .trim()
-        .split('\n')
-        .filter(f => f.length > 0);
+        .split("\n")
+        .filter((f) => f.length > 0);
       this.log(`Found ${files.length} files with explicit any types`);
       return files;
     } catch (error) {
-      this.log('No files with explicit any types found');
+      this.log("No files with explicit any types found");
       return [];
     }
   }
@@ -48,20 +51,20 @@ class DirectAnyEliminator {
   shouldPreserveAnyInFile(filePath) {
     // Preserve any types in astronomical integrations
     const astronomicalPatterns = [
-      'astronomy',
-      'ephemeris',
-      'planetary',
-      'celestial',
-      'astrological',
-      'swiss-ephemeris',
-      'astronomia',
+      "astronomy",
+      "ephemeris",
+      "planetary",
+      "celestial",
+      "astrological",
+      "swiss-ephemeris",
+      "astronomia",
     ];
 
     const fileName = path.basename(filePath).toLowerCase();
     const dirPath = path.dirname(filePath).toLowerCase();
 
     return astronomicalPatterns.some(
-      pattern => fileName.includes(pattern) || dirPath.includes(pattern),
+      (pattern) => fileName.includes(pattern) || dirPath.includes(pattern),
     );
   }
 
@@ -73,7 +76,9 @@ class DirectAnyEliminator {
     // Skip if this file should preserve astronomical any types
     if (this.shouldPreserveAnyInFile(filePath)) {
       if (this.verbose) {
-        this.log(`  Preserving astronomical any types in ${path.basename(filePath)}`);
+        this.log(
+          `  Preserving astronomical any types in ${path.basename(filePath)}`,
+        );
       }
       return { content: newContent, fixed: false, appliedFixes: [] };
     }
@@ -86,105 +91,111 @@ class DirectAnyEliminator {
       // Function parameters
       {
         from: /\(([^)]*?):\s*any\)/g,
-        to: '($1: unknown)',
-        description: 'Function parameters any → unknown',
+        to: "($1: unknown)",
+        description: "Function parameters any → unknown",
       },
 
       // Variable declarations
       {
         from: /:\s*any(\s*[=;,\n])/g,
-        to: ': unknown$1',
-        description: 'Variable declarations any → unknown',
+        to: ": unknown$1",
+        description: "Variable declarations any → unknown",
       },
 
       // Array types
       {
         from: /:\s*any\[\]/g,
-        to: ': unknown[]',
-        description: 'Array types any[] → unknown[]',
+        to: ": unknown[]",
+        description: "Array types any[] → unknown[]",
       },
 
       // Promise types
       {
         from: /Promise<any>/g,
-        to: 'Promise<unknown>',
-        description: 'Promise<any> → Promise<unknown>',
+        to: "Promise<unknown>",
+        description: "Promise<any> → Promise<unknown>",
       },
 
       // Record types
       {
         from: /Record<string,\s*any>/g,
-        to: 'Record<string, unknown>',
-        description: 'Record<string, any> → Record<string, unknown>',
+        to: "Record<string, unknown>",
+        description: "Record<string, any> → Record<string, unknown>",
       },
 
       // Generic constraints
       {
         from: /<([^>]*?):\s*any>/g,
-        to: '<$1: unknown>',
-        description: 'Generic constraints any → unknown',
+        to: "<$1: unknown>",
+        description: "Generic constraints any → unknown",
       },
 
       // Return types
       {
         from: /\):\s*any(\s*{)/g,
-        to: '): unknown$1',
-        description: 'Return types any → unknown',
+        to: "): unknown$1",
+        description: "Return types any → unknown",
       },
     ];
 
     // Apply replacements
-    anyReplacements.forEach(replacement => {
+    anyReplacements.forEach((replacement) => {
       const beforeCount = (newContent.match(replacement.from) || []).length;
       if (beforeCount > 0) {
         newContent = newContent.replace(replacement.from, replacement.to);
         fixed = true;
-        appliedFixes.push(`${replacement.description} (${beforeCount} occurrences)`);
+        appliedFixes.push(
+          `${replacement.description} (${beforeCount} occurrences)`,
+        );
       }
     });
 
     // Context-specific replacements
-    if (filePath.includes('test') || filePath.includes('spec')) {
+    if (filePath.includes("test") || filePath.includes("spec")) {
       // Test-specific any replacements
       const testReplacements = [
         {
           from: /jest\.fn\(\):\s*any/g,
-          to: 'jest.fn(): jest.MockedFunction<any>',
-          description: 'Jest mock function types',
+          to: "jest.fn(): jest.MockedFunction<any>",
+          description: "Jest mock function types",
         },
       ];
 
-      testReplacements.forEach(replacement => {
+      testReplacements.forEach((replacement) => {
         const beforeCount = (newContent.match(replacement.from) || []).length;
         if (beforeCount > 0) {
           newContent = newContent.replace(replacement.from, replacement.to);
           fixed = true;
-          appliedFixes.push(`${replacement.description} (${beforeCount} occurrences)`);
+          appliedFixes.push(
+            `${replacement.description} (${beforeCount} occurrences)`,
+          );
         }
       });
     }
 
     // Service-specific replacements
-    if (filePath.includes('services/')) {
+    if (filePath.includes("services/")) {
       const serviceReplacements = [
         {
           from: /callback:\s*\(data:\s*any\)\s*=>\s*void/g,
-          to: 'callback: (data: unknown) => void',
-          description: 'Service callback types',
+          to: "callback: (data: unknown) => void",
+          description: "Service callback types",
         },
         {
           from: /config:\s*any/g,
-          to: 'config: Record<string, unknown>',
-          description: 'Service config types',
+          to: "config: Record<string, unknown>",
+          description: "Service config types",
         },
       ];
 
-      serviceReplacements.forEach(replacement => {
+      serviceReplacements.forEach((replacement) => {
         const beforeCount = (newContent.match(replacement.from) || []).length;
         if (beforeCount > 0) {
           newContent = newContent.replace(replacement.from, replacement.to);
           fixed = true;
-          appliedFixes.push(`${replacement.description} (${beforeCount} occurrences)`);
+          appliedFixes.push(
+            `${replacement.description} (${beforeCount} occurrences)`,
+          );
         }
       });
     }
@@ -194,7 +205,7 @@ class DirectAnyEliminator {
 
     if (this.verbose && appliedFixes.length > 0) {
       this.log(
-        `  Fixed in ${path.basename(filePath)}: ${appliedFixes.join(', ')} (${reducedCount} any types eliminated)`,
+        `  Fixed in ${path.basename(filePath)}: ${appliedFixes.join(", ")} (${reducedCount} any types eliminated)`,
       );
     }
 
@@ -203,12 +214,12 @@ class DirectAnyEliminator {
 
   async fixFile(filePath) {
     try {
-      const originalContent = fs.readFileSync(filePath, 'utf8');
+      const originalContent = fs.readFileSync(filePath, "utf8");
       const result = this.fixExplicitAnyTypes(originalContent, filePath);
 
       if (result.fixed) {
         if (!this.dryRun) {
-          fs.writeFileSync(filePath, result.content, 'utf8');
+          fs.writeFileSync(filePath, result.content, "utf8");
         }
 
         this.fixedFiles.push({
@@ -218,27 +229,27 @@ class DirectAnyEliminator {
         });
 
         this.log(
-          `${this.dryRun ? '[DRY RUN] ' : ''}Fixed explicit-any types in ${path.basename(filePath)}`,
+          `${this.dryRun ? "[DRY RUN] " : ""}Fixed explicit-any types in ${path.basename(filePath)}`,
         );
         return true;
       }
 
       return false;
     } catch (error) {
-      this.log(`Error fixing ${filePath}: ${error.message}`, 'error');
+      this.log(`Error fixing ${filePath}: ${error.message}`, "error");
       return false;
     }
   }
 
   async validateFixes() {
-    this.log('🔍 Validating fixes...');
+    this.log("🔍 Validating fixes...");
 
     try {
       const afterCount = execSync(
         'grep -r ": any" src --include="*.ts" --include="*.tsx" | wc -l',
         {
-          encoding: 'utf8',
-          stdio: 'pipe',
+          encoding: "utf8",
+          stdio: "pipe",
         },
       );
 
@@ -247,14 +258,14 @@ class DirectAnyEliminator {
 
       return { remainingAnyTypes };
     } catch (error) {
-      this.log(`Validation error: ${error.message}`, 'error');
+      this.log(`Validation error: ${error.message}`, "error");
       return { remainingAnyTypes: -1 };
     }
   }
 
   async run() {
-    this.log('🚀 Starting Direct Explicit-Any Type Elimination (Phase 9.3)');
-    this.log(`Mode: ${this.dryRun ? 'DRY RUN' : 'LIVE EXECUTION'}`);
+    this.log("🚀 Starting Direct Explicit-Any Type Elimination (Phase 9.3)");
+    this.log(`Mode: ${this.dryRun ? "DRY RUN" : "LIVE EXECUTION"}`);
 
     // Get initial count
     let initialCount = 0;
@@ -262,8 +273,8 @@ class DirectAnyEliminator {
       const beforeOutput = execSync(
         'grep -r ": any" src --include="*.ts" --include="*.tsx" | wc -l',
         {
-          encoding: 'utf8',
-          stdio: 'pipe',
+          encoding: "utf8",
+          stdio: "pipe",
         },
       );
       initialCount = parseInt(beforeOutput.trim()) || 0;
@@ -274,7 +285,7 @@ class DirectAnyEliminator {
     this.log(`Initial explicit any types: ${initialCount}`);
 
     if (initialCount === 0) {
-      this.log('✅ No explicit-any types found!');
+      this.log("✅ No explicit-any types found!");
       return;
     }
 
@@ -282,7 +293,7 @@ class DirectAnyEliminator {
     const filesWithAny = this.findFilesWithAnyTypes();
 
     if (filesWithAny.length === 0) {
-      this.log('✅ No files with explicit-any types found!');
+      this.log("✅ No files with explicit-any types found!");
       return;
     }
 
@@ -307,11 +318,14 @@ class DirectAnyEliminator {
     // Validate fixes
     const validation = await this.validateFixes();
     const finalCount =
-      validation.remainingAnyTypes >= 0 ? validation.remainingAnyTypes : initialCount;
-    const reduction = initialCount > 0 ? (initialCount - finalCount) / initialCount : 0;
+      validation.remainingAnyTypes >= 0
+        ? validation.remainingAnyTypes
+        : initialCount;
+    const reduction =
+      initialCount > 0 ? (initialCount - finalCount) / initialCount : 0;
 
     // Report results
-    this.log('\\n📊 Fix Summary:');
+    this.log("\\n📊 Fix Summary:");
     this.log(`   Initial explicit-any types: ${initialCount}`);
     this.log(`   Files processed: ${filesToProcess.length}`);
     this.log(`   Files fixed: ${fixedCount}`);
@@ -322,15 +336,17 @@ class DirectAnyEliminator {
       this.log(`   Reduction achieved: ${(reduction * 100).toFixed(1)}%`);
 
       if (reduction >= 0.5) {
-        this.log('🎯 Target 50% reduction achieved!');
+        this.log("🎯 Target 50% reduction achieved!");
       } else {
-        this.log(`⚠️  Progress toward 50% target: ${(reduction * 100).toFixed(1)}%`);
+        this.log(
+          `⚠️  Progress toward 50% target: ${(reduction * 100).toFixed(1)}%`,
+        );
       }
     }
 
     if (this.fixedFiles.length > 0) {
-      this.log('\\n✅ Fixed files:');
-      this.fixedFiles.slice(0, 10).forEach(file => {
+      this.log("\\n✅ Fixed files:");
+      this.fixedFiles.slice(0, 10).forEach((file) => {
         this.log(`   ${file.path} (${file.reducedCount} any types eliminated)`);
       });
 
@@ -340,11 +356,11 @@ class DirectAnyEliminator {
     }
 
     this.log(
-      `\\n${this.dryRun ? '🔍 DRY RUN COMPLETE' : '✅ EXPLICIT-ANY TYPE ELIMINATION COMPLETE'}`,
+      `\\n${this.dryRun ? "🔍 DRY RUN COMPLETE" : "✅ EXPLICIT-ANY TYPE ELIMINATION COMPLETE"}`,
     );
 
     if (!this.dryRun && reduction >= 0.5) {
-      this.log('🎉 Target explicit-any reduction achieved!');
+      this.log("🎉 Target explicit-any reduction achieved!");
     }
   }
 }
@@ -352,8 +368,8 @@ class DirectAnyEliminator {
 // Run the eliminator
 if (require.main === module) {
   const eliminator = new DirectAnyEliminator();
-  eliminator.run().catch(error => {
-    console.error('❌ Critical error:', error);
+  eliminator.run().catch((error) => {
+    console.error("❌ Critical error:", error);
     process.exit(1);
   });
 }

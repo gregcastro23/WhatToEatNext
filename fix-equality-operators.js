@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { glob } = require('glob');
+const fs = require("fs");
+const path = require("path");
+const { glob } = require("glob");
 
 // Find all TypeScript and JavaScript files in src directory
 async function findFiles() {
-  const pattern = 'src/**/*.{ts,tsx,js,jsx}';
+  const pattern = "src/**/*.{ts,tsx,js,jsx}";
   const files = await glob(pattern, { cwd: process.cwd() });
   return files;
 }
@@ -14,10 +14,10 @@ async function findFiles() {
 // Fix equality operators in a file
 function fixEqualityOperators(content) {
   // Replace != with !==
-  content = content.replace(/\b!=\s/g, '!== ');
+  content = content.replace(/\b!=\s/g, "!== ");
 
   // Replace == with ===
-  content = content.replace(/\b==\s/g, '=== ');
+  content = content.replace(/\b==\s/g, "=== ");
 
   return content;
 }
@@ -29,11 +29,11 @@ async function processFiles() {
 
   for (const file of files) {
     try {
-      const content = fs.readFileSync(file, 'utf8');
+      const content = fs.readFileSync(file, "utf8");
       const fixedContent = fixEqualityOperators(content);
 
       if (content !== fixedContent) {
-        fs.writeFileSync(file, fixedContent, 'utf8');
+        fs.writeFileSync(file, fixedContent, "utf8");
         console.log(`Fixed: ${file}`);
         totalFixed++;
       }

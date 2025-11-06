@@ -5,7 +5,7 @@
  * This replaces the removed complex PlanetaryKineticsClient.
  */
 
-import { logger } from '@/utils/logger';
+import { logger } from "@/utils/logger";
 
 export interface KineticsOptions {
   includeThermodynamics?: boolean;
@@ -20,7 +20,7 @@ export interface KineticMetrics {
   power: number;
   efficiency: number;
   aspectPhase: string;
-  thermalDirection: 'heating' | 'cooling' | 'stable';
+  thermalDirection: "heating" | "cooling" | "stable";
 }
 
 export interface KineticsResponse {
@@ -46,7 +46,8 @@ export interface KineticsLocation {
 
 export class PlanetaryKineticsClient {
   private static instance: PlanetaryKineticsClient;
-  private readonly cache: Map<string, { data: any; timestamp: number }> = new Map();
+  private readonly cache: Map<string, { data: any; timestamp: number }> =
+    new Map();
 
   private constructor() {}
 
@@ -62,7 +63,7 @@ export class PlanetaryKineticsClient {
    */
   async getEnhancedKinetics(
     location: KineticsLocation,
-    options: KineticsOptions = {}
+    options: KineticsOptions = {},
   ): Promise<KineticsResponse> {
     try {
       const cacheKey = `kinetics_${location.latitude}_${location.longitude}`;
@@ -72,12 +73,12 @@ export class PlanetaryKineticsClient {
       // Check cache
       if (options.useCache !== false) {
         const cached = this.cache.get(cacheKey);
-        if (cached && (now - cached.timestamp) < cacheTimeout) {
+        if (cached && now - cached.timestamp < cacheTimeout) {
           return {
             success: true,
             data: cached.data,
             timestamp: new Date().toISOString(),
-            cacheHit: true
+            cacheHit: true,
           };
         }
       }
@@ -90,8 +91,8 @@ export class PlanetaryKineticsClient {
         forceMagnitude: 1.2,
         power: 0.7,
         efficiency: 0.85,
-        aspectPhase: 'waxing',
-        thermalDirection: 'stable'
+        aspectPhase: "waxing",
+        thermalDirection: "stable",
       };
 
       // Cache the result
@@ -101,14 +102,14 @@ export class PlanetaryKineticsClient {
         success: true,
         data: mockData,
         timestamp: new Date().toISOString(),
-        cacheHit: false
+        cacheHit: false,
       };
     } catch (error) {
-      logger.error('Error in getEnhancedKinetics:', error);
+      logger.error("Error in getEnhancedKinetics:", error);
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
+        error: error instanceof Error ? error.message : "Unknown error",
+        timestamp: new Date().toISOString(),
       };
     }
   }
@@ -118,17 +119,17 @@ export class PlanetaryKineticsClient {
    */
   async getGroupDynamics(
     userIds: string[],
-    location: KineticsLocation
+    location: KineticsLocation,
   ): Promise<GroupDynamicsResponse> {
     return {
-      groupId: `group_${userIds.join('_')}`,
+      groupId: `group_${userIds.join("_")}`,
       members: userIds,
       collectiveEnergy: 0.7,
-      dominantElement: 'Fire',
+      dominantElement: "Fire",
       recommendations: [
-        'Consider adding more Earth elements for stability',
-        'Balance with Water elements for emotional harmony'
-      ]
+        "Consider adding more Earth elements for stability",
+        "Balance with Water elements for emotional harmony",
+      ],
     };
   }
 
@@ -144,7 +145,7 @@ export class PlanetaryKineticsClient {
    */
   clearCache(): void {
     this.cache.clear();
-    logger.debug('PlanetaryKineticsClient cache cleared');
+    logger.debug("PlanetaryKineticsClient cache cleared");
   }
 }
 

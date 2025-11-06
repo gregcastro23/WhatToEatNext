@@ -7,9 +7,9 @@
  * to ensure we don't break the build.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class SingleFileTS1005Fixer {
   constructor() {
@@ -19,15 +19,15 @@ class SingleFileTS1005Fixer {
   }
 
   async run() {
-    console.log('🎯 Single File TS1005 Syntax Error Resolution - Task 2.1');
-    console.log('📋 Processing one file at a time with immediate validation\n');
+    console.log("🎯 Single File TS1005 Syntax Error Resolution - Task 2.1");
+    console.log("📋 Processing one file at a time with immediate validation\n");
 
     try {
       const initialErrors = this.getTS1005ErrorCount();
       console.log(`📊 Initial TS1005 errors: ${initialErrors}`);
 
       if (initialErrors === 0) {
-        console.log('✅ No TS1005 errors found!');
+        console.log("✅ No TS1005 errors found!");
         return this.completeTask(initialErrors, initialErrors);
       }
 
@@ -35,14 +35,16 @@ class SingleFileTS1005Fixer {
       const errorFiles = await this.getFilesWithTS1005Errors();
       console.log(`🔍 Found ${errorFiles.length} files with TS1005 errors`);
 
-      console.log('\n🛠️ Starting single-file processing...');
+      console.log("\n🛠️ Starting single-file processing...");
 
       let processedCount = 0;
       let successfulFixes = 0;
 
       for (const filePath of errorFiles) {
         processedCount++;
-        console.log(`\n📄 Processing file ${processedCount}/${errorFiles.length}: ${path.basename(filePath)}`);
+        console.log(
+          `\n📄 Processing file ${processedCount}/${errorFiles.length}: ${path.basename(filePath)}`,
+        );
 
         // Get current error count for this file
         const fileErrorsBefore = await this.getFileTS1005ErrorCount(filePath);
@@ -71,7 +73,8 @@ class SingleFileTS1005Fixer {
             console.log(`   ✅ Build validation passed`);
 
             // Check if errors actually reduced
-            const fileErrorsAfter = await this.getFileTS1005ErrorCount(filePath);
+            const fileErrorsAfter =
+              await this.getFileTS1005ErrorCount(filePath);
             const fileReduction = fileErrorsBefore - fileErrorsAfter;
 
             if (fileReduction > 0) {
@@ -92,15 +95,24 @@ class SingleFileTS1005Fixer {
         if (processedCount % 10 === 0) {
           const currentErrors = this.getTS1005ErrorCount();
           const totalReduction = initialErrors - currentErrors;
-          const percentage = totalReduction > 0 ? ((totalReduction / initialErrors) * 100).toFixed(1) : '0.0';
-          console.log(`\n   📊 Overall progress: ${currentErrors} errors remaining (${percentage}% reduction)`);
-          console.log(`   ✅ Successfully fixed ${successfulFixes} files so far`);
+          const percentage =
+            totalReduction > 0
+              ? ((totalReduction / initialErrors) * 100).toFixed(1)
+              : "0.0";
+          console.log(
+            `\n   📊 Overall progress: ${currentErrors} errors remaining (${percentage}% reduction)`,
+          );
+          console.log(
+            `   ✅ Successfully fixed ${successfulFixes} files so far`,
+          );
         }
 
         // Stop if we've made good progress (500+ errors reduced)
         const currentErrors = this.getTS1005ErrorCount();
         if (initialErrors - currentErrors >= 500) {
-          console.log(`\n🎉 Excellent progress! 500+ errors reduced. Stopping for this session.`);
+          console.log(
+            `\n🎉 Excellent progress! 500+ errors reduced. Stopping for this session.`,
+          );
           break;
         }
 
@@ -111,9 +123,8 @@ class SingleFileTS1005Fixer {
       // Final results
       const finalErrors = this.getTS1005ErrorCount();
       await this.completeTask(initialErrors, finalErrors);
-
     } catch (error) {
-      console.error('❌ Error during TS1005 resolution:', error.message);
+      console.error("❌ Error during TS1005 resolution:", error.message);
     }
   }
 
@@ -123,7 +134,7 @@ class SingleFileTS1005Fixer {
         return 0;
       }
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
       let fixesApplied = 0;
 
@@ -136,7 +147,7 @@ class SingleFileTS1005Fixer {
       const catchPattern = /(\}\s*catch\s*\(\s*[^)]+\s*\))\s*:\s*any\s*(\{)/g;
       const catchMatches = content.match(catchPattern);
       if (catchMatches) {
-        content = content.replace(catchPattern, '$1 $2');
+        content = content.replace(catchPattern, "$1 $2");
         fixesApplied += catchMatches.length;
       }
 
@@ -144,7 +155,7 @@ class SingleFileTS1005Fixer {
       const testPattern = /(test\s*\(\s*[^,]+)\s*:\s*any\s*,/g;
       const testMatches = content.match(testPattern);
       if (testMatches) {
-        content = content.replace(testPattern, '$1,');
+        content = content.replace(testPattern, "$1,");
         fixesApplied += testMatches.length;
       }
 
@@ -152,7 +163,7 @@ class SingleFileTS1005Fixer {
       const itPattern = /(it\s*\(\s*[^,]+)\s*:\s*any\s*,/g;
       const itMatches = content.match(itPattern);
       if (itMatches) {
-        content = content.replace(itPattern, '$1,');
+        content = content.replace(itPattern, "$1,");
         fixesApplied += itMatches.length;
       }
 
@@ -160,7 +171,7 @@ class SingleFileTS1005Fixer {
       const describePattern = /(describe\s*\(\s*[^,]+)\s*:\s*any\s*,/g;
       const describeMatches = content.match(describePattern);
       if (describeMatches) {
-        content = content.replace(describePattern, '$1,');
+        content = content.replace(describePattern, "$1,");
         fixesApplied += describeMatches.length;
       }
 
@@ -168,18 +179,17 @@ class SingleFileTS1005Fixer {
       const trailingCommaPattern = /,(\s*\))/g;
       const trailingCommaMatches = content.match(trailingCommaPattern);
       if (trailingCommaMatches) {
-        content = content.replace(trailingCommaPattern, '$1');
+        content = content.replace(trailingCommaPattern, "$1");
         fixesApplied += trailingCommaMatches.length;
       }
 
       // Apply changes if fixes were made
       if (fixesApplied > 0 && content !== originalContent) {
-        fs.writeFileSync(filePath, content, 'utf8');
+        fs.writeFileSync(filePath, content, "utf8");
         return fixesApplied;
       }
 
       return 0;
-
     } catch (error) {
       console.log(`   ❌ Error fixing file: ${error.message}`);
       return 0;
@@ -188,10 +198,13 @@ class SingleFileTS1005Fixer {
 
   async getFileTS1005ErrorCount(filePath) {
     try {
-      const output = execSync(`yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | grep "^${filePath}(" | wc -l`, {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        `yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | grep "^${filePath}(" | wc -l`,
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -199,20 +212,25 @@ class SingleFileTS1005Fixer {
   }
 
   isAstrologicalFile(filePath) {
-    return filePath.includes('/calculations/') ||
-           filePath.includes('/services/celestial') ||
-           filePath.includes('/utils/astrology') ||
-           filePath.includes('astrological') ||
-           filePath.includes('planetary') ||
-           filePath.includes('elemental');
+    return (
+      filePath.includes("/calculations/") ||
+      filePath.includes("/services/celestial") ||
+      filePath.includes("/utils/astrology") ||
+      filePath.includes("astrological") ||
+      filePath.includes("planetary") ||
+      filePath.includes("elemental")
+    );
   }
 
   getTS1005ErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | wc -l', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | wc -l',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -221,9 +239,9 @@ class SingleFileTS1005Fixer {
 
   validateBuildStability() {
     try {
-      execSync('yarn tsc --noEmit --skipLibCheck', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      execSync("yarn tsc --noEmit --skipLibCheck", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
       return true;
     } catch (error) {
@@ -233,13 +251,19 @@ class SingleFileTS1005Fixer {
 
   async getFilesWithTS1005Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const files = new Set();
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^(.+?)\(/);
@@ -256,7 +280,8 @@ class SingleFileTS1005Fixer {
 
   async completeTask(initialErrors, finalErrors) {
     const reduction = initialErrors - finalErrors;
-    const percentage = reduction > 0 ? ((reduction / initialErrors) * 100).toFixed(1) : '0.0';
+    const percentage =
+      reduction > 0 ? ((reduction / initialErrors) * 100).toFixed(1) : "0.0";
     const duration = ((Date.now() - this.startTime) / 1000).toFixed(1);
 
     console.log(`\n📈 Task 2.1 - Single File TS1005 Resolution Results:`);
@@ -269,8 +294,12 @@ class SingleFileTS1005Fixer {
     console.log(`   📈 Reduction percentage: ${percentage}%`);
 
     if (reduction > 0) {
-      console.log(`\n✅ Task 2.1 Progress: ${reduction} TS1005 syntax errors resolved`);
-      console.log(`🌟 Astrological calculation logic preserved throughout process`);
+      console.log(
+        `\n✅ Task 2.1 Progress: ${reduction} TS1005 syntax errors resolved`,
+      );
+      console.log(
+        `🌟 Astrological calculation logic preserved throughout process`,
+      );
       console.log(`🛡️ Build stability maintained with single-file validation`);
 
       if (percentage >= 50) {
@@ -288,13 +317,25 @@ class SingleFileTS1005Fixer {
     }
 
     // Generate task completion report
-    const reportPath = 'task-2-1-single-file-ts1005-report.md';
-    const report = this.generateTaskReport(initialErrors, finalErrors, reduction, percentage, duration);
-    fs.writeFileSync(reportPath, report, 'utf8');
+    const reportPath = "task-2-1-single-file-ts1005-report.md";
+    const report = this.generateTaskReport(
+      initialErrors,
+      finalErrors,
+      reduction,
+      percentage,
+      duration,
+    );
+    fs.writeFileSync(reportPath, report, "utf8");
     console.log(`📋 Task report saved to: ${reportPath}`);
   }
 
-  generateTaskReport(initialErrors, finalErrors, reduction, percentage, duration) {
+  generateTaskReport(
+    initialErrors,
+    finalErrors,
+    reduction,
+    percentage,
+    duration,
+  ) {
     return `# Task 2.1 - Single File TS1005 Syntax Error Resolution Report
 
 ## Task Summary
@@ -324,7 +365,7 @@ class SingleFileTS1005Fixer {
 5. **Simple trailing commas**: \`,)\` → \`)\`
 
 ## Successfully Fixed Files
-${this.fixedFiles.map(f => `- ${f}`).join('\n')}
+${this.fixedFiles.map((f) => `- ${f}`).join("\n")}
 
 ## Safety Measures Applied
 - Single file processing with immediate validation
@@ -334,14 +375,20 @@ ${this.fixedFiles.map(f => `- ${f}`).join('\n')}
 - Error count verification per file
 
 ## Task Status
-${reduction >= 500 ? '✅ MAJOR PROGRESS - Task shows significant improvement' :
-  reduction >= 100 ? '📈 GOOD PROGRESS - Task moving in right direction' :
-  reduction >= 50 ? '📊 SOME PROGRESS - Task partially completed' :
-  reduction > 0 ? '📋 MINIMAL PROGRESS - Task started' :
-  '⚠️ NO PROGRESS - May need different approach'}
+${
+  reduction >= 500
+    ? "✅ MAJOR PROGRESS - Task shows significant improvement"
+    : reduction >= 100
+      ? "📈 GOOD PROGRESS - Task moving in right direction"
+      : reduction >= 50
+        ? "📊 SOME PROGRESS - Task partially completed"
+        : reduction > 0
+          ? "📋 MINIMAL PROGRESS - Task started"
+          : "⚠️ NO PROGRESS - May need different approach"
+}
 
 ## Next Steps
-${finalErrors > 0 ? `- ${finalErrors} TS1005 errors remain for further analysis` : '- All TS1005 errors resolved!'}
+${finalErrors > 0 ? `- ${finalErrors} TS1005 errors remain for further analysis` : "- All TS1005 errors resolved!"}
 - Continue with remaining files if progress was made
 - Move to Task 2.2 (TS1128 Declaration Error Resolution) if sufficient progress
 - Consider manual review for complex syntax patterns
@@ -349,7 +396,7 @@ ${finalErrors > 0 ? `- ${finalErrors} TS1005 errors remain for further analysis`
   }
 
   sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
 

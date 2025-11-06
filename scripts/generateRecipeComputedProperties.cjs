@@ -7,21 +7,21 @@
  * culinary data system using planetary alchemy and thermodynamic calculations.
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Mock planetary positions for demonstration
 const SAMPLE_PLANETARY_POSITIONS = {
-  Sun: 'Leo',
-  Moon: 'Cancer',
-  Mercury: 'Virgo',
-  Venus: 'Libra',
-  Mars: 'Aries',
-  Jupiter: 'Sagittarius',
-  Saturn: 'Capricorn',
-  Uranus: 'Aquarius',
-  Neptune: 'Pisces',
-  Pluto: 'Scorpio'
+  Sun: "Leo",
+  Moon: "Cancer",
+  Mercury: "Virgo",
+  Venus: "Libra",
+  Mars: "Aries",
+  Jupiter: "Sagittarius",
+  Saturn: "Capricorn",
+  Uranus: "Aquarius",
+  Neptune: "Pisces",
+  Pluto: "Scorpio",
 };
 
 // Mock computation functions (would be imported from actual modules)
@@ -31,24 +31,24 @@ function calculateAlchemicalFromPlanets(positions) {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0
+    Substance: 0,
   };
 
   // Count planetary influences (simplified)
   for (const planet in positions) {
     switch (planet) {
-      case 'Sun':
-      case 'Mercury':
-      case 'Jupiter':
-      case 'Saturn':
+      case "Sun":
+      case "Mercury":
+      case "Jupiter":
+      case "Saturn":
         alchemy.Spirit += 1;
         break;
-      case 'Moon':
-      case 'Venus':
-      case 'Mars':
-      case 'Uranus':
-      case 'Neptune':
-      case 'Pluto':
+      case "Moon":
+      case "Venus":
+      case "Mars":
+      case "Uranus":
+      case "Neptune":
+      case "Pluto":
         alchemy.Essence += 1;
         break;
       default:
@@ -71,24 +71,24 @@ function aggregateZodiacElementals(positions) {
 
   for (const sign of Object.values(positions)) {
     switch (sign) {
-      case 'Aries':
-      case 'Leo':
-      case 'Sagittarius':
+      case "Aries":
+      case "Leo":
+      case "Sagittarius":
         elements.Fire += 1;
         break;
-      case 'Taurus':
-      case 'Virgo':
-      case 'Capricorn':
+      case "Taurus":
+      case "Virgo":
+      case "Capricorn":
         elements.Earth += 1;
         break;
-      case 'Gemini':
-      case 'Libra':
-      case 'Aquarius':
+      case "Gemini":
+      case "Libra":
+      case "Aquarius":
         elements.Air += 1;
         break;
-      case 'Cancer':
-      case 'Scorpio':
-      case 'Pisces':
+      case "Cancer":
+      case "Scorpio":
+      case "Pisces":
         elements.Water += 1;
         break;
     }
@@ -100,7 +100,7 @@ function aggregateZodiacElementals(positions) {
     Fire: count > 0 ? elements.Fire / count : 0.25,
     Water: count > 0 ? elements.Water / count : 0.25,
     Earth: count > 0 ? elements.Earth / count : 0.25,
-    Air: count > 0 ? elements.Air / count : 0.25
+    Air: count > 0 ? elements.Air / count : 0.25,
   };
 }
 
@@ -109,29 +109,35 @@ function calculateThermodynamicMetrics(alchemical, elemental) {
   const { Fire, Water, Earth, Air } = elemental;
 
   // Simplified thermodynamic calculations
-  const heat = (Spirit * 0.3 + Fire * 0.7) / (Substance + Essence + Matter + Water + Air + Earth + 1);
-  const entropy = (Spirit * 0.2 + Substance * 0.3 + Fire * 0.2 + Air * 0.3) / (Essence + Matter + Earth + Water + 1);
-  const reactivity = (Spirit * 0.25 + Substance * 0.25 + Essence * 0.25 + Fire * 0.25) / (Matter + Earth + 1);
+  const heat =
+    (Spirit * 0.3 + Fire * 0.7) /
+    (Substance + Essence + Matter + Water + Air + Earth + 1);
+  const entropy =
+    (Spirit * 0.2 + Substance * 0.3 + Fire * 0.2 + Air * 0.3) /
+    (Essence + Matter + Earth + Water + 1);
+  const reactivity =
+    (Spirit * 0.25 + Substance * 0.25 + Essence * 0.25 + Fire * 0.25) /
+    (Matter + Earth + 1);
 
   return {
     heat: Math.min(heat, 1),
     entropy: Math.min(entropy, 1),
     reactivity: Math.min(reactivity, 1),
     gregsEnergy: heat - entropy * reactivity,
-    kalchm: Spirit + Essence > 0 ? (Spirit / (Spirit + Essence)) : 0.5,
-    monica: 1.0 // Simplified
+    kalchm: Spirit + Essence > 0 ? Spirit / (Spirit + Essence) : 0.5,
+    monica: 1.0, // Simplified
   };
 }
 
 function getDominantElement(elemental) {
   const entries = Object.entries(elemental);
-  entries.sort(([,a], [,b]) => b - a);
+  entries.sort(([, a], [, b]) => b - a);
   return entries[0][0];
 }
 
 function getDominantAlchemical(alchemical) {
   const entries = Object.entries(alchemical);
-  entries.sort(([,a], [,b]) => b - a);
+  entries.sort(([, a], [, b]) => b - a);
   return entries[0][0];
 }
 
@@ -157,19 +163,20 @@ function calculateRecipeKinetics(alchemical, thermodynamic, positions) {
       Fire: power * (Spirit / (Spirit + Essence + Matter + Substance + 1)),
       Water: power * (Essence / (Spirit + Essence + Matter + Substance + 1)),
       Earth: power * (Matter / (Spirit + Essence + Matter + Substance + 1)),
-      Air: power * (Substance / (Spirit + Essence + Matter + Substance + 1))
+      Air: power * (Substance / (Spirit + Essence + Matter + Substance + 1)),
     },
     forceMagnitude: Math.abs(power),
-    forceClassification: power > 1 ? 'accelerating' : power < 0.5 ? 'decelerating' : 'balanced',
+    forceClassification:
+      power > 1 ? "accelerating" : power < 0.5 ? "decelerating" : "balanced",
     aspectPhase: null,
-    thermalDirection: gregsEnergy > 0 ? 'heating' : 'cooling'
+    thermalDirection: gregsEnergy > 0 ? "heating" : "cooling",
   };
 }
 
 // Configuration
-const INPUT_FILE = 'src/data/enhanced_recipes/enhanced_recipes.json';
-const OUTPUT_FILE = 'src/data/computed_recipes/computed_recipes.json';
-const CACHE_FILE = 'src/data/cache/recipe_computation_cache.json';
+const INPUT_FILE = "src/data/enhanced_recipes/enhanced_recipes.json";
+const OUTPUT_FILE = "src/data/computed_recipes/computed_recipes.json";
+const CACHE_FILE = "src/data/cache/recipe_computation_cache.json";
 
 /**
  * Load enhanced recipes
@@ -181,7 +188,7 @@ function loadEnhancedRecipes() {
   }
 
   try {
-    const data = JSON.parse(fs.readFileSync(INPUT_FILE, 'utf8'));
+    const data = JSON.parse(fs.readFileSync(INPUT_FILE, "utf8"));
     return data.enhancedRecipes || [];
   } catch (e) {
     console.error(`Failed to load recipes: ${e.message}`);
@@ -197,13 +204,17 @@ function computeRecipeProperties(recipe) {
 
   try {
     // Use recipe-specific planetary positions if available, otherwise use sample
-    const planetaryPositions = recipe.astrologicalTiming?.optimalPositions || SAMPLE_PLANETARY_POSITIONS;
+    const planetaryPositions =
+      recipe.astrologicalTiming?.optimalPositions || SAMPLE_PLANETARY_POSITIONS;
 
     // Step 1: Aggregate ingredient elementals
-    const ingredientElementals = aggregateIngredientElementals(recipe.ingredients || []);
+    const ingredientElementals = aggregateIngredientElementals(
+      recipe.ingredients || [],
+    );
 
     // Step 2: Calculate ESMS from planetary positions
-    const alchemicalProperties = calculateAlchemicalFromPlanets(planetaryPositions);
+    const alchemicalProperties =
+      calculateAlchemicalFromPlanets(planetaryPositions);
 
     // Step 3: Aggregate zodiac elementals
     const zodiacElementals = aggregateZodiacElementals(planetaryPositions);
@@ -213,21 +224,32 @@ function computeRecipeProperties(recipe) {
       Fire: ingredientElementals.Fire * 0.7 + zodiacElementals.Fire * 0.3,
       Water: ingredientElementals.Water * 0.7 + zodiacElementals.Water * 0.3,
       Earth: ingredientElementals.Earth * 0.7 + zodiacElementals.Earth * 0.3,
-      Air: ingredientElementals.Air * 0.7 + zodiacElementals.Air * 0.3
+      Air: ingredientElementals.Air * 0.7 + zodiacElementals.Air * 0.3,
     };
 
     // Step 5: Apply cooking method transformations
-    const finalElementals = applyCookingTransforms(combinedElementals, recipe.cookingMethod || []);
+    const finalElementals = applyCookingTransforms(
+      combinedElementals,
+      recipe.cookingMethod || [],
+    );
 
     // Step 6: Calculate thermodynamic metrics
-    const thermodynamicMetrics = calculateThermodynamicMetrics(alchemicalProperties, finalElementals);
+    const thermodynamicMetrics = calculateThermodynamicMetrics(
+      alchemicalProperties,
+      finalElementals,
+    );
 
     // Step 7: Calculate kinetic properties
-    const kineticProperties = calculateRecipeKinetics(alchemicalProperties, thermodynamicMetrics, planetaryPositions);
+    const kineticProperties = calculateRecipeKinetics(
+      alchemicalProperties,
+      thermodynamicMetrics,
+      planetaryPositions,
+    );
 
     // Step 8: Determine dominant properties
     const dominantElement = getDominantElement(finalElementals);
-    const dominantAlchemicalProperty = getDominantAlchemical(alchemicalProperties);
+    const dominantAlchemicalProperty =
+      getDominantAlchemical(alchemicalProperties);
 
     // Create computed properties object
     const computedProperties = {
@@ -240,14 +262,15 @@ function computeRecipeProperties(recipe) {
       computationMetadata: {
         planetaryPositionsUsed: planetaryPositions,
         cookingMethodsApplied: recipe.cookingMethod || [],
-        computationTimestamp: new Date().toISOString()
-      }
+        computationTimestamp: new Date().toISOString(),
+      },
     };
 
     return computedProperties;
-
   } catch (e) {
-    console.error(`Failed to compute properties for ${recipe.name}: ${e.message}`);
+    console.error(
+      `Failed to compute properties for ${recipe.name}: ${e.message}`,
+    );
     return null;
   }
 }
@@ -264,7 +287,12 @@ function aggregateIngredientElementals(ingredients) {
   let totalWeight = 0;
 
   for (const ingredient of ingredients) {
-    const elementals = ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const elementals = ingredient.elementalProperties || {
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25,
+    };
     const weight = Math.log(ingredient.amount + 1); // Logarithmic scaling
 
     totals.Fire += elementals.Fire * weight;
@@ -280,7 +308,7 @@ function aggregateIngredientElementals(ingredients) {
       Fire: totals.Fire / totalWeight,
       Water: totals.Water / totalWeight,
       Earth: totals.Earth / totalWeight,
-      Air: totals.Air / totalWeight
+      Air: totals.Air / totalWeight,
     };
   }
 
@@ -299,7 +327,7 @@ function applyCookingTransforms(baseElementals, cookingMethods) {
     steaming: { Fire: 0.6, Water: 1.4, Earth: 0.9, Air: 1.1 },
     roasting: { Fire: 1.3, Water: 0.7, Earth: 1.0, Air: 1.0 },
     fermenting: { Fire: 0.6, Water: 1.2, Earth: 1.3, Air: 0.9 },
-    braising: { Fire: 0.9, Water: 1.1, Earth: 1.0, Air: 0.8 }
+    braising: { Fire: 0.9, Water: 1.1, Earth: 1.0, Air: 0.8 },
   };
 
   let current = { ...baseElementals };
@@ -311,7 +339,7 @@ function applyCookingTransforms(baseElementals, cookingMethods) {
         Fire: current.Fire * methodModifiers.Fire,
         Water: current.Water * methodModifiers.Water,
         Earth: current.Earth * methodModifiers.Earth,
-        Air: current.Air * methodModifiers.Air
+        Air: current.Air * methodModifiers.Air,
       };
 
       // Re-normalize
@@ -321,7 +349,7 @@ function applyCookingTransforms(baseElementals, cookingMethods) {
           Fire: current.Fire / total,
           Water: current.Water / total,
           Earth: current.Earth / total,
-          Air: current.Air / total
+          Air: current.Air / total,
         };
       }
     }
@@ -345,8 +373,8 @@ function saveComputedRecipes(recipes) {
       totalRecipes: recipes.length,
       computationDate: new Date().toISOString(),
       planetaryPositionsUsed: SAMPLE_PLANETARY_POSITIONS,
-      version: '1.0'
-    }
+      version: "1.0",
+    },
   };
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2));
@@ -370,14 +398,14 @@ function saveComputationCache(cache) {
  * Main computation function
  */
 function generateRecipeComputedProperties() {
-  console.log('Starting recipe computed properties generation...');
+  console.log("Starting recipe computed properties generation...");
 
   // Load enhanced recipes
   const recipes = loadEnhancedRecipes();
   console.log(`Loaded ${recipes.length} enhanced recipes`);
 
   if (recipes.length === 0) {
-    console.log('No recipes found. Run enhancement script first.');
+    console.log("No recipes found. Run enhancement script first.");
     return;
   }
 
@@ -387,8 +415,8 @@ function generateRecipeComputedProperties() {
     entries: [],
     metadata: {
       createdAt: new Date().toISOString(),
-      planetaryPositions: SAMPLE_PLANETARY_POSITIONS
-    }
+      planetaryPositions: SAMPLE_PLANETARY_POSITIONS,
+    },
   };
 
   for (const recipe of recipes) {
@@ -397,7 +425,7 @@ function generateRecipeComputedProperties() {
     if (computedProperties) {
       const computedRecipe = {
         ...recipe,
-        _computed: computedProperties
+        _computed: computedProperties,
       };
 
       computedRecipes.push(computedRecipe);
@@ -406,7 +434,7 @@ function generateRecipeComputedProperties() {
       cache.entries.push({
         recipeId: recipe.id,
         computedProperties,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
   }
@@ -415,25 +443,33 @@ function generateRecipeComputedProperties() {
   saveComputedRecipes(computedRecipes);
   saveComputationCache(cache);
 
-  console.log('\nRecipe computed properties generation complete!');
-  console.log(`Successfully computed properties for ${computedRecipes.length} recipes`);
+  console.log("\nRecipe computed properties generation complete!");
+  console.log(
+    `Successfully computed properties for ${computedRecipes.length} recipes`,
+  );
 
   // Display summary
-  const elements = ['Fire', 'Water', 'Earth', 'Air'];
-  const alchemical = ['Spirit', 'Essence', 'Matter', 'Substance'];
+  const elements = ["Fire", "Water", "Earth", "Air"];
+  const alchemical = ["Spirit", "Essence", "Matter", "Substance"];
 
-  console.log('\n--- Computation Summary ---');
+  console.log("\n--- Computation Summary ---");
   console.log(`Total recipes processed: ${recipes.length}`);
   console.log(`Successfully computed: ${computedRecipes.length}`);
-  console.log(`Computation rate: ${Math.round((computedRecipes.length / recipes.length) * 100)}%`);
+  console.log(
+    `Computation rate: ${Math.round((computedRecipes.length / recipes.length) * 100)}%`,
+  );
 
   // Show sample results
   if (computedRecipes.length > 0) {
     const sample = computedRecipes[0];
     console.log(`\nSample recipe: ${sample.name}`);
     console.log(`Dominant element: ${sample._computed.dominantElement}`);
-    console.log(`Dominant alchemical: ${sample._computed.dominantAlchemicalProperty}`);
-    console.log(`Kinetic power: ${sample._computed.kineticProperties.power.toFixed(3)}`);
+    console.log(
+      `Dominant alchemical: ${sample._computed.dominantAlchemicalProperty}`,
+    );
+    console.log(
+      `Kinetic power: ${sample._computed.kineticProperties.power.toFixed(3)}`,
+    );
   }
 }
 
@@ -445,5 +481,5 @@ if (require.main === module) {
 module.exports = {
   computeRecipeProperties,
   aggregateIngredientElementals,
-  applyCookingTransforms
+  applyCookingTransforms,
 };

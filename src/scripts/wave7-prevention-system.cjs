@@ -7,27 +7,29 @@
  * proactive measures, developer guidelines, and automated checks.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class Wave7PreventionSystem {
   constructor() {
     this.preventionConfig = {
       enabled: true,
       checkOnSave: true,
-      warnThreshold: 5,     // Warn if adding 5+ unused variables
-      blockThreshold: 20,   // Block if adding 20+ unused variables
-      autoFix: false,       // Don't auto-fix, just warn
-      reportPath: '.kiro/specs/unused-variable-elimination/prevention-reports'
+      warnThreshold: 5, // Warn if adding 5+ unused variables
+      blockThreshold: 20, // Block if adding 20+ unused variables
+      autoFix: false, // Don't auto-fix, just warn
+      reportPath: ".kiro/specs/unused-variable-elimination/prevention-reports",
     };
 
     this.guidelines = {
-      parameterNaming: 'Use underscore prefix for intentionally unused parameters (e.g., _unused)',
-      importManagement: 'Remove unused imports immediately after refactoring',
-      variableDeclaration: 'Avoid declaring variables that are not used',
-      destructuring: 'Use object destructuring carefully to avoid unused variables',
-      typeImports: 'Clean up unused type imports regularly'
+      parameterNaming:
+        "Use underscore prefix for intentionally unused parameters (e.g., _unused)",
+      importManagement: "Remove unused imports immediately after refactoring",
+      variableDeclaration: "Avoid declaring variables that are not used",
+      destructuring:
+        "Use object destructuring carefully to avoid unused variables",
+      typeImports: "Clean up unused type imports regularly",
     };
 
     this.preservationPatterns = [
@@ -35,20 +37,23 @@ class Wave7PreventionSystem {
       /\b(metrics|progress|safety|campaign|validation|intelligence|monitoring|analytics)\b/i,
       /\b(recipe|ingredient|cooking|elemental|fire|water|earth|air|cuisine|flavor)\b/i,
       /\b(mock|stub|test|expect|describe|it|fixture|assertion|jest|vitest)\b/i,
-      /\b(api|service|business|logic|integration|adapter|client|server)\b/i
+      /\b(api|service|business|logic|integration|adapter|client|server)\b/i,
     ];
   }
 
   async getUnusedVariableCountSafe() {
     try {
       // Use a more reliable method with shorter timeout
-      const result = execSync('timeout 10s yarn lint --format=compact 2>/dev/null | grep -c "no-unused-vars" || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const result = execSync(
+        'timeout 10s yarn lint --format=compact 2>/dev/null | grep -c "no-unused-vars" || echo "0"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(result.trim()) || 0;
     } catch (error) {
-      console.warn('⚠️ Could not get exact count, using estimation');
+      console.warn("⚠️ Could not get exact count, using estimation");
       return this.estimateUnusedVariables();
     }
   }
@@ -56,7 +61,7 @@ class Wave7PreventionSystem {
   estimateUnusedVariables() {
     // Fallback estimation based on file analysis
     try {
-      const srcFiles = this.getAllTypeScriptFiles('src');
+      const srcFiles = this.getAllTypeScriptFiles("src");
       let estimatedCount = 0;
 
       // Sample a few files to estimate
@@ -64,16 +69,20 @@ class Wave7PreventionSystem {
 
       for (const file of sampleFiles) {
         try {
-          const content = fs.readFileSync(file, 'utf8');
+          const content = fs.readFileSync(file, "utf8");
           // Simple heuristic: count potential unused variables
-          const lines = content.split('\n');
+          const lines = content.split("\n");
 
           for (const line of lines) {
             // Look for common unused variable patterns
-            if (line.includes('const ') && !line.includes('=') && line.includes(',')) {
+            if (
+              line.includes("const ") &&
+              !line.includes("=") &&
+              line.includes(",")
+            ) {
               estimatedCount += 0.5; // Potential unused in destructuring
             }
-            if (line.includes('import {') && line.split(',').length > 3) {
+            if (line.includes("import {") && line.split(",").length > 3) {
               estimatedCount += 0.3; // Potential unused imports
             }
           }
@@ -83,7 +92,9 @@ class Wave7PreventionSystem {
       }
 
       // Extrapolate to full codebase
-      const totalEstimate = Math.round((estimatedCount / sampleFiles.length) * srcFiles.length);
+      const totalEstimate = Math.round(
+        (estimatedCount / sampleFiles.length) * srcFiles.length,
+      );
       return Math.max(totalEstimate, 600); // Conservative estimate
     } catch (error) {
       return 650; // Fallback to known approximate count
@@ -102,9 +113,13 @@ class Wave7PreventionSystem {
         try {
           const stat = fs.statSync(fullPath);
 
-          if (stat.isDirectory() && !item.startsWith('.') && item !== 'node_modules') {
+          if (
+            stat.isDirectory() &&
+            !item.startsWith(".") &&
+            item !== "node_modules"
+          ) {
             files.push(...this.getAllTypeScriptFiles(fullPath));
-          } else if (item.endsWith('.ts') || item.endsWith('.tsx')) {
+          } else if (item.endsWith(".ts") || item.endsWith(".tsx")) {
             files.push(fullPath);
           }
         } catch (error) {
@@ -268,31 +283,32 @@ exit 0
       preventionConfig: this.preventionConfig,
       guidelines: this.guidelines,
       recommendations: [
-        'Implement pre-commit hooks for unused variable detection',
-        'Configure IDE settings for automatic import cleanup',
-        'Establish team coding standards for variable usage',
-        'Regular code review focus on unused variable prevention',
-        'Use Wave 6 tools for periodic cleanup maintenance'
+        "Implement pre-commit hooks for unused variable detection",
+        "Configure IDE settings for automatic import cleanup",
+        "Establish team coding standards for variable usage",
+        "Regular code review focus on unused variable prevention",
+        "Use Wave 6 tools for periodic cleanup maintenance",
       ],
       tools: {
-        'Pre-commit Hook': 'Warns developers about unused variables before commit',
-        'IDE Integration': 'Real-time feedback during development',
-        'Wave 6 Tools': 'Systematic cleanup when needed',
-        'Wave 7 Monitoring': 'Continuous tracking and alerting'
+        "Pre-commit Hook":
+          "Warns developers about unused variables before commit",
+        "IDE Integration": "Real-time feedback during development",
+        "Wave 6 Tools": "Systematic cleanup when needed",
+        "Wave 7 Monitoring": "Continuous tracking and alerting",
       },
       thresholds: {
-        green: '< 500 unused variables (optimal)',
-        yellow: '500-600 unused variables (monitor)',
-        orange: '600-700 unused variables (action needed)',
-        red: '> 700 unused variables (emergency cleanup)'
-      }
+        green: "< 500 unused variables (optimal)",
+        yellow: "500-600 unused variables (monitor)",
+        orange: "600-700 unused variables (action needed)",
+        red: "> 700 unused variables (emergency cleanup)",
+      },
     };
 
     return report;
   }
 
   async deployPreventionMeasures() {
-    console.log('🚀 Deploying Wave 7 Prevention Measures...\n');
+    console.log("🚀 Deploying Wave 7 Prevention Measures...\n");
 
     try {
       // Create prevention reports directory
@@ -304,78 +320,82 @@ exit 0
 
       // Generate and save prevention guidelines
       const guidelines = this.generatePreventionGuidelines();
-      const guidelinesPath = path.join(reportDir, 'prevention-guidelines.md');
+      const guidelinesPath = path.join(reportDir, "prevention-guidelines.md");
       fs.writeFileSync(guidelinesPath, guidelines);
       console.log(`📋 Generated prevention guidelines: ${guidelinesPath}`);
 
       // Generate pre-commit hook
       const hookContent = this.createPreCommitHook();
-      const hookPath = '.git/hooks/pre-commit-unused-vars';
+      const hookPath = ".git/hooks/pre-commit-unused-vars";
       fs.writeFileSync(hookPath, hookContent);
 
       try {
-        execSync(`chmod +x ${hookPath}`, { stdio: 'pipe' });
+        execSync(`chmod +x ${hookPath}`, { stdio: "pipe" });
         console.log(`🪝 Created pre-commit hook: ${hookPath}`);
       } catch (error) {
-        console.warn('⚠️ Could not make hook executable (may need manual chmod)');
+        console.warn(
+          "⚠️ Could not make hook executable (may need manual chmod)",
+        );
       }
 
       // Generate prevention report
       const report = this.generatePreventionReport();
-      const reportPath = path.join(reportDir, `prevention-report-${new Date().toISOString().split('T')[0]}.json`);
+      const reportPath = path.join(
+        reportDir,
+        `prevention-report-${new Date().toISOString().split("T")[0]}.json`,
+      );
       fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
       console.log(`📊 Generated prevention report: ${reportPath}`);
 
       // Get current status
-      console.log('\n📈 Current Status Assessment:');
+      console.log("\n📈 Current Status Assessment:");
       const currentCount = await this.getUnusedVariableCountSafe();
       console.log(`  Unused Variables: ${currentCount}`);
 
-      let status = 'green';
-      if (currentCount > 700) status = 'red';
-      else if (currentCount > 600) status = 'orange';
-      else if (currentCount > 500) status = 'yellow';
+      let status = "green";
+      if (currentCount > 700) status = "red";
+      else if (currentCount > 600) status = "orange";
+      else if (currentCount > 500) status = "yellow";
 
       console.log(`  Status Level: ${status.toUpperCase()}`);
 
       // Provide recommendations based on current status
-      console.log('\n💡 Immediate Recommendations:');
-      if (status === 'red') {
-        console.log('  🚨 Execute emergency cleanup using Wave 6 tools');
-        console.log('  📊 Analyze variable categories for bulk elimination');
-        console.log('  🔍 Review recent commits for unused variable sources');
-      } else if (status === 'orange') {
-        console.log('  🛠️ Schedule cleanup session within 48 hours');
-        console.log('  📈 Monitor trend closely for further increases');
-        console.log('  🔧 Run Wave 6 DirectApproach for targeted cleanup');
-      } else if (status === 'yellow') {
-        console.log('  👀 Monitor daily for trend changes');
-        console.log('  📝 Document sources of new unused variables');
-        console.log('  🎯 Target safe-to-eliminate variables first');
+      console.log("\n💡 Immediate Recommendations:");
+      if (status === "red") {
+        console.log("  🚨 Execute emergency cleanup using Wave 6 tools");
+        console.log("  📊 Analyze variable categories for bulk elimination");
+        console.log("  🔍 Review recent commits for unused variable sources");
+      } else if (status === "orange") {
+        console.log("  🛠️ Schedule cleanup session within 48 hours");
+        console.log("  📈 Monitor trend closely for further increases");
+        console.log("  🔧 Run Wave 6 DirectApproach for targeted cleanup");
+      } else if (status === "yellow") {
+        console.log("  👀 Monitor daily for trend changes");
+        console.log("  📝 Document sources of new unused variables");
+        console.log("  🎯 Target safe-to-eliminate variables first");
       } else {
-        console.log('  ✅ Current status is optimal');
-        console.log('  🔄 Continue regular monitoring');
-        console.log('  📚 Focus on prevention measures');
+        console.log("  ✅ Current status is optimal");
+        console.log("  🔄 Continue regular monitoring");
+        console.log("  📚 Focus on prevention measures");
       }
 
-      console.log('\n📚 Next Steps:');
-      console.log('  1. Review prevention guidelines with team');
-      console.log('  2. Configure IDE settings for unused variable detection');
-      console.log('  3. Implement regular monitoring schedule');
-      console.log('  4. Use Wave 6 tools for periodic maintenance');
+      console.log("\n📚 Next Steps:");
+      console.log("  1. Review prevention guidelines with team");
+      console.log("  2. Configure IDE settings for unused variable detection");
+      console.log("  3. Implement regular monitoring schedule");
+      console.log("  4. Use Wave 6 tools for periodic maintenance");
 
-      console.log('\n✅ Wave 7 Prevention System deployed successfully!');
+      console.log("\n✅ Wave 7 Prevention System deployed successfully!");
 
       return {
         status,
         currentCount,
         guidelinesPath,
         hookPath,
-        reportPath
+        reportPath,
       };
-
     } catch (error) {
-      console.error('❌ Error deploying prevention measures:', error.message);
+      console.error("❌ Error deploying prevention measures:", error.message);
       throw error;
     }
   }

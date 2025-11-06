@@ -5,19 +5,28 @@
  * Fixes TS1003: Identifier expected errors
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 class IdentifierProcessor {
   constructor() {
-    this.projectRoot = path.resolve(import.meta.dirname || path.dirname(import.meta.url.replace('file://', '')), '../..');
+    this.projectRoot = path.resolve(
+      import.meta.dirname ||
+        path.dirname(import.meta.url.replace("file://", "")),
+      "../..",
+    );
     this.filesProcessed = 0;
     this.identifiersFixed = 0;
-    this.backupDir = path.join(this.projectRoot, 'backups', 'phase3', 'identifiers');
+    this.backupDir = path.join(
+      this.projectRoot,
+      "backups",
+      "phase3",
+      "identifiers",
+    );
   }
 
   async process() {
-    console.log('🔧 Processing TS1003: Identifier expected errors...');
+    console.log("🔧 Processing TS1003: Identifier expected errors...");
 
     // Create backup directory
     if (!fs.existsSync(this.backupDir)) {
@@ -36,20 +45,20 @@ class IdentifierProcessor {
     return {
       filesProcessed: this.filesProcessed,
       identifiersFixed: this.identifiersFixed,
-      success: true
+      success: true,
     };
   }
 
   async getFilesWithIdentifierErrors() {
     // Files with TS1003 Identifier expected errors
     const errorFiles = [
-      'src/utils/withRenderTracking.tsx',
-      'src/utils/validatePlanetaryPositions.ts',
-      'src/utils/timingUtils.ts',
+      "src/utils/withRenderTracking.tsx",
+      "src/utils/validatePlanetaryPositions.ts",
+      "src/utils/timingUtils.ts",
       // Add more from error analysis
     ];
 
-    return errorFiles.filter(file => {
+    return errorFiles.filter((file) => {
       const fullPath = path.join(this.projectRoot, file);
       return fs.existsSync(fullPath);
     });
@@ -60,31 +69,43 @@ class IdentifierProcessor {
     console.log(`Processing ${filePath}...`);
 
     // Backup original
-    const backupPath = path.join(this.backupDir, path.basename(filePath) + '.backup');
+    const backupPath = path.join(
+      this.backupDir,
+      path.basename(filePath) + ".backup",
+    );
     fs.copyFileSync(fullPath, backupPath);
 
-    let content = fs.readFileSync(fullPath, 'utf8');
+    let content = fs.readFileSync(fullPath, "utf8");
     let localFixes = 0;
 
     // Fix common identifier error patterns
     const fixes = [
       // Fix missing identifiers in continue statements
-      { pattern: /\bif\s*\([^)]*\)\s*continue\s*,/g, replacement: (match) => {
-        localFixes++;
-        return match.replace(/continue\s*,/, 'continue;');
-      }},
+      {
+        pattern: /\bif\s*\([^)]*\)\s*continue\s*,/g,
+        replacement: (match) => {
+          localFixes++;
+          return match.replace(/continue\s*,/, "continue;");
+        },
+      },
 
       // Fix missing identifiers in object destructuring
-      { pattern: /if\s*\(\s*!(\w+)\.(\w+)\)\s*continue\s*,/g, replacement: (match, obj, prop) => {
-        localFixes++;
-        return match.replace(/continue\s*,/, 'continue;');
-      }},
+      {
+        pattern: /if\s*\(\s*!(\w+)\.(\w+)\)\s*continue\s*,/g,
+        replacement: (match, obj, prop) => {
+          localFixes++;
+          return match.replace(/continue\s*,/, "continue;");
+        },
+      },
 
       // Fix malformed for loops
-      { pattern: /for\s*\(\s*const\s*\[([^\]]+)\]\s*of\s*([^{]+)\{\s*/g, replacement: (match, vars, iterable) => {
-        localFixes++;
-        return `for (const [${vars}] of ${iterable}) {`;
-      }}
+      {
+        pattern: /for\s*\(\s*const\s*\[([^\]]+)\]\s*of\s*([^{]+)\{\s*/g,
+        replacement: (match, vars, iterable) => {
+          localFixes++;
+          return `for (const [${vars}] of ${iterable}) {`;
+        },
+      },
     ];
 
     for (const fix of fixes) {
@@ -105,9 +126,12 @@ export default IdentifierProcessor;
 // CLI usage
 if (import.meta.url === `file://${process.argv[1]}`) {
   const processor = new IdentifierProcessor();
-  processor.process().then(result => {
-    console.log('\n✅ Identifier processing complete:');
-    console.log(`Files processed: ${result.filesProcessed}`);
-    console.log(`Identifiers fixed: ${result.identifiersFixed}`);
-  }).catch(console.error);
+  processor
+    .process()
+    .then((result) => {
+      console.log("\n✅ Identifier processing complete:");
+      console.log(`Files processed: ${result.filesProcessed}`);
+      console.log(`Identifiers fixed: ${result.identifiersFixed}`);
+    })
+    .catch(console.error);
 }

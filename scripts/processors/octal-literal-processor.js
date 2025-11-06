@@ -5,19 +5,23 @@
  * Fixes TS1121: Octal literals are not allowed errors
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 class OctalLiteralProcessor {
   constructor() {
-    this.projectRoot = path.resolve(import.meta.dirname || path.dirname(import.meta.url.replace('file://', '')), '../..');
+    this.projectRoot = path.resolve(
+      import.meta.dirname ||
+        path.dirname(import.meta.url.replace("file://", "")),
+      "../..",
+    );
     this.filesProcessed = 0;
     this.octalsFixed = 0;
-    this.backupDir = path.join(this.projectRoot, 'backups', 'phase3', 'octals');
+    this.backupDir = path.join(this.projectRoot, "backups", "phase3", "octals");
   }
 
   async process() {
-    console.log('🔧 Processing TS1121: Octal literals not allowed errors...');
+    console.log("🔧 Processing TS1121: Octal literals not allowed errors...");
 
     // Create backup directory
     if (!fs.existsSync(this.backupDir)) {
@@ -27,7 +31,9 @@ class OctalLiteralProcessor {
     // Get files with octal literal errors
     const filesWithErrors = await this.getFilesWithOctalErrors();
 
-    console.log(`Found ${filesWithErrors.length} files with octal literal errors`);
+    console.log(
+      `Found ${filesWithErrors.length} files with octal literal errors`,
+    );
 
     for (const file of filesWithErrors) {
       await this.processFile(file);
@@ -36,21 +42,21 @@ class OctalLiteralProcessor {
     return {
       filesProcessed: this.filesProcessed,
       octalsFixed: this.octalsFixed,
-      success: true
+      success: true,
     };
   }
 
   async getFilesWithOctalErrors() {
     // Files with TS1121 Octal literals not allowed errors
     const errorFiles = [
-      'src/utils/withRenderTracking.tsx',
-      'src/utils/testIngredientMapping.ts',
-      'src/calculations/culinary/seasonalAdjustments.ts',
-      'src/calculations/culinaryAstrology.ts',
+      "src/utils/withRenderTracking.tsx",
+      "src/utils/testIngredientMapping.ts",
+      "src/calculations/culinary/seasonalAdjustments.ts",
+      "src/calculations/culinaryAstrology.ts",
       // Add more from error analysis
     ];
 
-    return errorFiles.filter(file => {
+    return errorFiles.filter((file) => {
       const fullPath = path.join(this.projectRoot, file);
       return fs.existsSync(fullPath);
     });
@@ -61,35 +67,47 @@ class OctalLiteralProcessor {
     console.log(`Processing ${filePath}...`);
 
     // Backup original
-    const backupPath = path.join(this.backupDir, path.basename(filePath) + '.backup');
+    const backupPath = path.join(
+      this.backupDir,
+      path.basename(filePath) + ".backup",
+    );
     fs.copyFileSync(fullPath, backupPath);
 
-    let content = fs.readFileSync(fullPath, 'utf8');
+    let content = fs.readFileSync(fullPath, "utf8");
     let localFixes = 0;
 
     // Fix octal literal patterns
     const fixes = [
       // Fix octal literals in slice operations
-      { pattern: /\.slice\(0(\d+)\)/g, replacement: (match, num) => {
-        localFixes++;
-        return `.slice(${num})`;
-      }},
+      {
+        pattern: /\.slice\(0(\d+)\)/g,
+        replacement: (match, num) => {
+          localFixes++;
+          return `.slice(${num})`;
+        },
+      },
 
       // Fix octal literals in substring operations
-      { pattern: /\.substring\(0(\d+)\)/g, replacement: (match, num) => {
-        localFixes++;
-        return `.substring(${num})`;
-      }},
+      {
+        pattern: /\.substring\(0(\d+)\)/g,
+        replacement: (match, num) => {
+          localFixes++;
+          return `.substring(${num})`;
+        },
+      },
 
       // Fix general octal literal usage
-      { pattern: /\b0(\d+)\b/g, replacement: (match, num) => {
-        // Only fix if it's actually an octal literal (not in strings, etc.)
-        if (!this.isInStringOrComment(content, match)) {
-          localFixes++;
-          return num;
-        }
-        return match;
-      }}
+      {
+        pattern: /\b0(\d+)\b/g,
+        replacement: (match, num) => {
+          // Only fix if it's actually an octal literal (not in strings, etc.)
+          if (!this.isInStringOrComment(content, match)) {
+            localFixes++;
+            return num;
+          }
+          return match;
+        },
+      },
     ];
 
     for (const fix of fixes) {
@@ -106,7 +124,7 @@ class OctalLiteralProcessor {
 
   isInStringOrComment(content, match) {
     // Simple check - if the match is inside quotes or comments
-    const lines = content.split('\n');
+    const lines = content.split("\n");
     for (const line of lines) {
       if (line.includes(match)) {
         // Check if it's in a string
@@ -128,9 +146,12 @@ export default OctalLiteralProcessor;
 // CLI usage
 if (import.meta.url === `file://${process.argv[1]}`) {
   const processor = new OctalLiteralProcessor();
-  processor.process().then(result => {
-    console.log('\n✅ Octal literal processing complete:');
-    console.log(`Files processed: ${result.filesProcessed}`);
-    console.log(`Octal literals fixed: ${result.octalsFixed}`);
-  }).catch(console.error);
+  processor
+    .process()
+    .then((result) => {
+      console.log("\n✅ Octal literal processing complete:");
+      console.log(`Files processed: ${result.filesProcessed}`);
+      console.log(`Octal literals fixed: ${result.octalsFixed}`);
+    })
+    .catch(console.error);
 }

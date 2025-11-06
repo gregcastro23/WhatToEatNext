@@ -99,7 +99,7 @@ src/
 
 ```typescript
 // Example: Getting current planetary positions
-import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
+import { getReliablePlanetaryPositions } from "@/utils/reliableAstronomy";
 
 async function calculateRecommendations() {
   try {
@@ -117,14 +117,17 @@ async function calculateRecommendations() {
 ```typescript
 // Example: Elemental compatibility calculation
 interface ElementalProperties {
-  fire: number;    // Energy, spice, quick cooking
-  water: number;   // Cooling, fluid, steaming
-  earth: number;   // Grounding, root vegetables, slow cooking
-  air: number;     // Light, leafy, raw preparations
+  fire: number; // Energy, spice, quick cooking
+  water: number; // Cooling, fluid, steaming
+  earth: number; // Grounding, root vegetables, slow cooking
+  air: number; // Light, leafy, raw preparations
 }
 
 // Self-reinforcement principle: same elements have highest compatibility
-function calculateCompatibility(source: ElementalProperties, target: ElementalProperties): number {
+function calculateCompatibility(
+  source: ElementalProperties,
+  target: ElementalProperties,
+): number {
   const sourceDominant = getDominantElement(source);
   const targetDominant = getDominantElement(target);
 
@@ -142,13 +145,13 @@ function calculateCompatibility(source: ElementalProperties, target: ElementalPr
 
 ```typescript
 // Example: Using the automated quality improvement system
-import { CampaignController } from '@/services/campaign/CampaignController';
+import { CampaignController } from "@/services/campaign/CampaignController";
 
 const campaign = new CampaignController({
-  type: 'typescript-error-reduction',
-  safetyLevel: 'MAXIMUM',
+  type: "typescript-error-reduction",
+  safetyLevel: "MAXIMUM",
   batchSize: 15,
-  validationFrequency: 5
+  validationFrequency: 5,
 });
 
 await campaign.execute();
@@ -186,14 +189,16 @@ git push origin feature/your-feature-name
 
 ```typescript
 // Always validate astronomical data
-function validatePlanetaryPositions(positions: Record<string, unknown>): boolean {
-  const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars'];
+function validatePlanetaryPositions(
+  positions: Record<string, unknown>,
+): boolean {
+  const requiredPlanets = ["sun", "moon", "mercury", "venus", "mars"];
 
   for (const planet of requiredPlanets) {
     if (!positions[planet]) return false;
 
     const pos = positions[planet] as any;
-    if (!pos.sign || typeof pos.degree !== 'number') return false;
+    if (!pos.sign || typeof pos.degree !== "number") return false;
     if (pos.degree < 0 || pos.degree >= 30) return false;
   }
 
@@ -204,13 +209,13 @@ function validatePlanetaryPositions(positions: Record<string, unknown>): boolean
 async function safeAstrologicalCalculation<T>(
   calculation: () => Promise<T>,
   fallback: T,
-  validator: (result: T) => boolean
+  validator: (result: T) => boolean,
 ): Promise<T> {
   try {
     const result = await calculation();
     return validator(result) ? result : fallback;
   } catch (error) {
-    logger.error('Astrological calculation failed', error);
+    logger.error("Astrological calculation failed", error);
     return fallback;
   }
 }
@@ -278,23 +283,25 @@ npm run campaign:perf   # Run performance optimization
 
 ```typescript
 // Example: Testing astrological calculations
-describe('Planetary Calculations', () => {
-  test('validates transit dates against stored data', async () => {
-    const testDate = new Date('2024-05-16');
+describe("Planetary Calculations", () => {
+  test("validates transit dates against stored data", async () => {
+    const testDate = new Date("2024-05-16");
     const positions = await getReliablePlanetaryPositions(testDate);
 
     expect(positions).toBeDefined();
     expect(validatePlanetaryPositions(positions)).toBe(true);
   });
 
-  test('handles API failures gracefully', async () => {
+  test("handles API failures gracefully", async () => {
     // Mock API failure
-    jest.spyOn(global, 'fetch').mockRejectedValue(new Error('API Error'));
+    jest.spyOn(global, "fetch").mockRejectedValue(new Error("API Error"));
 
     const positions = await getReliablePlanetaryPositions();
-    expect(positions).toEqual(expect.objectContaining({
-      sun: expect.objectContaining({ sign: expect.any(String) })
-    }));
+    expect(positions).toEqual(
+      expect.objectContaining({
+        sun: expect.objectContaining({ sign: expect.any(String) }),
+      }),
+    );
   });
 });
 ```
@@ -303,20 +310,26 @@ describe('Planetary Calculations', () => {
 
 ```typescript
 // Example: Testing elemental compatibility
-describe('Elemental Compatibility', () => {
-  test('same elements have highest compatibility', () => {
+describe("Elemental Compatibility", () => {
+  test("same elements have highest compatibility", () => {
     const fireProps = { fire: 0.8, water: 0.1, earth: 0.1, air: 0.0 };
     const otherFireProps = { fire: 0.7, water: 0.2, earth: 0.1, air: 0.0 };
 
-    const compatibility = calculateElementalCompatibility(fireProps, otherFireProps);
+    const compatibility = calculateElementalCompatibility(
+      fireProps,
+      otherFireProps,
+    );
     expect(compatibility).toBeGreaterThanOrEqual(0.9);
   });
 
-  test('different elements have good compatibility', () => {
+  test("different elements have good compatibility", () => {
     const fireProps = { fire: 0.8, water: 0.1, earth: 0.1, air: 0.0 };
     const waterProps = { fire: 0.1, water: 0.8, earth: 0.1, air: 0.0 };
 
-    const compatibility = calculateElementalCompatibility(fireProps, waterProps);
+    const compatibility = calculateElementalCompatibility(
+      fireProps,
+      waterProps,
+    );
     expect(compatibility).toBeGreaterThanOrEqual(0.7);
     expect(compatibility).toBeLessThan(0.9);
   });
@@ -333,20 +346,20 @@ The project includes a sophisticated automated quality improvement system:
 // Creating custom campaigns
 interface CampaignConfig {
   errorThreshold: number;
-  automationLevel: 'conservative' | 'aggressive';
-  rollbackStrategy: 'git-stash' | 'file-backup';
+  automationLevel: "conservative" | "aggressive";
+  rollbackStrategy: "git-stash" | "file-backup";
   validationRequired: boolean;
 }
 
 // Campaign with safety protocols
 const campaign = new CampaignController({
-  type: 'custom-improvement',
+  type: "custom-improvement",
   config: {
     errorThreshold: 100,
-    automationLevel: 'conservative',
-    rollbackStrategy: 'git-stash',
-    validationRequired: true
-  }
+    automationLevel: "conservative",
+    rollbackStrategy: "git-stash",
+    validationRequired: true,
+  },
 });
 ```
 
@@ -381,17 +394,17 @@ interface CulturalContext {
   cuisine: string;
   dietaryRestrictions: string[];
   culturalPreferences: string[];
-  astrologicalComfort: 'none' | 'basic' | 'advanced';
+  astrologicalComfort: "none" | "basic" | "advanced";
 }
 
 function generateCulturallyAwareRecommendations(
   context: CulturalContext,
-  astrologicalData: any
+  astrologicalData: any,
 ): Recommendation[] {
   // Honor cultural preferences while adding cosmic timing
   const baseRecommendations = getCulturalRecommendations(context);
 
-  if (context.astrologicalComfort !== 'none') {
+  if (context.astrologicalComfort !== "none") {
     return enhanceWithCosmicTiming(baseRecommendations, astrologicalData);
   }
 

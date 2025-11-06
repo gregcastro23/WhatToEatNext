@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const filePath = 'src/pages/cuisines/index.tsx';
+const filePath = "src/pages/cuisines/index.tsx";
 
 // Read the file
-let content = fs.readFileSync(filePath, 'utf8');
+let content = fs.readFileSync(filePath, "utf8");
 
 // Fix the main filter function
 content = content.replace(
@@ -30,12 +30,15 @@ content = content.replace(
 );
 
 // Replace all instances of cuisineFlavorProfiles[cuisine.id] with profile
-content = content.replace(/cuisineFlavorProfiles\[cuisine\.id\]/g, 'profile');
+content = content.replace(/cuisineFlavorProfiles\[cuisine\.id\]/g, "profile");
 
 // Add closing brace and parenthesis for the map function
-content = content.replace(/(<\/div>\s*<\/div>\s*)\s*\)\s*}\)/, '$1          );\n        })}');
+content = content.replace(
+  /(<\/div>\s*<\/div>\s*)\s*\)\s*}\)/,
+  "$1          );\n        })}",
+);
 
 // Write the fixed content back
 fs.writeFileSync(filePath, content);
 
-console.log('✅ Fixed cuisines page with proper null checks');
+console.log("✅ Fixed cuisines page with proper null checks");

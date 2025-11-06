@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 interface PlanetaryAspect {
   planet1: string;

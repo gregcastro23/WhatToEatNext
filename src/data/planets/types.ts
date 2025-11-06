@@ -1,5 +1,5 @@
 export interface PlanetData {
-  'Dignity Effect': Record<string, number>;
+  "Dignity Effect": Record<string, number>;
   Elements: string[];
   Alchemy: {
     Spirit: number;
@@ -7,8 +7,8 @@ export interface PlanetData {
     Matter: number;
     Substance: number;
   };
-  'Diurnal Element': string;
-  'Nocturnal Element': string;
+  "Diurnal Element": string;
+  "Nocturnal Element": string;
   AstronomicalData?: {
     DistanceFromSun?: string;
     DistanceFromEarth?: {
@@ -20,7 +20,7 @@ export interface PlanetData {
     AtmosphericComposition?: string;
     RotationPeriod?: string;
     OrbitPeriod?: string;
-    'Axial Tilt'?: string;
+    "Axial Tilt"?: string;
     PhaseCycle?: string;
     SunlightTravelTime?: string;
     ZodiacalRestriction?: string;

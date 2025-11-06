@@ -5,9 +5,9 @@
  * Focus on specific high-error files with TS1128 declaration errors
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class TargetedTS1128Fixer {
   constructor() {
@@ -21,9 +21,12 @@ class TargetedTS1128Fixer {
 
   getTS1128Count() {
     try {
-      const result = execSync('yarn tsc --noEmit 2>&1 | grep -c "TS1128" || echo "0"', {
-        encoding: 'utf8'
-      });
+      const result = execSync(
+        'yarn tsc --noEmit 2>&1 | grep -c "TS1128" || echo "0"',
+        {
+          encoding: "utf8",
+        },
+      );
       return parseInt(result.trim()) || 0;
     } catch (error) {
       return 0;
@@ -34,7 +37,7 @@ class TargetedTS1128Fixer {
     try {
       if (!fs.existsSync(filePath)) return 0;
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
       let fixCount = 0;
 
@@ -42,7 +45,7 @@ class TargetedTS1128Fixer {
       // = [; -> = [
       const arrayLiteralMatches = content.match(/=\s*\[\s*;/g);
       if (arrayLiteralMatches) {
-        content = content.replace(/=\s*\[\s*;/g, '= [');
+        content = content.replace(/=\s*\[\s*;/g, "= [");
         fixCount += arrayLiteralMatches.length;
       }
 
@@ -50,7 +53,7 @@ class TargetedTS1128Fixer {
       // = {; -> = {
       const objectLiteralMatches = content.match(/=\s*\{\s*;/g);
       if (objectLiteralMatches) {
-        content = content.replace(/=\s*\{\s*;/g, '= {');
+        content = content.replace(/=\s*\{\s*;/g, "= {");
         fixCount += objectLiteralMatches.length;
       }
 
@@ -58,7 +61,7 @@ class TargetedTS1128Fixer {
       // func(; -> func(
       const funcCallMatches = content.match(/\w+\(\s*;/g);
       if (funcCallMatches) {
-        content = content.replace(/(\w+\()\s*;/g, '$1');
+        content = content.replace(/(\w+\()\s*;/g, "$1");
         fixCount += funcCallMatches.length;
       }
 
@@ -66,7 +69,7 @@ class TargetedTS1128Fixer {
       // statement;; -> statement;
       const doubleColonMatches = content.match(/[^;];\s*;/g);
       if (doubleColonMatches) {
-        content = content.replace(/([^;]);\s*;/g, '$1;');
+        content = content.replace(/([^;]);\s*;/g, "$1;");
         fixCount += doubleColonMatches.length;
       }
 
@@ -74,15 +77,20 @@ class TargetedTS1128Fixer {
       // `template;` -> `template`
       const templateSemicolonMatches = content.match(/`[^`]*;`/g);
       if (templateSemicolonMatches) {
-        content = content.replace(/(`[^`]*);(`)/g, '$1$2');
+        content = content.replace(/(`[^`]*);(`)/g, "$1$2");
         fixCount += templateSemicolonMatches.length;
       }
 
       // Fix 6: Type annotation with semicolon
       // : Type; -> : Type
-      const typeAnnotationMatches = content.match(/:\s*[A-Z][a-zA-Z0-9]*\s*;(?=\s*[,})\]])/g);
+      const typeAnnotationMatches = content.match(
+        /:\s*[A-Z][a-zA-Z0-9]*\s*;(?=\s*[,})\]])/g,
+      );
       if (typeAnnotationMatches) {
-        content = content.replace(/(:\s*[A-Z][a-zA-Z0-9]*)\s*;(?=\s*[,})\]])/g, '$1');
+        content = content.replace(
+          /(:\s*[A-Z][a-zA-Z0-9]*)\s*;(?=\s*[,})\]])/g,
+          "$1",
+        );
         fixCount += typeAnnotationMatches.length;
       }
 
@@ -90,7 +98,7 @@ class TargetedTS1128Fixer {
       // import {; name } -> import { name }
       const importSemicolonMatches = content.match(/import\s*\{\s*;/g);
       if (importSemicolonMatches) {
-        content = content.replace(/import\s*\{\s*;/g, 'import {');
+        content = content.replace(/import\s*\{\s*;/g, "import {");
         fixCount += importSemicolonMatches.length;
       }
 
@@ -98,7 +106,7 @@ class TargetedTS1128Fixer {
       // <Type;> -> <Type>
       const genericSemicolonMatches = content.match(/<[A-Z][a-zA-Z0-9]*\s*;>/g);
       if (genericSemicolonMatches) {
-        content = content.replace(/(<[A-Z][a-zA-Z0-9]*)\s*;>/g, '$1>');
+        content = content.replace(/(<[A-Z][a-zA-Z0-9]*)\s*;>/g, "$1>");
         fixCount += genericSemicolonMatches.length;
       }
 
@@ -106,7 +114,9 @@ class TargetedTS1128Fixer {
         fs.writeFileSync(filePath, content);
         this.processedFiles++;
         this.fixedErrors += fixCount;
-        this.log(`Fixed ${fixCount} TS1128 errors in ${path.basename(filePath)}`);
+        this.log(
+          `Fixed ${fixCount} TS1128 errors in ${path.basename(filePath)}`,
+        );
         return fixCount;
       }
 
@@ -118,18 +128,18 @@ class TargetedTS1128Fixer {
   }
 
   async execute() {
-    this.log('Starting Targeted TS1128 Fixing - Phase 4');
+    this.log("Starting Targeted TS1128 Fixing - Phase 4");
 
     const initialErrors = this.getTS1128Count();
     this.log(`Initial TS1128 errors: ${initialErrors}`);
 
     // Target high-error files
     const highErrorFiles = [
-      'src/types/advancedIntelligence.ts',
-      'src/types/ingredients.ts',
-      'src/types/alchemy.ts',
-      'src/constants/planets.ts',
-      'src/middleware.ts'
+      "src/types/advancedIntelligence.ts",
+      "src/types/ingredients.ts",
+      "src/types/alchemy.ts",
+      "src/constants/planets.ts",
+      "src/middleware.ts",
     ];
 
     this.log(`Targeting ${highErrorFiles.length} high-error files`);
@@ -141,9 +151,14 @@ class TargetedTS1128Fixer {
     }
 
     // Process additional TypeScript files
-    const additionalFiles = execSync('find src -name "*.ts" -o -name "*.tsx" | head -30', {
-      encoding: 'utf8'
-    }).split('\n').filter(f => f.trim());
+    const additionalFiles = execSync(
+      'find src -name "*.ts" -o -name "*.tsx" | head -30',
+      {
+        encoding: "utf8",
+      },
+    )
+      .split("\n")
+      .filter((f) => f.trim());
 
     for (const file of additionalFiles) {
       if (file.trim() && !highErrorFiles.includes(file.trim())) {
@@ -153,9 +168,10 @@ class TargetedTS1128Fixer {
 
     const finalErrors = this.getTS1128Count();
     const reduction = initialErrors - finalErrors;
-    const reductionPercent = initialErrors > 0 ? ((reduction / initialErrors) * 100).toFixed(1) : 0;
+    const reductionPercent =
+      initialErrors > 0 ? ((reduction / initialErrors) * 100).toFixed(1) : 0;
 
-    this.log('\n=== Phase 4 Targeted TS1128 Fixing Results ===');
+    this.log("\n=== Phase 4 Targeted TS1128 Fixing Results ===");
     this.log(`Initial errors: ${initialErrors}`);
     this.log(`Final errors: ${finalErrors}`);
     this.log(`Errors reduced: ${reduction}`);
@@ -168,24 +184,27 @@ class TargetedTS1128Fixer {
       finalErrors,
       reduction,
       reductionPercent: parseFloat(reductionPercent),
-      filesProcessed: this.processedFiles
+      filesProcessed: this.processedFiles,
     };
   }
 }
 
 if (require.main === module) {
   const fixer = new TargetedTS1128Fixer();
-  fixer.execute()
-    .then(results => {
+  fixer
+    .execute()
+    .then((results) => {
       if (results.reduction > 0) {
-        console.log(`\n🎉 Success! Reduced ${results.reduction} TS1128 errors (${results.reductionPercent}%)`);
+        console.log(
+          `\n🎉 Success! Reduced ${results.reduction} TS1128 errors (${results.reductionPercent}%)`,
+        );
       } else {
-        console.log('\n📊 Analysis complete');
+        console.log("\n📊 Analysis complete");
       }
       process.exit(0);
     })
-    .catch(error => {
-      console.error('❌ TS1128 fixing failed:', error.message);
+    .catch((error) => {
+      console.error("❌ TS1128 fixing failed:", error.message);
       process.exit(1);
     });
 }

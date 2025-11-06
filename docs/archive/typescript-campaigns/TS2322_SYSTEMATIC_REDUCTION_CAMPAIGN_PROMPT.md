@@ -99,10 +99,18 @@ const rawIngredients = {
 
 ```typescript
 // ❌ BEFORE: unknown not assignable to ReactNode
-{Array.isArray(recipe.currentSeason) ? recipe.currentSeason?.join(', ') : recipe.currentSeason}
+{
+  Array.isArray(recipe.currentSeason)
+    ? recipe.currentSeason?.join(", ")
+    : recipe.currentSeason;
+}
 
 // ✅ AFTER: Type assertion for React safety
-{Array.isArray(recipe.currentSeason) ? recipe.currentSeason?.join(', ') : (recipe.currentSeason as string)}
+{
+  Array.isArray(recipe.currentSeason)
+    ? recipe.currentSeason?.join(", ")
+    : (recipe.currentSeason as string);
+}
 ```
 
 **Success Rate**: 100% across multiple files  
@@ -113,10 +121,10 @@ const rawIngredients = {
 
 ```typescript
 // ❌ BEFORE: string not assignable to Season
-season: elementalState?.season || 'all'
+season: elementalState?.season || "all";
 
 // ✅ AFTER: Strategic type casting
-season: (elementalState?.season as Season) || ('all' as Season)
+season: (elementalState?.season as Season) || ("all" as Season);
 ```
 
 **Success Rate**: 100% for enum compatibility  
@@ -130,7 +138,11 @@ season: (elementalState?.season as Season) || ('all' as Season)
 const result = { ...elementalState, dominant: element, balance: 0.5 };
 
 // ✅ AFTER: Interface compliance through type assertion
-const result = { ...elementalState, dominant: element, balance: 0.5 } as ElementalProperties;
+const result = {
+  ...elementalState,
+  dominant: element,
+  balance: 0.5,
+} as ElementalProperties;
 ```
 
 **Success Rate**: 100% for interface extensions  
@@ -155,10 +167,10 @@ return !nonVegetarianProteins.includes(protein.toLowerCase());
 
 ```typescript
 // ❌ BEFORE: string not assignable to Element
-element: someValue || ''
+element: someValue || "";
 
 // ✅ AFTER: Type-safe fallback
-element: (someValue as Element) || ('Fire' as Element)
+element: (someValue as Element) || ("Fire" as Element);
 ```
 
 **Success Rate**: 100% for enum safety  
@@ -603,10 +615,10 @@ compliance."_
 
 ```typescript
 // ❌ BEFORE: Wrong import path causing type conflicts
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from "@/types/alchemy";
 
 // ✅ AFTER: Correct import path - immediate error resolution
-import type { IngredientMapping } from '@/data/ingredients/types';
+import type { IngredientMapping } from "@/data/ingredients/types";
 ```
 
 **Success Rate**: **95%+** across 25+ ingredient files  
@@ -621,10 +633,10 @@ architecture
 
 ```typescript
 // ❌ BEFORE: Wrong CookingMethod import
-import type { CookingMethod } from '@/types/alchemy';
+import type { CookingMethod } from "@/types/alchemy";
 
 // ✅ AFTER: Correct CookingMethod import
-import type { CookingMethod } from '@/types/shared';
+import type { CookingMethod } from "@/types/shared";
 ```
 
 **Success Rate**: **100%** across 8 cooking method files  
@@ -736,10 +748,10 @@ session**
 
 ```typescript
 // ❌ BEFORE: String not assignable to enum
-dietaryRestriction: "low-fat"
+dietaryRestriction: "low-fat";
 
 // ✅ AFTER: Type assertion for enum safety
-dietaryRestriction: ("low-fat" as DietaryRestriction)
+dietaryRestriction: "low-fat" as DietaryRestriction;
 ```
 
 #### **Pattern 2: Array Type Compatibility** (Ready for scaling)

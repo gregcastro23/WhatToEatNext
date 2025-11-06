@@ -33,9 +33,10 @@ const value = obj.property;
 const value = (obj as unknown as Record<string, unknown>)?.property;
 
 // ✅ SAFE: Optional chaining with type guard
-const value = obj && typeof obj === 'object' && 'property' in obj
-  ? obj.property
-  : undefined;
+const value =
+  obj && typeof obj === "object" && "property" in obj
+    ? obj.property
+    : undefined;
 ```
 
 #### 1.2 Nested Property Access
@@ -45,12 +46,14 @@ const value = obj && typeof obj === 'object' && 'property' in obj
 const value = obj.level1.level2.property;
 
 // ✅ SAFE: Safe nested access
-const value = (obj as unknown as Record<string, unknown>)?.level1?.level2?.property;
+const value = (obj as unknown as Record<string, unknown>)?.level1?.level2
+  ?.property;
 
 // ✅ SAFE: Step-by-step validation
 const level1 = (obj as unknown as Record<string, unknown>)?.level1;
-const level2 = level1 && typeof level1 === 'object' ? level1.level2 : undefined;
-const value = level2 && typeof level2 === 'object' ? level2.property : undefined;
+const level2 = level1 && typeof level1 === "object" ? level1.level2 : undefined;
+const value =
+  level2 && typeof level2 === "object" ? level2.property : undefined;
 ```
 
 #### 1.3 Array Property Access
@@ -60,13 +63,14 @@ const value = level2 && typeof level2 === 'object' ? level2.property : undefined
 const item = data[0].property;
 
 // ✅ SAFE: Array validation with property access
-const item = Array.isArray(data) && data.length > 0
-  ? (data[0] as unknown as Record<string, unknown>)?.property
-  : undefined;
+const item =
+  Array.isArray(data) && data.length > 0
+    ? (data[0] as unknown as Record<string, unknown>)?.property
+    : undefined;
 
 // ✅ SAFE: Array iteration with safety
 const items = Array.isArray(data)
-  ? data.map(item => (item as unknown as Record<string, unknown>)?.property)
+  ? data.map((item) => (item as unknown as Record<string, unknown>)?.property)
   : [];
 ```
 
@@ -79,11 +83,12 @@ const data = result.data.items[0];
 
 // ✅ SAFE: Service response with validation
 const result = await serviceCall();
-const typedResult = (result as unknown) as ServiceResponse;
+const typedResult = result as unknown as ServiceResponse;
 const data = (typedResult?.data as unknown as Record<string, unknown>)?.items;
-const firstItem = Array.isArray(data) && data.length > 0
-  ? (data[0] as unknown as Record<string, unknown>)
-  : null;
+const firstItem =
+  Array.isArray(data) && data.length > 0
+    ? (data[0] as unknown as Record<string, unknown>)
+    : null;
 ```
 
 ### Pattern 2: TS2352 Type Conversion Safety (92 errors)
@@ -97,12 +102,12 @@ const firstItem = Array.isArray(data) && data.length > 0
 const converted = data as TargetType;
 
 // ✅ SAFE: Unknown-first conversion
-const converted = (data as unknown) as TargetType;
+const converted = data as unknown as TargetType;
 
 // ✅ SAFE: Interface compliance conversion
 const converted = {
   ...data,
-  requiredProperty: data.requiredProperty || defaultValue
+  requiredProperty: data.requiredProperty || defaultValue,
 } as TargetInterface;
 ```
 
@@ -113,13 +118,13 @@ const converted = {
 const serviceData = response as ServiceData;
 
 // ✅ SAFE: Service data with validation
-const serviceData = (response as unknown) as ServiceData;
+const serviceData = response as unknown as ServiceData;
 
 // ✅ SAFE: Service data with interface completion
 const serviceData: ServiceData = {
-  id: String((response as unknown as Record<string, unknown>)?.id || ''),
-  name: String((response as unknown as Record<string, unknown>)?.name || ''),
-  metadata: (response as unknown as Record<string, unknown>)?.metadata || {}
+  id: String((response as unknown as Record<string, unknown>)?.id || ""),
+  name: String((response as unknown as Record<string, unknown>)?.name || ""),
+  metadata: (response as unknown as Record<string, unknown>)?.metadata || {},
 };
 ```
 
@@ -130,13 +135,15 @@ const serviceData: ServiceData = {
 const apiResponse = fetchResult as ApiResponse;
 
 // ✅ SAFE: API response with type safety
-const apiResponse = (fetchResult as unknown) as ApiResponse;
+const apiResponse = fetchResult as unknown as ApiResponse;
 
 // ✅ SAFE: API response with error handling
 const apiResponse: ApiResponse = {
-  success: Boolean((fetchResult as unknown as Record<string, unknown>)?.success),
+  success: Boolean(
+    (fetchResult as unknown as Record<string, unknown>)?.success,
+  ),
   data: (fetchResult as unknown as Record<string, unknown>)?.data || null,
-  error: (fetchResult as unknown as Record<string, unknown>)?.error || null
+  error: (fetchResult as unknown as Record<string, unknown>)?.error || null,
 };
 ```
 
@@ -148,9 +155,13 @@ const config = configData as ServiceConfig;
 
 // ✅ SAFE: Config with defaults
 const config: ServiceConfig = {
-  endpoint: String((configData as unknown as Record<string, unknown>)?.endpoint || ''),
-  timeout: Number((configData as unknown as Record<string, unknown>)?.timeout) || 5000,
-  retries: Number((configData as unknown as Record<string, unknown>)?.retries) || 3
+  endpoint: String(
+    (configData as unknown as Record<string, unknown>)?.endpoint || "",
+  ),
+  timeout:
+    Number((configData as unknown as Record<string, unknown>)?.timeout) || 5000,
+  retries:
+    Number((configData as unknown as Record<string, unknown>)?.retries) || 3,
 };
 ```
 
@@ -165,23 +176,22 @@ const config: ServiceConfig = {
 const state: AstrologicalState = {
   ...baseState,
   planetaryHour: planetaryHour,
-  aspects: aspects
+  aspects: aspects,
 };
 
 // ✅ SAFE: Interface with type assertions
 const state: AstrologicalState = {
   ...baseState,
-  planetaryHour: (planetaryHour as unknown) as Planet,
-  aspects: Array.isArray(aspects) ? aspects : []
+  planetaryHour: planetaryHour as unknown as Planet,
+  aspects: Array.isArray(aspects) ? aspects : [],
 };
 
 // ✅ SAFE: Interface with validation
 const state: AstrologicalState = {
   ...baseState,
-  planetaryHour: typeof planetaryHour === 'string'
-    ? (planetaryHour as Planet)
-    : 'Sun',
-  aspects: Array.isArray(aspects) ? aspects : []
+  planetaryHour:
+    typeof planetaryHour === "string" ? (planetaryHour as Planet) : "Sun",
+  aspects: Array.isArray(aspects) ? aspects : [],
 };
 ```
 
@@ -193,13 +203,12 @@ const element: ElementType = input;
 
 // ✅ SAFE: Union type with validation
 const element: ElementType =
-  typeof input === 'string' && ['Fire', 'Water', 'Earth', 'Air'].includes(input)
+  typeof input === "string" && ["Fire", "Water", "Earth", "Air"].includes(input)
     ? (input as ElementType)
-    : 'Fire'; // Default fallback
+    : "Fire"; // Default fallback
 
 // ✅ SAFE: Union type with type guard
-const element: ElementType =
-  isElementType(input) ? input : 'Fire';
+const element: ElementType = isElementType(input) ? input : "Fire";
 ```
 
 #### 3.3 Service State Assignment
@@ -209,14 +218,14 @@ const element: ElementType =
 const serviceState: ServiceState = {
   data: data,
   metadata: metadata,
-  status: status
+  status: status,
 };
 
 // ✅ SAFE: Service state with type safety
 const serviceState: ServiceState = {
-  data: (data as unknown) as ServiceData,
-  metadata: (metadata as unknown) as ServiceMetadata,
-  status: typeof status === 'string' ? status : 'idle'
+  data: data as unknown as ServiceData,
+  metadata: metadata as unknown as ServiceMetadata,
+  status: typeof status === "string" ? status : "idle",
 };
 ```
 
@@ -227,14 +236,14 @@ const serviceState: ServiceState = {
 const result: ServiceResult = {
   success: success,
   data: data,
-  error: error
+  error: error,
 };
 
 // ✅ SAFE: Result object with validation
 const result: ServiceResult = {
   success: Boolean(success),
-  data: (data as unknown) as ResultData,
-  error: error || null
+  data: data as unknown as ResultData,
+  error: error || null,
 };
 ```
 
@@ -252,15 +261,15 @@ function processRecipe(recipe: unknown): Recipe {
 
 // ✅ SAFE: Parameter validation with type safety
 function processRecipe(recipe: unknown): Recipe {
-  if (!recipe || typeof recipe !== 'object') {
-    throw new Error('Invalid recipe data');
+  if (!recipe || typeof recipe !== "object") {
+    throw new Error("Invalid recipe data");
   }
 
   const typed = recipe as Record<string, unknown>;
   return {
-    id: String(typed.id || ''),
-    name: String(typed.name || ''),
-    ingredients: Array.isArray(typed.ingredients) ? typed.ingredients : []
+    id: String(typed.id || ""),
+    name: String(typed.name || ""),
+    ingredients: Array.isArray(typed.ingredients) ? typed.ingredients : [],
   };
 }
 ```
@@ -279,7 +288,10 @@ function processArray<T>(data: unknown): T[] {
 }
 
 // ✅ SAFE: Array parameter with element validation
-function processArray<T>(data: unknown, validator: (item: unknown) => item is T): T[] {
+function processArray<T>(
+  data: unknown,
+  validator: (item: unknown) => item is T,
+): T[] {
   return Array.isArray(data) ? data.filter(validator) : [];
 }
 ```
@@ -294,15 +306,15 @@ async function callService(params: unknown): Promise<ServiceResponse> {
 
 // ✅ SAFE: Service method with parameter validation
 async function callService(params: unknown): Promise<ServiceResponse> {
-  const typedParams = (params as unknown) as ServiceParams;
+  const typedParams = params as unknown as ServiceParams;
   return await service.method(typedParams);
 }
 
 // ✅ SAFE: Service method with interface compliance
 async function callService(params: unknown): Promise<ServiceResponse> {
   const serviceParams: ServiceParams = {
-    id: String((params as unknown as Record<string, unknown>)?.id || ''),
-    data: (params as unknown as Record<string, unknown>)?.data || {}
+    id: String((params as unknown as Record<string, unknown>)?.id || ""),
+    data: (params as unknown as Record<string, unknown>)?.data || {},
   };
   return await service.method(serviceParams);
 }
@@ -318,13 +330,13 @@ const callback = (result: unknown) => {
 
 // ✅ SAFE: Callback with type assertion
 const callback = (result: unknown) => {
-  const typedResult = (result as unknown) as CallbackResult;
+  const typedResult = result as unknown as CallbackResult;
   processResult(typedResult);
 };
 
 // ✅ SAFE: Callback with validation
 const callback = (result: unknown) => {
-  if (result && typeof result === 'object' && 'data' in result) {
+  if (result && typeof result === "object" && "data" in result) {
     const typedResult = result as CallbackResult;
     processResult(typedResult);
   }
@@ -342,12 +354,12 @@ const callback = (result: unknown) => {
 const result = obj.method(params);
 
 // ✅ SAFE: Function existence check
-if (typeof obj.method === 'function') {
+if (typeof obj.method === "function") {
   const result = obj.method(params);
 }
 
 // ✅ SAFE: Function existence with type assertion
-if (obj && typeof obj === 'object' && typeof obj.method === 'function') {
+if (obj && typeof obj === "object" && typeof obj.method === "function") {
   const result = (obj.method as Function)(params);
 }
 ```
@@ -356,23 +368,23 @@ if (obj && typeof obj === 'object' && typeof obj.method === 'function') {
 
 ```typescript
 // ❌ UNSAFE: Dynamic import call
-const module = await import('./module');
+const module = await import("./module");
 const result = module.default(params);
 
 // ✅ SAFE: Dynamic import with validation
-const module = await import('./module');
-if (module && typeof module.default === 'function') {
+const module = await import("./module");
+if (module && typeof module.default === "function") {
   const result = module.default(params);
 }
 
 // ✅ SAFE: Dynamic import with error handling
-const module = await import('./module');
-if (module?.default && typeof module.default === 'function') {
+const module = await import("./module");
+if (module?.default && typeof module.default === "function") {
   try {
     const result = module.default(params);
     return result;
   } catch (error) {
-    console.error('Module execution failed:', error);
+    console.error("Module execution failed:", error);
     return null;
   }
 }
@@ -385,12 +397,12 @@ if (module?.default && typeof module.default === 'function') {
 const result = service.calculate(data);
 
 // ✅ SAFE: Method call with validation
-if (service && typeof service.calculate === 'function') {
+if (service && typeof service.calculate === "function") {
   const result = service.calculate(data);
 }
 
 // ✅ SAFE: Method call with type assertion
-if (service && typeof service.calculate === 'function') {
+if (service && typeof service.calculate === "function") {
   const typedService = service as { calculate: (data: unknown) => unknown };
   const result = typedService.calculate(data);
 }
@@ -407,40 +419,42 @@ if (service && typeof service.calculate === 'function') {
 async function processServiceData(input: unknown): Promise<ServiceResult> {
   try {
     // Pattern 4: Parameter validation
-    if (!input || typeof input !== 'object') {
-      throw new Error('Invalid input data');
+    if (!input || typeof input !== "object") {
+      throw new Error("Invalid input data");
     }
 
-    const typedInput = (input as unknown) as Record<string, unknown>;
+    const typedInput = input as unknown as Record<string, unknown>;
 
     // Pattern 1: Property access safety
-    const id = String(typedInput?.id || '');
-    const data = (typedInput?.data as unknown) as ServiceData;
+    const id = String(typedInput?.id || "");
+    const data = typedInput?.data as unknown as ServiceData;
 
     // Pattern 2: Type conversion
-    const serviceData = (data as unknown) as ProcessedData;
+    const serviceData = data as unknown as ProcessedData;
 
     // Pattern 5: Function call safety
-    if (typeof service.process === 'function') {
+    if (typeof service.process === "function") {
       const result = await service.process(serviceData);
 
       // Pattern 3: Result assignment
       const serviceResult: ServiceResult = {
-        success: Boolean((result as unknown as Record<string, unknown>)?.success),
-        data: (result as unknown) as ResultData,
-        error: null
+        success: Boolean(
+          (result as unknown as Record<string, unknown>)?.success,
+        ),
+        data: result as unknown as ResultData,
+        error: null,
       };
 
       return serviceResult;
     }
 
-    throw new Error('Service method not available');
+    throw new Error("Service method not available");
   } catch (error) {
     // Pattern 3: Error result assignment
     const errorResult: ServiceResult = {
       success: false,
       data: null,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : "Unknown error",
     };
 
     return errorResult;

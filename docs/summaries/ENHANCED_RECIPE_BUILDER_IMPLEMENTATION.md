@@ -58,13 +58,22 @@ and procedures.
 
 ```typescript
 // Cuisine Flavor Profiles
-import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
+import { cuisineFlavorProfiles } from "@/data/cuisineFlavorProfiles";
 
 // Enhanced Ingredients System
-import { generateIngredientRecommendations, getSeasonalIngredients } from '@/data/unified/enhancedIngredients';
+import {
+  generateIngredientRecommendations,
+  getSeasonalIngredients,
+} from "@/data/unified/enhancedIngredients";
 
 // Comprehensive ingredient database
-import { getAllVegetables, getAllProteins, getAllHerbs, getAllSpices, getAllGrains } from '@/data/ingredients';
+import {
+  getAllVegetables,
+  getAllProteins,
+  getAllHerbs,
+  getAllSpices,
+  getAllGrains,
+} from "@/data/ingredients";
 ```
 
 ### **Enhanced Ingredient Scoring Algorithm**
@@ -105,7 +114,7 @@ const calculateIngredientScore = (ingredient: any): number => {
 
 ```typescript
 const findBestCuisine = (): string => {
-  let bestMatch = '';
+  let bestMatch = "";
   let bestScore = 0;
 
   Object.entries(cuisineFlavorProfiles).forEach(([cuisineName, profile]) => {
@@ -119,7 +128,7 @@ const findBestCuisine = (): string => {
     });
 
     // Ingredient signature matching (bonus points)
-    selectedIngredients.forEach(ingredient => {
+    selectedIngredients.forEach((ingredient) => {
       if (profile.signatureIngredients.includes(ingredient.name)) {
         score += 2; // Strong match bonus
       }
@@ -131,7 +140,7 @@ const findBestCuisine = (): string => {
     }
   });
 
-  return bestMatch || 'italian';
+  return bestMatch || "italian";
 };
 ```
 
@@ -140,18 +149,24 @@ const findBestCuisine = (): string => {
 #### **Ingredient Amount Calculation:**
 
 ```typescript
-const generateIngredientAmount = (ingredient: SelectedIngredient): { amount: string; unit: string } => {
+const generateIngredientAmount = (
+  ingredient: SelectedIngredient,
+): { amount: string; unit: string } => {
   const category = ingredient.category.toLowerCase();
 
   switch (category) {
-    case 'proteins': return { amount: (120 * servings).toString(), unit: 'g' };
-    case 'vegetables':
-      return ingredient.name.includes('garlic')
-        ? { amount: Math.ceil(servings / 2).toString(), unit: 'piece' }
-        : { amount: (80 * servings).toString(), unit: 'g' };
-    case 'grains': return { amount: (60 * servings).toString(), unit: 'g' };
-    case 'herbs': return { amount: '1', unit: 'bunch' };
-    case 'spices': return { amount: '1', unit: 'tsp' };
+    case "proteins":
+      return { amount: (120 * servings).toString(), unit: "g" };
+    case "vegetables":
+      return ingredient.name.includes("garlic")
+        ? { amount: Math.ceil(servings / 2).toString(), unit: "piece" }
+        : { amount: (80 * servings).toString(), unit: "g" };
+    case "grains":
+      return { amount: (60 * servings).toString(), unit: "g" };
+    case "herbs":
+      return { amount: "1", unit: "bunch" };
+    case "spices":
+      return { amount: "1", unit: "tsp" };
     // ... etc
   }
 };
@@ -160,19 +175,29 @@ const generateIngredientAmount = (ingredient: SelectedIngredient): { amount: str
 #### **Instruction Generation:**
 
 ```typescript
-const generateInstructions = (cuisine: string, ingredients: SelectedIngredient[]): string[] => {
+const generateInstructions = (
+  cuisine: string,
+  ingredients: SelectedIngredient[],
+): string[] => {
   const cuisineProfile = cuisineFlavorProfiles[cuisine];
-  const techniques = cuisineProfile?.signatureTechniques || ['sautéing', 'seasoning'];
+  const techniques = cuisineProfile?.signatureTechniques || [
+    "sautéing",
+    "seasoning",
+  ];
 
-  const instructions = ['Gather and prepare all ingredients by washing, chopping, and measuring.'];
+  const instructions = [
+    "Gather and prepare all ingredients by washing, chopping, and measuring.",
+  ];
 
   // Dynamic instruction generation based on ingredient types and cuisine techniques
   if (proteins.length > 0) {
-    instructions.push(`Season ${proteins.map(p => p.name).join(' and ')} with salt and pepper. Let rest for 10 minutes.`);
+    instructions.push(
+      `Season ${proteins.map((p) => p.name).join(" and ")} with salt and pepper. Let rest for 10 minutes.`,
+    );
   }
 
-  if (techniques.includes('sautéing')) {
-    instructions.push('Heat oil in a large pan over medium-high heat.');
+  if (techniques.includes("sautéing")) {
+    instructions.push("Heat oil in a large pan over medium-high heat.");
   }
 
   // ... contextual instruction building

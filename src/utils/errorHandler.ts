@@ -2,24 +2,24 @@
  * Error handling utilities
  */
 
-import { createLogger } from './logger';
+import { createLogger } from "./logger";
 
-const logger = createLogger('ErrorHandler');
+const logger = createLogger("ErrorHandler");
 
 export enum ErrorType {
-  UI = 'UI',
-  API = 'API',
-  DATA = 'DATA',
-  NETWORK = 'NETWORK',
-  ASTROLOGY = 'ASTROLOGY',
-  UNKNOWN = 'UNKNOWN'
+  UI = "UI",
+  API = "API",
+  DATA = "DATA",
+  NETWORK = "NETWORK",
+  ASTROLOGY = "ASTROLOGY",
+  UNKNOWN = "UNKNOWN",
 }
 
 export enum ErrorSeverity {
-  INFO = 'INFO',
-  WARNING = 'WARNING',
-  ERROR = 'ERROR',
-  CRITICAL = 'CRITICAL'
+  INFO = "INFO",
+  WARNING = "WARNING",
+  ERROR = "ERROR",
+  CRITICAL = "CRITICAL",
 }
 
 interface ErrorContext {
@@ -45,14 +45,17 @@ export const ErrorHandler = {
     const {
       type = ErrorType.UNKNOWN,
       severity = ErrorSeverity.ERROR,
-      component = 'unknown',
+      component = "unknown",
       context = {},
-      silent = false
+      silent = false,
     } = options;
 
     // Log to console
     if (!silent) {
-      logger.error(`[${severity}][${type}][${component}] ${error.message}`, { error, context });
+      logger.error(`[${severity}][${type}][${component}] ${error.message}`, {
+        error,
+        context,
+      });
     }
 
     // You could add integration with error monitoring services here
@@ -62,7 +65,7 @@ export const ErrorHandler = {
       error,
       type,
       severity,
-      _timestamp: new Date().toISOString()
+      _timestamp: new Date().toISOString(),
     };
   },
 
@@ -75,10 +78,10 @@ export const ErrorHandler = {
     Object.assign(error, {
       type: options.type || ErrorType.UNKNOWN,
       severity: options.severity || ErrorSeverity.ERROR,
-      context: options.context || {}
+      context: options.context || {},
     });
     return error;
-  }
+  },
 };
 
 export default ErrorHandler;

@@ -85,7 +85,7 @@ safe property access patterns consistently **Implementation**:
 const description = sourceMethod.description;
 
 // ✅ AFTER - Safe property access
-const description = (sourceMethod as any)?.description || 'Default description';
+const description = (sourceMethod as any)?.description || "Default description";
 ```
 
 ### **Pattern TS2440-NEXT-D: Index Type Safety Resolution**
@@ -125,7 +125,7 @@ const combined = { ...(unknownType as Record<string, any>) };
 const recipes: Recipe[] = await getRecipes();
 
 // ✅ AFTER - Proper async handling
-const recipes: Recipe[] = await getRecipes() as Recipe[];
+const recipes: Recipe[] = (await getRecipes()) as Recipe[];
 ```
 
 ---
@@ -194,7 +194,7 @@ const recipes: Recipe[] = await getRecipes() as Recipe[];
 
 ```typescript
 // ❌ BEFORE - Missing module
-import { RecipeRecommendations } from '@/components/Recipe/RecipeRecommendations';
+import { RecipeRecommendations } from "@/components/Recipe/RecipeRecommendations";
 
 // ✅ AFTER - Create missing module
 // src/components/Recipe/RecipeRecommendations.tsx
@@ -218,7 +218,10 @@ function generateRecommendations(profile: ElementalProperties, count: number) {
 // Called with: generateRecommendations(profile); // Missing count
 
 // ✅ AFTER - Standardized signatures
-function generateRecommendations(profile: ElementalProperties, count: number = 5) {
+function generateRecommendations(
+  profile: ElementalProperties,
+  count: number = 5,
+) {
   // implementation with default parameter
 }
 ```
@@ -230,7 +233,7 @@ function generateRecommendations(profile: ElementalProperties, count: number = 5
 const description = method.description;
 
 // ✅ AFTER - Safe property access
-const description = (method as any)?.description || 'No description available';
+const description = (method as any)?.description || "No description available";
 ```
 
 ---

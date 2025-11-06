@@ -9,12 +9,12 @@
  * - Safe file processing with validation
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 class SimpleImportFixer {
   constructor() {
-    this.srcDir = path.join(process.cwd(), 'src');
+    this.srcDir = path.join(process.cwd(), "src");
     this.processedFiles = 0;
     this.fixedFiles = 0;
     this.duplicatesFound = 0;
@@ -24,14 +24,18 @@ class SimpleImportFixer {
   getAllTypeScriptFiles() {
     const files = [];
 
-    const scanDirectory = dir => {
+    const scanDirectory = (dir) => {
       try {
         const entries = fs.readdirSync(dir, { withFileTypes: true });
 
         for (const entry of entries) {
           const fullPath = path.join(dir, entry.name);
 
-          if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
+          if (
+            entry.isDirectory() &&
+            !entry.name.startsWith(".") &&
+            entry.name !== "node_modules"
+          ) {
             scanDirectory(fullPath);
           } else if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name)) {
             files.push(fullPath);
@@ -47,7 +51,7 @@ class SimpleImportFixer {
   }
 
   analyzeImports(content) {
-    const lines = content.split('\n');
+    const lines = content.split("\n");
     const imports = new Map(); // source -> { lines: [], imports: Set(), defaultImport: string, namespaceImport: string }
     const importLines = [];
 
@@ -56,7 +60,9 @@ class SimpleImportFixer {
       const trimmedLine = line.trim();
 
       // Match import statements
-      const importMatch = trimmedLine.match(/^import\s+(.+?)\s+from\s+['"`]([^'"`]+)['"`];?\s*$/);
+      const importMatch = trimmedLine.match(
+        /^import\s+(.+?)\s+from\s+['"`]([^'"`]+)['"`];?\s*$/,
+      );
 
       if (importMatch) {
         const [, importPart, source] = importMatch;
@@ -75,20 +81,20 @@ class SimpleImportFixer {
         importInfo.lines.push(i);
 
         // Parse different import types
-        if (importPart.includes('{')) {
+        if (importPart.includes("{")) {
           // Named imports: import { a, b, c } from 'module'
           const namedMatch = importPart.match(/\{([^}]+)\}/);
           if (namedMatch) {
             const namedImports = namedMatch[1]
-              .split(',')
-              .map(imp => imp.trim())
-              .filter(imp => imp.length > 0);
+              .split(",")
+              .map((imp) => imp.trim())
+              .filter((imp) => imp.length > 0);
 
-            namedImports.forEach(imp => importInfo.imports.add(imp));
+            namedImports.forEach((imp) => importInfo.imports.add(imp));
           }
         }
 
-        if (importPart.includes('* as ')) {
+        if (importPart.includes("* as ")) {
           // Namespace import: import * as name from 'module'
           const namespaceMatch = importPart.match(/\*\s+as\s+(\w+)/);
           if (namespaceMatch) {
@@ -98,7 +104,7 @@ class SimpleImportFixer {
 
         // Default import: import name from 'module' or import name, { ... } from 'module'
         const defaultMatch = importPart.match(/^([^{,*]+)(?=,|\s*$)/);
-        if (defaultMatch && !defaultMatch[1].includes('*')) {
+        if (defaultMatch && !defaultMatch[1].includes("*")) {
           importInfo.defaultImport = defaultMatch[1].trim();
         }
       }
@@ -109,7 +115,7 @@ class SimpleImportFixer {
 
   fixDuplicateImports(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       const { imports, importLines, lines } = this.analyzeImports(content);
 
       let hasChanges = false;
@@ -142,14 +148,15 @@ class SimpleImportFixer {
 
           if (importInfo.imports.size > 0) {
             const sortedImports = Array.from(importInfo.imports).sort();
-            parts.push(`{ ${sortedImports.join(', ')} }`);
+            parts.push(`{ ${sortedImports.join(", ")} }`);
           }
 
-          const mergedImport = `import ${parts.join(', ')} from '${source}';`;
+          const mergedImport = `import ${parts.join(", ")} from '${source}';`;
 
           // Update the first line (accounting for removed lines)
           const adjustedIndex =
-            firstLineIndex - linesToRemove.filter(idx => idx < firstLineIndex).length;
+            firstLineIndex -
+            linesToRemove.filter((idx) => idx < firstLineIndex).length;
           newLines[adjustedIndex] = mergedImport;
 
           hasChanges = true;
@@ -158,21 +165,24 @@ class SimpleImportFixer {
       }
 
       if (hasChanges) {
-        fs.writeFileSync(filePath, newLines.join('\n'));
+        fs.writeFileSync(filePath, newLines.join("\n"));
         return true;
       }
 
       return false;
     } catch (error) {
-      console.warn(`⚠️ Failed to fix duplicates in ${filePath}:`, error.message);
+      console.warn(
+        `⚠️ Failed to fix duplicates in ${filePath}:`,
+        error.message,
+      );
       return false;
     }
   }
 
   organizeImports(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
-      const lines = content.split('\n');
+      const content = fs.readFileSync(filePath, "utf8");
+      const lines = content.split("\n");
 
       // Find import section boundaries
       let importStartIndex = -1;
@@ -180,12 +190,16 @@ class SimpleImportFixer {
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
-        if (line.startsWith('import ')) {
+        if (line.startsWith("import ")) {
           if (importStartIndex === -1) {
             importStartIndex = i;
           }
           importEndIndex = i;
-        } else if (importStartIndex !== -1 && line !== '' && !line.startsWith('//')) {
+        } else if (
+          importStartIndex !== -1 &&
+          line !== "" &&
+          !line.startsWith("//")
+        ) {
           // Non-empty, non-comment line after imports
           break;
         }
@@ -199,7 +213,7 @@ class SimpleImportFixer {
       const importLines = [];
       for (let i = importStartIndex; i <= importEndIndex; i++) {
         const line = lines[i].trim();
-        if (line.startsWith('import ')) {
+        if (line.startsWith("import ")) {
           importLines.push(lines[i]);
         }
       }
@@ -218,17 +232,17 @@ class SimpleImportFixer {
           const source = match[1];
 
           if (
-            source.startsWith('node:') ||
-            ['fs', 'path', 'crypto', 'util', 'child_process'].includes(source)
+            source.startsWith("node:") ||
+            ["fs", "path", "crypto", "util", "child_process"].includes(source)
           ) {
             categories.builtin.push(importLine);
           } else if (
-            source.startsWith('@/') ||
-            source.startsWith('@components/') ||
-            source.startsWith('@utils/')
+            source.startsWith("@/") ||
+            source.startsWith("@components/") ||
+            source.startsWith("@utils/")
           ) {
             categories.internal.push(importLine);
-          } else if (source.startsWith('./') || source.startsWith('../')) {
+          } else if (source.startsWith("./") || source.startsWith("../")) {
             categories.relative.push(importLine);
           } else {
             categories.external.push(importLine);
@@ -237,7 +251,7 @@ class SimpleImportFixer {
       }
 
       // Sort each category
-      Object.keys(categories).forEach(key => {
+      Object.keys(categories).forEach((key) => {
         categories[key].sort();
       });
 
@@ -245,26 +259,28 @@ class SimpleImportFixer {
       const organizedImports = [];
 
       if (categories.builtin.length > 0) {
-        organizedImports.push(...categories.builtin, '');
+        organizedImports.push(...categories.builtin, "");
       }
       if (categories.external.length > 0) {
-        organizedImports.push(...categories.external, '');
+        organizedImports.push(...categories.external, "");
       }
       if (categories.internal.length > 0) {
-        organizedImports.push(...categories.internal, '');
+        organizedImports.push(...categories.internal, "");
       }
       if (categories.relative.length > 0) {
-        organizedImports.push(...categories.relative, '');
+        organizedImports.push(...categories.relative, "");
       }
 
       // Remove trailing empty line
-      if (organizedImports[organizedImports.length - 1] === '') {
+      if (organizedImports[organizedImports.length - 1] === "") {
         organizedImports.pop();
       }
 
       // Check if organization changed
       const originalImports = lines.slice(importStartIndex, importEndIndex + 1);
-      if (JSON.stringify(organizedImports) !== JSON.stringify(originalImports)) {
+      if (
+        JSON.stringify(organizedImports) !== JSON.stringify(originalImports)
+      ) {
         // Replace import section
         const newLines = [
           ...lines.slice(0, importStartIndex),
@@ -272,13 +288,16 @@ class SimpleImportFixer {
           ...lines.slice(importEndIndex + 1),
         ];
 
-        fs.writeFileSync(filePath, newLines.join('\n'));
+        fs.writeFileSync(filePath, newLines.join("\n"));
         return true;
       }
 
       return false;
     } catch (error) {
-      console.warn(`⚠️ Failed to organize imports in ${filePath}:`, error.message);
+      console.warn(
+        `⚠️ Failed to organize imports in ${filePath}:`,
+        error.message,
+      );
       return false;
     }
   }
@@ -322,24 +341,24 @@ class SimpleImportFixer {
 Generated: ${new Date().toISOString()}
 `;
 
-    fs.writeFileSync('simple-import-fixer-report.md', report);
-    console.log('📊 Report generated: simple-import-fixer-report.md');
+    fs.writeFileSync("simple-import-fixer-report.md", report);
+    console.log("📊 Report generated: simple-import-fixer-report.md");
   }
 
   async run() {
-    console.log('🚀 Starting Simple Import Fixer');
-    console.log('='.repeat(50));
+    console.log("🚀 Starting Simple Import Fixer");
+    console.log("=".repeat(50));
 
     try {
       const files = this.getAllTypeScriptFiles();
       console.log(`📁 Found ${files.length} TypeScript files`);
 
       if (files.length === 0) {
-        console.log('✅ No TypeScript files to process');
+        console.log("✅ No TypeScript files to process");
         return;
       }
 
-      console.log('🔧 Processing files...');
+      console.log("🔧 Processing files...");
 
       for (const file of files) {
         const relativePath = path.relative(this.srcDir, file);
@@ -352,13 +371,13 @@ Generated: ${new Date().toISOString()}
 
       this.generateReport();
 
-      console.log('='.repeat(50));
+      console.log("=".repeat(50));
       console.log(`✅ Simple import fixing completed!`);
       console.log(`   Files processed: ${this.processedFiles}`);
       console.log(`   Files modified: ${this.fixedFiles}`);
       console.log(`   Duplicates fixed: ${this.duplicatesFixed}`);
     } catch (error) {
-      console.error('❌ Simple import fixing failed:', error);
+      console.error("❌ Simple import fixing failed:", error);
       process.exit(1);
     }
   }

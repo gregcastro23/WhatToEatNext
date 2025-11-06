@@ -12,93 +12,94 @@
  * Part of Phase 9.3: Source File Syntax Validation
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
-  sourceDirectories: ['src', 'lib'],
-  fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
+  sourceDirectories: ["src", "lib"],
+  fileExtensions: [".ts", ".tsx", ".js", ".jsx"],
   excludePatterns: [
-    'node_modules',
-    '.next',
-    'dist',
-    'build',
-    '.git',
-    '__tests__',
-    '.test.',
-    '.spec.',
-    'coverage'
+    "node_modules",
+    ".next",
+    "dist",
+    "build",
+    ".git",
+    "__tests__",
+    ".test.",
+    ".spec.",
+    "coverage",
   ],
   maxFilesToProcess: 1000,
-  backupDirectory: '.console-formatting-backups',
-  dryRun: false
+  backupDirectory: ".console-formatting-backups",
+  dryRun: false,
 };
 
 // Console statement formatting fixes
 const CONSOLE_FORMATTING_FIXES = [
   {
-    name: 'Optional Chaining on Console',
+    name: "Optional Chaining on Console",
     pattern: /console\s*\?\s*\.\s*(\w+)/g,
-    replacement: 'console.$1',
-    description: 'Remove optional chaining on console object'
+    replacement: "console.$1",
+    description: "Remove optional chaining on console object",
   },
   {
-    name: 'Bracket Notation Console Access',
+    name: "Bracket Notation Console Access",
     pattern: /console\s*\[\s*['"](\w+)['"]\s*\]/g,
-    replacement: 'console.$1',
-    description: 'Convert bracket notation to dot notation for console methods'
+    replacement: "console.$1",
+    description: "Convert bracket notation to dot notation for console methods",
   },
   {
-    name: 'Optional Call on Console Methods',
+    name: "Optional Call on Console Methods",
     pattern: /console\s*\.\s*(\w+)\s*\?\s*\(/g,
-    replacement: 'console.$1(',
-    description: 'Remove optional call operator on console methods'
+    replacement: "console.$1(",
+    description: "Remove optional call operator on console methods",
   },
   {
-    name: 'Optional Chaining on Console Methods',
+    name: "Optional Chaining on Console Methods",
     pattern: /console\s*\.\s*(\w+)\s*\?\.\s*\(/g,
-    replacement: 'console.$1(',
-    description: 'Remove optional chaining on console method calls'
+    replacement: "console.$1(",
+    description: "Remove optional chaining on console method calls",
   },
   {
-    name: 'Spaced Console Access',
+    name: "Spaced Console Access",
     pattern: /console\s+\.\s*(\w+)/g,
-    replacement: 'console.$1',
-    description: 'Fix spaced console method access'
+    replacement: "console.$1",
+    description: "Fix spaced console method access",
   },
   {
-    name: 'Multiple Dots in Console',
+    name: "Multiple Dots in Console",
     pattern: /console\s*\.\s*\.\s*(\w+)/g,
-    replacement: 'console.$1',
-    description: 'Fix multiple dots in console access'
+    replacement: "console.$1",
+    description: "Fix multiple dots in console access",
   },
   {
-    name: 'Console with Question Mark',
+    name: "Console with Question Mark",
     pattern: /console\s*\?\s*(\w+)/g,
-    replacement: 'console.$1',
-    description: 'Remove question mark after console'
-  }
+    replacement: "console.$1",
+    description: "Remove question mark after console",
+  },
 ];
 
 // Console statement validation patterns
 const CONSOLE_VALIDATION_PATTERNS = [
   {
-    name: 'Valid Console Methods',
-    pattern: /console\.(log|warn|error|info|debug|trace|table|group|groupEnd|time|timeEnd|count|clear|assert)/g,
-    description: 'Standard console methods'
+    name: "Valid Console Methods",
+    pattern:
+      /console\.(log|warn|error|info|debug|trace|table|group|groupEnd|time|timeEnd|count|clear|assert)/g,
+    description: "Standard console methods",
   },
   {
-    name: 'Malformed Console Calls',
+    name: "Malformed Console Calls",
     pattern: /console\.[a-zA-Z]+\s*\?\s*\(/g,
-    description: 'Console calls with optional chaining'
+    description: "Console calls with optional chaining",
   },
   {
-    name: 'Console with Undefined Access',
+    name: "Console with Undefined Access",
     pattern: /console\s*\?\s*\./g,
-    description: 'Optional chaining on console object'
-  }
+    description: "Optional chaining on console object",
+  },
 ];
 
 class ConsoleFormattingValidator {
@@ -111,10 +112,10 @@ class ConsoleFormattingValidator {
       validationResults: {
         validConsoleStatements: 0,
         malformedConsoleStatements: 0,
-        fixedConsoleStatements: 0
+        fixedConsoleStatements: 0,
       },
       errors: [],
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     // Initialize fix counters
@@ -149,7 +150,9 @@ class ConsoleFormattingValidator {
         const fullPath = path.join(dir, entry.name);
 
         // Skip excluded patterns
-        if (CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
+        if (
+          CONFIG.excludePatterns.some((pattern) => fullPath.includes(pattern))
+        ) {
           continue;
         }
 
@@ -176,11 +179,17 @@ class ConsoleFormattingValidator {
         fs.mkdirSync(CONFIG.backupDirectory, { recursive: true });
       }
 
-      const backupPath = path.join(CONFIG.backupDirectory, path.basename(filePath) + '.backup');
+      const backupPath = path.join(
+        CONFIG.backupDirectory,
+        path.basename(filePath) + ".backup",
+      );
       fs.copyFileSync(filePath, backupPath);
       return backupPath;
     } catch (error) {
-      console.warn(`Warning: Could not create backup for ${filePath}:`, error.message);
+      console.warn(
+        `Warning: Could not create backup for ${filePath}:`,
+        error.message,
+      );
       return null;
     }
   }
@@ -189,7 +198,7 @@ class ConsoleFormattingValidator {
    * Check if a file contains console statements
    */
   hasConsoleStatements(content) {
-    return content.includes('console.');
+    return content.includes("console.");
   }
 
   /**
@@ -199,11 +208,13 @@ class ConsoleFormattingValidator {
     const validation = {
       valid: 0,
       malformed: 0,
-      issues: []
+      issues: [],
     };
 
     // Check for valid console methods
-    const validMatches = [...content.matchAll(CONSOLE_VALIDATION_PATTERNS[0].pattern)];
+    const validMatches = [
+      ...content.matchAll(CONSOLE_VALIDATION_PATTERNS[0].pattern),
+    ];
     validation.valid = validMatches.length;
 
     // Check for malformed console calls
@@ -216,7 +227,7 @@ class ConsoleFormattingValidator {
         validation.issues.push({
           type: pattern.name,
           count: matches.length,
-          description: pattern.description
+          description: pattern.description,
         });
       }
     }
@@ -229,7 +240,7 @@ class ConsoleFormattingValidator {
    */
   fixFile(filePath) {
     try {
-      const originalContent = fs.readFileSync(filePath, 'utf8');
+      const originalContent = fs.readFileSync(filePath, "utf8");
 
       // Skip files without console statements
       if (!this.hasConsoleStatements(originalContent)) {
@@ -239,8 +250,10 @@ class ConsoleFormattingValidator {
 
       // Validate console statements before fixing
       const beforeValidation = this.validateConsoleStatements(originalContent);
-      this.results.validationResults.validConsoleStatements += beforeValidation.valid;
-      this.results.validationResults.malformedConsoleStatements += beforeValidation.malformed;
+      this.results.validationResults.validConsoleStatements +=
+        beforeValidation.valid;
+      this.results.validationResults.malformedConsoleStatements +=
+        beforeValidation.malformed;
 
       let modifiedContent = originalContent;
       const fileFixes = [];
@@ -250,7 +263,10 @@ class ConsoleFormattingValidator {
         const matches = [...originalContent.matchAll(fix.pattern)];
 
         if (matches.length > 0) {
-          modifiedContent = modifiedContent.replace(fix.pattern, fix.replacement);
+          modifiedContent = modifiedContent.replace(
+            fix.pattern,
+            fix.replacement,
+          );
 
           const fixCount = matches.length;
           this.results.fixesByType[fix.name] += fixCount;
@@ -260,11 +276,11 @@ class ConsoleFormattingValidator {
             fixName: fix.name,
             count: fixCount,
             description: fix.description,
-            matches: matches.map(match => ({
+            matches: matches.map((match) => ({
               original: match[0],
               replacement: fix.replacement,
-              line: this.getLineNumber(originalContent, match.index)
-            }))
+              line: this.getLineNumber(originalContent, match.index),
+            })),
           });
         }
       }
@@ -280,7 +296,7 @@ class ConsoleFormattingValidator {
             this.createBackup(filePath);
 
             // Write modified content
-            fs.writeFileSync(filePath, modifiedContent, 'utf8');
+            fs.writeFileSync(filePath, modifiedContent, "utf8");
           }
 
           this.results.filesModified++;
@@ -288,14 +304,15 @@ class ConsoleFormattingValidator {
 
           return { modified: true, fixes: fileFixes };
         } else {
-          console.warn(`⚠️  Skipping ${filePath}: fixes would still leave malformed console statements`);
+          console.warn(
+            `⚠️  Skipping ${filePath}: fixes would still leave malformed console statements`,
+          );
           return { modified: false, fixes: [], skipped: true };
         }
       }
 
       this.results.totalFilesProcessed++;
       return { modified: false, fixes: [] };
-
     } catch (error) {
       const errorMsg = `Error processing file ${filePath}: ${error.message}`;
       console.warn(errorMsg);
@@ -308,7 +325,7 @@ class ConsoleFormattingValidator {
    * Get line number for a character index
    */
   getLineNumber(content, index) {
-    return content.substring(0, index).split('\n').length;
+    return content.substring(0, index).split("\n").length;
   }
 
   /**
@@ -316,10 +333,10 @@ class ConsoleFormattingValidator {
    */
   async validateTypeScript() {
     try {
-      console.log('\n🔧 Validating TypeScript compilation...');
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      console.log("\n🔧 Validating TypeScript compilation...");
+      const output = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
 
       const errorCount = (output.match(/error TS/g) || []).length;
@@ -330,7 +347,7 @@ class ConsoleFormattingValidator {
       const errorCount = (error.stdout?.match(/error TS/g) || []).length;
       console.log(`📊 TypeScript errors after fixes: ${errorCount}`);
 
-      return { success: false, errorCount, output: error.stdout || '' };
+      return { success: false, errorCount, output: error.stdout || "" };
     }
   }
 
@@ -338,16 +355,18 @@ class ConsoleFormattingValidator {
    * Run the complete console formatting validation process
    */
   async runValidation() {
-    console.log('🔧 Starting Console Statement Formatting Validation...');
-    console.log(`📁 Processing directories: ${CONFIG.sourceDirectories.join(', ')}`);
-    console.log(`📄 File extensions: ${CONFIG.fileExtensions.join(', ')}`);
-    console.log(`🔄 Dry run mode: ${CONFIG.dryRun ? 'ENABLED' : 'DISABLED'}`);
+    console.log("🔧 Starting Console Statement Formatting Validation...");
+    console.log(
+      `📁 Processing directories: ${CONFIG.sourceDirectories.join(", ")}`,
+    );
+    console.log(`📄 File extensions: ${CONFIG.fileExtensions.join(", ")}`);
+    console.log(`🔄 Dry run mode: ${CONFIG.dryRun ? "ENABLED" : "DISABLED"}`);
 
     const files = this.getSourceFiles();
     console.log(`📊 Found ${files.length} files to process`);
 
     if (files.length === 0) {
-      console.log('⚠️  No source files found to process');
+      console.log("⚠️  No source files found to process");
       return this.results;
     }
 
@@ -358,13 +377,19 @@ class ConsoleFormattingValidator {
       processedCount++;
 
       if (result.modified) {
-        console.log(`✅ Fixed: ${file} (${result.fixes.length} fix types applied)`);
+        console.log(
+          `✅ Fixed: ${file} (${result.fixes.length} fix types applied)`,
+        );
       } else if (result.skipped) {
-        console.log(`⚠️  Skipped: ${file} (would still have malformed statements)`);
+        console.log(
+          `⚠️  Skipped: ${file} (would still have malformed statements)`,
+        );
       }
 
       if (processedCount % 100 === 0) {
-        console.log(`📈 Progress: ${processedCount}/${files.length} files processed`);
+        console.log(
+          `📈 Progress: ${processedCount}/${files.length} files processed`,
+        );
       }
     }
 
@@ -385,22 +410,32 @@ class ConsoleFormattingValidator {
    * Generate summary report
    */
   generateSummary() {
-    console.log('\n📋 CONSOLE STATEMENT VALIDATION SUMMARY');
-    console.log('=' .repeat(50));
-    console.log(`📊 Total files processed: ${this.results.totalFilesProcessed}`);
+    console.log("\n📋 CONSOLE STATEMENT VALIDATION SUMMARY");
+    console.log("=".repeat(50));
+    console.log(
+      `📊 Total files processed: ${this.results.totalFilesProcessed}`,
+    );
     console.log(`🔧 Files modified: ${this.results.filesModified}`);
-    console.log(`✅ Files unchanged: ${this.results.totalFilesProcessed - this.results.filesModified}`);
+    console.log(
+      `✅ Files unchanged: ${this.results.totalFilesProcessed - this.results.filesModified}`,
+    );
 
     if (this.results.errors.length > 0) {
       console.log(`❌ Errors encountered: ${this.results.errors.length}`);
     }
 
-    console.log('\n📊 Console Statement Analysis:');
-    console.log(`  • Valid console statements found: ${this.results.validationResults.validConsoleStatements}`);
-    console.log(`  • Malformed console statements found: ${this.results.validationResults.malformedConsoleStatements}`);
-    console.log(`  • Console statements fixed: ${this.results.validationResults.fixedConsoleStatements}`);
+    console.log("\n📊 Console Statement Analysis:");
+    console.log(
+      `  • Valid console statements found: ${this.results.validationResults.validConsoleStatements}`,
+    );
+    console.log(
+      `  • Malformed console statements found: ${this.results.validationResults.malformedConsoleStatements}`,
+    );
+    console.log(
+      `  • Console statements fixed: ${this.results.validationResults.fixedConsoleStatements}`,
+    );
 
-    console.log('\n🔍 Fixes Applied by Type:');
+    console.log("\n🔍 Fixes Applied by Type:");
     let totalFixes = 0;
     for (const [fixType, count] of Object.entries(this.results.fixesByType)) {
       if (count > 0) {
@@ -410,11 +445,11 @@ class ConsoleFormattingValidator {
     }
 
     if (this.results.filesModified > 0) {
-      console.log('\n🚨 Top Files Modified:');
+      console.log("\n🚨 Top Files Modified:");
       const fileFixCount = Object.entries(this.results.fixesByFile)
         .map(([file, fixes]) => ({
           file,
-          count: fixes.reduce((sum, fix) => sum + fix.count, 0)
+          count: fixes.reduce((sum, fix) => sum + fix.count, 0),
         }))
         .sort((a, b) => b.count - a.count)
         .slice(0, 10);
@@ -427,7 +462,7 @@ class ConsoleFormattingValidator {
     console.log(`\n📈 Total console formatting fixes applied: ${totalFixes}`);
 
     if (CONFIG.dryRun) {
-      console.log('\n⚠️  DRY RUN MODE: No files were actually modified');
+      console.log("\n⚠️  DRY RUN MODE: No files were actually modified");
     } else if (this.results.filesModified > 0) {
       console.log(`\n💾 Backups created in: ${CONFIG.backupDirectory}`);
     }
@@ -438,11 +473,11 @@ class ConsoleFormattingValidator {
    */
   saveResults() {
     try {
-      const outputFile = 'console-formatting-validation-report.json';
+      const outputFile = "console-formatting-validation-report.json";
       fs.writeFileSync(outputFile, JSON.stringify(this.results, null, 2));
       console.log(`\n💾 Results saved to: ${outputFile}`);
     } catch (error) {
-      console.error('❌ Failed to save results:', error.message);
+      console.error("❌ Failed to save results:", error.message);
     }
   }
 }
@@ -451,7 +486,7 @@ class ConsoleFormattingValidator {
 async function main() {
   const args = process.argv.slice(2);
 
-  if (args.includes('--dry-run')) {
+  if (args.includes("--dry-run")) {
     CONFIG.dryRun = true;
   }
 
@@ -460,28 +495,38 @@ async function main() {
     const results = await validator.runValidation();
 
     // Exit with appropriate code
-    const totalFixes = Object.values(results.fixesByType).reduce((sum, count) => sum + count, 0);
-    const malformedRemaining = results.validationResults.malformedConsoleStatements - results.validationResults.fixedConsoleStatements;
+    const totalFixes = Object.values(results.fixesByType).reduce(
+      (sum, count) => sum + count,
+      0,
+    );
+    const malformedRemaining =
+      results.validationResults.malformedConsoleStatements -
+      results.validationResults.fixedConsoleStatements;
 
     if (totalFixes === 0 && malformedRemaining === 0) {
-      console.log('\n✅ SUCCESS: All console statements are properly formatted!');
+      console.log(
+        "\n✅ SUCCESS: All console statements are properly formatted!",
+      );
       process.exit(0);
     } else if (totalFixes > 0 && malformedRemaining === 0) {
-      console.log(`\n✅ SUCCESS: Fixed ${totalFixes} console formatting issues`);
+      console.log(
+        `\n✅ SUCCESS: Fixed ${totalFixes} console formatting issues`,
+      );
 
       if (results.validation && !results.validation.success) {
-        console.log('⚠️  WARNING: TypeScript compilation still has errors');
+        console.log("⚠️  WARNING: TypeScript compilation still has errors");
         process.exit(1);
       } else {
         process.exit(0);
       }
     } else {
-      console.log(`\n⚠️  PARTIAL SUCCESS: Fixed ${totalFixes} issues, ${malformedRemaining} malformed statements remain`);
+      console.log(
+        `\n⚠️  PARTIAL SUCCESS: Fixed ${totalFixes} issues, ${malformedRemaining} malformed statements remain`,
+      );
       process.exit(1);
     }
-
   } catch (error) {
-    console.error('❌ FATAL ERROR:', error.message);
+    console.error("❌ FATAL ERROR:", error.message);
     console.error(error.stack);
     process.exit(1);
   }
@@ -492,4 +537,8 @@ if (require.main === module) {
   main();
 }
 
-module.exports = { ConsoleFormattingValidator, CONSOLE_FORMATTING_FIXES, CONFIG };
+module.exports = {
+  ConsoleFormattingValidator,
+  CONSOLE_FORMATTING_FIXES,
+  CONFIG,
+};

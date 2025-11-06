@@ -1,6 +1,6 @@
 # WhatToEatNext - Claude AI Assistant Guide
 
-*Last Updated: October 13, 2025*
+_Last Updated: October 13, 2025_
 
 ## Project Overview
 
@@ -9,18 +9,21 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 ## Current Project Status (October 2025)
 
 ### 🎯 **Active Campaign: Systematic Parsing Error Elimination**
+
 - **Current Errors**: 437 parsing errors (down from 440)
 - **Target**: <42 errors (90% reduction)
 - **Progress**: 3 fixed (alchemicalPillars.ts, linting test files, CampaignSystemMocks.ts)
 - **Status**: In progress - systematic file-by-file approach
 
 ### ✅ **Build Status**
+
 - **Branch**: master
 - **Build**: ✅ Stable and functional
 - **Dependencies**: ✅ Optimized (Yarn required)
 - **Configuration**: ✅ TypeScript optimized (`tsconfig.prod.json`)
 
 ### 📊 **Error Metrics**
+
 - **Total ESLint Issues**: 4,852 (724 errors, 4,128 warnings)
 - **Parsing Errors**: 437 (priority focus)
 - **Auto-fixable**: 36 errors
@@ -48,16 +51,19 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
    - Statistical variance and diversity metrics
 
 **Key Modules:**
+
 - `src/utils/planetaryAlchemyMapping.ts` - Authoritative ESMS calculation
 - `src/utils/hierarchicalRecipeCalculations.ts` - Recipe computation
 - `src/utils/cuisineAggregations.ts` - Statistical signatures
 - `src/types/celestial.ts` - Core type definitions
 
 ### **Primary APIs**
+
 - **astrologize API**: Astrological calculations and planetary positions
 - **alchemize API**: Alchemical transformations and elemental harmony
 
 ### **Key Components**
+
 - **Elemental System**: Fire, Water, Earth, Air (no opposing forces)
 - **Alchemical Properties**: Spirit, Essence, Matter, Substance (ESMS)
   - ⚠️ **CRITICAL**: ESMS ONLY from planetary positions, NOT elemental approximations
@@ -65,6 +71,7 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 - **Planetary System**: Real-time astronomical calculations
 
 ### **Technology Stack**
+
 - **Frontend**: Next.js 15.3.4, React 19, TypeScript 5.7.3
 - **Package Manager**: Yarn (required)
 - **Build**: Webpack with enhanced validation
@@ -73,6 +80,7 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 ## Development Commands
 
 ### **Essential Workflow**
+
 ```bash
 make install     # Install dependencies
 make dev         # Start development server
@@ -87,6 +95,7 @@ make errors-by-file      # Group by file
 ```
 
 ### **Linting**
+
 ```bash
 make lint-quick          # Fast (no type checking)
 make lint-performance    # Performance optimized
@@ -96,21 +105,22 @@ yarn lint --fix          # Auto-fix issues
 ## Development Guidelines
 
 ### **Casing Conventions (CRITICAL)**
+
 ```typescript
 // Elements - Capitalized
-type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
+type Element = "Fire" | "Water" | "Earth" | "Air";
 
 // Planets - Capitalized
-type Planet = 'Sun' | 'Moon' | 'Mercury' | 'Venus';
+type Planet = "Sun" | "Moon" | "Mercury" | "Venus";
 
 // Zodiac Signs - Lowercase
-type ZodiacSign = 'aries' | 'taurus' | 'gemini';
+type ZodiacSign = "aries" | "taurus" | "gemini";
 
 // Alchemical Properties - Capitalized
-type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance';
+type AlchemicalProperty = "Spirit" | "Essence" | "Matter" | "Substance";
 
 // Cuisine Types - Capitalized with hyphens
-type CuisineType = 'Italian' | 'Mexican' | 'Middle-Eastern';
+type CuisineType = "Italian" | "Mexican" | "Middle-Eastern";
 ```
 
 ### **Alchemical Calculation Rules**
@@ -119,18 +129,19 @@ type CuisineType = 'Italian' | 'Mexican' | 'Middle-Eastern';
 
 ```typescript
 // ✅ CORRECT - Planetary Alchemy Mapping
-import { calculateAlchemicalFromPlanets } from '@/utils/planetaryAlchemyMapping';
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 
 const alchemical = calculateAlchemicalFromPlanets({
-  Sun: 'Gemini',
-  Moon: 'Leo',
-  Mercury: 'Taurus',
+  Sun: "Gemini",
+  Moon: "Leo",
+  Mercury: "Taurus",
   // ... other planets
 });
 // Result: { Spirit: 4, Essence: 7, Matter: 6, Substance: 2 }
 ```
 
 **Planetary Alchemy Values:**
+
 ```typescript
 Sun:     { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }
 Moon:    { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
@@ -145,6 +156,7 @@ Pluto:   { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
 ```
 
 **Thermodynamic Formulas:**
+
 ```typescript
 Heat = (Spirit² + Fire²) / (Substance + Essence + Matter + Water + Air + Earth)²
 Entropy = (Spirit² + Substance² + Fire² + Air²) / (Essence + Matter + Earth + Water)²
@@ -157,6 +169,7 @@ Monica = -GregsEnergy / (Reactivity × ln(Kalchm)) if Kalchm > 0, else 1.0
 ### **Common Parsing Error Patterns**
 
 **Pattern 1: Semicolon in Arrow Function Filter**
+
 ```typescript
 // ❌ WRONG
 const errors = messages.filter(msg => msg.ruleId === 'error';)
@@ -166,6 +179,7 @@ const errors = messages.filter(msg => msg.ruleId === 'error')
 ```
 
 **Pattern 2: Comma Instead of Semicolon in Class Properties**
+
 ```typescript
 // ❌ WRONG
 class MyClass {
@@ -181,6 +195,7 @@ class MyClass {
 ```
 
 **Pattern 3: Apostrophe Escaping**
+
 ```typescript
 // ❌ WRONG
 'The region's cuisine'
@@ -192,6 +207,7 @@ class MyClass {
 ```
 
 **Pattern 4: Comma After Statements**
+
 ```typescript
 // ❌ WRONG
 const result = fetchData(),
@@ -203,6 +219,7 @@ logger.debug('Done');
 ```
 
 **Detection Commands:**
+
 ```bash
 # Find semicolon in filter functions
 grep -r "=> msg.ruleId.*;" src/
@@ -216,6 +233,7 @@ grep -o "}" file.ts | wc -l
 ```
 
 ### **Type Safety Rules**
+
 - Never use `as any` - use proper type assertions
 - Remove `as any` with proper typing (e.g., remove unnecessary casts)
 - Prefix unused variables with underscore: `_unusedVar`
@@ -223,6 +241,7 @@ grep -o "}" file.ts | wc -l
 - Interface-first development
 
 ### **Elemental Logic Principles**
+
 1. **No Opposing Elements**: Fire doesn't oppose Water
 2. **Elements Reinforce Themselves**: Like strengthens like
 3. **All Combinations Work**: Good compatibility (0.7+)
@@ -244,6 +263,7 @@ src/
 ```
 
 **Key Files:**
+
 - `src/types/celestial.ts` - Core types (Planet, Element, AlchemicalProperty, ZodiacSign)
 - `src/constants/alchemicalPillars.ts` - 14 alchemical cooking transformations
 - `src/utils/planetaryAlchemyMapping.ts` - ESMS calculation authority
@@ -251,6 +271,7 @@ src/
 ## Troubleshooting
 
 ### **Parsing Errors**
+
 ```bash
 # Count parsing errors
 yarn lint 2>&1 | grep "Parsing error" | wc -l
@@ -263,6 +284,7 @@ yarn lint src/path/to/file.ts --format json | jq
 ```
 
 ### **Build Issues**
+
 ```bash
 make build-health        # Check system status
 make check               # TypeScript errors
@@ -272,6 +294,7 @@ yarn install            # Refresh dependencies
 ## Memory Notes for AI Assistants
 
 ### **Critical Principles**
+
 - **NEVER use lazy fixes or placeholder functionality**
 - **Always use existing codebase functionality**
 - **Follow proven casing conventions**
@@ -279,12 +302,14 @@ yarn install            # Refresh dependencies
 - **Use systematic approaches** for error campaigns
 
 ### **Current Campaign Context**
+
 - **Active**: Systematic Parsing Error Elimination
 - **Approach**: File-by-file manual fixes with pattern recognition
 - **Progress Tracking**: Use TodoWrite for multi-file campaigns
 - **Common Patterns**: Semicolon-in-filter, comma-in-class-properties, apostrophe escaping
 
 ### **Historic Achievements**
+
 - Multiple complete TypeScript error category eliminations
 - 9,991 lines removed in external service cleanup
 - Sub-30 second linting achieved
@@ -308,4 +333,4 @@ rm -rf node_modules && yarn install  # Refresh deps
 
 ---
 
-*Updated October 13, 2025 - Reflects current parsing error elimination campaign and streamlined for active development.*
+_Updated October 13, 2025 - Reflects current parsing error elimination campaign and streamlined for active development._

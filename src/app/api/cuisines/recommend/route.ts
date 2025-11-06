@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import { createLogger } from '@/utils/logger';
+import { NextResponse } from "next/server";
+import { createLogger } from "@/utils/logger";
 
-const logger = createLogger('CuisinesRecommendAPI');
+const logger = createLogger("CuisinesRecommendAPI");
 
 /**
  * Cuisine Recommendations API Endpoint
@@ -80,8 +80,18 @@ function getCurrentMoment(): CurrentMoment {
 
   // Determine zodiac sign based on date
   const zodiacSigns = [
-    'Capricorn', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini',
-    'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius'
+    "Capricorn",
+    "Aquarius",
+    "Pisces",
+    "Aries",
+    "Taurus",
+    "Gemini",
+    "Cancer",
+    "Leo",
+    "Virgo",
+    "Libra",
+    "Scorpio",
+    "Sagittarius",
   ];
 
   // Simplified zodiac calculation (day 20 is typical cutoff)
@@ -92,24 +102,24 @@ function getCurrentMoment(): CurrentMoment {
   }
 
   // Determine season (Northern Hemisphere)
-  let season = 'Spring';
-  if (month >= 2 && month <= 4) season = 'Spring';
-  else if (month >= 5 && month <= 7) season = 'Summer';
-  else if (month >= 8 && month <= 10) season = 'Autumn';
-  else season = 'Winter';
+  let season = "Spring";
+  if (month >= 2 && month <= 4) season = "Spring";
+  else if (month >= 5 && month <= 7) season = "Summer";
+  else if (month >= 8 && month <= 10) season = "Autumn";
+  else season = "Winter";
 
   // Determine meal type based on time
   const hour = now.getHours();
-  let meal_type = 'Dinner';
-  if (hour >= 5 && hour < 11) meal_type = 'Breakfast';
-  else if (hour >= 11 && hour < 15) meal_type = 'Lunch';
-  else if (hour >= 15 && hour < 18) meal_type = 'Snack';
+  let meal_type = "Dinner";
+  if (hour >= 5 && hour < 11) meal_type = "Breakfast";
+  else if (hour >= 11 && hour < 15) meal_type = "Lunch";
+  else if (hour >= 15 && hour < 18) meal_type = "Snack";
 
   return {
     zodiac_sign: zodiacSigns[zodiacIndex],
     season,
     meal_type,
-    timestamp: now.toISOString()
+    timestamp: now.toISOString(),
   };
 }
 
@@ -122,125 +132,139 @@ function getCurrentMoment(): CurrentMoment {
  * 3. Calculate compatibility scores
  * 4. Fetch nested recipes and sauces
  */
-function generateRecommendations(moment: CurrentMoment): CuisineRecommendation[] {
+function generateRecommendations(
+  moment: CurrentMoment,
+): CuisineRecommendation[] {
   // Mock data - in production, this would come from database queries
   const recommendations: CuisineRecommendation[] = [
     {
-      cuisine_id: 'italian-001',
-      name: 'Italian',
-      description: 'Mediterranean cuisine emphasizing fresh ingredients, olive oil, and balanced flavors',
+      cuisine_id: "italian-001",
+      name: "Italian",
+      description:
+        "Mediterranean cuisine emphasizing fresh ingredients, olive oil, and balanced flavors",
       elemental_properties: {
         Fire: 0.3,
         Water: 0.2,
         Earth: 0.35,
-        Air: 0.15
+        Air: 0.15,
       },
       nested_recipes: [
         {
-          recipe_id: 'recipe-001',
-          name: 'Margherita Pizza',
-          description: 'Classic Neapolitan pizza with tomatoes, mozzarella, and basil',
-          prep_time: '20 min',
-          cook_time: '15 min',
+          recipe_id: "recipe-001",
+          name: "Margherita Pizza",
+          description:
+            "Classic Neapolitan pizza with tomatoes, mozzarella, and basil",
+          prep_time: "20 min",
+          cook_time: "15 min",
           servings: 4,
-          difficulty: 'Medium',
+          difficulty: "Medium",
           ingredients: [
-            { name: 'Pizza dough', amount: '500', unit: 'g' },
-            { name: 'San Marzano tomatoes', amount: '400', unit: 'g', notes: 'crushed' },
-            { name: 'Fresh mozzarella', amount: '250', unit: 'g' },
-            { name: 'Fresh basil', amount: '1', unit: 'bunch' },
-            { name: 'Extra virgin olive oil', amount: '3', unit: 'tbsp' },
-            { name: 'Sea salt', notes: 'to taste' }
+            { name: "Pizza dough", amount: "500", unit: "g" },
+            {
+              name: "San Marzano tomatoes",
+              amount: "400",
+              unit: "g",
+              notes: "crushed",
+            },
+            { name: "Fresh mozzarella", amount: "250", unit: "g" },
+            { name: "Fresh basil", amount: "1", unit: "bunch" },
+            { name: "Extra virgin olive oil", amount: "3", unit: "tbsp" },
+            { name: "Sea salt", notes: "to taste" },
           ],
           instructions: [
-            'Preheat oven to 500°F (260°C) with pizza stone',
-            'Roll out pizza dough to 12-inch circle',
-            'Spread crushed tomatoes evenly over dough',
-            'Add torn mozzarella pieces',
-            'Bake for 12-15 minutes until crust is golden',
-            'Top with fresh basil and drizzle with olive oil'
+            "Preheat oven to 500°F (260°C) with pizza stone",
+            "Roll out pizza dough to 12-inch circle",
+            "Spread crushed tomatoes evenly over dough",
+            "Add torn mozzarella pieces",
+            "Bake for 12-15 minutes until crust is golden",
+            "Top with fresh basil and drizzle with olive oil",
           ],
-          meal_type: moment.meal_type || 'Dinner',
-          seasonal_fit: 'High - fresh ingredients peak in current season'
-        }
+          meal_type: moment.meal_type || "Dinner",
+          seasonal_fit: "High - fresh ingredients peak in current season",
+        },
       ],
       recommended_sauces: [
         {
-          sauce_name: 'Pesto Genovese',
-          description: 'Bright, herbaceous sauce made with fresh basil, pine nuts, garlic, and Parmesan',
-          key_ingredients: ['Basil', 'Pine nuts', 'Parmesan', 'Garlic'],
+          sauce_name: "Pesto Genovese",
+          description:
+            "Bright, herbaceous sauce made with fresh basil, pine nuts, garlic, and Parmesan",
+          key_ingredients: ["Basil", "Pine nuts", "Parmesan", "Garlic"],
           elemental_properties: {
             Fire: 0.2,
             Water: 0.15,
             Earth: 0.45,
-            Air: 0.2
+            Air: 0.2,
           },
           compatibility_score: 0.92,
-          reason: 'Earth-dominant profile complements current planetary alignment'
-        }
+          reason:
+            "Earth-dominant profile complements current planetary alignment",
+        },
       ],
       seasonal_context: `Perfect for ${moment.season} - ingredients are at peak freshness`,
       astrological_score: 0.88,
-      compatibility_reason: `Strong Earth element aligns with ${moment.zodiac_sign}'s grounding energy`
+      compatibility_reason: `Strong Earth element aligns with ${moment.zodiac_sign}'s grounding energy`,
     },
     {
-      cuisine_id: 'mexican-001',
-      name: 'Mexican',
-      description: 'Vibrant cuisine featuring bold spices, fresh vegetables, and ancient cooking techniques',
+      cuisine_id: "mexican-001",
+      name: "Mexican",
+      description:
+        "Vibrant cuisine featuring bold spices, fresh vegetables, and ancient cooking techniques",
       elemental_properties: {
         Fire: 0.45,
         Water: 0.15,
         Earth: 0.25,
-        Air: 0.15
+        Air: 0.15,
       },
       nested_recipes: [
         {
-          recipe_id: 'recipe-002',
-          name: 'Chicken Tacos al Pastor',
-          description: 'Marinated chicken with pineapple, cilantro, and warming spices',
-          prep_time: '30 min',
-          cook_time: '20 min',
+          recipe_id: "recipe-002",
+          name: "Chicken Tacos al Pastor",
+          description:
+            "Marinated chicken with pineapple, cilantro, and warming spices",
+          prep_time: "30 min",
+          cook_time: "20 min",
           servings: 6,
-          difficulty: 'Medium',
+          difficulty: "Medium",
           ingredients: [
-            { name: 'Chicken thighs', amount: '800', unit: 'g' },
-            { name: 'Pineapple', amount: '1', unit: 'cup', notes: 'diced' },
-            { name: 'White onion', amount: '1', unit: 'large' },
-            { name: 'Cilantro', amount: '1', unit: 'bunch' },
-            { name: 'Chipotle peppers', amount: '2', unit: 'peppers' },
-            { name: 'Corn tortillas', amount: '12', unit: 'tortillas' }
+            { name: "Chicken thighs", amount: "800", unit: "g" },
+            { name: "Pineapple", amount: "1", unit: "cup", notes: "diced" },
+            { name: "White onion", amount: "1", unit: "large" },
+            { name: "Cilantro", amount: "1", unit: "bunch" },
+            { name: "Chipotle peppers", amount: "2", unit: "peppers" },
+            { name: "Corn tortillas", amount: "12", unit: "tortillas" },
           ],
           instructions: [
-            'Marinate chicken in chipotle sauce for 2 hours',
-            'Grill chicken until charred and cooked through',
-            'Slice chicken thinly',
-            'Warm tortillas on griddle',
-            'Assemble tacos with chicken, pineapple, onion, and cilantro',
-            'Serve with lime wedges'
+            "Marinate chicken in chipotle sauce for 2 hours",
+            "Grill chicken until charred and cooked through",
+            "Slice chicken thinly",
+            "Warm tortillas on griddle",
+            "Assemble tacos with chicken, pineapple, onion, and cilantro",
+            "Serve with lime wedges",
           ],
-          meal_type: moment.meal_type || 'Dinner',
-          seasonal_fit: 'Medium - adaptable across seasons'
-        }
+          meal_type: moment.meal_type || "Dinner",
+          seasonal_fit: "Medium - adaptable across seasons",
+        },
       ],
       recommended_sauces: [
         {
-          sauce_name: 'Salsa Verde',
-          description: 'Tangy tomatillo-based sauce with jalapeños and fresh herbs',
-          key_ingredients: ['Tomatillos', 'Jalapeños', 'Cilantro', 'Lime'],
+          sauce_name: "Salsa Verde",
+          description:
+            "Tangy tomatillo-based sauce with jalapeños and fresh herbs",
+          key_ingredients: ["Tomatillos", "Jalapeños", "Cilantro", "Lime"],
           elemental_properties: {
             Fire: 0.5,
             Water: 0.2,
             Earth: 0.2,
-            Air: 0.1
+            Air: 0.1,
           },
           compatibility_score: 0.85,
-          reason: 'Fire element harmonizes with current cosmic heat'
-        }
+          reason: "Fire element harmonizes with current cosmic heat",
+        },
       ],
       seasonal_context: `Good for ${moment.season} with seasonal ingredient adjustments`,
       astrological_score: 0.82,
-      compatibility_reason: `Fire energy complements ${moment.zodiac_sign}'s dynamic nature`
-    }
+      compatibility_reason: `Fire energy complements ${moment.zodiac_sign}'s dynamic nature`,
+    },
   ];
 
   return recommendations;
@@ -253,7 +277,7 @@ function generateRecommendations(moment: CurrentMoment): CuisineRecommendation[]
  */
 export async function GET(request: Request) {
   try {
-    logger.info('Cuisine recommendations API called');
+    logger.info("Cuisine recommendations API called");
 
     // Get current astrological moment
     const currentMoment = getCurrentMoment();
@@ -268,27 +292,26 @@ export async function GET(request: Request) {
       total_recommendations: recommendations.length,
       timestamp: new Date().toISOString(),
       metadata: {
-        api_version: '1.0.0',
-        data_source: 'local-calculation',
-        can_be_called_externally: true
-      }
+        api_version: "1.0.0",
+        data_source: "local-calculation",
+        can_be_called_externally: true,
+      },
     };
 
     logger.info(`Returning ${recommendations.length} cuisine recommendations`);
 
     return NextResponse.json(response);
-
   } catch (error) {
-    logger.error('Error generating cuisine recommendations:', error);
+    logger.error("Error generating cuisine recommendations:", error);
 
     return NextResponse.json(
       {
         success: false,
-        error: 'Failed to generate cuisine recommendations',
-        details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
+        error: "Failed to generate cuisine recommendations",
+        details: error instanceof Error ? error.message : "Unknown error",
+        timestamp: new Date().toISOString(),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -306,7 +329,10 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    logger.info('Cuisine recommendations API called with custom parameters', body);
+    logger.info(
+      "Cuisine recommendations API called with custom parameters",
+      body,
+    );
 
     // Get current moment (or use provided datetime)
     const currentMoment = getCurrentMoment();
@@ -326,29 +352,28 @@ export async function POST(request: Request) {
       total_recommendations: recommendations.length,
       applied_filters: {
         dietary_restrictions: body.dietary_restrictions || [],
-        preferred_cuisines: body.preferred_cuisines || []
+        preferred_cuisines: body.preferred_cuisines || [],
       },
       timestamp: new Date().toISOString(),
       metadata: {
-        api_version: '1.0.0',
-        data_source: 'local-calculation',
-        can_be_called_externally: true
-      }
+        api_version: "1.0.0",
+        data_source: "local-calculation",
+        can_be_called_externally: true,
+      },
     };
 
     return NextResponse.json(response);
-
   } catch (error) {
-    logger.error('Error generating cuisine recommendations:', error);
+    logger.error("Error generating cuisine recommendations:", error);
 
     return NextResponse.json(
       {
         success: false,
-        error: 'Failed to generate cuisine recommendations',
-        details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
+        error: "Failed to generate cuisine recommendations",
+        details: error instanceof Error ? error.message : "Unknown error",
+        timestamp: new Date().toISOString(),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

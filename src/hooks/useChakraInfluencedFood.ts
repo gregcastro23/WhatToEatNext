@@ -12,21 +12,21 @@
  * planetaryAlchemyMapping.ts for all ESMS calculations.
  */
 
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import type { Ingredient, ElementalProperties } from '@/types/alchemy';
-import { calculateAlchemicalFromPlanets } from '@/utils/planetaryAlchemyMapping';
+import { useState, useEffect, useCallback } from "react";
+import type { Ingredient, ElementalProperties } from "@/types/alchemy";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 
 // Chakra type definition
 export type ChakraType =
-  | 'root'
-  | 'sacral'
-  | 'solar_plexus'
-  | 'heart'
-  | 'throat'
-  | 'third_eye'
-  | 'crown';
+  | "root"
+  | "sacral"
+  | "solar_plexus"
+  | "heart"
+  | "throat"
+  | "third_eye"
+  | "crown";
 
 // Chakra energy state
 export interface ChakraState {
@@ -38,24 +38,27 @@ export interface ChakraState {
 
 // Planetary chakra associations (from Vedic astrology)
 const PLANETARY_CHAKRA_MAP: Record<string, ChakraType> = {
-  mars: 'root',
-  venus: 'sacral',
-  sun: 'solar_plexus',
-  moon: 'heart',
-  mercury: 'throat',
-  jupiter: 'third_eye',
-  saturn: 'crown'
+  mars: "root",
+  venus: "sacral",
+  sun: "solar_plexus",
+  moon: "heart",
+  mercury: "throat",
+  jupiter: "third_eye",
+  saturn: "crown",
 };
 
 // Elemental chakra affinities
-const CHAKRA_ELEMENT_AFFINITY: Record<ChakraType, Partial<ElementalProperties>> = {
+const CHAKRA_ELEMENT_AFFINITY: Record<
+  ChakraType,
+  Partial<ElementalProperties>
+> = {
   root: { Earth: 0.7, Fire: 0.3 },
   sacral: { Water: 0.7, Fire: 0.3 },
   solar_plexus: { Fire: 0.7, Air: 0.3 },
   heart: { Air: 0.7, Water: 0.3 },
   throat: { Air: 0.6, Water: 0.4 },
   third_eye: { Air: 0.5, Water: 0.3, Fire: 0.2 },
-  crown: { Air: 0.8, Fire: 0.2 }
+  crown: { Air: 0.8, Fire: 0.2 },
 };
 
 interface ChakraFoodOptions {
@@ -70,19 +73,24 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
     planetaryPositions = {},
     userChakraState = [],
     availableIngredients = [],
-    focusChakra
+    focusChakra,
   } = options;
 
   const [recommendations, setRecommendations] = useState<{
     ingredients: Ingredient[];
     chakraFocus: ChakraType | null;
-    alchemicalProperties: { Spirit: number; Essence: number; Matter: number; Substance: number } | null;
+    alchemicalProperties: {
+      Spirit: number;
+      Essence: number;
+      Matter: number;
+      Substance: number;
+    } | null;
     reasoning: string;
   }>({
     ingredients: [],
     chakraFocus: null,
     alchemicalProperties: null,
-    reasoning: ''
+    reasoning: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -98,7 +106,7 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
     // Check user's chakra state for imbalances
     if (userChakraState.length > 0) {
       const mostImbalanced = userChakraState
-        .filter(state => state.isBlocked || state.energyLevel < 0.3)
+        .filter((state) => state.isBlocked || state.energyLevel < 0.3)
         .sort((a, b) => a.energyLevel - b.energyLevel)[0];
 
       if (mostImbalanced) return mostImbalanced.chakra;
@@ -114,8 +122,9 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
     });
 
     // Find strongest planet and return its associated chakra
-    const strongestPlanet = Object.entries(planetStrengths)
-      .sort(([, a], [, b]) => b - a)[0];
+    const strongestPlanet = Object.entries(planetStrengths).sort(
+      ([, a], [, b]) => b - a,
+    )[0];
 
     if (strongestPlanet) {
       const chakra = PLANETARY_CHAKRA_MAP[strongestPlanet[0]];
@@ -123,7 +132,7 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
     }
 
     // Default to solar plexus (digestive fire, transformation)
-    return 'solar_plexus';
+    return "solar_plexus";
   }, [planetaryPositions, userChakraState, focusChakra]);
 
   /**
@@ -155,7 +164,7 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       };
 
       const chakraAffinity = CHAKRA_ELEMENT_AFFINITY[targetChakra];
@@ -170,17 +179,26 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
       // Bonus for ingredients with traditional chakra associations
       const ingredientName = ingredient.name.toLowerCase();
       const chakraKeywords: Record<ChakraType, string[]> = {
-        root: ['beet', 'potato', 'carrot', 'ginger', 'protein', 'root'],
-        sacral: ['orange', 'mango', 'sweet', 'coconut', 'nuts', 'seeds'],
-        solar_plexus: ['lemon', 'corn', 'grain', 'banana', 'turmeric', 'ginger'],
-        heart: ['green', 'leafy', 'broccoli', 'spinach', 'kale', 'tea'],
-        throat: ['blueberry', 'seaweed', 'salt', 'honey', 'herbal'],
-        third_eye: ['purple', 'grape', 'eggplant', 'lavender', 'sage'],
-        crown: ['fasting', 'light', 'air', 'meditation'] // Crown chakra often benefits from fasting
+        root: ["beet", "potato", "carrot", "ginger", "protein", "root"],
+        sacral: ["orange", "mango", "sweet", "coconut", "nuts", "seeds"],
+        solar_plexus: [
+          "lemon",
+          "corn",
+          "grain",
+          "banana",
+          "turmeric",
+          "ginger",
+        ],
+        heart: ["green", "leafy", "broccoli", "spinach", "kale", "tea"],
+        throat: ["blueberry", "seaweed", "salt", "honey", "herbal"],
+        third_eye: ["purple", "grape", "eggplant", "lavender", "sage"],
+        crown: ["fasting", "light", "air", "meditation"], // Crown chakra often benefits from fasting
       };
 
       const keywords = chakraKeywords[targetChakra];
-      const hasKeyword = keywords.some(keyword => ingredientName.includes(keyword));
+      const hasKeyword = keywords.some((keyword) =>
+        ingredientName.includes(keyword),
+      );
 
       if (hasKeyword) {
         affinity += 0.3; // Significant bonus for traditional associations
@@ -188,7 +206,7 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
 
       return Math.min(1, affinity); // Cap at 1.0
     },
-    []
+    [],
   );
 
   /**
@@ -206,27 +224,27 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
 
       // Step 3: Filter and score ingredients by chakra affinity
       const scoredIngredients = availableIngredients
-        .map(ingredient => ({
+        .map((ingredient) => ({
           ingredient,
-          affinityScore: calculateChakraAffinity(ingredient, targetChakra)
+          affinityScore: calculateChakraAffinity(ingredient, targetChakra),
         }))
-        .filter(item => item.affinityScore > 0.3) // Only keep reasonably aligned ingredients
+        .filter((item) => item.affinityScore > 0.3) // Only keep reasonably aligned ingredients
         .sort((a, b) => b.affinityScore - a.affinityScore);
 
       // Step 4: Select top ingredients (up to 10)
       const topIngredients = scoredIngredients
         .slice(0, 10)
-        .map(item => item.ingredient);
+        .map((item) => item.ingredient);
 
       // Step 5: Generate reasoning
       const chakraNames: Record<ChakraType, string> = {
-        root: 'Root (Muladhara)',
-        sacral: 'Sacral (Svadhisthana)',
-        solar_plexus: 'Solar Plexus (Manipura)',
-        heart: 'Heart (Anahata)',
-        throat: 'Throat (Vishuddha)',
-        third_eye: 'Third Eye (Ajna)',
-        crown: 'Crown (Sahasrara)'
+        root: "Root (Muladhara)",
+        sacral: "Sacral (Svadhisthana)",
+        solar_plexus: "Solar Plexus (Manipura)",
+        heart: "Heart (Anahata)",
+        throat: "Throat (Vishuddha)",
+        third_eye: "Third Eye (Ajna)",
+        crown: "Crown (Sahasrara)",
       };
 
       let reasoning = `Recommendations aligned with ${chakraNames[targetChakra]} chakra. `;
@@ -238,11 +256,13 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
       }
 
       const userImbalance = userChakraState.find(
-        state => state.chakra === targetChakra && (state.isBlocked || state.energyLevel < 0.4)
+        (state) =>
+          state.chakra === targetChakra &&
+          (state.isBlocked || state.energyLevel < 0.4),
       );
 
       if (userImbalance) {
-        reasoning += `Addressing ${userImbalance.isBlocked ? 'blockage' : 'low energy'} in this chakra. `;
+        reasoning += `Addressing ${userImbalance.isBlocked ? "blockage" : "low energy"} in this chakra. `;
       }
 
       reasoning += `Selected ingredients with strong elemental alignment to support this energy center.`;
@@ -251,15 +271,15 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
         ingredients: topIngredients,
         chakraFocus: targetChakra,
         alchemicalProperties: alchemicalProps,
-        reasoning
+        reasoning,
       });
     } catch (error) {
-      console.error('Error generating chakra food recommendations:', error);
+      console.error("Error generating chakra food recommendations:", error);
       setRecommendations({
         ingredients: [],
         chakraFocus: null,
         alchemicalProperties: null,
-        reasoning: 'Unable to generate recommendations at this time.'
+        reasoning: "Unable to generate recommendations at this time.",
       });
     } finally {
       setLoading(false);
@@ -269,7 +289,7 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
     calculateCurrentAlchemicalProperties,
     availableIngredients,
     calculateChakraAffinity,
-    userChakraState
+    userChakraState,
   ]);
 
   /**
@@ -283,11 +303,11 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
       heart: 0.5,
       throat: 0.5,
       third_eye: 0.5,
-      crown: 0.5
+      crown: 0.5,
     };
 
     // Apply user's chakra state
-    userChakraState.forEach(state => {
+    userChakraState.forEach((state) => {
       balance[state.chakra] = state.energyLevel;
     });
 
@@ -302,8 +322,11 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
     });
 
     // Normalize all values to 0-1 range
-    Object.keys(balance).forEach(chakra => {
-      balance[chakra as ChakraType] = Math.max(0, Math.min(1, balance[chakra as ChakraType]));
+    Object.keys(balance).forEach((chakra) => {
+      balance[chakra as ChakraType] = Math.max(
+        0,
+        Math.min(1, balance[chakra as ChakraType]),
+      );
     });
 
     return balance;
@@ -313,16 +336,17 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
    * Get recommendations for a specific chakra
    */
   const getRecommendationsForChakra = useCallback(
-    (chakra: ChakraType): Ingredient[] => availableIngredients
-        .map(ingredient => ({
+    (chakra: ChakraType): Ingredient[] =>
+      availableIngredients
+        .map((ingredient) => ({
           ingredient,
-          affinity: calculateChakraAffinity(ingredient, chakra)
+          affinity: calculateChakraAffinity(ingredient, chakra),
         }))
-        .filter(item => item.affinity > 0.3)
+        .filter((item) => item.affinity > 0.3)
         .sort((a, b) => b.affinity - a.affinity)
         .slice(0, 5)
-        .map(item => item.ingredient),
-    [availableIngredients, calculateChakraAffinity]
+        .map((item) => item.ingredient),
+    [availableIngredients, calculateChakraAffinity],
   );
 
   // Auto-generate recommendations when inputs change
@@ -338,7 +362,7 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
     generateRecommendations,
     getChakraBalance,
     getRecommendationsForChakra,
-    primaryChakraFocus: recommendations.chakraFocus
+    primaryChakraFocus: recommendations.chakraFocus,
   };
 }
 

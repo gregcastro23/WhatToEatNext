@@ -1,4 +1,4 @@
-import { log } from '@/services/LoggingService';
+import { log } from "@/services/LoggingService";
 /**
  * Script Replacer Utility
  *
@@ -7,109 +7,110 @@ import { log } from '@/services/LoggingService';
  */
 
 // Only run in browser context
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   // Global script error handler - must be first
   window.addEventListener(
-    'error',
+    "error",
     (_event) => {
       if (
         _event.filename &&
-        (_event.filename.includes('popup.js') ||
-          _event.filename.includes('lockdown') ||
-          _event.filename.includes('viewer.js'))
+        (_event.filename.includes("popup.js") ||
+          _event.filename.includes("lockdown") ||
+          _event.filename.includes("viewer.js"))
       ) {
-        log.warn('[ScriptReplacer] Blocked error from: ', _event.filename)
-        _event.preventDefault()
+        log.warn("[ScriptReplacer] Blocked error from: ", _event.filename);
+        _event.preventDefault();
         return true;
       }
       return false;
     },
-    true
-  )
+    true,
+  );
 
   // Setup global properties for lockdown
   if (!(window as unknown as any).lockdown) {
     (window as unknown as any).lockdown = function () {
-      log.info('[ScriptReplacer] Safely intercepted lockdown() call')
+      log.info("[ScriptReplacer] Safely intercepted lockdown() call");
       return true;
-    }
+    };
   }
 
   if (!(window as unknown as any).harden) {
     (window as unknown as any).harden = function (obj) {
       return obj;
-    }
+    };
   }
 
   // Ensure Chrome APIs exist
   if (!window.chrome) {
-    window.chrome = {}
+    window.chrome = {};
   }
 
   // Ensure popup object exists
   if (!window.popup) {
-    window.popup = { create (_options?, unknown) {
+    window.popup = {
+      create(_options?, unknown) {
         return {
-          show () {
+          show() {
             return this;
           },
-          hide () {
+          hide() {
             return this;
-},
-          update () {
+          },
+          update() {
             return this;
-},
-          on (_event: string, _callback?: (...args: unknown[]) => unknown) {
-            return { off () {} };
-},
-          trigger (_event: string) {
+          },
+          on(_event: string, _callback?: (...args: unknown[]) => unknown) {
+            return { off() {} };
+          },
+          trigger(_event: string) {
             return this;
-}
-        }
+          },
+        };
       },
-      show () {
+      show() {
         return this;
-},
-      hide () {
+      },
+      hide() {
         return this;
-},
-      update () {
+      },
+      update() {
         return this;
-},
-      on (_event: string, _callback?: (...args: unknown[]) => unknown) {
+      },
+      on(_event: string, _callback?: (...args: unknown[]) => unknown) {
         return {
-          off () {},
-          trigger (_event: string) {
+          off() {},
+          trigger(_event: string) {
             return this;
-          }
-        }
+          },
+        };
       },
-      trigger (_event: string) {
+      trigger(_event: string) {
         return this;
-}
-    }
+      },
+    };
   }
 
   // Safe chrome.tabs implementation
   if (!window.chrome.tabs) {
     window.chrome.tabs = {
-      create () {
-        log.info('[ScriptReplacer] Intercepted chrome.tabs.create call')
+      create() {
+        log.info("[ScriptReplacer] Intercepted chrome.tabs.create call");
         return Promise.resolve({ id: 999 });
-},
-      _query (queryInfo: unknown, callback?: Function) {
+      },
+      _query(queryInfo: unknown, callback?: Function) {
         const result = [{ id: 1, _active: true }];
         if (callback) callback(result);
         return true;
       },
-      update (tabId: number, properties: unknown, callback?: Function) {
-        if (callback) callback({})
+      update(tabId: number, properties: unknown, callback?: Function) {
+        if (callback) callback({});
         return true;
-      }
-    }
+      },
+    };
   }
 
-  log.info('[ScriptReplacer] Successfully initialized environment protection')
+  log.info("[ScriptReplacer] Successfully initialized environment protection");
 }
 
-export default {}
+export default {};

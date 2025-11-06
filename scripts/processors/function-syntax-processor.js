@@ -5,20 +5,29 @@
  * Fixes function declaration and statement syntax errors (TS1128 errors)
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 class FunctionSyntaxProcessor {
   constructor() {
-    this.projectRoot = path.resolve(import.meta.dirname || path.dirname(import.meta.url.replace('file://', '')), '../..');
+    this.projectRoot = path.resolve(
+      import.meta.dirname ||
+        path.dirname(import.meta.url.replace("file://", "")),
+      "../..",
+    );
     this.filesProcessed = 0;
     this.functionsFixed = 0;
     this.parametersFixed = 0;
-    this.backupDir = path.join(this.projectRoot, 'backups', 'phase3', 'functions');
+    this.backupDir = path.join(
+      this.projectRoot,
+      "backups",
+      "phase3",
+      "functions",
+    );
   }
 
   async process() {
-    console.log('🔧 Processing function syntax errors...');
+    console.log("🔧 Processing function syntax errors...");
 
     // Create backup directory
     if (!fs.existsSync(this.backupDir)) {
@@ -28,7 +37,9 @@ class FunctionSyntaxProcessor {
     // Get files with function syntax errors
     const filesWithErrors = await this.getFilesWithFunctionErrors();
 
-    console.log(`Found ${filesWithErrors.length} files with function syntax errors`);
+    console.log(
+      `Found ${filesWithErrors.length} files with function syntax errors`,
+    );
 
     for (const file of filesWithErrors) {
       await this.processFile(file);
@@ -38,28 +49,28 @@ class FunctionSyntaxProcessor {
       filesProcessed: this.filesProcessed,
       functionsFixed: this.functionsFixed,
       parametersFixed: this.parametersFixed,
-      success: true
+      success: true,
     };
   }
 
   async getFilesWithFunctionErrors() {
     // Files with TS1128 Declaration or statement expected errors
     const errorFiles = [
-      'src/utils/strictNullChecksHelper.ts',
-      'src/utils/sunTimes.ts',
-      'src/utils/tarotUtils.ts',
-      'src/utils/testIngredientMapping.ts',
-      'src/utils/timeUtils.ts',
-      'src/utils/timingUtils.ts',
-      'src/utils/typeValidation.ts',
-      'src/utils/validateIngredients.ts',
-      'src/utils/validatePlanetaryPositions.ts',
-      'src/utils/withRenderTracking.tsx',
-      'src/utils/zodiacUtils.ts',
+      "src/utils/strictNullChecksHelper.ts",
+      "src/utils/sunTimes.ts",
+      "src/utils/tarotUtils.ts",
+      "src/utils/testIngredientMapping.ts",
+      "src/utils/timeUtils.ts",
+      "src/utils/timingUtils.ts",
+      "src/utils/typeValidation.ts",
+      "src/utils/validateIngredients.ts",
+      "src/utils/validatePlanetaryPositions.ts",
+      "src/utils/withRenderTracking.tsx",
+      "src/utils/zodiacUtils.ts",
       // Add more from error analysis
     ];
 
-    return errorFiles.filter(file => {
+    return errorFiles.filter((file) => {
       const fullPath = path.join(this.projectRoot, file);
       return fs.existsSync(fullPath);
     });
@@ -70,10 +81,13 @@ class FunctionSyntaxProcessor {
     console.log(`Processing ${filePath}...`);
 
     // Backup original
-    const backupPath = path.join(this.backupDir, path.basename(filePath) + '.backup');
+    const backupPath = path.join(
+      this.backupDir,
+      path.basename(filePath) + ".backup",
+    );
     fs.copyFileSync(fullPath, backupPath);
 
-    let content = fs.readFileSync(fullPath, 'utf8');
+    let content = fs.readFileSync(fullPath, "utf8");
     let localFunctions = 0;
     let localParams = 0;
 
@@ -97,7 +111,9 @@ class FunctionSyntaxProcessor {
       this.filesProcessed++;
       this.functionsFixed += localFunctions;
       this.parametersFixed += localParams;
-      console.log(`  ✓ Fixed ${localFunctions} functions, ${localParams} parameters`);
+      console.log(
+        `  ✓ Fixed ${localFunctions} functions, ${localParams} parameters`,
+      );
     }
   }
 
@@ -109,12 +125,12 @@ class FunctionSyntaxProcessor {
     content = content.replace(
       /function\s+(\w+)\s*\([^)]*\)\s*([^{])/g,
       (match, name, after) => {
-        if (!after.trim().startsWith('{')) {
+        if (!after.trim().startsWith("{")) {
           fixes++;
           return `function ${name}(`;
         }
         return match;
-      }
+      },
     );
 
     // Fix missing closing parentheses in function declarations
@@ -122,12 +138,12 @@ class FunctionSyntaxProcessor {
     content = content.replace(
       /function\s+(\w+)\s*\([^)]*$/gm,
       (match, name) => {
-        if (!match.includes(')')) {
+        if (!match.includes(")")) {
           fixes++;
           return `${match}) {`;
         }
         return match;
-      }
+      },
     );
 
     return { content, fixes };
@@ -143,7 +159,7 @@ class FunctionSyntaxProcessor {
       (match, params) => {
         fixes++;
         return `(${params}) {`;
-      }
+      },
     );
 
     // Fix malformed parameter lists
@@ -153,7 +169,7 @@ class FunctionSyntaxProcessor {
       (match, param1, param2) => {
         fixes++;
         return `(${param1}, ${param2}) {`;
-      }
+      },
     );
 
     return { content, fixes };
@@ -164,29 +180,23 @@ class FunctionSyntaxProcessor {
 
     // Fix arrow function syntax
     // Pattern: param => { -> (param) => {
-    content = content.replace(
-      /(\w+)\s*=>\s*\{/g,
-      (match, param) => {
-        if (!param.includes('(') && !param.includes(')')) {
-          fixes++;
-          return `(${param}) => {`;
-        }
-        return match;
+    content = content.replace(/(\w+)\s*=>\s*\{/g, (match, param) => {
+      if (!param.includes("(") && !param.includes(")")) {
+        fixes++;
+        return `(${param}) => {`;
       }
-    );
+      return match;
+    });
 
     // Fix arrow function bodies
     // Pattern: => expression -> => { return expression; }
-    content = content.replace(
-      /=>\s*([^;{}\n]+);?$/gm,
-      (match, expression) => {
-        if (!expression.includes('{') && !expression.includes('return')) {
-          fixes++;
-          return `=> {\n    return ${expression};\n  }`;
-        }
-        return match;
+    content = content.replace(/=>\s*([^;{}\n]+);?$/gm, (match, expression) => {
+      if (!expression.includes("{") && !expression.includes("return")) {
+        fixes++;
+        return `=> {\n    return ${expression};\n  }`;
       }
-    );
+      return match;
+    });
 
     return { content, fixes };
   }
@@ -197,10 +207,13 @@ export default FunctionSyntaxProcessor;
 // CLI usage
 if (import.meta.url === `file://${process.argv[1]}`) {
   const processor = new FunctionSyntaxProcessor();
-  processor.process().then(result => {
-    console.log('\n✅ Function syntax processing complete:');
-    console.log(`Files processed: ${result.filesProcessed}`);
-    console.log(`Functions fixed: ${result.functionsFixed}`);
-    console.log(`Parameters fixed: ${result.parametersFixed}`);
-  }).catch(console.error);
+  processor
+    .process()
+    .then((result) => {
+      console.log("\n✅ Function syntax processing complete:");
+      console.log(`Files processed: ${result.filesProcessed}`);
+      console.log(`Functions fixed: ${result.functionsFixed}`);
+      console.log(`Parameters fixed: ${result.parametersFixed}`);
+    })
+    .catch(console.error);
 }

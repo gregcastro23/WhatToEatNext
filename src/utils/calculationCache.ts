@@ -1,6 +1,6 @@
 // Database cache integration - Phase 3
-import { CacheService } from '@/lib/database';
-import { log } from '@/services/LoggingService';
+import { CacheService } from "@/lib/database";
+import { log } from "@/services/LoggingService";
 
 /**
  * Calculation Cache Utility - Database Integration
@@ -25,7 +25,7 @@ export async function getCachedCalculation<T>(
   cacheKey: string,
   inputObj: Record<string, unknown>,
   calculationFn: () => T | Promise<T>,
-  ttl: number = DEFAULT_CACHE_TTL
+  ttl: number = DEFAULT_CACHE_TTL,
 ): Promise<T> {
   // Create a hash of the input for comparison
   const inputHash = JSON.stringify(inputObj);
@@ -36,7 +36,9 @@ export async function getCachedCalculation<T>(
     const cachedResult = await CacheService.get(cacheKey, inputHash);
 
     if (cachedResult) {
-      log.info(`🔄 Database cache hit for ${cacheKey} (age: ${Math.round((now - cachedResult.created_at.getTime()) / 1000)}s)`);
+      log.info(
+        `🔄 Database cache hit for ${cacheKey} (age: ${Math.round((now - cachedResult.created_at.getTime()) / 1000)}s)`,
+      );
       return JSON.parse(cachedResult.result_data);
     }
 
@@ -49,7 +51,6 @@ export async function getCachedCalculation<T>(
     await CacheService.set(cacheKey, inputHash, JSON.stringify(result), ttl);
 
     return result;
-
   } catch (error) {
     log.error(`Error in cached calculation for ${cacheKey}:`, error);
 
@@ -74,10 +75,10 @@ export async function clearCalculationCache(cacheKey?: string): Promise<void> {
       log.info(`Database cache cleared for ${cacheKey}`);
     } else {
       await CacheService.clearExpired(); // Clear expired entries
-      log.info('Database cache cleared (expired entries)');
+      log.info("Database cache cleared (expired entries)");
     }
   } catch (error) {
-    log.error('Failed to clear database cache:', error);
+    log.error("Failed to clear database cache:", error);
   }
 }
 
@@ -85,23 +86,23 @@ export async function clearCalculationCache(cacheKey?: string): Promise<void> {
  * Get cache statistics for debugging
  */
 export async function getCacheStats(): Promise<{
-  totalEntries: number,
-  activeEntries: number,
-  expiredEntries: number
+  totalEntries: number;
+  activeEntries: number;
+  expiredEntries: number;
 }> {
   try {
     const stats = await CacheService.getStats();
     return {
       totalEntries: stats.total,
       activeEntries: stats.active,
-      expiredEntries: stats.expired
+      expiredEntries: stats.expired,
     };
   } catch (error) {
-    log.error('Failed to get database cache stats:', error);
+    log.error("Failed to get database cache stats:", error);
     return {
       totalEntries: 0,
       activeEntries: 0,
-      expiredEntries: 0
-};
+      expiredEntries: 0,
+    };
   }
 }

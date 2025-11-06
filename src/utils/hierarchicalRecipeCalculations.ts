@@ -12,25 +12,23 @@
  */
 
 import type {
-    CookingMethod,
-    ElementalProperties,
-    RecipeIngredient
-} from '@/types/alchemy';
+  CookingMethod,
+  ElementalProperties,
+  RecipeIngredient,
+} from "@/types/alchemy";
 import type {
-    QuantityScaledProperties,
-    RecipeComputationOptions,
-    RecipeComputedProperties
-} from '@/types/hierarchy';
-import { normalizeElementalProperties } from './ingredientUtils';
+  QuantityScaledProperties,
+  RecipeComputationOptions,
+  RecipeComputedProperties,
+} from "@/types/hierarchy";
+import { normalizeElementalProperties } from "./ingredientUtils";
+import { calculateThermodynamicMetrics } from "./monicaKalchmCalculations";
 import {
-    calculateThermodynamicMetrics
-} from './monicaKalchmCalculations';
-import {
-    aggregateZodiacElementals,
-    calculateAlchemicalFromPlanets,
-    getDominantAlchemicalProperty,
-    getDominantElement
-} from './planetaryAlchemyMapping';
+  aggregateZodiacElementals,
+  calculateAlchemicalFromPlanets,
+  getDominantAlchemicalProperty,
+  getDominantElement,
+} from "./planetaryAlchemyMapping";
 
 // ========== COOKING METHOD TRANSFORMATIONS ==========
 
@@ -40,7 +38,10 @@ import {
  * Each cooking method applies specific transformations to elemental properties.
  * Based on the 14 Alchemical Pillars and traditional cooking techniques.
  */
-export const COOKING_METHOD_MODIFIERS: Record<string, Partial<ElementalProperties>> = {
+export const COOKING_METHOD_MODIFIERS: Record<
+  string,
+  Partial<ElementalProperties>
+> = {
   // Dry Heat Methods (Fire dominant)
   grilling: { Fire: 1.4, Water: 0.6, Earth: 0.9, Air: 1.1 },
   roasting: { Fire: 1.3, Water: 0.7, Earth: 1.0, Air: 1.0 },
@@ -57,10 +58,10 @@ export const COOKING_METHOD_MODIFIERS: Record<string, Partial<ElementalPropertie
   stewing: { Fire: 0.8, Water: 1.2, Earth: 1.1, Air: 0.7 },
 
   // Combination Methods
-  'stir-frying': { Fire: 1.3, Water: 0.8, Earth: 0.9, Air: 1.2 },
+  "stir-frying": { Fire: 1.3, Water: 0.8, Earth: 0.9, Air: 1.2 },
   sauteing: { Fire: 1.2, Water: 0.8, Earth: 0.9, Air: 1.1 },
   frying: { Fire: 1.4, Water: 0.6, Earth: 0.9, Air: 1.1 },
-  'deep-frying': { Fire: 1.5, Water: 0.5, Earth: 0.8, Air: 1.2 },
+  "deep-frying": { Fire: 1.5, Water: 0.5, Earth: 0.8, Air: 1.2 },
 
   // Fermentation & Preservation (Earth/Water balance)
   fermenting: { Fire: 0.6, Water: 1.2, Earth: 1.3, Air: 0.9 },
@@ -79,7 +80,7 @@ export const COOKING_METHOD_MODIFIERS: Record<string, Partial<ElementalPropertie
   raw: { Fire: 1.0, Water: 1.0, Earth: 1.0, Air: 1.0 },
   chopping: { Fire: 1.0, Water: 0.95, Earth: 1.0, Air: 1.05 },
   slicing: { Fire: 1.0, Water: 0.95, Earth: 1.0, Air: 1.05 },
-  marinating: { Fire: 0.8, Water: 1.2, Earth: 1.0, Air: 1.0 }
+  marinating: { Fire: 0.8, Water: 1.2, Earth: 1.0, Air: 1.0 },
 };
 
 // ========== QUANTITY SCALING ==========
@@ -97,7 +98,7 @@ export const COOKING_METHOD_MODIFIERS: Record<string, Partial<ElementalPropertie
  */
 export function calculateQuantityScalingFactor(
   quantity: number,
-  referenceAmount = 100
+  referenceAmount = 100,
 ): number {
   if (quantity <= 0) return 0;
   if (referenceAmount <= 0) return 1;
@@ -122,7 +123,7 @@ export function calculateQuantityScalingFactor(
 export function scaleIngredientByQuantity(
   baseElementals: ElementalProperties,
   quantity: number,
-  unit: string
+  unit: string,
 ): QuantityScaledProperties {
   // Convert to standard grams if needed
   let quantityInGrams = quantity;
@@ -138,8 +139,8 @@ export function scaleIngredientByQuantity(
     tbsp: 15,
     tsp: 5,
     ml: 1, // Approximate density
-    l: 1000
-};
+    l: 1000,
+  };
 
   const factor = conversionFactors[unit.toLowerCase()];
   if (factor) {
@@ -153,7 +154,7 @@ export function scaleIngredientByQuantity(
     Fire: baseElementals.Fire * scalingFactor,
     Water: baseElementals.Water * scalingFactor,
     Earth: baseElementals.Earth * scalingFactor,
-    Air: baseElementals.Air * scalingFactor
+    Air: baseElementals.Air * scalingFactor,
   };
 
   return {
@@ -161,7 +162,7 @@ export function scaleIngredientByQuantity(
     scaled,
     quantity: quantityInGrams,
     unit,
-    scalingFactor
+    scalingFactor,
   };
 }
 
@@ -174,7 +175,7 @@ export function scaleIngredientByQuantity(
  * @returns Aggregated and normalized elemental properties
  */
 export function aggregateIngredientElementals(
-  ingredients: RecipeIngredient[]
+  ingredients: RecipeIngredient[],
 ): ElementalProperties {
   if (!ingredients || ingredients.length === 0) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -189,7 +190,7 @@ export function aggregateIngredientElementals(
     const scaled = scaleIngredientByQuantity(
       ingredient.elementalProperties,
       ingredient.amount || 1,
-      ingredient.unit || 'g'
+      ingredient.unit || "g",
     );
 
     // Add to totals
@@ -216,12 +217,13 @@ export function aggregateIngredientElementals(
  */
 export function applyCookingMethodTransforms(
   baseElementals: ElementalProperties,
-  methods: Array<string | CookingMethod>
+  methods: Array<string | CookingMethod>,
 ): ElementalProperties {
   let current = { ...baseElementals };
 
   for (const method of methods) {
-    const methodName = typeof method === 'string' ? method : method.name || method.id;
+    const methodName =
+      typeof method === "string" ? method : method.name || method.id;
     const modifiers = COOKING_METHOD_MODIFIERS[methodName.toLowerCase()];
 
     if (!modifiers) {
@@ -234,7 +236,7 @@ export function applyCookingMethodTransforms(
       Fire: current.Fire * (modifiers.Fire ?? 1.0),
       Water: current.Water * (modifiers.Water ?? 1.0),
       Earth: current.Earth * (modifiers.Earth ?? 1.0),
-      Air: current.Air * (modifiers.Air ?? 1.0)
+      Air: current.Air * (modifiers.Air ?? 1.0),
     };
 
     // Re-normalize after each transformation
@@ -262,23 +264,25 @@ export function applyCookingMethodTransforms(
 export function computeRecipeProperties(
   ingredients: RecipeIngredient[],
   cookingMethods: Array<string | CookingMethod>,
-  options: RecipeComputationOptions
+  options: RecipeComputationOptions,
 ): RecipeComputedProperties {
   // Validate required options
   if (!options.planetaryPositions) {
     throw new Error(
-      'planetaryPositions are required for recipe property calculation. ' +
-        'ESMS values cannot be derived without astrological context.'
+      "planetaryPositions are required for recipe property calculation. " +
+        "ESMS values cannot be derived without astrological context.",
     );
   }
 
-  const { planetaryPositions, applyCookingMethods: applyMethods = true } = options;
+  const { planetaryPositions, applyCookingMethods: applyMethods = true } =
+    options;
 
   // Step 1: Aggregate ingredient elementals with quantity scaling
   const ingredientElementals = aggregateIngredientElementals(ingredients);
 
   // Step 2: Calculate ESMS from planetary positions (THE CORRECT WAY)
-  const alchemicalProperties = calculateAlchemicalFromPlanets(planetaryPositions);
+  const alchemicalProperties =
+    calculateAlchemicalFromPlanets(planetaryPositions);
 
   // Step 3: Aggregate zodiac elementals from planetary sign positions
   const zodiacElementals = aggregateZodiacElementals(planetaryPositions);
@@ -289,7 +293,7 @@ export function computeRecipeProperties(
     Fire: ingredientElementals.Fire * 0.7 + zodiacElementals.Fire * 0.3,
     Water: ingredientElementals.Water * 0.7 + zodiacElementals.Water * 0.3,
     Earth: ingredientElementals.Earth * 0.7 + zodiacElementals.Earth * 0.3,
-    Air: ingredientElementals.Air * 0.7 + zodiacElementals.Air * 0.3
+    Air: ingredientElementals.Air * 0.7 + zodiacElementals.Air * 0.3,
   };
 
   // Step 5: Apply cooking method transformations if enabled
@@ -300,23 +304,24 @@ export function computeRecipeProperties(
   // Step 6: Calculate thermodynamic metrics from ESMS + elementals
   const thermodynamicMetrics = calculateThermodynamicMetrics(
     alchemicalProperties,
-    finalElementals
+    finalElementals,
   );
 
   // Step 7: Calculate kinetic properties using P=IV circuit model
   const kineticProperties = calculateRecipeKinetics(
     alchemicalProperties,
     thermodynamicMetrics,
-    planetaryPositions
+    planetaryPositions,
   );
 
   // Step 8: Identify dominant properties
   const dominantElement = getDominantElement(finalElementals);
-  const dominantAlchemicalProperty = getDominantAlchemicalProperty(alchemicalProperties);
+  const dominantAlchemicalProperty =
+    getDominantAlchemicalProperty(alchemicalProperties);
 
   // Step 9: Extract cooking method names for metadata
-  const cookingMethodNames = cookingMethods.map(method =>
-    typeof method === 'string' ? method : method.name || method.id
+  const cookingMethodNames = cookingMethods.map((method) =>
+    typeof method === "string" ? method : method.name || method.id,
   );
 
   // Return complete computed properties
@@ -330,8 +335,8 @@ export function computeRecipeProperties(
     computationMetadata: {
       planetaryPositionsUsed: planetaryPositions,
       cookingMethodsApplied: cookingMethodNames,
-      computationTimestamp: new Date()
-    }
+      computationTimestamp: new Date(),
+    },
   };
 }
 
@@ -354,10 +359,11 @@ export function computeRecipeProperties(
 export function calculateRecipeKinetics(
   alchemicalProperties: AlchemicalProperties,
   thermodynamicMetrics: any,
-  planetaryPositions: { [planet: string]: string }
+  planetaryPositions: { [planet: string]: string },
 ): KineticMetrics {
   const { Spirit, Essence, Matter, Substance } = alchemicalProperties;
-  const { heat, entropy, reactivity, gregsEnergy, kalchm, monica } = thermodynamicMetrics;
+  const { heat, entropy, reactivity, gregsEnergy, kalchm, monica } =
+    thermodynamicMetrics;
 
   // Recipe circuit parameters (30-minute standard time interval)
   const timeInterval = 1800; // 30 minutes in seconds
@@ -367,7 +373,7 @@ export function calculateRecipeKinetics(
   const kineticsInput: KineticsCalculationInput = {
     currentPlanetaryPositions: planetaryPositions,
     timeInterval,
-    currentPlanet: dominantPlanet
+    currentPlanet: dominantPlanet,
   };
 
   // Calculate base kinetics from planetary positions
@@ -393,26 +399,27 @@ export function calculateRecipeKinetics(
   const recipeForce = recipePower * recipeInertia;
 
   // 6. Recipe acceleration = Force / Inertia
-  const recipeAcceleration = recipeInertia > 0 ? recipeForce / recipeInertia : 0;
+  const recipeAcceleration =
+    recipeInertia > 0 ? recipeForce / recipeInertia : 0;
 
   // 7. Thermal direction based on heat vs entropy balance
-  let thermalDirection: 'heating' | 'cooling' | 'stable';
+  let thermalDirection: "heating" | "cooling" | "stable";
   if (heat > entropy * reactivity) {
-    thermalDirection = 'heating';
+    thermalDirection = "heating";
   } else if (entropy > heat) {
-    thermalDirection = 'cooling';
+    thermalDirection = "cooling";
   } else {
-    thermalDirection = 'stable';
+    thermalDirection = "stable";
   }
 
   // 8. Force classification based on power level
-  let forceClassification: 'accelerating' | 'decelerating' | 'balanced';
+  let forceClassification: "accelerating" | "decelerating" | "balanced";
   if (recipePower > 2.0) {
-    forceClassification = 'accelerating';
+    forceClassification = "accelerating";
   } else if (recipePower < 0.5) {
-    forceClassification = 'decelerating';
+    forceClassification = "decelerating";
   } else {
-    forceClassification = 'balanced';
+    forceClassification = "balanced";
   }
 
   // Return enhanced kinetics with recipe-specific properties
@@ -426,7 +433,7 @@ export function calculateRecipeKinetics(
       Fire: recipeForce * (Spirit / (Spirit + Essence + Matter + Substance)),
       Water: recipeForce * (Essence / (Spirit + Essence + Matter + Substance)),
       Earth: recipeForce * (Matter / (Spirit + Essence + Matter + Substance)),
-      Air: recipeForce * (Substance / (Spirit + Essence + Matter + Substance))
+      Air: recipeForce * (Substance / (Spirit + Essence + Matter + Substance)),
     },
     forceMagnitude: Math.abs(recipeForce),
     forceClassification,
@@ -436,15 +443,15 @@ export function calculateRecipeKinetics(
       Fire: recipeAcceleration * 0.4,
       Water: recipeAcceleration * 0.3,
       Earth: recipeAcceleration * 0.2,
-      Air: recipeAcceleration * 0.1
+      Air: recipeAcceleration * 0.1,
     },
     momentum: {
       Fire: recipeInertia * recipeAcceleration * 0.4,
       Water: recipeInertia * recipeAcceleration * 0.3,
       Earth: recipeInertia * recipeAcceleration * 0.2,
-      Air: recipeInertia * recipeAcceleration * 0.1
+      Air: recipeInertia * recipeAcceleration * 0.1,
     },
-    inertia: recipeInertia
+    inertia: recipeInertia,
   };
 }
 
@@ -452,9 +459,11 @@ export function calculateRecipeKinetics(
  * Get the dominant planet from planetary positions
  * Used for kinetics calculation weighting
  */
-function getDominantPlanet(planetaryPositions: { [planet: string]: string }): string {
+function getDominantPlanet(planetaryPositions: {
+  [planet: string]: string;
+}): string {
   // Default to Sun if no clear dominant planet
-  return 'Sun';
+  return "Sun";
 }
 
 /**
@@ -470,12 +479,12 @@ function getDominantPlanet(planetaryPositions: { [planet: string]: string }): st
 export function computeRecipePropertiesSimple(
   ingredients: RecipeIngredient[],
   cookingMethods: Array<string | CookingMethod>,
-  planetaryPositions: { [planet: string]: string }
+  planetaryPositions: { [planet: string]: string },
 ): RecipeComputedProperties {
   return computeRecipeProperties(ingredients, cookingMethods, {
     planetaryPositions,
     applyCookingMethods: true,
-    quantityScaling: 'logarithmic',
-    cacheResults: false
-});
+    quantityScaling: "logarithmic",
+    cacheResults: false,
+  });
 }

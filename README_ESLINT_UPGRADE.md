@@ -39,10 +39,10 @@ Updated in `package.json`:
 
 ```json
 {
-  "eslint": "9.17.0",              // was 8.57.0
-  "@typescript-eslint/eslint-plugin": "8.18.2",  // was 5.61.0
-  "@typescript-eslint/parser": "8.18.2",         // was 5.61.0
-  "eslint-plugin-react": "7.37.3",               // was 7.33.2
+  "eslint": "9.17.0", // was 8.57.0
+  "@typescript-eslint/eslint-plugin": "8.18.2", // was 5.61.0
+  "@typescript-eslint/parser": "8.18.2", // was 5.61.0
+  "eslint-plugin-react": "7.37.3" // was 7.33.2
   // + 4 new packages added
 }
 ```
@@ -50,6 +50,7 @@ Updated in `package.json`:
 ### 2. ✅ Configuration Files Created
 
 #### Production Config: `eslint.config.mjs`
+
 - 600+ lines of comprehensive rules
 - Type-aware linting enabled
 - All modern ESLint 9 features
@@ -59,6 +60,7 @@ Updated in `package.json`:
 - Code quality metrics
 
 #### Fast Config: `eslint.config.fast.mjs`
+
 - 150+ lines, essential rules only
 - No type-aware linting (faster)
 - 3-10x faster than main config
@@ -66,6 +68,7 @@ Updated in `package.json`:
 - Incremental linting
 
 #### Campaign Config: `.eslintrc-campaign.mjs`
+
 - 150+ lines of strict rules
 - Organized in 5 improvement phases
 - Error-level enforcement
@@ -134,6 +137,7 @@ WhatToEatNext/
 ```
 
 **Old files preserved for reference:**
+
 - `eslint.config.cjs` (old)
 - `eslint.config.fast.cjs` (old)
 
@@ -149,6 +153,7 @@ yarn install
 ```
 
 This installs:
+
 - ESLint 9.17.0
 - TypeScript-ESLint 8.18.2
 - All new plugins
@@ -198,26 +203,34 @@ Review `ESLINT_UPGRADE_GUIDE.md` for systematic improvement strategy.
 ## Documentation
 
 ### Main Documentation
+
 📘 **`ESLINT_UPGRADE_GUIDE.md`** - Start here!
+
 - Complete upgrade guide
 - All rules explained
 - Campaign strategy
 - Troubleshooting
 
 ### Quick Reference
+
 📙 **`.eslint-quick-reference.md`**
+
 - Common commands
 - Quick fixes
 - Ignore patterns
 
 ### Setup Guide
+
 📗 **`ESLINT_CAMPAIGN_SETUP.md`**
+
 - Installation steps
 - Testing procedures
 - Campaign structure
 
 ### Summary
+
 📕 **`UPGRADE_SUMMARY.md`**
+
 - High-level overview
 - Impact analysis
 - Success metrics
@@ -230,10 +243,10 @@ Review `ESLINT_UPGRADE_GUIDE.md` for systematic improvement strategy.
 
 ```typescript
 // Now detected and warned/errored:
-const value: any = getData();              // Warning
-const result = value.property;             // Warning
-someFunction(value);                       // Warning
-return value;                              // Warning
+const value: any = getData(); // Warning
+const result = value.property; // Warning
+someFunction(value); // Warning
+return value; // Warning
 ```
 
 60+ type-safety rules enabled.
@@ -242,7 +255,7 @@ return value;                              // Warning
 
 ```typescript
 // Modern React patterns supported:
-import { useState } from 'react';  // No React import needed
+import { useState } from "react"; // No React import needed
 const [state, setState] = useState();
 
 // Enhanced hooks validation
@@ -268,9 +281,9 @@ useEffect(() => {
 
 ```typescript
 // Import issues detected:
-import { x } from '@/missing';    // Error: unresolved path
-import { a, a } from 'module';    // Error: duplicate
-import { unused } from 'module';  // Warning: unused
+import { x } from "@/missing"; // Error: unresolved path
+import { a, a } from "module"; // Error: duplicate
+import { unused } from "module"; // Warning: unused
 ```
 
 15+ import rules enabled.
@@ -330,18 +343,21 @@ yarn lint:profile           # Profile rules
 ## Expected Impact
 
 ### Current Baseline
+
 - **Total Issues:** 4,852
 - **Errors:** 724
 - **Warnings:** 4,128
 - **Parsing Errors:** 437
 
 ### After Configuration (Initial)
+
 - **Total Issues:** ~5,100 (better detection)
 - **Errors:** ~780
 - **Warnings:** ~4,320
 - **Parsing Errors:** 437
 
 ### Campaign Target (6 weeks)
+
 - **Total Issues:** <550 (89% ↓)
 - **Errors:** <50 (93% ↓)
 - **Warnings:** <500 (88% ↓)
@@ -374,6 +390,7 @@ yarn lint:profile           # Profile rules
 ## Checklist
 
 ### Configuration Complete ✅
+
 - [x] Dependencies upgraded in package.json
 - [x] Main config created (eslint.config.mjs)
 - [x] Fast config created (eslint.config.fast.mjs)
@@ -383,6 +400,7 @@ yarn lint:profile           # Profile rules
 - [x] Old configs preserved
 
 ### Ready for Installation ⏳
+
 - [ ] Dependencies installed (`yarn install`)
 - [ ] Fast config tested (`yarn lint:quick`)
 - [ ] Main config tested (`yarn lint`)
@@ -395,6 +413,7 @@ yarn lint:profile           # Profile rules
 ## Benefits Summary
 
 ### For You
+
 - ✅ Modern ESLint 9 features
 - ✅ Better error detection
 - ✅ Faster development (fast config)
@@ -402,6 +421,7 @@ yarn lint:profile           # Profile rules
 - ✅ Campaign structure for improvement
 
 ### For Code
+
 - ✅ Enhanced type safety
 - ✅ Fewer runtime errors
 - ✅ Better maintainability
@@ -409,6 +429,7 @@ yarn lint:profile           # Profile rules
 - ✅ Code quality metrics
 
 ### For Team
+
 - ✅ Clear standards
 - ✅ Systematic improvement
 - ✅ Progress tracking

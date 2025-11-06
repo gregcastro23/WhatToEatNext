@@ -12,9 +12,9 @@
  * - no-var (15 issues)
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 class RemainingIssuesFixer {
   constructor() {
@@ -24,14 +24,14 @@ class RemainingIssuesFixer {
     this.startTime = Date.now();
   }
 
-  log(message, level = 'info') {
+  log(message, level = "info") {
     const timestamp = new Date().toISOString();
-    const prefix = level === 'error' ? '❌' : level === 'warn' ? '⚠️' : '✅';
+    const prefix = level === "error" ? "❌" : level === "warn" ? "⚠️" : "✅";
     console.log(`${prefix} [${timestamp}] ${message}`);
   }
 
   async run() {
-    this.log('🔧 Starting Remaining Issues Fixer');
+    this.log("🔧 Starting Remaining Issues Fixer");
 
     try {
       // Step 1: Fix no-case-declarations
@@ -48,21 +48,23 @@ class RemainingIssuesFixer {
 
       // Step 5: Generate final report
       await this.generateReport();
-
     } catch (error) {
-      this.log(`Fatal error: ${error.message}`, 'error');
+      this.log(`Fatal error: ${error.message}`, "error");
       process.exit(1);
     }
   }
 
   async fixCaseDeclarations() {
-    this.log('🔧 Step 1: Fixing no-case-declarations (74 issues)');
+    this.log("🔧 Step 1: Fixing no-case-declarations (74 issues)");
 
     try {
       const files = execSync(
         'yarn lint:quick --format=compact 2>&1 | grep "no-case-declarations" | cut -d: -f1 | sort -u',
-        { encoding: 'utf8', stdio: 'pipe' }
-      ).trim().split('\n').filter(f => f);
+        { encoding: "utf8", stdio: "pipe" },
+      )
+        .trim()
+        .split("\n")
+        .filter((f) => f);
 
       let fixedFiles = 0;
       let fixedCases = 0;
@@ -75,11 +77,12 @@ class RemainingIssuesFixer {
         }
       }
 
-      this.log(`✅ Fixed case declarations in ${fixedFiles} files (${fixedCases} cases)`);
+      this.log(
+        `✅ Fixed case declarations in ${fixedFiles} files (${fixedCases} cases)`,
+      );
       this.fixedIssues += fixedCases;
-
     } catch (error) {
-      this.log(`Error fixing case declarations: ${error.message}`, 'warn');
+      this.log(`Error fixing case declarations: ${error.message}`, "warn");
     }
   }
 
@@ -87,7 +90,7 @@ class RemainingIssuesFixer {
     try {
       if (!fs.existsSync(filePath)) return { modified: false, count: 0 };
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       let newContent = content;
       let fixCount = 0;
       let modified = false;
@@ -97,15 +100,21 @@ class RemainingIssuesFixer {
       newContent = newContent.replace(casePattern, (match, indent, keyword) => {
         fixCount++;
         modified = true;
-        return match.replace(`${indent}${keyword}`, `${indent}{\n${indent}  ${keyword}`);
+        return match.replace(
+          `${indent}${keyword}`,
+          `${indent}{\n${indent}  ${keyword}`,
+        );
       });
 
       // Add closing braces before break statements
       const breakPattern = /(\s*)(break;|return[^;]*;)\s*$/gm;
       if (modified) {
-        newContent = newContent.replace(breakPattern, (match, indent, statement) => {
-          return `${indent}}\n${indent}${statement}`;
-        });
+        newContent = newContent.replace(
+          breakPattern,
+          (match, indent, statement) => {
+            return `${indent}}\n${indent}${statement}`;
+          },
+        );
       }
 
       if (modified) {
@@ -114,21 +123,25 @@ class RemainingIssuesFixer {
       }
 
       return { modified, count: fixCount };
-
     } catch (error) {
-      this.errors.push(`Error fixing case declarations in ${filePath}: ${error.message}`);
+      this.errors.push(
+        `Error fixing case declarations in ${filePath}: ${error.message}`,
+      );
       return { modified: false, count: 0 };
     }
   }
 
   async fixEqEqEq() {
-    this.log('🔧 Step 2: Fixing eqeqeq violations (9 issues)');
+    this.log("🔧 Step 2: Fixing eqeqeq violations (9 issues)");
 
     try {
       const files = execSync(
         'yarn lint:quick --format=compact 2>&1 | grep "eqeqeq" | cut -d: -f1 | sort -u',
-        { encoding: 'utf8', stdio: 'pipe' }
-      ).trim().split('\n').filter(f => f);
+        { encoding: "utf8", stdio: "pipe" },
+      )
+        .trim()
+        .split("\n")
+        .filter((f) => f);
 
       let fixedFiles = 0;
       let fixedComparisons = 0;
@@ -141,11 +154,12 @@ class RemainingIssuesFixer {
         }
       }
 
-      this.log(`✅ Fixed equality comparisons in ${fixedFiles} files (${fixedComparisons} comparisons)`);
+      this.log(
+        `✅ Fixed equality comparisons in ${fixedFiles} files (${fixedComparisons} comparisons)`,
+      );
       this.fixedIssues += fixedComparisons;
-
     } catch (error) {
-      this.log(`Error fixing eqeqeq: ${error.message}`, 'warn');
+      this.log(`Error fixing eqeqeq: ${error.message}`, "warn");
     }
   }
 
@@ -153,15 +167,15 @@ class RemainingIssuesFixer {
     try {
       if (!fs.existsSync(filePath)) return { modified: false, count: 0 };
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       let newContent = content;
       let fixCount = 0;
       let modified = false;
 
       // Replace == with === and != with !==
       const patterns = [
-        { from: /\s==\s/g, to: ' === ' },
-        { from: /\s!=\s/g, to: ' !== ' }
+        { from: /\s==\s/g, to: " === " },
+        { from: /\s!=\s/g, to: " !== " },
       ];
 
       for (const { from, to } of patterns) {
@@ -179,7 +193,6 @@ class RemainingIssuesFixer {
       }
 
       return { modified, count: fixCount };
-
     } catch (error) {
       this.errors.push(`Error fixing eqeqeq in ${filePath}: ${error.message}`);
       return { modified: false, count: 0 };
@@ -187,13 +200,16 @@ class RemainingIssuesFixer {
   }
 
   async fixNoVar() {
-    this.log('🔧 Step 3: Fixing no-var violations (15 issues)');
+    this.log("🔧 Step 3: Fixing no-var violations (15 issues)");
 
     try {
       const files = execSync(
         'yarn lint:quick --format=compact 2>&1 | grep "no-var" | cut -d: -f1 | sort -u',
-        { encoding: 'utf8', stdio: 'pipe' }
-      ).trim().split('\n').filter(f => f);
+        { encoding: "utf8", stdio: "pipe" },
+      )
+        .trim()
+        .split("\n")
+        .filter((f) => f);
 
       let fixedFiles = 0;
       let fixedVars = 0;
@@ -206,11 +222,12 @@ class RemainingIssuesFixer {
         }
       }
 
-      this.log(`✅ Fixed var declarations in ${fixedFiles} files (${fixedVars} declarations)`);
+      this.log(
+        `✅ Fixed var declarations in ${fixedFiles} files (${fixedVars} declarations)`,
+      );
       this.fixedIssues += fixedVars;
-
     } catch (error) {
-      this.log(`Error fixing no-var: ${error.message}`, 'warn');
+      this.log(`Error fixing no-var: ${error.message}`, "warn");
     }
   }
 
@@ -218,7 +235,7 @@ class RemainingIssuesFixer {
     try {
       if (!fs.existsSync(filePath)) return { modified: false, count: 0 };
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       let newContent = content;
       let fixCount = 0;
       let modified = false;
@@ -227,7 +244,7 @@ class RemainingIssuesFixer {
       const varPattern = /\bvar\s+/g;
       const matches = newContent.match(varPattern);
       if (matches) {
-        newContent = newContent.replace(varPattern, 'let ');
+        newContent = newContent.replace(varPattern, "let ");
         fixCount = matches.length;
         modified = true;
       }
@@ -238,7 +255,6 @@ class RemainingIssuesFixer {
       }
 
       return { modified, count: fixCount };
-
     } catch (error) {
       this.errors.push(`Error fixing no-var in ${filePath}: ${error.message}`);
       return { modified: false, count: 0 };
@@ -246,13 +262,16 @@ class RemainingIssuesFixer {
   }
 
   async fixEmptyBlocks() {
-    this.log('🔧 Step 4: Fixing no-empty blocks (29 issues)');
+    this.log("🔧 Step 4: Fixing no-empty blocks (29 issues)");
 
     try {
       const files = execSync(
         'yarn lint:quick --format=compact 2>&1 | grep "no-empty" | cut -d: -f1 | sort -u',
-        { encoding: 'utf8', stdio: 'pipe' }
-      ).trim().split('\n').filter(f => f);
+        { encoding: "utf8", stdio: "pipe" },
+      )
+        .trim()
+        .split("\n")
+        .filter((f) => f);
 
       let fixedFiles = 0;
       let fixedBlocks = 0;
@@ -265,11 +284,12 @@ class RemainingIssuesFixer {
         }
       }
 
-      this.log(`✅ Fixed empty blocks in ${fixedFiles} files (${fixedBlocks} blocks)`);
+      this.log(
+        `✅ Fixed empty blocks in ${fixedFiles} files (${fixedBlocks} blocks)`,
+      );
       this.fixedIssues += fixedBlocks;
-
     } catch (error) {
-      this.log(`Error fixing empty blocks: ${error.message}`, 'warn');
+      this.log(`Error fixing empty blocks: ${error.message}`, "warn");
     }
   }
 
@@ -277,7 +297,7 @@ class RemainingIssuesFixer {
     try {
       if (!fs.existsSync(filePath)) return { modified: false, count: 0 };
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       let newContent = content;
       let fixCount = 0;
       let modified = false;
@@ -285,11 +305,18 @@ class RemainingIssuesFixer {
       // Add comments to empty blocks
       const emptyBlockPatterns = [
         // Empty try-catch blocks
-        { pattern: /catch\s*\(\s*[^)]*\s*\)\s*{\s*}/g, replacement: 'catch ($1) {\n    // TODO: Handle error appropriately\n  }' },
+        {
+          pattern: /catch\s*\(\s*[^)]*\s*\)\s*{\s*}/g,
+          replacement:
+            "catch ($1) {\n    // TODO: Handle error appropriately\n  }",
+        },
         // Empty if blocks
-        { pattern: /if\s*\([^)]+\)\s*{\s*}/g, replacement: '$&\n    // TODO: Implement condition logic\n  }' },
+        {
+          pattern: /if\s*\([^)]+\)\s*{\s*}/g,
+          replacement: "$&\n    // TODO: Implement condition logic\n  }",
+        },
         // Empty function blocks
-        { pattern: /{\s*}/g, replacement: '{\n    // TODO: Implement\n  }' }
+        { pattern: /{\s*}/g, replacement: "{\n    // TODO: Implement\n  }" },
       ];
 
       for (const { pattern, replacement } of emptyBlockPatterns) {
@@ -307,9 +334,10 @@ class RemainingIssuesFixer {
       }
 
       return { modified, count: fixCount };
-
     } catch (error) {
-      this.errors.push(`Error fixing empty blocks in ${filePath}: ${error.message}`);
+      this.errors.push(
+        `Error fixing empty blocks in ${filePath}: ${error.message}`,
+      );
       return { modified: false, count: 0 };
     }
   }
@@ -317,12 +345,12 @@ class RemainingIssuesFixer {
   async generateReport() {
     const duration = (Date.now() - this.startTime) / 1000;
 
-    this.log('📊 Generating Final Remaining Issues Report');
+    this.log("📊 Generating Final Remaining Issues Report");
 
     // Get final linting count
     const finalResult = execSync(
       'yarn lint:quick --format=compact 2>&1 | grep -E "(Error|Warning)" | wc -l',
-      { encoding: 'utf8', stdio: 'pipe' }
+      { encoding: "utf8", stdio: "pipe" },
     );
     const finalCount = parseInt(finalResult.trim());
 
@@ -336,30 +364,41 @@ class RemainingIssuesFixer {
       fixedIssues: this.fixedIssues,
       errors: this.errors,
       breakdown: {
-        caseDeclarations: 'Added braces around case statements with variable declarations',
-        eqeqeq: 'Replaced == with === and != with !==',
-        noVar: 'Replaced var with let declarations',
-        emptyBlocks: 'Added TODO comments to empty blocks'
+        caseDeclarations:
+          "Added braces around case statements with variable declarations",
+        eqeqeq: "Replaced == with === and != with !==",
+        noVar: "Replaced var with let declarations",
+        emptyBlocks: "Added TODO comments to empty blocks",
       },
       overallProgress: {
         originalIssues: 7329,
         finalIssues: finalCount,
         totalReduction: 7329 - finalCount,
-        percentageReduction: `${(((7329 - finalCount) / 7329) * 100).toFixed(1)}%`
-      }
+        percentageReduction: `${(((7329 - finalCount) / 7329) * 100).toFixed(1)}%`,
+      },
     };
 
-    fs.writeFileSync('remaining-issues-fixes-report.json', JSON.stringify(report, null, 2));
+    fs.writeFileSync(
+      "remaining-issues-fixes-report.json",
+      JSON.stringify(report, null, 2),
+    );
 
-    this.log('🎉 Remaining Issues Fixer Completed Successfully!');
-    this.log(`📈 Results: ${report.totalFixed} additional issues fixed in ${duration.toFixed(2)}s`);
+    this.log("🎉 Remaining Issues Fixer Completed Successfully!");
+    this.log(
+      `📈 Results: ${report.totalFixed} additional issues fixed in ${duration.toFixed(2)}s`,
+    );
     this.log(`📋 Processed ${this.processedFiles} files`);
     this.log(`🎯 Fixed ${this.fixedIssues} individual issues`);
     this.log(`📊 Final count: ${finalCount} issues remaining`);
-    this.log(`🚀 Overall progress: ${report.overallProgress.totalReduction} issues fixed (${report.overallProgress.percentageReduction} reduction)`);
+    this.log(
+      `🚀 Overall progress: ${report.overallProgress.totalReduction} issues fixed (${report.overallProgress.percentageReduction} reduction)`,
+    );
 
     if (this.errors.length > 0) {
-      this.log(`⚠️ ${this.errors.length} errors encountered during processing`, 'warn');
+      this.log(
+        `⚠️ ${this.errors.length} errors encountered during processing`,
+        "warn",
+      );
     }
   }
 }
@@ -367,8 +406,8 @@ class RemainingIssuesFixer {
 // Run the remaining issues fixer
 if (require.main === module) {
   const fixer = new RemainingIssuesFixer();
-  fixer.run().catch(error => {
-    console.error('❌ Fatal error:', error);
+  fixer.run().catch((error) => {
+    console.error("❌ Fatal error:", error);
     process.exit(1);
   });
 }

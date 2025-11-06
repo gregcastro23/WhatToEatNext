@@ -53,7 +53,7 @@ const property = (data as Record<string, unknown>)[propertyName];
 
 // ✅ Pattern MM-1 Enhanced: With Type Guards
 const safeGetProperty = <T>(obj: unknown, key: string): T | undefined => {
-  if (typeof obj === 'object' && obj !== null && key in obj) {
+  if (typeof obj === "object" && obj !== null && key in obj) {
     return (obj as Record<string, unknown>)[key] as T;
   }
   return undefined;
@@ -68,21 +68,21 @@ Rate:** 100% (verified in existing codebase)
 ```typescript
 // ❌ Unsafe Pattern (TS18048)
 const result = someObject.property.nestedProperty;
-const value = array.find(item => item.id === targetId).name;
+const value = array.find((item) => item.id === targetId).name;
 
 // ✅ Pattern GG-6: Optional Chaining
 const result = someObject?.property?.nestedProperty;
-const value = array.find(item => item.id === targetId)?.name;
+const value = array.find((item) => item.id === targetId)?.name;
 
 // ✅ Pattern GG-6 Enhanced: With Fallbacks
-const result = someObject?.property?.nestedProperty ?? 'default';
-const value = array.find(item => item.id === targetId)?.name ?? 'unknown';
+const result = someObject?.property?.nestedProperty ?? "default";
+const value = array.find((item) => item.id === targetId)?.name ?? "unknown";
 
 // ✅ Pattern GG-6 Pro: Safe Navigation with Type Guards
 const safeNavigate = <T>(obj: unknown, path: string[]): T | undefined => {
   let current: any = obj;
   for (const key of path) {
-    if (current && typeof current === 'object' && key in current) {
+    if (current && typeof current === "object" && key in current) {
       current = current[key];
     } else {
       return undefined;
@@ -104,8 +104,8 @@ const percentage = (value / total) * 100;
 
 // ✅ Pattern KK-9: Safe Numeric Conversion
 const safeNumber = (value: unknown): number => {
-  if (typeof value === 'number' && !isNaN(value)) return value;
-  if (typeof value === 'string') {
+  if (typeof value === "number" && !isNaN(value)) return value;
+  if (typeof value === "string") {
     const parsed = parseFloat(value);
     return isNaN(parsed) ? 0 : parsed;
   }
@@ -126,7 +126,7 @@ const safeArithmetic = {
   percentage: (value: unknown, total: unknown): number => {
     const totalNum = safeNumber(total);
     return totalNum !== 0 ? (safeNumber(value) / totalNum) * 100 : 0;
-  }
+  },
 };
 ```
 
@@ -142,10 +142,10 @@ arrayMethod(possiblyWrongType);
 
 // ✅ Pattern KK-10: Smart Type Conversion
 const ensureString = (value: unknown): string => {
-  if (typeof value === 'string') return value;
-  if (typeof value === 'number') return value.toString();
-  if (typeof value === 'boolean') return value.toString();
-  if (value === null || value === undefined) return '';
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return value.toString();
+  if (typeof value === "boolean") return value.toString();
+  if (value === null || value === undefined) return "";
   return String(value);
 };
 
@@ -156,7 +156,7 @@ const ensureArray = <T>(value: unknown): T[] => {
 };
 
 const ensureObject = (value: unknown): Record<string, unknown> => {
-  if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+  if (typeof value === "object" && value !== null && !Array.isArray(value)) {
     return value as Record<string, unknown>;
   }
   return {};
@@ -174,16 +174,12 @@ Rate:** 95% (requires manual validation)
 
 ```typescript
 // ❌ Unsafe Pattern (TS2304, TS2339)
-import { MissingType } from './wrong-path';
+import { MissingType } from "./wrong-path";
 const value = SomeUndefinedClass.method();
 
 // ✅ Pattern LL-11: Systematic Import Resolution
 // 1. Identify correct import path from unified types
-import type {
-  Ingredient,
-  Recipe,
-  ElementalProperties
-} from '@/types/unified';
+import type { Ingredient, Recipe, ElementalProperties } from "@/types/unified";
 
 // 2. Create type-safe fallbacks for missing external types
 type SafeFallback<T> = T extends undefined ? Record<string, unknown> : T;
@@ -191,11 +187,11 @@ type SafeFallback<T> = T extends undefined ? Record<string, unknown> : T;
 // 3. Defensive import with type guards
 const safeImport = async <T>(
   modulePath: string,
-  exportName: string
+  exportName: string,
 ): Promise<T | null> => {
   try {
     const module = await import(modulePath);
-    return module[exportName] as T || null;
+    return (module[exportName] as T) || null;
   } catch {
     return null;
   }
@@ -211,7 +207,7 @@ const safeImport = async <T>(
 // ✅ Pattern DD-12: Comprehensive Defensive Wrapper
 const createSafeWrapper = <T extends (...args: any[]) => any>(
   fn: T,
-  fallbackValue: ReturnType<T>
+  fallbackValue: ReturnType<T>,
 ) => {
   return (...args: Parameters<T>): ReturnType<T> => {
     try {
@@ -229,7 +225,7 @@ const safeChain = <T>(obj: unknown, chain: string[], fallback: T): T => {
   try {
     let current: any = obj;
     for (const key of chain) {
-      if (!current || typeof current !== 'object' || !(key in current)) {
+      if (!current || typeof current !== "object" || !(key in current)) {
         return fallback;
       }
       current = current[key];
@@ -242,14 +238,14 @@ const safeChain = <T>(obj: unknown, chain: string[], fallback: T): T => {
 
 // ✅ Pattern DD-12: Type-Safe Event Handling
 const createSafeEventHandler = <T extends Event>(
-  handler: (event: T) => void
+  handler: (event: T) => void,
 ) => {
   return (event: unknown): void => {
-    if (event && typeof event === 'object' && 'type' in event) {
+    if (event && typeof event === "object" && "type" in event) {
       try {
         handler(event as T);
       } catch (error) {
-        console.warn('Event handler error:', error);
+        console.warn("Event handler error:", error);
       }
     }
   };

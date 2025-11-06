@@ -118,11 +118,11 @@ following components:
 
 ```typescript
 const ALERT_THRESHOLDS = {
-  parserErrors: 0,        // Critical - immediate attention
+  parserErrors: 0, // Critical - immediate attention
   explicitAnyErrors: 100, // Error - systematic cleanup needed
-  totalIssues: 2000,      // Warning - quality degradation
-  qualityScore: 80,       // Warning - below target
-  lintingDuration: 30000  // Warning - performance issue
+  totalIssues: 2000, // Warning - quality degradation
+  qualityScore: 80, // Warning - below target
+  lintingDuration: 30000, // Warning - performance issue
 };
 ```
 
@@ -413,12 +413,12 @@ yarn lint --timing > .kiro/metrics/rule-timing-analysis.txt
 
 ```typescript
 const QUALITY_TARGETS = {
-  parserErrors: 0,           // Zero tolerance
-  explicitAnyErrors: 0,      // Complete elimination
-  totalIssues: 500,          // 75% reduction from current
-  qualityScore: 95,          // Excellence standard
-  lintingDuration: 15000,    // 50% performance improvement
-  cacheHitRate: 0.85         // 85% cache effectiveness
+  parserErrors: 0, // Zero tolerance
+  explicitAnyErrors: 0, // Complete elimination
+  totalIssues: 500, // 75% reduction from current
+  qualityScore: 95, // Excellence standard
+  lintingDuration: 15000, // 50% performance improvement
+  cacheHitRate: 0.85, // 85% cache effectiveness
 };
 ```
 
@@ -510,8 +510,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'yarn'
+          node-version: "18"
+          cache: "yarn"
 
       - run: yarn install --frozen-lockfile
 

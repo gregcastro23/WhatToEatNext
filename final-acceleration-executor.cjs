@@ -7,18 +7,18 @@
  * Final push toward target achievement
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 const colors = {
-  reset: '\x1b[0m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  cyan: '\x1b[36m',
-  red: '\x1b[31m',
-  magenta: '\x1b[35m',
-  bright: '\x1b[1m'
+  reset: "\x1b[0m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  cyan: "\x1b[36m",
+  red: "\x1b[31m",
+  magenta: "\x1b[35m",
+  bright: "\x1b[1m",
 };
 
 function colorize(text, color) {
@@ -28,25 +28,27 @@ function colorize(text, color) {
 // Wave 11: Test File Variable Declarations
 const WAVE_11_TARGETS = [
   {
-    file: 'src/services/campaign/LintingWarningAnalyzer.test.ts',
+    file: "src/services/campaign/LintingWarningAnalyzer.test.ts",
     line: 29,
-    search: 'const value: any = param;',
-    replace: 'const value: unknown = param;',
-    category: 'VARIABLE_DECLARATION',
-    confidence: 0.75
-  }
+    search: "const value: any = param;",
+    replace: "const value: unknown = param;",
+    category: "VARIABLE_DECLARATION",
+    confidence: 0.75,
+  },
 ];
 
 // Wave 12: Conservative Replacement Pilot Occurrences Array
 const WAVE_12_TARGETS = [
   {
-    file: 'src/services/campaign/unintentional-any-elimination/ConservativeReplacementPilot.ts',
+    file: "src/services/campaign/unintentional-any-elimination/ConservativeReplacementPilot.ts",
     line: 518,
-    search: 'const occurrences: Array<{ context: any; lineNumber: number }> = [];',
-    replace: 'const occurrences: Array<{ context: unknown; lineNumber: number }> = [];',
-    category: 'ARRAY_GENERIC',
-    confidence: 0.80
-  }
+    search:
+      "const occurrences: Array<{ context: any; lineNumber: number }> = [];",
+    replace:
+      "const occurrences: Array<{ context: unknown; lineNumber: number }> = [];",
+    category: "ARRAY_GENERIC",
+    confidence: 0.8,
+  },
 ];
 
 // Wave 13-15: Create a comprehensive search and replace for remaining patterns
@@ -57,28 +59,47 @@ class FinalAccelerationExecutor {
       totalAttempted: 0,
       totalSuccessful: 0,
       totalFailed: 0,
-      waveResults: []
+      waveResults: [],
     };
 
     this.waves = [
-      { name: 'Eleventh', targets: WAVE_11_TARGETS, description: 'Test File Variable Declarations' },
-      { name: 'Twelfth', targets: WAVE_12_TARGETS, description: 'Array Generic Types' }
+      {
+        name: "Eleventh",
+        targets: WAVE_11_TARGETS,
+        description: "Test File Variable Declarations",
+      },
+      {
+        name: "Twelfth",
+        targets: WAVE_12_TARGETS,
+        description: "Array Generic Types",
+      },
     ];
   }
 
   async execute() {
-    console.log(colorize('\n🚀 Final Acceleration Executor: Waves 11-15', 'bright'));
-    console.log(colorize('=' .repeat(75), 'blue'));
-    console.log(colorize('FINAL PUSH TOWARD TARGET ACHIEVEMENT', 'yellow'));
-    console.log(colorize('Targeting remaining patterns with comprehensive search', 'yellow'));
-    console.log(colorize('=' .repeat(75), 'blue'));
+    console.log(
+      colorize("\n🚀 Final Acceleration Executor: Waves 11-15", "bright"),
+    );
+    console.log(colorize("=".repeat(75), "blue"));
+    console.log(colorize("FINAL PUSH TOWARD TARGET ACHIEVEMENT", "yellow"));
+    console.log(
+      colorize(
+        "Targeting remaining patterns with comprehensive search",
+        "yellow",
+      ),
+    );
+    console.log(colorize("=".repeat(75), "blue"));
 
     const initialAnyCount = await this.getAnyCount();
-    console.log(colorize(`📊 Starting any count: ${initialAnyCount}`, 'blue'));
+    console.log(colorize(`📊 Starting any count: ${initialAnyCount}`, "blue"));
 
     // Execute defined waves first
     for (const wave of this.waves) {
-      const waveResult = await this.executeWave(wave.name, wave.targets, wave.description);
+      const waveResult = await this.executeWave(
+        wave.name,
+        wave.targets,
+        wave.description,
+      );
       this.totalResults.waveResults.push(waveResult);
     }
 
@@ -91,46 +112,95 @@ class FinalAccelerationExecutor {
     // Calculate final cumulative progress (waves 1-15)
     const previousReduction = 27; // From waves 1-10
     const grandTotalReduction = previousReduction + totalReduction;
-    const cumulativePercentage = ((grandTotalReduction / (initialAnyCount + previousReduction)) * 100);
+    const cumulativePercentage =
+      (grandTotalReduction / (initialAnyCount + previousReduction)) * 100;
 
-    console.log(colorize('\n📈 Final Acceleration Results:', 'bright'));
-    console.log(`  Waves Executed: ${colorize(this.totalResults.wavesExecuted.toString(), 'green')}`);
-    console.log(`  Total Attempted: ${colorize(this.totalResults.totalAttempted.toString(), 'blue')}`);
-    console.log(`  Total Successful: ${colorize(this.totalResults.totalSuccessful.toString(), 'green')}`);
-    console.log(`  Total Failed: ${colorize(this.totalResults.totalFailed.toString(), 'red')}`);
-    console.log(`  Overall Success Rate: ${colorize((this.totalResults.totalSuccessful / this.totalResults.totalAttempted * 100).toFixed(1) + '%', 'green')}`);
-    console.log(`  Any Types Reduced: ${colorize(totalReduction.toString(), 'green')}`);
+    console.log(colorize("\n📈 Final Acceleration Results:", "bright"));
+    console.log(
+      `  Waves Executed: ${colorize(this.totalResults.wavesExecuted.toString(), "green")}`,
+    );
+    console.log(
+      `  Total Attempted: ${colorize(this.totalResults.totalAttempted.toString(), "blue")}`,
+    );
+    console.log(
+      `  Total Successful: ${colorize(this.totalResults.totalSuccessful.toString(), "green")}`,
+    );
+    console.log(
+      `  Total Failed: ${colorize(this.totalResults.totalFailed.toString(), "red")}`,
+    );
+    console.log(
+      `  Overall Success Rate: ${colorize(((this.totalResults.totalSuccessful / this.totalResults.totalAttempted) * 100).toFixed(1) + "%", "green")}`,
+    );
+    console.log(
+      `  Any Types Reduced: ${colorize(totalReduction.toString(), "green")}`,
+    );
 
-    console.log(colorize('\n🎯 FINAL CAMPAIGN PROGRESS (15 Waves Total):', 'bright'));
-    console.log(`  Total Fixes Applied: ${colorize(grandTotalReduction.toString(), 'green')}`);
-    console.log(`  Cumulative Reduction: ${colorize(cumulativePercentage.toFixed(2) + '%', 'green')}`);
-    console.log(`  Final Any Count: ${colorize(finalAnyCount.toString(), 'blue')}`);
-    console.log(`  Progress to Target: ${colorize((grandTotalReduction / 300 * 100).toFixed(1) + '%', 'cyan')} (${grandTotalReduction}/300 fixes)`);
+    console.log(
+      colorize("\n🎯 FINAL CAMPAIGN PROGRESS (15 Waves Total):", "bright"),
+    );
+    console.log(
+      `  Total Fixes Applied: ${colorize(grandTotalReduction.toString(), "green")}`,
+    );
+    console.log(
+      `  Cumulative Reduction: ${colorize(cumulativePercentage.toFixed(2) + "%", "green")}`,
+    );
+    console.log(
+      `  Final Any Count: ${colorize(finalAnyCount.toString(), "blue")}`,
+    );
+    console.log(
+      `  Progress to Target: ${colorize(((grandTotalReduction / 300) * 100).toFixed(1) + "%", "cyan")} (${grandTotalReduction}/300 fixes)`,
+    );
 
     // Target achievement assessment
     const targetAchieved = grandTotalReduction >= 250;
-    const targetStatus = targetAchieved ? 'TARGET ACHIEVED!' : 'APPROACHING TARGET';
-    console.log(`  Campaign Status: ${colorize(targetStatus, targetAchieved ? 'green' : 'yellow')}`);
+    const targetStatus = targetAchieved
+      ? "TARGET ACHIEVED!"
+      : "APPROACHING TARGET";
+    console.log(
+      `  Campaign Status: ${colorize(targetStatus, targetAchieved ? "green" : "yellow")}`,
+    );
 
     // Save final comprehensive report
-    await this.saveFinalReport(initialAnyCount, finalAnyCount, totalReduction, grandTotalReduction, cumulativePercentage, targetAchieved);
+    await this.saveFinalReport(
+      initialAnyCount,
+      finalAnyCount,
+      totalReduction,
+      grandTotalReduction,
+      cumulativePercentage,
+      targetAchieved,
+    );
 
-    console.log(colorize('\n🎉 Final Acceleration Completed!', 'bright'));
-    console.log(colorize(`✅ ${this.totalResults.totalSuccessful} patterns converted in final acceleration`, 'green'));
+    console.log(colorize("\n🎉 Final Acceleration Completed!", "bright"));
+    console.log(
+      colorize(
+        `✅ ${this.totalResults.totalSuccessful} patterns converted in final acceleration`,
+        "green",
+      ),
+    );
 
     if (targetAchieved) {
-      console.log(colorize('🏆 CAMPAIGN TARGET ACHIEVED! 🏆', 'green'));
-      console.log(colorize('Successfully reached 250+ fixes with excellent momentum!', 'green'));
+      console.log(colorize("🏆 CAMPAIGN TARGET ACHIEVED! 🏆", "green"));
+      console.log(
+        colorize(
+          "Successfully reached 250+ fixes with excellent momentum!",
+          "green",
+        ),
+      );
     } else {
-      console.log(colorize('🚀 Strong progress toward target - campaign ready for continued execution!', 'cyan'));
+      console.log(
+        colorize(
+          "🚀 Strong progress toward target - campaign ready for continued execution!",
+          "cyan",
+        ),
+      );
     }
 
     return this.totalResults.totalSuccessful > 0;
   }
 
   async executeWave(waveName, targets, description) {
-    console.log(colorize(`\n🌊 ${waveName} Wave: ${description}`, 'cyan'));
-    console.log(colorize(`Targeting ${targets.length} patterns`, 'blue'));
+    console.log(colorize(`\n🌊 ${waveName} Wave: ${description}`, "cyan"));
+    console.log(colorize(`Targeting ${targets.length} patterns`, "blue"));
 
     const waveResult = {
       name: waveName,
@@ -138,12 +208,17 @@ class FinalAccelerationExecutor {
       attempted: 0,
       successful: 0,
       failed: 0,
-      details: []
+      details: [],
     };
 
     for (let i = 0; i < targets.length; i++) {
       const target = targets[i];
-      console.log(colorize(`\n  🔄 Processing ${i + 1}/${targets.length}: ${target.category}`, 'cyan'));
+      console.log(
+        colorize(
+          `\n  🔄 Processing ${i + 1}/${targets.length}: ${target.category}`,
+          "cyan",
+        ),
+      );
 
       const result = await this.processTarget(target);
       waveResult.attempted++;
@@ -151,10 +226,10 @@ class FinalAccelerationExecutor {
 
       if (result.success) {
         waveResult.successful++;
-        console.log(colorize(`  ✅ Success: ${result.description}`, 'green'));
+        console.log(colorize(`  ✅ Success: ${result.description}`, "green"));
       } else {
         waveResult.failed++;
-        console.log(colorize(`  ❌ Failed: ${result.error}`, 'red'));
+        console.log(colorize(`  ❌ Failed: ${result.error}`, "red"));
       }
     }
 
@@ -163,42 +238,61 @@ class FinalAccelerationExecutor {
     this.totalResults.totalSuccessful += waveResult.successful;
     this.totalResults.totalFailed += waveResult.failed;
 
-    console.log(colorize(`\n  📊 ${waveName} Wave Results:`, 'cyan'));
-    console.log(`    Success Rate: ${colorize((waveResult.successful / waveResult.attempted * 100).toFixed(1) + '%', 'green')}`);
-    console.log(`    Fixes Applied: ${colorize(waveResult.successful.toString(), 'green')}`);
+    console.log(colorize(`\n  📊 ${waveName} Wave Results:`, "cyan"));
+    console.log(
+      `    Success Rate: ${colorize(((waveResult.successful / waveResult.attempted) * 100).toFixed(1) + "%", "green")}`,
+    );
+    console.log(
+      `    Fixes Applied: ${colorize(waveResult.successful.toString(), "green")}`,
+    );
 
     return waveResult;
   }
 
   async executeComprehensiveSearch() {
-    console.log(colorize('\n🔍 Comprehensive Pattern Search (Waves 13-15)', 'magenta'));
-    console.log(colorize('Searching for additional high-confidence patterns...', 'blue'));
+    console.log(
+      colorize("\n🔍 Comprehensive Pattern Search (Waves 13-15)", "magenta"),
+    );
+    console.log(
+      colorize("Searching for additional high-confidence patterns...", "blue"),
+    );
 
     // Search for more patterns dynamically
     const additionalPatterns = await this.findAdditionalPatterns();
 
     if (additionalPatterns.length > 0) {
-      console.log(colorize(`Found ${additionalPatterns.length} additional patterns`, 'green'));
+      console.log(
+        colorize(
+          `Found ${additionalPatterns.length} additional patterns`,
+          "green",
+        ),
+      );
 
       // Process in batches for waves 13-15
       const batchSize = Math.ceil(additionalPatterns.length / 3);
       const batches = [
         additionalPatterns.slice(0, batchSize),
         additionalPatterns.slice(batchSize, batchSize * 2),
-        additionalPatterns.slice(batchSize * 2)
+        additionalPatterns.slice(batchSize * 2),
       ];
 
       for (let i = 0; i < batches.length; i++) {
         const batch = batches[i];
         if (batch.length > 0) {
           const waveNumber = 13 + i;
-          const waveName = ['Thirteenth', 'Fourteenth', 'Fifteenth'][i];
-          const waveResult = await this.executeWave(waveName, batch, `Comprehensive Search Batch ${i + 1}`);
+          const waveName = ["Thirteenth", "Fourteenth", "Fifteenth"][i];
+          const waveResult = await this.executeWave(
+            waveName,
+            batch,
+            `Comprehensive Search Batch ${i + 1}`,
+          );
           this.totalResults.waveResults.push(waveResult);
         }
       }
     } else {
-      console.log(colorize('No additional high-confidence patterns found', 'yellow'));
+      console.log(
+        colorize("No additional high-confidence patterns found", "yellow"),
+      );
     }
   }
 
@@ -214,19 +308,19 @@ class FinalAccelerationExecutor {
         return {
           success: false,
           target: target,
-          error: 'File not found',
-          description: target.file
+          error: "File not found",
+          description: target.file,
         };
       }
 
-      const content = fs.readFileSync(target.file, 'utf8');
+      const content = fs.readFileSync(target.file, "utf8");
 
       if (!content.includes(target.search)) {
         return {
           success: false,
           target: target,
-          error: 'Pattern not found',
-          description: target.file
+          error: "Pattern not found",
+          description: target.file,
         };
       }
 
@@ -236,8 +330,8 @@ class FinalAccelerationExecutor {
         return {
           success: false,
           target: target,
-          error: 'Replacement failed',
-          description: target.file
+          error: "Replacement failed",
+          description: target.file,
         };
       }
 
@@ -248,46 +342,55 @@ class FinalAccelerationExecutor {
         target: target,
         description: `${target.file} - ${target.category}`,
         before: target.search.trim(),
-        after: target.replace.trim()
+        after: target.replace.trim(),
       };
-
     } catch (error) {
       return {
         success: false,
         target: target,
         error: error.message,
-        description: target.file
+        description: target.file,
       };
     }
   }
 
   async getAnyCount() {
     try {
-      const output = execSync('find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += $2} END {print sum}\' || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += $2} END {print sum}\' || echo "0"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch {
       return 0;
     }
   }
 
-  async saveFinalReport(initialCount, finalCount, reduction, grandTotal, cumulativePercentage, targetAchieved) {
+  async saveFinalReport(
+    initialCount,
+    finalCount,
+    reduction,
+    grandTotal,
+    cumulativePercentage,
+    targetAchieved,
+  ) {
     const report = {
       timestamp: new Date().toISOString(),
-      type: 'final-acceleration-executor',
-      waves: ['eleventh', 'twelfth', 'thirteenth', 'fourteenth', 'fifteenth'],
+      type: "final-acceleration-executor",
+      waves: ["eleventh", "twelfth", "thirteenth", "fourteenth", "fifteenth"],
       results: this.totalResults,
       metrics: {
         initialAnyCount: initialCount,
         finalAnyCount: finalCount,
         finalReduction: reduction,
         grandTotalReduction: grandTotal,
-        cumulativeReductionPercentage: cumulativePercentage.toFixed(2) + '%',
-        progressToTarget: (grandTotal / 300 * 100).toFixed(1) + '%',
-        targetAchieved: targetAchieved
-      }
+        cumulativeReductionPercentage: cumulativePercentage.toFixed(2) + "%",
+        progressToTarget: ((grandTotal / 300) * 100).toFixed(1) + "%",
+        targetAchieved: targetAchieved,
+      },
     };
 
     const reportPath = `FINAL_ACCELERATION_REPORT.json`;
@@ -298,21 +401,21 @@ class FinalAccelerationExecutor {
 
 ## 🏆 CAMPAIGN COMPLETION STATUS
 
-${targetAchieved ? '✅ **TARGET ACHIEVED!**' : '🎯 **STRONG PROGRESS TOWARD TARGET**'}
+${targetAchieved ? "✅ **TARGET ACHIEVED!**" : "🎯 **STRONG PROGRESS TOWARD TARGET**"}
 
 ## Final Results (15 Waves Total)
 - **Total Fixes Applied**: ${grandTotal}
 - **Cumulative Reduction**: ${cumulativePercentage.toFixed(2)}%
 - **Final Any Count**: ${finalCount}
-- **Progress to Target**: ${(grandTotal / 300 * 100).toFixed(1)}% (${grandTotal}/300 fixes)
-- **Campaign Status**: ${targetAchieved ? 'TARGET ACHIEVED' : 'APPROACHING TARGET'}
+- **Progress to Target**: ${((grandTotal / 300) * 100).toFixed(1)}% (${grandTotal}/300 fixes)
+- **Campaign Status**: ${targetAchieved ? "TARGET ACHIEVED" : "APPROACHING TARGET"}
 
 ## Final Acceleration Results (Waves 11-15)
 - **Waves Executed**: ${this.totalResults.wavesExecuted}
 - **Total Attempted**: ${this.totalResults.totalAttempted}
 - **Total Successful**: ${this.totalResults.totalSuccessful}
 - **Total Failed**: ${this.totalResults.totalFailed}
-- **Success Rate**: ${(this.totalResults.totalSuccessful / this.totalResults.totalAttempted * 100).toFixed(1)}%
+- **Success Rate**: ${((this.totalResults.totalSuccessful / this.totalResults.totalAttempted) * 100).toFixed(1)}%
 
 ## Complete Campaign Evolution (15 Waves)
 1. **Waves 1-2**: Data structures (Foundation) - 7 fixes
@@ -343,7 +446,9 @@ ${targetAchieved ? '✅ **TARGET ACHIEVED!**' : '🎯 **STRONG PROGRESS TOWARD T
 - 🏆 **Methodological Validation**: Proven approach across diverse scenarios
 - 🏆 **Momentum Building**: Accelerated execution with multi-wave capability
 
-${targetAchieved ? `
+${
+  targetAchieved
+    ? `
 ## 🎉 TARGET ACHIEVEMENT CELEBRATION
 
 The unintentional any elimination campaign has **SUCCESSFULLY ACHIEVED** its target:
@@ -355,28 +460,30 @@ The unintentional any elimination campaign has **SUCCESSFULLY ACHIEVED** its tar
 ✅ **Methodology**: Proven and validated approach
 
 This represents a **major milestone** in code quality improvement and demonstrates the effectiveness of systematic, safety-first approaches to large-scale codebase improvements.
-` : `
+`
+    : `
 ## 🚀 CONTINUED MOMENTUM
 
 The campaign has achieved **exceptional progress** toward the target:
 
-📊 **Current Progress**: ${grandTotal} fixes (${(grandTotal / 300 * 100).toFixed(1)}% of target)
+📊 **Current Progress**: ${grandTotal} fixes (${((grandTotal / 300) * 100).toFixed(1)}% of target)
 📈 **Strong Trajectory**: Consistent success rates and accelerating execution
 🛡️ **Perfect Safety**: Zero issues across all waves
 🎯 **Clear Path**: Proven methodology ready for continued execution
 
 The campaign is **well-positioned** to reach the target with continued execution.
-`}
+`
+}
 
 ---
 *Final Campaign Summary generated on ${new Date().toISOString()}*
 *${this.totalResults.wavesExecuted} Waves Executed - ${grandTotal} Total Fixes Applied*
-*${targetAchieved ? 'TARGET ACHIEVED' : 'STRONG PROGRESS TOWARD TARGET'}*
+*${targetAchieved ? "TARGET ACHIEVED" : "STRONG PROGRESS TOWARD TARGET"}*
 `;
 
     fs.writeFileSync(summaryPath, summaryContent);
 
-    console.log(colorize(`\n📄 Final reports saved:`, 'blue'));
+    console.log(colorize(`\n📄 Final reports saved:`, "blue"));
     console.log(`  - ${reportPath}`);
     console.log(`  - ${summaryPath}`);
   }

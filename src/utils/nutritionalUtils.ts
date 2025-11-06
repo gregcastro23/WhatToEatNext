@@ -1,5 +1,8 @@
-import { baseNutritionalProfiles, fetchNutritionalData } from '@/data/nutritional';
-import type { NutritionalProfile } from '@/types/alchemy';
+import {
+  baseNutritionalProfiles,
+  fetchNutritionalData,
+} from "@/data/nutritional";
+import type { NutritionalProfile } from "@/types/alchemy";
 
 /**
  * Normalizes an ingredient name for lookup in the nutritional data
@@ -9,7 +12,7 @@ import type { NutritionalProfile } from '@/types/alchemy';
  * @returns Normalized name for data lookup
  */
 export function normalizeIngredientName(name: string): string {
-  if (!name) return '';
+  if (!name) return "";
 
   // Convert to lowercase, trim whitespace
   return (
@@ -17,9 +20,9 @@ export function normalizeIngredientName(name: string): string {
       .toLowerCase()
       .trim()
       // Replace spaces and special chars with underscores
-      .replace(/[\s-/]+/g, '_')
+      .replace(/[\s-/]+/g, "_")
       // Remove any remaining special characters
-      .replace(/[^\w_]/g, '')
+      .replace(/[^\w_]/g, "")
   );
 }
 
@@ -31,7 +34,7 @@ export function normalizeIngredientName(name: string): string {
  * @returns Nutritional profile or null if not found
  */
 export async function getNutritionalData(
-  ingredientName: string
+  ingredientName: string,
 ): Promise<NutritionalProfile | null> {
   // Use the fetchNutritionalData function from nutritional.ts
   const profile = await fetchNutritionalData(ingredientName);
@@ -41,11 +44,12 @@ export async function getNutritionalData(
   const alchemyProfile: unknown = {
     ...profile,
     // Convert phytonutrients from Record<string, number> to string[]
-    phytonutrients: profile.phytonutrients &&
-      typeof profile.phytonutrients === 'object' &&
+    phytonutrients:
+      profile.phytonutrients &&
+      typeof profile.phytonutrients === "object" &&
       !Array.isArray(profile.phytonutrients)
         ? Object.keys(profile.phytonutrients)
-        : profile.phytonutrients
+        : profile.phytonutrients,
   };
 
   return alchemyProfile;
@@ -69,7 +73,7 @@ export function getAvailableNutritionalIngredients(): string[] {
  */
 export async function compareNutritionalValues(
   ingredient1: string,
-  ingredient2: string
+  ingredient2: string,
 ): Promise<{
   ingredient1: NutritionalProfile | null;
   ingredient2: NutritionalProfile | null;
@@ -83,7 +87,7 @@ export async function compareNutritionalValues(
     return {
       ingredient1: profile1,
       ingredient2: profile2,
-      differences: {}
+      differences: {},
     };
   }
 
@@ -94,24 +98,31 @@ export async function compareNutritionalValues(
   const profile2Macros = profile2Data.macros || {};
 
   const differences: Record<string, number> = {
-    calories: (((profile2.calories || 0) - (profile1.calories || 0)) / (profile1.calories || 1)) * 100,
+    calories:
+      (((profile2.calories || 0) - (profile1.calories || 0)) /
+        (profile1.calories || 1)) *
+      100,
     protein: profile1Macros.protein
-      ? ((profile2Macros.protein - profile1Macros.protein) / profile1Macros.protein) * 100
+      ? ((profile2Macros.protein - profile1Macros.protein) /
+          profile1Macros.protein) *
+        100
       : 0,
     carbs: profile1Macros.carbs
-      ? ((profile2Macros.carbs - profile1Macros.carbs) / profile1Macros.carbs) * 100
+      ? ((profile2Macros.carbs - profile1Macros.carbs) / profile1Macros.carbs) *
+        100
       : 0,
     fat: profile1Macros.fat
       ? ((profile2Macros.fat - profile1Macros.fat) / profile1Macros.fat) * 100
       : 0,
     fiber: profile1Macros.fiber
-      ? ((profile2Macros.fiber - profile1Macros.fiber) / profile1Macros.fiber) * 100
-      : 0
+      ? ((profile2Macros.fiber - profile1Macros.fiber) / profile1Macros.fiber) *
+        100
+      : 0,
   };
 
   return {
     ingredient1: profile1,
     ingredient2: profile2,
-    differences
+    differences,
   };
 }

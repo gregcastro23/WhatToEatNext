@@ -9,20 +9,20 @@
  * - forEach(([key, value]) =>
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class MalformedDestructuringFixer {
   constructor() {
     this.fixedFiles = [];
     this.totalFixes = 0;
-    this.dryRun = process.argv.includes('--dry-run');
+    this.dryRun = process.argv.includes("--dry-run");
   }
 
   fixFile(filePath) {
     try {
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
       let fixes = 0;
 
@@ -37,18 +37,15 @@ class MalformedDestructuringFixer {
           } else {
             return `([${p1.trim()}])`;
           }
-        }
+        },
       );
 
       // Pattern 2: Fix malformed object destructuring
       // ({prop: any}) => should become ({prop}) =>
-      content = content.replace(
-        /\(\{([^:}]+):\s*any\}\)/g,
-        (match, p1) => {
-          fixes++;
-          return `({${p1.trim()}})`;
-        }
-      );
+      content = content.replace(/\(\{([^:}]+):\s*any\}\)/g, (match, p1) => {
+        fixes++;
+        return `({${p1.trim()}})`;
+      });
 
       // Pattern 3: Fix forEach with explicit typing after destructuring
       // .forEach(([key: any, value]: any) => should become .forEach(([key, value]) =>
@@ -61,7 +58,7 @@ class MalformedDestructuringFixer {
           } else {
             return `.forEach(([${p1.trim()}])`;
           }
-        }
+        },
       );
 
       // Pattern 4: Fix entries/map/filter with malformed destructuring
@@ -74,16 +71,18 @@ class MalformedDestructuringFixer {
           } else {
             return `.${method}(([${p1.trim()}])`;
           }
-        }
+        },
       );
 
       if (fixes > 0 && content !== originalContent) {
         if (!this.dryRun) {
-          fs.writeFileSync(filePath, content, 'utf8');
+          fs.writeFileSync(filePath, content, "utf8");
         }
         this.fixedFiles.push(filePath);
         this.totalFixes += fixes;
-        console.log(`  ✅ Fixed ${fixes} patterns in ${path.basename(filePath)}`);
+        console.log(
+          `  ✅ Fixed ${fixes} patterns in ${path.basename(filePath)}`,
+        );
         return fixes;
       }
       return 0;
@@ -95,9 +94,9 @@ class MalformedDestructuringFixer {
 
   getErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-        encoding: 'utf8',
-        maxBuffer: 50 * 1024 * 1024
+      const output = execSync("yarn tsc --noEmit --skipLibCheck 2>&1 || true", {
+        encoding: "utf8",
+        maxBuffer: 50 * 1024 * 1024,
       });
       const matches = output.match(/error TS/g);
       return matches ? matches.length : 0;
@@ -107,26 +106,36 @@ class MalformedDestructuringFixer {
   }
 
   async run() {
-    console.log('🔧 Fixing Malformed Destructuring Patterns...\n');
+    console.log("🔧 Fixing Malformed Destructuring Patterns...\n");
     if (this.dryRun) {
-      console.log('📝 DRY RUN MODE - No files will be modified\n');
+      console.log("📝 DRY RUN MODE - No files will be modified\n");
     }
 
     const initialErrors = this.getErrorCount();
     console.log(`📊 Initial TypeScript errors: ${initialErrors}`);
 
     // Find all TypeScript files
-    const testFiles = execSync('find src -name "*.ts" -o -name "*.tsx" 2>/dev/null || true', {
-      encoding: 'utf8'
-    }).trim().split('\n').filter(f => f);
+    const testFiles = execSync(
+      'find src -name "*.ts" -o -name "*.tsx" 2>/dev/null || true',
+      {
+        encoding: "utf8",
+      },
+    )
+      .trim()
+      .split("\n")
+      .filter((f) => f);
 
-    console.log(`\n🔍 Checking ${testFiles.length} files for malformed patterns...`);
+    console.log(
+      `\n🔍 Checking ${testFiles.length} files for malformed patterns...`,
+    );
 
     // Process files in batches
     const batchSize = 10;
     for (let i = 0; i < testFiles.length; i += batchSize) {
       const batch = testFiles.slice(i, i + batchSize);
-      console.log(`\n📦 Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(testFiles.length/batchSize)}`);
+      console.log(
+        `\n📦 Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(testFiles.length / batchSize)}`,
+      );
 
       for (const file of batch) {
         this.fixFile(file);
@@ -141,8 +150,8 @@ class MalformedDestructuringFixer {
 
     const finalErrors = this.getErrorCount();
 
-    console.log('\n' + '='.repeat(60));
-    console.log('📈 Final Results:');
+    console.log("\n" + "=".repeat(60));
+    console.log("📈 Final Results:");
     console.log(`   Initial errors: ${initialErrors}`);
     console.log(`   Final errors: ${finalErrors}`);
     console.log(`   Errors fixed: ${initialErrors - finalErrors}`);
@@ -150,7 +159,9 @@ class MalformedDestructuringFixer {
     console.log(`   Total fixes applied: ${this.totalFixes}`);
 
     if (this.dryRun) {
-      console.log('\n⚠️  DRY RUN COMPLETE - Run without --dry-run to apply fixes');
+      console.log(
+        "\n⚠️  DRY RUN COMPLETE - Run without --dry-run to apply fixes",
+      );
     }
   }
 }

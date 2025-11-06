@@ -60,10 +60,10 @@ requires careful implementation to avoid breaking the build.
 
 ```typescript
 // ❌ BEFORE: Unused import
-import { UnusedType } from './types';
+import { UnusedType } from "./types";
 
 // ✅ AFTER: Make import usable
-import { UnusedType } from './types';
+import { UnusedType } from "./types";
 function example(): UnusedType {
   return {} as UnusedType;
 }
@@ -74,12 +74,12 @@ function example(): UnusedType {
 ```typescript
 // ❌ BEFORE: Unused parameter
 function example(context: any) {
-  return 'result';
+  return "result";
 }
 
 // ✅ AFTER: Prefix with underscore
 function example(_context: any) {
-  return 'result';
+  return "result";
 }
 ```
 
@@ -115,7 +115,7 @@ function process(data: any) {
 
 // ✅ AFTER: Type guard
 function process(data: any) {
-  if (data && typeof data.property !== 'undefined') {
+  if (data && typeof data.property !== "undefined") {
     return data.property;
   }
   return null;

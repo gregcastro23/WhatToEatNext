@@ -62,6 +62,7 @@ The comprehensive analysis reveals a significant regression from the previously 
 **Target:** Eliminate 675 critical errors that prevent compilation
 
 #### Step 1.1: TS2339 Property Fixes (564 errors)
+
 ```bash
 # Focus on high-impact files first
 1. src/services/UnifiedIngredientService.ts (59 TS2339 errors)
@@ -70,11 +71,13 @@ The comprehensive analysis reveals a significant regression from the previously 
 ```
 
 **Automated Fix Strategy:**
+
 - Analyze missing properties and add to interfaces
 - Implement optional chaining where appropriate
 - Add type guards for dynamic property access
 
 #### Step 1.2: Import/Export Resolution (111 errors)
+
 ```bash
 # TS2305 + TS2307 errors
 - Systematic import/export analysis
@@ -87,6 +90,7 @@ The comprehensive analysis reveals a significant regression from the previously 
 **Target:** Eliminate 916 type-safety errors through automation
 
 #### Step 2.1: Unknown Type Resolution (668 TS18046 errors)
+
 ```typescript
 // Automated pattern: unknown → proper type assertion
 // Before: msg is of type 'unknown'
@@ -95,15 +99,17 @@ const msg = data.message; // unknown
 // After: proper type assertion
 const msg = data.message as string;
 // Or: type guard approach
-const msg = typeof data.message === 'string' ? data.message : '';
+const msg = typeof data.message === "string" ? data.message : "";
 ```
 
 **High-Impact Files for TS18046:**
+
 1. `src/__tests__/linting/DomainSpecificRuleValidation.test.ts` (70 errors)
 2. `src/services/campaign/run-dependency-security.ts` (58 errors)
 3. `src/__tests__/linting/TestFileRuleValidation.test.ts` (52 errors)
 
 #### Step 2.2: Object Unknown Resolution (248 TS2571 errors)
+
 ```typescript
 // Automated pattern: Object unknown → type assertion
 // Before: Object is of type 'unknown'
@@ -118,11 +124,13 @@ const obj = someData as Record<string, unknown>;
 **Target:** Resolve remaining 604 type mismatch and function signature errors
 
 #### Step 3.1: Argument Type Fixes (171 TS2345 errors)
+
 - Parameter type corrections
 - Function signature updates
 - Interface alignment
 
 #### Step 3.2: Assignment Type Fixes (131 TS2322 errors)
+
 - Type conversion utilities
 - Union type implementations
 - Interface updates
@@ -132,6 +140,7 @@ const obj = someData as Record<string, unknown>;
 ### Week 1: Critical Error Elimination
 
 **Day 1-2: High-Impact File Focus**
+
 ```bash
 # Target top 10 high-impact files (47% of all errors)
 1. DomainSpecificRuleValidation.test.ts (70 errors)
@@ -142,10 +151,12 @@ const obj = someData as Record<string, unknown>;
 ```
 
 **Day 3-4: Critical Error Types**
+
 - TS2339 property fixes (564 errors)
 - Import/export resolution (111 errors)
 
 **Day 5: Validation and Testing**
+
 - Build stability verification
 - Test suite validation
 - Progress measurement
@@ -153,16 +164,19 @@ const obj = someData as Record<string, unknown>;
 ### Week 2: Automation Implementation
 
 **Day 1-3: Unknown Type Automation**
+
 - TS18046 automated fixes (668 errors)
 - TS2571 automated fixes (248 errors)
 
 **Day 4-5: Type Mismatch Resolution**
+
 - TS2345 argument fixes (171 errors)
 - TS2322 assignment fixes (131 errors)
 
 ## Automation Scripts
 
 ### Script 1: Unknown Type Fixer
+
 ```javascript
 // typescript-unknown-type-fixer.cjs
 // Targets TS18046 and TS2571 errors
@@ -170,6 +184,7 @@ const obj = someData as Record<string, unknown>;
 ```
 
 ### Script 2: Property Missing Fixer
+
 ```javascript
 // typescript-property-fixer.cjs
 // Targets TS2339 errors
@@ -178,6 +193,7 @@ const obj = someData as Record<string, unknown>;
 ```
 
 ### Script 3: Import Export Fixer
+
 ```javascript
 // typescript-import-export-fixer.cjs
 // Targets TS2305 and TS2307 errors
@@ -187,12 +203,14 @@ const obj = someData as Record<string, unknown>;
 ## Safety Protocols
 
 ### Validation Checkpoints
+
 1. **Build Validation:** After every 50 fixes
 2. **Test Suite Validation:** After each high-impact file
 3. **Type Check Validation:** Continuous monitoring
 4. **Rollback Capability:** Git stash before each batch
 
 ### Progress Tracking
+
 ```bash
 # Error count monitoring
 yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"
@@ -204,16 +222,19 @@ yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | sed 's/.*error //' 
 ## Success Metrics
 
 ### Phase 1 Targets (Week 1)
+
 - [ ] Critical errors: 675 → 0 (100% elimination)
 - [ ] Build compilation: Successful
 - [ ] High-impact files: 47 → <10 files with >10 errors
 
 ### Phase 2 Targets (Week 2)
+
 - [ ] Type-safety errors: 916 → <100 (89% reduction)
 - [ ] Total errors: 2,199 → <500 (77% reduction)
 - [ ] Files affected: 347 → <100 (71% reduction)
 
 ### Final Target
+
 - [ ] Total TypeScript errors: 0
 - [ ] Build stability: 100%
 - [ ] Test suite: All passing
@@ -222,11 +243,13 @@ yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | sed 's/.*error //' 
 ## Risk Mitigation
 
 ### High-Risk Areas
+
 1. **Astrological Calculations:** Preserve domain-specific logic
 2. **Campaign System:** Maintain enterprise intelligence patterns
 3. **Test Files:** Preserve test functionality and mocking patterns
 
 ### Mitigation Strategies
+
 1. **Domain Preservation:** Use steering rules to protect astrological patterns
 2. **Incremental Approach:** Small batches with validation
 3. **Rollback Ready:** Git stash before each major change
@@ -244,4 +267,5 @@ The TypeScript error regression is significant but manageable through systematic
 The analysis shows clear patterns that can be addressed through targeted automation while preserving the integrity of astrological calculations and campaign system functionality.
 
 ---
-*Generated from comprehensive TypeScript error analysis - August 24, 2025*
+
+_Generated from comprehensive TypeScript error analysis - August 24, 2025_

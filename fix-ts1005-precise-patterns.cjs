@@ -11,9 +11,9 @@
  * Uses very precise patterns that have been manually verified.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class PreciseTS1005Fixer {
   constructor() {
@@ -25,15 +25,17 @@ class PreciseTS1005Fixer {
   }
 
   async run() {
-    console.log('🎯 Precise TS1005 Syntax Error Resolution - Task 2.1');
-    console.log('📋 Using manually verified patterns from actual error analysis\n');
+    console.log("🎯 Precise TS1005 Syntax Error Resolution - Task 2.1");
+    console.log(
+      "📋 Using manually verified patterns from actual error analysis\n",
+    );
 
     try {
       const initialErrors = this.getTS1005ErrorCount();
       console.log(`📊 Initial TS1005 errors: ${initialErrors}`);
 
       if (initialErrors === 0) {
-        console.log('✅ No TS1005 errors found!');
+        console.log("✅ No TS1005 errors found!");
         return this.completeTask(initialErrors, initialErrors);
       }
 
@@ -42,14 +44,16 @@ class PreciseTS1005Fixer {
       console.log(`🔍 Found ${errorFiles.length} files with TS1005 errors`);
 
       // Process in batches of 15 files as specified
-      console.log('\n🛠️ Starting precise pattern-based processing...');
+      console.log("\n🛠️ Starting precise pattern-based processing...");
 
       for (let i = 0; i < errorFiles.length; i += this.batchSize) {
         const batch = errorFiles.slice(i, i + this.batchSize);
-        const batchNumber = Math.floor(i/this.batchSize) + 1;
-        const totalBatches = Math.ceil(errorFiles.length/this.batchSize);
+        const batchNumber = Math.floor(i / this.batchSize) + 1;
+        const totalBatches = Math.ceil(errorFiles.length / this.batchSize);
 
-        console.log(`\n📦 Processing Batch ${batchNumber}/${totalBatches} (${batch.length} files)`);
+        console.log(
+          `\n📦 Processing Batch ${batchNumber}/${totalBatches} (${batch.length} files)`,
+        );
 
         // Apply precise fixes to batch
         let batchFixes = 0;
@@ -65,34 +69,38 @@ class PreciseTS1005Fixer {
 
         // Build validation checkpoint (as required by task)
         if (batchFixes > 0) {
-          console.log(`   🔍 Build validation checkpoint (${batchFixes} fixes applied)...`);
+          console.log(
+            `   🔍 Build validation checkpoint (${batchFixes} fixes applied)...`,
+          );
           const buildSuccess = this.validateBuildStability();
 
           if (!buildSuccess) {
-            console.log('   ⚠️ Build validation failed - reverting batch...');
-            execSync('git checkout -- .');
-            console.log('   🔄 Batch reverted, stopping processing');
+            console.log("   ⚠️ Build validation failed - reverting batch...");
+            execSync("git checkout -- .");
+            console.log("   🔄 Batch reverted, stopping processing");
             break;
           } else {
-            console.log('   ✅ Build stability maintained');
+            console.log("   ✅ Build stability maintained");
 
             // Test functionality validation (as required by task)
             const testSuccess = this.validateTestFunctionality();
             if (!testSuccess) {
-              console.log('   ⚠️ Test functionality compromised - reverting batch...');
-              execSync('git checkout -- .');
-              console.log('   🔄 Batch reverted, stopping processing');
+              console.log(
+                "   ⚠️ Test functionality compromised - reverting batch...",
+              );
+              execSync("git checkout -- .");
+              console.log("   🔄 Batch reverted, stopping processing");
               break;
             } else {
-              console.log('   ✅ Test functionality preserved');
+              console.log("   ✅ Test functionality preserved");
             }
           }
 
           if (batchResults.length > 0) {
-            console.log(`   📋 Batch results: ${batchResults.join(', ')}`);
+            console.log(`   📋 Batch results: ${batchResults.join(", ")}`);
           }
         } else {
-          console.log('   ℹ️ No fixes needed for this batch');
+          console.log("   ℹ️ No fixes needed for this batch");
         }
 
         this.processedBatches++;
@@ -100,13 +108,20 @@ class PreciseTS1005Fixer {
         // Progress update
         const currentErrors = this.getTS1005ErrorCount();
         const reduction = initialErrors - currentErrors;
-        const percentage = reduction > 0 ? ((reduction / initialErrors) * 100).toFixed(1) : '0.0';
+        const percentage =
+          reduction > 0
+            ? ((reduction / initialErrors) * 100).toFixed(1)
+            : "0.0";
 
-        console.log(`   📊 Progress: ${currentErrors} errors remaining (${percentage}% reduction)`);
+        console.log(
+          `   📊 Progress: ${currentErrors} errors remaining (${percentage}% reduction)`,
+        );
 
         // Safety check - stop if errors increase
         if (currentErrors > initialErrors + 5) {
-          console.log('⚠️ Error count increased significantly, stopping for safety');
+          console.log(
+            "⚠️ Error count increased significantly, stopping for safety",
+          );
           break;
         }
 
@@ -119,9 +134,8 @@ class PreciseTS1005Fixer {
       // Final results
       const finalErrors = this.getTS1005ErrorCount();
       await this.completeTask(initialErrors, finalErrors);
-
     } catch (error) {
-      console.error('❌ Error during TS1005 resolution:', error.message);
+      console.error("❌ Error during TS1005 resolution:", error.message);
     }
   }
 
@@ -131,13 +145,15 @@ class PreciseTS1005Fixer {
         return 0;
       }
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
       let fixesApplied = 0;
 
       // Preserve astrological calculation logic
       if (this.isAstrologicalFile(filePath)) {
-        console.log(`   🌟 Preserving astrological calculation logic in ${path.basename(filePath)}`);
+        console.log(
+          `   🌟 Preserving astrological calculation logic in ${path.basename(filePath)}`,
+        );
       }
 
       // PRECISE FIX 1: Malformed catch blocks (manually verified pattern)
@@ -149,7 +165,10 @@ class PreciseTS1005Fixer {
         catchMatches.push(match[0]);
       }
       if (catchMatches.length > 0) {
-        content = content.replace(/(\}\s*catch\s*\(\s*[^)]+\s*\))\s*:\s*any\s*(\{)/g, '$1 $2');
+        content = content.replace(
+          /(\}\s*catch\s*\(\s*[^)]+\s*\))\s*:\s*any\s*(\{)/g,
+          "$1 $2",
+        );
         fixesApplied += catchMatches.length;
       }
 
@@ -161,7 +180,7 @@ class PreciseTS1005Fixer {
         testMatches.push(match[0]);
       }
       if (testMatches.length > 0) {
-        content = content.replace(/(test\s*\(\s*[^,]+)\s*:\s*any\s*,/g, '$1,');
+        content = content.replace(/(test\s*\(\s*[^,]+)\s*:\s*any\s*,/g, "$1,");
         fixesApplied += testMatches.length;
       }
 
@@ -173,7 +192,7 @@ class PreciseTS1005Fixer {
         itMatches.push(match[0]);
       }
       if (itMatches.length > 0) {
-        content = content.replace(/(it\s*\(\s*[^,]+)\s*:\s*any\s*,/g, '$1,');
+        content = content.replace(/(it\s*\(\s*[^,]+)\s*:\s*any\s*,/g, "$1,");
         fixesApplied += itMatches.length;
       }
 
@@ -185,7 +204,10 @@ class PreciseTS1005Fixer {
         describeMatches.push(match[0]);
       }
       if (describeMatches.length > 0) {
-        content = content.replace(/(describe\s*\(\s*[^,]+)\s*:\s*any\s*,/g, '$1,');
+        content = content.replace(
+          /(describe\s*\(\s*[^,]+)\s*:\s*any\s*,/g,
+          "$1,",
+        );
         fixesApplied += describeMatches.length;
       }
 
@@ -197,7 +219,7 @@ class PreciseTS1005Fixer {
         beforeEachMatches.push(match[0]);
       }
       if (beforeEachMatches.length > 0) {
-        content = content.replace(/(beforeEach\s*\(\s*)\s*:\s*any\s*,/g, '$1');
+        content = content.replace(/(beforeEach\s*\(\s*)\s*:\s*any\s*,/g, "$1");
         fixesApplied += beforeEachMatches.length;
       }
 
@@ -209,41 +231,47 @@ class PreciseTS1005Fixer {
         trailingCommaMatches.push(match[0]);
       }
       if (trailingCommaMatches.length > 0) {
-        content = content.replace(/,(\s*\))/g, '$1');
+        content = content.replace(/,(\s*\))/g, "$1");
         fixesApplied += trailingCommaMatches.length;
       }
 
       // Apply changes if fixes were made
       if (fixesApplied > 0 && content !== originalContent) {
-        fs.writeFileSync(filePath, content, 'utf8');
+        fs.writeFileSync(filePath, content, "utf8");
         this.fixedFiles.push(filePath);
         this.totalFixes += fixesApplied;
         return fixesApplied;
       }
 
       return 0;
-
     } catch (error) {
-      console.log(`   ❌ Error fixing ${path.basename(filePath)}: ${error.message}`);
+      console.log(
+        `   ❌ Error fixing ${path.basename(filePath)}: ${error.message}`,
+      );
       return 0;
     }
   }
 
   isAstrologicalFile(filePath) {
-    return filePath.includes('/calculations/') ||
-           filePath.includes('/services/celestial') ||
-           filePath.includes('/utils/astrology') ||
-           filePath.includes('astrological') ||
-           filePath.includes('planetary') ||
-           filePath.includes('elemental');
+    return (
+      filePath.includes("/calculations/") ||
+      filePath.includes("/services/celestial") ||
+      filePath.includes("/utils/astrology") ||
+      filePath.includes("astrological") ||
+      filePath.includes("planetary") ||
+      filePath.includes("elemental")
+    );
   }
 
   getTS1005ErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | wc -l', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | wc -l',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -252,10 +280,10 @@ class PreciseTS1005Fixer {
 
   validateBuildStability() {
     try {
-      console.log('     🔍 Checking TypeScript compilation...');
-      execSync('yarn tsc --noEmit --skipLibCheck', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      console.log("     🔍 Checking TypeScript compilation...");
+      execSync("yarn tsc --noEmit --skipLibCheck", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
       return true;
     } catch (error) {
@@ -265,12 +293,15 @@ class PreciseTS1005Fixer {
 
   validateTestFunctionality() {
     try {
-      console.log('     🧪 Validating test functionality...');
+      console.log("     🧪 Validating test functionality...");
       // Quick syntax check on test files
-      execSync('yarn tsc --noEmit --skipLibCheck src/__tests__/**/*.ts src/__tests__/**/*.tsx', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      execSync(
+        "yarn tsc --noEmit --skipLibCheck src/__tests__/**/*.ts src/__tests__/**/*.tsx",
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return true;
     } catch (error) {
       return false;
@@ -279,13 +310,19 @@ class PreciseTS1005Fixer {
 
   async getFilesWithTS1005Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const files = new Set();
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^(.+?)\(/);
@@ -302,7 +339,8 @@ class PreciseTS1005Fixer {
 
   async completeTask(initialErrors, finalErrors) {
     const reduction = initialErrors - finalErrors;
-    const percentage = reduction > 0 ? ((reduction / initialErrors) * 100).toFixed(1) : '0.0';
+    const percentage =
+      reduction > 0 ? ((reduction / initialErrors) * 100).toFixed(1) : "0.0";
     const duration = ((Date.now() - this.startTime) / 1000).toFixed(1);
 
     console.log(`\n📈 Task 2.1 - TS1005 Syntax Error Resolution Results:`);
@@ -316,8 +354,12 @@ class PreciseTS1005Fixer {
     console.log(`   📈 Reduction percentage: ${percentage}%`);
 
     if (reduction > 0) {
-      console.log(`\n✅ Task 2.1 Progress: ${reduction} TS1005 syntax errors resolved`);
-      console.log(`🌟 Astrological calculation logic preserved throughout process`);
+      console.log(
+        `\n✅ Task 2.1 Progress: ${reduction} TS1005 syntax errors resolved`,
+      );
+      console.log(
+        `🌟 Astrological calculation logic preserved throughout process`,
+      );
       console.log(`🛡️ Build stability and test functionality maintained`);
 
       if (percentage >= 50) {
@@ -335,20 +377,36 @@ class PreciseTS1005Fixer {
     }
 
     // Generate task completion report
-    const reportPath = 'task-2-1-precise-ts1005-report.md';
-    const report = this.generateTaskReport(initialErrors, finalErrors, reduction, percentage, duration);
-    fs.writeFileSync(reportPath, report, 'utf8');
+    const reportPath = "task-2-1-precise-ts1005-report.md";
+    const report = this.generateTaskReport(
+      initialErrors,
+      finalErrors,
+      reduction,
+      percentage,
+      duration,
+    );
+    fs.writeFileSync(reportPath, report, "utf8");
     console.log(`📋 Task report saved to: ${reportPath}`);
 
     // Update task status based on progress
     if (reduction >= 500 || percentage >= 25) {
-      console.log(`\n🎯 Task 2.1 shows significant progress - ready for next phase`);
+      console.log(
+        `\n🎯 Task 2.1 shows significant progress - ready for next phase`,
+      );
     } else if (reduction >= 100 || percentage >= 5) {
-      console.log(`\n📈 Task 2.1 shows measurable progress - continue with remaining patterns`);
+      console.log(
+        `\n📈 Task 2.1 shows measurable progress - continue with remaining patterns`,
+      );
     }
   }
 
-  generateTaskReport(initialErrors, finalErrors, reduction, percentage, duration) {
+  generateTaskReport(
+    initialErrors,
+    finalErrors,
+    reduction,
+    percentage,
+    duration,
+  ) {
     return `# Task 2.1 - Precise TS1005 Syntax Error Resolution Report
 
 ## Task Summary
@@ -382,7 +440,7 @@ class PreciseTS1005Fixer {
 6. **Simple trailing commas**: \`,)\` → \`)\`
 
 ## Files Processed
-${this.fixedFiles.map(f => `- ${f}`).join('\n')}
+${this.fixedFiles.map((f) => `- ${f}`).join("\n")}
 
 ## Safety Measures Applied
 - Batch size of 15 files (as specified in task requirements)
@@ -393,14 +451,20 @@ ${this.fixedFiles.map(f => `- ${f}`).join('\n')}
 - Manually verified patterns only
 
 ## Task Status
-${reduction >= 500 ? '✅ MAJOR PROGRESS - Task shows significant improvement' :
-  reduction >= 100 ? '📈 GOOD PROGRESS - Task moving in right direction' :
-  reduction >= 50 ? '📊 SOME PROGRESS - Task partially completed' :
-  reduction > 0 ? '📋 MINIMAL PROGRESS - Task started' :
-  '⚠️ NO PROGRESS - May need different approach'}
+${
+  reduction >= 500
+    ? "✅ MAJOR PROGRESS - Task shows significant improvement"
+    : reduction >= 100
+      ? "📈 GOOD PROGRESS - Task moving in right direction"
+      : reduction >= 50
+        ? "📊 SOME PROGRESS - Task partially completed"
+        : reduction > 0
+          ? "📋 MINIMAL PROGRESS - Task started"
+          : "⚠️ NO PROGRESS - May need different approach"
+}
 
 ## Next Steps
-${finalErrors > 0 ? `- ${finalErrors} TS1005 errors remain for further analysis` : '- All TS1005 errors resolved!'}
+${finalErrors > 0 ? `- ${finalErrors} TS1005 errors remain for further analysis` : "- All TS1005 errors resolved!"}
 - Continue with Task 2.2 (TS1128 Declaration Error Resolution)
 - Monitor for any regressions in subsequent builds
 - Apply lessons learned to remaining error categories
@@ -408,7 +472,7 @@ ${finalErrors > 0 ? `- ${finalErrors} TS1005 errors remain for further analysis`
   }
 
   sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
 

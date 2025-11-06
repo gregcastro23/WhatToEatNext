@@ -6,33 +6,28 @@
  * the unified data system and the application's services.
  */
 
-import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type {
   ElementalProperties,
-  IngredientSearchCriteria} from '@/types/alchemy';
-import {
-  Element,
-  PlanetName,
-  Season,
-} from '@/types/alchemy';
+  IngredientSearchCriteria,
+} from "@/types/alchemy";
+import { Element, PlanetName, Season } from "@/types/alchemy";
 import {
   _getEnhancedIngredient,
   searchIngredients,
   getIngredientsByCategory,
   generateIngredientRecommendations,
-} from '../../data/unified/enhancedIngredients';
+} from "../../data/unified/enhancedIngredients";
 import {
   unifiedFlavorProfileSystem,
   getFlavorProfile,
-} from '../../data/unified/flavorProfiles';
+} from "../../data/unified/flavorProfiles";
 import {
   createElementalProperties,
   calculateElementalCompatibility,
-} from '../../utils/elemental/elementalUtils';
-import type {
-  EnhancedIngredient} from '../../data/unified/enhancedIngredients';
-import type {
-  UnifiedFlavorProfile} from '../../data/unified/flavorProfiles';
+} from "../../utils/elemental/elementalUtils";
+import type { EnhancedIngredient } from "../../data/unified/enhancedIngredients";
+import type { UnifiedFlavorProfile } from "../../data/unified/flavorProfiles";
 
 /**
  * Interface for the UnifiedDataAdapter
@@ -47,7 +42,7 @@ export interface UnifiedDataAdapterInterface {
   // Flavor profile operations
   getFlavorProfile(
     id: string,
-    type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental',
+    type?: "cuisine" | "planetary" | "ingredient" | "elemental",
   ): UnifiedFlavorProfile | undefined;
   calculateFlavorCompatibility(
     profile1: UnifiedFlavorProfile,
@@ -55,8 +50,13 @@ export interface UnifiedDataAdapterInterface {
   ): number;
 
   // Elemental operations
-  calculateElementalCompatibility(props1: ElementalProperties, props2: ElementalProperties): number;
-  createElementalProperties(partialProps?: Partial<ElementalProperties>): ElementalProperties;
+  calculateElementalCompatibility(
+    props1: ElementalProperties,
+    props2: ElementalProperties,
+  ): number;
+  createElementalProperties(
+    partialProps?: Partial<ElementalProperties>,
+  ): ElementalProperties;
 }
 
 /**
@@ -84,7 +84,10 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     try {
       return getIngredientsByCategory(category);
     } catch (error) {
-      console.error(`Error getting ingredients in category ${category}:`, error);
+      console.error(
+        `Error getting ingredients in category ${category}:`,
+        error,
+      );
       return [];
     }
   }
@@ -96,7 +99,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     try {
       return searchIngredients(criteria as any);
     } catch (error) {
-      console.error('Error searching ingredients:', error);
+      console.error("Error searching ingredients:", error);
       return [];
     }
   }
@@ -118,7 +121,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
    */
   getFlavorProfile(
     id: string,
-    type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental',
+    type?: "cuisine" | "planetary" | "ingredient" | "elemental",
   ): UnifiedFlavorProfile | undefined {
     try {
       return getFlavorProfile(id, type);
@@ -136,10 +139,13 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     profile2: UnifiedFlavorProfile,
   ): number {
     try {
-      const result = unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2);
+      const result = unifiedFlavorProfileSystem.calculateFlavorCompatibility(
+        profile1,
+        profile2,
+      );
       return result.compatibility;
     } catch (error) {
-      console.error('Error calculating flavor compatibility:', error);
+      console.error("Error calculating flavor compatibility:", error);
       return 0.5; // Default moderate compatibility
     }
   }
@@ -154,7 +160,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
     try {
       return calculateElementalCompatibility(props1, props2);
     } catch (error) {
-      console.error('Error calculating elemental compatibility:', error);
+      console.error("Error calculating elemental compatibility:", error);
       return 0.5; // Default moderate compatibility
     }
   }
@@ -162,7 +168,9 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
   /**
    * Create elemental properties with default values
    */
-  createElementalProperties(partialProps?: Partial<ElementalProperties>): ElementalProperties {
+  createElementalProperties(
+    partialProps?: Partial<ElementalProperties>,
+  ): ElementalProperties {
     return createElementalProperties(partialProps);
   }
 }

@@ -3,10 +3,10 @@
  * Implements JWT token validation and role-based access control
  */
 
-import type { TokenPayload } from '@/lib/auth/jwt-auth';
-import { authService, UserRole } from '@/lib/auth/jwt-auth';
-import { logger } from '@/utils/logger';
-import type { Request, Response, NextFunction } from 'express';
+import type { TokenPayload } from "@/lib/auth/jwt-auth";
+import { authService, UserRole } from "@/lib/auth/jwt-auth";
+import { logger } from "@/utils/logger";
+import type { Request, Response, NextFunction } from "express";
 
 // Extend Express Request interface to include user information
 declare global {
@@ -15,8 +15,8 @@ declare global {
       user?: TokenPayload;
       authTokens?: {
         accessToken: string;
-        refreshToken?: string
-      }
+        refreshToken?: string;
+      };
     }
   }
 }
@@ -25,7 +25,7 @@ export interface AuthMiddlewareOptions {
   required?: boolean;
   roles?: UserRole[];
   permissions?: string[];
-  allowGuest?: boolean
+  allowGuest?: boolean;
 }
 
 /**
@@ -34,12 +34,12 @@ export interface AuthMiddlewareOptions {
 function extractTokenFromRequest(req: Request): string | null {
   const authHeader = req.headers.authorization;
 
-  if (authHeader && authHeader.startsWith('Bearer ')) {
+  if (authHeader && authHeader.startsWith("Bearer ")) {
     return authHeader.slice(7); // Remove 'Bearer ' prefix
   }
 
   // Check for token in query parameters (for WebSocket connections)
-  if (req.query.token && typeof req.query.token === 'string') {
+  if (req.query.token && typeof req.query.token === "string") {
     return req.query.token;
   }
 
@@ -55,12 +55,17 @@ function extractTokenFromRequest(req: Request): string | null {
  * Main authentication middleware factory
  */
 export function authenticate(options: AuthMiddlewareOptions = {}) {
-  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  return async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
     try {
-      const { required = true,
+      const {
+        required = true,
         roles = [],
         permissions = [],
-        allowGuest = false
+        allowGuest = false,
       } = options;
 
       const token = extractTokenFromRequest(req);
@@ -69,26 +74,26 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
       if (!token) {
         if (!required || allowGuest) {
           // Allow anonymous access for optional authentication
-          logger.debug('Anonymous access granted', {
+          logger.debug("Anonymous access granted", {
             path: req.path,
             method: req.method,
             required,
-            allowGuest
+            allowGuest,
           });
           return next();
         }
 
-        logger.warn('Authentication required but no token provided', {
+        logger.warn("Authentication required but no token provided", {
           path: req.path,
           method: req.method,
-          ip: req.ip
+          ip: req.ip,
         });
 
         res.status(401).json({
-          error: 'Authentication required',
-          message: 'No authentication token provided',
-          code: 'AUTH_TOKEN_MISSING'
-})
+          error: "Authentication required",
+          message: "No authentication token provided",
+          code: "AUTH_TOKEN_MISSING",
+        });
         return;
       }
 
@@ -96,66 +101,68 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
       const payload = await authService.validateToken(token);
 
       if (!payload) {
-        logger.warn('Invalid or expired token', {
+        logger.warn("Invalid or expired token", {
           path: req.path,
           method: req.method,
-          ip: req.ip
+          ip: req.ip,
         });
 
         res.status(401).json({
-          error: 'Invalid token',
-          message: 'Authentication token is invalid or expired',
-          code: 'AUTH_TOKEN_INVALID'
-})
+          error: "Invalid token",
+          message: "Authentication token is invalid or expired",
+          code: "AUTH_TOKEN_INVALID",
+        });
         return;
       }
 
       // Check role requirements
       if (roles.length > 0) {
-        const hasRequiredRole = roles.some(role => payload.roles.includes(role));
+        const hasRequiredRole = roles.some((role) =>
+          payload.roles.includes(role),
+        );
 
         if (!hasRequiredRole) {
-          logger.warn('Insufficient role permissions', {
+          logger.warn("Insufficient role permissions", {
             userId: payload.userId,
             userRoles: payload.roles,
             requiredRoles: roles,
             path: req.path,
-            method: req.method
+            method: req.method,
           });
 
           res.status(403).json({
-            error: 'Insufficient permissions',
-            message: 'User does not have required role permissions',
-            code: 'AUTH_INSUFFICIENT_ROLE',
+            error: "Insufficient permissions",
+            message: "User does not have required role permissions",
+            code: "AUTH_INSUFFICIENT_ROLE",
             required: roles,
-            current: payload.roles
-          })
+            current: payload.roles,
+          });
           return;
         }
       }
 
       // Check specific permission requirements
       if (permissions.length > 0) {
-        const hasPermission = permissions.every(permission =>
-          authService.hasPermission(payload.roles, permission)
+        const hasPermission = permissions.every((permission) =>
+          authService.hasPermission(payload.roles, permission),
         );
 
         if (!hasPermission) {
-          logger.warn('Insufficient permissions', {
+          logger.warn("Insufficient permissions", {
             userId: payload.userId,
             userRoles: payload.roles,
             requiredPermissions: permissions,
             path: req.path,
-            method: req.method
+            method: req.method,
           });
 
           res.status(403).json({
-            error: 'Insufficient permissions',
-            message: 'User does not have required permissions',
-            code: 'AUTH_INSUFFICIENT_PERMISSIONS',
+            error: "Insufficient permissions",
+            message: "User does not have required permissions",
+            code: "AUTH_INSUFFICIENT_PERMISSIONS",
             required: permissions,
-            current: payload.scopes
-          })
+            current: payload.scopes,
+          });
           return;
         }
       }
@@ -163,30 +170,30 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
       // Attach user information to request
       req.user = payload;
 
-      logger.debug('Authentication successful', {
+      logger.debug("Authentication successful", {
         userId: payload.userId,
         email: payload.email,
         roles: payload.roles,
         path: req.path,
-        method: req.method
+        method: req.method,
       });
 
       next();
     } catch (error) {
-      logger.error('Authentication middleware error', {
-        error: error instanceof Error ? error.message : 'Unknown error',
+      logger.error("Authentication middleware error", {
+        error: error instanceof Error ? error.message : "Unknown error",
         path: req.path,
         method: req.method,
-        ip: req.ip
-      })
+        ip: req.ip,
+      });
 
       res.status(500).json({
-        error: 'Authentication service error',
-        message: 'Internal authentication error occurred',
-        code: 'AUTH_SERVICE_ERROR'
-})
+        error: "Authentication service error",
+        message: "Internal authentication error occurred",
+        code: "AUTH_SERVICE_ERROR",
+      });
     }
-  }
+  };
 }
 
 /**
@@ -194,7 +201,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
  */
 export const requireAdmin = authenticate({
   required: true,
-  roles: [UserRole.ADMIN]
+  roles: [UserRole.ADMIN],
 });
 
 /**
@@ -202,7 +209,7 @@ export const requireAdmin = authenticate({
  */
 export const requireAuth = authenticate({
   required: true,
-  roles: [UserRole.ADMIN, UserRole.USER, UserRole.SERVICE]
+  roles: [UserRole.ADMIN, UserRole.USER, UserRole.SERVICE],
 });
 
 /**
@@ -210,7 +217,7 @@ export const requireAuth = authenticate({
  */
 export const optionalAuth = authenticate({
   required: false,
-  allowGuest: true
+  allowGuest: true,
 });
 
 /**
@@ -219,8 +226,8 @@ export const optionalAuth = authenticate({
 export function requirePermissions(...permissions: string[]) {
   return authenticate({
     required: true,
-    permissions
-  })
+    permissions,
+  });
 }
 
 /**
@@ -228,7 +235,7 @@ export function requirePermissions(...permissions: string[]) {
  */
 export const requireService = authenticate({
   required: true,
-  roles: [UserRole.SERVICE, UserRole.ADMIN]
+  roles: [UserRole.SERVICE, UserRole.ADMIN],
 });
 
 /**
@@ -266,7 +273,7 @@ export const authStatus = (req: Request, res: Response): void => {
   if (!req.user) {
     res.json({
       authenticated: false,
-      message: 'Not authenticated'
+      message: "Not authenticated",
     });
     return;
   }
@@ -277,15 +284,15 @@ export const authStatus = (req: Request, res: Response): void => {
       id: req.user.userId,
       email: req.user.email,
       roles: req.user.roles,
-      scopes: req.user.scopes
+      scopes: req.user.scopes,
     },
     token: {
       issuer: req.user.iss,
       issuedAt: new Date(req.user.iat * 1000),
-      expiresAt: new Date(req.user.exp * 1000)
-    }
-  })
-}
+      expiresAt: new Date(req.user.exp * 1000),
+    },
+  });
+};
 
 export default {
   authenticate,
@@ -298,5 +305,5 @@ export default {
   getAuthenticatedUserId,
   isAuthenticated,
   isAdmin,
-  getUserScopes
-}
+  getUserScopes,
+};

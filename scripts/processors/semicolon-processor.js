@@ -5,19 +5,28 @@
  * Fixes missing semicolons (TS1005 errors)
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 class SemicolonProcessor {
   constructor() {
-    this.projectRoot = path.resolve(import.meta.dirname || path.dirname(import.meta.url.replace('file://', '')), '../..');
+    this.projectRoot = path.resolve(
+      import.meta.dirname ||
+        path.dirname(import.meta.url.replace("file://", "")),
+      "../..",
+    );
     this.filesProcessed = 0;
     this.semicolonsAdded = 0;
-    this.backupDir = path.join(this.projectRoot, 'backups', 'phase3', 'semicolons');
+    this.backupDir = path.join(
+      this.projectRoot,
+      "backups",
+      "phase3",
+      "semicolons",
+    );
   }
 
   async process() {
-    console.log('🔧 Processing missing semicolons (TS1005)...');
+    console.log("🔧 Processing missing semicolons (TS1005)...");
 
     // Create backup directory
     if (!fs.existsSync(this.backupDir)) {
@@ -36,28 +45,28 @@ class SemicolonProcessor {
     return {
       filesProcessed: this.filesProcessed,
       semicolonsAdded: this.semicolonsAdded,
-      success: true
+      success: true,
     };
   }
 
   async getFilesWithSemicolonErrors() {
     // From the error analysis, files with TS1005 '; expected' errors
     const errorFiles = [
-      'src/utils/timingUtils.ts',
-      'src/utils/testIngredientMapping.ts',
-      'src/utils/strictNullChecksHelper.ts',
-      'src/utils/testRecommendations.ts',
-      'src/utils/time.ts',
-      'src/utils/timeFactors.ts',
-      'src/utils/theme.ts',
-      'src/utils/typeValidation.ts',
-      'src/utils/validateIngredients.ts',
-      'src/utils/withRenderTracking.tsx',
+      "src/utils/timingUtils.ts",
+      "src/utils/testIngredientMapping.ts",
+      "src/utils/strictNullChecksHelper.ts",
+      "src/utils/testRecommendations.ts",
+      "src/utils/time.ts",
+      "src/utils/timeFactors.ts",
+      "src/utils/theme.ts",
+      "src/utils/typeValidation.ts",
+      "src/utils/validateIngredients.ts",
+      "src/utils/withRenderTracking.tsx",
       // Add more as needed from error analysis
     ];
 
     // Verify files exist and filter
-    return errorFiles.filter(file => {
+    return errorFiles.filter((file) => {
       const fullPath = path.join(this.projectRoot, file);
       return fs.existsSync(fullPath);
     });
@@ -68,11 +77,14 @@ class SemicolonProcessor {
     console.log(`Processing ${filePath}...`);
 
     // Backup original
-    const backupPath = path.join(this.backupDir, path.basename(filePath) + '.backup');
+    const backupPath = path.join(
+      this.backupDir,
+      path.basename(filePath) + ".backup",
+    );
     fs.copyFileSync(fullPath, backupPath);
 
-    const content = fs.readFileSync(fullPath, 'utf8');
-    const lines = content.split('\n');
+    const content = fs.readFileSync(fullPath, "utf8");
+    const lines = content.split("\n");
     let modifiedLines = [];
     let localFixes = 0;
 
@@ -87,7 +99,7 @@ class SemicolonProcessor {
 
       // Check if line needs semicolon
       if (this.needsSemicolon(line, lines[i + 1])) {
-        line = line + ';';
+        line = line + ";";
         localFixes++;
         this.semicolonsAdded++;
       }
@@ -96,7 +108,7 @@ class SemicolonProcessor {
     }
 
     if (localFixes > 0) {
-      fs.writeFileSync(fullPath, modifiedLines.join('\n'));
+      fs.writeFileSync(fullPath, modifiedLines.join("\n"));
       this.filesProcessed++;
       console.log(`  ✓ Added ${localFixes} semicolons`);
     }
@@ -104,28 +116,30 @@ class SemicolonProcessor {
 
   isCommentOrEmpty(line) {
     const trimmed = line.trim();
-    return !trimmed ||
-           trimmed.startsWith('//') ||
-           trimmed.startsWith('/*') ||
-           trimmed.startsWith('*') ||
-           trimmed.endsWith('*/');
+    return (
+      !trimmed ||
+      trimmed.startsWith("//") ||
+      trimmed.startsWith("/*") ||
+      trimmed.startsWith("*") ||
+      trimmed.endsWith("*/")
+    );
   }
 
   needsSemicolon(line, nextLine) {
     const trimmed = line.trim();
 
     // Don't add semicolon to lines that already have one
-    if (trimmed.endsWith(';')) {
+    if (trimmed.endsWith(";")) {
       return false;
     }
 
     // Don't add to lines that end with comma (object/array literals)
-    if (trimmed.endsWith(',')) {
+    if (trimmed.endsWith(",")) {
       return false;
     }
 
     // Don't add to opening braces/brackets
-    if (trimmed.endsWith('{') || trimmed.endsWith('[')) {
+    if (trimmed.endsWith("{") || trimmed.endsWith("[")) {
       return false;
     }
 
@@ -145,22 +159,35 @@ class SemicolonProcessor {
     }
 
     // Add semicolon to variable declarations/assignments
-    if (/\b(const|let|var)\s+\w+\s*=/.test(trimmed) && !trimmed.includes('{') && !trimmed.includes('[')) {
+    if (
+      /\b(const|let|var)\s+\w+\s*=/.test(trimmed) &&
+      !trimmed.includes("{") &&
+      !trimmed.includes("[")
+    ) {
       return true;
     }
 
     // Add semicolon to assignments
-    if (/\w+\s*=/.test(trimmed) && !trimmed.includes('{') && !trimmed.includes('[')) {
+    if (
+      /\w+\s*=/.test(trimmed) &&
+      !trimmed.includes("{") &&
+      !trimmed.includes("[")
+    ) {
       return true;
     }
 
     // Add semicolon to function calls with parentheses
-    if (/\w+\([^)]*\)$/.test(trimmed) && !trimmed.includes('if') && !trimmed.includes('for') && !trimmed.includes('while')) {
+    if (
+      /\w+\([^)]*\)$/.test(trimmed) &&
+      !trimmed.includes("if") &&
+      !trimmed.includes("for") &&
+      !trimmed.includes("while")
+    ) {
       return true;
     }
 
     // Add semicolon to export statements
-    if (trimmed.startsWith('export ')) {
+    if (trimmed.startsWith("export ")) {
       return true;
     }
 
@@ -174,9 +201,12 @@ export default SemicolonProcessor;
 // CLI usage
 if (import.meta.url === `file://${process.argv[1]}`) {
   const processor = new SemicolonProcessor();
-  processor.process().then(result => {
-    console.log('\n✅ Semicolon processing complete:');
-    console.log(`Files processed: ${result.filesProcessed}`);
-    console.log(`Semicolons added: ${result.semicolonsAdded}`);
-  }).catch(console.error);
+  processor
+    .process()
+    .then((result) => {
+      console.log("\n✅ Semicolon processing complete:");
+      console.log(`Files processed: ${result.filesProcessed}`);
+      console.log(`Semicolons added: ${result.semicolonsAdded}`);
+    })
+    .catch(console.error);
 }

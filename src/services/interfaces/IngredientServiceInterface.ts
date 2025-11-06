@@ -6,9 +6,9 @@ import type {
   Season,
   PlanetName,
   ZodiacSign,
-} from '@/types/alchemy';
-import type { Recipe} from '@/types/unified';
-import { RecipeIngredient } from '@/types/unified';
+} from "@/types/alchemy";
+import type { Recipe } from "@/types/unified";
+import { RecipeIngredient } from "@/types/unified";
 
 /**
  * IngredientServiceInterface.ts
@@ -22,7 +22,7 @@ import { RecipeIngredient } from '@/types/unified';
  * The goal is to create a single, consistent API for all ingredient operations.
  */
 
-import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
+import type { UnifiedIngredient } from "../../data/unified/unifiedTypes";
 
 /**
  * Dietary filtering options
@@ -155,14 +155,18 @@ export interface IngredientServiceInterface {
    * @param filter The filter criteria
    * @returns An object of filtered ingredients organized by category
    */
-  filterIngredients(filter: IngredientFilter): Record<string, UnifiedIngredient[]>;
+  filterIngredients(
+    filter: IngredientFilter,
+  ): Record<string, UnifiedIngredient[]>;
 
   /**
    * Get ingredients by elemental properties
    * @param elementalFilter The elemental filter criteria
    * @returns An array of ingredients matching the elemental criteria
    */
-  getIngredientsByElement(elementalFilter: ElementalFilter): UnifiedIngredient[];
+  getIngredientsByElement(
+    elementalFilter: ElementalFilter,
+  ): UnifiedIngredient[];
 
   /**
    * Get ingredients by flavor profile
@@ -283,14 +287,18 @@ export interface IngredientServiceInterface {
    * @param ingredient The ingredient to analyze
    * @returns The elemental properties
    */
-  calculateElementalProperties(ingredient: Partial<UnifiedIngredient>): ElementalProperties;
+  calculateElementalProperties(
+    ingredient: Partial<UnifiedIngredient>,
+  ): ElementalProperties;
 
   /**
    * Calculate the thermodynamic metrics of an ingredient
    * @param ingredient The ingredient to analyze
    * @returns The thermodynamic metrics
    */
-  calculateThermodynamicMetrics(ingredient: UnifiedIngredient): ThermodynamicMetrics;
+  calculateThermodynamicMetrics(
+    ingredient: UnifiedIngredient,
+  ): ThermodynamicMetrics;
 
   /**
    * Clear the ingredient cache

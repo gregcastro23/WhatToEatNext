@@ -1,25 +1,25 @@
 // Time-related types
-export const MEAL_TIMES = ['breakfast', 'lunch', 'snack', 'dinner'] as const;
+export const MEAL_TIMES = ["breakfast", "lunch", "snack", "dinner"] as const;
 export type MealTime = (typeof MEAL_TIMES)[number];
 
 // Import fundamental types
-import type { ElementalProperties, Season } from './alchemy';
-import type { Recipe } from './unified';
+import type { ElementalProperties, Season } from "./alchemy";
+import type { Recipe } from "./unified";
 
 // Define zodiac signs as seasons
 export const _ZODIAC_SEASONS: any[] = [
-  'aries',
-  'taurus',
-  'gemini',
-  'cancer',
-  'leo',
-  'virgo',
-  'libra',
-  'scorpio',
-  'sagittarius',
-  'capricorn',
-  'aquarius',
-  'pisces'
+  "aries",
+  "taurus",
+  "gemini",
+  "cancer",
+  "leo",
+  "virgo",
+  "libra",
+  "scorpio",
+  "sagittarius",
+  "capricorn",
+  "aquarius",
+  "pisces",
 ];
 
 // Recipe and ingredient types
@@ -130,56 +130,56 @@ export interface TimeOfDay {
 }
 
 // Use as type instead of enum to avoid merging issues
-export type CuisineTypeEnum = 'ITALIAN' | 'FRENCH' | 'CHINESE' | 'INDIAN' | 'MEXICAN';
+export type CuisineTypeEnum =
+  | "ITALIAN"
+  | "FRENCH"
+  | "CHINESE"
+  | "INDIAN"
+  | "MEXICAN";
 // Export essential utils
-export * from './cuisine';
-export * from './utils';
-
-
+export * from "./cuisine";
+export * from "./utils";
 
 // Add CuisineType for compatibility
 export type CuisineType = string;
 
 // Add DietaryRestriction type if missing from any type files
 export type DietaryRestriction =
-  | 'vegan'
-  | 'vegetarian'
-  | 'pescatarian'
-  | 'dairy-free'
-  | 'gluten-free'
-  | 'nut-free'
-  | 'keto'
-  | 'paleo'
-  | 'low-carb'
-  | 'low-fat';
+  | "vegan"
+  | "vegetarian"
+  | "pescatarian"
+  | "dairy-free"
+  | "gluten-free"
+  | "nut-free"
+  | "keto"
+  | "paleo"
+  | "low-carb"
+  | "low-fat";
 // Export ZodiacAffinity types (removed to avoid Modality conflict)
 // export * from './zodiacAffinity',
 
 // Re-export all relevant types from their modules
 // Remove duplicate exports to avoid conflicts
-export * from './nutrition';
+export * from "./nutrition";
 
 // spoonacular types removed with cleanup
 // Note: Removing './recipe', './time', './lunar', './cookingMethod', './validation' to avoid conflicts
 // Note: Removing './seasons' and './zodiacAffinity' to avoid conflicts
-export * from './astrology';
-export * from './chakra';
-export * from './cuisine';
-export * from './seasonal';
-
-
+export * from "./astrology";
+export * from "./chakra";
+export * from "./cuisine";
+export * from "./seasonal";
 
 // PlanetaryPositions now consolidated in astrology.ts
-export * from './ingredient-compatibility';
-export * from './utils';
-
+export * from "./ingredient-compatibility";
+export * from "./utils";
 
 // Define core app state types
 export interface AppState {
   currentIngredients: Ingredient[];
   savedRecipes: unknown[];
   userPreferences: {
-    theme: 'light' | 'dark';
+    theme: "light" | "dark";
     dietaryRestrictions: string[];
     favoriteIngredients: string[];
   };
@@ -196,16 +196,19 @@ export type {
   LunarPhase,
   PlanetaryAlignment,
   ElementalProperties,
-} from './alchemy';
+} from "./alchemy";
 
 // Add missing exports for frequently used types
-export type { UnifiedIngredient } from '../data/unified/unifiedTypes';
-export type { AstrologicalState } from './celestial';
-export type { RecipeIngredient } from './recipeIngredient';
+export type { UnifiedIngredient } from "../data/unified/unifiedTypes";
+export type { AstrologicalState } from "./celestial";
+export type { RecipeIngredient } from "./recipeIngredient";
 
 // Export unified types that are missing
-export type { BaseFlavorNotes, UnifiedFlavorProfile } from '../data/unified/flavorProfiles';
-export type { Recipe as UnifiedRecipe } from './unified';
+export type {
+  BaseFlavorNotes,
+  UnifiedFlavorProfile,
+} from "../data/unified/flavorProfiles";
+export type { Recipe as UnifiedRecipe } from "./unified";
 
 // Export recommendation types
-export type { IngredientRecommendation } from './ingredients';
+export type { IngredientRecommendation } from "./ingredients";

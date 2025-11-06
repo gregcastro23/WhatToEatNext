@@ -17,9 +17,11 @@ This report documents all incomplete implementations, placeholders, TODOs, and s
 **Location:** `src/app/what-to-eat-next/page.tsx:5-6`
 
 ```tsx
-const KalchmRecommender = ({ maxRecommendations }: { maxRecommendations?: number }) => (
-  <div className='p-6 text-gray-600'>KalchmRecommender unavailable.</div>
-);
+const KalchmRecommender = ({
+  maxRecommendations,
+}: {
+  maxRecommendations?: number;
+}) => <div className="p-6 text-gray-600">KalchmRecommender unavailable.</div>;
 ```
 
 **Impact:** Main recommendation engine on `/what-to-eat-next` page is a placeholder
@@ -57,6 +59,7 @@ const IngredientRecommender = ({
 **Location:** `src/data/unified/recipeBuilding.ts`
 
 **Incomplete Methods:**
+
 - Line 1538: Ingredient selection based on criteria
 - Line 1543: Cooking method selection
 - Line 1548: Instruction generation
@@ -68,6 +71,7 @@ const IngredientRecommender = ({
 - Line 1570: Monica modifier calculation
 
 **Seasonal Adaptation Methods (Lines 1574-1629):**
+
 - Seasonal ingredient substitutions
 - Seasonal cooking method adjustments
 - Seasonal timing adjustments
@@ -76,6 +80,7 @@ const IngredientRecommender = ({
 - Monica improvement calculation
 
 **Fusion Recipe Methods (Lines 1641-1800):**
+
 - Fusion profile generation
 - Base recipe creation for fusion
 - Fusion ratio calculation
@@ -95,6 +100,7 @@ const IngredientRecommender = ({
 **Location:** `src/utils/cuisine/cuisineAggregationEngine.ts`
 
 **Incomplete Features:**
+
 - Line 324: Popularity-based weighting when recipe popularity data is available
 - Line 327: Representativeness-based weighting
 - Line 346: Thermodynamic variance calculation
@@ -110,6 +116,7 @@ const IngredientRecommender = ({
 **Location:** `src/utils/seasonalCalculations.ts`
 
 **Incomplete Calculations (Lines 150-157):**
+
 ```typescript
 const ingredientSuitability = 0; // TODO: Implement calculateIngredientSuitability
 const seasonalBonus = 0; // TODO: Implement calculateSeasonalBonus
@@ -146,14 +153,15 @@ const normalizedPositions = {};
 **Location:** `src/contexts/UserContext/index.tsx`
 
 **Mock Implementation:**
+
 ```typescript
 // Mock userService for build compatibility
 const userService = {
   getUserProfile: async (userId: string) => {
-    return { userId, name: 'Mock User', email: 'mock@example.com' };
+    return { userId, name: "Mock User", email: "mock@example.com" };
   },
   updateUserProfile: async (profile: Partial<UserProfile>) => {
-    return { userId: profile.userId || 'mock', ...profile } as UserProfile;
+    return { userId: profile.userId || "mock", ...profile } as UserProfile;
   },
 };
 ```
@@ -172,9 +180,9 @@ const userService = {
 // Mock recipes data
 const MOCK_RECIPES: Recipe[] = [
   {
-    id: '1',
-    name: 'Margherita Pizza',
-    cuisine: 'italian',
+    id: "1",
+    name: "Margherita Pizza",
+    cuisine: "italian",
     // ... hard-coded mock data
   },
   // ... more mock recipes
@@ -194,10 +202,12 @@ const MOCK_RECIPES: Recipe[] = [
 **Location:** Build warnings during compilation
 
 **Missing Exports:**
+
 - `pressureCooking` from `./pressure-cooking`
 - `sousVide` from `./sous-vide` (has `_sousVide` instead)
 
 **Files Affected:**
+
 - `src/data/cooking/methods/wet/index.ts`
 - `src/data/cooking/methods/transformation/index.ts`
 
@@ -212,6 +222,7 @@ const MOCK_RECIPES: Recipe[] = [
 ### 10. Broken Imports in Test/Demo Files
 
 **Locations with TODO import comments:**
+
 - `src/test-streamlined-system.ts`
 - `src/data/unified/ingredients.ts`
 - `src/data/unified/nutritional.ts`
@@ -270,22 +281,26 @@ All API routes are fully implemented and tested:
 ## 📊 PRIORITY MATRIX
 
 ### Must Fix (Before Production)
+
 1. ❗ KalchmRecommender component implementation
 2. ❗ IngredientRecommender component implementation
 3. ❗ Fix cooking method data exports
 
 ### Should Fix (Enhancement)
+
 4. Recipe building system completion
 5. Seasonal calculation implementations
 6. Cuisine aggregation enhancements
 
 ### Nice to Have (Optional)
+
 7. Replace mock planetary positions in provider
 8. Implement real user service (if auth needed)
 9. Replace mock recipes in components
 10. Fix test file imports
 
 ### Can Ignore (Intentional Exclusions)
+
 - Demo page placeholders (already excluded from build)
 - Test-only mock implementations
 - Development/debugging utilities
@@ -295,16 +310,19 @@ All API routes are fully implemented and tested:
 ## 🎬 NEXT STEPS RECOMMENDATION
 
 ### Immediate Actions:
+
 1. **Implement KalchmRecommender** - This is the core feature of `/what-to-eat-next`
 2. **Implement IngredientRecommender** - Core feature of `/ingredients`
 3. **Fix data export issues** - Prevents missing cooking methods
 
 ### Follow-up Actions:
+
 4. Complete recipe building methods
 5. Implement seasonal alignment calculations
 6. Enhance cuisine aggregation with advanced weighting
 
 ### Long-term:
+
 7. Evaluate need for user authentication service
 8. Consider restoring useful demo pages
 9. Clean up or update test files

@@ -7,20 +7,26 @@
  * and type guards for property access on unknown/empty object types.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Get current TS2339 errors
 function getTS2339Errors() {
   try {
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "TS2339"', {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    });
+    const output = execSync(
+      'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "TS2339"',
+      {
+        encoding: "utf8",
+        stdio: "pipe",
+      },
+    );
 
     const errors = [];
-    const lines = output.trim().split('\n').filter(line => line.trim());
+    const lines = output
+      .trim()
+      .split("\n")
+      .filter((line) => line.trim());
 
     for (const line of lines) {
       const match = line.match(/^(.+?)\((\d+),(\d+)\): error TS2339: (.+)$/);
@@ -29,26 +35,26 @@ function getTS2339Errors() {
           file: match[1],
           line: parseInt(match[2]),
           column: parseInt(match[3]),
-          message: match[4]
+          message: match[4],
         });
       }
     }
 
     return errors;
   } catch (error) {
-    console.log('No TS2339 errors found or command failed');
+    console.log("No TS2339 errors found or command failed");
     return [];
   }
 }
 
 // Fix property access on unknown types
 function fixPropertyAccess(content, errors) {
-  const lines = content.split('\n');
+  const lines = content.split("\n");
   let modified = false;
 
   // Group errors by line number
   const errorsByLine = {};
-  errors.forEach(error => {
+  errors.forEach((error) => {
     if (!errorsByLine[error.line]) {
       errorsByLine[error.line] = [];
     }
@@ -56,14 +62,14 @@ function fixPropertyAccess(content, errors) {
   });
 
   // Process each line with errors
-  Object.keys(errorsByLine).forEach(lineNum => {
+  Object.keys(errorsByLine).forEach((lineNum) => {
     const lineIndex = parseInt(lineNum) - 1;
     if (lineIndex >= 0 && lineIndex < lines.length) {
       let line = lines[lineIndex];
       const lineErrors = errorsByLine[lineNum];
 
       // Pattern 1: Property access on unknown - add type assertion
-      lineErrors.forEach(error => {
+      lineErrors.forEach((error) => {
         if (error.message.includes("does not exist on type 'unknown'")) {
           const propertyMatch = error.message.match(/Property '(\w+)'/);
           if (propertyMatch) {
@@ -71,11 +77,11 @@ function fixPropertyAccess(content, errors) {
 
             // Look for patterns like: variable.property
             const patterns = [
-              new RegExp(`(\\w+)\\.${property}`, 'g'),
-              new RegExp(`([\\w\\.\\[\\]]+)\\.${property}`, 'g')
+              new RegExp(`(\\w+)\\.${property}`, "g"),
+              new RegExp(`([\\w\\.\\[\\]]+)\\.${property}`, "g"),
             ];
 
-            patterns.forEach(pattern => {
+            patterns.forEach((pattern) => {
               line = line.replace(pattern, (match, variable) => {
                 // Add type assertion for property access
                 return `(${variable} as Record<string, unknown>)?.${property}`;
@@ -92,11 +98,11 @@ function fixPropertyAccess(content, errors) {
 
             // Look for patterns like: variable.property
             const patterns = [
-              new RegExp(`(\\w+)\\.${property}`, 'g'),
-              new RegExp(`([\\w\\.\\[\\]]+)\\.${property}`, 'g')
+              new RegExp(`(\\w+)\\.${property}`, "g"),
+              new RegExp(`([\\w\\.\\[\\]]+)\\.${property}`, "g"),
             ];
 
-            patterns.forEach(pattern => {
+            patterns.forEach((pattern) => {
               line = line.replace(pattern, (match, variable) => {
                 // Add type assertion for property access
                 return `(${variable} as Record<string, unknown>)?.${property}`;
@@ -113,14 +119,14 @@ function fixPropertyAccess(content, errors) {
     }
   });
 
-  return { content: lines.join('\n'), modified };
+  return { content: lines.join("\n"), modified };
 }
 
 // Process a single file
 function processFile(filePath, errors) {
   try {
-    const content = fs.readFileSync(filePath, 'utf8');
-    const fileErrors = errors.filter(error => error.file === filePath);
+    const content = fs.readFileSync(filePath, "utf8");
+    const fileErrors = errors.filter((error) => error.file === filePath);
 
     if (fileErrors.length === 0) {
       return { processed: false, errors: 0 };
@@ -138,7 +144,6 @@ function processFile(filePath, errors) {
       console.log(`  - No changes needed in ${filePath}`);
       return { processed: false, errors: fileErrors.length };
     }
-
   } catch (error) {
     console.error(`Error processing ${filePath}:`, error.message);
     return { processed: false, errors: 0 };
@@ -147,33 +152,35 @@ function processFile(filePath, errors) {
 
 // Main execution
 function main() {
-  console.log('🔍 Analyzing TS2339 property access errors...');
+  console.log("🔍 Analyzing TS2339 property access errors...");
 
   const errors = getTS2339Errors();
   console.log(`Found ${errors.length} TS2339 errors`);
 
   if (errors.length === 0) {
-    console.log('✅ No TS2339 errors to fix!');
+    console.log("✅ No TS2339 errors to fix!");
     return;
   }
 
   // Group errors by file
   const fileErrors = {};
-  errors.forEach(error => {
+  errors.forEach((error) => {
     if (!fileErrors[error.file]) {
       fileErrors[error.file] = [];
     }
     fileErrors[error.file].push(error);
   });
 
-  console.log(`\n📁 Files with TS2339 errors: ${Object.keys(fileErrors).length}`);
+  console.log(
+    `\n📁 Files with TS2339 errors: ${Object.keys(fileErrors).length}`,
+  );
 
   let totalProcessed = 0;
   let totalErrors = 0;
 
   // Process files with most errors first
-  const sortedFiles = Object.keys(fileErrors).sort((a, b) =>
-    fileErrors[b].length - fileErrors[a].length
+  const sortedFiles = Object.keys(fileErrors).sort(
+    (a, b) => fileErrors[b].length - fileErrors[a].length,
   );
 
   for (const filePath of sortedFiles) {
@@ -189,24 +196,26 @@ function main() {
   console.log(`  Total TS2339 errors addressed: ${totalErrors}`);
 
   // Verify the fix
-  console.log('\n🔍 Verifying fixes...');
+  console.log("\n🔍 Verifying fixes...");
   const remainingErrors = getTS2339Errors();
   const reduction = errors.length - remainingErrors.length;
 
   console.log(`  Before: ${errors.length} TS2339 errors`);
   console.log(`  After: ${remainingErrors.length} TS2339 errors`);
-  console.log(`  Reduction: ${reduction} errors (${Math.round(reduction / errors.length * 100)}%)`);
+  console.log(
+    `  Reduction: ${reduction} errors (${Math.round((reduction / errors.length) * 100)}%)`,
+  );
 
   if (remainingErrors.length > 0) {
-    console.log('\n⚠️  Remaining errors may require manual review');
-    console.log('Top remaining error files:');
+    console.log("\n⚠️  Remaining errors may require manual review");
+    console.log("Top remaining error files:");
     const remainingByFile = {};
-    remainingErrors.forEach(error => {
+    remainingErrors.forEach((error) => {
       remainingByFile[error.file] = (remainingByFile[error.file] || 0) + 1;
     });
 
     Object.entries(remainingByFile)
-      .sort(([,a], [,b]) => b - a)
+      .sort(([, a], [, b]) => b - a)
       .slice(0, 5)
       .forEach(([file, count]) => {
         console.log(`  ${file}: ${count} errors`);

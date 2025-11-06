@@ -3,11 +3,11 @@
 // Created: 2025-01-24
 
 import type {
-    AlchemicalProperties,
-    ElementalProperties,
-    QuantityScaledProperties,
-    ThermodynamicMetrics
-} from '@/types/alchemy';
+  AlchemicalProperties,
+  ElementalProperties,
+  QuantityScaledProperties,
+  ThermodynamicMetrics,
+} from "@/types/alchemy";
 
 /**
  * Unit conversion mappings for ingredient quantities
@@ -15,47 +15,47 @@ import type {
  */
 const UNIT_CONVERSIONS: Record<string, number> = {
   // Weight units
-  'g': 1,
-  'gram': 1,
-  'grams': 1,
-  'kg': 1000,
-  'kilogram': 1000,
-  'kilograms': 1000,
-  'oz': 28.35,
-  'ounce': 28.35,
-  'ounces': 28.35,
-  'lb': 453.59,
-  'pound': 453.59,
-  'pounds': 453.59,
+  g: 1,
+  gram: 1,
+  grams: 1,
+  kg: 1000,
+  kilogram: 1000,
+  kilograms: 1000,
+  oz: 28.35,
+  ounce: 28.35,
+  ounces: 28.35,
+  lb: 453.59,
+  pound: 453.59,
+  pounds: 453.59,
 
   // Volume units (approximate conversions using water density)
-  'ml': 1,
-  'milliliter': 1,
-  'milliliters': 1,
-  'l': 1000,
-  'liter': 1000,
-  'liters': 1000,
-  'cup': 240,
-  'cups': 240,
-  'tbsp': 15,
-  'tablespoon': 15,
-  'tablespoons': 15,
-  'tsp': 5,
-  'teaspoon': 5,
-  'teaspoons': 5,
-  'fl oz': 29.57,
-  'fluid ounce': 29.57,
-  'fluid ounces': 29.57,
+  ml: 1,
+  milliliter: 1,
+  milliliters: 1,
+  l: 1000,
+  liter: 1000,
+  liters: 1000,
+  cup: 240,
+  cups: 240,
+  tbsp: 15,
+  tablespoon: 15,
+  tablespoons: 15,
+  tsp: 5,
+  teaspoon: 5,
+  teaspoons: 5,
+  "fl oz": 29.57,
+  "fluid ounce": 29.57,
+  "fluid ounces": 29.57,
 
   // Piece/count units (context-dependent, using approximate averages)
-  'piece': 50,  // Average piece weight
-  'pieces': 50,
-  'clove': 6,   // Garlic clove
-  'cloves': 6,
-  'slice': 30,  // Average slice
-  'slices': 30,
-  'head': 200,  // Average head (e.g., garlic, lettuce)
-  'heads': 200
+  piece: 50, // Average piece weight
+  pieces: 50,
+  clove: 6, // Garlic clove
+  cloves: 6,
+  slice: 30, // Average slice
+  slices: 30,
+  head: 200, // Average head (e.g., garlic, lettuce)
+  heads: 200,
 };
 
 /**
@@ -68,7 +68,7 @@ const UNIT_CONVERSIONS: Record<string, number> = {
 export function calculateQuantityFactor(
   amount: number,
   unit: string,
-  baseUnit = 'g'
+  baseUnit = "g",
 ): number {
   // Convert to base unit (grams)
   const conversionFactor = UNIT_CONVERSIONS[unit.toLowerCase()] || 1;
@@ -91,28 +91,29 @@ export function calculateQuantityFactor(
  */
 export function scaleElementalProperties(
   base: ElementalProperties,
-  factor: number
+  factor: number,
 ): ElementalProperties {
   const scaled: ElementalProperties = {
     Fire: base.Fire,
     Water: base.Water,
     Earth: base.Earth,
-    Air: base.Air
+    Air: base.Air,
   };
 
   // Find dominant element
-  const dominantElement = Object.entries(base).reduce((max, [key, value]) =>
-    value > max.value ? { key, value } : max,
-    { key: 'Fire', value: 0 }
+  const dominantElement = Object.entries(base).reduce(
+    (max, [key, value]) => (value > max.value ? { key, value } : max),
+    { key: "Fire", value: 0 },
   );
 
   // Apply scaling with "like reinforces like" principle
-  Object.keys(scaled).forEach(element => {
+  Object.keys(scaled).forEach((element) => {
     const baseValue = base[element as keyof ElementalProperties];
 
     if (element === dominantElement.key) {
       // Dominant element gets enhanced scaling (reinforces itself)
-      scaled[element as keyof ElementalProperties] = baseValue * factor * (1 + baseValue * 0.2);
+      scaled[element as keyof ElementalProperties] =
+        baseValue * factor * (1 + baseValue * 0.2);
     } else {
       // Other elements get standard scaling but maintain harmony
       scaled[element as keyof ElementalProperties] = baseValue * factor;
@@ -123,7 +124,7 @@ export function scaleElementalProperties(
   const sum = Object.values(scaled).reduce((acc, val) => acc + val, 0);
   if (sum > 0) {
     const normalizationFactor = 1.0 / sum;
-    Object.keys(scaled).forEach(element => {
+    Object.keys(scaled).forEach((element) => {
       scaled[element as keyof ElementalProperties] *= normalizationFactor;
     });
   }
@@ -137,12 +138,14 @@ export function scaleElementalProperties(
  * @param elemental - Elemental properties
  * @returns Alchemical properties in ESMS format
  */
-export function deriveESMSFromElemental(elemental: ElementalProperties): AlchemicalProperties {
+export function deriveESMSFromElemental(
+  elemental: ElementalProperties,
+): AlchemicalProperties {
   return {
     Spirit: (elemental.Fire + elemental.Air) / 2,
     Essence: (elemental.Water + elemental.Earth) / 2,
     Matter: elemental.Water,
-    Substance: elemental.Earth
+    Substance: elemental.Earth,
   };
 }
 
@@ -156,39 +159,41 @@ export function deriveESMSFromElemental(elemental: ElementalProperties): Alchemi
 export function scaleAlchemicalProperties(
   base: AlchemicalProperties,
   factor: number,
-  kinetics?: ThermodynamicMetrics
+  kinetics?: ThermodynamicMetrics,
 ): AlchemicalProperties {
   const scaled: AlchemicalProperties = {
     Spirit: base.Spirit,
     Essence: base.Essence,
     Matter: base.Matter,
-    Substance: base.Substance
+    Substance: base.Substance,
   };
 
   // Apply basic scaling
-  Object.keys(scaled).forEach(property => {
+  Object.keys(scaled).forEach((property) => {
     scaled[property as keyof AlchemicalProperties] *= factor;
   });
 
   // Apply kinetics modulation if available
   if (kinetics) {
     // Spirit scales with heat (fire/air energy)
-    scaled.Spirit *= (1 + kinetics.heat * 0.1);
+    scaled.Spirit *= 1 + kinetics.heat * 0.1;
 
     // Essence scales with entropy (water/earth stability)
-    scaled.Essence *= (1 + kinetics.entropy * 0.1);
+    scaled.Essence *= 1 + kinetics.entropy * 0.1;
 
     // Matter scales with reactivity (transformation potential)
-    scaled.Matter *= (1 + kinetics.reactivity * 0.1);
+    scaled.Matter *= 1 + kinetics.reactivity * 0.1;
 
     // Substance scales inversely with energy (material stability)
-    scaled.Substance *= (1 - kinetics.gregsEnergy * 0.05);
+    scaled.Substance *= 1 - kinetics.gregsEnergy * 0.05;
   }
 
   // Ensure non-negative values
-  Object.keys(scaled).forEach(property => {
-    scaled[property as keyof AlchemicalProperties] = Math.max(0,
-      scaled[property as keyof AlchemicalProperties]);
+  Object.keys(scaled).forEach((property) => {
+    scaled[property as keyof AlchemicalProperties] = Math.max(
+      0,
+      scaled[property as keyof AlchemicalProperties],
+    );
   });
 
   return scaled;
@@ -206,7 +211,7 @@ export function createQuantityScaledProperties(
   baseElemental: ElementalProperties,
   quantity: number,
   unit: string,
-  kinetics?: ThermodynamicMetrics
+  kinetics?: ThermodynamicMetrics,
 ): QuantityScaledProperties {
   const factor = calculateQuantityFactor(quantity, unit);
   const scaledElemental = scaleElementalProperties(baseElemental, factor);
@@ -215,17 +220,23 @@ export function createQuantityScaledProperties(
   let kineticsImpact;
   if (kinetics) {
     const baseAlchemical = deriveESMSFromElemental(baseElemental);
-    const scaledAlchemical = scaleAlchemicalProperties(baseAlchemical, factor, kinetics);
+    const scaledAlchemical = scaleAlchemicalProperties(
+      baseAlchemical,
+      factor,
+      kinetics,
+    );
 
     // Calculate force adjustment (momentum-like effect from quantity)
-    const forceAdjustment = factor * (kinetics.reactivity + kinetics.gregsEnergy) / 2;
+    const forceAdjustment =
+      (factor * (kinetics.reactivity + kinetics.gregsEnergy)) / 2;
 
     // Calculate thermal shift (heat capacity effect from quantity)
-    const thermalShift = factor * kinetics.heat - (1 - factor) * kinetics.entropy;
+    const thermalShift =
+      factor * kinetics.heat - (1 - factor) * kinetics.entropy;
 
     kineticsImpact = {
       forceAdjustment,
-      thermalShift
+      thermalShift,
     };
   }
 
@@ -235,7 +246,7 @@ export function createQuantityScaledProperties(
     quantity,
     unit,
     factor,
-    kineticsImpact
+    kineticsImpact,
   };
 }
 
@@ -244,20 +255,21 @@ export function createQuantityScaledProperties(
  * @param ingredients - Array of ingredient data with quantity info
  * @returns Array of scaled ingredient properties
  */
-export function batchScaleIngredients(ingredients: Array<{
+export function batchScaleIngredients(
+  ingredients: Array<{
     baseElemental: ElementalProperties;
     quantity: number;
     unit: string;
     kinetics?: ThermodynamicMetrics;
-  }>
+  }>,
 ): QuantityScaledProperties[] {
-  return ingredients.map(ingredient =>
+  return ingredients.map((ingredient) =>
     createQuantityScaledProperties(
       ingredient.baseElemental,
       ingredient.quantity,
       ingredient.unit,
-      ingredient.kinetics
-    )
+      ingredient.kinetics,
+    ),
   );
 }
 
@@ -267,7 +279,7 @@ export function batchScaleIngredients(ingredients: Array<{
  * @returns Validation result with issues if any
  */
 export function validateScalingIntegrity(scaled: QuantityScaledProperties): {
-  isValid: boolean,
+  isValid: boolean;
   issues: string[];
 } {
   const issues: string[] = [];
@@ -282,12 +294,16 @@ export function validateScalingIntegrity(scaled: QuantityScaledProperties): {
   // Check elemental harmony (sum should be close to 1.0)
   const sum = Object.values(scaled.scaled).reduce((acc, val) => acc + val, 0);
   if (Math.abs(sum - 1.0) > 0.1) {
-    issues.push(`Elemental properties sum ${sum.toFixed(3)} deviates from harmony (1.0)`);
+    issues.push(
+      `Elemental properties sum ${sum.toFixed(3)} deviates from harmony (1.0)`,
+    );
   }
 
   // Check factor bounds
   if (scaled.factor < 0.1 || scaled.factor > 2.0) {
-    issues.push(`Scaling factor ${scaled.factor} out of expected bounds [0.1, 2.0]`);
+    issues.push(
+      `Scaling factor ${scaled.factor} out of expected bounds [0.1, 2.0]`,
+    );
   }
 
   // Check kinetics impact if present
@@ -303,7 +319,7 @@ export function validateScalingIntegrity(scaled: QuantityScaledProperties): {
 
   return {
     isValid: issues.length === 0,
-    issues
+    issues,
   };
 }
 
@@ -315,5 +331,5 @@ export default {
   scaleAlchemicalProperties,
   createQuantityScaledProperties,
   batchScaleIngredients,
-  validateScalingIntegrity
+  validateScalingIntegrity,
 };

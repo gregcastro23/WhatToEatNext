@@ -64,10 +64,10 @@ function getElementalCompatibility(element1, element2) {
 function getComplementaryElement(element) {
   // Each element complements itself most strongly
   const complementary = {
-    Fire: 'Fire',  // Fire reinforces itself
-    Water: 'Water', // Water reinforces itself
-    Earth: 'Earth', // Earth reinforces itself
-    Air: 'Air'     // Air reinforces itself
+    Fire: "Fire", // Fire reinforces itself
+    Water: "Water", // Water reinforces itself
+    Earth: "Earth", // Earth reinforces itself
+    Air: "Air", // Air reinforces itself
   };
   return complementary[element];
 }

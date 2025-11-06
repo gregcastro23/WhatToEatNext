@@ -1,8 +1,12 @@
 class TS1180Processor {
-  constructor() { this.projectRoot = process.cwd(); }
+  constructor() {
+    this.projectRoot = process.cwd();
+  }
   async process(dryRun = true) {
     return { filesProcessed: 0, errorsFixed: 0 };
   }
-  async getFilesWithErrors() { return []; }
+  async getFilesWithErrors() {
+    return [];
+  }
 }
 export default TS1180Processor;

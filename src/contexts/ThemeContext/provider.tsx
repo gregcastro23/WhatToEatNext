@@ -1,31 +1,31 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { themeManager } from '@/utils/theme';
-import { _ThemeContext } from './context';
-import type { Theme } from './types';
-import type { ReactNode} from 'react';
+import { useEffect, useState } from "react";
+import { themeManager } from "@/utils/theme";
+import { _ThemeContext } from "./context";
+import type { Theme } from "./types";
+import type { ReactNode } from "react";
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light')
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
     // Initialize theme from localStorage or system preference
-    const savedTheme = localStorage.getItem('theme') as Theme;
+    const savedTheme = localStorage.getItem("theme") as Theme;
     if (savedTheme) {
-      setTheme(savedTheme)
-      themeManager.updateTheme(savedTheme)
+      setTheme(savedTheme);
+      themeManager.updateTheme(savedTheme);
     }
-  }, [])
+  }, []);
 
   const handleThemeChange = (newTheme: Theme) => {
-    setTheme(newTheme)
+    setTheme(newTheme);
     themeManager.updateTheme(newTheme);
-  }
+  };
 
   return (
-    <_ThemeContext.Provider value={{ theme, setTheme: handleThemeChange }}>,
-      {children}
+    <_ThemeContext.Provider value={{ theme, setTheme: handleThemeChange }}>
+      ,{children}
     </_ThemeContext.Provider>
-  )
+  );
 }

@@ -83,16 +83,19 @@ Each cooking method includes:
 
 ```typescript
 // Import the cooking methods data
-import { cookingMethods, getDetailedCookingMethod } from '../data/cooking/cookingMethods';
+import {
+  cookingMethods,
+  getDetailedCookingMethod,
+} from "../data/cooking/cookingMethods";
 
 // Get basic info about roasting
 const roastingBasic = cookingMethods.roasting;
 
 // Get detailed info about roasting
-const roastingDetailed = getDetailedCookingMethod('roasting');
+const roastingDetailed = getDetailedCookingMethod("roasting");
 
 // Get methods compatible with Fire element (threshold 0.7)
-const fireMethods = getCookingMethodsByElement('Fire', 0.7);
+const fireMethods = getCookingMethodsByElement("Fire", 0.7);
 ```
 
 ## Adding New Methods

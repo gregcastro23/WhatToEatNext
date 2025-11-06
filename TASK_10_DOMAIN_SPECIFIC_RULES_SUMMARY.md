@@ -40,17 +40,17 @@ and fallback values.
 
 ```javascript
 files: [
-  '**/calculations/**/*.ts',
-  '**/calculations/**/*.tsx',
-  '**/data/planets/**/*.ts',
-  '**/utils/reliableAstronomy.ts',
-  '**/utils/planetaryConsistencyCheck.ts',
-  '**/utils/astrology/**/*.ts',
-  '**/services/*Astrological*.ts',
-  '**/services/*Alchemical*.ts',
-  '**/hooks/use*Astro*.ts',
-  '**/hooks/use*Planet*.ts'
-]
+  "**/calculations/**/*.ts",
+  "**/calculations/**/*.tsx",
+  "**/data/planets/**/*.ts",
+  "**/utils/reliableAstronomy.ts",
+  "**/utils/planetaryConsistencyCheck.ts",
+  "**/utils/astrology/**/*.ts",
+  "**/services/*Astrological*.ts",
+  "**/services/*Alchemical*.ts",
+  "**/hooks/use*Astro*.ts",
+  "**/hooks/use*Planet*.ts",
+];
 ```
 
 ### 3. Validation Utilities Enhanced

@@ -1,17 +1,20 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
-console.log('🔧 Starting TS1005 Surgical Fixes...\n');
+console.log("🔧 Starting TS1005 Surgical Fixes...\n");
 
 // Get initial error count
 function getTS1005ErrorCount() {
   try {
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1005"', {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    });
+    const output = execSync(
+      'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1005"',
+      {
+        encoding: "utf8",
+        stdio: "pipe",
+      },
+    );
     return parseInt(output.trim()) || 0;
   } catch (error) {
     return error.status === 1 ? 0 : -1;
@@ -24,7 +27,7 @@ function applySurgicalFixes(filePath) {
     return 0;
   }
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
   const originalContent = content;
   let fixCount = 0;
 
@@ -35,35 +38,32 @@ function applySurgicalFixes(filePath) {
   content = content.replace(
     /\[([^,\]]+),\s*([^:\]]+)\]:\s*any\)/g,
     (match, p1, p2) => {
-      if (!p2.includes(':')) {
+      if (!p2.includes(":")) {
         fixCount++;
         return `[${p1}, ${p2}: any])`;
       }
       return match;
-    }
+    },
   );
 
   // Pattern 2: Missing closing parenthesis in simple function calls
   // expect(something,  ->  expect(something);
-  content = content.replace(
-    /^(\s*expect\([^)]+),\s*$/gm,
-    (match, p1) => {
-      fixCount++;
-      return `${p1});`;
-    }
-  );
+  content = content.replace(/^(\s*expect\([^)]+),\s*$/gm, (match, p1) => {
+    fixCount++;
+    return `${p1});`;
+  });
 
   // Pattern 3: Missing semicolon after simple variable declarations
   // const x = value  ->  const x = value;
   content = content.replace(
     /^(\s*(?:const|let|var)\s+\w+\s*=\s*[^;{}\n]+)$/gm,
     (match, p1) => {
-      if (!p1.endsWith(';') && !p1.endsWith(',') && !p1.includes('(')) {
+      if (!p1.endsWith(";") && !p1.endsWith(",") && !p1.includes("(")) {
         fixCount++;
         return `${p1};`;
       }
       return match;
-    }
+    },
   );
 
   // Pattern 4: Missing comma in simple object properties
@@ -73,7 +73,7 @@ function applySurgicalFixes(filePath) {
     (match, p1, p2) => {
       fixCount++;
       return `${p1}, ${p2}`;
-    }
+    },
   );
 
   // Pattern 5: Missing opening brace after function declaration
@@ -83,11 +83,11 @@ function applySurgicalFixes(filePath) {
     (match, p1) => {
       fixCount++;
       return `${p1}{`;
-    }
+    },
   );
 
   if (content !== originalContent) {
-    fs.writeFileSync(filePath, content, 'utf8');
+    fs.writeFileSync(filePath, content, "utf8");
     return fixCount;
   }
 
@@ -100,20 +100,23 @@ async function main() {
   console.log(`📊 Initial TS1005 errors: ${initialErrors}`);
 
   if (initialErrors === 0) {
-    console.log('🎉 No TS1005 errors found!');
+    console.log("🎉 No TS1005 errors found!");
     return;
   }
 
   // Get files with TS1005 errors
   let filesWithErrors = [];
   try {
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | cut -d"(" -f1 | sort -u', {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    });
-    filesWithErrors = output.trim().split('\n').filter(Boolean);
+    const output = execSync(
+      'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | cut -d"(" -f1 | sort -u',
+      {
+        encoding: "utf8",
+        stdio: "pipe",
+      },
+    );
+    filesWithErrors = output.trim().split("\n").filter(Boolean);
   } catch (error) {
-    console.log('No TS1005 errors found');
+    console.log("No TS1005 errors found");
     return;
   }
 
@@ -136,7 +139,7 @@ async function main() {
       // Validate after each file
       const currentErrors = getTS1005ErrorCount();
       if (currentErrors > initialErrors) {
-        console.log('   ⚠️  Error count increased, reverting...');
+        console.log("   ⚠️  Error count increased, reverting...");
         // Revert the file
         execSync(`git checkout HEAD -- "${file}"`);
         break;
@@ -150,9 +153,10 @@ async function main() {
 
   const finalErrors = getTS1005ErrorCount();
   const errorsFixed = initialErrors - finalErrors;
-  const reductionPercent = initialErrors > 0 ? ((errorsFixed / initialErrors) * 100).toFixed(1) : 0;
+  const reductionPercent =
+    initialErrors > 0 ? ((errorsFixed / initialErrors) * 100).toFixed(1) : 0;
 
-  console.log('\n📈 Final Results:');
+  console.log("\n📈 Final Results:");
   console.log(`   Initial TS1005 errors: ${initialErrors}`);
   console.log(`   Final TS1005 errors: ${finalErrors}`);
   console.log(`   TS1005 errors fixed: ${errorsFixed}`);

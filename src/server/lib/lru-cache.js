@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 // Simple LRU cache implementation
 class LRUCache {

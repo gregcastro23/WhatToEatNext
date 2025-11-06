@@ -139,17 +139,17 @@ with advanced automation, consistency, and developer experience features.
 ```typescript
 // ✅ Proper formatting enforced
 const formattedObject = {
-  property1: 'value1',
-  property2: 'value2',
+  property1: "value1",
+  property2: "value2",
   nested: {
-    deep: 'value',
+    deep: "value",
   },
 };
 
 // ✅ Consistent import ordering
-import React from 'react';
-import { Component } from '@/components/Component';
-import { utils } from './utils';
+import React from "react";
+import { Component } from "@/components/Component";
+import { utils } from "./utils";
 ```
 
 ### Type Safety

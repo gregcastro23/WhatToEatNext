@@ -1,44 +1,48 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
 
 // ========== PHASE, 3: UPDATED IMPORTS TO USE TYPE ALIASES ==========
 import {
   _DefaultAstrologicalState,
   DefaultPlanetaryPositions,
   _createSuccessResponse,
-  _createErrorResponse
-} from '@/constants/typeDefaults';
-import type { ElementalPropertiesType, ServiceResponseType } from '@/types/alchemy';
-import type { PlanetaryInfluenceResponse } from '@/types/apiResponses';
-import type { AstrologicalTestData } from '@/types/astrologicalTestData';
+  _createErrorResponse,
+} from "@/constants/typeDefaults";
+import type {
+  ElementalPropertiesType,
+  ServiceResponseType,
+} from "@/types/alchemy";
+import type { PlanetaryInfluenceResponse } from "@/types/apiResponses";
+import type { AstrologicalTestData } from "@/types/astrologicalTestData";
 import type {
   PlanetaryPositions,
   StandardZodiacSign,
   StandardLunarPhase,
   CompleteAstrologicalState,
   PlanetaryPositionDetails,
-  PlanetaryAspectDetails
-} from '@/types/astrology';
+  PlanetaryAspectDetails,
+} from "@/types/astrology";
 import type {
   CelestialPosition,
   PlanetaryAlignment,
   ZodiacSign,
   Planet,
-  LunarPhase} from '@/types/celestial';
-import {
-  AstrologicalState as CentralizedAstrologicalState
-} from '@/types/celestial';
-import { createLogger } from '../utils/logger';
+  LunarPhase,
+} from "@/types/celestial";
+import { AstrologicalState as CentralizedAstrologicalState } from "@/types/celestial";
+import { createLogger } from "../utils/logger";
 
 // Create a component-specific logger
-const logger = createLogger('AstrologicalService');
+const logger = createLogger("AstrologicalService");
 
 // Set up path for ephemeris data
 const EPHE_PATH =
-  typeof window === 'undefined' ? path.join(process.cwd(), 'public', 'ephe') : '/ephe';
+  typeof window === "undefined"
+    ? path.join(process.cwd(), "public", "ephe")
+    : "/ephe";
 
 const _isEphemerisFileAvailable = (fileName: string): boolean => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     // In browser, we can't synchronously check files, assume true if running client side
     return true;
   }
@@ -50,7 +54,7 @@ const _isEphemerisFileAvailable = (fileName: string): boolean => {
     logger.warn(`Error checking ephemeris file ${fileName}:`, e);
     return false;
   }
-}
+};
 
 // ========== PHASE, 3: STANDARDIZED RESPONSE TYPES ==========
 
@@ -103,8 +107,8 @@ export class AstrologicalService {
     // Initialize with default state
     this.currentState = {
       ..._DefaultAstrologicalState,
-      elementalInfluence: _DefaultAstrologicalState.elementalInfluence
-    }
+      elementalInfluence: _DefaultAstrologicalState.elementalInfluence,
+    };
   }
 
   /**
@@ -124,25 +128,25 @@ export class AstrologicalService {
     testData?: AstrologicalTestData,
   ): Promise<AstrologicalCalculationResponse> {
     try {
-      logger.info('Testing astrological calculations...')
+      logger.info("Testing astrological calculations...");
       const mockCalculationResult = {
         planetaryPositions: DefaultPlanetaryPositions,
-        zodiacSign: 'aries' as StandardZodiacSign,
-        lunarPhase: 'new moon' as StandardLunarPhase,
+        zodiacSign: "aries" as StandardZodiacSign,
+        lunarPhase: "new moon" as StandardLunarPhase,
         elementalInfluence: {
           Fire: 0.3,
           Water: 0.2,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         } as ElementalPropertiesType,
         accuracy: 0.95,
-        calculationTimestamp: new Date().toISOString()
+        calculationTimestamp: new Date().toISOString(),
       };
 
       return _createSuccessResponse(mockCalculationResult);
     } catch (error) {
       return _createErrorResponse(
-        `Calculation test failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        `Calculation test failed: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
     }
   }
@@ -154,52 +158,57 @@ export class AstrologicalService {
     positions?: PlanetaryPositions,
   ): Promise<ServiceResponseType<boolean>> {
     try {
-      logger.info('Verifying planetary positions...')
+      logger.info("Verifying planetary positions...");
       if (!positions || Object.keys(positions).length === 0) {
-        return _createErrorResponse('No planetary positions provided for verification');
+        return _createErrorResponse(
+          "No planetary positions provided for verification",
+        );
       }
 
       // Validate that all positions are valid zodiac signs
       const validZodiacSigns: StandardZodiacSign[] = [
-        'aries',
-        'taurus',
-        'gemini',
-        'cancer',
-        'leo',
-        'virgo',
-        'libra',
-        'scorpio',
-        'sagittarius',
-        'capricorn',
-        'aquarius',
-        'pisces'
+        "aries",
+        "taurus",
+        "gemini",
+        "cancer",
+        "leo",
+        "virgo",
+        "libra",
+        "scorpio",
+        "sagittarius",
+        "capricorn",
+        "aquarius",
+        "pisces",
       ];
 
-      const isValid = Object.values(positions).every(sign =>
-        validZodiacSigns.includes(sign.toLowerCase() as StandardZodiacSign)
+      const isValid = Object.values(positions).every((sign) =>
+        validZodiacSigns.includes(sign.toLowerCase() as StandardZodiacSign),
       );
 
       return _createSuccessResponse(isValid);
     } catch (error) {
       return _createErrorResponse(
-        `Verification failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      )
+        `Verification failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
   }
 
   /**
    * Updated API testing with standardized response
    */
-  static async testAPIs(
-    apiEndpoints?: string[],
-  ): Promise<ServiceResponseType<{ testedEndpoints: string[], results: Record<string, boolean> }>> {
+  static async testAPIs(apiEndpoints?: string[]): Promise<
+    ServiceResponseType<{
+      testedEndpoints: string[];
+      results: Record<string, boolean>;
+    }>
+  > {
     try {
-      logger.info('Testing astrological APIs...')
+      logger.info("Testing astrological APIs...");
 
       const endpoints = apiEndpoints || [
-        '/api/planetary-positions',
-        '/api/astrologize',
-        '/api/astrology'
+        "/api/planetary-positions",
+        "/api/astrologize",
+        "/api/astrology",
       ];
 
       const results: Record<string, boolean> = {};
@@ -212,14 +221,14 @@ export class AstrologicalService {
 
       const responseData = {
         testedEndpoints: endpoints,
-        results
+        results,
       };
 
       return _createSuccessResponse(responseData);
     } catch (error) {
       return _createErrorResponse(
-        `API testing failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      )
+        `API testing failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
   }
 
@@ -241,7 +250,7 @@ export class AstrologicalService {
       return _createSuccessResponse(this.currentState);
     } catch (error) {
       return _createErrorResponse(
-        `Failed to update state: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        `Failed to update state: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
     }
   }
@@ -260,28 +269,34 @@ export class AstrologicalService {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         } as ElementalPropertiesType,
         alchemicalModifier: {
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25
+          Substance: 0.25,
         },
-        compatibilityScore: 0.75
+        compatibilityScore: 0.75,
       };
 
       return _createSuccessResponse(influences);
     } catch (error) {
       return _createErrorResponse(
-        `Planetary influence calculation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        `Planetary influence calculation failed: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
     }
   }
 }
 
 // Re-export types from centralized location - using the imported types instead of re-exporting
-export type { Planet, ZodiacSign, LunarPhase, CelestialPosition, PlanetaryAlignment };
+export type {
+  Planet,
+  ZodiacSign,
+  LunarPhase,
+  CelestialPosition,
+  PlanetaryAlignment,
+};
 
 // Interface for legacy code support - use the centralized CelestialPosition type internally
 export interface PlanetPosition {
@@ -293,14 +308,14 @@ export interface PlanetPosition {
 
 // MoonPhase type for API compatibility - using string literals
 export type MoonPhase =
-  | 'new'
-  | 'waxing crescent'
-  | 'first quarter'
-  | 'waxing gibbous'
-  | 'full'
-  | 'waning gibbous'
-  | 'last quarter'
-  | 'waning crescent';
+  | "new"
+  | "waxing crescent"
+  | "first quarter"
+  | "waxing gibbous"
+  | "full"
+  | "waning gibbous"
+  | "last quarter"
+  | "waning crescent";
 // AstrologicalState for service interface - we'll map this to the centralized one internally
 
 // Canonical async function to get the latest astrological state - Updated with standardized response
@@ -310,22 +325,22 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
     // For now, return a minimal valid state as a placeholder
     const astrologicalData = {
       planetaryPositions: DefaultPlanetaryPositions,
-      zodiacSign: 'aries' as StandardZodiacSign,
-      lunarPhase: 'new moon' as StandardLunarPhase,
+      zodiacSign: "aries" as StandardZodiacSign,
+      lunarPhase: "new moon" as StandardLunarPhase,
       elementalInfluence: {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       } as ElementalPropertiesType,
       accuracy: 1.0,
-      calculationTimestamp: new Date().toISOString()
+      calculationTimestamp: new Date().toISOString(),
     };
 
     return _createSuccessResponse(astrologicalData);
   } catch (error) {
     return _createErrorResponse(
-      `Failed to get astrological state: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Failed to get astrological state: ${error instanceof Error ? error.message : "Unknown error"}`,
     );
   }
 }

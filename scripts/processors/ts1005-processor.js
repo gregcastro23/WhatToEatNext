@@ -13,60 +13,65 @@
  * 4. Comma placement in object literals
  */
 
-import fs from 'fs';
-import path from 'path';
-import { execSync } from 'child_process';
+import fs from "fs";
+import path from "path";
+import { execSync } from "child_process";
 
 class TS1005Processor {
   constructor() {
-    this.projectRoot = path.resolve(import.meta.dirname || path.dirname(import.meta.url.replace('file://', '')), '../..');
+    this.projectRoot = path.resolve(
+      import.meta.dirname ||
+        path.dirname(import.meta.url.replace("file://", "")),
+      "../..",
+    );
     this.filesProcessed = 0;
     this.errorsFixed = 0;
-    this.backupDir = path.join(this.projectRoot, 'backups', 'phase4', 'ts1005');
+    this.backupDir = path.join(this.projectRoot, "backups", "phase4", "ts1005");
     this.patterns = [
       {
-        name: 'Orphaned closing brace after statement',
+        name: "Orphaned closing brace after statement",
         // Matches: }, at end of line after code removal
         regex: /^(\s*)(},)\s*$/gm,
-        fix: (match, indent) => `${indent}// Removed orphaned closing brace`
+        fix: (match, indent) => `${indent}// Removed orphaned closing brace`,
       },
       {
-        name: 'Comma after statement instead of semicolon',
+        name: "Comma after statement instead of semicolon",
         // Matches: const x = y,
         regex: /^(\s*)(const|let|var|return|if|while|for)\s+([^,]+),\s*$/gm,
-        fix: (match, indent, keyword, rest) => `${indent}${keyword} ${rest};`
+        fix: (match, indent, keyword, rest) => `${indent}${keyword} ${rest};`,
       },
       {
-        name: 'Missing semicolon after variable declaration',
+        name: "Missing semicolon after variable declaration",
         // Matches: const x = y\n followed by another statement
-        regex: /^(\s*)(const|let|var)\s+(.+?)\s*\n(\s*)(const|let|var|return|if|for|while|switch)/gm,
+        regex:
+          /^(\s*)(const|let|var)\s+(.+?)\s*\n(\s*)(const|let|var|return|if|for|while|switch)/gm,
         fix: (match, indent1, keyword1, rest1, indent2, keyword2) =>
-          `${indent1}${keyword1} ${rest1};\n${indent2}${keyword2}`
+          `${indent1}${keyword1} ${rest1};\n${indent2}${keyword2}`,
       },
       {
-        name: 'Orphaned closing brace in object literal',
+        name: "Orphaned closing brace in object literal",
         // Matches: } without corresponding opening in object context
         regex: /(\w+:\s*{[^}]*)\n(\s*)(},)/gm,
-        fix: (match, before, indent, closing) => `${before}\n${indent}}`
+        fix: (match, before, indent, closing) => `${before}\n${indent}}`,
       },
       {
-        name: 'Extra comma after closing brace',
+        name: "Extra comma after closing brace",
         // Matches: }},
         regex: /(\}\}),(?=\s*$)/gm,
-        fix: (match, braces) => `${braces}`
+        fix: (match, braces) => `${braces}`,
       },
       {
-        name: 'Semicolon in object literal instead of comma',
+        name: "Semicolon in object literal instead of comma",
         // Matches: property: value;
         regex: /(\s+\w+:\s*[^;]+);(\s*\n\s*\w+:)/g,
-        fix: (match, prop, nextProp) => `${prop},${nextProp}`
-      }
+        fix: (match, prop, nextProp) => `${prop},${nextProp}`,
+      },
     ];
   }
 
   async process(dryRun = false) {
-    console.log('🔧 TS1005 Processor - Fixing semicolon/comma errors...');
-    console.log(`Mode: ${dryRun ? 'DRY RUN' : 'LIVE'}\n`);
+    console.log("🔧 TS1005 Processor - Fixing semicolon/comma errors...");
+    console.log(`Mode: ${dryRun ? "DRY RUN" : "LIVE"}\n`);
 
     // Create backup directory
     if (!dryRun && !fs.existsSync(this.backupDir)) {
@@ -85,23 +90,23 @@ class TS1005Processor {
     return {
       filesProcessed: this.filesProcessed,
       errorsFixed: this.errorsFixed,
-      success: true
+      success: true,
     };
   }
 
   async getFilesWithTS1005Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit 2>&1', {
+      const output = execSync("yarn tsc --noEmit 2>&1", {
         cwd: this.projectRoot,
-        encoding: 'utf8',
-        maxBuffer: 50 * 1024 * 1024
+        encoding: "utf8",
+        maxBuffer: 50 * 1024 * 1024,
       });
 
-      const lines = output.split('\n');
+      const lines = output.split("\n");
       const filesSet = new Set();
 
       for (const line of lines) {
-        if (line.includes('error TS1005')) {
+        if (line.includes("error TS1005")) {
           const match = line.match(/^(.+?\.tsx?)\(/);
           if (match) {
             const filePath = path.join(this.projectRoot, match[1]);
@@ -115,12 +120,12 @@ class TS1005Processor {
       return Array.from(filesSet);
     } catch (error) {
       // TypeScript errors expected - parse from error output
-      const output = error.stdout || error.stderr || '';
-      const lines = output.split('\n');
+      const output = error.stdout || error.stderr || "";
+      const lines = output.split("\n");
       const filesSet = new Set();
 
       for (const line of lines) {
-        if (line.includes('error TS1005')) {
+        if (line.includes("error TS1005")) {
           const match = line.match(/^(.+?\.tsx?)\(/);
           if (match) {
             const filePath = path.join(this.projectRoot, match[1]);
@@ -137,7 +142,7 @@ class TS1005Processor {
 
   async processFile(filePath, dryRun) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       let modified = content;
       let fixCount = 0;
 
@@ -165,7 +170,7 @@ class TS1005Processor {
           // Create backup
           const backupPath = path.join(
             this.backupDir,
-            `${path.basename(filePath)}.${Date.now()}.bak`
+            `${path.basename(filePath)}.${Date.now()}.bak`,
           );
           fs.writeFileSync(backupPath, content);
 
@@ -174,7 +179,9 @@ class TS1005Processor {
 
           console.log(`\n✅ ${path.relative(this.projectRoot, filePath)}`);
           console.log(`  Fixed ${fixCount} pattern(s)`);
-          console.log(`  Backup: ${path.relative(this.projectRoot, backupPath)}`);
+          console.log(
+            `  Backup: ${path.relative(this.projectRoot, backupPath)}`,
+          );
         }
       }
     } catch (error) {
@@ -183,19 +190,19 @@ class TS1005Processor {
   }
 
   async analyze() {
-    console.log('📊 TS1005 Error Analysis\n');
+    console.log("📊 TS1005 Error Analysis\n");
 
     const filesWithErrors = await this.getFilesWithTS1005Errors();
 
     console.log(`Total files with TS1005 errors: ${filesWithErrors.length}`);
-    console.log('\nPattern capabilities:');
+    console.log("\nPattern capabilities:");
 
     for (const pattern of this.patterns) {
       console.log(`  • ${pattern.name}`);
     }
 
-    console.log('\nSample files to process:');
-    filesWithErrors.slice(0, 10).forEach(file => {
+    console.log("\nSample files to process:");
+    filesWithErrors.slice(0, 10).forEach((file) => {
       console.log(`  - ${path.relative(this.projectRoot, file)}`);
     });
 
@@ -208,22 +215,22 @@ class TS1005Processor {
 // CLI Interface
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
-  const command = args[0] || 'analyze';
+  const command = args[0] || "analyze";
 
   const processor = new TS1005Processor();
 
   switch (command) {
-    case 'analyze':
+    case "analyze":
       await processor.analyze();
       break;
 
-    case 'dry-run':
+    case "dry-run":
       await processor.process(true);
       break;
 
-    case 'process':
+    case "process":
       const result = await processor.process(false);
-      console.log('\n📊 Processing Complete:');
+      console.log("\n📊 Processing Complete:");
       console.log(`  Files processed: ${result.filesProcessed}`);
       console.log(`  Errors fixed: ${result.errorsFixed}`);
       break;

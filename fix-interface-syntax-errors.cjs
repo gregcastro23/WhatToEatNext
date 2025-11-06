@@ -6,9 +6,9 @@
  * Fixes remaining interface syntax errors preventing compilation
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class InterfaceSyntaxFixer {
   constructor() {
@@ -19,7 +19,7 @@ class InterfaceSyntaxFixer {
       fs.mkdirSync(this.backupDir, { recursive: true });
     }
 
-    this.log('Interface Syntax Fixer Started');
+    this.log("Interface Syntax Fixer Started");
   }
 
   log(message) {
@@ -30,7 +30,7 @@ class InterfaceSyntaxFixer {
   }
 
   createBackup(filePath) {
-    const backupPath = path.join(this.backupDir, filePath.replace(/\//g, '_'));
+    const backupPath = path.join(this.backupDir, filePath.replace(/\//g, "_"));
     const backupDirPath = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDirPath)) {
@@ -49,7 +49,7 @@ class InterfaceSyntaxFixer {
 
     this.createBackup(filePath);
 
-    let content = fs.readFileSync(filePath, 'utf8');
+    let content = fs.readFileSync(filePath, "utf8");
     const originalContent = content;
     let fixCount = 0;
 
@@ -58,15 +58,17 @@ class InterfaceSyntaxFixer {
     // 1. Fix semicolon followed by comma (;,)
     const semicolonCommaPattern = /(\w+:\s*[^;,\n}]+);,/g;
     if (semicolonCommaPattern.test(content)) {
-      content = content.replace(semicolonCommaPattern, '$1;');
+      content = content.replace(semicolonCommaPattern, "$1;");
       fixCount++;
-      this.log(`  ✅ Fixed semicolon-comma syntax in ${path.basename(filePath)}`);
+      this.log(
+        `  ✅ Fixed semicolon-comma syntax in ${path.basename(filePath)}`,
+      );
     }
 
     // 2. Fix colon followed by comma (:,)
     const colonCommaPattern = /(\w+):\s*([^,\n}]+),\s*\n/g;
     if (colonCommaPattern.test(content)) {
-      content = content.replace(colonCommaPattern, '$1: $2;\n');
+      content = content.replace(colonCommaPattern, "$1: $2;\n");
       fixCount++;
       this.log(`  ✅ Fixed colon-comma syntax in ${path.basename(filePath)}`);
     }
@@ -74,38 +76,51 @@ class InterfaceSyntaxFixer {
     // 3. Fix property declarations with trailing commas in interfaces
     const interfacePropertyPattern = /(\s+)(\w+):\s*([^,;\n}]+),(\s*\n)/g;
     if (interfacePropertyPattern.test(content)) {
-      content = content.replace(interfacePropertyPattern, '$1$2: $3;$4');
+      content = content.replace(interfacePropertyPattern, "$1$2: $3;$4");
       fixCount++;
-      this.log(`  ✅ Fixed interface property commas in ${path.basename(filePath)}`);
+      this.log(
+        `  ✅ Fixed interface property commas in ${path.basename(filePath)}`,
+      );
     }
 
     // 4. Fix type definitions with trailing commas
-    const typeDefPattern = /(type\s+\w+\s*=\s*{[^}]*?)(\w+:\s*[^,;\n}]+),(\s*\n)/g;
+    const typeDefPattern =
+      /(type\s+\w+\s*=\s*{[^}]*?)(\w+:\s*[^,;\n}]+),(\s*\n)/g;
     if (typeDefPattern.test(content)) {
-      content = content.replace(typeDefPattern, '$1$2;$3');
+      content = content.replace(typeDefPattern, "$1$2;$3");
       fixCount++;
-      this.log(`  ✅ Fixed type definition commas in ${path.basename(filePath)}`);
+      this.log(
+        `  ✅ Fixed type definition commas in ${path.basename(filePath)}`,
+      );
     }
 
     // 5. Fix object literal syntax in interfaces
-    const objectLiteralPattern = /(\s+)(\w+):\s*{([^}]*?)(\w+:\s*[^,;\n}]+),(\s*\n\s*})/g;
+    const objectLiteralPattern =
+      /(\s+)(\w+):\s*{([^}]*?)(\w+:\s*[^,;\n}]+),(\s*\n\s*})/g;
     if (objectLiteralPattern.test(content)) {
-      content = content.replace(objectLiteralPattern, '$1$2: {$3$4$5');
+      content = content.replace(objectLiteralPattern, "$1$2: {$3$4$5");
       fixCount++;
-      this.log(`  ✅ Fixed object literal syntax in ${path.basename(filePath)}`);
+      this.log(
+        `  ✅ Fixed object literal syntax in ${path.basename(filePath)}`,
+      );
     }
 
     // 6. Fix export interface syntax
-    const exportInterfacePattern = /(export\s+interface\s+\w+\s*{[^}]*?)(\w+:\s*[^,;\n}]+),(\s*\n)/g;
+    const exportInterfacePattern =
+      /(export\s+interface\s+\w+\s*{[^}]*?)(\w+:\s*[^,;\n}]+),(\s*\n)/g;
     if (exportInterfacePattern.test(content)) {
-      content = content.replace(exportInterfacePattern, '$1$2;$3');
+      content = content.replace(exportInterfacePattern, "$1$2;$3");
       fixCount++;
-      this.log(`  ✅ Fixed export interface syntax in ${path.basename(filePath)}`);
+      this.log(
+        `  ✅ Fixed export interface syntax in ${path.basename(filePath)}`,
+      );
     }
 
     if (content !== originalContent) {
       fs.writeFileSync(filePath, content);
-      this.log(`  ✅ Fixed ${fixCount} interface syntax issues in ${path.basename(filePath)}`);
+      this.log(
+        `  ✅ Fixed ${fixCount} interface syntax issues in ${path.basename(filePath)}`,
+      );
       return true;
     }
 
@@ -117,14 +132,17 @@ class InterfaceSyntaxFixer {
 
     try {
       // Get build output to find files with interface errors
-      execSync('yarn build', { stdio: 'pipe', timeout: 30000 });
+      execSync("yarn build", { stdio: "pipe", timeout: 30000 });
     } catch (error) {
-      const errorOutput = error.stdout?.toString() || error.stderr?.toString() || '';
+      const errorOutput =
+        error.stdout?.toString() || error.stderr?.toString() || "";
 
       // Extract file paths from error messages
       const fileMatches = errorOutput.match(/\.\/src\/[^\s]+\.tsx?/g);
       if (fileMatches) {
-        const uniqueFiles = [...new Set(fileMatches.map(f => f.replace('./', '')))];
+        const uniqueFiles = [
+          ...new Set(fileMatches.map((f) => f.replace("./", ""))),
+        ];
         files.push(...uniqueFiles);
       }
     }
@@ -134,28 +152,30 @@ class InterfaceSyntaxFixer {
 
   validateBuild() {
     try {
-      this.log('Validating build...');
-      execSync('yarn build', { stdio: 'pipe', timeout: 60000 });
-      this.log('✅ Build validation passed');
+      this.log("Validating build...");
+      execSync("yarn build", { stdio: "pipe", timeout: 60000 });
+      this.log("✅ Build validation passed");
       return true;
     } catch (error) {
-      this.log('❌ Build validation failed');
+      this.log("❌ Build validation failed");
       return false;
     }
   }
 
   execute() {
-    this.log('Starting Interface Syntax Error Fixes');
+    this.log("Starting Interface Syntax Error Fixes");
 
     // Get files with interface errors from build output
     const errorFiles = this.findFilesWithInterfaceErrors();
 
     if (errorFiles.length === 0) {
-      this.log('No interface syntax errors detected in build output');
+      this.log("No interface syntax errors detected in build output");
       return this.validateBuild();
     }
 
-    this.log(`Found ${errorFiles.length} files with potential interface errors`);
+    this.log(
+      `Found ${errorFiles.length} files with potential interface errors`,
+    );
 
     let totalFixed = 0;
 
@@ -174,11 +194,11 @@ class InterfaceSyntaxFixer {
     const buildValid = this.validateBuild();
 
     if (buildValid) {
-      this.log('\n🎉 All interface syntax errors fixed successfully!');
-      this.log('✅ Build is now stable');
+      this.log("\n🎉 All interface syntax errors fixed successfully!");
+      this.log("✅ Build is now stable");
       return true;
     } else {
-      this.log('\n⚠️ Some build issues may still remain');
+      this.log("\n⚠️ Some build issues may still remain");
       this.log(`Backup available at: ${this.backupDir}`);
       return false;
     }

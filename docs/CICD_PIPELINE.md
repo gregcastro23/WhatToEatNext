@@ -221,9 +221,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   ci-validation:
@@ -233,8 +233,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.18.0'
-          cache: 'yarn'
+          node-version: "20.18.0"
+          cache: "yarn"
 
       - name: Install dependencies
         run: make install
@@ -260,8 +260,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.18.0'
-          cache: 'yarn'
+          node-version: "20.18.0"
+          cache: "yarn"
 
       - name: Deploy Pipeline
         run: make deploy-pipeline

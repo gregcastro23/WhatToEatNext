@@ -35,7 +35,7 @@ const ELEMENT_COMPATIBILITY = {
   fire: { fire: 0.9, water: 0.7, earth: 0.7, Air: 0.7 },
   water: { fire: 0.7, water: 0.9, earth: 0.7, Air: 0.7 },
   earth: { fire: 0.7, water: 0.7, earth: 0.9, Air: 0.7 },
-  Air: { fire: 0.7, water: 0.7, earth: 0.7, Air: 0.9 }
+  Air: { fire: 0.7, water: 0.7, earth: 0.7, Air: 0.9 },
 };
 
 // Same elements have highest compatibility (0.9)
@@ -154,24 +154,26 @@ Unified access to all alchemical functionality:
 
 ```typescript
 const {
-  state,                    // Enhanced alchemical state
-  planetaryPositions,       // Current planetary positions
-  isDaytime,               // Day/night status
-  astrologicalState: {     // Astrological functionality
+  state, // Enhanced alchemical state
+  planetaryPositions, // Current planetary positions
+  isDaytime, // Day/night status
+  astrologicalState: {
+    // Astrological functionality
     chakraEnergies,
     zodiacEnergies,
     currentZodiac,
     isLoading,
     error,
-    refreshData
+    refreshData,
   },
-  chartData: {             // Chart functionality
+  chartData: {
+    // Chart functionality
     chart,
     loading,
     error,
     refreshChart,
-    createChartSvg
-  }
+    createChartSvg,
+  },
 } = useAlchemical();
 ```
 
@@ -181,14 +183,14 @@ Advanced chart utilities with elemental principles:
 
 ```typescript
 const {
-  chart,                           // Current chart data
-  loading,                         // Loading state
-  error,                          // Error state
-  refreshChart,                   // Refresh function
-  createChartSvg,                // SVG generation
-  getElementalCompatibility,      // Element compatibility calculator
-  getDominantElement,            // Dominant element analyzer
-  elementalBalance              // Current elemental balance
+  chart, // Current chart data
+  loading, // Loading state
+  error, // Error state
+  refreshChart, // Refresh function
+  createChartSvg, // SVG generation
+  getElementalCompatibility, // Element compatibility calculator
+  getDominantElement, // Dominant element analyzer
+  elementalBalance, // Current elemental balance
 } = useEnhancedChart();
 ```
 
@@ -198,14 +200,14 @@ Enhanced astrological utilities:
 
 ```typescript
 const {
-  chakraEnergies,              // Chakra energy data
-  zodiacEnergies,             // Zodiac energy data
-  currentZodiac,              // Current zodiac sign
-  getZodiacCompatibility,     // Zodiac compatibility calculator
-  getChakraElementAlignment,  // Chakra-element mapping
-  planetaryPositions,         // Planetary positions
-  elementalState,            // Current elemental state
-  alchemicalValues          // Alchemical property values
+  chakraEnergies, // Chakra energy data
+  zodiacEnergies, // Zodiac energy data
+  currentZodiac, // Current zodiac sign
+  getZodiacCompatibility, // Zodiac compatibility calculator
+  getChakraElementAlignment, // Chakra-element mapping
+  planetaryPositions, // Planetary positions
+  elementalState, // Current elemental state
+  alchemicalValues, // Alchemical property values
 } = useEnhancedAstrological();
 ```
 
@@ -215,13 +217,13 @@ const {
 
 ```typescript
 const {
-  chakraEnergies,      // ChakraEnergies | null
-  planetaryPositions,  // Record<string, unknown> | null
-  zodiacEnergies,     // Record<string, number> | null
-  currentZodiac,      // string | null
-  isLoading,          // boolean
-  error,              // string | null
-  refreshData         // () => Promise<void>
+  chakraEnergies, // ChakraEnergies | null
+  planetaryPositions, // Record<string, unknown> | null
+  zodiacEnergies, // Record<string, number> | null
+  currentZodiac, // string | null
+  isLoading, // boolean
+  error, // string | null
+  refreshData, // () => Promise<void>
 } = useAstrologicalState();
 ```
 
@@ -229,11 +231,11 @@ const {
 
 ```typescript
 const {
-  chart,           // CurrentChart
-  loading,         // boolean
-  error,           // string | null
-  refreshChart,    // () => Promise<void>
-  createChartSvg   // () => ChartSvgResult
+  chart, // CurrentChart
+  loading, // boolean
+  error, // string | null
+  refreshChart, // () => Promise<void>
+  createChartSvg, // () => ChartSvgResult
 } = useCurrentChart();
 ```
 
@@ -258,7 +260,7 @@ const getElementalHarmony = (element1: string, element2: string) => {
 
 // ❌ Incorrect: No opposing element logic
 const getBadElementalHarmony = (element1: string, element2: string) => {
-  if (element1 === 'fire' && element2 === 'water') return 0.1; // Wrong!
+  if (element1 === "fire" && element2 === "water") return 0.1; // Wrong!
   // This violates elemental self-reinforcement principles
 };
 ```
@@ -268,13 +270,13 @@ const getBadElementalHarmony = (element1: string, element2: string) => {
 ```typescript
 // Enhanced chakra-element mapping following alchemical energy states
 const CHAKRA_ELEMENT_MAPPING = {
-  crown: { fire: 0.6, Air: 0.4, water: 0.0, earth: 0.0 },      // spirit
-  throat: { Air: 0.6, earth: 0.4, fire: 0.0, water: 0.0 },     // substance
-  heart: { fire: 0.4, Air: 0.4, water: 0.1, earth: 0.1 },      // Transition
+  crown: { fire: 0.6, Air: 0.4, water: 0.0, earth: 0.0 }, // spirit
+  throat: { Air: 0.6, earth: 0.4, fire: 0.0, water: 0.0 }, // substance
+  heart: { fire: 0.4, Air: 0.4, water: 0.1, earth: 0.1 }, // Transition
   solarPlexus: { fire: 0.5, water: 0.3, Air: 0.1, earth: 0.1 }, // essence
-  sacral: { water: 0.5, fire: 0.3, Air: 0.1, earth: 0.1 },     // essence
-  brow: { water: 0.4, Air: 0.3, fire: 0.2, earth: 0.1 },       // essence
-  root: { water: 0.5, earth: 0.5, fire: 0.0, Air: 0.0 }        // matter
+  sacral: { water: 0.5, fire: 0.3, Air: 0.1, earth: 0.1 }, // essence
+  brow: { water: 0.4, Air: 0.3, fire: 0.2, earth: 0.1 }, // essence
+  root: { water: 0.5, earth: 0.5, fire: 0.0, Air: 0.0 }, // matter
 };
 ```
 
@@ -356,18 +358,18 @@ const mockAlchemicalContext = {
   astrologicalState: {
     chakraEnergies: mockChakraEnergies,
     zodiacEnergies: mockZodiacEnergies,
-    currentZodiac: 'aries',
+    currentZodiac: "aries",
     isLoading: false,
     error: null,
-    refreshData: jest.fn()
+    refreshData: jest.fn(),
   },
   chartData: {
     chart: mockChart,
     loading: false,
     error: null,
     refreshChart: jest.fn(),
-    createChartSvg: jest.fn()
-  }
+    createChartSvg: jest.fn(),
+  },
 };
 ```
 
@@ -386,7 +388,7 @@ The enhanced context includes comprehensive logging:
 
 ```typescript
 // Enable debug logging
-localStorage.setItem('debug', 'AlchemicalProvider');
+localStorage.setItem("debug", "AlchemicalProvider");
 ```
 
 ## Success Criteria

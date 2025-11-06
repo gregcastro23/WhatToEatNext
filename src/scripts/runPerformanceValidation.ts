@@ -9,18 +9,18 @@
  * Requirements: 5.1, 5.2, 5.3
  */
 
-import { execSync } from 'child_process';
-import { writeFileSync } from 'fs';
-import { PerformanceMonitoringService } from '../services/linting/PerformanceMonitoringService';
+import { execSync } from "child_process";
+import { writeFileSync } from "fs";
+import { PerformanceMonitoringService } from "../services/linting/PerformanceMonitoringService";
 
-import { LintingPerformanceValidator } from './validateLintingPerformance';
+import { LintingPerformanceValidator } from "./validateLintingPerformance";
 
 interface CLIOptions {
-  command: 'validate' | 'monitor' | 'report' | 'test';
+  command: "validate" | "monitor" | "report" | "test";
   continuous?: boolean;
   interval?: number;
   verbose?: boolean;
-  output?: string
+  output?: string;
 }
 
 class PerformanceValidationCLI {
@@ -33,19 +33,19 @@ class PerformanceValidationCLI {
   }
 
   async run(options: CLIOptions): Promise<void> {
-    console.log('🚀 Linting Performance Validation CLI\n');
+    console.log("🚀 Linting Performance Validation CLI\n");
 
     switch (options.command) {
-      case 'validate':
+      case "validate":
         await this.runValidation(options);
         break;
-      case 'monitor':
+      case "monitor":
         await this.runMonitoring(options);
         break;
-      case 'report':
+      case "report":
         await this.generateReport(options);
         break;
-      case 'test':
+      case "test":
         await this.runTests(options);
         break;
       default:
@@ -54,52 +54,63 @@ class PerformanceValidationCLI {
   }
 
   private async runValidation(options: CLIOptions): Promise<void> {
-    console.log('📊 Running comprehensive performance validation...\n');
+    console.log("📊 Running comprehensive performance validation...\n");
 
     try {
       await this.validator.validatePerformanceOptimizations();
-      console.log('\n✅ Performance validation completed successfully!');
+      console.log("\n✅ Performance validation completed successfully!");
     } catch (error) {
-      console.error('\n❌ Performance validation failed:', error);
+      console.error("\n❌ Performance validation failed:", error);
       process.exit(1);
     }
   }
 
   private async runMonitoring(options: CLIOptions): Promise<void> {
-    console.log('📈 Starting performance monitoring...\n');
+    console.log("📈 Starting performance monitoring...\n");
 
     const interval = options.interval || 300000; // 5 minutes default
     const commands = [
-      { name: 'Standard Lint', cmd: 'yarn lint --max-warnings=10000', opts: {} },
       {
-        name: 'Fast Lint (Cached)',
-        cmd: 'yarn lint:fast --max-warnings=10000',
-        opts: { cached: true }
+        name: "Standard Lint",
+        cmd: "yarn lint --max-warnings=10000",
+        opts: {},
       },
       {
-        name: 'Parallel Lint',
-        cmd: 'yarn lint:parallel --max-warnings=10000',
-        opts: { parallel: true }
+        name: "Fast Lint (Cached)",
+        cmd: "yarn lint:fast --max-warnings=10000",
+        opts: { cached: true },
       },
       {
-        name: 'Changed Files',
-        cmd: 'yarn lint:changed --max-warnings=10000',
-        opts: { incremental: true }
+        name: "Parallel Lint",
+        cmd: "yarn lint:parallel --max-warnings=10000",
+        opts: { parallel: true },
+      },
+      {
+        name: "Changed Files",
+        cmd: "yarn lint:changed --max-warnings=10000",
+        opts: { incremental: true },
       },
     ];
 
     if (options.continuous) {
-      console.log(`🔄 Continuous monitoring every ${interval / 1000} seconds...\n`);
+      console.log(
+        `🔄 Continuous monitoring every ${interval / 1000} seconds...\n`,
+      );
 
       const monitorLoop = async () => {
         for (const command of commands) {
           try {
             console.log(`📊 Measuring: ${command.name}...`);
-            const metrics = await this.monitor.measurePerformance(command.cmd, command.opts);
+            const metrics = await this.monitor.measurePerformance(
+              command.cmd,
+              command.opts,
+            );
 
             if (options.verbose) {
               console.log(`   Time: ${metrics.executionTime}ms`);
-              console.log(`   Memory: ${Math.round(metrics.memoryUsage / 1024 / 1024)}MB`);
+              console.log(
+                `   Memory: ${Math.round(metrics.memoryUsage / 1024 / 1024)}MB`,
+              );
               console.log(`   Cache Hit Rate: ${metrics.cacheHitRate}%`);
               console.log(`   Files: ${metrics.filesProcessed}`);
               console.log(`   Processes: ${metrics.parallelProcesses}\n`);
@@ -114,7 +125,7 @@ class PerformanceValidationCLI {
         console.log(
           `📋 Quick Report - Avg Time: ${Math.round(report.summary.averageExecutionTime)}ms, ` +
             `Cache Rate: ${Math.round(report.summary.averageCacheHitRate)}%, ` +
-            `Alerts: ${report.recentAlerts.length}\n`
+            `Alerts: ${report.recentAlerts.length}\n`,
         );
       };
 
@@ -125,8 +136,8 @@ class PerformanceValidationCLI {
       setInterval(monitorLoop, interval);
 
       // Keep process alive
-      process.on('SIGINT', () => {
-        console.log('\n🛑 Monitoring stopped by user');
+      process.on("SIGINT", () => {
+        console.log("\n🛑 Monitoring stopped by user");
         process.exit(0);
       });
     } else {
@@ -134,10 +145,15 @@ class PerformanceValidationCLI {
       for (const command of commands) {
         try {
           console.log(`📊 Measuring: ${command.name}...`);
-          const metrics = await this.monitor.measurePerformance(command.cmd, command.opts);
+          const metrics = await this.monitor.measurePerformance(
+            command.cmd,
+            command.opts,
+          );
 
           console.log(`   ✅ Time: ${metrics.executionTime}ms`);
-          console.log(`   💾 Memory: ${Math.round(metrics.memoryUsage / 1024 / 1024)}MB`);
+          console.log(
+            `   💾 Memory: ${Math.round(metrics.memoryUsage / 1024 / 1024)}MB`,
+          );
           console.log(`   🔄 Cache Hit Rate: ${metrics.cacheHitRate}%`);
           console.log(`   📁 Files: ${metrics.filesProcessed}`);
           console.log(`   ⚡ Processes: ${metrics.parallelProcesses}\n`);
@@ -149,87 +165,112 @@ class PerformanceValidationCLI {
   }
 
   private async generateReport(options: CLIOptions): Promise<void> {
-    console.log('📋 Generating performance report...\n');
+    console.log("📋 Generating performance report...\n");
 
     const report = this.monitor.generatePerformanceReport();
 
     // Summary
-    console.log('📊 Performance Summary');
-    console.log('=====================');
+    console.log("📊 Performance Summary");
+    console.log("=====================");
     console.log(`Total Measurements: ${report.summary.totalMeasurements}`);
-    console.log(`Average Execution Time: ${Math.round(report.summary.averageExecutionTime)}ms`);
     console.log(
-      `Average Memory Usage: ${Math.round(report.summary.averageMemoryUsage / 1024 / 1024)}MB`
+      `Average Execution Time: ${Math.round(report.summary.averageExecutionTime)}ms`,
     );
-    console.log(`Average Cache Hit Rate: ${Math.round(report.summary.averageCacheHitRate)}%`);
+    console.log(
+      `Average Memory Usage: ${Math.round(report.summary.averageMemoryUsage / 1024 / 1024)}MB`,
+    );
+    console.log(
+      `Average Cache Hit Rate: ${Math.round(report.summary.averageCacheHitRate)}%`,
+    );
     console.log(`Total Alerts: ${report.summary.totalAlerts}\n`);
 
     // Performance Improvement
-    console.log('🚀 Performance Improvement Validation');
-    console.log('====================================');
+    console.log("🚀 Performance Improvement Validation");
+    console.log("====================================");
     const improvement = report.performanceImprovement;
-    console.log(`Status: ${improvement.passed ? '✅ PASSED' : '❌ FAILED'}`);
-    console.log(`Improvement: ${improvement.improvement.toFixed(1)}% (target: 60-80%)`);
+    console.log(`Status: ${improvement.passed ? "✅ PASSED" : "❌ FAILED"}`);
+    console.log(
+      `Improvement: ${improvement.improvement.toFixed(1)}% (target: 60-80%)`,
+    );
     if (improvement.baseline && improvement.current) {
       console.log(`Baseline: ${improvement.baseline.executionTime}ms`);
       console.log(`Current: ${improvement.current.executionTime}ms\n`);
     }
 
     // Parallel Processing
-    console.log('⚡ Parallel Processing Validation');
-    console.log('===============================');
+    console.log("⚡ Parallel Processing Validation");
+    console.log("===============================");
     const parallel = report.parallelProcessing;
-    console.log(`Status: ${parallel.optimalDistribution ? '✅ OPTIMAL' : '⚠️  SUBOPTIMAL'}`);
-    console.log(`Files per Process: ${Math.round(parallel.filesPerProcess)} (target: ~30)`);
+    console.log(
+      `Status: ${parallel.optimalDistribution ? "✅ OPTIMAL" : "⚠️  SUBOPTIMAL"}`,
+    );
+    console.log(
+      `Files per Process: ${Math.round(parallel.filesPerProcess)} (target: ~30)`,
+    );
     console.log(`Process Count: ${parallel.processCount}\n`);
 
     // Memory Optimization
-    console.log('💾 Memory Optimization Validation');
-    console.log('================================');
+    console.log("💾 Memory Optimization Validation");
+    console.log("================================");
     const memory = report.memoryOptimization;
-    console.log(`Status: ${memory.withinLimit ? '✅ WITHIN LIMIT' : '❌ EXCEEDED'}`);
-    console.log(`Peak Memory: ${Math.round(memory.peakMemoryMB)}MB (limit: 4096MB)`);
-    console.log(`Efficient: ${memory.memoryEfficient ? '✅ YES' : '⚠️  NO'}\n`);
+    console.log(
+      `Status: ${memory.withinLimit ? "✅ WITHIN LIMIT" : "❌ EXCEEDED"}`,
+    );
+    console.log(
+      `Peak Memory: ${Math.round(memory.peakMemoryMB)}MB (limit: 4096MB)`,
+    );
+    console.log(`Efficient: ${memory.memoryEfficient ? "✅ YES" : "⚠️  NO"}\n`);
 
     // Incremental Performance
-    console.log('⚡ Incremental Linting Validation');
-    console.log('===============================');
+    console.log("⚡ Incremental Linting Validation");
+    console.log("===============================");
     const incremental = report.incrementalPerformance;
-    console.log(`Status: ${incremental.subTenSecond ? '✅ SUB-10 SECOND' : '❌ TOO SLOW'}`);
-    console.log(`Average Time: ${Math.round(incremental.averageIncrementalTime)}ms (target: <10s)`);
-    console.log(`Consistent: ${incremental.consistentPerformance ? '✅ YES' : '⚠️  NO'}\n`);
+    console.log(
+      `Status: ${incremental.subTenSecond ? "✅ SUB-10 SECOND" : "❌ TOO SLOW"}`,
+    );
+    console.log(
+      `Average Time: ${Math.round(incremental.averageIncrementalTime)}ms (target: <10s)`,
+    );
+    console.log(
+      `Consistent: ${incremental.consistentPerformance ? "✅ YES" : "⚠️  NO"}\n`,
+    );
 
     // Recent Alerts
     if (report.recentAlerts.length > 0) {
-      console.log('🚨 Recent Alerts');
-      console.log('===============');
-      report.recentAlerts.slice(-5).forEach(alert => {
-        const icon = alert.type === 'critical' ? '🔴' : alert.type === 'error' ? '🟠' : '🟡';
+      console.log("🚨 Recent Alerts");
+      console.log("===============");
+      report.recentAlerts.slice(-5).forEach((alert) => {
+        const icon =
+          alert.type === "critical"
+            ? "🔴"
+            : alert.type === "error"
+              ? "🟠"
+              : "🟡";
         console.log(`${icon} ${alert.message}`);
       });
-      console.log('');
+      console.log("");
     }
 
     // Recommendations
-    console.log('💡 Recommendations');
-    console.log('=================');
-    report.recommendations.forEach(rec => {
+    console.log("💡 Recommendations");
+    console.log("=================");
+    report.recommendations.forEach((rec) => {
       console.log(`• ${rec}`);
     });
-    console.log('');
+    console.log("");
 
     // Performance Trends
     const trends = this.monitor.getPerformanceTrend();
-    console.log('📈 Performance Trends (7 days)');
-    console.log('=============================');
+    console.log("📈 Performance Trends (7 days)");
+    console.log("=============================");
     console.log(
-      `Execution Time: ${this.getTrendIcon(trends.executionTimeTrend)} ${trends.executionTimeTrend}`
+      `Execution Time: ${this.getTrendIcon(trends.executionTimeTrend)} ${trends.executionTimeTrend}`,
     );
     console.log(
-      `Memory Usage: ${this.getTrendIcon(trends.memoryUsageTrend)} ${trends.memoryUsageTrend}`
+      `Memory Usage: ${this.getTrendIcon(trends.memoryUsageTrend)} ${trends.memoryUsageTrend}`,
     );
     console.log(
-      `Cache Hit Rate: ${this.getTrendIcon(trends.cacheHitRateTrend)} ${trends.cacheHitRateTrend}\n`
+      `Cache Hit Rate: ${this.getTrendIcon(trends.cacheHitRateTrend)} ${trends.cacheHitRateTrend}\n`,
     );
 
     // Save report if output specified
@@ -240,22 +281,22 @@ class PerformanceValidationCLI {
   }
 
   private async runTests(options: CLIOptions): Promise<void> {
-    console.log('🧪 Running performance validation tests...\n');
+    console.log("🧪 Running performance validation tests...\n");
 
     try {
-      console.log('📊 Running Jest tests for performance validation...');
+      console.log("📊 Running Jest tests for performance validation...");
       const output = execSync(
-        'yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose',
+        "yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose",
         {
-          encoding: 'utf8',
-          stdio: 'pipe'
-        }
+          encoding: "utf8",
+          stdio: "pipe",
+        },
       );
 
       console.log(output);
-      console.log('\n✅ Performance tests completed successfully!');
+      console.log("\n✅ Performance tests completed successfully!");
     } catch (error: unknown) {
-      console.error('\n❌ Performance tests failed: ');
+      console.error("\n❌ Performance tests failed: ");
       console.error(error.stdout || error.stderr || error.message);
       process.exit(1);
     }
@@ -263,11 +304,14 @@ class PerformanceValidationCLI {
 
   private getTrendIcon(trend: string): string {
     switch (trend) {
-      case 'improving': return '📈';
-      case 'degrading': return '📉';
-      case 'stable': return '➡️';
+      case "improving":
+        return "📈";
+      case "degrading":
+        return "📉";
+      case "stable":
+        return "➡️";
       default:
-        return '❓';
+        return "❓";
     }
   }
 
@@ -300,25 +344,29 @@ Examples:
 function parseArgs(): CLIOptions {
   const args = process.argv.slice(2);
   const options: CLIOptions = {
-    command: 'validate' as unknown
-};
+    command: "validate" as unknown,
+  };
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
 
-    if (!arg.startsWith('--')) {
+    if (!arg.startsWith("--")) {
       options.command = arg as unknown;
       continue;
     }
 
     switch (arg) {
-      case '--continuous': options.continuous = true;
+      case "--continuous":
+        options.continuous = true;
         break;
-      case '--interval': options.interval = parseInt(args[++i]) || 300000;
+      case "--interval":
+        options.interval = parseInt(args[++i]) || 300000;
         break;
-      case '--verbose': options.verbose = true;
+      case "--verbose":
+        options.verbose = true;
         break;
-      case '--output': options.output = args[++i];
+      case "--output":
+        options.output = args[++i];
         break;
     }
   }
@@ -331,8 +379,8 @@ if (require.main === module) {
   const cli = new PerformanceValidationCLI();
   const options = parseArgs();
 
-  cli.run(options).catch(error => {
-    console.error('CLI error:', error);
+  cli.run(options).catch((error) => {
+    console.error("CLI error:", error);
     process.exit(1);
   });
 }

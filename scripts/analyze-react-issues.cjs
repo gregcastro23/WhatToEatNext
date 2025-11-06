@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration for React component analysis
 const CONFIG = {
-  sourceDir: './src',
-  extensions: ['.tsx', '.jsx'],
-  excludePatterns: ['node_modules', '.next', 'dist', 'build'],
-  outputFile: 'react-issues-analysis.json',
+  sourceDir: "./src",
+  extensions: [".tsx", ".jsx"],
+  excludePatterns: ["node_modules", ".next", "dist", "build"],
+  outputFile: "react-issues-analysis.json",
 };
 
 // Track analysis metrics
@@ -35,8 +35,8 @@ const ISSUE_PATTERNS = {
       />([^<]*'[^<]*)</g, // Unescaped single quote in JSX text
       />([^<]*"[^<]*)</g, // Unescaped double quote in JSX text
     ],
-    severity: 'error',
-    description: 'Unescaped HTML entities in JSX content',
+    severity: "error",
+    description: "Unescaped HTML entities in JSX content",
   },
 
   unknownProperties: {
@@ -52,8 +52,8 @@ const ISSUE_PATTERNS = {
       /<\w+[^>]*\sformnovalidate\s*=/g, // Should be formNoValidate in JSX
       /<\w+[^>]*\scontenteditable\s*=/g, // Should be contentEditable in JSX
     ],
-    severity: 'error',
-    description: 'Unknown DOM properties that should be React props',
+    severity: "error",
+    description: "Unknown DOM properties that should be React props",
   },
 
   deprecatedPatterns: {
@@ -66,8 +66,8 @@ const ISSUE_PATTERNS = {
       /findDOMNode/g,
       /ReactDOM\.render\(/g, // Should use createRoot in React 18+
     ],
-    severity: 'warn',
-    description: 'Deprecated React patterns',
+    severity: "warn",
+    description: "Deprecated React patterns",
   },
 
   propTypeIssues: {
@@ -75,8 +75,8 @@ const ISSUE_PATTERNS = {
       /PropTypes\./g, // Should be using TypeScript instead
       /\.propTypes\s*=/g, // PropTypes definitions
     ],
-    severity: 'warn',
-    description: 'PropTypes usage (prefer TypeScript)',
+    severity: "warn",
+    description: "PropTypes usage (prefer TypeScript)",
   },
 
   react19Compatibility: {
@@ -86,29 +86,29 @@ const ISSUE_PATTERNS = {
       /defaultProps/g, // Not recommended in React 19
       /React\.memo\(\s*\(\s*\{/g, // Potential memo optimization issues
     ],
-    severity: 'info',
-    description: 'React 19 compatibility concerns',
+    severity: "info",
+    description: "React 19 compatibility concerns",
   },
 };
 
 // Common HTML entities that should be escaped
 const HTML_ENTITIES = {
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  "'": '&apos;',
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&apos;",
 };
 
-function log(message, type = 'info') {
+function log(message, type = "info") {
   const timestamp = new Date().toISOString();
   const prefix =
     {
-      info: '✓',
-      warn: '⚠',
-      error: '✗',
-      debug: '→',
-    }[type] || '•';
+      info: "✓",
+      warn: "⚠",
+      error: "✗",
+      debug: "→",
+    }[type] || "•";
 
   console.log(`[${timestamp}] ${prefix} ${message}`);
 }
@@ -126,18 +126,20 @@ function getAllReactFiles(dir) {
 
         if (stat.isDirectory()) {
           // Skip excluded directories
-          if (!CONFIG.excludePatterns.some(pattern => item.includes(pattern))) {
+          if (
+            !CONFIG.excludePatterns.some((pattern) => item.includes(pattern))
+          ) {
             scanDirectory(fullPath);
           }
         } else if (stat.isFile()) {
           // Check if file has React extension
-          if (CONFIG.extensions.some(ext => fullPath.endsWith(ext))) {
+          if (CONFIG.extensions.some((ext) => fullPath.endsWith(ext))) {
             files.push(fullPath);
           }
         }
       }
     } catch (error) {
-      log(`Error scanning directory ${directory}: ${error.message}`, 'error');
+      log(`Error scanning directory ${directory}: ${error.message}`, "error");
     }
   }
 
@@ -147,8 +149,8 @@ function getAllReactFiles(dir) {
 
 function analyzeFile(filePath) {
   try {
-    const content = fs.readFileSync(filePath, 'utf8');
-    const lines = content.split('\n');
+    const content = fs.readFileSync(filePath, "utf8");
+    const lines = content.split("\n");
     const issues = [];
 
     metrics.filesScanned++;
@@ -187,14 +189,14 @@ function analyzeFile(filePath) {
 
     return issues;
   } catch (error) {
-    log(`Error analyzing file ${filePath}: ${error.message}`, 'error');
+    log(`Error analyzing file ${filePath}: ${error.message}`, "error");
     return [];
   }
 }
 
 function getSuggestion(issueType, matchedText) {
   switch (issueType) {
-    case 'unescapedEntities':
+    case "unescapedEntities":
       // Suggest HTML entity replacement
       for (const [char, entity] of Object.entries(HTML_ENTITIES)) {
         if (matchedText.includes(char)) {
@@ -203,18 +205,18 @@ function getSuggestion(issueType, matchedText) {
       }
       break;
 
-    case 'unknownProperties':
+    case "unknownProperties":
       const propertyMap = {
-        'class=': 'className=',
-        'for=': 'htmlFor=',
-        'autofocus=': 'autoFocus=',
-        'readonly=': 'readOnly=',
-        'tabindex=': 'tabIndex=',
-        'maxlength=': 'maxLength=',
-        'minlength=': 'minLength=',
-        'novalidate=': 'noValidate=',
-        'formnovalidate=': 'formNoValidate=',
-        'contenteditable=': 'contentEditable=',
+        "class=": "className=",
+        "for=": "htmlFor=",
+        "autofocus=": "autoFocus=",
+        "readonly=": "readOnly=",
+        "tabindex=": "tabIndex=",
+        "maxlength=": "maxLength=",
+        "minlength=": "minLength=",
+        "novalidate=": "noValidate=",
+        "formnovalidate=": "formNoValidate=",
+        "contenteditable=": "contentEditable=",
       };
 
       for (const [oldProp, newProp] of Object.entries(propertyMap)) {
@@ -224,15 +226,15 @@ function getSuggestion(issueType, matchedText) {
       }
       break;
 
-    case 'deprecatedPatterns':
+    case "deprecatedPatterns":
       const deprecationMap = {
-        componentWillMount: 'Use useEffect with empty dependency array',
-        componentWillReceiveProps: 'Use useEffect with dependency array',
-        componentWillUpdate: 'Use useEffect',
-        'React.createClass': 'Use function components or ES6 classes',
-        'React.PropTypes': 'Use TypeScript prop types',
-        findDOMNode: 'Use refs instead',
-        'ReactDOM.render(': 'Use createRoot().render() for React 18+',
+        componentWillMount: "Use useEffect with empty dependency array",
+        componentWillReceiveProps: "Use useEffect with dependency array",
+        componentWillUpdate: "Use useEffect",
+        "React.createClass": "Use function components or ES6 classes",
+        "React.PropTypes": "Use TypeScript prop types",
+        findDOMNode: "Use refs instead",
+        "ReactDOM.render(": "Use createRoot().render() for React 18+",
       };
 
       for (const [deprecated, replacement] of Object.entries(deprecationMap)) {
@@ -242,20 +244,20 @@ function getSuggestion(issueType, matchedText) {
       }
       break;
 
-    case 'propTypeIssues':
-      return 'Consider using TypeScript interfaces instead of PropTypes';
+    case "propTypeIssues":
+      return "Consider using TypeScript interfaces instead of PropTypes";
 
-    case 'react19Compatibility':
-      if (matchedText.includes('React.FC')) {
-        return 'Consider using explicit function signature instead of React.FC';
+    case "react19Compatibility":
+      if (matchedText.includes("React.FC")) {
+        return "Consider using explicit function signature instead of React.FC";
       }
-      if (matchedText.includes('defaultProps')) {
-        return 'Use default parameter values instead of defaultProps';
+      if (matchedText.includes("defaultProps")) {
+        return "Use default parameter values instead of defaultProps";
       }
       break;
   }
 
-  return 'Review and update as needed for React best practices';
+  return "Review and update as needed for React best practices";
 }
 
 function generateReport(allIssues) {
@@ -281,7 +283,7 @@ function generateRecommendations(allIssues) {
 
   // Group issues by file for batch fixing
   const issuesByFile = {};
-  allIssues.forEach(issue => {
+  allIssues.forEach((issue) => {
     if (!issuesByFile[issue.file]) {
       issuesByFile[issue.file] = [];
     }
@@ -292,10 +294,10 @@ function generateRecommendations(allIssues) {
   for (const [file, issues] of Object.entries(issuesByFile)) {
     if (issues.length > 5) {
       recommendations.push({
-        type: 'high-priority',
+        type: "high-priority",
         file,
         message: `File has ${issues.length} React issues - prioritize for fixing`,
-        actions: issues.map(i => i.suggestion).slice(0, 3),
+        actions: issues.map((i) => i.suggestion).slice(0, 3),
       });
     }
   }
@@ -303,19 +305,21 @@ function generateRecommendations(allIssues) {
   // Generate category-specific recommendations
   if (metrics.categories.unescapedEntities > 0) {
     recommendations.push({
-      type: 'automated-fix',
-      category: 'unescapedEntities',
-      message: 'Unescaped entities can be automatically fixed with string replacement',
-      script: 'scripts/fix-unescaped-entities.cjs',
+      type: "automated-fix",
+      category: "unescapedEntities",
+      message:
+        "Unescaped entities can be automatically fixed with string replacement",
+      script: "scripts/fix-unescaped-entities.cjs",
     });
   }
 
   if (metrics.categories.unknownProperties > 0) {
     recommendations.push({
-      type: 'automated-fix',
-      category: 'unknownProperties',
-      message: 'Unknown properties can be automatically replaced with React equivalents',
-      script: 'scripts/fix-unknown-properties.cjs',
+      type: "automated-fix",
+      category: "unknownProperties",
+      message:
+        "Unknown properties can be automatically replaced with React equivalents",
+      script: "scripts/fix-unknown-properties.cjs",
     });
   }
 
@@ -323,14 +327,14 @@ function generateRecommendations(allIssues) {
 }
 
 function main() {
-  log('Starting React component analysis...');
+  log("Starting React component analysis...");
 
   // Find all React files
   const reactFiles = getAllReactFiles(CONFIG.sourceDir);
   log(`Found ${reactFiles.length} React component files`);
 
   if (reactFiles.length === 0) {
-    log('No React files found to analyze', 'warn');
+    log("No React files found to analyze", "warn");
     return;
   }
 
@@ -339,7 +343,7 @@ function main() {
   let processedFiles = 0;
 
   for (const file of reactFiles) {
-    log(`Analyzing ${path.relative(process.cwd(), file)}...`, 'debug');
+    log(`Analyzing ${path.relative(process.cwd(), file)}...`, "debug");
     const fileIssues = analyzeFile(file);
     allIssues.push(...fileIssues);
 
@@ -353,10 +357,10 @@ function main() {
   const report = generateReport(allIssues);
 
   // Summary output
-  log('\n=== React Component Analysis Complete ===');
+  log("\n=== React Component Analysis Complete ===");
   log(`Files scanned: ${metrics.filesScanned}`);
   log(`Total issues found: ${metrics.issuesFound}`);
-  log('\nIssues by category:');
+  log("\nIssues by category:");
 
   for (const [category, count] of Object.entries(metrics.categories)) {
     if (count > 0) {
@@ -368,7 +372,7 @@ function main() {
 
   // Show top issue files
   const fileIssueCount = {};
-  allIssues.forEach(issue => {
+  allIssues.forEach((issue) => {
     fileIssueCount[issue.file] = (fileIssueCount[issue.file] || 0) + 1;
   });
 
@@ -377,16 +381,19 @@ function main() {
     .slice(0, 5);
 
   if (topFiles.length > 0) {
-    log('\nTop files needing attention:');
+    log("\nTop files needing attention:");
     topFiles.forEach(([file, count]) => {
       log(`  ${path.relative(process.cwd(), file)}: ${count} issues`);
     });
   }
 
   // Exit with error code if critical issues found
-  const criticalIssues = allIssues.filter(i => i.severity === 'error').length;
+  const criticalIssues = allIssues.filter((i) => i.severity === "error").length;
   if (criticalIssues > 0) {
-    log(`\n${criticalIssues} critical issues found that should be fixed`, 'error');
+    log(
+      `\n${criticalIssues} critical issues found that should be fixed`,
+      "error",
+    );
     process.exit(1);
   }
 }

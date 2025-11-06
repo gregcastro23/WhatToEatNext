@@ -10,9 +10,9 @@
  * Target: Fix Promise usage in conditionals and event handlers
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
@@ -38,7 +38,7 @@ class MisusedPromisesFixer {
    */
   getFilesWithMisusedPromises() {
     const files = [];
-    const directories = ['src', '__tests__'];
+    const directories = ["src", "__tests__"];
 
     for (const dir of directories) {
       if (fs.existsSync(dir)) {
@@ -58,7 +58,7 @@ class MisusedPromisesFixer {
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
 
-      if (entry.isDirectory() && !entry.name.startsWith('.')) {
+      if (entry.isDirectory() && !entry.name.startsWith(".")) {
         this.scanDirectory(fullPath, files);
       } else if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name)) {
         files.push(fullPath);
@@ -84,7 +84,7 @@ class MisusedPromisesFixer {
   fixMisusedPromises(content, filePath) {
     let fixes = 0;
     let modifiedContent = content;
-    const lines = modifiedContent.split('\n');
+    const lines = modifiedContent.split("\n");
     const fixedLines = [];
 
     for (let i = 0; i < lines.length; i++) {
@@ -94,28 +94,32 @@ class MisusedPromisesFixer {
       // Fix 1: Promise-returning function in onClick/onSubmit handlers
       // Pattern: onClick={asyncFunction} -> onClick={() => void asyncFunction()}
       const eventHandlerPattern = /(on\w+)=\{([a-zA-Z_$][a-zA-Z0-9_$]*)\}/g;
-      line = line.replace(eventHandlerPattern, (match, eventName, functionName) => {
-        // Only fix if it looks like an async function
-        if (
-          functionName.includes('async') ||
-          functionName.includes('handle') ||
-          functionName.includes('submit')
-        ) {
-          fixes++;
-          return `${eventName}={() => void ${functionName}()}`;
-        }
-        return match;
-      });
+      line = line.replace(
+        eventHandlerPattern,
+        (match, eventName, functionName) => {
+          // Only fix if it looks like an async function
+          if (
+            functionName.includes("async") ||
+            functionName.includes("handle") ||
+            functionName.includes("submit")
+          ) {
+            fixes++;
+            return `${eventName}={() => void ${functionName}()}`;
+          }
+          return match;
+        },
+      );
 
       // Fix 2: Promise in boolean conditional
       // Pattern: if (promiseFunction()) -> if (await promiseFunction())
-      const conditionalPattern = /if\s*\(\s*([a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))\s*\)/g;
+      const conditionalPattern =
+        /if\s*\(\s*([a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))\s*\)/g;
       line = line.replace(conditionalPattern, (match, functionCall) => {
         // Only fix if it looks like it returns a Promise
         if (
-          functionCall.includes('async') ||
-          functionCall.includes('fetch') ||
-          functionCall.includes('Promise')
+          functionCall.includes("async") ||
+          functionCall.includes("fetch") ||
+          functionCall.includes("Promise")
         ) {
           fixes++;
           return `if (await ${functionCall})`;
@@ -125,13 +129,14 @@ class MisusedPromisesFixer {
 
       // Fix 3: Promise in ternary conditional
       // Pattern: condition ? promiseFunction() : value -> condition ? await promiseFunction() : value
-      const ternaryPattern = /(\w+)\s*\?\s*([a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))\s*:/g;
+      const ternaryPattern =
+        /(\w+)\s*\?\s*([a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))\s*:/g;
       line = line.replace(ternaryPattern, (match, condition, functionCall) => {
         // Only fix if it looks like it returns a Promise
         if (
-          functionCall.includes('async') ||
-          functionCall.includes('fetch') ||
-          functionCall.includes('Promise')
+          functionCall.includes("async") ||
+          functionCall.includes("fetch") ||
+          functionCall.includes("Promise")
         ) {
           fixes++;
           return `${condition} ? await ${functionCall} :`;
@@ -141,28 +146,34 @@ class MisusedPromisesFixer {
 
       // Fix 4: Promise in logical AND/OR
       // Pattern: value && promiseFunction() -> value && await promiseFunction()
-      const logicalPattern = /(\w+)\s*(&&|\|\|)\s*([a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))/g;
-      line = line.replace(logicalPattern, (match, leftSide, operator, functionCall) => {
-        // Only fix if it looks like it returns a Promise
-        if (
-          functionCall.includes('async') ||
-          functionCall.includes('fetch') ||
-          functionCall.includes('Promise')
-        ) {
-          fixes++;
-          return `${leftSide} ${operator} await ${functionCall}`;
-        }
-        return match;
-      });
+      const logicalPattern =
+        /(\w+)\s*(&&|\|\|)\s*([a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))/g;
+      line = line.replace(
+        logicalPattern,
+        (match, leftSide, operator, functionCall) => {
+          // Only fix if it looks like it returns a Promise
+          if (
+            functionCall.includes("async") ||
+            functionCall.includes("fetch") ||
+            functionCall.includes("Promise")
+          ) {
+            fixes++;
+            return `${leftSide} ${operator} await ${functionCall}`;
+          }
+          return match;
+        },
+      );
 
       if (line !== originalLine) {
-        console.log(`    Fixed line ${i + 1}: ${originalLine.trim()} -> ${line.trim()}`);
+        console.log(
+          `    Fixed line ${i + 1}: ${originalLine.trim()} -> ${line.trim()}`,
+        );
       }
 
       fixedLines.push(line);
     }
 
-    return { content: fixedLines.join('\n'), fixes };
+    return { content: fixedLines.join("\n"), fixes };
   }
 
   /**
@@ -172,7 +183,7 @@ class MisusedPromisesFixer {
     try {
       console.log(`\n📁 Processing: ${filePath}`);
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
 
       // Check if file should be preserved
       if (this.shouldPreserveFile(filePath, content)) {
@@ -181,11 +192,14 @@ class MisusedPromisesFixer {
       }
 
       // Apply fixes
-      const { content: modifiedContent, fixes } = this.fixMisusedPromises(content, filePath);
+      const { content: modifiedContent, fixes } = this.fixMisusedPromises(
+        content,
+        filePath,
+      );
 
       if (fixes > 0) {
         if (!CONFIG.dryRun) {
-          fs.writeFileSync(filePath, modifiedContent, 'utf8');
+          fs.writeFileSync(filePath, modifiedContent, "utf8");
         }
 
         console.log(`  ✅ Applied ${fixes} misused promise fixes`);
@@ -205,13 +219,15 @@ class MisusedPromisesFixer {
    * Run the misused promises fixing process
    */
   async run() {
-    console.log('🚀 Starting Misused Promises Fixing Process');
-    console.log(`📊 Configuration: maxFiles=${CONFIG.maxFiles}, dryRun=${CONFIG.dryRun}`);
+    console.log("🚀 Starting Misused Promises Fixing Process");
+    console.log(
+      `📊 Configuration: maxFiles=${CONFIG.maxFiles}, dryRun=${CONFIG.dryRun}`,
+    );
 
     const files = this.getFilesWithMisusedPromises();
 
     if (files.length === 0) {
-      console.log('✅ No files found to process');
+      console.log("✅ No files found to process");
       return;
     }
 
@@ -222,21 +238,21 @@ class MisusedPromisesFixer {
     }
 
     // Summary
-    console.log('\n📊 Misused Promises Fixing Summary:');
+    console.log("\n📊 Misused Promises Fixing Summary:");
     console.log(`   Files processed: ${this.processedFiles}`);
     console.log(`   Total fixes applied: ${this.totalFixes}`);
     console.log(`   Errors encountered: ${this.errors.length}`);
 
     if (this.errors.length > 0) {
-      console.log('\n❌ Errors:');
+      console.log("\n❌ Errors:");
       this.errors.forEach(({ file, error }) => {
         console.log(`   ${file}: ${error}`);
       });
     }
 
     if (this.totalFixes > 0) {
-      console.log('\n✅ Misused promise fixes completed successfully!');
-      console.log('💡 Run yarn lint to verify the improvements');
+      console.log("\n✅ Misused promise fixes completed successfully!");
+      console.log("💡 Run yarn lint to verify the improvements");
     }
   }
 }

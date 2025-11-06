@@ -1,5 +1,4 @@
-
-import { herbs } from '../ingredients/herbs';
+import { herbs } from "../ingredients/herbs";
 
 // Matrix showing which herbs are used in which cuisines
 export const _herbCuisineMatrix = Object.entries(herbs).reduce(
@@ -9,5 +8,5 @@ export const _herbCuisineMatrix = Object.entries(herbs).reduce(
     }
     return acc;
   },
-  {} as Record<string, string[]>
+  {} as Record<string, string[]>,
 );

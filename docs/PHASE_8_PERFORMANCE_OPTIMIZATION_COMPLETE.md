@@ -38,13 +38,22 @@
 
 ```typescript
 // Flavor compatibility caching (10-minute TTL)
-export const flavorCompatibilityCache = new PerformanceCache<number>(1000, 10 * 60 * 1000);
+export const flavorCompatibilityCache = new PerformanceCache<number>(
+  1000,
+  10 * 60 * 1000,
+);
 
 // Astrological profile caching (5-minute TTL)
-export const astrologicalProfileCache = new PerformanceCache<any>(500, 5 * 60 * 1000);
+export const astrologicalProfileCache = new PerformanceCache<any>(
+  500,
+  5 * 60 * 1000,
+);
 
 // Ingredient profile caching (30-minute TTL)
-export const ingredientProfileCache = new PerformanceCache<any>(2000, 30 * 60 * 1000);
+export const ingredientProfileCache = new PerformanceCache<any>(
+  2000,
+  30 * 60 * 1000,
+);
 ```
 
 #### **Performance Results**:
@@ -68,13 +77,13 @@ export const ingredientProfileCache = new PerformanceCache<any>(2000, 30 * 60 * 
 
 ```typescript
 // Optimized elemental harmony with early exit
-calculateElementalHarmonyOptimized(profile1, profile2)
+calculateElementalHarmonyOptimized(profile1, profile2);
 
 // Memoized calculation wrapper
-memoizedCalculation(key, calculationFn)
+memoizedCalculation(key, calculationFn);
 
 // Cache warmup for common profiles
-warmupCache(commonProfiles)
+warmupCache(commonProfiles);
 ```
 
 #### **Performance Results**:

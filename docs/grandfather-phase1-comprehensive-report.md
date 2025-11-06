@@ -83,7 +83,7 @@ highest level**.
 
 ```typescript
 interface ExtendedPlanetData extends BasePlanetData {
-  [key: string]: unknown;  // Flexible property access
+  [key: string]: unknown; // Flexible property access
 }
 ```
 

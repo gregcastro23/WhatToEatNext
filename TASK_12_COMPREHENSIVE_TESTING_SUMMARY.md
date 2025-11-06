@@ -126,7 +126,7 @@ src/scripts/
 
 ```typescript
 // Tests validate that astrological files get special treatment
-test('should preserve astrological variable patterns', async () => {
+test("should preserve astrological variable patterns", async () => {
   const astrologicalCode = `
     const planet = 'mars';
     const UNUSED_fallback = FALLBACK_POSITIONS;
@@ -139,8 +139,9 @@ test('should preserve astrological variable patterns', async () => {
 
 ```typescript
 // Tests monitor performance characteristics
-test('should detect performance regressions', async () => {
-  const executionRegression = (current.executionTime - baseline.executionTime) / baseline.executionTime;
+test("should detect performance regressions", async () => {
+  const executionRegression =
+    (current.executionTime - baseline.executionTime) / baseline.executionTime;
   expect(executionRegression).toBeLessThan(0.2); // 20% regression threshold
 });
 ```
@@ -149,7 +150,7 @@ test('should detect performance regressions', async () => {
 
 ```typescript
 // Tests ensure configuration completeness
-test('should have all required configuration sections', () => {
+test("should have all required configuration sections", () => {
   expect(hasAstrologicalConfig).toBe(true);
   expect(hasCampaignConfig).toBe(true);
   expect(hasPerformanceConfig).toBe(true);

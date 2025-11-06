@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
-  sourceDir: './src',
-  extensions: ['.ts', '.tsx'],
-  excludePatterns: ['node_modules', '.next', 'dist', 'build'],
-  outputFile: 'type-assertions-analysis.json',
+  sourceDir: "./src",
+  extensions: [".ts", ".tsx"],
+  excludePatterns: ["node_modules", ".next", "dist", "build"],
+  outputFile: "type-assertions-analysis.json",
 };
 
 // Track analysis metrics
@@ -29,19 +29,19 @@ const metrics = {
 const ASSERTION_PATTERNS = {
   asType: {
     pattern: /(\w+)\s+as\s+([a-zA-Z_$][\w$<>\[\],\s|&{}]*)/g,
-    description: 'Standard type assertion (value as Type)',
+    description: "Standard type assertion (value as Type)",
   },
   angleType: {
     pattern: /<([a-zA-Z_$][\w$<>\[\],\s|&{}]*)>(\w+)/g,
-    description: 'Angle bracket type assertion (<Type>value) - deprecated',
+    description: "Angle bracket type assertion (<Type>value) - deprecated",
   },
   chainedUnknown: {
     pattern: /(\w+)\s+as\s+unknown\s+as\s+([a-zA-Z_$][\w$<>\[\],\s|&{}]*)/g,
-    description: 'Chained unknown assertion (value as unknown as Type)',
+    description: "Chained unknown assertion (value as unknown as Type)",
   },
   anyAssertion: {
     pattern: /(\w+)\s+as\s+any/g,
-    description: 'Any type assertion (value as any)',
+    description: "Any type assertion (value as any)",
   },
 };
 
@@ -49,35 +49,35 @@ const ASSERTION_PATTERNS = {
 const UNNECESSARY_PATTERNS = [
   {
     pattern: /(\w+)\s+as\s+string\s*\|\s*undefined/g,
-    reason: 'TypeScript can infer string | undefined',
-    improvement: 'Remove assertion, use optional chaining',
+    reason: "TypeScript can infer string | undefined",
+    improvement: "Remove assertion, use optional chaining",
   },
   {
     pattern: /(\w+)\s+as\s+any\[\]/g,
-    reason: 'Use proper array type instead of any[]',
-    improvement: 'Define specific array type',
+    reason: "Use proper array type instead of any[]",
+    improvement: "Define specific array type",
   },
   {
     pattern: /Object\.keys\([^)]+\)\s+as\s+\(keyof\s+\w+\)\[\]/g,
-    reason: 'Object.keys() type assertion often unnecessary',
-    improvement: 'Use type-safe alternatives or type guard',
+    reason: "Object.keys() type assertion often unnecessary",
+    improvement: "Use type-safe alternatives or type guard",
   },
   {
     pattern: /JSON\.parse\([^)]+\)\s+as\s+\w+/g,
-    reason: 'JSON.parse assertions can be unsafe',
-    improvement: 'Use runtime validation or type guard',
+    reason: "JSON.parse assertions can be unsafe",
+    improvement: "Use runtime validation or type guard",
   },
 ];
 
-function log(message, type = 'info') {
+function log(message, type = "info") {
   const timestamp = new Date().toISOString();
   const prefix =
     {
-      info: '✓',
-      warn: '⚠',
-      error: '✗',
-      debug: '→',
-    }[type] || '•';
+      info: "✓",
+      warn: "⚠",
+      error: "✗",
+      debug: "→",
+    }[type] || "•";
 
   console.log(`[${timestamp}] ${prefix} ${message}`);
 }
@@ -94,17 +94,19 @@ function getAllTypeScriptFiles(dir) {
         const stat = fs.statSync(fullPath);
 
         if (stat.isDirectory()) {
-          if (!CONFIG.excludePatterns.some(pattern => item.includes(pattern))) {
+          if (
+            !CONFIG.excludePatterns.some((pattern) => item.includes(pattern))
+          ) {
             scanDirectory(fullPath);
           }
         } else if (stat.isFile()) {
-          if (CONFIG.extensions.some(ext => fullPath.endsWith(ext))) {
+          if (CONFIG.extensions.some((ext) => fullPath.endsWith(ext))) {
             files.push(fullPath);
           }
         }
       }
     } catch (error) {
-      log(`Error scanning directory ${directory}: ${error.message}`, 'error');
+      log(`Error scanning directory ${directory}: ${error.message}`, "error");
     }
   }
 
@@ -118,29 +120,29 @@ function categorizeAssertion(assertion, context) {
   // Check for chained unknown assertions
   if (assertion.isChainedUnknown) {
     return {
-      category: 'chainedUnknown',
-      severity: 'info',
-      reason: 'Chained unknown assertion - consider if this is necessary',
-      suggestion: 'Review if direct type assertion is possible',
+      category: "chainedUnknown",
+      severity: "info",
+      reason: "Chained unknown assertion - consider if this is necessary",
+      suggestion: "Review if direct type assertion is possible",
     };
   }
 
   // Check for any assertions
-  if (targetType === 'any') {
+  if (targetType === "any") {
     return {
-      category: 'unnecessary',
-      severity: 'warn',
-      reason: 'Assertion to any defeats type safety',
-      suggestion: 'Use specific type or unknown instead',
+      category: "unnecessary",
+      severity: "warn",
+      reason: "Assertion to any defeats type safety",
+      suggestion: "Use specific type or unknown instead",
     };
   }
 
   // Check for angle bracket syntax (deprecated in TSX)
   if (assertion.isAngleBracket) {
     return {
-      category: 'redundant',
-      severity: 'error',
-      reason: 'Angle bracket assertions deprecated in TSX files',
+      category: "redundant",
+      severity: "error",
+      reason: "Angle bracket assertions deprecated in TSX files",
       suggestion: 'Use "as Type" syntax instead',
     };
   }
@@ -150,8 +152,8 @@ function categorizeAssertion(assertion, context) {
     const fullAssertion = `${expression} as ${targetType}`;
     if (pattern.pattern.test(fullAssertion)) {
       return {
-        category: 'unnecessary',
-        severity: 'warn',
+        category: "unnecessary",
+        severity: "warn",
         reason: pattern.reason,
         suggestion: pattern.improvement,
       };
@@ -160,48 +162,50 @@ function categorizeAssertion(assertion, context) {
 
   // Check if assertion is in external library context
   if (
-    context.includes('import') ||
-    context.includes('@types') ||
-    context.includes('external') ||
-    file.includes('node_modules')
+    context.includes("import") ||
+    context.includes("@types") ||
+    context.includes("external") ||
+    file.includes("node_modules")
   ) {
     return {
-      category: 'preserveExternal',
-      severity: 'info',
-      reason: 'Likely necessary for external library compatibility',
-      suggestion: 'Preserve this assertion',
+      category: "preserveExternal",
+      severity: "info",
+      reason: "Likely necessary for external library compatibility",
+      suggestion: "Preserve this assertion",
     };
   }
 
   // Check for common redundant patterns
   if (originalType && targetType && originalType.includes(targetType)) {
     return {
-      category: 'redundant',
-      severity: 'warn',
-      reason: 'Type is already compatible',
-      suggestion: 'Remove assertion - TypeScript can infer',
+      category: "redundant",
+      severity: "warn",
+      reason: "Type is already compatible",
+      suggestion: "Remove assertion - TypeScript can infer",
     };
   }
 
   // Default categorization
   return {
-    category: 'potentialImprovement',
-    severity: 'info',
-    reason: 'Review if type assertion is necessary',
-    suggestion: 'Consider improving type inference instead',
+    category: "potentialImprovement",
+    severity: "info",
+    reason: "Review if type assertion is necessary",
+    suggestion: "Consider improving type inference instead",
   };
 }
 
 function analyzeFile(filePath) {
   try {
-    const content = fs.readFileSync(filePath, 'utf8');
-    const lines = content.split('\n');
+    const content = fs.readFileSync(filePath, "utf8");
+    const lines = content.split("\n");
     const assertions = [];
 
     metrics.filesScanned++;
 
     // Find all type assertions
-    for (const [patternName, patternConfig] of Object.entries(ASSERTION_PATTERNS)) {
+    for (const [patternName, patternConfig] of Object.entries(
+      ASSERTION_PATTERNS,
+    )) {
       let match;
       let lineNumber = 0;
 
@@ -212,7 +216,7 @@ function analyzeFile(filePath) {
         while ((match = patternConfig.pattern.exec(line)) !== null) {
           let assertion;
 
-          if (patternName === 'angleType') {
+          if (patternName === "angleType") {
             assertion = {
               file: filePath,
               line: lineNumber,
@@ -225,7 +229,7 @@ function analyzeFile(filePath) {
               isAngleBracket: true,
               fullMatch: match[0],
             };
-          } else if (patternName === 'chainedUnknown') {
+          } else if (patternName === "chainedUnknown") {
             assertion = {
               file: filePath,
               line: lineNumber,
@@ -265,7 +269,7 @@ function analyzeFile(filePath) {
 
     return assertions;
   } catch (error) {
-    log(`Error analyzing file ${filePath}: ${error.message}`, 'error');
+    log(`Error analyzing file ${filePath}: ${error.message}`, "error");
     return [];
   }
 }
@@ -275,7 +279,7 @@ function generateFixSuggestions(assertions) {
 
   // Group by category for batch suggestions
   const byCategory = {};
-  assertions.forEach(assertion => {
+  assertions.forEach((assertion) => {
     const category = assertion.analysis.category;
     if (!byCategory[category]) {
       byCategory[category] = [];
@@ -286,12 +290,12 @@ function generateFixSuggestions(assertions) {
   // Generate category-specific suggestions
   if (byCategory.unnecessary?.length > 0) {
     suggestions.push({
-      category: 'unnecessary',
-      priority: 'high',
+      category: "unnecessary",
+      priority: "high",
       count: byCategory.unnecessary.length,
-      action: 'Remove unnecessary type assertions',
-      script: 'scripts/fix-unnecessary-assertions.cjs',
-      examples: byCategory.unnecessary.slice(0, 3).map(a => ({
+      action: "Remove unnecessary type assertions",
+      script: "scripts/fix-unnecessary-assertions.cjs",
+      examples: byCategory.unnecessary.slice(0, 3).map((a) => ({
         file: path.basename(a.file),
         line: a.line,
         assertion: a.fullMatch,
@@ -302,12 +306,12 @@ function generateFixSuggestions(assertions) {
 
   if (byCategory.redundant?.length > 0) {
     suggestions.push({
-      category: 'redundant',
-      priority: 'medium',
+      category: "redundant",
+      priority: "medium",
       count: byCategory.redundant.length,
-      action: 'Remove redundant type assertions',
-      script: 'scripts/fix-redundant-assertions.cjs',
-      examples: byCategory.redundant.slice(0, 3).map(a => ({
+      action: "Remove redundant type assertions",
+      script: "scripts/fix-redundant-assertions.cjs",
+      examples: byCategory.redundant.slice(0, 3).map((a) => ({
         file: path.basename(a.file),
         line: a.line,
         assertion: a.fullMatch,
@@ -318,12 +322,12 @@ function generateFixSuggestions(assertions) {
 
   if (byCategory.chainedUnknown?.length > 0) {
     suggestions.push({
-      category: 'chainedUnknown',
-      priority: 'low',
+      category: "chainedUnknown",
+      priority: "low",
       count: byCategory.chainedUnknown.length,
-      action: 'Review chained unknown assertions',
+      action: "Review chained unknown assertions",
       manual: true,
-      note: 'These may be necessary for complex type conversions',
+      note: "These may be necessary for complex type conversions",
     });
   }
 
@@ -351,7 +355,7 @@ function generateReport(allAssertions) {
 
 function getTopFiles(assertions) {
   const fileCount = {};
-  assertions.forEach(assertion => {
+  assertions.forEach((assertion) => {
     fileCount[assertion.file] = (fileCount[assertion.file] || 0) + 1;
   });
 
@@ -365,14 +369,14 @@ function getTopFiles(assertions) {
 }
 
 function main() {
-  log('Starting type assertion analysis...');
+  log("Starting type assertion analysis...");
 
   // Find all TypeScript files
   const tsFiles = getAllTypeScriptFiles(CONFIG.sourceDir);
   log(`Found ${tsFiles.length} TypeScript files`);
 
   if (tsFiles.length === 0) {
-    log('No TypeScript files found to analyze', 'warn');
+    log("No TypeScript files found to analyze", "warn");
     return;
   }
 
@@ -381,7 +385,7 @@ function main() {
   let processedFiles = 0;
 
   for (const file of tsFiles) {
-    log(`Analyzing ${path.relative(process.cwd(), file)}...`, 'debug');
+    log(`Analyzing ${path.relative(process.cwd(), file)}...`, "debug");
     const fileAssertions = analyzeFile(file);
     allAssertions.push(...fileAssertions);
 
@@ -395,10 +399,10 @@ function main() {
   const report = generateReport(allAssertions);
 
   // Summary output
-  log('\n=== Type Assertion Analysis Complete ===');
+  log("\n=== Type Assertion Analysis Complete ===");
   log(`Files scanned: ${metrics.filesScanned}`);
   log(`Total assertions found: ${metrics.assertionsFound}`);
-  log('\nAssertions by category:');
+  log("\nAssertions by category:");
 
   for (const [category, count] of Object.entries(metrics.categories)) {
     if (count > 0) {
@@ -410,9 +414,11 @@ function main() {
 
   // Show fix suggestions
   if (report.suggestions.length > 0) {
-    log('\nRecommended actions:');
-    report.suggestions.forEach(suggestion => {
-      log(`  ${suggestion.action}: ${suggestion.count} cases (${suggestion.priority} priority)`);
+    log("\nRecommended actions:");
+    report.suggestions.forEach((suggestion) => {
+      log(
+        `  ${suggestion.action}: ${suggestion.count} cases (${suggestion.priority} priority)`,
+      );
       if (suggestion.script) {
         log(`    Script: ${suggestion.script}`);
       }
@@ -421,8 +427,8 @@ function main() {
 
   // Show top files
   if (report.topFiles.length > 0) {
-    log('\nTop files with type assertions:');
-    report.topFiles.forEach(fileInfo => {
+    log("\nTop files with type assertions:");
+    report.topFiles.forEach((fileInfo) => {
       log(`  ${fileInfo.file}: ${fileInfo.assertions} assertions`);
     });
   }

@@ -5,20 +5,24 @@
  * Fixes missing commas and inappropriate trailing commas (TS1005 errors)
  */
 
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 class CommaProcessor {
   constructor() {
-    this.projectRoot = path.resolve(import.meta.dirname || path.dirname(import.meta.url.replace('file://', '')), '../..');
+    this.projectRoot = path.resolve(
+      import.meta.dirname ||
+        path.dirname(import.meta.url.replace("file://", "")),
+      "../..",
+    );
     this.filesProcessed = 0;
     this.commasAdded = 0;
     this.commasRemoved = 0;
-    this.backupDir = path.join(this.projectRoot, 'backups', 'phase3', 'commas');
+    this.backupDir = path.join(this.projectRoot, "backups", "phase3", "commas");
   }
 
   async process() {
-    console.log('🔧 Processing comma syntax errors...');
+    console.log("🔧 Processing comma syntax errors...");
 
     // Create backup directory
     if (!fs.existsSync(this.backupDir)) {
@@ -38,27 +42,27 @@ class CommaProcessor {
       filesProcessed: this.filesProcessed,
       commasAdded: this.commasAdded,
       commasRemoved: this.commasRemoved,
-      success: true
+      success: true,
     };
   }
 
   async getFilesWithCommaErrors() {
     // Files with TS1005 ',' expected errors from analysis
     const errorFiles = [
-      'src/utils/steeringFileIntelligence.ts',
-      'src/utils/testIngredientMapping.ts',
-      'src/utils/testRecommendations.ts',
-      'src/utils/testUtils.ts',
-      'src/utils/theme.ts',
-      'src/utils/time.ts',
-      'src/utils/timingUtils.ts',
-      'src/utils/typeValidation.ts',
-      'src/utils/validateIngredients.ts',
-      'src/utils/zodiacUtils.ts',
+      "src/utils/steeringFileIntelligence.ts",
+      "src/utils/testIngredientMapping.ts",
+      "src/utils/testRecommendations.ts",
+      "src/utils/testUtils.ts",
+      "src/utils/theme.ts",
+      "src/utils/time.ts",
+      "src/utils/timingUtils.ts",
+      "src/utils/typeValidation.ts",
+      "src/utils/validateIngredients.ts",
+      "src/utils/zodiacUtils.ts",
       // Add more from error analysis
     ];
 
-    return errorFiles.filter(file => {
+    return errorFiles.filter((file) => {
       const fullPath = path.join(this.projectRoot, file);
       return fs.existsSync(fullPath);
     });
@@ -69,11 +73,14 @@ class CommaProcessor {
     console.log(`Processing ${filePath}...`);
 
     // Backup original
-    const backupPath = path.join(this.backupDir, path.basename(filePath) + '.backup');
+    const backupPath = path.join(
+      this.backupDir,
+      path.basename(filePath) + ".backup",
+    );
     fs.copyFileSync(fullPath, backupPath);
 
-    const content = fs.readFileSync(fullPath, 'utf8');
-    const lines = content.split('\n');
+    const content = fs.readFileSync(fullPath, "utf8");
+    const lines = content.split("\n");
     let modifiedLines = [];
     let localAdded = 0;
     let localRemoved = 0;
@@ -101,7 +108,7 @@ class CommaProcessor {
     }
 
     if (localAdded > 0 || localRemoved > 0) {
-      fs.writeFileSync(fullPath, modifiedLines.join('\n'));
+      fs.writeFileSync(fullPath, modifiedLines.join("\n"));
       this.filesProcessed++;
       this.commasAdded += localAdded;
       this.commasRemoved += localRemoved;
@@ -114,13 +121,13 @@ class CommaProcessor {
 
     // Remove inappropriate trailing commas in function calls, etc.
     if (this.hasInappropriateTrailingComma(line)) {
-      result.line = line.replace(/,(\s*)$/, '$1');
+      result.line = line.replace(/,(\s*)$/, "$1");
       result.removed++;
     }
 
     // Add missing commas in object literals
     if (nextLine && this.needsCommaInObjectLiteral(line, nextLine)) {
-      result.line = line + ',';
+      result.line = line + ",";
       result.added++;
     }
 
@@ -132,12 +139,12 @@ class CommaProcessor {
 
     // Fix function parameters missing commas
     // Pattern: param1 param2) -> param1, param2)
-    result.line = line.replace(/(\w+)\s+(\w+)\s*\)/g, '$1, $2)');
+    result.line = line.replace(/(\w+)\s+(\w+)\s*\)/g, "$1, $2)");
     if (result.line !== line) result.added++;
 
     // Fix function calls missing commas
     // Pattern: func(arg1 arg2) -> func(arg1, arg2)
-    result.line = result.line.replace(/(\w+)\s+(\w+)\s*\)/g, '$1, $2)');
+    result.line = result.line.replace(/(\w+)\s+(\w+)\s*\)/g, "$1, $2)");
     if (result.line !== line) result.added++;
 
     return result;
@@ -148,7 +155,7 @@ class CommaProcessor {
 
     // Fix array elements missing commas
     // Pattern: [item1 item2] -> [item1, item2]
-    result.line = line.replace(/(\w+)\s+(\w+)\s*\]/g, '$1, $2]');
+    result.line = line.replace(/(\w+)\s+(\w+)\s*\]/g, "$1, $2]");
     if (result.line !== line) result.added++;
 
     return result;
@@ -172,7 +179,7 @@ class CommaProcessor {
 
   needsCommaInObjectLiteral(line, nextLine) {
     const trimmed = line.trim();
-    const nextTrimmed = nextLine ? nextLine.trim() : '';
+    const nextTrimmed = nextLine ? nextLine.trim() : "";
 
     // If line ends with property value and next line starts with property name
     if (/\w+\s*:.*[^,{]$/.test(trimmed) && /^\w+\s*:/.test(nextTrimmed)) {
@@ -184,7 +191,7 @@ class CommaProcessor {
 
   isMultilineArray(line) {
     // Simple check - if line contains only array elements
-    return /\[.*\]/.test(line) && line.includes('\n');
+    return /\[.*\]/.test(line) && line.includes("\n");
   }
 }
 
@@ -193,10 +200,13 @@ export default CommaProcessor;
 // CLI usage
 if (import.meta.url === `file://${process.argv[1]}`) {
   const processor = new CommaProcessor();
-  processor.process().then(result => {
-    console.log('\n✅ Comma processing complete:');
-    console.log(`Files processed: ${result.filesProcessed}`);
-    console.log(`Commas added: ${result.commasAdded}`);
-    console.log(`Commas removed: ${result.commasRemoved}`);
-  }).catch(console.error);
+  processor
+    .process()
+    .then((result) => {
+      console.log("\n✅ Comma processing complete:");
+      console.log(`Files processed: ${result.filesProcessed}`);
+      console.log(`Commas added: ${result.commasAdded}`);
+      console.log(`Commas removed: ${result.commasRemoved}`);
+    })
+    .catch(console.error);
 }

@@ -5,9 +5,9 @@
  * Focuses only on production code files, excluding test files
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 function log(message) {
   console.log(`[${new Date().toISOString()}] ${message}`);
@@ -15,8 +15,8 @@ function log(message) {
 
 function getExplicitAnyFiles() {
   try {
-    const lintOutput = execSync('yarn lint 2>&1', { encoding: 'utf8' });
-    const lines = lintOutput.split('\n');
+    const lintOutput = execSync("yarn lint 2>&1", { encoding: "utf8" });
+    const lines = lintOutput.split("\n");
 
     const filesWithAny = new Set();
     let currentFile = null;
@@ -26,12 +26,17 @@ function getExplicitAnyFiles() {
       if (line.match(/^\/.*\.(ts|tsx)$/)) {
         currentFile = line.trim();
         // Skip test files
-        if (currentFile.includes('__tests__') ||
-            currentFile.includes('.test.') ||
-            currentFile.includes('.spec.')) {
+        if (
+          currentFile.includes("__tests__") ||
+          currentFile.includes(".test.") ||
+          currentFile.includes(".spec.")
+        ) {
           currentFile = null;
         }
-      } else if (currentFile && line.includes('@typescript-eslint/no-explicit-any')) {
+      } else if (
+        currentFile &&
+        line.includes("@typescript-eslint/no-explicit-any")
+      ) {
         filesWithAny.add(currentFile);
       }
     }
@@ -50,7 +55,7 @@ function fixArrayTypes(content) {
   const arrayTypeRegex = /\bany\[\]/g;
   const newContent = content.replace(arrayTypeRegex, (match) => {
     fixes++;
-    return 'unknown[]';
+    return "unknown[]";
   });
 
   return { content: newContent, fixes };
@@ -84,7 +89,7 @@ function fixSimpleVariableTypes(content) {
 
 function validateTypeScript() {
   try {
-    execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
+    execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
     return true;
   } catch (error) {
     return false;
@@ -95,7 +100,7 @@ function processFile(filePath) {
   log(`Processing ${path.basename(filePath)}`);
 
   try {
-    const originalContent = fs.readFileSync(filePath, 'utf8');
+    const originalContent = fs.readFileSync(filePath, "utf8");
     let content = originalContent;
     let totalFixes = 0;
 
@@ -127,7 +132,9 @@ function processFile(filePath) {
         fs.unlinkSync(backupPath);
         return totalFixes;
       } else {
-        log(`❌ TypeScript compilation failed - restoring ${path.basename(filePath)}`);
+        log(
+          `❌ TypeScript compilation failed - restoring ${path.basename(filePath)}`,
+        );
         // Restore from backup
         fs.writeFileSync(filePath, originalContent);
         fs.unlinkSync(backupPath);
@@ -144,13 +151,13 @@ function processFile(filePath) {
 }
 
 function main() {
-  log('🚀 Starting Non-Test Explicit Any Elimination');
+  log("🚀 Starting Non-Test Explicit Any Elimination");
 
   const filesWithAny = getExplicitAnyFiles();
   log(`📊 Found ${filesWithAny.length} non-test files with explicit any`);
 
   if (filesWithAny.length === 0) {
-    log('✅ No non-test files with explicit any found!');
+    log("✅ No non-test files with explicit any found!");
     return;
   }
 
@@ -158,7 +165,8 @@ function main() {
   let successfulFiles = 0;
 
   // Process files one by one for safety
-  for (const filePath of filesWithAny.slice(0, 10)) { // Limit to 10 files for safety
+  for (const filePath of filesWithAny.slice(0, 10)) {
+    // Limit to 10 files for safety
     const fixes = processFile(filePath);
     if (fixes > 0) {
       totalFixes += fixes;
@@ -173,10 +181,12 @@ function main() {
 
   // Check final status
   const remainingFiles = getExplicitAnyFiles();
-  log(`📊 Remaining non-test files with explicit any: ${remainingFiles.length}`);
+  log(
+    `📊 Remaining non-test files with explicit any: ${remainingFiles.length}`,
+  );
 
   if (totalFixes > 0) {
-    log('🎉 Successfully applied fixes to non-test files!');
+    log("🎉 Successfully applied fixes to non-test files!");
   }
 }
 

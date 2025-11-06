@@ -78,7 +78,11 @@ const calculateIngredientScore = (ingredient: any): number => {
 
   const props = ingredient.elementalProperties;
   const total = props.Fire + props.Water + props.Earth + props.Air;
-  const balance = 1 - Math.abs(0.25 - Math.max(props.Fire, props.Water, props.Earth, props.Air) / total);
+  const balance =
+    1 -
+    Math.abs(
+      0.25 - Math.max(props.Fire, props.Water, props.Earth, props.Air) / total,
+    );
   const intensity = total / 4;
 
   return Math.min(1, (balance + intensity) / 2);

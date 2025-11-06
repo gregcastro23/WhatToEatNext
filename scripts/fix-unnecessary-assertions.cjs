@@ -1,16 +1,19 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
-  dryRun: process.argv.includes('--dry-run'),
-  maxFiles: parseInt(process.argv.find(arg => arg.startsWith('--max-files='))?.split('=')[1]) || 25,
+  dryRun: process.argv.includes("--dry-run"),
+  maxFiles:
+    parseInt(
+      process.argv.find((arg) => arg.startsWith("--max-files="))?.split("=")[1],
+    ) || 25,
   createBackup: true,
   validateBuild: true,
-  analysisFile: 'type-assertions-analysis.json',
+  analysisFile: "type-assertions-analysis.json",
 };
 
 // Track fix metrics
@@ -27,37 +30,37 @@ const SAFE_REMOVAL_PATTERNS = [
   {
     // Simple variable assignments that TS can infer
     pattern: /(\w+)\s+as\s+string(?!\s*[\|\&])/g,
-    description: 'Remove simple string assertion',
-    replacement: '$1',
-    category: 'simple-string',
+    description: "Remove simple string assertion",
+    replacement: "$1",
+    category: "simple-string",
   },
   {
     // Simple number assertions that TS can infer
     pattern: /(\w+)\s+as\s+number(?!\s*[\|\&])/g,
-    description: 'Remove simple number assertion',
-    replacement: '$1',
-    category: 'simple-number',
+    description: "Remove simple number assertion",
+    replacement: "$1",
+    category: "simple-number",
   },
   {
     // Array any[] assertions
     pattern: /(\w+)\s+as\s+any\[\]/g,
-    description: 'Remove any[] array assertion',
-    replacement: '$1',
-    category: 'any-array',
+    description: "Remove any[] array assertion",
+    replacement: "$1",
+    category: "any-array",
   },
   {
     // Object.values() assertions that are commonly unnecessary
     pattern: /Object\.values\(([^)]+)\)\s+as\s+\w+\[\]/g,
-    description: 'Remove Object.values() type assertion',
-    replacement: 'Object.values($1)',
-    category: 'object-values',
+    description: "Remove Object.values() type assertion",
+    replacement: "Object.values($1)",
+    category: "object-values",
   },
   {
     // Simple boolean assertions
     pattern: /(\w+)\s+as\s+boolean(?!\s*[\|\&])/g,
-    description: 'Remove simple boolean assertion',
-    replacement: '$1',
-    category: 'simple-boolean',
+    description: "Remove simple boolean assertion",
+    replacement: "$1",
+    category: "simple-boolean",
   },
 ];
 
@@ -77,15 +80,15 @@ const PRESERVE_PATTERNS = [
   /\bas\s+NodeJS\./, // NodeJS type assertions
 ];
 
-function log(message, type = 'info') {
+function log(message, type = "info") {
   const timestamp = new Date().toISOString();
   const prefix =
     {
-      info: '✓',
-      warn: '⚠',
-      error: '✗',
-      debug: '→',
-    }[type] || '•';
+      info: "✓",
+      warn: "⚠",
+      error: "✗",
+      debug: "→",
+    }[type] || "•";
 
   console.log(`[${timestamp}] ${prefix} ${message}`);
 }
@@ -103,12 +106,12 @@ function loadAnalysisData() {
     if (!fs.existsSync(CONFIG.analysisFile)) {
       log(
         `Analysis file ${CONFIG.analysisFile} not found. Run analyze-type-assertions.cjs first.`,
-        'error',
+        "error",
       );
       return null;
     }
 
-    const content = fs.readFileSync(CONFIG.analysisFile, 'utf8');
+    const content = fs.readFileSync(CONFIG.analysisFile, "utf8");
     const data = JSON.parse(content);
 
     log(
@@ -116,19 +119,19 @@ function loadAnalysisData() {
     );
     return data;
   } catch (error) {
-    log(`Error loading analysis data: ${error.message}`, 'error');
+    log(`Error loading analysis data: ${error.message}`, "error");
     return null;
   }
 }
 
 function shouldPreserveAssertion(assertionText, context) {
   // Check if assertion matches any preserve patterns
-  return PRESERVE_PATTERNS.some(pattern => pattern.test(assertionText));
+  return PRESERVE_PATTERNS.some((pattern) => pattern.test(assertionText));
 }
 
 function isUnnecessaryAssertion(assertion) {
   // Only process assertions categorized as unnecessary
-  return assertion.analysis && assertion.analysis.category === 'unnecessary';
+  return assertion.analysis && assertion.analysis.category === "unnecessary";
 }
 
 function removeUnnecessaryAssertions(content, filePath) {
@@ -140,32 +143,35 @@ function removeUnnecessaryAssertions(content, filePath) {
   for (const pattern of SAFE_REMOVAL_PATTERNS) {
     const beforeContent = modifiedContent;
 
-    modifiedContent = modifiedContent.replace(pattern.pattern, (match, ...groups) => {
-      // Double-check if this should be preserved
-      if (shouldPreserveAssertion(match, '')) {
-        return match; // Don't modify
-      }
+    modifiedContent = modifiedContent.replace(
+      pattern.pattern,
+      (match, ...groups) => {
+        // Double-check if this should be preserved
+        if (shouldPreserveAssertion(match, "")) {
+          return match; // Don't modify
+        }
 
-      const replacement = pattern.replacement.replace(
-        /\$(\d+)/g,
-        (_, num) => groups[parseInt(num) - 1] || '',
-      );
+        const replacement = pattern.replacement.replace(
+          /\$(\d+)/g,
+          (_, num) => groups[parseInt(num) - 1] || "",
+        );
 
-      changes.push({
-        original: match,
-        replacement: replacement,
-        pattern: pattern.description,
-        category: pattern.category,
-      });
+        changes.push({
+          original: match,
+          replacement: replacement,
+          pattern: pattern.description,
+          category: pattern.category,
+        });
 
-      removedCount++;
-      log(`  ${pattern.description}: ${match} → ${replacement}`, 'debug');
+        removedCount++;
+        log(`  ${pattern.description}: ${match} → ${replacement}`, "debug");
 
-      return replacement;
-    });
+        return replacement;
+      },
+    );
 
     if (modifiedContent !== beforeContent) {
-      log(`  Applied pattern: ${pattern.description}`, 'debug');
+      log(`  Applied pattern: ${pattern.description}`, "debug");
     }
   }
 
@@ -174,13 +180,16 @@ function removeUnnecessaryAssertions(content, filePath) {
 
 function processFile(filePath, fileAssertions) {
   try {
-    const originalContent = fs.readFileSync(filePath, 'utf8');
+    const originalContent = fs.readFileSync(filePath, "utf8");
 
     // Filter to only unnecessary assertions
     const unnecessaryAssertions = fileAssertions.filter(isUnnecessaryAssertion);
 
     if (unnecessaryAssertions.length === 0) {
-      log(`  No unnecessary assertions found in ${path.basename(filePath)}`, 'debug');
+      log(
+        `  No unnecessary assertions found in ${path.basename(filePath)}`,
+        "debug",
+      );
       metrics.filesProcessed++;
       return 0;
     }
@@ -192,7 +201,7 @@ function processFile(filePath, fileAssertions) {
     const result = removeUnnecessaryAssertions(originalContent, filePath);
 
     if (result.removedCount === 0) {
-      log(`  No changes made to ${path.basename(filePath)}`, 'debug');
+      log(`  No changes made to ${path.basename(filePath)}`, "debug");
       metrics.filesProcessed++;
       return 0;
     }
@@ -200,23 +209,26 @@ function processFile(filePath, fileAssertions) {
     if (CONFIG.dryRun) {
       log(
         `[DRY RUN] Would remove ${result.removedCount} assertions from ${path.basename(filePath)}`,
-        'info',
+        "info",
       );
-      result.changes.forEach(change => {
-        log(`  ${change.pattern}: ${change.original} → ${change.replacement}`, 'debug');
+      result.changes.forEach((change) => {
+        log(
+          `  ${change.pattern}: ${change.original} → ${change.replacement}`,
+          "debug",
+        );
       });
     } else {
       // Create backup
       const backupPath = createBackup(filePath);
       if (backupPath) {
-        log(`  Created backup: ${path.basename(backupPath)}`, 'debug');
+        log(`  Created backup: ${path.basename(backupPath)}`, "debug");
       }
 
       // Write modified content
-      fs.writeFileSync(filePath, result.content, 'utf8');
+      fs.writeFileSync(filePath, result.content, "utf8");
       log(
         `Removed ${result.removedCount} unnecessary assertions from ${path.basename(filePath)}`,
-        'info',
+        "info",
       );
     }
 
@@ -227,7 +239,7 @@ function processFile(filePath, fileAssertions) {
     return result.removedCount;
   } catch (error) {
     const errorMsg = `Error processing ${filePath}: ${error.message}`;
-    log(errorMsg, 'error');
+    log(errorMsg, "error");
     metrics.errors.push(errorMsg);
     return 0;
   }
@@ -237,24 +249,27 @@ function validateBuild() {
   if (!CONFIG.validateBuild || CONFIG.dryRun) return true;
 
   try {
-    log('Validating TypeScript compilation...');
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-      encoding: 'utf8',
+    log("Validating TypeScript compilation...");
+    const output = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+      encoding: "utf8",
       timeout: 60000, // 1 minute timeout
     });
-    log('TypeScript validation passed', 'info');
+    log("TypeScript validation passed", "info");
     return true;
   } catch (error) {
-    const output = error.stdout || error.stderr || '';
+    const output = error.stdout || error.stderr || "";
     const errorCount = (output.match(/error TS\d+:/g) || []).length;
 
     if (errorCount > 500) {
-      log(`TypeScript validation failed with ${errorCount} errors - stopping for safety`, 'error');
+      log(
+        `TypeScript validation failed with ${errorCount} errors - stopping for safety`,
+        "error",
+      );
       return false;
     } else {
       log(
         `TypeScript validation found ${errorCount} errors (within acceptable range) - continuing`,
-        'warn',
+        "warn",
       );
       return true;
     }
@@ -262,8 +277,8 @@ function validateBuild() {
 }
 
 function main() {
-  log('Starting unnecessary type assertions removal...');
-  log(`Mode: ${CONFIG.dryRun ? 'DRY RUN' : 'LIVE FIX'}`);
+  log("Starting unnecessary type assertions removal...");
+  log(`Mode: ${CONFIG.dryRun ? "DRY RUN" : "LIVE FIX"}`);
   log(`Max files per batch: ${CONFIG.maxFiles}`);
 
   // Load analysis data
@@ -273,17 +288,19 @@ function main() {
   }
 
   // Get unnecessary assertions grouped by file
-  const unnecessaryAssertions = analysisData.assertions.filter(isUnnecessaryAssertion);
+  const unnecessaryAssertions = analysisData.assertions.filter(
+    isUnnecessaryAssertion,
+  );
   log(`Found ${unnecessaryAssertions.length} unnecessary assertions to remove`);
 
   if (unnecessaryAssertions.length === 0) {
-    log('No unnecessary assertions found to remove', 'info');
+    log("No unnecessary assertions found to remove", "info");
     return;
   }
 
   // Group by file
   const assertionsByFile = {};
-  unnecessaryAssertions.forEach(assertion => {
+  unnecessaryAssertions.forEach((assertion) => {
     if (!assertionsByFile[assertion.file]) {
       assertionsByFile[assertion.file] = [];
     }
@@ -305,7 +322,9 @@ function main() {
 
   for (let batchIndex = 0; batchIndex < batches.length; batchIndex++) {
     const batch = batches[batchIndex];
-    log(`\n=== Batch ${batchIndex + 1}/${batches.length} (${batch.length} files) ===`);
+    log(
+      `\n=== Batch ${batchIndex + 1}/${batches.length} (${batch.length} files) ===`,
+    );
 
     let batchRemoved = 0;
     for (const file of batch) {
@@ -314,12 +333,14 @@ function main() {
       totalRemoved += removed;
     }
 
-    log(`Batch ${batchIndex + 1} completed: ${batchRemoved} assertions removed`);
+    log(
+      `Batch ${batchIndex + 1} completed: ${batchRemoved} assertions removed`,
+    );
 
     // Validate build after each batch (except last)
     if (!CONFIG.dryRun && batchIndex < batches.length - 1) {
       if (!validateBuild()) {
-        log('Build validation failed, stopping', 'error');
+        log("Build validation failed, stopping", "error");
         break;
       }
     }
@@ -331,20 +352,22 @@ function main() {
   }
 
   // Summary
-  log('\n=== Unnecessary Type Assertions Removal Complete ===');
+  log("\n=== Unnecessary Type Assertions Removal Complete ===");
   log(`Files processed: ${metrics.filesProcessed}`);
   log(`Files modified: ${metrics.filesModified}`);
   log(`Assertions removed: ${metrics.assertionsRemoved}`);
 
   if (metrics.errors.length > 0) {
-    log(`Errors encountered: ${metrics.errors.length}`, 'error');
-    metrics.errors.forEach(error => log(`  - ${error}`, 'error'));
+    log(`Errors encountered: ${metrics.errors.length}`, "error");
+    metrics.errors.forEach((error) => log(`  - ${error}`, "error"));
   }
 
   if (totalRemoved > 0) {
-    log(`\n✓ Successfully removed ${totalRemoved} unnecessary type assertions!`);
+    log(
+      `\n✓ Successfully removed ${totalRemoved} unnecessary type assertions!`,
+    );
     if (!CONFIG.dryRun) {
-      log('Backup files created for all modified files');
+      log("Backup files created for all modified files");
       log('Run "git diff" to review changes');
     }
   }

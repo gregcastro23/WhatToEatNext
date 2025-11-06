@@ -161,10 +161,10 @@ interface PerformanceMetrics {
 }
 
 interface PerformanceThresholds {
-  maxExecutionTime: number;     // 30 seconds
-  maxMemoryUsage: number;       // 4096MB
-  minCacheHitRate: number;      // 70%
-  maxIncrementalTime: number;   // 10 seconds
+  maxExecutionTime: number; // 30 seconds
+  maxMemoryUsage: number; // 4096MB
+  minCacheHitRate: number; // 70%
+  maxIncrementalTime: number; // 10 seconds
   minPerformanceImprovement: number; // 60%
 }
 ```

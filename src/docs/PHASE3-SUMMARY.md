@@ -70,12 +70,7 @@ The core pattern for Phase 3 is the `useServices` hook, which provides:
 Example usage:
 
 ```jsx
-const {
-  isLoading,
-  error,
-  astrologyService,
-  alchemicalEngine
-} = useServices();
+const { isLoading, error, astrologyService, alchemicalEngine } = useServices();
 
 // Handle loading/error states
 if (isLoading) return <Loading />;
@@ -84,7 +79,7 @@ if (error) return <Error message={error.message} />;
 // Use services safely
 useEffect(() => {
   if (astrologyService) {
-    astrologyService.getCurrentPlanetaryPositions().then(positions => {
+    astrologyService.getCurrentPlanetaryPositions().then((positions) => {
       // Do something with positions
     });
   }

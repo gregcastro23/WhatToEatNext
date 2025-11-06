@@ -101,9 +101,10 @@ interface EnhancedCuisine {
 
   // ===== NEW KALCHM ENHANCEMENTS (ADDITIVE) =====
   alchemicalProperties?: {
-    totalKalchm: number;                    // ⭐ CUISINE KALCHM VALUE
-    averageRecipeKalchm: number;            // Average Kalchm of recipes
-    ingredientKalchmProfile: {              // Common ingredient analysis
+    totalKalchm: number; // ⭐ CUISINE KALCHM VALUE
+    averageRecipeKalchm: number; // Average Kalchm of recipes
+    ingredientKalchmProfile: {
+      // Common ingredient analysis
       mostCommon: Array<{
         ingredient: string;
         kalchm: number;
@@ -111,12 +112,13 @@ interface EnhancedCuisine {
       }>;
       kalchmRange: { min: number; max: number; average: number };
     };
-    cookingMethodInfluence: {               // Cooking method impact
+    cookingMethodInfluence: {
+      // Cooking method impact
       primaryMethods: string[];
       methodKalchmModifiers: Record<string, number>;
     };
-    alchemicalClassification: string;       // Cuisine classification
-    elementalBalance: ElementalProperties;  // Aggregate composition
+    alchemicalClassification: string; // Cuisine classification
+    elementalBalance: ElementalProperties; // Aggregate composition
   };
 
   // ===== CUISINE OPTIMIZATION =====
@@ -186,10 +188,13 @@ interface EnhancedCuisine {
 ### **Enhance a Cuisine**
 
 ```typescript
-import { CuisineEnhancer } from '@/data/unified/cuisines';
+import { CuisineEnhancer } from "@/data/unified/cuisines";
 
 // Enhance any existing cuisine
-const enhancedCuisine = CuisineEnhancer.enhanceCuisine(americanCuisine, 'american.ts');
+const enhancedCuisine = CuisineEnhancer.enhanceCuisine(
+  americanCuisine,
+  "american.ts",
+);
 
 // Access cuisine Kalchm value
 const cuisineKalchm = enhancedCuisine.alchemicalProperties?.totalKalchm;
@@ -199,13 +204,13 @@ console.log(`American Cuisine Kalchm: ${cuisineKalchm}`); // 0.990844
 ### **Find Compatible Cuisines**
 
 ```typescript
-import { CuisineAnalyzer } from '@/data/unified/cuisines';
+import { CuisineAnalyzer } from "@/data/unified/cuisines";
 
 // Find cuisines with similar Kalchm values
 const compatibleCuisines = CuisineAnalyzer.findKalchmSimilarCuisines(
   americanCuisine,
   allCuisines,
-  0.15 // tolerance
+  0.15, // tolerance
 );
 ```
 
@@ -213,7 +218,9 @@ const compatibleCuisines = CuisineAnalyzer.findKalchmSimilarCuisines(
 
 ```typescript
 const analysis = CuisineAnalyzer.analyzeCuisineCollection(enhancedCuisines);
-console.log(`Cuisine Kalchm Range: ${analysis.kalchmRange.min} - ${analysis.kalchmRange.max}`);
+console.log(
+  `Cuisine Kalchm Range: ${analysis.kalchmRange.min} - ${analysis.kalchmRange.max}`,
+);
 console.log(`Average Cuisine Kalchm: ${analysis.kalchmRange.average}`);
 ```
 

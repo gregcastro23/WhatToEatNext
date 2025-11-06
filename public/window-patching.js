@@ -23,16 +23,22 @@
       if (!window.chrome.tabs) {
         window.chrome.tabs = {
           create: function (options) {
-            console.log('[WindowPatch] chrome.tabs.create called with:', options);
+            console.log(
+              "[WindowPatch] chrome.tabs.create called with:",
+              options,
+            );
             // Actually open the URL in a new tab if available
             if (options && options.url) {
               try {
-                window.open(options.url, '_blank');
+                window.open(options.url, "_blank");
               } catch (e) {
-                console.warn('[WindowPatch] Error opening URL:', e);
+                console.warn("[WindowPatch] Error opening URL:", e);
               }
             }
-            return Promise.resolve({ id: 999, url: options?.url || 'about:blank' });
+            return Promise.resolve({
+              id: 999,
+              url: options?.url || "about:blank",
+            });
           },
           query: function () {
             return Promise.resolve([{ id: 1, active: true, windowId: 1 }]);
@@ -51,7 +57,7 @@
         window.chrome.runtime = {
           lastError: null,
           getURL: function (path) {
-            return window.location.origin + '/' + path;
+            return window.location.origin + "/" + path;
           },
           sendMessage: function () {
             return Promise.resolve({});
@@ -115,7 +121,7 @@
         };
       }
 
-      console.log('[WindowPatch] Chrome and popup APIs are ready');
+      console.log("[WindowPatch] Chrome and popup APIs are ready");
     }
 
     // Install this immediately
@@ -127,27 +133,27 @@
       setupChromeAPIs();
 
       // Call the original onload if it exists
-      if (typeof originalOnload === 'function') {
+      if (typeof originalOnload === "function") {
         originalOnload.call(window, event);
       }
     };
 
     // Capture DOMContentLoaded event
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener("DOMContentLoaded", function () {
       setupChromeAPIs();
     });
 
     // Also capture error events
     window.addEventListener(
-      'error',
+      "error",
       function (event) {
         if (
           event.message &&
-          (event.message.includes('popup') ||
-            event.message.includes('chrome') ||
-            event.message.includes('Cannot read properties of undefined'))
+          (event.message.includes("popup") ||
+            event.message.includes("chrome") ||
+            event.message.includes("Cannot read properties of undefined"))
         ) {
-          console.warn('[WindowPatch] Intercepted error:', event.message);
+          console.warn("[WindowPatch] Intercepted error:", event.message);
 
           // Re-setup APIs just in case
           setupChromeAPIs();
@@ -161,8 +167,8 @@
       true,
     );
 
-    console.log('[WindowPatch] Window object successfully patched');
+    console.log("[WindowPatch] Window object successfully patched");
   } catch (error) {
-    console.warn('[WindowPatch] Error during window patching:', error);
+    console.warn("[WindowPatch] Error during window patching:", error);
   }
 })();

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 interface FoodNutrient {
   nutrientNumber: string;
@@ -17,8 +17,9 @@ interface FoodData {
  * API Client for Food Data Central
  */
 export class FoodDataCentral {
-  private static readonly apiKey = process.env.NEXT_PUBLIC_FOOD_DATA_CENTRAL_API_KEY || '';
-  private static readonly baseUrl = 'https://api.nal.usda.gov/fdc/v1';
+  private static readonly apiKey =
+    process.env.NEXT_PUBLIC_FOOD_DATA_CENTRAL_API_KEY || "";
+  private static readonly baseUrl = "https://api.nal.usda.gov/fdc/v1";
 
   /**
    * Get detailed food information by FDC ID
@@ -27,18 +28,18 @@ export class FoodDataCentral {
     try {
       const response = await axios.get(`${this.baseUrl}/food/${fdcId}`, {
         params: {
-          api_key: this.apiKey
-        }
+          api_key: this.apiKey,
+        },
       });
 
       return response.data;
     } catch (error) {
-      console.error('Error fetching food data:', error);
+      console.error("Error fetching food data:", error);
       // Return a minimal valid structure if the API call fails
       return {
         fdcId,
-        description: 'Data unavailable',
-        foodNutrients: []
+        description: "Data unavailable",
+        foodNutrients: [],
       };
     }
   }
@@ -53,17 +54,18 @@ export class FoodDataCentral {
         {
           query,
           pageSize,
-          dataType: ['Foundation', 'SR Legacy', 'Survey (FNDDS)']
+          dataType: ["Foundation", "SR Legacy", "Survey (FNDDS)"],
         },
         {
           params: {
-            api_key: this.apiKey
-          }
-        });
+            api_key: this.apiKey,
+          },
+        },
+      );
 
       return response.data.foods || [];
     } catch (error) {
-      console.error('Error searching foods:', error);
+      console.error("Error searching foods:", error);
       return [];
     }
   }

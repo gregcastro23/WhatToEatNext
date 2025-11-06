@@ -1,6 +1,6 @@
-import { log } from '@/services/LoggingService';
-import type { PlanetPosition } from '@/utils/astrologyUtils';
-import { useCallback, useEffect, useState } from 'react';
+import { log } from "@/services/LoggingService";
+import type { PlanetPosition } from "@/utils/astrologyUtils";
+import { useCallback, useEffect, useState } from "react";
 
 interface PlanetaryPositionsState {
   positions: { [key: string]: PlanetPosition } | null;
@@ -18,18 +18,20 @@ interface UseRealtimePlanetaryPositionsOptions {
   /** Whether to start fetching immediately */
   autoStart?: boolean;
   /** Zodiac system to use (tropical or sidereal) */
-  zodiacSystem?: 'tropical' | 'sidereal';
+  zodiacSystem?: "tropical" | "sidereal";
   /** Whether to test API connection on initialization */
   testConnection?: boolean;
 }
 
-export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPositionsOptions = {}) {
+export function useRealtimePlanetaryPositions(
+  _options: UseRealtimePlanetaryPositionsOptions = {},
+) {
   const {
     refreshInterval = 30 * 60 * 1000, // 30 minutes to reduce API load
     location,
     autoStart = false, // Disabled by default to prevent unnecessary API calls
-    zodiacSystem = 'tropical',
-    testConnection = false
+    zodiacSystem = "tropical",
+    testConnection = false,
   } = _options;
 
   const [state, setState] = useState<PlanetaryPositionsState>({
@@ -37,36 +39,37 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
     loading: false,
     error: null,
     lastUpdated: null,
-    source: null
+    source: null,
   });
 
   const fetchPositions = useCallback(async () => {
-    setState(prev => ({ ...prev, loading: true, error: null }))
+    setState((prev) => ({ ...prev, loading: true, error: null }));
 
     try {
       // Unified: PlanetaryPositionsService (API→engine fallback)
-      const positions: { [key: string]: PlanetPosition } = (await planetaryPositionsService.getCurrent(
-        location,
-        zodiacSystem,
-      )) as unknown as { [key: string]: PlanetPosition }
-      const source = 'positions-service';
+      const positions: { [key: string]: PlanetPosition } =
+        (await planetaryPositionsService.getCurrent(
+          location,
+          zodiacSystem,
+        )) as unknown as { [key: string]: PlanetPosition };
+      const source = "positions-service";
 
       setState({
         positions,
         loading: false,
         error: null,
         lastUpdated: new Date(),
-        source
-      })
+        source,
+      });
 
-      log.info('🌟 Updated planetary positions from: ', { source });
+      log.info("🌟 Updated planetary positions from: ", { source });
     } catch (error) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         loading: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : "Unknown error",
       }));
-      _logger.error('Failed to fetch planetary positions: ', error);
+      _logger.error("Failed to fetch planetary positions: ", error);
     }
   }, [location, zodiacSystem]);
 
@@ -92,8 +95,8 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
   return {
     ...state,
     refresh: forceRefresh,
-    isRealtime: state.source === 'astrologize-api-realtime',
-    isConnected: state.source?.includes('astrologize-api') ?? false
+    isRealtime: state.source === "astrologize-api-realtime",
+    isConnected: state.source?.includes("astrologize-api") ?? false,
   };
 }
 
@@ -101,39 +104,41 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
 export function usePlanetaryPositionsForDate(
   date: Date,
   location?: { latitude: number; longitude: number },
-  zodiacSystem: 'tropical' | 'sidereal' = 'tropical') {
+  zodiacSystem: "tropical" | "sidereal" = "tropical",
+) {
   const [state, setState] = useState<PlanetaryPositionsState>({
     positions: null,
     loading: false,
     error: null,
     lastUpdated: null,
-    source: null
+    source: null,
   });
 
   const fetchPositions = useCallback(async () => {
-    setState(prev => ({ ...prev, loading: true, error: null }))
+    setState((prev) => ({ ...prev, loading: true, error: null }));
 
     try {
       // Unified: PlanetaryPositionsService for specific date
-      const positions: { [key: string]: PlanetPosition } = (await planetaryPositionsService.getForDate(
-        date,
-        location,
-        zodiacSystem,
-      )) as unknown as { [key: string]: PlanetPosition }
-      const source = 'positions-service-custom';
+      const positions: { [key: string]: PlanetPosition } =
+        (await planetaryPositionsService.getForDate(
+          date,
+          location,
+          zodiacSystem,
+        )) as unknown as { [key: string]: PlanetPosition };
+      const source = "positions-service-custom";
 
       setState({
         positions,
         loading: false,
         error: null,
         lastUpdated: new Date(),
-        source
+        source,
       });
     } catch (error) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         loading: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : "Unknown error",
       }));
     }
   }, [date, location, zodiacSystem]);
@@ -146,6 +151,6 @@ export function usePlanetaryPositionsForDate(
     ...state,
     refresh: fetchPositions,
     isRealtime: false,
-    isConnected: state.source?.includes('astrologize-api') ?? false
+    isConnected: state.source?.includes("astrologize-api") ?? false,
   };
 }

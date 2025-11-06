@@ -30,10 +30,10 @@ The canonical type for elements is the `Element` enum in `constants.ts`:
 
 ```typescript
 export enum Element {
-  Fire = 'Fire',
-  Water = 'Water',
-  Earth = 'Earth',
-  Air = 'Air'
+  Fire = "Fire",
+  Water = "Water",
+  Earth = "Earth",
+  Air = "Air",
 }
 ```
 
@@ -45,8 +45,8 @@ The canonical type for zodiac signs is the `ZodiacSign` enum in `constants.ts`:
 
 ```typescript
 export enum ZodiacSign {
-  Aries = 'aries',
-  Taurus = 'taurus',
+  Aries = "aries",
+  Taurus = "taurus",
   // ... other signs
 }
 ```
@@ -57,8 +57,8 @@ The canonical type for lunar phases is the `LunarPhase` enum in `constants.ts`:
 
 ```typescript
 export enum LunarPhase {
-  NewMoon = 'new moon',
-  WaxingCrescent = 'waxing crescent',
+  NewMoon = "new moon",
+  WaxingCrescent = "waxing crescent",
   // ... other phases
 }
 ```
@@ -98,7 +98,7 @@ export interface AlchemicalState {
 Use type guards from `utils.ts` to check types at runtime:
 
 ```typescript
-import { isElement, isZodiacSign } from './types';
+import { isElement, isZodiacSign } from "./types";
 
 // Check if a value is a valid Element
 if (isElement(someValue)) {
@@ -111,7 +111,7 @@ if (isElement(someValue)) {
 Use validation functions from `validation.ts` to validate external data:
 
 ```typescript
-import { validateRecipe, ValidationError } from './types';
+import { validateRecipe, ValidationError } from "./types";
 
 try {
   const validatedRecipe = validateRecipe(apiResponse);
@@ -128,13 +128,14 @@ try {
 Use the conversion utilities to convert between different type formats:
 
 ```typescript
-import { toElement, convertLunarPhaseFormat } from './types';
+import { toElement, convertLunarPhaseFormat } from "./types";
 
 // Convert string to Element enum
-const element = toElement('fire'); // Returns Element.Fire
+const element = toElement("fire"); // Returns Element.Fire
 
 // Convert between lunar phase formats
-const { standard, withSpaces, withUnderscores } = convertLunarPhaseFormat('waxing_crescent');
+const { standard, withSpaces, withUnderscores } =
+  convertLunarPhaseFormat("waxing_crescent");
 ```
 
 ## Best Practices

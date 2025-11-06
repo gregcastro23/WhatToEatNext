@@ -1,20 +1,20 @@
 // TODO: Fix import - was: import from "./calculations/core/kalchmEngine.ts";
 // Test script for K_alchm and Monica Constant calculations
 
-import { alchemize } from '../src/calculations/alchemicalEngine';
+import { alchemize } from "../src/calculations/alchemicalEngine";
 
 // Mock planetary positions for testing
 const testPositions = {
-  Sun: 'Gemini',
-  Moon: 'Leo',
-  Mercury: 'Taurus',
-  Venus: 'Gemini',
-  Mars: 'Aries',
-  Jupiter: 'Gemini',
-  Saturn: 'Pisces',
-  Uranus: 'Taurus',
-  Neptune: 'Aries',
-  Pluto: 'Aquarius',
+  Sun: "Gemini",
+  Moon: "Leo",
+  Mercury: "Taurus",
+  Venus: "Gemini",
+  Mars: "Aries",
+  Jupiter: "Gemini",
+  Saturn: "Pisces",
+  Uranus: "Taurus",
+  Neptune: "Aries",
+  Pluto: "Aquarius",
 };
 
 // Calculate alchemical metrics using the main engine
@@ -29,7 +29,7 @@ const gregsEnergy = metricsData?.gregsEnergy || 0;
 const kalchm = metricsData?.kalchm || 0;
 const monica = metricsData?.monica || 0;
 
-console.log('🧙‍♂️ ALCHEMICAL METRICS:');
+console.log("🧙‍♂️ ALCHEMICAL METRICS:");
 console.log(`  Heat: ${heat.toFixed(4)}`);
 console.log(`  Entropy: ${entropy.toFixed(4)}`);
 console.log(`  Reactivity: ${reactivity.toFixed(4)}`);
@@ -79,7 +79,7 @@ const reactivityValue = reactivity;
 const kAlchm = calculateKAlchm(Spirit, Essence, Matter, Substance);
 const monicaConstant = calculateMonicaConstant(energy, reactivityValue, kAlchm);
 
-console.log('\n🔮 LEGACY CALCULATION TEST:');
+console.log("\n🔮 LEGACY CALCULATION TEST:");
 console.log(`  Legacy K_alchm: ${kAlchm.toFixed(4)}`);
 console.log(`  Legacy Monica: ${monicaConstant.toFixed(4)}`);
 
@@ -96,12 +96,14 @@ const testAir = 0.6;
 const testEarth = 0.7;
 
 // Calculate denominator values
-const denominator1 = testSubstance + testEssence + testMatter + testWater + testAir + testEarth;
+const denominator1 =
+  testSubstance + testEssence + testMatter + testWater + testAir + testEarth;
 const denominator2 = testEssence + testMatter + testEarth + testWater;
 const denominator3 = testMatter + testEarth;
 
 // Calculate thermodynamic properties
-const testHeat = (Math.pow(testSpirit, 2) + Math.pow(testFire, 2)) / Math.pow(denominator1, 2);
+const testHeat =
+  (Math.pow(testSpirit, 2) + Math.pow(testFire, 2)) / Math.pow(denominator1, 2);
 const testEntropy =
   (Math.pow(testSpirit, 2) +
     Math.pow(testSubstance, 2) +
@@ -119,11 +121,20 @@ const testReactivity =
 const testEnergy = testHeat - testReactivity * testEntropy;
 
 // Calculate K_alchm and Monica Constant
-const testKAlchm = calculateKAlchm(testSpirit, testEssence, testMatter, testSubstance);
-const testMonicaConstant = calculateMonicaConstant(testEnergy, testReactivity, testKAlchm);
+const testKAlchm = calculateKAlchm(
+  testSpirit,
+  testEssence,
+  testMatter,
+  testSubstance,
+);
+const testMonicaConstant = calculateMonicaConstant(
+  testEnergy,
+  testReactivity,
+  testKAlchm,
+);
 
 // Log the results
-console.log('\n📊 SAMPLE CALCULATION TEST:');
+console.log("\n📊 SAMPLE CALCULATION TEST:");
 console.log(`  Spirit: ${testSpirit}`);
 console.log(`  Essence: ${testEssence}`);
 console.log(`  Matter: ${testMatter}`);
@@ -132,6 +143,6 @@ console.log(`  Fire: ${testFire}`);
 console.log(`  Water: ${testWater}`);
 console.log(`  Air: ${testAir}`);
 console.log(`  Earth: ${testEarth}`);
-console.log('\n  Final Results:');
+console.log("\n  Final Results:");
 console.log(`  K_alchm: ${testKAlchm.toFixed(4)}`);
 console.log(`  Monica Constant: ${testMonicaConstant.toFixed(4)}`);

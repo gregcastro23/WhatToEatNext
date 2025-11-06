@@ -1,31 +1,31 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // ANSI color codes
 const colors = {
-  reset: '\x1b[0m',
-  bright: '\x1b[1m',
-  red: '\x1b[31m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  cyan: '\x1b[36m',
+  reset: "\x1b[0m",
+  bright: "\x1b[1m",
+  red: "\x1b[31m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  cyan: "\x1b[36m",
 };
 
-function log(message, color = 'reset') {
+function log(message, color = "reset") {
   console.log(`${colors[color]}${message}${colors.reset}`);
 }
 
 function getTypeScriptErrors() {
   try {
-    execSync('npx tsc --noEmit', { encoding: 'utf8', stdio: 'pipe' });
+    execSync("npx tsc --noEmit", { encoding: "utf8", stdio: "pipe" });
     return [];
   } catch (error) {
-    const output = error.stdout || '';
-    const lines = output.split('\n');
+    const output = error.stdout || "";
+    const lines = output.split("\n");
     const errors = [];
 
     for (const line of lines) {
@@ -50,17 +50,17 @@ function getTypeScriptErrors() {
 }
 
 function fixPromiseAwaitErrors(dryRun = false) {
-  log('\n🔍 Scanning for Promise property access errors...', 'cyan');
+  log("\n🔍 Scanning for Promise property access errors...", "cyan");
 
   const errors = getTypeScriptErrors();
-  const promiseErrors = errors.filter(e => e.promiseType);
+  const promiseErrors = errors.filter((e) => e.promiseType);
 
   if (promiseErrors.length === 0) {
-    log('✅ No Promise property access errors found!', 'green');
+    log("✅ No Promise property access errors found!", "green");
     return { fixed: 0, total: 0 };
   }
 
-  log(`Found ${promiseErrors.length} Promise property access errors`, 'yellow');
+  log(`Found ${promiseErrors.length} Promise property access errors`, "yellow");
 
   // Group errors by file
   const errorsByFile = {};
@@ -75,14 +75,17 @@ function fixPromiseAwaitErrors(dryRun = false) {
 
   for (const [filePath, fileErrors] of Object.entries(errorsByFile)) {
     if (!fs.existsSync(filePath)) {
-      log(`⚠️  File not found: ${filePath}`, 'yellow');
+      log(`⚠️  File not found: ${filePath}`, "yellow");
       continue;
     }
 
-    log(`\n📝 Processing ${path.basename(filePath)} (${fileErrors.length} errors)...`, 'blue');
+    log(
+      `\n📝 Processing ${path.basename(filePath)} (${fileErrors.length} errors)...`,
+      "blue",
+    );
 
-    let content = fs.readFileSync(filePath, 'utf8');
-    const lines = content.split('\n');
+    let content = fs.readFileSync(filePath, "utf8");
+    const lines = content.split("\n");
     let fixedInFile = 0;
 
     // Sort errors by line number in reverse to avoid offset issues
@@ -115,14 +118,19 @@ function fixPromiseAwaitErrors(dryRun = false) {
             const awaitPattern = new RegExp(`\\b${varName}\\b(?!\\.)`);
             if (!line.includes(`await ${varName}`)) {
               // Add await before the variable
-              lines[lineIndex] = line.replace(awaitPattern, `(await ${varName})`);
+              lines[lineIndex] = line.replace(
+                awaitPattern,
+                `(await ${varName})`,
+              );
               fixed = true;
             }
           }
         }
 
         // Pattern 2: Function call result (e.g., getPositions().Sun)
-        const funcPattern = new RegExp(`(\\w+\\([^)]*\\))\\.${error.property}\\b`);
+        const funcPattern = new RegExp(
+          `(\\w+\\([^)]*\\))\\.${error.property}\\b`,
+        );
         const funcMatch = line.match(funcPattern);
 
         if (funcMatch && !fixed) {
@@ -134,33 +142,47 @@ function fixPromiseAwaitErrors(dryRun = false) {
         }
 
         // Pattern 3: Import statement (e.g., import(...).CampaignTestController)
-        const importPattern = new RegExp(`(import\\([^)]+\\))\\.${error.property}\\b`);
+        const importPattern = new RegExp(
+          `(import\\([^)]+\\))\\.${error.property}\\b`,
+        );
         const importMatch = line.match(importPattern);
 
         if (importMatch && !fixed) {
           const importCall = importMatch[1];
           if (!line.includes(`await ${importCall}`)) {
-            lines[lineIndex] = line.replace(importCall, `(await ${importCall})`);
+            lines[lineIndex] = line.replace(
+              importCall,
+              `(await ${importCall})`,
+            );
             fixed = true;
           }
         }
 
         if (fixed) {
           fixedInFile++;
-          log(`  ✓ Line ${error.line}: Added await for ${error.property} access`, 'green');
+          log(
+            `  ✓ Line ${error.line}: Added await for ${error.property} access`,
+            "green",
+          );
         } else {
-          log(`  ⚠️  Line ${error.line}: Could not auto-fix - manual review needed`, 'yellow');
+          log(
+            `  ⚠️  Line ${error.line}: Could not auto-fix - manual review needed`,
+            "yellow",
+          );
         }
       }
     }
 
     if (fixedInFile > 0 && !dryRun) {
-      const newContent = lines.join('\n');
-      fs.writeFileSync(filePath, newContent, 'utf8');
-      log(`  💾 Saved ${fixedInFile} fixes to ${path.basename(filePath)}`, 'green');
+      const newContent = lines.join("\n");
+      fs.writeFileSync(filePath, newContent, "utf8");
+      log(
+        `  💾 Saved ${fixedInFile} fixes to ${path.basename(filePath)}`,
+        "green",
+      );
       totalFixed += fixedInFile;
     } else if (dryRun) {
-      log(`  🔍 Would fix ${fixedInFile} errors (dry run)`, 'cyan');
+      log(`  🔍 Would fix ${fixedInFile} errors (dry run)`, "cyan");
       totalFixed += fixedInFile;
     }
   }
@@ -170,53 +192,61 @@ function fixPromiseAwaitErrors(dryRun = false) {
 
 function main() {
   const args = process.argv.slice(2);
-  const dryRun = args.includes('--dry-run');
+  const dryRun = args.includes("--dry-run");
 
-  log('🚀 Promise Await Error Fixer', 'bright');
-  log('='.repeat(50), 'cyan');
+  log("🚀 Promise Await Error Fixer", "bright");
+  log("=".repeat(50), "cyan");
 
   if (dryRun) {
-    log('🔍 Running in DRY RUN mode - no files will be modified', 'yellow');
+    log("🔍 Running in DRY RUN mode - no files will be modified", "yellow");
   }
 
   try {
     // Create backup with git stash
     if (!dryRun) {
-      log('\n📦 Creating git stash backup...', 'cyan');
+      log("\n📦 Creating git stash backup...", "cyan");
       try {
-        execSync('git stash push -m "fix-promise-await-backup"', { stdio: 'pipe' });
-        log('✅ Backup created successfully', 'green');
+        execSync('git stash push -m "fix-promise-await-backup"', {
+          stdio: "pipe",
+        });
+        log("✅ Backup created successfully", "green");
       } catch (e) {
-        log('⚠️  Could not create git stash (working directory might be clean)', 'yellow');
+        log(
+          "⚠️  Could not create git stash (working directory might be clean)",
+          "yellow",
+        );
       }
     }
 
     const result = fixPromiseAwaitErrors(dryRun);
 
-    log('\n' + '='.repeat(50), 'cyan');
-    log('📊 Summary:', 'bright');
-    log(`  Total Promise errors found: ${result.total}`, 'blue');
-    log(`  Successfully fixed: ${result.fixed}`, 'green');
+    log("\n" + "=".repeat(50), "cyan");
+    log("📊 Summary:", "bright");
+    log(`  Total Promise errors found: ${result.total}`, "blue");
+    log(`  Successfully fixed: ${result.fixed}`, "green");
     log(
       `  Remaining to fix manually: ${result.total - result.fixed}`,
-      result.total - result.fixed > 0 ? 'yellow' : 'green',
+      result.total - result.fixed > 0 ? "yellow" : "green",
     );
 
     if (!dryRun && result.fixed > 0) {
-      log('\n🔨 Rebuilding to verify fixes...', 'cyan');
+      log("\n🔨 Rebuilding to verify fixes...", "cyan");
       try {
-        execSync('npx tsc --noEmit', { stdio: 'pipe' });
-        log('✅ Build successful!', 'green');
+        execSync("npx tsc --noEmit", { stdio: "pipe" });
+        log("✅ Build successful!", "green");
       } catch (e) {
-        log('⚠️  Build still has errors - some may require manual fixes', 'yellow');
+        log(
+          "⚠️  Build still has errors - some may require manual fixes",
+          "yellow",
+        );
       }
     }
 
     if (dryRun && result.fixed > 0) {
-      log('\n💡 Run without --dry-run to apply these fixes', 'yellow');
+      log("\n💡 Run without --dry-run to apply these fixes", "yellow");
     }
   } catch (error) {
-    log(`\n❌ Error: ${error.message}`, 'red');
+    log(`\n❌ Error: ${error.message}`, "red");
     process.exit(1);
   }
 }

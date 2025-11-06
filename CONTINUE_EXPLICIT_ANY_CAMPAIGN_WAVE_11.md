@@ -16,34 +16,43 @@
 
 ```typescript
 // ❌ Problematic Pattern
-(object as any).property
-
-// ✅ Advanced Progressive Casting
-(object as unknown as { property: PropertyType }).property
-(object as unknown as Interface).method(params)
+(object as any)
+  .property(
+    // ✅ Advanced Progressive Casting
+    object as unknown as { property: PropertyType },
+  )
+  .property(object as unknown as Interface)
+  .method(params);
 ```
 
 #### **Advanced Test Infrastructure Patterns**
 
 ```typescript
 // Jest Mock Method Binding
-const method = (instance as unknown as {
-  methodName: (params: Type) => ReturnType
-}).methodName.bind(instance)
+const method = (
+  instance as unknown as {
+    methodName: (params: Type) => ReturnType;
+  }
+).methodName.bind(instance);
 
 // Complex Test Interface Specifications
-jest.spyOn(controller as unknown as {
-  validateBuild: () => Promise<boolean>;
-  executeScript: (options: ConfigType) => Promise<ResultType>;
-}, 'methodName')
+jest.spyOn(
+  controller as unknown as {
+    validateBuild: () => Promise<boolean>;
+    executeScript: (options: ConfigType) => Promise<ResultType>;
+  },
+  "methodName",
+);
 ```
 
 #### **React Component State Management**
 
 ```typescript
 // State with Structured Interfaces
-const [state, setState] = useState<Record<string, unknown> | null>(null)
-const [callbacks, setCallbacks] = useState<Record<string, ((data: unknown) => void)[]>>({})
+const [state, setState] = useState<Record<string, unknown> | null>(null);
+const [callbacks, setCallbacks] = useState<
+  Record<string, ((data: unknown) => void)[]>
+>({});
 
 // Component Props and Context
 interface ComponentProps {
@@ -59,20 +68,25 @@ interface ComponentProps {
 const service = ServiceClass as unknown as {
   initialize: (config: Record<string, unknown>) => Promise<void>;
   execute: (params: ParamType) => Promise<ResultType>;
-}
+};
 
 // Safety Event and Campaign System Types
-type: 'BUILD_FAILURE' as SafetyEvent['type']
-severity: 'ERROR' as SafetyEvent['severity']
+type: "BUILD_FAILURE" as SafetyEvent["type"];
+severity: "ERROR" as SafetyEvent["severity"];
 ```
 
 #### **Browser API Extensions**
 
 ```typescript
 // Performance API Memory Access
-const memoryUsage = (performance as Performance & {
-  memory?: { usedJSHeapSize: number }
-}).memory?.usedJSHeapSize / 1024 / 1024 || 0
+const memoryUsage =
+  (
+    performance as Performance & {
+      memory?: { usedJSHeapSize: number };
+    }
+  ).memory?.usedJSHeapSize /
+    1024 /
+    1024 || 0;
 ```
 
 ## 🎯 **Strategic Approach for Wave 11+**

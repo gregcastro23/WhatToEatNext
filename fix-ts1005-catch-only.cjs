@@ -9,9 +9,9 @@
  * This is the safest possible fix for TS1005 errors.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class TS1005CatchFixer {
   constructor() {
@@ -20,14 +20,14 @@ class TS1005CatchFixer {
   }
 
   async run() {
-    console.log('🔧 Starting TS1005 Catch Block Fixes...\n');
+    console.log("🔧 Starting TS1005 Catch Block Fixes...\n");
 
     try {
       const initialErrors = this.getTS1005ErrorCount();
       console.log(`📊 Initial TS1005 errors: ${initialErrors}`);
 
       if (initialErrors === 0) {
-        console.log('✅ No TS1005 errors found!');
+        console.log("✅ No TS1005 errors found!");
         return;
       }
 
@@ -36,7 +36,7 @@ class TS1005CatchFixer {
       console.log(`🔍 Found ${errorFiles.length} files with TS1005 errors`);
 
       // Apply catch block fixes
-      console.log('\n🛠️ Applying catch block fixes...');
+      console.log("\n🛠️ Applying catch block fixes...");
 
       for (const filePath of errorFiles) {
         await this.fixCatchBlocks(filePath);
@@ -45,7 +45,8 @@ class TS1005CatchFixer {
       // Final results
       const finalErrors = this.getTS1005ErrorCount();
       const reduction = initialErrors - finalErrors;
-      const percentage = reduction > 0 ? ((reduction / initialErrors) * 100).toFixed(1) : '0.0';
+      const percentage =
+        reduction > 0 ? ((reduction / initialErrors) * 100).toFixed(1) : "0.0";
 
       console.log(`\n📈 Final Results:`);
       console.log(`   Initial errors: ${initialErrors}`);
@@ -54,18 +55,20 @@ class TS1005CatchFixer {
       console.log(`   Reduction: ${percentage}%`);
       console.log(`   Files processed: ${this.fixedFiles.length}`);
       console.log(`   Total fixes applied: ${this.totalFixes}`);
-
     } catch (error) {
-      console.error('❌ Error during fixing:', error.message);
+      console.error("❌ Error during fixing:", error.message);
     }
   }
 
   getTS1005ErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | wc -l', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | wc -l',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -74,13 +77,19 @@ class TS1005CatchFixer {
 
   async getFilesWithTS1005Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const files = new Set();
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^(.+?)\(/);
@@ -101,7 +110,7 @@ class TS1005CatchFixer {
         return;
       }
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
       let fixesApplied = 0;
 
@@ -110,17 +119,18 @@ class TS1005CatchFixer {
       const catchPattern = /(\}\s*catch\s*\(\s*[^)]+\s*\))\s*:\s*any\s*(\{)/g;
       const matches = content.match(catchPattern);
       if (matches) {
-        content = content.replace(catchPattern, '$1 $2');
+        content = content.replace(catchPattern, "$1 $2");
         fixesApplied += matches.length;
       }
 
       if (fixesApplied > 0 && content !== originalContent) {
-        fs.writeFileSync(filePath, content, 'utf8');
+        fs.writeFileSync(filePath, content, "utf8");
         this.fixedFiles.push(filePath);
         this.totalFixes += fixesApplied;
-        console.log(`   ✅ ${path.basename(filePath)}: ${fixesApplied} catch block fixes applied`);
+        console.log(
+          `   ✅ ${path.basename(filePath)}: ${fixesApplied} catch block fixes applied`,
+        );
       }
-
     } catch (error) {
       console.log(`   ❌ Error fixing ${filePath}: ${error.message}`);
     }

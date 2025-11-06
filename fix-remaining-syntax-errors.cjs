@@ -7,10 +7,10 @@
  * that were introduced during previous cleanup attempts
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
-const glob = require('glob');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+const glob = require("glob");
 
 class RemainingSyntaxFixer {
   constructor() {
@@ -19,23 +19,25 @@ class RemainingSyntaxFixer {
   }
 
   async execute() {
-    console.log('🔧 Fixing remaining syntax errors...');
+    console.log("🔧 Fixing remaining syntax errors...");
 
     // Get all TypeScript/TSX files
-    const files = glob.sync('src/**/*.{ts,tsx}', {
-      ignore: ['node_modules/**']
+    const files = glob.sync("src/**/*.{ts,tsx}", {
+      ignore: ["node_modules/**"],
     });
 
     for (const file of files) {
       await this.fixFile(file);
     }
 
-    console.log(`✅ Fixed ${this.fixedIssues} syntax issues in ${this.fixedFiles} files`);
+    console.log(
+      `✅ Fixed ${this.fixedIssues} syntax issues in ${this.fixedFiles} files`,
+    );
   }
 
   async fixFile(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       let modified = content;
       let fileFixCount = 0;
 
@@ -45,7 +47,7 @@ class RemainingSyntaxFixer {
         (match, attr, value) => {
           fileFixCount++;
           return `${attr}={${value}}`;
-        }
+        },
       );
       if (jsxAttrFix !== modified) {
         modified = jsxAttrFix;
@@ -57,7 +59,7 @@ class RemainingSyntaxFixer {
         (match, obj, prop, index) => {
           fileFixCount++;
           return `${obj}.${prop}[${index}]`;
-        }
+        },
       );
       if (arrayAccessFix !== modified) {
         modified = arrayAccessFix;
@@ -69,7 +71,7 @@ class RemainingSyntaxFixer {
         (match, param) => {
           fileFixCount++;
           return `${param} =>`;
-        }
+        },
       );
       if (arrowFunctionFix !== modified) {
         modified = arrowFunctionFix;
@@ -81,7 +83,7 @@ class RemainingSyntaxFixer {
         (match, params) => {
           fileFixCount++;
           return `({${params}})`;
-        }
+        },
       );
       if (parameterFix !== modified) {
         modified = parameterFix;
@@ -93,7 +95,7 @@ class RemainingSyntaxFixer {
         (match, errorParam) => {
           fileFixCount++;
           return `catch (${errorParam}: any) {`;
-        }
+        },
       );
       if (catchBlockFix !== modified) {
         modified = catchBlockFix;
@@ -105,9 +107,9 @@ class RemainingSyntaxFixer {
         (match) => {
           fileFixCount++;
           // Extract the values and remove type annotations
-          const values = match.replace(/:\s*any/g, '').replace(/[\[\]]/g, '');
+          const values = match.replace(/:\s*any/g, "").replace(/[\[\]]/g, "");
           return `[${values}]`;
-        }
+        },
       );
       if (arrayLiteralFix !== modified) {
         modified = arrayLiteralFix;
@@ -119,13 +121,15 @@ class RemainingSyntaxFixer {
         (match, key, value, offset, string) => {
           // Extract the object being iterated
           const beforeMatch = string.substring(0, offset);
-          const objectMatch = beforeMatch.match(/Object\.entries\(([^)]+)\s*\|\|\s*\[\]\s*\)$/);
+          const objectMatch = beforeMatch.match(
+            /Object\.entries\(([^)]+)\s*\|\|\s*\[\]\s*\)$/,
+          );
           if (objectMatch) {
             fileFixCount++;
             return `Object.entries(${objectMatch[1]} || {}).forEach(([${key}, ${value}]: [string, any]) =>`;
           }
           return match;
-        }
+        },
       );
       if (objectEntriesFix !== modified) {
         modified = objectEntriesFix;
@@ -136,8 +140,8 @@ class RemainingSyntaxFixer {
         /'(\d{4}-\d{2}-\d{2}T\d{2}):\s*(\d+)\s*,\s*(\d+):(\d{2}Z)'/g,
         (match, datePart, hour, minute, endPart) => {
           fileFixCount++;
-          return `'${datePart}:${hour.padStart(2, '0')}:${minute.padStart(2, '0')}${endPart}'`;
-        }
+          return `'${datePart}:${hour.padStart(2, "0")}:${minute.padStart(2, "0")}${endPart}'`;
+        },
       );
       if (dateStringFix !== modified) {
         modified = dateStringFix;
@@ -149,7 +153,7 @@ class RemainingSyntaxFixer {
         (match) => {
           fileFixCount++;
           return "replace(/\\s+/g, '-')";
-        }
+        },
       );
       if (regexFix !== modified) {
         modified = regexFix;
@@ -165,7 +169,7 @@ class RemainingSyntaxFixer {
             return `${part1}${part2}`;
           }
           return match;
-        }
+        },
       );
       if (propertyFix !== modified) {
         modified = propertyFix;
@@ -177,7 +181,7 @@ class RemainingSyntaxFixer {
         (match, expression) => {
           fileFixCount++;
           return expression;
-        }
+        },
       );
       if (voidFix !== modified) {
         modified = voidFix;
@@ -189,7 +193,7 @@ class RemainingSyntaxFixer {
         (match, content) => {
           fileFixCount++;
           return `data-testid={\`${content}\`}`;
-        }
+        },
       );
       if (jsxBraceFix !== modified) {
         modified = jsxBraceFix;
@@ -201,9 +205,10 @@ class RemainingSyntaxFixer {
         this.fixedIssues += fileFixCount;
         console.log(`  Fixed ${fileFixCount} issues in ${filePath}`);
       }
-
     } catch (error) {
-      console.warn(`  Warning: Could not process ${filePath}: ${error.message}`);
+      console.warn(
+        `  Warning: Could not process ${filePath}: ${error.message}`,
+      );
     }
   }
 }
@@ -212,13 +217,14 @@ class RemainingSyntaxFixer {
 if (require.main === module) {
   const fixer = new RemainingSyntaxFixer();
 
-  fixer.execute()
+  fixer
+    .execute()
     .then(() => {
-      console.log('🎉 Remaining syntax fixing completed!');
+      console.log("🎉 Remaining syntax fixing completed!");
       process.exit(0);
     })
     .catch((error) => {
-      console.error('💥 Syntax fixing failed:', error.message);
+      console.error("💥 Syntax fixing failed:", error.message);
       process.exit(1);
     });
 }

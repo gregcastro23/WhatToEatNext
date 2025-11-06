@@ -5,10 +5,10 @@
  * Watches for file saves and automatically applies linting fixes
  */
 
-const fs = require('fs');
-const path = require('path');
-const chokidar = require('chokidar');
-const AutoLintFixer = require('./auto-lint-fixer.cjs');
+const fs = require("fs");
+const path = require("path");
+const chokidar = require("chokidar");
+const AutoLintFixer = require("./auto-lint-fixer.cjs");
 
 class WatchAndFix {
   constructor() {
@@ -21,23 +21,32 @@ class WatchAndFix {
     return {
       info: (msg, ...args) => console.log(`[WATCH-FIX] ${msg}`, ...args),
       warn: (msg, ...args) => console.warn(`[WATCH-FIX WARN] ${msg}`, ...args),
-      error: (msg, ...args) => console.error(`[WATCH-FIX ERROR] ${msg}`, ...args),
-      success: (msg, ...args) => console.log(`[WATCH-FIX SUCCESS] ${msg}`, ...args),
+      error: (msg, ...args) =>
+        console.error(`[WATCH-FIX ERROR] ${msg}`, ...args),
+      success: (msg, ...args) =>
+        console.log(`[WATCH-FIX SUCCESS] ${msg}`, ...args),
     };
   }
 
   shouldProcessFile(filePath) {
     // Only process TypeScript and JavaScript files
     const ext = path.extname(filePath);
-    const validExtensions = ['.ts', '.tsx', '.js', '.jsx', '.cjs', '.mjs'];
+    const validExtensions = [".ts", ".tsx", ".js", ".jsx", ".cjs", ".mjs"];
 
     if (!validExtensions.includes(ext)) {
       return false;
     }
 
     // Skip node_modules and build directories
-    const skipDirs = ['node_modules', '.next', 'dist', 'build', '.git', '.lint-backups'];
-    if (skipDirs.some(dir => filePath.includes(dir))) {
+    const skipDirs = [
+      "node_modules",
+      ".next",
+      "dist",
+      "build",
+      ".git",
+      ".lint-backups",
+    ];
+    if (skipDirs.some((dir) => filePath.includes(dir))) {
       return false;
     }
 
@@ -60,7 +69,7 @@ class WatchAndFix {
       this.log.info(`File changed: ${filePath}`);
 
       // Small delay to ensure file write is complete
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       const result = await this.fixer.fixFile(filePath);
 
@@ -78,7 +87,7 @@ class WatchAndFix {
     }
   }
 
-  start(watchPath = 'src') {
+  start(watchPath = "src") {
     this.log.info(`Starting file watcher on: ${watchPath}`);
 
     const watcher = chokidar.watch(watchPath, {
@@ -88,13 +97,13 @@ class WatchAndFix {
     });
 
     watcher
-      .on('change', filePath => this.handleFileChange(filePath))
-      .on('error', error => this.log.error('Watcher error:', error))
-      .on('ready', () => this.log.info('File watcher ready'));
+      .on("change", (filePath) => this.handleFileChange(filePath))
+      .on("error", (error) => this.log.error("Watcher error:", error))
+      .on("ready", () => this.log.info("File watcher ready"));
 
     // Graceful shutdown
-    process.on('SIGINT', () => {
-      this.log.info('Shutting down file watcher...');
+    process.on("SIGINT", () => {
+      this.log.info("Shutting down file watcher...");
       watcher.close();
       process.exit(0);
     });
@@ -103,7 +112,7 @@ class WatchAndFix {
 
 // CLI interface
 if (require.main === module) {
-  const watchPath = process.argv[2] || 'src';
+  const watchPath = process.argv[2] || "src";
   const watcher = new WatchAndFix();
   watcher.start(watchPath);
 }

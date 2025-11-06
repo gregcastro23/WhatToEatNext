@@ -178,7 +178,7 @@ CMD ["node", "server.js"]
 **Docker Compose** (`docker-compose.yml`):
 
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   whattoeatnext:
     build: .
@@ -218,18 +218,18 @@ module.exports = {
 
   // Optimize images
   images: {
-    domains: ['your-domain.com'],
-    formats: ['image/webp', 'image/avif'],
+    domains: ["your-domain.com"],
+    formats: ["image/webp", "image/avif"],
   },
 
   // Enable experimental features
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['@mui/material', '@mui/icons-material'],
+    optimizePackageImports: ["@mui/material", "@mui/icons-material"],
   },
 
   // Bundle analyzer (development only)
-  ...(process.env.ANALYZE === 'true' && {
+  ...(process.env.ANALYZE === "true" && {
     webpack: (config) => {
       config.plugins.push(new BundleAnalyzerPlugin());
       return config;
@@ -271,36 +271,36 @@ ALLOWED_ORIGINS=https://your-domain.com,https://www.your-domain.com
 // next.config.js security headers
 const securityHeaders = [
   {
-    key: 'X-DNS-Prefetch-Control',
-    value: 'on'
+    key: "X-DNS-Prefetch-Control",
+    value: "on",
   },
   {
-    key: 'Strict-Transport-Security',
-    value: 'max-age=63072000; includeSubDomains; preload'
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
   },
   {
-    key: 'X-XSS-Protection',
-    value: '1; mode=block'
+    key: "X-XSS-Protection",
+    value: "1; mode=block",
   },
   {
-    key: 'X-Frame-Options',
-    value: 'SAMEORIGIN'
+    key: "X-Frame-Options",
+    value: "SAMEORIGIN",
   },
   {
-    key: 'X-Content-Type-Options',
-    value: 'nosniff'
+    key: "X-Content-Type-Options",
+    value: "nosniff",
   },
   {
-    key: 'Referrer-Policy',
-    value: 'origin-when-cross-origin'
-  }
+    key: "Referrer-Policy",
+    value: "origin-when-cross-origin",
+  },
 ];
 
 module.exports = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: securityHeaders,
       },
     ];
@@ -326,11 +326,11 @@ The Phase 8 performance monitoring system provides:
 ```javascript
 // Add to your monitoring service
 const performanceMetrics = {
-  cacheHitRate: '80%+',
-  memoryUsage: '<50MB',
-  calculationSpeed: '50% improvement',
-  bundleSize: '420kB',
-  buildTime: '~12s'
+  cacheHitRate: "80%+",
+  memoryUsage: "<50MB",
+  calculationSpeed: "50% improvement",
+  bundleSize: "420kB",
+  buildTime: "~12s",
 };
 ```
 
@@ -340,15 +340,15 @@ const performanceMetrics = {
 // pages/api/health.js
 export default function handler(req, res) {
   const healthCheck = {
-    status: 'OK',
+    status: "OK",
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     memory: process.memoryUsage(),
     cache: {
       flavorCompatibility: flavorCompatibilityCache.getStats(),
       astrologicalProfile: astrologicalProfileCache.getStats(),
-      ingredientProfile: ingredientProfileCache.getStats()
-    }
+      ingredientProfile: ingredientProfileCache.getStats(),
+    },
   };
 
   res.status(200).json(healthCheck);
@@ -422,7 +422,7 @@ The Phase 8 optimization includes automatic memory cleanup:
 
 ```javascript
 // Enable performance debugging
-process.env.NEXT_PUBLIC_PERFORMANCE_DEBUG = 'true';
+process.env.NEXT_PUBLIC_PERFORMANCE_DEBUG = "true";
 
 // Check cache stats
 console.log(flavorCompatibilityCache.getStats());

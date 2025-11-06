@@ -255,13 +255,13 @@ const arrayValue = Array.isArray(data) ? data[0]?.property : undefined;
 
 ```typescript
 // Template for service data conversion
-const convertedData = (serviceData as unknown) as TargetInterface;
+const convertedData = serviceData as unknown as TargetInterface;
 
 // Template for API response conversion
-const apiResponse = (response as unknown) as ApiResponseType;
+const apiResponse = response as unknown as ApiResponseType;
 
 // Template for configuration object conversion
-const config = (configData as unknown) as ServiceConfig;
+const config = configData as unknown as ServiceConfig;
 ```
 
 ### Pattern 3: TS2322 Type Assignment Safety
@@ -270,15 +270,15 @@ const config = (configData as unknown) as ServiceConfig;
 // Template for service state assignment
 const serviceState: ServiceState = {
   ...baseState,
-  data: (data as unknown) as ServiceData,
-  metadata: (metadata as unknown) as ServiceMetadata
+  data: data as unknown as ServiceData,
+  metadata: metadata as unknown as ServiceMetadata,
 };
 
 // Template for result object assignment
 const result: ServiceResult = {
   success: Boolean(success),
-  data: (data as unknown) as ResultData,
-  error: error || null
+  data: data as unknown as ResultData,
+  error: error || null,
 };
 ```
 
@@ -287,17 +287,17 @@ const result: ServiceResult = {
 ```typescript
 // Template for service method parameters
 function processServiceData(data: unknown): ProcessedData {
-  const typedData = (data as unknown) as Record<string, unknown>;
+  const typedData = data as unknown as Record<string, unknown>;
   return {
-    id: String(typedData.id || ''),
+    id: String(typedData.id || ""),
     value: Number(typedData.value) || 0,
-    metadata: typedData.metadata || {}
+    metadata: typedData.metadata || {},
   };
 }
 
 // Template for callback function parameters
 const callback = (result: unknown) => {
-  const typedResult = (result as unknown) as CallbackResult;
+  const typedResult = result as unknown as CallbackResult;
   processResult(typedResult);
 };
 ```

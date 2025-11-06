@@ -8,11 +8,11 @@
  * 3. https://alchm-backend.onrender.com/alchemize
  */
 
-import https from 'https';
+import https from "https";
 
 // Test configuration
 const TIMEOUT = 10000; // 10 seconds
-const BASE_URL = 'alchm-backend.onrender.com';
+const BASE_URL = "alchm-backend.onrender.com";
 
 // Test payload for astrologize
 const ASTROLOGIZE_PAYLOAD = {
@@ -23,7 +23,7 @@ const ASTROLOGIZE_PAYLOAD = {
   minute: 0,
   latitude: 40.7498,
   longitude: -73.7976,
-  ayanamsa: 'TROPICAL',
+  ayanamsa: "TROPICAL",
 };
 
 // Test payload for alchemize (if it exists)
@@ -35,10 +35,10 @@ const ALCHEMIZE_PAYLOAD = {
   minute: 0,
   latitude: 40.7498,
   longitude: -73.7976,
-  zodiacSystem: 'tropical',
+  zodiacSystem: "tropical",
 };
 
-function makeRequest(path, method = 'GET', data = null) {
+function makeRequest(path, method = "GET", data = null) {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: BASE_URL,
@@ -46,20 +46,20 @@ function makeRequest(path, method = 'GET', data = null) {
       path: path,
       method: method,
       headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': 'WhatToEatNext-Test/1.0',
+        "Content-Type": "application/json",
+        "User-Agent": "WhatToEatNext-Test/1.0",
       },
       timeout: TIMEOUT,
     };
 
-    const req = https.request(options, res => {
-      let responseData = '';
+    const req = https.request(options, (res) => {
+      let responseData = "";
 
-      res.on('data', chunk => {
+      res.on("data", (chunk) => {
         responseData += chunk;
       });
 
-      res.on('end', () => {
+      res.on("end", () => {
         try {
           const parsedData = responseData ? JSON.parse(responseData) : null;
           resolve({
@@ -80,13 +80,13 @@ function makeRequest(path, method = 'GET', data = null) {
       });
     });
 
-    req.on('error', error => {
+    req.on("error", (error) => {
       reject(error);
     });
 
-    req.on('timeout', () => {
+    req.on("timeout", () => {
       req.destroy();
-      reject(new Error('Request timeout'));
+      reject(new Error("Request timeout"));
     });
 
     if (data) {
@@ -97,10 +97,10 @@ function makeRequest(path, method = 'GET', data = null) {
   });
 }
 
-async function testEndpoint(name, path, method = 'GET', payload = null) {
+async function testEndpoint(name, path, method = "GET", payload = null) {
   console.log(`\n🧪 Testing ${name}`);
   console.log(`   ${method} https://${BASE_URL}${path}`);
-  console.log('   ' + '='.repeat(50));
+  console.log("   " + "=".repeat(50));
 
   try {
     const startTime = Date.now();
@@ -115,17 +115,24 @@ async function testEndpoint(name, path, method = 'GET', payload = null) {
 
       if (response.data) {
         console.log(`   📦 Response type: ${typeof response.data}`);
-        if (typeof response.data === 'object') {
+        if (typeof response.data === "object") {
           const keys = Object.keys(response.data);
-          console.log(`   🔑 Keys: ${keys.slice(0, 5).join(', ')}${keys.length > 5 ? '...' : ''}`);
+          console.log(
+            `   🔑 Keys: ${keys.slice(0, 5).join(", ")}${keys.length > 5 ? "..." : ""}`,
+          );
         }
       } else {
         console.log(
-          `   📦 Raw response: ${response.rawData.substring(0, 100)}${response.rawData.length > 100 ? '...' : ''}`,
+          `   📦 Raw response: ${response.rawData.substring(0, 100)}${response.rawData.length > 100 ? "..." : ""}`,
         );
       }
 
-      return { success: true, duration, statusCode: response.statusCode, data: response.data };
+      return {
+        success: true,
+        duration,
+        statusCode: response.statusCode,
+        data: response.data,
+      };
     } else {
       console.log(`   ❌ FAILED - HTTP ${response.statusCode}`);
       console.log(`   📦 Response: ${response.rawData.substring(0, 200)}`);
@@ -143,27 +150,41 @@ async function testEndpoint(name, path, method = 'GET', payload = null) {
 }
 
 async function main() {
-  console.log('🌟 Testing Essential APIs');
-  console.log('========================');
+  console.log("🌟 Testing Essential APIs");
+  console.log("========================");
   console.log(`Target: https://${BASE_URL}`);
   console.log(`Timeout: ${TIMEOUT}ms`);
 
   const results = [];
 
   // Test 1: Base endpoint
-  results.push(await testEndpoint('Base Endpoint', '/', 'GET'));
+  results.push(await testEndpoint("Base Endpoint", "/", "GET"));
 
   // Test 2: Astrologize endpoint
-  results.push(await testEndpoint('Astrologize API', '/astrologize', 'POST', ASTROLOGIZE_PAYLOAD));
+  results.push(
+    await testEndpoint(
+      "Astrologize API",
+      "/astrologize",
+      "POST",
+      ASTROLOGIZE_PAYLOAD,
+    ),
+  );
 
   // Test 3: Alchemize endpoint (if it exists)
-  results.push(await testEndpoint('Alchemize API', '/alchemize', 'POST', ALCHEMIZE_PAYLOAD));
+  results.push(
+    await testEndpoint(
+      "Alchemize API",
+      "/alchemize",
+      "POST",
+      ALCHEMIZE_PAYLOAD,
+    ),
+  );
 
   // Summary
-  console.log('\n📊 SUMMARY');
-  console.log('==========');
+  console.log("\n📊 SUMMARY");
+  console.log("==========");
 
-  const successful = results.filter(r => r.success).length;
+  const successful = results.filter((r) => r.success).length;
   const total = results.length;
 
   console.log(`✅ Successful: ${successful}/${total}`);
@@ -171,27 +192,28 @@ async function main() {
 
   if (successful > 0) {
     const avgDuration =
-      results.filter(r => r.success && r.duration).reduce((sum, r) => sum + r.duration, 0) /
-      successful;
+      results
+        .filter((r) => r.success && r.duration)
+        .reduce((sum, r) => sum + r.duration, 0) / successful;
     console.log(`⏱️  Average response time: ${Math.round(avgDuration)}ms`);
   }
 
   // Recommendations
-  console.log('\n💡 RECOMMENDATIONS');
-  console.log('==================');
+  console.log("\n💡 RECOMMENDATIONS");
+  console.log("==================");
 
   if (successful === total) {
-    console.log('✅ All essential APIs are working correctly!');
-    console.log('✅ You can safely remove the problematic MCP servers.');
-    console.log('✅ Focus on these working endpoints for your application.');
+    console.log("✅ All essential APIs are working correctly!");
+    console.log("✅ You can safely remove the problematic MCP servers.");
+    console.log("✅ Focus on these working endpoints for your application.");
   } else if (successful > 0) {
-    console.log('⚠️  Some APIs are working, others are not.');
-    console.log('⚠️  Consider using only the working endpoints.');
-    console.log('⚠️  Implement fallback mechanisms for failed endpoints.');
+    console.log("⚠️  Some APIs are working, others are not.");
+    console.log("⚠️  Consider using only the working endpoints.");
+    console.log("⚠️  Implement fallback mechanisms for failed endpoints.");
   } else {
-    console.log('❌ None of the essential APIs are responding.');
-    console.log('❌ Check if the backend service is running.');
-    console.log('❌ Consider using local fallback data.');
+    console.log("❌ None of the essential APIs are responding.");
+    console.log("❌ Check if the backend service is running.");
+    console.log("❌ Consider using local fallback data.");
   }
 
   // Exit with appropriate code

@@ -63,9 +63,11 @@ const result = someFunction(subProperty);
 ```typescript
 // Extract frequently accessed properties to local variables
 const recipeData = recipe as any;
-const name = recipeData?.name || '';
-const description = recipeData?.description || '';
-const ingredients = Array.isArray(recipeData?.ingredients) ? recipeData.ingredients : [];
+const name = recipeData?.name || "";
+const description = recipeData?.description || "";
+const ingredients = Array.isArray(recipeData?.ingredients)
+  ? recipeData.ingredients
+  : [];
 ```
 
 #### 2. **Interface Enhancement Strategy**
@@ -90,8 +92,12 @@ export interface RecipeData {
 ```typescript
 // Safe property access with type checking
 const tags = Array.isArray(recipeData?.tags) ? recipeData.tags : [];
-const season = typeof recipeData?.season === 'string' ? [recipeData.season] :
-              Array.isArray(recipeData?.season) ? recipeData.season : ['all'];
+const season =
+  typeof recipeData?.season === "string"
+    ? [recipeData.season]
+    : Array.isArray(recipeData?.season)
+      ? recipeData.season
+      : ["all"];
 ```
 
 #### 4. **Function Parameter Enhancement**

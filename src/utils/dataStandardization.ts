@@ -1,10 +1,10 @@
-import type { ElementalAffinity } from '@/types/alchemy';
+import type { ElementalAffinity } from "@/types/alchemy";
 
 // Utility to ensure elementalAffinity is always in object format
 export function standardizeElementalAffinity(
-  value: string | { base: string; decanModifiers?: Record<string, unknown> }
+  value: string | { base: string; decanModifiers?: Record<string, unknown> },
 ): ElementalAffinity {
-  if (typeof value === 'string') {
+  if (typeof value === "string") {
     return { base: value } as unknown as ElementalAffinity;
   }
   return value as unknown as ElementalAffinity;
@@ -17,14 +17,16 @@ export function standardizeIngredient(ingredient: unknown): unknown {
   const astrologicalProfile = ingredientData?.astrologicalProfile;
 
   if (!ingredient || !astrologicalProfile) {
-    return ingredient
+    return ingredient;
   }
 
   return {
     ...ingredientData,
     astrologicalProfile: {
       ...astrologicalProfile,
-      elementalAffinity: standardizeElementalAffinity(astrologicalProfile.elementalAffinity)
-    }
-  }
+      elementalAffinity: standardizeElementalAffinity(
+        astrologicalProfile.elementalAffinity,
+      ),
+    },
+  };
 }

@@ -12,14 +12,14 @@
  */
 
 import type {
-    AlchemicalProperties,
-    CuisineComputationOptions,
-    CuisineComputedProperties,
-    ElementalProperties,
-    PropertyVariance,
-    RecipeComputedProperties,
-    ThermodynamicProperties
-} from '@/types/hierarchy';
+  AlchemicalProperties,
+  CuisineComputationOptions,
+  CuisineComputedProperties,
+  ElementalProperties,
+  PropertyVariance,
+  RecipeComputedProperties,
+  ThermodynamicProperties,
+} from "@/types/hierarchy";
 
 // ========== STATISTICAL CALCULATION UTILITIES ==========
 
@@ -30,8 +30,15 @@ import type {
  * @param weights - Array of weights (must sum to 1.0)
  * @returns Weighted average
  */
-export function calculateWeightedAverage(values: number[], weights: number[]): number {
-  if (values.length === 0 || weights.length === 0 || values.length !== weights.length) {
+export function calculateWeightedAverage(
+  values: number[],
+  weights: number[],
+): number {
+  if (
+    values.length === 0 ||
+    weights.length === 0 ||
+    values.length !== weights.length
+  ) {
     return 0;
   }
 
@@ -43,7 +50,7 @@ export function calculateWeightedAverage(values: number[], weights: number[]): n
     totalWeight += weights[i];
   }
 
-  return totalWeight > 0 ? weightedSum / totalWeight : 0
+  return totalWeight > 0 ? weightedSum / totalWeight : 0;
 }
 
 /**
@@ -59,8 +66,9 @@ export function calculateVariance(values: number[], mean?: number): number {
 
   const avg = mean ?? values.reduce((sum, val) => sum + val, 0) / values.length;
 
-  const squaredDifferences = values.map(val => Math.pow(val - avg, 2));
-  const variance = squaredDifferences.reduce((sum, diff) => sum + diff, 0) / values.length;
+  const squaredDifferences = values.map((val) => Math.pow(val - avg, 2));
+  const variance =
+    squaredDifferences.reduce((sum, diff) => sum + diff, 0) / values.length;
 
   return variance;
 }
@@ -88,7 +96,7 @@ export function calculateConfidenceInterval(
   mean: number,
   standardDeviation: number,
   sampleSize: number,
-  confidenceLevel = 0.95
+  confidenceLevel = 0.95,
 ): { lower: number; upper: number; marginOfError: number } {
   if (sampleSize <= 1) {
     return { lower: mean, upper: mean, marginOfError: 0 };
@@ -96,8 +104,14 @@ export function calculateConfidenceInterval(
 
   // t-distribution approximation for small samples
   // Using z-score approximation for simplicity (works well for n > 30)
-  const zScore = confidenceLevel === 0.95 ? 1.96 :
-                 confidenceLevel === 0.99 ? 2.576 : confidenceLevel === 0.90 ? 1.645 : 1.96;
+  const zScore =
+    confidenceLevel === 0.95
+      ? 1.96
+      : confidenceLevel === 0.99
+        ? 2.576
+        : confidenceLevel === 0.9
+          ? 1.645
+          : 1.96;
 
   const standardError = standardDeviation / Math.sqrt(sampleSize);
   const marginOfError = zScore * standardError;
@@ -105,7 +119,7 @@ export function calculateConfidenceInterval(
   return {
     lower: mean - marginOfError,
     upper: mean + marginOfError,
-    marginOfError
+    marginOfError,
   };
 }
 
@@ -120,24 +134,25 @@ export function calculateConfidenceInterval(
  */
 export function aggregateElementalProperties(
   recipes: RecipeComputedProperties[],
-  weights?: number[]
+  weights?: number[],
 ): ElementalProperties {
   if (recipes.length === 0) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
 
-  const defaultWeights = weights ?? new Array(recipes.length).fill(1 / recipes.length);
+  const defaultWeights =
+    weights ?? new Array(recipes.length).fill(1 / recipes.length);
 
-  const fireValues = recipes.map(r => r.elementalProperties.Fire);
-  const waterValues = recipes.map(r => r.elementalProperties.Water);
-  const earthValues = recipes.map(r => r.elementalProperties.Earth);
-  const airValues = recipes.map(r => r.elementalProperties.Air);
+  const fireValues = recipes.map((r) => r.elementalProperties.Fire);
+  const waterValues = recipes.map((r) => r.elementalProperties.Water);
+  const earthValues = recipes.map((r) => r.elementalProperties.Earth);
+  const airValues = recipes.map((r) => r.elementalProperties.Air);
 
   return {
     Fire: calculateWeightedAverage(fireValues, defaultWeights),
     Water: calculateWeightedAverage(waterValues, defaultWeights),
     Earth: calculateWeightedAverage(earthValues, defaultWeights),
-    Air: calculateWeightedAverage(airValues, defaultWeights)
+    Air: calculateWeightedAverage(airValues, defaultWeights),
   };
 }
 
@@ -150,26 +165,36 @@ export function aggregateElementalProperties(
  */
 export function aggregateAlchemicalProperties(
   recipes: RecipeComputedProperties[],
-  weights?: number[]
+  weights?: number[],
 ): AlchemicalProperties | undefined {
-  const recipesWithAlchemy = recipes.filter(r => r.alchemicalProperties);
+  const recipesWithAlchemy = recipes.filter((r) => r.alchemicalProperties);
 
   if (recipesWithAlchemy.length === 0) {
     return undefined;
   }
 
-  const defaultWeights = weights ?? new Array(recipesWithAlchemy.length).fill(1 / recipesWithAlchemy.length);
+  const defaultWeights =
+    weights ??
+    new Array(recipesWithAlchemy.length).fill(1 / recipesWithAlchemy.length);
 
-  const spiritValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Spirit);
-  const essenceValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Essence);
-  const matterValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Matter);
-  const substanceValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Substance);
+  const spiritValues = recipesWithAlchemy.map(
+    (r) => r.alchemicalProperties.Spirit,
+  );
+  const essenceValues = recipesWithAlchemy.map(
+    (r) => r.alchemicalProperties.Essence,
+  );
+  const matterValues = recipesWithAlchemy.map(
+    (r) => r.alchemicalProperties.Matter,
+  );
+  const substanceValues = recipesWithAlchemy.map(
+    (r) => r.alchemicalProperties.Substance,
+  );
 
   return {
     Spirit: calculateWeightedAverage(spiritValues, defaultWeights),
     Essence: calculateWeightedAverage(essenceValues, defaultWeights),
     Matter: calculateWeightedAverage(matterValues, defaultWeights),
-    Substance: calculateWeightedAverage(substanceValues, defaultWeights)
+    Substance: calculateWeightedAverage(substanceValues, defaultWeights),
   };
 }
 
@@ -182,22 +207,40 @@ export function aggregateAlchemicalProperties(
  */
 export function aggregateThermodynamicProperties(
   recipes: RecipeComputedProperties[],
-  weights?: number[]
+  weights?: number[],
 ): ThermodynamicProperties | undefined {
-  const recipesWithThermodynamics = recipes.filter(r => r.thermodynamicProperties);
+  const recipesWithThermodynamics = recipes.filter(
+    (r) => r.thermodynamicProperties,
+  );
 
   if (recipesWithThermodynamics.length === 0) {
     return undefined;
   }
 
-  const defaultWeights = weights ?? new Array(recipesWithThermodynamics.length).fill(1 / recipesWithThermodynamics.length);
+  const defaultWeights =
+    weights ??
+    new Array(recipesWithThermodynamics.length).fill(
+      1 / recipesWithThermodynamics.length,
+    );
 
-  const heatValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties.heat);
-  const entropyValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties.entropy);
-  const reactivityValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties.reactivity);
-  const gregsEnergyValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties.gregsEnergy);
-  const kalchmValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties.kalchm);
-  const monicaValues = recipesWithThermodynamics.map(r => r.thermodynamicProperties.monica);
+  const heatValues = recipesWithThermodynamics.map(
+    (r) => r.thermodynamicProperties.heat,
+  );
+  const entropyValues = recipesWithThermodynamics.map(
+    (r) => r.thermodynamicProperties.entropy,
+  );
+  const reactivityValues = recipesWithThermodynamics.map(
+    (r) => r.thermodynamicProperties.reactivity,
+  );
+  const gregsEnergyValues = recipesWithThermodynamics.map(
+    (r) => r.thermodynamicProperties.gregsEnergy,
+  );
+  const kalchmValues = recipesWithThermodynamics.map(
+    (r) => r.thermodynamicProperties.kalchm,
+  );
+  const monicaValues = recipesWithThermodynamics.map(
+    (r) => r.thermodynamicProperties.monica,
+  );
 
   return {
     heat: calculateWeightedAverage(heatValues, defaultWeights),
@@ -205,7 +248,7 @@ export function aggregateThermodynamicProperties(
     reactivity: calculateWeightedAverage(reactivityValues, defaultWeights),
     gregsEnergy: calculateWeightedAverage(gregsEnergyValues, defaultWeights),
     kalchm: calculateWeightedAverage(kalchmValues, defaultWeights),
-    monica: calculateWeightedAverage(monicaValues, defaultWeights)
+    monica: calculateWeightedAverage(monicaValues, defaultWeights),
   };
 }
 
@@ -220,22 +263,22 @@ export function aggregateThermodynamicProperties(
  */
 export function calculateElementalVariance(
   recipes: RecipeComputedProperties[],
-  averages: ElementalProperties
+  averages: ElementalProperties,
 ): ElementalProperties {
   if (recipes.length === 0) {
     return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   }
 
-  const fireValues = recipes.map(r => r.elementalProperties.Fire);
-  const waterValues = recipes.map(r => r.elementalProperties.Water);
-  const earthValues = recipes.map(r => r.elementalProperties.Earth);
-  const airValues = recipes.map(r => r.elementalProperties.Air);
+  const fireValues = recipes.map((r) => r.elementalProperties.Fire);
+  const waterValues = recipes.map((r) => r.elementalProperties.Water);
+  const earthValues = recipes.map((r) => r.elementalProperties.Earth);
+  const airValues = recipes.map((r) => r.elementalProperties.Air);
 
   return {
     Fire: calculateVariance(fireValues, averages.Fire),
     Water: calculateVariance(waterValues, averages.Water),
     Earth: calculateVariance(earthValues, averages.Earth),
-    Air: calculateVariance(airValues, averages.Air)
+    Air: calculateVariance(airValues, averages.Air),
   };
 }
 
@@ -248,24 +291,32 @@ export function calculateElementalVariance(
  */
 export function calculateAlchemicalVariance(
   recipes: RecipeComputedProperties[],
-  averages: AlchemicalProperties
+  averages: AlchemicalProperties,
 ): Partial<AlchemicalProperties> | undefined {
-  const recipesWithAlchemy = recipes.filter(r => r.alchemicalProperties);
+  const recipesWithAlchemy = recipes.filter((r) => r.alchemicalProperties);
 
   if (recipesWithAlchemy.length === 0) {
     return undefined;
   }
 
-  const spiritValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Spirit);
-  const essenceValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Essence);
-  const matterValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Matter);
-  const substanceValues = recipesWithAlchemy.map(r => r.alchemicalProperties.Substance);
+  const spiritValues = recipesWithAlchemy.map(
+    (r) => r.alchemicalProperties.Spirit,
+  );
+  const essenceValues = recipesWithAlchemy.map(
+    (r) => r.alchemicalProperties.Essence,
+  );
+  const matterValues = recipesWithAlchemy.map(
+    (r) => r.alchemicalProperties.Matter,
+  );
+  const substanceValues = recipesWithAlchemy.map(
+    (r) => r.alchemicalProperties.Substance,
+  );
 
   return {
     Spirit: calculateVariance(spiritValues, averages.Spirit),
     Essence: calculateVariance(essenceValues, averages.Essence),
     Matter: calculateVariance(matterValues, averages.Matter),
-    Substance: calculateVariance(substanceValues, averages.Substance)
+    Substance: calculateVariance(substanceValues, averages.Substance),
   };
 }
 
@@ -277,16 +328,26 @@ export function calculateAlchemicalVariance(
  */
 export function calculateDiversityScore(variance: PropertyVariance): number {
   const elementalVariances = Object.values(variance.elementals);
-  const alchemicalVariances = variance.alchemical ? Object.values(variance.alchemical) : [];
-  const thermodynamicVariances = variance.thermodynamics ? Object.values(variance.thermodynamics) : [];
+  const alchemicalVariances = variance.alchemical
+    ? Object.values(variance.alchemical)
+    : [];
+  const thermodynamicVariances = variance.thermodynamics
+    ? Object.values(variance.thermodynamics)
+    : [];
 
-  const allVariances = [...elementalVariances, ...alchemicalVariances, ...thermodynamicVariances];
+  const allVariances = [
+    ...elementalVariances,
+    ...alchemicalVariances,
+    ...thermodynamicVariances,
+  ];
 
   if (allVariances.length === 0) return 0;
 
   // Normalize variances to 0-1 scale (assuming max variance of 0.25 for properties)
-  const normalizedVariances = allVariances.map(v => Math.min(v / 0.25, 1));
-  const averageVariance = normalizedVariances.reduce((sum, v) => sum + v, 0) / normalizedVariances.length;
+  const normalizedVariances = allVariances.map((v) => Math.min(v / 0.25, 1));
+  const averageVariance =
+    normalizedVariances.reduce((sum, v) => sum + v, 0) /
+    normalizedVariances.length;
 
   return averageVariance;
 }
@@ -305,25 +366,22 @@ export function calculateDiversityScore(variance: PropertyVariance): number {
  */
 export function computeCuisineProperties(
   recipes: RecipeComputedProperties[],
-  options: CuisineComputationOptions = {}
+  options: CuisineComputationOptions = {},
 ): CuisineComputedProperties {
-  const {
-    weightingStrategy = 'equal',
-    includeVariance = true
-  } = options;
+  const { weightingStrategy = "equal", includeVariance = true } = options;
 
   if (recipes.length === 0) {
-    throw new Error('Cannot compute cuisine properties: no recipes provided');
+    throw new Error("Cannot compute cuisine properties: no recipes provided");
   }
 
   // Determine weights based on strategy
   let weights: number[] | undefined;
-  if (weightingStrategy === 'equal') {
+  if (weightingStrategy === "equal") {
     weights = undefined; // Use default equal weighting
-  } else if (weightingStrategy === 'popularity') {
+  } else if (weightingStrategy === "popularity") {
     // TODO: Implement popularity-based weighting when recipe popularity data is available
     weights = undefined;
-  } else if (weightingStrategy === 'representativeness') {
+  } else if (weightingStrategy === "representativeness") {
     // TODO: Implement representativeness-based weighting
     weights = undefined;
   }
@@ -331,33 +389,40 @@ export function computeCuisineProperties(
   // Step 1: Aggregate average properties
   const averageElementals = aggregateElementalProperties(recipes, weights);
   const averageAlchemical = aggregateAlchemicalProperties(recipes, weights);
-  const averageThermodynamics = aggregateThermodynamicProperties(recipes, weights);
+  const averageThermodynamics = aggregateThermodynamicProperties(
+    recipes,
+    weights,
+  );
 
   // Step 2: Calculate variance if requested
   let variance: PropertyVariance;
   if (includeVariance) {
-    const elementalVariance = calculateElementalVariance(recipes, averageElementals);
-    const alchemicalVariance = averageAlchemical ?
-      calculateAlchemicalVariance(recipes, averageAlchemical) : undefined;
+    const elementalVariance = calculateElementalVariance(
+      recipes,
+      averageElementals,
+    );
+    const alchemicalVariance = averageAlchemical
+      ? calculateAlchemicalVariance(recipes, averageAlchemical)
+      : undefined;
 
     variance = {
       elementals: elementalVariance,
       alchemical: alchemicalVariance,
       thermodynamics: undefined, // TODO: Implement thermodynamic variance
-      diversityScore: 0 // Will be calculated below
+      diversityScore: 0, // Will be calculated below
     };
 
     variance.diversityScore = calculateDiversityScore(variance);
   } else {
     variance = {
       elementals: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-      diversityScore: 0
+      diversityScore: 0,
     };
   }
 
   // Step 3: Generate computation metadata
   const computedAt = new Date();
-  const version = '1.0.0'; // Algorithm version for cache invalidation
+  const version = "1.0.0"; // Algorithm version for cache invalidation
 
   // Return complete cuisine properties
   return {
@@ -369,7 +434,7 @@ export function computeCuisineProperties(
     planetaryPatterns: undefined, // Will be populated by planetary pattern analysis
     sampleSize: recipes.length,
     computedAt,
-    version
+    version,
   };
 }
 
@@ -381,17 +446,19 @@ export function computeCuisineProperties(
  * @param recipes - Recipe array to validate
  * @returns Validation result with errors if any
  */
-export function validateCuisineComputationInputs(recipes: RecipeComputedProperties[]): {
+export function validateCuisineComputationInputs(
+  recipes: RecipeComputedProperties[],
+): {
   isValid: boolean;
   errors: string[];
 } {
   const errors: string[] = [];
 
   if (!Array.isArray(recipes)) {
-    errors.push('Recipes must be an array');
+    errors.push("Recipes must be an array");
   } else {
     if (recipes.length === 0) {
-      errors.push('At least one recipe is required for cuisine computation');
+      errors.push("At least one recipe is required for cuisine computation");
     }
 
     recipes.forEach((recipe, index) => {
@@ -401,9 +468,14 @@ export function validateCuisineComputationInputs(recipes: RecipeComputedProperti
 
       // Validate elemental properties sum to ~1.0
       if (recipe.elementalProperties) {
-        const sum = Object.values(recipe.elementalProperties).reduce((s, v) => s + v, 0);
+        const sum = Object.values(recipe.elementalProperties).reduce(
+          (s, v) => s + v,
+          0,
+        );
         if (Math.abs(sum - 1.0) > 0.01) {
-          errors.push(`Recipe ${index} elemental properties don't sum to 1.0 (sum: ${sum})`);
+          errors.push(
+            `Recipe ${index} elemental properties don't sum to 1.0 (sum: ${sum})`,
+          );
         }
       }
     });
@@ -411,12 +483,10 @@ export function validateCuisineComputationInputs(recipes: RecipeComputedProperti
 
   return {
     isValid: errors.length === 0,
-    errors
+    errors,
   };
 }
 
 // ========== EXPORTS ==========
 
-export type {
-    PropertyVariance
-};
+export type { PropertyVariance };

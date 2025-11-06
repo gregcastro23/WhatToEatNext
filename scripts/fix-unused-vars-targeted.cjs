@@ -1,88 +1,88 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 // Targeted fixes for specific unused variables
 const fixes = [
   // Fix unused variable declarations (not imports)
   {
-    file: 'src/__tests__/campaign/CampaignSystemTestIntegration.test.ts',
+    file: "src/__tests__/campaign/CampaignSystemTestIntegration.test.ts",
     replacements: [
       {
         from: /const CampaignTestContext = /g,
-        to: 'const _CampaignTestContext = ',
-        description: 'Prefix unused test context variable',
+        to: "const _CampaignTestContext = ",
+        description: "Prefix unused test context variable",
       },
     ],
   },
   {
-    file: 'src/__tests__/integration/MainPageIntegration.test.tsx',
+    file: "src/__tests__/integration/MainPageIntegration.test.tsx",
     replacements: [
       {
         from: /\(id: string\)/g,
-        to: '(_id: string)',
-        description: 'Prefix unused parameter id',
+        to: "(_id: string)",
+        description: "Prefix unused parameter id",
       },
     ],
   },
   {
-    file: 'src/__tests__/linting/AstrologicalRulesValidation.test.ts',
+    file: "src/__tests__/linting/AstrologicalRulesValidation.test.ts",
     replacements: [
       {
         from: /import path from/g,
-        to: 'import _path from',
-        description: 'Prefix unused import path',
+        to: "import _path from",
+        description: "Prefix unused import path",
       },
     ],
   },
   {
-    file: 'src/__tests__/linting/AutomatedErrorResolution.test.ts',
+    file: "src/__tests__/linting/AutomatedErrorResolution.test.ts",
     replacements: [
       {
         from: /import { execSync, readFileSync } from/g,
-        to: 'import { execSync as _execSync, readFileSync as _readFileSync } from',
-        description: 'Alias unused imports',
+        to: "import { execSync as _execSync, readFileSync as _readFileSync } from",
+        description: "Alias unused imports",
       },
     ],
   },
   {
-    file: 'src/__tests__/linting/CampaignSystemRuleValidation.test.ts',
+    file: "src/__tests__/linting/CampaignSystemRuleValidation.test.ts",
     replacements: [
       {
         from: /\(category: string\)/g,
-        to: '(_category: string)',
-        description: 'Prefix unused parameter category',
+        to: "(_category: string)",
+        description: "Prefix unused parameter category",
       },
       {
         from: /\(criterion: string\)/g,
-        to: '(_criterion: string)',
-        description: 'Prefix unused parameter criterion',
+        to: "(_criterion: string)",
+        description: "Prefix unused parameter criterion",
       },
       {
         from: /\(requirement: string\)/g,
-        to: '(_requirement: string)',
-        description: 'Prefix unused parameter requirement',
+        to: "(_requirement: string)",
+        description: "Prefix unused parameter requirement",
       },
     ],
   },
   {
-    file: 'src/__tests__/linting/ConfigurationFileRuleValidation.test.ts',
+    file: "src/__tests__/linting/ConfigurationFileRuleValidation.test.ts",
     replacements: [
       {
         from: /const results = /g,
-        to: 'const _results = ',
-        description: 'Prefix unused variable results',
+        to: "const _results = ",
+        description: "Prefix unused variable results",
       },
     ],
   },
   {
-    file: 'src/__tests__/linting/DomainSpecificRuleValidation.test.ts',
+    file: "src/__tests__/linting/DomainSpecificRuleValidation.test.ts",
     replacements: [
       {
         from: /import { readFileSync } from/g,
-        to: 'import { readFileSync as _readFileSync } from',
-        description: 'Alias unused import readFileSync',
+        to: "import { readFileSync as _readFileSync } from",
+        description: "Alias unused import readFileSync",
       },
     ],
   },
@@ -95,20 +95,23 @@ function applyFix(fix) {
       return;
     }
 
-    const content = fs.readFileSync(fix.file, 'utf8');
+    const content = fs.readFileSync(fix.file, "utf8");
     let modifiedContent = content;
     let changesMade = false;
 
-    fix.replacements.forEach(replacement => {
+    fix.replacements.forEach((replacement) => {
       if (replacement.from.test(modifiedContent)) {
-        modifiedContent = modifiedContent.replace(replacement.from, replacement.to);
+        modifiedContent = modifiedContent.replace(
+          replacement.from,
+          replacement.to,
+        );
         changesMade = true;
         console.log(`  ✅ ${replacement.description}`);
       }
     });
 
     if (changesMade) {
-      fs.writeFileSync(fix.file, modifiedContent, 'utf8');
+      fs.writeFileSync(fix.file, modifiedContent, "utf8");
       console.log(`✅ Fixed unused variables in ${fix.file}`);
       return true;
     } else {
@@ -122,12 +125,12 @@ function applyFix(fix) {
 }
 
 function main() {
-  console.log('🚀 Targeted Unused Variables Fix');
-  console.log('=================================');
+  console.log("🚀 Targeted Unused Variables Fix");
+  console.log("=================================");
 
   let totalFixed = 0;
 
-  fixes.forEach(fix => {
+  fixes.forEach((fix) => {
     console.log(`\n📁 Processing: ${fix.file}`);
     if (applyFix(fix)) {
       totalFixed++;
@@ -135,24 +138,24 @@ function main() {
   });
 
   // Validate build
-  console.log('\n📋 Validating TypeScript compilation...');
+  console.log("\n📋 Validating TypeScript compilation...");
   try {
-    execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-    console.log('✅ TypeScript compilation successful');
+    execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
+    console.log("✅ TypeScript compilation successful");
   } catch (error) {
-    console.error('❌ Build failed after fixes');
-    console.error('Rolling back changes...');
+    console.error("❌ Build failed after fixes");
+    console.error("Rolling back changes...");
 
     // Rollback all changes
-    execSync('git restore .', { stdio: 'inherit' });
+    execSync("git restore .", { stdio: "inherit" });
     return;
   }
 
   console.log(`\n📊 Summary: Fixed unused variables in ${totalFixed} files`);
-  console.log('\n📌 Next Steps:');
-  console.log('1. Run yarn lint to see updated issue count');
-  console.log('2. Review changes with git diff');
-  console.log('3. Commit changes if satisfied');
+  console.log("\n📌 Next Steps:");
+  console.log("1. Run yarn lint to see updated issue count");
+  console.log("2. Review changes with git diff");
+  console.log("3. Commit changes if satisfied");
 }
 
 main();

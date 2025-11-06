@@ -1,43 +1,60 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { _ELEMENT_AFFINITIES, _ZODIAC_ELEMENTS } from '@/constants/elementalConstants';
+import React, { useState } from "react";
+import {
+  _ELEMENT_AFFINITIES,
+  _ZODIAC_ELEMENTS,
+} from "@/constants/elementalConstants";
 
-import '@/styles/popup.css';
-import { _PopupContext } from './context';
-import type { ElementalInfluence, Popup, PopupOptions, PopupProviderProps } from './types';
+import "@/styles/popup.css";
+import { _PopupContext } from "./context";
+import type {
+  ElementalInfluence,
+  Popup,
+  PopupOptions,
+  PopupProviderProps,
+} from "./types";
 
-export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactElement => {
+export const _PopupProvider = ({
+  children,
+}: PopupProviderProps): React.ReactElement => {
   const [popups, setPopups] = useState<Popup[]>([]);
 
-  const calculateElementalInfluence = (sunSign?: string, moonSign?: string): ElementalInfluence => {
+  const calculateElementalInfluence = (
+    sunSign?: string,
+    moonSign?: string,
+  ): ElementalInfluence => {
     if (!sunSign || !moonSign) return {};
 
-    const sunElement = _ZODIAC_ELEMENTS[sunSign.toLowerCase() as keyof typeof _ZODIAC_ELEMENTS];
-    const moonElement = _ZODIAC_ELEMENTS[moonSign.toLowerCase() as keyof typeof _ZODIAC_ELEMENTS];
+    const sunElement =
+      _ZODIAC_ELEMENTS[sunSign.toLowerCase() as keyof typeof _ZODIAC_ELEMENTS];
+    const moonElement =
+      _ZODIAC_ELEMENTS[moonSign.toLowerCase() as keyof typeof _ZODIAC_ELEMENTS];
 
     const isHarmonious =
-      sunElement && moonElement ? _ELEMENT_AFFINITIES[sunElement].includes(moonElement) : false;
+      sunElement && moonElement
+        ? _ELEMENT_AFFINITIES[sunElement].includes(moonElement)
+        : false;
 
     return {
       sunElement,
       moonElement,
       isHarmonious,
       primaryElement: sunElement,
-      secondaryElement: moonElement
+      secondaryElement: moonElement,
     };
   };
 
   const showPopup = (message: string, options: PopupOptions = {}): number => {
     const {
       duration = 3000,
-      type = 'default',
-      position = 'top',
+      type = "default",
+      position = "top",
       sunSign,
       moonSign,
       season,
-      animation = 'fade',
-      className = ''
+      animation = "fade",
+      className = "",
     } = options;
 
     const id = Date.now();
@@ -47,11 +64,11 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
 
     // Build class list
     const classes = [
-      'popup',
+      "popup",
       `popup-${type}`,
       `popup-${position}`,
       `popup-${animation}`,
-      className
+      className,
     ];
 
     // Add elemental classes if applicable
@@ -62,7 +79,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       classes.push(`popup-${elemental.moonElement.toLowerCase()}`);
     }
     if (elemental.isHarmonious) {
-      classes.push('popup-harmonious');
+      classes.push("popup-harmonious");
     }
     if (season) {
       classes.push(`popup-${season.toLowerCase()}`);
@@ -73,30 +90,30 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       message,
       type,
       position,
-      className: classes.join(' '),
+      className: classes.join(" "),
       elemental,
       season,
       metadata: {
         sunSign,
         moonSign,
-        season
-      }
+        season,
+      },
     };
 
-    setPopups(current => [...current, newPopup]);
+    setPopups((current) => [...current, newPopup]);
 
     // Handle animation timing
     const animationDuration = 300; // ms
     setTimeout(() => {
       const popupElement = document.getElementById(`popup-${id}`);
       if (popupElement) {
-        popupElement.classList.add('popup-exit');
+        popupElement.classList.add("popup-exit");
       }
     }, duration - animationDuration);
 
     // Remove popup after animation
     setTimeout(() => {
-      setPopups(current => current.filter(popup => popup.id !== id));
+      setPopups((current) => current.filter((popup) => popup.id !== id));
     }, duration);
 
     return id;
@@ -105,49 +122,58 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
   const closePopup = (id: number): void => {
     const popupElement = document.getElementById(`popup-${id}`);
     if (popupElement) {
-      popupElement.classList.add('popup-exit');
+      popupElement.classList.add("popup-exit");
       setTimeout(() => {
-        setPopups(current => current.filter(popup => popup.id !== id));
+        setPopups((current) => current.filter((popup) => popup.id !== id));
       }, 300);
     }
   };
 
   const getElementalIcon = (element?: string): string => {
-    if (!element) return '';
+    if (!element) return "";
     switch (element.toLowerCase()) {
-      case 'fire':
-        return '🔥';
-      case 'water': return '💧';
-      case 'air': return '💨';
-      case 'earth': return '🌍';
-      default: return '';
+      case "fire":
+        return "🔥";
+      case "water":
+        return "💧";
+      case "air":
+        return "💨";
+      case "earth":
+        return "🌍";
+      default:
+        return "";
     }
   };
 
   return (
     <_PopupContext.Provider value={{ showPopup, closePopup }}>
       {children}
-      <div className='popup-container'>
-        {popups.map(popup => (
+      <div className="popup-container">
+        {popups.map((popup) => (
           <div
             key={popup.id}
             id={`popup-${popup.id}`}
             className={popup.className}
             onClick={() => closePopup(popup.id)}
           >
-            {popup.elemental?.primaryElement && (<span className='popup-element-icon'>
+            {popup.elemental?.primaryElement && (
+              <span className="popup-element-icon">
                 {getElementalIcon(popup.elemental.primaryElement)}
               </span>
             )}
-            <div className='popup-content'>
-              <div className='popup-message'>{popup.message}</div>
+            <div className="popup-content">
+              <div className="popup-message">{popup.message}</div>
               {popup.metadata?.sunSign && (
-                <div className='popup-metadata'>
+                <div className="popup-metadata">
                   {popup.metadata.sunSign && (
-                    <span className='popup-sun-sign'>☉ {popup.metadata.sunSign}</span>
+                    <span className="popup-sun-sign">
+                      ☉ {popup.metadata.sunSign}
+                    </span>
                   )}
                   {popup.metadata.moonSign && (
-                    <span className='popup-moon-sign'>☽ {popup.metadata.moonSign}</span>
+                    <span className="popup-moon-sign">
+                      ☽ {popup.metadata.moonSign}
+                    </span>
                   )}
                 </div>
               )}
@@ -157,4 +183,4 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       </div>
     </_PopupContext.Provider>
   );
-}
+};

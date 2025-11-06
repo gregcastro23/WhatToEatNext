@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 function optimizeESLintConfig() {
-  console.log('🚀 ESLint Performance Optimization');
-  console.log('===================================');
+  console.log("🚀 ESLint Performance Optimization");
+  console.log("===================================");
 
   // Create .eslintignore for build artifacts if it doesn't exist
   const eslintIgnoreContent = `
@@ -70,11 +70,11 @@ logs/
 .env.production.local
 `.trim();
 
-  if (!fs.existsSync('.eslintignore')) {
-    fs.writeFileSync('.eslintignore', eslintIgnoreContent);
-    console.log('✅ Created comprehensive .eslintignore file');
+  if (!fs.existsSync(".eslintignore")) {
+    fs.writeFileSync(".eslintignore", eslintIgnoreContent);
+    console.log("✅ Created comprehensive .eslintignore file");
   } else {
-    console.log('ℹ️  .eslintignore already exists');
+    console.log("ℹ️  .eslintignore already exists");
   }
 
   // Create performance monitoring script
@@ -128,9 +128,9 @@ function measureESLintPerformance() {
 measureESLintPerformance();
 `;
 
-  fs.writeFileSync('scripts/measure-eslint-performance.cjs', performanceScript);
-  fs.chmodSync('scripts/measure-eslint-performance.cjs', '755');
-  console.log('✅ Created ESLint performance measurement script');
+  fs.writeFileSync("scripts/measure-eslint-performance.cjs", performanceScript);
+  fs.chmodSync("scripts/measure-eslint-performance.cjs", "755");
+  console.log("✅ Created ESLint performance measurement script");
 
   // Create cache cleanup script
   const cacheCleanupScript = `#!/usr/bin/env node
@@ -185,37 +185,39 @@ function cleanupESLintCaches() {
 cleanupESLintCaches();
 `;
 
-  fs.writeFileSync('scripts/cleanup-eslint-cache.cjs', cacheCleanupScript);
-  fs.chmodSync('scripts/cleanup-eslint-cache.cjs', '755');
-  console.log('✅ Created ESLint cache cleanup script');
+  fs.writeFileSync("scripts/cleanup-eslint-cache.cjs", cacheCleanupScript);
+  fs.chmodSync("scripts/cleanup-eslint-cache.cjs", "755");
+  console.log("✅ Created ESLint cache cleanup script");
 
   return true;
 }
 
 function testPerformance() {
-  console.log('\n📊 Testing ESLint Performance...');
+  console.log("\n📊 Testing ESLint Performance...");
 
   try {
     // Clean caches first for accurate measurement
-    execSync('node scripts/cleanup-eslint-cache.cjs', { stdio: 'inherit' });
+    execSync("node scripts/cleanup-eslint-cache.cjs", { stdio: "inherit" });
 
     // Measure performance
-    const result = execSync('node scripts/measure-eslint-performance.cjs', {
-      encoding: 'utf8',
-      stdio: 'pipe',
+    const result = execSync("node scripts/measure-eslint-performance.cjs", {
+      encoding: "utf8",
+      stdio: "pipe",
     });
 
     console.log(result);
 
     // Check if metrics file was created
-    if (fs.existsSync('.eslint-metrics.json')) {
-      const metrics = JSON.parse(fs.readFileSync('.eslint-metrics.json', 'utf8'));
+    if (fs.existsSync(".eslint-metrics.json")) {
+      const metrics = JSON.parse(
+        fs.readFileSync(".eslint-metrics.json", "utf8"),
+      );
       return metrics.achieved;
     }
 
     return false;
   } catch (error) {
-    console.error('❌ Performance test failed:', error.message);
+    console.error("❌ Performance test failed:", error.message);
     return false;
   }
 }
@@ -225,30 +227,34 @@ function main() {
   const optimized = optimizeESLintConfig();
 
   if (!optimized) {
-    console.error('❌ Failed to optimize ESLint configuration');
+    console.error("❌ Failed to optimize ESLint configuration");
     return;
   }
 
   // Test performance
   const performanceAchieved = testPerformance();
 
-  console.log('\n📊 Optimization Summary:');
-  console.log('========================');
-  console.log('✅ Created comprehensive .eslintignore');
-  console.log('✅ Created performance measurement script');
-  console.log('✅ Created cache cleanup script');
+  console.log("\n📊 Optimization Summary:");
+  console.log("========================");
+  console.log("✅ Created comprehensive .eslintignore");
+  console.log("✅ Created performance measurement script");
+  console.log("✅ Created cache cleanup script");
 
   if (performanceAchieved) {
-    console.log('🎯 Performance target achieved (< 30 seconds)');
+    console.log("🎯 Performance target achieved (< 30 seconds)");
   } else {
-    console.log('⚠️  Performance target not yet achieved');
+    console.log("⚠️  Performance target not yet achieved");
   }
 
-  console.log('\n📌 Next Steps:');
-  console.log('1. Run "node scripts/measure-eslint-performance.cjs" to test performance');
-  console.log('2. Run "node scripts/cleanup-eslint-cache.cjs" to clean caches when needed');
-  console.log('3. Monitor performance with regular measurements');
-  console.log('4. Adjust configuration if performance degrades');
+  console.log("\n📌 Next Steps:");
+  console.log(
+    '1. Run "node scripts/measure-eslint-performance.cjs" to test performance',
+  );
+  console.log(
+    '2. Run "node scripts/cleanup-eslint-cache.cjs" to clean caches when needed',
+  );
+  console.log("3. Monitor performance with regular measurements");
+  console.log("4. Adjust configuration if performance degrades");
 }
 
 main();

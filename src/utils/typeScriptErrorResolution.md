@@ -60,8 +60,10 @@
 const value = (obj as Record<string, unknown>).property;
 
 // After: Safe type guards
-const value = obj && typeof obj === 'object' && 'property' in obj ?
-  (obj as any).property : defaultValue;
+const value =
+  obj && typeof obj === "object" && "property" in obj
+    ? (obj as any).property
+    : defaultValue;
 ```
 
 #### 2. Type Conversion Utilities

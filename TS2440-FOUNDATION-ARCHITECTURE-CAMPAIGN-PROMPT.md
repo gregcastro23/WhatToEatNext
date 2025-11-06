@@ -131,7 +131,7 @@ definitions **Strategy**: Establish single source of truth for each type
 
 ```typescript
 // ❌ BEFORE - Conflicting imports and local definitions
-import { Planet, PlanetaryAlignment } from '@/types/celestial';
+import { Planet, PlanetaryAlignment } from "@/types/celestial";
 
 // Local definition conflicts with import
 export interface Planet {
@@ -140,11 +140,11 @@ export interface Planet {
 
 // ✅ AFTER - Single authoritative source
 // Option 1: Use imported types only
-import { Planet, PlanetaryAlignment } from '@/types/celestial';
+import { Planet, PlanetaryAlignment } from "@/types/celestial";
 // Remove local conflicting definitions
 
 // Option 2: Rename local types
-import { Planet as CelestialPlanet } from '@/types/celestial';
+import { Planet as CelestialPlanet } from "@/types/celestial";
 export interface LocalPlanet {
   // renamed local definition...
 }
@@ -154,14 +154,14 @@ export interface LocalPlanet {
 
 ```typescript
 // ❌ BEFORE - Function name conflicts
-import { createElementalProperties } from '../elemental/elementalUtils';
+import { createElementalProperties } from "../elemental/elementalUtils";
 
 function createElementalProperties() {
   // local function conflicts with import
 }
 
 // ✅ AFTER - Renamed to avoid conflict
-import { createElementalProperties as createBaseElementalProperties } from '../elemental/elementalUtils';
+import { createElementalProperties as createBaseElementalProperties } from "../elemental/elementalUtils";
 
 function createLocalElementalProperties() {
   // renamed local function

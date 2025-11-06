@@ -7,9 +7,9 @@
  * Analyzes specific TS1128 patterns and creates targeted fixes
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class TS1128PatternAnalyzer {
   constructor() {
@@ -18,7 +18,7 @@ class TS1128PatternAnalyzer {
   }
 
   async analyze() {
-    console.log('🔍 TS1128 Error Pattern Analysis\n');
+    console.log("🔍 TS1128 Error Pattern Analysis\n");
 
     // Get all TS1128 errors
     const errors = await this.getTS1128Errors();
@@ -38,22 +38,30 @@ class TS1128PatternAnalyzer {
 
   async getTS1128Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1128"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1128"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const errors = [];
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
 
       for (const line of lines) {
-        const match = line.match(/^(.+?)\((\d+),(\d+)\):\s*error TS1128:\s*(.+)$/);
+        const match = line.match(
+          /^(.+?)\((\d+),(\d+)\):\s*error TS1128:\s*(.+)$/,
+        );
         if (match) {
           errors.push({
             file: match[1],
             line: parseInt(match[2]),
             column: parseInt(match[3]),
-            message: match[4]
+            message: match[4],
           });
         }
       }
@@ -70,14 +78,18 @@ class TS1128PatternAnalyzer {
         return;
       }
 
-      const content = fs.readFileSync(error.file, 'utf8');
-      const lines = content.split('\n');
+      const content = fs.readFileSync(error.file, "utf8");
+      const lines = content.split("\n");
       const errorLine = lines[error.line - 1];
-      const contextBefore = lines[error.line - 2] || '';
-      const contextAfter = lines[error.line] || '';
+      const contextBefore = lines[error.line - 2] || "";
+      const contextAfter = lines[error.line] || "";
 
       if (errorLine) {
-        const pattern = this.identifyPattern(errorLine, contextBefore, contextAfter);
+        const pattern = this.identifyPattern(
+          errorLine,
+          contextBefore,
+          contextAfter,
+        );
         const count = this.patterns.get(pattern) || 0;
         this.patterns.set(pattern, count + 1);
 
@@ -86,7 +98,7 @@ class TS1128PatternAnalyzer {
           errorLine,
           contextBefore,
           contextAfter,
-          pattern
+          pattern,
         });
       }
     } catch (err) {
@@ -96,50 +108,61 @@ class TS1128PatternAnalyzer {
 
   identifyPattern(errorLine, contextBefore, contextAfter) {
     // Check for specific patterns
-    if (errorLine.includes('(: any : any {') && errorLine.includes('}')) {
-      return 'MALFORMED_FUNCTION_PARAMS';
+    if (errorLine.includes("(: any : any {") && errorLine.includes("}")) {
+      return "MALFORMED_FUNCTION_PARAMS";
     }
 
-    if (errorLine.includes('{,') && errorLine.includes(':')) {
-      return 'MALFORMED_OBJECT_LITERAL';
+    if (errorLine.includes("{,") && errorLine.includes(":")) {
+      return "MALFORMED_OBJECT_LITERAL";
     }
 
-    if (errorLine.includes('export: {,')) {
-      return 'MALFORMED_EXPORT_OBJECT';
+    if (errorLine.includes("export: {,")) {
+      return "MALFORMED_EXPORT_OBJECT";
     }
 
-    if (errorLine.includes('};') && contextAfter.includes('});')) {
-      return 'DOUBLE_CLOSING_BRACES';
+    if (errorLine.includes("};") && contextAfter.includes("});")) {
+      return "DOUBLE_CLOSING_BRACES";
     }
 
-    if (errorLine.includes('function') && errorLine.includes(': any') && errorLine.includes(': any')) {
-      return 'DOUBLE_ANY_FUNCTION';
+    if (
+      errorLine.includes("function") &&
+      errorLine.includes(": any") &&
+      errorLine.includes(": any")
+    ) {
+      return "DOUBLE_ANY_FUNCTION";
     }
 
-    if (errorLine.trim() === '});' && contextBefore.includes('};')) {
-      return 'EXTRA_CLOSING_STATEMENT';
+    if (errorLine.trim() === "});" && contextBefore.includes("};")) {
+      return "EXTRA_CLOSING_STATEMENT";
     }
 
-    if (errorLine.includes('</div>') || errorLine.includes('};') || errorLine.includes('});')) {
-      return 'JSX_CLOSING_CONTEXT';
+    if (
+      errorLine.includes("</div>") ||
+      errorLine.includes("};") ||
+      errorLine.includes("});")
+    ) {
+      return "JSX_CLOSING_CONTEXT";
     }
 
-    return 'OTHER_PATTERN';
+    return "OTHER_PATTERN";
   }
 
   reportPatterns() {
-    console.log('\n📈 Pattern Analysis Results:');
-    console.log('=' .repeat(50));
+    console.log("\n📈 Pattern Analysis Results:");
+    console.log("=".repeat(50));
 
-    const sortedPatterns = Array.from(this.patterns.entries())
-      .sort(([,a], [,b]) => b - a);
+    const sortedPatterns = Array.from(this.patterns.entries()).sort(
+      ([, a], [, b]) => b - a,
+    );
 
     for (const [pattern, count] of sortedPatterns) {
-      console.log(`${pattern.padEnd(30)} ${count.toString().padStart(4)} occurrences`);
+      console.log(
+        `${pattern.padEnd(30)} ${count.toString().padStart(4)} occurrences`,
+      );
     }
 
-    console.log('\n🔍 Sample Error Locations:');
-    console.log('=' .repeat(50));
+    console.log("\n🔍 Sample Error Locations:");
+    console.log("=".repeat(50));
 
     // Show examples of each pattern
     const patternExamples = new Map();
@@ -164,48 +187,51 @@ class TS1128PatternAnalyzer {
   }
 
   generateFixRecommendations() {
-    console.log('\n🛠️  Targeted Fix Recommendations:');
-    console.log('=' .repeat(50));
+    console.log("\n🛠️  Targeted Fix Recommendations:");
+    console.log("=".repeat(50));
 
     const fixes = {
-      'MALFORMED_FUNCTION_PARAMS': {
-        description: 'Fix malformed function parameters',
-        pattern: '(: any : any { prop = value }: Type)',
-        replacement: '({ prop = value }: Type)',
-        regex: '/\\(\\s*:\\s*any\\s*:\\s*any\\s*(\\{[^}]+\\})\\s*:\\s*(\\{[^}]+\\})\\s*\\)/g',
-        safetyLevel: 'HIGH'
+      MALFORMED_FUNCTION_PARAMS: {
+        description: "Fix malformed function parameters",
+        pattern: "(: any : any { prop = value }: Type)",
+        replacement: "({ prop = value }: Type)",
+        regex:
+          "/\\(\\s*:\\s*any\\s*:\\s*any\\s*(\\{[^}]+\\})\\s*:\\s*(\\{[^}]+\\})\\s*\\)/g",
+        safetyLevel: "HIGH",
       },
-      'MALFORMED_OBJECT_LITERAL': {
-        description: 'Fix malformed object literals',
-        pattern: '{, property: value}',
-        replacement: '{ property: value }',
-        regex: '/\\{\\s*,\\s*([^}]+)\\}/g',
-        safetyLevel: 'HIGH'
+      MALFORMED_OBJECT_LITERAL: {
+        description: "Fix malformed object literals",
+        pattern: "{, property: value}",
+        replacement: "{ property: value }",
+        regex: "/\\{\\s*,\\s*([^}]+)\\}/g",
+        safetyLevel: "HIGH",
       },
-      'MALFORMED_EXPORT_OBJECT': {
-        description: 'Fix malformed export objects',
-        pattern: 'export: {,',
-        replacement: 'export: {',
-        regex: '/export:\\s*\\{\\s*,\\s*/g',
-        safetyLevel: 'HIGH'
+      MALFORMED_EXPORT_OBJECT: {
+        description: "Fix malformed export objects",
+        pattern: "export: {,",
+        replacement: "export: {",
+        regex: "/export:\\s*\\{\\s*,\\s*/g",
+        safetyLevel: "HIGH",
       },
-      'DOUBLE_CLOSING_BRACES': {
-        description: 'Fix double closing braces',
-        pattern: '}; });',
-        replacement: '});',
-        regex: '/\\}\\s*;\\s*\\}\\s*\\)\\s*;/g',
-        safetyLevel: 'MEDIUM'
+      DOUBLE_CLOSING_BRACES: {
+        description: "Fix double closing braces",
+        pattern: "}; });",
+        replacement: "});",
+        regex: "/\\}\\s*;\\s*\\}\\s*\\)\\s*;/g",
+        safetyLevel: "MEDIUM",
       },
-      'JSX_CLOSING_CONTEXT': {
-        description: 'JSX context issues - manual review needed',
-        pattern: 'Various JSX closing patterns',
-        replacement: 'Manual review required',
-        regex: 'N/A',
-        safetyLevel: 'LOW'
-      }
+      JSX_CLOSING_CONTEXT: {
+        description: "JSX context issues - manual review needed",
+        pattern: "Various JSX closing patterns",
+        replacement: "Manual review required",
+        regex: "N/A",
+        safetyLevel: "LOW",
+      },
     };
 
-    for (const [pattern, count] of Array.from(this.patterns.entries()).sort(([,a], [,b]) => b - a)) {
+    for (const [pattern, count] of Array.from(this.patterns.entries()).sort(
+      ([, a], [, b]) => b - a,
+    )) {
       const fix = fixes[pattern];
       if (fix) {
         console.log(`\n${pattern} (${count} occurrences):`);
@@ -217,14 +243,16 @@ class TS1128PatternAnalyzer {
       }
     }
 
-    console.log('\n📋 Implementation Strategy:');
-    console.log('=' .repeat(50));
-    console.log('1. Start with HIGH safety patterns (MALFORMED_FUNCTION_PARAMS, MALFORMED_OBJECT_LITERAL)');
-    console.log('2. Test on 5 files first as per requirements');
-    console.log('3. Validate build after each batch');
-    console.log('4. Process in batches of 10 files');
-    console.log('5. Preserve astrological calculation accuracy');
-    console.log('6. Create backups before any changes');
+    console.log("\n📋 Implementation Strategy:");
+    console.log("=".repeat(50));
+    console.log(
+      "1. Start with HIGH safety patterns (MALFORMED_FUNCTION_PARAMS, MALFORMED_OBJECT_LITERAL)",
+    );
+    console.log("2. Test on 5 files first as per requirements");
+    console.log("3. Validate build after each batch");
+    console.log("4. Process in batches of 10 files");
+    console.log("5. Preserve astrological calculation accuracy");
+    console.log("6. Create backups before any changes");
   }
 }
 

@@ -1,43 +1,53 @@
-'use client';
-import React from 'react';
-import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
-import type { Season } from '@/types/alchemy';
-import type { PlanetaryPosition } from '@/types/celestial';
-import { calculateAspects } from '@/utils/astrologyUtils';
-import { createLogger } from '@/utils/logger';
-import { VECTOR_CONFIG, getAlchemicalStateWithVectors } from '@/utils/signVectors';
+"use client";
+import React from "react";
+import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
+import type { Season } from "@/types/alchemy";
+import type { PlanetaryPosition } from "@/types/celestial";
+import { calculateAspects } from "@/utils/astrologyUtils";
+import { createLogger } from "@/utils/logger";
+import {
+  VECTOR_CONFIG,
+  getAlchemicalStateWithVectors,
+} from "@/utils/signVectors";
 
 interface Props {
-  planetaryPositions?: Record<string, PlanetaryPosition>
+  planetaryPositions?: Record<string, PlanetaryPosition>;
   aspects?: Array<{
-    planet1: string,
-    planet2: string,
-    type?: string,
-    aspectType?: string,
-    orb?: number
-  }>
-  season?: Season,
-  governing?: 'sun' | 'moon' | 'dominant' | 'ensemble'
+    planet1: string;
+    planet2: string;
+    type?: string;
+    aspectType?: string;
+    orb?: number;
+  }>;
+  season?: Season;
+  governing?: "sun" | "moon" | "dominant" | "ensemble";
 }
 
-export default function SignVectorPanel({planetaryPositions: propPositions,
+export default function SignVectorPanel({
+  planetaryPositions: propPositions,
   aspects,
   season,
-  governing = 'dominant'}: Props) {
-  const [positions, setPositions] = React.useState<Record<string, PlanetaryPosition> | null>(
-    propPositions || null,
-  );
-  const [mode, setMode] = React.useState<'sun' | 'moon' | 'dominant' | 'ensemble'>(governing);
+  governing = "dominant",
+}: Props) {
+  const [positions, setPositions] = React.useState<Record<
+    string,
+    PlanetaryPosition
+  > | null>(propPositions || null);
+  const [mode, setMode] = React.useState<
+    "sun" | "moon" | "dominant" | "ensemble"
+  >(governing);
   const [loading, setLoading] = React.useState<boolean>(!propPositions);
-  const [alpha, setAlpha] = React.useState<number>(VECTOR_CONFIG.blendWeightAlpha);
-  const logger = React.useMemo(() => createLogger('SignVectorPanel'), []);
+  const [alpha, setAlpha] = React.useState<number>(
+    VECTOR_CONFIG.blendWeightAlpha,
+  );
+  const logger = React.useMemo(() => createLogger("SignVectorPanel"), []);
 
   React.useEffect(() => {
     let mounted = true;
     if (!propPositions) {
       setLoading(true);
       getCurrentPlanetaryPositions()
-        .then(p => {
+        .then((p) => {
           if (mounted) setPositions(p);
         })
         .finally(() => {
@@ -60,34 +70,34 @@ export default function SignVectorPanel({planetaryPositions: propPositions,
         const minimal = Object.fromEntries(
           Object.entries(positions).map(([k, v]) => [
             k,
-            { sign: (v as any).sign, degree: (v as any).degree }
+            { sign: (v as any).sign, degree: (v as any).degree },
           ]),
-        ) as Record<string, { sign: string, degree: number }>
+        ) as Record<string, { sign: string; degree: number }>;
         const { aspects: computed } = calculateAspects(minimal),
-        realAspects = computed as any;
+          realAspects = computed as any;
       }
     } catch (_e) {
       // aspects remain undefined on failure
     }
     // Apply dev alpha to global config
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== "production") {
       VECTOR_CONFIG.blendWeightAlpha = alpha;
     }
     const res = getAlchemicalStateWithVectors({
       planetaryPositions: positions,
       aspects: realAspects,
       season,
-      governing: mode
+      governing: mode,
     });
     // Dev, instrumentation: log deltas
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== "production") {
       const base = res.base.alchemical;
       const blended = res.blendedAlchemical;
       const deltas = {
         Spirit: Number((blended.Spirit - base.Spirit).toFixed(4)),
         Essence: Number((blended.Essence - base.Essence).toFixed(4)),
         Matter: Number((blended.Matter - base.Matter).toFixed(4)),
-        Substance: Number((blended.Substance - base.Substance).toFixed(4))
+        Substance: Number((blended.Substance - base.Substance).toFixed(4)),
       };
     }
     return res;
@@ -95,8 +105,17 @@ export default function SignVectorPanel({planetaryPositions: propPositions,
 
   if (loading || !state) {
     return (
-      <div style={{ border: '1px solid #444', borderRadius: 8, padding: 12, marginTop: 12 }}>
-        <div style={{ fontWeight: 600, marginBottom: 8 }}>Current Sign Expression</div>
+      <div
+        style={{
+          border: "1px solid #444",
+          borderRadius: 8,
+          padding: 12,
+          marginTop: 12,
+        }}
+      >
+        <div style={{ fontWeight: 600, marginBottom: 8 }}>
+          Current Sign Expression
+        </div>
         <div>Loading planetary positions…</div>
       </div>
     );
@@ -105,30 +124,46 @@ export default function SignVectorPanel({planetaryPositions: propPositions,
   const { selected, blendedAlchemical, thermodynamics } = state;
 
   return (
-    <div style={{ border: '1px solid #444', borderRadius: 8, padding: 12, marginTop: 12 }}>
-      <div style={{ fontWeight: 600, marginBottom: 8 }}>Current Sign Expression</div>
+    <div
+      style={{
+        border: "1px solid #444",
+        borderRadius: 8,
+        padding: 12,
+        marginTop: 12,
+      }}
+    >
+      <div style={{ fontWeight: 600, marginBottom: 8 }}>
+        Current Sign Expression
+      </div>
       <div style={{ marginBottom: 8 }}>
-        <label htmlFor='governing' style={{ marginRight: 8 }}>
+        <label htmlFor="governing" style={{ marginRight: 8 }}>
           Governing:
         </label>
 
-        <select id='governing' value={mode} onChange={e => setMode(e.target.value as any)}>
-          <option value='dominant'>dominant</option><option value='sun'>sun</option>
-          <option value='moon'>moon</option><option value='ensemble'>ensemble</option>
+        <select
+          id="governing"
+          value={mode}
+          onChange={(e) => setMode(e.target.value as any)}
+        >
+          <option value="dominant">dominant</option>
+          <option value="sun">sun</option>
+          <option value="moon">moon</option>
+          <option value="ensemble">ensemble</option>
         </select>
       </div>
-      {process.env.NODE_ENV !== 'production' && (
+      {process.env.NODE_ENV !== "production" && (
         <div style={{ marginBottom: 8 }}>
-          <label htmlFor='alpha' style={{ marginRight: 8 }}>
-            Blend α: </label>
+          <label htmlFor="alpha" style={{ marginRight: 8 }}>
+            Blend α:{" "}
+          </label>
           <input
-            id='alpha'
-            type='range'
+            id="alpha"
+            type="range"
             min={0}
             max={0.5}
             step={0.01}
             value={alpha}
-            onChange={e => setAlpha(Number(e.target.value))}
+            onChange={(e) => setAlpha(Number(e.target.value))}
           />
           <span style={{ marginLeft: 8 }}>{alpha.toFixed(2)}</span>
         </div>
@@ -148,7 +183,10 @@ export default function SignVectorPanel({planetaryPositions: propPositions,
       <div>Greg&apos;s Energy: {thermodynamics.gregsEnergy.toFixed(4)}</div>
       <div>Kalchm: {thermodynamics.kalchm.toFixed(4)}</div>
       <div>
-        Monica: {Number.isFinite(thermodynamics.monica) ? thermodynamics.monica.toFixed(4) : 'NaN'}
+        Monica:{" "}
+        {Number.isFinite(thermodynamics.monica)
+          ? thermodynamics.monica.toFixed(4)
+          : "NaN"}
       </div>
     </div>
   );

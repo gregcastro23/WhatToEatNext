@@ -7,8 +7,8 @@
  * and generate insights about culinary patterns.
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // ========== UTILITIES ==========
 
@@ -22,17 +22,23 @@ function loadModule(modulePath) {
 }
 
 function loadComputedProperties() {
-  const propertiesPath = path.join(__dirname, '..', 'computed_cuisine_properties.json');
+  const propertiesPath = path.join(
+    __dirname,
+    "..",
+    "computed_cuisine_properties.json",
+  );
   if (!fs.existsSync(propertiesPath)) {
-    console.error('❌ Computed cuisine properties not found. Run computeCuisineProperties.cjs first.');
+    console.error(
+      "❌ Computed cuisine properties not found. Run computeCuisineProperties.cjs first.",
+    );
     process.exit(1);
   }
 
   try {
-    const data = fs.readFileSync(propertiesPath, 'utf8');
+    const data = fs.readFileSync(propertiesPath, "utf8");
     return JSON.parse(data);
   } catch (error) {
-    console.error('❌ Failed to load computed properties:', error.message);
+    console.error("❌ Failed to load computed properties:", error.message);
     process.exit(1);
   }
 }
@@ -40,8 +46,8 @@ function loadComputedProperties() {
 // ========== SIGNATURE ANALYSIS ==========
 
 function analyzeSignatures(computedResults) {
-  console.log('\n🔍 Analyzing Cuisine Signatures');
-  console.log('==============================');
+  console.log("\n🔍 Analyzing Cuisine Signatures");
+  console.log("==============================");
 
   const successful = computedResults.successful || [];
   const signatureStats = {
@@ -49,10 +55,10 @@ function analyzeSignatures(computedResults) {
     signaturesByStrength: { low: 0, moderate: 0, high: 0, very_high: 0 },
     signaturesByType: { elemental: 0, alchemical: 0, thermodynamic: 0 },
     cuisinesWithSignatures: 0,
-    topSignatures: []
+    topSignatures: [],
   };
 
-  successful.forEach(result => {
+  successful.forEach((result) => {
     const { cuisine, properties } = result;
     const signatures = properties.signatures || [];
 
@@ -60,15 +66,19 @@ function analyzeSignatures(computedResults) {
       signatureStats.cuisinesWithSignatures++;
       signatureStats.totalSignatures += signatures.length;
 
-      signatures.forEach(signature => {
+      signatures.forEach((signature) => {
         // Count by strength
         signatureStats.signaturesByStrength[signature.strength] =
           (signatureStats.signaturesByStrength[signature.strength] || 0) + 1;
 
         // Count by type
-        if (['Fire', 'Water', 'Earth', 'Air'].includes(signature.property)) {
+        if (["Fire", "Water", "Earth", "Air"].includes(signature.property)) {
           signatureStats.signaturesByType.elemental++;
-        } else if (['Spirit', 'Essence', 'Matter', 'Substance'].includes(signature.property)) {
+        } else if (
+          ["Spirit", "Essence", "Matter", "Substance"].includes(
+            signature.property,
+          )
+        ) {
           signatureStats.signaturesByType.alchemical++;
         } else {
           signatureStats.signaturesByType.thermodynamic++;
@@ -80,21 +90,23 @@ function analyzeSignatures(computedResults) {
           property: signature.property,
           zscore: signature.zscore,
           strength: signature.strength,
-          description: signature.description
+          description: signature.description,
         });
       });
     }
   });
 
   // Sort top signatures by z-score
-  signatureStats.topSignatures.sort((a, b) => Math.abs(b.zscore) - Math.abs(a.zscore));
+  signatureStats.topSignatures.sort(
+    (a, b) => Math.abs(b.zscore) - Math.abs(a.zscore),
+  );
 
   return signatureStats;
 }
 
 function analyzePlanetaryPatterns(computedResults) {
-  console.log('\n🪐 Analyzing Planetary Patterns');
-  console.log('==============================');
+  console.log("\n🪐 Analyzing Planetary Patterns");
+  console.log("==============================");
 
   const successful = computedResults.successful || [];
   const patternStats = {
@@ -102,16 +114,16 @@ function analyzePlanetaryPatterns(computedResults) {
     patternsByPlanet: {},
     averageStrength: 0,
     strongPatterns: [],
-    elementDistribution: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+    elementDistribution: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
   };
 
-  successful.forEach(result => {
+  successful.forEach((result) => {
     const { cuisine, properties } = result;
     const patterns = properties.planetaryPatterns || [];
 
     patternStats.totalPatterns += patterns.length;
 
-    patterns.forEach(pattern => {
+    patterns.forEach((pattern) => {
       // Count by planet
       patternStats.patternsByPlanet[pattern.planet] =
         (patternStats.patternsByPlanet[pattern.planet] || 0) + 1;
@@ -122,7 +134,7 @@ function analyzePlanetaryPatterns(computedResults) {
           cuisine,
           planet: pattern.planet,
           strength: pattern.planetaryStrength,
-          dominantElement: pattern.dominantElement
+          dominantElement: pattern.dominantElement,
         });
       }
 
@@ -132,60 +144,82 @@ function analyzePlanetaryPatterns(computedResults) {
   });
 
   if (patternStats.totalPatterns > 0) {
-    patternStats.averageStrength = successful.reduce((sum, result) => {
-      const patterns = result.properties.planetaryPatterns || [];
-      return sum + patterns.reduce((pSum, p) => pSum + p.planetaryStrength, 0);
-    }, 0) / patternStats.totalPatterns;
+    patternStats.averageStrength =
+      successful.reduce((sum, result) => {
+        const patterns = result.properties.planetaryPatterns || [];
+        return (
+          sum + patterns.reduce((pSum, p) => pSum + p.planetaryStrength, 0)
+        );
+      }, 0) / patternStats.totalPatterns;
   }
 
   return patternStats;
 }
 
 function generateInsights(signatureStats, patternStats) {
-  console.log('\n💡 Culinary Insights');
-  console.log('===================');
+  console.log("\n💡 Culinary Insights");
+  console.log("===================");
 
   const insights = [];
 
   // Signature insights
   if (signatureStats.totalSignatures > 0) {
-    insights.push(`🎯 Found ${signatureStats.totalSignatures} distinctive signatures across ${signatureStats.cuisinesWithSignatures} cuisines`);
+    insights.push(
+      `🎯 Found ${signatureStats.totalSignatures} distinctive signatures across ${signatureStats.cuisinesWithSignatures} cuisines`,
+    );
 
-    const topStrength = Object.entries(signatureStats.signaturesByStrength)
-      .sort(([,a], [,b]) => b - a)[0];
-    insights.push(`⭐ Most common signature strength: ${topStrength[0]} (${topStrength[1]} signatures)`);
+    const topStrength = Object.entries(
+      signatureStats.signaturesByStrength,
+    ).sort(([, a], [, b]) => b - a)[0];
+    insights.push(
+      `⭐ Most common signature strength: ${topStrength[0]} (${topStrength[1]} signatures)`,
+    );
 
-    const topType = Object.entries(signatureStats.signaturesByType)
-      .sort(([,a], [,b]) => b - a)[0];
-    insights.push(`🔥 Most common signature type: ${topType[0]} (${topType[1]} signatures)`);
+    const topType = Object.entries(signatureStats.signaturesByType).sort(
+      ([, a], [, b]) => b - a,
+    )[0];
+    insights.push(
+      `🔥 Most common signature type: ${topType[0]} (${topType[1]} signatures)`,
+    );
   }
 
   // Planetary insights
   if (patternStats.totalPatterns > 0) {
-    insights.push(`🪐 Identified ${patternStats.totalPatterns} planetary patterns`);
+    insights.push(
+      `🪐 Identified ${patternStats.totalPatterns} planetary patterns`,
+    );
 
-    const topPlanet = Object.entries(patternStats.patternsByPlanet)
-      .sort(([,a], [,b]) => b - a)[0];
+    const topPlanet = Object.entries(patternStats.patternsByPlanet).sort(
+      ([, a], [, b]) => b - a,
+    )[0];
     if (topPlanet) {
-      insights.push(`🌟 Most influential planet: ${topPlanet[0]} (${topPlanet[1]} patterns)`);
+      insights.push(
+        `🌟 Most influential planet: ${topPlanet[0]} (${topPlanet[1]} patterns)`,
+      );
     }
 
-    const topElement = Object.entries(patternStats.elementDistribution)
-      .sort(([,a], [,b]) => b - a)[0];
-    insights.push(`⚡ Most common elemental alignment: ${topElement[0]} (${topElement[1]} patterns)`);
+    const topElement = Object.entries(patternStats.elementDistribution).sort(
+      ([, a], [, b]) => b - a,
+    )[0];
+    insights.push(
+      `⚡ Most common elemental alignment: ${topElement[0]} (${topElement[1]} patterns)`,
+    );
   }
 
   // Cross-analysis insights
-  const cuisinesWithBoth = computedResults.successful.filter(result =>
-    (result.properties.signatures?.length || 0) > 0 &&
-    (result.properties.planetaryPatterns?.length || 0) > 0
+  const cuisinesWithBoth = computedResults.successful.filter(
+    (result) =>
+      (result.properties.signatures?.length || 0) > 0 &&
+      (result.properties.planetaryPatterns?.length || 0) > 0,
   ).length;
 
   if (cuisinesWithBoth > 0) {
-    insights.push(`🔗 ${cuisinesWithBoth} cuisines show both signature and planetary patterns`);
+    insights.push(
+      `🔗 ${cuisinesWithBoth} cuisines show both signature and planetary patterns`,
+    );
   }
 
-  insights.forEach(insight => console.log(`  ${insight}`));
+  insights.forEach((insight) => console.log(`  ${insight}`));
 
   return insights;
 }
@@ -193,13 +227,15 @@ function generateInsights(signatureStats, patternStats) {
 function displayTopSignatures(signatureStats, limit = 10) {
   if (signatureStats.topSignatures.length === 0) return;
 
-  console.log('\n🏆 Top Cuisine Signatures');
-  console.log('=========================');
+  console.log("\n🏆 Top Cuisine Signatures");
+  console.log("=========================");
 
   signatureStats.topSignatures.slice(0, limit).forEach((sig, index) => {
     const zScoreStr = sig.zscore.toFixed(2);
-    const direction = sig.zscore > 0 ? '↑' : '↓';
-    console.log(`${index + 1}. ${sig.cuisine} - ${sig.property} (${zScoreStr}${direction})`);
+    const direction = sig.zscore > 0 ? "↑" : "↓";
+    console.log(
+      `${index + 1}. ${sig.cuisine} - ${sig.property} (${zScoreStr}${direction})`,
+    );
     console.log(`   ${sig.description}`);
   });
 }
@@ -207,15 +243,17 @@ function displayTopSignatures(signatureStats, limit = 10) {
 function displayStrongPatterns(patternStats, limit = 10) {
   if (patternStats.strongPatterns.length === 0) return;
 
-  console.log('\n💪 Strong Planetary Patterns');
-  console.log('============================');
+  console.log("\n💪 Strong Planetary Patterns");
+  console.log("============================");
 
   patternStats.strongPatterns
     .sort((a, b) => b.strength - a.strength)
     .slice(0, limit)
     .forEach((pattern, index) => {
       const strengthPercent = (pattern.strength * 100).toFixed(1);
-      console.log(`${index + 1}. ${pattern.cuisine} - ${pattern.planet} (${strengthPercent}%)`);
+      console.log(
+        `${index + 1}. ${pattern.cuisine} - ${pattern.planet} (${strengthPercent}%)`,
+      );
       console.log(`   Dominant element: ${pattern.dominantElement}`);
     });
 }
@@ -223,15 +261,15 @@ function displayStrongPatterns(patternStats, limit = 10) {
 // ========== MAIN FUNCTION ==========
 
 async function main() {
-  console.log('🎯 Starting Cuisine Signatures Analysis');
-  console.log('======================================');
+  console.log("🎯 Starting Cuisine Signatures Analysis");
+  console.log("======================================");
 
   try {
     // Load computed properties
     const computedResults = loadComputedProperties();
 
     if (computedResults.successful.length === 0) {
-      console.log('❌ No successful computations found');
+      console.log("❌ No successful computations found");
       return;
     }
 
@@ -253,25 +291,28 @@ async function main() {
       timestamp: new Date().toISOString(),
       signatureStats,
       patternStats,
-      insights: generateInsights(signatureStats, patternStats)
+      insights: generateInsights(signatureStats, patternStats),
     };
 
-    const outputPath = path.join(__dirname, '..', 'cuisine_signatures_analysis.json');
+    const outputPath = path.join(
+      __dirname,
+      "..",
+      "cuisine_signatures_analysis.json",
+    );
     fs.writeFileSync(outputPath, JSON.stringify(analysisResults, null, 2));
     console.log(`\n💾 Analysis saved to: ${outputPath}`);
 
-    console.log('\n🎉 Signatures analysis completed!');
-
+    console.log("\n🎉 Signatures analysis completed!");
   } catch (error) {
-    console.error('💥 Error during analysis:', error);
+    console.error("💥 Error during analysis:", error);
     process.exit(1);
   }
 }
 
 // Run the script
 if (require.main === module) {
-  main().catch(error => {
-    console.error('💥 Unhandled error:', error);
+  main().catch((error) => {
+    console.error("💥 Unhandled error:", error);
     process.exit(1);
   });
 }

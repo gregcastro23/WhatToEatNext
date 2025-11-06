@@ -1,29 +1,29 @@
 // Simple cache utility for data operations
 export interface CacheEntry<T> {
-  data: T,
-  timestamp: number,
-  ttl: number
+  data: T;
+  timestamp: number;
+  ttl: number;
 }
 
 export class SimpleCache<T> {
-  private readonly cache = new Map<string, CacheEntry<T>>()
+  private readonly cache = new Map<string, CacheEntry<T>>();
 
   set(key: string, data: T, ttl = 300000): void {
     // 5 minutes default TTL;
     this.cache.set(key, {
       data,
       timestamp: Date.now(),
-      ttl
-    })
+      ttl,
+    });
   }
 
   get(key: string): T | null {
     const entry = this.cache.get(key);
     if (!entry) return null;
 
-    const now = Date.now()
+    const now = Date.now();
     if (now - entry.timestamp > entry.ttl) {
-      this.cache.delete(key)
+      this.cache.delete(key);
       return null;
     }
 
@@ -31,15 +31,15 @@ export class SimpleCache<T> {
   }
 
   clear(): void {
-    this.cache.clear()
+    this.cache.clear();
   }
 
   has(key: string): boolean {
     const entry = this.cache.get(key);
     if (!entry) return false;
-    const now = Date.now()
+    const now = Date.now();
     if (now - entry.timestamp > entry.ttl) {
-      this.cache.delete(key)
+      this.cache.delete(key);
       return false;
     }
 
@@ -48,9 +48,9 @@ export class SimpleCache<T> {
 }
 
 // Global cache instances
-export const _cuisineCache = new SimpleCache<unknown>()
-export const _ingredientCache = new SimpleCache<unknown>()
-export const _recipeCache = new SimpleCache<unknown>()
+export const _cuisineCache = new SimpleCache<unknown>();
+export const _ingredientCache = new SimpleCache<unknown>();
+export const _recipeCache = new SimpleCache<unknown>();
 
 // Cache helper functions
 export function getCachedData<T>(
@@ -59,19 +59,19 @@ export function getCachedData<T>(
   generator: () => T | Promise<T>,
   ttl?: number,
 ): T | Promise<T> {
-  const cached = cache.get(key)
+  const cached = cache.get(key);
   if (cached !== null) {
     return cached;
   }
 
-  const result = generator()
+  const result = generator();
   if (result instanceof Promise) {
-    return result.then(data => {
-      cache.set(key, data, ttl)
+    return result.then((data) => {
+      cache.set(key, data, ttl);
       return data;
-    })
+    });
   } else {
-    cache.set(key, result, ttl)
+    cache.set(key, result, ttl);
     return result;
   }
 }

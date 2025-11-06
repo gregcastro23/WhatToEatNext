@@ -15,21 +15,21 @@ a comprehensive structure for all culinary properties:
 
 ```typescript
 export interface CulinaryProfile {
-  flavorProfile: string[];           // e.g. ['sweet', 'tart', 'floral']
-  texture: string[];                 // e.g. ['crisp', 'juicy']
+  flavorProfile: string[]; // e.g. ['sweet', 'tart', 'floral']
+  texture: string[]; // e.g. ['crisp', 'juicy']
   bestCookingMethods: CookingMethod[]; // e.g. ['Roasting', 'Grilling']
-  cuisineAffinity: CuisineType[];    // e.g. ['Italian', 'Japanese']
-  classicPairings: string[];         // e.g. ['basil', 'mozzarella']
-  culinaryUses: string[];            // e.g. ['salads', 'desserts']
-  seasonality?: string[];            // e.g. ['spring', 'summer']
-  shelfLife?: string;                // e.g. '1 week refrigerated'
-  substitutions?: string[];          // e.g. ['lemon', 'lime']
-  notes?: string;                    // Freeform notes
-  intensity?: 'mild' | 'moderate' | 'strong';
-  allergenInfo?: string[];           // e.g. ['nut-free', 'gluten-free']
-  regionalVarieties?: string[];      // e.g. ['Italian basil', 'Thai basil']
-  preparationTips?: string[];        // e.g. ['Wash just before use']
-  umamiScore?: number;               // 0-1 scale
+  cuisineAffinity: CuisineType[]; // e.g. ['Italian', 'Japanese']
+  classicPairings: string[]; // e.g. ['basil', 'mozzarella']
+  culinaryUses: string[]; // e.g. ['salads', 'desserts']
+  seasonality?: string[]; // e.g. ['spring', 'summer']
+  shelfLife?: string; // e.g. '1 week refrigerated'
+  substitutions?: string[]; // e.g. ['lemon', 'lime']
+  notes?: string; // Freeform notes
+  intensity?: "mild" | "moderate" | "strong";
+  allergenInfo?: string[]; // e.g. ['nut-free', 'gluten-free']
+  regionalVarieties?: string[]; // e.g. ['Italian basil', 'Thai basil']
+  preparationTips?: string[]; // e.g. ['Wash just before use']
+  umamiScore?: number; // 0-1 scale
 }
 ```
 
@@ -39,11 +39,35 @@ New type-safe category definitions using PascalCase per project conventions:
 
 ```typescript
 export type IngredientCategory =
-  | 'Vegetable' | 'Fruit' | 'Grain' | 'Protein' | 'Dairy'
-  | 'Spice' | 'Herb' | 'Seasoning' | 'Oil' | 'Vinegar' | 'Other';
+  | "Vegetable"
+  | "Fruit"
+  | "Grain"
+  | "Protein"
+  | "Dairy"
+  | "Spice"
+  | "Herb"
+  | "Seasoning"
+  | "Oil"
+  | "Vinegar"
+  | "Other";
 
-export type FruitSubCategory = 'Berry' | 'Citrus' | 'Pome' | 'Stone' | 'Melon' | 'Tropical' | 'Other';
-export type VegetableSubCategory = 'Root' | 'Starchy' | 'Leafy' | 'Nightshade' | 'Legume' | 'Cruciferous' | 'Allium' | 'Other';
+export type FruitSubCategory =
+  | "Berry"
+  | "Citrus"
+  | "Pome"
+  | "Stone"
+  | "Melon"
+  | "Tropical"
+  | "Other";
+export type VegetableSubCategory =
+  | "Root"
+  | "Starchy"
+  | "Leafy"
+  | "Nightshade"
+  | "Legume"
+  | "Cruciferous"
+  | "Allium"
+  | "Other";
 // ... additional subcategory types
 ```
 
@@ -53,39 +77,45 @@ export type VegetableSubCategory = 'Root' | 'Starchy' | 'Leafy' | 'Nightshade' |
 
 ```typescript
 export const strawberry = {
-  name: 'Strawberry',
-  category: 'fruit', // lowercase, no type safety
-  subCategory: 'berry',
+  name: "Strawberry",
+  category: "fruit", // lowercase, no type safety
+  subCategory: "berry",
   // ... scattered culinary data
-  affinities: ['lemon', 'cream'],
-  cookingMethods: ['raw', 'baked'],
-  culinaryApplications: { /* complex nested structure */ }
+  affinities: ["lemon", "cream"],
+  cookingMethods: ["raw", "baked"],
+  culinaryApplications: {
+    /* complex nested structure */
+  },
 };
 ```
 
 ### After (New Structure)
 
 ```typescript
-import { IngredientCategory, FruitSubCategory, CulinaryProfile } from '@/types/culinary';
+import {
+  IngredientCategory,
+  FruitSubCategory,
+  CulinaryProfile,
+} from "@/types/culinary";
 
 export const strawberry = {
-  name: 'Strawberry',
-  category: 'Fruit' as IngredientCategory,
-  subCategory: 'Berry' as FruitSubCategory,
+  name: "Strawberry",
+  category: "Fruit" as IngredientCategory,
+  subCategory: "Berry" as FruitSubCategory,
   culinaryProfile: {
-    flavorProfile: ['sweet', 'tart', 'floral'],
-    texture: ['juicy', 'tender'],
-    bestCookingMethods: ['Raw', 'Baking', 'Macerating'],
-    cuisineAffinity: ['French', 'American', 'Italian'],
-    classicPairings: ['cream', 'basil', 'balsamic vinegar'],
-    culinaryUses: ['desserts', 'salads', 'preserves'],
-    seasonality: ['spring', 'summer'],
-    shelfLife: '2-3 days refrigerated',
-    substitutions: ['raspberry', 'blackberry'],
-    notes: 'Best in late spring and early summer.',
-    intensity: 'moderate',
-    allergenInfo: ['nut-free', 'gluten-free'],
-    umamiScore: 0.1
+    flavorProfile: ["sweet", "tart", "floral"],
+    texture: ["juicy", "tender"],
+    bestCookingMethods: ["Raw", "Baking", "Macerating"],
+    cuisineAffinity: ["French", "American", "Italian"],
+    classicPairings: ["cream", "basil", "balsamic vinegar"],
+    culinaryUses: ["desserts", "salads", "preserves"],
+    seasonality: ["spring", "summer"],
+    shelfLife: "2-3 days refrigerated",
+    substitutions: ["raspberry", "blackberry"],
+    notes: "Best in late spring and early summer.",
+    intensity: "moderate",
+    allergenInfo: ["nut-free", "gluten-free"],
+    umamiScore: 0.1,
   } as CulinaryProfile,
   // ... other existing properties (astrologicalProfile, elementalProperties, etc.)
 };
@@ -170,12 +200,12 @@ export const strawberry = {
 ### Type Safety Check
 
 ```typescript
-import { IngredientCategory, CulinaryProfile } from '@/types/culinary';
+import { IngredientCategory, CulinaryProfile } from "@/types/culinary";
 
 function validateIngredient(ingredient: any): boolean {
   return (
-    typeof ingredient.category === 'string' &&
-    typeof ingredient.culinaryProfile === 'object' &&
+    typeof ingredient.category === "string" &&
+    typeof ingredient.culinaryProfile === "object" &&
     Array.isArray(ingredient.culinaryProfile.flavorProfile) &&
     Array.isArray(ingredient.culinaryProfile.texture) &&
     Array.isArray(ingredient.culinaryProfile.bestCookingMethods) &&
@@ -192,12 +222,12 @@ function validateIngredient(ingredient: any): boolean {
 function checkCulinaryProfileCompleteness(profile: CulinaryProfile): string[] {
   const missing: string[] = [];
 
-  if (!profile.flavorProfile?.length) missing.push('flavorProfile');
-  if (!profile.texture?.length) missing.push('texture');
-  if (!profile.bestCookingMethods?.length) missing.push('bestCookingMethods');
-  if (!profile.cuisineAffinity?.length) missing.push('cuisineAffinity');
-  if (!profile.classicPairings?.length) missing.push('classicPairings');
-  if (!profile.culinaryUses?.length) missing.push('culinaryUses');
+  if (!profile.flavorProfile?.length) missing.push("flavorProfile");
+  if (!profile.texture?.length) missing.push("texture");
+  if (!profile.bestCookingMethods?.length) missing.push("bestCookingMethods");
+  if (!profile.cuisineAffinity?.length) missing.push("cuisineAffinity");
+  if (!profile.classicPairings?.length) missing.push("classicPairings");
+  if (!profile.culinaryUses?.length) missing.push("culinaryUses");
 
   return missing;
 }

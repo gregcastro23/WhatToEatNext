@@ -1,5 +1,5 @@
 // Item types for the application
-import type { AlchemicalProperties, ElementalProperties } from './alchemy';
+import type { AlchemicalProperties, ElementalProperties } from "./alchemy";
 
 export interface BaseItem {
   id: string;
@@ -10,7 +10,7 @@ export interface BaseItem {
 }
 
 export interface IngredientItem extends BaseItem {
-  type: 'ingredient';
+  type: "ingredient";
   category: string;
   subcategory?: string;
   nutritionalInfo?: Record<string, string | number>;
@@ -20,19 +20,19 @@ export interface IngredientItem extends BaseItem {
 }
 
 export interface RecipeItem extends BaseItem {
-  type: 'recipe';
+  type: "recipe";
   ingredients: IngredientItem[];
   cookingMethod: string;
   cookingTime?: number;
   servings?: number;
-  difficulty?: 'easy' | 'medium' | 'hard';
+  difficulty?: "easy" | "medium" | "hard";
   cuisine?: string;
 }
 
 export interface FoodItem extends BaseItem {
-  type: 'food';
-  category: 'ingredient' | 'recipe' | 'dish';
-  source?: 'database' | 'api' | 'user';
+  type: "food";
+  category: "ingredient" | "recipe" | "dish";
+  source?: "database" | "api" | "user";
   tags?: string[];
 }
 
@@ -40,20 +40,23 @@ export type Item = IngredientItem | RecipeItem | FoodItem;
 
 // Type guards
 export function isIngredientItem(item: Item): item is IngredientItem {
-  return item.type === 'ingredient';
+  return item.type === "ingredient";
 }
 
 export function isRecipeItem(item: Item): item is RecipeItem {
-  return item.type === 'recipe';
+  return item.type === "recipe";
 }
 
 export function isFoodItem(item: Item): item is FoodItem {
-  return item.type === 'food';
+  return item.type === "food";
 }
 
 // Utility types
-export type ItemType = Item['type'];
-export type ItemCategory = IngredientItem['category'] | RecipeItem['type'] | FoodItem['category'];
+export type ItemType = Item["type"];
+export type ItemCategory =
+  | IngredientItem["category"]
+  | RecipeItem["type"]
+  | FoodItem["category"];
 
 // Item collections
 export interface ItemCollection<T extends Item = Item> {

@@ -10,48 +10,52 @@
  * - Recipe optimization and cuisine recommendations
  */
 
-import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
-import { onAlchemizeApiCall, updateCurrentMoment } from '@/services/CurrentMomentManager';
-import { alchemize } from '@/services/RealAlchemizeService';
+import {
+  getCurrentPlanetaryPositions,
+  getPlanetaryPositionsForDateTime,
+} from "@/services/astrologizeApi";
+import {
+  onAlchemizeApiCall,
+  updateCurrentMoment,
+} from "@/services/CurrentMomentManager";
+import { alchemize } from "@/services/RealAlchemizeService";
 import type {
   ElementalProperties,
   PlanetaryPosition,
   ZodiacSign,
-  Element
-} from '@/types/alchemy';
-import { Cache } from '@/utils/cache';
-import { createLogger } from '@/utils/logger';
+  Element,
+} from "@/types/alchemy";
+import { Cache } from "@/utils/cache";
+import { createLogger } from "@/utils/logger";
 
 // Core calculation modules
 import {
   calculateBaseElementalProperties,
   analyzeElementalCompatibility,
-  ELEMENTAL_ANALYSIS_INTELLIGENCE
-} from './core/elementalCalculations';
+  ELEMENTAL_ANALYSIS_INTELLIGENCE,
+} from "./core/elementalCalculations";
 import {
   calculateKalchmResults,
   type AlchemicalProperties,
   type KalchmResult,
-  type ThermodynamicResults
-} from './core/kalchmEngine';
+  type ThermodynamicResults,
+} from "./core/kalchmEngine";
 import {
   calculatePlanetaryInfluences,
-  getPlanetaryCulinaryRecommendations
-} from './core/planetaryInfluences';
+  getPlanetaryCulinaryRecommendations,
+} from "./core/planetaryInfluences";
 
 // Culinary and recipe systems
 import {
   generateCuisineRecommendations,
-  calculateCuisineCompatibility
-} from './culinary/cuisineRecommendations';
-import {
-  calculateRecipeCompatibility
-} from './culinary/recipeMatching';
-import { calculateGregsEnergy } from './gregsEnergy';
-import { calculateKinetics } from './kinetics';
+  calculateCuisineCompatibility,
+} from "./culinary/cuisineRecommendations";
+import { calculateRecipeCompatibility } from "./culinary/recipeMatching";
+import { calculateGregsEnergy } from "./gregsEnergy";
+import { calculateKinetics } from "./kinetics";
 
 // Logger and cache setup
-const logger = createLogger('UnifiedCalculationEngine');
+const logger = createLogger("UnifiedCalculationEngine");
 const calculationCache = new Cache(5 * 60 * 1000); // 5 minute TTL
 
 // ============================================================================
@@ -69,7 +73,7 @@ export interface UnifiedCalculationInput {
   /** Location coordinates */
   location?: { latitude: number; longitude: number };
   /** Zodiac system preference */
-  zodiacSystem?: 'tropical' | 'sidereal';
+  zodiacSystem?: "tropical" | "sidereal";
   /** Enable caching for performance */
   useCache?: boolean;
   /** Additional context for calculations */
@@ -125,7 +129,10 @@ export interface RecipeOptimizationResult {
     name: string;
     compatibility: number;
     elementalBalance: ElementalProperties;
-    smesProfile: Pick<SMESCalculationResult, 'spirit' | 'essence' | 'matter' | 'substance' | 'energy'>;
+    smesProfile: Pick<
+      SMESCalculationResult,
+      "spirit" | "essence" | "matter" | "substance" | "energy"
+    >;
   };
   recommendations: {
     cuisine: string;
@@ -164,24 +171,30 @@ export class UnifiedCalculationEngine {
   /**
    * 🎭 Calculate complete SMES profile for given conditions
    */
-  async calculateSMES(input: UnifiedCalculationInput = {}): Promise<SMESCalculationResult> {
+  async calculateSMES(
+    input: UnifiedCalculationInput = {},
+  ): Promise<SMESCalculationResult> {
     const startTime = Date.now();
-    const cacheKey = this.generateCacheKey('smes', input);
+    const cacheKey = this.generateCacheKey("smes", input);
 
     // Check cache first
     if (input.useCache !== false) {
       const cached = this.cache.get<SMESCalculationResult>(cacheKey);
       if (cached) {
-        this.logger.debug('SMES calculation served from cache');
+        this.logger.debug("SMES calculation served from cache");
         return { ...cached, metadata: { ...cached.metadata, cacheUsed: true } };
       }
     }
 
     try {
       // Get planetary positions
-      const planetaryPositions = input.planetaryPositions ||
+      const planetaryPositions =
+        input.planetaryPositions ||
         (input.dateTime
-          ? await getPlanetaryPositionsForDateTime(input.dateTime, input.location)
+          ? await getPlanetaryPositionsForDateTime(
+              input.dateTime,
+              input.location,
+            )
           : await getCurrentPlanetaryPositions());
 
       // Calculate core alchemical properties
@@ -189,15 +202,17 @@ export class UnifiedCalculationEngine {
       const kalchmResult = calculateKalchmResults(planetaryPositions);
 
       // Calculate elemental properties
-      const elementalProperties = calculateBaseElementalProperties(planetaryPositions);
+      const elementalProperties =
+        calculateBaseElementalProperties(planetaryPositions);
 
       // Calculate planetary influences
-      const planetaryInfluence = calculatePlanetaryInfluences(planetaryPositions);
+      const planetaryInfluence =
+        calculatePlanetaryInfluences(planetaryPositions);
 
       // Calculate kinetics
       const kinetics = calculateKinetics({
         currentPlanetaryPositions: planetaryPositions,
-        timeInterval: 3600 // 1 hour default
+        timeInterval: 3600, // 1 hour default
       });
 
       // Calculate Greg's Energy
@@ -206,7 +221,7 @@ export class UnifiedCalculationEngine {
         Essence: kalchmResult.alchemicalCounts.Essence,
         Matter: kalchmResult.alchemicalCounts.Matter,
         Substance: kalchmResult.alchemicalCounts.Substance,
-        ...elementalProperties
+        ...elementalProperties,
       });
 
       // Update current moment tracking
@@ -231,9 +246,9 @@ export class UnifiedCalculationEngine {
 
         // Planetary Influences
         planetaryInfluence: {
-          dominantPlanet: planetaryInfluence.dominantPlanet || 'Sun',
+          dominantPlanet: planetaryInfluence.dominantPlanet || "Sun",
           planetaryStrength: planetaryInfluence.strength || 1,
-          aspectHarmony: planetaryInfluence.aspectHarmony || 0.8
+          aspectHarmony: planetaryInfluence.aspectHarmony || 0.8,
         },
 
         // Kinetics & Dynamics
@@ -241,7 +256,7 @@ export class UnifiedCalculationEngine {
           momentum: kinetics.momentum || 0,
           force: kinetics.force || 0,
           charge: kinetics.charge || 0,
-          potential: kinetics.potential || 0
+          potential: kinetics.potential || 0,
         },
 
         // Metadata
@@ -249,8 +264,8 @@ export class UnifiedCalculationEngine {
           calculationTime: Date.now() - startTime,
           cacheUsed: false,
           planetaryPositions,
-          timestamp: new Date().toISOString()
-        }
+          timestamp: new Date().toISOString(),
+        },
       };
 
       // Cache result
@@ -258,12 +273,15 @@ export class UnifiedCalculationEngine {
         this.cache.set(cacheKey, result);
       }
 
-      this.logger.info(`SMES calculation completed in ${result.metadata.calculationTime}ms`);
+      this.logger.info(
+        `SMES calculation completed in ${result.metadata.calculationTime}ms`,
+      );
       return result;
-
     } catch (error) {
-      this.logger.error('SMES calculation failed:', error);
-      throw new Error(`SMES calculation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      this.logger.error("SMES calculation failed:", error);
+      throw new Error(
+        `SMES calculation failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
   }
 
@@ -273,26 +291,36 @@ export class UnifiedCalculationEngine {
   async optimizeRecipe(
     recipeName: string,
     recipeElements: ElementalProperties,
-    input: UnifiedCalculationInput = {}
+    input: UnifiedCalculationInput = {},
   ): Promise<RecipeOptimizationResult> {
     try {
       // Get current SMES profile
       const smesProfile = await this.calculateSMES(input);
 
       // Calculate recipe compatibility
-      const compatibility = calculateRecipeCompatibility(recipeElements, smesProfile.elements);
+      const compatibility = calculateRecipeCompatibility(
+        recipeElements,
+        smesProfile.elements,
+      );
 
       // Generate cuisine recommendations
       const recommendations = generateCuisineRecommendations(
-        [{ planet: smesProfile.planetaryInfluence.dominantPlanet, strength: smesProfile.planetaryInfluence.planetaryStrength, element: 'Fire' }],
-        smesProfile.elements
+        [
+          {
+            planet: smesProfile.planetaryInfluence.dominantPlanet,
+            strength: smesProfile.planetaryInfluence.planetaryStrength,
+            element: "Fire",
+          },
+        ],
+        smesProfile.elements,
       );
 
       // Get timing recommendations
       const timing = {
-        optimalHours: ['12:00', '18:00'], // Default optimal hours
-        lunarPhase: 'full moon', // Would be calculated from date
-        planetaryHour: smesProfile.planetaryInfluence.dominantPlanet.toLowerCase()
+        optimalHours: ["12:00", "18:00"], // Default optimal hours
+        lunarPhase: "full moon", // Would be calculated from date
+        planetaryHour:
+          smesProfile.planetaryInfluence.dominantPlanet.toLowerCase(),
       };
 
       return {
@@ -305,28 +333,35 @@ export class UnifiedCalculationEngine {
             essence: smesProfile.essence,
             matter: smesProfile.matter,
             substance: smesProfile.substance,
-            energy: smesProfile.energy
-          }
+            energy: smesProfile.energy,
+          },
         },
         recommendations: {
-          cuisine: recommendations[0]?.cuisine || 'Italian',
+          cuisine: recommendations[0]?.cuisine || "Italian",
           dishes: recommendations[0]?.suggestedDishes || [],
-          reasoning: recommendations[0]?.reasons || []
+          reasoning: recommendations[0]?.reasons || [],
         },
-        timing
+        timing,
       };
-
     } catch (error) {
-      this.logger.error('Recipe optimization failed:', error);
-      throw new Error(`Recipe optimization failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      this.logger.error("Recipe optimization failed:", error);
+      throw new Error(
+        `Recipe optimization failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
   }
 
   /**
    * 🔮 Get intelligent culinary recommendations
    */
-  async getCulinaryRecommendations(input: UnifiedCalculationInput = {}): Promise<{
-    cuisines: Array<{ name: string; compatibility: number; reasoning: string[] }>;
+  async getCulinaryRecommendations(
+    input: UnifiedCalculationInput = {},
+  ): Promise<{
+    cuisines: Array<{
+      name: string;
+      compatibility: number;
+      reasoning: string[];
+    }>;
     ingredients: string[];
     cookingMethods: string[];
     timing: { optimal: string[]; avoid: string[] };
@@ -336,30 +371,39 @@ export class UnifiedCalculationEngine {
 
       // Generate cuisine recommendations
       const cuisineRecs = generateCuisineRecommendations(
-        [{ planet: smesProfile.planetaryInfluence.dominantPlanet, strength: smesProfile.planetaryInfluence.planetaryStrength, element: 'Fire' }],
-        smesProfile.elements
+        [
+          {
+            planet: smesProfile.planetaryInfluence.dominantPlanet,
+            strength: smesProfile.planetaryInfluence.planetaryStrength,
+            element: "Fire",
+          },
+        ],
+        smesProfile.elements,
       );
 
       // Get planetary culinary recommendations
-      const planetaryRecs = getPlanetaryCulinaryRecommendations(smesProfile.planetaryInfluence.dominantPlanet);
+      const planetaryRecs = getPlanetaryCulinaryRecommendations(
+        smesProfile.planetaryInfluence.dominantPlanet,
+      );
 
       return {
-        cuisines: cuisineRecs.map(rec => ({
+        cuisines: cuisineRecs.map((rec) => ({
           name: rec.cuisine,
           compatibility: rec.compatibility,
-          reasoning: rec.reasons
+          reasoning: rec.reasons,
         })),
         ingredients: planetaryRecs.ingredients || [],
         cookingMethods: planetaryRecs.cookingMethods || [],
         timing: {
-          optimal: ['12:00-14:00', '18:00-20:00'],
-          avoid: ['03:00-05:00', '15:00-17:00']
-        }
+          optimal: ["12:00-14:00", "18:00-20:00"],
+          avoid: ["03:00-05:00", "15:00-17:00"],
+        },
       };
-
     } catch (error) {
-      this.logger.error('Culinary recommendations failed:', error);
-      throw new Error(`Culinary recommendations failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      this.logger.error("Culinary recommendations failed:", error);
+      throw new Error(
+        `Culinary recommendations failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
   }
 
@@ -374,27 +418,35 @@ export class UnifiedCalculationEngine {
     return calculateKinetics({
       currentPlanetaryPositions: input.currentPositions,
       previousPlanetaryPositions: input.previousPositions,
-      timeInterval: input.timeInterval || 3600
+      timeInterval: input.timeInterval || 3600,
     });
   }
 
   /**
    * 🧪 Get elemental compatibility between two profiles
    */
-  getElementalCompatibility(profile1: ElementalProperties, profile2: ElementalProperties): number {
+  getElementalCompatibility(
+    profile1: ElementalProperties,
+    profile2: ElementalProperties,
+  ): number {
     return analyzeElementalCompatibility(profile1, profile2);
   }
 
-  private generateCacheKey(type: string, input: UnifiedCalculationInput): string {
+  private generateCacheKey(
+    type: string,
+    input: UnifiedCalculationInput,
+  ): string {
     const keyParts = [
       type,
-      input.dateTime?.toISOString() || 'current',
-      input.location ? `${input.location.latitude},${input.location.longitude}` : 'default',
-      input.zodiacSystem || 'tropical',
+      input.dateTime?.toISOString() || "current",
+      input.location
+        ? `${input.location.latitude},${input.location.longitude}`
+        : "default",
+      input.zodiacSystem || "tropical",
       JSON.stringify(input.planetaryPositions || {}),
-      JSON.stringify(input.context || {})
+      JSON.stringify(input.context || {}),
     ];
-    return keyParts.join('|');
+    return keyParts.join("|");
   }
 }
 
@@ -410,7 +462,9 @@ export const calculationEngine = new UnifiedCalculationEngine();
 /**
  * 🎭 Main SMES calculation function (convenience export)
  */
-export async function calculateSMES(input?: UnifiedCalculationInput): Promise<SMESCalculationResult> {
+export async function calculateSMES(
+  input?: UnifiedCalculationInput,
+): Promise<SMESCalculationResult> {
   return calculationEngine.calculateSMES(input);
 }
 
@@ -420,7 +474,7 @@ export async function calculateSMES(input?: UnifiedCalculationInput): Promise<SM
 export async function optimizeRecipe(
   recipeName: string,
   recipeElements: ElementalProperties,
-  input?: UnifiedCalculationInput
+  input?: UnifiedCalculationInput,
 ): Promise<RecipeOptimizationResult> {
   return calculationEngine.optimizeRecipe(recipeName, recipeElements, input);
 }
@@ -428,7 +482,9 @@ export async function optimizeRecipe(
 /**
  * 🔮 Culinary recommendations function (convenience export)
  */
-export async function getCulinaryRecommendations(input?: UnifiedCalculationInput) {
+export async function getCulinaryRecommendations(
+  input?: UnifiedCalculationInput,
+) {
   return calculationEngine.getCulinaryRecommendations(input);
 }
 
@@ -448,25 +504,25 @@ export function calculatePlanetaryKinetics(input: {
 // ============================================================================
 
 // Export all core calculation modules for direct access
-export * from './core/elementalCalculations';
-export * from './core/kalchmEngine';
-export * from './core/planetaryInfluences';
+export * from "./core/elementalCalculations";
+export * from "./core/kalchmEngine";
+export * from "./core/planetaryInfluences";
 
 // Export culinary systems
-export * from './culinary/cuisineRecommendations';
-export * from './culinary/recipeMatching';
+export * from "./culinary/cuisineRecommendations";
+export * from "./culinary/recipeMatching";
 
 // Export thermodynamics and kinetics
-export { calculateGregsEnergy } from './gregsEnergy';
-export { calculateKinetics } from './kinetics';
+export { calculateGregsEnergy } from "./gregsEnergy";
+export { calculateKinetics } from "./kinetics";
 
 // Export legacy calculation modules
-export * from './alchemicalCalculations';
-export * from './alchemicalTransformation';
-export * from './combinationEffects';
-export * from './culinaryAstrology';
-export * from './enhancedAlchemicalMatching';
-export * from './enhancedCuisineRecommender';
+export * from "./alchemicalCalculations";
+export * from "./alchemicalTransformation";
+export * from "./combinationEffects";
+export * from "./culinaryAstrology";
+export * from "./enhancedAlchemicalMatching";
+export * from "./enhancedCuisineRecommender";
 
 // Default export - the unified engine
 export default calculationEngine;

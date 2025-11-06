@@ -1,17 +1,20 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
-console.log('🔧 Starting TS1005 Remaining Pattern Fixes...\n');
+console.log("🔧 Starting TS1005 Remaining Pattern Fixes...\n");
 
 // Get initial error count
 function getTS1005ErrorCount() {
   try {
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1005"', {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    });
+    const output = execSync(
+      'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1005"',
+      {
+        encoding: "utf8",
+        stdio: "pipe",
+      },
+    );
     return parseInt(output.trim()) || 0;
   } catch (error) {
     return error.status === 1 ? 0 : -1;
@@ -21,11 +24,17 @@ function getTS1005ErrorCount() {
 // Get specific TS1005 errors with line numbers
 function getTS1005Errors() {
   try {
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"', {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    });
-    return output.trim().split('\n').filter(line => line.trim());
+    const output = execSync(
+      'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"',
+      {
+        encoding: "utf8",
+        stdio: "pipe",
+      },
+    );
+    return output
+      .trim()
+      .split("\n")
+      .filter((line) => line.trim());
   } catch (error) {
     return [];
   }
@@ -33,13 +42,15 @@ function getTS1005Errors() {
 
 // Parse error to get file, line, and expected token
 function parseError(errorLine) {
-  const match = errorLine.match(/^(.+?)\((\d+),(\d+)\): error TS1005: '(.+?)' expected\.$/);
+  const match = errorLine.match(
+    /^(.+?)\((\d+),(\d+)\): error TS1005: '(.+?)' expected\.$/,
+  );
   if (match) {
     return {
       file: match[1],
       line: parseInt(match[2]),
       column: parseInt(match[3]),
-      expected: match[4]
+      expected: match[4],
     };
   }
   return null;
@@ -52,7 +63,7 @@ function fixFilePatterns(filePath) {
     return 0;
   }
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
   const originalContent = content;
   let fixCount = 0;
 
@@ -68,7 +79,7 @@ function fixFilePatterns(filePath) {
   // Example: { prop1: value prop2: value } -> { prop1: value, prop2: value }
   const commaPattern2 = /(\w+:\s*[^,}\n]+)\s+(\w+:\s*)/g;
   content = content.replace(commaPattern2, (match, p1, p2) => {
-    if (!p1.endsWith(',') && !p1.endsWith(';')) {
+    if (!p1.endsWith(",") && !p1.endsWith(";")) {
       fixCount++;
       return `${p1}, ${p2}`;
     }
@@ -77,19 +88,19 @@ function fixFilePatterns(filePath) {
 
   // Pattern 3: Missing closing parenthesis in function calls
   // Look for lines that end with a comma but should end with )
-  const lines = content.split('\n');
+  const lines = content.split("\n");
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
     // Pattern: expect(...).toBe(...,  -> expect(...).toBe(...);
     if (line.match(/\.toBe\([^)]*,\s*$/)) {
-      lines[i] = line.replace(/,\s*$/, ');');
+      lines[i] = line.replace(/,\s*$/, ");");
       fixCount++;
     }
 
     // Pattern: expect(...).toEqual(...,  -> expect(...).toEqual(...);
     if (line.match(/\.toEqual\([^)]*,\s*$/)) {
-      lines[i] = line.replace(/,\s*$/, ');');
+      lines[i] = line.replace(/,\s*$/, ");");
       fixCount++;
     }
 
@@ -97,18 +108,18 @@ function fixFilePatterns(filePath) {
     if (line.match(/^\s*\w+:\s*[^{},]+\s*$/) && i < lines.length - 1) {
       const nextLine = lines[i + 1];
       if (nextLine.match(/^\s*\w+:/)) {
-        lines[i] = line + ',';
+        lines[i] = line + ",";
         fixCount++;
       }
     }
   }
-  content = lines.join('\n');
+  content = lines.join("\n");
 
   // Pattern 4: Missing semicolon after statements
   // Example: const x = value -> const x = value;
   const semicolonPattern = /^(\s*const\s+\w+\s*=\s*[^;]+)$/gm;
   content = content.replace(semicolonPattern, (match, p1) => {
-    if (!p1.endsWith(';') && !p1.endsWith(',') && !p1.endsWith('{')) {
+    if (!p1.endsWith(";") && !p1.endsWith(",") && !p1.endsWith("{")) {
       fixCount++;
       return `${p1};`;
     }
@@ -117,14 +128,15 @@ function fixFilePatterns(filePath) {
 
   // Pattern 5: Missing opening brace in function/object definitions
   // Example: function test() -> function test() {
-  const bracePattern = /^(\s*(?:function\s+\w+\s*\([^)]*\)|test\s*\([^)]*\))\s*)$/gm;
+  const bracePattern =
+    /^(\s*(?:function\s+\w+\s*\([^)]*\)|test\s*\([^)]*\))\s*)$/gm;
   content = content.replace(bracePattern, (match, p1) => {
     fixCount++;
     return `${p1} {`;
   });
 
   if (content !== originalContent) {
-    fs.writeFileSync(filePath, content, 'utf8');
+    fs.writeFileSync(filePath, content, "utf8");
     console.log(`   ✅ ${filePath}: ${fixCount} fixes applied`);
     return fixCount;
   }
@@ -138,16 +150,22 @@ async function main() {
   console.log(`📊 Initial TS1005 errors: ${initialErrors}`);
 
   if (initialErrors === 0) {
-    console.log('🎉 No TS1005 errors found!');
+    console.log("🎉 No TS1005 errors found!");
     return;
   }
 
   // Get all files with TS1005 errors
   const errors = getTS1005Errors();
-  const filesWithErrors = [...new Set(errors.map(error => {
-    const parsed = parseError(error);
-    return parsed ? parsed.file : null;
-  }).filter(Boolean))];
+  const filesWithErrors = [
+    ...new Set(
+      errors
+        .map((error) => {
+          const parsed = parseError(error);
+          return parsed ? parsed.file : null;
+        })
+        .filter(Boolean),
+    ),
+  ];
 
   console.log(`🔍 Found ${filesWithErrors.length} files with TS1005 errors\n`);
 
@@ -158,7 +176,9 @@ async function main() {
   const batchSize = 10;
   for (let i = 0; i < filesWithErrors.length; i += batchSize) {
     const batch = filesWithErrors.slice(i, i + batchSize);
-    console.log(`📦 Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(filesWithErrors.length/batchSize)} (${batch.length} files)`);
+    console.log(
+      `📦 Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(filesWithErrors.length / batchSize)} (${batch.length} files)`,
+    );
 
     for (const file of batch) {
       const fixes = fixFilePatterns(file);
@@ -173,16 +193,17 @@ async function main() {
     console.log(`   📊 TS1005 errors: ${initialErrors} → ${currentErrors}`);
 
     if (currentErrors > initialErrors) {
-      console.log('   ⚠️  Error count increased, stopping...');
+      console.log("   ⚠️  Error count increased, stopping...");
       break;
     }
   }
 
   const finalErrors = getTS1005ErrorCount();
   const errorsFixed = initialErrors - finalErrors;
-  const reductionPercent = initialErrors > 0 ? ((errorsFixed / initialErrors) * 100).toFixed(1) : 0;
+  const reductionPercent =
+    initialErrors > 0 ? ((errorsFixed / initialErrors) * 100).toFixed(1) : 0;
 
-  console.log('\n📈 Final Results:');
+  console.log("\n📈 Final Results:");
   console.log(`   Initial TS1005 errors: ${initialErrors}`);
   console.log(`   Final TS1005 errors: ${finalErrors}`);
   console.log(`   TS1005 errors fixed: ${errorsFixed}`);

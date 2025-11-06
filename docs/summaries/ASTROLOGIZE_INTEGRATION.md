@@ -40,15 +40,18 @@ https://alchm-backend.onrender.com/astrologize
 ### 1. Basic API Usage
 
 ```typescript
-import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
+import {
+  getCurrentPlanetaryPositions,
+  getPlanetaryPositionsForDateTime,
+} from "@/services/astrologizeApi";
 
 // Get current planetary positions
 const currentPositions = await getCurrentPlanetaryPositions();
 
 // Get positions for specific date/time/location
 const customPositions = await getPlanetaryPositionsForDateTime(
-  new Date('2025-01-09'),
-  { latitude: 40.7498, longitude: -73.7976 }
+  new Date("2025-01-09"),
+  { latitude: 40.7498, longitude: -73.7976 },
 );
 ```
 
@@ -91,23 +94,23 @@ function MyComponent() {
 
 ```javascript
 // GET current positions
-fetch('/api/planetary-positions')
-  .then(res => res.json())
-  .then(data => {
-    console.log('Positions:', data.positions);
-    console.log('Source:', data.source); // 'astrologize-api-realtime' or fallback
+fetch("/api/planetary-positions")
+  .then((res) => res.json())
+  .then((data) => {
+    console.log("Positions:", data.positions);
+    console.log("Source:", data.source); // 'astrologize-api-realtime' or fallback
   });
 
 // POST for specific date/location
-fetch('/api/planetary-positions', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+fetch("/api/planetary-positions", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    date: '2025-01-09T15:30:00Z',
+    date: "2025-01-09T15:30:00Z",
     latitude: 40.7498,
-    longitude: -73.7976
-  })
-})
+    longitude: -73.7976,
+  }),
+});
 ```
 
 ### 4. Alchemical Calculations with Real-time Data
@@ -184,7 +187,7 @@ The default location is set to New York City:
 ```typescript
 const DEFAULT_LOCATION = {
   latitude: 40.7498,
-  longitude: -73.7976
+  longitude: -73.7976,
 };
 ```
 
@@ -220,8 +223,8 @@ You can specify custom locations for more accurate calculations:
 
 ```typescript
 const positions = await getCurrentPlanetaryPositions({
-  latitude: 51.5074,  // London
-  longitude: -0.1278
+  latitude: 51.5074, // London
+  longitude: -0.1278,
 });
 ```
 

@@ -1,40 +1,40 @@
-import fs from 'fs';
+import fs from "fs";
 
 // Enhanced color output
 const colors = {
-  reset: '\x1b[0m',
-  bright: '\x1b[1m',
-  red: '\x1b[31m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  magenta: '\x1b[35m',
-  cyan: '\x1b[36m',
-  gray: '\x1b[90m',
+  reset: "\x1b[0m",
+  bright: "\x1b[1m",
+  red: "\x1b[31m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  magenta: "\x1b[35m",
+  cyan: "\x1b[36m",
+  gray: "\x1b[90m",
 };
 
 function colorize(text: string, color: keyof typeof colors): string {
   return `${colors[color]}${text}${colors.reset}`;
 }
 
-function log(message: string, color: keyof typeof colors = 'reset'): void {
+function log(message: string, color: keyof typeof colors = "reset"): void {
   console.log(colorize(message, color));
 }
 
 // Types
 type ZodiacSign =
-  | 'aries'
-  | 'taurus'
-  | 'gemini'
-  | 'cancer'
-  | 'leo'
-  | 'virgo'
-  | 'libra'
-  | 'scorpio'
-  | 'sagittarius'
-  | 'capricorn'
-  | 'aquarius'
-  | 'pisces';
+  | "aries"
+  | "taurus"
+  | "gemini"
+  | "cancer"
+  | "leo"
+  | "virgo"
+  | "libra"
+  | "scorpio"
+  | "sagittarius"
+  | "capricorn"
+  | "aquarius"
+  | "pisces";
 type PlanetaryPosition = {
   sign: ZodiacSign;
   degree: number;
@@ -77,18 +77,18 @@ type StandardizedAlchemicalResult = {
 function normalizeSign(sign: string): ZodiacSign {
   const normalized = sign.toLowerCase();
   const validSigns: ZodiacSign[] = [
-    'aries',
-    'taurus',
-    'gemini',
-    'cancer',
-    'leo',
-    'virgo',
-    'libra',
-    'scorpio',
-    'sagittarius',
-    'capricorn',
-    'aquarius',
-    'pisces',
+    "aries",
+    "taurus",
+    "gemini",
+    "cancer",
+    "leo",
+    "virgo",
+    "libra",
+    "scorpio",
+    "sagittarius",
+    "capricorn",
+    "aquarius",
+    "pisces",
   ];
 
   if (validSigns.includes(normalized as ZodiacSign)) {
@@ -102,7 +102,10 @@ function normalizeSign(sign: string): ZodiacSign {
 function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
   try {
     // Read the extracted planetary positions
-    const rawData = fs.readFileSync('extracted-planetary-positions.json', 'utf8');
+    const rawData = fs.readFileSync(
+      "extracted-planetary-positions.json",
+      "utf8",
+    );
     const positions = JSON.parse(rawData);
 
     // Convert to the format expected by alchemize
@@ -121,7 +124,7 @@ function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
 
     return convertedPositions;
   } catch (error) {
-    log(`❌ Error loading planetary positions: ${error}`, 'red');
+    log(`❌ Error loading planetary positions: ${error}`, "red");
     throw error;
   }
 }
@@ -129,39 +132,39 @@ function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
 // Function to get real zodiac sign element
 function getZodiacElement(sign: string): string {
   const elementMap: Record<string, string> = {
-    aries: 'Fire',
-    taurus: 'Earth',
-    gemini: 'Air',
-    cancer: 'Water',
-    leo: 'Fire',
-    virgo: 'Earth',
-    libra: 'Air',
-    scorpio: 'Water',
-    sagittarius: 'Fire',
-    capricorn: 'Earth',
-    aquarius: 'Air',
-    pisces: 'Water',
+    aries: "Fire",
+    taurus: "Earth",
+    gemini: "Air",
+    cancer: "Water",
+    leo: "Fire",
+    virgo: "Earth",
+    libra: "Air",
+    scorpio: "Water",
+    sagittarius: "Fire",
+    capricorn: "Earth",
+    aquarius: "Air",
+    pisces: "Water",
   };
-  return elementMap[sign.toLowerCase()] || 'Air';
+  return elementMap[sign.toLowerCase()] || "Air";
 }
 
 // Function to get real zodiac sign modality
 function getZodiacModality(sign: string): string {
   const modalityMap: Record<string, string> = {
-    aries: 'Cardinal',
-    taurus: 'Fixed',
-    gemini: 'Mutable',
-    cancer: 'Cardinal',
-    leo: 'Fixed',
-    virgo: 'Mutable',
-    libra: 'Cardinal',
-    scorpio: 'Fixed',
-    sagittarius: 'Mutable',
-    capricorn: 'Cardinal',
-    aquarius: 'Fixed',
-    pisces: 'Mutable',
+    aries: "Cardinal",
+    taurus: "Fixed",
+    gemini: "Mutable",
+    cancer: "Cardinal",
+    leo: "Fixed",
+    virgo: "Mutable",
+    libra: "Cardinal",
+    scorpio: "Fixed",
+    sagittarius: "Mutable",
+    capricorn: "Cardinal",
+    aquarius: "Fixed",
+    pisces: "Mutable",
   };
-  return modalityMap[sign.toLowerCase()] || 'Cardinal';
+  return modalityMap[sign.toLowerCase()] || "Cardinal";
 }
 
 // Function to get real planetary dignities
@@ -240,11 +243,19 @@ function getPlanetaryDignity(planet: string, sign: string): number {
 }
 
 // Function to calculate real dignity effect based on planetary dignity
-function calculateDignityEffect(planet: string, sign: string): Record<string, number> {
+function calculateDignityEffect(
+  planet: string,
+  sign: string,
+): Record<string, number> {
   const dignity = getPlanetaryDignity(planet, sign);
   const element = getZodiacElement(sign);
 
-  const effect: Record<string, number> = { Fire: 0, Water: 0, Air: 0, Earth: 0 };
+  const effect: Record<string, number> = {
+    Fire: 0,
+    Water: 0,
+    Air: 0,
+    Earth: 0,
+  };
 
   if (dignity !== 0) {
     // Apply dignity effect to the sign's element
@@ -254,20 +265,20 @@ function calculateDignityEffect(planet: string, sign: string): Record<string, nu
     if (Math.abs(dignity) >= 2) {
       // Major dignity affects multiple elements
       const planetElements = {
-        Sun: ['Fire'],
-        Moon: ['Water'],
-        Mercury: ['Air', 'Earth'],
-        Venus: ['Water', 'Earth'],
-        Mars: ['Fire', 'Water'],
-        Jupiter: ['Air', 'Fire'],
-        Saturn: ['Air', 'Earth'],
-        Uranus: ['Water', 'Air'],
-        Neptune: ['Water'],
-        Pluto: ['Earth', 'Water'],
+        Sun: ["Fire"],
+        Moon: ["Water"],
+        Mercury: ["Air", "Earth"],
+        Venus: ["Water", "Earth"],
+        Mars: ["Fire", "Water"],
+        Jupiter: ["Air", "Fire"],
+        Saturn: ["Air", "Earth"],
+        Uranus: ["Water", "Air"],
+        Neptune: ["Water"],
+        Pluto: ["Earth", "Water"],
       };
 
       const planetElementList = planetElements[planet] || [element];
-      planetElementList.forEach(planetElement => {
+      planetElementList.forEach((planetElement) => {
         effect[planetElement] = (effect[planetElement] || 0) + dignity;
       });
     }
@@ -280,7 +291,7 @@ function calculateDignityEffect(planet: string, sign: string): Record<string, nu
 function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
 ): StandardizedAlchemicalResult {
-  log('🔬 Starting alchemize calculation...', 'blue');
+  log("🔬 Starting alchemize calculation...", "blue");
 
   // Initialize totals
   let totals = {
@@ -313,7 +324,7 @@ function alchemize(
 
   // Process each planet
   for (const [planet, position] of Object.entries(planetaryPositions)) {
-    log(`Processing ${planet} in ${position.sign}`, 'cyan');
+    log(`Processing ${planet} in ${position.sign}`, "cyan");
 
     // Get planetary alchemical properties
     const alchemy = planetaryAlchemy[planet];
@@ -329,7 +340,7 @@ function alchemize(
 
       log(
         `  Alchemy: Spirit=${(alchemy.Spirit * dignityMultiplier).toFixed(2)}, Essence=${(alchemy.Essence * dignityMultiplier).toFixed(2)}, Matter=${(alchemy.Matter * dignityMultiplier).toFixed(2)}, Substance=${(alchemy.Substance * dignityMultiplier).toFixed(2)}`,
-        'gray',
+        "gray",
       );
     }
 
@@ -337,35 +348,42 @@ function alchemize(
     const element = getZodiacElement(position.sign);
     const elementWeight = 1.0; // Base weight for sign element
 
-    if (element === 'Fire') totals.Fire += elementWeight;
-    else if (element === 'Water') totals.Water += elementWeight;
-    else if (element === 'Air') totals.Air += elementWeight;
-    else if (element === 'Earth') totals.Earth += elementWeight;
+    if (element === "Fire") totals.Fire += elementWeight;
+    else if (element === "Water") totals.Water += elementWeight;
+    else if (element === "Air") totals.Air += elementWeight;
+    else if (element === "Earth") totals.Earth += elementWeight;
 
-    log(`  Element: ${element} (+${elementWeight})`, 'gray');
+    log(`  Element: ${element} (+${elementWeight})`, "gray");
   }
 
-  log('\n📊 Final Totals:', 'bright');
+  log("\n📊 Final Totals:", "bright");
   log(
     `  Alchemy: Spirit=${totals.Spirit.toFixed(2)}, Essence=${totals.Essence.toFixed(2)}, Matter=${totals.Matter.toFixed(2)}, Substance=${totals.Substance.toFixed(2)}`,
-    'yellow',
+    "yellow",
   );
   log(
     `  Elements: Fire=${totals.Fire.toFixed(2)}, Water=${totals.Water.toFixed(2)}, Air=${totals.Air.toFixed(2)}, Earth=${totals.Earth.toFixed(2)}`,
-    'yellow',
+    "yellow",
   );
 
   // Calculate thermodynamic metrics using the exact formulas
-  const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = totals;
+  const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } =
+    totals;
 
   // Heat
   const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
-  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2);
+  const heatDen = Math.pow(
+    Substance + Essence + Matter + Water + Air + Earth,
+    2,
+  );
   const heat = heatNum / (heatDen || 1); // Avoid division by zero
 
   // Entropy
   const entropyNum =
-    Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2);
+    Math.pow(Spirit, 2) +
+    Math.pow(Substance, 2) +
+    Math.pow(Fire, 2) +
+    Math.pow(Air, 2);
   const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
   const entropy = entropyNum / (entropyDen || 1);
 
@@ -400,13 +418,19 @@ function alchemize(
   // Calculate dominant element
   const elements = { Fire, Water, Air, Earth };
   const dominantElement = Object.entries(elements).reduce((a, b) =>
-    elements[a[0] as keyof typeof elements] > elements[b[0] as keyof typeof elements] ? a : b,
+    elements[a[0] as keyof typeof elements] >
+    elements[b[0] as keyof typeof elements]
+      ? a
+      : b,
   )[0];
 
   // Calculate score based on total energy
   const score = Math.min(
     1.0,
-    Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20),
+    Math.max(
+      0.0,
+      (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20,
+    ),
   );
 
   return {
@@ -428,94 +452,111 @@ function alchemize(
     normalized: true,
     confidence: 0.8,
     metadata: {
-      source: 'alchemize',
+      source: "alchemize",
       dominantElement,
-      dominantModality: getZodiacModality(planetaryPositions['Sun']?.sign || 'aries'),
-      sunSign: planetaryPositions['Sun']?.sign || '',
-      chartRuler: getZodiacElement(planetaryPositions['Sun']?.sign || 'aries'),
+      dominantModality: getZodiacModality(
+        planetaryPositions["Sun"]?.sign || "aries",
+      ),
+      sunSign: planetaryPositions["Sun"]?.sign || "",
+      chartRuler: getZodiacElement(planetaryPositions["Sun"]?.sign || "aries"),
     },
   };
 }
 
 // Main function to demonstrate alchemize usage
 async function demonstrateAlchemize() {
-  log('🔮 Demonstrating Alchemize Function with Extracted Planetary Positions', 'bright');
-  log('='.repeat(70), 'bright');
+  log(
+    "🔮 Demonstrating Alchemize Function with Extracted Planetary Positions",
+    "bright",
+  );
+  log("=".repeat(70), "bright");
 
   try {
     // Step 1: Load the extracted planetary positions
-    log('\n📂 Step 1: Loading extracted planetary positions...', 'blue');
+    log("\n📂 Step 1: Loading extracted planetary positions...", "blue");
     const planetaryPositions = loadPlanetaryPositions();
 
-    log('✅ Successfully loaded planetary positions:', 'green');
+    log("✅ Successfully loaded planetary positions:", "green");
     Object.entries(planetaryPositions).forEach(([planet, position]) => {
       log(
-        `   ${planet}: ${position.sign} ${position.degree}°${position.minute || 0}' ${position.isRetrograde ? '(R)' : ''}`,
-        'cyan',
+        `   ${planet}: ${position.sign} ${position.degree}°${position.minute || 0}' ${position.isRetrograde ? "(R)" : ""}`,
+        "cyan",
       );
     });
 
     // Step 2: Call the alchemize function
-    log('\n🔬 Step 2: Calling alchemize function...', 'blue');
+    log("\n🔬 Step 2: Calling alchemize function...", "blue");
     const result = alchemize(planetaryPositions);
 
     // Debug: Print the entire result object
-    log('\n🐞 Debug: Raw alchemize result:', 'magenta');
+    log("\n🐞 Debug: Raw alchemize result:", "magenta");
     console.dir(result, { depth: 6, colors: true });
 
     // Step 3: Display the results
-    log('\n📊 Step 3: Alchemize Results', 'bright');
-    log('='.repeat(50), 'bright');
+    log("\n📊 Step 3: Alchemize Results", "bright");
+    log("=".repeat(50), "bright");
 
     // Check for missing or undefined fields
-    if (!result || typeof result !== 'object') {
-      log('❌ Error: Result is not an object', 'red');
+    if (!result || typeof result !== "object") {
+      log("❌ Error: Result is not an object", "red");
       return;
     }
     if (!result.elementalProperties) {
-      log('❌ Warning: elementalProperties is missing from result', 'red');
+      log("❌ Warning: elementalProperties is missing from result", "red");
       return;
     }
     if (!result.thermodynamicProperties) {
-      log('❌ Warning: thermodynamicProperties is missing from result', 'red');
+      log("❌ Warning: thermodynamicProperties is missing from result", "red");
       return;
     }
-    if (typeof result.kalchm === 'undefined' || typeof result.monica === 'undefined') {
-      log('❌ Warning: kalchm or monica is missing from result', 'red');
+    if (
+      typeof result.kalchm === "undefined" ||
+      typeof result.monica === "undefined"
+    ) {
+      log("❌ Warning: kalchm or monica is missing from result", "red");
     }
 
     // Elemental Properties
-    log('\n🌪️  Elemental Properties:', 'cyan');
+    log("\n🌪️  Elemental Properties:", "cyan");
     Object.entries(result.elementalProperties).forEach(([element, value]) => {
       const percentage = (value * 100).toFixed(1);
-      log(`   ${element}: ${percentage}%`, 'yellow');
+      log(`   ${element}: ${percentage}%`, "yellow");
     });
 
     // Thermodynamic Properties
-    log('\n⚗️  Thermodynamic Properties:', 'cyan');
-    log(`   Heat: ${result.thermodynamicProperties.heat.toFixed(4)}`, 'yellow');
-    log(`   Entropy: ${result.thermodynamicProperties.entropy.toFixed(4)}`, 'yellow');
-    log(`   Reactivity: ${result.thermodynamicProperties.reactivity.toFixed(4)}`, 'yellow');
-    log(`   Greg's Energy: ${result.thermodynamicProperties.gregsEnergy.toFixed(4)}`, 'yellow');
+    log("\n⚗️  Thermodynamic Properties:", "cyan");
+    log(`   Heat: ${result.thermodynamicProperties.heat.toFixed(4)}`, "yellow");
+    log(
+      `   Entropy: ${result.thermodynamicProperties.entropy.toFixed(4)}`,
+      "yellow",
+    );
+    log(
+      `   Reactivity: ${result.thermodynamicProperties.reactivity.toFixed(4)}`,
+      "yellow",
+    );
+    log(
+      `   Greg's Energy: ${result.thermodynamicProperties.gregsEnergy.toFixed(4)}`,
+      "yellow",
+    );
 
     // Alchemical Constants
-    log('\n🧪 Alchemical Constants:', 'cyan');
-    log(`   Kalchm: ${result.kalchm.toFixed(4)}`, 'yellow');
-    log(`   Monica: ${result.monica.toFixed(4)}`, 'yellow');
+    log("\n🧪 Alchemical Constants:", "cyan");
+    log(`   Kalchm: ${result.kalchm.toFixed(4)}`, "yellow");
+    log(`   Monica: ${result.monica.toFixed(4)}`, "yellow");
 
     // Overall Score
-    log('\n🎯 Overall Alchemical Score:', 'cyan');
-    log(`   Score: ${result.score.toFixed(4)}`, 'green');
+    log("\n🎯 Overall Alchemical Score:", "cyan");
+    log(`   Score: ${result.score.toFixed(4)}`, "green");
 
     // Step 4: Save results to file
-    log('\n💾 Step 4: Saving results...', 'blue');
-    const resultsFile = 'alchemize-results.json';
+    log("\n💾 Step 4: Saving results...", "blue");
+    const resultsFile = "alchemize-results.json";
     fs.writeFileSync(resultsFile, JSON.stringify(result, null, 2));
-    log(`✅ Results saved to ${resultsFile}`, 'green');
+    log(`✅ Results saved to ${resultsFile}`, "green");
 
     // Step 5: Provide interpretation
-    log('\n🔍 Step 5: Basic Interpretation', 'bright');
-    log('='.repeat(50), 'bright');
+    log("\n🔍 Step 5: Basic Interpretation", "bright");
+    log("=".repeat(50), "bright");
 
     // Find dominant element
     const elements = result.elementalProperties;
@@ -523,29 +564,29 @@ async function demonstrateAlchemize() {
       elements[a[0]] > elements[b[0]] ? a : b,
     )[0];
 
-    log(`\n🌟 Dominant Element: ${dominantElement}`, 'green');
+    log(`\n🌟 Dominant Element: ${dominantElement}`, "green");
 
     // Energy interpretation
     if (result.thermodynamicProperties.gregsEnergy > 0.5) {
-      log('⚡ High Energy: Strong transformative potential', 'green');
+      log("⚡ High Energy: Strong transformative potential", "green");
     } else if (result.thermodynamicProperties.gregsEnergy > 0.2) {
-      log('⚡ Moderate Energy: Balanced transformative potential', 'yellow');
+      log("⚡ Moderate Energy: Balanced transformative potential", "yellow");
     } else {
-      log('⚡ Low Energy: Gentle, stabilizing influence', 'blue');
+      log("⚡ Low Energy: Gentle, stabilizing influence", "blue");
     }
 
     // Reactivity interpretation
     if (result.thermodynamicProperties.reactivity > 0.7) {
-      log('🔥 High Reactivity: Dynamic, change-oriented', 'red');
+      log("🔥 High Reactivity: Dynamic, change-oriented", "red");
     } else if (result.thermodynamicProperties.reactivity > 0.3) {
-      log('🔥 Moderate Reactivity: Balanced dynamics', 'yellow');
+      log("🔥 Moderate Reactivity: Balanced dynamics", "yellow");
     } else {
-      log('🔥 Low Reactivity: Stable, grounding influence', 'blue');
+      log("🔥 Low Reactivity: Stable, grounding influence", "blue");
     }
 
-    log('\n✅ Alchemize demonstration completed successfully!', 'green');
+    log("\n✅ Alchemize demonstration completed successfully!", "green");
   } catch (error) {
-    log(`❌ Error in alchemize demonstration: ${error}`, 'red');
+    log(`❌ Error in alchemize demonstration: ${error}`, "red");
     console.error(error);
   }
 }

@@ -4,15 +4,15 @@
  * Utility functions for creating standardized API responses
  */
 
-import { Recipe } from '@/types/recipe';
-import { logger } from '../../utils/logger';
-import { RecipeErrorCode } from '../interfaces/RecipeApiInterfaces';
-import type { ApiResponse} from '../interfaces/RecipeApiInterfaces';
+import { Recipe } from "@/types/recipe";
+import { logger } from "../../utils/logger";
+import { RecipeErrorCode } from "../interfaces/RecipeApiInterfaces";
+import type { ApiResponse } from "../interfaces/RecipeApiInterfaces";
 
 /**
  * API version to include in response metadata
  */
-const API_VERSION = '1.0';
+const API_VERSION = "1.0";
 
 /**
  * Creates a successful API response
@@ -23,7 +23,7 @@ const API_VERSION = '1.0';
  */
 export function createSuccessResponse<T>(
   data: T,
-  metadata: Partial<ApiResponse<T>['metadata']> = {},
+  metadata: Partial<ApiResponse<T>["metadata"]> = {},
 ): ApiResponse<T> {
   return {
     success: true,
@@ -49,7 +49,11 @@ export function createCollectionResponse<T>(
   total: number,
   params: { limit?: number; offset?: number; page?: number } = {},
 ): ApiResponse<T[]> {
-  const { limit = 20, offset = 0, page = Math.floor(offset / limit) + 1 } = params;
+  const {
+    limit = 20,
+    offset = 0,
+    page = Math.floor(offset / limit) + 1,
+  } = params;
   const totalPages = Math.ceil(total / limit);
 
   return {
@@ -91,7 +95,7 @@ export function createErrorResponse<T>(
       code,
       message,
       // Only include details in development environment
-      details: process.env.NODE_ENV === 'development' ? details : undefined,
+      details: process.env.NODE_ENV === "development" ? details : undefined,
     },
     metadata: { timestamp: Date.now(), version: API_VERSION },
   };
@@ -104,8 +108,14 @@ export function createErrorResponse<T>(
  * @param id Identifier that was searched for
  * @returns A standardized not found error response
  */
-export function createNotFoundResponse<T>(entityType: string, id: string): ApiResponse<T> {
-  return createErrorResponse(RecipeErrorCode.NOT_FOUND, `${entityType} with ID ${id} not found`);
+export function createNotFoundResponse<T>(
+  entityType: string,
+  id: string,
+): ApiResponse<T> {
+  return createErrorResponse(
+    RecipeErrorCode.NOT_FOUND,
+    `${entityType} with ID ${id} not found`,
+  );
 }
 
 /**
@@ -114,7 +124,9 @@ export function createNotFoundResponse<T>(entityType: string, id: string): ApiRe
  * @param message Error message explaining the invalid parameters
  * @returns A standardized invalid parameters error response
  */
-export function createInvalidParamsResponse<T>(message: string): ApiResponse<T> {
+export function createInvalidParamsResponse<T>(
+  message: string,
+): ApiResponse<T> {
   return createErrorResponse(RecipeErrorCode.INVALID_PARAMETERS, message);
 }
 
@@ -124,10 +136,12 @@ export function createInvalidParamsResponse<T>(message: string): ApiResponse<T> 
  * @param error The error that occurred
  * @returns A standardized processing error response
  */
-export function createProcessingErrorResponse<T>(error: unknown): ApiResponse<T> {
+export function createProcessingErrorResponse<T>(
+  error: unknown,
+): ApiResponse<T> {
   return createErrorResponse(
     RecipeErrorCode.PROCESSING_ERROR,
-    'An error occurred while processing your request',
+    "An error occurred while processing your request",
     error,
   );
 }

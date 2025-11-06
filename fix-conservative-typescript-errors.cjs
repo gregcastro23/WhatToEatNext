@@ -9,9 +9,9 @@
  * - Conservative approach with extensive validation
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class ConservativeTypeScriptFixer {
   constructor() {
@@ -22,7 +22,7 @@ class ConservativeTypeScriptFixer {
   }
 
   async run() {
-    console.log('🛡️ Starting Conservative TypeScript Error Recovery...\n');
+    console.log("🛡️ Starting Conservative TypeScript Error Recovery...\n");
 
     try {
       // Create backup directory
@@ -30,13 +30,15 @@ class ConservativeTypeScriptFixer {
 
       // Get initial error count and breakdown
       const initialErrors = await this.getErrorBreakdown();
-      console.log('📊 Initial Error Analysis:');
+      console.log("📊 Initial Error Analysis:");
       console.log(`   Total TypeScript errors: ${initialErrors.total}`);
-      console.log(`   TS1003 (Expected identifier): ${initialErrors.TS1003 || 0}`);
+      console.log(
+        `   TS1003 (Expected identifier): ${initialErrors.TS1003 || 0}`,
+      );
       console.log(`   TS1005 (Expected token): ${initialErrors.TS1005 || 0}`);
 
       if (initialErrors.total === 0) {
-        console.log('✅ No TypeScript errors found!');
+        console.log("✅ No TypeScript errors found!");
         return;
       }
 
@@ -49,9 +51,8 @@ class ConservativeTypeScriptFixer {
 
       // Final results
       await this.showFinalResults(initialErrors);
-
     } catch (error) {
-      console.error('❌ Conservative fix failed:', error.message);
+      console.error("❌ Conservative fix failed:", error.message);
       console.log(`📁 Backup available at: ${this.backupDir}`);
     }
   }
@@ -65,17 +66,23 @@ class ConservativeTypeScriptFixer {
 
   async getErrorBreakdown() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
       const breakdown = { total: lines.length };
 
       // Count specific error types
       const errorCounts = {};
-      lines.forEach(line => {
+      lines.forEach((line) => {
         const match = line.match(/error (TS\d+):/);
         if (match) {
           const errorType = match[1];
@@ -94,13 +101,19 @@ class ConservativeTypeScriptFixer {
 
   async getFilesWithTS1003Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1003"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1003"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const files = new Set();
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^(.+?)\(/);
@@ -116,7 +129,9 @@ class ConservativeTypeScriptFixer {
   }
 
   async processFilesConservatively(errorFiles, initialErrorCount) {
-    console.log(`\n🔧 Processing ${Math.min(this.maxFiles, errorFiles.length)} files with ultra-conservative fixes...`);
+    console.log(
+      `\n🔧 Processing ${Math.min(this.maxFiles, errorFiles.length)} files with ultra-conservative fixes...`,
+    );
 
     let processedCount = 0;
 
@@ -127,16 +142,18 @@ class ConservativeTypeScriptFixer {
       // Validate after EVERY file
       const buildValid = await this.validateBuild();
       if (!buildValid) {
-        console.log('⚠️ Build validation failed, stopping immediately');
+        console.log("⚠️ Build validation failed, stopping immediately");
         return;
       }
 
       const currentErrors = await this.getCurrentErrorCount();
-      console.log(`   📊 After file ${processedCount}: ${currentErrors} errors remaining`);
+      console.log(
+        `   📊 After file ${processedCount}: ${currentErrors} errors remaining`,
+      );
 
       // Stop if errors increased at all
       if (currentErrors > initialErrorCount) {
-        console.log('⚠️ Error count increased, stopping immediately');
+        console.log("⚠️ Error count increased, stopping immediately");
         return;
       }
     }
@@ -153,7 +170,7 @@ class ConservativeTypeScriptFixer {
       // Create backup
       await this.backupFile(filePath);
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
       let fixesApplied = 0;
 
@@ -164,7 +181,7 @@ class ConservativeTypeScriptFixer {
       const arrayAccessPattern = /(\w+)\.\[(\d+)\]/g;
       const matches = content.match(arrayAccessPattern) || [];
       if (matches.length > 0) {
-        content = content.replace(arrayAccessPattern, '$1[$2]');
+        content = content.replace(arrayAccessPattern, "$1[$2]");
         fixesApplied += matches.length;
       }
 
@@ -177,7 +194,6 @@ class ConservativeTypeScriptFixer {
       } else {
         console.log(`     - No array access patterns found`);
       }
-
     } catch (error) {
       console.log(`     ❌ Error processing file: ${error.message}`);
     }
@@ -185,7 +201,7 @@ class ConservativeTypeScriptFixer {
 
   async backupFile(filePath) {
     try {
-      const relativePath = path.relative('.', filePath);
+      const relativePath = path.relative(".", filePath);
       const backupPath = path.join(this.backupDir, relativePath);
       const backupDirPath = path.dirname(backupPath);
 
@@ -193,7 +209,7 @@ class ConservativeTypeScriptFixer {
         fs.mkdirSync(backupDirPath, { recursive: true });
       }
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       fs.writeFileSync(backupPath, content);
     } catch (error) {
       console.log(`     ⚠️ Backup failed for ${filePath}: ${error.message}`);
@@ -202,22 +218,25 @@ class ConservativeTypeScriptFixer {
 
   async validateBuild() {
     try {
-      console.log('     🔍 Validating build...');
-      execSync('yarn build', { stdio: 'pipe' });
-      console.log('     ✅ Build validation passed');
+      console.log("     🔍 Validating build...");
+      execSync("yarn build", { stdio: "pipe" });
+      console.log("     ✅ Build validation passed");
       return true;
     } catch (error) {
-      console.log('     ⚠️ Build validation failed');
+      console.log("     ⚠️ Build validation failed");
       return false;
     }
   }
 
   async getCurrentErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -225,11 +244,14 @@ class ConservativeTypeScriptFixer {
   }
 
   async showFinalResults(initialErrors) {
-    console.log('\n📈 Conservative Fix Results:');
+    console.log("\n📈 Conservative Fix Results:");
 
     const finalErrors = await this.getErrorBreakdown();
     const totalReduction = initialErrors.total - finalErrors.total;
-    const reductionPercentage = ((totalReduction / initialErrors.total) * 100).toFixed(1);
+    const reductionPercentage = (
+      (totalReduction / initialErrors.total) *
+      100
+    ).toFixed(1);
 
     console.log(`   Initial errors: ${initialErrors.total}`);
     console.log(`   Final errors: ${finalErrors.total}`);
@@ -238,17 +260,27 @@ class ConservativeTypeScriptFixer {
     console.log(`   Files processed: ${this.processedFiles.length}`);
     console.log(`   Total fixes applied: ${this.totalFixes}`);
 
-    console.log('\n📊 TS1003 Error Progress:');
-    console.log(`   TS1003: ${initialErrors.TS1003} → ${finalErrors.TS1003} (${initialErrors.TS1003 - finalErrors.TS1003} fixed)`);
+    console.log("\n📊 TS1003 Error Progress:");
+    console.log(
+      `   TS1003: ${initialErrors.TS1003} → ${finalErrors.TS1003} (${initialErrors.TS1003 - finalErrors.TS1003} fixed)`,
+    );
 
     if (finalErrors.total <= 100) {
-      console.log('\n🎉 SUCCESS! Target achieved: TypeScript errors reduced to <100');
+      console.log(
+        "\n🎉 SUCCESS! Target achieved: TypeScript errors reduced to <100",
+      );
     } else if (reductionPercentage >= 10) {
-      console.log('\n✅ PROGRESS! 10%+ error reduction achieved with conservative approach');
+      console.log(
+        "\n✅ PROGRESS! 10%+ error reduction achieved with conservative approach",
+      );
     } else if (totalReduction > 0) {
-      console.log('\n📈 SAFE PROGRESS! Some errors eliminated without breaking build');
+      console.log(
+        "\n📈 SAFE PROGRESS! Some errors eliminated without breaking build",
+      );
     } else {
-      console.log('\n🛡️ SAFE! No errors introduced, build stability maintained');
+      console.log(
+        "\n🛡️ SAFE! No errors introduced, build stability maintained",
+      );
     }
 
     console.log(`\n📁 Backup available at: ${this.backupDir}`);
@@ -256,9 +288,13 @@ class ConservativeTypeScriptFixer {
     // Final build validation
     const finalBuildValid = await this.validateBuild();
     if (finalBuildValid) {
-      console.log('✅ Final build validation successful - conservative approach maintained stability');
+      console.log(
+        "✅ Final build validation successful - conservative approach maintained stability",
+      );
     } else {
-      console.log('⚠️ Final build validation failed - this should not happen with conservative approach');
+      console.log(
+        "⚠️ Final build validation failed - this should not happen with conservative approach",
+      );
     }
   }
 }

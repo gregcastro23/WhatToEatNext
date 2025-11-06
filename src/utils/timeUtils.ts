@@ -17,25 +17,28 @@ export function getCurrentTimestamp(): string {
  * Get current date in YYYY-MM-DD format
  */
 export function getCurrentDate(): string {
-  return new Date().toISOString().split('T')[0];
+  return new Date().toISOString().split("T")[0];
 }
 
 /**
  * Get current time in HH:MM:SS format
  */
 export function getCurrentTime(): string {
-  return new Date().toLocaleTimeString('en-US', {
+  return new Date().toLocaleTimeString("en-US", {
     hour12: false,
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
   });
 }
 
 /**
  * Calculate time difference in milliseconds
  */
-export function getTimeDifference(startTime: Date, endTime: Date = new Date()): number {
+export function getTimeDifference(
+  startTime: Date,
+  endTime: Date = new Date(),
+): number {
   return endTime.getTime() - startTime.getTime();
 }
 
@@ -72,7 +75,10 @@ export function isRecent(timestamp: string, minutes = 5): boolean {
 /**
  * Get time-based cache key
  */
-export function getTimeBasedCacheKey(prefix: string, intervalMinutes = 5): string {
+export function getTimeBasedCacheKey(
+  prefix: string,
+  intervalMinutes = 5,
+): string {
   const now = new Date();
   const intervalMs = intervalMinutes * 60 * 1000;
   const timeSlot = Math.floor(now.getTime() / intervalMs);
@@ -83,11 +89,11 @@ export function getTimeBasedCacheKey(prefix: string, intervalMinutes = 5): strin
  * Calculate execution time for performance monitoring
  */
 export function measureExecutionTime<T>(
-  fn: () => T | Promise<T>
+  fn: () => T | Promise<T>,
 ): Promise<{ result: T; executionTime: number }> {
   const startTime = performance.now();
 
-  return Promise.resolve(fn()).then(result => {
+  return Promise.resolve(fn()).then((result) => {
     const executionTime = performance.now() - startTime;
     return { result, executionTime };
   });
@@ -96,13 +102,13 @@ export function measureExecutionTime<T>(
 /**
  * Get seasonal time period based on current date
  */
-export function getCurrentSeason(): 'spring' | 'summer' | 'autumn' | 'winter' {
+export function getCurrentSeason(): "spring" | "summer" | "autumn" | "winter" {
   const month = new Date().getMonth();
 
-  if (month >= 2 && month <= 4) return 'spring';
-  if (month >= 5 && month <= 7) return 'summer';
-  if (month >= 8 && month <= 10) return 'autumn';
-  return 'winter';
+  if (month >= 2 && month <= 4) return "spring";
+  if (month >= 5 && month <= 7) return "summer";
+  if (month >= 8 && month <= 10) return "autumn";
+  return "winter";
 }
 
 /**
@@ -111,7 +117,11 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'autumn' | 'winter' {
 export function isOptimalCookingTime(): boolean {
   const hour = new Date().getHours();
   // Optimal cooking hours: 6-9 AM, 11 AM-2 PM, 5-8 PM
-  return (hour >= 6 && hour <= 9) || (hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20);
+  return (
+    (hour >= 6 && hour <= 9) ||
+    (hour >= 11 && hour <= 14) ||
+    (hour >= 17 && hour <= 20)
+  );
 }
 
 /**
@@ -121,7 +131,11 @@ export function getTimeBasedConfidence(): number {
   const hour = new Date().getHours();
 
   // Peak confidence during optimal cooking hours
-  if ((hour >= 6 && hour <= 9) || (hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20)) {
+  if (
+    (hour >= 6 && hour <= 9) ||
+    (hour >= 11 && hour <= 14) ||
+    (hour >= 17 && hour <= 20)
+  ) {
     return 0.9;
   }
 
@@ -139,12 +153,12 @@ export function getTimeBasedConfidence(): number {
  */
 export function formatTimestamp(timestamp: string): string {
   const date = new Date(timestamp);
-  return date.toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
+  return date.toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 }
 
@@ -161,19 +175,20 @@ export function getTimeBasedContext(): {
   const isOptimalTime = isOptimalCookingTime();
   const timeConfidence = getTimeBasedConfidence();
 
-  let recommendation = '';
+  let recommendation = "";
   if (isOptimalTime) {
-    recommendation = 'Optimal cooking time - high confidence in recommendations';
+    recommendation =
+      "Optimal cooking time - high confidence in recommendations";
   } else if (timeConfidence >= 0.8) {
-    recommendation = 'Good cooking time - reliable recommendations';
+    recommendation = "Good cooking time - reliable recommendations";
   } else {
-    recommendation = 'Consider timing for optimal results';
+    recommendation = "Consider timing for optimal results";
   }
 
   return {
     season,
     isOptimalTime,
     timeConfidence,
-    recommendation
+    recommendation,
   };
 }

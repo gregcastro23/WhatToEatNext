@@ -6,14 +6,14 @@
  * Respects domain-specific patterns and campaign system intelligence
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class AutoLintFixer {
   constructor(options = {}) {
-    this.backupDir = '.lint-backups';
-    this.rateLimitFile = '.lint-rate-limit.json';
+    this.backupDir = ".lint-backups";
+    this.rateLimitFile = ".lint-rate-limit.json";
     this.maxExecutionsPerHour = 20;
     this.cooldownMs = 5000; // 5 seconds
     this.useFastConfig = options.useFastConfig !== false; // Default to true for speed
@@ -26,8 +26,10 @@ class AutoLintFixer {
     return {
       info: (msg, ...args) => console.log(`[AUTO-LINT] ${msg}`, ...args),
       warn: (msg, ...args) => console.warn(`[AUTO-LINT WARN] ${msg}`, ...args),
-      error: (msg, ...args) => console.error(`[AUTO-LINT ERROR] ${msg}`, ...args),
-      success: (msg, ...args) => console.log(`[AUTO-LINT SUCCESS] ${msg}`, ...args),
+      error: (msg, ...args) =>
+        console.error(`[AUTO-LINT ERROR] ${msg}`, ...args),
+      success: (msg, ...args) =>
+        console.log(`[AUTO-LINT SUCCESS] ${msg}`, ...args),
     };
   }
 
@@ -43,15 +45,19 @@ class AutoLintFixer {
   checkRateLimit() {
     try {
       if (!fs.existsSync(this.rateLimitFile)) {
-        return { allowed: true, reason: 'No previous executions' };
+        return { allowed: true, reason: "No previous executions" };
       }
 
-      const rateLimitData = JSON.parse(fs.readFileSync(this.rateLimitFile, 'utf8'));
+      const rateLimitData = JSON.parse(
+        fs.readFileSync(this.rateLimitFile, "utf8"),
+      );
       const now = Date.now();
       const oneHourAgo = now - 60 * 60 * 1000;
 
       // Filter executions within the last hour
-      const recentExecutions = rateLimitData.executions.filter(time => time > oneHourAgo);
+      const recentExecutions = rateLimitData.executions.filter(
+        (time) => time > oneHourAgo,
+      );
 
       if (recentExecutions.length >= this.maxExecutionsPerHour) {
         return {
@@ -70,10 +76,13 @@ class AutoLintFixer {
         };
       }
 
-      return { allowed: true, reason: 'Within rate limits' };
+      return { allowed: true, reason: "Within rate limits" };
     } catch (error) {
-      this.log.warn('Error checking rate limit, allowing execution:', error.message);
-      return { allowed: true, reason: 'Rate limit check failed, allowing' };
+      this.log.warn(
+        "Error checking rate limit, allowing execution:",
+        error.message,
+      );
+      return { allowed: true, reason: "Rate limit check failed, allowing" };
     }
   }
 
@@ -85,7 +94,7 @@ class AutoLintFixer {
       let rateLimitData = { executions: [] };
 
       if (fs.existsSync(this.rateLimitFile)) {
-        rateLimitData = JSON.parse(fs.readFileSync(this.rateLimitFile, 'utf8'));
+        rateLimitData = JSON.parse(fs.readFileSync(this.rateLimitFile, "utf8"));
       }
 
       const now = Date.now();
@@ -93,12 +102,15 @@ class AutoLintFixer {
 
       // Keep only executions within the last hour and add current
       rateLimitData.executions = rateLimitData.executions
-        .filter(time => time > oneHourAgo)
+        .filter((time) => time > oneHourAgo)
         .concat([now]);
 
-      fs.writeFileSync(this.rateLimitFile, JSON.stringify(rateLimitData, null, 2));
+      fs.writeFileSync(
+        this.rateLimitFile,
+        JSON.stringify(rateLimitData, null, 2),
+      );
     } catch (error) {
-      this.log.warn('Error recording execution:', error.message);
+      this.log.warn("Error recording execution:", error.message);
     }
   }
 
@@ -111,7 +123,7 @@ class AutoLintFixer {
         throw new Error(`File does not exist: ${filePath}`);
       }
 
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
       const fileName = path.basename(filePath);
       const backupFileName = `${fileName}.${timestamp}.backup`;
       const backupPath = path.join(this.backupDir, backupFileName);
@@ -121,7 +133,7 @@ class AutoLintFixer {
 
       return backupPath;
     } catch (error) {
-      this.log.error('Failed to create backup:', error.message);
+      this.log.error("Failed to create backup:", error.message);
       throw error;
     }
   }
@@ -135,7 +147,7 @@ class AutoLintFixer {
       this.log.info(`Restored file from backup: ${backupPath}`);
       return true;
     } catch (error) {
-      this.log.error('Failed to restore from backup:', error.message);
+      this.log.error("Failed to restore from backup:", error.message);
       return false;
     }
   }
@@ -148,27 +160,29 @@ class AutoLintFixer {
       this.log.info(`Applying ESLint auto-fix to: ${filePath}`);
 
       // Use fast config for development speed (95% faster)
-      const configFile = useFastConfig ? 'eslint.config.fast.cjs' : 'eslint.config.type-aware.cjs';
+      const configFile = useFastConfig
+        ? "eslint.config.fast.cjs"
+        : "eslint.config.type-aware.cjs";
       const command = `yarn eslint --config ${configFile} --fix "${filePath}"`;
 
       this.log.info(`Using configuration: ${configFile}`);
 
       const output = execSync(command, {
-        encoding: 'utf8',
-        stdio: 'pipe',
+        encoding: "utf8",
+        stdio: "pipe",
         timeout: 30000, // 30 second timeout
       });
 
-      this.log.info('ESLint auto-fix completed successfully');
+      this.log.info("ESLint auto-fix completed successfully");
       return { success: true, output, configUsed: configFile };
     } catch (error) {
       // ESLint returns non-zero exit code even for successful fixes with remaining issues
       if (error.status === 1 && error.stdout) {
-        this.log.info('ESLint auto-fix completed with remaining issues');
+        this.log.info("ESLint auto-fix completed with remaining issues");
         return { success: true, output: error.stdout, configUsed: configFile };
       }
 
-      this.log.error('ESLint auto-fix failed:', error.message);
+      this.log.error("ESLint auto-fix failed:", error.message);
       return { success: false, error: error.message, configUsed: configFile };
     }
   }
@@ -178,49 +192,49 @@ class AutoLintFixer {
    */
   applySafePatternFixes(filePath) {
     try {
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       let modified = false;
       const originalContent = content;
 
       // Remove trailing whitespace
-      const withoutTrailingWhitespace = content.replace(/[ \t]+$/gm, '');
+      const withoutTrailingWhitespace = content.replace(/[ \t]+$/gm, "");
       if (withoutTrailingWhitespace !== content) {
         content = withoutTrailingWhitespace;
         modified = true;
-        this.log.info('Removed trailing whitespace');
+        this.log.info("Removed trailing whitespace");
       }
 
       // Fix double semicolons (but preserve domain-specific patterns)
-      const withoutDoubleSemicolons = content.replace(/;;+/g, ';');
+      const withoutDoubleSemicolons = content.replace(/;;+/g, ";");
       if (withoutDoubleSemicolons !== content) {
         content = withoutDoubleSemicolons;
         modified = true;
-        this.log.info('Fixed double semicolons');
+        this.log.info("Fixed double semicolons");
       }
 
       // Normalize multiple empty lines (max 2 consecutive)
-      const withNormalizedLines = content.replace(/\n\s*\n\s*\n+/g, '\n\n');
+      const withNormalizedLines = content.replace(/\n\s*\n\s*\n+/g, "\n\n");
       if (withNormalizedLines !== content) {
         content = withNormalizedLines;
         modified = true;
-        this.log.info('Normalized multiple empty lines');
+        this.log.info("Normalized multiple empty lines");
       }
 
       // Conservative semicolon addition (only for obvious cases)
-      const lines = content.split('\n');
-      const fixedLines = lines.map(line => {
+      const lines = content.split("\n");
+      const fixedLines = lines.map((line) => {
         const trimmed = line.trim();
 
         // Skip if line is empty, comment, or already has semicolon
         if (
           !trimmed ||
-          trimmed.startsWith('//') ||
-          trimmed.startsWith('/*') ||
-          trimmed.endsWith(';') ||
-          trimmed.endsWith('{') ||
-          trimmed.endsWith('}') ||
-          trimmed.endsWith(',') ||
-          trimmed.includes('//')
+          trimmed.startsWith("//") ||
+          trimmed.startsWith("/*") ||
+          trimmed.endsWith(";") ||
+          trimmed.endsWith("{") ||
+          trimmed.endsWith("}") ||
+          trimmed.endsWith(",") ||
+          trimmed.includes("//")
         ) {
           return line;
         }
@@ -233,29 +247,29 @@ class AutoLintFixer {
           trimmed.match(/^\w+\(\)$/) ||
           trimmed.match(/^console\.(log|warn|error|info)\(/)
         ) {
-          return line + ';';
+          return line + ";";
         }
 
         return line;
       });
 
-      const withSemicolons = fixedLines.join('\n');
+      const withSemicolons = fixedLines.join("\n");
       if (withSemicolons !== content) {
         content = withSemicolons;
         modified = true;
-        this.log.info('Added missing semicolons (conservative)');
+        this.log.info("Added missing semicolons (conservative)");
       }
 
       if (modified) {
-        fs.writeFileSync(filePath, content, 'utf8');
-        this.log.info('Applied safe pattern fixes');
+        fs.writeFileSync(filePath, content, "utf8");
+        this.log.info("Applied safe pattern fixes");
         return { success: true, modified: true };
       } else {
-        this.log.info('No safe pattern fixes needed');
+        this.log.info("No safe pattern fixes needed");
         return { success: true, modified: false };
       }
     } catch (error) {
-      this.log.error('Failed to apply safe pattern fixes:', error.message);
+      this.log.error("Failed to apply safe pattern fixes:", error.message);
       return { success: false, error: error.message };
     }
   }
@@ -265,41 +279,46 @@ class AutoLintFixer {
    */
   validateTypeScript(filePath) {
     try {
-      this.log.info('Validating TypeScript compilation...');
+      this.log.info("Validating TypeScript compilation...");
 
       // First, quick TypeScript compilation check
-      const tscCommand = 'yarn tsc --noEmit --skipLibCheck';
+      const tscCommand = "yarn tsc --noEmit --skipLibCheck";
       execSync(tscCommand, {
-        encoding: 'utf8',
-        stdio: 'pipe',
+        encoding: "utf8",
+        stdio: "pipe",
         timeout: 60000, // 60 second timeout
       });
 
-      this.log.success('TypeScript compilation validation passed');
+      this.log.success("TypeScript compilation validation passed");
 
       // Then, comprehensive linting validation with type-aware config
-      this.log.info('Running comprehensive linting validation...');
+      this.log.info("Running comprehensive linting validation...");
       const lintCommand = `yarn eslint --config eslint.config.type-aware.cjs "${filePath}"`;
 
       try {
         execSync(lintCommand, {
-          encoding: 'utf8',
-          stdio: 'pipe',
+          encoding: "utf8",
+          stdio: "pipe",
           timeout: 30000,
         });
-        this.log.success('Comprehensive linting validation passed');
+        this.log.success("Comprehensive linting validation passed");
       } catch (lintError) {
         // Non-zero exit is expected if there are remaining linting issues
         if (lintError.status === 1) {
-          this.log.info('Comprehensive linting completed with remaining issues (expected)');
+          this.log.info(
+            "Comprehensive linting completed with remaining issues (expected)",
+          );
         } else {
-          this.log.warn('Comprehensive linting validation had issues:', lintError.message);
+          this.log.warn(
+            "Comprehensive linting validation had issues:",
+            lintError.message,
+          );
         }
       }
 
       return { success: true };
     } catch (error) {
-      this.log.error('TypeScript validation failed:', error.message);
+      this.log.error("TypeScript validation failed:", error.message);
       return { success: false, error: error.message };
     }
   }
@@ -309,7 +328,7 @@ class AutoLintFixer {
    */
   validateSyntaxIntegrity(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
 
       // Check for corruption patterns
       const corruptionPatterns = [
@@ -331,21 +350,21 @@ class AutoLintFixer {
       // Try to parse as JavaScript/TypeScript
       try {
         // Basic syntax check - try to parse with Node.js
-        const vm = require('vm');
+        const vm = require("vm");
         new vm.Script(content, { filename: filePath });
       } catch (parseError) {
         issues.push(`Parse error: ${parseError.message}`);
       }
 
       if (issues.length > 0) {
-        this.log.warn('Syntax integrity issues found:', issues);
+        this.log.warn("Syntax integrity issues found:", issues);
         return { success: false, issues };
       }
 
-      this.log.success('Syntax integrity validation passed');
+      this.log.success("Syntax integrity validation passed");
       return { success: true };
     } catch (error) {
-      this.log.error('Syntax integrity validation failed:', error.message);
+      this.log.error("Syntax integrity validation failed:", error.message);
       return { success: false, error: error.message };
     }
   }
@@ -355,7 +374,7 @@ class AutoLintFixer {
    */
   validateCriticalPatterns(filePath, originalContent) {
     try {
-      const currentContent = fs.readFileSync(filePath, 'utf8');
+      const currentContent = fs.readFileSync(filePath, "utf8");
 
       // Critical patterns to preserve
       const criticalPatterns = [
@@ -396,14 +415,14 @@ class AutoLintFixer {
       });
 
       if (issues.length > 0) {
-        this.log.warn('Critical pattern validation failed:', issues);
+        this.log.warn("Critical pattern validation failed:", issues);
         return { success: false, issues };
       }
 
-      this.log.success('Critical patterns preserved');
+      this.log.success("Critical patterns preserved");
       return { success: true };
     } catch (error) {
-      this.log.error('Critical pattern validation failed:', error.message);
+      this.log.error("Critical pattern validation failed:", error.message);
       return { success: false, error: error.message };
     }
   }
@@ -428,7 +447,7 @@ class AutoLintFixer {
       this.recordExecution();
 
       // Step 1: Safety First - Create backup
-      const originalContent = fs.readFileSync(filePath, 'utf8');
+      const originalContent = fs.readFileSync(filePath, "utf8");
       const backupPath = this.createBackup(filePath);
 
       let rollbackRequired = false;
@@ -447,15 +466,19 @@ class AutoLintFixer {
         // Step 2: Apply ESLint Auto-Fix (using fast config for speed)
         results.eslintFix = this.applyESLintFix(filePath, this.useFastConfig);
         if (!results.eslintFix.success) {
-          this.log.warn('ESLint auto-fix had issues, continuing with validation');
+          this.log.warn(
+            "ESLint auto-fix had issues, continuing with validation",
+          );
         } else {
-          this.log.info(`ESLint auto-fix completed using ${results.eslintFix.configUsed}`);
+          this.log.info(
+            `ESLint auto-fix completed using ${results.eslintFix.configUsed}`,
+          );
         }
 
         // Step 3: Apply Safe Pattern Fixes
         results.patternFixes = this.applySafePatternFixes(filePath);
         if (!results.patternFixes.success) {
-          this.log.error('Safe pattern fixes failed');
+          this.log.error("Safe pattern fixes failed");
           rollbackRequired = true;
         }
 
@@ -464,14 +487,14 @@ class AutoLintFixer {
           // TypeScript compilation check
           results.validation.typescript = this.validateTypeScript(filePath);
           if (!results.validation.typescript.success) {
-            this.log.error('TypeScript validation failed');
+            this.log.error("TypeScript validation failed");
             rollbackRequired = true;
           }
 
           // Syntax integrity check
           results.validation.syntax = this.validateSyntaxIntegrity(filePath);
           if (!results.validation.syntax.success) {
-            this.log.error('Syntax integrity validation failed');
+            this.log.error("Syntax integrity validation failed");
             rollbackRequired = true;
           }
 
@@ -481,30 +504,33 @@ class AutoLintFixer {
             originalContent,
           );
           if (!results.validation.criticalPatterns.success) {
-            this.log.error('Critical patterns validation failed');
+            this.log.error("Critical patterns validation failed");
             rollbackRequired = true;
           }
         }
 
         // Step 5: Automatic Rollback if needed
         if (rollbackRequired) {
-          this.log.warn('Validation failed, performing automatic rollback');
+          this.log.warn("Validation failed, performing automatic rollback");
           const rollbackSuccess = this.restoreFromBackup(filePath, backupPath);
 
           if (rollbackSuccess) {
-            this.log.success('Automatic rollback completed successfully');
+            this.log.success("Automatic rollback completed successfully");
             return {
               success: false,
               rolledBack: true,
-              reason: 'Validation failed, file restored from backup',
+              reason: "Validation failed, file restored from backup",
               results,
             };
           } else {
-            this.log.error('Automatic rollback failed - manual intervention required');
+            this.log.error(
+              "Automatic rollback failed - manual intervention required",
+            );
             return {
               success: false,
               rolledBack: false,
-              reason: 'Validation failed and rollback failed - manual intervention required',
+              reason:
+                "Validation failed and rollback failed - manual intervention required",
               results,
             };
           }
@@ -512,16 +538,18 @@ class AutoLintFixer {
 
         // Success!
         const duration = Date.now() - startTime;
-        this.log.success(`Automatic linting fix completed successfully in ${duration}ms`);
+        this.log.success(
+          `Automatic linting fix completed successfully in ${duration}ms`,
+        );
 
         return {
           success: true,
           duration,
           results,
-          message: 'All fixes applied and validated successfully',
+          message: "All fixes applied and validated successfully",
         };
       } catch (error) {
-        this.log.error('Unexpected error during processing:', error.message);
+        this.log.error("Unexpected error during processing:", error.message);
 
         // Emergency rollback
         const rollbackSuccess = this.restoreFromBackup(filePath, backupPath);
@@ -533,7 +561,7 @@ class AutoLintFixer {
         };
       }
     } catch (error) {
-      this.log.error('Fatal error in auto-lint-fixer:', error.message);
+      this.log.error("Fatal error in auto-lint-fixer:", error.message);
       return {
         success: false,
         error: error.message,
@@ -545,13 +573,20 @@ class AutoLintFixer {
 // CLI interface
 if (require.main === module) {
   const filePath = process.argv[2];
-  const useFastConfig = process.argv.includes('--fast') || process.argv.includes('--fast-config');
-  const useTypeAware = process.argv.includes('--type-aware') || process.argv.includes('--comprehensive');
+  const useFastConfig =
+    process.argv.includes("--fast") || process.argv.includes("--fast-config");
+  const useTypeAware =
+    process.argv.includes("--type-aware") ||
+    process.argv.includes("--comprehensive");
 
   if (!filePath) {
-    console.error('Usage: node auto-lint-fixer.cjs <file-path> [--fast|--type-aware]');
-    console.error('  --fast (default): Use fast configuration for 95% faster processing');
-    console.error('  --type-aware: Use comprehensive type-aware configuration');
+    console.error(
+      "Usage: node auto-lint-fixer.cjs <file-path> [--fast|--type-aware]",
+    );
+    console.error(
+      "  --fast (default): Use fast configuration for 95% faster processing",
+    );
+    console.error("  --type-aware: Use comprehensive type-aware configuration");
     process.exit(1);
   }
 
@@ -561,24 +596,29 @@ if (require.main === module) {
 
   const fixer = new AutoLintFixer(options);
 
-  console.log(`🚀 Starting auto-lint fix with ${options.useFastConfig ? 'fast' : 'type-aware'} configuration...`);
+  console.log(
+    `🚀 Starting auto-lint fix with ${options.useFastConfig ? "fast" : "type-aware"} configuration...`,
+  );
 
   fixer
     .fixFile(filePath)
-    .then(result => {
+    .then((result) => {
       if (result.success) {
-        console.log('✅ Auto-lint fix completed successfully');
+        console.log("✅ Auto-lint fix completed successfully");
         if (result.duration) {
           console.log(`⏱️  Completed in ${result.duration}ms`);
         }
         process.exit(0);
       } else {
-        console.error('❌ Auto-lint fix failed:', result.reason || result.error);
+        console.error(
+          "❌ Auto-lint fix failed:",
+          result.reason || result.error,
+        );
         process.exit(1);
       }
     })
-    .catch(error => {
-      console.error('💥 Fatal error:', error.message);
+    .catch((error) => {
+      console.error("💥 Fatal error:", error.message);
       process.exit(1);
     });
 }

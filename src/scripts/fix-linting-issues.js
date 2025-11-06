@@ -13,28 +13,28 @@
  * To restore: node src/scripts/fix-linting-issues.js --restore
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
-const SRC_DIR = path.resolve(process.cwd(), 'src');
-const BACKUP_DIR = path.resolve(process.cwd(), 'lint-fix-backups');
-const LOG_FILE = path.resolve(process.cwd(), 'lint-fix-log.txt');
-const EXCLUDED_DIRS = ['node_modules', '.next', '.git', 'public'];
-const EXTENSIONS = ['.js', '.jsx', '.ts', '.tsx'];
+const SRC_DIR = path.resolve(process.cwd(), "src");
+const BACKUP_DIR = path.resolve(process.cwd(), "lint-fix-backups");
+const LOG_FILE = path.resolve(process.cwd(), "lint-fix-log.txt");
+const EXCLUDED_DIRS = ["node_modules", ".next", ".git", "public"];
+const EXTENSIONS = [".js", ".jsx", ".ts", ".tsx"];
 const MAX_TOKENS_MODIFIED = 100; // Safety threshold for maximum changes
 
 // Parse command line arguments
 const args = process.argv.slice(2);
-const isRestoreMode = args.includes('--restore');
-const isSafeMode = args.includes('--safe-mode');
-const isTestMode = args.includes('--test');
+const isRestoreMode = args.includes("--restore");
+const isSafeMode = args.includes("--safe-mode");
+const isTestMode = args.includes("--test");
 
 // Safe logging
 function log(message) {
   // console.log(message);
-  fs.appendFileSync(LOG_FILE, message + '\n');
+  fs.appendFileSync(LOG_FILE, message + "\n");
 }
 
 // Ensure backup directory exists
@@ -44,7 +44,9 @@ if (!fs.existsSync(BACKUP_DIR)) {
 
 // Initialize log file
 fs.writeFileSync(LOG_FILE, `Lint Fix Log - ${new Date().toISOString()}\n\n`);
-log(`Mode: ${isRestoreMode ? 'Restore' : isSafeMode ? 'Safe' : isTestMode ? 'Test' : 'Normal'}`);
+log(
+  `Mode: ${isRestoreMode ? "Restore" : isSafeMode ? "Safe" : isTestMode ? "Test" : "Normal"}`,
+);
 
 // Create backup of a file before modifying it
 function backupFile(filePath) {
@@ -69,7 +71,7 @@ function backupFile(filePath) {
 // Safely read a file
 function safeReadFile(filePath) {
   try {
-    return fs.readFileSync(filePath, 'utf8');
+    return fs.readFileSync(filePath, "utf8");
   } catch (error) {
     log(`Error reading file ${filePath}: ${error.message}`);
     return null;
@@ -79,7 +81,7 @@ function safeReadFile(filePath) {
 // Safely write a file
 function safeWriteFile(filePath, content) {
   try {
-    fs.writeFileSync(filePath, content, 'utf8');
+    fs.writeFileSync(filePath, content, "utf8");
     return true;
   } catch (error) {
     log(`Error writing file ${filePath}: ${error.message}`);
@@ -122,7 +124,10 @@ function findFiles(dir, excludedDirs, extensions) {
           if (!excludedDirs.includes(entry.name)) {
             traverse(fullPath);
           }
-        } else if (entry.isFile() && extensions.includes(path.extname(entry.name))) {
+        } else if (
+          entry.isFile() &&
+          extensions.includes(path.extname(entry.name))
+        ) {
           files.push(fullPath);
         }
       }
@@ -150,16 +155,16 @@ function validateContent(content, updatedContent) {
   }
 
   // Check for unbalanced brackets/parentheses
-  const bracketCount = str => {
-    const brackets = { '{': 0, '(': 0, '[': 0 };
+  const bracketCount = (str) => {
+    const brackets = { "{": 0, "(": 0, "[": 0 };
 
     for (let i = 0; i < str.length; i++) {
-      if (str[i] === '{') brackets['{']++;
-      if (str[i] === '}') brackets['{']--;
-      if (str[i] === '(') brackets['(']++;
-      if (str[i] === ')') brackets['(']--;
-      if (str[i] === '[') brackets['[']++;
-      if (str[i] === ']') brackets['[']--;
+      if (str[i] === "{") brackets["{"]++;
+      if (str[i] === "}") brackets["{"]--;
+      if (str[i] === "(") brackets["("]++;
+      if (str[i] === ")") brackets["("]--;
+      if (str[i] === "[") brackets["["]++;
+      if (str[i] === "]") brackets["["]--;
     }
 
     return brackets;
@@ -169,18 +174,18 @@ function validateContent(content, updatedContent) {
   const updatedBrackets = bracketCount(updatedContent);
 
   if (
-    originalBrackets['{'] !== updatedBrackets['{'] ||
-    originalBrackets['('] !== updatedBrackets['('] ||
-    originalBrackets['['] !== updatedBrackets['[']
+    originalBrackets["{"] !== updatedBrackets["{"] ||
+    originalBrackets["("] !== updatedBrackets["("] ||
+    originalBrackets["["] !== updatedBrackets["["]
   ) {
     return {
       valid: false,
-      reason: 'Unbalanced brackets detected. This may indicate corruption.',
+      reason: "Unbalanced brackets detected. This may indicate corruption.",
     };
   }
 
   // Ensure there are no syntax markers that could indicate corruption
-  const corruptionMarkers = ['<<<<<<', '>>>>>>>', '======'];
+  const corruptionMarkers = ["<<<<<<", ">>>>>>>", "======"];
 
   for (const marker of corruptionMarkers) {
     if (updatedContent.includes(marker)) {
@@ -200,12 +205,14 @@ function fixUnusedVariables(filePath, content) {
   // Only apply to variables flagged by ESLint warnings
 
   // Get ESLint warnings for this file
-  let eslintOutput = '';
+  let eslintOutput = "";
   try {
-    eslintOutput = execSync(`npx eslint "${filePath}" --quiet --format json`, { encoding: 'utf8' });
+    eslintOutput = execSync(`npx eslint "${filePath}" --quiet --format json`, {
+      encoding: "utf8",
+    });
   } catch (error) {
     // ESLint might exit with non-zero status if it finds issues
-    eslintOutput = error.stdout || '';
+    eslintOutput = error.stdout || "";
   }
 
   if (!eslintOutput) {
@@ -219,10 +226,10 @@ function fixUnusedVariables(filePath, content) {
     if (eslintResult.length > 0 && eslintResult[0].messages) {
       // Extract unused variable names from ESLint messages
       unusedVars = eslintResult[0].messages
-        .filter(m => m.ruleId === '@typescript-eslint/no-unused-vars')
-        .map(m => m.message.match(/'([^']+)'/))
+        .filter((m) => m.ruleId === "@typescript-eslint/no-unused-vars")
+        .map((m) => m.message.match(/'([^']+)'/))
         .filter(Boolean)
-        .map(m => m[1]);
+        .map((m) => m[1]);
     }
   } catch (error) {
     log(`Error parsing ESLint output for ${filePath}: ${error.message}`);
@@ -236,10 +243,16 @@ function fixUnusedVariables(filePath, content) {
   // Apply fixes for each unused variable
   let updatedContent = content;
   for (const varName of unusedVars) {
-    const varRegex = new RegExp(`(const|let|var)\\s+(${varName})(\\s*=|\\s*:)`, 'g');
+    const varRegex = new RegExp(
+      `(const|let|var)\\s+(${varName})(\\s*=|\\s*:)`,
+      "g",
+    );
     updatedContent = updatedContent.replace(varRegex, `$1 _${varName}$3`);
 
-    const argRegex = new RegExp(`(\\([^)]*?)\\b(${varName})(\\s*:|\\s*,|\\s*\\))`, 'g');
+    const argRegex = new RegExp(
+      `(\\([^)]*?)\\b(${varName})(\\s*:|\\s*,|\\s*\\))`,
+      "g",
+    );
     updatedContent = updatedContent.replace(argRegex, `$1_${varName}$3`);
   }
 
@@ -249,14 +262,14 @@ function fixUnusedVariables(filePath, content) {
 // Fix console.log statements by removing them or commenting them out
 function fixConsoleStatements(content) {
   // Comment out console statements rather than removing them entirely
-  return content.replace(/^(\s*)(console\.[a-zA-Z]+\(.*\);?)$/gm, '$1// $2');
+  return content.replace(/^(\s*)(console\.[a-zA-Z]+\(.*\);?)$/gm, "$1// $2");
 }
 
 // Fix unnecessary escape characters
 function fixUnnecessaryEscapes(content) {
   // Fix common unnecessary escapes in template literals and regular expressions
-  let updated = content.replace(/\\{1,2}\(\\{1,2}\)/g, '\\(\\)'); // Replace \\\( with \(
-  updated = updated.replace(/\\\`/g, '`'); // Replace \` with `
+  let updated = content.replace(/\\{1,2}\(\\{1,2}\)/g, "\\(\\)"); // Replace \\\( with \(
+  updated = updated.replace(/\\\`/g, "`"); // Replace \` with `
   return updated;
 }
 
@@ -264,16 +277,16 @@ function fixUnnecessaryEscapes(content) {
 function fixPreferConst(content) {
   // Find let declarations that are never reassigned and convert to const
   const letDeclarationRegex = /let\s+([a-zA-Z0-9_$]+)\s*=/g;
-  return content.replace(letDeclarationRegex, 'const $1 =');
+  return content.replace(letDeclarationRegex, "const $1 =");
 }
 
 // Fix duplicate imports
 function fixDuplicateImports(content) {
-  const importLines = content.split('\n');
+  const importLines = content.split("\n");
   const uniqueImports = new Map();
 
   // First pass to gather imports
-  importLines.forEach(line => {
+  importLines.forEach((line) => {
     const importMatch = line.match(/import\s+.*\s+from\s+['"]([^'"]+)['"]/);
     if (importMatch) {
       const importSource = importMatch[1];
@@ -290,7 +303,10 @@ function fixDuplicateImports(content) {
     if (lines.length > 1) {
       // Keep only the first import line
       for (const i = 1; i < lines.length; i++) {
-        updatedContent = updatedContent.replace(lines[i], `// Removed duplicate: ${lines[i]}`);
+        updatedContent = updatedContent.replace(
+          lines[i],
+          `// Removed duplicate: ${lines[i]}`,
+        );
       }
     }
   });
@@ -300,7 +316,7 @@ function fixDuplicateImports(content) {
 
 // Restore backups for all files if in restore mode
 async function restoreBackups() {
-  log('Starting restore from backups...');
+  log("Starting restore from backups...");
 
   // Find all backups
   const backupFiles = findFiles(BACKUP_DIR, EXCLUDED_DIRS, EXTENSIONS);
@@ -331,7 +347,7 @@ async function restoreBackups() {
     }
   }
 
-  log('\nRestore Summary:');
+  log("\nRestore Summary:");
   log(`Total backup files: ${backupFiles.length}`);
   log(`Successfully restored: ${restoredFiles}`);
   log(`Failed to restore: ${failedFiles}`);
@@ -345,7 +361,7 @@ async function fixLintingIssues() {
     return;
   }
 
-  log('Starting linting fixes...');
+  log("Starting linting fixes...");
 
   // Find all files to process
   const files = findFiles(SRC_DIR, EXCLUDED_DIRS, EXTENSIONS);
@@ -375,7 +391,10 @@ async function fixLintingIssues() {
       // Only apply fixes if not in test mode
       if (!isTestMode) {
         // Only apply unused variable fixes to TS files to avoid false positives
-        if ((filePath.endsWith('.ts') || filePath.endsWith('.tsx')) && !isSafeMode) {
+        if (
+          (filePath.endsWith(".ts") || filePath.endsWith(".tsx")) &&
+          !isSafeMode
+        ) {
           updatedContent = fixUnusedVariables(filePath, updatedContent);
         }
 
@@ -398,7 +417,9 @@ async function fixLintingIssues() {
         const validation = validateContent(content, updatedContent);
 
         if (!validation.valid) {
-          log(`Skipping file ${relativePath}: Validation failed: ${validation.reason}`);
+          log(
+            `Skipping file ${relativePath}: Validation failed: ${validation.reason}`,
+          );
           skippedFiles++;
           continue;
         }
@@ -419,7 +440,9 @@ async function fixLintingIssues() {
 
             // Try to format the file with Prettier
             try {
-              execSync(`npx prettier --write "${filePath}"`, { stdio: 'ignore' });
+              execSync(`npx prettier --write "${filePath}"`, {
+                stdio: "ignore",
+              });
             } catch (error) {
               log(`Note: Could not format ${relativePath} with Prettier`);
             }
@@ -448,18 +471,18 @@ async function fixLintingIssues() {
     }
   }
 
-  log('\nSummary:');
+  log("\nSummary:");
   log(`Total files processed: ${files.length}`);
   log(`Files fixed: ${fixedFiles}`);
   log(`Files skipped: ${skippedFiles}`);
-  log('\nFixed files have been backed up to: ' + BACKUP_DIR);
-  log('See the detailed log at: ' + LOG_FILE);
-  log('\nTo restore all files from backup, run:');
-  log('node src/scripts/fix-linting-issues.js --restore');
+  log("\nFixed files have been backed up to: " + BACKUP_DIR);
+  log("See the detailed log at: " + LOG_FILE);
+  log("\nTo restore all files from backup, run:");
+  log("node src/scripts/fix-linting-issues.js --restore");
 }
 
 // Run the script
-fixLintingIssues().catch(error => {
+fixLintingIssues().catch((error) => {
   log(`Error running script: ${error.message}`);
   process.exit(1);
 });

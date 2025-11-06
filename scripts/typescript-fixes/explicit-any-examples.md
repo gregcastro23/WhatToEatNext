@@ -412,7 +412,9 @@
 - **src/components/MoonDisplay.migrated.tsx:192**
 
   ```typescript
-  const getMoonTimes = serviceData.getMoonTimes as ((date: Date, coords: any) => Promise<any>) | undefined;
+  const getMoonTimes = serviceData.getMoonTimes as
+    | ((date: Date, coords: any) => Promise<any>)
+    | undefined;
   ```
 
 - **src/components/campaign/CampaignIntegrationDashboard.tsx:277**

@@ -60,17 +60,17 @@ yarn add extended-interface-patterns
 ### **Basic Usage**
 
 ```typescript
-import { ExtendedInterfacePatternEngine } from 'extended-interface-patterns';
+import { ExtendedInterfacePatternEngine } from "extended-interface-patterns";
 
 // Create engine with options
 const engine = new ExtendedInterfacePatternEngine({
-  minConfidence: 0.80,
+  minConfidence: 0.8,
   dryRun: false,
-  includeComplexPatterns: true
+  includeComplexPatterns: true,
 });
 
 // Process a file
-const result = await engine.processFile('src/services/example.ts', fileContent);
+const result = await engine.processFile("src/services/example.ts", fileContent);
 console.log(`Processed ${result.changes} any-types in ${result.filePath}`);
 
 // Generate report
@@ -192,7 +192,7 @@ const response: Record<string, unknown> = await api.call();
 ```typescript
 // Only apply patterns with 85%+ confidence
 const engine = new ExtendedInterfacePatternEngine({
-  minConfidence: 0.85
+  minConfidence: 0.85,
 });
 
 // Get pattern statistics
@@ -204,8 +204,8 @@ console.log(`High confidence patterns: ${stats.highConfidencePatterns}`);
 
 ```typescript
 // Automatic pattern selection based on file path
-const serviceFile = 'src/services/UserService.ts';
-const dataFile = 'src/data/unified/recipes.ts';
+const serviceFile = "src/services/UserService.ts";
+const dataFile = "src/data/unified/recipes.ts";
 
 // Engine automatically applies appropriate patterns
 const serviceResult = await engine.processFile(serviceFile, serviceContent);
@@ -215,11 +215,17 @@ const dataResult = await engine.processFile(dataFile, dataContent);
 ### **Validation & Reporting**
 
 ```typescript
-import { validateFileForAnyTypes, generatePatternReport } from 'extended-interface-patterns';
+import {
+  validateFileForAnyTypes,
+  generatePatternReport,
+} from "extended-interface-patterns";
 
 // Validate file for any-types
 const validation = validateFileForAnyTypes(fileContent);
-console.log(`Found ${validation.anyTypeCount} any-types at:`, validation.locations);
+console.log(
+  `Found ${validation.anyTypeCount} any-types at:`,
+  validation.locations,
+);
 
 // Generate comprehensive report
 const report = generatePatternReport(results);

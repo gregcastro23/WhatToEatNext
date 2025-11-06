@@ -66,7 +66,7 @@ const value = (obj as unknown as Record<string, unknown>)?.property;
 const converted = data as TargetType;
 
 // ✅ SAFE
-const converted = (data as unknown) as TargetType;
+const converted = data as unknown as TargetType;
 ```
 
 ### Pattern 3: TS2322 Type Assignment (92 errors)
@@ -76,7 +76,7 @@ const converted = (data as unknown) as TargetType;
 const state: TargetType = data;
 
 // ✅ SAFE
-const state: TargetType = (data as unknown) as TargetType;
+const state: TargetType = data as unknown as TargetType;
 ```
 
 ### Pattern 4: TS2345 Argument Type (88 errors)
@@ -89,7 +89,7 @@ function process(data: unknown) {
 
 // ✅ SAFE
 function process(data: unknown) {
-  const typed = (data as unknown) as Record<string, unknown>;
+  const typed = data as unknown as Record<string, unknown>;
   return processData(typed);
 }
 ```
@@ -101,7 +101,7 @@ function process(data: unknown) {
 const result = obj.method(params);
 
 // ✅ SAFE
-if (typeof obj.method === 'function') {
+if (typeof obj.method === "function") {
   const result = obj.method(params);
 }
 ```

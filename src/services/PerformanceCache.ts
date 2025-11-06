@@ -1,4 +1,4 @@
-import { log } from '@/services/LoggingService';
+import { log } from "@/services/LoggingService";
 // ===== PHASE, 8: INTELLIGENT CACHING SYSTEM =====
 
 export interface CacheEntry<T> {
@@ -6,7 +6,7 @@ export interface CacheEntry<T> {
   timestamp: number;
   ttl: number; // Time to live in milliseconds
   accessCount: number;
-  lastAccessed: number
+  lastAccessed: number;
 }
 
 export interface CacheStats {
@@ -16,7 +16,7 @@ export interface CacheStats {
   hitRate: number;
   memoryUsage: number; // Estimated in bytes
   oldestEntry: number;
-  newestEntry: number
+  newestEntry: number;
 }
 
 export interface PerformanceMetrics {
@@ -25,7 +25,7 @@ export interface PerformanceMetrics {
   memoryUsage: number;
   recommendationCount: number;
   averageResponseTime: number;
-  peakMemoryUsage: number
+  peakMemoryUsage: number;
 }
 
 /**
@@ -93,7 +93,7 @@ export class PerformanceCache<T> {
       timestamp: now,
       ttl,
       accessCount: 1,
-      lastAccessed: now
+      lastAccessed: now,
     };
 
     this.cache.set(key, entry);
@@ -159,7 +159,7 @@ export class PerformanceCache<T> {
       hitRate,
       memoryUsage,
       oldestEntry: oldestEntry === now ? 0 : oldestEntry,
-      newestEntry
+      newestEntry,
     };
   }
 
@@ -194,7 +194,7 @@ export class PerformanceCache<T> {
       }
     }
 
-    (keysToDelete || []).forEach(key => this.cache.delete(key));
+    (keysToDelete || []).forEach((key) => this.cache.delete(key));
   }
 
   /**
@@ -202,15 +202,18 @@ export class PerformanceCache<T> {
    */
   private estimateObjectSize(obj: unknown): number {
     if (obj === null || obj === undefined) return 0;
-    if (typeof obj === 'string') return (obj || []).length * 2;
-    if (typeof obj === 'number') return 8;
-    if (typeof obj === 'boolean') return 4;
+    if (typeof obj === "string") return (obj || []).length * 2;
+    if (typeof obj === "number") return 8;
+    if (typeof obj === "boolean") return 4;
 
     if (Array.isArray(obj)) {
-      return obj.reduce((size, item) => size + this.estimateObjectSize(item), 0);
+      return obj.reduce(
+        (size, item) => size + this.estimateObjectSize(item),
+        0,
+      );
     }
 
-    if (typeof obj === 'object') {
+    if (typeof obj === "object") {
       let size = 0;
       for (const [key, value] of Object.entries(obj)) {
         size += (key || []).length * 2; // Key size
@@ -252,7 +255,7 @@ export class PerformanceMonitor {
       const endTime = performance.now();
       const duration = endTime - startTime;
 
-      this.recordMetric('calculationTime', duration);
+      this.recordMetric("calculationTime", duration);
 
       return duration;
     };
@@ -277,7 +280,7 @@ export class PerformanceMonitor {
       memoryUsage: this.currentMetrics.memoryUsage || 0,
       recommendationCount: this.currentMetrics.recommendationCount || 0,
       averageResponseTime: this.currentMetrics.averageResponseTime || 0,
-      peakMemoryUsage: this.currentMetrics.peakMemoryUsage || 0
+      peakMemoryUsage: this.currentMetrics.peakMemoryUsage || 0,
     };
 
     this.metrics.push(snapshot);
@@ -306,7 +309,7 @@ export class PerformanceMonitor {
         memoryUsage: 0,
         recommendationCount: 0,
         averageResponseTime: 0,
-        peakMemoryUsage: 0
+        peakMemoryUsage: 0,
       };
       return { current: empty, average: empty, peak: empty, history: [] };
     }
@@ -317,50 +320,81 @@ export class PerformanceMonitor {
     // Pattern KK-1: Safe arithmetic with type validation
     const metricsLength = this.metrics.length || 1;
     const average: PerformanceMetrics = {
-      calculationTime: (this.metrics.reduce((sum, m) => {
-          const numericSum = typeof sum === 'number' ? sum : 0;
-          const numericValue = typeof m.calculationTime === 'number' ? m.calculationTime : 0;
-          return numericSum + numericValue;
-        }, 0) || 0) / metricsLength,
-      cacheHitRate: (this.metrics.reduce((sum, m) => {
-          const numericSum = typeof sum === 'number' ? sum : 0;
-          const numericValue = typeof m.cacheHitRate === 'number' ? m.cacheHitRate : 0;
-          return numericSum + numericValue;
-        }, 0) || 0) / metricsLength,
-      memoryUsage: (this.metrics.reduce((sum, m) => {
-          const numericSum = typeof sum === 'number' ? sum : 0;
-          const numericValue = typeof m.memoryUsage === 'number' ? m.memoryUsage : 0;
-          return numericSum + numericValue;
-        }, 0) || 0) / metricsLength,
-      recommendationCount: (this.metrics.reduce((sum, m) => {
-          const numericSum = typeof sum === 'number' ? sum : 0;
+      calculationTime:
+        (this.metrics.reduce((sum, m) => {
+          const numericSum = typeof sum === "number" ? sum : 0;
           const numericValue =
-            typeof m.recommendationCount === 'number' ? m.recommendationCount : 0;
+            typeof m.calculationTime === "number" ? m.calculationTime : 0;
           return numericSum + numericValue;
         }, 0) || 0) / metricsLength,
-      averageResponseTime: (this.metrics.reduce((sum, m) => {
-          const numericSum = typeof sum === 'number' ? sum : 0;
+      cacheHitRate:
+        (this.metrics.reduce((sum, m) => {
+          const numericSum = typeof sum === "number" ? sum : 0;
           const numericValue =
-            typeof m.averageResponseTime === 'number' ? m.averageResponseTime : 0;
+            typeof m.cacheHitRate === "number" ? m.cacheHitRate : 0;
           return numericSum + numericValue;
         }, 0) || 0) / metricsLength,
-      peakMemoryUsage: (this.metrics.reduce((sum, m) => {
-          const numericSum = typeof sum === 'number' ? sum : 0;
-          const numericValue = typeof m.peakMemoryUsage === 'number' ? m.peakMemoryUsage : 0;
+      memoryUsage:
+        (this.metrics.reduce((sum, m) => {
+          const numericSum = typeof sum === "number" ? sum : 0;
+          const numericValue =
+            typeof m.memoryUsage === "number" ? m.memoryUsage : 0;
           return numericSum + numericValue;
-        }, 0) || 0) / metricsLength
+        }, 0) || 0) / metricsLength,
+      recommendationCount:
+        (this.metrics.reduce((sum, m) => {
+          const numericSum = typeof sum === "number" ? sum : 0;
+          const numericValue =
+            typeof m.recommendationCount === "number"
+              ? m.recommendationCount
+              : 0;
+          return numericSum + numericValue;
+        }, 0) || 0) / metricsLength,
+      averageResponseTime:
+        (this.metrics.reduce((sum, m) => {
+          const numericSum = typeof sum === "number" ? sum : 0;
+          const numericValue =
+            typeof m.averageResponseTime === "number"
+              ? m.averageResponseTime
+              : 0;
+          return numericSum + numericValue;
+        }, 0) || 0) / metricsLength,
+      peakMemoryUsage:
+        (this.metrics.reduce((sum, m) => {
+          const numericSum = typeof sum === "number" ? sum : 0;
+          const numericValue =
+            typeof m.peakMemoryUsage === "number" ? m.peakMemoryUsage : 0;
+          return numericSum + numericValue;
+        }, 0) || 0) / metricsLength,
     };
 
     // Calculate peaks
     const metricsArray = this.metrics.length > 0 ? this.metrics : [];
     const peak: PerformanceMetrics = {
       calculationTime:
-        metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.calculationTime)) : 0,
-      cacheHitRate: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.cacheHitRate)) : 0,
-      memoryUsage: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.memoryUsage)) : 0,
-      recommendationCount: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.recommendationCount)) : 0,
-      averageResponseTime: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.averageResponseTime)) : 0,
-      peakMemoryUsage: metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.peakMemoryUsage)) : 0
+        metricsArray.length > 0
+          ? Math.max(...metricsArray.map((m) => m.calculationTime))
+          : 0,
+      cacheHitRate:
+        metricsArray.length > 0
+          ? Math.max(...metricsArray.map((m) => m.cacheHitRate))
+          : 0,
+      memoryUsage:
+        metricsArray.length > 0
+          ? Math.max(...metricsArray.map((m) => m.memoryUsage))
+          : 0,
+      recommendationCount:
+        metricsArray.length > 0
+          ? Math.max(...metricsArray.map((m) => m.recommendationCount))
+          : 0,
+      averageResponseTime:
+        metricsArray.length > 0
+          ? Math.max(...metricsArray.map((m) => m.averageResponseTime))
+          : 0,
+      peakMemoryUsage:
+        metricsArray.length > 0
+          ? Math.max(...metricsArray.map((m) => m.peakMemoryUsage))
+          : 0,
     };
 
     return { current, average, peak, history: [...this.metrics] };
@@ -377,9 +411,18 @@ export class PerformanceMonitor {
 
 // ===== GLOBAL CACHE INSTANCES =====
 
-export const flavorCompatibilityCache = new PerformanceCache<unknown>(2000, 600000); // 10 minutes TTL
-export const astrologicalProfileCache = new PerformanceCache<unknown>(500, 300000); // 5 minutes TTL
-export const ingredientProfileCache = new PerformanceCache<unknown>(1500, 1800000); // 30 minutes TTL
+export const flavorCompatibilityCache = new PerformanceCache<unknown>(
+  2000,
+  600000,
+); // 10 minutes TTL
+export const astrologicalProfileCache = new PerformanceCache<unknown>(
+  500,
+  300000,
+); // 5 minutes TTL
+export const ingredientProfileCache = new PerformanceCache<unknown>(
+  1500,
+  1800000,
+); // 30 minutes TTL
 export const performanceMonitor = new PerformanceMonitor();
 
 // ===== CACHE WARMING FUNCTIONS =====
@@ -388,11 +431,11 @@ export const performanceMonitor = new PerformanceMonitor();
  * Warm up caches with common calculations
  */
 export async function warmupCaches(): Promise<void> {
-  log.info('🔥 Warming up caches for optimal performance...');
+  log.info("🔥 Warming up caches for optimal performance...");
   // This will be implemented with actual data warming
   // For now, just log the warming process
 
-  log.info('✅ Cache warmup complete');
+  log.info("✅ Cache warmup complete");
 }
 
 /**
@@ -402,13 +445,13 @@ export function getAllCacheStats(): {
   flavorCompatibility: CacheStats;
   astrologicalProfile: CacheStats;
   ingredientProfile: CacheStats;
-  performance: ReturnType<PerformanceMonitor['getStats']>;
+  performance: ReturnType<PerformanceMonitor["getStats"]>;
 } {
   return {
     flavorCompatibility: flavorCompatibilityCache.getStats(),
     astrologicalProfile: astrologicalProfileCache.getStats(),
     ingredientProfile: ingredientProfileCache.getStats(),
-    performance: performanceMonitor.getStats()
+    performance: performanceMonitor.getStats(),
   };
 }
 
@@ -420,5 +463,5 @@ export function clearAllCaches(): void {
   astrologicalProfileCache.clear();
   ingredientProfileCache.clear();
   performanceMonitor.clear();
-  log.info('🧹 All caches cleared');
+  log.info("🧹 All caches cleared");
 }

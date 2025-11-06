@@ -18,10 +18,10 @@
 
 ```typescript
 instructions: Array.isArray(alchemyRecipe.instructions)
-  ? alchemyRecipe.instructions as string[]
-  : typeof alchemyRecipe.instructions === 'string'
-  ? [alchemyRecipe.instructions]
-  : []
+  ? (alchemyRecipe.instructions as string[])
+  : typeof alchemyRecipe.instructions === "string"
+    ? [alchemyRecipe.instructions]
+    : [];
 ```
 
 #### ✅ **Error 2-3: Fixed** - TS2312 & TS2322 in cuisineCalculations.ts
@@ -31,11 +31,11 @@ Created standalone `CuisineRecommendation` interface avoiding conflicts
 
 ```typescript
 export interface CuisineRecommendation {
-    id: string;
-    name: string;
-    elementalProperties: ElementalProperties;
-    compatibilityScore: number;
-    elementalAlignment: Record<string, number>;
+  id: string;
+  name: string;
+  elementalProperties: ElementalProperties;
+  compatibilityScore: number;
+  elementalAlignment: Record<string, number>;
 }
 ```
 

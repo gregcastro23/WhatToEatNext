@@ -1,5 +1,5 @@
-import { getCurrentAlchemicalState } from '@/services/RealAlchemizeService';
-import type { ElementalProperties } from '@/types/celestial';
+import { getCurrentAlchemicalState } from "@/services/RealAlchemizeService";
+import type { ElementalProperties } from "@/types/celestial";
 
 export interface TokenRatesInput {
   // Option 1: Provide current moment data
@@ -9,7 +9,10 @@ export interface TokenRatesInput {
   elemental?: ElementalProperties;
   esms?: { Spirit: number; Essence: number; Matter: number; Substance: number };
   // Option 3: Provide planetary positions
-  planetaryPositions?: Record<string, { sign: string; degree: number; minute?: number; isRetrograde?: boolean }>;
+  planetaryPositions?: Record<
+    string,
+    { sign: string; degree: number; minute?: number; isRetrograde?: boolean }
+  >;
 }
 
 export interface TokenRatesResult {
@@ -21,41 +24,58 @@ export interface TokenRatesResult {
   monica: number;
   // Additional backend metrics
   projections?: {
-    nextHour: { Spirit: number; Essence: number; Matter: number; Substance: number };
-    nextDay: { Spirit: number; Essence: number; Matter: number; Substance: number };
+    nextHour: {
+      Spirit: number;
+      Essence: number;
+      Matter: number;
+      Substance: number;
+    };
+    nextDay: {
+      Spirit: number;
+      Essence: number;
+      Matter: number;
+      Substance: number;
+    };
   };
   harmonicAnalysis?: {
     dominantFrequency: number;
     resonanceStrength: number;
     stabilityIndex: number;
   };
-  marketPhase?: 'accumulation' | 'distribution' | 'trending' | 'consolidation';
+  marketPhase?: "accumulation" | "distribution" | "trending" | "consolidation";
   volatilityIndex?: number;
   upcomingEvents?: Array<{
     timestamp: string;
-    type: 'planetary_transition' | 'lunar_phase' | 'aspect_formation';
-    impact: 'low' | 'medium' | 'high';
+    type: "planetary_transition" | "lunar_phase" | "aspect_formation";
+    impact: "low" | "medium" | "high";
     description: string;
   }>;
 }
 
 function computeTokensFromAlchemical(alchemicalResult: any): TokenRatesResult {
-  const esms = (alchemicalResult && typeof alchemicalResult === 'object')
-    ? (alchemicalResult as Record<string, any>).esms
-    : undefined;
+  const esms =
+    alchemicalResult && typeof alchemicalResult === "object"
+      ? (alchemicalResult as Record<string, any>).esms
+      : undefined;
 
-  const Spirit = typeof esms?.Spirit === 'number' ? esms.Spirit : 0.5;
-  const Essence = typeof esms?.Essence === 'number' ? esms.Essence : 0.5;
-  const Matter = typeof esms?.Matter === 'number' ? esms.Matter : 0.5;
-  const Substance = typeof esms?.Substance === 'number' ? esms.Substance : 0.5;
+  const Spirit = typeof esms?.Spirit === "number" ? esms.Spirit : 0.5;
+  const Essence = typeof esms?.Essence === "number" ? esms.Essence : 0.5;
+  const Matter = typeof esms?.Matter === "number" ? esms.Matter : 0.5;
+  const Substance = typeof esms?.Substance === "number" ? esms.Substance : 0.5;
 
   return {
     Spirit,
     Essence,
     Matter,
     Substance,
-    kalchm: typeof alchemicalResult?.kalchm === 'number' ? alchemicalResult.kalchm : 1.0,
-    monica: typeof alchemicalResult?.monica === 'number' ? alchemicalResult.monica : 1.0
+    kalchm:
+      typeof alchemicalResult?.kalchm === "number"
+        ? alchemicalResult.kalchm
+        : 1.0,
+    monica:
+      typeof alchemicalResult?.monica === "number"
+        ? alchemicalResult.monica
+        : 1.0,
   };
 }
 
@@ -70,7 +90,8 @@ export class TokensClient {
 
   constructor() {
     this.backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-    this.useBackend = String(process.env.NEXT_PUBLIC_TOKENS_BACKEND).toLowerCase() === 'true';
+    this.useBackend =
+      String(process.env.NEXT_PUBLIC_TOKENS_BACKEND).toLowerCase() === "true";
   }
 
   async calculateRates(input: TokenRatesInput = {}): Promise<TokenRatesResult> {
@@ -81,14 +102,18 @@ export class TokensClient {
           datetime: input.datetime?.toISOString(),
           location: input.location,
           elemental: input.elemental,
-          esms: input.esms
-        }
+          esms: input.esms,
+        };
 
         const result = await alchmAPI.calculateTokenRates(request);
-        logger.debug('TokensClient', 'Backend calculation successful', result);
+        logger.debug("TokensClient", "Backend calculation successful", result);
         return result;
       } catch (error) {
-        logger.warn('TokensClient', 'Backend calculation failed, falling back to local', error);
+        logger.warn(
+          "TokensClient",
+          "Backend calculation failed, falling back to local",
+          error,
+        );
         // Fall through to local
       }
     }

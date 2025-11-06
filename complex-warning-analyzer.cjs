@@ -7,69 +7,99 @@
  * vs those that can be safely automated.
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 // Categories of warnings that require manual review
 const MANUAL_REVIEW_CATEGORIES = {
-  'COMPLEX_TYPE_ISSUES': {
-    rules: ['@typescript-eslint/no-explicit-any'],
-    description: 'Type-related warnings requiring domain knowledge',
-    priority: 'HIGH',
-    estimatedEffort: 'HIGH'
+  COMPLEX_TYPE_ISSUES: {
+    rules: ["@typescript-eslint/no-explicit-any"],
+    description: "Type-related warnings requiring domain knowledge",
+    priority: "HIGH",
+    estimatedEffort: "HIGH",
   },
-  'SECURITY_CONCERNS': {
-    rules: ['no-eval', 'no-implied-eval', 'no-new-func', 'no-script-url'],
-    description: 'Security-related warnings requiring careful review',
-    priority: 'CRITICAL',
-    estimatedEffort: 'MEDIUM'
+  SECURITY_CONCERNS: {
+    rules: ["no-eval", "no-implied-eval", "no-new-func", "no-script-url"],
+    description: "Security-related warnings requiring careful review",
+    priority: "CRITICAL",
+    estimatedEffort: "MEDIUM",
   },
-  'REACT_HOOKS_LOGIC': {
-    rules: ['react-hooks/exhaustive-deps', 'react-hooks/rules-of-hooks'],
-    description: 'React hooks requiring understanding of component logic',
-    priority: 'HIGH',
-    estimatedEffort: 'HIGH'
+  REACT_HOOKS_LOGIC: {
+    rules: ["react-hooks/exhaustive-deps", "react-hooks/rules-of-hooks"],
+    description: "React hooks requiring understanding of component logic",
+    priority: "HIGH",
+    estimatedEffort: "HIGH",
   },
-  'DOMAIN_SPECIFIC_VARIABLES': {
-    rules: ['@typescript-eslint/no-unused-vars', 'no-unused-vars'],
-    description: 'Unused variables that may be domain-specific (astrological, campaign)',
-    priority: 'MEDIUM',
-    estimatedEffort: 'MEDIUM'
+  DOMAIN_SPECIFIC_VARIABLES: {
+    rules: ["@typescript-eslint/no-unused-vars", "no-unused-vars"],
+    description:
+      "Unused variables that may be domain-specific (astrological, campaign)",
+    priority: "MEDIUM",
+    estimatedEffort: "MEDIUM",
   },
-  'INTENTIONAL_CONSOLE': {
-    rules: ['no-console'],
-    description: 'Console statements that may be intentional (debugging, logging)',
-    priority: 'LOW',
-    estimatedEffort: 'LOW'
+  INTENTIONAL_CONSOLE: {
+    rules: ["no-console"],
+    description:
+      "Console statements that may be intentional (debugging, logging)",
+    priority: "LOW",
+    estimatedEffort: "LOW",
   },
-  'SYNTAX_ERRORS': {
-    rules: ['no-const-assign', 'no-undef', 'no-redeclare', 'no-dupe-keys'],
-    description: 'Syntax errors that may indicate deeper issues',
-    priority: 'HIGH',
-    estimatedEffort: 'MEDIUM'
+  SYNTAX_ERRORS: {
+    rules: ["no-const-assign", "no-undef", "no-redeclare", "no-dupe-keys"],
+    description: "Syntax errors that may indicate deeper issues",
+    priority: "HIGH",
+    estimatedEffort: "MEDIUM",
   },
-  'PERFORMANCE_ISSUES': {
-    rules: ['no-unreachable', 'no-useless-catch', 'no-fallthrough'],
-    description: 'Performance-related warnings requiring logic review',
-    priority: 'MEDIUM',
-    estimatedEffort: 'MEDIUM'
-  }
+  PERFORMANCE_ISSUES: {
+    rules: ["no-unreachable", "no-useless-catch", "no-fallthrough"],
+    description: "Performance-related warnings requiring logic review",
+    priority: "MEDIUM",
+    estimatedEffort: "MEDIUM",
+  },
 };
 
 // Domain-specific patterns to preserve
 const DOMAIN_PATTERNS = {
   astrological: [
-    'planet', 'sign', 'degree', 'longitude', 'position', 'transit', 'retrograde',
-    'elemental', 'fire', 'water', 'earth', 'air', 'zodiac', 'lunar', 'solar'
+    "planet",
+    "sign",
+    "degree",
+    "longitude",
+    "position",
+    "transit",
+    "retrograde",
+    "elemental",
+    "fire",
+    "water",
+    "earth",
+    "air",
+    "zodiac",
+    "lunar",
+    "solar",
   ],
   campaign: [
-    'campaign', 'metrics', 'progress', 'safety', 'validation', 'intelligence',
-    'enterprise', 'transformation', 'analysis', 'monitoring'
+    "campaign",
+    "metrics",
+    "progress",
+    "safety",
+    "validation",
+    "intelligence",
+    "enterprise",
+    "transformation",
+    "analysis",
+    "monitoring",
   ],
   test: [
-    'mock', 'stub', 'test', 'expect', 'describe', 'it', 'beforeEach', 'afterEach'
-  ]
+    "mock",
+    "stub",
+    "test",
+    "expect",
+    "describe",
+    "it",
+    "beforeEach",
+    "afterEach",
+  ],
 };
 
 class ComplexWarningAnalyzer {
@@ -81,27 +111,28 @@ class ComplexWarningAnalyzer {
       byFile: {},
       complexWarnings: [],
       automatable: [],
-      requiresManualReview: []
+      requiresManualReview: [],
     };
   }
 
   async analyzeWarnings() {
-    console.log('🔍 Analyzing complex warnings requiring manual intervention...\n');
+    console.log(
+      "🔍 Analyzing complex warnings requiring manual intervention...\n",
+    );
 
     try {
       // Get ESLint output in JSON format
-      const lintOutput = execSync('yarn lint:quick --format=json 2>/dev/null', {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024 // 10MB buffer
+      const lintOutput = execSync("yarn lint:quick --format=json 2>/dev/null", {
+        encoding: "utf8",
+        maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       });
 
       const results = JSON.parse(lintOutput);
       this.processLintResults(results);
       this.categorizeWarnings();
       this.generateReport();
-
     } catch (error) {
-      console.error('Error analyzing warnings:', error.message);
+      console.error("Error analyzing warnings:", error.message);
       process.exit(1);
     }
   }
@@ -118,8 +149,8 @@ class ComplexWarningAnalyzer {
           column: message.column,
           rule: message.ruleId,
           message: message.message,
-          severity: message.severity === 2 ? 'error' : 'warning',
-          source: message.source || ''
+          severity: message.severity === 2 ? "error" : "warning",
+          source: message.source || "",
         };
 
         this.warnings.push(warning);
@@ -136,11 +167,13 @@ class ComplexWarningAnalyzer {
 
   categorizeWarnings() {
     for (const warning of this.warnings) {
-      let category = 'UNCATEGORIZED';
+      let category = "UNCATEGORIZED";
       let requiresManualReview = false;
 
       // Check against manual review categories
-      for (const [catName, catInfo] of Object.entries(MANUAL_REVIEW_CATEGORIES)) {
+      for (const [catName, catInfo] of Object.entries(
+        MANUAL_REVIEW_CATEGORIES,
+      )) {
         if (catInfo.rules.includes(warning.rule)) {
           category = catName;
           requiresManualReview = this.requiresManualReview(warning, catName);
@@ -159,13 +192,13 @@ class ComplexWarningAnalyzer {
         this.analysis.requiresManualReview.push({
           ...warning,
           category,
-          reason: this.getManualReviewReason(warning, category)
+          reason: this.getManualReviewReason(warning, category),
         });
       } else {
         this.analysis.automatable.push({
           ...warning,
           category,
-          automationStrategy: this.getAutomationStrategy(warning)
+          automationStrategy: this.getAutomationStrategy(warning),
         });
       }
     }
@@ -175,12 +208,15 @@ class ComplexWarningAnalyzer {
     const { file, rule, source, message } = warning;
 
     // Always require manual review for certain categories
-    if (['SECURITY_CONCERNS', 'REACT_HOOKS_LOGIC'].includes(category)) {
+    if (["SECURITY_CONCERNS", "REACT_HOOKS_LOGIC"].includes(category)) {
       return true;
     }
 
     // Check for domain-specific patterns
-    if (this.containsDomainPattern(source) || this.containsDomainPattern(message)) {
+    if (
+      this.containsDomainPattern(source) ||
+      this.containsDomainPattern(message)
+    ) {
       return true;
     }
 
@@ -191,24 +227,28 @@ class ComplexWarningAnalyzer {
 
     // Specific rule-based logic
     switch (rule) {
-      case '@typescript-eslint/no-explicit-any':
+      case "@typescript-eslint/no-explicit-any":
         // Complex any types in calculations or services require review
-        return file.includes('calculations/') ||
-               file.includes('services/') ||
-               source.includes('Record<') ||
-               source.includes('Promise<') ||
-               source.includes('Function');
+        return (
+          file.includes("calculations/") ||
+          file.includes("services/") ||
+          source.includes("Record<") ||
+          source.includes("Promise<") ||
+          source.includes("Function")
+        );
 
-      case 'no-console':
+      case "no-console":
         // Console statements in debug files or with specific patterns
-        return file.includes('debug/') ||
-               file.includes('test/') ||
-               source.includes('console.error') ||
-               source.includes('console.warn') ||
-               message.includes('intentional');
+        return (
+          file.includes("debug/") ||
+          file.includes("test/") ||
+          source.includes("console.error") ||
+          source.includes("console.warn") ||
+          message.includes("intentional")
+        );
 
-      case '@typescript-eslint/no-unused-vars':
-      case 'no-unused-vars':
+      case "@typescript-eslint/no-unused-vars":
+      case "no-unused-vars":
         // Variables with domain-specific names
         const varName = this.extractVariableName(source);
         return this.isDomainVariable(varName);
@@ -234,21 +274,21 @@ class ComplexWarningAnalyzer {
 
   isComplexFile(filePath) {
     const complexPatterns = [
-      'calculations/',
-      'services/campaign/',
-      'services/.*Intelligence',
-      'alchemicalEngine',
-      'astrology',
-      'planetary'
+      "calculations/",
+      "services/campaign/",
+      "services/.*Intelligence",
+      "alchemicalEngine",
+      "astrology",
+      "planetary",
     ];
 
-    return complexPatterns.some(pattern =>
-      new RegExp(pattern, 'i').test(filePath)
+    return complexPatterns.some((pattern) =>
+      new RegExp(pattern, "i").test(filePath),
     );
   }
 
   extractVariableName(source) {
-    if (!source) return '';
+    if (!source) return "";
 
     // Extract variable name from various patterns
     const patterns = [
@@ -256,7 +296,7 @@ class ComplexWarningAnalyzer {
       /'([^']+)' is assigned a value but never used/,
       /const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/,
       /let\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/,
-      /var\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/
+      /var\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/,
     ];
 
     for (const pattern of patterns) {
@@ -264,7 +304,7 @@ class ComplexWarningAnalyzer {
       if (match) return match[1];
     }
 
-    return '';
+    return "";
   }
 
   isDomainVariable(varName) {
@@ -283,27 +323,28 @@ class ComplexWarningAnalyzer {
 
   getManualReviewReason(warning, category) {
     const reasons = {
-      'COMPLEX_TYPE_ISSUES': 'Requires domain knowledge for proper typing',
-      'SECURITY_CONCERNS': 'Security implications need careful review',
-      'REACT_HOOKS_LOGIC': 'Component logic understanding required',
-      'DOMAIN_SPECIFIC_VARIABLES': 'May be intentionally preserved for domain logic',
-      'INTENTIONAL_CONSOLE': 'May be intentional debugging or logging'
+      COMPLEX_TYPE_ISSUES: "Requires domain knowledge for proper typing",
+      SECURITY_CONCERNS: "Security implications need careful review",
+      REACT_HOOKS_LOGIC: "Component logic understanding required",
+      DOMAIN_SPECIFIC_VARIABLES:
+        "May be intentionally preserved for domain logic",
+      INTENTIONAL_CONSOLE: "May be intentional debugging or logging",
     };
 
-    return reasons[category] || 'Complex logic requires human review';
+    return reasons[category] || "Complex logic requires human review";
   }
 
   getAutomationStrategy(warning) {
     const strategies = {
-      'no-console': 'Remove or comment out development console statements',
-      '@typescript-eslint/no-unused-vars': 'Prefix with underscore or remove',
-      'no-unused-vars': 'Remove unused variable declarations',
-      'no-const-assign': 'Fix const reassignment',
-      'no-undef': 'Add proper imports or declarations',
-      'no-redeclare': 'Rename or remove duplicate declarations'
+      "no-console": "Remove or comment out development console statements",
+      "@typescript-eslint/no-unused-vars": "Prefix with underscore or remove",
+      "no-unused-vars": "Remove unused variable declarations",
+      "no-const-assign": "Fix const reassignment",
+      "no-undef": "Add proper imports or declarations",
+      "no-redeclare": "Rename or remove duplicate declarations",
     };
 
-    return strategies[warning.rule] || 'Apply ESLint auto-fix';
+    return strategies[warning.rule] || "Apply ESLint auto-fix";
   }
 
   generateReport() {
@@ -312,27 +353,35 @@ class ComplexWarningAnalyzer {
         totalWarnings: this.analysis.total,
         requiresManualReview: this.analysis.requiresManualReview.length,
         canBeAutomated: this.analysis.automatable.length,
-        manualReviewPercentage: Math.round((this.analysis.requiresManualReview.length / this.analysis.total) * 100)
+        manualReviewPercentage: Math.round(
+          (this.analysis.requiresManualReview.length / this.analysis.total) *
+            100,
+        ),
       },
       categories: {},
       topFiles: this.getTopFiles(),
-      recommendations: this.generateRecommendations()
+      recommendations: this.generateRecommendations(),
     };
 
     // Generate category breakdown
-    for (const [category, warnings] of Object.entries(this.analysis.byCategory)) {
-      const manualCount = warnings.filter(w =>
-        this.analysis.requiresManualReview.some(mr =>
-          mr.file === w.file && mr.line === w.line && mr.rule === w.rule
-        )
+    for (const [category, warnings] of Object.entries(
+      this.analysis.byCategory,
+    )) {
+      const manualCount = warnings.filter((w) =>
+        this.analysis.requiresManualReview.some(
+          (mr) =>
+            mr.file === w.file && mr.line === w.line && mr.rule === w.rule,
+        ),
       ).length;
 
       report.categories[category] = {
         total: warnings.length,
         requiresManualReview: manualCount,
         canBeAutomated: warnings.length - manualCount,
-        priority: MANUAL_REVIEW_CATEGORIES[category]?.priority || 'MEDIUM',
-        description: MANUAL_REVIEW_CATEGORIES[category]?.description || 'Uncategorized warnings'
+        priority: MANUAL_REVIEW_CATEGORIES[category]?.priority || "MEDIUM",
+        description:
+          MANUAL_REVIEW_CATEGORIES[category]?.description ||
+          "Uncategorized warnings",
       };
     }
 
@@ -345,11 +394,12 @@ class ComplexWarningAnalyzer {
       .map(([file, warnings]) => ({
         file,
         total: warnings.length,
-        manual: warnings.filter(w =>
-          this.analysis.requiresManualReview.some(mr =>
-            mr.file === w.file && mr.line === w.line && mr.rule === w.rule
-          )
-        ).length
+        manual: warnings.filter((w) =>
+          this.analysis.requiresManualReview.some(
+            (mr) =>
+              mr.file === w.file && mr.line === w.line && mr.rule === w.rule,
+          ),
+        ).length,
       }))
       .sort((a, b) => b.manual - a.manual)
       .slice(0, 10);
@@ -362,15 +412,15 @@ class ComplexWarningAnalyzer {
 
     // High-priority manual review items
     const highPriorityCategories = Object.entries(this.analysis.byCategory)
-      .filter(([cat]) => MANUAL_REVIEW_CATEGORIES[cat]?.priority === 'HIGH')
-      .sort(([,a], [,b]) => b.length - a.length);
+      .filter(([cat]) => MANUAL_REVIEW_CATEGORIES[cat]?.priority === "HIGH")
+      .sort(([, a], [, b]) => b.length - a.length);
 
     if (highPriorityCategories.length > 0) {
       recommendations.push({
-        type: 'HIGH_PRIORITY',
-        title: 'Focus on High-Priority Manual Reviews',
+        type: "HIGH_PRIORITY",
+        title: "Focus on High-Priority Manual Reviews",
         description: `Start with ${highPriorityCategories[0][0]} (${highPriorityCategories[0][1].length} warnings)`,
-        action: 'Begin manual review of type-related and React hooks warnings'
+        action: "Begin manual review of type-related and React hooks warnings",
       });
     }
 
@@ -378,23 +428,23 @@ class ComplexWarningAnalyzer {
     const automatableCount = this.analysis.automatable.length;
     if (automatableCount > 100) {
       recommendations.push({
-        type: 'AUTOMATION',
-        title: 'Significant Automation Opportunity',
+        type: "AUTOMATION",
+        title: "Significant Automation Opportunity",
         description: `${automatableCount} warnings can be safely automated`,
-        action: 'Run targeted automation scripts for simple fixes'
+        action: "Run targeted automation scripts for simple fixes",
       });
     }
 
     // Domain-specific review
-    const domainWarnings = this.analysis.requiresManualReview.filter(w =>
-      w.reason.includes('domain')
+    const domainWarnings = this.analysis.requiresManualReview.filter((w) =>
+      w.reason.includes("domain"),
     );
     if (domainWarnings.length > 50) {
       recommendations.push({
-        type: 'DOMAIN_REVIEW',
-        title: 'Domain-Specific Review Needed',
+        type: "DOMAIN_REVIEW",
+        title: "Domain-Specific Review Needed",
         description: `${domainWarnings.length} warnings require astrological/campaign domain knowledge`,
-        action: 'Review with domain expert to preserve intentional patterns'
+        action: "Review with domain expert to preserve intentional patterns",
       });
     }
 
@@ -402,17 +452,19 @@ class ComplexWarningAnalyzer {
   }
 
   printReport(report) {
-    console.log('📊 COMPLEX WARNING ANALYSIS REPORT');
-    console.log('=' .repeat(50));
+    console.log("📊 COMPLEX WARNING ANALYSIS REPORT");
+    console.log("=".repeat(50));
     console.log();
 
-    console.log('📈 SUMMARY:');
+    console.log("📈 SUMMARY:");
     console.log(`   Total Warnings: ${report.summary.totalWarnings}`);
-    console.log(`   Requires Manual Review: ${report.summary.requiresManualReview} (${report.summary.manualReviewPercentage}%)`);
+    console.log(
+      `   Requires Manual Review: ${report.summary.requiresManualReview} (${report.summary.manualReviewPercentage}%)`,
+    );
     console.log(`   Can Be Automated: ${report.summary.canBeAutomated}`);
     console.log();
 
-    console.log('🏷️  CATEGORIES:');
+    console.log("🏷️  CATEGORIES:");
     for (const [category, info] of Object.entries(report.categories)) {
       console.log(`   ${category}:`);
       console.log(`     Total: ${info.total}`);
@@ -423,13 +475,15 @@ class ComplexWarningAnalyzer {
       console.log();
     }
 
-    console.log('📁 TOP FILES REQUIRING MANUAL REVIEW:');
+    console.log("📁 TOP FILES REQUIRING MANUAL REVIEW:");
     for (const file of report.topFiles.slice(0, 5)) {
-      console.log(`   ${file.file}: ${file.manual} manual / ${file.total} total`);
+      console.log(
+        `   ${file.file}: ${file.manual} manual / ${file.total} total`,
+      );
     }
     console.log();
 
-    console.log('💡 RECOMMENDATIONS:');
+    console.log("💡 RECOMMENDATIONS:");
     for (const rec of report.recommendations) {
       console.log(`   ${rec.type}: ${rec.title}`);
       console.log(`     ${rec.description}`);
@@ -443,17 +497,19 @@ class ComplexWarningAnalyzer {
       ...report,
       detailedWarnings: {
         manualReview: this.analysis.requiresManualReview,
-        automatable: this.analysis.automatable
+        automatable: this.analysis.automatable,
       },
-      generatedAt: new Date().toISOString()
+      generatedAt: new Date().toISOString(),
     };
 
     fs.writeFileSync(
-      'complex-warning-analysis-report.json',
-      JSON.stringify(detailedReport, null, 2)
+      "complex-warning-analysis-report.json",
+      JSON.stringify(detailedReport, null, 2),
     );
 
-    console.log('📄 Detailed report saved to: complex-warning-analysis-report.json');
+    console.log(
+      "📄 Detailed report saved to: complex-warning-analysis-report.json",
+    );
     console.log();
 
     // Generate markdown summary
@@ -476,29 +532,40 @@ Generated: ${new Date().toISOString()}
 ${Object.entries(report.categories)
   .filter(([, info]) => info.requiresManualReview > 0)
   .sort(([, a], [, b]) => b.requiresManualReview - a.requiresManualReview)
-  .map(([category, info]) => `
+  .map(
+    ([category, info]) => `
 ### ${category} (Priority: ${info.priority})
 
 - **Total**: ${info.total}
 - **Manual Review**: ${info.requiresManualReview}
 - **Description**: ${info.description}
-`).join('')}
+`,
+  )
+  .join("")}
 
 ## Top Files Requiring Manual Review
 
-${report.topFiles.slice(0, 10).map(file =>
-  `- \`${file.file}\`: ${file.manual} manual reviews needed (${file.total} total warnings)`
-).join('\n')}
+${report.topFiles
+  .slice(0, 10)
+  .map(
+    (file) =>
+      `- \`${file.file}\`: ${file.manual} manual reviews needed (${file.total} total warnings)`,
+  )
+  .join("\n")}
 
 ## Recommendations
 
-${report.recommendations.map(rec => `
+${report.recommendations
+  .map(
+    (rec) => `
 ### ${rec.title}
 
 **Type**: ${rec.type}
 **Description**: ${rec.description}
 **Action**: ${rec.action}
-`).join('')}
+`,
+  )
+  .join("")}
 
 ## Next Steps
 
@@ -509,8 +576,10 @@ ${report.recommendations.map(rec => `
 
 `;
 
-    fs.writeFileSync('complex-warning-analysis-summary.md', markdown);
-    console.log('📝 Summary report saved to: complex-warning-analysis-summary.md');
+    fs.writeFileSync("complex-warning-analysis-summary.md", markdown);
+    console.log(
+      "📝 Summary report saved to: complex-warning-analysis-summary.md",
+    );
   }
 }
 

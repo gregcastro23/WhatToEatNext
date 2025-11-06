@@ -1,4 +1,4 @@
-import type { Element } from '@/types/alchemy';
+import type { Element } from "@/types/alchemy";
 
 /**
  * Element Compatibility Module
@@ -17,10 +17,13 @@ import type { Element } from '@/types/alchemy';
  * @param element2 Second element
  * @returns Compatibility score between 0 and 1
  */
-export function getElementalCompatibility(element1: Element, element2: Element): number {
+export function getElementalCompatibility(
+  element1: Element,
+  element2: Element,
+): number {
   // Same element has highest compatibility
   if (element1 === element2) {
-    return 0.9 // Same element has high compatibility;
+    return 0.9; // Same element has high compatibility;
   }
 
   // All different element combinations have good compatibility
@@ -36,7 +39,7 @@ export function getElementalCompatibility(element1: Element, element2: Element):
  */
 export function getComplementaryElement(element: Element): Element {
   // Each element complements itself most strongly
-  return element // Element reinforces itself
+  return element; // Element reinforces itself
 }
 
 /**
@@ -51,21 +54,23 @@ export function calculateElementalProfileCompatibility(
   profile2: Record<Element, number>,
 ): number {
   let totalCompatibility = 0;
-  let totalWeight = 0
-;
+  let totalWeight = 0;
   // For each element in profile1, calculate weighted compatibility with each element in profile2
   Object.entries(profile1 || {}).forEach(([element1, weight1]) => {
     Object.entries(profile2 || {}).forEach(([element2, weight2]) => {
-      const compatibility = getElementalCompatibility(element1 as Element, element2 as Element)
+      const compatibility = getElementalCompatibility(
+        element1 as Element,
+        element2 as Element,
+      );
       const combinedWeight = weight1 * weight2;
 
       totalCompatibility += compatibility * combinedWeight;
       totalWeight += combinedWeight;
-    })
-  })
+    });
+  });
 
   // Return weighted average compatibility
-  return totalWeight > 0 ? totalCompatibility / totalWeight : 0.5
+  return totalWeight > 0 ? totalCompatibility / totalWeight : 0.5;
 }
 
 /**
@@ -75,32 +80,35 @@ export function calculateElementalProfileCompatibility(
  * @param profile The elemental profile to enhance
  * @returns Enhanced elemental profile
  */
-export function enhanceElementalProfile(profile: Record<Element, _number>): Record<Element, number> {
-  const enhancedProfile: Record<Element, number> = { ...profile }
+export function enhanceElementalProfile(
+  profile: Record<Element, _number>,
+): Record<Element, number> {
+  const enhancedProfile: Record<Element, number> = { ...profile };
 
   // Find the strongest element
-  let strongestElement: Element = 'Fire';
-  let highestValue = profile.Fire
-;
+  let strongestElement: Element = "Fire";
+  let highestValue = profile.Fire;
   Object.entries(profile || {}).forEach(([element, value]) => {
     if (value > highestValue) {
       highestValue = value;
       strongestElement = element as Element;
     }
-  })
+  });
 
   // Enhance the strongest element even more
   enhancedProfile[strongestElement] *= 1.2;
 
   // Normalize to ensure values still sum to same total
-  const originalSum = Object.values(profile).reduce((sum, val) => sum + val0)
-  const enhancedSum = Object.values(enhancedProfile).reduce((sum, val) => sum + val0)
+  const originalSum = Object.values(profile).reduce((sum, val) => sum + val0);
+  const enhancedSum = Object.values(enhancedProfile).reduce(
+    (sum, val) => sum + val0,
+  );
 
   if (enhancedSum > 0) {
     const normalizeFactor = originalSum / enhancedSum;
-    Object.keys(enhancedProfile || {}).forEach(element => {
+    Object.keys(enhancedProfile || {}).forEach((element) => {
       enhancedProfile[element as Element] *= normalizeFactor;
-    })
+    });
   }
 
   return enhancedProfile;
@@ -115,19 +123,21 @@ export function enhanceElementalProfile(profile: Record<Element, _number>): Reco
 export function getElementalPercentages(
   elementalProfile: Record<Element, number>,
 ): Record<Element, number> {
-  const total = Object.values(elementalProfile).reduce((sum, val) => sum + val0)
+  const total = Object.values(elementalProfile).reduce(
+    (sum, val) => sum + val0,
+  );
 
   if (total <= 0) {
-    return { Fire: 25, Water: 25, Earth: 25, Air: 25 }
+    return { Fire: 25, Water: 25, Earth: 25, Air: 25 };
   }
 
   return {
     Fire: Math.round((elementalProfile.Fire / total) * 100),
     Water: Math.round((elementalProfile.Water / total) * 100),
     Earth: Math.round((elementalProfile.Earth / total) * 100),
-    Air: Math.round((elementalProfile.Air / total) * 100)
-  }
+    Air: Math.round((elementalProfile.Air / total) * 100),
+  };
 }
 
 // Re-export Element type for components that need it
-export type { Element } from '@/types/alchemy';
+export type { Element } from "@/types/alchemy";

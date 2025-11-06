@@ -16,13 +16,13 @@
  * Usage: node extractCuisineIngredients.cjs
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Configuration
-const CUISINES_DIR = path.join(__dirname, 'src', 'data', 'cuisines');
-const INGREDIENTS_DIR = path.join(__dirname, 'src', 'data', 'ingredients');
-const OUTPUT_DIR = path.join(__dirname, 'extracted_ingredients');
+const CUISINES_DIR = path.join(__dirname, "src", "data", "cuisines");
+const INGREDIENTS_DIR = path.join(__dirname, "src", "data", "ingredients");
+const OUTPUT_DIR = path.join(__dirname, "extracted_ingredients");
 
 // Ensure output directory exists
 if (!fs.existsSync(OUTPUT_DIR)) {
@@ -37,7 +37,7 @@ const ingredientDetails = new Map(); // name -> detailed info
  * Extract ingredients from a single cuisine file
  */
 function extractIngredientsFromFile(filePath, cuisineName) {
-  const content = fs.readFileSync(filePath, 'utf-8');
+  const content = fs.readFileSync(filePath, "utf-8");
 
   // Find all ingredients arrays in recipes
   const ingredientMatches = content.matchAll(/ingredients:\s*\[([\s\S]*?)\]/g);
@@ -57,14 +57,14 @@ function extractIngredientsFromFile(filePath, cuisineName) {
 
         if (nameMatch) {
           const name = nameMatch[1].trim();
-          const category = categoryMatch ? categoryMatch[1].trim() : 'unknown';
+          const category = categoryMatch ? categoryMatch[1].trim() : "unknown";
 
           // Track this ingredient
           if (!allIngredients.has(name)) {
             allIngredients.set(name, {
               categories: new Set(),
               cuisines: new Set(),
-              appearances: 0
+              appearances: 0,
             });
           }
 
@@ -79,7 +79,7 @@ function extractIngredientsFromFile(filePath, cuisineName) {
               name,
               category,
               cuisines: [cuisineName],
-              appearances: 1
+              appearances: 1,
             });
           } else {
             const details = ingredientDetails.get(name);
@@ -90,7 +90,9 @@ function extractIngredientsFromFile(filePath, cuisineName) {
           }
         }
       } catch (error) {
-        console.warn(`Warning: Could not parse ingredient in ${filePath}: ${error.message}`);
+        console.warn(
+          `Warning: Could not parse ingredient in ${filePath}: ${error.message}`,
+        );
       }
     }
   }
@@ -104,12 +106,15 @@ function generateElementalProperties(ingredient) {
   const lowerName = name.toLowerCase();
 
   // Default balanced distribution
-  let fire = 0.25, water = 0.25, earth = 0.25, air = 0.25;
+  let fire = 0.25,
+    water = 0.25,
+    earth = 0.25,
+    air = 0.25;
 
   // Category-based adjustments
   switch (category) {
-    case 'spice':
-    case 'herb':
+    case "spice":
+    case "herb":
       // Spices are often heating/fire-dominant
       fire = 0.5;
       air = 0.3;
@@ -117,7 +122,7 @@ function generateElementalProperties(ingredient) {
       water = 0.05;
       break;
 
-    case 'vegetable':
+    case "vegetable":
       // Vegetables are water/earth balanced
       water = 0.35;
       earth = 0.35;
@@ -125,7 +130,7 @@ function generateElementalProperties(ingredient) {
       fire = 0.1;
       break;
 
-    case 'fruit':
+    case "fruit":
       // Fruits are water/air dominant
       water = 0.4;
       air = 0.3;
@@ -133,10 +138,10 @@ function generateElementalProperties(ingredient) {
       earth = 0.15;
       break;
 
-    case 'protein':
-    case 'meat':
-    case 'fish':
-    case 'seafood':
+    case "protein":
+    case "meat":
+    case "fish":
+    case "seafood":
       // Proteins are earth/fire dominant
       earth = 0.4;
       fire = 0.3;
@@ -144,7 +149,7 @@ function generateElementalProperties(ingredient) {
       air = 0.1;
       break;
 
-    case 'dairy':
+    case "dairy":
       // Dairy is water/earth dominant
       water = 0.4;
       earth = 0.3;
@@ -152,7 +157,7 @@ function generateElementalProperties(ingredient) {
       fire = 0.1;
       break;
 
-    case 'grain':
+    case "grain":
       // Grains are earth dominant
       earth = 0.5;
       water = 0.2;
@@ -160,7 +165,7 @@ function generateElementalProperties(ingredient) {
       fire = 0.1;
       break;
 
-    case 'oil':
+    case "oil":
       // Oils are fire/water balanced
       fire = 0.35;
       water = 0.35;
@@ -168,7 +173,7 @@ function generateElementalProperties(ingredient) {
       air = 0.1;
       break;
 
-    case 'beverage':
+    case "beverage":
       // Beverages are water dominant
       water = 0.6;
       air = 0.2;
@@ -182,21 +187,25 @@ function generateElementalProperties(ingredient) {
   }
 
   // Name-based refinements
-  if (lowerName.includes('chili') || lowerName.includes('pepper') || lowerName.includes('hot')) {
+  if (
+    lowerName.includes("chili") ||
+    lowerName.includes("pepper") ||
+    lowerName.includes("hot")
+  ) {
     fire = Math.min(0.8, fire + 0.2);
     water = Math.max(0.05, water - 0.1);
     air = Math.max(0.05, air - 0.05);
     earth = Math.max(0.05, earth - 0.05);
   }
 
-  if (lowerName.includes('fresh') || lowerName.includes('green')) {
+  if (lowerName.includes("fresh") || lowerName.includes("green")) {
     water = Math.min(0.7, water + 0.1);
     air = Math.min(0.6, air + 0.1);
     fire = Math.max(0.05, fire - 0.05);
     earth = Math.max(0.05, earth - 0.05);
   }
 
-  if (lowerName.includes('dried') || lowerName.includes('powder')) {
+  if (lowerName.includes("dried") || lowerName.includes("powder")) {
     earth = Math.min(0.7, earth + 0.1);
     air = Math.min(0.6, air + 0.05);
     water = Math.max(0.05, water - 0.1);
@@ -216,7 +225,7 @@ function generateElementalProperties(ingredient) {
     Fire: Number(fire.toFixed(2)),
     Water: Number(water.toFixed(2)),
     Earth: Number(earth.toFixed(2)),
-    Air: Number(air.toFixed(2))
+    Air: Number(air.toFixed(2)),
   };
 }
 
@@ -230,65 +239,65 @@ function generateQualities(ingredient) {
 
   // Category-based qualities
   switch (category) {
-    case 'spice':
-      qualities.push('aromatic', 'flavorful', 'preservative');
-      if (lowerName.includes('hot') || lowerName.includes('chili')) {
-        qualities.push('spicy', 'warming');
+    case "spice":
+      qualities.push("aromatic", "flavorful", "preservative");
+      if (lowerName.includes("hot") || lowerName.includes("chili")) {
+        qualities.push("spicy", "warming");
       }
       break;
 
-    case 'herb':
-      qualities.push('aromatic', 'fresh', 'culinary');
-      if (lowerName.includes('dried')) {
-        qualities.push('concentrated');
+    case "herb":
+      qualities.push("aromatic", "fresh", "culinary");
+      if (lowerName.includes("dried")) {
+        qualities.push("concentrated");
       } else {
-        qualities.push('vibrant');
+        qualities.push("vibrant");
       }
       break;
 
-    case 'vegetable':
-      qualities.push('nutritious', 'versatile');
-      if (lowerName.includes('leafy')) {
-        qualities.push('mineral-rich', 'fresh');
-      } else if (lowerName.includes('root')) {
-        qualities.push('earthy', 'sustaining');
+    case "vegetable":
+      qualities.push("nutritious", "versatile");
+      if (lowerName.includes("leafy")) {
+        qualities.push("mineral-rich", "fresh");
+      } else if (lowerName.includes("root")) {
+        qualities.push("earthy", "sustaining");
       }
       break;
 
-    case 'fruit':
-      qualities.push('sweet', 'juicy', 'nutritious');
-      if (lowerName.includes('citrus')) {
-        qualities.push('tangy', 'refreshing');
+    case "fruit":
+      qualities.push("sweet", "juicy", "nutritious");
+      if (lowerName.includes("citrus")) {
+        qualities.push("tangy", "refreshing");
       }
       break;
 
-    case 'protein':
-    case 'meat':
-      qualities.push('protein-rich', 'sustaining');
+    case "protein":
+    case "meat":
+      qualities.push("protein-rich", "sustaining");
       break;
 
-    case 'fish':
-    case 'seafood':
-      qualities.push('protein-rich', 'omega-3', 'delicate');
+    case "fish":
+    case "seafood":
+      qualities.push("protein-rich", "omega-3", "delicate");
       break;
 
-    case 'dairy':
-      qualities.push('calcium-rich', 'creamy');
+    case "dairy":
+      qualities.push("calcium-rich", "creamy");
       break;
 
-    case 'grain':
-      qualities.push('carbohydrate-rich', 'sustaining');
-      if (lowerName.includes('whole')) {
-        qualities.push('fiber-rich');
+    case "grain":
+      qualities.push("carbohydrate-rich", "sustaining");
+      if (lowerName.includes("whole")) {
+        qualities.push("fiber-rich");
       }
       break;
 
-    case 'oil':
-      qualities.push('fatty', 'flavor-enhancer');
+    case "oil":
+      qualities.push("fatty", "flavor-enhancer");
       break;
 
     default:
-      qualities.push('versatile', 'culinary');
+      qualities.push("versatile", "culinary");
   }
 
   return qualities;
@@ -302,84 +311,84 @@ function generateAstrologicalProfile(ingredient) {
   const lowerName = name.toLowerCase();
 
   // Default profile
-  let rulingPlanets = ['Mercury'];
-  let favorableZodiac = ['Virgo', 'Gemini'];
-  let seasonalAffinity = ['all'];
+  let rulingPlanets = ["Mercury"];
+  let favorableZodiac = ["Virgo", "Gemini"];
+  let seasonalAffinity = ["all"];
 
   // Category-based astrology
   switch (category) {
-    case 'spice':
-      rulingPlanets = ['Mars', 'Sun'];
-      favorableZodiac = ['Aries', 'Leo', 'Scorpio'];
-      seasonalAffinity = ['winter'];
+    case "spice":
+      rulingPlanets = ["Mars", "Sun"];
+      favorableZodiac = ["Aries", "Leo", "Scorpio"];
+      seasonalAffinity = ["winter"];
       break;
 
-    case 'herb':
-      rulingPlanets = ['Mercury', 'Venus'];
-      favorableZodiac = ['Virgo', 'Libra', 'Gemini'];
-      seasonalAffinity = ['spring', 'summer'];
+    case "herb":
+      rulingPlanets = ["Mercury", "Venus"];
+      favorableZodiac = ["Virgo", "Libra", "Gemini"];
+      seasonalAffinity = ["spring", "summer"];
       break;
 
-    case 'vegetable':
-      rulingPlanets = ['Moon', 'Saturn'];
-      favorableZodiac = ['Cancer', 'Taurus', 'Capricorn'];
-      seasonalAffinity = ['summer', 'fall'];
+    case "vegetable":
+      rulingPlanets = ["Moon", "Saturn"];
+      favorableZodiac = ["Cancer", "Taurus", "Capricorn"];
+      seasonalAffinity = ["summer", "fall"];
       break;
 
-    case 'fruit':
-      rulingPlanets = ['Venus', 'Sun'];
-      favorableZodiac = ['Taurus', 'Leo', 'Libra'];
-      seasonalAffinity = ['summer'];
+    case "fruit":
+      rulingPlanets = ["Venus", "Sun"];
+      favorableZodiac = ["Taurus", "Leo", "Libra"];
+      seasonalAffinity = ["summer"];
       break;
 
-    case 'protein':
-    case 'meat':
-      rulingPlanets = ['Mars', 'Saturn'];
-      favorableZodiac = ['Aries', 'Scorpio', 'Capricorn'];
-      seasonalAffinity = ['fall', 'winter'];
+    case "protein":
+    case "meat":
+      rulingPlanets = ["Mars", "Saturn"];
+      favorableZodiac = ["Aries", "Scorpio", "Capricorn"];
+      seasonalAffinity = ["fall", "winter"];
       break;
 
-    case 'fish':
-    case 'seafood':
-      rulingPlanets = ['Moon', 'Neptune'];
-      favorableZodiac = ['Cancer', 'Pisces', 'Scorpio'];
-      seasonalAffinity = ['all'];
+    case "fish":
+    case "seafood":
+      rulingPlanets = ["Moon", "Neptune"];
+      favorableZodiac = ["Cancer", "Pisces", "Scorpio"];
+      seasonalAffinity = ["all"];
       break;
 
-    case 'dairy':
-      rulingPlanets = ['Moon', 'Venus'];
-      favorableZodiac = ['Cancer', 'Taurus', 'Pisces'];
-      seasonalAffinity = ['all'];
+    case "dairy":
+      rulingPlanets = ["Moon", "Venus"];
+      favorableZodiac = ["Cancer", "Taurus", "Pisces"];
+      seasonalAffinity = ["all"];
       break;
 
-    case 'grain':
-      rulingPlanets = ['Saturn', 'Mercury'];
-      favorableZodiac = ['Capricorn', 'Virgo', 'Taurus'];
-      seasonalAffinity = ['fall'];
+    case "grain":
+      rulingPlanets = ["Saturn", "Mercury"];
+      favorableZodiac = ["Capricorn", "Virgo", "Taurus"];
+      seasonalAffinity = ["fall"];
       break;
 
-    case 'oil':
-      rulingPlanets = ['Venus', 'Sun'];
-      favorableZodiac = ['Libra', 'Leo', 'Taurus'];
-      seasonalAffinity = ['all'];
+    case "oil":
+      rulingPlanets = ["Venus", "Sun"];
+      favorableZodiac = ["Libra", "Leo", "Taurus"];
+      seasonalAffinity = ["all"];
       break;
   }
 
   // Name-based refinements
-  if (lowerName.includes('hot') || lowerName.includes('spicy')) {
-    if (!rulingPlanets.includes('Mars')) rulingPlanets.push('Mars');
-    if (!favorableZodiac.includes('Aries')) favorableZodiac.push('Aries');
+  if (lowerName.includes("hot") || lowerName.includes("spicy")) {
+    if (!rulingPlanets.includes("Mars")) rulingPlanets.push("Mars");
+    if (!favorableZodiac.includes("Aries")) favorableZodiac.push("Aries");
   }
 
-  if (lowerName.includes('sweet') || lowerName.includes('fruit')) {
-    if (!rulingPlanets.includes('Venus')) rulingPlanets.push('Venus');
-    if (!favorableZodiac.includes('Taurus')) favorableZodiac.push('Taurus');
+  if (lowerName.includes("sweet") || lowerName.includes("fruit")) {
+    if (!rulingPlanets.includes("Venus")) rulingPlanets.push("Venus");
+    if (!favorableZodiac.includes("Taurus")) favorableZodiac.push("Taurus");
   }
 
   return {
     rulingPlanets,
     favorableZodiac,
-    seasonalAffinity
+    seasonalAffinity,
   };
 }
 
@@ -396,7 +405,7 @@ function generateIngredientMapping(ingredient) {
     elementalProperties,
     qualities,
     category: ingredient.category,
-    astrologicalProfile
+    astrologicalProfile,
   };
 }
 
@@ -407,7 +416,7 @@ function organizeByCategory(ingredients) {
   const byCategory = {};
 
   for (const [name, info] of ingredients) {
-    const category = info.category || 'misc';
+    const category = info.category || "misc";
     if (!byCategory[category]) {
       byCategory[category] = [];
     }
@@ -415,7 +424,7 @@ function organizeByCategory(ingredients) {
       name,
       category,
       cuisines: Array.from(info.cuisines),
-      appearances: info.appearances
+      appearances: info.appearances,
     });
   }
 
@@ -438,15 +447,15 @@ const raw${category.charAt(0).toUpperCase() + category.slice(1)}: Record<string,
 
   for (const ingredient of ingredients) {
     const mapping = generateIngredientMapping(ingredient);
-    content += `  ${ingredient.name.replace(/[^a-zA-Z0-9_]/g, '_').toLowerCase()}: {
+    content += `  ${ingredient.name.replace(/[^a-zA-Z0-9_]/g, "_").toLowerCase()}: {
     name: '${ingredient.name}',
     elementalProperties: { Fire: ${mapping.elementalProperties.Fire}, Water: ${mapping.elementalProperties.Water}, Earth: ${mapping.elementalProperties.Earth}, Air: ${mapping.elementalProperties.Air} },
-    qualities: [${mapping.qualities.map(q => `'${q}'`).join(', ')}],
+    qualities: [${mapping.qualities.map((q) => `'${q}'`).join(", ")}],
     category: '${category}',
     astrologicalProfile: {
-      rulingPlanets: [${mapping.astrologicalProfile.rulingPlanets.map(p => `'${p}'`).join(', ')}],
-      favorableZodiac: [${mapping.astrologicalProfile.favorableZodiac.map(z => `'${z}'`).join(', ')}],
-      seasonalAffinity: [${mapping.astrologicalProfile.seasonalAffinity.map(s => `'${s}'`).join(', ')}]
+      rulingPlanets: [${mapping.astrologicalProfile.rulingPlanets.map((p) => `'${p}'`).join(", ")}],
+      favorableZodiac: [${mapping.astrologicalProfile.favorableZodiac.map((z) => `'${z}'`).join(", ")}],
+      seasonalAffinity: [${mapping.astrologicalProfile.seasonalAffinity.map((s) => `'${s}'`).join(", ")}]
     }
   },
 `;
@@ -458,7 +467,7 @@ const raw${category.charAt(0).toUpperCase() + category.slice(1)}: Record<string,
 export const ${category}Ingredients = fixIngredientMappings(raw${category.charAt(0).toUpperCase() + category.slice(1)});
 `;
 
-  fs.writeFileSync(filePath, content, 'utf-8');
+  fs.writeFileSync(filePath, content, "utf-8");
   console.log(`✓ Generated ${fileName} with ${ingredients.length} ingredients`);
 }
 
@@ -466,27 +475,33 @@ export const ${category}Ingredients = fixIngredientMappings(raw${category.charAt
  * Main execution
  */
 function main() {
-  console.log('🔍 Extracting ingredients from cuisine files...\n');
+  console.log("🔍 Extracting ingredients from cuisine files...\n");
 
   // Get all cuisine files
-  const cuisineFiles = fs.readdirSync(CUISINES_DIR)
-    .filter(file => file.endsWith('.ts') && file !== 'index.ts' && file !== 'template.ts')
-    .map(file => path.join(CUISINES_DIR, file));
+  const cuisineFiles = fs
+    .readdirSync(CUISINES_DIR)
+    .filter(
+      (file) =>
+        file.endsWith(".ts") && file !== "index.ts" && file !== "template.ts",
+    )
+    .map((file) => path.join(CUISINES_DIR, file));
 
   // Extract ingredients from each cuisine file
   for (const filePath of cuisineFiles) {
-    const cuisineName = path.basename(filePath, '.ts');
+    const cuisineName = path.basename(filePath, ".ts");
     console.log(`Processing ${cuisineName}...`);
     extractIngredientsFromFile(filePath, cuisineName);
   }
 
-  console.log(`\n📊 Found ${allIngredients.size} unique ingredients across all cuisine files\n`);
+  console.log(
+    `\n📊 Found ${allIngredients.size} unique ingredients across all cuisine files\n`,
+  );
 
   // Organize by category
   const byCategory = organizeByCategory(allIngredients);
 
   // Generate category files
-  console.log('📝 Generating enhanced ingredient files...\n');
+  console.log("📝 Generating enhanced ingredient files...\n");
 
   let totalGenerated = 0;
   for (const [category, ingredients] of Object.entries(byCategory)) {
@@ -495,23 +510,23 @@ function main() {
   }
 
   // Summary
-  console.log('\n' + '='.repeat(80));
-  console.log('EXTRACTION COMPLETE');
-  console.log('='.repeat(80));
+  console.log("\n" + "=".repeat(80));
+  console.log("EXTRACTION COMPLETE");
+  console.log("=".repeat(80));
   console.log(`Total unique ingredients extracted: ${allIngredients.size}`);
   console.log(`Ingredients enhanced and categorized: ${totalGenerated}`);
   console.log(`Category files generated: ${Object.keys(byCategory).length}`);
   console.log(`Output directory: ${OUTPUT_DIR}`);
-  console.log('='.repeat(80));
+  console.log("=".repeat(80));
 
   // Category breakdown
-  console.log('\n📂 INGREDIENTS BY CATEGORY:');
+  console.log("\n📂 INGREDIENTS BY CATEGORY:");
   for (const [category, ingredients] of Object.entries(byCategory)) {
     console.log(`  ${category}: ${ingredients.length} ingredients`);
   }
 
-  console.log('\n✅ Ready to integrate into main ingredient database!');
-  console.log('   Review and add the generated files to src/data/ingredients/');
+  console.log("\n✅ Ready to integrate into main ingredient database!");
+  console.log("   Review and add the generated files to src/data/ingredients/");
 }
 
 // Run extraction

@@ -154,7 +154,7 @@ npx tsc --noEmit 2>&1 | grep "target-file.ts" | head -8
 
 ```typescript
 // Read the specific lines around the error
-read_file(target_file, false, error_line - 5, error_line + 5)
+read_file(target_file, false, error_line - 5, error_line + 5);
 ```
 
 ### Step 3: Apply Proven Patterns

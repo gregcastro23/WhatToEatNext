@@ -69,10 +69,12 @@ interface RecipeIngredient {
   astrologicalProfile?: {
     rulingPlanets?: string[];
     favorableZodiac?: string[];
-    elementalAffinity?: string | {
-      base: string;
-      secondary?: string;
-    };
+    elementalAffinity?:
+      | string
+      | {
+          base: string;
+          secondary?: string;
+        };
   };
   season?: string[];
   flavorProfile?: FlavorProfile;
@@ -123,14 +125,14 @@ Defines the main categories of ingredients:
 
 ```typescript
 type IngredientCategory =
-  | 'culinary_herb'
-  | 'spice'
-  | 'vegetable'
-  | 'fruit'
-  | 'protein'
-  | 'grain'
-  | 'dairy'
-  | 'oil';
+  | "culinary_herb"
+  | "spice"
+  | "vegetable"
+  | "fruit"
+  | "protein"
+  | "grain"
+  | "dairy"
+  | "oil";
 ```
 
 ### `SensoryProfile`
@@ -177,12 +179,12 @@ interface CookingMethod {
   cookingTime: {
     min: number;
     max: number;
-    unit: 'seconds' | 'minutes' | 'hours';
+    unit: "seconds" | "minutes" | "hours";
   };
   temperatures?: {
     min: number;
     max: number;
-    unit: 'celsius' | 'fahrenheit';
+    unit: "celsius" | "fahrenheit";
   };
   description: string;
 }
@@ -234,51 +236,51 @@ interface FlavorProfile {
 ### Creating a Basic Ingredient
 
 ```typescript
-import { Ingredient, IngredientCategory } from '@/types';
+import { Ingredient, IngredientCategory } from "@/types";
 
 const basil: Ingredient = {
-  name: 'Basil',
-  category: 'culinary_herb',
+  name: "Basil",
+  category: "culinary_herb",
   elementalProperties: {
     Fire: 0.2,
     Water: 0.3,
     Air: 0.4,
-    Earth: 0.1
+    Earth: 0.1,
   },
-  qualities: ['aromatic', 'sweet', 'fresh'],
+  qualities: ["aromatic", "sweet", "fresh"],
   storage: {
-    duration: '5-7 days',
-    container: 'glass jar with water',
-    temperature: 'room temperature',
-    notes: 'Do not refrigerate, treat like fresh flowers'
-  }
+    duration: "5-7 days",
+    container: "glass jar with water",
+    temperature: "room temperature",
+    notes: "Do not refrigerate, treat like fresh flowers",
+  },
 };
 ```
 
 ### Creating a Recipe Ingredient
 
 ```typescript
-import { RecipeIngredient } from '@/types';
+import { RecipeIngredient } from "@/types";
 
 const basilInRecipe: RecipeIngredient = {
-  name: 'Basil',
+  name: "Basil",
   amount: 2,
-  unit: 'tbsp',
-  preparation: 'chopped',
+  unit: "tbsp",
+  preparation: "chopped",
   elementalProperties: {
     Fire: 0.2,
     Water: 0.3,
     Air: 0.4,
-    Earth: 0.1
-  }
+    Earth: 0.1,
+  },
 };
 ```
 
 ### Using the Ingredient Types in a Component
 
 ```tsx
-import React from 'react';
-import { Ingredient, RecipeIngredient } from '@/types';
+import React from "react";
+import { Ingredient, RecipeIngredient } from "@/types";
 
 interface IngredientCardProps {
   ingredient: Ingredient | RecipeIngredient;
@@ -287,10 +289,10 @@ interface IngredientCardProps {
 
 export const IngredientCard: React.FC<IngredientCardProps> = ({
   ingredient,
-  showAmount = false
+  showAmount = false,
 }) => {
   // Check if the ingredient is a RecipeIngredient by checking for 'amount' property
-  const isRecipeIngredient = 'amount' in ingredient && 'unit' in ingredient;
+  const isRecipeIngredient = "amount" in ingredient && "unit" in ingredient;
 
   return (
     <div className="ingredient-card">
@@ -298,7 +300,8 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
 
       {showAmount && isRecipeIngredient && (
         <div className="amount">
-          {(ingredient as RecipeIngredient).amount} {(ingredient as RecipeIngredient).unit}
+          {(ingredient as RecipeIngredient).amount}{" "}
+          {(ingredient as RecipeIngredient).unit}
         </div>
       )}
 
@@ -337,8 +340,10 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
    object implements:
 
    ```typescript
-   function isRecipeIngredient(ingredient: any): ingredient is RecipeIngredient {
-     return ingredient && 'amount' in ingredient && 'unit' in ingredient;
+   function isRecipeIngredient(
+     ingredient: any,
+   ): ingredient is RecipeIngredient {
+     return ingredient && "amount" in ingredient && "unit" in ingredient;
    }
    ```
 

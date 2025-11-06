@@ -9,66 +9,78 @@
     yarn ts-node src/scripts/unused-vars/batchEliminateUnused.ts --in reports/unused-vars.json --dry-run
 */
 
-import childProcess from 'node:child_process';
-import fs from 'node:fs';
-import path from 'node:path';
-import { classifyFileKind, isHighImpactFile } from './domainPreservation';
+import childProcess from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
+import { classifyFileKind, isHighImpactFile } from "./domainPreservation";
 
 type Finding = {
-  filePath: string,
-  fileKind: ReturnType<typeof classifyFileKind>,
-  variableName: string,
-  line: number,
-  column: number,
-  preserve: boolean,
-  reason: string,
-  confidence: number
+  filePath: string;
+  fileKind: ReturnType<typeof classifyFileKind>;
+  variableName: string;
+  line: number;
+  column: number;
+  preserve: boolean;
+  reason: string;
+  confidence: number;
 };
 
 type CliOptions = {
-  inPath: string,
-  dryRun: boolean,
-  maxBatch: number,
-  maxBatchCritical: number
+  inPath: string;
+  dryRun: boolean;
+  maxBatch: number;
+  maxBatchCritical: number;
 };
 
 function parseArgs(argv: string[]): CliOptions {
-  const inIndex = argv.indexOf('--in');
-  const dry = argv.includes('--dry-run');
-  const maxBatchIdx = argv.indexOf('--max-batch');
-  const maxBatchCriticalIdx = argv.indexOf('--max-batch-critical');
+  const inIndex = argv.indexOf("--in");
+  const dry = argv.includes("--dry-run");
+  const maxBatchIdx = argv.indexOf("--max-batch");
+  const maxBatchCriticalIdx = argv.indexOf("--max-batch-critical");
   return {
-    inPath: inIndex !== -1 && argv[inIndex + 1] ? argv[inIndex + 1] : 'reports/unused-vars.json',
+    inPath:
+      inIndex !== -1 && argv[inIndex + 1]
+        ? argv[inIndex + 1]
+        : "reports/unused-vars.json",
     dryRun: dry,
-    maxBatch: maxBatchIdx !== -1 && argv[maxBatchIdx + 1] ? Number(argv[maxBatchIdx + 1]) : 15,
+    maxBatch:
+      maxBatchIdx !== -1 && argv[maxBatchIdx + 1]
+        ? Number(argv[maxBatchIdx + 1])
+        : 15,
     maxBatchCritical:
       maxBatchCriticalIdx !== -1 && argv[maxBatchCriticalIdx + 1]
         ? Number(argv[maxBatchCriticalIdx + 1])
-        : 8
+        : 8,
   };
 }
 
-function execCmd(cmd: string): { code: number; stdout: string; stderr: string } {
+function execCmd(cmd: string): {
+  code: number;
+  stdout: string;
+  stderr: string;
+} {
   try {
-    const stdout = childProcess.execSync(cmd, { stdio: ['ignore', 'pipe', 'pipe'] }).toString();
-    return { code: 0, stdout, stderr: '' };
+    const stdout = childProcess
+      .execSync(cmd, { stdio: ["ignore", "pipe", "pipe"] })
+      .toString();
+    return { code: 0, stdout, stderr: "" };
   } catch (err) {
     const e = err as { status?: number; stdout?: Buffer; stderr?: Buffer };
     return {
       code: e.status ?? 1,
-      stdout: e.stdout ? e.stdout.toString() : '',
-      stderr: e.stderr ? e.stderr.toString() : 'Execution failed'
+      stdout: e.stdout ? e.stdout.toString() : "",
+      stderr: e.stderr ? e.stderr.toString() : "Execution failed",
     };
   }
 }
 
 function runTypeCheck(): boolean {
-  const { code } = execCmd('yarn tsc --noEmit --skipLibCheck | cat');
+  const { code } = execCmd("yarn tsc --noEmit --skipLibCheck | cat");
   return code === 0;
 }
 
 function readFindings(inPath: string): Finding[] {
-  const content = fs.readFileSync(inPath, 'utf8');
+  const content = fs.readFileSync(inPath, "utf8");
   const data = JSON.parse(content) as { findings: Finding[] };
   return data.findings || [];
 }
@@ -92,19 +104,21 @@ function sortFilesForSafety(files: string[]): string[] {
 }
 
 function writeBackup(filePath: string, content: string): string {
-  const backupDir = path.join('.lint-backup-' + Date.now().toString());
+  const backupDir = path.join(".lint-backup-" + Date.now().toString());
   if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true });
-  const rel = path.relative(process.cwd(), filePath).replace(/[\/]/g, '__');
-  const backupPath = path.join(backupDir, rel + '.bak');
-  fs.writeFileSync(backupPath, content, 'utf8');
+  const rel = path.relative(process.cwd(), filePath).replace(/[\/]/g, "__");
+  const backupPath = path.join(backupDir, rel + ".bak");
+  fs.writeFileSync(backupPath, content, "utf8");
   return backupPath;
 }
 
-function restoreFromBackups(backups: Array<{ file: string; backup: string }>): void {
+function restoreFromBackups(
+  backups: Array<{ file: string; backup: string }>,
+): void {
   for (const b of backups) {
     if (fs.existsSync(b.backup)) {
-      const content = fs.readFileSync(b.backup, 'utf8');
-      fs.writeFileSync(b.file, content, 'utf8');
+      const content = fs.readFileSync(b.backup, "utf8");
+      fs.writeFileSync(b.file, content, "utf8");
     }
   }
 }
@@ -113,9 +127,9 @@ function applyEditsToFile(
   filePath: string,
   eliminations: Finding[],
   transformations: Finding[],
-  dryRun: boolean
+  dryRun: boolean,
 ): string | null {
-  const original = fs.readFileSync(filePath, 'utf8');
+  const original = fs.readFileSync(filePath, "utf8");
   const lines = original.split(/\r?\n/);
   const markForDeletion = new Set<number>();
   const renameMap = new Map<number, string>();
@@ -125,7 +139,7 @@ function applyEditsToFile(
     const idx = f.line - 1;
     if (idx >= 0 && idx < lines.length) {
       const re = new RegExp(`\\b${f.variableName}\\b`);
-      lines[idx] = lines[idx].replace(re, '_');
+      lines[idx] = lines[idx].replace(re, "_");
       markForDeletion.add(idx);
     }
   }
@@ -139,23 +153,29 @@ function applyEditsToFile(
     }
   }
 
-  const updated = lines.join('\n');
+  const updated = lines.join("\n");
   if (!dryRun && updated !== original) {
     const backupPath = writeBackup(filePath, original);
-    fs.writeFileSync(filePath, updated, 'utf8');
+    fs.writeFileSync(filePath, updated, "utf8");
     return backupPath;
   }
   return null;
 }
 
-function processBatch(files: string[], fileFindings: Map<string, Finding[]>, dryRun: boolean): boolean {
+function processBatch(
+  files: string[],
+  fileFindings: Map<string, Finding[]>,
+  dryRun: boolean,
+): boolean {
   const backups: Array<{ file: string; backup: string }> = [];
   for (const file of files) {
     const findings = (fileFindings.get(file) || []).filter((f) => !f.preserve);
     if (findings.length === 0) continue;
 
     // Prefix preserved variables instead of removing
-    const transformations = (fileFindings.get(file) || []).filter((f) => f.preserve);
+    const transformations = (fileFindings.get(file) || []).filter(
+      (f) => f.preserve,
+    );
     const backup = applyEditsToFile(file, findings, transformations, dryRun);
     if (backup) backups.push({ file, backup });
   }
@@ -168,7 +188,11 @@ function processBatch(files: string[], fileFindings: Map<string, Finding[]>, dry
   return ok;
 }
 
-function batchFiles(files: string[], maxBatch: number, maxBatchCritical: number): string[][] {
+function batchFiles(
+  files: string[],
+  maxBatch: number,
+  maxBatchCritical: number,
+): string[][] {
   const batches: string[][] = [];
   let current: string[] = [];
   for (const file of files) {
@@ -192,14 +216,18 @@ async function main(): Promise<void> {
   const batches = batchFiles(files, opts.maxBatch, opts.maxBatchCritical);
 
   // eslint-disable-next-line no-console
-  console.log(`Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`);
+  console.log(
+    `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,
+  );
 
   for (let i = 0; i < batches.length; i++) {
     const batch = batches[i];
     const ok = processBatch(batch, byFile, opts.dryRun);
     if (!ok) {
       // eslint-disable-next-line no-console
-      console.error(`Type check failed for batch ${i + 1}. Rolled back changes for the batch.`);
+      console.error(
+        `Type check failed for batch ${i + 1}. Rolled back changes for the batch.`,
+      );
       break;
     }
     // If successful and not dry-run, keep changes staged for review

@@ -50,7 +50,7 @@ scan.
 const module = require(dynamicPath);
 
 // AFTER: Secure validation and imports
-const allowedModules = ['module1', 'module2'];
+const allowedModules = ["module1", "module2"];
 if (allowedModules.includes(moduleName)) {
   const module = await import(`./secure/${moduleName}.js`);
 }
@@ -97,18 +97,25 @@ interface ExtendedIngredient extends BaseIngredient {
 
 // Type Guard
 export function isExtendedIngredient(obj: any): obj is ExtendedIngredient {
-  return obj && typeof obj === 'object' &&
-         'id' in obj && typeof obj.id === 'string' &&
-         'name' in obj || 'title' in obj;
+  return (
+    (obj &&
+      typeof obj === "object" &&
+      "id" in obj &&
+      typeof obj.id === "string" &&
+      "name" in obj) ||
+    "title" in obj
+  );
 }
 
 // Factory Function
-export function createExtendedIngredient(data: Partial<ExtendedIngredient>): ExtendedIngredient {
+export function createExtendedIngredient(
+  data: Partial<ExtendedIngredient>,
+): ExtendedIngredient {
   return {
-    id: '',
+    id: "",
     timestamp: new Date(),
-    version: '1.0.0',
-    ...data
+    version: "1.0.0",
+    ...data,
   };
 }
 ```

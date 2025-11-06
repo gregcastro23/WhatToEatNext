@@ -1,11 +1,11 @@
 // Ingredient types
 import type {
-    ElementalPropertiesType,
-    IngredientMappingType,
-    NutritionalContentType,
-    ServiceResponseType
-} from './alchemy';
-import type { Season } from './shared';
+  ElementalPropertiesType,
+  IngredientMappingType,
+  NutritionalContentType,
+  ServiceResponseType,
+} from "./alchemy";
+import type { Season } from "./shared";
 
 // ========== PHASE 1: INGREDIENT TYPE ALIASES ==========
 
@@ -70,7 +70,7 @@ export interface IngredientRecommendation {
  * Comprehensive search parameters for ingredient filtering
  */
 export interface IngredientSearchCriteria {
-  elements?: Array<'Fire' | 'Water' | 'Earth' | 'Air'>;
+  elements?: Array<"Fire" | "Water" | "Earth" | "Air">;
   seasons?: Season[];
   categories?: string[];
   nutritionalRequirements?: {

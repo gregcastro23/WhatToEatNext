@@ -80,7 +80,13 @@ GET /api/alchemize?latitude=40.7498&longitude=-73.7976&zodiacSystem=tropical
     "zodiacSystem": "tropical"
   },
   "planetaryPositions": {
-    "Sun": { "sign": "capricorn", "degree": 13, "minute": 25, "exactLongitude": 283.42, "isRetrograde": false },
+    "Sun": {
+      "sign": "capricorn",
+      "degree": 13,
+      "minute": 25,
+      "exactLongitude": 283.42,
+      "isRetrograde": false
+    }
     // ... other planets
   },
   "alchemicalResult": {
@@ -122,9 +128,9 @@ GET /api/current-moment?refresh=true  # Force refresh
 ```json
 {
   "action": "update",
-  "customDateTime": "2025-01-03T19:30:00.000Z",  // Optional
-  "latitude": 40.7498,                            // Optional
-  "longitude": -73.7976                           // Optional
+  "customDateTime": "2025-01-03T19:30:00.000Z", // Optional
+  "latitude": 40.7498, // Optional
+  "longitude": -73.7976 // Optional
 }
 ```
 
@@ -144,7 +150,9 @@ GET /api/current-moment?refresh=true  # Force refresh
       "longitude": -73.7976,
       "timezone": "EST"
     },
-    "planetaryPositions": { /* ... */ },
+    "planetaryPositions": {
+      /* ... */
+    },
     "metadata": {
       "source": "api",
       "apiCallTimestamp": "2025-01-03T19:30:00.000Z",

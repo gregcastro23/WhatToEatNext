@@ -1,21 +1,21 @@
-import type { ElementalAffinity } from '../types/alchemy';
+import type { ElementalAffinity } from "../types/alchemy";
 
 // Add this utility function to ensure all ElementalAffinity objects have the required properties
 export function formatElementalAffinity(input: unknown): ElementalAffinity {
   if (!input) {
     return {
-      primary: 'Fire',
+      primary: "Fire",
       strength: 0.5,
-      compatibility: { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 }
+      compatibility: { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 },
     }; // Default fallback
   }
 
   // If it's a string, create a simple object with primary
-  if (typeof input === 'string') {
+  if (typeof input === "string") {
     return {
-      primary: input as 'Fire' | 'Water' | 'Earth' | 'Air',
+      primary: input as "Fire" | "Water" | "Earth" | "Air",
       strength: 0.5,
-      compatibility: { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 }
+      compatibility: { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 },
     };
   }
 
@@ -32,31 +32,36 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
         Fire: 1,
         Water: 0.3,
         Earth: 0.7,
-        Air: 0.6
-      }
+        Air: 0.6,
+      },
     };
   }
 
   // If neither primary nor element exists, provide a default
   if (!inputData?.primary && !inputData?.element) {
     return {
-      primary: 'Fire',
+      primary: "Fire",
       secondary: inputData?.secondary,
       strength: inputData?.strength || 0.5,
-      compatibility: inputData?.compatibility || { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 }
+      compatibility: inputData?.compatibility || {
+        Fire: 1,
+        Water: 0.3,
+        Earth: 0.7,
+        Air: 0.6,
+      },
     };
   }
 
   // Ensure all required properties exist
   return {
-    primary: inputData?.primary || 'Fire',
+    primary: inputData?.primary || "Fire",
     secondary: inputData?.secondary,
     strength: inputData?.strength || 0.5,
     compatibility: inputData?.compatibility || {
       Fire: 1,
       Water: 0.3,
       Earth: 0.7,
-      Air: 0.6
-    }
+      Air: 0.6,
+    },
   } as ElementalAffinity;
 }

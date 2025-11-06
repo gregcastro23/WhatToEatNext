@@ -12,17 +12,17 @@
  * - Malformed type casting patterns
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const MAX_FILES_PER_BATCH = 15;
-const BACKUP_DIR = '.typescript-fix-backup';
+const BACKUP_DIR = ".typescript-fix-backup";
 
 // Create backup directory
 function createBackup() {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
   const backupPath = `${BACKUP_DIR}-${timestamp}`;
 
   if (!fs.existsSync(backupPath)) {
@@ -35,13 +35,19 @@ function createBackup() {
 // Get TypeScript errors by type
 function getTypeScriptErrors() {
   try {
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS"', {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    });
+    const output = execSync(
+      'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS"',
+      {
+        encoding: "utf8",
+        stdio: "pipe",
+      },
+    );
 
     const errors = [];
-    const lines = output.trim().split('\n').filter(line => line.trim());
+    const lines = output
+      .trim()
+      .split("\n")
+      .filter((line) => line.trim());
 
     for (const line of lines) {
       const match = line.match(/^(.+?)\((\d+),(\d+)\): error (TS\d+): (.+)$/);
@@ -52,14 +58,14 @@ function getTypeScriptErrors() {
           column: parseInt(match[3]),
           code: match[4],
           message: match[5],
-          fullLine: line
+          fullLine: line,
         });
       }
     }
 
     return errors;
   } catch (error) {
-    console.log('No TypeScript errors found or command failed');
+    console.log("No TypeScript errors found or command failed");
     return [];
   }
 }
@@ -72,35 +78,48 @@ function fixMalformedTypeCasting(content) {
   // Pattern 1: Double type casting - ((obj as Record<string, unknown>) as Record<string, unknown>)
   const doubleCastPattern = /\(\(([^)]+)\s+as\s+([^)]+)\)\s+as\s+([^)]+)\)/g;
   if (doubleCastPattern.test(fixed)) {
-    fixed = fixed.replace(doubleCastPattern, '($1 as $3)');
+    fixed = fixed.replace(doubleCastPattern, "($1 as $3)");
     modified = true;
   }
 
   // Pattern 2: Malformed Record casting - (obj as Record<string, (unknown>)
-  const malformedRecordPattern = /\(([^)]+)\s+as\s+Record<string,\s*\(unknown>\)/g;
+  const malformedRecordPattern =
+    /\(([^)]+)\s+as\s+Record<string,\s*\(unknown>\)/g;
   if (malformedRecordPattern.test(fixed)) {
-    fixed = fixed.replace(malformedRecordPattern, '($1 as Record<string, unknown>)');
+    fixed = fixed.replace(
+      malformedRecordPattern,
+      "($1 as Record<string, unknown>)",
+    );
     modified = true;
   }
 
   // Pattern 3: Nested casting with property access - ((data as Record<string, unknown>).prop as Type)
-  const nestedCastPattern = /\(\(([^)]+)\s+as\s+Record<string,\s*unknown>\)\.(\w+)\s+as\s+([^)]+)\)/g;
+  const nestedCastPattern =
+    /\(\(([^)]+)\s+as\s+Record<string,\s*unknown>\)\.(\w+)\s+as\s+([^)]+)\)/g;
   if (nestedCastPattern.test(fixed)) {
-    fixed = fixed.replace(nestedCastPattern, '(($1 as Record<string, unknown>).$2 as $3)');
+    fixed = fixed.replace(
+      nestedCastPattern,
+      "(($1 as Record<string, unknown>).$2 as $3)",
+    );
     modified = true;
   }
 
   // Pattern 4: Malformed property access - (obj as Record<string, unknown>)?.prop as Type)[0]
-  const malformedAccessPattern = /\(([^)]+)\s+as\s+Record<string,\s*unknown>\)\?\.([\w.]+)\s+as\s+([^)]+)\)\[(\d+)\]/g;
+  const malformedAccessPattern =
+    /\(([^)]+)\s+as\s+Record<string,\s*unknown>\)\?\.([\w.]+)\s+as\s+([^)]+)\)\[(\d+)\]/g;
   if (malformedAccessPattern.test(fixed)) {
-    fixed = fixed.replace(malformedAccessPattern, '(($1 as Record<string, unknown>)?.$2 as $3)[$4]');
+    fixed = fixed.replace(
+      malformedAccessPattern,
+      "(($1 as Record<string, unknown>)?.$2 as $3)[$4]",
+    );
     modified = true;
   }
 
   // Pattern 5: Missing closing parenthesis in object literals
-  const missingParenPattern = /(\w+):\s*\(([^)]+as\s+Record<string,\s*unknown>)\?\.([\w.]+),/g;
+  const missingParenPattern =
+    /(\w+):\s*\(([^)]+as\s+Record<string,\s*unknown>)\?\.([\w.]+),/g;
   if (missingParenPattern.test(fixed)) {
-    fixed = fixed.replace(missingParenPattern, '$1: ($2)?.$3,');
+    fixed = fixed.replace(missingParenPattern, "$1: ($2)?.$3,");
     modified = true;
   }
 
@@ -111,10 +130,10 @@ function fixMalformedTypeCasting(content) {
 function fixTS2339Errors(content, errors) {
   let fixed = content;
   let modified = false;
-  const lines = fixed.split('\n');
+  const lines = fixed.split("\n");
 
-  errors.forEach(error => {
-    if (error.code === 'TS2339') {
+  errors.forEach((error) => {
+    if (error.code === "TS2339") {
       const lineIndex = error.line - 1;
       if (lineIndex >= 0 && lineIndex < lines.length) {
         let line = lines[lineIndex];
@@ -122,14 +141,20 @@ function fixTS2339Errors(content, errors) {
         // Pattern: Property 'prop' does not exist on type 'unknown'
         if (error.message.includes("does not exist on type 'unknown'")) {
           // Add type assertion for unknown objects
-          line = line.replace(/(\w+)\.(\w+)/g, '($1 as Record<string, unknown>).$2');
+          line = line.replace(
+            /(\w+)\.(\w+)/g,
+            "($1 as Record<string, unknown>).$2",
+          );
           modified = true;
         }
 
         // Pattern: Property access on potentially undefined objects
-        if (error.message.includes("does not exist on type") && !line.includes('as Record')) {
+        if (
+          error.message.includes("does not exist on type") &&
+          !line.includes("as Record")
+        ) {
           // Use optional chaining and type assertion
-          line = line.replace(/(\w+)\.(\w+)/g, '($1 as any)?.$2');
+          line = line.replace(/(\w+)\.(\w+)/g, "($1 as any)?.$2");
           modified = true;
         }
 
@@ -138,17 +163,17 @@ function fixTS2339Errors(content, errors) {
     }
   });
 
-  return { content: lines.join('\n'), modified };
+  return { content: lines.join("\n"), modified };
 }
 
 // Fix TS18046 errors (Element implicitly has an 'any' type)
 function fixTS18046Errors(content, errors) {
   let fixed = content;
   let modified = false;
-  const lines = fixed.split('\n');
+  const lines = fixed.split("\n");
 
-  errors.forEach(error => {
-    if (error.code === 'TS18046') {
+  errors.forEach((error) => {
+    if (error.code === "TS18046") {
       const lineIndex = error.line - 1;
       if (lineIndex >= 0 && lineIndex < lines.length) {
         let line = lines[lineIndex];
@@ -156,7 +181,10 @@ function fixTS18046Errors(content, errors) {
         // Pattern: Element implicitly has an 'any' type because expression of type 'string' can't be used to index
         if (error.message.includes("implicitly has an 'any' type")) {
           // Add proper type assertion for bracket notation
-          line = line.replace(/(\w+)\[([^\]]+)\]/g, '($1 as Record<string, unknown>)[$2]');
+          line = line.replace(
+            /(\w+)\[([^\]]+)\]/g,
+            "($1 as Record<string, unknown>)[$2]",
+          );
           modified = true;
         }
 
@@ -165,17 +193,17 @@ function fixTS18046Errors(content, errors) {
     }
   });
 
-  return { content: lines.join('\n'), modified };
+  return { content: lines.join("\n"), modified };
 }
 
 // Fix TS2571 errors (Object is of type 'unknown')
 function fixTS2571Errors(content, errors) {
   let fixed = content;
   let modified = false;
-  const lines = fixed.split('\n');
+  const lines = fixed.split("\n");
 
-  errors.forEach(error => {
-    if (error.code === 'TS2571') {
+  errors.forEach((error) => {
+    if (error.code === "TS2571") {
       const lineIndex = error.line - 1;
       if (lineIndex >= 0 && lineIndex < lines.length) {
         let line = lines[lineIndex];
@@ -183,10 +211,16 @@ function fixTS2571Errors(content, errors) {
         // Pattern: Object is of type 'unknown'
         if (error.message.includes("Object is of type 'unknown'")) {
           // Add type assertion for Object methods
-          line = line.replace(/Object\.(keys|values|entries)\(([^)]+)\)/g, 'Object.$1($2 as Record<string, unknown>)');
+          line = line.replace(
+            /Object\.(keys|values|entries)\(([^)]+)\)/g,
+            "Object.$1($2 as Record<string, unknown>)",
+          );
 
           // Add type assertion for for...in loops
-          line = line.replace(/for\s*\(\s*const\s+(\w+)\s+in\s+([^)]+)\)/g, 'for (const $1 in ($2 as Record<string, unknown>))');
+          line = line.replace(
+            /for\s*\(\s*const\s+(\w+)\s+in\s+([^)]+)\)/g,
+            "for (const $1 in ($2 as Record<string, unknown>))",
+          );
 
           modified = true;
         }
@@ -196,17 +230,17 @@ function fixTS2571Errors(content, errors) {
     }
   });
 
-  return { content: lines.join('\n'), modified };
+  return { content: lines.join("\n"), modified };
 }
 
 // Fix TS2345 errors (Argument of type is not assignable)
 function fixTS2345Errors(content, errors) {
   let fixed = content;
   let modified = false;
-  const lines = fixed.split('\n');
+  const lines = fixed.split("\n");
 
-  errors.forEach(error => {
-    if (error.code === 'TS2345') {
+  errors.forEach((error) => {
+    if (error.code === "TS2345") {
       const lineIndex = error.line - 1;
       if (lineIndex >= 0 && lineIndex < lines.length) {
         let line = lines[lineIndex];
@@ -214,10 +248,13 @@ function fixTS2345Errors(content, errors) {
         // Pattern: Argument of type 'unknown' is not assignable to parameter of type
         if (error.message.includes("Argument of type 'unknown'")) {
           // Add type assertion for function arguments
-          line = line.replace(/(\w+)\(([^)]*unknown[^)]*)\)/g, (match, func, args) => {
-            const fixedArgs = args.replace(/(\w+)/g, '($1 as any)');
-            return `${func}(${fixedArgs})`;
-          });
+          line = line.replace(
+            /(\w+)\(([^)]*unknown[^)]*)\)/g,
+            (match, func, args) => {
+              const fixedArgs = args.replace(/(\w+)/g, "($1 as any)");
+              return `${func}(${fixedArgs})`;
+            },
+          );
           modified = true;
         }
 
@@ -226,17 +263,17 @@ function fixTS2345Errors(content, errors) {
     }
   });
 
-  return { content: lines.join('\n'), modified };
+  return { content: lines.join("\n"), modified };
 }
 
 // Fix TS2322 errors (Type is not assignable to type)
 function fixTS2322Errors(content, errors) {
   let fixed = content;
   let modified = false;
-  const lines = fixed.split('\n');
+  const lines = fixed.split("\n");
 
-  errors.forEach(error => {
-    if (error.code === 'TS2322') {
+  errors.forEach((error) => {
+    if (error.code === "TS2322") {
       const lineIndex = error.line - 1;
       if (lineIndex >= 0 && lineIndex < lines.length) {
         let line = lines[lineIndex];
@@ -244,7 +281,10 @@ function fixTS2322Errors(content, errors) {
         // Pattern: Type 'unknown' is not assignable to type
         if (error.message.includes("Type 'unknown' is not assignable")) {
           // Add type assertion for assignments
-          line = line.replace(/=\s*([^;,\n]+unknown[^;,\n]*)/g, '= ($1 as any)');
+          line = line.replace(
+            /=\s*([^;,\n]+unknown[^;,\n]*)/g,
+            "= ($1 as any)",
+          );
           modified = true;
         }
 
@@ -253,14 +293,14 @@ function fixTS2322Errors(content, errors) {
     }
   });
 
-  return { content: lines.join('\n'), modified };
+  return { content: lines.join("\n"), modified };
 }
 
 // Process a single file
 function processFile(filePath, errors, backupPath) {
   try {
-    const content = fs.readFileSync(filePath, 'utf8');
-    const fileErrors = errors.filter(error => error.file === filePath);
+    const content = fs.readFileSync(filePath, "utf8");
+    const fileErrors = errors.filter((error) => error.file === filePath);
 
     if (fileErrors.length === 0) {
       return { processed: false, errors: 0 };
@@ -269,7 +309,7 @@ function processFile(filePath, errors, backupPath) {
     console.log(`Processing ${filePath} (${fileErrors.length} errors)`);
 
     // Create backup
-    const relativePath = path.relative('.', filePath);
+    const relativePath = path.relative(".", filePath);
     const backupFilePath = path.join(backupPath, relativePath);
     const backupDir = path.dirname(backupFilePath);
 
@@ -320,7 +360,6 @@ function processFile(filePath, errors, backupPath) {
       console.log(`  - No changes needed in ${filePath}`);
       return { processed: false, errors: fileErrors.length };
     }
-
   } catch (error) {
     console.error(`Error processing ${filePath}:`, error.message);
     return { processed: false, errors: 0 };
@@ -330,25 +369,25 @@ function processFile(filePath, errors, backupPath) {
 // Validate build after fixes
 function validateBuild() {
   try {
-    console.log('\n🔍 Validating TypeScript compilation...');
-    execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-    console.log('✅ TypeScript compilation successful');
+    console.log("\n🔍 Validating TypeScript compilation...");
+    execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
+    console.log("✅ TypeScript compilation successful");
     return true;
   } catch (error) {
-    console.log('⚠️ TypeScript compilation has errors');
+    console.log("⚠️ TypeScript compilation has errors");
     return false;
   }
 }
 
 // Main execution
 function main() {
-  console.log('🔍 Analyzing TypeScript errors for systematic resolution...');
+  console.log("🔍 Analyzing TypeScript errors for systematic resolution...");
 
   const errors = getTypeScriptErrors();
   console.log(`Found ${errors.length} TypeScript errors`);
 
   if (errors.length === 0) {
-    console.log('✅ No TypeScript errors to fix!');
+    console.log("✅ No TypeScript errors to fix!");
     return;
   }
 
@@ -358,20 +397,20 @@ function main() {
 
   // Analyze error distribution
   const errorsByType = {};
-  errors.forEach(error => {
+  errors.forEach((error) => {
     errorsByType[error.code] = (errorsByType[error.code] || 0) + 1;
   });
 
-  console.log('\n📊 Error distribution:');
+  console.log("\n📊 Error distribution:");
   Object.entries(errorsByType)
-    .sort(([,a], [,b]) => b - a)
+    .sort(([, a], [, b]) => b - a)
     .forEach(([code, count]) => {
       console.log(`  ${code}: ${count} errors`);
     });
 
   // Group errors by file
   const fileErrors = {};
-  errors.forEach(error => {
+  errors.forEach((error) => {
     if (!fileErrors[error.file]) {
       fileErrors[error.file] = [];
     }
@@ -384,11 +423,13 @@ function main() {
   let totalErrors = 0;
 
   // Process files with most errors first
-  const sortedFiles = Object.keys(fileErrors).sort((a, b) =>
-    fileErrors[b].length - fileErrors[a].length
+  const sortedFiles = Object.keys(fileErrors).sort(
+    (a, b) => fileErrors[b].length - fileErrors[a].length,
   );
 
-  console.log(`\n🔧 Processing top ${MAX_FILES_PER_BATCH} files with most errors...`);
+  console.log(
+    `\n🔧 Processing top ${MAX_FILES_PER_BATCH} files with most errors...`,
+  );
 
   for (const filePath of sortedFiles.slice(0, MAX_FILES_PER_BATCH)) {
     const result = processFile(filePath, fileErrors[filePath], backupPath);
@@ -401,7 +442,9 @@ function main() {
     if (totalProcessed % 5 === 0) {
       const buildValid = validateBuild();
       if (!buildValid) {
-        console.log('⚠️ Build validation failed, stopping to prevent further issues');
+        console.log(
+          "⚠️ Build validation failed, stopping to prevent further issues",
+        );
         break;
       }
     }
@@ -413,20 +456,24 @@ function main() {
   console.log(`  Backup location: ${backupPath}`);
 
   // Final verification
-  console.log('\n🔍 Verifying fixes...');
+  console.log("\n🔍 Verifying fixes...");
   const remainingErrors = getTypeScriptErrors();
   const reduction = errors.length - remainingErrors.length;
 
   console.log(`  Before: ${errors.length} TypeScript errors`);
   console.log(`  After: ${remainingErrors.length} TypeScript errors`);
-  console.log(`  Reduction: ${reduction} errors (${Math.round(reduction / errors.length * 100)}%)`);
+  console.log(
+    `  Reduction: ${reduction} errors (${Math.round((reduction / errors.length) * 100)}%)`,
+  );
 
   // Final build validation
   const finalBuildValid = validateBuild();
   if (finalBuildValid) {
-    console.log('✅ Final build validation successful');
+    console.log("✅ Final build validation successful");
   } else {
-    console.log('⚠️ Final build validation failed - consider reviewing changes');
+    console.log(
+      "⚠️ Final build validation failed - consider reviewing changes",
+    );
   }
 }
 
@@ -443,5 +490,5 @@ module.exports = {
   fixTS18046Errors,
   fixTS2571Errors,
   fixTS2345Errors,
-  fixTS2322Errors
+  fixTS2322Errors,
 };

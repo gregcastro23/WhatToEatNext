@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Parse lint-results.txt to extract exhaustive-deps warnings
 function parseExhaustiveDepsFromText() {
-  const lintResultsPath = path.join(process.cwd(), 'lint-results.txt');
+  const lintResultsPath = path.join(process.cwd(), "lint-results.txt");
 
   if (!fs.existsSync(lintResultsPath)) {
-    console.error('lint-results.txt not found');
+    console.error("lint-results.txt not found");
     return [];
   }
 
-  const content = fs.readFileSync(lintResultsPath, 'utf8');
-  const lines = content.split('\n');
+  const content = fs.readFileSync(lintResultsPath, "utf8");
+  const lines = content.split("\n");
 
   const warnings = [];
   let currentFile = null;
@@ -22,15 +22,20 @@ function parseExhaustiveDepsFromText() {
     const line = lines[i];
 
     // Check for file path
-    if (line.startsWith('/Users/') && (line.endsWith('.tsx') || line.endsWith('.ts'))) {
+    if (
+      line.startsWith("/Users/") &&
+      (line.endsWith(".tsx") || line.endsWith(".ts"))
+    ) {
       currentFile = line.trim();
       continue;
     }
 
     // Check for exhaustive-deps warning
-    if (line.includes('react-hooks/exhaustive-deps') && currentFile) {
+    if (line.includes("react-hooks/exhaustive-deps") && currentFile) {
       // Extract line and column numbers
-      const match = line.match(/^\s*(\d+):(\d+)\s+warning\s+(.+?)\s+react-hooks\/exhaustive-deps/);
+      const match = line.match(
+        /^\s*(\d+):(\d+)\s+warning\s+(.+?)\s+react-hooks\/exhaustive-deps/,
+      );
       if (match) {
         warnings.push({
           file: currentFile,
@@ -54,12 +59,12 @@ function categorizeWarnings(warnings) {
     other: [],
   };
 
-  warnings.forEach(warning => {
-    if (warning.message.includes('missing dependency')) {
+  warnings.forEach((warning) => {
+    if (warning.message.includes("missing dependency")) {
       categories.missing.push(warning);
-    } else if (warning.message.includes('unnecessary dependency')) {
+    } else if (warning.message.includes("unnecessary dependency")) {
       categories.unnecessary.push(warning);
-    } else if (warning.message.includes('complex expression')) {
+    } else if (warning.message.includes("complex expression")) {
       categories.complex.push(warning);
     } else {
       categories.other.push(warning);
@@ -76,7 +81,7 @@ function main() {
 
   const categories = categorizeWarnings(warnings);
 
-  console.log('\nWarnings by category:');
+  console.log("\nWarnings by category:");
   console.log(`- Missing dependencies: ${categories.missing.length}`);
   console.log(`- Unnecessary dependencies: ${categories.unnecessary.length}`);
   console.log(`- Complex expressions: ${categories.complex.length}`);
@@ -84,14 +89,14 @@ function main() {
 
   // Group by file
   const byFile = {};
-  warnings.forEach(warning => {
+  warnings.forEach((warning) => {
     if (!byFile[warning.file]) {
       byFile[warning.file] = [];
     }
     byFile[warning.file].push(warning);
   });
 
-  console.log('\nTop 10 files with most warnings:');
+  console.log("\nTop 10 files with most warnings:");
   const sortedFiles = Object.entries(byFile)
     .sort((a, b) => b[1].length - a[1].length)
     .slice(0, 10);
@@ -114,8 +119,11 @@ function main() {
     },
   };
 
-  fs.writeFileSync('exhaustive-deps-warnings.json', JSON.stringify(output, null, 2));
-  console.log('\nSaved detailed analysis to exhaustive-deps-warnings.json');
+  fs.writeFileSync(
+    "exhaustive-deps-warnings.json",
+    JSON.stringify(output, null, 2),
+  );
+  console.log("\nSaved detailed analysis to exhaustive-deps-warnings.json");
 }
 
 if (require.main === module) {

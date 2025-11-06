@@ -2,8 +2,8 @@ import type {
   CookingMethod,
   ElementalProperties,
   ZodiacSign,
-  ThermodynamicProperties
-} from './shared';
+  ThermodynamicProperties,
+} from "./shared";
 
 /**
  * Interface defining the structure of cooking method data
@@ -73,4 +73,4 @@ export interface CookingMethodData {
 }
 
 // Export alias for compatibility
-export type { CookingMethod } from './shared';
+export type { CookingMethod } from "./shared";

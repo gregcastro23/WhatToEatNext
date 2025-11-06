@@ -9,12 +9,14 @@ This document outlines the performance optimizations implemented during the code
 ### Next.js Configuration Enhancements
 
 **Enhanced splitChunks Configuration:**
+
 - **Calculations Bundle**: Async loading for `src/calculations/` modules (22 files)
 - **Unified Data Bundle**: Async loading for `src/data/unified/` modules (large data files)
 - **Framework Separation**: React/React-DOM isolated in dedicated chunks
 - **Dynamic NPM Packages**: Automatic naming and splitting for large node_modules
 
 **Performance Targets:**
+
 - Bundle chunks limited to 244KB max
 - Minimum 20KB for chunk creation
 - Maximum 30 initial requests
@@ -51,6 +53,7 @@ splitChunks: {
 ### Utility Functions
 
 **Created:** `src/utils/lazyLoading.ts`
+
 - Lazy calculation module imports
 - Lazy unified data imports
 - Dynamic component loading with Next.js
@@ -60,6 +63,7 @@ splitChunks: {
 ### Example Lazy Components
 
 **Created:** `src/components/LazyAlchemicalEngine.tsx`
+
 - Demonstrates lazy loading of heavy calculation engine
 - Preload on hover functionality
 - Custom loading states
@@ -70,11 +74,11 @@ splitChunks: {
 ```typescript
 // Calculation modules loaded on demand
 export const lazyCalculations = {
-  alchemical: () => import('@/calculations/alchemical'),
-  astrological: () => import('@/calculations/astrological'),
-  elemental: () => import('@/calculations/elemental'),
-  thermodynamics: () => import('@/calculations/thermodynamics'),
-  recommendations: () => import('@/calculations/recommendations'),
+  alchemical: () => import("@/calculations/alchemical"),
+  astrological: () => import("@/calculations/astrological"),
+  elemental: () => import("@/calculations/elemental"),
+  thermodynamics: () => import("@/calculations/thermodynamics"),
+  recommendations: () => import("@/calculations/recommendations"),
 };
 
 // Preload strategies
@@ -93,18 +97,21 @@ export const preloadCalculations = {
 ## Performance Monitoring
 
 ### Bundle Analysis
+
 - Module size estimation utilities
 - Performance tracking for lazy loads
 - Local storage of performance data
 - Automatic recommendations generation
 
 ### Key Metrics Tracked
+
 - Module load times
 - Bundle size impact
 - User interaction patterns
 - Cache effectiveness
 
 ### Performance Thresholds
+
 - **High Priority**: 50KB+ modules → immediate load
 - **Medium Priority**: 20KB+ modules → lazy load
 - **Low Priority**: 10KB+ modules → lazy load
@@ -112,12 +119,14 @@ export const preloadCalculations = {
 ## File Organization Optimizations
 
 ### Before Streamlining
+
 - 773+ backup files consuming storage
 - 285 automation scripts in root
 - Duplicate data in TypeScript and JavaScript formats
 - Overlapping type definitions across multiple files
 
 ### After Streamlining
+
 - **Backup cleanup**: Reduced to 25 essential files (97% reduction)
 - **Script consolidation**: Reduced to 3 config files (99% reduction)
 - **Data deduplication**: Unified directory reduced from 1.7MB to 432KB (75% reduction)
@@ -126,16 +135,19 @@ export const preloadCalculations = {
 ## Expected Performance Improvements
 
 ### Bundle Size Reduction
+
 - **Target**: 20%+ reduction through deduplication
 - **Achieved**: 75% reduction in unified data directory
 - **Ongoing**: TypeScript compilation optimizations
 
 ### Load Time Optimization
+
 - **Target**: Sub-3 second initial load
 - **Strategy**: Async loading of calculation modules
 - **Implementation**: Lazy loading with preload on hover
 
 ### Build Performance
+
 - **Target**: Sub-30 second builds
 - **Strategy**: Optimized chunk splitting
 - **Monitoring**: Performance tracking utilities
@@ -143,6 +155,7 @@ export const preloadCalculations = {
 ## Implementation Status
 
 ### ✅ Completed
+
 - Enhanced Next.js webpack configuration
 - Lazy loading utility functions
 - Example lazy component implementation
@@ -150,11 +163,13 @@ export const preloadCalculations = {
 - Bundle optimization documentation
 
 ### 🔄 In Progress
+
 - TypeScript error resolution (using existing infrastructure)
 - Component-level lazy loading implementation
 - Performance baseline establishment
 
 ### 📋 Planned
+
 - Performance testing and validation
 - Bundle analyzer integration
 - Automated performance alerts
@@ -165,14 +180,16 @@ export const preloadCalculations = {
 ### For Developers
 
 1. **Use lazy loading for heavy modules:**
+
    ```typescript
-   import { lazyCalculations } from '@/utils/lazyLoading';
+   import { lazyCalculations } from "@/utils/lazyLoading";
 
    // Load calculation module on demand
    const calculation = await lazyCalculations.alchemical();
    ```
 
 2. **Implement preloading on user interactions:**
+
    ```typescript
    <button onMouseEnter={() => preloadCalculations.onCalculationHover()}>
      Calculate
@@ -180,15 +197,18 @@ export const preloadCalculations = {
    ```
 
 3. **Monitor performance:**
-   ```typescript
-   import { performanceMonitoring } from '@/utils/lazyLoading';
 
-   const recommendations = performanceMonitoring.getPerformanceRecommendations();
+   ```typescript
+   import { performanceMonitoring } from "@/utils/lazyLoading";
+
+   const recommendations =
+     performanceMonitoring.getPerformanceRecommendations();
    ```
 
 ### For Production
 
 1. **Enable bundle analysis:**
+
    ```bash
    ANALYZE=true yarn build
    ```
@@ -223,12 +243,14 @@ export const preloadCalculations = {
 ## Success Metrics
 
 ### Technical Metrics
+
 - **Bundle Size**: 20%+ reduction achieved
 - **Load Time**: Target sub-3 seconds
 - **Build Time**: Target sub-30 seconds
 - **Cache Hit Rate**: Monitor chunk reusability
 
 ### User Experience Metrics
+
 - **Time to Interactive (TTI)**: Improve through lazy loading
 - **First Contentful Paint (FCP)**: Optimize initial bundle
 - **Cumulative Layout Shift (CLS)**: Minimize through proper loading states

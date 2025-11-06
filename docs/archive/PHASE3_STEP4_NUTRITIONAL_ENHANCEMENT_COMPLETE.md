@@ -208,16 +208,16 @@
 ### **Basic Nutritional Enhancement**
 
 ```typescript
-import { unifiedNutritionalService } from '@/services/unifiedNutritionalService';
+import { unifiedNutritionalService } from "@/services/unifiedNutritionalService";
 
 // Get enhanced nutritional profile
 const enhanced = await unifiedNutritionalService.getEnhancedNutritionalProfile(
-  'blueberry',
+  "blueberry",
   {
-    season: 'summer',
-    zodiacSign: 'leo',
-    planetaryHour: 'Sun'
-  }
+    season: "summer",
+    zodiacSign: "leo",
+    planetaryHour: "Sun",
+  },
 );
 
 console.log(enhanced.kalchm); // Nutritional Kalchm value
@@ -228,14 +228,16 @@ console.log(enhanced.monicaOptimization); // Monica-optimized scores
 
 ```typescript
 // Get personalized nutritional recommendations
-const recommendations = unifiedNutritionalService.getNutritionalRecommendations({
-  season: 'autumn',
-  zodiacSign: 'virgo',
-  planetaryHour: 'mercury',
-  targetKalchm: 1.1,
-  elementalFocus: 'earth',
-  healthGoals: ['digestive_health', 'grounding']
-});
+const recommendations = unifiedNutritionalService.getNutritionalRecommendations(
+  {
+    season: "autumn",
+    zodiacSign: "virgo",
+    planetaryHour: "mercury",
+    targetKalchm: 1.1,
+    elementalFocus: "earth",
+    healthGoals: ["digestive_health", "grounding"],
+  },
+);
 
 console.log(recommendations.ingredients); // Recommended ingredients
 console.log(recommendations.healthBenefits); // Health benefits
@@ -245,13 +247,14 @@ console.log(recommendations.healthBenefits); // Health benefits
 
 ```typescript
 // Analyze nutritional compatibility
-const compatibility = await unifiedNutritionalService.analyzeNutritionalCompatibility(
-  ['spinach', 'quinoa', 'salmon'],
-  {
-    season: 'spring',
-    zodiacSign: 'aries'
-  }
-);
+const compatibility =
+  await unifiedNutritionalService.analyzeNutritionalCompatibility(
+    ["spinach", "quinoa", "salmon"],
+    {
+      season: "spring",
+      zodiacSign: "aries",
+    },
+  );
 
 console.log(compatibility.kalchmHarmony); // Kalchm harmony score
 console.log(compatibility.recommendations); // Compatibility recommendations

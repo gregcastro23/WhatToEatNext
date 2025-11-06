@@ -7,12 +7,26 @@
  */
 
 // Import Season, ZodiacSign, CookingMethod as types from constants.ts
-import type { CookingMethod, ElementType, LunarPhase, Planet, Season, ZodiacSign } from './constants';
+import type {
+  CookingMethod,
+  ElementType,
+  LunarPhase,
+  Planet,
+  Season,
+  ZodiacSign,
+} from "./constants";
 // Import LunarPhase as type from constants.ts
 
 // Define types directly since they're not exported from constants
-type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
-type PlanetName = 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn';
+type Element = "Fire" | "Water" | "Earth" | "Air";
+type PlanetName =
+  | "Sun"
+  | "Moon"
+  | "Mercury"
+  | "Venus"
+  | "Mars"
+  | "Jupiter"
+  | "Saturn";
 // Define necessary types directly if they're not available for import
 // Define a simplified AstrologicalState type
 export interface AstrologicalState {
@@ -21,7 +35,7 @@ export interface AstrologicalState {
   moonPhase?: string;
   lunarPhase?: string;
   activePlanets?: string[];
-  [key: string]: unknown
+  [key: string]: unknown;
 }
 
 // Define a simplified ElementalProperties type
@@ -30,7 +44,7 @@ export interface ElementalProperties {
   Water: number;
   Earth: number;
   Air: number;
-  [key: string]: number
+  [key: string]: number;
 }
 
 // Define basic Recipe and RecipeIngredient types
@@ -38,7 +52,7 @@ export interface RecipeIngredient {
   name: string;
   amount?: number | string;
   unit?: string;
-  [key: string]: unknown
+  [key: string]: unknown;
 }
 
 export interface Recipe {
@@ -47,17 +61,17 @@ export interface Recipe {
   description: string;
   ingredients: RecipeIngredient[];
   instructions: string[];
-  [key: string]: unknown
+  [key: string]: unknown;
 }
 
 export interface ScoredRecipe extends Recipe {
-  score: number
+  score: number;
 }
 
 // Define a simplified Ingredient type
 export interface Ingredient {
   name: string;
-  [key: string]: unknown
+  [key: string]: unknown;
 }
 
 // Re-export all types
@@ -67,8 +81,8 @@ export type {
   LunarPhase,
   CookingMethod,
   ElementType as Element,
-  Planet as PlanetName
-}
+  Planet as PlanetName,
+};
 
 // Type conversion utilities
 
@@ -87,7 +101,7 @@ export function toCookingMethod(value: string): CookingMethod {
  */
 export function toSeason(value: string | string[]): Season | Season[] {
   if (Array.isArray(value)) {
-    return value.map(v => v as Season);
+    return value.map((v) => v as Season);
   }
   return value as Season;
 }

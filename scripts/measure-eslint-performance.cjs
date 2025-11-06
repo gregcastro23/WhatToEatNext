@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 
-const { execSync } = require('child_process');
-const fs = require('fs');
+const { execSync } = require("child_process");
+const fs = require("fs");
 
 function measureESLintPerformance() {
-  console.log('📊 Measuring ESLint Performance...');
+  console.log("📊 Measuring ESLint Performance...");
 
   const startTime = Date.now();
 
   try {
     // Run ESLint with timing
     const output = execSync(
-      'yarn lint --max-warnings=10000 --cache --cache-location=.eslint-cache',
+      "yarn lint --max-warnings=10000 --cache --cache-location=.eslint-cache",
       {
-        encoding: 'utf8',
-        stdio: 'pipe',
+        encoding: "utf8",
+        stdio: "pipe",
       },
     );
 
@@ -32,17 +32,19 @@ function measureESLintPerformance() {
       cacheUsed: true,
     };
 
-    fs.writeFileSync('.eslint-metrics.json', JSON.stringify(metrics, null, 2));
+    fs.writeFileSync(".eslint-metrics.json", JSON.stringify(metrics, null, 2));
 
     if (duration < 30) {
-      console.log('🎯 Performance target achieved (< 30 seconds)');
+      console.log("🎯 Performance target achieved (< 30 seconds)");
     } else {
-      console.log(`⚠️  Performance target missed by ${(duration - 30).toFixed(2)} seconds`);
+      console.log(
+        `⚠️  Performance target missed by ${(duration - 30).toFixed(2)} seconds`,
+      );
     }
 
     return duration;
   } catch (error) {
-    console.error('❌ ESLint failed:', error.message);
+    console.error("❌ ESLint failed:", error.message);
     return -1;
   }
 }

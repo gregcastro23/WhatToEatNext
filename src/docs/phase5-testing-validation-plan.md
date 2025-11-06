@@ -27,23 +27,23 @@ refactored codebase.
 ```typescript
 // jest.config.js
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'jsdom',
-  roots: ['<rootDir>/src'],
+  preset: "ts-jest",
+  testEnvironment: "jsdom",
+  roots: ["<rootDir>/src"],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    "^.+\\.tsx?$": "ts-jest",
   },
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    "^@/(.*)$": "<rootDir>/src/$1",
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
   },
-  setupFilesAfterEnv: ['<rootDir>/src/tests/setup.ts'],
+  setupFilesAfterEnv: ["<rootDir>/src/tests/setup.ts"],
   collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/tests/**/*',
-    '!src/**/*.stories.{ts,tsx}',
-    '!src/pages/_*.{ts,tsx}',
+    "src/**/*.{ts,tsx}",
+    "!src/**/*.d.ts",
+    "!src/tests/**/*",
+    "!src/**/*.stories.{ts,tsx}",
+    "!src/pages/_*.{ts,tsx}",
   ],
   coverageThreshold: {
     global: {
@@ -52,7 +52,7 @@ module.exports = {
       lines: 70,
       statements: 70,
     },
-    './src/services/': {
+    "./src/services/": {
       branches: 80,
       functions: 80,
       lines: 80,
@@ -66,14 +66,14 @@ module.exports = {
 
 ```typescript
 // src/tests/setup.ts
-import '@testing-library/jest-dom';
-import { configure } from '@testing-library/react';
+import "@testing-library/jest-dom";
+import { configure } from "@testing-library/react";
 
 // Configure testing library
-configure({ testIdAttribute: 'data-testid' });
+configure({ testIdAttribute: "data-testid" });
 
 // Mock services that access browser APIs
-jest.mock('@/services/localStorage', () => ({
+jest.mock("@/services/localStorage", () => ({
   get: jest.fn(),
   set: jest.fn(),
   remove: jest.fn(),
@@ -96,7 +96,7 @@ Create a factory pattern for testing services:
 
 ```typescript
 // src/tests/factories/serviceTestFactory.ts
-import { createServiceMock } from '@/tests/mocks/serviceMocks';
+import { createServiceMock } from "@/tests/mocks/serviceMocks";
 
 export interface ServiceTestContext<T> {
   service: T;
@@ -106,12 +106,12 @@ export interface ServiceTestContext<T> {
 
 export function createServiceTestContext<T>(
   ServiceClass: new (...args: any[]) => T,
-  dependencyNames: string[] = []
+  dependencyNames: string[] = [],
 ): ServiceTestContext<T> {
   // Create mock dependencies
   const dependencies: Record<string, jest.Mock> = {};
 
-  dependencyNames.forEach(name => {
+  dependencyNames.forEach((name) => {
     dependencies[name] = createServiceMock(name);
   });
 
@@ -123,8 +123,8 @@ export function createServiceTestContext<T>(
     dependencies,
     reset() {
       // Reset all dependency mocks
-      Object.values(dependencies).forEach(mock => mock.mockReset());
-    }
+      Object.values(dependencies).forEach((mock) => mock.mockReset());
+    },
   };
 }
 ```
@@ -137,24 +137,24 @@ Example pattern for testing a service:
 
 ```typescript
 // src/__tests__/services/AstrologyService.test.ts
-import { AstrologyService } from '@/services/AstrologyService';
-import { createServiceTestContext } from '@/tests/factories/serviceTestFactory';
-import { mockPlanetaryData } from '@/tests/mocks/astrologyMocks';
+import { AstrologyService } from "@/services/AstrologyService";
+import { createServiceTestContext } from "@/tests/factories/serviceTestFactory";
+import { mockPlanetaryData } from "@/tests/mocks/astrologyMocks";
 
-describe('AstrologyService', () => {
+describe("AstrologyService", () => {
   // Create test context with dependencies
   const ctx = createServiceTestContext(AstrologyService, [
-    'httpClient',
-    'cacheService',
-    'locationService',
+    "httpClient",
+    "cacheService",
+    "locationService",
   ]);
 
   beforeEach(() => {
     ctx.reset();
   });
 
-  describe('getCurrentPlanetaryPositions', () => {
-    it('should return planetary positions from API', async () => {
+  describe("getCurrentPlanetaryPositions", () => {
+    it("should return planetary positions from API", async () => {
       // Arrange
       ctx.dependencies.httpClient.get.mockResolvedValue({
         data: mockPlanetaryData,
@@ -168,12 +168,12 @@ describe('AstrologyService', () => {
       // Assert
       expect(result).toEqual(mockPlanetaryData);
       expect(ctx.dependencies.httpClient.get).toHaveBeenCalledWith(
-        '/astrology/planetary-positions',
-        expect.any(Object)
+        "/astrology/planetary-positions",
+        expect.any(Object),
       );
     });
 
-    it('should use cached data when available', async () => {
+    it("should use cached data when available", async () => {
       // Arrange
       ctx.dependencies.cacheService.get.mockReturnValue(mockPlanetaryData);
 
@@ -185,13 +185,15 @@ describe('AstrologyService', () => {
       expect(ctx.dependencies.httpClient.get).not.toHaveBeenCalled();
     });
 
-    it('should handle errors gracefully', async () => {
+    it("should handle errors gracefully", async () => {
       // Arrange
-      const error = new Error('API Error');
+      const error = new Error("API Error");
       ctx.dependencies.httpClient.get.mockRejectedValue(error);
 
       // Act & Assert
-      await expect(ctx.service.getCurrentPlanetaryPositions()).rejects.toThrow('API Error');
+      await expect(ctx.service.getCurrentPlanetaryPositions()).rejects.toThrow(
+        "API Error",
+      );
     });
   });
 
@@ -205,12 +207,12 @@ Example pattern for testing utility functions:
 
 ```typescript
 // src/__tests__/utils/elementalCalculator.test.ts
-import { calculateElementalProperties } from '@/utils/elementalCalculator';
-import { mockPlanetaryPositions } from '@/tests/mocks/astrologyMocks';
+import { calculateElementalProperties } from "@/utils/elementalCalculator";
+import { mockPlanetaryPositions } from "@/tests/mocks/astrologyMocks";
 
-describe('elementalCalculator', () => {
-  describe('calculateElementalProperties', () => {
-    it('should calculate elemental properties correctly', () => {
+describe("elementalCalculator", () => {
+  describe("calculateElementalProperties", () => {
+    it("should calculate elemental properties correctly", () => {
       // Arrange
       const expectedProperties = {
         fire: 2.5,
@@ -226,7 +228,7 @@ describe('elementalCalculator', () => {
       expect(result).toEqual(expectedProperties);
     });
 
-    it('should handle empty input', () => {
+    it("should handle empty input", () => {
       // Act
       const result = calculateElementalProperties({});
 
@@ -239,10 +241,10 @@ describe('elementalCalculator', () => {
       });
     });
 
-    it('should handle missing planet properties', () => {
+    it("should handle missing planet properties", () => {
       // Arrange
       const incompleteData = {
-        sun: { sign: 'leo' }, // Missing degree
+        sun: { sign: "leo" }, // Missing degree
       };
 
       // Act
@@ -266,11 +268,11 @@ Test how services work together:
 
 ```typescript
 // src/__tests__/integration/astrologyElementalIntegration.test.ts
-import { AstrologyService } from '@/services/AstrologyService';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { mockPlanetaryData } from '@/tests/mocks/astrologyMocks';
+import { AstrologyService } from "@/services/AstrologyService";
+import { ElementalCalculator } from "@/services/ElementalCalculator";
+import { mockPlanetaryData } from "@/tests/mocks/astrologyMocks";
 
-describe('Astrology and Elemental Integration', () => {
+describe("Astrology and Elemental Integration", () => {
   // Create actual service instances for integration testing
   const httpClient = {
     get: jest.fn().mockResolvedValue({
@@ -289,14 +291,14 @@ describe('Astrology and Elemental Integration', () => {
   const locationService = {
     getCurrentLocation: jest.fn().mockResolvedValue({
       latitude: 40.7128,
-      longitude: -74.0060,
+      longitude: -74.006,
     }),
   };
 
   const astrologyService = new AstrologyService(
     httpClient,
     cacheService,
-    locationService
+    locationService,
   );
 
   const elementalCalculator = new ElementalCalculator();
@@ -305,17 +307,18 @@ describe('Astrology and Elemental Integration', () => {
     jest.clearAllMocks();
   });
 
-  it('should calculate elemental properties from planetary positions', async () => {
+  it("should calculate elemental properties from planetary positions", async () => {
     // Act
     const positions = await astrologyService.getCurrentPlanetaryPositions();
-    const elementalProperties = elementalCalculator.calculateProperties(positions);
+    const elementalProperties =
+      elementalCalculator.calculateProperties(positions);
 
     // Assert
     expect(positions).toEqual(mockPlanetaryData);
-    expect(elementalProperties).toHaveProperty('fire');
-    expect(elementalProperties).toHaveProperty('water');
-    expect(elementalProperties).toHaveProperty('earth');
-    expect(elementalProperties).toHaveProperty('Air');
+    expect(elementalProperties).toHaveProperty("fire");
+    expect(elementalProperties).toHaveProperty("water");
+    expect(elementalProperties).toHaveProperty("earth");
+    expect(elementalProperties).toHaveProperty("Air");
   });
 });
 ```
@@ -326,16 +329,16 @@ Test API endpoints with supertest:
 
 ```typescript
 // src/__tests__/api/astrology.test.ts
-import { createRequest, createResponse } from 'node-mocks-http';
-import { GET } from '@/app/api/astrology/planetary-positions/route';
+import { createRequest, createResponse } from "node-mocks-http";
+import { GET } from "@/app/api/astrology/planetary-positions/route";
 
-describe('Astrology API Endpoints', () => {
-  describe('GET /api/astrology/planetary-positions', () => {
-    it('should return planetary positions', async () => {
+describe("Astrology API Endpoints", () => {
+  describe("GET /api/astrology/planetary-positions", () => {
+    it("should return planetary positions", async () => {
       // Arrange
       const req = createRequest({
-        method: 'GET',
-        url: '/api/astrology/planetary-positions',
+        method: "GET",
+        url: "/api/astrology/planetary-positions",
       });
       const res = createResponse();
 
@@ -346,15 +349,15 @@ describe('Astrology API Endpoints', () => {
       // Assert
       expect(result.status).toBe(200);
       expect(data.success).toBe(true);
-      expect(data.data).toHaveProperty('sun');
-      expect(data.data).toHaveProperty('moon');
+      expect(data.data).toHaveProperty("sun");
+      expect(data.data).toHaveProperty("moon");
     });
 
-    it('should handle invalid parameters', async () => {
+    it("should handle invalid parameters", async () => {
       // Arrange
       const req = createRequest({
-        method: 'GET',
-        url: '/api/astrology/planetary-positions?latitude=invalid',
+        method: "GET",
+        url: "/api/astrology/planetary-positions?latitude=invalid",
       });
 
       // Act
@@ -364,7 +367,7 @@ describe('Astrology API Endpoints', () => {
       // Assert
       expect(result.status).toBe(400);
       expect(data.success).toBe(false);
-      expect(data.message).toContain('Invalid request parameters');
+      expect(data.message).toContain("Invalid request parameters");
     });
   });
 });
@@ -528,20 +531,20 @@ Use `tsd` to test your type definitions:
 
 ```typescript
 // src/__tests__/types/api.test-d.ts
-import { expectType, expectError } from 'tsd';
-import { ApiResponse, ApiError } from '@/types/api';
-import { PlanetaryPosition } from '@/types/api/astrology';
+import { expectType, expectError } from "tsd";
+import { ApiResponse, ApiError } from "@/types/api";
+import { PlanetaryPosition } from "@/types/api/astrology";
 
 // Test ApiResponse type
 expectType<ApiResponse<number>>({ data: 42, status: 200, success: true });
 
 // Error if missing required properties
-expectError<ApiResponse<string>>({ data: 'test' });
+expectError<ApiResponse<string>>({ data: "test" });
 
 // Test PlanetaryPosition type
 expectType<PlanetaryPosition>({
-  planet: 'sun',
-  sign: 'leo',
+  planet: "sun",
+  sign: "leo",
   degree: 15.5,
   exactLongitude: 135.5,
   isRetrograde: false,
@@ -549,9 +552,9 @@ expectType<PlanetaryPosition>({
 
 // Error on incorrect types
 expectError<PlanetaryPosition>({
-  planet: 'sun',
-  sign: 'leo',
-  degree: '15.5', // should be number
+  planet: "sun",
+  sign: "leo",
+  degree: "15.5", // should be number
   exactLongitude: 135.5,
   isRetrograde: false,
 });
@@ -567,9 +570,9 @@ name: Test
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   test:
@@ -581,8 +584,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'yarn'
+          node-version: "18"
+          cache: "yarn"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile

@@ -8,7 +8,7 @@
  */
 
 // Data processing functions
-export * from './processing';
+export * from "./processing";
 
 // Re-export commonly used functions for backward compatibility
 export {
@@ -18,8 +18,12 @@ export {
   standardizeIngredient,
   standardizeRecipe,
   validateIngredient,
-  validateRecipe
-} from './processing';
+  validateRecipe,
+} from "./processing";
 
 // Type exports
-export type { DataCleanupResult, StandardizationOptions, ValidationResult } from './processing';
+export type {
+  DataCleanupResult,
+  StandardizationOptions,
+  ValidationResult,
+} from "./processing";

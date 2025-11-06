@@ -6,18 +6,18 @@
  * Focuses on specific unintentional any patterns found in the codebase
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 const colors = {
-  reset: '\x1b[0m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  cyan: '\x1b[36m',
-  red: '\x1b[31m',
-  magenta: '\x1b[35m',
-  bright: '\x1b[1m'
+  reset: "\x1b[0m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  cyan: "\x1b[36m",
+  red: "\x1b[31m",
+  magenta: "\x1b[35m",
+  bright: "\x1b[1m",
 };
 
 function colorize(text, color) {
@@ -33,65 +33,120 @@ class TargetedAccelerationExecutor {
       totalFailed: 0,
       waveResults: [],
       patternsFound: 0,
-      filesProcessed: 0
+      filesProcessed: 0,
     };
   }
 
   async execute() {
-    console.log(colorize('\n🎯 TARGETED ACCELERATION EXECUTOR', 'bright'));
-    console.log(colorize('=' .repeat(80), 'blue'));
-    console.log(colorize('🚀 FOCUSED ATTACK ON UNINTENTIONAL ANY PATTERNS', 'yellow'));
-    console.log(colorize('Targeting specific patterns found in codebase analysis', 'yellow'));
-    console.log(colorize('=' .repeat(80), 'blue'));
+    console.log(colorize("\n🎯 TARGETED ACCELERATION EXECUTOR", "bright"));
+    console.log(colorize("=".repeat(80), "blue"));
+    console.log(
+      colorize("🚀 FOCUSED ATTACK ON UNINTENTIONAL ANY PATTERNS", "yellow"),
+    );
+    console.log(
+      colorize(
+        "Targeting specific patterns found in codebase analysis",
+        "yellow",
+      ),
+    );
+    console.log(colorize("=".repeat(80), "blue"));
 
     const initialAnyCount = await this.getAnyCount();
-    console.log(colorize(`📊 Starting any count: ${initialAnyCount}`, 'blue'));
+    console.log(colorize(`📊 Starting any count: ${initialAnyCount}`, "blue"));
 
     // Execute targeted waves
     const waves = [
       {
-        name: 'Wave 13: Error Handling Patterns',
+        name: "Wave 13: Error Handling Patterns",
         patterns: [
-          { search: /} catch \(e: any\) {/g, replace: '} catch (e: unknown) {', confidence: 0.95 },
-          { search: /} catch \(error: any\) {/g, replace: '} catch (error: unknown) {', confidence: 0.95 }
-        ]
+          {
+            search: /} catch \(e: any\) {/g,
+            replace: "} catch (e: unknown) {",
+            confidence: 0.95,
+          },
+          {
+            search: /} catch \(error: any\) {/g,
+            replace: "} catch (error: unknown) {",
+            confidence: 0.95,
+          },
+        ],
       },
       {
-        name: 'Wave 14: Function Parameter Patterns',
+        name: "Wave 14: Function Parameter Patterns",
         patterns: [
-          { search: /\(([^)]*): any\): void/g, replace: '($1: unknown): void', confidence: 0.85 },
-          { search: /context: any\)/g, replace: 'context: unknown)', confidence: 0.80 },
-          { search: /metrics: any\)/g, replace: 'metrics: unknown)', confidence: 0.80 }
-        ]
+          {
+            search: /\(([^)]*): any\): void/g,
+            replace: "($1: unknown): void",
+            confidence: 0.85,
+          },
+          {
+            search: /context: any\)/g,
+            replace: "context: unknown)",
+            confidence: 0.8,
+          },
+          {
+            search: /metrics: any\)/g,
+            replace: "metrics: unknown)",
+            confidence: 0.8,
+          },
+        ],
       },
       {
-        name: 'Wave 15: Index Signature Patterns',
+        name: "Wave 15: Index Signature Patterns",
         patterns: [
-          { search: /\{ \[key: string\]: any \}/g, replace: '{ [key: string]: unknown }', confidence: 0.90 },
-          { search: /planetaryPositions: \{ \[key: string\]: any \}/g, replace: 'planetaryPositions: { [key: string]: unknown }', confidence: 0.85 }
-        ]
+          {
+            search: /\{ \[key: string\]: any \}/g,
+            replace: "{ [key: string]: unknown }",
+            confidence: 0.9,
+          },
+          {
+            search: /planetaryPositions: \{ \[key: string\]: any \}/g,
+            replace: "planetaryPositions: { [key: string]: unknown }",
+            confidence: 0.85,
+          },
+        ],
       },
       {
-        name: 'Wave 16: Variable Declaration Patterns',
+        name: "Wave 16: Variable Declaration Patterns",
         patterns: [
-          { search: /let ([^:]+): any =/g, replace: 'let $1: unknown =', confidence: 0.75 },
-          { search: /referenceItem: any =/g, replace: 'referenceItem: unknown =', confidence: 0.80 }
-        ]
+          {
+            search: /let ([^:]+): any =/g,
+            replace: "let $1: unknown =",
+            confidence: 0.75,
+          },
+          {
+            search: /referenceItem: any =/g,
+            replace: "referenceItem: unknown =",
+            confidence: 0.8,
+          },
+        ],
       },
       {
-        name: 'Wave 17: Function Return Type Patterns',
+        name: "Wave 17: Function Return Type Patterns",
         patterns: [
-          { search: /\): any \{/g, replace: '): unknown {', confidence: 0.70 },
-          { search: /ensureLowercaseFormat\(properties: unknown\): any/g, replace: 'ensureLowercaseFormat(properties: unknown): unknown', confidence: 0.85 }
-        ]
+          { search: /\): any \{/g, replace: "): unknown {", confidence: 0.7 },
+          {
+            search: /ensureLowercaseFormat\(properties: unknown\): any/g,
+            replace: "ensureLowercaseFormat(properties: unknown): unknown",
+            confidence: 0.85,
+          },
+        ],
       },
       {
-        name: 'Wave 18: Array and Object Patterns',
+        name: "Wave 18: Array and Object Patterns",
         patterns: [
-          { search: /Array<\{ planet: string; type: any; orb: number \}>/g, replace: 'Array<{ planet: string; type: unknown; orb: number }>', confidence: 0.85 },
-          { search: /metadata\?: \{ \[key: string\]: any \}/g, replace: 'metadata?: { [key: string]: unknown }', confidence: 0.85 }
-        ]
-      }
+          {
+            search: /Array<\{ planet: string; type: any; orb: number \}>/g,
+            replace: "Array<{ planet: string; type: unknown; orb: number }>",
+            confidence: 0.85,
+          },
+          {
+            search: /metadata\?: \{ \[key: string\]: any \}/g,
+            replace: "metadata?: { [key: string]: unknown }",
+            confidence: 0.85,
+          },
+        ],
+      },
     ];
 
     let totalReduction = 0;
@@ -102,9 +157,14 @@ class TargetedAccelerationExecutor {
       this.totalResults.wavesExecuted++;
 
       if (waveResult.successful > 0) {
-        console.log(colorize(`✅ ${wave.name}: ${waveResult.successful} fixes applied`, 'green'));
+        console.log(
+          colorize(
+            `✅ ${wave.name}: ${waveResult.successful} fixes applied`,
+            "green",
+          ),
+        );
       } else {
-        console.log(colorize(`⚪ ${wave.name}: No patterns found`, 'yellow'));
+        console.log(colorize(`⚪ ${wave.name}: No patterns found`, "yellow"));
       }
     }
 
@@ -114,32 +174,64 @@ class TargetedAccelerationExecutor {
     // Calculate final cumulative progress
     const previousReduction = 29; // From waves 1-12
     const grandTotalReduction = previousReduction + actualReduction;
-    const cumulativePercentage = ((grandTotalReduction / (initialAnyCount + previousReduction)) * 100);
+    const cumulativePercentage =
+      (grandTotalReduction / (initialAnyCount + previousReduction)) * 100;
 
-    console.log(colorize('\n📈 TARGETED ACCELERATION RESULTS:', 'bright'));
-    console.log(`  Waves Executed: ${colorize(this.totalResults.wavesExecuted.toString(), 'blue')}`);
-    console.log(`  Total Attempted: ${colorize(this.totalResults.totalAttempted.toString(), 'blue')}`);
-    console.log(`  Total Successful: ${colorize(this.totalResults.totalSuccessful.toString(), 'green')}`);
-    console.log(`  Total Failed: ${colorize(this.totalResults.totalFailed.toString(), 'red')}`);
-    console.log(`  Overall Success Rate: ${colorize((this.totalResults.totalSuccessful / Math.max(this.totalResults.totalAttempted, 1) * 100).toFixed(1) + '%', 'green')}`);
-    console.log(`  Any Types Reduced: ${colorize(actualReduction.toString(), 'green')}`);
+    console.log(colorize("\n📈 TARGETED ACCELERATION RESULTS:", "bright"));
+    console.log(
+      `  Waves Executed: ${colorize(this.totalResults.wavesExecuted.toString(), "blue")}`,
+    );
+    console.log(
+      `  Total Attempted: ${colorize(this.totalResults.totalAttempted.toString(), "blue")}`,
+    );
+    console.log(
+      `  Total Successful: ${colorize(this.totalResults.totalSuccessful.toString(), "green")}`,
+    );
+    console.log(
+      `  Total Failed: ${colorize(this.totalResults.totalFailed.toString(), "red")}`,
+    );
+    console.log(
+      `  Overall Success Rate: ${colorize(((this.totalResults.totalSuccessful / Math.max(this.totalResults.totalAttempted, 1)) * 100).toFixed(1) + "%", "green")}`,
+    );
+    console.log(
+      `  Any Types Reduced: ${colorize(actualReduction.toString(), "green")}`,
+    );
 
-    console.log(colorize('\n🏆 UPDATED CAMPAIGN RESULTS:', 'bright'));
-    console.log(`  Total Fixes Applied: ${colorize(grandTotalReduction.toString(), 'green')}`);
-    console.log(`  Cumulative Reduction: ${colorize(cumulativePercentage.toFixed(2) + '%', 'green')}`);
-    console.log(`  Final Any Count: ${colorize(finalAnyCount.toString(), 'blue')}`);
-    console.log(`  Progress to Target: ${colorize((grandTotalReduction / 300 * 100).toFixed(1) + '%', 'cyan')} (${grandTotalReduction}/300 fixes)`);
+    console.log(colorize("\n🏆 UPDATED CAMPAIGN RESULTS:", "bright"));
+    console.log(
+      `  Total Fixes Applied: ${colorize(grandTotalReduction.toString(), "green")}`,
+    );
+    console.log(
+      `  Cumulative Reduction: ${colorize(cumulativePercentage.toFixed(2) + "%", "green")}`,
+    );
+    console.log(
+      `  Final Any Count: ${colorize(finalAnyCount.toString(), "blue")}`,
+    );
+    console.log(
+      `  Progress to Target: ${colorize(((grandTotalReduction / 300) * 100).toFixed(1) + "%", "cyan")} (${grandTotalReduction}/300 fixes)`,
+    );
 
     // Target achievement assessment
     const targetAchieved = grandTotalReduction >= 250;
     const reductionTargetMet = cumulativePercentage >= 15;
-    const targetStatus = targetAchieved && reductionTargetMet ? 'TARGET ACHIEVED!' : 'STRONG PROGRESS';
-    console.log(`  Campaign Status: ${colorize(targetStatus, targetAchieved ? 'green' : 'yellow')}`);
+    const targetStatus =
+      targetAchieved && reductionTargetMet
+        ? "TARGET ACHIEVED!"
+        : "STRONG PROGRESS";
+    console.log(
+      `  Campaign Status: ${colorize(targetStatus, targetAchieved ? "green" : "yellow")}`,
+    );
 
     // Save comprehensive report
-    await this.saveAccelerationReport(initialAnyCount, finalAnyCount, actualReduction, grandTotalReduction, cumulativePercentage);
+    await this.saveAccelerationReport(
+      initialAnyCount,
+      finalAnyCount,
+      actualReduction,
+      grandTotalReduction,
+      cumulativePercentage,
+    );
 
-    console.log(colorize('\n🎉 TARGETED ACCELERATION COMPLETED!', 'bright'));
+    console.log(colorize("\n🎉 TARGETED ACCELERATION COMPLETED!", "bright"));
 
     return this.totalResults.totalSuccessful > 0;
   }
@@ -154,7 +246,7 @@ class TargetedAccelerationExecutor {
 
     for (const file of files) {
       try {
-        const content = fs.readFileSync(file, 'utf8');
+        const content = fs.readFileSync(file, "utf8");
         let updatedContent = content;
         let fileChanged = false;
 
@@ -164,8 +256,14 @@ class TargetedAccelerationExecutor {
             attempted += matches.length;
 
             // Only apply if confidence is high enough and not in comments or intentional
-            if (pattern.confidence >= 0.70 && !this.isIntentionalOrComment(content, matches[0])) {
-              updatedContent = updatedContent.replace(pattern.search, pattern.replace);
+            if (
+              pattern.confidence >= 0.7 &&
+              !this.isIntentionalOrComment(content, matches[0])
+            ) {
+              updatedContent = updatedContent.replace(
+                pattern.search,
+                pattern.replace,
+              );
               successful += matches.length;
               fileChanged = true;
             } else {
@@ -178,9 +276,10 @@ class TargetedAccelerationExecutor {
         if (fileChanged) {
           fs.writeFileSync(file, updatedContent);
         }
-
       } catch (error) {
-        console.log(colorize(`  ⚠️ Error processing ${file}: ${error.message}`, 'yellow'));
+        console.log(
+          colorize(`  ⚠️ Error processing ${file}: ${error.message}`, "yellow"),
+        );
       }
     }
 
@@ -193,25 +292,35 @@ class TargetedAccelerationExecutor {
       attempted,
       successful,
       failed,
-      successRate: attempted > 0 ? (successful / attempted * 100).toFixed(1) + '%' : '0%'
+      successRate:
+        attempted > 0
+          ? ((successful / attempted) * 100).toFixed(1) + "%"
+          : "0%",
     };
   }
 
   isIntentionalOrComment(content, pattern) {
     // Check if pattern is in a comment or has intentional documentation
-    const lines = content.split('\n');
+    const lines = content.split("\n");
     for (const line of lines) {
       if (line.includes(pattern)) {
         const trimmedLine = line.trim();
         // Skip if in comment
-        if (trimmedLine.startsWith('//') || trimmedLine.startsWith('*')) {
+        if (trimmedLine.startsWith("//") || trimmedLine.startsWith("*")) {
           return true;
         }
         // Skip if has intentional documentation nearby
         const lineIndex = lines.indexOf(line);
-        for (let i = Math.max(0, lineIndex - 3); i <= Math.min(lines.length - 1, lineIndex + 1); i++) {
+        for (
+          let i = Math.max(0, lineIndex - 3);
+          i <= Math.min(lines.length - 1, lineIndex + 1);
+          i++
+        ) {
           const checkLine = lines[i].toLowerCase();
-          if (checkLine.includes('intentionally any') || checkLine.includes('eslint-disable')) {
+          if (
+            checkLine.includes("intentionally any") ||
+            checkLine.includes("eslint-disable")
+          ) {
             return true;
           }
         }
@@ -222,10 +331,16 @@ class TargetedAccelerationExecutor {
 
   async getTypeScriptFiles() {
     try {
-      const output = execSync('find src -name "*.ts" -o -name "*.tsx" | grep -v __tests__ | grep -v .test.', {
-        encoding: 'utf8'
-      });
-      return output.trim().split('\n').filter(f => f.length > 0);
+      const output = execSync(
+        'find src -name "*.ts" -o -name "*.tsx" | grep -v __tests__ | grep -v .test.',
+        {
+          encoding: "utf8",
+        },
+      );
+      return output
+        .trim()
+        .split("\n")
+        .filter((f) => f.length > 0);
     } catch {
       return [];
     }
@@ -233,29 +348,38 @@ class TargetedAccelerationExecutor {
 
   async getAnyCount() {
     try {
-      const output = execSync('find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += $2} END {print sum}\' || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += $2} END {print sum}\' || echo "0"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch {
       return 0;
     }
   }
 
-  async saveAccelerationReport(initialCount, finalCount, reduction, grandTotal, cumulativePercentage) {
+  async saveAccelerationReport(
+    initialCount,
+    finalCount,
+    reduction,
+    grandTotal,
+    cumulativePercentage,
+  ) {
     const report = {
       timestamp: new Date().toISOString(),
-      type: 'targeted-acceleration-executor',
+      type: "targeted-acceleration-executor",
       results: this.totalResults,
       metrics: {
         initialAnyCount: initialCount,
         finalAnyCount: finalCount,
         accelerationReduction: reduction,
         grandTotalReduction: grandTotal,
-        cumulativeReductionPercentage: cumulativePercentage.toFixed(2) + '%',
-        progressToTarget: (grandTotal / 300 * 100).toFixed(1) + '%'
-      }
+        cumulativeReductionPercentage: cumulativePercentage.toFixed(2) + "%",
+        progressToTarget: ((grandTotal / 300) * 100).toFixed(1) + "%",
+      },
     };
 
     const reportPath = `TARGETED_ACCELERATION_REPORT.json`;
@@ -271,18 +395,21 @@ class TargetedAccelerationExecutor {
 - **Total Patterns Attempted**: ${this.totalResults.totalAttempted}
 - **Successful Replacements**: ${this.totalResults.totalSuccessful}
 - **Failed Attempts**: ${this.totalResults.totalFailed}
-- **Success Rate**: ${(this.totalResults.totalSuccessful / Math.max(this.totalResults.totalAttempted, 1) * 100).toFixed(1)}%
+- **Success Rate**: ${((this.totalResults.totalSuccessful / Math.max(this.totalResults.totalAttempted, 1)) * 100).toFixed(1)}%
 
 ### Wave-by-Wave Results
-${this.totalResults.waveResults.map(wave =>
-  `- **${wave.name}**: ${wave.successful} fixes (${wave.successRate} success rate)`
-).join('\n')}
+${this.totalResults.waveResults
+  .map(
+    (wave) =>
+      `- **${wave.name}**: ${wave.successful} fixes (${wave.successRate} success rate)`,
+  )
+  .join("\n")}
 
 ### Updated Campaign Totals
 - **Total Fixes Applied**: ${grandTotal}
 - **Cumulative Reduction**: ${cumulativePercentage.toFixed(2)}%
 - **Final Any Count**: ${finalCount}
-- **Progress to Target**: ${(grandTotal / 300 * 100).toFixed(1)}% (${grandTotal}/300 fixes)
+- **Progress to Target**: ${((grandTotal / 300) * 100).toFixed(1)}% (${grandTotal}/300 fixes)
 
 ## 🚀 ACCELERATION IMPACT
 
@@ -309,7 +436,7 @@ The targeted acceleration approach successfully identified and processed specifi
 
     fs.writeFileSync(summaryPath, summaryContent);
 
-    console.log(colorize(`\n📄 Acceleration reports saved:`, 'blue'));
+    console.log(colorize(`\n📄 Acceleration reports saved:`, "blue"));
     console.log(`  - ${reportPath}`);
     console.log(`  - ${summaryPath}`);
   }

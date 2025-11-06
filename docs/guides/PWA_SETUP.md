@@ -147,13 +147,13 @@ The service worker manages three caches:
 
 ```javascript
 // Check service worker status
-navigator.serviceWorker.getRegistrations()
+navigator.serviceWorker.getRegistrations();
 
 // Clear all caches
-caches.keys().then(names => names.forEach(name => caches.delete(name)))
+caches.keys().then((names) => names.forEach((name) => caches.delete(name)));
 
 // Check PWA status
-getPWAStatus()
+getPWAStatus();
 ```
 
 ## Future Enhancements

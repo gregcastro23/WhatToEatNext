@@ -7,6 +7,7 @@ This document provides a comprehensive step-by-step procedure for recovering fro
 ## Quick Recovery Checklist
 
 ### Immediate Assessment (5 minutes)
+
 - [ ] Run `yarn tsc --noEmit --skipLibCheck` to count TypeScript errors
 - [ ] Run `yarn lint:quick` to assess ESLint issues
 - [ ] Check build status with `yarn build`
@@ -14,12 +15,14 @@ This document provides a comprehensive step-by-step procedure for recovering fro
 - [ ] Create recovery branch: `git checkout -b recovery/linting-$(date +%Y%m%d)`
 
 ### Critical Error Resolution (30-60 minutes)
+
 - [ ] Execute Phase 9 TypeScript error recovery
 - [ ] Apply systematic fixes using proven automation scripts
 - [ ] Validate build stability after each major fix batch
 - [ ] Document any new error patterns encountered
 
 ### Warning Reduction (60-120 minutes)
+
 - [ ] Execute Phase 10 ESLint warning reduction
 - [ ] Apply automated fixes where safe
 - [ ] Manual review of complex warnings
@@ -30,6 +33,7 @@ This document provides a comprehensive step-by-step procedure for recovering fro
 ### Phase 1: Initial Assessment and Preparation
 
 #### 1.1 Environment Preparation
+
 ```bash
 # Ensure clean working directory
 git status
@@ -47,6 +51,7 @@ yarn eslint --version
 ```
 
 #### 1.2 Baseline Metrics Collection
+
 ```bash
 # Count TypeScript errors
 echo "TypeScript Errors:" > recovery-baseline.txt
@@ -65,6 +70,7 @@ cat recovery-baseline.txt
 ```
 
 #### 1.3 Error Categorization
+
 ```bash
 # Analyze TypeScript error patterns
 yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr > ts-error-breakdown.txt
@@ -88,6 +94,7 @@ echo "Baseline assessment complete. Review recovery-baseline.txt and ts-error-br
 ### Phase 2: TypeScript Error Recovery
 
 #### 2.1 Syntax Error Resolution (Critical Priority)
+
 ```bash
 # Check for syntax errors that prevent compilation
 echo "Checking for syntax errors..."
@@ -106,6 +113,7 @@ fi
 ```
 
 #### 2.2 Systematic TypeScript Error Resolution
+
 ```bash
 # Apply proven systematic fixes
 echo "Applying systematic TypeScript error fixes..."
@@ -159,6 +167,7 @@ fi
 ```
 
 #### 2.3 Build Stability Validation
+
 ```bash
 # Comprehensive build validation
 echo "Performing comprehensive build validation..."
@@ -197,6 +206,7 @@ fi
 ### Phase 3: ESLint Warning Resolution
 
 #### 3.1 ESLint Error Resolution (High Priority)
+
 ```bash
 # Focus on ESLint errors first (severity 2)
 echo "Resolving ESLint errors..."
@@ -248,6 +258,7 @@ fi
 ```
 
 #### 3.2 Targeted Warning Resolution
+
 ```bash
 # Apply targeted fixes for common warning patterns
 echo "Applying targeted warning fixes..."
@@ -290,6 +301,7 @@ fi
 ```
 
 #### 3.3 Manual Review and Complex Fixes
+
 ```bash
 # Identify issues requiring manual review
 echo "Identifying issues requiring manual review..."
@@ -328,6 +340,7 @@ fi
 ### Phase 4: Final Validation and Documentation
 
 #### 4.1 Comprehensive Final Validation
+
 ```bash
 # Final comprehensive validation
 echo "Performing final comprehensive validation..."
@@ -389,6 +402,7 @@ cat recovery-final-report.txt
 ```
 
 #### 4.2 Success Criteria Validation
+
 ```bash
 # Validate against success criteria
 echo "Validating against success criteria..."
@@ -444,6 +458,7 @@ fi
 ## Recovery Completion Checklist
 
 ### Pre-Merge Validation
+
 - [ ] All TypeScript errors resolved (0 errors)
 - [ ] Production build successful
 - [ ] Development server starts without errors
@@ -452,6 +467,7 @@ fi
 - [ ] No critical functionality broken
 
 ### Documentation and Cleanup
+
 - [ ] Recovery report generated and reviewed
 - [ ] New error patterns documented for future reference
 - [ ] Recovery scripts updated if new patterns found
@@ -459,6 +475,7 @@ fi
 - [ ] Recovery branch ready for merge
 
 ### Post-Recovery Actions
+
 - [ ] Merge recovery branch to main
 - [ ] Update prevention measures if needed
 - [ ] Share recovery insights with team
@@ -468,6 +485,7 @@ fi
 ## Emergency Procedures
 
 ### If Recovery Fails
+
 1. **Stop immediately** - Don't make the situation worse
 2. **Restore from backup**: `git stash pop` or `git reset --hard HEAD~1`
 3. **Analyze failure**: Review all validation logs
@@ -475,12 +493,14 @@ fi
 5. **Update procedures**: Document what went wrong for future improvement
 
 ### If Build Breaks During Recovery
+
 1. **Immediate rollback**: `git stash push -m "Broken state" && git reset --hard HEAD~1`
 2. **Identify breaking change**: Use `git diff` to see what changed
 3. **Apply smaller batches**: Reduce batch sizes and apply fixes incrementally
 4. **Test more frequently**: Validate build after every 5-10 file changes
 
 ### If System Becomes Unresponsive
+
 1. **Kill all Node processes**: `pkill -f node`
 2. **Clear caches**: `rm -rf node_modules/.cache .next .eslintcache`
 3. **Restart fresh**: `yarn install && yarn build`
@@ -489,18 +509,21 @@ fi
 ## Success Metrics
 
 ### Primary Success Criteria
+
 - **TypeScript Errors**: 0 (zero tolerance)
 - **Build Status**: Successful production build
 - **ESLint Errors**: 0 (zero tolerance)
 - **ESLint Warnings**: < 100 (acceptable threshold)
 
 ### Secondary Success Criteria
+
 - **Recovery Time**: < 2 hours for complete recovery
 - **Build Performance**: < 30 seconds for production build
 - **Development Experience**: Dev server starts in < 10 seconds
 - **Test Coverage**: All existing tests continue to pass
 
 ### Quality Indicators
+
 - **Code Functionality**: No regression in application features
 - **Performance**: No degradation in runtime performance
 - **Maintainability**: Code remains readable and well-structured
@@ -509,18 +532,21 @@ fi
 ## Notes and Best Practices
 
 ### During Recovery
+
 - **Work incrementally**: Apply fixes in small batches
 - **Validate frequently**: Test build after every major change
 - **Document everything**: Keep detailed logs of what was done
 - **Preserve functionality**: Never sacrifice working code for clean linting
 
 ### After Recovery
+
 - **Update prevention**: Improve pre-commit hooks and CI checks
 - **Share knowledge**: Document new patterns and solutions
 - **Monitor closely**: Watch for regression in the following days
 - **Plan improvements**: Schedule time to address root causes
 
 ### Common Pitfalls to Avoid
+
 - **Batch too large**: Don't fix too many files at once
 - **Skip validation**: Always test build after significant changes
 - **Ignore warnings**: Address warnings that might become errors

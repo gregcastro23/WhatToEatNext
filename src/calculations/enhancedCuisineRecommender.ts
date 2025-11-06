@@ -1,11 +1,11 @@
 // Type imports
-import type { AstrologicalState, ElementalProperties } from '@/types/alchemy';
+import type { AstrologicalState, ElementalProperties } from "@/types/alchemy";
 
 // Internal imports
-import { createLogger } from '@/utils/logger';
+import { createLogger } from "@/utils/logger";
 
 // Logger
-const logger = createLogger('EnhancedCuisineRecommender');
+const logger = createLogger("EnhancedCuisineRecommender");
 
 // Recipe interface for internal use in enhanced recommender
 interface RecipeData {
@@ -62,10 +62,17 @@ interface TimeFactors {
   currentDate: Date;
 }
 
-type PlanetaryDay = 'Sun' | 'Moon' | 'Mars' | 'Mercury' | 'Jupiter' | 'Venus' | 'Saturn';
+type PlanetaryDay =
+  | "Sun"
+  | "Moon"
+  | "Mars"
+  | "Mercury"
+  | "Jupiter"
+  | "Venus"
+  | "Saturn";
 type PlanetaryHour = PlanetaryDay;
-type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
-type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+type TimeOfDay = "morning" | "afternoon" | "evening" | "night";
+type Season = "spring" | "summer" | "autumn" | "winter";
 /**
  * Enhanced cuisine-specific recipe recommender that incorporates:
  * - Day of week (planetary day)
@@ -96,11 +103,13 @@ export class EnhancedCuisineRecommender {
    * @param dietaryRestrictions Optional dietary restrictions
    * @returns Array of recipe matches with detailed match scores
    */
-  public getRecommendationsForCuisine(cuisineName: string,
+  public getRecommendationsForCuisine(
+    cuisineName: string,
     astroState: AstrologicalState,
     count = 5,
     mealType?: string,
-    dietaryRestrictions?: string[]): EnhancedRecipeMatch[] {
+    dietaryRestrictions?: string[],
+  ): EnhancedRecipeMatch[] {
     try {
       // Get recipes for the specified cuisine
       const recipes = this.getRecipesForCuisine(cuisineName);
@@ -110,16 +119,24 @@ export class EnhancedCuisineRecommender {
       }
 
       // Calculate matches for each recipe
-      const matches = recipes.map(recipe =>
-        this.calculateRecipeMatch(recipe, cuisineName, astroState, mealType, dietaryRestrictions),
+      const matches = recipes.map((recipe) =>
+        this.calculateRecipeMatch(
+          recipe,
+          cuisineName,
+          astroState,
+          mealType,
+          dietaryRestrictions,
+        ),
       );
 
       // Sort by match percentage and return top results
-      return matches.sort((a, b) => b.matchPercentage - a.matchPercentage).slice(0, count);
+      return matches
+        .sort((a, b) => b.matchPercentage - a.matchPercentage)
+        .slice(0, count);
     } catch (error) {
-      logger.error('Error getting recommendations for cuisine:', {
+      logger.error("Error getting recommendations for cuisine:", {
         cuisineName,
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       });
       return [];
     }
@@ -134,9 +151,9 @@ export class EnhancedCuisineRecommender {
       // For now, return empty array - can be expanded
       return [];
     } catch (error) {
-      logger.error('Error getting recipes for cuisine:', {
+      logger.error("Error getting recipes for cuisine:", {
         cuisineName,
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       });
       return [];
     }
@@ -145,18 +162,29 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate match score for a recipe
    */
-  private calculateRecipeMatch(recipe: RecipeData,
+  private calculateRecipeMatch(
+    recipe: RecipeData,
     cuisineName: string,
     astroState: AstrologicalState,
     mealType?: string,
-    dietaryRestrictions?: string[]): EnhancedRecipeMatch {
+    dietaryRestrictions?: string[],
+  ): EnhancedRecipeMatch {
     try {
       // Calculate individual scores
       const seasonalScore = this.calculateSeasonalScore(recipe);
-      const planetaryDayScore = this.calculatePlanetaryDayScore(recipe, astroState);
-      const planetaryHourScore = this.calculatePlanetaryHourScore(recipe, astroState);
+      const planetaryDayScore = this.calculatePlanetaryDayScore(
+        recipe,
+        astroState,
+      );
+      const planetaryHourScore = this.calculatePlanetaryHourScore(
+        recipe,
+        astroState,
+      );
       const elementalScore = this.calculateElementalScore(recipe, astroState);
-      const astrologicalScore = this.calculateAstrologicalScore(recipe, astroState);
+      const astrologicalScore = this.calculateAstrologicalScore(
+        recipe,
+        astroState,
+      );
       const timeOfDayScore = this.calculateTimeOfDayScore(recipe);
 
       // Calculate overall match percentage
@@ -170,8 +198,8 @@ export class EnhancedCuisineRecommender {
 
       return {
         cuisine: cuisineName,
-        recipeName: recipe.name || 'Unknown Recipe',
-        recipeId: recipe.id || 'unknown',
+        recipeName: recipe.name || "Unknown Recipe",
+        recipeId: recipe.id || "unknown",
         matchPercentage,
         seasonalScore,
         planetaryDayScore,
@@ -180,22 +208,22 @@ export class EnhancedCuisineRecommender {
         astrologicalScore,
         timeOfDayScore,
         tags: recipe.tags || [],
-        description: recipe.description || '',
+        description: recipe.description || "",
         ingredients: recipe.ingredients || [],
         season: recipe.season || [],
-        mealType: recipe.mealType || []
+        mealType: recipe.mealType || [],
       };
     } catch (error) {
-      logger.error('Error calculating recipe match:', {
+      logger.error("Error calculating recipe match:", {
         recipe: recipe.name,
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       });
 
       // Return default match with low score
       return {
         cuisine: cuisineName,
-        recipeName: recipe.name || 'Unknown Recipe',
-        recipeId: recipe.id || 'unknown',
+        recipeName: recipe.name || "Unknown Recipe",
+        recipeId: recipe.id || "unknown",
         matchPercentage: 0.1,
         seasonalScore: 0.5,
         planetaryDayScore: 0.5,
@@ -204,10 +232,10 @@ export class EnhancedCuisineRecommender {
         astrologicalScore: 0.5,
         timeOfDayScore: 0.5,
         tags: recipe.tags || [],
-        description: recipe.description || '',
+        description: recipe.description || "",
         ingredients: recipe.ingredients || [],
         season: recipe.season || [],
-        mealType: recipe.mealType || []
+        mealType: recipe.mealType || [],
       };
     }
   }
@@ -223,7 +251,10 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate planetary day compatibility score
    */
-  private calculatePlanetaryDayScore(recipe: RecipeData, astroState: AstrologicalState): number {
+  private calculatePlanetaryDayScore(
+    recipe: RecipeData,
+    astroState: AstrologicalState,
+  ): number {
     // Simple implementation - can be expanded
     return 0.6;
   }
@@ -231,7 +262,10 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate planetary hour compatibility score
    */
-  private calculatePlanetaryHourScore(recipe: RecipeData, astroState: AstrologicalState): number {
+  private calculatePlanetaryHourScore(
+    recipe: RecipeData,
+    astroState: AstrologicalState,
+  ): number {
     // Simple implementation - can be expanded
     return 0.6;
   }
@@ -239,7 +273,10 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate elemental compatibility score
    */
-  private calculateElementalScore(recipe: RecipeData, astroState: AstrologicalState): number {
+  private calculateElementalScore(
+    recipe: RecipeData,
+    astroState: AstrologicalState,
+  ): number {
     // Simple implementation - can be expanded
     return 0.7;
   }
@@ -247,7 +284,10 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate astrological compatibility score
    */
-  private calculateAstrologicalScore(recipe: RecipeData, astroState: AstrologicalState): number {
+  private calculateAstrologicalScore(
+    recipe: RecipeData,
+    astroState: AstrologicalState,
+  ): number {
     // Simple implementation - can be expanded
     return 0.6;
   }

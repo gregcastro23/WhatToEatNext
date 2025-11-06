@@ -108,15 +108,18 @@
 
 ```javascript
 export default {
-  preset: 'ts-jest',
-  testEnvironment: 'jsdom',
-  extensionsToTreatAsEsm: ['.ts', '.tsx'],
+  preset: "ts-jest",
+  testEnvironment: "jsdom",
+  extensionsToTreatAsEsm: [".ts", ".tsx"],
   transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', {
-      useESM: true,
-      // ... other options
-    }]
-  }
+    "^.+\\.(ts|tsx)$": [
+      "ts-jest",
+      {
+        useESM: true,
+        // ... other options
+      },
+    ],
+  },
 };
 ```
 
@@ -124,9 +127,9 @@ export default {
 
 ```javascript
 // ES Module imports
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 // __dirname/__filename for ES modules
 const __filename = fileURLToPath(import.meta.url);

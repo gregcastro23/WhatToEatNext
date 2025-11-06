@@ -7,18 +7,18 @@
  * ACHIEVING 100% INTENTIONAL ANY USAGE!
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 const colors = {
-  reset: '\x1b[0m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  cyan: '\x1b[36m',
-  red: '\x1b[31m',
-  magenta: '\x1b[35m',
-  bright: '\x1b[1m'
+  reset: "\x1b[0m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  cyan: "\x1b[36m",
+  red: "\x1b[31m",
+  magenta: "\x1b[35m",
+  bright: "\x1b[1m",
 };
 
 function colorize(text, color) {
@@ -32,24 +32,31 @@ class UltimateCleanupExecutor {
       totalFixed: 0,
       totalFailed: 0,
       filesProcessed: 0,
-      fixDetails: []
+      fixDetails: [],
     };
   }
 
   async execute() {
-    console.log(colorize('\n🏆 ULTIMATE CLEANUP EXECUTOR', 'bright'));
-    console.log(colorize('=' .repeat(80), 'blue'));
-    console.log(colorize('🎯 FINAL ELIMINATION OF 47 UNINTENTIONAL ANY TYPES', 'yellow'));
-    console.log(colorize('TARGET: 100% INTENTIONAL ANY USAGE!', 'yellow'));
-    console.log(colorize('=' .repeat(80), 'blue'));
+    console.log(colorize("\n🏆 ULTIMATE CLEANUP EXECUTOR", "bright"));
+    console.log(colorize("=".repeat(80), "blue"));
+    console.log(
+      colorize("🎯 FINAL ELIMINATION OF 47 UNINTENTIONAL ANY TYPES", "yellow"),
+    );
+    console.log(colorize("TARGET: 100% INTENTIONAL ANY USAGE!", "yellow"));
+    console.log(colorize("=".repeat(80), "blue"));
 
     const initialAnyCount = await this.getAnyCount();
-    console.log(colorize(`📊 Starting any count: ${initialAnyCount}`, 'blue'));
+    console.log(colorize(`📊 Starting any count: ${initialAnyCount}`, "blue"));
 
     // Get the specific unintentional any types from our analysis
     const unintentionalFiles = await this.findUnintentionalAnyTypes();
 
-    console.log(colorize(`🔍 Found ${unintentionalFiles.length} files with unintentional any types`, 'cyan'));
+    console.log(
+      colorize(
+        `🔍 Found ${unintentionalFiles.length} files with unintentional any types`,
+        "cyan",
+      ),
+    );
 
     // Process each file with surgical precision
     for (const fileInfo of unintentionalFiles) {
@@ -63,27 +70,59 @@ class UltimateCleanupExecutor {
     const previousTotal = 404; // From previous campaign
     const grandTotal = previousTotal + actualReduction;
 
-    console.log(colorize('\n🏆 ULTIMATE CLEANUP RESULTS:', 'bright'));
-    console.log(`  Files Processed: ${colorize(this.results.filesProcessed.toString(), 'blue')}`);
-    console.log(`  Unintentional Any Found: ${colorize(this.results.totalFound.toString(), 'blue')}`);
-    console.log(`  Successfully Fixed: ${colorize(this.results.totalFixed.toString(), 'green')}`);
-    console.log(`  Failed to Fix: ${colorize(this.results.totalFailed.toString(), 'red')}`);
-    console.log(`  Success Rate: ${colorize((this.results.totalFixed / Math.max(this.results.totalFound, 1) * 100).toFixed(1) + '%', 'green')}`);
+    console.log(colorize("\n🏆 ULTIMATE CLEANUP RESULTS:", "bright"));
+    console.log(
+      `  Files Processed: ${colorize(this.results.filesProcessed.toString(), "blue")}`,
+    );
+    console.log(
+      `  Unintentional Any Found: ${colorize(this.results.totalFound.toString(), "blue")}`,
+    );
+    console.log(
+      `  Successfully Fixed: ${colorize(this.results.totalFixed.toString(), "green")}`,
+    );
+    console.log(
+      `  Failed to Fix: ${colorize(this.results.totalFailed.toString(), "red")}`,
+    );
+    console.log(
+      `  Success Rate: ${colorize(((this.results.totalFixed / Math.max(this.results.totalFound, 1)) * 100).toFixed(1) + "%", "green")}`,
+    );
 
-    console.log(colorize('\n🎉 FINAL CAMPAIGN TOTALS:', 'bright'));
-    console.log(`  Total Campaign Fixes: ${colorize(grandTotal.toString(), 'green')}`);
-    console.log(`  Final Any Count: ${colorize(finalAnyCount.toString(), 'blue')}`);
-    console.log(`  Reduction Achieved: ${colorize(actualReduction.toString(), 'green')}`);
+    console.log(colorize("\n🎉 FINAL CAMPAIGN TOTALS:", "bright"));
+    console.log(
+      `  Total Campaign Fixes: ${colorize(grandTotal.toString(), "green")}`,
+    );
+    console.log(
+      `  Final Any Count: ${colorize(finalAnyCount.toString(), "blue")}`,
+    );
+    console.log(
+      `  Reduction Achieved: ${colorize(actualReduction.toString(), "green")}`,
+    );
 
     // Check if we achieved 100% intentional
     const remainingUnintentional = await this.countRemainingUnintentional();
     if (remainingUnintentional === 0) {
-      console.log(colorize('\n🏆 PERFECT SUCCESS! 100% INTENTIONAL ANY USAGE ACHIEVED! 🏆', 'green'));
+      console.log(
+        colorize(
+          "\n🏆 PERFECT SUCCESS! 100% INTENTIONAL ANY USAGE ACHIEVED! 🏆",
+          "green",
+        ),
+      );
     } else {
-      console.log(colorize(`\n🎯 ${remainingUnintentional} unintentional any types remaining`, 'yellow'));
+      console.log(
+        colorize(
+          `\n🎯 ${remainingUnintentional} unintentional any types remaining`,
+          "yellow",
+        ),
+      );
     }
 
-    await this.saveUltimateReport(initialAnyCount, finalAnyCount, actualReduction, grandTotal, remainingUnintentional);
+    await this.saveUltimateReport(
+      initialAnyCount,
+      finalAnyCount,
+      actualReduction,
+      grandTotal,
+      remainingUnintentional,
+    );
 
     return this.results.totalFixed > 0;
   }
@@ -91,26 +130,28 @@ class UltimateCleanupExecutor {
   async findUnintentionalAnyTypes() {
     // Based on our analysis, target the specific files with unintentional any types
     const targetFiles = [
-      'src/hooks/useRealtimePlanetaryPositions.ts',
-      'src/hooks/useStatePreservation.ts',
-      'src/hooks/useAlchemicalRecommendations.ts',
-      'src/hooks/useTarotAstrologyData.ts',
-      'src/hooks/useErrorHandler.ts',
-      'src/scripts/replaceConsoleStatements.ts',
-      'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts'
+      "src/hooks/useRealtimePlanetaryPositions.ts",
+      "src/hooks/useStatePreservation.ts",
+      "src/hooks/useAlchemicalRecommendations.ts",
+      "src/hooks/useTarotAstrologyData.ts",
+      "src/hooks/useErrorHandler.ts",
+      "src/scripts/replaceConsoleStatements.ts",
+      "src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts",
     ];
 
     const foundFiles = [];
     for (const file of targetFiles) {
       try {
         if (fs.existsSync(file)) {
-          const content = fs.readFileSync(file, 'utf8');
-          if (content.includes(': any')) {
+          const content = fs.readFileSync(file, "utf8");
+          if (content.includes(": any")) {
             foundFiles.push({ path: file, content });
           }
         }
       } catch (error) {
-        console.log(colorize(`⚠️ Error checking ${file}: ${error.message}`, 'yellow'));
+        console.log(
+          colorize(`⚠️ Error checking ${file}: ${error.message}`, "yellow"),
+        );
       }
     }
 
@@ -119,7 +160,7 @@ class UltimateCleanupExecutor {
     for (const file of allFiles) {
       if (!targetFiles.includes(file)) {
         try {
-          const content = fs.readFileSync(file, 'utf8');
+          const content = fs.readFileSync(file, "utf8");
           if (this.hasUnintentionalAny(content)) {
             foundFiles.push({ path: file, content });
           }
@@ -133,10 +174,10 @@ class UltimateCleanupExecutor {
   }
 
   hasUnintentionalAny(content) {
-    const lines = content.split('\n');
+    const lines = content.split("\n");
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
-      if (line.includes(': any')) {
+      if (line.includes(": any")) {
         // Check if this is intentional
         const context = this.getContext(lines, i);
         if (!this.isIntentional(context)) {
@@ -148,15 +189,17 @@ class UltimateCleanupExecutor {
   }
 
   isIntentional(context) {
-    const allContext = context.join('\n').toLowerCase();
+    const allContext = context.join("\n").toLowerCase();
 
     // Check for intentional markers
-    return allContext.includes('eslint-disable') ||
-           allContext.includes('intentionally any') ||
-           allContext.includes('external library') ||
-           allContext.includes('test') ||
-           allContext.includes('mock') ||
-           allContext.includes('jest');
+    return (
+      allContext.includes("eslint-disable") ||
+      allContext.includes("intentionally any") ||
+      allContext.includes("external library") ||
+      allContext.includes("test") ||
+      allContext.includes("mock") ||
+      allContext.includes("jest")
+    );
   }
 
   getContext(lines, lineIndex) {
@@ -167,7 +210,7 @@ class UltimateCleanupExecutor {
   }
 
   async processFileWithPrecision(fileInfo) {
-    console.log(colorize(`\n🔧 Processing: ${fileInfo.path}`, 'cyan'));
+    console.log(colorize(`\n🔧 Processing: ${fileInfo.path}`, "cyan"));
 
     try {
       let content = fileInfo.content;
@@ -193,7 +236,7 @@ class UltimateCleanupExecutor {
             this.results.fixDetails.push({
               file: fileInfo.path,
               pattern: fix.description,
-              count: matches.length
+              count: matches.length,
             });
           }
         }
@@ -202,15 +245,20 @@ class UltimateCleanupExecutor {
       // Write the modified content
       if (modified) {
         fs.writeFileSync(fileInfo.path, content);
-        console.log(colorize(`  ✅ Fixed ${fixCount} unintentional any types`, 'green'));
+        console.log(
+          colorize(`  ✅ Fixed ${fixCount} unintentional any types`, "green"),
+        );
       } else {
-        console.log(colorize(`  ⚪ No unintentional any types found`, 'yellow'));
+        console.log(
+          colorize(`  ⚪ No unintentional any types found`, "yellow"),
+        );
       }
 
       this.results.filesProcessed++;
-
     } catch (error) {
-      console.log(colorize(`  ❌ Error processing file: ${error.message}`, 'red'));
+      console.log(
+        colorize(`  ❌ Error processing file: ${error.message}`, "red"),
+      );
       this.results.totalFailed++;
     }
   }
@@ -219,41 +267,106 @@ class UltimateCleanupExecutor {
     const fixes = [];
 
     // Hook-specific fixes
-    if (filePath.includes('hooks/')) {
+    if (filePath.includes("hooks/")) {
       fixes.push(
-        { pattern: /const body: any =/g, replacement: 'const body: unknown =', description: 'Body variable' },
-        { pattern: /selectedItems\?: any\[\]/g, replacement: 'selectedItems?: unknown[]', description: 'Selected items array' },
-        { pattern: /const convertToLocalAlchemicalItem = \(items: any\[\]\)/g, replacement: 'const convertToLocalAlchemicalItem = (items: unknown[])', description: 'Conversion function parameter' },
-        { pattern: /const cards: any\[\] =/g, replacement: 'const cards: unknown[] =', description: 'Cards array' },
-        { pattern: /foodRecommendations: any\[\] \| null/g, replacement: 'foodRecommendations: unknown[] | null', description: 'Food recommendations array' }
+        {
+          pattern: /const body: any =/g,
+          replacement: "const body: unknown =",
+          description: "Body variable",
+        },
+        {
+          pattern: /selectedItems\?: any\[\]/g,
+          replacement: "selectedItems?: unknown[]",
+          description: "Selected items array",
+        },
+        {
+          pattern: /const convertToLocalAlchemicalItem = \(items: any\[\]\)/g,
+          replacement:
+            "const convertToLocalAlchemicalItem = (items: unknown[])",
+          description: "Conversion function parameter",
+        },
+        {
+          pattern: /const cards: any\[\] =/g,
+          replacement: "const cards: unknown[] =",
+          description: "Cards array",
+        },
+        {
+          pattern: /foodRecommendations: any\[\] \| null/g,
+          replacement: "foodRecommendations: unknown[] | null",
+          description: "Food recommendations array",
+        },
       );
     }
 
     // Script-specific fixes
-    if (filePath.includes('scripts/')) {
+    if (filePath.includes("scripts/")) {
       fixes.push(
-        { pattern: /node: any/g, replacement: 'node: unknown', description: 'Node parameter' },
-        { pattern: /parent: any/g, replacement: 'parent: unknown', description: 'Parent parameter' },
-        { pattern: /ancestors: any\[\]/g, replacement: 'ancestors: unknown[]', description: 'Ancestors array' }
+        {
+          pattern: /node: any/g,
+          replacement: "node: unknown",
+          description: "Node parameter",
+        },
+        {
+          pattern: /parent: any/g,
+          replacement: "parent: unknown",
+          description: "Parent parameter",
+        },
+        {
+          pattern: /ancestors: any\[\]/g,
+          replacement: "ancestors: unknown[]",
+          description: "Ancestors array",
+        },
       );
     }
 
     // Service-specific fixes
-    if (filePath.includes('services/')) {
+    if (filePath.includes("services/")) {
       fixes.push(
-        { pattern: /config: any/g, replacement: 'config: unknown', description: 'Config parameter' },
-        { pattern: /options: any/g, replacement: 'options: unknown', description: 'Options parameter' },
-        { pattern: /data: any/g, replacement: 'data: unknown', description: 'Data parameter' }
+        {
+          pattern: /config: any/g,
+          replacement: "config: unknown",
+          description: "Config parameter",
+        },
+        {
+          pattern: /options: any/g,
+          replacement: "options: unknown",
+          description: "Options parameter",
+        },
+        {
+          pattern: /data: any/g,
+          replacement: "data: unknown",
+          description: "Data parameter",
+        },
       );
     }
 
     // General patterns for any file
     fixes.push(
-      { pattern: /: any;$/gm, replacement: ': unknown;', description: 'Property type' },
-      { pattern: /: any,$/gm, replacement: ': unknown,', description: 'Parameter type' },
-      { pattern: /: any\)/g, replacement: ': unknown)', description: 'Function parameter' },
-      { pattern: /: any\[\]/g, replacement: ': unknown[]', description: 'Array type' },
-      { pattern: /= any\[\]/g, replacement: '= unknown[]', description: 'Array assignment' }
+      {
+        pattern: /: any;$/gm,
+        replacement: ": unknown;",
+        description: "Property type",
+      },
+      {
+        pattern: /: any,$/gm,
+        replacement: ": unknown,",
+        description: "Parameter type",
+      },
+      {
+        pattern: /: any\)/g,
+        replacement: ": unknown)",
+        description: "Function parameter",
+      },
+      {
+        pattern: /: any\[\]/g,
+        replacement: ": unknown[]",
+        description: "Array type",
+      },
+      {
+        pattern: /= any\[\]/g,
+        replacement: "= unknown[]",
+        description: "Array assignment",
+      },
     );
 
     return fixes;
@@ -261,10 +374,16 @@ class UltimateCleanupExecutor {
 
   async getTypeScriptFiles() {
     try {
-      const output = execSync('find src -name "*.ts" -o -name "*.tsx" | grep -v node_modules | grep -v __tests__', {
-        encoding: 'utf8'
-      });
-      return output.trim().split('\n').filter(f => f.length > 0);
+      const output = execSync(
+        'find src -name "*.ts" -o -name "*.tsx" | grep -v node_modules | grep -v __tests__',
+        {
+          encoding: "utf8",
+        },
+      );
+      return output
+        .trim()
+        .split("\n")
+        .filter((f) => f.length > 0);
     } catch {
       return [];
     }
@@ -272,10 +391,13 @@ class UltimateCleanupExecutor {
 
   async getAnyCount() {
     try {
-      const output = execSync('find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += $2} END {print sum}\' || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += $2} END {print sum}\' || echo "0"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch {
       return 0;
@@ -288,14 +410,15 @@ class UltimateCleanupExecutor {
       const files = await this.getTypeScriptFiles();
       let unintentionalCount = 0;
 
-      for (const file of files.slice(0, 50)) { // Sample check
+      for (const file of files.slice(0, 50)) {
+        // Sample check
         try {
-          const content = fs.readFileSync(file, 'utf8');
-          const lines = content.split('\n');
+          const content = fs.readFileSync(file, "utf8");
+          const lines = content.split("\n");
 
           for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
-            if (line.includes(': any')) {
+            if (line.includes(": any")) {
               const context = this.getContext(lines, i);
               if (!this.isIntentional(context)) {
                 unintentionalCount++;
@@ -313,10 +436,16 @@ class UltimateCleanupExecutor {
     }
   }
 
-  async saveUltimateReport(initialCount, finalCount, reduction, grandTotal, remainingUnintentional) {
+  async saveUltimateReport(
+    initialCount,
+    finalCount,
+    reduction,
+    grandTotal,
+    remainingUnintentional,
+  ) {
     const report = {
       timestamp: new Date().toISOString(),
-      type: 'ultimate-cleanup-executor',
+      type: "ultimate-cleanup-executor",
       perfectSuccess: remainingUnintentional === 0,
       results: this.results,
       metrics: {
@@ -325,30 +454,36 @@ class UltimateCleanupExecutor {
         ultimateReduction: reduction,
         grandTotalReduction: grandTotal,
         remainingUnintentional: remainingUnintentional,
-        intentionalPercentage: remainingUnintentional === 0 ? '100.0%' : ((finalCount - remainingUnintentional) / finalCount * 100).toFixed(1) + '%'
-      }
+        intentionalPercentage:
+          remainingUnintentional === 0
+            ? "100.0%"
+            : (
+                ((finalCount - remainingUnintentional) / finalCount) *
+                100
+              ).toFixed(1) + "%",
+      },
     };
 
-    const reportPath = 'ULTIMATE_CLEANUP_REPORT.json';
+    const reportPath = "ULTIMATE_CLEANUP_REPORT.json";
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
 
-    const summaryPath = 'ULTIMATE_CLEANUP_ACHIEVEMENT.md';
+    const summaryPath = "ULTIMATE_CLEANUP_ACHIEVEMENT.md";
     const summaryContent = `# Ultimate Cleanup Achievement Summary
 
 ## 🏆 ULTIMATE CLEANUP EXECUTION
 
-${remainingUnintentional === 0 ? '🎉 **PERFECT SUCCESS - 100% INTENTIONAL ANY USAGE ACHIEVED!**' : '🎯 **EXCEPTIONAL PROGRESS - NEAR PERFECT ACHIEVEMENT**'}
+${remainingUnintentional === 0 ? "🎉 **PERFECT SUCCESS - 100% INTENTIONAL ANY USAGE ACHIEVED!**" : "🎯 **EXCEPTIONAL PROGRESS - NEAR PERFECT ACHIEVEMENT**"}
 
 ### Ultimate Cleanup Results
 - **Files Processed**: ${this.results.filesProcessed}
 - **Unintentional Any Found**: ${this.results.totalFound}
 - **Successfully Fixed**: ${this.results.totalFixed}
-- **Success Rate**: ${(this.results.totalFixed / Math.max(this.results.totalFound, 1) * 100).toFixed(1)}%
+- **Success Rate**: ${((this.results.totalFixed / Math.max(this.results.totalFound, 1)) * 100).toFixed(1)}%
 
 ### Fix Details
-${this.results.fixDetails.map(fix =>
-  `- **${fix.file}**: ${fix.count} ${fix.pattern} fixes`
-).join('\n')}
+${this.results.fixDetails
+  .map((fix) => `- **${fix.file}**: ${fix.count} ${fix.pattern} fixes`)
+  .join("\n")}
 
 ## 🎯 FINAL CAMPAIGN TOTALS
 
@@ -357,9 +492,11 @@ ${this.results.fixDetails.map(fix =>
 - **Final Any Count**: ${finalCount}
 - **Ultimate Reduction**: ${reduction}
 - **Remaining Unintentional**: ${remainingUnintentional}
-- **Intentional Percentage**: ${remainingUnintentional === 0 ? '100.0%' : ((finalCount - remainingUnintentional) / finalCount * 100).toFixed(1) + '%'}
+- **Intentional Percentage**: ${remainingUnintentional === 0 ? "100.0%" : (((finalCount - remainingUnintentional) / finalCount) * 100).toFixed(1) + "%"}
 
-${remainingUnintentional === 0 ? `
+${
+  remainingUnintentional === 0
+    ? `
 ## 🏆 PERFECT ACHIEVEMENT CELEBRATION
 
 The unintentional any elimination campaign has achieved **ABSOLUTE PERFECTION**:
@@ -370,15 +507,17 @@ The unintentional any elimination campaign has achieved **ABSOLUTE PERFECTION**:
 ✨ **QUALITY EXCELLENCE** - Highest possible code quality achieved!
 
 This represents the **ultimate achievement** in systematic code quality improvement!
-` : `
+`
+    : `
 ## 🎯 NEAR-PERFECT ACHIEVEMENT
 
 The campaign has achieved **exceptional results**:
 
-📊 **${((finalCount - remainingUnintentional) / finalCount * 100).toFixed(1)}% Intentional** - Outstanding quality achievement!
+📊 **${(((finalCount - remainingUnintentional) / finalCount) * 100).toFixed(1)}% Intentional** - Outstanding quality achievement!
 🎯 **${remainingUnintentional} Remaining** - Minimal unintentional usage left!
 🏆 **Proven Excellence** - Systematic approach nearly achieved perfection!
-`}
+`
+}
 
 ## 📊 COMPLETE CAMPAIGN SUMMARY
 
@@ -401,11 +540,13 @@ The campaign has achieved **exceptional results**:
 - **Total Fixes**: ${grandTotal} unintentional any types eliminated
 - **Perfect Safety**: Zero build failures throughout entire campaign
 - **Success Rate**: Consistently high across all waves and patterns
-- **Final Quality**: ${remainingUnintentional === 0 ? '100% intentional any usage' : ((finalCount - remainingUnintentional) / finalCount * 100).toFixed(1) + '% intentional any usage'}
+- **Final Quality**: ${remainingUnintentional === 0 ? "100% intentional any usage" : (((finalCount - remainingUnintentional) / finalCount) * 100).toFixed(1) + "% intentional any usage"}
 
 ## 🏆 FINAL CONCLUSION
 
-${remainingUnintentional === 0 ? `
+${
+  remainingUnintentional === 0
+    ? `
 The unintentional any elimination campaign stands as a **PERFECT SUCCESS** and a model for systematic code quality improvement:
 
 ✅ **Absolute Perfection**: 100% intentional any usage achieved
@@ -415,27 +556,29 @@ The unintentional any elimination campaign stands as a **PERFECT SUCCESS** and a
 ✅ **Ready for Replication**: Methodology proven for any codebase
 
 **FINAL STATUS**: 🏆 **PERFECT SUCCESS - 100% INTENTIONAL ANY USAGE ACHIEVED**
-` : `
+`
+    : `
 The unintentional any elimination campaign represents **EXCEPTIONAL SUCCESS**:
 
-✅ **Near Perfection**: ${((finalCount - remainingUnintentional) / finalCount * 100).toFixed(1)}% intentional any usage
+✅ **Near Perfection**: ${(((finalCount - remainingUnintentional) / finalCount) * 100).toFixed(1)}% intentional any usage
 ✅ **Minimal Remaining**: Only ${remainingUnintentional} unintentional any types left
 ✅ **Proven Methodology**: Systematic approach nearly achieved perfection
 ✅ **Perfect Safety**: Zero issues throughout entire campaign
 ✅ **Outstanding Quality**: Highest achievable code quality reached
 
 **FINAL STATUS**: 🎯 **EXCEPTIONAL SUCCESS - NEAR PERFECT ACHIEVEMENT**
-`}
+`
+}
 
 ---
 *Ultimate Cleanup Achievement Summary generated on ${new Date().toISOString()}*
-*${grandTotal} Total Fixes Applied - ${remainingUnintentional === 0 ? 'PERFECT' : 'EXCEPTIONAL'} Success Achieved*
-*${remainingUnintentional === 0 ? '100% Intentional Any Usage' : ((finalCount - remainingUnintentional) / finalCount * 100).toFixed(1) + '% Intentional Any Usage'}*
+*${grandTotal} Total Fixes Applied - ${remainingUnintentional === 0 ? "PERFECT" : "EXCEPTIONAL"} Success Achieved*
+*${remainingUnintentional === 0 ? "100% Intentional Any Usage" : (((finalCount - remainingUnintentional) / finalCount) * 100).toFixed(1) + "% Intentional Any Usage"}*
 `;
 
     fs.writeFileSync(summaryPath, summaryContent);
 
-    console.log(colorize(`\n📄 Ultimate cleanup reports saved:`, 'blue'));
+    console.log(colorize(`\n📄 Ultimate cleanup reports saved:`, "blue"));
     console.log(`  - ${reportPath}`);
     console.log(`  - ${summaryPath}`);
   }

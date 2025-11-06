@@ -7,9 +7,9 @@
  * while TypeScript error reduction is in progress.
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 class ParallelDockerOptimizer {
   constructor() {
@@ -19,8 +19,8 @@ class ParallelDockerOptimizer {
   }
 
   async optimize() {
-    console.log('🐳 PARALLEL DOCKER OPTIMIZATION STARTED');
-    console.log('======================================');
+    console.log("🐳 PARALLEL DOCKER OPTIMIZATION STARTED");
+    console.log("======================================");
 
     try {
       // Step 1: Check Docker health
@@ -38,64 +38,66 @@ class ParallelDockerOptimizer {
       // Step 5: Generate report
       this.generateReport();
     } catch (error) {
-      console.error('❌ Docker optimization failed:', error.message);
+      console.error("❌ Docker optimization failed:", error.message);
     }
   }
 
   async checkDockerHealth() {
-    console.log('🔍 Checking Docker health...');
+    console.log("🔍 Checking Docker health...");
 
     try {
       // Check if Docker is running
-      execSync('docker --version', { stdio: 'pipe' });
-      this.healthChecks.push('Docker daemon: ✅ Running');
+      execSync("docker --version", { stdio: "pipe" });
+      this.healthChecks.push("Docker daemon: ✅ Running");
 
       // Check if containers exist
       try {
-        const containers = execSync('docker ps -a --format "{{.Names}}"', { encoding: 'utf8' });
-        if (containers.includes('whattoeatnext')) {
-          this.healthChecks.push('Application containers: ✅ Found');
+        const containers = execSync('docker ps -a --format "{{.Names}}"', {
+          encoding: "utf8",
+        });
+        if (containers.includes("whattoeatnext")) {
+          this.healthChecks.push("Application containers: ✅ Found");
         } else {
-          this.healthChecks.push('Application containers: ⚠️  Not found');
+          this.healthChecks.push("Application containers: ⚠️  Not found");
         }
       } catch (error) {
-        this.healthChecks.push('Application containers: ❌ Error checking');
+        this.healthChecks.push("Application containers: ❌ Error checking");
       }
     } catch (error) {
-      this.healthChecks.push('Docker daemon: ❌ Not running');
-      console.log('⚠️  Docker not available, skipping container optimizations');
+      this.healthChecks.push("Docker daemon: ❌ Not running");
+      console.log("⚠️  Docker not available, skipping container optimizations");
       return;
     }
   }
 
   async optimizeDevContainer() {
-    console.log('⚡ Optimizing development container...');
+    console.log("⚡ Optimizing development container...");
 
     // Check if Dockerfile.dev needs optimization
-    const dockerfilePath = 'Dockerfile.dev';
+    const dockerfilePath = "Dockerfile.dev";
     if (fs.existsSync(dockerfilePath)) {
-      const content = fs.readFileSync(dockerfilePath, 'utf8');
+      const content = fs.readFileSync(dockerfilePath, "utf8");
 
       // Check for hot-reload optimization
-      if (content.includes('CHOKIDAR_USEPOLLING=true')) {
-        this.optimizations.push('Hot-reload: ✅ Configured');
+      if (content.includes("CHOKIDAR_USEPOLLING=true")) {
+        this.optimizations.push("Hot-reload: ✅ Configured");
       } else {
-        this.optimizations.push('Hot-reload: ⚠️  Not optimized');
+        this.optimizations.push("Hot-reload: ⚠️  Not optimized");
       }
 
       // Check for memory limits
-      if (content.includes('NODE_OPTIONS')) {
-        this.optimizations.push('Memory limits: ✅ Configured');
+      if (content.includes("NODE_OPTIONS")) {
+        this.optimizations.push("Memory limits: ✅ Configured");
       } else {
-        this.optimizations.push('Memory limits: ⚠️  Not set');
+        this.optimizations.push("Memory limits: ⚠️  Not set");
       }
     }
   }
 
   async ensureHealthEndpoint() {
-    console.log('🏥 Ensuring health endpoint exists...');
+    console.log("🏥 Ensuring health endpoint exists...");
 
-    const healthEndpointPath = 'src/pages/api/health.ts';
+    const healthEndpointPath = "src/pages/api/health.ts";
 
     if (!fs.existsSync(healthEndpointPath)) {
       // Create health endpoint
@@ -115,38 +117,38 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 }`;
 
       fs.writeFileSync(healthEndpointPath, healthEndpointContent);
-      this.optimizations.push('Health endpoint: ✅ Created');
+      this.optimizations.push("Health endpoint: ✅ Created");
     } else {
-      this.optimizations.push('Health endpoint: ✅ Exists');
+      this.optimizations.push("Health endpoint: ✅ Exists");
     }
   }
 
   async optimizeDockerCompose() {
-    console.log('📝 Optimizing docker-compose configuration...');
+    console.log("📝 Optimizing docker-compose configuration...");
 
-    const composePath = 'docker-compose.yml';
+    const composePath = "docker-compose.yml";
     if (fs.existsSync(composePath)) {
-      const content = fs.readFileSync(composePath, 'utf8');
+      const content = fs.readFileSync(composePath, "utf8");
 
       // Check for health checks
-      if (content.includes('healthcheck:')) {
-        this.optimizations.push('Health checks: ✅ Configured');
+      if (content.includes("healthcheck:")) {
+        this.optimizations.push("Health checks: ✅ Configured");
       } else {
-        this.optimizations.push('Health checks: ⚠️  Missing');
+        this.optimizations.push("Health checks: ⚠️  Missing");
       }
 
       // Check for resource limits
-      if (content.includes('resources:')) {
-        this.optimizations.push('Resource limits: ✅ Set');
+      if (content.includes("resources:")) {
+        this.optimizations.push("Resource limits: ✅ Set");
       } else {
-        this.optimizations.push('Resource limits: ⚠️  Not configured');
+        this.optimizations.push("Resource limits: ⚠️  Not configured");
       }
 
       // Check for development profile
-      if (content.includes('profiles:')) {
-        this.optimizations.push('Development profile: ✅ Available');
+      if (content.includes("profiles:")) {
+        this.optimizations.push("Development profile: ✅ Available");
       } else {
-        this.optimizations.push('Development profile: ⚠️  Missing');
+        this.optimizations.push("Development profile: ⚠️  Missing");
       }
     }
   }
@@ -154,15 +156,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   generateReport() {
     const duration = Math.round((Date.now() - this.startTime) / 1000);
 
-    console.log('\\n📊 PARALLEL DOCKER OPTIMIZATION SUMMARY');
-    console.log('========================================');
+    console.log("\\n📊 PARALLEL DOCKER OPTIMIZATION SUMMARY");
+    console.log("========================================");
     console.log(`⏱️  Duration: ${duration}s`);
 
-    console.log('\\n🔍 Health Checks:');
-    this.healthChecks.forEach(check => console.log(`   ${check}`));
+    console.log("\\n🔍 Health Checks:");
+    this.healthChecks.forEach((check) => console.log(`   ${check}`));
 
-    console.log('\\n⚡ Optimizations:');
-    this.optimizations.forEach(opt => console.log(`   ${opt}`));
+    console.log("\\n⚡ Optimizations:");
+    this.optimizations.forEach((opt) => console.log(`   ${opt}`));
 
     // Calculate health impact
     const healthImpact = this.calculateHealthImpact();
@@ -179,21 +181,27 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     };
 
     fs.writeFileSync(
-      '.kiro/parallel-reports/docker-optimization.json',
+      ".kiro/parallel-reports/docker-optimization.json",
       JSON.stringify(report, null, 2),
     );
-    console.log('\\n📄 Report saved to .kiro/parallel-reports/docker-optimization.json');
+    console.log(
+      "\\n📄 Report saved to .kiro/parallel-reports/docker-optimization.json",
+    );
   }
 
   calculateHealthImpact() {
     let impact = 0;
 
     // Health checks contribute to stability
-    const healthyChecks = this.healthChecks.filter(check => check.includes('✅')).length;
+    const healthyChecks = this.healthChecks.filter((check) =>
+      check.includes("✅"),
+    ).length;
     impact += healthyChecks * 1;
 
     // Optimizations contribute to performance
-    const completedOpts = this.optimizations.filter(opt => opt.includes('✅')).length;
+    const completedOpts = this.optimizations.filter((opt) =>
+      opt.includes("✅"),
+    ).length;
     impact += completedOpts * 0.5;
 
     return Math.round(impact * 10) / 10;
@@ -202,16 +210,18 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   generateRecommendations() {
     const recommendations = [];
 
-    if (this.healthChecks.some(check => check.includes('❌'))) {
-      recommendations.push('Install and start Docker daemon');
+    if (this.healthChecks.some((check) => check.includes("❌"))) {
+      recommendations.push("Install and start Docker daemon");
     }
 
-    if (this.optimizations.some(opt => opt.includes('⚠️'))) {
-      recommendations.push('Review Docker configuration for missing optimizations');
+    if (this.optimizations.some((opt) => opt.includes("⚠️"))) {
+      recommendations.push(
+        "Review Docker configuration for missing optimizations",
+      );
     }
 
-    if (!this.optimizations.some(opt => opt.includes('Health endpoint'))) {
-      recommendations.push('Implement comprehensive health monitoring');
+    if (!this.optimizations.some((opt) => opt.includes("Health endpoint"))) {
+      recommendations.push("Implement comprehensive health monitoring");
     }
 
     return recommendations;

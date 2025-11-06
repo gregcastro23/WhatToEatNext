@@ -40,6 +40,7 @@ viewing elements as opposing forces, we recognize that:
 Our food recommendation system now includes real-time planetary kinetics for enhanced temporal intelligence:
 
 ### Features
+
 - **Dynamic Energy Categorization**: Foods are categorized as energizing, grounding, or balanced based on current cosmic power levels
 - **Aspect-Enhanced Recommendations**: Different suggestions for applying, exact, and separating planetary aspects
 - **Intelligent Portion Sizing**: Portions adjust based on your current energetic state
@@ -59,6 +60,7 @@ NEXT_PUBLIC_KINETICS_CACHE_TTL=300000  # 5 minutes (optional)
 ### Fallback Behavior
 
 When the kinetics API is unavailable, the system:
+
 - Automatically falls back to standard astrological recommendations
 - Provides balanced energy calculations (0.5 power level)
 - Maintains full functionality without kinetics enhancement
@@ -224,7 +226,7 @@ The planetary position system includes automated tests to verify:
    yarn dev
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Building for Production
 

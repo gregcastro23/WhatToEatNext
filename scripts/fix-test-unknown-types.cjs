@@ -5,20 +5,20 @@
  * Targets common patterns like msg filtering and error handling
  */
 
-const fs = require('fs');
-const path = require('path');
-const glob = require('glob');
+const fs = require("fs");
+const path = require("path");
+const glob = require("glob");
 
 // Find all test files in linting directory
-const testFiles = glob.sync('src/__tests__/linting/**/*.test.ts', {
-  cwd: '/Users/GregCastro/Desktop/WhatToEatNext',
-  absolute: true
+const testFiles = glob.sync("src/__tests__/linting/**/*.test.ts", {
+  cwd: "/Users/GregCastro/Desktop/WhatToEatNext",
+  absolute: true,
 });
 
 let totalFixed = 0;
 
-testFiles.forEach(filePath => {
-  let content = fs.readFileSync(filePath, 'utf8');
+testFiles.forEach((filePath) => {
+  let content = fs.readFileSync(filePath, "utf8");
   let fixCount = 0;
 
   // Fix pattern 1: msg filtering with inline casting
@@ -52,7 +52,7 @@ testFiles.forEach(filePath => {
   const errorAccessPattern = /catch \(error: unknown\) \{([^}]*?)error\.(\w+)/g;
   if (errorAccessPattern.test(content)) {
     content = content.replace(errorAccessPattern, (match, before, prop) => {
-      if (!before.includes('const err =')) {
+      if (!before.includes("const err =")) {
         fixCount++;
         return `catch (error: unknown) {${before}const err = error as any;\n        err.${prop}`;
       }
@@ -61,7 +61,7 @@ testFiles.forEach(filePath => {
   }
 
   if (fixCount > 0) {
-    fs.writeFileSync(filePath, content, 'utf8');
+    fs.writeFileSync(filePath, content, "utf8");
     console.log(`Fixed ${fixCount} issues in ${path.basename(filePath)}`);
     totalFixed += fixCount;
   }

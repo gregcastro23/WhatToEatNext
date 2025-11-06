@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useEffect, useMemo, useState } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
+import React, { useEffect, useMemo, useState } from "react";
+import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
+import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
 
 interface IngredientRecommenderProps {
   initialCategory?: string | null;
@@ -14,14 +14,14 @@ interface IngredientRecommenderProps {
 
 // Category definitions
 const CATEGORIES = [
-  { id: 'spices', name: 'Spices & Herbs', icon: '🌿' },
-  { id: 'vegetables', name: 'Vegetables', icon: '🥬' },
-  { id: 'proteins', name: 'Proteins', icon: '🥩' },
-  { id: 'grains', name: 'Grains & Legumes', icon: '🌾' },
-  { id: 'dairy', name: 'Dairy', icon: '🧀' },
-  { id: 'fruits', name: 'Fruits', icon: '🍎' },
-  { id: 'oils', name: 'Oils & Fats', icon: '🫒' },
-  { id: 'sweeteners', name: 'Sweeteners', icon: '🍯' }
+  { id: "spices", name: "Spices & Herbs", icon: "🌿" },
+  { id: "vegetables", name: "Vegetables", icon: "🥬" },
+  { id: "proteins", name: "Proteins", icon: "🥩" },
+  { id: "grains", name: "Grains & Legumes", icon: "🌾" },
+  { id: "dairy", name: "Dairy", icon: "🧀" },
+  { id: "fruits", name: "Fruits", icon: "🍎" },
+  { id: "oils", name: "Oils & Fats", icon: "🫒" },
+  { id: "sweeteners", name: "Sweeteners", icon: "🍯" },
 ];
 
 export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
@@ -29,24 +29,20 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
   initialSelectedIngredient,
   isFullPageVersion = false,
   onCategoryChange,
-  onIngredientSelect
+  onIngredientSelect,
 }) => {
   // State
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
-    initialCategory || null
+    initialCategory || null,
   );
   const [selectedIngredient, setSelectedIngredient] = useState<string | null>(
-    initialSelectedIngredient || null
+    initialSelectedIngredient || null,
   );
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Hooks
-  const {
-    recommendations,
-    loading,
-    error,
-    getRecommendations
-  } = useEnhancedRecommendations();
+  const { recommendations, loading, error, getRecommendations } =
+    useEnhancedRecommendations();
 
   // Get alchemical context (with null check)
   let alchemicalContext;
@@ -60,7 +56,7 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
   useEffect(() => {
     void getRecommendations({
       datetime: new Date().toISOString(),
-      useBackendInfluence: true
+      useBackendInfluence: true,
     });
   }, [selectedCategory, getRecommendations]);
 
@@ -79,15 +75,15 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
     }> = [];
 
     recommendations.recommendations.forEach((rec, index) => {
-      rec.recipe.tags.forEach(tag => {
-        if (!ingredients.find(i => i.name === tag)) {
+      rec.recipe.tags.forEach((tag) => {
+        if (!ingredients.find((i) => i.name === tag)) {
           ingredients.push({
             id: `ing-${index}-${tag}`,
             name: tag.charAt(0).toUpperCase() + tag.slice(1),
-            category: selectedCategory || 'general',
+            category: selectedCategory || "general",
             description: `${tag} ingredient aligned with current energies`,
             score: rec.score * 0.9,
-            tags: [tag]
+            tags: [tag],
           });
         }
       });
@@ -97,13 +93,18 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
   }, [recommendations, selectedCategory]);
 
   // Filter ingredients
-  const filteredIngredients = useMemo(() => mockIngredients.filter(item => {
-      const matchesSearch = !searchQuery ||
-        item.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = !selectedCategory ||
-        item.category === selectedCategory;
-      return matchesSearch && matchesCategory;
-    }), [mockIngredients, searchQuery, selectedCategory]);
+  const filteredIngredients = useMemo(
+    () =>
+      mockIngredients.filter((item) => {
+        const matchesSearch =
+          !searchQuery ||
+          item.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory =
+          !selectedCategory || item.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+      }),
+    [mockIngredients, searchQuery, selectedCategory],
+  );
 
   // Handlers
   const handleCategorySelect = (categoryId: string) => {
@@ -119,42 +120,48 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
 
   // Render category grid
   const renderCategoryGrid = () => (
-      <div className="mb-6">
-        <h3 className="mb-3 text-lg font-semibold text-gray-800">Browse by Category</h3>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {CATEGORIES.map(category => (
-            <button
-              key={category.id}
-              onClick={() => handleCategorySelect(category.id)}
-              className={`rounded-lg border-2 p-4 transition-all ${
-                selectedCategory === category.id
-                  ? 'border-indigo-500 bg-indigo-50'
-                  : 'border-gray-200 bg-white hover:border-indigo-300'
-              }`}
-            >
-              <div className="mb-2 text-3xl">{category.icon}</div>
-              <div className="text-sm font-medium text-gray-800">{category.name}</div>
-            </button>
-          ))}
-        </div>
+    <div className="mb-6">
+      <h3 className="mb-3 text-lg font-semibold text-gray-800">
+        Browse by Category
+      </h3>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {CATEGORIES.map((category) => (
+          <button
+            key={category.id}
+            onClick={() => handleCategorySelect(category.id)}
+            className={`rounded-lg border-2 p-4 transition-all ${
+              selectedCategory === category.id
+                ? "border-indigo-500 bg-indigo-50"
+                : "border-gray-200 bg-white hover:border-indigo-300"
+            }`}
+          >
+            <div className="mb-2 text-3xl">{category.icon}</div>
+            <div className="text-sm font-medium text-gray-800">
+              {category.name}
+            </div>
+          </button>
+        ))}
       </div>
-    );
+    </div>
+  );
 
   // Render search bar
   const renderSearchBar = () => (
-      <div className="mb-6">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search ingredients..."
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-      </div>
-    );
+    <div className="mb-6">
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="Search ingredients..."
+        className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+    </div>
+  );
 
   // Render ingredient card
-  const renderIngredientCard = (ingredient: typeof filteredIngredients[0]) => {
+  const renderIngredientCard = (
+    ingredient: (typeof filteredIngredients)[0],
+  ) => {
     const isSelected = selectedIngredient === ingredient.id;
 
     return (
@@ -163,12 +170,14 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
         onClick={() => handleIngredientSelect(ingredient.id)}
         className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
           isSelected
-            ? 'border-indigo-500 bg-indigo-50 shadow-lg'
-            : 'border-gray-200 bg-white hover:border-indigo-300 hover:shadow-md'
+            ? "border-indigo-500 bg-indigo-50 shadow-lg"
+            : "border-gray-200 bg-white hover:border-indigo-300 hover:shadow-md"
         }`}
       >
         <div className="mb-2 flex items-start justify-between">
-          <h4 className="text-lg font-semibold text-gray-900">{ingredient.name}</h4>
+          <h4 className="text-lg font-semibold text-gray-900">
+            {ingredient.name}
+          </h4>
           <div className="rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-800">
             {(ingredient.score * 100).toFixed(0)}%
           </div>
@@ -214,10 +223,19 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
   if (error) {
     return (
       <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-        <h3 className="mb-2 text-lg font-semibold text-red-800">Error Loading Ingredients</h3>
-        <p className="text-red-600">{error || 'An unexpected error occurred'}</p>
+        <h3 className="mb-2 text-lg font-semibold text-red-800">
+          Error Loading Ingredients
+        </h3>
+        <p className="text-red-600">
+          {error || "An unexpected error occurred"}
+        </p>
         <button
-          onClick={() => getRecommendations({ datetime: new Date().toISOString(), useBackendInfluence: true })}
+          onClick={() =>
+            getRecommendations({
+              datetime: new Date().toISOString(),
+              useBackendInfluence: true,
+            })
+          }
           className="mt-4 rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
         >
           Try Again
@@ -236,13 +254,13 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
             <div>
               <div className="text-sm text-gray-600">Season</div>
               <div className="text-lg font-semibold text-gray-900 capitalize">
-                {alchemicalContext.state?.currentSeason || 'Unknown'}
+                {alchemicalContext.state?.currentSeason || "Unknown"}
               </div>
             </div>
             <div>
               <div className="text-sm text-gray-600">Time of Day</div>
               <div className="text-lg font-semibold text-gray-900 capitalize">
-                {alchemicalContext.state?.timeOfDay || 'Unknown'}
+                {alchemicalContext.state?.timeOfDay || "Unknown"}
               </div>
             </div>
           </div>
@@ -257,12 +275,12 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
         <div className="mb-4 flex items-center gap-2">
           <span className="text-sm text-gray-600">Showing:</span>
           <span className="rounded-full bg-indigo-100 px-3 py-1 text-sm font-medium text-indigo-800">
-            {CATEGORIES.find(c => c.id === selectedCategory)?.name}
+            {CATEGORIES.find((c) => c.id === selectedCategory)?.name}
           </span>
           <button
             onClick={() => {
               setSelectedCategory(null);
-              setSearchQuery('');
+              setSearchQuery("");
             }}
             className="text-sm text-indigo-600 hover:text-indigo-800"
           >
@@ -279,8 +297,8 @@ export const IngredientRecommender: React.FC<IngredientRecommenderProps> = ({
       {filteredIngredients.length === 0 && (
         <div className="py-12 text-center text-gray-500">
           {searchQuery || selectedCategory
-            ? 'No ingredients match your filters.'
-            : 'No ingredients available at this time.'}
+            ? "No ingredients match your filters."
+            : "No ingredients available at this time."}
         </div>
       )}
     </div>

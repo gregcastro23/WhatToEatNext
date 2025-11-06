@@ -4,8 +4,8 @@
  * Fix Object Literal Syntax Errors
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 function fixObjectLiteralSyntax(filePath) {
   if (!fs.existsSync(filePath)) {
@@ -14,19 +14,19 @@ function fixObjectLiteralSyntax(filePath) {
 
   console.log(`Fixing object literal syntax in: ${filePath}`);
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
   let modified = false;
 
   // Fix object literal with opening brace followed by comma
-  if (content.includes('= {,')) {
-    content = content.replace(/=\s*{\s*,/g, '= {');
+  if (content.includes("= {,")) {
+    content = content.replace(/=\s*{\s*,/g, "= {");
     modified = true;
     console.log(`  ✅ Fixed object literal opening brace syntax`);
   }
 
   // Fix type annotation with opening brace followed by comma
-  if (content.includes(': {,')) {
-    content = content.replace(/:\s*{\s*,/g, ': {');
+  if (content.includes(": {,")) {
+    content = content.replace(/:\s*{\s*,/g, ": {");
     modified = true;
     console.log(`  ✅ Fixed type annotation opening brace syntax`);
   }
@@ -34,7 +34,7 @@ function fixObjectLiteralSyntax(filePath) {
   // Fix any other patterns of brace-comma
   const braceCommaPattern = /{\s*,/g;
   if (braceCommaPattern.test(content)) {
-    content = content.replace(braceCommaPattern, '{');
+    content = content.replace(braceCommaPattern, "{");
     modified = true;
     console.log(`  ✅ Fixed brace-comma patterns`);
   }
@@ -59,9 +59,16 @@ function getAllTSFiles() {
         const fullPath = `${dir}/${item}`;
         const stat = fs.statSync(fullPath);
 
-        if (stat.isDirectory() && !item.startsWith('.') && item !== 'node_modules') {
+        if (
+          stat.isDirectory() &&
+          !item.startsWith(".") &&
+          item !== "node_modules"
+        ) {
           walkDir(fullPath);
-        } else if (stat.isFile() && (item.endsWith('.ts') || item.endsWith('.tsx'))) {
+        } else if (
+          stat.isFile() &&
+          (item.endsWith(".ts") || item.endsWith(".tsx"))
+        ) {
           files.push(fullPath);
         }
       }
@@ -70,11 +77,11 @@ function getAllTSFiles() {
     }
   }
 
-  walkDir('src');
+  walkDir("src");
   return files;
 }
 
-console.log('Fixing object literal syntax errors...');
+console.log("Fixing object literal syntax errors...");
 
 const allFiles = getAllTSFiles();
 console.log(`Checking ${allFiles.length} TypeScript files...`);
@@ -90,15 +97,16 @@ for (const filePath of allFiles) {
 console.log(`\nFixed ${totalFixed} files`);
 
 // Test build
-console.log('\nTesting build...');
+console.log("\nTesting build...");
 try {
-  execSync('yarn build', { stdio: 'pipe', timeout: 90000 });
-  console.log('🎉 Build successful!');
-  console.log('✅ All object literal syntax errors fixed');
-  console.log('✅ Ready to proceed with ESLint mass reduction');
+  execSync("yarn build", { stdio: "pipe", timeout: 90000 });
+  console.log("🎉 Build successful!");
+  console.log("✅ All object literal syntax errors fixed");
+  console.log("✅ Ready to proceed with ESLint mass reduction");
 } catch (error) {
-  console.log('❌ Some build issues remain');
-  const errorOutput = error.stdout?.toString() || error.stderr?.toString() || '';
-  console.log('Remaining errors:');
-  console.log(errorOutput.split('\n').slice(0, 25).join('\n'));
+  console.log("❌ Some build issues remain");
+  const errorOutput =
+    error.stdout?.toString() || error.stderr?.toString() || "";
+  console.log("Remaining errors:");
+  console.log(errorOutput.split("\n").slice(0, 25).join("\n"));
 }

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useContext } from 'react';
-import { _PopupContext } from './context';
-import type { PopupContextType } from './types';
+import { useContext } from "react";
+import { _PopupContext } from "./context";
+import type { PopupContextType } from "./types";
 
 /**
  * Hook to access the PopupContext
@@ -10,11 +10,11 @@ import type { PopupContextType } from './types';
  * @throws Error if used outside of PopupProvider
  */
 export const usePopup = (): PopupContextType => {
-  const context = useContext(_PopupContext)
+  const context = useContext(_PopupContext);
 
   if (!context) {
-    throw new Error('usePopup must be used within a PopupProvider');
+    throw new Error("usePopup must be used within a PopupProvider");
   }
 
   return context;
-}
+};

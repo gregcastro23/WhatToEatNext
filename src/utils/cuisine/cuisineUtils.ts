@@ -3,19 +3,22 @@
  * This file contains utility functions shared between the cuisine modules to prevent circular dependencies
  */
 
-import { __grainCuisineMatrix } from '../../data/integrations/_grainCuisineMatrix';
-import { __herbCuisineMatrix } from '../../data/integrations/_herbCuisineMatrix';
-import type { IngredientCategory } from '../../data/ingredients/types';
+import { __grainCuisineMatrix } from "../../data/integrations/_grainCuisineMatrix";
+import { __herbCuisineMatrix } from "../../data/integrations/_herbCuisineMatrix";
+import type { IngredientCategory } from "../../data/ingredients/types";
 
 /**
  * Get cuisine pairings for a specific ingredient
  */
-export function getCuisinePAirings(ingredientName: string, category: IngredientCategory): string[] {
+export function getCuisinePAirings(
+  ingredientName: string,
+  category: IngredientCategory,
+): string[] {
   switch (category) {
-    case 'grain':
+    case "grain":
       const grainData = _grainCuisineMatrix[ingredientName] as unknown;
       return grainData?.cuisines || [];
-    case 'culinary_herb':
+    case "culinary_herb":
       return _herbCuisineMatrix[ingredientName] || [];
     // Additional categories can be added as their matrix files are created
     default:
@@ -28,7 +31,7 @@ export function getCuisinePAirings(ingredientName: string, category: IngredientC
  */
 export function getIngredientsForCuisine(
   cuisineName: string,
-  categories: IngredientCategory[] = ['grain', 'culinary_herb']
+  categories: IngredientCategory[] = ["grain", "culinary_herb"],
 ): Record<IngredientCategory, string[]> {
   const result: Record<IngredientCategory, string[]> = {
     grain: [],
@@ -40,20 +43,23 @@ export function getIngredientsForCuisine(
     _oil: [],
     _vinegar: [],
     _seasoning: [],
-    _dairy: []
+    _dairy: [],
   };
 
   // Process each matrix to find ingredients that pAir with this cuisine
-  if (categories.includes('grain')) {
+  if (categories.includes("grain")) {
     Object.entries(_grainCuisineMatrix || {}).forEach(([grain, data]) => {
       const grainDataEntry = data;
-      if (grainDataEntry?.cuisines && (grainDataEntry as any)?.cuisines.includes(cuisineName)) {
+      if (
+        grainDataEntry?.cuisines &&
+        (grainDataEntry as any)?.cuisines.includes(cuisineName)
+      ) {
         result.grain.push(grain);
       }
     });
   }
 
-  if (categories.includes('culinary_herb')) {
+  if (categories.includes("culinary_herb")) {
     Object.entries(_herbCuisineMatrix || {}).forEach(([herb, cuisines]) => {
       if (Array.isArray(cuisines) && cuisines.includes(cuisineName)) {
         result.culinary_herb.push(herb);
@@ -72,7 +78,7 @@ export function getIngredientsForCuisine(
 export function isCuisineCompatibleWithIngredient(
   cuisineName: string,
   ingredientName: string,
-  category: IngredientCategory
+  category: IngredientCategory,
 ): boolean {
   const compatibleCuisines = getCuisinePAirings(ingredientName, category);
   return Array.isArray(compatibleCuisines)
@@ -86,7 +92,7 @@ export function isCuisineCompatibleWithIngredient(
 export function getSharedIngredients(
   cuisine1: string,
   cuisine2: string,
-  categories: IngredientCategory[] = ['grain', 'culinary_herb']
+  categories: IngredientCategory[] = ["grain", "culinary_herb"],
 ): string[] {
   const cuisine1Ingredients = getIngredientsForCuisine(cuisine1, categories);
   const cuisine2Ingredients = getIngredientsForCuisine(cuisine2, categories);

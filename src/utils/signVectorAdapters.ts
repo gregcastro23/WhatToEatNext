@@ -1,49 +1,67 @@
-import type { PlanetaryPosition } from '@/types/celestial';
+import type { PlanetaryPosition } from "@/types/celestial";
 
 /**
  * Type adapter to safely convert planetary position service responses
  * to the expected PlanetaryPosition interface
  */
-export function adaptPlanetaryPosition(position: unknown): PlanetaryPosition | null {
-  if (!position || typeof position !== 'object') {
+export function adaptPlanetaryPosition(
+  position: unknown,
+): PlanetaryPosition | null {
+  if (!position || typeof position !== "object") {
     return null;
   }
 
   const pos = position as any;
 
   // Extract and validate required fields
-  const sign = typeof pos.sign === 'string' ? pos.sign : null;
-  const degree = typeof pos.degree === 'number' ? pos.degree :
-                 typeof pos.degree === 'string' ? parseFloat(pos.degree) : 0;
+  const sign = typeof pos.sign === "string" ? pos.sign : null;
+  const degree =
+    typeof pos.degree === "number"
+      ? pos.degree
+      : typeof pos.degree === "string"
+        ? parseFloat(pos.degree)
+        : 0;
   if (!sign) {
     return null;
   }
 
   // Build the adapted position object
   const adapted: PlanetaryPosition = {
-    sign: sign as 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces',
+    sign: sign as
+      | "aries"
+      | "taurus"
+      | "gemini"
+      | "cancer"
+      | "leo"
+      | "virgo"
+      | "libra"
+      | "scorpio"
+      | "sagittarius"
+      | "capricorn"
+      | "aquarius"
+      | "pisces",
     degree: Number.isFinite(degree) ? degree : 0,
-    isRetrograde: Boolean(pos.isRetrograde)
-  }
+    isRetrograde: Boolean(pos.isRetrograde),
+  };
 
   // Add optional fields if present
-  if (typeof pos.house === 'number') {
+  if (typeof pos.house === "number") {
     adapted.house = pos.house;
   }
-  
-  if (typeof pos.speed === 'number') {
+
+  if (typeof pos.speed === "number") {
     adapted.speed = pos.speed;
   }
 
-  if (typeof pos.longitude === 'number') {
+  if (typeof pos.longitude === "number") {
     adapted.longitude = pos.longitude;
   }
 
-  if (typeof pos.latitude === 'number') {
+  if (typeof pos.latitude === "number") {
     adapted.latitude = pos.latitude;
   }
 
-  if (typeof pos.distance === 'number') {
+  if (typeof pos.distance === "number") {
     adapted.distance = pos.distance;
   }
 
@@ -54,9 +72,9 @@ export function adaptPlanetaryPosition(position: unknown): PlanetaryPosition | n
  * Adapt a full planetary positions response from the service
  */
 export function adaptPlanetaryPositions(
-  positions: unknown
+  positions: unknown,
 ): Record<string, PlanetaryPosition> | null {
-  if (!positions || typeof positions !== 'object') {
+  if (!positions || typeof positions !== "object") {
     return null;
   }
 
@@ -71,32 +89,32 @@ export function adaptPlanetaryPositions(
     }
   }
 
-  return hasValidData ? adapted : null ;
+  return hasValidData ? adapted : null;
 }
 
 /**
  * Type guard to check if an object is a valid PlanetaryPosition
  */
 export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
-  if (!obj || typeof obj !== 'object') {
+  if (!obj || typeof obj !== "object") {
     return false;
-}
+  }
 
   const pos = obj as any;
   return (
-    typeof pos.sign === 'string' &&
-    typeof pos.degree === 'number' &&
-    typeof pos.isRetrograde === 'boolean'
-  )
+    typeof pos.sign === "string" &&
+    typeof pos.degree === "number" &&
+    typeof pos.isRetrograde === "boolean"
+  );
 }
 
 /**
  * Type guard to check if an object is a valid planetary positions map
  */
 export function isPlanetaryPositionsMap(
-  obj: unknown
+  obj: unknown,
 ): obj is Record<string, PlanetaryPosition> {
-  if (!obj || typeof obj !== 'object') {
+  if (!obj || typeof obj !== "object") {
     return false;
   }
 
@@ -108,16 +126,16 @@ export function isPlanetaryPositionsMap(
  * Safely extract sign from a planetary position
  */
 export function getSignFromPosition(_position: unknown): string | null {
-  if (!position || typeof position !== 'object') {
+  if (!position || typeof position !== "object") {
     return null;
-}
+  }
 
   const pos = position as any;
-  const {sign} = pos;
+  const { sign } = pos;
 
-  if (typeof sign === 'string' && sign.length > 0) {
+  if (typeof sign === "string" && sign.length > 0) {
     return sign.toLowerCase();
-}
+  }
 
   return null;
 }
@@ -126,20 +144,20 @@ export function getSignFromPosition(_position: unknown): string | null {
  * Safely extract degree from a planetary position
  */
 export function getDegreeFromPosition(_position: unknown): number {
-  if (!_position || typeof _position !== 'object') {
+  if (!_position || typeof _position !== "object") {
     return 0;
   }
 
   const pos = _position as any;
-  const {degree} = pos;
+  const { degree } = pos;
 
-  if (typeof degree === 'number') {
+  if (typeof degree === "number") {
     return Number.isFinite(degree) ? degree : 0;
   }
 
-  if (typeof degree === 'string') {
+  if (typeof degree === "string") {
     const parsed = parseFloat(degree);
-    return Number.isFinite(parsed) ? parsed : 0
+    return Number.isFinite(parsed) ? parsed : 0;
   }
 
   return 0;

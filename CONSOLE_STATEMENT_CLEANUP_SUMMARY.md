@@ -144,21 +144,21 @@ console statements per the task requirements.
 #### Before (console.log)
 
 ```typescript
-console.log('User selected ingredient:', ingredient.name);
-console.log('Calculating elemental properties...');
+console.log("User selected ingredient:", ingredient.name);
+console.log("Calculating elemental properties...");
 ```
 
 #### After (structured logging)
 
 ```typescript
-import { log } from '@/services/LoggingService';
+import { log } from "@/services/LoggingService";
 
-log.info('User selected ingredient', {
-  component: 'IngredientSelector',
-  ingredient: ingredient.name
+log.info("User selected ingredient", {
+  component: "IngredientSelector",
+  ingredient: ingredient.name,
 });
-log.info('Calculating elemental properties', {
-  service: 'ElementalCalculator'
+log.info("Calculating elemental properties", {
+  service: "ElementalCalculator",
 });
 ```
 

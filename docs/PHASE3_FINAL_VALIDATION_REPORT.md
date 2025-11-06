@@ -97,13 +97,16 @@ interface ExtendedIngredient extends BaseIngredient {
 
 // Runtime Type Guards
 export function isExtendedIngredient(obj: any): obj is ExtendedIngredient {
-  return obj && typeof obj === 'object' &&
-         'id' in obj && typeof obj.id === 'string';
+  return (
+    obj && typeof obj === "object" && "id" in obj && typeof obj.id === "string"
+  );
 }
 
 // Factory Functions
-export function createExtendedIngredient(data: Partial<ExtendedIngredient>): ExtendedIngredient {
-  return { id: '', timestamp: new Date(), version: '1.0.0', ...data };
+export function createExtendedIngredient(
+  data: Partial<ExtendedIngredient>,
+): ExtendedIngredient {
+  return { id: "", timestamp: new Date(), version: "1.0.0", ...data };
 }
 ```
 

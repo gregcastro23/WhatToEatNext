@@ -8,10 +8,10 @@
  */
 
 // Core elemental functions
-export * from './core';
+export * from "./core";
 
 // Elemental transformations and alchemical functions
-export * from './transformations';
+export * from "./transformations";
 
 // Re-export commonly used functions for backward compatibility
 export {
@@ -32,8 +32,8 @@ export {
   getStrengtheningElement,
   normalizeProperties,
   standardizeRecipeElements,
-  validateElementalProperties
-} from './core';
+  validateElementalProperties,
+} from "./core";
 
 export {
   applyPlanetaryInfluence,
@@ -43,19 +43,19 @@ export {
   transformCookingMethods,
   transformCuisines,
   transformIngredients,
-  transformSingleItem
-} from './transformations';
+  transformSingleItem,
+} from "./transformations";
 
 // Type exports
 export type {
   ElementalCharacteristics,
   ElementalColor,
   ElementalCompatibility,
-  ElementalProfile
-} from './core';
+  ElementalProfile,
+} from "./core";
 
 export type {
   AlchemicalTransformation,
   PlanetaryInfluence,
-  TransformationContext
-} from './transformations';
+  TransformationContext,
+} from "./transformations";

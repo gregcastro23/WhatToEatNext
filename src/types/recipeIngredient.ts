@@ -1,4 +1,4 @@
-import type { ElementalProperties, QuantityScaledProperties } from './index';
+import type { ElementalProperties, QuantityScaledProperties } from "./index";
 
 /**
  * Recipe ingredient interface that extends the base Ingredient
@@ -59,7 +59,7 @@ export interface RecipeIngredient {
 
   // Processing state
   isProcessed?: boolean;
-  processingLevel?: 'minimal' | 'moderate' | 'highly-processed';
+  processingLevel?: "minimal" | "moderate" | "highly-processed";
   // Compatibility and pairing
   pairing?: string[];
   avoidWith?: string[];
@@ -84,9 +84,9 @@ export interface SimpleIngredient {
 export function validateIngredient(obj: unknown): obj is RecipeIngredient {
   return Boolean(
     obj &&
-      typeof (obj as any).name === 'string' &&
-      typeof (obj as any).amount === 'number' &&
-      typeof (obj as any).unit === 'string'
+      typeof (obj as any).name === "string" &&
+      typeof (obj as any).amount === "number" &&
+      typeof (obj as any).unit === "string",
   );
 }
 
@@ -94,10 +94,15 @@ export function validateIngredient(obj: unknown): obj is RecipeIngredient {
  * Creates a RecipeIngredient from a partial object with defaults
  */
 export function createRecipeIngredient(
-  partial: Partial<RecipeIngredient> & { name: string; amount: number; unit: string }): RecipeIngredient {
+  partial: Partial<RecipeIngredient> & {
+    name: string;
+    amount: number;
+    unit: string;
+  },
+): RecipeIngredient {
   return {
     optional: false,
-    ...partial
+    ...partial,
   };
 }
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 /**
  * Conservative script to remove only the safest redundant type assertions
@@ -25,30 +25,30 @@ class ConservativeTypeAssertionRemover {
       // Pattern 1: Redundant string assertions on string literals (very safe)
       {
         pattern: /(['"`][^'"`]*['"`])\s+as\s+string(?!\[\])/g,
-        replacement: '$1',
-        description: 'String literal as string'
+        replacement: "$1",
+        description: "String literal as string",
       },
 
       // Pattern 2: Redundant number assertions on numeric literals (very safe)
       {
         pattern: /(\d+(?:\.\d+)?)\s+as\s+number(?!\[\])/g,
-        replacement: '$1',
-        description: 'Number literal as number'
+        replacement: "$1",
+        description: "Number literal as number",
       },
 
       // Pattern 3: Redundant boolean assertions on boolean literals (very safe)
       {
         pattern: /(true|false)\s+as\s+boolean(?!\[\])/g,
-        replacement: '$1',
-        description: 'Boolean literal as boolean'
+        replacement: "$1",
+        description: "Boolean literal as boolean",
       },
 
       // Pattern 4: Simple redundant const assertions on string literals
       {
         pattern: /(['"`][^'"`]*['"`])\s+as\s+const/g,
-        replacement: '$1',
-        description: 'String literal as const'
-      }
+        replacement: "$1",
+        description: "String literal as const",
+      },
     ];
   }
 
@@ -57,24 +57,28 @@ class ConservativeTypeAssertionRemover {
    */
   shouldSkipFile(filePath) {
     // Skip all test files
-    if (/\.(test|spec)\.(ts|tsx)$/.test(filePath) ||
-        filePath.includes('__tests__') ||
-        filePath.includes('test.ts') ||
-        filePath.includes('test.tsx')) {
+    if (
+      /\.(test|spec)\.(ts|tsx)$/.test(filePath) ||
+      filePath.includes("__tests__") ||
+      filePath.includes("test.ts") ||
+      filePath.includes("test.tsx")
+    ) {
       return true;
     }
 
     // Skip node_modules and other excluded directories
-    if (filePath.includes('node_modules') ||
-        filePath.includes('.git') ||
-        filePath.includes('dist') ||
-        filePath.includes('build') ||
-        filePath.includes('.next')) {
+    if (
+      filePath.includes("node_modules") ||
+      filePath.includes(".git") ||
+      filePath.includes("dist") ||
+      filePath.includes("build") ||
+      filePath.includes(".next")
+    ) {
       return true;
     }
 
     // Skip campaign system files (they have complex patterns)
-    if (filePath.includes('/campaign/')) {
+    if (filePath.includes("/campaign/")) {
       return true;
     }
 
@@ -86,35 +90,45 @@ class ConservativeTypeAssertionRemover {
    */
   shouldPreserveAssertion(content, assertionMatch, filePath) {
     // Preserve assertions with explanatory comments
-    const lines = content.split('\n');
-    const matchLine = content.substring(0, content.indexOf(assertionMatch)).split('\n').length - 1;
+    const lines = content.split("\n");
+    const matchLine =
+      content.substring(0, content.indexOf(assertionMatch)).split("\n").length -
+      1;
 
     // Check previous line for comments
     if (matchLine > 0) {
       const prevLine = lines[matchLine - 1];
-      if (prevLine && (prevLine.includes('//') || prevLine.includes('/*'))) {
+      if (prevLine && (prevLine.includes("//") || prevLine.includes("/*"))) {
         return true;
       }
     }
 
     // Check same line for comments
     const currentLine = lines[matchLine];
-    if (currentLine && currentLine.includes('//')) {
+    if (currentLine && currentLine.includes("//")) {
       return true;
     }
 
     // Preserve assertions in error handling contexts
-    if (assertionMatch.includes('error') ||
-        content.substring(Math.max(0, content.indexOf(assertionMatch) - 100),
-                         content.indexOf(assertionMatch)).includes('catch')) {
+    if (
+      assertionMatch.includes("error") ||
+      content
+        .substring(
+          Math.max(0, content.indexOf(assertionMatch) - 100),
+          content.indexOf(assertionMatch),
+        )
+        .includes("catch")
+    ) {
       return true;
     }
 
     // Preserve assertions with complex type patterns
-    if (assertionMatch.includes('Record<') ||
-        assertionMatch.includes('import(') ||
-        assertionMatch.includes('unknown') ||
-        assertionMatch.includes('any')) {
+    if (
+      assertionMatch.includes("Record<") ||
+      assertionMatch.includes("import(") ||
+      assertionMatch.includes("unknown") ||
+      assertionMatch.includes("any")
+    ) {
       return true;
     }
 
@@ -126,7 +140,7 @@ class ConservativeTypeAssertionRemover {
    */
   processFile(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       let modifiedContent = content;
       let fileChanges = 0;
 
@@ -143,22 +157,28 @@ class ConservativeTypeAssertionRemover {
           }
 
           // Apply the replacement
-          const newReplacement = replacement.replace(/\$(\d+)/g, (_, num) => match[parseInt(num)]);
+          const newReplacement = replacement.replace(
+            /\$(\d+)/g,
+            (_, num) => match[parseInt(num)],
+          );
           modifiedContent = modifiedContent.replace(match[0], newReplacement);
           fileChanges++;
           this.removedAssertions++;
 
-          console.log(`  Removed: ${description} - "${match[0]}" in ${path.basename(filePath)}`);
+          console.log(
+            `  Removed: ${description} - "${match[0]}" in ${path.basename(filePath)}`,
+          );
         }
       }
 
       // Only write file if changes were made
       if (fileChanges > 0) {
         fs.writeFileSync(filePath, modifiedContent);
-        console.log(`✅ Modified ${filePath} (${fileChanges} assertions removed)`);
+        console.log(
+          `✅ Modified ${filePath} (${fileChanges} assertions removed)`,
+        );
         this.processedFiles++;
       }
-
     } catch (error) {
       this.errors.push(`Error processing ${filePath}: ${error.message}`);
       console.error(`❌ Error processing ${filePath}: ${error.message}`);
@@ -179,10 +199,22 @@ class ConservativeTypeAssertionRemover {
 
         if (entry.isDirectory()) {
           // Skip certain directories
-          if (!['node_modules', '.git', 'dist', 'build', '.next', '__tests__'].includes(entry.name)) {
+          if (
+            ![
+              "node_modules",
+              ".git",
+              "dist",
+              "build",
+              ".next",
+              "__tests__",
+            ].includes(entry.name)
+          ) {
             files.push(...this.findTypeScriptFiles(fullPath));
           }
-        } else if (/\.(ts|tsx)$/.test(fullPath) && !this.shouldSkipFile(fullPath)) {
+        } else if (
+          /\.(ts|tsx)$/.test(fullPath) &&
+          !this.shouldSkipFile(fullPath)
+        ) {
           files.push(fullPath);
         }
       }
@@ -198,15 +230,15 @@ class ConservativeTypeAssertionRemover {
    */
   validateTypeScript() {
     try {
-      console.log('\n🔍 Validating TypeScript compilation...');
-      execSync('npx tsc --noEmit --skipLibCheck', {
-        stdio: 'pipe',
-        encoding: 'utf8'
+      console.log("\n🔍 Validating TypeScript compilation...");
+      execSync("npx tsc --noEmit --skipLibCheck", {
+        stdio: "pipe",
+        encoding: "utf8",
       });
-      console.log('✅ TypeScript compilation successful');
+      console.log("✅ TypeScript compilation successful");
       return true;
     } catch (error) {
-      console.error('❌ TypeScript compilation failed:');
+      console.error("❌ TypeScript compilation failed:");
       console.error(error.stdout || error.message);
       return false;
     }
@@ -216,11 +248,15 @@ class ConservativeTypeAssertionRemover {
    * Main execution method
    */
   run() {
-    console.log('🚀 Starting conservative redundant type assertion removal...\n');
+    console.log(
+      "🚀 Starting conservative redundant type assertion removal...\n",
+    );
 
     // Find all TypeScript files in src directory (excluding tests)
-    const files = this.findTypeScriptFiles('./src');
-    console.log(`Found ${files.length} TypeScript files to process (excluding tests)\n`);
+    const files = this.findTypeScriptFiles("./src");
+    console.log(
+      `Found ${files.length} TypeScript files to process (excluding tests)\n`,
+    );
 
     // Process each file
     for (const file of files) {
@@ -231,23 +267,27 @@ class ConservativeTypeAssertionRemover {
     const compilationSuccess = this.validateTypeScript();
 
     // Report results
-    console.log('\n📊 Summary:');
+    console.log("\n📊 Summary:");
     console.log(`Files processed: ${this.processedFiles}`);
     console.log(`Assertions removed: ${this.removedAssertions}`);
     console.log(`Assertions preserved: ${this.skippedAssertions}`);
     console.log(`Errors encountered: ${this.errors.length}`);
 
     if (this.errors.length > 0) {
-      console.log('\n❌ Errors:');
-      this.errors.forEach(error => console.log(`  ${error}`));
+      console.log("\n❌ Errors:");
+      this.errors.forEach((error) => console.log(`  ${error}`));
     }
 
     if (!compilationSuccess) {
-      console.log('\n⚠️  TypeScript compilation failed. You may need to review the changes.');
+      console.log(
+        "\n⚠️  TypeScript compilation failed. You may need to review the changes.",
+      );
       process.exit(1);
     }
 
-    console.log('\n✅ Conservative redundant type assertion removal completed successfully!');
+    console.log(
+      "\n✅ Conservative redundant type assertion removal completed successfully!",
+    );
   }
 }
 

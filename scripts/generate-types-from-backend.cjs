@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const { exec } = require('child_process');
+const { exec } = require("child_process");
 
 function run(cmd, label) {
   return new Promise((resolve) => {
@@ -18,8 +18,14 @@ function run(cmd, label) {
 }
 
 async function main() {
-  await run('npx openapi-typescript http://localhost:8000/openapi.json -o src/types/api/alchemical.ts', 'Alchemical API types generated');
-  await run('npx openapi-typescript http://localhost:8100/openapi.json -o src/types/api/kitchen.ts', 'Kitchen API types generated');
+  await run(
+    "npx openapi-typescript http://localhost:8000/openapi.json -o src/types/api/alchemical.ts",
+    "Alchemical API types generated",
+  );
+  await run(
+    "npx openapi-typescript http://localhost:8100/openapi.json -o src/types/api/kitchen.ts",
+    "Kitchen API types generated",
+  );
 }
 
 main();

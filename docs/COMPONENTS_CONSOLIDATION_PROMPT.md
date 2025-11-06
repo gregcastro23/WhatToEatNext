@@ -128,14 +128,17 @@ restructuring.
 ## Component Analysis Summary
 
 ### Active Components (Used in codebase)
+
 - ComponentName.tsx (X usages) - Description
 - ...
 
 ### Orphaned Components (No active usage)
+
 - ComponentName.tsx - Last used: Date/Never
 - ...
 
 ### Redundant Components (Overlapping functionality)
+
 - Group 1: ComponentA, ComponentB, ComponentC
   - Overlap: Description
   - Recommendation: Consolidate into ComponentA
@@ -148,15 +151,18 @@ restructuring.
 ## Consolidation Plan
 
 ### Phase 1: Remove Orphaned Components
+
 - Delete: [list of unused components]
 - Estimated impact: 0 (no active usage)
 
 ### Phase 2: Merge Redundant Components
+
 - Merge Group 1: ComponentA ← ComponentB + ComponentC
 - Merge Group 2: ComponentX ← ComponentY + ComponentZ
 - Estimated files reduced: X → Y
 
 ### Phase 3: Reorganize Directory Structure
+
 - Move components to logical groupings
 - Update import paths
 - Standardize naming conventions
@@ -168,20 +174,20 @@ restructuring.
 ## Proposed Component Structure
 
 src/components/
-├── recommendations/           # All recommendation-related components
-│   ├── AlchemicalRecommendations.tsx (enhanced)
-│   ├── IngredientRecommender.tsx (enhanced)
-│   └── index.ts
-├── recipes/                  # Recipe and cooking components
-│   ├── RecipeBuilder.tsx (enhanced)
-│   ├── RecipeGrid.tsx
-│   └── index.ts
-├── ui/                      # Reusable UI components
-│   ├── filters/
-│   ├── displays/
-│   └── index.ts
-├── layout/                  # Layout components
-└── debug/                   # Debug and development tools
+├── recommendations/ # All recommendation-related components
+│ ├── AlchemicalRecommendations.tsx (enhanced)
+│ ├── IngredientRecommender.tsx (enhanced)
+│ └── index.ts
+├── recipes/ # Recipe and cooking components
+│ ├── RecipeBuilder.tsx (enhanced)
+│ ├── RecipeGrid.tsx
+│ └── index.ts
+├── ui/ # Reusable UI components
+│ ├── filters/
+│ ├── displays/
+│ └── index.ts
+├── layout/ # Layout components
+└── debug/ # Debug and development tools
 ```
 
 ## 🚀 Implementation Requirements

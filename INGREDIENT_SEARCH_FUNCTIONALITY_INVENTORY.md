@@ -299,7 +299,7 @@ const ingredient = ingredientService.getIngredientByName("spinach");
 
 // Text-based search
 const results = ingredientService.filterIngredients({
-  searchQuery: "leafy green"
+  searchQuery: "leafy green",
 });
 ```
 
@@ -311,7 +311,7 @@ const results = enhancedIngredientsSystem.searchIngredients({
   category: "vegetables",
   elementalFocus: "Earth",
   kalchmRange: { min: 0.8, max: 1.2 },
-  seasonalAlignment: "spring"
+  seasonalAlignment: "spring",
 });
 ```
 

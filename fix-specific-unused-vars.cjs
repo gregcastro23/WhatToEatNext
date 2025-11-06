@@ -5,27 +5,30 @@
  * Fixes specific unused variable patterns found in linting output
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 // Get files with unused variables
 function getFilesWithUnusedVars() {
   try {
-    const lintOutput = execSync('yarn lint 2>&1', { encoding: 'utf8' });
-    const lines = lintOutput.split('\n');
+    const lintOutput = execSync("yarn lint 2>&1", { encoding: "utf8" });
+    const lines = lintOutput.split("\n");
 
     const fileMap = new Map();
     let currentFile = null;
 
-    lines.forEach(line => {
+    lines.forEach((line) => {
       // Check if this is a file path line
-      if (line.startsWith('/') && (line.includes('.ts') || line.includes('.tsx'))) {
+      if (
+        line.startsWith("/") &&
+        (line.includes(".ts") || line.includes(".tsx"))
+      ) {
         currentFile = line.trim();
         return;
       }
 
       // Check if this is an unused variable error
-      if (line.includes('no-unused-vars') && currentFile) {
+      if (line.includes("no-unused-vars") && currentFile) {
         const lineMatch = line.match(/^\s*(\d+):(\d+)\s+error\s+'([^']+)'/);
         if (lineMatch) {
           const [, lineNum, , varName] = lineMatch;
@@ -44,7 +47,7 @@ function getFilesWithUnusedVars() {
 
     return fileMap;
   } catch (error) {
-    console.log('No unused variables found or error getting lint output');
+    console.log("No unused variables found or error getting lint output");
     return new Map();
   }
 }
@@ -52,8 +55,8 @@ function getFilesWithUnusedVars() {
 // Fix unused variables in a file
 function fixUnusedVariables(filePath, unusedVars) {
   try {
-    const content = fs.readFileSync(filePath, 'utf8');
-    const lines = content.split('\n');
+    const content = fs.readFileSync(filePath, "utf8");
+    const lines = content.split("\n");
     let modified = false;
     let fixCount = 0;
 
@@ -66,7 +69,7 @@ function fixUnusedVariables(filePath, unusedVars) {
         const originalLine = lines[lineIndex];
 
         // Skip if already prefixed
-        if (variable.startsWith('_') || variable.startsWith('UNUSED_')) {
+        if (variable.startsWith("_") || variable.startsWith("UNUSED_")) {
           return;
         }
 
@@ -75,23 +78,40 @@ function fixUnusedVariables(filePath, unusedVars) {
 
         // Array destructuring pattern: [var1, var2] =
         if (
-          originalLine.includes('[') &&
-          originalLine.includes(']') &&
-          originalLine.includes('=')
+          originalLine.includes("[") &&
+          originalLine.includes("]") &&
+          originalLine.includes("=")
         ) {
-          newLine = originalLine.replace(new RegExp(`\\b${variable}\\b`), `_${variable}`);
+          newLine = originalLine.replace(
+            new RegExp(`\\b${variable}\\b`),
+            `_${variable}`,
+          );
         }
         // Regular variable declaration: const/let/var variable =
-        else if (originalLine.match(new RegExp(`\\b(const|let|var)\\s+${variable}\\b`))) {
-          newLine = originalLine.replace(new RegExp(`\\b${variable}\\b`), `_${variable}`);
+        else if (
+          originalLine.match(new RegExp(`\\b(const|let|var)\\s+${variable}\\b`))
+        ) {
+          newLine = originalLine.replace(
+            new RegExp(`\\b${variable}\\b`),
+            `_${variable}`,
+          );
         }
         // Function parameter
-        else if (originalLine.includes('(') && originalLine.includes(variable)) {
-          newLine = originalLine.replace(new RegExp(`\\b${variable}\\b`), `_${variable}`);
+        else if (
+          originalLine.includes("(") &&
+          originalLine.includes(variable)
+        ) {
+          newLine = originalLine.replace(
+            new RegExp(`\\b${variable}\\b`),
+            `_${variable}`,
+          );
         }
         // General case
         else {
-          newLine = originalLine.replace(new RegExp(`\\b${variable}\\b`), `_${variable}`);
+          newLine = originalLine.replace(
+            new RegExp(`\\b${variable}\\b`),
+            `_${variable}`,
+          );
         }
 
         if (newLine !== originalLine) {
@@ -109,7 +129,7 @@ function fixUnusedVariables(filePath, unusedVars) {
       fs.writeFileSync(backupPath, content);
 
       // Write fixed content
-      fs.writeFileSync(filePath, lines.join('\n'));
+      fs.writeFileSync(filePath, lines.join("\n"));
       console.log(`✅ Fixed ${fixCount} unused variables in ${filePath}`);
       return fixCount;
     } else {
@@ -124,18 +144,18 @@ function fixUnusedVariables(filePath, unusedVars) {
 
 // Main execution
 function main() {
-  console.log('🔧 Targeted Unused Variable Fix Script');
-  console.log('=====================================');
+  console.log("🔧 Targeted Unused Variable Fix Script");
+  console.log("=====================================");
 
   const filesWithUnusedVars = getFilesWithUnusedVars();
 
   if (filesWithUnusedVars.size === 0) {
-    console.log('✅ No unused variables found!');
+    console.log("✅ No unused variables found!");
     return;
   }
 
   console.log(`📁 Found unused variables in ${filesWithUnusedVars.size} files`);
-  console.log('');
+  console.log("");
 
   let totalFixes = 0;
   let filesFixed = 0;
@@ -144,28 +164,32 @@ function main() {
   const filesToProcess = Array.from(filesWithUnusedVars.entries()).slice(0, 10);
 
   filesToProcess.forEach(([filePath, unusedVars]) => {
-    console.log(`📝 Processing ${filePath} (${unusedVars.length} unused variables):`);
+    console.log(
+      `📝 Processing ${filePath} (${unusedVars.length} unused variables):`,
+    );
     const fixes = fixUnusedVariables(filePath, unusedVars);
     if (fixes > 0) {
       filesFixed++;
       totalFixes += fixes;
     }
-    console.log('');
+    console.log("");
   });
 
-  console.log('📊 Summary:');
+  console.log("📊 Summary:");
   console.log(`   Files processed: ${filesToProcess.length}`);
   console.log(`   Files fixed: ${filesFixed}`);
   console.log(`   Total fixes: ${totalFixes}`);
 
   if (totalFixes > 0) {
-    console.log('');
-    console.log('🧪 Next steps:');
+    console.log("");
+    console.log("🧪 Next steps:");
     console.log(
       '   1. Check unused variable count: yarn lint 2>&1 | grep "no-unused-vars" | wc -l',
     );
-    console.log('   2. Verify build: yarn tsc --noEmit --skipLibCheck');
-    console.log('   3. If issues occur, restore from .unused-vars-backup files');
+    console.log("   2. Verify build: yarn tsc --noEmit --skipLibCheck");
+    console.log(
+      "   3. If issues occur, restore from .unused-vars-backup files",
+    );
   }
 }
 

@@ -9,11 +9,11 @@
 (function () {
   // Be defensive from the start - all code runs in try-catch
   try {
-    console.log('[DummyPopup] Initializing comprehensive Chrome API mocks...');
+    console.log("[DummyPopup] Initializing comprehensive Chrome API mocks...");
 
     // Check if already initialized and working properly
     if (window.__dummyPopupInitialized && window.popup && window.popup.create) {
-      console.log('[DummyPopup] Already initialized properly');
+      console.log("[DummyPopup] Already initialized properly");
       return;
     }
 
@@ -30,30 +30,36 @@
     window.popup.create =
       window.popup.create ||
       function (options) {
-        console.log('[DummyPopup] popup.create() called with:', options);
+        console.log("[DummyPopup] popup.create() called with:", options);
         return {
           show: function () {
-            console.log('[DummyPopup] popup.show() called');
+            console.log("[DummyPopup] popup.show() called");
             return this;
           },
           hide: function () {
-            console.log('[DummyPopup] popup.hide() called');
+            console.log("[DummyPopup] popup.hide() called");
             return this;
           },
           update: function (updateOptions) {
-            console.log('[DummyPopup] popup.update() called with:', updateOptions);
+            console.log(
+              "[DummyPopup] popup.update() called with:",
+              updateOptions,
+            );
             return this;
           },
           on: function (event, handler) {
-            console.log('[DummyPopup] popup.on() called for event:', event);
+            console.log("[DummyPopup] popup.on() called for event:", event);
             return {
               off: function () {
-                console.log('[DummyPopup] popup.off() called for event:', event);
+                console.log(
+                  "[DummyPopup] popup.off() called for event:",
+                  event,
+                );
               },
             };
           },
           trigger: function (event, data) {
-            console.log('[DummyPopup] popup.trigger() called');
+            console.log("[DummyPopup] popup.trigger() called");
             return this;
           },
         };
@@ -63,31 +69,34 @@
     window.popup.show =
       window.popup.show ||
       function () {
-        console.log('[DummyPopup] window.popup.show() called');
+        console.log("[DummyPopup] window.popup.show() called");
         return this;
       };
 
     window.popup.hide =
       window.popup.hide ||
       function () {
-        console.log('[DummyPopup] window.popup.hide() called');
+        console.log("[DummyPopup] window.popup.hide() called");
         return this;
       };
 
     window.popup.update =
       window.popup.update ||
       function (options) {
-        console.log('[DummyPopup] window.popup.update() called with:', options);
+        console.log("[DummyPopup] window.popup.update() called with:", options);
         return this;
       };
 
     window.popup.on =
       window.popup.on ||
       function (event, handler) {
-        console.log('[DummyPopup] window.popup.on() called for event:', event);
+        console.log("[DummyPopup] window.popup.on() called for event:", event);
         return {
           off: function () {
-            console.log('[DummyPopup] window.popup.off() called for event:', event);
+            console.log(
+              "[DummyPopup] window.popup.off() called for event:",
+              event,
+            );
           },
         };
       };
@@ -95,7 +104,10 @@
     window.popup.trigger =
       window.popup.trigger ||
       function (event, data) {
-        console.log('[DummyPopup] window.popup.trigger() called with event:', event);
+        console.log(
+          "[DummyPopup] window.popup.trigger() called with event:",
+          event,
+        );
         return this;
       };
 
@@ -109,42 +121,54 @@
     // Initialize tabs API with all methods
     window.chrome.tabs = window.chrome.tabs || {
       create: function (options) {
-        console.log('[DummyPopup] chrome.tabs.create() called with:', options);
+        console.log("[DummyPopup] chrome.tabs.create() called with:", options);
 
         // Actually try to open a new tab if URL is provided
         if (options && options.url) {
           try {
-            window.open(options.url, '_blank');
+            window.open(options.url, "_blank");
           } catch (e) {
-            console.warn('[DummyPopup] Failed to open URL:', e);
+            console.warn("[DummyPopup] Failed to open URL:", e);
           }
         }
 
-        return Promise.resolve({ id: 999, url: options?.url || 'about:blank' });
+        return Promise.resolve({ id: 999, url: options?.url || "about:blank" });
       },
 
       query: function (queryInfo) {
-        console.log('[DummyPopup] chrome.tabs.query() called with:', queryInfo);
-        return Promise.resolve([{ id: 1, active: true, windowId: 1, url: window.location.href }]);
+        console.log("[DummyPopup] chrome.tabs.query() called with:", queryInfo);
+        return Promise.resolve([
+          { id: 1, active: true, windowId: 1, url: window.location.href },
+        ]);
       },
 
       update: function (tabId, updateProperties) {
-        console.log('[DummyPopup] chrome.tabs.update() called with:', tabId, updateProperties);
+        console.log(
+          "[DummyPopup] chrome.tabs.update() called with:",
+          tabId,
+          updateProperties,
+        );
         return Promise.resolve({ id: tabId || 1 });
       },
 
       get: function (tabId) {
-        console.log('[DummyPopup] chrome.tabs.get() called with tabId:', tabId);
+        console.log("[DummyPopup] chrome.tabs.get() called with tabId:", tabId);
         return Promise.resolve({ id: tabId || 1, url: window.location.href });
       },
 
       remove: function (tabId) {
-        console.log('[DummyPopup] chrome.tabs.remove() called with tabId:', tabId);
+        console.log(
+          "[DummyPopup] chrome.tabs.remove() called with tabId:",
+          tabId,
+        );
         return Promise.resolve();
       },
 
       reload: function (tabId) {
-        console.log('[DummyPopup] chrome.tabs.reload() called with tabId:', tabId);
+        console.log(
+          "[DummyPopup] chrome.tabs.reload() called with tabId:",
+          tabId,
+        );
         return Promise.resolve();
       },
     };
@@ -154,15 +178,18 @@
       lastError: null,
 
       getURL: function (path) {
-        return window.location.origin + '/' + path;
+        return window.location.origin + "/" + path;
       },
 
       sendMessage: function (message, responseCallback) {
-        console.log('[DummyPopup] chrome.runtime.sendMessage() called with:', message);
+        console.log(
+          "[DummyPopup] chrome.runtime.sendMessage() called with:",
+          message,
+        );
 
-        if (typeof responseCallback === 'function') {
+        if (typeof responseCallback === "function") {
           setTimeout(function () {
-            responseCallback({ success: true, message: 'Dummy response' });
+            responseCallback({ success: true, message: "Dummy response" });
           }, 50);
         }
 
@@ -171,43 +198,58 @@
 
       onMessage: {
         addListener: function (callback) {
-          console.log('[DummyPopup] chrome.runtime.onMessage.addListener() called');
+          console.log(
+            "[DummyPopup] chrome.runtime.onMessage.addListener() called",
+          );
         },
 
         removeListener: function (callback) {
-          console.log('[DummyPopup] chrome.runtime.onMessage.removeListener() called');
+          console.log(
+            "[DummyPopup] chrome.runtime.onMessage.removeListener() called",
+          );
         },
       },
 
       connect: function (connectInfo) {
-        console.log('[DummyPopup] chrome.runtime.connect() called with:', connectInfo);
+        console.log(
+          "[DummyPopup] chrome.runtime.connect() called with:",
+          connectInfo,
+        );
         return {
           postMessage: function (message) {
-            console.log('[DummyPopup] port.postMessage() called with:', message);
+            console.log(
+              "[DummyPopup] port.postMessage() called with:",
+              message,
+            );
           },
           onMessage: {
             addListener: function (callback) {
-              console.log('[DummyPopup] port.onMessage.addListener() called');
+              console.log("[DummyPopup] port.onMessage.addListener() called");
             },
           },
           onDisconnect: {
             addListener: function (callback) {
-              console.log('[DummyPopup] port.onDisconnect.addListener() called');
+              console.log(
+                "[DummyPopup] port.onDisconnect.addListener() called",
+              );
             },
           },
         };
       },
 
-      id: 'dummy-extension-id',
+      id: "dummy-extension-id",
     };
 
     // Initialize storage API
     window.chrome.storage = window.chrome.storage || {
       local: {
         get: function (keys, callback) {
-          console.log('[DummyPopup] chrome.storage.local.get() called with:', keys);
+          console.log(
+            "[DummyPopup] chrome.storage.local.get() called with:",
+            keys,
+          );
 
-          if (typeof callback === 'function') {
+          if (typeof callback === "function") {
             setTimeout(function () {
               callback({});
             }, 50);
@@ -217,9 +259,12 @@
         },
 
         set: function (items, callback) {
-          console.log('[DummyPopup] chrome.storage.local.set() called with:', items);
+          console.log(
+            "[DummyPopup] chrome.storage.local.set() called with:",
+            items,
+          );
 
-          if (typeof callback === 'function') {
+          if (typeof callback === "function") {
             setTimeout(callback, 50);
           }
 
@@ -227,9 +272,12 @@
         },
 
         remove: function (keys, callback) {
-          console.log('[DummyPopup] chrome.storage.local.remove() called with:', keys);
+          console.log(
+            "[DummyPopup] chrome.storage.local.remove() called with:",
+            keys,
+          );
 
-          if (typeof callback === 'function') {
+          if (typeof callback === "function") {
             setTimeout(callback, 50);
           }
 
@@ -263,7 +311,7 @@
     window.lockdown =
       window.lockdown ||
       function () {
-        console.log('[DummyPopup] lockdown() called');
+        console.log("[DummyPopup] lockdown() called");
         return true;
       };
 
@@ -281,20 +329,20 @@
 
     // Install global error handlers to catch any remaining popup.js errors
     window.addEventListener(
-      'error',
+      "error",
       function (event) {
         if (
           event.message &&
-          (event.message.includes('popup') ||
-            event.message.includes('chrome') ||
-            event.message.includes('Cannot read properties of undefined'))
+          (event.message.includes("popup") ||
+            event.message.includes("chrome") ||
+            event.message.includes("Cannot read properties of undefined"))
         ) {
-          console.warn('[DummyPopup] Intercepted error:', event.message);
+          console.warn("[DummyPopup] Intercepted error:", event.message);
 
           // If we get an error about popup, reinitialize it
           if (
-            event.message.includes('popup') ||
-            event.message.includes('Cannot read properties of undefined')
+            event.message.includes("popup") ||
+            event.message.includes("Cannot read properties of undefined")
           ) {
             // Re-establish popup object
             window.popup = window.popup || {};
@@ -322,9 +370,11 @@
       true,
     );
 
-    console.log('[DummyPopup] Successfully initialized all Chrome extension APIs and popup mocks');
+    console.log(
+      "[DummyPopup] Successfully initialized all Chrome extension APIs and popup mocks",
+    );
   } catch (error) {
-    console.warn('[DummyPopup] Error during initialization:', error);
+    console.warn("[DummyPopup] Error during initialization:", error);
 
     // Final emergency fallbacks
     try {
@@ -363,7 +413,9 @@ window.checkChromeAPIMockStatus = function () {
     chromeObject: !!window.chrome,
     tabsAPI: !!(window.chrome && window.chrome.tabs),
     popupObject: !!window.popup,
-    popupCreateMethod: !!(window.popup && typeof window.popup.create === 'function'),
+    popupCreateMethod: !!(
+      window.popup && typeof window.popup.create === "function"
+    ),
     initialized: !!window.__dummyPopupInitialized,
   };
 };

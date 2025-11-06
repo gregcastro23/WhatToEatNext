@@ -143,7 +143,7 @@ interface FusionRecipeProfile {
   fusionIngredients: Array<{
     ingredient: UnifiedIngredient;
     sourceCuisine: string;
-    fusionRole: 'base' | 'accent' | 'bridge' | 'innovation';
+    fusionRole: "base" | "accent" | "bridge" | "innovation";
   }>;
   fusionCookingMethods: Array<{
     method: EnhancedCookingMethod;
@@ -325,8 +325,8 @@ Success Rate: 100.0%
 
 ```typescript
 function generateMonicaOptimizedRecipe(
-  criteria: RecipeBuildingCriteria
-): RecipeGenerationResult
+  criteria: RecipeBuildingCriteria,
+): RecipeGenerationResult;
 ```
 
 #### **Adapt Recipe for Season**
@@ -334,8 +334,8 @@ function generateMonicaOptimizedRecipe(
 ```typescript
 function adaptRecipeForSeason(
   recipe: EnhancedRecipe,
-  season: Season
-): SeasonalRecipeAdaptation
+  season: Season,
+): SeasonalRecipeAdaptation;
 ```
 
 #### **Generate Fusion Recipe**
@@ -343,8 +343,8 @@ function adaptRecipeForSeason(
 ```typescript
 function generateFusionRecipe(
   cuisines: string[],
-  criteria: RecipeBuildingCriteria
-): FusionRecipeProfile
+  criteria: RecipeBuildingCriteria,
+): FusionRecipeProfile;
 ```
 
 #### **Generate Planetary Recipe Recommendation**
@@ -355,8 +355,8 @@ function generatePlanetaryRecipeRecommendation(
     currentPlanetaryHour: PlanetName;
     lunarPhase: LunarPhase;
     zodiacSign?: ZodiacSign;
-  }
-): PlanetaryRecipeRecommendation
+  },
+): PlanetaryRecipeRecommendation;
 ```
 
 ### **Unified Recipe Service Functions**
@@ -366,8 +366,8 @@ function generatePlanetaryRecipeRecommendation(
 ```typescript
 async function searchRecipes(
   criteria: RecipeSearchCriteria,
-  options?: RecipeRecommendationOptions
-): Promise<UnifiedRecipeResult[]>
+  options?: RecipeRecommendationOptions,
+): Promise<UnifiedRecipeResult[]>;
 ```
 
 #### **Get Recipe Recommendations**
@@ -375,16 +375,16 @@ async function searchRecipes(
 ```typescript
 async function getRecipeRecommendations(
   criteria: RecipeSearchCriteria,
-  options?: RecipeRecommendationOptions
-): Promise<UnifiedRecipeResult[]>
+  options?: RecipeRecommendationOptions,
+): Promise<UnifiedRecipeResult[]>;
 ```
 
 #### **Generate Recipe**
 
 ```typescript
 async function generateRecipe(
-  criteria: RecipeBuildingCriteria
-): Promise<UnifiedRecipeResult>
+  criteria: RecipeBuildingCriteria,
+): Promise<UnifiedRecipeResult>;
 ```
 
 ---
@@ -441,64 +441,67 @@ All existing recipe service functions now benefit from:
 ### **Basic Recipe Generation**
 
 ```typescript
-import { generateMonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
+import { generateMonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 
 const criteria = {
-  cuisine: 'italian',
-  season: 'spring',
+  cuisine: "italian",
+  season: "spring",
   servings: 4,
   targetKalchm: 1.1,
-  elementalPreference: { Fire: 0.4, earth: 0.3 }
+  elementalPreference: { Fire: 0.4, earth: 0.3 },
 };
 
 const result = generateMonicaOptimizedRecipe(criteria);
-console.log('Generated recipe:', result.recipe.name);
-console.log('Monica optimization score:', result.recipe.monicaOptimization.optimizationScore);
+console.log("Generated recipe:", result.recipe.name);
+console.log(
+  "Monica optimization score:",
+  result.recipe.monicaOptimization.optimizationScore,
+);
 ```
 
 ### **Seasonal Recipe Adaptation**
 
 ```typescript
-import { adaptRecipeForSeason } from '@/data/unified/recipeBuilding';
+import { adaptRecipeForSeason } from "@/data/unified/recipeBuilding";
 
-const adaptedRecipe = adaptRecipeForSeason(existingRecipe, 'summer');
-console.log('Seasonal score:', adaptedRecipe.seasonalScore);
-console.log('Kalchm improvement:', adaptedRecipe.kalchmImprovement);
+const adaptedRecipe = adaptRecipeForSeason(existingRecipe, "summer");
+console.log("Seasonal score:", adaptedRecipe.seasonalScore);
+console.log("Kalchm improvement:", adaptedRecipe.kalchmImprovement);
 ```
 
 ### **Fusion Recipe Generation**
 
 ```typescript
-import { generateFusionRecipe } from '@/data/unified/recipeBuilding';
+import { generateFusionRecipe } from "@/data/unified/recipeBuilding";
 
-const fusionProfile = generateFusionRecipe(
-  ['italian', 'japanese'],
-  { servings: 4, season: 'autumn' }
-);
-console.log('Cultural harmony:', fusionProfile.culturalHarmony);
-console.log('Innovation score:', fusionProfile.innovationScore);
+const fusionProfile = generateFusionRecipe(["italian", "japanese"], {
+  servings: 4,
+  season: "autumn",
+});
+console.log("Cultural harmony:", fusionProfile.culturalHarmony);
+console.log("Innovation score:", fusionProfile.innovationScore);
 ```
 
 ### **Unified Recipe Service**
 
 ```typescript
-import { searchRecipes } from '@/services/unifiedRecipeService';
+import { searchRecipes } from "@/services/unifiedRecipeService";
 
 const results = await searchRecipes(
   {
-    cuisine: 'mexican',
+    cuisine: "mexican",
     isVegetarian: true,
     targetKalchm: 1.0,
-    season: 'winter'
+    season: "winter",
   },
   {
     optimizeForSeason: true,
     includeFusionSuggestions: true,
-    maxResults: 5
-  }
+    maxResults: 5,
+  },
 );
 
-results.forEach(result => {
+results.forEach((result) => {
   console.log(`Recipe: ${result.recipe.name}`);
   console.log(`Confidence: ${result.confidence}`);
   console.log(`Seasonally adapted: ${result.metadata.seasonallyAdapted}`);

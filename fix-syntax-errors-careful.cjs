@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
-const { globSync } = require('glob');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+const { globSync } = require("glob");
 
 /**
  * Careful Syntax Error Fixing Script
@@ -13,12 +13,12 @@ const { globSync } = require('glob');
 class SyntaxErrorFixer {
   constructor() {
     this.fixedFiles = new Set();
-    this.backupDir = '.syntax-fix-backup';
+    this.backupDir = ".syntax-fix-backup";
   }
 
   async run() {
-    console.log('🔧 Starting Careful Syntax Error Fixing...');
-    console.log('Target: Fix syntax errors and restore valid TypeScript');
+    console.log("🔧 Starting Careful Syntax Error Fixing...");
+    console.log("Target: Fix syntax errors and restore valid TypeScript");
 
     try {
       // Create backup directory
@@ -38,11 +38,10 @@ class SyntaxErrorFixer {
       // Final validation
       await this.validateFixes();
 
-      console.log('✅ Syntax error fixing completed!');
+      console.log("✅ Syntax error fixing completed!");
       this.printSummary();
-
     } catch (error) {
-      console.error('❌ Error during fixing process:', error.message);
+      console.error("❌ Error during fixing process:", error.message);
       process.exit(1);
     }
   }
@@ -52,17 +51,21 @@ class SyntaxErrorFixer {
    */
   async getFilesWithSyntaxErrors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      const output = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
       return [];
     } catch (error) {
-      const lines = error.stdout.split('\n');
+      const lines = error.stdout.split("\n");
       const files = new Set();
 
       for (const line of lines) {
-        if (line.includes('error TS1005') || line.includes('error TS1003') || line.includes('error TS1128')) {
+        if (
+          line.includes("error TS1005") ||
+          line.includes("error TS1003") ||
+          line.includes("error TS1128")
+        ) {
           const match = line.match(/^([^:]+):/);
           if (match && fs.existsSync(match[1])) {
             files.add(match[1]);
@@ -83,7 +86,7 @@ class SyntaxErrorFixer {
 
       // Create backup
       const backupPath = path.join(this.backupDir, path.basename(filePath));
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       fs.writeFileSync(backupPath, content);
 
       let fixed = content;
@@ -94,7 +97,8 @@ class SyntaxErrorFixer {
         // Fix broken property access patterns
         {
           pattern: /\(\$1 as Record<string, unknown>\)\?\.\$2/g,
-          replacement: (match, p1, p2) => `(${p1} as Record<string, unknown>)?.${p2}`
+          replacement: (match, p1, p2) =>
+            `(${p1} as Record<string, unknown>)?.${p2}`,
         },
 
         // Fix broken variable references
@@ -103,53 +107,56 @@ class SyntaxErrorFixer {
           replacement: (match, num) => {
             // This shouldn't happen in valid code, likely a regex artifact
             return match;
-          }
+          },
         },
 
         // Fix broken type assertions
         {
           pattern: /\(\(\$1 as any\) \|\| \{\}\)/g,
-          replacement: '(($1 as any) || {})'
+          replacement: "(($1 as any) || {})",
         },
 
         // Fix malformed property access
         {
           pattern: /\?\.\$(\w+)/g,
-          replacement: '?.$1'
+          replacement: "?.$1",
         },
 
         // Fix broken as unknown patterns
         {
           pattern: /as unknown as unknown/g,
-          replacement: 'as any'
+          replacement: "as any",
         },
 
         // Fix broken Record patterns
         {
           pattern: /Record<string,\s*unknown>\s*\?\.\s*(\w+)/g,
-          replacement: 'Record<string, unknown>)?.$1'
+          replacement: "Record<string, unknown>)?.$1",
         },
 
         // Fix specific broken patterns we know about
         {
-          pattern: /inputData\?\.\(primary\|element\|secondary\|strength\|compatibility\)/g,
+          pattern:
+            /inputData\?\.\(primary\|element\|secondary\|strength\|compatibility\)/g,
           replacement: (match) => {
             const prop = match.match(/\(([^)]+)\)/)[1];
             return `(inputData as Record<string, unknown>)?.${prop}`;
-          }
+          },
         },
 
         // Fix broken function calls
         {
           pattern: /\(\(\) => true\)\(/g,
-          replacement: '(() => true)('
+          replacement: "(() => true)(",
         },
 
         // Fix broken object returns
         {
-          pattern: /\(\(\) => \{ Fire: 0\.25, Water: 0\.25, Earth: 0\.25, Air: 0\.25 \}\)\(/g,
-          replacement: '(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))('
-        }
+          pattern:
+            /\(\(\) => \{ Fire: 0\.25, Water: 0\.25, Earth: 0\.25, Air: 0\.25 \}\)\(/g,
+          replacement:
+            "(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(",
+        },
       ];
 
       // Apply syntax fixes
@@ -172,7 +179,6 @@ class SyntaxErrorFixer {
         this.fixedFiles.add(filePath);
         console.log(`  ✅ Fixed syntax errors in ${filePath}`);
       }
-
     } catch (error) {
       console.error(`  ❌ Error fixing ${filePath}:`, error.message);
     }
@@ -187,49 +193,40 @@ class SyntaxErrorFixer {
     // Fix broken import statements
     fixed = fixed.replace(
       /\/\/ ElementalAffinity import removed - not exported/g,
-      '// ElementalAffinity import removed - not exported'
+      "// ElementalAffinity import removed - not exported",
     );
 
     fixed = fixed.replace(
       /\/\/ SearchFilters import removed - module not found/g,
-      '// SearchFilters import removed - module not found'
+      "// SearchFilters import removed - module not found",
     );
 
     // Fix broken type definitions
-    fixed = fixed.replace(
-      /: any \{/g,
-      ': any {'
-    );
+    fixed = fixed.replace(/: any \{/g, ": any {");
 
     // Fix broken function parameters
-    fixed = fixed.replace(
-      /\((\w+): any\)/g,
-      '($1: any)'
-    );
+    fixed = fixed.replace(/\((\w+): any\)/g, "($1: any)");
 
     // Fix broken array access
     fixed = fixed.replace(
       /\[pattern\.category as string\]/g,
-      '[pattern.category as string]'
+      "[pattern.category as string]",
     );
 
     // Fix broken arithmetic operations
     fixed = fixed.replace(
       /\(\((\w+) as any\)\?\.(\w+) \|\| 0\) \* (0\.\d+)/g,
-      '(($1 as any)?.$2 || 0) * $3'
+      "(($1 as any)?.$2 || 0) * $3",
     );
 
     // Fix broken spread operators
     fixed = fixed.replace(
       /\.\.\.\(\(\$1 as any\) \|\| \{\}\), searchScore/g,
-      '...(($1 as any) || {}), searchScore'
+      "...(($1 as any) || {}), searchScore",
     );
 
     // Fix broken conditional expressions
-    fixed = fixed.replace(
-      /\?\s*\.\s*(\w+)/g,
-      '?.$1'
-    );
+    fixed = fixed.replace(/\?\s*\.\s*(\w+)/g, "?.$1");
 
     return fixed;
   }
@@ -238,30 +235,33 @@ class SyntaxErrorFixer {
    * Validate that fixes were successful
    */
   async validateFixes() {
-    console.log('\n🔍 Validating syntax fixes...');
+    console.log("\n🔍 Validating syntax fixes...");
 
     try {
-      execSync('yarn tsc --noEmit --skipLibCheck', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      execSync("yarn tsc --noEmit --skipLibCheck", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
 
-      console.log('✅ TypeScript compilation successful - Zero errors achieved!');
+      console.log(
+        "✅ TypeScript compilation successful - Zero errors achieved!",
+      );
       return true;
-
     } catch (error) {
       const errorCount = (error.stdout.match(/error TS/g) || []).length;
       console.log(`⚠️  ${errorCount} TypeScript errors remaining`);
 
       // Get error breakdown
-      const syntaxErrors = (error.stdout.match(/error TS1005|error TS1003|error TS1128/g) || []).length;
+      const syntaxErrors = (
+        error.stdout.match(/error TS1005|error TS1003|error TS1128/g) || []
+      ).length;
       const otherErrors = errorCount - syntaxErrors;
 
       console.log(`  - Syntax errors: ${syntaxErrors}`);
       console.log(`  - Other errors: ${otherErrors}`);
 
       if (syntaxErrors < 50) {
-        console.log('🎯 Good progress on syntax errors');
+        console.log("🎯 Good progress on syntax errors");
       }
 
       return false;
@@ -272,11 +272,11 @@ class SyntaxErrorFixer {
    * Print summary of fixes applied
    */
   printSummary() {
-    console.log('\n📊 Syntax Fix Summary:');
+    console.log("\n📊 Syntax Fix Summary:");
     console.log(`Files modified: ${this.fixedFiles.size}`);
     console.log(`Backup directory: ${this.backupDir}`);
-    console.log('\n🎯 Target: Zero TypeScript compilation errors');
-    console.log('✅ Syntax fixing process completed');
+    console.log("\n🎯 Target: Zero TypeScript compilation errors");
+    console.log("✅ Syntax fixing process completed");
   }
 }
 

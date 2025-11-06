@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 /**
  * Script to remove redundant type assertions from TypeScript files
@@ -25,44 +25,44 @@ class RedundantTypeAssertionRemover {
       // Pattern 1: Redundant string assertions on string literals
       {
         pattern: /(['"`][^'"`]*['"`])\s+as\s+string/g,
-        replacement: '$1',
-        description: 'String literal as string'
+        replacement: "$1",
+        description: "String literal as string",
       },
 
       // Pattern 2: Redundant number assertions on numeric literals
       {
         pattern: /(\d+(?:\.\d+)?)\s+as\s+number/g,
-        replacement: '$1',
-        description: 'Number literal as number'
+        replacement: "$1",
+        description: "Number literal as number",
       },
 
       // Pattern 3: Redundant boolean assertions on boolean literals
       {
         pattern: /(true|false)\s+as\s+boolean/g,
-        replacement: '$1',
-        description: 'Boolean literal as boolean'
+        replacement: "$1",
+        description: "Boolean literal as boolean",
       },
 
       // Pattern 4: Redundant array assertions on array literals
       {
         pattern: /(\[[^\]]*\])\s+as\s+\w+\[\]/g,
-        replacement: '$1',
-        description: 'Array literal as array type'
+        replacement: "$1",
+        description: "Array literal as array type",
       },
 
       // Pattern 5: Double type assertions (as unknown as X where X is obvious)
       {
         pattern: /\(\s*([^)]+)\s+as\s+unknown\s*\)\s+as\s+string/g,
-        replacement: '($1 as string)',
-        description: 'Double assertion to string'
+        replacement: "($1 as string)",
+        description: "Double assertion to string",
       },
 
       // Pattern 6: Redundant const assertions on already const values
       {
         pattern: /const\s+(\w+)\s*=\s*(['"`][^'"`]*['"`])\s+as\s+const/g,
-        replacement: 'const $1 = $2',
-        description: 'Const assertion on string literal'
-      }
+        replacement: "const $1 = $2",
+        description: "Const assertion on string literal",
+      },
     ];
   }
 
@@ -86,7 +86,7 @@ class RedundantTypeAssertionRemover {
       /catch\s*\([^)]*\)\s*{[^}]*as\s+/,
 
       // Preserve assertions for external library compatibility
-      /as\s+any.*\/\/.*external|library|third-party/i
+      /as\s+any.*\/\/.*external|library|third-party/i,
     ];
   }
 
@@ -100,10 +100,12 @@ class RedundantTypeAssertionRemover {
     }
 
     // Skip node_modules and other excluded directories
-    if (filePath.includes('node_modules') ||
-        filePath.includes('.git') ||
-        filePath.includes('dist') ||
-        filePath.includes('build')) {
+    if (
+      filePath.includes("node_modules") ||
+      filePath.includes(".git") ||
+      filePath.includes("dist") ||
+      filePath.includes("build")
+    ) {
       return false;
     }
 
@@ -130,7 +132,7 @@ class RedundantTypeAssertionRemover {
    */
   processFile(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       let modifiedContent = content;
       let fileChanges = 0;
 
@@ -147,7 +149,10 @@ class RedundantTypeAssertionRemover {
           }
 
           // Apply the replacement
-          modifiedContent = modifiedContent.replace(match[0], replacement.replace(/\$(\d+)/g, (_, num) => match[parseInt(num)]));
+          modifiedContent = modifiedContent.replace(
+            match[0],
+            replacement.replace(/\$(\d+)/g, (_, num) => match[parseInt(num)]),
+          );
           fileChanges++;
           this.removedAssertions++;
 
@@ -158,10 +163,11 @@ class RedundantTypeAssertionRemover {
       // Only write file if changes were made
       if (fileChanges > 0) {
         fs.writeFileSync(filePath, modifiedContent);
-        console.log(`✅ Modified ${filePath} (${fileChanges} assertions removed)`);
+        console.log(
+          `✅ Modified ${filePath} (${fileChanges} assertions removed)`,
+        );
         this.processedFiles++;
       }
-
     } catch (error) {
       this.errors.push(`Error processing ${filePath}: ${error.message}`);
       console.error(`❌ Error processing ${filePath}: ${error.message}`);
@@ -182,7 +188,11 @@ class RedundantTypeAssertionRemover {
 
         if (entry.isDirectory()) {
           // Skip certain directories
-          if (!['node_modules', '.git', 'dist', 'build', '.next'].includes(entry.name)) {
+          if (
+            !["node_modules", ".git", "dist", "build", ".next"].includes(
+              entry.name,
+            )
+          ) {
             files.push(...this.findTypeScriptFiles(fullPath));
           }
         } else if (this.shouldProcessFile(fullPath)) {
@@ -201,15 +211,15 @@ class RedundantTypeAssertionRemover {
    */
   validateTypeScript() {
     try {
-      console.log('\n🔍 Validating TypeScript compilation...');
-      execSync('npx tsc --noEmit --skipLibCheck', {
-        stdio: 'pipe',
-        encoding: 'utf8'
+      console.log("\n🔍 Validating TypeScript compilation...");
+      execSync("npx tsc --noEmit --skipLibCheck", {
+        stdio: "pipe",
+        encoding: "utf8",
       });
-      console.log('✅ TypeScript compilation successful');
+      console.log("✅ TypeScript compilation successful");
       return true;
     } catch (error) {
-      console.error('❌ TypeScript compilation failed:');
+      console.error("❌ TypeScript compilation failed:");
       console.error(error.stdout || error.message);
       return false;
     }
@@ -219,10 +229,10 @@ class RedundantTypeAssertionRemover {
    * Main execution method
    */
   run() {
-    console.log('🚀 Starting redundant type assertion removal...\n');
+    console.log("🚀 Starting redundant type assertion removal...\n");
 
     // Find all TypeScript files in src directory
-    const files = this.findTypeScriptFiles('./src');
+    const files = this.findTypeScriptFiles("./src");
     console.log(`Found ${files.length} TypeScript files to process\n`);
 
     // Process each file
@@ -234,23 +244,27 @@ class RedundantTypeAssertionRemover {
     const compilationSuccess = this.validateTypeScript();
 
     // Report results
-    console.log('\n📊 Summary:');
+    console.log("\n📊 Summary:");
     console.log(`Files processed: ${this.processedFiles}`);
     console.log(`Assertions removed: ${this.removedAssertions}`);
     console.log(`Assertions preserved: ${this.skippedAssertions}`);
     console.log(`Errors encountered: ${this.errors.length}`);
 
     if (this.errors.length > 0) {
-      console.log('\n❌ Errors:');
-      this.errors.forEach(error => console.log(`  ${error}`));
+      console.log("\n❌ Errors:");
+      this.errors.forEach((error) => console.log(`  ${error}`));
     }
 
     if (!compilationSuccess) {
-      console.log('\n⚠️  TypeScript compilation failed. You may need to review the changes.');
+      console.log(
+        "\n⚠️  TypeScript compilation failed. You may need to review the changes.",
+      );
       process.exit(1);
     }
 
-    console.log('\n✅ Redundant type assertion removal completed successfully!');
+    console.log(
+      "\n✅ Redundant type assertion removal completed successfully!",
+    );
   }
 }
 

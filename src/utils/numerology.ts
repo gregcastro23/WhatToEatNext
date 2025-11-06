@@ -1,7 +1,7 @@
 /**
  * Utility for numerological calculations used in celestial and astrological contexts
  */
-import type { ElementalProperties } from '@/types/elemental';
+import type { ElementalProperties } from "@/types/elemental";
 
 export const celestialNumerology = {
   /**
@@ -27,7 +27,7 @@ export const celestialNumerology = {
     while (sum > 9) {
       sum = sum
         .toString()
-        .split('')
+        .split("")
         .reduce((acc, digit) => acc + parseInt(digit, 10), 0);
     }
 
@@ -39,15 +39,40 @@ export const celestialNumerology = {
    * Returns a number between 1-9
    */
   calculateNameNumber(name: string): number {
-    if (!name || name.trim() === '') return 9; // Default to 9 for empty input
+    if (!name || name.trim() === "") return 9; // Default to 9 for empty input
 
     // Basic letter to number mapping (A=1B=2, etc.)
     const letterValues: { [key: string]: number } = {
-      a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8, i: 9, j: 1, k: 2, l: 3, m: 4, n: 5, o: 6, p: 7, q: 8, r: 9, s: 1, t: 2, u: 3, v: 4, w: 5, x: 6, y: 7, z: 8
+      a: 1,
+      b: 2,
+      c: 3,
+      d: 4,
+      e: 5,
+      f: 6,
+      g: 7,
+      h: 8,
+      i: 9,
+      j: 1,
+      k: 2,
+      l: 3,
+      m: 4,
+      n: 5,
+      o: 6,
+      p: 7,
+      q: 8,
+      r: 9,
+      s: 1,
+      t: 2,
+      u: 3,
+      v: 4,
+      w: 5,
+      x: 6,
+      y: 7,
+      z: 8,
     };
 
     // Remove spaces and convert to lowercase
-    const processedName = name.toLowerCase().replace(/[^a-z]/g, '');
+    const processedName = name.toLowerCase().replace(/[^a-z]/g, "");
     let sum = 0;
 
     // Sum all letter values
@@ -60,7 +85,7 @@ export const celestialNumerology = {
     while (sum > 9) {
       sum = sum
         .toString()
-        .split('')
+        .split("")
         .reduce((acc, digit) => acc + parseInt(digit, 10), 0);
     }
 
@@ -75,19 +100,19 @@ export const celestialNumerology = {
     switch (number) {
       case 1:
       case 9:
-        return 'Fire';
+        return "Fire";
       case 2:
       case 7:
-        return 'Water';
+        return "Water";
       case 4:
       case 8:
-        return 'Earth';
+        return "Earth";
       case 3:
       case 5:
       case 6:
-        return 'Air';
+        return "Air";
       default:
-        return 'Fire'; // Default
+        return "Fire"; // Default
     }
   },
 
@@ -95,19 +120,24 @@ export const celestialNumerology = {
    * Calculate auspicious days for cooking certain recipes
    * Returns array of days of the week (0-6, where 0 is Sunday)
    */
-  getAuspiciousDays(recipeProfile: { elementalProperties?: ElementalProperties; astrologicalInfluences?: string[] }): number[] {
+  getAuspiciousDays(recipeProfile: {
+    elementalProperties?: ElementalProperties;
+    astrologicalInfluences?: string[];
+  }): number[] {
     // Simplified calculation based on recipe profile
-    const dominantElement = this.getDominantElement(recipeProfile.elementalProperties);
+    const dominantElement = this.getDominantElement(
+      recipeProfile.elementalProperties,
+    );
 
     // Map elements to auspicious days
     switch (dominantElement) {
-      case 'Fire':
+      case "Fire":
         return [0, 3]; // Sunday, Wednesday
-      case 'Earth':
+      case "Earth":
         return [1, 6]; // Monday, Saturday
-      case 'Air':
+      case "Air":
         return [2, 5]; // Tuesday, Friday
-      case 'Water':
+      case "Water":
         return [4, 6]; // Thursday, Saturday
       default:
         return [0, 1, 2, 3, 4, 5, 6]; // All days are fine
@@ -118,11 +148,11 @@ export const celestialNumerology = {
    * Get the dominant element from elemental properties
    */
   getDominantElement(elementalProperties?: ElementalProperties): string {
-    if (!elementalProperties) return 'Fire';
+    if (!elementalProperties) return "Fire";
     // Find the element with the highest value
-    let maxElement: keyof ElementalProperties = 'Fire';
+    let maxElement: keyof ElementalProperties = "Fire";
     let maxValue = -Infinity;
-    (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
+    (["Fire", "Water", "Earth", "Air"] as const).forEach((element) => {
       const value = elementalProperties[element] ?? 0;
       if (value > maxValue) {
         maxValue = value;
@@ -131,7 +161,7 @@ export const celestialNumerology = {
     });
 
     return maxElement;
-  }
-}
+  },
+};
 
 export default celestialNumerology;

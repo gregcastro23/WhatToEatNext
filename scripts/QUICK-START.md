@@ -30,16 +30,19 @@ yarn lint 2>&1 | grep "Parsing error" | wc -l
 ## What These Scripts Do
 
 ### Script 1: fix-pattern-2-template-literals.cjs
+
 **Fixes**: `$) {variable}` → `${variable}`
 **Test Results**: ✅ 4/4 fixed (100% success rate)
 **Safety**: 🟢 Very Low Risk
 
 ### Script 2: fix-pattern-1-function-parens.cjs
+
 **Fixes**: Missing `(` in function definitions
 **Test Results**: ✅ 2/2 fixed (100% success rate)
 **Safety**: 🟡 Low Risk
 
 ### Script 3: fix-pattern-3-5-type-syntax.cjs
+
 **Fixes**: Multiple type/object syntax issues
 **Test Results**: ✅ 6/9 fixed (67% success rate)
 **Safety**: 🟡 Low-Medium Risk
@@ -68,12 +71,15 @@ Pattern 5 (Comma not colon):    8 → 3  ⚠️  62.5% fixed
 ## Recommended Workflow
 
 ### Step 1: Run Test Suite (2 minutes)
+
 ```bash
 node scripts/test-all-patterns.cjs
 ```
+
 Should output: `✅ ALL TESTS PASSED`
 
 ### Step 2: Dry Run on Codebase (5 minutes each)
+
 ```bash
 # Run each script in dry-run mode
 node scripts/fix-pattern-2-template-literals.cjs
@@ -82,12 +88,15 @@ node scripts/fix-pattern-3-5-type-syntax.cjs
 ```
 
 ### Step 3: Review Output
+
 Check what changes would be made. Look for:
+
 - Number of files affected
 - Number of instances found
 - Log files for details
 
 ### Step 4: Apply Fixes (5 minutes each)
+
 ```bash
 # Apply in order of safety (safest first)
 node scripts/fix-pattern-2-template-literals.cjs --apply
@@ -101,6 +110,7 @@ node scripts/fix-pattern-3-5-type-syntax.cjs --apply
 ```
 
 ### Step 5: Verify Build Still Works
+
 ```bash
 yarn build
 ```
@@ -137,6 +147,7 @@ find . -name "*.backup-*" -mtime -1 | head -20
 ## Troubleshooting
 
 ### "Module not found" error
+
 ```bash
 # Run from project root, not scripts directory
 cd /Users/GregCastro/Desktop/WhatToEatNext
@@ -144,11 +155,14 @@ node scripts/fix-pattern-2-template-literals.cjs
 ```
 
 ### Scripts run too slow
+
 The scripts lint each file individually for verification. This is intentional for safety. Expect:
+
 - Dry run: ~5-10 minutes
 - Apply: ~10-15 minutes
 
 ### Errors increased after fix
+
 The script automatically restores from backup. Check the log file to see what went wrong.
 
 ## Files Created
@@ -163,12 +177,14 @@ The script automatically restores from backup. Check the log file to see what we
 ## Next Steps After Running
 
 1. **Commit the fixes** (if successful)
+
    ```bash
    git add .
    git commit -m "fix: Automated parsing error fixes (patterns 1-5)"
    ```
 
 2. **Review remaining errors**
+
    ```bash
    yarn lint 2>&1 | grep "Parsing error" | wc -l
    ```

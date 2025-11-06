@@ -34,8 +34,8 @@ First, identify components that directly import and use legacy services:
 
 ```jsx
 // Before (Legacy approach)
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { AstrologicalService } from '@/services/AstrologicalService';
+import { ElementalCalculator } from "@/services/ElementalCalculator";
+import { AstrologicalService } from "@/services/AstrologicalService";
 
 const MyComponent = () => {
   // Direct service usage
@@ -51,13 +51,10 @@ Replace direct service imports with the `useServices` hook:
 
 ```jsx
 // After (New approach)
-import { useServices } from '@/hooks/useServices';
+import { useServices } from "@/hooks/useServices";
 
 const MyComponent = () => {
-  const {
-    astrologyService,
-    alchemicalEngine
-  } = useServices();
+  const { astrologyService, alchemicalEngine } = useServices();
   // ...
 };
 ```
@@ -87,11 +84,7 @@ useEffect(() => {
 Use the loading and error states provided by the `useServices` hook:
 
 ```jsx
-const {
-  isLoading,
-  error,
-  astrologyService
-} = useServices();
+const { isLoading, error, astrologyService } = useServices();
 
 // Show loading state
 if (isLoading) {
@@ -115,7 +108,7 @@ The `useServices` hook provides:
 Basic usage:
 
 ```jsx
-import { useServices } from '@/hooks/useServices';
+import { useServices } from "@/hooks/useServices";
 
 function MyComponent() {
   const {
@@ -131,7 +124,7 @@ function MyComponent() {
     ingredientService,
     recipeService,
     recommendationService,
-    alchemicalRecommendationService
+    alchemicalRecommendationService,
   } = useServices();
 
   // Component logic...
@@ -158,7 +151,7 @@ function MyComponent() {
         const result = await astrologyService.getCurrentPlanetaryPositions();
         setData(result);
       } catch (err) {
-        console.error('Error:', err);
+        console.error("Error:", err);
       }
     };
 
@@ -178,8 +171,8 @@ function MyComponent() {
 ### Basic Pattern
 
 ```jsx
-import React, { useState, useEffect } from 'react';
-import { useServices } from '@/hooks/useServices';
+import React, { useState, useEffect } from "react";
+import { useServices } from "@/hooks/useServices";
 
 const MyComponent = () => {
   const { isLoading, error, serviceA, serviceB } = useServices();
@@ -206,8 +199,8 @@ const MyComponent = () => {
 ### Using Multiple Services Together
 
 ```jsx
-import React, { useState, useEffect } from 'react';
-import { useServices } from '@/hooks/useServices';
+import React, { useState, useEffect } from "react";
+import { useServices } from "@/hooks/useServices";
 
 const MultiServiceComponent = () => {
   const {
@@ -215,13 +208,20 @@ const MultiServiceComponent = () => {
     error,
     astrologyService,
     alchemicalEngine,
-    ingredientService
+    ingredientService,
   } = useServices();
 
   const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
-    if (isLoading || error || !astrologyService || !alchemicalEngine || !ingredientService) return;
+    if (
+      isLoading ||
+      error ||
+      !astrologyService ||
+      !alchemicalEngine ||
+      !ingredientService
+    )
+      return;
 
     const getRecommendations = async () => {
       // 1. Get planetary positions from astrologyService
@@ -233,7 +233,8 @@ const MultiServiceComponent = () => {
 
       // 3. Get ingredient recommendations based on those properties
       const elemental = deriveElementalProperties(thermodynamics);
-      const ingredients = ingredientService.getRecommendedIngredients(elemental);
+      const ingredients =
+        ingredientService.getRecommendedIngredients(elemental);
 
       setRecommendations(ingredients);
     };

@@ -8,11 +8,13 @@
 ### ✅ 1. Package Dependencies Upgraded
 
 Updated `package.json` with latest versions:
+
 - **ESLint:** 8.57.0 → 9.17.0
 - **TypeScript-ESLint:** 5.61.0 → 8.18.2
 - **React Plugin:** 7.33.2 → 7.37.3
 
 Added new packages:
+
 - `@eslint/js` - Modern JavaScript rules
 - `eslint-plugin-jsx-a11y` - Accessibility checks
 - `globals` - Global variable definitions
@@ -20,6 +22,7 @@ Added new packages:
 ### ✅ 2. Configuration Files Created
 
 #### Main Configuration (`eslint.config.mjs`)
+
 - Comprehensive type-aware linting
 - All modern ESLint 9 features
 - React 19 compatible
@@ -28,12 +31,14 @@ Added new packages:
 - ~600 lines of carefully configured rules
 
 #### Fast Configuration (`eslint.config.fast.mjs`)
+
 - Essential rules only
 - No type-aware linting (faster)
 - Development-optimized
 - 3-10x faster than main config
 
 #### Campaign Configuration (`.eslintrc-campaign.mjs`)
+
 - Stricter rules for campaigns
 - Organized by improvement phases
 - Error-level enforcement
@@ -49,6 +54,7 @@ Added new packages:
 ### ✅ 4. Package Scripts Updated
 
 All npm/yarn scripts updated to use new `.mjs` configs:
+
 - `yarn lint` → Uses `eslint.config.mjs`
 - `yarn lint:quick` → Uses `eslint.config.fast.mjs`
 - `yarn lint:fix` → Auto-fix with main config
@@ -57,6 +63,7 @@ All npm/yarn scripts updated to use new `.mjs` configs:
 ### ✅ 5. Campaign Infrastructure
 
 Created systematic approach with 5 phases:
+
 1. **Type Safety** - Eliminate `any` types
 2. **Unused Code** - Remove unused variables/imports
 3. **Import Resolution** - Fix path issues
@@ -73,6 +80,7 @@ yarn install
 ```
 
 This will install:
+
 - ESLint 9.17.0
 - TypeScript-ESLint 8.18.2
 - New plugins and utilities
@@ -124,6 +132,7 @@ grep '^/' reports/eslint-baseline-*.txt | cut -d: -f1 | uniq -c | sort -rn | hea
 ### Step 6: Plan Campaign
 
 Based on baseline, identify:
+
 1. Most common error types
 2. Files with most errors
 3. Priority order for fixes
@@ -132,24 +141,28 @@ Based on baseline, identify:
 ## 📊 Expected Results
 
 ### Before Upgrade (Current State)
+
 - Total Issues: 4,852
 - Errors: 724
 - Warnings: 4,128
 - Parsing Errors: 437
 
 ### After Configuration (Initial)
+
 - Total Issues: ~5,000-5,200 (may increase due to better detection)
 - Errors: ~750-800
 - Warnings: ~4,200-4,400
 - Parsing Errors: 437 (unchanged initially)
 
 ### After Campaign Target
+
 - Total Issues: <550
 - Errors: <50
 - Warnings: <500
 - Parsing Errors: 0
 
 ### Reduction Target
+
 - **89% reduction** in total issues
 - **93% reduction** in errors
 - **88% reduction** in warnings
@@ -158,9 +171,11 @@ Based on baseline, identify:
 ## 🎯 Campaign Strategy
 
 ### Phase 1: Type Safety (Week 1-2)
+
 **Target:** 2,620 explicit-any warnings
 
 **Approach:**
+
 1. Identify patterns in `any` usage
 2. Create proper types/interfaces
 3. Use type guards where needed
@@ -169,9 +184,11 @@ Based on baseline, identify:
 **Expected reduction:** 2,000+ warnings
 
 ### Phase 2: Unused Variables (Week 2-3)
+
 **Target:** 1,471 unused variable warnings
 
 **Approach:**
+
 1. Auto-fix with `yarn lint:fix`
 2. Manual review of each case
 3. Remove dead code
@@ -180,9 +197,11 @@ Based on baseline, identify:
 **Expected reduction:** 1,400+ warnings
 
 ### Phase 3: Import Resolution (Week 3-4)
+
 **Target:** Import warnings
 
 **Approach:**
+
 1. Verify all paths
 2. Fix aliases
 3. Update imports
@@ -191,9 +210,11 @@ Based on baseline, identify:
 **Expected reduction:** All import warnings
 
 ### Phase 4: React Hooks (Week 4-5)
+
 **Target:** Exhaustive-deps warnings
 
 **Approach:**
+
 1. Add missing dependencies
 2. Memoize callbacks
 3. Extract custom hooks
@@ -202,9 +223,11 @@ Based on baseline, identify:
 **Expected reduction:** Most hooks warnings
 
 ### Phase 5: Code Quality (Week 5-6)
+
 **Target:** Complexity and quality warnings
 
 **Approach:**
+
 1. Refactor complex functions
 2. Reduce nesting
 3. Simplify conditionals
@@ -240,6 +263,7 @@ WhatToEatNext/
 ## 🔧 Utility Commands
 
 ### Quick Testing
+
 ```bash
 # Test on single file
 yarn lint src/app/page.tsx
@@ -252,6 +276,7 @@ eslint --print-config src/app/page.tsx
 ```
 
 ### Campaign Helpers
+
 ```bash
 # Count specific error type
 yarn lint 2>&1 | grep "no-explicit-any" | wc -l
@@ -264,6 +289,7 @@ yarn lint --format json | jq '[.[].messages[].ruleId] | group_by(.) | map({rule:
 ```
 
 ### Performance Optimization
+
 ```bash
 # Clear all caches
 yarn lint:cache-clear
@@ -286,30 +312,35 @@ yarn lint:profile
 ## 🎨 Configuration Highlights
 
 ### Enhanced Type Safety
+
 - Detects unsafe `any` usage
 - Validates type assertions
 - Checks promise handling
 - Enforces nullish coalescing
 
 ### React 19 Features
+
 - Updated JSX transform
 - Enhanced hooks validation
 - Better component patterns
 - Accessibility checks
 
 ### Modern ECMAScript
+
 - ES2026 support
 - Resource management
 - Latest syntax features
 - Updated global types
 
 ### Import Management
+
 - Path alias validation
 - Circular dependency detection
 - Import ordering
 - Unused import detection
 
 ### Code Quality
+
 - Complexity limits
 - Function length limits
 - Nesting depth checks
@@ -355,6 +386,6 @@ The ESLint configuration upgrade is **complete and ready for installation**. The
 
 ---
 
-*Created: November 6, 2025*
-*Configuration: ESLint 9.17.0 + TypeScript-ESLint 8.18.2*
-*Status: Ready for Installation*
+_Created: November 6, 2025_
+_Configuration: ESLint 9.17.0 + TypeScript-ESLint 8.18.2_
+_Status: Ready for Installation_

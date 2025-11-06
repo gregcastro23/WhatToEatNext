@@ -5,14 +5,16 @@
  * Fixes remaining high-frequency patterns safely
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 // Get error count
 function getErrorCount() {
   try {
-    const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
-      { encoding: 'utf8' });
+    const result = execSync(
+      'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+      { encoding: "utf8" },
+    );
     return parseInt(result.trim());
   } catch (error) {
     return 0;
@@ -22,9 +24,14 @@ function getErrorCount() {
 // Get all TypeScript files
 function getAllTsFiles() {
   try {
-    const result = execSync(`find src/ -name "*.ts" -o -name "*.tsx"`,
-      { encoding: 'utf8', cwd: process.cwd() });
-    return result.trim().split('\n').filter(f => f.length > 0);
+    const result = execSync(`find src/ -name "*.ts" -o -name "*.tsx"`, {
+      encoding: "utf8",
+      cwd: process.cwd(),
+    });
+    return result
+      .trim()
+      .split("\n")
+      .filter((f) => f.length > 0);
   } catch (error) {
     return [];
   }
@@ -33,31 +40,40 @@ function getAllTsFiles() {
 // Conservative syntax fixes
 function conservativeFix(filePath) {
   try {
-    let content = fs.readFileSync(filePath, 'utf8');
+    let content = fs.readFileSync(filePath, "utf8");
     const originalContent = content;
 
     // Fix missing closing braces/parentheses patterns
-    content = content.replace(/toBeGreaterThanOrEqual\(0\)\.\s*$/gm, 'toBeGreaterThanOrEqual(0);');
-    content = content.replace(/toBeLessThan\(30\);\s*$/gm, 'toBeLessThan(30);');
-    content = content.replace(/toBeLessThan\(360\);\s*$/gm, 'toBeLessThan(360);');
+    content = content.replace(
+      /toBeGreaterThanOrEqual\(0\)\.\s*$/gm,
+      "toBeGreaterThanOrEqual(0);",
+    );
+    content = content.replace(/toBeLessThan\(30\);\s*$/gm, "toBeLessThan(30);");
+    content = content.replace(
+      /toBeLessThan\(360\);\s*$/gm,
+      "toBeLessThan(360);",
+    );
 
     // Fix method chaining issues
-    content = content.replace(/expect\(([^)]+)\)([^.;]*)\./g, 'expect($1)$2.');
+    content = content.replace(/expect\(([^)]+)\)([^.;]*)\./g, "expect($1)$2.");
 
     // Fix broken expect statements
-    content = content.replace(/expect\(([^)]+)\)not\.to/g, 'expect($1).not.to');
-    content = content.replace(/expect\(([^)]+)\)\.to([A-Z])/g, 'expect($1).to$2');
+    content = content.replace(/expect\(([^)]+)\)not\.to/g, "expect($1).not.to");
+    content = content.replace(
+      /expect\(([^)]+)\)\.to([A-Z])/g,
+      "expect($1).to$2",
+    );
 
     // Fix console.log typos
-    content = content.replace(/consolelog\(/g, 'console.log(');
+    content = content.replace(/consolelog\(/g, "console.log(");
     content = content.replace(/console\.log\s*\(\s*'/g, "console.log('");
 
     // Fix missing semicolons in property access
-    content = content.replace(/\.degree\)\./g, '.degree).');
-    content = content.replace(/\.exactLongitude\)\./g, '.exactLongitude).');
+    content = content.replace(/\.degree\)\./g, ".degree).");
+    content = content.replace(/\.exactLongitude\)\./g, ".exactLongitude).");
 
     // Fix missing closing statements
-    content = content.replace(/\}\s*$/, '}');
+    content = content.replace(/\}\s*$/, "}");
 
     if (content !== originalContent) {
       fs.writeFileSync(filePath, content);
@@ -71,7 +87,7 @@ function conservativeFix(filePath) {
 }
 
 // Main execution
-console.log('🔧 Final Syntax Recovery - Conservative Approach');
+console.log("🔧 Final Syntax Recovery - Conservative Approach");
 
 const initialErrors = getErrorCount();
 console.log(`📊 Initial errors: ${initialErrors}`);
@@ -113,11 +129,13 @@ console.log(`   Errors reduced: ${reduction}`);
 console.log(`   Reduction: ${reductionPercent}%`);
 
 if (finalErrors < 10000) {
-  console.log('🎉 Significant progress! Build should be much more stable now.');
+  console.log("🎉 Significant progress! Build should be much more stable now.");
 } else if (reduction > 5000) {
-  console.log('✅ Good progress made! Continue with remaining fixes.');
+  console.log("✅ Good progress made! Continue with remaining fixes.");
 } else {
-  console.log('⚠️  Limited progress. May need manual intervention for remaining errors.');
+  console.log(
+    "⚠️  Limited progress. May need manual intervention for remaining errors.",
+  );
 }
 
-console.log('\n🎯 Final syntax recovery complete!');
+console.log("\n🎯 Final syntax recovery complete!");

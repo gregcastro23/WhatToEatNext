@@ -1,17 +1,16 @@
-'use client';
+"use client";
 
 import {
-    createContext,
-    useContext,
-    useEffect,
-    useMemo,
-    useRef,
-    useState
-} from 'react';
-import { unifiedFlavorEngine } from '../data/unified/unifiedFlavorEngine';
-import type { UnifiedFlavorProfile } from '../data/unified/unifiedFlavorEngine';
-import type {
-    ReactNode} from 'react';
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { unifiedFlavorEngine } from "../data/unified/unifiedFlavorEngine";
+import type { UnifiedFlavorProfile } from "../data/unified/unifiedFlavorEngine";
+import type { ReactNode } from "react";
 
 // Define the context type
 interface FlavorEngineContextType {
@@ -22,7 +21,10 @@ interface FlavorEngineContextType {
   categories: { [key: string]: number };
   getProfile: (id: string) => UnifiedFlavorProfile | undefined;
   searchProfiles: (criteria: {}) => UnifiedFlavorProfile[];
-  calculateCompatibility: (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) => any;
+  calculateCompatibility: (
+    profile1: UnifiedFlavorProfile,
+    profile2: UnifiedFlavorProfile,
+  ) => any;
 }
 
 // Create the context with default values
@@ -34,11 +36,11 @@ const FlavorEngineContext = createContext<FlavorEngineContextType>({
   categories: {},
   getProfile: () => undefined,
   searchProfiles: () => [],
-  calculateCompatibility: () => ({})
+  calculateCompatibility: () => ({}),
 });
 
 // Hook to use the flavor engine context
-export const _useFlavorEngine = () => useContext(FlavorEngineContext)
+export const _useFlavorEngine = () => useContext(FlavorEngineContext);
 
 // Create a stable engine instance - we access it once here and never again;
 const engine = unifiedFlavorEngine;
@@ -51,8 +53,8 @@ const globalInitState = {
   profileCount: 0,
   categories: {} as Record<string, number>,
   initAttempted: false,
-  initTimer: null as NodeJS.Timeout | null
-}
+  initTimer: null as NodeJS.Timeout | null,
+};
 
 // The provider component
 export function FlavorEngineProvider({ children }: { children: ReactNode }) {
@@ -65,7 +67,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
     isLoading: globalInitState.isLoading,
     error: globalInitState.error,
     profileCount: globalInitState.profileCount,
-    categories: globalInitState.categories
+    categories: globalInitState.categories,
   });
 
   // Single initialization effect that runs only once
@@ -80,7 +82,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
           isLoading: globalInitState.isLoading,
           error: globalInitState.error,
           profileCount: globalInitState.profileCount,
-          categories: globalInitState.categories
+          categories: globalInitState.categories,
         });
       }
       return;
@@ -99,8 +101,9 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
           if ((profiles || []).length > 0) {
             // Calculate categories
             const categoryMap: { [key: string]: number } = {};
-            (profiles || []).forEach(profile => {
-              categoryMap[profile.category] = (categoryMap[profile.category] || 0) + 1;
+            (profiles || []).forEach((profile) => {
+              categoryMap[profile.category] =
+                (categoryMap[profile.category] || 0) + 1;
             });
 
             // Update global state first
@@ -116,7 +119,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
                 isLoading: false,
                 error: null,
                 profileCount: (profiles || []).length,
-                categories: categoryMap
+                categories: categoryMap,
               });
             }
           } else if (isMountedRef.current) {
@@ -125,8 +128,10 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
           }
         } catch (err) {
           const error =
-            err instanceof Error ? err : new Error('Unknown error initializing flavor engine');
-          _logger.error('Failed to initialize flavor engine: ', err);
+            err instanceof Error
+              ? err
+              : new Error("Unknown error initializing flavor engine");
+          _logger.error("Failed to initialize flavor engine: ", err);
 
           // Update global state
           globalInitState.error = error;
@@ -139,7 +144,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
               isLoading: false,
               error,
               profileCount: 0,
-              categories: {}
+              categories: {},
             });
           }
         }
@@ -163,11 +168,14 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
 
   // Memoize wrapper functions to prevent unnecessary re-renders
   const getProfile = useMemo(() => (id: string) => engine.getProfile(id), []);
-  const searchProfiles = useMemo(() => (criteria: {}) => engine.searchProfiles(criteria), []);
+  const searchProfiles = useMemo(
+    () => (criteria: {}) => engine.searchProfiles(criteria),
+    [],
+  );
   const calculateCompatibility = useMemo(
     () => (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) =>
       engine.calculateCompatibility(profile1, profile2),
-    []
+    [],
   );
 
   // Create the context value - memoize to prevent unnecessary rerenders
@@ -180,7 +188,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
       categories: state.categories,
       getProfile,
       searchProfiles,
-      calculateCompatibility
+      calculateCompatibility,
     }),
     [
       state.isInitialized,
@@ -190,13 +198,15 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
       state.categories,
       getProfile,
       searchProfiles,
-      calculateCompatibility
-    ]
+      calculateCompatibility,
+    ],
   );
 
   return (
-    <FlavorEngineContext.Provider value={contextValue}>{children}</FlavorEngineContext.Provider>
-  )
+    <FlavorEngineContext.Provider value={contextValue}>
+      {children}
+    </FlavorEngineContext.Provider>
+  );
 }
 
 export default FlavorEngineProvider;

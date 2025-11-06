@@ -1,9 +1,11 @@
 # Comprehensive Parsing Error Fix Directive
 
 ## Objective
+
 Fix all 249 remaining TypeScript/JavaScript parsing errors in the WhatToEatNext project by systematically addressing each file with surgical precision.
 
 ## Current Status
+
 - **Total Parsing Errors:** 249
 - **Unique Files with Errors:** 249
 - **Progress So Far:** 188 errors fixed (43% reduction from initial 437)
@@ -12,6 +14,7 @@ Fix all 249 remaining TypeScript/JavaScript parsing errors in the WhatToEatNext 
 ## Task Requirements
 
 ### Primary Goal
+
 Eliminate ALL parsing errors to achieve a successful build with ZERO parsing errors.
 
 ### Approach: Systematic File-by-File Surgery
@@ -54,53 +57,67 @@ For EACH file with a parsing error:
 ## File Prioritization
 
 ### Tier 1 - Critical Path (Fix First)
+
 **API Routes** - Core application functionality:
+
 - src/app/api/planetary-rectification/route.ts
 - src/app/api/recipes/route.ts
 - src/app/api/zodiac-calendar/route.ts
 
 **Core Calculations** - Business logic:
+
 - src/calculations/alchemicalEngine.ts
 - src/calculations/elementalcalculations.ts
 - src/calculations/culinaryAstrology.ts
 
 **Type Definitions** - Used throughout codebase:
+
 - src/types/alchemy.ts
 - src/types/recipe.ts
 - src/types/culinary.ts
 - src/types/validators.ts
 
 ### Tier 2 - Core Services (Fix Second)
+
 **Services** - Application services:
+
 - src/services/AlchemicalService.ts
 - src/services/RecipeService.ts
 - src/services/IngredientService.ts
 - src/services/LoggingService.ts
 
 **Data Files** - Core data structures:
+
 - src/data/recipes.ts
 - src/data/ingredients/index.ts
 - src/data/cooking/index.ts
 
 ### Tier 3 - Utilities (Fix Third)
+
 **Utils** - Helper functions:
+
 - src/utils/elementalUtils.ts
 - src/utils/recipeCalculations.ts
 - src/utils/ingredientValidation.ts
 
 ### Tier 4 - Components (Fix Fourth)
+
 **UI Components**:
+
 - src/components/EnhancedRecommendationEngine.tsx
 - src/app/cooking-methods/page.tsx
 
 ### Tier 5 - Scripts (Fix Last)
+
 **Build/Dev Scripts** - Non-critical to runtime:
-- src/scripts/**/*.ts
-- src/scripts/**/*.js
+
+- src/scripts/\*_/_.ts
+- src/scripts/\*_/_.js
 
 ## Common Parsing Error Patterns & Solutions
 
 ### Pattern 1: Missing Closing Parenthesis
+
 ```typescript
 // ❌ ERROR
 if (condition {
@@ -114,6 +131,7 @@ if (condition) {
 ```
 
 ### Pattern 2: Object Property Syntax
+
 ```typescript
 // ❌ ERROR - Missing colon
 const obj = {
@@ -129,11 +147,12 @@ const obj = {
 ```
 
 ### Pattern 3: Type Definition Errors
+
 ```typescript
 // ❌ ERROR - Comma instead of semicolon
 interface MyType {
-  name: string,
-  age: number,
+  name: string;
+  age: number;
 }
 
 // ✅ FIXED
@@ -144,11 +163,12 @@ interface MyType {
 ```
 
 ### Pattern 4: Arrow Function Returns
+
 ```typescript
 // ❌ ERROR - Missing closing paren
-const fn = (param => {
+const fn = (param) => {
   return result;
-});
+};
 
 // ✅ FIXED
 const fn = (param) => {
@@ -157,6 +177,7 @@ const fn = (param) => {
 ```
 
 ### Pattern 5: JSX Syntax
+
 ```typescript
 // ❌ ERROR
 <div>) => {text}</div>
@@ -166,9 +187,10 @@ const fn = (param) => {
 ```
 
 ### Pattern 6: Statement Terminators
+
 ```typescript
 // ❌ ERROR - Comma instead of semicolon
-const x = 5,
+const x = 5;
 const y = 10;
 
 // ✅ FIXED
@@ -200,6 +222,7 @@ yarn lint 2>&1 | grep "Parsing error" | wc -l
 ## Progress Tracking
 
 Use TodoWrite to track:
+
 - Total files remaining
 - Files fixed in current batch
 - Current tier being worked on
@@ -219,6 +242,7 @@ Update after every 10 files fixed.
 All files are listed in: `/tmp/parsing-error-files.txt`
 
 To get the full list:
+
 ```bash
 cat /tmp/parsing-error-files.txt
 ```
@@ -226,25 +250,29 @@ cat /tmp/parsing-error-files.txt
 ## Execution Strategy
 
 ### Batch Processing
+
 - Fix files in batches of 10-20
 - Verify error count after each batch
 - If count doesn't decrease, investigate why
 - Look for cascade errors (fixing one file may fix others)
 
 ### Error Categories to Track
+
 As you fix files, categorize errors:
-1. Missing parentheses/braces: ___ files
-2. Object syntax errors: ___ files
-3. Type definition errors: ___ files
-4. Statement terminator errors: ___ files
-5. JSX syntax errors: ___ files
-6. Other: ___ files
+
+1. Missing parentheses/braces: \_\_\_ files
+2. Object syntax errors: \_\_\_ files
+3. Type definition errors: \_\_\_ files
+4. Statement terminator errors: \_\_\_ files
+5. JSX syntax errors: \_\_\_ files
+6. Other: \_\_\_ files
 
 This helps identify if automated patterns emerge.
 
 ## Important Constraints
 
 ### DO NOT:
+
 - Refactor code beyond fixing the parsing error
 - Change variable names or function signatures
 - Add new features or functionality
@@ -252,6 +280,7 @@ This helps identify if automated patterns emerge.
 - Skip files hoping they'll auto-resolve
 
 ### DO:
+
 - Fix ONLY the specific parsing error
 - Preserve all existing logic and behavior
 - Maintain code style consistency
@@ -291,6 +320,7 @@ yarn lint 2>&1 | grep "Parsing error" && echo "STILL HAS ERRORS" || echo "ALL PA
 ## Emergency Escape Hatches
 
 If a file proves impossible to fix:
+
 1. Document why it cannot be fixed
 2. Check if it's actually used in the application
 3. Consider if it can be temporarily excluded from build
@@ -299,7 +329,8 @@ If a file proves impossible to fix:
 ## Final Deliverable
 
 When complete, provide:
-1. Total files fixed: ___/249
+
+1. Total files fixed: \_\_\_/249
 2. Final parsing error count: 0
 3. Build status: PASSING
 4. Category breakdown of errors fixed

@@ -1,13 +1,13 @@
 // Define the global window interface to include our alchemize function
 declare global {
   interface Window {
-    alchemize?: unknown
+    alchemize?: unknown;
   }
 }
 
-import alchemicalEngine from '@/app/alchemicalEngine';
-import { log } from '@/services/LoggingService';
-import type { StandardizedAlchemicalResult } from '@/types/alchemy';
+import alchemicalEngine from "@/app/alchemicalEngine";
+import { log } from "@/services/LoggingService";
+import type { StandardizedAlchemicalResult } from "@/types/alchemy";
 
 // Use the standardized interface we created
 export type AlchemicalResult = StandardizedAlchemicalResult;
@@ -16,14 +16,14 @@ export type AlchemicalResult = StandardizedAlchemicalResult;
  * Initialize the Alchemical Engine with required configuration
  */
 export function initializeAlchemicalEngine() {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
   try {
     // Assign the core alchemize function to the window object
     window.alchemize = alchemicalEngine.alchemize;
-    log.info('Alchemical engine initialized successfully');
+    log.info("Alchemical engine initialized successfully");
   } catch (error) {
-    _logger.error('Failed to initialize alchemize function: ', error);
+    _logger.error("Failed to initialize alchemize function: ", error);
   }
 }
 
@@ -31,7 +31,8 @@ export function initializeAlchemicalEngine() {
  * A static version of the alchemize function that can be used directly
  * This wraps the core engine's implementation
  */
-export const _staticAlchemize = (birthInfo: any, horoscopeDict: any) => alchemicalEngine.alchemize(birthInfo, horoscopeDict)
+export const _staticAlchemize = (birthInfo: any, horoscopeDict: any) =>
+  alchemicalEngine.alchemize(birthInfo, horoscopeDict);
 
 // Re-export the core functionality
 export { alchemicalEngine };

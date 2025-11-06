@@ -5,13 +5,16 @@
  */
 
 import type {
-    AlchemicalTransformationResultType,
-    ElementalPropertiesType,
-    PlanetaryInfluenceResultType,
-    ServiceResponseType,
-    ThermodynamicMetricsType
-} from './alchemy';
-import type { IngredientAnalysisResponse, IngredientRecommendationResponse } from './ingredients';
+  AlchemicalTransformationResultType,
+  ElementalPropertiesType,
+  PlanetaryInfluenceResultType,
+  ServiceResponseType,
+  ThermodynamicMetricsType,
+} from "./alchemy";
+import type {
+  IngredientAnalysisResponse,
+  IngredientRecommendationResponse,
+} from "./ingredients";
 
 // ========== PHASE 1: API RESPONSE TYPE ALIASES ==========
 
@@ -37,7 +40,8 @@ export type AlchemicalRecommendationResponse = ServiceResponseType<{
  * Planetary Influence Response
  * Standardized response for planetary influence calculations
  */
-export type PlanetaryInfluenceResponse = ServiceResponseType<PlanetaryInfluenceResultType>;
+export type PlanetaryInfluenceResponse =
+  ServiceResponseType<PlanetaryInfluenceResultType>;
 
 /**
  * Standardized Planetary Position Response
@@ -266,27 +270,39 @@ export interface StandardizedPlanetaryPosition {
 /**
  * Type guard to validate NASA Horizons API response
  */
-export function isValidNasaHorizonsResponse(data: unknown): data is NasaHorizonsResponse {
+export function isValidNasaHorizonsResponse(
+  data: unknown,
+): data is NasaHorizonsResponse {
   return (
-    typeof data === 'object' &&
+    typeof data === "object" &&
     data !== null &&
-    (('result' in data && typeof (data as NasaHorizonsResponse).result === 'string') ||
-      ('error' in data && typeof (data as NasaHorizonsResponse).error === 'string'))
+    (("result" in data &&
+      typeof (data as NasaHorizonsResponse).result === "string") ||
+      ("error" in data &&
+        typeof (data as NasaHorizonsResponse).error === "string"))
   );
 }
 
 /**
  * Type guard to validate Astronomy API response
  */
-export function isValidAstronomyApiResponse(data: unknown): data is AstronomyApiResponse {
-  return typeof data === 'object' && data !== null && 'data' in data;
+export function isValidAstronomyApiResponse(
+  data: unknown,
+): data is AstronomyApiResponse {
+  return typeof data === "object" && data !== null && "data" in data;
 }
 
 /**
  * Type guard to validate Swiss Ephemeris API response
  */
-export function isValidSwissEphemerisApiResponse(data: unknown): data is SwissEphemerisApiResponse {
-  return typeof data === 'object' && data !== null && ('planets' in data || 'error' in data);
+export function isValidSwissEphemerisApiResponse(
+  data: unknown,
+): data is SwissEphemerisApiResponse {
+  return (
+    typeof data === "object" &&
+    data !== null &&
+    ("planets" in data || "error" in data)
+  );
 }
 
 // Re-export ingredient response types for convenience

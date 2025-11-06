@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import type { FunctionComponent, ComponentType } from 'react';
+import React, { useState, useEffect } from "react";
+import type { FunctionComponent, ComponentType } from "react";
 
 /**
  * Information about a component property for debugging
@@ -16,26 +16,27 @@ interface PropInfo {
  * Helper function to get detailed prop information
  */
 function getPropInfo(key: string, value: unknown): PropInfo {
-  const type = Array.isArray(value) ? 'array' : typeof value;
+  const type = Array.isArray(value) ? "array" : typeof value;
   const info: PropInfo = { key, type };
 
   if (value === null) {
-    info.type = 'null';
+    info.type = "null";
   } else if (value === undefined) {
-    info.type = 'undefined';
+    info.type = "undefined";
   } else if (Array.isArray(value)) {
     info.size = value.length;
     info.isEmpty = value.length === 0;
-  } else if (typeof value === 'object') {
+  } else if (typeof value === "object") {
     info.size = Object.keys(value).length;
     info.isEmpty = info.size === 0;
     // Sample a few keys for debugging
     if (info.size > 0) {
-      const sampleKeys = Object.keys(value).slice(0, 3).join(', ');
-      info.value = `{${sampleKeys}${info.size > 3 ? '...' : ''}}`;
+      const sampleKeys = Object.keys(value).slice(0, 3).join(", ");
+      info.value = `{${sampleKeys}${info.size > 3 ? "..." : ""}}`;
     }
-  } else if (typeof value === 'string') {
-    info.value = value.length > 20 ? `'${value.substring(0, 20)}...'` : `'${value}'`;
+  } else if (typeof value === "string") {
+    info.value =
+      value.length > 20 ? `'${value.substring(0, 20)}...'` : `'${value}'`;
   } else {
     // For primitives, show the actual value
     info.value = String(value);
@@ -53,10 +54,10 @@ function getPropInfo(key: string, value: unknown): PropInfo {
  */
 export function withRenderTracking<P extends object>(
   Component: ComponentType<P>,
-  componentName: string
+  componentName: string,
 ): FunctionComponent<P> {
   // Define display name for React DevTools
-  const displayName = `RenderTracked(${componentName || Component.displayName || Component.name || 'Component'})`;
+  const displayName = `RenderTracked(${componentName || Component.displayName || Component.name || "Component"})`;
 
   const TrackedComponent: FunctionComponent<P> = (props: P) => {
     const [renderCount, setRenderCount] = useState(0);
@@ -67,16 +68,18 @@ export function withRenderTracking<P extends object>(
     useEffect(() => {
       const startTime = performance.now();
 
-      setRenderCount(prev => {
+      setRenderCount((prev) => {
         const newCount = prev + 1;
 
         // Log more details on first render or every 5 renders
         if (firstRender || newCount % 5 === 0) {
           // Get detailed prop information for debugging
-          const propDetails = Object.entries(props).map(([key, value]) => getPropInfo(key, value));
+          const propDetails = Object.entries(props).map(([key, value]) =>
+            getPropInfo(key, value),
+          );
 
           console.warn(`🔍 ${componentName} rendered ${newCount} times`);
-          console.warn('Props: ', propDetails);
+          console.warn("Props: ", propDetails);
 
           if (firstRender) {
             setFirstRender(false);
@@ -98,18 +101,23 @@ export function withRenderTracking<P extends object>(
 
     return (
       <div data-component={componentName} data-render-count={renderCount}>
-        {process.env.NODE_ENV === 'development' && (
+        {process.env.NODE_ENV === "development" && (
           <div
             style={{
-              fontSize: '10px',
-              color: renderCount > 10 ? '#ff6b6b' : renderCount > 5 ? '#ffa94d' : '#74c0fc',
-              textAlign: 'right',
-              padding: '2px 4px',
-              backgroundColor: 'rgba(0, 0, 0, 0.03)',
-              borderRadius: '2px',
-              margin: '2px 0',
-              display: 'flex',
-              justifyContent: 'space-between'
+              fontSize: "10px",
+              color:
+                renderCount > 10
+                  ? "#ff6b6b"
+                  : renderCount > 5
+                    ? "#ffa94d"
+                    : "#74c0fc",
+              textAlign: "right",
+              padding: "2px 4px",
+              backgroundColor: "rgba(0, 0, 0, 0.03)",
+              borderRadius: "2px",
+              margin: "2px 0",
+              display: "flex",
+              justifyContent: "space-between",
             }}
           >
             <span>{componentName}</span>
@@ -145,11 +153,15 @@ export function withRenderTracking<P extends object>(
  */
 export function trackRenders<P extends object>(
   nameOrComponent: string | ComponentType<P>,
-  name?: string
-): ((Component: ComponentType<P>) => FunctionComponent<P>) | FunctionComponent<P> {
+  name?: string,
+):
+  | ((Component: ComponentType<P>) => FunctionComponent<P>)
+  | FunctionComponent<P> {
   // Called as @trackRenders('Name')
-  if (typeof nameOrComponent === 'string') {
-    return function <T extends object>(Component: ComponentType<T>): FunctionComponent<T> {
+  if (typeof nameOrComponent === "string") {
+    return function <T extends object>(
+      Component: ComponentType<T>,
+    ): FunctionComponent<T> {
       return withRenderTracking(Component, nameOrComponent);
     };
   }
@@ -157,6 +169,6 @@ export function trackRenders<P extends object>(
   // Called as trackRenders(Component, 'Name')
   return withRenderTracking(
     nameOrComponent,
-    name || nameOrComponent.displayName || nameOrComponent.name || 'Component'
+    name || nameOrComponent.displayName || nameOrComponent.name || "Component",
   );
 }

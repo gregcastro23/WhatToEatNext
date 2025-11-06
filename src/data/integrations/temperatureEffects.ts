@@ -1,4 +1,4 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from "@/types/alchemy";
 
 interface TemperatureRange {
   min: number;
@@ -17,11 +17,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Water: 0.7,
       Air: 0.2,
       Earth: 0.1,
-      Fire: 0
+      Fire: 0,
     },
-    description: 'Preservation and crystallization of flavors',
-    recommendedMethods: ['raw', 'frozen desserts'],
-    cautions: ['texture changes', 'dulled flavors']
+    description: "Preservation and crystallization of flavors",
+    recommendedMethods: ["raw", "frozen desserts"],
+    cautions: ["texture changes", "dulled flavors"],
   },
   cold: {
     min: 1,
@@ -30,11 +30,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Water: 0.5,
       Air: 0.3,
       Earth: 0.2,
-      Fire: 0
+      Fire: 0,
     },
-    description: 'Refreshing and crisp qualities',
-    recommendedMethods: ['raw', 'chilled preparations', 'cold infusion'],
-    cautions: ['reduced aroma', 'numbed taste buds']
+    description: "Refreshing and crisp qualities",
+    recommendedMethods: ["raw", "chilled preparations", "cold infusion"],
+    cautions: ["reduced aroma", "numbed taste buds"],
   },
   cool: {
     min: 11,
@@ -43,11 +43,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Water: 0.4,
       Air: 0.3,
       Earth: 0.2,
-      Fire: 0.1
+      Fire: 0.1,
     },
-    description: 'Balanced temperature for subtle flavors',
-    recommendedMethods: ['room temperature service', 'light preparation'],
-    cautions: ['temperature fluctuation']
+    description: "Balanced temperature for subtle flavors",
+    recommendedMethods: ["room temperature service", "light preparation"],
+    cautions: ["temperature fluctuation"],
   },
   room: {
     min: 22,
@@ -56,11 +56,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.4,
       Earth: 0.3,
       Water: 0.2,
-      Fire: 0.1
+      Fire: 0.1,
     },
-    description: 'Natural state for most ingredients',
-    recommendedMethods: ['fermentation', 'proofing', 'resting'],
-    cautions: ['food safety time limits']
+    description: "Natural state for most ingredients",
+    recommendedMethods: ["fermentation", "proofing", "resting"],
+    cautions: ["food safety time limits"],
   },
   warm: {
     min: 31,
@@ -69,11 +69,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Fire: 0.3,
       Air: 0.3,
       Earth: 0.2,
-      Water: 0.2
+      Water: 0.2,
     },
-    description: 'Enhanced aromatics and flavors',
-    recommendedMethods: ['warming', 'tempering', 'slow cooking'],
-    cautions: ['protein degradation begins']
+    description: "Enhanced aromatics and flavors",
+    recommendedMethods: ["warming", "tempering", "slow cooking"],
+    cautions: ["protein degradation begins"],
   },
   hot: {
     min: 50,
@@ -82,11 +82,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Fire: 0.5,
       Air: 0.3,
       Water: 0.1,
-      Earth: 0.1
+      Earth: 0.1,
     },
-    description: 'Active cooking and transformation',
-    recommendedMethods: ['boiling', 'steaming', 'poaching'],
-    cautions: ['moisture loss', 'overcooking risk']
+    description: "Active cooking and transformation",
+    recommendedMethods: ["boiling", "steaming", "poaching"],
+    cautions: ["moisture loss", "overcooking risk"],
   },
   very_hot: {
     min: 101,
@@ -95,11 +95,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Fire: 0.7,
       Air: 0.2,
       Earth: 0.1,
-      Water: 0
+      Water: 0,
     },
-    description: 'Intense heat transformation',
-    recommendedMethods: ['roasting', 'baking', 'frying'],
-    cautions: ['burning risk', 'rapid moisture loss']
+    description: "Intense heat transformation",
+    recommendedMethods: ["roasting", "baking", "frying"],
+    cautions: ["burning risk", "rapid moisture loss"],
   },
   extreme: {
     min: 201,
@@ -108,41 +108,45 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Fire: 0.8,
       Air: 0.2,
       Water: 0,
-      Earth: 0
+      Earth: 0,
     },
-    description: 'Extreme transformation and caramelization',
-    recommendedMethods: ['grilling', 'broiling', 'searing'],
-    cautions: ['very short cooking time', 'high burning risk']
-  }
+    description: "Extreme transformation and caramelization",
+    recommendedMethods: ["grilling", "broiling", "searing"],
+    cautions: ["very short cooking time", "high burning risk"],
+  },
 };
 
-export const getTemperatureRange = (temp: number): string => (
-    Object.keys(temperatureEffects).find(
-      range => temp >= temperatureEffects[range].min && temp <= temperatureEffects[range].max
-    ) || 'room'
-  );
+export const getTemperatureRange = (temp: number): string =>
+  Object.keys(temperatureEffects).find(
+    (range) =>
+      temp >= temperatureEffects[range].min &&
+      temp <= temperatureEffects[range].max,
+  ) || "room";
 
 export const _getElementalEffect = (temp: number): ElementalProperties => {
   const range = getTemperatureRange(temp);
   return temperatureEffects[range].elementalEffect;
 };
 
-export function getTemperatureEffect(ingredient: string, _temperature?: number) {
+export function getTemperatureEffect(
+  ingredient: string,
+  _temperature?: number,
+) {
   // Map of ingredient temperature effects
   const effectMap: Record<string, string> = {
-    ginger: 'warming',
-    chili: 'hot',
-    mint: 'cooling',
-    cucumber: 'cool',
+    ginger: "warming",
+    chili: "hot",
+    mint: "cooling",
+    cucumber: "cool",
     // Add more ingredients as needed
   };
 
   // Simple fallback with some common effects
   const _ = {
-    spices: 'warming',
-    herbs: 'neutral',
-    fruits: 'cooling',
-    vegetables: 'neutral'
+    spices: "warming",
+    herbs: "neutral",
+    fruits: "cooling",
+    vegetables: "neutral",
   };
 
   // Check if we have a specific effect for this ingredient
@@ -153,7 +157,7 @@ export function getTemperatureEffect(ingredient: string, _temperature?: number) 
   }
 
   // Return a string, not an object
-  return 'neutral';
+  return "neutral";
 }
 
 export default temperatureEffects;

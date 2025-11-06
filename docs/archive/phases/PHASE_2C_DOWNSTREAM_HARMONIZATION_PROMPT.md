@@ -115,8 +115,14 @@ git add . && git commit -m "Phase 2C - Pre-session checkpoint (251 errors)"
 
 ```typescript
 // BEFORE: Conflicting interfaces
-interface CookingMethodData { id: string; name: string; /* ... */ }
-interface CookingMethodModifier { element: string; intensity: number; /* ... */ }
+interface CookingMethodData {
+  id: string;
+  name: string /* ... */;
+}
+interface CookingMethodModifier {
+  element: string;
+  intensity: number /* ... */;
+}
 
 // AFTER: Unified approach
 interface CookingMethod {
@@ -142,11 +148,11 @@ const modifier = data as unknown as CookingMethodModifier;
 
 ```typescript
 // BEFORE: Naming conflict
-import { logger } from './utils';
+import { logger } from "./utils";
 const logger = console.log; // Conflict!
 
 // AFTER: Renamed import
-import { logger as utilLogger } from './utils';
+import { logger as utilLogger } from "./utils";
 const logger = console.log; // No conflict
 ```
 

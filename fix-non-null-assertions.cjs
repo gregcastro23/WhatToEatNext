@@ -10,9 +10,9 @@
  * Target: Replace non-null assertions with safe type checking
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
@@ -31,19 +31,19 @@ const CONFIG = {
       // Replace simple property access assertions
       pattern: /(\w+)!\.(\w+)/g,
       replacement: (match, obj, prop) => `${obj} && ${obj}.${prop}`,
-      description: 'Replace obj!.prop with obj && obj.prop',
+      description: "Replace obj!.prop with obj && obj.prop",
     },
     {
       // Replace array access assertions
       pattern: /(\w+)!\[([^\]]+)\]/g,
       replacement: (match, obj, index) => `${obj} && ${obj}[${index}]`,
-      description: 'Replace obj![index] with obj && obj[index]',
+      description: "Replace obj![index] with obj && obj[index]",
     },
     {
       // Replace method call assertions
       pattern: /(\w+)!\.(\w+)\(/g,
       replacement: (match, obj, method) => `${obj}?.${method}(`,
-      description: 'Replace obj!.method( with obj?.method(',
+      description: "Replace obj!.method( with obj?.method(",
     },
   ],
 };
@@ -60,15 +60,17 @@ class NonNullAssertionFixer {
    */
   getFilesWithNonNullAssertions() {
     try {
-      console.log('🔍 Analyzing files with no-non-null-assertion violations...');
+      console.log(
+        "🔍 Analyzing files with no-non-null-assertion violations...",
+      );
 
       const lintOutput = execSync(
         'yarn lint --max-warnings=10000 2>&1 | grep -E "no-non-null-assertion"',
-        { encoding: 'utf8', stdio: 'pipe' },
+        { encoding: "utf8", stdio: "pipe" },
       );
 
       const files = new Set();
-      const lines = lintOutput.split('\n').filter(line => line.trim());
+      const lines = lintOutput.split("\n").filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^([^:]+):/);
@@ -81,10 +83,14 @@ class NonNullAssertionFixer {
       }
 
       const fileArray = Array.from(files);
-      console.log(`📊 Found ${fileArray.length} files with no-non-null-assertion issues`);
+      console.log(
+        `📊 Found ${fileArray.length} files with no-non-null-assertion issues`,
+      );
       return fileArray.slice(0, CONFIG.maxFiles);
     } catch (error) {
-      console.warn('⚠️ Could not get lint output, scanning common directories...');
+      console.warn(
+        "⚠️ Could not get lint output, scanning common directories...",
+      );
       return this.scanCommonDirectories();
     }
   }
@@ -93,7 +99,7 @@ class NonNullAssertionFixer {
    * Scan common directories for TypeScript files
    */
   scanCommonDirectories() {
-    const directories = ['src', '__tests__'];
+    const directories = ["src", "__tests__"];
     const files = [];
 
     for (const dir of directories) {
@@ -114,7 +120,7 @@ class NonNullAssertionFixer {
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
 
-      if (entry.isDirectory() && !entry.name.startsWith('.')) {
+      if (entry.isDirectory() && !entry.name.startsWith(".")) {
         this.scanDirectory(fullPath, files);
       } else if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name)) {
         files.push(fullPath);
@@ -159,10 +165,14 @@ class NonNullAssertionFixer {
 
     console.log(`  📝 Found ${nonNullAssertions.length} non-null assertions`);
 
-    for (const { pattern, replacement, description } of CONFIG.replacementPatterns) {
+    for (const {
+      pattern,
+      replacement,
+      description,
+    } of CONFIG.replacementPatterns) {
       const beforeCount = (modifiedContent.match(pattern) || []).length;
 
-      if (typeof replacement === 'function') {
+      if (typeof replacement === "function") {
         modifiedContent = modifiedContent.replace(pattern, replacement);
       } else {
         modifiedContent = modifiedContent.replace(pattern, replacement);
@@ -192,7 +202,10 @@ class NonNullAssertionFixer {
     }
 
     // Check if utilities already exist
-    if (content.includes('function isDefined') || content.includes('const isDefined')) {
+    if (
+      content.includes("function isDefined") ||
+      content.includes("const isDefined")
+    ) {
       return content;
     }
 
@@ -211,7 +224,11 @@ function isDefined<T>(value: T | null | undefined): value is T {
     const importMatch = content.match(/^(import.*\n)*/m);
     if (importMatch) {
       const insertIndex = importMatch[0].length;
-      return content.slice(0, insertIndex) + typeGuardUtility + content.slice(insertIndex);
+      return (
+        content.slice(0, insertIndex) +
+        typeGuardUtility +
+        content.slice(insertIndex)
+      );
     } else {
       return typeGuardUtility + content;
     }
@@ -224,7 +241,7 @@ function isDefined<T>(value: T | null | undefined): value is T {
     try {
       console.log(`\n📁 Processing: ${filePath}`);
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
 
       // Check if file should be preserved
       if (this.shouldPreserveFile(filePath, content)) {
@@ -233,17 +250,18 @@ function isDefined<T>(value: T | null | undefined): value is T {
       }
 
       // Apply fixes
-      const { content: modifiedContent, fixCount } = this.applyNonNullAssertionFixes(
-        content,
-        filePath,
-      );
+      const { content: modifiedContent, fixCount } =
+        this.applyNonNullAssertionFixes(content, filePath);
 
       if (fixCount > 0) {
         // Add type guard utilities if needed
-        const finalContent = this.addTypeGuardUtilities(modifiedContent, filePath);
+        const finalContent = this.addTypeGuardUtilities(
+          modifiedContent,
+          filePath,
+        );
 
         if (!CONFIG.dryRun) {
-          fs.writeFileSync(filePath, finalContent, 'utf8');
+          fs.writeFileSync(filePath, finalContent, "utf8");
         }
 
         console.log(`  ✅ Applied ${fixCount} non-null assertion fixes`);
@@ -264,12 +282,12 @@ function isDefined<T>(value: T | null | undefined): value is T {
    */
   validateTypeScript() {
     try {
-      console.log('\n🔍 Validating TypeScript compilation...');
-      execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-      console.log('✅ TypeScript compilation successful');
+      console.log("\n🔍 Validating TypeScript compilation...");
+      execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
+      console.log("✅ TypeScript compilation successful");
       return true;
     } catch (error) {
-      console.error('❌ TypeScript compilation failed');
+      console.error("❌ TypeScript compilation failed");
       console.error(error.stdout?.toString() || error.message);
       return false;
     }
@@ -279,13 +297,15 @@ function isDefined<T>(value: T | null | undefined): value is T {
    * Run the non-null assertion fixing process
    */
   async run() {
-    console.log('🚀 Starting Non-Null Assertion Fixing Process');
-    console.log(`📊 Configuration: maxFiles=${CONFIG.maxFiles}, dryRun=${CONFIG.dryRun}`);
+    console.log("🚀 Starting Non-Null Assertion Fixing Process");
+    console.log(
+      `📊 Configuration: maxFiles=${CONFIG.maxFiles}, dryRun=${CONFIG.dryRun}`,
+    );
 
     const files = this.getFilesWithNonNullAssertions();
 
     if (files.length === 0) {
-      console.log('✅ No files found with no-non-null-assertion issues');
+      console.log("✅ No files found with no-non-null-assertion issues");
       return;
     }
 
@@ -297,7 +317,7 @@ function isDefined<T>(value: T | null | undefined): value is T {
       // Validate every 3 files (smaller batches due to fewer files)
       if (this.processedFiles % 3 === 0 && this.processedFiles > 0) {
         if (!this.validateTypeScript()) {
-          console.error('🛑 Stopping due to TypeScript errors');
+          console.error("🛑 Stopping due to TypeScript errors");
           break;
         }
       }
@@ -309,21 +329,21 @@ function isDefined<T>(value: T | null | undefined): value is T {
     }
 
     // Summary
-    console.log('\n📊 Non-Null Assertion Fixing Summary:');
+    console.log("\n📊 Non-Null Assertion Fixing Summary:");
     console.log(`   Files processed: ${this.processedFiles}`);
     console.log(`   Total fixes applied: ${this.totalFixes}`);
     console.log(`   Errors encountered: ${this.errors.length}`);
 
     if (this.errors.length > 0) {
-      console.log('\n❌ Errors:');
+      console.log("\n❌ Errors:");
       this.errors.forEach(({ file, error }) => {
         console.log(`   ${file}: ${error}`);
       });
     }
 
     if (this.totalFixes > 0) {
-      console.log('\n✅ Non-null assertion fixes completed successfully!');
-      console.log('💡 Run yarn lint to verify the improvements');
+      console.log("\n✅ Non-null assertion fixes completed successfully!");
+      console.log("💡 Run yarn lint to verify the improvements");
     }
   }
 }

@@ -6,9 +6,9 @@
  * Uses targeted patterns without breaking existing code
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 class SelectiveTypeHarmonyFixer {
   constructor() {
@@ -16,30 +16,34 @@ class SelectiveTypeHarmonyFixer {
     this.fixedErrors = 0;
     this.skippedErrors = 0;
     this.maxFiles = 10;
-    this.targetErrors = ['TS2345', 'TS2322'];
+    this.targetErrors = ["TS2345", "TS2322"];
 
     // Proven safe patterns that won't cause side effects
     this.safePatterns = {
       // TS2345: Argument type mismatches
       array_spread_season: {
-        errorType: 'TS2345',
-        pattern: /Argument of type 'string' is not assignable to parameter of type 'Season'/,
+        errorType: "TS2345",
+        pattern:
+          /Argument of type 'string' is not assignable to parameter of type 'Season'/,
         fix: (line, errorInfo) => {
           // Fix season spread operations
-          return line.replace(/\.includes\(([^)]+)\s+as\s+Season\)/g, '.includes($1 as Season)');
+          return line.replace(
+            /\.includes\(([^)]+)\s+as\s+Season\)/g,
+            ".includes($1 as Season)",
+          );
         },
       },
 
       // TS2322: Type assignments
       empty_array_type: {
-        errorType: 'TS2322',
+        errorType: "TS2322",
         pattern: /Type '\[\]' is not assignable to type/,
         fix: (line, errorInfo) => {
           // Add proper type annotation to empty arrays
-          if (line.includes('= []')) {
+          if (line.includes("= []")) {
             const match = line.match(/const\s+(\w+)\s*=\s*\[\]/);
             if (match) {
-              return line.replace('= []', ': string[] = []');
+              return line.replace("= []", ": string[] = []");
             }
           }
           return line;
@@ -47,44 +51,49 @@ class SelectiveTypeHarmonyFixer {
       },
 
       missing_as_const: {
-        errorType: 'TS2322',
+        errorType: "TS2322",
         pattern: /Type 'string' is not assignable to type.*literal/,
         fix: (line, errorInfo) => {
           // Add 'as const' to literal assignments
-          if (line.includes("'") && !line.includes('as const')) {
-            return line.replace(/(['"])([^'"]+)\1(?!\s*as)/, '$1$2$1 as const');
+          if (line.includes("'") && !line.includes("as const")) {
+            return line.replace(/(['"])([^'"]+)\1(?!\s*as)/, "$1$2$1 as const");
           }
           return line;
         },
       },
 
       planet_type_cast: {
-        errorType: 'TS2345',
-        pattern: /Argument of type 'string' is not assignable to parameter of type 'Planet'/,
+        errorType: "TS2345",
+        pattern:
+          /Argument of type 'string' is not assignable to parameter of type 'Planet'/,
         fix: (line, errorInfo) => {
           // Cast planet strings to Planet type
-          return line.replace(/\((['"])(\w+)\1\)/g, '($1$2$1 as Planet)');
+          return line.replace(/\((['"])(\w+)\1\)/g, "($1$2$1 as Planet)");
         },
       },
 
       element_type_cast: {
-        errorType: 'TS2345',
-        pattern: /Argument of type 'string' is not assignable to parameter of type 'Element'/,
+        errorType: "TS2345",
+        pattern:
+          /Argument of type 'string' is not assignable to parameter of type 'Element'/,
         fix: (line, errorInfo) => {
           // Cast element strings to Element type
           if (line.match(/['"](?:Fire|Water|Earth|Air)['"]/)) {
-            return line.replace(/(["'])(Fire|Water|Earth|Air)\1/g, '$1$2$1 as Element');
+            return line.replace(
+              /(["'])(Fire|Water|Earth|Air)\1/g,
+              "$1$2$1 as Element",
+            );
           }
           return line;
         },
       },
 
       record_type_assertion: {
-        errorType: 'TS2322',
+        errorType: "TS2322",
         pattern: /Type '\{\}' is not assignable to type 'Record/,
         fix: (line, errorInfo) => {
           // Add type assertion to empty objects
-          return line.replace(/:\s*\{\}/g, ': {} as Record<string, unknown>');
+          return line.replace(/:\s*\{\}/g, ": {} as Record<string, unknown>");
         },
       },
     };
@@ -98,8 +107,8 @@ class SelectiveTypeHarmonyFixer {
   }
 
   async run() {
-    console.log('🎯 SELECTIVE TYPE HARMONY FIXER');
-    console.log(`Target errors: ${this.targetErrors.join(', ')}`);
+    console.log("🎯 SELECTIVE TYPE HARMONY FIXER");
+    console.log(`Target errors: ${this.targetErrors.join(", ")}`);
     console.log(`Max files per run: ${this.maxFiles}`);
 
     try {
@@ -129,42 +138,45 @@ class SelectiveTypeHarmonyFixer {
       }
 
       // Validate build
-      console.log('\n🔍 Validating build...');
+      console.log("\n🔍 Validating build...");
       const buildPassed = await this.validateBuild();
 
       // Get final error count
       const finalErrors = this.getErrorCount();
 
-      console.log('\n📊 RESULTS:');
+      console.log("\n📊 RESULTS:");
       console.log(
         `Errors reduced: ${initialErrors - finalErrors} (${(((initialErrors - finalErrors) / initialErrors) * 100).toFixed(1)}%)`,
       );
       console.log(`Errors fixed: ${this.fixedErrors}`);
       console.log(`Errors skipped: ${this.skippedErrors}`);
       console.log(`Files processed: ${this.processedFiles}`);
-      console.log(`Build status: ${buildPassed ? '✅ PASSED' : '❌ FAILED'}`);
+      console.log(`Build status: ${buildPassed ? "✅ PASSED" : "❌ FAILED"}`);
     } catch (error) {
-      console.error('❌ Error:', error.message);
+      console.error("❌ Error:", error.message);
     }
   }
 
   parseArgs() {
     const args = process.argv.slice(2);
-    args.forEach(arg => {
-      if (arg.startsWith('--max-files=')) {
-        this.maxFiles = parseInt(arg.split('=')[1]);
-      } else if (arg.startsWith('--target=')) {
-        this.targetErrors = arg.split('=')[1].split(',');
+    args.forEach((arg) => {
+      if (arg.startsWith("--max-files=")) {
+        this.maxFiles = parseInt(arg.split("=")[1]);
+      } else if (arg.startsWith("--target=")) {
+        this.targetErrors = arg.split("=")[1].split(",");
       }
     });
   }
 
   getErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: ['pipe', 'pipe', 'pipe'],
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: ["pipe", "pipe", "pipe"],
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -173,17 +185,22 @@ class SelectiveTypeHarmonyFixer {
 
   async getTargetedErrors() {
     try {
-      const errorPattern = this.targetErrors.join('|');
-      const output = execSync(`yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "${errorPattern}"`, {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024,
-      });
+      const errorPattern = this.targetErrors.join("|");
+      const output = execSync(
+        `yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "${errorPattern}"`,
+        {
+          encoding: "utf8",
+          maxBuffer: 10 * 1024 * 1024,
+        },
+      );
 
       return output
         .trim()
-        .split('\n')
-        .map(line => {
-          const match = line.match(/^(.+?)\((\d+),(\d+)\):\s*error\s+(TS\d+):\s*(.+)$/);
+        .split("\n")
+        .map((line) => {
+          const match = line.match(
+            /^(.+?)\((\d+),(\d+)\):\s*error\s+(TS\d+):\s*(.+)$/,
+          );
           if (match) {
             return {
               file: match[1],
@@ -215,8 +232,8 @@ class SelectiveTypeHarmonyFixer {
     console.log(`\n📁 Processing ${filePath} (${errors.length} errors)...`);
 
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
-      const lines = content.split('\n');
+      const content = fs.readFileSync(filePath, "utf8");
+      const lines = content.split("\n");
       let modified = false;
 
       // Sort errors by line number in reverse
@@ -224,7 +241,7 @@ class SelectiveTypeHarmonyFixer {
 
       for (const error of errors) {
         // Skip if error matches skip patterns
-        if (this.skipPatterns.some(pattern => pattern.test(error.message))) {
+        if (this.skipPatterns.some((pattern) => pattern.test(error.message))) {
           this.skippedErrors++;
           console.log(`  ⏭️  Skipped ${error.errorCode} on line ${error.line}`);
           continue;
@@ -232,8 +249,13 @@ class SelectiveTypeHarmonyFixer {
 
         // Try to apply safe patterns
         let fixed = false;
-        for (const [patternName, pattern] of Object.entries(this.safePatterns)) {
-          if (pattern.errorType === error.errorCode && pattern.pattern.test(error.message)) {
+        for (const [patternName, pattern] of Object.entries(
+          this.safePatterns,
+        )) {
+          if (
+            pattern.errorType === error.errorCode &&
+            pattern.pattern.test(error.message)
+          ) {
             const lineIndex = error.line - 1;
             if (lineIndex >= 0 && lineIndex < lines.length) {
               const originalLine = lines[lineIndex];
@@ -254,12 +276,14 @@ class SelectiveTypeHarmonyFixer {
         }
 
         if (!fixed) {
-          console.log(`  ⚠️  No pattern for ${error.errorCode} on line ${error.line}`);
+          console.log(
+            `  ⚠️  No pattern for ${error.errorCode} on line ${error.line}`,
+          );
         }
       }
 
       if (modified) {
-        fs.writeFileSync(filePath, lines.join('\n'));
+        fs.writeFileSync(filePath, lines.join("\n"));
         this.processedFiles++;
         console.log(`  💾 Saved changes to ${filePath}`);
       }
@@ -270,7 +294,7 @@ class SelectiveTypeHarmonyFixer {
 
   async validateBuild() {
     try {
-      execSync('yarn build', { stdio: 'ignore' });
+      execSync("yarn build", { stdio: "ignore" });
       return true;
     } catch (error) {
       return false;

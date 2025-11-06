@@ -7,10 +7,10 @@
  * Usage: node test-astrologize-live.js
  */
 
-import https from 'https';
+import https from "https";
 
 // API configuration
-const ASTROLOGIZE_API_URL = 'https://alchm-backend.onrender.com/astrologize';
+const ASTROLOGIZE_API_URL = "https://alchm-backend.onrender.com/astrologize";
 const DEFAULT_LOCATION = {
   latitude: 40.7498,
   longitude: -73.7976,
@@ -24,31 +24,33 @@ function makeApiRequest(data) {
     const postData = JSON.stringify(data);
 
     const options = {
-      hostname: 'alchm-backend.onrender.com',
+      hostname: "alchm-backend.onrender.com",
       port: 443,
-      path: '/astrologize',
-      method: 'POST',
+      path: "/astrologize",
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(postData),
+        "Content-Type": "application/json",
+        "Content-Length": Buffer.byteLength(postData),
       },
     };
 
-    const req = https.request(options, res => {
-      let responseData = '';
+    const req = https.request(options, (res) => {
+      let responseData = "";
 
-      res.on('data', chunk => {
+      res.on("data", (chunk) => {
         responseData += chunk;
       });
 
-      res.on('end', () => {
+      res.on("end", () => {
         try {
           const parsed = JSON.parse(responseData);
           if (res.statusCode === 200) {
             resolve(parsed);
           } else {
             reject(
-              new Error(`API Error: ${res.statusCode} - ${parsed.message || 'Unknown error'}`),
+              new Error(
+                `API Error: ${res.statusCode} - ${parsed.message || "Unknown error"}`,
+              ),
             );
           }
         } catch (error) {
@@ -57,7 +59,7 @@ function makeApiRequest(data) {
       });
     });
 
-    req.on('error', error => {
+    req.on("error", (error) => {
       reject(new Error(`Request failed: ${error.message}`));
     });
 
@@ -87,25 +89,25 @@ function getCurrentDateTime() {
  */
 function formatPlanetaryPositions(planets) {
   const planetOrder = [
-    'Sun',
-    'Moon',
-    'Mercury',
-    'Venus',
-    'Mars',
-    'Jupiter',
-    'Saturn',
-    'Uranus',
-    'Neptune',
-    'Pluto',
+    "Sun",
+    "Moon",
+    "Mercury",
+    "Venus",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+    "Pluto",
   ];
   const formatted = [];
 
-  planetOrder.forEach(planet => {
+  planetOrder.forEach((planet) => {
     if (planets[planet]) {
       const data = planets[planet];
       const signName = data.sign.charAt(0).toUpperCase() + data.sign.slice(1);
       const degree = data.degree.toFixed(2);
-      const retrograde = data.isRetrograde ? ' ℞' : '';
+      const retrograde = data.isRetrograde ? " ℞" : "";
 
       formatted.push(
         `  ${planet.padEnd(8)}: ${signName.padEnd(11)} ${degree.padStart(5)}°${retrograde}`,
@@ -121,20 +123,20 @@ function formatPlanetaryPositions(planets) {
  */
 function getSignElement(sign) {
   const elements = {
-    aries: 'Fire',
-    leo: 'Fire',
-    sagittarius: 'Fire',
-    taurus: 'Earth',
-    virgo: 'Earth',
-    capricorn: 'Earth',
-    gemini: 'Air',
-    libra: 'Air',
-    aquarius: 'Air',
-    cancer: 'Water',
-    scorpio: 'Water',
-    pisces: 'Water',
+    aries: "Fire",
+    leo: "Fire",
+    sagittarius: "Fire",
+    taurus: "Earth",
+    virgo: "Earth",
+    capricorn: "Earth",
+    gemini: "Air",
+    libra: "Air",
+    aquarius: "Air",
+    cancer: "Water",
+    scorpio: "Water",
+    pisces: "Water",
   };
-  return elements[sign.toLowerCase()] || 'Unknown';
+  return elements[sign.toLowerCase()] || "Unknown";
 }
 
 /**
@@ -142,20 +144,20 @@ function getSignElement(sign) {
  */
 function getSeason(sign) {
   const seasons = {
-    aries: 'Spring',
-    taurus: 'Spring',
-    gemini: 'Spring',
-    cancer: 'Summer',
-    leo: 'Summer',
-    virgo: 'Summer',
-    libra: 'Autumn',
-    scorpio: 'Autumn',
-    sagittarius: 'Autumn',
-    capricorn: 'Winter',
-    aquarius: 'Winter',
-    pisces: 'Winter',
+    aries: "Spring",
+    taurus: "Spring",
+    gemini: "Spring",
+    cancer: "Summer",
+    leo: "Summer",
+    virgo: "Summer",
+    libra: "Autumn",
+    scorpio: "Autumn",
+    sagittarius: "Autumn",
+    capricorn: "Winter",
+    aquarius: "Winter",
+    pisces: "Winter",
   };
-  return seasons[sign.toLowerCase()] || 'Unknown';
+  return seasons[sign.toLowerCase()] || "Unknown";
 }
 
 /**
@@ -164,7 +166,7 @@ function getSeason(sign) {
 function calculateElementalDistribution(planets) {
   const counts = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
 
-  Object.values(planets).forEach(planet => {
+  Object.values(planets).forEach((planet) => {
     if (planet && planet.sign) {
       const element = getSignElement(planet.sign);
       if (counts[element] !== undefined) {
@@ -180,25 +182,25 @@ function calculateElementalDistribution(planets) {
  * Main test function
  */
 async function testAstrologizeAPI() {
-  console.log('\n🌟 ASTROLOGIZE API LIVE TEST');
-  console.log('============================');
-  console.log('🕐 Current Time:', new Date().toLocaleString());
-  console.log('🌍 Location: NYC Area (Default)');
-  console.log('🔗 API Endpoint:', ASTROLOGIZE_API_URL);
-  console.log('\n📡 Testing API connection...\n');
+  console.log("\n🌟 ASTROLOGIZE API LIVE TEST");
+  console.log("============================");
+  console.log("🕐 Current Time:", new Date().toLocaleString());
+  console.log("🌍 Location: NYC Area (Default)");
+  console.log("🔗 API Endpoint:", ASTROLOGIZE_API_URL);
+  console.log("\n📡 Testing API connection...\n");
 
   try {
     // Prepare request data
     const requestData = getCurrentDateTime();
-    console.log('📤 Request Data:', JSON.stringify(requestData, null, 2));
+    console.log("📤 Request Data:", JSON.stringify(requestData, null, 2));
 
     // Make API call
-    console.log('\n⏳ Calling astrologize API...');
+    console.log("\n⏳ Calling astrologize API...");
     const response = await makeApiRequest(requestData);
 
-    console.log('\n✅ API Response received!');
-    console.log('\n📋 RAW API RESPONSE:');
-    console.log('====================');
+    console.log("\n✅ API Response received!");
+    console.log("\n📋 RAW API RESPONSE:");
+    console.log("====================");
     console.log(JSON.stringify(response, null, 2));
 
     // Extract and format planetary data
@@ -209,15 +211,15 @@ async function testAstrologizeAPI() {
     ) {
       const planets = response.astrology_info.horoscope_parameters.planets;
 
-      console.log('\n🪐 CURRENT PLANETARY POSITIONS:');
-      console.log('================================');
+      console.log("\n🪐 CURRENT PLANETARY POSITIONS:");
+      console.log("================================");
 
       const formattedPositions = formatPlanetaryPositions(planets);
-      formattedPositions.forEach(line => console.log(line));
+      formattedPositions.forEach((line) => console.log(line));
 
       // Analysis
-      console.log('\n📊 ASTROLOGICAL ANALYSIS:');
-      console.log('==========================');
+      console.log("\n📊 ASTROLOGICAL ANALYSIS:");
+      console.log("==========================");
 
       // Sun analysis
       if (planets.Sun) {
@@ -239,7 +241,7 @@ async function testAstrologizeAPI() {
 
       // Elemental distribution
       const elementCounts = calculateElementalDistribution(planets);
-      console.log('\n🔥 ELEMENTAL DISTRIBUTION:');
+      console.log("\n🔥 ELEMENTAL DISTRIBUTION:");
       console.log(`   Fire: ${elementCounts.Fire} planets`);
       console.log(`   Earth: ${elementCounts.Earth} planets`);
       console.log(`   Air: ${elementCounts.Air} planets`);
@@ -251,36 +253,36 @@ async function testAstrologizeAPI() {
       )[0];
       console.log(`   Dominant element: ${dominantElement}`);
 
-      console.log('\n🎯 TEST STATUS: SUCCESS! ✅');
-      console.log('The astrologize API integration is working correctly.');
+      console.log("\n🎯 TEST STATUS: SUCCESS! ✅");
+      console.log("The astrologize API integration is working correctly.");
     } else {
-      console.log('\n❌ ERROR: Unexpected API response structure');
-      console.log('Expected planets data not found in response');
+      console.log("\n❌ ERROR: Unexpected API response structure");
+      console.log("Expected planets data not found in response");
     }
   } catch (error) {
-    console.log('\n❌ API TEST FAILED');
-    console.log('==================');
-    console.log('Error:', error.message);
-    console.log('\nPossible causes:');
-    console.log('- API server is down');
-    console.log('- Network connectivity issues');
-    console.log('- API endpoint changed');
-    console.log('- Invalid request format');
+    console.log("\n❌ API TEST FAILED");
+    console.log("==================");
+    console.log("Error:", error.message);
+    console.log("\nPossible causes:");
+    console.log("- API server is down");
+    console.log("- Network connectivity issues");
+    console.log("- API endpoint changed");
+    console.log("- Invalid request format");
 
-    console.log('\n🔧 FALLBACK TEST: Testing request structure...');
-    console.log('Request would be sent to:', ASTROLOGIZE_API_URL);
-    console.log('With data:', JSON.stringify(getCurrentDateTime(), null, 2));
+    console.log("\n🔧 FALLBACK TEST: Testing request structure...");
+    console.log("Request would be sent to:", ASTROLOGIZE_API_URL);
+    console.log("With data:", JSON.stringify(getCurrentDateTime(), null, 2));
   }
 
-  console.log('\n============================');
-  console.log('🏁 Test completed at:', new Date().toLocaleString());
-  console.log('============================\n');
+  console.log("\n============================");
+  console.log("🏁 Test completed at:", new Date().toLocaleString());
+  console.log("============================\n");
 }
 
 // Test with custom location
 async function testWithCustomLocation() {
-  console.log('\n🌎 TESTING WITH CUSTOM LOCATION (London)');
-  console.log('=========================================');
+  console.log("\n🌎 TESTING WITH CUSTOM LOCATION (London)");
+  console.log("=========================================");
 
   try {
     const londonData = {
@@ -289,17 +291,20 @@ async function testWithCustomLocation() {
       longitude: -0.1278,
     };
 
-    console.log('📍 Location: London, UK');
-    console.log('📤 Request:', JSON.stringify(londonData, null, 2));
+    console.log("📍 Location: London, UK");
+    console.log("📤 Request:", JSON.stringify(londonData, null, 2));
 
     const response = await makeApiRequest(londonData);
-    console.log('✅ London test successful!');
+    console.log("✅ London test successful!");
 
-    if (response.astrology_info && response.astrology_info.horoscope_parameters) {
-      console.log('📊 Received planetary data for London coordinates');
+    if (
+      response.astrology_info &&
+      response.astrology_info.horoscope_parameters
+    ) {
+      console.log("📊 Received planetary data for London coordinates");
     }
   } catch (error) {
-    console.log('❌ London test failed:', error.message);
+    console.log("❌ London test failed:", error.message);
   }
 }
 
@@ -308,8 +313,8 @@ async function main() {
   await testAstrologizeAPI();
   await testWithCustomLocation();
 
-  console.log('🚀 All tests completed!');
-  console.log('Integration is ready for production use.');
+  console.log("🚀 All tests completed!");
+  console.log("Integration is ready for production use.");
 }
 
 // Execute if run directly

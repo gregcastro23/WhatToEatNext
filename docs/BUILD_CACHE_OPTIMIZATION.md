@@ -125,12 +125,12 @@ const nextConfig = {
   webpack: (config, { dev }) => {
     if (!dev) {
       config.cache = {
-        type: 'filesystem',
+        type: "filesystem",
         buildDependencies: {
           config: [__filename],
         },
-        cacheDirectory: path.resolve(__dirname, '.next/cache'),
-        compression: 'gzip',
+        cacheDirectory: path.resolve(__dirname, ".next/cache"),
+        compression: "gzip",
         maxAge: 172800000, // 2 days
       };
     }

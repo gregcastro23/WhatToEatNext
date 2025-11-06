@@ -22,6 +22,7 @@ This knowledge base captures the collective wisdom, patterns, and solutions disc
 ### Major Recovery Campaigns
 
 #### Campaign 1: Initial TypeScript Error Elimination (August 2025)
+
 - **Starting State**: 1,811 TypeScript errors
 - **Final State**: 218 TypeScript errors (88% reduction)
 - **Duration**: 3 weeks
@@ -32,12 +33,14 @@ This knowledge base captures the collective wisdom, patterns, and solutions disc
   - Preserved astrological calculation accuracy throughout
 
 **Lessons Learned**:
+
 - Systematic approach with proven scripts is more effective than manual fixes
 - Build stability must be validated after every major batch of fixes
 - Domain-specific patterns (astrological calculations) require special handling
 - Safety protocols with git stash are essential for large-scale changes
 
 #### Campaign 2: ESLint Configuration Optimization (January 2025)
+
 - **Achievement**: 95% performance improvement in linting analysis
 - **Key Innovation**: Dual configuration strategy (fast + type-aware)
 - **Performance Results**:
@@ -46,6 +49,7 @@ This knowledge base captures the collective wisdom, patterns, and solutions disc
   - Full codebase analysis reduced from >60s to <30s
 
 **Lessons Learned**:
+
 - Performance optimization is crucial for developer experience
 - Dual configurations allow both speed and thoroughness
 - Caching strategies dramatically improve repeated analysis
@@ -54,18 +58,21 @@ This knowledge base captures the collective wisdom, patterns, and solutions disc
 ### Evolution of Error Patterns
 
 #### Phase 1: Syntax Corruption Era
+
 - **Period**: Early development
 - **Characteristics**: Malformed type casting, template literal issues
 - **Root Cause**: Aggressive automated fixes without proper validation
 - **Resolution**: Development of syntax-aware fixing scripts
 
 #### Phase 2: Type Safety Enforcement Era
+
 - **Period**: Mid-development
 - **Characteristics**: Strict TypeScript mode adoption, explicit any elimination
 - **Root Cause**: Transition from permissive to strict type checking
 - **Resolution**: Gradual type safety improvement with domain awareness
 
 #### Phase 3: Performance Optimization Era
+
 - **Period**: Recent development
 - **Characteristics**: Focus on build and analysis performance
 - **Root Cause**: Codebase growth requiring scalable tooling
@@ -76,9 +83,11 @@ This knowledge base captures the collective wisdom, patterns, and solutions disc
 ### TypeScript Error Patterns
 
 #### TS2571: Object is of type 'unknown'
+
 **Frequency**: Very High (229 instances eliminated)
 **Success Rate**: 100% automated fix success
 **Pattern Recognition**:
+
 ```typescript
 // Common occurrence pattern
 const data = await apiCall();
@@ -86,17 +95,19 @@ const value = data.someProperty; // TS2571 error
 ```
 
 **Root Causes**:
+
 1. Strict TypeScript mode treating untyped objects as `unknown`
 2. API responses without proper type definitions
 3. Dynamic property access on external data
 
 **Proven Solutions**:
+
 ```typescript
 // Solution A: Type assertion with Record
 const value = (data as Record<string, unknown>).someProperty;
 
 // Solution B: Type guard approach
-if (typeof data === 'object' && data !== null && 'someProperty' in data) {
+if (typeof data === "object" && data !== null && "someProperty" in data) {
   const value = (data as { someProperty: unknown }).someProperty;
 }
 
@@ -110,19 +121,23 @@ const typedData = data as ApiResponse;
 **Automated Fix**: `fix-ts2571-errors.cjs` (100% success rate)
 
 #### TS2339: Property does not exist on type
+
 **Frequency**: High (92% automated fix success)
 **Pattern Recognition**:
+
 ```typescript
 // Common in astrological calculations
 const retrograde = planetData.isRetrograde; // TS2339 if not in interface
 ```
 
 **Domain-Specific Considerations**:
+
 - Astrological objects often have dynamic properties
 - Planetary position data varies by calculation method
 - Transit dates may have optional properties
 
 **Proven Solutions**:
+
 ```typescript
 // Solution A: Optional chaining
 const retrograde = planetData.isRetrograde?.valueOf();
@@ -141,13 +156,16 @@ interface FlexiblePlanetaryData {
 ```
 
 #### TS1005: Syntax Errors
+
 **Frequency**: Medium (requires manual attention)
 **Pattern Recognition**:
+
 - Malformed type casting: `as unknown as Type`
 - Incomplete expressions: `const x = ;`
 - Template literal corruption: `\`Hello ${name;`
 
 **Prevention Strategies**:
+
 1. Validate syntax before applying automated fixes
 2. Use incremental fixing with frequent validation
 3. Implement syntax checking in pre-commit hooks
@@ -155,11 +173,13 @@ interface FlexiblePlanetaryData {
 ### ESLint Error Patterns
 
 #### @typescript-eslint/no-explicit-any
+
 **Frequency**: Very High (~500+ instances)
 **Business Impact**: Medium (type safety concern)
 **Domain Considerations**: Astrological calculations often need flexible typing
 
 **Strategic Approach**:
+
 ```typescript
 // Acceptable any usage (with justification)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -171,10 +191,12 @@ const astronomicalData: Record<string, unknown> = externalLibraryCall();
 ```
 
 #### @typescript-eslint/no-unused-vars
+
 **Frequency**: High (~1,466 instances)
 **Domain Patterns**: Astrological variables often appear unused but are semantically important
 
 **Domain-Aware Solutions**:
+
 ```typescript
 // Preserve astrological variables with underscore prefix
 const _planetaryPosition = calculatePosition(); // Semantically important
@@ -189,10 +211,12 @@ const _transitDate = getTransitDate(); // Used in calculations
 ```
 
 #### react-hooks/exhaustive-deps
+
 **Frequency**: Medium (59 instances, 85% reduction achieved)
 **Astrological Context**: Planetary calculations have complex dependencies
 
 **Proven Patterns**:
+
 ```typescript
 // Correct dependency handling for astrological calculations
 useEffect(() => {
@@ -215,6 +239,7 @@ useEffect(() => {
 ### High-Success Automated Solutions
 
 #### TypeScript Error Resolution
+
 ```bash
 # Systematic TypeScript error resolution (95% success rate)
 node fix-systematic-typescript-errors.cjs
@@ -226,6 +251,7 @@ node fix-malformed-syntax.cjs # 88% success rate
 ```
 
 #### ESLint Warning Resolution
+
 ```bash
 # Targeted warning fixes
 node fix-explicit-any-targeted.cjs    # 90% success rate
@@ -235,6 +261,7 @@ node fix-exhaustive-deps.cjs          # 85% success rate
 ```
 
 #### Build Performance Optimization
+
 ```bash
 # Performance optimization
 node optimize-build-performance.cjs   # 90% success rate
@@ -245,6 +272,7 @@ node memory-cleanup.cjs               # 95% success rate
 ### Manual Resolution Patterns
 
 #### Complex Type Definitions
+
 ```typescript
 // Pattern: Astrological calculation types
 interface PlanetaryPosition {
@@ -262,13 +290,14 @@ interface PlanetaryPosition {
 // Pattern: Flexible API response types
 interface AstrologicalApiResponse<T = unknown> {
   data: T;
-  status: 'success' | 'error';
+  status: "success" | "error";
   timestamp: string;
   metadata?: Record<string, unknown>;
 }
 ```
 
 #### Domain-Specific ESLint Configurations
+
 ```javascript
 // Astrological calculation files
 {
@@ -300,18 +329,21 @@ interface AstrologicalApiResponse<T = unknown> {
 ### Success Factors
 
 #### 1. Systematic Approach
+
 - **Batch Processing**: Process 15-25 files at a time
 - **Frequent Validation**: Test build after every batch
 - **Safety Protocols**: Git stash before major changes
 - **Progress Tracking**: Document improvements at each step
 
 #### 2. Domain Awareness
+
 - **Preserve Functionality**: Never sacrifice working code for clean linting
 - **Understand Context**: Astrological calculations have unique requirements
 - **Respect Patterns**: Campaign system variables serve specific purposes
 - **Cultural Sensitivity**: Maintain respectful representation in code
 
 #### 3. Performance Optimization
+
 - **Dual Configurations**: Fast for development, comprehensive for CI
 - **Intelligent Caching**: 6-hour cache retention with smart invalidation
 - **Parallel Processing**: 50 files per process for large codebases
@@ -320,12 +352,14 @@ interface AstrologicalApiResponse<T = unknown> {
 ### Failure Patterns and Avoidance
 
 #### Common Failure Modes
+
 1. **Batch Too Large**: Processing >50 files at once often causes issues
 2. **Skip Validation**: Not testing build after changes leads to broken state
 3. **Ignore Domain**: Generic fixes break astrological calculations
 4. **Rush Process**: Hurrying leads to syntax corruption and regressions
 
 #### Prevention Strategies
+
 ```bash
 # Always validate before proceeding
 validate_build() {
@@ -359,6 +393,7 @@ process_batch() {
 ## Prevention Strategies
 
 ### Pre-commit Hooks
+
 ```bash
 #!/bin/sh
 # .husky/pre-commit
@@ -388,6 +423,7 @@ echo "✅ Pre-commit validation passed"
 ```
 
 ### CI/CD Quality Gates
+
 ```yaml
 # .github/workflows/quality-gates.yml
 name: Quality Gates
@@ -401,8 +437,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'yarn'
+          node-version: "18"
+          cache: "yarn"
 
       - run: yarn install --frozen-lockfile
 
@@ -420,6 +456,7 @@ jobs:
 ```
 
 ### Monitoring and Alerting
+
 ```bash
 # Daily error monitoring (cron job)
 #!/bin/bash
@@ -457,17 +494,19 @@ fi
 ## Performance Optimization
 
 ### Build Performance Benchmarks
-| Metric | Target | Current | Status |
-|--------|--------|---------|--------|
-| TypeScript Compilation | < 30s | 3.0s | ✅ Excellent |
-| ESLint Analysis (Fast) | < 10s | 3.3s | ✅ Excellent |
-| ESLint Analysis (Full) | < 30s | 28s | ✅ Good |
-| Production Build | < 60s | 45s | ✅ Good |
-| Development Server Start | < 15s | 8s | ✅ Excellent |
+
+| Metric                   | Target | Current | Status       |
+| ------------------------ | ------ | ------- | ------------ |
+| TypeScript Compilation   | < 30s  | 3.0s    | ✅ Excellent |
+| ESLint Analysis (Fast)   | < 10s  | 3.3s    | ✅ Excellent |
+| ESLint Analysis (Full)   | < 30s  | 28s     | ✅ Good      |
+| Production Build         | < 60s  | 45s     | ✅ Good      |
+| Development Server Start | < 15s  | 8s      | ✅ Excellent |
 
 ### Optimization Strategies
 
 #### TypeScript Compilation
+
 ```json
 // tsconfig.json optimizations
 {
@@ -477,33 +516,30 @@ fi
     "skipLibCheck": true,
     "skipDefaultLibCheck": true
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }
 ```
 
 #### ESLint Configuration
+
 ```javascript
 // eslint.config.fast.cjs - Development configuration
 module.exports = {
   cache: true,
-  cacheLocation: '.eslintcache',
-  cacheStrategy: 'content',
+  cacheLocation: ".eslintcache",
+  cacheStrategy: "content",
 
   // Disable expensive rules for development
   rules: {
-    '@typescript-eslint/no-floating-promises': 'off',
-    '@typescript-eslint/no-misused-promises': 'off',
-    '@typescript-eslint/require-await': 'off'
-  }
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/require-await": "off",
+  },
 };
 ```
 
 #### Memory Management
+
 ```bash
 # Increase Node.js memory limit for large codebases
 export NODE_OPTIONS="--max-old-space-size=4096"
@@ -518,6 +554,7 @@ rm -rf .next .eslintcache node_modules/.cache
 ### Astrological Calculation Patterns
 
 #### Planetary Position Handling
+
 ```typescript
 // Standard pattern for planetary position validation
 interface PlanetaryPosition {
@@ -529,14 +566,16 @@ interface PlanetaryPosition {
 }
 
 // Validation function
-function validatePlanetaryPosition(position: unknown): position is PlanetaryPosition {
+function validatePlanetaryPosition(
+  position: unknown,
+): position is PlanetaryPosition {
   return (
-    typeof position === 'object' &&
+    typeof position === "object" &&
     position !== null &&
-    'planet' in position &&
-    'sign' in position &&
-    'degree' in position &&
-    typeof (position as any).degree === 'number' &&
+    "planet" in position &&
+    "sign" in position &&
+    "degree" in position &&
+    typeof (position as any).degree === "number" &&
     (position as any).degree >= 0 &&
     (position as any).degree < 30
   );
@@ -544,9 +583,14 @@ function validatePlanetaryPosition(position: unknown): position is PlanetaryPosi
 ```
 
 #### Transit Date Validation
+
 ```typescript
 // Pattern for validating transit dates against stored data
-function validateTransitDate(planet: string, date: Date, sign: string): boolean {
+function validateTransitDate(
+  planet: string,
+  date: Date,
+  sign: string,
+): boolean {
   try {
     const planetData = require(`@/data/planets/${planet.toLowerCase()}`);
     const transitDates = planetData.TransitDates;
@@ -570,6 +614,7 @@ function validateTransitDate(planet: string, date: Date, sign: string): boolean 
 ### Campaign System Patterns
 
 #### Metrics Collection
+
 ```typescript
 // Standard pattern for campaign metrics
 interface CampaignMetrics {
@@ -586,31 +631,40 @@ async function collectCampaignMetrics(): Promise<CampaignMetrics> {
   const startTime = Date.now();
 
   // TypeScript error count
-  const tsResult = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-    encoding: 'utf8',
-    stdio: 'pipe'
-  });
+  const tsResult = execSync(
+    'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+    {
+      encoding: "utf8",
+      stdio: "pipe",
+    },
+  );
   const typeScriptErrors = parseInt(tsResult.trim()) || 0;
 
   // ESLint analysis
   let eslintErrors = 0;
   let eslintWarnings = 0;
   try {
-    const eslintResult = execSync('yarn lint:quick --format=json', {
-      encoding: 'utf8',
-      stdio: 'pipe'
+    const eslintResult = execSync("yarn lint:quick --format=json", {
+      encoding: "utf8",
+      stdio: "pipe",
     });
     const data = JSON.parse(eslintResult);
-    eslintErrors = data.reduce((sum: number, file: any) => sum + file.errorCount, 0);
-    eslintWarnings = data.reduce((sum: number, file: any) => sum + file.warningCount, 0);
+    eslintErrors = data.reduce(
+      (sum: number, file: any) => sum + file.errorCount,
+      0,
+    );
+    eslintWarnings = data.reduce(
+      (sum: number, file: any) => sum + file.warningCount,
+      0,
+    );
   } catch (error) {
-    console.warn('ESLint analysis failed during metrics collection');
+    console.warn("ESLint analysis failed during metrics collection");
   }
 
   // Build time measurement
   const buildStart = Date.now();
   try {
-    execSync('yarn build', { stdio: 'pipe' });
+    execSync("yarn build", { stdio: "pipe" });
   } catch (error) {
     // Build failed, but we still want to record the attempt time
   }
@@ -622,7 +676,7 @@ async function collectCampaignMetrics(): Promise<CampaignMetrics> {
     eslintErrors,
     eslintWarnings,
     buildTime,
-    memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024 // MB
+    memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024, // MB
   };
 }
 ```
@@ -715,52 +769,59 @@ Build Performance Issues
 ## Success Metrics and Benchmarks
 
 ### Primary Success Criteria
-| Metric | Target | Current Best | Status |
-|--------|--------|--------------|--------|
-| TypeScript Errors | 0 | 218 | 🟡 In Progress |
-| ESLint Errors | 0 | ~1,000 | 🔴 Needs Work |
-| ESLint Warnings | < 100 | ~3,600 | 🔴 Needs Work |
-| Build Success Rate | 100% | 100% | ✅ Achieved |
-| Recovery Time | < 2 hours | 1.5 hours | ✅ Achieved |
+
+| Metric             | Target    | Current Best | Status         |
+| ------------------ | --------- | ------------ | -------------- |
+| TypeScript Errors  | 0         | 218          | 🟡 In Progress |
+| ESLint Errors      | 0         | ~1,000       | 🔴 Needs Work  |
+| ESLint Warnings    | < 100     | ~3,600       | 🔴 Needs Work  |
+| Build Success Rate | 100%      | 100%         | ✅ Achieved    |
+| Recovery Time      | < 2 hours | 1.5 hours    | ✅ Achieved    |
 
 ### Performance Benchmarks
-| Metric | Target | Current | Trend |
-|--------|--------|---------|-------|
-| TypeScript Compilation | < 30s | 3.0s | ✅ Excellent |
-| ESLint Fast Analysis | < 10s | 3.3s | ✅ Excellent |
-| ESLint Full Analysis | < 30s | 28s | ✅ Good |
-| Production Build | < 60s | 45s | ✅ Good |
-| Memory Usage Peak | < 4GB | 2.1GB | ✅ Good |
+
+| Metric                 | Target | Current | Trend        |
+| ---------------------- | ------ | ------- | ------------ |
+| TypeScript Compilation | < 30s  | 3.0s    | ✅ Excellent |
+| ESLint Fast Analysis   | < 10s  | 3.3s    | ✅ Excellent |
+| ESLint Full Analysis   | < 30s  | 28s     | ✅ Good      |
+| Production Build       | < 60s  | 45s     | ✅ Good      |
+| Memory Usage Peak      | < 4GB  | 2.1GB   | ✅ Good      |
 
 ### Quality Indicators
-| Indicator | Target | Current | Notes |
-|-----------|--------|---------|-------|
-| Code Functionality | No regression | ✅ Maintained | All features working |
-| Astrological Accuracy | 100% preserved | ✅ Maintained | Calculations intact |
+
+| Indicator                 | Target         | Current       | Notes                      |
+| ------------------------- | -------------- | ------------- | -------------------------- |
+| Code Functionality        | No regression  | ✅ Maintained | All features working       |
+| Astrological Accuracy     | 100% preserved | ✅ Maintained | Calculations intact        |
 | Campaign System Integrity | 100% preserved | ✅ Maintained | Metrics collection working |
-| Developer Experience | Improved | ✅ Improved | Faster feedback loops |
+| Developer Experience      | Improved       | ✅ Improved   | Faster feedback loops      |
 
 ## Future Considerations
 
 ### Emerging Patterns
+
 1. **AI-Assisted Code Fixes**: Machine learning models for pattern recognition
 2. **Predictive Error Prevention**: Anticipating issues before they occur
 3. **Cross-Project Learning**: Sharing solutions across similar codebases
 4. **Real-Time Quality Monitoring**: Continuous quality assessment
 
 ### Technology Evolution
+
 1. **TypeScript Updates**: New language features and stricter checking
 2. **ESLint Rule Evolution**: New rules and deprecation of old ones
 3. **Build Tool Improvements**: Faster compilation and analysis tools
 4. **IDE Integration**: Better real-time feedback and fix suggestions
 
 ### Scalability Considerations
+
 1. **Codebase Growth**: Handling larger codebases efficiently
 2. **Team Scaling**: Multiple developers working simultaneously
 3. **CI/CD Evolution**: More sophisticated quality gates
 4. **Automation Enhancement**: Smarter automated fixes
 
 ### Research Areas
+
 1. **Pattern Recognition**: Automated identification of new error patterns
 2. **Fix Validation**: Ensuring fixes don't introduce regressions
 3. **Performance Optimization**: Faster analysis and fixing
@@ -769,18 +830,21 @@ Build Performance Issues
 ## Knowledge Base Maintenance
 
 ### Regular Updates
+
 - **Weekly**: Update success rates based on recent script usage
 - **Monthly**: Add new error patterns and solutions discovered
 - **Quarterly**: Review and update benchmarks and targets
 - **Annually**: Comprehensive review and reorganization
 
 ### Contribution Guidelines
+
 1. **Document New Patterns**: When encountering new error types
 2. **Share Solutions**: Successful manual fixes should be documented
 3. **Update Metrics**: Keep success rates and benchmarks current
 4. **Validate Information**: Ensure all documented solutions work
 
 ### Quality Assurance
+
 - All documented solutions must be tested and validated
 - Success rates must be based on actual usage data
 - Performance benchmarks must be regularly verified

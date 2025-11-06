@@ -1,10 +1,14 @@
-import type { AlchemicalResult, ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import type {
+  AlchemicalResult,
+  ElementalProperties,
+  ZodiacSign,
+} from "@/types/alchemy";
 import {
   calculateAlchemicalCompatibility,
   calculateAstrologicalAffinity,
-  validateAlgorithms
-} from '../calculations/enhancedAlchemicalMatching';
-import { getZodiacElementalInfluence } from './zodiacUtils';
+  validateAlgorithms,
+} from "../calculations/enhancedAlchemicalMatching";
+import { getZodiacElementalInfluence } from "./zodiacUtils";
 
 /**
  * Utility function to get enhanced food recommendations based on
@@ -27,16 +31,16 @@ export function getEnhancedFoodRecommendation(
   // Apply surgical type casting with variable extraction
   const resultData = alchemicalResult as unknown;
   const dominant = resultData?.dominant;
-  const dominantElement = dominant?.element || 'balanced'
+  const dominantElement = dominant?.element || "balanced";
   return {
-    cookingMethod: 'See existing recipes',
-    mainIngredient: 'See existing recipes',
-    secondaryIngredient: 'See existing recipes',
+    cookingMethod: "See existing recipes",
+    mainIngredient: "See existing recipes",
+    secondaryIngredient: "See existing recipes",
     reasoning: {
       elementalInfluence: `Using existing recipes with ${dominantElement} qualities.`,
-      planetary: 'Recipe generation is deactivated.'
-}
-  }
+      planetary: "Recipe generation is deactivated.",
+    },
+  };
 
   // Original implementation commented out
   // return generateEnhancedRecommendation(alchemicalResult, userPreferences, season)
@@ -58,7 +62,12 @@ export function getIngredientCompatibility(
   signA?: any,
   signB?: any,
 ) {
-  return calculateAlchemicalCompatibility(ingredientA, ingredientB, signA, signB)
+  return calculateAlchemicalCompatibility(
+    ingredientA,
+    ingredientB,
+    signA,
+    signB,
+  );
 }
 
 /**
@@ -77,25 +86,25 @@ export function getUserFoodCompatibility(
 ) {
   // Map food elements to zodiac signs for compatibility calculation
   const foodSignMap: Record<string, ZodiacSign> = {
-    Fire: 'aries' as any, // Could also use leo or sagittarius,
-    Water: 'cancer' as any, // Could also use scorpio or pisces,
-    Earth: 'taurus' as any, // Could also use virgo or capricorn,
-    Air: 'gemini' as any, // Could also use libra or aquarius
-  }
+    Fire: "aries" as any, // Could also use leo or sagittarius,
+    Water: "cancer" as any, // Could also use scorpio or pisces,
+    Earth: "taurus" as any, // Could also use virgo or capricorn,
+    Air: "gemini" as any, // Could also use libra or aquarius
+  };
 
-  const foodSign = foodSignMap[foodElement] || ('aries' as any)
+  const foodSign = foodSignMap[foodElement] || ("aries" as any);
 
   // Get base astrological affinity;
-  const baseAffinity = calculateAstrologicalAffinity(userSign, foodSign)
+  const baseAffinity = calculateAstrologicalAffinity(userSign, foodSign);
 
   // Get user's elemental profile based on zodiac sign
-  const userElementalProfile = getZodiacElementalInfluence(userSign)
+  const userElementalProfile = getZodiacElementalInfluence(userSign);
 
   // Calculate elemental compatibility
   const elementalCompatibility = calculateAlchemicalCompatibility(
     userElementalProfile,
     foodElementalProps,
-  )
+  );
 
   // Weight factors (favoring elemental compatibility over just sign compatibility)
   return baseAffinity * 0.4 + elementalCompatibility * 0.6;
@@ -126,9 +135,10 @@ export function generatePersonalizedMealPlan(
   // Recipe generation functionality is deactivated
   // Return a simple placeholder instead
   return {
-    _message: 'Recipe generation is deactivated. Using existing recipes instead.',
-    dominant
-  }
+    _message:
+      "Recipe generation is deactivated. Using existing recipes instead.",
+    dominant,
+  };
 
   /* Original implementation commented out
   // Get basic recommendation
@@ -222,7 +232,7 @@ export function generatePersonalizedMealPlan(
  */
 function _getBalancingElement(element) {
   // Elements work best with themselves - reinforcing the current energy
-  return element
+  return element;
 }
 
 /**
@@ -232,7 +242,7 @@ function _getBalancingElement(element) {
  * @returns Validation results with test outcomes
  */
 export function validateEnhancedAlgorithms() {
-  return validateAlgorithms()
+  return validateAlgorithms();
 }
 
 /**
@@ -262,10 +272,11 @@ export function enhanceAlchemicalCalculations(
 
   // Return basic recommendation for all cases while recipe generation is disabled
   return {
-    type: 'basicRecommendation',
+    type: "basicRecommendation",
     result: basicRecommendation,
-    _note: 'Recipe generation is temporarily disabled. Using existing recipes instead.'
-}
+    _note:
+      "Recipe generation is temporarily disabled. Using existing recipes instead.",
+  };
 
   /* Original implementation commented out
   // If we have more user data, generate a complete meal plan

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 /**
  * Fix TypeScript errors in test files
@@ -9,14 +9,14 @@ const path = require('path');
  */
 
 function fixMainPageWorkflowsTest() {
-  const filePath = 'src/__tests__/e2e/MainPageWorkflows.test.tsx';
+  const filePath = "src/__tests__/e2e/MainPageWorkflows.test.tsx";
 
   if (!fs.existsSync(filePath)) {
     console.log(`File ${filePath} does not exist, skipping...`);
     return;
   }
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
 
   // Fix the MainPageLayout component to accept props
   const oldMainPageLayout = `const MainPageLayout = () => {
@@ -45,7 +45,7 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = ({ onSectionNavigate }) =>
 
   if (content.includes(oldMainPageLayout)) {
     content = content.replace(oldMainPageLayout, newMainPageLayout);
-    console.log('Fixed MainPageLayout component props');
+    console.log("Fixed MainPageLayout component props");
   }
 
   // Move imports to the top of the file (after the initial imports)
@@ -54,14 +54,17 @@ import { useAutoStateCleanup, useNavigationState, useScrollPreservation } from '
 
   if (content.includes(misplacedImports)) {
     // Remove the misplaced imports
-    content = content.replace(misplacedImports, '');
+    content = content.replace(misplacedImports, "");
 
     // Add them after the React import
     const reactImportLine = `import React from 'react';`;
-    content = content.replace(reactImportLine, `${reactImportLine}
-${misplacedImports}`);
+    content = content.replace(
+      reactImportLine,
+      `${reactImportLine}
+${misplacedImports}`,
+    );
 
-    console.log('Moved imports to correct location');
+    console.log("Moved imports to correct location");
   }
 
   fs.writeFileSync(filePath, content);
@@ -69,14 +72,14 @@ ${misplacedImports}`);
 }
 
 function fixMainPageIntegrationTest() {
-  const filePath = 'src/__tests__/integration/MainPageIntegration.test.tsx';
+  const filePath = "src/__tests__/integration/MainPageIntegration.test.tsx";
 
   if (!fs.existsSync(filePath)) {
     console.log(`File ${filePath} does not exist, skipping...`);
     return;
   }
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
 
   // Fix similar issues in MainPageIntegration test
   // Look for components that need props
@@ -93,19 +96,25 @@ function fixMainPageIntegrationTest() {
 
         if (!content.includes(interfaceDefinition)) {
           // Add interface before the component usage
-          const componentDefPattern = new RegExp(`const ${componentName}\\s*=`, 'g');
+          const componentDefPattern = new RegExp(
+            `const ${componentName}\\s*=`,
+            "g",
+          );
           if (componentDefPattern.test(content)) {
-            content = content.replace(componentDefPattern, `${interfaceDefinition}\n\nconst ${componentName}: React.FC<${interfaceName}> =`);
+            content = content.replace(
+              componentDefPattern,
+              `${interfaceDefinition}\n\nconst ${componentName}: React.FC<${interfaceName}> =`,
+            );
           }
         }
 
         return match;
-      }
-    }
+      },
+    },
   ];
 
   // Apply pattern fixes
-  patterns.forEach(pattern => {
+  patterns.forEach((pattern) => {
     content = content.replace(pattern.search, pattern.replace);
   });
 
@@ -120,14 +129,20 @@ function fixMainPageIntegrationTest() {
 }`;
 
       if (!content.includes(interfaceDefinition)) {
-        const componentDefPattern = new RegExp(`const ${componentName}\\s*=`, 'g');
+        const componentDefPattern = new RegExp(
+          `const ${componentName}\\s*=`,
+          "g",
+        );
         if (componentDefPattern.test(content)) {
-          content = content.replace(componentDefPattern, `${interfaceDefinition}\n\nconst ${componentName}: React.FC<${interfaceName}> =`);
+          content = content.replace(
+            componentDefPattern,
+            `${interfaceDefinition}\n\nconst ${componentName}: React.FC<${interfaceName}> =`,
+          );
         }
       }
 
       return match;
-    }
+    },
   );
 
   fs.writeFileSync(filePath, content);
@@ -135,55 +150,56 @@ function fixMainPageIntegrationTest() {
 }
 
 function fixReact19CompatibilityTest() {
-  const filePath = 'src/__tests__/linting/React19NextJS15CompatibilityValidation.test.ts';
+  const filePath =
+    "src/__tests__/linting/React19NextJS15CompatibilityValidation.test.ts";
 
   if (!fs.existsSync(filePath)) {
     console.log(`File ${filePath} does not exist, skipping...`);
     return;
   }
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
 
   // Fix 'config' is of type 'unknown' errors
-  content = content.replace(/config\./g, '(config as any).');
-  content = content.replace(/config\[/g, '(config as any)[');
+  content = content.replace(/config\./g, "(config as any).");
+  content = content.replace(/config\[/g, "(config as any)[");
 
   fs.writeFileSync(filePath, content);
   console.log(`Fixed ${filePath}`);
 }
 
 function fixCampaignTestController() {
-  const filePath = 'src/__tests__/utils/CampaignTestController.ts';
+  const filePath = "src/__tests__/utils/CampaignTestController.ts";
 
   if (!fs.existsSync(filePath)) {
     console.log(`File ${filePath} does not exist, skipping...`);
     return;
   }
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
 
   // Fix 'originalState' is of type 'unknown' errors
-  content = content.replace(/originalState\./g, '(originalState as any).');
-  content = content.replace(/originalState\[/g, '(originalState as any)[');
+  content = content.replace(/originalState\./g, "(originalState as any).");
+  content = content.replace(/originalState\[/g, "(originalState as any)[");
 
   fs.writeFileSync(filePath, content);
   console.log(`Fixed ${filePath}`);
 }
 
 function fixMemoryLeakDetector() {
-  const filePath = 'src/__tests__/utils/MemoryLeakDetector.ts';
+  const filePath = "src/__tests__/utils/MemoryLeakDetector.ts";
 
   if (!fs.existsSync(filePath)) {
     console.log(`File ${filePath} does not exist, skipping...`);
     return;
   }
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
 
   // Fix type conversion errors by using 'unknown' first
   content = content.replace(
     /(window|global)\s+as\s+\{\s*_eventListeners:[^}]+\}/g,
-    '(window as unknown) as { _eventListeners: Record<string, unknown[]> }'
+    "(window as unknown) as { _eventListeners: Record<string, unknown[]> }",
   );
 
   fs.writeFileSync(filePath, content);
@@ -191,17 +207,17 @@ function fixMemoryLeakDetector() {
 }
 
 function fixMemoryOptimizationScript() {
-  const filePath = 'src/__tests__/utils/MemoryOptimizationScript.ts';
+  const filePath = "src/__tests__/utils/MemoryOptimizationScript.ts";
 
   if (!fs.existsSync(filePath)) {
     console.log(`File ${filePath} does not exist, skipping...`);
     return;
   }
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
 
   // Fix 'Object is of type unknown' errors
-  content = content.replace(/(\w+)\s+is of type 'unknown'/g, '($1 as any)');
+  content = content.replace(/(\w+)\s+is of type 'unknown'/g, "($1 as any)");
 
   // More specific fixes for unknown object access
   const unknownObjectPattern = /(\w+)\.(\w+)/g;
@@ -211,33 +227,36 @@ function fixMemoryOptimizationScript() {
   });
 
   // Fix specific patterns that cause unknown type errors
-  content = content.replace(/(\w+)\.(\w+)\s*=\s*([^;]+);/g, (match, obj, prop, value) => {
-    if (content.includes(`${obj} is of type 'unknown'`)) {
-      return `(${obj} as any).${prop} = ${value};`;
-    }
-    return match;
-  });
+  content = content.replace(
+    /(\w+)\.(\w+)\s*=\s*([^;]+);/g,
+    (match, obj, prop, value) => {
+      if (content.includes(`${obj} is of type 'unknown'`)) {
+        return `(${obj} as any).${prop} = ${value};`;
+      }
+      return match;
+    },
+  );
 
   fs.writeFileSync(filePath, content);
   console.log(`Fixed ${filePath}`);
 }
 
 function fixImportOrganizationTest() {
-  const filePath = 'src/__tests__/linting/test-files/import-organization.tsx';
+  const filePath = "src/__tests__/linting/test-files/import-organization.tsx";
 
   if (!fs.existsSync(filePath)) {
     console.log(`File ${filePath} does not exist, skipping...`);
     return;
   }
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
 
   // Fix title prop issue by creating proper component interface
   const titlePropPattern = /<(\w+)\s+title=\{[^}]+\}/g;
   const matches = content.match(titlePropPattern);
 
   if (matches) {
-    matches.forEach(match => {
+    matches.forEach((match) => {
       const componentMatch = match.match(/<(\w+)/);
       if (componentMatch) {
         const componentName = componentMatch[1];
@@ -259,38 +278,35 @@ function fixImportOrganizationTest() {
 }
 
 function fixCampaignTestUtils() {
-  const filePath = 'src/__tests__/utils/campaignTestUtils.ts';
+  const filePath = "src/__tests__/utils/campaignTestUtils.ts";
 
   if (!fs.existsSync(filePath)) {
     console.log(`File ${filePath} does not exist, skipping...`);
     return;
   }
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
 
   // Fix SafetyLevel type assignment
   content = content.replace(
     /Type 'unknown' is not assignable to type 'SafetyLevel'/g,
-    ''
+    "",
   );
 
   // Add proper type assertion for SafetyLevel
-  content = content.replace(
-    /(\w+):\s*unknown/g,
-    (match, varName) => {
-      if (content.includes('SafetyLevel')) {
-        return `${varName}: unknown as SafetyLevel`;
-      }
-      return match;
+  content = content.replace(/(\w+):\s*unknown/g, (match, varName) => {
+    if (content.includes("SafetyLevel")) {
+      return `${varName}: unknown as SafetyLevel`;
     }
-  );
+    return match;
+  });
 
   fs.writeFileSync(filePath, content);
   console.log(`Fixed ${filePath}`);
 }
 
 // Main execution
-console.log('Starting test file error fixes...');
+console.log("Starting test file error fixes...");
 
 try {
   fixMainPageWorkflowsTest();
@@ -302,8 +318,8 @@ try {
   fixImportOrganizationTest();
   fixCampaignTestUtils();
 
-  console.log('✅ Test file error fixes completed successfully');
+  console.log("✅ Test file error fixes completed successfully");
 } catch (error) {
-  console.error('❌ Error during test file fixes:', error);
+  console.error("❌ Error during test file fixes:", error);
   process.exit(1);
 }

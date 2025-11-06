@@ -10,20 +10,23 @@
  * - Tarot effects and other mystical influences
  */
 
-import { log } from '@/services/LoggingService';
-import { PlanetaryLocationService } from '../data/planets/locationService';
-import { getCurrentAlchemicalState } from './RealAlchemizeService';
-import type { GeographicCoordinates} from '../data/planets/locationService';
-import type { ElementalProperties } from '../types/alchemy';
+import { log } from "@/services/LoggingService";
+import { PlanetaryLocationService } from "../data/planets/locationService";
+import { getCurrentAlchemicalState } from "./RealAlchemizeService";
+import type { GeographicCoordinates } from "../data/planets/locationService";
+import type { ElementalProperties } from "../types/alchemy";
 import type {
   AspectType,
   LunarPhase,
   Planet,
   PlanetaryAspect,
-  PlanetaryPosition
-} from '../types/celestial';
-import type { CuisineType, DietaryRestriction, Season } from '../types/constants';
-
+  PlanetaryPosition,
+} from "../types/celestial";
+import type {
+  CuisineType,
+  DietaryRestriction,
+  Season,
+} from "../types/constants";
 
 // Add missing ScoringWeights type
 interface ScoringWeights {
@@ -36,7 +39,7 @@ interface ScoringWeights {
   recipe: number;
   cuisine: number;
   cooking_method: number;
-  [key: string]: number
+  [key: string]: number;
 }
 
 // ==================== INTERFACES ====================
@@ -58,7 +61,7 @@ export interface ScoringBreakdown {
   kalchmResonance: number;
   monicaOptimization: number;
   retrogradeEffect: number;
-  [key: string]: number
+  [key: string]: number;
 }
 
 /**
@@ -98,7 +101,7 @@ export interface ScoringContext {
   // Target item data
   item: {
     name: string;
-    type: 'ingredient' | 'recipe' | 'cuisine' | 'cooking_method';
+    type: "ingredient" | "recipe" | "cuisine" | "cooking_method";
     elementalProperties?: ElementalProperties;
     seasonality?: Season[];
     planetaryRulers?: Planet[];
@@ -107,18 +110,18 @@ export interface ScoringContext {
 
     // Intentionally any: Item properties vary by type (ingredient/recipe/cuisine/method)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-    [key: string]: any
+    [key: string]: any;
   };
 
   // User preferences
   preferences?: {
     dietaryRestrictions?: DietaryRestriction[];
     culturalPreferences?: CuisineType[];
-    intensityPreference?: 'mild' | 'moderate' | 'intense';
-    complexityPreference?: 'simple' | 'moderate' | 'complex';
+    intensityPreference?: "mild" | "moderate" | "intense";
+    complexityPreference?: "simple" | "moderate" | "complex";
     // Intentionally any: User preferences can include custom fields
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-    [key: string]: any
+    [key: string]: any;
   };
 
   // Calculation options
@@ -126,7 +129,7 @@ export interface ScoringContext {
     includeEffects?: string[];
     excludeEffects?: string[];
     weights?: Partial<ScoringBreakdown>;
-    debugMode?: boolean
+    debugMode?: boolean;
   };
 }
 
@@ -141,23 +144,23 @@ export interface AstrologicalData {
       transitingPlanet: Planet;
       natalPlanet: Planet;
       aspect: AspectType;
-      strength: number
+      strength: number;
     }>;
     seasonal: {
       currentSeason: Season;
       alignment: number;
-      recommendation: string
+      recommendation: string;
     };
   };
   lunarPhase: {
     name: LunarPhase;
     illumination: number;
-    effect: string
+    effect: string;
   };
   dignity: Record<Planet, number>;
   houses?: Record<string, number>;
-  source: 'astrologize' | 'swiss_ephemeris' | 'fallback';
-  confidence: number
+  source: "astrologize" | "swiss_ephemeris" | "fallback";
+  confidence: number;
 }
 
 // ==================== SCORING MODULES ====================
@@ -167,7 +170,7 @@ export interface AstrologicalData {
  */
 export function calculateTransitEffect(
   astroData: AstrologicalData,
-  _context: ScoringContext
+  _context: ScoringContext,
 ): number {
   let score = 0;
   const transits = astroData.transits.active;
@@ -178,11 +181,11 @@ export function calculateTransitEffect(
   for (const transit of transits) {
     if (itemRulers.includes(transit.natalPlanet)) {
       // Positive transits boost score
-      if (['trine', 'sextile', 'conjunction'].includes(transit.aspect)) {
+      if (["trine", "sextile", "conjunction"].includes(transit.aspect)) {
         score += ((transit as any)?.strength || 0) * 0.2;
       }
       // Challenging transits reduce score
-      else if (['square', 'opposition'].includes(transit.aspect)) {
+      else if (["square", "opposition"].includes(transit.aspect)) {
         score -= ((transit as any)?.strength || 0) * 0.2;
       }
     }
@@ -196,7 +199,7 @@ export function calculateTransitEffect(
  */
 export function calculateDignityEffect(
   astroData: AstrologicalData,
-  _context: ScoringContext
+  _context: ScoringContext,
 ): number {
   let score = 0;
   const itemRulers = _context.item.planetaryRulers || [];
@@ -215,7 +218,7 @@ export function calculateDignityEffect(
  */
 export function calculateTarotEffect(
   _astroData: AstrologicalData,
-  _context: ScoringContext
+  _context: ScoringContext,
 ): number {
   // Future integration with tarot system
   // For now, return neutral effect
@@ -226,7 +229,7 @@ export function calculateTarotEffect(
     ingredient: 0.05,
     recipe: 0.1,
     cuisine: 0.15,
-    cooking_method: 0.08
+    cooking_method: 0.08,
   };
 
   return tarotAffinities[itemType] || 0;
@@ -237,22 +240,22 @@ export function calculateTarotEffect(
  */
 export function calculateSeasonalEffect(
   _astroData: AstrologicalData,
-  context: ScoringContext
+  context: ScoringContext,
 ): number {
   const month = context.dateTime.getMonth();
   const season = [
-    'winter',
-    'winter',
-    'spring',
-    'spring',
-    'spring',
-    'summer',
-    'summer',
-    'summer',
-    'autumn',
-    'autumn',
-    'autumn',
-    'winter'
+    "winter",
+    "winter",
+    "spring",
+    "spring",
+    "spring",
+    "summer",
+    "summer",
+    "summer",
+    "autumn",
+    "autumn",
+    "autumn",
+    "winter",
   ][month];
 
   const itemSeasonality = context.item.seasonality || [];
@@ -271,13 +274,14 @@ export function calculateSeasonalEffect(
  */
 export function calculateLocationEffect(
   _astroData: AstrologicalData,
-  context: ScoringContext
+  context: ScoringContext,
 ): number {
   if (!context.location) return 0;
-  const locationInfluences = PlanetaryLocationService.calculateLocationPlanetaryInfluences(
-    context.location,
-    context.dateTime
-  );
+  const locationInfluences =
+    PlanetaryLocationService.calculateLocationPlanetaryInfluences(
+      context.location,
+      context.dateTime,
+    );
 
   const itemRulers = context.item.planetaryRulers || [];
   let score = 0;
@@ -296,14 +300,14 @@ export function calculateLocationEffect(
  */
 export function calculateLunarPhaseEffect(
   astroData: AstrologicalData,
-  _context: ScoringContext
+  _context: ScoringContext,
 ): number {
-  const {lunarPhase} = astroData;
+  const { lunarPhase } = astroData;
   const itemType = _context.item.type;
 
   // Lunar phase modifiers (using standard lowercase format)
   const LUNAR_PHASE_MODIFIERS: Record<LunarPhase, ScoringWeights> = {
-    'new moon': {
+    "new moon": {
       elemental: 0.1,
       seasonal: 0.1,
       astrological: 0.1,
@@ -312,9 +316,9 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.1,
       recipe: 0.05,
       cuisine: 0.1,
-      cooking_method: 0.15
+      cooking_method: 0.15,
     },
-    'waxing crescent': {
+    "waxing crescent": {
       elemental: 0.15,
       seasonal: 0.15,
       astrological: 0.15,
@@ -323,9 +327,9 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.15,
       recipe: 0.1,
       cuisine: 0.05,
-      cooking_method: 0.1
+      cooking_method: 0.1,
     },
-    'first quarter': {
+    "first quarter": {
       elemental: 0.1,
       seasonal: 0.1,
       astrological: 0.1,
@@ -334,9 +338,9 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.1,
       recipe: 0.15,
       cuisine: 0.1,
-      cooking_method: 0.15
+      cooking_method: 0.15,
     },
-    'waxing gibbous': {
+    "waxing gibbous": {
       elemental: 0.05,
       seasonal: 0.05,
       astrological: 0.05,
@@ -345,9 +349,9 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.05,
       recipe: 0.2,
       cuisine: 0.15,
-      cooking_method: 0.1
+      cooking_method: 0.1,
     },
-    'full moon': {
+    "full moon": {
       elemental: 0.2,
       seasonal: 0.2,
       astrological: 0.2,
@@ -356,9 +360,9 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.2,
       recipe: 0.25,
       cuisine: 0.2,
-      cooking_method: 0.05
+      cooking_method: 0.05,
     },
-    'waning gibbous': {
+    "waning gibbous": {
       elemental: 0.1,
       seasonal: 0.1,
       astrological: 0.1,
@@ -367,9 +371,9 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.1,
       recipe: 0.15,
       cuisine: 0.25,
-      cooking_method: 0
+      cooking_method: 0,
     },
-    'last quarter': {
+    "last quarter": {
       elemental: 0,
       seasonal: 0,
       astrological: 0,
@@ -378,9 +382,9 @@ export function calculateLunarPhaseEffect(
       ingredient: 0,
       recipe: 0.05,
       cuisine: 0.1,
-      cooking_method: -0.05
+      cooking_method: -0.05,
     },
-    'waning crescent': {
+    "waning crescent": {
       elemental: -0.05,
       seasonal: -0.05,
       astrological: -0.05,
@@ -389,8 +393,8 @@ export function calculateLunarPhaseEffect(
       ingredient: -0.05,
       recipe: 0,
       cuisine: 0.05,
-      cooking_method: 0.1
-    }
+      cooking_method: 0.1,
+    },
   };
 
   return LUNAR_PHASE_MODIFIERS[lunarPhase.name][itemType] || 0;
@@ -401,7 +405,7 @@ export function calculateLunarPhaseEffect(
  */
 export function calculateAspectEffect(
   astroData: AstrologicalData,
-  context: ScoringContext
+  context: ScoringContext,
 ): number {
   let score = 0;
   const itemRulers = context.item.planetaryRulers || [];
@@ -414,19 +418,19 @@ export function calculateAspectEffect(
       const aspectStrength = aspect.strength ?? 1.0;
 
       switch (aspect.type) {
-        case 'conjunction':
+        case "conjunction":
           score += aspectStrength * 0.2;
           break;
-        case 'trine':
+        case "trine":
           score += aspectStrength * 0.15;
           break;
-        case 'sextile':
+        case "sextile":
           score += aspectStrength * 0.1;
           break;
-        case 'square':
+        case "square":
           score -= aspectStrength * 0.1;
           break;
-        case 'opposition':
+        case "opposition":
           score -= aspectStrength * 0.15;
           break;
       }
@@ -441,7 +445,7 @@ export function calculateAspectEffect(
  */
 export function calculateElementalCompatibility(
   _astroData: AstrologicalData,
-  context: ScoringContext
+  context: ScoringContext,
 ): number {
   if (!context.item.elementalProperties) return 0;
   // Get current elemental state from alchemical calculations
@@ -451,7 +455,7 @@ export function calculateElementalCompatibility(
 
   // Calculate compatibility (same elements reinforce each other)
   let compatibility = 0;
-  for (const element of ['Fire', 'Water', 'Earth', 'Air'] as const) {
+  for (const element of ["Fire", "Water", "Earth", "Air"] as const) {
     const currentValue = currentElemental[element] || 0;
     const itemValue = itemElemental[element] || 0;
 
@@ -467,7 +471,7 @@ export function calculateElementalCompatibility(
  */
 export function calculateThermodynamicEffect(
   _astroData: AstrologicalData,
-  context: ScoringContext
+  context: ScoringContext,
 ): number {
   const currentState = getCurrentAlchemicalState();
   const thermo = currentState.thermodynamicProperties;
@@ -475,14 +479,15 @@ export function calculateThermodynamicEffect(
   let score = 0;
 
   // High energy states favor active cooking methods and bold flavors
-  if (context.item.type === 'cooking_method') {
+  if (context.item.type === "cooking_method") {
     if (
       thermo.heat > 0.7 &&
-      (context.item.name.includes('grill') || context.item.name.includes('sear'))
+      (context.item.name.includes("grill") ||
+        context.item.name.includes("sear"))
     ) {
       score += 0.2;
     }
-    if (thermo.reactivity > 0.7 && context.item.name.includes('ferment')) {
+    if (thermo.reactivity > 0.7 && context.item.name.includes("ferment")) {
       score += 0.15;
     }
   }
@@ -490,10 +495,10 @@ export function calculateThermodynamicEffect(
   // High entropy favors complex recipes and varied ingredients
   if (
     thermo.entropy > 0.7 &&
-    (context.item.type === 'recipe' || context.item.type === 'ingredient')
+    (context.item.type === "recipe" || context.item.type === "ingredient")
   ) {
     const complexity = context.preferences?.complexityPreference;
-    if (complexity === 'complex') {
+    if (complexity === "complex") {
       score += 0.1;
     }
   }
@@ -506,10 +511,10 @@ export function calculateThermodynamicEffect(
  */
 export function calculateKalchmResonance(
   _astroData: AstrologicalData,
-  _context: ScoringContext
+  _context: ScoringContext,
 ): number {
   const currentState = getCurrentAlchemicalState();
-  const {kalchm} = currentState;
+  const { kalchm } = currentState;
 
   // Higher Kalchm values favor transformation and fermentation
   if (kalchm > 2.0) {
@@ -526,10 +531,10 @@ export function calculateKalchmResonance(
  */
 export function calculateMonicaOptimization(
   _astroData: AstrologicalData,
-  _context: ScoringContext
+  _context: ScoringContext,
 ): number {
   const currentState = getCurrentAlchemicalState();
-  const {monica} = currentState;
+  const { monica } = currentState;
 
   // Monica constant affects optimization and efficiency
   if (monica > 1.5) {
@@ -546,7 +551,7 @@ export function calculateMonicaOptimization(
  */
 export function calculateRetrogradeEffect(
   astroData: AstrologicalData,
-  context: ScoringContext
+  context: ScoringContext,
 ): number {
   let score = 0;
   const itemRulers = context.item.planetaryRulers || [];
@@ -558,7 +563,7 @@ export function calculateRetrogradeEffect(
       score -= 0.1;
 
       // Exception: Mercury retrograde can favor traditional methods
-      if (planet === 'Mercury' && context.item.type === 'cooking_method') {
+      if (planet === "Mercury" && context.item.type === "cooking_method") {
         score += 0.05; // Partial compensation
       }
     }
@@ -584,7 +589,9 @@ export class UnifiedScoringService {
   /**
    * Main scoring function that calculates a comprehensive score
    */
-  public async scoreRecommendation(context: ScoringContext): Promise<ScoringResult> {
+  public async scoreRecommendation(
+    context: ScoringContext,
+  ): Promise<ScoringResult> {
     const startTime = performance.now();
 
     try {
@@ -600,17 +607,20 @@ export class UnifiedScoringService {
         locationEffect: calculateLocationEffect(astroData, context),
         lunarPhaseEffect: calculateLunarPhaseEffect(astroData, context),
         aspectEffect: calculateAspectEffect(astroData, context),
-        elementalCompatibility: calculateElementalCompatibility(astroData, context),
+        elementalCompatibility: calculateElementalCompatibility(
+          astroData,
+          context,
+        ),
         thermalDynamicEffect: calculateThermodynamicEffect(astroData, context),
         kalchmResonance: calculateKalchmResonance(astroData, context),
         monicaOptimization: calculateMonicaOptimization(astroData, context),
-        retrogradeEffect: calculateRetrogradeEffect(astroData, context)
+        retrogradeEffect: calculateRetrogradeEffect(astroData, context),
       };
 
       // 3. Apply custom weights if provided
       if (context.options?.weights) {
         for (const [key, weight] of Object.entries(context.options.weights)) {
-          if (key in breakdown && typeof weight === 'number') {
+          if (key in breakdown && typeof weight === "number") {
             breakdown[key] *= weight;
           }
         }
@@ -631,14 +641,14 @@ export class UnifiedScoringService {
         score: finalScore,
         confidence,
         breakdown,
-        sources: [astroData.source, 'alchemical_engine', 'location_service'],
+        sources: [astroData.source, "alchemical_engine", "location_service"],
         notes,
         metadata: {
           timestamp: new Date(),
           location: context.location,
           dominantEffects,
-          warnings
-        }
+          warnings,
+        },
       };
 
       // Debug logging
@@ -649,20 +659,20 @@ export class UnifiedScoringService {
 
       return result;
     } catch (error) {
-      log.error('Error in scoring calculation: ', error);
+      log.error("Error in scoring calculation: ", error);
 
       // Return fallback result
       return {
         score: 0.5,
         confidence: 0.1,
         breakdown: { base: 0.5 } as ScoringBreakdown,
-        sources: ['fallback'],
+        sources: ["fallback"],
         notes: [`Error in calculation: ${(error as Error).message}`],
         metadata: {
           timestamp: new Date(),
           dominantEffects: [],
-          warnings: ['Calculation error - using fallback score']
-        }
+          warnings: ["Calculation error - using fallback score"],
+        },
       };
     }
   }
@@ -670,19 +680,21 @@ export class UnifiedScoringService {
   /**
    * Gather astrological data from various sources
    */
-  private async gatherAstrologicalData(context: ScoringContext): Promise<AstrologicalData> {
+  private async gatherAstrologicalData(
+    context: ScoringContext,
+  ): Promise<AstrologicalData> {
     try {
       // Try to get data from Astrologize API first
       const astrologizeData = await this.getAstrologizeData(context);
       if (astrologizeData) {
         return {
           ...astrologizeData,
-          source: 'astrologize' as const,
-          confidence: 0.95
+          source: "astrologize" as const,
+          confidence: 0.95,
         } as AstrologicalData;
       }
     } catch (error) {
-      log.warn('Astrologize API unavailable, falling back to Swiss Ephemeris');
+      log.warn("Astrologize API unavailable, falling back to Swiss Ephemeris");
     }
 
     try {
@@ -690,11 +702,11 @@ export class UnifiedScoringService {
       const fallbackData = await this.getFallbackAstrologicalData(context);
       return {
         ...fallbackData,
-        source: 'swiss_ephemeris' as const,
-        confidence: 0.7
+        source: "swiss_ephemeris" as const,
+        confidence: 0.7,
       } as AstrologicalData;
     } catch (error) {
-      log.warn('Swiss Ephemeris unavailable, using minimal fallback data');
+      log.warn("Swiss Ephemeris unavailable, using minimal fallback data");
 
       // Last resort: basic fallback data
       return this.getMinimalFallbackData(context);
@@ -705,12 +717,12 @@ export class UnifiedScoringService {
    * Get data from Astrologize API
    */
   private async getAstrologizeData(
-    context: ScoringContext
+    context: ScoringContext,
   ): Promise<Partial<AstrologicalData> | null> {
     try {
-      const response = await fetch('/api/astrologize', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/astrologize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           year: context.dateTime.getFullYear(),
           month: context.dateTime.getMonth() + 1,
@@ -718,9 +730,9 @@ export class UnifiedScoringService {
           hour: context.dateTime.getHours(),
           minute: context.dateTime.getMinutes(),
           latitude: context.location?.latitude || 40.7498,
-          longitude: context.location?.longitude || -73.7976
-        })
-      })
+          longitude: context.location?.longitude || -73.7976,
+        }),
+      });
 
       if (!response.ok) return null;
 
@@ -729,7 +741,7 @@ export class UnifiedScoringService {
       // Transform API response to our format
       return this.transformAstrologizeResponse(data);
     } catch (error) {
-      log.error('Error fetching Astrologize data: ', error);
+      log.error("Error fetching Astrologize data: ", error);
       return null;
     }
   }
@@ -738,17 +750,22 @@ export class UnifiedScoringService {
    * Get fallback astrological data
    */
   private async getFallbackAstrologicalData(
-    context: ScoringContext
+    context: ScoringContext,
   ): Promise<Partial<AstrologicalData>> {
     return {
-      planetaryPositions: context.planetaryPositions || ({} as Record<Planet, PlanetaryPosition>),
-      aspects: (context.aspects || []).map(aspect => ({
+      planetaryPositions:
+        context.planetaryPositions || ({} as Record<Planet, PlanetaryPosition>),
+      aspects: (context.aspects || []).map((aspect) => ({
         ...aspect,
-        strength: 0.5 // Default strength for fallback data
+        strength: 0.5, // Default strength for fallback data
       })),
       transits: { active: [], seasonal: {} },
-      lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
-      dignity: {} as Record<Planet, number>
+      lunarPhase: {
+        name: "new moon" as LunarPhase,
+        illumination: 0.5,
+        effect: "Neutral",
+      },
+      dignity: {} as Record<Planet, number>,
     };
   }
 
@@ -760,23 +777,29 @@ export class UnifiedScoringService {
       planetaryPositions: {} as Record<Planet, PlanetaryPosition>,
       aspects: [],
       transits: { active: [], seasonal: {} },
-      lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
+      lunarPhase: {
+        name: "new moon" as LunarPhase,
+        illumination: 0.5,
+        effect: "Neutral",
+      },
       dignity: {} as Record<Planet, number>,
-      source: 'fallback' as const,
-      confidence: 0.1
+      source: "fallback" as const,
+      confidence: 0.1,
     };
   }
 
   /**
    * Transform Astrologize API response to our format
    */
-  private transformAstrologizeResponse(data: Record<string, unknown>): Partial<AstrologicalData> {
+  private transformAstrologizeResponse(
+    data: Record<string, unknown>,
+  ): Partial<AstrologicalData> {
     // This would transform the actual API response
     // The exact structure depends on what the Astrologize API returns
     return {
       planetaryPositions: data.planets || {},
       aspects: data.aspects || [],
-      dignity: data.dignity || {}
+      dignity: data.dignity || {},
     };
   }
 
@@ -798,7 +821,7 @@ export class UnifiedScoringService {
       thermalDynamicEffect: 0.6,
       kalchmResonance: 0.5,
       monicaOptimization: 0.4,
-      retrogradeEffect: 0.6
+      retrogradeEffect: 0.6,
     };
 
     let totalWeightedScore = 0;
@@ -819,8 +842,11 @@ export class UnifiedScoringService {
   /**
    * Calculate confidence in the result
    */
-  private calculateConfidence(astroData: AstrologicalData, context: ScoringContext): number {
-    let {confidence} = astroData;
+  private calculateConfidence(
+    astroData: AstrologicalData,
+    context: ScoringContext,
+  ): number {
+    let { confidence } = astroData;
 
     // Reduce confidence if missing key data
     if (!context.location) confidence -= 0.1;
@@ -836,22 +862,22 @@ export class UnifiedScoringService {
   private generateNotes(
     breakdown: ScoringBreakdown,
     astroData: AstrologicalData,
-    _context: ScoringContext
+    _context: ScoringContext,
   ): string[] {
     const notes: string[] = [];
 
     // Highlight significant effects
     if (breakdown.seasonalEffect > 0.15) {
-      notes.push('Strong seasonal alignment enhances this recommendation');
+      notes.push("Strong seasonal alignment enhances this recommendation");
     }
     if (breakdown.transitEffect > 0.2) {
-      notes.push('Current planetary transits strongly favor this choice');
+      notes.push("Current planetary transits strongly favor this choice");
     }
     if (breakdown.elementalCompatibility > 0.3) {
-      notes.push('Excellent elemental compatibility with current state');
+      notes.push("Excellent elemental compatibility with current state");
     }
     if (breakdown.retrogradeEffect < -0.15) {
-      notes.push('Retrograde planets may reduce effectiveness');
+      notes.push("Retrograde planets may reduce effectiveness");
     }
 
     // Add source information
@@ -865,7 +891,7 @@ export class UnifiedScoringService {
    */
   private identifyDominantEffects(breakdown: ScoringBreakdown): string[] {
     const effects = Object.entries(breakdown)
-      .filter(([key]) => key !== 'base')
+      .filter(([key]) => key !== "base")
       .map(([key, value]) => ({ key, value: Math.abs(value) }))
       .sort((a, b) => b.value - a.value)
       .slice(0, 3)
@@ -880,20 +906,20 @@ export class UnifiedScoringService {
   private generateWarnings(
     breakdown: ScoringBreakdown,
     astroData: AstrologicalData,
-    _context: ScoringContext
+    _context: ScoringContext,
   ): string[] {
     const warnings: string[] = [];
 
     if (astroData.confidence < 0.5) {
-      warnings.push('Low confidence in astrological data');
+      warnings.push("Low confidence in astrological data");
     }
 
     if (breakdown.retrogradeEffect < -0.2) {
-      warnings.push('Multiple retrograde planets may cause complications');
+      warnings.push("Multiple retrograde planets may cause complications");
     }
 
     if (breakdown.transitEffect < -0.2) {
-      warnings.push('Challenging planetary transits detected');
+      warnings.push("Challenging planetary transits detected");
     }
 
     return warnings;
@@ -901,4 +927,7 @@ export class UnifiedScoringService {
 }
 
 // Export convenience function
-export const scoreRecommendation = (context: ScoringContext): Promise<ScoringResult> => UnifiedScoringService.getInstance().scoreRecommendation(context)
+export const scoreRecommendation = (
+  context: ScoringContext,
+): Promise<ScoringResult> =>
+  UnifiedScoringService.getInstance().scoreRecommendation(context);

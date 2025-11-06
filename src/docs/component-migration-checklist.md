@@ -99,19 +99,19 @@ ensures consistency and completeness in the migration process.
 Before:
 
 ```tsx
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 
 const MyComponent = () => {
   const { planetaryPositions, state } = useAlchemical();
 
   // Component logic using context data
-}
+};
 ```
 
 After:
 
 ```tsx
-import { useServices } from '@/hooks/useServices';
+import { useServices } from "@/hooks/useServices";
 
 const MyComponentMigrated = () => {
   const { isLoading, error, astrologyService } = useServices();
@@ -121,10 +121,11 @@ const MyComponentMigrated = () => {
     if (!isLoading && !error && astrologyService) {
       const fetchPositions = async () => {
         try {
-          const positions = await astrologyService.getCurrentPlanetaryPositions();
+          const positions =
+            await astrologyService.getCurrentPlanetaryPositions();
           setPlanetaryPositions(positions);
         } catch (err) {
-          console.error('Error fetching positions:', err);
+          console.error("Error fetching positions:", err);
         }
       };
 
@@ -141,7 +142,7 @@ const MyComponentMigrated = () => {
   }
 
   // Component logic using service data
-}
+};
 ```
 
 This checklist serves as a guide to ensure consistent and complete migrations

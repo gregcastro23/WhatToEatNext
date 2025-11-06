@@ -1,8 +1,8 @@
-import { _logger } from '@/lib/logger';
+import { _logger } from "@/lib/logger";
 // Removed unused log import
-import type { ZodiacSign } from '@/types/alchemy';
-import { getZodiacElement } from './astrologyUtils';
-import type { ElementalCharacter } from '../constants/planetaryElements';
+import type { ZodiacSign } from "@/types/alchemy";
+import { getZodiacElement } from "./astrologyUtils";
+import type { ElementalCharacter } from "../constants/planetaryElements";
 
 /**
  * A utility function for logging debug information
@@ -11,7 +11,7 @@ import type { ElementalCharacter } from '../constants/planetaryElements';
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.info to avoid linting warnings;
   // log.info(message, ...args)
-}
+};
 
 /**
  * Interface for house data in astrological charts
@@ -20,10 +20,10 @@ export interface HouseData {
   number: number;
   name: string;
   element: ElementalCharacter;
-  modality: 'Cardinal' | 'Fixed' | 'Mutable'
-  nature: 'Angular' | 'Succedent' | 'Cadent'
-  significance: number, // 1-10 rating of overall significance,
-  ruling_planet: string
+  modality: "Cardinal" | "Fixed" | "Mutable";
+  nature: "Angular" | "Succedent" | "Cadent";
+  significance: number; // 1-10 rating of overall significance,
+  ruling_planet: string;
 }
 
 /**
@@ -32,122 +32,125 @@ export interface HouseData {
 export const HOUSE_DATA: Record<number, HouseData> = {
   1: {
     number: 1,
-    name: 'House of Self',
-    element: 'Fire',
-    modality: 'Cardinal',
-    nature: 'Angular',
+    name: "House of Self",
+    element: "Fire",
+    modality: "Cardinal",
+    nature: "Angular",
     significance: 10,
-    ruling_planet: 'Mars'
+    ruling_planet: "Mars",
   },
   2: {
     number: 2,
-    name: 'House of Value',
-    element: 'Earth',
-    modality: 'Fixed',
-    nature: 'Succedent',
+    name: "House of Value",
+    element: "Earth",
+    modality: "Fixed",
+    nature: "Succedent",
     significance: 7,
-    ruling_planet: 'Venus'
+    ruling_planet: "Venus",
   },
   3: {
     number: 3,
-    name: 'House of Communication',
-    element: 'Air',
-    modality: 'Mutable',
-    nature: 'Cadent',
+    name: "House of Communication",
+    element: "Air",
+    modality: "Mutable",
+    nature: "Cadent",
     significance: 6,
-    ruling_planet: 'Mercury'
+    ruling_planet: "Mercury",
   },
   4: {
     number: 4,
-    name: 'House of Home',
-    element: 'Water',
-    modality: 'Cardinal',
-    nature: 'Angular',
+    name: "House of Home",
+    element: "Water",
+    modality: "Cardinal",
+    nature: "Angular",
     significance: 9,
-    ruling_planet: 'Moon'
+    ruling_planet: "Moon",
   },
   5: {
     number: 5,
-    name: 'House of Pleasure',
-    element: 'Fire',
-    modality: 'Fixed',
-    nature: 'Succedent',
+    name: "House of Pleasure",
+    element: "Fire",
+    modality: "Fixed",
+    nature: "Succedent",
     significance: 7,
-    ruling_planet: 'Sun'
+    ruling_planet: "Sun",
   },
   6: {
     number: 6,
-    name: 'House of Health',
-    element: 'Earth',
-    modality: 'Mutable',
-    nature: 'Cadent',
+    name: "House of Health",
+    element: "Earth",
+    modality: "Mutable",
+    nature: "Cadent",
     significance: 6,
-    ruling_planet: 'Mercury'
+    ruling_planet: "Mercury",
   },
   7: {
     number: 7,
-    name: 'House of Partnership',
-    element: 'Air',
-    modality: 'Cardinal',
-    nature: 'Angular',
+    name: "House of Partnership",
+    element: "Air",
+    modality: "Cardinal",
+    nature: "Angular",
     significance: 9,
-    ruling_planet: 'Venus'
+    ruling_planet: "Venus",
   },
   8: {
     number: 8,
-    name: 'House of Transformation',
-    element: 'Water',
-    modality: 'Fixed',
-    nature: 'Succedent',
+    name: "House of Transformation",
+    element: "Water",
+    modality: "Fixed",
+    nature: "Succedent",
     significance: 8,
-    ruling_planet: 'Pluto'
+    ruling_planet: "Pluto",
   },
   9: {
     number: 9,
-    name: 'House of Philosophy',
-    element: 'Fire',
-    modality: 'Mutable',
-    nature: 'Cadent',
+    name: "House of Philosophy",
+    element: "Fire",
+    modality: "Mutable",
+    nature: "Cadent",
     significance: 7,
-    ruling_planet: 'Jupiter'
+    ruling_planet: "Jupiter",
   },
   10: {
     number: 10,
-    name: 'House of Social Status',
-    element: 'Earth',
-    modality: 'Cardinal',
-    nature: 'Angular',
+    name: "House of Social Status",
+    element: "Earth",
+    modality: "Cardinal",
+    nature: "Angular",
     significance: 10,
-    ruling_planet: 'Saturn'
+    ruling_planet: "Saturn",
   },
   11: {
     number: 11,
-    name: 'House of Friendship',
-    element: 'Air',
-    modality: 'Fixed',
-    nature: 'Succedent',
+    name: "House of Friendship",
+    element: "Air",
+    modality: "Fixed",
+    nature: "Succedent",
     significance: 7,
-    ruling_planet: 'Uranus'
+    ruling_planet: "Uranus",
   },
   12: {
     number: 12,
-    name: 'House of Unconscious',
-    element: 'Water',
-    modality: 'Mutable',
-    nature: 'Cadent',
+    name: "House of Unconscious",
+    element: "Water",
+    modality: "Mutable",
+    nature: "Cadent",
     significance: 8,
-    ruling_planet: 'Neptune'
-  }
-}
+    ruling_planet: "Neptune",
+  },
+};
 
 /**
  * House strength multipliers based on house nature
  */
-export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> = {
+export const HOUSE_STRENGTH: Record<
+  "Angular" | "Succedent" | "Cadent",
+  number
+> = {
   Angular: 1.0, // Strongest influence
-    Succedent: 0.7, // Medium influence,
+  Succedent: 0.7, // Medium influence,
   Cadent: 0.4, // Weakest influence
-}
+};
 
 /**
  * Calculate elemental effects from a planet being in a specific house
@@ -160,19 +163,19 @@ export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> 
 export function calculateHouseEffect(
   planet: string,
   house: number,
-  sign: any
+  sign: any,
 ): Record<ElementalCharacter, number> {
   const effects: Record<ElementalCharacter, number> = {
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0
+    Water: 0,
   };
 
   // Get house data
   const houseData = HOUSE_DATA[house];
   if (!houseData) {
-    debugLog(`House number ${house} not found in house data`)
+    debugLog(`House number ${house} not found in house data`);
     return effects;
   }
 
@@ -189,7 +192,9 @@ export function calculateHouseEffect(
   // Add synergy effect if sign element matches house element
   if (signElement === houseElement) {
     effects[houseElement] += 0.5; // Bonus for matching element
-    debugLog(`Element synergy bonus for ${planet} in house ${house}: ${signElement}`)
+    debugLog(
+      `Element synergy bonus for ${planet} in house ${house}: ${signElement}`,
+    );
   }
 
   // Add special effects for certain houses and planets
@@ -208,7 +213,9 @@ export function calculateHouseEffect(
   // Planet in ruling house
   if (houseData.ruling_planet.toLowerCase() === planet.toLowerCase()) {
     effects[signElement] += 0.7; // Bonus for planet in its ruling house
-    debugLog(`Ruling planet bonus for ${planet} in house ${house}: +0.7 to ${signElement}`);
+    debugLog(
+      `Ruling planet bonus for ${planet} in house ${house}: +0.7 to ${signElement}`,
+    );
   }
 
   return effects;
@@ -223,37 +230,40 @@ export function calculateHouseEffect(
  */
 export function calculateAllHouseEffects(
   planetPositions: Record<string, { sign: any; house?: number }>,
-  _houses: Record<number, ZodiacSign>
+  _houses: Record<number, ZodiacSign>,
 ): Record<ElementalCharacter, number> {
   const totalEffects: Record<ElementalCharacter, number> = {
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0
-}
+    Water: 0,
+  };
 
-  debugLog(`Calculating house effects for ${Object.keys(planetPositions).length} planets`)
+  debugLog(
+    `Calculating house effects for ${Object.keys(planetPositions).length} planets`,
+  );
 
   // Calculate effects for each planet
   for (const [planet, position] of Object.entries(planetPositions)) {
     // Skip if house is not defined
     if (!position.house) {
-      debugLog(`House not defined for ${planet}, skipping`)
+      debugLog(`House not defined for ${planet}, skipping`);
       continue;
     }
 
-    const {house} = position;
-    const {sign} = position;
+    const { house } = position;
+    const { sign } = position;
 
     // Get house effects for this planet
     const houseEffects = calculateHouseEffect(planet, house, sign);
 
     // Add to total effects
     for (const element in houseEffects) {
-      totalEffects[element as ElementalCharacter] += houseEffects[element as ElementalCharacter];
+      totalEffects[element as ElementalCharacter] +=
+        houseEffects[element as ElementalCharacter];
     }
   }
 
-  debugLog(`House effects calculation complete. _Results: `, totalEffects)
+  debugLog(`House effects calculation complete. _Results: `, totalEffects);
   return totalEffects;
 }

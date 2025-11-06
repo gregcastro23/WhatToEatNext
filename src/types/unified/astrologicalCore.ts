@@ -8,27 +8,27 @@ export type {
   ZodiacSign,
   LunarPhase,
   Recipe,
-  Ingredient
-} from '../alchemy';
+  Ingredient,
+} from "../alchemy";
 
-export type { Recipe as UnifiedRecipe } from '../recipe';
+export type { Recipe as UnifiedRecipe } from "../recipe";
 
 // Bridge types for compatibility
 export interface FlexibleAstrologicalData {
-  [key: string]: unknown,
-  elementalProperties?: ElementalProperties,
-  planetaryInfluences?: PlanetaryPosition[],
-  zodiacSign?: import('../alchemy').ZodiacSign,
-  lunarPhase?: LunarPhase
+  [key: string]: unknown;
+  elementalProperties?: ElementalProperties;
+  planetaryInfluences?: PlanetaryPosition[];
+  zodiacSign?: import("../alchemy").ZodiacSign;
+  lunarPhase?: LunarPhase;
 }
 
 export interface SafeAstrologicalAccess {
-  getData<T>(path: string): T | undefined,
-  hasProperty(path: string): boolean,
-  validateStructure(): boolean
+  getData<T>(path: string): T | undefined;
+  hasProperty(path: string): boolean;
+  validateStructure(): boolean;
 }
 
 // Utility type for gradual migration
 export type PartiallyTyped<T> = {
-  [K in keyof T]?: T[K] | unknown
-}
+  [K in keyof T]?: T[K] | unknown;
+};

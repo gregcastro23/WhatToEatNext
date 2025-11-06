@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo } from 'react';
-import {AstrologicalState} from '@/types/celestial';
-import {getCurrentAstrologicalState} from '@/utils/astrologyUtils';
-import {useAlchemical} from './useAlchemical';
+import { useState, useEffect, useMemo } from "react";
+import { AstrologicalState } from "@/types/celestial";
+import { getCurrentAstrologicalState } from "@/utils/astrologyUtils";
+import { useAlchemical } from "./useAlchemical";
 
 export interface AstrologicalInfluence {
   planetaryDay: string;
@@ -9,66 +9,68 @@ export interface AstrologicalInfluence {
   lunarPhase: string;
   dominantElement: string;
   aspectStrength: number;
-  overallInfluence: number
+  overallInfluence: number;
 }
 
 export function useAstrologicalInfluence() {
-  const { planetaryPositions, isLoading} = useAlchemical()
+  const { planetaryPositions, isLoading } = useAlchemical();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  const [astrologicalState, setAstrologicalState] = useState<any>(null)
+  const [astrologicalState, setAstrologicalState] = useState<any>(null);
 
   useEffect(() => {
     async function fetchAstrologicalState() {
       try {
-        const state = await getCurrentAstrologicalState()
+        const state = await getCurrentAstrologicalState();
         setAstrologicalState(state);
       } catch (error) {
-        _logger.error('Failed to get astrological state: ', error)
+        _logger.error("Failed to get astrological state: ", error);
       }
     }
 
-    void fetchAstrologicalState()
-  }, [])
+    void fetchAstrologicalState();
+  }, []);
 
   const influence = useMemo((): AstrologicalInfluence => {
     if (!astrologicalState || !planetaryPositions) {
       return {
-        planetaryDay: 'Sun',
-        planetaryHour: 'Sun',
-        lunarPhase: 'new moon',
-        dominantElement: 'Fire',
+        planetaryDay: "Sun",
+        planetaryHour: "Sun",
+        lunarPhase: "new moon",
+        dominantElement: "Fire",
         aspectStrength: 0.5,
-        overallInfluence: 0.5
+        overallInfluence: 0.5,
       };
     }
 
     // Calculate dominant element from planetary positions
-    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     const elementMap = {
-      aries: 'Fire',
-      leo: 'Fire',
-      sagittarius: 'Fire',
-      taurus: 'Earth',
-      virgo: 'Earth',
-      capricorn: 'Earth',
-      gemini: 'Air',
-      libra: 'Air',
-      aquarius: 'Air',
-      cancer: 'Water',
-      scorpio: 'Water',
-      pisces: 'Water' };
-        Object.values(planetaryPositions || {}).forEach(position => {
-      const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
+      aries: "Fire",
+      leo: "Fire",
+      sagittarius: "Fire",
+      taurus: "Earth",
+      virgo: "Earth",
+      capricorn: "Earth",
+      gemini: "Air",
+      libra: "Air",
+      aquarius: "Air",
+      cancer: "Water",
+      scorpio: "Water",
+      pisces: "Water",
+    };
+    Object.values(planetaryPositions || {}).forEach((position) => {
+      const element =
+        elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++;
       }
-    })
+    });
 
     const dominantElement = Object.entries(elementCounts).reduce((a, b) =>
       elementCounts[a[0] as keyof typeof elementCounts] >
       elementCounts[b[0] as keyof typeof elementCounts]
         ? a
-        : b
+        : b,
     )[0];
 
     // Calculate aspect strength (simplified)
@@ -78,27 +80,27 @@ export function useAstrologicalInfluence() {
 
     // Calculate overall influence
     const lunarPhaseStrength =
-      astrologicalState.lunarPhase === 'full moon'
+      astrologicalState.lunarPhase === "full moon"
         ? 1.0
-        : astrologicalState.lunarPhase === 'new moon'
+        : astrologicalState.lunarPhase === "new moon"
           ? 0.3
           : 0.6;
 
-    const overallInfluence = aspectStrength * 0.4 + lunarPhaseStrength * 0.6
+    const overallInfluence = aspectStrength * 0.4 + lunarPhaseStrength * 0.6;
 
     return {
-      planetaryDay: astrologicalState.planetaryDay || 'Sun',
-      planetaryHour: astrologicalState.planetaryHour || 'Sun',
-      lunarPhase: astrologicalState.lunarPhase || 'new moon',
+      planetaryDay: astrologicalState.planetaryDay || "Sun",
+      planetaryHour: astrologicalState.planetaryHour || "Sun",
+      lunarPhase: astrologicalState.lunarPhase || "new moon",
       dominantElement,
       aspectStrength,
-      overallInfluence
-    }
-  }, [astrologicalState, planetaryPositions])
+      overallInfluence,
+    };
+  }, [astrologicalState, planetaryPositions]);
 
   return {
     ...influence,
     isLoading: isLoading || !astrologicalState,
-    astrologicalState
-  }
+    astrologicalState,
+  };
 }

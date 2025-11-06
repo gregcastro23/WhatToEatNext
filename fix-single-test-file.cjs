@@ -5,12 +5,12 @@
  * Fix specific patterns in astrologize-integration.test.ts
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 class SingleTestFileFixer {
   constructor() {
-    this.filePath = 'src/__tests__/astrologize-integration.test.ts';
+    this.filePath = "src/__tests__/astrologize-integration.test.ts";
   }
 
   /**
@@ -18,10 +18,13 @@ class SingleTestFileFixer {
    */
   getFileErrorCount() {
     try {
-      const result = execSync(`yarn tsc --noEmit --skipLibCheck ${this.filePath} 2>&1`, {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
-      });
+      const result = execSync(
+        `yarn tsc --noEmit --skipLibCheck ${this.filePath} 2>&1`,
+        {
+          encoding: "utf8",
+          maxBuffer: 10 * 1024 * 1024,
+        },
+      );
       const errorCount = (result.match(/error TS1005/g) || []).length;
       return errorCount;
     } catch (error) {
@@ -38,7 +41,10 @@ class SingleTestFileFixer {
    */
   validateFile() {
     try {
-      execSync(`yarn tsc --noEmit --skipLibCheck ${this.filePath} 2>/dev/null`, { stdio: 'pipe' });
+      execSync(
+        `yarn tsc --noEmit --skipLibCheck ${this.filePath} 2>/dev/null`,
+        { stdio: "pipe" },
+      );
       return true;
     } catch (error) {
       return false;
@@ -54,12 +60,15 @@ class SingleTestFileFixer {
 
     // Pattern 1: test('description': any, async () => {
     // Fix to: test('description', async () => {
-    const testColonAnyPattern = /(\b(?:test|it|describe)\s*\(\s*'[^']+'):\s*any\s*,/g;
+    const testColonAnyPattern =
+      /(\b(?:test|it|describe)\s*\(\s*'[^']+'):\s*any\s*,/g;
     const matches1 = [...fixedContent.matchAll(testColonAnyPattern)];
     if (matches1.length > 0) {
-      fixedContent = fixedContent.replace(testColonAnyPattern, '$1,');
+      fixedContent = fixedContent.replace(testColonAnyPattern, "$1,");
       fixes += matches1.length;
-      console.log(`    Fixed ${matches1.length} test function signatures with ': any,'`);
+      console.log(
+        `    Fixed ${matches1.length} test function signatures with ': any,'`,
+      );
     }
 
     // Pattern 2: } catch (error): any {
@@ -67,7 +76,7 @@ class SingleTestFileFixer {
     const catchColonAnyPattern = /(\}\s*catch\s*\([^)]+\)):\s*any\s*\{/g;
     const matches2 = [...fixedContent.matchAll(catchColonAnyPattern)];
     if (matches2.length > 0) {
-      fixedContent = fixedContent.replace(catchColonAnyPattern, '$1 {');
+      fixedContent = fixedContent.replace(catchColonAnyPattern, "$1 {");
       fixes += matches2.length;
       console.log(`    Fixed ${matches2.length} catch blocks with ': any'`);
     }
@@ -77,9 +86,11 @@ class SingleTestFileFixer {
     const destructuringColonAnyPattern = /(\[\s*[^,\]]+):\s*any\s*,/g;
     const matches3 = [...fixedContent.matchAll(destructuringColonAnyPattern)];
     if (matches3.length > 0) {
-      fixedContent = fixedContent.replace(destructuringColonAnyPattern, '$1,');
+      fixedContent = fixedContent.replace(destructuringColonAnyPattern, "$1,");
       fixes += matches3.length;
-      console.log(`    Fixed ${matches3.length} destructuring parameters with ': any,'`);
+      console.log(
+        `    Fixed ${matches3.length} destructuring parameters with ': any,'`,
+      );
     }
 
     return { content: fixedContent, fixes };
@@ -89,12 +100,12 @@ class SingleTestFileFixer {
    * Main repair process
    */
   async repair() {
-    console.log('🎯 SINGLE TEST FILE FIXER');
-    console.log('=' .repeat(40));
+    console.log("🎯 SINGLE TEST FILE FIXER");
+    console.log("=".repeat(40));
     console.log(`📁 Target file: ${this.filePath}`);
 
     if (!fs.existsSync(this.filePath)) {
-      console.log('❌ File does not exist');
+      console.log("❌ File does not exist");
       return;
     }
 
@@ -104,7 +115,7 @@ class SingleTestFileFixer {
 
     // Create backup
     const backupPath = `${this.filePath}.backup-${Date.now()}`;
-    const originalContent = fs.readFileSync(this.filePath, 'utf8');
+    const originalContent = fs.readFileSync(this.filePath, "utf8");
     fs.writeFileSync(backupPath, originalContent);
     console.log(`💾 Backup created: ${backupPath}`);
 
@@ -112,14 +123,14 @@ class SingleTestFileFixer {
     const { content: fixedContent, fixes } = this.fixPatterns(originalContent);
 
     if (fixes > 0) {
-      fs.writeFileSync(this.filePath, fixedContent, 'utf8');
+      fs.writeFileSync(this.filePath, fixedContent, "utf8");
       console.log(`✅ Applied ${fixes} fixes`);
     } else {
-      console.log('ℹ️  No patterns found to fix');
+      console.log("ℹ️  No patterns found to fix");
     }
 
     // Validate
-    console.log('🔍 Validating file...');
+    console.log("🔍 Validating file...");
     const fileValid = this.validateFile();
     const finalErrors = this.getFileErrorCount();
 
@@ -127,21 +138,25 @@ class SingleTestFileFixer {
     const endTime = Date.now();
     const duration = ((endTime - startTime) / 1000).toFixed(2);
 
-    console.log('\n🏁 SINGLE FILE FIXING COMPLETED');
-    console.log('=' .repeat(40));
+    console.log("\n🏁 SINGLE FILE FIXING COMPLETED");
+    console.log("=".repeat(40));
     console.log(`⏱️  Duration: ${duration} seconds`);
     console.log(`🎯 Fixes applied: ${fixes}`);
     console.log(`📊 TS1005 errors: ${initialErrors} → ${finalErrors}`);
-    console.log(`🔍 File valid: ${fileValid ? '✅' : '❌'}`);
+    console.log(`🔍 File valid: ${fileValid ? "✅" : "❌"}`);
 
     if (finalErrors < initialErrors && fileValid) {
       const reduction = initialErrors - finalErrors;
       const percentage = ((reduction / initialErrors) * 100).toFixed(1);
-      console.log(`✅ SUCCESS: Reduced by ${reduction} errors (${percentage}%) with valid file`);
+      console.log(
+        `✅ SUCCESS: Reduced by ${reduction} errors (${percentage}%) with valid file`,
+      );
     } else if (finalErrors < initialErrors) {
       const reduction = initialErrors - finalErrors;
       const percentage = ((reduction / initialErrors) * 100).toFixed(1);
-      console.log(`⚠️ PARTIAL SUCCESS: Reduced by ${reduction} errors (${percentage}%) but file issues remain`);
+      console.log(
+        `⚠️ PARTIAL SUCCESS: Reduced by ${reduction} errors (${percentage}%) but file issues remain`,
+      );
     } else if (finalErrors === initialErrors && fileValid) {
       console.log(`ℹ️  No change in error count but file remains valid`);
     } else {
@@ -156,7 +171,7 @@ class SingleTestFileFixer {
       finalErrors,
       fixesApplied: fixes,
       duration: parseFloat(duration),
-      fileValid: fileValid
+      fileValid: fileValid,
     };
   }
 }
@@ -164,19 +179,20 @@ class SingleTestFileFixer {
 // Execute if run directly
 if (require.main === module) {
   const fixer = new SingleTestFileFixer();
-  fixer.repair()
-    .then(results => {
-      console.log('\n📋 Single test file fixing completed');
+  fixer
+    .repair()
+    .then((results) => {
+      console.log("\n📋 Single test file fixing completed");
       if (results.fileValid && results.finalErrors < results.initialErrors) {
-        console.log('✅ Success - ready to apply to more files');
+        console.log("✅ Success - ready to apply to more files");
         process.exit(0);
       } else {
-        console.log('⚠️ Manual review needed');
+        console.log("⚠️ Manual review needed");
         process.exit(1);
       }
     })
-    .catch(error => {
-      console.error('\n❌ Single test file fixing failed:', error);
+    .catch((error) => {
+      console.error("\n❌ Single test file fixing failed:", error);
       process.exit(1);
     });
 }

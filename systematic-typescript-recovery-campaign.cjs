@@ -20,14 +20,14 @@
  * 4. Preserve astrological/campaign functionality
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const MAX_FILES_PER_BATCH = 15;
 const VALIDATION_CHECKPOINT_FREQUENCY = 5; // Validate every 5 files
-const BACKUP_DIR = '.systematic-ts-recovery-backup';
+const BACKUP_DIR = ".systematic-ts-recovery-backup";
 const TARGET_ERROR_COUNT = 100; // <100 errors goal
 const MIN_REDUCTION_PERCENTAGE = 97; // 97%+ reduction target
 
@@ -37,17 +37,19 @@ class SystematicTypeScriptRecovery {
     this.currentErrorCount = 0;
     this.processedFiles = 0;
     this.totalFixes = 0;
-    this.backupPath = '';
+    this.backupPath = "";
     this.campaignStartTime = new Date();
     this.errorHistory = [];
     this.buildValidationFailures = 0;
   }
 
   async run() {
-    console.log('🚀 Phase 12.1: TypeScript Error Mass Recovery Campaign');
-    console.log('=' .repeat(60));
-    console.log('Target: Reduce TypeScript errors from current count to <100');
-    console.log('Strategy: Systematic batch processing with validation checkpoints\n');
+    console.log("🚀 Phase 12.1: TypeScript Error Mass Recovery Campaign");
+    console.log("=".repeat(60));
+    console.log("Target: Reduce TypeScript errors from current count to <100");
+    console.log(
+      "Strategy: Systematic batch processing with validation checkpoints\n",
+    );
 
     try {
       // Initialize campaign
@@ -58,15 +60,14 @@ class SystematicTypeScriptRecovery {
 
       // Generate final report
       await this.generateFinalReport();
-
     } catch (error) {
-      console.error('❌ Campaign failed:', error.message);
+      console.error("❌ Campaign failed:", error.message);
       await this.handleCampaignFailure(error);
     }
   }
 
   async initializeCampaign() {
-    console.log('🔍 Initializing campaign...');
+    console.log("🔍 Initializing campaign...");
 
     // Get initial error count
     this.initialErrorCount = await this.getTypeScriptErrorCount();
@@ -75,12 +76,14 @@ class SystematicTypeScriptRecovery {
     console.log(`📊 Initial TypeScript errors: ${this.initialErrorCount}`);
 
     if (this.initialErrorCount === 0) {
-      console.log('✅ No TypeScript errors found! Campaign complete.');
+      console.log("✅ No TypeScript errors found! Campaign complete.");
       return;
     }
 
     if (this.initialErrorCount < TARGET_ERROR_COUNT) {
-      console.log(`✅ Error count (${this.initialErrorCount}) already below target (${TARGET_ERROR_COUNT})`);
+      console.log(
+        `✅ Error count (${this.initialErrorCount}) already below target (${TARGET_ERROR_COUNT})`,
+      );
       return;
     }
 
@@ -94,23 +97,25 @@ class SystematicTypeScriptRecovery {
     // Validate build before starting
     const buildValid = await this.validateBuild();
     if (!buildValid) {
-      throw new Error('Initial build validation failed - cannot proceed safely');
+      throw new Error(
+        "Initial build validation failed - cannot proceed safely",
+      );
     }
 
-    console.log('✅ Campaign initialization complete\n');
+    console.log("✅ Campaign initialization complete\n");
   }
 
   async executeRecoveryPhases() {
-    console.log('🔧 Executing recovery phases...\n');
+    console.log("🔧 Executing recovery phases...\n");
 
     // Phase 1: TS1003 Identifier Errors (738 errors)
-    await this.executePhase('TS1003', 'fix-ts1003-identifier-errors.cjs', 738);
+    await this.executePhase("TS1003", "fix-ts1003-identifier-errors.cjs", 738);
 
     // Phase 2: TS1128 Declaration Errors (441 errors)
-    await this.executePhase('TS1128', 'focused-ts1128-fixer.cjs', 441);
+    await this.executePhase("TS1128", "focused-ts1128-fixer.cjs", 441);
 
     // Phase 3: TS1005 Token Errors (213 errors)
-    await this.executePhase('TS1005', 'fix-ts1005-trailing-commas.cjs', 213);
+    await this.executePhase("TS1005", "fix-ts1005-trailing-commas.cjs", 213);
 
     // Phase 4: Remaining syntax errors with comprehensive approach
     await this.executeComprehensiveCleanup();
@@ -133,17 +138,22 @@ class SystematicTypeScriptRecovery {
 
       // Execute specialized script
       console.log(`🔧 Executing ${scriptPath}...`);
-      execSync(`node ${scriptPath}`, { stdio: 'inherit' });
+      execSync(`node ${scriptPath}`, { stdio: "inherit" });
 
       // Validate after phase
       const postPhaseErrors = await this.getTypeScriptErrorCount();
       const phaseReduction = prePhaseErrors - postPhaseErrors;
-      const phasePercentage = prePhaseErrors > 0 ? ((phaseReduction / prePhaseErrors) * 100).toFixed(1) : '0.0';
+      const phasePercentage =
+        prePhaseErrors > 0
+          ? ((phaseReduction / prePhaseErrors) * 100).toFixed(1)
+          : "0.0";
 
       console.log(`\n📊 Phase ${errorType} Results:`);
       console.log(`   Before: ${prePhaseErrors} errors`);
       console.log(`   After: ${postPhaseErrors} errors`);
-      console.log(`   Reduction: ${phaseReduction} errors (${phasePercentage}%)`);
+      console.log(
+        `   Reduction: ${phaseReduction} errors (${phasePercentage}%)`,
+      );
 
       // Update tracking
       this.currentErrorCount = postPhaseErrors;
@@ -153,7 +163,7 @@ class SystematicTypeScriptRecovery {
         beforeCount: prePhaseErrors,
         afterCount: postPhaseErrors,
         reduction: phaseReduction,
-        percentage: phasePercentage
+        percentage: phasePercentage,
       });
 
       // Validate build after phase
@@ -163,12 +173,13 @@ class SystematicTypeScriptRecovery {
         console.log(`⚠️ Build validation failed after ${errorType} phase`);
 
         if (this.buildValidationFailures >= 2) {
-          throw new Error('Multiple build validation failures - stopping campaign for safety');
+          throw new Error(
+            "Multiple build validation failures - stopping campaign for safety",
+          );
         }
       } else {
         console.log(`✅ Build validation passed after ${errorType} phase`);
       }
-
     } catch (error) {
       console.error(`❌ Phase ${errorType} failed:`, error.message);
       // Continue with next phase rather than failing entire campaign
@@ -176,44 +187,56 @@ class SystematicTypeScriptRecovery {
   }
 
   async executeComprehensiveCleanup() {
-    console.log('\n📋 Phase: Comprehensive Syntax Error Cleanup');
+    console.log("\n📋 Phase: Comprehensive Syntax Error Cleanup");
 
     const preCleanupErrors = await this.getTypeScriptErrorCount();
 
     if (preCleanupErrors <= TARGET_ERROR_COUNT) {
-      console.log(`✅ Error count (${preCleanupErrors}) already at target level`);
+      console.log(
+        `✅ Error count (${preCleanupErrors}) already at target level`,
+      );
       return;
     }
 
-    console.log(`🔧 Applying comprehensive syntax fixes to remaining ${preCleanupErrors} errors...`);
+    console.log(
+      `🔧 Applying comprehensive syntax fixes to remaining ${preCleanupErrors} errors...`,
+    );
 
     try {
       // Use the existing comprehensive syntax fixer
-      if (fs.existsSync('fix-comprehensive-syntax-errors.cjs')) {
-        execSync('node fix-comprehensive-syntax-errors.cjs', { stdio: 'inherit' });
+      if (fs.existsSync("fix-comprehensive-syntax-errors.cjs")) {
+        execSync("node fix-comprehensive-syntax-errors.cjs", {
+          stdio: "inherit",
+        });
       } else {
-        console.log('⚠️ Comprehensive syntax fixer not found, applying manual patterns...');
+        console.log(
+          "⚠️ Comprehensive syntax fixer not found, applying manual patterns...",
+        );
         await this.applyManualSyntaxFixes();
       }
 
       const postCleanupErrors = await this.getTypeScriptErrorCount();
       const cleanupReduction = preCleanupErrors - postCleanupErrors;
-      const cleanupPercentage = preCleanupErrors > 0 ? ((cleanupReduction / preCleanupErrors) * 100).toFixed(1) : '0.0';
+      const cleanupPercentage =
+        preCleanupErrors > 0
+          ? ((cleanupReduction / preCleanupErrors) * 100).toFixed(1)
+          : "0.0";
 
       console.log(`\n📊 Comprehensive Cleanup Results:`);
       console.log(`   Before: ${preCleanupErrors} errors`);
       console.log(`   After: ${postCleanupErrors} errors`);
-      console.log(`   Reduction: ${cleanupReduction} errors (${cleanupPercentage}%)`);
+      console.log(
+        `   Reduction: ${cleanupReduction} errors (${cleanupPercentage}%)`,
+      );
 
       this.currentErrorCount = postCleanupErrors;
-
     } catch (error) {
-      console.error('❌ Comprehensive cleanup failed:', error.message);
+      console.error("❌ Comprehensive cleanup failed:", error.message);
     }
   }
 
   async applyManualSyntaxFixes() {
-    console.log('🔧 Applying manual syntax fix patterns...');
+    console.log("🔧 Applying manual syntax fix patterns...");
 
     // Get files with remaining errors
     const errorFiles = await this.getFilesWithErrors();
@@ -230,12 +253,15 @@ class SystematicTypeScriptRecovery {
         if (processedInBatch % VALIDATION_CHECKPOINT_FREQUENCY === 0) {
           const buildValid = await this.validateBuild();
           if (!buildValid) {
-            console.log(`⚠️ Build validation failed after ${processedInBatch} files, stopping batch`);
+            console.log(
+              `⚠️ Build validation failed after ${processedInBatch} files, stopping batch`,
+            );
             break;
           }
-          console.log(`✅ Validation checkpoint passed (${processedInBatch} files processed)`);
+          console.log(
+            `✅ Validation checkpoint passed (${processedInBatch} files processed)`,
+          );
         }
-
       } catch (error) {
         console.error(`❌ Error processing ${filePath}:`, error.message);
       }
@@ -245,28 +271,31 @@ class SystematicTypeScriptRecovery {
   }
 
   async fixSyntaxErrorsInFile(filePath) {
-    const content = fs.readFileSync(filePath, 'utf8');
+    const content = fs.readFileSync(filePath, "utf8");
     let fixed = content;
     let modified = false;
 
     // Common syntax error patterns
 
     // Fix missing semicolons
-    if (fixed.includes('Expected')) {
-      fixed = fixed.replace(/(\w+)\s*$/gm, '$1;');
+    if (fixed.includes("Expected")) {
+      fixed = fixed.replace(/(\w+)\s*$/gm, "$1;");
       modified = true;
     }
 
     // Fix malformed function parameters
-    fixed = fixed.replace(/function\s+(\w+)\s*\(\s*([^)]*),\s*\)/g, 'function $1($2)');
+    fixed = fixed.replace(
+      /function\s+(\w+)\s*\(\s*([^)]*),\s*\)/g,
+      "function $1($2)",
+    );
     if (fixed !== content) modified = true;
 
     // Fix trailing commas in object literals
-    fixed = fixed.replace(/,(\s*[}\]])/g, '$1');
+    fixed = fixed.replace(/,(\s*[}\]])/g, "$1");
     if (fixed !== content) modified = true;
 
     // Fix malformed arrow functions
-    fixed = fixed.replace(/=>\s*{([^}]*),\s*}/g, '=> {$1}');
+    fixed = fixed.replace(/=>\s*{([^}]*),\s*}/g, "=> {$1}");
     if (fixed !== content) modified = true;
 
     if (modified) {
@@ -277,10 +306,13 @@ class SystematicTypeScriptRecovery {
 
   async getTypeScriptErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -289,40 +321,52 @@ class SystematicTypeScriptRecovery {
 
   async getFilesWithErrors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS" | cut -d"(" -f1 | sort -u', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
-      return output.trim().split('\n').filter(line => line.trim());
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS" | cut -d"(" -f1 | sort -u',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
+      return output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
     } catch (error) {
       return [];
     }
   }
 
   async analyzeErrorDistribution() {
-    console.log('📊 Analyzing error distribution...');
+    console.log("📊 Analyzing error distribution...");
 
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E "error TS" | sed \'s/.*error //\' | cut -d\':\' -f1 | sort | uniq -c | sort -nr', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        "yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E \"error TS\" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr",
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
-      console.log('\nError breakdown:');
-      const lines = output.trim().split('\n').filter(line => line.trim());
-      for (const line of lines.slice(0, 10)) { // Show top 10
+      console.log("\nError breakdown:");
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
+      for (const line of lines.slice(0, 10)) {
+        // Show top 10
         console.log(`  ${line.trim()}`);
       }
-      console.log('');
-
+      console.log("");
     } catch (error) {
-      console.log('⚠️ Could not analyze error distribution');
+      console.log("⚠️ Could not analyze error distribution");
     }
   }
 
   async validateBuild() {
     try {
-      execSync('yarn build', { stdio: 'pipe', timeout: 60000 });
+      execSync("yarn build", { stdio: "pipe", timeout: 60000 });
       return true;
     } catch (error) {
       return false;
@@ -330,7 +374,7 @@ class SystematicTypeScriptRecovery {
   }
 
   createBackup() {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
     const backupPath = `${BACKUP_DIR}-${timestamp}`;
 
     if (!fs.existsSync(backupPath)) {
@@ -342,16 +386,20 @@ class SystematicTypeScriptRecovery {
 
   async generateFinalReport() {
     const campaignEndTime = new Date();
-    const campaignDuration = Math.round((campaignEndTime - this.campaignStartTime) / 1000 / 60); // minutes
+    const campaignDuration = Math.round(
+      (campaignEndTime - this.campaignStartTime) / 1000 / 60,
+    ); // minutes
 
     const finalErrorCount = await this.getTypeScriptErrorCount();
     const totalReduction = this.initialErrorCount - finalErrorCount;
-    const reductionPercentage = this.initialErrorCount > 0 ?
-      ((totalReduction / this.initialErrorCount) * 100).toFixed(1) : '0.0';
+    const reductionPercentage =
+      this.initialErrorCount > 0
+        ? ((totalReduction / this.initialErrorCount) * 100).toFixed(1)
+        : "0.0";
 
-    console.log('\n' + '='.repeat(60));
-    console.log('📈 PHASE 12.1 CAMPAIGN FINAL REPORT');
-    console.log('='.repeat(60));
+    console.log("\n" + "=".repeat(60));
+    console.log("📈 PHASE 12.1 CAMPAIGN FINAL REPORT");
+    console.log("=".repeat(60));
 
     console.log(`\n🎯 Campaign Objectives:`);
     console.log(`   Target: Reduce errors to <${TARGET_ERROR_COUNT}`);
@@ -366,11 +414,18 @@ class SystematicTypeScriptRecovery {
 
     console.log(`\n🏆 Success Metrics:`);
     const targetMet = finalErrorCount < TARGET_ERROR_COUNT;
-    const reductionMet = parseFloat(reductionPercentage) >= MIN_REDUCTION_PERCENTAGE;
+    const reductionMet =
+      parseFloat(reductionPercentage) >= MIN_REDUCTION_PERCENTAGE;
 
-    console.log(`   ✅ Error count < ${TARGET_ERROR_COUNT}: ${targetMet ? 'ACHIEVED' : 'NOT ACHIEVED'}`);
-    console.log(`   ✅ Reduction ≥ ${MIN_REDUCTION_PERCENTAGE}%: ${reductionMet ? 'ACHIEVED' : 'NOT ACHIEVED'}`);
-    console.log(`   ✅ Build stability: ${this.buildValidationFailures === 0 ? 'MAINTAINED' : 'ISSUES DETECTED'}`);
+    console.log(
+      `   ✅ Error count < ${TARGET_ERROR_COUNT}: ${targetMet ? "ACHIEVED" : "NOT ACHIEVED"}`,
+    );
+    console.log(
+      `   ✅ Reduction ≥ ${MIN_REDUCTION_PERCENTAGE}%: ${reductionMet ? "ACHIEVED" : "NOT ACHIEVED"}`,
+    );
+    console.log(
+      `   ✅ Build stability: ${this.buildValidationFailures === 0 ? "MAINTAINED" : "ISSUES DETECTED"}`,
+    );
 
     if (targetMet && reductionMet) {
       console.log(`\n🎉 CAMPAIGN SUCCESS! Phase 12.1 objectives achieved.`);
@@ -381,8 +436,10 @@ class SystematicTypeScriptRecovery {
     // Phase history
     if (this.errorHistory.length > 0) {
       console.log(`\n📋 Phase History:`);
-      this.errorHistory.forEach(phase => {
-        console.log(`   ${phase.phase}: ${phase.beforeCount} → ${phase.afterCount} (${phase.percentage}% reduction)`);
+      this.errorHistory.forEach((phase) => {
+        console.log(
+          `   ${phase.phase}: ${phase.beforeCount} → ${phase.afterCount} (${phase.percentage}% reduction)`,
+        );
       });
     }
 
@@ -403,7 +460,7 @@ class SystematicTypeScriptRecovery {
       reductionMet,
       buildValidationFailures: this.buildValidationFailures,
       errorHistory: this.errorHistory,
-      backupPath: this.backupPath
+      backupPath: this.backupPath,
     });
 
     console.log(`📄 Detailed report saved to: ${reportPath}`);
@@ -425,39 +482,46 @@ class SystematicTypeScriptRecovery {
 - **Reduction Percentage**: ${data.reductionPercentage}%
 
 ## Success Metrics
-- **Target (<100 errors)**: ${data.targetMet ? '✅ ACHIEVED' : '❌ NOT ACHIEVED'}
-- **Minimum Reduction (97%)**: ${data.reductionMet ? '✅ ACHIEVED' : '❌ NOT ACHIEVED'}
-- **Build Stability**: ${data.buildValidationFailures === 0 ? '✅ MAINTAINED' : '⚠️ ISSUES DETECTED'}
+- **Target (<100 errors)**: ${data.targetMet ? "✅ ACHIEVED" : "❌ NOT ACHIEVED"}
+- **Minimum Reduction (97%)**: ${data.reductionMet ? "✅ ACHIEVED" : "❌ NOT ACHIEVED"}
+- **Build Stability**: ${data.buildValidationFailures === 0 ? "✅ MAINTAINED" : "⚠️ ISSUES DETECTED"}
 
 ## Phase History
-${data.errorHistory.map(phase =>
-  `- **${phase.phase}**: ${phase.beforeCount} → ${phase.afterCount} (${phase.percentage}% reduction)`
-).join('\n')}
+${data.errorHistory
+  .map(
+    (phase) =>
+      `- **${phase.phase}**: ${phase.beforeCount} → ${phase.afterCount} (${phase.percentage}% reduction)`,
+  )
+  .join("\n")}
 
 ## Campaign Status
-${data.targetMet && data.reductionMet ?
-  '🎉 **CAMPAIGN SUCCESS** - All objectives achieved' :
-  '⚠️ **PARTIAL SUCCESS** - Additional work may be needed'}
+${
+  data.targetMet && data.reductionMet
+    ? "🎉 **CAMPAIGN SUCCESS** - All objectives achieved"
+    : "⚠️ **PARTIAL SUCCESS** - Additional work may be needed"
+}
 
 ## Next Steps
-${data.finalErrorCount < 100 ?
-  '✅ Ready to proceed to Phase 12.2: ESLint Mass Reduction Campaign' :
-  '🔄 Consider additional TypeScript error reduction before proceeding'}
+${
+  data.finalErrorCount < 100
+    ? "✅ Ready to proceed to Phase 12.2: ESLint Mass Reduction Campaign"
+    : "🔄 Consider additional TypeScript error reduction before proceeding"
+}
 `;
 
     fs.writeFileSync(reportPath, report);
   }
 
   async handleCampaignFailure(error) {
-    console.log('\n❌ CAMPAIGN FAILURE HANDLING');
-    console.log('='.repeat(40));
+    console.log("\n❌ CAMPAIGN FAILURE HANDLING");
+    console.log("=".repeat(40));
     console.log(`Error: ${error.message}`);
     console.log(`Backup location: ${this.backupPath}`);
     console.log(`Build validation failures: ${this.buildValidationFailures}`);
 
     // Attempt to restore from backup if needed
     if (this.buildValidationFailures > 0) {
-      console.log('\n🔄 Consider restoring from backup if build is broken');
+      console.log("\n🔄 Consider restoring from backup if build is broken");
     }
   }
 }

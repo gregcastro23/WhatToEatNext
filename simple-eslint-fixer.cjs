@@ -6,8 +6,8 @@
  * Apply basic fixes to reduce ESLint errors
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 class SimpleESLintFixer {
   constructor() {
@@ -16,7 +16,7 @@ class SimpleESLintFixer {
   }
 
   async run() {
-    console.log('🔧 Simple ESLint Fixer Starting...');
+    console.log("🔧 Simple ESLint Fixer Starting...");
 
     try {
       // Apply disable comments to files with many errors
@@ -27,24 +27,23 @@ class SimpleESLintFixer {
       console.log(`Errors fixed: ${this.fixedErrors}`);
 
       return { success: true };
-
     } catch (error) {
-      console.error('❌ Simple fixer failed:', error.message);
+      console.error("❌ Simple fixer failed:", error.message);
       return { success: false, error: error.message };
     }
   }
 
   async addDisableComments() {
-    console.log('\n📝 Adding disable comments to high-error files...');
+    console.log("\n📝 Adding disable comments to high-error files...");
 
     // Files that commonly have many ESLint errors
     const highErrorFiles = [
-      'src/__tests__/utils/CampaignTestController.ts',
-      'src/__tests__/utils/MemoryLeakDetector.ts',
-      'src/__tests__/utils/MemoryOptimizationScript.ts',
-      'src/services/campaign/CampaignController.ts',
-      'src/services/campaign/ProgressTracker.ts',
-      'src/services/campaign/TypeScriptErrorAnalyzer.ts'
+      "src/__tests__/utils/CampaignTestController.ts",
+      "src/__tests__/utils/MemoryLeakDetector.ts",
+      "src/__tests__/utils/MemoryOptimizationScript.ts",
+      "src/services/campaign/CampaignController.ts",
+      "src/services/campaign/ProgressTracker.ts",
+      "src/services/campaign/TypeScriptErrorAnalyzer.ts",
     ];
 
     for (const filePath of highErrorFiles) {
@@ -62,27 +61,31 @@ class SimpleESLintFixer {
   }
 
   async addDisableCommentsToFile(filePath) {
-    let content = fs.readFileSync(filePath, 'utf8');
+    let content = fs.readFileSync(filePath, "utf8");
 
     // Check if file already has disable comments
-    if (content.includes('eslint-disable')) {
+    if (content.includes("eslint-disable")) {
       return;
     }
 
     let disableRules = [];
 
     // Common rules to disable in campaign/test files
-    if (filePath.includes('campaign') || filePath.includes('test') || filePath.includes('Test')) {
+    if (
+      filePath.includes("campaign") ||
+      filePath.includes("test") ||
+      filePath.includes("Test")
+    ) {
       disableRules = [
-        '@typescript-eslint/no-explicit-any',
-        'no-console',
-        '@typescript-eslint/no-unused-vars',
-        'max-lines-per-function'
+        "@typescript-eslint/no-explicit-any",
+        "no-console",
+        "@typescript-eslint/no-unused-vars",
+        "max-lines-per-function",
       ];
     }
 
     if (disableRules.length > 0) {
-      const disableComment = `/* eslint-disable ${disableRules.join(', ')} -- Campaign/test file with intentional patterns */\n`;
+      const disableComment = `/* eslint-disable ${disableRules.join(", ")} -- Campaign/test file with intentional patterns */\n`;
       const modified = disableComment + content;
 
       fs.writeFileSync(filePath, modified);
@@ -93,12 +96,12 @@ class SimpleESLintFixer {
   }
 
   async addDisableCommentsToTestFiles() {
-    console.log('  📁 Processing test files...');
+    console.log("  📁 Processing test files...");
 
     const testDirs = [
-      'src/__tests__',
-      'src/components/__tests__',
-      'src/services/__tests__'
+      "src/__tests__",
+      "src/components/__tests__",
+      "src/services/__tests__",
     ];
 
     for (const testDir of testDirs) {
@@ -117,7 +120,10 @@ class SimpleESLintFixer {
 
         if (entry.isDirectory()) {
           await this.processTestDirectory(fullPath);
-        } else if (entry.isFile() && (entry.name.endsWith('.ts') || entry.name.endsWith('.tsx'))) {
+        } else if (
+          entry.isFile() &&
+          (entry.name.endsWith(".ts") || entry.name.endsWith(".tsx"))
+        ) {
           await this.addDisableCommentsToFile(fullPath);
         }
       }
@@ -130,12 +136,12 @@ class SimpleESLintFixer {
 // Execute the simple fixer
 if (require.main === module) {
   const fixer = new SimpleESLintFixer();
-  fixer.run().then(result => {
+  fixer.run().then((result) => {
     if (result.success) {
-      console.log('\n✅ Simple ESLint fixes completed successfully!');
+      console.log("\n✅ Simple ESLint fixes completed successfully!");
       process.exit(0);
     } else {
-      console.error('\n❌ Simple ESLint fixes failed!');
+      console.error("\n❌ Simple ESLint fixes failed!");
       process.exit(1);
     }
   });

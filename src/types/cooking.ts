@@ -1,4 +1,4 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from "@/types/alchemy";
 
 export interface CookingMethod {
   id: string;
@@ -72,7 +72,7 @@ export interface EnhancedCookingMethod extends CookingMethod {
   monicaConstant?: number;
 
   // Enhanced metadata
-  complexity?: 'basic' | 'intermediate' | 'advanced' | 'master';
+  complexity?: "basic" | "intermediate" | "advanced" | "master";
   skillRequirements?: string[];
   equipmentRequired?: string[];
   safetyConsiderations?: string[];
@@ -89,7 +89,7 @@ export interface EnhancedCookingMethod extends CookingMethod {
   zodiacCompatibility?: Record<string, number>;
 }
 
-export type { ElementalProperties, ZodiacSign } from './alchemy';
+export type { ElementalProperties, ZodiacSign } from "./alchemy";
 
 // Add CookingMethodInfo alias for compatibility
 export type CookingMethodInfo = CookingMethod;

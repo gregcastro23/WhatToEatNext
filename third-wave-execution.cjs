@@ -6,16 +6,16 @@
  * Targets function parameters and callback types - moving into functional code
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 const colors = {
-  reset: '\x1b[0m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  cyan: '\x1b[36m',
-  red: '\x1b[31m'
+  reset: "\x1b[0m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  cyan: "\x1b[36m",
+  red: "\x1b[31m",
 };
 
 function colorize(text, color) {
@@ -25,37 +25,37 @@ function colorize(text, color) {
 // Third wave targets - function parameters and callbacks (medium confidence)
 const THIRD_WAVE_TARGETS = [
   {
-    file: 'src/services/PerformanceMonitoringService.ts',
+    file: "src/services/PerformanceMonitoringService.ts",
     line: 38,
-    search: 'private subscribers: Set<(data: any) => void> = new Set();',
-    replace: 'private subscribers: Set<(data: unknown) => void> = new Set();',
-    category: 'CALLBACK_TYPE',
-    confidence: 0.75
+    search: "private subscribers: Set<(data: any) => void> = new Set();",
+    replace: "private subscribers: Set<(data: unknown) => void> = new Set();",
+    category: "CALLBACK_TYPE",
+    confidence: 0.75,
   },
   {
-    file: 'src/services/PerformanceMonitoringService.ts',
+    file: "src/services/PerformanceMonitoringService.ts",
     line: 241,
-    search: 'public subscribe(callback: (data: any) => void) {',
-    replace: 'public subscribe(callback: (data: unknown) => void) {',
-    category: 'CALLBACK_TYPE',
-    confidence: 0.75
+    search: "public subscribe(callback: (data: any) => void) {",
+    replace: "public subscribe(callback: (data: unknown) => void) {",
+    category: "CALLBACK_TYPE",
+    confidence: 0.75,
   },
   {
-    file: 'src/services/RecipeCuisineConnector.ts',
+    file: "src/services/RecipeCuisineConnector.ts",
     line: 132,
-    search: 'dishArray.forEach((dish: any) => {',
-    replace: 'dishArray.forEach((dish: unknown) => {',
-    category: 'FUNCTION_PARAM',
-    confidence: 0.70
+    search: "dishArray.forEach((dish: any) => {",
+    replace: "dishArray.forEach((dish: unknown) => {",
+    category: "FUNCTION_PARAM",
+    confidence: 0.7,
   },
   {
-    file: 'src/services/campaign/unintentional-any-elimination/ConservativeReplacementPilot.ts',
+    file: "src/services/campaign/unintentional-any-elimination/ConservativeReplacementPilot.ts",
     line: 811,
-    search: 'private generateMarkdownReport(report: any): string {',
-    replace: 'private generateMarkdownReport(report: unknown): string {',
-    category: 'FUNCTION_PARAM',
-    confidence: 0.75
-  }
+    search: "private generateMarkdownReport(report: any): string {",
+    replace: "private generateMarkdownReport(report: unknown): string {",
+    category: "FUNCTION_PARAM",
+    confidence: 0.75,
+  },
 ];
 
 class ThirdWaveExecutor {
@@ -64,26 +64,49 @@ class ThirdWaveExecutor {
       attempted: 0,
       successful: 0,
       failed: 0,
-      details: []
+      details: [],
     };
   }
 
   async execute() {
-    console.log(colorize('\n🚀 Third Wave: Function Parameters & Callbacks', 'cyan'));
-    console.log(colorize('=' .repeat(60), 'blue'));
-    console.log(colorize(`Moving into functional code - targeting ${THIRD_WAVE_TARGETS.length} medium-confidence patterns`, 'yellow'));
-    console.log(colorize('Enhanced safety protocols for functional changes', 'yellow'));
-    console.log(colorize('=' .repeat(60), 'blue'));
+    console.log(
+      colorize("\n🚀 Third Wave: Function Parameters & Callbacks", "cyan"),
+    );
+    console.log(colorize("=".repeat(60), "blue"));
+    console.log(
+      colorize(
+        `Moving into functional code - targeting ${THIRD_WAVE_TARGETS.length} medium-confidence patterns`,
+        "yellow",
+      ),
+    );
+    console.log(
+      colorize("Enhanced safety protocols for functional changes", "yellow"),
+    );
+    console.log(colorize("=".repeat(60), "blue"));
 
     const initialAnyCount = await this.getAnyCount();
-    console.log(colorize(`📊 Initial explicit any count: ${initialAnyCount}`, 'blue'));
+    console.log(
+      colorize(`📊 Initial explicit any count: ${initialAnyCount}`, "blue"),
+    );
 
     // Process each target with enhanced caution
     for (let i = 0; i < THIRD_WAVE_TARGETS.length; i++) {
       const target = THIRD_WAVE_TARGETS[i];
-      console.log(colorize(`\n🔄 Processing ${i + 1}/${THIRD_WAVE_TARGETS.length}: ${target.file}`, 'cyan'));
-      console.log(colorize(`   Category: ${target.category} | Confidence: ${(target.confidence * 100).toFixed(0)}%`, 'blue'));
-      console.log(colorize(`   Risk Level: MEDIUM (functional code)`, 'yellow'));
+      console.log(
+        colorize(
+          `\n🔄 Processing ${i + 1}/${THIRD_WAVE_TARGETS.length}: ${target.file}`,
+          "cyan",
+        ),
+      );
+      console.log(
+        colorize(
+          `   Category: ${target.category} | Confidence: ${(target.confidence * 100).toFixed(0)}%`,
+          "blue",
+        ),
+      );
+      console.log(
+        colorize(`   Risk Level: MEDIUM (functional code)`, "yellow"),
+      );
 
       const result = await this.processTarget(target);
       this.results.attempted++;
@@ -91,53 +114,96 @@ class ThirdWaveExecutor {
 
       if (result.success) {
         this.results.successful++;
-        console.log(colorize(`✅ Success: ${result.description}`, 'green'));
-        console.log(colorize(`   Before: ${result.before}`, 'yellow'));
-        console.log(colorize(`   After:  ${result.after}`, 'green'));
+        console.log(colorize(`✅ Success: ${result.description}`, "green"));
+        console.log(colorize(`   Before: ${result.before}`, "yellow"));
+        console.log(colorize(`   After:  ${result.after}`, "green"));
       } else {
         this.results.failed++;
-        console.log(colorize(`❌ Failed: ${result.error}`, 'red'));
+        console.log(colorize(`❌ Failed: ${result.error}`, "red"));
         if (result.note) {
-          console.log(colorize(`   Note: ${result.note}`, 'yellow'));
+          console.log(colorize(`   Note: ${result.note}`, "yellow"));
         }
       }
     }
 
     const finalAnyCount = await this.getAnyCount();
     const reduction = initialAnyCount - finalAnyCount;
-    const reductionPercentage = initialAnyCount > 0 ? (reduction / initialAnyCount * 100) : 0;
+    const reductionPercentage =
+      initialAnyCount > 0 ? (reduction / initialAnyCount) * 100 : 0;
 
-    console.log(colorize('\n📊 Third Wave Results:', 'cyan'));
+    console.log(colorize("\n📊 Third Wave Results:", "cyan"));
     console.log(`  Attempted: ${this.results.attempted}`);
-    console.log(`  Successful: ${colorize(this.results.successful.toString(), 'green')}`);
-    console.log(`  Failed: ${colorize(this.results.failed.toString(), 'red')}`);
-    console.log(`  Success Rate: ${colorize((this.results.successful / this.results.attempted * 100).toFixed(1) + '%', 'green')}`);
-    console.log(`  Any Types Reduced: ${colorize(reduction.toString(), 'green')}`);
-    console.log(`  Reduction Percentage: ${colorize(reductionPercentage.toFixed(2) + '%', 'green')}`);
-    console.log(`  Final Any Count: ${colorize(finalAnyCount.toString(), 'blue')}`);
+    console.log(
+      `  Successful: ${colorize(this.results.successful.toString(), "green")}`,
+    );
+    console.log(`  Failed: ${colorize(this.results.failed.toString(), "red")}`);
+    console.log(
+      `  Success Rate: ${colorize(((this.results.successful / this.results.attempted) * 100).toFixed(1) + "%", "green")}`,
+    );
+    console.log(
+      `  Any Types Reduced: ${colorize(reduction.toString(), "green")}`,
+    );
+    console.log(
+      `  Reduction Percentage: ${colorize(reductionPercentage.toFixed(2) + "%", "green")}`,
+    );
+    console.log(
+      `  Final Any Count: ${colorize(finalAnyCount.toString(), "blue")}`,
+    );
 
     // Calculate cumulative progress (waves 1-3)
     const previousReduction = 7; // From waves 1 and 2
     const totalReduction = previousReduction + reduction;
-    const cumulativePercentage = ((totalReduction / (initialAnyCount + previousReduction)) * 100);
+    const cumulativePercentage =
+      (totalReduction / (initialAnyCount + previousReduction)) * 100;
 
-    console.log(colorize('\n📈 Cumulative Campaign Progress (3 Waves):', 'cyan'));
-    console.log(`  Total Fixes Applied: ${colorize(totalReduction.toString(), 'green')}`);
-    console.log(`  Cumulative Reduction: ${colorize(cumulativePercentage.toFixed(2) + '%', 'green')}`);
-    console.log(`  Waves Completed: ${colorize('3', 'green')}`);
-    console.log(`  Pattern Categories: Array Types, Optional Properties, Index Signatures, Function Parameters, Callbacks`);
+    console.log(
+      colorize("\n📈 Cumulative Campaign Progress (3 Waves):", "cyan"),
+    );
+    console.log(
+      `  Total Fixes Applied: ${colorize(totalReduction.toString(), "green")}`,
+    );
+    console.log(
+      `  Cumulative Reduction: ${colorize(cumulativePercentage.toFixed(2) + "%", "green")}`,
+    );
+    console.log(`  Waves Completed: ${colorize("3", "green")}`);
+    console.log(
+      `  Pattern Categories: Array Types, Optional Properties, Index Signatures, Function Parameters, Callbacks`,
+    );
 
     // Save comprehensive report
-    await this.saveReport(initialAnyCount, finalAnyCount, reduction, totalReduction, cumulativePercentage);
+    await this.saveReport(
+      initialAnyCount,
+      finalAnyCount,
+      reduction,
+      totalReduction,
+      cumulativePercentage,
+    );
 
     if (this.results.successful > 0) {
-      console.log(colorize('\n🎉 Third Wave Completed Successfully!', 'green'));
-      console.log(colorize(`✅ ${this.results.successful} functional patterns converted to unknown`, 'green'));
-      console.log(colorize('🚀 Successfully expanded into functional code - ready for fourth wave!', 'cyan'));
+      console.log(colorize("\n🎉 Third Wave Completed Successfully!", "green"));
+      console.log(
+        colorize(
+          `✅ ${this.results.successful} functional patterns converted to unknown`,
+          "green",
+        ),
+      );
+      console.log(
+        colorize(
+          "🚀 Successfully expanded into functional code - ready for fourth wave!",
+          "cyan",
+        ),
+      );
       return true;
     } else {
-      console.log(colorize('\n⚠️ Third wave completed with no changes applied', 'yellow'));
-      console.log(colorize('Functional code patterns may require more analysis', 'yellow'));
+      console.log(
+        colorize("\n⚠️ Third wave completed with no changes applied", "yellow"),
+      );
+      console.log(
+        colorize(
+          "Functional code patterns may require more analysis",
+          "yellow",
+        ),
+      );
       return false;
     }
   }
@@ -148,21 +214,21 @@ class ThirdWaveExecutor {
         return {
           success: false,
           target: target,
-          error: 'File not found',
-          description: target.file
+          error: "File not found",
+          description: target.file,
         };
       }
 
-      const content = fs.readFileSync(target.file, 'utf8');
+      const content = fs.readFileSync(target.file, "utf8");
 
       // Check if the search pattern exists
       if (!content.includes(target.search)) {
         return {
           success: false,
           target: target,
-          error: 'Pattern not found in file',
+          error: "Pattern not found in file",
           description: target.file,
-          note: 'Pattern may have already been replaced or modified'
+          note: "Pattern may have already been replaced or modified",
         };
       }
 
@@ -174,8 +240,8 @@ class ThirdWaveExecutor {
         return {
           success: false,
           target: target,
-          error: 'Replacement failed - content unchanged',
-          description: target.file
+          error: "Replacement failed - content unchanged",
+          description: target.file,
         };
       }
 
@@ -187,51 +253,66 @@ class ThirdWaveExecutor {
         target: target,
         description: `${target.file} - ${target.category}`,
         before: target.search.trim(),
-        after: target.replace.trim()
+        after: target.replace.trim(),
       };
-
     } catch (error) {
       return {
         success: false,
         target: target,
         error: error.message,
-        description: target.file
+        description: target.file,
       };
     }
   }
 
   async getAnyCount() {
     try {
-      const output = execSync('find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += $2} END {print sum}\' || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'find src -name "*.ts" -o -name "*.tsx" | xargs grep -c ": any" | awk -F: \'{sum += $2} END {print sum}\' || echo "0"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch {
       return 0;
     }
   }
 
-  async saveReport(initialCount, finalCount, reduction, totalReduction, cumulativePercentage) {
+  async saveReport(
+    initialCount,
+    finalCount,
+    reduction,
+    totalReduction,
+    cumulativePercentage,
+  ) {
     const report = {
       timestamp: new Date().toISOString(),
-      wave: 'third',
-      approach: 'Function parameters and callback types',
-      riskLevel: 'MEDIUM',
+      wave: "third",
+      approach: "Function parameters and callback types",
+      riskLevel: "MEDIUM",
       targets: THIRD_WAVE_TARGETS.length,
       results: this.results,
       metrics: {
         initialAnyCount: initialCount,
         finalAnyCount: finalCount,
         waveReduction: reduction,
-        waveReductionPercentage: initialCount > 0 ? (reduction / initialCount * 100).toFixed(2) + '%' : '0%',
+        waveReductionPercentage:
+          initialCount > 0
+            ? ((reduction / initialCount) * 100).toFixed(2) + "%"
+            : "0%",
         totalReduction: totalReduction,
-        cumulativeReductionPercentage: cumulativePercentage.toFixed(2) + '%'
+        cumulativeReductionPercentage: cumulativePercentage.toFixed(2) + "%",
       },
       categories: {
-        FUNCTION_PARAM: this.results.details.filter(d => d.target?.category === 'FUNCTION_PARAM').length,
-        CALLBACK_TYPE: this.results.details.filter(d => d.target?.category === 'CALLBACK_TYPE').length
-      }
+        FUNCTION_PARAM: this.results.details.filter(
+          (d) => d.target?.category === "FUNCTION_PARAM",
+        ).length,
+        CALLBACK_TYPE: this.results.details.filter(
+          (d) => d.target?.category === "CALLBACK_TYPE",
+        ).length,
+      },
     };
 
     const reportPath = `THIRD_WAVE_EXECUTION_REPORT.json`;
@@ -254,31 +335,46 @@ Executed third wave targeting function parameters and callback types, expanding 
 - **Attempted**: ${this.results.attempted}
 - **Successful**: ${this.results.successful}
 - **Failed**: ${this.results.failed}
-- **Success Rate**: ${(this.results.successful / this.results.attempted * 100).toFixed(1)}%
+- **Success Rate**: ${((this.results.successful / this.results.attempted) * 100).toFixed(1)}%
 
 ## Wave Metrics
 - **Initial Any Count**: ${initialCount}
 - **Final Any Count**: ${finalCount}
 - **Wave Reduction**: ${reduction}
-- **Wave Reduction Percentage**: ${initialCount > 0 ? (reduction / initialCount * 100).toFixed(2) + '%' : '0%'}
+- **Wave Reduction Percentage**: ${initialCount > 0 ? ((reduction / initialCount) * 100).toFixed(2) + "%" : "0%"}
 
 ## Cumulative Campaign Progress (3 Waves)
 - **Total Fixes Applied**: ${totalReduction}
 - **Cumulative Reduction**: ${cumulativePercentage.toFixed(2)}%
 - **Waves Completed**: 3
-- **Campaign Momentum**: ${this.results.successful > 0 ? 'POSITIVE' : 'STABLE'}
+- **Campaign Momentum**: ${this.results.successful > 0 ? "POSITIVE" : "STABLE"}
 - **Pattern Diversity**: 5 categories addressed
 
 ## Changes Applied by Category
 
 ### Function Parameters (param: any → param: unknown)
-${this.results.details.filter(d => d.success && d.target?.category === 'FUNCTION_PARAM').map(d => `- ${d.target.file}: Function parameter`).join('\n') || '- None applied'}
+${
+  this.results.details
+    .filter((d) => d.success && d.target?.category === "FUNCTION_PARAM")
+    .map((d) => `- ${d.target.file}: Function parameter`)
+    .join("\n") || "- None applied"
+}
 
 ### Callback Types ((data: any) => void → (data: unknown) => void)
-${this.results.details.filter(d => d.success && d.target?.category === 'CALLBACK_TYPE').map(d => `- ${d.target.file}: Callback type`).join('\n') || '- None applied'}
+${
+  this.results.details
+    .filter((d) => d.success && d.target?.category === "CALLBACK_TYPE")
+    .map((d) => `- ${d.target.file}: Callback type`)
+    .join("\n") || "- None applied"
+}
 
 ## Files Modified
-${this.results.details.filter(d => d.success).map(d => `- ${d.target.file}: ${d.target.category}`).join('\n') || '- None'}
+${
+  this.results.details
+    .filter((d) => d.success)
+    .map((d) => `- ${d.target.file}: ${d.target.category}`)
+    .join("\n") || "- None"
+}
 
 ## Risk Assessment
 - **Risk Level**: MEDIUM (functional code changes)
@@ -313,7 +409,7 @@ ${this.results.details.filter(d => d.success).map(d => `- ${d.target.file}: ${d.
 ## Campaign Evolution
 - **Wave 1**: Data structures (100% success) - Foundation established
 - **Wave 2**: Type definitions (100% success) - Momentum built
-- **Wave 3**: Functional code (${(this.results.successful / this.results.attempted * 100).toFixed(0)}% success) - Scope expanded
+- **Wave 3**: Functional code (${((this.results.successful / this.results.attempted) * 100).toFixed(0)}% success) - Scope expanded
 - **Progression**: Successfully moving from data to functional patterns
 
 ---
@@ -323,7 +419,7 @@ ${this.results.details.filter(d => d.success).map(d => `- ${d.target.file}: ${d.
 
     fs.writeFileSync(summaryPath, summaryContent);
 
-    console.log(colorize(`\n📄 Reports saved:`, 'blue'));
+    console.log(colorize(`\n📄 Reports saved:`, "blue"));
     console.log(`  - ${reportPath}`);
     console.log(`  - ${summaryPath}`);
   }

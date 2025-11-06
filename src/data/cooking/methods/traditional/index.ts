@@ -1,5 +1,5 @@
-import { fermentation } from './fermentation';
-import { pickling } from './pickling';
+import { fermentation } from "./fermentation";
+import { pickling } from "./pickling";
 // Import other traditional cooking methods as they are added
 // import { smoking } from './smoking';
 // import { curing } from './curing';
@@ -16,7 +16,7 @@ export const _traditionalCookingMethods = {
   // Add other cooking methods as they are implemented
   // smoking,
   // curing
-}
+};
 
 export const traditionalCookingMethods = _traditionalCookingMethods;
 
@@ -26,4 +26,4 @@ export {
   pickling,
   // smoking,
   // curing
-}
+};

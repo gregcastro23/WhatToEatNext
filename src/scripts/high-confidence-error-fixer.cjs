@@ -8,21 +8,21 @@
  * - TS2571: Object is unknown errors (216 errors)
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 class HighConfidenceErrorFixer {
   constructor() {
     this.fixedCount = 0;
     this.skippedCount = 0;
     this.errorCount = 0;
-    this.backupDir = '.high-confidence-fixes-backup';
+    this.backupDir = ".high-confidence-fixes-backup";
   }
 
   async executeFixCampaign() {
-    console.log('🚀 Starting High-Confidence Error Fix Campaign');
-    console.log('Target: 1,067 TS18046 and TS2571 errors\n');
+    console.log("🚀 Starting High-Confidence Error Fix Campaign");
+    console.log("Target: 1,067 TS18046 and TS2571 errors\n");
 
     // Create backup directory
     this.createBackupDirectory();
@@ -52,15 +52,19 @@ class HighConfidenceErrorFixer {
 
   getHighConfidenceErrors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      const output = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
       return [];
     } catch (error) {
-      const errorLines = error.stdout.split('\n')
-        .filter(line => line.includes('error TS18046') || line.includes('error TS2571'))
-        .map(line => this.parseErrorLine(line))
+      const errorLines = error.stdout
+        .split("\n")
+        .filter(
+          (line) =>
+            line.includes("error TS18046") || line.includes("error TS2571"),
+        )
+        .map((line) => this.parseErrorLine(line))
         .filter(Boolean);
 
       return errorLines;
@@ -77,7 +81,7 @@ class HighConfidenceErrorFixer {
       line: parseInt(lineNum),
       column: parseInt(colNum),
       errorCode,
-      message: message.trim()
+      message: message.trim(),
     };
   }
 
@@ -100,7 +104,7 @@ class HighConfidenceErrorFixer {
       this.createFileBackup(filePath);
 
       // Read file content
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       let modifiedContent = content;
 
       // Sort errors by line number (descending) to avoid line number shifts
@@ -115,7 +119,9 @@ class HighConfidenceErrorFixer {
           console.log(`  ✅ Fixed ${error.errorCode} at line ${error.line}`);
         } else {
           this.skippedCount++;
-          console.log(`  ⚠️  Skipped ${error.errorCode} at line ${error.line}: ${fixResult.reason}`);
+          console.log(
+            `  ⚠️  Skipped ${error.errorCode} at line ${error.line}: ${fixResult.reason}`,
+          );
         }
       }
 
@@ -124,17 +130,16 @@ class HighConfidenceErrorFixer {
         fs.writeFileSync(filePath, modifiedContent);
         console.log(`  💾 Saved changes to ${filePath}`);
       }
-
     } catch (error) {
       this.errorCount++;
       console.error(`  ❌ Error processing ${filePath}:`, error.message);
     }
 
-    console.log('');
+    console.log("");
   }
 
   createFileBackup(filePath) {
-    const backupPath = path.join(this.backupDir, filePath.replace(/\//g, '_'));
+    const backupPath = path.join(this.backupDir, filePath.replace(/\//g, "_"));
     const backupDir = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDir)) {
@@ -145,24 +150,24 @@ class HighConfidenceErrorFixer {
   }
 
   applyFix(content, error) {
-    const lines = content.split('\n');
+    const lines = content.split("\n");
     const errorLine = lines[error.line - 1];
 
     if (!errorLine) {
-      return { success: false, reason: 'Line not found' };
+      return { success: false, reason: "Line not found" };
     }
 
     let fixedLine = errorLine;
     let success = false;
 
-    if (error.errorCode === 'TS18046') {
+    if (error.errorCode === "TS18046") {
       // Fix 'unknown' type errors
       const fixResult = this.fixUnknownTypeError(errorLine, error);
       if (fixResult.success) {
         fixedLine = fixResult.line;
         success = true;
       }
-    } else if (error.errorCode === 'TS2571') {
+    } else if (error.errorCode === "TS2571") {
       // Fix 'object is unknown' errors
       const fixResult = this.fixObjectUnknownError(errorLine, error);
       if (fixResult.success) {
@@ -173,10 +178,10 @@ class HighConfidenceErrorFixer {
 
     if (success) {
       lines[error.line - 1] = fixedLine;
-      return { success: true, content: lines.join('\n') };
+      return { success: true, content: lines.join("\n") };
     }
 
-    return { success: false, reason: 'No applicable fix pattern' };
+    return { success: false, reason: "No applicable fix pattern" };
   }
 
   fixUnknownTypeError(line, error) {
@@ -190,11 +195,11 @@ class HighConfidenceErrorFixer {
           if (line.includes(`${varName}.`)) {
             return line.replace(
               new RegExp(`${varName}\\.`),
-              `(${varName} as Record<string, unknown>).`
+              `(${varName} as Record<string, unknown>).`,
             );
           }
           return null;
-        }
+        },
       },
 
       // Pattern: Variable access on unknown
@@ -204,11 +209,11 @@ class HighConfidenceErrorFixer {
           if (error.message.includes(`'${objName}' is of type 'unknown'`)) {
             return line.replace(
               `${objName}.${propName}`,
-              `(${objName} as Record<string, unknown>).${propName}`
+              `(${objName} as Record<string, unknown>).${propName}`,
             );
           }
           return null;
-        }
+        },
       },
 
       // Pattern: Function call on unknown
@@ -216,14 +221,11 @@ class HighConfidenceErrorFixer {
         regex: /(\w+)\(/,
         fix: (match, funcName) => {
           if (error.message.includes(`'${funcName}' is of type 'unknown'`)) {
-            return line.replace(
-              `${funcName}(`,
-              `(${funcName} as Function)(`
-            );
+            return line.replace(`${funcName}(`, `(${funcName} as Function)(`);
           }
           return null;
-        }
-      }
+        },
+      },
     ];
 
     for (const pattern of patterns) {
@@ -248,9 +250,9 @@ class HighConfidenceErrorFixer {
         fix: (match, objName) => {
           return line.replace(
             `${objName}[`,
-            `(${objName} as Record<string, unknown>)[`
+            `(${objName} as Record<string, unknown>)[`,
           );
-        }
+        },
       },
 
       // Pattern: Property access on unknown object
@@ -259,9 +261,9 @@ class HighConfidenceErrorFixer {
         fix: (match, objName, propName) => {
           return line.replace(
             `${objName}.${propName}`,
-            `(${objName} as Record<string, unknown>).${propName}`
+            `(${objName} as Record<string, unknown>).${propName}`,
           );
-        }
+        },
       },
 
       // Pattern: Method call on unknown object
@@ -270,10 +272,10 @@ class HighConfidenceErrorFixer {
         fix: (match, objName, methodName) => {
           return line.replace(
             `${objName}.${methodName}(`,
-            `(${objName} as any).${methodName}(`
+            `(${objName} as any).${methodName}(`,
           );
-        }
-      }
+        },
+      },
     ];
 
     for (const pattern of patterns) {
@@ -292,36 +294,40 @@ class HighConfidenceErrorFixer {
   generateSummaryReport() {
     const report = {
       timestamp: new Date().toISOString(),
-      campaign: 'High-Confidence Error Fixes',
+      campaign: "High-Confidence Error Fixes",
       results: {
         fixed: this.fixedCount,
         skipped: this.skippedCount,
         errors: this.errorCount,
-        total: this.fixedCount + this.skippedCount + this.errorCount
+        total: this.fixedCount + this.skippedCount + this.errorCount,
       },
-      successRate: Math.round((this.fixedCount / (this.fixedCount + this.skippedCount + this.errorCount)) * 100),
-      backupLocation: this.backupDir
+      successRate: Math.round(
+        (this.fixedCount /
+          (this.fixedCount + this.skippedCount + this.errorCount)) *
+          100,
+      ),
+      backupLocation: this.backupDir,
     };
 
     // Write report
     fs.writeFileSync(
-      'high-confidence-fixes-report.json',
-      JSON.stringify(report, null, 2)
+      "high-confidence-fixes-report.json",
+      JSON.stringify(report, null, 2),
     );
 
     // Display summary
-    console.log('\n' + '='.repeat(80));
-    console.log('📊 HIGH-CONFIDENCE ERROR FIX CAMPAIGN SUMMARY');
-    console.log('='.repeat(80));
+    console.log("\n" + "=".repeat(80));
+    console.log("📊 HIGH-CONFIDENCE ERROR FIX CAMPAIGN SUMMARY");
+    console.log("=".repeat(80));
     console.log(`\n✅ Fixed: ${this.fixedCount} errors`);
     console.log(`⚠️  Skipped: ${this.skippedCount} errors`);
     console.log(`❌ Errors: ${this.errorCount} errors`);
     console.log(`📈 Success Rate: ${report.successRate}%`);
     console.log(`\n💾 Backups saved to: ${this.backupDir}`);
     console.log(`📄 Report saved to: high-confidence-fixes-report.json`);
-    console.log('\n🔍 Run TypeScript check to verify fixes:');
-    console.log('   yarn tsc --noEmit --skipLibCheck');
-    console.log('='.repeat(80));
+    console.log("\n🔍 Run TypeScript check to verify fixes:");
+    console.log("   yarn tsc --noEmit --skipLibCheck");
+    console.log("=".repeat(80));
   }
 }
 

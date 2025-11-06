@@ -5,8 +5,8 @@
  * Run with: yarn node src/scripts/add-serving-sizes.js
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Set the default serving size (in ounces) for different protein types
 const DEFAULT_SERVING_SIZES = {
@@ -33,18 +33,21 @@ const DEFAULT_SERVING_SIZES = {
 };
 
 // Path to the protein ingredients directory
-const PROTEINS_DIR = path.resolve(process.cwd(), 'src/data/ingredients/proteins');
+const PROTEINS_DIR = path.resolve(
+  process.cwd(),
+  "src/data/ingredients/proteins",
+);
 
 // Process a single ingredient file
 function processFile(filePath) {
   // console.log(`Processing ${filePath}...`);
 
   // Read the file
-  const content = fs.readFileSync(filePath, 'utf8');
+  const content = fs.readFileSync(filePath, "utf8");
   const fileModified = false;
 
   // Check if file uses rawX pattern with fixIngredientMappings
-  const usesFixIngredientMappings = content.includes('fixIngredientMappings');
+  const usesFixIngredientMappings = content.includes("fixIngredientMappings");
 
   // Find all nutritionalProfile objects
   const profileRegex = /nutritionalProfile\s*:\s*{([^}]*)}/g;
@@ -54,14 +57,16 @@ function processFile(filePath) {
   while ((match = profileRegex.exec(content)) !== null) {
     const profile = match[0];
 
-    if (!profile.includes('serving_size_oz')) {
+    if (!profile.includes("serving_size_oz")) {
       // Get the ingredient context to determine the right serving size
       const contextStart = content.lastIndexOf("'", match.index);
       const contextEnd = content.indexOf("'", contextStart + 1);
-      const ingredientKey = '';
+      const ingredientKey = "";
 
       if (contextStart !== -1 && contextEnd !== -1) {
-        ingredientKey = content.substring(contextStart + 1, contextEnd).toLowerCase();
+        ingredientKey = content
+          .substring(contextStart + 1, contextEnd)
+          .toLowerCase();
       }
 
       // Find the category in the surrounding text
@@ -100,10 +105,12 @@ function processFile(filePath) {
     // Get the ingredient context to determine the right serving size
     const contextStart = content.lastIndexOf("'", match.index);
     const contextEnd = content.indexOf("'", contextStart + 1);
-    const ingredientKey = '';
+    const ingredientKey = "";
 
     if (contextStart !== -1 && contextEnd !== -1) {
-      ingredientKey = content.substring(contextStart + 1, contextEnd).toLowerCase();
+      ingredientKey = content
+        .substring(contextStart + 1, contextEnd)
+        .toLowerCase();
     }
 
     // Find the category in the surrounding text
@@ -163,7 +170,7 @@ function processFile(filePath) {
 
   // Only write the file if modifications were made
   if (fileModified) {
-    fs.writeFileSync(filePath, content, 'utf8');
+    fs.writeFileSync(filePath, content, "utf8");
     // console.log(`  Updated with serving sizes.`);
     return true;
   } else {
@@ -187,7 +194,11 @@ function processDirectory(dirPath) {
       const results = processDirectory(fullPath);
       filesProcessed += results.processed;
       filesUpdated += results.updated;
-    } else if (file.endsWith('.ts') && !file.endsWith('.d.ts') && file !== 'index.ts') {
+    } else if (
+      file.endsWith(".ts") &&
+      !file.endsWith(".d.ts") &&
+      file !== "index.ts"
+    ) {
       filesProcessed++;
       if (processFile(fullPath)) {
         filesUpdated++;
@@ -219,7 +230,7 @@ main()
     // console.log('All protein files have been processed.');
     process.exit(0);
   })
-  .catch(error => {
+  .catch((error) => {
     // console.error('Error during processing:', error);
     process.exit(1);
   });

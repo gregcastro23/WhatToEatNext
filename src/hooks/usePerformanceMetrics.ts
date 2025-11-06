@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from "react";
 
 export interface PerformanceMetrics {
   renderTime: number;
@@ -33,8 +33,8 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     lastUpdated: new Date(),
     averageRenderTime: 0,
     peakMemoryUsage: 0,
-    totalErrors: 0
-})
+    totalErrors: 0,
+  });
 
   const renderStartTime = useRef<number>(Date.now());
   const renderTimes = useRef<number[]>([]);
@@ -58,30 +58,34 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     }
 
     const averageRenderTime =
-      renderTimes.current.reduce((a, b) => a + b, 0) / renderTimes.current.length;
+      renderTimes.current.reduce((a, b) => a + b, 0) /
+      renderTimes.current.length;
 
-    setMetrics(prev => ({
+    setMetrics((prev) => ({
       ...prev,
       renderTime,
       componentRenderCount: renderCountRef.current,
       averageRenderTime,
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     }));
   }, []);
 
   // Track data fetch performance
   const trackDataFetch = useCallback(
-    async <T>(fetchFunction: () => Promise<T>, operationName?: string): Promise<T> => {
+    async <T>(
+      fetchFunction: () => Promise<T>,
+      operationName?: string,
+    ): Promise<T> => {
       const startTime = performance.now();
 
       try {
         const result = await fetchFunction();
         const fetchTime = performance.now() - startTime;
 
-        setMetrics(prev => ({
+        setMetrics((prev) => ({
           ...prev,
           dataFetchTime: fetchTime,
-          lastUpdated: new Date()
+          lastUpdated: new Date(),
         }));
 
         return result;
@@ -89,23 +93,23 @@ export const _usePerformanceMetrics = (componentName?: string) => {
         const fetchTime = performance.now() - startTime;
         errorCountRef.current += 1;
 
-        setMetrics(prev => ({
+        setMetrics((prev) => ({
           ...prev,
           dataFetchTime: fetchTime,
           errorCount: errorCountRef.current,
           totalErrors: prev.totalErrors + 1,
-          lastUpdated: new Date()
+          lastUpdated: new Date(),
         }));
 
         throw error;
       }
     },
-    []
+    [],
   );
 
   // Track memory usage
   const updateMemoryUsage = useCallback(() => {
-    if ('memory' in performance) {
+    if ("memory" in performance) {
       const memInfo = (performance as unknown).memory;
       const currentMemory = memInfo.usedJSHeapSize / 1024 / 1024; // Convert to MB
 
@@ -113,11 +117,11 @@ export const _usePerformanceMetrics = (componentName?: string) => {
         peakMemoryRef.current = currentMemory;
       }
 
-      setMetrics(prev => ({
+      setMetrics((prev) => ({
         ...prev,
         memoryUsage: currentMemory,
         peakMemoryUsage: peakMemoryRef.current,
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       }));
     }
   }, []);
@@ -127,17 +131,20 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     (error: Error | string) => {
       errorCountRef.current += 1;
 
-      setMetrics(prev => ({
+      setMetrics((prev) => ({
         ...prev,
         errorCount: errorCountRef.current,
         totalErrors: prev.totalErrors + 1,
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       }));
 
       // Log error for debugging
-      _logger.error(`[${componentName || 'Unknown Component'}] Performance Tracker Error: `, error);
+      _logger.error(
+        `[${componentName || "Unknown Component"}] Performance Tracker Error: `,
+        error,
+      );
     },
-    [componentName]
+    [componentName],
   );
 
   // Auto-track render performance
@@ -166,12 +173,15 @@ export const _usePerformanceMetrics = (componentName?: string) => {
       trackError(event.reason);
     };
 
-    window.addEventListener('error', handleError);
-    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+    window.addEventListener("error", handleError);
+    window.addEventListener("unhandledrejection", handleUnhandledRejection);
 
     return () => {
-      window.removeEventListener('error', handleError);
-      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+      window.removeEventListener("error", handleError);
+      window.removeEventListener(
+        "unhandledrejection",
+        handleUnhandledRejection,
+      );
     };
   }, [trackError]);
 
@@ -191,18 +201,23 @@ export const _usePerformanceMetrics = (componentName?: string) => {
       lastUpdated: new Date(),
       averageRenderTime: 0,
       peakMemoryUsage: 0,
-      totalErrors: 0
+      totalErrors: 0,
     });
   }, []);
 
   // Get performance summary
-  const getPerformanceSummary = useCallback(() => ({
-      componentName: componentName || 'Unknown',
+  const getPerformanceSummary = useCallback(
+    () => ({
+      componentName: componentName || "Unknown",
       isPerformant: metrics.averageRenderTime < 16, // 60fps threshold
-      hasMemoryLeaks: metrics.memoryUsage > ((metrics as any)?.peakMemoryUsage || 0) * 0.2,
-      errorRate: metrics.totalErrors / Math.max(metrics.componentRenderCount, 1),
-      recommendations: []
-    }), [componentName, metrics]);
+      hasMemoryLeaks:
+        metrics.memoryUsage > ((metrics as any)?.peakMemoryUsage || 0) * 0.2,
+      errorRate:
+        metrics.totalErrors / Math.max(metrics.componentRenderCount, 1),
+      recommendations: [],
+    }),
+    [componentName, metrics],
+  );
 
   return {
     metrics,
@@ -212,6 +227,6 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     trackError,
     updateMemoryUsage,
     resetMetrics,
-    getPerformanceSummary
+    getPerformanceSummary,
   };
 };

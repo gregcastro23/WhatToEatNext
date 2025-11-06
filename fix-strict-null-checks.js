@@ -6,9 +6,9 @@
  * Fixes the most common strictNullChecks errors using targeted patterns
  */
 
-import { execSync } from 'child_process';
-import fs from 'fs';
-import path from 'path';
+import { execSync } from "child_process";
+import fs from "fs";
+import path from "path";
 
 class StrictNullChecksFixer {
   constructor() {
@@ -21,7 +21,8 @@ class StrictNullChecksFixer {
       possiblyNull: /(\w+) is possibly 'null'/,
 
       // TS2345: Argument type issues
-      argumentType: /Argument of type .* is not assignable to parameter of type/,
+      argumentType:
+        /Argument of type .* is not assignable to parameter of type/,
 
       // TS2322: Type assignment issues
       typeAssignment: /Type .* is not assignable to type/,
@@ -33,20 +34,22 @@ class StrictNullChecksFixer {
    */
   getStrictNullErrors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
+      const output = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
         maxBuffer: 10 * 1024 * 1024,
       });
 
       const errors = [];
-      const lines = output.split('\n');
+      const lines = output.split("\n");
 
       for (const line of lines) {
-        if (line.includes('error TS')) {
+        if (line.includes("error TS")) {
           // Handle multi-line error format
           const match =
             line.match(/^(.+?)\((\d+),(\d+)\): error (TS\d+): (.+)$/) ||
-            line.match(/(.+?):\s*line\s*(\d+),\s*col\s*(\d+),\s*Error\s*-\s*(.+?)\s*\((TS\d+)\)/);
+            line.match(
+              /(.+?):\s*line\s*(\d+),\s*col\s*(\d+),\s*Error\s*-\s*(.+?)\s*\((TS\d+)\)/,
+            );
 
           if (match) {
             const [, filePath, lineNum, colNum, errorCode, message] = match;
@@ -55,11 +58,11 @@ class StrictNullChecksFixer {
               line: parseInt(lineNum),
               column: parseInt(colNum),
               code: errorCode,
-              message: (message || '').trim(),
+              message: (message || "").trim(),
             });
-          } else if (line.includes(': error TS')) {
+          } else if (line.includes(": error TS")) {
             // Fallback parsing for different formats
-            const parts = line.split(': error TS');
+            const parts = line.split(": error TS");
             if (parts.length >= 2) {
               const locationPart = parts[0];
               const errorPart = parts[1];
@@ -72,7 +75,7 @@ class StrictNullChecksFixer {
                   file: locationMatch[1].trim(),
                   line: parseInt(locationMatch[2]),
                   column: parseInt(locationMatch[3]),
-                  code: 'TS' + errorMatch[1],
+                  code: "TS" + errorMatch[1],
                   message: errorMatch[2].trim(),
                 });
               }
@@ -93,10 +96,10 @@ class StrictNullChecksFixer {
 
   parseErrorsFromOutput(output) {
     const errors = [];
-    const lines = output.split('\n');
+    const lines = output.split("\n");
 
     for (const line of lines) {
-      if (line.includes('error TS')) {
+      if (line.includes("error TS")) {
         // Try multiple parsing patterns
         const patterns = [
           /^(.+?)\((\d+),(\d+)\): error (TS\d+): (.+)$/,
@@ -111,7 +114,7 @@ class StrictNullChecksFixer {
               line: parseInt(match[2]),
               column: parseInt(match[3]),
               code: match[4] || match[5],
-              message: (match[5] || match[4] || '').trim(),
+              message: (match[5] || match[4] || "").trim(),
             });
             break;
           }
@@ -126,7 +129,7 @@ class StrictNullChecksFixer {
    * Apply quick fixes for common patterns
    */
   applyQuickFixes() {
-    console.log('🔧 Applying strategic strictNullChecks fixes...\n');
+    console.log("🔧 Applying strategic strictNullChecks fixes...\n");
 
     const errors = this.getStrictNullErrors();
     console.log(`📊 Found ${errors.length} strictNullChecks errors`);
@@ -138,7 +141,9 @@ class StrictNullChecksFixer {
     this.fixPossiblyUndefinedErrors(errorsByType.TS18048 || []);
     this.fixPossiblyNullErrors(errorsByType.TS18047 || []);
     this.fixTestFileErrors(
-      errors.filter(e => e.file.includes('__tests__') || e.file.includes('.test.')),
+      errors.filter(
+        (e) => e.file.includes("__tests__") || e.file.includes(".test."),
+      ),
     );
 
     console.log(`\n✅ Applied fixes to ${this.fixedFiles.size} files`);
@@ -166,50 +171,55 @@ class StrictNullChecksFixer {
     for (const [filePath, fileErrors] of Object.entries(fileGroups)) {
       if (!fs.existsSync(filePath)) continue;
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       let modified = false;
 
       // Sort errors by line number (descending) to avoid line number shifts
       fileErrors.sort((a, b) => b.line - a.line);
 
       for (const error of fileErrors) {
-        const lines = content.split('\n');
+        const lines = content.split("\n");
         const errorLine = lines[error.line - 1];
 
         if (!errorLine) continue;
 
         // Pattern 1: testName is possibly 'undefined' -> testName || 'unknown'
-        if (error.message.includes('testName')) {
-          const fixed = errorLine.replace(/(\w*testName\w*)/g, '($1 || "unknown")');
+        if (error.message.includes("testName")) {
+          const fixed = errorLine.replace(
+            /(\w*testName\w*)/g,
+            '($1 || "unknown")',
+          );
           if (fixed !== errorLine) {
             lines[error.line - 1] = fixed;
-            content = lines.join('\n');
+            content = lines.join("\n");
             modified = true;
           }
         }
 
         // Pattern 2: params is possibly 'null' -> params || {}
-        else if (error.message.includes('params')) {
-          const fixed = errorLine.replace(/(\w*params\w*)/g, '($1 || {})');
+        else if (error.message.includes("params")) {
+          const fixed = errorLine.replace(/(\w*params\w*)/g, "($1 || {})");
           if (fixed !== errorLine) {
             lines[error.line - 1] = fixed;
-            content = lines.join('\n');
+            content = lines.join("\n");
             modified = true;
           }
         }
 
         // Pattern 3: General undefined check -> variable || defaultValue
         else {
-          const variableMatch = error.message.match(/'(\w+)' is possibly 'undefined'/);
+          const variableMatch = error.message.match(
+            /'(\w+)' is possibly 'undefined'/,
+          );
           if (variableMatch) {
             const variable = variableMatch[1];
             const fixed = errorLine.replace(
               new RegExp(`\\b${variable}\\b(?!\\.)`),
               `(${variable} || '')`,
             );
-            if (fixed !== errorLine && !fixed.includes('||')) {
+            if (fixed !== errorLine && !fixed.includes("||")) {
               lines[error.line - 1] = fixed;
-              content = lines.join('\n');
+              content = lines.join("\n");
               modified = true;
             }
           }
@@ -235,12 +245,12 @@ class StrictNullChecksFixer {
     for (const [filePath, fileErrors] of Object.entries(fileGroups)) {
       if (!fs.existsSync(filePath)) continue;
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       let modified = false;
 
       // Add null checks using optional chaining
       for (const error of fileErrors) {
-        const lines = content.split('\n');
+        const lines = content.split("\n");
         const errorLine = lines[error.line - 1];
 
         if (!errorLine) continue;
@@ -249,10 +259,13 @@ class StrictNullChecksFixer {
         const objectMatch = error.message.match(/'(\w+)' is possibly 'null'/);
         if (objectMatch) {
           const object = objectMatch[1];
-          const fixed = errorLine.replace(new RegExp(`\\b${object}\\.`, 'g'), `${object}?.`);
+          const fixed = errorLine.replace(
+            new RegExp(`\\b${object}\\.`, "g"),
+            `${object}?.`,
+          );
           if (fixed !== errorLine) {
             lines[error.line - 1] = fixed;
-            content = lines.join('\n');
+            content = lines.join("\n");
             modified = true;
           }
         }
@@ -277,30 +290,33 @@ class StrictNullChecksFixer {
     for (const [filePath, fileErrors] of Object.entries(fileGroups)) {
       if (!fs.existsSync(filePath)) continue;
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       let modified = false;
 
       // Add type assertions for test files (more lenient)
       for (const error of fileErrors) {
-        const lines = content.split('\n');
+        const lines = content.split("\n");
         const errorLine = lines[error.line - 1];
 
         if (!errorLine) continue;
 
         // Pattern: Add non-null assertion for test variables
-        if (error.code === 'TS18048' || error.code === 'TS18047') {
+        if (error.code === "TS18048" || error.code === "TS18047") {
           const variableMatch = error.message.match(/'(\w+)'/);
           if (variableMatch) {
             const variable = variableMatch[1];
             // Only add ! if it's a simple property access
-            if (errorLine.includes(`${variable}.`) && !errorLine.includes('!')) {
+            if (
+              errorLine.includes(`${variable}.`) &&
+              !errorLine.includes("!")
+            ) {
               const fixed = errorLine.replace(
-                new RegExp(`\\b${variable}\\.`, 'g'),
+                new RegExp(`\\b${variable}\\.`, "g"),
                 `${variable}!.`,
               );
               if (fixed !== errorLine) {
                 lines[error.line - 1] = fixed;
-                content = lines.join('\n');
+                content = lines.join("\n");
                 modified = true;
               }
             }
@@ -311,7 +327,9 @@ class StrictNullChecksFixer {
       if (modified) {
         fs.writeFileSync(filePath, content);
         this.fixedFiles.add(filePath);
-        console.log(`  ✅ Fixed test file: ${path.relative(process.cwd(), filePath)}`);
+        console.log(
+          `  ✅ Fixed test file: ${path.relative(process.cwd(), filePath)}`,
+        );
       }
     }
   }
@@ -331,14 +349,14 @@ class StrictNullChecksFixer {
    * Validate fixes by running TypeScript check
    */
   validateFixes() {
-    console.log('\n🔍 Validating fixes...');
+    console.log("\n🔍 Validating fixes...");
 
     try {
-      execSync('yarn tsc --noEmit --skipLibCheck', {
-        stdio: 'pipe',
-        encoding: 'utf8',
+      execSync("yarn tsc --noEmit --skipLibCheck", {
+        stdio: "pipe",
+        encoding: "utf8",
       });
-      console.log('✅ All TypeScript errors resolved!');
+      console.log("✅ All TypeScript errors resolved!");
       return true;
     } catch (error) {
       const newErrors = this.getStrictNullErrors();
@@ -349,7 +367,9 @@ class StrictNullChecksFixer {
       const reduction = initialErrors - newErrors.length;
       const percentage = Math.round((reduction / initialErrors) * 100);
 
-      console.log(`📈 Progress: ${reduction} errors fixed (${percentage}% reduction)`);
+      console.log(
+        `📈 Progress: ${reduction} errors fixed (${percentage}% reduction)`,
+      );
       return false;
     }
   }
@@ -358,7 +378,7 @@ class StrictNullChecksFixer {
    * Run the complete fixing process
    */
   run() {
-    console.log('🚀 Strategic Strict Null Checks Fixing Process\n');
+    console.log("🚀 Strategic Strict Null Checks Fixing Process\n");
 
     const initialErrors = this.getStrictNullErrors();
     console.log(`📊 Initial error count: ${initialErrors.length}\n`);
@@ -370,9 +390,13 @@ class StrictNullChecksFixer {
     const success = this.validateFixes();
 
     if (success) {
-      console.log('\n🎉 strictNullChecks successfully enabled with zero errors!');
+      console.log(
+        "\n🎉 strictNullChecks successfully enabled with zero errors!",
+      );
     } else {
-      console.log('\n📋 Significant progress made. Remaining errors may need manual review.');
+      console.log(
+        "\n📋 Significant progress made. Remaining errors may need manual review.",
+      );
     }
 
     return success;

@@ -11,12 +11,12 @@ This guide documents the comprehensive ESLint configuration upgrade for the What
 
 ### Package Upgrades
 
-| Package | Old Version | New Version |
-|---------|-------------|-------------|
-| `eslint` | 8.57.0 | 9.17.0 |
-| `@typescript-eslint/eslint-plugin` | 5.61.0 | 8.18.2 |
-| `@typescript-eslint/parser` | 5.61.0 | 8.18.2 |
-| `eslint-plugin-react` | 7.33.2 | 7.37.3 |
+| Package                            | Old Version | New Version |
+| ---------------------------------- | ----------- | ----------- |
+| `eslint`                           | 8.57.0      | 9.17.0      |
+| `@typescript-eslint/eslint-plugin` | 5.61.0      | 8.18.2      |
+| `@typescript-eslint/parser`        | 5.61.0      | 8.18.2      |
+| `eslint-plugin-react`              | 7.33.2      | 7.37.3      |
 
 ### New Packages Added
 
@@ -28,12 +28,14 @@ This guide documents the comprehensive ESLint configuration upgrade for the What
 ### Configuration Files
 
 #### New Files
+
 - `eslint.config.mjs` - Comprehensive production configuration
 - `eslint.config.fast.mjs` - Performance-optimized development configuration
 - `.eslintrc-campaign.mjs` - Stricter rules for linting campaigns
 - `ESLINT_UPGRADE_GUIDE.md` - This guide
 
 #### Deprecated Files (Keep for Reference)
+
 - `eslint.config.cjs` - Old CommonJS configuration
 - `eslint.config.fast.cjs` - Old fast configuration
 
@@ -51,6 +53,7 @@ someFunction(unsafe); // Warning
 ```
 
 **Rules Added:**
+
 - `@typescript-eslint/no-unsafe-assignment`
 - `@typescript-eslint/no-unsafe-member-access`
 - `@typescript-eslint/no-unsafe-call`
@@ -70,6 +73,7 @@ await using asyncResource = getAsyncResource();
 ### 3. React 19 Compatibility
 
 Updated rules for React 19:
+
 - Removed `react-in-jsx-scope` requirement
 - Enhanced hooks rules
 - Better JSX validation
@@ -77,6 +81,7 @@ Updated rules for React 19:
 ### 4. Accessibility Checks
 
 New `jsx-a11y` plugin ensures accessibility:
+
 - Alt text validation
 - ARIA attribute checking
 - Keyboard navigation requirements
@@ -85,6 +90,7 @@ New `jsx-a11y` plugin ensures accessibility:
 ### 5. Import/Export Validation
 
 Enhanced import checking:
+
 - Path resolution validation
 - Circular dependency detection
 - Import ordering
@@ -93,6 +99,7 @@ Enhanced import checking:
 ### 6. Code Quality Metrics
 
 Enforces code complexity limits:
+
 - Cyclomatic complexity
 - Function length
 - Nesting depth
@@ -105,12 +112,14 @@ Enforces code complexity limits:
 **Use for:** Production builds, comprehensive linting, CI/CD
 
 **Features:**
+
 - Type-aware linting (uses `tsconfig.json`)
 - All rule categories enabled
 - Comprehensive error checking
 - ~30-60 second lint time
 
 **Run with:**
+
 ```bash
 yarn lint
 yarn lint:fix
@@ -121,12 +130,14 @@ yarn lint:fix
 **Use for:** Development, incremental changes, quick checks
 
 **Features:**
+
 - No type-aware linting (faster parsing)
 - Essential rules only
 - Reduced rule set
 - ~10-20 second lint time
 
 **Run with:**
+
 ```bash
 yarn lint:quick
 yarn lint:incremental
@@ -137,12 +148,14 @@ yarn lint:incremental
 **Use for:** Systematic error elimination campaigns
 
 **Features:**
+
 - Stricter rule enforcement
 - Campaign-phase organization
 - Error-level (not warning) reporting
 - Organized by improvement area
 
 **Run with:**
+
 ```bash
 eslint --config .eslintrc-campaign.mjs src
 ```
@@ -152,18 +165,21 @@ eslint --config .eslintrc-campaign.mjs src
 ### TypeScript Rules
 
 **Type Safety**
+
 - No `any` types without explicit intent
 - Unsafe operations flagged
 - Type assertions validated
 - Null/undefined handling
 
 **Best Practices**
+
 - Prefer `const` over `let`
 - Use optional chaining
 - Use nullish coalescing
 - Avoid unnecessary type assertions
 
 **Naming Conventions**
+
 - Interfaces: PascalCase
 - Types: PascalCase
 - Variables: camelCase or UPPER_CASE
@@ -172,17 +188,20 @@ eslint --config .eslintrc-campaign.mjs src
 ### React Rules
 
 **JSX**
+
 - Key props required
 - No duplicate props
 - Self-closing components
 - Curly brace optimization
 
 **Hooks**
+
 - Rules of hooks enforced
 - Exhaustive dependencies checked
 - Hook ordering validated
 
 **Accessibility**
+
 - Alt text required
 - ARIA attributes validated
 - Keyboard navigation checked
@@ -191,6 +210,7 @@ eslint --config .eslintrc-campaign.mjs src
 ### Import Rules
 
 **Organization**
+
 - Import order enforced
 - Path aliases validated
 - Circular dependencies detected
@@ -199,6 +219,7 @@ eslint --config .eslintrc-campaign.mjs src
 ### Code Quality
 
 **Complexity**
+
 - Max complexity: 20 (main) / 15 (campaign)
 - Max depth: 4 (main) / 3 (campaign)
 - Max function length: 100 lines (main) / 75 (campaign)
@@ -253,6 +274,7 @@ eslint --config .eslintrc-campaign.mjs src --rule 'import/no-unresolved: error'
 **Target:** Eliminate `any` types and unsafe operations
 
 **Commands:**
+
 ```bash
 # Identify all 'any' usage
 yarn lint 2>&1 | grep "no-explicit-any"
@@ -262,6 +284,7 @@ yarn lint --format json | jq '[.[] | .messages[] | select(.ruleId == "@typescrip
 ```
 
 **Fix Patterns:**
+
 1. Replace `any` with proper types
 2. Use type guards for runtime checks
 3. Add type parameters to generics
@@ -272,6 +295,7 @@ yarn lint --format json | jq '[.[] | .messages[] | select(.ruleId == "@typescrip
 **Target:** Remove unused imports, variables, and parameters
 
 **Commands:**
+
 ```bash
 # Find all unused variables
 yarn lint 2>&1 | grep "no-unused-vars"
@@ -281,6 +305,7 @@ yarn lint:fix
 ```
 
 **Fix Patterns:**
+
 1. Remove unused imports
 2. Prefix intentionally unused with `_`
 3. Remove dead code
@@ -291,12 +316,14 @@ yarn lint:fix
 **Target:** Fix unresolved imports and path issues
 
 **Commands:**
+
 ```bash
 # Find unresolved imports
 yarn lint 2>&1 | grep "import/no-unresolved"
 ```
 
 **Fix Patterns:**
+
 1. Verify file exists
 2. Check path alias configuration
 3. Update import path
@@ -307,12 +334,14 @@ yarn lint 2>&1 | grep "import/no-unresolved"
 **Target:** Fix exhaustive dependencies and hook rules
 
 **Commands:**
+
 ```bash
 # Find hooks issues
 yarn lint 2>&1 | grep "react-hooks"
 ```
 
 **Fix Patterns:**
+
 1. Add missing dependencies
 2. Memoize callback functions
 3. Use `useCallback` and `useMemo`
@@ -323,12 +352,14 @@ yarn lint 2>&1 | grep "react-hooks"
 **Target:** Reduce complexity and improve maintainability
 
 **Commands:**
+
 ```bash
 # Find complexity issues
 yarn lint 2>&1 | grep "complexity\|max-"
 ```
 
 **Fix Patterns:**
+
 1. Extract complex logic to functions
 2. Reduce nesting depth
 3. Break up large functions
@@ -339,18 +370,21 @@ yarn lint 2>&1 | grep "complexity\|max-"
 ### Error/Warning Counts
 
 **Before Upgrade:**
+
 - Total Issues: 4,852
 - Errors: 724
 - Warnings: 4,128
 - Parsing Errors: 437
 
 **Expected After Configuration:**
+
 - New detections: +200-300 (enhanced rules)
 - Better categorization
 - Clearer error messages
 - Actionable fix suggestions
 
 **After Campaign Completion Target:**
+
 - Errors: <50
 - Warnings: <500
 - Parsing Errors: 0
@@ -359,10 +393,12 @@ yarn lint 2>&1 | grep "complexity\|max-"
 ### Performance
 
 **Main Config (`eslint.config.mjs`):**
+
 - Full lint: 30-60 seconds
 - Cached lint: 10-20 seconds
 
 **Fast Config (`eslint.config.fast.mjs`):**
+
 - Full lint: 10-20 seconds
 - Cached lint: 3-8 seconds
 
@@ -411,16 +447,19 @@ If you see `parserOptions.project` errors:
 ## 🚦 Next Steps
 
 1. **Install Dependencies**
+
    ```bash
    yarn install
    ```
 
 2. **Test Configuration**
+
    ```bash
    yarn lint:quick
    ```
 
 3. **Review Baseline**
+
    ```bash
    yarn lint > eslint-baseline.txt
    ```

@@ -1,23 +1,26 @@
-import { useEffect, useRef, useState } from 'react';
-import type { Planet } from '@/types/celestial';
+import { useEffect, useRef, useState } from "react";
+import type { Planet } from "@/types/celestial";
 
 interface PlanetaryHourUpdate {
-  planet: Planet,
-  isDaytime: boolean,
-  start?: string,
-  end?: string
+  planet: Planet;
+  isDaytime: boolean;
+  start?: string;
+  end?: string;
 }
 
-export function usePlanetaryWebSocket(location?: { latitude: number, longitude: number }) {
-  const [connected, setConnected] = useState(false)
+export function usePlanetaryWebSocket(location?: {
+  latitude: number;
+  longitude: number;
+}) {
+  const [connected, setConnected] = useState(false);
   const [planetaryHour, setPlanetaryHour] = useState<{
-    planet: Planet,
-    isDaytime: boolean,
-    start?: Date,
-    end?: Date
-  } | null>(null)
+    planet: Planet;
+    isDaytime: boolean;
+    start?: Date;
+    end?: Date;
+  } | null>(null);
 
-  const wsRef = useRef<WebSocket | null>(null)
+  const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
     const wsUrl = process.env.NEXT_PUBLIC_WEBSOCKET_URL;
@@ -27,45 +30,52 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
     wsRef.current = ws;
 
     ws.onopen = () => {
-      setConnected(true)
+      setConnected(true);
       const payload = {
-        type: 'subscribe',
-        channel: 'planetary-hours',
-        data: location ? { location } : {}
-      }
-      ws.send(JSON.stringify(payload))
-    }
+        type: "subscribe",
+        channel: "planetary-hours",
+        data: location ? { location } : {},
+      };
+      ws.send(JSON.stringify(payload));
+    };
 
     ws.onmessage = (event) => {
       try {
         const message = JSON.parse(event.data);
-        if (message?.type === 'update' && message?.channel === 'planetary-hours') {
+        if (
+          message?.type === "update" &&
+          message?.channel === "planetary-hours"
+        ) {
           const data = message.data as PlanetaryHourUpdate;
-          if (data && typeof data.planet === 'string' && typeof data.isDaytime === 'boolean') {
+          if (
+            data &&
+            typeof data.planet === "string" &&
+            typeof data.isDaytime === "boolean"
+          ) {
             setPlanetaryHour({
-              planet: data.planet ,
+              planet: data.planet,
               isDaytime: data.isDaytime,
               start: data.start ? new Date(data.start) : undefined,
-              end: data.end ? new Date(data.end) : undefined
-            })
+              end: data.end ? new Date(data.end) : undefined,
+            });
           }
         }
       } catch (_err) {
         // ignore parse errors
       }
-    }
+    };
 
     ws.onclose = () => {
       setConnected(false);
-    }
+    };
 
     return () => {
-      ws.close()
+      ws.close();
       wsRef.current = null;
-    }
-  }, [location?.latitude, location?.longitude])
+    };
+  }, [location?.latitude, location?.longitude]);
 
-  return { connected, planetaryHour }
+  return { connected, planetaryHour };
 }
 
 export default usePlanetaryWebSocket;

@@ -11,16 +11,19 @@ Three safe, tested scripts to automatically fix common TypeScript/JavaScript par
 ## Scripts
 
 ### 1. fix-pattern-2-template-literals.cjs
+
 **Fixes**: Malformed template literal syntax `$) {` → `${`
 **Target**: ~18 files
 **Risk Level**: 🟢 Very Low (simple string replacement)
 
 ### 2. fix-pattern-1-function-parens.cjs
+
 **Fixes**: Missing opening parenthesis in function definitions
 **Target**: ~15 files
 **Risk Level**: 🟡 Low (context-aware replacement)
 
 ### 3. fix-pattern-3-5-type-syntax.cjs
+
 **Fixes**: Object syntax and type definition errors (3 sub-patterns)
 **Target**: ~25 files
 **Risk Level**: 🟡 Low-Medium (multiple pattern types)
@@ -112,22 +115,26 @@ Run in this order for best results:
 ## Command Reference
 
 ### Dry Run (Default - No Changes)
+
 ```bash
 node scripts/fix-pattern-2-template-literals.cjs
 ```
 
 ### Apply Changes
+
 ```bash
 node scripts/fix-pattern-2-template-literals.cjs --apply
 ```
 
 ### Single File Test
+
 ```bash
 node scripts/fix-pattern-2-template-literals.cjs --file=/path/to/file.ts
 node scripts/fix-pattern-2-template-literals.cjs --apply --file=/path/to/file.ts
 ```
 
 ### View Logs
+
 ```bash
 # Latest log
 ls -lt fix-log-pattern-*.txt | head -1 | awk '{print $NF}' | xargs cat
@@ -139,6 +146,7 @@ ls -lt fix-log-pattern-*.txt
 ## What Each Pattern Fixes
 
 ### Pattern 1: Missing Opening Parenthesis
+
 ```typescript
 // BEFORE
 export function calculateSomething()
@@ -154,6 +162,7 @@ export function calculateSomething(
 ```
 
 ### Pattern 2: Malformed Template Literals
+
 ```typescript
 // BEFORE
 console.log(`Message: $) {variable}`);
@@ -165,6 +174,7 @@ logger.info(`Count: ${items.length}`);
 ```
 
 ### Pattern 3: Malformed Object Syntax
+
 ```typescript
 // BEFORE
 this.debug(message, ) { component, args });
@@ -176,6 +186,7 @@ metadata: { key: 'value' }
 ```
 
 ### Pattern 4: Semicolon in Type Definitions
+
 ```typescript
 // BEFORE
 import { Type1, Type2; } from './module';
@@ -187,23 +198,27 @@ interface MyType { name: string; RecipeSeason }
 ```
 
 ### Pattern 5: Comma Instead of Colon
+
 ```typescript
 // BEFORE
 type Config = {
-  upper, number;
-  marginOfError, number;
-}
+  upper;
+  number;
+  marginOfError;
+  number;
+};
 
 // AFTER
 type Config = {
   upper: number;
   marginOfError: number;
-}
+};
 ```
 
 ## Troubleshooting
 
 ### Script Fails to Run
+
 ```bash
 # Make scripts executable
 chmod +x scripts/*.cjs
@@ -213,6 +228,7 @@ node --version  # Should be v16+
 ```
 
 ### "File not found" errors
+
 ```bash
 # Scripts expect to be run from project root
 cd /Users/GregCastro/Desktop/WhatToEatNext
@@ -220,18 +236,22 @@ node scripts/fix-pattern-2-template-literals.cjs
 ```
 
 ### Lint command times out
+
 ```bash
 # The scripts handle this - check the log file for details
 # You may need to increase timeout in script (currently 2 minutes)
 ```
 
 ### Errors increased after fix
+
 The script automatically restores from backup. Check log file for details:
+
 ```bash
 ls -lt fix-log-*.txt | head -1 | awk '{print $NF}' | xargs cat | grep "ERRORS INCREASED"
 ```
 
 ### Restore from backup manually
+
 ```bash
 # Backups are in same directory as original file
 ls -lt /path/to/file.ts.backup-* | head -1
@@ -288,6 +308,7 @@ cp file.ts.backup-1234567890 file.ts
 ## Success Criteria
 
 Each script run should:
+
 - ✅ Complete without fatal errors
 - ✅ Show "Successful fixes" > 0
 - ✅ Show "Failed fixes" = 0

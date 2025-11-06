@@ -7,7 +7,7 @@
  * to optional chaining or proper null checks.
  */
 
-const fs = require('fs');
+const fs = require("fs");
 
 class SpecificNonNullAssertionFixer {
   constructor() {
@@ -25,7 +25,7 @@ class SpecificNonNullAssertionFixer {
     // We'll be very conservative and only fix obvious cases
 
     // Pattern: resolutionStrategy! -> resolutionStrategy || 'unknown'
-    if (modifiedContent.includes('resolutionStrategy!')) {
+    if (modifiedContent.includes("resolutionStrategy!")) {
       modifiedContent = modifiedContent.replace(
         /resolutionStrategy!/g,
         "resolutionStrategy || 'unknown'",
@@ -41,7 +41,10 @@ class SpecificNonNullAssertionFixer {
       const [fullMatch, obj, prop] = match;
 
       // Only fix very safe cases
-      if (obj === 'conflict' && ['resolutionStrategy', 'id', 'type'].includes(prop)) {
+      if (
+        obj === "conflict" &&
+        ["resolutionStrategy", "id", "type"].includes(prop)
+      ) {
         const replacement = `${obj}.${prop} || 'unknown'`;
         modifiedContent = modifiedContent.replace(fullMatch, replacement);
         fixes++;
@@ -59,11 +62,12 @@ class SpecificNonNullAssertionFixer {
     try {
       console.log(`\n📁 Processing: ${filePath}`);
 
-      const content = fs.readFileSync(filePath, 'utf8');
-      const { content: modifiedContent, fixes } = this.fixNonNullAssertions(content);
+      const content = fs.readFileSync(filePath, "utf8");
+      const { content: modifiedContent, fixes } =
+        this.fixNonNullAssertions(content);
 
       if (fixes > 0) {
-        fs.writeFileSync(filePath, modifiedContent, 'utf8');
+        fs.writeFileSync(filePath, modifiedContent, "utf8");
         console.log(`  ✅ Applied ${fixes} total fixes`);
         this.totalFixes += fixes;
       } else {
@@ -78,10 +82,10 @@ class SpecificNonNullAssertionFixer {
    * Run the fixing process
    */
   run() {
-    console.log('🚀 Starting Specific Non-Null Assertion Fixing Process');
+    console.log("🚀 Starting Specific Non-Null Assertion Fixing Process");
 
     // Target the specific file we know has issues
-    const targetFiles = ['src/services/CampaignConflictResolver.ts'];
+    const targetFiles = ["src/services/CampaignConflictResolver.ts"];
 
     for (const file of targetFiles) {
       if (fs.existsSync(file)) {
@@ -91,12 +95,12 @@ class SpecificNonNullAssertionFixer {
       }
     }
 
-    console.log('\n📊 Summary:');
+    console.log("\n📊 Summary:");
     console.log(`   Total fixes applied: ${this.totalFixes}`);
 
     if (this.totalFixes > 0) {
-      console.log('\n✅ Non-null assertion fixes completed!');
-      console.log('💡 Run yarn lint to verify the improvements');
+      console.log("\n✅ Non-null assertion fixes completed!");
+      console.log("💡 Run yarn lint to verify the improvements");
     }
   }
 }

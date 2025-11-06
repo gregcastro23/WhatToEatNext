@@ -24,21 +24,25 @@
 ### Elemental Assignment Guidelines
 
 **Fire (Heat, Intensity, Stimulation)**
+
 - High: Chili peppers (0.7-0.9), ginger (0.5-0.6), black pepper (0.5-0.7)
 - Medium: Garlic (0.3-0.4), onions (0.2-0.3), mustard (0.4-0.5)
 - Low: Lettuce (0.05-0.1), cucumber (0.05), yogurt (0.1)
 
 **Water (Cooling, Fluidity, Moisture)**
+
 - High: Cucumber (0.8-0.9), watermelon (0.9), coconut water (0.9)
 - Medium: Tomatoes (0.5-0.6), citrus (0.4-0.5), yogurt (0.5-0.6)
 - Low: Dried spices (0.05-0.1), nuts (0.1), grains (0.1-0.2)
 
 **Earth (Grounding, Substance, Heaviness)**
+
 - High: Root vegetables (0.6-0.8), potatoes (0.7), grains (0.6-0.7)
 - Medium: Legumes (0.4-0.5), nuts (0.5-0.6), cheese (0.4-0.5)
 - Low: Leafy greens (0.1-0.2), herbs (0.1-0.2), citrus (0.1)
 
 **Air (Lightness, Aromatic, Volatile)**
+
 - High: Fresh herbs (0.6-0.8), citrus zest (0.6-0.7), fennel (0.5-0.6)
 - Medium: Aromatic vegetables (0.3-0.4), fermented foods (0.3-0.4)
 - Low: Root vegetables (0.1-0.2), heavy proteins (0.1), dense grains (0.1)
@@ -46,6 +50,7 @@
 ### Normalization Rules
 
 1. **Sum Must Equal 1.0**
+
    ```typescript
    const sum = Fire + Water + Earth + Air;
    if (sum !== 1.0) {
@@ -70,18 +75,21 @@
 ### Herbs & Spices
 
 **Fresh Herbs:**
+
 - Primary: Air (0.4-0.6) - aromatic, volatile
 - Secondary: Water (0.2-0.3) - fresh, cooling
 - Tertiary: Fire or Earth (0.1-0.2)
 - Example: Basil = { Air: 0.5, Water: 0.3, Fire: 0.1, Earth: 0.1 }
 
 **Dried Herbs:**
+
 - Primary: Air (0.4-0.5) - concentrated aroma
 - Secondary: Earth (0.2-0.3) - dried, grounded
 - Tertiary: Fire (0.1-0.2) - intensity
 - Example: Dried Oregano = { Air: 0.45, Earth: 0.25, Fire: 0.15, Water: 0.15 }
 
 **Hot Spices:**
+
 - Primary: Fire (0.5-0.7) - heat dominant
 - Secondary: Air (0.1-0.3) - aromatic
 - Tertiary: Earth (0.1-0.2) - grounding
@@ -90,18 +98,21 @@
 ### Vegetables
 
 **Leafy Greens:**
+
 - Primary: Air (0.4-0.5) - light, airy
 - Secondary: Water (0.3-0.4) - moisture
 - Tertiary: Earth (0.1-0.2) - minimal substance
 - Example: Spinach = { Air: 0.45, Water: 0.35, Earth: 0.15, Fire: 0.05 }
 
 **Root Vegetables:**
+
 - Primary: Earth (0.5-0.7) - grounding, dense
 - Secondary: Water (0.2-0.3) - moisture content
 - Tertiary: Air or Fire (0.05-0.1)
 - Example: Potato = { Earth: 0.6, Water: 0.25, Air: 0.1, Fire: 0.05 }
 
 **Alliums (Onion family):**
+
 - Primary: Fire (0.3-0.4) - pungency
 - Secondary: Air (0.25-0.35) - aromatics
 - Secondary: Water (0.2-0.3) - moisture
@@ -110,18 +121,21 @@
 ### Proteins
 
 **Red Meat:**
+
 - Primary: Fire (0.4-0.5) - warming energy
 - Secondary: Earth (0.3-0.4) - dense, grounding
 - Tertiary: Water (0.1-0.2)
 - Example: Beef = { Fire: 0.45, Earth: 0.35, Water: 0.15, Air: 0.05 }
 
 **Poultry:**
+
 - Primary: Earth (0.35-0.45) - substance
 - Secondary: Fire (0.2-0.3) - warming
 - Secondary: Water (0.2-0.3) - moisture
 - Example: Chicken = { Earth: 0.4, Fire: 0.25, Water: 0.25, Air: 0.1 }
 
 **Fish/Seafood:**
+
 - Primary: Water (0.5-0.6) - aquatic nature
 - Secondary: Earth (0.2-0.3) - substance
 - Tertiary: Air or Fire (0.1-0.15)
@@ -130,12 +144,14 @@
 ### Grains
 
 **Whole Grains:**
+
 - Primary: Earth (0.5-0.6) - grounding, sustaining
 - Secondary: Air (0.2-0.3) - lightness when cooked
 - Tertiary: Water (0.1-0.2)
 - Example: Brown Rice = { Earth: 0.55, Air: 0.25, Water: 0.15, Fire: 0.05 }
 
 **Refined Grains:**
+
 - Primary: Earth (0.4-0.5) - lighter than whole
 - Secondary: Air (0.3-0.4) - more airy
 - Tertiary: Water (0.1-0.2)
@@ -144,18 +160,21 @@
 ### Fruits
 
 **Citrus:**
+
 - Primary: Air (0.4-0.5) - aromatic, uplifting
 - Secondary: Water (0.3-0.4) - juicy
 - Tertiary: Fire (0.1-0.2) - zesty
 - Example: Lemon = { Air: 0.45, Water: 0.35, Fire: 0.15, Earth: 0.05 }
 
 **Melons:**
+
 - Primary: Water (0.7-0.8) - extremely hydrating
 - Secondary: Air (0.1-0.2) - light
 - Tertiary: Earth (0.05-0.1)
 - Example: Watermelon = { Water: 0.75, Air: 0.15, Earth: 0.05, Fire: 0.05 }
 
 **Berries:**
+
 - Primary: Water (0.4-0.5) - juicy
 - Secondary: Air (0.3-0.4) - delicate
 - Tertiary: Fire (0.1-0.2) - tangy
@@ -166,6 +185,7 @@
 ### Phase 1: Automated Normalization (High Priority)
 
 Create a script to:
+
 1. Parse all ingredient files
 2. Extract elemental properties
 3. Check if sum = 1.0 (tolerance ±0.01)
@@ -177,6 +197,7 @@ Create a script to:
 ### Phase 2: Category Review (Medium Priority)
 
 Systematically review each category:
+
 1. **Spices** (10 files) - Check hot vs. aromatic balance
 2. **Herbs** (6 files) - Fresh vs. dried distinction
 3. **Vegetables** (10 files) - Root vs. leaf vs. allium patterns
@@ -189,6 +210,7 @@ Systematically review each category:
 ### Phase 3: Missing Properties (Low Priority)
 
 Ensure all ingredients have:
+
 - ✅ Elemental properties (normalized)
 - ✅ Astrological profile (if relevant)
 - ✅ Qualities array
@@ -200,11 +222,13 @@ Ensure all ingredients have:
 ### Validation Checks
 
 1. **Normalization Test**
+
    ```typescript
    expect(Fire + Water + Earth + Air).toBeCloseTo(1.0, 2);
    ```
 
 2. **Range Test**
+
    ```typescript
    expect(Fire).toBeGreaterThanOrEqual(0.05);
    expect(Fire).toBeLessThanOrEqual(0.95);
@@ -221,12 +245,12 @@ Ensure all ingredients have:
 ### Sample Validation Script
 
 ```typescript
-import { validateIngredientElementals } from '@/utils/ingredientValidation';
+import { validateIngredientElementals } from "@/utils/ingredientValidation";
 
 const results = validateIngredientElementals({
   checkNormalization: true,
   checkPatterns: true,
-  checkMissing: true
+  checkMissing: true,
 });
 
 console.log(`✅ Valid: ${results.valid}`);
@@ -237,6 +261,7 @@ console.log(`❌ Errors: ${results.errors.length}`);
 ## Example Enhancements
 
 ### Before (Incorrect)
+
 ```typescript
 basil: {
   elementalProperties: { Air: 0.4, Water: 0.4, Earth: 0.2, Fire: 0.1 }, // Sum = 1.1
@@ -245,6 +270,7 @@ basil: {
 ```
 
 ### After (Corrected)
+
 ```typescript
 basil: {
   elementalProperties: {

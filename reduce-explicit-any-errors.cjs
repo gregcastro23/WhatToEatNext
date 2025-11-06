@@ -25,8 +25,8 @@
  *   --aggressive    Apply more aggressive type replacements
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 class ExplicitAnyReducer {
   constructor(options = {}) {
@@ -36,56 +36,56 @@ class ExplicitAnyReducer {
     this.aggressive = options.aggressive || false;
     this.fixedFiles = 0;
     this.totalFixes = 0;
-    this.backupDir = '.explicit-any-backups';
+    this.backupDir = ".explicit-any-backups";
 
     // Common any replacement patterns
     this.anyReplacements = [
       // API responses
       {
         pattern: /:\s*any(?=\s*[=;,\)\]])/g,
-        replacement: ': unknown',
-        context: 'generic_any_annotation',
+        replacement: ": unknown",
+        context: "generic_any_annotation",
         safe: true,
       },
       // Function parameters
       {
         pattern: /\(([^)]*?):\s*any\)/g,
-        replacement: '($1: unknown)',
-        context: 'function_parameter',
+        replacement: "($1: unknown)",
+        context: "function_parameter",
         safe: true,
       },
       // Object properties
       {
         pattern: /{\s*([^}]*?):\s*any\s*}/g,
-        replacement: '{ $1: unknown }',
-        context: 'object_property',
+        replacement: "{ $1: unknown }",
+        context: "object_property",
         safe: false, // Requires more careful analysis
       },
       // Array types
       {
         pattern: /any\[\]/g,
-        replacement: 'unknown[]',
-        context: 'array_type',
+        replacement: "unknown[]",
+        context: "array_type",
         safe: true,
       },
       // Return types
       {
         pattern: /\):\s*any(?=\s*[{;])/g,
-        replacement: '): unknown',
-        context: 'return_type',
+        replacement: "): unknown",
+        context: "return_type",
         safe: true,
       },
       // Variable declarations
       {
         pattern: /const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:\s*any\s*=/g,
-        replacement: 'const $1: unknown =',
-        context: 'const_declaration',
+        replacement: "const $1: unknown =",
+        context: "const_declaration",
         safe: true,
       },
       {
         pattern: /let\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:\s*any\s*=/g,
-        replacement: 'let $1: unknown =',
-        context: 'let_declaration',
+        replacement: "let $1: unknown =",
+        context: "let_declaration",
         safe: true,
       },
     ];
@@ -111,32 +111,32 @@ class ExplicitAnyReducer {
       // Event handlers
       {
         pattern: /\(event:\s*any\)/g,
-        replacement: '(event: Event)',
-        context: 'event_handler',
+        replacement: "(event: Event)",
+        context: "event_handler",
       },
       // React props
       {
         pattern: /props:\s*any/g,
-        replacement: 'props: Record<string, unknown>',
-        context: 'react_props',
+        replacement: "props: Record<string, unknown>",
+        context: "react_props",
       },
       // API data
       {
         pattern: /data:\s*any/g,
-        replacement: 'data: Record<string, unknown>',
-        context: 'api_data',
+        replacement: "data: Record<string, unknown>",
+        context: "api_data",
       },
       // Error objects
       {
         pattern: /error:\s*any/g,
-        replacement: 'error: Error | unknown',
-        context: 'error_object',
+        replacement: "error: Error | unknown",
+        context: "error_object",
       },
       // Configuration objects
       {
         pattern: /config:\s*any/g,
-        replacement: 'config: Record<string, unknown>',
-        context: 'config_object',
+        replacement: "config: Record<string, unknown>",
+        context: "config_object",
       },
     ];
   }
@@ -152,8 +152,11 @@ class ExplicitAnyReducer {
 
     this.createBackupDir();
     const fileName = path.basename(filePath);
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const backupPath = path.join(this.backupDir, `${fileName}.${timestamp}.backup`);
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const backupPath = path.join(
+      this.backupDir,
+      `${fileName}.${timestamp}.backup`,
+    );
 
     fs.copyFileSync(filePath, backupPath);
   }
@@ -163,12 +166,12 @@ class ExplicitAnyReducer {
 
     // Check if file contains domain-specific patterns
     return (
-      this.preservePatterns.some(pattern => pattern.test(content)) ||
-      filePath.includes('calculations/') ||
-      filePath.includes('data/planets/') ||
-      filePath.includes('services/campaign/') ||
-      filePath.includes('astrological') ||
-      filePath.includes('alchemical')
+      this.preservePatterns.some((pattern) => pattern.test(content)) ||
+      filePath.includes("calculations/") ||
+      filePath.includes("data/planets/") ||
+      filePath.includes("services/campaign/") ||
+      filePath.includes("astrological") ||
+      filePath.includes("alchemical")
     );
   }
 
@@ -178,27 +181,35 @@ class ExplicitAnyReducer {
 
     // Skip if domain preservation is enabled and this is a domain file
     if (this.shouldPreserveDomain(content, filePath)) {
-      console.log(`  🛡️  Preserving domain-specific any types in ${path.basename(filePath)}`);
+      console.log(
+        `  🛡️  Preserving domain-specific any types in ${path.basename(filePath)}`,
+      );
       return { content, fixes: 0 };
     }
 
     // Apply specific replacements first
-    this.specificReplacements.forEach(replacement => {
+    this.specificReplacements.forEach((replacement) => {
       const matches = (modifiedContent.match(replacement.pattern) || []).length;
       if (matches > 0) {
-        modifiedContent = modifiedContent.replace(replacement.pattern, replacement.replacement);
+        modifiedContent = modifiedContent.replace(
+          replacement.pattern,
+          replacement.replacement,
+        );
         fixes += matches;
         console.log(`  ✓ ${replacement.context}: ${matches} fixes`);
       }
     });
 
     // Apply general replacements
-    this.anyReplacements.forEach(replacement => {
+    this.anyReplacements.forEach((replacement) => {
       if (!this.aggressive && !replacement.safe) return;
 
       const matches = (modifiedContent.match(replacement.pattern) || []).length;
       if (matches > 0) {
-        modifiedContent = modifiedContent.replace(replacement.pattern, replacement.replacement);
+        modifiedContent = modifiedContent.replace(
+          replacement.pattern,
+          replacement.replacement,
+        );
         fixes += matches;
         console.log(`  ✓ ${replacement.context}: ${matches} fixes`);
       }
@@ -209,7 +220,7 @@ class ExplicitAnyReducer {
 
   processFile(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       const result = this.reduceExplicitAny(content, filePath);
 
       if (result.fixes > 0) {
@@ -217,7 +228,7 @@ class ExplicitAnyReducer {
 
         if (!this.isDryRun) {
           this.backupFile(filePath);
-          fs.writeFileSync(filePath, result.content, 'utf8');
+          fs.writeFileSync(filePath, result.content, "utf8");
         }
 
         this.fixedFiles++;
@@ -231,97 +242,103 @@ class ExplicitAnyReducer {
   }
 
   findTargetFiles() {
-    const { execSync } = require('child_process');
+    const { execSync } = require("child_process");
 
     try {
       // Find TypeScript files with explicit any errors
       const cmd = `find src -name "*.ts" -o -name "*.tsx" | head -50`;
-      const result = execSync(cmd, { encoding: 'utf8' });
+      const result = execSync(cmd, { encoding: "utf8" });
       const files = result
         .trim()
-        .split('\n')
-        .filter(f => f);
+        .split("\n")
+        .filter((f) => f);
 
       // Prioritize service files and components
       const prioritized = files.sort((a, b) => {
         const aScore =
-          (a.includes('services/') ? 10 : 0) +
-          (a.includes('components/') ? 5 : 0) +
-          (a.includes('utils/') ? 3 : 0);
+          (a.includes("services/") ? 10 : 0) +
+          (a.includes("components/") ? 5 : 0) +
+          (a.includes("utils/") ? 3 : 0);
         const bScore =
-          (b.includes('services/') ? 10 : 0) +
-          (b.includes('components/') ? 5 : 0) +
-          (b.includes('utils/') ? 3 : 0);
+          (b.includes("services/") ? 10 : 0) +
+          (b.includes("components/") ? 5 : 0) +
+          (b.includes("utils/") ? 3 : 0);
         return bScore - aScore;
       });
 
       return prioritized.slice(0, this.maxFiles);
     } catch (error) {
-      console.error('Error finding files:', error.message);
+      console.error("Error finding files:", error.message);
       return [];
     }
   }
 
   run() {
-    console.log('🔧 Explicit-Any Error Reduction Script');
-    console.log('======================================');
+    console.log("🔧 Explicit-Any Error Reduction Script");
+    console.log("======================================");
 
     if (this.isDryRun) {
-      console.log('🔍 DRY RUN MODE - No files will be modified');
+      console.log("🔍 DRY RUN MODE - No files will be modified");
     }
 
     if (this.preserveDomain) {
-      console.log('🛡️  Domain preservation enabled (astronomical/campaign files protected)');
+      console.log(
+        "🛡️  Domain preservation enabled (astronomical/campaign files protected)",
+      );
     }
 
     const files = this.findTargetFiles();
 
-    console.log(`📁 Processing ${files.length} TypeScript files (max: ${this.maxFiles})`);
-    console.log('');
+    console.log(
+      `📁 Processing ${files.length} TypeScript files (max: ${this.maxFiles})`,
+    );
+    console.log("");
 
-    files.forEach(file => this.processFile(file));
+    files.forEach((file) => this.processFile(file));
 
-    console.log('');
-    console.log('📊 Summary:');
+    console.log("");
+    console.log("📊 Summary:");
     console.log(`   Files processed: ${files.length}`);
     console.log(`   Files with fixes: ${this.fixedFiles}`);
     console.log(`   Total any → unknown/specific: ${this.totalFixes}`);
 
     if (!this.isDryRun && this.fixedFiles > 0) {
       console.log(`   Backups created in: ${this.backupDir}/`);
-      console.log('');
-      console.log('🧪 Next steps:');
-      console.log('   1. Run TypeScript check: yarn lint');
-      console.log('   2. Run tests: yarn test');
-      console.log('   3. Check for new type errors and adjust as needed');
-      console.log('   4. If issues occur, restore from backups');
+      console.log("");
+      console.log("🧪 Next steps:");
+      console.log("   1. Run TypeScript check: yarn lint");
+      console.log("   2. Run tests: yarn test");
+      console.log("   3. Check for new type errors and adjust as needed");
+      console.log("   4. If issues occur, restore from backups");
     }
 
     if (this.isDryRun && this.totalFixes > 0) {
-      console.log('');
-      console.log('🚀 To apply fixes, run: node reduce-explicit-any-errors.cjs');
+      console.log("");
+      console.log(
+        "🚀 To apply fixes, run: node reduce-explicit-any-errors.cjs",
+      );
     }
 
-    console.log('');
-    console.log('💡 Pro tips:');
-    console.log('   - Use --aggressive for more comprehensive replacements');
-    console.log('   - Use --preserve-domain=false to include domain files');
-    console.log('   - Target specific error categories with multiple runs');
+    console.log("");
+    console.log("💡 Pro tips:");
+    console.log("   - Use --aggressive for more comprehensive replacements");
+    console.log("   - Use --preserve-domain=false to include domain files");
+    console.log("   - Target specific error categories with multiple runs");
   }
 }
 
 // Parse command line arguments
 const args = process.argv.slice(2);
 const options = {
-  dryRun: args.includes('--dry-run'),
+  dryRun: args.includes("--dry-run"),
   maxFiles: 15,
-  preserveDomain: !args.includes('--preserve-domain=false'),
-  aggressive: args.includes('--aggressive'),
+  preserveDomain: !args.includes("--preserve-domain=false"),
+  aggressive: args.includes("--aggressive"),
 };
 
-args.forEach(arg => {
-  if (arg.startsWith('--max-files=')) {
-    options.maxFiles = parseInt(arg.split('=')[1]) || 15;
+args.forEach((arg) => {
+  if (arg.startsWith("--max-files=")) {
+    options.maxFiles = parseInt(arg.split("=")[1]) || 15;
   }
 });
 

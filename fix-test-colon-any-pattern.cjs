@@ -6,9 +6,9 @@
  * Should be: test('description', async () => {
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class TestColonAnyFixer {
   constructor() {
@@ -28,12 +28,18 @@ class TestColonAnyFixer {
   getFilesWithColonAnyPattern() {
     try {
       // Search for files containing the specific pattern
-      const output = execSync('grep -r -l "\': any," src/ --include="*.ts" --include="*.tsx" 2>/dev/null || true', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'grep -r -l "\': any," src/ --include="*.ts" --include="*.tsx" 2>/dev/null || true',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
-      const files = output.trim().split('\n').filter(line => line.trim() && fs.existsSync(line));
+      const files = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim() && fs.existsSync(line));
       return files;
     } catch (error) {
       return [];
@@ -44,9 +50,12 @@ class TestColonAnyFixer {
    * Create backup of file
    */
   createBackup(filePath) {
-    const backupPath = path.join(this.backupDir, filePath.replace(/[\/\\]/g, '_'));
-    const content = fs.readFileSync(filePath, 'utf8');
-    fs.writeFileSync(backupPath, content, 'utf8');
+    const backupPath = path.join(
+      this.backupDir,
+      filePath.replace(/[\/\\]/g, "_"),
+    );
+    const content = fs.readFileSync(filePath, "utf8");
+    fs.writeFileSync(backupPath, content, "utf8");
   }
 
   /**
@@ -58,13 +67,16 @@ class TestColonAnyFixer {
 
     // Pattern: test('description': any, async () => {
     // Fix to: test('description', async () => {
-    const testColonAnyPattern = /(\b(?:test|it|describe|beforeEach|afterEach|beforeAll|afterAll)\s*\(\s*'[^']+'):\s*any\s*,/g;
+    const testColonAnyPattern =
+      /(\b(?:test|it|describe|beforeEach|afterEach|beforeAll|afterAll)\s*\(\s*'[^']+'):\s*any\s*,/g;
     const matches = [...fixedContent.matchAll(testColonAnyPattern)];
 
     if (matches.length > 0) {
-      fixedContent = fixedContent.replace(testColonAnyPattern, '$1,');
+      fixedContent = fixedContent.replace(testColonAnyPattern, "$1,");
       fixes += matches.length;
-      console.log(`    Fixed ${matches.length} test function signatures with ': any,'`);
+      console.log(
+        `    Fixed ${matches.length} test function signatures with ': any,'`,
+      );
     }
 
     return { content: fixedContent, fixes };
@@ -75,7 +87,7 @@ class TestColonAnyFixer {
    */
   processFile(filePath) {
     try {
-      const originalContent = fs.readFileSync(filePath, 'utf8');
+      const originalContent = fs.readFileSync(filePath, "utf8");
 
       console.log(`  Processing: ${filePath}`);
 
@@ -83,10 +95,11 @@ class TestColonAnyFixer {
       this.createBackup(filePath);
 
       // Fix patterns
-      const { content: fixedContent, fixes } = this.fixColonAnyPattern(originalContent);
+      const { content: fixedContent, fixes } =
+        this.fixColonAnyPattern(originalContent);
 
       if (fixes > 0) {
-        fs.writeFileSync(filePath, fixedContent, 'utf8');
+        fs.writeFileSync(filePath, fixedContent, "utf8");
         console.log(`    ✅ Applied ${fixes} fixes`);
         this.fixedPatterns += fixes;
         this.processedFiles++;
@@ -95,7 +108,6 @@ class TestColonAnyFixer {
         console.log(`    ℹ️  No colon any patterns found`);
         return false;
       }
-
     } catch (error) {
       console.error(`    ❌ Error processing ${filePath}:`, error.message);
       return false;
@@ -107,9 +119,9 @@ class TestColonAnyFixer {
    */
   getTS1005ErrorCount() {
     try {
-      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
+      const result = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        maxBuffer: 10 * 1024 * 1024,
       });
       const errorCount = (result.match(/error TS1005/g) || []).length;
       return errorCount;
@@ -127,7 +139,9 @@ class TestColonAnyFixer {
    */
   validateBuild() {
     try {
-      execSync('yarn tsc --noEmit --skipLibCheck 2>/dev/null', { stdio: 'pipe' });
+      execSync("yarn tsc --noEmit --skipLibCheck 2>/dev/null", {
+        stdio: "pipe",
+      });
       return true;
     } catch (error) {
       return false;
@@ -138,8 +152,8 @@ class TestColonAnyFixer {
    * Main repair process
    */
   async repair() {
-    console.log('🎯 TEST COLON ANY PATTERN FIXER');
-    console.log('=' .repeat(40));
+    console.log("🎯 TEST COLON ANY PATTERN FIXER");
+    console.log("=".repeat(40));
 
     const startTime = Date.now();
     const initialErrors = this.getTS1005ErrorCount();
@@ -150,7 +164,7 @@ class TestColonAnyFixer {
     console.log(`📁 Found ${files.length} files with ': any,' pattern`);
 
     if (files.length === 0) {
-      console.log('✅ No files with colon any pattern found!');
+      console.log("✅ No files with colon any pattern found!");
       return;
     }
 
@@ -170,13 +184,13 @@ class TestColonAnyFixer {
       console.log(`  🔍 Build validation after file ${i + 1}/${files.length}`);
       const buildValid = this.validateBuild();
       if (!buildValid) {
-        console.log('⚠️ Build validation failed, stopping for safety');
+        console.log("⚠️ Build validation failed, stopping for safety");
         break;
       }
     }
 
     // Final validation
-    console.log('\n🔍 Final build validation...');
+    console.log("\n🔍 Final build validation...");
     const finalBuildValid = this.validateBuild();
 
     // Final results
@@ -184,22 +198,26 @@ class TestColonAnyFixer {
     const finalErrors = this.getTS1005ErrorCount();
     const duration = ((endTime - startTime) / 1000).toFixed(2);
 
-    console.log('\n🏁 COLON ANY PATTERN FIXING COMPLETED');
-    console.log('=' .repeat(40));
+    console.log("\n🏁 COLON ANY PATTERN FIXING COMPLETED");
+    console.log("=".repeat(40));
     console.log(`⏱️  Duration: ${duration} seconds`);
     console.log(`📝 Files processed: ${modifiedFiles}`);
     console.log(`🎯 Total fixes applied: ${this.fixedPatterns}`);
     console.log(`📊 TS1005 errors: ${initialErrors} → ${finalErrors}`);
-    console.log(`🔍 Final build valid: ${finalBuildValid ? '✅' : '❌'}`);
+    console.log(`🔍 Final build valid: ${finalBuildValid ? "✅" : "❌"}`);
 
     if (finalErrors < initialErrors && finalBuildValid) {
       const reduction = initialErrors - finalErrors;
       const percentage = ((reduction / initialErrors) * 100).toFixed(1);
-      console.log(`✅ SUCCESS: Reduced by ${reduction} errors (${percentage}%) with valid build`);
+      console.log(
+        `✅ SUCCESS: Reduced by ${reduction} errors (${percentage}%) with valid build`,
+      );
     } else if (finalErrors < initialErrors) {
       const reduction = initialErrors - finalErrors;
       const percentage = ((reduction / initialErrors) * 100).toFixed(1);
-      console.log(`⚠️ PARTIAL SUCCESS: Reduced by ${reduction} errors (${percentage}%) but build issues remain`);
+      console.log(
+        `⚠️ PARTIAL SUCCESS: Reduced by ${reduction} errors (${percentage}%) but build issues remain`,
+      );
     } else if (finalErrors === initialErrors && finalBuildValid) {
       console.log(`ℹ️  No change in error count but build remains valid`);
     } else {
@@ -214,7 +232,7 @@ class TestColonAnyFixer {
       filesModified: modifiedFiles,
       fixesApplied: this.fixedPatterns,
       duration: parseFloat(duration),
-      buildValid: finalBuildValid
+      buildValid: finalBuildValid,
     };
   }
 }
@@ -222,19 +240,20 @@ class TestColonAnyFixer {
 // Execute if run directly
 if (require.main === module) {
   const fixer = new TestColonAnyFixer();
-  fixer.repair()
-    .then(results => {
-      console.log('\n📋 Test colon any pattern fixing completed');
+  fixer
+    .repair()
+    .then((results) => {
+      console.log("\n📋 Test colon any pattern fixing completed");
       if (results.buildValid && results.finalErrors < results.initialErrors) {
-        console.log('✅ Ready to proceed with next phase');
+        console.log("✅ Ready to proceed with next phase");
         process.exit(0);
       } else {
-        console.log('⚠️ Manual review may be needed');
+        console.log("⚠️ Manual review may be needed");
         process.exit(1);
       }
     })
-    .catch(error => {
-      console.error('\n❌ Test colon any pattern fixing failed:', error);
+    .catch((error) => {
+      console.error("\n❌ Test colon any pattern fixing failed:", error);
       process.exit(1);
     });
 }

@@ -5,9 +5,9 @@
  * Specifically fixes malformed catch blocks with type annotations
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class CatchBlockSyntaxFixer {
   constructor() {
@@ -26,9 +26,9 @@ class CatchBlockSyntaxFixer {
    */
   getFilesWithTS1005Errors() {
     try {
-      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
+      const result = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        maxBuffer: 10 * 1024 * 1024,
       });
       return this.extractFilesFromOutput(result);
     } catch (error) {
@@ -40,10 +40,12 @@ class CatchBlockSyntaxFixer {
   }
 
   extractFilesFromOutput(output) {
-    const errorLines = output.split('\n').filter(line => line.includes('error TS1005'));
+    const errorLines = output
+      .split("\n")
+      .filter((line) => line.includes("error TS1005"));
     const files = new Set();
 
-    errorLines.forEach(line => {
+    errorLines.forEach((line) => {
       const match = line.match(/^([^(]+)\(/);
       if (match) {
         const filePath = match[1].trim();
@@ -60,9 +62,12 @@ class CatchBlockSyntaxFixer {
    * Create backup of file
    */
   createBackup(filePath) {
-    const backupPath = path.join(this.backupDir, filePath.replace(/[\/\\]/g, '_'));
-    const content = fs.readFileSync(filePath, 'utf8');
-    fs.writeFileSync(backupPath, content, 'utf8');
+    const backupPath = path.join(
+      this.backupDir,
+      filePath.replace(/[\/\\]/g, "_"),
+    );
+    const content = fs.readFileSync(filePath, "utf8");
+    fs.writeFileSync(backupPath, content, "utf8");
   }
 
   /**
@@ -78,9 +83,11 @@ class CatchBlockSyntaxFixer {
     const pattern1 = /(\}\s*catch\s*\([^)]+\))\s*:\s*[^{]+(\s*\{)/g;
     const matches1 = [...fixedContent.matchAll(pattern1)];
     if (matches1.length > 0) {
-      fixedContent = fixedContent.replace(pattern1, '$1$2');
+      fixedContent = fixedContent.replace(pattern1, "$1$2");
       fixes += matches1.length;
-      console.log(`    Fixed ${matches1.length} malformed catch blocks with type annotations`);
+      console.log(
+        `    Fixed ${matches1.length} malformed catch blocks with type annotations`,
+      );
     }
 
     return { content: fixedContent, fixes };
@@ -91,10 +98,10 @@ class CatchBlockSyntaxFixer {
    */
   processFile(filePath) {
     try {
-      const originalContent = fs.readFileSync(filePath, 'utf8');
+      const originalContent = fs.readFileSync(filePath, "utf8");
 
       // Only process files that contain catch blocks
-      if (!originalContent.includes('catch (')) {
+      if (!originalContent.includes("catch (")) {
         return false;
       }
 
@@ -104,10 +111,11 @@ class CatchBlockSyntaxFixer {
       this.createBackup(filePath);
 
       // Fix patterns
-      const { content: fixedContent, fixes } = this.fixCatchBlockSyntax(originalContent);
+      const { content: fixedContent, fixes } =
+        this.fixCatchBlockSyntax(originalContent);
 
       if (fixes > 0) {
-        fs.writeFileSync(filePath, fixedContent, 'utf8');
+        fs.writeFileSync(filePath, fixedContent, "utf8");
         console.log(`    ✅ Applied ${fixes} fixes`);
         this.fixedPatterns += fixes;
         this.processedFiles++;
@@ -116,7 +124,6 @@ class CatchBlockSyntaxFixer {
         console.log(`    ℹ️  No malformed catch blocks found`);
         return false;
       }
-
     } catch (error) {
       console.error(`    ❌ Error processing ${filePath}:`, error.message);
       return false;
@@ -128,9 +135,9 @@ class CatchBlockSyntaxFixer {
    */
   getTS1005ErrorCount() {
     try {
-      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
+      const result = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        maxBuffer: 10 * 1024 * 1024,
       });
       const errorCount = (result.match(/error TS1005/g) || []).length;
       return errorCount;
@@ -147,8 +154,8 @@ class CatchBlockSyntaxFixer {
    * Main repair process
    */
   async repair() {
-    console.log('🔧 CATCH BLOCK SYNTAX FIX');
-    console.log('=' .repeat(40));
+    console.log("🔧 CATCH BLOCK SYNTAX FIX");
+    console.log("=".repeat(40));
 
     const startTime = Date.now();
     const initialErrors = this.getTS1005ErrorCount();
@@ -159,7 +166,7 @@ class CatchBlockSyntaxFixer {
     console.log(`📁 Found ${files.length} files with TS1005 errors`);
 
     if (files.length === 0) {
-      console.log('✅ No files with TS1005 errors found!');
+      console.log("✅ No files with TS1005 errors found!");
       return;
     }
 
@@ -179,8 +186,8 @@ class CatchBlockSyntaxFixer {
     const finalErrors = this.getTS1005ErrorCount();
     const duration = ((endTime - startTime) / 1000).toFixed(2);
 
-    console.log('\n🏁 CATCH BLOCK FIX COMPLETED');
-    console.log('=' .repeat(40));
+    console.log("\n🏁 CATCH BLOCK FIX COMPLETED");
+    console.log("=".repeat(40));
     console.log(`⏱️  Duration: ${duration} seconds`);
     console.log(`📝 Files processed: ${modifiedFiles}`);
     console.log(`🎯 Total fixes applied: ${this.fixedPatterns}`);
@@ -189,7 +196,9 @@ class CatchBlockSyntaxFixer {
     if (finalErrors < initialErrors) {
       const reduction = initialErrors - finalErrors;
       const percentage = ((reduction / initialErrors) * 100).toFixed(1);
-      console.log(`✅ SUCCESS: Reduced by ${reduction} errors (${percentage}%)`);
+      console.log(
+        `✅ SUCCESS: Reduced by ${reduction} errors (${percentage}%)`,
+      );
     } else if (finalErrors === initialErrors) {
       console.log(`ℹ️  No change in error count`);
     } else {
@@ -203,7 +212,7 @@ class CatchBlockSyntaxFixer {
       finalErrors,
       filesModified: modifiedFiles,
       fixesApplied: this.fixedPatterns,
-      duration: parseFloat(duration)
+      duration: parseFloat(duration),
     };
   }
 }
@@ -211,13 +220,14 @@ class CatchBlockSyntaxFixer {
 // Execute if run directly
 if (require.main === module) {
   const fixer = new CatchBlockSyntaxFixer();
-  fixer.repair()
-    .then(results => {
-      console.log('\n📋 Catch block syntax fix completed');
+  fixer
+    .repair()
+    .then((results) => {
+      console.log("\n📋 Catch block syntax fix completed");
       process.exit(0);
     })
-    .catch(error => {
-      console.error('\n❌ Catch block syntax fix failed:', error);
+    .catch((error) => {
+      console.error("\n❌ Catch block syntax fix failed:", error);
       process.exit(1);
     });
 }

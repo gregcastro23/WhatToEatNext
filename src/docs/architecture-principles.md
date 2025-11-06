@@ -24,18 +24,24 @@ throughout the application.
 
 ```typescript
 // src/services/index.ts
-import { createContainer } from '@/utils/container';
-import { AstrologyService } from './AstrologyService';
-import { IAstrologyService } from '@/services/interfaces/IAstrologyService';
-import { ElementalCalculator } from './ElementalCalculator';
-import { IElementalCalculator } from '@/services/interfaces/IElementalCalculator';
+import { createContainer } from "@/utils/container";
+import { AstrologyService } from "./AstrologyService";
+import { IAstrologyService } from "@/services/interfaces/IAstrologyService";
+import { ElementalCalculator } from "./ElementalCalculator";
+import { IElementalCalculator } from "@/services/interfaces/IElementalCalculator";
 
 // Create service container
 export const serviceContainer = createContainer();
 
 // Register services as singletons
-serviceContainer.registerSingleton<IAstrologyService>('astrologyService', AstrologyService);
-serviceContainer.registerSingleton<IElementalCalculator>('elementalCalculator', ElementalCalculator);
+serviceContainer.registerSingleton<IAstrologyService>(
+  "astrologyService",
+  AstrologyService,
+);
+serviceContainer.registerSingleton<IElementalCalculator>(
+  "elementalCalculator",
+  ElementalCalculator,
+);
 ```
 
 ## 2. Interface-Based Design
@@ -57,7 +63,7 @@ from service consumers.
 
 ```typescript
 // src/services/interfaces/IAstrologyService.ts
-import { PlanetaryPosition } from '@/types';
+import { PlanetaryPosition } from "@/types";
 
 export interface IAstrologyService {
   /**
@@ -100,24 +106,28 @@ transparent and testable.
 
 ```typescript
 // src/services/AstrologyService.ts
-import { IAstrologyService } from './interfaces/IAstrologyService';
-import { IHttpClient } from './interfaces/IHttpClient';
-import { ICacheService } from './interfaces/ICacheService';
-import { ILocationService } from './interfaces/ILocationService';
-import { PlanetaryPosition } from '@/types';
+import { IAstrologyService } from "./interfaces/IAstrologyService";
+import { IHttpClient } from "./interfaces/IHttpClient";
+import { ICacheService } from "./interfaces/ICacheService";
+import { ILocationService } from "./interfaces/ILocationService";
+import { PlanetaryPosition } from "@/types";
 
 export class AstrologyService implements IAstrologyService {
   constructor(
     private readonly httpClient: IHttpClient,
     private readonly cacheService: ICacheService,
-    private readonly locationService: ILocationService
+    private readonly locationService: ILocationService,
   ) {}
 
-  async getCurrentPlanetaryPositions(): Promise<Record<string, PlanetaryPosition>> {
+  async getCurrentPlanetaryPositions(): Promise<
+    Record<string, PlanetaryPosition>
+  > {
     // Implementation using injected dependencies
   }
 
-  async getPlanetaryPositions(date: Date): Promise<Record<string, PlanetaryPosition>> {
+  async getPlanetaryPositions(
+    date: Date,
+  ): Promise<Record<string, PlanetaryPosition>> {
     // Implementation using injected dependencies
   }
 
@@ -150,7 +160,7 @@ components.
 export class AppError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'AppError';
+    this.name = "AppError";
   }
 }
 
@@ -159,10 +169,10 @@ export class ServiceError extends AppError {
     message: string,
     public readonly serviceName: string,
     public readonly methodName: string,
-    public readonly originalError?: Error
+    public readonly originalError?: Error,
   ) {
     super(`${serviceName}.${methodName}: ${message}`);
-    this.name = 'ServiceError';
+    this.name = "ServiceError";
   }
 }
 
@@ -171,10 +181,10 @@ try {
   // Operation that might fail
 } catch (error) {
   throw new ServiceError(
-    'Failed to fetch planetary positions',
-    'AstrologyService',
-    'getCurrentPlanetaryPositions',
-    error instanceof Error ? error : new Error(String(error))
+    "Failed to fetch planetary positions",
+    "AstrologyService",
+    "getCurrentPlanetaryPositions",
+    error instanceof Error ? error : new Error(String(error)),
   );
 }
 ```
@@ -199,9 +209,9 @@ race conditions and ensuring dependencies are available.
 
 ```typescript
 // src/services/ServiceInitializer.ts
-import { serviceContainer } from '@/services';
-import { IAstrologyService } from './interfaces/IAstrologyService';
-import { IElementalCalculator } from './interfaces/IElementalCalculator';
+import { serviceContainer } from "@/services";
+import { IAstrologyService } from "./interfaces/IAstrologyService";
+import { IElementalCalculator } from "./interfaces/IElementalCalculator";
 
 export class ServiceInitializer {
   private static initPromise: Promise<void> | null = null;
@@ -216,25 +226,27 @@ export class ServiceInitializer {
     this.initPromise = (async () => {
       try {
         // Get service instances
-        const astrologyService = serviceContainer.resolve<IAstrologyService>('astrologyService');
-        const elementalCalculator = serviceContainer.resolve<IElementalCalculator>('elementalCalculator');
+        const astrologyService =
+          serviceContainer.resolve<IAstrologyService>("astrologyService");
+        const elementalCalculator =
+          serviceContainer.resolve<IElementalCalculator>("elementalCalculator");
 
         // Initialize services in dependency order
         await this.initializeWithTimeout(
           astrologyService.initialize(),
-          'AstrologyService',
-          5000
+          "AstrologyService",
+          5000,
         );
 
         await this.initializeWithTimeout(
           elementalCalculator.initialize(),
-          'ElementalCalculator',
-          2000
+          "ElementalCalculator",
+          2000,
         );
 
-        console.log('All services initialized successfully');
+        console.log("All services initialized successfully");
       } catch (error) {
-        console.error('Service initialization failed:', error);
+        console.error("Service initialization failed:", error);
         throw error;
       }
     })();
@@ -248,10 +260,18 @@ export class ServiceInitializer {
   private static async initializeWithTimeout(
     promise: Promise<void>,
     serviceName: string,
-    timeoutMs: number
+    timeoutMs: number,
   ): Promise<void> {
     const timeoutPromise = new Promise<never>((_, reject) => {
-      setTimeout(() => reject(new Error(`${serviceName} initialization timed out after ${timeoutMs}ms`)), timeoutMs);
+      setTimeout(
+        () =>
+          reject(
+            new Error(
+              `${serviceName} initialization timed out after ${timeoutMs}ms`,
+            ),
+          ),
+        timeoutMs,
+      );
     });
 
     return Promise.race([promise, timeoutPromise]);
@@ -279,16 +299,18 @@ architecture.
 
 ```typescript
 // src/services/adapters/LegacyAstrologyAdapter.ts
-import { IAstrologyService } from '../interfaces/IAstrologyService';
-import { legacyAstrologyAPI } from '@/legacy/astrology';
-import { PlanetaryPosition } from '@/types';
+import { IAstrologyService } from "../interfaces/IAstrologyService";
+import { legacyAstrologyAPI } from "@/legacy/astrology";
+import { PlanetaryPosition } from "@/types";
 
 /**
  * Adapter service that implements the new IAstrologyService interface
  * but uses the legacy astrology API implementation
  */
 export class LegacyAstrologyAdapter implements IAstrologyService {
-  async getCurrentPlanetaryPositions(): Promise<Record<string, PlanetaryPosition>> {
+  async getCurrentPlanetaryPositions(): Promise<
+    Record<string, PlanetaryPosition>
+  > {
     // Call legacy API
     const legacyData = await legacyAstrologyAPI.getCurrentPositions();
 
@@ -301,7 +323,7 @@ export class LegacyAstrologyAdapter implements IAstrologyService {
         sign: data.zodiacSign,
         degree: data.degreeInSign,
         exactLongitude: data.longitude,
-        isRetrograde: data.isRetro
+        isRetrograde: data.isRetro,
       };
     });
 
@@ -332,11 +354,15 @@ testing.
 
 ```typescript
 // src/__tests__/services/AstrologyService.test.ts
-import { AstrologyService } from '@/services/AstrologyService';
-import { mockHttpClient, mockCacheService, mockLocationService } from '@/tests/mocks';
-import { mockPlanetaryData } from '@/tests/fixtures';
+import { AstrologyService } from "@/services/AstrologyService";
+import {
+  mockHttpClient,
+  mockCacheService,
+  mockLocationService,
+} from "@/tests/mocks";
+import { mockPlanetaryData } from "@/tests/fixtures";
 
-describe('AstrologyService', () => {
+describe("AstrologyService", () => {
   // Create fresh instances for each test
   let httpClient: any;
   let cacheService: any;
@@ -353,8 +379,8 @@ describe('AstrologyService', () => {
     service = new AstrologyService(httpClient, cacheService, locationService);
   });
 
-  describe('getCurrentPlanetaryPositions', () => {
-    it('should fetch planetary positions from API', async () => {
+  describe("getCurrentPlanetaryPositions", () => {
+    it("should fetch planetary positions from API", async () => {
       // Arrange
       httpClient.get.mockResolvedValue({ data: mockPlanetaryData });
 
@@ -363,7 +389,7 @@ describe('AstrologyService', () => {
 
       // Assert
       expect(result).toEqual(mockPlanetaryData);
-      expect(httpClient.get).toHaveBeenCalledWith('/api/planetary-positions');
+      expect(httpClient.get).toHaveBeenCalledWith("/api/planetary-positions");
     });
   });
 });
@@ -388,7 +414,7 @@ Implement performant code that remains responsive and efficient at scale.
 
 ```typescript
 // src/services/CacheService.ts
-import { ICacheService } from './interfaces/ICacheService';
+import { ICacheService } from "./interfaces/ICacheService";
 
 export class CacheService implements ICacheService {
   private cache = new Map<string, { value: any; expiry: number }>();
@@ -464,7 +490,7 @@ explicit documentation.
  */
 export function calculateElementalProperties(
   positions: Record<string, PlanetaryPosition>,
-  isDaytime: boolean = true
+  isDaytime: boolean = true,
 ): ElementalProperties {
   // Implementation details
 }

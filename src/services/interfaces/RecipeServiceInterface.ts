@@ -11,10 +11,10 @@
  * Updated for Phase 4 API standardization.
  */
 
-import type { ElementalProperties, Season } from '@/types/alchemy';
-import type { LunarPhase, PlanetName, ZodiacSign } from '@/types/celestial';
-import { PlanetaryAlignment } from '@/types/celestial';
-import type { Recipe, ScoredRecipe } from '@/types/recipe';
+import type { ElementalProperties, Season } from "@/types/alchemy";
+import type { LunarPhase, PlanetName, ZodiacSign } from "@/types/celestial";
+import { PlanetaryAlignment } from "@/types/celestial";
+import type { Recipe, ScoredRecipe } from "@/types/recipe";
 import type {
   ApiResponse,
   GetRecipeByIdParams,
@@ -30,7 +30,7 @@ import type {
   GenerateRecipeParams,
   GenerateFusionRecipeParams,
   AdaptRecipeForSeasonParams,
-} from './RecipeApiInterfaces';
+} from "./RecipeApiInterfaces";
 
 /**
  * Criteria for searching and filtering recipes
@@ -96,35 +96,45 @@ export interface RecipeServiceInterface {
    * @param params Parameters including cuisine name and pagination options
    * @returns Promise resolving to an ApiResponse containing an array of recipes for that cuisine
    */
-  getRecipesByCuisine(params: GetRecipesByCuisineParams): Promise<ApiResponse<Recipe[]>>;
+  getRecipesByCuisine(
+    params: GetRecipesByCuisineParams,
+  ): Promise<ApiResponse<Recipe[]>>;
 
   /**
    * Get recipes by zodiac sign
    * @param params Parameters including zodiac sign and pagination options
    * @returns Promise resolving to an ApiResponse containing an array of recipes for that zodiac sign
    */
-  getRecipesByZodiac(params: GetRecipesByZodiacParams): Promise<ApiResponse<Recipe[]>>;
+  getRecipesByZodiac(
+    params: GetRecipesByZodiacParams,
+  ): Promise<ApiResponse<Recipe[]>>;
 
   /**
    * Get recipes by season
    * @param params Parameters including season and pagination options
    * @returns Promise resolving to an ApiResponse containing an array of recipes for that season
    */
-  getRecipesBySeason(params: GetRecipesBySeasonParams): Promise<ApiResponse<Recipe[]>>;
+  getRecipesBySeason(
+    params: GetRecipesBySeasonParams,
+  ): Promise<ApiResponse<Recipe[]>>;
 
   /**
    * Get recipes by lunar phase
    * @param params Parameters including lunar phase and pagination options
    * @returns Promise resolving to an ApiResponse containing an array of recipes for that lunar phase
    */
-  getRecipesByLunarPhase(params: GetRecipesByLunarPhaseParams): Promise<ApiResponse<Recipe[]>>;
+  getRecipesByLunarPhase(
+    params: GetRecipesByLunarPhaseParams,
+  ): Promise<ApiResponse<Recipe[]>>;
 
   /**
    * Get recipes by meal type
    * @param params Parameters including meal type and pagination options
    * @returns Promise resolving to an ApiResponse containing an array of recipes for that meal type
    */
-  getRecipesByMealType(params: GetRecipesByMealTypeParams): Promise<ApiResponse<Recipe[]>>;
+  getRecipesByMealType(
+    params: GetRecipesByMealTypeParams,
+  ): Promise<ApiResponse<Recipe[]>>;
 
   /**
    * Get recipes that match current planetary alignments
@@ -149,7 +159,9 @@ export interface RecipeServiceInterface {
    * @param params Parameters including criteria and pagination options
    * @returns Promise resolving to an ApiResponse containing an array of scored recipes
    */
-  getBestRecipeMatches(params: GetBestRecipeMatchesParams): Promise<ApiResponse<ScoredRecipe[]>>;
+  getBestRecipeMatches(
+    params: GetBestRecipeMatchesParams,
+  ): Promise<ApiResponse<ScoredRecipe[]>>;
 
   /**
    * Get a recipe by its ID
@@ -170,14 +182,18 @@ export interface RecipeServiceInterface {
    * @param params Parameters including cuisines to fuse and criteria
    * @returns Promise resolving to an ApiResponse containing a fusion recipe
    */
-  generateFusionRecipe(params: GenerateFusionRecipeParams): Promise<ApiResponse<Recipe>>;
+  generateFusionRecipe(
+    params: GenerateFusionRecipeParams,
+  ): Promise<ApiResponse<Recipe>>;
 
   /**
    * Adapt a recipe for the current season
    * @param params Parameters including the recipe ID and target season
    * @returns Promise resolving to an ApiResponse containing the adapted recipe
    */
-  adaptRecipeForSeason(params: AdaptRecipeForSeasonParams): Promise<ApiResponse<Recipe>>;
+  adaptRecipeForSeason(
+    params: AdaptRecipeForSeasonParams,
+  ): Promise<ApiResponse<Recipe>>;
 
   /**
    * Calculate the elemental properties of a recipe
@@ -191,7 +207,10 @@ export interface RecipeServiceInterface {
    * @param recipe The recipe to analyze
    * @returns The dominant element and its value
    */
-  getDominantElement(recipe: Recipe): { element: keyof ElementalProperties; value: number };
+  getDominantElement(recipe: Recipe): {
+    element: keyof ElementalProperties;
+    value: number;
+  };
 
   /**
    * Calculate the similarity between two recipes based on their elemental properties

@@ -12,22 +12,24 @@
  * Requirements: 4.1, 4.2, 4.3, 4.4
  */
 
-const { execSync } = require('child_process');
-const { existsSync, readFileSync, writeFileSync } = require('fs');
-const { join } = require('path');
+const { execSync } = require("child_process");
+const { existsSync, readFileSync, writeFileSync } = require("fs");
+const { join } = require("path");
 
 class DomainSpecificRuleValidator {
   constructor() {
     this.projectRoot = process.cwd();
     this.results = {
-      astrologicalFiles: this.createEmptyResult('Astrological Calculation Files'),
-      campaignSystemFiles: this.createEmptyResult('Campaign System Files'),
-      testFiles: this.createEmptyResult('Test Files'),
-      configurationFiles: this.createEmptyResult('Configuration Files'),
+      astrologicalFiles: this.createEmptyResult(
+        "Astrological Calculation Files",
+      ),
+      campaignSystemFiles: this.createEmptyResult("Campaign System Files"),
+      testFiles: this.createEmptyResult("Test Files"),
+      configurationFiles: this.createEmptyResult("Configuration Files"),
       overall: {
         passed: false,
         score: 0,
-        summary: '',
+        summary: "",
       },
     };
   }
@@ -47,7 +49,7 @@ class DomainSpecificRuleValidator {
    * Main validation entry point
    */
   async validateDomainSpecificRules() {
-    console.log('🔍 Starting Domain-Specific Rule Validation...\n');
+    console.log("🔍 Starting Domain-Specific Rule Validation...\n");
 
     try {
       // Validate each domain category
@@ -64,7 +66,7 @@ class DomainSpecificRuleValidator {
 
       return this.results;
     } catch (error) {
-      console.error('❌ Validation failed:', error);
+      console.error("❌ Validation failed:", error);
       throw error;
     }
   }
@@ -74,7 +76,7 @@ class DomainSpecificRuleValidator {
    * Requirements: 4.1, 4.2
    */
   async validateAstrologicalFiles() {
-    console.log('🌟 Validating Astrological Calculation File Rules...');
+    console.log("🌟 Validating Astrological Calculation File Rules...");
 
     const astroResult = this.results.astrologicalFiles;
 
@@ -82,7 +84,7 @@ class DomainSpecificRuleValidator {
       // Test mathematical constants preservation
       const constantsTest = await this.testMathematicalConstantsPreservation();
       astroResult.details.push(
-        `Mathematical constants preservation: ${constantsTest.passed ? '✅' : '❌'}`,
+        `Mathematical constants preservation: ${constantsTest.passed ? "✅" : "❌"}`,
       );
       if (!constantsTest.passed) {
         astroResult.errors.push(...constantsTest.errors);
@@ -91,7 +93,7 @@ class DomainSpecificRuleValidator {
       // Test planetary variable patterns
       const planetaryTest = await this.testPlanetaryVariablePatterns();
       astroResult.details.push(
-        `Planetary variable patterns: ${planetaryTest.passed ? '✅' : '❌'}`,
+        `Planetary variable patterns: ${planetaryTest.passed ? "✅" : "❌"}`,
       );
       if (!planetaryTest.passed) {
         astroResult.errors.push(...planetaryTest.errors);
@@ -99,7 +101,9 @@ class DomainSpecificRuleValidator {
 
       // Test console debugging allowance
       const consoleTest = await this.testAstrologicalConsoleAllowance();
-      astroResult.details.push(`Console debugging allowance: ${consoleTest.passed ? '✅' : '❌'}`);
+      astroResult.details.push(
+        `Console debugging allowance: ${consoleTest.passed ? "✅" : "❌"}`,
+      );
       if (!consoleTest.passed) {
         astroResult.errors.push(...consoleTest.errors);
       }
@@ -107,14 +111,14 @@ class DomainSpecificRuleValidator {
       astroResult.passed = astroResult.errors.length === 0;
 
       if (astroResult.passed) {
-        console.log('✅ Astrological file rules validation passed');
+        console.log("✅ Astrological file rules validation passed");
       } else {
-        console.log('❌ Astrological file rules validation failed');
-        astroResult.errors.forEach(error => console.log(`   - ${error}`));
+        console.log("❌ Astrological file rules validation failed");
+        astroResult.errors.forEach((error) => console.log(`   - ${error}`));
       }
     } catch (error) {
       astroResult.errors.push(`Validation error: ${error}`);
-      console.error('❌ Astrological validation error:', error);
+      console.error("❌ Astrological validation error:", error);
     }
   }
 
@@ -123,21 +127,25 @@ class DomainSpecificRuleValidator {
    * Requirements: 4.3
    */
   async validateCampaignSystemFiles() {
-    console.log('🚀 Validating Campaign System File Rules...');
+    console.log("🚀 Validating Campaign System File Rules...");
 
     const campaignResult = this.results.campaignSystemFiles;
 
     try {
       // Test enterprise patterns allowance
       const enterpriseTest = await this.testEnterprisePatterns();
-      campaignResult.details.push(`Enterprise patterns: ${enterpriseTest.passed ? '✅' : '❌'}`);
+      campaignResult.details.push(
+        `Enterprise patterns: ${enterpriseTest.passed ? "✅" : "❌"}`,
+      );
       if (!enterpriseTest.passed) {
         campaignResult.errors.push(...enterpriseTest.errors);
       }
 
       // Test extensive logging allowance
       const loggingTest = await this.testExtensiveLogging();
-      campaignResult.details.push(`Extensive logging: ${loggingTest.passed ? '✅' : '❌'}`);
+      campaignResult.details.push(
+        `Extensive logging: ${loggingTest.passed ? "✅" : "❌"}`,
+      );
       if (!loggingTest.passed) {
         campaignResult.errors.push(...loggingTest.errors);
       }
@@ -145,7 +153,7 @@ class DomainSpecificRuleValidator {
       // Test campaign variable patterns
       const variableTest = await this.testCampaignVariablePatterns();
       campaignResult.details.push(
-        `Campaign variable patterns: ${variableTest.passed ? '✅' : '❌'}`,
+        `Campaign variable patterns: ${variableTest.passed ? "✅" : "❌"}`,
       );
       if (!variableTest.passed) {
         campaignResult.errors.push(...variableTest.errors);
@@ -154,14 +162,14 @@ class DomainSpecificRuleValidator {
       campaignResult.passed = campaignResult.errors.length === 0;
 
       if (campaignResult.passed) {
-        console.log('✅ Campaign system file rules validation passed');
+        console.log("✅ Campaign system file rules validation passed");
       } else {
-        console.log('❌ Campaign system file rules validation failed');
-        campaignResult.errors.forEach(error => console.log(`   - ${error}`));
+        console.log("❌ Campaign system file rules validation failed");
+        campaignResult.errors.forEach((error) => console.log(`   - ${error}`));
       }
     } catch (error) {
       campaignResult.errors.push(`Validation error: ${error}`);
-      console.error('❌ Campaign system validation error:', error);
+      console.error("❌ Campaign system validation error:", error);
     }
   }
 
@@ -170,28 +178,34 @@ class DomainSpecificRuleValidator {
    * Requirements: 4.4
    */
   async validateTestFiles() {
-    console.log('🧪 Validating Test File Rules...');
+    console.log("🧪 Validating Test File Rules...");
 
     const testResult = this.results.testFiles;
 
     try {
       // Test mock variable relaxations
       const mockTest = await this.testMockVariableRelaxations();
-      testResult.details.push(`Mock variable relaxations: ${mockTest.passed ? '✅' : '❌'}`);
+      testResult.details.push(
+        `Mock variable relaxations: ${mockTest.passed ? "✅" : "❌"}`,
+      );
       if (!mockTest.passed) {
         testResult.errors.push(...mockTest.errors);
       }
 
       // Test test-specific rule relaxations
       const relaxationTest = await this.testTestSpecificRelaxations();
-      testResult.details.push(`Test-specific relaxations: ${relaxationTest.passed ? '✅' : '❌'}`);
+      testResult.details.push(
+        `Test-specific relaxations: ${relaxationTest.passed ? "✅" : "❌"}`,
+      );
       if (!relaxationTest.passed) {
         testResult.errors.push(...relaxationTest.errors);
       }
 
       // Test Jest globals availability
       const globalsTest = await this.testJestGlobalsAvailability();
-      testResult.details.push(`Jest globals availability: ${globalsTest.passed ? '✅' : '❌'}`);
+      testResult.details.push(
+        `Jest globals availability: ${globalsTest.passed ? "✅" : "❌"}`,
+      );
       if (!globalsTest.passed) {
         testResult.errors.push(...globalsTest.errors);
       }
@@ -199,14 +213,14 @@ class DomainSpecificRuleValidator {
       testResult.passed = testResult.errors.length === 0;
 
       if (testResult.passed) {
-        console.log('✅ Test file rules validation passed');
+        console.log("✅ Test file rules validation passed");
       } else {
-        console.log('❌ Test file rules validation failed');
-        testResult.errors.forEach(error => console.log(`   - ${error}`));
+        console.log("❌ Test file rules validation failed");
+        testResult.errors.forEach((error) => console.log(`   - ${error}`));
       }
     } catch (error) {
       testResult.errors.push(`Validation error: ${error}`);
-      console.error('❌ Test file validation error:', error);
+      console.error("❌ Test file validation error:", error);
     }
   }
 
@@ -215,21 +229,25 @@ class DomainSpecificRuleValidator {
    * Requirements: 4.4
    */
   async validateConfigurationFiles() {
-    console.log('⚙️ Validating Configuration File Rules...');
+    console.log("⚙️ Validating Configuration File Rules...");
 
     const configResult = this.results.configurationFiles;
 
     try {
       // Test dynamic require allowances
       const requireTest = await this.testDynamicRequireAllowances();
-      configResult.details.push(`Dynamic require allowances: ${requireTest.passed ? '✅' : '❌'}`);
+      configResult.details.push(
+        `Dynamic require allowances: ${requireTest.passed ? "✅" : "❌"}`,
+      );
       if (!requireTest.passed) {
         configResult.errors.push(...requireTest.errors);
       }
 
       // Test build tool patterns
       const buildToolTest = await this.testBuildToolPatterns();
-      configResult.details.push(`Build tool patterns: ${buildToolTest.passed ? '✅' : '❌'}`);
+      configResult.details.push(
+        `Build tool patterns: ${buildToolTest.passed ? "✅" : "❌"}`,
+      );
       if (!buildToolTest.passed) {
         configResult.errors.push(...buildToolTest.errors);
       }
@@ -237,7 +255,7 @@ class DomainSpecificRuleValidator {
       // Test configuration-specific relaxations
       const configRelaxationTest = await this.testConfigurationRelaxations();
       configResult.details.push(
-        `Configuration relaxations: ${configRelaxationTest.passed ? '✅' : '❌'}`,
+        `Configuration relaxations: ${configRelaxationTest.passed ? "✅" : "❌"}`,
       );
       if (!configRelaxationTest.passed) {
         configResult.errors.push(...configRelaxationTest.errors);
@@ -246,14 +264,14 @@ class DomainSpecificRuleValidator {
       configResult.passed = configResult.errors.length === 0;
 
       if (configResult.passed) {
-        console.log('✅ Configuration file rules validation passed');
+        console.log("✅ Configuration file rules validation passed");
       } else {
-        console.log('❌ Configuration file rules validation failed');
-        configResult.errors.forEach(error => console.log(`   - ${error}`));
+        console.log("❌ Configuration file rules validation failed");
+        configResult.errors.forEach((error) => console.log(`   - ${error}`));
       }
     } catch (error) {
       configResult.errors.push(`Validation error: ${error}`);
-      console.error('❌ Configuration file validation error:', error);
+      console.error("❌ Configuration file validation error:", error);
     }
   }
 
@@ -266,8 +284,8 @@ class DomainSpecificRuleValidator {
     try {
       // Check if astrological files exist and have proper rule application
       const astroFiles = [
-        'src/calculations/culinary/culinaryAstrology.ts',
-        'src/utils/reliableAstronomy.ts',
+        "src/calculations/culinary/culinaryAstrology.ts",
+        "src/utils/reliableAstronomy.ts",
       ];
 
       let hasAstroFiles = false;
@@ -289,20 +307,28 @@ class DomainSpecificRuleValidator {
           }
         `;
 
-        const testFile = join(this.projectRoot, 'src/calculations/temp-constants-test.ts');
+        const testFile = join(
+          this.projectRoot,
+          "src/calculations/temp-constants-test.ts",
+        );
         writeFileSync(testFile, testContent);
 
         try {
-          execSync(`npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs`, {
-            stdio: 'pipe',
-            cwd: this.projectRoot,
-          });
+          execSync(
+            `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs`,
+            {
+              stdio: "pipe",
+              cwd: this.projectRoot,
+            },
+          );
 
           // If no error, constants are properly preserved
         } catch (eslintError) {
-          const output = eslintError.stderr?.toString() || '';
-          if (output.includes('preserve-planetary-constants')) {
-            errors.push('Mathematical constants preservation rule not working correctly');
+          const output = eslintError.stderr?.toString() || "";
+          if (output.includes("preserve-planetary-constants")) {
+            errors.push(
+              "Mathematical constants preservation rule not working correctly",
+            );
           }
         } finally {
           // Clean up test file
@@ -312,7 +338,9 @@ class DomainSpecificRuleValidator {
         }
       } else {
         // If no astrological files exist, we can't test this properly
-        console.log('   ℹ️ No astrological files found to test constants preservation');
+        console.log(
+          "   ℹ️ No astrological files found to test constants preservation",
+        );
       }
 
       return { passed: errors.length === 0, errors };
@@ -338,14 +366,17 @@ class DomainSpecificRuleValidator {
         const UNUSED_planet = 'unused';
       `;
 
-      const testFile = join(this.projectRoot, 'src/calculations/temp-planetary-test.ts');
+      const testFile = join(
+        this.projectRoot,
+        "src/calculations/temp-planetary-test.ts",
+      );
       writeFileSync(testFile, testContent);
 
       try {
         const output = execSync(
           `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
           {
-            encoding: 'utf8',
+            encoding: "utf8",
             cwd: this.projectRoot,
           },
         );
@@ -354,32 +385,36 @@ class DomainSpecificRuleValidator {
 
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors = result[0].messages.filter(
-            msg =>
-              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-              (msg.message.includes('planet') ||
-                msg.message.includes('position') ||
-                msg.message.includes('longitude')),
+            (msg) =>
+              msg.ruleId === "@typescript-eslint/no-unused-vars" &&
+              (msg.message.includes("planet") ||
+                msg.message.includes("position") ||
+                msg.message.includes("longitude")),
           );
 
           if (unusedVarErrors.length > 0) {
-            errors.push('Planetary variable patterns not properly ignored by unused-vars rule');
+            errors.push(
+              "Planetary variable patterns not properly ignored by unused-vars rule",
+            );
           }
         }
       } catch (eslintError) {
-        const output = eslintError.stdout?.toString() || '';
+        const output = eslintError.stdout?.toString() || "";
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors = result[0].messages.filter(
-              msg =>
-                msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-                (msg.message.includes('planet') ||
-                  msg.message.includes('position') ||
-                  msg.message.includes('longitude')),
+              (msg) =>
+                msg.ruleId === "@typescript-eslint/no-unused-vars" &&
+                (msg.message.includes("planet") ||
+                  msg.message.includes("position") ||
+                  msg.message.includes("longitude")),
             );
 
             if (unusedVarErrors.length > 0) {
-              errors.push('Planetary variable patterns not properly ignored by unused-vars rule');
+              errors.push(
+                "Planetary variable patterns not properly ignored by unused-vars rule",
+              );
             }
           }
         }
@@ -392,7 +427,9 @@ class DomainSpecificRuleValidator {
 
       return { passed: errors.length === 0, errors };
     } catch (error) {
-      errors.push(`Error testing planetary variable patterns: ${error.message}`);
+      errors.push(
+        `Error testing planetary variable patterns: ${error.message}`,
+      );
       return { passed: false, errors };
     }
   }
@@ -415,14 +452,17 @@ class DomainSpecificRuleValidator {
         }
       `;
 
-      const testFile = join(this.projectRoot, 'src/calculations/temp-console-test.ts');
+      const testFile = join(
+        this.projectRoot,
+        "src/calculations/temp-console-test.ts",
+      );
       writeFileSync(testFile, testContent);
 
       try {
         const output = execSync(
           `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
           {
-            encoding: 'utf8',
+            encoding: "utf8",
             cwd: this.projectRoot,
           },
         );
@@ -431,24 +471,28 @@ class DomainSpecificRuleValidator {
 
         if (result.length > 0 && result[0].messages) {
           const consoleErrors = result[0].messages.filter(
-            msg => msg.ruleId === 'no-console' && msg.severity === 2, // error level
+            (msg) => msg.ruleId === "no-console" && msg.severity === 2, // error level
           );
 
           if (consoleErrors.length > 0) {
-            errors.push('Astrological files should allow console statements for debugging');
+            errors.push(
+              "Astrological files should allow console statements for debugging",
+            );
           }
         }
       } catch (eslintError) {
-        const output = eslintError.stdout?.toString() || '';
+        const output = eslintError.stdout?.toString() || "";
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const consoleErrors = result[0].messages.filter(
-              msg => msg.ruleId === 'no-console' && msg.severity === 2,
+              (msg) => msg.ruleId === "no-console" && msg.severity === 2,
             );
 
             if (consoleErrors.length > 0) {
-              errors.push('Astrological files should allow console statements for debugging');
+              errors.push(
+                "Astrological files should allow console statements for debugging",
+              );
             }
           }
         }
@@ -460,7 +504,9 @@ class DomainSpecificRuleValidator {
 
       return { passed: errors.length === 0, errors };
     } catch (error) {
-      errors.push(`Error testing astrological console allowance: ${error.message}`);
+      errors.push(
+        `Error testing astrological console allowance: ${error.message}`,
+      );
       return { passed: false, errors };
     }
   }
@@ -474,8 +520,8 @@ class DomainSpecificRuleValidator {
     try {
       // Test that campaign files allow enterprise patterns
       const campaignFiles = [
-        'src/services/campaign/CampaignController.ts',
-        'src/services/campaign/ProgressTracker.ts',
+        "src/services/campaign/CampaignController.ts",
+        "src/services/campaign/ProgressTracker.ts",
       ];
 
       let hasCampaignFiles = false;
@@ -487,7 +533,7 @@ class DomainSpecificRuleValidator {
             const output = execSync(
               `npx eslint "${file}" --no-eslintrc --config eslint.config.cjs --format json`,
               {
-                encoding: 'utf8',
+                encoding: "utf8",
                 cwd: this.projectRoot,
               },
             );
@@ -496,30 +542,38 @@ class DomainSpecificRuleValidator {
 
             if (result.length > 0 && result[0].messages) {
               const restrictiveErrors = result[0].messages.filter(
-                msg =>
-                  (msg.ruleId === 'complexity' && msg.severity === 2) || // error level complexity
-                  (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
-                  (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2),
+                (msg) =>
+                  (msg.ruleId === "complexity" && msg.severity === 2) || // error level complexity
+                  (msg.ruleId === "max-lines-per-function" &&
+                    msg.severity === 2) ||
+                  (msg.ruleId === "@typescript-eslint/no-explicit-any" &&
+                    msg.severity === 2),
               );
 
               if (restrictiveErrors.length > 0) {
-                errors.push(`${file} has overly restrictive rules for enterprise patterns`);
+                errors.push(
+                  `${file} has overly restrictive rules for enterprise patterns`,
+                );
               }
             }
           } catch (eslintError) {
-            const output = eslintError.stdout?.toString() || '';
+            const output = eslintError.stdout?.toString() || "";
             if (output) {
               const result = JSON.parse(output);
               if (result.length > 0 && result[0].messages) {
                 const restrictiveErrors = result[0].messages.filter(
-                  msg =>
-                    (msg.ruleId === 'complexity' && msg.severity === 2) ||
-                    (msg.ruleId === 'max-lines-per-function' && msg.severity === 2) ||
-                    (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2),
+                  (msg) =>
+                    (msg.ruleId === "complexity" && msg.severity === 2) ||
+                    (msg.ruleId === "max-lines-per-function" &&
+                      msg.severity === 2) ||
+                    (msg.ruleId === "@typescript-eslint/no-explicit-any" &&
+                      msg.severity === 2),
                 );
 
                 if (restrictiveErrors.length > 0) {
-                  errors.push(`${file} has overly restrictive rules for enterprise patterns`);
+                  errors.push(
+                    `${file} has overly restrictive rules for enterprise patterns`,
+                  );
                 }
               }
             }
@@ -528,7 +582,9 @@ class DomainSpecificRuleValidator {
       }
 
       if (!hasCampaignFiles) {
-        console.log('   ℹ️ No campaign files found to test enterprise patterns');
+        console.log(
+          "   ℹ️ No campaign files found to test enterprise patterns",
+        );
       }
 
       return { passed: errors.length === 0, errors };
@@ -554,14 +610,17 @@ class DomainSpecificRuleValidator {
         console.debug('Detailed debugging info');
       `;
 
-      const testFile = join(this.projectRoot, 'src/services/campaign/temp-logging-test.ts');
+      const testFile = join(
+        this.projectRoot,
+        "src/services/campaign/temp-logging-test.ts",
+      );
       writeFileSync(testFile, testContent);
 
       try {
         const output = execSync(
           `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
           {
-            encoding: 'utf8',
+            encoding: "utf8",
             cwd: this.projectRoot,
           },
         );
@@ -570,24 +629,28 @@ class DomainSpecificRuleValidator {
 
         if (result.length > 0 && result[0].messages) {
           const consoleErrors = result[0].messages.filter(
-            msg => msg.ruleId === 'no-console' && msg.severity === 2, // error level
+            (msg) => msg.ruleId === "no-console" && msg.severity === 2, // error level
           );
 
           if (consoleErrors.length > 0) {
-            errors.push('Campaign files should allow extensive console logging');
+            errors.push(
+              "Campaign files should allow extensive console logging",
+            );
           }
         }
       } catch (eslintError) {
-        const output = eslintError.stdout?.toString() || '';
+        const output = eslintError.stdout?.toString() || "";
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const consoleErrors = result[0].messages.filter(
-              msg => msg.ruleId === 'no-console' && msg.severity === 2,
+              (msg) => msg.ruleId === "no-console" && msg.severity === 2,
             );
 
             if (consoleErrors.length > 0) {
-              errors.push('Campaign files should allow extensive console logging');
+              errors.push(
+                "Campaign files should allow extensive console logging",
+              );
             }
           }
         }
@@ -620,14 +683,17 @@ class DomainSpecificRuleValidator {
         const UNUSED_campaign = 'unused';
       `;
 
-      const testFile = join(this.projectRoot, 'src/services/campaign/temp-variable-test.ts');
+      const testFile = join(
+        this.projectRoot,
+        "src/services/campaign/temp-variable-test.ts",
+      );
       writeFileSync(testFile, testContent);
 
       try {
         const output = execSync(
           `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
           {
-            encoding: 'utf8',
+            encoding: "utf8",
             cwd: this.projectRoot,
           },
         );
@@ -636,34 +702,38 @@ class DomainSpecificRuleValidator {
 
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors = result[0].messages.filter(
-            msg =>
-              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-              (msg.message.includes('campaign') ||
-                msg.message.includes('progress') ||
-                msg.message.includes('metrics') ||
-                msg.message.includes('safety')),
+            (msg) =>
+              msg.ruleId === "@typescript-eslint/no-unused-vars" &&
+              (msg.message.includes("campaign") ||
+                msg.message.includes("progress") ||
+                msg.message.includes("metrics") ||
+                msg.message.includes("safety")),
           );
 
           if (unusedVarErrors.length > 0) {
-            errors.push('Campaign variable patterns not properly ignored by unused-vars rule');
+            errors.push(
+              "Campaign variable patterns not properly ignored by unused-vars rule",
+            );
           }
         }
       } catch (eslintError) {
-        const output = eslintError.stdout?.toString() || '';
+        const output = eslintError.stdout?.toString() || "";
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors = result[0].messages.filter(
-              msg =>
-                msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-                (msg.message.includes('campaign') ||
-                  msg.message.includes('progress') ||
-                  msg.message.includes('metrics') ||
-                  msg.message.includes('safety')),
+              (msg) =>
+                msg.ruleId === "@typescript-eslint/no-unused-vars" &&
+                (msg.message.includes("campaign") ||
+                  msg.message.includes("progress") ||
+                  msg.message.includes("metrics") ||
+                  msg.message.includes("safety")),
             );
 
             if (unusedVarErrors.length > 0) {
-              errors.push('Campaign variable patterns not properly ignored by unused-vars rule');
+              errors.push(
+                "Campaign variable patterns not properly ignored by unused-vars rule",
+              );
             }
           }
         }
@@ -695,14 +765,14 @@ class DomainSpecificRuleValidator {
         const UNUSED_mock = 'unused';
       `;
 
-      const testFile = join(this.projectRoot, 'temp-mock-test.test.ts');
+      const testFile = join(this.projectRoot, "temp-mock-test.test.ts");
       writeFileSync(testFile, testContent);
 
       try {
         const output = execSync(
           `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
           {
-            encoding: 'utf8',
+            encoding: "utf8",
             cwd: this.projectRoot,
           },
         );
@@ -711,32 +781,36 @@ class DomainSpecificRuleValidator {
 
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors = result[0].messages.filter(
-            msg =>
-              msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-              (msg.message.includes('mockFunction') ||
-                msg.message.includes('stubValue') ||
-                msg.message.includes('testData')),
+            (msg) =>
+              msg.ruleId === "@typescript-eslint/no-unused-vars" &&
+              (msg.message.includes("mockFunction") ||
+                msg.message.includes("stubValue") ||
+                msg.message.includes("testData")),
           );
 
           if (unusedVarErrors.length > 0) {
-            errors.push('Mock variable patterns not properly ignored in test files');
+            errors.push(
+              "Mock variable patterns not properly ignored in test files",
+            );
           }
         }
       } catch (eslintError) {
-        const output = eslintError.stdout?.toString() || '';
+        const output = eslintError.stdout?.toString() || "";
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors = result[0].messages.filter(
-              msg =>
-                msg.ruleId === '@typescript-eslint/no-unused-vars' &&
-                (msg.message.includes('mockFunction') ||
-                  msg.message.includes('stubValue') ||
-                  msg.message.includes('testData')),
+              (msg) =>
+                msg.ruleId === "@typescript-eslint/no-unused-vars" &&
+                (msg.message.includes("mockFunction") ||
+                  msg.message.includes("stubValue") ||
+                  msg.message.includes("testData")),
             );
 
             if (unusedVarErrors.length > 0) {
-              errors.push('Mock variable patterns not properly ignored in test files');
+              errors.push(
+                "Mock variable patterns not properly ignored in test files",
+              );
             }
           }
         }
@@ -767,14 +841,14 @@ class DomainSpecificRuleValidator {
         const magicNumber = 42;
       `;
 
-      const testFile = join(this.projectRoot, 'temp-relaxation-test.test.ts');
+      const testFile = join(this.projectRoot, "temp-relaxation-test.test.ts");
       writeFileSync(testFile, testContent);
 
       try {
         const output = execSync(
           `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
           {
-            encoding: 'utf8',
+            encoding: "utf8",
             cwd: this.projectRoot,
           },
         );
@@ -783,30 +857,36 @@ class DomainSpecificRuleValidator {
 
         if (result.length > 0 && result[0].messages) {
           const restrictiveErrors = result[0].messages.filter(
-            msg =>
-              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-              (msg.ruleId === 'no-console' && msg.severity === 2) ||
-              (msg.ruleId === 'no-magic-numbers' && msg.severity === 2),
+            (msg) =>
+              (msg.ruleId === "@typescript-eslint/no-explicit-any" &&
+                msg.severity === 2) ||
+              (msg.ruleId === "no-console" && msg.severity === 2) ||
+              (msg.ruleId === "no-magic-numbers" && msg.severity === 2),
           );
 
           if (restrictiveErrors.length > 0) {
-            errors.push('Test files should have relaxed rules for testing patterns');
+            errors.push(
+              "Test files should have relaxed rules for testing patterns",
+            );
           }
         }
       } catch (eslintError) {
-        const output = eslintError.stdout?.toString() || '';
+        const output = eslintError.stdout?.toString() || "";
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
-              msg =>
-                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-                (msg.ruleId === 'no-console' && msg.severity === 2) ||
-                (msg.ruleId === 'no-magic-numbers' && msg.severity === 2),
+              (msg) =>
+                (msg.ruleId === "@typescript-eslint/no-explicit-any" &&
+                  msg.severity === 2) ||
+                (msg.ruleId === "no-console" && msg.severity === 2) ||
+                (msg.ruleId === "no-magic-numbers" && msg.severity === 2),
             );
 
             if (restrictiveErrors.length > 0) {
-              errors.push('Test files should have relaxed rules for testing patterns');
+              errors.push(
+                "Test files should have relaxed rules for testing patterns",
+              );
             }
           }
         }
@@ -843,14 +923,14 @@ class DomainSpecificRuleValidator {
         });
       `;
 
-      const testFile = join(this.projectRoot, 'temp-globals-test.test.ts');
+      const testFile = join(this.projectRoot, "temp-globals-test.test.ts");
       writeFileSync(testFile, testContent);
 
       try {
         const output = execSync(
           `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
           {
-            encoding: 'utf8',
+            encoding: "utf8",
             cwd: this.projectRoot,
           },
         );
@@ -859,34 +939,34 @@ class DomainSpecificRuleValidator {
 
         if (result.length > 0 && result[0].messages) {
           const undefErrors = result[0].messages.filter(
-            msg =>
-              msg.ruleId === 'no-undef' &&
-              (msg.message.includes('describe') ||
-                msg.message.includes('it') ||
-                msg.message.includes('expect') ||
-                msg.message.includes('jest')),
+            (msg) =>
+              msg.ruleId === "no-undef" &&
+              (msg.message.includes("describe") ||
+                msg.message.includes("it") ||
+                msg.message.includes("expect") ||
+                msg.message.includes("jest")),
           );
 
           if (undefErrors.length > 0) {
-            errors.push('Jest globals not properly defined in test files');
+            errors.push("Jest globals not properly defined in test files");
           }
         }
       } catch (eslintError) {
-        const output = eslintError.stdout?.toString() || '';
+        const output = eslintError.stdout?.toString() || "";
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const undefErrors = result[0].messages.filter(
-              msg =>
-                msg.ruleId === 'no-undef' &&
-                (msg.message.includes('describe') ||
-                  msg.message.includes('it') ||
-                  msg.message.includes('expect') ||
-                  msg.message.includes('jest')),
+              (msg) =>
+                msg.ruleId === "no-undef" &&
+                (msg.message.includes("describe") ||
+                  msg.message.includes("it") ||
+                  msg.message.includes("expect") ||
+                  msg.message.includes("jest")),
             );
 
             if (undefErrors.length > 0) {
-              errors.push('Jest globals not properly defined in test files');
+              errors.push("Jest globals not properly defined in test files");
             }
           }
         }
@@ -917,14 +997,14 @@ class DomainSpecificRuleValidator {
         module.exports = { ...config };
       `;
 
-      const testFile = join(this.projectRoot, 'temp-require-test.config.js');
+      const testFile = join(this.projectRoot, "temp-require-test.config.js");
       writeFileSync(testFile, testContent);
 
       try {
         const output = execSync(
           `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
           {
-            encoding: 'utf8',
+            encoding: "utf8",
             cwd: this.projectRoot,
           },
         );
@@ -933,24 +1013,27 @@ class DomainSpecificRuleValidator {
 
         if (result.length > 0 && result[0].messages) {
           const requireErrors = result[0].messages.filter(
-            msg => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
+            (msg) =>
+              msg.ruleId === "import/no-dynamic-require" && msg.severity === 2,
           );
 
           if (requireErrors.length > 0) {
-            errors.push('Configuration files should allow dynamic requires');
+            errors.push("Configuration files should allow dynamic requires");
           }
         }
       } catch (eslintError) {
-        const output = eslintError.stdout?.toString() || '';
+        const output = eslintError.stdout?.toString() || "";
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const requireErrors = result[0].messages.filter(
-              msg => msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2,
+              (msg) =>
+                msg.ruleId === "import/no-dynamic-require" &&
+                msg.severity === 2,
             );
 
             if (requireErrors.length > 0) {
-              errors.push('Configuration files should allow dynamic requires');
+              errors.push("Configuration files should allow dynamic requires");
             }
           }
         }
@@ -975,7 +1058,11 @@ class DomainSpecificRuleValidator {
 
     try {
       // Check existing config files for proper rule application
-      const configFiles = ['next.config.js', 'tailwind.config.js', 'jest.config.js'];
+      const configFiles = [
+        "next.config.js",
+        "tailwind.config.js",
+        "jest.config.js",
+      ];
 
       let hasConfigFiles = false;
       for (const file of configFiles) {
@@ -986,7 +1073,7 @@ class DomainSpecificRuleValidator {
             const output = execSync(
               `npx eslint "${file}" --no-eslintrc --config eslint.config.cjs --format json`,
               {
-                encoding: 'utf8',
+                encoding: "utf8",
                 cwd: this.projectRoot,
               },
             );
@@ -995,30 +1082,38 @@ class DomainSpecificRuleValidator {
 
             if (result.length > 0 && result[0].messages) {
               const restrictiveErrors = result[0].messages.filter(
-                msg =>
-                  (msg.ruleId === 'no-console' && msg.severity === 2) ||
-                  (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-                  (msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2),
+                (msg) =>
+                  (msg.ruleId === "no-console" && msg.severity === 2) ||
+                  (msg.ruleId === "@typescript-eslint/no-explicit-any" &&
+                    msg.severity === 2) ||
+                  (msg.ruleId === "@typescript-eslint/no-var-requires" &&
+                    msg.severity === 2),
               );
 
               if (restrictiveErrors.length > 0) {
-                errors.push(`${file} has overly restrictive rules for build tool patterns`);
+                errors.push(
+                  `${file} has overly restrictive rules for build tool patterns`,
+                );
               }
             }
           } catch (eslintError) {
-            const output = eslintError.stdout?.toString() || '';
+            const output = eslintError.stdout?.toString() || "";
             if (output) {
               const result = JSON.parse(output);
               if (result.length > 0 && result[0].messages) {
                 const restrictiveErrors = result[0].messages.filter(
-                  msg =>
-                    (msg.ruleId === 'no-console' && msg.severity === 2) ||
-                    (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-                    (msg.ruleId === '@typescript-eslint/no-var-requires' && msg.severity === 2),
+                  (msg) =>
+                    (msg.ruleId === "no-console" && msg.severity === 2) ||
+                    (msg.ruleId === "@typescript-eslint/no-explicit-any" &&
+                      msg.severity === 2) ||
+                    (msg.ruleId === "@typescript-eslint/no-var-requires" &&
+                      msg.severity === 2),
                 );
 
                 if (restrictiveErrors.length > 0) {
-                  errors.push(`${file} has overly restrictive rules for build tool patterns`);
+                  errors.push(
+                    `${file} has overly restrictive rules for build tool patterns`,
+                  );
                 }
               }
             }
@@ -1027,7 +1122,9 @@ class DomainSpecificRuleValidator {
       }
 
       if (!hasConfigFiles) {
-        console.log('   ℹ️ No configuration files found to test build tool patterns');
+        console.log(
+          "   ℹ️ No configuration files found to test build tool patterns",
+        );
       }
 
       return { passed: errors.length === 0, errors };
@@ -1051,14 +1148,17 @@ class DomainSpecificRuleValidator {
         const dynamicRequire = require(process.env.MODULE);
       `;
 
-      const testFile = join(this.projectRoot, 'temp-config-relaxation.config.ts');
+      const testFile = join(
+        this.projectRoot,
+        "temp-config-relaxation.config.ts",
+      );
       writeFileSync(testFile, testContent);
 
       try {
         const output = execSync(
           `npx eslint "${testFile}" --no-eslintrc --config eslint.config.cjs --format json`,
           {
-            encoding: 'utf8',
+            encoding: "utf8",
             cwd: this.projectRoot,
           },
         );
@@ -1067,30 +1167,38 @@ class DomainSpecificRuleValidator {
 
         if (result.length > 0 && result[0].messages) {
           const restrictiveErrors = result[0].messages.filter(
-            msg =>
-              (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-              (msg.ruleId === 'no-console' && msg.severity === 2) ||
-              (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
+            (msg) =>
+              (msg.ruleId === "@typescript-eslint/no-explicit-any" &&
+                msg.severity === 2) ||
+              (msg.ruleId === "no-console" && msg.severity === 2) ||
+              (msg.ruleId === "import/no-dynamic-require" &&
+                msg.severity === 2),
           );
 
           if (restrictiveErrors.length > 0) {
-            errors.push('Configuration files should have relaxed rules for build patterns');
+            errors.push(
+              "Configuration files should have relaxed rules for build patterns",
+            );
           }
         }
       } catch (eslintError) {
-        const output = eslintError.stdout?.toString() || '';
+        const output = eslintError.stdout?.toString() || "";
         if (output) {
           const result = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const restrictiveErrors = result[0].messages.filter(
-              msg =>
-                (msg.ruleId === '@typescript-eslint/no-explicit-any' && msg.severity === 2) ||
-                (msg.ruleId === 'no-console' && msg.severity === 2) ||
-                (msg.ruleId === 'import/no-dynamic-require' && msg.severity === 2),
+              (msg) =>
+                (msg.ruleId === "@typescript-eslint/no-explicit-any" &&
+                  msg.severity === 2) ||
+                (msg.ruleId === "no-console" && msg.severity === 2) ||
+                (msg.ruleId === "import/no-dynamic-require" &&
+                  msg.severity === 2),
             );
 
             if (restrictiveErrors.length > 0) {
-              errors.push('Configuration files should have relaxed rules for build patterns');
+              errors.push(
+                "Configuration files should have relaxed rules for build patterns",
+              );
             }
           }
         }
@@ -1118,18 +1226,22 @@ class DomainSpecificRuleValidator {
       this.results.configurationFiles,
     ];
 
-    const passedCategories = categories.filter(cat => cat.passed).length;
+    const passedCategories = categories.filter((cat) => cat.passed).length;
     const totalCategories = categories.length;
 
-    this.results.overall.score = Math.round((passedCategories / totalCategories) * 100);
+    this.results.overall.score = Math.round(
+      (passedCategories / totalCategories) * 100,
+    );
     this.results.overall.passed = passedCategories === totalCategories;
 
     if (this.results.overall.passed) {
       this.results.overall.summary =
-        '✅ All domain-specific rules are properly configured and validated';
+        "✅ All domain-specific rules are properly configured and validated";
     } else {
-      const failedCategories = categories.filter(cat => !cat.passed).map(cat => cat.category);
-      this.results.overall.summary = `❌ Failed categories: ${failedCategories.join(', ')}`;
+      const failedCategories = categories
+        .filter((cat) => !cat.passed)
+        .map((cat) => cat.category);
+      this.results.overall.summary = `❌ Failed categories: ${failedCategories.join(", ")}`;
     }
   }
 
@@ -1137,9 +1249,9 @@ class DomainSpecificRuleValidator {
    * Generate comprehensive validation report
    */
   generateValidationReport() {
-    console.log('\n' + '='.repeat(80));
-    console.log('📊 DOMAIN-SPECIFIC RULE VALIDATION REPORT');
-    console.log('='.repeat(80));
+    console.log("\n" + "=".repeat(80));
+    console.log("📊 DOMAIN-SPECIFIC RULE VALIDATION REPORT");
+    console.log("=".repeat(80));
 
     console.log(`\n🎯 Overall Score: ${this.results.overall.score}%`);
     console.log(`📋 Summary: ${this.results.overall.summary}\n`);
@@ -1152,32 +1264,37 @@ class DomainSpecificRuleValidator {
       this.results.configurationFiles,
     ];
 
-    categories.forEach(category => {
+    categories.forEach((category) => {
       console.log(`\n📁 ${category.category}`);
-      console.log(`   Status: ${category.passed ? '✅ PASSED' : '❌ FAILED'}`);
+      console.log(`   Status: ${category.passed ? "✅ PASSED" : "❌ FAILED"}`);
 
       if (category.details.length > 0) {
-        console.log('   Details:');
-        category.details.forEach(detail => console.log(`     ${detail}`));
+        console.log("   Details:");
+        category.details.forEach((detail) => console.log(`     ${detail}`));
       }
 
       if (category.errors.length > 0) {
-        console.log('   Errors:');
-        category.errors.forEach(error => console.log(`     ❌ ${error}`));
+        console.log("   Errors:");
+        category.errors.forEach((error) => console.log(`     ❌ ${error}`));
       }
 
       if (category.warnings.length > 0) {
-        console.log('   Warnings:');
-        category.warnings.forEach(warning => console.log(`     ⚠️ ${warning}`));
+        console.log("   Warnings:");
+        category.warnings.forEach((warning) =>
+          console.log(`     ⚠️ ${warning}`),
+        );
       }
     });
 
     // Save detailed report
-    const reportPath = join(this.projectRoot, 'domain-specific-rule-validation-report.json');
+    const reportPath = join(
+      this.projectRoot,
+      "domain-specific-rule-validation-report.json",
+    );
     writeFileSync(reportPath, JSON.stringify(this.results, null, 2));
     console.log(`\n📄 Detailed report saved to: ${reportPath}`);
 
-    console.log('\n' + '='.repeat(80));
+    console.log("\n" + "=".repeat(80));
   }
 }
 
@@ -1190,14 +1307,18 @@ async function main() {
     const results = await validator.validateDomainSpecificRules();
 
     if (results.overall.passed) {
-      console.log('\n🎉 Domain-specific rule validation completed successfully!');
+      console.log(
+        "\n🎉 Domain-specific rule validation completed successfully!",
+      );
       process.exit(0);
     } else {
-      console.log('\n⚠️ Domain-specific rule validation completed with issues.');
+      console.log(
+        "\n⚠️ Domain-specific rule validation completed with issues.",
+      );
       process.exit(1);
     }
   } catch (error) {
-    console.error('\n💥 Domain-specific rule validation failed:', error);
+    console.error("\n💥 Domain-specific rule validation failed:", error);
     process.exit(1);
   }
 }

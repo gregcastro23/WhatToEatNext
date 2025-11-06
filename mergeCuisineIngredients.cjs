@@ -12,31 +12,31 @@
  * Usage: node mergeCuisineIngredients.cjs
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Directories
-const INGREDIENTS_DIR = path.join(__dirname, 'src', 'data', 'ingredients');
+const INGREDIENTS_DIR = path.join(__dirname, "src", "data", "ingredients");
 
 // Category file mappings (generated -> existing)
 const CATEGORY_MAPPING = {
-  'grains/grains.ts': 'grains/wholeGrains.ts', // Merge grains into wholeGrains
-  'misc/misc.ts': 'misc/misc.ts', // Keep as is
-  'vegetables/vegetables.ts': 'vegetables/otherVegetables.ts', // Merge into otherVegetables
-  'spices/spices.ts': 'spices/wholespices.ts', // Merge into wholespices
-  'dairy/dairy.ts': 'proteins/dairy.ts', // Merge into existing dairy
-  'proteins/proteins.ts': 'proteins/plantBased.ts', // Merge into plantBased
-  'fruits/fruits.ts': 'fruits/berries.ts', // Merge into berries (generic fruits)
-  'herbs/herbs.ts': 'herbs/freshHerbs.ts', // Merge into freshHerbs
-  'beverages/beverages.ts': 'beverages/beverages.ts', // Keep as is
-  'oils/oils.ts': 'oils/oils.ts' // Keep as is (merge into existing)
+  "grains/grains.ts": "grains/wholeGrains.ts", // Merge grains into wholeGrains
+  "misc/misc.ts": "misc/misc.ts", // Keep as is
+  "vegetables/vegetables.ts": "vegetables/otherVegetables.ts", // Merge into otherVegetables
+  "spices/spices.ts": "spices/wholespices.ts", // Merge into wholespices
+  "dairy/dairy.ts": "proteins/dairy.ts", // Merge into existing dairy
+  "proteins/proteins.ts": "proteins/plantBased.ts", // Merge into plantBased
+  "fruits/fruits.ts": "fruits/berries.ts", // Merge into berries (generic fruits)
+  "herbs/herbs.ts": "herbs/freshHerbs.ts", // Merge into freshHerbs
+  "beverages/beverages.ts": "beverages/beverages.ts", // Keep as is
+  "oils/oils.ts": "oils/oils.ts", // Keep as is (merge into existing)
 };
 
 /**
  * Parse generated ingredient file
  */
 function parseGeneratedFile(filePath) {
-  const content = fs.readFileSync(filePath, 'utf-8');
+  const content = fs.readFileSync(filePath, "utf-8");
   const ingredients = {};
 
   // Extract ingredient objects
@@ -49,18 +49,26 @@ function parseGeneratedFile(filePath) {
 
     // Extract basic properties
     const nameMatch = objContent.match(/name:\s*['"](.*?)['"]/);
-    const elementalMatch = objContent.match(/elementalProperties:\s*\{([^}]+)\}/);
+    const elementalMatch = objContent.match(
+      /elementalProperties:\s*\{([^}]+)\}/,
+    );
     const qualitiesMatch = objContent.match(/qualities:\s*\[([^\]]+)\]/);
     const categoryMatch = objContent.match(/category:\s*['"](.*?)['"]/);
-    const astrologyMatch = objContent.match(/astrologicalProfile:\s*\{([\s\S]*?)\}/);
+    const astrologyMatch = objContent.match(
+      /astrologicalProfile:\s*\{([\s\S]*?)\}/,
+    );
 
     if (nameMatch) {
       ingredients[key] = {
         name: nameMatch[1],
-        elementalProperties: elementalMatch ? parseElementalProperties(elementalMatch[1]) : null,
+        elementalProperties: elementalMatch
+          ? parseElementalProperties(elementalMatch[1])
+          : null,
         qualities: qualitiesMatch ? parseQualities(qualitiesMatch[1]) : [],
-        category: categoryMatch ? categoryMatch[1] : 'misc',
-        astrologicalProfile: astrologyMatch ? parseAstrologicalProfile(astrologyMatch[1]) : null
+        category: categoryMatch ? categoryMatch[1] : "misc",
+        astrologicalProfile: astrologyMatch
+          ? parseAstrologicalProfile(astrologyMatch[1])
+          : null,
       };
     }
   }
@@ -72,14 +80,16 @@ function parseGeneratedFile(filePath) {
  * Parse elemental properties
  */
 function parseElementalProperties(str) {
-  const match = str.match(/Fire:\s*([\d.]+),\s*Water:\s*([\d.]+),\s*Earth:\s*([\d.]+),\s*Air:\s*([\d.]+)/);
+  const match = str.match(
+    /Fire:\s*([\d.]+),\s*Water:\s*([\d.]+),\s*Earth:\s*([\d.]+),\s*Air:\s*([\d.]+)/,
+  );
   if (!match) return null;
 
   return {
     Fire: parseFloat(match[1]),
     Water: parseFloat(match[2]),
     Earth: parseFloat(match[3]),
-    Air: parseFloat(match[4])
+    Air: parseFloat(match[4]),
   };
 }
 
@@ -87,7 +97,10 @@ function parseElementalProperties(str) {
  * Parse qualities array
  */
 function parseQualities(str) {
-  return str.split(',').map(s => s.trim().replace(/['"]/g, '')).filter(s => s);
+  return str
+    .split(",")
+    .map((s) => s.trim().replace(/['"]/g, ""))
+    .filter((s) => s);
 }
 
 /**
@@ -99,9 +112,15 @@ function parseAstrologicalProfile(str) {
   const seasonMatch = str.match(/seasonalAffinity:\s*\[([^\]]+)\]/);
 
   return {
-    rulingPlanets: rulingMatch ? rulingMatch[1].split(',').map(s => s.trim().replace(/['"]/g, '')) : [],
-    favorableZodiac: zodiacMatch ? zodiacMatch[1].split(',').map(s => s.trim().replace(/['"]/g, '')) : [],
-    seasonalAffinity: seasonMatch ? seasonMatch[1].split(',').map(s => s.trim().replace(/['"]/g, '')) : []
+    rulingPlanets: rulingMatch
+      ? rulingMatch[1].split(",").map((s) => s.trim().replace(/['"]/g, ""))
+      : [],
+    favorableZodiac: zodiacMatch
+      ? zodiacMatch[1].split(",").map((s) => s.trim().replace(/['"]/g, ""))
+      : [],
+    seasonalAffinity: seasonMatch
+      ? seasonMatch[1].split(",").map((s) => s.trim().replace(/['"]/g, ""))
+      : [],
   };
 }
 
@@ -114,7 +133,7 @@ function mergeIntoExistingFile(existingFilePath, newIngredients) {
     return 0;
   }
 
-  let content = fs.readFileSync(existingFilePath, 'utf-8');
+  let content = fs.readFileSync(existingFilePath, "utf-8");
   let added = 0;
 
   // Find the raw* object
@@ -151,7 +170,7 @@ function mergeIntoExistingFile(existingFilePath, newIngredients) {
 
   // Update file
   content = content.replace(rawPattern, beforeObj + newContent + afterObj);
-  fs.writeFileSync(existingFilePath, content, 'utf-8');
+  fs.writeFileSync(existingFilePath, content, "utf-8");
 
   return added;
 }
@@ -164,12 +183,12 @@ function formatIngredient(key, ingredient) {
   ${key}: {
     name: '${ingredient.name}',
     elementalProperties: { Fire: ${ingredient.elementalProperties.Fire}, Water: ${ingredient.elementalProperties.Water}, Earth: ${ingredient.elementalProperties.Earth}, Air: ${ingredient.elementalProperties.Air} },
-    qualities: [${ingredient.qualities.map(q => `'${q}'`).join(', ')}],
+    qualities: [${ingredient.qualities.map((q) => `'${q}'`).join(", ")}],
     category: '${ingredient.category}',
     astrologicalProfile: {
-      rulingPlanets: [${ingredient.astrologicalProfile.rulingPlanets.map(p => `'${p}'`).join(', ')}],
-      favorableZodiac: [${ingredient.astrologicalProfile.favorableZodiac.map(z => `'${z}'`).join(', ')}],
-      seasonalAffinity: [${ingredient.astrologicalProfile.seasonalAffinity.map(s => `'${s}'`).join(', ')}]
+      rulingPlanets: [${ingredient.astrologicalProfile.rulingPlanets.map((p) => `'${p}'`).join(", ")}],
+      favorableZodiac: [${ingredient.astrologicalProfile.favorableZodiac.map((z) => `'${z}'`).join(", ")}],
+      seasonalAffinity: [${ingredient.astrologicalProfile.seasonalAffinity.map((s) => `'${s}'`).join(", ")}]
     }
   },`;
 }
@@ -178,7 +197,7 @@ function formatIngredient(key, ingredient) {
  * Main execution
  */
 function main() {
-  console.log('🔀 Merging cuisine ingredients into existing database...\n');
+  console.log("🔀 Merging cuisine ingredients into existing database...\n");
 
   let totalMerged = 0;
   let totalSkipped = 0;
@@ -196,7 +215,9 @@ function main() {
 
     // Parse generated ingredients
     const newIngredients = parseGeneratedFile(generatedFile);
-    console.log(`  Found ${Object.keys(newIngredients).length} ingredients to merge`);
+    console.log(
+      `  Found ${Object.keys(newIngredients).length} ingredients to merge`,
+    );
 
     // Merge into existing file
     const added = mergeIntoExistingFile(targetFile, newIngredients);
@@ -207,16 +228,18 @@ function main() {
   }
 
   // Summary
-  console.log('='.repeat(80));
-  console.log('MERGE COMPLETE');
-  console.log('='.repeat(80));
+  console.log("=".repeat(80));
+  console.log("MERGE COMPLETE");
+  console.log("=".repeat(80));
   console.log(`Total ingredients merged: ${totalMerged}`);
   console.log(`Ingredients already existed: ${totalSkipped}`);
-  console.log(`Category files updated: ${Object.keys(CATEGORY_MAPPING).length}`);
-  console.log('='.repeat(80));
+  console.log(
+    `Category files updated: ${Object.keys(CATEGORY_MAPPING).length}`,
+  );
+  console.log("=".repeat(80));
 
-  console.log('\n✅ Cuisine ingredients successfully integrated!');
-  console.log('   Run validation to verify the expanded database.');
+  console.log("\n✅ Cuisine ingredients successfully integrated!");
+  console.log("   Run validation to verify the expanded database.");
 }
 
 // Run merge

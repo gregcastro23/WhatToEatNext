@@ -1,5 +1,5 @@
-import { _logger } from '@/lib/logger';
-import type { RecipeElementalMapping } from '@/types/recipes';
+import { _logger } from "@/lib/logger";
+import type { RecipeElementalMapping } from "@/types/recipes";
 
 /**
  * A utility function for logging debug information
@@ -8,7 +8,7 @@ import type { RecipeElementalMapping } from '@/types/recipes';
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.info to avoid linting warnings;
   // log.info(message, ...args)
-}
+};
 
 /**
  * Utility functions for recipe calculations and alignments
@@ -21,13 +21,17 @@ export const _recipeCalculations = {
    */
   calculateCuisineAlignment(recipe: RecipeElementalMapping): number {
     const cuisineElements = recipe.cuisine.elementalAlignment;
-    const alignmentScore = Object.entries(recipe.elementalProperties).reduce((sum, [element, value]) => sum + value * cuisineElements[element as unknown as keyof typeof cuisineElements],
-      0
+    const alignmentScore = Object.entries(recipe.elementalProperties).reduce(
+      (sum, [element, value]) =>
+        sum +
+        value *
+          cuisineElements[element as unknown as keyof typeof cuisineElements],
+      0,
     );
 
     const recipeData = recipe as unknown as { name?: string };
     debugLog(
-      `Cuisine alignment score for ${recipeData.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`
+      `Cuisine alignment score for ${recipeData.name || "Unknown Recipe"}: ${alignmentScore.toFixed(2)}`,
     );
     return alignmentScore;
   },
@@ -39,14 +43,16 @@ export const _recipeCalculations = {
    */
   getOptimalCookingWindow(recipe: RecipeElementalMapping): string[] {
     const optimalTimes = [
-      ...recipe.astrologicalProfile.rulingPlanets.map(p => `${p} dominant hours`),
-      ...recipe.cuisine.astrologicalProfile.aspectEnhancers
+      ...recipe.astrologicalProfile.rulingPlanets.map(
+        (p) => `${p} dominant hours`,
+      ),
+      ...recipe.cuisine.astrologicalProfile.aspectEnhancers,
     ];
 
     const recipeWindowData = recipe as unknown;
     debugLog(
-      `Optimal cooking windows for ${recipeWindowData?.name || 'Unknown Recipe'}:`,
-      optimalTimes
+      `Optimal cooking windows for ${recipeWindowData?.name || "Unknown Recipe"}:`,
+      optimalTimes,
     );
     return optimalTimes;
   },
@@ -60,18 +66,20 @@ export const _recipeCalculations = {
    */
   determineElementalBoost(
     recipe: RecipeElementalMapping,
-    userElements: ElementalProperties
+    userElements: ElementalProperties,
   ): number {
     // Find the dominant element in the recipe
-    const dominantElement = Object.entries(recipe.elementalProperties).sort(([, a], [, b]) => b - a)[0][0];
+    const dominantElement = Object.entries(recipe.elementalProperties).sort(
+      ([, a], [, b]) => b - a,
+    )[0][0];
 
     // Calculate boost from the user's affinity with that element
     const boost = userElements[dominantElement] * 1.5;
 
     const recipeBoostData = recipe as unknown;
     debugLog(
-      `Elemental boost for ${recipeBoostData?.name || 'Unknown Recipe'}: ${boost.toFixed(2)} (dominant: ${dominantElement})`
+      `Elemental boost for ${recipeBoostData?.name || "Unknown Recipe"}: ${boost.toFixed(2)} (dominant: ${dominantElement})`,
     );
     return boost;
-  }
+  },
 };

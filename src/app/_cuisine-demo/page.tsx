@@ -4,9 +4,9 @@
  * Interactive demonstration page for the comprehensive cuisine-level recommendation system.
  */
 
-'use client';
+"use client";
 
-import CuisineSystemDemo from '@/components/CuisineSystemDemo';
+import CuisineSystemDemo from "@/components/CuisineSystemDemo";
 
 export default function CuisineDemoPage() {
   return (

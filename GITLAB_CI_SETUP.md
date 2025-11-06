@@ -25,11 +25,13 @@ This GitLab CI/CD pipeline provides comprehensive automated testing, building, a
 ### PostgreSQL 17 Integration
 
 The pipeline uses **PostgreSQL 17 Alpine** as a service for:
+
 - Unit test database connections
 - Integration test environments
 - Quality gate database validation
 
 Configuration:
+
 ```yaml
 services:
   - name: postgres:17-alpine
@@ -45,6 +47,7 @@ variables:
 ## Required GitLab CI/CD Variables
 
 ### Essential Variables (Already configured in `.gitlab-ci.yml`):
+
 - `NODE_VERSION`: 20.18.0
 - `POSTGRES_VERSION`: 17
 - `NODE_ENV`: test
@@ -53,6 +56,7 @@ variables:
 ### Optional Variables (Configure in GitLab UI):
 
 #### For Docker Registry (if using GitLab Container Registry):
+
 ```
 CI_REGISTRY: registry.gitlab.com
 CI_REGISTRY_USER: gitlab-ci-token
@@ -61,6 +65,7 @@ CI_REGISTRY_IMAGE: registry.gitlab.com/<namespace>/<project>
 ```
 
 #### For Deployment:
+
 ```
 STAGING_URL: https://staging.whattoeatnext.com
 PRODUCTION_URL: https://whattoeatnext.com
@@ -68,6 +73,7 @@ DEPLOYMENT_TOKEN: <your-deployment-token>
 ```
 
 #### For External Services (if needed):
+
 ```
 PLANETARY_AGENTS_API_KEY: <your-api-key>
 NEXT_PUBLIC_API_URL: <your-api-url>
@@ -78,6 +84,7 @@ NEXT_PUBLIC_API_URL: <your-api-url>
 ### 1. Setup Stage
 
 #### `setup:dependencies`
+
 - Installs Node.js 20.18.0
 - Enables Yarn 4.x via Corepack
 - Installs all dependencies
@@ -88,6 +95,7 @@ NEXT_PUBLIC_API_URL: <your-api-url>
 ### 2. Validate Stage
 
 #### `validate:lint`
+
 - Runs ESLint with CI-optimized configuration
 - Uses fast linting mode (no type-aware rules)
 - Max warnings: 200
@@ -95,12 +103,14 @@ NEXT_PUBLIC_API_URL: <your-api-url>
 - **Artifacts**: ESLint report (JUnit format)
 
 #### `validate:typescript`
+
 - TypeScript type checking with `tsc --noEmit`
 - Skips library checks for speed
 - **Allow failure**: true (informational)
 - **Duration**: ~45 seconds
 
 #### `validate:prettier`
+
 - Checks code formatting consistency
 - **Allow failure**: true (informational)
 - **Duration**: ~15 seconds
@@ -108,6 +118,7 @@ NEXT_PUBLIC_API_URL: <your-api-url>
 ### 3. Test Stage
 
 #### `test:unit`
+
 - Runs Jest unit tests with coverage
 - **PostgreSQL 17 service** available
 - Coverage threshold tracking
@@ -115,6 +126,7 @@ NEXT_PUBLIC_API_URL: <your-api-url>
 - **Artifacts**: Coverage reports (7 days)
 
 #### `test:database`
+
 - Integration tests with real PostgreSQL 17
 - Creates test databases (whattoeatnext, alchm_kitchen)
 - Tests database connections and migrations
@@ -124,6 +136,7 @@ NEXT_PUBLIC_API_URL: <your-api-url>
 ### 4. Build Stage
 
 #### `build:production`
+
 - Creates production Next.js build
 - Generates optimized static assets
 - **Triggers**: main, master, develop, MRs, tags
@@ -131,6 +144,7 @@ NEXT_PUBLIC_API_URL: <your-api-url>
 - **Artifacts**: .next/, public/ (7 days)
 
 #### `build:docker`
+
 - Builds Docker images
 - Tags with commit SHA and 'latest'
 - **Manual trigger** (on main/master/tags)
@@ -139,6 +153,7 @@ NEXT_PUBLIC_API_URL: <your-api-url>
 ### 5. Quality Gate Stage
 
 #### `quality-gate:comprehensive`
+
 - TypeScript error threshold: <100 errors
 - Build artifact validation
 - Test coverage verification
@@ -147,6 +162,7 @@ NEXT_PUBLIC_API_URL: <your-api-url>
 - **Blocks deployment if failed**
 
 #### `quality-gate:linting`
+
 - Linting campaign validation
 - Deployment readiness check
 - **Allow failure**: true (informational)
@@ -154,17 +170,20 @@ NEXT_PUBLIC_API_URL: <your-api-url>
 ### 6. Deploy Stage
 
 #### `deploy:staging`
+
 - Deploys to staging environment
 - **Manual trigger** (develop branch)
 - Environment: staging
 
 #### `deploy:production`
+
 - Deploys to production environment
 - **Manual trigger** (main/master/tags)
 - Requires quality gate pass
 - Environment: production
 
 #### `deploy:docker`
+
 - Pushes Docker images to GitLab Container Registry
 - **Manual trigger** (main/master/tags)
 
@@ -185,6 +204,7 @@ cache:
 ```
 
 **Benefits**:
+
 - 60-80% faster dependency installation
 - Faster linting (cache hits)
 - Faster builds (Next.js cache)
@@ -192,21 +212,26 @@ cache:
 ## Performance Optimization
 
 ### Job Parallelization
+
 - Validate jobs run in parallel
 - Test jobs run in parallel
 - Total pipeline time: ~6-8 minutes
 
 ### Resource Allocation
+
 ```yaml
 NODE_OPTIONS: "--max-old-space-size=4096"
 ```
+
 - 4GB memory allocation for Node.js
 - Prevents OOM errors during build
 
 ### Test Optimization
+
 ```yaml
 yarn test --maxWorkers=2
 ```
+
 - Limits Jest workers for CI environment
 - Prevents resource exhaustion
 
@@ -215,6 +240,7 @@ yarn test --maxWorkers=2
 ### Automatic Database Setup
 
 The pipeline automatically:
+
 1. Starts PostgreSQL 17 Alpine container
 2. Waits for database readiness
 3. Creates required databases
@@ -233,12 +259,14 @@ Ensures database is fully ready before tests run.
 ### Test Databases
 
 The pipeline creates:
+
 - `whattoeatnext` (main application database)
 - `alchm_kitchen` (backend service database)
 
 ## Quality Gates
 
 ### TypeScript Error Threshold
+
 ```bash
 if [ "$ERROR_COUNT" -gt 100 ]; then
   exit 1  # Fails pipeline
@@ -246,11 +274,13 @@ fi
 ```
 
 ### Coverage Requirements
+
 - Unit test coverage tracked
 - Coverage reports generated
 - Cobertura format for GitLab integration
 
 ### Build Validation
+
 - Ensures .next/ artifacts exist
 - Validates build size
 - Checks for critical errors
@@ -258,12 +288,14 @@ fi
 ## Manual Deployment Controls
 
 All deployment jobs require manual approval:
+
 - `deploy:staging` - Manual (develop)
 - `deploy:production` - Manual (main/master)
 - `deploy:docker` - Manual (main/master/tags)
 - `build:docker` - Manual (main/master/tags)
 
 **Why manual?**
+
 - Prevents accidental deployments
 - Allows review of quality gates
 - Provides deployment timing control
@@ -271,6 +303,7 @@ All deployment jobs require manual approval:
 ## Scheduled Jobs
 
 ### Nightly Full Validation
+
 ```yaml
 nightly:full-validation:
   only:
@@ -278,6 +311,7 @@ nightly:full-validation:
 ```
 
 **Configure in GitLab**: CI/CD > Schedules
+
 - Runs comprehensive validation
 - Full test suite with coverage
 - Performance metrics collection
@@ -288,12 +322,14 @@ nightly:full-validation:
 ## Merge Request Integration
 
 ### Automatic Checks on MRs
+
 - ✅ Linting validation
 - ✅ TypeScript checking
 - ✅ Unit tests with coverage
 - ✅ Production build test
 
 ### MR Widget Integration
+
 - Test coverage display
 - Linting status
 - Build status
@@ -304,32 +340,41 @@ nightly:full-validation:
 ### Common Issues
 
 #### 1. Yarn Installation Fails
+
 ```bash
 Error: Unable to find corepack
 ```
+
 **Solution**: Update to Node.js 20.18.0+ (includes Corepack)
 
 #### 2. PostgreSQL Connection Timeout
+
 ```bash
 Error: Connection refused to postgres:5432
 ```
+
 **Solution**: Increase wait time or check service configuration
 
 #### 3. Out of Memory During Build
+
 ```bash
 JavaScript heap out of memory
 ```
+
 **Solution**: Increase `NODE_OPTIONS` memory allocation
 
 #### 4. Cache Issues
+
 ```bash
 Error: node_modules inconsistent with lockfile
 ```
+
 **Solution**: Clear cache in GitLab CI/CD settings
 
 ### Debug Commands
 
 Add to any job for debugging:
+
 ```yaml
 script:
   - echo "Node version:" && node --version
@@ -344,6 +389,7 @@ script:
 ### Recommended Runner Specs
 
 For optimal performance:
+
 - **CPU**: 4+ cores
 - **RAM**: 8GB+
 - **Disk**: 50GB+ SSD
@@ -352,6 +398,7 @@ For optimal performance:
 ### Runner Tags (Optional)
 
 Add tags for specific runners:
+
 ```yaml
 tags:
   - docker
@@ -364,16 +411,18 @@ tags:
 ### Makefile Integration
 
 The pipeline uses existing Makefile commands:
+
 ```yaml
-- yarn lint:ci          # make lint-ci
-- yarn tsc --noEmit     # make check
-- yarn test             # make test
-- yarn build            # make build
+- yarn lint:ci # make lint-ci
+- yarn tsc --noEmit # make check
+- yarn test # make test
+- yarn build # make build
 ```
 
 ### Local Testing
 
 Test pipeline jobs locally:
+
 ```bash
 # Validate stage
 make lint-ci
@@ -393,13 +442,13 @@ make ci-quality-gate
 
 ### Key Differences
 
-| Feature | GitHub Actions | GitLab CI/CD |
-|---------|---------------|--------------|
-| Service containers | `services:` | `services:` |
-| Cache | `actions/cache` | Built-in `cache:` |
-| Artifacts | `actions/upload-artifact` | Built-in `artifacts:` |
-| Environment variables | `env:` | `variables:` |
-| Manual approval | `environment:` | `when: manual` |
+| Feature               | GitHub Actions            | GitLab CI/CD          |
+| --------------------- | ------------------------- | --------------------- |
+| Service containers    | `services:`               | `services:`           |
+| Cache                 | `actions/cache`           | Built-in `cache:`     |
+| Artifacts             | `actions/upload-artifact` | Built-in `artifacts:` |
+| Environment variables | `env:`                    | `variables:`          |
+| Manual approval       | `environment:`            | `when: manual`        |
 
 ### Advantages of GitLab CI/CD
 
@@ -412,21 +461,25 @@ make ci-quality-gate
 ## Security Best Practices
 
 ### 1. Protect Sensitive Variables
+
 - Mark variables as "Masked" in GitLab UI
 - Use "Protected" for production variables
 - Never commit secrets to `.gitlab-ci.yml`
 
 ### 2. Branch Protection
+
 - Protect `main` and `master` branches
 - Require MR approvals
 - Enforce quality gates
 
 ### 3. Docker Security
+
 - Use official images only
 - Pin image versions (postgres:17-alpine)
 - Scan images with GitLab Container Scanning
 
 ### 4. Database Security
+
 - Use `POSTGRES_HOST_AUTH_METHOD: trust` only in CI
 - Don't expose database externally
 - Rotate credentials regularly
@@ -436,6 +489,7 @@ make ci-quality-gate
 ### Pipeline Metrics
 
 Monitor in GitLab:
+
 - Pipeline success rate
 - Average pipeline duration
 - Job failure rates
@@ -444,6 +498,7 @@ Monitor in GitLab:
 ### Recommended Alerts
 
 Set up notifications for:
+
 - Pipeline failures on main/master
 - Quality gate failures
 - Deployment failures

@@ -3,57 +3,50 @@
  * Phase 5: Frontend Integration - Seasonal Selection
  */
 
+import { Box, HStack, Icon, Select, Text, VStack } from "@chakra-ui/react";
+import React from "react";
 import {
-    Box,
-    HStack,
-    Icon,
-    Select,
-    Text,
-    VStack
-} from '@chakra-ui/react';
-import React from 'react';
-import {
-    FaLeaf as FaAutumnLeaf,
-    FaLeaf,
-    FaSnowflake,
-    FaSun
-} from 'react-icons/fa';
+  FaLeaf as FaAutumnLeaf,
+  FaLeaf,
+  FaSnowflake,
+  FaSun,
+} from "react-icons/fa";
 
 interface SeasonSelectorProps {
-  value: string,
-  onChange: (season: string) => void,
-  placeholder?: string,
-  showDescription?: boolean,
-  size?: 'sm' | 'md' | 'lg'
+  value: string;
+  onChange: (season: string) => void;
+  placeholder?: string;
+  showDescription?: boolean;
+  size?: "sm" | "md" | "lg";
 }
 
-const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
+const SEASONS = ["Spring", "Summer", "Autumn", "Winter"];
 
 const SEASON_INFO = {
   Spring: {
     icon: FaLeaf,
-    color: 'green',
-    description: 'Fresh growth, renewal, light flavors',
-    ingredients: 'Asparagus, peas, strawberries, herbs',
+    color: "green",
+    description: "Fresh growth, renewal, light flavors",
+    ingredients: "Asparagus, peas, strawberries, herbs",
   },
   Summer: {
     icon: FaSun,
-    color: 'yellow',
-    description: 'Abundance, grilling, vibrant colors',
-    ingredients: 'Tomatoes, corn, berries, zucchini',
+    color: "yellow",
+    description: "Abundance, grilling, vibrant colors",
+    ingredients: "Tomatoes, corn, berries, zucchini",
   },
   Autumn: {
     icon: FaAutumnLeaf,
-    color: 'orange',
-    description: 'Harvest, warmth, hearty flavors',
-    ingredients: 'Squash, apples, root vegetables, spices',
+    color: "orange",
+    description: "Harvest, warmth, hearty flavors",
+    ingredients: "Squash, apples, root vegetables, spices",
   },
   Winter: {
     icon: FaSnowflake,
-    color: 'blue',
-    description: 'Comfort, warmth, preserved ingredients',
-    ingredients: 'Citrus, root vegetables, preserved foods, spices',
-  }
+    color: "blue",
+    description: "Comfort, warmth, preserved ingredients",
+    ingredients: "Citrus, root vegetables, preserved foods, spices",
+  },
 };
 
 export const SeasonSelector: React.FC<SeasonSelectorProps> = ({
@@ -61,10 +54,10 @@ export const SeasonSelector: React.FC<SeasonSelectorProps> = ({
   onChange,
   placeholder = "Select current season",
   showDescription = true,
-  size = 'md'
+  size = "md",
 }) => {
-  const bgColor = 'white';
-  const borderColor = 'gray.200';
+  const bgColor = "white";
+  const borderColor = "gray.200";
 
   return (
     <Box>
@@ -78,10 +71,10 @@ export const SeasonSelector: React.FC<SeasonSelectorProps> = ({
         size={size}
         bg={bgColor}
         borderColor={borderColor}
-        _hover={{ borderColor: 'green.300' }}
-        _focus={{ borderColor: 'green.500', boxShadow: '0 0 0 1px green.500' }}
+        _hover={{ borderColor: "green.300" }}
+        _focus={{ borderColor: "green.500", boxShadow: "0 0 0 1px green.500" }}
       >
-        {SEASONS.map(season => (
+        {SEASONS.map((season) => (
           <option key={season} value={season}>
             {season}
           </option>
@@ -102,7 +95,8 @@ export const SeasonSelector: React.FC<SeasonSelectorProps> = ({
                 {SEASON_INFO[value as keyof typeof SEASON_INFO].description}
               </Text>
               <Text fontSize="xs" color="gray.600">
-                Featured: {SEASON_INFO[value as keyof typeof SEASON_INFO].ingredients}
+                Featured:{" "}
+                {SEASON_INFO[value as keyof typeof SEASON_INFO].ingredients}
               </Text>
             </VStack>
           </HStack>

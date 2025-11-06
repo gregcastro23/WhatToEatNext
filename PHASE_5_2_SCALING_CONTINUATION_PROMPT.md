@@ -66,10 +66,10 @@ has already eliminated 9 unused variables with 100% build stability maintained.
 
 ```typescript
 // ❌ BEFORE: Unused import
-import { UnusedType } from './types';
+import { UnusedType } from "./types";
 
 // ✅ AFTER: Make import usable
-import { UnusedType } from './types';
+import { UnusedType } from "./types";
 // Use in return type or interface
 function example(): UnusedType {
   return {} as UnusedType;
@@ -81,12 +81,12 @@ function example(): UnusedType {
 ```typescript
 // ❌ BEFORE: Unused parameter
 function example(context: any) {
-  return 'result';
+  return "result";
 }
 
 // ✅ AFTER: Prefix with underscore
 function example(_context: any) {
-  return 'result';
+  return "result";
 }
 ```
 
@@ -94,7 +94,7 @@ function example(_context: any) {
 
 ```typescript
 // ❌ BEFORE: Unused import
-import { UnusedFunction } from './utils';
+import { UnusedFunction } from "./utils";
 
 // ✅ AFTER: Remove if truly unused
 // import { UnusedFunction } from './utils'; // Removed

@@ -87,7 +87,7 @@ type AlchemicalTransformationResult = {
   transformedProperties: AlchemicalProperties;
   elementalShift: ElementalProperties;
   transformationScore: number;
-  dominantElement: 'Fire' | 'Water' | 'Earth' | 'Air';
+  dominantElement: "Fire" | "Water" | "Earth" | "Air";
   dominantProperty: keyof AlchemicalProperties;
 };
 
@@ -113,14 +113,32 @@ type PlanetaryInfluenceResult = {
 
 ```typescript
 type PlanetaryPositions = Record<string, string>;
-type ZodiacSign = 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' |
-                  'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
+type ZodiacSign =
+  | "aries"
+  | "taurus"
+  | "gemini"
+  | "cancer"
+  | "leo"
+  | "virgo"
+  | "libra"
+  | "scorpio"
+  | "sagittarius"
+  | "capricorn"
+  | "aquarius"
+  | "pisces";
 
 type AstrologicalState = {
   planetaryPositions: PlanetaryPositions;
   currentZodiac: ZodiacSign;
-  lunarPhase: 'new moon' | 'waxing crescent' | 'first quarter' | 'waxing gibbous' |
-              'full moon' | 'waning gibbous' | 'last quarter' | 'waning crescent';
+  lunarPhase:
+    | "new moon"
+    | "waxing crescent"
+    | "first quarter"
+    | "waxing gibbous"
+    | "full moon"
+    | "waning gibbous"
+    | "last quarter"
+    | "waning crescent";
   elementalInfluence: ElementalProperties;
 };
 ```

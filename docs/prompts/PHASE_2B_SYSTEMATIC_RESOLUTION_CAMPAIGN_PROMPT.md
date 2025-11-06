@@ -26,8 +26,8 @@ handling
 
 ```typescript
 // Fix unknown type assertions
-ingredient.nutritionalProfile.vitamins  // Error: Property 'vitamins' does not exist on type 'unknown'
-ingredient.culinaryApplications         // Error: Argument of type 'unknown' is not assignable
+ingredient.nutritionalProfile.vitamins; // Error: Property 'vitamins' does not exist on type 'unknown'
+ingredient.culinaryApplications; // Error: Argument of type 'unknown' is not assignable
 ```
 
 ### 🎯 **SECONDARY TARGET: RecommendationAdapter.ts (15 errors)**
@@ -44,8 +44,8 @@ conflicts
 
 ```typescript
 // Fix interface compliance
-return { data: results } // Should return ApiResponse<T>
-method.calculateScore()  // Parameter type mismatch
+return { data: results }; // Should return ApiResponse<T>
+method.calculateScore(); // Parameter type mismatch
 ```
 
 ### 🎯 **TERTIARY TARGET: plantBased.ts (15 errors)**
@@ -118,10 +118,10 @@ interface StandardIngredient {
 
 ```typescript
 // BEFORE (Error)
-export * from './cookingMethod';  // Duplicate CookingMethod export
+export * from "./cookingMethod"; // Duplicate CookingMethod export
 
 // AFTER (Fixed)
-export type { CookingMethod } from './cookingMethod';
+export type { CookingMethod } from "./cookingMethod";
 ```
 
 #### **Class 3: Type Assertion Issues (~20% of errors)**
@@ -148,10 +148,10 @@ method(param: CorrectType): ApiResponse<CorrectReturnType>
 
 ```typescript
 // BEFORE (Error)
-import { MissingType } from './nonexistent';
+import { MissingType } from "./nonexistent";
 
 // AFTER (Fixed)
-import { ExistingType } from './correct-path';
+import { ExistingType } from "./correct-path";
 ```
 
 ## 📋 SESSION EXECUTION PLAN

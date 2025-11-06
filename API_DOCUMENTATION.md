@@ -10,11 +10,13 @@ This API provides alchemical culinary recommendations based on real-time astrono
 ## Base URL
 
 **Local Development:**
+
 ```
 http://localhost:3000/api
 ```
 
 **Production:**
+
 ```
 https://your-domain.com/api
 ```
@@ -38,11 +40,13 @@ Returns personalized cuisine recommendations based on current astrological momen
 **Description:** Get cuisine recommendations for the current astrological moment.
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/cuisines/recommend
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -122,6 +126,7 @@ curl http://localhost:3000/api/cuisines/recommend
 **Description:** Get cuisine recommendations with custom filters and datetime.
 
 **Request Body:**
+
 ```json
 {
   "datetime": "2025-12-25T18:00:00.000Z",
@@ -131,6 +136,7 @@ curl http://localhost:3000/api/cuisines/recommend
 ```
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:3000/api/cuisines/recommend \
   -H "Content-Type: application/json" \
@@ -141,6 +147,7 @@ curl -X POST http://localhost:3000/api/cuisines/recommend \
 ```
 
 **Response:** Same structure as GET, with additional field:
+
 ```json
 {
   "applied_filters": {
@@ -161,11 +168,13 @@ Returns the current astrological moment including planetary positions and elemen
 **Description:** Get current planetary positions and alchemical state.
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/current-moment
 ```
 
 **Response:**
+
 ```json
 {
   "timestamp": "2025-10-28T23:30:00.000Z",
@@ -189,9 +198,9 @@ curl http://localhost:3000/api/current-moment
   },
   "elemental_balance": {
     "Fire": 0.25,
-    "Water": 0.30,
+    "Water": 0.3,
     "Earth": 0.25,
-    "Air": 0.20
+    "Air": 0.2
   },
   "alchemical_properties": {
     "Spirit": 4,
@@ -213,11 +222,13 @@ Calculate planetary positions for any date/time using the astronomy-engine libra
 **Description:** Get planetary positions for current time.
 
 **Query Parameters:**
+
 - `latitude` (optional): Default 40.7498 (NYC)
 - `longitude` (optional): Default -73.7976 (NYC)
 - `zodiacSystem` (optional): 'tropical' (default) or 'sidereal'
 
 **Request:**
+
 ```bash
 curl "http://localhost:3000/api/astrologize?latitude=51.5074&longitude=-0.1278"
 ```
@@ -227,6 +238,7 @@ curl "http://localhost:3000/api/astrologize?latitude=51.5074&longitude=-0.1278"
 **Description:** Get planetary positions for specific date/time.
 
 **Request Body:**
+
 ```json
 {
   "year": 2025,
@@ -241,6 +253,7 @@ curl "http://localhost:3000/api/astrologize?latitude=51.5074&longitude=-0.1278"
 ```
 
 **Response:**
+
 ```json
 {
   "_celestialBodies": {
@@ -294,6 +307,7 @@ Calculate alchemical properties (ESMS - Spirit, Essence, Matter, Substance) from
 **Description:** Calculate alchemical properties for current or custom moment.
 
 **Request:**
+
 ```bash
 # GET for current moment
 curl http://localhost:3000/api/alchemize
@@ -311,6 +325,7 @@ curl -X POST http://localhost:3000/api/alchemize \
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -364,11 +379,13 @@ Simple endpoint to verify API is running.
 #### **GET** `/api/health`
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/health
 ```
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -387,10 +404,10 @@ All elements are normalized to sum to 1.0:
 
 ```typescript
 {
-  Fire: number;   // 0.0 - 1.0
-  Water: number;  // 0.0 - 1.0
-  Earth: number;  // 0.0 - 1.0
-  Air: number;    // 0.0 - 1.0
+  Fire: number; // 0.0 - 1.0
+  Water: number; // 0.0 - 1.0
+  Earth: number; // 0.0 - 1.0
+  Air: number; // 0.0 - 1.0
 }
 ```
 
@@ -400,9 +417,9 @@ Spirit, Essence, Matter, Substance - calculated from planetary positions:
 
 ```typescript
 {
-  Spirit: number;    // Integer count
-  Essence: number;   // Integer count
-  Matter: number;    // Integer count
+  Spirit: number; // Integer count
+  Essence: number; // Integer count
+  Matter: number; // Integer count
   Substance: number; // Integer count
 }
 ```
@@ -413,12 +430,12 @@ Derived from elemental and alchemical properties:
 
 ```typescript
 {
-  heat: number;       // Combined spiritual and fire energy
-  entropy: number;    // Measure of disorder/volatility
+  heat: number; // Combined spiritual and fire energy
+  entropy: number; // Measure of disorder/volatility
   reactivity: number; // Rate of change potential
   gregsEnergy: number; // Net energy: heat - (entropy × reactivity)
-  kalchm: number;     // Alchemical equilibrium
-  monica: number;     // Stability metric
+  kalchm: number; // Alchemical equilibrium
+  monica: number; // Stability metric
 }
 ```
 
@@ -430,22 +447,24 @@ Derived from elemental and alchemical properties:
 
 ```typescript
 // Fetch cuisine recommendations
-const response = await fetch('/api/cuisines/recommend');
+const response = await fetch("/api/cuisines/recommend");
 const data = await response.json();
 
 if (data.success) {
-  console.log('Current zodiac:', data.current_moment.zodiac_sign);
-  console.log('Recommended cuisines:', data.cuisine_recommendations);
+  console.log("Current zodiac:", data.current_moment.zodiac_sign);
+  console.log("Recommended cuisines:", data.cuisine_recommendations);
 }
 ```
 
 ### Node.js Backend
 
 ```javascript
-const axios = require('axios');
+const axios = require("axios");
 
 async function getCuisineRecommendations() {
-  const response = await axios.get('http://localhost:3000/api/cuisines/recommend');
+  const response = await axios.get(
+    "http://localhost:3000/api/cuisines/recommend",
+  );
   return response.data;
 }
 ```
@@ -497,6 +516,7 @@ All endpoints return consistent error format:
 ```
 
 HTTP Status Codes:
+
 - `200` - Success
 - `400` - Bad Request (invalid parameters)
 - `500` - Internal Server Error
@@ -506,6 +526,7 @@ HTTP Status Codes:
 ## Rate Limiting
 
 Currently no rate limiting is implemented. Recommended for production:
+
 - 100 requests per minute per IP
 - 1000 requests per hour per IP
 
@@ -514,6 +535,7 @@ Currently no rate limiting is implemented. Recommended for production:
 ## CORS
 
 All endpoints support CORS for external frontend integration. Headers included:
+
 - `Access-Control-Allow-Origin: *`
 - `Access-Control-Allow-Methods: GET, POST, OPTIONS`
 - `Access-Control-Allow-Headers: Content-Type`
@@ -525,6 +547,7 @@ All endpoints support CORS for external frontend integration. Headers included:
 ### Local Astronomy Engine
 
 This API uses the `astronomy-engine` library for real-time planetary position calculations. No external API dependencies means:
+
 - ✅ Fast response times
 - ✅ No network latency
 - ✅ No API rate limits
@@ -554,10 +577,11 @@ This API uses the `astronomy-engine` library for real-time planetary position ca
 ## Support
 
 For issues or questions:
+
 - GitHub: https://github.com/your-repo/what-to-eat-next
 - Email: support@your-domain.com
 
 ---
 
 **Generated with Claude Code**
-*Alchemical Culinary Intelligence*
+_Alchemical Culinary Intelligence_

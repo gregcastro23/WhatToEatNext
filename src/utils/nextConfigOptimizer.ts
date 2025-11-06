@@ -1,5 +1,5 @@
-import fs from 'fs';
-import { _logger } from '@/lib/logger';
+import fs from "fs";
+import { _logger } from "@/lib/logger";
 
 /**
  * Next.js Configuration Optimizer
@@ -10,8 +10,8 @@ export class NextConfigOptimizer {
   private readonly logger: (message: string, ...args: unknown[]) => void;
 
   constructor(
-    configPath = 'next.config.js',
-    logger: (message: string, ...args: unknown[]) => void = _logger.info
+    configPath = "next.config.js",
+    logger: (message: string, ...args: unknown[]) => void = _logger.info,
   ) {
     this.configPath = configPath;
     this.logger = logger;
@@ -23,18 +23,24 @@ export class NextConfigOptimizer {
   optimizeConfig(): void {
     try {
       // Check if we have multiple config files and consolidate
-      const configFiles = ['next.config.js', 'next.config.mjs', 'next.config.ts'];
-      const existingConfigs = configFiles.filter(file => fs.existsSync(file));
+      const configFiles = [
+        "next.config.js",
+        "next.config.mjs",
+        "next.config.ts",
+      ];
+      const existingConfigs = configFiles.filter((file) => fs.existsSync(file));
 
       if (existingConfigs.length > 1) {
-        this.logger(`Warning: Multiple Next.js config files found: ${existingConfigs.join(', ')}`);
-        this.logger('Consider consolidating to a single configuration file');
+        this.logger(
+          `Warning: Multiple Next.js config files found: ${existingConfigs.join(", ")}`,
+        );
+        this.logger("Consider consolidating to a single configuration file");
       }
 
       // Use the primary config file (next.config.js or next.config.mjs)
       const primaryConfig =
-        existingConfigs.find(file => file === 'next.config.js') ||
-        existingConfigs.find(file => file === 'next.config.mjs') ||
+        existingConfigs.find((file) => file === "next.config.js") ||
+        existingConfigs.find((file) => file === "next.config.mjs") ||
         existingConfigs[0];
 
       if (!primaryConfig) {
@@ -44,7 +50,7 @@ export class NextConfigOptimizer {
 
       this.validateAndOptimizeExistingConfig(primaryConfig);
     } catch (error) {
-      this.logger('Error optimizing Next.js configuration: ', error);
+      this.logger("Error optimizing Next.js configuration: ", error);
     }
   }
 
@@ -52,7 +58,8 @@ export class NextConfigOptimizer {
    * Creates a default optimized Next.js configuration
    */
   private createDefaultConfig(): void {
-    const defaultConfig = `/** @type {import('next').NextConfig} */
+    const defaultConfig =
+      `/** @type {import('next').NextConfig} */
 const path = require('path');
 
 const nextConfig = {
@@ -96,7 +103,9 @@ const nextConfig = {
   },
   // Generate proper build ID for consistent builds
   generateBuildId: async () => {
-    return process.env.BUILD_ID || ` + "`build-${Date.now()}`" + `;
+    return process.env.BUILD_ID || ` +
+      "`build-${Date.now()}`" +
+      `;
   }
 };
 
@@ -104,32 +113,33 @@ module.exports = nextConfig;
 `;
 
     fs.writeFileSync(this.configPath, defaultConfig);
-    this.logger('Created optimized Next.js configuration');
+    this.logger("Created optimized Next.js configuration");
   }
 
   /**
    * Validates and optimizes existing configuration
    */
   private validateAndOptimizeExistingConfig(configPath: string): void {
-    const content = fs.readFileSync(configPath, 'utf8');
+    const content = fs.readFileSync(configPath, "utf8");
 
     // Check for essential configurations
     const checks: Array<{ pattern: RegExp; recommendation: string }> = [
       {
         pattern: /output\s*:/,
-        recommendation: "Add output: 'standalone' for better build optimization",
+        recommendation:
+          "Add output: 'standalone' for better build optimization",
       },
       {
         pattern: /generateBuildId\s*:/,
-        recommendation: 'Add generateBuildId function for consistent builds',
+        recommendation: "Add generateBuildId function for consistent builds",
       },
       {
         pattern: /typescript\s*:/,
-        recommendation: 'Add TypeScript configuration for build stability',
+        recommendation: "Add TypeScript configuration for build stability",
       },
       {
         pattern: /eslint\s*:/,
-        recommendation: 'Add ESLint configuration for build validation',
+        recommendation: "Add ESLint configuration for build validation",
       },
     ];
 
@@ -142,10 +152,10 @@ module.exports = nextConfig;
     }
 
     if (recommendations.length > 0) {
-      this.logger('Next.js configuration recommendations: ');
-      recommendations.forEach(rec => this.logger(`- ${rec}`));
+      this.logger("Next.js configuration recommendations: ");
+      recommendations.forEach((rec) => this.logger(`- ${rec}`));
     } else {
-      this.logger('Next.js configuration looks good');
+      this.logger("Next.js configuration looks good");
     }
   }
 
@@ -153,29 +163,29 @@ module.exports = nextConfig;
    * Fixes common Next.js configuration issues
    */
   fixCommonIssues(): void {
-    const configFiles = ['next.config.js', 'next.config.mjs'];
-    const existingConfig = configFiles.find(file => fs.existsSync(file));
+    const configFiles = ["next.config.js", "next.config.mjs"];
+    const existingConfig = configFiles.find((file) => fs.existsSync(file));
 
     if (!existingConfig) {
-      this.logger('No Next.js configuration found, creating default');
+      this.logger("No Next.js configuration found, creating default");
       this.createDefaultConfig();
       return;
     }
 
-    let content = fs.readFileSync(existingConfig, 'utf8');
+    let content = fs.readFileSync(existingConfig, "utf8");
     let modified = false;
 
     // Fix common issues
     const fixes: Array<{ issue: RegExp; fix: string; description: string }> = [
       {
         issue: /ignoreBuildErrors\s*:\s*true/g,
-        fix: 'ignoreBuildErrors: false',
-        description: 'Enable TypeScript error checking for build stability',
+        fix: "ignoreBuildErrors: false",
+        description: "Enable TypeScript error checking for build stability",
       },
       {
         issue: /ignoreDuringBuilds\s*:\s*true/g,
-        fix: 'ignoreDuringBuilds: false',
-        description: 'Enable ESLint checking for build stability',
+        fix: "ignoreDuringBuilds: false",
+        description: "Enable ESLint checking for build stability",
       },
     ];
 
@@ -189,7 +199,10 @@ module.exports = nextConfig;
 
     if (modified) {
       // Create backup
-      fs.writeFileSync(`${existingConfig}.backup`, fs.readFileSync(existingConfig));
+      fs.writeFileSync(
+        `${existingConfig}.backup`,
+        fs.readFileSync(existingConfig),
+      );
       fs.writeFileSync(existingConfig, content);
       this.logger(`Updated ${existingConfig} (backup created)`);
     }

@@ -34,13 +34,15 @@ Provides highly accurate astronomical data using Swiss Ephemeris calculations.
 **Usage:**
 
 ```typescript
-import { swissEphemerisService } from '@/services/SwissEphemerisService';
+import { swissEphemerisService } from "@/services/SwissEphemerisService";
 
 // Get planetary positions for a specific date
-const positions = await swissEphemerisService.getPlanetaryPositions(new Date('2025-06-01'));
+const positions = await swissEphemerisService.getPlanetaryPositions(
+  new Date("2025-06-01"),
+);
 
 // Get seasonal transit information
-const transits = swissEphemerisService.getSeasonalTransits('2025');
+const transits = swissEphemerisService.getSeasonalTransits("2025");
 
 // Check data availability
 const isAvailable = swissEphemerisService.isDataAvailable(new Date());
@@ -62,13 +64,15 @@ information.
 **Usage:**
 
 ```typescript
-import { enhancedAstrologyService } from '@/services/EnhancedAstrologyService';
+import { enhancedAstrologyService } from "@/services/EnhancedAstrologyService";
 
 // Get enhanced planetary positions
-const enhancedData = await enhancedAstrologyService.getEnhancedPlanetaryPositions();
+const enhancedData =
+  await enhancedAstrologyService.getEnhancedPlanetaryPositions();
 
 // Get seasonal recommendations
-const recommendations = await enhancedAstrologyService.getSeasonalRecommendations();
+const recommendations =
+  await enhancedAstrologyService.getSeasonalRecommendations();
 
 // Get transit analysis
 const transitAnalysis = await enhancedAstrologyService.getTransitAnalysis();
@@ -89,15 +93,18 @@ Provides detailed transit information for multiple years with seasonal mappings.
 **Usage:**
 
 ```typescript
-import { getTransitForDate, getSeasonalAnalysis } from '@/data/transits/comprehensiveTransitDatabase';
+import {
+  getTransitForDate,
+  getSeasonalAnalysis,
+} from "@/data/transits/comprehensiveTransitDatabase";
 
 // Get transit for specific date
-const transit = getTransitForDate(new Date('2025-06-15'));
+const transit = getTransitForDate(new Date("2025-06-15"));
 
 // Get seasonal analysis for date range
 const analysis = getSeasonalAnalysis(
-  new Date('2025-06-01'),
-  new Date('2025-08-31')
+  new Date("2025-06-01"),
+  new Date("2025-08-31"),
 );
 ```
 
@@ -116,10 +123,10 @@ data.
 **Usage:**
 
 ```typescript
-import { ephemerisParser } from '@/utils/ephemerisParser';
+import { ephemerisParser } from "@/utils/ephemerisParser";
 
 // Parse astronomical position
-const position = ephemerisParser.parseAstronomicalPosition('10c46');
+const position = ephemerisParser.parseAstronomicalPosition("10c46");
 
 // Calculate aspect between planets
 const aspect = ephemerisParser.calculateAspect(120.5, 180.2);
@@ -138,18 +145,18 @@ interface SwissEphemerisData {
   date: Date;
   sidereal_time: string;
   // Planet codes: A=Sun, B=Moon, C=Mercury, D=Venus, E=Mars, F=Jupiter, G=Saturn, O=Uranus, I=Neptune, J=Pluto
-  A: number;  // Sun longitude
-  B: number;  // Moon longitude
-  C: number;  // Mercury longitude
-  D: number;  // Venus longitude
-  E: number;  // Mars longitude
-  F: number;  // Jupiter longitude
-  G: number;  // Saturn longitude
-  O: number;  // Uranus longitude
-  I: number;  // Neptune longitude
-  J: number;  // Pluto longitude
-  L: number;  // North Node longitude
-  K: number;  // South Node longitude
+  A: number; // Sun longitude
+  B: number; // Moon longitude
+  C: number; // Mercury longitude
+  D: number; // Venus longitude
+  E: number; // Mars longitude
+  F: number; // Jupiter longitude
+  G: number; // Saturn longitude
+  O: number; // Uranus longitude
+  I: number; // Neptune longitude
+  J: number; // Pluto longitude
+  L: number; // North Node longitude
+  K: number; // South Node longitude
   // Sign information
   A_sign?: string;
   B_sign?: string;
@@ -307,12 +314,17 @@ The enhanced data feeds into the existing alchemical calculation system:
 
 ```typescript
 // Enhanced alchemical calculation with Swiss Ephemeris data
-const enhancedData = await enhancedAstrologyService.getEnhancedPlanetaryPositions();
+const enhancedData =
+  await enhancedAstrologyService.getEnhancedPlanetaryPositions();
 const alchemicalResult = alchemize(enhancedData.planetaryPositions);
 
 // Seasonal recommendations enhance the result
-const seasonalRecs = await enhancedAstrologyService.getSeasonalRecommendations();
-const finalRecommendation = combineAlchemicalAndSeasonal(alchemicalResult, seasonalRecs);
+const seasonalRecs =
+  await enhancedAstrologyService.getSeasonalRecommendations();
+const finalRecommendation = combineAlchemicalAndSeasonal(
+  alchemicalResult,
+  seasonalRecs,
+);
 ```
 
 ## Performance and Caching
@@ -360,7 +372,10 @@ The system implements robust error handling with multiple fallback levels:
 ### Basic Usage
 
 ```typescript
-import { getEnhancedPlanetaryPositions, getSeasonalRecommendations } from '@/services/EnhancedAstrologyService';
+import {
+  getEnhancedPlanetaryPositions,
+  getSeasonalRecommendations,
+} from "@/services/EnhancedAstrologyService";
 
 // Get current enhanced data
 const data = await getEnhancedPlanetaryPositions();
@@ -368,29 +383,29 @@ const data = await getEnhancedPlanetaryPositions();
 // Get seasonal recommendations
 const recommendations = await getSeasonalRecommendations();
 
-console.log('Data Source:', data.dataSource);
-console.log('Confidence:', data.confidence);
-console.log('Dominant Elements:', data.dominantElements);
-console.log('Recommended Cuisines:', recommendations.recommendedCuisines);
+console.log("Data Source:", data.dataSource);
+console.log("Confidence:", data.confidence);
+console.log("Dominant Elements:", data.dominantElements);
+console.log("Recommended Cuisines:", recommendations.recommendedCuisines);
 ```
 
 ### Advanced Usage
 
 ```typescript
-import { swissEphemerisService } from '@/services/SwissEphemerisService';
-import { getTransitAnalysis } from '@/services/EnhancedAstrologyService';
+import { swissEphemerisService } from "@/services/SwissEphemerisService";
+import { getTransitAnalysis } from "@/services/EnhancedAstrologyService";
 
 // Get detailed transit analysis
-const analysis = await getTransitAnalysis(new Date('2025-06-15'));
+const analysis = await getTransitAnalysis(new Date("2025-06-15"));
 
 // Access seasonal information
-console.log('Current Season:', analysis.currentSeason?.name);
-console.log('Key Aspects:', analysis.keyAspects);
-console.log('Retrograde Planets:', analysis.retrogradePlanets);
+console.log("Current Season:", analysis.currentSeason?.name);
+console.log("Key Aspects:", analysis.keyAspects);
+console.log("Retrograde Planets:", analysis.retrogradePlanets);
 
 // Get Swiss Ephemeris specific data
 const siderealTime = swissEphemerisService.getSiderealTime(new Date());
-console.log('Sidereal Time:', siderealTime);
+console.log("Sidereal Time:", siderealTime);
 ```
 
 ## Conclusion

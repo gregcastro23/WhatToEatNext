@@ -50,6 +50,7 @@ The conservative template literal analysis revealed that:
 ### Files Affected
 
 The emergency recovery restored critical files in:
+
 - `src/__tests__/` - Test files (127 files restored)
 - `src/utils/` - Utility functions (11 files restored)
 - `src/calculations/` - Core calculation logic (1 file restored)

@@ -1,12 +1,17 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
 
 interface AstrologicalChart {
   planets: Record<string, { sign: string; degree: number; minute: number }>;
   houses: Record<string, { sign: string; degree: number }>;
-  aspects: Array<{ planet1: string; planet2: string; type: string; degree: number }>;
+  aspects: Array<{
+    planet1: string;
+    planet2: string;
+    type: string;
+    degree: number;
+  }>;
   timestamp: Date;
   [key: string]: unknown;
 }
@@ -22,13 +27,15 @@ const defaultContextValue: ChartContextType = {
   currentChart: null,
   isLoading: false,
   error: null,
-  updateChart: () => {}
+  updateChart: () => {},
 };
 
 const ChartContext = createContext<ChartContextType>(defaultContextValue);
 
 export function ChartProvider({ children }: { children: ReactNode }) {
-  const [currentChart, setCurrentChart] = useState<AstrologicalChart | null>(null);
+  const [currentChart, setCurrentChart] = useState<AstrologicalChart | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,7 +43,9 @@ export function ChartProvider({ children }: { children: ReactNode }) {
     try {
       setCurrentChart(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error updating chart');
+      setError(
+        err instanceof Error ? err.message : "Unknown error updating chart",
+      );
     }
   };
 
@@ -54,10 +63,12 @@ export function ChartProvider({ children }: { children: ReactNode }) {
           planets: {},
           houses: {},
           aspects: [],
-          timestamp: new Date()
+          timestamp: new Date(),
         });
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error loading chart');
+        setError(
+          err instanceof Error ? err.message : "Unknown error loading chart",
+        );
       } finally {
         setIsLoading(false);
       }
@@ -67,7 +78,9 @@ export function ChartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <ChartContext.Provider value={{ currentChart, isLoading, error, updateChart }}>
+    <ChartContext.Provider
+      value={{ currentChart, isLoading, error, updateChart }}
+    >
       {children}
     </ChartContext.Provider>
   );
@@ -76,7 +89,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
 export function useCurrentChart() {
   const context = useContext(ChartContext);
   if (context === undefined) {
-    throw new Error('useCurrentChart must be used within a ChartProvider');
+    throw new Error("useCurrentChart must be used within a ChartProvider");
   }
   return context;
 }

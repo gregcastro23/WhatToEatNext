@@ -96,31 +96,37 @@ interface UnifiedFlavorProfile {
 
   // Elemental Flavor Mapping (Self-Reinforcement Compliant)
   elementalFlavors: {
-    Fire: number;    // Spicy, warming, energizing
-    water: number;   // Cooling, flowing, cleansing
-    earth: number;   // Grounding, nourishing, stable
-    Air: number;     // Light, uplifting, dispersing
+    Fire: number; // Spicy, warming, energizing
+    water: number; // Cooling, flowing, cleansing
+    earth: number; // Grounding, nourishing, stable
+    Air: number; // Light, uplifting, dispersing
   };
 
   // Planetary Flavor Influences
-  planetaryResonance: Record<Planet, {
-    influence: number;        // 0-1 scale
-    flavorModification: FlavorModification;
-    seasonalVariation: Record<Season, number>;
-  }>;
+  planetaryResonance: Record<
+    Planet,
+    {
+      influence: number; // 0-1 scale
+      flavorModification: FlavorModification;
+      seasonalVariation: Record<Season, number>;
+    }
+  >;
 
   // Cuisine Integration (Self-Reinforcement: same=0.9, different=0.7+)
-  cuisineCompatibility: Record<CuisineType, {
-    compatibility: number;
-    traditionalUse: boolean;
-    modernAdaptations: string[];
-  }>;
+  cuisineCompatibility: Record<
+    CuisineType,
+    {
+      compatibility: number;
+      traditionalUse: boolean;
+      modernAdaptations: string[];
+    }
+  >;
 
   // Enhanced Metadata
-  intensity: number;           // Overall flavor intensity
-  complexity: number;          // Flavor complexity score
-  seasonalPeak: Season[];      // When this flavor profile peaks
-  culturalOrigins: string[];   // Cultural origins of this profile
+  intensity: number; // Overall flavor intensity
+  complexity: number; // Flavor complexity score
+  seasonalPeak: Season[]; // When this flavor profile peaks
+  culturalOrigins: string[]; // Cultural origins of this profile
 }
 ```
 
@@ -172,22 +178,22 @@ interface EnhancedIngredient {
 
   // Elemental Properties (Self-Reinforcement Compliant)
   elementalProperties: {
-    Fire: number;    // 0-1 scale
-    water: number;   // 0-1 scale
-    earth: number;   // 0-1 scale
-    Air: number;     // 0-1 scale
+    Fire: number; // 0-1 scale
+    water: number; // 0-1 scale
+    earth: number; // 0-1 scale
+    Air: number; // 0-1 scale
   };
 
   // Alchemical Properties (Core Metrics)
   alchemicalProperties: {
-    spirit: number;    // Volatile, transformative essence
-    essence: number;   // Active principles and qualities
-    matter: number;    // Physical substance and structure
+    spirit: number; // Volatile, transformative essence
+    essence: number; // Active principles and qualities
+    matter: number; // Physical substance and structure
     substance: number; // Stable, enduring components
   };
 
   // Kalchm Value (Intrinsic Alchemical Equilibrium)
-  kalchm: number;      // K_alchm = (spirit^spirit * essence^essence) / (matter^matter * substance^substance)
+  kalchm: number; // K_alchm = (spirit^spirit * essence^essence) / (matter^matter * substance^substance)
 
   // Unified Flavor Profile (from Phase 1)
   flavorProfile: UnifiedFlavorProfile;
@@ -896,14 +902,19 @@ function calculateKalchm(alchemicalProps: AlchemicalProperties): number {
   // Prevent division by zero and handle edge cases
   if (matter === 0 || substance === 0) return 0;
 
-  return (Math.pow(spirit, spirit) * Math.pow(essence, essence)) /
-         (Math.pow(matter, matter) * Math.pow(substance, substance));
+  return (
+    (Math.pow(spirit, spirit) * Math.pow(essence, essence)) /
+    (Math.pow(matter, matter) * Math.pow(substance, substance))
+  );
 }
 
 // Use Kalchm for ingredient comparison
-function findCompatibleIngredients(targetKalchm: number, tolerance = 0.2): Ingredient[] {
-  return ingredients.filter(ingredient =>
-    Math.abs(ingredient.kalchm - targetKalchm) <= tolerance
+function findCompatibleIngredients(
+  targetKalchm: number,
+  tolerance = 0.2,
+): Ingredient[] {
+  return ingredients.filter(
+    (ingredient) => Math.abs(ingredient.kalchm - targetKalchm) <= tolerance,
   );
 }
 ```
@@ -927,7 +938,11 @@ environmental, cooking methods).
 
 ```typescript
 // Calculate Monica constant for dynamic adjustments
-function calculateMonica(gregsEnergy: number, reactivity: number, kalchm: number): number {
+function calculateMonica(
+  gregsEnergy: number,
+  reactivity: number,
+  kalchm: number,
+): number {
   if (reactivity === 0 || kalchm <= 0) return NaN;
 
   const lnK = Math.log(kalchm);
@@ -939,16 +954,20 @@ function calculateMonica(gregsEnergy: number, reactivity: number, kalchm: number
 // Apply Monica for dynamic recommendations
 function getDynamicRecommendations(
   baseIngredients: Ingredient[],
-  currentConditions: SystemConditions
+  currentConditions: SystemConditions,
 ): Ingredient[] {
-  return baseIngredients.map(ingredient => ({
-    ...ingredient,
-    dynamicScore: ingredient.kalchm * calculateMonica(
-      currentConditions.gregsEnergy,
-      currentConditions.reactivity,
-      ingredient.kalchm
-    )
-  })).sort((a, b) => b.dynamicScore - a.dynamicScore);
+  return baseIngredients
+    .map((ingredient) => ({
+      ...ingredient,
+      dynamicScore:
+        ingredient.kalchm *
+        calculateMonica(
+          currentConditions.gregsEnergy,
+          currentConditions.reactivity,
+          ingredient.kalchm,
+        ),
+    }))
+    .sort((a, b) => b.dynamicScore - a.dynamicScore);
 }
 ```
 

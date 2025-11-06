@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
-  sourceDir: './src',
-  extensions: ['.ts', '.tsx', '.js', '.jsx'],
-  excludePatterns: ['node_modules', '.next', 'dist', 'build'],
+  sourceDir: "./src",
+  extensions: [".ts", ".tsx", ".js", ".jsx"],
+  excludePatterns: ["node_modules", ".next", "dist", "build"],
   preservePatterns: {
     // Astrological and astronomical patterns
     astrological: [
@@ -66,8 +66,8 @@ function shouldPreserveVariable(name) {
 function getUnusedVariablesFromESLint(filePath) {
   try {
     const output = execSync(`npx eslint "${filePath}" --format json`, {
-      encoding: 'utf8',
-      stdio: 'pipe',
+      encoding: "utf8",
+      stdio: "pipe",
     });
 
     const results = JSON.parse(output);
@@ -75,8 +75,11 @@ function getUnusedVariablesFromESLint(filePath) {
 
     if (results.length > 0) {
       const messages = results[0].messages || [];
-      messages.forEach(msg => {
-        if (msg.ruleId === '@typescript-eslint/no-unused-vars' || msg.ruleId === 'no-unused-vars') {
+      messages.forEach((msg) => {
+        if (
+          msg.ruleId === "@typescript-eslint/no-unused-vars" ||
+          msg.ruleId === "no-unused-vars"
+        ) {
           // Extract variable name from message
           const match = msg.message.match(
             /'([^']+)' is (defined but never used|assigned a value but never used)/,
@@ -105,7 +108,7 @@ function getUnusedVariablesFromESLint(filePath) {
  */
 function processUnusedVariables(filePath) {
   try {
-    const content = fs.readFileSync(filePath, 'utf8');
+    const content = fs.readFileSync(filePath, "utf8");
     let modifiedContent = content;
     const unusedVars = getUnusedVariablesFromESLint(filePath);
     const fixedVariables = [];
@@ -121,38 +124,46 @@ function processUnusedVariables(filePath) {
 
       if (preserveDomain) {
         // For preserved variables, prefix with UNUSED_ or _
-        const prefix = preserveDomain === 'test' ? '_' : 'UNUSED_';
+        const prefix = preserveDomain === "test" ? "_" : "UNUSED_";
         const newName = prefix + name;
 
         // Only replace if not already prefixed
-        if (!name.startsWith('_') && !name.startsWith('UNUSED_')) {
+        if (!name.startsWith("_") && !name.startsWith("UNUSED_")) {
           // Use word boundary regex for safe replacement
-          const regex = new RegExp(`\\b${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g');
+          const regex = new RegExp(
+            `\\b${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+            "g",
+          );
           const beforeCount = (modifiedContent.match(regex) || []).length;
 
           if (beforeCount > 0) {
             modifiedContent = modifiedContent.replace(regex, newName);
             const afterCount = (
               modifiedContent.match(
-                new RegExp(`\\b${newName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g'),
+                new RegExp(
+                  `\\b${newName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+                  "g",
+                ),
               ) || []
             ).length;
 
             if (afterCount > 0) {
-              fixedVariables.push(`Preserved ${preserveDomain} variable: ${name} → ${newName}`);
+              fixedVariables.push(
+                `Preserved ${preserveDomain} variable: ${name} → ${newName}`,
+              );
               metrics.variablesPreserved++;
             }
           }
         }
       } else {
         // For function parameters, prefix with underscore
-        if (message.includes('parameter') && !name.startsWith('_')) {
-          const newName = '_' + name;
+        if (message.includes("parameter") && !name.startsWith("_")) {
+          const newName = "_" + name;
 
           // More targeted replacement for parameters
           const paramRegex = new RegExp(
-            `\\b${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b(?=\\s*[,:)])`,
-            'g',
+            `\\b${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b(?=\\s*[,:)])`,
+            "g",
           );
           const beforeCount = (modifiedContent.match(paramRegex) || []).length;
 
@@ -168,23 +179,30 @@ function processUnusedVariables(filePath) {
     // Write the file if modified and validate
     if (modifiedContent !== content) {
       if (!CONFIG.dryRun) {
-        fs.writeFileSync(filePath, modifiedContent, 'utf8');
+        fs.writeFileSync(filePath, modifiedContent, "utf8");
 
         // Quick syntax validation
         try {
-          execSync(`npx tsc --noEmit "${filePath}"`, { stdio: 'pipe' });
+          execSync(`npx tsc --noEmit "${filePath}"`, { stdio: "pipe" });
           metrics.filesModified++;
-          console.log(`✅ Fixed ${fixedVariables.length} unused variables in ${filePath}`);
-          fixedVariables.forEach(fix => console.log(`    ${fix}`));
+          console.log(
+            `✅ Fixed ${fixedVariables.length} unused variables in ${filePath}`,
+          );
+          fixedVariables.forEach((fix) => console.log(`    ${fix}`));
         } catch (syntaxError) {
           // Rollback if syntax error
-          fs.writeFileSync(filePath, content, 'utf8');
+          fs.writeFileSync(filePath, content, "utf8");
           console.error(`❌ Syntax error after fix, rolled back: ${filePath}`);
-          metrics.errors.push({ file: filePath, error: 'Syntax error after fix' });
+          metrics.errors.push({
+            file: filePath,
+            error: "Syntax error after fix",
+          });
         }
       } else {
-        console.log(`Would fix ${fixedVariables.length} unused variables in ${filePath}`);
-        fixedVariables.forEach(fix => console.log(`    ${fix}`));
+        console.log(
+          `Would fix ${fixedVariables.length} unused variables in ${filePath}`,
+        );
+        fixedVariables.forEach((fix) => console.log(`    ${fix}`));
       }
     }
   } catch (error) {
@@ -207,13 +225,15 @@ function getFilesToProcess() {
       const stat = fs.statSync(fullPath);
 
       if (stat.isDirectory()) {
-        if (!CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
+        if (
+          !CONFIG.excludePatterns.some((pattern) => fullPath.includes(pattern))
+        ) {
           scanDirectory(fullPath);
         }
       } else if (stat.isFile()) {
         if (
-          CONFIG.extensions.some(ext => fullPath.endsWith(ext)) &&
-          !CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))
+          CONFIG.extensions.some((ext) => fullPath.endsWith(ext)) &&
+          !CONFIG.excludePatterns.some((pattern) => fullPath.includes(pattern))
         ) {
           files.push(fullPath);
         }
@@ -229,13 +249,13 @@ function getFilesToProcess() {
  * Validate TypeScript compilation after fixes
  */
 function validateBuildAfterFix() {
-  console.log('\n📋 Validating TypeScript compilation...');
+  console.log("\n📋 Validating TypeScript compilation...");
   try {
-    execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-    console.log('✅ TypeScript compilation successful');
+    execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
+    console.log("✅ TypeScript compilation successful");
     return true;
   } catch (error) {
-    console.error('❌ Build failed after fixes');
+    console.error("❌ Build failed after fixes");
     return false;
   }
 }
@@ -244,19 +264,20 @@ function validateBuildAfterFix() {
  * Main execution
  */
 function main() {
-  console.log('🚀 WhatToEatNext - Safe Unused Variables Cleanup');
-  console.log('================================================');
+  console.log("🚀 WhatToEatNext - Safe Unused Variables Cleanup");
+  console.log("================================================");
 
   // Parse command line arguments
   const args = process.argv.slice(2);
-  if (args.includes('--dry-run')) {
+  if (args.includes("--dry-run")) {
     CONFIG.dryRun = true;
-    console.log('🔍 Running in DRY RUN mode - no files will be modified');
+    console.log("🔍 Running in DRY RUN mode - no files will be modified");
   }
 
-  if (args.includes('--max-files')) {
-    const maxIndex = args.indexOf('--max-files');
-    CONFIG.maxFilesPerRun = parseInt(args[maxIndex + 1]) || CONFIG.maxFilesPerRun;
+  if (args.includes("--max-files")) {
+    const maxIndex = args.indexOf("--max-files");
+    CONFIG.maxFilesPerRun =
+      parseInt(args[maxIndex + 1]) || CONFIG.maxFilesPerRun;
   }
 
   // Get files to process
@@ -267,14 +288,14 @@ function main() {
   const filesToProcess = files.slice(0, CONFIG.maxFilesPerRun);
   console.log(`\n🔧 Processing ${filesToProcess.length} files...\n`);
 
-  filesToProcess.forEach(file => {
+  filesToProcess.forEach((file) => {
     metrics.filesScanned++;
     processUnusedVariables(file);
   });
 
   // Report results
-  console.log('\n📊 Fix Summary:');
-  console.log('================');
+  console.log("\n📊 Fix Summary:");
+  console.log("================");
   console.log(`Files scanned: ${metrics.filesScanned}`);
   console.log(`Files modified: ${metrics.filesModified}`);
   console.log(`Variables fixed: ${metrics.variablesFixed}`);
@@ -282,7 +303,7 @@ function main() {
 
   if (metrics.errors.length > 0) {
     console.log(`\n⚠️  Errors encountered: ${metrics.errors.length}`);
-    metrics.errors.forEach(err => {
+    metrics.errors.forEach((err) => {
       console.log(`  - ${err.file}: ${err.error}`);
     });
   }
@@ -293,14 +314,14 @@ function main() {
   }
 
   // Suggest next steps
-  console.log('\n📌 Next Steps:');
+  console.log("\n📌 Next Steps:");
   if (CONFIG.dryRun) {
-    console.log('1. Review the changes that would be made');
-    console.log('2. Run without --dry-run to apply fixes');
+    console.log("1. Review the changes that would be made");
+    console.log("2. Run without --dry-run to apply fixes");
   } else if (metrics.filesModified > 0) {
-    console.log('1. Run yarn lint to see updated issue count');
-    console.log('2. Review changes with git diff');
-    console.log('3. Run tests to ensure functionality preserved');
+    console.log("1. Run yarn lint to see updated issue count");
+    console.log("2. Review changes with git diff");
+    console.log("3. Run tests to ensure functionality preserved");
   }
 
   if (files.length > filesToProcess.length) {

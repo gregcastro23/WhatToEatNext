@@ -61,13 +61,12 @@ The safety score calculation appears flawed. Investigate:
 
 ```javascript
 // Current formula seems to be:
-safetyScore = (
-  successRate * 0.40 +           // 40% weight on successful runs
-  (1 - errorRate) * 0.25 +       // 25% weight on error avoidance
-  (1 - corruptionRate) * 0.20 +  // 20% weight on corruption prevention
-  (1 - buildFailureRate) * 0.10 + // 10% weight on build stability
-  experienceBonus * 0.05          // 5% weight on experience
-);
+safetyScore =
+  successRate * 0.4 + // 40% weight on successful runs
+  (1 - errorRate) * 0.25 + // 25% weight on error avoidance
+  (1 - corruptionRate) * 0.2 + // 20% weight on corruption prevention
+  (1 - buildFailureRate) * 0.1 + // 10% weight on build stability
+  experienceBonus * 0.05; // 5% weight on experience
 ```
 
 **Key Questions to Investigate**:

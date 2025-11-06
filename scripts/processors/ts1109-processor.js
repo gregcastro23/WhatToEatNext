@@ -13,21 +13,25 @@
  * 4. Malformed function calls
  */
 
-import fs from 'fs';
-import path from 'path';
-import { execSync } from 'child_process';
+import fs from "fs";
+import path from "path";
+import { execSync } from "child_process";
 
 class TS1109Processor {
   constructor() {
-    this.projectRoot = path.resolve(import.meta.dirname || path.dirname(import.meta.url.replace('file://', '')), '../..');
+    this.projectRoot = path.resolve(
+      import.meta.dirname ||
+        path.dirname(import.meta.url.replace("file://", "")),
+      "../..",
+    );
     this.filesProcessed = 0;
     this.errorsFixed = 0;
-    this.backupDir = path.join(this.projectRoot, 'backups', 'phase4', 'ts1109');
+    this.backupDir = path.join(this.projectRoot, "backups", "phase4", "ts1109");
   }
 
   async process(dryRun = false) {
-    console.log('🔧 TS1109 Processor - Fixing expression expected errors...');
-    console.log(`Mode: ${dryRun ? 'DRY RUN' : 'LIVE'}\n`);
+    console.log("🔧 TS1109 Processor - Fixing expression expected errors...");
+    console.log(`Mode: ${dryRun ? "DRY RUN" : "LIVE"}\n`);
 
     if (!dryRun && !fs.existsSync(this.backupDir)) {
       fs.mkdirSync(this.backupDir, { recursive: true });
@@ -43,31 +47,31 @@ class TS1109Processor {
     return {
       filesProcessed: this.filesProcessed,
       errorsFixed: this.errorsFixed,
-      success: true
+      success: true,
     };
   }
 
   async getFilesWithTS1109Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit 2>&1', {
+      const output = execSync("yarn tsc --noEmit 2>&1", {
         cwd: this.projectRoot,
-        encoding: 'utf8',
-        maxBuffer: 50 * 1024 * 1024
+        encoding: "utf8",
+        maxBuffer: 50 * 1024 * 1024,
       });
 
       return this.extractFilesFromOutput(output);
     } catch (error) {
-      const output = error.stdout || error.stderr || '';
+      const output = error.stdout || error.stderr || "";
       return this.extractFilesFromOutput(output);
     }
   }
 
   extractFilesFromOutput(output) {
-    const lines = output.split('\n');
+    const lines = output.split("\n");
     const filesSet = new Set();
 
     for (const line of lines) {
-      if (line.includes('error TS1109')) {
+      if (line.includes("error TS1109")) {
         const match = line.match(/^(.+?\.tsx?)\(/);
         if (match) {
           const filePath = path.join(this.projectRoot, match[1]);
@@ -83,8 +87,8 @@ class TS1109Processor {
 
   async processFile(filePath, dryRun) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
-      const lines = content.split('\n');
+      const content = fs.readFileSync(filePath, "utf8");
+      const lines = content.split("\n");
       let modified = false;
       let fixCount = 0;
 
@@ -94,21 +98,24 @@ class TS1109Processor {
         const trimmed = line.trim();
 
         // Pattern 1: Orphaned closing brace (standalone })
-        if (trimmed === '}' && this.isOrphanedClosingBrace(lines, i)) {
-          lines[i] = line.replace('}', '// Removed orphaned closing brace');
+        if (trimmed === "}" && this.isOrphanedClosingBrace(lines, i)) {
+          lines[i] = line.replace("}", "// Removed orphaned closing brace");
           modified = true;
           fixCount++;
           continue;
         }
 
         // Pattern 2: Double closing braces from removed code
-        if (trimmed === '}' && i > 0 && lines[i - 1].trim() === '}') {
+        if (trimmed === "}" && i > 0 && lines[i - 1].trim() === "}") {
           const indentMatch = line.match(/^(\s*)/);
           const prevIndentMatch = lines[i - 1].match(/^(\s*)/);
 
-          if (indentMatch && prevIndentMatch &&
-              indentMatch[1].length > prevIndentMatch[1].length) {
-            lines[i] = line.replace('}', '// Removed duplicate closing brace');
+          if (
+            indentMatch &&
+            prevIndentMatch &&
+            indentMatch[1].length > prevIndentMatch[1].length
+          ) {
+            lines[i] = line.replace("}", "// Removed duplicate closing brace");
             modified = true;
             fixCount++;
             continue;
@@ -117,7 +124,7 @@ class TS1109Processor {
 
         // Pattern 3: Expression statement with trailing operators
         if (/^(\s*)(.+)\s+(\|\||&&|[+\-*/%])\s*$/.test(line)) {
-          lines[i] = line.replace(/\s+(\|\||&&|[+\-*/%])\s*$/, ';');
+          lines[i] = line.replace(/\s+(\|\||&&|[+\-*/%])\s*$/, ";");
           modified = true;
           fixCount++;
           continue;
@@ -125,7 +132,7 @@ class TS1109Processor {
 
         // Pattern 4: Incomplete ternary expression
         if (/^(\s*)(.+)\s*\?\s*$/.test(line)) {
-          lines[i] = line.replace(/\?\s*$/, '; // Fixed incomplete ternary');
+          lines[i] = line.replace(/\?\s*$/, "; // Fixed incomplete ternary");
           modified = true;
           fixCount++;
           continue;
@@ -133,7 +140,10 @@ class TS1109Processor {
 
         // Pattern 5: Standalone operators
         if (/^(\s*)(&&|\|\||[+\-*/%])\s*$/.test(trimmed)) {
-          lines[i] = line.replace(/^(\s*)(&&|\|\||[+\-*/%])\s*$/, '$1// Removed standalone operator');
+          lines[i] = line.replace(
+            /^(\s*)(&&|\|\||[+\-*/%])\s*$/,
+            "$1// Removed standalone operator",
+          );
           modified = true;
           fixCount++;
           continue;
@@ -154,7 +164,7 @@ class TS1109Processor {
         this.filesProcessed++;
         this.errorsFixed += fixCount;
 
-        const newContent = lines.join('\n');
+        const newContent = lines.join("\n");
 
         if (dryRun) {
           console.log(`\n📄 ${path.relative(this.projectRoot, filePath)}`);
@@ -164,7 +174,7 @@ class TS1109Processor {
           // Create backup
           const backupPath = path.join(
             this.backupDir,
-            `${path.basename(filePath)}.${Date.now()}.bak`
+            `${path.basename(filePath)}.${Date.now()}.bak`,
           );
           fs.writeFileSync(backupPath, content);
 
@@ -173,7 +183,9 @@ class TS1109Processor {
 
           console.log(`\n✅ ${path.relative(this.projectRoot, filePath)}`);
           console.log(`  Fixed ${fixCount} pattern(s)`);
-          console.log(`  Backup: ${path.relative(this.projectRoot, backupPath)}`);
+          console.log(
+            `  Backup: ${path.relative(this.projectRoot, backupPath)}`,
+          );
         }
       }
     } catch (error) {
@@ -195,7 +207,7 @@ class TS1109Processor {
         const char = line[j];
 
         // Skip if in string
-        if (char === '"' || char === "'" || char === '`') {
+        if (char === '"' || char === "'" || char === "`") {
           if (!inString) {
             inString = true;
             stringChar = char;
@@ -208,8 +220,8 @@ class TS1109Processor {
 
         if (inString) continue;
 
-        if (char === '}') braceCount++;
-        if (char === '{') braceCount--;
+        if (char === "}") braceCount++;
+        if (char === "{") braceCount--;
 
         if (braceCount < 0) {
           return false; // Found matching opening brace
@@ -231,7 +243,7 @@ class TS1109Processor {
     const openBraces = (line.match(/\{/g) || []).length;
     const closeBraces = (line.match(/\}/g) || []).length;
 
-    return (openBrackets > closeBrackets) || (openBraces > closeBraces);
+    return openBrackets > closeBrackets || openBraces > closeBraces;
   }
 
   fixMissingClosing(line) {
@@ -244,21 +256,21 @@ class TS1109Processor {
     // Add missing closing brackets
     if (openBrackets > closeBrackets) {
       const missing = openBrackets - closeBrackets;
-      fixed = fixed.trimEnd() + ']'.repeat(missing);
+      fixed = fixed.trimEnd() + "]".repeat(missing);
     }
 
     // Add missing closing braces
     if (openBraces > closeBraces) {
       const missing = openBraces - closeBraces;
-      fixed = fixed.trimEnd() + '}'.repeat(missing);
+      fixed = fixed.trimEnd() + "}".repeat(missing);
     }
 
     return fixed;
   }
 
   showDiff(original, modified) {
-    const origLines = original.split('\n');
-    const modLines = modified.split('\n');
+    const origLines = original.split("\n");
+    const modLines = modified.split("\n");
 
     for (let i = 0; i < Math.max(origLines.length, modLines.length); i++) {
       if (origLines[i] !== modLines[i]) {
@@ -270,21 +282,21 @@ class TS1109Processor {
   }
 
   async analyze() {
-    console.log('📊 TS1109 Error Analysis\n');
+    console.log("📊 TS1109 Error Analysis\n");
 
     const filesWithErrors = await this.getFilesWithTS1109Errors();
 
     console.log(`Total files with TS1109 errors: ${filesWithErrors.length}`);
-    console.log('\nPattern capabilities:');
-    console.log('  • Orphaned closing braces');
-    console.log('  • Duplicate closing braces from code removal');
-    console.log('  • Trailing operators (&&, ||, +, -, etc.)');
-    console.log('  • Incomplete ternary expressions');
-    console.log('  • Standalone operators');
-    console.log('  • Missing closing brackets/braces');
+    console.log("\nPattern capabilities:");
+    console.log("  • Orphaned closing braces");
+    console.log("  • Duplicate closing braces from code removal");
+    console.log("  • Trailing operators (&&, ||, +, -, etc.)");
+    console.log("  • Incomplete ternary expressions");
+    console.log("  • Standalone operators");
+    console.log("  • Missing closing brackets/braces");
 
-    console.log('\nSample files to process:');
-    filesWithErrors.slice(0, 10).forEach(file => {
+    console.log("\nSample files to process:");
+    filesWithErrors.slice(0, 10).forEach((file) => {
       console.log(`  - ${path.relative(this.projectRoot, file)}`);
     });
 
@@ -297,22 +309,22 @@ class TS1109Processor {
 // CLI Interface
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
-  const command = args[0] || 'analyze';
+  const command = args[0] || "analyze";
 
   const processor = new TS1109Processor();
 
   switch (command) {
-    case 'analyze':
+    case "analyze":
       await processor.analyze();
       break;
 
-    case 'dry-run':
+    case "dry-run":
       await processor.process(true);
       break;
 
-    case 'process':
+    case "process":
       const result = await processor.process(false);
-      console.log('\n📊 Processing Complete:');
+      console.log("\n📊 Processing Complete:");
       console.log(`  Files processed: ${result.filesProcessed}`);
       console.log(`  Errors fixed: ${result.errorsFixed}`);
       break;

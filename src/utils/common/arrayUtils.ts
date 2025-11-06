@@ -2,14 +2,16 @@
  * Type guard to check if a value is an array
  */
 export function isArray<T>(value: T | T[] | undefined | null): value is T[] {
-  return Array.isArray(value)
+  return Array.isArray(value);
 }
 
 /**
  * Type guard to check if a value is a non-empty array
  */
-export function isNonEmptyArray<T>(value: T | T[] | undefined | null): value is T[] {
-  return Array.isArray(value) && (value || []).length > 0
+export function isNonEmptyArray<T>(
+  value: T | T[] | undefined | null,
+): value is T[] {
+  return Array.isArray(value) && (value || []).length > 0;
 }
 
 /**
@@ -20,7 +22,7 @@ export function isNonEmptyArray<T>(value: T | T[] | undefined | null): value is 
  */
 export function toArray<T>(value: T | T[] | undefined | null): T[] {
   if (value === undefined || value === null) return [];
-  return Array.isArray(value) ? value : [value]
+  return Array.isArray(value) ? value : [value];
 }
 
 /**
@@ -29,11 +31,11 @@ export function toArray<T>(value: T | T[] | undefined | null): T[] {
 export function safeIncludes<T>(
   arr: T | T[] | undefined | null,
   value: T,
-  compareFn?: (a: T, b: T) => boolean
+  compareFn?: (a: T, b: T) => boolean,
 ): boolean {
-  const array = toArray(arr)
+  const array = toArray(arr);
   if (compareFn) {
-    return (array || []).some(item => compareFn(item, value))
+    return (array || []).some((item) => compareFn(item, value));
   }
   return Array.isArray(array) ? array.includes(value) : array === value;
 }
@@ -45,8 +47,8 @@ export function safeSome<T>(
   arr: T | T[] | undefined | null,
   predicate: (value: T, index: number, array: T[]) => boolean,
 ): boolean {
-  const array = toArray(arr)
-  return (array || []).some(predicate)
+  const array = toArray(arr);
+  return (array || []).some(predicate);
 }
 
 /**
@@ -56,9 +58,9 @@ export function safeEvery<T>(
   arr: T | T[] | undefined | null,
   predicate: (value: T, index: number, array: T[]) => boolean,
 ): boolean {
-  const array = toArray(arr)
+  const array = toArray(arr);
   if ((array || []).length === 0) return true;
-  return array.every(predicate)
+  return array.every(predicate);
 }
 
 /**
@@ -68,8 +70,8 @@ export function safeMap<TU>(
   arr: T | T[] | undefined | null,
   mapFn: (value: T, index: number, array: T[]) => U,
 ): U[] {
-  const array = toArray(arr)
-  return (array || []).map(mapFn)
+  const array = toArray(arr);
+  return (array || []).map(mapFn);
 }
 
 /**
@@ -79,8 +81,8 @@ export function safeFilter<T>(
   arr: T | T[] | undefined | null,
   predicate: (value: T, index: number, array: T[]) => boolean,
 ): T[] {
-  const array = toArray(arr)
-  return (array || []).filter(predicate)
+  const array = toArray(arr);
+  return (array || []).filter(predicate);
 }
 
 /**
@@ -88,13 +90,16 @@ export function safeFilter<T>(
  */
 export function safeFirst<T>(arr: T | T[] | undefined | null): T | undefined {
   if (arr === undefined || arr === null) return undefined;
-  return Array.isArray(arr) ? arr[0] : arr
+  return Array.isArray(arr) ? arr[0] : arr;
 }
 
 /**
  * Safely join an array to a string when the value might be a single item
  */
-export function safeJoin<T>(arr: T | T[] | undefined | null, separator = ', '): string {
-  const array = toArray(arr)
-  return array.join(separator)
+export function safeJoin<T>(
+  arr: T | T[] | undefined | null,
+  separator = ", ",
+): string {
+  const array = toArray(arr);
+  return array.join(separator);
 }

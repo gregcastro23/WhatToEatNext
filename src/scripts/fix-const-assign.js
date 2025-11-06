@@ -6,9 +6,9 @@
  * Example: node src/scripts/fix-const-assign.js src/utils/foodRecommender.ts
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Get the file path from command line arguments
 const args = process.argv.slice(2);
@@ -39,14 +39,16 @@ try {
 // Get list of const variables that are reassigned
 try {
   // Run ESLint to find const-assign errors
-  const eslintOutput = execSync(`npx eslint "${absolutePath}" --format json`, { encoding: 'utf8' });
+  const eslintOutput = execSync(`npx eslint "${absolutePath}" --format json`, {
+    encoding: "utf8",
+  });
   const eslintResult = JSON.parse(eslintOutput);
 
   // Extract variables with 'no-const-assign' errors
   const constAssignErrors = [];
   if (eslintResult.length > 0 && eslintResult[0].messages) {
-    eslintResult[0].messages.forEach(message => {
-      if (message.ruleId === 'no-const-assign') {
+    eslintResult[0].messages.forEach((message) => {
+      if (message.ruleId === "no-const-assign") {
         constAssignErrors.push({
           line: message.line,
           column: message.column,
@@ -66,30 +68,33 @@ try {
   // console.log(`Found ${constAssignErrors.length} no-const-assign errors`);
 
   // Read the file content
-  const fileContent = fs.readFileSync(absolutePath, 'utf8');
-  const lines = fileContent.split('\n');
+  const fileContent = fs.readFileSync(absolutePath, "utf8");
+  const lines = fileContent.split("\n");
 
   // Track which lines have been modified to avoid duplicate changes
   const modifiedLines = new Set();
 
   // For each error, find the declaration line and replace 'const' with 'let'
   let updatedContent = fileContent;
-  constAssignErrors.forEach(error => {
+  constAssignErrors.forEach((error) => {
     const varName = error.varName;
     // Look for the declaration in the file
-    const declarationRegex = new RegExp(`const\\s+${varName}\\s*=`, 'g');
+    const declarationRegex = new RegExp(`const\\s+${varName}\\s*=`, "g");
 
     // Replace all occurrences
-    updatedContent = updatedContent.replace(declarationRegex, `let ${varName} =`);
+    updatedContent = updatedContent.replace(
+      declarationRegex,
+      `let ${varName} =`,
+    );
   });
 
   // Write the updated content back to the file
-  fs.writeFileSync(absolutePath, updatedContent, 'utf8');
+  fs.writeFileSync(absolutePath, updatedContent, "utf8");
   // console.log(`Updated ${absolutePath}`);
 
   // Run prettier to format the file
   try {
-    execSync(`npx prettier --write "${absolutePath}"`, { stdio: 'ignore' });
+    execSync(`npx prettier --write "${absolutePath}"`, { stdio: "ignore" });
     // console.log('Formatted file with prettier');
   } catch (error) {
     // console.log(`Note: Could not format file with prettier: ${error.message}`);
@@ -97,13 +102,16 @@ try {
 
   // Verify the fix worked
   try {
-    const verifyOutput = execSync(`npx eslint "${absolutePath}" --format json`, {
-      encoding: 'utf8',
-    });
+    const verifyOutput = execSync(
+      `npx eslint "${absolutePath}" --format json`,
+      {
+        encoding: "utf8",
+      },
+    );
     const verifyResult = JSON.parse(verifyOutput);
 
     const remainingErrors = verifyResult[0].messages.filter(
-      m => m.ruleId === 'no-const-assign',
+      (m) => m.ruleId === "no-const-assign",
     ).length;
 
     if (remainingErrors === 0) {

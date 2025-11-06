@@ -6,8 +6,8 @@
  * Pattern: it('description': any, callback) -> it('description', callback)
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 class MalformedTestSignatureFixer {
   constructor() {
@@ -16,7 +16,7 @@ class MalformedTestSignatureFixer {
   }
 
   async run() {
-    console.log('🔧 Fixing malformed test function signatures...');
+    console.log("🔧 Fixing malformed test function signatures...");
 
     // Get all TypeScript test files with TS1005 errors
     const errorFiles = await this.getFilesWithTS1005Errors();
@@ -47,16 +47,23 @@ class MalformedTestSignatureFixer {
   async fixTestSignaturesInFile(filePath) {
     if (!fs.existsSync(filePath)) return 0;
 
-    const content = fs.readFileSync(filePath, 'utf8');
+    const content = fs.readFileSync(filePath, "utf8");
     let fixed = content;
     let fixCount = 0;
 
     // Pattern 1: test('description': any, callback)
-    const testPattern = /test\(([^)]+): any,\s*([^)]+\) => \{|async \(\) => \{)/g;
+    const testPattern =
+      /test\(([^)]+): any,\s*([^)]+\) => \{|async \(\) => \{)/g;
     const testMatches = fixed.match(testPattern);
     if (testMatches) {
-      fixed = fixed.replace(/test\(([^)]+): any,\s*(async \(\) => \{)/g, 'test($1, $2');
-      fixed = fixed.replace(/test\(([^)]+): any,\s*(\(\) => \{)/g, 'test($1, $2');
+      fixed = fixed.replace(
+        /test\(([^)]+): any,\s*(async \(\) => \{)/g,
+        "test($1, $2",
+      );
+      fixed = fixed.replace(
+        /test\(([^)]+): any,\s*(\(\) => \{)/g,
+        "test($1, $2",
+      );
       fixCount += testMatches.length;
     }
 
@@ -64,8 +71,11 @@ class MalformedTestSignatureFixer {
     const itPattern = /it\(([^)]+): any,\s*([^)]+\) => \{|async \(\) => \{)/g;
     const itMatches = fixed.match(itPattern);
     if (itMatches) {
-      fixed = fixed.replace(/it\(([^)]+): any,\s*(async \(\) => \{)/g, 'it($1, $2');
-      fixed = fixed.replace(/it\(([^)]+): any,\s*(\(\) => \{)/g, 'it($1, $2');
+      fixed = fixed.replace(
+        /it\(([^)]+): any,\s*(async \(\) => \{)/g,
+        "it($1, $2",
+      );
+      fixed = fixed.replace(/it\(([^)]+): any,\s*(\(\) => \{)/g, "it($1, $2");
       fixCount += itMatches.length;
     }
 
@@ -73,20 +83,23 @@ class MalformedTestSignatureFixer {
     const describePattern = /describe\(([^)]+): any,\s*([^)]+\) => \{)/g;
     const describeMatches = fixed.match(describePattern);
     if (describeMatches) {
-      fixed = fixed.replace(/describe\(([^)]+): any,\s*(\(\) => \{)/g, 'describe($1, $2');
+      fixed = fixed.replace(
+        /describe\(([^)]+): any,\s*(\(\) => \{)/g,
+        "describe($1, $2",
+      );
       fixCount += describeMatches.length;
     }
 
     // More specific patterns for the exact errors we're seeing
     // Pattern: 'string': any, async () => {
-    fixed = fixed.replace(/('[^']*'): any,\s*(async \(\) => \{)/g, '$1, $2');
-    fixed = fixed.replace(/("[^"]*"): any,\s*(async \(\) => \{)/g, '$1, $2');
-    fixed = fixed.replace(/(`[^`]*`): any,\s*(async \(\) => \{)/g, '$1, $2');
+    fixed = fixed.replace(/('[^']*'): any,\s*(async \(\) => \{)/g, "$1, $2");
+    fixed = fixed.replace(/("[^"]*"): any,\s*(async \(\) => \{)/g, "$1, $2");
+    fixed = fixed.replace(/(`[^`]*`): any,\s*(async \(\) => \{)/g, "$1, $2");
 
     // Pattern: 'string': any, () => {
-    fixed = fixed.replace(/('[^']*'): any,\s*(\(\) => \{)/g, '$1, $2');
-    fixed = fixed.replace(/("[^"]*"): any,\s*(\(\) => \{)/g, '$1, $2');
-    fixed = fixed.replace(/(`[^`]*`): any,\s*(\(\) => \{)/g, '$1, $2');
+    fixed = fixed.replace(/('[^']*'): any,\s*(\(\) => \{)/g, "$1, $2");
+    fixed = fixed.replace(/("[^"]*"): any,\s*(\(\) => \{)/g, "$1, $2");
+    fixed = fixed.replace(/(`[^`]*`): any,\s*(\(\) => \{)/g, "$1, $2");
 
     if (fixed !== content) {
       fs.writeFileSync(filePath, fixed);
@@ -98,11 +111,17 @@ class MalformedTestSignatureFixer {
 
   async getFilesWithTS1005Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | cut -d"(" -f1 | sort -u', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
-      return output.trim().split('\n').filter(line => line.trim());
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | cut -d"(" -f1 | sort -u',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
+      return output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
     } catch (error) {
       return [];
     }
@@ -110,10 +129,13 @@ class MalformedTestSignatureFixer {
 
   async getTS1005ErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1005" || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1005" || echo "0"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;

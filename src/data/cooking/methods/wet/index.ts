@@ -1,11 +1,11 @@
-import { boiling } from './boiling';
-import { braising } from './braising';
+import { boiling } from "./boiling";
+import { braising } from "./braising";
 // Import other wet cooking methods as they are added
-import { poaching } from './poaching';
-import { pressureCooking } from './pressure-cooking';
-import { simmering } from './simmering';
-import { sousVide } from './sous-vide';
-import { steaming } from './steaming';
+import { poaching } from "./poaching";
+import { pressureCooking } from "./pressure-cooking";
+import { simmering } from "./simmering";
+import { sousVide } from "./sous-vide";
+import { steaming } from "./steaming";
 
 /**
  * Collection of wet cooking methods
@@ -21,8 +21,8 @@ export const _wetCookingMethods = {
   // Add other cooking methods as they are implemented
   poaching,
   simmering,
-  pressure_cooking: pressureCooking
-}
+  pressure_cooking: pressureCooking,
+};
 
 export const wetCookingMethods = _wetCookingMethods;
 

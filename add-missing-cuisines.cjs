@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
+const fs = require("fs");
 
-const filePath = 'src/data/cuisineFlavorProfiles.ts';
+const filePath = "src/data/cuisineFlavorProfiles.ts";
 
 // Read the file
-let content = fs.readFileSync(filePath, 'utf8');
+let content = fs.readFileSync(filePath, "utf8");
 
 // Define the missing cuisines
 const missingCuisines = `
@@ -148,10 +148,10 @@ const missingCuisines = `
 // Replace the "More cuisines as needed..." comment with the actual cuisines
 content = content.replace(
   /\s*\/\/ More cuisines as needed\.\.\.\s*\n/,
-  missingCuisines + '\n  // More cuisines as needed...\n',
+  missingCuisines + "\n  // More cuisines as needed...\n",
 );
 
 // Write the fixed content back
 fs.writeFileSync(filePath, content);
 
-console.log('✅ Added missing cuisine entries to flavorProfiles');
+console.log("✅ Added missing cuisine entries to flavorProfiles");

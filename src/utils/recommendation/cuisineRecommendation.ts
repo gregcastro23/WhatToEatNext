@@ -6,15 +6,13 @@
  */
 
 // Import the new comprehensive cuisine system
-import type { ElementalProperties } from '@/types/alchemy';
-import { getGlobalCache } from '../cuisine/cuisineComputationCache';
+import type { ElementalProperties } from "@/types/alchemy";
+import { getGlobalCache } from "../cuisine/cuisineComputationCache";
 import {
-    generateCuisineRecommendations,
-    validateUserProfile
-} from '../cuisine/cuisineRecommendationEngine';
-import type {
-    UserProfile
-} from '../cuisine/cuisineRecommendationEngine';
+  generateCuisineRecommendations,
+  validateUserProfile,
+} from "../cuisine/cuisineRecommendationEngine";
+import type { UserProfile } from "../cuisine/cuisineRecommendationEngine";
 
 // Import caching system
 
@@ -29,7 +27,7 @@ export interface CuisineRecommendation {
   cuisine: string;
   score: number;
   reasoning: string;
-  elementalMatch: number
+  elementalMatch: number;
 }
 
 /**
@@ -57,7 +55,8 @@ export interface EnhancedCuisineRecommendation extends CuisineRecommendation {
 /**
  * Enhanced recommendation parameters
  */
-export interface EnhancedCuisineRecommendationParams extends CuisineRecommendationParams {
+export interface EnhancedCuisineRecommendationParams
+  extends CuisineRecommendationParams {
   astrologicalProfile?: {
     sunSign?: string;
     moonSign?: string;
@@ -65,7 +64,7 @@ export interface EnhancedCuisineRecommendationParams extends CuisineRecommendati
   };
   useAdvancedAnalysis?: boolean;
   includePlanetaryData?: boolean;
-  includeSignatures?: boolean
+  includeSignatures?: boolean;
 }
 
 // ========== MAIN RECOMMENDATION FUNCTIONS ==========
@@ -77,7 +76,7 @@ export interface EnhancedCuisineRecommendationParams extends CuisineRecommendati
  * @returns Array of cuisine recommendations with detailed analysis
  */
 export function generateEnhancedCuisineRecommendations(
-  params: EnhancedCuisineRecommendationParams
+  params: EnhancedCuisineRecommendationParams,
 ): EnhancedCuisineRecommendation[] {
   const {
     elementalProperties,
@@ -86,13 +85,13 @@ export function generateEnhancedCuisineRecommendations(
     astrologicalProfile,
     useAdvancedAnalysis = true,
     includePlanetaryData = true,
-    includeSignatures = true
+    includeSignatures = true,
   } = params;
 
   try {
     // Validate input
     if (!elementalProperties) {
-      throw new Error('Elemental properties are required');
+      throw new Error("Elemental properties are required");
     }
 
     // Create user profile
@@ -100,24 +99,29 @@ export function generateEnhancedCuisineRecommendations(
       elementalPreferences: elementalProperties,
       culturalBackground: {
         preferredCuisines: preferences,
-        dietaryRestrictions
+        dietaryRestrictions,
       },
-      astrologicalProfile: astrologicalProfile ? {
-        sunSign: astrologicalProfile.sunSign,
-        moonSign: astrologicalProfile.moonSign,
-        currentPlanetaryPositions: astrologicalProfile.currentPlanets
-      } : undefined
+      astrologicalProfile: astrologicalProfile
+        ? {
+            sunSign: astrologicalProfile.sunSign,
+            moonSign: astrologicalProfile.moonSign,
+            currentPlanetaryPositions: astrologicalProfile.currentPlanets,
+          }
+        : undefined,
     };
 
     // Validate user profile
     const validation = validateUserProfile(userProfile);
     if (!validation.isValid) {
-      console.warn('User profile validation issues:', validation.errors);
+      console.warn("User profile validation issues:", validation.errors);
     }
 
     // Get available cuisines from cache
     const cache = getGlobalCache();
-    const availableCuisines = new Map<string, { name: string; properties, any }>();
+    const availableCuisines = new Map<
+      string,
+      { name: string; properties; any }
+    >();
 
     // In a real implementation, this would load from computed cuisine data
     // For now, we'll use mock data or fall back to basic recommendations
@@ -130,25 +134,24 @@ export function generateEnhancedCuisineRecommendations(
       {
         maxRecommendations: 10,
         minCompatibilityThreshold: 0.1,
-        includeReasoning: true
-      }
+        includeReasoning: true,
+      },
     );
 
     // Convert to enhanced format
-    return recommendations.map(rec => ({
+    return recommendations.map((rec) => ({
       cuisine: rec.cuisineId,
       score: rec.compatibilityScore,
-      reasoning: rec.reasoning.join(', '),
+      reasoning: rec.reasoning.join(", "),
       elementalMatch: rec.scoringFactors.elementalCompatibility,
       planetaryAlignment: rec.scoringFactors.alchemicalCompatibility || 0,
       signatureMatch: rec.scoringFactors.signatureMatch,
       confidence: rec.confidence,
       detailedReasoning: rec.reasoning,
-      recommendedRecipes: rec.recommendedRecipes
+      recommendedRecipes: rec.recommendedRecipes,
     }));
-
   } catch (error) {
-    console.error('Enhanced cuisine recommendation failed:', error);
+    console.error("Enhanced cuisine recommendation failed:", error);
     // Fall back to basic recommendations
     return generateBasicCuisineRecommendations(params);
   }
@@ -161,16 +164,16 @@ export function generateEnhancedCuisineRecommendations(
  * @returns Array of basic cuisine recommendations
  */
 export function generateCuisineRecommendation(
-  params: CuisineRecommendationParams
+  params: CuisineRecommendationParams,
 ): CuisineRecommendation[] {
   // Use enhanced system but return legacy format
   const enhanced = generateEnhancedCuisineRecommendations(params);
 
-  return enhanced.map(rec => ({
+  return enhanced.map((rec) => ({
     cuisine: rec.cuisine,
     score: rec.score,
     reasoning: rec.reasoning,
-    elementalMatch: rec.elementalMatch
+    elementalMatch: rec.elementalMatch,
   }));
 }
 
@@ -178,7 +181,7 @@ export function generateCuisineRecommendation(
  * Fallback basic cuisine recommendations (legacy implementation)
  */
 function generateBasicCuisineRecommendations(
-  params: EnhancedCuisineRecommendationParams
+  params: EnhancedCuisineRecommendationParams,
 ): EnhancedCuisineRecommendation[] {
   const { elementalProperties, preferences = [] } = params;
 
@@ -187,65 +190,65 @@ function generateBasicCuisineRecommendations(
   // Fire-based cuisines
   if (elementalProperties.Fire > 0.6) {
     recommendations.push({
-      cuisine: 'Mexican',
+      cuisine: "Mexican",
       score: elementalProperties.Fire * 0.8,
-      reasoning: 'High Fire element matches spicy Mexican cuisine',
+      reasoning: "High Fire element matches spicy Mexican cuisine",
       elementalMatch: elementalProperties.Fire,
       confidence: 0.8,
-      detailedReasoning: ['High Fire element matches spicy Mexican cuisine'],
+      detailedReasoning: ["High Fire element matches spicy Mexican cuisine"],
       planetaryAlignment: 0,
-      signatureMatch: 0
+      signatureMatch: 0,
     });
   }
 
   // Water-based cuisines
   if (elementalProperties.Water > 0.6) {
     recommendations.push({
-      cuisine: 'Mediterranean',
+      cuisine: "Mediterranean",
       score: elementalProperties.Water * 0.8,
-      reasoning: 'High Water element matches Mediterranean freshness',
+      reasoning: "High Water element matches Mediterranean freshness",
       elementalMatch: elementalProperties.Water,
       confidence: 0.8,
-      detailedReasoning: ['High Water element matches Mediterranean freshness'],
+      detailedReasoning: ["High Water element matches Mediterranean freshness"],
       planetaryAlignment: 0,
-      signatureMatch: 0
+      signatureMatch: 0,
     });
   }
 
   // Earth-based cuisines
   if (elementalProperties.Earth > 0.6) {
     recommendations.push({
-      cuisine: 'Italian',
+      cuisine: "Italian",
       score: elementalProperties.Earth * 0.8,
-      reasoning: 'High Earth element matches hearty Italian cuisine',
+      reasoning: "High Earth element matches hearty Italian cuisine",
       elementalMatch: elementalProperties.Earth,
       confidence: 0.8,
-      detailedReasoning: ['High Earth element matches hearty Italian cuisine'],
+      detailedReasoning: ["High Earth element matches hearty Italian cuisine"],
       planetaryAlignment: 0,
-      signatureMatch: 0
+      signatureMatch: 0,
     });
   }
 
   // Air-based cuisines
   if (elementalProperties.Air > 0.6) {
     recommendations.push({
-      cuisine: 'Asian',
+      cuisine: "Asian",
       score: elementalProperties.Air * 0.8,
-      reasoning: 'High Air element matches light Asian cuisine',
+      reasoning: "High Air element matches light Asian cuisine",
       elementalMatch: elementalProperties.Air,
       confidence: 0.8,
-      detailedReasoning: ['High Air element matches light Asian cuisine'],
+      detailedReasoning: ["High Air element matches light Asian cuisine"],
       planetaryAlignment: 0,
-      signatureMatch: 0
+      signatureMatch: 0,
     });
   }
 
   // Boost scores for preferred cuisines
-  recommendations.forEach(rec => {
+  recommendations.forEach((rec) => {
     if (preferences.includes(rec.cuisine)) {
       rec.score = Math.min(rec.score * 1.2, 1.0);
-      rec.reasoning += ' (preferred cuisine)';
-      rec.detailedReasoning.push('This is one of your preferred cuisines');
+      rec.reasoning += " (preferred cuisine)";
+      rec.detailedReasoning.push("This is one of your preferred cuisines");
     }
   });
 
@@ -258,130 +261,166 @@ function generateBasicCuisineRecommendations(
  */
 function getMockCuisineData() {
   const mockCuisines = new Map([
-    ['Italian', {
-      name: 'Italian',
-      properties: {
-        averageElementals: { Fire: 0.3, Water: 0.3, Earth: 0.3, Air: 0.1 },
-        averageAlchemical: { Spirit: 2.5, Essence: 3.0, Matter: 3.0, Substance: 1.5 },
-        signatures: [
-          {
-            property: 'Earth',
-            zscore: 2.1,
-            strength: 'high',
-            averageValue: 0.3,
-            globalAverage: 0.25,
-            description: 'Italian cuisine has a high Earth signature due to wheat-based dishes and cheese'
-          }
-        ],
-        planetaryPatterns: [
-          {
-            planet: 'Venus',
-            commonSigns: [
-              { sign: 'taurus', frequency: 0.4 },
-              { sign: 'libra', frequency: 0.3 }
-            ],
-            planetaryStrength: 0.65,
-            dominantElement: 'Earth'
-          }
-        ],
-        sampleSize: 50,
-        computedAt: new Date(),
-        version: '1.0.0'
-      }
-    }],
-    ['Mexican', {
-      name: 'Mexican',
-      properties: {
-        averageElementals: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
-        averageAlchemical: { Spirit: 3.0, Essence: 2.0, Matter: 2.5, Substance: 2.5 },
-        signatures: [
-          {
-            property: 'Fire',
-            zscore: 2.8,
-            strength: 'high',
-            averageValue: 0.6,
-            globalAverage: 0.25,
-            description: 'Mexican cuisine has a very high Fire signature due to chili peppers and spices'
-          }
-        ],
-        planetaryPatterns: [
-          {
-            planet: 'Mars',
-            commonSigns: [
-              { sign: 'aries', frequency: 0.5 },
-              { sign: 'scorpio', frequency: 0.3 }
-            ],
-            planetaryStrength: 0.72,
-            dominantElement: 'Fire'
-          }
-        ],
-        sampleSize: 40,
-        computedAt: new Date(),
-        version: '1.0.0'
-      }
-    }],
-    ['Japanese', {
-      name: 'Japanese',
-      properties: {
-        averageElementals: { Fire: 0.2, Water: 0.4, Earth: 0.1, Air: 0.3 },
-        averageAlchemical: { Spirit: 3.5, Essence: 2.5, Matter: 1.5, Substance: 2.5 },
-        signatures: [
-          {
-            property: 'Water',
-            zscore: 1.9,
-            strength: 'moderate',
-            averageValue: 0.4,
-            globalAverage: 0.25,
-            description: 'Japanese cuisine has a high Water signature due to seafood and delicate preparations'
-          }
-        ],
-        planetaryPatterns: [
-          {
-            planet: 'Mercury',
-            commonSigns: [
-              { sign: 'gemini', frequency: 0.4 },
-              { sign: 'virgo', frequency: 0.3 }
-            ],
-            planetaryStrength: 0.58,
-            dominantElement: 'Air'
-          }
-        ],
-        sampleSize: 45,
-        computedAt: new Date(),
-        version: '1.0.0'
-      }
-    }],
-    ['Indian', {
-      name: 'Indian',
-      properties: {
-        averageElementals: { Fire: 0.5, Water: 0.2, Earth: 0.2, Air: 0.1 },
-        averageAlchemical: { Spirit: 4.0, Essence: 2.0, Matter: 2.0, Substance: 2.0 },
-        signatures: [
-          {
-            property: 'Spirit',
-            zscore: 2.5,
-            strength: 'high',
-            averageValue: 4.0,
-            globalAverage: 2.5,
-            description: 'Indian cuisine has exceptional Spirit due to complex spice combinations and transformative cooking'
-          }
-        ],
-        planetaryPatterns: [
-          {
-            planet: 'Jupiter',
-            commonSigns: [
-              { sign: 'sagittarius', frequency: 0.5 },
-              { sign: 'pisces', frequency: 0.3 }
-            ],
-            planetaryStrength: 0.68,
-            dominantElement: 'Fire'
-          }
-        ],
-        sampleSize: 60,
-        computedAt: new Date(),
-        version: '1.0.0'
-      }
-    }]
+    [
+      "Italian",
+      {
+        name: "Italian",
+        properties: {
+          averageElementals: { Fire: 0.3, Water: 0.3, Earth: 0.3, Air: 0.1 },
+          averageAlchemical: {
+            Spirit: 2.5,
+            Essence: 3.0,
+            Matter: 3.0,
+            Substance: 1.5,
+          },
+          signatures: [
+            {
+              property: "Earth",
+              zscore: 2.1,
+              strength: "high",
+              averageValue: 0.3,
+              globalAverage: 0.25,
+              description:
+                "Italian cuisine has a high Earth signature due to wheat-based dishes and cheese",
+            },
+          ],
+          planetaryPatterns: [
+            {
+              planet: "Venus",
+              commonSigns: [
+                { sign: "taurus", frequency: 0.4 },
+                { sign: "libra", frequency: 0.3 },
+              ],
+              planetaryStrength: 0.65,
+              dominantElement: "Earth",
+            },
+          ],
+          sampleSize: 50,
+          computedAt: new Date(),
+          version: "1.0.0",
+        },
+      },
+    ],
+    [
+      "Mexican",
+      {
+        name: "Mexican",
+        properties: {
+          averageElementals: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
+          averageAlchemical: {
+            Spirit: 3.0,
+            Essence: 2.0,
+            Matter: 2.5,
+            Substance: 2.5,
+          },
+          signatures: [
+            {
+              property: "Fire",
+              zscore: 2.8,
+              strength: "high",
+              averageValue: 0.6,
+              globalAverage: 0.25,
+              description:
+                "Mexican cuisine has a very high Fire signature due to chili peppers and spices",
+            },
+          ],
+          planetaryPatterns: [
+            {
+              planet: "Mars",
+              commonSigns: [
+                { sign: "aries", frequency: 0.5 },
+                { sign: "scorpio", frequency: 0.3 },
+              ],
+              planetaryStrength: 0.72,
+              dominantElement: "Fire",
+            },
+          ],
+          sampleSize: 40,
+          computedAt: new Date(),
+          version: "1.0.0",
+        },
+      },
+    ],
+    [
+      "Japanese",
+      {
+        name: "Japanese",
+        properties: {
+          averageElementals: { Fire: 0.2, Water: 0.4, Earth: 0.1, Air: 0.3 },
+          averageAlchemical: {
+            Spirit: 3.5,
+            Essence: 2.5,
+            Matter: 1.5,
+            Substance: 2.5,
+          },
+          signatures: [
+            {
+              property: "Water",
+              zscore: 1.9,
+              strength: "moderate",
+              averageValue: 0.4,
+              globalAverage: 0.25,
+              description:
+                "Japanese cuisine has a high Water signature due to seafood and delicate preparations",
+            },
+          ],
+          planetaryPatterns: [
+            {
+              planet: "Mercury",
+              commonSigns: [
+                { sign: "gemini", frequency: 0.4 },
+                { sign: "virgo", frequency: 0.3 },
+              ],
+              planetaryStrength: 0.58,
+              dominantElement: "Air",
+            },
+          ],
+          sampleSize: 45,
+          computedAt: new Date(),
+          version: "1.0.0",
+        },
+      },
+    ],
+    [
+      "Indian",
+      {
+        name: "Indian",
+        properties: {
+          averageElementals: { Fire: 0.5, Water: 0.2, Earth: 0.2, Air: 0.1 },
+          averageAlchemical: {
+            Spirit: 4.0,
+            Essence: 2.0,
+            Matter: 2.0,
+            Substance: 2.0,
+          },
+          signatures: [
+            {
+              property: "Spirit",
+              zscore: 2.5,
+              strength: "high",
+              averageValue: 4.0,
+              globalAverage: 2.5,
+              description:
+                "Indian cuisine has exceptional Spirit due to complex spice combinations and transformative cooking",
+            },
+          ],
+          planetaryPatterns: [
+            {
+              planet: "Jupiter",
+              commonSigns: [
+                { sign: "sagittarius", frequency: 0.5 },
+                { sign: "pisces", frequency: 0.3 },
+              ],
+              planetaryStrength: 0.68,
+              dominantElement: "Fire",
+            },
+          ],
+          sampleSize: 60,
+          computedAt: new Date(),
+          version: "1.0.0",
+        },
+      },
+    ],
   ]);
 
   return mockCuisines;
@@ -390,14 +429,16 @@ function getMockCuisineData() {
 /**
  * Get elemental profile for a cuisine (legacy function)
  */
-export function getCuisineElementalProfile(cuisine: string): ElementalProperties {
+export function getCuisineElementalProfile(
+  cuisine: string,
+): ElementalProperties {
   const profiles: Record<string, ElementalProperties> = {
     Mexican: { Fire: 0.8, Water: 0.3, Earth: 0.5, Air: 0.4 },
     Italian: { Fire: 0.4, Water: 0.4, Earth: 0.8, Air: 0.4 },
     Mediterranean: { Fire: 0.3, Water: 0.8, Earth: 0.5, Air: 0.6 },
     Asian: { Fire: 0.5, Water: 0.6, Earth: 0.4, Air: 0.8 },
     Indian: { Fire: 0.9, Water: 0.3, Earth: 0.6, Air: 0.5 },
-    Thai: { Fire: 0.7, Water: 0.7, Earth: 0.4, Air: 0.6 }
+    Thai: { Fire: 0.7, Water: 0.7, Earth: 0.4, Air: 0.6 },
   };
 
   return profiles[cuisine] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 };
@@ -407,10 +448,10 @@ export function getCuisineElementalProfile(cuisine: string): ElementalProperties
  * Get match score CSS class (legacy function)
  */
 export function getMatchScoreClass(score: number): string {
-  if (score >= 0.8) return 'match-excellent';
-  if (score >= 0.6) return 'match-good';
-  if (score >= 0.4) return 'match-fair';
-  return 'match-poor';
+  if (score >= 0.8) return "match-excellent";
+  if (score >= 0.6) return "match-good";
+  if (score >= 0.4) return "match-fair";
+  return "match-poor";
 }
 
 /**
@@ -427,7 +468,9 @@ export function renderScoreBadge(score: number): string {
 /**
  * Calculate elemental profile from zodiac sign (legacy function)
  */
-export function calculateElementalProfileFromZodiac(zodiacSign: string): ElementalProperties {
+export function calculateElementalProfileFromZodiac(
+  zodiacSign: string,
+): ElementalProperties {
   const zodiacProfiles: Record<string, ElementalProperties> = {
     // Fire signs
     aries: { Fire: 0.8, Water: 0.2, Earth: 0.3, Air: 0.4 },
@@ -447,19 +490,31 @@ export function calculateElementalProfileFromZodiac(zodiacSign: string): Element
     // Water signs
     cancer: { Fire: 0.2, Water: 0.8, Earth: 0.4, Air: 0.3 },
     scorpio: { Fire: 0.6, Water: 0.9, Earth: 0.3, Air: 0.2 },
-    pisces: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.4 }
+    pisces: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.4 },
   };
 
-  return zodiacProfiles[zodiacSign.toLowerCase()] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 };
+  return (
+    zodiacProfiles[zodiacSign.toLowerCase()] || {
+      Fire: 0.5,
+      Water: 0.5,
+      Earth: 0.5,
+      Air: 0.5,
+    }
+  );
 }
 
 /**
  * Calculate elemental contributions from planets (legacy function)
  */
 export function calculateElementalContributionsFromPlanets(
-  planetaryPositions: Record<string, unknown>
+  planetaryPositions: Record<string, unknown>,
 ): ElementalProperties {
-  const contributions: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const contributions: ElementalProperties = {
+    Fire: 0,
+    Water: 0,
+    Earth: 0,
+    Air: 0,
+  };
 
   // Basic planetary element contributions
   const planetaryElements: Record<string, ElementalProperties> = {
@@ -469,13 +524,16 @@ export function calculateElementalContributionsFromPlanets(
     venus: { Fire: 0, Water: 0.7, Earth: 0.3, Air: 0 },
     mars: { Fire: 1.0, Water: 0, Earth: 0, Air: 0 },
     jupiter: { Fire: 0.5, Water: 0, Earth: 0, Air: 0.5 },
-    saturn: { Fire: 0, Water: 0, Earth: 1.0, Air: 0 }
+    saturn: { Fire: 0, Water: 0, Earth: 1.0, Air: 0 },
   };
 
   Object.entries(planetaryPositions).forEach(([planet, position]) => {
     const planetElements = planetaryElements[planet.toLowerCase()];
     if (planetElements && position) {
-      const strength = typeof position === 'object' && (position as any).strength ? (position as any).strength : 0.5;
+      const strength =
+        typeof position === "object" && (position as any).strength
+          ? (position as any).strength
+          : 0.5;
       contributions.Fire += planetElements.Fire * strength;
       contributions.Water += planetElements.Water * strength;
       contributions.Earth += planetElements.Earth * strength;
@@ -484,7 +542,11 @@ export function calculateElementalContributionsFromPlanets(
   });
 
   // Normalize
-  const total = contributions.Fire + contributions.Water + contributions.Earth + contributions.Air;
+  const total =
+    contributions.Fire +
+    contributions.Water +
+    contributions.Earth +
+    contributions.Air;
   if (total > 0) {
     contributions.Fire /= total;
     contributions.Water /= total;

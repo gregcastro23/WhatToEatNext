@@ -8,58 +8,110 @@
  * Supports 13+ automated error processors for systematic error elimination
  */
 
-import fs from 'fs';
-import path from 'path';
-import { execSync } from 'child_process';
+import fs from "fs";
+import path from "path";
+import { execSync } from "child_process";
 
 // Import all processors
-import TS1003Processor from '../processors/identifier-processor.js';
-import TS1005Processor from '../processors/ts1005-processor.js';
-import TS1109Processor from '../processors/ts1109-processor.js';
-import TS1121Processor from '../processors/octal-literal-processor.js';
-import TS1128Processor from '../processors/ts1128-processor.js';
-import TS1131Processor from '../processors/property-assignment-processor.js';
-import TS1135Processor from '../processors/argument-expression-processor.js';
-import TS1136Processor from '../processors/property-assignment-processor.js'; // Alias for TS1131
-import TS1134Processor from '../processors/ts1134-processor.js';
-import TS1180Processor from '../processors/ts1180-processor.js';
-import TS1434Processor from '../processors/ts1434-processor.js';
-import TS1442Processor from '../processors/ts1442-processor.js';
+import TS1003Processor from "../processors/identifier-processor.js";
+import TS1005Processor from "../processors/ts1005-processor.js";
+import TS1109Processor from "../processors/ts1109-processor.js";
+import TS1121Processor from "../processors/octal-literal-processor.js";
+import TS1128Processor from "../processors/ts1128-processor.js";
+import TS1131Processor from "../processors/property-assignment-processor.js";
+import TS1135Processor from "../processors/argument-expression-processor.js";
+import TS1136Processor from "../processors/property-assignment-processor.js"; // Alias for TS1131
+import TS1134Processor from "../processors/ts1134-processor.js";
+import TS1180Processor from "../processors/ts1180-processor.js";
+import TS1434Processor from "../processors/ts1434-processor.js";
+import TS1442Processor from "../processors/ts1442-processor.js";
 
 class ProcessorFactory {
   constructor() {
-    this.projectRoot = path.resolve(import.meta.dirname || path.dirname(import.meta.url.replace('file://', '')), '../../../');
+    this.projectRoot = path.resolve(
+      import.meta.dirname ||
+        path.dirname(import.meta.url.replace("file://", "")),
+      "../../../",
+    );
     this.processors = {
       // Phase 3 Processors (9 total)
-      'TS1003': TS1003Processor,
-      'TS1005': TS1005Processor,
-      'TS1109': TS1109Processor,
-      'TS1121': TS1121Processor,
-      'TS1128': TS1128Processor,
-      'TS1131': TS1131Processor,
-      'TS1135': TS1135Processor,
-      'TS1136': TS1136Processor,
+      TS1003: TS1003Processor,
+      TS1005: TS1005Processor,
+      TS1109: TS1109Processor,
+      TS1121: TS1121Processor,
+      TS1128: TS1128Processor,
+      TS1131: TS1131Processor,
+      TS1135: TS1135Processor,
+      TS1136: TS1136Processor,
 
       // Phase 4 New Processors (4 total)
-      'TS1134': TS1134Processor,
-      'TS1180': TS1180Processor,
-      'TS1434': TS1434Processor,
-      'TS1442': TS1442Processor,
+      TS1134: TS1134Processor,
+      TS1180: TS1180Processor,
+      TS1434: TS1434Processor,
+      TS1442: TS1442Processor,
     };
 
     this.processorMetadata = {
-      'TS1003': { name: 'Identifier Processor', category: 'Phase 3', description: 'Fixes identifier expected errors' },
-      'TS1005': { name: 'Semicolon/Comma Processor', category: 'Phase 3', description: 'Fixes semicolon and comma syntax errors' },
-      'TS1109': { name: 'Expression Processor', category: 'Phase 3', description: 'Fixes expression expected errors' },
-      'TS1121': { name: 'Octal Literal Processor', category: 'Phase 3', description: 'Fixes octal literal syntax errors' },
-      'TS1128': { name: 'Declaration Processor', category: 'Phase 3', description: 'Fixes declaration or statement expected errors' },
-      'TS1131': { name: 'Property Assignment Processor', category: 'Phase 3', description: 'Fixes property assignment expected errors' },
-      'TS1135': { name: 'Argument Expression Processor', category: 'Phase 3', description: 'Fixes argument expression expected errors' },
-      'TS1136': { name: 'Property Assignment Processor (Alias)', category: 'Phase 3', description: 'Fixes property assignment expected errors' },
-      'TS1134': { name: 'Variable Declaration Processor', category: 'Phase 4', description: 'Fixes variable declaration expected errors' },
-      'TS1180': { name: 'Destructuring Processor', category: 'Phase 4', description: 'Fixes destructuring pattern expected errors' },
-      'TS1434': { name: 'Keyword Processor', category: 'Phase 4', description: 'Fixes unexpected keyword or identifier errors' },
-      'TS1442': { name: 'Token Processor', category: 'Phase 4', description: 'Fixes unexpected token errors' },
+      TS1003: {
+        name: "Identifier Processor",
+        category: "Phase 3",
+        description: "Fixes identifier expected errors",
+      },
+      TS1005: {
+        name: "Semicolon/Comma Processor",
+        category: "Phase 3",
+        description: "Fixes semicolon and comma syntax errors",
+      },
+      TS1109: {
+        name: "Expression Processor",
+        category: "Phase 3",
+        description: "Fixes expression expected errors",
+      },
+      TS1121: {
+        name: "Octal Literal Processor",
+        category: "Phase 3",
+        description: "Fixes octal literal syntax errors",
+      },
+      TS1128: {
+        name: "Declaration Processor",
+        category: "Phase 3",
+        description: "Fixes declaration or statement expected errors",
+      },
+      TS1131: {
+        name: "Property Assignment Processor",
+        category: "Phase 3",
+        description: "Fixes property assignment expected errors",
+      },
+      TS1135: {
+        name: "Argument Expression Processor",
+        category: "Phase 3",
+        description: "Fixes argument expression expected errors",
+      },
+      TS1136: {
+        name: "Property Assignment Processor (Alias)",
+        category: "Phase 3",
+        description: "Fixes property assignment expected errors",
+      },
+      TS1134: {
+        name: "Variable Declaration Processor",
+        category: "Phase 4",
+        description: "Fixes variable declaration expected errors",
+      },
+      TS1180: {
+        name: "Destructuring Processor",
+        category: "Phase 4",
+        description: "Fixes destructuring pattern expected errors",
+      },
+      TS1434: {
+        name: "Keyword Processor",
+        category: "Phase 4",
+        description: "Fixes unexpected keyword or identifier errors",
+      },
+      TS1442: {
+        name: "Token Processor",
+        category: "Phase 4",
+        description: "Fixes unexpected token errors",
+      },
     };
   }
 
@@ -87,11 +139,13 @@ class ProcessorFactory {
    * Get metadata for a specific error code
    */
   getProcessorMetadata(errorCode) {
-    return this.processorMetadata[errorCode] || {
-      name: 'Unknown Processor',
-      category: 'Unknown',
-      description: 'No metadata available'
-    };
+    return (
+      this.processorMetadata[errorCode] || {
+        name: "Unknown Processor",
+        category: "Unknown",
+        description: "No metadata available",
+      }
+    );
   }
 
   /**
@@ -114,17 +168,20 @@ class ProcessorFactory {
    * Analyze current errors and recommend processors
    */
   async analyzeAndRecommend() {
-    console.log('🔍 Analyzing current errors and recommending processors...\n');
+    console.log("🔍 Analyzing current errors and recommending processors...\n");
 
     try {
-      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-        cwd: this.projectRoot,
-        encoding: 'utf8',
-        maxBuffer: 50 * 1024 * 1024
-      });
+      const tscOutput = execSync(
+        "yarn tsc --noEmit --skipLibCheck 2>&1 || true",
+        {
+          cwd: this.projectRoot,
+          encoding: "utf8",
+          maxBuffer: 50 * 1024 * 1024,
+        },
+      );
 
       const errorCounts = {};
-      const lines = tscOutput.split('\n');
+      const lines = tscOutput.split("\n");
 
       for (const line of lines) {
         const match = line.match(/error (TS\d+):/);
@@ -136,23 +193,26 @@ class ProcessorFactory {
 
       const recommendations = this.generateRecommendations(errorCounts);
 
-      console.log('📊 Error Analysis Results:');
-      console.log('='.repeat(50));
-      console.log(`Total Errors: ${Object.values(errorCounts).reduce((a, b) => a + b, 0)}`);
+      console.log("📊 Error Analysis Results:");
+      console.log("=".repeat(50));
+      console.log(
+        `Total Errors: ${Object.values(errorCounts).reduce((a, b) => a + b, 0)}`,
+      );
       console.log(`Error Types: ${Object.keys(errorCounts).length}`);
 
-      console.log('\n🎯 Processor Recommendations:');
-      recommendations.forEach(rec => {
-        console.log(`\n${rec.priority} - ${rec.errorCode}: ${rec.count} errors`);
+      console.log("\n🎯 Processor Recommendations:");
+      recommendations.forEach((rec) => {
+        console.log(
+          `\n${rec.priority} - ${rec.errorCode}: ${rec.count} errors`,
+        );
         console.log(`  ${rec.metadata.name}`);
         console.log(`  ${rec.metadata.description}`);
         console.log(`  Recommended Action: ${rec.action}`);
       });
 
       return { errorCounts, recommendations };
-
     } catch (error) {
-      console.error('❌ Error during analysis:', error.message);
+      console.error("❌ Error during analysis:", error.message);
       throw error;
     }
   }
@@ -167,22 +227,22 @@ class ProcessorFactory {
       const metadata = this.getProcessorMetadata(errorCode);
       const hasProcessor = !!this.processors[errorCode];
 
-      let priority = '❌ No Processor';
-      let action = 'Manual review required';
+      let priority = "❌ No Processor";
+      let action = "Manual review required";
 
       if (hasProcessor) {
         if (count >= 100) {
-          priority = '🔴 CRITICAL';
-          action = 'Immediate automated processing recommended';
+          priority = "🔴 CRITICAL";
+          action = "Immediate automated processing recommended";
         } else if (count >= 50) {
-          priority = '🟠 HIGH';
-          action = 'Automated processing recommended';
+          priority = "🟠 HIGH";
+          action = "Automated processing recommended";
         } else if (count >= 10) {
-          priority = '🟡 MEDIUM';
-          action = 'Automated processing suggested';
+          priority = "🟡 MEDIUM";
+          action = "Automated processing suggested";
         } else {
-          priority = '🟢 LOW';
-          action = 'Optional automated processing';
+          priority = "🟢 LOW";
+          action = "Optional automated processing";
         }
       }
 
@@ -192,13 +252,19 @@ class ProcessorFactory {
         priority,
         action,
         metadata,
-        hasProcessor
+        hasProcessor,
       });
     });
 
     // Sort by priority and count
     return recommendations.sort((a, b) => {
-      const priorityOrder = { '🔴 CRITICAL': 4, '🟠 HIGH': 3, '🟡 MEDIUM': 2, '🟢 LOW': 1, '❌ No Processor': 0 };
+      const priorityOrder = {
+        "🔴 CRITICAL": 4,
+        "🟠 HIGH": 3,
+        "🟡 MEDIUM": 2,
+        "🟢 LOW": 1,
+        "❌ No Processor": 0,
+      };
       const aPriority = priorityOrder[a.priority];
       const bPriority = priorityOrder[b.priority];
 
@@ -214,13 +280,19 @@ class ProcessorFactory {
    * Execute automated processing for recommended errors
    */
   async executeAutomatedProcessing(dryRun = true) {
-    console.log(`🚀 Executing automated error processing (Mode: ${dryRun ? 'DRY RUN' : 'LIVE'})...\n`);
+    console.log(
+      `🚀 Executing automated error processing (Mode: ${dryRun ? "DRY RUN" : "LIVE"})...\n`,
+    );
 
     const { recommendations } = await this.analyzeAndRecommend();
 
-    const automatedRecommendations = recommendations.filter(rec => rec.hasProcessor);
+    const automatedRecommendations = recommendations.filter(
+      (rec) => rec.hasProcessor,
+    );
 
-    console.log(`Processing ${automatedRecommendations.length} automated processors...\n`);
+    console.log(
+      `Processing ${automatedRecommendations.length} automated processors...\n`,
+    );
 
     const results = [];
 
@@ -234,33 +306,38 @@ class ProcessorFactory {
         results.push({
           errorCode: rec.errorCode,
           ...result,
-          success: true
+          success: true,
         });
 
         console.log(`✅ ${rec.errorCode} processing complete`);
-
       } catch (error) {
         console.error(`❌ Error processing ${rec.errorCode}:`, error.message);
         results.push({
           errorCode: rec.errorCode,
           error: error.message,
-          success: false
+          success: false,
         });
       }
     }
 
     const summary = {
       totalProcessors: results.length,
-      successful: results.filter(r => r.success).length,
-      failed: results.filter(r => !r.success).length,
-      totalFilesProcessed: results.reduce((sum, r) => sum + (r.filesProcessed || 0), 0),
-      totalErrorsFixed: results.reduce((sum, r) => sum + (r.errorsFixed || 0), 0),
-      dryRun
+      successful: results.filter((r) => r.success).length,
+      failed: results.filter((r) => !r.success).length,
+      totalFilesProcessed: results.reduce(
+        (sum, r) => sum + (r.filesProcessed || 0),
+        0,
+      ),
+      totalErrorsFixed: results.reduce(
+        (sum, r) => sum + (r.errorsFixed || 0),
+        0,
+      ),
+      dryRun,
     };
 
-    console.log('\n📊 Processing Summary:');
-    console.log('='.repeat(30));
-    console.log(`Mode: ${dryRun ? 'DRY RUN' : 'LIVE'}`);
+    console.log("\n📊 Processing Summary:");
+    console.log("=".repeat(30));
+    console.log(`Mode: ${dryRun ? "DRY RUN" : "LIVE"}`);
     console.log(`Processors Executed: ${summary.totalProcessors}`);
     console.log(`Successful: ${summary.successful}`);
     console.log(`Failed: ${summary.failed}`);
@@ -274,33 +351,33 @@ class ProcessorFactory {
 // CLI Interface
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
-  const command = args[0] || 'help';
+  const command = args[0] || "help";
 
   const factory = new ProcessorFactory();
 
   switch (command) {
-    case 'analyze':
+    case "analyze":
       await factory.analyzeAndRecommend();
       break;
 
-    case 'process-dry':
+    case "process-dry":
       await factory.executeAutomatedProcessing(true);
       break;
 
-    case 'process':
-      const confirm = args.includes('--confirm');
+    case "process":
+      const confirm = args.includes("--confirm");
       if (!confirm) {
-        console.log('⚠️  WARNING: This will modify files!');
-        console.log('Add --confirm flag to proceed with live processing');
-        console.log('\nExample: node processor-factory.js process --confirm');
+        console.log("⚠️  WARNING: This will modify files!");
+        console.log("Add --confirm flag to proceed with live processing");
+        console.log("\nExample: node processor-factory.js process --confirm");
         process.exit(1);
       }
       await factory.executeAutomatedProcessing(false);
       break;
 
-    case 'list':
-      console.log('📋 Available Processors:');
-      console.log('='.repeat(30));
+    case "list":
+      console.log("📋 Available Processors:");
+      console.log("=".repeat(30));
       Object.entries(factory.processorMetadata).forEach(([code, metadata]) => {
         console.log(`${code}: ${metadata.name} (${metadata.category})`);
         console.log(`  ${metadata.description}`);

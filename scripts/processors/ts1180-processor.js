@@ -12,21 +12,25 @@
  * 3. Incorrect array/object destructuring mix
  */
 
-import fs from 'fs';
-import path from 'path';
-import { execSync } from 'child_process';
+import fs from "fs";
+import path from "path";
+import { execSync } from "child_process";
 
 class TS1180Processor {
   constructor() {
-    this.projectRoot = path.resolve(import.meta.dirname || path.dirname(import.meta.url.replace('file://', '')), '../..');
+    this.projectRoot = path.resolve(
+      import.meta.dirname ||
+        path.dirname(import.meta.url.replace("file://", "")),
+      "../..",
+    );
     this.filesProcessed = 0;
     this.errorsFixed = 0;
-    this.backupDir = path.join(this.projectRoot, 'backups', 'phase4', 'ts1180');
+    this.backupDir = path.join(this.projectRoot, "backups", "phase4", "ts1180");
   }
 
   async process(dryRun = false) {
-    console.log('🔧 TS1180 Processor - Fixing destructuring pattern errors...');
-    console.log(`Mode: ${dryRun ? 'DRY RUN' : 'LIVE'}\n`);
+    console.log("🔧 TS1180 Processor - Fixing destructuring pattern errors...");
+    console.log(`Mode: ${dryRun ? "DRY RUN" : "LIVE"}\n`);
 
     if (!dryRun && !fs.existsSync(this.backupDir)) {
       fs.mkdirSync(this.backupDir, { recursive: true });
@@ -42,31 +46,31 @@ class TS1180Processor {
     return {
       filesProcessed: this.filesProcessed,
       errorsFixed: this.errorsFixed,
-      success: true
+      success: true,
     };
   }
 
   async getFilesWithTS1180Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit 2>&1', {
+      const output = execSync("yarn tsc --noEmit 2>&1", {
         cwd: this.projectRoot,
-        encoding: 'utf8',
-        maxBuffer: 50 * 1024 * 1024
+        encoding: "utf8",
+        maxBuffer: 50 * 1024 * 1024,
       });
 
       return this.extractFilesFromOutput(output);
     } catch (error) {
-      const output = error.stdout || error.stderr || '';
+      const output = error.stdout || error.stderr || "";
       return this.extractFilesFromOutput(output);
     }
   }
 
   extractFilesFromOutput(output) {
-    const lines = output.split('\n');
+    const lines = output.split("\n");
     const filesSet = new Set();
 
     for (const line of lines) {
-      if (line.includes('error TS1180')) {
+      if (line.includes("error TS1180")) {
         const match = line.match(/^(.+?\.tsx?)\(/);
         if (match) {
           const filePath = path.join(this.projectRoot, match[1]);
@@ -82,7 +86,7 @@ class TS1180Processor {
 
   async processFile(filePath, dryRun) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       let modified = content;
       let fixCount = 0;
 
@@ -97,7 +101,7 @@ class TS1180Processor {
       const pattern2 = /\{([^}]*),\s*,([^}]*)\}/g;
       modified = modified.replace(pattern2, (match, before, after) => {
         fixCount++;
-        const cleaned = [before, after].filter(s => s.trim()).join(', ');
+        const cleaned = [before, after].filter((s) => s.trim()).join(", ");
         return `{${cleaned}}`;
       });
 
@@ -151,7 +155,7 @@ class TS1180Processor {
           // Create backup
           const backupPath = path.join(
             this.backupDir,
-            `${path.basename(filePath)}.${Date.now()}.bak`
+            `${path.basename(filePath)}.${Date.now()}.bak`,
           );
           fs.writeFileSync(backupPath, content);
 
@@ -160,7 +164,9 @@ class TS1180Processor {
 
           console.log(`\n✅ ${path.relative(this.projectRoot, filePath)}`);
           console.log(`  Fixed ${fixCount} pattern(s)`);
-          console.log(`  Backup: ${path.relative(this.projectRoot, backupPath)}`);
+          console.log(
+            `  Backup: ${path.relative(this.projectRoot, backupPath)}`,
+          );
         }
       }
     } catch (error) {
@@ -169,20 +175,20 @@ class TS1180Processor {
   }
 
   async analyze() {
-    console.log('📊 TS1180 Error Analysis\n');
+    console.log("📊 TS1180 Error Analysis\n");
 
     const filesWithErrors = await this.getFilesWithTS1180Errors();
 
     console.log(`Total files with TS1180 errors: ${filesWithErrors.length}`);
-    console.log('\nPattern capabilities:');
-    console.log('  • Empty destructuring patterns');
-    console.log('  • Double commas in destructuring');
-    console.log('  • Trailing commas with missing properties');
-    console.log('  • Array destructuring with missing elements');
-    console.log('  • Mixed bracket types (common typos)');
+    console.log("\nPattern capabilities:");
+    console.log("  • Empty destructuring patterns");
+    console.log("  • Double commas in destructuring");
+    console.log("  • Trailing commas with missing properties");
+    console.log("  • Array destructuring with missing elements");
+    console.log("  • Mixed bracket types (common typos)");
 
-    console.log('\nSample files to process:');
-    filesWithErrors.slice(0, 10).forEach(file => {
+    console.log("\nSample files to process:");
+    filesWithErrors.slice(0, 10).forEach((file) => {
       console.log(`  - ${path.relative(this.projectRoot, file)}`);
     });
 
@@ -195,22 +201,22 @@ class TS1180Processor {
 // CLI Interface
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
-  const command = args[0] || 'analyze';
+  const command = args[0] || "analyze";
 
   const processor = new TS1180Processor();
 
   switch (command) {
-    case 'analyze':
+    case "analyze":
       await processor.analyze();
       break;
 
-    case 'dry-run':
+    case "dry-run":
       await processor.process(true);
       break;
 
-    case 'process':
+    case "process":
       const result = await processor.process(false);
-      console.log('\n📊 Processing Complete:');
+      console.log("\n📊 Processing Complete:");
       console.log(`  Files processed: ${result.filesProcessed}`);
       console.log(`  Errors fixed: ${result.errorsFixed}`);
       break;

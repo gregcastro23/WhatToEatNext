@@ -27,8 +27,8 @@
  *   --preserve-all  Preserve all unused variables (just prefix them)
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 class UnusedVariableCleanup {
   constructor(options = {}) {
@@ -39,7 +39,7 @@ class UnusedVariableCleanup {
     this.preserveAll = options.preserveAll || false;
     this.fixedFiles = 0;
     this.totalFixes = 0;
-    this.backupDir = '.unused-variables-backups';
+    this.backupDir = ".unused-variables-backups";
 
     // Domain-specific variables to preserve (prefix with UNUSED_ instead of removing)
     this.preservePatterns = [
@@ -93,8 +93,11 @@ class UnusedVariableCleanup {
 
     this.createBackupDir();
     const fileName = path.basename(filePath);
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const backupPath = path.join(this.backupDir, `${fileName}.${timestamp}.backup`);
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const backupPath = path.join(
+      this.backupDir,
+      `${fileName}.${timestamp}.backup`,
+    );
 
     fs.copyFileSync(filePath, backupPath);
   }
@@ -105,7 +108,7 @@ class UnusedVariableCleanup {
 
     // Check against preserve patterns
     return this.preservePatterns.some(
-      pattern => pattern.test(variableName) || pattern.test(context),
+      (pattern) => pattern.test(variableName) || pattern.test(context),
     );
   }
 
@@ -117,7 +120,7 @@ class UnusedVariableCleanup {
 
     // Simple approach: remove lines that look like unused imports
     // This is a basic implementation - a more robust solution would parse the AST
-    const lines = content.split('\n');
+    const lines = content.split("\n");
     const cleanedLines = [];
 
     for (let i = 0; i < lines.length; i++) {
@@ -125,9 +128,9 @@ class UnusedVariableCleanup {
 
       // Skip import lines that appear to be unused (basic heuristic)
       if (
-        line.trim().startsWith('import ') &&
-        !line.includes('// keep') &&
-        !line.includes('// preserve')
+        line.trim().startsWith("import ") &&
+        !line.includes("// keep") &&
+        !line.includes("// preserve")
       ) {
         // Check if any imported names are used in the file
         const importMatch = line.match(
@@ -143,15 +146,15 @@ class UnusedVariableCleanup {
 
           // Simple check for usage (not comprehensive)
           if (namedImports) {
-            const imports = namedImports.split(',').map(imp => imp.trim());
-            isUsed = imports.some(imp => {
-              const cleanImp = imp.replace(/\s+as\s+.+/, '').trim();
+            const imports = namedImports.split(",").map((imp) => imp.trim());
+            isUsed = imports.some((imp) => {
+              const cleanImp = imp.replace(/\s+as\s+.+/, "").trim();
               return (
                 content.includes(cleanImp) &&
                 content
-                  .split('\n')
+                  .split("\n")
                   .slice(i + 1)
-                  .join('\n')
+                  .join("\n")
                   .includes(cleanImp)
               );
             });
@@ -160,9 +163,9 @@ class UnusedVariableCleanup {
           if (defaultImport) {
             const checkName = aliasImport || defaultImport;
             isUsed = content
-              .split('\n')
+              .split("\n")
               .slice(i + 1)
-              .join('\n')
+              .join("\n")
               .includes(checkName);
           }
 
@@ -177,7 +180,7 @@ class UnusedVariableCleanup {
       cleanedLines.push(line);
     }
 
-    return { content: cleanedLines.join('\n'), fixes };
+    return { content: cleanedLines.join("\n"), fixes };
   }
 
   cleanupUnusedVariables(content, filePath) {
@@ -186,7 +189,7 @@ class UnusedVariableCleanup {
 
     if (this.importsOnly) return { content, fixes: 0 };
 
-    const lines = content.split('\n');
+    const lines = content.split("\n");
     const cleanedLines = [];
 
     for (let i = 0; i < lines.length; i++) {
@@ -194,7 +197,9 @@ class UnusedVariableCleanup {
       const originalLine = line;
 
       // Look for variable declarations
-      const constMatch = line.match(/^(\s*)const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/);
+      const constMatch = line.match(
+        /^(\s*)const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/,
+      );
       const letMatch = line.match(/^(\s*)let\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/);
       const varMatch = line.match(/^(\s*)var\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/);
 
@@ -203,18 +208,22 @@ class UnusedVariableCleanup {
       if (match) {
         const indent = match[1];
         const varName = match[2];
-        const declarationType = constMatch ? 'const' : letMatch ? 'let' : 'var';
+        const declarationType = constMatch ? "const" : letMatch ? "let" : "var";
 
         // Check if variable is used elsewhere in the file
-        const restOfFile = lines.slice(i + 1).join('\n');
+        const restOfFile = lines.slice(i + 1).join("\n");
         const isUsed = restOfFile.includes(varName);
 
         if (!isUsed) {
           if (this.shouldPreserveVariable(varName, filePath)) {
             // Prefix with UNUSED_ instead of removing
-            const newVarName = varName.startsWith('_') ? varName : `_${varName}`;
+            const newVarName = varName.startsWith("_")
+              ? varName
+              : `_${varName}`;
             line = line.replace(varName, newVarName);
-            console.log(`  🏷️  Prefixing preserved variable: ${varName} → ${newVarName}`);
+            console.log(
+              `  🏷️  Prefixing preserved variable: ${varName} → ${newVarName}`,
+            );
             fixes++;
           } else {
             console.log(`  🗑️  Would remove unused variable: ${varName}`);
@@ -229,18 +238,21 @@ class UnusedVariableCleanup {
       cleanedLines.push(line);
     }
 
-    return { content: cleanedLines.join('\n'), fixes };
+    return { content: cleanedLines.join("\n"), fixes };
   }
 
   processFile(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
 
       // First clean up imports
       const importResult = this.cleanupUnusedImports(content);
 
       // Then clean up variables
-      const variableResult = this.cleanupUnusedVariables(importResult.content, filePath);
+      const variableResult = this.cleanupUnusedVariables(
+        importResult.content,
+        filePath,
+      );
 
       const totalFixes = importResult.fixes + variableResult.fixes;
 
@@ -251,7 +263,7 @@ class UnusedVariableCleanup {
 
         if (!this.isDryRun) {
           this.backupFile(filePath);
-          fs.writeFileSync(filePath, variableResult.content, 'utf8');
+          fs.writeFileSync(filePath, variableResult.content, "utf8");
         }
 
         this.fixedFiles++;
@@ -265,100 +277,104 @@ class UnusedVariableCleanup {
   }
 
   findTargetFiles() {
-    const { execSync } = require('child_process');
+    const { execSync } = require("child_process");
 
     try {
       // Find TypeScript and JavaScript files
       const cmd = `find src -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | grep -v ".d.ts" | head -${this.maxFiles}`;
-      const result = execSync(cmd, { encoding: 'utf8' });
+      const result = execSync(cmd, { encoding: "utf8" });
       const files = result
         .trim()
-        .split('\n')
-        .filter(f => f);
+        .split("\n")
+        .filter((f) => f);
 
       // Prioritize source files over test files
       return files.sort((a, b) => {
-        const aIsTest = a.includes('test') || a.includes('spec');
-        const bIsTest = b.includes('test') || b.includes('spec');
+        const aIsTest = a.includes("test") || a.includes("spec");
+        const bIsTest = b.includes("test") || b.includes("spec");
 
         if (aIsTest && !bIsTest) return 1;
         if (!aIsTest && bIsTest) return -1;
         return 0;
       });
     } catch (error) {
-      console.error('Error finding files:', error.message);
+      console.error("Error finding files:", error.message);
       return [];
     }
   }
 
   run() {
-    console.log('🔧 Safe Unused Variable Cleanup Script');
-    console.log('=====================================');
+    console.log("🔧 Safe Unused Variable Cleanup Script");
+    console.log("=====================================");
 
     if (this.isDryRun) {
-      console.log('🔍 DRY RUN MODE - No files will be modified');
+      console.log("🔍 DRY RUN MODE - No files will be modified");
     }
 
     if (this.preserveAll) {
-      console.log('🛡️  Preserve mode: All unused variables will be prefixed, not removed');
+      console.log(
+        "🛡️  Preserve mode: All unused variables will be prefixed, not removed",
+      );
     }
 
     const mode = this.importsOnly
-      ? 'imports only'
+      ? "imports only"
       : this.variablesOnly
-        ? 'variables only'
-        : 'imports and variables';
+        ? "variables only"
+        : "imports and variables";
     console.log(`🎯 Processing: ${mode}`);
 
     const files = this.findTargetFiles();
 
     console.log(`📁 Processing ${files.length} files (max: ${this.maxFiles})`);
-    console.log('');
+    console.log("");
 
-    files.forEach(file => this.processFile(file));
+    files.forEach((file) => this.processFile(file));
 
-    console.log('');
-    console.log('📊 Summary:');
+    console.log("");
+    console.log("📊 Summary:");
     console.log(`   Files processed: ${files.length}`);
     console.log(`   Files with fixes: ${this.fixedFiles}`);
     console.log(`   Total cleanups: ${this.totalFixes}`);
 
     if (!this.isDryRun && this.fixedFiles > 0) {
       console.log(`   Backups created in: ${this.backupDir}/`);
-      console.log('');
-      console.log('🧪 Next steps:');
-      console.log('   1. Run TypeScript check: yarn lint');
-      console.log('   2. Run tests: yarn test');
-      console.log('   3. Verify no functionality is broken');
-      console.log('   4. If issues occur, restore from backups');
+      console.log("");
+      console.log("🧪 Next steps:");
+      console.log("   1. Run TypeScript check: yarn lint");
+      console.log("   2. Run tests: yarn test");
+      console.log("   3. Verify no functionality is broken");
+      console.log("   4. If issues occur, restore from backups");
     }
 
     if (this.isDryRun && this.totalFixes > 0) {
-      console.log('');
-      console.log('🚀 To apply fixes, run: node cleanup-unused-variables.cjs');
+      console.log("");
+      console.log("🚀 To apply fixes, run: node cleanup-unused-variables.cjs");
     }
 
-    console.log('');
-    console.log('💡 Pro tips:');
-    console.log('   - Use --imports-only for safer import cleanup first');
-    console.log('   - Use --preserve-all to keep all variables (just prefix them)');
-    console.log('   - Domain-specific variables are automatically preserved');
+    console.log("");
+    console.log("💡 Pro tips:");
+    console.log("   - Use --imports-only for safer import cleanup first");
+    console.log(
+      "   - Use --preserve-all to keep all variables (just prefix them)",
+    );
+    console.log("   - Domain-specific variables are automatically preserved");
   }
 }
 
 // Parse command line arguments
 const args = process.argv.slice(2);
 const options = {
-  dryRun: args.includes('--dry-run'),
+  dryRun: args.includes("--dry-run"),
   maxFiles: 20,
-  importsOnly: args.includes('--imports-only'),
-  variablesOnly: args.includes('--variables-only'),
-  preserveAll: args.includes('--preserve-all'),
+  importsOnly: args.includes("--imports-only"),
+  variablesOnly: args.includes("--variables-only"),
+  preserveAll: args.includes("--preserve-all"),
 };
 
-args.forEach(arg => {
-  if (arg.startsWith('--max-files=')) {
-    options.maxFiles = parseInt(arg.split('=')[1]) || 20;
+args.forEach((arg) => {
+  if (arg.startsWith("--max-files=")) {
+    options.maxFiles = parseInt(arg.split("=")[1]) || 20;
   }
 });
 

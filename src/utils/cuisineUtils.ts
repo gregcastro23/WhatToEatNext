@@ -1,6 +1,6 @@
-import type { Modality } from '@/data/ingredients/types';
-import type { ElementalProperties } from '@/types/alchemy';
-import { getDominantElement } from '@/utils/elemental/elementalUtils';
+import type { Modality } from "@/data/ingredients/types";
+import type { ElementalProperties } from "@/types/alchemy";
+import { getDominantElement } from "@/utils/elemental/elementalUtils";
 
 /**
  * Determines the modality of a cuisine based on its elemental properties
@@ -12,37 +12,39 @@ import { getDominantElement } from '@/utils/elemental/elementalUtils';
  * @param elementalProperties The elemental properties of the cuisine
  * @returns The modality (Cardinal, Fixed, or Mutable)
  */
-export function determineModalityFromElements(elementalProperties: ElementalProperties): any {
+export function determineModalityFromElements(
+  elementalProperties: ElementalProperties,
+): any {
   const { Fire, Water, Earth, Air } = elementalProperties;
 
   // Determine dominant element
-  const dominantElement = getDominantElement(elementalProperties)
+  const dominantElement = getDominantElement(elementalProperties);
 
   // Primary determination based on dominant element and its strength
   switch (dominantElement) {
-    case 'Air':
+    case "Air":
       // Air has strongest affinity with Mutable, then Cardinal, then Fixed
       if (Air > 0.5) {
-        return 'Mutable';
+        return "Mutable";
       }
       break;
-    case 'Earth':
+    case "Earth":
       // Earth has strongest affinity with Fixed, then Cardinal, then Mutable
       if (Earth > 0.5) {
-        return 'Fixed';
+        return "Fixed";
       }
       break;
-    case 'Fire':
+    case "Fire":
       // Fire has balanced affinities but leans Cardinal
       if (Fire > 0.5) {
-        return 'Cardinal';
+        return "Cardinal";
       }
       break;
-    case 'Water':
+    case "Water":
       // Water is balanced between Fixed and Mutable
       if (Water > 0.5) {
         // Slightly favor Mutable for Water as per our hierarchy
-        return Water > 0.7 ? 'Mutable' : 'Fixed';
+        return Water > 0.7 ? "Mutable" : "Fixed";
       }
       break;
   }
@@ -54,11 +56,11 @@ export function determineModalityFromElements(elementalProperties: ElementalProp
 
   // Return the modality with the highest score
   if (mutableScore > fixedScore && mutableScore > cardinalScore) {
-    return 'Mutable';
+    return "Mutable";
   } else if (fixedScore > mutableScore && fixedScore > cardinalScore) {
-    return 'Fixed';
+    return "Fixed";
   } else {
-    return 'Cardinal';
+    return "Cardinal";
   }
 }
 
@@ -67,14 +69,14 @@ export function determineModalityFromElements(elementalProperties: ElementalProp
  */
 export function getModalityDescription(modality: Modality): string {
   switch (modality) {
-    case 'Cardinal':
-      return 'Bold, direct, and initiating. Typically spicy, intense, or stimulating cuisine with strong flavors.';
-    case 'Fixed':
-      return 'Grounded, stable, and nourishing. Hearty cuisine with substantial ingredients that provide comfort and sustenance.';
-    case 'Mutable':
-      return 'Versatile, adaptive, and harmonizing. Balanced cuisine that can be customized and pairs well with many other foods.';
+    case "Cardinal":
+      return "Bold, direct, and initiating. Typically spicy, intense, or stimulating cuisine with strong flavors.";
+    case "Fixed":
+      return "Grounded, stable, and nourishing. Hearty cuisine with substantial ingredients that provide comfort and sustenance.";
+    case "Mutable":
+      return "Versatile, adaptive, and harmonizing. Balanced cuisine that can be customized and pairs well with many other foods.";
     default:
-      return '';
+      return "";
   }
 }
 
@@ -83,12 +85,30 @@ export function getModalityDescription(modality: Modality): string {
  */
 export function getModalityCookingMethods(modality: Modality): string[] {
   switch (modality) {
-    case 'Cardinal':
-      return ['Grilling', 'Stir-frying', 'Roasting', 'Searing', 'High-heat methods'];
-    case 'Fixed':
-      return ['Slow cooking', 'Braising', 'Baking', 'Stewing', 'Low-heat methods'];
-    case 'Mutable':
-      return ['Steaming', 'Poaching', 'Blanching', 'Multiple techniques', 'Variable methods'];
+    case "Cardinal":
+      return [
+        "Grilling",
+        "Stir-frying",
+        "Roasting",
+        "Searing",
+        "High-heat methods",
+      ];
+    case "Fixed":
+      return [
+        "Slow cooking",
+        "Braising",
+        "Baking",
+        "Stewing",
+        "Low-heat methods",
+      ];
+    case "Mutable":
+      return [
+        "Steaming",
+        "Poaching",
+        "Blanching",
+        "Multiple techniques",
+        "Variable methods",
+      ];
     default:
       return [];
   }

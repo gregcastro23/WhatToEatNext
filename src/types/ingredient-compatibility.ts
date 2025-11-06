@@ -8,10 +8,12 @@ import type {
   BaseIngredient,
   AlchemicalProperties,
   ThermodynamicProperties,
-  Modality
-} from './alchemy';
-import type { SensoryProfile, LunarPhaseModifier } from '../data/ingredients/types';
-
+  Modality,
+} from "./alchemy";
+import type {
+  SensoryProfile,
+  LunarPhaseModifier,
+} from "../data/ingredients/types";
 
 // Re-export types
 export type {
@@ -23,5 +25,5 @@ export type {
   BaseIngredient,
   AlchemicalProperties,
   ThermodynamicProperties,
-  Modality
-}
+  Modality,
+};

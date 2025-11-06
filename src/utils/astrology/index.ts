@@ -14,10 +14,10 @@ export {
   getmoonIllumination,
   getCurrentAstrologicalState,
   calculateElementalProfile,
-  calculateAspects
-} from './core';
+  calculateAspects,
+} from "./core";
 
-export * from './positions';
+export * from "./positions";
 
 // Re-export validation functions
-export { validatePlanetaryPositions } from './validation';
+export { validatePlanetaryPositions } from "./validation";

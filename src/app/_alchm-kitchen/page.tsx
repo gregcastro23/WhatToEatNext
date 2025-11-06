@@ -1,55 +1,59 @@
-'use client';
+"use client";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
-import dynamic_import from 'next/dynamic';
-import { useEffect, useState } from 'react';
-import { AstrologicalProvider } from '@/context/AstrologicalContext';
-import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
-import { createLogger } from '@/utils/logger';
+import dynamic_import from "next/dynamic";
+import { useEffect, useState } from "react";
+import { AstrologicalProvider } from "@/context/AstrologicalContext";
+import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
+import { createLogger } from "@/utils/logger";
 
-const AlchmKitchenTab = dynamic_import(() => import('../../../docs/Alchm Kitchen/AlchmKitchenTab'), { ssr: false });
+const AlchmKitchenTab = dynamic_import(
+  () => import("../../../docs/Alchm Kitchen/AlchmKitchenTab"),
+  { ssr: false },
+);
 
-import DevSettings from './DevSettings';
-import SignVectorPanel from './SignVectorPanel';
+import DevSettings from "./DevSettings";
+import SignVectorPanel from "./SignVectorPanel";
 
-const logger = createLogger('AlchmKitchenPage')
-;
+const logger = createLogger("AlchmKitchenPage");
 function ClientOnly({ children }: { children: React.ReactNode }) {
-  const [hasMounted, setHasMounted] = useState(false)
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    setHasMounted(true)
-    logger.debug('AlchmKitchen page client-side mount complete')
-  }, [])
+    setHasMounted(true);
+    logger.debug("AlchmKitchen page client-side mount complete");
+  }, []);
 
   if (!hasMounted) {
     return (
-      <div className='flex min-h-screen flex-col items-center justify-center space-y-4'>
+      <div className="flex min-h-screen flex-col items-center justify-center space-y-4">
         <p>Loading Alchm Kitchen...</p>
-        <div className='text-xs text-gray-500'>
+        <div className="text-xs text-gray-500">
           <p>Debug Info</p>
           <p>Mounted: false</p>
           <p>Renders: 0</p>
         </div>
-      </div>);
+      </div>
+    );
   }
 
-  return <>{children}</>
+  return <>{children}</>;
 }
 
 export default function AlchmKitchenPage() {
-  return (<AlchemicalProvider>
+  return (
+    <AlchemicalProvider>
       <AstrologicalProvider>
-        <main className='min-h-screen p-4, md: p-8'>,
+        <main className="min-h-screen p-4, md: p-8">
+          ,
           <ClientOnly>
             <AlchmKitchenTab />
-            <div className='mt-6'>,
-              ,
-              <SignVectorPanel governing='dominant' />
+            <div className="mt-6">
+              , ,
+              <SignVectorPanel governing="dominant" />
             </div>
-            <div className='mt-6'>
-              
+            <div className="mt-6">
               <DevSettings />
             </div>
           </ClientOnly>

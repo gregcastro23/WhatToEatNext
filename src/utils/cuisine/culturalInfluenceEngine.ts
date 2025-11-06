@@ -12,11 +12,11 @@
  */
 
 import type {
-    AlchemicalProperties,
-    CuisineComputedProperties,
-    CulturalInfluence,
-    ElementalProperties
-} from '@/types/hierarchy';
+  AlchemicalProperties,
+  CuisineComputedProperties,
+  CulturalInfluence,
+  ElementalProperties,
+} from "@/types/hierarchy";
 
 // ========== GEOGRAPHIC AND CLIMATE DATA ==========
 
@@ -25,41 +25,47 @@ import type {
  */
 export const GEOGRAPHIC_REGIONS = {
   mediterranean: {
-    name: 'Mediterranean',
-    climate: 'mediterranean',
+    name: "Mediterranean",
+    climate: "mediterranean",
     elementalModifiers: { Fire: 0.1, Water: 0.1, Earth: -0.1, Air: 0.1 },
-    description: 'Sunny, coastal region with olive oil, fresh seafood, and herb-forward cuisine',
+    description:
+      "Sunny, coastal region with olive oil, fresh seafood, and herb-forward cuisine",
   },
   tropical: {
-    name: 'Tropical',
-    climate: 'tropical',
+    name: "Tropical",
+    climate: "tropical",
     elementalModifiers: { Fire: 0.2, Water: 0.2, Earth: -0.2, Air: 0.0 },
-    description: 'Hot, humid regions with bold spices, fresh fruits, and vibrant flavors',
+    description:
+      "Hot, humid regions with bold spices, fresh fruits, and vibrant flavors",
   },
   temperate: {
-    name: 'Temperate',
-    climate: 'temperate',
+    name: "Temperate",
+    climate: "temperate",
     elementalModifiers: { Fire: 0.0, Water: 0.0, Earth: 0.1, Air: 0.0 },
-    description: 'Moderate climate with balanced ingredients and seasonal variety'
-},
+    description:
+      "Moderate climate with balanced ingredients and seasonal variety",
+  },
   arctic: {
-    name: 'Arctic',
-    climate: 'arctic',
+    name: "Arctic",
+    climate: "arctic",
     elementalModifiers: { Fire: -0.1, Water: -0.2, Earth: 0.3, Air: -0.1 },
-    description: 'Cold regions with preserved foods, root vegetables, and hearty preparations',
+    description:
+      "Cold regions with preserved foods, root vegetables, and hearty preparations",
   },
   desert: {
-    name: 'Desert',
-    climate: 'desert',
+    name: "Desert",
+    climate: "desert",
     elementalModifiers: { Fire: 0.1, Water: -0.2, Earth: 0.2, Air: 0.0 },
-    description: 'Dry regions with preserved foods, spices, and water-efficient cooking',
+    description:
+      "Dry regions with preserved foods, spices, and water-efficient cooking",
   },
   mountainous: {
-    name: 'Mountainous',
-    climate: 'temperate',
+    name: "Mountainous",
+    climate: "temperate",
     elementalModifiers: { Fire: -0.1, Water: 0.1, Earth: 0.2, Air: 0.0 },
-    description: 'Elevated regions with pasture-raised meats and fermented products'
-}
+    description:
+      "Elevated regions with pasture-raised meats and fermented products",
+  },
 } as const;
 
 /**
@@ -70,7 +76,7 @@ export const CLIMATE_MODIFIERS: Record<string, Partial<ElementalProperties>> = {
   temperate: { Fire: 0.05, Water: 0.05, Earth: 0.05, Air: 0.05 },
   arctic: { Fire: -0.1, Water: -0.15, Earth: 0.2, Air: -0.05 },
   desert: { Fire: 0.1, Water: -0.15, Earth: 0.15, Air: 0.05 },
-  mediterranean: { Fire: 0.1, Water: 0.1, Earth: -0.05, Air: 0.1 }
+  mediterranean: { Fire: 0.1, Water: 0.1, Earth: -0.05, Air: 0.1 },
 };
 
 // ========== CULTURAL PHILOSOPHY DATA ==========
@@ -80,41 +86,76 @@ export const CLIMATE_MODIFIERS: Record<string, Partial<ElementalProperties>> = {
  */
 export const CULINARY_PHILOSOPHIES = {
   farm_to_table: {
-    name: 'Farm to Table',
+    name: "Farm to Table",
     elementalModifiers: { Earth: 0.15, Water: 0.1, Air: 0.05, Fire: -0.05 },
-    alchemicalModifiers: { Spirit: 0.1, Essence: 0.15, Matter: 0.1, Substance: -0.1 },
-    description: 'Emphasis on fresh, local, seasonal ingredients with minimal processing',
+    alchemicalModifiers: {
+      Spirit: 0.1,
+      Essence: 0.15,
+      Matter: 0.1,
+      Substance: -0.1,
+    },
+    description:
+      "Emphasis on fresh, local, seasonal ingredients with minimal processing",
   },
   fermentation_tradition: {
-    name: 'Fermentation Tradition',
+    name: "Fermentation Tradition",
     elementalModifiers: { Earth: 0.2, Water: 0.1, Air: -0.1, Fire: -0.1 },
-    alchemicalModifiers: { Spirit: 0.2, Essence: 0.1, Matter: 0.15, Substance: 0.1 },
-    description: 'Ancient preservation techniques creating complex, transformative flavors',
+    alchemicalModifiers: {
+      Spirit: 0.2,
+      Essence: 0.1,
+      Matter: 0.15,
+      Substance: 0.1,
+    },
+    description:
+      "Ancient preservation techniques creating complex, transformative flavors",
   },
   spice_trading_legacy: {
-    name: 'Spice Trading Legacy',
+    name: "Spice Trading Legacy",
     elementalModifiers: { Fire: 0.2, Air: 0.15, Earth: -0.05, Water: -0.05 },
-    alchemicalModifiers: { Spirit: 0.25, Essence: 0.15, Matter: -0.1, Substance: 0.1 },
-    description: 'Rich history of global spice trade creating bold, aromatic profiles',
+    alchemicalModifiers: {
+      Spirit: 0.25,
+      Essence: 0.15,
+      Matter: -0.1,
+      Substance: 0.1,
+    },
+    description:
+      "Rich history of global spice trade creating bold, aromatic profiles",
   },
   imperial_court_cuisine: {
-    name: 'Imperial Court Cuisine',
+    name: "Imperial Court Cuisine",
     elementalModifiers: { Fire: 0.1, Water: 0.05, Earth: 0.1, Air: 0.05 },
-    alchemicalModifiers: { Spirit: 0.15, Essence: 0.2, Matter: 0.1, Substance: 0.05 },
-    description: 'Refined, elaborate preparations from royal culinary traditions',
+    alchemicalModifiers: {
+      Spirit: 0.15,
+      Essence: 0.2,
+      Matter: 0.1,
+      Substance: 0.05,
+    },
+    description:
+      "Refined, elaborate preparations from royal culinary traditions",
   },
   nomadic_heritage: {
-    name: 'Nomadic Heritage',
+    name: "Nomadic Heritage",
     elementalModifiers: { Fire: 0.15, Earth: 0.1, Air: 0.1, Water: -0.1 },
-    alchemicalModifiers: { Spirit: 0.1, Essence: -0.05, Matter: 0.2, Substance: 0.15 },
-    description: 'Portable, durable foods adapted for travel and preservation',
+    alchemicalModifiers: {
+      Spirit: 0.1,
+      Essence: -0.05,
+      Matter: 0.2,
+      Substance: 0.15,
+    },
+    description: "Portable, durable foods adapted for travel and preservation",
   },
   monastic_cooking: {
-    name: 'Monastic Cooking',
+    name: "Monastic Cooking",
     elementalModifiers: { Earth: 0.15, Water: 0.1, Fire: -0.05, Air: 0.05 },
-    alchemicalModifiers: { Spirit: 0.05, Essence: 0.1, Matter: 0.2, Substance: 0.15 },
-    description: 'Simple, mindful preparations with emphasis on nourishment and balance',
-  }
+    alchemicalModifiers: {
+      Spirit: 0.05,
+      Essence: 0.1,
+      Matter: 0.2,
+      Substance: 0.15,
+    },
+    description:
+      "Simple, mindful preparations with emphasis on nourishment and balance",
+  },
 } as const;
 
 // ========== CULTURAL EXCHANGE PATTERNS ==========
@@ -124,29 +165,33 @@ export const CULINARY_PHILOSOPHIES = {
  */
 export const CULTURAL_EXCHANGES = {
   silk_road: {
-    name: 'Silk Road Exchange',
-    influences: ['Persian', 'Indian', 'Chinese', 'Central Asian'],
+    name: "Silk Road Exchange",
+    influences: ["Persian", "Indian", "Chinese", "Central Asian"],
     elementalImpact: { Fire: 0.1, Air: 0.15, Earth: 0.05, Water: 0.0 },
-    description: 'Ancient trade routes blending spices, techniques, and ingredients across continents',
+    description:
+      "Ancient trade routes blending spices, techniques, and ingredients across continents",
   },
   colonial_expansion: {
-    name: 'Colonial Expansion',
-    influences: ['European', 'American', 'Asian', 'African'],
+    name: "Colonial Expansion",
+    influences: ["European", "American", "Asian", "African"],
     elementalImpact: { Fire: 0.15, Earth: 0.1, Water: 0.05, Air: 0.0 },
-    description: 'Global exploration and colonization creating fusion cuisines worldwide'
-},
+    description:
+      "Global exploration and colonization creating fusion cuisines worldwide",
+  },
   mediterranean_trade: {
-    name: 'Mediterranean Trade',
-    influences: ['Greek', 'Roman', 'Arabic', 'Ottoman'],
+    name: "Mediterranean Trade",
+    influences: ["Greek", "Roman", "Arabic", "Ottoman"],
     elementalImpact: { Water: 0.1, Air: 0.1, Fire: 0.05, Earth: 0.05 },
-    description: 'Ancient maritime trade creating rich culinary traditions around the Mediterranean'
-},
+    description:
+      "Ancient maritime trade creating rich culinary traditions around the Mediterranean",
+  },
   steppe_nomad_routes: {
-    name: 'Steppe Nomad Routes',
-    influences: ['Mongolian', 'Turkish', 'Central Asian', 'Eastern European'],
+    name: "Steppe Nomad Routes",
+    influences: ["Mongolian", "Turkish", "Central Asian", "Eastern European"],
     elementalImpact: { Earth: 0.15, Fire: 0.1, Air: 0.05, Water: -0.05 },
-    description: 'Nomadic traditions of preserved meats and dairy across the Eurasian steppes'
-}
+    description:
+      "Nomadic traditions of preserved meats and dairy across the Eurasian steppes",
+  },
 } as const;
 
 // ========== INFLUENCE CALCULATION FUNCTIONS ==========
@@ -162,13 +207,14 @@ export const CULTURAL_EXCHANGES = {
 export function applyGeographicInfluences(
   baseElementals: ElementalProperties,
   region?: string,
-  climate?: string
+  climate?: string,
 ): ElementalProperties {
   let modified = { ...baseElementals };
 
   // Apply region modifiers
   if (region && GEOGRAPHIC_REGIONS[region as keyof typeof GEOGRAPHIC_REGIONS]) {
-    const regionData = GEOGRAPHIC_REGIONS[region as keyof typeof GEOGRAPHIC_REGIONS];
+    const regionData =
+      GEOGRAPHIC_REGIONS[region as keyof typeof GEOGRAPHIC_REGIONS];
     modified = applyElementalModifiers(modified, regionData.elementalModifiers);
   }
 
@@ -191,27 +237,37 @@ export function applyGeographicInfluences(
 export function applyPhilosophyInfluences(
   elementals: ElementalProperties,
   alchemical: AlchemicalProperties | undefined,
-  philosophies: string[]
-): { elementals: ElementalProperties; alchemical: AlchemicalProperties | undefined } {
+  philosophies: string[],
+): {
+  elementals: ElementalProperties;
+  alchemical: AlchemicalProperties | undefined;
+} {
   let modifiedElementals = { ...elementals };
   let modifiedAlchemical = alchemical ? { ...alchemical } : undefined;
 
-  philosophies.forEach(philosophy => {
-    const philosophyData = CULINARY_PHILOSOPHIES[philosophy as keyof typeof CULINARY_PHILOSOPHIES];
+  philosophies.forEach((philosophy) => {
+    const philosophyData =
+      CULINARY_PHILOSOPHIES[philosophy as keyof typeof CULINARY_PHILOSOPHIES];
     if (!philosophyData) return;
 
     // Apply elemental modifiers
-    modifiedElementals = applyElementalModifiers(modifiedElementals, philosophyData.elementalModifiers);
+    modifiedElementals = applyElementalModifiers(
+      modifiedElementals,
+      philosophyData.elementalModifiers,
+    );
 
     // Apply alchemical modifiers if available
     if (modifiedAlchemical && philosophyData.alchemicalModifiers) {
-      modifiedAlchemical = applyAlchemicalModifiers(modifiedAlchemical, philosophyData.alchemicalModifiers);
+      modifiedAlchemical = applyAlchemicalModifiers(
+        modifiedAlchemical,
+        philosophyData.alchemicalModifiers,
+      );
     }
   });
 
   return {
     elementals: normalizeElementalProperties(modifiedElementals),
-    alchemical: modifiedAlchemical
+    alchemical: modifiedAlchemical,
   };
 }
 
@@ -224,12 +280,13 @@ export function applyPhilosophyInfluences(
  */
 export function applyExchangeInfluences(
   elementals: ElementalProperties,
-  exchanges: string[]
+  exchanges: string[],
 ): ElementalProperties {
   let modified = { ...elementals };
 
-  exchanges.forEach(exchange => {
-    const exchangeData = CULTURAL_EXCHANGES[exchange as keyof typeof CULTURAL_EXCHANGES];
+  exchanges.forEach((exchange) => {
+    const exchangeData =
+      CULTURAL_EXCHANGES[exchange as keyof typeof CULTURAL_EXCHANGES];
     if (!exchangeData) return;
 
     modified = applyElementalModifiers(modified, exchangeData.elementalImpact);
@@ -247,13 +304,13 @@ export function applyExchangeInfluences(
  */
 function applyElementalModifiers(
   base: ElementalProperties,
-  modifiers: Partial<ElementalProperties>
+  modifiers: Partial<ElementalProperties>,
 ): ElementalProperties {
   return {
     Fire: base.Fire + (modifiers.Fire || 0),
     Water: base.Water + (modifiers.Water || 0),
     Earth: base.Earth + (modifiers.Earth || 0),
-    Air: base.Air + (modifiers.Air || 0)
+    Air: base.Air + (modifiers.Air || 0),
   };
 }
 
@@ -266,13 +323,13 @@ function applyElementalModifiers(
  */
 function applyAlchemicalModifiers(
   base: AlchemicalProperties,
-  modifiers: Partial<AlchemicalProperties>
+  modifiers: Partial<AlchemicalProperties>,
 ): AlchemicalProperties {
   return {
     Spirit: base.Spirit + (modifiers.Spirit || 0),
     Essence: base.Essence + (modifiers.Essence || 0),
     Matter: base.Matter + (modifiers.Matter || 0),
-    Substance: base.Substance + (modifiers.Substance || 0)
+    Substance: base.Substance + (modifiers.Substance || 0),
   };
 }
 
@@ -282,7 +339,9 @@ function applyAlchemicalModifiers(
  * @param properties - Elemental properties to normalize
  * @returns Normalized properties
  */
-function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
+function normalizeElementalProperties(
+  properties: ElementalProperties,
+): ElementalProperties {
   const values = Object.values(properties);
   const sum = values.reduce((total, value) => total + value, 0);
 
@@ -294,19 +353,23 @@ function normalizeElementalProperties(properties: ElementalProperties): Elementa
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0
-};
+    Air: 0,
+  };
 
   // Scale to sum to 1.0
   if (sum > 0) {
-    (Object.keys(properties) as Array<keyof ElementalProperties>).forEach(key => {
-      normalized[key] = properties[key] / sum;
-    });
+    (Object.keys(properties) as Array<keyof ElementalProperties>).forEach(
+      (key) => {
+        normalized[key] = properties[key] / sum;
+      },
+    );
   } else {
     // Fallback to equal distribution
-    (Object.keys(normalized) as Array<keyof ElementalProperties>).forEach(key => {
-      normalized[key] = 0.25;
-    });
+    (Object.keys(normalized) as Array<keyof ElementalProperties>).forEach(
+      (key) => {
+        normalized[key] = 0.25;
+      },
+    );
   }
 
   return normalized;
@@ -320,11 +383,14 @@ function normalizeElementalProperties(properties: ElementalProperties): Elementa
  * @param influence - Cultural influence data
  * @returns Human-readable description
  */
-export function generateCulturalDescription(influence: CulturalInfluence): string {
+export function generateCulturalDescription(
+  influence: CulturalInfluence,
+): string {
   const parts: string[] = [];
 
   if (influence.region) {
-    const regionData = GEOGRAPHIC_REGIONS[influence.region as keyof typeof GEOGRAPHIC_REGIONS];
+    const regionData =
+      GEOGRAPHIC_REGIONS[influence.region as keyof typeof GEOGRAPHIC_REGIONS];
     if (regionData) {
       parts.push(regionData.description);
     }
@@ -332,12 +398,14 @@ export function generateCulturalDescription(influence: CulturalInfluence): strin
 
   if (influence.climate) {
     const climateDescriptions: Record<string, string> = {
-      tropical: 'warm, humid conditions favoring fresh, vibrant ingredients',
-      temperate: 'moderate climate enabling diverse seasonal cooking',
-      arctic: 'harsh, cold environment emphasizing preservation and hearty foods',
-      desert: 'dry conditions with emphasis on water conservation and spice',
-      mediterranean: 'sunny coastal region with olive oil and fresh seafood traditions'
-};
+      tropical: "warm, humid conditions favoring fresh, vibrant ingredients",
+      temperate: "moderate climate enabling diverse seasonal cooking",
+      arctic:
+        "harsh, cold environment emphasizing preservation and hearty foods",
+      desert: "dry conditions with emphasis on water conservation and spice",
+      mediterranean:
+        "sunny coastal region with olive oil and fresh seafood traditions",
+    };
     const climateDesc = climateDescriptions[influence.climate];
     if (climateDesc) {
       parts.push(climateDesc);
@@ -345,22 +413,26 @@ export function generateCulturalDescription(influence: CulturalInfluence): strin
   }
 
   if (influence.culturalExchanges && influence.culturalExchanges.length > 0) {
-    const exchangeNames = influence.culturalExchanges.map(exchange => {
-      const exchangeData = CULTURAL_EXCHANGES[exchange as keyof typeof CULTURAL_EXCHANGES];
+    const exchangeNames = influence.culturalExchanges.map((exchange) => {
+      const exchangeData =
+        CULTURAL_EXCHANGES[exchange as keyof typeof CULTURAL_EXCHANGES];
       return exchangeData ? exchangeData.name : exchange;
     });
-    parts.push(`influenced by ${exchangeNames.join(', ')}`);
+    parts.push(`influenced by ${exchangeNames.join(", ")}`);
   }
 
   if (influence.philosophies && influence.philosophies.length > 0) {
-    const philosophyNames = influence.philosophies.map(philosophy => {
-      const philosophyData = CULINARY_PHILOSOPHIES[philosophy as keyof typeof CULINARY_PHILOSOPHIES];
+    const philosophyNames = influence.philosophies.map((philosophy) => {
+      const philosophyData =
+        CULINARY_PHILOSOPHIES[philosophy as keyof typeof CULINARY_PHILOSOPHIES];
       return philosophyData ? philosophyData.name : philosophy;
     });
-    parts.push(`following ${philosophyNames.join(', ')} traditions`);
+    parts.push(`following ${philosophyNames.join(", ")} traditions`);
   }
 
-  return parts.length > 0 ? parts.join('. ') : 'Traditional culinary influences';
+  return parts.length > 0
+    ? parts.join(". ")
+    : "Traditional culinary influences";
 }
 
 // ========== MAIN CULTURAL INFLUENCE APPLICATION ==========
@@ -377,7 +449,7 @@ export function generateCulturalDescription(influence: CulturalInfluence): strin
  */
 export function applyCulturalInfluences(
   cuisineProperties: CuisineComputedProperties,
-  culturalInfluence: CulturalInfluence
+  culturalInfluence: CulturalInfluence,
 ): CuisineComputedProperties {
   let enhancedProperties = { ...cuisineProperties };
 
@@ -385,26 +457,29 @@ export function applyCulturalInfluences(
   const geoInfluencedElementals = applyGeographicInfluences(
     cuisineProperties.averageElementals,
     culturalInfluence.region,
-    culturalInfluence.climate
+    culturalInfluence.climate,
   );
 
   // Apply cultural exchange influences
-  const exchangeInfluencedElementals = culturalInfluence.culturalExchanges ?
-    applyExchangeInfluences(geoInfluencedElementals, culturalInfluence.culturalExchanges) :
-    geoInfluencedElementals;
+  const exchangeInfluencedElementals = culturalInfluence.culturalExchanges
+    ? applyExchangeInfluences(
+        geoInfluencedElementals,
+        culturalInfluence.culturalExchanges,
+      )
+    : geoInfluencedElementals;
 
   // Apply philosophical influences
   const philosophyResult = applyPhilosophyInfluences(
     exchangeInfluencedElementals,
     cuisineProperties.averageAlchemical,
-    culturalInfluence.philosophies || []
+    culturalInfluence.philosophies || [],
   );
 
   // Update the cuisine properties
   enhancedProperties = {
     ...enhancedProperties,
     averageElementals: philosophyResult.elementals,
-    averageAlchemical: philosophyResult.alchemical
+    averageAlchemical: philosophyResult.alchemical,
   };
 
   return enhancedProperties;
@@ -419,15 +494,18 @@ export function applyCulturalInfluences(
  * @returns Validation result
  */
 export function validateCulturalInfluence(influence: CulturalInfluence): {
-  isValid: boolean,
-  errors: string[],
+  isValid: boolean;
+  errors: string[];
   warnings: string[];
 } {
   const errors: string[] = [];
   const warnings: string[] = [];
 
   // Validate region
-  if (influence.region && !GEOGRAPHIC_REGIONS[influence.region as keyof typeof GEOGRAPHIC_REGIONS]) {
+  if (
+    influence.region &&
+    !GEOGRAPHIC_REGIONS[influence.region as keyof typeof GEOGRAPHIC_REGIONS]
+  ) {
     errors.push(`Unknown geographic region: ${influence.region}`);
   }
 
@@ -438,7 +516,7 @@ export function validateCulturalInfluence(influence: CulturalInfluence): {
 
   // Validate cultural exchanges
   if (influence.culturalExchanges) {
-    influence.culturalExchanges.forEach(exchange => {
+    influence.culturalExchanges.forEach((exchange) => {
       if (!CULTURAL_EXCHANGES[exchange as keyof typeof CULTURAL_EXCHANGES]) {
         warnings.push(`Unknown cultural exchange: ${exchange}`);
       }
@@ -447,8 +525,10 @@ export function validateCulturalInfluence(influence: CulturalInfluence): {
 
   // Validate philosophies
   if (influence.philosophies) {
-    influence.philosophies.forEach(philosophy => {
-      if (!CULINARY_PHILOSOPHIES[philosophy as keyof typeof CULINARY_PHILOSOPHIES]) {
+    influence.philosophies.forEach((philosophy) => {
+      if (
+        !CULINARY_PHILOSOPHIES[philosophy as keyof typeof CULINARY_PHILOSOPHIES]
+      ) {
         warnings.push(`Unknown culinary philosophy: ${philosophy}`);
       }
     });
@@ -457,7 +537,7 @@ export function validateCulturalInfluence(influence: CulturalInfluence): {
   return {
     isValid: errors.length === 0,
     errors,
-    warnings
+    warnings,
   };
 }
 
@@ -501,6 +581,4 @@ export function getAvailableExchanges(): string[] {
 
 // ========== EXPORTS ==========
 
-export type {
-    CulturalInfluence
-};
+export type { CulturalInfluence };

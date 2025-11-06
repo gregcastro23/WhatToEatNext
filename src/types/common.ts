@@ -1,18 +1,18 @@
 // Common types used across the application
-export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+export type Season = "spring" | "summer" | "autumn" | "winter";
 export type ZodiacSign =
-  | 'aries'
-  | 'taurus'
-  | 'gemini'
-  | 'cancer'
-  | 'leo'
-  | 'virgo'
-  | 'libra'
-  | 'scorpio'
-  | 'sagittarius'
-  | 'capricorn'
-  | 'aquarius'
-  | 'pisces';
+  | "aries"
+  | "taurus"
+  | "gemini"
+  | "cancer"
+  | "leo"
+  | "virgo"
+  | "libra"
+  | "scorpio"
+  | "sagittarius"
+  | "capricorn"
+  | "aquarius"
+  | "pisces";
 export interface PlanetaryAlignment {
   Sun: string;
   Moon: string;
@@ -27,8 +27,8 @@ export interface PlanetaryAlignment {
   Ascendant?: string;
 }
 
-export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
-export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+export type TimeOfDay = "morning" | "afternoon" | "evening" | "night";
+export type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 
 // Common interfaces used across recommendation and filtering utilities
 export interface ScoredItem {

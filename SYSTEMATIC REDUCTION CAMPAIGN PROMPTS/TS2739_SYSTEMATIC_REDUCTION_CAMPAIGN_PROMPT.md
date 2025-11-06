@@ -104,7 +104,10 @@ const alchemy: { Spirit: number; Essence: number; Matter: number; Substance: num
 ```typescript
 // ✅ Fix Pattern A - Complete ElementalProperties
 const properties: ElementalProperties = {
-  Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1  // All 4 elements required
+  Earth: 0.4,
+  Fire: 0.3,
+  Water: 0.2,
+  Air: 0.1, // All 4 elements required
 };
 ```
 
@@ -116,7 +119,7 @@ const properties: ElementalProperties = {
 // ✅ Fix Pattern B - Complete IngredientMapping
 const result: IngredientMapping = {
   name: "DefaultIngredient",
-  elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+  elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   // Add other required properties as needed
 };
 ```
@@ -133,11 +136,16 @@ const result: IngredientMapping = {
 
 ```typescript
 // ✅ Fix Pattern D - Complete Alchemical Properties
-const alchemicalState: { Spirit: number; Essence: number; Matter: number; Substance: number } = {
+const alchemicalState: {
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
+} = {
   Spirit: 0.25,
   Essence: 0.25,
   Matter: 0.25,
-  Substance: 0.25
+  Substance: 0.25,
 };
 ```
 
@@ -266,14 +274,19 @@ elementalProperties: {
 
 ```typescript
 // ❌ Empty alchemical object (TS2739 error)
-const alchemical: { Spirit: number; Essence: number; Matter: number; Substance: number } = {};
+const alchemical: {
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
+} = {};
 
 // ✅ Complete properties (Fixed)
 const alchemical = {
   Spirit: 0.25,
   Essence: 0.25,
   Matter: 0.25,
-  Substance: 0.25
+  Substance: 0.25,
 };
 ```
 

@@ -5,11 +5,11 @@
  * Run with: node scripts/normalizeElementalProperties.cjs
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 const TOLERANCE = 0.01;
-const INGREDIENTS_DIR = path.join(__dirname, '../src/data/ingredients');
+const INGREDIENTS_DIR = path.join(__dirname, "../src/data/ingredients");
 
 function normalizeElementals(props) {
   const sum = props.Fire + props.Water + props.Earth + props.Air;
@@ -22,7 +22,7 @@ function normalizeElementals(props) {
     Fire: Number((props.Fire / sum).toFixed(2)),
     Water: Number((props.Water / sum).toFixed(2)),
     Earth: Number((props.Earth / sum).toFixed(2)),
-    Air: Number((props.Air / sum).toFixed(2))
+    Air: Number((props.Air / sum).toFixed(2)),
   };
 }
 
@@ -41,7 +41,7 @@ function adjustForRounding(props) {
 
   const adjusted = {
     ...props,
-    [largestKey]: Number((largestVal + diff).toFixed(2))
+    [largestKey]: Number((largestVal + diff).toFixed(2)),
   };
 
   // Verify the sum is now 1.0
@@ -50,7 +50,9 @@ function adjustForRounding(props) {
   if (Math.abs(newSum - 1.0) > 0.001) {
     // If still not 1.0, distribute the remainder
     const finalDiff = 1.0 - newSum;
-    adjusted[largestKey] = Number((adjusted[largestKey] + finalDiff).toFixed(2));
+    adjusted[largestKey] = Number(
+      (adjusted[largestKey] + finalDiff).toFixed(2),
+    );
   }
 
   return adjusted;
@@ -74,10 +76,11 @@ function extractAndNormalize(content, filePath) {
         Fire: parseFloat(fireMatch[1]),
         Water: parseFloat(waterMatch[1]),
         Earth: parseFloat(earthMatch[1]),
-        Air: parseFloat(airMatch[1])
+        Air: parseFloat(airMatch[1]),
       };
 
-      const originalSum = original.Fire + original.Water + original.Earth + original.Air;
+      const originalSum =
+        original.Fire + original.Water + original.Earth + original.Air;
       const normalized = adjustForRounding(normalizeElementals(original));
       const wasNormalized = Math.abs(originalSum - 1.0) >= TOLERANCE;
 
@@ -87,7 +90,7 @@ function extractAndNormalize(content, filePath) {
           original,
           normalized,
           originalSum,
-          originalMatch: match[0]
+          originalMatch: match[0],
         });
       }
     }
@@ -99,14 +102,14 @@ function extractAndNormalize(content, filePath) {
 function updateFile(filePath, results) {
   if (results.length === 0) return;
 
-  let content = fs.readFileSync(filePath, 'utf-8');
+  let content = fs.readFileSync(filePath, "utf-8");
 
   for (const result of results) {
     const newPattern = `elementalProperties: { Fire: ${result.normalized.Fire}, Water: ${result.normalized.Water}, Earth: ${result.normalized.Earth}, Air: ${result.normalized.Air} }`;
     content = content.replace(result.originalMatch, newPattern);
   }
 
-  fs.writeFileSync(filePath, content, 'utf-8');
+  fs.writeFileSync(filePath, content, "utf-8");
 }
 
 function processDirectory(dir) {
@@ -118,8 +121,8 @@ function processDirectory(dir) {
 
     if (entry.isDirectory()) {
       allResults.push(...processDirectory(fullPath));
-    } else if (entry.isFile() && entry.name.endsWith('.ts')) {
-      const content = fs.readFileSync(fullPath, 'utf-8');
+    } else if (entry.isFile() && entry.name.endsWith(".ts")) {
+      const content = fs.readFileSync(fullPath, "utf-8");
       const results = extractAndNormalize(content, fullPath);
 
       if (results.length > 0) {
@@ -135,38 +138,48 @@ function processDirectory(dir) {
 }
 
 function generateReport(results) {
-  console.log('\n' + '='.repeat(80));
-  console.log('ELEMENTAL PROPERTIES NORMALIZATION REPORT');
-  console.log('='.repeat(80) + '\n');
+  console.log("\n" + "=".repeat(80));
+  console.log("ELEMENTAL PROPERTIES NORMALIZATION REPORT");
+  console.log("=".repeat(80) + "\n");
 
   console.log(`Total ingredients normalized: ${results.length}\n`);
 
   if (results.length > 0) {
-    console.log('NORMALIZED INGREDIENTS:\n');
+    console.log("NORMALIZED INGREDIENTS:\n");
 
     for (const result of results) {
       console.log(`File: ${result.file}`);
       console.log(`Original sum: ${result.originalSum.toFixed(3)}`);
-      console.log(`Original: Fire=${result.original.Fire}, Water=${result.original.Water}, Earth=${result.original.Earth}, Air=${result.original.Air}`);
-      console.log(`Normalized: Fire=${result.normalized.Fire}, Water=${result.normalized.Water}, Earth=${result.normalized.Earth}, Air=${result.normalized.Air}`);
-      const newSum = result.normalized.Fire + result.normalized.Water + result.normalized.Earth + result.normalized.Air;
+      console.log(
+        `Original: Fire=${result.original.Fire}, Water=${result.original.Water}, Earth=${result.original.Earth}, Air=${result.original.Air}`,
+      );
+      console.log(
+        `Normalized: Fire=${result.normalized.Fire}, Water=${result.normalized.Water}, Earth=${result.normalized.Earth}, Air=${result.normalized.Air}`,
+      );
+      const newSum =
+        result.normalized.Fire +
+        result.normalized.Water +
+        result.normalized.Earth +
+        result.normalized.Air;
       console.log(`New sum: ${newSum.toFixed(3)}\n`);
     }
 
-    const deviations = results.map(r => Math.abs(r.originalSum - 1.0));
-    console.log('DEVIATION STATISTICS:');
+    const deviations = results.map((r) => Math.abs(r.originalSum - 1.0));
+    console.log("DEVIATION STATISTICS:");
     console.log(`Min deviation: ${Math.min(...deviations).toFixed(3)}`);
     console.log(`Max deviation: ${Math.max(...deviations).toFixed(3)}`);
-    console.log(`Avg deviation: ${(deviations.reduce((a, b) => a + b, 0) / deviations.length).toFixed(3)}\n`);
+    console.log(
+      `Avg deviation: ${(deviations.reduce((a, b) => a + b, 0) / deviations.length).toFixed(3)}\n`,
+    );
   }
 
-  console.log('='.repeat(80));
-  console.log('✅ Normalization complete!');
-  console.log('='.repeat(80) + '\n');
+  console.log("=".repeat(80));
+  console.log("✅ Normalization complete!");
+  console.log("=".repeat(80) + "\n");
 }
 
 function main() {
-  console.log('Starting elemental properties normalization...\n');
+  console.log("Starting elemental properties normalization...\n");
 
   if (!fs.existsSync(INGREDIENTS_DIR)) {
     console.error(`Error: Ingredients directory not found: ${INGREDIENTS_DIR}`);

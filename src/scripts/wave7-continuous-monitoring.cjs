@@ -8,31 +8,31 @@
  * alerts, and preventive measures for unused variable accumulation.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class Wave7ContinuousMonitoring {
   constructor() {
     this.monitoringConfig = {
       thresholds: {
-        green: 500,      // Optimal range
-        yellow: 600,     // Monitor closely
-        orange: 700,     // Action required
-        red: 800         // Emergency cleanup
+        green: 500, // Optimal range
+        yellow: 600, // Monitor closely
+        orange: 700, // Action required
+        red: 800, // Emergency cleanup
       },
       checkInterval: 300000, // 5 minutes in milliseconds
       reportInterval: 3600000, // 1 hour in milliseconds
       alertEnabled: true,
-      autoCleanupEnabled: false // Safety first - manual approval required
+      autoCleanupEnabled: false, // Safety first - manual approval required
     };
 
     this.currentMetrics = {
       unusedVariables: 0,
       lastCheck: null,
-      trend: 'stable',
+      trend: "stable",
       alerts: [],
-      history: []
+      history: [],
     };
 
     this.preservationPatterns = [
@@ -42,19 +42,22 @@ class Wave7ContinuousMonitoring {
       /\b(recipe|ingredient|cooking|elemental|fire|water|earth|air|cuisine|flavor|spice|herb|nutrition)\b/i,
       /\b(mock|stub|test|expect|describe|it|fixture|assertion|jest|vitest|spec|suite)\b/i,
       /\b(api|service|business|logic|integration|adapter|client|server|endpoint)\b/i,
-      /\b(component|props|state|context|provider|hook|render|jsx|tsx)\b/i
+      /\b(component|props|state|context|provider|hook|render|jsx|tsx)\b/i,
     ];
   }
 
   async getCurrentUnusedVariableCount() {
     try {
-      const count = execSync('yarn lint 2>/dev/null | grep -c "no-unused-vars" || echo "0"', {
-        encoding: 'utf8',
-        timeout: 30000 // 30 second timeout
-      }).trim();
+      const count = execSync(
+        'yarn lint 2>/dev/null | grep -c "no-unused-vars" || echo "0"',
+        {
+          encoding: "utf8",
+          timeout: 30000, // 30 second timeout
+        },
+      ).trim();
       return parseInt(count) || 0;
     } catch (error) {
-      console.error('Error getting unused variable count:', error.message);
+      console.error("Error getting unused variable count:", error.message);
       return -1;
     }
   }
@@ -62,17 +65,22 @@ class Wave7ContinuousMonitoring {
   async getDetailedUnusedVariables() {
     try {
       // Get a sample of unused variables for analysis
-      const lintOutput = execSync('yarn lint 2>/dev/null | grep "no-unused-vars" | head -20', {
-        encoding: 'utf8',
-        maxBuffer: 1024 * 1024 * 2, // 2MB buffer
-        timeout: 30000
-      });
+      const lintOutput = execSync(
+        'yarn lint 2>/dev/null | grep "no-unused-vars" | head -20',
+        {
+          encoding: "utf8",
+          maxBuffer: 1024 * 1024 * 2, // 2MB buffer
+          timeout: 30000,
+        },
+      );
 
-      const lines = lintOutput.split('\n').filter(line => line.trim());
+      const lines = lintOutput.split("\n").filter((line) => line.trim());
       const variables = [];
 
       for (const line of lines) {
-        const match = line.match(/^(.+?):(\d+):(\d+)\s+error\s+'([^']+)' is defined but never used/);
+        const match = line.match(
+          /^(.+?):(\d+):(\d+)\s+error\s+'([^']+)' is defined but never used/,
+        );
         if (match) {
           const [, filePath, lineNum, col, variableName] = match;
 
@@ -81,14 +89,14 @@ class Wave7ContinuousMonitoring {
             line: parseInt(lineNum),
             variableName: variableName,
             preserved: this.shouldPreserveVariable(variableName, filePath),
-            category: this.categorizeVariable(variableName, filePath)
+            category: this.categorizeVariable(variableName, filePath),
           });
         }
       }
 
       return variables;
     } catch (error) {
-      console.error('Error getting detailed variables:', error.message);
+      console.error("Error getting detailed variables:", error.message);
       return [];
     }
   }
@@ -104,54 +112,54 @@ class Wave7ContinuousMonitoring {
 
   categorizeVariable(variableName, filePath) {
     if (this.shouldPreserveVariable(variableName, filePath)) {
-      return 'preserved';
+      return "preserved";
     }
 
-    if (variableName.startsWith('_') || variableName.startsWith('UNUSED_')) {
-      return 'safe-to-eliminate';
+    if (variableName.startsWith("_") || variableName.startsWith("UNUSED_")) {
+      return "safe-to-eliminate";
     }
 
     if (/^[A-Z_]+$/.test(variableName) && variableName.length < 20) {
-      return 'simple-constant';
+      return "simple-constant";
     }
 
-    if (filePath.includes('test') || filePath.includes('spec')) {
-      return 'test-related';
+    if (filePath.includes("test") || filePath.includes("spec")) {
+      return "test-related";
     }
 
-    return 'review-required';
+    return "review-required";
   }
 
   determineAlertLevel(count) {
     const { thresholds } = this.monitoringConfig;
 
-    if (count <= thresholds.green) return 'green';
-    if (count <= thresholds.yellow) return 'yellow';
-    if (count <= thresholds.orange) return 'orange';
-    return 'red';
+    if (count <= thresholds.green) return "green";
+    if (count <= thresholds.yellow) return "yellow";
+    if (count <= thresholds.orange) return "orange";
+    return "red";
   }
 
   calculateTrend() {
     const { history } = this.currentMetrics;
 
-    if (history.length < 2) return 'stable';
+    if (history.length < 2) return "stable";
 
     const recent = history.slice(-3);
-    const increasing = recent.every((entry, i) =>
-      i === 0 || entry.count >= recent[i - 1].count
+    const increasing = recent.every(
+      (entry, i) => i === 0 || entry.count >= recent[i - 1].count,
     );
-    const decreasing = recent.every((entry, i) =>
-      i === 0 || entry.count <= recent[i - 1].count
+    const decreasing = recent.every(
+      (entry, i) => i === 0 || entry.count <= recent[i - 1].count,
     );
 
     if (increasing && recent[recent.length - 1].count > recent[0].count + 10) {
-      return 'increasing';
+      return "increasing";
     }
     if (decreasing && recent[0].count > recent[recent.length - 1].count + 10) {
-      return 'decreasing';
+      return "decreasing";
     }
 
-    return 'stable';
+    return "stable";
   }
 
   generateAlert(level, count, trend) {
@@ -162,7 +170,7 @@ class Wave7ContinuousMonitoring {
       count,
       trend,
       message: this.getAlertMessage(level, count, trend),
-      recommendations: this.getRecommendations(level, trend)
+      recommendations: this.getRecommendations(level, trend),
     };
 
     this.currentMetrics.alerts.push(alert);
@@ -180,13 +188,13 @@ class Wave7ContinuousMonitoring {
       green: `✅ Unused variables in optimal range: ${count}`,
       yellow: `⚠️ Unused variables increasing: ${count} (monitor closely)`,
       orange: `🟠 Unused variables require attention: ${count} (action recommended)`,
-      red: `🔴 Unused variables critical: ${count} (immediate action required)`
+      red: `🔴 Unused variables critical: ${count} (immediate action required)`,
     };
 
     const trendMessages = {
-      increasing: ' - Trend: Increasing ⬆️',
-      decreasing: ' - Trend: Decreasing ⬇️',
-      stable: ' - Trend: Stable ➡️'
+      increasing: " - Trend: Increasing ⬆️",
+      decreasing: " - Trend: Decreasing ⬇️",
+      stable: " - Trend: Stable ➡️",
     };
 
     return messages[level] + trendMessages[trend];
@@ -195,37 +203,41 @@ class Wave7ContinuousMonitoring {
   getRecommendations(level, trend) {
     const recommendations = [];
 
-    if (level === 'red') {
-      recommendations.push('🚨 Execute immediate cleanup using Wave 6 tools');
-      recommendations.push('📊 Analyze variable categories for bulk elimination opportunities');
-      recommendations.push('🔍 Review recent commits for unused variable introduction');
-    } else if (level === 'orange') {
-      recommendations.push('🛠️ Schedule cleanup session within 48 hours');
-      recommendations.push('📈 Monitor trend closely for further increases');
-      recommendations.push('🔧 Consider running Wave 6 DirectApproach tool');
-    } else if (level === 'yellow') {
-      recommendations.push('👀 Monitor daily for trend changes');
-      recommendations.push('📝 Document sources of new unused variables');
-      recommendations.push('🎯 Target safe-to-eliminate variables first');
+    if (level === "red") {
+      recommendations.push("🚨 Execute immediate cleanup using Wave 6 tools");
+      recommendations.push(
+        "📊 Analyze variable categories for bulk elimination opportunities",
+      );
+      recommendations.push(
+        "🔍 Review recent commits for unused variable introduction",
+      );
+    } else if (level === "orange") {
+      recommendations.push("🛠️ Schedule cleanup session within 48 hours");
+      recommendations.push("📈 Monitor trend closely for further increases");
+      recommendations.push("🔧 Consider running Wave 6 DirectApproach tool");
+    } else if (level === "yellow") {
+      recommendations.push("👀 Monitor daily for trend changes");
+      recommendations.push("📝 Document sources of new unused variables");
+      recommendations.push("🎯 Target safe-to-eliminate variables first");
     }
 
-    if (trend === 'increasing') {
-      recommendations.push('🔍 Investigate recent development activity');
-      recommendations.push('📚 Review team coding practices');
-      recommendations.push('🛡️ Consider implementing pre-commit hooks');
+    if (trend === "increasing") {
+      recommendations.push("🔍 Investigate recent development activity");
+      recommendations.push("📚 Review team coding practices");
+      recommendations.push("🛡️ Consider implementing pre-commit hooks");
     }
 
     return recommendations;
   }
 
   async performMonitoringCheck() {
-    console.log('🔍 Performing monitoring check...');
+    console.log("🔍 Performing monitoring check...");
 
     const count = await this.getCurrentUnusedVariableCount();
     const timestamp = new Date().toISOString();
 
     if (count === -1) {
-      console.error('❌ Failed to get unused variable count');
+      console.error("❌ Failed to get unused variable count");
       return null;
     }
 
@@ -249,15 +261,15 @@ class Wave7ContinuousMonitoring {
 
     // Generate alert if needed
     let alert = null;
-    if (alertLevel !== 'green' || this.currentMetrics.trend === 'increasing') {
+    if (alertLevel !== "green" || this.currentMetrics.trend === "increasing") {
       alert = this.generateAlert(alertLevel, count, this.currentMetrics.trend);
 
       if (this.monitoringConfig.alertEnabled) {
         console.log(`\n${alert.message}`);
 
         if (alert.recommendations.length > 0) {
-          console.log('\n📋 Recommendations:');
-          alert.recommendations.forEach(rec => console.log(`  ${rec}`));
+          console.log("\n📋 Recommendations:");
+          alert.recommendations.forEach((rec) => console.log(`  ${rec}`));
         }
       }
     }
@@ -267,12 +279,12 @@ class Wave7ContinuousMonitoring {
       alertLevel,
       trend: this.currentMetrics.trend,
       alert,
-      timestamp
+      timestamp,
     };
   }
 
   async generateDetailedReport() {
-    console.log('\n📊 Generating detailed monitoring report...');
+    console.log("\n📊 Generating detailed monitoring report...");
 
     const detailedVariables = await this.getDetailedUnusedVariables();
 
@@ -281,8 +293,10 @@ class Wave7ContinuousMonitoring {
       return acc;
     }, {});
 
-    const preservedCount = detailedVariables.filter(v => v.preserved).length;
-    const eliminationCandidates = detailedVariables.filter(v => !v.preserved).length;
+    const preservedCount = detailedVariables.filter((v) => v.preserved).length;
+    const eliminationCandidates = detailedVariables.filter(
+      (v) => !v.preserved,
+    ).length;
 
     const report = {
       timestamp: new Date().toISOString(),
@@ -296,28 +310,28 @@ class Wave7ContinuousMonitoring {
       recentAlerts: this.currentMetrics.alerts.slice(-5),
       recommendations: this.getRecommendations(
         this.determineAlertLevel(this.currentMetrics.unusedVariables),
-        this.currentMetrics.trend
-      )
+        this.currentMetrics.trend,
+      ),
     };
 
     return report;
   }
 
   async saveMonitoringData() {
-    const dataDir = '.kiro/specs/unused-variable-elimination/monitoring';
+    const dataDir = ".kiro/specs/unused-variable-elimination/monitoring";
 
     // Ensure directory exists
     if (!fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir, { recursive: true });
     }
 
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
     const filename = path.join(dataDir, `monitoring-${timestamp}.json`);
 
     const data = {
       config: this.monitoringConfig,
       metrics: this.currentMetrics,
-      generatedAt: new Date().toISOString()
+      generatedAt: new Date().toISOString(),
     };
 
     fs.writeFileSync(filename, JSON.stringify(data, null, 2));
@@ -327,17 +341,17 @@ class Wave7ContinuousMonitoring {
   }
 
   async runSingleCheck() {
-    console.log('🚀 Starting Wave 7 Continuous Monitoring - Single Check\n');
+    console.log("🚀 Starting Wave 7 Continuous Monitoring - Single Check\n");
 
     try {
       const result = await this.performMonitoringCheck();
 
       if (!result) {
-        console.error('❌ Monitoring check failed');
+        console.error("❌ Monitoring check failed");
         return;
       }
 
-      console.log('\n📈 Current Status:');
+      console.log("\n📈 Current Status:");
       console.log(`  Unused Variables: ${result.count}`);
       console.log(`  Alert Level: ${result.alertLevel.toUpperCase()}`);
       console.log(`  Trend: ${result.trend}`);
@@ -346,11 +360,11 @@ class Wave7ContinuousMonitoring {
       // Generate detailed report
       const report = await this.generateDetailedReport();
 
-      console.log('\n📊 Sample Analysis (20 variables):');
+      console.log("\n📊 Sample Analysis (20 variables):");
       console.log(`  Preserved: ${report.preservedCount}`);
       console.log(`  Elimination Candidates: ${report.eliminationCandidates}`);
 
-      console.log('\n📋 Category Breakdown:');
+      console.log("\n📋 Category Breakdown:");
       Object.entries(report.categoryCounts).forEach(([category, count]) => {
         console.log(`  ${category}: ${count}`);
       });
@@ -358,20 +372,22 @@ class Wave7ContinuousMonitoring {
       // Save monitoring data
       await this.saveMonitoringData();
 
-      console.log('\n✅ Wave 7 monitoring check completed successfully!');
+      console.log("\n✅ Wave 7 monitoring check completed successfully!");
 
       return report;
-
     } catch (error) {
-      console.error('❌ Error during monitoring check:', error.message);
+      console.error("❌ Error during monitoring check:", error.message);
       throw error;
     }
   }
 
-  async runContinuousMonitoring(duration = 3600000) { // 1 hour default
-    console.log('🚀 Starting Wave 7 Continuous Monitoring - Continuous Mode\n');
+  async runContinuousMonitoring(duration = 3600000) {
+    // 1 hour default
+    console.log("🚀 Starting Wave 7 Continuous Monitoring - Continuous Mode\n");
     console.log(`⏱️ Duration: ${duration / 60000} minutes`);
-    console.log(`🔄 Check Interval: ${this.monitoringConfig.checkInterval / 60000} minutes`);
+    console.log(
+      `🔄 Check Interval: ${this.monitoringConfig.checkInterval / 60000} minutes`,
+    );
 
     const startTime = Date.now();
     const endTime = startTime + duration;
@@ -380,7 +396,9 @@ class Wave7ContinuousMonitoring {
 
     while (Date.now() < endTime) {
       checkCount++;
-      console.log(`\n🔍 Check #${checkCount} - ${new Date().toLocaleTimeString()}`);
+      console.log(
+        `\n🔍 Check #${checkCount} - ${new Date().toLocaleTimeString()}`,
+      );
 
       try {
         await this.performMonitoringCheck();
@@ -389,19 +407,24 @@ class Wave7ContinuousMonitoring {
         if (checkCount % 5 === 0) {
           await this.saveMonitoringData();
         }
-
       } catch (error) {
         console.error(`❌ Check #${checkCount} failed:`, error.message);
       }
 
       // Wait for next check
       if (Date.now() < endTime) {
-        console.log(`⏳ Waiting ${this.monitoringConfig.checkInterval / 60000} minutes until next check...`);
-        await new Promise(resolve => setTimeout(resolve, this.monitoringConfig.checkInterval));
+        console.log(
+          `⏳ Waiting ${this.monitoringConfig.checkInterval / 60000} minutes until next check...`,
+        );
+        await new Promise((resolve) =>
+          setTimeout(resolve, this.monitoringConfig.checkInterval),
+        );
       }
     }
 
-    console.log(`\n✅ Continuous monitoring completed after ${checkCount} checks`);
+    console.log(
+      `\n✅ Continuous monitoring completed after ${checkCount} checks`,
+    );
 
     // Generate final report
     const finalReport = await this.generateDetailedReport();
@@ -414,11 +437,11 @@ class Wave7ContinuousMonitoring {
 // CLI interface
 if (require.main === module) {
   const args = process.argv.slice(2);
-  const mode = args[0] || 'single';
+  const mode = args[0] || "single";
 
   const monitor = new Wave7ContinuousMonitoring();
 
-  if (mode === 'continuous') {
+  if (mode === "continuous") {
     const duration = parseInt(args[1]) || 3600000; // Default 1 hour
     monitor.runContinuousMonitoring(duration).catch(console.error);
   } else {

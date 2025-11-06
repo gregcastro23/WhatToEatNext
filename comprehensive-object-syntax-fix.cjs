@@ -5,8 +5,8 @@
  * Fixes all object literal and interface syntax errors
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 function fixObjectSyntax(filePath) {
   if (!fs.existsSync(filePath)) {
@@ -15,12 +15,12 @@ function fixObjectSyntax(filePath) {
 
   console.log(`Fixing object syntax in: ${filePath}`);
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
   let modified = false;
 
   // 1. Fix object literal with opening brace followed by semicolon
-  if (content.includes('= {;')) {
-    content = content.replace(/=\s*{\s*;/g, '= {');
+  if (content.includes("= {;")) {
+    content = content.replace(/=\s*{\s*;/g, "= {");
     modified = true;
     console.log(`  ✅ Fixed object literal opening brace syntax`);
   }
@@ -28,15 +28,16 @@ function fixObjectSyntax(filePath) {
   // 2. Fix property declarations with semicolons instead of commas
   const propertyPattern = /(\s+)(\w+):\s*([^,;\n}]+);(\s*\n\s*)(\w+):/g;
   if (propertyPattern.test(content)) {
-    content = content.replace(propertyPattern, '$1$2: $3,$4$5:');
+    content = content.replace(propertyPattern, "$1$2: $3,$4$5:");
     modified = true;
     console.log(`  ✅ Fixed property semicolon syntax`);
   }
 
   // 3. Fix object properties with trailing commas followed by semicolons
-  const trailingCommaPattern = /(\w+:\s*[^,;\n}]+),(\s*\n\s*\w+:\s*[^,;\n}]+);/g;
+  const trailingCommaPattern =
+    /(\w+:\s*[^,;\n}]+),(\s*\n\s*\w+:\s*[^,;\n}]+);/g;
   if (trailingCommaPattern.test(content)) {
-    content = content.replace(trailingCommaPattern, '$1,$2,');
+    content = content.replace(trailingCommaPattern, "$1,$2,");
     modified = true;
     console.log(`  ✅ Fixed trailing comma-semicolon syntax`);
   }
@@ -44,7 +45,7 @@ function fixObjectSyntax(filePath) {
   // 4. Fix object properties ending with semicolon in middle of object
   const midObjectSemicolon = /(\w+:\s*[^,;\n}]+);(\s*\n\s*\w+:)/g;
   if (midObjectSemicolon.test(content)) {
-    content = content.replace(midObjectSemicolon, '$1,$2');
+    content = content.replace(midObjectSemicolon, "$1,$2");
     modified = true;
     console.log(`  ✅ Fixed mid-object semicolon syntax`);
   }
@@ -52,7 +53,7 @@ function fixObjectSyntax(filePath) {
   // 5. Fix object with comma followed by opening brace
   const commaOpenBrace = /(\w+:\s*[^,;\n}]+),(\s*\n\s*\w+:\s*{\s*),/g;
   if (commaOpenBrace.test(content)) {
-    content = content.replace(commaOpenBrace, '$1,$2');
+    content = content.replace(commaOpenBrace, "$1,$2");
     modified = true;
     console.log(`  ✅ Fixed comma-open-brace syntax`);
   }
@@ -60,7 +61,7 @@ function fixObjectSyntax(filePath) {
   // 6. Fix nested object syntax issues
   const nestedObjectPattern = /(\w+:\s*{\s*),/g;
   if (nestedObjectPattern.test(content)) {
-    content = content.replace(nestedObjectPattern, '$1');
+    content = content.replace(nestedObjectPattern, "$1");
     modified = true;
     console.log(`  ✅ Fixed nested object syntax`);
   }
@@ -68,7 +69,7 @@ function fixObjectSyntax(filePath) {
   // 7. Fix interface property syntax (semicolon-comma)
   const interfacePattern = /(\w+:\s*[^;,\n}]+);,/g;
   if (interfacePattern.test(content)) {
-    content = content.replace(interfacePattern, '$1;');
+    content = content.replace(interfacePattern, "$1;");
     modified = true;
     console.log(`  ✅ Fixed interface semicolon-comma syntax`);
   }
@@ -76,7 +77,7 @@ function fixObjectSyntax(filePath) {
   // 8. Fix last property in object with semicolon
   const lastPropertyPattern = /(\w+:\s*[^,;\n}]+);(\s*\n\s*})/g;
   if (lastPropertyPattern.test(content)) {
-    content = content.replace(lastPropertyPattern, '$1$2');
+    content = content.replace(lastPropertyPattern, "$1$2");
     modified = true;
     console.log(`  ✅ Fixed last property semicolon syntax`);
   }
@@ -101,9 +102,16 @@ function getAllTSFiles() {
         const fullPath = `${dir}/${item}`;
         const stat = fs.statSync(fullPath);
 
-        if (stat.isDirectory() && !item.startsWith('.') && item !== 'node_modules') {
+        if (
+          stat.isDirectory() &&
+          !item.startsWith(".") &&
+          item !== "node_modules"
+        ) {
           walkDir(fullPath);
-        } else if (stat.isFile() && (item.endsWith('.ts') || item.endsWith('.tsx'))) {
+        } else if (
+          stat.isFile() &&
+          (item.endsWith(".ts") || item.endsWith(".tsx"))
+        ) {
           files.push(fullPath);
         }
       }
@@ -112,25 +120,26 @@ function getAllTSFiles() {
     }
   }
 
-  walkDir('src');
+  walkDir("src");
   return files;
 }
 
 function getFilesFromBuildErrors() {
   try {
-    execSync('yarn build', { stdio: 'pipe', timeout: 30000 });
+    execSync("yarn build", { stdio: "pipe", timeout: 30000 });
     return [];
   } catch (error) {
-    const errorOutput = error.stdout?.toString() || error.stderr?.toString() || '';
+    const errorOutput =
+      error.stdout?.toString() || error.stderr?.toString() || "";
     const fileMatches = errorOutput.match(/\.\/src\/[^\s]+\.tsx?/g);
     if (fileMatches) {
-      return [...new Set(fileMatches.map(f => f.replace('./', '')))];
+      return [...new Set(fileMatches.map((f) => f.replace("./", "")))];
     }
     return [];
   }
 }
 
-console.log('Starting Comprehensive Object Syntax Fix');
+console.log("Starting Comprehensive Object Syntax Fix");
 
 // First, fix files that have build errors
 const errorFiles = getFilesFromBuildErrors();
@@ -146,14 +155,16 @@ for (const filePath of errorFiles) {
 }
 
 // Test build after fixing error files
-console.log('\nTesting build after fixing error files...');
+console.log("\nTesting build after fixing error files...");
 try {
-  execSync('yarn build', { stdio: 'pipe', timeout: 60000 });
-  console.log('✅ Build successful after fixing error files!');
+  execSync("yarn build", { stdio: "pipe", timeout: 60000 });
+  console.log("✅ Build successful after fixing error files!");
   console.log(`Total files fixed: ${totalFixed}`);
   process.exit(0);
 } catch (error) {
-  console.log('❌ Build still has issues, continuing with comprehensive fix...');
+  console.log(
+    "❌ Build still has issues, continuing with comprehensive fix...",
+  );
 }
 
 // If build still fails, fix all TypeScript files
@@ -169,14 +180,15 @@ for (const filePath of allFiles) {
 console.log(`\nTotal files fixed: ${totalFixed}`);
 
 // Final build test
-console.log('\nFinal build test...');
+console.log("\nFinal build test...");
 try {
-  execSync('yarn build', { stdio: 'pipe', timeout: 90000 });
-  console.log('🎉 Build successful!');
-  console.log('✅ All object syntax errors fixed');
+  execSync("yarn build", { stdio: "pipe", timeout: 90000 });
+  console.log("🎉 Build successful!");
+  console.log("✅ All object syntax errors fixed");
 } catch (error) {
-  console.log('❌ Some build issues remain');
-  const errorOutput = error.stdout?.toString() || error.stderr?.toString() || '';
-  console.log('Remaining errors:');
-  console.log(errorOutput.split('\n').slice(0, 30).join('\n'));
+  console.log("❌ Some build issues remain");
+  const errorOutput =
+    error.stdout?.toString() || error.stderr?.toString() || "";
+  console.log("Remaining errors:");
+  console.log(errorOutput.split("\n").slice(0, 30).join("\n"));
 }

@@ -10,14 +10,14 @@
  * - Resolve circular dependency issues if any exist
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 class SafeImportOrganizer {
   constructor() {
-    this.srcDir = path.join(process.cwd(), 'src');
-    this.backupDir = path.join(process.cwd(), '.safe-import-backup');
+    this.srcDir = path.join(process.cwd(), "src");
+    this.backupDir = path.join(process.cwd(), ".safe-import-backup");
     this.processedFiles = 0;
     this.fixedIssues = 0;
     this.ensureBackupDirectory();
@@ -42,14 +42,14 @@ class SafeImportOrganizer {
   }
 
   async getImportIssues() {
-    console.log('🔍 Analyzing import issues with ESLint...');
+    console.log("🔍 Analyzing import issues with ESLint...");
 
     try {
       // Run ESLint to get import-related issues
-      const eslintCmd = 'yarn lint src/ --format=json';
+      const eslintCmd = "yarn lint src/ --format=json";
       const eslintOutput = execSync(eslintCmd, {
-        encoding: 'utf8',
-        stdio: 'pipe',
+        encoding: "utf8",
+        stdio: "pipe",
         maxBuffer: 10 * 1024 * 1024,
       });
 
@@ -63,27 +63,27 @@ class SafeImportOrganizer {
 
       for (const result of results) {
         for (const message of result.messages) {
-          if (message.ruleId === 'import/no-duplicates') {
+          if (message.ruleId === "import/no-duplicates") {
             importIssues.duplicates.push({
               file: result.filePath,
               line: message.line,
               message: message.message,
             });
-          } else if (message.ruleId === 'import/order') {
+          } else if (message.ruleId === "import/order") {
             importIssues.order.push({
               file: result.filePath,
               line: message.line,
               message: message.message,
             });
-          } else if (message.ruleId === 'import/no-cycle') {
+          } else if (message.ruleId === "import/no-cycle") {
             importIssues.cycles.push({
               file: result.filePath,
               line: message.line,
               message: message.message,
             });
           } else if (
-            message.ruleId?.includes('import/named') ||
-            message.ruleId?.includes('import/default')
+            message.ruleId?.includes("import/named") ||
+            message.ruleId?.includes("import/default")
           ) {
             importIssues.named.push({
               file: result.filePath,
@@ -96,94 +96,99 @@ class SafeImportOrganizer {
 
       return importIssues;
     } catch (error) {
-      console.warn('⚠️ ESLint analysis failed:', error.message);
+      console.warn("⚠️ ESLint analysis failed:", error.message);
       return { duplicates: [], order: [], cycles: [], named: [] };
     }
   }
 
   async fixImportOrderWithESLint() {
-    console.log('🔧 Fixing import order using ESLint --fix...');
+    console.log("🔧 Fixing import order using ESLint --fix...");
 
     try {
       // Use ESLint --fix specifically for import/order rule
       const fixCmd = 'yarn lint src/ --fix --rule "import/order: error"';
       execSync(fixCmd, {
-        stdio: 'pipe',
+        stdio: "pipe",
         maxBuffer: 10 * 1024 * 1024,
         timeout: 120000, // 2 minute timeout
       });
 
-      console.log('✅ Import order fixed using ESLint --fix');
+      console.log("✅ Import order fixed using ESLint --fix");
       return true;
     } catch (error) {
-      console.warn('⚠️ ESLint --fix failed:', error.message);
+      console.warn("⚠️ ESLint --fix failed:", error.message);
       return false;
     }
   }
 
   async fixDuplicateImportsWithESLint() {
-    console.log('🔧 Fixing duplicate imports using ESLint --fix...');
+    console.log("🔧 Fixing duplicate imports using ESLint --fix...");
 
     try {
       // Use ESLint --fix specifically for import/no-duplicates rule
-      const fixCmd = 'yarn lint src/ --fix --rule "import/no-duplicates: error"';
+      const fixCmd =
+        'yarn lint src/ --fix --rule "import/no-duplicates: error"';
       execSync(fixCmd, {
-        stdio: 'pipe',
+        stdio: "pipe",
         maxBuffer: 10 * 1024 * 1024,
         timeout: 120000, // 2 minute timeout
       });
 
-      console.log('✅ Duplicate imports fixed using ESLint --fix');
+      console.log("✅ Duplicate imports fixed using ESLint --fix");
       return true;
     } catch (error) {
-      console.warn('⚠️ ESLint --fix for duplicates failed:', error.message);
+      console.warn("⚠️ ESLint --fix for duplicates failed:", error.message);
       return false;
     }
   }
 
   async validateBuildSafety() {
-    console.log('🔍 Validating build safety...');
+    console.log("🔍 Validating build safety...");
 
     try {
       // Quick syntax check first
-      execSync('yarn tsc --noEmit --skipLibCheck', {
-        stdio: 'pipe',
+      execSync("yarn tsc --noEmit --skipLibCheck", {
+        stdio: "pipe",
         timeout: 60000,
       });
-      console.log('✅ Build validation passed');
+      console.log("✅ Build validation passed");
       return true;
     } catch (error) {
-      console.error('❌ Build validation failed');
+      console.error("❌ Build validation failed");
       return false;
     }
   }
 
   async createFullBackup() {
-    console.log('💾 Creating full backup of src directory...');
+    console.log("💾 Creating full backup of src directory...");
 
     try {
       // Create timestamped backup
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const fullBackupDir = path.join(process.cwd(), `.import-backup-${timestamp}`);
+      const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+      const fullBackupDir = path.join(
+        process.cwd(),
+        `.import-backup-${timestamp}`,
+      );
 
-      execSync(`cp -r src/ "${fullBackupDir}"`, { stdio: 'pipe' });
+      execSync(`cp -r src/ "${fullBackupDir}"`, { stdio: "pipe" });
       console.log(`✅ Full backup created: ${fullBackupDir}`);
       return fullBackupDir;
     } catch (error) {
-      console.error('❌ Failed to create backup:', error.message);
+      console.error("❌ Failed to create backup:", error.message);
       return null;
     }
   }
 
   async detectCircularDependencies() {
-    console.log('🔍 Detecting circular dependencies...');
+    console.log("🔍 Detecting circular dependencies...");
 
     try {
       // Use ESLint to detect circular dependencies
-      const eslintCmd = 'yarn lint src/ --rule "import/no-cycle: error" --format=json';
+      const eslintCmd =
+        'yarn lint src/ --rule "import/no-cycle: error" --format=json';
       const eslintOutput = execSync(eslintCmd, {
-        encoding: 'utf8',
-        stdio: 'pipe',
+        encoding: "utf8",
+        stdio: "pipe",
         maxBuffer: 10 * 1024 * 1024,
       });
 
@@ -192,7 +197,7 @@ class SafeImportOrganizer {
 
       for (const result of results) {
         for (const message of result.messages) {
-          if (message.ruleId === 'import/no-cycle') {
+          if (message.ruleId === "import/no-cycle") {
             cycles.push({
               file: result.filePath,
               line: message.line,
@@ -204,7 +209,7 @@ class SafeImportOrganizer {
 
       return cycles;
     } catch (error) {
-      console.warn('⚠️ Circular dependency detection failed:', error.message);
+      console.warn("⚠️ Circular dependency detection failed:", error.message);
       return [];
     }
   }
@@ -248,33 +253,35 @@ Full backup created at: ${backupLocation}
 ## Remaining Circular Dependencies
 ${
   afterIssues.cycles.length > 0
-    ? afterIssues.cycles.map(cycle => `- ${cycle.file}:${cycle.line} - ${cycle.message}`).join('\n')
-    : 'None detected'
+    ? afterIssues.cycles
+        .map((cycle) => `- ${cycle.file}:${cycle.line} - ${cycle.message}`)
+        .join("\n")
+    : "None detected"
 }
 
 Generated: ${new Date().toISOString()}
 `;
 
-    fs.writeFileSync('safe-import-organization-report.md', report);
-    console.log('📊 Report generated: safe-import-organization-report.md');
+    fs.writeFileSync("safe-import-organization-report.md", report);
+    console.log("📊 Report generated: safe-import-organization-report.md");
   }
 
   async run() {
-    console.log('🚀 Starting Safe Import Organization');
-    console.log('='.repeat(60));
+    console.log("🚀 Starting Safe Import Organization");
+    console.log("=".repeat(60));
 
     try {
       // Step 1: Create full backup
       const backupLocation = await this.createFullBackup();
       if (!backupLocation) {
-        console.error('❌ Cannot proceed without backup');
+        console.error("❌ Cannot proceed without backup");
         return;
       }
 
       // Step 2: Initial validation
       const initialBuildValid = await this.validateBuildSafety();
       if (!initialBuildValid) {
-        console.warn('⚠️ Initial build has issues, proceeding with caution...');
+        console.warn("⚠️ Initial build has issues, proceeding with caution...");
       }
 
       // Step 3: Analyze current issues
@@ -292,7 +299,7 @@ Generated: ${new Date().toISOString()}
       console.log(`   - Named import issues: ${beforeIssues.named.length}`);
 
       if (totalIssues === 0) {
-        console.log('✅ No import issues found!');
+        console.log("✅ No import issues found!");
         return;
       }
 
@@ -315,8 +322,8 @@ Generated: ${new Date().toISOString()}
       // Step 6: Validate after fixes
       const finalBuildValid = await this.validateBuildSafety();
       if (!finalBuildValid) {
-        console.error('❌ Build validation failed after fixes');
-        console.log('🔄 Consider restoring from backup:', backupLocation);
+        console.error("❌ Build validation failed after fixes");
+        console.log("🔄 Consider restoring from backup:", backupLocation);
         return;
       }
 
@@ -336,7 +343,7 @@ Generated: ${new Date().toISOString()}
         afterIssues.cycles.length +
         afterIssues.named.length;
 
-      console.log('='.repeat(60));
+      console.log("=".repeat(60));
       console.log(`✅ Safe import organization completed!`);
       console.log(`   Issues before: ${totalIssues}`);
       console.log(`   Issues after: ${totalAfter}`);
@@ -344,10 +351,12 @@ Generated: ${new Date().toISOString()}
       console.log(`   Backup location: ${backupLocation}`);
 
       if (afterIssues.cycles.length > 0) {
-        console.log(`⚠️ ${afterIssues.cycles.length} circular dependencies detected (see report)`);
+        console.log(
+          `⚠️ ${afterIssues.cycles.length} circular dependencies detected (see report)`,
+        );
       }
     } catch (error) {
-      console.error('❌ Safe import organization failed:', error);
+      console.error("❌ Safe import organization failed:", error);
       process.exit(1);
     }
   }

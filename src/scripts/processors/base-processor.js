@@ -7,9 +7,9 @@
  * Base class for all error processors with validation and safety checks
  */
 
-import fs from 'fs';
-import path from 'path';
-import { execSync } from 'child_process';
+import fs from "fs";
+import path from "path";
+import { execSync } from "child_process";
 
 class BaseProcessor {
   constructor(errorCode, errorName) {
@@ -23,13 +23,18 @@ class BaseProcessor {
    */
   async getErrorCount(errorCode = this.errorCode) {
     try {
-      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-        cwd: this.projectRoot,
-        encoding: 'utf8',
-        maxBuffer: 50 * 1024 * 1024
-      });
+      const tscOutput = execSync(
+        "yarn tsc --noEmit --skipLibCheck 2>&1 || true",
+        {
+          cwd: this.projectRoot,
+          encoding: "utf8",
+          maxBuffer: 50 * 1024 * 1024,
+        },
+      );
 
-      const count = (tscOutput.match(new RegExp(`error ${errorCode}:`, 'g')) || []).length;
+      const count = (
+        tscOutput.match(new RegExp(`error ${errorCode}:`, "g")) || []
+      ).length;
       return count;
     } catch (error) {
       console.error(`Error getting error count: ${error.message}`);
@@ -42,11 +47,14 @@ class BaseProcessor {
    */
   async getTotalErrorCount() {
     try {
-      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-        cwd: this.projectRoot,
-        encoding: 'utf8',
-        maxBuffer: 50 * 1024 * 1024
-      });
+      const tscOutput = execSync(
+        "yarn tsc --noEmit --skipLibCheck 2>&1 || true",
+        {
+          cwd: this.projectRoot,
+          encoding: "utf8",
+          maxBuffer: 50 * 1024 * 1024,
+        },
+      );
 
       const count = (tscOutput.match(/error TS\d+:/g) || []).length;
       return count;
@@ -74,19 +82,23 @@ class BaseProcessor {
       beforeTotal,
       afterTotal,
       targetReduction,
-      totalChange
+      totalChange,
     };
 
     // Check 1: Did we reduce the target errors?
     if (afterCount >= beforeCount) {
       validation.success = false;
-      validation.errors.push(`Target errors did not decrease (${beforeCount} → ${afterCount})`);
+      validation.errors.push(
+        `Target errors did not decrease (${beforeCount} → ${afterCount})`,
+      );
     }
 
     // Check 2: Did total errors increase significantly?
     if (totalChange > targetReduction * 0.5) {
       validation.success = false;
-      validation.errors.push(`Total errors increased too much (+${totalChange} vs -${targetReduction} target)`);
+      validation.errors.push(
+        `Total errors increased too much (+${totalChange} vs -${targetReduction} target)`,
+      );
     }
 
     // Check 3: Net improvement check
@@ -105,10 +117,10 @@ class BaseProcessor {
    * Check brace/bracket/paren balance in content
    */
   checkBalance(content) {
-    const chars = content.split('');
+    const chars = content.split("");
     const stack = [];
-    const pairs = { '{': '}', '[': ']', '(': ')' };
-    const closing = new Set(['}', ']', ')']);
+    const pairs = { "{": "}", "[": "]", "(": ")" };
+    const closing = new Set(["}", "]", ")"]);
 
     for (let i = 0; i < chars.length; i++) {
       const char = chars[i];
@@ -117,17 +129,23 @@ class BaseProcessor {
         stack.push({ char, pos: i });
       } else if (closing.has(char)) {
         if (stack.length === 0) {
-          return { balanced: false, issue: `Unmatched ${char} at position ${i}` };
+          return {
+            balanced: false,
+            issue: `Unmatched ${char} at position ${i}`,
+          };
         }
         const last = stack.pop();
         if (pairs[last.char] !== char) {
-          return { balanced: false, issue: `Mismatched ${last.char} at ${last.pos} with ${char} at ${i}` };
+          return {
+            balanced: false,
+            issue: `Mismatched ${last.char} at ${last.pos} with ${char} at ${i}`,
+          };
         }
       }
     }
 
     if (stack.length > 0) {
-      const unclosed = stack.map(s => `${s.char} at ${s.pos}`).join(', ');
+      const unclosed = stack.map((s) => `${s.char} at ${s.pos}`).join(", ");
       return { balanced: false, issue: `Unclosed: ${unclosed}` };
     }
 
@@ -138,14 +156,14 @@ class BaseProcessor {
    * Safe file modification with balance checking
    */
   safeFileModify(filePath, modifier) {
-    const originalContent = fs.readFileSync(filePath, 'utf8');
+    const originalContent = fs.readFileSync(filePath, "utf8");
     const originalBalance = this.checkBalance(originalContent);
 
     if (!originalBalance.balanced) {
       return {
         success: false,
         error: `File already has balance issues: ${originalBalance.issue}`,
-        fixedCount: 0
+        fixedCount: 0,
       };
     }
 
@@ -161,14 +179,14 @@ class BaseProcessor {
       return {
         success: false,
         error: `Modifications broke balance: ${modifiedBalance.issue}`,
-        fixedCount: 0
+        fixedCount: 0,
       };
     }
 
     return {
       success: true,
       content: modifiedContent,
-      fixedCount
+      fixedCount,
     };
   }
 
@@ -177,14 +195,17 @@ class BaseProcessor {
    */
   async getErrors() {
     try {
-      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-        cwd: this.projectRoot,
-        encoding: 'utf8',
-        maxBuffer: 50 * 1024 * 1024
-      });
+      const tscOutput = execSync(
+        "yarn tsc --noEmit --skipLibCheck 2>&1 || true",
+        {
+          cwd: this.projectRoot,
+          encoding: "utf8",
+          maxBuffer: 50 * 1024 * 1024,
+        },
+      );
 
       const errors = [];
-      const lines = tscOutput.split('\n');
+      const lines = tscOutput.split("\n");
 
       for (const line of lines) {
         const match = line.match(/^(.+?)\((\d+),(\d+)\): error (TS\d+): (.+)$/);
@@ -193,7 +214,7 @@ class BaseProcessor {
             filePath: path.resolve(this.projectRoot, match[1]),
             line: parseInt(match[2]),
             column: parseInt(match[3]),
-            message: match[5]
+            message: match[5],
           });
         }
       }
@@ -224,7 +245,7 @@ class BaseProcessor {
    */
   async getFilesWithErrors() {
     const errors = await this.getErrors();
-    return [...new Set(errors.map(e => e.filePath))];
+    return [...new Set(errors.map((e) => e.filePath))];
   }
 }
 

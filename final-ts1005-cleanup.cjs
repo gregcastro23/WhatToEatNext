@@ -5,9 +5,9 @@
  * Handles remaining specific patterns causing TS1005 errors
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class FinalTS1005Cleanup {
   constructor() {
@@ -26,9 +26,9 @@ class FinalTS1005Cleanup {
    */
   getFilesWithTS1005Errors() {
     try {
-      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
+      const result = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        maxBuffer: 10 * 1024 * 1024,
       });
       return this.extractFilesFromOutput(result);
     } catch (error) {
@@ -40,10 +40,12 @@ class FinalTS1005Cleanup {
   }
 
   extractFilesFromOutput(output) {
-    const errorLines = output.split('\n').filter(line => line.includes('error TS1005'));
+    const errorLines = output
+      .split("\n")
+      .filter((line) => line.includes("error TS1005"));
     const files = new Set();
 
-    errorLines.forEach(line => {
+    errorLines.forEach((line) => {
       const match = line.match(/^([^(]+)\(/);
       if (match) {
         const filePath = match[1].trim();
@@ -60,9 +62,12 @@ class FinalTS1005Cleanup {
    * Create backup of file
    */
   createBackup(filePath) {
-    const backupPath = path.join(this.backupDir, filePath.replace(/[\/\\]/g, '_'));
-    const content = fs.readFileSync(filePath, 'utf8');
-    fs.writeFileSync(backupPath, content, 'utf8');
+    const backupPath = path.join(
+      this.backupDir,
+      filePath.replace(/[\/\\]/g, "_"),
+    );
+    const content = fs.readFileSync(filePath, "utf8");
+    fs.writeFileSync(backupPath, content, "utf8");
   }
 
   /**
@@ -77,9 +82,11 @@ class FinalTS1005Cleanup {
     const pattern1 = /(\{\s*[^}]*);(\s*\}\s*from)/g;
     const matches1 = [...fixedContent.matchAll(pattern1)];
     if (matches1.length > 0) {
-      fixedContent = fixedContent.replace(pattern1, '$1,$2');
+      fixedContent = fixedContent.replace(pattern1, "$1,$2");
       fixes += matches1.length;
-      console.log(`    Fixed ${matches1.length} import statements with semicolon instead of comma`);
+      console.log(
+        `    Fixed ${matches1.length} import statements with semicolon instead of comma`,
+      );
     }
 
     // Pattern 2: Object destructuring with semicolon instead of comma
@@ -87,9 +94,11 @@ class FinalTS1005Cleanup {
     const pattern2 = /(\{\s*[^}]*);(\s*[^}]*\})/g;
     const matches2 = [...fixedContent.matchAll(pattern2)];
     if (matches2.length > 0) {
-      fixedContent = fixedContent.replace(pattern2, '$1,$2');
+      fixedContent = fixedContent.replace(pattern2, "$1,$2");
       fixes += matches2.length;
-      console.log(`    Fixed ${matches2.length} object destructuring with semicolon instead of comma`);
+      console.log(
+        `    Fixed ${matches2.length} object destructuring with semicolon instead of comma`,
+      );
     }
 
     // Pattern 3: Function parameter lists with semicolon instead of comma
@@ -97,9 +106,11 @@ class FinalTS1005Cleanup {
     const pattern3 = /(\([^)]*);(\s*[^)]*\))/g;
     const matches3 = [...fixedContent.matchAll(pattern3)];
     if (matches3.length > 0) {
-      fixedContent = fixedContent.replace(pattern3, '$1,$2');
+      fixedContent = fixedContent.replace(pattern3, "$1,$2");
       fixes += matches3.length;
-      console.log(`    Fixed ${matches3.length} function parameters with semicolon instead of comma`);
+      console.log(
+        `    Fixed ${matches3.length} function parameters with semicolon instead of comma`,
+      );
     }
 
     // Pattern 4: Array elements with semicolon instead of comma
@@ -107,9 +118,11 @@ class FinalTS1005Cleanup {
     const pattern4 = /(\[[^\]]*);(\s*[^\]]*\])/g;
     const matches4 = [...fixedContent.matchAll(pattern4)];
     if (matches4.length > 0) {
-      fixedContent = fixedContent.replace(pattern4, '$1,$2');
+      fixedContent = fixedContent.replace(pattern4, "$1,$2");
       fixes += matches4.length;
-      console.log(`    Fixed ${matches4.length} array elements with semicolon instead of comma`);
+      console.log(
+        `    Fixed ${matches4.length} array elements with semicolon instead of comma`,
+      );
     }
 
     // Pattern 5: Type parameter lists with semicolon instead of comma
@@ -117,9 +130,11 @@ class FinalTS1005Cleanup {
     const pattern5 = /(<[^>]*);(\s*[^>]*>)/g;
     const matches5 = [...fixedContent.matchAll(pattern5)];
     if (matches5.length > 0) {
-      fixedContent = fixedContent.replace(pattern5, '$1,$2');
+      fixedContent = fixedContent.replace(pattern5, "$1,$2");
       fixes += matches5.length;
-      console.log(`    Fixed ${matches5.length} type parameters with semicolon instead of comma`);
+      console.log(
+        `    Fixed ${matches5.length} type parameters with semicolon instead of comma`,
+      );
     }
 
     // Pattern 6: Object literal properties with semicolon instead of comma
@@ -127,9 +142,11 @@ class FinalTS1005Cleanup {
     const pattern6 = /(\{\s*[^}]*:\s*[^,;}]*);(\s*[^}]*\})/g;
     const matches6 = [...fixedContent.matchAll(pattern6)];
     if (matches6.length > 0) {
-      fixedContent = fixedContent.replace(pattern6, '$1,$2');
+      fixedContent = fixedContent.replace(pattern6, "$1,$2");
       fixes += matches6.length;
-      console.log(`    Fixed ${matches6.length} object properties with semicolon instead of comma`);
+      console.log(
+        `    Fixed ${matches6.length} object properties with semicolon instead of comma`,
+      );
     }
 
     return { content: fixedContent, fixes };
@@ -140,7 +157,7 @@ class FinalTS1005Cleanup {
    */
   processFile(filePath) {
     try {
-      const originalContent = fs.readFileSync(filePath, 'utf8');
+      const originalContent = fs.readFileSync(filePath, "utf8");
 
       console.log(`  Processing: ${filePath}`);
 
@@ -148,10 +165,11 @@ class FinalTS1005Cleanup {
       this.createBackup(filePath);
 
       // Fix patterns
-      const { content: fixedContent, fixes } = this.fixRemainingTS1005Patterns(originalContent);
+      const { content: fixedContent, fixes } =
+        this.fixRemainingTS1005Patterns(originalContent);
 
       if (fixes > 0) {
-        fs.writeFileSync(filePath, fixedContent, 'utf8');
+        fs.writeFileSync(filePath, fixedContent, "utf8");
         console.log(`    ✅ Applied ${fixes} fixes`);
         this.fixedPatterns += fixes;
         this.processedFiles++;
@@ -160,7 +178,6 @@ class FinalTS1005Cleanup {
         console.log(`    ℹ️  No remaining TS1005 patterns found`);
         return false;
       }
-
     } catch (error) {
       console.error(`    ❌ Error processing ${filePath}:`, error.message);
       return false;
@@ -172,9 +189,9 @@ class FinalTS1005Cleanup {
    */
   getTS1005ErrorCount() {
     try {
-      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
+      const result = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        maxBuffer: 10 * 1024 * 1024,
       });
       const errorCount = (result.match(/error TS1005/g) || []).length;
       return errorCount;
@@ -191,8 +208,8 @@ class FinalTS1005Cleanup {
    * Main repair process
    */
   async repair() {
-    console.log('🎯 FINAL TS1005 CLEANUP');
-    console.log('=' .repeat(40));
+    console.log("🎯 FINAL TS1005 CLEANUP");
+    console.log("=".repeat(40));
 
     const startTime = Date.now();
     const initialErrors = this.getTS1005ErrorCount();
@@ -203,7 +220,7 @@ class FinalTS1005Cleanup {
     console.log(`📁 Found ${files.length} files with TS1005 errors`);
 
     if (files.length === 0) {
-      console.log('✅ No files with TS1005 errors found!');
+      console.log("✅ No files with TS1005 errors found!");
       return;
     }
 
@@ -223,8 +240,8 @@ class FinalTS1005Cleanup {
     const finalErrors = this.getTS1005ErrorCount();
     const duration = ((endTime - startTime) / 1000).toFixed(2);
 
-    console.log('\n🏁 FINAL CLEANUP COMPLETED');
-    console.log('=' .repeat(40));
+    console.log("\n🏁 FINAL CLEANUP COMPLETED");
+    console.log("=".repeat(40));
     console.log(`⏱️  Duration: ${duration} seconds`);
     console.log(`📝 Files processed: ${modifiedFiles}`);
     console.log(`🎯 Total fixes applied: ${this.fixedPatterns}`);
@@ -233,9 +250,13 @@ class FinalTS1005Cleanup {
     if (finalErrors < initialErrors) {
       const reduction = initialErrors - finalErrors;
       const percentage = ((reduction / initialErrors) * 100).toFixed(1);
-      console.log(`✅ SUCCESS: Reduced by ${reduction} errors (${percentage}%)`);
+      console.log(
+        `✅ SUCCESS: Reduced by ${reduction} errors (${percentage}%)`,
+      );
     } else if (finalErrors === initialErrors) {
-      console.log(`ℹ️  No change in error count - remaining errors may need manual review`);
+      console.log(
+        `ℹ️  No change in error count - remaining errors may need manual review`,
+      );
     } else {
       console.log(`⚠️  Error count increased - may need to rollback changes`);
     }
@@ -247,7 +268,7 @@ class FinalTS1005Cleanup {
       finalErrors,
       filesModified: modifiedFiles,
       fixesApplied: this.fixedPatterns,
-      duration: parseFloat(duration)
+      duration: parseFloat(duration),
     };
   }
 }
@@ -255,13 +276,14 @@ class FinalTS1005Cleanup {
 // Execute if run directly
 if (require.main === module) {
   const fixer = new FinalTS1005Cleanup();
-  fixer.repair()
-    .then(results => {
-      console.log('\n📋 Final TS1005 cleanup completed');
+  fixer
+    .repair()
+    .then((results) => {
+      console.log("\n📋 Final TS1005 cleanup completed");
       process.exit(0);
     })
-    .catch(error => {
-      console.error('\n❌ Final TS1005 cleanup failed:', error);
+    .catch((error) => {
+      console.error("\n❌ Final TS1005 cleanup failed:", error);
       process.exit(1);
     });
 }

@@ -11,9 +11,9 @@
  * Safety: Process files one at a time with build validation
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class TS1005SedFixer {
   constructor(options = {}) {
@@ -24,11 +24,13 @@ class TS1005SedFixer {
   }
 
   async run() {
-    const mode = this.dryRun ? 'DRY-RUN' : 'EXECUTION';
+    const mode = this.dryRun ? "DRY-RUN" : "EXECUTION";
     console.log(`🔧 Starting TS1005 SED-Based Fixes (${mode})...\n`);
 
     if (this.dryRun) {
-      console.log('🔍 DRY-RUN MODE: No files will be modified, only showing what would be changed\n');
+      console.log(
+        "🔍 DRY-RUN MODE: No files will be modified, only showing what would be changed\n",
+      );
     }
 
     try {
@@ -36,7 +38,7 @@ class TS1005SedFixer {
       console.log(`📊 Initial TS1005 errors: ${initialErrors}`);
 
       if (initialErrors === 0) {
-        console.log('✅ No TS1005 errors found!');
+        console.log("✅ No TS1005 errors found!");
         return;
       }
 
@@ -45,19 +47,25 @@ class TS1005SedFixer {
       console.log(`🔍 Found ${errorFiles.length} files with TS1005 errors`);
 
       // Apply sed-based fixes
-      console.log(`\n🛠️ Applying sed-based fixes (processing up to ${this.maxFiles} files)...`);
+      console.log(
+        `\n🛠️ Applying sed-based fixes (processing up to ${this.maxFiles} files)...`,
+      );
 
       let processedCount = 0;
       let totalFixesApplied = 0;
 
       for (const filePath of errorFiles) {
         if (processedCount >= this.maxFiles) {
-          console.log(`\n⏸️ Stopping after processing ${this.maxFiles} files as per task requirements`);
+          console.log(
+            `\n⏸️ Stopping after processing ${this.maxFiles} files as per task requirements`,
+          );
           break;
         }
 
         processedCount++;
-        console.log(`\n📦 Processing file ${processedCount}/${Math.min(errorFiles.length, this.maxFiles)}: ${path.basename(filePath)}`);
+        console.log(
+          `\n📦 Processing file ${processedCount}/${Math.min(errorFiles.length, this.maxFiles)}: ${path.basename(filePath)}`,
+        );
 
         const fixes = await this.fixFileWithSed(filePath);
         totalFixesApplied += fixes;
@@ -66,19 +74,21 @@ class TS1005SedFixer {
           console.log(`   🔍 Validating build after ${fixes} fixes...`);
           const buildSuccess = this.validateBuild();
           if (!buildSuccess) {
-            console.log('   ⚠️ Build validation failed, reverting file...');
+            console.log("   ⚠️ Build validation failed, reverting file...");
             execSync(`git checkout -- "${filePath}"`);
-            console.log('   ⚠️ Continuing with next file...');
+            console.log("   ⚠️ Continuing with next file...");
             continue;
           } else {
-            console.log('   ✅ Build validation passed');
+            console.log("   ✅ Build validation passed");
           }
 
           // Check progress
           const currentErrors = this.getTS1005ErrorCount();
           console.log(`   📊 Current TS1005 errors: ${currentErrors}`);
         } else if (fixes > 0 && this.dryRun) {
-          console.log(`   🔍 DRY-RUN: Would validate build after ${fixes} fixes`);
+          console.log(
+            `   🔍 DRY-RUN: Would validate build after ${fixes} fixes`,
+          );
         }
       }
 
@@ -86,7 +96,10 @@ class TS1005SedFixer {
       if (!this.dryRun) {
         const finalErrors = this.getTS1005ErrorCount();
         const reduction = initialErrors - finalErrors;
-        const percentage = reduction > 0 ? ((reduction / initialErrors) * 100).toFixed(1) : '0.0';
+        const percentage =
+          reduction > 0
+            ? ((reduction / initialErrors) * 100).toFixed(1)
+            : "0.0";
 
         console.log(`\n📈 Final Results:`);
         console.log(`   Initial errors: ${initialErrors}`);
@@ -99,22 +112,26 @@ class TS1005SedFixer {
         console.log(`\n📈 DRY-RUN Results:`);
         console.log(`   Initial errors: ${initialErrors}`);
         console.log(`   Potential fixes: ${this.totalFixes}`);
-        console.log(`   Files that would be processed: ${this.fixedFiles.length}`);
+        console.log(
+          `   Files that would be processed: ${this.fixedFiles.length}`,
+        );
         console.log(`   \n✅ DRY-RUN COMPLETE - No files were modified`);
         console.log(`   To apply these fixes, run without --dry-run flag`);
       }
-
     } catch (error) {
-      console.error('❌ Error during fixing:', error.message);
+      console.error("❌ Error during fixing:", error.message);
     }
   }
 
   getTS1005ErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | wc -l', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | wc -l',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -123,9 +140,9 @@ class TS1005SedFixer {
 
   validateBuild() {
     try {
-      execSync('yarn tsc --noEmit --skipLibCheck', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      execSync("yarn tsc --noEmit --skipLibCheck", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
       return true;
     } catch (error) {
@@ -135,13 +152,19 @@ class TS1005SedFixer {
 
   async getFilesWithTS1005Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const files = new Set();
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^(.+?)\(/);
@@ -170,26 +193,36 @@ class TS1005SedFixer {
         return 0;
       }
 
-      console.log(`   🔍 ${path.basename(filePath)}: ${errorsBefore} TS1005 errors found`);
+      console.log(
+        `   🔍 ${path.basename(filePath)}: ${errorsBefore} TS1005 errors found`,
+      );
 
       if (!this.dryRun) {
         // Apply sed fixes
         try {
           // Fix 1: } catch (error): any { -> } catch (error) {
-          execSync(`sed -i '' 's/} catch (error): any {/} catch (error) {/g' "${filePath}"`, {
-            stdio: 'pipe'
-          });
+          execSync(
+            `sed -i '' 's/} catch (error): any {/} catch (error) {/g' "${filePath}"`,
+            {
+              stdio: "pipe",
+            },
+          );
 
           // Fix 2: test('...': any, async () => { -> test('...', async () => {
-          execSync(`sed -i '' "s/test('\\([^']*\\)': any, async () =>/test('\\1', async () =>/g" "${filePath}"`, {
-            stdio: 'pipe'
-          });
+          execSync(
+            `sed -i '' "s/test('\\([^']*\\)': any, async () =>/test('\\1', async () =>/g" "${filePath}"`,
+            {
+              stdio: "pipe",
+            },
+          );
 
           // Fix 3: it('...': any, async () => { -> it('...', async () => {
-          execSync(`sed -i '' "s/it('\\([^']*\\)': any, async () =>/it('\\1', async () =>/g" "${filePath}"`, {
-            stdio: 'pipe'
-          });
-
+          execSync(
+            `sed -i '' "s/it('\\([^']*\\)': any, async () =>/it('\\1', async () =>/g" "${filePath}"`,
+            {
+              stdio: "pipe",
+            },
+          );
         } catch (sedError) {
           console.log(`   ⚠️ SED command failed: ${sedError.message}`);
           return 0;
@@ -197,14 +230,20 @@ class TS1005SedFixer {
       }
 
       // Count errors after fixing
-      const errorsAfter = this.dryRun ? 0 : this.getFileTS1005ErrorCount(filePath);
+      const errorsAfter = this.dryRun
+        ? 0
+        : this.getFileTS1005ErrorCount(filePath);
       const fixesApplied = errorsBefore - errorsAfter;
 
       if (fixesApplied > 0) {
         if (!this.dryRun) {
-          console.log(`   ✅ ${path.basename(filePath)}: ${fixesApplied} fixes applied`);
+          console.log(
+            `   ✅ ${path.basename(filePath)}: ${fixesApplied} fixes applied`,
+          );
         } else {
-          console.log(`   🔍 ${path.basename(filePath)}: ${errorsBefore} fixes would be applied (DRY-RUN)`);
+          console.log(
+            `   🔍 ${path.basename(filePath)}: ${errorsBefore} fixes would be applied (DRY-RUN)`,
+          );
         }
         this.fixedFiles.push(filePath);
         this.totalFixes += this.dryRun ? errorsBefore : fixesApplied;
@@ -214,7 +253,6 @@ class TS1005SedFixer {
       }
 
       return 0;
-
     } catch (error) {
       console.log(`   ❌ Error fixing ${filePath}: ${error.message}`);
       return 0;
@@ -223,10 +261,13 @@ class TS1005SedFixer {
 
   getFileTS1005ErrorCount(filePath) {
     try {
-      const output = execSync(`yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | grep "${filePath}" | wc -l`, {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        `yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005" | grep "${filePath}" | wc -l`,
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -237,9 +278,10 @@ class TS1005SedFixer {
 // Execute the fixer
 if (require.main === module) {
   const args = process.argv.slice(2);
-  const dryRun = args.includes('--dry-run');
-  const maxFiles = args.includes('--max-files') ?
-    parseInt(args[args.indexOf('--max-files') + 1]) || 15 : 15;
+  const dryRun = args.includes("--dry-run");
+  const maxFiles = args.includes("--max-files")
+    ? parseInt(args[args.indexOf("--max-files") + 1]) || 15
+    : 15;
 
   const fixer = new TS1005SedFixer({ dryRun, maxFiles });
   fixer.run().catch(console.error);

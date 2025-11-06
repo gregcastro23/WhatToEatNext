@@ -1,9 +1,16 @@
-import { alchmAPI, type PlanetaryHourRequest, type PlanetaryHourResult as APIPlanetaryHourResult } from '@/lib/api/alchm-client';
-import { logger } from '@/lib/logger';
-import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
-import type { Planet } from '@/types/celestial';
+import {
+  alchmAPI,
+  type PlanetaryHourRequest,
+  type PlanetaryHourResult as APIPlanetaryHourResult,
+} from "@/lib/api/alchm-client";
+import { logger } from "@/lib/logger";
+import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
+import type { Planet } from "@/types/celestial";
 
-interface Coordinates { latitude: number; longitude: number }
+interface Coordinates {
+  latitude: number;
+  longitude: number;
+}
 
 export interface PlanetaryHourResult {
   planet: Planet;
@@ -22,17 +29,18 @@ interface BackendPlanetaryHourPayload {
 }
 
 function parseBackendResult(data: unknown): PlanetaryHourResult | null {
-  if (!data || typeof data !== 'object') return null;
+  if (!data || typeof data !== "object") return null;
   const obj = data as Record<string, unknown>;
 
-  const {planet} = obj;
-  const {isDaytime} = obj;
+  const { planet } = obj;
+  const { isDaytime } = obj;
 
-  if (typeof planet !== 'string' || typeof isDaytime !== 'boolean') return null;
+  if (typeof planet !== "string" || typeof isDaytime !== "boolean") return null;
 
-  const hourNumber = typeof obj.hourNumber === 'number' ? obj.hourNumber : undefined;
-  const start = typeof obj.start === 'string' ? new Date(obj.start) : undefined;
-  const end = typeof obj.end === 'string' ? new Date(obj.end) : undefined;
+  const hourNumber =
+    typeof obj.hourNumber === "number" ? obj.hourNumber : undefined;
+  const start = typeof obj.start === "string" ? new Date(obj.start) : undefined;
+  const end = typeof obj.end === "string" ? new Date(obj.end) : undefined;
 
   return { planet: planet as Planet, hourNumber, isDaytime, start, end };
 }
@@ -49,25 +57,33 @@ export class PlanetaryHoursClient {
 
   constructor() {
     this.backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-    this.useBackend = String(process.env.NEXT_PUBLIC_PLANETARY_HOURS_BACKEND).toLowerCase() === 'true';
+    this.useBackend =
+      String(process.env.NEXT_PUBLIC_PLANETARY_HOURS_BACKEND).toLowerCase() ===
+      "true";
   }
 
-  async getCurrentPlanetaryHour(params: {
-    datetime?: Date,
-    location?: Coordinates
-  } = {}): Promise<PlanetaryHourResult> {
+  async getCurrentPlanetaryHour(
+    params: {
+      datetime?: Date;
+      location?: Coordinates;
+    } = {},
+  ): Promise<PlanetaryHourResult> {
     const targetDate = params.datetime || new Date();
-    const {location} = params;
+    const { location } = params;
 
     if (this.useBackend && this.backendUrl) {
       try {
         const request: PlanetaryHourRequest = {
           datetime: targetDate.toISOString(),
-          location
+          location,
         };
 
         const result = await alchmAPI.getCurrentPlanetaryHour(request);
-        logger.debug('PlanetaryHoursClient', 'Backend calculation successful', result);
+        logger.debug(
+          "PlanetaryHoursClient",
+          "Backend calculation successful",
+          result,
+        );
 
         // Transform API result to our format
         return {
@@ -75,10 +91,14 @@ export class PlanetaryHoursClient {
           hourNumber: result.hourNumber,
           isDaytime: result.isDaytime,
           start: result.start ? new Date(result.start) : undefined,
-          end: result.end ? new Date(result.end) : undefined
+          end: result.end ? new Date(result.end) : undefined,
         };
       } catch (error) {
-        logger.warn('PlanetaryHoursClient', 'Backend calculation failed, falling back to local', error)
+        logger.warn(
+          "PlanetaryHoursClient",
+          "Backend calculation failed, falling back to local",
+          error,
+        );
         // Fall through to local calculation
         // Already logged above
       }
@@ -95,7 +115,7 @@ export class PlanetaryHoursClient {
       hourNumber: detailed.hourNumber,
       isDaytime: detailed.isDaytime,
       start: detailed.start,
-      end: detailed.end
+      end: detailed.end,
     };
   }
 }

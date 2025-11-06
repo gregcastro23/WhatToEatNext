@@ -282,10 +282,13 @@ Elemental Method: balanced
 
 ```typescript
 // Easy integration with existing components
-import { RecipeEnhancer, type EnhancedRecipe } from '@/data/unified/recipes';
+import { RecipeEnhancer, type EnhancedRecipe } from "@/data/unified/recipes";
 
 // Enhance any existing recipe
-const enhancedRecipe = RecipeEnhancer.enhanceRecipe(existingRecipe, 'source-file.ts');
+const enhancedRecipe = RecipeEnhancer.enhanceRecipe(
+  existingRecipe,
+  "source-file.ts",
+);
 
 // Access new properties
 const kalchm = enhancedRecipe.alchemicalProperties?.totalKalchm;
@@ -297,12 +300,12 @@ const optimalTemp = enhancedRecipe.cookingOptimization?.optimalTemperature;
 
 ```typescript
 // Existing code continues to work unchanged
-const recipeName = recipe.name;           // ✅ Still works
-const ingredients = recipe.ingredients;   // ✅ Still works
-const cuisine = recipe.cuisine;          // ✅ Still works
+const recipeName = recipe.name; // ✅ Still works
+const ingredients = recipe.ingredients; // ✅ Still works
+const cuisine = recipe.cuisine; // ✅ Still works
 
 // New properties are optional
-const kalchm = recipe.alchemicalProperties?.totalKalchm || 1.0;  // ✅ Safe access
+const kalchm = recipe.alchemicalProperties?.totalKalchm || 1.0; // ✅ Safe access
 ```
 
 ## 🧪 **Testing & Validation**

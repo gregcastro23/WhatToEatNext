@@ -1,30 +1,34 @@
 const LoadingComponent = ({
   fullScreen,
   variant,
-  text
+  text,
 }: {
-  fullScreen?: boolean
-  variant?: string
-  text?: string
+  fullScreen?: boolean;
+  variant?: string;
+  text?: string;
 }) => (
-  <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>
-    <div className='text-center text-gray-600'>
-      <div className='mb-2 animate-pulse'>⏳</div>
-      <div>{text || 'Loading...'}</div>
+  <div
+    className={`flex ${fullScreen ? "min-h-screen" : ""} items-center justify-center p-4`}
+  >
+    <div className="text-center text-gray-600">
+      <div className="mb-2 animate-pulse">⏳</div>
+      <div>{text || "Loading..."}</div>
     </div>
   </div>
-)
+);
 
 interface LoadingProps {
-  fullScreen?: boolean,
-  variant?: 'spinner' | 'dots' | 'bar'
-  text?: string
+  fullScreen?: boolean;
+  variant?: "spinner" | "dots" | "bar";
+  text?: string;
 }
 
 const PageLoading: React.FC<LoadingProps> = ({
   fullScreen = false,
-  variant = 'spinner',
-  text = 'Loading...'
-}) => <LoadingComponent fullScreen={fullScreen} variant={variant} text={text} />
+  variant = "spinner",
+  text = "Loading...",
+}) => (
+  <LoadingComponent fullScreen={fullScreen} variant={variant} text={text} />
+);
 
-export default PageLoading
+export default PageLoading;

@@ -1,7 +1,7 @@
-'use client';
-import { useState, useEffect } from 'react';
+"use client";
+import { useState, useEffect } from "react";
 
-type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter';
+type Season = "Spring" | "Summer" | "Fall" | "Winter";
 
 // Function to determine the current season based on date
 function calculateSeason(date: Date): Season {
@@ -10,19 +10,34 @@ function calculateSeason(date: Date): Season {
   const day = date.getDate();
 
   // Northern hemisphere seasons (approximate dates)
-  if ((month === 2 && day >= 20) || month === 3 || month === 4 || (month === 5 && day < 21)) {
-    return 'Spring';
+  if (
+    (month === 2 && day >= 20) ||
+    month === 3 ||
+    month === 4 ||
+    (month === 5 && day < 21)
+  ) {
+    return "Spring";
   }
 
-  if ((month === 5 && day >= 21) || month === 6 || month === 7 || (month === 8 && day < 22)) {
-    return 'Summer';
+  if (
+    (month === 5 && day >= 21) ||
+    month === 6 ||
+    month === 7 ||
+    (month === 8 && day < 22)
+  ) {
+    return "Summer";
   }
 
-  if ((month === 8 && day >= 22) || month === 9 || month === 10 || (month === 11 && day < 21)) {
-    return 'Fall';
+  if (
+    (month === 8 && day >= 22) ||
+    month === 9 ||
+    month === 10 ||
+    (month === 11 && day < 21)
+  ) {
+    return "Fall";
   }
 
-  return 'Winter';
+  return "Winter";
 }
 
 /**
@@ -30,7 +45,9 @@ function calculateSeason(date: Date): Season {
  * @returns The current season (Spring, Summer, Fall, Winter)
  */
 export function useCurrentSeason(): Season {
-  const [season, setSeason] = useState<Season>(() => calculateSeason(new Date()));
+  const [season, setSeason] = useState<Season>(() =>
+    calculateSeason(new Date()),
+  );
 
   useEffect(() => {
     // Update once per day

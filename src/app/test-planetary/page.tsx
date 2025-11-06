@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics';
+import { useEffect, useState } from "react";
+import { usePlanetaryKinetics } from "@/hooks/usePlanetaryKinetics";
 
 export default function TestPlanetaryPage() {
   const {
@@ -14,11 +14,11 @@ export default function TestPlanetaryPage() {
     dominantElement,
     seasonalInfluence,
     refreshKinetics,
-    checkHealth
+    checkHealth,
   } = usePlanetaryKinetics({
-    location: { lat: 40.7128, lon: -74.0060 }, // NYC
+    location: { lat: 40.7128, lon: -74.006 }, // NYC
     updateInterval: 60000, // Update every minute
-    enableAutoUpdate: false // Manual control for testing
+    enableAutoUpdate: false, // Manual control for testing
   });
 
   const [healthStatus, setHealthStatus] = useState<any>(null);
@@ -37,7 +37,9 @@ export default function TestPlanetaryPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Planetary Agents Backend Test</h1>
+        <h1 className="text-3xl font-bold mb-8">
+          Planetary Agents Backend Test
+        </h1>
 
         {/* Connection Status */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
@@ -45,28 +47,37 @@ export default function TestPlanetaryPage() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <span className="text-gray-600">Backend Status:</span>
-              <span className={`ml-2 font-medium ${isOnline ? 'text-green-600' : 'text-red-600'}`}>
-                {isOnline ? 'Connected' : 'Disconnected'}
+              <span
+                className={`ml-2 font-medium ${isOnline ? "text-green-600" : "text-red-600"}`}
+              >
+                {isOnline ? "Connected" : "Disconnected"}
               </span>
             </div>
             <div>
               <span className="text-gray-600">Health Check:</span>
-              <span className={`ml-2 font-medium ${
-                healthStatus?.status === 'healthy' ? 'text-green-600' :
-                healthStatus?.status === 'degraded' ? 'text-yellow-600' : 'text-red-600'
-              }`}>
-                {healthStatus?.status || 'Unknown'}
+              <span
+                className={`ml-2 font-medium ${
+                  healthStatus?.status === "healthy"
+                    ? "text-green-600"
+                    : healthStatus?.status === "degraded"
+                      ? "text-yellow-600"
+                      : "text-red-600"
+                }`}
+              >
+                {healthStatus?.status || "Unknown"}
                 {healthStatus?.latency && ` (${healthStatus.latency}ms)`}
               </span>
             </div>
             <div>
               <span className="text-gray-600">Loading:</span>
-              <span className="ml-2 font-medium">{isLoading ? 'Yes' : 'No'}</span>
+              <span className="ml-2 font-medium">
+                {isLoading ? "Yes" : "No"}
+              </span>
             </div>
             <div>
               <span className="text-gray-600">Last Update:</span>
               <span className="ml-2 font-medium">
-                {lastUpdate ? lastUpdate.toLocaleTimeString() : 'Never'}
+                {lastUpdate ? lastUpdate.toLocaleTimeString() : "Never"}
               </span>
             </div>
           </div>
@@ -80,11 +91,15 @@ export default function TestPlanetaryPage() {
         {/* Current Planetary Data */}
         {kinetics && (
           <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-xl font-semibold mb-4">Current Planetary Data</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Current Planetary Data
+            </h2>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <span className="text-gray-600">Current Power Level:</span>
-                <span className="ml-2 font-medium">{(currentPowerLevel * 100).toFixed(0)}%</span>
+                <span className="ml-2 font-medium">
+                  {(currentPowerLevel * 100).toFixed(0)}%
+                </span>
               </div>
               <div>
                 <span className="text-gray-600">Dominant Element:</span>
@@ -97,7 +112,7 @@ export default function TestPlanetaryPage() {
               <div>
                 <span className="text-gray-600">Planetary Hours:</span>
                 <span className="ml-2 font-medium">
-                  {kinetics.data.base.timing.planetaryHours.join(', ')}
+                  {kinetics.data.base.timing.planetaryHours.join(", ")}
                 </span>
               </div>
             </div>
@@ -106,18 +121,20 @@ export default function TestPlanetaryPage() {
             <div className="mt-6">
               <h3 className="font-semibold mb-3">Elemental Balance</h3>
               <div className="space-y-2">
-                {Object.entries(kinetics.data.base.elemental.totals).map(([element, value]) => (
-                  <div key={element} className="flex items-center">
-                    <span className="w-20 text-gray-600">{element}:</span>
-                    <div className="flex-1 bg-gray-200 rounded-full h-6 ml-2">
-                      <div
-                        className="h-full rounded-full bg-gradient-to-r from-blue-400 to-blue-600"
-                        style={{ width: `${Math.min(100, value * 20)}%` }}
-                      />
+                {Object.entries(kinetics.data.base.elemental.totals).map(
+                  ([element, value]) => (
+                    <div key={element} className="flex items-center">
+                      <span className="w-20 text-gray-600">{element}:</span>
+                      <div className="flex-1 bg-gray-200 rounded-full h-6 ml-2">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-blue-400 to-blue-600"
+                          style={{ width: `${Math.min(100, value * 20)}%` }}
+                        />
+                      </div>
+                      <span className="ml-2 text-sm">{value.toFixed(2)}</span>
                     </div>
-                    <span className="ml-2 text-sm">{value.toFixed(2)}</span>
-                  </div>
-                ))}
+                  ),
+                )}
               </div>
             </div>
 
@@ -128,18 +145,25 @@ export default function TestPlanetaryPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <span className="text-gray-600">Trend:</span>
-                    <span className="ml-2 font-medium">{kinetics.data.powerPrediction.trend}</span>
+                    <span className="ml-2 font-medium">
+                      {kinetics.data.powerPrediction.trend}
+                    </span>
                   </div>
                   <div>
                     <span className="text-gray-600">Confidence:</span>
                     <span className="ml-2 font-medium">
-                      {(kinetics.data.powerPrediction.confidence * 100).toFixed(0)}%
+                      {(kinetics.data.powerPrediction.confidence * 100).toFixed(
+                        0,
+                      )}
+                      %
                     </span>
                   </div>
                   <div className="col-span-2">
                     <span className="text-gray-600">Next Peak:</span>
                     <span className="ml-2 font-medium">
-                      {new Date(kinetics.data.powerPrediction.nextPeak).toLocaleTimeString()}
+                      {new Date(
+                        kinetics.data.powerPrediction.nextPeak,
+                      ).toLocaleTimeString()}
                     </span>
                   </div>
                 </div>
@@ -154,19 +178,27 @@ export default function TestPlanetaryPage() {
                   <div>
                     <span className="text-gray-600">Recommended Agents:</span>
                     <span className="ml-2 font-medium">
-                      {kinetics.data.agentOptimization.recommendedAgents.join(', ')}
+                      {kinetics.data.agentOptimization.recommendedAgents.join(
+                        ", ",
+                      )}
                     </span>
                   </div>
                   <div>
                     <span className="text-gray-600">Power Amplification:</span>
                     <span className="ml-2 font-medium">
-                      {kinetics.data.agentOptimization.powerAmplification.toFixed(2)}x
+                      {kinetics.data.agentOptimization.powerAmplification.toFixed(
+                        2,
+                      )}
+                      x
                     </span>
                   </div>
                   <div>
                     <span className="text-gray-600">Harmony Score:</span>
                     <span className="ml-2 font-medium">
-                      {(kinetics.data.agentOptimization.harmonyScore * 100).toFixed(0)}%
+                      {(
+                        kinetics.data.agentOptimization.harmonyScore * 100
+                      ).toFixed(0)}
+                      %
                     </span>
                   </div>
                 </div>
@@ -192,7 +224,7 @@ export default function TestPlanetaryPage() {
             disabled={isLoading}
             className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
           >
-            {isLoading ? 'Loading...' : 'Refresh Data'}
+            {isLoading ? "Loading..." : "Refresh Data"}
           </button>
         </div>
       </div>

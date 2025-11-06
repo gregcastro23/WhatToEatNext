@@ -12,7 +12,8 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         padding: 20px;
@@ -210,11 +211,15 @@
     <div class="container">
       <div class="header">
         <h1>🍳 Alchm Kitchen Integration Demo</h1>
-        <p>Astrological Food Recommendation System with Alchemical Integration</p>
+        <p>
+          Astrological Food Recommendation System with Alchemical Integration
+        </p>
       </div>
 
       <div class="tab-navigation">
-        <button class="tab-button active" onclick="switchTab('main')">Main Application</button>
+        <button class="tab-button active" onclick="switchTab('main')">
+          Main Application
+        </button>
         <button class="tab-button" onclick="switchTab('kitchen')">
           🍳 Alchm Kitchen
           <span class="status-indicator loading" id="kitchen-status"></span>
@@ -224,51 +229,53 @@
       <div id="main-tab" class="tab-content active">
         <h2>Welcome to Your Main Application</h2>
         <p>
-          This demonstrates how to integrate the Alchm Kitchen into your existing application. Click
-          on the "Alchm Kitchen" tab to access the astrological food recommendation system.
+          This demonstrates how to integrate the Alchm Kitchen into your
+          existing application. Click on the "Alchm Kitchen" tab to access the
+          astrological food recommendation system.
         </p>
 
         <div class="features-grid">
           <div class="feature-card">
             <h3>🌙 Astrological Integration</h3>
             <p>
-              Real-time planetary positions and zodiac influences for personalized food
-              recommendations based on current cosmic alignment.
+              Real-time planetary positions and zodiac influences for
+              personalized food recommendations based on current cosmic
+              alignment.
             </p>
           </div>
           <div class="feature-card">
             <h3>🔥 Elemental Matching</h3>
             <p>
-              Fire, Water, Earth, Air compatibility with current planetary state to ensure optimal
-              culinary harmony.
+              Fire, Water, Earth, Air compatibility with current planetary state
+              to ensure optimal culinary harmony.
             </p>
           </div>
           <div class="feature-card">
             <h3>🧪 Monica/Kalchm Constants</h3>
             <p>
-              Advanced alchemical calculations using Monica and Kalchm constants for perfect
-              food-energy balance.
+              Advanced alchemical calculations using Monica and Kalchm constants
+              for perfect food-energy balance.
             </p>
           </div>
           <div class="feature-card">
             <h3>🍽️ Cuisine Recommendations</h3>
             <p>
-              Personalized cuisine suggestions based on celestial alignment, seasonal factors, and
-              cultural synergy.
+              Personalized cuisine suggestions based on celestial alignment,
+              seasonal factors, and cultural synergy.
             </p>
           </div>
           <div class="feature-card">
             <h3>🥘 Recipe Suggestions</h3>
             <p>
-              Detailed recipes with elemental properties, cooking methods, and astrological
-              compatibility scores.
+              Detailed recipes with elemental properties, cooking methods, and
+              astrological compatibility scores.
             </p>
           </div>
           <div class="feature-card">
             <h3>🌿 Sauce Pairings</h3>
             <p>
-              Harmonious sauce recommendations with astrological compatibility and planetary hour
-              optimization.
+              Harmonious sauce recommendations with astrological compatibility
+              and planetary hour optimization.
             </p>
           </div>
         </div>
@@ -282,10 +289,20 @@
               <span>Alchm Kitchen - Astrological Food Recommendations</span>
             </div>
             <div class="kitchen-controls">
-              <button class="control-button" onclick="toggleFullscreen()" title="Toggle Fullscreen">
+              <button
+                class="control-button"
+                onclick="toggleFullscreen()"
+                title="Toggle Fullscreen"
+              >
                 ⤢
               </button>
-              <button class="control-button" onclick="reloadKitchen()" title="Reload">↻</button>
+              <button
+                class="control-button"
+                onclick="reloadKitchen()"
+                title="Reload"
+              >
+                ↻
+              </button>
             </div>
           </div>
           <div id="kitchen-loading" class="loading">
@@ -314,47 +331,47 @@
     <script>
       function switchTab(tabName) {
         // Hide all tab contents
-        document.querySelectorAll('.tab-content').forEach(content => {
-          content.classList.remove('active');
+        document.querySelectorAll(".tab-content").forEach((content) => {
+          content.classList.remove("active");
         });
 
         // Remove active class from all tab buttons
-        document.querySelectorAll('.tab-button').forEach(button => {
-          button.classList.remove('active');
+        document.querySelectorAll(".tab-button").forEach((button) => {
+          button.classList.remove("active");
         });
 
         // Show selected tab content
-        document.getElementById(tabName + '-tab').classList.add('active');
+        document.getElementById(tabName + "-tab").classList.add("active");
 
         // Add active class to clicked button
-        event.target.classList.add('active');
+        event.target.classList.add("active");
       }
 
       function handleKitchenLoad() {
-        const loading = document.getElementById('kitchen-loading');
-        const iframe = document.getElementById('kitchen-iframe');
-        const status = document.getElementById('kitchen-status');
+        const loading = document.getElementById("kitchen-loading");
+        const iframe = document.getElementById("kitchen-iframe");
+        const status = document.getElementById("kitchen-status");
 
-        loading.style.display = 'none';
-        iframe.style.display = 'block';
-        status.className = 'status-indicator';
+        loading.style.display = "none";
+        iframe.style.display = "block";
+        status.className = "status-indicator";
 
-        console.log('Alchm Kitchen loaded successfully!');
+        console.log("Alchm Kitchen loaded successfully!");
       }
 
       function handleKitchenError() {
-        const status = document.getElementById('kitchen-status');
-        status.className = 'status-indicator error';
+        const status = document.getElementById("kitchen-status");
+        status.className = "status-indicator error";
 
-        console.error('Failed to load Alchm Kitchen');
+        console.error("Failed to load Alchm Kitchen");
       }
 
       function toggleFullscreen() {
-        const container = document.querySelector('.kitchen-container');
+        const container = document.querySelector(".kitchen-container");
 
         if (!document.fullscreenElement) {
-          container.requestFullscreen().catch(err => {
-            console.log('Error attempting to enable fullscreen:', err);
+          container.requestFullscreen().catch((err) => {
+            console.log("Error attempting to enable fullscreen:", err);
           });
         } else {
           document.exitFullscreen();
@@ -362,21 +379,21 @@
       }
 
       function reloadKitchen() {
-        const iframe = document.getElementById('kitchen-iframe');
-        const loading = document.getElementById('kitchen-loading');
-        const status = document.getElementById('kitchen-status');
+        const iframe = document.getElementById("kitchen-iframe");
+        const loading = document.getElementById("kitchen-loading");
+        const status = document.getElementById("kitchen-status");
 
-        loading.style.display = 'flex';
-        iframe.style.display = 'none';
-        status.className = 'status-indicator loading';
+        loading.style.display = "flex";
+        iframe.style.display = "none";
+        status.className = "status-indicator loading";
 
         iframe.src = iframe.src;
       }
 
       // Initialize status indicator
-      document.addEventListener('DOMContentLoaded', function () {
-        const status = document.getElementById('kitchen-status');
-        status.className = 'status-indicator loading';
+      document.addEventListener("DOMContentLoaded", function () {
+        const status = document.getElementById("kitchen-status");
+        status.className = "status-indicator loading";
       });
     </script>
   </body>

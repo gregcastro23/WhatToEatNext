@@ -8,9 +8,9 @@
  * Ensures safe, reliable automated error fixing with transaction-like guarantees
  */
 
-import fs from 'fs';
-import path from 'path';
-import { execSync } from 'child_process';
+import fs from "fs";
+import path from "path";
+import { execSync } from "child_process";
 
 class AtomicExecutor {
   constructor() {
@@ -28,7 +28,7 @@ class AtomicExecutor {
       id: transactionId,
       backups: new Map(),
       startTime: Date.now(),
-      processor: processorCode
+      processor: processorCode,
     };
 
     this.activeTransactions.set(transactionId, transaction);
@@ -37,7 +37,7 @@ class AtomicExecutor {
       console.log(`🔒 Transaction ${transactionId}: Starting ${processorCode}`);
 
       // 1. Get files that will be modified
-      const ProcessorFactory = await import('./processor-factory.js');
+      const ProcessorFactory = await import("./processor-factory.js");
       const factory = new ProcessorFactory.default();
       const processor = factory.createProcessor(processorCode);
 
@@ -47,11 +47,11 @@ class AtomicExecutor {
 
       for (const filePath of filesWithErrors) {
         try {
-          const content = fs.readFileSync(filePath, 'utf8');
+          const content = fs.readFileSync(filePath, "utf8");
           transaction.backups.set(filePath, {
             content,
             timestamp: Date.now(),
-            stats: fs.statSync(filePath)
+            stats: fs.statSync(filePath),
           });
         } catch (error) {
           console.warn(`⚠️  Could not backup ${filePath}: ${error.message}`);
@@ -68,7 +68,7 @@ class AtomicExecutor {
         const validation = await this.validateChanges(transaction);
 
         if (!validation.success) {
-          throw new Error(`Validation failed: ${validation.errors.join(', ')}`);
+          throw new Error(`Validation failed: ${validation.errors.join(", ")}`);
         }
       }
 
@@ -84,11 +84,12 @@ class AtomicExecutor {
         result,
         transactionId,
         backupsCreated: transaction.backups.size,
-        dryRun: options.dryRun || false
+        dryRun: options.dryRun || false,
       };
-
     } catch (error) {
-      console.error(`❌ Transaction ${transactionId}: FAILED - ${error.message}`);
+      console.error(
+        `❌ Transaction ${transactionId}: FAILED - ${error.message}`,
+      );
 
       // Only rollback if not in dry-run mode
       if (!options.dryRun) {
@@ -101,7 +102,7 @@ class AtomicExecutor {
         error: error.message,
         transactionId,
         rolledBack: !options.dryRun,
-        dryRun: options.dryRun || false
+        dryRun: options.dryRun || false,
       };
     }
   }
@@ -111,14 +112,17 @@ class AtomicExecutor {
    */
   async getFilesWithErrors(errorCode) {
     try {
-      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-        cwd: this.projectRoot,
-        encoding: 'utf8',
-        maxBuffer: 50 * 1024 * 1024
-      });
+      const tscOutput = execSync(
+        "yarn tsc --noEmit --skipLibCheck 2>&1 || true",
+        {
+          cwd: this.projectRoot,
+          encoding: "utf8",
+          maxBuffer: 50 * 1024 * 1024,
+        },
+      );
 
       const filesWithErrors = new Set();
-      const lines = tscOutput.split('\n');
+      const lines = tscOutput.split("\n");
 
       for (const line of lines) {
         if (line.includes(`error ${errorCode}:`)) {
@@ -131,7 +135,6 @@ class AtomicExecutor {
       }
 
       return Array.from(filesWithErrors);
-
     } catch (error) {
       console.warn(`⚠️  Could not analyze errors: ${error.message}`);
       return [];
@@ -146,20 +149,24 @@ class AtomicExecutor {
 
     try {
       // Validation 1: TypeScript compilation check
-      console.log('  Checking TypeScript compilation...');
-      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-        cwd: this.projectRoot,
-        encoding: 'utf8',
-        maxBuffer: 50 * 1024 * 1024,
-        timeout: 60000
-      });
+      console.log("  Checking TypeScript compilation...");
+      const tscOutput = execSync(
+        "yarn tsc --noEmit --skipLibCheck 2>&1 || true",
+        {
+          cwd: this.projectRoot,
+          encoding: "utf8",
+          maxBuffer: 50 * 1024 * 1024,
+          timeout: 60000,
+        },
+      );
 
-      const errorLines = tscOutput.split('\n').filter(line => line.includes('error TS'));
+      const errorLines = tscOutput
+        .split("\n")
+        .filter((line) => line.includes("error TS"));
       console.log(`  ℹ️  TypeScript errors present: ${errorLines.length}`);
 
       // We don't fail on TS errors since we're actively fixing them
       // Just log for reference
-
     } catch (error) {
       // Timeout or other error - don't fail validation
       console.log(`  ⚠️  TypeScript check encountered issue: ${error.message}`);
@@ -168,19 +175,22 @@ class AtomicExecutor {
     // Validation 2: Check for syntax corruption in modified files
     for (const [filePath] of transaction.backups) {
       try {
-        const content = fs.readFileSync(filePath, 'utf8');
+        const content = fs.readFileSync(filePath, "utf8");
 
         // Check for obvious syntax corruption patterns
-        if (content.includes('}}}}') || content.includes(',,,,')) {
-          errors.push(`${filePath}: Potential syntax corruption detected (excessive brackets/commas)`);
+        if (content.includes("}}}}") || content.includes(",,,,")) {
+          errors.push(
+            `${filePath}: Potential syntax corruption detected (excessive brackets/commas)`,
+          );
         }
 
-        if (content.includes('undefined undefined')) {
+        if (content.includes("undefined undefined")) {
           errors.push(`${filePath}: Potential keyword corruption detected`);
         }
-
       } catch (error) {
-        errors.push(`${filePath}: Cannot read file after processing - ${error.message}`);
+        errors.push(
+          `${filePath}: Cannot read file after processing - ${error.message}`,
+        );
       }
     }
 
@@ -194,7 +204,7 @@ class AtomicExecutor {
     return {
       success: errors.length === 0,
       errors,
-      validationTime: Date.now() - transaction.startTime
+      validationTime: Date.now() - transaction.startTime,
     };
   }
 
@@ -209,14 +219,18 @@ class AtomicExecutor {
       try {
         fs.writeFileSync(filePath, backup.content);
         rolledBack++;
-        console.log(`  ✓ Rolled back: ${path.relative(this.projectRoot, filePath)}`);
+        console.log(
+          `  ✓ Rolled back: ${path.relative(this.projectRoot, filePath)}`,
+        );
       } catch (error) {
         failed++;
         console.error(`  ✗ Failed to rollback: ${filePath} - ${error.message}`);
       }
     }
 
-    console.log(`🔄 Rollback complete: ${rolledBack} restored, ${failed} failed`);
+    console.log(
+      `🔄 Rollback complete: ${rolledBack} restored, ${failed} failed`,
+    );
 
     this.activeTransactions.delete(transaction.id);
 
@@ -227,33 +241,35 @@ class AtomicExecutor {
    * Execute multiple processors in batch with atomic safety
    */
   async executeBatch(processorCodes, options = {}) {
-    console.log(`\n${'='.repeat(60)}`);
-    console.log('🚀 BATCH EXECUTION WITH ATOMIC SAFETY');
-    console.log('='.repeat(60));
-    console.log(`Mode: ${options.dryRun ? 'DRY RUN' : 'LIVE'}`);
+    console.log(`\n${"=".repeat(60)}`);
+    console.log("🚀 BATCH EXECUTION WITH ATOMIC SAFETY");
+    console.log("=".repeat(60));
+    console.log(`Mode: ${options.dryRun ? "DRY RUN" : "LIVE"}`);
     console.log(`Processors: ${processorCodes.length}`);
-    console.log(`Stop on failure: ${options.stopOnFailure ? 'Yes' : 'No'}`);
-    console.log('');
+    console.log(`Stop on failure: ${options.stopOnFailure ? "Yes" : "No"}`);
+    console.log("");
 
     const results = [];
 
     for (const code of processorCodes) {
-      console.log(`\n${'─'.repeat(60)}`);
+      console.log(`\n${"─".repeat(60)}`);
       console.log(`Processing ${code}...`);
-      console.log('─'.repeat(60));
+      console.log("─".repeat(60));
 
       const result = await this.executeProcessorSafely(code, options);
       results.push({ processorCode: code, ...result });
 
       // Stop on first failure if requested
       if (!result.success && options.stopOnFailure) {
-        console.log('\n⚠️  Stopping batch execution due to failure');
+        console.log("\n⚠️  Stopping batch execution due to failure");
         break;
       }
 
       // Pause between processors if requested
       if (options.pauseBetween && results.length < processorCodes.length) {
-        console.log(`\n⏸️  Pausing ${options.pauseBetween}ms before next processor...`);
+        console.log(
+          `\n⏸️  Pausing ${options.pauseBetween}ms before next processor...`,
+        );
         await this.pause(options.pauseBetween);
       }
     }
@@ -265,36 +281,45 @@ class AtomicExecutor {
    * Generate comprehensive batch execution report
    */
   generateBatchReport(results) {
-    const successful = results.filter(r => r.success);
-    const failed = results.filter(r => !r.success);
+    const successful = results.filter((r) => r.success);
+    const failed = results.filter((r) => !r.success);
 
     const report = {
       summary: {
         total: results.length,
         successful: successful.length,
         failed: failed.length,
-        totalFilesProcessed: successful.reduce((sum, r) => sum + (r.result?.filesProcessed || 0), 0),
-        totalErrorsFixed: successful.reduce((sum, r) => sum + (r.result?.errorsFixed || 0), 0),
-        totalBackups: successful.reduce((sum, r) => sum + (r.backupsCreated || 0), 0)
+        totalFilesProcessed: successful.reduce(
+          (sum, r) => sum + (r.result?.filesProcessed || 0),
+          0,
+        ),
+        totalErrorsFixed: successful.reduce(
+          (sum, r) => sum + (r.result?.errorsFixed || 0),
+          0,
+        ),
+        totalBackups: successful.reduce(
+          (sum, r) => sum + (r.backupsCreated || 0),
+          0,
+        ),
       },
-      successful: successful.map(r => ({
+      successful: successful.map((r) => ({
         processor: r.processorCode,
         filesProcessed: r.result?.filesProcessed || 0,
         errorsFixed: r.result?.errorsFixed || 0,
-        backupsCreated: r.backupsCreated || 0
+        backupsCreated: r.backupsCreated || 0,
       })),
-      failed: failed.map(r => ({
+      failed: failed.map((r) => ({
         processor: r.processorCode,
         error: r.error,
-        rolledBack: r.rolledBack
+        rolledBack: r.rolledBack,
       })),
-      dryRun: results[0]?.dryRun || false
+      dryRun: results[0]?.dryRun || false,
     };
 
-    console.log('\n' + '='.repeat(60));
-    console.log('📊 BATCH EXECUTION SUMMARY');
-    console.log('='.repeat(60));
-    console.log(`Mode:              ${report.dryRun ? 'DRY RUN' : 'LIVE'}`);
+    console.log("\n" + "=".repeat(60));
+    console.log("📊 BATCH EXECUTION SUMMARY");
+    console.log("=".repeat(60));
+    console.log(`Mode:              ${report.dryRun ? "DRY RUN" : "LIVE"}`);
     console.log(`Total Processors:  ${report.summary.total}`);
     console.log(`✅ Successful:      ${report.summary.successful}`);
     console.log(`❌ Failed:          ${report.summary.failed}`);
@@ -303,15 +328,17 @@ class AtomicExecutor {
     console.log(`💾 Backups Created: ${report.summary.totalBackups}`);
 
     if (successful.length > 0) {
-      console.log('\n✅ Successful Processors:');
-      successful.forEach(s => {
-        console.log(`  ${s.processor}: ${s.errorsFixed} errors, ${s.filesProcessed} files`);
+      console.log("\n✅ Successful Processors:");
+      successful.forEach((s) => {
+        console.log(
+          `  ${s.processor}: ${s.errorsFixed} errors, ${s.filesProcessed} files`,
+        );
       });
     }
 
     if (failed.length > 0) {
-      console.log('\n❌ Failed Processors:');
-      failed.forEach(f => {
+      console.log("\n❌ Failed Processors:");
+      failed.forEach((f) => {
         console.log(`  ${f.processor}: ${f.error}`);
         if (f.rolledBack) {
           console.log(`    (Changes rolled back)`);
@@ -319,7 +346,7 @@ class AtomicExecutor {
       });
     }
 
-    console.log('='.repeat(60));
+    console.log("=".repeat(60));
 
     return report;
   }
@@ -328,42 +355,50 @@ class AtomicExecutor {
    * Pause execution for specified milliseconds
    */
   pause(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
 
 // CLI Interface
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
-  const command = args[0] || 'help';
+  const command = args[0] || "help";
 
   const executor = new AtomicExecutor();
 
   switch (command) {
-    case 'execute':
+    case "execute":
       const processorCode = args[1];
-      const isDryRun = !args.includes('--confirm');
+      const isDryRun = !args.includes("--confirm");
 
       if (!processorCode) {
-        console.log('❌ Error: Processor code required');
-        console.log('Usage: node atomic-executor.js execute <code> [--confirm]');
+        console.log("❌ Error: Processor code required");
+        console.log(
+          "Usage: node atomic-executor.js execute <code> [--confirm]",
+        );
         process.exit(1);
       }
 
-      await executor.executeProcessorSafely(processorCode, { dryRun: isDryRun });
+      await executor.executeProcessorSafely(processorCode, {
+        dryRun: isDryRun,
+      });
       break;
 
-    case 'batch':
-      const codes = args.slice(1).filter(a => !a.startsWith('--'));
+    case "batch":
+      const codes = args.slice(1).filter((a) => !a.startsWith("--"));
       const batchOptions = {
-        dryRun: !args.includes('--confirm'),
-        stopOnFailure: args.includes('--stop-on-failure'),
-        pauseBetween: parseInt(args.find(a => a.startsWith('--pause='))?.split('=')[1] || '0')
+        dryRun: !args.includes("--confirm"),
+        stopOnFailure: args.includes("--stop-on-failure"),
+        pauseBetween: parseInt(
+          args.find((a) => a.startsWith("--pause="))?.split("=")[1] || "0",
+        ),
       };
 
       if (codes.length === 0) {
-        console.log('❌ Error: At least one processor code required');
-        console.log('Usage: node atomic-executor.js batch <code1> <code2> ... [options]');
+        console.log("❌ Error: At least one processor code required");
+        console.log(
+          "Usage: node atomic-executor.js batch <code1> <code2> ... [options]",
+        );
         process.exit(1);
       }
 

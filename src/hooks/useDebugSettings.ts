@@ -1,120 +1,120 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
 
 export interface DebugSettings {
-  isVisible: boolean,
-  isCollapsed: boolean,
-  position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left',
-  customPosition?: { x: number, y: number },
-  showPerformanceMetrics: boolean,
-  showAstrologicalData: boolean,
-  showComponentStates: boolean,
-  opacity: number,
-  size: 'small' | 'medium' | 'large'
+  isVisible: boolean;
+  isCollapsed: boolean;
+  position: "bottom-right" | "bottom-left" | "top-right" | "top-left";
+  customPosition?: { x: number; y: number };
+  showPerformanceMetrics: boolean;
+  showAstrologicalData: boolean;
+  showComponentStates: boolean;
+  opacity: number;
+  size: "small" | "medium" | "large";
 }
 
 const DEFAULT_SETTINGS: DebugSettings = {
   isVisible: true,
   isCollapsed: false,
-  position: 'bottom-right',
+  position: "bottom-right",
   showPerformanceMetrics: true,
   showAstrologicalData: true,
   showComponentStates: true,
   opacity: 0.9,
-  size: 'medium'
+  size: "medium",
 };
 
-const STORAGE_KEY = 'debug-panel-settings';
+const STORAGE_KEY = "debug-panel-settings";
 
 export const _useDebugSettings = () => {
-  const [settings, setSettings] = useState<DebugSettings>(DEFAULT_SETTINGS)
+  const [settings, setSettings] = useState<DebugSettings>(DEFAULT_SETTINGS);
 
   // Load settings from localStorage on mount
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY)
+      const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsedSettings = JSON.parse(stored);
-        setSettings({ ...DEFAULT_SETTINGS, ...parsedSettings })
+        setSettings({ ...DEFAULT_SETTINGS, ...parsedSettings });
       }
     } catch (error) {
-      _logger.warn('[Debug Settings] Failed to load settings: ', error)
+      _logger.warn("[Debug Settings] Failed to load settings: ", error);
     }
-  }, [])
+  }, []);
 
   // Save settings to localStorage whenever they change
   const saveSettings = useCallback(
     (newSettings: Partial<DebugSettings>) => {
       const updatedSettings = { ...settings, ...newSettings };
-      setSettings(updatedSettings)
+      setSettings(updatedSettings);
 
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedSettings))
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedSettings));
       } catch (error) {
-        _logger.warn('[Debug Settings] Failed to save settings: ', error)
+        _logger.warn("[Debug Settings] Failed to save settings: ", error);
       }
     },
-    [settings]
-  )
+    [settings],
+  );
 
   // Individual setting updaters
   const toggleVisibility = useCallback(() => {
-    saveSettings({ isVisible: !settings.isVisible })
-  }, [settings.isVisible, saveSettings])
+    saveSettings({ isVisible: !settings.isVisible });
+  }, [settings.isVisible, saveSettings]);
 
   const toggleCollapsed = useCallback(() => {
-    saveSettings({ isCollapsed: !settings.isCollapsed })
-  }, [settings.isCollapsed, saveSettings])
+    saveSettings({ isCollapsed: !settings.isCollapsed });
+  }, [settings.isCollapsed, saveSettings]);
 
   const setPosition = useCallback(
-    (position: DebugSettings['position']) => {
-      saveSettings({ position, customPosition: undefined })
+    (position: DebugSettings["position"]) => {
+      saveSettings({ position, customPosition: undefined });
     },
-    [saveSettings]
-  )
+    [saveSettings],
+  );
 
   const setCustomPosition = useCallback(
     (x: number, y: number) => {
-      saveSettings({ customPosition: { x, y }, position: 'bottom-right' })
+      saveSettings({ customPosition: { x, y }, position: "bottom-right" });
     },
     [saveSettings],
-  )
+  );
 
   const togglePerformanceMetrics = useCallback(() => {
-    saveSettings({ showPerformanceMetrics: !settings.showPerformanceMetrics })
-  }, [settings.showPerformanceMetrics, saveSettings])
+    saveSettings({ showPerformanceMetrics: !settings.showPerformanceMetrics });
+  }, [settings.showPerformanceMetrics, saveSettings]);
 
   const toggleAstrologicalData = useCallback(() => {
-    saveSettings({ showAstrologicalData: !settings.showAstrologicalData })
-  }, [settings.showAstrologicalData, saveSettings])
+    saveSettings({ showAstrologicalData: !settings.showAstrologicalData });
+  }, [settings.showAstrologicalData, saveSettings]);
 
   const toggleComponentStates = useCallback(() => {
-    saveSettings({ showComponentStates: !settings.showComponentStates })
-  }, [settings.showComponentStates, saveSettings])
+    saveSettings({ showComponentStates: !settings.showComponentStates });
+  }, [settings.showComponentStates, saveSettings]);
 
   const setOpacity = useCallback(
     (opacity: number) => {
-      saveSettings({ opacity: Math.max(0.1, Math.min(1, opacity)) })
+      saveSettings({ opacity: Math.max(0.1, Math.min(1, opacity)) });
     },
-    [saveSettings]
-  )
+    [saveSettings],
+  );
 
   const setSize = useCallback(
-    (size: DebugSettings['size']) => {
-      saveSettings({ size })
+    (size: DebugSettings["size"]) => {
+      saveSettings({ size });
     },
-    [saveSettings]
-  )
+    [saveSettings],
+  );
 
   const resetSettings = useCallback(() => {
-    setSettings(DEFAULT_SETTINGS)
+    setSettings(DEFAULT_SETTINGS);
     try {
-      localStorage.removeItem(STORAGE_KEY)
+      localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
-      _logger.warn('[Debug Settings] Failed to reset settings: ', error)
+      _logger.warn("[Debug Settings] Failed to reset settings: ", error);
     }
-  }, [])
+  }, []);
 
   return {
     settings,
@@ -128,6 +128,6 @@ export const _useDebugSettings = () => {
     setOpacity,
     setSize,
     resetSettings,
-    saveSettings
-  }
-}
+    saveSettings,
+  };
+};

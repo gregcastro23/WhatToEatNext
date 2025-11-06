@@ -27,12 +27,9 @@ component.
 2. Import and use the component:
 
 ```tsx
-import AlchmKitchenTab from './AlchmKitchenTab';
+import AlchmKitchenTab from "./AlchmKitchenTab";
 
-<AlchmKitchenTab
-  title="Alchm Kitchen"
-  allowFullscreen={true}
-/>
+<AlchmKitchenTab title="Alchm Kitchen" allowFullscreen={true} />;
 ```
 
 ### For Non-React Projects
@@ -104,9 +101,9 @@ All components are fully responsive and work on:
 ```tsx
 <AlchmKitchenTab
   style={{
-    borderRadius: '12px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    border: '2px solid #e2e8f0'
+    borderRadius: "12px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    border: "2px solid #e2e8f0",
   }}
 />
 ```
@@ -115,8 +112,8 @@ All components are fully responsive and work on:
 
 ```tsx
 <AlchmKitchenTab
-  onLoad={() => console.log('Kitchen loaded!')}
-  onError={(error) => console.error('Failed to load:', error)}
+  onLoad={() => console.log("Kitchen loaded!")}
+  onError={(error) => console.error("Failed to load:", error)}
 />
 ```
 

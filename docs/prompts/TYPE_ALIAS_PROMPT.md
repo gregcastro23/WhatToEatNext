@@ -17,16 +17,26 @@ maintainability
 
 ```typescript
 type AlchemicalProperties = {
-  Spirit: number; Essence: number; Matter: number; Substance: number;
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
 };
 
 type ElementalProperties = {
-  Fire: number; Water: number; Earth: number; Air: number;
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
 };
 
 type ThermodynamicMetrics = {
-  heat: number; entropy: number; reactivity: number;
-  gregsEnergy: number; kalchm: number; monica: number;
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  kalchm: number;
+  monica: number;
 };
 ```
 
@@ -36,13 +46,24 @@ type ThermodynamicMetrics = {
 
 ```typescript
 type PlanetaryPositions = Record<string, string>;
-type ZodiacSign = 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' |
-                  'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
+type ZodiacSign =
+  | "aries"
+  | "taurus"
+  | "gemini"
+  | "cancer"
+  | "leo"
+  | "virgo"
+  | "libra"
+  | "scorpio"
+  | "sagittarius"
+  | "capricorn"
+  | "aquarius"
+  | "pisces";
 
 type AstrologicalState = {
   planetaryPositions: PlanetaryPositions;
   currentZodiac: ZodiacSign;
-  lunarPhase: 'new moon' | 'full moon' | 'waxing crescent' | 'waning crescent';
+  lunarPhase: "new moon" | "full moon" | "waxing crescent" | "waning crescent";
   elementalInfluence: ElementalProperties;
 };
 ```
@@ -53,15 +74,21 @@ type AstrologicalState = {
 
 ```typescript
 type NutritionalContent = {
-  calories: number; protein: number; fat: number;
-  carbohydrates: number; fiber: number;
+  calories: number;
+  protein: number;
+  fat: number;
+  carbohydrates: number;
+  fiber: number;
 };
 
 type IngredientMapping = {
-  name: string; category: string; season: string[];
+  name: string;
+  category: string;
+  season: string[];
   nutritionalContent: NutritionalContent;
   elementalProperties: ElementalProperties;
-  cookingMethods: string[]; affinities: string[];
+  cookingMethods: string[];
+  affinities: string[];
 };
 ```
 
@@ -71,12 +98,16 @@ type IngredientMapping = {
 
 ```typescript
 type ServiceResponse<T> = {
-  success: boolean; data?: T; error?: string; timestamp: string;
+  success: boolean;
+  data?: T;
+  error?: string;
+  timestamp: string;
 };
 
 type AlchemicalRecommendationResponse = ServiceResponse<{
   recommendations: AlchemicalTransformationResult[];
-  compatibility: number; reasoning: string[];
+  compatibility: number;
+  reasoning: string[];
 }>;
 ```
 

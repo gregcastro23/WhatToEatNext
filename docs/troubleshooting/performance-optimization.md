@@ -44,13 +44,17 @@ npm run profile:memory
 class AstronomicalCache {
   private cache = new Map<string, CacheEntry>();
   private readonly TTL = {
-    planetaryPositions: 6 * 60 * 60 * 1000,  // 6 hours
-    lunarPhase: 1 * 60 * 60 * 1000,          // 1 hour
-    transitDates: 24 * 60 * 60 * 1000,       // 24 hours
-    elementalCalculations: 30 * 60 * 1000     // 30 minutes
+    planetaryPositions: 6 * 60 * 60 * 1000, // 6 hours
+    lunarPhase: 1 * 60 * 60 * 1000, // 1 hour
+    transitDates: 24 * 60 * 60 * 1000, // 24 hours
+    elementalCalculations: 30 * 60 * 1000, // 30 minutes
   };
 
-  async get<T>(key: string, calculator: () => Promise<T>, ttl: number): Promise<T> {
+  async get<T>(
+    key: string,
+    calculator: () => Promise<T>,
+    ttl: number,
+  ): Promise<T> {
     const cached = this.cache.get(key);
 
     if (cached && Date.now() - cached.timestamp < ttl) {
@@ -68,7 +72,7 @@ class AstronomicalCache {
       this.cache.set(key, {
         data,
         timestamp: Date.now(),
-        calculationTime
+        calculationTime,
       });
 
       console.log(`Calculated ${key} in ${calculationTime.toFixed(2)}ms`);
@@ -83,13 +87,14 @@ class AstronomicalCache {
   getStatistics() {
     const entries = Array.from(this.cache.values());
     const totalEntries = entries.length;
-    const averageAge = entries.reduce((sum, entry) =>
-      sum + (Date.now() - entry.timestamp), 0) / totalEntries;
+    const averageAge =
+      entries.reduce((sum, entry) => sum + (Date.now() - entry.timestamp), 0) /
+      totalEntries;
 
     return {
       totalEntries,
       averageAge: averageAge / 1000 / 60, // minutes
-      hitRate: this.calculateHitRate()
+      hitRate: this.calculateHitRate(),
     };
   }
 
@@ -103,12 +108,12 @@ class AstronomicalCache {
 const astronomicalCache = new AstronomicalCache();
 
 async function getOptimizedPlanetaryPositions(date: Date = new Date()) {
-  const cacheKey = `planetary-positions-${date.toISOString().split('T')[0]}`;
+  const cacheKey = `planetary-positions-${date.toISOString().split("T")[0]}`;
 
   return await astronomicalCache.get(
     cacheKey,
     () => calculatePlanetaryPositions(date),
-    astronomicalCache.TTL.planetaryPositions
+    astronomicalCache.TTL.planetaryPositions,
   );
 }
 ```
@@ -134,11 +139,11 @@ const memoizedElementalCompatibility = useMemo(() => {
 
 // Memoize ingredient recommendations
 const memoizedIngredientRecommendations = useMemo(() => {
-  console.log('Recalculating ingredient recommendations...');
+  console.log("Recalculating ingredient recommendations...");
   return calculateIngredientRecommendations(
     planetaryPositions,
     userPreferences,
-    seasonalFactors
+    seasonalFactors,
   );
 }, [planetaryPositions, userPreferences, seasonalFactors]);
 ```
@@ -193,12 +198,13 @@ class BatchAstrologicalProcessor {
 const batchProcessor = new BatchAstrologicalProcessor();
 
 async function getOptimizedRecommendations(ingredients: Ingredient[]) {
-  const calculations = ingredients.map(ingredient =>
-    () => calculateIngredientCompatibility(ingredient, currentPlanetaryState)
+  const calculations = ingredients.map(
+    (ingredient) => () =>
+      calculateIngredientCompatibility(ingredient, currentPlanetaryState),
   );
 
   const results = await Promise.all(
-    calculations.map(calc => batchProcessor.addCalculation(calc))
+    calculations.map((calc) => batchProcessor.addCalculation(calc)),
   );
 
   return results;
@@ -397,9 +403,9 @@ const App: React.FC = () => {
 // import * as Astronomia from 'astronomia';
 
 // Import only needed functions:
-import { julian } from 'astronomia/lib/julian';
-import { solar } from 'astronomia/lib/solar';
-import { lunar } from 'astronomia/lib/lunar';
+import { julian } from "astronomia/lib/julian";
+import { solar } from "astronomia/lib/solar";
+import { lunar } from "astronomia/lib/lunar";
 
 // Tree-shake unused utilities
 // Use babel-plugin-import or similar for automatic optimization
@@ -409,8 +415,8 @@ import { lunar } from 'astronomia/lib/lunar';
 
 ```javascript
 // next.config.js - Bundle analysis configuration
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
 });
 
 module.exports = withBundleAnalyzer({
@@ -418,23 +424,23 @@ module.exports = withBundleAnalyzer({
     // Optimize astronomical libraries
     config.resolve.alias = {
       ...config.resolve.alias,
-      'astronomia': 'astronomia/lib',
+      astronomia: "astronomia/lib",
     };
 
     // Split vendor chunks
     if (!isServer) {
       config.optimization.splitChunks = {
-        chunks: 'all',
+        chunks: "all",
         cacheGroups: {
           astronomical: {
             test: /[\\/]node_modules[\\/](astronomia|astronomy-engine|suncalc)[\\/]/,
-            name: 'astronomical',
-            chunks: 'all',
+            name: "astronomical",
+            chunks: "all",
           },
           react: {
             test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-            name: 'react',
-            chunks: 'all',
+            name: "react",
+            chunks: "all",
           },
         },
       };
@@ -470,7 +476,7 @@ const useAstrologicalUpdates = () => {
         }
       } catch (error) {
         if (!abortController.signal.aborted) {
-          console.error('Failed to update positions:', error);
+          console.error("Failed to update positions:", error);
         }
       }
     };
@@ -496,9 +502,12 @@ class MemoryManagedCache {
 
   constructor() {
     // Clean up old entries every 10 minutes
-    this.cleanupInterval = setInterval(() => {
-      this.cleanup();
-    }, 10 * 60 * 1000);
+    this.cleanupInterval = setInterval(
+      () => {
+        this.cleanup();
+      },
+      10 * 60 * 1000,
+    );
   }
 
   set(key: string, value: any, ttl: number) {
@@ -511,7 +520,7 @@ class MemoryManagedCache {
     this.cache.set(key, {
       data: value,
       timestamp: Date.now(),
-      ttl
+      ttl,
     });
   }
 
@@ -525,7 +534,7 @@ class MemoryManagedCache {
       }
     }
 
-    keysToDelete.forEach(key => this.cache.delete(key));
+    keysToDelete.forEach((key) => this.cache.delete(key));
 
     console.log(`Cleaned up ${keysToDelete.length} expired cache entries`);
   }
@@ -547,7 +556,11 @@ class MemoryMonitor {
 
   start() {
     this.interval = setInterval(() => {
-      if (typeof window !== 'undefined' && 'performance' in window && 'memory' in performance) {
+      if (
+        typeof window !== "undefined" &&
+        "performance" in window &&
+        "memory" in performance
+      ) {
         const memory = (performance as any).memory;
         const usedMB = memory.usedJSHeapSize / 1024 / 1024;
 
@@ -575,7 +588,9 @@ class MemoryMonitor {
   getReport() {
     if (this.measurements.length === 0) return null;
 
-    const avg = this.measurements.reduce((sum, val) => sum + val, 0) / this.measurements.length;
+    const avg =
+      this.measurements.reduce((sum, val) => sum + val, 0) /
+      this.measurements.length;
     const max = Math.max(...this.measurements);
     const current = this.measurements[this.measurements.length - 1];
 
@@ -583,12 +598,12 @@ class MemoryMonitor {
       current: current.toFixed(2),
       average: avg.toFixed(2),
       maximum: max.toFixed(2),
-      trend: this.calculateTrend()
+      trend: this.calculateTrend(),
     };
   }
 
-  private calculateTrend(): 'increasing' | 'stable' | 'decreasing' {
-    if (this.measurements.length < 10) return 'stable';
+  private calculateTrend(): "increasing" | "stable" | "decreasing" {
+    if (this.measurements.length < 10) return "stable";
 
     const recent = this.measurements.slice(-10);
     const older = this.measurements.slice(-20, -10);
@@ -598,9 +613,9 @@ class MemoryMonitor {
 
     const diff = recentAvg - olderAvg;
 
-    if (diff > 5) return 'increasing';
-    if (diff < -5) return 'decreasing';
-    return 'stable';
+    if (diff > 5) return "increasing";
+    if (diff < -5) return "decreasing";
+    return "stable";
   }
 }
 ```
@@ -614,11 +629,14 @@ class MemoryMonitor {
 ```typescript
 // Batch multiple API requests
 class APIRequestBatcher {
-  private batchQueue: Map<string, Array<{
-    resolve: (value: any) => void;
-    reject: (error: any) => void;
-    params: any;
-  }>> = new Map();
+  private batchQueue: Map<
+    string,
+    Array<{
+      resolve: (value: any) => void;
+      reject: (error: any) => void;
+      params: any;
+    }>
+  > = new Map();
 
   private batchTimeout: Map<string, NodeJS.Timeout> = new Map();
   private batchDelay = 100; // 100ms batching window
@@ -657,7 +675,10 @@ class APIRequestBatcher {
 
     try {
       // Process all requests in batch
-      const results = await this.executeBatchRequest(endpoint, batch.map(item => item.params));
+      const results = await this.executeBatchRequest(
+        endpoint,
+        batch.map((item) => item.params),
+      );
 
       // Resolve individual promises
       batch.forEach((item, index) => {
@@ -665,38 +686,45 @@ class APIRequestBatcher {
       });
     } catch (error) {
       // Reject all promises in batch
-      batch.forEach(item => {
+      batch.forEach((item) => {
         item.reject(error);
       });
     }
   }
 
-  private async executeBatchRequest(endpoint: string, paramsList: any[]): Promise<any[]> {
+  private async executeBatchRequest(
+    endpoint: string,
+    paramsList: any[],
+  ): Promise<any[]> {
     // Implementation depends on API capabilities
     // Some APIs support batch requests, others need individual calls
 
-    if (endpoint === 'planetary-positions' && paramsList.length > 1) {
+    if (endpoint === "planetary-positions" && paramsList.length > 1) {
       // Batch planetary position requests for different dates
       return await this.batchPlanetaryPositions(paramsList);
     }
 
     // Fallback to individual requests
     return await Promise.all(
-      paramsList.map(params => this.singleRequest(endpoint, params))
+      paramsList.map((params) => this.singleRequest(endpoint, params)),
     );
   }
 
-  private async batchPlanetaryPositions(dateList: Date[]): Promise<PlanetaryPositions[]> {
+  private async batchPlanetaryPositions(
+    dateList: Date[],
+  ): Promise<PlanetaryPositions[]> {
     // Optimize by requesting positions for multiple dates at once
-    const uniqueDates = [...new Set(dateList.map(d => d.toISOString().split('T')[0]))];
+    const uniqueDates = [
+      ...new Set(dateList.map((d) => d.toISOString().split("T")[0])),
+    ];
 
     const results = await Promise.all(
-      uniqueDates.map(date => getReliablePlanetaryPositions(new Date(date)))
+      uniqueDates.map((date) => getReliablePlanetaryPositions(new Date(date))),
     );
 
     // Map results back to original request order
-    return dateList.map(date => {
-      const dateStr = date.toISOString().split('T')[0];
+    return dateList.map((date) => {
+      const dateStr = date.toISOString().split("T")[0];
       const index = uniqueDates.indexOf(dateStr);
       return results[index];
     });
@@ -713,12 +741,12 @@ class OptimizedHTTPClient {
 
   constructor() {
     // Configure HTTP agent for connection reuse
-    this.agent = new (require('https').Agent)({
+    this.agent = new (require("https").Agent)({
       keepAlive: true,
       maxSockets: 10,
       maxFreeSockets: 5,
       timeout: 5000,
-      freeSocketTimeout: 30000
+      freeSocketTimeout: 30000,
     });
   }
 
@@ -727,10 +755,10 @@ class OptimizedHTTPClient {
       ...options,
       agent: this.agent,
       headers: {
-        'Connection': 'keep-alive',
-        'Keep-Alive': 'timeout=30',
-        ...options.headers
-      }
+        Connection: "keep-alive",
+        "Keep-Alive": "timeout=30",
+        ...options.headers,
+      },
     };
 
     return fetch(url, optimizedOptions);
@@ -750,21 +778,21 @@ class PerformanceMonitoringService {
 
   start() {
     // Monitor long tasks
-    if ('PerformanceObserver' in window) {
+    if ("PerformanceObserver" in window) {
       const longTaskObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           if (entry.duration > 50) {
             console.warn(`Long task detected: ${entry.duration.toFixed(2)}ms`);
-            this.recordMetric('long-tasks', {
+            this.recordMetric("long-tasks", {
               duration: entry.duration,
               startTime: entry.startTime,
-              name: entry.name
+              name: entry.name,
             });
           }
         }
       });
 
-      longTaskObserver.observe({ entryTypes: ['longtask'] });
+      longTaskObserver.observe({ entryTypes: ["longtask"] });
       this.observers.push(longTaskObserver);
     }
 
@@ -779,32 +807,40 @@ class PerformanceMonitoringService {
   }
 
   private monitorNavigationTiming() {
-    if ('performance' in window && 'getEntriesByType' in performance) {
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+    if ("performance" in window && "getEntriesByType" in performance) {
+      const navigation = performance.getEntriesByType(
+        "navigation",
+      )[0] as PerformanceNavigationTiming;
 
       if (navigation) {
         const metrics = {
-          domContentLoaded: navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
+          domContentLoaded:
+            navigation.domContentLoadedEventEnd -
+            navigation.domContentLoadedEventStart,
           loadComplete: navigation.loadEventEnd - navigation.loadEventStart,
           firstPaint: this.getFirstPaint(),
-          firstContentfulPaint: this.getFirstContentfulPaint()
+          firstContentfulPaint: this.getFirstContentfulPaint(),
         };
 
-        console.log('Navigation Timing:', metrics);
-        this.recordMetric('navigation', metrics);
+        console.log("Navigation Timing:", metrics);
+        this.recordMetric("navigation", metrics);
       }
     }
   }
 
   private getFirstPaint(): number {
-    const paintEntries = performance.getEntriesByType('paint');
-    const firstPaint = paintEntries.find(entry => entry.name === 'first-paint');
+    const paintEntries = performance.getEntriesByType("paint");
+    const firstPaint = paintEntries.find(
+      (entry) => entry.name === "first-paint",
+    );
     return firstPaint ? firstPaint.startTime : 0;
   }
 
   private getFirstContentfulPaint(): number {
-    const paintEntries = performance.getEntriesByType('paint');
-    const fcp = paintEntries.find(entry => entry.name === 'first-contentful-paint');
+    const paintEntries = performance.getEntriesByType("paint");
+    const fcp = paintEntries.find(
+      (entry) => entry.name === "first-contentful-paint",
+    );
     return fcp ? fcp.startTime : 0;
   }
 
@@ -813,7 +849,7 @@ class PerformanceMonitoringService {
     const startTime = performance.now();
 
     return operation().then(
-      result => {
+      (result) => {
         const duration = performance.now() - startTime;
         this.recordMetric(name, { duration, success: true });
 
@@ -823,11 +859,15 @@ class PerformanceMonitoringService {
 
         return result;
       },
-      error => {
+      (error) => {
         const duration = performance.now() - startTime;
-        this.recordMetric(name, { duration, success: false, error: error.message });
+        this.recordMetric(name, {
+          duration,
+          success: false,
+          error: error.message,
+        });
         throw error;
-      }
+      },
     );
   }
 
@@ -839,7 +879,7 @@ class PerformanceMonitoringService {
     const categoryMetrics = this.metrics.get(category)!;
     categoryMetrics.push({
       ...metric,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
 
     // Keep only last 1000 metrics per category
@@ -851,13 +891,13 @@ class PerformanceMonitoringService {
   getPerformanceReport(): PerformanceReport {
     const report: PerformanceReport = {
       timestamp: Date.now(),
-      categories: {}
+      categories: {},
     };
 
     for (const [category, metrics] of this.metrics.entries()) {
       const durations = metrics
-        .filter(m => typeof m.duration === 'number')
-        .map(m => m.duration);
+        .filter((m) => typeof m.duration === "number")
+        .map((m) => m.duration);
 
       if (durations.length > 0) {
         report.categories[category] = {
@@ -866,7 +906,7 @@ class PerformanceMonitoringService {
           median: this.calculateMedian(durations),
           p95: this.calculatePercentile(durations, 95),
           max: Math.max(...durations),
-          min: Math.min(...durations)
+          min: Math.min(...durations),
         };
       }
     }
@@ -895,8 +935,8 @@ performanceMonitor.start();
 
 // Measure astrological calculations
 const positions = await performanceMonitor.measureAsync(
-  'planetary-positions',
-  () => getReliablePlanetaryPositions()
+  "planetary-positions",
+  () => getReliablePlanetaryPositions(),
 );
 ```
 
@@ -927,13 +967,7 @@ const positions = await performanceMonitor.measureAsync(
     }
   },
   "include": ["src/**/*"],
-  "exclude": [
-    "node_modules",
-    ".next",
-    "dist",
-    "**/*.test.ts",
-    "**/*.test.tsx"
-  ]
+  "exclude": ["node_modules", ".next", "dist", "**/*.test.ts", "**/*.test.tsx"]
 }
 ```
 
@@ -956,7 +990,7 @@ module.exports = {
     // Optimize astronomical libraries
     config.resolve.alias = {
       ...config.resolve.alias,
-      'astronomia': 'astronomia/lib',
+      astronomia: "astronomia/lib",
     };
 
     return config;
@@ -965,8 +999,8 @@ module.exports = {
   // Enable experimental features for performance
   experimental: {
     esmExternals: true,
-    serverComponentsExternalPackages: ['astronomia', 'astronomy-engine']
-  }
+    serverComponentsExternalPackages: ["astronomia", "astronomy-engine"],
+  },
 };
 ```
 
@@ -976,14 +1010,14 @@ module.exports = {
 
 ```typescript
 // Performance test suite
-describe('Performance Tests', () => {
+describe("Performance Tests", () => {
   const performanceMonitor = new PerformanceMonitoringService();
 
   beforeAll(() => {
     performanceMonitor.start();
   });
 
-  test('astrological calculations complete within 2 seconds', async () => {
+  test("astrological calculations complete within 2 seconds", async () => {
     const startTime = performance.now();
 
     const positions = await getReliablePlanetaryPositions();
@@ -994,12 +1028,12 @@ describe('Performance Tests', () => {
     console.log(`Planetary positions calculated in ${duration.toFixed(2)}ms`);
   });
 
-  test('elemental compatibility calculations are fast', async () => {
+  test("elemental compatibility calculations are fast", async () => {
     const testProperties = [
       { fire: 0.8, water: 0.1, earth: 0.1, air: 0.0 },
       { fire: 0.1, water: 0.8, earth: 0.1, air: 0.0 },
       { fire: 0.1, water: 0.1, earth: 0.8, air: 0.0 },
-      { fire: 0.0, water: 0.1, earth: 0.1, air: 0.8 }
+      { fire: 0.0, water: 0.1, earth: 0.1, air: 0.8 },
     ];
 
     const startTime = performance.now();
@@ -1015,10 +1049,12 @@ describe('Performance Tests', () => {
     const duration = performance.now() - startTime;
     expect(duration).toBeLessThan(100); // Should be very fast
 
-    console.log(`Elemental compatibility calculations completed in ${duration.toFixed(2)}ms`);
+    console.log(
+      `Elemental compatibility calculations completed in ${duration.toFixed(2)}ms`,
+    );
   });
 
-  test('memory usage remains stable', async () => {
+  test("memory usage remains stable", async () => {
     const initialMemory = process.memoryUsage().heapUsed;
 
     // Perform many calculations
@@ -1037,7 +1073,9 @@ describe('Performance Tests', () => {
     // Memory increase should be reasonable (less than 50MB)
     expect(memoryIncrease).toBeLessThan(50 * 1024 * 1024);
 
-    console.log(`Memory increase: ${(memoryIncrease / 1024 / 1024).toFixed(2)}MB`);
+    console.log(
+      `Memory increase: ${(memoryIncrease / 1024 / 1024).toFixed(2)}MB`,
+    );
   });
 });
 ```

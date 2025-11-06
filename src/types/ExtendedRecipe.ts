@@ -1,5 +1,5 @@
-import type { ElementalProperties} from '@/types/alchemy';
-import {_Element, ZodiacSign, _LunarPhase} from '@/types/alchemy';
+import type { ElementalProperties } from "@/types/alchemy";
+import { _Element, ZodiacSign, _LunarPhase } from "@/types/alchemy";
 
 /**
  * 🚀 Phase, 10: ExtendedRecipe Interface - Complete Property Access Support
@@ -8,12 +8,8 @@ import {_Element, ZodiacSign, _LunarPhase} from '@/types/alchemy';
  * across the codebase, preventing TS2339 property access errors.
  */
 
-import {
-  ElementalProperties as RecipeElementalProperties,
-} from './recipe';
-import type {
-  Recipe,
-  RecipeIngredient} from './recipe';
+import { ElementalProperties as RecipeElementalProperties } from "./recipe";
+import type { Recipe, RecipeIngredient } from "./recipe";
 
 /**
  * Extended Recipe Ingredient with all accessed properties
@@ -141,10 +137,10 @@ export interface ExtendedScoredRecipe extends ExtendedRecipe {
  */
 export function isExtendedRecipe(recipe: unknown): recipe is ExtendedRecipe {
   return (
-    typeof recipe === 'object' &&
+    typeof recipe === "object" &&
     recipe !== null &&
-    typeof (recipe as ExtendedRecipe).id === 'string' &&
-    typeof (recipe as ExtendedRecipe).name === 'string'
+    typeof (recipe as ExtendedRecipe).id === "string" &&
+    typeof (recipe as ExtendedRecipe).name === "string"
   );
 }
 
@@ -154,23 +150,33 @@ export function isExtendedRecipe(recipe: unknown): recipe is ExtendedRecipe {
 export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
   return {
     ...recipe,
-    id: recipe.id || `recipe-${  Date.now()}`,
+    id: recipe.id || `recipe-${Date.now()}`,
     tags: recipe.tags || [],
-    notes: recipe.notes || '',
-    preparation: recipe.preparation || '',
-    preparationNotes: recipe.preparationNotes || '',
-    ingredients: (recipe.ingredients || []).map(ingredient => {
+    notes: recipe.notes || "",
+    preparation: recipe.preparation || "",
+    preparationNotes: recipe.preparationNotes || "",
+    ingredients: (recipe.ingredients || []).map((ingredient) => {
       const extendedIngredient = ingredient as unknown as any;
       return {
         ...ingredient,
-        id: typeof extendedIngredient.id === 'string'
+        id:
+          typeof extendedIngredient.id === "string"
             ? extendedIngredient.id
-            : `ingredient-${  Date.now()}`,
-        preparation: typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',
-        optional: typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,
-        notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',
+            : `ingredient-${Date.now()}`,
+        preparation:
+          typeof extendedIngredient.preparation === "string"
+            ? extendedIngredient.preparation
+            : "",
+        optional:
+          typeof extendedIngredient.optional === "boolean"
+            ? extendedIngredient.optional
+            : false,
+        notes:
+          typeof extendedIngredient.notes === "string"
+            ? extendedIngredient.notes
+            : "",
       };
-    })
+    }),
   } as ExtendedRecipe;
 }
 

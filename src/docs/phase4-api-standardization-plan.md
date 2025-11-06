@@ -94,13 +94,13 @@ All API methods should follow this pattern:
 
 ```typescript
 async function methodName(
-  params: MethodNameParams
+  params: MethodNameParams,
 ): Promise<MethodNameResponse> {
   try {
     // Implementation
     return {
       success: true,
-      data: result
+      data: result,
     };
   } catch (error) {
     // Error handling
@@ -108,8 +108,8 @@ async function methodName(
       success: false,
       error: {
         code: getErrorCode(error),
-        message: getErrorMessage(error)
-      }
+        message: getErrorMessage(error),
+      },
     };
   }
 }

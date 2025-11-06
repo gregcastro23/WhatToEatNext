@@ -1,1368 +1,1368 @@
-import type { IngredientMapping } from '@/data/ingredients/types';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from "@/data/ingredients/types";
+import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawOtherVegetables = {
   asparagus: {
-    name: 'asparagus',
+    name: "asparagus",
 
     elementalProperties: {
       Fire: 0.7644171899336816,
       Water: 0.20342270505373083,
       Earth: 0.025567430424262617,
-      Air: 0.006592674588325188
-},
+      Air: 0.006592674588325188,
+    },
 
-    category: 'vegetable',
-    subCategory: 'other',
+    category: "vegetable",
+    subCategory: "other",
 
     nutritionalProfile: {
       carbs_g: 3.88,
       calories: 20,
       fiber_g: 2.1,
       protein_g: 2.2,
-      vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
-      minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
+      vitamins: ["k", "d", "c", "e", "a", "b3", "b6", "b12", "b2", "b5", "b1"],
+      minerals: ["zinc", "magnesium", "iron", "potassium", "calcium"],
     },
 
-    season: ['spring', 'summer', 'fall', 'winter'],
+    season: ["spring", "summer", "fall", "winter"],
 
-    cookingMethods: ['roast', 'boil', 'steam', 'saute'],
+    cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ['nutritious'],
+    qualities: ["nutritious"],
 
     sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic asparagus profile'
-},
+      taste: ["Mild"],
+      aroma: ["Fresh"],
+      texture: ["Standard"],
+      notes: "Characteristic asparagus profile",
+    },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ["balanced"],
       },
 
-      cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
-    origin: ['Unknown'],
+    origin: ["Unknown"],
 
     preparation: {
-      methods: ['Standard'],
-      timing: 'As needed',
-      notes: 'Standard prep for asparagus'
-},
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for asparagus",
+    },
 
     storage: {
-      temperature: 'Cool, dry place',
-      duration: '6-12 months',
-      container: 'Airtight'
-},
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
+    },
 
     varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
   artichoke: {
-    name: 'artichoke',
+    name: "artichoke",
 
     elementalProperties: {
       Fire: 0.12620732804129353,
       Water: 0.7539592539005983,
       Earth: 0.09658624330348414,
-      Air: 0.023247174754624015
-},
+      Air: 0.023247174754624015,
+    },
 
-    category: 'vegetable',
-    subCategory: 'other',
+    category: "vegetable",
+    subCategory: "other",
 
     nutritionalProfile: {
       carbs_g: 10.51,
       calories: 47,
       fiber_g: 5.4,
       protein_g: 3.27,
-      vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
-      minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
+      vitamins: ["k", "d", "c", "e", "a", "b3", "b6", "b12", "b2", "b5", "b1"],
+      minerals: ["zinc", "magnesium", "iron", "potassium", "calcium"],
     },
 
-    season: ['spring', 'summer', 'fall', 'winter'],
+    season: ["spring", "summer", "fall", "winter"],
 
-    cookingMethods: ['roast', 'boil', 'steam', 'saute'],
+    cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ['nutritious'],
+    qualities: ["nutritious"],
 
     sensoryProfile: {
-      taste: ['Mild'],
-      aroma: ['Fresh'],
-      texture: ['Standard'],
-      notes: 'Characteristic artichoke profile'
-},
+      taste: ["Mild"],
+      aroma: ["Fresh"],
+      texture: ["Standard"],
+      notes: "Characteristic artichoke profile",
+    },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ["balanced"],
       },
 
-      cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
-    origin: ['Unknown'],
+    origin: ["Unknown"],
 
     preparation: {
-      methods: ['Standard'],
-      timing: 'As needed',
-      notes: 'Standard prep for artichoke'
-},
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for artichoke",
+    },
 
     storage: {
-      temperature: 'Cool, dry place',
-      duration: '6-12 months',
-      container: 'Airtight'
-},
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
+    },
 
     varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
   cucumber: {
-    name: 'cucumber',
+    name: "cucumber",
 
     elementalProperties: {
       Fire: 0.34993398250536384,
       Water: 0.5760851625680805,
       Earth: 0.060653573196897174,
-      Air: 0.013327281729658358
-},
+      Air: 0.013327281729658358,
+    },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Moon'],
-      favorableZodiac: ['Virgo', 'Gemini', 'Cancer'],
-      seasonalAffinity: ['all']
+      rulingPlanets: ["Mercury", "Moon"],
+      favorableZodiac: ["Virgo", "Gemini", "Cancer"],
+      seasonalAffinity: ["all"],
     },
 
-    category: 'vegetable',
-    subCategory: 'other',
+    category: "vegetable",
+    subCategory: "other",
 
     nutritionalProfile: {
       carbs_g: 2.16,
       calories: 12,
       fiber_g: 0.7,
       protein_g: 0.59,
-      vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
-      minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
+      vitamins: ["k", "d", "c", "e", "a", "b3", "b6", "b12", "b2", "b5", "b1"],
+      minerals: ["zinc", "magnesium", "iron", "potassium", "calcium"],
     },
 
-    season: ['spring', 'summer', 'fall', 'winter'],
+    season: ["spring", "summer", "fall", "winter"],
 
-    cookingMethods: ['roast', 'boil', 'steam', 'saute'],
+    cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ['nutritious'],
+    qualities: ["nutritious"],
 
     // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-// Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ["balanced"],
       },
 
-      cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
-    origin: ['Unknown'],
+    origin: ["Unknown"],
 
     preparation: {
-      methods: ['Standard'],
-      timing: 'As needed',
-      notes: 'Standard prep for cucumber'
-},
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for cucumber",
+    },
 
     storage: {
-      temperature: 'Cool, dry place',
-      duration: '6-12 months',
-      container: 'Airtight'
-},
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
+    },
 
     varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
   okra: {
-    name: 'okra',
+    name: "okra",
 
     elementalProperties: {
       Fire: 0.6419553778871122,
       Water: 0.2653922372557059,
       Earth: 0.07277572775727757,
-      Air: 0.019876657099904334
-},
+      Air: 0.019876657099904334,
+    },
 
-    category: 'vegetable',
-    subCategory: 'other',
+    category: "vegetable",
+    subCategory: "other",
 
     nutritionalProfile: {
       carbs_g: 7.45,
       calories: 33,
       fiber_g: 3.2,
       protein_g: 1.93,
-      vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
-      minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
+      vitamins: ["k", "d", "c", "e", "a", "b3", "b6", "b12", "b2", "b5", "b1"],
+      minerals: ["zinc", "magnesium", "iron", "potassium", "calcium"],
     },
 
-    season: ['spring', 'summer', 'fall', 'winter'],
+    season: ["spring", "summer", "fall", "winter"],
 
-    cookingMethods: ['roast', 'boil', 'steam', 'saute'],
+    cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ['nutritious'],
+    qualities: ["nutritious"],
 
     // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-// Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ["balanced"],
       },
 
-      cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
-    origin: ['Unknown'],
+    origin: ["Unknown"],
 
     preparation: {
-      methods: ['Standard'],
-      timing: 'As needed',
-      notes: 'Standard prep for okra'
-},
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for okra",
+    },
 
     storage: {
-      temperature: 'Cool, dry place',
-      duration: '6-12 months',
-      container: 'Airtight'
-},
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
+    },
 
     varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
   zucchini: {
-    name: 'zucchini',
+    name: "zucchini",
 
     elementalProperties: {
       Fire: 0.4204917086683852,
       Water: 0.5121388172829056,
       Earth: 0.032703628178985034,
-      Air: 0.034665845869724134
-},
+      Air: 0.034665845869724134,
+    },
 
-    category: 'vegetable',
-    subCategory: 'other',
+    category: "vegetable",
+    subCategory: "other",
 
     nutritionalProfile: {
       carbs_g: 3.1,
       calories: 17,
       fiber_g: 1,
       protein_g: 1.2,
-      vitamins: ['a', 'c', 'k', 'b6'],
-      minerals: ['potassium', 'manganese', 'magnesium'],
+      vitamins: ["a", "c", "k", "b6"],
+      minerals: ["potassium", "manganese", "magnesium"],
       fat_g: 0.3,
       sugar_g: 2.5,
       glycemic_index: 15,
-      notes: 'Low calorie and nutrient-dense'
-},
+      notes: "Low calorie and nutrient-dense",
+    },
 
-    season: ['spring', 'summer', 'fall', 'winter'],
+    season: ["spring", "summer", "fall", "winter"],
 
-    cookingMethods: ['roast', 'boil', 'steam', 'saute'],
+    cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ['nutritious'],
+    qualities: ["nutritious"],
 
     // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-// Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ["balanced"],
       },
 
-      cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
-    origin: ['Unknown'],
+    origin: ["Unknown"],
 
     preparation: {
-      methods: ['Standard'],
-      timing: 'As needed',
-      notes: 'Standard prep for zucchini'
-},
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for zucchini",
+    },
 
     storage: {
-      temperature: 'Cool, dry place',
-      duration: '6-12 months',
-      container: 'Airtight'
-},
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
+    },
 
     varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
   peas: {
-    name: 'petite peas',
+    name: "petite peas",
 
     elementalProperties: {
       Fire: 0.7162207554458272,
       Water: 0.2242992223845753,
       Earth: 0.025780554575838496,
-      Air: 0.03369946759375892
-},
+      Air: 0.03369946759375892,
+    },
 
-    category: 'vegetable',
-    subCategory: 'other',
+    category: "vegetable",
+    subCategory: "other",
 
     nutritionalProfile: {
       carbs_g: 14.4,
       calories: 81,
       fiber_g: 5.7,
       protein_g: 5.42,
-      vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
-      minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
+      vitamins: ["k", "d", "c", "e", "a", "b3", "b6", "b12", "b2", "b5", "b1"],
+      minerals: ["zinc", "magnesium", "iron", "potassium", "calcium"],
     },
 
-    season: ['spring', 'summer', 'fall', 'winter'],
+    season: ["spring", "summer", "fall", "winter"],
 
-    cookingMethods: ['roast', 'boil', 'steam', 'saute'],
+    cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ['nutritious'],
+    qualities: ["nutritious"],
 
     // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-// Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ["balanced"],
       },
 
-      cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
-    origin: ['Unknown'],
+    origin: ["Unknown"],
 
     preparation: {
-      methods: ['Standard'],
-      timing: 'As needed',
-      notes: 'Standard prep for peas'
-},
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for peas",
+    },
 
     storage: {
-      temperature: 'Cool, dry place',
-      duration: '6-12 months',
-      container: 'Airtight'
-},
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
+    },
 
     varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
   green_beans: {
-    name: 'green beans',
+    name: "green beans",
 
     elementalProperties: {
       Fire: 0.7250127703047846,
       Water: 0.22259392433970013,
       Earth: 0.0397632235254054,
-      Air: 0.012630081830109875
-},
+      Air: 0.012630081830109875,
+    },
 
-    category: 'vegetable',
-    subCategory: 'other',
+    category: "vegetable",
+    subCategory: "other",
 
     nutritionalProfile: {
       carbs_g: 6.97,
       calories: 31,
       fiber_g: 2.7,
       protein_g: 1.83,
-      vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
-      minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
+      vitamins: ["k", "d", "c", "e", "a", "b3", "b6", "b12", "b2", "b5", "b1"],
+      minerals: ["zinc", "magnesium", "iron", "potassium", "calcium"],
     },
 
-    season: ['spring', 'summer', 'fall', 'winter'],
+    season: ["spring", "summer", "fall", "winter"],
 
-    cookingMethods: ['roast', 'boil', 'steam', 'saute'],
+    cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ['nutritious'],
+    qualities: ["nutritious"],
 
     // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-// Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ["balanced"],
       },
 
-      cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
-    origin: ['Unknown'],
+    origin: ["Unknown"],
 
     preparation: {
-      methods: ['Standard'],
-      timing: 'As needed',
-      notes: 'Standard prep for green_beans'
-},
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for green_beans",
+    },
 
     storage: {
-      temperature: 'Cool, dry place',
-      duration: '6-12 months',
-      container: 'Airtight'
-},
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
+    },
 
     varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
   celery: {
-    name: 'celery',
+    name: "celery",
 
     elementalProperties: {
       Fire: 0.5999612002069322,
       Water: 0.34187790998448014,
       Earth: 0.0538023797206415,
-      Air: 0.004358510087946198
-},
+      Air: 0.004358510087946198,
+    },
 
-    category: 'vegetable',
-    subCategory: 'other',
+    category: "vegetable",
+    subCategory: "other",
 
     nutritionalProfile: {
       carbs_g: 2.97,
       calories: 14,
       fiber_g: 1.6,
       protein_g: 0.69,
-      vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
-      minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
+      vitamins: ["k", "d", "c", "e", "a", "b3", "b6", "b12", "b2", "b5", "b1"],
+      minerals: ["zinc", "magnesium", "iron", "potassium", "calcium"],
     },
 
-    season: ['spring', 'summer', 'fall', 'winter'],
+    season: ["spring", "summer", "fall", "winter"],
 
-    cookingMethods: ['roast', 'boil', 'steam', 'saute'],
+    cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ['nutritious'],
+    qualities: ["nutritious"],
 
     // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-// Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ["balanced"],
       },
 
-      cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
-    origin: ['Unknown'],
+    origin: ["Unknown"],
 
     preparation: {
-      methods: ['Standard'],
-      timing: 'As needed',
-      notes: 'Standard prep for celery'
-},
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for celery",
+    },
 
     storage: {
-      temperature: 'Cool, dry place',
-      duration: '6-12 months',
-      container: 'Airtight'
-},
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
+    },
 
     varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
   fennel: {
-    name: 'fennel',
+    name: "fennel",
 
     elementalProperties: {
       Fire: 0.2540820208475995,
       Water: 0.6474929620330214,
       Earth: 0.0792817469375333,
-      Air: 0.01914327018184585
-},
+      Air: 0.01914327018184585,
+    },
 
-    category: 'vegetable',
-    subCategory: 'other',
+    category: "vegetable",
+    subCategory: "other",
 
     nutritionalProfile: {
       carbs_g: 7.3,
       calories: 31,
       fiber_g: 3.1,
       protein_g: 1.24,
-      vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
-      minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
+      vitamins: ["k", "d", "c", "e", "a", "b3", "b6", "b12", "b2", "b5", "b1"],
+      minerals: ["zinc", "magnesium", "iron", "potassium", "calcium"],
     },
 
-    season: ['spring', 'summer', 'fall', 'winter'],
+    season: ["spring", "summer", "fall", "winter"],
 
-    cookingMethods: ['roast', 'boil', 'steam', 'saute'],
+    cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ['nutritious'],
+    qualities: ["nutritious"],
 
     // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-// Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ["balanced"],
       },
 
-      cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
-    origin: ['Unknown'],
+    origin: ["Unknown"],
 
     preparation: {
-      methods: ['Standard'],
-      timing: 'As needed',
-      notes: 'Standard prep for fennel'
-},
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for fennel",
+    },
 
     storage: {
-      temperature: 'Cool, dry place',
-      duration: '6-12 months',
-      container: 'Airtight'
-},
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
+    },
 
     varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
   kohlrabi: {
-    name: 'kohlrabi',
+    name: "kohlrabi",
 
     elementalProperties: {
       Fire: 0.12665862484921594,
       Water: 0.6980816374177985,
       Earth: 0.05369858749367681,
-      Air: 0.12156115023930894
-},
+      Air: 0.12156115023930894,
+    },
 
-    category: 'vegetable',
-    subCategory: 'other',
+    category: "vegetable",
+    subCategory: "other",
 
     nutritionalProfile: {
       carbs_g: 6.2,
       calories: 27,
       fiber_g: 3.6,
       protein_g: 1.7,
-      vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
-      minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
+      vitamins: ["k", "d", "c", "e", "a", "b3", "b6", "b12", "b2", "b5", "b1"],
+      minerals: ["zinc", "magnesium", "iron", "potassium", "calcium"],
     },
 
-    season: ['spring', 'summer', 'fall', 'winter'],
+    season: ["spring", "summer", "fall", "winter"],
 
-    cookingMethods: ['roast', 'boil', 'steam', 'saute'],
+    cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ['nutritious'],
+    qualities: ["nutritious"],
 
     // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-// Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ["balanced"],
       },
 
-      cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
-    origin: ['Unknown'],
+    origin: ["Unknown"],
 
     preparation: {
-      methods: ['Standard'],
-      timing: 'As needed',
-      notes: 'Standard prep for kohlrabi'
-},
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for kohlrabi",
+    },
 
     storage: {
-      temperature: 'Cool, dry place',
-      duration: '6-12 months',
-      container: 'Airtight'
-},
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
+    },
 
     varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
   bok_choy: {
-    name: 'bok choy',
+    name: "bok choy",
 
     elementalProperties: {
       Fire: 0.9168771409581267,
       Water: 0.05222352881026636,
       Earth: 0.02167799989774528,
-      Air: 0.009221330333861648
-},
+      Air: 0.009221330333861648,
+    },
 
-    category: 'vegetable',
-    subCategory: 'other',
+    category: "vegetable",
+    subCategory: "other",
 
     nutritionalProfile: {
       carbs_g: 2.18,
       calories: 13,
       fiber_g: 1,
       protein_g: 1.5,
-      vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
-      minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
+      vitamins: ["k", "d", "c", "e", "a", "b3", "b6", "b12", "b2", "b5", "b1"],
+      minerals: ["zinc", "magnesium", "iron", "potassium", "calcium"],
     },
 
-    season: ['spring', 'summer', 'fall', 'winter'],
+    season: ["spring", "summer", "fall", "winter"],
 
-    cookingMethods: ['roast', 'boil', 'steam', 'saute'],
+    cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ['nutritious'],
+    qualities: ["nutritious"],
 
     // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-// Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ["balanced"],
       },
 
-      cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
-    origin: ['Unknown'],
+    origin: ["Unknown"],
 
     preparation: {
-      methods: ['Standard'],
-      timing: 'As needed',
-      notes: 'Standard prep for bok_choy'
-},
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for bok_choy",
+    },
 
     storage: {
-      temperature: 'Cool, dry place',
-      duration: '6-12 months',
-      container: 'Airtight'
-},
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
+    },
 
     varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
   endive: {
-    name: 'escarole',
+    name: "escarole",
 
     elementalProperties: {
       Fire: 0.8520337371186256,
       Water: 0.12378591584428543,
       Earth: 0.021475453284068413,
-      Air: 0.002704893753020595
-},
+      Air: 0.002704893753020595,
+    },
 
-    category: 'vegetable',
-    subCategory: 'other',
+    category: "vegetable",
+    subCategory: "other",
 
     nutritionalProfile: {
       carbs_g: 3.35,
       calories: 17,
       fiber_g: 3.1,
       protein_g: 1.25,
-      vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
-      minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
+      vitamins: ["k", "d", "c", "e", "a", "b3", "b6", "b12", "b2", "b5", "b1"],
+      minerals: ["zinc", "magnesium", "iron", "potassium", "calcium"],
     },
 
-    season: ['spring', 'summer', 'fall', 'winter'],
+    season: ["spring", "summer", "fall", "winter"],
 
-    cookingMethods: ['roast', 'boil', 'steam', 'saute'],
+    cookingMethods: ["roast", "boil", "steam", "saute"],
 
-    qualities: ['nutritious'],
+    qualities: ["nutritious"],
 
     // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-// Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ["balanced"],
       },
 
-      cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cookingMethods: ["versatile"],
+      cuisineAffinity: ["Global"],
     },
 
-    origin: ['Unknown'],
+    origin: ["Unknown"],
 
     preparation: {
-      methods: ['Standard'],
-      timing: 'As needed',
-      notes: 'Standard prep for endive'
-},
+      methods: ["Standard"],
+      timing: "As needed",
+      notes: "Standard prep for endive",
+    },
 
     storage: {
-      temperature: 'Cool, dry place',
-      duration: '6-12 months',
-      container: 'Airtight'
-},
+      temperature: "Cool, dry place",
+      duration: "6-12 months",
+      container: "Airtight",
+    },
 
     varieties: {},
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
   tomato_paste: {
-    name: 'tomato paste',
+    name: "tomato paste",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   onions: {
-    name: 'onions',
+    name: "onions",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   bell_peppers: {
-    name: 'bell peppers',
+    name: "bell peppers",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   garlic: {
-    name: 'garlic',
+    name: "garlic",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   red_pepper_flakes: {
-    name: 'red pepper flakes',
+    name: "red pepper flakes",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   black_pepper: {
-    name: 'black pepper',
+    name: "black pepper",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   fresh_peas: {
-    name: 'fresh peas',
+    name: "fresh peas",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   green_onions: {
-    name: 'green onions',
+    name: "green onions",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   chia_seeds: {
-    name: 'chia seeds',
+    name: "chia seeds",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   lettuce: {
-    name: 'lettuce',
+    name: "lettuce",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   tomato: {
-    name: 'tomato',
+    name: "tomato",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   onion: {
-    name: 'onion',
+    name: "onion",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   romaine_lettuce: {
-    name: 'romaine lettuce',
+    name: "romaine lettuce",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   cherry_tomatoes: {
-    name: 'cherry tomatoes',
+    name: "cherry tomatoes",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   potatoes: {
-    name: 'potatoes',
+    name: "potatoes",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   russet_potatoes: {
-    name: 'russet potatoes',
+    name: "russet potatoes",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   garlic_powder: {
-    name: 'garlic powder',
+    name: "garlic powder",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   corn_on_the_cob: {
-    name: 'corn on the cob',
+    name: "corn on the cob",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   carrots: {
-    name: 'carrots',
+    name: "carrots",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   parsnips: {
-    name: 'parsnips',
+    name: "parsnips",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   white_pepper: {
-    name: 'white pepper',
+    name: "white pepper",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   tomatoes: {
-    name: 'tomatoes',
+    name: "tomatoes",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   yellow_onions: {
-    name: 'yellow onions',
+    name: "yellow onions",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   cremini_mushrooms: {
-    name: 'cremini mushrooms',
+    name: "cremini mushrooms",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   pearl_onions: {
-    name: 'pearl onions',
+    name: "pearl onions",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   yellow_onion: {
-    name: 'yellow onion',
+    name: "yellow onion",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   red_onion: {
-    name: 'red onion',
+    name: "red onion",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   green_peppers: {
-    name: 'green peppers',
+    name: "green peppers",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   eggplants: {
-    name: 'eggplants',
+    name: "eggplants",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   chickpeas: {
-    name: 'chickpeas',
+    name: "chickpeas",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   peanuts: {
-    name: 'peanuts',
+    name: "peanuts",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   spinach: {
-    name: 'spinach',
+    name: "spinach",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   large_eggplant: {
-    name: 'large eggplant',
+    name: "large eggplant",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   tomato_sauce: {
-    name: 'tomato sauce',
+    name: "tomato sauce",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   eggplant: {
-    name: 'eggplant',
+    name: "eggplant",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   potato: {
-    name: 'potato',
+    name: "potato",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   carrot: {
-    name: 'carrot',
+    name: "carrot",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   cabbage: {
-    name: 'cabbage',
+    name: "cabbage",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   potato_starch: {
-    name: 'potato starch',
+    name: "potato starch",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   lettuce_leaves: {
-    name: 'lettuce leaves',
+    name: "lettuce leaves",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   mushrooms: {
-    name: 'mushrooms',
+    name: "mushrooms",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   asian_pear: {
-    name: 'asian pear',
+    name: "asian pear",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   sweet_potato: {
-    name: 'sweet potato',
+    name: "sweet potato",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   napa_cabbage: {
-    name: 'napa cabbage',
+    name: "napa cabbage",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   radish_kimchi: {
-    name: 'radish kimchi',
+    name: "radish kimchi",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   sweet_potato_noodles: {
-    name: 'sweet potato noodles',
+    name: "sweet potato noodles",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   dried_chickpeas: {
-    name: 'dried chickpeas',
+    name: "dried chickpeas",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   cauliflower: {
-    name: 'cauliflower',
+    name: "cauliflower",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   black_peppercorns: {
-    name: 'black peppercorns',
+    name: "black peppercorns",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   sweet_corn: {
-    name: 'sweet corn',
+    name: "sweet corn",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   shallots: {
-    name: 'shallots',
+    name: "shallots",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   tapioca_pearls: {
-    name: 'tapioca pearls',
+    name: "tapioca pearls",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
   crushed_peanuts: {
-    name: 'crushed peanuts',
+    name: "crushed peanuts",
     elementalProperties: { Fire: 0.15, Water: 0.35, Earth: 0.35, Air: 0.15 },
-    qualities: ['nutritious', 'versatile', 'fresh'],
-    category: 'vegetables',
+    qualities: ["nutritious", "versatile", "fresh"],
+    category: "vegetables",
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['Cancer', 'Taurus', 'Capricorn'],
-      seasonalAffinity: ['summer', 'fall']
-    }
+      rulingPlanets: ["Moon", "Saturn"],
+      favorableZodiac: ["Cancer", "Taurus", "Capricorn"],
+      seasonalAffinity: ["summer", "fall"],
+    },
   },
 };
 

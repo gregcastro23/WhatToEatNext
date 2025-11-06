@@ -10,9 +10,9 @@
  * 4. Function call syntax issues
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class TS1003IdentifierFixer {
   constructor() {
@@ -23,7 +23,7 @@ class TS1003IdentifierFixer {
   }
 
   async run() {
-    console.log('🎯 Starting TS1003 Identifier Error Fixes...\n');
+    console.log("🎯 Starting TS1003 Identifier Error Fixes...\n");
 
     try {
       // Create backup directory
@@ -34,7 +34,7 @@ class TS1003IdentifierFixer {
       console.log(`📊 Initial TS1003 errors: ${initialErrors}`);
 
       if (initialErrors === 0) {
-        console.log('✅ No TS1003 errors found!');
+        console.log("✅ No TS1003 errors found!");
         return;
       }
 
@@ -47,9 +47,8 @@ class TS1003IdentifierFixer {
 
       // Final results
       await this.showFinalResults(initialErrors);
-
     } catch (error) {
-      console.error('❌ Fix failed:', error.message);
+      console.error("❌ Fix failed:", error.message);
       console.log(`📁 Backup available at: ${this.backupDir}`);
     }
   }
@@ -63,10 +62,13 @@ class TS1003IdentifierFixer {
 
   async getTS1003ErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1003"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS1003"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -75,13 +77,19 @@ class TS1003IdentifierFixer {
 
   async getFilesWithTS1003Errors() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1003"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1003"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const files = new Set();
-      const lines = output.trim().split('\n').filter(line => line.trim());
+      const lines = output
+        .trim()
+        .split("\n")
+        .filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^(.+?)\(/);
@@ -97,7 +105,9 @@ class TS1003IdentifierFixer {
   }
 
   async processBatches(errorFiles, initialErrorCount) {
-    console.log(`\n🔧 Processing files in batches of ${this.batchSize} with validation...`);
+    console.log(
+      `\n🔧 Processing files in batches of ${this.batchSize} with validation...`,
+    );
 
     const totalBatches = Math.ceil(errorFiles.length / this.batchSize);
     let processedCount = 0;
@@ -106,7 +116,9 @@ class TS1003IdentifierFixer {
       const batch = errorFiles.slice(i, i + this.batchSize);
       const batchNumber = Math.floor(i / this.batchSize) + 1;
 
-      console.log(`\n📦 Processing Batch ${batchNumber}/${totalBatches} (${batch.length} files)`);
+      console.log(
+        `\n📦 Processing Batch ${batchNumber}/${totalBatches} (${batch.length} files)`,
+      );
 
       for (const filePath of batch) {
         await this.processFile(filePath);
@@ -116,7 +128,9 @@ class TS1003IdentifierFixer {
       // Validation checkpoint after each batch
       const buildValid = await this.validateBuild();
       if (!buildValid) {
-        console.log('⚠️ Build validation failed, attempting to continue with safer fixes...');
+        console.log(
+          "⚠️ Build validation failed, attempting to continue with safer fixes...",
+        );
         // Continue but with more conservative approach
       }
 
@@ -125,7 +139,9 @@ class TS1003IdentifierFixer {
 
       // Safety check - if errors increased significantly, stop
       if (currentErrors > initialErrorCount * 1.2) {
-        console.log('⚠️ Error count increased significantly, stopping for safety');
+        console.log(
+          "⚠️ Error count increased significantly, stopping for safety",
+        );
         return;
       }
     }
@@ -142,58 +158,59 @@ class TS1003IdentifierFixer {
       // Create backup
       await this.backupFile(filePath);
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
       let fixesApplied = 0;
 
       // Fix 1: Malformed regex replace patterns - missing comma between regex and replacement
       // Pattern: .replace(/pattern/g 'replacement') -> .replace(/pattern/g, 'replacement')
-      const regexReplacePattern = /\.replace\(\/([^\/]+)\/([gimuy]*)\s+(['"`][^'"`]*['"`])\)/g;
+      const regexReplacePattern =
+        /\.replace\(\/([^\/]+)\/([gimuy]*)\s+(['"`][^'"`]*['"`])\)/g;
       const regexMatches = content.match(regexReplacePattern) || [];
-      content = content.replace(regexReplacePattern, '.replace(/$1/$2, $3)');
+      content = content.replace(regexReplacePattern, ".replace(/$1/$2, $3)");
       fixesApplied += regexMatches.length;
 
       // Fix 2: Array access syntax issues - property.[index] -> property[index]
       const arrayAccessPattern = /(\w+)\.\[(\d+)\]/g;
       const arrayMatches = content.match(arrayAccessPattern) || [];
-      content = content.replace(arrayAccessPattern, '$1[$2]');
+      content = content.replace(arrayAccessPattern, "$1[$2]");
       fixesApplied += arrayMatches.length;
 
       // Fix 3: Variable array access - property.[variable] -> property[variable]
       const variableAccessPattern = /(\w+)\.\[(\w+)\]/g;
       const variableMatches = content.match(variableAccessPattern) || [];
-      content = content.replace(variableAccessPattern, '$1[$2]');
+      content = content.replace(variableAccessPattern, "$1[$2]");
       fixesApplied += variableMatches.length;
 
       // Fix 4: Method call array access - method().[index] -> method()[index]
       const methodAccessPattern = /(\w+\(\))\.\[([^\]]+)\]/g;
       const methodMatches = content.match(methodAccessPattern) || [];
-      content = content.replace(methodAccessPattern, '$1[$2]');
+      content = content.replace(methodAccessPattern, "$1[$2]");
       fixesApplied += methodMatches.length;
 
       // Fix 5: Complex property access - object.[prop].method -> object[prop].method
       const complexAccessPattern = /(\w+)\.\[([^\]]+)\]\.(\w+)/g;
       const complexMatches = content.match(complexAccessPattern) || [];
-      content = content.replace(complexAccessPattern, '$1[$2].$3');
+      content = content.replace(complexAccessPattern, "$1[$2].$3");
       fixesApplied += complexMatches.length;
 
       // Fix 6: JSX attribute syntax issues - semicolon instead of comma
       // Pattern: attribute={value}; -> attribute={value},
       const jsxAttributePattern = /(\w+={[^}]+})\s*;\s*$/gm;
       const jsxMatches = content.match(jsxAttributePattern) || [];
-      content = content.replace(jsxAttributePattern, '$1,');
+      content = content.replace(jsxAttributePattern, "$1,");
       fixesApplied += jsxMatches.length;
 
       // Fix 7: Template literal property access issues
       const templateLiteralPattern = /\$\{([^}]+)\.\[([^\]]+)\]\}/g;
       const templateMatches = content.match(templateLiteralPattern) || [];
-      content = content.replace(templateLiteralPattern, '${$1[$2]}');
+      content = content.replace(templateLiteralPattern, "${$1[$2]}");
       fixesApplied += templateMatches.length;
 
       // Fix 8: Function parameter destructuring issues
       const destructuringPattern = /\{\s*(\w+)\.\[(\w+)\]\s*\}/g;
       const destructuringMatches = content.match(destructuringPattern) || [];
-      content = content.replace(destructuringPattern, '{ $1[$2] }');
+      content = content.replace(destructuringPattern, "{ $1[$2] }");
       fixesApplied += destructuringMatches.length;
 
       if (fixesApplied > 0 && content !== originalContent) {
@@ -204,7 +221,6 @@ class TS1003IdentifierFixer {
       } else {
         console.log(`     - No identifier fixes needed`);
       }
-
     } catch (error) {
       console.log(`     ❌ Error processing file: ${error.message}`);
     }
@@ -212,7 +228,7 @@ class TS1003IdentifierFixer {
 
   async backupFile(filePath) {
     try {
-      const relativePath = path.relative('.', filePath);
+      const relativePath = path.relative(".", filePath);
       const backupPath = path.join(this.backupDir, relativePath);
       const backupDirPath = path.dirname(backupPath);
 
@@ -220,7 +236,7 @@ class TS1003IdentifierFixer {
         fs.mkdirSync(backupDirPath, { recursive: true });
       }
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       fs.writeFileSync(backupPath, content);
     } catch (error) {
       console.log(`     ⚠️ Backup failed for ${filePath}: ${error.message}`);
@@ -229,22 +245,25 @@ class TS1003IdentifierFixer {
 
   async validateBuild() {
     try {
-      console.log('     🔍 Validating build...');
-      execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-      console.log('     ✅ Build validation passed');
+      console.log("     🔍 Validating build...");
+      execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
+      console.log("     ✅ Build validation passed");
       return true;
     } catch (error) {
-      console.log('     ⚠️ Build validation failed');
+      console.log("     ⚠️ Build validation failed");
       return false;
     }
   }
 
   async showFinalResults(initialErrors) {
-    console.log('\n📈 TS1003 Identifier Fix Results:');
+    console.log("\n📈 TS1003 Identifier Fix Results:");
 
     const finalErrors = await this.getTS1003ErrorCount();
     const totalReduction = initialErrors - finalErrors;
-    const reductionPercentage = ((totalReduction / initialErrors) * 100).toFixed(1);
+    const reductionPercentage = (
+      (totalReduction / initialErrors) *
+      100
+    ).toFixed(1);
 
     console.log(`   Initial TS1003 errors: ${initialErrors}`);
     console.log(`   Final TS1003 errors: ${finalErrors}`);
@@ -254,15 +273,15 @@ class TS1003IdentifierFixer {
     console.log(`   Total fixes applied: ${this.totalFixes}`);
 
     if (finalErrors === 0) {
-      console.log('\n🎉 PERFECT! All TS1003 errors eliminated');
+      console.log("\n🎉 PERFECT! All TS1003 errors eliminated");
     } else if (finalErrors <= 50) {
-      console.log('\n🎯 EXCELLENT! TS1003 errors reduced to very low level');
+      console.log("\n🎯 EXCELLENT! TS1003 errors reduced to very low level");
     } else if (reductionPercentage >= 80) {
-      console.log('\n✅ GREAT! 80%+ error reduction achieved');
+      console.log("\n✅ GREAT! 80%+ error reduction achieved");
     } else if (reductionPercentage >= 50) {
-      console.log('\n👍 GOOD! 50%+ error reduction achieved');
+      console.log("\n👍 GOOD! 50%+ error reduction achieved");
     } else {
-      console.log('\n⚠️ Partial success - may need additional targeted fixes');
+      console.log("\n⚠️ Partial success - may need additional targeted fixes");
     }
 
     console.log(`\n📁 Backup available at: ${this.backupDir}`);
@@ -270,9 +289,9 @@ class TS1003IdentifierFixer {
     // Final build validation
     const finalBuildValid = await this.validateBuild();
     if (finalBuildValid) {
-      console.log('✅ Final build validation successful');
+      console.log("✅ Final build validation successful");
     } else {
-      console.log('⚠️ Final build validation failed - review may be needed');
+      console.log("⚠️ Final build validation failed - review may be needed");
     }
 
     // Show overall TypeScript error count
@@ -282,10 +301,13 @@ class TS1003IdentifierFixer {
 
   async getTotalErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;

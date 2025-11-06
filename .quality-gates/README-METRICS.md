@@ -15,6 +15,7 @@ crontab -e
 ```
 
 This will:
+
 - Run daily at midnight
 - Capture error metrics snapshot
 - Save to `.quality-gates/metrics/metrics-YYYY-MM-DD.json`
@@ -29,8 +30,8 @@ name: Daily Metrics Capture
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Daily at midnight UTC
-  workflow_dispatch:  # Manual trigger
+    - cron: "0 0 * * *" # Daily at midnight UTC
+  workflow_dispatch: # Manual trigger
 
 jobs:
   capture-metrics:
@@ -41,7 +42,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install dependencies
         run: yarn install

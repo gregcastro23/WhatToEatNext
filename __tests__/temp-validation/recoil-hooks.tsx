@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 // Mock Recoil hook for testing
 function useRecoilCallback(callback: any, deps: any[]) {
@@ -6,7 +6,7 @@ function useRecoilCallback(callback: any, deps: any[]) {
 }
 
 export function RecoilComponent() {
-  const value = 'test';
+  const value = "test";
 
   const recoilCallback = useRecoilCallback(
     ({ set }) =>

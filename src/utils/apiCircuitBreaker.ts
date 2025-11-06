@@ -4,15 +4,15 @@
  */
 
 interface CircuitBreakerOptions {
-  failureThreshold: number,
-  resetTimeout: number,
-  monitoringWindow: number
+  failureThreshold: number;
+  resetTimeout: number;
+  monitoringWindow: number;
 }
 
 enum CircuitState {
-  CLOSED = 'CLOSED',
-  OPEN = 'OPEN',
-  HALF_OPEN = 'HALF_OPEN'
+  CLOSED = "CLOSED",
+  OPEN = "OPEN",
+  HALF_OPEN = "HALF_OPEN",
 }
 
 export class CircuitBreaker {
@@ -26,8 +26,8 @@ export class CircuitBreaker {
       failureThreshold: 3,
       resetTimeout: 60000, // 1 minute,
       monitoringWindow: 300000, // 5 minutes,
-      ...options
-    }
+      ...options,
+    };
   }
 
   async call<T>(fn: () => Promise<T>, fallback?: () => T): Promise<T> {
@@ -37,49 +37,49 @@ export class CircuitBreaker {
         this.failureCount = 0;
       } else {
         if (fallback) {
-          return fallback()
+          return fallback();
         }
-        throw new Error('Circuit breaker is OPEN')
+        throw new Error("Circuit breaker is OPEN");
       }
     }
 
     try {
-      const result = await fn()
-      this.onSuccess()
-      return result
+      const result = await fn();
+      this.onSuccess();
+      return result;
     } catch (error) {
-      this.onFailure()
+      this.onFailure();
 
       if (fallback) {
-        return fallback()
+        return fallback();
       }
 
-      throw error
+      throw error;
     }
   }
 
   private onSuccess() {
-    this.failureCount = 0
-    this.state = CircuitState.CLOSED
+    this.failureCount = 0;
+    this.state = CircuitState.CLOSED;
   }
 
   private onFailure() {
-    this.failureCount++
-    this.lastFailureTime = Date.now()
+    this.failureCount++;
+    this.lastFailureTime = Date.now();
 
     if (this.failureCount >= this.options.failureThreshold) {
-      this.state = CircuitState.OPEN
+      this.state = CircuitState.OPEN;
     }
   }
 
   getState(): CircuitState {
-    return this.state
+    return this.state;
   }
 
   reset() {
-    this.state = CircuitState.CLOSED
-    this.failureCount = 0
-    this.lastFailureTime = 0
+    this.state = CircuitState.CLOSED;
+    this.failureCount = 0;
+    this.lastFailureTime = 0;
   }
 }
 
@@ -87,7 +87,7 @@ export class CircuitBreaker {
 export const _astrologizeApiCircuitBreaker = new CircuitBreaker({
   failureThreshold: 1, // Fail fast after 1 attempt for immediate fallback
   resetTimeout: 60000, // 1 minute before retry (faster recovery)
-  monitoringWindow: 300000 // 5 minutes
+  monitoringWindow: 300000, // 5 minutes
 });
 
 // Non-underscored export for compatibility

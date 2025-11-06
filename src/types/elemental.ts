@@ -3,13 +3,13 @@
  * This file contains all elemental-related type definitions
  */
 
-import type { Element } from '@/types/celestial';
+import type { Element } from "@/types/celestial";
 
 // Re-export Element for convenience
 export type { Element };
 
 // The four basic elements
-export type LowercaseElement = 'fire' | 'water' | 'air' | 'earth';
+export type LowercaseElement = "fire" | "water" | "air" | "earth";
 // Interface for elemental properties with standard case (uppercase first letter)
 export interface ElementalProperties {
   Fire: number;
@@ -84,13 +84,15 @@ export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
 };
 
 // Type guard function for ElementalProperties
-export function isElementalProperties(obj: unknown): obj is ElementalProperties {
+export function isElementalProperties(
+  obj: unknown,
+): obj is ElementalProperties {
   return Boolean(
     obj &&
-      typeof obj === 'object' &&
-      typeof (obj as ElementalProperties).Fire === 'number' &&
-      typeof (obj as ElementalProperties).Water === 'number' &&
-      typeof (obj as ElementalProperties).Earth === 'number' &&
-      typeof (obj as ElementalProperties).Air === 'number'
+      typeof obj === "object" &&
+      typeof (obj as ElementalProperties).Fire === "number" &&
+      typeof (obj as ElementalProperties).Water === "number" &&
+      typeof (obj as ElementalProperties).Earth === "number" &&
+      typeof (obj as ElementalProperties).Air === "number",
   );
 }

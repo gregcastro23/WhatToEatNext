@@ -3,18 +3,18 @@
 // Service layer for unified nutritional system with comprehensive API
 // Integrates with all unified systems and provides backward compatibility
 
-import { unifiedIngredients } from '@/data/unified/ingredients';
-import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import { unifiedIngredients } from "@/data/unified/ingredients";
+import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type {
   Element,
   ElementalProperties,
   ZodiacSign,
   PlanetName,
   Season,
-  CookingMethod
-} from '@/types/alchemy';
-import {_createAstrologicalBridge} from '@/types/bridges/astrologicalBridge';
-import {allIngredients} from '../data/ingredients';
+  CookingMethod,
+} from "@/types/alchemy";
+import { _createAstrologicalBridge } from "@/types/bridges/astrologicalBridge";
+import { allIngredients } from "../data/ingredients";
 import {
   UnifiedNutritionalSystem,
   type AlchemicalNutritionalProfile,
@@ -22,18 +22,21 @@ import {
   type NutritionalRecommendations,
   type SeasonalNutritionalProfile,
   type PlanetaryNutritionalProfile,
-  type ZodiacNutritionalProfile
-} from '../data/unified/nutritional';
-import {unifiedSeasonalSystem} from '../data/unified/seasonal.js';
-import {logger} from '../utils/logger';
-import type { NutritionalProfile, NutritionalFilter } from '../types/nutrition';
+  type ZodiacNutritionalProfile,
+} from "../data/unified/nutritional";
+import { unifiedSeasonalSystem } from "../data/unified/seasonal.js";
+import { logger } from "../utils/logger";
+import type { NutritionalProfile, NutritionalFilter } from "../types/nutrition";
 
 // Type guards for safe property access
 function isValidObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
+  return typeof value === "object" && value !== null;
 }
 
-function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
+function hasProperty<T extends string>(
+  obj: unknown,
+  prop: T,
+): obj is Record<T, unknown> {
   return isValidObject(obj) && prop in obj;
 }
 
@@ -49,7 +52,7 @@ export class UnifiedNutritionalService {
 
   private constructor() {
     // Legacy nutrition service removed - using unified local data only
-    logger.info('UnifiedNutritionalService initialized with local data');
+    logger.info("UnifiedNutritionalService initialized with local data");
   }
 
   /**
@@ -74,10 +77,10 @@ export class UnifiedNutritionalService {
       currentZodiacSign?: any;
       planetaryHour?: PlanetName;
       cookingMethod?: CookingMethod;
-    }
+    },
   ): Promise<AlchemicalNutritionalProfile | null> {
     try {
-      const cacheKey = `enhanced_${typeof ingredient === 'string' ? ingredient : ingredient.name}_${JSON.stringify(context)}`;
+      const cacheKey = `enhanced_${typeof ingredient === "string" ? ingredient : ingredient.name}_${JSON.stringify(context)}`;
 
       if (this.cache.has(cacheKey)) {
         return this.cache.get(cacheKey);
@@ -86,12 +89,12 @@ export class UnifiedNutritionalService {
       let nutritionalProfile: NutritionalProfile | null = null;
 
       // Get base nutritional profile
-      if (typeof ingredient === 'string') {
+      if (typeof ingredient === "string") {
         // Try unified ingredients first, but fallback to regular ingredients
         const unifiedIngredient = unifiedIngredients[ingredient];
         if (
           unifiedIngredient &&
-          hasProperty(unifiedIngredient, 'nutritionalProfile') &&
+          hasProperty(unifiedIngredient, "nutritionalProfile") &&
           unifiedIngredient.nutritionalProfile
         ) {
           // Convert unified nutritionalProfile if needed
@@ -100,15 +103,17 @@ export class UnifiedNutritionalService {
             nutritionalProfile = {
               ...unifiedProfile,
               // Convert phytonutrients from string[] to Record<string, number> if needed
-              phytonutrients: hasProperty(unifiedProfile, 'phytonutrients') &&
+              phytonutrients:
+                hasProperty(unifiedProfile, "phytonutrients") &&
                 Array.isArray(unifiedProfile.phytonutrients)
-                  ? (unifiedProfile.phytonutrients).reduce((acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }),
-                      {}
+                  ? unifiedProfile.phytonutrients.reduce(
+                      (acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }),
+                      {},
                     )
-                  : hasProperty(unifiedProfile, 'phytonutrients') &&
+                  : hasProperty(unifiedProfile, "phytonutrients") &&
                       isValidObject(unifiedProfile.phytonutrients)
                     ? (unifiedProfile.phytonutrients as Record<string, number>)
-                    : {}
+                    : {},
             } as unknown as NutritionalProfile;
           }
         } else {
@@ -116,26 +121,34 @@ export class UnifiedNutritionalService {
           const regularIngredient = allIngredients[ingredient];
           if (
             regularIngredient &&
-            hasProperty(regularIngredient as unknown, 'nutritionalProfile')
+            hasProperty(regularIngredient as unknown, "nutritionalProfile")
           ) {
             // Convert alchemy.NutritionalProfile to nutrition.NutritionalProfile
             const regularIngredientUnknown = regularIngredient as unknown;
-            const alchemyProfile = hasProperty(regularIngredientUnknown, 'nutritionalProfile')
+            const alchemyProfile = hasProperty(
+              regularIngredientUnknown,
+              "nutritionalProfile",
+            )
               ? regularIngredientUnknown.nutritionalProfile
               : null;
             if (isValidObject(alchemyProfile)) {
               nutritionalProfile = {
                 ...alchemyProfile,
                 // Convert phytonutrients from string[] to Record<string, number>
-                phytonutrients: hasProperty(alchemyProfile, 'phytonutrients') &&
+                phytonutrients:
+                  hasProperty(alchemyProfile, "phytonutrients") &&
                   Array.isArray(alchemyProfile.phytonutrients)
-                    ? (alchemyProfile.phytonutrients as string[]).reduce((acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }),
-                        {}
+                    ? (alchemyProfile.phytonutrients as string[]).reduce(
+                        (acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }),
+                        {},
                       )
-                    : hasProperty(alchemyProfile, 'phytonutrients') &&
+                    : hasProperty(alchemyProfile, "phytonutrients") &&
                         isValidObject(alchemyProfile.phytonutrients)
-                      ? (alchemyProfile.phytonutrients as Record<string, number>)
-                      : {}
+                      ? (alchemyProfile.phytonutrients as Record<
+                          string,
+                          number
+                        >)
+                      : {},
               } as unknown as NutritionalProfile;
             }
           }
@@ -145,22 +158,27 @@ export class UnifiedNutritionalService {
             nutritionalProfile = {
               calories: 50,
               macros: { protein: 2, carbs: 10, fat: 0.5, fiber: 3 },
-              vitamins: ['C', 'K'],
-              minerals: ['potassium', 'folate'],
+              vitamins: ["C", "K"],
+              minerals: ["potassium", "folate"],
               phytonutrients: {},
               antioxidants: [],
-              bioactive: []
+              bioactive: [],
             } as NutritionalProfile;
           }
         }
       } else {
-        nutritionalProfile = hasProperty(ingredient, 'nutritionalPropertiesProfile')
+        nutritionalProfile = hasProperty(
+          ingredient,
+          "nutritionalPropertiesProfile",
+        )
           ? (ingredient.nutritionalPropertiesProfile as NutritionalProfile)
-          : null
+          : null;
       }
 
       if (!nutritionalProfile) {
-        logger.warn(`No nutritional profile found for ingredient: ${typeof ingredient === 'string' ? ingredient : ingredient.name}`);
+        logger.warn(
+          `No nutritional profile found for ingredient: ${typeof ingredient === "string" ? ingredient : ingredient.name}`,
+        );
         return null;
       }
 
@@ -168,7 +186,7 @@ export class UnifiedNutritionalService {
       const systemData = UnifiedNutritionalSystem as unknown as any;
       const enhanceMethod = systemData.enhanceNutritionalProfile as (
         profile: NutritionalProfile,
-        context?: unknown
+        context?: unknown,
       ) => AlchemicalNutritionalProfile;
 
       // Enhance with alchemical properties
@@ -188,22 +206,22 @@ export class UnifiedNutritionalService {
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25
+          Substance: 0.25,
         },
         elementalProperties: enhanced.elementalProperties || {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         },
         kalchm: enhanced.kalchm || 0,
-        monica: enhanced.monica || 0
+        monica: enhanced.monica || 0,
       };
 
       this.cache.set(cacheKey, alchemicalProfile);
       return alchemicalProfile;
     } catch (error) {
-      logger.error('Error getting enhanced nutritional profile: ', error);
+      logger.error("Error getting enhanced nutritional profile: ", error);
       return null;
     }
   }
@@ -215,7 +233,7 @@ export class UnifiedNutritionalService {
     // Apply surgical type casting with variable extraction
     const systemData = UnifiedNutritionalSystem as unknown as any;
     const calculateKalchmMethod = systemData.calculateNutritionalKalchm as (
-      profile: NutritionalProfile
+      profile: NutritionalProfile,
     ) => number;
 
     return calculateKalchmMethod ? calculateKalchmMethod(profile) : 0;
@@ -229,14 +247,17 @@ export class UnifiedNutritionalService {
     context?: {
       season?: Season;
       currentZodiacSign?: any;
-      planetaryHour?: PlanetName
-    }
+      planetaryHour?: PlanetName;
+    },
   ): Promise<NutritionalCompatibilityAnalysis> {
     try {
       const profiles: AlchemicalNutritionalProfile[] = [];
 
       for (const ingredient of ingredients) {
-        const enhanced = await this.getEnhancedNutritionalProfile(ingredient, context);
+        const enhanced = await this.getEnhancedNutritionalProfile(
+          ingredient,
+          context,
+        );
         if (enhanced) {
           profiles.push(enhanced);
         }
@@ -247,19 +268,22 @@ export class UnifiedNutritionalService {
         ? {
             season: context.season,
             planetaryHour: context.planetaryHour,
-            targetElements: undefined as ElementalProperties | undefined
+            targetElements: undefined as ElementalProperties | undefined,
           }
         : undefined;
 
-      return UnifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, safeContext as any);
+      return UnifiedNutritionalSystem.analyzeNutritionalCompatibility(
+        profiles,
+        safeContext as any,
+      );
     } catch (error) {
-      logger.error('Error analyzing nutritional compatibility: ', error);
+      logger.error("Error analyzing nutritional compatibility: ", error);
       return {
         kalchmHarmony: 0,
         seasonalAlignment: 0,
         planetaryResonance: 0,
         overallCompatibility: 0,
-        recommendations: ['Error analyzing compatibility']
+        recommendations: ["Error analyzing compatibility"],
       };
     }
   }
@@ -276,21 +300,22 @@ export class UnifiedNutritionalService {
     targetKalchm?: number;
     elementalFocus?: Element;
     healthGoals?: string[];
-    nutritionalFilter?: NutritionalFilter
+    nutritionalFilter?: NutritionalFilter;
   }): NutritionalRecommendations {
     try {
-      const baseRecommendations = UnifiedNutritionalSystem.getNutritionalRecommendations(criteria);
+      const baseRecommendations =
+        UnifiedNutritionalSystem.getNutritionalRecommendations(criteria);
       // Apply nutritional filters if provided
       if (criteria.nutritionalFilter) {
         baseRecommendations.ingredients = this.applyNutritionalFilter(
           baseRecommendations.ingredients as UnifiedIngredient[],
-          criteria.nutritionalFilter
+          criteria.nutritionalFilter,
         );
       }
 
       return baseRecommendations;
     } catch (error) {
-      logger.error('Error getting nutritional recommendations: ', error);
+      logger.error("Error getting nutritional recommendations: ", error);
       return {
         ingredients: [],
         nutritionalProfiles: [],
@@ -299,7 +324,7 @@ export class UnifiedNutritionalService {
         kalchmHarmony: 0,
         monicaOptimization: 0,
         healthBenefits: [],
-        warnings: ['Error generating recommendations']
+        warnings: ["Error generating recommendations"],
       };
     }
   }
@@ -312,13 +337,13 @@ export class UnifiedNutritionalService {
     additionalCriteria?: {
       currentZodiacSign?: any;
       planetaryHour?: PlanetName;
-      healthGoals?: string[]
-    }
+      healthGoals?: string[];
+    },
   ): NutritionalRecommendations {
     const currentSeason = season || unifiedSeasonalSystem.getCurrentSeason();
     return this.getNutritionalRecommendations({
       season: currentSeason,
-      ...additionalCriteria
+      ...additionalCriteria,
     });
   }
 
@@ -330,12 +355,12 @@ export class UnifiedNutritionalService {
     additionalCriteria?: {
       season?: Season;
       planetaryHour?: PlanetName;
-      healthGoals?: string[]
-    }
+      healthGoals?: string[];
+    },
   ): NutritionalRecommendations {
     return this.getNutritionalRecommendations({
       currentZodiacSign,
-      ...additionalCriteria
+      ...additionalCriteria,
     });
   }
 
@@ -347,12 +372,12 @@ export class UnifiedNutritionalService {
     additionalCriteria?: {
       season?: Season;
       currentZodiacSign?: any;
-      healthGoals?: string[]
-    }
+      healthGoals?: string[];
+    },
   ): NutritionalRecommendations {
     return this.getNutritionalRecommendations({
       planetaryHour,
-      ...additionalCriteria
+      ...additionalCriteria,
     });
   }
 
@@ -363,14 +388,12 @@ export class UnifiedNutritionalService {
    */
   private applyNutritionalFilter(
     ingredients: UnifiedIngredient[],
-    filter: NutritionalFilter
+    filter: NutritionalFilter,
   ): UnifiedIngredient[] {
-    return ingredients.filter(ingredient => {
+    return ingredients.filter((ingredient) => {
       const ingredientData = ingredient as unknown;
-      const nutritionalProfile = ingredientData.nutritionalPropertiesProfile as Record<
-        string,
-        unknown
-      >;
+      const nutritionalProfile =
+        ingredientData.nutritionalPropertiesProfile as Record<string, unknown>;
 
       // Apply safe type conversion for property access
       const protein = Number(nutritionalProfile.protein || 0);
@@ -379,28 +402,39 @@ export class UnifiedNutritionalService {
 
       // Check protein range
       if (filter.minProtein !== undefined || filter.maxProtein !== undefined) {
-        if (filter.minProtein !== undefined && protein < filter.minProtein) return false;
-        if (filter.maxProtein !== undefined && protein > filter.maxProtein) return false;
+        if (filter.minProtein !== undefined && protein < filter.minProtein)
+          return false;
+        if (filter.maxProtein !== undefined && protein > filter.maxProtein)
+          return false;
       }
 
       // Check fiber range
       if (filter.minFiber !== undefined || filter.maxFiber !== undefined) {
         const fiber = Number(nutritionalProfile.fiber || 0);
-        if (filter.minFiber !== undefined && fiber < filter.minFiber) return false;
-        if (filter.maxFiber !== undefined && fiber > filter.maxFiber) return false;
+        if (filter.minFiber !== undefined && fiber < filter.minFiber)
+          return false;
+        if (filter.maxFiber !== undefined && fiber > filter.maxFiber)
+          return false;
       }
 
       // Check calorie range
-      if (filter.minCalories !== undefined || filter.maxCalories !== undefined) {
+      if (
+        filter.minCalories !== undefined ||
+        filter.maxCalories !== undefined
+      ) {
         const calories = Number(nutritionalProfile.calories || 0);
-        if (filter.minCalories !== undefined && calories < filter.minCalories) return false;
-        if (filter.maxCalories !== undefined && calories > filter.maxCalories) return false;
+        if (filter.minCalories !== undefined && calories < filter.minCalories)
+          return false;
+        if (filter.maxCalories !== undefined && calories > filter.maxCalories)
+          return false;
       }
 
       // Check carb range
       if (filter.minCarbs !== undefined || filter.maxCarbs !== undefined) {
-        if (filter.minCarbs !== undefined && carbs < filter.minCarbs) return false;
-        if (filter.maxCarbs !== undefined && carbs > filter.maxCarbs) return false;
+        if (filter.minCarbs !== undefined && carbs < filter.minCarbs)
+          return false;
+        if (filter.maxCarbs !== undefined && carbs > filter.maxCarbs)
+          return false;
       }
 
       // Check fat range
@@ -411,10 +445,10 @@ export class UnifiedNutritionalService {
 
       // Check required vitamins
       if (filter.vitamins && (filter.vitamins || []).length > 0) {
-        const hasRequiredVitamins = (filter.vitamins || []).some(vitamin => {
+        const hasRequiredVitamins = (filter.vitamins || []).some((vitamin) => {
           if (Array.isArray(nutritionalProfile.vitamins)) {
             return nutritionalProfile.vitamins.includes(vitamin);
-          } else if (typeof nutritionalProfile.vitamins === 'object') {
+          } else if (typeof nutritionalProfile.vitamins === "object") {
             return nutritionalProfile.vitamins?.[vitamin] !== undefined;
           }
           return false;
@@ -424,10 +458,10 @@ export class UnifiedNutritionalService {
 
       // Check required minerals
       if (filter.minerals && (filter.minerals || []).length > 0) {
-        const hasRequiredMinerals = (filter.minerals || []).some(mineral => {
+        const hasRequiredMinerals = (filter.minerals || []).some((mineral) => {
           if (Array.isArray(nutritionalProfile.minerals)) {
             return nutritionalProfile.minerals.includes(mineral);
-          } else if (typeof nutritionalProfile.minerals === 'object') {
+          } else if (typeof nutritionalProfile.minerals === "object") {
             return nutritionalProfile.minerals?.[mineral] !== undefined;
           }
           return false;
@@ -460,10 +494,11 @@ export class UnifiedNutritionalService {
   filterIngredientsByKalchm(
     ingredients: UnifiedIngredient[],
     targetKalchm: number,
-    tolerance = 0.2
+    tolerance = 0.2,
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(
-      ingredient => Math.abs((ingredient.kalchm ?? 0) - targetKalchm) <= tolerance
+      (ingredient) =>
+        Math.abs((ingredient.kalchm ?? 0) - targetKalchm) <= tolerance,
     );
   }
 
@@ -473,10 +508,10 @@ export class UnifiedNutritionalService {
   filterIngredientsByElement(
     ingredients: UnifiedIngredient[],
     element: Element,
-    minValue = 0.5
+    minValue = 0.5,
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(
-      ingredient => ingredient.elementalProperties[element] >= minValue
+      (ingredient) => ingredient.elementalProperties[element] >= minValue,
     );
   }
 
@@ -490,15 +525,18 @@ export class UnifiedNutritionalService {
     context?: {
       season?: Season;
       currentZodiacSign?: any;
-      planetaryHour?: PlanetName
-    }
+      planetaryHour?: PlanetName;
+    },
   ): Promise<number> {
     try {
-      const enhanced = await this.getEnhancedNutritionalProfile(ingredient, context);
+      const enhanced = await this.getEnhancedNutritionalProfile(
+        ingredient,
+        context,
+      );
       if (!enhanced) return 0;
       return enhanced.monicaOptimization.finalOptimizedScore;
     } catch (error) {
-      logger.error('Error calculating nutritional score: ', error);
+      logger.error("Error calculating nutritional score: ", error);
       return 0;
     }
   }
@@ -511,18 +549,21 @@ export class UnifiedNutritionalService {
     context?: {
       season?: Season;
       currentZodiacSign?: any;
-      planetaryHour?: PlanetName
-    }
+      planetaryHour?: PlanetName;
+    },
   ): Promise<{
     kalchm: number;
     elementalBreakdown: ElementalProperties;
     seasonalAlignment: number;
     planetaryResonance: number;
     healthBenefits: string[];
-    warnings: string[]
+    warnings: string[];
   }> {
     try {
-      const enhanced = await this.getEnhancedNutritionalProfile(ingredient, context);
+      const enhanced = await this.getEnhancedNutritionalProfile(
+        ingredient,
+        context,
+      );
       if (!enhanced) {
         return {
           kalchm: 0,
@@ -530,12 +571,12 @@ export class UnifiedNutritionalService {
             Fire: 0,
             Water: 0,
             Earth: 0,
-            Air: 0
+            Air: 0,
           },
           seasonalAlignment: 0,
           planetaryResonance: 0,
           healthBenefits: [],
-          warnings: ['No nutritional data available']
+          warnings: ["No nutritional data available"],
         };
       }
 
@@ -544,7 +585,7 @@ export class UnifiedNutritionalService {
         Fire: enhanced.elementalNutrients.Fire.totalElementalValue || 0,
         Water: enhanced.elementalNutrients.Water.totalElementalValue || 0,
         Earth: enhanced.elementalNutrients.Earth.totalElementalValue || 0,
-        Air: enhanced.elementalNutrients.Air.totalElementalValue || 0
+        Air: enhanced.elementalNutrients.Air.totalElementalValue || 0,
       };
 
       // Calculate seasonal alignment
@@ -558,15 +599,15 @@ export class UnifiedNutritionalService {
         : 0.5;
 
       // Generate health benefits
-      const healthBenefits = (enhanced.astrologicalProfile.rulingPlanets || []).map(
-        planet => `Enhanced by ${planet} planetary influence`
-      );
+      const healthBenefits = (
+        enhanced.astrologicalProfile.rulingPlanets || []
+      ).map((planet) => `Enhanced by ${planet} planetary influence`);
 
       // Generate warnings (placeholder for now)
       const warnings: string[] = [];
       if (enhanced.kalchm < 0.8) {
         warnings.push(
-          'Lower alchemical equilibrium - consider combining with higher Kalchm ingredients'
+          "Lower alchemical equilibrium - consider combining with higher Kalchm ingredients",
         );
       }
 
@@ -576,22 +617,22 @@ export class UnifiedNutritionalService {
         seasonalAlignment,
         planetaryResonance,
         healthBenefits,
-        warnings
+        warnings,
       };
     } catch (error) {
-      logger.error('Error getting nutritional insights: ', error);
+      logger.error("Error getting nutritional insights: ", error);
       return {
         kalchm: 0,
         elementalBreakdown: {
           Fire: 0,
           Water: 0,
           Earth: 0,
-          Air: 0
+          Air: 0,
         },
         seasonalAlignment: 0,
         planetaryResonance: 0,
         healthBenefits: [],
-        warnings: ['Error analyzing nutritional data']
+        warnings: ["Error analyzing nutritional data"],
       };
     }
   }
@@ -602,21 +643,23 @@ export class UnifiedNutritionalService {
    * Get seasonal nutritional profile
    */
   getSeasonalNutritionalProfile(season: Season): SeasonalNutritionalProfile {
-    return UnifiedNutritionalSystem['seasonalProfiles'][season];
+    return UnifiedNutritionalSystem["seasonalProfiles"][season];
   }
 
   /**
    * Get planetary nutritional profile
    */
-  getPlanetaryNutritionalProfile(planet: PlanetName): PlanetaryNutritionalProfile {
-    return UnifiedNutritionalSystem['planetaryProfiles'][planet];
+  getPlanetaryNutritionalProfile(
+    planet: PlanetName,
+  ): PlanetaryNutritionalProfile {
+    return UnifiedNutritionalSystem["planetaryProfiles"][planet];
   }
 
   /**
    * Get zodiac nutritional profile
    */
   getZodiacNutritionalProfile(sign: any): ZodiacNutritionalProfile {
-    return UnifiedNutritionalSystem['zodiacProfiles'][sign];
+    return UnifiedNutritionalSystem["zodiacProfiles"][sign];
   }
 
   // ===== BATCH OPERATIONS =====
@@ -630,20 +673,24 @@ export class UnifiedNutritionalService {
       season?: Season;
       currentZodiacSign?: any;
       planetaryHour?: PlanetName;
-      cookingMethod?: CookingMethod
-    }
+      cookingMethod?: CookingMethod;
+    },
   ): Promise<AlchemicalNutritionalProfile[]> {
     const results: AlchemicalNutritionalProfile[] = [];
 
     for (const ingredient of ingredients) {
       try {
-        const enhanced = await this.getEnhancedNutritionalProfile(ingredient, context);
+        const enhanced = await this.getEnhancedNutritionalProfile(
+          ingredient,
+          context,
+        );
         if (enhanced) {
           results.push(enhanced);
         }
       } catch (error) {
-        logger.error(`Error enhancing nutritional profile for ${typeof ingredient === 'string' ? ingredient : ingredient.name}:`,
-          error
+        logger.error(
+          `Error enhancing nutritional profile for ${typeof ingredient === "string" ? ingredient : ingredient.name}:`,
+          error,
         );
       }
     }
@@ -659,20 +706,26 @@ export class UnifiedNutritionalService {
     context?: {
       season?: Season;
       currentZodiacSign?: any;
-      planetaryHour?: PlanetName
-    }
+      planetaryHour?: PlanetName;
+    },
   ): Promise<Record<string, number>> {
     const scores: { [key: string]: number } = {};
 
     for (const ingredient of ingredients) {
       try {
-        const name = typeof ingredient === 'string' ? ingredient : ingredient.name;
-        scores[name] = await this.calculateNutritionalScore(ingredient, context);
-      } catch (error) {
-        logger.error(`Error calculating nutritional score for ${typeof ingredient === 'string' ? ingredient : ingredient.name}:`,
-          error
+        const name =
+          typeof ingredient === "string" ? ingredient : ingredient.name;
+        scores[name] = await this.calculateNutritionalScore(
+          ingredient,
+          context,
         );
-        scores[typeof ingredient === 'string' ? ingredient : ingredient.name] = 0;
+      } catch (error) {
+        logger.error(
+          `Error calculating nutritional score for ${typeof ingredient === "string" ? ingredient : ingredient.name}:`,
+          error,
+        );
+        scores[typeof ingredient === "string" ? ingredient : ingredient.name] =
+          0;
       }
     }
 
@@ -694,7 +747,7 @@ export class UnifiedNutritionalService {
   getCacheStats(): { size: number; keys: string[] } {
     return {
       size: this.cache.size,
-      keys: Array.from(this.cache.keys())
+      keys: Array.from(this.cache.keys()),
     };
   }
 
@@ -703,20 +756,22 @@ export class UnifiedNutritionalService {
   /**
    * Legacy nutritional balance calculation (backward compatibility)
    */
-  async calculateNutritionalBalance(ingredients: unknown[]): Promise<NutritionalProfile> {
+  async calculateNutritionalBalance(
+    ingredients: unknown[],
+  ): Promise<NutritionalProfile> {
     try {
       if ((ingredients || []).length === 0) {
         return {
           calories: 0,
           macros: {} as { [key: string]: number | undefined },
           vitamins: {} as Record<string, number>,
-          minerals: {} as Record<string, number>
+          minerals: {} as Record<string, number>,
         };
       }
 
       // Get enhanced profiles for all ingredients
       const enhancedProfiles = await this.enhanceNutritionalProfilesBatch(
-        ingredients as Array<string | UnifiedIngredient>
+        ingredients as Array<string | UnifiedIngredient>,
       );
 
       // Aggregate nutritional values
@@ -724,28 +779,32 @@ export class UnifiedNutritionalService {
         calories: 0,
         macros: {} as { [key: string]: number | undefined },
         vitamins: {} as Record<string, number>,
-        minerals: {} as Record<string, number>
+        minerals: {} as Record<string, number>,
       };
 
-      (enhancedProfiles || []).forEach(profile => {
-        aggregated.calories = (aggregated.calories || 0) + (profile.calories || 0);
+      (enhancedProfiles || []).forEach((profile) => {
+        aggregated.calories =
+          (aggregated.calories || 0) + (profile.calories || 0);
         if (aggregated.macros && profile.macros) {
           aggregated.macros.protein =
             (aggregated.macros.protein || 0) + (profile.macros.protein || 0);
-          aggregated.macros.carbs = (aggregated.macros.carbs || 0) + (profile.macros.carbs || 0);
-          aggregated.macros.fat = (aggregated.macros.fat || 0) + (profile.macros.fat || 0);
-          aggregated.macros.fiber = (aggregated.macros.fiber || 0) + (profile.macros.fiber || 0);
+          aggregated.macros.carbs =
+            (aggregated.macros.carbs || 0) + (profile.macros.carbs || 0);
+          aggregated.macros.fat =
+            (aggregated.macros.fat || 0) + (profile.macros.fat || 0);
+          aggregated.macros.fiber =
+            (aggregated.macros.fiber || 0) + (profile.macros.fiber || 0);
         }
       });
 
       return aggregated;
     } catch (error) {
-      logger.error('Error calculating nutritional balance: ', error);
+      logger.error("Error calculating nutritional balance: ", error);
       return {
         calories: 0,
         macros: {} as { [key: string]: number | undefined },
         vitamins: {} as Record<string, number>,
-        minerals: {} as Record<string, number>
+        minerals: {} as Record<string, number>,
       };
     }
   }
@@ -758,7 +817,7 @@ export class UnifiedNutritionalService {
       // Legacy service removed - using local nutritional scoring
       return this.calculateLocalNutritionalScore(nutrition);
     } catch (error) {
-      logger.error('Error calculating legacy nutritional score: ', error);
+      logger.error("Error calculating legacy nutritional score: ", error);
       return 0;
     }
   }
@@ -773,32 +832,45 @@ export class UnifiedNutritionalService {
       if (!isValidObject(nutrition)) return 0;
 
       // Basic scoring based on macro and micronutrients
-      if (hasProperty(nutrition, 'calories') && typeof nutrition.calories === 'number') {
+      if (
+        hasProperty(nutrition, "calories") &&
+        typeof nutrition.calories === "number"
+      ) {
         score += Math.min(nutrition.calories / 100, 5);
       }
 
-      const macros = hasProperty(nutrition, 'macros') && isValidObject(nutrition.macros)
+      const macros =
+        hasProperty(nutrition, "macros") && isValidObject(nutrition.macros)
           ? nutrition.macros
           : null;
       if (macros) {
-        if (hasProperty(macros, 'protein') && typeof macros.protein === 'number') {
+        if (
+          hasProperty(macros, "protein") &&
+          typeof macros.protein === "number"
+        ) {
           score += macros.protein / 5;
         }
-        if (hasProperty(macros, 'fiber') && typeof macros.fiber === 'number') {
+        if (hasProperty(macros, "fiber") && typeof macros.fiber === "number") {
           score += macros.fiber * 2;
         }
       }
 
-      if (hasProperty(nutrition, 'vitamins') && Array.isArray(nutrition.vitamins)) {
+      if (
+        hasProperty(nutrition, "vitamins") &&
+        Array.isArray(nutrition.vitamins)
+      ) {
         score += nutrition.vitamins.length;
       }
-      if (hasProperty(nutrition, 'minerals') && Array.isArray(nutrition.minerals)) {
+      if (
+        hasProperty(nutrition, "minerals") &&
+        Array.isArray(nutrition.minerals)
+      ) {
         score += nutrition.minerals.length;
       }
 
       return Math.min(score, 100); // Cap at 100
     } catch (error) {
-      logger.error('Error in local nutritional scoring: ', error);
+      logger.error("Error in local nutritional scoring: ", error);
       return 0;
     }
   }
@@ -806,7 +878,8 @@ export class UnifiedNutritionalService {
 
 // ===== SINGLETON INSTANCE =====
 
-export const unifiedNutritionalService = UnifiedNutritionalService.getInstance();
+export const unifiedNutritionalService =
+  UnifiedNutritionalService.getInstance();
 
 // ===== CONVENIENCE EXPORTS =====
 
@@ -817,18 +890,23 @@ export const getEnhancedNutritionalProfile = (
     season?: Season;
     currentZodiacSign?: any;
     planetaryHour?: PlanetName;
-    cookingMethod?: CookingMethod
-  }
-) => unifiedNutritionalService.getEnhancedNutritionalProfile(ingredient, context);
+    cookingMethod?: CookingMethod;
+  },
+) =>
+  unifiedNutritionalService.getEnhancedNutritionalProfile(ingredient, context);
 
 export const analyzeNutritionalCompatibility = (
   ingredients: Array<string | UnifiedIngredient>,
   context?: {
     season?: Season;
     currentZodiacSign?: any;
-    planetaryHour?: PlanetName
-  }
-) => unifiedNutritionalService.analyzeNutritionalCompatibility(ingredients, context);
+    planetaryHour?: PlanetName;
+  },
+) =>
+  unifiedNutritionalService.analyzeNutritionalCompatibility(
+    ingredients,
+    context,
+  );
 
 export const getNutritionalRecommendations = (criteria: {
   season?: Season;
@@ -837,7 +915,7 @@ export const getNutritionalRecommendations = (criteria: {
   targetKalchm?: number;
   elementalFocus?: Element;
   healthGoals?: string[];
-  nutritionalFilter?: NutritionalFilter
+  nutritionalFilter?: NutritionalFilter;
 }) => unifiedNutritionalService.getNutritionalRecommendations(criteria);
 
 export const calculateNutritionalKalchm = (profile: NutritionalProfile) =>
@@ -848,6 +926,6 @@ export const getNutritionalInsights = (
   context?: {
     season?: Season;
     currentZodiacSign?: any;
-    planetaryHour?: PlanetName
-  }
+    planetaryHour?: PlanetName;
+  },
 ) => unifiedNutritionalService.getNutritionalInsights(ingredient, context);

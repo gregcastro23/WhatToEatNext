@@ -72,8 +72,8 @@ interface StandardizedIngredient extends Record<string, unknown> {
 
 ```typescript
 // Fix missing exports
-export type { ElementalProperties } from './alchemy';
-export { validateIngredient } from './validation';
+export type { ElementalProperties } from "./alchemy";
+export { validateIngredient } from "./validation";
 ```
 
 #### **Pattern R2C-3: Function Signature Alignment**
@@ -84,7 +84,7 @@ function calculateKAlchm(
   Spirit: number,
   Essence: number,
   Matter: number,
-  Substance: number
+  Substance: number,
 ): number {
   // Implementation
 }

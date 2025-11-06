@@ -58,32 +58,38 @@ yarn lint src/utils/mcpServerIntegration.ts --max-warnings=0
 
 ```typescript
 // ❌ Avoid
-function processData(data: any) { return data.property; }
+function processData(data: any) {
+  return data.property;
+}
 
 // ✅ Prefer
-interface Data { property: string; }
-function processData(data: Data): string { return data.property; }
+interface Data {
+  property: string;
+}
+function processData(data: Data): string {
+  return data.property;
+}
 ```
 
 ### Import Organization
 
 ```typescript
 // ✅ Proper order
-import React from 'react';                    // Built-in
-import axios from 'axios';                    // External
-import { Component } from '@/components/';    // Internal
-import { utils } from './utils';              // Relative
+import React from "react"; // Built-in
+import axios from "axios"; // External
+import { Component } from "@/components/"; // Internal
+import { utils } from "./utils"; // Relative
 ```
 
 ### Error Handling
 
 ```typescript
 // ❌ Avoid
-console.log('Error:', error);
+console.log("Error:", error);
 
 // ✅ Prefer
-import { logger } from '@/utils/logger';
-logger.error('Error:', error);
+import { logger } from "@/utils/logger";
+logger.error("Error:", error);
 ```
 
 ## 🔄 Migration Strategy

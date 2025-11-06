@@ -6,14 +6,14 @@
  * Targets specific high-priority files with safe type improvements
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
-console.log('🎯 Fixing High Priority Type Issues\n');
+console.log("🎯 Fixing High Priority Type Issues\n");
 
 const HIGH_PRIORITY_FILES = [
-  'src/app/cooking-methods-demo/page.tsx',
-  'src/app/cooking-methods/page.tsx'
+  "src/app/cooking-methods-demo/page.tsx",
+  "src/app/cooking-methods/page.tsx",
 ];
 
 function fixFile(filePath) {
@@ -24,7 +24,7 @@ function fixFile(filePath) {
 
   console.log(`📝 Processing: ${filePath}`);
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
   const originalContent = content;
   let changesMade = false;
 
@@ -34,42 +34,52 @@ function fixFile(filePath) {
   // Fix 1: Replace (method as any) with proper type assertion
   const methodAsAnyPattern = /\(method as any\)/g;
   if (content.match(methodAsAnyPattern)) {
-    content = content.replace(methodAsAnyPattern, '(method as Record<string, unknown>)');
+    content = content.replace(
+      methodAsAnyPattern,
+      "(method as Record<string, unknown>)",
+    );
     changesMade = true;
-    console.log('  ✅ Fixed: (method as any) → (method as Record<string, unknown>)');
+    console.log(
+      "  ✅ Fixed: (method as any) → (method as Record<string, unknown>)",
+    );
   }
 
   // Fix 2: Replace array as any with proper typing
   const arrayAsAnyPattern = /(\w+Methods) as any/g;
   const arrayMatches = content.match(arrayAsAnyPattern);
   if (arrayMatches) {
-    content = content.replace(arrayAsAnyPattern, '$1 as Record<string, unknown>[]');
+    content = content.replace(
+      arrayAsAnyPattern,
+      "$1 as Record<string, unknown>[]",
+    );
     changesMade = true;
-    console.log('  ✅ Fixed: array as any → array as Record<string, unknown>[]');
+    console.log(
+      "  ✅ Fixed: array as any → array as Record<string, unknown>[]",
+    );
   }
 
   // Fix 3: Replace function parameter any types
   const functionParamPattern = /\(\s*(\w+):\s*any\s*\)/g;
   if (content.match(functionParamPattern)) {
-    content = content.replace(functionParamPattern, '($1: unknown)');
+    content = content.replace(functionParamPattern, "($1: unknown)");
     changesMade = true;
-    console.log('  ✅ Fixed: function parameter any → unknown');
+    console.log("  ✅ Fixed: function parameter any → unknown");
   }
 
   // Fix 4: Replace variable declarations with any
   const varAnyPattern = /:\s*any\s*=/g;
   if (content.match(varAnyPattern)) {
-    content = content.replace(varAnyPattern, ': unknown =');
+    content = content.replace(varAnyPattern, ": unknown =");
     changesMade = true;
-    console.log('  ✅ Fixed: variable any → unknown');
+    console.log("  ✅ Fixed: variable any → unknown");
   }
 
   // Fix 5: Replace return type any
   const returnAnyPattern = /\):\s*any\s*{/g;
   if (content.match(returnAnyPattern)) {
-    content = content.replace(returnAnyPattern, '): unknown {');
+    content = content.replace(returnAnyPattern, "): unknown {");
     changesMade = true;
-    console.log('  ✅ Fixed: return type any → unknown');
+    console.log("  ✅ Fixed: return type any → unknown");
   }
 
   if (changesMade) {
@@ -86,18 +96,18 @@ function fixFile(filePath) {
 
 function validateBuild() {
   try {
-    console.log('\n🔍 Validating build...');
-    execSync('yarn build 2>/dev/null', { stdio: 'pipe' });
-    console.log('✅ Build successful');
+    console.log("\n🔍 Validating build...");
+    execSync("yarn build 2>/dev/null", { stdio: "pipe" });
+    console.log("✅ Build successful");
     return true;
   } catch (error) {
-    console.log('❌ Build failed');
+    console.log("❌ Build failed");
     return false;
   }
 }
 
 function rollbackChanges() {
-  console.log('🔄 Rolling back changes...');
+  console.log("🔄 Rolling back changes...");
   for (const filePath of HIGH_PRIORITY_FILES) {
     const backupPath = `${filePath}.backup`;
     if (fs.existsSync(backupPath)) {
@@ -109,7 +119,7 @@ function rollbackChanges() {
 }
 
 function cleanupBackups() {
-  console.log('🧹 Cleaning up backups...');
+  console.log("🧹 Cleaning up backups...");
   for (const filePath of HIGH_PRIORITY_FILES) {
     const backupPath = `${filePath}.backup`;
     if (fs.existsSync(backupPath)) {
@@ -121,23 +131,30 @@ function cleanupBackups() {
 function checkProgress() {
   try {
     const beforeCount = 2676; // Known count from previous analysis
-    const afterCount = parseInt(execSync(`
+    const afterCount = parseInt(
+      execSync(
+        `
       yarn lint:quick 2>&1 |
       grep "@typescript-eslint/no-explicit-any" |
       wc -l
-    `, { encoding: 'utf8' }).trim());
+    `,
+        { encoding: "utf8" },
+      ).trim(),
+    );
 
     const reduction = beforeCount - afterCount;
 
-    console.log('\n📈 Progress Report:');
+    console.log("\n📈 Progress Report:");
     console.log(`   Before: ${beforeCount} explicit any warnings`);
     console.log(`   After: ${afterCount} explicit any warnings`);
     console.log(`   Reduction: ${reduction} warnings fixed`);
-    console.log(`   Percentage: ${((reduction / beforeCount) * 100).toFixed(1)}%`);
+    console.log(
+      `   Percentage: ${((reduction / beforeCount) * 100).toFixed(1)}%`,
+    );
 
     return { before: beforeCount, after: afterCount, reduction };
   } catch (error) {
-    console.log('Could not check progress');
+    console.log("Could not check progress");
     return null;
   }
 }
@@ -164,8 +181,8 @@ async function main() {
       cleanupBackups();
       const progress = checkProgress();
 
-      console.log('\n✅ HIGH PRIORITY TYPE FIXES COMPLETED');
-      console.log('=' .repeat(50));
+      console.log("\n✅ HIGH PRIORITY TYPE FIXES COMPLETED");
+      console.log("=".repeat(50));
       console.log(`Files processed: ${HIGH_PRIORITY_FILES.length}`);
       console.log(`Files modified: ${filesModified}`);
 
@@ -173,18 +190,17 @@ async function main() {
         console.log(`Warnings reduced: ${progress.reduction}`);
       }
 
-      console.log('\n🎯 Next Steps:');
-      console.log('1. Review medium priority files manually');
-      console.log('2. Preserve domain-specific any types in calculations/');
-      console.log('3. Focus on React component type safety');
-
+      console.log("\n🎯 Next Steps:");
+      console.log("1. Review medium priority files manually");
+      console.log("2. Preserve domain-specific any types in calculations/");
+      console.log("3. Focus on React component type safety");
     } else {
       rollbackChanges();
-      console.log('\n❌ Build failed, changes rolled back');
-      console.log('Manual review required for these files');
+      console.log("\n❌ Build failed, changes rolled back");
+      console.log("Manual review required for these files");
     }
   } else {
-    console.log('\n⏭️  No changes were needed');
+    console.log("\n⏭️  No changes were needed");
   }
 }
 

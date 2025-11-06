@@ -7,8 +7,8 @@
  * This script processes all cuisines and generates comprehensive statistical signatures.
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Mock console methods for better output formatting
 const originalConsoleLog = console.log;
@@ -42,13 +42,17 @@ function loadModule(modulePath) {
  * Get all cuisine files
  */
 function getCuisineFiles() {
-  const cuisinesDir = path.join(__dirname, '..', 'src', 'data', 'cuisines');
-  const files = fs.readdirSync(cuisinesDir)
-    .filter(file => file.endsWith('.ts') && file !== 'index.ts' && file !== '__mocks__');
+  const cuisinesDir = path.join(__dirname, "..", "src", "data", "cuisines");
+  const files = fs
+    .readdirSync(cuisinesDir)
+    .filter(
+      (file) =>
+        file.endsWith(".ts") && file !== "index.ts" && file !== "__mocks__",
+    );
 
-  return files.map(file => ({
-    name: file.replace('.ts', ''),
-    path: path.join(cuisinesDir, file)
+  return files.map((file) => ({
+    name: file.replace(".ts", ""),
+    path: path.join(cuisinesDir, file),
   }));
 }
 
@@ -71,8 +75,32 @@ function loadCuisineData(cuisinePath) {
  * Mock planetary positions for recipe computation
  */
 function generateMockPlanetaryPositions(recipeIndex = 0) {
-  const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
-  const signs = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'];
+  const planets = [
+    "Sun",
+    "Moon",
+    "Mercury",
+    "Venus",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+    "Pluto",
+  ];
+  const signs = [
+    "aries",
+    "taurus",
+    "gemini",
+    "cancer",
+    "leo",
+    "virgo",
+    "libra",
+    "scorpio",
+    "sagittarius",
+    "capricorn",
+    "aquarius",
+    "pisces",
+  ];
 
   const positions = {};
 
@@ -88,21 +116,33 @@ function generateMockPlanetaryPositions(recipeIndex = 0) {
 // ========== MAIN COMPUTATION ==========
 
 async function main() {
-  console.log('🍽️  Starting Cuisine Properties Computation');
-  console.log('==========================================');
+  console.log("🍽️  Starting Cuisine Properties Computation");
+  console.log("==========================================");
 
   try {
     // Load required modules
-    console.log('Loading computation modules...');
+    console.log("Loading computation modules...");
 
-    const { computeRecipeProperties } = loadModule('../src/utils/hierarchicalRecipeCalculations.ts');
-    const { computeCuisineProperties } = loadModule('../src/utils/cuisine/cuisineAggregationEngine.ts');
-    const { identifyCuisineSignatures, DEFAULT_GLOBAL_BASELINE } = loadModule('../src/utils/cuisine/signatureIdentificationEngine.ts');
-    const { analyzePlanetaryPatterns } = loadModule('../src/utils/cuisine/planetaryPatternAnalysis.ts');
-    const { applyCulturalInfluences } = loadModule('../src/utils/cuisine/culturalInfluenceEngine.ts');
-    const { getGlobalCache } = loadModule('../src/utils/cuisine/cuisineComputationCache.ts');
+    const { computeRecipeProperties } = loadModule(
+      "../src/utils/hierarchicalRecipeCalculations.ts",
+    );
+    const { computeCuisineProperties } = loadModule(
+      "../src/utils/cuisine/cuisineAggregationEngine.ts",
+    );
+    const { identifyCuisineSignatures, DEFAULT_GLOBAL_BASELINE } = loadModule(
+      "../src/utils/cuisine/signatureIdentificationEngine.ts",
+    );
+    const { analyzePlanetaryPatterns } = loadModule(
+      "../src/utils/cuisine/planetaryPatternAnalysis.ts",
+    );
+    const { applyCulturalInfluences } = loadModule(
+      "../src/utils/cuisine/culturalInfluenceEngine.ts",
+    );
+    const { getGlobalCache } = loadModule(
+      "../src/utils/cuisine/cuisineComputationCache.ts",
+    );
 
-    console.log('✅ Modules loaded successfully');
+    console.log("✅ Modules loaded successfully");
 
     // Get cuisine files
     const cuisineFiles = getCuisineFiles();
@@ -115,8 +155,8 @@ async function main() {
         totalCuisines: cuisineFiles.length,
         totalRecipes: 0,
         totalSignatures: 0,
-        computationTime: 0
-      }
+        computationTime: 0,
+      },
     };
 
     const startTime = Date.now();
@@ -124,25 +164,30 @@ async function main() {
     // Process each cuisine
     for (let i = 0; i < cuisineFiles.length; i++) {
       const { name: cuisineName, path: cuisinePath } = cuisineFiles[i];
-      console.log(`\n[${i + 1}/${cuisineFiles.length}] Processing ${cuisineName}...`);
+      console.log(
+        `\n[${i + 1}/${cuisineFiles.length}] Processing ${cuisineName}...`,
+      );
 
       try {
         // Load cuisine data
         const cuisineData = loadCuisineData(cuisinePath);
         if (!cuisineData) {
-          results.failed.push({ cuisine: cuisineName, error: 'Failed to load cuisine data' });
+          results.failed.push({
+            cuisine: cuisineName,
+            error: "Failed to load cuisine data",
+          });
           continue;
         }
 
         // Extract recipes from cuisine data
         const recipes = [];
-        const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert', 'snacks'];
-        const seasons = ['all', 'summer', 'winter', 'spring', 'fall'];
+        const mealTypes = ["breakfast", "lunch", "dinner", "dessert", "snacks"];
+        const seasons = ["all", "summer", "winter", "spring", "fall"];
 
-        mealTypes.forEach(mealType => {
+        mealTypes.forEach((mealType) => {
           if (!cuisineData.dishes[mealType]) return;
 
-          seasons.forEach(season => {
+          seasons.forEach((season) => {
             const seasonRecipes = cuisineData.dishes[mealType][season];
             if (seasonRecipes && Array.isArray(seasonRecipes)) {
               recipes.push(...seasonRecipes);
@@ -152,14 +197,17 @@ async function main() {
 
         if (recipes.length === 0) {
           console.log(`⚠️  No recipes found for ${cuisineName}`);
-          results.failed.push({ cuisine: cuisineName, error: 'No recipes found' });
+          results.failed.push({
+            cuisine: cuisineName,
+            error: "No recipes found",
+          });
           continue;
         }
 
         console.log(`📊 Found ${recipes.length} recipes for ${cuisineName}`);
 
         // Compute recipe properties
-        console.log('Computing recipe properties...');
+        console.log("Computing recipe properties...");
         const recipeComputedProperties = [];
 
         for (let j = 0; j < recipes.length; j++) {
@@ -172,12 +220,16 @@ async function main() {
             const cookingMethods = recipe.cookingMethods || [];
 
             // Compute recipe properties
-            const computed = computeRecipeProperties(ingredients, cookingMethods, {
-              planetaryPositions,
-              applyCookingMethods: true,
-              quantityScaling: 'logarithmic',
-              cacheResults: false
-            });
+            const computed = computeRecipeProperties(
+              ingredients,
+              cookingMethods,
+              {
+                planetaryPositions,
+                applyCookingMethods: true,
+                quantityScaling: "logarithmic",
+                cacheResults: false,
+              },
+            );
 
             recipeComputedProperties.push(computed);
           } catch (error) {
@@ -186,66 +238,88 @@ async function main() {
         }
 
         if (recipeComputedProperties.length === 0) {
-          results.failed.push({ cuisine: cuisineName, error: 'Failed to compute any recipe properties' });
+          results.failed.push({
+            cuisine: cuisineName,
+            error: "Failed to compute any recipe properties",
+          });
           continue;
         }
 
         // Compute cuisine properties
-        console.log('Computing cuisine properties...');
-        let cuisineProperties = computeCuisineProperties(recipeComputedProperties, {
-          weightingStrategy: 'equal',
-          includeVariance: true,
-          identifyPlanetaryPatterns: true
-        });
+        console.log("Computing cuisine properties...");
+        let cuisineProperties = computeCuisineProperties(
+          recipeComputedProperties,
+          {
+            weightingStrategy: "equal",
+            includeVariance: true,
+            identifyPlanetaryPatterns: true,
+          },
+        );
 
         // Identify signatures
-        console.log('Identifying cuisine signatures...');
-        const signatures = identifyCuisineSignatures(cuisineProperties, DEFAULT_GLOBAL_BASELINE, {
-          threshold: 1.5,
-          includeConfidence: true
-        });
+        console.log("Identifying cuisine signatures...");
+        const signatures = identifyCuisineSignatures(
+          cuisineProperties,
+          DEFAULT_GLOBAL_BASELINE,
+          {
+            threshold: 1.5,
+            includeConfidence: true,
+          },
+        );
 
         // Update cuisine properties with signatures
         cuisineProperties = {
           ...cuisineProperties,
-          signatures
+          signatures,
         };
 
         // Analyze planetary patterns
-        console.log('Analyzing planetary patterns...');
-        const planetaryPatterns = analyzePlanetaryPatterns(recipeComputedProperties, {
-          minStrength: 0.3,
-          includeCulturalNotes: true
-        });
+        console.log("Analyzing planetary patterns...");
+        const planetaryPatterns = analyzePlanetaryPatterns(
+          recipeComputedProperties,
+          {
+            minStrength: 0.3,
+            includeCulturalNotes: true,
+          },
+        );
 
         cuisineProperties = {
           ...cuisineProperties,
-          planetaryPatterns
+          planetaryPatterns,
         };
 
         // Apply cultural influences if available
         if (cuisineData.culturalInfluence) {
-          console.log('Applying cultural influences...');
-          cuisineProperties = applyCulturalInfluences(cuisineProperties, cuisineData.culturalInfluence);
+          console.log("Applying cultural influences...");
+          cuisineProperties = applyCulturalInfluences(
+            cuisineProperties,
+            cuisineData.culturalInfluence,
+          );
         }
 
         // Cache the results
         const cache = getGlobalCache();
-        cache.set(cuisineName, cuisineProperties, {}, recipes.map((_, idx) => `${cuisineName}_${idx}`));
+        cache.set(
+          cuisineName,
+          cuisineProperties,
+          {},
+          recipes.map((_, idx) => `${cuisineName}_${idx}`),
+        );
 
         // Store results
         results.successful.push({
           cuisine: cuisineName,
           properties: cuisineProperties,
           recipeCount: recipeComputedProperties.length,
-          signatureCount: signatures.length
+          signatureCount: signatures.length,
         });
 
         results.summary.totalRecipes += recipeComputedProperties.length;
         results.summary.totalSignatures += signatures.length;
 
-        console.log(`✅ ${cuisineName}: ${recipeComputedProperties.length} recipes, ${signatures.length} signatures`);
-
+        console.log(
+          `✅ ${cuisineName}: ${recipeComputedProperties.length} recipes, ${signatures.length} signatures`,
+        );
       } catch (error) {
         console.error(`❌ Failed to process ${cuisineName}:`, error.message);
         results.failed.push({ cuisine: cuisineName, error: error.message });
@@ -256,53 +330,64 @@ async function main() {
     results.summary.computationTime = endTime - startTime;
 
     // Generate summary report
-    console.log('\n' + '='.repeat(50));
-    console.log('📊 COMPUTATION SUMMARY');
-    console.log('='.repeat(50));
+    console.log("\n" + "=".repeat(50));
+    console.log("📊 COMPUTATION SUMMARY");
+    console.log("=".repeat(50));
 
-    console.log(`✅ Successful: ${results.successful.length}/${results.summary.totalCuisines}`);
-    console.log(`❌ Failed: ${results.failed.length}/${results.summary.totalCuisines}`);
+    console.log(
+      `✅ Successful: ${results.successful.length}/${results.summary.totalCuisines}`,
+    );
+    console.log(
+      `❌ Failed: ${results.failed.length}/${results.summary.totalCuisines}`,
+    );
     console.log(`📚 Total Recipes: ${results.summary.totalRecipes}`);
     console.log(`🎯 Total Signatures: ${results.summary.totalSignatures}`);
-    console.log(`⏱️  Total Time: ${(results.summary.computationTime / 1000).toFixed(2)}s`);
-    console.log(`📈 Average per cuisine: ${(results.summary.computationTime / results.summary.totalCuisines).toFixed(0)}ms`);
+    console.log(
+      `⏱️  Total Time: ${(results.summary.computationTime / 1000).toFixed(2)}s`,
+    );
+    console.log(
+      `📈 Average per cuisine: ${(results.summary.computationTime / results.summary.totalCuisines).toFixed(0)}ms`,
+    );
 
     if (results.successful.length > 0) {
-      console.log('\n🏆 TOP SIGNATURES FOUND:');
+      console.log("\n🏆 TOP SIGNATURES FOUND:");
       const topSignatures = results.successful
-        .filter(r => r.signatureCount > 0)
+        .filter((r) => r.signatureCount > 0)
         .sort((a, b) => b.signatureCount - a.signatureCount)
         .slice(0, 5);
 
-      topSignatures.forEach(result => {
+      topSignatures.forEach((result) => {
         console.log(`  ${result.cuisine}: ${result.signatureCount} signatures`);
       });
     }
 
     if (results.failed.length > 0) {
-      console.log('\n⚠️  FAILED CUISINES:');
-      results.failed.forEach(failure => {
+      console.log("\n⚠️  FAILED CUISINES:");
+      results.failed.forEach((failure) => {
         console.log(`  ${failure.cuisine}: ${failure.error}`);
       });
     }
 
     // Save results to file
-    const outputPath = path.join(__dirname, '..', 'computed_cuisine_properties.json');
+    const outputPath = path.join(
+      __dirname,
+      "..",
+      "computed_cuisine_properties.json",
+    );
     fs.writeFileSync(outputPath, JSON.stringify(results, null, 2));
     console.log(`\n💾 Results saved to: ${outputPath}`);
 
-    console.log('\n🎉 Cuisine properties computation completed!');
-
+    console.log("\n🎉 Cuisine properties computation completed!");
   } catch (error) {
-    console.error('💥 Fatal error during computation:', error);
+    console.error("💥 Fatal error during computation:", error);
     process.exit(1);
   }
 }
 
 // Run the script
 if (require.main === module) {
-  main().catch(error => {
-    console.error('💥 Unhandled error:', error);
+  main().catch((error) => {
+    console.error("💥 Unhandled error:", error);
     process.exit(1);
   });
 }

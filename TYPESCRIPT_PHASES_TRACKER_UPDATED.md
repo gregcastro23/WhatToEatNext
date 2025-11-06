@@ -330,15 +330,23 @@ production excellence!
 
 ```typescript
 // BEFORE (Causing Runtime Error):
-const requiredKeys = ['name', 'category', 'elementalProperties', 'astrologicalProfile'];
+const requiredKeys = [
+  "name",
+  "category",
+  "elementalProperties",
+  "astrologicalProfile",
+];
 
 // AFTER (Fixed):
-const requiredKeys = ['name', 'category', 'elementalProperties'];
+const requiredKeys = ["name", "category", "elementalProperties"];
 // Added fallback for empty astrologicalProfile objects
-if (mapping.astrologicalProfile && Object.keys(mapping.astrologicalProfile).length === 0) {
+if (
+  mapping.astrologicalProfile &&
+  Object.keys(mapping.astrologicalProfile).length === 0
+) {
   mapping.astrologicalProfile = {
     rulingPlanets: [],
-    favorableZodiac: []
+    favorableZodiac: [],
   };
 }
 ```
@@ -469,13 +477,13 @@ responding slowly
 
 ```typescript
 // OPTIMIZED: Faster timeout for immediate fallback
-signal: AbortSignal.timeout(5000) // Reduced from 15s to 5s
+signal: AbortSignal.timeout(5000); // Reduced from 15s to 5s
 
 // OPTIMIZED: Immediate circuit breaker protection
 export const astrologizeApiCircuitBreaker = new CircuitBreaker({
-  failureThreshold: 1,    // Reduced from 2 to 1 (immediate protection)
-  resetTimeout: 60000,    // Reduced from 5 minutes to 1 minute
-  monitoringWindow: 300000 // Reduced from 10 minutes to 5 minutes
+  failureThreshold: 1, // Reduced from 2 to 1 (immediate protection)
+  resetTimeout: 60000, // Reduced from 5 minutes to 1 minute
+  monitoringWindow: 300000, // Reduced from 10 minutes to 5 minutes
 });
 ```
 
@@ -554,14 +562,18 @@ in StateDebugger component.
 // BEFORE (causing infinite loop):
 const fetchEnhancedData = useCallback(async () => {
   // ... function code ...
-  setApiResults({ /* updates apiResults.alchemical */ });
-}, [apiResults.alchemical]) // ❌ This dependency changes on every call
+  setApiResults({
+    /* updates apiResults.alchemical */
+  });
+}, [apiResults.alchemical]); // ❌ This dependency changes on every call
 
 // AFTER (fixed):
 const fetchEnhancedData = useCallback(async () => {
   // ... function code ...
-  setApiResults({ /* updates apiResults.alchemical */ });
-}, []) // ✅ Remove dependency that causes infinite loop
+  setApiResults({
+    /* updates apiResults.alchemical */
+  });
+}, []); // ✅ Remove dependency that causes infinite loop
 ```
 
 **Results**:
@@ -613,15 +625,23 @@ production excellence!
 
 ```typescript
 // BEFORE (Causing Runtime Error):
-const requiredKeys = ['name', 'category', 'elementalProperties', 'astrologicalProfile'];
+const requiredKeys = [
+  "name",
+  "category",
+  "elementalProperties",
+  "astrologicalProfile",
+];
 
 // AFTER (Fixed):
-const requiredKeys = ['name', 'category', 'elementalProperties'];
+const requiredKeys = ["name", "category", "elementalProperties"];
 // Added fallback for empty astrologicalProfile objects
-if (mapping.astrologicalProfile && Object.keys(mapping.astrologicalProfile).length === 0) {
+if (
+  mapping.astrologicalProfile &&
+  Object.keys(mapping.astrologicalProfile).length === 0
+) {
   mapping.astrologicalProfile = {
     rulingPlanets: [],
-    favorableZodiac: []
+    favorableZodiac: [],
   };
 }
 ```
@@ -752,13 +772,13 @@ responding slowly
 
 ```typescript
 // OPTIMIZED: Faster timeout for immediate fallback
-signal: AbortSignal.timeout(5000) // Reduced from 15s to 5s
+signal: AbortSignal.timeout(5000); // Reduced from 15s to 5s
 
 // OPTIMIZED: Immediate circuit breaker protection
 export const astrologizeApiCircuitBreaker = new CircuitBreaker({
-  failureThreshold: 1,    // Reduced from 2 to 1 (immediate protection)
-  resetTimeout: 60000,    // Reduced from 5 minutes to 1 minute
-  monitoringWindow: 300000 // Reduced from 10 minutes to 5 minutes
+  failureThreshold: 1, // Reduced from 2 to 1 (immediate protection)
+  resetTimeout: 60000, // Reduced from 5 minutes to 1 minute
+  monitoringWindow: 300000, // Reduced from 10 minutes to 5 minutes
 });
 ```
 

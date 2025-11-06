@@ -13,61 +13,61 @@
  * Part of Phase 9.3: Source File Syntax Validation
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
-  sourceDirectories: ['src', 'lib'],
-  fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
+  sourceDirectories: ["src", "lib"],
+  fileExtensions: [".ts", ".tsx", ".js", ".jsx"],
   excludePatterns: [
-    'node_modules',
-    '.next',
-    'dist',
-    'build',
-    '.git',
-    'coverage'
+    "node_modules",
+    ".next",
+    "dist",
+    "build",
+    ".git",
+    "coverage",
   ],
   maxFilesToProcess: 1000,
-  outputFile: 'improved-syntax-validation-report.json'
+  outputFile: "improved-syntax-validation-report.json",
 };
 
 // Refined syntax issue patterns - focusing on actual problems
 const SYNTAX_PATTERNS = {
   // Missing punctuation that causes TS1005, TS1109 errors
   missingPunctuation: [
-    /\{\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*\}/g,  // Missing comma in object
-    /\[\s*[^,\]]+\s+[^,\]]+\s*\]/g,                                      // Missing comma in array
-    /\(\s*[^,)]+\s+[^,)]+\s*\)/g,                                        // Missing comma in function call
+    /\{\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*\}/g, // Missing comma in object
+    /\[\s*[^,\]]+\s+[^,\]]+\s*\]/g, // Missing comma in array
+    /\(\s*[^,)]+\s+[^,)]+\s*\)/g, // Missing comma in function call
   ],
 
   // Malformed object literals
   malformedObjects: [
-    /\{\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*[^:,}]/g,                          // Missing colon in object property
-    /\{\s*[a-zA-Z_$][a-zA-Z0-9_$]*:\s*[^,}]+\s*[a-zA-Z_$]/g,           // Missing comma after property
+    /\{\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*[^:,}]/g, // Missing colon in object property
+    /\{\s*[a-zA-Z_$][a-zA-Z0-9_$]*:\s*[^,}]+\s*[a-zA-Z_$]/g, // Missing comma after property
   ],
 
   // Unclosed brackets/braces/parentheses
   unclosedBrackets: [
-    /\([^)]*$/gm,                                                        // Unclosed parentheses at end of line
-    /\[[^\]]*$/gm,                                                       // Unclosed square brackets at end of line
-    /\{[^}]*$/gm,                                                        // Unclosed curly braces at end of line
+    /\([^)]*$/gm, // Unclosed parentheses at end of line
+    /\[[^\]]*$/gm, // Unclosed square brackets at end of line
+    /\{[^}]*$/gm, // Unclosed curly braces at end of line
   ],
 
   // Invalid template literals
   invalidTemplateLiterals: [
-    /`[^`]*\$\{[^}]*$/gm,                                               // Unclosed template expression
-    /`[^`]*\$\{[^}]*\$[^{]/g,                                           // Malformed template expression
+    /`[^`]*\$\{[^}]*$/gm, // Unclosed template expression
+    /`[^`]*\$\{[^}]*\$[^{]/g, // Malformed template expression
   ],
 
   // Actual syntax corruption patterns
   syntaxCorruption: [
-    /\?\s*\?\s*\?/g,                                                    // Multiple question marks (not nullish coalescing)
-    /\.\s*\?\s*\.\s*\?\s*\./g,                                          // Malformed optional chaining
-    /\s+as\s+unknown\s+as\s+unknown/g,                                  // Double unknown casting
-    /\(\s*\)\s*\(\s*\)/g,                                               // Empty double parentheses
-  ]
+    /\?\s*\?\s*\?/g, // Multiple question marks (not nullish coalescing)
+    /\.\s*\?\s*\.\s*\?\s*\./g, // Malformed optional chaining
+    /\s+as\s+unknown\s+as\s+unknown/g, // Double unknown casting
+    /\(\s*\)\s*\(\s*\)/g, // Empty double parentheses
+  ],
 };
 
 class ImprovedSyntaxValidator {
@@ -82,9 +82,9 @@ class ImprovedSyntaxValidator {
         malformedObjects: 0,
         unclosedBrackets: 0,
         invalidTemplateLiterals: 0,
-        syntaxCorruption: 0
+        syntaxCorruption: 0,
       },
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -114,7 +114,9 @@ class ImprovedSyntaxValidator {
         const fullPath = path.join(dir, entry.name);
 
         // Skip excluded patterns
-        if (CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
+        if (
+          CONFIG.excludePatterns.some((pattern) => fullPath.includes(pattern))
+        ) {
           continue;
         }
 
@@ -136,15 +138,22 @@ class ImprovedSyntaxValidator {
    * Check if a match is a false positive
    */
   isFalsePositive(content, match, matchIndex) {
-    const context = content.substring(Math.max(0, matchIndex - 100), matchIndex + 100);
+    const context = content.substring(
+      Math.max(0, matchIndex - 100),
+      matchIndex + 100,
+    );
 
     // Skip spread operators (legitimate ...)
-    if (match.match === '...' && context.includes('...')) {
+    if (match.match === "..." && context.includes("...")) {
       return true;
     }
 
     // Skip legitimate template literals with nested expressions
-    if (match.type === 'invalidTemplateLiterals' && context.includes('${') && context.includes('}')) {
+    if (
+      match.type === "invalidTemplateLiterals" &&
+      context.includes("${") &&
+      context.includes("}")
+    ) {
       // Check if it's actually a valid nested template literal
       const beforeMatch = content.substring(0, matchIndex);
       const openBraces = (beforeMatch.match(/\$\{/g) || []).length;
@@ -155,7 +164,11 @@ class ImprovedSyntaxValidator {
     }
 
     // Skip comments
-    if (context.includes('//') || context.includes('/*') || context.includes('*/')) {
+    if (
+      context.includes("//") ||
+      context.includes("/*") ||
+      context.includes("*/")
+    ) {
       return true;
     }
 
@@ -167,7 +180,7 @@ class ImprovedSyntaxValidator {
    */
   scanFile(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       const fileIssues = [];
 
       // Check each pattern category
@@ -180,7 +193,7 @@ class ImprovedSyntaxValidator {
               type: category,
               pattern: pattern.source,
               match: match[0],
-              index: match.index
+              index: match.index,
             };
 
             // Skip false positives
@@ -195,7 +208,7 @@ class ImprovedSyntaxValidator {
               match: match[0],
               line: lineNumber,
               column: match.index - this.getLineStart(content, match.index),
-              context: this.getContext(content, match.index)
+              context: this.getContext(content, match.index),
             };
 
             fileIssues.push(issue);
@@ -215,7 +228,7 @@ class ImprovedSyntaxValidator {
           }
           this.results.issuesByType[issue.type].push({
             file: filePath,
-            ...issue
+            ...issue,
           });
         }
       }
@@ -233,7 +246,7 @@ class ImprovedSyntaxValidator {
    * Get line number for a character index
    */
   getLineNumber(content, index) {
-    return content.substring(0, index).split('\n').length;
+    return content.substring(0, index).split("\n").length;
   }
 
   /**
@@ -241,7 +254,7 @@ class ImprovedSyntaxValidator {
    */
   getLineStart(content, index) {
     const beforeIndex = content.substring(0, index);
-    const lastNewline = beforeIndex.lastIndexOf('\n');
+    const lastNewline = beforeIndex.lastIndexOf("\n");
     return lastNewline === -1 ? 0 : lastNewline + 1;
   }
 
@@ -251,7 +264,10 @@ class ImprovedSyntaxValidator {
   getContext(content, index, contextLength = 80) {
     const start = Math.max(0, index - contextLength);
     const end = Math.min(content.length, index + contextLength);
-    return content.substring(start, end).replace(/\n/g, '\\n').replace(/\t/g, '\\t');
+    return content
+      .substring(start, end)
+      .replace(/\n/g, "\\n")
+      .replace(/\t/g, "\\t");
   }
 
   /**
@@ -259,13 +275,15 @@ class ImprovedSyntaxValidator {
    */
   async getFilesWithTSErrors() {
     try {
-      console.log('\n🔧 Getting files with TypeScript compilation errors...');
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      console.log("\n🔧 Getting files with TypeScript compilation errors...");
+      const output = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
 
-      const errorLines = output.split('\n').filter(line => line.includes('error TS'));
+      const errorLines = output
+        .split("\n")
+        .filter((line) => line.includes("error TS"));
       const filesWithErrors = new Set();
 
       for (const line of errorLines) {
@@ -277,8 +295,10 @@ class ImprovedSyntaxValidator {
 
       return Array.from(filesWithErrors);
     } catch (error) {
-      const output = error.stdout || '';
-      const errorLines = output.split('\n').filter(line => line.includes('error TS'));
+      const output = error.stdout || "";
+      const errorLines = output
+        .split("\n")
+        .filter((line) => line.includes("error TS"));
       const filesWithErrors = new Set();
 
       for (const line of errorLines) {
@@ -296,26 +316,32 @@ class ImprovedSyntaxValidator {
    * Run the complete syntax validation scan
    */
   async runScan() {
-    console.log('🔍 Starting Improved Source File Syntax Validation Scan...');
-    console.log(`📁 Scanning directories: ${CONFIG.sourceDirectories.join(', ')}`);
-    console.log(`📄 File extensions: ${CONFIG.fileExtensions.join(', ')}`);
+    console.log("🔍 Starting Improved Source File Syntax Validation Scan...");
+    console.log(
+      `📁 Scanning directories: ${CONFIG.sourceDirectories.join(", ")}`,
+    );
+    console.log(`📄 File extensions: ${CONFIG.fileExtensions.join(", ")}`);
 
     // Get files with TypeScript errors first
     const tsErrorFiles = await this.getFilesWithTSErrors();
-    console.log(`🚨 Found ${tsErrorFiles.length} files with TypeScript compilation errors`);
+    console.log(
+      `🚨 Found ${tsErrorFiles.length} files with TypeScript compilation errors`,
+    );
 
     const files = this.getSourceFiles();
     console.log(`📊 Found ${files.length} files to scan`);
 
     if (files.length === 0) {
-      console.log('⚠️  No source files found to scan');
+      console.log("⚠️  No source files found to scan");
       return this.results;
     }
 
     // Prioritize files with TypeScript errors
     const prioritizedFiles = [
-      ...files.filter(f => tsErrorFiles.some(tsFile => f.includes(tsFile))),
-      ...files.filter(f => !tsErrorFiles.some(tsFile => f.includes(tsFile)))
+      ...files.filter((f) => tsErrorFiles.some((tsFile) => f.includes(tsFile))),
+      ...files.filter(
+        (f) => !tsErrorFiles.some((tsFile) => f.includes(tsFile)),
+      ),
     ];
 
     // Scan all files
@@ -329,7 +355,9 @@ class ImprovedSyntaxValidator {
       }
 
       if (processedCount % 100 === 0) {
-        console.log(`📈 Progress: ${processedCount}/${files.length} files scanned`);
+        console.log(
+          `📈 Progress: ${processedCount}/${files.length} files scanned`,
+        );
       }
     }
 
@@ -346,13 +374,15 @@ class ImprovedSyntaxValidator {
    * Generate summary report
    */
   generateSummary() {
-    console.log('\n📋 IMPROVED SYNTAX VALIDATION SUMMARY');
-    console.log('=' .repeat(60));
+    console.log("\n📋 IMPROVED SYNTAX VALIDATION SUMMARY");
+    console.log("=".repeat(60));
     console.log(`📊 Total files scanned: ${this.results.totalFilesScanned}`);
     console.log(`🚨 Files with syntax issues: ${this.results.filesWithIssues}`);
-    console.log(`✅ Clean files: ${this.results.totalFilesScanned - this.results.filesWithIssues}`);
+    console.log(
+      `✅ Clean files: ${this.results.totalFilesScanned - this.results.filesWithIssues}`,
+    );
 
-    console.log('\n🔍 Issues by Category:');
+    console.log("\n🔍 Issues by Category:");
     for (const [category, count] of Object.entries(this.results.summary)) {
       if (count > 0) {
         console.log(`  • ${category}: ${count} issues`);
@@ -360,7 +390,7 @@ class ImprovedSyntaxValidator {
     }
 
     if (this.results.filesWithIssues > 0) {
-      console.log('\n🚨 Files with Most Issues:');
+      console.log("\n🚨 Files with Most Issues:");
       const fileIssueCount = Object.entries(this.results.issuesByFile)
         .map(([file, issues]) => ({ file, count: issues.length }))
         .sort((a, b) => b.count - a.count)
@@ -371,7 +401,10 @@ class ImprovedSyntaxValidator {
       }
     }
 
-    const totalIssues = Object.values(this.results.summary).reduce((sum, count) => sum + count, 0);
+    const totalIssues = Object.values(this.results.summary).reduce(
+      (sum, count) => sum + count,
+      0,
+    );
     console.log(`\n📈 Total actual syntax issues found: ${totalIssues}`);
   }
 
@@ -380,10 +413,13 @@ class ImprovedSyntaxValidator {
    */
   saveResults() {
     try {
-      fs.writeFileSync(CONFIG.outputFile, JSON.stringify(this.results, null, 2));
+      fs.writeFileSync(
+        CONFIG.outputFile,
+        JSON.stringify(this.results, null, 2),
+      );
       console.log(`\n💾 Results saved to: ${CONFIG.outputFile}`);
     } catch (error) {
-      console.error('❌ Failed to save results:', error.message);
+      console.error("❌ Failed to save results:", error.message);
     }
   }
 }
@@ -397,19 +433,23 @@ async function main() {
     const results = await validator.runScan();
 
     // Exit with appropriate code
-    const totalIssues = Object.values(results.summary).reduce((sum, count) => sum + count, 0);
+    const totalIssues = Object.values(results.summary).reduce(
+      (sum, count) => sum + count,
+      0,
+    );
 
     if (totalIssues === 0) {
-      console.log('\n✅ SUCCESS: No actual syntax issues found!');
+      console.log("\n✅ SUCCESS: No actual syntax issues found!");
       process.exit(0);
     } else {
-      console.log(`\n⚠️  ISSUES FOUND: ${totalIssues} actual syntax issues detected`);
-      console.log('📋 Review the detailed report for specific fixes needed');
+      console.log(
+        `\n⚠️  ISSUES FOUND: ${totalIssues} actual syntax issues detected`,
+      );
+      console.log("📋 Review the detailed report for specific fixes needed");
       process.exit(1);
     }
-
   } catch (error) {
-    console.error('❌ FATAL ERROR:', error.message);
+    console.error("❌ FATAL ERROR:", error.message);
     console.error(error.stack);
     process.exit(1);
   }

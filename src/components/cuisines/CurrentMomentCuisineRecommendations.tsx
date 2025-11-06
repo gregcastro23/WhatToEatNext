@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * Current Moment Cuisine Recommendations Component
@@ -40,9 +40,9 @@ import {
   Tooltip,
   VStack,
   Wrap,
-  WrapItem
-} from '@chakra-ui/react';
-import React, { useCallback, useEffect, useState } from 'react';
+  WrapItem,
+} from "@chakra-ui/react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   FaAppleAlt,
   FaClock,
@@ -57,121 +57,134 @@ import {
   FaUsers,
   FaUtensils,
   FaWater,
-  FaWind
-} from 'react-icons/fa';
+  FaWind,
+} from "react-icons/fa";
 
 interface CurrentMoment {
-  zodiac_sign: string,
-  season: string,
-  meal_type?: string,
+  zodiac_sign: string;
+  season: string;
+  meal_type?: string;
   timestamp: string;
 }
 
 interface NestedRecipe {
-  recipe_id: string,
-  name: string,
-  description: string,
-  prep_time?: string,
-  cook_time?: string,
-  servings?: number,
-  difficulty?: string,
+  recipe_id: string;
+  name: string;
+  description: string;
+  prep_time?: string;
+  cook_time?: string;
+  servings?: number;
+  difficulty?: string;
   ingredients: Array<{
-    name: string,
-    amount?: string,
-    unit?: string,
+    name: string;
+    amount?: string;
+    unit?: string;
     notes?: string;
   }>;
-  instructions: string[],
-  meal_type: string,
+  instructions: string[];
+  meal_type: string;
   seasonal_fit: string;
 }
 
 interface SauceRecommendation {
-  sauce_name: string,
-  description: string,
-  key_ingredients?: string[],
+  sauce_name: string;
+  description: string;
+  key_ingredients?: string[];
   elemental_properties?: {
-    Fire: number,
-    Water: number,
-    Earth: number,
+    Fire: number;
+    Water: number;
+    Earth: number;
     Air: number;
   };
-  compatibility_score: number,
+  compatibility_score: number;
   reason: string;
 }
 
 interface CuisineRecommendation {
-  cuisine_id: string,
-  name: string,
-  description: string,
+  cuisine_id: string;
+  name: string;
+  description: string;
   elemental_properties: {
-    Fire: number,
-    Water: number,
-    Earth: number,
+    Fire: number;
+    Water: number;
+    Earth: number;
     Air: number;
   };
-  nested_recipes: NestedRecipe[],
-  recommended_sauces: SauceRecommendation[],
-  seasonal_context: string,
-  astrological_score: number,
+  nested_recipes: NestedRecipe[];
+  recommended_sauces: SauceRecommendation[];
+  seasonal_context: string;
+  astrological_score: number;
   compatibility_reason: string;
 }
 
 interface CuisineResponse {
-  current_moment: CurrentMoment,
-  cuisine_recommendations: CuisineRecommendation[],
+  current_moment: CurrentMoment;
+  cuisine_recommendations: CuisineRecommendation[];
   total_recommendations: number;
 }
 
 const ZODIAC_ELEMENTS = {
-  Aries: 'Fire', Taurus: 'Earth', Gemini: 'Air', Cancer: 'Water',
-  Leo: 'Fire', Virgo: 'Earth', Libra: 'Air', Scorpio: 'Water',
-  Sagittarius: 'Fire', Capricorn: 'Earth', Aquarius: 'Air', Pisces: 'Water'
+  Aries: "Fire",
+  Taurus: "Earth",
+  Gemini: "Air",
+  Cancer: "Water",
+  Leo: "Fire",
+  Virgo: "Earth",
+  Libra: "Air",
+  Scorpio: "Water",
+  Sagittarius: "Fire",
+  Capricorn: "Earth",
+  Aquarius: "Air",
+  Pisces: "Water",
 };
 
 const SEASON_ICONS = {
   Spring: FaSeedling,
   Summer: FaSun,
   Autumn: FaLeaf,
-  Winter: FaSnowflake
+  Winter: FaSnowflake,
 };
 
 const ELEMENT_ICONS = {
   Fire: FaFire,
   Water: FaWater,
   Earth: FaSeedling,
-  Air: FaWind
+  Air: FaWind,
 };
 
 const ELEMENT_COLORS = {
-  Fire: 'red',
-  Water: 'blue',
-  Earth: 'green',
-  Air: 'cyan'
+  Fire: "red",
+  Water: "blue",
+  Earth: "green",
+  Air: "cyan",
 };
 
 export const CurrentMomentCuisineRecommendations: React.FC = () => {
   const [data, setData] = useState<CuisineResponse | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
 
-  const bgColor = 'gray.50';
-  const cardBg = 'white';
+  const bgColor = "gray.50";
+  const cardBg = "white";
 
   const fetchCuisineRecommendations = useCallback(async () => {
     try {
       setLoading(true);
-      setError('');
+      setError("");
 
-      const response = await fetch('http://localhost:8101/cuisines/recommend');
+      const response = await fetch("http://localhost:8101/cuisines/recommend");
       if (!response.ok) {
-        throw new Error('Failed to fetch cuisine recommendations');
+        throw new Error("Failed to fetch cuisine recommendations");
       }
 
       const cuisineData = await response.json();
       setData(cuisineData);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load cuisine recommendations');
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to load cuisine recommendations",
+      );
     } finally {
       setLoading(false);
     }
@@ -181,16 +194,37 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
     fetchCuisineRecommendations();
   }, [fetchCuisineRecommendations]);
 
-  const getElementIcon = (element: string) => ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS] || FaStar;
-  const getElementColor = (element: string) => ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS] || 'gray'
-  const renderElementalProperties = (properties: { Fire: number, Water: number, Earth: number, Air: number }) => (
+  const getElementIcon = (element: string) =>
+    ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS] || FaStar;
+  const getElementColor = (element: string) =>
+    ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS] || "gray";
+  const renderElementalProperties = (properties: {
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+  }) => (
     <HStack spacing={2} wrap="wrap">
       {Object.entries(properties).map(([element, value]) => (
-        <Tooltip key={element} label={`${element}: ${(value * 100).toFixed(0)}%`}>
+        <Tooltip
+          key={element}
+          label={`${element}: ${(value * 100).toFixed(0)}%`}
+        >
           <HStack spacing={1}>
-            <Icon as={getElementIcon(element)} color={`${getElementColor(element)}.500`} boxSize={3} />
-            <Progress value={value * 100} size="sm" width="40px" colorScheme={getElementColor(element)} />
-            <Text fontSize="xs" fontWeight="medium">{(value * 100).toFixed(0)}%</Text>
+            <Icon
+              as={getElementIcon(element)}
+              color={`${getElementColor(element)}.500`}
+              boxSize={3}
+            />
+            <Progress
+              value={value * 100}
+              size="sm"
+              width="40px"
+              colorScheme={getElementColor(element)}
+            />
+            <Text fontSize="xs" fontWeight="medium">
+              {(value * 100).toFixed(0)}%
+            </Text>
           </HStack>
         </Tooltip>
       ))}
@@ -244,19 +278,23 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
 
           {/* Ingredients */}
           <Box>
-            <Text fontSize="sm" fontWeight="medium" mb={2}>Ingredients:</Text>
+            <Text fontSize="sm" fontWeight="medium" mb={2}>
+              Ingredients:
+            </Text>
             <ListRoot spacing={1}>
               {recipe.ingredients.slice(0, 5).map((ingredient, idx) => (
                 <ListItem key={idx} fontSize="xs">
                   <ListIndicator asChild>
                     <FaAppleAlt color="green.500" size={8} />
                   </ListIndicator>
-                  {ingredient.amount && ingredient.unit ?
-                    `${ingredient.amount} ${ingredient.unit} ${ingredient.name}` :
-                    ingredient.name
-                  }
+                  {ingredient.amount && ingredient.unit
+                    ? `${ingredient.amount} ${ingredient.unit} ${ingredient.name}`
+                    : ingredient.name}
                   {ingredient.notes && (
-                    <Text as="span" color="gray.500"> ({ingredient.notes})</Text>
+                    <Text as="span" color="gray.500">
+                      {" "}
+                      ({ingredient.notes})
+                    </Text>
                   )}
                 </ListItem>
               ))}
@@ -271,7 +309,9 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
           {/* Instructions Preview */}
           {recipe.instructions.length > 0 && (
             <Box>
-              <Text fontSize="sm" fontWeight="medium" mb={1}>Quick Steps:</Text>
+              <Text fontSize="sm" fontWeight="medium" mb={1}>
+                Quick Steps:
+              </Text>
               <ListRoot as="ol" spacing={1}>
                 {recipe.instructions.slice(0, 3).map((step, idx) => (
                   <ListItem key={idx} fontSize="xs" pl={4}>
@@ -316,7 +356,9 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
 
           {sauce.elemental_properties && (
             <Box width="100%">
-              <Text fontSize="xs" fontWeight="medium" mb={1}>Elemental Balance:</Text>
+              <Text fontSize="xs" fontWeight="medium" mb={1}>
+                Elemental Balance:
+              </Text>
               {renderElementalProperties(sauce.elemental_properties)}
             </Box>
           )}
@@ -333,9 +375,12 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
     return (
       <Box textAlign="center" py={12}>
         <Spinner size="xl" color="purple.500" mb={4} />
-        <Heading size="md" mb={2}>Consulting the Culinary Cosmos</Heading>
+        <Heading size="md" mb={2}>
+          Consulting the Culinary Cosmos
+        </Heading>
         <Text color="gray.600">
-          Analyzing current astrological influences to find your perfect cuisines...
+          Analyzing current astrological influences to find your perfect
+          cuisines...
         </Text>
       </Box>
     );
@@ -347,7 +392,9 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
         <AlertIndicator />
         <AlertContent>
           <Box>
-            <Text fontWeight="bold">Failed to load cuisine recommendations</Text>
+            <Text fontWeight="bold">
+              Failed to load cuisine recommendations
+            </Text>
             <Text fontSize="sm">{error}</Text>
             <Button size="sm" mt={2} onClick={fetchCuisineRecommendations}>
               Try Again
@@ -375,21 +422,43 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
           {/* Current Moment Display */}
           <Card bg={cardBg} shadow="md" maxW="800px" mx="auto">
             <CardBody>
-              <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} textAlign="center">
+              <SimpleGrid
+                columns={{ base: 1, md: 3 }}
+                spacing={4}
+                textAlign="center"
+              >
                 <VStack>
                   <Icon as={FaMagic} boxSize={8} color="purple.500" />
-                  <Text fontSize="sm" color="gray.600">Zodiac Sign</Text>
+                  <Text fontSize="sm" color="gray.600">
+                    Zodiac Sign
+                  </Text>
                   <Badge colorScheme="purple" fontSize="md" px={3} py={1}>
                     {data.current_moment.zodiac_sign}
                   </Badge>
                   <Text fontSize="xs" color="gray.500">
-                    {ZODIAC_ELEMENTS[data.current_moment.zodiac_sign as keyof typeof ZODIAC_ELEMENTS]} Element
+                    {
+                      ZODIAC_ELEMENTS[
+                        data.current_moment
+                          .zodiac_sign as keyof typeof ZODIAC_ELEMENTS
+                      ]
+                    }{" "}
+                    Element
                   </Text>
                 </VStack>
 
                 <VStack>
-                  <Icon as={SEASON_ICONS[data.current_moment.season as keyof typeof SEASON_ICONS] || FaLeaf} boxSize={8} color="green.500" />
-                  <Text fontSize="sm" color="gray.600">Current Season</Text>
+                  <Icon
+                    as={
+                      SEASON_ICONS[
+                        data.current_moment.season as keyof typeof SEASON_ICONS
+                      ] || FaLeaf
+                    }
+                    boxSize={8}
+                    color="green.500"
+                  />
+                  <Text fontSize="sm" color="gray.600">
+                    Current Season
+                  </Text>
                   <Badge colorScheme="green" fontSize="md" px={3} py={1}>
                     {data.current_moment.season}
                   </Badge>
@@ -400,9 +469,13 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
 
                 <VStack>
                   <Icon as={FaClock} boxSize={8} color="blue.500" />
-                  <Text fontSize="sm" color="gray.600">Analysis Time</Text>
+                  <Text fontSize="sm" color="gray.600">
+                    Analysis Time
+                  </Text>
                   <Text fontSize="sm" fontWeight="medium">
-                    {new Date(data.current_moment.timestamp).toLocaleTimeString()}
+                    {new Date(
+                      data.current_moment.timestamp,
+                    ).toLocaleTimeString()}
                   </Text>
                   <Text fontSize="xs" color="gray.500">
                     Live Astrological Data
@@ -426,8 +499,15 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                   <Flex justify="space-between" align="start" wrap="wrap">
                     <Box>
                       <Heading size="md">{cuisine.name}</Heading>
-                      <Text color="gray.600" mt={1}>{cuisine.description}</Text>
-                      <Text fontSize="sm" color="purple.600" mt={2} fontStyle="italic">
+                      <Text color="gray.600" mt={1}>
+                        {cuisine.description}
+                      </Text>
+                      <Text
+                        fontSize="sm"
+                        color="purple.600"
+                        mt={2}
+                        fontStyle="italic"
+                      >
                         {cuisine.compatibility_reason}
                       </Text>
                     </Box>
@@ -447,7 +527,9 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                   <VStack spacing={6} align="stretch">
                     {/* Elemental Properties */}
                     <Box>
-                      <Text fontSize="sm" fontWeight="medium" mb={2}>Elemental Balance:</Text>
+                      <Text fontSize="sm" fontWeight="medium" mb={2}>
+                        Elemental Balance:
+                      </Text>
                       {renderElementalProperties(cuisine.elemental_properties)}
                     </Box>
 
@@ -460,7 +542,8 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                             <HStack>
                               <Icon as={FaUtensils} color="green.500" />
                               <Text fontWeight="medium">
-                                Featured Recipes ({cuisine.nested_recipes.length})
+                                Featured Recipes (
+                                {cuisine.nested_recipes.length})
                               </Text>
                             </HStack>
                           </Box>
@@ -480,14 +563,18 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
                             <HStack>
                               <Icon as={FaPepperHot} color="red.500" />
                               <Text fontWeight="medium">
-                                Recommended Sauces ({cuisine.recommended_sauces.length})
+                                Recommended Sauces (
+                                {cuisine.recommended_sauces.length})
                               </Text>
                             </HStack>
                           </Box>
                           <AccordionItemIndicator />
                         </AccordionItemTrigger>
                         <AccordionItemContent pb={4}>
-                          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
+                          <SimpleGrid
+                            columns={{ base: 1, md: 2, lg: 3 }}
+                            spacing={4}
+                          >
                             {cuisine.recommended_sauces.map(renderSauceCard)}
                           </SimpleGrid>
                         </AccordionItemContent>

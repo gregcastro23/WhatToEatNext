@@ -18,37 +18,37 @@
 //     planetaryPositionRectificationService,
 //     rectifyCurrentPositions
 // } from '@/services/planetaryPositionRectificationService';
-import { NextResponse } from 'next/server';
-import { createLogger } from '@/utils/logger';
-import type { NextRequest} from 'next/server';
+import { NextResponse } from "next/server";
+import { createLogger } from "@/utils/logger";
+import type { NextRequest } from "next/server";
 
-const logger = createLogger('PlanetaryRectificationAPI');
+const logger = createLogger("PlanetaryRectificationAPI");
 
 // Stub implementations for removed service
 const emergencyPositionRectification = async () => ({
   success: false,
-  error: 'Service removed during external API cleanup campaign'
+  error: "Service removed during external API cleanup campaign",
 });
 
 const forcePositionSync = async () => ({
   success: false,
-  error: 'Service removed during external API cleanup campaign'
+  error: "Service removed during external API cleanup campaign",
 });
 
 const rectifyCurrentPositions = async () => ({
   success: false,
-  error: 'Service removed during external API cleanup campaign'
+  error: "Service removed during external API cleanup campaign",
 });
 
 const planetaryPositionRectificationService = {
   getRectificationStatus: () => ({
     enabled: false,
-    message: 'Service removed during external API cleanup campaign'
+    message: "Service removed during external API cleanup campaign",
   }),
   getHealthStatus: () => ({
     healthy: false,
-    message: 'Service removed during external API cleanup campaign'
-  })
+    message: "Service removed during external API cleanup campaign",
+  }),
 };
 
 /**
@@ -64,17 +64,23 @@ export async function POST(request: NextRequest) {
 
     if (date && isNaN(targetDate!.getTime())) {
       return NextResponse.json(
-        { error: 'Invalid date format. Use ISO string or omit for current time.' },
-        { status: 400 }
+        {
+          error:
+            "Invalid date format. Use ISO string or omit for current time.",
+        },
+        { status: 400 },
       );
     }
 
     logger.info(`🔧 Starting planetary position rectification`, {
       date: targetDate?.toISOString(),
-      force_sync: forceSync
+      force_sync: forceSync,
     });
 
-    const result = await planetaryPositionRectificationService.rectifyPlanetaryPositions(targetDate);
+    const result =
+      await planetaryPositionRectificationService.rectifyPlanetaryPositions(
+        targetDate,
+      );
 
     return NextResponse.json({
       success: result.success,
@@ -84,21 +90,22 @@ export async function POST(request: NextRequest) {
       errors: result.errors,
       metadata: {
         request_timestamp: new Date().toISOString(),
-        rectification_service: 'Enhanced Planetary Position Rectification with Planetary Agents',
-        version: '2.0.0',
-        planetary_agents_integration: 'enabled'
-      }
-    });
-
-  } catch (error) {
-    logger.error('❌ Planetary rectification API error:', error);
-    return NextResponse.json({
-        success: false,
-        error: 'Planetary position rectification failed',
-        message: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString()
+        rectification_service:
+          "Enhanced Planetary Position Rectification with Planetary Agents",
+        version: "2.0.0",
+        planetary_agents_integration: "enabled",
       },
-      { status: 500 }
+    });
+  } catch (error) {
+    logger.error("❌ Planetary rectification API error:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Planetary position rectification failed",
+        message: error instanceof Error ? error.message : "Unknown error",
+        timestamp: new Date().toISOString(),
+      },
+      { status: 500 },
     );
   }
 }
@@ -110,38 +117,40 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const action = searchParams.get('action');
+    const action = searchParams.get("action");
 
     switch (action) {
-      case 'status':
+      case "status":
         return handleStatusRequest();
 
-      case 'health':
+      case "health":
         return handleHealthRequest();
 
-      case 'current':
+      case "current":
         return handleCurrentRectification();
 
       default:
-        return NextResponse.json({
-            error: 'Invalid action parameter',
-            available_actions: ['status', 'health', 'current'],
+        return NextResponse.json(
+          {
+            error: "Invalid action parameter",
+            available_actions: ["status", "health", "current"],
             usage: {
-              status: '?action=status - Get rectification status',
-              health: '?action=health - Get system health check',
-              current: '?action=current - Get current rectification state'
-            }
+              status: "?action=status - Get rectification status",
+              health: "?action=health - Get system health check",
+              current: "?action=current - Get current rectification state",
+            },
           },
-          { status: 400 }
+          { status: 400 },
         );
     }
   } catch (error) {
-    logger.error('❌ Planetary rectification status API error:', error);
-    return NextResponse.json({
-        error: 'Status request failed',
-        message: error instanceof Error ? error.message : 'Unknown error'
+    logger.error("❌ Planetary rectification status API error:", error);
+    return NextResponse.json(
+      {
+        error: "Status request failed",
+        message: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -155,12 +164,12 @@ function handleStatusRequest() {
   return NextResponse.json({
     ...status,
     metadata: {
-      service: 'Enhanced Planetary Position Synchronization',
+      service: "Enhanced Planetary Position Synchronization",
       sync_interval_minutes: 5,
-      authoritative_source: 'Planetary Agents ↔ VSOP87',
-      planetary_agents_integration: 'enabled',
-      timestamp: new Date().toISOString()
-    }
+      authoritative_source: "Planetary Agents ↔ VSOP87",
+      planetary_agents_integration: "enabled",
+      timestamp: new Date().toISOString(),
+    },
   });
 }
 
@@ -173,11 +182,11 @@ async function handleHealthRequest() {
   return NextResponse.json({
     ...health,
     metadata: {
-      service: 'Enhanced Planetary Position Health Check',
+      service: "Enhanced Planetary Position Health Check",
       check_timestamp: new Date().toISOString(),
-      systems_monitored: ['VSOP87', 'WhatToEatNext', 'Planetary Agents'],
-      planetary_agents_integration: 'enabled'
-    }
+      systems_monitored: ["VSOP87", "WhatToEatNext", "Planetary Agents"],
+      planetary_agents_integration: "enabled",
+    },
   });
 }
 
@@ -191,17 +200,18 @@ async function handleCurrentRectification() {
     return NextResponse.json({
       current_rectification: result,
       metadata: {
-        service: 'Current Planetary Rectification',
+        service: "Current Planetary Rectification",
         timestamp: new Date().toISOString(),
-        authoritative_source: 'VSOP87 precision'
-      }
+        authoritative_source: "VSOP87 precision",
+      },
     });
   } catch (error) {
-    return NextResponse.json({
-        error: 'Current rectification failed',
-        message: error instanceof Error ? error.message : 'Unknown error'
+    return NextResponse.json(
+      {
+        error: "Current rectification failed",
+        message: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -218,39 +228,42 @@ export async function PUT(request: NextRequest) {
 
     if (date && isNaN(targetDate!.getTime())) {
       return NextResponse.json(
-        { error: 'Invalid date format. Use ISO string or omit for current time.' },
-        { status: 400 }
+        {
+          error:
+            "Invalid date format. Use ISO string or omit for current time.",
+        },
+        { status: 400 },
       );
     }
 
     logger.info(`🔄 Forcing planetary position synchronization`, {
-      date: targetDate?.toISOString()
+      date: targetDate?.toISOString(),
     });
 
     const result = await forcePositionSync(targetDate);
 
     return NextResponse.json({
       success: result.success,
-      message: 'Enhanced forced synchronization completed',
+      message: "Enhanced forced synchronization completed",
       synchronized_positions: result.synchronized_positions,
       rectification_report: result.rectification_report,
       planetary_agents_sync_status: result.planetary_agents_sync_status,
       errors: result.errors,
       metadata: {
-        sync_type: 'forced',
-        planetary_agents_integration: 'enabled',
-        timestamp: new Date().toISOString()
-      }
-    });
-
-  } catch (error) {
-    logger.error('❌ Force sync API error:', error);
-    return NextResponse.json({
-        success: false,
-        error: 'Force synchronization failed',
-        message: error instanceof Error ? error.message : 'Unknown error'
+        sync_type: "forced",
+        planetary_agents_integration: "enabled",
+        timestamp: new Date().toISOString(),
       },
-      { status: 500 }
+    });
+  } catch (error) {
+    logger.error("❌ Force sync API error:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Force synchronization failed",
+        message: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
     );
   }
 }
@@ -261,30 +274,36 @@ export async function PUT(request: NextRequest) {
  */
 export async function PATCH() {
   try {
-    logger.warn('🚨 EMERGENCY: API endpoint called for emergency planetary rectification');
+    logger.warn(
+      "🚨 EMERGENCY: API endpoint called for emergency planetary rectification",
+    );
 
     const result = await emergencyPositionRectification();
 
     const statusCode = result.success ? 200 : 500;
 
-    return NextResponse.json({
-      emergency_rectification: result,
-      metadata: {
-        emergency_protocol: 'activated',
-        timestamp: new Date().toISOString(),
-        authoritative_source: 'VSOP87 emergency override'
-      }
-    }, { status: statusCode });
-
-  } catch (error) {
-    logger.error('🚨 EMERGENCY rectification API failed:', error);
-    return NextResponse.json({
-        success: false,
-        error: 'Emergency rectification failed',
-        message: error instanceof Error ? error.message : 'Critical system error',
-        emergency_status: 'FAILED'
+    return NextResponse.json(
+      {
+        emergency_rectification: result,
+        metadata: {
+          emergency_protocol: "activated",
+          timestamp: new Date().toISOString(),
+          authoritative_source: "VSOP87 emergency override",
+        },
       },
-      { status: 500 }
+      { status: statusCode },
+    );
+  } catch (error) {
+    logger.error("🚨 EMERGENCY rectification API failed:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Emergency rectification failed",
+        message:
+          error instanceof Error ? error.message : "Critical system error",
+        emergency_status: "FAILED",
+      },
+      { status: 500 },
     );
   }
 }
@@ -297,23 +316,23 @@ export async function DELETE() {
   try {
     // Note: This would need to be implemented in the service
     // For now, we'll return a placeholder response
-    logger.info('🗑️ Cache clear requested (functionality to be implemented)');
+    logger.info("🗑️ Cache clear requested (functionality to be implemented)");
 
     return NextResponse.json({
       success: true,
-      message: 'Cache clear functionality not yet implemented',
-      note: 'Use force sync instead for fresh calculations',
-      timestamp: new Date().toISOString()
+      message: "Cache clear functionality not yet implemented",
+      note: "Use force sync instead for fresh calculations",
+      timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
-    logger.error('❌ Cache clear API error:', error);
-    return NextResponse.json({
+    logger.error("❌ Cache clear API error:", error);
+    return NextResponse.json(
+      {
         success: false,
-        error: 'Cache clear failed',
-        message: error instanceof Error ? error.message : 'Unknown error'
+        error: "Cache clear failed",
+        message: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

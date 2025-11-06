@@ -75,7 +75,9 @@ yarn tsc --noEmit --skipLibCheck 2>&1 | grep "CampaignSystemMocks" | head -10
 // Pattern 1: Duplicate identifier resolution
 export class MockCampaignController {
   private _isPaused: boolean = false;
-  get isPaused() { return this._isPaused; }
+  get isPaused() {
+    return this._isPaused;
+  }
 }
 
 // Pattern 2: Private property access fix

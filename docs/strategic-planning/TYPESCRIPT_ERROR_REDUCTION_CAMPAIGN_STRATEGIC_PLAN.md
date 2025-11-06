@@ -91,13 +91,13 @@ errors total) **Success Probability:** 85% (utility function patterns available)
 const value = (obj as unknown as Record<string, unknown>)?.property;
 
 // ✅ SAFE: Optional chaining with type guards
-if (obj && typeof obj === 'object' && 'property' in obj) {
+if (obj && typeof obj === "object" && "property" in obj) {
   const value = obj.property;
 }
 
 // ✅ SAFE: Array validation
 if (Array.isArray(data) && data.length > 0) {
-  data.forEach(item => processItem(item));
+  data.forEach((item) => processItem(item));
 }
 ```
 
@@ -105,20 +105,20 @@ if (Array.isArray(data) && data.length > 0) {
 
 ```typescript
 // ✅ SAFE: Unknown-first conversion
-const converted = (data as unknown) as TargetType;
+const converted = data as unknown as TargetType;
 
 // ✅ SAFE: Interface compliance
 const typedData = {
   ...data,
-  requiredProperty: data.requiredProperty || defaultValue
+  requiredProperty: data.requiredProperty || defaultValue,
 } as TargetInterface;
 
 // ✅ SAFE: Function parameter conversion
 function processData(data: unknown): ProcessedData {
-  const typed = (data as unknown) as Record<string, unknown>;
+  const typed = data as unknown as Record<string, unknown>;
   return {
-    id: String(typed.id || ''),
-    value: Number(typed.value) || 0
+    id: String(typed.id || ""),
+    value: Number(typed.value) || 0,
   };
 }
 ```
@@ -130,14 +130,14 @@ function processData(data: unknown): ProcessedData {
 const state: AstrologicalState = {
   ...baseState,
   planetaryHour: planetaryHour as Planet,
-  aspects: Array.isArray(aspects) ? aspects : []
+  aspects: Array.isArray(aspects) ? aspects : [],
 };
 
 // ✅ SAFE: Union type handling
 const element: ElementType =
-  typeof input === 'string' && ['Fire', 'Water', 'Earth', 'Air'].includes(input)
-    ? input as ElementType
-    : 'Fire'; // Default fallback
+  typeof input === "string" && ["Fire", "Water", "Earth", "Air"].includes(input)
+    ? (input as ElementType)
+    : "Fire"; // Default fallback
 ```
 
 ### Pattern 4: TS2345 Argument Type Safety (88 errors)
@@ -145,21 +145,21 @@ const element: ElementType =
 ```typescript
 // ✅ SAFE: Parameter validation
 function processRecipe(recipe: unknown): Recipe {
-  if (!recipe || typeof recipe !== 'object') {
-    throw new Error('Invalid recipe data');
+  if (!recipe || typeof recipe !== "object") {
+    throw new Error("Invalid recipe data");
   }
 
   const typed = recipe as Record<string, unknown>;
   return {
-    id: String(typed.id || ''),
-    name: String(typed.name || ''),
-    ingredients: Array.isArray(typed.ingredients) ? typed.ingredients : []
+    id: String(typed.id || ""),
+    name: String(typed.name || ""),
+    ingredients: Array.isArray(typed.ingredients) ? typed.ingredients : [],
   };
 }
 
 // ✅ SAFE: Array parameter handling
 function processArray<T>(data: unknown): T[] {
-  return Array.isArray(data) ? data as T[] : [];
+  return Array.isArray(data) ? (data as T[]) : [];
 }
 ```
 
@@ -167,13 +167,13 @@ function processArray<T>(data: unknown): T[] {
 
 ```typescript
 // ✅ SAFE: Function existence check
-if (typeof obj.method === 'function') {
+if (typeof obj.method === "function") {
   return obj.method(params);
 }
 
 // ✅ SAFE: Dynamic import handling
-const module = await import('./module');
-if (module && typeof module.default === 'function') {
+const module = await import("./module");
+if (module && typeof module.default === "function") {
   return module.default(params);
 }
 ```

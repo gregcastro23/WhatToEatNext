@@ -1,13 +1,13 @@
 // Type imports
-import { signs } from '@/data/astrology';
-import type { ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
-import type { ZodiacSign } from '@/types/unified';
+import { signs } from "@/data/astrology";
+import type { ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
+import type { ZodiacSign } from "@/types/unified";
 
 // Internal imports
-import { createLogger } from '@/utils/logger';
+import { createLogger } from "@/utils/logger";
 
 // Logger
-const logger = createLogger('EnhancedAlchemicalMatching');
+const logger = createLogger("EnhancedAlchemicalMatching");
 
 /**
  * Calculate astrological affinity between two signs
@@ -22,9 +22,11 @@ const logger = createLogger('EnhancedAlchemicalMatching');
  * @param planets Optional planetary positions for more accurate calculations
  * @returns Numeric score between 0-1 representing astrological affinity
  */
-export function calculateAstrologicalAffinity(signA: ZodiacSign,
+export function calculateAstrologicalAffinity(
+  signA: ZodiacSign,
   signB: ZodiacSign,
-  _planets?: Record<string, PlanetaryPosition>): number {
+  _planets?: Record<string, PlanetaryPosition>,
+): number {
   try {
     // Base elemental compatibility
     const elementA = signs[signA]?.Element;
@@ -44,7 +46,12 @@ export function calculateAstrologicalAffinity(signA: ZodiacSign,
         // Same element - apply modality affinity if available
         if (modalityA && modalityB) {
           // Apply element-modality natural affinity boost
-          const modalityCompatibility = compareModalities(modalityA, modalityB, elementA, elementB);
+          const modalityCompatibility = compareModalities(
+            modalityA,
+            modalityB,
+            elementA,
+            elementB,
+          );
           baseScore = 0.6 + modalityCompatibility * 0.3; // Scale between 0.6-0.9
         } else {
           baseScore = 0.8; // Default same element without modality info
@@ -56,23 +63,34 @@ export function calculateAstrologicalAffinity(signA: ZodiacSign,
     }
 
     // Calculate decanic compatibility
-    const decanCompat = compareDecanRulers(signs[signA]?.['Decan Effects'] || {},
-      signs[signB]?.['Decan Effects'] || {});
+    const decanCompat = compareDecanRulers(
+      signs[signA]?.["Decan Effects"] || {},
+      signs[signB]?.["Decan Effects"] || {},
+    );
 
     // Calculate degree-specific influences
-    const degreeCompat = calculateDegreeOverlap(signs[signA]?.['Degree Effects'] || {},
-      signs[signB]?.['Degree Effects'] || {});
+    const degreeCompat = calculateDegreeOverlap(
+      signs[signA]?.["Degree Effects"] || {},
+      signs[signB]?.["Degree Effects"] || {},
+    );
 
     // Calculate tarot correspondences influence
-    const tarotCompat = compareTarotArcana(signs[signA]?.['Major Tarot Card'] || '',
-      signs[signB]?.['Major Tarot Card'] || '');
+    const tarotCompat = compareTarotArcana(
+      signs[signA]?.["Major Tarot Card"] || "",
+      signs[signB]?.["Major Tarot Card"] || "",
+    );
 
     // Calculate modality compatibility with elements
     const modalityCompat =
-      modalityA && modalityB ? compareModalities(modalityA, modalityB, elementA, elementB) : 0.5;
+      modalityA && modalityB
+        ? compareModalities(modalityA, modalityB, elementA, elementB)
+        : 0.5;
 
     // Calculate rulership compatibility
-    const rulerCompat = compareRulers(signs[signA]?.Ruler || '', signs[signB]?.Ruler || '');
+    const rulerCompat = compareRulers(
+      signs[signA]?.Ruler || "",
+      signs[signB]?.Ruler || "",
+    );
 
     // Weight components based on their relative importance
     return (
@@ -84,10 +102,10 @@ export function calculateAstrologicalAffinity(signA: ZodiacSign,
       tarotCompat * 0.05 // Tarot correspondences (5%)
     );
   } catch (error) {
-    logger.error('Error calculating astrological affinity:', {
+    logger.error("Error calculating astrological affinity:", {
       signA,
       signB,
-      error: error instanceof Error ? error.message : String(error)
+      error: error instanceof Error ? error.message : String(error),
     });
     return 0.5; // Return neutral score on error
   }
@@ -96,14 +114,16 @@ export function calculateAstrologicalAffinity(signA: ZodiacSign,
 /**
  * Compare decanic rulers between two signs for compatibility
  */
-function compareDecanRulers(decanA: Record<string, unknown>,
-  decanB: Record<string, unknown>): number {
+function compareDecanRulers(
+  decanA: Record<string, unknown>,
+  decanB: Record<string, unknown>,
+): number {
   try {
     // Simple implementation - can be expanded
     return 0.5; // Neutral compatibility
   } catch (error) {
-    logger.error('Error comparing decan rulers:', {
-      error: error instanceof Error ? error.message : String(error)
+    logger.error("Error comparing decan rulers:", {
+      error: error instanceof Error ? error.message : String(error),
     });
     return 0.5;
   }
@@ -112,14 +132,16 @@ function compareDecanRulers(decanA: Record<string, unknown>,
 /**
  * Calculate degree overlap between two signs
  */
-function calculateDegreeOverlap(degreeA: Record<string, unknown>,
-  degreeB: Record<string, unknown>): number {
+function calculateDegreeOverlap(
+  degreeA: Record<string, unknown>,
+  degreeB: Record<string, unknown>,
+): number {
   try {
     // Simple implementation - can be expanded
     return 0.5; // Neutral compatibility
   } catch (error) {
-    logger.error('Error calculating degree overlap:', {
-      error: error instanceof Error ? error.message : String(error)
+    logger.error("Error calculating degree overlap:", {
+      error: error instanceof Error ? error.message : String(error),
     });
     return 0.5;
   }
@@ -136,8 +158,8 @@ function compareTarotArcana(cardA: string, cardB: string): number {
     }
     return 0.5; // Neutral compatibility
   } catch (error) {
-    logger.error('Error comparing tarot arcana:', {
-      error: error instanceof Error ? error.message : String(error)
+    logger.error("Error comparing tarot arcana:", {
+      error: error instanceof Error ? error.message : String(error),
     });
     return 0.5;
   }
@@ -146,10 +168,12 @@ function compareTarotArcana(cardA: string, cardB: string): number {
 /**
  * Compare modalities with element context
  */
-function compareModalities(modalityA: string,
+function compareModalities(
+  modalityA: string,
   modalityB: string,
   elementA: string,
-  elementB: string): number {
+  elementB: string,
+): number {
   try {
     // Same modality = higher compatibility
     if (modalityA === modalityB) {
@@ -159,8 +183,8 @@ function compareModalities(modalityA: string,
     // Different modalities = lower compatibility
     return 0.4;
   } catch (error) {
-    logger.error('Error comparing modalities:', {
-      error: error instanceof Error ? error.message : String(error)
+    logger.error("Error comparing modalities:", {
+      error: error instanceof Error ? error.message : String(error),
     });
     return 0.5;
   }
@@ -179,8 +203,8 @@ function compareRulers(rulerA: string, rulerB: string): number {
     // Different rulers = neutral compatibility
     return 0.5;
   } catch (error) {
-    logger.error('Error comparing rulers:', {
-      error: error instanceof Error ? error.message : String(error)
+    logger.error("Error comparing rulers:", {
+      error: error instanceof Error ? error.message : String(error),
     });
     return 0.5;
   }
@@ -189,14 +213,16 @@ function compareRulers(rulerA: string, rulerB: string): number {
 /**
  * Calculate enhanced elemental matching between recipe and current state
  */
-export function calculateEnhancedElementalMatch(recipeElements: ElementalProperties,
-  currentElements: ElementalProperties): number {
+export function calculateEnhancedElementalMatch(
+  recipeElements: ElementalProperties,
+  currentElements: ElementalProperties,
+): number {
   try {
     let totalScore = 0;
     let elementCount = 0;
 
     // Compare each element
-    (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
+    (["Fire", "Water", "Earth", "Air"] as const).forEach((element) => {
       const recipeValue = recipeElements[element] || 0;
       const currentValue = currentElements[element] || 0;
 
@@ -210,8 +236,8 @@ export function calculateEnhancedElementalMatch(recipeElements: ElementalPropert
 
     return elementCount > 0 ? totalScore / elementCount : 0.5;
   } catch (error) {
-    logger.error('Error calculating enhanced elemental match:', {
-      error: error instanceof Error ? error.message : String(error)
+    logger.error("Error calculating enhanced elemental match:", {
+      error: error instanceof Error ? error.message : String(error),
     });
     return 0.5;
   }
@@ -220,12 +246,17 @@ export function calculateEnhancedElementalMatch(recipeElements: ElementalPropert
 /**
  * Calculate overall alchemical compatibility score
  */
-export function calculateAlchemicalCompatibility(recipeElements: ElementalProperties,
+export function calculateAlchemicalCompatibility(
+  recipeElements: ElementalProperties,
   astrologicalSign: ZodiacSign,
-  currentElements: ElementalProperties): number {
+  currentElements: ElementalProperties,
+): number {
   try {
     // Elemental matching (40% weight)
-    const elementalScore = calculateEnhancedElementalMatch(recipeElements, currentElements);
+    const elementalScore = calculateEnhancedElementalMatch(
+      recipeElements,
+      currentElements,
+    );
 
     // Astrological affinity (30% weight) - simplified
     const astrologicalScore = 0.5; // Could be expanded
@@ -237,11 +268,14 @@ export function calculateAlchemicalCompatibility(recipeElements: ElementalProper
     const planetaryScore = 0.5; // Could be expanded
 
     return (
-      elementalScore * 0.4 + astrologicalScore * 0.3 + seasonalScore * 0.2 + planetaryScore * 0.1
+      elementalScore * 0.4 +
+      astrologicalScore * 0.3 +
+      seasonalScore * 0.2 +
+      planetaryScore * 0.1
     );
   } catch (error) {
-    logger.error('Error calculating alchemical compatibility:', {
-      error: error instanceof Error ? error.message : String(error)
+    logger.error("Error calculating alchemical compatibility:", {
+      error: error instanceof Error ? error.message : String(error),
     });
     return 0.5;
   }

@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
+const fs = require("fs");
 
-const filePath = 'src/pages/cuisines/index.tsx';
+const filePath = "src/pages/cuisines/index.tsx";
 
 // Read the file
-let content = fs.readFileSync(filePath, 'utf8');
+let content = fs.readFileSync(filePath, "utf8");
 
 // Simple fix: just add null check to the filter
 content = content.replace(
@@ -16,4 +16,4 @@ content = content.replace(
 // Write the fixed content back
 fs.writeFileSync(filePath, content);
 
-console.log('✅ Fixed cuisines page with simple null check');
+console.log("✅ Fixed cuisines page with simple null check");

@@ -119,16 +119,18 @@ Astrologize API → Swiss Ephemeris → Minimal Fallback
 
 ```typescript
 // Main scoring function
-export async function scoreRecommendation(context: ScoringContext): Promise<ScoringResult>
+export async function scoreRecommendation(
+  context: ScoringContext,
+): Promise<ScoringResult>;
 
 // Modular effect functions
-export function calculateTransitEffect(astroData, context): number
-export function calculateDignityEffect(astroData, context): number
+export function calculateTransitEffect(astroData, context): number;
+export function calculateDignityEffect(astroData, context): number;
 // ... 11 more effect functions
 
 // Singleton service
 export class UnifiedScoringService {
-  public async scoreRecommendation(context): Promise<ScoringResult>
+  public async scoreRecommendation(context): Promise<ScoringResult>;
 }
 ```
 
@@ -144,12 +146,12 @@ interface ScoringContext {
 }
 
 interface ScoringResult {
-  score: number;              // 0-1 final score
-  confidence: number;         // 0-1 confidence level
+  score: number; // 0-1 final score
+  confidence: number; // 0-1 confidence level
   breakdown: ScoringBreakdown; // Individual effect scores
-  sources: string[];          // Data sources used
-  notes: string[];           // Explanatory notes
-  metadata: ResultMetadata;   // Timestamp, warnings, etc.
+  sources: string[]; // Data sources used
+  notes: string[]; // Explanatory notes
+  metadata: ResultMetadata; // Timestamp, warnings, etc.
 }
 ```
 
@@ -231,17 +233,17 @@ interface ScoringResult {
 ### Basic Usage
 
 ```typescript
-import { scoreRecommendation } from './UnifiedScoringService';
+import { scoreRecommendation } from "./UnifiedScoringService";
 
 const result = await scoreRecommendation({
   dateTime: new Date(),
-  location: { latitude: 40.7128, longitude: -74.0060 },
+  location: { latitude: 40.7128, longitude: -74.006 },
   item: {
-    name: 'Basil',
-    type: 'ingredient',
+    name: "Basil",
+    type: "ingredient",
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.2, Air: 0.4 },
-    planetaryRulers: ['Mercury', 'Mars']
-  }
+    planetaryRulers: ["Mercury", "Mars"],
+  },
 });
 
 console.log(`Score: ${result.score} (${result.confidence} confidence)`);

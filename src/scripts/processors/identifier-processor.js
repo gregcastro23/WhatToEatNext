@@ -9,9 +9,9 @@
  * Pattern: Incomplete property access, empty identifiers
  */
 
-import fs from 'fs';
-import path from 'path';
-import { execSync } from 'child_process';
+import fs from "fs";
+import path from "path";
+import { execSync } from "child_process";
 
 class TS1003Processor {
   constructor() {
@@ -19,15 +19,15 @@ class TS1003Processor {
   }
 
   async process(dryRun = true) {
-    console.log(`\n${'='.repeat(60)}`);
+    console.log(`\n${"=".repeat(60)}`);
     console.log(`🔧 TS1003 Processor - Identifier Expected`);
-    console.log(`Mode: ${dryRun ? 'DRY RUN' : 'LIVE'}`);
-    console.log('='.repeat(60));
+    console.log(`Mode: ${dryRun ? "DRY RUN" : "LIVE"}`);
+    console.log("=".repeat(60));
 
     const errors = await this.getErrors();
 
     if (errors.length === 0) {
-      console.log('✅ No TS1003 errors found!');
+      console.log("✅ No TS1003 errors found!");
       return { filesProcessed: 0, errorsFixed: 0 };
     }
 
@@ -51,20 +51,23 @@ class TS1003Processor {
   }
 
   async getErrors() {
-    const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-      cwd: this.projectRoot,
-      encoding: 'utf8',
-      maxBuffer: 50 * 1024 * 1024
-    });
+    const tscOutput = execSync(
+      "yarn tsc --noEmit --skipLibCheck 2>&1 || true",
+      {
+        cwd: this.projectRoot,
+        encoding: "utf8",
+        maxBuffer: 50 * 1024 * 1024,
+      },
+    );
 
     const errors = [];
-    for (const line of tscOutput.split('\n')) {
+    for (const line of tscOutput.split("\n")) {
       const match = line.match(/^(.+?)\((\d+),(\d+)\): error TS1003:/);
       if (match) {
         errors.push({
           filePath: path.resolve(this.projectRoot, match[1]),
           line: parseInt(match[2]),
-          column: parseInt(match[3])
+          column: parseInt(match[3]),
         });
       }
     }
@@ -81,8 +84,8 @@ class TS1003Processor {
   }
 
   async fixFileErrors(filePath, errors, dryRun) {
-    const content = fs.readFileSync(filePath, 'utf8');
-    const lines = content.split('\n');
+    const content = fs.readFileSync(filePath, "utf8");
+    const lines = content.split("\n");
     let fixedCount = 0;
 
     for (const error of errors.sort((a, b) => b.line - a.line)) {
@@ -92,16 +95,16 @@ class TS1003Processor {
       const line = lines[lineIndex];
       // Fix incomplete property access (e.g., "obj." or "obj[")
       if (/\.\s*$/.test(line)) {
-        lines[lineIndex] = line.replace(/\.\s*$/, '');
+        lines[lineIndex] = line.replace(/\.\s*$/, "");
         fixedCount++;
       } else if (/\[\s*$/.test(line)) {
-        lines[lineIndex] = line.replace(/\[\s*$/, '');
+        lines[lineIndex] = line.replace(/\[\s*$/, "");
         fixedCount++;
       }
     }
 
     if (!dryRun && fixedCount > 0) {
-      fs.writeFileSync(filePath, lines.join('\n'));
+      fs.writeFileSync(filePath, lines.join("\n"));
     }
 
     return fixedCount;
@@ -109,7 +112,7 @@ class TS1003Processor {
 
   async getFilesWithErrors() {
     const errors = await this.getErrors();
-    return [...new Set(errors.map(e => e.filePath))];
+    return [...new Set(errors.map((e) => e.filePath))];
   }
 }
 

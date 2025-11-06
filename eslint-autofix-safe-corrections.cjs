@@ -14,9 +14,9 @@
  * - Domain-aware pattern preservation
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 class ESLintAutoFixProcessor {
   constructor() {
@@ -24,11 +24,11 @@ class ESLintAutoFixProcessor {
     this.fixedFiles = 0;
     this.errors = [];
     this.batchSize = 25; // Process files in batches
-    this.logFile = 'eslint-autofix-progress.log';
-    this.backupDir = '.eslint-autofix-backup';
+    this.logFile = "eslint-autofix-progress.log";
+    this.backupDir = ".eslint-autofix-backup";
 
     // Initialize logging
-    this.log('ESLint Auto-Fix Safe Corrections Started');
+    this.log("ESLint Auto-Fix Safe Corrections Started");
     this.log(`Batch size: ${this.batchSize} files`);
   }
 
@@ -36,28 +36,31 @@ class ESLintAutoFixProcessor {
     const timestamp = new Date().toISOString();
     const logMessage = `[${timestamp}] ${message}`;
     console.log(logMessage);
-    fs.appendFileSync(this.logFile, logMessage + '\n');
+    fs.appendFileSync(this.logFile, logMessage + "\n");
   }
 
   async getAutoFixableFiles() {
     try {
-      this.log('Identifying auto-fixable files...');
+      this.log("Identifying auto-fixable files...");
 
       // Get files with auto-fixable issues
-      const output = execSync('yarn lint --fix-dry-run --format=json 2>/dev/null', {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024 // 10MB buffer
-      });
+      const output = execSync(
+        "yarn lint --fix-dry-run --format=json 2>/dev/null",
+        {
+          encoding: "utf8",
+          maxBuffer: 10 * 1024 * 1024, // 10MB buffer
+        },
+      );
 
       const results = JSON.parse(output);
       const fixableFiles = results
-        .filter(result => result.output && result.output !== result.source)
-        .map(result => ({
+        .filter((result) => result.output && result.output !== result.source)
+        .map((result) => ({
           filePath: result.filePath,
           errorCount: result.errorCount,
           warningCount: result.warningCount,
           fixableErrorCount: result.fixableErrorCount,
-          fixableWarningCount: result.fixableWarningCount
+          fixableWarningCount: result.fixableWarningCount,
         }));
 
       this.log(`Found ${fixableFiles.length} files with auto-fixable issues`);
@@ -110,14 +113,14 @@ class ESLintAutoFixProcessor {
 
   async applyAutoFixes(files) {
     try {
-      const filePaths = files.map(f => f.filePath).join(' ');
+      const filePaths = files.map((f) => f.filePath).join(" ");
 
       this.log(`Applying auto-fixes to ${files.length} files...`);
 
       // Apply fixes using ESLint
       execSync(`yarn lint --fix ${filePaths}`, {
-        encoding: 'utf8',
-        stdio: 'pipe'
+        encoding: "utf8",
+        stdio: "pipe",
       });
 
       this.log(`Auto-fixes applied successfully to ${files.length} files`);
@@ -130,15 +133,15 @@ class ESLintAutoFixProcessor {
 
   async validateBuild() {
     try {
-      this.log('Validating build after auto-fixes...');
+      this.log("Validating build after auto-fixes...");
 
       // Check TypeScript compilation
-      execSync('yarn tsc --noEmit --skipLibCheck', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      execSync("yarn tsc --noEmit --skipLibCheck", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
 
-      this.log('Build validation successful');
+      this.log("Build validation successful");
       return true;
     } catch (error) {
       this.log(`Build validation failed: ${error.message}`);
@@ -148,18 +151,26 @@ class ESLintAutoFixProcessor {
 
   async validateLinting() {
     try {
-      this.log('Validating linting status...');
+      this.log("Validating linting status...");
 
-      const output = execSync('yarn lint --format=json 2>/dev/null', {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
+      const output = execSync("yarn lint --format=json 2>/dev/null", {
+        encoding: "utf8",
+        maxBuffer: 10 * 1024 * 1024,
       });
 
       const results = JSON.parse(output);
-      const totalErrors = results.reduce((sum, result) => sum + result.errorCount, 0);
-      const totalWarnings = results.reduce((sum, result) => sum + result.warningCount, 0);
+      const totalErrors = results.reduce(
+        (sum, result) => sum + result.errorCount,
+        0,
+      );
+      const totalWarnings = results.reduce(
+        (sum, result) => sum + result.warningCount,
+        0,
+      );
 
-      this.log(`Current linting status: ${totalErrors} errors, ${totalWarnings} warnings`);
+      this.log(
+        `Current linting status: ${totalErrors} errors, ${totalWarnings} warnings`,
+      );
       return { errors: totalErrors, warnings: totalWarnings };
     } catch (error) {
       this.log(`Error validating linting: ${error.message}`);
@@ -193,7 +204,7 @@ class ESLintAutoFixProcessor {
       };
 
       restoreFiles(backupDir, backupDir);
-      this.log('Backup restored successfully');
+      this.log("Backup restored successfully");
       return true;
     } catch (error) {
       this.log(`Error restoring backup: ${error.message}`);
@@ -215,7 +226,7 @@ class ESLintAutoFixProcessor {
       // Validate build
       const buildValid = await this.validateBuild();
       if (!buildValid) {
-        this.log('Build validation failed, restoring backup...');
+        this.log("Build validation failed, restoring backup...");
         this.restoreBackup(backupDir);
         return false;
       }
@@ -236,13 +247,15 @@ class ESLintAutoFixProcessor {
     const fixableFiles = await this.getAutoFixableFiles();
 
     if (fixableFiles.length === 0) {
-      this.log('No auto-fixable files found');
+      this.log("No auto-fixable files found");
       return;
     }
 
     // Get initial linting status
     const initialStatus = await this.validateLinting();
-    this.log(`Initial status: ${initialStatus?.errors || 'unknown'} errors, ${initialStatus?.warnings || 'unknown'} warnings`);
+    this.log(
+      `Initial status: ${initialStatus?.errors || "unknown"} errors, ${initialStatus?.warnings || "unknown"} warnings`,
+    );
 
     // Process files in batches
     for (let i = 0; i < fixableFiles.length; i += this.batchSize) {
@@ -250,7 +263,9 @@ class ESLintAutoFixProcessor {
       const batchNum = Math.floor(i / this.batchSize) + 1;
       const totalBatches = Math.ceil(fixableFiles.length / this.batchSize);
 
-      this.log(`Processing batch ${batchNum}/${totalBatches} (${batch.length} files)`);
+      this.log(
+        `Processing batch ${batchNum}/${totalBatches} (${batch.length} files)`,
+      );
 
       const success = await this.processBatch(batch);
       if (!success) {
@@ -261,20 +276,29 @@ class ESLintAutoFixProcessor {
       this.processedFiles += batch.length;
 
       // Progress update
-      const progress = ((i + batch.length) / fixableFiles.length * 100).toFixed(1);
-      this.log(`Progress: ${progress}% (${this.processedFiles}/${fixableFiles.length} files)`);
+      const progress = (
+        ((i + batch.length) / fixableFiles.length) *
+        100
+      ).toFixed(1);
+      this.log(
+        `Progress: ${progress}% (${this.processedFiles}/${fixableFiles.length} files)`,
+      );
     }
 
     // Get final linting status
     const finalStatus = await this.validateLinting();
-    this.log(`Final status: ${finalStatus?.errors || 'unknown'} errors, ${finalStatus?.warnings || 'unknown'} warnings`);
+    this.log(
+      `Final status: ${finalStatus?.errors || "unknown"} errors, ${finalStatus?.warnings || "unknown"} warnings`,
+    );
 
     // Calculate improvements
     if (initialStatus && finalStatus) {
       const errorReduction = initialStatus.errors - finalStatus.errors;
       const warningReduction = initialStatus.warnings - finalStatus.warnings;
 
-      this.log(`Improvements: ${errorReduction} errors fixed, ${warningReduction} warnings fixed`);
+      this.log(
+        `Improvements: ${errorReduction} errors fixed, ${warningReduction} warnings fixed`,
+      );
     }
   }
 
@@ -284,17 +308,20 @@ class ESLintAutoFixProcessor {
       processedFiles: this.processedFiles,
       fixedFiles: this.fixedFiles,
       errors: this.errors,
-      success: this.errors.length === 0
+      success: this.errors.length === 0,
     };
 
-    fs.writeFileSync('eslint-autofix-report.json', JSON.stringify(report, null, 2));
+    fs.writeFileSync(
+      "eslint-autofix-report.json",
+      JSON.stringify(report, null, 2),
+    );
 
-    this.log('='.repeat(60));
-    this.log('ESLint Auto-Fix Safe Corrections Completed');
+    this.log("=".repeat(60));
+    this.log("ESLint Auto-Fix Safe Corrections Completed");
     this.log(`Files processed: ${this.processedFiles}`);
     this.log(`Files fixed: ${this.fixedFiles}`);
     this.log(`Errors encountered: ${this.errors.length}`);
-    this.log('='.repeat(60));
+    this.log("=".repeat(60));
 
     return report;
   }

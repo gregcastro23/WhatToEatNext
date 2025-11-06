@@ -10,7 +10,7 @@
  * Also tests local API routes that proxy to these endpoints.
  */
 
-import fetch from 'node-fetch';
+import fetch from "node-fetch";
 
 // Configuration
 const TIMEOUT = 15000; // 15 seconds for external APIs (they can be slow)
@@ -19,13 +19,13 @@ const LOCAL_TIMEOUT = 5000; // 5 seconds for local APIs
 // Test endpoints
 const ENDPOINTS = {
   external: {
-    base: 'https://alchm-backend.onrender.com',
-    astrologize: 'https://alchm-backend.onrender.com/astrologize',
-    alchemize: 'https://alchm-backend.onrender.com/alchemize',
+    base: "https://alchm-backend.onrender.com",
+    astrologize: "https://alchm-backend.onrender.com/astrologize",
+    alchemize: "https://alchm-backend.onrender.com/alchemize",
   },
   local: {
-    astrologize: 'http://localhost:3000/api/astrologize',
-    alchemize: 'http://localhost:3000/api/alchemize',
+    astrologize: "http://localhost:3000/api/astrologize",
+    alchemize: "http://localhost:3000/api/alchemize",
   },
 };
 
@@ -38,7 +38,7 @@ const ASTROLOGIZE_PAYLOAD = {
   minute: 0,
   latitude: 40.7498,
   longitude: -73.7976,
-  ayanamsa: 'TROPICAL',
+  ayanamsa: "TROPICAL",
 };
 
 const ALCHEMIZE_PAYLOAD = {
@@ -49,7 +49,7 @@ const ALCHEMIZE_PAYLOAD = {
   minute: 0,
   latitude: 40.7498,
   longitude: -73.7976,
-  zodiacSystem: 'tropical',
+  zodiacSystem: "tropical",
 };
 
 // Utility functions
@@ -60,11 +60,11 @@ function createTimeout(ms) {
 }
 
 async function testEndpoint(name, url, options = {}) {
-  const { method = 'GET', body = null, timeout = TIMEOUT } = options;
+  const { method = "GET", body = null, timeout = TIMEOUT } = options;
 
   console.log(`\n🧪 Testing ${name}`);
   console.log(`   ${method} ${url}`);
-  console.log('   ' + '='.repeat(60));
+  console.log("   " + "=".repeat(60));
 
   const startTime = Date.now();
 
@@ -72,8 +72,8 @@ async function testEndpoint(name, url, options = {}) {
     const fetchOptions = {
       method,
       headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': 'WhatToEatNext-Test/1.0',
+        "Content-Type": "application/json",
+        "User-Agent": "WhatToEatNext-Test/1.0",
       },
     };
 
@@ -81,7 +81,10 @@ async function testEndpoint(name, url, options = {}) {
       fetchOptions.body = JSON.stringify(body);
     }
 
-    const response = await Promise.race([fetch(url, fetchOptions), createTimeout(timeout)]);
+    const response = await Promise.race([
+      fetch(url, fetchOptions),
+      createTimeout(timeout),
+    ]);
 
     const duration = Date.now() - startTime;
     const statusCode = response.status;
@@ -91,21 +94,21 @@ async function testEndpoint(name, url, options = {}) {
 
     if (response.ok) {
       let data;
-      const contentType = response.headers.get('content-type');
+      const contentType = response.headers.get("content-type");
 
-      if (contentType && contentType.includes('application/json')) {
+      if (contentType && contentType.includes("application/json")) {
         try {
           data = await response.json();
           console.log(`   ✅ SUCCESS - JSON response received`);
 
           // Basic validation for different endpoints
-          if (name.includes('astrologize') || name.includes('Astrologize')) {
+          if (name.includes("astrologize") || name.includes("Astrologize")) {
             if (data._celestialBodies || data.astrology_info) {
               console.log(`   🌟 Contains planetary data`);
             } else {
               console.log(`   ⚠️  Unexpected astrologize response structure`);
             }
-          } else if (name.includes('alchemize') || name.includes('Alchemize')) {
+          } else if (name.includes("alchemize") || name.includes("Alchemize")) {
             if (data.alchemicalResult || data.success) {
               console.log(`   🧪 Contains alchemical data`);
             } else {
@@ -114,23 +117,25 @@ async function testEndpoint(name, url, options = {}) {
           }
 
           // Show key structure
-          if (typeof data === 'object' && data !== null) {
+          if (typeof data === "object" && data !== null) {
             const keys = Object.keys(data);
             console.log(
-              `   🔑 Response keys: ${keys.slice(0, 5).join(', ')}${keys.length > 5 ? '...' : ''}`,
+              `   🔑 Response keys: ${keys.slice(0, 5).join(", ")}${keys.length > 5 ? "..." : ""}`,
             );
           }
         } catch (parseError) {
           console.log(`   ⚠️  JSON parse error: ${parseError.message}`);
           data = await response.text();
           console.log(
-            `   📦 Raw response: ${data.substring(0, 200)}${data.length > 200 ? '...' : ''}`,
+            `   📦 Raw response: ${data.substring(0, 200)}${data.length > 200 ? "..." : ""}`,
           );
         }
       } else {
         data = await response.text();
         console.log(`   ✅ SUCCESS - Text response received`);
-        console.log(`   📦 Content: ${data.substring(0, 200)}${data.length > 200 ? '...' : ''}`);
+        console.log(
+          `   📦 Content: ${data.substring(0, 200)}${data.length > 200 ? "..." : ""}`,
+        );
       }
 
       return {
@@ -167,47 +172,53 @@ async function testEndpoint(name, url, options = {}) {
 }
 
 async function main() {
-  console.log('🌟 WhatToEatNext Essential API Test');
-  console.log('===================================');
+  console.log("🌟 WhatToEatNext Essential API Test");
+  console.log("===================================");
   console.log(`Started at: ${new Date().toISOString()}`);
 
   const results = [];
 
   // Test external endpoints
-  console.log('\n🌐 EXTERNAL ENDPOINTS');
-  console.log('====================');
+  console.log("\n🌐 EXTERNAL ENDPOINTS");
+  console.log("====================");
 
   // 1. Base health check
   results.push(
-    await testEndpoint('Backend Health Check', ENDPOINTS.external.base, { timeout: TIMEOUT }),
-  );
-
-  // 2. Astrologize API
-  results.push(
-    await testEndpoint('External Astrologize API', ENDPOINTS.external.astrologize, {
-      method: 'POST',
-      body: ASTROLOGIZE_PAYLOAD,
+    await testEndpoint("Backend Health Check", ENDPOINTS.external.base, {
       timeout: TIMEOUT,
     }),
   );
 
+  // 2. Astrologize API
+  results.push(
+    await testEndpoint(
+      "External Astrologize API",
+      ENDPOINTS.external.astrologize,
+      {
+        method: "POST",
+        body: ASTROLOGIZE_PAYLOAD,
+        timeout: TIMEOUT,
+      },
+    ),
+  );
+
   // 3. Alchemize API (if it exists)
   results.push(
-    await testEndpoint('External Alchemize API', ENDPOINTS.external.alchemize, {
-      method: 'POST',
+    await testEndpoint("External Alchemize API", ENDPOINTS.external.alchemize, {
+      method: "POST",
       body: ALCHEMIZE_PAYLOAD,
       timeout: TIMEOUT,
     }),
   );
 
   // Test local API routes
-  console.log('\n🏠 LOCAL API ROUTES');
-  console.log('==================');
+  console.log("\n🏠 LOCAL API ROUTES");
+  console.log("==================");
 
   // 4. Local Astrologize API
   results.push(
-    await testEndpoint('Local Astrologize API', ENDPOINTS.local.astrologize, {
-      method: 'POST',
+    await testEndpoint("Local Astrologize API", ENDPOINTS.local.astrologize, {
+      method: "POST",
       body: { ...ASTROLOGIZE_PAYLOAD, month: ASTROLOGIZE_PAYLOAD.month + 1 }, // Convert to 1-indexed
       timeout: LOCAL_TIMEOUT,
     }),
@@ -215,68 +226,73 @@ async function main() {
 
   // 5. Local Alchemize API
   results.push(
-    await testEndpoint('Local Alchemize API', ENDPOINTS.local.alchemize, {
-      method: 'POST',
+    await testEndpoint("Local Alchemize API", ENDPOINTS.local.alchemize, {
+      method: "POST",
       body: ALCHEMIZE_PAYLOAD,
       timeout: LOCAL_TIMEOUT,
     }),
   );
 
   // Summary and analysis
-  console.log('\n📊 RESULTS SUMMARY');
-  console.log('==================');
+  console.log("\n📊 RESULTS SUMMARY");
+  console.log("==================");
 
-  const successful = results.filter(r => r.success);
-  const failed = results.filter(r => !r.success);
+  const successful = results.filter((r) => r.success);
+  const failed = results.filter((r) => !r.success);
 
   console.log(`✅ Successful: ${successful.length}/${results.length}`);
   console.log(`❌ Failed: ${failed.length}/${results.length}`);
 
   if (successful.length > 0) {
-    const avgDuration = successful.reduce((sum, r) => sum + r.duration, 0) / successful.length;
+    const avgDuration =
+      successful.reduce((sum, r) => sum + r.duration, 0) / successful.length;
     console.log(`⏱️  Average response time: ${Math.round(avgDuration)}ms`);
 
-    console.log('\n✅ Working endpoints:');
-    successful.forEach(r => {
+    console.log("\n✅ Working endpoints:");
+    successful.forEach((r) => {
       console.log(`   • ${r.endpoint} (${r.duration}ms)`);
     });
   }
 
   if (failed.length > 0) {
-    console.log('\n❌ Failed endpoints:');
-    failed.forEach(r => {
+    console.log("\n❌ Failed endpoints:");
+    failed.forEach((r) => {
       console.log(`   • ${r.endpoint}: ${r.error}`);
     });
   }
 
   // Recommendations
-  console.log('\n💡 RECOMMENDATIONS');
-  console.log('==================');
+  console.log("\n💡 RECOMMENDATIONS");
+  console.log("==================");
 
-  const externalWorking = successful.filter(r => r.endpoint.includes('External')).length;
-  const localWorking = successful.filter(r => r.endpoint.includes('Local')).length;
+  const externalWorking = successful.filter((r) =>
+    r.endpoint.includes("External"),
+  ).length;
+  const localWorking = successful.filter((r) =>
+    r.endpoint.includes("Local"),
+  ).length;
 
   if (externalWorking >= 2) {
-    console.log('✅ External backend APIs are working well!');
-    console.log('✅ Your essential endpoints are functional.');
-    console.log('✅ MCP server cleanup was successful.');
+    console.log("✅ External backend APIs are working well!");
+    console.log("✅ Your essential endpoints are functional.");
+    console.log("✅ MCP server cleanup was successful.");
   } else if (localWorking >= 1) {
-    console.log('⚠️  External APIs may be slow/unreliable.');
-    console.log('✅ Local API routes are working as proxies.');
-    console.log('💡 Consider implementing better fallback mechanisms.');
+    console.log("⚠️  External APIs may be slow/unreliable.");
+    console.log("✅ Local API routes are working as proxies.");
+    console.log("💡 Consider implementing better fallback mechanisms.");
   } else {
-    console.log('❌ Critical: No essential APIs are responding.');
-    console.log('🔧 Check if your Next.js dev server is running.');
-    console.log('🔧 Verify backend service status.');
+    console.log("❌ Critical: No essential APIs are responding.");
+    console.log("🔧 Check if your Next.js dev server is running.");
+    console.log("🔧 Verify backend service status.");
   }
 
   // MCP Configuration advice
-  console.log('\n🔧 MCP CONFIGURATION');
-  console.log('====================');
-  console.log('✅ Removed problematic MCP servers successfully.');
-  console.log('✅ Kept minimal fetch server for basic HTTP testing.');
-  console.log('💡 Focus on your working local API routes.');
-  console.log('💡 Your essential APIs are accessible without MCP servers.');
+  console.log("\n🔧 MCP CONFIGURATION");
+  console.log("====================");
+  console.log("✅ Removed problematic MCP servers successfully.");
+  console.log("✅ Kept minimal fetch server for basic HTTP testing.");
+  console.log("💡 Focus on your working local API routes.");
+  console.log("💡 Your essential APIs are accessible without MCP servers.");
 
   // Exit with appropriate code
   const exitCode = successful.length >= 3 ? 0 : 1;
@@ -285,13 +301,13 @@ async function main() {
 }
 
 // Handle unhandled rejections
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled Rejection at:", promise, "reason:", reason);
   process.exit(1);
 });
 
 // Run the tests
-main().catch(error => {
-  console.error('Fatal error:', error);
+main().catch((error) => {
+  console.error("Fatal error:", error);
   process.exit(1);
 });

@@ -1,4 +1,5 @@
 # Database Standardization Summary
+
 ## PostgreSQL 17 - Complete Labeling and Configuration
 
 **Date**: November 6, 2025
@@ -9,6 +10,7 @@
 ## Problem Identified
 
 The Docker PostgreSQL container was:
+
 1. Running PostgreSQL 15 (not 17)
 2. Only had `alchm_kitchen` database
 3. Missing `whattoeatnext` database
@@ -21,6 +23,7 @@ The Docker PostgreSQL container was:
 ### 1. **Docker Compose Modernization** ✅
 
 **Updated Configuration**:
+
 - Removed obsolete `version` declaration
 - Upgraded to PostgreSQL 17 Alpine image
 - Added health checks for service readiness
@@ -33,6 +36,7 @@ The Docker PostgreSQL container was:
 **Created**: `backend/init-databases.sh`
 
 This script automatically:
+
 - Creates `whattoeatnext` database on container start
 - Grants all privileges to the `user` role
 - Handles proper quoting of reserved words
@@ -41,6 +45,7 @@ This script automatically:
 ### 3. **Volume Management** ✅
 
 **Resolved PostgreSQL 15 → 17 Incompatibility**:
+
 - Removed old PostgreSQL 15 data volume
 - Created fresh PostgreSQL 17 volume
 - Both databases initialized correctly
@@ -54,12 +59,13 @@ This script automatically:
 **Installation**: `/Library/PostgreSQL/17/`
 **Connection**: localhost:5432
 
-| Database | Owner | Encoding | Purpose |
-|----------|-------|----------|---------|
-| `whattoeatnext` | postgres | UTF8 | Main application database |
-| `alchm_kitchen` | postgres | UTF8 | Backend service database |
+| Database        | Owner    | Encoding | Purpose                   |
+| --------------- | -------- | -------- | ------------------------- |
+| `whattoeatnext` | postgres | UTF8     | Main application database |
+| `alchm_kitchen` | postgres | UTF8     | Backend service database  |
 
 **Users**:
+
 - `postgres` (superuser) - password: `password`
 - `user` (application) - password: `password`
 
@@ -69,12 +75,13 @@ This script automatically:
 **Image**: postgres:17-alpine
 **Connection**: localhost:5434 (maps to container 5432)
 
-| Database | Owner | Encoding | Purpose |
-|----------|-------|----------|---------|
-| `whattoeatnext` | user | UTF8 | Main application database |
-| `alchm_kitchen` | user | UTF8 | Backend service database |
+| Database        | Owner | Encoding | Purpose                   |
+| --------------- | ----- | -------- | ------------------------- |
+| `whattoeatnext` | user  | UTF8     | Main application database |
+| `alchm_kitchen` | user  | UTF8     | Backend service database  |
 
 **User**:
+
 - `user` - password: `password`
 
 ---
@@ -84,6 +91,7 @@ This script automatically:
 ### 1. `backend/docker-compose.yml`
 
 **Changes**:
+
 ```yaml
 # Removed obsolete version declaration
 # Changed from: version: "3.8"
@@ -115,6 +123,7 @@ depends_on:
 ```
 
 **Port Assignments**:
+
 - `alchemical-core`: 8000 → connects to `alchm_kitchen`
 - `alchm-kitchen`: 8001 → connects to `whattoeatnext`
 - `postgres`: 5434 (host) → 5432 (container)
@@ -125,6 +134,7 @@ depends_on:
 **Purpose**: Automatically initialize both databases
 
 **Features**:
+
 - Runs on first container start
 - Idempotent (safe to run multiple times)
 - Proper error handling (`set -e`)
@@ -137,23 +147,23 @@ depends_on:
 
 ### Database Connection Strings
 
-| Service | Database | Connection String |
-|---------|----------|-------------------|
-| alchemical-core (Docker) | alchm_kitchen | postgresql://user:password@postgres:5432/alchm_kitchen |
-| alchm-kitchen (Docker) | whattoeatnext | postgresql://user:password@postgres:5432/whattoeatnext |
-| Local Development | whattoeatnext | postgresql://user:password@localhost:5432/whattoeatnext |
-| Local Development | alchm_kitchen | postgresql://user:password@localhost:5432/alchm_kitchen |
-| GitLab CI/CD | whattoeatnext | postgresql://user:password@postgres:5432/whattoeatnext |
+| Service                  | Database      | Connection String                                       |
+| ------------------------ | ------------- | ------------------------------------------------------- |
+| alchemical-core (Docker) | alchm_kitchen | postgresql://user:password@postgres:5432/alchm_kitchen  |
+| alchm-kitchen (Docker)   | whattoeatnext | postgresql://user:password@postgres:5432/whattoeatnext  |
+| Local Development        | whattoeatnext | postgresql://user:password@localhost:5432/whattoeatnext |
+| Local Development        | alchm_kitchen | postgresql://user:password@localhost:5432/alchm_kitchen |
+| GitLab CI/CD             | whattoeatnext | postgresql://user:password@postgres:5432/whattoeatnext  |
 
 ### Port Mapping
 
-| Service | Local Port | Container Port | Protocol |
-|---------|------------|----------------|----------|
-| PostgreSQL 17 (Native) | 5432 | N/A | TCP |
-| PostgreSQL 17 (Docker) | 5434 | 5432 | TCP |
-| alchemical-core | 8000 | 8000 | HTTP |
-| alchm-kitchen | 8001 | 8000 | HTTP |
-| Redis | 6379 | 6379 | TCP |
+| Service                | Local Port | Container Port | Protocol |
+| ---------------------- | ---------- | -------------- | -------- |
+| PostgreSQL 17 (Native) | 5432       | N/A            | TCP      |
+| PostgreSQL 17 (Docker) | 5434       | 5432           | TCP      |
+| alchemical-core        | 8000       | 8000           | HTTP     |
+| alchm-kitchen          | 8001       | 8000           | HTTP     |
+| Redis                  | 6379       | 6379           | TCP      |
 
 ---
 
@@ -162,20 +172,24 @@ depends_on:
 ### ✅ Standardized Names
 
 **Databases**:
+
 - `whattoeatnext` - Main application (lowercase, no hyphens)
 - `alchm_kitchen` - Backend service (lowercase, underscores)
 
 **Container Names**:
+
 - `whattoeatnext-postgres-17` - PostgreSQL container (descriptive)
 - `backend-redis-1` - Redis container
 
 **Services** (in docker-compose.yml):
+
 - `postgres` - PostgreSQL service
 - `redis` - Redis service
 - `alchemical-core` - Alchemy service
 - `alchm-kitchen` - Kitchen service
 
 **Environment Variables**:
+
 - `POSTGRES_DB` - Primary database name
 - `POSTGRES_USER` - Database username
 - `POSTGRES_PASSWORD` - Database password
@@ -188,6 +202,7 @@ depends_on:
 ### ✅ All Tests Passed
 
 **Local PostgreSQL 17**:
+
 ```bash
 ✅ Both databases exist (whattoeatnext, alchm_kitchen)
 ✅ Both users can connect (postgres, user)
@@ -197,6 +212,7 @@ depends_on:
 ```
 
 **Docker PostgreSQL 17**:
+
 ```bash
 ✅ Container running: whattoeatnext-postgres-17
 ✅ Health check: Healthy
@@ -209,21 +225,25 @@ depends_on:
 ### Test Commands
 
 **List databases in Docker**:
+
 ```bash
 docker exec whattoeatnext-postgres-17 psql -U user -l
 ```
 
 **Test alchm_kitchen**:
+
 ```bash
 docker exec whattoeatnext-postgres-17 psql -U user -d alchm_kitchen -c "SELECT current_database();"
 ```
 
 **Test whattoeatnext**:
+
 ```bash
 docker exec whattoeatnext-postgres-17 psql -U user -d whattoeatnext -c "SELECT current_database();"
 ```
 
 **Check container health**:
+
 ```bash
 docker ps | grep whattoeatnext-postgres-17
 ```
@@ -235,6 +255,7 @@ docker ps | grep whattoeatnext-postgres-17
 ### PostgreSQL 15 → 17 Upgrade
 
 **Issue**: Data directory incompatibility
+
 ```
 FATAL: database files are incompatible with server
 DETAIL: The data directory was initialized by PostgreSQL version 15,
@@ -242,6 +263,7 @@ DETAIL: The data directory was initialized by PostgreSQL version 15,
 ```
 
 **Resolution**:
+
 1. Stopped all containers
 2. Removed old volumes: `docker-compose down -v`
 3. Removed specific volume: `docker volume rm backend_postgres_data`
@@ -255,6 +277,7 @@ DETAIL: The data directory was initialized by PostgreSQL version 15,
 ## Docker Commands Reference
 
 ### Start Services
+
 ```bash
 cd backend
 docker-compose up -d postgres       # PostgreSQL only
@@ -262,18 +285,21 @@ docker-compose up -d                # All services
 ```
 
 ### Stop Services
+
 ```bash
 docker-compose down                 # Stop containers
 docker-compose down -v              # Stop and remove volumes
 ```
 
 ### View Logs
+
 ```bash
 docker logs whattoeatnext-postgres-17
 docker logs -f whattoeatnext-postgres-17  # Follow logs
 ```
 
 ### Execute Commands
+
 ```bash
 # List databases
 docker exec whattoeatnext-postgres-17 psql -U user -l
@@ -286,6 +312,7 @@ docker exec whattoeatnext-postgres-17 psql -U user -c "SELECT version();"
 ```
 
 ### Health Check
+
 ```bash
 # Check container health
 docker ps | grep postgres
@@ -317,6 +344,7 @@ variables:
 ### Automatic Database Creation
 
 The CI/CD pipeline creates both databases:
+
 ```bash
 psql -h postgres -U user -c "CREATE DATABASE whattoeatnext;"
 psql -h postgres -U user -c "CREATE DATABASE alchm_kitchen;"
@@ -329,11 +357,13 @@ psql -h postgres -U user -c "CREATE DATABASE alchm_kitchen;"
 ### Container Won't Start
 
 **Check logs**:
+
 ```bash
 docker logs whattoeatnext-postgres-17
 ```
 
 **Common issues**:
+
 1. Port conflict - Check if 5434 is in use
 2. Volume issues - Remove old volumes
 3. Init script errors - Check script syntax
@@ -341,11 +371,13 @@ docker logs whattoeatnext-postgres-17
 ### Database Not Visible
 
 **Verify databases exist**:
+
 ```bash
 docker exec whattoeatnext-postgres-17 psql -U user -l
 ```
 
 **Recreate if needed**:
+
 ```bash
 docker exec whattoeatnext-postgres-17 psql -U user -c "CREATE DATABASE whattoeatnext;"
 ```
@@ -353,6 +385,7 @@ docker exec whattoeatnext-postgres-17 psql -U user -c "CREATE DATABASE whattoeat
 ### Permission Errors
 
 **Grant permissions**:
+
 ```bash
 docker exec whattoeatnext-postgres-17 psql -U user -d postgres -c \
   "GRANT ALL PRIVILEGES ON DATABASE whattoeatnext TO user;"
@@ -361,6 +394,7 @@ docker exec whattoeatnext-postgres-17 psql -U user -d postgres -c \
 ### Connection Refused
 
 **Check container health**:
+
 ```bash
 docker ps | grep whattoeatnext-postgres-17
 docker exec whattoeatnext-postgres-17 pg_isready -U user
@@ -371,6 +405,7 @@ docker exec whattoeatnext-postgres-17 pg_isready -U user
 ## Next Steps
 
 ### ✅ Completed
+
 - [x] Docker container upgraded to PostgreSQL 17
 - [x] Both databases created and accessible
 - [x] Init script working correctly
@@ -380,6 +415,7 @@ docker exec whattoeatnext-postgres-17 pg_isready -U user
 - [x] Documentation completed
 
 ### 🔄 Recommended
+
 - [ ] Start backend services to test integration
 - [ ] Run backend migrations if any
 - [ ] Test application connectivity
@@ -393,6 +429,7 @@ docker exec whattoeatnext-postgres-17 pg_isready -U user
 ### What Changed
 
 **Before**:
+
 - PostgreSQL 15 in Docker
 - Only `alchm_kitchen` database
 - Missing `whattoeatnext` database
@@ -401,6 +438,7 @@ docker exec whattoeatnext-postgres-17 pg_isready -U user
 - No automatic initialization
 
 **After**:
+
 - PostgreSQL 17.6 Alpine in Docker
 - Both `alchm_kitchen` and `whattoeatnext` databases
 - Fresh, compatible data structure
@@ -413,12 +451,14 @@ docker exec whattoeatnext-postgres-17 pg_isready -U user
 ### Database Locations
 
 **Local Development** (Native PostgreSQL 17):
+
 - Host: localhost
 - Port: 5432
 - Databases: whattoeatnext, alchm_kitchen
 - Users: postgres, user
 
 **Docker Development** (Containerized PostgreSQL 17):
+
 - Host: localhost (external) / postgres (internal)
 - Port: 5434 (external) / 5432 (internal)
 - Databases: whattoeatnext, alchm_kitchen
@@ -426,6 +466,7 @@ docker exec whattoeatnext-postgres-17 pg_isready -U user
 - Container: whattoeatnext-postgres-17
 
 **GitLab CI/CD** (Service Container):
+
 - Host: postgres
 - Port: 5432
 - Databases: Created automatically
@@ -439,6 +480,6 @@ Both `alchm.kitchen` (alchm_kitchen) and `whattoeatnext` are now visible and acc
 
 ---
 
-*Generated: November 6, 2025*
-*PostgreSQL: 17.6 Alpine*
-*Docker Compose: 2.x*
+_Generated: November 6, 2025_
+_PostgreSQL: 17.6 Alpine_
+_Docker Compose: 2.x_

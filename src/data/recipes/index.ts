@@ -1,6 +1,6 @@
-import type { Recipe } from '@/types/recipe';
-import Recipes from '../cuisines';
-import { getBestRecipeMatches as getBestRecipeMatchesFromMain } from '../recipes';
+import type { Recipe } from "@/types/recipe";
+import Recipes from "../cuisines";
+import { getBestRecipeMatches as getBestRecipeMatchesFromMain } from "../recipes";
 
 export { Recipes };
 
@@ -28,5 +28,5 @@ const flattenCuisineRecipes = (cuisines: unknown) => {
 
 // Export alias for compatibility
 export const allRecipes = flattenCuisineRecipes(Recipes);
-export { getAllRecipes } from '@/services/RecipeFinder';
+export { getAllRecipes } from "@/services/RecipeFinder";
 export { getBestRecipeMatchesFromMain as getBestRecipeMatches };

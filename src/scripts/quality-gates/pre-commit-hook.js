@@ -8,14 +8,18 @@
  * Prevents commits that violate quality standards
  */
 
-import { execSync } from 'child_process';
-import fs from 'fs';
-import path from 'path';
-import CIDCOrchestrator from './ci-cd-orchestrator.js';
+import { execSync } from "child_process";
+import fs from "fs";
+import path from "path";
+import CIDCOrchestrator from "./ci-cd-orchestrator.js";
 
 class PreCommitHook {
   constructor() {
-    this.projectRoot = path.resolve(import.meta.dirname || path.dirname(import.meta.url.replace('file://', '')), '../../../');
+    this.projectRoot = path.resolve(
+      import.meta.dirname ||
+        path.dirname(import.meta.url.replace("file://", "")),
+      "../../../",
+    );
     this.hookConfig = this.loadHookConfig();
     this.orchestrator = new CIDCOrchestrator();
   }
@@ -30,26 +34,37 @@ class PreCommitHook {
         errorAnalysis: true,
         qualityGates: true,
         fileSizeLimits: true,
-        forbiddenPatterns: true
+        forbiddenPatterns: true,
       },
       limits: {
         maxFileSizeKB: 500,
         maxCommitSizeKB: 2000,
-        maxModifiedFiles: 50
+        maxModifiedFiles: 50,
       },
       forbiddenPatterns: [
-        'console\\.log',
-        'debugger',
-        'console\\.error',
-        'console\\.warn',
-        'TODO:',
-        'FIXME:',
-        'HACK:'
+        "console\\.log",
+        "debugger",
+        "console\\.error",
+        "console\\.warn",
+        "TODO:",
+        "FIXME:",
+        "HACK:",
       ],
       allowedFileTypes: [
-        '.ts', '.tsx', '.js', '.jsx', '.json', '.md', '.yml', '.yaml',
-        '.css', '.scss', '.html', '.txt', '.gitignore'
-      ]
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx",
+        ".json",
+        ".md",
+        ".yml",
+        ".yaml",
+        ".css",
+        ".scss",
+        ".html",
+        ".txt",
+        ".gitignore",
+      ],
     };
   }
 
@@ -57,16 +72,16 @@ class PreCommitHook {
    * Main pre-commit validation
    */
   async validate() {
-    console.log('🔒 WhatToEatNext Pre-Commit Quality Gate');
-    console.log('=' .repeat(45));
+    console.log("🔒 WhatToEatNext Pre-Commit Quality Gate");
+    console.log("=".repeat(45));
     console.log(`Date: ${new Date().toLocaleString()}`);
-    console.log('');
+    console.log("");
 
     const results = {
       success: true,
       checks: {},
       violations: [],
-      recommendations: []
+      recommendations: [],
     };
 
     try {
@@ -90,7 +105,9 @@ class PreCommitHook {
         if (!results.checks.qualityGates.passed) {
           results.success = false;
           results.violations.push(...results.checks.qualityGates.violations);
-          results.recommendations.push(...results.checks.qualityGates.recommendations);
+          results.recommendations.push(
+            ...results.checks.qualityGates.recommendations,
+          );
         }
       }
 
@@ -99,7 +116,9 @@ class PreCommitHook {
         results.checks.forbiddenPatterns = await this.checkForbiddenPatterns();
         if (!results.checks.forbiddenPatterns.passed) {
           results.success = false;
-          results.violations.push(...results.checks.forbiddenPatterns.violations);
+          results.violations.push(
+            ...results.checks.forbiddenPatterns.violations,
+          );
         }
       }
 
@@ -107,17 +126,16 @@ class PreCommitHook {
       this.displayResults(results);
 
       if (!results.success) {
-        console.log('\n❌ Commit blocked by quality gates!');
-        console.log('\nTo bypass (not recommended):');
+        console.log("\n❌ Commit blocked by quality gates!");
+        console.log("\nTo bypass (not recommended):");
         console.log('  git commit --no-verify -m "your message"');
         process.exit(1);
       }
 
-      console.log('\n✅ All quality gates passed - commit allowed');
+      console.log("\n✅ All quality gates passed - commit allowed");
       return results;
-
     } catch (error) {
-      console.error('❌ Pre-commit hook failed:', error.message);
+      console.error("❌ Pre-commit hook failed:", error.message);
       if (this.hookConfig.strictMode) {
         process.exit(1);
       }
@@ -134,14 +152,14 @@ class PreCommitHook {
     if (!branchInfo.isProtected) {
       return {
         passed: true,
-        message: `Branch '${branchInfo.branch}' is not protected - skipping quality gates`
+        message: `Branch '${branchInfo.branch}' is not protected - skipping quality gates`,
       };
     }
 
     return {
       passed: true,
       message: `Branch '${branchInfo.branch}' is protected - running quality gates`,
-      branchInfo
+      branchInfo,
     };
   }
 
@@ -151,16 +169,21 @@ class PreCommitHook {
   async validateFiles() {
     try {
       // Get staged files
-      const stagedFiles = execSync('git diff --cached --name-only', {
+      const stagedFiles = execSync("git diff --cached --name-only", {
         cwd: this.projectRoot,
-        encoding: 'utf8'
-      }).trim().split('\n').filter(f => f.length > 0);
+        encoding: "utf8",
+      })
+        .trim()
+        .split("\n")
+        .filter((f) => f.length > 0);
 
       const violations = [];
 
       // Check file count limit
       if (stagedFiles.length > this.hookConfig.limits.maxModifiedFiles) {
-        violations.push(`Too many modified files: ${stagedFiles.length} (max: ${this.hookConfig.limits.maxModifiedFiles})`);
+        violations.push(
+          `Too many modified files: ${stagedFiles.length} (max: ${this.hookConfig.limits.maxModifiedFiles})`,
+        );
       }
 
       // Check file sizes
@@ -174,14 +197,16 @@ class PreCommitHook {
 
           // Check individual file size
           if (sizeKB > this.hookConfig.limits.maxFileSizeKB) {
-            violations.push(`File too large: ${file} (${sizeKB.toFixed(1)}KB > ${this.hookConfig.limits.maxFileSizeKB}KB)`);
+            violations.push(
+              `File too large: ${file} (${sizeKB.toFixed(1)}KB > ${this.hookConfig.limits.maxFileSizeKB}KB)`,
+            );
           }
 
           totalSize += sizeKB;
 
           // Check file extension
           const ext = path.extname(file);
-          if (!this.hookConfig.allowedFileTypes.includes(ext) && ext !== '') {
+          if (!this.hookConfig.allowedFileTypes.includes(ext) && ext !== "") {
             violations.push(`File type not allowed: ${file} (${ext})`);
           }
         }
@@ -189,21 +214,22 @@ class PreCommitHook {
 
       // Check total commit size
       if (totalSize > this.hookConfig.limits.maxCommitSizeKB) {
-        violations.push(`Commit too large: ${totalSize.toFixed(1)}KB > ${this.hookConfig.limits.maxCommitSizeKB}KB`);
+        violations.push(
+          `Commit too large: ${totalSize.toFixed(1)}KB > ${this.hookConfig.limits.maxCommitSizeKB}KB`,
+        );
       }
 
       return {
         passed: violations.length === 0,
         filesChecked: stagedFiles.length,
         totalSizeKB: totalSize,
-        violations
+        violations,
       };
-
     } catch (error) {
       return {
         passed: false,
         error: error.message,
-        violations: [`Failed to validate files: ${error.message}`]
+        violations: [`Failed to validate files: ${error.message}`],
       };
     }
   }
@@ -218,20 +244,30 @@ class PreCommitHook {
       if (qualityStatus.passed) {
         return {
           passed: true,
-          message: 'Quality gates passed',
-          metrics: qualityStatus.metrics
+          message: "Quality gates passed",
+          metrics: qualityStatus.metrics,
         };
       }
 
       const violations = [];
       const recommendations = [];
 
-      if (qualityStatus.qualityGates.currentErrors > qualityStatus.qualityGates.thresholds.total) {
-        violations.push(`Total errors exceed threshold: ${qualityStatus.qualityGates.currentErrors} > ${qualityStatus.qualityGates.thresholds.total}`);
+      if (
+        qualityStatus.qualityGates.currentErrors >
+        qualityStatus.qualityGates.thresholds.total
+      ) {
+        violations.push(
+          `Total errors exceed threshold: ${qualityStatus.qualityGates.currentErrors} > ${qualityStatus.qualityGates.thresholds.total}`,
+        );
       }
 
-      if (qualityStatus.qualityGates.criticalErrors > qualityStatus.qualityGates.thresholds.critical) {
-        violations.push(`Critical errors exceed threshold: ${qualityStatus.qualityGates.criticalErrors} > ${qualityStatus.qualityGates.thresholds.critical}`);
+      if (
+        qualityStatus.qualityGates.criticalErrors >
+        qualityStatus.qualityGates.thresholds.critical
+      ) {
+        violations.push(
+          `Critical errors exceed threshold: ${qualityStatus.qualityGates.criticalErrors} > ${qualityStatus.qualityGates.thresholds.critical}`,
+        );
       }
 
       recommendations.push(...qualityStatus.recommendations);
@@ -240,13 +276,12 @@ class PreCommitHook {
         passed: false,
         violations,
         recommendations,
-        metrics: qualityStatus.metrics
+        metrics: qualityStatus.metrics,
       };
-
     } catch (error) {
       return {
         passed: false,
-        violations: [`Quality gate check failed: ${error.message}`]
+        violations: [`Quality gate check failed: ${error.message}`],
       };
     }
   }
@@ -257,33 +292,34 @@ class PreCommitHook {
   async checkForbiddenPatterns() {
     try {
       // Get staged file contents
-      const stagedDiff = execSync('git diff --cached', {
+      const stagedDiff = execSync("git diff --cached", {
         cwd: this.projectRoot,
-        encoding: 'utf8'
+        encoding: "utf8",
       });
 
       const violations = [];
 
       for (const pattern of this.hookConfig.forbiddenPatterns) {
-        const regex = new RegExp(pattern, 'gi');
+        const regex = new RegExp(pattern, "gi");
         const matches = stagedDiff.match(regex);
 
         if (matches) {
-          violations.push(`Forbidden pattern found: '${pattern}' (${matches.length} occurrences)`);
+          violations.push(
+            `Forbidden pattern found: '${pattern}' (${matches.length} occurrences)`,
+          );
         }
       }
 
       return {
         passed: violations.length === 0,
         patternsChecked: this.hookConfig.forbiddenPatterns.length,
-        violations
+        violations,
       };
-
     } catch (error) {
       return {
         passed: false,
         error: error.message,
-        violations: [`Forbidden pattern check failed: ${error.message}`]
+        violations: [`Forbidden pattern check failed: ${error.message}`],
       };
     }
   }
@@ -292,12 +328,12 @@ class PreCommitHook {
    * Display validation results
    */
   displayResults(results) {
-    console.log('📊 Validation Results:');
-    console.log('');
+    console.log("📊 Validation Results:");
+    console.log("");
 
     Object.entries(results.checks).forEach(([checkName, checkResult]) => {
-      const icon = checkResult.passed ? '✅' : '❌';
-      const status = checkResult.passed ? 'PASSED' : 'FAILED';
+      const icon = checkResult.passed ? "✅" : "❌";
+      const status = checkResult.passed ? "PASSED" : "FAILED";
 
       console.log(`${icon} ${checkName}: ${status}`);
 
@@ -314,29 +350,29 @@ class PreCommitHook {
       }
 
       if (checkResult.violations && checkResult.violations.length > 0) {
-        console.log('   Violations:');
-        checkResult.violations.forEach(violation => {
+        console.log("   Violations:");
+        checkResult.violations.forEach((violation) => {
           console.log(`     • ${violation}`);
         });
       }
 
-      console.log('');
+      console.log("");
     });
 
     if (results.violations.length > 0) {
-      console.log('🚫 Commit Violations:');
-      results.violations.forEach(violation => {
+      console.log("🚫 Commit Violations:");
+      results.violations.forEach((violation) => {
         console.log(`  • ${violation}`);
       });
-      console.log('');
+      console.log("");
     }
 
     if (results.recommendations.length > 0) {
-      console.log('💡 Recommendations:');
-      results.recommendations.forEach(rec => {
+      console.log("💡 Recommendations:");
+      results.recommendations.forEach((rec) => {
         console.log(`  • ${rec}`);
       });
-      console.log('');
+      console.log("");
     }
   }
 
@@ -344,7 +380,7 @@ class PreCommitHook {
    * Install pre-commit hook
    */
   installHook() {
-    const hookPath = path.join(this.projectRoot, '.git', 'hooks', 'pre-commit');
+    const hookPath = path.join(this.projectRoot, ".git", "hooks", "pre-commit");
 
     // Create hook content
     const hookContent = `#!/bin/sh
@@ -363,11 +399,11 @@ exit $?
 
     try {
       fs.writeFileSync(hookPath, hookContent);
-      fs.chmodSync(hookPath, '755');
-      console.log('✅ Pre-commit hook installed successfully');
+      fs.chmodSync(hookPath, "755");
+      console.log("✅ Pre-commit hook installed successfully");
       console.log(`   Location: ${hookPath}`);
     } catch (error) {
-      console.error('❌ Failed to install pre-commit hook:', error.message);
+      console.error("❌ Failed to install pre-commit hook:", error.message);
       throw error;
     }
   }
@@ -376,17 +412,17 @@ exit $?
    * Uninstall pre-commit hook
    */
   uninstallHook() {
-    const hookPath = path.join(this.projectRoot, '.git', 'hooks', 'pre-commit');
+    const hookPath = path.join(this.projectRoot, ".git", "hooks", "pre-commit");
 
     try {
       if (fs.existsSync(hookPath)) {
         fs.unlinkSync(hookPath);
-        console.log('✅ Pre-commit hook uninstalled successfully');
+        console.log("✅ Pre-commit hook uninstalled successfully");
       } else {
-        console.log('ℹ️ No pre-commit hook found to uninstall');
+        console.log("ℹ️ No pre-commit hook found to uninstall");
       }
     } catch (error) {
-      console.error('❌ Failed to uninstall pre-commit hook:', error.message);
+      console.error("❌ Failed to uninstall pre-commit hook:", error.message);
       throw error;
     }
   }
@@ -395,27 +431,27 @@ exit $?
 // CLI Interface
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
-  const command = args[0] || 'validate';
+  const command = args[0] || "validate";
 
   const hook = new PreCommitHook();
 
   switch (command) {
-    case 'validate':
+    case "validate":
       await hook.validate();
       break;
 
-    case 'install':
+    case "install":
       hook.installHook();
       break;
 
-    case 'uninstall':
+    case "uninstall":
       hook.uninstallHook();
       break;
 
-    case 'test':
-      console.log('🧪 Testing pre-commit hook...');
+    case "test":
+      console.log("🧪 Testing pre-commit hook...");
       const testResult = await hook.validate();
-      console.log(`Test result: ${testResult.success ? 'PASSED' : 'FAILED'}`);
+      console.log(`Test result: ${testResult.success ? "PASSED" : "FAILED"}`);
       break;
 
     default:

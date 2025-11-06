@@ -8,41 +8,41 @@
  * system for automated quality improvement.
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 // Configuration
 const CONFIG = {
   thresholds: {
     typescript: {
-      critical: 100,    // Trigger emergency campaign
-      warning: 50,      // Trigger warning alert
-      target: 0         // Ultimate goal
+      critical: 100, // Trigger emergency campaign
+      warning: 50, // Trigger warning alert
+      target: 0, // Ultimate goal
     },
     eslint: {
       errors: {
-        critical: 50,   // Trigger emergency campaign
-        warning: 10,    // Trigger warning alert
-        target: 0       // Ultimate goal
+        critical: 50, // Trigger emergency campaign
+        warning: 10, // Trigger warning alert
+        target: 0, // Ultimate goal
       },
       warnings: {
         critical: 2000, // Trigger cleanup campaign
-        warning: 1000,  // Trigger warning alert
-        target: 0       // Ultimate goal
-      }
+        warning: 1000, // Trigger warning alert
+        target: 0, // Ultimate goal
+      },
     },
     performance: {
       lintDuration: 60, // Maximum acceptable lint time (seconds)
-      buildDuration: 120 // Maximum acceptable build time (seconds)
-    }
+      buildDuration: 120, // Maximum acceptable build time (seconds)
+    },
   },
   monitoring: {
-    interval: 300000,   // 5 minutes in milliseconds
-    logFile: 'logs/error-monitoring.log',
-    metricsFile: 'logs/error-metrics.json',
-    alertsFile: 'logs/error-alerts.json'
-  }
+    interval: 300000, // 5 minutes in milliseconds
+    logFile: "logs/error-monitoring.log",
+    metricsFile: "logs/error-metrics.json",
+    alertsFile: "logs/error-alerts.json",
+  },
 };
 
 class ErrorCountMonitor {
@@ -62,10 +62,12 @@ class ErrorCountMonitor {
   loadMetrics() {
     try {
       if (fs.existsSync(CONFIG.monitoring.metricsFile)) {
-        return JSON.parse(fs.readFileSync(CONFIG.monitoring.metricsFile, 'utf8'));
+        return JSON.parse(
+          fs.readFileSync(CONFIG.monitoring.metricsFile, "utf8"),
+        );
       }
     } catch (error) {
-      this.log('Error loading metrics:', error.message);
+      this.log("Error loading metrics:", error.message);
     }
     return { history: [], lastUpdate: null };
   }
@@ -73,65 +75,76 @@ class ErrorCountMonitor {
   loadAlerts() {
     try {
       if (fs.existsSync(CONFIG.monitoring.alertsFile)) {
-        return JSON.parse(fs.readFileSync(CONFIG.monitoring.alertsFile, 'utf8'));
+        return JSON.parse(
+          fs.readFileSync(CONFIG.monitoring.alertsFile, "utf8"),
+        );
       }
     } catch (error) {
-      this.log('Error loading alerts:', error.message);
+      this.log("Error loading alerts:", error.message);
     }
     return { active: [], history: [] };
   }
 
   saveMetrics() {
     try {
-      fs.writeFileSync(CONFIG.monitoring.metricsFile, JSON.stringify(this.metrics, null, 2));
+      fs.writeFileSync(
+        CONFIG.monitoring.metricsFile,
+        JSON.stringify(this.metrics, null, 2),
+      );
     } catch (error) {
-      this.log('Error saving metrics:', error.message);
+      this.log("Error saving metrics:", error.message);
     }
   }
 
   saveAlerts() {
     try {
-      fs.writeFileSync(CONFIG.monitoring.alertsFile, JSON.stringify(this.alerts, null, 2));
+      fs.writeFileSync(
+        CONFIG.monitoring.alertsFile,
+        JSON.stringify(this.alerts, null, 2),
+      );
     } catch (error) {
-      this.log('Error saving alerts:', error.message);
+      this.log("Error saving alerts:", error.message);
     }
   }
 
   log(message, ...args) {
     const timestamp = new Date().toISOString();
-    const logMessage = `[${timestamp}] ${message} ${args.join(' ')}\n`;
+    const logMessage = `[${timestamp}] ${message} ${args.join(" ")}\n`;
 
     console.log(logMessage.trim());
 
     try {
       fs.appendFileSync(CONFIG.monitoring.logFile, logMessage);
     } catch (error) {
-      console.error('Failed to write to log file:', error.message);
+      console.error("Failed to write to log file:", error.message);
     }
   }
 
   async getTypeScriptErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       // Handle grep exit code 1 (no matches = 0 errors)
       if (error.status === 1) {
         return 0;
       }
-      this.log('Error getting TypeScript error count:', error.message);
+      this.log("Error getting TypeScript error count:", error.message);
       return -1;
     }
   }
 
   async getESLintCounts() {
     try {
-      const output = execSync('yarn lint:ci 2>&1 || true', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      const output = execSync("yarn lint:ci 2>&1 || true", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
 
       const errorMatch = output.match(/(\d+) errors?/);
@@ -139,10 +152,10 @@ class ErrorCountMonitor {
 
       return {
         errors: errorMatch ? parseInt(errorMatch[1]) : 0,
-        warnings: warningMatch ? parseInt(warningMatch[1]) : 0
+        warnings: warningMatch ? parseInt(warningMatch[1]) : 0,
       };
     } catch (error) {
-      this.log('Error getting ESLint counts:', error.message);
+      this.log("Error getting ESLint counts:", error.message);
       return { errors: -1, warnings: -1 };
     }
   }
@@ -151,26 +164,26 @@ class ErrorCountMonitor {
     try {
       // Measure linting performance
       const lintStart = Date.now();
-      execSync('yarn lint:quick > /dev/null 2>&1 || true', { stdio: 'pipe' });
+      execSync("yarn lint:quick > /dev/null 2>&1 || true", { stdio: "pipe" });
       const lintDuration = (Date.now() - lintStart) / 1000;
 
       // Measure build performance (if requested)
       let buildDuration = null;
-      if (process.argv.includes('--include-build')) {
+      if (process.argv.includes("--include-build")) {
         const buildStart = Date.now();
-        execSync('yarn build > /dev/null 2>&1 || true', { stdio: 'pipe' });
+        execSync("yarn build > /dev/null 2>&1 || true", { stdio: "pipe" });
         buildDuration = (Date.now() - buildStart) / 1000;
       }
 
       return { lintDuration, buildDuration };
     } catch (error) {
-      this.log('Error measuring performance:', error.message);
+      this.log("Error measuring performance:", error.message);
       return { lintDuration: -1, buildDuration: -1 };
     }
   }
 
   async collectMetrics() {
-    this.log('Collecting error metrics...');
+    this.log("Collecting error metrics...");
 
     const timestamp = new Date().toISOString();
     const typeScriptErrors = await this.getTypeScriptErrorCount();
@@ -183,7 +196,7 @@ class ErrorCountMonitor {
       eslintErrors: eslintCounts.errors,
       eslintWarnings: eslintCounts.warnings,
       lintDuration: performance.lintDuration,
-      buildDuration: performance.buildDuration
+      buildDuration: performance.buildDuration,
     };
 
     // Add to history
@@ -196,7 +209,9 @@ class ErrorCountMonitor {
     }
 
     this.saveMetrics();
-    this.log(`Metrics collected: TS=${typeScriptErrors}, ESLint=${eslintCounts.errors}/${eslintCounts.warnings}, Perf=${performance.lintDuration}s`);
+    this.log(
+      `Metrics collected: TS=${typeScriptErrors}, ESLint=${eslintCounts.errors}/${eslintCounts.warnings}, Perf=${performance.lintDuration}s`,
+    );
 
     return currentMetrics;
   }
@@ -207,66 +222,70 @@ class ErrorCountMonitor {
     // TypeScript error thresholds
     if (metrics.typeScriptErrors >= CONFIG.thresholds.typescript.critical) {
       alerts.push({
-        type: 'CRITICAL',
-        category: 'typescript',
+        type: "CRITICAL",
+        category: "typescript",
         message: `TypeScript errors (${metrics.typeScriptErrors}) exceed critical threshold (${CONFIG.thresholds.typescript.critical})`,
-        action: 'TRIGGER_EMERGENCY_CAMPAIGN',
+        action: "TRIGGER_EMERGENCY_CAMPAIGN",
         threshold: CONFIG.thresholds.typescript.critical,
-        current: metrics.typeScriptErrors
+        current: metrics.typeScriptErrors,
       });
-    } else if (metrics.typeScriptErrors >= CONFIG.thresholds.typescript.warning) {
+    } else if (
+      metrics.typeScriptErrors >= CONFIG.thresholds.typescript.warning
+    ) {
       alerts.push({
-        type: 'WARNING',
-        category: 'typescript',
+        type: "WARNING",
+        category: "typescript",
         message: `TypeScript errors (${metrics.typeScriptErrors}) exceed warning threshold (${CONFIG.thresholds.typescript.warning})`,
-        action: 'MONITOR_CLOSELY',
+        action: "MONITOR_CLOSELY",
         threshold: CONFIG.thresholds.typescript.warning,
-        current: metrics.typeScriptErrors
+        current: metrics.typeScriptErrors,
       });
     }
 
     // ESLint error thresholds
     if (metrics.eslintErrors >= CONFIG.thresholds.eslint.errors.critical) {
       alerts.push({
-        type: 'CRITICAL',
-        category: 'eslint-errors',
+        type: "CRITICAL",
+        category: "eslint-errors",
         message: `ESLint errors (${metrics.eslintErrors}) exceed critical threshold (${CONFIG.thresholds.eslint.errors.critical})`,
-        action: 'TRIGGER_EMERGENCY_CAMPAIGN',
+        action: "TRIGGER_EMERGENCY_CAMPAIGN",
         threshold: CONFIG.thresholds.eslint.errors.critical,
-        current: metrics.eslintErrors
+        current: metrics.eslintErrors,
       });
-    } else if (metrics.eslintErrors >= CONFIG.thresholds.eslint.errors.warning) {
+    } else if (
+      metrics.eslintErrors >= CONFIG.thresholds.eslint.errors.warning
+    ) {
       alerts.push({
-        type: 'WARNING',
-        category: 'eslint-errors',
+        type: "WARNING",
+        category: "eslint-errors",
         message: `ESLint errors (${metrics.eslintErrors}) exceed warning threshold (${CONFIG.thresholds.eslint.errors.warning})`,
-        action: 'SCHEDULE_CLEANUP',
+        action: "SCHEDULE_CLEANUP",
         threshold: CONFIG.thresholds.eslint.errors.warning,
-        current: metrics.eslintErrors
+        current: metrics.eslintErrors,
       });
     }
 
     // ESLint warning thresholds
     if (metrics.eslintWarnings >= CONFIG.thresholds.eslint.warnings.critical) {
       alerts.push({
-        type: 'WARNING',
-        category: 'eslint-warnings',
+        type: "WARNING",
+        category: "eslint-warnings",
         message: `ESLint warnings (${metrics.eslintWarnings}) exceed critical threshold (${CONFIG.thresholds.eslint.warnings.critical})`,
-        action: 'TRIGGER_CLEANUP_CAMPAIGN',
+        action: "TRIGGER_CLEANUP_CAMPAIGN",
         threshold: CONFIG.thresholds.eslint.warnings.critical,
-        current: metrics.eslintWarnings
+        current: metrics.eslintWarnings,
       });
     }
 
     // Performance thresholds
     if (metrics.lintDuration >= CONFIG.thresholds.performance.lintDuration) {
       alerts.push({
-        type: 'WARNING',
-        category: 'performance',
+        type: "WARNING",
+        category: "performance",
         message: `Linting duration (${metrics.lintDuration}s) exceeds threshold (${CONFIG.thresholds.performance.lintDuration}s)`,
-        action: 'OPTIMIZE_PERFORMANCE',
+        action: "OPTIMIZE_PERFORMANCE",
         threshold: CONFIG.thresholds.performance.lintDuration,
-        current: metrics.lintDuration
+        current: metrics.lintDuration,
       });
     }
 
@@ -292,34 +311,36 @@ class ErrorCountMonitor {
 
     // Clean up old active alerts (older than 1 hour)
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
-    this.alerts.active = this.alerts.active.filter(alert => alert.timestamp > oneHourAgo);
+    this.alerts.active = this.alerts.active.filter(
+      (alert) => alert.timestamp > oneHourAgo,
+    );
 
     this.saveAlerts();
   }
 
   executeAlertAction(alert, metrics) {
     switch (alert.action) {
-      case 'TRIGGER_EMERGENCY_CAMPAIGN':
+      case "TRIGGER_EMERGENCY_CAMPAIGN":
         this.log(`🚀 Triggering emergency campaign for ${alert.category}`);
         this.triggerEmergencyCampaign(alert.category);
         break;
 
-      case 'TRIGGER_CLEANUP_CAMPAIGN':
+      case "TRIGGER_CLEANUP_CAMPAIGN":
         this.log(`🧹 Triggering cleanup campaign for ${alert.category}`);
         this.triggerCleanupCampaign(alert.category);
         break;
 
-      case 'SCHEDULE_CLEANUP':
+      case "SCHEDULE_CLEANUP":
         this.log(`📅 Scheduling cleanup for ${alert.category}`);
         this.scheduleCleanup(alert.category);
         break;
 
-      case 'OPTIMIZE_PERFORMANCE':
+      case "OPTIMIZE_PERFORMANCE":
         this.log(`⚡ Optimizing performance for ${alert.category}`);
         this.optimizePerformance();
         break;
 
-      case 'MONITOR_CLOSELY':
+      case "MONITOR_CLOSELY":
         this.log(`👀 Monitoring ${alert.category} closely`);
         break;
 
@@ -330,28 +351,34 @@ class ErrorCountMonitor {
 
   triggerEmergencyCampaign(category) {
     try {
-      if (fs.existsSync('src/scripts/linting-campaign-cli.cjs')) {
+      if (fs.existsSync("src/scripts/linting-campaign-cli.cjs")) {
         this.log(`Executing emergency campaign for ${category}`);
-        execSync('yarn lint:campaign:start emergency --confirm', { stdio: 'inherit' });
+        execSync("yarn lint:campaign:start emergency --confirm", {
+          stdio: "inherit",
+        });
       } else {
-        this.log('Campaign system not available - manual intervention required');
+        this.log(
+          "Campaign system not available - manual intervention required",
+        );
       }
     } catch (error) {
-      this.log('Error triggering emergency campaign:', error.message);
+      this.log("Error triggering emergency campaign:", error.message);
     }
   }
 
   triggerCleanupCampaign(category) {
     try {
-      if (fs.existsSync('src/scripts/linting-campaign-cli.cjs')) {
+      if (fs.existsSync("src/scripts/linting-campaign-cli.cjs")) {
         this.log(`Executing cleanup campaign for ${category}`);
-        execSync('yarn lint:campaign:start standard --confirm', { stdio: 'inherit' });
+        execSync("yarn lint:campaign:start standard --confirm", {
+          stdio: "inherit",
+        });
       } else {
-        this.log('Campaign system not available - running basic cleanup');
-        execSync('yarn lint:fix', { stdio: 'inherit' });
+        this.log("Campaign system not available - running basic cleanup");
+        execSync("yarn lint:fix", { stdio: "inherit" });
       }
     } catch (error) {
-      this.log('Error triggering cleanup campaign:', error.message);
+      this.log("Error triggering cleanup campaign:", error.message);
     }
   }
 
@@ -360,37 +387,42 @@ class ErrorCountMonitor {
     const scheduledTask = {
       timestamp: new Date().toISOString(),
       category,
-      action: 'cleanup',
-      status: 'scheduled'
+      action: "cleanup",
+      status: "scheduled",
     };
 
-    const scheduledTasksFile = 'logs/scheduled-tasks.json';
+    const scheduledTasksFile = "logs/scheduled-tasks.json";
     let scheduledTasks = [];
 
     try {
       if (fs.existsSync(scheduledTasksFile)) {
-        scheduledTasks = JSON.parse(fs.readFileSync(scheduledTasksFile, 'utf8'));
+        scheduledTasks = JSON.parse(
+          fs.readFileSync(scheduledTasksFile, "utf8"),
+        );
       }
     } catch (error) {
-      this.log('Error loading scheduled tasks:', error.message);
+      this.log("Error loading scheduled tasks:", error.message);
     }
 
     scheduledTasks.push(scheduledTask);
 
     try {
-      fs.writeFileSync(scheduledTasksFile, JSON.stringify(scheduledTasks, null, 2));
+      fs.writeFileSync(
+        scheduledTasksFile,
+        JSON.stringify(scheduledTasks, null, 2),
+      );
       this.log(`Scheduled cleanup task for ${category}`);
     } catch (error) {
-      this.log('Error saving scheduled task:', error.message);
+      this.log("Error saving scheduled task:", error.message);
     }
   }
 
   optimizePerformance() {
     try {
-      this.log('Clearing ESLint caches for performance optimization');
-      execSync('yarn lint:cache:clear', { stdio: 'inherit' });
+      this.log("Clearing ESLint caches for performance optimization");
+      execSync("yarn lint:cache:clear", { stdio: "inherit" });
     } catch (error) {
-      this.log('Error optimizing performance:', error.message);
+      this.log("Error optimizing performance:", error.message);
     }
   }
 
@@ -398,13 +430,15 @@ class ErrorCountMonitor {
     const recentMetrics = this.metrics.history.slice(-10);
     const activeAlerts = this.alerts.active;
 
-    console.log('\n📊 Error Count Monitoring Report');
-    console.log('================================\n');
+    console.log("\n📊 Error Count Monitoring Report");
+    console.log("================================\n");
 
     if (recentMetrics.length > 0) {
       const latest = recentMetrics[recentMetrics.length - 1];
-      console.log('📈 Current Status:');
-      console.log(`  TypeScript Errors: ${latest.typeScriptErrors} (target: 0)`);
+      console.log("📈 Current Status:");
+      console.log(
+        `  TypeScript Errors: ${latest.typeScriptErrors} (target: 0)`,
+      );
       console.log(`  ESLint Errors: ${latest.eslintErrors} (target: 0)`);
       console.log(`  ESLint Warnings: ${latest.eslintWarnings} (target: 0)`);
       console.log(`  Lint Performance: ${latest.lintDuration}s (target: <30s)`);
@@ -412,40 +446,52 @@ class ErrorCountMonitor {
     }
 
     if (activeAlerts.length > 0) {
-      console.log('🚨 Active Alerts:');
-      activeAlerts.forEach(alert => {
+      console.log("🚨 Active Alerts:");
+      activeAlerts.forEach((alert) => {
         console.log(`  [${alert.type}] ${alert.category}: ${alert.message}`);
       });
-      console.log('');
+      console.log("");
     } else {
-      console.log('✅ No active alerts\n');
+      console.log("✅ No active alerts\n");
     }
 
     if (recentMetrics.length >= 2) {
       const previous = recentMetrics[recentMetrics.length - 2];
       const latest = recentMetrics[recentMetrics.length - 1];
 
-      console.log('📊 Trends:');
-      console.log(`  TypeScript Errors: ${this.getTrend(previous.typeScriptErrors, latest.typeScriptErrors)}`);
-      console.log(`  ESLint Errors: ${this.getTrend(previous.eslintErrors, latest.eslintErrors)}`);
-      console.log(`  ESLint Warnings: ${this.getTrend(previous.eslintWarnings, latest.eslintWarnings)}`);
-      console.log('');
+      console.log("📊 Trends:");
+      console.log(
+        `  TypeScript Errors: ${this.getTrend(previous.typeScriptErrors, latest.typeScriptErrors)}`,
+      );
+      console.log(
+        `  ESLint Errors: ${this.getTrend(previous.eslintErrors, latest.eslintErrors)}`,
+      );
+      console.log(
+        `  ESLint Warnings: ${this.getTrend(previous.eslintWarnings, latest.eslintWarnings)}`,
+      );
+      console.log("");
     }
 
-    console.log('🎯 Quality Gates Status:');
+    console.log("🎯 Quality Gates Status:");
     if (recentMetrics.length > 0) {
       const latest = recentMetrics[recentMetrics.length - 1];
-      console.log(`  TypeScript: ${this.getGateStatus(latest.typeScriptErrors, CONFIG.thresholds.typescript)}`);
-      console.log(`  ESLint Errors: ${this.getGateStatus(latest.eslintErrors, CONFIG.thresholds.eslint.errors)}`);
-      console.log(`  ESLint Warnings: ${this.getGateStatus(latest.eslintWarnings, CONFIG.thresholds.eslint.warnings)}`);
+      console.log(
+        `  TypeScript: ${this.getGateStatus(latest.typeScriptErrors, CONFIG.thresholds.typescript)}`,
+      );
+      console.log(
+        `  ESLint Errors: ${this.getGateStatus(latest.eslintErrors, CONFIG.thresholds.eslint.errors)}`,
+      );
+      console.log(
+        `  ESLint Warnings: ${this.getGateStatus(latest.eslintWarnings, CONFIG.thresholds.eslint.warnings)}`,
+      );
     }
   }
 
   getTrend(previous, current) {
     if (previous === current) return `${current} (no change)`;
     const change = current - previous;
-    const direction = change > 0 ? '📈' : '📉';
-    return `${current} (${change > 0 ? '+' : ''}${change}) ${direction}`;
+    const direction = change > 0 ? "📈" : "📉";
+    return `${current} (${change > 0 ? "+" : ""}${change}) ${direction}`;
   }
 
   getGateStatus(current, thresholds) {
@@ -456,7 +502,7 @@ class ErrorCountMonitor {
   }
 
   async monitor() {
-    this.log('Starting error count monitoring...');
+    this.log("Starting error count monitoring...");
 
     const metrics = await this.collectMetrics();
     const alerts = this.evaluateThresholds(metrics);
@@ -464,22 +510,24 @@ class ErrorCountMonitor {
     if (alerts.length > 0) {
       this.processAlerts(alerts, metrics);
     } else {
-      this.log('✅ All metrics within acceptable thresholds');
+      this.log("✅ All metrics within acceptable thresholds");
     }
 
     return { metrics, alerts };
   }
 
   startContinuousMonitoring() {
-    this.log(`Starting continuous monitoring (interval: ${CONFIG.monitoring.interval / 1000}s)`);
+    this.log(
+      `Starting continuous monitoring (interval: ${CONFIG.monitoring.interval / 1000}s)`,
+    );
 
     // Initial monitoring
     this.monitor();
 
     // Set up interval
     setInterval(() => {
-      this.monitor().catch(error => {
-        this.log('Error during monitoring:', error.message);
+      this.monitor().catch((error) => {
+        this.log("Error during monitoring:", error.message);
       });
     }, CONFIG.monitoring.interval);
   }
@@ -488,27 +536,27 @@ class ErrorCountMonitor {
 // CLI Interface
 async function main() {
   const monitor = new ErrorCountMonitor();
-  const command = process.argv[2] || 'monitor';
+  const command = process.argv[2] || "monitor";
 
   switch (command) {
-    case 'monitor':
+    case "monitor":
       await monitor.monitor();
       break;
 
-    case 'continuous':
+    case "continuous":
       monitor.startContinuousMonitoring();
       break;
 
-    case 'report':
+    case "report":
       monitor.generateReport();
       break;
 
-    case 'status':
+    case "status":
       const { metrics, alerts } = await monitor.monitor();
       console.log(JSON.stringify({ metrics, alerts }, null, 2));
       break;
 
-    case 'help':
+    case "help":
       console.log(`
 Error Count Monitor Commands:
   monitor     - Run single monitoring check
@@ -524,14 +572,16 @@ Options:
 
     default:
       console.error(`Unknown command: ${command}`);
-      console.error('Run "node error-count-monitor.cjs help" for usage information');
+      console.error(
+        'Run "node error-count-monitor.cjs help" for usage information',
+      );
       process.exit(1);
   }
 }
 
 if (require.main === module) {
-  main().catch(error => {
-    console.error('Error:', error.message);
+  main().catch((error) => {
+    console.error("Error:", error.message);
     process.exit(1);
   });
 }

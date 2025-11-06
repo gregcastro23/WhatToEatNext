@@ -8,94 +8,141 @@
 // ========== CORE COMPUTATION ENGINES ==========
 
 export {
-    aggregateAlchemicalProperties, aggregateElementalProperties, aggregateThermodynamicProperties, calculateAlchemicalVariance, calculateConfidenceInterval, calculateDiversityScore, calculateElementalVariance, calculateVariance, calculateWeightedAverage, computeCuisineProperties, validateCuisineComputationInputs
-} from './cuisineAggregationEngine';
+  aggregateAlchemicalProperties,
+  aggregateElementalProperties,
+  aggregateThermodynamicProperties,
+  calculateAlchemicalVariance,
+  calculateConfidenceInterval,
+  calculateDiversityScore,
+  calculateElementalVariance,
+  calculateVariance,
+  calculateWeightedAverage,
+  computeCuisineProperties,
+  validateCuisineComputationInputs,
+} from "./cuisineAggregationEngine";
 
-export type {
-    PropertyVariance
-} from './cuisineAggregationEngine';
+export type { PropertyVariance } from "./cuisineAggregationEngine";
 
 // ========== SIGNATURE IDENTIFICATION ==========
 
 export {
-    DEFAULT_GLOBAL_BASELINE, calculateSignatureConfidence, calculateZScore,
-    classifySignatureStrength, filterSignaturesByStrength,
-    getSignatureSummary, identifyCuisineSignatures, validateSignatureIdentification
-} from './signatureIdentificationEngine';
+  DEFAULT_GLOBAL_BASELINE,
+  calculateSignatureConfidence,
+  calculateZScore,
+  classifySignatureStrength,
+  filterSignaturesByStrength,
+  getSignatureSummary,
+  identifyCuisineSignatures,
+  validateSignatureIdentification,
+} from "./signatureIdentificationEngine";
 
-export type {
-    GlobalBaseline
-} from './signatureIdentificationEngine';
+export type { GlobalBaseline } from "./signatureIdentificationEngine";
 
 // ========== PLANETARY PATTERN ANALYSIS ==========
 
 export {
-    PLANETS, SIGN_ELEMENT_MAP, ZODIAC_SIGNS, analyzePlanetaryPatterns, calculateElementalDistribution, calculatePlanetaryDiversity, calculatePlanetaryStrength, countPlanetaryPositions, findRecipesWithPlanetaryPattern, getCulturalSignificance, validatePlanetaryAnalysisInputs
-} from './planetaryPatternAnalysis';
+  PLANETS,
+  SIGN_ELEMENT_MAP,
+  ZODIAC_SIGNS,
+  analyzePlanetaryPatterns,
+  calculateElementalDistribution,
+  calculatePlanetaryDiversity,
+  calculatePlanetaryStrength,
+  countPlanetaryPositions,
+  findRecipesWithPlanetaryPattern,
+  getCulturalSignificance,
+  validatePlanetaryAnalysisInputs,
+} from "./planetaryPatternAnalysis";
 
 export type {
-    ElementalDistribution, PlanetaryFrequency
-} from './planetaryPatternAnalysis';
+  ElementalDistribution,
+  PlanetaryFrequency,
+} from "./planetaryPatternAnalysis";
 
 // ========== CULTURAL INFLUENCE SYSTEM ==========
 
 export {
-    CLIMATE_MODIFIERS,
-    CULINARY_PHILOSOPHIES,
-    CULTURAL_EXCHANGES, GEOGRAPHIC_REGIONS, applyCulturalInfluences, applyExchangeInfluences, applyGeographicInfluences,
-    applyPhilosophyInfluences, generateCulturalDescription, getAvailableClimates, getAvailableExchanges, getAvailablePhilosophies, getAvailableRegions, validateCulturalInfluence
-} from './culturalInfluenceEngine';
+  CLIMATE_MODIFIERS,
+  CULINARY_PHILOSOPHIES,
+  CULTURAL_EXCHANGES,
+  GEOGRAPHIC_REGIONS,
+  applyCulturalInfluences,
+  applyExchangeInfluences,
+  applyGeographicInfluences,
+  applyPhilosophyInfluences,
+  generateCulturalDescription,
+  getAvailableClimates,
+  getAvailableExchanges,
+  getAvailablePhilosophies,
+  getAvailableRegions,
+  validateCulturalInfluence,
+} from "./culturalInfluenceEngine";
 
-export type {
-    CulturalInfluence
-} from './culturalInfluenceEngine';
+export type { CulturalInfluence } from "./culturalInfluenceEngine";
 
 // ========== PERSONALIZED RECOMMENDATION ENGINE ==========
 
 export {
-    calculateAlchemicalCompatibility,
-    calculateCulturalAlignment, calculateElementalCompatibility, calculateSeasonalRelevance,
-    calculateSignatureMatch, createAdvancedUserProfile, createBasicUserProfile, generateCuisineRecommendations, getRecommendationSummary, validateUserProfile
-} from './cuisineRecommendationEngine';
+  calculateAlchemicalCompatibility,
+  calculateCulturalAlignment,
+  calculateElementalCompatibility,
+  calculateSeasonalRelevance,
+  calculateSignatureMatch,
+  createAdvancedUserProfile,
+  createBasicUserProfile,
+  generateCuisineRecommendations,
+  getRecommendationSummary,
+  validateUserProfile,
+} from "./cuisineRecommendationEngine";
 
 export type {
-    CuisineRecommendation, UserProfile
-} from './cuisineRecommendationEngine';
+  CuisineRecommendation,
+  UserProfile,
+} from "./cuisineRecommendationEngine";
 
 // ========== CACHING SYSTEM ==========
 
 export {
-    computeCuisineWithCache, configureGlobalCache, getGlobalCache, resetGlobalCache
-} from './cuisineComputationCache';
+  computeCuisineWithCache,
+  configureGlobalCache,
+  getGlobalCache,
+  resetGlobalCache,
+} from "./cuisineComputationCache";
 
 export type {
-    CacheStatistics,
-    InvalidationReason
-} from './cuisineComputationCache';
+  CacheStatistics,
+  InvalidationReason,
+} from "./cuisineComputationCache";
 
 // ========== TYPES RE-EXPORT ==========
 
 export type {
-    CuisineComputationOptions, CuisineComputedProperties, CuisineSignature, CulturalInfluence, PlanetaryPattern, PropertyVariance, RecipeComputedProperties
-} from '@/types/hierarchy';
+  CuisineComputationOptions,
+  CuisineComputedProperties,
+  CuisineSignature,
+  CulturalInfluence,
+  PlanetaryPattern,
+  PropertyVariance,
+  RecipeComputedProperties,
+} from "@/types/hierarchy";
 
 // ========== CONSTANTS ==========
 
 /**
  * Current system version
  */
-export const CUISINE_SYSTEM_VERSION = '1.0.0';
+export const CUISINE_SYSTEM_VERSION = "1.0.0";
 
 /**
  * Default computation settings
  */
 export const DEFAULT_COMPUTATION_OPTIONS = {
-  weightingStrategy: 'equal' as const,
+  weightingStrategy: "equal" as const,
   signatureThreshold: 1.5,
   includeVariance: true,
   identifyPlanetaryPatterns: true,
   minStrength: 0.3,
-  includeCulturalNotes: true
+  includeCulturalNotes: true,
 };
 
 /**
@@ -105,5 +152,5 @@ export const PERFORMANCE_TARGETS = {
   cuisineComputation: 500, // ms per cuisine
   signatureIdentification: 200, // ms per cuisine
   patternAnalysis: 300, // ms per cuisine
-  recommendationGeneration: 100 // ms per query
+  recommendationGeneration: 100, // ms per query
 };

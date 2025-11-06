@@ -4,15 +4,15 @@
  * Clean up remaining any types in campaign test files
  */
 
-const fs = require('fs');
+const fs = require("fs");
 
 class FinalTestAnyTypeCleanup {
   async execute() {
-    console.log('🔧 Cleaning up remaining any types in campaign test files...');
+    console.log("🔧 Cleaning up remaining any types in campaign test files...");
 
     const testFiles = [
-      'src/services/campaign/CampaignInfrastructure.test.ts',
-      'src/services/campaign/CampaignIntelligenceSystem.test.ts'
+      "src/services/campaign/CampaignInfrastructure.test.ts",
+      "src/services/campaign/CampaignIntelligenceSystem.test.ts",
     ];
 
     let totalReplaced = 0;
@@ -31,12 +31,12 @@ class FinalTestAnyTypeCleanup {
     try {
       console.log(`  📄 Processing: ${filePath}`);
 
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       let changes = 0;
 
       // Replace all ": any" with nothing (let TypeScript infer)
       const beforeCount = (content.match(/:\s*any\b/g) || []).length;
-      content = content.replace(/:\s*any\b/g, '');
+      content = content.replace(/:\s*any\b/g, "");
       changes = beforeCount;
 
       if (changes > 0) {
@@ -47,7 +47,6 @@ class FinalTestAnyTypeCleanup {
       }
 
       return changes;
-
     } catch (error) {
       console.log(`    ❌ Error: ${error.message}`);
       return 0;
@@ -58,8 +57,8 @@ class FinalTestAnyTypeCleanup {
 // Execute if run directly
 if (require.main === module) {
   const cleanup = new FinalTestAnyTypeCleanup();
-  cleanup.execute().catch(error => {
-    console.error('Script failed:', error);
+  cleanup.execute().catch((error) => {
+    console.error("Script failed:", error);
     process.exit(1);
   });
 }

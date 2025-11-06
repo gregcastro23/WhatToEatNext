@@ -1,4 +1,4 @@
-import { _logger } from '@/lib/logger';
+import { _logger } from "@/lib/logger";
 import type {
   AspectType,
   AstrologicalState,
@@ -6,9 +6,9 @@ import type {
   LunarPhase,
   PlanetName,
   PlanetaryAspect,
-  ZodiacSign
-} from '@/types/alchemy';
-import type { CelestialPosition } from '@/types/celestial';
+  ZodiacSign,
+} from "@/types/alchemy";
+import type { CelestialPosition } from "@/types/celestial";
 
 /**
  * A utility function for logging debug information
@@ -33,7 +33,9 @@ interface StateCache<T> {
 }
 
 // Cache for reliable positions
-let reliablePositionsCache: StateCache<Record<string, CelestialPosition>> | null = null;
+let reliablePositionsCache: StateCache<
+  Record<string, CelestialPosition>
+> | null = null;
 const _CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 
 // Interface for transit date
@@ -54,7 +56,9 @@ interface UNUSED_PlanetDataWithTransits {
  * Get reliable planetary positions with fallback
  * @returns Record of planetary positions
  */
-export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosition } {
+export function getReliablePlanetaryPositions(): {
+  [key: string]: CelestialPosition;
+} {
   // Check cache first
   if (
     reliablePositionsCache?.timestamp &&
@@ -66,71 +70,71 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
   // Current gemini season positions as reliable fallback
   const positions: { [key: string]: CelestialPosition } = {
     Sun: {
-      sign: 'gemini',
+      sign: "gemini",
       degree: 5.93,
       exactLongitude: 65.93,
-      isRetrograde: false
+      isRetrograde: false,
     },
     moon: {
-      sign: 'gemini',
+      sign: "gemini",
       degree: 3.57,
       exactLongitude: 63.57,
-      isRetrograde: false
+      isRetrograde: false,
     },
     Mercury: {
-      sign: 'gemini',
+      sign: "gemini",
       degree: 1.98,
       exactLongitude: 61.98,
-      isRetrograde: false
+      isRetrograde: false,
     },
     Venus: {
-      sign: 'aries',
+      sign: "aries",
       degree: 20.17,
       exactLongitude: 20.17,
-      isRetrograde: false
+      isRetrograde: false,
     },
     Mars: {
-      sign: 'leo',
+      sign: "leo",
       degree: 18.38,
       exactLongitude: 138.38,
-      isRetrograde: false
+      isRetrograde: false,
     },
     Jupiter: {
-      sign: 'gemini',
+      sign: "gemini",
       degree: 26.87,
       exactLongitude: 86.87,
-      isRetrograde: false
+      isRetrograde: false,
     },
     _Saturn: {
-      sign: 'aries',
+      sign: "aries",
       degree: 0.13,
       exactLongitude: 0.13,
-      isRetrograde: false
+      isRetrograde: false,
     },
     _Uranus: {
-      sign: 'taurus',
+      sign: "taurus",
       degree: 27.82,
       exactLongitude: 57.82,
-      isRetrograde: false
+      isRetrograde: false,
     },
     _Neptune: {
-      sign: 'aries',
+      sign: "aries",
       degree: 1.77,
       exactLongitude: 1.77,
-      isRetrograde: false
+      isRetrograde: false,
     },
     _Pluto: {
-      sign: 'aquarius',
+      sign: "aquarius",
       degree: 3.7,
       exactLongitude: 303.7,
-      isRetrograde: true
-    }
+      isRetrograde: true,
+    },
   };
 
   // Cache the results
   reliablePositionsCache = {
     data: positions,
-    timestamp: Date.now()
+    timestamp: Date.now(),
   };
 
   return positions;
@@ -152,8 +156,8 @@ export function calculateLunarPhase(): number {
     return cyclePosition;
   } catch (error) {
     errorLog(
-      'Error in safe calculateLunarPhase: ',
-      error instanceof Error ? error.message : String(error)
+      "Error in safe calculateLunarPhase: ",
+      error instanceof Error ? error.message : String(error),
     );
     return 0; // Default to new Moon
   }
@@ -168,14 +172,14 @@ export function getLunarPhaseName(phase: number): string {
   const normalizedPhase = ((phase % 1) + 1) % 1;
   const phaseNormalized = normalizedPhase * 8;
 
-  if (phaseNormalized < 0.5 || phaseNormalized >= 7.5) return 'new moon';
-  if (phaseNormalized < 1.5) return 'waxing crescent';
-  if (phaseNormalized < 2.5) return 'first quarter';
-  if (phaseNormalized < 3.5) return 'waxing gibbous';
-  if (phaseNormalized < 4.5) return 'full moon';
-  if (phaseNormalized < 5.5) return 'waning gibbous';
-  if (phaseNormalized < 6.5) return 'last quarter';
-  return 'waning crescent';
+  if (phaseNormalized < 0.5 || phaseNormalized >= 7.5) return "new moon";
+  if (phaseNormalized < 1.5) return "waxing crescent";
+  if (phaseNormalized < 2.5) return "first quarter";
+  if (phaseNormalized < 3.5) return "waxing gibbous";
+  if (phaseNormalized < 4.5) return "full moon";
+  if (phaseNormalized < 5.5) return "waning gibbous";
+  if (phaseNormalized < 6.5) return "last quarter";
+  return "waning crescent";
 }
 
 /**
@@ -193,8 +197,8 @@ export function getmoonIllumination(): number {
     }
   } catch (error) {
     errorLog(
-      'Error in safe getmoonIllumination: ',
-      error instanceof Error ? error.message : String(error)
+      "Error in safe getmoonIllumination: ",
+      error instanceof Error ? error.message : String(error),
     );
     return 0.5; // Default to 50%
   }
@@ -210,18 +214,22 @@ export function calculateSunSign(date: Date = new Date()): ZodiacSign {
   const day = date.getDate();
 
   // Approximate Sun sign dates
-  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries';
-  if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'taurus';
-  if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return 'gemini';
-  if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return 'cancer';
-  if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return 'leo';
-  if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return 'virgo';
-  if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'libra';
-  if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'scorpio';
-  if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius';
-  if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn';
-  if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius';
-  return 'pisces';
+  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return "aries";
+  if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return "taurus";
+  if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return "gemini";
+  if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return "cancer";
+  if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return "leo";
+  if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return "virgo";
+  if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return "libra";
+  if ((month === 10 && day >= 23) || (month === 11 && day <= 21))
+    return "scorpio";
+  if ((month === 11 && day >= 22) || (month === 12 && day <= 21))
+    return "sagittarius";
+  if ((month === 12 && day >= 22) || (month === 1 && day <= 19))
+    return "capricorn";
+  if ((month === 1 && day >= 20) || (month === 2 && day <= 18))
+    return "aquarius";
+  return "pisces";
 }
 
 /**
@@ -230,20 +238,23 @@ export function calculateSunSign(date: Date = new Date()): ZodiacSign {
  * @param degree Degree within sign
  * @returns Total degrees (0-360)
  */
-export function getZodiacPositionInDegrees(sign: ZodiacSign, degree: number): number {
+export function getZodiacPositionInDegrees(
+  sign: ZodiacSign,
+  degree: number,
+): number {
   const signs: ZodiacSign[] = [
-    'aries',
-    'taurus',
-    'gemini',
-    'cancer',
-    'leo',
-    'virgo',
-    'libra',
-    'scorpio',
-    'sagittarius',
-    'capricorn',
-    'aquarius',
-    'pisces'
+    "aries",
+    "taurus",
+    "gemini",
+    "cancer",
+    "leo",
+    "virgo",
+    "libra",
+    "scorpio",
+    "sagittarius",
+    "capricorn",
+    "aquarius",
+    "pisces",
   ];
 
   const signIndex = signs.indexOf(sign);
@@ -256,7 +267,7 @@ export function getZodiacPositionInDegrees(sign: ZodiacSign, degree: number): nu
  * @returns Array of planetary aspects
  */
 export function calculatePlanetaryAspects(positions: {
-  [key: string]: CelestialPosition
+  [key: string]: CelestialPosition;
 }): PlanetaryAspect[] {
   const aspects: PlanetaryAspect[] = [];
   const planets = Object.keys(positions);
@@ -302,7 +313,7 @@ export function calculatePlanetaryAspects(positions: {
             type: aspect.type,
             orb: aspect.orb,
             strength,
-            planets: [planet1, planet2]
+            planets: [planet1, planet2],
           });
         }
       }
@@ -317,9 +328,14 @@ export function calculatePlanetaryAspects(positions: {
  * @param angleDiff Angle difference in degrees
  * @returns Aspect type and orb or null if not a recognized aspect
  */
-export function identifyAspect(angleDiff: number): { type: AspectType; orb: number } | null {
+export function identifyAspect(
+  angleDiff: number,
+): { type: AspectType; orb: number } | null {
   // Define aspect angles and allowed orbs
-  const aspectDefinitions: Record<AspectType, { angle: number; maxOrb: number }> = {
+  const aspectDefinitions: Record<
+    AspectType,
+    { angle: number; maxOrb: number }
+  > = {
     conjunction: { angle: 0, maxOrb: 8 },
     opposition: { angle: 180, maxOrb: 8 },
     trine: { angle: 120, maxOrb: 7 },
@@ -330,7 +346,7 @@ export function identifyAspect(angleDiff: number): { type: AspectType; orb: numb
     semisquare: { angle: 45, maxOrb: 4 },
     sesquisquare: { angle: 135, maxOrb: 4 },
     quintile: { angle: 72, maxOrb: 3 },
-    biquintile: { angle: 144, maxOrb: 3 }
+    biquintile: { angle: 144, maxOrb: 3 },
   };
 
   // Check each aspect type
@@ -363,11 +379,14 @@ export function calculateAspectStrength(type: AspectType, orb: number): number {
     semisquare: 0.5,
     sesquisquare: 0.5,
     quintile: 0.4,
-    biquintile: 0.4
+    biquintile: 0.4,
   };
 
   // Get max orb for this aspect type
-  const aspectDefinitions: Record<AspectType, { angle: number; maxOrb: number }> = {
+  const aspectDefinitions: Record<
+    AspectType,
+    { angle: number; maxOrb: number }
+  > = {
     conjunction: { angle: 0, maxOrb: 8 },
     opposition: { angle: 180, maxOrb: 8 },
     trine: { angle: 120, maxOrb: 7 },
@@ -378,10 +397,10 @@ export function calculateAspectStrength(type: AspectType, orb: number): number {
     semisquare: { angle: 45, maxOrb: 4 },
     sesquisquare: { angle: 135, maxOrb: 4 },
     quintile: { angle: 72, maxOrb: 3 },
-    biquintile: { angle: 144, maxOrb: 3 }
+    biquintile: { angle: 144, maxOrb: 3 },
   };
 
-  const {maxOrb} = aspectDefinitions[type];
+  const { maxOrb } = aspectDefinitions[type];
 
   // Calculate strength based on orb (linear falloff)
   // The closer to exact aspect (smaller orb), the stronger the aspect
@@ -408,7 +427,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
 
     // Map planets to names
     const activePlanets = Object.keys(positions || {}).filter(
-      p => !['northNode', 'southNode', 'Chiron', 'Ascendant', 'MC'].includes(p)
+      (p) =>
+        !["northNode", "southNode", "Chiron", "Ascendant", "MC"].includes(p),
     ) as PlanetName[];
 
     // Format lunar phase
@@ -416,8 +436,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     const lunarPhase = getLunarPhaseName(phase) as LunarPhase;
 
     // Provide Sun and Moon signs
-    const sunSign = (positions.Sun.sign as ZodiacSign) || 'aries';
-    const moonSign = (positions.moon.sign as ZodiacSign) || 'cancer';
+    const sunSign = (positions.Sun.sign as ZodiacSign) || "aries";
+    const moonSign = (positions.moon.sign as ZodiacSign) || "cancer";
 
     // Return formatted state
     return {
@@ -427,22 +447,22 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       activePlanets,
       dominantElement,
       _planetaryPositions: positions as Record<string, CelestialPosition>,
-      _isDaytime: new Date().getHours() > 6 && new Date().getHours() < 18
+      _isDaytime: new Date().getHours() > 6 && new Date().getHours() < 18,
     };
   } catch (error) {
     errorLog(
-      'Error in getCurrentAstrologicalState: ',
-      error instanceof Error ? error.message : String(error)
+      "Error in getCurrentAstrologicalState: ",
+      error instanceof Error ? error.message : String(error),
     );
 
     // Fallback default state
     return {
-      sunSign: 'aries',
-      moonSign: 'cancer',
-      lunarPhase: 'new moon',
-      activePlanets: ['Sun', 'Moon', 'Jupiter'],
-      dominantElement: 'Fire',
-      _loading: false
+      sunSign: "aries",
+      moonSign: "cancer",
+      lunarPhase: "new moon",
+      activePlanets: ["Sun", "Moon", "Jupiter"],
+      dominantElement: "Fire",
+      _loading: false,
     };
   }
 }
@@ -458,18 +478,18 @@ export const normalizeZodiacSign = (sign: string): ZodiacSign => {
 
   // Check if it's a valid sign
   const validSigns: ZodiacSign[] = [
-    'aries',
-    'taurus',
-    'gemini',
-    'cancer',
-    'leo',
-    'virgo',
-    'libra',
-    'scorpio',
-    'sagittarius',
-    'capricorn',
-    'aquarius',
-    'pisces'
+    "aries",
+    "taurus",
+    "gemini",
+    "cancer",
+    "leo",
+    "virgo",
+    "libra",
+    "scorpio",
+    "sagittarius",
+    "capricorn",
+    "aquarius",
+    "pisces",
   ];
 
   if (validSigns.includes(normalizedSign as ZodiacSign)) {
@@ -477,13 +497,13 @@ export const normalizeZodiacSign = (sign: string): ZodiacSign => {
   }
 
   // Handle common variations
-  if (normalizedSign.includes('sag')) return 'sagittarius';
-  if (normalizedSign.includes('cap')) return 'capricorn';
-  if (normalizedSign.includes('aqua')) return 'aquarius';
-  if (normalizedSign.includes('pis')) return 'pisces';
+  if (normalizedSign.includes("sag")) return "sagittarius";
+  if (normalizedSign.includes("cap")) return "capricorn";
+  if (normalizedSign.includes("aqua")) return "aquarius";
+  if (normalizedSign.includes("pis")) return "pisces";
 
   // Default to aries if no match
-  return 'aries';
+  return "aries";
 };
 
 /**
@@ -494,7 +514,7 @@ export const normalizeZodiacSign = (sign: string): ZodiacSign => {
  */
 export function getCurrentTransitSign(
   planet: string,
-  date: Date = new Date()
+  date: Date = new Date(),
 ): ZodiacSign | null {
   try {
     // Get reliable positions
@@ -506,11 +526,11 @@ export function getCurrentTransitSign(
     }
 
     // For common planets, calculate fallback
-    if (planet === 'Sun') {
+    if (planet === "Sun") {
       return calculateSunSign(date);
     }
 
-    if (planet === 'Moon') {
+    if (planet === "Moon") {
       const dayOfYear = getDayOfYear(date);
       return calculateApproximateMoonSign(dayOfYear);
     }
@@ -519,8 +539,8 @@ export function getCurrentTransitSign(
     return null;
   } catch (error) {
     errorLog(
-      'Error in getCurrentTransitSign: ',
-      error instanceof Error ? error.message : String(error)
+      "Error in getCurrentTransitSign: ",
+      error instanceof Error ? error.message : String(error),
     );
     return null;
   }
@@ -534,7 +554,7 @@ export function getCurrentTransitSign(
  */
 export function validatePlanetaryPositions(
   positions: { [key: string]: unknown },
-  _date: Date = new Date()
+  _date: Date = new Date(),
 ): { [key: string]: CelestialPosition } {
   // If positions are missing or empty, use reliable positions
   if (!positions || Object.keys(positions || {}).length === 0) {
@@ -542,11 +562,11 @@ export function validatePlanetaryPositions(
   }
 
   // Check if required planets are present
-  const requiredPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'];
+  const requiredPlanets = ["Sun", "Moon", "Mercury", "Venus", "Mars"];
   let isValid = true;
 
   for (const planet of requiredPlanets) {
-    const planetData = (positions as Record<string, {sign?: string}>)[planet];
+    const planetData = (positions as Record<string, { sign?: string }>)[planet];
     if (!planetData || !planetData.sign) {
       isValid = false;
       break;
@@ -561,17 +581,17 @@ export function validatePlanetaryPositions(
   const result: { [key: string]: CelestialPosition } = {};
 
   for (const [planet, data] of Object.entries(positions)) {
-    if (typeof data === 'object' && data !== null) {
+    if (typeof data === "object" && data !== null) {
       const src = data as Record<string, unknown>;
       const position: CelestialPosition = {
-        sign: String(src.sign || ''),
+        sign: String(src.sign || ""),
         degree: Number(src.degree || 0),
         exactLongitude: Number(src.exactLongitude || 0),
-        isRetrograde: Boolean(src.isRetrograde)
+        isRetrograde: Boolean(src.isRetrograde),
       };
 
       // Convert sign to lowercase if it exists
-      if (position.sign && typeof position.sign === 'string') {
+      if (position.sign && typeof position.sign === "string") {
         position.sign = position.sign.toLowerCase();
       }
 
@@ -589,18 +609,18 @@ export function validatePlanetaryPositions(
  */
 export function getBaseSignLongitude(sign: ZodiacSign): number {
   const signs: ZodiacSign[] = [
-    'aries',
-    'taurus',
-    'gemini',
-    'cancer',
-    'leo',
-    'virgo',
-    'libra',
-    'scorpio',
-    'sagittarius',
-    'capricorn',
-    'aquarius',
-    'pisces'
+    "aries",
+    "taurus",
+    "gemini",
+    "cancer",
+    "leo",
+    "virgo",
+    "libra",
+    "scorpio",
+    "sagittarius",
+    "capricorn",
+    "aquarius",
+    "pisces",
   ];
 
   const index = signs.indexOf(sign);
@@ -618,14 +638,15 @@ export function getCurrentTransitPositions(): {
   const positions = getReliablePlanetaryPositions();
 
   // Convert to transit format
-  const result: { [key: string]: { sign: ZodiacSign; degree: number; isRetrograde: boolean } } =
-    {};
+  const result: {
+    [key: string]: { sign: ZodiacSign; degree: number; isRetrograde: boolean };
+  } = {};
 
   for (const [planet, data] of Object.entries(positions)) {
     result[planet] = {
       sign: data.sign as ZodiacSign,
       degree: data.degree,
-      isRetrograde: data.isRetrograde || false
+      isRetrograde: data.isRetrograde || false,
     };
   }
 
@@ -651,18 +672,18 @@ function getDayOfYear(date: Date): number {
  */
 function _calculateApproximateSunSign(dayOfYear: number): ZodiacSign {
   // Simple approximation of Sun sign based on day of year
-  if (dayOfYear >= 80 && dayOfYear < 110) return 'aries';
-  if (dayOfYear >= 110 && dayOfYear < 141) return 'taurus';
-  if (dayOfYear >= 141 && dayOfYear < 172) return 'gemini';
-  if (dayOfYear >= 172 && dayOfYear < 204) return 'cancer';
-  if (dayOfYear >= 204 && dayOfYear < 235) return 'leo';
-  if (dayOfYear >= 235 && dayOfYear < 266) return 'virgo';
-  if (dayOfYear >= 266 && dayOfYear < 296) return 'libra';
-  if (dayOfYear >= 296 && dayOfYear < 326) return 'scorpio';
-  if (dayOfYear >= 326 && dayOfYear < 356) return 'sagittarius';
-  if (dayOfYear >= 356 || dayOfYear < 20) return 'capricorn';
-  if (dayOfYear >= 20 && dayOfYear < 49) return 'aquarius';
-  return 'pisces';
+  if (dayOfYear >= 80 && dayOfYear < 110) return "aries";
+  if (dayOfYear >= 110 && dayOfYear < 141) return "taurus";
+  if (dayOfYear >= 141 && dayOfYear < 172) return "gemini";
+  if (dayOfYear >= 172 && dayOfYear < 204) return "cancer";
+  if (dayOfYear >= 204 && dayOfYear < 235) return "leo";
+  if (dayOfYear >= 235 && dayOfYear < 266) return "virgo";
+  if (dayOfYear >= 266 && dayOfYear < 296) return "libra";
+  if (dayOfYear >= 296 && dayOfYear < 326) return "scorpio";
+  if (dayOfYear >= 326 && dayOfYear < 356) return "sagittarius";
+  if (dayOfYear >= 356 || dayOfYear < 20) return "capricorn";
+  if (dayOfYear >= 20 && dayOfYear < 49) return "aquarius";
+  return "pisces";
 }
 
 /**
@@ -675,18 +696,18 @@ function calculateApproximateMoonSign(dayOfYear: number): ZodiacSign {
   // This is a very rough approximation
   const moonCycle = Math.floor((dayOfYear % 29.5) / 2.5);
   const signs: ZodiacSign[] = [
-    'aries',
-    'taurus',
-    'gemini',
-    'cancer',
-    'leo',
-    'virgo',
-    'libra',
-    'scorpio',
-    'sagittarius',
-    'capricorn',
-    'aquarius',
-    'pisces'
+    "aries",
+    "taurus",
+    "gemini",
+    "cancer",
+    "leo",
+    "virgo",
+    "libra",
+    "scorpio",
+    "sagittarius",
+    "capricorn",
+    "aquarius",
+    "pisces",
   ];
 
   return signs[moonCycle % 12];
@@ -697,28 +718,30 @@ function calculateApproximateMoonSign(dayOfYear: number): ZodiacSign {
  * @param positions Planetary positions
  * @returns Element count object
  */
-function countElements(positions: { [key: string]: CelestialPosition }): { [key: string]: number } {
+function countElements(positions: { [key: string]: CelestialPosition }): {
+  [key: string]: number;
+} {
   const elements: { [key: string]: number } = {
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0
+    Water: 0,
   };
 
   // Map signs to elements
   const signElements: { [key: string]: string } = {
-    aries: 'Fire',
-    leo: 'Fire',
-    sagittarius: 'Fire',
-    taurus: 'Earth',
-    virgo: 'Earth',
-    capricorn: 'Earth',
-    gemini: 'Air',
-    libra: 'Air',
-    aquarius: 'Air',
-    cancer: 'Water',
-    scorpio: 'Water',
-    pisces: 'Water'
+    aries: "Fire",
+    leo: "Fire",
+    sagittarius: "Fire",
+    taurus: "Earth",
+    virgo: "Earth",
+    capricorn: "Earth",
+    gemini: "Air",
+    libra: "Air",
+    aquarius: "Air",
+    cancer: "Water",
+    scorpio: "Water",
+    pisces: "Water",
   };
 
   // Count elements
@@ -730,9 +753,9 @@ function countElements(positions: { [key: string]: CelestialPosition }): { [key:
 
     // Weigh Sun and Moon more heavily
     let weight = 1;
-    if (planet === 'Sun' || planet === 'Moon') {
+    if (planet === "Sun" || planet === "Moon") {
       weight = 3;
-    } else if (['Mercury', 'Venus', 'Mars'].includes(planet)) {
+    } else if (["Mercury", "Venus", "Mars"].includes(planet)) {
       weight = 2;
     }
 
@@ -749,7 +772,7 @@ function countElements(positions: { [key: string]: CelestialPosition }): { [key:
  */
 function getDominantElement(elements: { [key: string]: number }): string {
   let max = 0;
-  let dominant = 'Fire';
+  let dominant = "Fire";
 
   for (const [element, count] of Object.entries(elements)) {
     if (count > max) {

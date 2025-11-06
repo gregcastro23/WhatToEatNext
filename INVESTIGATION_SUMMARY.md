@@ -70,6 +70,7 @@ catch (e) {
 **File:** `src/services/LoggingService.ts`
 **Issue:** Infinite loop in `outputToConsole()` method
 **Call Stack:**
+
 ```
 log.info() → logger.info() → log() → outputToConsole() → log.info() → ...
 ```
@@ -100,16 +101,19 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
 ### Priority Summary:
 
 #### 🔴 HIGH PRIORITY (Core Features Missing)
+
 1. **KalchmRecommender Component** - Main engine for `/what-to-eat-next`
 2. **IngredientRecommender Component** - Core feature of `/ingredients`
 3. **Cooking Method Data Exports** - Missing `pressureCooking`, `sousVide`
 
 #### 🟡 MEDIUM PRIORITY (Enhanced Features)
+
 4. Recipe building system (12+ TODO methods)
 5. Seasonal calculation implementations (4 TODO methods)
 6. Cuisine aggregation enhancements (3 TODO methods)
 
 #### 🟢 LOW PRIORITY (Optional/Test Code)
+
 7. Mock planetary positions in AlchemicalProvider
 8. Mock user service implementation
 9. Test file import fixes
@@ -121,14 +125,14 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
 
 ### Frontend APIs (Local - Port 3000)
 
-| Endpoint | Status | Notes |
-|----------|--------|-------|
-| `/api/health` | ✅ Working | Health check functional |
-| `/api/current-moment` | ✅ Working | Uses fallback positions |
-| `/api/astrologize` | ⚠️ Timeout | Backend connectivity issue |
-| `/api/alchemize` | ⚠️ Error | Depends on astrologize |
-| `/api/recipes` | ✅ Working | Local data |
-| `/api/planetary-positions` | ✅ Working | Fallback mode |
+| Endpoint                   | Status     | Notes                      |
+| -------------------------- | ---------- | -------------------------- |
+| `/api/health`              | ✅ Working | Health check functional    |
+| `/api/current-moment`      | ✅ Working | Uses fallback positions    |
+| `/api/astrologize`         | ⚠️ Timeout | Backend connectivity issue |
+| `/api/alchemize`           | ⚠️ Error   | Depends on astrologize     |
+| `/api/recipes`             | ✅ Working | Local data                 |
+| `/api/planetary-positions` | ✅ Working | Fallback mode              |
 
 ### External Backend (alchm-backend.onrender.com)
 
@@ -137,12 +141,14 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
 **URL Tested:** `https://alchm-backend.onrender.com`
 
 **Impact:**
+
 - Astrologize API falls back to cached/default positions
 - Alchemize calculations use fallback data
 - Current moment calculations use system defaults
 - **Application still functions with fallback mode**
 
 **Recommendation:**
+
 - Verify backend deployment status on Render.com
 - Check if backend needs to be woken up (cold start)
 - Consider implementing better fallback UI indicators
@@ -153,6 +159,7 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
 ## 📂 COMPONENT STATUS
 
 ### ✅ Complete & Working
+
 - ErrorBoundary
 - AlchemicalProvider
 - ThemeProvider
@@ -161,6 +168,7 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
 - All API route handlers
 
 ### ⚠️ Placeholder/Stub Components
+
 - KalchmRecommender (shows "unavailable" message)
 - IngredientRecommender (shows "unavailable" message)
 - UnifiedScoringDemo (excluded from build)
@@ -168,6 +176,7 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
 - SwissEphemerisDemo (excluded from build)
 
 ### 📦 Using Mock Data
+
 - EnhancedRecommendationEngine (hard-coded recipe list)
 - UserContext (mock user service)
 - AlchemicalContext (empty planetary positions)
@@ -177,6 +186,7 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
 ## 🎯 RECOMMENDED NEXT STEPS
 
 ### Immediate (Before User Testing)
+
 1. **Implement KalchmRecommender** or wire up EnhancedRecommendationEngine
    - `/what-to-eat-next` is the main feature page
    - Current shows only "unavailable" message
@@ -192,12 +202,14 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
    - Or update import statements to use `_pressureCooking`, `_sousVide`
 
 ### Short-term (Feature Enhancement)
+
 4. Complete recipe building methods
 5. Implement seasonal alignment calculations
 6. Enhance cuisine aggregation algorithms
 7. Add fallback UI indicators when backend is unavailable
 
 ### Long-term (Polish)
+
 8. Replace mock implementations with real services
 9. Restore useful demo pages for development
 10. Add comprehensive error boundaries
@@ -208,18 +220,21 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
 ## 🚀 DEPLOYMENT READINESS
 
 ### ✅ Ready for Development
+
 - Build process stable
 - Dev server functional
 - Core infrastructure complete
 - Error handling in place
 
 ### ⚠️ Not Ready for Production
+
 - Missing core UI components (KalchmRecommender, IngredientRecommender)
 - Backend connectivity unverified
 - Mock data in several components
 - Incomplete feature implementations
 
 ### Estimated Work to Production-Ready
+
 - **High Priority Fixes:** 8-16 hours
 - **Medium Priority Enhancements:** 20-40 hours
 - **Full Feature Completion:** 40-80 hours
@@ -229,22 +244,24 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
 ## 📈 PROGRESS METRICS
 
 ### Build Metrics
-| Metric | Value |
-|--------|-------|
-| Total Pages | 21 (up from 17 baseline) |
-| Build Time | ~6-8 seconds |
-| Parsing Errors | 0 (maintained) |
-| ESLint Issues | 4,852 total (724 errors, 4,128 warnings) |
-| API Routes | 14 (all functional) |
+
+| Metric         | Value                                    |
+| -------------- | ---------------------------------------- |
+| Total Pages    | 21 (up from 17 baseline)                 |
+| Build Time     | ~6-8 seconds                             |
+| Parsing Errors | 0 (maintained)                           |
+| ESLint Issues  | 4,852 total (724 errors, 4,128 warnings) |
+| API Routes     | 14 (all functional)                      |
 
 ### Code Health
-| Category | Count |
-|----------|-------|
-| TODO Comments | 47+ |
-| FIXME Comments | 0 |
-| Mock Implementations | 6 |
-| Placeholder Components | 8 |
-| Critical Bugs Fixed | 2 |
+
+| Category               | Count |
+| ---------------------- | ----- |
+| TODO Comments          | 47+   |
+| FIXME Comments         | 0     |
+| Mock Implementations   | 6     |
+| Placeholder Components | 8     |
+| Critical Bugs Fixed    | 2     |
 
 ---
 
@@ -262,14 +279,17 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
 ## 📝 FILES MODIFIED IN INVESTIGATION
 
 ### Created
+
 - `INCOMPLETE_IMPLEMENTATIONS.md` - Detailed placeholder documentation
 - `INVESTIGATION_SUMMARY.md` - This file
 
 ### Fixed
+
 - `src/utils/logger.ts` - Removed circular dependency
 - `src/services/LoggingService.ts` - Fixed infinite recursion
 
 ### No Changes Needed
+
 - All service layer implementations complete
 - All API routes functional
 - All restored pages working
@@ -292,18 +312,21 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
 ### For Next Developer
 
 **Start Here:**
+
 1. Read [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEMENTATIONS.md)
 2. Implement KalchmRecommender using EnhancedRecommendationEngine as template
 3. Wire up IngredientRecommender with existing ingredient service
 4. Test with backend when it's available
 
 **Key Files to Understand:**
+
 - `src/services/index.ts` - Service manager (all services exported here)
 - `src/utils/planetaryAlchemyMapping.ts` - ESMS calculations
 - `src/hooks/useEnhancedRecommendations.ts` - Recommendation hook
 - `src/components/EnhancedRecommendationEngine.tsx` - Recommendation UI template
 
 **Avoid:**
+
 - Don't add more logging services (we have 2 already)
 - Don't use lazy fixes or placeholders
 - Don't skip error handling
@@ -314,11 +337,13 @@ Detailed report available in: [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEME
 ## 📞 SUPPORT & RESOURCES
 
 ### Documentation
+
 - [CLAUDE.md](CLAUDE.md) - Project coding standards
 - [INCOMPLETE_IMPLEMENTATIONS.md](INCOMPLETE_IMPLEMENTATIONS.md) - Detailed placeholder list
 - This file - Investigation summary
 
 ### Commands
+
 ```bash
 # Start development
 yarn dev
@@ -337,6 +362,7 @@ curl -X POST http://localhost:3000/api/health
 ```
 
 ### Environment
+
 - Node.js version: As specified in package.json
 - Package manager: **Yarn** (required, not npm)
 - Backend URL: https://alchm-backend.onrender.com (currently unavailable)
@@ -363,6 +389,6 @@ The application is in good shape structurally with clear paths forward for featu
 
 ---
 
-*Generated by Claude Code AI Assistant*
-*Branch: phase-2-restoration*
-*Commit: 78810c13b*
+_Generated by Claude Code AI Assistant_
+_Branch: phase-2-restoration_
+_Commit: 78810c13b_

@@ -1,4 +1,4 @@
-import type { PlanetaryPosition } from './astrology';
+import type { PlanetaryPosition } from "./astrology";
 
 export interface CurrentChart {
   timestamp: number;

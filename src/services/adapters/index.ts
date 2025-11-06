@@ -1,4 +1,4 @@
-import { Recipe } from '@/types/recipe';
+import { Recipe } from "@/types/recipe";
 
 /**
  * Service Adapters Index
@@ -12,40 +12,43 @@ import { Recipe } from '@/types/recipe';
 export {
   default as unifiedDataAdapter,
   type UnifiedDataAdapterInterface,
-} from './UnifiedDataAdapter';
+} from "./UnifiedDataAdapter";
 
 // Export FoodAlchemySystemAdapter
 export {
   default as enhancedFoodAlchemySystem,
   EnhancedFoodAlchemySystem,
-} from './FoodAlchemySystemAdapter';
+} from "./FoodAlchemySystemAdapter";
 
 // Export EnhancedIngredientSystem
 export {
   default as enhancedIngredientSystem,
   EnhancedIngredientSystem,
-} from './IngredientServiceAdapter';
+} from "./IngredientServiceAdapter";
 
 // Export NutritionalDataAdapter
 export {
   default as nutritionalDataAdapter,
   type NutritionalDataAdapterInterface,
-} from './NutritionalDataAdapter';
+} from "./NutritionalDataAdapter";
 
 // Export LegacyIngredientAdapter
 export {
   default as legacyIngredientAdapter,
   LegacyIngredientAdapter,
-} from './LegacyIngredientAdapter';
+} from "./LegacyIngredientAdapter";
 
 // Export LegacyRecipeAdapter
-export { default as legacyRecipeAdapter, LegacyRecipeAdapter } from './LegacyRecipeAdapter';
+export {
+  default as legacyRecipeAdapter,
+  LegacyRecipeAdapter,
+} from "./LegacyRecipeAdapter";
 
 // Export LegacyRecommendationAdapter
 export {
   default as legacyRecommendationAdapter,
   LegacyRecommendationAdapter,
-} from './LegacyRecommendationAdapter';
+} from "./LegacyRecommendationAdapter";
 
 // Export other adapters as they are created
 // export { default as someOtherAdapter } from './SomeOtherAdapter';

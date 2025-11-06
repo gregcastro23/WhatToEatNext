@@ -1,7 +1,7 @@
 // Keep this file focused on seasonal data only, removing any elemental balance references
-import type { Season } from '@/types/alchemy';
-import { seasonalPatterns } from './seasonalPatterns';
-import { seasonalUsage } from './seasonalUsage';
+import type { Season } from "@/types/alchemy";
+import { seasonalPatterns } from "./seasonalPatterns";
+import { seasonalUsage } from "./seasonalUsage";
 
 export interface SeasonalData {
   availability: number; // 0-1 scale for ingredient availability
@@ -15,10 +15,10 @@ export interface SeasonalData {
 export function getCurrentSeason(): Season {
   const month = new Date().getMonth();
 
-  if (month >= 2 && month <= 4) return 'spring';
-  if (month >= 5 && month <= 7) return 'summer';
-  if (month >= 8 && month <= 10) return 'fall';
-  return 'winter';
+  if (month >= 2 && month <= 4) return "spring";
+  if (month >= 5 && month <= 7) return "summer";
+  if (month >= 8 && month <= 10) return "fall";
+  return "winter";
 }
 
 /**
@@ -26,13 +26,17 @@ export function getCurrentSeason(): Season {
  */
 export function getSeasonalScore(
   ingredientName: string,
-  season: Season = getCurrentSeason()
+  season: Season = getCurrentSeason(),
 ): number {
   // Check if the ingredient exists in seasonal patterns
   if (!seasonalPatterns[season] || !seasonalPatterns[season][ingredientName]) {
     // If ingredient is not found in the specific season, check if it's marked as 'all' seasons
-    if (season !== 'all' && seasonalPatterns['all'] && seasonalPatterns['all'][ingredientName]) {
-      return seasonalPatterns['all'][ingredientName] as number;
+    if (
+      season !== "all" &&
+      seasonalPatterns["all"] &&
+      seasonalPatterns["all"][ingredientName]
+    ) {
+      return seasonalPatterns["all"][ingredientName] as number;
     }
     return 0.1; // Default low score if not found
   }
@@ -45,7 +49,7 @@ export function getSeasonalScore(
  */
 export function getSeasonalData(
   ingredientName: string,
-  season: Season = getCurrentSeason()
+  season: Season = getCurrentSeason(),
 ): SeasonalData {
   const availability = getSeasonalScore(ingredientName, season);
   const traditionalUse = seasonalUsage[season]?.[ingredientName] || [];
@@ -54,9 +58,12 @@ export function getSeasonalData(
   // Add type assertion to handle the unknown type
   const seasonalData = seasonalPatterns[season] || {};
   const complementaryFlavors = Object.entries(seasonalData)
-    .filter(([_key, value]) => 
-      // Only include ingredient entries (skip metadata like elementalInfluence)
-       typeof value === 'number' && value > 0.7 && _key !== 'elementalInfluence'
+    .filter(
+      ([_key, value]) =>
+        // Only include ingredient entries (skip metadata like elementalInfluence)
+        typeof value === "number" &&
+        value > 0.7 &&
+        _key !== "elementalInfluence",
     )
     .map(([name_]) => name)
     .slice(0, 5); // Top 5
@@ -64,15 +71,15 @@ export function getSeasonalData(
   return {
     availability,
     traditionalUse,
-    complementaryFlavors
-  }
+    complementaryFlavors,
+  };
 }
 
 /**
  * Check if an ingredient is in season
  */
 export function isInSeason(ingredientName: string, _threshold = 0.5): boolean {
-  const score = getSeasonalScore(ingredientName)
+  const score = getSeasonalScore(ingredientName);
   return score >= threshold;
 }
 
@@ -91,17 +98,23 @@ export const _unifiedSeasonalSystem = {
   seasonalUsage,
 
   // Utility functions
-  getSeasonalIngredients: (season: Season = getCurrentSeason(), minScore = 0.6) => {
+  getSeasonalIngredients: (
+    season: Season = getCurrentSeason(),
+    minScore = 0.6,
+  ) => {
     const seasonData = seasonalPatterns[season] || {};
     return Object.entries(seasonData)
       .filter(
         ([_key, value]) =>
-          typeof value === 'number' && value >= minScore && _key !== 'elementalInfluence'
+          typeof value === "number" &&
+          value >= minScore &&
+          _key !== "elementalInfluence",
       )
       .map(([name, score]) => ({ name, score: score as number }))
-      .sort((ab) => b.score - a.score)
+      .sort((ab) => b.score - a.score);
   },
-  getAllSeasons: () => ['spring', 'summer', 'fall', 'winter', 'all'] as Season[],
+  getAllSeasons: () =>
+    ["spring", "summer", "fall", "winter", "all"] as Season[],
 
   getSeasonalRecommendations: (season: Season = getCurrentSeason()) => {
     const ingredients = seasonalPatterns[season] || {};
@@ -109,12 +122,12 @@ export const _unifiedSeasonalSystem = {
 
     return {
       topIngredients: Object.entries(ingredients)
-        .filter(([_key, value]) => typeof value === 'number' && value > 0.7)
+        .filter(([_key, value]) => typeof value === "number" && value > 0.7)
         .sort(([, a], [, b]) => (b as number) - (a as number))
         .slice(0, 10)
         .map(([name, score]) => ({ name, score: score as number })),
       traditionalUses: Object.keys(usage),
-      seasonalTips: `Best practices for ${season} cooking and ingredient selection.`
-    }
-  }
-}
+      seasonalTips: `Best practices for ${season} cooking and ingredient selection.`,
+    };
+  },
+};

@@ -1,13 +1,13 @@
-import type { IngredientMapping } from '@/data/ingredients/types';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from "@/data/ingredients/types";
+import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawAromaticHerbs = {
   thyme: {
-    name: 'Thyme',
-    category: 'herb',
-    subCategory: 'aromatic',
+    name: "Thyme",
+    category: "herb",
+    subCategory: "aromatic",
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.1, Water: 0.1 },
-    qualities: ['aromatic', 'fresh', 'culinary'],
+    qualities: ["aromatic", "fresh", "culinary"],
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -15,45 +15,48 @@ const rawAromaticHerbs = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
+      minerals: [],
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
-      favorableZodiac: ['gemini', 'libra', 'aquarius'],
+      rulingPlanets: ["Mercury", "Venus"],
+      favorableZodiac: ["gemini", "libra", "aquarius"],
       elementalAffinity: {
-        base: 'Air',
+        base: "Air",
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
-          second: { element: 'Fire', planet: 'Sun' },
-          third: { element: 'Earth', planet: 'Saturn' }
-        }
-      }
+          first: { element: "Air", planet: "Mercury" },
+          second: { element: "Fire", planet: "Sun" },
+          third: { element: "Earth", planet: "Saturn" },
+        },
+      },
     },
     lunarPhaseModifiers: {
       newMoon: {
         elementalBoost: { Air: 0.1 },
-        preparationTips: ['Best for drying and preserving']
+        preparationTips: ["Best for drying and preserving"],
       },
       fullMoon: {
         elementalBoost: { Air: 0.2 },
-        preparationTips: ['Enhanced aromatic properties', 'Ideal for teas and infusions']
+        preparationTips: [
+          "Enhanced aromatic properties",
+          "Ideal for teas and infusions",
+        ],
       },
       waxingCrescent: {
         elementalBoost: { Air: 0.1, Fire: 0.05 },
-        preparationTips: ['Good for light cooking applications']
+        preparationTips: ["Good for light cooking applications"],
       },
       waxingGibbous: {
         elementalBoost: { Air: 0.15, Fire: 0.1 },
-        preparationTips: ['Perfect for stocks and broths']
-      }
-    }
+        preparationTips: ["Perfect for stocks and broths"],
+      },
+    },
   },
   rosemary: {
-    name: 'Rosemary',
-    category: 'herb',
-    subCategory: 'aromatic',
+    name: "Rosemary",
+    category: "herb",
+    subCategory: "aromatic",
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
-    qualities: ['aromatic', 'fresh', 'culinary'],
+    qualities: ["aromatic", "fresh", "culinary"],
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -61,61 +64,61 @@ const rawAromaticHerbs = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
+      minerals: [],
     },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Mars'],
-      favorableZodiac: ['leo', 'aries', 'sagittarius'],
+      rulingPlanets: ["Sun", "Mars"],
+      favorableZodiac: ["leo", "aries", "sagittarius"],
       elementalAffinity: {
-        base: 'Fire',
+        base: "Fire",
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' },
-          second: { element: 'Air', planet: 'Jupiter' },
-          third: { element: 'Earth', planet: 'Pluto' }
-        }
-      }
+          first: { element: "Fire", planet: "Sun" },
+          second: { element: "Air", planet: "Jupiter" },
+          third: { element: "Earth", planet: "Pluto" },
+        },
+      },
     },
     lunarPhaseModifiers: {
       newMoon: {
         elementalBoost: { Fire: 0.1, Earth: 0.05 },
-        preparationTips: ['Best for subtle infusions', 'Good time for drying']
+        preparationTips: ["Best for subtle infusions", "Good time for drying"],
       },
       waxingCrescent: {
         elementalBoost: { Fire: 0.15, Air: 0.05 },
-        preparationTips: ['Good for infused oils']
+        preparationTips: ["Good for infused oils"],
       },
       firstQuarter: {
         elementalBoost: { Fire: 0.2 },
-        preparationTips: ['Ideal for grilling meats']
+        preparationTips: ["Ideal for grilling meats"],
       },
       waxingGibbous: {
         elementalBoost: { Fire: 0.25 },
-        preparationTips: ['Perfect for roasts and hearty dishes']
+        preparationTips: ["Perfect for roasts and hearty dishes"],
       },
       fullMoon: {
         elementalBoost: { Fire: 0.3 },
-        preparationTips: ['Maximum potency', 'Best for medicinal preparations']
+        preparationTips: ["Maximum potency", "Best for medicinal preparations"],
       },
       waningGibbous: {
         elementalBoost: { Fire: 0.2, Air: 0.1 },
-        preparationTips: ['Excellent for soups and stews']
+        preparationTips: ["Excellent for soups and stews"],
       },
       lastQuarter: {
         elementalBoost: { Fire: 0.15, Earth: 0.1 },
-        preparationTips: ['Good for marinades']
+        preparationTips: ["Good for marinades"],
       },
       waningCrescent: {
         elementalBoost: { Fire: 0.1, Earth: 0.15 },
-        preparationTips: ['Best for subtle applications']
-      }
-    }
+        preparationTips: ["Best for subtle applications"],
+      },
+    },
   },
   basil: {
-    name: 'Basil',
-    category: 'herb',
-    subCategory: 'aromatic',
+    name: "Basil",
+    category: "herb",
+    subCategory: "aromatic",
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.2, Water: 0 },
-    qualities: ['aromatic', 'fresh', 'culinary'],
+    qualities: ["aromatic", "fresh", "culinary"],
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -123,80 +126,80 @@ const rawAromaticHerbs = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
+      minerals: [],
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Moon'],
-      favorableZodiac: ['gemini', 'cancer'],
+      rulingPlanets: ["Mercury", "Moon"],
+      favorableZodiac: ["gemini", "cancer"],
       elementalAffinity: {
-        base: 'Air',
+        base: "Air",
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
-          second: { element: 'Fire', planet: 'Moon' },
-          third: { element: 'Earth', planet: 'Venus' }
-        }
+          first: { element: "Air", planet: "Mercury" },
+          second: { element: "Fire", planet: "Moon" },
+          third: { element: "Earth", planet: "Venus" },
+        },
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
           elementalBoost: { Air: 0.1, Fire: 0.1 },
-          preparationTips: ['Best for fresh pesto']
+          preparationTips: ["Best for fresh pesto"],
         },
         fullMoon: {
           elementalBoost: { Fire: 0.2 },
-          preparationTips: ['Ideal for infused oils']
-        }
-      }
-    }
+          preparationTips: ["Ideal for infused oils"],
+        },
+      },
+    },
   },
 
   // Added herbs with culinary properties
   lovage: {
-    name: 'Lovage',
+    name: "Lovage",
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Jupiter'],
-      favorableZodiac: ['gemini', 'virgo', 'sagittarius'],
-      signAffinities: ['gemini', 'virgo', 'sagittarius'],
+      rulingPlanets: ["Mercury", "Jupiter"],
+      favorableZodiac: ["gemini", "virgo", "sagittarius"],
+      signAffinities: ["gemini", "virgo", "sagittarius"],
       elementalAffinity: {
-        base: 'Earth',
+        base: "Earth",
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Mercury' },
-          second: { element: 'Fire', planet: 'Jupiter' },
-          third: { element: 'Air', planet: 'Saturn' }
-        }
-      }
+          first: { element: "Earth", planet: "Mercury" },
+          second: { element: "Fire", planet: "Jupiter" },
+          third: { element: "Air", planet: "Saturn" },
+        },
+      },
     },
-    qualities: ['warming', 'aromatic', 'digestive', 'stimulating'],
-    origin: ['Mediterranean', 'Western Asia'],
-    season: ['spring', 'summer'],
-    category: 'herb',
-    subCategory: 'culinary',
-    affinities: ['potato', 'chicken', 'fish', 'tomato', 'celery'],
-    cookingMethods: ['fresh', 'dried', 'infused'],
+    qualities: ["warming", "aromatic", "digestive", "stimulating"],
+    origin: ["Mediterranean", "Western Asia"],
+    season: ["spring", "summer"],
+    category: "herb",
+    subCategory: "culinary",
+    affinities: ["potato", "chicken", "fish", "tomato", "celery"],
+    cookingMethods: ["fresh", "dried", "infused"],
     sensoryProfile: {
       taste: { savory: 0.8, bitter: 0.3, sweet: 0.1 },
       aroma: { herbaceous: 0.7, celery: 0.9, citrus: 0.2 },
-      texture: { leafy: 0.8 }
+      texture: { leafy: 0.8 },
     },
-    culinaryUses: ['soups', 'stews', 'broths', 'pickling', 'salad dressings'],
-    flavor: 'Intense celery-like flavor with hints of anise and parsley',
+    culinaryUses: ["soups", "stews", "broths", "pickling", "salad dressings"],
+    flavor: "Intense celery-like flavor with hints of anise and parsley",
     preparation: {
       fresh: {
-        storage: 'stem in water, refrigerated',
-        duration: '1 week',
-        tips: ['use sparingly due to strong flavor']
+        storage: "stem in water, refrigerated",
+        duration: "1 week",
+        tips: ["use sparingly due to strong flavor"],
       },
       dried: {
-        storage: 'airtight container',
-        duration: '6 months',
-        tips: ['crush just before use']
-      }
+        storage: "airtight container",
+        duration: "6 months",
+        tips: ["crush just before use"],
+      },
     },
-    modality: 'Cardinal'
+    modality: "Cardinal",
   },
 
-  'lemon verbena': {
-    name: 'Lemon Verbena',
+  "lemon verbena": {
+    name: "Lemon Verbena",
     elementalProperties: { Air: 0.5, Fire: 0.3, Water: 0.1, Earth: 0.1 },
     nutritionalProfile: {
       calories: 0,
@@ -205,55 +208,61 @@ const rawAromaticHerbs = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
+      minerals: [],
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
-      favorableZodiac: ['gemini', 'libra', 'aquarius'],
-      signAffinities: ['gemini', 'libra', 'aquarius'],
+      rulingPlanets: ["Mercury", "Venus"],
+      favorableZodiac: ["gemini", "libra", "aquarius"],
+      signAffinities: ["gemini", "libra", "aquarius"],
       elementalAffinity: {
-        base: 'Air',
+        base: "Air",
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
-          second: { element: 'Venus', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Uranus' }
-        }
-      }
+          first: { element: "Air", planet: "Mercury" },
+          second: { element: "Venus", planet: "Venus" },
+          third: { element: "Air", planet: "Uranus" },
+        },
+      },
     },
-    qualities: ['cooling', 'uplifting', 'refreshing', 'calming'],
-    origin: ['South America'],
-    season: ['summer'],
-    category: 'herb',
-    subCategory: 'aromatic',
-    affinities: ['fish', 'chicken', 'desserts', 'tea', 'fruit'],
-    cookingMethods: ['infused', 'dried', 'fresh'],
+    qualities: ["cooling", "uplifting", "refreshing", "calming"],
+    origin: ["South America"],
+    season: ["summer"],
+    category: "herb",
+    subCategory: "aromatic",
+    affinities: ["fish", "chicken", "desserts", "tea", "fruit"],
+    cookingMethods: ["infused", "dried", "fresh"],
     sensoryProfile: {
       taste: { citrus: 0.9, sweet: 0.2, bitter: 0.1 },
       aroma: { lemon: 0.9, floral: 0.5, green: 0.3 },
-      texture: { leafy: 0.7 }
+      texture: { leafy: 0.7 },
     },
-    culinaryUses: ['herbal teas', 'desserts', 'syrups', 'cocktails', 'marinades'],
-    flavor: 'Intense lemon flavor with floral notes, stronger than lemongrass',
+    culinaryUses: [
+      "herbal teas",
+      "desserts",
+      "syrups",
+      "cocktails",
+      "marinades",
+    ],
+    flavor: "Intense lemon flavor with floral notes, stronger than lemongrass",
     preparation: {
       fresh: {
-        storage: 'wrapped in damp paper towel, refrigerated',
-        duration: '5 days',
-        tips: ['bruise leaves to release aroma']
+        storage: "wrapped in damp paper towel, refrigerated",
+        duration: "5 days",
+        tips: ["bruise leaves to release aroma"],
       },
       dried: {
-        storage: 'dark glass container',
-        duration: '8 months',
-        tips: ['retains aroma well when dried']
+        storage: "dark glass container",
+        duration: "8 months",
+        tips: ["retains aroma well when dried"],
       },
       infusions: {
-        techniques: ['steep in hot water', 'infuse in cream or sugar']
-      }
+        techniques: ["steep in hot water", "infuse in cream or sugar"],
+      },
     },
-    modality: 'Mutable'
+    modality: "Mutable",
   },
 
   savory: {
-    name: 'Savory',
+    name: "Savory",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     nutritionalProfile: {
       calories: 0,
@@ -262,57 +271,63 @@ const rawAromaticHerbs = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
+      minerals: [],
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['aries', 'scorpio', 'capricorn'],
-      signAffinities: ['aries', 'scorpio', 'capricorn'],
+      rulingPlanets: ["Mars", "Saturn"],
+      favorableZodiac: ["aries", "scorpio", "capricorn"],
+      signAffinities: ["aries", "scorpio", "capricorn"],
       elementalAffinity: {
-        base: 'Fire',
+        base: "Fire",
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Water', planet: 'Pluto' }
-        }
-      }
+          first: { element: "Fire", planet: "Mars" },
+          second: { element: "Earth", planet: "Saturn" },
+          third: { element: "Water", planet: "Pluto" },
+        },
+      },
     },
-    qualities: ['warming', 'stimulating', 'digestive', 'astringent'],
-    origin: ['Mediterranean'],
-    season: ['summer'],
-    category: 'herb',
-    subCategory: 'culinary',
-    affinities: ['beans', 'lentils', 'meat', 'poultry', 'eggs'],
-    cookingMethods: ['dried', 'fresh', 'infused'],
-    culinaryUses: ['bean dishes', 'meat stews', 'sausages', 'herb blends', 'vinegars'],
-    flavor: 'Peppery, thyme-like flavor with hints of oregano and marjoram',
+    qualities: ["warming", "stimulating", "digestive", "astringent"],
+    origin: ["Mediterranean"],
+    season: ["summer"],
+    category: "herb",
+    subCategory: "culinary",
+    affinities: ["beans", "lentils", "meat", "poultry", "eggs"],
+    cookingMethods: ["dried", "fresh", "infused"],
+    culinaryUses: [
+      "bean dishes",
+      "meat stews",
+      "sausages",
+      "herb blends",
+      "vinegars",
+    ],
+    flavor: "Peppery, thyme-like flavor with hints of oregano and marjoram",
     varieties: {
       summer_savory: {
-        flavor: 'milder, with notes of thyme and mint',
-        best_uses: ['fresh applications', 'delicate dishes']
+        flavor: "milder, with notes of thyme and mint",
+        best_uses: ["fresh applications", "delicate dishes"],
       },
       winter_savory: {
-        flavor: 'stronger, more pungent and earthy',
-        best_uses: ['hearty stews', 'long cooking times']
-      }
+        flavor: "stronger, more pungent and earthy",
+        best_uses: ["hearty stews", "long cooking times"],
+      },
     },
     preparation: {
       fresh: {
-        storage: 'wrapped in paper towel, refrigerated',
-        duration: '1 week',
-        tips: ['add at beginning of cooking']
+        storage: "wrapped in paper towel, refrigerated",
+        duration: "1 week",
+        tips: ["add at beginning of cooking"],
       },
       dried: {
-        storage: 'airtight container',
-        duration: '1 year',
-        tips: ['retains flavor well when dried']
-      }
+        storage: "airtight container",
+        duration: "1 year",
+        tips: ["retains flavor well when dried"],
+      },
     },
-    modality: 'Fixed'
+    modality: "Fixed",
   },
 
-  'curry leaf': {
-    name: 'Curry Leaf',
+  "curry leaf": {
+    name: "Curry Leaf",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     nutritionalProfile: {
       calories: 0,
@@ -321,56 +336,67 @@ const rawAromaticHerbs = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
+      minerals: [],
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Jupiter'],
-      favorableZodiac: ['aries', 'scorpio', 'sagittarius'],
-      signAffinities: ['aries', 'scorpio', 'sagittarius'],
+      rulingPlanets: ["Mars", "Jupiter"],
+      favorableZodiac: ["aries", "scorpio", "sagittarius"],
+      signAffinities: ["aries", "scorpio", "sagittarius"],
       elementalAffinity: {
-        base: 'Fire',
+        base: "Fire",
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Earth', planet: 'Jupiter' },
-          third: { element: 'Water', planet: 'Pluto' }
-        }
-      }
+          first: { element: "Fire", planet: "Mars" },
+          second: { element: "Earth", planet: "Jupiter" },
+          third: { element: "Water", planet: "Pluto" },
+        },
+      },
     },
-    qualities: ['warming', 'stimulating', 'digestive', 'aromatic'],
-    origin: ['India', 'Sri Lanka'],
-    season: ['year-round'],
-    category: 'herb',
-    subCategory: 'aromatic',
-    affinities: ['lentils', 'coconut', 'fish', 'vegetables', 'rice'],
-    cookingMethods: ['fried', 'fresh', 'dried'],
+    qualities: ["warming", "stimulating", "digestive", "aromatic"],
+    origin: ["India", "Sri Lanka"],
+    season: ["year-round"],
+    category: "herb",
+    subCategory: "aromatic",
+    affinities: ["lentils", "coconut", "fish", "vegetables", "rice"],
+    cookingMethods: ["fried", "fresh", "dried"],
     // Removed excessive sensoryProfile nesting
-// Removed nested content
-// Removed nested content
-// Removed nested content
-    culinaryUses: ['dal', 'curries', 'rice dishes', 'chutneys', 'vegetable dishes'],
-    flavor: 'Complex citrus and nutty flavor that is the foundation of many Indian dishes',
+    // Removed nested content
+    // Removed nested content
+    // Removed nested content
+    culinaryUses: [
+      "dal",
+      "curries",
+      "rice dishes",
+      "chutneys",
+      "vegetable dishes",
+    ],
+    flavor:
+      "Complex citrus and nutty flavor that is the foundation of many Indian dishes",
     preparation: {
       fresh: {
-        storage: 'wrapped in paper towel, refrigerated',
-        duration: '1-2 weeks',
-        tips: ['can be frozen for longer storage']
+        storage: "wrapped in paper towel, refrigerated",
+        duration: "1-2 weeks",
+        tips: ["can be frozen for longer storage"],
       },
       cooking: {
-        techniques: ['tempered in hot oil', 'fried as first ingredient', 'whole leaves'],
-        tips: ['typically left in dish, though not always eaten']
-      }
+        techniques: [
+          "tempered in hot oil",
+          "fried as first ingredient",
+          "whole leaves",
+        ],
+        tips: ["typically left in dish, though not always eaten"],
+      },
     },
     traditional: {
       south_indian: {
-        dishes: ['tadka dal', 'sambar', 'rasam', 'coconut chutney'],
-        techniques: ['tempered in hot ghee or oil']
-      }
+        dishes: ["tadka dal", "sambar", "rasam", "coconut chutney"],
+        techniques: ["tempered in hot ghee or oil"],
+      },
     },
-    modality: 'Cardinal'
+    modality: "Cardinal",
   },
 
   chervil: {
-    name: 'Chervil',
+    name: "Chervil",
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     nutritionalProfile: {
       calories: 0,
@@ -379,53 +405,59 @@ const rawAromaticHerbs = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
+      minerals: [],
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Moon'],
-      favorableZodiac: ['virgo', 'gemini', 'cancer'],
-      signAffinities: ['virgo', 'gemini', 'cancer'],
+      rulingPlanets: ["Mercury", "Moon"],
+      favorableZodiac: ["virgo", "gemini", "cancer"],
+      signAffinities: ["virgo", "gemini", "cancer"],
       elementalAffinity: {
-        base: 'Air',
+        base: "Air",
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
-          second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Earth', planet: 'Venus' }
-        }
-      }
+          first: { element: "Air", planet: "Mercury" },
+          second: { element: "Water", planet: "Moon" },
+          third: { element: "Earth", planet: "Venus" },
+        },
+      },
     },
-    qualities: ['cooling', 'delicate', 'digestive', 'balancing'],
-    origin: ['Caucasus', 'Russia'],
-    season: ['spring', 'fall'],
-    category: 'herb',
-    subCategory: 'culinary',
-    affinities: ['eggs', 'fish', 'chicken', 'potatoes', 'carrots'],
-    cookingMethods: ['fresh', 'garnish', 'light cooking'],
-    culinaryUses: ['fine sauces', 'egg dishes', 'salads', 'soups', 'fish dishes'],
-    flavor: 'Delicate flavor similar to parsley with subtle anise notes',
+    qualities: ["cooling", "delicate", "digestive", "balancing"],
+    origin: ["Caucasus", "Russia"],
+    season: ["spring", "fall"],
+    category: "herb",
+    subCategory: "culinary",
+    affinities: ["eggs", "fish", "chicken", "potatoes", "carrots"],
+    cookingMethods: ["fresh", "garnish", "light cooking"],
+    culinaryUses: [
+      "fine sauces",
+      "egg dishes",
+      "salads",
+      "soups",
+      "fish dishes",
+    ],
+    flavor: "Delicate flavor similar to parsley with subtle anise notes",
     preparation: {
       fresh: {
-        storage: 'stem in water, refrigerated',
-        duration: '2-3 days',
-        tips: ['very perishable', 'add at the end of cooking']
+        storage: "stem in water, refrigerated",
+        duration: "2-3 days",
+        tips: ["very perishable", "add at the end of cooking"],
       },
       cooking: {
-        techniques: ['add last minute', 'quick sauté', 'raw in dressings'],
-        tips: ['heat destroys flavor quickly']
-      }
+        techniques: ["add last minute", "quick sauté", "raw in dressings"],
+        tips: ["heat destroys flavor quickly"],
+      },
     },
     traditionalUses: {},
-    modality: 'Mutable'
-},
+    modality: "Mutable",
+  },
 
   dill: {
-    name: 'Dill',
+    name: "Dill",
     elementalProperties: {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0.1
-},
+      Water: 0.1,
+    },
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -433,40 +465,46 @@ const rawAromaticHerbs = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
+      minerals: [],
     },
-    qualities: ['cooling', 'digestive', 'balancing'],
-    origin: ['Europe', 'Asia'],
-    season: ['summer', 'fall'],
-    category: 'herb',
-    subCategory: 'culinary',
-    affinities: ['fish', 'potatoes', 'eggs', 'cucumbers', 'yogurt'],
-    cookingMethods: ['fresh', 'garnish', 'pickling'],
-    culinaryUses: ['pickles', 'fish dishes', 'potato dishes', 'yogurt sauces', 'salads'],
-    flavor: 'Fresh, tangy flavor with notes of anise and lemon',
+    qualities: ["cooling", "digestive", "balancing"],
+    origin: ["Europe", "Asia"],
+    season: ["summer", "fall"],
+    category: "herb",
+    subCategory: "culinary",
+    affinities: ["fish", "potatoes", "eggs", "cucumbers", "yogurt"],
+    cookingMethods: ["fresh", "garnish", "pickling"],
+    culinaryUses: [
+      "pickles",
+      "fish dishes",
+      "potato dishes",
+      "yogurt sauces",
+      "salads",
+    ],
+    flavor: "Fresh, tangy flavor with notes of anise and lemon",
     preparation: {
       fresh: {
-        storage: 'stem in water, refrigerated',
-        duration: '1-2 weeks',
-        tips: ['very perishable', 'add at the end of cooking']
+        storage: "stem in water, refrigerated",
+        duration: "1-2 weeks",
+        tips: ["very perishable", "add at the end of cooking"],
       },
       cooking: {
-        techniques: ['add last minute', 'raw in dressings', 'pickling spice'],
-        tips: ['heat destroys flavor quickly']
-      }
+        techniques: ["add last minute", "raw in dressings", "pickling spice"],
+        tips: ["heat destroys flavor quickly"],
+      },
     },
     traditionalUses: {},
-    modality: 'Mutable'
+    modality: "Mutable",
   },
 
   bay_leaf: {
-    name: 'Bay Leaf',
+    name: "Bay Leaf",
     elementalProperties: {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0.1
-},
+      Water: 0.1,
+    },
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -474,39 +512,43 @@ const rawAromaticHerbs = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
+      minerals: [],
     },
-    qualities: ['warming', 'digestive', 'aromatic'],
-    origin: ['Mediterranean', 'Asia Minor'],
-    season: ['year-round'],
-    category: 'herb',
-    subCategory: 'culinary',
-    affinities: ['tomatoes', 'beans', 'meats', 'soups', 'stews'],
-    cookingMethods: ['whole leaf', 'removed before serving', 'long cooking'],
-    culinaryUses: ['soups', 'stews', 'sauces', 'braises', 'pickling'],
-    flavor: 'Strong, aromatic flavor with notes of eucalyptus and clove',
+    qualities: ["warming", "digestive", "aromatic"],
+    origin: ["Mediterranean", "Asia Minor"],
+    season: ["year-round"],
+    category: "herb",
+    subCategory: "culinary",
+    affinities: ["tomatoes", "beans", "meats", "soups", "stews"],
+    cookingMethods: ["whole leaf", "removed before serving", "long cooking"],
+    culinaryUses: ["soups", "stews", "sauces", "braises", "pickling"],
+    flavor: "Strong, aromatic flavor with notes of eucalyptus and clove",
     preparation: {
       fresh: {
-        storage: 'dry storage in cool place',
-        duration: 'indefinite',
-        tips: ['use whole and remove before serving']
+        storage: "dry storage in cool place",
+        duration: "indefinite",
+        tips: ["use whole and remove before serving"],
       },
       cooking: {
-        techniques: ['add early in cooking', 'whole leaves', 'remove before serving'],
-        tips: ['bitter if overcooked', 'enhances long-cooked dishes']
-      }
+        techniques: [
+          "add early in cooking",
+          "whole leaves",
+          "remove before serving",
+        ],
+        tips: ["bitter if overcooked", "enhances long-cooked dishes"],
+      },
     },
     traditionalUses: {},
-    modality: 'Fixed'
+    modality: "Fixed",
   },
   anise: {
-    name: 'Anise',
+    name: "Anise",
     elementalProperties: {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0.1
-},
+      Water: 0.1,
+    },
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -514,35 +556,36 @@ const rawAromaticHerbs = {
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
-      minerals: []
+      minerals: [],
     },
-    qualities: ['warming', 'digestive', 'expectorant'],
-    origin: ['Mediterranean', 'Middle East'],
-    season: ['year-round'],
-    category: 'herb',
-    subCategory: 'culinary',
-    affinities: ['fish', 'pork', 'baking', 'liqueurs', 'pastries'],
-    cookingMethods: ['whole seeds', 'ground', 'infused', 'baking'],
-    culinaryUses: ['baking', 'liqueurs', 'pickling', 'fish dishes', 'pastries'],
-    flavor: 'Strong licorice-like flavor, sweet and aromatic',
+    qualities: ["warming", "digestive", "expectorant"],
+    origin: ["Mediterranean", "Middle East"],
+    season: ["year-round"],
+    category: "herb",
+    subCategory: "culinary",
+    affinities: ["fish", "pork", "baking", "liqueurs", "pastries"],
+    cookingMethods: ["whole seeds", "ground", "infused", "baking"],
+    culinaryUses: ["baking", "liqueurs", "pickling", "fish dishes", "pastries"],
+    flavor: "Strong licorice-like flavor, sweet and aromatic",
     preparation: {
       fresh: {
-        storage: 'dry storage in cool place',
-        duration: 'indefinite',
-        tips: ['whole seeds last longer than ground']
+        storage: "dry storage in cool place",
+        duration: "indefinite",
+        tips: ["whole seeds last longer than ground"],
       },
       cooking: {
-        techniques: ['toast seeds first', 'grind fresh', 'infuse in liquids'],
-        tips: ['strong flavor - use sparingly', 'excellent for baking']
-      }
+        techniques: ["toast seeds first", "grind fresh", "infuse in liquids"],
+        tips: ["strong flavor - use sparingly", "excellent for baking"],
+      },
     },
     traditionalUses: {},
-    modality: 'Mutable'
-  }
+    modality: "Mutable",
+  },
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const _aromaticHerbs: Record<string, IngredientMapping> = fixIngredientMappings(
-  rawAromaticHerbs as Record<string, Partial<IngredientMapping>>,
-);
+export const _aromaticHerbs: Record<string, IngredientMapping> =
+  fixIngredientMappings(
+    rawAromaticHerbs as Record<string, Partial<IngredientMapping>>,
+  );

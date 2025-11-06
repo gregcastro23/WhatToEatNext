@@ -24,9 +24,9 @@
  *   --verbose       Show detailed processing information
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class AwaitThenable {
   constructor(options = {}) {
@@ -36,7 +36,7 @@ class AwaitThenable {
     this.verbose = options.verbose || false;
     this.fixedFiles = 0;
     this.totalFixes = 0;
-    this.backupDir = '.await-thenable-backups';
+    this.backupDir = ".await-thenable-backups";
 
     // Common patterns for non-Promise values that shouldn't be awaited
     this.nonPromisePatterns = [
@@ -80,8 +80,11 @@ class AwaitThenable {
 
     this.createBackupDir();
     const fileName = path.basename(filePath);
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const backupPath = path.join(this.backupDir, `${fileName}.${timestamp}.backup`);
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const backupPath = path.join(
+      this.backupDir,
+      `${fileName}.${timestamp}.backup`,
+    );
 
     fs.copyFileSync(filePath, backupPath);
     if (this.verbose) {
@@ -91,7 +94,7 @@ class AwaitThenable {
 
   isLegitimatePromise(line, awaitMatch) {
     // Check if this looks like a legitimate Promise
-    return this.promisePatterns.some(pattern => pattern.test(line));
+    return this.promisePatterns.some((pattern) => pattern.test(line));
   }
 
   fixAwaitThenable(content, filePath) {
@@ -99,7 +102,7 @@ class AwaitThenable {
     let modifiedContent = content;
 
     // Split into lines for better analysis
-    const lines = content.split('\n');
+    const lines = content.split("\n");
     const fixedLines = [];
 
     for (let i = 0; i < lines.length; i++) {
@@ -113,37 +116,40 @@ class AwaitThenable {
       }
 
       // Apply fixes for each pattern
-      this.nonPromisePatterns.forEach(pattern => {
+      this.nonPromisePatterns.forEach((pattern) => {
         line = line.replace(pattern, (match, captured) => {
           if (this.verbose) {
             console.log(`  Fixing: await ${captured} -> ${captured}`);
           }
           fixes++;
-          return match.replace('await ', '');
+          return match.replace("await ", "");
         });
       });
 
       // Special case: await in return statements with non-Promises
-      line = line.replace(/return\s+await\s+([^;(]+)(?![(.:])/g, (match, value) => {
-        if (!this.isLegitimatePromise(line, value)) {
-          if (this.verbose) {
-            console.log(`  Fixing return await: ${value} -> return ${value}`);
+      line = line.replace(
+        /return\s+await\s+([^;(]+)(?![(.:])/g,
+        (match, value) => {
+          if (!this.isLegitimatePromise(line, value)) {
+            if (this.verbose) {
+              console.log(`  Fixing return await: ${value} -> return ${value}`);
+            }
+            fixes++;
+            return `return ${value}`;
           }
-          fixes++;
-          return `return ${value}`;
-        }
-        return match;
-      });
+          return match;
+        },
+      );
 
       fixedLines.push(line);
     }
 
-    return { content: fixedLines.join('\n'), fixes };
+    return { content: fixedLines.join("\n"), fixes };
   }
 
   processFile(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
       const result = this.fixAwaitThenable(content, filePath);
 
       if (result.fixes > 0) {
@@ -151,7 +157,7 @@ class AwaitThenable {
 
         if (!this.isDryRun) {
           this.backupFile(filePath);
-          fs.writeFileSync(filePath, result.content, 'utf8');
+          fs.writeFileSync(filePath, result.content, "utf8");
         }
 
         this.fixedFiles++;
@@ -166,24 +172,24 @@ class AwaitThenable {
 
   findTestFiles() {
     const testPatterns = [
-      'src/**/*.test.ts',
-      'src/**/*.test.tsx',
-      'src/**/*.spec.ts',
-      'src/**/*.spec.tsx',
-      'src/__tests__/**/*.ts',
-      'src/__tests__/**/*.tsx',
+      "src/**/*.test.ts",
+      "src/**/*.test.tsx",
+      "src/**/*.spec.ts",
+      "src/**/*.spec.tsx",
+      "src/__tests__/**/*.ts",
+      "src/__tests__/**/*.tsx",
     ];
 
     const files = [];
 
-    testPatterns.forEach(pattern => {
+    testPatterns.forEach((pattern) => {
       try {
         const cmd = `find src -name "*.test.ts" -o -name "*.test.tsx" -o -name "*.spec.ts" -o -name "*.spec.tsx"`;
-        const result = execSync(cmd, { encoding: 'utf8' });
+        const result = execSync(cmd, { encoding: "utf8" });
         const foundFiles = result
           .trim()
-          .split('\n')
-          .filter(f => f);
+          .split("\n")
+          .filter((f) => f);
         files.push(...foundFiles);
       } catch (error) {
         // Ignore find errors
@@ -194,38 +200,42 @@ class AwaitThenable {
   }
 
   run() {
-    console.log('🔧 Await-Thenable Error Fix Script');
-    console.log('=====================================');
+    console.log("🔧 Await-Thenable Error Fix Script");
+    console.log("=====================================");
 
     if (this.isDryRun) {
-      console.log('🔍 DRY RUN MODE - No files will be modified');
+      console.log("🔍 DRY RUN MODE - No files will be modified");
     }
 
     const files = this.targetFile ? [this.targetFile] : this.findTestFiles();
 
-    console.log(`📁 Processing ${files.length} test files (max: ${this.maxFiles})`);
-    console.log('');
+    console.log(
+      `📁 Processing ${files.length} test files (max: ${this.maxFiles})`,
+    );
+    console.log("");
 
-    files.forEach(file => this.processFile(file));
+    files.forEach((file) => this.processFile(file));
 
-    console.log('');
-    console.log('📊 Summary:');
+    console.log("");
+    console.log("📊 Summary:");
     console.log(`   Files processed: ${files.length}`);
     console.log(`   Files with fixes: ${this.fixedFiles}`);
     console.log(`   Total fixes applied: ${this.totalFixes}`);
 
     if (!this.isDryRun && this.fixedFiles > 0) {
       console.log(`   Backups created in: ${this.backupDir}/`);
-      console.log('');
-      console.log('🧪 Next steps:');
-      console.log('   1. Run tests to verify fixes: yarn test');
-      console.log('   2. Run ESLint to verify no await-thenable errors: yarn lint');
-      console.log('   3. If issues occur, restore from backups');
+      console.log("");
+      console.log("🧪 Next steps:");
+      console.log("   1. Run tests to verify fixes: yarn test");
+      console.log(
+        "   2. Run ESLint to verify no await-thenable errors: yarn lint",
+      );
+      console.log("   3. If issues occur, restore from backups");
     }
 
     if (this.isDryRun && this.totalFixes > 0) {
-      console.log('');
-      console.log('🚀 To apply fixes, run: node fix-await-thenable-errors.cjs');
+      console.log("");
+      console.log("🚀 To apply fixes, run: node fix-await-thenable-errors.cjs");
     }
   }
 }
@@ -233,18 +243,18 @@ class AwaitThenable {
 // Parse command line arguments
 const args = process.argv.slice(2);
 const options = {
-  dryRun: args.includes('--dry-run'),
-  verbose: args.includes('--verbose'),
+  dryRun: args.includes("--dry-run"),
+  verbose: args.includes("--verbose"),
   maxFiles: 50,
   targetFile: null,
 };
 
-args.forEach(arg => {
-  if (arg.startsWith('--max-files=')) {
-    options.maxFiles = parseInt(arg.split('=')[1]) || 50;
+args.forEach((arg) => {
+  if (arg.startsWith("--max-files=")) {
+    options.maxFiles = parseInt(arg.split("=")[1]) || 50;
   }
-  if (arg.startsWith('--target-file=')) {
-    options.targetFile = arg.split('=')[1];
+  if (arg.startsWith("--target-file=")) {
+    options.targetFile = arg.split("=")[1];
   }
 });
 

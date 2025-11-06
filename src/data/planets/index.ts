@@ -1,15 +1,15 @@
-import ascendantData from './ascendant';
-import jupiterData from './jupiter';
-import marsData from './mars';
-import mercuryData from './mercury';
-import moonData from './moon';
-import neptuneData from './neptune';
-import plutoData from './pluto';
-import saturnData from './saturn';
-import sunData from './sun';
-import uranusData from './uranus';
-import venusData from './venus';
-import type { PlanetData } from './types';
+import ascendantData from "./ascendant";
+import jupiterData from "./jupiter";
+import marsData from "./mars";
+import mercuryData from "./mercury";
+import moonData from "./moon";
+import neptuneData from "./neptune";
+import plutoData from "./pluto";
+import saturnData from "./saturn";
+import sunData from "./sun";
+import uranusData from "./uranus";
+import venusData from "./venus";
+import type { PlanetData } from "./types";
 
 export const planetInfo: Record<string, PlanetData> = {
   Sun: sunData,
@@ -22,10 +22,10 @@ export const planetInfo: Record<string, PlanetData> = {
   Uranus: uranusData,
   Neptune: neptuneData,
   Pluto: plutoData,
-  Ascendant: ascendantData
-}
+  Ascendant: ascendantData,
+};
 
-export * from './types';
+export * from "./types";
 
 // Pattern OO-2: Data Export Harmonization - Named exports for TS2614 compatibility
 export {
@@ -39,7 +39,7 @@ export {
   uranusData,
   neptuneData,
   plutoData,
-  ascendantData
+  ascendantData,
 };
 
 // For backward compatibility

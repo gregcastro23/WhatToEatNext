@@ -3,16 +3,16 @@ import {
   _ELEMENTS,
   _MAXIMUM_THRESHOLD,
   _MINIMUM_THRESHOLD,
-  _VALIDATION_THRESHOLDS
-} from '@/constants/elementalConstants';
-import type { Element, ElementalProperties, Recipe } from '@/types/alchemy';
-import { validateElementalProperties } from '@/types/validators';
+  _VALIDATION_THRESHOLDS,
+} from "@/constants/elementalConstants";
+import type { Element, ElementalProperties, Recipe } from "@/types/alchemy";
+import { validateElementalProperties } from "@/types/validators";
 
 export const elementalBalance = {
   calculateBalance(properties: ElementalProperties): number {
     const normalized = this.normalizeProperties(properties);
     const deviations = _ELEMENTS.map(
-      element => Math.abs(normalized[element] - 0.25) // Ideal balance point
+      (element) => Math.abs(normalized[element] - 0.25), // Ideal balance point
     );
 
     const totalDeviation = deviations.reduce((sum, dev) => sum + dev, 0);
@@ -21,15 +21,19 @@ export const elementalBalance = {
   },
 
   normalizeProperties(properties: ElementalProperties): ElementalProperties {
-    const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0);
+    const total = Object.values(properties).reduce(
+      (sum, val) => sum + (val || 0),
+      0,
+    );
 
     if (total === 0) {
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
 
-    return _ELEMENTS.reduce((acc, element) => ({
+    return _ELEMENTS.reduce(
+      (acc, element) => ({
         ...acc,
-        [element]: (properties[element] || 0) / total
+        [element]: (properties[element] || 0) / total,
       }),
       {} as ElementalProperties,
     );
@@ -38,30 +42,42 @@ export const elementalBalance = {
   validateProperties(properties: ElementalProperties): boolean {
     if (!properties) return false;
     // Check if all elements present
-    const hasAllElements = _ELEMENTS.every(element => typeof properties[element] === 'number');
+    const hasAllElements = _ELEMENTS.every(
+      (element) => typeof properties[element] === "number",
+    );
 
     // Check value ranges
-    const hasValidValues = Object.values(properties).every(value =>
+    const hasValidValues = Object.values(properties).every(
+      (value) =>
         value >= _VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
-        value <= _VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
+        value <= _VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT,
     );
 
     // Check total is approximately 1
     const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
-    const hasValidTotal = Math.abs(total - 1) < _VALIDATION_THRESHOLDS.BALANCE_PRECISION;
+    const hasValidTotal =
+      Math.abs(total - 1) < _VALIDATION_THRESHOLDS.BALANCE_PRECISION;
 
     return hasAllElements && hasValidValues && hasValidTotal;
   },
 
-  calculateHarmonyBetween(first: ElementalProperties, second: ElementalProperties): number {
-    if (!validateElementalProperties(first) || !validateElementalProperties(second)) {
+  calculateHarmonyBetween(
+    first: ElementalProperties,
+    second: ElementalProperties,
+  ): number {
+    if (
+      !validateElementalProperties(first) ||
+      !validateElementalProperties(second)
+    ) {
       return 0;
     }
 
     const norm1 = normalizeElementalProperties(first);
     const norm2 = normalizeElementalProperties(second);
 
-    const differences = _ELEMENTS.map(element => Math.abs(norm1[element] - norm2[element]));
+    const differences = _ELEMENTS.map((element) =>
+      Math.abs(norm1[element] - norm2[element]),
+    );
     const totalDifference = differences.reduce((sum, diff) => sum + diff, 0);
     const harmony = 1 - totalDifference / 2;
 
@@ -70,36 +86,45 @@ export const elementalBalance = {
     return 0.75;
   },
 
-  getRecipeHarmony(recipe: Recipe, targetProperties: ElementalProperties): number {
+  getRecipeHarmony(
+    recipe: Recipe,
+    targetProperties: ElementalProperties,
+  ): number {
     if (!recipe.elementalProperties || !targetProperties) {
       return 0;
     }
-    return this.calculateHarmonyBetween(recipe.elementalProperties, targetProperties);
+    return this.calculateHarmonyBetween(
+      recipe.elementalProperties,
+      targetProperties,
+    );
   },
 
   getDominantElement(properties: ElementalProperties): Element {
     const normalized = this.normalizeProperties(properties);
-    return _ELEMENTS.reduce((dominant, element) => (normalized[element] > normalized[dominant] ? element : dominant),
-      _ELEMENTS[0]
+    return _ELEMENTS.reduce(
+      (dominant, element) =>
+        normalized[element] > normalized[dominant] ? element : dominant,
+      _ELEMENTS[0],
     );
   },
 
   getElementalStatus(
-    properties: ElementalProperties
-  ): Record<Element, 'low' | 'balanced' | 'high'> {
+    properties: ElementalProperties,
+  ): Record<Element, "low" | "balanced" | "high"> {
     const normalized = this.normalizeProperties(properties);
-    return _ELEMENTS.reduce((status, element) => ({
+    return _ELEMENTS.reduce(
+      (status, element) => ({
         ...status,
         [element]:
           normalized[element] < _MINIMUM_THRESHOLD
-            ? 'low'
+            ? "low"
             : normalized[element] > _MAXIMUM_THRESHOLD
-              ? 'high'
-              : 'balanced'
+              ? "high"
+              : "balanced",
       }),
-      {} as Record<Element, 'low' | 'balanced' | 'high'>,
+      {} as Record<Element, "low" | "balanced" | "high">,
     );
-  }
+  },
 };
 
 export default elementalBalance;

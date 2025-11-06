@@ -1,4 +1,4 @@
-import type { ElementalProperties } from '../alchemy';
+import type { ElementalProperties } from "../alchemy";
 
 export interface AstrologicalBridge {
   legacyToModern<T>(legacy: unknown): T | null;
@@ -9,7 +9,7 @@ export interface AstrologicalBridge {
 
 export const _createAstrologicalBridge = (): AstrologicalBridge => ({
   legacyToModern<T>(legacy: unknown): T | null {
-    if (!legacy || typeof legacy !== 'object') return null;
+    if (!legacy || typeof legacy !== "object") return null;
     return legacy as T;
   },
 
@@ -18,8 +18,8 @@ export const _createAstrologicalBridge = (): AstrologicalBridge => ({
   },
 
   safeAccess<T>(obj: unknown, path: string): T | undefined {
-    if (!obj || typeof obj !== 'object') return undefined;
-    const keys = path.split('.');
+    if (!obj || typeof obj !== "object") return undefined;
+    const keys = path.split(".");
     let current: any = obj as any;
     for (const key of keys) {
       if (current[key] === undefined) return undefined;
@@ -29,8 +29,10 @@ export const _createAstrologicalBridge = (): AstrologicalBridge => ({
   },
 
   validateElementalProperties(obj: unknown): obj is ElementalProperties {
-    if (!obj || typeof obj !== 'object') return false;
+    if (!obj || typeof obj !== "object") return false;
     const props = obj as any;
-    return ['Fire', 'Water', 'Earth', 'Air'].every(element => typeof props[element] === 'number');
-  }
-})
+    return ["Fire", "Water", "Earth", "Air"].every(
+      (element) => typeof props[element] === "number",
+    );
+  },
+});

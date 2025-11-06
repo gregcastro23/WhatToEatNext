@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
+import fs from "fs";
 
 const ALCHEMICAL_ENGINE_TEMPLATE = `import type {
   ElementalProperties,
@@ -568,43 +568,49 @@ export default elementalUtils;
 `;
 
 function createRestoreScript() {
-  console.log('🔧 Creating restoration script for critical files...');
+  console.log("🔧 Creating restoration script for critical files...");
 
-  const dryRun = process.argv.includes('--dry-run');
+  const dryRun = process.argv.includes("--dry-run");
 
   if (dryRun) {
-    console.log('📋 DRY RUN MODE - No files will be modified');
-    console.log('Files to restore:');
-    console.log('  - src/lib/alchemicalEngine.ts (192 errors)');
-    console.log('  - src/utils/elementalUtils.ts (74 errors)');
+    console.log("📋 DRY RUN MODE - No files will be modified");
+    console.log("Files to restore:");
+    console.log("  - src/lib/alchemicalEngine.ts (192 errors)");
+    console.log("  - src/utils/elementalUtils.ts (74 errors)");
     return;
   }
 
   try {
     // Backup existing files
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
 
     // Restore alchemicalEngine.ts
-    const alchemicalEnginePath = 'src/lib/alchemicalEngine.ts';
+    const alchemicalEnginePath = "src/lib/alchemicalEngine.ts";
     if (fs.existsSync(alchemicalEnginePath)) {
-      fs.copyFileSync(alchemicalEnginePath, `${alchemicalEnginePath}.backup-${timestamp}`);
+      fs.copyFileSync(
+        alchemicalEnginePath,
+        `${alchemicalEnginePath}.backup-${timestamp}`,
+      );
     }
     fs.writeFileSync(alchemicalEnginePath, ALCHEMICAL_ENGINE_TEMPLATE);
-    console.log('✅ Restored src/lib/alchemicalEngine.ts');
+    console.log("✅ Restored src/lib/alchemicalEngine.ts");
 
     // Restore elementalUtils.ts
-    const elementalUtilsPath = 'src/utils/elementalUtils.ts';
+    const elementalUtilsPath = "src/utils/elementalUtils.ts";
     if (fs.existsSync(elementalUtilsPath)) {
-      fs.copyFileSync(elementalUtilsPath, `${elementalUtilsPath}.backup-${timestamp}`);
+      fs.copyFileSync(
+        elementalUtilsPath,
+        `${elementalUtilsPath}.backup-${timestamp}`,
+      );
     }
     fs.writeFileSync(elementalUtilsPath, ELEMENTAL_UTILS_TEMPLATE);
-    console.log('✅ Restored src/utils/elementalUtils.ts');
+    console.log("✅ Restored src/utils/elementalUtils.ts");
 
-    console.log('🎉 Critical file restoration complete!');
-    console.log('📊 Expected error reduction: ~266 errors');
+    console.log("🎉 Critical file restoration complete!");
+    console.log("📊 Expected error reduction: ~266 errors");
     console.log('🔨 Run "yarn build" to verify fixes');
   } catch (error) {
-    console.error('❌ Error during restoration:', error.message);
+    console.error("❌ Error during restoration:", error.message);
     process.exit(1);
   }
 }

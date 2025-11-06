@@ -5,8 +5,8 @@
  * Focuses on 'never' type issues and string | undefined problems
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
+const { execSync } = require("child_process");
+const fs = require("fs");
 
 class Delta1Batch2Fixer {
   constructor() {
@@ -15,7 +15,7 @@ class Delta1Batch2Fixer {
   }
 
   async run() {
-    console.log('🎯 DELTA-1 BATCH 2: TS2345 TARGETED FIXES');
+    console.log("🎯 DELTA-1 BATCH 2: TS2345 TARGETED FIXES");
 
     const initialErrors = this.getErrorCount();
     console.log(`Initial error count: ${initialErrors}`);
@@ -25,11 +25,11 @@ class Delta1Batch2Fixer {
 
     // Target specific files with known patterns
     const targetFiles = [
-      'src/utils/recipeFilters.ts',
-      'src/utils/alchemicalPillarUtils.ts',
-      'src/services/RecipeCuisineConnector.ts',
-      'src/components/CuisineRecommender.tsx',
-      'src/components/Header/FoodRecommender/components/Cuisinegroup.tsx',
+      "src/utils/recipeFilters.ts",
+      "src/utils/alchemicalPillarUtils.ts",
+      "src/services/RecipeCuisineConnector.ts",
+      "src/components/CuisineRecommender.tsx",
+      "src/components/Header/FoodRecommender/components/Cuisinegroup.tsx",
     ];
 
     for (const file of targetFiles) {
@@ -41,7 +41,7 @@ class Delta1Batch2Fixer {
     const finalErrors = this.getErrorCount();
     const finalTS2345 = this.getTS2345Count();
 
-    console.log('\n📊 RESULTS:');
+    console.log("\n📊 RESULTS:");
     console.log(`Files modified: ${this.filesModified.size}`);
     console.log(`Fixes applied: ${this.fixedCount}`);
     console.log(
@@ -54,10 +54,13 @@ class Delta1Batch2Fixer {
 
   getErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: ['pipe', 'pipe', 'pipe'],
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: ["pipe", "pipe", "pipe"],
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -66,10 +69,13 @@ class Delta1Batch2Fixer {
 
   getTS2345Count() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "TS2345" | wc -l', {
-        encoding: 'utf8',
-        stdio: ['pipe', 'pipe', 'pipe'],
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "TS2345" | wc -l',
+        {
+          encoding: "utf8",
+          stdio: ["pipe", "pipe", "pipe"],
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -80,19 +86,19 @@ class Delta1Batch2Fixer {
     console.log(`\n🔧 Processing ${filePath}...`);
 
     try {
-      let content = fs.readFileSync(filePath, 'utf8');
+      let content = fs.readFileSync(filePath, "utf8");
       const originalContent = content;
 
       // Apply specific fixes based on file
-      if (filePath.includes('recipeFilters.ts')) {
+      if (filePath.includes("recipeFilters.ts")) {
         content = this.fixRecipeFilters(content);
-      } else if (filePath.includes('alchemicalPillarUtils.ts')) {
+      } else if (filePath.includes("alchemicalPillarUtils.ts")) {
         content = this.fixAlchemicalPillarUtils(content);
-      } else if (filePath.includes('RecipeCuisineConnector.ts')) {
+      } else if (filePath.includes("RecipeCuisineConnector.ts")) {
         content = this.fixRecipeCuisineConnector(content);
-      } else if (filePath.includes('CuisineRecommender.tsx')) {
+      } else if (filePath.includes("CuisineRecommender.tsx")) {
         content = this.fixCuisineRecommender(content);
-      } else if (filePath.includes('Cuisinegroup.tsx')) {
+      } else if (filePath.includes("Cuisinegroup.tsx")) {
         content = this.fixCuisinegroup(content);
       }
 
@@ -117,16 +123,19 @@ class Delta1Batch2Fixer {
         .replace(/cuisine\.name/g, 'cuisine?.name || ""')
         // Fix optional property access in includes calls
         .replace(/(\w+)\.includes\(([^)]+)\)/g, (match, array, arg) => {
-          if (arg.includes('||')) return match; // Already fixed
+          if (arg.includes("||")) return match; // Already fixed
           return `${array}.includes(${arg} || '')`;
         })
         // Fix recipe name access
         .replace(/recipe\.name/g, 'recipe?.name || ""')
         // Fix undefined string parameters
-        .replace(/([a-zA-Z_$][a-zA-Z0-9_$]*(?:\.[a-zA-Z_$][a-zA-Z0-9_$]*)*)(?=\s*[,)])/g, match => {
-          if (match.includes('||') || match.includes('??')) return match;
-          return `${match} || ''`;
-        })
+        .replace(
+          /([a-zA-Z_$][a-zA-Z0-9_$]*(?:\.[a-zA-Z_$][a-zA-Z0-9_$]*)*)(?=\s*[,)])/g,
+          (match) => {
+            if (match.includes("||") || match.includes("??")) return match;
+            return `${match} || ''`;
+          },
+        )
     );
   }
 
@@ -135,13 +144,16 @@ class Delta1Batch2Fixer {
     return (
       content
         // Fix array initialization issues
-        .replace(/const\s+(\w+)\s*=\s*\[\]/g, 'const $1: string[] = []')
+        .replace(/const\s+(\w+)\s*=\s*\[\]/g, "const $1: string[] = []")
         // Fix map/filter operations that result in never
-        .replace(/\.map\(([^)]+)\)\.filter\(([^)]+)\)/g, '.map($1).filter($2) as any[]')
+        .replace(
+          /\.map\(([^)]+)\)\.filter\(([^)]+)\)/g,
+          ".map($1).filter($2) as any[]",
+        )
         // Fix push operations on arrays that might be 'never'
-        .replace(/(\w+)\.push\(([^)]+)\)/g, '($1 as any[]).push($2)')
+        .replace(/(\w+)\.push\(([^)]+)\)/g, "($1 as any[]).push($2)")
         // Add type assertion for method parameters
-        .replace(/(\w+)\s*:\s*never/g, '$1: any')
+        .replace(/(\w+)\s*:\s*never/g, "$1: any")
     );
   }
 
@@ -150,13 +162,13 @@ class Delta1Batch2Fixer {
     return (
       content
         // Fix cuisine type issues
-        .replace(/cuisine\s*as\s*any/g, 'cuisine as CuisineType')
+        .replace(/cuisine\s*as\s*any/g, "cuisine as CuisineType")
         // Fix recipe parameter issues
-        .replace(/recipe\s*:\s*unknown/g, 'recipe: Recipe')
+        .replace(/recipe\s*:\s*unknown/g, "recipe: Recipe")
         // Fix return type issues
-        .replace(/:\s*never\s*\[\]/g, ': any[]')
+        .replace(/:\s*never\s*\[\]/g, ": any[]")
         // Fix parameter type mismatches
-        .replace(/(\w+)\s*as\s*never/g, '$1 as any')
+        .replace(/(\w+)\s*as\s*never/g, "$1 as any")
     );
   }
 
@@ -167,12 +179,12 @@ class Delta1Batch2Fixer {
         // Fix AstrologicalState type issues
         .replace(
           /\{\s*zodiacSign:([^,}]+),\s*lunarPhase:([^,}]+),\s*planetaryPositions:([^}]+)\s*\}/g,
-          '{ zodiacSign: $1, lunarPhase: $2, planetaryPositions: $3 } as AstrologicalState',
+          "{ zodiacSign: $1, lunarPhase: $2, planetaryPositions: $3 } as AstrologicalState",
         )
         // Fix setState issues
-        .replace(/setState\(([^)]+)\)/g, 'setState($1 as any)')
+        .replace(/setState\(([^)]+)\)/g, "setState($1 as any)")
         // Fix recipe array issues
-        .replace(/RecipeData\[\]\s*\|\s*undefined/g, 'RecipeData[]')
+        .replace(/RecipeData\[\]\s*\|\s*undefined/g, "RecipeData[]")
     );
   }
 
@@ -181,16 +193,19 @@ class Delta1Batch2Fixer {
     return (
       content
         // Fix function parameters
-        .replace(/(\w+):\s*string\s*\|\s*undefined/g, '$1: string')
+        .replace(/(\w+):\s*string\s*\|\s*undefined/g, "$1: string")
         // Add default values for potentially undefined strings
         .replace(/\(([^,)]+)\s*\|\|\s*['""]['""],?\s*/g, '($1 || "", ')
         // Fix function calls with undefined parameters
-        .replace(/(\w+)\(([^,)]*),\s*([^,)]*),\s*([^)]*)\)/g, (match, fn, arg1, arg2, arg3) => {
-          if (arg1 && !arg1.includes('||')) arg1 = `${arg1} || ''`;
-          if (arg2 && !arg2.includes('||')) arg2 = `${arg2} || ''`;
-          if (arg3 && !arg3.includes('||')) arg3 = `${arg3} || ''`;
-          return `${fn}(${arg1}, ${arg2}, ${arg3})`;
-        })
+        .replace(
+          /(\w+)\(([^,)]*),\s*([^,)]*),\s*([^)]*)\)/g,
+          (match, fn, arg1, arg2, arg3) => {
+            if (arg1 && !arg1.includes("||")) arg1 = `${arg1} || ''`;
+            if (arg2 && !arg2.includes("||")) arg2 = `${arg2} || ''`;
+            if (arg3 && !arg3.includes("||")) arg3 = `${arg3} || ''`;
+            return `${fn}(${arg1}, ${arg2}, ${arg3})`;
+          },
+        )
     );
   }
 }

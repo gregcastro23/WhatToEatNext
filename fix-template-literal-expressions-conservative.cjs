@@ -11,74 +11,78 @@
  * It avoids fixing valid multi-line template literals and complex expressions.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
-  sourceDirectories: ['src'],
-  fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
+  sourceDirectories: ["src"],
+  fileExtensions: [".ts", ".tsx", ".js", ".jsx"],
   excludePatterns: [
-    'node_modules',
-    '.next',
-    'dist',
-    'build',
-    '.git',
-    '__tests__',
-    '.test.',
-    '.spec.',
-    'coverage'
+    "node_modules",
+    ".next",
+    "dist",
+    "build",
+    ".git",
+    "__tests__",
+    ".test.",
+    ".spec.",
+    "coverage",
   ],
   maxFilesToProcess: 1000,
-  backupDirectory: '.template-literal-conservative-backups',
-  dryRun: false
+  backupDirectory: ".template-literal-conservative-backups",
+  dryRun: false,
 };
 
 // Only fix patterns that are clearly syntax errors
 const CONSERVATIVE_FIXES = [
   {
-    name: 'Unclosed Template Expression at End of Line',
+    name: "Unclosed Template Expression at End of Line",
     pattern: /(\$\{[^}]*[^}])(\s*$)/gm,
     replacement: (match, expression, whitespace) => {
       // Only fix if it's clearly incomplete (no closing brace and ends line)
-      if (!expression.includes('}') && expression.length < 100) {
-        return expression + '}' + whitespace;
+      if (!expression.includes("}") && expression.length < 100) {
+        return expression + "}" + whitespace;
       }
       return match;
     },
-    description: 'Close template expressions that are clearly incomplete',
+    description: "Close template expressions that are clearly incomplete",
     validate: (match, content, index) => {
       // Only fix simple cases that are clearly errors
-      const expression = match.match(/\$\{([^}]*)/)?.[1] || '';
+      const expression = match.match(/\$\{([^}]*)/)?.[1] || "";
       return (
         expression.length < 50 &&
-        !expression.includes('${') &&
-        !expression.includes('`') &&
-        !expression.includes('\n')
+        !expression.includes("${") &&
+        !expression.includes("`") &&
+        !expression.includes("\n")
       );
-    }
+    },
   },
   {
-    name: 'Double Template Expression Start',
+    name: "Double Template Expression Start",
     pattern: /\$\{\$\{([^}]+)\}/g,
-    replacement: '${$1}',
-    description: 'Fix double template expression starts',
+    replacement: "${$1}",
+    description: "Fix double template expression starts",
     validate: (match, content, index) => {
       // Only fix obvious double starts
-      return match.includes('${${') && !match.includes('${${${');
-    }
+      return match.includes("${${") && !match.includes("${${${");
+    },
   },
   {
-    name: 'Escaped Template Expression in Template Literal',
+    name: "Escaped Template Expression in Template Literal",
     pattern: /(`[^`]*?)\\(\$\{[^}]+\})([^`]*?`)/g,
-    replacement: '$1$2$3',
-    description: 'Fix escaped template expressions inside template literals',
+    replacement: "$1$2$3",
+    description: "Fix escaped template expressions inside template literals",
     validate: (match, content, index) => {
       // Only fix if it's clearly inside a template literal
-      return typeof match === 'string' && match.startsWith('`') && match.endsWith('`');
-    }
-  }
+      return (
+        typeof match === "string" &&
+        match.startsWith("`") &&
+        match.endsWith("`")
+      );
+    },
+  },
 ];
 
 class ConservativeTemplateLiteralFixer {
@@ -90,7 +94,7 @@ class ConservativeTemplateLiteralFixer {
       fixesByFile: {},
       errors: [],
       skippedFixes: [],
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     // Initialize fix counters
@@ -125,7 +129,9 @@ class ConservativeTemplateLiteralFixer {
         const fullPath = path.join(dir, entry.name);
 
         // Skip excluded patterns
-        if (CONFIG.excludePatterns.some(pattern => fullPath.includes(pattern))) {
+        if (
+          CONFIG.excludePatterns.some((pattern) => fullPath.includes(pattern))
+        ) {
           continue;
         }
 
@@ -152,11 +158,17 @@ class ConservativeTemplateLiteralFixer {
         fs.mkdirSync(CONFIG.backupDirectory, { recursive: true });
       }
 
-      const backupPath = path.join(CONFIG.backupDirectory, path.basename(filePath) + '.backup');
+      const backupPath = path.join(
+        CONFIG.backupDirectory,
+        path.basename(filePath) + ".backup",
+      );
       fs.copyFileSync(filePath, backupPath);
       return backupPath;
     } catch (error) {
-      console.warn(`Warning: Could not create backup for ${filePath}:`, error.message);
+      console.warn(
+        `Warning: Could not create backup for ${filePath}:`,
+        error.message,
+      );
       return null;
     }
   }
@@ -165,7 +177,7 @@ class ConservativeTemplateLiteralFixer {
    * Check if a file contains template literals
    */
   hasTemplateLiterals(content) {
-    return content.includes('`') && content.includes('${');
+    return content.includes("`") && content.includes("${");
   }
 
   /**
@@ -189,7 +201,7 @@ class ConservativeTemplateLiteralFixer {
   hasBasicSyntaxValidity(content) {
     try {
       // Basic checks for template literal syntax
-      const lines = content.split('\n');
+      const lines = content.split("\n");
       let inTemplateLiteral = false;
       let templateLiteralDepth = 0;
 
@@ -199,16 +211,16 @@ class ConservativeTemplateLiteralFixer {
         // Count backticks to track template literal state
         for (let j = 0; j < line.length; j++) {
           const char = line[j];
-          const prevChar = j > 0 ? line[j - 1] : '';
+          const prevChar = j > 0 ? line[j - 1] : "";
 
-          if (char === '`' && prevChar !== '\\') {
+          if (char === "`" && prevChar !== "\\") {
             inTemplateLiteral = !inTemplateLiteral;
           }
 
           if (inTemplateLiteral) {
-            if (char === '{' && prevChar === '$') {
+            if (char === "{" && prevChar === "$") {
               templateLiteralDepth++;
-            } else if (char === '}' && templateLiteralDepth > 0) {
+            } else if (char === "}" && templateLiteralDepth > 0) {
               templateLiteralDepth--;
             }
           }
@@ -218,7 +230,7 @@ class ConservativeTemplateLiteralFixer {
       // If we end with unclosed template expressions, it might be a syntax error
       return templateLiteralDepth === 0;
     } catch (error) {
-      console.warn('Syntax validation error:', error.message);
+      console.warn("Syntax validation error:", error.message);
       return true; // Default to allowing the fix
     }
   }
@@ -228,7 +240,7 @@ class ConservativeTemplateLiteralFixer {
    */
   fixFile(filePath) {
     try {
-      const originalContent = fs.readFileSync(filePath, 'utf8');
+      const originalContent = fs.readFileSync(filePath, "utf8");
 
       // Skip files without template literals
       if (!this.hasTemplateLiterals(originalContent)) {
@@ -243,34 +255,40 @@ class ConservativeTemplateLiteralFixer {
       for (const fix of CONSERVATIVE_FIXES) {
         let appliedFixes = 0;
 
-        if (typeof fix.replacement === 'function') {
-          modifiedContent = modifiedContent.replace(fix.pattern, (match, ...args) => {
-            const index = args[args.length - 2]; // Second to last arg is the index
-            if (this.shouldApplyFix(fix, match, originalContent, index)) {
-              appliedFixes++;
-              return fix.replacement(match, ...args.slice(0, -2));
-            } else {
-              this.results.skippedFixes.push({
-                file: filePath,
-                fixName: fix.name,
-                match: match,
-                reason: 'Failed validation'
-              });
-              return match;
-            }
-          });
+        if (typeof fix.replacement === "function") {
+          modifiedContent = modifiedContent.replace(
+            fix.pattern,
+            (match, ...args) => {
+              const index = args[args.length - 2]; // Second to last arg is the index
+              if (this.shouldApplyFix(fix, match, originalContent, index)) {
+                appliedFixes++;
+                return fix.replacement(match, ...args.slice(0, -2));
+              } else {
+                this.results.skippedFixes.push({
+                  file: filePath,
+                  fixName: fix.name,
+                  match: match,
+                  reason: "Failed validation",
+                });
+                return match;
+              }
+            },
+          );
         } else {
           const matches = [...originalContent.matchAll(fix.pattern)];
           for (const match of matches) {
             if (this.shouldApplyFix(fix, match, originalContent, match.index)) {
-              modifiedContent = modifiedContent.replace(match[0], fix.replacement);
+              modifiedContent = modifiedContent.replace(
+                match[0],
+                fix.replacement,
+              );
               appliedFixes++;
             } else {
               this.results.skippedFixes.push({
                 file: filePath,
                 fixName: fix.name,
                 match: match[0],
-                reason: 'Failed validation'
+                reason: "Failed validation",
               });
             }
           }
@@ -282,7 +300,7 @@ class ConservativeTemplateLiteralFixer {
           fileFixes.push({
             fixName: fix.name,
             count: appliedFixes,
-            description: fix.description
+            description: fix.description,
           });
         }
       }
@@ -296,7 +314,7 @@ class ConservativeTemplateLiteralFixer {
             this.createBackup(filePath);
 
             // Write modified content
-            fs.writeFileSync(filePath, modifiedContent, 'utf8');
+            fs.writeFileSync(filePath, modifiedContent, "utf8");
           }
 
           this.results.filesModified++;
@@ -304,14 +322,15 @@ class ConservativeTemplateLiteralFixer {
 
           return { modified: true, fixes: fileFixes };
         } else {
-          console.warn(`⚠️  Skipping ${filePath}: fixes would introduce syntax errors`);
+          console.warn(
+            `⚠️  Skipping ${filePath}: fixes would introduce syntax errors`,
+          );
           return { modified: false, fixes: [], skipped: true };
         }
       }
 
       this.results.totalFilesProcessed++;
       return { modified: false, fixes: [] };
-
     } catch (error) {
       const errorMsg = `Error processing file ${filePath}: ${error.message}`;
       console.warn(errorMsg);
@@ -325,10 +344,10 @@ class ConservativeTemplateLiteralFixer {
    */
   async validateTypeScript() {
     try {
-      console.log('\n🔧 Validating TypeScript compilation...');
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        stdio: 'pipe'
+      console.log("\n🔧 Validating TypeScript compilation...");
+      const output = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        stdio: "pipe",
       });
 
       const errorCount = (output.match(/error TS/g) || []).length;
@@ -339,7 +358,7 @@ class ConservativeTemplateLiteralFixer {
       const errorCount = (error.stdout?.match(/error TS/g) || []).length;
       console.log(`📊 TypeScript errors after fixes: ${errorCount}`);
 
-      return { success: false, errorCount, output: error.stdout || '' };
+      return { success: false, errorCount, output: error.stdout || "" };
     }
   }
 
@@ -347,22 +366,28 @@ class ConservativeTemplateLiteralFixer {
    * Run the complete template literal fixing process
    */
   async runFixes() {
-    console.log('🔧 Starting Conservative Template Literal Expression Fixes...');
-    console.log(`📁 Processing directories: ${CONFIG.sourceDirectories.join(', ')}`);
-    console.log(`📄 File extensions: ${CONFIG.fileExtensions.join(', ')}`);
-    console.log(`🔄 Dry run mode: ${CONFIG.dryRun ? 'ENABLED' : 'DISABLED'}`);
+    console.log(
+      "🔧 Starting Conservative Template Literal Expression Fixes...",
+    );
+    console.log(
+      `📁 Processing directories: ${CONFIG.sourceDirectories.join(", ")}`,
+    );
+    console.log(`📄 File extensions: ${CONFIG.fileExtensions.join(", ")}`);
+    console.log(`🔄 Dry run mode: ${CONFIG.dryRun ? "ENABLED" : "DISABLED"}`);
 
     const files = this.getSourceFiles();
     console.log(`📊 Found ${files.length} files to process`);
 
     if (files.length === 0) {
-      console.log('⚠️  No source files found to process');
+      console.log("⚠️  No source files found to process");
       return this.results;
     }
 
     // Get initial TypeScript error count
     const initialValidation = await this.validateTypeScript();
-    console.log(`📊 Initial TypeScript errors: ${initialValidation.errorCount}`);
+    console.log(
+      `📊 Initial TypeScript errors: ${initialValidation.errorCount}`,
+    );
 
     // Process all files
     let processedCount = 0;
@@ -371,13 +396,17 @@ class ConservativeTemplateLiteralFixer {
       processedCount++;
 
       if (result.modified) {
-        console.log(`✅ Fixed: ${file} (${result.fixes.length} fix types applied)`);
+        console.log(
+          `✅ Fixed: ${file} (${result.fixes.length} fix types applied)`,
+        );
       } else if (result.skipped) {
         console.log(`⚠️  Skipped: ${file} (would introduce syntax errors)`);
       }
 
       if (processedCount % 100 === 0) {
-        console.log(`📈 Progress: ${processedCount}/${files.length} files processed`);
+        console.log(
+          `📈 Progress: ${processedCount}/${files.length} files processed`,
+        );
       }
     }
 
@@ -389,7 +418,8 @@ class ConservativeTemplateLiteralFixer {
     this.results.validation = validation;
     this.results.initialErrorCount = initialValidation.errorCount;
     this.results.finalErrorCount = validation.errorCount;
-    this.results.errorReduction = initialValidation.errorCount - validation.errorCount;
+    this.results.errorReduction =
+      initialValidation.errorCount - validation.errorCount;
 
     // Save results
     this.saveResults();
@@ -401,11 +431,15 @@ class ConservativeTemplateLiteralFixer {
    * Generate summary report
    */
   generateSummary() {
-    console.log('\n📋 CONSERVATIVE TEMPLATE LITERAL FIX SUMMARY');
-    console.log('=' .repeat(60));
-    console.log(`📊 Total files processed: ${this.results.totalFilesProcessed}`);
+    console.log("\n📋 CONSERVATIVE TEMPLATE LITERAL FIX SUMMARY");
+    console.log("=".repeat(60));
+    console.log(
+      `📊 Total files processed: ${this.results.totalFilesProcessed}`,
+    );
     console.log(`🔧 Files modified: ${this.results.filesModified}`);
-    console.log(`✅ Files unchanged: ${this.results.totalFilesProcessed - this.results.filesModified}`);
+    console.log(
+      `✅ Files unchanged: ${this.results.totalFilesProcessed - this.results.filesModified}`,
+    );
 
     if (this.results.errors.length > 0) {
       console.log(`❌ Errors encountered: ${this.results.errors.length}`);
@@ -415,7 +449,7 @@ class ConservativeTemplateLiteralFixer {
       console.log(`⚠️  Fixes skipped: ${this.results.skippedFixes.length}`);
     }
 
-    console.log('\n🔍 Fixes Applied by Type:');
+    console.log("\n🔍 Fixes Applied by Type:");
     let totalFixes = 0;
     for (const [fixType, count] of Object.entries(this.results.fixesByType)) {
       if (count > 0) {
@@ -425,11 +459,11 @@ class ConservativeTemplateLiteralFixer {
     }
 
     if (this.results.filesModified > 0) {
-      console.log('\n🚨 Top Files Modified:');
+      console.log("\n🚨 Top Files Modified:");
       const fileFixCount = Object.entries(this.results.fixesByFile)
         .map(([file, fixes]) => ({
           file,
-          count: fixes.reduce((sum, fix) => sum + fix.count, 0)
+          count: fixes.reduce((sum, fix) => sum + fix.count, 0),
         }))
         .sort((a, b) => b.count - a.count)
         .slice(0, 10);
@@ -442,7 +476,7 @@ class ConservativeTemplateLiteralFixer {
     console.log(`\n📈 Total template literal fixes applied: ${totalFixes}`);
 
     if (CONFIG.dryRun) {
-      console.log('\n⚠️  DRY RUN MODE: No files were actually modified');
+      console.log("\n⚠️  DRY RUN MODE: No files were actually modified");
     } else if (this.results.filesModified > 0) {
       console.log(`\n💾 Backups created in: ${CONFIG.backupDirectory}`);
     }
@@ -453,11 +487,11 @@ class ConservativeTemplateLiteralFixer {
    */
   saveResults() {
     try {
-      const outputFile = 'template-literal-fix-conservative-report.json';
+      const outputFile = "template-literal-fix-conservative-report.json";
       fs.writeFileSync(outputFile, JSON.stringify(this.results, null, 2));
       console.log(`\n💾 Results saved to: ${outputFile}`);
     } catch (error) {
-      console.error('❌ Failed to save results:', error.message);
+      console.error("❌ Failed to save results:", error.message);
     }
   }
 }
@@ -466,7 +500,7 @@ class ConservativeTemplateLiteralFixer {
 async function main() {
   const args = process.argv.slice(2);
 
-  if (args.includes('--dry-run')) {
+  if (args.includes("--dry-run")) {
     CONFIG.dryRun = true;
   }
 
@@ -475,28 +509,36 @@ async function main() {
     const results = await fixer.runFixes();
 
     // Exit with appropriate code
-    const totalFixes = Object.values(results.fixesByType).reduce((sum, count) => sum + count, 0);
+    const totalFixes = Object.values(results.fixesByType).reduce(
+      (sum, count) => sum + count,
+      0,
+    );
 
     if (totalFixes === 0) {
-      console.log('\n✅ SUCCESS: No template literal issues found that need fixing!');
+      console.log(
+        "\n✅ SUCCESS: No template literal issues found that need fixing!",
+      );
       process.exit(0);
     } else {
-      console.log(`\n✅ SUCCESS: Applied ${totalFixes} conservative template literal fixes`);
+      console.log(
+        `\n✅ SUCCESS: Applied ${totalFixes} conservative template literal fixes`,
+      );
 
       if (results.errorReduction > 0) {
-        console.log(`📉 TypeScript errors reduced by ${results.errorReduction} (${results.initialErrorCount} → ${results.finalErrorCount})`);
+        console.log(
+          `📉 TypeScript errors reduced by ${results.errorReduction} (${results.initialErrorCount} → ${results.finalErrorCount})`,
+        );
       }
 
       if (results.validation && !results.validation.success) {
-        console.log('⚠️  WARNING: TypeScript compilation still has errors');
+        console.log("⚠️  WARNING: TypeScript compilation still has errors");
         process.exit(1);
       } else {
         process.exit(0);
       }
     }
-
   } catch (error) {
-    console.error('❌ FATAL ERROR:', error.message);
+    console.error("❌ FATAL ERROR:", error.message);
     console.error(error.stack);
     process.exit(1);
   }
@@ -507,4 +549,8 @@ if (require.main === module) {
   main();
 }
 
-module.exports = { ConservativeTemplateLiteralFixer, CONSERVATIVE_FIXES, CONFIG };
+module.exports = {
+  ConservativeTemplateLiteralFixer,
+  CONSERVATIVE_FIXES,
+  CONFIG,
+};

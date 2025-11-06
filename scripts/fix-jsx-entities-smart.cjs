@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Configuration
 const CONFIG = {
-  sourceDir: './src',
-  extensions: ['.tsx', '.jsx'],
-  dryRun: process.argv.includes('--dry-run'),
+  sourceDir: "./src",
+  extensions: [".tsx", ".jsx"],
+  dryRun: process.argv.includes("--dry-run"),
   createBackup: true,
-  excludePatterns: ['node_modules', '.next', 'dist', 'build'],
+  excludePatterns: ["node_modules", ".next", "dist", "build"],
 };
 
 // Track fix metrics
@@ -20,15 +20,15 @@ const metrics = {
   errors: [],
 };
 
-function log(message, type = 'info') {
+function log(message, type = "info") {
   const timestamp = new Date().toISOString();
   const prefix =
     {
-      info: '✓',
-      warn: '⚠',
-      error: '✗',
-      debug: '→',
-    }[type] || '•';
+      info: "✓",
+      warn: "⚠",
+      error: "✗",
+      debug: "→",
+    }[type] || "•";
 
   console.log(`[${timestamp}] ${prefix} ${message}`);
 }
@@ -53,17 +53,19 @@ function getAllReactFiles(dir) {
         const stat = fs.statSync(fullPath);
 
         if (stat.isDirectory()) {
-          if (!CONFIG.excludePatterns.some(pattern => item.includes(pattern))) {
+          if (
+            !CONFIG.excludePatterns.some((pattern) => item.includes(pattern))
+          ) {
             scanDirectory(fullPath);
           }
         } else if (stat.isFile()) {
-          if (CONFIG.extensions.some(ext => fullPath.endsWith(ext))) {
+          if (CONFIG.extensions.some((ext) => fullPath.endsWith(ext))) {
             files.push(fullPath);
           }
         }
       }
     } catch (error) {
-      log(`Error scanning directory ${directory}: ${error.message}`, 'error');
+      log(`Error scanning directory ${directory}: ${error.message}`, "error");
     }
   }
 
@@ -75,7 +77,8 @@ function findJSXElements(content) {
   const jsxElements = [];
 
   // Find JSX elements (tags that look like HTML/JSX)
-  const jsxPattern = /<([A-Z][a-zA-Z0-9]*|[a-z][a-zA-Z0-9-]*)[^>]*>[\s\S]*?<\/\1>/g;
+  const jsxPattern =
+    /<([A-Z][a-zA-Z0-9]*|[a-z][a-zA-Z0-9-]*)[^>]*>[\s\S]*?<\/\1>/g;
 
   let jsxMatch;
   while ((jsxMatch = jsxPattern.exec(content)) !== null) {
@@ -111,11 +114,14 @@ function findJSXTextContent(jsxElement) {
   const tagName = jsxElement.tagName;
 
   // Extract text content between opening and closing tags
-  const openingTagEnd = jsxElement.content.indexOf('>') + 1;
+  const openingTagEnd = jsxElement.content.indexOf(">") + 1;
   const closingTagStart = jsxElement.content.lastIndexOf(`</${tagName}>`);
 
   if (openingTagEnd > 0 && closingTagStart > openingTagEnd) {
-    const innerContent = jsxElement.content.substring(openingTagEnd, closingTagStart);
+    const innerContent = jsxElement.content.substring(
+      openingTagEnd,
+      closingTagStart,
+    );
 
     // Find text nodes (content not inside nested tags)
     const textPattern = />[^<]*[&'"]/g;
@@ -152,13 +158,16 @@ function fixEntitiesInJSX(content) {
       let originalNodeContent = nodeContent;
 
       // Fix unescaped ampersands (not already escaped)
-      nodeContent = nodeContent.replace(/&(?![a-zA-Z]+;|#\d+;|#x[0-9a-fA-F]+;)/g, '&amp;');
+      nodeContent = nodeContent.replace(
+        /&(?![a-zA-Z]+;|#\d+;|#x[0-9a-fA-F]+;)/g,
+        "&amp;",
+      );
 
       // Fix unescaped single quotes in contractions (don't -> don&apos;t)
-      nodeContent = nodeContent.replace(/([a-zA-Z])'/g, '$1&apos;');
+      nodeContent = nodeContent.replace(/([a-zA-Z])'/g, "$1&apos;");
 
       // Fix unescaped double quotes
-      nodeContent = nodeContent.replace(/([a-zA-Z])"/g, '$1&quot;');
+      nodeContent = nodeContent.replace(/([a-zA-Z])"/g, "$1&quot;");
 
       if (nodeContent !== originalNodeContent) {
         fixes.push({
@@ -177,9 +186,11 @@ function fixEntitiesInJSX(content) {
 
   for (const fix of fixes) {
     modifiedContent =
-      modifiedContent.substring(0, fix.start) + fix.fixed + modifiedContent.substring(fix.end);
+      modifiedContent.substring(0, fix.start) +
+      fix.fixed +
+      modifiedContent.substring(fix.end);
 
-    log(`  Fixed: ${fix.original.trim()} → ${fix.fixed.trim()}`, 'debug');
+    log(`  Fixed: ${fix.original.trim()} → ${fix.fixed.trim()}`, "debug");
   }
 
   return { content: modifiedContent, fixCount };
@@ -187,7 +198,7 @@ function fixEntitiesInJSX(content) {
 
 function fixFileEntities(filePath) {
   try {
-    const originalContent = fs.readFileSync(filePath, 'utf8');
+    const originalContent = fs.readFileSync(filePath, "utf8");
     const result = fixEntitiesInJSX(originalContent);
 
     // Only write file if changes were made
@@ -195,20 +206,20 @@ function fixFileEntities(filePath) {
       if (CONFIG.dryRun) {
         log(
           `[DRY RUN] Would fix ${result.fixCount} entities in ${path.relative(process.cwd(), filePath)}`,
-          'info',
+          "info",
         );
       } else {
         // Create backup before modifying
         const backupPath = createBackup(filePath);
         if (backupPath) {
-          log(`  Created backup: ${path.basename(backupPath)}`, 'debug');
+          log(`  Created backup: ${path.basename(backupPath)}`, "debug");
         }
 
         // Write the fixed content
-        fs.writeFileSync(filePath, result.content, 'utf8');
+        fs.writeFileSync(filePath, result.content, "utf8");
         log(
           `Fixed ${result.fixCount} entities in ${path.relative(process.cwd(), filePath)}`,
-          'info',
+          "info",
         );
       }
 
@@ -220,39 +231,39 @@ function fixFileEntities(filePath) {
     return result.fixCount;
   } catch (error) {
     const errorMsg = `Error processing ${filePath}: ${error.message}`;
-    log(errorMsg, 'error');
+    log(errorMsg, "error");
     metrics.errors.push(errorMsg);
     return 0;
   }
 }
 
 function validateFixes() {
-  log('Validating fixes...');
+  log("Validating fixes...");
 
   try {
-    const { execSync } = require('child_process');
-    execSync('yarn tsc --noEmit --skipLibCheck', {
-      stdio: 'ignore',
+    const { execSync } = require("child_process");
+    execSync("yarn tsc --noEmit --skipLibCheck", {
+      stdio: "ignore",
       timeout: 30000,
     });
-    log('TypeScript validation passed', 'info');
+    log("TypeScript validation passed", "info");
     return true;
   } catch (error) {
-    log('TypeScript validation failed - review changes carefully', 'warn');
+    log("TypeScript validation failed - review changes carefully", "warn");
     return false;
   }
 }
 
 function main() {
-  log('Starting smart JSX entities fix script...');
-  log(`Mode: ${CONFIG.dryRun ? 'DRY RUN' : 'LIVE FIX'}`);
+  log("Starting smart JSX entities fix script...");
+  log(`Mode: ${CONFIG.dryRun ? "DRY RUN" : "LIVE FIX"}`);
 
   // Find all React files
   const reactFiles = getAllReactFiles(CONFIG.sourceDir);
   log(`Found ${reactFiles.length} React component files`);
 
   if (reactFiles.length === 0) {
-    log('No React files found to process', 'warn');
+    log("No React files found to process", "warn");
     return;
   }
 
@@ -263,7 +274,9 @@ function main() {
     totalFixesApplied += fixes;
 
     if (metrics.filesProcessed % 20 === 0) {
-      log(`Progress: ${metrics.filesProcessed}/${reactFiles.length} files processed`);
+      log(
+        `Progress: ${metrics.filesProcessed}/${reactFiles.length} files processed`,
+      );
     }
   }
 
@@ -273,24 +286,26 @@ function main() {
   }
 
   // Final summary
-  log('\n=== Smart JSX Entities Fix Complete ===');
+  log("\n=== Smart JSX Entities Fix Complete ===");
   log(`Files processed: ${metrics.filesProcessed}`);
   log(`Files modified: ${metrics.filesModified}`);
   log(`Entities fixed: ${metrics.entitiesFixed}`);
 
   if (metrics.errors.length > 0) {
-    log(`Errors encountered: ${metrics.errors.length}`, 'error');
-    metrics.errors.forEach(error => log(`  - ${error}`, 'error'));
+    log(`Errors encountered: ${metrics.errors.length}`, "error");
+    metrics.errors.forEach((error) => log(`  - ${error}`, "error"));
   }
 
   if (totalFixesApplied > 0) {
-    log(`\n✓ Successfully fixed ${totalFixesApplied} unescaped entities in JSX!`);
+    log(
+      `\n✓ Successfully fixed ${totalFixesApplied} unescaped entities in JSX!`,
+    );
     if (!CONFIG.dryRun) {
-      log('Backup files created for all modified files');
+      log("Backup files created for all modified files");
       log('Run "git diff" to review changes');
     }
   } else {
-    log('No unescaped entities found in JSX content', 'info');
+    log("No unescaped entities found in JSX content", "info");
   }
 }
 

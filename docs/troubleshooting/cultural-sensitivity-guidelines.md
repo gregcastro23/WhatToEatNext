@@ -10,12 +10,12 @@ traditions and astrological systems in the WhatToEatNext project.
 
 ```typescript
 interface CulturalSensitivityPrinciples {
-  respect: 'Honor all cultural traditions and practices';
-  authenticity: 'Maintain accuracy in cultural representations';
-  inclusion: 'Ensure diverse perspectives are represented';
-  attribution: 'Credit traditional knowledge appropriately';
-  consultation: 'Engage with cultural practitioners and experts';
-  humility: 'Acknowledge limitations and seek continuous learning';
+  respect: "Honor all cultural traditions and practices";
+  authenticity: "Maintain accuracy in cultural representations";
+  inclusion: "Ensure diverse perspectives are represented";
+  attribution: "Credit traditional knowledge appropriately";
+  consultation: "Engage with cultural practitioners and experts";
+  humility: "Acknowledge limitations and seek continuous learning";
 }
 ```
 
@@ -43,13 +43,13 @@ interface CulturalSensitivityPrinciples {
 ```typescript
 // GOOD: Respectful ingredient representation
 interface IngredientCulturalInfo {
-  name: string;                    // Use authentic names
-  alternativeNames: string[];      // Include regional variations
-  culturalOrigin: string[];        // Acknowledge multiple origins
-  traditionalUses: string[];       // Describe authentic applications
-  culturalSignificance: string;    // Explain cultural importance
-  preparationNotes: string;        // Include traditional methods
-  respectfulSourcing: boolean;     // Ensure ethical sourcing
+  name: string; // Use authentic names
+  alternativeNames: string[]; // Include regional variations
+  culturalOrigin: string[]; // Acknowledge multiple origins
+  traditionalUses: string[]; // Describe authentic applications
+  culturalSignificance: string; // Explain cultural importance
+  preparationNotes: string; // Include traditional methods
+  respectfulSourcing: boolean; // Ensure ethical sourcing
 }
 
 // Example: Respectful representation
@@ -60,11 +60,13 @@ const turmericInfo: IngredientCulturalInfo = {
   traditionalUses: [
     "Ayurvedic medicine",
     "Traditional cooking spice",
-    "Ceremonial applications"
+    "Ceremonial applications",
   ],
-  culturalSignificance: "Sacred spice in Hindu traditions, used in ceremonies and daily cooking",
-  preparationNotes: "Traditionally ground fresh, often combined with other spices",
-  respectfulSourcing: true
+  culturalSignificance:
+    "Sacred spice in Hindu traditions, used in ceremonies and daily cooking",
+  preparationNotes:
+    "Traditionally ground fresh, often combined with other spices",
+  respectfulSourcing: true,
 };
 ```
 
@@ -75,11 +77,13 @@ const turmericInfo: IngredientCulturalInfo = {
 const problematicExamples = {
   // Don't claim ownership of traditional knowledge
   wrong: "Our unique discovery of turmeric's healing properties",
-  right: "Turmeric's traditional healing properties, recognized in Ayurveda for centuries",
+  right:
+    "Turmeric's traditional healing properties, recognized in Ayurveda for centuries",
 
   // Don't oversimplify complex traditions
   wrong: "Ancient secret superfood",
-  right: "Traditional ingredient with documented historical uses in various cultures",
+  right:
+    "Traditional ingredient with documented historical uses in various cultures",
 
   // Don't use sacred terms inappropriately
   wrong: "Chakra-cleansing smoothie",
@@ -87,7 +91,7 @@ const problematicExamples = {
 
   // Don't make unsubstantiated spiritual claims
   wrong: "Mystical energy-boosting elixir",
-  right: "Traditional preparation known for its energizing properties"
+  right: "Traditional preparation known for its energizing properties",
 };
 ```
 
@@ -113,26 +117,41 @@ const indianCuisine: CuisineRepresentation = {
   name: "Indian Cuisine",
   region: "Indian Subcontinent",
   subRegions: [
-    "North Indian", "South Indian", "Bengali", "Gujarati",
-    "Punjabi", "Tamil", "Kerala", "Rajasthani"
+    "North Indian",
+    "South Indian",
+    "Bengali",
+    "Gujarati",
+    "Punjabi",
+    "Tamil",
+    "Kerala",
+    "Rajasthani",
   ],
   keyCharacteristics: [
     "Complex spice blends",
     "Regional diversity",
     "Vegetarian traditions",
-    "Seasonal cooking"
+    "Seasonal cooking",
   ],
   traditionalIngredients: [
-    "Turmeric", "Cumin", "Coriander", "Cardamom",
-    "Various lentils", "Basmati rice", "Ghee"
+    "Turmeric",
+    "Cumin",
+    "Coriander",
+    "Cardamom",
+    "Various lentils",
+    "Basmati rice",
+    "Ghee",
   ],
   cookingMethods: [
-    "Tempering (tadka)", "Slow cooking", "Clay pot cooking",
-    "Tandoor cooking", "Steam cooking"
+    "Tempering (tadka)",
+    "Slow cooking",
+    "Clay pot cooking",
+    "Tandoor cooking",
+    "Steam cooking",
   ],
-  culturalContext: "Deeply connected to Ayurvedic principles, religious practices, and regional agricultural traditions",
+  culturalContext:
+    "Deeply connected to Ayurvedic principles, religious practices, and regional agricultural traditions",
   expertConsultation: true,
-  communityFeedback: true
+  communityFeedback: true,
 };
 ```
 
@@ -143,23 +162,26 @@ const indianCuisine: CuisineRepresentation = {
 const cuisineStereotypesToAvoid = {
   oversimplification: {
     wrong: "All Asian food is spicy",
-    right: "Asian cuisines encompass diverse flavor profiles, from mild to intensely spiced"
+    right:
+      "Asian cuisines encompass diverse flavor profiles, from mild to intensely spiced",
   },
 
   generalization: {
     wrong: "Mexican food is just tacos and burritos",
-    right: "Mexican cuisine includes diverse regional specialties with complex flavor traditions"
+    right:
+      "Mexican cuisine includes diverse regional specialties with complex flavor traditions",
   },
 
   exoticization: {
     wrong: "Mysterious ancient Eastern flavors",
-    right: "Traditional flavor combinations with documented culinary history"
+    right: "Traditional flavor combinations with documented culinary history",
   },
 
   healthWashing: {
     wrong: "All Mediterranean food is automatically healthy",
-    right: "Mediterranean cuisine emphasizes fresh ingredients and balanced nutrition"
-  }
+    right:
+      "Mediterranean cuisine emphasizes fresh ingredients and balanced nutrition",
+  },
 };
 ```
 
@@ -190,30 +212,60 @@ const astrologicalTraditions: AstrologicalTradition[] = [
     elementalSystem: "Fire, Earth, Air, Water",
     traditionalApplications: ["Personal character analysis", "Timing guidance"],
     modernAdaptations: ["Psychological astrology", "Evolutionary astrology"],
-    respectfulUsage: ["Acknowledge historical development", "Credit ancient sources"]
+    respectfulUsage: [
+      "Acknowledge historical development",
+      "Credit ancient sources",
+    ],
   },
 
   {
     name: "Vedic Astrology (Jyotisha)",
     culturalOrigin: "Ancient Indian tradition",
-    keyPrinciples: ["Sidereal zodiac", "Lunar mansions (Nakshatras)", "Karma and dharma"],
+    keyPrinciples: [
+      "Sidereal zodiac",
+      "Lunar mansions (Nakshatras)",
+      "Karma and dharma",
+    ],
     planetarySystem: "9 planets (Navagraha) including lunar nodes",
-    elementalSystem: "5 elements (Pancha Mahabhuta): Earth, Water, Fire, Air, Space",
-    traditionalApplications: ["Life guidance", "Timing ceremonies", "Health recommendations"],
-    modernAdaptations: ["Integration with Ayurveda", "Psychological counseling"],
-    respectfulUsage: ["Use Sanskrit terms correctly", "Acknowledge sacred nature", "Consult with practitioners"]
+    elementalSystem:
+      "5 elements (Pancha Mahabhuta): Earth, Water, Fire, Air, Space",
+    traditionalApplications: [
+      "Life guidance",
+      "Timing ceremonies",
+      "Health recommendations",
+    ],
+    modernAdaptations: [
+      "Integration with Ayurveda",
+      "Psychological counseling",
+    ],
+    respectfulUsage: [
+      "Use Sanskrit terms correctly",
+      "Acknowledge sacred nature",
+      "Consult with practitioners",
+    ],
   },
 
   {
     name: "Chinese Astrology",
     culturalOrigin: "Ancient Chinese civilization",
-    keyPrinciples: ["12-year animal cycle", "Five elements", "Yin-Yang balance"],
+    keyPrinciples: [
+      "12-year animal cycle",
+      "Five elements",
+      "Yin-Yang balance",
+    ],
     planetarySystem: "Five planets corresponding to five elements",
     elementalSystem: "Wood, Fire, Earth, Metal, Water",
-    traditionalApplications: ["Personal compatibility", "Timing decisions", "Health guidance"],
+    traditionalApplications: [
+      "Personal compatibility",
+      "Timing decisions",
+      "Health guidance",
+    ],
     modernAdaptations: ["Business timing", "Relationship counseling"],
-    respectfulUsage: ["Respect philosophical foundations", "Understand cultural context"]
-  }
+    respectfulUsage: [
+      "Respect philosophical foundations",
+      "Understand cultural context",
+    ],
+  },
 ];
 ```
 
@@ -227,36 +279,39 @@ const astrologicalSensitivityGuidelines = {
     dont: "Anglicize or oversimplify sacred terms",
     example: {
       correct: "Nakshatra (lunar mansion in Vedic astrology)",
-      incorrect: "Indian moon sign"
-    }
+      incorrect: "Indian moon sign",
+    },
   },
 
   attribution: {
     do: "Credit the cultural tradition and acknowledge its depth",
     dont: "Present ancient knowledge as modern discovery",
     example: {
-      correct: "Based on traditional Vedic astrological principles developed over millennia",
-      incorrect: "Our innovative astrological algorithm"
-    }
+      correct:
+        "Based on traditional Vedic astrological principles developed over millennia",
+      incorrect: "Our innovative astrological algorithm",
+    },
   },
 
   complexity: {
     do: "Acknowledge the complexity and depth of traditional systems",
     dont: "Oversimplify for convenience",
     example: {
-      correct: "Simplified interpretation based on complex traditional calculations",
-      incorrect: "Easy astrology made simple"
-    }
+      correct:
+        "Simplified interpretation based on complex traditional calculations",
+      incorrect: "Easy astrology made simple",
+    },
   },
 
   sacred_elements: {
     do: "Treat sacred symbols and concepts with reverence",
     dont: "Use sacred symbols as mere decoration",
     example: {
-      correct: "Incorporating traditional elemental principles with respect for their sacred origins",
-      incorrect: "Cool mystical symbols for our app design"
-    }
-  }
+      correct:
+        "Incorporating traditional elemental principles with respect for their sacred origins",
+      incorrect: "Cool mystical symbols for our app design",
+    },
+  },
 };
 ```
 
@@ -269,23 +324,23 @@ const astrologicalSensitivityGuidelines = {
 const inclusiveAstrologicalLanguage = {
   planetary_descriptions: {
     avoid: "Mars makes men aggressive and women assertive",
-    use: "Mars energy can manifest as assertiveness and drive in all individuals"
+    use: "Mars energy can manifest as assertiveness and drive in all individuals",
   },
 
   relationship_astrology: {
     avoid: "Venus in women shows how they attract men",
-    use: "Venus placement indicates how individuals express and attract love"
+    use: "Venus placement indicates how individuals express and attract love",
   },
 
   career_guidance: {
     avoid: "Saturn is good for men in business",
-    use: "Saturn energy supports disciplined approach to career goals"
+    use: "Saturn energy supports disciplined approach to career goals",
   },
 
   elemental_descriptions: {
     avoid: "Fire signs are naturally masculine",
-    use: "Fire signs embody dynamic, active energy"
-  }
+    use: "Fire signs embody dynamic, active energy",
+  },
 };
 ```
 
@@ -302,12 +357,12 @@ interface CulturalAccessibility {
 }
 
 const accessibilityGuidelines: CulturalAccessibility = {
-  multipleLanguages: true,        // Support multiple languages
+  multipleLanguages: true, // Support multiple languages
   culturalContextExplanations: true, // Explain cultural background
-  respectfulImagery: true,        // Use appropriate visual representations
-  diverseExamples: true,          // Include examples from various cultures
-  communityInput: true,           // Seek feedback from cultural communities
-  expertValidation: true          // Have cultural experts review content
+  respectfulImagery: true, // Use appropriate visual representations
+  diverseExamples: true, // Include examples from various cultures
+  communityInput: true, // Seek feedback from cultural communities
+  expertValidation: true, // Have cultural experts review content
 };
 ```
 
@@ -334,29 +389,29 @@ const expertConsultationProcess = {
     "Research recognized experts in relevant fields",
     "Seek recommendations from cultural organizations",
     "Look for published authors and practitioners",
-    "Consider academic and traditional knowledge holders"
+    "Consider academic and traditional knowledge holders",
   ],
 
   approach: [
     "Reach out respectfully with clear project description",
     "Explain how their expertise would be valued",
     "Offer appropriate compensation for their time",
-    "Be transparent about project goals and usage"
+    "Be transparent about project goals and usage",
   ],
 
   collaboration: [
     "Provide drafts for review and feedback",
     "Ask specific questions about accuracy and sensitivity",
     "Request guidance on appropriate terminology",
-    "Seek advice on cultural context and significance"
+    "Seek advice on cultural context and significance",
   ],
 
   attribution: [
     "Credit experts appropriately in documentation",
     "Acknowledge their contributions publicly",
     "Respect their preferences for attribution",
-    "Maintain ongoing relationships for future consultation"
-  ]
+    "Maintain ongoing relationships for future consultation",
+  ],
 };
 ```
 
@@ -376,16 +431,20 @@ const communityFeedbackSystem: CommunityFeedback = {
     "Dedicated email for cultural feedback",
     "Community forum section",
     "Social media monitoring",
-    "Direct outreach to cultural organizations"
+    "Direct outreach to cultural organizations",
   ],
 
-  responseTimeframe: "Acknowledge within 48 hours, detailed response within 1 week",
+  responseTimeframe:
+    "Acknowledge within 48 hours, detailed response within 1 week",
 
-  reviewProcess: "Internal review with cultural sensitivity team, expert consultation if needed",
+  reviewProcess:
+    "Internal review with cultural sensitivity team, expert consultation if needed",
 
-  implementationPlan: "Prioritize feedback, create implementation timeline, communicate changes",
+  implementationPlan:
+    "Prioritize feedback, create implementation timeline, communicate changes",
 
-  followUpProtocol: "Follow up with feedback providers, document changes made, thank contributors"
+  followUpProtocol:
+    "Follow up with feedback providers, document changes made, thank contributors",
 };
 ```
 
@@ -400,22 +459,22 @@ const culturalReviewSchedule = {
     "Review new content for cultural sensitivity",
     "Check community feedback and responses",
     "Update terminology based on evolving standards",
-    "Monitor for any cultural appropriation concerns"
+    "Monitor for any cultural appropriation concerns",
   ],
 
   quarterly: [
     "Comprehensive review of all cultural content",
     "Expert consultation on major features",
     "Community survey on cultural representation",
-    "Update cultural sensitivity guidelines"
+    "Update cultural sensitivity guidelines",
   ],
 
   annually: [
     "Full cultural audit of entire platform",
     "Engage new cultural experts and communities",
     "Review and update cultural sensitivity training",
-    "Assess impact and effectiveness of sensitivity measures"
-  ]
+    "Assess impact and effectiveness of sensitivity measures",
+  ],
 };
 ```
 
@@ -434,29 +493,29 @@ const trainingProgram: CulturalSensitivityTraining = {
     "Cultural appropriation awareness",
     "Respectful research methods",
     "Inclusive language guidelines",
-    "Community engagement best practices"
+    "Community engagement best practices",
   ],
 
   ongoingEducation: [
     "Monthly cultural sensitivity updates",
     "Reading recommendations from cultural experts",
     "Attendance at cultural events and workshops",
-    "Participation in diversity and inclusion training"
+    "Participation in diversity and inclusion training",
   ],
 
   expertSessions: [
     "Quarterly sessions with cultural practitioners",
     "Workshops on specific cultural traditions",
     "Q&A sessions with community representatives",
-    "Collaborative review sessions"
+    "Collaborative review sessions",
   ],
 
   communityEngagement: [
     "Participation in cultural community events",
     "Volunteer work with cultural organizations",
     "Support for cultural preservation efforts",
-    "Ongoing relationship building"
-  ]
+    "Ongoing relationship building",
+  ],
 };
 ```
 
@@ -468,9 +527,14 @@ const trainingProgram: CulturalSensitivityTraining = {
 
 ```typescript
 interface CulturalSensitivityIssue {
-  type: 'appropriation' | 'misrepresentation' | 'stereotyping' | 'exclusion' | 'insensitivity';
-  severity: 'low' | 'medium' | 'high' | 'critical';
-  source: 'internal' | 'community' | 'expert' | 'media';
+  type:
+    | "appropriation"
+    | "misrepresentation"
+    | "stereotyping"
+    | "exclusion"
+    | "insensitivity";
+  severity: "low" | "medium" | "high" | "critical";
+  source: "internal" | "community" | "expert" | "media";
   description: string;
   affectedCommunities: string[];
   immediateActions: string[];
@@ -484,14 +548,14 @@ const commonIssues = {
       "Using sacred symbols without permission",
       "Claiming ownership of traditional knowledge",
       "Commercializing spiritual practices inappropriately",
-      "Using cultural elements out of context"
+      "Using cultural elements out of context",
     ],
     response: [
       "Immediate removal of problematic content",
       "Public acknowledgment and apology",
       "Consultation with affected communities",
-      "Implementation of preventive measures"
-    ]
+      "Implementation of preventive measures",
+    ],
   },
 
   misrepresentation: {
@@ -499,14 +563,14 @@ const commonIssues = {
       "Inaccurate cultural information",
       "Oversimplified cultural practices",
       "Stereotypical representations",
-      "Missing cultural context"
+      "Missing cultural context",
     ],
     response: [
       "Fact-checking with cultural experts",
       "Correction of inaccurate information",
       "Addition of proper cultural context",
-      "Enhanced review processes"
-    ]
+      "Enhanced review processes",
+    ],
   },
 
   exclusion: {
@@ -514,15 +578,15 @@ const commonIssues = {
       "Lack of diverse cultural representation",
       "Missing perspectives from marginalized communities",
       "Bias toward dominant cultural narratives",
-      "Inaccessible content for certain communities"
+      "Inaccessible content for certain communities",
     ],
     response: [
       "Actively seek diverse perspectives",
       "Expand cultural representation",
       "Improve accessibility",
-      "Engage with marginalized communities"
-    ]
-  }
+      "Engage with marginalized communities",
+    ],
+  },
 };
 ```
 
@@ -537,8 +601,8 @@ const responseProtocol = {
       "Acknowledge the issue publicly",
       "Remove or modify problematic content if necessary",
       "Contact affected communities",
-      "Begin internal investigation"
-    ]
+      "Begin internal investigation",
+    ],
   },
 
   shortTerm: {
@@ -547,8 +611,8 @@ const responseProtocol = {
       "Conduct thorough review with cultural experts",
       "Develop comprehensive response plan",
       "Implement immediate corrections",
-      "Communicate transparently with community"
-    ]
+      "Communicate transparently with community",
+    ],
   },
 
   longTerm: {
@@ -557,8 +621,8 @@ const responseProtocol = {
       "Implement systemic changes to prevent recurrence",
       "Enhance cultural sensitivity processes",
       "Provide additional team training",
-      "Establish ongoing community relationships"
-    ]
+      "Establish ongoing community relationships",
+    ],
   },
 
   ongoing: {
@@ -567,9 +631,9 @@ const responseProtocol = {
       "Monitor for similar issues",
       "Maintain community dialogue",
       "Regular review and improvement",
-      "Share learnings with broader community"
-    ]
-  }
+      "Share learnings with broader community",
+    ],
+  },
 };
 ```
 
@@ -584,26 +648,26 @@ const culturalSensitivityResources = {
   books: [
     "Decolonizing Therapy and Counseling by Dr. Natacha Foo Kune",
     "The Cultural Nature of Human Development by Barbara Rogoff",
-    "Respectful Collection of Traditional Knowledge by various indigenous authors"
+    "Respectful Collection of Traditional Knowledge by various indigenous authors",
   ],
 
   organizations: [
     "Cultural Survival International",
     "Indigenous Wellness Research Institute",
-    "International Association for Cross-Cultural Psychology"
+    "International Association for Cross-Cultural Psychology",
   ],
 
   guidelines: [
     "UNESCO Guidelines for Safeguarding Intangible Cultural Heritage",
     "UN Declaration on the Rights of Indigenous Peoples",
-    "Protocols for Consultation and Negotiation with First Nations"
+    "Protocols for Consultation and Negotiation with First Nations",
   ],
 
   onlineResources: [
     "Cultural Appropriation vs. Cultural Appreciation guides",
     "Inclusive language style guides",
-    "Community-specific cultural protocols"
-  ]
+    "Community-specific cultural protocols",
+  ],
 };
 ```
 
@@ -624,36 +688,36 @@ const expertNetwork: ExpertNetwork = {
     "Traditional cuisine practitioners",
     "Food historians and anthropologists",
     "Cultural cooking instructors",
-    "Community cookbook authors"
+    "Community cookbook authors",
   ],
 
   astrologicalPractitioners: [
     "Traditional Vedic astrologers",
     "Chinese astrology practitioners",
     "Indigenous astronomical knowledge keepers",
-    "Academic researchers in cultural astronomy"
+    "Academic researchers in cultural astronomy",
   ],
 
   culturalAnthropologists: [
     "Specialists in food culture",
     "Researchers in traditional knowledge systems",
     "Experts in cultural appropriation",
-    "Community-based participatory researchers"
+    "Community-based participatory researchers",
   ],
 
   communityLeaders: [
     "Cultural organization representatives",
     "Religious and spiritual leaders",
     "Community elders and knowledge keepers",
-    "Cultural preservation advocates"
+    "Cultural preservation advocates",
   ],
 
   academicInstitutions: [
     "Universities with strong anthropology programs",
     "Cultural studies departments",
     "Indigenous studies programs",
-    "International cultural exchange programs"
-  ]
+    "International cultural exchange programs",
+  ],
 };
 ```
 
@@ -709,26 +773,26 @@ const ongoingMonitoring = {
   communityFeedback: {
     channels: ["Email", "Social media", "Community forums", "Direct outreach"],
     monitoring: "Daily review of feedback channels",
-    response: "Acknowledge within 24 hours, address within 1 week"
+    response: "Acknowledge within 24 hours, address within 1 week",
   },
 
   expertReview: {
     frequency: "Quarterly review with cultural experts",
     scope: "New content and ongoing features",
-    documentation: "Maintain records of expert feedback and implementations"
+    documentation: "Maintain records of expert feedback and implementations",
   },
 
   selfAssessment: {
     frequency: "Monthly team review",
     focus: "Recent content and community interactions",
-    improvement: "Identify areas for enhancement and training"
+    improvement: "Identify areas for enhancement and training",
   },
 
   externalAudit: {
     frequency: "Annual comprehensive review",
     scope: "Entire platform and all cultural content",
-    outcome: "Public report on cultural sensitivity efforts and improvements"
-  }
+    outcome: "Public report on cultural sensitivity efforts and improvements",
+  },
 };
 ```
 

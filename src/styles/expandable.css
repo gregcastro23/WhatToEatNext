@@ -6,26 +6,26 @@
  */
 
 /* Common styles for all expandable elements */
-[data-expandable='true'] {
+[data-expandable="true"] {
   position: relative;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 /* Add subtle indication that element is clickable */
-[data-expandable='true']:hover {
+[data-expandable="true"]:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
 
 /* Visual indication that element is clicked */
-[data-expandable='true']:active {
+[data-expandable="true"]:active {
   transform: translateY(0);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 /* Style for elements that are currently expanded */
-[data-expandable='true'].expanded {
+[data-expandable="true"].expanded {
   border-left: 3px solid rgba(107, 70, 193, 0.8);
 }
 
@@ -73,37 +73,37 @@
 }
 
 /* Focus styles for accessibility */
-[data-expandable='true']:focus {
+[data-expandable="true"]:focus {
   outline: 2px solid rgba(107, 70, 193, 0.5);
   outline-offset: 2px;
 }
 
 /* Z-index fix for overlapping elements */
-[data-expandable='true'] {
+[data-expandable="true"] {
   z-index: 1;
 }
 
-[data-expandable='true'].expanded {
+[data-expandable="true"].expanded {
   z-index: 2;
 }
 
 /* Fix for click events - ensure clickable area is properly sized */
-[data-expandable='true'] {
+[data-expandable="true"] {
   display: block;
   position: relative;
 }
 
 /* Ensure child elements don't steal clicks from parent */
-[data-expandable='true'] > * {
+[data-expandable="true"] > * {
   pointer-events: none;
 }
 
 /* But allow specific child elements to have their own click events */
-[data-expandable='true'] button,
-[data-expandable='true'] a,
-[data-expandable='true'] [role='button'],
-[data-expandable='true'] input,
-[data-expandable='true'] select,
-[data-expandable='true'] [data-expandable='true'] {
+[data-expandable="true"] button,
+[data-expandable="true"] a,
+[data-expandable="true"] [role="button"],
+[data-expandable="true"] input,
+[data-expandable="true"] select,
+[data-expandable="true"] [data-expandable="true"] {
   pointer-events: auto;
 }

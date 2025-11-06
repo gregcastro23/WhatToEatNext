@@ -137,7 +137,7 @@ npm run debug:campaigns          # Campaign system status
 ```typescript
 // System health monitoring
 interface SystemHealth {
-  status: 'healthy' | 'degraded' | 'critical';
+  status: "healthy" | "degraded" | "critical";
   astrological: AstrologicalHealth;
   performance: PerformanceHealth;
   integrations: IntegrationHealth;

@@ -1,9 +1,18 @@
-import { log } from '@/services/LoggingService';
-import { createLogger } from '@/utils/logger';
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
-import { planetInfo, signInfo } from '../data/astrology';
-import { backendCalculations, getElementalProperties, getSeasonalModifier } from '../utils/backendAdapter';
-import type { ElementalProperties, Recipe, Season, ZodiacSign } from '../types/alchemy';
+import { log } from "@/services/LoggingService";
+import { createLogger } from "@/utils/logger";
+import { DEFAULT_ELEMENTAL_PROPERTIES } from "../constants/elementalConstants";
+import { planetInfo, signInfo } from "../data/astrology";
+import {
+  backendCalculations,
+  getElementalProperties,
+  getSeasonalModifier,
+} from "../utils/backendAdapter";
+import type {
+  ElementalProperties,
+  Recipe,
+  Season,
+  ZodiacSign,
+} from "../types/alchemy";
 
 interface ElementalSummary {
   totalFire: number;
@@ -13,7 +22,7 @@ interface ElementalSummary {
   dominantElement: keyof ElementalProperties;
 }
 
-const logger = createLogger('ElementalCalculator');
+const logger = createLogger("ElementalCalculator");
 
 export class ElementalCalculator {
   private static instance: ElementalCalculator;
@@ -25,7 +34,7 @@ export class ElementalCalculator {
     this.debugMode = debugMode;
 
     if (this.debugMode) {
-      log.info('[ElementalCalculator] Instance created with debug mode');
+      log.info("[ElementalCalculator] Instance created with debug mode");
     }
   }
 
@@ -49,16 +58,19 @@ export class ElementalCalculator {
   static initialize(initialState?: ElementalProperties): void {
     const instance = ElementalCalculator.getInstance();
     instance.currentBalance = initialState || {
-      ...DEFAULT_ELEMENTAL_PROPERTIES
+      ...DEFAULT_ELEMENTAL_PROPERTIES,
     };
     instance.initialized = true;
-    logger.debug('ElementalCalculator initialized with', instance.currentBalance);
+    logger.debug(
+      "ElementalCalculator initialized with",
+      instance.currentBalance,
+    );
   }
 
   static updateElementalState(newState: ElementalProperties): void {
     const instance = ElementalCalculator.getInstance();
     instance.currentBalance = { ...newState };
-    logger.debug('ElementalCalculator state updated', instance.currentBalance);
+    logger.debug("ElementalCalculator state updated", instance.currentBalance);
   }
 
   static getDefaultBalance(): ElementalProperties {
@@ -74,7 +86,8 @@ export class ElementalCalculator {
   }
 
   static calculateMatchScore(
-    item: Recipe | { elementalProperties: ElementalProperties | undefined }): number {
+    item: Recipe | { elementalProperties: ElementalProperties | undefined },
+  ): number {
     if (!item.elementalProperties) {
       return 0;
     }
@@ -88,7 +101,8 @@ export class ElementalCalculator {
     Object.entries(currentBalance).forEach(([element, value]) => {
       const elementKey = element as unknown;
       // Use optional chaining with nullish coalescing to handle undefined values
-      const itemValue = (item.elementalProperties && item.elementalProperties[elementKey]) || 0;
+      const itemValue =
+        (item.elementalProperties && item.elementalProperties[elementKey]) || 0;
 
       // Calculate weighted difference (more important elements get higher weight)
       const weight = value * 2; // Emphasize elements that are strong in current state
@@ -106,39 +120,39 @@ export class ElementalCalculator {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     };
 
     // Normalize season to lowercase for consistency with type definition
     const seasonLower = season.toLowerCase() as Season;
 
     switch (seasonLower) {
-      case 'spring':
+      case "spring":
         baseModifiers.Air = 0.4;
         baseModifiers.Fire = 0.3;
         baseModifiers.Water = 0.2;
         baseModifiers.Earth = 0.1;
         break;
-      case 'summer':
+      case "summer":
         baseModifiers.Fire = 0.4;
         baseModifiers.Air = 0.3;
         baseModifiers.Earth = 0.2;
         baseModifiers.Water = 0.1;
         break;
-      case 'autumn':
-      case 'fall':
+      case "autumn":
+      case "fall":
         baseModifiers.Earth = 0.4;
         baseModifiers.Air = 0.3;
         baseModifiers.Water = 0.2;
         baseModifiers.Fire = 0.1;
         break;
-      case 'winter':
+      case "winter":
         baseModifiers.Water = 0.4;
         baseModifiers.Earth = 0.3;
         baseModifiers.Fire = 0.2;
         baseModifiers.Air = 0.1;
         break;
-      case 'all':
+      case "all":
         // Balanced for 'all' season
         baseModifiers.Fire = 0.25;
         baseModifiers.Water = 0.25;
@@ -159,11 +173,14 @@ export class ElementalCalculator {
     Fire: number;
     Water: number;
     Earth: number;
-    Air: number
+    Air: number;
   } {
     if (this.debugMode) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      log.info('[ElementalCalculator] Calculating elemental state from: ', positions as any)
+      log.info(
+        "[ElementalCalculator] Calculating elemental state from: ",
+        positions as any,
+      );
     }
 
     // Initialize elemental values
@@ -171,13 +188,15 @@ export class ElementalCalculator {
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0
+      Air: 0,
     };
 
     // Handle empty or invalid positions
-    if (!positions || typeof positions !== 'object') {
+    if (!positions || typeof positions !== "object") {
       if (this.debugMode) {
-        log.info('[ElementalCalculator] No elemental data calculated, returning default values');
+        log.info(
+          "[ElementalCalculator] No elemental data calculated, returning default values",
+        );
       }
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
@@ -185,13 +204,15 @@ export class ElementalCalculator {
     // Try to extract planet positions directly if they exist
     try {
       if (this.debugMode) {
-        log.info('[ElementalCalculator] Trying to extract planets from general structure')
+        log.info(
+          "[ElementalCalculator] Trying to extract planets from general structure",
+        );
       }
 
       // Handle different API response formats
-      const hasPlanets = 'planets' in positions;
-      const hasCelestialBodies = 'CelestialBodies' in positions;
-      const hasTropical = 'tropical' in positions;
+      const hasPlanets = "planets" in positions;
+      const hasCelestialBodies = "CelestialBodies" in positions;
+      const hasTropical = "tropical" in positions;
 
       // Process planets if available in various formats
       if (hasPlanets) {
@@ -218,23 +239,28 @@ export class ElementalCalculator {
       }
 
       // Normalize values
-      const total = Object.values(elementalValues).reduce((sum, val) => sum + val, 0);
+      const total = Object.values(elementalValues).reduce(
+        (sum, val) => sum + val,
+        0,
+      );
       if (total > 0) {
-        Object.keys(elementalValues).forEach(element => {
+        Object.keys(elementalValues).forEach((element) => {
           const elementKey = element as unknown;
           elementalValues[elementKey] = elementalValues[elementKey] / total;
         });
       } else {
         // Return default values if we couldn't calculate anything
         if (this.debugMode) {
-          log.info('[ElementalCalculator] No elemental data calculated, returning default values');
+          log.info(
+            "[ElementalCalculator] No elemental data calculated, returning default values",
+          );
         }
         return { ...DEFAULT_ELEMENTAL_PROPERTIES };
       }
 
       return elementalValues;
     } catch (error) {
-      logger.error('Error calculating elemental state', error);
+      logger.error("Error calculating elemental state", error);
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
   }
@@ -245,51 +271,62 @@ export class ElementalCalculator {
   }
 
   // Add methods to process different types of planetary position data
-  private processPlanetsObject(planets: Planet, elementalValues: ElementalProperties): void {
+  private processPlanetsObject(
+    planets: Planet,
+    elementalValues: ElementalProperties,
+  ): void {
     if (!planets) return;
 
     // Handle both array and object formats of planets
     if (Array.isArray(planets)) {
-      planets.forEach(planet => {
+      planets.forEach((planet) => {
         if (planet) this.processPlanetData(planet, elementalValues);
       });
-    } else if (typeof planets === 'object') {
+    } else if (typeof planets === "object") {
       // Process object format where keys are planet names
       Object.entries(planets).forEach(([name, data]) => {
         if (data) {
           const dataRecord = data;
-          const planetData = { ...dataRecord, name, label: name } as unknown as Planet;
+          const planetData = {
+            ...dataRecord,
+            name,
+            label: name,
+          } as unknown as Planet;
           this.processPlanetData(planetData, elementalValues);
         }
       });
     }
   }
 
-  private processCelestialBodies(bodies: unknown, elementalValues: ElementalProperties): void {
+  private processCelestialBodies(
+    bodies: unknown,
+    elementalValues: ElementalProperties,
+  ): void {
     if (!bodies) return;
 
     // Handle CelestialBodies format from API
     const bodiesData = bodies as any;
     if (Array.isArray(bodiesData.all)) {
       bodiesData.all.forEach((body: unknown) => {
-        if (body) this.processPlanetData(body as unknown as Planet, elementalValues);
+        if (body)
+          this.processPlanetData(body as unknown as Planet, elementalValues);
       });
     } else {
       // Handle individual planet objects
       const planetNames = [
-        'sun',
-        'moon',
-        'mercury',
-        'venus',
-        'mars',
-        'jupiter',
-        'saturn',
-        'uranus',
-        'neptune',
-        'pluto'
+        "sun",
+        "moon",
+        "mercury",
+        "venus",
+        "mars",
+        "jupiter",
+        "saturn",
+        "uranus",
+        "neptune",
+        "pluto",
       ];
 
-      planetNames.forEach(planetName => {
+      planetNames.forEach((planetName) => {
         if (bodiesData[planetName]) {
           const planet = bodiesData[planetName];
           // Add name and label if not present
@@ -297,7 +334,7 @@ export class ElementalCalculator {
           const enhancedPlanet = {
             ...planetRecord,
             name: planetName,
-            label: planetName
+            label: planetName,
           } as unknown as Planet;
           this.processPlanetData(enhancedPlanet, elementalValues);
         }
@@ -313,22 +350,22 @@ export class ElementalCalculator {
 
   private processPlanetKeys(
     data: Record<string, unknown>,
-    elementalValues: ElementalProperties
+    elementalValues: ElementalProperties,
   ): void {
     if (!data) return;
 
     // Try to find planets in a generic object structure
     const planetNames = [
-      'Sun',
-      'Moon',
-      'Mercury',
-      'Venus',
-      'Mars',
-      'Jupiter',
-      'Saturn',
-      'Uranus',
-      'Neptune',
-      'Pluto'
+      "Sun",
+      "Moon",
+      "Mercury",
+      "Venus",
+      "Mars",
+      "Jupiter",
+      "Saturn",
+      "Uranus",
+      "Neptune",
+      "Pluto",
     ];
 
     // Look for objects that might represent planets
@@ -336,7 +373,10 @@ export class ElementalCalculator {
 
     // Also look for ascendant
     if (data.Ascendant || data.ascendant) {
-      this.processAscendantData(data.Ascendant || data.ascendant, elementalValues);
+      this.processAscendantData(
+        data.Ascendant || data.ascendant,
+        elementalValues,
+      );
     }
   }
 
@@ -344,9 +384,9 @@ export class ElementalCalculator {
     obj: unknown,
     planetNames: string[],
     elementalValues: ElementalProperties,
-    depth = 0
+    depth = 0,
   ): void {
-    if (!obj || typeof obj !== 'object' || depth > 5) return; // Limit recursion depth
+    if (!obj || typeof obj !== "object" || depth > 5) return; // Limit recursion depth
 
     // Check if this object looks like a planet
     if (this.objectLooksPlanetLike(obj, planetNames)) {
@@ -356,9 +396,11 @@ export class ElementalCalculator {
 
     // Search through all properties
     for (const key in obj) {
-      if (obj[key] && typeof obj[key] === 'object') {
+      if (obj[key] && typeof obj[key] === "object") {
         // If key name matches a planet, augment with that name
-        const isPlanetKey = planetNames.find(p => p.toLowerCase() === key.toLowerCase());
+        const isPlanetKey = planetNames.find(
+          (p) => p.toLowerCase() === key.toLowerCase(),
+        );
 
         if (isPlanetKey && obj[key]) {
           // Add planet name to object if not already present
@@ -366,11 +408,16 @@ export class ElementalCalculator {
           const planetObj = {
             ...objKey,
             name: isPlanetKey,
-            label: isPlanetKey
+            label: isPlanetKey,
           } as unknown as Planet;
           this.processPlanetData(planetObj, elementalValues);
         } else {
-          this.findPlanetsRecursively(obj[key], planetNames, elementalValues, depth + 1);
+          this.findPlanetsRecursively(
+            obj[key],
+            planetNames,
+            elementalValues,
+            depth + 1,
+          );
         }
       }
     }
@@ -384,23 +431,28 @@ export class ElementalCalculator {
     // Has sign property directly
     if (objRecord.sign || objRecord.Sign) return true;
     // Has a name or label that matches a planet name
-    if (objRecord.name && planetNames.includes(String(objRecord.name))) return true;
-    if (objRecord.label && planetNames.includes(String(objRecord.label))) return true;
+    if (objRecord.name && planetNames.includes(String(objRecord.name)))
+      return true;
+    if (objRecord.label && planetNames.includes(String(objRecord.label)))
+      return true;
 
     return false;
   }
 
-  private processPlanetData(planet: Planet, elementalValues: ElementalProperties): void {
+  private processPlanetData(
+    planet: Planet,
+    elementalValues: ElementalProperties,
+  ): void {
     if (!planet) return;
 
     try {
       // Extract planet info
       const planetRecord = planet as unknown as any;
       const planetName = String(
-        planetRecord.name || planetRecord.label || planetRecord.planet || ''
+        planetRecord.name || planetRecord.label || planetRecord.planet || "",
       );
       const signData = planetRecord.Sign;
-      const sign = String(signData.label || planetRecord.sign || '');
+      const sign = String(signData.label || planetRecord.sign || "");
 
       if (!planetName || !sign) return;
 
@@ -412,31 +464,37 @@ export class ElementalCalculator {
 
         // Add to appropriate element
         switch (signElement) {
-          case 'Fire':
+          case "Fire":
             elementalValues.Fire += weight;
             break;
-          case 'Water':
+          case "Water":
             elementalValues.Water += weight;
             break;
-          case 'Earth':
+          case "Earth":
             elementalValues.Earth += weight;
             break;
-          case 'Air':
+          case "Air":
             elementalValues.Air += weight;
             break;
         }
       }
     } catch (error) {
-      logger.error('Error processing planet data', error);
+      logger.error("Error processing planet data", error);
     }
   }
 
-  private processAscendantData(ascendant: unknown, elementalValues: ElementalProperties): void {
+  private processAscendantData(
+    ascendant: unknown,
+    elementalValues: ElementalProperties,
+  ): void {
     try {
       const ascendantData = ascendant as any;
-      const ascendantSign = typeof ascendant === 'string'
+      const ascendantSign =
+        typeof ascendant === "string"
           ? ascendant
-          : String((ascendantData.Sign || {}).label || ascendantData.sign || '');
+          : String(
+              (ascendantData.Sign || {}).label || ascendantData.sign || "",
+            );
 
       if (ascendantSign) {
         const ascendantElement = this.getSignElement(ascendantSign);
@@ -444,23 +502,23 @@ export class ElementalCalculator {
           const weight = 0.75; // Ascendant has significant influence
 
           switch (ascendantElement) {
-            case 'Fire':
+            case "Fire":
               elementalValues.Fire += weight;
               break;
-            case 'Water':
+            case "Water":
               elementalValues.Water += weight;
               break;
-            case 'Earth':
+            case "Earth":
               elementalValues.Earth += weight;
               break;
-            case 'Air':
+            case "Air":
               elementalValues.Air += weight;
               break;
           }
         }
       }
     } catch (error) {
-      logger.error('Error processing ascendant data', error);
+      logger.error("Error processing ascendant data", error);
     }
   }
 
@@ -471,38 +529,38 @@ export class ElementalCalculator {
     const lowerSign = sign.toLowerCase();
     // Fire signs
     if (
-      lowerSign.includes('aries') ||
-      lowerSign.includes('leo') ||
-      lowerSign.includes('sagittarius')
+      lowerSign.includes("aries") ||
+      lowerSign.includes("leo") ||
+      lowerSign.includes("sagittarius")
     ) {
-      return 'Fire';
+      return "Fire";
     }
 
     // Water signs
     if (
-      lowerSign.includes('cancer') ||
-      lowerSign.includes('scorpio') ||
-      lowerSign.includes('pisces')
+      lowerSign.includes("cancer") ||
+      lowerSign.includes("scorpio") ||
+      lowerSign.includes("pisces")
     ) {
-      return 'Water';
+      return "Water";
     }
 
     // Earth signs
     if (
-      lowerSign.includes('taurus') ||
-      lowerSign.includes('virgo') ||
-      lowerSign.includes('capricorn')
+      lowerSign.includes("taurus") ||
+      lowerSign.includes("virgo") ||
+      lowerSign.includes("capricorn")
     ) {
-      return 'Earth';
+      return "Earth";
     }
 
     // Air signs
     if (
-      lowerSign.includes('gemini') ||
-      lowerSign.includes('libra') ||
-      lowerSign.includes('aquarius')
+      lowerSign.includes("gemini") ||
+      lowerSign.includes("libra") ||
+      lowerSign.includes("aquarius")
     ) {
-      return 'Air';
+      return "Air";
     }
 
     logger.warn(`Unknown sign: ${sign}`);
@@ -516,29 +574,29 @@ export class ElementalCalculator {
     const lowerPlanet = planet.toLowerCase();
 
     // Luminaries have strongest influence
-    if (lowerPlanet.includes('sun') || lowerPlanet.includes('moon')) {
+    if (lowerPlanet.includes("sun") || lowerPlanet.includes("moon")) {
       return 1.0;
     }
 
     // Personal planets have significant influence
     if (
-      lowerPlanet.includes('mercury') ||
-      lowerPlanet.includes('venus') ||
-      lowerPlanet.includes('mars')
+      lowerPlanet.includes("mercury") ||
+      lowerPlanet.includes("venus") ||
+      lowerPlanet.includes("mars")
     ) {
       return 0.8;
     }
 
     // Social planets have moderate influence
-    if (lowerPlanet.includes('jupiter') || lowerPlanet.includes('saturn')) {
+    if (lowerPlanet.includes("jupiter") || lowerPlanet.includes("saturn")) {
       return 0.6;
     }
 
     // Outer planets have subtle influence
     if (
-      lowerPlanet.includes('uranus') ||
-      lowerPlanet.includes('neptune') ||
-      lowerPlanet.includes('pluto')
+      lowerPlanet.includes("uranus") ||
+      lowerPlanet.includes("neptune") ||
+      lowerPlanet.includes("pluto")
     ) {
       return 0.4;
     }
@@ -547,12 +605,14 @@ export class ElementalCalculator {
     return 0.3;
   }
 
-  private static validateElementalProperties(properties: ElementalProperties): boolean {
+  private static validateElementalProperties(
+    properties: ElementalProperties,
+  ): boolean {
     if (!properties) return false;
 
-    const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
+    const requiredElements = ["Fire", "Water", "Earth", "Air"];
     const hasAllElements = requiredElements.every(
-      element => typeof properties[element as unknown] === 'number'
+      (element) => typeof properties[element as unknown] === "number",
     );
 
     if (!hasAllElements) return false;
@@ -563,7 +623,7 @@ export class ElementalCalculator {
   public static calculateIngredientMatch(ingredient: unknown): number {
     // Apply surgical type casting with variable extraction
     const ingredientData = ingredient as any;
-    const {elementalProperties} = ingredientData;
+    const { elementalProperties } = ingredientData;
 
     // If the ingredient has elementalProperties, use those
     if (elementalProperties) {
@@ -595,11 +655,13 @@ export class ElementalCalculator {
    * Calculate elemental balance using backend service
    * Replaces heavy frontend calculations with optimized backend calls
    */
-  public static async calculateElementalBalanceBackend(ingredients: string[]): Promise<ElementalProperties> {
+  public static async calculateElementalBalanceBackend(
+    ingredients: string[],
+  ): Promise<ElementalProperties> {
     try {
       return await backendCalculations.elements(ingredients);
     } catch (error) {
-      logger.warn('Backend calculation failed, using fallback', error);
+      logger.warn("Backend calculation failed, using fallback", error);
       return this.calculateElementalBalanceFallback(ingredients);
     }
   }
@@ -607,31 +669,47 @@ export class ElementalCalculator {
   /**
    * Fallback elemental calculation for offline mode
    */
-  public static calculateElementalBalanceFallback(ingredients: string[]): ElementalProperties {
+  public static calculateElementalBalanceFallback(
+    ingredients: string[],
+  ): ElementalProperties {
     if (!ingredients.length) {
       return DEFAULT_ELEMENTAL_PROPERTIES;
     }
 
     // Use lightweight elemental properties lookup
-    const elementalProps = ingredients.map(ingredient => getElementalProperties(ingredient));
+    const elementalProps = ingredients.map((ingredient) =>
+      getElementalProperties(ingredient),
+    );
 
     // Calculate weighted average
-    const fire = elementalProps.reduce((sum, props) => sum + props.Fire, 0) / elementalProps.length;
-    const water = elementalProps.reduce((sum, props) => sum + props.Water, 0) / elementalProps.length;
-    const earth = elementalProps.reduce((sum, props) => sum + props.Earth, 0) / elementalProps.length;
-    const air = elementalProps.reduce((sum, props) => sum + props.Air, 0) / elementalProps.length;
+    const fire =
+      elementalProps.reduce((sum, props) => sum + props.Fire, 0) /
+      elementalProps.length;
+    const water =
+      elementalProps.reduce((sum, props) => sum + props.Water, 0) /
+      elementalProps.length;
+    const earth =
+      elementalProps.reduce((sum, props) => sum + props.Earth, 0) /
+      elementalProps.length;
+    const air =
+      elementalProps.reduce((sum, props) => sum + props.Air, 0) /
+      elementalProps.length;
 
     // Normalize to ensure sum equals 1
     const total = fire + water + earth + air;
-    return total > 0 ? {
-      Fire: fire / total,
-      Water: water / total,
-      Earth: earth / total,
-      Air: air / total
-    } : DEFAULT_ELEMENTAL_PROPERTIES;
+    return total > 0
+      ? {
+          Fire: fire / total,
+          Water: water / total,
+          Earth: earth / total,
+          Air: air / total,
+        }
+      : DEFAULT_ELEMENTAL_PROPERTIES;
   }
 
-  public static calculateElementalBalance(elementalProperties: ElementalProperties): number {
+  public static calculateElementalBalance(
+    elementalProperties: ElementalProperties,
+  ): number {
     // Use actual current elemental state for comparison
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
@@ -640,7 +718,7 @@ export class ElementalCalculator {
     let count = 0;
 
     // Use all four elements for calculation
-    ['Fire', 'Water', 'Earth', 'Air'].forEach(element => {
+    ["Fire", "Water", "Earth", "Air"].forEach((element) => {
       const elementKey = element as unknown;
       const currentValue = currentState[elementKey] || 0;
       const ingredientValue = elementalProperties[elementKey] || 0;
@@ -655,33 +733,35 @@ export class ElementalCalculator {
     return count > 0 ? (totalSimilarity / count) * 100 : 50;
   }
 
-  private calculateElementalTotals(properties: ElementalProperties): ElementalSummary {
+  private calculateElementalTotals(
+    properties: ElementalProperties,
+  ): ElementalSummary {
     return {
       totalFire: properties.Fire,
       totalWater: properties.Water,
       totalEarth: properties.Earth,
       totalAir: properties.Air,
-      dominantElement: this.getDominantElement(properties)
+      dominantElement: this.getDominantElement(properties),
     };
   }
 
   private static getSeasonFromZodiacSign(sign: any): Season {
     // Map zodiac signs to seasons
     const zodiacSeasons: Record<ZodiacSign, Season> = {
-      aries: 'spring',
-      taurus: 'spring',
-      gemini: 'spring',
-      cancer: 'summer',
-      leo: 'summer',
-      virgo: 'summer',
-      libra: 'autumn',
-      scorpio: 'autumn',
-      sagittarius: 'autumn',
-      capricorn: 'winter',
-      aquarius: 'winter',
-      pisces: 'winter'
+      aries: "spring",
+      taurus: "spring",
+      gemini: "spring",
+      cancer: "summer",
+      leo: "summer",
+      virgo: "summer",
+      libra: "autumn",
+      scorpio: "autumn",
+      sagittarius: "autumn",
+      capricorn: "winter",
+      aquarius: "winter",
+      pisces: "winter",
     };
-    return zodiacSeasons[sign] || 'all';
+    return zodiacSeasons[sign] || "all";
   }
 
   // Method to get seasonal modifiers based on zodiac sign
@@ -723,12 +803,14 @@ export class ElementalCalculator {
     return normalizeProperties(result);
   }
 
-  public static combineElementalProperties(properties: ElementalProperties[]): ElementalProperties {
+  public static combineElementalProperties(
+    properties: ElementalProperties[],
+  ): ElementalProperties {
     const result: ElementalProperties = {
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0
+      Air: 0,
     };
 
     if (properties.length === 0) {
@@ -736,12 +818,12 @@ export class ElementalCalculator {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       };
     }
 
     // Sum up all properties
-    properties.forEach(prop => {
+    properties.forEach((prop) => {
       Object.entries(prop).forEach(([element, value]) => {
         // Use nullish coalescing to handle undefined values
         const elementKey = element as unknown;
@@ -752,13 +834,13 @@ export class ElementalCalculator {
     // Normalize to ensure they sum to 1
     const total = Object.values(result).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
-      Object.keys(result).forEach(element => {
+      Object.keys(result).forEach((element) => {
         const elementKey = element as unknown;
         result[elementKey] = result[elementKey] / total;
       });
     } else {
       // Default to equal distribution if total is 0
-      Object.keys(result).forEach(element => {
+      Object.keys(result).forEach((element) => {
         const elementKey = element as unknown;
         result[elementKey] = 0.25;
       });
@@ -767,8 +849,10 @@ export class ElementalCalculator {
     return result;
   }
 
-  private getDominantElement(elementalProperties: ElementalProperties): keyof ElementalProperties {
-    let maxElement: keyof ElementalProperties = 'Fire';
+  private getDominantElement(
+    elementalProperties: ElementalProperties,
+  ): keyof ElementalProperties {
+    let maxElement: keyof ElementalProperties = "Fire";
     let maxValue = elementalProperties.Fire;
 
     // Check each element to find the one with the highest value
@@ -784,28 +868,45 @@ export class ElementalCalculator {
   }
 
   // Method to process planet object and extract elemental properties
-  processPlanetElementalEffect(planet: Planet, sign: string): Record<string, number> {
+  processPlanetElementalEffect(
+    planet: Planet,
+    sign: string,
+  ): Record<string, number> {
     if (!planet || !sign) {
       return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     }
 
-    const elementalEffect: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const elementalEffect: Record<string, number> = {
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0,
+    };
 
     // Process dignity effect
     const planetStr = String(planet);
     const planetInfoData = planetInfo[planetStr] as Record<string, unknown>;
-    const dignityEffectData = planetInfoData['Dignity Effect'] as Record<string, unknown>;
+    const dignityEffectData = planetInfoData["Dignity Effect"] as Record<
+      string,
+      unknown
+    >;
     if (dignityEffectData[sign]) {
       const dignityEffectValue = Number(dignityEffectData[sign]);
       if (dignityEffectValue) {
-        if (Math.abs(dignityEffectValue) === 1 || Math.abs(dignityEffectValue) === 3) {
-          const signElement = signInfo[sign]?.Element || 'Fire';
-          elementalEffect[signElement] = 1 * (dignityEffectValue / Math.abs(dignityEffectValue));
+        if (
+          Math.abs(dignityEffectValue) === 1 ||
+          Math.abs(dignityEffectValue) === 3
+        ) {
+          const signElement = signInfo[sign]?.Element || "Fire";
+          elementalEffect[signElement] =
+            1 * (dignityEffectValue / Math.abs(dignityEffectValue));
         }
 
         if (Math.abs(dignityEffectValue) > 1) {
-          const diurnalElement = String(planetInfoData['Diurnal Element']) || 'Fire';
-          const nocturnalElement = String(planetInfoData['Nocturnal Element']) || 'Fire';
+          const diurnalElement =
+            String(planetInfoData["Diurnal Element"]) || "Fire";
+          const nocturnalElement =
+            String(planetInfoData["Nocturnal Element"]) || "Fire";
           elementalEffect[diurnalElement] +=
             1 * (dignityEffectValue / Math.abs(dignityEffectValue || 1));
           elementalEffect[nocturnalElement] +=
@@ -818,23 +919,36 @@ export class ElementalCalculator {
   }
 
   // Method to process celestial bodies data
-  processCelestialBodiesData(celestialData: Record<string, unknown>): Record<string, number> {
+  processCelestialBodiesData(
+    celestialData: Record<string, unknown>,
+  ): Record<string, number> {
     if (!celestialData) {
       return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     }
 
-    const totalElementalEffect: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const totalElementalEffect: Record<string, number> = {
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0,
+    };
 
     // Process each planet
     for (const planetKey of Object.keys(planetInfo)) {
       if (celestialData[planetKey.toLowerCase()]) {
         const planet = planetKey;
-        const planetData = celestialData[planetKey.toLowerCase()] as Record<string, unknown>;
+        const planetData = celestialData[planetKey.toLowerCase()] as Record<
+          string,
+          unknown
+        >;
         const signData = planetData.Sign as any;
-        const sign = String(signData.label || '');
+        const sign = String(signData.label || "");
 
         if (sign) {
-          const planetEffect = this.processPlanetElementalEffect(planet as unknown as Planet, sign);
+          const planetEffect = this.processPlanetElementalEffect(
+            planet as unknown as Planet,
+            sign,
+          );
 
           // Combine effects
           for (const element of Object.keys(totalElementalEffect)) {
@@ -853,19 +967,29 @@ export class ElementalCalculator {
       return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     }
 
-    const elementalEffect: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const elementalEffect: Record<string, number> = {
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0,
+    };
 
     // Extract all planet keys
     const planetKeys = Object.keys(planets).filter(
-      key =>
-        typeof planets[key] === 'object' && planets[key] !== null && (planetInfo[key] || false)
+      (key) =>
+        typeof planets[key] === "object" &&
+        planets[key] !== null &&
+        (planetInfo[key] || false),
     );
 
     // Process each planet
     for (const planet of planetKeys) {
       if (planets[planet]?.Sign) {
         const sign = planets[planet].Sign;
-        const planetEffect = this.processPlanetElementalEffect(planet as unknown as Planet, sign);
+        const planetEffect = this.processPlanetElementalEffect(
+          planet as unknown as Planet,
+          sign,
+        );
 
         // Combine effects
         for (const element of Object.keys(elementalEffect)) {
@@ -878,11 +1002,13 @@ export class ElementalCalculator {
   }
 
   // Get dominant element from elemental effects
-  getDominantElementFromEffects(elementalEffects: Record<string, number>): string {
+  getDominantElementFromEffects(
+    elementalEffects: Record<string, number>,
+  ): string {
     if (!elementalEffects) {
-      return 'Fire';
+      return "Fire";
     }
-    let dominantElement = 'Fire';
+    let dominantElement = "Fire";
     let highestValue = -Infinity;
 
     for (const [element, value] of Object.entries(elementalEffects)) {
@@ -896,7 +1022,9 @@ export class ElementalCalculator {
   }
 
   // Normalize elemental values to ensure they sum to 1.0
-  normalizeElementalValues(elementalEffects: Record<string, number>): Record<string, number> {
+  normalizeElementalValues(
+    elementalEffects: Record<string, number>,
+  ): Record<string, number> {
     if (!elementalEffects) {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }

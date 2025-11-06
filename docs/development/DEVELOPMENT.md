@@ -35,14 +35,14 @@ make grandfather-assess
 ## Extended Interface Pattern Usage
 
 ```typescript
-import { ExtendedIngredient } from './types/extended/ExtendedIngredient';
+import { ExtendedIngredient } from "./types/extended/ExtendedIngredient";
 
 // Always use Extended Interfaces for enhanced type safety
 const ingredient: ExtendedIngredient = {
-  id: 'ingredient-001',
-  name: 'Organic Tomato',
-  category: 'Vegetable',
-  elementalProperties: { Fire: 0.3, Water: 0.6, Earth: 0.1, Air: 0.0 }
+  id: "ingredient-001",
+  name: "Organic Tomato",
+  category: "Vegetable",
+  elementalProperties: { Fire: 0.3, Water: 0.6, Earth: 0.1, Air: 0.0 },
 };
 ```
 

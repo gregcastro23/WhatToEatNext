@@ -71,7 +71,8 @@ export const recipeCache = new Cache(DEFAULT_CACHE_TIMEOUT);
 // Create a simplified interface to the cache
 export const cache = {
   get: <T>(key: string) => recipeCache.get<T>(key),
-  set: (key: string, value: unknown, ttl?: number) => recipeCache.set(key, value, ttl),
+  set: (key: string, value: unknown, ttl?: number) =>
+    recipeCache.set(key, value, ttl),
   delete: (key: string) => recipeCache.delete(key),
   clear: () => recipeCache.clear(),
 };

@@ -10,9 +10,9 @@
  * Target: Remove redundant type assertions while preserving necessary ones
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
@@ -30,19 +30,19 @@ const CONFIG = {
     {
       // Remove simple redundant assertions like (value as string) where value is already string
       pattern: /\(([^)]+)\s+as\s+(\w+)\)/g,
-      description: 'Remove redundant type assertions',
+      description: "Remove redundant type assertions",
       validate: (match, value, type) => {
         // Only remove if it's clearly redundant (basic validation)
-        return !value.includes('unknown') && !value.includes('any');
+        return !value.includes("unknown") && !value.includes("any");
       },
     },
     {
       // Remove angle bracket assertions <Type>value where not needed
       pattern: /<(\w+)>([^<>\s]+)/g,
-      description: 'Remove redundant angle bracket assertions',
+      description: "Remove redundant angle bracket assertions",
       validate: (match, type, value) => {
         // Only remove simple cases
-        return !value.includes('(') && !value.includes('[');
+        return !value.includes("(") && !value.includes("[");
       },
     },
   ],
@@ -60,15 +60,17 @@ class UnnecessaryTypeAssertionFixer {
    */
   getFilesWithUnnecessaryAssertions() {
     try {
-      console.log('🔍 Analyzing files with no-unnecessary-type-assertion violations...');
+      console.log(
+        "🔍 Analyzing files with no-unnecessary-type-assertion violations...",
+      );
 
       const lintOutput = execSync(
         'yarn lint --max-warnings=10000 2>&1 | grep -E "no-unnecessary-type-assertion"',
-        { encoding: 'utf8', stdio: 'pipe' },
+        { encoding: "utf8", stdio: "pipe" },
       );
 
       const files = new Set();
-      const lines = lintOutput.split('\n').filter(line => line.trim());
+      const lines = lintOutput.split("\n").filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^([^:]+):/);
@@ -81,10 +83,14 @@ class UnnecessaryTypeAssertionFixer {
       }
 
       const fileArray = Array.from(files);
-      console.log(`📊 Found ${fileArray.length} files with no-unnecessary-type-assertion issues`);
+      console.log(
+        `📊 Found ${fileArray.length} files with no-unnecessary-type-assertion issues`,
+      );
       return fileArray.slice(0, CONFIG.maxFiles);
     } catch (error) {
-      console.warn('⚠️ Could not get lint output, scanning common directories...');
+      console.warn(
+        "⚠️ Could not get lint output, scanning common directories...",
+      );
       return this.scanCommonDirectories();
     }
   }
@@ -93,7 +99,7 @@ class UnnecessaryTypeAssertionFixer {
    * Scan common directories for TypeScript files
    */
   scanCommonDirectories() {
-    const directories = ['src', '__tests__'];
+    const directories = ["src", "__tests__"];
     const files = [];
 
     for (const dir of directories) {
@@ -114,7 +120,7 @@ class UnnecessaryTypeAssertionFixer {
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
 
-      if (entry.isDirectory() && !entry.name.startsWith('.')) {
+      if (entry.isDirectory() && !entry.name.startsWith(".")) {
         this.scanDirectory(fullPath, files);
       } else if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name)) {
         files.push(fullPath);
@@ -160,22 +166,25 @@ class UnnecessaryTypeAssertionFixer {
       return { content: modifiedContent, fixCount: 0 };
     }
 
-    console.log(`  📝 Found ${typeAssertions.length} type assertions to analyze`);
+    console.log(
+      `  📝 Found ${typeAssertions.length} type assertions to analyze`,
+    );
 
     // Use ESLint to identify which assertions are actually unnecessary
     try {
-      const tempFile = filePath + '.temp';
-      fs.writeFileSync(tempFile, content, 'utf8');
+      const tempFile = filePath + ".temp";
+      fs.writeFileSync(tempFile, content, "utf8");
 
       const eslintOutput = execSync(
         `yarn eslint --no-eslintrc --config eslint.config.cjs "${tempFile}" --format json`,
-        { encoding: 'utf8', stdio: 'pipe' },
+        { encoding: "utf8", stdio: "pipe" },
       );
 
       const eslintResults = JSON.parse(eslintOutput);
       const unnecessaryAssertions =
         eslintResults[0]?.messages?.filter(
-          msg => msg.ruleId === '@typescript-eslint/no-unnecessary-type-assertion',
+          (msg) =>
+            msg.ruleId === "@typescript-eslint/no-unnecessary-type-assertion",
         ) || [];
 
       // Remove the temp file
@@ -187,25 +196,34 @@ class UnnecessaryTypeAssertionFixer {
         const column = assertion.column;
 
         // Get the specific line content
-        const lines = modifiedContent.split('\n');
+        const lines = modifiedContent.split("\n");
         if (lines[line - 1]) {
           const lineContent = lines[line - 1];
 
           // Try to identify and remove the unnecessary assertion
-          const fixedLine = this.removeUnnecessaryAssertion(lineContent, column);
+          const fixedLine = this.removeUnnecessaryAssertion(
+            lineContent,
+            column,
+          );
           if (fixedLine !== lineContent) {
             lines[line - 1] = fixedLine;
-            modifiedContent = lines.join('\n');
+            modifiedContent = lines.join("\n");
             fileFixCount++;
             console.log(`  📝 Removed unnecessary assertion on line ${line}`);
           }
         }
       }
     } catch (error) {
-      console.warn(`  ⚠️ Could not analyze with ESLint, using pattern matching`);
+      console.warn(
+        `  ⚠️ Could not analyze with ESLint, using pattern matching`,
+      );
 
       // Fallback to pattern matching
-      for (const { pattern, description, validate } of CONFIG.safeRemovalPatterns) {
+      for (const {
+        pattern,
+        description,
+        validate,
+      } of CONFIG.safeRemovalPatterns) {
         const matches = [...modifiedContent.matchAll(pattern)];
 
         for (const match of matches) {
@@ -214,7 +232,7 @@ class UnnecessaryTypeAssertionFixer {
           }
 
           // Remove the assertion by replacing with just the value
-          if (pattern.source.includes('as')) {
+          if (pattern.source.includes("as")) {
             // For (value as Type) -> value
             modifiedContent = modifiedContent.replace(match[0], match[1]);
           } else {
@@ -267,7 +285,7 @@ class UnnecessaryTypeAssertionFixer {
     try {
       console.log(`\n📁 Processing: ${filePath}`);
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
 
       // Check if file should be preserved
       if (this.shouldPreserveFile(filePath, content)) {
@@ -276,14 +294,12 @@ class UnnecessaryTypeAssertionFixer {
       }
 
       // Apply fixes
-      const { content: modifiedContent, fixCount } = this.applyUnnecessaryAssertionFixes(
-        content,
-        filePath,
-      );
+      const { content: modifiedContent, fixCount } =
+        this.applyUnnecessaryAssertionFixes(content, filePath);
 
       if (fixCount > 0) {
         if (!CONFIG.dryRun) {
-          fs.writeFileSync(filePath, modifiedContent, 'utf8');
+          fs.writeFileSync(filePath, modifiedContent, "utf8");
         }
 
         console.log(`  ✅ Applied ${fixCount} unnecessary assertion fixes`);
@@ -304,12 +320,12 @@ class UnnecessaryTypeAssertionFixer {
    */
   validateTypeScript() {
     try {
-      console.log('\n🔍 Validating TypeScript compilation...');
-      execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-      console.log('✅ TypeScript compilation successful');
+      console.log("\n🔍 Validating TypeScript compilation...");
+      execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
+      console.log("✅ TypeScript compilation successful");
       return true;
     } catch (error) {
-      console.error('❌ TypeScript compilation failed');
+      console.error("❌ TypeScript compilation failed");
       console.error(error.stdout?.toString() || error.message);
       return false;
     }
@@ -319,13 +335,17 @@ class UnnecessaryTypeAssertionFixer {
    * Run the unnecessary type assertion fixing process
    */
   async run() {
-    console.log('🚀 Starting Unnecessary Type Assertion Fixing Process');
-    console.log(`📊 Configuration: maxFiles=${CONFIG.maxFiles}, dryRun=${CONFIG.dryRun}`);
+    console.log("🚀 Starting Unnecessary Type Assertion Fixing Process");
+    console.log(
+      `📊 Configuration: maxFiles=${CONFIG.maxFiles}, dryRun=${CONFIG.dryRun}`,
+    );
 
     const files = this.getFilesWithUnnecessaryAssertions();
 
     if (files.length === 0) {
-      console.log('✅ No files found with no-unnecessary-type-assertion issues');
+      console.log(
+        "✅ No files found with no-unnecessary-type-assertion issues",
+      );
       return;
     }
 
@@ -337,7 +357,7 @@ class UnnecessaryTypeAssertionFixer {
       // Validate every 5 files
       if (this.processedFiles % 5 === 0 && this.processedFiles > 0) {
         if (!this.validateTypeScript()) {
-          console.error('🛑 Stopping due to TypeScript errors');
+          console.error("🛑 Stopping due to TypeScript errors");
           break;
         }
       }
@@ -349,21 +369,23 @@ class UnnecessaryTypeAssertionFixer {
     }
 
     // Summary
-    console.log('\n📊 Unnecessary Type Assertion Fixing Summary:');
+    console.log("\n📊 Unnecessary Type Assertion Fixing Summary:");
     console.log(`   Files processed: ${this.processedFiles}`);
     console.log(`   Total fixes applied: ${this.totalFixes}`);
     console.log(`   Errors encountered: ${this.errors.length}`);
 
     if (this.errors.length > 0) {
-      console.log('\n❌ Errors:');
+      console.log("\n❌ Errors:");
       this.errors.forEach(({ file, error }) => {
         console.log(`   ${file}: ${error}`);
       });
     }
 
     if (this.totalFixes > 0) {
-      console.log('\n✅ Unnecessary type assertion fixes completed successfully!');
-      console.log('💡 Run yarn lint to verify the improvements');
+      console.log(
+        "\n✅ Unnecessary type assertion fixes completed successfully!",
+      );
+      console.log("💡 Run yarn lint to verify the improvements");
     }
   }
 }

@@ -61,8 +61,8 @@ npm run test:api-connectivity
 ```typescript
 // Temporary hardcoded positions (March 28, 2025)
 const EMERGENCY_POSITIONS = {
-  sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5 },
-  moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57 },
+  sun: { sign: "aries", degree: 8.5, exactLongitude: 8.5 },
+  moon: { sign: "aries", degree: 1.57, exactLongitude: 1.57 },
   // ... other planets
 };
 ```
@@ -183,7 +183,10 @@ npm run mcp:reconnect
 
 ```typescript
 // Fix compatibility calculation
-function calculateElementalCompatibility(source: ElementalProperties, target: ElementalProperties): number {
+function calculateElementalCompatibility(
+  source: ElementalProperties,
+  target: ElementalProperties,
+): number {
   const sourceDominant = getDominantElement(source);
   const targetDominant = getDominantElement(target);
 
@@ -242,14 +245,14 @@ npm run test:transit-validation
 ```typescript
 // Update src/data/planets/[planet].ts
 export const TransitDates = {
-  "cancer": {
-    "Start": "2024-07-15",
-    "End": "2024-09-04"
+  cancer: {
+    Start: "2024-07-15",
+    End: "2024-09-04",
   },
-  "leo": {
-    "Start": "2024-09-04",
-    "End": "2024-10-30"
-  }
+  leo: {
+    Start: "2024-09-04",
+    End: "2024-10-30",
+  },
   // ... other signs
 };
 ```
@@ -269,7 +272,7 @@ export const TransitDates = {
 const CACHE_CONFIG = {
   astronomical: 6 * 60 * 60 * 1000, // 6 hours
   nutritional: 24 * 60 * 60 * 1000, // 24 hours
-  recipes: 12 * 60 * 60 * 1000      // 12 hours
+  recipes: 12 * 60 * 60 * 1000, // 12 hours
 };
 
 // Add request throttling
@@ -281,7 +284,9 @@ const throttledRequest = throttle(async (url: string) => {
 function trackApiUsage(endpoint: string) {
   const usage = getApiUsage(endpoint);
   if (usage.remaining < 10) {
-    console.warn(`API limit approaching for ${endpoint}: ${usage.remaining} remaining`);
+    console.warn(
+      `API limit approaching for ${endpoint}: ${usage.remaining} remaining`,
+    );
   }
 }
 ```
@@ -381,9 +386,12 @@ const memoizedCalculation = useMemo(() => {
 
 // Clear caches periodically
 useEffect(() => {
-  const cleanup = setInterval(() => {
-    clearOldCacheEntries();
-  }, 30 * 60 * 1000); // Every 30 minutes
+  const cleanup = setInterval(
+    () => {
+      clearOldCacheEntries();
+    },
+    30 * 60 * 1000,
+  ); // Every 30 minutes
 
   return () => clearInterval(cleanup);
 }, []);
@@ -444,11 +452,11 @@ npm run test:coverage
 ```typescript
 interface SystemMetrics {
   astrologicalCalculationTime: number; // Target: < 2 seconds
-  apiResponseTime: number;             // Target: < 5 seconds
-  cacheHitRate: number;               // Target: > 80%
-  errorRate: number;                  // Target: < 1%
-  typeScriptErrors: number;           // Target: < 100
-  memoryUsage: number;                // Monitor for leaks
+  apiResponseTime: number; // Target: < 5 seconds
+  cacheHitRate: number; // Target: > 80%
+  errorRate: number; // Target: < 1%
+  typeScriptErrors: number; // Target: < 100
+  memoryUsage: number; // Monitor for leaks
 }
 ```
 
@@ -502,14 +510,14 @@ npm run ci:validate
 // Set up performance monitoring
 const performanceMonitor = new PerformanceMonitor({
   thresholds: {
-    calculationTime: 2000,    // 2 seconds
+    calculationTime: 2000, // 2 seconds
     memoryUsage: 100 * 1024 * 1024, // 100MB
-    errorRate: 0.01           // 1%
+    errorRate: 0.01, // 1%
   },
   alerts: {
-    email: 'dev-team@example.com',
-    slack: '#alerts'
-  }
+    email: "dev-team@example.com",
+    slack: "#alerts",
+  },
 });
 ```
 

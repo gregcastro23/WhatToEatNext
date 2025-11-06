@@ -1,4 +1,3 @@
-
 export interface SeasonalDishes {
   all?: unknown[];
   summer?: unknown[];

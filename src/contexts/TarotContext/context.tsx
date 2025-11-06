@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { createContext } from 'react';
-import type { TarotContextType } from './types';
+import { createContext } from "react";
+import type { TarotContextType } from "./types";
 
 const defaultContext: TarotContextType = {
   tarotCard: null,
@@ -9,11 +9,10 @@ const defaultContext: TarotContextType = {
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0
+    Air: 0,
   },
   setTarotCard: () => {},
-  setTarotElementalInfluences: () => {}
-}
+  setTarotElementalInfluences: () => {},
+};
 
-export const _TarotContext = createContext<TarotContextType>(defaultContext)
-;
+export const _TarotContext = createContext<TarotContextType>(defaultContext);

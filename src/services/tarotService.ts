@@ -1,4 +1,4 @@
-const API_URL = 'https://rws-cards-api.herokuapp.com/api/v1/cards'
+const API_URL = "https://rws-cards-api.herokuapp.com/api/v1/cards";
 
 interface TarotCard {
   name: string;
@@ -18,30 +18,34 @@ interface TarotCard {
   questions?: string[];
 }
 
-export async function getTarotCard(cardName: string): Promise<TarotCard | null> {
+export async function getTarotCard(
+  cardName: string,
+): Promise<TarotCard | null> {
   try {
-    const response = await fetch(`${API_URL}/${cardName.toLowerCase().replace(/ /g, '-')}`)
+    const response = await fetch(
+      `${API_URL}/${cardName.toLowerCase().replace(/ /g, "-")}`,
+    );
     if (!response.ok) {
-      throw new Error('Failed to fetch tarot card')
+      throw new Error("Failed to fetch tarot card");
     }
     const data = await response.json();
     return data.card;
   } catch (error) {
-    _logger.error('Error fetching tarot card: ', error)
+    _logger.error("Error fetching tarot card: ", error);
     return null;
   }
 }
 
 export async function getRandomTarotCard(): Promise<TarotCard | null> {
   try {
-    const response = await fetch(`${API_URL}/random`)
+    const response = await fetch(`${API_URL}/random`);
     if (!response.ok) {
-      throw new Error('Failed to fetch random tarot card')
+      throw new Error("Failed to fetch random tarot card");
     }
     const data = await response.json();
     return data.cards[0];
   } catch (error) {
-    _logger.error('Error fetching random tarot card: ', error)
+    _logger.error("Error fetching random tarot card: ", error);
     return null;
   }
 }

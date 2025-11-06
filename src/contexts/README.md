@@ -30,10 +30,10 @@ ContextName/
 
 ```typescript
 // Import the hook from the context
-import { useAlchemical } from '@/contexts/AlchemicalContext';
-import { useChart } from '@/contexts/ChartContext';
-import { useTarotContext } from '@/contexts/TarotContext';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useAlchemical } from "@/contexts/AlchemicalContext";
+import { useChart } from "@/contexts/ChartContext";
+import { useTarotContext } from "@/contexts/TarotContext";
+import { useTheme } from "@/contexts/ThemeContext";
 
 // Use the hook in your component
 function MyComponent() {
@@ -51,7 +51,7 @@ function MyComponent() {
 For server components, use the server-safe exports:
 
 ```typescript
-import { serverExports } from '@/contexts';
+import { serverExports } from "@/contexts";
 
 // Use server-safe functions
 const season = serverExports.alchemical.getCurrentSeason();

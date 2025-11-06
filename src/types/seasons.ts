@@ -1,4 +1,4 @@
-export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all';
+export type Season = "spring" | "summer" | "autumn" | "fall" | "winter" | "all";
 export interface SeasonalProfile {
   spring: number;
   summer: number;
@@ -52,10 +52,10 @@ export function getCurrentSeason(): Season {
   const now = new Date();
   const month = now.getMonth(); // 0-11
 
-  if (month >= 2 && month <= 4) return 'spring'; // March-May
-  if (month >= 5 && month <= 7) return 'summer'; // June-August
-  if (month >= 8 && month <= 10) return 'autumn'; // September-November
-  return 'winter'; // December-February
+  if (month >= 2 && month <= 4) return "spring"; // March-May
+  if (month >= 5 && month <= 7) return "summer"; // June-August
+  if (month >= 8 && month <= 10) return "autumn"; // September-November
+  return "winter"; // December-February
 }
 
 // recipe type (simple type, causing error in AlchemicalRecommendationService.ts)

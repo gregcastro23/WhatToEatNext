@@ -18,9 +18,9 @@
  * - Conservative pattern matching
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Domain-specific preservation patterns
 const PRESERVE_PATTERNS = [
@@ -54,29 +54,29 @@ const PRESERVE_PATTERNS = [
 // Safe console patterns to remove
 const SAFE_REMOVAL_PATTERNS = [
   {
-    name: 'simpleDebugLog',
+    name: "simpleDebugLog",
     pattern: /^\s*console\.log\(['"`][^'"`]*['"`]\);\s*$/gm,
-    description: 'Simple string-only console.log statements',
+    description: "Simple string-only console.log statements",
   },
   {
-    name: 'basicVariableLog',
+    name: "basicVariableLog",
     pattern: /^\s*console\.log\(\w+\);\s*$/gm,
-    description: 'Basic variable logging',
+    description: "Basic variable logging",
   },
   {
-    name: 'simpleObjectLog',
+    name: "simpleObjectLog",
     pattern: /^\s*console\.log\(['"`][^'"`]*['"`],\s*\w+\);\s*$/gm,
-    description: 'Simple object logging with string prefix',
+    description: "Simple object logging with string prefix",
   },
   {
-    name: 'developmentOnlyLog',
+    name: "developmentOnlyLog",
     pattern: /^\s*console\.log\(['"`].*debug.*['"`][^)]*\);\s*$/gim,
-    description: 'Development debugging statements',
+    description: "Development debugging statements",
   },
   {
-    name: 'testingLog',
+    name: "testingLog",
     pattern: /^\s*console\.log\(['"`].*test.*['"`][^)]*\);\s*$/gim,
-    description: 'Testing-related console statements',
+    description: "Testing-related console statements",
   },
 ];
 
@@ -89,21 +89,21 @@ class ConsoleCleanupProcessor {
   }
 
   shouldPreserveStatement(line) {
-    return PRESERVE_PATTERNS.some(pattern => pattern.test(line));
+    return PRESERVE_PATTERNS.some((pattern) => pattern.test(line));
   }
 
   processFile(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
-      const lines = content.split('\n');
+      const content = fs.readFileSync(filePath, "utf8");
+      const lines = content.split("\n");
       let modified = false;
       let fileRemovals = 0;
       let filePreservations = 0;
 
-      const processedLines = lines.map(line => {
+      const processedLines = lines.map((line) => {
         // Skip if line should be preserved
         if (this.shouldPreserveStatement(line)) {
-          if (line.includes('console.')) {
+          if (line.includes("console.")) {
             filePreservations++;
           }
           return line;
@@ -115,8 +115,8 @@ class ConsoleCleanupProcessor {
           const matches = processedLine.match(pattern.pattern);
           if (matches) {
             // Additional safety check - ensure it's actually a console statement
-            if (processedLine.includes('console.')) {
-              processedLine = processedLine.replace(pattern.pattern, '');
+            if (processedLine.includes("console.")) {
+              processedLine = processedLine.replace(pattern.pattern, "");
               modified = true;
               fileRemovals += matches.length;
             }
@@ -127,8 +127,8 @@ class ConsoleCleanupProcessor {
       });
 
       if (modified) {
-        const newContent = processedLines.join('\n');
-        fs.writeFileSync(filePath, newContent, 'utf8');
+        const newContent = processedLines.join("\n");
+        fs.writeFileSync(filePath, newContent, "utf8");
 
         this.filesProcessed++;
         this.totalRemovals += fileRemovals;
@@ -149,56 +149,60 @@ class ConsoleCleanupProcessor {
 
   validateBuild() {
     try {
-      console.log('🔍 Validating TypeScript compilation...');
-      execSync('yarn tsc --noEmit', { stdio: 'inherit' });
-      console.log('✅ TypeScript compilation successful');
+      console.log("🔍 Validating TypeScript compilation...");
+      execSync("yarn tsc --noEmit", { stdio: "inherit" });
+      console.log("✅ TypeScript compilation successful");
       return true;
     } catch (error) {
-      console.error('❌ TypeScript compilation failed');
+      console.error("❌ TypeScript compilation failed");
       return false;
     }
   }
 
   createStash() {
     try {
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      execSync(`git stash push -m "console-cleanup-${timestamp}"`, { stdio: 'pipe' });
-      console.log('📦 Created git stash for rollback safety');
+      const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+      execSync(`git stash push -m "console-cleanup-${timestamp}"`, {
+        stdio: "pipe",
+      });
+      console.log("📦 Created git stash for rollback safety");
       return true;
     } catch (error) {
-      console.log('ℹ️  No changes to stash or git not available');
+      console.log("ℹ️  No changes to stash or git not available");
       return false;
     }
   }
 
   generateReport() {
-    console.log('\n' + '='.repeat(60));
-    console.log('🧹 CONSOLE CLEANUP EXECUTION REPORT');
-    console.log('='.repeat(60));
+    console.log("\n" + "=".repeat(60));
+    console.log("🧹 CONSOLE CLEANUP EXECUTION REPORT");
+    console.log("=".repeat(60));
     console.log(`📁 Files processed: ${this.filesProcessed}`);
     console.log(`🗑️  Console statements removed: ${this.totalRemovals}`);
     console.log(`🛡️  Statements preserved: ${this.preservedStatements}`);
     console.log(`❌ Errors encountered: ${this.errors.length}`);
 
     if (this.errors.length > 0) {
-      console.log('\n⚠️  ERRORS:');
+      console.log("\n⚠️  ERRORS:");
       this.errors.forEach(({ file, error }) => {
         console.log(`  - ${path.relative(process.cwd(), file)}: ${error}`);
       });
     }
 
-    console.log('\n📊 PRESERVATION CATEGORIES:');
-    console.log('  - Astrological system debugging');
-    console.log('  - Campaign monitoring systems');
-    console.log('  - Error handling (console.error/warn)');
-    console.log('  - Critical system information');
+    console.log("\n📊 PRESERVATION CATEGORIES:");
+    console.log("  - Astrological system debugging");
+    console.log("  - Campaign monitoring systems");
+    console.log("  - Error handling (console.error/warn)");
+    console.log("  - Critical system information");
 
     const reductionPercentage =
-      this.totalRemovals > 0 ? ((this.totalRemovals / 1517) * 100).toFixed(1) : '0.0';
+      this.totalRemovals > 0
+        ? ((this.totalRemovals / 1517) * 100).toFixed(1)
+        : "0.0";
     console.log(
       `\n🎯 Target Progress: ${this.totalRemovals}/1517 console issues (${reductionPercentage}% of target)`,
     );
-    console.log('='.repeat(60));
+    console.log("=".repeat(60));
   }
 }
 
@@ -206,15 +210,15 @@ class ConsoleCleanupProcessor {
 async function main() {
   const processor = new ConsoleCleanupProcessor();
 
-  console.log('🚀 Starting Console Statement Cleanup');
-  console.log('Target: 1,517 console statement issues');
-  console.log('Strategy: Conservative removal with domain preservation\n');
+  console.log("🚀 Starting Console Statement Cleanup");
+  console.log("Target: 1,517 console statement issues");
+  console.log("Strategy: Conservative removal with domain preservation\n");
 
   // Create safety stash
   processor.createStash();
 
   // Get TypeScript/JavaScript files
-  const srcDir = path.join(process.cwd(), 'src');
+  const srcDir = path.join(process.cwd(), "src");
 
   function getFiles(dir, files = []) {
     const entries = fs.readdirSync(dir);
@@ -246,44 +250,50 @@ async function main() {
     );
 
     // Process batch
-    batch.forEach(file => processor.processFile(file));
+    batch.forEach((file) => processor.processFile(file));
 
     // Validate build after each batch
     if (processor.filesProcessed > 0 && (i + batchSize) % 20 === 0) {
       if (!processor.validateBuild()) {
-        console.error('🚨 Build validation failed, stopping execution');
-        console.log('💡 Use: git stash apply to restore previous state');
+        console.error("🚨 Build validation failed, stopping execution");
+        console.log("💡 Use: git stash apply to restore previous state");
         process.exit(1);
       }
     }
   }
 
   // Final validation
-  console.log('\n🔍 Final build validation...');
+  console.log("\n🔍 Final build validation...");
   if (!processor.validateBuild()) {
-    console.error('🚨 Final build validation failed');
-    console.log('💡 Use: git stash apply to restore previous state');
+    console.error("🚨 Final build validation failed");
+    console.log("💡 Use: git stash apply to restore previous state");
     process.exit(1);
   }
 
   processor.generateReport();
 
   if (processor.totalRemovals > 0) {
-    console.log('\n✅ Console cleanup completed successfully!');
+    console.log("\n✅ Console cleanup completed successfully!");
     console.log('💡 Changes have been applied. Run "git status" to review.');
-    console.log('🔄 To rollback: git stash apply');
+    console.log("🔄 To rollback: git stash apply");
   } else {
-    console.log('\n📋 No console statements were eligible for removal.');
-    console.log('💡 All existing console statements appear to be preserved patterns.');
+    console.log("\n📋 No console statements were eligible for removal.");
+    console.log(
+      "💡 All existing console statements appear to be preserved patterns.",
+    );
   }
 }
 
 // Execute if called directly
 if (require.main === module) {
-  main().catch(error => {
-    console.error('💥 Fatal error:', error);
+  main().catch((error) => {
+    console.error("💥 Fatal error:", error);
     process.exit(1);
   });
 }
 
-module.exports = { ConsoleCleanupProcessor, PRESERVE_PATTERNS, SAFE_REMOVAL_PATTERNS };
+module.exports = {
+  ConsoleCleanupProcessor,
+  PRESERVE_PATTERNS,
+  SAFE_REMOVAL_PATTERNS,
+};

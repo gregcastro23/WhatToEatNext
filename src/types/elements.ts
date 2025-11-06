@@ -2,7 +2,14 @@
  * Types for elemental energy calculations
  */
 
-export type ElementType = 'Fire' | 'Water' | 'Air' | 'Earth' | 'Metal' | 'Wood' | 'Void';
+export type ElementType =
+  | "Fire"
+  | "Water"
+  | "Air"
+  | "Earth"
+  | "Metal"
+  | "Wood"
+  | "Void";
 export interface ElementalEnergy {
   type: ElementType;
   strength: number;
@@ -18,19 +25,19 @@ export interface ElementalBalance {
 
 // Mapping between zodiac signs and their elements
 export const _signElementMap: Record<string, ElementType> = {
-  aries: 'Fire',
-  leo: 'Fire',
-  sagittarius: 'Fire',
+  aries: "Fire",
+  leo: "Fire",
+  sagittarius: "Fire",
 
-  taurus: 'Earth',
-  virgo: 'Earth',
-  capricorn: 'Earth',
+  taurus: "Earth",
+  virgo: "Earth",
+  capricorn: "Earth",
 
-  gemini: 'Air',
-  libra: 'Air',
-  aquarius: 'Air',
+  gemini: "Air",
+  libra: "Air",
+  aquarius: "Air",
 
-  cancer: 'Water',
-  scorpio: 'Water',
-  pisces: 'Water',
+  cancer: "Water",
+  scorpio: "Water",
+  pisces: "Water",
 };

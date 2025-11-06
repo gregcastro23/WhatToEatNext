@@ -2,7 +2,12 @@
  * Type definitions for Enterprise Intelligence Integration Service
  */
 
-import type { ElementalProperties, Ingredient, Recipe, ZodiacSign } from './unified';
+import type {
+  ElementalProperties,
+  Ingredient,
+  Recipe,
+  ZodiacSign,
+} from "./unified";
 
 export interface EnterpriseIntelligenceConfig {
   enableRecipeIntelligence: boolean;
@@ -15,7 +20,7 @@ export interface EnterpriseIntelligenceConfig {
   enableMLIntelligence: boolean;
   enableAdvancedAnalyticsIntelligence: boolean;
   cacheResults: boolean;
-  logLevel: 'debug' | 'info' | 'warn' | 'error';
+  logLevel: "debug" | "info" | "warn" | "error";
 }
 
 export interface CompatibilityAnalysis {
@@ -142,7 +147,7 @@ export interface ValidationIntelligenceResult {
   };
   overallValidation: {
     score: number;
-    status: 'excellent' | 'good' | 'fair' | 'poor';
+    status: "excellent" | "good" | "fair" | "poor";
     criticalIssues: string[];
   };
   confidence: number;
@@ -151,7 +156,7 @@ export interface ValidationIntelligenceResult {
 
 export interface SafetyIntelligenceResult {
   riskAssessment: {
-    level: 'low' | 'medium' | 'high' | 'critical';
+    level: "low" | "medium" | "high" | "critical";
     score: number;
     factors: string[];
   };
@@ -166,11 +171,11 @@ export interface SafetyIntelligenceResult {
 }
 
 export interface OptimizationRecommendation {
-  category: 'nutritional' | 'flavor' | 'seasonal' | 'astrological' | 'cultural';
-  priority: 'low' | 'medium' | 'high';
+  category: "nutritional" | "flavor" | "seasonal" | "astrological" | "cultural";
+  priority: "low" | "medium" | "high";
   description: string;
   expectedImprovement: number;
-  implementationComplexity: 'easy' | 'moderate' | 'complex';
+  implementationComplexity: "easy" | "moderate" | "complex";
 }
 
 export interface OptimizationRecommendations {
@@ -196,7 +201,7 @@ export interface OptimizationRecommendations {
   };
   overallOptimization: {
     score: number;
-    priority: 'low' | 'medium' | 'high' | 'critical';
+    priority: "low" | "medium" | "high" | "critical";
     estimatedValue: number;
   };
 }

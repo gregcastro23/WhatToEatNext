@@ -25,10 +25,10 @@ The architecture reflects astrological concepts directly in code:
 
 ```typescript
 interface ElementalProperties {
-  fire: number;    // Energy, transformation, quick cooking
-  water: number;   // Cooling, nourishment, steaming
-  earth: number;   // Grounding, stability, slow cooking
-  air: number;     // Lightness, clarity, raw preparation
+  fire: number; // Energy, transformation, quick cooking
+  water: number; // Cooling, nourishment, steaming
+  earth: number; // Grounding, stability, slow cooking
+  air: number; // Lightness, clarity, raw preparation
 }
 ```
 
@@ -317,7 +317,7 @@ src/services/campaign/
 
 ```typescript
 interface ErrorHandlingStrategy {
-  detection: 'automatic' | 'manual' | 'predictive';
+  detection: "automatic" | "manual" | "predictive";
   classification: ErrorCategory;
   response: ErrorResponse;
   fallback: FallbackMechanism;
@@ -384,17 +384,17 @@ interface APIIntegrationPattern {
 ```typescript
 interface CulturalSensitivityFramework {
   inclusiveDesign: {
-    noAssumptions: boolean;           // Never assume astrological beliefs
-    progressiveDisclosure: boolean;   // Allow comfort-level engagement
-    culturalRespect: boolean;        // Honor authentic traditions
-    diverseRepresentation: boolean;   // Include global cuisines
+    noAssumptions: boolean; // Never assume astrological beliefs
+    progressiveDisclosure: boolean; // Allow comfort-level engagement
+    culturalRespect: boolean; // Honor authentic traditions
+    diverseRepresentation: boolean; // Include global cuisines
   };
 
   implementationGuidelines: {
-    optionalFeatures: boolean;        // All astrological features optional
-    culturalConsultation: boolean;    // Regular expert review
-    userFeedback: boolean;           // Continuous improvement
-    respectfulIntegration: boolean;   // Add timing without claiming ownership
+    optionalFeatures: boolean; // All astrological features optional
+    culturalConsultation: boolean; // Regular expert review
+    userFeedback: boolean; // Continuous improvement
+    respectfulIntegration: boolean; // Add timing without claiming ownership
   };
 }
 ```
@@ -414,17 +414,17 @@ interface CulturalSensitivityFramework {
 ```typescript
 interface PerformanceOptimization {
   calculations: {
-    caching: '6-hour-astronomical-cache';
-    memoization: 'expensive-calculations';
-    lazyLoading: 'non-critical-features';
-    bundleSplitting: 'astrological-features';
+    caching: "6-hour-astronomical-cache";
+    memoization: "expensive-calculations";
+    lazyLoading: "non-critical-features";
+    bundleSplitting: "astrological-features";
   };
 
   userExperience: {
-    progressiveLoading: 'cosmic-data-streaming';
-    intelligentPrefetching: 'predicted-user-needs';
-    gracefulDegradation: 'fallback-mechanisms';
-    responsiveDesign: 'mobile-first-approach';
+    progressiveLoading: "cosmic-data-streaming";
+    intelligentPrefetching: "predicted-user-needs";
+    gracefulDegradation: "fallback-mechanisms";
+    responsiveDesign: "mobile-first-approach";
   };
 }
 ```
@@ -441,17 +441,17 @@ interface PerformanceOptimization {
 ```typescript
 interface MonitoringSystem {
   realTimeMetrics: {
-    errorRates: 'typescript-linting-build';
-    performanceMetrics: 'calculation-speed-memory';
-    userExperience: 'load-times-interactions';
-    systemHealth: 'api-availability-cache-hit-rate';
+    errorRates: "typescript-linting-build";
+    performanceMetrics: "calculation-speed-memory";
+    userExperience: "load-times-interactions";
+    systemHealth: "api-availability-cache-hit-rate";
   };
 
   alerting: {
-    errorThresholds: 'automatic-campaign-triggers';
-    performanceDegradation: 'optimization-recommendations';
-    apiFailures: 'fallback-activation-notifications';
-    qualityMetrics: 'continuous-improvement-insights';
+    errorThresholds: "automatic-campaign-triggers";
+    performanceDegradation: "optimization-recommendations";
+    apiFailures: "fallback-activation-notifications";
+    qualityMetrics: "continuous-improvement-insights";
   };
 }
 ```
@@ -491,7 +491,7 @@ interface MonitoringSystem {
 // Example: Implementing elemental compatibility
 function calculateElementalCompatibility(
   source: ElementalProperties,
-  target: ElementalProperties
+  target: ElementalProperties,
 ): number {
   const sourceDominant = getDominantElement(source);
   const targetDominant = getDominantElement(target);
@@ -515,7 +515,7 @@ async function getReliablePlanetaryPositions(date: Date = new Date()) {
       return positions;
     }
   } catch (error) {
-    logger.warn('Primary calculation failed, using fallback', error);
+    logger.warn("Primary calculation failed, using fallback", error);
   }
 
   // Fallback: Cached positions from March 28, 2025

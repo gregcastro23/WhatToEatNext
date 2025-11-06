@@ -3,7 +3,7 @@
  */
 
 // Import standardized types from alchemy
-import type { LunarPhase } from '@/types/alchemy';
+import type { LunarPhase } from "@/types/alchemy";
 
 // Enhanced PlanetaryPositions interface with nodes
 export interface PlanetaryPositions {
@@ -25,13 +25,13 @@ export interface PlanetaryPositions {
 }
 
 import type {
-    AstrologicalStateType,
-    ElementalPropertiesType,
-    LunarPhaseType,
-    PlanetaryPositionsType,
-    ZodiacSignType
-} from './alchemy';
-import type { ElementalCharacter } from '../constants/planetaryElements';
+  AstrologicalStateType,
+  ElementalPropertiesType,
+  LunarPhaseType,
+  PlanetaryPositionsType,
+  ZodiacSignType,
+} from "./alchemy";
+import type { ElementalCharacter } from "../constants/planetaryElements";
 
 // ========== PHASE 1: ASTROLOGICAL TYPE ALIASES ==========
 
@@ -78,13 +78,13 @@ export interface PlanetaryPositionDetails {
  * Standard astrological aspects between planets
  */
 export type AspectType =
-  | 'conjunction'
-  | 'sextile'
-  | 'square'
-  | 'trine'
-  | 'opposition'
-  | 'quincunx'
-  | 'semisextile';
+  | "conjunction"
+  | "sextile"
+  | "square"
+  | "trine"
+  | "opposition"
+  | "quincunx"
+  | "semisextile";
 /**
  * Planetary Aspect Details
  * Complete information about planetary aspects
@@ -94,7 +94,7 @@ export interface PlanetaryAspectDetails {
   planetB: string;
   aspect: AspectType;
   orb: number;
-  influence: 'harmonious' | 'challenging' | 'neutral';
+  influence: "harmonious" | "challenging" | "neutral";
   strength: number;
 }
 
@@ -147,7 +147,7 @@ export interface PlanetaryAspect {
   planetB: string;
   aspect: PlanetaryAlignment;
   orb: number;
-  influence: 'harmonious' | 'challenging' | 'neutral';
+  influence: "harmonious" | "challenging" | "neutral";
 }
 
 /**
@@ -171,7 +171,7 @@ export interface BirthChart {
 export interface AstrologicalAspect {
   planet1: string;
   planet2: string;
-  aspectType: 'Conjunction' | 'Opposition' | 'Trine' | 'Square' | 'Sextile';
+  aspectType: "Conjunction" | "Opposition" | "Trine" | "Square" | "Sextile";
   orb: number;
 }
 
@@ -190,13 +190,18 @@ const _compatibility = foodSystem.calculateFoodCompatibility(
 
 // Export the LunarPhase type if not already defined in alchemy.ts
 export type AstrologyLunarPhase =
-  | 'new_moon'
-  | 'waxing_crescent'
-  | 'first_quarter'
-  | 'waxing_gibbous'
-  | 'full_moon'
-  | 'waning_gibbous'
-  | 'last_quarter'
-  | 'waning_crescent';
+  | "new_moon"
+  | "waxing_crescent"
+  | "first_quarter"
+  | "waxing_gibbous"
+  | "full_moon"
+  | "waning_gibbous"
+  | "last_quarter"
+  | "waning_crescent";
 // Re-export types for convenience
-export type { LunarPhase, Planet, PlanetName, ZodiacSign } from '@/types/alchemy';
+export type {
+  LunarPhase,
+  Planet,
+  PlanetName,
+  ZodiacSign,
+} from "@/types/alchemy";

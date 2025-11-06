@@ -58,14 +58,14 @@ Variables and parameters that are unused should be prefixed with an underscore
 ```typescript
 // Before
 function example(unusedParam) {
-  const unusedVar = 'never used';
-  return 'something else';
+  const unusedVar = "never used";
+  return "something else";
 }
 
 // After
 function example(_unusedParam) {
-  const _unusedVar = 'never used';
-  return 'something else';
+  const _unusedVar = "never used";
+  return "something else";
 }
 ```
 

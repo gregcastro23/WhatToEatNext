@@ -1,7 +1,7 @@
-import { cuisines } from '@/data/cuisines';
-import { _logger } from '@/lib/logger';
-import type { Dish } from '@/types';
-import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
+import { cuisines } from "@/data/cuisines";
+import { _logger } from "@/lib/logger";
+import type { Dish } from "@/types";
+import type { LunarPhaseWithSpaces, Season } from "@/types/alchemy";
 
 /**
  * A utility function for logging debug information
@@ -10,21 +10,21 @@ import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.info to avoid linting warnings;
   // log.info(message, ...args)
-}
+};
 
 /**
  * Get the current season based on the month
  * @returns Season as a lowercase string ('spring', 'summer', 'fall', or 'winter')
  */
-export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
+export function getCurrentSeason(): "spring" | "summer" | "fall" | "winter" {
   const now = new Date();
   const month = now.getMonth();
 
   // Astronomical seasons (approximate dates)
-  if (month >= 2 && month <= 4) return 'spring'; // March 20 - June 20
-  if (month >= 5 && month <= 7) return 'summer'; // June 21 - September 21
-  if (month >= 8 && month <= 10) return 'fall'; // September 22 - December 20
-  return 'winter'; // December 21 - March 19
+  if (month >= 2 && month <= 4) return "spring"; // March 20 - June 20
+  if (month >= 5 && month <= 7) return "summer"; // June 21 - September 21
+  if (month >= 8 && month <= 10) return "fall"; // September 22 - December 20
+  return "winter"; // December 21 - March 19
 }
 
 /**
@@ -33,11 +33,11 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
  * @returns Season
  */
 export const _getSeason = (month: number): Season => {
-  if ([11, 0, 1].includes(month)) return 'winter';
-  if ([2, 3, 4].includes(month)) return 'spring';
-  if ([5, 6, 7].includes(month)) return 'summer';
-  return 'fall';
-}
+  if ([11, 0, 1].includes(month)) return "winter";
+  if ([2, 3, 4].includes(month)) return "spring";
+  if ([5, 6, 7].includes(month)) return "summer";
+  return "fall";
+};
 
 /**
  * Calculate the day of year (1-366)
@@ -54,13 +54,13 @@ export function getDayOfYear(date: Date): number {
  * Get the current time of day
  * @returns Time of day ('morning', 'afternoon', 'evening', or 'night')
  */
-export function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
+export function getTimeOfDay(): "morning" | "afternoon" | "evening" | "night" {
   const hour = new Date().getHours();
 
-  if (hour >= 5 && hour < 12) return 'morning';
-  if (hour >= 12 && hour < 17) return 'afternoon';
-  if (hour >= 17 && hour < 22) return 'evening';
-  return 'night';
+  if (hour >= 5 && hour < 12) return "morning";
+  if (hour >= 12 && hour < 17) return "afternoon";
+  if (hour >= 17 && hour < 22) return "evening";
+  return "night";
 }
 
 /**
@@ -69,10 +69,10 @@ export function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
  * @returns Meal period
  */
 export const _getMealPeriod = (hour: number): string => {
-  if (hour >= 5 && hour < 11) return 'breakfast';
-  if (hour >= 11 && hour < 16) return 'lunch';
-  if (hour >= 16 && hour < 23) return 'dinner';
-  return 'breakfast';
+  if (hour >= 5 && hour < 11) return "breakfast";
+  if (hour >= 11 && hour < 16) return "lunch";
+  if (hour >= 16 && hour < 23) return "dinner";
+  return "breakfast";
 };
 
 /**
@@ -92,15 +92,15 @@ export function getMoonPhase(): LunarPhaseWithSpaces {
   debugLog(`Calculated lunar age: ${lunarAge.toFixed(2)} days`);
 
   // Determine phase based on lunar age
-  if (lunarAge < 1.84) return 'new moon';
-  if (lunarAge < 7.38) return 'waxing crescent';
-  if (lunarAge < 10.35) return 'first quarter';
-  if (lunarAge < 13.69) return 'waxing gibbous';
-  if (lunarAge < 16.69) return 'full moon';
-  if (lunarAge < 20.03) return 'waning gibbous';
-  if (lunarAge < 23.01) return 'last quarter';
-  if (lunarAge < 28.53) return 'waning crescent';
-  return 'new moon';
+  if (lunarAge < 1.84) return "new moon";
+  if (lunarAge < 7.38) return "waxing crescent";
+  if (lunarAge < 10.35) return "first quarter";
+  if (lunarAge < 13.69) return "waxing gibbous";
+  if (lunarAge < 16.69) return "full moon";
+  if (lunarAge < 20.03) return "waning gibbous";
+  if (lunarAge < 23.01) return "last quarter";
+  if (lunarAge < 28.53) return "waning crescent";
+  return "new moon";
 }
 
 // Helper function to get all dishes for a cuisine
@@ -110,14 +110,14 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {
   let allDishes: Dish[] = [];
 
   // Safely iterate through all meal times with type checking
-  Object.keys(cuisine.dishes || {}).forEach(mealTime => {
+  Object.keys(cuisine.dishes || {}).forEach((mealTime) => {
     const mealTimeDishes = cuisine.dishes?.[mealTime];
     if (!mealTimeDishes) return;
 
     // If it's an object with season keys
-    if (typeof mealTimeDishes === 'object' && !Array.isArray(mealTimeDishes)) {
+    if (typeof mealTimeDishes === "object" && !Array.isArray(mealTimeDishes)) {
       // Get dishes from all seasons including 'all' season
-      Object.keys(mealTimeDishes).forEach(season => {
+      Object.keys(mealTimeDishes).forEach((season) => {
         const seasonDishes = mealTimeDishes[season];
         if (Array.isArray(seasonDishes)) {
           allDishes = [...allDishes, ...(seasonDishes as unknown as Dish[])];
@@ -139,20 +139,22 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {
 export const _getRecommendations = (
   mealTime: string,
   season: Season,
-  cuisineId: string
+  cuisineId: string,
 ): Dish[] => {
   try {
-    void debugLog(`Getting recommendations for ${cuisineId}, ${mealTime}, ${season}`)
+    void debugLog(
+      `Getting recommendations for ${cuisineId}, ${mealTime}, ${season}`,
+    );
 
     const cuisine = cuisines[cuisineId];
     if (!cuisine || !cuisine.dishes) {
-      debugLog(`Cuisine ${cuisineId} not found or has no dishes`)
+      debugLog(`Cuisine ${cuisineId} not found or has no dishes`);
       return [];
     }
 
     const mealTimeDishes = cuisine.dishes[mealTime];
     if (!mealTimeDishes) {
-      debugLog(`No ${mealTime} dishes found for ${cuisineId}`)
+      debugLog(`No ${mealTime} dishes found for ${cuisineId}`);
       return [];
     }
 
@@ -162,8 +164,12 @@ export const _getRecommendations = (
     }
 
     // Get dishes from both 'all' season and current season
-    const allSeasonDishes = Array.isArray(mealTimeDishes['all']) ? mealTimeDishes['all'] : [];
-    const seasonalDishes = Array.isArray(mealTimeDishes[season]) ? mealTimeDishes[season] : [];
+    const allSeasonDishes = Array.isArray(mealTimeDishes["all"])
+      ? mealTimeDishes["all"]
+      : [];
+    const seasonalDishes = Array.isArray(mealTimeDishes[season])
+      ? mealTimeDishes[season]
+      : [];
 
     const combinedDishes = [...allSeasonDishes, ...seasonalDishes];
     debugLog(`Found ${combinedDishes.length} dishes for ${cuisineId}`);

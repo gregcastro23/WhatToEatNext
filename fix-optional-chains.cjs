@@ -10,9 +10,9 @@
  * Target: Convert safe logical AND patterns to optional chaining
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
@@ -30,18 +30,19 @@ const CONFIG = {
     // Safe patterns to convert
     {
       pattern: /(\w+)\s*&&\s*\1\.(\w+)/g,
-      replacement: '$1?.$2',
-      description: 'Convert obj && obj.prop to obj?.prop',
+      replacement: "$1?.$2",
+      description: "Convert obj && obj.prop to obj?.prop",
     },
     {
       pattern: /(\w+)\s*&&\s*\1\[([^\]]+)\]/g,
-      replacement: '$1?.[$2]',
-      description: 'Convert obj && obj[key] to obj?.[key]',
+      replacement: "$1?.[$2]",
+      description: "Convert obj && obj[key] to obj?.[key]",
     },
     {
       pattern: /(\w+)\s*&&\s*\1\.(\w+)\s*&&\s*\1\.\2\.(\w+)/g,
-      replacement: '$1?.$2?.$3',
-      description: 'Convert obj && obj.prop && obj.prop.nested to obj?.prop?.nested',
+      replacement: "$1?.$2?.$3",
+      description:
+        "Convert obj && obj.prop && obj.prop.nested to obj?.prop?.nested",
     },
   ],
 };
@@ -58,15 +59,17 @@ class OptionalChainFixer {
    */
   getFilesWithOptionalChainIssues() {
     try {
-      console.log('🔍 Analyzing files with prefer-optional-chain violations...');
+      console.log(
+        "🔍 Analyzing files with prefer-optional-chain violations...",
+      );
 
       const lintOutput = execSync(
         'yarn lint --max-warnings=10000 2>&1 | grep -E "prefer-optional-chain"',
-        { encoding: 'utf8', stdio: 'pipe' },
+        { encoding: "utf8", stdio: "pipe" },
       );
 
       const files = new Set();
-      const lines = lintOutput.split('\n').filter(line => line.trim());
+      const lines = lintOutput.split("\n").filter((line) => line.trim());
 
       for (const line of lines) {
         const match = line.match(/^([^:]+):/);
@@ -79,10 +82,14 @@ class OptionalChainFixer {
       }
 
       const fileArray = Array.from(files);
-      console.log(`📊 Found ${fileArray.length} files with prefer-optional-chain issues`);
+      console.log(
+        `📊 Found ${fileArray.length} files with prefer-optional-chain issues`,
+      );
       return fileArray.slice(0, CONFIG.maxFiles);
     } catch (error) {
-      console.warn('⚠️ Could not get lint output, scanning common directories...');
+      console.warn(
+        "⚠️ Could not get lint output, scanning common directories...",
+      );
       return this.scanCommonDirectories();
     }
   }
@@ -91,7 +98,7 @@ class OptionalChainFixer {
    * Scan common directories for TypeScript files
    */
   scanCommonDirectories() {
-    const directories = ['src', '__tests__'];
+    const directories = ["src", "__tests__"];
     const files = [];
 
     for (const dir of directories) {
@@ -112,7 +119,7 @@ class OptionalChainFixer {
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
 
-      if (entry.isDirectory() && !entry.name.startsWith('.')) {
+      if (entry.isDirectory() && !entry.name.startsWith(".")) {
         this.scanDirectory(fullPath, files);
       } else if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name)) {
         files.push(fullPath);
@@ -167,7 +174,7 @@ class OptionalChainFixer {
     try {
       console.log(`\n📁 Processing: ${filePath}`);
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
 
       // Check if file should be preserved
       if (this.shouldPreserveFile(filePath, content)) {
@@ -176,14 +183,12 @@ class OptionalChainFixer {
       }
 
       // Apply fixes
-      const { content: modifiedContent, fixCount } = this.applyOptionalChainFixes(
-        content,
-        filePath,
-      );
+      const { content: modifiedContent, fixCount } =
+        this.applyOptionalChainFixes(content, filePath);
 
       if (fixCount > 0) {
         if (!CONFIG.dryRun) {
-          fs.writeFileSync(filePath, modifiedContent, 'utf8');
+          fs.writeFileSync(filePath, modifiedContent, "utf8");
         }
 
         console.log(`  ✅ Applied ${fixCount} optional chain fixes`);
@@ -204,12 +209,12 @@ class OptionalChainFixer {
    */
   validateTypeScript() {
     try {
-      console.log('\n🔍 Validating TypeScript compilation...');
-      execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-      console.log('✅ TypeScript compilation successful');
+      console.log("\n🔍 Validating TypeScript compilation...");
+      execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
+      console.log("✅ TypeScript compilation successful");
       return true;
     } catch (error) {
-      console.error('❌ TypeScript compilation failed');
+      console.error("❌ TypeScript compilation failed");
       console.error(error.stdout?.toString() || error.message);
       return false;
     }
@@ -219,13 +224,15 @@ class OptionalChainFixer {
    * Run the optional chain fixing process
    */
   async run() {
-    console.log('🚀 Starting Optional Chain Fixing Process');
-    console.log(`📊 Configuration: maxFiles=${CONFIG.maxFiles}, dryRun=${CONFIG.dryRun}`);
+    console.log("🚀 Starting Optional Chain Fixing Process");
+    console.log(
+      `📊 Configuration: maxFiles=${CONFIG.maxFiles}, dryRun=${CONFIG.dryRun}`,
+    );
 
     const files = this.getFilesWithOptionalChainIssues();
 
     if (files.length === 0) {
-      console.log('✅ No files found with prefer-optional-chain issues');
+      console.log("✅ No files found with prefer-optional-chain issues");
       return;
     }
 
@@ -237,7 +244,7 @@ class OptionalChainFixer {
       // Validate every 5 files
       if (this.processedFiles % 5 === 0 && this.processedFiles > 0) {
         if (!this.validateTypeScript()) {
-          console.error('🛑 Stopping due to TypeScript errors');
+          console.error("🛑 Stopping due to TypeScript errors");
           break;
         }
       }
@@ -249,21 +256,21 @@ class OptionalChainFixer {
     }
 
     // Summary
-    console.log('\n📊 Optional Chain Fixing Summary:');
+    console.log("\n📊 Optional Chain Fixing Summary:");
     console.log(`   Files processed: ${this.processedFiles}`);
     console.log(`   Total fixes applied: ${this.totalFixes}`);
     console.log(`   Errors encountered: ${this.errors.length}`);
 
     if (this.errors.length > 0) {
-      console.log('\n❌ Errors:');
+      console.log("\n❌ Errors:");
       this.errors.forEach(({ file, error }) => {
         console.log(`   ${file}: ${error}`);
       });
     }
 
     if (this.totalFixes > 0) {
-      console.log('\n✅ Optional chain fixes completed successfully!');
-      console.log('💡 Run yarn lint to verify the improvements');
+      console.log("\n✅ Optional chain fixes completed successfully!");
+      console.log("💡 Run yarn lint to verify the improvements");
     }
   }
 }

@@ -7,9 +7,9 @@
  * automated maintenance to create a comprehensive unused variable management solution.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class Wave7ImplementationSystem {
   constructor() {
@@ -21,36 +21,36 @@ class Wave7ImplementationSystem {
           green: 500,
           yellow: 600,
           orange: 700,
-          red: 800
-        }
+          red: 800,
+        },
       },
       prevention: {
         enabled: true,
         preCommitHooks: true,
         developerGuidelines: true,
-        autoCleanup: false // Safety first
+        autoCleanup: false, // Safety first
       },
       maintenance: {
         enabled: true,
         weeklyCleanup: true,
         monthlyReview: true,
-        emergencyProtocols: true
+        emergencyProtocols: true,
       },
       reporting: {
         enabled: true,
         dailyReports: false,
         weeklyReports: true,
-        alertNotifications: true
-      }
+        alertNotifications: true,
+      },
     };
 
     this.state = {
       lastCheck: null,
       currentCount: 0,
-      trend: 'stable',
-      alertLevel: 'green',
+      trend: "stable",
+      alertLevel: "green",
       history: [],
-      alerts: []
+      alerts: [],
     };
   }
 
@@ -58,9 +58,17 @@ class Wave7ImplementationSystem {
     try {
       // Try multiple methods for reliability
       const methods = [
-        () => execSync('timeout 5s yarn lint --format=compact 2>/dev/null | grep -c "no-unused-vars"', { encoding: 'utf8' }),
-        () => execSync('timeout 5s yarn lint 2>/dev/null | grep -c "no-unused-vars"', { encoding: 'utf8' }),
-        () => this.estimateFromFiles()
+        () =>
+          execSync(
+            'timeout 5s yarn lint --format=compact 2>/dev/null | grep -c "no-unused-vars"',
+            { encoding: "utf8" },
+          ),
+        () =>
+          execSync(
+            'timeout 5s yarn lint 2>/dev/null | grep -c "no-unused-vars"',
+            { encoding: "utf8" },
+          ),
+        () => this.estimateFromFiles(),
       ];
 
       for (const method of methods) {
@@ -75,27 +83,27 @@ class Wave7ImplementationSystem {
 
       return 650; // Fallback to known approximate
     } catch (error) {
-      console.warn('⚠️ All counting methods failed, using fallback');
+      console.warn("⚠️ All counting methods failed, using fallback");
       return 650;
     }
   }
 
   estimateFromFiles() {
     // Quick estimation based on file sampling
-    const srcFiles = this.getAllTSFiles('src').slice(0, 20); // Sample 20 files
+    const srcFiles = this.getAllTSFiles("src").slice(0, 20); // Sample 20 files
     let estimate = 0;
 
     for (const file of srcFiles) {
       try {
-        const content = fs.readFileSync(file, 'utf8');
+        const content = fs.readFileSync(file, "utf8");
         // Simple heuristics for unused variables
-        const lines = content.split('\n');
+        const lines = content.split("\n");
 
         for (const line of lines) {
-          if (line.includes('import {') && line.split(',').length > 2) {
+          if (line.includes("import {") && line.split(",").length > 2) {
             estimate += 0.5; // Potential unused imports
           }
-          if (line.match(/const\s+\w+\s*[,;]/) && !line.includes('=')) {
+          if (line.match(/const\s+\w+\s*[,;]/) && !line.includes("=")) {
             estimate += 0.3; // Potential unused constants
           }
         }
@@ -115,9 +123,9 @@ class Wave7ImplementationSystem {
         const fullPath = path.join(dir, item);
         try {
           const stat = fs.statSync(fullPath);
-          if (stat.isDirectory() && !item.startsWith('.')) {
+          if (stat.isDirectory() && !item.startsWith(".")) {
             files.push(...this.getAllTSFiles(fullPath));
-          } else if (item.endsWith('.ts') || item.endsWith('.tsx')) {
+          } else if (item.endsWith(".ts") || item.endsWith(".tsx")) {
             files.push(fullPath);
           }
         } catch (error) {
@@ -132,28 +140,28 @@ class Wave7ImplementationSystem {
 
   determineAlertLevel(count) {
     const { thresholds } = this.config.monitoring;
-    if (count <= thresholds.green) return 'green';
-    if (count <= thresholds.yellow) return 'yellow';
-    if (count <= thresholds.orange) return 'orange';
-    return 'red';
+    if (count <= thresholds.green) return "green";
+    if (count <= thresholds.yellow) return "yellow";
+    if (count <= thresholds.orange) return "orange";
+    return "red";
   }
 
   calculateTrend() {
-    if (this.state.history.length < 3) return 'stable';
+    if (this.state.history.length < 3) return "stable";
 
     const recent = this.state.history.slice(-3);
-    const counts = recent.map(h => h.count);
+    const counts = recent.map((h) => h.count);
 
     const increasing = counts[2] > counts[0] + 20;
     const decreasing = counts[0] > counts[2] + 20;
 
-    if (increasing) return 'increasing';
-    if (decreasing) return 'decreasing';
-    return 'stable';
+    if (increasing) return "increasing";
+    if (decreasing) return "decreasing";
+    return "stable";
   }
 
   async performHealthCheck() {
-    console.log('🏥 Performing system health check...');
+    console.log("🏥 Performing system health check...");
 
     const count = await this.getCurrentCount();
     const alertLevel = this.determineAlertLevel(count);
@@ -179,7 +187,7 @@ class Wave7ImplementationSystem {
       alertLevel,
       trend: this.state.trend,
       status: this.getHealthStatus(alertLevel, this.state.trend),
-      recommendations: this.getRecommendations(alertLevel, this.state.trend)
+      recommendations: this.getRecommendations(alertLevel, this.state.trend),
     };
 
     console.log(`📊 Current Count: ${count}`);
@@ -191,83 +199,98 @@ class Wave7ImplementationSystem {
   }
 
   getHealthStatus(alertLevel, trend) {
-    if (alertLevel === 'red') return 'Critical - Immediate Action Required';
-    if (alertLevel === 'orange') return 'Warning - Action Recommended';
-    if (alertLevel === 'yellow' && trend === 'increasing') return 'Caution - Monitor Closely';
-    if (alertLevel === 'green') return 'Healthy - Continue Monitoring';
-    return 'Stable - Regular Maintenance';
+    if (alertLevel === "red") return "Critical - Immediate Action Required";
+    if (alertLevel === "orange") return "Warning - Action Recommended";
+    if (alertLevel === "yellow" && trend === "increasing")
+      return "Caution - Monitor Closely";
+    if (alertLevel === "green") return "Healthy - Continue Monitoring";
+    return "Stable - Regular Maintenance";
   }
 
   getRecommendations(alertLevel, trend) {
     const recommendations = [];
 
-    if (alertLevel === 'red') {
-      recommendations.push('🚨 Execute emergency cleanup using Wave 6 tools immediately');
-      recommendations.push('📊 Run comprehensive variable analysis');
-      recommendations.push('🔍 Review recent commits for unused variable introduction');
-      recommendations.push('🛑 Consider temporary development freeze until resolved');
-    } else if (alertLevel === 'orange') {
-      recommendations.push('🛠️ Schedule cleanup session within 24-48 hours');
-      recommendations.push('🔧 Use Wave 6 DirectApproach for targeted cleanup');
-      recommendations.push('📈 Increase monitoring frequency to daily');
-    } else if (alertLevel === 'yellow') {
-      recommendations.push('👀 Monitor daily for trend changes');
-      recommendations.push('📝 Document sources of new unused variables');
-      recommendations.push('🎯 Target safe-to-eliminate variables in next cleanup');
+    if (alertLevel === "red") {
+      recommendations.push(
+        "🚨 Execute emergency cleanup using Wave 6 tools immediately",
+      );
+      recommendations.push("📊 Run comprehensive variable analysis");
+      recommendations.push(
+        "🔍 Review recent commits for unused variable introduction",
+      );
+      recommendations.push(
+        "🛑 Consider temporary development freeze until resolved",
+      );
+    } else if (alertLevel === "orange") {
+      recommendations.push("🛠️ Schedule cleanup session within 24-48 hours");
+      recommendations.push("🔧 Use Wave 6 DirectApproach for targeted cleanup");
+      recommendations.push("📈 Increase monitoring frequency to daily");
+    } else if (alertLevel === "yellow") {
+      recommendations.push("👀 Monitor daily for trend changes");
+      recommendations.push("📝 Document sources of new unused variables");
+      recommendations.push(
+        "🎯 Target safe-to-eliminate variables in next cleanup",
+      );
     }
 
-    if (trend === 'increasing') {
-      recommendations.push('🔍 Investigate recent development activity causing increases');
-      recommendations.push('📚 Review team coding practices and guidelines');
-      recommendations.push('🛡️ Implement stricter pre-commit checks');
+    if (trend === "increasing") {
+      recommendations.push(
+        "🔍 Investigate recent development activity causing increases",
+      );
+      recommendations.push("📚 Review team coding practices and guidelines");
+      recommendations.push("🛡️ Implement stricter pre-commit checks");
     }
 
     if (recommendations.length === 0) {
-      recommendations.push('✅ System is healthy - continue regular monitoring');
-      recommendations.push('🔄 Maintain current prevention measures');
-      recommendations.push('📊 Consider monthly maintenance cleanup');
+      recommendations.push(
+        "✅ System is healthy - continue regular monitoring",
+      );
+      recommendations.push("🔄 Maintain current prevention measures");
+      recommendations.push("📊 Consider monthly maintenance cleanup");
     }
 
     return recommendations;
   }
 
   async deployComprehensiveSystem() {
-    console.log('🚀 Deploying Wave 7 Comprehensive Implementation System\n');
+    console.log("🚀 Deploying Wave 7 Comprehensive Implementation System\n");
 
     try {
       // Create directory structure
-      const baseDir = '.kiro/specs/unused-variable-elimination/wave7';
+      const baseDir = ".kiro/specs/unused-variable-elimination/wave7";
       if (!fs.existsSync(baseDir)) {
         fs.mkdirSync(baseDir, { recursive: true });
       }
 
       // 1. Deploy Prevention System
-      console.log('🛡️ Deploying prevention measures...');
+      console.log("🛡️ Deploying prevention measures...");
       await this.deployPreventionMeasures(baseDir);
 
       // 2. Deploy Monitoring System
-      console.log('📊 Deploying monitoring system...');
+      console.log("📊 Deploying monitoring system...");
       await this.deployMonitoringSystem(baseDir);
 
       // 3. Deploy Maintenance Protocols
-      console.log('🔧 Deploying maintenance protocols...');
+      console.log("🔧 Deploying maintenance protocols...");
       await this.deployMaintenanceProtocols(baseDir);
 
       // 4. Perform Initial Health Check
-      console.log('🏥 Performing initial health check...');
+      console.log("🏥 Performing initial health check...");
       const healthStatus = await this.performHealthCheck();
 
       // 5. Generate Implementation Report
-      console.log('📋 Generating implementation report...');
-      const report = await this.generateImplementationReport(healthStatus, baseDir);
+      console.log("📋 Generating implementation report...");
+      const report = await this.generateImplementationReport(
+        healthStatus,
+        baseDir,
+      );
 
-      console.log('\n✅ Wave 7 Comprehensive System deployed successfully!');
+      console.log("\n✅ Wave 7 Comprehensive System deployed successfully!");
       console.log(`📁 All files created in: ${baseDir}`);
 
       return report;
-
     } catch (error) {
-      console.error('❌ Error deploying comprehensive system:', error.message);
+      console.error("❌ Error deploying comprehensive system:", error.message);
       throw error;
     }
   }
@@ -275,26 +298,29 @@ class Wave7ImplementationSystem {
   async deployPreventionMeasures(baseDir) {
     // Create prevention guidelines
     const guidelines = this.createPreventionGuidelines();
-    fs.writeFileSync(path.join(baseDir, 'prevention-guidelines.md'), guidelines);
+    fs.writeFileSync(
+      path.join(baseDir, "prevention-guidelines.md"),
+      guidelines,
+    );
 
     // Create pre-commit hook
     const hook = this.createPreCommitHook();
-    const hookPath = '.git/hooks/pre-commit-unused-vars';
+    const hookPath = ".git/hooks/pre-commit-unused-vars";
     fs.writeFileSync(hookPath, hook);
 
     try {
-      execSync(`chmod +x ${hookPath}`, { stdio: 'pipe' });
+      execSync(`chmod +x ${hookPath}`, { stdio: "pipe" });
     } catch (error) {
       // Ignore chmod errors on systems where it's not available
     }
 
     // Create IDE configuration suggestions
     const ideConfig = this.createIDEConfiguration();
-    fs.writeFileSync(path.join(baseDir, 'ide-configuration.md'), ideConfig);
+    fs.writeFileSync(path.join(baseDir, "ide-configuration.md"), ideConfig);
 
-    console.log('  ✅ Prevention guidelines created');
-    console.log('  ✅ Pre-commit hook installed');
-    console.log('  ✅ IDE configuration guide created');
+    console.log("  ✅ Prevention guidelines created");
+    console.log("  ✅ Pre-commit hook installed");
+    console.log("  ✅ IDE configuration guide created");
   }
 
   async deployMonitoringSystem(baseDir) {
@@ -305,78 +331,84 @@ class Wave7ImplementationSystem {
       thresholds: this.config.monitoring.thresholds,
       alerting: {
         enabled: true,
-        methods: ['console', 'file'],
-        recipients: ['development-team']
+        methods: ["console", "file"],
+        recipients: ["development-team"],
       },
       reporting: {
         daily: false,
         weekly: true,
-        monthly: true
-      }
+        monthly: true,
+      },
     };
 
     fs.writeFileSync(
-      path.join(baseDir, 'monitoring-config.json'),
-      JSON.stringify(monitoringConfig, null, 2)
+      path.join(baseDir, "monitoring-config.json"),
+      JSON.stringify(monitoringConfig, null, 2),
     );
 
     // Create monitoring script
     const monitoringScript = this.createMonitoringScript();
-    fs.writeFileSync(path.join(baseDir, 'monitor.cjs'), monitoringScript);
+    fs.writeFileSync(path.join(baseDir, "monitor.cjs"), monitoringScript);
 
-    console.log('  ✅ Monitoring configuration created');
-    console.log('  ✅ Monitoring script deployed');
+    console.log("  ✅ Monitoring configuration created");
+    console.log("  ✅ Monitoring script deployed");
   }
 
   async deployMaintenanceProtocols(baseDir) {
     // Create maintenance schedule
     const maintenanceSchedule = this.createMaintenanceSchedule();
-    fs.writeFileSync(path.join(baseDir, 'maintenance-schedule.md'), maintenanceSchedule);
+    fs.writeFileSync(
+      path.join(baseDir, "maintenance-schedule.md"),
+      maintenanceSchedule,
+    );
 
     // Create emergency procedures
     const emergencyProcedures = this.createEmergencyProcedures();
-    fs.writeFileSync(path.join(baseDir, 'emergency-procedures.md'), emergencyProcedures);
+    fs.writeFileSync(
+      path.join(baseDir, "emergency-procedures.md"),
+      emergencyProcedures,
+    );
 
-    console.log('  ✅ Maintenance schedule created');
-    console.log('  ✅ Emergency procedures documented');
+    console.log("  ✅ Maintenance schedule created");
+    console.log("  ✅ Emergency procedures documented");
   }
 
   async generateImplementationReport(healthStatus, baseDir) {
     const report = {
       timestamp: new Date().toISOString(),
-      version: '7.0.0',
+      version: "7.0.0",
       deployment: {
-        status: 'completed',
+        status: "completed",
         components: [
-          'Prevention System',
-          'Monitoring System',
-          'Maintenance Protocols',
-          'Emergency Procedures'
-        ]
+          "Prevention System",
+          "Monitoring System",
+          "Maintenance Protocols",
+          "Emergency Procedures",
+        ],
       },
       currentHealth: healthStatus,
       configuration: this.config,
       files: {
-        preventionGuidelines: 'prevention-guidelines.md',
-        ideConfiguration: 'ide-configuration.md',
-        monitoringConfig: 'monitoring-config.json',
-        monitoringScript: 'monitor.cjs',
-        maintenanceSchedule: 'maintenance-schedule.md',
-        emergencyProcedures: 'emergency-procedures.md'
+        preventionGuidelines: "prevention-guidelines.md",
+        ideConfiguration: "ide-configuration.md",
+        monitoringConfig: "monitoring-config.json",
+        monitoringScript: "monitor.cjs",
+        maintenanceSchedule: "maintenance-schedule.md",
+        emergencyProcedures: "emergency-procedures.md",
       },
       nextSteps: [
-        'Review prevention guidelines with development team',
-        'Configure IDE settings according to provided guide',
-        'Set up regular monitoring schedule (weekly recommended)',
-        'Test emergency procedures with sample cleanup',
-        'Integrate monitoring into CI/CD pipeline'
+        "Review prevention guidelines with development team",
+        "Configure IDE settings according to provided guide",
+        "Set up regular monitoring schedule (weekly recommended)",
+        "Test emergency procedures with sample cleanup",
+        "Integrate monitoring into CI/CD pipeline",
       ],
-      success: true
+      success: true,
     };
 
     fs.writeFileSync(
-      path.join(baseDir, 'implementation-report.json'),
-      JSON.stringify(report, null, 2)
+      path.join(baseDir, "implementation-report.json"),
+      JSON.stringify(report, null, 2),
     );
 
     return report;

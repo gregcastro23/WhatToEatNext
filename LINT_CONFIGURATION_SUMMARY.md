@@ -79,10 +79,10 @@ yarn lint src/services/
 
 ```javascript
 // Perfect path resolution for all aliases
-import { Component } from '@/components/Component';
-import { Service } from '@/services/Service';
-import { Hook } from '@/hooks/useHook';
-import { Type } from '@/types/Type';
+import { Component } from "@/components/Component";
+import { Service } from "@/services/Service";
+import { Hook } from "@/hooks/useHook";
+import { Type } from "@/types/Type";
 ```
 
 **Configuration:**
@@ -314,10 +314,10 @@ function processData(data: ProcessedData): string {
 
 // ✅ For truly unknown data
 function processUnknownData(data: unknown): string {
-  if (typeof data === 'object' && data && 'someProperty' in data) {
+  if (typeof data === "object" && data && "someProperty" in data) {
     return String(data.someProperty);
   }
-  return '';
+  return "";
 }
 ```
 
@@ -326,31 +326,31 @@ function processUnknownData(data: unknown): string {
 ```typescript
 // ✅ Proper import order
 // Built-in modules
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 // External dependencies
-import axios from 'axios';
-import { z } from 'zod';
+import axios from "axios";
+import { z } from "zod";
 
 // Internal modules
-import { Component } from '@/components/Component';
-import { Service } from '@/services/Service';
+import { Component } from "@/components/Component";
+import { Service } from "@/services/Service";
 
 // Relative imports
-import { utils } from './utils';
-import { types } from '../types';
+import { utils } from "./utils";
+import { types } from "../types";
 ```
 
 ### 3. Error Handling
 
 ```typescript
 // ❌ Avoid
-console.log('Error occurred:', error);
+console.log("Error occurred:", error);
 
 // ✅ Prefer
-import { logger } from '@/utils/logger';
+import { logger } from "@/utils/logger";
 
-logger.error('Error occurred:', error);
+logger.error("Error occurred:", error);
 ```
 
 ## 🔄 Migration Strategy

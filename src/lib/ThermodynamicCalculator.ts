@@ -11,23 +11,28 @@ export class ThermodynamicCalculator {
     let totalHeat = 0;
     let totalWeight = 0;
 
-    ingredients.forEach(ingredient => {
+    ingredients.forEach((ingredient) => {
       let heatValue = 0.5; // Default neutral value
       let weight = 1; // Default weight
 
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as {
         spiciness?: number;
-        elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
+        elementalProperties?: {
+          Fire?: number;
+          Water?: number;
+          Earth?: number;
+          Air?: number;
+        };
         cookingTemperature?: number;
         proteinContent?: number;
         moistureContent?: number;
         name?: string;
         [key: string]: unknown;
       };
-      const {spiciness} = ingredientData;
-      const {elementalProperties} = ingredientData;
-      const {cookingTemperature} = ingredientData;
+      const { spiciness } = ingredientData;
+      const { elementalProperties } = ingredientData;
+      const { cookingTemperature } = ingredientData;
 
       // Adjust heat value based on ingredient properties
       if (spiciness) {
@@ -71,19 +76,24 @@ export class ThermodynamicCalculator {
 
     // Check for diversity in ingredient types
     const categories = new Set<string>();
-    ingredients.forEach(ingredient => {
+    ingredients.forEach((ingredient) => {
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as {
         spiciness?: number;
-        elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
+        elementalProperties?: {
+          Fire?: number;
+          Water?: number;
+          Earth?: number;
+          Air?: number;
+        };
         moistureContent?: number;
         proteinContent?: number;
         [key: string]: unknown;
       };
-      const {category} = ingredientData;
-      const {fermented} = ingredientData;
-      const {complexity} = ingredientData;
-      const {elementalProperties} = ingredientData;
+      const { category } = ingredientData;
+      const { fermented } = ingredientData;
+      const { complexity } = ingredientData;
+      const { elementalProperties } = ingredientData;
 
       if (category) {
         categories.add(category);
@@ -126,14 +136,19 @@ export class ThermodynamicCalculator {
     let totalReactivity = 0;
     let totalWeight = 0;
 
-    ingredients.forEach(ingredient => {
+    ingredients.forEach((ingredient) => {
       let reactivityValue = 0.5; // Default neutral value
       let weight = 1; // Default weight
 
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as {
         spiciness?: number;
-        elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
+        elementalProperties?: {
+          Fire?: number;
+          Water?: number;
+          Earth?: number;
+          Air?: number;
+        };
         moistureContent?: number;
         proteinContent?: number;
         pH?: number;
@@ -141,10 +156,10 @@ export class ThermodynamicCalculator {
         enzymeActivity?: number;
         [key: string]: unknown;
       };
-      const {pH} = ingredientData;
-      const {alcoholContent} = ingredientData;
-      const {enzymeActivity} = ingredientData;
-      const {elementalProperties} = ingredientData;
+      const { pH } = ingredientData;
+      const { alcoholContent } = ingredientData;
+      const { enzymeActivity } = ingredientData;
+      const { elementalProperties } = ingredientData;
 
       // pH value affects reactivity (further from neutral = more reactive)
       if (pH) {

@@ -11,9 +11,9 @@
  * - no-misused-promises (63 issues)
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // Configuration
 const CONFIG = {
@@ -33,11 +33,11 @@ class RemainingErrorsFixer {
     this.totalFixes = 0;
     this.errors = [];
     this.fixesByType = {
-      'prefer-optional-chain': 0,
-      'no-non-null-assertion': 0,
-      'no-unnecessary-type-assertion': 0,
-      'no-floating-promises': 0,
-      'no-misused-promises': 0,
+      "prefer-optional-chain": 0,
+      "no-non-null-assertion": 0,
+      "no-unnecessary-type-assertion": 0,
+      "no-floating-promises": 0,
+      "no-misused-promises": 0,
     };
   }
 
@@ -46,12 +46,15 @@ class RemainingErrorsFixer {
    */
   getFilesWithErrors() {
     try {
-      console.log('🔍 Analyzing files with remaining error categories...');
+      console.log("🔍 Analyzing files with remaining error categories...");
 
-      const lintOutput = execSync('yarn lint --max-warnings=10000 --format=json', {
-        encoding: 'utf8',
-        stdio: 'pipe',
-      });
+      const lintOutput = execSync(
+        "yarn lint --max-warnings=10000 --format=json",
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
 
       const lintResults = JSON.parse(lintOutput);
       const filesWithErrors = new Map();
@@ -59,14 +62,14 @@ class RemainingErrorsFixer {
       for (const result of lintResults) {
         const filePath = result.filePath;
         const relevantMessages = result.messages.filter(
-          msg =>
+          (msg) =>
             msg.ruleId &&
             [
-              '@typescript-eslint/prefer-optional-chain',
-              '@typescript-eslint/no-non-null-assertion',
-              '@typescript-eslint/no-unnecessary-type-assertion',
-              '@typescript-eslint/no-floating-promises',
-              '@typescript-eslint/no-misused-promises',
+              "@typescript-eslint/prefer-optional-chain",
+              "@typescript-eslint/no-non-null-assertion",
+              "@typescript-eslint/no-unnecessary-type-assertion",
+              "@typescript-eslint/no-floating-promises",
+              "@typescript-eslint/no-misused-promises",
             ].includes(msg.ruleId),
         );
 
@@ -75,10 +78,14 @@ class RemainingErrorsFixer {
         }
       }
 
-      console.log(`📊 Found ${filesWithErrors.size} files with target error categories`);
+      console.log(
+        `📊 Found ${filesWithErrors.size} files with target error categories`,
+      );
       return Array.from(filesWithErrors.entries()).slice(0, CONFIG.maxFiles);
     } catch (error) {
-      console.warn('⚠️ Could not get lint JSON output, falling back to text parsing...');
+      console.warn(
+        "⚠️ Could not get lint JSON output, falling back to text parsing...",
+      );
       return this.getFilesWithErrorsFallback();
     }
   }
@@ -88,7 +95,7 @@ class RemainingErrorsFixer {
    */
   getFilesWithErrorsFallback() {
     const files = [];
-    const directories = ['src', '__tests__'];
+    const directories = ["src", "__tests__"];
 
     for (const dir of directories) {
       if (fs.existsSync(dir)) {
@@ -96,7 +103,7 @@ class RemainingErrorsFixer {
       }
     }
 
-    return files.slice(0, CONFIG.maxFiles).map(file => [file, []]);
+    return files.slice(0, CONFIG.maxFiles).map((file) => [file, []]);
   }
 
   /**
@@ -108,7 +115,7 @@ class RemainingErrorsFixer {
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
 
-      if (entry.isDirectory() && !entry.name.startsWith('.')) {
+      if (entry.isDirectory() && !entry.name.startsWith(".")) {
         this.scanDirectory(fullPath, files);
       } else if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name)) {
         files.push(fullPath);
@@ -139,7 +146,7 @@ class RemainingErrorsFixer {
     const pattern1 = /(\w+)\s*&&\s*\1\.(\w+)/g;
     const matches1 = [...modifiedContent.matchAll(pattern1)];
     if (matches1.length > 0) {
-      modifiedContent = modifiedContent.replace(pattern1, '$1?.$2');
+      modifiedContent = modifiedContent.replace(pattern1, "$1?.$2");
       fixes += matches1.length;
     }
 
@@ -147,7 +154,7 @@ class RemainingErrorsFixer {
     const pattern2 = /(\w+)\s*&&\s*\1\[([^\]]+)\]/g;
     const matches2 = [...modifiedContent.matchAll(pattern2)];
     if (matches2.length > 0) {
-      modifiedContent = modifiedContent.replace(pattern2, '$1?.[$2]');
+      modifiedContent = modifiedContent.replace(pattern2, "$1?.[$2]");
       fixes += matches2.length;
     }
 
@@ -165,7 +172,7 @@ class RemainingErrorsFixer {
     const pattern1 = /(\w+)!\.(\w+)/g;
     const matches1 = [...modifiedContent.matchAll(pattern1)];
     if (matches1.length > 0) {
-      modifiedContent = modifiedContent.replace(pattern1, '$1?.$2');
+      modifiedContent = modifiedContent.replace(pattern1, "$1?.$2");
       fixes += matches1.length;
     }
 
@@ -173,7 +180,7 @@ class RemainingErrorsFixer {
     const pattern2 = /(\w+)!\[([^\]]+)\]/g;
     const matches2 = [...modifiedContent.matchAll(pattern2)];
     if (matches2.length > 0) {
-      modifiedContent = modifiedContent.replace(pattern2, '$1?.[$2]');
+      modifiedContent = modifiedContent.replace(pattern2, "$1?.[$2]");
       fixes += matches2.length;
     }
 
@@ -194,9 +201,9 @@ class RemainingErrorsFixer {
     for (const match of matches1) {
       // Only remove if the variable name suggests it's already a string
       if (
-        match[1].toLowerCase().includes('str') ||
-        match[1].toLowerCase().includes('text') ||
-        match[1].toLowerCase().includes('name')
+        match[1].toLowerCase().includes("str") ||
+        match[1].toLowerCase().includes("text") ||
+        match[1].toLowerCase().includes("name")
       ) {
         modifiedContent = modifiedContent.replace(match[0], match[1]);
         fixes++;
@@ -214,7 +221,7 @@ class RemainingErrorsFixer {
     let modifiedContent = content;
 
     // Pattern: Promise calls that should be awaited or voided
-    const lines = modifiedContent.split('\n');
+    const lines = modifiedContent.split("\n");
     const fixedLines = [];
 
     for (let line of lines) {
@@ -222,15 +229,17 @@ class RemainingErrorsFixer {
 
       // Look for standalone promise calls that should be voided
       if (
-        /^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*$/.test(line) &&
-        !line.includes('await') &&
-        !line.includes('void') &&
-        !line.includes('return')
+        /^\s*[a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*$/.test(
+          line,
+        ) &&
+        !line.includes("await") &&
+        !line.includes("void") &&
+        !line.includes("return")
       ) {
         // Add void operator
         line = line.replace(
           /^(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\);?\s*)$/,
-          '$1void $2',
+          "$1void $2",
         );
 
         if (line !== originalLine) {
@@ -241,7 +250,7 @@ class RemainingErrorsFixer {
       fixedLines.push(line);
     }
 
-    return { content: fixedLines.join('\n'), fixes };
+    return { content: fixedLines.join("\n"), fixes };
   }
 
   /**
@@ -257,8 +266,11 @@ class RemainingErrorsFixer {
       /if\s*\(\s*([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*\([^)]*\))\s*\)/g;
     const matches1 = [...modifiedContent.matchAll(pattern1)];
     for (const match of matches1) {
-      if (match[1].includes('async') || match[1].includes('Promise')) {
-        modifiedContent = modifiedContent.replace(match[0], `if (await ${match[1]})`);
+      if (match[1].includes("async") || match[1].includes("Promise")) {
+        modifiedContent = modifiedContent.replace(
+          match[0],
+          `if (await ${match[1]})`,
+        );
         fixes++;
       }
     }
@@ -273,7 +285,7 @@ class RemainingErrorsFixer {
     try {
       console.log(`\n📁 Processing: ${filePath}`);
 
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, "utf8");
 
       // Check if file should be preserved
       if (this.shouldPreserveFile(filePath, content)) {
@@ -286,54 +298,58 @@ class RemainingErrorsFixer {
 
       // Apply fixes based on error types present
       const errorTypes = new Set(
-        errorMessages.map(msg => msg.ruleId?.replace('@typescript-eslint/', '')),
+        errorMessages.map((msg) =>
+          msg.ruleId?.replace("@typescript-eslint/", ""),
+        ),
       );
 
-      if (errorTypes.has('prefer-optional-chain')) {
+      if (errorTypes.has("prefer-optional-chain")) {
         const result = this.fixOptionalChain(modifiedContent);
         modifiedContent = result.content;
         totalFileFixes += result.fixes;
-        this.fixesByType['prefer-optional-chain'] += result.fixes;
+        this.fixesByType["prefer-optional-chain"] += result.fixes;
         if (result.fixes > 0) {
           console.log(`  📝 Fixed ${result.fixes} optional chain issues`);
         }
       }
 
-      if (errorTypes.has('no-non-null-assertion')) {
+      if (errorTypes.has("no-non-null-assertion")) {
         const result = this.fixNonNullAssertion(modifiedContent);
         modifiedContent = result.content;
         totalFileFixes += result.fixes;
-        this.fixesByType['no-non-null-assertion'] += result.fixes;
+        this.fixesByType["no-non-null-assertion"] += result.fixes;
         if (result.fixes > 0) {
           console.log(`  📝 Fixed ${result.fixes} non-null assertion issues`);
         }
       }
 
-      if (errorTypes.has('no-unnecessary-type-assertion')) {
+      if (errorTypes.has("no-unnecessary-type-assertion")) {
         const result = this.fixUnnecessaryTypeAssertion(modifiedContent);
         modifiedContent = result.content;
         totalFileFixes += result.fixes;
-        this.fixesByType['no-unnecessary-type-assertion'] += result.fixes;
+        this.fixesByType["no-unnecessary-type-assertion"] += result.fixes;
         if (result.fixes > 0) {
-          console.log(`  📝 Fixed ${result.fixes} unnecessary type assertion issues`);
+          console.log(
+            `  📝 Fixed ${result.fixes} unnecessary type assertion issues`,
+          );
         }
       }
 
-      if (errorTypes.has('no-floating-promises')) {
+      if (errorTypes.has("no-floating-promises")) {
         const result = this.fixFloatingPromises(modifiedContent);
         modifiedContent = result.content;
         totalFileFixes += result.fixes;
-        this.fixesByType['no-floating-promises'] += result.fixes;
+        this.fixesByType["no-floating-promises"] += result.fixes;
         if (result.fixes > 0) {
           console.log(`  📝 Fixed ${result.fixes} floating promise issues`);
         }
       }
 
-      if (errorTypes.has('no-misused-promises')) {
+      if (errorTypes.has("no-misused-promises")) {
         const result = this.fixMisusedPromises(modifiedContent);
         modifiedContent = result.content;
         totalFileFixes += result.fixes;
-        this.fixesByType['no-misused-promises'] += result.fixes;
+        this.fixesByType["no-misused-promises"] += result.fixes;
         if (result.fixes > 0) {
           console.log(`  📝 Fixed ${result.fixes} misused promise issues`);
         }
@@ -341,7 +357,7 @@ class RemainingErrorsFixer {
 
       if (totalFileFixes > 0) {
         if (!CONFIG.dryRun) {
-          fs.writeFileSync(filePath, modifiedContent, 'utf8');
+          fs.writeFileSync(filePath, modifiedContent, "utf8");
         }
 
         console.log(`  ✅ Applied ${totalFileFixes} total fixes`);
@@ -362,12 +378,12 @@ class RemainingErrorsFixer {
    */
   validateTypeScript() {
     try {
-      console.log('\n🔍 Validating TypeScript compilation...');
-      execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-      console.log('✅ TypeScript compilation successful');
+      console.log("\n🔍 Validating TypeScript compilation...");
+      execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
+      console.log("✅ TypeScript compilation successful");
       return true;
     } catch (error) {
-      console.error('❌ TypeScript compilation failed');
+      console.error("❌ TypeScript compilation failed");
       console.error(error.stdout?.toString() || error.message);
       return false;
     }
@@ -377,13 +393,15 @@ class RemainingErrorsFixer {
    * Run the remaining errors fixing process
    */
   async run() {
-    console.log('🚀 Starting Remaining Error Categories Fixing Process');
-    console.log(`📊 Configuration: maxFiles=${CONFIG.maxFiles}, dryRun=${CONFIG.dryRun}`);
+    console.log("🚀 Starting Remaining Error Categories Fixing Process");
+    console.log(
+      `📊 Configuration: maxFiles=${CONFIG.maxFiles}, dryRun=${CONFIG.dryRun}`,
+    );
 
     const filesWithErrors = this.getFilesWithErrors();
 
     if (filesWithErrors.length === 0) {
-      console.log('✅ No files found with target error categories');
+      console.log("✅ No files found with target error categories");
       return;
     }
 
@@ -395,7 +413,7 @@ class RemainingErrorsFixer {
       // Validate every 5 files
       if (this.processedFiles % 5 === 0 && this.processedFiles > 0) {
         if (!this.validateTypeScript()) {
-          console.error('🛑 Stopping due to TypeScript errors');
+          console.error("🛑 Stopping due to TypeScript errors");
           break;
         }
       }
@@ -407,12 +425,12 @@ class RemainingErrorsFixer {
     }
 
     // Summary
-    console.log('\n📊 Remaining Error Categories Fixing Summary:');
+    console.log("\n📊 Remaining Error Categories Fixing Summary:");
     console.log(`   Files processed: ${this.processedFiles}`);
     console.log(`   Total fixes applied: ${this.totalFixes}`);
     console.log(`   Errors encountered: ${this.errors.length}`);
 
-    console.log('\n📈 Fixes by category:');
+    console.log("\n📈 Fixes by category:");
     for (const [category, count] of Object.entries(this.fixesByType)) {
       if (count > 0) {
         console.log(`   ${category}: ${count} fixes`);
@@ -420,15 +438,15 @@ class RemainingErrorsFixer {
     }
 
     if (this.errors.length > 0) {
-      console.log('\n❌ Errors:');
+      console.log("\n❌ Errors:");
       this.errors.forEach(({ file, error }) => {
         console.log(`   ${file}: ${error}`);
       });
     }
 
     if (this.totalFixes > 0) {
-      console.log('\n✅ Remaining error fixes completed successfully!');
-      console.log('💡 Run yarn lint to verify the improvements');
+      console.log("\n✅ Remaining error fixes completed successfully!");
+      console.log("💡 Run yarn lint to verify the improvements");
     }
   }
 }

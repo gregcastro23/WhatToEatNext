@@ -176,7 +176,7 @@ src/__tests__/
 const compatibility = { Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 } };
 
 // ❌ FORBIDDEN: Opposition logic
-const opposingElements = { Fire: 'Water' }; // NEVER implement this
+const opposingElements = { Fire: "Water" }; // NEVER implement this
 ```
 
 ### 2. Data Source Hierarchy

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * Astrological Recommendations Component
@@ -8,34 +8,34 @@
  */
 
 import {
-    AlertRoot,
-    AlertIndicator,
-    Badge,
-    Box,
-    Button,
-    Card,
-    CardBody,
-    CardHeader,
-    Flex,
-    HStack,
-    Heading,
-    Icon,
-    Select,
-    SimpleGrid,
-    Spinner,
-    Text,
-    Tooltip,
-    VStack
-} from '@chakra-ui/react';
-import React, { useCallback, useEffect, useState } from 'react';
+  AlertRoot,
+  AlertIndicator,
+  Badge,
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Flex,
+  HStack,
+  Heading,
+  Icon,
+  Select,
+  SimpleGrid,
+  Spinner,
+  Text,
+  Tooltip,
+  VStack,
+} from "@chakra-ui/react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
-    FaFire,
-    FaLeaf,
-    FaSnowflake,
-    FaStar,
-    FaSun,
-    FaUtensils
-} from 'react-icons/fa';
+  FaFire,
+  FaLeaf,
+  FaSnowflake,
+  FaStar,
+  FaSun,
+  FaUtensils,
+} from "react-icons/fa";
 
 interface AstrologicalRecommendation {
   recipe_id: string;
@@ -60,55 +60,78 @@ interface CookingPlan {
 }
 
 const ZODIAC_SIGNS = [
-  'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
-  'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
+  "Aries",
+  "Taurus",
+  "Gemini",
+  "Cancer",
+  "Leo",
+  "Virgo",
+  "Libra",
+  "Scorpio",
+  "Sagittarius",
+  "Capricorn",
+  "Aquarius",
+  "Pisces",
 ];
 
-const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
+const SEASONS = ["Spring", "Summer", "Autumn", "Winter"];
 
 const ZODIAC_ELEMENTS = {
-  Aries: 'Fire', Taurus: 'Earth', Gemini: 'Air', Cancer: 'Water',
-  Leo: 'Fire', Virgo: 'Earth', Libra: 'Air', Scorpio: 'Water',
-  Sagittarius: 'Fire', Capricorn: 'Earth', Aquarius: 'Air', Pisces: 'Water'
+  Aries: "Fire",
+  Taurus: "Earth",
+  Gemini: "Air",
+  Cancer: "Water",
+  Leo: "Fire",
+  Virgo: "Earth",
+  Libra: "Air",
+  Scorpio: "Water",
+  Sagittarius: "Fire",
+  Capricorn: "Earth",
+  Aquarius: "Air",
+  Pisces: "Water",
 };
 
 const SEASON_ICONS = {
   Spring: FaLeaf,
   Summer: FaSun,
   Autumn: FaLeaf,
-  Winter: FaSnowflake
+  Winter: FaSnowflake,
 };
 
 export const AstrologicalRecommendations: React.FC = () => {
-  const [zodiacSign, setZodiacSign] = useState<string>('');
-  const [season, setSeason] = useState<string>('');
+  const [zodiacSign, setZodiacSign] = useState<string>("");
+  const [season, setSeason] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [cookingPlan, setCookingPlan] = useState<CookingPlan | null>(null);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
 
-  const bgColor = 'gray.50';
-  const cardBg = 'white';
+  const bgColor = "gray.50";
+  const cardBg = "white";
 
   const fetchCookingPlan = useCallback(async () => {
     if (!zodiacSign && !season) return;
 
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       const params = new URLSearchParams();
-      if (zodiacSign) params.append('zodiac_sign', zodiacSign);
-      if (season) params.append('season', season);
+      if (zodiacSign) params.append("zodiac_sign", zodiacSign);
+      if (season) params.append("season", season);
 
-      const response = await fetch(`http://localhost:8101/astrological/personalized-cooking?${params}`);
+      const response = await fetch(
+        `http://localhost:8101/astrological/personalized-cooking?${params}`,
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch cooking recommendations');
+        throw new Error("Failed to fetch cooking recommendations");
       }
 
       const data = await response.json();
       setCookingPlan(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load recommendations');
+      setError(
+        err instanceof Error ? err.message : "Failed to load recommendations",
+      );
     } finally {
       setLoading(false);
     }
@@ -122,13 +145,13 @@ export const AstrologicalRecommendations: React.FC = () => {
 
   const getElementIcon = (element: string) => {
     switch (element) {
-      case 'Fire':
+      case "Fire":
         return FaFire;
-      case 'Water':
+      case "Water":
         return FaSnowflake;
-      case 'Earth':
+      case "Earth":
         return FaLeaf;
-      case 'Air':
+      case "Air":
         return FaSun;
       default:
         return FaStar;
@@ -137,10 +160,14 @@ export const AstrologicalRecommendations: React.FC = () => {
 
   const getPriorityColor = (priority?: string) => {
     switch (priority) {
-      case 'high': return 'red';
-      case 'medium': return 'orange';
-      case 'low': return 'green';
-      default: return 'blue';
+      case "high":
+        return "red";
+      case "medium":
+        return "orange";
+      case "low":
+        return "green";
+      default:
+        return "blue";
     }
   };
 
@@ -153,7 +180,8 @@ export const AstrologicalRecommendations: React.FC = () => {
             🌟 Astrological Cooking Guide
           </Heading>
           <Text fontSize="md" color="gray.600">
-            Discover recipes aligned with your zodiac energy and seasonal harmony
+            Discover recipes aligned with your zodiac energy and seasonal
+            harmony
           </Text>
         </Box>
 
@@ -165,28 +193,33 @@ export const AstrologicalRecommendations: React.FC = () => {
           <CardBody>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
               <Box>
-                <Text mb={2} fontWeight="medium">Your Zodiac Sign</Text>
+                <Text mb={2} fontWeight="medium">
+                  Your Zodiac Sign
+                </Text>
                 <Select
                   placeholder="Select your zodiac sign"
                   value={zodiacSign}
                   onChange={(e) => setZodiacSign(e.target.value)}
                 >
-                  {ZODIAC_SIGNS.map(sign => (
+                  {ZODIAC_SIGNS.map((sign) => (
                     <option key={sign} value={sign}>
-                      {sign} ({ZODIAC_ELEMENTS[sign as keyof typeof ZODIAC_ELEMENTS]})
+                      {sign} (
+                      {ZODIAC_ELEMENTS[sign as keyof typeof ZODIAC_ELEMENTS]})
                     </option>
                   ))}
                 </Select>
               </Box>
 
               <Box>
-                <Text mb={2} fontWeight="medium">Current Season</Text>
+                <Text mb={2} fontWeight="medium">
+                  Current Season
+                </Text>
                 <Select
                   placeholder="Select current season"
                   value={season}
                   onChange={(e) => setSeason(e.target.value)}
                 >
-                  {SEASONS.map(seasonName => (
+                  {SEASONS.map((seasonName) => (
                     <option key={seasonName} value={seasonName}>
                       {seasonName}
                     </option>
@@ -256,7 +289,12 @@ export const AstrologicalRecommendations: React.FC = () => {
                 </Heading>
                 <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={4}>
                   {cookingPlan.recommendations.map((rec, index) => (
-                    <Card key={rec.recipe_id || index} bg={cardBg} shadow="md" _hover={{ shadow: 'lg' }}>
+                    <Card
+                      key={rec.recipe_id || index}
+                      bg={cardBg}
+                      shadow="md"
+                      _hover={{ shadow: "lg" }}
+                    >
                       <CardHeader pb={2}>
                         <Flex justify="space-between" align="start">
                           <Box>
@@ -266,7 +304,7 @@ export const AstrologicalRecommendations: React.FC = () => {
                             </Text>
                           </Box>
                           <Badge colorScheme={getPriorityColor(rec.priority)}>
-                            {rec.priority || 'recommended'}
+                            {rec.priority || "recommended"}
                           </Badge>
                         </Flex>
                       </CardHeader>
@@ -280,7 +318,9 @@ export const AstrologicalRecommendations: React.FC = () => {
                           {/* Score Display */}
                           <HStack spacing={4}>
                             {rec.zodiac_affinity_score && (
-                              <Tooltip label={`Zodiac affinity: ${(rec.zodiac_affinity_score * 100).toFixed(0)}%`}>
+                              <Tooltip
+                                label={`Zodiac affinity: ${(rec.zodiac_affinity_score * 100).toFixed(0)}%`}
+                              >
                                 <HStack>
                                   <Icon as={FaStar} color="yellow.500" />
                                   <Text fontSize="sm" fontWeight="medium">
@@ -291,9 +331,18 @@ export const AstrologicalRecommendations: React.FC = () => {
                             )}
 
                             {rec.seasonal_score && (
-                              <Tooltip label={`Seasonal compatibility: ${(rec.seasonal_score * 100).toFixed(0)}%`}>
+                              <Tooltip
+                                label={`Seasonal compatibility: ${(rec.seasonal_score * 100).toFixed(0)}%`}
+                              >
                                 <HStack>
-                                  <Icon as={SEASON_ICONS[season as keyof typeof SEASON_ICONS] || FaLeaf} color="green.500" />
+                                  <Icon
+                                    as={
+                                      SEASON_ICONS[
+                                        season as keyof typeof SEASON_ICONS
+                                      ] || FaLeaf
+                                    }
+                                    color="green.500"
+                                  />
                                   <Text fontSize="sm" fontWeight="medium">
                                     {rec.seasonal_score.toFixed(2)}
                                   </Text>
@@ -303,23 +352,39 @@ export const AstrologicalRecommendations: React.FC = () => {
                           </HStack>
 
                           {/* Ingredient Match Info */}
-                          {(rec.matching_ingredients || rec.seasonal_ingredients) && (
+                          {(rec.matching_ingredients ||
+                            rec.seasonal_ingredients) && (
                             <HStack spacing={2}>
                               <Icon as={FaUtensils} color="blue.500" />
                               <Text fontSize="sm" color="gray.600">
-                                {rec.matching_ingredients ? `${rec.matching_ingredients} zodiac-aligned ingredients` :
-                                 rec.seasonal_ingredients ? `${rec.seasonal_ingredients} seasonal ingredients` : ''}
+                                {rec.matching_ingredients
+                                  ? `${rec.matching_ingredients} zodiac-aligned ingredients`
+                                  : rec.seasonal_ingredients
+                                    ? `${rec.seasonal_ingredients} seasonal ingredients`
+                                    : ""}
                               </Text>
                             </HStack>
                           )}
 
                           {/* Reason */}
-                          <Text fontSize="sm" fontStyle="italic" color="purple.600" bg="purple.50" p={2} borderRadius="md">
+                          <Text
+                            fontSize="sm"
+                            fontStyle="italic"
+                            color="purple.600"
+                            bg="purple.50"
+                            p={2}
+                            borderRadius="md"
+                          >
                             {rec.reason}
                           </Text>
 
                           {/* Action Button */}
-                          <Button size="sm" colorScheme="purple" variant="outline" w="full">
+                          <Button
+                            size="sm"
+                            colorScheme="purple"
+                            variant="outline"
+                            w="full"
+                          >
                             View Recipe Details
                           </Button>
                         </VStack>
@@ -334,8 +399,8 @@ export const AstrologicalRecommendations: React.FC = () => {
                   <CardBody textAlign="center" py={8}>
                     <Icon as={FaStar} boxSize={12} color="gray.400" mb={4} />
                     <Text fontSize="lg" color="gray.600">
-                      No recipes found for your current selections.
-                      Try adjusting your zodiac sign or season preferences.
+                      No recipes found for your current selections. Try
+                      adjusting your zodiac sign or season preferences.
                     </Text>
                   </CardBody>
                 </Card>
@@ -351,13 +416,17 @@ export const AstrologicalRecommendations: React.FC = () => {
               <VStack spacing={4}>
                 <Icon as={FaStar} boxSize={16} color="purple.300" />
                 <Box>
-                  <Heading size="md" mb={2}>Welcome to Astrological Cooking</Heading>
+                  <Heading size="md" mb={2}>
+                    Welcome to Astrological Cooking
+                  </Heading>
                   <Text color="gray.600" mb={4}>
-                    Discover recipes that resonate with your zodiac energy and seasonal harmony.
-                    Select your zodiac sign and current season to get personalized recommendations.
+                    Discover recipes that resonate with your zodiac energy and
+                    seasonal harmony. Select your zodiac sign and current season
+                    to get personalized recommendations.
                   </Text>
                   <Text fontSize="sm" color="gray.500">
-                    💫 Each recommendation is calculated based on planetary influences and elemental compatibility
+                    💫 Each recommendation is calculated based on planetary
+                    influences and elemental compatibility
                   </Text>
                 </Box>
               </VStack>

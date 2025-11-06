@@ -6,48 +6,57 @@
  * Focuses on specific auto-fixable rules with high success rates
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 class TargetedAutoFix {
   constructor() {
     this.fixedFiles = 0;
     this.processedFiles = 0;
-    this.logFile = 'eslint-targeted-autofix.log';
+    this.logFile = "eslint-targeted-autofix.log";
 
     // Target specific auto-fixable rules
     this.targetRules = [
-      '@typescript-eslint/no-unnecessary-type-assertion',
-      'import/order',
-      'import/no-duplicates'
+      "@typescript-eslint/no-unnecessary-type-assertion",
+      "import/order",
+      "import/no-duplicates",
     ];
 
-    this.log('ESLint Targeted Auto-Fix Started');
-    this.log(`Targeting rules: ${this.targetRules.join(', ')}`);
+    this.log("ESLint Targeted Auto-Fix Started");
+    this.log(`Targeting rules: ${this.targetRules.join(", ")}`);
   }
 
   log(message) {
     const timestamp = new Date().toISOString();
     const logMessage = `[${timestamp}] ${message}`;
     console.log(logMessage);
-    fs.appendFileSync(this.logFile, logMessage + '\n');
+    fs.appendFileSync(this.logFile, logMessage + "\n");
   }
 
   async getFilesWithTargetedIssues() {
     try {
-      this.log('Finding files with targeted auto-fixable issues...');
+      this.log("Finding files with targeted auto-fixable issues...");
 
-      const ruleFilter = this.targetRules.map(rule => `select(.ruleId == "${rule}")`).join(' or ');
+      const ruleFilter = this.targetRules
+        .map((rule) => `select(.ruleId == "${rule}")`)
+        .join(" or ");
 
       const command = `yarn lint --format=json 2>/dev/null | jq -r '.[] | select(.messages | length > 0) | select(.messages[] | ${ruleFilter}) | .filePath'`;
 
       const output = execSync(command, {
-        encoding: 'utf8',
-        maxBuffer: 5 * 1024 * 1024
+        encoding: "utf8",
+        maxBuffer: 5 * 1024 * 1024,
       });
 
-      const files = [...new Set(output.trim().split('\n').filter(f => f.length > 0))];
+      const files = [
+        ...new Set(
+          output
+            .trim()
+            .split("\n")
+            .filter((f) => f.length > 0),
+        ),
+      ];
       this.log(`Found ${files.length} files with targeted issues`);
 
       return files;
@@ -63,24 +72,26 @@ class TargetedAutoFix {
       this.log(`Processing: ${relativePath}`);
 
       // Create backup
-      const backupPath = filePath + '.autofix-backup';
+      const backupPath = filePath + ".autofix-backup";
       fs.copyFileSync(filePath, backupPath);
 
       // Apply fixes for targeted rules only
-      const ruleArgs = this.targetRules.map(rule => `--rule "${rule}: error"`).join(' ');
+      const ruleArgs = this.targetRules
+        .map((rule) => `--rule "${rule}: error"`)
+        .join(" ");
 
       execSync(`yarn lint --fix ${ruleArgs} "${filePath}"`, {
-        encoding: 'utf8',
-        stdio: 'pipe',
-        timeout: 30000
+        encoding: "utf8",
+        stdio: "pipe",
+        timeout: 30000,
       });
 
       // Quick syntax check
       try {
         execSync(`node -c "${filePath}"`, {
-          encoding: 'utf8',
-          stdio: 'pipe',
-          timeout: 5000
+          encoding: "utf8",
+          stdio: "pipe",
+          timeout: 5000,
         });
 
         // Success - remove backup
@@ -99,7 +110,7 @@ class TargetedAutoFix {
       this.log(`Error processing ${filePath}: ${error.message}`);
 
       // Restore backup if exists
-      const backupPath = filePath + '.autofix-backup';
+      const backupPath = filePath + ".autofix-backup";
       if (fs.existsSync(backupPath)) {
         try {
           fs.copyFileSync(backupPath, filePath);
@@ -117,7 +128,7 @@ class TargetedAutoFix {
     const files = await this.getFilesWithTargetedIssues();
 
     if (files.length === 0) {
-      this.log('No files found with targeted auto-fixable issues');
+      this.log("No files found with targeted auto-fixable issues");
       return;
     }
 
@@ -131,7 +142,7 @@ class TargetedAutoFix {
 
       // Progress update
       if (i % 10 === 0 || i === files.length - 1) {
-        const progress = ((i + 1) / files.length * 100).toFixed(1);
+        const progress = (((i + 1) / files.length) * 100).toFixed(1);
         this.log(`Progress: ${progress}% (${i + 1}/${files.length} files)`);
       }
     }
@@ -139,13 +150,15 @@ class TargetedAutoFix {
 
   async getIssueStats() {
     try {
-      const ruleFilter = this.targetRules.map(rule => `select(.ruleId == "${rule}")`).join(' or ');
+      const ruleFilter = this.targetRules
+        .map((rule) => `select(.ruleId == "${rule}")`)
+        .join(" or ");
 
       const command = `yarn lint --format=json 2>/dev/null | jq '[.[] | .messages[] | ${ruleFilter}] | length'`;
 
       const output = execSync(command, {
-        encoding: 'utf8',
-        timeout: 30000
+        encoding: "utf8",
+        timeout: 30000,
       });
 
       return parseInt(output.trim()) || 0;
@@ -157,15 +170,15 @@ class TargetedAutoFix {
 
   async validateBuild() {
     try {
-      this.log('Validating TypeScript compilation...');
+      this.log("Validating TypeScript compilation...");
 
-      execSync('yarn tsc --noEmit --skipLibCheck', {
-        encoding: 'utf8',
-        stdio: 'pipe',
-        timeout: 120000 // 2 minutes
+      execSync("yarn tsc --noEmit --skipLibCheck", {
+        encoding: "utf8",
+        stdio: "pipe",
+        timeout: 120000, // 2 minutes
       });
 
-      this.log('✅ TypeScript compilation successful');
+      this.log("✅ TypeScript compilation successful");
       return true;
     } catch (error) {
       this.log(`❌ TypeScript compilation failed: ${error.message}`);
@@ -179,17 +192,20 @@ class TargetedAutoFix {
       targetRules: this.targetRules,
       processedFiles: this.processedFiles,
       fixedFiles: this.fixedFiles,
-      success: this.fixedFiles > 0
+      success: this.fixedFiles > 0,
     };
 
-    fs.writeFileSync('eslint-targeted-autofix-report.json', JSON.stringify(report, null, 2));
+    fs.writeFileSync(
+      "eslint-targeted-autofix-report.json",
+      JSON.stringify(report, null, 2),
+    );
 
-    this.log('='.repeat(60));
-    this.log('ESLint Targeted Auto-Fix Completed');
-    this.log(`Target rules: ${this.targetRules.join(', ')}`);
+    this.log("=".repeat(60));
+    this.log("ESLint Targeted Auto-Fix Completed");
+    this.log(`Target rules: ${this.targetRules.join(", ")}`);
     this.log(`Files processed: ${this.processedFiles}`);
     this.log(`Files fixed: ${this.fixedFiles}`);
-    this.log('='.repeat(60));
+    this.log("=".repeat(60));
 
     return report;
   }
@@ -220,9 +236,10 @@ async function main() {
     }
 
     if (!buildValid) {
-      fixer.log('⚠️  Build validation failed - some fixes may need manual review');
+      fixer.log(
+        "⚠️  Build validation failed - some fixes may need manual review",
+      );
     }
-
   } catch (error) {
     fixer.log(`Fatal error: ${error.message}`);
   } finally {

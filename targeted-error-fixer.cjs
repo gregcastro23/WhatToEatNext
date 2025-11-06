@@ -6,9 +6,9 @@
  * Maximum safety protocols enabled
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 class EmergencyErrorFixer {
   constructor() {
@@ -19,9 +19,9 @@ class EmergencyErrorFixer {
   }
 
   async run() {
-    console.log('🚨 EMERGENCY CAMPAIGN PHASE 1 ACTIVATED');
-    console.log('Target: Critical syntax and type definition errors');
-    console.log('Safety Level: MAXIMUM');
+    console.log("🚨 EMERGENCY CAMPAIGN PHASE 1 ACTIVATED");
+    console.log("Target: Critical syntax and type definition errors");
+    console.log("Safety Level: MAXIMUM");
 
     try {
       // Get initial error count
@@ -39,18 +39,21 @@ class EmergencyErrorFixer {
       // Generate progress report
       this.generateProgressReport(initialErrors, finalErrors);
     } catch (error) {
-      console.error('❌ Campaign Phase 1 failed:', error.message);
-      console.log('🔄 Initiating automatic rollback...');
+      console.error("❌ Campaign Phase 1 failed:", error.message);
+      console.log("🔄 Initiating automatic rollback...");
       this.rollback();
     }
   }
 
   getErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: 'pipe',
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return error.status === 1 ? 0 : -1;
@@ -73,7 +76,7 @@ class EmergencyErrorFixer {
 
         // Validate build after each file
         if (!this.validateBuild()) {
-          console.log('❌ Build validation failed, rolling back file...');
+          console.log("❌ Build validation failed, rolling back file...");
           this.rollbackFile(file.path);
           continue;
         }
@@ -99,14 +102,14 @@ class EmergencyErrorFixer {
         sort -nr | 
         head -10
       `,
-        { encoding: 'utf8' },
+        { encoding: "utf8" },
       );
 
       return output
         .trim()
-        .split('\n')
-        .filter(line => line.trim())
-        .map(line => {
+        .split("\n")
+        .filter((line) => line.trim())
+        .map((line) => {
           const match = line.trim().match(/^\s*(\d+)\s+(.+)$/);
           if (match) {
             return {
@@ -118,14 +121,14 @@ class EmergencyErrorFixer {
         })
         .filter(Boolean)
         .filter(
-          file =>
+          (file) =>
             // Focus on calculation files but avoid core astrological logic
-            file.path.includes('src/') &&
-            !file.path.includes('node_modules') &&
-            !file.path.includes('.next'),
+            file.path.includes("src/") &&
+            !file.path.includes("node_modules") &&
+            !file.path.includes(".next"),
         );
     } catch (error) {
-      console.error('Error getting high impact files:', error);
+      console.error("Error getting high impact files:", error);
       return [];
     }
   }
@@ -136,7 +139,7 @@ class EmergencyErrorFixer {
       return;
     }
 
-    let content = fs.readFileSync(filePath, 'utf8');
+    let content = fs.readFileSync(filePath, "utf8");
     let modified = false;
 
     // Fix 1: Add missing type annotations for common patterns
@@ -144,12 +147,13 @@ class EmergencyErrorFixer {
       // Fix function parameters without types
       {
         pattern: /(\w+)\s*=\s*\(\s*(\w+)\s*\)\s*=>/g,
-        replacement: '$1 = ($2: any) =>',
+        replacement: "$1 = ($2: any) =>",
       },
       // Fix missing return types on simple functions
       {
         pattern: /export\s+const\s+(\w+)\s*=\s*\([^)]*\)\s*=>\s*{/g,
-        replacement: match => (match.includes(': ') ? match : match.replace('=>', ': any =>')),
+        replacement: (match) =>
+          match.includes(": ") ? match : match.replace("=>", ": any =>"),
       },
     ];
 
@@ -168,7 +172,10 @@ class EmergencyErrorFixer {
         pattern: /(\w+)\.(\w+)/g,
         replacement: (match, obj, prop) => {
           // Only add null check if it looks like it could be undefined
-          if (content.includes(`${obj}?`) || content.includes(`${obj} | null`)) {
+          if (
+            content.includes(`${obj}?`) ||
+            content.includes(`${obj} | null`)
+          ) {
             return `${obj}?.${prop}`;
           }
           return match;
@@ -185,15 +192,15 @@ class EmergencyErrorFixer {
     }
 
     if (modified) {
-      fs.writeFileSync(filePath, content, 'utf8');
+      fs.writeFileSync(filePath, content, "utf8");
       console.log(`  ✅ Applied targeted fixes to ${filePath}`);
     }
   }
 
   validateBuild() {
     try {
-      execSync('yarn tsc --noEmit --skipLibCheck', {
-        stdio: 'pipe',
+      execSync("yarn tsc --noEmit --skipLibCheck", {
+        stdio: "pipe",
         timeout: 30000, // 30 second timeout
       });
       return true;
@@ -206,49 +213,56 @@ class EmergencyErrorFixer {
     const checkpoint = {
       file: filePath,
       timestamp: new Date().toISOString(),
-      backup: fs.readFileSync(filePath, 'utf8'),
+      backup: fs.readFileSync(filePath, "utf8"),
     };
     this.safetyCheckpoints.push(checkpoint);
   }
 
   rollbackFile(filePath) {
-    const checkpoint = this.safetyCheckpoints.find(cp => cp.file === filePath);
+    const checkpoint = this.safetyCheckpoints.find(
+      (cp) => cp.file === filePath,
+    );
     if (checkpoint) {
-      fs.writeFileSync(filePath, checkpoint.backup, 'utf8');
+      fs.writeFileSync(filePath, checkpoint.backup, "utf8");
       console.log(`🔄 Rolled back: ${filePath}`);
     }
   }
 
   rollback() {
     try {
-      execSync('git stash pop', { stdio: 'inherit' });
-      console.log('🔄 Full rollback completed');
+      execSync("git stash pop", { stdio: "inherit" });
+      console.log("🔄 Full rollback completed");
     } catch (error) {
-      console.error('❌ Rollback failed:', error.message);
+      console.error("❌ Rollback failed:", error.message);
     }
   }
 
   generateProgressReport(initialErrors, finalErrors) {
     const report = {
-      campaignPhase: 'Phase 1 - Critical Syntax & Type Definition Resolution',
+      campaignPhase: "Phase 1 - Critical Syntax & Type Definition Resolution",
       timestamp: new Date().toISOString(),
       initialErrors,
       finalErrors,
       errorsReduced: initialErrors - finalErrors,
-      reductionPercentage: (((initialErrors - finalErrors) / initialErrors) * 100).toFixed(2),
+      reductionPercentage: (
+        ((initialErrors - finalErrors) / initialErrors) *
+        100
+      ).toFixed(2),
       filesProcessed: this.processedFiles,
       safetyCheckpoints: this.safetyCheckpoints.length,
-      status: finalErrors < initialErrors ? 'SUCCESS' : 'PARTIAL_SUCCESS',
+      status: finalErrors < initialErrors ? "SUCCESS" : "PARTIAL_SUCCESS",
     };
 
     fs.writeFileSync(
-      '.kiro/campaign-reports/phase1-progress.json',
+      ".kiro/campaign-reports/phase1-progress.json",
       JSON.stringify(report, null, 2),
     );
-    console.log('\n📊 PHASE 1 PROGRESS REPORT:');
+    console.log("\n📊 PHASE 1 PROGRESS REPORT:");
     console.log(`Initial Errors: ${initialErrors}`);
     console.log(`Final Errors: ${finalErrors}`);
-    console.log(`Errors Reduced: ${report.errorsReduced} (${report.reductionPercentage}%)`);
+    console.log(
+      `Errors Reduced: ${report.errorsReduced} (${report.reductionPercentage}%)`,
+    );
     console.log(`Files Processed: ${this.processedFiles}`);
     console.log(`Status: ${report.status}`);
   }

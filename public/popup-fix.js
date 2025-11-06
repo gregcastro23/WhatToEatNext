@@ -8,31 +8,34 @@
 (function () {
   // Execute immediately, before any other scripts
 
-  console.log('[PopupFix] Initializing popup API fix');
+  console.log("[PopupFix] Initializing popup API fix");
 
   // IMMEDIATELY define popup to avoid undefined errors
   if (!window.popup) {
     window.popup = {
       create: function (options) {
-        console.log('[PopupFix] Popup.create called with options:', options);
+        console.log("[PopupFix] Popup.create called with options:", options);
         return {
           show: function () {
-            console.log('[PopupFix] Popup.show called');
+            console.log("[PopupFix] Popup.show called");
             return this;
           },
           hide: function () {
-            console.log('[PopupFix] Popup.hide called');
+            console.log("[PopupFix] Popup.hide called");
             return this;
           },
           update: function (newOptions) {
-            console.log('[PopupFix] Popup.update called with options:', newOptions);
+            console.log(
+              "[PopupFix] Popup.update called with options:",
+              newOptions,
+            );
             return this;
           },
           on: function (event, callback) {
-            console.log('[PopupFix] Popup.on called for event:', event);
+            console.log("[PopupFix] Popup.on called for event:", event);
             return {
               off: function () {
-                console.log('[PopupFix] Popup listener removed');
+                console.log("[PopupFix] Popup listener removed");
               },
             };
           },
@@ -65,10 +68,10 @@
   if (!window.chrome.tabs) {
     window.chrome.tabs = {
       create: function (options) {
-        console.log('[PopupFix] chrome.tabs.create called with:', options);
+        console.log("[PopupFix] chrome.tabs.create called with:", options);
         // Open in new tab instead of failing silently
         if (options && options.url) {
-          window.open(options.url, '_blank');
+          window.open(options.url, "_blank");
         }
         return Promise.resolve({ id: 999 });
       },
@@ -98,8 +101,8 @@
 
   // Create a global popup safety method
   window.ensurePopupWorks = function () {
-    if (!window.popup || typeof window.popup.create !== 'function') {
-      console.warn('[PopupFix] Re-initializing popup API');
+    if (!window.popup || typeof window.popup.create !== "function") {
+      console.warn("[PopupFix] Re-initializing popup API");
       window.popup = {
         create: function () {
           return {
@@ -124,21 +127,21 @@
 
   // Add error handler for popup-related errors
   window.addEventListener(
-    'error',
+    "error",
     function (event) {
       if (
         event &&
         event.error &&
         event.error.message &&
-        (event.error.message.includes('popup') ||
-          event.error.message.includes('chrome') ||
-          event.error.message.includes('Cannot read properties of undefined'))
+        (event.error.message.includes("popup") ||
+          event.error.message.includes("chrome") ||
+          event.error.message.includes("Cannot read properties of undefined"))
       ) {
-        console.warn('[PopupFix] Caught error:', event.error.message);
+        console.warn("[PopupFix] Caught error:", event.error.message);
         window.ensurePopupWorks();
 
         // Prevent error from propagating if it's related to popup
-        if (event.error.message.includes('popup')) {
+        if (event.error.message.includes("popup")) {
           event.preventDefault();
           return true;
         }
@@ -147,5 +150,5 @@
     true,
   );
 
-  console.log('[PopupFix] Popup API fix initialized successfully');
+  console.log("[PopupFix] Popup API fix initialized successfully");
 })();

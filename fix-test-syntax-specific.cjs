@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 /**
  * Specific fix for test function syntax issues causing TS1005 errors
@@ -13,12 +13,13 @@ function fixTestSyntax(filePath) {
     return false;
   }
 
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, "utf8");
   const originalContent = content;
   let fixCount = 0;
 
   // Fix test function syntax: test('...': any, async () => { -> test('...', async () => {
-  const testPattern = /test\s*\(\s*(['"][^'"]*['"])\s*:\s*any\s*,\s*(async\s*\(\s*\)\s*=>\s*\{)/g;
+  const testPattern =
+    /test\s*\(\s*(['"][^'"]*['"])\s*:\s*any\s*,\s*(async\s*\(\s*\)\s*=>\s*\{)/g;
   content = content.replace(testPattern, (match, testName, asyncFunc) => {
     fixCount++;
     console.log(`  ✓ Fixed test syntax: ${testName}`);
@@ -26,7 +27,8 @@ function fixTestSyntax(filePath) {
   });
 
   // Fix describe function syntax: describe('...': any, () => { -> describe('...', () => {
-  const describePattern = /describe\s*\(\s*(['"][^'"]*['"])\s*:\s*any\s*,\s*(\(\s*\)\s*=>\s*\{)/g;
+  const describePattern =
+    /describe\s*\(\s*(['"][^'"]*['"])\s*:\s*any\s*,\s*(\(\s*\)\s*=>\s*\{)/g;
   content = content.replace(describePattern, (match, describeName, func) => {
     fixCount++;
     console.log(`  ✓ Fixed describe syntax: ${describeName}`);
@@ -34,7 +36,8 @@ function fixTestSyntax(filePath) {
   });
 
   // Fix beforeEach/afterEach syntax: beforeEach(': any, async () => { -> beforeEach(async () => {
-  const hookPattern = /(beforeEach|afterEach|beforeAll|afterAll)\s*\(\s*['"]?\s*:\s*any\s*,\s*(async\s*\(\s*\)\s*=>\s*\{)/g;
+  const hookPattern =
+    /(beforeEach|afterEach|beforeAll|afterAll)\s*\(\s*['"]?\s*:\s*any\s*,\s*(async\s*\(\s*\)\s*=>\s*\{)/g;
   content = content.replace(hookPattern, (match, hookName, asyncFunc) => {
     fixCount++;
     console.log(`  ✓ Fixed ${hookName} syntax`);
@@ -42,7 +45,7 @@ function fixTestSyntax(filePath) {
   });
 
   if (content !== originalContent) {
-    fs.writeFileSync(filePath, content, 'utf8');
+    fs.writeFileSync(filePath, content, "utf8");
     console.log(`✅ Fixed ${fixCount} test syntax issues in: ${filePath}`);
     return true;
   }
@@ -52,15 +55,21 @@ function fixTestSyntax(filePath) {
 
 async function getTS1005ErrorFiles() {
   try {
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"', {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    });
+    const output = execSync(
+      'yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS1005"',
+      {
+        encoding: "utf8",
+        stdio: "pipe",
+      },
+    );
 
-    const errorLines = output.trim().split('\n').filter(line => line.trim());
+    const errorLines = output
+      .trim()
+      .split("\n")
+      .filter((line) => line.trim());
     const files = new Set();
 
-    errorLines.forEach(line => {
+    errorLines.forEach((line) => {
       const match = line.match(/^([^(]+)\(/);
       if (match) {
         files.add(match[1]);
@@ -78,33 +87,33 @@ async function getTS1005ErrorFiles() {
 
 async function validateBuild() {
   try {
-    console.log('\n🔍 Validating TypeScript compilation...');
-    execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-    console.log('✅ TypeScript compilation successful');
+    console.log("\n🔍 Validating TypeScript compilation...");
+    execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
+    console.log("✅ TypeScript compilation successful");
     return true;
   } catch (error) {
-    console.log('❌ TypeScript compilation failed');
+    console.log("❌ TypeScript compilation failed");
     return false;
   }
 }
 
 async function main() {
-  console.log('🚀 Fixing Test Function Syntax Issues');
-  console.log('====================================');
+  console.log("🚀 Fixing Test Function Syntax Issues");
+  console.log("====================================");
 
   const errorFiles = await getTS1005ErrorFiles();
   console.log(`📊 Found ${errorFiles.length} files with TS1005 errors`);
 
   if (errorFiles.length === 0) {
-    console.log('🎉 No TS1005 errors found!');
+    console.log("🎉 No TS1005 errors found!");
     return;
   }
 
   let fixedCount = 0;
 
   // Focus on test files first
-  const testFiles = errorFiles.filter(file =>
-    file.includes('.test.') || file.includes('__tests__')
+  const testFiles = errorFiles.filter(
+    (file) => file.includes(".test.") || file.includes("__tests__"),
   );
 
   console.log(`\n📝 Processing ${testFiles.length} test files:`);
@@ -120,24 +129,26 @@ async function main() {
   const buildSuccess = await validateBuild();
 
   // Final summary
-  console.log('\n📈 SUMMARY');
-  console.log('==========');
+  console.log("\n📈 SUMMARY");
+  console.log("==========");
   console.log(`Files processed: ${testFiles.length}`);
   console.log(`Files modified: ${fixedCount}`);
-  console.log(`Build successful: ${buildSuccess ? 'Yes' : 'No'}`);
+  console.log(`Build successful: ${buildSuccess ? "Yes" : "No"}`);
 
   // Check final error count
   const finalErrorFiles = await getTS1005ErrorFiles();
   const reduction = errorFiles.length - finalErrorFiles.length;
-  const reductionPercent = errorFiles.length > 0 ?
-    ((reduction / errorFiles.length) * 100).toFixed(1) : 0;
+  const reductionPercent =
+    errorFiles.length > 0
+      ? ((reduction / errorFiles.length) * 100).toFixed(1)
+      : 0;
 
   console.log(`\n📊 Error Reduction:`);
   console.log(`Initial TS1005 errors: ${errorFiles.length} files`);
   console.log(`Final TS1005 errors: ${finalErrorFiles.length} files`);
   console.log(`Reduction: ${reduction} files (${reductionPercent}%)`);
 
-  console.log('\n✅ Test syntax fixes completed!');
+  console.log("\n✅ Test syntax fixes completed!");
 }
 
 main().catch(console.error);

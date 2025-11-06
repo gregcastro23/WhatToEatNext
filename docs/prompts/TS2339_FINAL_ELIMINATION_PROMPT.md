@@ -168,7 +168,7 @@ const value = obj?.property || defaultValue;
 ```typescript
 // For interface property validation
 function hasProperty(obj: unknown, prop: string): boolean {
-  return obj !== null && typeof obj === 'object' && prop in obj;
+  return obj !== null && typeof obj === "object" && prop in obj;
 }
 ```
 

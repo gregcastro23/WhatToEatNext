@@ -13,10 +13,10 @@
  */
 
 import type {
-    AlchemicalProperties,
-    CuisineComputedProperties,
-    ElementalProperties
-} from '@/types/hierarchy';
+  AlchemicalProperties,
+  CuisineComputedProperties,
+  ElementalProperties,
+} from "@/types/hierarchy";
 
 // ========== USER PROFILE TYPES ==========
 
@@ -35,22 +35,22 @@ export interface UserProfile {
     preferredCuisines?: string[];
     restrictedIngredients?: string[];
     dietaryRestrictions?: string[];
-    spiceTolerance?: 'low' | 'medium' | 'high'
+    spiceTolerance?: "low" | "medium" | "high";
   };
 
   /** User's astrological profile */
   astrologicalProfile?: {
-    sunSign?: string,
-    moonSign?: string,
-    risingSign?: string,
+    sunSign?: string;
+    moonSign?: string;
+    risingSign?: string;
     currentPlanetaryPositions?: { [planet: string]: string };
   };
 
   /** User's location and seasonal preferences */
   locationPreferences?: {
-    currentSeason?: string,
-    climatePreference?: string,
-    region?: string
+    currentSeason?: string;
+    climatePreference?: string;
+    region?: string;
   };
 }
 
@@ -73,7 +73,7 @@ export interface CuisineRecommendation {
     alchemicalCompatibility?: number;
     culturalAlignment: number;
     seasonalRelevance: number;
-    signatureMatch: number
+    signatureMatch: number;
   };
 
   /** Reasoning for the recommendation */
@@ -83,7 +83,7 @@ export interface CuisineRecommendation {
   recommendedRecipes?: string[];
 
   /** Confidence in recommendation */
-  confidence: number
+  confidence: number;
 }
 
 // ========== COMPATIBILITY SCORING FUNCTIONS ==========
@@ -97,18 +97,23 @@ export interface CuisineRecommendation {
  */
 export function calculateElementalCompatibility(
   userPreferences: ElementalProperties,
-  cuisineElementals: ElementalProperties
+  cuisineElementals: ElementalProperties,
 ): number {
   // Calculate cosine similarity between preference vectors
   const userVector = Object.values(userPreferences);
   const cuisineVector = Object.values(cuisineElementals);
 
-  const dotProduct = userVector.reduce((sum, userVal, i) =>
-    sum + userVal * cuisineVector[i], 0
+  const dotProduct = userVector.reduce(
+    (sum, userVal, i) => sum + userVal * cuisineVector[i],
+    0,
   );
 
-  const userMagnitude = Math.sqrt(userVector.reduce((sum, val) => sum + val * val, 0));
-  const cuisineMagnitude = Math.sqrt(cuisineVector.reduce((sum, val) => sum + val * val, 0));
+  const userMagnitude = Math.sqrt(
+    userVector.reduce((sum, val) => sum + val * val, 0),
+  );
+  const cuisineMagnitude = Math.sqrt(
+    cuisineVector.reduce((sum, val) => sum + val * val, 0),
+  );
 
   if (userMagnitude === 0 || cuisineMagnitude === 0) return 0;
 
@@ -127,13 +132,18 @@ export function calculateElementalCompatibility(
  */
 export function calculateAlchemicalCompatibility(
   userPreferences: Partial<AlchemicalProperties>,
-  cuisineAlchemical: AlchemicalProperties
+  cuisineAlchemical: AlchemicalProperties,
 ): number {
-  const properties: Array<keyof AlchemicalProperties> = ['Spirit', 'Essence', 'Matter', 'Substance'];
+  const properties: Array<keyof AlchemicalProperties> = [
+    "Spirit",
+    "Essence",
+    "Matter",
+    "Substance",
+  ];
   let totalScore = 0;
   let weightedCount = 0;
 
-  properties.forEach(property => {
+  properties.forEach((property) => {
     const userPref = userPreferences[property];
     if (userPref === undefined) return; // Skip if user has no preference for this property
 
@@ -159,7 +169,7 @@ export function calculateAlchemicalCompatibility(
 export function calculateCulturalAlignment(
   userProfile: UserProfile,
   cuisineId: string,
-  cuisineName: string
+  cuisineName: string,
 ): number {
   let alignment = 0.5; // Base neutral score
 
@@ -171,9 +181,10 @@ export function calculateCulturalAlignment(
 
   // Check if cuisine is in user's preferred list
   if (preferredCuisines && preferredCuisines.length > 0) {
-    const cuisineMatch = preferredCuisines.some(cuisine =>
-      cuisine.toLowerCase() === cuisineId.toLowerCase() ||
-      cuisine.toLowerCase() === cuisineName.toLowerCase()
+    const cuisineMatch = preferredCuisines.some(
+      (cuisine) =>
+        cuisine.toLowerCase() === cuisineId.toLowerCase() ||
+        cuisine.toLowerCase() === cuisineName.toLowerCase(),
     );
 
     if (cuisineMatch) {
@@ -200,7 +211,7 @@ export function calculateCulturalAlignment(
  */
 export function calculateSeasonalRelevance(
   userProfile: UserProfile,
-  cuisineProperties: CuisineComputedProperties
+  cuisineProperties: CuisineComputedProperties,
 ): number {
   if (!userProfile.locationPreferences?.currentSeason) {
     return 0.5; // Neutral if no seasonal data
@@ -221,8 +232,8 @@ export function calculateSeasonalRelevance(
  * @returns Signature match score (0-1)
  */
 export function calculateSignatureMatch(
-  cuisineSignatures: CuisineComputedProperties['signatures'],
-  userPreferences: ElementalProperties
+  cuisineSignatures: CuisineComputedProperties["signatures"],
+  userPreferences: ElementalProperties,
 ): number {
   if (!cuisineSignatures || cuisineSignatures.length === 0) {
     return 0.5; // Neutral if no signatures
@@ -230,24 +241,28 @@ export function calculateSignatureMatch(
 
   let totalMatch = 0;
 
-  cuisineSignatures.forEach(signature => {
-    const {property} = signature;
+  cuisineSignatures.forEach((signature) => {
+    const { property } = signature;
 
     // Check if signature property is elemental
-    if (['Fire', 'Water', 'Earth', 'Air'].includes(property)) {
-      const userPreference = userPreferences[property as keyof ElementalProperties];
+    if (["Fire", "Water", "Earth", "Air"].includes(property)) {
+      const userPreference =
+        userPreferences[property as keyof ElementalProperties];
       const signatureStrength = signature.zscore > 0 ? 1 : -1; // Positive or negative signature
 
       // Higher match if user prefers the signature direction
-      const match = signatureStrength > 0 ?
-        userPreference : // Positive signature matches high preference
-        (1 - userPreference); // Negative signature matches low preference
+      const match =
+        signatureStrength > 0
+          ? userPreference // Positive signature matches high preference
+          : 1 - userPreference; // Negative signature matches low preference
 
       totalMatch += match * Math.min(Math.abs(signature.zscore) / 3, 1); // Weight by signature strength
     }
   });
 
-  return cuisineSignatures.length > 0 ? totalMatch / cuisineSignatures.length : 0.5;
+  return cuisineSignatures.length > 0
+    ? totalMatch / cuisineSignatures.length
+    : 0.5;
 }
 
 // ========== MAIN RECOMMENDATION ENGINE ==========
@@ -263,20 +278,24 @@ export function calculateSignatureMatch(
  * @param options - Recommendation options
  * @returns Array of personalized cuisine recommendations
  */
-export function generateCuisineRecommendations(userProfile: UserProfile,
-  availableCuisines: Map<string, { name: string, properties: CuisineComputedProperties }>,
+export function generateCuisineRecommendations(
+  userProfile: UserProfile,
+  availableCuisines: Map<
+    string,
+    { name: string; properties: CuisineComputedProperties }
+  >,
   options: {
-    maxRecommendations?: number,
-    minCompatibilityThreshold?: number,
-    includeReasoning?: boolean,
-    considerSeasonalFactors?: boolean
-  } = {}
+    maxRecommendations?: number;
+    minCompatibilityThreshold?: number;
+    includeReasoning?: boolean;
+    considerSeasonalFactors?: boolean;
+  } = {},
 ): CuisineRecommendation[] {
   const {
     maxRecommendations = 10,
     minCompatibilityThreshold = 0.3,
     includeReasoning = true,
-    considerSeasonalFactors = true
+    considerSeasonalFactors = true,
   } = options;
 
   const recommendations: CuisineRecommendation[] = [];
@@ -287,23 +306,30 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
     // Calculate individual compatibility scores
     const elementalCompatibility = calculateElementalCompatibility(
       userProfile.elementalPreferences,
-      cuisineProperties.averageElementals
+      cuisineProperties.averageElementals,
     );
 
-    const alchemicalCompatibility = userProfile.alchemicalPreferences && cuisineProperties.averageAlchemical ?
-      calculateAlchemicalCompatibility(
-        userProfile.alchemicalPreferences,
-        cuisineProperties.averageAlchemical
-      ) : undefined;
+    const alchemicalCompatibility =
+      userProfile.alchemicalPreferences && cuisineProperties.averageAlchemical
+        ? calculateAlchemicalCompatibility(
+            userProfile.alchemicalPreferences,
+            cuisineProperties.averageAlchemical,
+          )
+        : undefined;
 
-    const culturalAlignment = calculateCulturalAlignment(userProfile, cuisineId, cuisineName);
+    const culturalAlignment = calculateCulturalAlignment(
+      userProfile,
+      cuisineId,
+      cuisineName,
+    );
 
-    const seasonalRelevance = considerSeasonalFactors ?
-      calculateSeasonalRelevance(userProfile, cuisineProperties) : 0.5;
+    const seasonalRelevance = considerSeasonalFactors
+      ? calculateSeasonalRelevance(userProfile, cuisineProperties)
+      : 0.5;
 
     const signatureMatch = calculateSignatureMatch(
       cuisineProperties.signatures,
-      userProfile.elementalPreferences
+      userProfile.elementalPreferences,
     );
 
     // Calculate overall compatibility score
@@ -312,18 +338,23 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
       alchemical: alchemicalCompatibility !== undefined ? 0.2 : 0,
       cultural: 0.15,
       seasonal: considerSeasonalFactors ? 0.15 : 0,
-      signature: 0.1
-};
+      signature: 0.1,
+    };
 
-    const totalWeight = weights.elemental + weights.alchemical + weights.cultural + weights.seasonal + weights.signature;
+    const totalWeight =
+      weights.elemental +
+      weights.alchemical +
+      weights.cultural +
+      weights.seasonal +
+      weights.signature;
 
-    const overallScore = (
-      elementalCompatibility * weights.elemental +
-      (alchemicalCompatibility || 0) * weights.alchemical +
-      culturalAlignment * weights.cultural +
-      seasonalRelevance * weights.seasonal +
-      signatureMatch * weights.signature
-    ) / totalWeight;
+    const overallScore =
+      (elementalCompatibility * weights.elemental +
+        (alchemicalCompatibility || 0) * weights.alchemical +
+        culturalAlignment * weights.cultural +
+        seasonalRelevance * weights.seasonal +
+        signatureMatch * weights.signature) /
+      totalWeight;
 
     // Apply minimum threshold
     if (overallScore < minCompatibilityThreshold) {
@@ -334,32 +365,38 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
     const reasoning: string[] = [];
     if (includeReasoning) {
       if (elementalCompatibility > 0.7) {
-        reasoning.push('Strong elemental alignment with your preferences');
+        reasoning.push("Strong elemental alignment with your preferences");
       } else if (elementalCompatibility < 0.4) {
-        reasoning.push('Elemental properties differ from your preferences');
+        reasoning.push("Elemental properties differ from your preferences");
       }
 
-      if (alchemicalCompatibility !== undefined && alchemicalCompatibility > 0.7) {
-        reasoning.push('Good match with your alchemical preferences');
+      if (
+        alchemicalCompatibility !== undefined &&
+        alchemicalCompatibility > 0.7
+      ) {
+        reasoning.push("Good match with your alchemical preferences");
       }
 
       if (culturalAlignment > 0.7) {
-        reasoning.push('Aligns with your cultural background');
+        reasoning.push("Aligns with your cultural background");
       }
 
       if (signatureMatch > 0.6) {
-        reasoning.push('Matches your preference for distinctive culinary signatures');
+        reasoning.push(
+          "Matches your preference for distinctive culinary signatures",
+        );
       }
 
       if (reasoning.length === 0) {
-        reasoning.push('Balanced compatibility across multiple factors');
+        reasoning.push("Balanced compatibility across multiple factors");
       }
     }
 
     // Calculate confidence based on data completeness
     let confidence = 0.5; // Base confidence
     if (cuisineProperties.sampleSize > 10) confidence += 0.2;
-    if (cuisineProperties.signatures && cuisineProperties.signatures.length > 0) confidence += 0.15;
+    if (cuisineProperties.signatures && cuisineProperties.signatures.length > 0)
+      confidence += 0.15;
     if (alchemicalCompatibility !== undefined) confidence += 0.15;
 
     recommendations.push({
@@ -371,10 +408,10 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
         alchemicalCompatibility,
         culturalAlignment,
         seasonalRelevance,
-        signatureMatch
+        signatureMatch,
       },
       reasoning,
-      confidence: Math.min(1, confidence)
+      confidence: Math.min(1, confidence),
     });
   });
 
@@ -393,9 +430,11 @@ export function generateCuisineRecommendations(userProfile: UserProfile,
  * @param elementalPreferences - User's elemental preferences
  * @returns Basic user profile
  */
-export function createBasicUserProfile(elementalPreferences: ElementalProperties): UserProfile {
+export function createBasicUserProfile(
+  elementalPreferences: ElementalProperties,
+): UserProfile {
   return {
-    elementalPreferences: normalizeElementalPreferences(elementalPreferences)
+    elementalPreferences: normalizeElementalPreferences(elementalPreferences),
   };
 }
 
@@ -410,15 +449,15 @@ export function createBasicUserProfile(elementalPreferences: ElementalProperties
  */
 export function createAdvancedUserProfile(
   elementalPreferences: ElementalProperties,
-  culturalBackground?: UserProfile['culturalBackground'],
-  astrologicalProfile?: UserProfile['astrologicalProfile'],
-  locationPreferences?: UserProfile['locationPreferences']
+  culturalBackground?: UserProfile["culturalBackground"],
+  astrologicalProfile?: UserProfile["astrologicalProfile"],
+  locationPreferences?: UserProfile["locationPreferences"],
 ): UserProfile {
   return {
     elementalPreferences: normalizeElementalPreferences(elementalPreferences),
     culturalBackground,
     astrologicalProfile,
-    locationPreferences
+    locationPreferences,
   };
 }
 
@@ -428,7 +467,9 @@ export function createAdvancedUserProfile(
  * @param preferences - Raw elemental preferences
  * @returns Normalized preferences
  */
-function normalizeElementalPreferences(preferences: ElementalProperties): ElementalProperties {
+function normalizeElementalPreferences(
+  preferences: ElementalProperties,
+): ElementalProperties {
   const values = Object.values(preferences);
   const sum = values.reduce((total, value) => total + value, 0);
 
@@ -440,18 +481,22 @@ function normalizeElementalPreferences(preferences: ElementalProperties): Elemen
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0
-};
+    Air: 0,
+  };
 
   if (sum > 0) {
-    (Object.keys(preferences) as Array<keyof ElementalProperties>).forEach(key => {
-      normalized[key] = preferences[key] / sum;
-    });
+    (Object.keys(preferences) as Array<keyof ElementalProperties>).forEach(
+      (key) => {
+        normalized[key] = preferences[key] / sum;
+      },
+    );
   } else {
     // Fallback to equal distribution
-    (Object.keys(normalized) as Array<keyof ElementalProperties>).forEach(key => {
-      normalized[key] = 0.25;
-    });
+    (Object.keys(normalized) as Array<keyof ElementalProperties>).forEach(
+      (key) => {
+        normalized[key] = 0.25;
+      },
+    );
   }
 
   return normalized;
@@ -464,19 +509,23 @@ function normalizeElementalPreferences(preferences: ElementalProperties): Elemen
  * @returns Validation result
  */
 export function validateUserProfile(profile: UserProfile): {
-  isValid: boolean,
-  errors: string[],
+  isValid: boolean;
+  errors: string[];
   warnings: string[];
 } {
   const errors: string[] = [];
   const warnings: string[] = [];
 
   // Validate elemental preferences
-  const elementalSum = Object.values(profile.elementalPreferences)
-    .reduce((sum, val) => sum + val, 0);
+  const elementalSum = Object.values(profile.elementalPreferences).reduce(
+    (sum, val) => sum + val,
+    0,
+  );
 
   if (Math.abs(elementalSum - 1.0) > 0.01) {
-    errors.push(`Elemental preferences must sum to 1.0 (current sum: ${elementalSum})`);
+    errors.push(
+      `Elemental preferences must sum to 1.0 (current sum: ${elementalSum})`,
+    );
   }
 
   // Check for negative values
@@ -488,17 +537,19 @@ export function validateUserProfile(profile: UserProfile): {
 
   // Validate alchemical preferences if provided
   if (profile.alchemicalPreferences) {
-    Object.entries(profile.alchemicalPreferences).forEach(([property, value]) => {
-      if (value !== undefined && (value < 0 || value > 1)) {
-        warnings.push(`${property} preference should be between 0 and 1`);
-      }
-    });
+    Object.entries(profile.alchemicalPreferences).forEach(
+      ([property, value]) => {
+        if (value !== undefined && (value < 0 || value > 1)) {
+          warnings.push(`${property} preference should be between 0 and 1`);
+        }
+      },
+    );
   }
 
   return {
     isValid: errors.length === 0,
     errors,
-    warnings
+    warnings,
   };
 }
 
@@ -508,15 +559,17 @@ export function validateUserProfile(profile: UserProfile): {
  * @param recommendations - Array of recommendations
  * @returns Summary statistics
  */
-export function getRecommendationSummary(recommendations: CuisineRecommendation[]): {
-  totalRecommendations: number,
-  averageCompatibility: number,
-  topCuisine: string | null,
+export function getRecommendationSummary(
+  recommendations: CuisineRecommendation[],
+): {
+  totalRecommendations: number;
+  averageCompatibility: number;
+  topCuisine: string | null;
   compatibilityDistribution: {
     excellent: number; // > 0.8
-    good: number;      // 0.6 - 0.8
-    fair: number;      // 0.4 - 0.6
-    poor: number;      // < 0.4
+    good: number; // 0.6 - 0.8
+    fair: number; // 0.4 - 0.6
+    poor: number; // < 0.4
   };
 } {
   if (recommendations.length === 0) {
@@ -524,15 +577,18 @@ export function getRecommendationSummary(recommendations: CuisineRecommendation[
       totalRecommendations: 0,
       averageCompatibility: 0,
       topCuisine: null,
-      compatibilityDistribution: { excellent: 0, good: 0, fair: 0, poor: 0 }
+      compatibilityDistribution: { excellent: 0, good: 0, fair: 0, poor: 0 },
     };
   }
 
-  const totalCompatibility = recommendations.reduce((sum, rec) => sum + rec.compatibilityScore, 0);
+  const totalCompatibility = recommendations.reduce(
+    (sum, rec) => sum + rec.compatibilityScore,
+    0,
+  );
   const averageCompatibility = totalCompatibility / recommendations.length;
 
   const distribution = { excellent: 0, good: 0, fair: 0, poor: 0 };
-  recommendations.forEach(rec => {
+  recommendations.forEach((rec) => {
     if (rec.compatibilityScore > 0.8) distribution.excellent++;
     else if (rec.compatibilityScore > 0.6) distribution.good++;
     else if (rec.compatibilityScore > 0.4) distribution.fair++;
@@ -543,12 +599,10 @@ export function getRecommendationSummary(recommendations: CuisineRecommendation[
     totalRecommendations: recommendations.length,
     averageCompatibility,
     topCuisine: recommendations[0]?.cuisineName || null,
-    compatibilityDistribution: distribution
+    compatibilityDistribution: distribution,
   };
 }
 
 // ========== EXPORTS ==========
 
-export type {
-    CuisineRecommendation, UserProfile
-};
+export type { CuisineRecommendation, UserProfile };

@@ -1,14 +1,14 @@
 // jest.setup.js
 
-import '@testing-library/jest-dom';
-import { TextEncoder } from 'util';
+import "@testing-library/jest-dom";
+import { TextEncoder } from "util";
 
 global.TextEncoder = TextEncoder;
 
 // Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
-  value: jest.fn().mockImplementation(query => ({
+  value: jest.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -34,7 +34,7 @@ beforeAll(() => {
   jest.setTimeout(10000);
 
   // Setup any global test configuration
-  console.log('Test setup initialized');
+  console.log("Test setup initialized");
 });
 
 afterAll(() => {
@@ -42,12 +42,12 @@ afterAll(() => {
   jest.useRealTimers();
 
   // Ensure cleanup after tests
-  console.log('Test cleanup completed');
+  console.log("Test cleanup completed");
 });
 
 // Add global error handler for unhandled rejections
-process.on('unhandledRejection', error => {
-  console.error('Unhandled rejection in tests:', error);
+process.on("unhandledRejection", (error) => {
+  console.error("Unhandled rejection in tests:", error);
 });
 
 // Add custom matchers if needed
@@ -56,12 +56,14 @@ expect.extend({
     const pass = received >= floor && received <= ceiling;
     if (pass) {
       return {
-        message: () => `expected ${received} not to be within range ${floor} - ${ceiling}`,
+        message: () =>
+          `expected ${received} not to be within range ${floor} - ${ceiling}`,
         pass: true,
       };
     } else {
       return {
-        message: () => `expected ${received} to be within range ${floor} - ${ceiling}`,
+        message: () =>
+          `expected ${received} to be within range ${floor} - ${ceiling}`,
         pass: false,
       };
     }

@@ -6,9 +6,9 @@
  * Based on successful single file approach
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class ComprehensiveTestFileFixer {
   constructor() {
@@ -29,9 +29,9 @@ class ComprehensiveTestFileFixer {
    */
   getTestFilesWithTS1005Errors() {
     try {
-      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
+      const result = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        maxBuffer: 10 * 1024 * 1024,
       });
       return this.extractTestFilesFromOutput(result);
     } catch (error) {
@@ -43,12 +43,16 @@ class ComprehensiveTestFileFixer {
   }
 
   extractTestFilesFromOutput(output) {
-    const errorLines = output.split('\n').filter(line =>
-      line.includes('error TS1005') && (line.includes('.test.') || line.includes('.spec.'))
-    );
+    const errorLines = output
+      .split("\n")
+      .filter(
+        (line) =>
+          line.includes("error TS1005") &&
+          (line.includes(".test.") || line.includes(".spec.")),
+      );
     const files = new Set();
 
-    errorLines.forEach(line => {
+    errorLines.forEach((line) => {
       const match = line.match(/^([^(]+)\(/);
       if (match) {
         const filePath = match[1].trim();
@@ -65,9 +69,12 @@ class ComprehensiveTestFileFixer {
    * Create backup of file
    */
   createBackup(filePath) {
-    const backupPath = path.join(this.backupDir, filePath.replace(/[\/\\]/g, '_'));
-    const content = fs.readFileSync(filePath, 'utf8');
-    fs.writeFileSync(backupPath, content, 'utf8');
+    const backupPath = path.join(
+      this.backupDir,
+      filePath.replace(/[\/\\]/g, "_"),
+    );
+    const content = fs.readFileSync(filePath, "utf8");
+    fs.writeFileSync(backupPath, content, "utf8");
   }
 
   /**
@@ -75,10 +82,13 @@ class ComprehensiveTestFileFixer {
    */
   getFileTS1005ErrorCount(filePath) {
     try {
-      const result = execSync(`yarn tsc --noEmit --skipLibCheck ${filePath} 2>&1`, {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
-      });
+      const result = execSync(
+        `yarn tsc --noEmit --skipLibCheck ${filePath} 2>&1`,
+        {
+          encoding: "utf8",
+          maxBuffer: 10 * 1024 * 1024,
+        },
+      );
       const errorCount = (result.match(/error TS1005/g) || []).length;
       return errorCount;
     } catch (error) {
@@ -95,10 +105,13 @@ class ComprehensiveTestFileFixer {
    */
   validateFile(filePath) {
     try {
-      const result = execSync(`yarn tsc --noEmit --skipLibCheck ${filePath} 2>&1`, {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const result = execSync(
+        `yarn tsc --noEmit --skipLibCheck ${filePath} 2>&1`,
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       // Check for syntax errors (not type definition errors)
       const syntaxErrors = result.match(/error TS(?!2688)/g) || [];
       return syntaxErrors.length === 0;
@@ -120,10 +133,11 @@ class ComprehensiveTestFileFixer {
 
     // Pattern 1: test('description': any, async () => {
     // Fix to: test('description', async () => {
-    const testColonAnyPattern = /(\b(?:test|it|describe|beforeEach|afterEach|beforeAll|afterAll)\s*\(\s*'[^']+'):\s*any\s*,/g;
+    const testColonAnyPattern =
+      /(\b(?:test|it|describe|beforeEach|afterEach|beforeAll|afterAll)\s*\(\s*'[^']+'):\s*any\s*,/g;
     const matches1 = [...fixedContent.matchAll(testColonAnyPattern)];
     if (matches1.length > 0) {
-      fixedContent = fixedContent.replace(testColonAnyPattern, '$1,');
+      fixedContent = fixedContent.replace(testColonAnyPattern, "$1,");
       fixes += matches1.length;
     }
 
@@ -132,7 +146,7 @@ class ComprehensiveTestFileFixer {
     const catchColonAnyPattern = /(\}\s*catch\s*\([^)]+\)):\s*any\s*\{/g;
     const matches2 = [...fixedContent.matchAll(catchColonAnyPattern)];
     if (matches2.length > 0) {
-      fixedContent = fixedContent.replace(catchColonAnyPattern, '$1 {');
+      fixedContent = fixedContent.replace(catchColonAnyPattern, "$1 {");
       fixes += matches2.length;
     }
 
@@ -141,7 +155,7 @@ class ComprehensiveTestFileFixer {
     const destructuringColonAnyPattern = /(\[\s*[^,\]]+):\s*any\s*,/g;
     const matches3 = [...fixedContent.matchAll(destructuringColonAnyPattern)];
     if (matches3.length > 0) {
-      fixedContent = fixedContent.replace(destructuringColonAnyPattern, '$1,');
+      fixedContent = fixedContent.replace(destructuringColonAnyPattern, "$1,");
       fixes += matches3.length;
     }
 
@@ -166,11 +180,12 @@ class ComprehensiveTestFileFixer {
       // Create backup
       this.createBackup(filePath);
 
-      const originalContent = fs.readFileSync(filePath, 'utf8');
-      const { content: fixedContent, fixes } = this.fixProvenPatterns(originalContent);
+      const originalContent = fs.readFileSync(filePath, "utf8");
+      const { content: fixedContent, fixes } =
+        this.fixProvenPatterns(originalContent);
 
       if (fixes > 0) {
-        fs.writeFileSync(filePath, fixedContent, 'utf8');
+        fs.writeFileSync(filePath, fixedContent, "utf8");
         console.log(`    Applied ${fixes} fixes`);
       }
 
@@ -181,7 +196,7 @@ class ComprehensiveTestFileFixer {
 
       console.log(`    Final TS1005 errors: ${finalErrors}`);
       console.log(`    Error reduction: ${errorReduction}`);
-      console.log(`    File valid: ${fileValid ? '✅' : '❌'}`);
+      console.log(`    File valid: ${fileValid ? "✅" : "❌"}`);
 
       if (fileValid && errorReduction >= 0) {
         console.log(`    ✅ SUCCESS`);
@@ -190,7 +205,7 @@ class ComprehensiveTestFileFixer {
           initialErrors,
           finalErrors,
           fixes,
-          errorReduction
+          errorReduction,
         });
         return { success: true, fixes, errorReduction };
       } else {
@@ -198,16 +213,17 @@ class ComprehensiveTestFileFixer {
         fs.writeFileSync(filePath, originalContent);
         this.failedFiles.push({
           file: filePath,
-          reason: fileValid ? 'Error count increased' : 'File validation failed'
+          reason: fileValid
+            ? "Error count increased"
+            : "File validation failed",
         });
         return { success: false, fixes: 0, errorReduction: 0 };
       }
-
     } catch (error) {
       console.error(`    ❌ Error processing file: ${error.message}`);
       this.failedFiles.push({
         file: filePath,
-        reason: error.message
+        reason: error.message,
       });
       return { success: false, fixes: 0, errorReduction: 0 };
     }
@@ -218,10 +234,13 @@ class ComprehensiveTestFileFixer {
    */
   getTotalErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -232,9 +251,9 @@ class ComprehensiveTestFileFixer {
    * Main repair process
    */
   async repair() {
-    console.log('🎯 COMPREHENSIVE TEST FILE FIXER');
-    console.log('=' .repeat(50));
-    console.log('Based on proven single-file approach');
+    console.log("🎯 COMPREHENSIVE TEST FILE FIXER");
+    console.log("=".repeat(50));
+    console.log("Based on proven single-file approach");
 
     const startTime = Date.now();
     const initialTotalErrors = this.getTotalErrorCount();
@@ -245,7 +264,7 @@ class ComprehensiveTestFileFixer {
     console.log(`📁 Found ${testFiles.length} test files with TS1005 errors`);
 
     if (testFiles.length === 0) {
-      console.log('✅ No test files with TS1005 errors found!');
+      console.log("✅ No test files with TS1005 errors found!");
       return;
     }
 
@@ -254,7 +273,9 @@ class ComprehensiveTestFileFixer {
     // Process files one by one
     for (let i = 0; i < testFiles.length; i++) {
       const filePath = testFiles[i];
-      console.log(`\n📦 File ${i + 1}/${testFiles.length}: ${path.basename(filePath)}`);
+      console.log(
+        `\n📦 File ${i + 1}/${testFiles.length}: ${path.basename(filePath)}`,
+      );
 
       const result = await this.processFile(filePath);
       if (result.success) {
@@ -265,7 +286,9 @@ class ComprehensiveTestFileFixer {
       // Progress update every 5 files
       if ((i + 1) % 5 === 0) {
         const currentTotalErrors = this.getTotalErrorCount();
-        console.log(`\n📊 Progress update: ${currentTotalErrors} total errors remaining`);
+        console.log(
+          `\n📊 Progress update: ${currentTotalErrors} total errors remaining`,
+        );
       }
     }
 
@@ -275,40 +298,54 @@ class ComprehensiveTestFileFixer {
     const totalErrorReduction = initialTotalErrors - finalTotalErrors;
     const duration = ((endTime - startTime) / 1000).toFixed(2);
 
-    console.log('\n' + '='.repeat(50));
-    console.log('🏁 COMPREHENSIVE TEST FILE FIXING COMPLETED');
-    console.log('=' .repeat(50));
+    console.log("\n" + "=".repeat(50));
+    console.log("🏁 COMPREHENSIVE TEST FILE FIXING COMPLETED");
+    console.log("=".repeat(50));
     console.log(`⏱️  Duration: ${duration} seconds`);
-    console.log(`📝 Files processed successfully: ${this.processedFiles}/${testFiles.length}`);
+    console.log(
+      `📝 Files processed successfully: ${this.processedFiles}/${testFiles.length}`,
+    );
     console.log(`🎯 Total fixes applied: ${this.totalFixes}`);
-    console.log(`📊 Total TypeScript errors: ${initialTotalErrors} → ${finalTotalErrors}`);
+    console.log(
+      `📊 Total TypeScript errors: ${initialTotalErrors} → ${finalTotalErrors}`,
+    );
     console.log(`📉 Total error reduction: ${totalErrorReduction}`);
 
     if (this.successfulFiles.length > 0) {
       console.log(`\n✅ Successful files (${this.successfulFiles.length}):`);
-      this.successfulFiles.forEach(file => {
-        const percentage = file.initialErrors > 0 ?
-          ((file.errorReduction / file.initialErrors) * 100).toFixed(1) : '0.0';
-        console.log(`   ${path.basename(file.file)}: ${file.initialErrors} → ${file.finalErrors} (${percentage}%)`);
+      this.successfulFiles.forEach((file) => {
+        const percentage =
+          file.initialErrors > 0
+            ? ((file.errorReduction / file.initialErrors) * 100).toFixed(1)
+            : "0.0";
+        console.log(
+          `   ${path.basename(file.file)}: ${file.initialErrors} → ${file.finalErrors} (${percentage}%)`,
+        );
       });
     }
 
     if (this.failedFiles.length > 0) {
       console.log(`\n❌ Failed files (${this.failedFiles.length}):`);
-      this.failedFiles.forEach(file => {
+      this.failedFiles.forEach((file) => {
         console.log(`   ${path.basename(file.file)}: ${file.reason}`);
       });
     }
 
-    const successRate = testFiles.length > 0 ?
-      ((this.processedFiles / testFiles.length) * 100).toFixed(1) : '0.0';
+    const successRate =
+      testFiles.length > 0
+        ? ((this.processedFiles / testFiles.length) * 100).toFixed(1)
+        : "0.0";
 
     console.log(`\n📈 Success Rate: ${successRate}%`);
 
     if (totalErrorReduction > 0) {
-      const reductionPercentage = initialTotalErrors > 0 ?
-        ((totalErrorReduction / initialTotalErrors) * 100).toFixed(1) : '0.0';
-      console.log(`✅ CAMPAIGN SUCCESS: Reduced ${totalErrorReduction} errors (${reductionPercentage}%)`);
+      const reductionPercentage =
+        initialTotalErrors > 0
+          ? ((totalErrorReduction / initialTotalErrors) * 100).toFixed(1)
+          : "0.0";
+      console.log(
+        `✅ CAMPAIGN SUCCESS: Reduced ${totalErrorReduction} errors (${reductionPercentage}%)`,
+      );
     } else {
       console.log(`⚠️ No overall error reduction achieved`);
     }
@@ -323,7 +360,7 @@ class ComprehensiveTestFileFixer {
       totalFiles: testFiles.length,
       totalFixes: this.totalFixes,
       duration: parseFloat(duration),
-      successRate: parseFloat(successRate)
+      successRate: parseFloat(successRate),
     };
   }
 }
@@ -331,22 +368,23 @@ class ComprehensiveTestFileFixer {
 // Execute if run directly
 if (require.main === module) {
   const fixer = new ComprehensiveTestFileFixer();
-  fixer.repair()
-    .then(results => {
-      console.log('\n📋 Comprehensive test file fixing completed');
+  fixer
+    .repair()
+    .then((results) => {
+      console.log("\n📋 Comprehensive test file fixing completed");
       if (results.totalErrorReduction > 0 && results.successRate >= 80) {
-        console.log('✅ Excellent results - ready for next phase');
+        console.log("✅ Excellent results - ready for next phase");
         process.exit(0);
       } else if (results.totalErrorReduction > 0) {
-        console.log('✅ Good progress made');
+        console.log("✅ Good progress made");
         process.exit(0);
       } else {
-        console.log('⚠️ Limited progress - manual review needed');
+        console.log("⚠️ Limited progress - manual review needed");
         process.exit(1);
       }
     })
-    .catch(error => {
-      console.error('\n❌ Comprehensive test file fixing failed:', error);
+    .catch((error) => {
+      console.error("\n❌ Comprehensive test file fixing failed:", error);
       process.exit(1);
     });
 }

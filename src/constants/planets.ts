@@ -1,17 +1,17 @@
 export const RULING_PLANETS = [
-  'Mercury',
-  'Venus',
-  'Mars',
-  'Jupiter',
-  'Saturn',
-  'Moon',
-  'Sun',
-  'Uranus',
-  'Neptune',
-  'Pluto'
-] as const
+  "Mercury",
+  "Venus",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Moon",
+  "Sun",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+] as const;
 
-export type RulingPlanet = (typeof RULING_PLANETS)[number]
+export type RulingPlanet = (typeof RULING_PLANETS)[number];
 
 export const _PLANETARY_MODIFIERS: Record<RulingPlanet, number> = {
   Mars: 0.4,
@@ -23,8 +23,8 @@ export const _PLANETARY_MODIFIERS: Record<RulingPlanet, number> = {
   Uranus: 0.3,
   Neptune: 0.25,
   Pluto: 0.2,
-  Moon: 0.35
-}
+  Moon: 0.35,
+};
 
 // Export without underscore for compatibility
 export const PLANETARY_MODIFIERS = _PLANETARY_MODIFIERS;

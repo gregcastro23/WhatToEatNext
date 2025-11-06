@@ -39,13 +39,15 @@ const signEnergyStates = calculateSignEnergyStates(planetaryPositions, aspects);
 const chakraService = new ChakraService();
 
 // Calculate chakra energy states
-const chakraEnergyStates = chakraService.calculateChakraEnergyStates(signEnergyStates);
+const chakraEnergyStates =
+  chakraService.calculateChakraEnergyStates(signEnergyStates);
 
 // Get food recommendations based on chakra states
-const foodRecommendations = getFoodRecommendationsFromChakras(chakraEnergyStates);
+const foodRecommendations =
+  getFoodRecommendationsFromChakras(chakraEnergyStates);
 
 // Get food recommendations for a specific zodiac sign
-const ariesFoods = getZodiacSignFoodRecommendations('aries');
+const ariesFoods = getZodiacSignFoodRecommendations("aries");
 
 // Get dietary suggestions based on chakra balances
 const suggestions = chakraService.suggestDietaryAdjustments(chakraEnergyStates);

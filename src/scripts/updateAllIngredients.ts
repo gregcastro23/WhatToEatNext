@@ -9,14 +9,14 @@
  */
 
 // Import all the individual category update functions (ESM)
-import { updateFruits } from './updateFruits';
-import { updateGrains } from './updateGrains';
-import { updateHerbs } from './updateHerbs';
-import { updateOils } from './updateOils';
-import { updateProteins } from './updateProteins';
-import { updateSpices } from './updateSpices';
-import { updateVegetables } from './updateVegetables';
-import { updateVinegars } from './updateVinegars';
+import { updateFruits } from "./updateFruits";
+import { updateGrains } from "./updateGrains";
+import { updateHerbs } from "./updateHerbs";
+import { updateOils } from "./updateOils";
+import { updateProteins } from "./updateProteins";
+import { updateSpices } from "./updateSpices";
+import { updateVegetables } from "./updateVegetables";
+import { updateVinegars } from "./updateVinegars";
 
 // Map of all available category update functions
 const categoryUpdaters = {
@@ -27,19 +27,19 @@ const categoryUpdaters = {
   proteins: updateProteins,
   spices: updateSpices,
   oils: updateOils,
-  vinegars: updateVinegars
+  vinegars: updateVinegars,
 };
 
 // All categories in the order they should be processed
 const ALL_CATEGORIES = [
-  'herbs',
-  'spices',
-  'vegetables',
-  'fruits',
-  'grains',
-  'proteins',
-  'oils',
-  'vinegars',
+  "herbs",
+  "spices",
+  "vegetables",
+  "fruits",
+  "grains",
+  "proteins",
+  "oils",
+  "vinegars",
 ];
 
 /**
@@ -77,7 +77,9 @@ async function main() {
   let categoriesToProcess = ALL_CATEGORIES;
 
   if (args.length > 0) {
-    const validCategories = args.filter(cat => ALL_CATEGORIES.includes(cat.toLowerCase()));
+    const validCategories = args.filter((cat) =>
+      ALL_CATEGORIES.includes(cat.toLowerCase()),
+    );
 
     if (validCategories.length === 0) {
       // console.error(`No valid categories specified. Available categories: ${ALL_CATEGORIES.join(', ')}`);
@@ -94,7 +96,7 @@ async function main() {
 // Execute only when run directly
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error Node.js runtime check
-if (typeof require !== 'undefined' && require.main === module) {
+if (typeof require !== "undefined" && require.main === module) {
   void main().catch(() => process.exit(1));
 }
 

@@ -29,8 +29,8 @@ suggestions.
 ### Option 1: Iframe Integration (Recommended)
 
 ```tsx
-import React from 'react';
-import AlchmKitchenTab from './AlchmKitchenTab';
+import React from "react";
+import AlchmKitchenTab from "./AlchmKitchenTab";
 
 function YourApp() {
   return (
@@ -39,7 +39,7 @@ function YourApp() {
       <AlchmKitchenTab
         title="Alchm Kitchen"
         allowFullscreen={true}
-        onLoad={() => console.log('Kitchen loaded!')}
+        onLoad={() => console.log("Kitchen loaded!")}
       />
     </div>
   );
@@ -55,7 +55,7 @@ function AlchmKitchenTab() {
       src="https://v0-alchm-kitchen.vercel.app/"
       width="100%"
       height="600px"
-      style={{ border: 'none', borderRadius: '8px' }}
+      style={{ border: "none", borderRadius: "8px" }}
       title="Alchm Kitchen"
     />
   );
@@ -65,26 +65,28 @@ function AlchmKitchenTab() {
 ### Option 3: Tab System Integration
 
 ```tsx
-import React, { useState } from 'react';
-import AlchmKitchenTab from './AlchmKitchenTab';
+import React, { useState } from "react";
+import AlchmKitchenTab from "./AlchmKitchenTab";
 
 function TabbedApp() {
-  const [activeTab, setActiveTab] = useState('main');
+  const [activeTab, setActiveTab] = useState("main");
 
   return (
     <div>
       {/* Tab Navigation */}
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <button onClick={() => setActiveTab('main')}>Main App</button>
-        <button onClick={() => setActiveTab('kitchen')}>🍳 Alchm Kitchen</button>
+      <div style={{ display: "flex", gap: "8px" }}>
+        <button onClick={() => setActiveTab("main")}>Main App</button>
+        <button onClick={() => setActiveTab("kitchen")}>
+          🍳 Alchm Kitchen
+        </button>
       </div>
 
       {/* Tab Content */}
-      {activeTab === 'main' && <div>Your main app content</div>}
-      {activeTab === 'kitchen' && (
+      {activeTab === "main" && <div>Your main app content</div>}
+      {activeTab === "kitchen" && (
         <AlchmKitchenTab
           title="Alchm Kitchen"
-          style={{ height: 'calc(100vh - 100px)' }}
+          style={{ height: "calc(100vh - 100px)" }}
         />
       )}
     </div>
@@ -219,9 +221,9 @@ The Alchm Kitchen is fully responsive and works on:
 ```tsx
 <AlchmKitchenTab
   style={{
-    borderRadius: '12px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    border: '2px solid #e2e8f0'
+    borderRadius: "12px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    border: "2px solid #e2e8f0",
   }}
 />
 ```
@@ -231,11 +233,11 @@ The Alchm Kitchen is fully responsive and works on:
 ```tsx
 <AlchmKitchenTab
   onLoad={() => {
-    console.log('Alchm Kitchen is ready!');
+    console.log("Alchm Kitchen is ready!");
     // Your custom logic here
   }}
   onError={(error) => {
-    console.error('Failed to load:', error);
+    console.error("Failed to load:", error);
     // Handle error gracefully
   }}
 />

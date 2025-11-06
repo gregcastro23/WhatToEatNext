@@ -50,11 +50,11 @@ errors (100% elimination) via **Pattern MM-1 Function Argument Safety** 🏆
 
 ```typescript
 // ❌ PROBLEM: Import references wrong export name
-import { AlchemicalContextType } from '@/contexts/AlchemicalContext/context';
+import { AlchemicalContextType } from "@/contexts/AlchemicalContext/context";
 // But file exports: AlchemicalContext (not AlchemicalContextType)
 
 // ❌ PROBLEM: Type name case mismatch
-import { alchemicalValues } from '@/types/alchemy';
+import { alchemicalValues } from "@/types/alchemy";
 // But file exports: AlchemicalValues (capitalized)
 ```
 
@@ -66,11 +66,13 @@ import { alchemicalValues } from '@/types/alchemy';
 
 ```typescript
 // ❌ PROBLEM: Function declared but not exported
-function calculatePlanetaryAlignment() { /* ... */ }
+function calculatePlanetaryAlignment() {
+  /* ... */
+}
 // Missing: export { calculatePlanetaryAlignment };
 
 // ❌ PROBLEM: Utility function import fails
-import { EnhancedIngredientRecommendation } from './ingredientRecommender';
+import { EnhancedIngredientRecommendation } from "./ingredientRecommender";
 // Function exists but not in exports
 ```
 
@@ -82,11 +84,11 @@ import { EnhancedIngredientRecommendation } from './ingredientRecommender';
 
 ```typescript
 // ❌ PROBLEM: Hook not exported from index
-import { useAstrologicalState } from '@/contexts';
+import { useAstrologicalState } from "@/contexts";
 // Hook exists but not re-exported in index
 
 // ❌ PROBLEM: Context type not exported
-import { AlchemicalContextType } from '@/contexts/AlchemicalContext';
+import { AlchemicalContextType } from "@/contexts/AlchemicalContext";
 // Type exists but not in exports
 ```
 
@@ -98,11 +100,13 @@ import { AlchemicalContextType } from '@/contexts/AlchemicalContext';
 
 ```typescript
 // ❌ PROBLEM: Constant declared but not exported
-const SIGN_ENERGY_STATES = { /* ... */ };
+const SIGN_ENERGY_STATES = {
+  /* ... */
+};
 // Missing: export { SIGN_ENERGY_STATES };
 
 // ❌ PROBLEM: Unified export not available
-import { UnifiedIngredient } from './ingredients';
+import { UnifiedIngredient } from "./ingredients";
 // Type/interface exists but not exported
 ```
 
@@ -171,7 +175,7 @@ export const AlchemicalContext = createContext(defaultValue);
 export type AlchemicalContextType = typeof AlchemicalContext;
 
 // ✅ Alternative: Fix import to match existing export
-import { AlchemicalContext } from '@/contexts/AlchemicalContext/context';
+import { AlchemicalContext } from "@/contexts/AlchemicalContext/context";
 ```
 
 ### **Pattern NN-2: Utility Export Completion**
@@ -193,7 +197,7 @@ function calculateRecommendation(): EnhancedIngredientRecommendation {
 
 export {
   calculateRecommendation,
-  EnhancedIngredientRecommendation // Export type too
+  EnhancedIngredientRecommendation, // Export type too
 };
 
 // ✅ Alternative: Direct export
@@ -209,15 +213,19 @@ export function calculateRecommendation(): EnhancedIngredientRecommendation {
 ```typescript
 // ✅ BEFORE: TS2724 type name mismatch
 // File: @/types/alchemy.ts
-export interface AlchemicalValues { /* ... */ }
+export interface AlchemicalValues {
+  /* ... */
+}
 // Import tries: import { alchemicalValues } from '@/types/alchemy';
 
 // ✅ AFTER: Add alias export for consistency
-export interface AlchemicalValues { /* ... */ }
+export interface AlchemicalValues {
+  /* ... */
+}
 export { AlchemicalValues as alchemicalValues }; // Add lowercase alias
 
 // ✅ Alternative: Fix import to match existing export
-import { AlchemicalValues } from '@/types/alchemy';
+import { AlchemicalValues } from "@/types/alchemy";
 
 // ✅ For comprehensive type exports
 export type {
@@ -235,17 +243,23 @@ export type {
 ```typescript
 // ✅ BEFORE: TS2724 cooking method info missing
 // File: @/types/cooking.ts
-export interface CookingMethod { /* ... */ }
+export interface CookingMethod {
+  /* ... */
+}
 // Import tries: import { CookingMethodInfo } from '@/types/cooking';
 
 // ✅ AFTER: Add missing interface or alias
-export interface CookingMethod { /* ... */ }
+export interface CookingMethod {
+  /* ... */
+}
 export interface CookingMethodInfo extends CookingMethod {
   // Extended info properties
 }
 
 // ✅ Or create alias if they're the same
-export interface CookingMethod { /* ... */ }
+export interface CookingMethod {
+  /* ... */
+}
 export type CookingMethodInfo = CookingMethod;
 ```
 
@@ -277,8 +291,8 @@ export const SIGN_ENERGY_STATES = {
 export {
   SIGN_ENERGY_STATES,
   DEFAULT_VALUES,
-  SYSTEM_CONSTANTS
-} from './internal';
+  SYSTEM_CONSTANTS,
+} from "./internal";
 ```
 
 ---

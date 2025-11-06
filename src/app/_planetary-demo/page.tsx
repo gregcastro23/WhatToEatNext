@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import React from 'react';
-import PlanetaryFoodRecommendations from '@/components/PlanetaryFoodRecommendations';
-import PlanetaryPowerWidget from '@/components/PlanetaryPowerWidget';
+import React from "react";
+import PlanetaryFoodRecommendations from "@/components/PlanetaryFoodRecommendations";
+import PlanetaryPowerWidget from "@/components/PlanetaryPowerWidget";
 
 export default function PlanetaryDemoPage() {
-  return (<div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-8">
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -87,26 +88,34 @@ export default function PlanetaryDemoPage() {
 
           {/* Right Columns - Food Recommendations */}
           <div className="lg:col-span-2">
-            <h2 className="text-2xl font-semibold mb-4">Planetary Food Guidance</h2>
+            <h2 className="text-2xl font-semibold mb-4">
+              Planetary Food Guidance
+            </h2>
 
             {/* Default Recommendations */}
             <PlanetaryFoodRecommendations className="mb-6" />
 
             {/* Cuisine-Specific Recommendations */}
             <div className="bg-white rounded-lg shadow-lg p-6">
-              <h3 className="text-lg font-semibold mb-4">Filtered by Cuisine Preference</h3>
+              <h3 className="text-lg font-semibold mb-4">
+                Filtered by Cuisine Preference
+              </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <div className="text-sm text-gray-600 mb-2">Italian Focus</div>
+                  <div className="text-sm text-gray-600 mb-2">
+                    Italian Focus
+                  </div>
                   <PlanetaryFoodRecommendations
-                    cuisinePreferences={['Italian']}
+                    cuisinePreferences={["Italian"]}
                     className="border"
                   />
                 </div>
                 <div>
-                  <div className="text-sm text-gray-600 mb-2">Asian Cuisines</div>
+                  <div className="text-sm text-gray-600 mb-2">
+                    Asian Cuisines
+                  </div>
                   <PlanetaryFoodRecommendations
-                    cuisinePreferences={['Japanese', 'Thai', 'Chinese']}
+                    cuisinePreferences={["Japanese", "Thai", "Chinese"]}
                     className="border"
                   />
                 </div>
@@ -122,7 +131,7 @@ export default function PlanetaryDemoPage() {
             <div>
               <h3 className="font-semibold mb-3">Component Usage</h3>
               <pre className="bg-gray-100 p-4 rounded text-sm overflow-x-auto">
-{`import PlanetaryPowerWidget from '@/components/PlanetaryPowerWidget',
+                {`import PlanetaryPowerWidget from '@/components/PlanetaryPowerWidget',
 import PlanetaryFoodRecommendations from '@/components/PlanetaryFoodRecommendations',
 
 // Basic usage
@@ -143,7 +152,7 @@ import PlanetaryFoodRecommendations from '@/components/PlanetaryFoodRecommendati
             <div>
               <h3 className="font-semibold mb-3">Hook Usage</h3>
               <pre className="bg-gray-100 p-4 rounded text-sm overflow-x-auto">
-{`import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics',
+                {`import { usePlanetaryKinetics } from '@/hooks/usePlanetaryKinetics',
 
 const MyComponent = () => {
   const {
@@ -187,7 +196,8 @@ const MyComponent = () => {
             <div className="text-3xl mb-3">🍽️</div>
             <h3 className="font-semibold mb-2">Food Harmony</h3>
             <p className="text-sm text-gray-600">
-              Cuisine and ingredient recommendations aligned with planetary hours
+              Cuisine and ingredient recommendations aligned with planetary
+              hours
             </p>
           </div>
         </div>

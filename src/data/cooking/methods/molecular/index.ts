@@ -1,7 +1,7 @@
-import { cryoCooking } from './cryo-cooking';
-import { emulsification } from './emulsification';
-import { gelification } from './gelification';
-import { spherification } from './spherification';
+import { cryoCooking } from "./cryo-cooking";
+import { emulsification } from "./emulsification";
+import { gelification } from "./gelification";
+import { spherification } from "./spherification";
 // Import other molecular cooking methods as they are added
 
 /**
@@ -15,8 +15,8 @@ export const _molecularCookingMethods = {
   gelification,
   // Add other cooking methods as they are implemented
   emulsification,
-  cryo_cooking: cryoCooking
-}
+  cryo_cooking: cryoCooking,
+};
 
 export const molecularCookingMethods = _molecularCookingMethods;
 

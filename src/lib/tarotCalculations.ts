@@ -3,9 +3,9 @@ import {
   _DECAN_TO_TAROT,
   _MAJOR_ARCANA,
   _PLANET_TO_MAJOR_ARCANA,
-  _TAROT_CARDS
-} from '@/constants/tarotCards';
-import { log } from '@/services/LoggingService';
+  _TAROT_CARDS,
+} from "@/constants/tarotCards";
+import { log } from "@/services/LoggingService";
 
 // Type definitions for the imported constants to improve type safety
 type DecanKey = keyof typeof _DECAN_TO_TAROT;
@@ -15,8 +15,9 @@ type MajorArcanaKey = keyof typeof _MAJOR_ARCANA;
 
 export function getCurrentDecan(
   date: Date,
-  sunPosition?: { sign: string, degree: number }): DecanKey {
-  if (sunPosition?.sign && typeof sunPosition.degree === 'number') {
+  sunPosition?: { sign: string; degree: number },
+): DecanKey {
+  if (sunPosition?.sign && typeof sunPosition.degree === "number") {
     // Calculate the absolute degree in the zodiac (0-360);
     const signToStartDegree: Record<string, number> = {
       aries: 0,
@@ -30,11 +31,12 @@ export function getCurrentDecan(
       sagittarius: 240,
       capricorn: 270,
       aquarius: 300,
-      pisces: 330
+      pisces: 330,
     };
 
     // Get the starting degree for the sun's sign
-    const signStartDegree = signToStartDegree[sunPosition.sign.toLowerCase()] || 0;
+    const signStartDegree =
+      signToStartDegree[sunPosition.sign.toLowerCase()] || 0;
 
     // Add the degree within the sign
     const absoluteDegree = signStartDegree + sunPosition.degree;
@@ -67,7 +69,7 @@ export function getCurrentDecan(
 export function getTarotCardForDate(date: Date) {
   const decan = getCurrentDecan(date);
   const cardKey = _DECAN_TO_TAROT[decan] as TarotCardKey;
-  return _TAROT_CARDS[cardKey] || _TAROT_CARDS['10_of_cups'];
+  return _TAROT_CARDS[cardKey] || _TAROT_CARDS["10_of_cups"];
 }
 
 export function getRecipesForTarotCard(card: unknown): string[] {
@@ -78,7 +80,7 @@ export function getRecipesForTarotCard(card: unknown): string[] {
     element?: string;
     associatedRecipes?: string[];
     energies?: Record<string, number>;
-    [key: string]: unknown
+    [key: string]: unknown;
   };
   return cardData.associatedRecipes || [];
 }
@@ -92,227 +94,277 @@ export function getMajorArcanaForDecan(decan: DecanKey) {
 // Minor arcana cards (numbered cards + court cards)
 const minorArcana = [
   // Wands (Fire)
-  'Ace of Wands',
-  'Two of Wands',
-  'Three of Wands',
-  'Four of Wands',
-  'Five of Wands',
-  'Six of Wands',
-  'Seven of Wands',
-  'Eight of Wands',
-  'Nine of Wands',
-  'Ten of Wands',
-  'Page of Wands',
-  'Knight of Wands',
-  'Queen of Wands',
-  'King of Wands',
+  "Ace of Wands",
+  "Two of Wands",
+  "Three of Wands",
+  "Four of Wands",
+  "Five of Wands",
+  "Six of Wands",
+  "Seven of Wands",
+  "Eight of Wands",
+  "Nine of Wands",
+  "Ten of Wands",
+  "Page of Wands",
+  "Knight of Wands",
+  "Queen of Wands",
+  "King of Wands",
 
   // Cups (Water)
-  'Ace of Cups',
-  'Two of Cups',
-  'Three of Cups',
-  'Four of Cups',
-  'Five of Cups',
-  'Six of Cups',
-  'Seven of Cups',
-  'Eight of Cups',
-  'Nine of Cups',
-  'Ten of Cups',
-  'Page of Cups',
-  'Knight of Cups',
-  'Queen of Cups',
-  'King of Cups',
+  "Ace of Cups",
+  "Two of Cups",
+  "Three of Cups",
+  "Four of Cups",
+  "Five of Cups",
+  "Six of Cups",
+  "Seven of Cups",
+  "Eight of Cups",
+  "Nine of Cups",
+  "Ten of Cups",
+  "Page of Cups",
+  "Knight of Cups",
+  "Queen of Cups",
+  "King of Cups",
 
   // Pentacles (Earth)
-  'Ace of Pentacles',
-  'Two of Pentacles',
-  'Three of Pentacles',
-  'Four of Pentacles',
-  'Five of Pentacles',
-  'Six of Pentacles',
-  'Seven of Pentacles',
-  'Eight of Pentacles',
-  'Nine of Pentacles',
-  'Ten of Pentacles',
-  'Page of Pentacles',
-  'Knight of Pentacles',
-  'Queen of Pentacles',
-  'King of Pentacles',
+  "Ace of Pentacles",
+  "Two of Pentacles",
+  "Three of Pentacles",
+  "Four of Pentacles",
+  "Five of Pentacles",
+  "Six of Pentacles",
+  "Seven of Pentacles",
+  "Eight of Pentacles",
+  "Nine of Pentacles",
+  "Ten of Pentacles",
+  "Page of Pentacles",
+  "Knight of Pentacles",
+  "Queen of Pentacles",
+  "King of Pentacles",
 
   // Swords (Air)
-  'Ace of Swords',
-  'Two of Swords',
-  'Three of Swords',
-  'Four of Swords',
-  'Five of Swords',
-  'Six of Swords',
-  'Seven of Swords',
-  'Eight of Swords',
-  'Nine of Swords',
-  'Ten of Swords',
-  'Page of Swords',
-  'Knight of Swords',
-  'Queen of Swords',
-  'King of Swords'
+  "Ace of Swords",
+  "Two of Swords",
+  "Three of Swords",
+  "Four of Swords",
+  "Five of Swords",
+  "Six of Swords",
+  "Seven of Swords",
+  "Eight of Swords",
+  "Nine of Swords",
+  "Ten of Swords",
+  "Page of Swords",
+  "Knight of Swords",
+  "Queen of Swords",
+  "King of Swords",
 ];
 
 // Major arcana cards
 const _UNUSED_majorArcana = [
-  'The Fool',
-  'The Magician',
-  'The High Priestess',
-  'The Empress',
-  'The Emperor',
-  'The Hierophant',
-  'The Lovers',
-  'The Chariot',
-  'Strength',
-  'The Hermit',
-  'Wheel of Fortune',
-  'Justice',
-  'The Hanged Man',
-  'Death',
-  'Temperance',
-  'The Devil',
-  'The Tower',
-  'The Star',
-  'The Moon',
-  'The Sun',
-  'Judgement',
-  'The World'
+  "The Fool",
+  "The Magician",
+  "The High Priestess",
+  "The Empress",
+  "The Emperor",
+  "The Hierophant",
+  "The Lovers",
+  "The Chariot",
+  "Strength",
+  "The Hermit",
+  "Wheel of Fortune",
+  "Justice",
+  "The Hanged Man",
+  "Death",
+  "Temperance",
+  "The Devil",
+  "The Tower",
+  "The Star",
+  "The Moon",
+  "The Sun",
+  "Judgement",
+  "The World",
 ];
 
 // Keywords for minor arcana
 const _UNUSED_minorArcanaKeywords: Record<string, string[]> = {
-  'Ace of Wands': ['inspiration', 'new energy', 'spark', 'potential'],
-  'Two of Wands': ['planning', 'discovery', 'future vision', 'choice'],
-  'Three of Wands': ['expansion', 'foresight', 'overseas opportunities'],
-  'Four of Wands': ['celebration', 'harmony', 'home', 'community'],
-  'Five of Wands': ['competition', 'conflict', 'diversity', 'tension'],
-  'Six of Wands': ['victory', 'recognition', 'achievement', 'pride'],
-  'Seven of Wands': ['defense', 'perseverance', 'challenge', 'standing ground'],
-  'Eight of Wands': ['speed', 'movement', 'communication', 'travel'],
-  'Nine of Wands': ['resilience', 'courage', 'persistence', 'last stand'],
-  'Ten of Wands': ['burden', 'responsibility', 'hard work', 'completion'],
-  'Page of Wands': ['exploration', 'excitement', 'freedom', 'potential'],
-  'Knight of Wands': ['energy', 'passion', 'adventure', 'impulsiveness'],
-  'Queen of Wands': ['courage', 'determination', 'joy', 'vibrancy'],
-  'King of Wands': ['leadership', 'vision', 'entrepreneur', 'honor'],
+  "Ace of Wands": ["inspiration", "new energy", "spark", "potential"],
+  "Two of Wands": ["planning", "discovery", "future vision", "choice"],
+  "Three of Wands": ["expansion", "foresight", "overseas opportunities"],
+  "Four of Wands": ["celebration", "harmony", "home", "community"],
+  "Five of Wands": ["competition", "conflict", "diversity", "tension"],
+  "Six of Wands": ["victory", "recognition", "achievement", "pride"],
+  "Seven of Wands": ["defense", "perseverance", "challenge", "standing ground"],
+  "Eight of Wands": ["speed", "movement", "communication", "travel"],
+  "Nine of Wands": ["resilience", "courage", "persistence", "last stand"],
+  "Ten of Wands": ["burden", "responsibility", "hard work", "completion"],
+  "Page of Wands": ["exploration", "excitement", "freedom", "potential"],
+  "Knight of Wands": ["energy", "passion", "adventure", "impulsiveness"],
+  "Queen of Wands": ["courage", "determination", "joy", "vibrancy"],
+  "King of Wands": ["leadership", "vision", "entrepreneur", "honor"],
 
   // Cups
-  'Ace of Cups': ['emotional new beginning', 'intuition', 'love', 'compassion'],
-  'Two of Cups': ['partnership', 'attraction', 'connection', 'harmony'],
-  'Three of Cups': ['celebration', 'friendship', 'community', 'joy'],
-  'Four of Cups': ['contemplation', 'apathy', 'reevaluation', 'discontent'],
-  'Five of Cups': ['loss', 'grief', 'disappointment', 'regret'],
-  'Six of Cups': ['nostalgia', 'childhood', 'innocence', 'joy'],
-  'Seven of Cups': ['choices', 'fantasy', 'illusion', 'dreams'],
-  'Eight of Cups': ['walking away', 'disillusionment', 'leaving behind'],
-  'Nine of Cups': ['satisfaction', 'contentment', 'gratitude', 'wish fulfillment'],
-  'Ten of Cups': ['harmony', 'happiness', 'alignment', 'family'],
-  'Page of Cups': ['creative beginnings', 'intuitive messages', 'curiosity'],
-  'Knight of Cups': ['romance', 'charm', 'imagination', 'beauty'],
-  'Queen of Cups': ['compassion', 'calm', 'emotional security', 'intuition'],
-  'King of Cups': ['emotional balance', 'generosity', 'control', 'diplomacy'],
+  "Ace of Cups": ["emotional new beginning", "intuition", "love", "compassion"],
+  "Two of Cups": ["partnership", "attraction", "connection", "harmony"],
+  "Three of Cups": ["celebration", "friendship", "community", "joy"],
+  "Four of Cups": ["contemplation", "apathy", "reevaluation", "discontent"],
+  "Five of Cups": ["loss", "grief", "disappointment", "regret"],
+  "Six of Cups": ["nostalgia", "childhood", "innocence", "joy"],
+  "Seven of Cups": ["choices", "fantasy", "illusion", "dreams"],
+  "Eight of Cups": ["walking away", "disillusionment", "leaving behind"],
+  "Nine of Cups": [
+    "satisfaction",
+    "contentment",
+    "gratitude",
+    "wish fulfillment",
+  ],
+  "Ten of Cups": ["harmony", "happiness", "alignment", "family"],
+  "Page of Cups": ["creative beginnings", "intuitive messages", "curiosity"],
+  "Knight of Cups": ["romance", "charm", "imagination", "beauty"],
+  "Queen of Cups": ["compassion", "calm", "emotional security", "intuition"],
+  "King of Cups": ["emotional balance", "generosity", "control", "diplomacy"],
 
   // Pentacles
-  'Ace of Pentacles': ['opportunity', 'prosperity', 'new venture', 'abundance'],
-  'Two of Pentacles': ['balance', 'adaptability', 'time management', 'prioritization'],
-  'Three of Pentacles': ['teamwork', 'collaboration', 'learning', 'implementation'],
-  'Four of Pentacles': ['security', 'control', 'conservation', 'frugality'],
-  'Five of Pentacles': ['hardship', 'loss', 'isolation', 'worry'],
-  'Six of Pentacles': ['generosity', 'charity', 'giving', 'receiving'],
-  'Seven of Pentacles': ['assessment', 'patience', 'investment', 'growth'],
-  'Eight of Pentacles': ['diligence', 'knowledge', 'detail', 'skill'],
-  'Nine of Pentacles': ['luxury', 'self-sufficiency', 'culmination', 'rewards'],
-  'Ten of Pentacles': ['legacy', 'inheritance', 'establishment', 'wealth'],
-  'Page of Pentacles': ['ambition', 'desire', 'diligence', 'learning'],
-  'Knight of Pentacles': ['efficiency', 'hard work', 'responsibility', 'practicality'],
-  'Queen of Pentacles': ['nurturing', 'practical', 'abundance', 'nature'],
-  'King of Pentacles': ['abundance', 'prosperity', 'security', 'discipline'],
+  "Ace of Pentacles": ["opportunity", "prosperity", "new venture", "abundance"],
+  "Two of Pentacles": [
+    "balance",
+    "adaptability",
+    "time management",
+    "prioritization",
+  ],
+  "Three of Pentacles": [
+    "teamwork",
+    "collaboration",
+    "learning",
+    "implementation",
+  ],
+  "Four of Pentacles": ["security", "control", "conservation", "frugality"],
+  "Five of Pentacles": ["hardship", "loss", "isolation", "worry"],
+  "Six of Pentacles": ["generosity", "charity", "giving", "receiving"],
+  "Seven of Pentacles": ["assessment", "patience", "investment", "growth"],
+  "Eight of Pentacles": ["diligence", "knowledge", "detail", "skill"],
+  "Nine of Pentacles": ["luxury", "self-sufficiency", "culmination", "rewards"],
+  "Ten of Pentacles": ["legacy", "inheritance", "establishment", "wealth"],
+  "Page of Pentacles": ["ambition", "desire", "diligence", "learning"],
+  "Knight of Pentacles": [
+    "efficiency",
+    "hard work",
+    "responsibility",
+    "practicality",
+  ],
+  "Queen of Pentacles": ["nurturing", "practical", "abundance", "nature"],
+  "King of Pentacles": ["abundance", "prosperity", "security", "discipline"],
 
   // Swords
-  'Ace of Swords': ['clarity', 'breakthrough', 'new idea', 'truth'],
-  'Two of Swords': ['decision', 'stalemate', 'blocked emotions', 'avoidance'],
-  'Three of Swords': ['heartbreak', 'grief', 'sorrow', 'rejection'],
-  'Four of Swords': ['rest', 'restoration', 'contemplation', 'recuperation'],
-  'Five of Swords': ['conflict', 'tension', 'defeat', 'win at all costs'],
-  'Six of Swords': ['transition', 'leaving behind', 'moving on', 'gradual change'],
-  'Seven of Swords': ['deception', 'strategy', 'resourcefulness', 'sneakiness'],
-  'Eight of Swords': ['restriction', 'imprisonment', 'victim mentality', 'helplessness'],
-  'Nine of Swords': ['anxiety', 'worry', 'fear', 'depression'],
-  'Ten of Swords': ['painful endings', 'deep wounds', 'betrayal', 'loss'],
-  'Page of Swords': ['curiosity', 'restlessness', 'mental energy', 'new ideas'],
-  'Knight of Swords': ['action', 'impulsiveness', 'defending beliefs', 'rushing in'],
-  'Queen of Swords': ['independent', 'unbiased judgment', 'clear boundaries', 'direct'],
-  'King of Swords': ['intellectual', 'authority', 'truth', 'ethical']
+  "Ace of Swords": ["clarity", "breakthrough", "new idea", "truth"],
+  "Two of Swords": ["decision", "stalemate", "blocked emotions", "avoidance"],
+  "Three of Swords": ["heartbreak", "grief", "sorrow", "rejection"],
+  "Four of Swords": ["rest", "restoration", "contemplation", "recuperation"],
+  "Five of Swords": ["conflict", "tension", "defeat", "win at all costs"],
+  "Six of Swords": [
+    "transition",
+    "leaving behind",
+    "moving on",
+    "gradual change",
+  ],
+  "Seven of Swords": ["deception", "strategy", "resourcefulness", "sneakiness"],
+  "Eight of Swords": [
+    "restriction",
+    "imprisonment",
+    "victim mentality",
+    "helplessness",
+  ],
+  "Nine of Swords": ["anxiety", "worry", "fear", "depression"],
+  "Ten of Swords": ["painful endings", "deep wounds", "betrayal", "loss"],
+  "Page of Swords": ["curiosity", "restlessness", "mental energy", "new ideas"],
+  "Knight of Swords": [
+    "action",
+    "impulsiveness",
+    "defending beliefs",
+    "rushing in",
+  ],
+  "Queen of Swords": [
+    "independent",
+    "unbiased judgment",
+    "clear boundaries",
+    "direct",
+  ],
+  "King of Swords": ["intellectual", "authority", "truth", "ethical"],
 };
 
 // Keywords for major arcana
 const majorArcanaKeywords: Record<string, string[]> = {
-  'The Fool': ['beginnings', 'innocence', 'spontaneity', 'free spirit'],
-  'The Magician': ['manifestation', 'resourcefulness', 'power', 'inspired action'],
-  'The High Priestess': ['intuition', 'sacred knowledge', 'divine feminine', 'subconscious'],
-  'The Empress': ['femininity', 'beauty', 'nature', 'abundance'],
-  'The Emperor': ['authority', 'structure', 'control', 'fatherhood'],
-  'The Hierophant': ['spiritual wisdom', 'tradition', 'conformity', 'morality'],
-  'The Lovers': ['love', 'harmony', 'choices', 'alignment'],
-  'The Chariot': ['control', 'willpower', 'success', 'determination'],
-  Strength: ['courage', 'persuasion', 'influence', 'compassion'],
-  'The Hermit': ['soul-searching', 'introspection', 'guidance', 'solitude'],
-  'Wheel of Fortune': ['change', 'cycles', 'fate', 'turning point'],
-  Justice: ['fairness', 'truth', 'cause and effect', 'law'],
-  'The Hanged Man': ['surrender', 'letting go', 'new perspective', 'sacrifice'],
-  Death: ['endings', 'change', 'transformation', 'transition'],
-  Temperance: ['balance', 'moderation', 'patience', 'purpose'],
-  'The Devil': ['shadow self', 'attachment', 'addiction', 'restriction'],
-  'The Tower': ['sudden change', 'revelation', 'upheaval', 'awakening'],
-  'The Star': ['hope', 'faith', 'purpose', 'renewal'],
-  'The Moon': ['illusion', 'fear', 'anxiety', 'subconscious'],
-  'The Sun': ['positivity', 'fun', 'warmth', 'success'],
-  Judgement: ['reflection', 'reckoning', 'awakening', 'rebirth'],
-  'The World': ['completion', 'accomplishment', 'travel', 'harmony']
+  "The Fool": ["beginnings", "innocence", "spontaneity", "free spirit"],
+  "The Magician": [
+    "manifestation",
+    "resourcefulness",
+    "power",
+    "inspired action",
+  ],
+  "The High Priestess": [
+    "intuition",
+    "sacred knowledge",
+    "divine feminine",
+    "subconscious",
+  ],
+  "The Empress": ["femininity", "beauty", "nature", "abundance"],
+  "The Emperor": ["authority", "structure", "control", "fatherhood"],
+  "The Hierophant": ["spiritual wisdom", "tradition", "conformity", "morality"],
+  "The Lovers": ["love", "harmony", "choices", "alignment"],
+  "The Chariot": ["control", "willpower", "success", "determination"],
+  Strength: ["courage", "persuasion", "influence", "compassion"],
+  "The Hermit": ["soul-searching", "introspection", "guidance", "solitude"],
+  "Wheel of Fortune": ["change", "cycles", "fate", "turning point"],
+  Justice: ["fairness", "truth", "cause and effect", "law"],
+  "The Hanged Man": ["surrender", "letting go", "new perspective", "sacrifice"],
+  Death: ["endings", "change", "transformation", "transition"],
+  Temperance: ["balance", "moderation", "patience", "purpose"],
+  "The Devil": ["shadow self", "attachment", "addiction", "restriction"],
+  "The Tower": ["sudden change", "revelation", "upheaval", "awakening"],
+  "The Star": ["hope", "faith", "purpose", "renewal"],
+  "The Moon": ["illusion", "fear", "anxiety", "subconscious"],
+  "The Sun": ["positivity", "fun", "warmth", "success"],
+  Judgement: ["reflection", "reckoning", "awakening", "rebirth"],
+  "The World": ["completion", "accomplishment", "travel", "harmony"],
 };
 
 // Map major arcana to planets
 const _majorArcanaPlanets: Record<string, string> = {
-  'The Magician': 'Mercury',
-  'The High Priestess': 'Moon',
-  'The Empress': 'Venus',
-  'The Emperor': 'Mars',
-  'The Hierophant': 'Jupiter',
-  'The Lovers': 'Venus',
-  'The Chariot': 'Moon',
-  Strength: 'Sun',
-  'The Hermit': 'Saturn',
-  'Wheel of Fortune': 'Jupiter',
-  Justice: 'Venus',
-  'The Hanged Man': 'Neptune',
-  Death: 'Pluto',
-  Temperance: 'Jupiter',
-  'The Devil': 'Saturn',
-  'The Tower': 'Mars',
-  'The Star': 'Uranus',
-  'The Moon': 'Moon',
-  'The Sun': 'Sun',
-  Judgement: 'Pluto',
-  'The World': 'Saturn',
-  'The Fool': 'Uranus'
+  "The Magician": "Mercury",
+  "The High Priestess": "Moon",
+  "The Empress": "Venus",
+  "The Emperor": "Mars",
+  "The Hierophant": "Jupiter",
+  "The Lovers": "Venus",
+  "The Chariot": "Moon",
+  Strength: "Sun",
+  "The Hermit": "Saturn",
+  "Wheel of Fortune": "Jupiter",
+  Justice: "Venus",
+  "The Hanged Man": "Neptune",
+  Death: "Pluto",
+  Temperance: "Jupiter",
+  "The Devil": "Saturn",
+  "The Tower": "Mars",
+  "The Star": "Uranus",
+  "The Moon": "Moon",
+  "The Sun": "Sun",
+  Judgement: "Pluto",
+  "The World": "Saturn",
+  "The Fool": "Uranus",
 };
 
 // Map minor arcana to elements
 const minorArcanaElements: Record<string, string> = {};
 
 // Fill in the elements for all minor arcana cards
-minorArcana.forEach(card => {
-  if (card.includes('Wands')) {
-    minorArcanaElements[card] = 'Fire';
-  } else if (card.includes('Cups')) {
-    minorArcanaElements[card] = 'Water';
-  } else if (card.includes('Pentacles')) {
-    minorArcanaElements[card] = 'Earth';
-  } else if (card.includes('Swords')) {
-    minorArcanaElements[card] = 'Air';
+minorArcana.forEach((card) => {
+  if (card.includes("Wands")) {
+    minorArcanaElements[card] = "Fire";
+  } else if (card.includes("Cups")) {
+    minorArcanaElements[card] = "Water";
+  } else if (card.includes("Pentacles")) {
+    minorArcanaElements[card] = "Earth";
+  } else if (card.includes("Swords")) {
+    minorArcanaElements[card] = "Air";
   }
 });
 
@@ -332,7 +384,7 @@ interface TarotCardBase {
 // Update the TarotCard interface to extend TarotCardBase
 interface TarotCard extends TarotCardBase {
   suit: string;
-  number: number
+  number: number;
 }
 
 // Update the MajorArcanaCard interface to include the element property
@@ -349,7 +401,8 @@ interface MajorArcanaCard {
  */
 export const getTarotCardsForDate = (
   date: Date,
-  sunPosition?: { sign: string; degree: number }): { minorCard: TarotCard; majorCard: MajorArcanaCard } => {
+  sunPosition?: { sign: string; degree: number },
+): { minorCard: TarotCard; majorCard: MajorArcanaCard } => {
   // Get the current decan based on the day of the year or sun position if provided
   const decan = getCurrentDecan(date, sunPosition);
 
@@ -364,29 +417,29 @@ export const getTarotCardsForDate = (
   log.info(
     `Tarot Card Debug - Decan: ${decan}, Sun Position: `,
     sunPosition,
-    `Selected Card: ${minorArcanaKey || '10_of_cups'}`
+    `Selected Card: ${minorArcanaKey || "10_of_cups"}`,
   );
 
   // Get the minor arcana card details
-  const cardKey = minorArcanaKey || ('10_of_cups' as TarotCardKey); // Default if not found
+  const cardKey = minorArcanaKey || ("10_of_cups" as TarotCardKey); // Default if not found
   const tarotCard = _TAROT_CARDS[cardKey];
 
   // Extract suit and number from the card name
-  const nameParts = tarotCard.name.split(' of ');
+  const nameParts = tarotCard.name.split(" of ");
   const suit = nameParts[1];
   const numberStr = nameParts[0];
 
   // Convert number string to actual number
   let number;
-  if (numberStr === 'Ace') {
+  if (numberStr === "Ace") {
     number = 1;
-  } else if (numberStr === 'Page') {
+  } else if (numberStr === "Page") {
     number = 11;
-  } else if (numberStr === 'Knight') {
+  } else if (numberStr === "Knight") {
     number = 12;
-  } else if (numberStr === 'Queen') {
+  } else if (numberStr === "Queen") {
     number = 13;
-  } else if (numberStr === 'King') {
+  } else if (numberStr === "King") {
     number = 14;
   } else {
     number = parseInt(numberStr, 10);
@@ -397,10 +450,11 @@ export const getTarotCardsForDate = (
     name: tarotCard.name,
     suit,
     number,
-    keywords: 'keywords' in tarotCard ? tarotCard.keywords : [],
+    keywords: "keywords" in tarotCard ? tarotCard.keywords : [],
     quantum: number, // Using the card number as quantum value
-    element: tarotCard.element || '',
-    associatedRecipes: 'associatedRecipes' in tarotCard ? tarotCard.associatedRecipes : []
+    element: tarotCard.element || "",
+    associatedRecipes:
+      "associatedRecipes" in tarotCard ? tarotCard.associatedRecipes : [],
   };
 
   // For major arcana, get the planet ruling the current decan
@@ -408,18 +462,19 @@ export const getTarotCardsForDate = (
 
   // Map the planet to corresponding major arcana card
   const majorArcanaName =
-    (_PLANET_TO_MAJOR_ARCANA[decanRuler] as MajorArcanaKey) || ('The Fool' as MajorArcanaKey); // Default
+    (_PLANET_TO_MAJOR_ARCANA[decanRuler] as MajorArcanaKey) ||
+    ("The Fool" as MajorArcanaKey); // Default
 
   // Create the major card object
   const majorCard: MajorArcanaCard = {
     name: majorArcanaName,
-    planet: decanRuler || 'Sun', // Default to Sun if no planet found
+    planet: decanRuler || "Sun", // Default to Sun if no planet found
     keywords: majorArcanaKeywords[majorArcanaName] || [],
-    element: _MAJOR_ARCANA[majorArcanaName].element || '' // Extract element from _MAJOR_ARCANA
+    element: _MAJOR_ARCANA[majorArcanaName].element || "", // Extract element from _MAJOR_ARCANA
   };
 
   return { minorCard, majorCard };
-}
+};
 
 export function getQuantumValueForCard(card: unknown): number {
   // Apply safe type casting for card access
@@ -428,20 +483,22 @@ export function getQuantumValueForCard(card: unknown): number {
     element?: string;
     associatedRecipes?: string[];
     energies?: Record<string, number>;
-    [key: string]: unknown
+    [key: string]: unknown;
   };
-  const {quantum} = cardData;
+  const { quantum } = cardData;
 
-  if (typeof quantum === 'number') {
+  if (typeof quantum === "number") {
     return quantum;
   }
 
   switch (quantum) {
-    case 'spirit':
-    case 'essence':
-    case 'substance':
-    case 'matter': return 4;
-    default: return 0;
+    case "spirit":
+    case "essence":
+    case "substance":
+    case "matter":
+      return 4;
+    default:
+      return 0;
   }
 }
 
@@ -454,27 +511,27 @@ export function getElementalQuantum(card: unknown) {
     element?: string;
     associatedRecipes?: string[];
     energies?: Record<string, number>;
-    [key: string]: unknown
+    [key: string]: unknown;
   };
-  const element = cardData.element || 'Fire';
+  const element = cardData.element || "Fire";
   const quantum = cardData.quantum || 1;
 
   return {
-    Fire: element === 'Fire' ? quantum : 0,
-    Water: element === 'Water' ? quantum : 0,
-    Earth: element === 'Earth' ? quantum : 0,
-    Air: element === 'Air' ? quantum : 0
+    Fire: element === "Fire" ? quantum : 0,
+    Water: element === "Water" ? quantum : 0,
+    Earth: element === "Earth" ? quantum : 0,
+    Air: element === "Air" ? quantum : 0,
   };
 }
 
 export function getRecipeFiltersFromTarot(tarotCards: {
   minorCard: TarotCard;
-  majorCard: MajorArcanaCard
+  majorCard: MajorArcanaCard;
 }) {
   const filters = {
     elementalProperties: {} as Record<string, number>,
     keywords: [] as string[],
-    associatedRecipes: [] as string[]
+    associatedRecipes: [] as string[],
   };
 
   if (tarotCards.minorCard) {
@@ -509,51 +566,58 @@ export function getRecipeFiltersFromTarot(tarotCards: {
  * @returns Object with food recommendations and insights
  */
 export const _getTarotFoodRecommendations = (
-  date: Date
-): { dailyCard: string; // ← Pattern GG-6, Added missing dailyCard property
+  date: Date,
+): {
+  dailyCard: string; // ← Pattern GG-6, Added missing dailyCard property
   element: string;
   foodElement: string;
   recommendedRecipes: string[];
   cookingApproach: string;
   flavors: string[];
-  insights: string
+  insights: string;
 } => {
   const tarotCards = getTarotCardsForDate(date);
   const decan = getCurrentDecan(date);
   const decanRuler = _DECAN_RULERS[decan] as PlanetKey;
 
   // Extract element from tarot cards
-  const {element} = tarotCards.minorCard;
+  const { element } = tarotCards.minorCard;
   const planetaryInfluence = tarotCards.majorCard.planet;
 
   // Generate cooking approach based on planetary influence
-  let cookingApproach = 'balanced and harmonious';
-  if (planetaryInfluence === 'Mars') cookingApproach = 'bold and spicy';
-  if (planetaryInfluence === 'Saturn') cookingApproach = 'simple and traditional';
-  if (planetaryInfluence === 'Jupiter') cookingApproach = 'abundant and flavorful';
-  if (planetaryInfluence === 'Venus') cookingApproach = 'elegant and sweet';
-  if (planetaryInfluence === 'Mercury') cookingApproach = 'varied and adaptable';
-  if (planetaryInfluence === 'Moon') cookingApproach = 'comforting and nurturing';
-  if (planetaryInfluence === 'Sun') cookingApproach = 'vibrant and confident';
+  let cookingApproach = "balanced and harmonious";
+  if (planetaryInfluence === "Mars") cookingApproach = "bold and spicy";
+  if (planetaryInfluence === "Saturn")
+    cookingApproach = "simple and traditional";
+  if (planetaryInfluence === "Jupiter")
+    cookingApproach = "abundant and flavorful";
+  if (planetaryInfluence === "Venus") cookingApproach = "elegant and sweet";
+  if (planetaryInfluence === "Mercury")
+    cookingApproach = "varied and adaptable";
+  if (planetaryInfluence === "Moon")
+    cookingApproach = "comforting and nurturing";
+  if (planetaryInfluence === "Sun") cookingApproach = "vibrant and confident";
 
   // Get food element that complements the tarot element
   const foodElement = complementaryElement(element);
 
   // Get card details for flavor insights
   const cardName = tarotCards.minorCard.name;
-  const cardNameAsKey = Object.keys(_TAROT_CARDS).find(key => _TAROT_CARDS[key as TarotCardKey].name === cardName) as TarotCardKey;
+  const cardNameAsKey = Object.keys(_TAROT_CARDS).find(
+    (key) => _TAROT_CARDS[key as TarotCardKey].name === cardName,
+  ) as TarotCardKey;
 
   const tarotCard: TarotCardBase = cardNameAsKey
     ? _TAROT_CARDS[cardNameAsKey]
     : {
-        id: '',
+        id: "",
         name: tarotCards.minorCard.name,
         element: tarotCards.minorCard.element,
-        energyState: 'balanced',
+        energyState: "balanced",
         quantum: 1,
-        description: '',
+        description: "",
         keywords: [],
-        associatedRecipes: []
+        associatedRecipes: [],
       };
 
   const recommendedRecipes = tarotCard.associatedRecipes || [];
@@ -571,17 +635,17 @@ export const _getTarotFoodRecommendations = (
     recommendedRecipes,
     cookingApproach,
     flavors,
-    insights
+    insights,
   };
-}
+};
 
 // Add the missing complementaryElement function
 function complementaryElement(_element: string): string {
   const complementaryMap: Record<string, string> = {
-    Fire: 'Water',
-    Water: 'Fire',
-    Earth: 'Air',
-    Air: 'Earth'
+    Fire: "Water",
+    Water: "Fire",
+    Earth: "Air",
+    Air: "Earth",
   };
   return complementaryMap[_element] || _element;
 }
@@ -590,30 +654,35 @@ function complementaryElement(_element: string): string {
 function getFlavorProfile(_element: string, _foodElement: string): string[] {
   const flavorProfiles: Record<string, Record<string, string[]>> = {
     Fire: {
-      Water: ['sweet and spicy', 'balanced heat', 'warm comfort foods'],
-      Air: ['aromatic and spicy', 'crispy textures', 'exotic spices'],
-      Earth: ['hearty and warm', 'grilled flavors', 'bold seasonings'],
-      Fire: ['intense heat', 'bold spices', 'smoky flavors']
+      Water: ["sweet and spicy", "balanced heat", "warm comfort foods"],
+      Air: ["aromatic and spicy", "crispy textures", "exotic spices"],
+      Earth: ["hearty and warm", "grilled flavors", "bold seasonings"],
+      Fire: ["intense heat", "bold spices", "smoky flavors"],
     },
     Water: {
-      Fire: ['sweet and savory', 'caramelized', 'complex flavors'],
-      Air: ['light and refreshing', 'herbal notes', 'delicate sauces'],
-      Earth: ['rich and creamy', 'subtle herbs', 'nourishing broths'],
-      Water: ['subtle sweetness', 'gentle flavors', 'soothing elements']
+      Fire: ["sweet and savory", "caramelized", "complex flavors"],
+      Air: ["light and refreshing", "herbal notes", "delicate sauces"],
+      Earth: ["rich and creamy", "subtle herbs", "nourishing broths"],
+      Water: ["subtle sweetness", "gentle flavors", "soothing elements"],
     },
     Earth: {
-      Fire: ['robust and hearty', 'slow-cooked', 'deeply satisfying'],
-      Air: ['layered flavors', 'mixed textures', 'aromatic herbs'],
-      Water: ['umami rich', 'nutritious broths', 'comforting stews'],
-      Earth: ['grounding flavors', 'root vegetables', 'earthy herbs']
+      Fire: ["robust and hearty", "slow-cooked", "deeply satisfying"],
+      Air: ["layered flavors", "mixed textures", "aromatic herbs"],
+      Water: ["umami rich", "nutritious broths", "comforting stews"],
+      Earth: ["grounding flavors", "root vegetables", "earthy herbs"],
     },
     Air: {
-      Fire: ['crispy and light', 'quick cooking', 'bright flavors'],
-      Water: ['light and refreshing', 'citrus notes', 'creative pairings'],
-      Earth: ['diverse textures', 'balanced seasoning', 'complex aromas'],
-      Air: ['delicate herbs', 'subtle infusions', 'ethereal presentation']
-    }
+      Fire: ["crispy and light", "quick cooking", "bright flavors"],
+      Water: ["light and refreshing", "citrus notes", "creative pairings"],
+      Earth: ["diverse textures", "balanced seasoning", "complex aromas"],
+      Air: ["delicate herbs", "subtle infusions", "ethereal presentation"],
+    },
   };
 
-  return flavorProfiles[_element][_foodElement] || ['balanced flavors', 'harmonious combinations'];
+  return (
+    flavorProfiles[_element][_foodElement] || [
+      "balanced flavors",
+      "harmonious combinations",
+    ]
+  );
 }

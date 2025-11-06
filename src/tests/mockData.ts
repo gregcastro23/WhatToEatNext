@@ -1,6 +1,6 @@
-import type { LunarPhase } from '../types/astrology';
+import type { LunarPhase } from "../types/astrology";
 
 const _mockLunarData = {
-  phase: 'waxing_crescent' as LunarPhase,
+  phase: "waxing_crescent" as LunarPhase,
   // ... other properties
-}
+};

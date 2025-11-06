@@ -6,18 +6,18 @@
  * Targets specific patterns found in the codebase for safe replacement
  */
 
-const fs = require('fs');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const { execSync } = require("child_process");
 
 function getTopExplicitAnyFiles() {
   try {
     const output = execSync(
       'yarn lint --format=unix 2>/dev/null | grep "@typescript-eslint/no-explicit-any" | cut -d: -f1 | sort | uniq -c | sort -nr | head -10',
-      { encoding: 'utf8' },
+      { encoding: "utf8" },
     );
     const files = [];
 
-    output.split('\n').forEach(line => {
+    output.split("\n").forEach((line) => {
       const match = line.trim().match(/^\s*(\d+)\s+(.+)$/);
       if (match) {
         const count = parseInt(match[1]);
@@ -28,14 +28,14 @@ function getTopExplicitAnyFiles() {
 
     return files;
   } catch (error) {
-    console.log('Error getting explicit-any files:', error.message);
+    console.log("Error getting explicit-any files:", error.message);
     return [];
   }
 }
 
 function fixExplicitAnyPatterns(filePath) {
   try {
-    let content = fs.readFileSync(filePath, 'utf8');
+    let content = fs.readFileSync(filePath, "utf8");
     let fixes = 0;
     const originalContent = content;
 
@@ -44,44 +44,44 @@ function fixExplicitAnyPatterns(filePath) {
       // Jest mock functions - very safe replacement
       {
         pattern: /jest\.MockedFunction<any>/g,
-        replacement: 'jest.MockedFunction<(...args: unknown[]) => unknown>',
-        description: 'Jest mock function types',
+        replacement: "jest.MockedFunction<(...args: unknown[]) => unknown>",
+        description: "Jest mock function types",
       },
       // Generic any in simple contexts
       {
         pattern: /:\s*any\s*=/g,
-        replacement: ': unknown =',
-        description: 'Variable assignments',
+        replacement: ": unknown =",
+        description: "Variable assignments",
       },
       // Function return types
       {
         pattern: /\):\s*any\s*{/g,
-        replacement: '): unknown {',
-        description: 'Function return types',
+        replacement: "): unknown {",
+        description: "Function return types",
       },
       // Array types
       {
         pattern: /any\[\]/g,
-        replacement: 'unknown[]',
-        description: 'Array types',
+        replacement: "unknown[]",
+        description: "Array types",
       },
       // Record types for objects
       {
         pattern: /Record<string,\s*any>/g,
-        replacement: 'Record<string, unknown>',
-        description: 'Record types',
+        replacement: "Record<string, unknown>",
+        description: "Record types",
       },
       // Simple object properties
       {
         pattern: /:\s*any\s*;/g,
-        replacement: ': unknown;',
-        description: 'Object properties',
+        replacement: ": unknown;",
+        description: "Object properties",
       },
       // Union types
       {
         pattern: /:\s*any\s*\|/g,
-        replacement: ': unknown |',
-        description: 'Union types',
+        replacement: ": unknown |",
+        description: "Union types",
       },
     ];
 
@@ -101,7 +101,7 @@ function fixExplicitAnyPatterns(filePath) {
 
       // Write fixed content
       fs.writeFileSync(filePath, content);
-      console.log(`📝 Applied ${fixes} fixes to ${filePath.split('/').pop()}`);
+      console.log(`📝 Applied ${fixes} fixes to ${filePath.split("/").pop()}`);
       console.log(`   Backup created: ${backupPath}`);
     }
 
@@ -112,15 +112,15 @@ function fixExplicitAnyPatterns(filePath) {
   }
 }
 
-console.log('🔧 Custom Explicit-Any Fix Script');
-console.log('==================================');
+console.log("🔧 Custom Explicit-Any Fix Script");
+console.log("==================================");
 
 const files = getTopExplicitAnyFiles();
 console.log(`📊 Found ${files.length} files with explicit-any issues`);
 
 let totalFixes = 0;
 for (const { path: filePath, count } of files.slice(0, 5)) {
-  console.log(`\n🎯 Processing ${filePath.split('/').pop()} (${count} issues)`);
+  console.log(`\n🎯 Processing ${filePath.split("/").pop()} (${count} issues)`);
   const fixes = fixExplicitAnyPatterns(filePath);
   totalFixes += fixes;
 }
@@ -132,10 +132,10 @@ console.log(`   Total fixes applied: ${totalFixes}`);
 // Check TypeScript compilation
 console.log(`\n🧪 Validating TypeScript compilation...`);
 try {
-  execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-  console.log('✅ TypeScript compilation successful');
+  execSync("yarn tsc --noEmit --skipLibCheck", { stdio: "pipe" });
+  console.log("✅ TypeScript compilation successful");
 } catch (error) {
-  console.log('❌ TypeScript compilation failed - consider restoring backups');
+  console.log("❌ TypeScript compilation failed - consider restoring backups");
 }
 
 console.log(`\n🧪 Next steps:`);

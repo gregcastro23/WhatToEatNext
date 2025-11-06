@@ -11,9 +11,9 @@
  * 3. ([_planet: any, position]: any) → ([_planet, position]: any)
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 class ProvenPatternFixer {
   constructor() {
@@ -22,7 +22,7 @@ class ProvenPatternFixer {
     this.successfulFiles = [];
     this.failedFiles = [];
     this.backupDir = `.proven-pattern-backup-${Date.now()}`;
-    this.protectionFile = '.kiro/specs/linting-excellence/TASK_PROTECTION.md';
+    this.protectionFile = ".kiro/specs/linting-excellence/TASK_PROTECTION.md";
 
     // Create backup directory
     if (!fs.existsSync(this.backupDir)) {
@@ -35,10 +35,13 @@ class ProvenPatternFixer {
    */
   getTotalErrorCount() {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"', {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const output = execSync(
+        'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"',
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0;
@@ -50,21 +53,21 @@ class ProvenPatternFixer {
    */
   getFilesWithTS1005Errors(testFilesOnly = true) {
     try {
-      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
+      const result = execSync("yarn tsc --noEmit --skipLibCheck 2>&1", {
+        encoding: "utf8",
+        maxBuffer: 10 * 1024 * 1024,
       });
 
-      const errorLines = result.split('\n').filter(line => {
-        if (!line.includes('error TS1005')) return false;
+      const errorLines = result.split("\n").filter((line) => {
+        if (!line.includes("error TS1005")) return false;
         if (testFilesOnly) {
-          return line.includes('.test.') || line.includes('.spec.');
+          return line.includes(".test.") || line.includes(".spec.");
         }
         return true;
       });
 
       const files = new Set();
-      errorLines.forEach(line => {
+      errorLines.forEach((line) => {
         const match = line.match(/^([^(]+)\(/);
         if (match) {
           const filePath = match[1].trim();
@@ -84,16 +87,16 @@ class ProvenPatternFixer {
   }
 
   extractFilesFromOutput(output, testFilesOnly) {
-    const errorLines = output.split('\n').filter(line => {
-      if (!line.includes('error TS1005')) return false;
+    const errorLines = output.split("\n").filter((line) => {
+      if (!line.includes("error TS1005")) return false;
       if (testFilesOnly) {
-        return line.includes('.test.') || line.includes('.spec.');
+        return line.includes(".test.") || line.includes(".spec.");
       }
       return true;
     });
 
     const files = new Set();
-    errorLines.forEach(line => {
+    errorLines.forEach((line) => {
       const match = line.match(/^([^(]+)\(/);
       if (match) {
         const filePath = match[1].trim();
@@ -110,9 +113,12 @@ class ProvenPatternFixer {
    * Create backup of file
    */
   createBackup(filePath) {
-    const backupPath = path.join(this.backupDir, filePath.replace(/[\/\\]/g, '_'));
-    const content = fs.readFileSync(filePath, 'utf8');
-    fs.writeFileSync(backupPath, content, 'utf8');
+    const backupPath = path.join(
+      this.backupDir,
+      filePath.replace(/[\/\\]/g, "_"),
+    );
+    const content = fs.readFileSync(filePath, "utf8");
+    fs.writeFileSync(backupPath, content, "utf8");
   }
 
   /**
@@ -120,10 +126,13 @@ class ProvenPatternFixer {
    */
   getFileTS1005ErrorCount(filePath) {
     try {
-      const result = execSync(`yarn tsc --noEmit --skipLibCheck ${filePath} 2>&1`, {
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024
-      });
+      const result = execSync(
+        `yarn tsc --noEmit --skipLibCheck ${filePath} 2>&1`,
+        {
+          encoding: "utf8",
+          maxBuffer: 10 * 1024 * 1024,
+        },
+      );
       const errorCount = (result.match(/error TS1005/g) || []).length;
       return errorCount;
     } catch (error) {
@@ -140,10 +149,13 @@ class ProvenPatternFixer {
    */
   validateFile(filePath) {
     try {
-      const result = execSync(`yarn tsc --noEmit --skipLibCheck ${filePath} 2>&1`, {
-        encoding: 'utf8',
-        stdio: 'pipe'
-      });
+      const result = execSync(
+        `yarn tsc --noEmit --skipLibCheck ${filePath} 2>&1`,
+        {
+          encoding: "utf8",
+          stdio: "pipe",
+        },
+      );
       // Check for syntax errors (not type definition errors like TS2688)
       const syntaxErrors = result.match(/error TS(?!2688)/g) || [];
       return syntaxErrors.length === 0;
@@ -165,10 +177,11 @@ class ProvenPatternFixer {
 
     // PROVEN PATTERN 1: test('description': any, async () => {
     // Fix to: test('description', async () => {
-    const testColonAnyPattern = /(\b(?:test|it|describe|beforeEach|afterEach|beforeAll|afterAll)\s*\(\s*'[^']+'):\s*any\s*,/g;
+    const testColonAnyPattern =
+      /(\b(?:test|it|describe|beforeEach|afterEach|beforeAll|afterAll)\s*\(\s*'[^']+'):\s*any\s*,/g;
     const matches1 = [...fixedContent.matchAll(testColonAnyPattern)];
     if (matches1.length > 0) {
-      fixedContent = fixedContent.replace(testColonAnyPattern, '$1,');
+      fixedContent = fixedContent.replace(testColonAnyPattern, "$1,");
       fixes += matches1.length;
     }
 
@@ -177,7 +190,7 @@ class ProvenPatternFixer {
     const catchColonAnyPattern = /(\}\s*catch\s*\([^)]+\)):\s*any\s*\{/g;
     const matches2 = [...fixedContent.matchAll(catchColonAnyPattern)];
     if (matches2.length > 0) {
-      fixedContent = fixedContent.replace(catchColonAnyPattern, '$1 {');
+      fixedContent = fixedContent.replace(catchColonAnyPattern, "$1 {");
       fixes += matches2.length;
     }
 
@@ -186,7 +199,7 @@ class ProvenPatternFixer {
     const destructuringColonAnyPattern = /(\[\s*[^,\]]+):\s*any\s*,/g;
     const matches3 = [...fixedContent.matchAll(destructuringColonAnyPattern)];
     if (matches3.length > 0) {
-      fixedContent = fixedContent.replace(destructuringColonAnyPattern, '$1,');
+      fixedContent = fixedContent.replace(destructuringColonAnyPattern, "$1,");
       fixes += matches3.length;
     }
 
@@ -211,11 +224,12 @@ class ProvenPatternFixer {
       // Create backup
       this.createBackup(filePath);
 
-      const originalContent = fs.readFileSync(filePath, 'utf8');
-      const { content: fixedContent, fixes } = this.applyProvenPatterns(originalContent);
+      const originalContent = fs.readFileSync(filePath, "utf8");
+      const { content: fixedContent, fixes } =
+        this.applyProvenPatterns(originalContent);
 
       if (fixes > 0) {
-        fs.writeFileSync(filePath, fixedContent, 'utf8');
+        fs.writeFileSync(filePath, fixedContent, "utf8");
         console.log(`   Applied ${fixes} proven pattern fixes`);
       } else {
         console.log(`   No proven patterns found to apply`);
@@ -228,7 +242,7 @@ class ProvenPatternFixer {
 
       console.log(`   Final TS1005 errors: ${finalErrors}`);
       console.log(`   Error reduction: ${errorReduction}`);
-      console.log(`   File valid: ${fileValid ? '✅' : '❌'}`);
+      console.log(`   File valid: ${fileValid ? "✅" : "❌"}`);
 
       if (fileValid && errorReduction >= 0) {
         console.log(`   ✅ SUCCESS - File processed successfully`);
@@ -237,7 +251,7 @@ class ProvenPatternFixer {
           initialErrors,
           finalErrors,
           fixes,
-          errorReduction
+          errorReduction,
         });
         return { success: true, fixes, errorReduction };
       } else {
@@ -245,16 +259,17 @@ class ProvenPatternFixer {
         fs.writeFileSync(filePath, originalContent);
         this.failedFiles.push({
           file: filePath,
-          reason: fileValid ? 'Error count increased' : 'File validation failed'
+          reason: fileValid
+            ? "Error count increased"
+            : "File validation failed",
         });
         return { success: false, fixes: 0, errorReduction: 0 };
       }
-
     } catch (error) {
       console.error(`   ❌ Error processing file: ${error.message}`);
       this.failedFiles.push({
         file: filePath,
-        reason: error.message
+        reason: error.message,
       });
       return { success: false, fixes: 0, errorReduction: 0 };
     }
@@ -263,7 +278,12 @@ class ProvenPatternFixer {
   /**
    * Update protection file with current progress
    */
-  updateProtectionFile(initialErrors, currentErrors, filesProcessed, totalFiles) {
+  updateProtectionFile(
+    initialErrors,
+    currentErrors,
+    filesProcessed,
+    totalFiles,
+  ) {
     const protectionContent = `# Task List Protection System - UPDATED
 
 ## Current Task Status (Protected)
@@ -272,9 +292,9 @@ class ProvenPatternFixer {
 - Status: IN PROGRESS
 - Initial Errors: ${initialErrors}
 - Current Errors: ${currentErrors}
-- Progress: ${initialErrors - currentErrors} errors eliminated (${((initialErrors - currentErrors) / initialErrors * 100).toFixed(1)}% reduction)
+- Progress: ${initialErrors - currentErrors} errors eliminated (${(((initialErrors - currentErrors) / initialErrors) * 100).toFixed(1)}% reduction)
 - Files Processed: ${filesProcessed}/${totalFiles}
-- Success Rate: ${totalFiles > 0 ? ((filesProcessed / totalFiles) * 100).toFixed(1) : '0.0'}%
+- Success Rate: ${totalFiles > 0 ? ((filesProcessed / totalFiles) * 100).toFixed(1) : "0.0"}%
 
 ## Proven Patterns (VALIDATED)
 
@@ -320,10 +340,10 @@ Last Updated: ${new Date().toISOString()}`;
    * Main repair process
    */
   async repair() {
-    console.log('🎯 PROVEN PATTERN FIXER');
-    console.log('=' .repeat(50));
-    console.log('Applying only the 3 patterns proven to work successfully');
-    console.log('Focus: Test files first (higher success rate observed)');
+    console.log("🎯 PROVEN PATTERN FIXER");
+    console.log("=".repeat(50));
+    console.log("Applying only the 3 patterns proven to work successfully");
+    console.log("Focus: Test files first (higher success rate observed)");
 
     const startTime = Date.now();
     const initialTotalErrors = this.getTotalErrorCount();
@@ -334,20 +354,23 @@ Last Updated: ${new Date().toISOString()}`;
     console.log(`📁 Found ${testFiles.length} test files with TS1005 errors`);
 
     if (testFiles.length === 0) {
-      console.log('✅ No test files with TS1005 errors found!');
+      console.log("✅ No test files with TS1005 errors found!");
 
       // Try non-test files
       const allFiles = this.getFilesWithTS1005Errors(false);
       console.log(`📁 Found ${allFiles.length} total files with TS1005 errors`);
 
       if (allFiles.length === 0) {
-        console.log('🎉 No files with TS1005 errors found at all!');
+        console.log("🎉 No files with TS1005 errors found at all!");
         return;
       }
     }
 
-    const filesToProcess = testFiles.length > 0 ? testFiles : this.getFilesWithTS1005Errors(false);
-    console.log(`\n🔄 Processing ${filesToProcess.length} files with proven patterns...`);
+    const filesToProcess =
+      testFiles.length > 0 ? testFiles : this.getFilesWithTS1005Errors(false);
+    console.log(
+      `\n🔄 Processing ${filesToProcess.length} files with proven patterns...`,
+    );
 
     // Process files one by one
     for (let i = 0; i < filesToProcess.length; i++) {
@@ -363,13 +386,22 @@ Last Updated: ${new Date().toISOString()}`;
       // Update protection file every 5 files
       if ((i + 1) % 5 === 0) {
         const currentTotalErrors = this.getTotalErrorCount();
-        this.updateProtectionFile(initialTotalErrors, currentTotalErrors, this.processedFiles, filesToProcess.length);
-        console.log(`\n📊 Progress checkpoint: ${currentTotalErrors} total errors remaining`);
+        this.updateProtectionFile(
+          initialTotalErrors,
+          currentTotalErrors,
+          this.processedFiles,
+          filesToProcess.length,
+        );
+        console.log(
+          `\n📊 Progress checkpoint: ${currentTotalErrors} total errors remaining`,
+        );
       }
 
       // Stop if we've processed 20 files successfully (to avoid overwhelming)
       if (this.processedFiles >= 20) {
-        console.log(`\n⏸️  Stopping after 20 successful files to assess progress`);
+        console.log(
+          `\n⏸️  Stopping after 20 successful files to assess progress`,
+        );
         break;
       }
     }
@@ -380,42 +412,61 @@ Last Updated: ${new Date().toISOString()}`;
     const totalErrorReduction = initialTotalErrors - finalTotalErrors;
     const duration = ((endTime - startTime) / 1000).toFixed(2);
 
-    console.log('\n' + '='.repeat(50));
-    console.log('🏁 PROVEN PATTERN FIXING COMPLETED');
-    console.log('=' .repeat(50));
+    console.log("\n" + "=".repeat(50));
+    console.log("🏁 PROVEN PATTERN FIXING COMPLETED");
+    console.log("=".repeat(50));
     console.log(`⏱️  Duration: ${duration} seconds`);
-    console.log(`📝 Files processed successfully: ${this.processedFiles}/${filesToProcess.length}`);
+    console.log(
+      `📝 Files processed successfully: ${this.processedFiles}/${filesToProcess.length}`,
+    );
     console.log(`🎯 Total fixes applied: ${this.totalFixes}`);
-    console.log(`📊 Total TypeScript errors: ${initialTotalErrors} → ${finalTotalErrors}`);
+    console.log(
+      `📊 Total TypeScript errors: ${initialTotalErrors} → ${finalTotalErrors}`,
+    );
     console.log(`📉 Total error reduction: ${totalErrorReduction}`);
 
     if (this.successfulFiles.length > 0) {
       console.log(`\n✅ Successful files (${this.successfulFiles.length}):`);
-      this.successfulFiles.slice(0, 10).forEach(file => {
-        const percentage = file.initialErrors > 0 ?
-          ((file.errorReduction / file.initialErrors) * 100).toFixed(1) : '0.0';
-        console.log(`   ${path.basename(file.file)}: ${file.initialErrors} → ${file.finalErrors} (${percentage}%)`);
+      this.successfulFiles.slice(0, 10).forEach((file) => {
+        const percentage =
+          file.initialErrors > 0
+            ? ((file.errorReduction / file.initialErrors) * 100).toFixed(1)
+            : "0.0";
+        console.log(
+          `   ${path.basename(file.file)}: ${file.initialErrors} → ${file.finalErrors} (${percentage}%)`,
+        );
       });
       if (this.successfulFiles.length > 10) {
         console.log(`   ... and ${this.successfulFiles.length - 10} more`);
       }
     }
 
-    const successRate = filesToProcess.length > 0 ?
-      ((this.processedFiles / filesToProcess.length) * 100).toFixed(1) : '0.0';
+    const successRate =
+      filesToProcess.length > 0
+        ? ((this.processedFiles / filesToProcess.length) * 100).toFixed(1)
+        : "0.0";
 
     console.log(`\n📈 Success Rate: ${successRate}%`);
 
     if (totalErrorReduction > 0) {
-      const reductionPercentage = initialTotalErrors > 0 ?
-        ((totalErrorReduction / initialTotalErrors) * 100).toFixed(1) : '0.0';
-      console.log(`✅ PROGRESS MADE: Reduced ${totalErrorReduction} errors (${reductionPercentage}%)`);
+      const reductionPercentage =
+        initialTotalErrors > 0
+          ? ((totalErrorReduction / initialTotalErrors) * 100).toFixed(1)
+          : "0.0";
+      console.log(
+        `✅ PROGRESS MADE: Reduced ${totalErrorReduction} errors (${reductionPercentage}%)`,
+      );
     } else {
       console.log(`⚠️ No overall error reduction achieved`);
     }
 
     // Update protection file with final results
-    this.updateProtectionFile(initialTotalErrors, finalTotalErrors, this.processedFiles, filesToProcess.length);
+    this.updateProtectionFile(
+      initialTotalErrors,
+      finalTotalErrors,
+      this.processedFiles,
+      filesToProcess.length,
+    );
 
     console.log(`💾 Backups saved in: ${this.backupDir}`);
     console.log(`🛡️  Progress protected in: ${this.protectionFile}`);
@@ -428,7 +479,7 @@ Last Updated: ${new Date().toISOString()}`;
       totalFiles: filesToProcess.length,
       totalFixes: this.totalFixes,
       duration: parseFloat(duration),
-      successRate: parseFloat(successRate)
+      successRate: parseFloat(successRate),
     };
   }
 }
@@ -436,19 +487,20 @@ Last Updated: ${new Date().toISOString()}`;
 // Execute if run directly
 if (require.main === module) {
   const fixer = new ProvenPatternFixer();
-  fixer.repair()
-    .then(results => {
-      console.log('\n📋 Proven pattern fixing completed');
+  fixer
+    .repair()
+    .then((results) => {
+      console.log("\n📋 Proven pattern fixing completed");
       if (results.totalErrorReduction > 0) {
-        console.log('✅ Progress made - continuing with proven approach');
+        console.log("✅ Progress made - continuing with proven approach");
         process.exit(0);
       } else {
-        console.log('⚠️ No progress - may need to refine patterns');
+        console.log("⚠️ No progress - may need to refine patterns");
         process.exit(1);
       }
     })
-    .catch(error => {
-      console.error('\n❌ Proven pattern fixing failed:', error);
+    .catch((error) => {
+      console.error("\n❌ Proven pattern fixing failed:", error);
       process.exit(1);
     });
 }

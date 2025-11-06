@@ -29,12 +29,12 @@
       return;
     }
 
-    console.log('[PopupJS] Initializing enhanced popup implementation');
+    console.log("[PopupJS] Initializing enhanced popup implementation");
 
     // More comprehensive popup implementation
     window.popup = {
       create: function (options) {
-        console.log('[PopupJS] popup.create() called');
+        console.log("[PopupJS] popup.create() called");
         return {
           show: function () {
             return this;
@@ -72,17 +72,19 @@
 
     // Add a global error handler specifically for popup-related errors
     window.addEventListener(
-      'error',
+      "error",
       function (event) {
         if (
           event &&
           event.error &&
           event.error.message &&
-          (event.error.message.includes('Assignment to constant variable') ||
-            event.error.message.includes('Cannot read properties of undefined') ||
-            event.error.message.includes('popup'))
+          (event.error.message.includes("Assignment to constant variable") ||
+            event.error.message.includes(
+              "Cannot read properties of undefined",
+            ) ||
+            event.error.message.includes("popup"))
         ) {
-          console.warn('[PopupJS] Caught error:', event.error.message);
+          console.warn("[PopupJS] Caught error:", event.error.message);
 
           // Re-initialize popup if needed
           window.popup = window.popup || {};
@@ -115,7 +117,7 @@
       window.chrome = {
         extension: {
           getURL: function () {
-            return '';
+            return "";
           },
           sendMessage: function () {},
         },
@@ -135,10 +137,10 @@
       try {
         return originalDefineProperty(obj, prop, descriptor);
       } catch (error) {
-        console.warn('[PopupJS] Error in defineProperty:', error.message);
+        console.warn("[PopupJS] Error in defineProperty:", error.message);
 
         // Handle common errors by providing a more permissive property
-        if (error.message.includes('Assignment to constant variable')) {
+        if (error.message.includes("Assignment to constant variable")) {
           obj[prop] = descriptor.value;
           return obj;
         }
@@ -146,10 +148,10 @@
       }
     };
 
-    console.log('[PopupJS] Enhanced popup implementation loaded successfully');
+    console.log("[PopupJS] Enhanced popup implementation loaded successfully");
   } catch (error) {
     // Last resort error handler
-    console.error('[PopupJS] Critical error in popup.js:', error);
+    console.error("[PopupJS] Critical error in popup.js:", error);
 
     // Ensure popup API is available even after errors
     window.popup = window.popup || {
@@ -172,7 +174,7 @@
 
 // Define in the global scope for immediate availability
 window.ensurePopupInitialized = function () {
-  if (!window.popup || typeof window.popup.create !== 'function') {
+  if (!window.popup || typeof window.popup.create !== "function") {
     window.popup = window.popup || {};
     window.popup.create =
       window.popup.create ||
@@ -189,7 +191,9 @@ window.ensurePopupInitialized = function () {
           },
         };
       };
-    console.log('[PopupJS] Re-established popup object from ensurePopupInitialized');
+    console.log(
+      "[PopupJS] Re-established popup object from ensurePopupInitialized",
+    );
   }
   return window.popup;
 };
