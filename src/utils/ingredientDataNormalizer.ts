@@ -119,7 +119,7 @@ export function formatMineralName(name: string): string {
  */
 export function normalizeAntioxidants(antioxidants: Record<string, unknown>): string[] {
   if (!antioxidants) return [];
-  if (Array.isArray(antioxidants) {
+  if (Array.isArray(antioxidants)) {
     return antioxidants.map(antioxidant => formatAntioxidantName(antioxidant));
   }
 
