@@ -159,7 +159,8 @@ export function transformSingleItem(
   const zodiacElement = getZodiacElement(context.currentZodiac);
 
   // ✅ Pattern MM-1: Safe type assertion for elemental properties
-  const transformedElemental = applyElementalTransformations((item as unknown as any).elementalProperties as ElementalProperties) ||;
+  const transformedElemental = applyElementalTransformations(
+    (item as unknown as any).elementalProperties as ElementalProperties ||
       item.elementalProperties,
     planetaryInfluences,
     lunarModifiers,
@@ -168,7 +169,7 @@ export function transformSingleItem(
   );
 
   // Calculate alchemical properties
-  const alchemicalProperties = calculateAlchemicalProperties();
+  const alchemicalProperties = calculateAlchemicalProperties(
     transformedElemental,
     planetaryInfluences,
     context.tarotPlanetaryBoosts

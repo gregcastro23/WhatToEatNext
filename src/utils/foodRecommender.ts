@@ -119,7 +119,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
       const ingredientData = {
         name,
         category: category.name.toLowerCase(),
-        ...(data )
+        ...data
       } as EnhancedIngredient;
 
       // Special tracking for grains and herbs
@@ -128,8 +128,8 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
         // Ensure grains are properly categorized
         ingredientData.category = 'grains';
         if (!ingredientData.subCategory) {
-          // Determine if it's a whole grain, refined grainor pseudo-grain
-          if (name.includes('whole') || name.includes('brown') || name.includes('wild') {
+          // Determine if it's a whole grain, refined grain or pseudo-grain
+          if (name.includes('whole') || name.includes('brown') || name.includes('wild')) {
             ingredientData.subCategory = 'whole_grain';
           } else if (
             name.includes('white') ||

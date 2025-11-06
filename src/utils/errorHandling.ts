@@ -132,7 +132,7 @@ export function classifyError(error: Error | string): ErrorType {
     return ErrorType.AUTHORIZATION;
   }
 
-  if (lowerMessage.includes('not found') || lowerMessage.includes('404') {
+  if (lowerMessage.includes('not found') || lowerMessage.includes('404')) {
     return ErrorType.NOT_FOUND;
   }
 
@@ -152,7 +152,7 @@ export function classifyError(error: Error | string): ErrorType {
     return ErrorType.ASTROLOGICAL_CALCULATION;
   }
 
-  if (lowerMessage.includes('component') || lowerMessage.includes('render') {
+  if (lowerMessage.includes('component') || lowerMessage.includes('render')) {
     return ErrorType.COMPONENT_ERROR;
   }
 
