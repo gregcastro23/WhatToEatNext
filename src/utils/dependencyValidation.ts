@@ -123,8 +123,8 @@ export function validateImportStatement(
   const warnings: string[] = [];
   let isValid = true;
 
-  for (const ) { pattern, message } of PROBLEMATIC_PATTERNS) {
-    if (pattern.test(importStatement) {
+  for (const { pattern, message } of PROBLEMATIC_PATTERNS) {
+    if (pattern.test(importStatement)) {
       warnings.push(`${filePath}: ${message}`);
       isValid = false;
     }

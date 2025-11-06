@@ -478,7 +478,7 @@ export function identifyPlanetaryPatterns(recipes: Array<{ _computed?: RecipeCom
       }
     }
 
-    const dominantElement = (Object.entries(elementCounts);
+    const dominantElement = (Object.entries(elementCounts)
       .sort((a, b) => b[1] - a[1])[0]?.[0] || 'Fire') as keyof ElementalProperties;
 
     patterns.push({

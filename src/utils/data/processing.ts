@@ -472,7 +472,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     return [];
   }
 
-  return (ingredients || []).map(ingredient => ) {
+  return (ingredients || []).map(ingredient => {
     if (typeof ingredient === 'string') {
       return {
         name: ingredient,

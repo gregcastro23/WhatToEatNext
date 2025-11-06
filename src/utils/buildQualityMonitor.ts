@@ -522,24 +522,24 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
  */
 async function getDirectorySize(dir: string): Promise<number> {
   try {
-    let size = 0,;
+    let size = 0;
 
     const files = fs.readdirSync(dir);
     for (const file of files) {
       const filePath = path.join(dir, file);
       const stat = fs.statSync(filePath);
 
-      if (stat.isDirectory() {
-        size += await getDirectorySize(filePath)
+      if (stat.isDirectory()) {
+        size += await getDirectorySize(filePath);
       } else {
         size += stat.size;
-}
+      }
     }
 
     return Math.round(size / 1024); // Convert to KB
   } catch (error) {
     return 0;
-}
+  }
 }
 
 /**

@@ -352,21 +352,21 @@ declare global {
       bundling: [] as string[],
       runtime: [] as string[],
       development: [] as string[]
-    }
+    };
 
     // TypeScript recommendations
     if (this.metrics.compilationTime > 30000) {
       // 30 seconds
-      recommendations.typescript.push('Enable incremental compilation')
-      recommendations.typescript.push('Use project references for large codebases')
-      recommendations.typescript.push('Enable skipLibCheck for faster builds')
+      recommendations.typescript.push('Enable incremental compilation');
+      recommendations.typescript.push('Use project references for large codebases');
+      recommendations.typescript.push('Enable skipLibCheck for faster builds');
     }
 
     // Bundle size recommendations
     if (this.metrics.bundleSize > 500 * 1024) {
       // 500KB
-      recommendations.bundling.push('Implement code splitting')
-      recommendations.bundling.push('Enable tree shaking')
+      recommendations.bundling.push('Implement code splitting');
+      recommendations.bundling.push('Enable tree shaking');
       recommendations.bundling.push('Use dynamic imports for large components')
     }
 

@@ -1292,12 +1292,12 @@ export function longitudeToZodiacPosition(_longitude: number): { sign: string, d
  */
 export function getPlanetaryDignityInfo(
   planet: string,
-  sign: any | undefined;
-): { type: DignityType, strength: number } {
+  sign: any | undefined
+): { type: DignityType; strength: number } {
   // Handle undefined input
   if (!planet || !sign) {
     return { type: 'Neutral', strength: 0 };
-}
+  }
 
   // Convert to lowercase for consistent comparison
   const planetLower = planet.toLowerCase();

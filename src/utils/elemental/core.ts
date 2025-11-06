@@ -256,7 +256,7 @@ export async function calculateDetailalCompatibility(
   const userDominant = calculateDominantElement(userProps);
 
   // Calculate base compatibility
-  const baseCompatibility = calculateElementalCompatibility();
+  const baseCompatibility = calculateElementalCompatibility(
     recipeDominant as Element,
     userDominant as Element
   );

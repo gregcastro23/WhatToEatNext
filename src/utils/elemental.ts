@@ -132,7 +132,7 @@ export const _calculateelementalState = (
   // Normalize values
   const total = Object.values(balance).reduce((sum, value) => sum + value, 0);
   if (total > 0) {
-    Object.keys(balance).forEach(element => ) {
+    Object.keys(balance).forEach(element => {
       balance[element as keyof ElementalProperties] /= total;
     });
   }
@@ -140,9 +140,9 @@ export const _calculateelementalState = (
   return balance;
 };
 
-export const _getElementalCompatibility = (;
+export const _getElementalCompatibility = (
   element1: keyof ElementalProperties,
-  element2: keyof ElementalProperties;
+  element2: keyof ElementalProperties
 ): 'highly-compatible' | 'compatible' | 'neutral' => {
   if (element1 === element2) {
     return 'highly-compatible'; // Same element has highest compatibility
