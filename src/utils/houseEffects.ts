@@ -198,19 +198,19 @@ export function calculateHouseEffect(
   // House 1 (Ascendant) bonus
   if (house === 1) {
     effects[signElement] += 1.0; // Strong effect for 1st house placements
-    debugLog(`House 1 bonus applied for ${planet}: +1.0 to ${signElement}`)
+    debugLog(`House 1 bonus applied for ${planet}: +1.0 to ${signElement}`);
   }
 
   // House 10 (Midheaven) bonus
   if (house === 10) {
     effects[signElement] += 0.8; // Strong effect for 10th house placements
-    debugLog(`House 10 bonus applied for ${planet}: +0.8 to ${signElement}`)
+    debugLog(`House 10 bonus applied for ${planet}: +0.8 to ${signElement}`);
   }
 
   // Planet in ruling house
-  if (houseData.ruling_planet.toLowerCase() === planet.toLowerCase() {
+  if (houseData.ruling_planet.toLowerCase() === planet.toLowerCase()) {
     effects[signElement] += 0.7; // Bonus for planet in its ruling house
-    debugLog(`Ruling planet bonus for ${planet} in house ${house}: +0.7 to ${signElement}`)
+    debugLog(`Ruling planet bonus for ${planet} in house ${house}: +0.7 to ${signElement}`);
   }
 
   return effects;
