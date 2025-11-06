@@ -7,9 +7,9 @@ import {
 import cuisinesMap from '@/data/cuisines/index';
 import {
     calculateFlavorProfile,
-    calculatePlanetaryFlavorMatch,
-    getDominantFlavor,
-    getResonantCuisines,
+    __calculatePlanetaryFlavorMatch,
+    __getDominantFlavor,
+    __getResonantCuisines,
     planetaryFlavorProfiles
 } from '@/data/planetaryFlavorProfiles';
 import { _logger } from '@/lib/logger';
@@ -395,7 +395,7 @@ export const _getRecipesForPlanetaryAlignment = async (
     .map(recipe => ({
       ...recipe,
       matchScore: recipe.flavorProfile
-        ? calculatePlanetaryFlavorMatch(recipe.flavorProfile, planetaryInfluences)
+        ? _calculatePlanetaryFlavorMatch(recipe.flavorProfile, planetaryInfluences)
         : 0
     }))
     .filter(recipe => (recipe.matchScore || 0) >= minMatchScore)
@@ -444,7 +444,7 @@ export const _getRecommendedCookingTechniques = (recipe: RecipeData): string[] =
 };
 
 export {
-    calculateFlavorProfile, calculatePlanetaryFlavorMatch, getDominantFlavor, getResonantCuisines
+    calculateFlavorProfile, _calculatePlanetaryFlavorMatch, _getDominantFlavor, _getResonantCuisines
 };
 
 /**

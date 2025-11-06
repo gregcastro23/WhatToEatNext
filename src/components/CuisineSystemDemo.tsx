@@ -15,7 +15,7 @@ import {
 import type {
     ElementalProperties} from '@/utils/cuisine/cuisineRecommendationEngine';
 import {
-    generateEnhancedCuisineRecommendations
+    generateCuisineRecommendations
 } from '@/utils/cuisine/cuisineRecommendationEngine';
 
 interface UserProfile {
@@ -189,7 +189,7 @@ const CuisineSystemDemo: React.FC = () => {
       ]);
 
       // Generate recommendations
-      const recs = generateEnhancedCuisineRecommendations({
+      const recs = generateCuisineRecommendations({
         elementalProperties: userProfile.elementalPreferences,
         preferences: userProfile.culturalBackground?.preferredCuisines || [],
         dietaryRestrictions: userProfile.culturalBackground?.dietaryRestrictions || [],
@@ -509,7 +509,7 @@ const CuisineSystemDemo: React.FC = () => {
         <div className="mt-6 p-4 bg-blue-50 rounded-lg">
           <h4 className="font-medium text-blue-800 mb-2">📚 Usage Examples</h4>
           <div className="text-sm text-blue-700 space-y-1">
-            <div><code>import &#123; generateEnhancedCuisineRecommendations &#125; from '@/utils/cuisine';</code></div>
+            <div><code>import &#123; generateCuisineRecommendations &#125; from '@/utils/cuisine';</code></div>
             <div><code>import &#123; generateCuisineRecommendation &#125; from '@/utils';</code></div>
             <div><code>import &#123; getGlobalCache, configureGlobalCache &#125; from '@/utils/cuisine';</code></div>
           </div>

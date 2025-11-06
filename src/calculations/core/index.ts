@@ -15,8 +15,8 @@ export {
 
 // Export all from elemental calculations
 export {
-  calculateComprehensiveElementalProperties,
-  calculateElementalCompatibility,
+  calculateBaseElementalProperties,
+  analyzeElementalCompatibility,
   getDominantElement,
   getElementalRecommendations,
   ZODIAC_ELEMENTS,

@@ -1,9 +1,9 @@
 import {
-  __ELEMENTS,
-  __MINIMUM_THRESHOLD,
-  __MAXIMUM_THRESHOLD,
+  _ELEMENTS,
+  _MINIMUM_THRESHOLD,
+  _MAXIMUM_THRESHOLD,
   DEFAULT_ELEMENTAL_PROPERTIES,
-  __VALIDATION_THRESHOLDS
+  _VALIDATION_THRESHOLDS
 } from '@/constants/elementalConstants';
 import type { ElementalProperties, Element, Recipe } from '@/types/alchemy';
 import { validateElementalProperties, _normalizeElementalProperties } from '@/types/validators';

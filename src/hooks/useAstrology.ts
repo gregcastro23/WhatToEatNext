@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import type { ZodiacSign, LunarPhase, PlanetaryPosition } from '@/types/astrology';
 import { createLogger } from '@/utils/logger';
 import * as safeAstrology from '@/utils/safeAstrology';
-import { useClientEffect } from './useClientEffect';
+import { __useClientEffect } from './_useClientEffect';
 
 const logger = createLogger('useAstrology');
 
@@ -67,7 +67,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
   const isMountedRef = useRef(true);
 
   // Ensure we only run client-side code in the browser
-  useClientEffect(() => {
+  _useClientEffect(() => {
     setIsClient(true);
     return () => {
       isMountedRef.current = false;

@@ -8,7 +8,7 @@
  */
 
 import type { CelestialPosition, PlanetaryAspect, AspectType} from '@/types/celestial';
-import {_ZodiacSign} from '@/types/celestial';
+import {ZodiacSign} from '@/types/celestial';
 
 export interface TransitSeason {
   id: string,

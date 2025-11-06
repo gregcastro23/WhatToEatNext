@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
-import { useFlavorEngine } from '../contexts/FlavorEngineContext';
+import { __useFlavorEngine } from '../contexts/FlavorEngineContext';
 import type { UnifiedFlavorProfile } from '../data/unified/unifiedFlavorEngine';
 
 // Keep track of global init state across hook instances
@@ -17,7 +17,7 @@ const globalInitState = {
  * and protection against re-render loops
  */
 export function useSafeFlavorEngine() {
-  const flavorEngine = useFlavorEngine();
+  const flavorEngine = _useFlavorEngine();
   const [error, setError] = useState<Error | null>(null);
   const [isReady, setIsReady] = useState(false);
 

@@ -3,7 +3,7 @@
 // Enhances recipe building with Monica/Kalchm optimization, seasonal adaptation,
 // cuisine integration, and enhanced recipe intelligence
 
-import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
+import { __unifiedSeasonalSystem } from '@/data/integrations/seasonal';
 import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { ElementalProperties, LunarPhase, PlanetName, Season } from '@/types/alchemy';
 import type {
@@ -199,7 +199,7 @@ export interface PlanetaryRecipeRecommendation {
 // ===== UNIFIED RECIPE BUILDING SYSTEM =====
 
 export class UnifiedRecipeBuildingSystem {
-  public seasonalSystem = unifiedSeasonalSystem;
+  public seasonalSystem = _unifiedSeasonalSystem;
   public cuisineSystem = unifiedCuisineIntegrationSystem;
   private readonly enhancedCookingMethods: { [key: string]: EnhancedCookingMethod };
   private readonly recipeCache: Map<string, RecipeGenerationResult>;

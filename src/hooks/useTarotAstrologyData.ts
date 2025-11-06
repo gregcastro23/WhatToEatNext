@@ -3,10 +3,10 @@ import type { ElementalCharacter } from '@/constants/planetaryElements';
 import type {_LunarPhase as FoodAssociationsLunarPhase} from '@/constants/planetaryFoodAssociations';
 import type { SignEnergyState} from '@/constants/signEnergyStates';
 import {calculateSignEnergyStates} from '@/constants/signEnergyStates';
-import {PLANET_TO_MAJOR_ARCANA} from '@/constants/tarotCards';
+import {_PLANET_TO_MAJOR_ARCANA} from '@/constants/tarotCards';
 import {getTarotCardsForDate} from '@/lib/tarotCalculations';
 import type { LunarPhaseWithSpaces} from '@/types/alchemy';
-import {_PlanetaryAspect} from '@/types/alchemy';
+import {PlanetaryAspect} from '@/types/alchemy';
 // Import all lunar phase utilities from the centralized utility file
 
 // Import the logger utility

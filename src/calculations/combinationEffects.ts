@@ -5,7 +5,7 @@ import type {
     LunarPhase
 } from '@/types/alchemy';
 import type { Element } from '@/types/celestial';
-import { ELEMENT_COMBINATIONS } from '@/utils/constants/elements';
+import { _ELEMENT_COMBINATIONS } from '@/utils/constants/elements';
 import { ingredientMappings } from '@/utils/elementalMappings/ingredients';
 import { logger } from '@/utils/logger';
 

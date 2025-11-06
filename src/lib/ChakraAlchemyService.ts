@@ -16,11 +16,11 @@ import type {
   KeyCardChakraMapping
 } from '@/types/chakra';
 import {
-  CHAKRAS,
-  MAJOR_ARCANA_CHAKRAS,
-  SUIT_CHAKRA_MAPPINGS,
-  KEY_CARD_CHAKRA_MAPPINGS,
-  CHAKRA_MAPPING_SUMMARY
+  __CHAKRAS,
+  _MAJOR_ARCANA_CHAKRAS,
+  __SUIT_CHAKRA_MAPPINGS,
+  __KEY_CARD_CHAKRA_MAPPINGS,
+  __CHAKRA_MAPPING_SUMMARY
 } from '@/types/chakra';
 
 /**
@@ -80,7 +80,7 @@ export class ChakraAlchemyService {
    * Get chakra associated with a specific major arcana card
    */
   public getMajorArcanaChakra(cardName: string): MajorArcanaChakra | undefined {
-    return MAJOR_ARCANA_CHAKRAS.find(
+    return MAJOR_ARCANA__CHAKRAS.find(
       card => card.cardName.toLowerCase() === cardName.toLowerCase()
     );
   }
@@ -89,14 +89,14 @@ export class ChakraAlchemyService {
    * Get chakra associated with a specific tarot suit
    */
   public getSuitChakra(suit: TarotSuit): SuitChakraMapping | undefined {
-    return SUIT_CHAKRA_MAPPINGS.find(mapping => mapping.suit === suit);
+    return _SUIT_CHAKRA_MAPPINGS.find(mapping => mapping.suit === suit);
   }
 
   /**
    * Get chakra associated with a specific card
    */
   public getCardChakra(cardName: string): KeyCardChakraMapping | undefined {
-    return KEY_CARD_CHAKRA_MAPPINGS.find(
+    return _KEY_CARD_CHAKRA_MAPPINGS.find(
       card => card.cardName.toLowerCase() === cardName.toLowerCase()
     );
   }
@@ -105,14 +105,14 @@ export class ChakraAlchemyService {
    * Get all cards associated with a specific chakra
    */
   public getCardsForChakra(chakra: ChakraPosition): KeyCardChakraMapping[] {
-    return KEY_CARD_CHAKRA_MAPPINGS.filter(card => card.chakraPosition === chakra);
+    return _KEY_CARD_CHAKRA_MAPPINGS.filter(card => card.chakraPosition === chakra);
   }
 
   /**
    * Get chakra information by position
    */
   public getChakraInfo(position: ChakraPosition): Chakra {
-    return CHAKRAS[position];
+    return _CHAKRAS[position];
   }
 
   /**
@@ -212,7 +212,7 @@ export class ChakraAlchemyService {
     };
 
     // Map energy states to chakras based on the primary energy state of each chakra
-    Object.entries(CHAKRAS).forEach(([position, chakra]) => {
+    Object.entries(_CHAKRAS).forEach(([position, chakra]) => {
       const key = this.getChakraKey(position as ChakraPosition);
       if (key) {
         const {primaryEnergyState} = (chakra  as { primaryEnergyState?: keyof EnergyStateProperties });

@@ -1,7 +1,7 @@
 // Combines all cuisine matrix files into a unified cuisine pairing API
 
-import { grainCuisineMatrix } from './grainCuisineMatrix';
-import { herbCuisineMatrix } from './herbCuisineMatrix';
+import { __grainCuisineMatrix } from './_grainCuisineMatrix';
+import { __herbCuisineMatrix } from './_herbCuisineMatrix';
 
 type IngredientCategory = 'grain' | 'herb' | 'spice' | 'protein' | 'vegetable';
 /**
@@ -9,9 +9,9 @@ type IngredientCategory = 'grain' | 'herb' | 'spice' | 'protein' | 'vegetable';
  */
 export function getCuisinePairings(ingredientName: string, category: IngredientCategory): string[] {
   switch (category) {
-    case 'grain': return grainCuisineMatrix[ingredientName] || [];
+    case 'grain': return _grainCuisineMatrix[ingredientName] || [];
     case 'herb':
-      return herbCuisineMatrix[ingredientName] || [];
+      return _herbCuisineMatrix[ingredientName] || [];
     // Additional categories can be added as their matrix files are created
     default: return [];
   }
@@ -34,7 +34,7 @@ export function getIngredientsForCuisine(
 
   // Process each matrix to find ingredients that pair with this cuisine
   if (categories.includes('grain')) {
-    Object.entries(grainCuisineMatrix).forEach(([grain, cuisines]) => {
+    Object.entries(_grainCuisineMatrix).forEach(([grain, cuisines]) => {
       if (cuisines.includes(cuisineName)) {
         result.grain.push(grain);
       }
@@ -42,7 +42,7 @@ export function getIngredientsForCuisine(
   }
 
   if (categories.includes('herb')) {
-    Object.entries(herbCuisineMatrix).forEach(([herb, cuisines]) => {
+    Object.entries(_herbCuisineMatrix).forEach(([herb, cuisines]) => {
       if (cuisines.includes(cuisineName)) {
         result.herb.push(herb);
       }

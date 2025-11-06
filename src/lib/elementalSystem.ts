@@ -1,14 +1,14 @@
 // src/lib/elementalSystem.ts
 
 import {
-  __ELEMENTS,
-  __IDEAL_PROPORTION,
-  __MINIMUM_THRESHOLD,
-  __MAXIMUM_THRESHOLD,
+  _ELEMENTS,
+  _IDEAL_PROPORTION,
+  _MINIMUM_THRESHOLD,
+  _MAXIMUM_THRESHOLD,
   _ELEMENT_AFFINITIES,
-  _ZODIAC__ELEMENTS
+  _ZODIAC_ELEMENTS
 } from '@/constants/elementalConstants';
-import {_getLatestAstrologicalState} from '@/services/AstrologicalService';
+import {getLatestAstrologicalState} from '@/services/AstrologicalService';
 import type {
   ElementalProperties,
   Element,
