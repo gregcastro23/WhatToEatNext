@@ -8,7 +8,7 @@ import type {
   RecipeNutrition,
   RecipePlanetaryInfluences,
   ScoredRecipe,
-  Season;
+  Season
 } from '@/types/recipe';
 import { createElementalProperties } from '../elemental/elementalUtils';
 import { isNonEmptyArray } from '../typeGuards';
@@ -103,8 +103,8 @@ export function createScoredRecipe(recipe: Recipe | RecipeData, matchScore: numb
       _lunarScore: 0,
       _planetaryScore: 0,
       _seasonalScore: 0
-};
-};
+    }
+  };
 }
 
 export function isRecipeData(obj: unknown): obj is RecipeData {
@@ -129,7 +129,7 @@ export function extractElementalProperties(recipeData: RecipeData): ElementalPro
 export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
   if (!isNonEmptyArray(recipeData.tags)) return [];
 
-  const cookingMethodKeywords = [;
+  const cookingMethodKeywords = [
     'baking',
     'roasting',
     'grilling',
