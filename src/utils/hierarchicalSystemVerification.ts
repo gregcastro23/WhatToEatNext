@@ -397,14 +397,14 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
     });
 
     // Test 5: Recommendation engine
-    const userProfile = createBasicUserProfile({)
+    const userProfile = createBasicUserProfile({
       Fire: 0.7,
       Water: 0.1,
       Earth: 0.1,
       Air: 0.1
     });
 
-    const recommendations = generateEnhancedCuisineRecommendations({)
+    const recommendations = generateEnhancedCuisineRecommendations({
       elementalProperties: userProfile.elementalPreferences,
       useAdvancedAnalysis: true
     });
