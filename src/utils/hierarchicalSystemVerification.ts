@@ -421,10 +421,10 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
     const cacheKey = `test-cuisine-${Date.now()}`;
 
     // Store in cache
-    cache.set(cacheKey, computedCuisine, ) {}, ['test-recipe-1', 'test-recipe-2']);
+    cache.set(cacheKey, computedCuisine, {}, ['test-recipe-1', 'test-recipe-2']);
 
     // Retrieve from cache
-    const cachedResult = cache.get(cacheKey, ) {});
+    const cachedResult = cache.get(cacheKey, {});
 
     if (cachedResult) {
       results.push('✅ Caching system: Successfully stored and retrieved data');
