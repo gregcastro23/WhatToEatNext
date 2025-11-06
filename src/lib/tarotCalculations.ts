@@ -1,17 +1,17 @@
 import {
-  DECAN_RULERS,
-  DECAN_TO_TAROT,
-  MAJOR_ARCANA,
-  PLANET_TO_MAJOR_ARCANA,
-  TAROT_CARDS
+  _DECAN_RULERS,
+  _DECAN_TO_TAROT,
+  _MAJOR_ARCANA,
+  _PLANET_TO_MAJOR_ARCANA,
+  _TAROT_CARDS
 } from '@/constants/tarotCards';
 import { log } from '@/services/LoggingService';
 
 // Type definitions for the imported constants to improve type safety
-type DecanKey = keyof typeof DECAN_TO_TAROT;
-type TarotCardKey = keyof typeof TAROT_CARDS;
-type PlanetKey = keyof typeof PLANET_TO_MAJOR_ARCANA;
-type MajorArcanaKey = keyof typeof MAJOR_ARCANA;
+type DecanKey = keyof typeof _DECAN_TO_TAROT;
+type TarotCardKey = keyof typeof _TAROT_CARDS;
+type PlanetKey = keyof typeof _PLANET_TO_MAJOR_ARCANA;
+type MajorArcanaKey = keyof typeof _MAJOR_ARCANA;
 
 export function getCurrentDecan(
   date: Date,
@@ -66,8 +66,8 @@ export function getCurrentDecan(
 
 export function getTarotCardForDate(date: Date) {
   const decan = getCurrentDecan(date);
-  const cardKey = DECAN_TO_TAROT[decan] as TarotCardKey;
-  return TAROT_CARDS[cardKey] || TAROT_CARDS['10_of_cups'];
+  const cardKey = _DECAN_TO_TAROT[decan] as TarotCardKey;
+  return _TAROT_CARDS[cardKey] || _TAROT_CARDS['10_of_cups'];
 }
 
 export function getRecipesForTarotCard(card: unknown): string[] {
@@ -84,9 +84,9 @@ export function getRecipesForTarotCard(card: unknown): string[] {
 }
 
 export function getMajorArcanaForDecan(decan: DecanKey) {
-  const decanRuler = DECAN_RULERS[decan] as PlanetKey;
-  const cardKey = PLANET_TO_MAJOR_ARCANA[decanRuler] as MajorArcanaKey;
-  return MAJOR_ARCANA[cardKey];
+  const decanRuler = _DECAN_RULERS[decan] as PlanetKey;
+  const cardKey = _PLANET_TO_MAJOR_ARCANA[decanRuler] as MajorArcanaKey;
+  return _MAJOR_ARCANA[cardKey];
 }
 
 // Minor arcana cards (numbered cards + court cards)
@@ -354,7 +354,7 @@ export const getTarotCardsForDate = (
   const decan = getCurrentDecan(date, sunPosition);
 
   // Get minor arcana card key from the decan mapping
-  const minorArcanaKey = DECAN_TO_TAROT[decan] as TarotCardKey;
+  const minorArcanaKey = _DECAN_TO_TAROT[decan] as TarotCardKey;
 
   if (!minorArcanaKey) {
     logger.warn(`No tarot card found for decan ${decan}, using default`);
@@ -369,7 +369,7 @@ export const getTarotCardsForDate = (
 
   // Get the minor arcana card details
   const cardKey = minorArcanaKey || ('10_of_cups' as TarotCardKey); // Default if not found
-  const tarotCard = TAROT_CARDS[cardKey];
+  const tarotCard = _TAROT_CARDS[cardKey];
 
   // Extract suit and number from the card name
   const nameParts = tarotCard.name.split(' of ');
@@ -404,18 +404,18 @@ export const getTarotCardsForDate = (
   };
 
   // For major arcana, get the planet ruling the current decan
-  const decanRuler = DECAN_RULERS[decan] as PlanetKey;
+  const decanRuler = _DECAN_RULERS[decan] as PlanetKey;
 
   // Map the planet to corresponding major arcana card
   const majorArcanaName =
-    (PLANET_TO_MAJOR_ARCANA[decanRuler] as MajorArcanaKey) || ('The Fool' as MajorArcanaKey); // Default
+    (_PLANET_TO_MAJOR_ARCANA[decanRuler] as MajorArcanaKey) || ('The Fool' as MajorArcanaKey); // Default
 
   // Create the major card object
   const majorCard: MajorArcanaCard = {
     name: majorArcanaName,
     planet: decanRuler || 'Sun', // Default to Sun if no planet found
     keywords: majorArcanaKeywords[majorArcanaName] || [],
-    element: MAJOR_ARCANA[majorArcanaName].element || '' // Extract element from MAJOR_ARCANA
+    element: _MAJOR_ARCANA[majorArcanaName].element || '' // Extract element from _MAJOR_ARCANA
   };
 
   return { minorCard, majorCard };
@@ -520,7 +520,7 @@ export const _getTarotFoodRecommendations = (
 } => {
   const tarotCards = getTarotCardsForDate(date);
   const decan = getCurrentDecan(date);
-  const decanRuler = DECAN_RULERS[decan] as PlanetKey;
+  const decanRuler = _DECAN_RULERS[decan] as PlanetKey;
 
   // Extract element from tarot cards
   const {element} = tarotCards.minorCard;
@@ -541,10 +541,10 @@ export const _getTarotFoodRecommendations = (
 
   // Get card details for flavor insights
   const cardName = tarotCards.minorCard.name;
-  const cardNameAsKey = Object.keys(TAROT_CARDS).find(key => TAROT_CARDS[key as TarotCardKey].name === cardName) as TarotCardKey;
+  const cardNameAsKey = Object.keys(_TAROT_CARDS).find(key => _TAROT_CARDS[key as TarotCardKey].name === cardName) as TarotCardKey;
 
   const tarotCard: TarotCardBase = cardNameAsKey
-    ? TAROT_CARDS[cardNameAsKey]
+    ? _TAROT_CARDS[cardNameAsKey]
     : {
         id: '',
         name: tarotCards.minorCard.name,

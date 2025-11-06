@@ -1,5 +1,5 @@
-import {_getCurrentPlanetaryPositions as apiGetCurrent, getPlanetaryPositionsForDateTime} from '@/services/astrologizeApi';
-import {_getAccuratePlanetaryPositions as engGetAccurate} from '@/utils/astrology/positions';
+import {getCurrentPlanetaryPositions as apiGetCurrent, getPlanetaryPositionsForDateTime} from '@/services/astrologizeApi';
+import {getAccuratePlanetaryPositions as engGetAccurate} from '@/utils/astrology/positions';
 import type { PlanetPosition } from '@/utils/astrologyUtils';
 import {createLogger} from '@/utils/logger';
 

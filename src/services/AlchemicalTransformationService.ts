@@ -3,12 +3,12 @@ import {
   CookingMethod
 } from '../types/alchemy';
 import {
-  transformIngredients,
-  transformCookingMethods,
-  transformCuisines,
-  sortByAlchemicalCompatibility,
-  filterByAlchemicalCompatibility,
-  getTopCompatibleItems
+  __transformIngredients,
+  __transformCookingMethods,
+  __transformCuisines,
+  __sortByAlchemicalCompatibility,
+  __filterByAlchemicalCompatibility,
+  __getTopCompatibleItems
 } from '../utils/alchemicalTransformationUtils';
 import type { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
 import type { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
@@ -163,7 +163,7 @@ export class AlchemicalTransformationService {
    * Get transformed ingredients based on current settings
    */
   getTransformedIngredients(): AlchemicalItem[] {
-    return transformIngredients(
+    return _transformIngredients(
       this.ingredients,
       this.planetPositions,
       this.isDaytime,
@@ -176,7 +176,7 @@ export class AlchemicalTransformationService {
    * Get transformed cooking methods based on current settings
    */
   getTransformedCookingMethods(): AlchemicalItem[] {
-    return transformCookingMethods(
+    return _transformCookingMethods(
       this.cookingMethods,
       this.planetPositions,
       this.isDaytime,
@@ -189,7 +189,7 @@ export class AlchemicalTransformationService {
    * Get transformed cuisines based on current settings
    */
   getTransformedCuisines(): AlchemicalItem[] {
-    return transformCuisines(
+    return _transformCuisines(
       this.cuisines,
       this.planetPositions,
       this.isDaytime,
@@ -205,9 +205,9 @@ export class AlchemicalTransformationService {
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
     const transformedCuisines = this.getTransformedCuisines();
-    const topIngredients = getTopCompatibleItems(transformedIngredients, count);
-    const topMethods = getTopCompatibleItems(transformedMethods, count);
-    const topCuisines = getTopCompatibleItems(transformedCuisines, count);
+    const topIngredients = _getTopCompatibleItems(transformedIngredients, count);
+    const topMethods = _getTopCompatibleItems(transformedMethods, count);
+    const topCuisines = _getTopCompatibleItems(transformedCuisines, count);
 
     // Determine overall dominant element and alchemical property
     // This is based on the first ingredients as they typically have the strongest influence
@@ -368,27 +368,27 @@ export class AlchemicalTransformationService {
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
     const transformedCuisines = this.getTransformedCuisines();
-    const filteredIngredients = filterByAlchemicalCompatibility(
+    const filteredIngredients = _filterByAlchemicalCompatibility(
       transformedIngredients,
       targetElement,
       targetAlchemicalProperty
     );
 
-    const filteredMethods = filterByAlchemicalCompatibility(
+    const filteredMethods = _filterByAlchemicalCompatibility(
       transformedMethods,
       targetElement,
       targetAlchemicalProperty
     );
 
-    const filteredCuisines = filterByAlchemicalCompatibility(
+    const filteredCuisines = _filterByAlchemicalCompatibility(
       transformedCuisines,
       targetElement,
       targetAlchemicalProperty
     );
 
-    const topIngredients = getTopCompatibleItems(filteredIngredients, count);
-    const topMethods = getTopCompatibleItems(filteredMethods, count);
-    const topCuisines = getTopCompatibleItems(filteredCuisines, count);
+    const topIngredients = _getTopCompatibleItems(filteredIngredients, count);
+    const topMethods = _getTopCompatibleItems(filteredMethods, count);
+    const topCuisines = _getTopCompatibleItems(filteredCuisines, count);
 
     // Use provided targets or default to first ingredient
     const dominantElement =

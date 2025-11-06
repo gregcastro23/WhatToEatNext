@@ -23,7 +23,7 @@ import {
   getEnhancedPlanetaryNutritionalRecommendations,
 } from '../../data/nutritional';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
-import { errorHandler } from '../errorHandler';
+import { ErrorHandler } from '../errorHandler';
 
 /**
  * Interface for the NutritionalDataAdapter

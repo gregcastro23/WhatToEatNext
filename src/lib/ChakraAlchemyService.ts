@@ -1,26 +1,21 @@
 import type {
-  Planet,
-  ZodiacSign,
-  TarotSuit,
-  ChakraPosition,
   ChakraEnergies,
-  EnergyStateProperties
-} from '@/types/alchemy';
-import {
-  Element
+  ChakraPosition,
+  EnergyStateProperties,
+  Planet,
+  TarotSuit,
+  ZodiacSign
 } from '@/types/alchemy';
 import type {
   Chakra,
+  KeyCardChakraMapping,
   MajorArcanaChakra,
-  SuitChakraMapping,
-  KeyCardChakraMapping
+  SuitChakraMapping
 } from '@/types/chakra';
 import {
-  __CHAKRAS,
-  _MAJOR_ARCANA_CHAKRAS,
-  __SUIT_CHAKRA_MAPPINGS,
-  __KEY_CARD_CHAKRA_MAPPINGS,
-  __CHAKRA_MAPPING_SUMMARY
+  _CHAKRAS,
+  _KEY_CARD_CHAKRA_MAPPINGS,
+  _SUIT_CHAKRA_MAPPINGS
 } from '@/types/chakra';
 
 /**
@@ -80,7 +75,7 @@ export class ChakraAlchemyService {
    * Get chakra associated with a specific major arcana card
    */
   public getMajorArcanaChakra(cardName: string): MajorArcanaChakra | undefined {
-    return MAJOR_ARCANA__CHAKRAS.find(
+    return MAJOR_ARCANA_CHAKRAS.find(
       card => card.cardName.toLowerCase() === cardName.toLowerCase()
     );
   }

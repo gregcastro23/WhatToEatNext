@@ -1,7 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
-import { __useFlavorEngine } from '../contexts/FlavorEngineContext';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { _useFlavorEngine } from '../contexts/FlavorEngineContext';
 import type { UnifiedFlavorProfile } from '../data/unified/unifiedFlavorEngine';
 
 // Keep track of global init state across hook instances

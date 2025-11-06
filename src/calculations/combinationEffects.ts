@@ -5,7 +5,6 @@ import type {
     LunarPhase
 } from '@/types/alchemy';
 import type { Element } from '@/types/celestial';
-import { _ELEMENT_COMBINATIONS } from '@/utils/constants/elements';
 import { ingredientMappings } from '@/utils/elementalMappings/ingredients';
 import { logger } from '@/utils/logger';
 
@@ -54,7 +53,7 @@ const COMBINATION_RULES: CombinationRule[] = [
 ];
 
 // Create a normalization function at the top of the file
-const normalizeLunarPhase = (phase: LunarPhase): string => 
+const normalizeLunarPhase = (phase: LunarPhase): string =>
   // Convert spaces to underscores for consistent lookup
    phase.replace(/\s+/g, '_')
 ;

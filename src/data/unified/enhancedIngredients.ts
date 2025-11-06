@@ -1,20 +1,20 @@
 // TODO: Fix import - add what to import from './unifiedTypes.ts'
 // TODO: Fix import - add what to import from './ingredients.ts'
 import type {
-  AlchemicalProperties,
-  CookingMethod,
-  Element,
-  ElementalProperties,
-  FlavorProfile,
-  LunarPhase,
-  PlanetName,
-  Season,
-  ThermodynamicProperties
+    AlchemicalProperties,
+    CookingMethod,
+    Element,
+    ElementalProperties,
+    FlavorProfile,
+    LunarPhase,
+    PlanetName,
+    Season,
+    ThermodynamicProperties
 } from '@/types/alchemy';
 import {
-  calculateElementalCompatibility,
-  createElementalProperties,
-  isElementalProperties
+    calculateElementalCompatibility,
+    createElementalProperties,
+    isElementalProperties
 } from '../../utils/elemental/elementalUtils';
 // TODO: Fix import - add what to import from './flavorProfiles.ts'
 // TODO: Fix import - add what to import from './seasonal.ts'
@@ -25,10 +25,9 @@ import { unifiedCuisineIntegrationSystem } from './cuisineIntegrations';
 import { unifiedFlavorProfileSystem } from './flavorProfiles';
 
 // Import unified systems
+import type { UnifiedFlavorProfile } from './flavorProfiles';
 import { unifiedIngredients } from './ingredients';
-import { _UnifiedNutritionalSystem } from './nutritional';
 import { unifiedSeasonalSystem } from './seasonal';
-import type { UnifiedFlavorProfile} from './flavorProfiles';
 
 // Import unified ingredients
 import type { UnifiedIngredient } from './unifiedTypes';

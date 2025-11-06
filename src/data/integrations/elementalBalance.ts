@@ -1,12 +1,12 @@
 import {
-  _ELEMENTS,
-  _MINIMUM_THRESHOLD,
-  _MAXIMUM_THRESHOLD,
   DEFAULT_ELEMENTAL_PROPERTIES,
+  _ELEMENTS,
+  _MAXIMUM_THRESHOLD,
+  _MINIMUM_THRESHOLD,
   _VALIDATION_THRESHOLDS
 } from '@/constants/elementalConstants';
-import type { ElementalProperties, Element, Recipe } from '@/types/alchemy';
-import { validateElementalProperties, _normalizeElementalProperties } from '@/types/validators';
+import type { Element, ElementalProperties, Recipe } from '@/types/alchemy';
+import { validateElementalProperties } from '@/types/validators';
 
 export const elementalBalance = {
   calculateBalance(properties: ElementalProperties): number {

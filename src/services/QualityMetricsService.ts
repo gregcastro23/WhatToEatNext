@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { _logger } from '@/lib/logger';
 import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
-import { errorTrackingSystem } from './ErrorTrackingSystem';
+import { __errorTrackingSystem } from './ErrorTrackingSystem';
 
 export interface QualityInsight {
   type: 'trend' | 'prediction' | 'recommendation' | 'alert';
@@ -260,8 +260,8 @@ class QualityMetricsService {
 
   private generateInsights(): void {
     const buildSummary = buildPerformanceMonitor.getPerformanceSummary();
-    const errorSummary = (errorTrackingSystem.getErrorSummary() || {}) as ErrorSummary;
-    const qualityMetrics = (errorTrackingSystem.getCurrentQualityMetrics() || {}) as QualityHistoryItem;
+    const errorSummary = (_errorTrackingSystem.getErrorSummary() || {}) as ErrorSummary;
+    const qualityMetrics = (_errorTrackingSystem.getCurrentQualityMetrics() || {}) as QualityHistoryItem;
 
     const newInsights: QualityInsight[] = [];
 
@@ -390,8 +390,8 @@ class QualityMetricsService {
 
   private updatePredictions(): void {
     const buildHistory = buildPerformanceMonitor.getBuildHistory(20);
-    const qualityHistory = (errorTrackingSystem.getQualityHistory(20) || []) as QualityHistoryItem[];
-    const errorSummary = (errorTrackingSystem.getErrorSummary() || {}) as ErrorSummary;
+    const qualityHistory = (_errorTrackingSystem.getQualityHistory(20) || []) as QualityHistoryItem[];
+    const errorSummary = (_errorTrackingSystem.getErrorSummary() || {}) as ErrorSummary;
 
     const newPredictions: QualityPrediction[] = [];
 
@@ -470,7 +470,7 @@ class QualityMetricsService {
   }
 
   private estimateErrorReductionRate(): number {
-    const history = (errorTrackingSystem.getQualityHistory(10) || []) as QualityHistoryItem[];
+    const history = (_errorTrackingSystem.getQualityHistory(10) || []) as QualityHistoryItem[];
     if (history.length < 2) return 0;
     const recent = history.slice(-3);
     const older = history.slice(-6, -3);
@@ -481,7 +481,7 @@ class QualityMetricsService {
   }
 
   private analyzeTechnicalDebt(): void {
-    const errorPatterns = (errorTrackingSystem.getErrorPatterns() || []) as ErrorPattern[];
+    const errorPatterns = (_errorTrackingSystem.getErrorPatterns() || []) as ErrorPattern[];
     const buildBottlenecks = (buildPerformanceMonitor.getBottlenecks() || []) as BuildBottleneck[];
 
     const debtItems: TechnicalDebtItem[] = [];
@@ -559,8 +559,8 @@ class QualityMetricsService {
   }
 
   private updateGoalProgress(): void {
-    const errorSummary = (errorTrackingSystem.getErrorSummary() || {}) as ErrorSummary;
-    const qualityMetrics = (errorTrackingSystem.getCurrentQualityMetrics() || {}) as QualityHistoryItem;
+    const errorSummary = (_errorTrackingSystem.getErrorSummary() || {}) as ErrorSummary;
+    const qualityMetrics = (_errorTrackingSystem.getCurrentQualityMetrics() || {}) as QualityHistoryItem;
     const buildSummary = buildPerformanceMonitor.getPerformanceSummary();
 
     for (const goal of this.goals) {
@@ -614,8 +614,8 @@ class QualityMetricsService {
     const startDate = new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000);
 
     const buildSummary = buildPerformanceMonitor.getPerformanceSummary();
-    const errorSummary = (errorTrackingSystem.getErrorSummary() || {}) as ErrorSummary;
-    const qualityMetrics = (errorTrackingSystem.getCurrentQualityMetrics() || {}) as QualityHistoryItem;
+    const errorSummary = (_errorTrackingSystem.getErrorSummary() || {}) as ErrorSummary;
+    const qualityMetrics = (_errorTrackingSystem.getCurrentQualityMetrics() || {}) as QualityHistoryItem;
 
     const report: QualityReport = {
       period: `${startDate.toISOString().split('T')[0]} to ${endDate.toISOString().split('T')[0]}`,
@@ -687,7 +687,7 @@ class QualityMetricsService {
   }
 
   private calculateErrorReductionTrend(): number {
-    const history = (errorTrackingSystem.getQualityHistory(14) || []) as QualityHistoryItem[];
+    const history = (_errorTrackingSystem.getQualityHistory(14) || []) as QualityHistoryItem[];
     if (history.length < 2) return 0;
     const recent = history.slice(-7);
     const previous = history.slice(-14, -7);
@@ -709,7 +709,7 @@ class QualityMetricsService {
   }
 
   private calculateDebtReductionTrend(): number {
-    const history = (errorTrackingSystem.getQualityHistory(14) || []) as QualityHistoryItem[];
+    const history = (_errorTrackingSystem.getQualityHistory(14) || []) as QualityHistoryItem[];
     if (history.length < 2) return 0;
     const recent = history.slice(-7);
     const previous = history.slice(-14, -7);

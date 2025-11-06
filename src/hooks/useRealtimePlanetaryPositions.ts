@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
 import { log } from '@/services/LoggingService';
-import { PlanetaryPositionsService } from '@/services/PlanetaryPositionsService';
 import type { PlanetPosition } from '@/utils/astrologyUtils';
+import { useCallback, useEffect, useState } from 'react';
 
 interface PlanetaryPositionsState {
   positions: { [key: string]: PlanetPosition } | null;

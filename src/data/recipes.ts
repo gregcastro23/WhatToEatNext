@@ -1,16 +1,16 @@
 import {
-    calculateCuisineFlavorMatch,
-    cuisineFlavorProfiles,
-    getCuisineProfile,
-    getRelatedCuisines
+  calculateCuisineFlavorMatch,
+  cuisineFlavorProfiles,
+  getCuisineProfile,
+  getRelatedCuisines
 } from '@/data/cuisineFlavorProfiles';
 import cuisinesMap from '@/data/cuisines/index';
 import {
-    calculateFlavorProfile,
-    __calculatePlanetaryFlavorMatch,
-    __getDominantFlavor,
-    __getResonantCuisines,
-    planetaryFlavorProfiles
+  _calculatePlanetaryFlavorMatch,
+  _getDominantFlavor,
+  _getResonantCuisines,
+  calculateFlavorProfile,
+  planetaryFlavorProfiles
 } from '@/data/planetaryFlavorProfiles';
 import { _logger } from '@/lib/logger';
 import type { LunarPhase, Season } from '@/types/alchemy';
@@ -443,9 +443,7 @@ export const _getRecommendedCookingTechniques = (recipe: RecipeData): string[] =
     .map(([technique]) => technique);
 };
 
-export {
-    calculateFlavorProfile, _calculatePlanetaryFlavorMatch, _getDominantFlavor, _getResonantCuisines
-};
+export { _calculatePlanetaryFlavorMatch, _getDominantFlavor, _getResonantCuisines, calculateFlavorProfile };
 
 /**
  * Get recipes that match a given flavor profile, sorted by match score

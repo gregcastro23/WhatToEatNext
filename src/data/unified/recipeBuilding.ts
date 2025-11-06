@@ -3,7 +3,7 @@
 // Enhances recipe building with Monica/Kalchm optimization, seasonal adaptation,
 // cuisine integration, and enhanced recipe intelligence
 
-import { __unifiedSeasonalSystem } from '@/data/integrations/seasonal';
+import { _unifiedSeasonalSystem } from '@/data/integrations/seasonal';
 import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { ElementalProperties, LunarPhase, PlanetName, Season } from '@/types/alchemy';
 import type {

@@ -2,8 +2,8 @@ import { log } from '@/services/LoggingService';
 import fs from 'fs';
 import path from 'path';
 import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
-import { errorTrackingSystem } from './ErrorTrackingSystem';
-import { qualityMetricsService } from './QualityMetricsService';
+import { __errorTrackingSystem } from './ErrorTrackingSystem';
+import { __qualityMetricsService } from './QualityMetricsService';
 
 export interface Alert {
   id: string;
@@ -342,11 +342,11 @@ class AlertingSystem {
       this.evaluatePerformanceAlerts(data);
     })
 
-    errorTrackingSystem.subscribe(data => {
+    _errorTrackingSystem.subscribe(data => {
       this.evaluateErrorAlerts(data);
     })
 
-    qualityMetricsService.subscribe(data => {
+    _qualityMetricsService.subscribe(data => {
       this.evaluateQualityAlerts(data);
     })
   }
@@ -437,7 +437,7 @@ class AlertingSystem {
   }
 
   private getErrorMetric(metric: string): number {
-    const summary = errorTrackingSystem.getErrorSummary();
+    const summary = _errorTrackingSystem.getErrorSummary();
 
     switch (metric) {
       case 'typescript_errors':
@@ -456,7 +456,7 @@ class AlertingSystem {
   }
 
   private getQualityMetric(metric: string): number {
-    const qualityMetrics = errorTrackingSystem.getCurrentQualityMetrics();
+    const qualityMetrics = _errorTrackingSystem.getCurrentQualityMetrics();
     if (!qualityMetrics) return 0;
     switch (metric) {
       case 'code_quality_score':
@@ -594,7 +594,7 @@ class AlertingSystem {
 
     if (condition.includes('automation_opportunities >')) {
       const threshold = parseInt(condition.split('>')[1].trim());
-      const errorSummary = errorTrackingSystem.getErrorSummary();
+      const errorSummary = _errorTrackingSystem.getErrorSummary();
       return errorSummary.automationOpportunities > threshold;
     }
 

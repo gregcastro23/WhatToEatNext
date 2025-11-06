@@ -5,16 +5,16 @@
  * Provides performance tracking, caching, and user interaction analytics
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
 import type {
-  RecommendationMetrics,
-  RecommendationConfidence,
-  AnalyticsSnapshot
+    AnalyticsSnapshot,
+    RecommendationConfidence,
+    RecommendationMetrics
 } from '@/services/RecommendationAnalyticsService';
 import {
-  __recommendationAnalytics
+    _recommendationAnalytics
 } from '@/services/RecommendationAnalyticsService';
 import { logger } from '@/utils/logger';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 // ========== INTERFACES ==========
 

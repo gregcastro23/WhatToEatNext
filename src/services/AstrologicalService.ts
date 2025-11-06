@@ -3,10 +3,10 @@ import * as path from 'path';
 
 // ========== PHASE, 3: UPDATED IMPORTS TO USE TYPE ALIASES ==========
 import {
-  DefaultAstrologicalState,
+  __DefaultAstrologicalState,
   DefaultPlanetaryPositions,
-  createSuccessResponse,
-  createErrorResponse
+  __createSuccessResponse,
+  __createErrorResponse
 } from '@/constants/typeDefaults';
 import type { ElementalPropertiesType, ServiceResponseType } from '@/types/alchemy';
 import type { PlanetaryInfluenceResponse } from '@/types/apiResponses';
@@ -102,8 +102,8 @@ export class AstrologicalService {
   private constructor() {
     // Initialize with default state
     this.currentState = {
-      ...DefaultAstrologicalState,
-      elementalInfluence: DefaultAstrologicalState.elementalInfluence
+      ..._DefaultAstrologicalState,
+      elementalInfluence: _DefaultAstrologicalState.elementalInfluence
     }
   }
 
@@ -139,9 +139,9 @@ export class AstrologicalService {
         calculationTimestamp: new Date().toISOString()
       };
 
-      return createSuccessResponse(mockCalculationResult);
+      return _createSuccessResponse(mockCalculationResult);
     } catch (error) {
-      return createErrorResponse(
+      return _createErrorResponse(
         `Calculation test failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
     }
@@ -156,7 +156,7 @@ export class AstrologicalService {
     try {
       logger.info('Verifying planetary positions...')
       if (!positions || Object.keys(positions).length === 0) {
-        return createErrorResponse('No planetary positions provided for verification');
+        return _createErrorResponse('No planetary positions provided for verification');
       }
 
       // Validate that all positions are valid zodiac signs
@@ -179,9 +179,9 @@ export class AstrologicalService {
         validZodiacSigns.includes(sign.toLowerCase() as StandardZodiacSign)
       );
 
-      return createSuccessResponse(isValid);
+      return _createSuccessResponse(isValid);
     } catch (error) {
-      return createErrorResponse(
+      return _createErrorResponse(
         `Verification failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       )
     }
@@ -215,9 +215,9 @@ export class AstrologicalService {
         results
       };
 
-      return createSuccessResponse(responseData);
+      return _createSuccessResponse(responseData);
     } catch (error) {
-      return createErrorResponse(
+      return _createErrorResponse(
         `API testing failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       )
     }
@@ -238,9 +238,9 @@ export class AstrologicalService {
   ): ServiceResponseType<CompleteAstrologicalState> {
     try {
       this.currentState = { ...this.currentState, ...newState };
-      return createSuccessResponse(this.currentState);
+      return _createSuccessResponse(this.currentState);
     } catch (error) {
-      return createErrorResponse(
+      return _createErrorResponse(
         `Failed to update state: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
     }
@@ -271,9 +271,9 @@ export class AstrologicalService {
         compatibilityScore: 0.75
       };
 
-      return createSuccessResponse(influences);
+      return _createSuccessResponse(influences);
     } catch (error) {
-      return createErrorResponse(
+      return _createErrorResponse(
         `Planetary influence calculation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
     }
@@ -322,9 +322,9 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
       calculationTimestamp: new Date().toISOString()
     };
 
-    return createSuccessResponse(astrologicalData);
+    return _createSuccessResponse(astrologicalData);
   } catch (error) {
-    return createErrorResponse(
+    return _createErrorResponse(
       `Failed to get astrological state: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }

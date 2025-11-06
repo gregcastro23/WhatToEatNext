@@ -1,7 +1,5 @@
 // Combines all cuisine matrix files into a unified cuisine pairing API
 
-import { __grainCuisineMatrix } from './_grainCuisineMatrix';
-import { __herbCuisineMatrix } from './_herbCuisineMatrix';
 
 type IngredientCategory = 'grain' | 'herb' | 'spice' | 'protein' | 'vegetable';
 /**

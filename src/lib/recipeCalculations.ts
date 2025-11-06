@@ -1,5 +1,3 @@
-import { recipes } from '@/data/recipes';
-import { SUIT_TO_ELEMENT } from '@/utils/tarotMappings';
 
 // Local interface for a tarot card used in recipes
 interface RecipeTarotCard {

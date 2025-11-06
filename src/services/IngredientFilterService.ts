@@ -3,7 +3,7 @@ import { fruits } from '../data/ingredients/fruits';
 import { grains } from '../data/ingredients/grains';
 import { herbs } from '../data/ingredients/herbs';
 import { oils } from '../data/ingredients/oils';
-import { proteins } from '../data/ingredients/proteins';
+import { __proteins } from '../data/ingredients/_proteins';
 import { spices } from '../data/ingredients/spices';
 import { vegetables } from '../data/ingredients/vegetables';
 import type { IngredientMapping, ElementalProperties } from '../types/alchemy';
@@ -72,7 +72,7 @@ export class IngredientFilterService {
   private constructor() {
     // Initialize with all available ingredient data
     this.allIngredients = {
-      [INGREDIENT_GROUPS.PROTEINS]: proteins as Record<string, IngredientMapping>,
+      [INGREDIENT_GROUPS.PROTEINS]: _proteins as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.VEGETABLES]: vegetables as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.FRUITS]: fruits as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.HERBS]: herbs as Record<string, IngredientMapping>,

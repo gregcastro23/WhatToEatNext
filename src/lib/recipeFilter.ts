@@ -1,12 +1,10 @@
-import {_getLatestAstrologicalState} from '@/services/AstrologicalService';
-import type { Recipe, ElementalProperties } from '@/types/recipe';
-import {elementalUtils, _getCurrentElementalState} from '@/utils/elementalUtils';
+import type { ElementalProperties, Recipe } from '@/types/recipe';
 
 // Calculate elemental harmony between two sets of elemental properties
 const calculateElementalHarmony = (
   _recipeProperties: ElementalProperties,
   _targetProperties: ElementalProperties
-): { elementalHarmony: number } => 
+): { elementalHarmony: number } =>
   // Simple implementation - can be replaced with the actual alchemical engine later
    ({
     elementalHarmony: 0.5, // Default value

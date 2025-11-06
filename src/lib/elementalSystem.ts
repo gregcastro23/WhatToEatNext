@@ -3,17 +3,13 @@
 import {
   _ELEMENTS,
   _IDEAL_PROPORTION,
-  _MINIMUM_THRESHOLD,
   _MAXIMUM_THRESHOLD,
-  _ELEMENT_AFFINITIES,
-  _ZODIAC_ELEMENTS
+  _MINIMUM_THRESHOLD
 } from '@/constants/elementalConstants';
-import {getLatestAstrologicalState} from '@/services/AstrologicalService';
 import type {
-  ElementalProperties,
-  Element,
-  ZodiacSign,
   AstrologicalState,
+  Element,
+  ElementalProperties,
   Season
 } from '@/types/alchemy';
 
