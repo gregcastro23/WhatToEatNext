@@ -118,7 +118,7 @@ export function getRecipeSeasons(recipe: Recipe): string[] {
 
   // Try currentSeason first
   if (recipe.currentSeason) {
-    if (Array.isArray(recipe.currentSeason) {
+    if (Array.isArray(recipe.currentSeason)) {
       return recipe.currentSeason.filter(season => typeof season === 'string');
     } else if (typeof recipe.currentSeason === 'string') {
       return [recipe.currentSeason];
@@ -127,7 +127,7 @@ export function getRecipeSeasons(recipe: Recipe): string[] {
 
   // Try season if currentSeason didn't work
   if (recipe.season) {
-    if (Array.isArray(recipe.season) {
+    if (Array.isArray(recipe.season)) {
       return recipe.season.filter(season => typeof season === 'string');
     } else if (typeof recipe.season === 'string') {
       return [recipe.season];
@@ -150,13 +150,13 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
     recipe.astrologicalPropertiesInfluences &&
     Array.isArray(recipe.astrologicalPropertiesInfluences)
   ) {
-    return recipe.astrologicalPropertiesInfluences.filter()
+    return recipe.astrologicalPropertiesInfluences.filter(
       influence => typeof influence === 'string'
     );
   }
 
   // Try astrologicalInfluences if that didn't work
-  if (recipe.astrologicalInfluences && Array.isArray(recipe.astrologicalInfluences) {
+  if (recipe.astrologicalInfluences && Array.isArray(recipe.astrologicalInfluences)) {
     return recipe.astrologicalInfluences.filter(influence => typeof influence === 'string');
   }
 
@@ -166,7 +166,7 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
     recipe.elementalMapping.astrologicalInfluences &&
     Array.isArray(recipe.elementalMapping.astrologicalInfluences)
   ) {
-    return recipe.elementalMapping.astrologicalInfluences.filter()
+    return recipe.elementalMapping.astrologicalInfluences.filter(
       influence => typeof influence === 'string'
     );
   }
@@ -183,7 +183,7 @@ export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
   }
 
   // Try zodiacInfluences first
-  if (recipe.zodiacInfluences && Array.isArray(recipe.zodiacInfluences) {
+  if (recipe.zodiacInfluences && Array.isArray(recipe.zodiacInfluences)) {
     return recipe.zodiacInfluences.filter(influence => typeof influence === 'string');
   }
 
@@ -194,7 +194,7 @@ export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
     recipe.elementalMapping.astrologicalProfile.favorableZodiac &&
     Array.isArray(recipe.elementalMapping.astrologicalProfile.favorableZodiac)
   ) {
-    return recipe.elementalMapping.astrologicalProfile.favorableZodiac.filter()
+    return recipe.elementalMapping.astrologicalProfile.favorableZodiac.filter(
       zodiac => typeof zodiac === 'string'
     );
   }
@@ -244,7 +244,7 @@ export function recipeHasTag(recipe: Recipe, tag: string): boolean {
     return false;
   }
 
-  if (!recipe.tags || !Array.isArray(recipe.tags) {
+  if (!recipe.tags || !Array.isArray(recipe.tags)) {
     return false;
   }
 
@@ -259,7 +259,7 @@ export function isRecipeCompatibleWithDiet(recipe: Recipe, restriction: string):
     return false;
   }
 
-  switch (restriction.toLowerCase() {
+  switch (restriction.toLowerCase()) {
     case 'vegetarian':
       return recipe.isVegetarian === true;
     case 'vegan':
@@ -285,13 +285,13 @@ export function recipeHasIngredient(recipe: Recipe, ingredientName: string): boo
     return false;
   }
 
-  if (!recipe.ingredients || !Array.isArray(recipe.ingredients) {
+  if (!recipe.ingredients || !Array.isArray(recipe.ingredients)) {
     return false;
   }
 
   const searchName = ingredientName.toLowerCase();
 
-  return recipe.ingredients.some(ingredient => ) {
+  return recipe.ingredients.some(ingredient => {
     // Handle both string and object ingredients
     if (typeof ingredient === 'string') {
       return String(ingredient).toLowerCase().includes(searchName);
@@ -319,7 +319,7 @@ export function getRecipeDominantElement(recipe: Recipe): string {
   let maxElement = 'Earth';
   let maxValue = 0;
 
-  (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => ) {
+  (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
     const value = Number(elementalProperties[element]) || 0;
     if (value > maxValue) {
       maxValue = value;
@@ -371,16 +371,16 @@ export function toScoredRecipe(recipe: Recipe, _score?: number): ScoredRecipe {
 /**
  * Checks if a recipe is compatible with dietary restrictions
  */
-export function isRecipeDietaryCompatible()
+export function isRecipeDietaryCompatible(
   recipe: Recipe,
-  dietaryRestrictions: string[] = [];
+  dietaryRestrictions: string[] = []
 ): boolean {
   if (!recipe || !Array.isArray(dietaryRestrictions) || dietaryRestrictions.length === 0) {
     return true;
   }
 
-  return dietaryRestrictions.every(restriction => ) {
-    switch (restriction.toLowerCase() {
+  return dietaryRestrictions.every(restriction => {
+    switch (restriction.toLowerCase()) {
       case 'vegetarian':
         return recipe.isVegetarian === true;
       case 'vegan':
@@ -409,12 +409,12 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
     return [];
   }
 
-  if (!recipe.ingredients || !Array.isArray(recipe.ingredients) {
+  if (!recipe.ingredients || !Array.isArray(recipe.ingredients)) {
     return [];
   }
 
   return recipe.ingredients
-    .map(ingredient => ) {
+    .map(ingredient => {
       // Handle both string and object ingredients
       if (typeof ingredient === 'string') {
         return {
