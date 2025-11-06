@@ -15,15 +15,15 @@ export function calculateSunPosition(date: Date = new Date()) {
 }
 
 // Moon calculation
-export function calculateMoonPosition(date: Date = new Date() {
-  const t = (date.getTime() - new Date('2000-01-01T12: 00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 27.322);
+export function calculateMoonPosition(date: Date = new Date()) {
+  const t = (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 27.322);
   const longitude = 218.3164477 + 481267.88123421 * t;
   return {
     sign: getSignFromLongitude(longitude),
     degree: longitude % 30,
-    minutes: (longitude % 1) * 60;
-    isRetrograde: false, // Moon never retrograde
-  }
+    minutes: (longitude % 1) * 60,
+    isRetrograde: false // Moon never retrograde
+  };
 }
 
 // Mercury calculation
@@ -42,7 +42,7 @@ export function calculateMercuryPosition(date: Date = new Date()) {
 
 // Helper function to get sign from longitude
 function getSignFromLongitude(longitude: number): string {
-  const signs = [;
+  const signs = [
     'aries',
     'taurus',
     'gemini',
@@ -55,21 +55,21 @@ function getSignFromLongitude(longitude: number): string {
     'capricorn',
     'aquarius',
     'pisces'
-  ],
+  ];
   const signIndex = Math.floor((longitude % 360) / 30);
   return signs[signIndex];
 }
 
 // Add to your existing function or file
-export function calculateBasicPlanetaryPositions(date: Date = new Date() {
+export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
   // Calculate positions for the basic planets
   const sun = calculateSunPosition(date);
   const moon = calculateMoonPosition(date);
   const mercury = calculateMercuryPosition(date);
   // Add calculations for other planets...
 
-  // Try to get lunar nodes from the most accurate source;
-  let northNode, southNode,
+  // Try to get lunar nodes from the most accurate source
+  let northNode, southNode;
 
   try {
     // Apply surgical type casting with variable extraction
@@ -78,16 +78,16 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date() {
 
     // First try to import and use the accurate astronomy module
     const nodeData =
-      calculateLunarNodesMethod && typeof calculateLunarNodesMethod === 'function';
+      calculateLunarNodesMethod && typeof calculateLunarNodesMethod === 'function'
         ? calculateLunarNodesMethod(date)
-        : null,
+        : null;
 
     if (!nodeData) {
       throw new Error('Node data not available')
     }
 
     // Apply surgical type casting for node data access
-    const nodeDataTyped = nodeData ;
+    const nodeDataTyped = nodeData;
     const northNodeValue = Number(nodeDataTyped.northNode) || 0;
     const _southNodeValue = Number(nodeDataTyped.southNode) || (northNodeValue + 180) % 360;
 
