@@ -86,7 +86,6 @@ class LoggingService {
     this.log(LogLevel.WARN, message, context, undefined, data);
   }
 
-   
   public error(
     message: string,
     context?: LogContext,

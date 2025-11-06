@@ -147,9 +147,8 @@ async function main(): Promise<void> {
   fs.writeFileSync(txtOut, humanReport, "utf8");
 
   // Console summary
-   
+
   console.log(humanReport);
 }
 
- 
 main();

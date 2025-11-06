@@ -1,4 +1,3 @@
- 
 /**
  * Type definitions for @testing-library/jest-dom
  * _Project: https://github.com/testing-library/jest-dom

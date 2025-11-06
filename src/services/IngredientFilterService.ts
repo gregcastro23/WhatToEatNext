@@ -636,7 +636,7 @@ export class IngredientFilterService {
   }
 
   // Get enhanced nutrition data for an ingredient from local database
-   
+
   public async getEnhancedNutritionData(
     ingredientName: string,
   ): Promise<any | null> {

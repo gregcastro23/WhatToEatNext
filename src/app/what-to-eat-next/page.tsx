@@ -12,7 +12,7 @@ export default function WhatToEatNextPage() {
     });
 
   // Fetch enhanced cuisines on mount
-   
+
   (function init() {
     void getCuisineRecommendations();
   })();

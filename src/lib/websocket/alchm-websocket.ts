@@ -57,11 +57,11 @@ export class AlchmWebSocket {
   }
 
   // Placeholder handlers; wire to stores/contexts as needed
-   
+
   private updatePlanetaryHour(_data: PlanetaryHourUpdate): void {}
-   
+
   private updateEnergy(_data: EnergyUpdate): void {}
-   
+
   private updateCelestial(_data: CelestialEvent): void {}
 }
 

@@ -215,7 +215,6 @@ async function main(): Promise<void> {
   const files = sortFilesForSafety(Array.from(byFile.keys()));
   const batches = batchFiles(files, opts.maxBatch, opts.maxBatchCritical);
 
-   
   console.log(
     `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,
   );
@@ -224,7 +223,6 @@ async function main(): Promise<void> {
     const batch = batches[i];
     const ok = processBatch(batch, byFile, opts.dryRun);
     if (!ok) {
-       
       console.error(
         `Type check failed for batch ${i + 1}. Rolled back changes for the batch.`,
       );
@@ -234,5 +232,4 @@ async function main(): Promise<void> {
   }
 }
 
- 
 main();

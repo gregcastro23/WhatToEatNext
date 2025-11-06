@@ -67,7 +67,7 @@ export function useAlchemicalBridge() {
     servicePositions,
 
     // State information
-     
+
     isDaytime:
       daytime !== undefined ? daytime : (contextState as any)?.isDaytime,
 

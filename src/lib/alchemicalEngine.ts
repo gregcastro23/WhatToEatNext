@@ -555,7 +555,7 @@ export class AlchemicalEngineBase {
   }
 
   // Placeholder for future implementation
-   
+
   calculateRecipeEffect(_recipe: Recipe): void {}
 
   /**
