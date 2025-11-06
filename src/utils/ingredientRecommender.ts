@@ -310,14 +310,14 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
   }
 
   // Special handling for Mars influence when present
-  if (planetsToUse.includes('Mars') {
+  if (planetsToUse.includes('Mars')) {
     // Apply Pattern, K: Safe array type casting for function parameter compatibility
     // Prioritize Mars-ruled ingredients with improved scoring based on detailed Mars data
     enhanceMarsIngredientScoring(filteredIngredients as unknown as Ingredient[], astroState);
   }
 
   // Special handling for Mercury influence when present
-  if (planetsToUse.includes('Mercury') {
+  if (planetsToUse.includes('Mercury')) {
     // Apply Pattern, K: Safe array type casting for function parameter compatibility
     // Prioritize Mercury-ruled ingredients with improved scoring based on detailed Mercury data
     enhanceMercuryIngredientScoring(filteredIngredients as unknown as Ingredient[], astroState);
