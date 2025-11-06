@@ -32,13 +32,13 @@ export function normalizeVitamins(
 /**
  * Normalize mineral data to a consistent format
  */
-export function normalizeMinerals()
+export function normalizeMinerals(
   minerals: Record<string, unknown>
-): Array<{ name: string; value?, number; unit?, string }> {
+): Array<{ name: string; value?: number; unit?: string }> {
   if (!minerals) return [];
   // If it's already an array of strings
-  if (Array.isArray(minerals) {
-    return minerals.map(mineral => () {
+  if (Array.isArray(minerals)) {
+    return minerals.map(mineral => ({
       name: formatMineralName(mineral),
       value: undefined,
       unit: undefined
