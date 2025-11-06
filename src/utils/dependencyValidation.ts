@@ -165,7 +165,7 @@ export async function validateFileImports(
     const importPath = pathMatch[1];
 
     // Skip external packages (don't start with . or /)
-    if (!importPath.startsWith('.') && !importPath.startsWith('/') {
+    if (!importPath.startsWith('.') && !importPath.startsWith('/')) {
       continue;
     }
 
@@ -238,10 +238,10 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
 }> {
   const fs = await import('fs');
   const path = await import('path');
-  const glob = (await import('glob')).default as unknown as { sync: (pattern, string, _options: { cwd: string; ignore, string[] }) => string[];
+  const glob = (await import('glob')).default as unknown as { sync: (pattern: string, _options: { cwd: string; ignore: string[] }) => string[];
   };
 
-  const tsFiles = glob.sync('**/*.{ts,tsx}', ) {
+  const tsFiles = glob.sync('**/*.{ts,tsx}', {
     cwd: projectRoot,
     ignore: ['node_modules/**', 'dist/**', '.next/**', 'coverage/**']
   });
@@ -271,7 +271,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
 
       for (const importStatement of imports) {
         const pathMatch = importStatement.match(/from\s+['"]([^'"]+)['"]/);
-        if (pathMatch && (pathMatch[1].startsWith('.') || pathMatch[1].startsWith('/')) {
+        if (pathMatch && (pathMatch[1].startsWith('.') || pathMatch[1].startsWith('/'))) {
           dependencies.push(pathMatch[1]);
         }
       }
