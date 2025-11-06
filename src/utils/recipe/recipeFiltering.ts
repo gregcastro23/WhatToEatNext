@@ -100,7 +100,7 @@ export class RecipeFilter {
         if (options.currentSeason) {
           const recipeSeason = recipe.season;
           if (recipeSeason) {
-            const seasonMatches = Array.isArray(recipeSeason);
+            const seasonMatches = Array.isArray(recipeSeason)
               ? recipeSeason.includes(options.currentSeason)
               : recipeSeason === options.currentSeason;
             if (!seasonMatches) return false;
@@ -125,20 +125,20 @@ export class RecipeFilter {
         }
 
         // Dietary restrictions filter
-        if (isNonEmptyArray(options.dietaryRestrictions) {
-          const meetsRestrictions = options.dietaryRestrictions.every(restriction =>);
-            this.meetsRestriction(recipe, restriction),
+        if (isNonEmptyArray(options.dietaryRestrictions)) {
+          const meetsRestrictions = options.dietaryRestrictions.every(restriction =>
+            this.meetsRestriction(recipe, restriction)
           );
           if (!meetsRestrictions) return false;
         }
 
         // Ingredients filter
-        if (isNonEmptyArray(options.ingredients) {
+        if (isNonEmptyArray(options.ingredients)) {
           const recipeIngredients = recipe.ingredients || [];
-          const hasIngredients = options.ingredients.every(ingredient =>);
-            recipeIngredients.some()
-              ri => ri.name && ri.name.toLowerCase().includes(ingredient.toLowerCase()),
-            ),
+          const hasIngredients = options.ingredients.every(ingredient =>
+            recipeIngredients.some(
+              ri => ri.name && ri.name.toLowerCase().includes(ingredient.toLowerCase())
+            )
           );
           if (!hasIngredients) return false;
         }
@@ -146,17 +146,17 @@ export class RecipeFilter {
         // Search query filter
         if (options.searchQuery) {
           const query = options.searchQuery.toLowerCase();
-          const matchesSearch = (recipe.name || '').toLowerCase().includes(query) ||;
+          const matchesSearch = (recipe.name || '').toLowerCase().includes(query) ||
             (recipe.description || '').toLowerCase().includes(query) ||
-            (recipe.ingredients || []).some()
-              ingredient => ingredient.name && ingredient.name.toLowerCase().includes(query),
+            (recipe.ingredients || []).some(
+              ingredient => ingredient.name && ingredient.name.toLowerCase().includes(query)
             );
           if (!matchesSearch) return false;
         }
 
         return true;
       } catch (error) {
-        _logger.error('Error filtering recipe:', ) { recipe, error });
+        _logger.error('Error filtering recipe:', { recipe, error });
         return false;
       }
     });
@@ -166,12 +166,12 @@ export class RecipeFilter {
    * Apply enhanced filters with more complex criteria
    */
   private applyEnhancedFilters(recipes: Recipe[], options: EnhancedFilterOptions): Recipe[] {
-    if (!isNonEmptyArray(recipes) {
+    if (!isNonEmptyArray(recipes)) {
       return [];
     }
 
-    return recipes.filter(recipe => ) {
-      try ) {
+    return recipes.filter(recipe => {
+      try {
         // Spiciness filter
         if (options.spiciness && recipe.spiceLevel !== options.spiciness) {
           return false;
@@ -181,11 +181,11 @@ export class RecipeFilter {
         if (options.temperature) {
           const cookingMethods = recipe.cookingMethod || [];
           const methodStr = cookingMethods.join(' ').toLowerCase();
-          const isHot = methodStr.includes('bake') ||;
+          const isHot = methodStr.includes('bake') ||
             methodStr.includes('fry') ||
             methodStr.includes('grill') ||
             methodStr.includes('roast');
-          const isCold = methodStr.includes('raw') ||;
+          const isCold = methodStr.includes('raw') ||
             methodStr.includes('cold') ||
             methodStr.includes('fresh') ||
             methodStr.includes('salad');
@@ -209,12 +209,12 @@ export class RecipeFilter {
         }
 
         // Cooking method filter
-        if (isNonEmptyArray(options.cookingMethod) {
+        if (isNonEmptyArray(options.cookingMethod)) {
           const recipeMethods = recipe.cookingMethod || [];
-          const hasMethod = options.cookingMethod.some(method =>);
-            recipeMethods.some(recipeMethod =>)
-              recipeMethod.toLowerCase().includes(method.toLowerCase()),
-            ),
+          const hasMethod = options.cookingMethod.some(method =>
+            recipeMethods.some(recipeMethod =>
+              recipeMethod.toLowerCase().includes(method.toLowerCase())
+            )
           );
           if (!hasMethod) return false;
         }
@@ -237,13 +237,13 @@ export class RecipeFilter {
         }
 
         // Excluded ingredients
-        if (isNonEmptyArray(options.excludedIngredients) {
+        if (isNonEmptyArray(options.excludedIngredients)) {
           const recipeIngredients = recipe.ingredients || [];
-          const hasExcluded = options.excludedIngredients.some(excluded =>);
-            recipeIngredients.some()
+          const hasExcluded = options.excludedIngredients.some(excluded =>
+            recipeIngredients.some(
               ingredient =>
-                ingredient.name && ingredient.name.toLowerCase().includes(excluded.toLowerCase()),
-            ),
+                ingredient.name && ingredient.name.toLowerCase().includes(excluded.toLowerCase())
+            )
           );
           if (hasExcluded) return false;
         }
@@ -257,7 +257,7 @@ export class RecipeFilter {
 
         return true;
       } catch (error) {
-        _logger.error('Error applying enhanced filters:', ) { recipe, error });
+        _logger.error('Error applying enhanced filters:', { recipe, error });
         return false;
       }
     });
@@ -267,12 +267,12 @@ export class RecipeFilter {
    * Score recipes based on various criteria
    */
   private enhancedScoreRecipes(recipes: Recipe[], options: EnhancedFilterOptions): ScoredRecipe[] {
-    if (!isNonEmptyArray(recipes) {
+    if (!isNonEmptyArray(recipes)) {
       return [];
     }
 
-    return recipes.map(recipe => ) {
-      try ) {
+    return recipes.map(recipe => {
+      try {
         let score = 1;
 
         // Elemental balance score
@@ -292,17 +292,17 @@ export class RecipeFilter {
         }
 
         // Cuisine preference score
-        if (isNonEmptyArray(options.cuisineTypes) {
+        if (isNonEmptyArray(options.cuisineTypes)) {
           score *= this.calculateCuisineScore(recipe, options.cuisineTypes);
         }
 
         // Favorite ingredients bonus
-        if (isNonEmptyArray(options.favoriteIngredients) {
+        if (isNonEmptyArray(options.favoriteIngredients)) {
           const recipeIngredients = recipe.ingredients || [];
-          const favoriteCount = options.favoriteIngredients.filter(favorite =>);
-            recipeIngredients.some()
-              ri => ri.name && ri.name.toLowerCase().includes(favorite.toLowerCase()),
-            ),
+          const favoriteCount = options.favoriteIngredients.filter(favorite =>
+            recipeIngredients.some(
+              ri => ri.name && ri.name.toLowerCase().includes(favorite.toLowerCase())
+            )
           ).length;
           score *= 1 + favoriteCount * 0.1; // 10% bonus per favorite ingredient
         }
@@ -312,11 +312,11 @@ export class RecipeFilter {
           score: Math.max(0.1, Math.min(2.0, score)), // Clamp score between 0.1 and 2.0
         } as ScoredRecipe;
       } catch (error) {
-        _logger.error('Error scoring recipe:', ) { recipe, error });
+        _logger.error('Error scoring recipe:', { recipe, error });
         return {
           ...recipe,
           score: 0.5
-} as ScoredRecipe;
+        } as ScoredRecipe;
       }
     });
   }
@@ -360,18 +360,18 @@ export class RecipeFilter {
       const timeStr = timeString.toLowerCase();
 
       // Handle various time formats
-      if (timeStr.includes('hour') {
+      if (timeStr.includes('hour')) {
         const hours = parseFloat(timeStr.match(/(\d+(?: \.\d+)?)\s*hour/)?.[1] || '0');
         const minutes = parseFloat(timeStr.match(/(\d+)\s*min/)?.[1] || '0');
         return hours * 60 + minutes;
-      } else if (timeStr.includes('min') {
+      } else if (timeStr.includes('min')) {
         return parseFloat(timeStr.match(/(\d+)\s*min/)?.[1] || '0');
       } else {
         // Try to parse as plain number (assume minutes)
         return parseFloat(timeStr) || 0;
       }
     } catch (error) {
-      _logger.error('Error parsing time:', ) { timeString, error });
+      _logger.error('Error parsing time:', { timeString, error });
       return 0;
     }
   }
@@ -408,7 +408,7 @@ export class RecipeFilter {
           return true;
       }
     } catch (error) {
-      _logger.error('Error checking restriction:', ) { recipe, restriction, error });
+      _logger.error('Error checking restriction:', { recipe, restriction, error });
       return false;
     }
   }
@@ -422,7 +422,7 @@ export class RecipeFilter {
       if (!isNonEmptyArray(ingredients)) return false;
 
       // Check for low-carb ingredients
-      const lowCarbIngredients = [;
+      const lowCarbIngredients = [
         'chicken',
         'beef',
         'fish',
@@ -432,23 +432,23 @@ export class RecipeFilter {
         'oil',
         'avocado',
       ];
-      const hasLowCarb = ingredients.some(ingredient =>);
-        lowCarbIngredients.some()
-          carb => ingredient.name && ingredient.name.toLowerCase().includes(carb),
-        ),
+      const hasLowCarb = ingredients.some(ingredient =>
+        lowCarbIngredients.some(
+          carb => ingredient.name && ingredient.name.toLowerCase().includes(carb)
+        )
       );
 
       // Check for high-carb ingredients (should not have)
       const highCarbIngredients = ['rice', 'pasta', 'bread', 'potato', 'sugar'];
-      const hasHighCarb = ingredients.some(ingredient =>);
-        highCarbIngredients.some()
-          carb => ingredient.name && ingredient.name.toLowerCase().includes(carb),
-        ),
+      const hasHighCarb = ingredients.some(ingredient =>
+        highCarbIngredients.some(
+          carb => ingredient.name && ingredient.name.toLowerCase().includes(carb)
+        )
       );
 
       return hasLowCarb && !hasHighCarb;
     } catch (error) {
-      _logger.error('Error checking keto attributes:', ) { recipe, error });
+      _logger.error('Error checking keto attributes:', { recipe, error });
       return false;
     }
   }
@@ -464,21 +464,21 @@ export class RecipeFilter {
       const paleoIngredients = ['meat', 'fish', 'vegetables', 'fruits', 'nuts', 'seeds'];
       const nonPaleoIngredients = ['dairy', 'grains', 'legumes', 'processed'];
 
-      const hasPaleo = ingredients.some(ingredient =>);
-        paleoIngredients.some()
-          paleo => ingredient.name && ingredient.name.toLowerCase().includes(paleo),
-        ),
+      const hasPaleo = ingredients.some(ingredient =>
+        paleoIngredients.some(
+          paleo => ingredient.name && ingredient.name.toLowerCase().includes(paleo)
+        )
       );
 
-      const hasNonPaleo = ingredients.some(ingredient =>);
-        nonPaleoIngredients.some()
-          nonPaleo => ingredient.name && ingredient.name.toLowerCase().includes(nonPaleo),
-        ),
+      const hasNonPaleo = ingredients.some(ingredient =>
+        nonPaleoIngredients.some(
+          nonPaleo => ingredient.name && ingredient.name.toLowerCase().includes(nonPaleo)
+        )
       );
 
       return hasPaleo && !hasNonPaleo;
     } catch (error) {
-      _logger.error('Error checking paleo attributes:', ) { recipe, error });
+      _logger.error('Error checking paleo attributes:', { recipe, error });
       return false;
     }
   }
@@ -486,9 +486,9 @@ export class RecipeFilter {
   /**
    * Calculate elemental compatibility score
    */
-  calculateElementalScore()
+  calculateElementalScore(
     recipeElements?: ElementalProperties,
-    targetElements?: ElementalProperties;
+    targetElements?: ElementalProperties
   ): number {
     if (!recipeElements || !targetElements) return 0.5;
 
@@ -496,7 +496,7 @@ export class RecipeFilter {
       const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
       let totalScore = 0;
 
-      elements.forEach(element => ) {
+      elements.forEach(element => {
         const recipeValue = recipeElements[element] || 0;
         const targetValue = targetElements[element] || 0;
         const difference = Math.abs(recipeValue - targetValue);
@@ -522,32 +522,32 @@ export class RecipeFilter {
       let relevanceScore = 0;
 
       // Name match (highest weight)
-      if ((recipe.name || '').toLowerCase().includes(searchQuery) {
+      if ((recipe.name || '').toLowerCase().includes(searchQuery)) {
         relevanceScore += 0.4;
       }
 
       // Description match
-      if ((recipe.description || '').toLowerCase().includes(searchQuery) {
+      if ((recipe.description || '').toLowerCase().includes(searchQuery)) {
         relevanceScore += 0.3;
       }
 
       // Ingredient match
       const ingredients = recipe.ingredients || [];
-      const hasIngredientMatch = ingredients.some();
-        ingredient => ingredient.name && ingredient.name.toLowerCase().includes(searchQuery),
+      const hasIngredientMatch = ingredients.some(
+        ingredient => ingredient.name && ingredient.name.toLowerCase().includes(searchQuery)
       );
       if (hasIngredientMatch) {
         relevanceScore += 0.2;
       }
 
       // Cuisine match
-      if ((recipe.cuisine || '').toLowerCase().includes(searchQuery) {
+      if ((recipe.cuisine || '').toLowerCase().includes(searchQuery)) {
         relevanceScore += 0.1;
       }
 
       return Math.min(1, relevanceScore + 0.1); // Base score of 0.1
     } catch (error) {
-      _logger.error('Error calculating search relevance:', ) { recipe, query, error });
+      _logger.error('Error calculating search relevance:', { recipe, query, error });
       return 0.5;
     }
   }
@@ -568,7 +568,7 @@ export class RecipeFilter {
         (elementalState.Air || 0)
       );
     } catch (error) {
-      _logger.error('Error getting elemental score:', ) { recipe, error });
+      _logger.error('Error getting elemental score:', { recipe, error });
       return 0;
     }
   }
@@ -582,7 +582,7 @@ export class RecipeFilter {
       // Simple heuristic: recipes with season data get higher score
       return season ? 1.0 : 0.5;
     } catch (error) {
-      _logger.error('Error getting seasonal score:', ) { recipe, error });
+      _logger.error('Error getting seasonal score:', { recipe, error });
       return 0.5;
     }
   }
@@ -591,11 +591,11 @@ export class RecipeFilter {
    * Get fallback recipes when filtering fails
    */
   private getFallbackRecipes(recipes: Recipe[]): ScoredRecipe[] {
-    if (!isNonEmptyArray(recipes) {
+    if (!isNonEmptyArray(recipes)) {
       return [];
     }
 
-    return recipes.slice(0, 10).map(recipe => () {
+    return recipes.slice(0, 10).map(recipe => ({
       ...recipe,
       score: 0.5
     }));
@@ -605,16 +605,16 @@ export class RecipeFilter {
    * Filter recipes by cuisine type
    */
   filterByCuisine(recipes: Recipe[], cuisineTypes: CuisineType[]): Recipe[] {
-    if (!isNonEmptyArray(recipes) || !isNonEmptyArray(cuisineTypes) {
+    if (!isNonEmptyArray(recipes) || !isNonEmptyArray(cuisineTypes)) {
       return recipes;
     }
 
-    return recipes.filter(recipe => ) {
-      try ) {
+    return recipes.filter(recipe => {
+      try {
         const recipeName = (recipe.name || '').toLowerCase();
         const recipeCuisine = (recipe.cuisine || '').toLowerCase();
 
-        return cuisineTypes.some(cuisineType => ) {
+        return cuisineTypes.some(cuisineType => {
           const normalizedCuisine = cuisineType.toLowerCase();
           return (
             recipeName.includes(normalizedCuisine) || recipeCuisine.includes(normalizedCuisine)
@@ -639,8 +639,8 @@ export class RecipeFilter {
 
       // Check recipe name
       if (
-        cuisineTypes.some(cuisine =>)
-          (recipe.name || '').toLowerCase().includes(cuisine.toLowerCase()),
+        cuisineTypes.some(cuisine =>
+          (recipe.name || '').toLowerCase().includes(cuisine.toLowerCase())
         )
       ) {
         score += 0.4;
@@ -649,8 +649,8 @@ export class RecipeFilter {
 
       // Check cuisine property
       if (
-        cuisineTypes.some(cuisine =>)
-          (recipe.cuisine || '').toLowerCase().includes(cuisine.toLowerCase()),
+        cuisineTypes.some(cuisine =>
+          (recipe.cuisine || '').toLowerCase().includes(cuisine.toLowerCase())
         )
       ) {
         score += 0.3;
@@ -659,12 +659,11 @@ export class RecipeFilter {
 
       // Check ingredients
       const ingredients = recipe.ingredients || [];
-      if (isNonEmptyArray(ingredients) {
-        const cuisineIngredients = ingredients.filter(ingredient =>);
-          cuisineTypes.some()
-            cuisine =>
-              ingredient.name && ingredient.name.toLowerCase().includes(cuisine.toLowerCase()),
-          ),
+      if (isNonEmptyArray(ingredients)) {
+        const cuisineIngredients = ingredients.filter(ingredient =>
+          cuisineTypes.some(cuisine =>
+            ingredient.name && ingredient.name.toLowerCase().includes(cuisine.toLowerCase())
+          )
         );
 
         if (cuisineIngredients.length > 0) {
@@ -688,7 +687,7 @@ export class RecipeFilter {
       const ingredients = recipe.ingredients || [];
       if (!isNonEmptyArray(ingredients)) return false;
 
-      const highProteinFoods = [;
+      const highProteinFoods = [
         'chicken',
         'beef',
         'pork',
@@ -713,10 +712,10 @@ export class RecipeFilter {
         'protein powder',
       ];
 
-      return ingredients.some(ingredient =>)
-        highProteinFoods.some()
-          food => ingredient.name && ingredient.name.toLowerCase().includes(food),
-        ),
+      return ingredients.some(ingredient =>
+        highProteinFoods.some(food =>
+          ingredient.name && ingredient.name.toLowerCase().includes(food)
+        )
       );
     } catch (error) {
       _logger.error('Error checking high protein:', error);
@@ -732,7 +731,7 @@ export class RecipeFilter {
       const ingredients = recipe.ingredients || [];
       if (!isNonEmptyArray(ingredients)) return false;
 
-      const highCarbFoods = [;
+      const highCarbFoods = [
         'rice',
         'pasta',
         'bread',
@@ -747,8 +746,10 @@ export class RecipeFilter {
         'oatmeal',
       ];
 
-      return !ingredients.some(ingredient =>)
-        highCarbFoods.some(carb => ingredient.name && ingredient.name.toLowerCase().includes(carb)),
+      return !ingredients.some(ingredient =>
+        highCarbFoods.some(carb =>
+          ingredient.name && ingredient.name.toLowerCase().includes(carb)
+        )
       );
     } catch (error) {
       _logger.error('Error checking low carb:', error);
@@ -760,13 +761,13 @@ export class RecipeFilter {
    * Get recipes for specific cuisine
    */
   getRecipesForCuisine(cuisine: string, recipes: Recipe[]): Recipe[] {
-    if (!cuisine || !isNonEmptyArray(recipes) {
+    if (!cuisine || !isNonEmptyArray(recipes)) {
       return [];
     }
 
     try {
       const normalizedCuisine = cuisine.toLowerCase();
-      return recipes.filter(recipe => ) {
+      return recipes.filter(recipe => {
         const recipeName = (recipe.name || '').toLowerCase();
         const recipeCuisine = (recipe.cuisine || '').toLowerCase();
         return recipeName.includes(normalizedCuisine) || recipeCuisine.includes(normalizedCuisine);
@@ -788,32 +789,30 @@ export function filterRecipesByIngredientMappings(recipes: Recipe[],
     avoided?: string[];
   },
 ): Recipe[] {
-  if (!isNonEmptyArray(recipes) {
+  if (!isNonEmptyArray(recipes)) {
     return [];
   }
 
-  return recipes.filter(recipe => ) {
-    try ) {
+  return recipes.filter(recipe => {
+    try {
       const ingredients = recipe.ingredients || [];
 
       // Check required ingredients
-      if (isNonEmptyArray(ingredientRequirements?.required) {
-        const hasAllRequired = ingredientRequirements!.required!.every(required =>);
-          ingredients.some()
-            ingredient =>
-              ingredient.name && ingredient.name.toLowerCase().includes(required.toLowerCase()),
-          ),
+      if (isNonEmptyArray(ingredientRequirements?.required)) {
+        const hasAllRequired = ingredientRequirements!.required!.every(required =>
+          ingredients.some(ingredient =>
+            ingredient.name && ingredient.name.toLowerCase().includes(required.toLowerCase())
+          )
         );
         if (!hasAllRequired) return false;
       }
 
       // Check avoided ingredients
-      if (isNonEmptyArray(ingredientRequirements?.avoided) {
-        const hasAvoided = ingredientRequirements!.avoided!.some(avoided =>);
-          ingredients.some()
-            ingredient =>
-              ingredient.name && ingredient.name.toLowerCase().includes(avoided.toLowerCase()),
-          ),
+      if (isNonEmptyArray(ingredientRequirements?.avoided)) {
+        const hasAvoided = ingredientRequirements!.avoided!.some(avoided =>
+          ingredients.some(ingredient =>
+            ingredient.name && ingredient.name.toLowerCase().includes(avoided.toLowerCase())
+          )
         );
         if (hasAvoided) return false;
       }
@@ -822,9 +821,9 @@ export function filterRecipesByIngredientMappings(recipes: Recipe[],
       if (elementalTarget) {
         const recipeElemental = recipe.elementalProperties;
         if (recipeElemental) {
-          const compatibility = RecipeFilter.getInstance().calculateElementalScore();
+          const compatibility = RecipeFilter.getInstance().calculateElementalScore(
             recipeElemental,
-            elementalTarget,
+            elementalTarget
           );
           if (compatibility < 0.3) return false; // Minimum 30% compatibility
         }
@@ -832,7 +831,7 @@ export function filterRecipesByIngredientMappings(recipes: Recipe[],
 
       return true;
     } catch (error) {
-      _logger.error('Error filtering recipe by ingredient mappings:', ) { recipe, error });
+      _logger.error('Error filtering recipe by ingredient mappings:', { recipe, error });
       return false;
     }
   });
