@@ -7,17 +7,17 @@ import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
 import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { ElementalProperties, LunarPhase, PlanetName, Season } from '@/types/alchemy';
 import type {
-    MethodAdjustment,
-    TemperatureAdjustment,
-    TimingAdjustment
+  MethodAdjustment,
+  TemperatureAdjustment,
+  TimingAdjustment
 } from '@/types/recipeAdjustments';
 import {
-    getAllEnhancedCookingMethods,
-    type EnhancedCookingMethod
+  getAllEnhancedCookingMethods,
+  type EnhancedCookingMethod
 } from '../../constants/alchemicalPillars';
 import {
-    unifiedCuisineIntegrationSystem,
-    type CuisineIngredientAnalysis
+  unifiedCuisineIntegrationSystem,
+  type CuisineIngredientAnalysis
 } from './cuisineIntegrations.js';
 import { RecipeEnhancer, type EnhancedRecipe } from './recipes';
 import type { SeasonalRecommendations } from './seasonal';

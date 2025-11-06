@@ -156,7 +156,7 @@ export function useCurrentChart() {
     // Calculate actual positions based on exact longitude
     const planetPositions = Object.entries(chartData.planets).map(([planet, data]) => {
       const exactLong = data.exactLongitude || 0;
-      const angle = (exactLong * Math.PI) / 180, // Convert to radians,
+      const angle = (exactLong * Math.PI) / 180; // Convert to radians
       return {
         planet,
         symbol: planetSymbols[planet] || planet,
@@ -194,7 +194,7 @@ export function useCurrentChart() {
 
         <!-- Chart background with subtle gradient -->
         <circle cx='160' cy='160' r='155' fill='url(#chart-bg)' stroke='#e0e0e0' stroke-width='1'/>
-        
+
         <!-- Zodiac ring -->
         <g class='zodiac-ring'>;
           ${Array.from({ length: 12 })
@@ -211,7 +211,7 @@ export function useCurrentChart() {
               const endY = 160 + 145 * Math.sin(endAngle)
 
               // Use arc paths for the zodiac segments;
-              const largeArcFlag = 0, // 0 for arcs less than 180 degrees,
+              const largeArcFlag = 0; // 0 for arcs less than 180 degrees
 
               return `
               <path d='M 160 160 L ${startX} ${startY} A 145 145 0 ${largeArcFlag} 1 ${endX} ${endY} Z'
@@ -226,12 +226,12 @@ export function useCurrentChart() {
             })
             .join('')}
         </g>
-        
+
         <!-- Degree circles -->
         <circle cx='160' cy='160' r='120' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='22'/>
         <circle cx='160' cy='160' r='80' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='22'/>
         <circle cx='160' cy='160' r='40' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='22'/>
-        
+
         <!-- Ascendant marker -->
         ${
           chartData.ascendant
@@ -257,7 +257,7 @@ export function useCurrentChart() {
               })()
             : ''
         }
-        
+
         <!-- North Node (outside the circle at the top) -->
         <g class='node north-node'>
           <circle cx='160' cy='30' r='15' fill='#7272f7' fill-opacity='0.2' stroke='#7272f7' stroke-width='0.5' />
@@ -279,7 +279,7 @@ export function useCurrentChart() {
             South Node
           </text>
         </g>
-        
+
         <!-- Planets and their connections to signs -->
         <g class='planets'>,
           ${planetPositions
@@ -303,7 +303,7 @@ export function useCurrentChart() {
             })
             .join('')}
         </g>
-        
+
         <!-- Chart title and info -->
         <text x='160' y='20' text-anchor='middle' fill='#333' font-size='14' font-weight='bold'>
           Current Astrological Chart

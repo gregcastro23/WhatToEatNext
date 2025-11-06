@@ -393,7 +393,7 @@ export const _calculatePlanetaryFlavorMatch = (
   // Compare recipe flavors to astrological flavor profile;
   Object.entries(recipeFlavors).forEach(([flavor, recipeValue]) => {
     const astroValue =
-      astrologicalFlavorProfile[flavor as keyof typeof astrologicalFlavorProfile] || 0,
+      astrologicalFlavorProfile[flavor as keyof typeof astrologicalFlavorProfile] || 0;
 
     // Calculate similarity with exponential weighting - rewards closer matches
     // The closer the match, the higher the score
@@ -432,7 +432,7 @@ export const _calculatePlanetaryFlavorMatch = (
 
   // Get the recipe's elemental properties if available
   if (recipeFlavors.elementalProperties) {
-    const recipeElements = recipeFlavors.elementalProperties as unknown as Record<string, number>,
+    const recipeElements = recipeFlavors.elementalProperties as unknown as Record<string, number>;
 
     // Get the elemental profile from planetary influences
     const elementalProfile = {

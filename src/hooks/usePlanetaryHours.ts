@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
+import { useEffect, useState } from 'react';
 
 export interface PlanetaryHoursData {
   currentHour: string,
@@ -39,7 +39,7 @@ export function usePlanetaryHours() {
         const timeUntilNext = (minutesInHour - currentMinutes) * 60 * 1000; // in milliseconds
 
         // Get next hour (simplified cycle)
-        const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
+        const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
         const currentIndex = planets.indexOf(currentHour);
         const nextHour = planets[(currentIndex + 1) % (planets || []).length];
 

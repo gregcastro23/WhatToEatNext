@@ -1058,7 +1058,7 @@ export class EnhancedIngredientsSystem {
     }
 
     // Get base methods for this category
-    const baseMethods = defaultMethods[category] || ['raw', 'cooking'],;
+    const baseMethods = defaultMethods[category] || ['raw', 'cooking'];
 
     // Add methods based on elemental properties
     const methodsByElement: Record<keyof ElementalProperties, string[]> = {
@@ -1213,9 +1213,10 @@ export class EnhancedIngredientsSystem {
       Fire: 'Sun',
       Water: 'Moon',
       Earth: 'Saturn',
-      Air: 'Mercury' },
-        return planetaryRulers[element] || 'Sun';
-}
+      Air: 'Mercury'
+    };
+    return planetaryRulers[element] || 'Sun';
+  }
 
   /**
    * Get zodiac ruler for an element
@@ -1225,9 +1226,10 @@ export class EnhancedIngredientsSystem {
       Fire: 'leo',
       Water: 'cancer',
       Earth: 'taurus',
-      Air: 'libra' },
-        return zodiacRulers[element] || 'aries';
-}
+      Air: 'libra'
+    };
+    return zodiacRulers[element] || 'aries';
+  }
 
   /**
    * Get energy type for an element
@@ -1237,9 +1239,10 @@ export class EnhancedIngredientsSystem {
       Fire: 'active',
       Water: 'receptive',
       Earth: 'stabilizing',
-      Air: 'communicative' },
-        return energyTypes[element] || 'neutral';
-}
+      Air: 'communicative'
+    };
+    return energyTypes[element] || 'neutral';
+  }
 
   /**
    * Get seasonal peak for an element

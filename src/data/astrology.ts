@@ -12,7 +12,7 @@ export const zodiacSigns = [
   'Capricorn',
   'Aquarius',
   'Pisces'
-],
+];
 
 export const elements = {
   aries: 'Fire',
@@ -26,8 +26,10 @@ export const elements = {
   aquarius: 'Air',
   cancer: 'Water',
   scorpio: 'Water',
-  pisces: 'Water' },
-        export const planetaryRulers = {
+  pisces: 'Water'
+};
+
+export const planetaryRulers = {
   aries: 'Mars',
   taurus: 'Venus',
   gemini: 'Mercury',

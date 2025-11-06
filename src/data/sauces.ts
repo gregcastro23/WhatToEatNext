@@ -556,7 +556,7 @@ export function getSaucesByElement(element: keyof ElementalProperties): Sauce[] 
     // Find the dominant element
     const dominantElement = Object.entries(sauce.elementalProperties).sort(
       ([, a], [, b]) => b - a,
-    )[0][0],
+    )[0][0];
     return dominantElement === element;
   })
 }

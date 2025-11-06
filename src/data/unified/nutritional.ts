@@ -4,13 +4,11 @@
 // Integrates with unified seasonal, cuisine, ingredients, and recipe systems
 
 import type {
+  AlchemicalProperties,
+  CookingMethod,
   Element,
   ElementalProperties,
-  PlanetName,
-  AlchemicalProperties,
-  _,
-  CookingMethod,
-  _
+  PlanetName
 } from '@/types/alchemy';
 import type { NutritionalProfile } from '@/types/nutrition';
 import type { Season } from '@/types/seasons';
@@ -19,7 +17,7 @@ import type { ZodiacSign } from '@/types/zodiac';
 // TODO: Fix import - add what to import from './ingredients.ts'
 // TODO: Fix import - add what to import from './seasonal.ts'
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
-import { calculateKalchm, _, _ } from './alchemicalCalculations';
+import { calculateKalchm } from './alchemicalCalculations';
 
 // ===== ENHANCED NUTRITIONAL INTERFACES =====
 
@@ -419,7 +417,7 @@ export class UnifiedNutritionalSystem {
         const profileData = profile as unknown;
         const kalchmValue = typeof profileData.kalchm === 'number' ? profileData.kalchm : 0.5;
         return sum + kalchmValue;
-      }, 0) / profiles.length,
+      }, 0) / profiles.length;
 
     // Calculate elemental balance
     const elementalBalance = this.calculateElementalBalance(profiles);

@@ -1,4 +1,4 @@
-import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 
 // Re-export ElementalProperties to fix TS2459 errors
 export type { ElementalProperties };
@@ -157,7 +157,7 @@ export const _VALID_CATEGORIES: IngredientCategory[] = [
   'oil',
   'vinegar',
   'seasoning'
-],
+];
 
 // Improved subcategories
 export type VegetableSubcategory =

@@ -2,10 +2,10 @@
  * React hook for using the ingredient mapping service in components
  */
 
-import { useState, useCallback } from 'react';
 import ingredientMappingService from '@/services/ingredientMappingService';
 import type { ElementalProperties } from '@/types/alchemy';
 import type { Recipe } from '@/types/recipe';
+import { useCallback, useState } from 'react';
 
 export function useIngredientMapping() {
   const [isLoading, setIsLoading] = useState(false)
@@ -71,8 +71,8 @@ export function useIngredientMapping() {
       const result = ingredientMappingService.suggestAlternativeIngredients(
         ingredientName,
         options,
-      ),
-      return result
+      );
+      return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage)
@@ -93,8 +93,8 @@ export function useIngredientMapping() {
     try {
       setIsLoading(true)
       setError(null)
-      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2),
-      return result
+      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2);
+      return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage)

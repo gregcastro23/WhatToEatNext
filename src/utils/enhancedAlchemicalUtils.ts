@@ -258,7 +258,7 @@ export function enhanceAlchemicalCalculations(
     alchemicalResult,
     userPreferences,
     season,
-  ),
+  );
 
   // Return basic recommendation for all cases while recipe generation is disabled
   return {

@@ -1,15 +1,15 @@
 import type { ZodiacSign } from '@/types/zodiac';
 import type {
-  ZodiacAffinity,
-  Modality
+  Modality,
+  ZodiacAffinity
 } from '@/types/zodiacAffinity';
 import {
-  createZodiacAffinity,
-  ZODIAC_MODALITIES
+  ZODIAC_MODALITIES,
+  createZodiacAffinity
 } from '@/types/zodiacAffinity';
 
-export type { ZodiacAffinity }
 export { createZodiacAffinity };
+export type { ZodiacAffinity };
 
 /**
  * Mapping of zodiac signs to culinary preferences and affinities
@@ -869,8 +869,9 @@ export function calculateRecipeZodiacCompatibility(
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water' },
-        const ingredientElement = elementMap[mainIngredientSign];
+    pisces: 'Water'
+  };
+  const ingredientElement = elementMap[mainIngredientSign];
   const preparationElement = elementMap[preparationMethodSign];
 
   // Calculate compatibility scores

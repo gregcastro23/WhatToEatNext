@@ -1337,10 +1337,10 @@ function calculateVenusInfluence(
 
   // Venus temperament based on sign type
   if (zodiacSign) {
-    const earthSigns = ['taurus', 'virgo', 'capricorn'],;
-    const airSigns = ['gemini', 'libra', 'aquarius'],;
-    const waterSigns = ['cancer', 'scorpio', 'pisces'],;
-    const fireSigns = ['aries', 'leo', 'sagittarius'],;
+    const earthSigns = ['taurus', 'virgo', 'capricorn'];
+    const airSigns = ['gemini', 'libra', 'aquarius'];
+    const waterSigns = ['cancer', 'scorpio', 'pisces'];
+    const fireSigns = ['aries', 'leo', 'sagittarius'];
     const lowerSign = zodiacSign.toLowerCase();
 
     // Earth Venus
@@ -2882,7 +2882,7 @@ export async function recommendIngredients(
         'Venus',
         'Mercury',
         'Moon'
-      ],
+      ];
       return hours[date.getHours()];
 },
     isDaytime

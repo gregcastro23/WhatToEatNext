@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export interface DebugSettings {
   isVisible: boolean,
@@ -22,8 +22,10 @@ const DEFAULT_SETTINGS: DebugSettings = {
   showAstrologicalData: true,
   showComponentStates: true,
   opacity: 0.9,
-  size: 'medium' },
-        const STORAGE_KEY = 'debug-panel-settings';
+  size: 'medium'
+};
+
+const STORAGE_KEY = 'debug-panel-settings';
 
 export const _useDebugSettings = () => {
   const [settings, setSettings] = useState<DebugSettings>(DEFAULT_SETTINGS)

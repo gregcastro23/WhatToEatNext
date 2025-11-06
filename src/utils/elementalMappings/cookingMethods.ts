@@ -24,4 +24,4 @@ export const _cookingMethodModifiers: CookingMethodModifier[] = [
     notes: 'Grilling adds fire element, creating char and smoke flavors',
   }
   // Add other cooking methods as needed
-],
+];

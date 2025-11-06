@@ -1,0 +1,83 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.cover
+
+# Documentation
+*.md
+docs/
+*.rst
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.gitlab-ci.yml
+.github/
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Next.js (if any frontend build artifacts)
+.next/
+
+# Environment files (will be provided at runtime)
+# .env included in image as template, will be overridden by docker-compose/k8s
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production.local
+
+# Notebooks
+*.ipynb
+backend_implementation.ipynb
+
+# Test files
+test_*.py
+*_test.py
+quick_test.py
+
+# Scripts (optional - uncomment if you don't need them in production)
+# scripts/
+
+# Development scripts
+dev_start.sh
+start_simple.sh
+start_services.sh

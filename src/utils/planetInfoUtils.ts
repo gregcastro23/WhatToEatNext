@@ -62,7 +62,7 @@ export async function getPlanetInfo(
     const planetDegree = Number(positionData.degree ?? 0);
     const planetIsRetrograde = Boolean(positionData.isRetrograde);
 
-    let normalizedPlanetName: string,
+    let normalizedPlanetName: string;
     if (planetName === 'north_node' || planetName === 'northnode') {
       normalizedPlanetName = 'NorthNode';
     } else if (planetName === 'south_node' || planetName === 'southnode') {

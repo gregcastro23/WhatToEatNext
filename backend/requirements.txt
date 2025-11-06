@@ -12,7 +12,9 @@ redis==5.0.1
 asyncpg==0.29.0
 
 # Mathematical and Astronomical Libraries
-pyephem==4.1.5
+# Note: pyephem 4.1.5 doesn't exist, using latest 9.99 (formerly known as ephem)
+# See: https://pypi.org/project/pyephem/
+pyephem==9.99
 astral==3.2
 numpy==1.24.3
 pandas==2.1.3

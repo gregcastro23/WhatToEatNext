@@ -1,5 +1,4 @@
 import { log } from '@/services/LoggingService';
-import { _, _ZodiacSign, _Planet } from '@/types/alchemy';
 
 // Define NutritionalProfile locally
 interface NutritionalProfile {
@@ -882,7 +881,7 @@ export function evaluateNutritionalElementalBalance(
 
   // Calculate average difference (lower is better)
   const avgDifference =
-    (differences.Fire + differences.Water + differences.Earth + differences.Air) / 4,
+    (differences.Fire + differences.Water + differences.Earth + differences.Air) / 4;
 
   // Convert to score (0-100, higher is better)
   const score = Math.max(0, Math.min(100, 100 * (1 - avgDifference * 2)))

@@ -442,8 +442,10 @@ export const _DECAN_RULERS = {
   // pisces Decans (330-360)
   '330-340': 'Neptune',
   '340-350': 'Moon',
-  '350-360': 'Pluto' },
-        export const _MAJOR_ARCANA = {
+  '350-360': 'Pluto'
+};
+
+export const _MAJOR_ARCANA = {
   'The Fool': { planet: 'Uranus', element: 'Air' },
   'The Magician': { planet: 'Mercury', element: 'Air' },
   'The High Priestess': { planet: 'Moon', element: 'Water' },

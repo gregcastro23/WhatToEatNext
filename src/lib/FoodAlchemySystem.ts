@@ -892,7 +892,7 @@ export class FoodAlchemySystem {
       'Mercury',
       'Moon',
       'Saturn'
-    ],
+    ];
     const currentPlanetaryHour = planetaryHours[hourOfDay];
 
     // Determine if it's daytime or nighttime

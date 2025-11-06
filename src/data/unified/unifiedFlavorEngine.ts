@@ -478,7 +478,7 @@ export class UnifiedFlavorEngine {
       const contextAlignment = (modifier1 + modifier2) / 2;
 
       // Weight context more heavily if both profiles have strong seasonal presence
-      const contextWeight = Math.min(modifier1, modifier2) > 0.7 ? 0.7 : 0.3,;
+      const contextWeight = Math.min(modifier1, modifier2) > 0.7 ? 0.7 : 0.3;
       return baseAlignment * (1 - contextWeight) + contextAlignment * contextWeight;
 }
 

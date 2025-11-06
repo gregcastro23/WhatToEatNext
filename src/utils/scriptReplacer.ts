@@ -98,8 +98,8 @@ if (typeof window !== 'undefined') {
         return Promise.resolve({ id: 999 });
 },
       _query (queryInfo: unknown, callback?: Function) {
-        const result = [{ id: 1, _active: true }],;
-        if (callback) callback(result)
+        const result = [{ id: 1, _active: true }];
+        if (callback) callback(result);
         return true;
       },
       update (tabId: number, properties: unknown, callback?: Function) {

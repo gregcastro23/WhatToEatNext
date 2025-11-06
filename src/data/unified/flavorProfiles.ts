@@ -1,18 +1,14 @@
 import type {
+  AlchemicalValues,
+  Element,
+  ElementalProperties,
+  PlanetName,
   // ===== UNIFIED FLAVOR PROFILE SYSTEM =====;
   // Phase 4 of WhatToEatNext Data Consolidation
   // Consolidates flavor profiles from multiple sources with elemental self-reinforcement principles
-
-  Season,
-  Element,
-  ElementalProperties,
-  _ZodiacSign,
-  PlanetName,
-  _CookingMethod,
-  AlchemicalValues,
-  _
+  Season
 } from '@/types/alchemy';
-import { _, calculateElementalCompatibility } from '../../utils/elemental/elementalUtils';
+import { calculateElementalCompatibility } from '../../utils/elemental/elementalUtils';
 import { unifiedCuisineIntegrationSystem } from './cuisineIntegrations';
 import { unifiedSeasonalSystem } from './seasonal';
 
@@ -279,7 +275,7 @@ export class UnifiedFlavorProfileSystem {
             Number((profile1.seasonalPeak || []).length),
             Number((profile2.seasonalPeak || []).length),
           )
-        : 0.5, // Default moderate alignment if no overlap
+        : 0.5; // Default moderate alignment if no overlap
 
     // Calculate overall compatibility with weighted factors
     const compatibility =

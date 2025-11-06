@@ -12,7 +12,7 @@ interface IngredientWithAstrology extends Ingredient {
  * Ensures all required properties exist and have appropriate values
  */
 export function cleanupIngredientsDatabase() {
-  let fixedEntries = 0,;
+  let fixedEntries = 0;
   const invalidEntries = 0;
 
   try {

@@ -1,6 +1,6 @@
+import { log } from '@/services/LoggingService';
 import fs from 'fs';
 import path from 'path';
-import { log } from '@/services/LoggingService';
 import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
 import { errorTrackingSystem } from './ErrorTrackingSystem';
 import { qualityMetricsService } from './QualityMetricsService';
@@ -269,10 +269,10 @@ class AlertingSystem {
           ],
           notificationChannels: ['console', 'file']
         }
-      ],
+      ];
 
       this.alertRules = defaultRules;
-}
+    }
 
     if (this.escalationRules.length === 0) {
       const defaultEscalationRules: EscalationRule[] = [
@@ -312,15 +312,15 @@ class AlertingSystem {
               config: {
                 campaignType: 'automated-error-fix',
                 conservative: true
-},
+              },
               conditions: ['automation_opportunities > 5'],
               retryCount: 1,
               timeoutSeconds: 600
-}
+            }
           ],
           maxEscalations: 2
-}
-      ],
+        }
+      ];
 
       this.escalationRules = defaultEscalationRules;
 }
@@ -717,7 +717,7 @@ class AlertingSystem {
     }
   }
 
-   
+
   // Intentionally, any: Performance monitoring data comes from various sources with different metrics
   private evaluatePerformanceAlerts(data: {
     metrics?: Record<string, number>,
@@ -728,7 +728,7 @@ class AlertingSystem {
     // The main monitoring loop handles rule evaluation
   }
 
-   
+
   // Intentionally, any: Error tracking data varies significantly across different error types and sources
   private evaluateErrorAlerts(data: {
     errorCount?: number,
@@ -739,7 +739,7 @@ class AlertingSystem {
     // The main monitoring loop handles rule evaluation
   }
 
-   
+
   // Intentionally, any: Code quality metrics include diverse analysis results from various quality tools
   private evaluateQualityAlerts(data: {
     qualityScore?: number,

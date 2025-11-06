@@ -15,7 +15,7 @@ export type DietaryType = 'vegetarian' | 'vegan' | 'pescatarian' | 'omnivore' | 
 export type CookingTime = 'quick' | 'medium' | 'slow'
 export type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all'
 // Constants for meal types and recipe types
-export const _MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert'],
+export const _MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert'];
 export const _RECIPE_TYPES: DietaryType[] = [
   'vegetarian',
   'vegan',
@@ -23,7 +23,7 @@ export const _RECIPE_TYPES: DietaryType[] = [
   'omnivore',
   'keto',
   'paleo'
-],
+];
 
 export interface Ingredient {
   name: string,

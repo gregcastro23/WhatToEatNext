@@ -95,7 +95,7 @@ class StateValidator {
   private validateElementalProperties(props?: ElementalProperties): boolean {
     if (!props || typeof props !== 'object') return false
 
-    const requiredElements = ['Fire', 'Earth', 'Air', 'Water'],;
+    const requiredElements = ['Fire', 'Earth', 'Air', 'Water'];
     // Type guard: ensure all required keys exist and are numbers
     for (const element of requiredElements) {
       if (!(element in props) || typeof props[element] !== 'number') {

@@ -6,14 +6,14 @@
  */
 
 import {
-  resolveCuisineType,
+  CUISINE_ALIASES,
+  getPrimaryCuisine,
   getRegionalCuisines,
   isRegionalCuisine,
-  getPrimaryCuisine,
   normalizeCuisineName,
-  CUISINE_ALIASES,
-  type PrimaryCuisineType,
-  type AllCuisineTypes
+  resolveCuisineType,
+  type AllCuisineTypes,
+  type PrimaryCuisineType
 } from '@/types/cuisineAliases';
 
 /**
@@ -138,7 +138,7 @@ export function isSupportedCuisine(cuisineName: string): boolean {
     'Mediterranean',
     'Russian',
     'Fusion'
-  ],
+  ];
 
   return primaryCuisines.includes(cuisineName as PrimaryCuisineType);
 }
@@ -180,4 +180,4 @@ export function getCuisineSuggestions(partialName: string): string[] {
 }
 
 // Re-export types for convenience
-export type { PrimaryCuisineType, AllCuisineTypes }
+export type { AllCuisineTypes, PrimaryCuisineType };

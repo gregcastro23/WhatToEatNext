@@ -570,7 +570,7 @@ export const _getRecommendedCuisines = (
     cuisine: string,
     matchScore: number,
     isParent: boolean
-  }>,
+  }>;
 
   // Add regional variants with good matches
   const regionalResults: Array<{
