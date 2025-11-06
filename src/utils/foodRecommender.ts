@@ -151,7 +151,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
         ingredientData.category = 'herbs';
         if (!ingredientData.subCategory) {
           // Determine if it's fresh or dried
-          if (name.includes('dried') || name.includes('powdered') {
+          if (name.includes('dried') || name.includes('powdered')) {
             ingredientData.subCategory = 'dried_herb';
           } else {
             ingredientData.subCategory = 'fresh_herb'; // Default to fresh
