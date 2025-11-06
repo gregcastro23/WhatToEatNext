@@ -214,7 +214,7 @@ function validateIngredientElementalProperties(
     // Check that all elements are present and numeric
     for (const element of elements) {
       const value = props[element as any];
-      if (typeof value !== 'number' || isNaN(value) {
+      if (typeof value !== 'number' || isNaN(value)) {
         errors.push({
           type: 'ELEMENTAL_INVALID',
           severity: 'HIGH',
