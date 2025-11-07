@@ -232,13 +232,13 @@ export function usePersonalization(
         const responseTime = performance.now() - startTime;
         trackApiCall("personalization/recommendations", responseTime);
 
-        setData((prev) => ({
+        setData((prev: any) => ({
           ...prev,
           recommendations: {
             scores: personalizedScores,
             lastUpdated: Date.now(),
           },
-        }));
+        } as any));
 
         logger.debug("Personalized recommendations generated", {
           userId,

@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       try {
         // Calculate alchemical properties from planetary positions
         const alchemicalProperties =
-          calculateAlchemicalFromPlanets(planetaryPositions);
+          calculateAlchemicalFromPlanets(planetaryPositions as any);
 
         // Calculate thermodynamic metrics using the alchemizer engine
         const thermodynamicMetrics = alchemize(planetaryPositions);

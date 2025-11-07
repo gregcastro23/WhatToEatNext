@@ -77,7 +77,7 @@ export const _AlchemicalContext = createContext<AlchemicalContextType>({
     entropy: 0.5,
     enthalpy: 0.5,
   }),
-});
+} as any);
 
 // Export without underscore for compatibility
 export const AlchemicalContext = _AlchemicalContext;

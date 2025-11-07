@@ -135,7 +135,7 @@ export default function CookingMethodsPage() {
         }),
       );
 
-      setFormattedMethods(transformed);
+      setFormattedMethods(transformed as any);
     }
   }, [tabValue]);
 

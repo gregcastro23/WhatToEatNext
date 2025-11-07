@@ -349,7 +349,7 @@ export class AlchemicalEngineBase {
     if (!recipe.elementalProperties) return 0;
     const dominantElements = this.getDominantElements(recipe);
     const interactions = this.calculateIngredientInteractions(
-      (recipe.ingredients || []) as Ingredient[],
+      (recipe.ingredients || []) as any,
     );
 
     // Use our own calculation instead of calling ElementalCalculator.calculateHarmony

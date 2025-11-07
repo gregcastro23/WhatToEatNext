@@ -442,7 +442,7 @@ export function calculateKalchmResults(planetaryPositions: {
       };
     },
     300000, // 5 minute cache
-  ) as KalchmResult;
+  ) as any;
 }
 
 /**

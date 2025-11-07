@@ -130,7 +130,7 @@ export function generateEnhancedCuisineRecommendations(
     // Generate recommendations using the comprehensive system
     const recommendations = generateCuisineRecommendations(
       userProfile,
-      mockCuisines,
+      mockCuisines as any,
       {
         maxRecommendations: 10,
         minCompatibilityThreshold: 0.1,

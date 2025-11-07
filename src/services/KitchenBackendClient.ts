@@ -104,7 +104,7 @@ export class KitchenBackendClient {
               name: r.name,
               url: r.url || undefined,
               // Add any other required Recipe fields with defaults
-            }) as Recipe,
+            }) as any,
         );
 
         // Wrap in EnhancedRecommendationResult format

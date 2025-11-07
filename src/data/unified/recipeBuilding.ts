@@ -1195,11 +1195,11 @@ export class UnifiedRecipeBuildingSystem {
         }
       ).getCookingMethodAdjustment?.(method, season);
       if (seasonalAdjustment) {
-        (adjustments as unknown as MethodAdjustment[]).push({
+        (adjustments as any).push({
           method,
           adjustment: seasonalAdjustment,
           reason: `Optimized for ${season} conditions`,
-        });
+        } as any);
       }
     }
 

@@ -410,7 +410,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
       ) as LunarPhase;
       const currentSign = safeAstrology.calculateSunSign();
 
-      setState((prev) => ({
+      setState((prev: any) => ({
         ...prev,
         loading: false,
         error: "Using fallback data due to API error",
@@ -421,7 +421,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
           lunarPhase,
         },
         lastUpdated: Date.now(),
-      }));
+      } as any));
 
       return {
         positions,

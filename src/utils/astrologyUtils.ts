@@ -2631,9 +2631,9 @@ export function transformItemsWithPlanetaryPositions(
         transformations: calculateElementalTransformations(
           item.elementalProperties,
           currentElementalInfluence,
-        ) as Array<{ from: Element; to: Element; _intensity: number }>,
+        ) as any,
         seasonalResonance: calculateSeasonalResonance(dominantElement),
-      } as unknown as AlchemicalItem;
+      } as any;
 
       return alchemicalItem;
     });

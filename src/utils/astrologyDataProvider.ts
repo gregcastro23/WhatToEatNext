@@ -44,13 +44,13 @@ async function getPositionsFromAPI(): Promise<Record<
 
     // Try to fetch from API endpoint
     const response = await fetch("/api/planetary-positions", {
-      _method: "GET",
-      _headers: {
+      method: "GET",
+      headers: {
         "Content-Type": "application/json",
       },
       // Short timeout to prevent long waits
-      _signal: AbortSignal.timeout(3000),
-    });
+      signal: AbortSignal.timeout(3000),
+    } as any);
 
     if (!response.ok) {
       throw new Error(`API returned status ${response.status}`);

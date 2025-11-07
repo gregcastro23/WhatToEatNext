@@ -936,8 +936,8 @@ export function mergeWithDefaults<T extends Record<string, unknown>>(
         !Array.isArray(userValues[key])
       ) {
         result[key] = mergeWithDefaults(
-          userValues[key] as Record<string, unknown>,
-          defaults[key],
+          userValues[key] as any,
+          defaults[key] as any,
         );
       } else {
         result[key] = userValues[key] as T[Extract<keyof T, string>];

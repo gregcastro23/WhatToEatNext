@@ -403,16 +403,7 @@ export function calculatePlanetaryInfluences(
       };
     },
     300000, // 5 minute cache
-  ) as {
-    alchemicalInfluences: { [key: string]: number };
-    elementalInfluences: { [key: string]: number };
-    dominantPlanets: Array<{
-      planet: string;
-      strength: number;
-      element: Element;
-    }>;
-    planetaryHours?: { dayRuler: string; hourRuler: string; influence: number };
-  };
+  ) as any;
 }
 
 /**

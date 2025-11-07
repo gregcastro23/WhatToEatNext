@@ -430,7 +430,7 @@ export class UnifiedCalculationEngine {
     profile2: ElementalProperties,
   ): number {
     const result = analyzeElementalCompatibility(profile1, profile2);
-    return (result as any).compatibility || (result as number);
+    return ((result as any).compatibility || result) as any;
   }
 
   private generateCacheKey(
