@@ -63,7 +63,7 @@ class React19NextJS15Validator {
       );
       return { success: true, output, errors: [] };
     } catch (error: unknown) {
-      const output = error.stdout || error.message || "";
+      const output = (error as any).stdout || (error as any).message || "";
       const errors = output.split("\n").filter((line: string) => line.trim());
       return { success: false, output, errors };
     }

@@ -143,7 +143,7 @@ class SafeUnusedImportRemover {
       });
     } catch (error: unknown) {
       // ESLint returns non-zero exit code when there are errors
-      return error.stdout || "";
+      return (error as any).stdout || "";
     }
   }
 

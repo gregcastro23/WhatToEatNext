@@ -297,7 +297,7 @@ class PerformanceValidationCLI {
       console.log("\n✅ Performance tests completed successfully!");
     } catch (error: unknown) {
       console.error("\n❌ Performance tests failed: ");
-      console.error(error.stdout || error.stderr || error.message);
+      console.error((error as any).stdout || (error as any).stderr || (error as any).message);
       process.exit(1);
     }
   }

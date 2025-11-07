@@ -1300,7 +1300,7 @@ export async function getRecommendedCookingMethods(
         venusScore += matchCount * 0.8;
 
         // Check elements alignment with Venus temperament
-        if (venusTemperament.Elements && (method as unknown).elementalEffect) {
+        if (venusTemperament.Elements && (method as any).elementalEffect) {
           for (const element in venusTemperament.Elements) {
             const elementProperty = element as any;
             const methodElementalEffect = (method as any)
@@ -1345,7 +1345,7 @@ export async function getRecommendedCookingMethods(
         // Check elements alignment with transit
         if (
           venusZodiacTransit.Elements &&
-          (method as unknown).elementalEffect
+          (method as any).elementalEffect
         ) {
           for (const element in venusZodiacTransit.Elements) {
             const elementProperty = element as any;
@@ -1410,7 +1410,7 @@ export async function getRecommendedCookingMethods(
 
         // Apply retrograde elements influence
         const elements = retrogradeData.Elements;
-        if (elements && (method as unknown).elementalEffect) {
+        if (elements && (method as any).elementalEffect) {
           const elementsData = elements;
           for (const element in elementsData) {
             const elementProperty = element as any;
