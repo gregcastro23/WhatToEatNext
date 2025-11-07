@@ -304,7 +304,7 @@ export function safeExecuteWithContext<T>(
  */
 export function warnNullValue(
   variableName: string,
-  _context: string,
+  context: string,
   value?: unknown,
 ): void {
   logWarning(
@@ -385,8 +385,8 @@ export function handlePropertyAccessError(
  */
 export function trackExecution(
   functionName: string,
-  _step: string,
-  _data?: unknown,
+  step: string,
+  data?: unknown,
 ): void {
   logInfo(`[EXECUTION] ${functionName} - ${step}`, data);
 }

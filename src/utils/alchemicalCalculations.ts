@@ -179,7 +179,7 @@ export function calculatePlanetaryAlchemicalValues(
 }
 
 // Calculate elemental balance based on planetary positions
-export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
+export function calculateElementalBalance(positions: PlanetaryPositionsType) {
   // Initialize with balanced elements
   const elements = {
     Fire: 0.25,
