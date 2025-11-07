@@ -512,7 +512,7 @@ function _standardizePlanetName(_planet: string): string {
  * @returns True if all positions are valid
  */
 function _validatePlanetaryPositions(
-  positions: Record<string, _number>,
+  positions: Record<string, number>,
 ): boolean {
   const REQUIRED_PLANETS = [
     "Sun",
@@ -675,7 +675,7 @@ function calculateMoonLongitude(jd: number): number {
  * @param planet The planet to calculate
  * @returns Planet's ecliptic longitude in degrees
  */
-function calculateInnerPlanetLongitude(_jd: number, _planet: string): number {
+function calculateInnerPlanetLongitude(jd: number, planet: string): number {
   try {
     // Inner planets have different orbital characteristics
     const orbitalData = {
@@ -733,7 +733,7 @@ function calculateInnerPlanetLongitude(_jd: number, _planet: string): number {
  * @param planet The planet to calculate
  * @returns Planet's ecliptic longitude in degrees
  */
-function calculateOuterPlanetLongitude(_jd: number, _planet: string): number {
+function calculateOuterPlanetLongitude(jd: number, planet: string): number {
   try {
     // Outer planets have different orbital characteristics
     const orbitalData = {
@@ -2057,7 +2057,7 @@ export async function runAstroTests() {
  * @returns Record of planetary positions in degrees (0-360)
  */
 function _calculatePlanetPositionsInternal(
-  _date: Date,
+  date: Date,
 ): Record<string, number> {
   const positions: Record<string, number> = {};
   const jd = calculateJulianDate(date);
@@ -2096,7 +2096,7 @@ function _calculatePlanetPositionsInternal(
  * @param date Date to calculate for
  * @returns Object with north node position and retrograde status
  */
-export function calculateLunarNodes(_date: Date = new Date()): {
+export function calculateLunarNodes(date: Date = new Date()): {
   northNode: number;
   isRetrograde: boolean;
 } {
@@ -2107,9 +2107,9 @@ export function calculateLunarNodes(_date: Date = new Date()): {
     // The lunar nodes complete a cycle in about 18.6 years (moving retrograde)
     const _nodeCycleDays = 6793.48; // Precise cycle length in days
 
-    // Updated reference, date: January 23, 2022 when North Node was at 0° taurus (30°)
-    const referenceDate = new Date("2022-01-_23T00: 00:00Z");
-    const referenceLongitude = 30; // 0° taurus = 30° in absolute longitude;
+    // Updated reference date: January 23, 2022 when North Node was at 0° taurus (30°)
+    const referenceDate = new Date("2022-01-23T00:00:00Z");
+    const referenceLongitude = 30; // 0° taurus = 30° in absolute longitude
 
     const msPerDay = 24 * 60 * 60 * 1000;
 
@@ -2141,7 +2141,7 @@ export function calculateLunarNodes(_date: Date = new Date()): {
  * @param nodeLongitude Longitude in degrees (0-360)
  * @returns Object with sign and degree information
  */
-export function getNodeInfo(_nodeLongitude: number): {
+export function getNodeInfo(nodeLongitude: number): {
   sign: string;
   degree: number;
   exactLongitude: number;
@@ -2350,7 +2350,7 @@ export const _parseAstroChartAspects = (
  * @param planet The planet name
  * @returns The elemental association
  */
-export function getPlanetaryElementalInfluence(_planet: string): Element {
+export function getPlanetaryElementalInfluence(planet: string): Element {
   const planetElementMap: Record<string, Element> = {
     Sun: "Fire",
     Moon: "Water",
@@ -2374,7 +2374,7 @@ export function getPlanetaryElementalInfluence(_planet: string): Element {
  * @param sign The zodiac sign
  * @returns The elemental association
  */
-export function getZodiacElementalInfluence(_sign: any): Element {
+export function getZodiacElementalInfluence(sign: ZodiacSign): Element {
   const zodiacElementMap: Record<ZodiacSign, Element> = {
     aries: "Fire",
     taurus: "Earth",
@@ -2991,7 +2991,7 @@ function calculateElementalTransformations(
  * Calculate seasonal resonance
  */
 function calculateSeasonalResonance(
-  _dominantElement: ElementalCharacter,
+  dominantElement: ElementalCharacter,
 ): Season[] {
   const seasonalMap: Record<ElementalCharacter, Season[]> = {
     Fire: ["summer"],
@@ -3006,7 +3006,7 @@ function calculateSeasonalResonance(
 /**
  * Calculate planetary strength from positions
  */
-function calculatePlanetaryStrength(_planetaryPositions: {
+function calculatePlanetaryStrength(planetaryPositions: {
   [key: string]: unknown;
 }): number {
   try {
