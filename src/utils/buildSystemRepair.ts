@@ -194,7 +194,7 @@ export class BuildSystemRepair {
     }
 
     if (
-      (configValidation as unknown as { issues?: string[] }).issues?.length > 0
+      ((configValidation as unknown as { issues?: string[] })?.issues?.length ?? 0) > 0
     ) {
       report.recommendations.push(
         "Update Next.js configuration to resolve issues",

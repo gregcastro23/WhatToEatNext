@@ -1789,26 +1789,26 @@ export class UnifiedRecipeBuildingSystem {
     if (criteria.dietaryRestrictions) criteriaMatched++; // Assume dietary restrictions are met
     if (recipe.ingredients && recipe.ingredients.length >= 5) criteriaMatched++;
     if (
-      (recipe as { cookingMethods?: string[] }).cookingMethods &&
-      (recipe as { cookingMethods?: string[] }).cookingMethods.length > 0
+      (recipe as { cookingMethods?: string[] })?.cookingMethods &&
+      ((recipe as { cookingMethods?: string[] })?.cookingMethods?.length ?? 0) > 0
     )
       criteriaMatched++;
     if (recipe.monicaOptimization.optimizationScore >= 0.7) criteriaMatched++;
     if (
-      (recipe.alchemicalProperties as { totalKalchm?: number }).totalKalchm >=
+      ((recipe.alchemicalProperties as { totalKalchm?: number })?.totalKalchm ?? 0) >=
       0.7
     )
       criteriaMatched++;
     if (
-      (recipe.nutritionalOptimization as { overallNutritionalScore?: number })
-        .overallNutritionalScore >= 0.7
+      ((recipe.nutritionalOptimization as { overallNutritionalScore?: number })
+        ?.overallNutritionalScore ?? 0) >= 0.7
     )
       criteriaMatched++;
     if (
       (recipe as { culturalIntegration?: { authenticityScore?: number } })
-        .culturalIntegration?.authenticityScore !== undefined &&
-      (recipe as { culturalIntegration?: { authenticityScore?: number } })
-        .culturalIntegration?.authenticityScore >= 0.6
+        ?.culturalIntegration?.authenticityScore !== undefined &&
+      ((recipe as { culturalIntegration?: { authenticityScore?: number } })
+        ?.culturalIntegration?.authenticityScore ?? 0) >= 0.6
     )
       criteriaMatched++;
     criteriaMatched++; // Always count generation success as one criteria

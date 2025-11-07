@@ -494,7 +494,7 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
         `✅ Recommendation engine: ${recommendations.length} recommendations generated`,
       );
       results.push(
-        `   Top recommendation: ${recommendations[0].cuisine} (${Math.round(recommendations[0].score * 100)}% match)`,
+        `   Top recommendation: ${recommendations[0]?.cuisine} (${Math.round((recommendations[0]?.score ?? 0) * 100)}% match)`,
       );
     } else {
       errors.push("Recommendation engine: No recommendations generated");

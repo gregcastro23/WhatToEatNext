@@ -333,7 +333,7 @@ export function cleanupIngredientsDatabase(
           );
         }
 
-        if ((validation.warnings && validation.warnings.length) > 0) {
+        if (validation.warnings && ((validation.warnings?.length ?? 0) > 0)) {
           result.warnings.push(
             `Ingredient ${index} warnings: ${validation.warnings?.join(", ")}`,
           );
