@@ -39,7 +39,7 @@ const proteins = {
  * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  */
 function calculateKalchm(_alchemical: AlchemicalProperties): number {
-  const { Spirit, Essence, Matter, Substance } = alchemical;
+  const { Spirit, Essence, Matter, Substance } = _alchemical;
 
   // Prevent division by zero or negative values
   const safespirit = Math.max(0.001, Spirit);

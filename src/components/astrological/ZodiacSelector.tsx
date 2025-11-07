@@ -3,7 +3,8 @@
  * Phase 5: Frontend Integration - Reusable Zodiac Selection
  */
 
-import { Box, HStack, Icon, Select, Text } from "@chakra-ui/react";
+import { Box, HStack, Icon, Select as _Select, Text } from "@chakra-ui/react";
+const Select = _Select as any;
 import React from "react";
 import { FaFire, FaLeaf, FaSnowflake, FaSun } from "react-icons/fa";
 
@@ -104,23 +105,22 @@ export const ZodiacSelector: React.FC<ZodiacSelectorProps> = ({
 
       {value && showElement && (
         <Box mt={2}>
-          <HStack spacing={2} as any>
-            <Icon
-              as={
-                ELEMENT_ICONS[
-                  ZODIAC_ELEMENTS[
-                    value as keyof typeof ZODIAC_ELEMENTS
-                  ] as keyof typeof ELEMENT_ICONS
-                ]
-              }
-              color={`${ELEMENT_COLORS[ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS] as keyof typeof ELEMENT_COLORS]}.500`}
-              boxSize={4}
-            />
-            <Text fontSize="xs" color="gray.600">
-              {value} is a{" "}
-              {ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS]} sign
-            </Text>
-          </HStack>
+          {(HStack as any)({ spacing: 2, children: [
+            (Icon as any)({
+              as: ELEMENT_ICONS[
+                ZODIAC_ELEMENTS[
+                  value as keyof typeof ZODIAC_ELEMENTS
+                ] as keyof typeof ELEMENT_ICONS
+              ],
+              color: `${ELEMENT_COLORS[ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS] as keyof typeof ELEMENT_COLORS]}.500`,
+              boxSize: 4,
+            }),
+            (Text as any)({ fontSize: "xs", color: "gray.600", children: [
+              `${value} is a `,
+              ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS],
+              " sign"
+            ]}),
+          ]})}
         </Box>
       )}
     </Box>

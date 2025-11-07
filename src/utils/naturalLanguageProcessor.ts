@@ -116,19 +116,19 @@ const DIETARY_KEYWORDS: KeywordPattern[] = [
 const DIFFICULTY_KEYWORDS: KeywordPattern[] = [
   {
     keywords: ["easy", "simple", "quick", "beginner"],
-    category: "difficultyLevel",
+    category: "_difficultyLevel",
     values: ["easy", "beginner"],
     weight: 0.8,
   },
   {
     keywords: ["hard", "difficult", "complex", "advanced", "expert"],
-    category: "difficultyLevel",
+    category: "_difficultyLevel",
     values: ["hard", "expert"],
     weight: 0.8,
   },
   {
     keywords: ["medium", "intermediate", "moderate"],
-    category: "difficultyLevel",
+    category: "_difficultyLevel",
     values: ["medium"],
     weight: 0.7,
   },
@@ -137,19 +137,19 @@ const DIFFICULTY_KEYWORDS: KeywordPattern[] = [
 const TIME_KEYWORDS: KeywordPattern[] = [
   {
     keywords: ["quick", "fast", "under 30", "less than 30", "30 minutes"],
-    category: "cookingTime",
+    category: "_cookingTime",
     values: ["0-30"],
     weight: 0.8,
   },
   {
     keywords: ["1 hour", "one hour", "60 minutes"],
-    category: "cookingTime",
+    category: "_cookingTime",
     values: ["30-60"],
     weight: 0.8,
   },
   {
     keywords: ["long", "slow", "2 hours", "extended"],
-    category: "cookingTime",
+    category: "_cookingTime",
     values: ["60-120"],
     weight: 0.7,
   },
@@ -203,31 +203,31 @@ const CUISINE_KEYWORDS: KeywordPattern[] = [
 const MEAL_KEYWORDS: KeywordPattern[] = [
   {
     keywords: ["breakfast", "morning", "brunch"],
-    category: "mealTypes",
+    category: "_mealTypes",
     values: ["breakfast"],
     weight: 0.9,
   },
   {
     keywords: ["lunch", "midday", "noon"],
-    category: "mealTypes",
+    category: "_mealTypes",
     values: ["lunch"],
     weight: 0.9,
   },
   {
     keywords: ["dinner", "evening", "supper"],
-    category: "mealTypes",
+    category: "_mealTypes",
     values: ["dinner"],
     weight: 0.9,
   },
   {
     keywords: ["snack", "appetizer", "starter"],
-    category: "mealTypes",
+    category: "_mealTypes",
     values: ["snack", "appetizer"],
     weight: 0.8,
   },
   {
     keywords: ["dessert", "sweet", "cake", "cookie"],
-    category: "mealTypes",
+    category: "_mealTypes",
     values: ["dessert"],
     weight: 0.8,
   },
@@ -236,19 +236,19 @@ const MEAL_KEYWORDS: KeywordPattern[] = [
 const SPICE_KEYWORDS: KeywordPattern[] = [
   {
     keywords: ["mild", "not spicy", "no heat"],
-    category: "spiciness",
+    category: "_spiciness",
     values: ["mild"],
     weight: 0.8,
   },
   {
     keywords: ["spicy", "hot", "chili", "pepper"],
-    category: "spiciness",
+    category: "_spiciness",
     values: ["hot"],
     weight: 0.8,
   },
   {
     keywords: ["very hot", "extremely spicy", "fire"],
-    category: "spiciness",
+    category: "_spiciness",
     values: ["very-hot"],
     weight: 0.9,
   },

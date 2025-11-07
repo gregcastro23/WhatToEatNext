@@ -13,20 +13,24 @@ import {
   Badge,
   Box,
   Button,
-  Card,
+  Card as _Card,
   CardBody,
   CardHeader,
   Flex,
   HStack,
   Heading,
   Icon,
-  Select,
+  Select as _Select,
   SimpleGrid,
   Spinner,
   Text,
-  Tooltip,
+  Tooltip as _Tooltip,
   VStack,
 } from "@chakra-ui/react";
+
+const Card = _Card as any;
+const Select = _Select as any;
+const Tooltip = _Tooltip as any;
 import React, { useCallback, useEffect, useState } from "react";
 import {
   FaFire,

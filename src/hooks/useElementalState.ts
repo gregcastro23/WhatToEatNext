@@ -90,6 +90,6 @@ export function useElementalState() {
 
   return {
     ...elementalState,
-    isLoading,
+    isLoading: _isLoading,
   };
 }

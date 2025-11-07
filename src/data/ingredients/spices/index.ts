@@ -18,7 +18,7 @@ const normalizeElementalProperties = (
     };
   }
 
-  const sum = Object.values(properties).reduce((acc, val) => acc + val0);
+  const sum = Object.values(properties).reduce((acc, val) => acc + val, 0);
   if (sum === 0) {
     return {
       Fire: 0.25,

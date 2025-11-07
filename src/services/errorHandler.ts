@@ -401,6 +401,6 @@ export function logTypeError(
 ): void {
   ErrorHandler.log(error, {
     context: `TypeScript, ${context}`,
-    data: { operation },
+    data: { operation: _operation },
   });
 }

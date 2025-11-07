@@ -6,7 +6,7 @@ import type { AstrologicalInfluence } from "@/types/alchemy";
 import { ZodiacSign, _ } from "@/types/alchemy";
 import type { RecipeElementalMapping } from "@/types/recipes";
 
-export { ELEMENTAL_CHARACTERISTICS };
+export { _ELEMENTAL_CHARACTERISTICS as ELEMENTAL_CHARACTERISTICS };
 
 // Default astrologicalInfluence for when none is specified
 const defaultAstrologicalInfluence: AstrologicalInfluence = {

@@ -76,7 +76,7 @@ export const validateIngredient = (
 
   if (
     !ingredient.unit ||
-    !VALID_UNITS.includes(ingredient.unit.toLowerCase())
+    !_VALID_UNITS.includes(ingredient.unit.toLowerCase())
   ) {
     return false;
   }
@@ -100,7 +100,7 @@ export const validateIngredient = (
     const normalizedSeasons = ingredient.seasonality.map((s) =>
       s.toLowerCase(),
     );
-    const validSeasons = VALID_SEASONS.map((s) => s.toLowerCase());
+    const validSeasons = _VALID_SEASONS.map((s) => s.toLowerCase());
     if (!normalizedSeasons.every((s) => validSeasons.includes(s))) {
       return false;
     }
@@ -141,7 +141,7 @@ export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
   if (recipe.season) {
     if (!Array.isArray(recipe.season)) return false;
     const normalizedSeasons = recipe.season.map((s) => s.toLowerCase());
-    const validSeasons = VALID_SEASONS.map((s) => s.toLowerCase());
+    const validSeasons = _VALID_SEASONS.map((s) => s.toLowerCase());
     if (!normalizedSeasons.every((s) => validSeasons.includes(s))) {
       return false;
     }

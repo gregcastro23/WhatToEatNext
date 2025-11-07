@@ -13,7 +13,7 @@ export const ingredientCategories = {
   fruits,
   herbs,
   spices,
-  proteins,
+  proteins: _proteins,
   grains,
   seasonings,
   oils,

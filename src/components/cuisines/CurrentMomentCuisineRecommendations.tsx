@@ -20,7 +20,7 @@ import {
   Badge,
   Box,
   Button,
-  Card,
+  Card as _Card,
   CardBody,
   CardFooter,
   CardHeader,
@@ -31,17 +31,22 @@ import {
   ListRoot,
   ListItem,
   ListIndicator,
-  Progress,
+  Progress as _Progress,
   SimpleGrid,
   Spinner,
   TagRoot,
   TagLabel,
   Text,
-  Tooltip,
+  Tooltip as _Tooltip,
   VStack,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
+
+const Card = _Card as any;
+const Tooltip = _Tooltip as any;
+const Progress = _Progress as any;
+
 import React, { useCallback, useEffect, useState } from "react";
 import {
   FaAppleAlt,

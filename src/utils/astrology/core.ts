@@ -523,7 +523,7 @@ export async function getCurrentAstrologicalState(
       dominantElement,
       _dominantPlanets: activePlanets,
       planetaryPositions: positions as any,
-    };
+    } as any;
 
     return astrologicalState;
   } catch (error) {

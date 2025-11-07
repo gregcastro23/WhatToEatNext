@@ -472,7 +472,7 @@ export async function validateAstrologicalCalculation(
       }
 
       // Validate against transit dates if requested
-      if (_validateTransits && positionValidation.isValid && input.date) {
+      if (validateTransits && positionValidation.isValid && input.date) {
         for (const [planet, position] of Object.entries(
           input.planetaryPositions,
         )) {
