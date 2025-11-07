@@ -142,7 +142,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
       autumn: 0.6,
       winter: 0.4,
     };
-    return seasonModifiers[state.currentSeason] || 0.5;
+    return seasonModifiers[state.currentSeason as any] || 0.5;
   };
 
   // Helper function to get thermodynamic state

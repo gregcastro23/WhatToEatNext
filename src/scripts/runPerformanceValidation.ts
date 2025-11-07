@@ -344,7 +344,7 @@ Examples:
 function parseArgs(): CLIOptions {
   const args = process.argv.slice(2);
   const options: CLIOptions = {
-    command: "validate" as unknown,
+    command: "validate" as any,
   };
 
   for (let i = 0; i < args.length; i++) {

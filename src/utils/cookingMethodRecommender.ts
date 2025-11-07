@@ -1302,13 +1302,13 @@ export async function getRecommendedCookingMethods(
         // Check elements alignment with Venus temperament
         if (venusTemperament.Elements && (method as unknown).elementalEffect) {
           for (const element in venusTemperament.Elements) {
-            const elementProperty = element as unknown;
-            const methodElementalEffect = (method as unknown)
+            const elementProperty = element as any;
+            const methodElementalEffect = (method as any)
               .elementalEffect as Record<string, number>;
             if (methodElementalEffect[elementProperty]) {
               venusScore +=
                 venusTemperament.Elements[element] *
-                ((method as unknown).elementalEffect?.[elementProperty] || 0) *
+                ((method as any).elementalEffect?.[elementProperty] || 0) *
                 1.2;
             }
           }
@@ -1348,8 +1348,8 @@ export async function getRecommendedCookingMethods(
           (method as unknown).elementalEffect
         ) {
           for (const element in venusZodiacTransit.Elements) {
-            const elementProperty = element as unknown;
-            const methodElementalEffect = (method as unknown)
+            const elementProperty = element as any;
+            const methodElementalEffect = (method as any)
               .elementalEffect as Record<string, number>;
             if (methodElementalEffect[elementProperty]) {
               venusScore +=

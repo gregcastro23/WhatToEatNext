@@ -105,7 +105,7 @@ const alchemicalEngine = {
       const { calculateCurrentPlanetaryPositions } = await import(
         "@/calculations/alchemicalEngine"
       );
-      return calculateCurrentPlanetaryPositions();
+      return calculateCurrentPlanetaryPositions() as any;
     } catch (error) {
       _logger.error("Error calculating planetary positions: ", error);
       // Return a safe fallback

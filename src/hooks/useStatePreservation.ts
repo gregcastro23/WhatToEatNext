@@ -70,7 +70,7 @@ export function useComponentState<T = unknown>(
 
   const getState = useCallback((): T | null => {
     const stored = getComponentState(componentId);
-    return stored || initialState || null;
+    return (stored || initialState || null) as T | null;
   }, [componentId, initialState]);
 
   const restoreState = useCallback((): T | null => getState(), [getState]);

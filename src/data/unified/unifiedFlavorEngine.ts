@@ -221,7 +221,7 @@ export class UnifiedFlavorEngine {
 
           // Add profiles to our map
           for (const profile of profiles) {
-            this.profiles.set(profile.id, profile);
+            this.profiles.set(profile.id, profile as any);
           }
 
           // Log successful initialization

@@ -2778,7 +2778,7 @@ function calculateItemCompatibilityScore(
     Object.keys(itemProperties).forEach((element) => {
       if (element in currentInfluence) {
         const itemStrength = itemProperties[element] || 0;
-        const currentStrength = currentInfluence[element as unknown] || 0;
+        const currentStrength = currentInfluence[element as any] || 0;
 
         // Elements work best with themselves (no opposing elements principle)
         if (itemStrength > 0 && currentStrength > 0) {
@@ -2969,7 +2969,7 @@ function calculateElementalTransformations(
     // Find strongest interactions
     Object.entries(itemProperties).forEach(([element, strength]) => {
       if (strength > 0.3) {
-        const influenceStrength = currentInfluence[element as unknown] || 0;
+        const influenceStrength = currentInfluence[element as any] || 0;
 
         if (influenceStrength > 0.3) {
           transformations.push({

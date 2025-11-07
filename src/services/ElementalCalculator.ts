@@ -612,7 +612,7 @@ export class ElementalCalculator {
 
     const requiredElements = ["Fire", "Water", "Earth", "Air"];
     const hasAllElements = requiredElements.every(
-      (element) => typeof properties[element as unknown] === "number",
+      (element) => typeof properties[element as any] === "number",
     );
 
     if (!hasAllElements) return false;
@@ -796,7 +796,7 @@ export class ElementalCalculator {
     const result = { ...seasonalModifiers };
     Object.entries(specificAdjustments).forEach(([element, value]) => {
       // Use nullish coalescing to ensure value is never undefined
-      result[element as unknown] += value || 0;
+      result[element as any] += value || 0;
     });
 
     // Normalize to ensure values stay in valid range
