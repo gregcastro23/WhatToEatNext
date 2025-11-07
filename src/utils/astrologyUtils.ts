@@ -411,7 +411,7 @@ export async function calculatePlanetaryPositions(
             planet === "Sun"
               ? "VSOP87 with aberration correction"
               : "Standard astronomical",
-        };
+        } as any;
       });
 
       debugLog(
@@ -444,7 +444,7 @@ export async function calculatePlanetaryPositions(
             isRetrograde: planetData.isRetrograde,
             accuracy: "Astronomy Engine fallback",
             calculation_method: "Standard astronomical calculation",
-          };
+          } as any;
         });
 
         debugLog("⚠️ Using astronomy-engine fallback calculations");
@@ -1744,7 +1744,7 @@ export async function getCurrentAstrologicalState(
       currentPlanetaryAlignment,
       planetaryPositions,
       activePlanets,
-      planetaryHour,
+      planetaryHour: planetaryHour as Planet | undefined,
       aspects: aspects as Array<import("@/types/celestial").PlanetaryAspect>,
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {},
@@ -1764,7 +1764,7 @@ export async function getCurrentAstrologicalState(
       currentPlanetaryAlignment: {},
       planetaryPositions: defaultPositions,
       activePlanets: [],
-      planetaryHour: "Sun" as Planet,
+      planetaryHour: "Sun" as Planet | undefined,
       aspects: [],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {},

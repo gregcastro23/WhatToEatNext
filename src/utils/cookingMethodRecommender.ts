@@ -761,9 +761,9 @@ export async function getRecommendedCookingMethods(
     const temperamentData = marsDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (fireSigns.includes(lowerSign) && temperamentData?.FireMars) {
-      _marsTemperament = temperamentData.FireMars || {};
+      _marsTemperament = temperamentData.FireMars || ({} as Record<string, unknown>);
     } else if (waterSigns.includes(lowerSign) && temperamentData?.WaterMars) {
-      _marsTemperament = temperamentData.WaterMars || {};
+      _marsTemperament = temperamentData.WaterMars || ({} as Record<string, unknown>);
     }
   }
 
@@ -779,12 +779,12 @@ export async function getRecommendedCookingMethods(
       mercuryDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (airSigns.includes(lowerSign) && temperamentData?.AirMercury) {
-      _mercuryTemperament = temperamentData.AirMercury || {};
+      _mercuryTemperament = temperamentData.AirMercury || ({} as Record<string, unknown>);
     } else if (
       earthSigns.includes(lowerSign) &&
       temperamentData?.EarthMercury
     ) {
-      _mercuryTemperament = temperamentData.EarthMercury || {};
+      _mercuryTemperament = temperamentData.EarthMercury || ({} as Record<string, unknown>);
     }
   }
 
@@ -800,9 +800,9 @@ export async function getRecommendedCookingMethods(
       jupiterDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (fireSigns.includes(lowerSign) && temperamentData?.FireJupiter) {
-      _jupiterTemperament = temperamentData.FireJupiter || {};
+      _jupiterTemperament = temperamentData.FireJupiter || ({} as Record<string, unknown>);
     } else if (airSigns.includes(lowerSign) && temperamentData?.AirJupiter) {
-      _jupiterTemperament = temperamentData.AirJupiter || {};
+      _jupiterTemperament = temperamentData.AirJupiter || ({} as Record<string, unknown>);
     }
   }
 
@@ -817,9 +817,9 @@ export async function getRecommendedCookingMethods(
     const temperamentData = saturnDataTyped.PlanetSpecific?.CulinaryTemperament;
 
     if (earthSigns.includes(lowerSign) && temperamentData?.EarthSaturn) {
-      _saturnTemperament = temperamentData.EarthSaturn;
+      _saturnTemperament = temperamentData.EarthSaturn || ({} as Record<string, unknown>);
     } else if (airSigns.includes(lowerSign) && temperamentData?.AirSaturn) {
-      _saturnTemperament = temperamentData.AirSaturn;
+      _saturnTemperament = temperamentData.AirSaturn || ({} as Record<string, unknown>);
     }
   }
 

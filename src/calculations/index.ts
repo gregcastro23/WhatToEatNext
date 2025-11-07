@@ -211,7 +211,7 @@ export class UnifiedCalculationEngine {
 
       // Calculate kinetics
       const kinetics = calculateKinetics({
-        currentPlanetaryPositions: planetaryPositions,
+        currentPlanetaryPositions: planetaryPositions as any,
         timeInterval: 3600, // 1 hour default
       });
 
@@ -242,7 +242,7 @@ export class UnifiedCalculationEngine {
         elements: elementalProperties,
 
         // Thermodynamic Metrics
-        thermodynamics: kalchmResult.thermodynamicResults,
+        thermodynamics: kalchmResult.thermodynamicResults || {} as any,
 
         // Planetary Influences
         planetaryInfluence: {
@@ -253,8 +253,8 @@ export class UnifiedCalculationEngine {
 
         // Kinetics & Dynamics
         kinetics: {
-          momentum: kinetics.momentum || 0,
-          force: kinetics.force || 0,
+          momentum: (kinetics as any).momentum || 0,
+          force: (kinetics as any).force || 0,
           charge: kinetics.charge || 0,
           potential: kinetics.potential || 0,
         },
@@ -263,7 +263,7 @@ export class UnifiedCalculationEngine {
         metadata: {
           calculationTime: Date.now() - startTime,
           cacheUsed: false,
-          planetaryPositions,
+          planetaryPositions: planetaryPositions as any,
           timestamp: new Date().toISOString(),
         },
       };
@@ -429,7 +429,8 @@ export class UnifiedCalculationEngine {
     profile1: ElementalProperties,
     profile2: ElementalProperties,
   ): number {
-    return analyzeElementalCompatibility(profile1, profile2);
+    const result = analyzeElementalCompatibility(profile1, profile2);
+    return (result as any).compatibility || (result as number);
   }
 
   private generateCacheKey(
