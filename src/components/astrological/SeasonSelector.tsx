@@ -83,14 +83,14 @@ export const SeasonSelector: React.FC<SeasonSelectorProps> = ({
 
       {value && showDescription && (
         <Box mt={2}>
-          <HStack spacing={2} align="start">
+          <HStack {...({ spacing: 2, align: "start" } as any)}>
             <Icon
               as={SEASON_INFO[value as keyof typeof SEASON_INFO].icon}
               color={`${SEASON_INFO[value as keyof typeof SEASON_INFO].color}.500`}
               boxSize={4}
               mt={0.5}
             />
-            <VStack align="start" spacing={1}>
+            <VStack {...({ align: "start", spacing: 1 } as any)}>
               <Text fontSize="xs" fontWeight="medium" color="gray.700">
                 {SEASON_INFO[value as keyof typeof SEASON_INFO].description}
               </Text>

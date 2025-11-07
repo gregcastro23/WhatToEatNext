@@ -448,7 +448,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       dominantElement,
       _planetaryPositions: positions as Record<string, CelestialPosition>,
       _isDaytime: new Date().getHours() > 6 && new Date().getHours() < 18,
-    };
+    } as any;
   } catch (error) {
     errorLog(
       "Error in getCurrentAstrologicalState: ",
@@ -463,7 +463,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       activePlanets: ["Sun", "Moon", "Jupiter"],
       dominantElement: "Fire",
       _loading: false,
-    };
+    } as any;
   }
 }
 
@@ -645,7 +645,7 @@ export function getCurrentTransitPositions(): {
   for (const [planet, data] of Object.entries(positions)) {
     result[planet] = {
       sign: data.sign as ZodiacSign,
-      degree: data.degree,
+      degree: (data.degree as number) || 0,
       isRetrograde: data.isRetrograde || false,
     };
   }

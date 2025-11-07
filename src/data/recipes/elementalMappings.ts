@@ -61,7 +61,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
     complementaryHerbs: ["Thyme", "Bay leaf", "Rosemary"],
     idealTimeOfDay: ["Evening", "Dinner"],
     seasonalRecommendation: ["Autumn", "Winter"],
-  },
+  } as any,
   // Japanese Cuisine
   kaiseki_ryori: {
     elementalProperties: { Water: 0.6, Earth: 0.3, Air: 0.05, Fire: 0.05 },
@@ -87,7 +87,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
     complementaryHerbs: ["Shiso", "Ginger", "Wasabi"],
     idealTimeOfDay: ["Evening", "Night"],
     seasonalRecommendation: ["Winter", "Spring"],
-  },
+  } as any,
   // Mexican Cuisine
   mole_poblano: {
     elementalProperties: { Fire: 0.5, Earth: 0.4, Air: 0.05, Water: 0.05 },
@@ -113,7 +113,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
     complementaryHerbs: ["Epazote", "Mexican oregano", "Cilantro"],
     idealTimeOfDay: ["Noon", "Early afternoon"],
     seasonalRecommendation: ["Summer", "Early autumn"],
-  },
+  } as any,
 };
 
 /**

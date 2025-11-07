@@ -830,7 +830,7 @@ export class EnhancedIngredientsSystem {
       pairings: ingredient.pairingRecommendations || [],
       substitutions: ingredient.swaps || [],
       storage: this.getStorageForCategory(category),
-      seasonality: this.getSeasonalityForIngredient(ingredient),
+      seasonality: this.getSeasonalityForIngredient(ingredient) as any,
       preparationMethods: this.getPreparationMethodsForCategory(category),
     };
   }
@@ -856,7 +856,7 @@ export class EnhancedIngredientsSystem {
       zodiacRuler: this.getZodiacRulerForElement(dominantElement) as any,
       element: dominantElement,
       energyType: this.getEnergyTypeForElement(dominantElement),
-      seasonalPeak: this.getSeasonalPeakForElement(dominantElement),
+      seasonalPeak: this.getSeasonalPeakForElement(dominantElement) as any,
       lunarAffinity: this.getLunarAffinityForElement(
         dominantElement,
       ) as LunarPhase[],

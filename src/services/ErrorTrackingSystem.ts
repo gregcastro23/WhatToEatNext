@@ -301,8 +301,8 @@ class ErrorTrackingSystem {
       for (const message of fileResult.messages) {
         violations.push({
           rule: message.ruleId || "unknown",
-          message: message.message,
-          file: filePath,
+          message: (message.message as string) || "",
+          file: (filePath as string) || "",
           line: message.line || 0,
           column: message.column || 0,
           severity: this.mapLintSeverity(message.severity),

@@ -325,7 +325,7 @@ export function alchemize(
         description: "Generated alchemical chart",
         attributes: [],
       },
-    };
+    } as any;
   } catch (error) {
     logger.error("Error in alchemize", {
       error: error instanceof Error ? error.message : String(error),
@@ -398,7 +398,7 @@ export function safeAlchemize(
         description: "Fallback alchemical chart",
         attributes: [],
       },
-    };
+    } as any;
   }
 }
 

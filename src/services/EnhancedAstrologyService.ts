@@ -203,7 +203,7 @@ export class EnhancedAstrologyService {
         string,
         CelestialPosition
       >;
-      dataSource = "positions-service";
+      dataSource = "positions-service" as any;
       confidence = 0.95;
     } catch (error) {
       logger.warn(
@@ -244,7 +244,7 @@ export class EnhancedAstrologyService {
       (seasonalTransit?.keyAspects as unknown as Planet[]) || [];
 
     return {
-      planetaryPositions: primaryPositions,
+      planetaryPositions: (primaryPositions as any) || {},
       dataSource,
       confidence,
       siderealTime: siderealTime || undefined,
