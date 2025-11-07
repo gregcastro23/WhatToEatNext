@@ -240,7 +240,7 @@ const allIngredients = [
   ...Object.values(fruits),
   ...Object.values(herbs),
   ...Object.values(spices),
-  ...Object.values(_proteins),
+  ...Object.values(__proteins),
   ...Object.values(grains),
   ...Object.values(seasonings),
   ...Object.values(oils),
@@ -717,59 +717,13 @@ export async function getIngredientRecommendations(
         seasonalScore: safeGetNumber(ingredient.seasonalScore),
         dietary: safeGetStringArray(ingredientData.dietary),
         // Enterprise Intelligence Enhanced Properties
-        flavorProfile: (() => {
-          const analysis = ingredientIntelligence?.categorizationAnalysis as
-            | {
-                flavorProfile?: Record<string, unknown>;
-              }
-            | undefined;
-          const profile = analysis?.flavorProfile;
-          return profile && typeof profile === "object" && profile !== null
-            ? (profile as Record<string, number>)
-            : {};
-        })(),
-        cuisine:
-          (
-            ingredientIntelligence?.categorizationAnalysis as {
-              cuisine?: string;
-            }
-          ).cuisine || "universal",
-        regionalCuisine:
-          (
-            ingredientIntelligence?.categorizationAnalysis as {
-              regionalCuisine?: string;
-            }
-          ).regionalCuisine || "global",
-        season: (() => {
-          const seasonalAnalysis = ingredientIntelligence?.seasonalAnalysis as
-            | { currentSeason?: string }
-            | undefined;
-          const currentSeason = seasonalAnalysis?.currentSeason;
-          return typeof currentSeason === "string" &&
-            ["spring", "summer", "autumn", "winter", "all"].includes(
-              currentSeason,
-            )
-            ? (currentSeason as Season)
-            : ("all" as Season);
-        })(),
-        mealType:
-          (
-            ingredientIntelligence?.categorizationAnalysis as {
-              mealType?: string;
-            }
-          ).mealType || "any",
-        timing:
-          (
-            ingredientIntelligence?.seasonalAnalysis as {
-              optimalTiming?: string;
-            }
-          ).optimalTiming || "flexible",
-        duration:
-          (
-            ingredientIntelligence?.seasonalAnalysis as {
-              preparationTime?: string;
-            }
-          ).preparationTime || "standard",
+        flavorProfile: {},
+        cuisine: "universal",
+        regionalCuisine: "global",
+        season: "all" as Season,
+        mealType: "any",
+        timing: "flexible",
+        duration: "standard",
       };
 
       groupedRecommendations[category]?.push(ingredientRecommendation);
