@@ -466,7 +466,7 @@ export function identifyPlanetaryPatterns(
       if (!planetaryCounts[planet]) {
         planetaryCounts[planet] = {};
       }
-      planetaryCounts[planet][sign] = (planetaryCounts[planet][sign] || 0) + 1;
+      planetaryCounts[planet as any][sign as any] = (planetaryCounts[planet as any][sign as any] || 0) + 1;
     }
   }
 

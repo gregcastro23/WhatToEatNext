@@ -1413,8 +1413,8 @@ export async function getRecommendedCookingMethods(
         if (elements && (method as unknown).elementalEffect) {
           const elementsData = elements;
           for (const element in elementsData) {
-            const elementProperty = element as unknown;
-            const methodElementalEffect = (method as unknown)
+            const elementProperty = element as any;
+            const methodElementalEffect = (method as any)
               .elementalEffect as Record<string, number>;
             if (methodElementalEffect[elementProperty]) {
               venusScore *=
@@ -1741,8 +1741,8 @@ function calculateElementalCompatibility(
   let totalWeight = 0;
 
   for (const element of elements) {
-    const valA = elementalA[element as unknown];
-    const valB = elementalB[element as unknown];
+    const valA = elementalA[element as any];
+    const valB = elementalB[element as any];
 
     // Ensure both values are numbers before calculating
     if (typeof valA === "number" && typeof valB === "number") {

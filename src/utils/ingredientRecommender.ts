@@ -357,11 +357,11 @@ export function getRecommendedIngredients(
       const ingredientB = b as unknown as BaseIngredient;
       const aValue =
         ingredientA.elementalProperties?.[
-          astroState.dominantElement as unknown
+          astroState.dominantElement as any
         ] || 0;
       const bValue =
         ingredientB.elementalProperties?.[
-          astroState.dominantElement as unknown
+          astroState.dominantElement as any
         ] || 0;
       return bValue - aValue;
     });

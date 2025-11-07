@@ -275,7 +275,7 @@ function validateIngredientElementalProperties(
     // Check for elemental dominance (at least one element should be > 0.3)
     const maxElement = Math.max(
       ...elements.map((el) => {
-        const value = props[el as unknown];
+        const value = props[el as any];
         return typeof value === "number" ? value : 0;
       }),
     );

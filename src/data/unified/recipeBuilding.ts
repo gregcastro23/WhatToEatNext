@@ -1965,8 +1965,8 @@ export class UnifiedRecipeBuildingSystem {
   }
 
   private createFusionBaseRecipe(
-    _: unknown,
-    _: RecipeBuildingCriteria,
+    _cuisines: unknown,
+    _criteria: RecipeBuildingCriteria,
   ): Partial<EnhancedRecipe> {
     // TODO: Create base recipe for fusion cuisine
     return {};

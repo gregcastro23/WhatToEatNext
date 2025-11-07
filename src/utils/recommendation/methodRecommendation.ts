@@ -17,7 +17,7 @@ function getAstrologicalElementalProfile(
 }
 
 function createElementalProperties(
-  props: { Fire: number; Water; number; Earth; number; Air; number } = {
+  props: { Fire: number; Water: number; Earth: number; Air: number } = {
     Fire: 0,
     Water: 0,
     Earth: 0,

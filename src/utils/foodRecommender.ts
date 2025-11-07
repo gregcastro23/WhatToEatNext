@@ -247,7 +247,7 @@ function standardizeIngredient(
     );
     if (sum > 0) {
       Object.keys(standardized.elementalProperties).forEach((key) => {
-        standardized.elementalProperties[key as unknown] /= sum;
+        standardized.elementalProperties[key as any] /= sum;
       });
     }
   }
