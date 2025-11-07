@@ -71,7 +71,7 @@ export class UnifiedScoringAdapter {
         type: "ingredient",
         elementalProperties:
           ingredient.elementalProperties || ingredient.elementalPropertiesState,
-        seasonality: ingredient.seasonality || [],
+        seasonality: (ingredient.seasonality as any) || [],
         planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets ||
           []) as Planet[],
         flavorProfile:
@@ -139,7 +139,7 @@ export class UnifiedScoringAdapter {
             Earth: 0.25,
             Air: 0.25,
           },
-        seasonality: (recipe.seasonality as Season[]) || [],
+        seasonality: (recipe.seasonality as any) || [],
         planetaryRulers: ((recipe as any).planetaryRulers as Planet[]) || [],
         flavorProfile:
           ((recipe as any).flavorProfile as Record<string, number>) || {},
@@ -191,7 +191,7 @@ export class UnifiedScoringAdapter {
           Earth: 0.25,
           Air: 0.25,
         },
-        seasonality: ((method as unknown as any).seasonality as Season[]) || [],
+        seasonality: ((method as unknown as any).seasonality as any) || [],
         planetaryRulers:
           ((method as unknown as any).planetaryRulers as Planet[]) || [],
         flavorProfile:
@@ -241,7 +241,7 @@ export class UnifiedScoringAdapter {
         name: cuisineName,
         type: "cuisine",
         elementalProperties: cuisineElementalProperties,
-        seasonality: [] as Season[],
+        seasonality: [] as any,
         planetaryRulers: [] as Planet[],
         flavorProfile: {} as Record<string, number>,
         culturalOrigins: [cuisineName],

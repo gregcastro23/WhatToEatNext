@@ -32,7 +32,7 @@ const PLANET_CUISINE_AFFINITIES: Record<PlanetName, string[]> = {
   _Neptune: ["Ethereal", "Mystical", "Fluid", "Oceanic"],
   _Pluto: ["Transformative", "Intense", "Powerful", "Regenerative"],
   _Ascendant: ["Personal", "Identity", "Self-expression", "Signature"],
-};
+} as any;
 
 // Season to cuisine mapping
 const SEASONAL_CUISINE_AFFINITIES: Record<Season, string[]> = {
@@ -40,7 +40,7 @@ const SEASONAL_CUISINE_AFFINITIES: Record<Season, string[]> = {
   _Summer: ["Mexican", "Greek", "Indian", "BBQ", "Salads"],
   _Fall: ["American", "German", "Hearty", "Spiced"],
   _Winter: ["Slow-cooked", "Soup", "Stew", "Rich", "Warming"],
-};
+} as any;
 
 // Weekday to cuisine mapping
 const WEEKDAY_CUISINE_AFFINITIES: Record<WeekDay, string[]> = {
@@ -51,7 +51,7 @@ const WEEKDAY_CUISINE_AFFINITIES: Record<WeekDay, string[]> = {
   _Thursday: ["Hearty", "Abundant", "Social"],
   _Friday: ["Festive", "Indulgent", "Special"],
   _Saturday: ["Complex", "Experimental", "Project Cooking"],
-};
+} as any;
 
 // Time of day to meal type mapping is already in time.ts
 

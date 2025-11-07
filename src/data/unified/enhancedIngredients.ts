@@ -931,7 +931,7 @@ export class EnhancedIngredientsSystem {
 
     // Check for additional data
     if (ingredient.nutritionalProfile) qualityPoints += 1;
-    if ((ingredient.astrologicalPropertiesProfile?.rulingPlanets || []).length)
+    if (((ingredient.astrologicalPropertiesProfile as any)?.rulingPlanets || []).length)
       qualityPoints += 1;
     if ((ingredient.qualities || []).length) qualityPoints += 1;
     if ((ingredient.seasonality || []).length) qualityPoints += 1;
@@ -1008,7 +1008,7 @@ export class EnhancedIngredientsSystem {
 
       // Index by planetary ruler
       const planetaryRuler =
-        ingredient.astrologicalPropertiesProfile?.planetaryRuler;
+        (ingredient.astrologicalPropertiesProfile as any)?.planetaryRuler;
       if (planetaryRuler) {
         const planetaryIngredients =
           this.planetaryIndex.get(planetaryRuler) || [];

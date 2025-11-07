@@ -178,7 +178,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                 bestFor: (methodData.bestFor as Element[]) || [],
                 culturalOrigin: methodData.culturalOrigin,
                 astrologicalInfluences:
-                  methodData.astrologicalInfluences as unknown,
+                  methodData.astrologicalInfluences as any,
                 duration: {
                   min: (methodData.duration as { min?: number }).min || 0,
                   max: (methodData.duration as { max?: number }).max || 0,
@@ -186,7 +186,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                 suitable_for: (methodData.bestFor as string[]) || [],
                 benefits: [],
                 relatedToMainMethod: mainId,
-              },
+              } as any,
             ];
           }
           return methods;
@@ -931,7 +931,7 @@ export function getHolisticCookingRecommendations(
         ? String(((rec as any).reasons as string[])[0]) ||
           `Good match for ${ingredient.name}`
         : undefined,
-    }));
+    })) as any;
   } catch (error) {
     _logger.error("Error in getHolisticCookingRecommendations: ", error);
     // Return empty array as fallback
@@ -989,7 +989,7 @@ export function getRecommendedCookingMethodsForIngredient(
     // Sort by compatibility and limit results
     return scoredMethods
       .sort((a, b) => b.compatibility - a.compatibility)
-      .slice(0, limit);
+      .slice(0, limit) as any;
   } catch (error) {
     _logger.error(
       "Error in getRecommendedCookingMethodsForIngredient: ",

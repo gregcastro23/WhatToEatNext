@@ -75,7 +75,7 @@ export function useIngredientRecommendations(
     };
     Object.values(planetaryPositions || {}).forEach((position) => {
       const element =
-        elementMap[(position as unknown)?.sign as keyof typeof elementMap];
+        elementMap[(position as any)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++;
       }
@@ -157,7 +157,7 @@ export function useIngredientRecommendations(
         const ingredientsWithScores = (sampleIngredients || []).map(
           (ingredient) => {
             const score = calculateElementalCompatibility(
-              (ingredient as unknown)?.elementalPropertiesProfile ||
+              (ingredient as any)?.elementalPropertiesProfile ||
                 ingredient.elementalProfile,
               currentElementalProfile,
             );

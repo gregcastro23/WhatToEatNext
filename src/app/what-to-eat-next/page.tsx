@@ -9,7 +9,7 @@ export default function WhatToEatNextPage() {
     useEnhancedRecommendations({
       datetime: new Date(),
       useBackendInfluence: true,
-    });
+    }) as any;
 
   // Fetch enhanced cuisines on mount
 

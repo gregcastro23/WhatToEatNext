@@ -272,7 +272,7 @@ export class UnifiedNutritionalService {
           }
         : undefined;
 
-      return UnifiedNutritionalSystem.analyzeNutritionalCompatibility(
+      return (UnifiedNutritionalSystem as any).analyzeNutritionalCompatibility(
         profiles,
         safeContext as any,
       );
@@ -304,7 +304,7 @@ export class UnifiedNutritionalService {
   }): NutritionalRecommendations {
     try {
       const baseRecommendations =
-        UnifiedNutritionalSystem.getNutritionalRecommendations(criteria);
+        (UnifiedNutritionalSystem as any).getNutritionalRecommendations(criteria);
       // Apply nutritional filters if provided
       if (criteria.nutritionalFilter) {
         baseRecommendations.ingredients = this.applyNutritionalFilter(

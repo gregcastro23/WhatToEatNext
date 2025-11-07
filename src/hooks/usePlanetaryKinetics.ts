@@ -135,7 +135,7 @@ export function usePlanetaryKinetics(
       setLastUpdate(new Date());
 
       _logger.debug("usePlanetaryKinetics: Kinetics data updated", {
-        powerLevel: data.data.base.power[0]?.power,
+        powerLevel: (data.data as any).base.power[0]?.power,
         forceMagnitude: metrics.forceMagnitude,
         cacheHit: data.cacheHit,
       });
@@ -169,7 +169,7 @@ export function usePlanetaryKinetics(
 
         _logger.debug("usePlanetaryKinetics: Group dynamics updated", {
           userCount: userIds.length,
-          harmony: data.data.harmony,
+          harmony: (data as any).data.harmony,
         });
       } catch (err) {
         _logger.warn(

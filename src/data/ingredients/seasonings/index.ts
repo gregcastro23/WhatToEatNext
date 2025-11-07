@@ -123,7 +123,7 @@ export const _getSeasoningsByTiming = (
       ([_, value]) =>
         value.culinaryApplications &&
         Object.values(value.culinaryApplications).some(
-          (app) => app?.timing === timing,
+          (app) => (app as any)?.timing === timing,
         ),
     )
     .reduce(
@@ -169,7 +169,7 @@ export const _getSeasoningsByElementalBoost = (
       ([_, value]) =>
         value.astrologicalProfile?.lunarPhaseModifiers &&
         Object.values(value.astrologicalProfile.lunarPhaseModifiers).some(
-          (modifier) => modifier?.elementalBoost?.[element as any],
+          (modifier) => (modifier as any)?.elementalBoost?.[element as any],
         ),
     )
     .reduce(

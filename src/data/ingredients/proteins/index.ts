@@ -150,8 +150,8 @@ export const _getCompatibleProteins = (_proteinName: string): string[] => {
       ([key, value]) =>
         key !== _proteinName &&
         value.category === protein.category &&
-        value.cookingMethods?.some((method) =>
-          protein.cookingMethods?.includes(method),
+        (value.cookingMethods as any)?.some((method: any) =>
+          (protein.cookingMethods as any)?.includes(method),
         ),
     )
     .map(([key]) => key);

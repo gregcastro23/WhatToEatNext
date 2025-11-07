@@ -69,7 +69,7 @@ export function useServices() {
 
   // Get all services from the manager
   const services = servicesManager.isInitialized
-    ? servicesManager.getServices()
+    ? (servicesManager as any).getServices()
     : null;
 
   return {
@@ -78,7 +78,7 @@ export function useServices() {
     error,
     status,
     services,
-    serviceResults: servicesManager.serviceResults,
+    serviceResults: (servicesManager as any).serviceResults,
     // Individual services for convenience
     alchemicalEngine: services?.alchemicalEngine,
     astrologyService: services?.astrologyService,

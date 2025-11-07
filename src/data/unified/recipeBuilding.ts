@@ -1821,7 +1821,7 @@ export class UnifiedRecipeBuildingSystem {
         0,
       monicaOptimization: (recipe.monicaOptimization as any)?.overallScore || 0,
       seasonalAlignment: (recipe.seasonalAdaptation as any)?.seasonalScore || 0,
-      cuisineAuthenticity: (recipe as unknown)?.culturalIntegration || 0,
+      cuisineAuthenticity: (recipe as any)?.culturalIntegration || 0,
       generatedAt: new Date().toISOString(),
       generationMethod: "unified-recipe-builder",
     };
@@ -2206,7 +2206,7 @@ export class UnifiedRecipeBuildingSystem {
     mentalClarity: number;
   } {
     // Calculate energetic profile with complete interface
-    const baseEnergy = alignment.astrologicalScore || 0.7;
+    const baseEnergy = (alignment as any).astrologicalScore || 0.7;
     const spiritualEnergy = baseEnergy * 0.9; // Spiritual energy from astrological alignment
     const emotionalResonance = baseEnergy * 0.85; // Emotional resonance from harmony
     const physicalVitality = baseEnergy * 0.8; // Physical vitality from planetary influence
