@@ -457,7 +457,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
   // Extract specific time ranges
   const timeRange = extractTimeRange(query);
   if (timeRange) {
-    extractedFilters.cookingTime = timeRange;
+    extractedFilters._cookingTime = timeRange;
     totalConfidence += 0.8;
     matchCount++;
   }
@@ -581,12 +581,12 @@ export function applyFilters(
     }
 
     // Difficulty level
-    if (filters.difficultyLevel.length > 0) {
+    if (filters._difficultyLevel.length > 0) {
       const difficulty = hasProperty(item, "difficulty")
         ? item.difficulty
         : null;
       const difficultyLevel = hasProperty(item, "difficultyLevel")
-        ? item.difficultyLevel
+        ? item._difficultyLevel
         : null;
       const itemDifficulty =
         typeof difficulty === "string"
@@ -594,17 +594,17 @@ export function applyFilters(
           : typeof difficultyLevel === "string"
             ? difficultyLevel
             : "medium";
-      if (!filters.difficultyLevel.includes(itemDifficulty.toLowerCase()))
+      if (!filters._difficultyLevel.includes(itemDifficulty.toLowerCase()))
         return false;
     }
 
     // Cooking time
-    if (filters.cookingTime.min > 0 || filters.cookingTime.max < 480) {
+    if (filters._cookingTime.min > 0 || filters._cookingTime.max < 480) {
       const cookTimeValue = hasProperty(item, "cookTime")
         ? item.cookTime
         : null;
       const cookingTimeValue = hasProperty(item, "cookingTime")
-        ? item.cookingTime
+        ? item._cookingTime
         : null;
       const timeStr =
         typeof cookTimeValue === "string"
@@ -614,8 +614,8 @@ export function applyFilters(
             : "30";
       const cookTime = parseInt(timeStr, 10) || 30;
       if (
-        cookTime < filters.cookingTime.min ||
-        cookTime > filters.cookingTime.max
+        cookTime < filters._cookingTime.min ||
+        cookTime > filters._cookingTime.max
       )
         return false;
     }
@@ -640,7 +640,7 @@ export function applyFilters(
     }
 
     // Meal types
-    if (filters.mealTypes.length > 0) {
+    if (filters._mealTypes.length > 0) {
       const mealType = hasProperty(item, "mealType") ? item.mealType : null;
       const category = hasProperty(item, "category") ? item.category : null;
       const itemMealType = (
@@ -650,13 +650,13 @@ export function applyFilters(
             ? category
             : ""
       ).toLowerCase();
-      if (!filters.mealTypes.some((meal) => itemMealType.includes(meal)))
+      if (!filters._mealTypes.some((meal) => itemMealType.includes(meal)))
         return false;
     }
 
     // Spiciness
-    if (filters.spiciness.length > 0) {
-      const spiciness = hasProperty(item, "spiciness") ? item.spiciness : null;
+    if (filters._spiciness.length > 0) {
+      const spiciness = hasProperty(item, "spiciness") ? item._spiciness : null;
       const spiceLevel = hasProperty(item, "spiceLevel")
         ? item.spiceLevel
         : null;
@@ -667,7 +667,7 @@ export function applyFilters(
             ? spiceLevel
             : "mild"
       ).toLowerCase();
-      if (!filters.spiciness.includes(itemSpiciness)) return false;
+      if (!filters._spiciness.includes(itemSpiciness)) return false;
     }
 
     return true;
@@ -961,7 +961,7 @@ function estimateItemPower(item: SearchableItem): number {
 
   // Adjust based on spiciness
   if (hasProperty(item, "spiciness")) {
-    const spice = (item as any).spiciness;
+    const spice = (item as any)._spiciness;
     if (spice === "hot" || spice === "very hot") {
       power += 20;
     }

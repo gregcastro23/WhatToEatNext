@@ -21,7 +21,7 @@ export const _recipeCalculations = {
    */
   calculateCuisineAlignment(recipe: RecipeElementalMapping): number {
     const cuisineElements = recipe.cuisine.elementalAlignment;
-    const alignmentScore = Object.entries(recipe.elementalProperties).reduce(
+    const alignmentScore = Object.entries(recipe._elementalProperties).reduce(
       (sum, [element, value]) =>
         sum +
         (value as any) *
@@ -43,7 +43,7 @@ export const _recipeCalculations = {
    */
   getOptimalCookingWindow(recipe: RecipeElementalMapping): string[] {
     const optimalTimes = [
-      ...recipe.astrologicalProfile.rulingPlanets.map(
+      ...recipe._astrologicalProfile.rulingPlanets.map(
         (p) => `${p} dominant hours`,
       ),
       ...recipe.cuisine.astrologicalProfile.aspectEnhancers,
@@ -69,7 +69,7 @@ export const _recipeCalculations = {
     userElements: ElementalProperties,
   ): number {
     // Find the dominant element in the recipe
-    const dominantElement = Object.entries(recipe.elementalProperties).sort(
+    const dominantElement = Object.entries(recipe._elementalProperties).sort(
       ([, a], [, b]) => (b as any) - (a as any),
     )[0][0];
 

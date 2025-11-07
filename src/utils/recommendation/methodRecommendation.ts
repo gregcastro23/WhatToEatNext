@@ -258,8 +258,8 @@ export function getMethodThermodynamics(
   if (detailedMethodData.thermodynamicProperties) {
     return {
       heat: detailedMethodData.thermodynamicProperties.heat ?? 0.5,
-      entropy: detailedMethodData.thermodynamicProperties.entropy ?? 0.5,
-      reactivity: detailedMethodData.thermodynamicProperties.reactivity ?? 0.5,
+      entropy: detailedMethodData.thermodynamicProperties._entropy ?? 0.5,
+      reactivity: detailedMethodData.thermodynamicProperties._reactivity ?? 0.5,
       gregsEnergy:
         detailedMethodData.thermodynamicProperties.gregsEnergy ?? 0.5,
     };
@@ -271,8 +271,8 @@ export function getMethodThermodynamics(
   if (thermodynamicProperties) {
     return {
       heat: Number(thermodynamicProperties.heat) || 0.5,
-      entropy: Number(thermodynamicProperties.entropy) || 0.5,
-      reactivity: Number(thermodynamicProperties.reactivity) || 0.5,
+      entropy: Number(thermodynamicProperties._entropy) || 0.5,
+      reactivity: Number(thermodynamicProperties._reactivity) || 0.5,
       gregsEnergy: Number(thermodynamicProperties.gregsEnergy) || 0.5,
     };
   }

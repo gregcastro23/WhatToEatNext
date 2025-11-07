@@ -451,7 +451,7 @@ export function getAlchemicalStateWithVectors(input: {
           acc.components.Earth += v.components.Earth * w;
           acc.components.Air += v.components.Air * w;
           acc.components.seasonal += v.components.seasonal * w;
-          acc.magnitude += v._magnitude * w;
+          acc._magnitude += v._magnitude * w;
           return acc;
         },
         {
@@ -472,7 +472,7 @@ export function getAlchemicalStateWithVectors(input: {
       selected = {
         sign: strongest.sign,
         direction: strongest.direction,
-        _magnitude: ref.magnitude,
+        _magnitude: ref._magnitude,
         components: ref.components,
       } as SignVector;
     }
