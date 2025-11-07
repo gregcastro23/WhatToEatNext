@@ -501,8 +501,8 @@ export function getValidationStatistics(
   totalRecipes: number;
   validRecipes: number;
   averageQualityScore: number;
-  commonErrors: Array<{ error: string; count; number }>;
-  commonWarnings: Array<{ warning: string; count; number }>;
+  commonErrors: Array<{ error: string; count: number }>;
+  commonWarnings: Array<{ warning: string; count: number }>;
 } {
   const totalRecipes = validationResults.length;
   const validRecipes = validationResults.filter((r) => r.isValid).length;

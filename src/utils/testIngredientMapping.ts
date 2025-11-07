@@ -16,7 +16,7 @@ import { connectIngredientsToMappings } from "./recipeMatching";
  */
 export function findMatchedItalianDinnerRecipes() {
   // Get all Italian dinner recipes
-  const italianCuisine = cuisinesMap.Italian;
+  const italianCuisine = (cuisinesMap as any).Italian;
   const dinnerDishes = italianCuisine.dishes.dinner;
   const allDinnerRecipes = [
     ...(dinnerDishes?.spring || []),

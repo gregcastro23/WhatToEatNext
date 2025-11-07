@@ -78,7 +78,7 @@ const marsData: PlanetData = {
     ],
     Animals: ["Wolf", "Tiger", "Scorpion", "Ram"],
     Stones: ["Ruby", "Garnet", "Bloodstone", "Red Jasper"],
-  } as unknown,
+  } as any,
   ElementalConnections: {
     DayEmission: "Essence - that which an object cannot exist without",
     NightEmission: "Matter - that which is minimally reactive",

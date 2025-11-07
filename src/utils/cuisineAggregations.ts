@@ -459,7 +459,7 @@ export function identifyPlanetaryPatterns(
 
   // Count occurrences of each planet-sign combination
   for (const recipe of recipes) {
-    const positions = recipe._computed?.planetaryPositionsUsed;
+    const positions = (recipe._computed as any)?.planetaryPositionsUsed;
     if (!positions) continue;
 
     for (const [planet, sign] of Object.entries(positions)) {

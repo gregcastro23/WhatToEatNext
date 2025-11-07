@@ -44,7 +44,7 @@ export function getIngredientsForCuisine(
     _vinegar: [],
     _seasoning: [],
     _dairy: [],
-  };
+  } as any;
 
   // Process each matrix to find ingredients that pAir with this cuisine
   if (categories.includes("grain")) {

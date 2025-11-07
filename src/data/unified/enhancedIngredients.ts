@@ -233,12 +233,9 @@ export class EnhancedIngredientsSystem {
    */
   getIngredientStats(): {
     total: number;
-    high;
-    number;
-    medium;
-    number;
-    low;
-    number;
+    high: number;
+    medium: number;
+    low: number;
   } {
     const ingredients = Object.values(this.ingredients);
     return {

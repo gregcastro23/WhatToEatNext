@@ -124,7 +124,7 @@ export function useSafeFlavorEngine() {
     (_criteria: unknown): UnifiedFlavorProfile[] => {
       if (!isReady) return [];
       try {
-        return flavorEngine.searchProfiles(_criteria);
+        return flavorEngine.searchProfiles(_criteria as any);
       } catch (err) {
         // logger.error('Error searching flavor profiles: ', err)
         return [];

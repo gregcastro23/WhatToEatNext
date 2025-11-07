@@ -607,7 +607,7 @@ export function useDevelopmentExperienceOptimizations() {
       optimizer.generateOptimizedTypeScriptConfig(),
     generateAstrologicalTypeDefinitions: () =>
       optimizer.generateAstrologicalTypeDefinitions(),
-    organizeImports: (code: string) => optimizer.organizeImports(code),
+    organizeImports: (code: string) => (optimizer as any).organizeImports(code),
     detectAndFixCommonErrors: (code: string) =>
       optimizer.detectAndFixCommonErrors(code),
     updatePerformanceMetrics: (metrics: Partial<DevelopmentMetrics>) =>

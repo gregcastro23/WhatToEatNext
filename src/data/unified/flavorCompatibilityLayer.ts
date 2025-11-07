@@ -87,7 +87,7 @@ export function calculateFlavorCompatibility(
  * @deprecated Use calculateFlavorCompatibility from unifiedFlavorEngine instead
  */
 export function calculateFlavorMatch(profile1: unknown, profile2: unknown): number {
-  const result = calculateFlavorCompatibility(profile1, profile2);
+  const result = calculateFlavorCompatibility(profile1 as any, profile2 as any);
   return result.compatibility;
 }
 

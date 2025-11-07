@@ -399,9 +399,9 @@ export function getAlchemicalStateWithVectors(input: {
 } {
   const { planetaryPositions, aspects, season, governing = "dominant" } = input;
 
-  const baseAlchemical = calcESMSFromPositions(planetaryPositions);
+  const baseAlchemical = calcESMSFromPositions(planetaryPositions as any);
   const baseElemental = calculateElementalValues(
-    planetaryPositions,
+    planetaryPositions as any,
   ) as ElementalProperties;
 
   const signVectors = calculateSignVectors({

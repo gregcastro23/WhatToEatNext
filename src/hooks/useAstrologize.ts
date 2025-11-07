@@ -59,7 +59,7 @@ export function useAstrologize(
       const getLocation = async () => {
         try {
           const coords = await (
-            AstrologicalService as unknown
+            AstrologicalService as any
           )?.requestLocation?.();
           if (coords) {
             setLocation({

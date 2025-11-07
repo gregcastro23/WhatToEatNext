@@ -227,7 +227,7 @@ export class UnifiedFlavorEngine {
           // Log successful initialization
           log.info(
             "🚀 Unified Flavor Engine initialized with",
-            (profiles || []).length,
+            (profiles || []).length as any,
             "profiles",
           );
 
@@ -1178,8 +1178,7 @@ export function findCompatibleProfiles(
   },
 ): Array<{
   profile: UnifiedFlavorProfile;
-  compatibility;
-  UnifiedFlavorCompatibility;
+  compatibility: UnifiedFlavorCompatibility;
 }> {
   const allProfiles = unifiedFlavorEngine.getAllProfiles();
   const results: Array<{

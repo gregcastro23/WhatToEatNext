@@ -215,7 +215,7 @@ export function useRecommendationAnalytics(
 
   const calculateConfidence = useCallback(
     (factors: unknown): RecommendationConfidence =>
-      _recommendationAnalytics.calculateConfidenceScore(factors),
+      _recommendationAnalytics.calculateConfidenceScore(factors as any),
     [],
   );
 
@@ -223,7 +223,7 @@ export function useRecommendationAnalytics(
     (type: string, target: string, metadata?: Record<string, unknown>) => {
       if (enableInteractionTracking) {
         _recommendationAnalytics.trackInteraction({
-          type: type as unknown,
+          type: type as any,
           target,
           metadata,
         });

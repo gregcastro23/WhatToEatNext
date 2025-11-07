@@ -20,7 +20,6 @@ export {
   ELEMENTAL_SYMBOLS,
   calculateElementalCompatibility,
   calculateDominantElement,
-  calculateElementalCompatibility,
   calculateElementalState,
   combineElementalProperties,
   getComplementaryElement,

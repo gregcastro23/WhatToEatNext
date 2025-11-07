@@ -119,7 +119,7 @@ export class UnifiedScoringExample {
           Earth: 0.4,
           Air: 0.1,
         },
-        seasonality: ["autumn", "winter"],
+        seasonality: ["fall", "winter"],
         planetaryRulers: ["Moon", "Saturn"],
         flavorProfile: {
           umami: 0.9,
@@ -166,7 +166,7 @@ export class UnifiedScoringExample {
           Earth: 0.25,
           Air: 0.2,
         },
-        seasonality: ["spring", "summer", "autumn", "winter"], // Year-round
+        seasonality: ["spring", "summer", "fall", "winter"], // Year-round
         planetaryRulers: ["Moon", "Mercury"],
         flavorProfile: {
           umami: 0.9,

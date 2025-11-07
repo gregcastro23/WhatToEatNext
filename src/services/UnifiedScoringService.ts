@@ -659,7 +659,7 @@ export class UnifiedScoringService {
 
       return result;
     } catch (error) {
-      log.error("Error in scoring calculation: ", error);
+      log.error("Error in scoring calculation: ", error as any);
 
       // Return fallback result
       return {
@@ -741,7 +741,7 @@ export class UnifiedScoringService {
       // Transform API response to our format
       return this.transformAstrologizeResponse(data);
     } catch (error) {
-      log.error("Error fetching Astrologize data: ", error);
+      log.error("Error fetching Astrologize data: ", error as any);
       return null;
     }
   }

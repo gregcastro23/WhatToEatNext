@@ -76,11 +76,11 @@ export const _addHeatLevels = (
   }, {});
 
 // Combine all spice categories with heat levels
-export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
-  ...wholeSpices,
-  ...groundSpices,
-  ...spiceBlends,
-  cumin: {
+export const spices = fixIngredientMappings({
+    ...wholeSpices,
+    ...groundSpices,
+    ...(spiceBlends as any),
+    cumin: {
     name: "cumin",
     elementalProperties: { Earth: 0.48, Fire: 0.27, Air: 0.17, Water: 0.08 },
     astrologicalProfile: {
@@ -308,7 +308,8 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
       },
     },
   },
-} as unknown) as Record<string, IngredientMapping>;
+  } as any,
+);
 
 // Validate spice heat levels
 Object.values(spices).forEach((spice) => {

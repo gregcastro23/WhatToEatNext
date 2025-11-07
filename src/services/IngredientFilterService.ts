@@ -367,7 +367,7 @@ export class IngredientFilterService {
             [keyof ElementalProperties, number]
           >
         )
-          .filter(([key]) => ["Fire", "Water", "Earth", "Air"].includes(key))
+          .filter(([key]) => ["Fire", "Water", "Earth", "Air"].includes(key as any))
           .sort(([, a], [, b]) => b - a)[0];
 
         const dominantElement = dominantEntry[0];

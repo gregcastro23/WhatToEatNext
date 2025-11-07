@@ -449,7 +449,7 @@ function scoreRecipe(
   );
   const recipeDominant = getRecipeDominantElement(recipeElements);
   const compatibilityScore = getElementalCompatibility(
-    recipeDominant,
+    recipeDominant as any,
     currentDominant,
   );
   score += Math.floor(compatibilityScore * 15);
@@ -612,7 +612,7 @@ function calculatePlanetaryDayInfluence(
   );
 
   const ingredientText = toArray(recipe.ingredients)
-    .map((ingredient) => {
+    .map((ingredient: any) => {
       if (typeof ingredient === "string") return ingredient.toLowerCase();
       if (
         typeof ingredient === "object" &&

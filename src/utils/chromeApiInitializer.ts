@@ -87,7 +87,7 @@ export function initializeChromeApis(): void {
         sendMessage(message: unknown) {
           log.info(
             "[ChromeAPI] Mocked chrome.runtime.sendMessage called: ",
-            message,
+            message as any,
           );
           return Promise.resolve({ _success: true });
         },

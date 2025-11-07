@@ -195,10 +195,10 @@ export class EnhancedAstrologyService {
 
     // Unified positions service
     try {
-      const { planetaryPositionsService } = await import(
+      const module = await import(
         "@/services/PlanetaryPositionsService"
-      );
-      const servicePositions = await planetaryPositionsService.getForDate(date);
+      ) as any;
+      const servicePositions = await module.planetaryPositionsService.getForDate(date);
       primaryPositions = servicePositions as unknown as Record<
         string,
         CelestialPosition
@@ -229,7 +229,7 @@ export class EnhancedAstrologyService {
     const siderealTime = swissEphemerisService.getSiderealTime(date);
 
     // Calculate dominant elements from positions
-    const dominantElements = this.calculateDominantElements(primaryPositions);
+    const dominantElements = this.calculateDominantElements(primaryPositions as any);
 
     // Get retrograde planets
     const retrogradePlanets = Object.entries(primaryPositions)

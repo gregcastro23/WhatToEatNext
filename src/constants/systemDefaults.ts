@@ -4,7 +4,6 @@ import type {
   ChakraEnergies,
   LunarPhase,
 } from "@/types/alchemy";
-import { _, _, _ } from "@/types/alchemy";
 import type {
   PlanetaryAlignment,
   AstrologicalState,

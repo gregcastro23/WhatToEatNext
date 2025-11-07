@@ -24,7 +24,6 @@ export {
   applyLunarPhaseAdjustments,
   applySeasonalAdjustments,
   calculateBaseElementalProperties,
-  calculateBaseElementalProperties,
   calculateElementalBalance,
   combineElementalProperties,
   default as elementalCalculations,

@@ -61,7 +61,7 @@ export function useAstrologicalInfluence() {
     };
     Object.values(planetaryPositions || {}).forEach((position) => {
       const element =
-        elementMap[(position as unknown)?.sign as keyof typeof elementMap];
+        elementMap[(position as any)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++;
       }

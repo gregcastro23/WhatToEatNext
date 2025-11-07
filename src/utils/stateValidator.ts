@@ -59,7 +59,7 @@ class StateValidator {
 
       // Validate celestial positions
       // Apply surgical type casting with variable extraction
-      const stateData = state as unknown;
+      const stateData = state as any;
       const celestialPositions = stateData?.celestialPositions;
 
       if (!celestialPositions || typeof celestialPositions !== "object") {

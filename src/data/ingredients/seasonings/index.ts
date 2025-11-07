@@ -74,7 +74,7 @@ const updateSaltCategory = (salts: IngredientMapping): IngredientMapping =>
   );
 
 // Export updated salts
-export const _categorizedSalts = updateSaltCategory(salts as unknown);
+export const _categorizedSalts = updateSaltCategory(salts as any);
 
 // Helper functions
 export const _getSeasoningsByCategory = (

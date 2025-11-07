@@ -511,7 +511,7 @@ export class RecipeFilter {
         // Cooking method filter
         if (
           options.cookingMethod?.length &&
-          !options.cookingMethod.includes(recipe.cookingMethod as unknown)
+          !options.cookingMethod.includes(recipe.cookingMethod as any)
         ) {
           return false;
         }
@@ -687,7 +687,7 @@ export function filterRecipesByIngredientMappings(
   // Process each recipe
   const results = recipes.map((recipe) => {
     // Find ingredient mappings
-    const mappedIngredients = connectIngredientsToMappings(recipe as unknown);
+    const mappedIngredients = connectIngredientsToMappings(recipe as any);
 
     // Calculate base match score;
     let score = 0.5; // Start with neutral score
@@ -776,7 +776,7 @@ export function filterRecipesByIngredientMappings(
         ingredientRequirements.dietaryRestrictions.every((restriction) =>
           Array.isArray(recipe.dietaryInfo)
             ? recipe.dietaryInfo.includes(restriction)
-            : recipe.dietaryInfo?.includes?.(restriction) || false,
+            : (recipe.dietaryInfo as any)?.includes?.(restriction) || false,
         );
 
       if (!meetsRestrictions) {

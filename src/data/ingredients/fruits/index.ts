@@ -99,7 +99,7 @@ export const getFruitsByRulingPlanet = (
   Object.entries(fruits)
     .filter(([_, value]) => {
       const fruitData = value as unknown as any;
-      const astroProfile = fruitData.astrologicalProfile as unknown;
+      const astroProfile = fruitData.astrologicalProfile as any;
       const { rulingPlanets } = astroProfile;
       return (
         Array.isArray(rulingPlanets) &&

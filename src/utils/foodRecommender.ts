@@ -1501,7 +1501,7 @@ function isDaytime(date: Date = new Date()): boolean {
  */
 const planetaryElements: Record<
   string,
-  { diurnal: string; nocturnal; string }
+  { diurnal: string; nocturnal: string }
 > = {
   sun: { diurnal: "Fire", nocturnal: "Fire" },
   moon: { diurnal: "Water", nocturnal: "Water" },

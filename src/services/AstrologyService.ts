@@ -49,10 +49,10 @@ export class AstrologyService {
   ): Promise<Record<Planet, CelestialPosition>> {
     try {
       // Unified: PlanetaryPositionsService
-      const { planetaryPositionsService } = await import(
+      const module = await import(
         "@/services/PlanetaryPositionsService"
-      );
-      const rawPositions = await planetaryPositionsService.getCurrent();
+      ) as any;
+      const rawPositions = await module.planetaryPositionsService.getCurrent();
       const positions = normalizePlanetaryPositions(rawPositions);
 
       // Convert to CelestialPosition format

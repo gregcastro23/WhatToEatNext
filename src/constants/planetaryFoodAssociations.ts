@@ -484,7 +484,7 @@ export const _getFlavorBoost = (
   const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {};
   return Object.entries(elementBoost).reduce(
     (acc, [element, boost]) =>
-      acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0),
+      acc + ((ingredientData as any).elementalProperties?.[element] || 0) * (boost || 0),
     0,
   );
 };

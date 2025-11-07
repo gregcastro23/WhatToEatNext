@@ -14,8 +14,8 @@ export function enrichIngredientsWithFlavorProfiles(
   ingredients: Ingredient[],
 ): Ingredient[] {
   return ingredients.map((ingredient) => {
-    if (!(ingredient as unknown)?.flavorProfile) {
-      (ingredient as unknown).flavorProfile = getFlavorProfileForIngredient(
+    if (!(ingredient as any)?.flavorProfile) {
+      (ingredient as any).flavorProfile = getFlavorProfileForIngredient(
         ingredient.name,
       );
     }

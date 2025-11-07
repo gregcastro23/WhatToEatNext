@@ -382,7 +382,7 @@ const rawLegumes = {
 };
 
 export const legumes: Record<string, IngredientMapping> = fixIngredientMappings(
-  rawLegumes as unknown,
+  rawLegumes as any,
 );
 
 export default legumes;

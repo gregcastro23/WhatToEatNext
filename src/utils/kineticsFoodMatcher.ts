@@ -443,13 +443,13 @@ export function getKineticsEnhancedRecommendations(
 
   return {
     ...baseRecommendation,
-    aspectPhase: kineticsMetrics.aspectPhase,
+    aspectPhase: kineticsMetrics.aspectPhase as any,
     portionModifier: calculateKineticsPortionModifier(kineticsMetrics),
     seasonalTags: getSeasonalTags(
       kineticsResponse.data.base.timing.seasonalInfluence,
     ),
     ...kineticsEnhancements,
-  };
+  } as any;
 }
 
 /**

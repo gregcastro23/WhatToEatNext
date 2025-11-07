@@ -222,7 +222,7 @@ export class EphemerisParser {
           });
         }
       } catch (error) {
-        log.warn(`Error parsing line ${index + 1} ${line}`, error);
+        log.warn(`Error parsing line ${index + 1} ${line}`, error as any);
       }
     });
 
@@ -234,8 +234,7 @@ export class EphemerisParser {
    */
   longitudeToSignAndDegree(longitude: number): {
     sign: string;
-    degree;
-    number;
+    degree: number;
   } {
     const normalizedLongitude = ((longitude % 360) + 360) % 360;
     const signIndex = Math.floor(normalizedLongitude / 30);

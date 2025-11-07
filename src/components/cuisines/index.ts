@@ -4,6 +4,3 @@
  */
 
 export { default as CurrentMomentCuisineRecommendations } from "./CurrentMomentCuisineRecommendations";
-
-// Re-export with named exports for convenience
-export { CurrentMomentCuisineRecommendations } from "./CurrentMomentCuisineRecommendations";

@@ -65,7 +65,7 @@ export function calculateRecommendationScore(
   const elementalWeight = 0.4;
   const elementalScore = calculateElementalScore(
     recipe,
-    astrologicalState.dominantElement,
+    astrologicalState.dominantElement as any,
   );
   totalScore += elementalScore * elementalWeight;
   weightSum += elementalWeight;

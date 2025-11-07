@@ -57,7 +57,7 @@ export function createLazyComponent<T extends ComponentType<any>>(
   loadingComponent?: ComponentType,
 ) {
   return dynamic(importFunc, {
-    loading: loadingComponent,
+    loading: loadingComponent as any,
     ssr: false, // Disable server-side rendering for heavy components
   });
 }

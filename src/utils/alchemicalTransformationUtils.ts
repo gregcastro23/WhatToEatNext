@@ -28,12 +28,14 @@ export const _transformIngredients = (
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem[] =>
-  transformItemWithPlanetaryPositions(
-    ingredients,
-    planetPositions as unknown as Record<string, CelestialPosition>, // Pattern, TTT: Record Type Conversion
-    isDaytime,
-    currentZodiac,
-    lunarPhase,
+  ingredients.map(ingredient =>
+    transformItemWithPlanetaryPositions(
+      ingredient,
+      planetPositions as unknown as Record<string, CelestialPosition>, // Pattern, TTT: Record Type Conversion
+      isDaytime,
+      currentZodiac,
+      lunarPhase,
+    )
   );
 
 /**
@@ -55,13 +57,15 @@ export const _transformCookingMethods = (
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem[] => {
   // First, apply the standard transformations - Pattern, TTT: Record Type Conversion
-  const transformedItems = transformItemWithPlanetaryPositions(
-    methods,
-    planetPositions as unknown as Record<string, CelestialPosition>,
-    isDaytime,
-    currentZodiac,
-    lunarPhase,
-  ) as any;
+  const transformedItems = methods.map(method =>
+    transformItemWithPlanetaryPositions(
+      method,
+      planetPositions as unknown as Record<string, CelestialPosition>,
+      isDaytime,
+      currentZodiac,
+      lunarPhase,
+    )
+  );
 
   // Then apply alchemical pillar transformations based on method names
   return transformedItems.map((method: any) => {
@@ -88,12 +92,14 @@ export const _transformCuisines = (
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem[] =>
-  transformItemWithPlanetaryPositions(
-    cuisines,
-    planetPositions as unknown as Record<string, CelestialPosition>, // Pattern, TTT: Record Type Conversion
-    isDaytime,
-    currentZodiac,
-    lunarPhase,
+  cuisines.map(cuisine =>
+    transformItemWithPlanetaryPositions(
+      cuisine,
+      planetPositions as unknown as Record<string, CelestialPosition>, // Pattern, TTT: Record Type Conversion
+      isDaytime,
+      currentZodiac,
+      lunarPhase,
+    )
   );
 
 /**
@@ -242,7 +248,7 @@ export const _getRecommendedCookingMethodsForIngredient = async (
   const methodNames = cookingMethods.map((method) => method.name);
   log.info("Method names to evaluate: ", {
     data: methodNames.join(", "),
-  } as unknown);
+  } as any);
 
   // Use our enhanced holistic recommendations that include elemental character
   log.info(

@@ -561,7 +561,7 @@ export function getCuisineCompatibilityRecommendations(
       _ingredientMatches: getCommonIngredients(cuisine, targetCuisine),
       _regionalVariations: getRegionalVariations(cuisine, targetCuisine),
     }))
-    .sort((a, b) => b.score - a.score);
+    .sort((a, b) => b.score - a.score) as any;
 }
 
 /**

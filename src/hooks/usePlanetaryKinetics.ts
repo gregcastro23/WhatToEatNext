@@ -104,7 +104,7 @@ export function usePlanetaryKinetics(
       setError(null);
 
       const data = await planetaryKineticsClient.getEnhancedKinetics(
-        location,
+        location as any,
         kineticsOptions,
       );
 
@@ -127,7 +127,7 @@ export function usePlanetaryKinetics(
 
       const metrics = calculateKinetics(kineticsInput);
 
-      setKinetics(data);
+      setKinetics(data as any);
       setKineticsMetrics(metrics);
       setPreviousPlanetaryPositions(currentPlanetaryPositions);
       setLastKineticsTime(currentTime);
@@ -163,9 +163,9 @@ export function usePlanetaryKinetics(
       try {
         const data = await planetaryKineticsClient.getGroupDynamics(
           userIds,
-          location,
+          location as any,
         );
-        setGroupDynamics(data);
+        setGroupDynamics(data as any);
 
         _logger.debug("usePlanetaryKinetics: Group dynamics updated", {
           userCount: userIds.length,
@@ -182,9 +182,12 @@ export function usePlanetaryKinetics(
   );
 
   // Check API health
-  const checkHealth = useCallback(async () => {
+  const checkHealth = useCallback(async (): Promise<{ status: string; latency: number }> => {
     try {
-      return await planetaryKineticsClient.checkHealth();
+      const result = await planetaryKineticsClient.checkHealth();
+      return typeof result === 'boolean'
+        ? { status: result ? "online" : "offline", latency: 0 }
+        : result;
     } catch (err) {
       _logger.warn("usePlanetaryKinetics: Health check failed", err);
       return { status: "offline", latency: -1 };

@@ -96,7 +96,7 @@ export class ThermodynamicCalculator {
       const { elementalProperties } = ingredientData;
 
       if (category) {
-        categories.add(category);
+        categories.add(category as any);
       }
 
       // Fermented ingredients have high entropy

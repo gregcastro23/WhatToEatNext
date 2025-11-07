@@ -452,7 +452,7 @@ export async function validateAstrologicalCalculation(
   },
   options: ValidationOptions = {},
 ): Promise<ValidationResult> {
-  const { _validateTransits = false } = options;
+  const { validateTransits = false } = options as any;
   const errors: string[] = [];
   const warnings: string[] = [];
   const correctedData: Record<string, unknown> = {};
@@ -479,7 +479,7 @@ export async function validateAstrologicalCalculation(
           try {
             const isValid = await validatePlanetaryPosition(
               planet,
-              position,
+              position as any,
               input.date,
             );
             if (!isValid) {

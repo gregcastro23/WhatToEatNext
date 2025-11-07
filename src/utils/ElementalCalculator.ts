@@ -141,8 +141,8 @@ export function calculateMatchScore(
         // Use dynamic import to avoid circular dependencies
         import("../data/cuisineFlavorProfiles")
           .then((module) => {
-            const { _getCuisineProfile } = module;
-            const cuisineProfile = _getCuisineProfile(options.cuisine || "");
+            const getCuisineProfile = (module as any).getCuisineProfile || (module as any)._getCuisineProfile;
+            const cuisineProfile = getCuisineProfile(options.cuisine || "");
 
             if (cuisineProfile?.elementalAlignment) {
               // If cuisine heavily emphasizes this element, weight it higher

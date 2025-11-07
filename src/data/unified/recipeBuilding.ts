@@ -504,11 +504,11 @@ export class UnifiedRecipeBuildingSystem {
     // Apply all adaptations to create adapted recipe
     const adaptedRecipe = this.applyAdaptationsToRecipe(
       recipe,
-      ingredientSubstitutions as unknown,
-      cookingMethodAdjustments as unknown,
-      timingAdjustments as unknown,
-      temperatureAdjustments as unknown,
-      targetSeason as unknown,
+      ingredientSubstitutions as any,
+      cookingMethodAdjustments as any,
+      timingAdjustments as any,
+      temperatureAdjustments as any,
+      targetSeason as any,
     );
 
     // Calculate improvement scores

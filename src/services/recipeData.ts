@@ -466,7 +466,7 @@ class RecipeData {
       const cachedRecipes = cache.get(RECIPE_CACHE_KEY);
       if (cachedRecipes) {
         // Standardize all cached recipes
-        return this.standardizeRecipes(cachedRecipes);
+        return this.standardizeRecipes(cachedRecipes as any);
       }
 
       // If not initialized, wait for initialization

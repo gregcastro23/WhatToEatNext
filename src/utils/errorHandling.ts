@@ -391,7 +391,7 @@ export function handleAsyncError<T>(
 ): Promise<T> {
   return promise.catch((error) =>
     globalErrorHandler.handleError(error, context),
-  );
+  ) as Promise<T>;
 }
 
 export function handleSyncError<T>(

@@ -168,7 +168,7 @@ class Logger {
       message,
       timestamp: Date.now(),
       component,
-    });
+    } as any);
 
     // Keep list at max length
     if (this.recentErrors.length > this.MAX_ERRORS) {

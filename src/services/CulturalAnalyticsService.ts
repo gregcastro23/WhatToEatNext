@@ -587,8 +587,8 @@ export class CulturalAnalyticsService {
       return 0.7; // Default compatibility
     }
 
-    const { _favorableZodiac } = culinaryTradition.astrologicalProfile;
-    const isZodiacFavorable = _favorableZodiac.includes(
+    const { favorableZodiac } = culinaryTradition.astrologicalProfile as any;
+    const isZodiacFavorable = favorableZodiac?.includes(
       astrologicalState.zodiacSign.toLowerCase(),
     );
 

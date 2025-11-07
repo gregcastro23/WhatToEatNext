@@ -336,7 +336,7 @@ export function computeRecipeProperties(
     dominantAlchemicalProperty,
     computationMetadata: {
       planetaryPositionsUsed: planetaryPositions,
-      cookingMethodsApplied: cookingMethodNames,
+      cookingMethodsApplied: cookingMethodNames as any,
       computationTimestamp: new Date(),
     },
   };

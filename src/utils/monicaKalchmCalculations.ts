@@ -484,7 +484,7 @@ export function calculateThermodynamicMetricsWithKinetics(
   const baseMetrics = calculateThermodynamicMetrics(alchemical, elemental);
 
   try {
-    const kinetics = calculateKinetics(planetaryPositions);
+    const kinetics = calculateKinetics(planetaryPositions as any);
 
     // Enhance metrics with kinetics
     const kineticsData = kinetics as any;
@@ -530,7 +530,7 @@ export function calculateKineticsCompatibility(
   );
 
   try {
-    const kinetics = calculateKinetics(planetaryPositions);
+    const kinetics = calculateKinetics(planetaryPositions as any);
 
     // Apply power conservation factor
     const powerFactor = Math.min(kinetics.power || 50, 100) / 100; // Normalize to 0-1
@@ -567,7 +567,7 @@ export function performEnhancedAnalysisWithKinetics(
   const baseResult = performEnhancedAnalysis(item, referenceProfile);
 
   try {
-    const kinetics = calculateKinetics(planetaryPositions);
+    const kinetics = calculateKinetics(planetaryPositions as any);
 
     // Enhance thermodynamic metrics with kinetics
     const enhancedMetrics = calculateThermodynamicMetricsWithKinetics(

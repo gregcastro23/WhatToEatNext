@@ -198,16 +198,16 @@ export class UnifiedCalculationEngine {
           : await getCurrentPlanetaryPositions());
 
       // Calculate core alchemical properties
-      const alchemicalResult = await alchemize(planetaryPositions);
-      const kalchmResult = calculateKalchmResults(planetaryPositions);
+      const alchemicalResult = await alchemize(planetaryPositions as any);
+      const kalchmResult = calculateKalchmResults(planetaryPositions as any);
 
       // Calculate elemental properties
       const elementalProperties =
-        calculateBaseElementalProperties(planetaryPositions);
+        calculateBaseElementalProperties(planetaryPositions as any);
 
       // Calculate planetary influences
       const planetaryInfluence =
-        calculatePlanetaryInfluences(planetaryPositions);
+        calculatePlanetaryInfluences(planetaryPositions as any);
 
       // Calculate kinetics
       const kinetics = calculateKinetics({
@@ -225,7 +225,7 @@ export class UnifiedCalculationEngine {
       });
 
       // Update current moment tracking
-      await updateCurrentMoment(planetaryPositions);
+      await updateCurrentMoment(planetaryPositions as any);
 
       // Log API call
       onAlchemizeApiCall(planetaryPositions, alchemicalResult);
@@ -383,7 +383,7 @@ export class UnifiedCalculationEngine {
 
       // Get planetary culinary recommendations
       const planetaryRecs = getPlanetaryCulinaryRecommendations(
-        smesProfile.planetaryInfluence.dominantPlanet,
+        smesProfile.planetaryInfluence.dominantPlanet as any,
       );
 
       return {

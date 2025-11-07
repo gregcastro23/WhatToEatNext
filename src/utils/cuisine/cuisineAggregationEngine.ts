@@ -247,8 +247,8 @@ export function aggregateThermodynamicProperties(
     entropy: calculateWeightedAverage(entropyValues, defaultWeights),
     reactivity: calculateWeightedAverage(reactivityValues, defaultWeights),
     gregsEnergy: calculateWeightedAverage(gregsEnergyValues, defaultWeights),
-    kalchm: calculateWeightedAverage(kalchmValues, defaultWeights),
-    monica: calculateWeightedAverage(monicaValues, defaultWeights),
+    kalchm: calculateWeightedAverage(kalchmValues as any, defaultWeights),
+    monica: calculateWeightedAverage(monicaValues as any, defaultWeights),
   };
 }
 

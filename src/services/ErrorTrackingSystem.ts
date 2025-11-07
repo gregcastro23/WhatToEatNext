@@ -305,7 +305,7 @@ class ErrorTrackingSystem {
           file: (filePath as string) || "",
           line: message.line || 0,
           column: message.column || 0,
-          severity: this.mapLintSeverity(message.severity),
+          severity: this.mapLintSeverity(message.severity as any),
           fixable: message.fix !== undefined,
           timestamp: new Date(),
           resolved: false,
@@ -690,7 +690,7 @@ class ErrorTrackingSystem {
 
     this.subscribers.forEach((callback) => {
       try {
-        callback(data);
+        callback(data as any);
       } catch (error) {
         _logger.error("[Error Tracking System] Subscriber error: ", error);
       }

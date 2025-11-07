@@ -185,7 +185,7 @@ export function identifyElementalSignatures(
     const value = cuisineElementals[element];
     const globalMean = globalBaseline.elementals[element];
     const globalStdDev = globalBaseline.elementalStdDevs[element];
-    const zScore = calculateZScore(value, globalMean, globalStdDev);
+    const zScore = calculateZScore(value as any, globalMean as any, globalStdDev as any);
 
     if (Math.abs(zScore) >= threshold) {
       const strength = classifySignatureStrength(zScore);
@@ -194,7 +194,7 @@ export function identifyElementalSignatures(
         property: element,
         zscore: zScore,
         strength,
-        averageValue: value,
+        averageValue: value as any,
         globalAverage: globalMean,
         description: generateElementalSignatureDescription(
           element,
@@ -239,7 +239,7 @@ export function identifyAlchemicalSignatures(
       return; // Skip if no global data available
     }
 
-    const zScore = calculateZScore(value, globalMean, globalStdDev);
+    const zScore = calculateZScore(value as any, globalMean as any, globalStdDev as any);
 
     if (Math.abs(zScore) >= threshold) {
       const strength = classifySignatureStrength(zScore);
@@ -248,7 +248,7 @@ export function identifyAlchemicalSignatures(
         property,
         zscore: zScore,
         strength,
-        averageValue: value,
+        averageValue: value as any,
         globalAverage: globalMean,
         description: generateAlchemicalSignatureDescription(
           property,
@@ -293,7 +293,7 @@ export function identifyThermodynamicSignatures(
       return; // Skip if no global data available
     }
 
-    const zScore = calculateZScore(value, globalMean, globalStdDev);
+    const zScore = calculateZScore(value as any, globalMean as any, globalStdDev as any);
 
     if (Math.abs(zScore) >= threshold) {
       const strength = classifySignatureStrength(zScore);
@@ -302,7 +302,7 @@ export function identifyThermodynamicSignatures(
         property,
         zscore: zScore,
         strength,
-        averageValue: value,
+        averageValue: value as any,
         globalAverage: globalMean,
         description: generateThermodynamicSignatureDescription(
           property,
@@ -527,10 +527,10 @@ export function getSignatureSummary(signatures: CuisineSignature[]): {
     byStrength[sig.strength]++;
 
     // Classify property type
-    if (["Fire", "Water", "Earth", "Air"].includes(sig.property)) {
+    if (["Fire", "Water", "Earth", "Air"].includes(sig.property as any)) {
       byPropertyType.elemental++;
     } else if (
-      ["Spirit", "Essence", "Matter", "Substance"].includes(sig.property)
+      ["Spirit", "Essence", "Matter", "Substance"].includes(sig.property as any)
     ) {
       byPropertyType.alchemical++;
     } else {

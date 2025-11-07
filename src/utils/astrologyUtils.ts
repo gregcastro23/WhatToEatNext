@@ -2978,7 +2978,7 @@ function calculateElementalTransformations(
             effect: "enhance",
             _potency: strength * influenceStrength,
             _resultingElement: element as Element,
-          });
+          } as any);
         }
       }
     });

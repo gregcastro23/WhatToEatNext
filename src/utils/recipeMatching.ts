@@ -185,12 +185,12 @@ export async function findBestMatches(
           const lowerExcluded = excluded.toLowerCase();
           return recipe.ingredients.some((ingredient) => {
             if (typeof ingredient === "string") {
-              const ingredientStr = ingredient;
+              const ingredientStr = ingredient as string;
               return ingredientStr.toLowerCase().includes(lowerExcluded);
             } else {
               // Extract ingredient data with safe property access
               const ingredientData = ingredient as any;
-              const { name } = ingredientData;
+              const name = ingredientData.name as any;
               return (
                 typeof name === "string" &&
                 name.toLowerCase().includes(lowerExcluded)

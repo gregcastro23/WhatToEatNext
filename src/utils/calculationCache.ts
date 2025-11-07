@@ -52,13 +52,13 @@ export async function getCachedCalculation<T>(
 
     return result;
   } catch (error) {
-    log.error(`Error in cached calculation for ${cacheKey}:`, error);
+    log.error(`Error in cached calculation for ${cacheKey}:`, error as any);
 
     // Fallback to direct calculation if caching fails
     try {
       return await calculationFn();
     } catch (calcError) {
-      log.error(`Calculation also failed for ${cacheKey}:`, calcError);
+      log.error(`Calculation also failed for ${cacheKey}:`, calcError as any);
       throw calcError;
     }
   }
@@ -79,7 +79,7 @@ export async function clearCalculationCache(cacheKey?: string): Promise<void> {
       log.info("Database cache cleared (expired entries)");
     }
   } catch (error) {
-    log.error("Failed to clear database cache:", error);
+    log.error("Failed to clear database cache:", error as any);
   }
 }
 
@@ -100,7 +100,7 @@ export async function getCacheStats(): Promise<{
       expiredEntries: stats.expired,
     };
   } catch (error) {
-    log.error("Failed to get database cache stats:", error);
+    log.error("Failed to get database cache stats:", error as any);
     return {
       totalEntries: 0,
       activeEntries: 0,

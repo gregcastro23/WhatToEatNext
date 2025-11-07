@@ -100,7 +100,7 @@ export class ElementalCalculator {
     let totalWeight = 0;
 
     Object.entries(currentBalance).forEach(([element, value]) => {
-      const elementKey = element as unknown;
+      const elementKey = element as any;
       // Use optional chaining with nullish coalescing to handle undefined values
       const itemValue =
         (item.elementalProperties && item.elementalProperties[elementKey]) || 0;
@@ -245,7 +245,7 @@ export class ElementalCalculator {
       );
       if (total > 0) {
         Object.keys(elementalValues).forEach((element) => {
-          const elementKey = element as unknown;
+          const elementKey = element as any;
           elementalValues[elementKey] = elementalValues[elementKey] / total;
         });
       } else {
@@ -634,7 +634,7 @@ export class ElementalCalculator {
       let totalWeight = 0;
 
       Object.entries(currentState).forEach(([element, value]) => {
-        const elementKey = element as unknown;
+        const elementKey = element as any;
         const ingredientValue = elementalProperties[elementKey] || 0;
 
         // Calculate weighted difference (more important elements get higher weight)
@@ -719,7 +719,7 @@ export class ElementalCalculator {
 
     // Use all four elements for calculation
     ["Fire", "Water", "Earth", "Air"].forEach((element) => {
-      const elementKey = element as unknown;
+      const elementKey = element as any;
       const currentValue = currentState[elementKey] || 0;
       const ingredientValue = elementalProperties[elementKey] || 0;
 
@@ -826,7 +826,7 @@ export class ElementalCalculator {
     properties.forEach((prop) => {
       Object.entries(prop).forEach(([element, value]) => {
         // Use nullish coalescing to handle undefined values
-        const elementKey = element as unknown;
+        const elementKey = element as any;
         result[elementKey] += value || 0;
       });
     });
@@ -835,13 +835,13 @@ export class ElementalCalculator {
     const total = Object.values(result).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
       Object.keys(result).forEach((element) => {
-        const elementKey = element as unknown;
+        const elementKey = element as any;
         result[elementKey] = result[elementKey] / total;
       });
     } else {
       // Default to equal distribution if total is 0
       Object.keys(result).forEach((element) => {
-        const elementKey = element as unknown;
+        const elementKey = element as any;
         result[elementKey] = 0.25;
       });
     }
@@ -857,7 +857,7 @@ export class ElementalCalculator {
 
     // Check each element to find the one with the highest value
     Object.entries(elementalProperties).forEach(([element, value]) => {
-      const elementKey = element as unknown;
+      const elementKey = element as any;
       if (value > maxValue) {
         maxValue = value;
         maxElement = elementKey;

@@ -82,12 +82,9 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
     description?: string;
     elementalAlignment?: {
       Fire: number;
-      Water;
-      number;
-      Earth;
-      number;
-      Air;
-      number;
+      Water: number;
+      Earth: number;
+      Air: number;
     };
     regions?: unknown[];
     astrologicalProfile?: any;

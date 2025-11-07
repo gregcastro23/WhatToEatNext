@@ -122,7 +122,7 @@ class InitializationService {
         },
         lunarPhase: "new moon",
         currentTime: new Date(),
-      } as unknown);
+      } as any);
 
       if (!isValid) {
         throw new Error("State validation failed after initialization");

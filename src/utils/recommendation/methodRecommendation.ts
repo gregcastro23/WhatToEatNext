@@ -133,7 +133,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25,
-          }),
+          } as any),
         name: id,
         description: "",
         duration: { min: 0, max: 60 },
@@ -173,7 +173,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                     Water: 0.25,
                     Earth: 0.25,
                     Air: 0.25,
-                  }),
+                  } as any),
                 toolsRequired: (methodData.toolsRequired as Element[]) || [],
                 bestFor: (methodData.bestFor as Element[]) || [],
                 culturalOrigin: methodData.culturalOrigin,
@@ -209,7 +209,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
               Water: 0.25,
               Earth: 0.25,
               Air: 0.25,
-            }),
+            } as any),
           toolsRequired: (methodData.toolsRequired as Element[]) || [],
           bestFor: (methodData.bestFor as Element[]) || [],
           culturalOrigin: methodData.culturalOrigin,
@@ -740,7 +740,7 @@ export function getMethodElementalProfile(
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25,
-    })
+    } as any)
   );
 }
 
@@ -758,7 +758,7 @@ export function createElementalProfileFromAstroState(
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25,
-  });
+  } as any);
 
   // Enhance the dominant element
   Object.keys(profile || {}).forEach((element) => {
@@ -824,7 +824,7 @@ export function getCookingMethodRecommendations(
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25,
-      });
+      } as any);
     const astrologicalInfluences =
       (methodData.astrologicalInfluences as unknown) || {};
     const description = String(
@@ -887,12 +887,12 @@ export function getHolisticCookingRecommendations(
 ): Array<{ method: string; compatibility; number; reason?; string }> {
   try {
     // Default to empty elementalProperties if not provided
-    const elementalProperties = ingredient.transformedElementalProperties || {
+    const elementalProperties = (ingredient.transformedElementalProperties || {
       Fire: ingredient.Fire || 0.25,
       Water: ingredient.Water || 0.25,
       Earth: ingredient.Earth || 0.25,
       Air: ingredient.Air || 0.25,
-    };
+    }) as ElementalProperties;
 
     // Get recommended methods
     const recommendations = getRecommendedCookingMethods(
@@ -921,7 +921,7 @@ export function getHolisticCookingRecommendations(
     // Format the results with safe property access
     return filteredRecs.slice(0, limit || 5).map((rec) => ({
       method:
-        String((rec as any).method).name ||
+        (rec as any).method?.name ||
         (rec as any).method?.id ||
         (rec as any).name ||
         (rec as any).id ||

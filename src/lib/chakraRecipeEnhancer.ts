@@ -184,7 +184,7 @@ export class ChakraRecipeEnhancer {
         let planetaryAlignment = 0;
         // Apply surgical type casting with variable extraction
         const { astrologicalAffinities } = recipe;
-        const planets = astrologicalAffinities?.planets;
+        const planets = (astrologicalAffinities as any)?.planets;
 
         if (planets) {
           if ((planets as Planet[]).includes(planetaryHour)) {

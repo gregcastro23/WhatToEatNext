@@ -21,8 +21,6 @@ export {
   validateCuisineComputationInputs,
 } from "./cuisineAggregationEngine";
 
-export type { PropertyVariance } from "./cuisineAggregationEngine";
-
 // ========== SIGNATURE IDENTIFICATION ==========
 
 export {
@@ -77,8 +75,6 @@ export {
   getAvailableRegions,
   validateCulturalInfluence,
 } from "./culturalInfluenceEngine";
-
-export type { CulturalInfluence } from "./culturalInfluenceEngine";
 
 // ========== PERSONALIZED RECOMMENDATION ENGINE ==========
 

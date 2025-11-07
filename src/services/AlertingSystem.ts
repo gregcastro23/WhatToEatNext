@@ -357,11 +357,11 @@ class AlertingSystem {
     });
 
     _errorTrackingSystem.subscribe((data) => {
-      this.evaluateErrorAlerts(data);
+      this.evaluateErrorAlerts(data as any);
     });
 
     _qualityMetricsService.subscribe((data) => {
-      this.evaluateQualityAlerts(data);
+      this.evaluateQualityAlerts(data as any);
     });
   }
 
@@ -644,9 +644,9 @@ class AlertingSystem {
   ): Promise<{ success: boolean; result?: unknown; error?: string }> {
     switch (action.type) {
       case "script":
-        return this.executeScript(action.config.script);
+        return this.executeScript(action.config.script as any);
       case "command":
-        return this.executeCommand(action.config.command);
+        return this.executeCommand(action.config.command as any);
       case "campaign":
         return this.triggerCampaign(action.config);
       case "api_call":

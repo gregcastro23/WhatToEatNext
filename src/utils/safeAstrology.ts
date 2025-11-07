@@ -272,7 +272,7 @@ export function calculatePlanetaryAspects(
           influence: calculateAspectStrength(aspect.type, aspect.orb),
           planets: [planet1, planet2],
           _additionalInfo: { aspectType: aspect.type },
-        });
+        } as any);
       }
     }
   }
@@ -406,7 +406,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     activePlanets,
     dominantElement: dominantElementCapitalized,
     _dominantPlanets: activePlanets,
-  };
+  } as AstrologicalState;
 
   // Update cache
   astrologyCache = {

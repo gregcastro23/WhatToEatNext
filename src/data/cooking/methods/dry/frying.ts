@@ -397,7 +397,6 @@ export const frying: CookingMethodData = {
     "May create acrylamide at high temperatures (potential carcinogen)",
     "Can be modified with healthier oils (higher in unsaturated fats)",
     "Proper temperature reduces oil absorption (too low = greasy food)",
-    ,
     "Minimal water-soluble nutrient loss compared to boiling",
     "Trans fat formation possible with repeated oil use at high temperatures",
     "Possible formation of advanced glycation end products (AGEs)",

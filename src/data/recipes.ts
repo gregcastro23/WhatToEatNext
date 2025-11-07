@@ -356,7 +356,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                             : typeof dishData.spiceLevel === "number"
                               ? dishData.spiceLevel
                               : 1,
-                        nutrition: dishData.nutrition,
+                        nutrition: dishData.nutrition as any,
                         preparationNotes: dishData.preparationNotes,
                         technicalTips: Array.isArray(dishData.technicalTips)
                           ? dishData.technicalTips

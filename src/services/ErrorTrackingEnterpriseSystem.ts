@@ -106,7 +106,7 @@ export class ErrorTrackingEnterpriseSystem {
           try {
             await this.performAutomatedAnalysis();
           } catch (error) {
-            log.error("Error during automated analysis: ", error);
+            log.error("Error during automated analysis: ", error as any);
           }
         })();
       },
@@ -579,7 +579,7 @@ export class ErrorTrackingEnterpriseSystem {
         JSON.stringify(patternsData, null, 2),
       );
     } catch (error) {
-      log.error("Failed to persist data: ", error);
+      log.error("Failed to persist data: ", error as any);
     }
   }
 
@@ -606,7 +606,7 @@ export class ErrorTrackingEnterpriseSystem {
         );
       }
     } catch (error) {
-      log.error("Failed to load persisted data: ", error);
+      log.error("Failed to load persisted data: ", error as any);
     }
   }
 
@@ -695,7 +695,7 @@ export class ErrorTrackingEnterpriseSystem {
       if (fs.existsSync(this.METRICS_FILE)) fs.unlinkSync(this.METRICS_FILE);
       if (fs.existsSync(this.PATTERNS_FILE)) fs.unlinkSync(this.PATTERNS_FILE);
     } catch (error) {
-      log.error("Failed to delete persisted files: ", error);
+      log.error("Failed to delete persisted files: ", error as any);
     }
     log.info("All tracking data reset");
   }
