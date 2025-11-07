@@ -105,7 +105,7 @@ export function usePlanetaryKinetics(
 
       const data = await planetaryKineticsClient.getEnhancedKinetics(
         location as any,
-        kineticsOptions,
+        kineticsOptions as any,
       );
 
       // Get current planetary positions (for now using default, can be enhanced later)

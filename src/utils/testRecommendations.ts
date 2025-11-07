@@ -43,7 +43,7 @@ export async function testCookingMethodRecommendations() {
     _planetaryBoost: 1.0,
     _dominantPlanets: ["Venus"],
     _planetaryDignities: {},
-  };
+  } as any;
 
   // Create mock cooking methods
   const mockCookingMethods = [

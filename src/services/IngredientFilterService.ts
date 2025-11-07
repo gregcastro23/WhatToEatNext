@@ -555,11 +555,11 @@ export class IngredientFilterService {
     Object.entries(filteredByCategory).forEach(([category, ingredients]) => {
       // Sort ingredients by nutritional completeness (if data available)
       const sorted = [...ingredients].sort((a, b) => {
-        const aNutrition = a.nutritionalProfile || ({} as NutritionData);
-        const bNutrition = b.nutritionalProfile || ({} as NutritionData);
+        const aNutrition = a.nutritionalProfile || ({} as any);
+        const bNutrition = b.nutritionalProfile || ({} as any);
 
-        const aScore = this.calculateNutritionalScore(aNutrition);
-        const bScore = this.calculateNutritionalScore(bNutrition);
+        const aScore = this.calculateNutritionalScore(aNutrition as any);
+        const bScore = this.calculateNutritionalScore(bNutrition as any);
 
         return bScore - aScore; // Higher score first
       });

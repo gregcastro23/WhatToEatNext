@@ -797,10 +797,10 @@ export class UnifiedScoringService {
     // This would transform the actual API response
     // The exact structure depends on what the Astrologize API returns
     return {
-      planetaryPositions: data.planets || {},
-      aspects: data.aspects || [],
-      dignity: data.dignity || {},
-    };
+      planetaryPositions: data.planets || ({} as any),
+      aspects: data.aspects || ([] as any),
+      dignity: data.dignity || ({} as any),
+    } as any;
   }
 
   /**

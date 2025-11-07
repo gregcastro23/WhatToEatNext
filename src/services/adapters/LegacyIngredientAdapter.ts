@@ -151,9 +151,7 @@ export class LegacyIngredientAdapter {
       // Fall back to original implementation if needed
       return this.legacyService.getIngredientsByElement({
         element: elementalFilter,
-      } as {
-        element: Element;
-      });
+      } as any);
     }
   }
 

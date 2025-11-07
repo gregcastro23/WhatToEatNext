@@ -696,12 +696,12 @@ export class UnifiedRecipeBuildingSystem {
     // Calculate energetic profile
     const energeticProfile = this.calculateEnergeticProfile(
       baseRecipe.recipe,
-      planetaryAlignment,
+      planetaryAlignment as any,
     );
 
     return {
       recipe: baseRecipe.recipe,
-      planetaryAlignment,
+      planetaryAlignment: planetaryAlignment as any,
       optimalCookingTime,
       energeticProfile,
     };
