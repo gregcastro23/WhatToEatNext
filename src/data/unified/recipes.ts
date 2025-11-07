@@ -573,7 +573,7 @@ export class RecipeEnhancer {
    * Enhance a recipe with alchemical properties (ADDITIVE - preserves all existing data)
    */
   static enhanceRecipe(
-    recipe: unknown,
+    recipe: any,
     sourceFile = "unknown",
   ): EnhancedRecipe {
     // Calculate recipe Kalchm from ingredients

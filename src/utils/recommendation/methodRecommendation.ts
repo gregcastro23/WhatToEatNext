@@ -532,7 +532,7 @@ export function getRecommendedCookingMethods(
     }
 
     // Zodiac compatibility (20% weight)
-    const astrologicalInfluences = methodData.astrologicalInfluences as unknown;
+    const astrologicalInfluences = methodData.astrologicalInfluences as any;
     const favorableZodiac = astrologicalInfluences.favorableZodiac as string[];
     if (currentZodiac && favorableZodiac) {
       const zodiacMatch = favorableZodiac.includes(currentZodiac);

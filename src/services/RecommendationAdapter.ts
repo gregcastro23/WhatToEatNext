@@ -573,8 +573,8 @@ export class RecommendationAdapter {
           const { minerals } = nutritionData;
 
           if (macros && vitamins && minerals) {
-            const macrosData = macros as unknown;
-            const vitaminsData = vitamins as unknown;
+            const macrosData = macros as any;
+            const vitaminsData = vitamins as any;
             const mineralsData = minerals;
 
             acc[ingredient.id] = Math.sqrt(

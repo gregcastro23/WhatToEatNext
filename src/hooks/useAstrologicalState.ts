@@ -246,7 +246,7 @@ export function useAstrologicalState(): AstrologyHookData {
           time: new Date().toISOString(),
         });
 
-        setAstroState((prev: unknown) => {
+        setAstroState((prev: any) => {
           // Skip update if nothing changed to prevent unnecessary re-renders
           if (
             prev.currentZodiac === currentZodiac &&

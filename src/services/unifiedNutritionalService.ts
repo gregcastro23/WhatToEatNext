@@ -391,7 +391,7 @@ export class UnifiedNutritionalService {
     filter: NutritionalFilter,
   ): UnifiedIngredient[] {
     return ingredients.filter((ingredient) => {
-      const ingredientData = ingredient as unknown;
+      const ingredientData = ingredient as any;
       const nutritionalProfile =
         ingredientData.nutritionalPropertiesProfile as Record<string, unknown>;
 

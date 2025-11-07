@@ -61,10 +61,10 @@ export const _transformCookingMethods = (
     isDaytime,
     currentZodiac,
     lunarPhase,
-  );
+  ) as any;
 
   // Then apply alchemical pillar transformations based on method names
-  return transformedItems.map((method) => {
+  return transformedItems.map((method: any) => {
     const methodName = method.name.toLowerCase();
     // Apply pillar-based transformations to the method;
     return applyPillarTransformation(method, methodName);

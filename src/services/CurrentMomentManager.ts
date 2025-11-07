@@ -227,7 +227,7 @@ class CurrentMomentManager {
 
       // Find the cell with live_positions and update it
       const codeCell = notebook.cells.find(
-        (cell: unknown) =>
+        (cell: any) =>
           cell.cell_type === "code" &&
           cell.source.some((line: string) => line.includes("live_positions")),
       );
