@@ -55,9 +55,9 @@ export function validatePlanetaryPositions(
   options: ValidationOptions = {},
 ): ValidationResult {
   const {
-    _strictMode = false,
-    _autoCorrect = false,
-    _logWarnings = true,
+    strictMode = false,
+    autoCorrect = false,
+    logWarnings = true,
   } = options;
   const errors: string[] = [];
   const warnings: string[] = [];

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
+import { _logger } from "@/lib/logger";
 
 // Don't import from context to avoid potential circular dependency
 // import { useCurrentChart as useContextCurrentChart } from '@/context/CurrentChartContext';
@@ -209,7 +210,7 @@ export function useCurrentChart() {
         <!-- Zodiac ring -->
         <g class='zodiac-ring'>;
           ${Array.from({ length: 12 })
-            .map((_i) => {
+            .map((_, i) => {
               const angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg)
               const sign = Object.keys(zodiacSymbols)[i];
               const color = signColors[sign] || "#999";
