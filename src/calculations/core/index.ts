@@ -5,7 +5,7 @@
  */
 
 // Export all from alchemical calculations
-export { calculateAlchemicalProperties as calculateCoreAlchemicalProperties } from "./alchemicalCalculations";
+// export { calculateAlchemicalProperties as calculateCoreAlchemicalProperties } from "./alchemicalCalculations";
 
 // Export all from alchemical engine
 export {
@@ -16,15 +16,15 @@ export {
 // Export all from elemental calculations
 export {
   ELEMENTAL_ANALYSIS_INTELLIGENCE,
-  LUNAR_PHASE_MODIFIERS,
-  SEASONAL_ELEMENTAL_INTELLIGENCE,
-  SEASONAL_MODIFIERS,
+  // LUNAR_PHASE_MODIFIERS,
+  // SEASONAL_ELEMENTAL_INTELLIGENCE,
+  // SEASONAL_MODIFIERS,
   ZODIAC_ELEMENTS,
   analyzeElementalCompatibility,
-  applyLunarPhaseAdjustments,
-  applySeasonalAdjustments,
+  // applyLunarPhaseAdjustments,
+  // applySeasonalAdjustments,
   calculateBaseElementalProperties,
-  calculateElementalBalance,
+  // calculateElementalBalance,
   combineElementalProperties,
   default as elementalCalculations,
   getDominantElement,

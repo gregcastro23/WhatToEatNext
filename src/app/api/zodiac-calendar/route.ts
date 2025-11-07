@@ -19,7 +19,7 @@
 //     getZodiacPositionForDate
 // } from '@/services/vsop87EphemerisService';
 import { NextResponse } from "next/server";
-import { compareSolarAccuracy } from "@/utils/accurateAstronomy";
+// import { compareSolarAccuracy } from "@/utils/accurateAstronomy";
 import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 

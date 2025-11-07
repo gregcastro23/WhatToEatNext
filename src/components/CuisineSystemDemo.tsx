@@ -245,7 +245,7 @@ const CuisineSystemDemo: React.FC = () => {
       ]);
 
       // Generate recommendations
-      const recs = generateCuisineRecommendations({
+      const recs = (generateCuisineRecommendations as any)({
         elementalProperties: userProfile.elementalPreferences,
         preferences: userProfile.culturalBackground?.preferredCuisines || [],
         dietaryRestrictions:

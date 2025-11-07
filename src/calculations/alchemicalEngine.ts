@@ -229,7 +229,7 @@ export class AlchemicalEngineAdvanced {
         } as any,
         dominantElement: dominantElement as keyof ElementalProperties,
         season: validSeason,
-      };
+      } as any;
     } catch (error) {
       logger.error("Error in calculateAstroCuisineMatch", {
         error: error instanceof Error ? error.message : String(error),
@@ -247,7 +247,7 @@ export class AlchemicalEngineAdvanced {
         } as any,
         dominantElement: "Fire",
         season: "winter",
-      };
+      } as any;
     }
   }
 

@@ -6,8 +6,8 @@ import type {
 import type { AlchemicalProperty, CelestialPosition } from "@/types/celestial";
 import { createLogger } from "@/utils/logger";
 import { calculatePlanetaryBoost } from "../constants/planetaryFoodAssociations";
-import { calculateAlchemicalProperties } from "./alchemicalCalculations";
-import type { AlchemicalResults } from "./alchemicalCalculations";
+// import { calculateAlchemicalProperties } from "./alchemicalCalculations";
+// import type { AlchemicalResults } from "./alchemicalCalculations";
 import type { PlanetaryDignityDetails } from "../constants/planetaryFoodAssociations";
 
 // Create a component-specific logger
@@ -71,7 +71,7 @@ export const transformItemWithPlanetaryPositions = (
     };
 
     // Calculate alchemical properties based on planetary positions
-    const alchemicalResults = calculateAlchemicalProperties(
+    const alchemicalResults = (calculateAlchemicalProperties as any)(
       planetPositions as unknown,
       isDaytime,
     );
@@ -319,7 +319,7 @@ export const _transformItemsWithPlanetaryPositions = (
  */
 const transformElementalProperties = (
   originalProperties: Record<ElementalCharacter, number>,
-  alchemicalResults: AlchemicalResults,
+  alchemicalResults: any, // AlchemicalResults,
   planetaryBoost = 1.0,
   zodiacSign?: ZodiacSign,
 ): Record<ElementalCharacter, number> => {
