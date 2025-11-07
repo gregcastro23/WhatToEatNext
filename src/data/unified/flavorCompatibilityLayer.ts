@@ -1,7 +1,7 @@
 import type { ElementalProperties } from "@/types/alchemy";
-import { _, _ } from "@/types/alchemy";
+import { _logger } from "@/lib/logger";
 import {
-  // ===== BACKWARD COMPATIBILITY LAYER - PHASE 4 =====;
+  // ===== BACKWARD COMPATIBILITY LAYER - PHASE 4 =====
   // Provides the same API as old fragmented systems while using unified engine
   // Ensures 100% backward compatibility during migration
 
@@ -86,7 +86,7 @@ export function calculateFlavorCompatibility(
  * Legacy calculateFlavorMatch function
  * @deprecated Use calculateFlavorCompatibility from unifiedFlavorEngine instead
  */
-export function calculateFlavorMatch(_profile1, _profile2: {}): number {
+export function calculateFlavorMatch(profile1: unknown, profile2: unknown): number {
   const result = calculateFlavorCompatibility(profile1, profile2);
   return result.compatibility;
 }
@@ -146,7 +146,7 @@ export function calculatePlanetaryFlavorMatch(
 
     // Find strongest planetary influence
     const strongestPlanet = Object.entries(planetaryInfluences).sort(
-      (ab) => b[1] - a[1],
+      (a, b) => (b[1] as number) - (a[1] as number),
     )[0];
 
     if (!strongestPlanet) return 0.5;
@@ -303,8 +303,8 @@ export function calculateElementalCompatibility(
 // ===== CONVERSION HELPERS =====;
 
 function convertLegacyToUnified(
-  legacyProfile,
-  _id: string,
+  legacyProfile: any,
+  id: string,
 ): UnifiedFlavorProfile {
   // Extract base notes from various legacy formats
   const baseNotes: BaseFlavorNotes = {
@@ -457,7 +457,7 @@ function estimateElementalFromFlavors(
 
 function calculateIntensity(baseNotes: BaseFlavorNotes): number {
   const values = Object.values(baseNotes);
-  return values.reduce((sum, val) => sum + val0) / (values || []).length;
+  return values.reduce((sum, val) => sum + val, 0) / (values || []).length;
 }
 
 function calculateComplexity(baseNotes: BaseFlavorNotes): number {
