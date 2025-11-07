@@ -4,7 +4,7 @@ import type { ElementalAffinity } from "@/types/alchemy";
 export function toStandardElementalAffinity(
   engineAffinity: unknown,
 ): ElementalAffinity {
-  if (!engineAffinity) return { base: "Fire" };
+  if (!engineAffinity) return { base: "Fire" } as any;
 
   // Apply safe type casting for unknown type property access
   const engineData = engineAffinity as any;
