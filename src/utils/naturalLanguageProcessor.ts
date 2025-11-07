@@ -825,6 +825,19 @@ function generateKineticsFilters(
   return filters;
 }
 
+// Helper function stubs
+function filterItems(items: SearchableItem[], _filters: any): SearchableItem[] {
+  return items;
+}
+
+function matchesFilters(_item: SearchableItem, _filters: any): boolean {
+  return true;
+}
+
+function scoreItem(_item: SearchableItem, _query: string): number {
+  return 1.0;
+}
+
 /**
  * Filter items with kinetics awareness
  */

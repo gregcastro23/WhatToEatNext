@@ -67,7 +67,7 @@ function normalizeSign(sign: string): any {
   throw new Error(`Invalid zodiac sign: ${sign}`);
 }
 
-function getZodiacElement(_sign: string): string {
+function getZodiacElement(sign: string): string {
   const elementMap: Record<string, string> = {
     aries: "Fire",
     taurus: "Earth",
@@ -85,7 +85,7 @@ function getZodiacElement(_sign: string): string {
   return elementMap[sign.toLowerCase()] || "Air";
 }
 
-function getPlanetaryDignity(_planet: string, _sign: string): number {
+function getPlanetaryDignity(planet: string, sign: string): number {
   const dignityMap: Record<string, Record<string, number>> = {
     Sun: {
       leo: 1,

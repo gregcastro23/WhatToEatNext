@@ -21,6 +21,8 @@ import type {
   RecipeComputationOptions,
   RecipeComputedProperties,
 } from "@/types/hierarchy";
+import type { KineticMetrics, KineticsCalculationInput } from "@/types/kinetics";
+import { calculateKinetics } from "@/calculations/kinetics";
 import { normalizeElementalProperties } from "./ingredientUtils";
 import { calculateThermodynamicMetrics } from "./monicaKalchmCalculations";
 import {
