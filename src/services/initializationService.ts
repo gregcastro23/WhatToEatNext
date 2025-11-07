@@ -96,7 +96,7 @@ class InitializationService {
       }
 
       // Validate final state - only using properties that exist in AlchemicalState
-      const isValid = stateValidator.validateState({
+      const isValid = _stateValidator.validateState({
         celestialPositions: this.formatCelestialData(celestialData),
         elementalPreference,
         currentSeason: this.getCurrentSeason(),
@@ -139,7 +139,7 @@ class InitializationService {
         },
       };
     } catch (error) {
-      errorHandler.handleError(error, {
+      ErrorHandler.handleError(error, {
         context: "InitializationService",
         action: "initialize",
         attempt: this.retryCount + 1,
@@ -168,7 +168,7 @@ class InitializationService {
   private async initializeRecipes(): Promise<Recipe[]> {
     try {
       const recipes = await recipeData.getAllRecipes();
-      if (!recipes.every((recipe) => stateValidator.validateRecipe(recipe))) {
+      if (!recipes.every((recipe) => _stateValidator.validateRecipe(recipe))) {
         throw new Error("Invalid recipe data received");
       }
       return recipes;
@@ -191,7 +191,7 @@ class InitializationService {
 
   private async initializeCelestialData(): Promise<CelestialData> {
     try {
-      const alignment = celestialCalculator.calculateCurrentInfluences();
+      const alignment = _celestialCalculator.calculateCurrentInfluences();
 
       // Convert CelestialAlignment to CelestialData format with safe property access
       const alignmentData = alignment as any;

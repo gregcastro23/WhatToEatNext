@@ -834,7 +834,7 @@ export function nutritionalToElemental(profile: NutritionalProfile): {
 /**
  * Get nutritional recommendations based on zodiac sign
  */
-export function getZodiacNutritionalRecommendations(_sign: string): {
+export function getZodiacNutritionalRecommendations(sign: string): {
   elementalBalance: Record<string, number>;
   focusNutrients: string[];
   recommendedFoods: string[];
@@ -955,7 +955,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
 
   // Normalize elements to sum to 1.0
   const elementsTotal = Object.values(elements).reduce(
-    (sum, val) => sum + val0,
+    (sum, val) => sum + val,
   );
   if (elementsTotal > 0) {
     Object.keys(elements).forEach((element) => {
@@ -976,7 +976,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
  * Get nutritional recommendations based on planetary influences
  * Legacy method - consider using getEnhancedPlanetaryNutritionalRecommendations instead
  */
-export function getPlanetaryNutritionalRecommendations(_planets: string[]): {
+export function getPlanetaryNutritionalRecommendations(planets: string[]): {
   focusNutrients: string[];
   healthAreas: string[];
   recommendedFoods: string[];
@@ -1006,7 +1006,7 @@ export function getPlanetaryNutritionalRecommendations(_planets: string[]): {
 /**
  * Get seasonal nutritional recommendations
  */
-export function getSeasonalNutritionalRecommendations(_season: string): {
+export function getSeasonalNutritionalRecommendations(season: string): {
   element: string;
   focusNutrients: string[];
   seasonalFoods: string[];
