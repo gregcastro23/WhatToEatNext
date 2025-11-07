@@ -22,7 +22,7 @@ import {
   TransitAnalysisService,
   type TransitSeason,
 } from "@/data/transits/comprehensiveTransitDatabase";
-import type { PlanetaryAspect } from "@/types/celestial";
+import type { PlanetaryAspect, PlanetaryPosition } from "@/types/celestial";
 
 /**
  * Enhanced planetary position with dignity and location modifiers

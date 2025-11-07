@@ -474,7 +474,7 @@ class ErrorTrackingSystem {
     }
 
     // Sort patterns by frequency and priority
-    this.errorPatterns = Array.from(patterns.values()).sort((ab) => {
+    this.errorPatterns = Array.from(patterns.values()).sort((a, b) => {
       const priorityWeight = { critical: 4, high: 3, medium: 2, low: 1 };
       const priorityDiff =
         priorityWeight[b.priority] - priorityWeight[a.priority];
