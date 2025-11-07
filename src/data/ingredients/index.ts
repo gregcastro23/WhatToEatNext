@@ -117,7 +117,7 @@ const calculateElementalProperties = (
 };
 
 // Helper function to get planetary element
-function getPlanetaryElement(_planet: string): string | null {
+function getPlanetaryElement(planet: string): string | null {
   const planetElements: Record<string, string> = {
     Sun: "Fire",
     Mars: "Fire",
@@ -134,7 +134,7 @@ function getPlanetaryElement(_planet: string): string | null {
 }
 
 // Helper function to get zodiac element
-function getZodiacElement(_sign: string): string | null {
+function getZodiacElement(sign: string): string | null {
   const signElements: Record<string, string> = {
     aries: "Fire",
     leo: "Fire",
@@ -154,7 +154,7 @@ function getZodiacElement(_sign: string): string | null {
 
 // Helper function to calculate elemental properties from category
 function calculateElementalPropertiesFromCategory(
-  _category: string,
+  category: string,
 ): Record<string, number> {
   const categoryElements: Record<string, Record<string, number>> = {
     spice: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 },

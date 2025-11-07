@@ -358,7 +358,7 @@ const ingredientFlavorMap: Record<
  * Will try to match ingredient names partially if an exact match is not found
  */
 export function getFlavorProfileForIngredient(
-  _ingredientName: string,
+  ingredientName: string,
 ): IngredientFlavorProfile {
   // Default flavor profile if nothing is found
   const defaultProfile: IngredientFlavorProfile = {
