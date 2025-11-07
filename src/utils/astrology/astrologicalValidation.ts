@@ -208,7 +208,7 @@ function validateSinglePlanetaryPosition(
     const { sign } = pos;
     if (
       typeof sign !== "string" ||
-      !_TRANSIT_CONSTANTS._VALID_SIGNS.includes(sign.toLowerCase())
+      !_TRANSIT_CONSTANTS._VALID_SIGNS.includes(sign.toLowerCase() as any)
     ) {
       errors.push(`${planet} has invalid sign: ${sign}`);
     }
@@ -292,7 +292,7 @@ function validateSinglePlanetaryPosition(
 
     // Validate retrograde logic
     if (
-      _TRANSIT_CONSTANTS._ALWAYS_DIRECT.includes(planet.toLowerCase()) &&
+      _TRANSIT_CONSTANTS._ALWAYS_DIRECT.includes(planet.toLowerCase() as any) &&
       isRetrograde
     ) {
       warnings.push(`${planet} cannot be retrograde`);
@@ -303,7 +303,7 @@ function validateSinglePlanetaryPosition(
 
     if (
       _TRANSIT_CONSTANTS._ALWAYS_RETROGRADE.includes(
-        planet.toLowerCase() as unknown,
+        planet.toLowerCase() as any,
       ) &&
       !isRetrograde
     ) {
