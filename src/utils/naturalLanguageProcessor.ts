@@ -430,7 +430,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
           const timeRange = extractTimeRange(query) || { min: 0, max: 30 };
           // cookingTime is a structured object in SearchFilters
           // Assign strongly typed cookingTime
-          extractedFilters.cookingTime = {
+          extractedFilters._cookingTime = {
             min: timeRange.min,
             max: timeRange.max,
           };

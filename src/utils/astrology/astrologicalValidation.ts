@@ -208,7 +208,7 @@ function validateSinglePlanetaryPosition(
     const { sign } = pos;
     if (
       typeof sign !== "string" ||
-      !_TRANSIT_CONSTANTS.VALID_SIGNS.includes(sign.toLowerCase())
+      !_TRANSIT_CONSTANTS._VALID_SIGNS.includes(sign.toLowerCase())
     ) {
       errors.push(`${planet} has invalid sign: ${sign}`);
     }
@@ -218,9 +218,9 @@ function validateSinglePlanetaryPosition(
     if (
       typeof degree !== "number" ||
       degree < 0 ||
-      degree >= _TRANSIT_CONSTANTS.DEGREES_PER_SIGN
+      degree >= _TRANSIT_CONSTANTS._DEGREES_PER_SIGN
     ) {
-      const message = `${planet} degree ${degree} must be between 0 and ${_TRANSIT_CONSTANTS.DEGREES_PER_SIGN}`;
+      const message = `${planet} degree ${degree} must be between 0 and ${_TRANSIT_CONSTANTS._DEGREES_PER_SIGN}`;
       if (strictMode) {
         errors.push(message);
       } else {
@@ -231,7 +231,7 @@ function validateSinglePlanetaryPosition(
             sign: String(sign),
             degree: Math.max(
               0,
-              Math.min(_TRANSIT_CONSTANTS.DEGREES_PER_SIGN - 0.01, degree),
+              Math.min(_TRANSIT_CONSTANTS._DEGREES_PER_SIGN - 0.01, degree),
             ),
             exactLongitude: Number(pos.exactLongitude),
             isRetrograde: Boolean(pos.isRetrograde),
@@ -245,9 +245,9 @@ function validateSinglePlanetaryPosition(
     if (
       typeof longitude !== "number" ||
       longitude < 0 ||
-      longitude >= _TRANSIT_CONSTANTS.MAX_LONGITUDE
+      longitude >= _TRANSIT_CONSTANTS._MAX_LONGITUDE
     ) {
-      const message = `${planet} longitude ${longitude} must be between 0 and ${_TRANSIT_CONSTANTS.MAX_LONGITUDE}`;
+      const message = `${planet} longitude ${longitude} must be between 0 and ${_TRANSIT_CONSTANTS._MAX_LONGITUDE}`;
       if (strictMode) {
         errors.push(message);
       } else {
@@ -255,9 +255,9 @@ function validateSinglePlanetaryPosition(
         // Auto-correct if possible
         if (typeof longitude === "number") {
           const correctedLongitude =
-            ((longitude % _TRANSIT_CONSTANTS.MAX_LONGITUDE) +
-              _TRANSIT_CONSTANTS.MAX_LONGITUDE) %
-            _TRANSIT_CONSTANTS.MAX_LONGITUDE;
+            ((longitude % _TRANSIT_CONSTANTS._MAX_LONGITUDE) +
+              _TRANSIT_CONSTANTS._MAX_LONGITUDE) %
+            _TRANSIT_CONSTANTS._MAX_LONGITUDE;
           if (!correctedData) {
             correctedData = {
               sign: String(sign),
@@ -292,7 +292,7 @@ function validateSinglePlanetaryPosition(
 
     // Validate retrograde logic
     if (
-      _TRANSIT_CONSTANTS.ALWAYS_DIRECT.includes(planet.toLowerCase()) &&
+      _TRANSIT_CONSTANTS._ALWAYS_DIRECT.includes(planet.toLowerCase()) &&
       isRetrograde
     ) {
       warnings.push(`${planet} cannot be retrograde`);
@@ -302,7 +302,7 @@ function validateSinglePlanetaryPosition(
     }
 
     if (
-      _TRANSIT_CONSTANTS.ALWAYS_RETROGRADE.includes(
+      _TRANSIT_CONSTANTS._ALWAYS_RETROGRADE.includes(
         planet.toLowerCase() as unknown,
       ) &&
       !isRetrograde
@@ -370,7 +370,7 @@ export function validateAstrologicalElementalProperties(
       current[1] > max[1] ? current : max,
     );
 
-    if (dominant[1] < _ELEMENTAL_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD) {
+    if (dominant[1] < _ELEMENTAL_CONSTANTS._SELF_REINFORCEMENT_THRESHOLD) {
       warnings.push(
         `No dominant element found (highest: ${dominant[0]} at ${dominant[1].toFixed(2)}). Consider strengthening elemental focus.`,
       );

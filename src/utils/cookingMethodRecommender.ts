@@ -285,8 +285,8 @@ export function getMethodThermodynamics(
     const thermoProps = detailedMethodData.thermodynamicProperties;
     return {
       heat: Number(thermoProps.heat) || 0.5,
-      entropy: Number(thermoProps.entropy) || 0.5,
-      reactivity: Number(thermoProps.reactivity) || 0.5,
+      entropy: Number(thermoProps._entropy) || 0.5,
+      reactivity: Number(thermoProps._reactivity) || 0.5,
       gregsEnergy:
         Number((thermoProps as { gregsEnergy?: number }).gregsEnergy) || 0.5,
     };
