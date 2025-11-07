@@ -43,7 +43,7 @@ export class RecipeRecommender {
       // Get current celestial influences if not provided
       const celestialInfluence =
         criteria.celestialInfluence ||
-        celestialCalculator.calculateCurrentInfluences();
+        _celestialCalculator.calculateCurrentInfluences();
 
       // Score and sort recipes
       const scoredRecipes = recipes

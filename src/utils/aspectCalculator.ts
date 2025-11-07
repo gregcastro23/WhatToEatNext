@@ -173,7 +173,7 @@ export function calculateComprehensiveAspects(
  * @param longitude Longitude in degrees (0-360)
  * @returns Object with sign and degree
  */
-export function getSignAndDegreeFromLongitude(_longitude: number): {
+export function getSignAndDegreeFromLongitude(longitude: number): {
   sign: string;
   degree: number;
 } {

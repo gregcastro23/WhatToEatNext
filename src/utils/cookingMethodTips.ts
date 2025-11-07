@@ -819,6 +819,7 @@ export function getMethodDetails(methodName: string): string {
         const methodObj = methodData as {
           expertTips?: string[];
           category?: string;
+          description?: string;
         };
         if (methodObj.description) {
           return methodObj.description;
@@ -1182,6 +1183,7 @@ export function getIdealIngredients(methodName: string): string[] {
         const methodObj = methodData as {
           expertTips?: string[];
           category?: string;
+          suitable_for?: string[];
         };
         if (methodObj.suitable_for && Array.isArray(methodObj.suitable_for)) {
           // Use the actual suitable ingredients from the method data

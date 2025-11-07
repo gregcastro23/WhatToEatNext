@@ -160,7 +160,7 @@ export function findComplementaryDishes(
                 });
 
                 if (score > 0) {
-                  recommendations.push(dish as unknown as Dish);
+                  recommendations.push(dish as unknown as Recipe);
                 }
               });
             }

@@ -241,7 +241,7 @@ class StateManager {
 
   private async updateCelestialData(): Promise<void> {
     try {
-      const influences = celestialCalculator.calculateCurrentInfluences();
+      const influences = _celestialCalculator.calculateCurrentInfluences();
       // Convert influences to proper ElementalProperties
       const elementalState: ElementalProperties = {
         Fire: influences.elementalBalance?.Fire || 0,

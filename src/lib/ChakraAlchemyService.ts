@@ -15,6 +15,7 @@ import type {
 import {
   _CHAKRAS,
   _KEY_CARD_CHAKRA_MAPPINGS,
+  _MAJOR_ARCANA_CHAKRAS,
   _SUIT_CHAKRA_MAPPINGS,
 } from "@/types/chakra";
 
@@ -75,7 +76,7 @@ export class ChakraAlchemyService {
    * Get chakra associated with a specific major arcana card
    */
   public getMajorArcanaChakra(cardName: string): MajorArcanaChakra | undefined {
-    return MAJOR_ARCANA_CHAKRAS.find(
+    return _MAJOR_ARCANA_CHAKRAS.find(
       (card) => card.cardName.toLowerCase() === cardName.toLowerCase(),
     );
   }

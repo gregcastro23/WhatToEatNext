@@ -1,5 +1,16 @@
 // Unified Astrological Type Hub - Single Source of Truth
 
+// Import types for local use
+import type {
+  ElementalProperties,
+  PlanetaryPosition,
+  AstrologicalState,
+  ZodiacSign,
+  LunarPhase,
+  Recipe,
+  Ingredient,
+} from "../alchemy";
+
 // Re-export all astrological types from their sources
 export type {
   ElementalProperties,
@@ -18,7 +29,7 @@ export interface FlexibleAstrologicalData {
   [key: string]: unknown;
   elementalProperties?: ElementalProperties;
   planetaryInfluences?: PlanetaryPosition[];
-  zodiacSign?: import("../alchemy").ZodiacSign;
+  zodiacSign?: ZodiacSign;
   lunarPhase?: LunarPhase;
 }
 

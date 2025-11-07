@@ -22,6 +22,7 @@ import type {
   Season,
   ThermodynamicProperties,
 } from "@/types/alchemy";
+import type { KineticMetrics } from "@/types/kinetics";
 
 // ========== TIER 1: INGREDIENT LEVEL ==========
 

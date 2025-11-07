@@ -5,7 +5,7 @@ import type { ElementalProperties } from "@/types/alchemy";
  * Uses a stable mapping consistent with our UI components.
  */
 export function calculateAlchemicalPropertiesForDisplay(
-  _elemental: ElementalProperties,
+  elemental: ElementalProperties,
 ): {
   spirit: number;
   essence: number;

@@ -59,11 +59,12 @@ export function useCurrentChart() {
             planetName = "SouthNode";
           }
 
+          const planetData = data as any;
           planets[planetName] = {
-            sign: data?.sign || "Aries",
-            degree: data?.degree || 0,
-            isRetrograde: data?.isRetrograde || false,
-            exactLongitude: data?.exactLongitude || 0,
+            sign: planetData?.sign || "Aries",
+            degree: planetData?.degree || 0,
+            isRetrograde: planetData?.isRetrograde || false,
+            exactLongitude: planetData?.exactLongitude || 0,
           };
         });
 
@@ -82,7 +83,7 @@ export function useCurrentChart() {
 
         if (planetaryPositions.ascendant) {
           newChartData.ascendant = (
-            planetaryPositions.ascendant as unknown
+            planetaryPositions.ascendant as any
           )?.sign;
         }
 

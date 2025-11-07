@@ -15,10 +15,11 @@ export type {
 import { calculateSeasonalScores } from "@/calculations/seasonalCalculations";
 import { getMedicinalProperties } from "./medicinalCrossReference";
 import { getTemperatureEffect } from "./temperatureEffects";
+import { _getTextureProfile } from "./textureProfiles";
 
 export {
   calculateSeasonalScores,
   getMedicinalProperties,
   getTemperatureEffect,
-  getTextureProfile,
+  _getTextureProfile,
 };

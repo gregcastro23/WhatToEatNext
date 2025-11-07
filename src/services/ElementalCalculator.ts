@@ -1,5 +1,6 @@
 import { log } from "@/services/LoggingService";
 import { createLogger } from "@/utils/logger";
+import { normalizeProperties } from "@/utils/elementalUtils";
 import { DEFAULT_ELEMENTAL_PROPERTIES } from "../constants/elementalConstants";
 import { planetInfo, signInfo } from "../data/astrology";
 import {

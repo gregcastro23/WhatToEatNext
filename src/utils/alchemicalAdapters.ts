@@ -7,7 +7,7 @@ export function toStandardElementalAffinity(
   if (!engineAffinity) return { base: "Fire" };
 
   // Apply safe type casting for unknown type property access
-  const engineData = engineAffinity as unknown;
+  const engineData = engineAffinity as any;
 
   return {
     base: engineData?.element || "Fire",
@@ -23,7 +23,7 @@ export function toEngineElementalAffinity(
   standardAffinity: ElementalAffinity,
 ): unknown {
   // Apply safe type casting for ElementalAffinity property access
-  const affinityData = standardAffinity as unknown;
+  const affinityData = standardAffinity as any;
 
   return {
     ...standardAffinity,

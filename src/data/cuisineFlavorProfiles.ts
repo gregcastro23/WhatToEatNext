@@ -948,7 +948,7 @@ export function getRecipesForCuisineMatch(
         // Clear cache to ensure fresh data
         LocalRecipeService.clearCache();
         const localRecipes =
-          LocalRecipeService.getRecipesByCuisine(cuisineName);
+          LocalRecipeService.getRecipesByCuisine(cuisineName) as any;
         log.info(
           `LocalRecipeService returned ${localRecipes.length || 0} recipes for ${cuisineName}`,
         );
@@ -956,7 +956,7 @@ export function getRecipesForCuisineMatch(
         if (localRecipes.length > 0) {
           // Apply high match scores to local recipes
           return localRecipes
-            .map((recipe) => ({
+            .map((recipe: any) => ({
               ...recipe,
               matchScore: 0.85 + Math.random() * 0.15, // 85-100% match
               matchPercentage: Math.round((0.85 + Math.random() * 0.15) * 100), // For display
@@ -1056,7 +1056,7 @@ export function getRecipesForCuisineMatch(
         );
         // Use ESM import at top
         const localRecipes =
-          LocalRecipeService.getRecipesByCuisine(cuisineName);
+          LocalRecipeService.getRecipesByCuisine(cuisineName) as any;
         log.info(
           `Fetched ${localRecipes.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`,
         );
@@ -1064,7 +1064,7 @@ export function getRecipesForCuisineMatch(
         if (localRecipes.length > 0) {
           // Apply high match scores to local recipes
           return localRecipes
-            .map((recipe) => ({
+            .map((recipe: any) => ({
               ...recipe,
               matchScore: 0.8 + Math.random() * 0.2, // 80-100% match
               matchPercentage: Math.round((0.8 + Math.random() * 0.2) * 100), // For display

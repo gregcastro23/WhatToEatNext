@@ -3290,13 +3290,14 @@ export async function recommendIngredients(
     let enterpriseEnhancement: Record<string, unknown> | null = null;
     try {
       // Safe method access with fallback
+      const enterpriseIntelligence = null; // Placeholder for future enterprise features
       const enhanceMethod = (
         enterpriseIntelligence as {
           enhanceRecommendation?: (
             recommendation: Record<string, unknown>,
           ) => Record<string, unknown>;
-        }
-      ).enhanceRecommendation;
+        } | null
+      )?.enhanceRecommendation;
       if (typeof enhanceMethod === "function") {
         const enhancementResult = enhanceMethod({
           ingredient,

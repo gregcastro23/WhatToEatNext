@@ -7,6 +7,7 @@ import {
   getScrollPosition,
   saveComponentState,
   saveNavigationState,
+  saveScrollPosition,
   useStateCleanup,
 } from "@/utils/statePreservation";
 import type { ElementalProperties } from "@/utils/steeringFileIntelligence";

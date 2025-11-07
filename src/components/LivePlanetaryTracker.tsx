@@ -70,7 +70,7 @@ export const LivePlanetaryTracker: React.FC = () => {
   // Calculate planetary influence and display data
   const updatePlanetaryDisplay = async () => {
     try {
-      const influence = await getPlanetaryInfluence();
+      const influence = await getPlanetaryInfluencers();
       const currentTime = new Date();
 
       // Calculate time remaining in current planetary hour (approximately 1 hour)

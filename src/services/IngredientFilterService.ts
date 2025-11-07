@@ -75,7 +75,7 @@ export class IngredientFilterService {
   private constructor() {
     // Initialize with all available ingredient data
     this.allIngredients = {
-      [INGREDIENT_GROUPS.PROTEINS]: _proteins as Record<
+      [INGREDIENT_GROUPS.PROTEINS]: __proteins as Record<
         string,
         IngredientMapping
       >,
