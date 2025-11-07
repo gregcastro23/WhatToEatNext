@@ -2,6 +2,7 @@
 
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Cuisine } from "./cuisines";
+import type { Recipe } from "@/types/recipe";
 
 // Properties that describe food characteristics
 export type FoodProperty =
@@ -122,12 +123,12 @@ export function findComplementaryDishes(
   currentEntries: FoodEntry[],
   availableDishes: Record<string, Cuisine>,
   targetProperties: FoodProperty[],
-): Dish[] {
+): Recipe[] {
   // Get current nutritional totals
   const currentNutrition = calculateNutritionalBalance(currentEntries);
 
   // Find dishes that help balance nutrition and properties
-  const recommendations: Dish[] = [];
+  const recommendations: Recipe[] = [];
 
   Object.values(availableDishes).forEach((cuisine) => {
     if (cuisine.dishes) {
@@ -177,7 +178,7 @@ export function findComplementaryDishes(
 }
 
 export interface MealRecommendation {
-  dish: Dish;
+  dish: Recipe;
   reasons: string[];
   nutritionalBenefits: string[];
   propertyBalance: string[];

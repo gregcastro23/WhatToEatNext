@@ -264,7 +264,7 @@ export function useRecommendationAnalytics(
 /**
  * Hook for tracking component performance
  */
-export function usePerformanceTracking(_componentName: string) {
+export function usePerformanceTracking(componentName: string) {
   const [, { startTiming, recordLoadTime }] = useRecommendationAnalytics({
     enablePerformanceTracking: true,
     enableCaching: false,

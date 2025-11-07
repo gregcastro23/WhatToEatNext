@@ -1,5 +1,8 @@
 // Combines all cuisine matrix files into a unified cuisine pairing API
 
+import { _grainCuisineMatrix } from "./grainCuisineMatrix";
+import { _herbCuisineMatrix } from "./herbCuisineMatrix";
+
 type IngredientCategory = "grain" | "herb" | "spice" | "protein" | "vegetable";
 /**
  * Get cuisine pairings for a specific ingredient
