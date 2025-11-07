@@ -167,7 +167,7 @@ export const zodiacSigns: any[] = [
 
 // Utility function to validate zodiac sign
 export function isValidZodiacSign(sign: string): sign is ZodiacSign {
-  return zodiacSigns.includes(sign as unknown);
+  return zodiacSigns.includes(sign as any);
 }
 
 export interface PlanetPositionData {
@@ -396,14 +396,15 @@ export async function calculatePlanetaryPositions(
 
       // Format each planet's position with enhanced accuracy
       Object.entries(positions).forEach(([planet, data]) => {
-        const { sign, degree } = getSignFromLongitude(data.exactLongitude);
+        const planetData = data as any;
+        const { sign, degree } = getSignFromLongitude(planetData.exactLongitude);
 
         formattedPositions[planet] = {
-          sign: sign as unknown, // Cast string to ZodiacSign
+          sign: sign as any, // Cast string to ZodiacSign
           degree: parseFloat(degree.toFixed(4)), // Increased precision to 4 decimal places
           minute: Math.round((degree % 1) * 60), // Minute calculation
-          exactLongitude: data.exactLongitude,
-          isRetrograde: data.isRetrograde,
+          exactLongitude: planetData.exactLongitude,
+          isRetrograde: planetData.isRetrograde,
           // Add VSOP87 accuracy metadata
           accuracy: planet === "Sun" ? "VSOP87 ±0.01°" : "Astronomy Engine",
           calculation_method:
@@ -432,14 +433,15 @@ export async function calculatePlanetaryPositions(
 
         // Format each planet's position
         Object.entries(positions).forEach(([planet, data]) => {
-          const { sign, degree } = getSignFromLongitude(data.exactLongitude);
+          const planetData = data as any;
+          const { sign, degree } = getSignFromLongitude(planetData.exactLongitude);
 
           formattedPositions[planet] = {
-            sign: sign as unknown, // Cast string to ZodiacSign
+            sign: sign as any, // Cast string to ZodiacSign
             degree: parseFloat(degree.toFixed(3)),
             minute: Math.round((degree % 1) * 60), // Add minute calculation
-            exactLongitude: data.exactLongitude,
-            isRetrograde: data.isRetrograde,
+            exactLongitude: planetData.exactLongitude,
+            isRetrograde: planetData.isRetrograde,
             accuracy: "Astronomy Engine fallback",
             calculation_method: "Standard astronomical calculation",
           };
@@ -972,7 +974,7 @@ export function calculateEnhancedStelliumEffects(
     if (planets.length >= 3) {
       // Get the element of the sign
       const element = getZodiacElement(
-        sign as unknown,
+        sign as any,
       ).toLowerCase() as keyof LowercaseElementalProperties;
 
       // 1. Add bonus of +n of the sign element (n = number of planets)
@@ -1271,8 +1273,8 @@ export function calculateCompleteAstrologicalEffects(
 
   // Process each planet for dignity
   for (const [planet, position] of Object.entries(planetPositions)) {
-    const dignity = getPlanetaryDignity(planet, position.sign as unknown); // Cast to ZodiacSign
-    const element = getZodiacElement(position.sign as unknown).toLowerCase();
+    const dignity = getPlanetaryDignity(planet, position.sign as any); // Cast to ZodiacSign
+    const element = getZodiacElement(position.sign as any).toLowerCase();
 
     // Apply dignity strength based on type
     dignityEffects[element as keyof LowercaseElementalProperties] +=
@@ -1614,8 +1616,8 @@ export function calculateAspects(
           const strength = 1 - orb / definition.maxOrb;
 
           // Get element of the sign for each planet
-          const element1 = getZodiacElement(pos1.sign as unknown).toLowerCase();
-          const element2 = getZodiacElement(pos2.sign as unknown).toLowerCase();
+          const element1 = getZodiacElement(pos1.sign as any).toLowerCase();
+          const element2 = getZodiacElement(pos2.sign as any).toLowerCase();
 
           // Base multiplier from definition;
           let { multiplier } = definition;

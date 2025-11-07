@@ -227,7 +227,7 @@ export class ElementalCalculator {
       } else if (hasTropical) {
         // Nested within tropical
         const positionsData = positions as any;
-        const tropicalData = positionsData.tropical as unknown;
+        const tropicalData = positionsData.tropical as any;
         const celestialBodies = tropicalData.CelestialBodies;
         if (celestialBodies) {
           this.processCelestialBodies(celestialBodies, elementalValues);
@@ -425,7 +425,7 @@ export class ElementalCalculator {
   private objectLooksPlanetLike(obj: unknown, planetNames: string[]): boolean {
     // Check for typical planet properties
     if (!obj) return false;
-    const objRecord = obj as unknown;
+    const objRecord = obj as any;
 
     // Has sign property directly
     if (objRecord.sign || objRecord.Sign) return true;

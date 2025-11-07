@@ -65,7 +65,7 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
 
 // Helper function to adapt cuisines to the Cuisine interface format
 function adaptCuisine(cuisine: unknown): AlchemyCuisine {
-  const cuisineData = cuisine;
+  const cuisineData = cuisine as any;
   return {
     ...cuisineData,
     // Convert elementalProperties if present,
