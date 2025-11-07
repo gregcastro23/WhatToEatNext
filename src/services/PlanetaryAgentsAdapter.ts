@@ -446,7 +446,7 @@ export class PlanetaryAgentsAdapter {
       data: {
         harmony: 0.75,
         powerAmplification: 1.2,
-        momentumFlow: "harmonious",
+        momentumFlow: "sustained" as any,
         groupResonance: 0.8,
         individualContributions,
       },

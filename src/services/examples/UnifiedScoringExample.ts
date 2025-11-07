@@ -263,7 +263,7 @@ export class UnifiedScoringExample {
         type: "ingredient",
         elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.4, Air: 0.3 },
         planetaryRulers: ["Jupiter"],
-        seasonality: ["autumn"],
+        seasonality: ["fall"],
       },
     };
 

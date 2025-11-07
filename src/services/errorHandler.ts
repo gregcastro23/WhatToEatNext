@@ -165,7 +165,7 @@ class ErrorHandlerService {
   handleError(error: unknown, context?: unknown): void {
     // Delegate to the main log method with proper options
     this.log(error, {
-      context: context || "unknown",
+      context: (context || "unknown") as any,
       type: ErrorType.UNKNOWN,
       severity: ErrorSeverity.ERROR,
     });

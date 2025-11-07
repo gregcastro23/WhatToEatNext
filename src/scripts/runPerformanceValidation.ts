@@ -351,7 +351,7 @@ function parseArgs(): CLIOptions {
     const arg = args[i];
 
     if (!arg.startsWith("--")) {
-      options.command = arg as unknown;
+      options.command = arg as any;
       continue;
     }
 
