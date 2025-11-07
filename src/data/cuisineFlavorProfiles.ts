@@ -1098,7 +1098,7 @@ export function getRecipesForCuisineMatch(
 
     // Direct exact cuisine matches (highest priority)
     const exactCuisineMatches = recipes.filter((recipe) => {
-      const recipeData = recipe;
+      const recipeData = recipe as any;
       const cuisine = String(recipeData.cuisine || "");
       return (
         cuisine.toLowerCase() === normalizedCuisineName ||
@@ -1113,7 +1113,7 @@ export function getRecipesForCuisineMatch(
 
     // Regional variant matches
     const regionalMatches = recipes.filter((recipe) => {
-      const recipeData = recipe;
+      const recipeData = recipe as any;
       const regionalCuisine = String(recipeData.regionalCuisine || "");
       return (
         !exactCuisineMatches.includes(recipe) &&
@@ -1147,7 +1147,7 @@ export function getRecipesForCuisineMatch(
       scoredOtherRecipes = otherRecipes
         .map((recipe) => {
           try {
-            const recipeData = recipe;
+            const recipeData = recipe as any;
             const scoreComponents: number[] = [];
             let totalWeight = 0;
 
@@ -1163,9 +1163,9 @@ export function getRecipesForCuisineMatch(
 
             // Ingredient similarity (weight: 0.3)
             if (cuisineProfile.signatureIngredients && recipeData.ingredients) {
-              const ingredients = recipeData.ingredients as unknown[];
-              const recipeIngredientNames = ingredients.map((ing: unknown) => {
-                const ingData = ing;
+              const ingredients = recipeData.ingredients as any[];
+              const recipeIngredientNames = ingredients.map((ing: any) => {
+                const ingData = ing as any;
                 return typeof ing === "string"
                   ? ing.toLowerCase()
                   : String(ingData.name || "").toLowerCase();
@@ -1191,7 +1191,7 @@ export function getRecipesForCuisineMatch(
               cuisineProfile.signatureTechniques &&
               recipeData.cookingMethods
             ) {
-              const cookingMethods = recipeData.cookingMethods as unknown;
+              const cookingMethods = recipeData.cookingMethods as any;
               const recipeTechniques = Array.isArray(cookingMethods)
                 ? (cookingMethods as string[]).map((tech: string) =>
                     String(tech || "").toLowerCase(),
@@ -1219,7 +1219,7 @@ export function getRecipesForCuisineMatch(
             ) {
               const elementScore = calculateSimilarityScore(
                 cuisineProfile.elementalAlignment,
-                recipeData.elementalProperties as ElementalProperties,
+                recipeData.elementalProperties as any,
               );
               scoreComponents.push(elementScore * 0.1);
               totalWeight += 0.1;

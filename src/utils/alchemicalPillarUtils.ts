@@ -224,7 +224,7 @@ export function applyPillarTransformation(
   // Also apply elemental effects if the item has elemental properties and the pillar has elemental associations
   if (pillar?.elementalAssociations) {
     const pillarData = pillar as unknown as any;
-    const elementalAssociations = pillarData.elementalAssociations as unknown;
+    const elementalAssociations = pillarData.elementalAssociations as any;
     const primaryElement = elementalAssociations.primary;
     const secondaryElement = elementalAssociations.secondary;
 
@@ -529,7 +529,7 @@ const getMethodCompatibility = (
 
   if ((pillar as unknown as any).elementalAssociations) {
     const elementalAssociations = (pillar as unknown as any)
-      .elementalAssociations as unknown;
+      .elementalAssociations as any;
     logger.debug(`- Primary Element: ${elementalAssociations.primary}`);
     if (elementalAssociations.secondary) {
       logger.debug(`- Secondary Element: ${elementalAssociations.secondary}`);
@@ -561,7 +561,7 @@ const getMethodCompatibility = (
     (pillar as unknown as any).elementalAssociations
   ) {
     const elementalAssociations = (pillar as unknown as any)
-      .elementalAssociations as unknown;
+      .elementalAssociations as any;
     const primaryElement = elementalAssociations.primary;
 
     // Primary element match (case insensitive)
@@ -611,7 +611,7 @@ const getMethodCompatibility = (
     (pillar as unknown as any).elementalAssociations
   ) {
     const elementalAssociations = (pillar as unknown as any)
-      .elementalAssociations as unknown;
+      .elementalAssociations as any;
     const primaryElement = String(
       elementalAssociations.primary || "",
     ).toLowerCase();
@@ -798,7 +798,7 @@ export const _getHolisticCookingRecommendations = async (
       if ((pillar as unknown as any).elementalAssociations) {
         const pillarData = pillar as unknown as any;
         const elementalAssociations =
-          pillarData.elementalAssociations as unknown;
+          pillarData.elementalAssociations as any;
         const elements = [String(elementalAssociations.primary || "")];
         if (elementalAssociations.secondary) {
           (elements as unknown[]).push(String(elementalAssociations.secondary));

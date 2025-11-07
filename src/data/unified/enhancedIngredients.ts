@@ -871,7 +871,7 @@ export class EnhancedIngredientsSystem {
   ): EnhancedIngredient["nutritionalProfile"] {
     // Use existing nutritional profile if available
     if (ingredient.nutritionalProfile) {
-      const existingProfile = ingredient.nutritionalProfile as unknown;
+      const existingProfile = ingredient.nutritionalProfile as any;
       return {
         serving_size: String(existingProfile.servingSize || "100g"),
         calories: Number(existingProfile.calories || 0),

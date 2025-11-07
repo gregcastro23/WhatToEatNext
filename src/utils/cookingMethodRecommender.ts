@@ -1149,7 +1149,7 @@ export async function getRecommendedCookingMethods(
 
     // Lunar phase influence (new component)
     if (lunarPhase) {
-      const methodData = method as unknown;
+      const methodData = method as any;
       const methodNameLower = String(methodData.name || "").toLowerCase();
       // New moon favors starting new methods, preparation methods
       if (lunarPhase === "new moon") {
@@ -1208,7 +1208,7 @@ export async function getRecommendedCookingMethods(
     if (isVenusActive) {
       // Check if method aligns with Venus culinary techniques
       if (venusData.PlanetSpecific?.CulinaryTechniques) {
-        const methodData = method as unknown;
+        const methodData = method as any;
         const methodNameLower = String(methodData.name || "").toLowerCase();
         const methodDescLower = String(
           methodData.description || "",
@@ -1286,7 +1286,7 @@ export async function getRecommendedCookingMethods(
         const foodFocus = String(
           venusTemperament.FoodFocus || "",
         ).toLowerCase();
-        const methodData = method as unknown;
+        const methodData = method as any;
         const methodName = String(methodData.name || "").toLowerCase();
         const methodDesc = String(methodData.description || "").toLowerCase();
 
@@ -1320,7 +1320,7 @@ export async function getRecommendedCookingMethods(
         // Check food focus alignment
         if (venusZodiacTransit.FoodFocus) {
           const transitFocus = venusZodiacTransit.FoodFocus.toLowerCase();
-          const methodData = method as unknown;
+          const methodData = method as any;
           const methodDesc =
             typeof methodData.description === "string"
               ? methodData.description.toLowerCase()
@@ -1371,7 +1371,7 @@ export async function getRecommendedCookingMethods(
         if (foodFocus) {
           const retroFocus =
             typeof foodFocus === "string" ? foodFocus.toLowerCase() : "";
-          const methodData = method as unknown;
+          const methodData = method as any;
           const methodName =
             typeof methodData.name === "string"
               ? methodData.name.toLowerCase()
@@ -1441,7 +1441,7 @@ export async function getRecommendedCookingMethods(
       };
 
       for (const [methodName, boost] of Object.entries(venusMethodBoosts)) {
-        const methodData = method as unknown;
+        const methodData = method as any;
         const methodNameStr =
           typeof methodData.name === "string"
             ? methodData.name.toLowerCase()
@@ -1476,7 +1476,7 @@ export async function getRecommendedCookingMethods(
 
     // Capture detailed scoring components for transparency
     // Extract method data with safe property access
-    const methodData = method as unknown;
+    const methodData = method as any;
     const scoreDetails = {
       elemental: elementalScore * 0.4,
       astrological: astrologicalScore * 0.25,

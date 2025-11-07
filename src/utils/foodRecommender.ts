@@ -26,11 +26,11 @@ import type { Modality, Planet } from "@/types/celestial";
 
 // Create eggs and dairy from _proteins by filtering category
 const eggs = Object.entries(_proteins)
-  .filter(([_, value]) => value.category === "egg")
+  .filter(([_, value]) => (value as any).category === "egg")
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 const dairy = Object.entries(_proteins)
-  .filter(([_, value]) => value.category === "dairy")
+  .filter(([_, value]) => (value as any).category === "dairy")
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export interface EnhancedIngredient {
@@ -806,7 +806,7 @@ export const getRecommendedIngredients = (
         Object.entries(adjustment.elementalBoost).forEach(
           ([element, boost]) => {
             if (standardized.elementalProperties[element as any] > 0.3) {
-              seasonalScore = Math.min(1, seasonalScore + boost * 0.1);
+              seasonalScore = Math.min(1, seasonalScore + (boost as any) * 0.1);
             }
           },
         );
@@ -990,7 +990,7 @@ export const getRecommendedIngredients = (
     };
 
     if (standardized.sensoryProfile) {
-      const sensory = standardized.sensoryProfile as unknown;
+      const sensory = standardized.sensoryProfile as any;
 
       // Calculate weighted scores based on user preferences
       if (sensory.taste) {
@@ -999,7 +999,7 @@ export const getRecommendedIngredients = (
 
         // Weight taste dimensions based on user preferences
         Object.entries(sensory.taste).forEach(([taste, value]) => {
-          const tasteValue = value;
+          const tasteValue = value as any;
           const preference = tastePreferences[taste] || 0.5;
           tasteScore += tasteValue * preference;
           weightSum += preference;
