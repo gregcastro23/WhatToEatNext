@@ -204,8 +204,8 @@ export interface ElementalInteraction {
 
 // ========== MISSING TYPES FOR PHASE 8 ==========
 
-// Season type
-export type Season = "spring" | "summer" | "autumn" | "fall" | "winter" | "all";
+// Season type - import from central definition
+export type { Season } from "@/constants/seasons";
 // Alchemical calculation results
 export interface AlchemicalResult {
   elementalProperties: ElementalProperties;

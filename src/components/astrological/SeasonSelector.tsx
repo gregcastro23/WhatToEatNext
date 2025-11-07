@@ -20,28 +20,28 @@ interface SeasonSelectorProps {
   size?: "sm" | "md" | "lg";
 }
 
-const SEASONS = ["Spring", "Summer", "Autumn", "Winter"];
+const SEASONS = ["spring", "summer", "autumn", "winter"];
 
 const SEASON_INFO = {
-  Spring: {
+  spring: {
     icon: FaLeaf,
     color: "green",
     description: "Fresh growth, renewal, light flavors",
     ingredients: "Asparagus, peas, strawberries, herbs",
   },
-  Summer: {
+  summer: {
     icon: FaSun,
     color: "yellow",
     description: "Abundance, grilling, vibrant colors",
     ingredients: "Tomatoes, corn, berries, zucchini",
   },
-  Autumn: {
+  autumn: {
     icon: FaAutumnLeaf,
     color: "orange",
     description: "Harvest, warmth, hearty flavors",
     ingredients: "Squash, apples, root vegetables, spices",
   },
-  Winter: {
+  winter: {
     icon: FaSnowflake,
     color: "blue",
     description: "Comfort, warmth, preserved ingredients",

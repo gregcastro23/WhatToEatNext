@@ -133,7 +133,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       setLastUpdated(new Date());
     } catch (e: unknown) {
       logger.error("UnifiedContext: Failed to refresh data.", e);
-      setError(e.message || "An unknown error occurred.");
+      setError(e instanceof Error ? e.message : "An unknown error occurred.");
     } finally {
       setIsLoading(false);
     }

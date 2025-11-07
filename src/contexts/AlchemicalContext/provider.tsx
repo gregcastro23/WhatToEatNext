@@ -104,7 +104,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     const elementalProps = state.astrologicalState.elementalProperties;
     const entries = Object.entries(elementalProps);
     return entries.reduce(
-      (max, [element, value]) => (value > max.value ? { element, value } : max),
+      (max, [element, value]) => ((value as number) > max.value ? { element, value: value as number } : max),
       { element: "Fire", value: 0 },
     ).element;
   };
@@ -116,7 +116,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   // Helper function to calculate alchemical harmony
   const getAlchemicalHarmony = (): number => {
     const { elementalProperties } = state.astrologicalState;
-    const values = Object.values(elementalProperties);
+    const values = Object.values(elementalProperties) as number[];
     const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
     const variance =
       values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) /

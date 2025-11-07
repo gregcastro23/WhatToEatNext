@@ -71,7 +71,7 @@ export const _SEASONAL_TRANSITIONS = {
   },
 };
 
-export const VALID_SEASONS = ["Spring", "Summer", "Autumn", "Winter"] as const;
+export const VALID_SEASONS = ["spring", "summer", "autumn", "fall", "winter", "all"] as const;
 export type Season = (typeof VALID_SEASONS)[number];
 
 // Date ranges for each season

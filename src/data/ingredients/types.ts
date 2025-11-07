@@ -215,6 +215,7 @@ export interface IngredientMapping {
   astrologicalProfile?: {
     rulingPlanets?: string[];
     favorableZodiac?: any[];
+    seasonalAffinity?: string[];
     elementalAffinity?:
       | string
       | {

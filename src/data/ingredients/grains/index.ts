@@ -9,14 +9,14 @@ export const allGrains: Record<string, IngredientMapping> =
   fixIngredientMappings({
     ...wholeGrains,
     ...refinedGrains,
-    ...pseudoGrains,
+    ..._pseudoGrains,
   });
 
 // Fix the raw grains object with proper ingredient mapping structure
 const rawGrains = {
   ...wholeGrains,
   ...refinedGrains,
-  ...pseudoGrains,
+  ..._pseudoGrains,
 };
 
 // Apply the fix to ensure all required properties exist
@@ -65,6 +65,6 @@ export const _grainPreparationMethods = {
   },
 };
 
-export { wholeGrains, refinedGrains, pseudoGrains };
+export { wholeGrains, refinedGrains, _pseudoGrains as pseudoGrains };
 
 export default grains;

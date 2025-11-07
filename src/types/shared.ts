@@ -206,7 +206,7 @@ export interface ElementalScore {
  * Seasons of the year
  * Note: Both 'autumn' and 'fall' are included for flexibility
  */
-export type Season = "spring" | "summer" | "autumn" | "fall" | "winter";
+export type { Season } from "@/constants/seasons";
 // ========== UI COMPONENT TYPES ==========;
 
 /**

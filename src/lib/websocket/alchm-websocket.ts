@@ -2,6 +2,7 @@ export interface PlanetaryHourUpdate {
   planet: "Sun" | "Moon" | "Mercury" | "Venus" | "Mars" | "Jupiter" | "Saturn";
   start: string;
   end: string;
+  timestamp?: string;
 }
 
 export interface EnergyUpdate {

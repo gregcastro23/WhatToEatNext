@@ -121,6 +121,8 @@ export interface TemporalFoodRecommendation {
   note: string;
   powerLevel: number;
   dominantElement: keyof KineticsElementalTotals;
+  optimalMealTimes?: string[];
+  energyPhase?: string;
 }
 
 export interface AspectPhase {
@@ -137,6 +139,8 @@ export interface KineticMetrics {
   potentialDifference: number; // V = Greg's Energy / Q
   currentFlow: number; // I = Reactivity × (dQ/dt)
   power: number; // P = I × V
+  potential?: number; // Additional potential energy
+  base?: number; // Base kinetic value
   inertia: number; // 1 + (Matter + Earth + Substance/2) × modifier
   force: Record<Element, number>; // Per-element F (kinetic + electromagnetic)
   forceMagnitude: number; // sqrt(sum(F²))

@@ -74,7 +74,7 @@ const ZODIAC_SIGNS = [
   "Pisces",
 ];
 
-const SEASONS = ["Spring", "Summer", "Autumn", "Winter"];
+const SEASONS = ["spring", "summer", "autumn", "winter"];
 
 const ZODIAC_ELEMENTS = {
   Aries: "Fire",
@@ -92,10 +92,10 @@ const ZODIAC_ELEMENTS = {
 };
 
 const SEASON_ICONS = {
-  Spring: FaLeaf,
-  Summer: FaSun,
-  Autumn: FaLeaf,
-  Winter: FaSnowflake,
+  spring: FaLeaf,
+  summer: FaSun,
+  autumn: FaLeaf,
+  winter: FaSnowflake,
 };
 
 export const AstrologicalRecommendations: React.FC = () => {

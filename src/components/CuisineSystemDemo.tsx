@@ -344,7 +344,7 @@ const CuisineSystemDemo: React.FC = () => {
                       type="range"
                       min="0"
                       max="100"
-                      value={value * 100}
+                      value={(value as number) * 100}
                       onChange={(e) =>
                         handleElementalChange(
                           element as keyof ElementalProperties,
@@ -354,7 +354,7 @@ const CuisineSystemDemo: React.FC = () => {
                       className="flex-1"
                     />
                     <span className="w-12 text-right">
-                      {Math.round(value * 100)}%
+                      {Math.round((value as number) * 100)}%
                     </span>
                   </div>
                 ),

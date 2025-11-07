@@ -1,4 +1,4 @@
-export type LogLevel = "info" | "warn" | "error";
+export type LogLevel = "debug" | "info" | "warn" | "error";
 export class Logger {
   private readonly analyticsEndpoint: string | undefined =
     process.env.NEXT_PUBLIC_ANALYTICS_URL;
@@ -25,6 +25,22 @@ export class Logger {
         // swallow logging errors
       }
     }
+  }
+
+  debug(message: string, data?: unknown): Promise<void> {
+    return this.log("debug", message, data);
+  }
+
+  info(message: string, data?: unknown): Promise<void> {
+    return this.log("info", message, data);
+  }
+
+  warn(message: string, data?: unknown): Promise<void> {
+    return this.log("warn", message, data);
+  }
+
+  error(message: string, data?: unknown): Promise<void> {
+    return this.log("error", message, data);
   }
 }
 

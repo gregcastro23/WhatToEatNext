@@ -61,9 +61,9 @@ export default function AlchemizeDemoPage() {
   const {
     elementalProperties,
     thermodynamicProperties,
-    _kalchm,
-    _monica,
-    _score,
+    kalchm,
+    monica,
+    score,
     metadata,
   } = alchemicalResult;
 
@@ -150,19 +150,19 @@ export default function AlchemizeDemoPage() {
               <div className="flex items-center justify-between">
                 <span className="font-medium text-white">Kalchm (K_alchm)</span>
                 <span className="font-mono text-purple-300">
-                  {_kalchm.toFixed(4)}
+                  {kalchm.toFixed(4)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="font-medium text-white">Monica Constant</span>
                 <span className="font-mono text-cyan-300">
-                  {_monica.toFixed(4)}
+                  {monica.toFixed(4)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="font-medium text-white">Overall Score</span>
                 <span className="font-mono text-orange-300">
-                  {_score.toFixed(4)}
+                  {score.toFixed(4)}
                 </span>
               </div>
             </div>

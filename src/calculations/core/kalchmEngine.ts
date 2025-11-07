@@ -45,8 +45,10 @@ export interface ThermodynamicResults {
  */
 export interface KalchmResult {
   alchemicalProperties: AlchemicalProperties;
+  alchemicalCounts: AlchemicalProperties; // Alias for backward compatibility
   elementalValues: ElementalValues;
   thermodynamics: ThermodynamicResults;
+  thermodynamicResults?: ThermodynamicResults; // Alias for backward compatibility
   dominantElement: keyof ElementalValues;
   dominantProperty: keyof AlchemicalProperties;
   timestamp: string;

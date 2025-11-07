@@ -1,5 +1,5 @@
 // Common types used across the application
-export type Season = "spring" | "summer" | "autumn" | "winter";
+export type { Season } from "@/constants/seasons";
 export type ZodiacSign =
   | "aries"
   | "taurus"

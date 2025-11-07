@@ -101,7 +101,7 @@ function createIngredientMapping(
 export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   ...freshHerbs,
   ...driedHerbs,
-  ...aromaticHerbs,
+  ..._aromaticHerbs,
   ...medicinalHerbs,
 
   // Custom herbs
@@ -331,13 +331,13 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
 });
 
 // To ensure we're exporting all available herbs, explicitly export each collection
-export { aromaticHerbs, driedHerbs, freshHerbs, medicinalHerbs };
+export { _aromaticHerbs as aromaticHerbs, driedHerbs, freshHerbs, medicinalHerbs };
 
 // Create a comprehensive herb collection that includes all herb variants
 export const allHerbs = fixIngredientMappings({
   ...freshHerbs,
   ...driedHerbs,
-  ...aromaticHerbs,
+  ..._aromaticHerbs,
   ...medicinalHerbs,
 });
 

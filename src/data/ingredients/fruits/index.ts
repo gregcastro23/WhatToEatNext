@@ -12,13 +12,13 @@ export const fruits: Record<string, IngredientMapping> = fixIngredientMappings({
   ...citrus,
   ...berries,
   ...tropical,
-  ...stoneFruit,
+  ..._stoneFruit,
   ...pome,
   ...melons,
 });
 
 // Export individual categories
-export { berries, citrus, melons, pome, stoneFruit, tropical };
+export { berries, citrus, melons, pome, _stoneFruit as stoneFruit, tropical };
 
 // Helper functions
 export const getFruitsBySubCategory = (
