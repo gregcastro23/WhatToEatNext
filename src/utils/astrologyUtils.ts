@@ -465,8 +465,8 @@ export async function calculatePlanetaryPositions(
     Object.values(defaults).forEach((p) => {
       p.error = true;
       // Add accuracy metadata even for fallbacks
-      p.accuracy = "Default fallback positions";
-      p.calculation_method = "Static default values";
+      (p as any).accuracy = "Default fallback positions";
+      (p as any).calculation_method = "Static default values";
     });
 
     return defaults;
@@ -477,8 +477,8 @@ export async function calculatePlanetaryPositions(
     const defaults = getDefaultPlanetaryPositions();
     Object.values(defaults).forEach((p) => {
       p.error = true;
-      p.accuracy = "Emergency fallback";
-      p.calculation_method = "Critical failure recovery";
+      (p as any).accuracy = "Emergency fallback";
+      (p as any).calculation_method = "Critical failure recovery";
     });
 
     return defaults;
@@ -2716,7 +2716,7 @@ function calculateCurrentElementalInfluence(
     // Add influence from each planet
     Object.entries(planetaryPositions).forEach(([planet, data]) => {
       const weight = planetWeights[planet] || 0.5;
-      const sign = typeof data === "object" && data?.sign ? data.sign : "";
+      const sign = typeof data === "object" && (data as any)?.sign ? (data as any).sign : "";
 
       if (sign) {
         const element = getZodiacElement(sign.toLowerCase());
@@ -3015,7 +3015,7 @@ function calculatePlanetaryStrength(planetaryPositions: {
     Object.entries(planetaryPositions).forEach(([planet, data]) => {
       if (typeof data === "object" && data !== null) {
         // Check for retrograde (reduces strength)
-        const retrogradeModifier = data.isRetrograde ? 0.7 : 1.0;
+        const retrogradeModifier = (data as any).isRetrograde ? 0.7 : 1.0;
 
         // Base strength varies by planet;
         const basePlanetStrength: { [key: string]: number } = {

@@ -179,13 +179,14 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
   }
 
   // Try to get from elementalMapping if available
+  const elementalMapping = recipe.elementalMapping as any;
   if (
-    recipe.elementalMapping &&
-    recipe.elementalMapping.astrologicalInfluences &&
-    Array.isArray(recipe.elementalMapping.astrologicalInfluences)
+    elementalMapping &&
+    elementalMapping.astrologicalInfluences &&
+    Array.isArray(elementalMapping.astrologicalInfluences)
   ) {
-    return recipe.elementalMapping.astrologicalInfluences.filter(
-      (influence) => typeof influence === "string",
+    return elementalMapping.astrologicalInfluences.filter(
+      (influence: unknown) => typeof influence === "string",
     );
   }
 
@@ -208,14 +209,15 @@ export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
   }
 
   // Try to get from elementalMapping if available
+  const elementalMapping = recipe.elementalMapping as any;
   if (
-    recipe.elementalMapping &&
-    recipe.elementalMapping.astrologicalProfile &&
-    recipe.elementalMapping.astrologicalProfile.favorableZodiac &&
-    Array.isArray(recipe.elementalMapping.astrologicalProfile.favorableZodiac)
+    elementalMapping &&
+    elementalMapping.astrologicalProfile &&
+    elementalMapping.astrologicalProfile.favorableZodiac &&
+    Array.isArray(elementalMapping.astrologicalProfile.favorableZodiac)
   ) {
-    return recipe.elementalMapping.astrologicalProfile.favorableZodiac.filter(
-      (zodiac) => typeof zodiac === "string",
+    return elementalMapping.astrologicalProfile.favorableZodiac.filter(
+      (zodiac: unknown) => typeof zodiac === "string",
     );
   }
 

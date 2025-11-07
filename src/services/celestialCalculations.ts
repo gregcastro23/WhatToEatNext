@@ -196,7 +196,7 @@ class CelestialCalculator {
   calculateCurrentInfluences(): CelestialAlignment {
     try {
       // Try to get from cache first
-      const cached = cache.get(this.CACHE_KEY);
+      const cached = cache.get(this.CACHE_KEY) as CelestialAlignment | null;
       if (cached) {
         // Ensure cached data has astrologicalInfluences
         if (

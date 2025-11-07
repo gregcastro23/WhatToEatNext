@@ -316,7 +316,7 @@ export class AlchemicalEngine {
       (Object.entries(properties1).sort(
         ([, a], [, b]) => b - a,
       )[0]?.[0] as Element) || "Fire";
-    const affinity = this.advanced.getElementalAffinity(
+    const affinity = (this.advanced as any).getElementalAffinity(
       _dominantElement,
       _dominantElement,
     ); // Use dominant element for both
@@ -348,7 +348,7 @@ export class AlchemicalEngine {
     astroState: AstrologicalState,
     _birthInfo?: unknown, // optional, legacy signature
   ) {
-    return this.advanced.calculateRecipeHarmony(
+    return (this.advanced as any).calculateRecipeHarmony(
       recipeName,
       userElements,
       astroState,
@@ -359,7 +359,7 @@ export class AlchemicalEngine {
     recipeSunSign: any,
     astrologicalState: AstrologicalState,
   ) {
-    return this.advanced.calculateAstrologicalPower(
+    return (this.advanced as any).calculateAstrologicalPower(
       recipeSunSign,
       astrologicalState,
     );
@@ -369,17 +369,17 @@ export class AlchemicalEngine {
     element1: keyof ElementalProperties,
     element2: keyof ElementalProperties,
   ) {
-    return this.advanced.getElementalAffinity(element1, element2);
+    return (this.advanced as any).getElementalAffinity(element1, element2);
   }
 
   calculateNaturalInfluences(params: unknown) {
-    return this.advanced.calculateNaturalInfluences(
+    return (this.advanced as any).calculateNaturalInfluences(
       params as NaturalInfluenceParams,
     );
   }
 
   getElementRanking(elementObject: Record<string, number>) {
-    return this.advanced.getElementRanking(elementObject);
+    return (this.advanced as any).getElementRanking(elementObject);
   }
 
   combineElementObjects(
@@ -397,7 +397,7 @@ export class AlchemicalEngine {
         Earth: elementObject1.Earth * weight1 + elementObject2.Earth * weight2,
       };
     }
-    return this.advanced.combineElementObjects(elementObject1, elementObject2);
+    return (this.advanced as any).combineElementObjects(elementObject1, elementObject2);
   }
 }
 
