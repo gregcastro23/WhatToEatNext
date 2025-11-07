@@ -216,7 +216,7 @@ export function calculateSunSign(date: Date = new Date()): any {
  * @param degree Degree within the sign (0-29.99)
  * @returns Absolute position in degrees (0-359)
  */
-export function getZodiacPositionInDegrees(sign: any, _degree: number): number {
+export function getZodiacPositionInDegrees(sign: any, degree: number): number {
   const signIndex = ZODIAC_SIGNS.indexOf(sign);
   if (signIndex === -1) {
     logger.warn(`Unknown sign: ${sign}, falling back to Aries`);
@@ -287,7 +287,7 @@ export function calculatePlanetaryAspects(
  * @returns Aspect type and orb if aspect exists, null otherwise
  */
 export function identifyAspect(
-  _angleDiff: number,
+  angleDiff: number,
 ): { type: AspectType; orb: number } | null {
   const aspects = [
     { type: "conjunction" as AspectType, angle: 0, maxOrb: 10 },
@@ -318,8 +318,8 @@ export function identifyAspect(
  * @returns Strength value (0-10)
  */
 export function calculateAspectStrength(
-  _type: AspectType,
-  _orb: number,
+  type: AspectType,
+  orb: number,
 ): number {
   const baseStrengths = {
     conjunction: 10,
@@ -423,7 +423,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
  * @returns Count of each element
  */
 function countElements(
-  _positions: Record<string, _CelestialPosition>,
+  positions: Record<string, CelestialPosition>,
 ): Record<string, number> {
   const elements: Record<string, number> = {
     _fire: 0,
@@ -480,7 +480,7 @@ function countElements(
  * @param elements Record of element counts
  * @returns Dominant element
  */
-function getDominantElement(elements: Record<string, _number>): string {
+function getDominantElement(elements: Record<string, number>): string {
   let maxElement = "balanced";
   let maxCount = 0;
 

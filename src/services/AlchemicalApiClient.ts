@@ -9,6 +9,7 @@
  */
 
 import type { ElementalProperties } from "@/types/alchemy";
+import { _logger } from "@/lib/logger";
 
 // Backend service configuration
 const API_CONFIG = {
