@@ -9,6 +9,7 @@ import type {
   ZodiacSign,
 } from "@/types/celestial";
 import { normalizePlanetaryPositions } from "@/utils/astrology/core";
+import { _logger } from "@/lib/logger";
 
 /**
  * AstrologyService

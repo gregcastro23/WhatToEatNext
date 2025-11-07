@@ -1,6 +1,8 @@
 import { log } from "@/services/LoggingService";
+import { planetaryPositionsService } from "@/services/PlanetaryPositionsService";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { useCallback, useEffect, useState } from "react";
+import { _logger } from "@/lib/logger";
 
 interface PlanetaryPositionsState {
   positions: { [key: string]: PlanetPosition } | null;

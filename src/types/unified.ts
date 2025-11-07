@@ -437,9 +437,9 @@ export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
-export type RequiredFields<TK extends keyof T> = T & Required<Pick<TK>>;
+export type RequiredFields<T, TK extends keyof T> = T & Required<Pick<T, TK>>;
 
-export type OptionalFields<TK extends keyof T> = Omit<TK> & Partial<Pick<TK>>;
+export type OptionalFields<T, TK extends keyof T> = Omit<T, TK> & Partial<Pick<T, TK>>;
 
 export type Nullable<T> = T | null;
 

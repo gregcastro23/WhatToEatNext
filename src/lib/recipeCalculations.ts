@@ -1,3 +1,6 @@
+import { SUIT_TO_ELEMENT } from "@/utils/tarotMappings";
+import { _logger } from "@/lib/logger";
+
 // Local interface for a tarot card used in recipes
 interface RecipeTarotCard {
   name: string;
@@ -95,7 +98,7 @@ export async function getRecipesForTarotCard(
 
     return matchingRecipes;
   } catch (error) {
-    logger.error("Error getting recipes for tarot card: ", error);
+    _logger.error("Error getting recipes for tarot card: ", error);
     return defaultRecipes;
   }
 }

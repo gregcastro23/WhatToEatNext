@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { AstrologicalService } from "@/services/AstrologicalService";
 import { log } from "@/services/LoggingService";
+import { _logger } from "@/lib/logger";
 
 interface AstrologizeOptions {
   useCurrentTime?: boolean;
@@ -27,7 +28,7 @@ interface AstrologizeResult {
  * @returns Result with loading state, error, data, and refetch function
  */
 export function useAstrologize(
-  _options: AstrologizeOptions = {},
+  options: AstrologizeOptions = {},
 ): AstrologizeResult {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);

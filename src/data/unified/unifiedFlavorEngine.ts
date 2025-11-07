@@ -5,6 +5,7 @@ import type {
   Season,
 } from "@/types/alchemy";
 import * as flavorProfileMigration from "./flavorProfileMigration";
+import { _logger } from "@/lib/logger";
 
 // ===== UNIFIED INTERFACES =====;
 
