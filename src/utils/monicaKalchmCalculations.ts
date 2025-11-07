@@ -421,7 +421,8 @@ export function calculateMonicaWithBField(
   const baseMonica = calculateMonicaConstant(gregsEnergy, reactivity, K_alchm);
 
   // Apply B-field (Monica field) modulation
-  const monicaField = kinetics.monica || 1.0;
+  const kineticsData = kinetics as any;
+  const monicaField = kineticsData.monica || 1.0;
   const fieldInfluence = Math.pow(monicaField, 0.3); // Cube root for subtle influence
 
   // Modulate based on force classification
@@ -486,8 +487,9 @@ export function calculateThermodynamicMetricsWithKinetics(
     const kinetics = calculateKinetics(planetaryPositions);
 
     // Enhance metrics with kinetics
+    const kineticsData = kinetics as any;
     const enhancedMetrics: ThermodynamicMetrics = {
-      heat: baseMetrics.heat * (1 + kinetics.velocityBoost * 0.1),
+      heat: baseMetrics.heat * (1 + kineticsData.velocityBoost * 0.1),
       entropy:
         baseMetrics.entropy * (kinetics.aspectPhase === "square" ? 1.2 : 0.9),
       reactivity: baseMetrics.reactivity * (kinetics.forceMagnitude / 5 + 0.8),

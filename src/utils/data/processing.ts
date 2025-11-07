@@ -621,12 +621,13 @@ function validateAstrologicalProfile(
   }
 
   // Safe property access for AstrologicalProfile properties
-  const { elementalAffinity } = profile as unknown;
+  const profileData = profile as any;
+  const { elementalAffinity } = profileData;
   if (!(elementalAffinity as any).base) {
     errors.push("Elemental affinity is required");
   }
 
-  const { rulingPlanets } = profile as unknown;
+  const { rulingPlanets } = profileData;
   if (!Array.isArray(rulingPlanets)) {
     errors.push("Ruling planets must be an array");
   }

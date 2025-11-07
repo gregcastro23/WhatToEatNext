@@ -46,11 +46,12 @@ export function getCurrentPlanetaryPositions(): {
 
     for (const [planetName, position] of Object.entries(apiPositions)) {
       if (position && typeof position === "object" && "sign" in position) {
+        const posData = position as any;
         convertedPositions[planetName] = {
-          sign: position.sign as string,
-          degree: position.degree || 0,
-          exactLongitude: position.exactLongitude || 0,
-          isRetrograde: position.isRetrograde || false,
+          sign: posData.sign as string,
+          degree: posData.degree || 0,
+          exactLongitude: posData.exactLongitude || 0,
+          isRetrograde: posData.isRetrograde || false,
         };
       }
     }

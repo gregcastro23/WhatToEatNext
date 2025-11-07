@@ -1128,18 +1128,19 @@ export class UnifiedSeasonalSystem {
     }
 
     // Monica compatibility
+    const methodData = method as any;
     if (
       targetMonica !== undefined &&
-      !isNaN((method as unknown)?.monicaConstant)
+      !isNaN(methodData.monicaConstant)
     ) {
       const monicaDifference = Math.abs(
-        (method as unknown).monicaConstant - targetMonica,
+        methodData.monicaConstant - targetMonica,
       );
       score += Math.max(0, 1 - monicaDifference);
     }
 
     // Elemental compatibility
-    const methodElement = (method as unknown)?.alchemicalPillar
+    const methodElement = methodData.alchemicalPillar
       ?.elementalAssociations?.primary;
     if (methodElement) {
       const elementalScore =
@@ -1167,9 +1168,10 @@ export class UnifiedSeasonalSystem {
     let validMethods = 0;
 
     for (const method of cookingMethods) {
-      if (!isNaN((method as unknown)?.monicaConstant)) {
+      const methodData = method as any;
+      if (!isNaN(methodData.monicaConstant)) {
         const monicaDifference = Math.abs(
-          (method as unknown).monicaConstant - targetMonica,
+          methodData.monicaConstant - targetMonica,
         );
         const methodOptimization = Math.max(0, 1 - monicaDifference);
 

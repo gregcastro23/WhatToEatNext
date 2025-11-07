@@ -44,7 +44,7 @@ const _: Recipe = {
 
 // Helper function to adapt ElementalProperties from cuisine.ts to alchemy.ts format
 function adaptElementalProperties(props: unknown): ElementalProperties {
-  const propsData = props;
+  const propsData = props as any;
   // If it already has the index signature, return as is
   if (
     propsData &&

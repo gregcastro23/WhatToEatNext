@@ -310,8 +310,9 @@ export class SteeringFileIntelligence {
 
     // Count elements from planetary positions
     Object.values(planetaryPositions).forEach((position: unknown) => {
-      if (position?.sign && zodiacElementMap[(position as any)?.sign]) {
-        elementCounts[zodiacElementMap[(position as any)?.sign]]++;
+      const posData = position as any;
+      if (posData?.sign && zodiacElementMap[posData.sign]) {
+        elementCounts[zodiacElementMap[posData.sign]]++;
       }
     });
 
@@ -344,8 +345,9 @@ export class SteeringFileIntelligence {
 
     // Count elements from planetary positions
     Object.values(planetaryPositions).forEach((position: unknown) => {
-      if (position?.sign && zodiacElementMap[(position as any)?.sign]) {
-        elementCounts[zodiacElementMap[(position as any)?.sign]]++;
+      const posData = position as any;
+      if (posData?.sign && zodiacElementMap[posData.sign]) {
+        elementCounts[zodiacElementMap[posData.sign]]++;
       }
     });
 

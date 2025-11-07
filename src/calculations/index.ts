@@ -236,7 +236,7 @@ export class UnifiedCalculationEngine {
         essence: kalchmResult.alchemicalCounts.Essence,
         matter: kalchmResult.alchemicalCounts.Matter,
         substance: kalchmResult.alchemicalCounts.Substance,
-        energy: gregsEnergy.energy,
+        energy: (gregsEnergy as any).energy,
 
         // Elemental Properties
         elements: elementalProperties,
@@ -247,8 +247,8 @@ export class UnifiedCalculationEngine {
         // Planetary Influences
         planetaryInfluence: {
           dominantPlanet: planetaryInfluence.dominantPlanet || "Sun",
-          planetaryStrength: planetaryInfluence.strength || 1,
-          aspectHarmony: planetaryInfluence.aspectHarmony || 0.8,
+          planetaryStrength: (planetaryInfluence as any).strength || 1,
+          aspectHarmony: (planetaryInfluence as any).aspectHarmony || 0.8,
         },
 
         // Kinetics & Dynamics

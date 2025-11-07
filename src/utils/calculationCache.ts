@@ -70,11 +70,12 @@ export async function getCachedCalculation<T>(
  */
 export async function clearCalculationCache(cacheKey?: string): Promise<void> {
   try {
+    const cache = CacheService as any;
     if (cacheKey) {
-      await CacheService.delete(cacheKey);
+      await cache.delete(cacheKey);
       log.info(`Database cache cleared for ${cacheKey}`);
     } else {
-      await CacheService.clearExpired(); // Clear expired entries
+      await cache.clearExpired(); // Clear expired entries
       log.info("Database cache cleared (expired entries)");
     }
   } catch (error) {
@@ -91,7 +92,8 @@ export async function getCacheStats(): Promise<{
   expiredEntries: number;
 }> {
   try {
-    const stats = await CacheService.getStats();
+    const cache = CacheService as any;
+    const stats = await cache.getStats();
     return {
       totalEntries: stats.total,
       activeEntries: stats.active,

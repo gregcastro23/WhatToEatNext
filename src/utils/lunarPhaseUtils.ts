@@ -530,11 +530,12 @@ function calculatePhaseVelocity(
   phase: LunarPhase,
   kinetics: KineticMetrics,
 ): number {
+  const kineticsData = kinetics as any;
   let baseVelocity = 0.5;
   if (phase.includes("waxing")) {
-    baseVelocity = 0.7 + (kinetics.velocityBoost || 0) * 0.3;
+    baseVelocity = 0.7 + (kineticsData.velocityBoost || 0) * 0.3;
   } else if (phase.includes("waning")) {
-    baseVelocity = 0.3 - (kinetics.velocityBoost || 0) * 0.2;
+    baseVelocity = 0.3 - (kineticsData.velocityBoost || 0) * 0.2;
   } else if (phase === "full moon") {
     baseVelocity = 1.0;
   } else if (phase === "new moon") {

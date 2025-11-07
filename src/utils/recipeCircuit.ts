@@ -32,7 +32,8 @@ export function validateRecipeCircuit(
   kinetics: KineticMetrics,
   recipe: Recipe,
 ): CircuitValidationResult {
-  const { power, currentFlow, potentialDifference, entropy } = kinetics;
+  const kineticsData = kinetics as any;
+  const { power, currentFlow, potentialDifference, entropy } = kineticsData;
 
   // Input power
   const inputPower = power;
@@ -141,7 +142,8 @@ function calculateKineticsCompatibility(
   }
 
   // High force magnitude favors robust cooking methods
-  if (forceMagnitude > 3.0 && recipe.cookingMethods?.includes("grilling")) {
+  const cookingMethodsData = recipe.cookingMethods as any;
+  if (forceMagnitude > 3.0 && cookingMethodsData?.includes("grilling")) {
     compatibility += 0.15;
   }
 

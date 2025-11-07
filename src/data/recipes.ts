@@ -158,7 +158,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
           calculateFlavorProfile(primaryPlanetaryInfluences);
 
         // Handle dishes
-        const cuisineDataObj = cuisineData as unknown;
+        const cuisineDataObj = cuisineData as any;
         if (
           cuisineDataObj?.dishes &&
           typeof cuisineDataObj.dishes === "object"

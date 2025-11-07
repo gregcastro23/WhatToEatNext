@@ -71,23 +71,24 @@ function adaptIngredients(
   ingredients: RecipeData["ingredients"],
 ): RecipeIngredient[] {
   return ingredients.map((ingredient) => {
+    const ingredientData = ingredient as any;
     const recipeIngredient: RecipeIngredient = {
-      name: ingredient.name ?? "Unknown Ingredient",
-      amount: Number(ingredient.amount ?? 0),
-      unit: ingredient.unit ?? "",
+      name: ingredientData.name ?? "Unknown Ingredient",
+      amount: Number(ingredientData.amount ?? 0),
+      unit: ingredientData.unit ?? "",
     };
 
-    if (ingredient.optional !== undefined) {
-      recipeIngredient.optional = Boolean(ingredient.optional);
+    if (ingredientData.optional !== undefined) {
+      recipeIngredient.optional = Boolean(ingredientData.optional);
     }
-    if (ingredient.preparation) {
-      recipeIngredient.preparation = ingredient.preparation;
+    if (ingredientData.preparation) {
+      recipeIngredient.preparation = ingredientData.preparation;
     }
-    if (ingredient.category) {
-      recipeIngredient.category = ingredient.category;
+    if (ingredientData.category) {
+      recipeIngredient.category = ingredientData.category;
     }
-    if (ingredient.notes) {
-      recipeIngredient.notes = ingredient.notes;
+    if (ingredientData.notes) {
+      recipeIngredient.notes = ingredientData.notes;
     }
 
     return recipeIngredient;

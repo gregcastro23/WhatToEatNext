@@ -253,14 +253,15 @@ export async function PUT(request: NextRequest) {
     });
 
     const result = await forcePositionSync(targetDate);
+    const resultData = result as any;
 
     return NextResponse.json({
-      success: result.success,
+      success: resultData.success,
       message: "Enhanced forced synchronization completed",
-      synchronized_positions: result.synchronized_positions,
-      rectification_report: result.rectification_report,
-      planetary_agents_sync_status: result.planetary_agents_sync_status,
-      errors: result.errors,
+      synchronized_positions: resultData.synchronized_positions,
+      rectification_report: resultData.rectification_report,
+      planetary_agents_sync_status: resultData.planetary_agents_sync_status,
+      errors: resultData.errors,
       metadata: {
         sync_type: "forced",
         planetary_agents_integration: "enabled",

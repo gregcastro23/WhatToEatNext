@@ -232,7 +232,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
       if (key === "ascendant") return;
 
-      const planetData = data as { sign?: string; degree?: number };
+      const planetData = data as any;
       const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
         sign: planetData.sign || "Unknown",
@@ -297,7 +297,7 @@ export const useCurrentChart = () => {
       planets: Object.entries(context.chart.planetaryPositions).reduce(
         (acc, [key, data]) => {
           if (key === "ascendant") return acc;
-          const planetData = data as { sign?: string; degree?: number };
+          const planetData = data as any;
           const planetName = key.charAt(0).toUpperCase() + key.slice(1);
           acc[planetName] = {
             sign: planetData.sign || "Unknown",

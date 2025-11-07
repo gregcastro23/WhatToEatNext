@@ -546,8 +546,8 @@ function generateCompatibilityRecommendation(
   userDominant: keyof ElementalProperties,
 ): string {
   // Use safe type casting for string operations
-  const recipeDominantStr = recipeDominant.toLowerCase();
-  const userDominantStr = userDominant.toLowerCase();
+  const recipeDominantStr = (recipeDominant as string).toLowerCase();
+  const userDominantStr = (userDominant as string).toLowerCase();
   if (score >= 0.8) {
     return `Excellent match! This ${recipeDominantStr}-dominant recipe aligns perfectly with your ${userDominantStr} energy.`;
   } else if (score >= 0.6) {
