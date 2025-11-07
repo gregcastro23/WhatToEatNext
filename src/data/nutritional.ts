@@ -1,4 +1,5 @@
 import { log } from "@/services/LoggingService";
+import { _logger } from "@/lib/logger";
 
 // Define NutritionalProfile locally
 interface NutritionalProfile {
@@ -772,7 +773,7 @@ export function calculateNutritionalBalance(
 /**
  * Convert NutritionalProfile to elemental influences
  */
-export function nutritionalToElemental(_profile: NutritionalProfile): {
+export function nutritionalToElemental(profile: NutritionalProfile): {
   Fire: number;
   Water: number;
   Earth: number;
@@ -803,7 +804,8 @@ export function nutritionalToElemental(_profile: NutritionalProfile): {
   // Vitamins and minerals adjustments
   if (profile.vitamins) {
     const vitaminTotal = Object.values(profile.vitamins).reduce(
-      (sum, val) => sum + val0,
+      (sum, val) => sum + val,
+      0
     );
     fire += vitaminTotal * 0.1;
     air += vitaminTotal * 0.05;
@@ -811,7 +813,8 @@ export function nutritionalToElemental(_profile: NutritionalProfile): {
 
   if (profile.minerals) {
     const mineralTotal = Object.values(profile.minerals).reduce(
-      (sum, val) => sum + val0,
+      (sum, val) => sum + val,
+      0
     );
     earth += mineralTotal * 0.1;
     water += mineralTotal * 0.05;

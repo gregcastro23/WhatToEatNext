@@ -1,10 +1,10 @@
-import { _logger } from "@/lib/logger";
 import type { CuisineType } from "@/types/cuisine";
 import type {
   DietaryRestriction,
   ElementalProperties,
   Recipe,
 } from "@/types/recipe";
+import { isNonEmptyArray } from "@/utils/common/arrayUtils";
 import { createLogger } from "../logger";
 
 const _logger = createLogger("RecipeFiltering");
