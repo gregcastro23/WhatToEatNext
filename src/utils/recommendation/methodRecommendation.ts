@@ -616,8 +616,8 @@ export function getRecommendedCookingMethods(
 // ===== LUNAR AND ASPECT CALCULATIONS =====
 
 export function calculateLunarMethodAffinity(
-  _method: CookingMethodData,
-  _phase: LunarPhase,
+  method: CookingMethodData,
+  phase: LunarPhase,
 ): number {
   const lunarAffinities = {
     "new moon": ["ferment", "pickle", "cure", "preserve"],

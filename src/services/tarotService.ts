@@ -1,3 +1,5 @@
+import { _logger } from "@/lib/logger";
+
 const API_URL = "https://rws-cards-api.herokuapp.com/api/v1/cards";
 
 interface TarotCard {

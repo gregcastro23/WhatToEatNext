@@ -218,7 +218,7 @@ function calculateSeasonalScore(recipe: Recipe, season: Season): number {
   return seasonMatch ? 0.9 : 0.4;
 }
 
-function calculateWeekdayScore(_recipe: Recipe, _day: WeekDay): number {
+function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
   // Simple weekday scoring - could be enhanced with more sophisticated logic
   const weekdayPreferences: Record<WeekDay, string[]> = {
     Monday: ["energizing", "fresh", "light"],

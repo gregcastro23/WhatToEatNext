@@ -873,5 +873,5 @@ export function filterRecipesByIngredientMappings(
   // Filter out non-matches and sort by score
   return results
     .filter((result) => result.score > 0)
-    .sort((ab) => b.score - a.score);
+    .sort((a, b) => b.score - a.score);
 }
