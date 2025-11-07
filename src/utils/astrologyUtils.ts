@@ -916,7 +916,7 @@ export function calculateHousePosition(
  * @param sign Zodiac sign
  * @returns The ruling planet
  */
-export function getTraditionalRuler(_sign: string): string {
+export function getTraditionalRuler(sign: string): string {
   const rulers: Record<string, string> = {
     aries: "Mars",
     taurus: "Venus",
@@ -1314,7 +1314,7 @@ export function calculateCompleteAstrologicalEffects(
  * @param longitude The longitude in degrees (0-360)
  * @returns Object with zodiac sign and degree within sign
  */
-export function longitudeToZodiacPosition(_longitude: number): {
+export function longitudeToZodiacPosition(longitude: number): {
   sign: string;
   degree: number;
 } {

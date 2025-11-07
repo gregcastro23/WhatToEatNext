@@ -17,7 +17,9 @@ import { createElementalProperties } from "../../utils/elemental/elementalUtils"
 // Simple alchemical properties interface for this module
 // Import ingredient data from their original sources
 import { fruits } from "../ingredients/fruits";
+import { grains } from "../ingredients/grains";
 import { herbs } from "../ingredients/herbs";
+import { oils } from "../ingredients/oils";
 import { meats, plantBased, poultry, seafood } from "../ingredients/proteins";
 import { seasonings } from "../ingredients/seasonings";
 import { spices } from "../ingredients/spices";
@@ -300,12 +302,12 @@ export function getIngredientsBySubcategory(
  * Find ingredients with high Kalchm values
  */
 export function getHighKalchmIngredients(
-  _threshold = 1.5,
+  threshold = 1.5,
 ): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe number conversion for kalchm comparison,
   return Object.values(unifiedIngredients || {})
     .filter((ingredient) => Number(ingredient.kalchm || 0) > threshold)
-    .sort((ab) => Number(b.kalchm || 0) - Number(a.kalchm || 0));
+    .sort((a, b) => Number(b.kalchm || 0) - Number(a.kalchm || 0));
 }
 
 /**
@@ -321,7 +323,7 @@ export function getIngredientsByKalchmRange(
       const kalchm = Number(ingredient.kalchm || 0);
       return kalchm >= min && kalchm <= max;
     })
-    .sort((ab) => Number(b.kalchm || 0) - Number(a.kalchm || 0));
+    .sort((a, b) => Number(b.kalchm || 0) - Number(a.kalchm || 0));
 }
 
 /**
