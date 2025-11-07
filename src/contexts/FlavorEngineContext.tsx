@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { _logger } from "@/lib/logger";
 import { unifiedFlavorEngine } from "../data/unified/unifiedFlavorEngine";
 import type { UnifiedFlavorProfile } from "../data/unified/unifiedFlavorEngine";
 import type { ReactNode } from "react";

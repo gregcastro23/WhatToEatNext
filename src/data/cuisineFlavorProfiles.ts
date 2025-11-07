@@ -2,6 +2,7 @@ import { african } from "@/data/cuisines/african";
 import { american } from "@/data/cuisines/american";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { log } from "@/services/LoggingService";
+import { _logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Recipe } from "@/types/unified";
 
