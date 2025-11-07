@@ -677,9 +677,9 @@ export async function getRecommendedIngredients(
   if (astroState.dominantElement) {
     filteredIngredients.sort((a, b) => {
       const aValue =
-        a.elementalProperties[astroState.dominantElement as unknown] || 0;
+        a.elementalProperties[astroState.dominantElement as any] || 0;
       const bValue =
-        b.elementalProperties[astroState.dominantElement as unknown] || 0;
+        b.elementalProperties[astroState.dominantElement as any] || 0;
       return bValue - aValue;
     });
   }
@@ -902,7 +902,7 @@ function calculateElementalScore(
   let score = 0;
   let totalWeight = 0;
   Object.entries(ingredientProps).forEach(([element, value]) => {
-    const systemValue = systemProps[element as unknown] || 0;
+    const systemValue = systemProps[element as any] || 0;
     const weight = systemValue;
     // Higher compatibility for similar values (following elemental principles)
     const compatibility =
@@ -1141,7 +1141,7 @@ export function calculateElementalInfluences(
   const total = Object.values(elements).reduce((sum, val) => sum + val, 0);
   if (total > 0) {
     Object.keys(elements).forEach((key) => {
-      elements[key as unknown] /= total;
+      elements[key as any] /= total;
     });
   }
 

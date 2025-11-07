@@ -180,7 +180,7 @@ function calculateElementalScore(
   userElement?: Element,
 ): number {
   if (!recipe.elementalState || !userElement) return 0.5;
-  const recipeElementValue = recipe.elementalState[userElement as unknown] || 0;
+  const recipeElementValue = recipe.elementalState[userElement as any] || 0;
   // Higher values indicate better compatibility (following elemental principles)
   return Math.min(1, 0.3 + recipeElementValue * 0.7);
 }
@@ -438,7 +438,7 @@ export function calculateElementalMatch(
   let elementCount = 0;
 
   Object.entries(recipeElements).forEach(([element, recipeValue]) => {
-    const userValue = userElements[element as unknown] || 0;
+    const userValue = userElements[element as any] || 0;
     // Calculate compatibility (higher values for similar elements)
     const compatibility = 1 - Math.abs(recipeValue - userValue);
     totalMatch += compatibility;

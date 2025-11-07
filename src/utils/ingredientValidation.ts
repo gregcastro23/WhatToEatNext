@@ -729,7 +729,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
       if (ingredient.elementalProperties) {
         const elements = ["Fire", "Water", "Earth", "Air"];
         const hasValidElements = elements.every((el) => {
-          const value = ingredient.elementalProperties[el as unknown];
+          const value = ingredient.elementalProperties[el as any];
           return (
             typeof value === "number" &&
             !isNaN(value) &&
