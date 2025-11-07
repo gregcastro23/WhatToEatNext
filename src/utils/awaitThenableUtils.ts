@@ -4,6 +4,8 @@
  * Utilities to identify and fix incorrect async/await usage
  */
 
+import { _logger } from "@/lib/logger";
+
 export function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
   return (
     value !== null &&

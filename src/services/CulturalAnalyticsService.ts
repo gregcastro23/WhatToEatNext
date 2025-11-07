@@ -588,7 +588,7 @@ export class CulturalAnalyticsService {
     }
 
     const { _favorableZodiac } = culinaryTradition.astrologicalProfile;
-    const isZodiacFavorable = favorableZodiac.includes(
+    const isZodiacFavorable = _favorableZodiac.includes(
       astrologicalState.zodiacSign.toLowerCase(),
     );
 

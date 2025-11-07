@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { AstrologicalState } from "@/types/celestial";
 import { getCurrentAstrologicalState } from "@/utils/astrologyUtils";
 import { useAlchemical } from "./useAlchemical";
+import { _logger } from "@/lib/logger";
 
 export interface AstrologicalInfluence {
   planetaryDay: string;

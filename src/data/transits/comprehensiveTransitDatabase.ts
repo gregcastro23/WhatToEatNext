@@ -764,7 +764,8 @@ export class TransitAnalysisService {
 
     // Normalize dominant elements
     const total = Object.values(dominantElements).reduce(
-      (sum, val) => sum + val0,
+      (sum, val) => sum + val,
+      0,
     );
     if (total > 0) {
       Object.keys(dominantElements).forEach((element) => {

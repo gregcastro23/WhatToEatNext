@@ -52,7 +52,8 @@ export function useElementalState() {
     });
 
     const total = Object.values(elementCounts).reduce(
-      (sum, count) => sum + count0,
+      (sum, count) => sum + count,
+      0,
     );
 
     // Normalize to percentages

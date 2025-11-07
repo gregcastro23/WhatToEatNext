@@ -6,6 +6,7 @@ import {
   _TAROT_CARDS,
 } from "@/constants/tarotCards";
 import { log } from "@/services/LoggingService";
+import { _logger } from "@/lib/logger";
 
 // Type definitions for the imported constants to improve type safety
 type DecanKey = keyof typeof _DECAN_TO_TAROT;
@@ -410,7 +411,7 @@ export const getTarotCardsForDate = (
   const minorArcanaKey = _DECAN_TO_TAROT[decan] as TarotCardKey;
 
   if (!minorArcanaKey) {
-    logger.warn(`No tarot card found for decan ${decan}, using default`);
+    _logger.warn(`No tarot card found for decan ${decan}, using default`);
   }
 
   // Log the decan, sun position, and selected card for debugging

@@ -70,12 +70,12 @@ export function useAstrology(options: AstrologyOptions = {}) {
   const isMountedRef = useRef(true);
 
   // Ensure we only run client-side code in the browser
-  _useClientEffect(() => {
+  useEffect(() => {
     setIsClient(true);
     return () => {
       isMountedRef.current = false;
     };
-  });
+  }, []);
 
   /**
    * Create a cache key for requests to prevent duplicate calls

@@ -1,4 +1,5 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
+import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawMeats: Record<string, Partial<IngredientMapping>> = {
   beef: {

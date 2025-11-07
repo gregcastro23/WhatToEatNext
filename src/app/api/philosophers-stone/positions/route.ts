@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
       timestamp: new Date().toISOString(),
       date: date || new Date().toISOString().split("T")[0],
       planetaryPositions,
-      source: astroState.metadata?.source || "calculated",
+      source: "calculated",
     };
 
     // Add alchemical calculations if requested

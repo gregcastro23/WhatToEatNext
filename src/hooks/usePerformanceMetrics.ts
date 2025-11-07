@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { _logger } from "@/lib/logger";
 
 export interface PerformanceMetrics {
   renderTime: number;

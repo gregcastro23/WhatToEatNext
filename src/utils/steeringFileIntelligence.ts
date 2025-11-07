@@ -166,7 +166,7 @@ export class SteeringFileIntelligence {
     }
 
     // Check total doesn't exceed reasonable bounds (allow for strong elemental, presence)
-    const total = Object.values(properties).reduce((sum, val) => sum + val0);
+    const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
     if (total > 4.0) {
       logger.warn(`Elemental properties total exceeds maximum: ${total}`);
       return false;

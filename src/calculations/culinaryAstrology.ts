@@ -161,7 +161,7 @@ export class CulinaryAstrologer {
 
   private getIngredientFocus(_astroState: AstrologicalState, dominant: string) {
     const entries = Object.entries(
-      (meats || {}) as Record<
+      (_meats || {}) as Record<
         string,
         {
           astrologicalProfile?: {
