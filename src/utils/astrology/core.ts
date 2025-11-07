@@ -485,7 +485,7 @@ export async function getCurrentAstrologicalState(
       planetaryHour: { planet: planetaryHour, _hourOfDay: now.getHours() },
       weekDay,
       lunarPhase,
-    } as TimeFactors;
+    } as any;
 
     const _elementalProfile = await calculateElementalProfile(
       {

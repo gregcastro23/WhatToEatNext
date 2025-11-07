@@ -107,7 +107,7 @@ export const _stirFrying: CookingMethodData = {
     entropy: 0.55, // Moderate structural breakdown
     reactivity: 0.85, // High reactivity (Maillard, caramelization)
     gregsEnergy: -10.35, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
-  } as ThermodynamicProperties,
+  } as any,
 
   // Additional metadata
   history:

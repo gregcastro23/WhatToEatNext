@@ -71,7 +71,7 @@ export function getSeasonalData(
   return {
     availability,
     traditionalUse,
-    complementaryFlavors: complementaryFlavors as string[],
+    complementaryFlavors: complementaryFlavors as any,
   };
 }
 

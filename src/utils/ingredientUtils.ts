@@ -384,7 +384,7 @@ export function ingredientToRecipeIngredient(
     // Include other relevant properties that exist in RecipeIngredient - safe property access
     origin: (ingredient as any).origin || undefined,
     seasonality: (ingredient as any).seasonality || undefined,
-  } as RecipeIngredient;
+  } as any;
 }
 
 /**

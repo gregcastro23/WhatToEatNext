@@ -706,7 +706,7 @@ export const _getHolisticCookingRecommendations = async (
   logger.debug(`Tarot influence: ${tarotCard || "None"}`);
   logger.debug(`Time of day: ${isDaytime ? "Daytime" : "Nighttime"}`);
   logger.debug(
-    `Available methods count: ${(availableMethods as CookingMethod[]).length}`,
+    `Available methods count: ${(availableMethods as any).length}`,
   );
   logger.debug(`Requesting top ${count} recommendations`);
 
@@ -747,11 +747,11 @@ export const _getHolisticCookingRecommendations = async (
 
   // Filter methods if specified
   const methods =
-    (availableMethods as unknown as CookingMethod[]).length > 0
+    (availableMethods as unknown as any).length > 0
       ? availableMethods
       : Object.keys(cookingMethods);
   logger.debug(
-    `Evaluating ${(methods as CookingMethod[]).length} cooking methods: ${(methods as CookingMethod[]).length <= 10 ? methods.join(", ") : `${(methods as unknown as CookingMethod[]).length} methods (too many to display)`}`,
+    `Evaluating ${(methods as any).length} cooking methods: ${(methods as any).length <= 10 ? methods.join(", ") : `${(methods as unknown as any).length} methods (too many to display)`}`,
   );
 
   // Calculate compatibility for each method

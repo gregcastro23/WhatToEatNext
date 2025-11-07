@@ -413,7 +413,7 @@ export class EnhancedIngredientsSystem {
                 bitter: 0,
                 umami: 0,
                 spicy: 0,
-              } as UnifiedFlavorProfile),
+              } as any),
             ingredient.unifiedFlavorProfile,
           );
 
@@ -429,7 +429,7 @@ export class EnhancedIngredientsSystem {
               bitter: 0,
               umami: 0,
               spicy: 0,
-            } as UnifiedFlavorProfile),
+            } as any),
           a.unifiedFlavorProfile ||
             ({
               sweet: 0,
@@ -438,7 +438,7 @@ export class EnhancedIngredientsSystem {
               bitter: 0,
               umami: 0,
               spicy: 0,
-            } as UnifiedFlavorProfile),
+            } as any),
         ).compatibility;
 
         const compatB = this.flavorProfileSystem.calculateFlavorCompatibility(
@@ -450,7 +450,7 @@ export class EnhancedIngredientsSystem {
               bitter: 0,
               umami: 0,
               spicy: 0,
-            } as UnifiedFlavorProfile),
+            } as any),
           b.unifiedFlavorProfile ||
             ({
               sweet: 0,
@@ -459,7 +459,7 @@ export class EnhancedIngredientsSystem {
               bitter: 0,
               umami: 0,
               spicy: 0,
-            } as UnifiedFlavorProfile),
+            } as any),
         ).compatibility;
 
         return compatB - compatA;

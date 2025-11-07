@@ -791,8 +791,7 @@ export async function getIngredientRecommendations(
         } as IngredientRecommendation;
       } catch (error) {
         _logger.error(
-          "Error calculating scores for ingredient: ",
-          ingredient.name,
+          `Error calculating scores for ingredient: ${ingredient.name}`,
           error,
         );
         // Return ingredient with default scores in case of error

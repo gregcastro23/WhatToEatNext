@@ -314,10 +314,10 @@ function getZodiacElement(sign: any): Element | null {
 
   const signLower = sign.toLowerCase();
 
-  if (fireSigns.includes(signLower)) return "Fire" as Element;
-  if (earthSigns.includes(signLower)) return "Earth" as Element;
-  if (airSigns.includes(signLower)) return "Air" as Element;
-  if (waterSigns.includes(signLower)) return "Water" as Element;
+  if (fireSigns.includes(signLower)) return "Fire" as any;
+  if (earthSigns.includes(signLower)) return "Earth" as any;
+  if (airSigns.includes(signLower)) return "Air" as any;
+  if (waterSigns.includes(signLower)) return "Water" as any;
 
   return null;
 }
@@ -536,7 +536,7 @@ export function calculateRecipeMatchScore(
     };
     // Apply Pattern, J: Safe type casting for recipe.elementalState
     const recipeElementalProperties =
-      recipe.elementalState as unknown as ElementalProperties;
+      recipe.elementalState as unknown as anyalProperties;
     const elementalMatch = calculateElementalMatch(
       recipeElementalProperties,
       userElementalProperties,

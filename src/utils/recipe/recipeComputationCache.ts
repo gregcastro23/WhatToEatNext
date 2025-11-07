@@ -328,7 +328,7 @@ export function withComputationCaching<T extends any[], R>(
       const planetaryPositions = options.getPlanetaryPositions(args);
       cache.set(
         cacheKey,
-        result as RecipeComputedProperties,
+        result as any,
         computationTimeMs,
         planetaryPositions,
       );

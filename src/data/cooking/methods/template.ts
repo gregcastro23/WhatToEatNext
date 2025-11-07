@@ -127,7 +127,7 @@ export const _methodName: CookingMethodData = {
     entropy: 0.0, // Entropy/chaos/transformation level (0.0-1.0)
     reactivity: 0.0, // Chemical reactivity level (0.0-1.0)
     gregsEnergy: 0.0, // Greg's Energy (heat - entropy * reactivity)
-  } as ThermodynamicProperties,
+  } as any,
 
   // Additional metadata
   history:

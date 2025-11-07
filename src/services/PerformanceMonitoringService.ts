@@ -167,9 +167,9 @@ class PerformanceMonitoringService {
 
     // Log critical alerts
     if (alert.type === "error") {
-      _logger.error("[Performance Monitor]", alert.message, alert);
+      _logger.error(`[Performance Monitor] ${alert.message}`, alert);
     } else if (alert.type === "warning") {
-      _logger.warn("[Performance Monitor]", alert.message, alert);
+      _logger.warn(`[Performance Monitor] ${alert.message}`, alert);
     }
   }
 

@@ -125,7 +125,7 @@ export const broiling: CookingMethodData = {
     entropy: 0.7, // Significant surface transformation
     reactivity: 0.8, // High chemical reactivity on food surface
     gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
-  } as ThermodynamicProperties,
+  } as any,
 
   // Additional metadata
   history:
