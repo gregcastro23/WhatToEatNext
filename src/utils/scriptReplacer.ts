@@ -49,7 +49,7 @@ if (typeof window !== "undefined") {
   // Ensure popup object exists
   if (!window.popup) {
     window.popup = {
-      create(_options?, unknown) {
+      create(_options?: Record<string, unknown>, _unknown?: any) {
         return {
           show() {
             return this;
@@ -107,7 +107,7 @@ if (typeof window !== "undefined") {
         if (callback) callback({});
         return true;
       },
-    };
+    } as any;
   }
 
   log.info("[ScriptReplacer] Successfully initialized environment protection");

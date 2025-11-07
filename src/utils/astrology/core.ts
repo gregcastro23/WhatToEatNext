@@ -522,7 +522,7 @@ export async function getCurrentAstrologicalState(
       aspects,
       dominantElement,
       _dominantPlanets: activePlanets,
-      planetaryPositions: positions as unknown,
+      planetaryPositions: positions as any,
     };
 
     return astrologicalState;

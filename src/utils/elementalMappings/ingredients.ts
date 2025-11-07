@@ -375,7 +375,7 @@ export const ingredientMappings = {
           preparationTips: ["Ideal for creamy rice dishes"],
         },
       },
-    },
+    } as any,
     season: ["all"],
   }),
 } as const;

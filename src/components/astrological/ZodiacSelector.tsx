@@ -104,7 +104,7 @@ export const ZodiacSelector: React.FC<ZodiacSelectorProps> = ({
 
       {value && showElement && (
         <Box mt={2}>
-          <HStack spacing={2}>
+          <HStack spacing={2} as any>
             <Icon
               as={
                 ELEMENT_ICONS[

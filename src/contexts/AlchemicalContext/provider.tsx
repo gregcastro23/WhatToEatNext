@@ -230,7 +230,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     updateAstrologicalState,
     calculateSeasonalInfluence,
     getThermodynamicState,
-  };
+  } as any;
 
   logger.debug("AlchemicalProvider rendered with state:", {
     season: state.currentSeason,

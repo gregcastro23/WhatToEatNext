@@ -198,7 +198,7 @@ export const steaming: CookingMethodData = {
     entropy: 0.45, // Gentle structural transformations
     reactivity: 0.3, // Low chemical reactivity (minimal browning)
     gregsEnergy: -8.35, // Calculated using heat - (entropy * reactivity) // gregsEnergy = heat - (entropy * reactivity);
-  } as ThermodynamicProperties,
+  } as any,
 
   // Additional metadata
   history:

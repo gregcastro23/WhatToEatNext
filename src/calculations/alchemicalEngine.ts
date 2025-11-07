@@ -226,7 +226,7 @@ export class AlchemicalEngineAdvanced {
             gregsEnergy: 0,
           },
           score: totalScore,
-        },
+        } as any,
         dominantElement: dominantElement as keyof ElementalProperties,
         season: validSeason,
       };
@@ -244,7 +244,7 @@ export class AlchemicalEngineAdvanced {
             gregsEnergy: 0,
           },
           score: 0,
-        },
+        } as any,
         dominantElement: "Fire",
         season: "winter",
       };

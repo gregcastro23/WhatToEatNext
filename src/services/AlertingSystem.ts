@@ -635,7 +635,7 @@ class AlertingSystem {
     });
 
     const execution = this.performAction(action);
-    return Promise.race([execution, timeout]);
+    return Promise.race([execution, timeout]) as any;
   }
 
   // Action performance varies across scripts, commands, campaigns, and API calls

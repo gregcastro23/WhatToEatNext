@@ -41,7 +41,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
           preparationTips: ["Use as needed", "Season to taste"],
         },
         season: ["year-round"],
-      },
+      } as any,
     },
     qualities: [
       "adaptable",

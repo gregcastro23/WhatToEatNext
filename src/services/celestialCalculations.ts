@@ -1183,7 +1183,7 @@ class CelestialCalculator {
       cache.set(this.TAROT_CACHE_KEY, tarotCards, 60 * 60);
     }
 
-    return tarotCards;
+    return tarotCards as any;
   }
 
   /**

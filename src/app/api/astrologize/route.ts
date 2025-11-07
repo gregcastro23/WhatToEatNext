@@ -92,7 +92,7 @@ function calculateLocalPlanetaryPositions(
     for (const planet of planets) {
       try {
         // Get ecliptic coordinates
-        const ecliptic = Astronomy.Ecliptic(planet.body, date);
+        const ecliptic = (Astronomy.Ecliptic as any)(planet.body, date);
         const longitude = ecliptic.elon;
 
         // Convert to zodiac position
@@ -106,7 +106,7 @@ function calculateLocalPlanetaryPositions(
             planet.body !== Astronomy.Body.Moon
           ) {
             const futureDate = new Date(date.getTime() + 24 * 60 * 60 * 1000); // 1 day ahead
-            const futureEcliptic = Astronomy.Ecliptic(planet.body, futureDate);
+            const futureEcliptic = (Astronomy.Ecliptic as any)(planet.body, futureDate);
             // If future longitude is less than current (accounting for wrap-around), it's retrograde
             const delta = ((futureEcliptic.elon - longitude + 540) % 360) - 180;
             isRetrograde = delta < 0;

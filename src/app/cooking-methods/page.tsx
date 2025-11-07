@@ -205,10 +205,10 @@ export default function CookingMethodsPage() {
 
               {/* Use our custom component here */}
               <CookingMethodsSection
-                methods={formattedMethods}
-                onSelectMethod={handleSelectMethod}
-                selectedMethodId={selectedMethodId}
-                initiallyExpanded
+                {...({ methods: formattedMethods,
+                onSelectMethod: handleSelectMethod,
+                selectedMethodId: selectedMethodId,
+                initiallyExpanded: true } as any)}
               />
             </>
           )}

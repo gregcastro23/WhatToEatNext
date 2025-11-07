@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
     });
 
     const result =
-      await planetaryPositionRectificationService.rectifyPlanetaryPositions(
+      await (planetaryPositionRectificationService.rectifyPlanetaryPositions as any)(
         targetDate,
       );
 
@@ -252,7 +252,7 @@ export async function PUT(request: NextRequest) {
       date: targetDate?.toISOString(),
     });
 
-    const result = await forcePositionSync(targetDate);
+    const result = await (forcePositionSync as any)(targetDate);
     const resultData = result as any;
 
     return NextResponse.json({

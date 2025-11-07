@@ -121,7 +121,7 @@ const alchemicalEngine = {
   ): Record<string, number> => {
     try {
       // Use ESM import binding
-      return _calculateZodiacEnergies(positions);
+      return (_calculateZodiacEnergies as any)(positions);
     } catch (error) {
       _logger.error("Error calculating zodiac energies: ", error);
       // Return a safe fallback with equal distribution

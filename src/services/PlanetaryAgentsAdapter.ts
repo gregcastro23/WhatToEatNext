@@ -205,10 +205,10 @@ export class PlanetaryAgentsAdapter {
             }
           : undefined,
         resonanceMap: options.includeResonanceMap
-          ? {
+          ? ({
               nodes: this.generateResonanceNodes(planet, elementalTotals),
               connections: [],
-            }
+            } as any)
           : undefined,
       },
       computeTimeMs: planetaryHour.metadata.computeTime,

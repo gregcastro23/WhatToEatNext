@@ -228,7 +228,7 @@ export class UnifiedCalculationEngine {
       await updateCurrentMoment(planetaryPositions as any);
 
       // Log API call
-      onAlchemizeApiCall(planetaryPositions, alchemicalResult);
+      (onAlchemizeApiCall as any)(planetaryPositions, alchemicalResult);
 
       const result: SMESCalculationResult = {
         // SMES Properties

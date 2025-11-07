@@ -784,7 +784,7 @@ function generateKineticsFilters(
   ) {
     filters.preferredForceType = "stable";
   } else {
-    filters.preferredForceType = kinetics.forceClassification;
+    filters.preferredForceType = kinetics.forceClassification as any;
   }
 
   // Determine thermal alignment
@@ -801,7 +801,7 @@ function generateKineticsFilters(
   ) {
     filters.thermalAlignment = "cooling";
   } else {
-    filters.thermalAlignment = kinetics.thermalDirection;
+    filters.thermalAlignment = kinetics.thermalDirection as any;
   }
 
   // Set power range based on intensity keywords
