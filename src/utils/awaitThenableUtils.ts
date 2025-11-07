@@ -10,7 +10,7 @@ export function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
   return (
     value !== null &&
     value !== undefined &&
-    typeof (value as unknown).then === "function"
+    typeof (value as any).then === "function"
   );
 }
 

@@ -1257,7 +1257,7 @@ export function getRecipesForCuisineMatch(
             };
           }
         })
-        .filter((recipe) => Number((recipe as unknown).matchScore || 0) >= 0.5) // Only include reasonably good matches
+        .filter((recipe) => Number((recipe as any).matchScore || 0) >= 0.5) // Only include reasonably good matches
         .sort(
           (a, b) =>
             Number((b as any).matchScore || 0) -

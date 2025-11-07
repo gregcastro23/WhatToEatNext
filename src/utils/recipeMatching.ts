@@ -1129,8 +1129,8 @@ function _calculateNutritionalMatch(
 ): number {
   if (!recipeProfile || !userGoals) return 0.5; // Neutral score if either is missing
 
-  const matchScore = 0;
-  const factorsCount = 0;
+  let matchScore = 0;
+  let factorsCount = 0;
 
   // Common nutritional factors to compare
   const factors = [

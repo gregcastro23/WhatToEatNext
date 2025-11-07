@@ -308,7 +308,7 @@ export class UnifiedNutritionalSystem {
     const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
     const variance =
       values.reduce(
-        (sum, val) => sum + Math.pow((val as unknown) - mean, 2),
+        (sum, val) => sum + Math.pow((val as any) - mean, 2),
         0,
       ) / values.length;
     const stdDev = Math.sqrt(variance);

@@ -78,7 +78,7 @@ export const _highHeatOils = Object.entries(processedOils)
       (typeof value.smokePoint === "object" &&
         value.smokePoint !== null &&
         "fahrenheit" in value.smokePoint &&
-        (value.smokePoint as unknown).fahrenheit >= 400) ||
+        (value.smokePoint as any).fahrenheit >= 400) ||
       value.culinaryApplications?.frying ||
       value.culinaryApplications?.deepfrying,
   )

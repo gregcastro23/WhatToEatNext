@@ -396,11 +396,11 @@ export function getRecommendedIngredients(
       const ingredientA = a as unknown as BaseIngredient;
       const ingredientB = b as unknown as BaseIngredient;
 
-      const aHasAffinity =
+      let aHasAffinity =
         ingredientA.astrologicalProfile?.signAffinities?.includes(zodiacSign)
           ? 1
           : 0;
-      const bHasAffinity =
+      let bHasAffinity =
         ingredientB.astrologicalProfile?.signAffinities?.includes(zodiacSign)
           ? 1
           : 0;

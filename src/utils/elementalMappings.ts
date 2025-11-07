@@ -66,8 +66,8 @@ export const elementalFunctions = {
     props1: ElementalProperties,
     props2: ElementalProperties,
   ): number => {
-    const affinity = 0;
-    const count = 0;
+    let affinity = 0;
+    let count = 0;
     for (const [element1, value1] of Object.entries(props1)) {
       for (const [element2, value2] of Object.entries(props2)) {
         if (elementalInteractions[element1 as Element][element2 as Element]) {

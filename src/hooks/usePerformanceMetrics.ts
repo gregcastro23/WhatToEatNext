@@ -111,7 +111,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
   // Track memory usage
   const updateMemoryUsage = useCallback(() => {
     if ("memory" in performance) {
-      const memInfo = (performance as unknown).memory;
+      const memInfo = (performance as any).memory;
       const currentMemory = memInfo.usedJSHeapSize / 1024 / 1024; // Convert to MB
 
       if (currentMemory > peakMemoryRef.current) {

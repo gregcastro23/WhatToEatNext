@@ -215,7 +215,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           culturalOrigin: methodData.culturalOrigin,
           astrologicalInfluences: {
             favorableZodiac:
-              ((methodData.astrologicalInfluences as unknown)
+              ((methodData.astrologicalInfluences as any)
                 .favorableZodiac as any[]) || [],
             unfavorableZodiac:
               ((methodData.astrologicalInfluences as unknown)

@@ -347,7 +347,7 @@ export class RecipeFilter {
     if (!recipeElements || !targetElements) return 1;
     try {
       let score = 0;
-      const total = 0;
+      let total = 0;
 
       Object.keys(targetElements).forEach((element) => {
         const key = element as any;
