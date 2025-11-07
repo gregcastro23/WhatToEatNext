@@ -172,7 +172,7 @@ function calculateCuisineCompatibility(
  * Calculate elemental alignment for a cuisine
  */
 function calculateCuisineElementalAlignment(
-  _cuisine: string,
+  cuisine: string,
 ): ElementalProperties {
   // Default balanced alignment
   let alignment: ElementalProperties = {
@@ -240,8 +240,8 @@ function generateCuisineReasons(
  * Get suggested dishes for a cuisine based on elemental properties
  */
 function getSuggestedDishes(
-  _cuisine: string,
-  _elementals: ElementalProperties,
+  cuisine: string,
+  elementals: ElementalProperties,
 ): string[] {
   const dishes: Record<string, string[]> = {
     Mexican: ["Tacos al pastor", "Mole poblano", "Ceviche", "Pozole"],
