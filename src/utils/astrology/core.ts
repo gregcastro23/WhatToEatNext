@@ -145,7 +145,7 @@ export async function calculateActivePlanets(
   try {
     // Add ruling planet of current sun sign
     const sunSign =
-      positions.sun?.sign?.toLowerCase() || positions.Sun?.sign?.toLowerCase();
+      (positions.sun as any)?.sign?.toLowerCase() || (positions.Sun as any)?.sign?.toLowerCase();
     if (sunSign) {
       // Map signs to their ruling planets
       const signRulers: Record<string, string> = {

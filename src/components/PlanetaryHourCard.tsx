@@ -16,7 +16,7 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
   const [state, setState] = useState(() => {
     const now = new Date();
     const detailed = calculator.getCurrentPlanetaryHourDetailed(now);
-    const next = calculator.getNextPlanetaryHourTransition(now);
+    const next = (calculator as any).getNextPlanetaryHourTransition(now);
     const schedule = calculator.getDailyPlanetaryHourSchedule(now);
     const idx = schedule.findIndex((s) => now >= s.start && now < s.end);
     const nextPlanet =
@@ -36,7 +36,7 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
     const tick = () => {
       const now = new Date();
       const detailed = calculator.getCurrentPlanetaryHourDetailed(now);
-      const next = calculator.getNextPlanetaryHourTransition(now);
+      const next = (calculator as any).getNextPlanetaryHourTransition(now);
       const schedule = calculator.getDailyPlanetaryHourSchedule(now);
       const idx = schedule.findIndex((s) => now >= s.start && now < s.end);
       const nextPlanet =
