@@ -1,4 +1,5 @@
 import { log } from "@/services/LoggingService";
+import { _logger } from "@/lib/logger";
 import fs from "fs";
 import path from "path";
 import { buildPerformanceMonitor } from "./BuildPerformanceMonitor";

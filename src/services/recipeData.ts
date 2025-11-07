@@ -29,6 +29,9 @@ import { recipeElementalService } from "./RecipeElementalService";
 import type { Recipe } from "../types/recipe";
 import type { RecipeIngredient } from "../types/recipeIngredient";
 
+// Create error handler instance
+const errorHandler = new ErrorHandler();
+
 // Define interface for nutrition data
 export interface NutritionData {
   calories?: number;

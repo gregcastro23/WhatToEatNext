@@ -1,11 +1,11 @@
 /**
-import { _logger } from '@/lib/logger';
  * Reliable Astronomy Data Provider
  *
  * This module fetches accurate planetary positions from NASA JPL's Horizons API
  * with robust fallback mechanisms when API calls fail.
  */
 
+import { _logger } from '@/lib/logger';
 // getMCPServerIntegration removed with MCP cleanup
 import { logger } from "@/utils/logger";
 
@@ -259,7 +259,7 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
 /**
  * Convert longitude to zodiac sign
  */
-function getLongitudeToZodiacSign(_longitude: number): {
+function getLongitudeToZodiacSign(longitude: number): {
   sign: string;
   degree: number;
 } {

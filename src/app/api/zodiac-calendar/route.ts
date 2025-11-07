@@ -25,6 +25,38 @@ import type { NextRequest } from "next/server";
 
 const logger = createLogger("ZodiacCalendarAPI");
 
+// Stub implementations for removed external services
+// TODO: Replace with actual implementations or remove endpoints
+function getDegreeForDate(_date: Date) {
+  return { degree: 0, sign: "aries", position: 0 };
+}
+
+function getZodiacPositionForDate(_date: Date) {
+  return { sign: "aries", degree: 0, longitude: 0 };
+}
+
+function getDatesForZodiacDegree(_degree: number, _year: number) {
+  return [] as Array<{ start: Date; end: Date; duration_hours: number }>;
+}
+
+function buildAnnualCalendar(_year: number) {
+  return {
+    year: _year,
+    cardinal_points: {},
+    sign_durations: {},
+    entries: [],
+    metadata: {},
+  };
+}
+
+function getCurrentZodiacPeriod() {
+  return { sign: "aries", degree: 0, current_time: new Date().toISOString() };
+}
+
+function getMonthlyZodiacCalendar(_year: number, _month: number) {
+  return { year: _year, month: _month, days: [] };
+}
+
 /**
  * Main API handler for zodiac calendar endpoints
  */
