@@ -6,6 +6,7 @@ import {
   _MAXIMUM_THRESHOLD,
   _MINIMUM_THRESHOLD,
 } from "@/constants/elementalConstants";
+import { _ZODIAC_ELEMENTS } from "@/constants/zodiac";
 import type {
   AstrologicalState,
   Element,
@@ -90,11 +91,11 @@ class ElementalSystem {
     state: AstrologicalState,
   ): ElementalProperties {
     const zodiacElement =
-      ZODIAC__ELEMENTS[state.currentZodiac?.toLowerCase() || "aries"];
+      _ZODIAC_ELEMENTS[state.currentZodiac?.toLowerCase() || "aries"];
     const moonSignValue = state.currentPlanetaryAlignment?.Moon?.sign || "";
     const moonSign =
       typeof moonSignValue === "string" ? moonSignValue.toLowerCase() : "";
-    const moonElement = moonSign ? ZODIAC__ELEMENTS[moonSign] : "Water";
+    const moonElement = moonSign ? _ZODIAC_ELEMENTS[moonSign] : "Water";
 
     const baseProperties: ElementalProperties = {
       Fire: 0.25,

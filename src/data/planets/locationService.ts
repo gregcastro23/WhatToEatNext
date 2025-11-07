@@ -594,7 +594,7 @@ export class PlanetaryLocationService {
       });
     });
 
-    return influences.sort((ab) => b.finalInfluence - a.finalInfluence);
+    return influences.sort((a, b) => b.finalInfluence - a.finalInfluence);
   }
 
   /**

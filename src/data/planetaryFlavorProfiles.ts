@@ -461,7 +461,7 @@ export const _calculatePlanetaryFlavorMatch = (
 
     // Calculate similarity with exponential weighting - rewards closer matches
     // The closer the match, the higher the score
-    const _diff = Math.abs(recipeValue - astroValue);
+    const diff = Math.abs(recipeValue - astroValue);
     const similarity = Math.pow(1 - diff, 2); // Squared to emphasize closer matches
 
     // Weight by the importance of the flavor in the astrological profile
@@ -523,7 +523,8 @@ export const _calculatePlanetaryFlavorMatch = (
 
     // Normalize elemental profile
     const elementalSum = Object.values(elementalProfile).reduce(
-      (sum, val) => sum + val0,
+      (sum, val) => sum + val,
+      0,
     );
     if (elementalSum > 0) {
       Object.keys(elementalProfile).forEach((element) => {

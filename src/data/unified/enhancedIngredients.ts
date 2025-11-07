@@ -28,6 +28,7 @@ import { unifiedFlavorProfileSystem } from "./flavorProfiles";
 import type { UnifiedFlavorProfile } from "./flavorProfiles";
 import { unifiedIngredients } from "./ingredients";
 import { unifiedSeasonalSystem } from "./seasonal";
+import { unifiedNutritionalSystem } from "./nutritional";
 
 // Import unified ingredients
 import type { UnifiedIngredient } from "./unifiedTypes";
