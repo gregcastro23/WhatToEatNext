@@ -173,7 +173,7 @@ export const AstrologicalRecommendations: React.FC = () => {
 
   return (
     <Box maxW="1200px" mx="auto" p={6}>
-      <VStack spacing={6} align="stretch">
+      <VStack {...({ spacing: 6, align: "stretch" } as any)}>
         {/* Header */}
         <Box textAlign="center">
           <Heading size="lg" mb={2} color="purple.600">
@@ -191,7 +191,7 @@ export const AstrologicalRecommendations: React.FC = () => {
             <Heading size="md">Personalize Your Recommendations</Heading>
           </CardHeader>
           <CardBody>
-            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+            <SimpleGrid {...({ columns: { base: 1, md: 2 }, spacing: 4 } as any)}>
               <Box>
                 <Text mb={2} fontWeight="medium">
                   Your Zodiac Sign
@@ -232,9 +232,9 @@ export const AstrologicalRecommendations: React.FC = () => {
               mt={4}
               colorScheme="purple"
               onClick={fetchCookingPlan}
-              isLoading={loading}
+              loading={loading}
               loadingText="Finding your perfect recipes..."
-              isDisabled={!zodiacSign && !season}
+              disabled={!zodiacSign && !season}
             >
               Get Astrological Recommendations
             </Button>
@@ -259,7 +259,7 @@ export const AstrologicalRecommendations: React.FC = () => {
 
         {/* Cooking Plan Results */}
         {cookingPlan && !loading && (
-          <VStack spacing={6} align="stretch">
+          <VStack {...({ spacing: 6, align: "stretch" } as any)}>
             {/* Insights */}
             {cookingPlan.insights.length > 0 && (
               <Card bg={cardBg} shadow="md">
@@ -270,7 +270,7 @@ export const AstrologicalRecommendations: React.FC = () => {
                   </Heading>
                 </CardHeader>
                 <CardBody>
-                  <VStack align="start" spacing={2}>
+                  <VStack {...({ align: "start", spacing: 2 } as any)}>
                     {cookingPlan.insights.map((insight, index) => (
                       <Text key={index} fontStyle="italic" color="purple.600">
                         ✨ {insight}
@@ -287,7 +287,7 @@ export const AstrologicalRecommendations: React.FC = () => {
                 <Heading size="md" mb={4}>
                   Your Personalized Recipe Recommendations
                 </Heading>
-                <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={4}>
+                <SimpleGrid {...({ columns: { base: 1, lg: 2 }, spacing: 4 } as any)}>
                   {cookingPlan.recommendations.map((rec, index) => (
                     <Card
                       key={rec.recipe_id || index}
@@ -310,13 +310,13 @@ export const AstrologicalRecommendations: React.FC = () => {
                       </CardHeader>
 
                       <CardBody pt={0}>
-                        <VStack align="start" spacing={3}>
+                        <VStack {...({ align: "start", spacing: 3 } as any)}>
                           <Text fontSize="sm" color="gray.700">
                             {rec.description}
                           </Text>
 
                           {/* Score Display */}
-                          <HStack spacing={4}>
+                          <HStack {...({ spacing: 4 } as any)}>
                             {rec.zodiac_affinity_score && (
                               <Tooltip
                                 label={`Zodiac affinity: ${(rec.zodiac_affinity_score * 100).toFixed(0)}%`}
@@ -354,7 +354,7 @@ export const AstrologicalRecommendations: React.FC = () => {
                           {/* Ingredient Match Info */}
                           {(rec.matching_ingredients ||
                             rec.seasonal_ingredients) && (
-                            <HStack spacing={2}>
+                            <HStack {...({ spacing: 2 } as any)}>
                               <Icon as={FaUtensils} color="blue.500" />
                               <Text fontSize="sm" color="gray.600">
                                 {rec.matching_ingredients
@@ -413,7 +413,7 @@ export const AstrologicalRecommendations: React.FC = () => {
         {!cookingPlan && !loading && (
           <Card bg={bgColor} border="2px dashed" borderColor="purple.200">
             <CardBody textAlign="center" py={8}>
-              <VStack spacing={4}>
+              <VStack {...({ spacing: 4 } as any)}>
                 <Icon as={FaStar} boxSize={16} color="purple.300" />
                 <Box>
                   <Heading size="md" mb={2}>
