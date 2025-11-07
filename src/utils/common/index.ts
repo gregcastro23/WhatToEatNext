@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { logger, _logger } from "../logger";
+import { logger } from "../logger";
 // ===== THEME MANAGEMENT =====
 
 export interface ThemeData {

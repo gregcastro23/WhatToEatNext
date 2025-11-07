@@ -6,7 +6,7 @@ import {
   _VALIDATION_THRESHOLDS,
 } from "@/constants/elementalConstants";
 import type { Element, ElementalProperties, Recipe } from "@/types/alchemy";
-import { validateElementalProperties, normalizeElementalProperties } from "@/types/validators";
+import { validateElementalProperties, _normalizeElementalProperties } from "@/types/validators";
 
 export const elementalBalance = {
   calculateBalance(properties: ElementalProperties): number {
@@ -72,8 +72,8 @@ export const elementalBalance = {
       return 0;
     }
 
-    const norm1 = normalizeElementalProperties(first);
-    const norm2 = normalizeElementalProperties(second);
+    const norm1 = _normalizeElementalProperties(first);
+    const norm2 = _normalizeElementalProperties(second);
 
     const differences = _ELEMENTS.map((element) =>
       Math.abs(norm1[element] - norm2[element]),

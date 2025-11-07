@@ -2,7 +2,7 @@ import type { ElementalCharacter } from "@/constants/planetaryElements";
 import type { LunarPhase as FoodAssociationsLunarPhase } from "@/constants/planetaryFoodAssociations";
 import type { SignEnergyState } from "@/constants/signEnergyStates";
 import { calculateSignEnergyStates } from "@/constants/signEnergyStates";
-import { PLANET_TO_MAJOR_ARCANA } from "@/constants/tarotCards";
+import { _PLANET_TO_MAJOR_ARCANA } from "@/constants/tarotCards";
 import { getTarotCardsForDate } from "@/lib/tarotCalculations";
 import type { LunarPhaseWithSpaces } from "@/types/alchemy";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -242,12 +242,12 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       if (activePlanets.length) {
         activePlanets.forEach((planet) => {
           const planetName = planet.charAt(0).toUpperCase() + planet.slice(1);
-          // Type guard to check if planetName is a valid key in PLANET_TO_MAJOR_ARCANA
-          if (planetName in PLANET_TO_MAJOR_ARCANA) {
+          // Type guard to check if planetName is a valid key in _PLANET_TO_MAJOR_ARCANA
+          if (planetName in _PLANET_TO_MAJOR_ARCANA) {
             // Now TypeScript knows planetName is a valid key
             const typedPlanetName =
-              planetName as keyof typeof PLANET_TO_MAJOR_ARCANA;
-            const arcanaName = PLANET_TO_MAJOR_ARCANA[typedPlanetName];
+              planetName as keyof typeof _PLANET_TO_MAJOR_ARCANA;
+            const arcanaName = _PLANET_TO_MAJOR_ARCANA[typedPlanetName];
             cardMap[planetName] = {
               name: arcanaName,
               energy: calculatePlanetaryEnergy(planetName), // Now references the hoisted function

@@ -28,7 +28,7 @@ import { unifiedFlavorProfileSystem } from "./flavorProfiles";
 import type { UnifiedFlavorProfile } from "./flavorProfiles";
 import { unifiedIngredients } from "./ingredients";
 import { unifiedSeasonalSystem } from "./seasonal";
-import { unifiedNutritionalSystem } from "./nutritional";
+import { UnifiedNutritionalSystem } from "./nutritional";
 
 // Import unified ingredients
 import type { UnifiedIngredient } from "./unifiedTypes";
@@ -182,7 +182,7 @@ export class EnhancedIngredientsSystem {
   private readonly flavorProfileSystem: typeof unifiedFlavorProfileSystem;
   private readonly seasonalSystem: typeof unifiedSeasonalSystem;
   private readonly cuisineSystem: typeof unifiedCuisineIntegrationSystem;
-  private readonly nutritionalSystem: typeof unifiedNutritionalSystem;
+  private readonly nutritionalSystem: typeof UnifiedNutritionalSystem;
 
   // Indexed lookups for performance
   private categoryIndex: Map<string, string[]> = new Map();
@@ -196,7 +196,7 @@ export class EnhancedIngredientsSystem {
     this.flavorProfileSystem = unifiedFlavorProfileSystem;
     this.seasonalSystem = unifiedSeasonalSystem;
     this.cuisineSystem = unifiedCuisineIntegrationSystem;
-    this.nutritionalSystem = unifiedNutritionalSystem;
+    this.nutritionalSystem = UnifiedNutritionalSystem;
 
     // Build indexes for fast lookups
     this.buildIndexes();

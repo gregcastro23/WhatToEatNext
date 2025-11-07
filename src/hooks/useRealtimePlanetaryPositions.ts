@@ -1,5 +1,5 @@
 import { log } from "@/services/LoggingService";
-import { planetaryPositionsService } from "@/services/PlanetaryPositionsService";
+import { PlanetaryPositionsService } from "@/services/PlanetaryPositionsService";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { useCallback, useEffect, useState } from "react";
 import { _logger } from "@/lib/logger";
@@ -50,7 +50,7 @@ export function useRealtimePlanetaryPositions(
     try {
       // Unified: PlanetaryPositionsService (API→engine fallback)
       const positions: { [key: string]: PlanetPosition } =
-        (await planetaryPositionsService.getCurrent(
+        (await new PlanetaryPositionsService().getCurrent(
           location,
           zodiacSystem,
         )) as unknown as { [key: string]: PlanetPosition };
@@ -122,7 +122,7 @@ export function usePlanetaryPositionsForDate(
     try {
       // Unified: PlanetaryPositionsService for specific date
       const positions: { [key: string]: PlanetPosition } =
-        (await planetaryPositionsService.getForDate(
+        (await new PlanetaryPositionsService().getForDate(
           date,
           location,
           zodiacSystem,
