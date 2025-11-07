@@ -49,6 +49,18 @@ const planetaryPositionRectificationService = {
     healthy: false,
     message: "Service removed during external API cleanup campaign",
   }),
+  rectifyPlanetaryPositions: async () => ({
+    success: false,
+    error: "Service removed during external API cleanup campaign",
+    synchronized_positions: null,
+    rectification_report: null,
+    planetary_agents_sync_status: null,
+    errors: [],
+  }),
+  getSyncStatus: async () => ({
+    success: false,
+    error: "Service removed during external API cleanup campaign",
+  }),
 };
 
 /**

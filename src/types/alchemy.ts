@@ -233,6 +233,8 @@ export interface ThermodynamicProperties {
   entropy: number;
   reactivity: number;
   gregsEnergy: number; // Using gregsEnergy as the single energy metric for this project
+  kalchm?: number;
+  monica?: number;
 }
 
 export interface BasicThermodynamicProperties {
@@ -486,6 +488,10 @@ export interface PlanetaryPosition {
   element?: Element;
   dignity?: DignityType;
   isRetrograde?: boolean;
+  house?: number;
+  longitude?: number;
+  latitude?: number;
+  distance?: number;
 }
 
 export interface PlanetaryAlignment {

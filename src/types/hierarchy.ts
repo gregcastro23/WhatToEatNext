@@ -199,6 +199,9 @@ export interface PlanetaryPattern {
 
   /** Dominant element for this planet across recipes */
   dominantElement: keyof ElementalProperties;
+
+  /** Planetary strength metric (optional) */
+  planetaryStrength?: number;
 }
 
 /**

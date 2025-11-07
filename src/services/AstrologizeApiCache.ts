@@ -77,7 +77,7 @@ class AstrologizeApiCache {
     alchemicalResult: StandardizedAlchemicalResult,
   ) {
     const resultData = alchemicalResult as unknown as any;
-    const elementalBalance = (resultData.elementalBalance as unknown) || {};
+    const elementalBalance = (resultData.elementalBalance as any) || {};
     const Fire = Number(elementalBalance.Fire) || 0;
     const Water = Number(elementalBalance.Water) || 0;
     const Earth = Number(elementalBalance.Earth) || 0;

@@ -94,6 +94,10 @@ export interface PlanetaryPosition {
   isRetrograde?: boolean;
   exactLongitude?: number; // Used extensively in astronomy calculations
   speed?: number; // Optional planetary speed
+  house?: number;
+  longitude?: number;
+  latitude?: number;
+  distance?: number;
 }
 
 // Aspect between two celestial bodies

@@ -64,8 +64,14 @@ export interface CuisineRecommendation {
   /** Cuisine name */
   cuisineName: string;
 
+  /** Alias for cuisineName (backward compatibility) */
+  cuisine?: string;
+
   /** Overall compatibility score (0-1) */
   compatibilityScore: number;
+
+  /** Alias for compatibilityScore (backward compatibility) */
+  score?: number;
 
   /** Breakdown of scoring factors */
   scoringFactors: {
