@@ -246,7 +246,7 @@ export class UnifiedCalculationEngine {
 
         // Planetary Influences
         planetaryInfluence: {
-          dominantPlanet: planetaryInfluence.dominantPlanet || "Sun",
+          dominantPlanet: planetaryInfluence.dominantPlanets?.[0]?.planet || "Sun",
           planetaryStrength: (planetaryInfluence as any).strength || 1,
           aspectHarmony: (planetaryInfluence as any).aspectHarmony || 0.8,
         },

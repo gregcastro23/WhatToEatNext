@@ -17,19 +17,19 @@ const logger = createLogger("useServices");
  */
 export function useServices() {
   const [isInitialized, setIsInitialized] = useState(
-    servicesManager.isInitialized,
+    servicesManager.initialized,
   );
   const [error, setError] = useState<Error | null>(null);
-  const [isLoading, setIsLoading] = useState(!servicesManager.isInitialized);
+  const [isLoading, setIsLoading] = useState(!servicesManager.initialized);
   const [status, setStatus] = useState<InitializationStatus>(
-    servicesManager.isInitialized
+    servicesManager.initialized
       ? InitializationStatus.COMPLETED
       : InitializationStatus.NOT_STARTED,
   );
 
   useEffect(() => {
     // If already initialized, do nothing
-    if (servicesManager.isInitialized) {
+    if (servicesManager.initialized) {
       return;
     }
 
@@ -68,7 +68,7 @@ export function useServices() {
   }, []);
 
   // Get all services from the manager
-  const services = servicesManager.isInitialized
+  const services = servicesManager.initialized
     ? (servicesManager as any).getServices()
     : null;
 

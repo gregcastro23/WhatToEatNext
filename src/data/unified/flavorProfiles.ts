@@ -262,7 +262,7 @@ export class UnifiedFlavorProfileSystem {
 
     // Calculate Kalchm resonance
     const kalchmDiff = Math.abs(profile1.kalchm - profile2.kalchm);
-    const maxKalchm = Math.max(profile1.kalchm, profile2.kalchm1);
+    const maxKalchm = Math.max(profile1.kalchm, profile2.kalchm);
     const kalchmResonance = 1 - kalchmDiff / maxKalchm;
 
     // Calculate Monica optimization

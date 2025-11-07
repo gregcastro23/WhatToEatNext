@@ -623,7 +623,7 @@ export class UnifiedFlavorEngine {
     const intersection = new Set([...methods1].filter((x) => methods2.has(x)));
     const union = new Set([...methods1, ...methods2]);
 
-    const baseCompatibility = intersection.size / Math.max(union.size1);
+    const baseCompatibility = intersection.size / Math.max(union.size);
 
     // Context enhancement
     if (_contextMethod) {

@@ -61,7 +61,7 @@ export default function useErrorHandler({
       });
 
       // Handle the error through the error system
-      handleError.log(errorObj, {
+      handleError._log(errorObj, {
         component: componentName,
         severity: ErrorSeverity.WARNING,
         type: ErrorType.DATA,

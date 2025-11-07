@@ -109,7 +109,7 @@ export class PlanetaryHoursClient {
       location?.latitude,
       location?.longitude,
     );
-    const detailed = calculator.getCurrentPlanetaryHourDetailed(targetDate);
+    const detailed = calculator.getCurrentPlanetaryHour(targetDate);
     return {
       planet: detailed.planet,
       hourNumber: detailed.hourNumber,

@@ -272,7 +272,7 @@ export class CulinaryAstrologer {
             astroState,
             dominant,
           ),
-          elementDistribution: recipe.elementalProperties as unknown as Record<
+          elementDistribution: recipe._elementalProperties as unknown as Record<
             string,
             number
           >,
@@ -297,7 +297,7 @@ export class CulinaryAstrologer {
       0,
     );
     const elementMatch =
-      (recipe.elementalProperties as unknown as Record<string, number>)[
+      (recipe._elementalProperties as unknown as Record<string, number>)[
         dominant
       ] ?? 0;
     const base =

@@ -534,8 +534,8 @@ export class UnifiedRecipeBuildingSystem {
           seasonalImprovement: 0.1,
         })),
         cookingMethodAdjustments: cookingMethodAdjustments.map((adj) => ({
-          original: (adj as unknown as MethodAdjustment).method || "",
-          adjusted: (adj as unknown as MethodAdjustment).adjustment || "",
+          original: (adj as unknown as MethodAdjustment)._method || "",
+          adjusted: (adj as unknown as MethodAdjustment)._adjustment || "",
           reason: (adj as unknown as MethodAdjustment).reason || "",
           seasonalBenefit: "Seasonal optimization",
         })),
@@ -545,7 +545,7 @@ export class UnifiedRecipeBuildingSystem {
           cookTimeChange:
             (timingAdjustments as unknown as TimingAdjustment).cookingTime || 0,
           restTimeChange:
-            (timingAdjustments as unknown as TimingAdjustment).restTime || 0,
+            (timingAdjustments as unknown as TimingAdjustment)._restTime || 0,
           reason:
             (timingAdjustments as unknown as TimingAdjustment).reason ||
             "Seasonal timing optimization",
