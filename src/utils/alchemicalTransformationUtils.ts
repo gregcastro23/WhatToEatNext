@@ -157,7 +157,7 @@ export const _sortByAlchemicalCompatibility = (
 
   // Sort by compatibility score (highest first)
   return itemsWithScores.sort(
-    (ab) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0),
+    (a, b) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0),
   );
 };
 
@@ -203,7 +203,7 @@ export const _getTopCompatibleItems = (
 ): AlchemicalItem[] =>
   // Sort by gregsEnergy for basic compatibility;
   [...items]
-    .sort((ab) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0))
+    .sort((a, b) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0))
     .slice(0, count);
 
 /**
