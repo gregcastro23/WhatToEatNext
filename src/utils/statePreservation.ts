@@ -3,6 +3,8 @@
  * Handles saving and restoring component state across navigation
  */
 
+import { _logger } from "@/lib/logger";
+
 export interface ComponentState {
   timestamp: number;
   data: unknown;

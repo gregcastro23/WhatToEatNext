@@ -95,7 +95,7 @@ export function adaptPlanetaryPositions(
 /**
  * Type guard to check if an object is a valid PlanetaryPosition
  */
-export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
+export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   if (!obj || typeof obj !== "object") {
     return false;
   }
@@ -125,7 +125,7 @@ export function isPlanetaryPositionsMap(
 /**
  * Safely extract sign from a planetary position
  */
-export function getSignFromPosition(_position: unknown): string | null {
+export function getSignFromPosition(position: unknown): string | null {
   if (!position || typeof position !== "object") {
     return null;
   }

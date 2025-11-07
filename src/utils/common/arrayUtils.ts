@@ -66,7 +66,7 @@ export function safeEvery<T>(
 /**
  * Safely apply the array.map() method when the array might be a single value
  */
-export function safeMap<TU>(
+export function safeMap<T, U>(
   arr: T | T[] | undefined | null,
   mapFn: (value: T, index: number, array: T[]) => U,
 ): U[] {
