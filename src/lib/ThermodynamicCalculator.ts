@@ -107,7 +107,7 @@ export class ThermodynamicCalculator {
 
       // Molecular complexity
       if (complexity) {
-        totalEntropy += complexity * 0.5;
+        totalEntropy += (complexity as number) * 0.5;
         totalWeight += 1;
       }
 

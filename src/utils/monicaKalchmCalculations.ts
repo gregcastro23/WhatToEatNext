@@ -451,7 +451,7 @@ export function calculateKalchmWithKinetics(
   );
 
   // Apply momentum boost to Kalchm calculation
-  const momentumFactor = 1 + (kinetics.momentum || 0) * 0.1;
+  const momentumFactor = 1 + ((kinetics.momentum as number) || 0) * 0.1;
 
   // Apply aspect phase influence
   let aspectMultiplier = 1.0;
