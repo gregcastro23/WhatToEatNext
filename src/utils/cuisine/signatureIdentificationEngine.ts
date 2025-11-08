@@ -549,5 +549,4 @@ export function getSignatureSummary(signatures: CuisineSignature[]): {
 }
 
 // ========== EXPORTS ==========
-
-export type { GlobalBaseline };
+// Types already exported inline above

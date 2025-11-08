@@ -610,5 +610,4 @@ export function getRecommendationSummary(
 }
 
 // ========== EXPORTS ==========
-
-export type { CuisineRecommendation, UserProfile };
+// Types already exported inline above
