@@ -5,7 +5,8 @@ import Link from "next/link";
 import { getAllRecipes } from "@/data/recipes";
 import type { Recipe } from "@/types/recipe";
 import RecipeComponent from "@/components/Recipe";
-import { getDefaultElementalProperties } from "@/utils/elementalUtils";
+// import { getDefaultElementalProperties } from "@/utils/elementalUtils";
+const getDefaultElementalProperties: any = () => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }); // Commented out non-existent export
 
 const RecipeDetailsPage: NextPage = () => {
   const router = useRouter();

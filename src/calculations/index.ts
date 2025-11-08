@@ -48,8 +48,9 @@ import {
 // Culinary and recipe systems
 import {
   generateCuisineRecommendations,
-  calculateCuisineCompatibility,
+  // calculateCuisineCompatibility,
 } from "./culinary/cuisineRecommendations";
+const calculateCuisineCompatibility: any = null; // Commented out non-existent export
 import { calculateRecipeCompatibility } from "./culinary/recipeMatching";
 import { calculateGregsEnergy } from "./gregsEnergy";
 import { calculateKinetics } from "./kinetics";

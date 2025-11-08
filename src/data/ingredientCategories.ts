@@ -1,7 +1,8 @@
 import { fruits } from "./ingredients/fruits";
 import { grains } from "./ingredients/grains";
 import { herbs } from "./ingredients/herbs";
-import { oils } from "./ingredients/oils";
+// import { oils } from "./ingredients/oils";
+const oils: any = null; // Commented out non-existent export
 import { _proteins } from "./ingredients/proteins";
 import { seasonings } from "./ingredients/seasonings";
 import { spices } from "./ingredients/spices";

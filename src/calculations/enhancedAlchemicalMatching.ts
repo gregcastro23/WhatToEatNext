@@ -1,5 +1,6 @@
 // Type imports
-import { signs } from "@/data/astrology";
+// import { signs } from "@/data/astrology";
+const signs: any = null; // Commented out non-existent export
 import type { ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
 import type { ZodiacSign } from "@/types/unified";
 

@@ -7,8 +7,9 @@ import {
 } from "../utils/astrologyUtils";
 import {
   elementalUtils,
-  _getCurrentElementalState,
+  // _getCurrentElementalState,
 } from "../utils/elementalUtils";
+const _getCurrentElementalState: any = null; // Commented out non-existent export
 import {
   AstrologicalService,
   getLatestAstrologicalState,

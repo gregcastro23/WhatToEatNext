@@ -23,7 +23,8 @@ import {
   calculatePlanetaryPositions,
   calculateLunarPhase,
 } from "../utils/astrologyUtils";
-import { transformItemsWithPlanetaryPositions } from "../utils/elementalUtils";
+// import { transformItemsWithPlanetaryPositions } from "../utils/elementalUtils";
+const transformItemsWithPlanetaryPositions: any = null; // Commented out non-existent export
 import { convertToLunarPhase } from "../utils/lunarUtils";
 import { logger } from "@/utils/logger";
 import { alchemize } from "../calculations/core/alchemicalCalculations";

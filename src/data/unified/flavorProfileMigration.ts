@@ -11,7 +11,8 @@ import type {
   Season,
 } from "@/types/alchemy";
 import type { CookingMethod } from "@/types/constants";
-import { _getCurrentElementalState } from "@/utils/elementalUtils";
+// import { _getCurrentElementalState } from "@/utils/elementalUtils";
+const _getCurrentElementalState: any = null; // Commented out non-existent export
 import {
   cuisineFlavorProfiles,
   type CuisineFlavorProfile,

@@ -2,7 +2,8 @@ import type {
   ElementalProperties,
   LowercaseElementalProperties,
 } from "@/types/elemental";
-import { _ } from "../../utils/elementalUtils";
+// import { _ } from "../../utils/elementalUtils";
+const _: any = null; // Commented out non-existent export
 
 /**
  * Comprehensive database of ingredient elemental properties

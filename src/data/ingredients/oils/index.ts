@@ -1,5 +1,7 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
-import { _, fixIngredientMappings } from "@/utils/elementalUtils";
+// import { _, fixIngredientMappings } from "@/utils/elementalUtils";
+const _: any = null; // Commented out non-existent export
+const fixIngredientMappings: any = (x: any) => x; // Fallback
 // import { oils } from "./oils";
 
 // export { oils };

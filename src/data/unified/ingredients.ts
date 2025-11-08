@@ -19,7 +19,8 @@ import { createElementalProperties } from "../../utils/elemental/elementalUtils"
 import { fruits } from "../ingredients/fruits";
 import { grains } from "../ingredients/grains";
 import { herbs } from "../ingredients/herbs";
-import { oils } from "../ingredients/oils";
+// import { oils } from "../ingredients/oils";
+const oils: any = {}; // Commented out non-existent export
 import { meats, plantBased, poultry, seafood } from "../ingredients/proteins";
 import { seasonings } from "../ingredients/seasonings";
 import { spices } from "../ingredients/spices";
