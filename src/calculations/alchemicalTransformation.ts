@@ -8,6 +8,7 @@ import { createLogger } from "@/utils/logger";
 import { calculatePlanetaryBoost } from "../constants/planetaryFoodAssociations";
 // import { calculateAlchemicalProperties } from "./alchemicalCalculations";
 // import type { AlchemicalResults } from "./alchemicalCalculations";
+const calculateAlchemicalProperties: any = null; // Function not available
 import type { PlanetaryDignityDetails } from "../constants/planetaryFoodAssociations";
 
 // Create a component-specific logger

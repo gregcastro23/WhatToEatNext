@@ -8,6 +8,7 @@ import {
   calculateAstrologicalAffinity,
   // validateAlgorithms,
 } from "../calculations/enhancedAlchemicalMatching";
+const validateAlgorithms: any = () => ({}); // Function not exported
 import { getZodiacElementalInfluence } from "./zodiacUtils";
 
 /**

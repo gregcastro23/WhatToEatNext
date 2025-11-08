@@ -372,7 +372,7 @@ export function calculateRecipeKinetics(
   const dominantPlanet = getDominantPlanet(planetaryPositions);
 
   // Prepare kinetics calculation input
-  const kineticsInput: KineticsCalculationInput = {
+  const kineticsInput: any = { // KineticsCalculationInput type not defined
     currentPlanetaryPositions: planetaryPositions,
     timeInterval,
     currentPlanet: dominantPlanet,

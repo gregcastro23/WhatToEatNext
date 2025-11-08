@@ -14,6 +14,7 @@ import type {
   // AlchemicalAction,
   AlchemicalContextType,
 } from "./types";
+type AlchemicalAction = any; // Type not exported
 import type { ReactNode } from "react";
 
 // Simple logger fallback

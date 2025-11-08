@@ -1,5 +1,8 @@
 import type { ElementalProperties /*, QuantityScaledProperties */ } from "./index";
 
+// Type not exported from index
+type QuantityScaledProperties = any;
+
 /**
  * Recipe ingredient interface that extends the base Ingredient
  * with recipe-specific properties (amount, units, etc.)

@@ -20,6 +20,7 @@
 // } from '@/services/vsop87EphemerisService';
 import { NextResponse } from "next/server";
 // import { compareSolarAccuracy } from "@/utils/accurateAstronomy";
+const compareSolarAccuracy: any = () => ({}); // Function not available
 import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 

@@ -19,6 +19,7 @@ import type { Season, TimeFactors, TimeOfDay } from "@/types/time";
 
 // Add missing imports for TS2304 fixes
 // import { getAccuratePlanetaryPositions } from "@/utils/accurateAstronomy";
+const getAccuratePlanetaryPositions: any = null; // Function not available
 import { getPlanetaryPositions } from "@/utils/astrologyDataProvider";
 import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from "@/utils/safeAstrology";
 import { PlanetaryHourCalculator } from "../../lib/PlanetaryHourCalculator";

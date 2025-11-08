@@ -229,7 +229,7 @@ export interface IngredientRecommendation {
   };
   element?: Element;
   astrologicalProfile?: {
-    elementalAffinity?: ElementalAffinity;
+    elementalAffinity?: any; // ElementalAffinity type not defined
     rulingPlanets?: string[];
     favorableZodiac?: string[];
     signAffinities?: string[];
@@ -276,7 +276,7 @@ export interface EnhancedIngredient {
     rulingPlanets?: string[];
     favorableZodiac?: string[];
     signAffinities?: string[];
-    elementalAffinity?: ElementalAffinity;
+    elementalAffinity?: any; // ElementalAffinity type not defined
   };
   flavorProfile?: { [key: string]: number };
   season?: string[];

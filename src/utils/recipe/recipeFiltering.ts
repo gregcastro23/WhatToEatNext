@@ -9,6 +9,9 @@ import { createLogger } from "../logger";
 
 const _logger = createLogger("RecipeFiltering");
 
+// ===== TYPE DEFINITIONS =====
+type DietaryRestriction = any; // Type not exported from recipe types
+
 // ===== INTERFACES =====
 
 interface FilterOptions {

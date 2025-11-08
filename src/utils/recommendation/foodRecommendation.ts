@@ -535,7 +535,7 @@ export function calculateRecipeMatchScore(
     };
     // Apply Pattern, J: Safe type casting for recipe.elementalState
     const recipeElementalProperties =
-      recipe.elementalState as unknown as anyalProperties;
+      recipe.elementalState as any;
     const elementalMatch = calculateElementalMatch(
       recipeElementalProperties,
       userElementalProperties,
