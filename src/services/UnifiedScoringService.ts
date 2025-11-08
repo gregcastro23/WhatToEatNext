@@ -759,7 +759,7 @@ export class UnifiedScoringService {
         ...aspect,
         strength: 0.5, // Default strength for fallback data
       })),
-      transits: { active: [], seasonal: {} },
+      transits: { active: [], seasonal: {} as any },
       lunarPhase: {
         name: "new moon" as LunarPhase,
         illumination: 0.5,
@@ -776,7 +776,7 @@ export class UnifiedScoringService {
     return {
       planetaryPositions: {} as Record<Planet, PlanetaryPosition>,
       aspects: [],
-      transits: { active: [], seasonal: {} },
+      transits: { active: [], seasonal: {} as any },
       lunarPhase: {
         name: "new moon" as LunarPhase,
         illumination: 0.5,

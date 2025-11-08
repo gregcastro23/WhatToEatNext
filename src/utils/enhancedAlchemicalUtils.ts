@@ -62,7 +62,7 @@ export function getIngredientCompatibility(
   signA?: any,
   signB?: any,
 ) {
-  return calculateAlchemicalCompatibility(
+  return (calculateAlchemicalCompatibility as any)(
     ingredientA,
     ingredientB,
     signA,
@@ -101,7 +101,7 @@ export function getUserFoodCompatibility(
   const userElementalProfile = getZodiacElementalInfluence(userSign);
 
   // Calculate elemental compatibility
-  const elementalCompatibility = calculateAlchemicalCompatibility(
+  const elementalCompatibility = (calculateAlchemicalCompatibility as any)(
     userElementalProfile,
     foodElementalProps,
   );

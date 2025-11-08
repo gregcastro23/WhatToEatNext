@@ -6,10 +6,10 @@ import { useEnhancedRecommendations } from "@/hooks/useEnhancedRecommendations";
 
 export default function WhatToEatNextPage() {
   const { cuisines, loading, error, getCuisineRecommendations } =
-    useEnhancedRecommendations({
+    (useEnhancedRecommendations as any)({
       datetime: new Date(),
       useBackendInfluence: true,
-    }) as any;
+    });
 
   // Fetch enhanced cuisines on mount
 

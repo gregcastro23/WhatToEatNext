@@ -187,7 +187,7 @@ export class PlanetaryAgentsAdapter {
             seasonalInfluence: this.getCurrentSeason(),
           },
           elemental: {
-            totals: elementalTotals,
+            totals: elementalTotals as any,
           },
         },
         agentOptimization: options.includeAgentOptimization

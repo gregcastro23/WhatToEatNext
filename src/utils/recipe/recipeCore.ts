@@ -553,7 +553,7 @@ function calculatePlanetaryDayInfluence(
       flavor: string;
       elements: Array<keyof ElementalProperties>;
     }
-  > = {
+  > = ({
     Sun: {
       styles: ["roasting", "grilling", "baking"],
       ingredients: ["citrus", "sunflower", "saffron", "cinnamon", "honey"],
@@ -596,7 +596,7 @@ function calculatePlanetaryDayInfluence(
       flavor: "structured and grounding",
       elements: ["Air", "Earth"],
     },
-  };
+  } as any);
 
   const association = associations[planetaryDay.planet];
   if (!association) {
@@ -666,7 +666,7 @@ function calculatePlanetaryHourInfluence(
       nighttime: string[];
       flavor: string;
     }
-  > = {
+  > = ({
     Sun: {
       daytime: ["energizing", "warming", "bright"],
       nighttime: ["comforting", "golden", "radiant"],
@@ -702,7 +702,7 @@ function calculatePlanetaryHourInfluence(
       nighttime: ["grounding", "earthy", "practical"],
       flavor: "satisfying",
     },
-  };
+  } as any);
 
   const association = hourlyAssociations[planetaryHour.planet];
   if (!association) {

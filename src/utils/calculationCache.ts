@@ -33,7 +33,7 @@ export async function getCachedCalculation<T>(
 
   try {
     // Try to get from database cache first
-    const cachedResult = await CacheService.get(cacheKey, inputHash);
+    const cachedResult = await (CacheService.get as any)(cacheKey, inputHash);
 
     if (cachedResult) {
       log.info(
@@ -48,7 +48,7 @@ export async function getCachedCalculation<T>(
     const result = await calculationFn();
 
     // Store in database cache
-    await CacheService.set(cacheKey, inputHash, JSON.stringify(result), ttl);
+    await (CacheService.set as any)(cacheKey, inputHash, JSON.stringify(result), ttl);
 
     return result;
   } catch (error) {

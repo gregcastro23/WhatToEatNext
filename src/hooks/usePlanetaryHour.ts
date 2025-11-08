@@ -26,7 +26,7 @@ export function usePlanetaryHour(): PlanetaryHourData {
       Mars: ["Root", "Solar Plexus"],
       Jupiter: ["Crown", "Heart"],
       Saturn: ["Root", "Third Eye"],
-    }),
+    } as any),
     [],
   );
 

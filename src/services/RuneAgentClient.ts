@@ -180,14 +180,14 @@ export class RuneAgentClient {
         };
 
         const result = await alchmAPI.getRuneGuidance(request);
-        logger.debug(
+        (logger.debug as any)(
           "RuneAgentClient",
           "Backend rune generation successful",
           result,
         );
         return result;
       } catch (error) {
-        logger.warn(
+        (logger.warn as any)(
           "RuneAgentClient",
           "Backend rune generation failed, falling back to local",
           error,

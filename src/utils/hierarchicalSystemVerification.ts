@@ -484,7 +484,7 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
       Air: 0.1,
     });
 
-    const recommendations = generateCuisineRecommendations({
+    const recommendations = (generateCuisineRecommendations as any)({
       elementalProperties: userProfile.elementalPreferences,
       useAdvancedAnalysis: true,
     });

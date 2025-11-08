@@ -76,10 +76,10 @@ export default function IngredientsPage() {
   };
 
   // Enhanced ingredient recommendations context (rune/agent banner)
-  const recommendationsContext = useEnhancedRecommendations({
+  const recommendationsContext = (useEnhancedRecommendations as any)({
     datetime: new Date(),
     useBackendInfluence: true,
-  }) as any;
+  });
 
   const {
     ingredients: enhancedIngredients,

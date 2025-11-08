@@ -224,12 +224,12 @@ export class ErrorHandler {
     error: EnhancedError,
   ): Promise<{ success: boolean; data?: unknown }> {
     for (const strategy of this.recoveryStrategies) {
-      if (strategy.canRecover(error)) {
+      if ((strategy.canRecover as any)(error)) {
         try {
           const result = await strategy.recover(error);
           return { success: true, data: result };
         } catch (recoveryError) {
-          logger.warn(
+          (logger.warn as any)(
             `Recovery strategy failed for error ${error.errorId}:`,
             recoveryError,
           );

@@ -3245,7 +3245,7 @@ export async function recommendIngredients(
     isDaytime,
   };
 
-  const planetaryDay = planetaryCalculator.calculatePlanetaryDay(date);
+  const planetaryDay = (planetaryCalculator.calculatePlanetaryDay as any)(date);
   const planetaryHour = planetaryCalculator.calculatePlanetaryHour(date);
   const isDaytimeNow = planetaryCalculator.isDaytime(date);
 
