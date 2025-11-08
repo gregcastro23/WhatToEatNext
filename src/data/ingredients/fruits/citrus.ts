@@ -275,18 +275,6 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "1-2 weeks",
       notes: "Keep in cool, dry place",
     },
-    astrologicalProfile: {
-      rulingPlanets: ["Sun", "Venus"],
-      favorableZodiac: ["leo", "libra", "taurus"],
-      elementalAffinity: {
-        base: "Fire",
-        decanModifiers: {
-          first: { element: "Fire", planet: "Sun", influence: 0.7 },
-          second: { element: "Water", planet: "Venus", influence: 0.6 },
-          third: { element: "Air", planet: "Mercury", influence: 0.5 },
-        },
-      },
-    },
   },
 
   clementine: {

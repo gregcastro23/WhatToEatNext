@@ -126,7 +126,6 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
         "Add early for roasting, late for sautéing",
       ],
     },
-    season: ["year-round"],
     storage: {
       temperature: "cool, dark place",
       duration: "3-6 months",

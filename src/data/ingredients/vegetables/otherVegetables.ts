@@ -195,11 +195,6 @@ const rawOtherVegetables = {
     },
 
     varieties: {},
-
-    astrologicalProfile: {
-      rulingPlanets: [],
-      favorableZodiac: [],
-    },
   },
   okra: {
     name: "okra",

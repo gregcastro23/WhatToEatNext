@@ -286,10 +286,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     qualities: ["meaty", "firm", "versatile", "protein-rich", "omega-3"],
     origin: ["Pacific Ocean", "Atlantic Ocean", "Indian Ocean"],
 
-    elementalProperties: { Fire: 0.3, Water: 0.4, Air: 0.2, Earth: 0.1 },
-    qualities: ["meaty", "firm", "versatile", "protein-rich", "omega-3"],
-    origin: ["Pacific Ocean", "Atlantic Ocean", "Indian Ocean"],
-
     nutritionalProfile: {
       serving_size: "4 oz (113g)",
       calories: 184,
@@ -340,10 +336,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     qualities: ["sweet", "tender", "versatile", "quick-cooking", "low-calorie"],
     origin: ["Gulf of Mexico", "Pacific Ocean", "Atlantic Ocean"],
 
-    elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
-    qualities: ["sweet", "tender", "versatile", "quick-cooking", "low-calorie"],
-    origin: ["Gulf of Mexico", "Pacific Ocean", "Atlantic Ocean"],
-
     nutritionalProfile: {
       serving_size: "7 large (100g)",
       calories: 85,
@@ -387,10 +379,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     }, // Derived from scaled elemental
     kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 1.02 }, // Cooling effect, slight force
 
-    qualities: ["mild", "flaky", "lean", "versatile", "sustainable"],
-    origin: ["North Atlantic", "Pacific Ocean"],
-
-    elementalProperties: { Water: 0.6, Air: 0.2, Earth: 0.1, Fire: 0.1 },
     qualities: ["mild", "flaky", "lean", "versatile", "sustainable"],
     origin: ["North Atlantic", "Pacific Ocean"],
 
@@ -440,10 +428,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     qualities: ["firm", "meaty", "mild", "versatile", "premium"],
     origin: ["North Pacific", "North Atlantic"],
 
-    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
-    qualities: ["firm", "meaty", "mild", "versatile", "premium"],
-    origin: ["North Pacific", "North Atlantic"],
-
     nutritionalProfile: {
       serving_size: "6 oz (170g)",
       calories: 223,
@@ -487,10 +471,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     }, // Derived from scaled elemental
     kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 0.92 }, // Mild warming, gentle force
 
-    qualities: ["sweet", "tender", "succulent", "briny", "luxurious"],
-    origin: ["Atlantic Ocean", "Pacific Ocean"],
-
-    elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
     qualities: ["sweet", "tender", "succulent", "briny", "luxurious"],
     origin: ["Atlantic Ocean", "Pacific Ocean"],
 
