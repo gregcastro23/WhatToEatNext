@@ -302,12 +302,12 @@ function _calculateAlchemicalScore(item: AlchemicalItem): number {
         score += item[prop as keyof AlchemicalItem] as number;
         count++;
       }
-    })
+    });
 
-    [
-      // Include thermodynamic properties if they exist
-      ("heat", "entropy", "reactivity", "gregsEnergy")
-    ].forEach((prop) => {
+  [
+    // Include thermodynamic properties if they exist
+    "heat", "entropy", "reactivity", "gregsEnergy"
+  ].forEach((prop) => {
       if (
         prop in item &&
         typeof item[prop as keyof AlchemicalItem] === "number"
