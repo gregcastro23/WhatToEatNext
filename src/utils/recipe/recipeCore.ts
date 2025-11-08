@@ -299,8 +299,8 @@ export function describePlanetaryInfluences(
 
   const segments: string[] = [];
 
-  if (isNonEmptyArray(influences._favorable)) {
-    segments.push(`Favorable: ${influences._favorable.join(", ")}`);
+  if (isNonEmptyArray(influences.favorable)) {
+    segments.push(`Favorable: ${influences.favorable.join(", ")}`);
   }
 
   if (isNonEmptyArray(influences.unfavorable)) {
