@@ -26,8 +26,8 @@ import {
 import { createElementalProperties } from "../../utils/elemental/elementalUtils";
 import { ErrorHandler } from "../errorHandler";
 
-// Create error handler instance
-const errorHandler = new ErrorHandler();
+// Use singleton error handler instance
+const errorHandler = ErrorHandler;
 
 /**
  * Interface for the NutritionalDataAdapter
