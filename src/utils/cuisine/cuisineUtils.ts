@@ -3,8 +3,8 @@
  * This file contains utility functions shared between the cuisine modules to prevent circular dependencies
  */
 
-import { __grainCuisineMatrix } from "../../data/integrations/_grainCuisineMatrix";
-import { __herbCuisineMatrix } from "../../data/integrations/_herbCuisineMatrix";
+import { _grainCuisineMatrix as __grainCuisineMatrix } from "../../data/integrations/grainCuisineMatrix";
+import { _herbCuisineMatrix as __herbCuisineMatrix } from "../../data/integrations/herbCuisineMatrix";
 import type { IngredientCategory } from "../../data/ingredients/types";
 
 /**

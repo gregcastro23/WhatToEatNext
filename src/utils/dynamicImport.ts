@@ -120,8 +120,8 @@ const MODULE_MAP = {
     import(
       "@/lib/cuisineCalculations"
     ) as unknown as Promise<CuisineCalculationsModule>,
-  "@/utils/sunTimes": () =>
-    import("@/utils/sunTimes") as unknown as Promise<SunTimesModule>,
+  // "@/utils/sunTimes": () =>
+  //   import("@/utils/sunTimes") as unknown as Promise<SunTimesModule>,
   "@/utils/solarPositions": () =>
     import(
       "@/utils/solarPositions"

@@ -4,7 +4,7 @@ import { grains } from "../data/ingredients/grains";
 import { herbs } from "../data/ingredients/herbs";
 // import { oils } from "../data/ingredients/oils";
 const oils: any = {}; // Commented out non-existent export
-import { __proteins } from "../data/ingredients/_proteins";
+import { _proteins as __proteins } from "../data/ingredients/proteins";
 import { spices } from "../data/ingredients/spices";
 import { vegetables } from "../data/ingredients/vegetables";
 import type { IngredientMapping, ElementalProperties } from "../types/alchemy";

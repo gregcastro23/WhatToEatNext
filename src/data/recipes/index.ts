@@ -28,5 +28,5 @@ const flattenCuisineRecipes = (cuisines: any) => {
 
 // Export alias for compatibility
 export const allRecipes = flattenCuisineRecipes(Recipes);
-export { getAllRecipes } from "@/services/RecipeFinder";
+// export { getAllRecipes } from "@/services/RecipeFinder"; // Service doesn't exist
 export { getBestRecipeMatchesFromMain as getBestRecipeMatches };

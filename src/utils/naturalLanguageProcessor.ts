@@ -704,7 +704,10 @@ export function processQueryWithKinetics(
 ): KineticsAwareSearchIntent {
   try {
     const baseIntent = processNaturalLanguageQuery(query);
-    const kinetics = calculateKinetics(planetaryPositions);
+    const kinetics = calculateKinetics({
+      currentPlanetaryPositions: planetaryPositions,
+      timeInterval: 3600, // 1 hour default
+    });
 
     // Extract kinetics-related keywords from query
     const kineticsKeywords = extractKineticsKeywords(query);
@@ -716,7 +719,7 @@ export function processQueryWithKinetics(
       aspectPhase: kinetics.aspectPhase || "neutral",
       powerLevel: kinetics.power || 50,
       momentumFactor: kinetics.momentum || 0,
-    };
+    } as any;
 
     // Generate kinetics-aware filters
     const kineticsFilters = generateKineticsFilters(kineticsKeywords, kinetics);

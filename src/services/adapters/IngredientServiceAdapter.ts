@@ -48,7 +48,7 @@ export class EnhancedIngredientSystem {
    * @param options Additional options
    * @returns Array of recommended ingredients
    */
-  getRecommendedIngredients(
+  async getRecommendedIngredients(
     state: SystemState,
     options: {
       season?: Season;
@@ -62,7 +62,7 @@ export class EnhancedIngredientSystem {
       };
       maxResults?: number;
     } = {},
-  ): UnifiedIngredient[] {
+  ): Promise<UnifiedIngredient[]> {
     try {
       logger.info("Getting recommended ingredients", { state, options });
 
@@ -72,7 +72,7 @@ export class EnhancedIngredientSystem {
 
       // Get recommended ingredients
       const recommended =
-        consolidatedIngredientService.getRecommendedIngredients(
+        await consolidatedIngredientService.getRecommendedIngredients(
           elementalState,
           {
             optimizeForSeason: true,
@@ -105,9 +105,10 @@ export class EnhancedIngredientSystem {
       // Filter by zodiac sign if specified
       if (options.currentZodiacSign) {
         filtered = filtered.filter((ingredient) => {
+          const profile = ingredient.astrologicalPropertiesProfile as any;
           const zodiac =
-            ingredient.astrologicalPropertiesProfile?.zodiacAffinity ||
-            ingredient.astrologicalPropertiesProfile?.favorableZodiac ||
+            profile?.zodiacAffinity ||
+            profile?.favorableZodiac ||
             [];
           const zodiacArray = Array.isArray(zodiac) ? zodiac : [zodiac];
           return zodiacArray.some(
@@ -135,9 +136,8 @@ export class EnhancedIngredientSystem {
           filtered = filtered.filter((ingredient) => {
             if (ingredient.category !== "proteins") return true;
             const nonVegetarianCategories = ["meat", "poultry", "seafood"];
-            return !nonVegetarianCategories.includes(
-              ingredient.subCategory || "",
-            );
+            const subCat = typeof ingredient.subCategory === 'string' ? ingredient.subCategory : "";
+            return !nonVegetarianCategories.includes(subCat);
           });
         }
 
@@ -151,7 +151,8 @@ export class EnhancedIngredientSystem {
               "dAiry",
               "eggs",
             ];
-            return !nonVeganCategories.includes(ingredient.subCategory || "");
+            const subCat = typeof ingredient.subCategory === 'string' ? ingredient.subCategory : "";
+            return !nonVeganCategories.includes(subCat);
           });
         }
 
@@ -217,18 +218,18 @@ export class EnhancedIngredientSystem {
    * @param planets The planetary influences to filter by
    * @returns Array of ingredients ruled by the specified planets
    */
-  getIngredientsByPlanetaryInfluence(
+  async getIngredientsByPlanetaryInfluence(
     planets: PlanetName[],
-  ): UnifiedIngredient[] {
+  ): Promise<UnifiedIngredient[]> {
     try {
       const results: UnifiedIngredient[] = [];
 
       // Get ingredients for each planet
-      (planets || []).forEach((planet) => {
+      for (const planet of planets || []) {
         const planetaryIngredients =
-          consolidatedIngredientService.getIngredientsByPlanet(planet);
+          await consolidatedIngredientService.getIngredientsByPlanet(planet);
         results.push(...planetaryIngredients);
-      });
+      }
 
       // Remove duplicates
       const uniqueIngredients = Array.from(
@@ -249,23 +250,23 @@ export class EnhancedIngredientSystem {
    * @param maxResults Maximum number of results
    * @returns Array of complementary ingredients
    */
-  findComplementaryIngredients(
+  async findComplementaryIngredients(
     ingredients: string[],
     maxResults = 5,
-  ): UnifiedIngredient[] {
+  ): Promise<UnifiedIngredient[]> {
     try {
       // Get complementary ingredients for each base ingredient
       const allComplementary: UnifiedIngredient[] = [];
 
-      (ingredients || []).forEach((ingredient) => {
+      for (const ingredient of ingredients || []) {
         const complementary =
-          consolidatedIngredientService.findComplementaryIngredients(
+          await consolidatedIngredientService.findComplementaryIngredients(
             ingredient,
             maxResults * 2, // Get more than needed to allow for filtering
           );
 
         allComplementary.push(...complementary);
-      });
+      }
 
       // Filter out any ingredients already in the base list
       const baseIngredientNames = (ingredients || []).map((name) =>
@@ -301,10 +302,10 @@ export class EnhancedIngredientSystem {
    * @param filter Additional filter criteria
    * @returns Record of filtered ingredients by category
    */
-  getSeasonalIngredients(
+  async getSeasonalIngredients(
     season: Season,
     filter: Partial<IngredientFilter> = {},
-  ): Record<string, UnifiedIngredient[]> {
+  ): Promise<Record<string, UnifiedIngredient[]>> {
     try {
       // Create a combined filter with the season
       const combinedFilter: IngredientFilter = {
@@ -313,7 +314,8 @@ export class EnhancedIngredientSystem {
       };
 
       // Use the consolidated service to filter ingredients
-      return consolidatedIngredientService.filterIngredients(combinedFilter);
+      const results = await consolidatedIngredientService.filterIngredients(combinedFilter);
+      return results as any; // Type cast for compatibility
     } catch (error) {
       logger.error("Error getting seasonal ingredients", error);
       return {};

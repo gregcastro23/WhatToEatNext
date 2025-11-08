@@ -11,7 +11,7 @@ import type {
   AstrologicalTiming,
   RecipeComputedProperties,
 } from "../hierarchy";
-import type { Recipe } from "./recipe";
+import type { Recipe } from "../recipe";
 
 /**
  * Enhanced Recipe with Astrological Timing and Computed Properties

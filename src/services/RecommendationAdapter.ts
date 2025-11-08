@@ -235,12 +235,12 @@ export class RecommendationAdapter {
   private transformItems(): void {
     try {
       // Get alchemical results from the positions
-      const result = alchemize(
-        this.convertedPositions as unknown as Record<string, PlanetaryPosition>,
-        this.isDaytime,
-        this.lunarPhase || undefined,
-        this.retrogradeStatus,
-      );
+      const result = alchemize({
+        positions: this.convertedPositions as unknown as Record<string, PlanetaryPosition>,
+        isDaytime: this.isDaytime,
+        lunarPhase: this.lunarPhase || undefined,
+        retrogradeStatus: this.retrogradeStatus,
+      });
 
       this.alchemicalResult = result as unknown as Record<string, number>;
 

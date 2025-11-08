@@ -15,6 +15,7 @@ export interface BuildMetrics {
   warningCount: number;
   timestamp: Date;
   buildType: "development" | "production" | "type-check";
+  [key: string]: unknown;
 }
 
 export interface CompilationBottleneck {

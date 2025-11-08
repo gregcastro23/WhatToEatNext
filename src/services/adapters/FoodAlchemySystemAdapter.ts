@@ -177,7 +177,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       };
       maxResults?: number;
     } = {},
-  ): UnifiedIngredient[] {
+  ): Promise<UnifiedIngredient[]> {
     // ✅ Pattern MM-1: Safe type conversion with runtime validation
     const stateRecord = this.convertSystemStateToRecord(state);
     return enhancedIngredientSystem.getRecommendedIngredients(
@@ -193,11 +193,11 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param maxResults Maximum number of results
    * @returns Array of complementary ingredients
    */
-  findComplementaryIngredients(
+  async findComplementaryIngredients(
     ingredients: string[],
     maxResults = 5,
-  ): UnifiedIngredient[] {
-    return enhancedIngredientSystem.findComplementaryIngredients(
+  ): Promise<UnifiedIngredient[]> {
+    return await enhancedIngredientSystem.findComplementaryIngredients(
       ingredients,
       maxResults,
     );
@@ -210,7 +210,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param filter Additional filter options
    * @returns Record of filtered ingredients by category
    */
-  getSeasonalIngredients(
+  async getSeasonalIngredients(
     season: Season,
     filter: {
       categories?: string[];
@@ -221,8 +221,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         isDAiryFree?: boolean;
       };
     } = {},
-  ): Record<string, UnifiedIngredient[]> {
-    return enhancedIngredientSystem.getSeasonalIngredients(season, {
+  ): Promise<Record<string, UnifiedIngredient[]>> {
+    return await enhancedIngredientSystem.getSeasonalIngredients(season, {
       categories: filter.categories,
       dietary: filter.dietary,
     });

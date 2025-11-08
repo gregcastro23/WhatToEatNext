@@ -32,11 +32,7 @@ export type {
 
 export type { EnhancedRecipe } from "./recipes";
 
-export type { EnhancedCuisine } from "./cuisines";
-
 export { RecipeEnhancer, RecipeAnalyzer } from "./recipes";
-
-export { CuisineEnhancer, CuisineAnalyzer } from "./cuisines";
 
 // Export singleton instances
 

@@ -50,10 +50,7 @@ export class KitchenBackendClient {
 
   async getCuisineRecommendations(
     ctx: KitchenBackendContext,
-  ): Promise<EnhancedRecommendationResult<{
-    name: string;
-    type: CuisineType;
-  }> | null> {
+  ): Promise<EnhancedRecommendationResult | null> {
     try {
       return await this.post("/api/kitchen/recommendations/cuisines", {
         datetime: ctx.datetime?.toISOString() || new Date().toISOString(),
@@ -67,7 +64,7 @@ export class KitchenBackendClient {
 
   async getIngredientRecommendations(
     ctx: KitchenBackendContext,
-  ): Promise<EnhancedRecommendationResult<Ingredient> | null> {
+  ): Promise<EnhancedRecommendationResult | null> {
     try {
       return await this.post("/api/kitchen/recommendations/ingredients", {
         datetime: ctx.datetime?.toISOString() || new Date().toISOString(),
@@ -81,7 +78,7 @@ export class KitchenBackendClient {
 
   async getRecipeRecommendations(
     ctx: KitchenBackendContext,
-  ): Promise<EnhancedRecommendationResult<Recipe> | null> {
+  ): Promise<EnhancedRecommendationResult | null> {
     try {
       // Try using centralized API client for recipe recommendations
       if (this.useBackend && ctx.preferences) {
@@ -115,7 +112,7 @@ export class KitchenBackendClient {
             location: ctx.location,
           },
           score: 1.0,
-        } as EnhancedRecommendationResult<Recipe>;
+        } as unknown as EnhancedRecommendationResult;
       }
 
       // Fallback to original implementation

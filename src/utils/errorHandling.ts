@@ -1,5 +1,5 @@
 import React from "react";
-import ErrorBoundary from "@/components/error-boundaries/ErrorBoundary";
+import { ErrorBoundary } from "react-error-boundary";
 import { logger } from "@/utils/logger";
 
 // Error types for better categorization

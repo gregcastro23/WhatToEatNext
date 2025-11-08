@@ -10,7 +10,7 @@ import {
   poultry,
   _proteins,
   seafood,
-} from "@/data/ingredients/_proteins";
+} from "@/data/ingredients/proteins";
 import { seasonings } from "@/data/ingredients/seasonings";
 import { spices } from "@/data/ingredients/spices";
 // Removed unused, import: IngredientMapping

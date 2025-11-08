@@ -300,8 +300,13 @@ export class UnifiedCalculationEngine {
 
       // Calculate recipe compatibility
       const compatibility = calculateRecipeCompatibility(
-        recipeElements,
-        smesProfile.elements,
+        {
+          id: recipeName,
+          name: recipeName,
+          ingredients: [],
+          elementalProperties: recipeElements,
+        } as any,
+        smesProfile.elements as any,
       );
 
       // Generate cuisine recommendations
@@ -327,7 +332,7 @@ export class UnifiedCalculationEngine {
       return {
         recipe: {
           name: recipeName,
-          compatibility,
+          compatibility: compatibility.score,
           elementalBalance: recipeElements,
           smesProfile: {
             spirit: smesProfile.spirit,

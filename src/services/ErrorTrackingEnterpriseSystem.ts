@@ -136,8 +136,8 @@ export class ErrorTrackingEnterpriseSystem {
     log.info("Performing automated error analysis...");
 
     const analysisResult =
-      (await this.analyzer.analyzeErrors()) as unknown as UnknownAnalysis;
-    const currentErrorCount = await this.analyzer.getCurrentErrorCount();
+      (await TypeScriptErrorAnalyzer.analyzeErrors()) as unknown as UnknownAnalysis;
+    const currentErrorCount = await TypeScriptErrorAnalyzer.getCurrentErrorCount();
 
     const rankedErrors =
       analysisResult.distribution?.priorityRanking ||
@@ -282,16 +282,16 @@ export class ErrorTrackingEnterpriseSystem {
     const previousSnapshot =
       this.metricsHistory[this.metricsHistory.length - 2];
 
-    const categories = Object.values(ErrorCategory);
+    const categories: ErrorCategory[] = ["syntax", "type", "module", "other"];
     const trends: ErrorTrend[] = [];
     for (const category of categories) {
       const currentCount = this.getErrorCountByCategory(
         currentSnapshot,
-        category,
+        category as any,
       );
       const previousCount = this.getErrorCountByCategory(
         previousSnapshot,
-        category,
+        category as any,
       );
       if (currentCount === 0 && previousCount === 0) continue;
       const changeRate =
@@ -308,7 +308,7 @@ export class ErrorTrackingEnterpriseSystem {
       );
       const confidence = Math.min(0.95, 0.5 + Math.abs(changeRate) * 0.5);
       trends.push({
-        category,
+        category: category as any,
         trendDirection,
         changeRate,
         predictedCount,
@@ -381,7 +381,7 @@ export class ErrorTrackingEnterpriseSystem {
       recommendations.push({
         recommendationId: `stability_${Date.now()}`,
         priority: "critical",
-        category: ErrorCategory.OTHER,
+        category: "other" as ErrorCategory,
         description:
           "Critical: Build stability below threshold - implement immediate fixes",
         estimatedImpact: Math.round(metrics.totalErrors * 0.2),
@@ -396,7 +396,7 @@ export class ErrorTrackingEnterpriseSystem {
       recommendations.push({
         recommendationId: `performance_${Date.now()}`,
         priority: "medium",
-        category: ErrorCategory.OTHER,
+        category: "other" as ErrorCategory,
         description:
           "Optimize error fixing velocity - consider batch processing",
         estimatedImpact: Math.round(metrics.totalErrors * 0.2),

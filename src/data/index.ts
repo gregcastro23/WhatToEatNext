@@ -13,7 +13,6 @@ import nutritional, {
 } from "./nutritional";
 import {
   allRecipes,
-  getAllRecipes,
   getBestRecipeMatches,
 } from "./recipes/index";
 import sauces, {
@@ -30,7 +29,7 @@ export const FoodData = {
   },
   recipes: {
     all: allRecipes,
-    getAll: getAllRecipes,
+    getAll: allRecipes, // Use allRecipes for compatibility
   },
   patterns: {
     seasonal: seasonalPatterns,
@@ -66,7 +65,7 @@ export {
   cookingMethods,
   allCookingMethods,
   allRecipes,
-  getAllRecipes,
+  allRecipes as getAllRecipes, // Alias for compatibility
   getBestRecipeMatches,
   seasonalPatterns,
   flavorProfiles,

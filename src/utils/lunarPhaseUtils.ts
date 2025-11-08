@@ -394,17 +394,20 @@ export function getLunarPhaseWithKinetics(
   planetaryPositions: { [planet: string]: string },
 ): LunarPhase {
   try {
-    const kinetics = calculateKinetics(planetaryPositions);
+    const kinetics = calculateKinetics({
+      currentPlanetaryPositions: planetaryPositions,
+      timeInterval: 3600, // 1 hour default
+    });
     if (
       kinetics.forceClassification === "accelerating" &&
       phase.includes("waxing")
     ) {
-      return applyVelocityBoost(phase, kinetics.velocityBoost || 0);
+      return applyVelocityBoost(phase, kinetics.aspectPhase?.velocityBoost || 0);
     } else if (
       kinetics.forceClassification === "decelerating" &&
       phase.includes("waning")
     ) {
-      return applyVelocityBoost(phase, kinetics.velocityBoost || 0);
+      return applyVelocityBoost(phase, kinetics.aspectPhase?.velocityBoost || 0);
     }
     return phase;
   } catch (_error) {
@@ -431,7 +434,10 @@ export function getKineticsEnhancedLunarModifiers(
 ): Record<string, number> {
   try {
     const baseModifiers = getLunarElementalModifiers(phase);
-    const kinetics = calculateKinetics(planetaryPositions);
+    const kinetics = calculateKinetics({
+      currentPlanetaryPositions: planetaryPositions,
+      timeInterval: 3600, // 1 hour default
+    });
     const enhanced: Record<string, number> = { ...baseModifiers };
 
     if (kinetics.thermalDirection === "heating") {
@@ -443,10 +449,11 @@ export function getKineticsEnhancedLunarModifiers(
     }
 
     const dominant = getDominantElementFromModifiers(enhanced);
+    const aspectPhaseType = (kinetics.aspectPhase as any)?.type || kinetics.aspectPhase;
     const aspectBoost =
-      kinetics.aspectPhase === "conjunction"
+      aspectPhaseType === "conjunction"
         ? 0.15
-        : kinetics.aspectPhase === "opposition"
+        : aspectPhaseType === "opposition"
           ? 0.1
           : 0.05;
     if (dominant)
@@ -490,16 +497,20 @@ export function calculateLunarKineticsMetrics(
   thermalAlignment: number;
 } {
   try {
-    const kinetics = calculateKinetics(planetaryPositions);
+    const kinetics = calculateKinetics({
+      currentPlanetaryPositions: planetaryPositions,
+      timeInterval: 3600, // 1 hour default
+    });
     const phaseVelocity = calculatePhaseVelocity(phase, kinetics);
+    const aspectPhaseType = (kinetics.aspectPhase as any)?.type || kinetics.aspectPhase;
     const aspectInfluence =
-      kinetics.aspectPhase === "conjunction"
+      aspectPhaseType === "conjunction"
         ? 1.0
-        : kinetics.aspectPhase === "opposition"
+        : aspectPhaseType === "opposition"
           ? 0.8
-          : kinetics.aspectPhase === "trine"
+          : aspectPhaseType === "trine"
             ? 0.6
-            : kinetics.aspectPhase === "square"
+            : aspectPhaseType === "square"
               ? 0.4
               : 0.2;
     const powerEfficiency = (kinetics.power || 0) / 100;
