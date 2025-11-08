@@ -1,0 +1,13 @@
+{
+  "buildCommand": "yarn build",
+  "installCommand": "corepack enable && yarn install",
+  "framework": "nextjs",
+  "env": {
+    "YARN_ENABLE_GLOBAL_CACHE": "false"
+  },
+  "build": {
+    "env": {
+      "ENABLE_EXPERIMENTAL_COREPACK": "1"
+    }
+  }
+}
